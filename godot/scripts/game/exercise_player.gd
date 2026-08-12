@@ -904,7 +904,19 @@ func _score_current(is_correct: bool, item: Dictionary) -> void:
 		if bool(item.get("transfer", false)):
 			_emit_learning_once("transfer:%s" % topic, "transfer")
 		_feedback.add_theme_color_override("font_color", Color("8ff6c0"))
+		# **Anche indovinando si riceve la spiegazione**, ed è la correzione più
+		# grossa di tutta la revisione delle spiegazioni. Prima qui c'era solo
+		# «Giusto! +N energia»: il campo `explanation` compariva **soltanto
+		# sbagliando**. Il gioco è tarato perché il bambino risponda bene la
+		# maggior parte delle volte, quindi la maggior parte delle volte non
+		# riceveva niente — confermava di sapere una cosa e non ne imparava
+		# nessun'altra. Tremilaquattrocento spiegazioni scritte, e l'unica strada
+		# per arrivare al bambino era aperta solo sull'errore.
 		_feedback.text = "Giusto! +%d energia" % _energy_per_correct
+		var detto := NoraExplanations.riga(
+			_materia_di(item), topic, str(item.get("explanation", "")), true)
+		if detto.strip_edges() != "":
+			_feedback.text += "\n%s" % detto
 	else:
 		var audio := get_tree().root.get_node_or_null("NativeAudio") if is_inside_tree() else null
 		if audio != null:
@@ -912,12 +924,17 @@ func _score_current(is_correct: bool, item: Dictionary) -> void:
 		if topic != "":
 			_missed.append(topic)
 		_feedback.add_theme_color_override("font_color", Color("ffb3ba"))
+		# Sbagliando arriva il **come**, non il perché: chi ha appena sbagliato ha
+		# bisogno di sapere come rifarlo da solo la prossima volta. È la
+		# convinzione di NORA nel momento in cui conta — la risposta non si
+		# presta, il metodo sì.
 		_feedback.text = (
 			"NORA · %s: %s" % [
 				str(_maestro_voice.get("name", "Maestro")),
 				str(_maestro_voice.get("rilancio", ""))]
 			if not _maestro_voice.is_empty()
-			else "Non completato. %s" % str(item.get("explanation", "")))
+			else "Non completato. %s" % NoraExplanations.riga(
+				_materia_di(item), topic, str(item.get("explanation", "")), false))
 		_offer_concept_help(item)
 	# La costruzione avanza di una campata per ogni nodo risolto (built = _correct);
 	# su errore resta ferma, senza mai regredire.
@@ -944,6 +961,14 @@ func _lock_interactions() -> void:
 	if is_instance_valid(_input_submit):
 		_input_submit.disabled = true
 	_disable_buttons(_options)
+
+## La materia di un item. Nelle prove trasversali del Cuore i nodi vengono da
+## materie diverse e se la portano scritta addosso; nelle sessioni normali la
+## materia è quella della sessione. Serve a NORA per prendere il perché giusto:
+## sbagliare materia vorrebbe dire spiegare le declinazioni dopo una divisione.
+func _materia_di(item: Dictionary) -> String:
+	var materia := str(item.get("subject", "")).strip_edges()
+	return materia if materia != "" else str(session.get("subject", ""))
 
 func _disable_buttons(node: Node) -> void:
 	for child in node.get_children():

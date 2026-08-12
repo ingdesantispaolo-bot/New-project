@@ -1029,8 +1029,9 @@ solo ordine e lavoro ancora aperto.
    (riflessione): durata, voglia di riprovare e sensazione di gioco rispetto a
    un esercizio. Le catture sono in `artifacts/character-minigames`;
 2. **i venti specialisti restanti**, uno per mondo, seguendo la matrice; il
-   Ruggine e Sesto, mondo 3, e Marea e Vecchio Lino, mondo 4, sono fatti e
-   verificati. Il prossimo è Gerbo, mondo 5, con «Fulcro!»;
+   Ruggine e Sesto, mondo 3, Marea e Vecchio Lino, mondo 4, Gerbo e Tilla,
+   mondo 5, e Ambra, mondo 6, sono fatti e verificati. Il prossimo è Oreste,
+   mondo 6, con «Corde sotto le dita»;
 3. **i ventitré testimoni**;
 4. **Tavolo giochi globale** per il replay con difficoltà del mondo corrente.
 
@@ -1093,6 +1094,93 @@ compone la striscia: si copia, non si ricorda. Sesto crede che «se non me lo
 ricordo, non l'ho mai saputo» — per smentirlo bisogna prima *provare a
 ricordare e non riuscirci*. Basta velare la stanza **prima** della composizione,
 lasciando lo sguardo iniziale a tempo.
+
+---
+
+## Le spiegazioni di NORA: il difetto non era la scrittura (12 agosto 2026)
+
+Richiesta del committente: «fai una revisione totale delle spiegazioni di NORA.
+Le trovo scarse.» Aveva ragione. Misurando è venuto fuori che i difetti erano
+tre, di dimensione molto diversa, e che **il più grosso non era di scrittura**.
+
+### Primo: rispondendo giusto non arrivava nessuna spiegazione
+
+`exercise_player` mostrava «Giusto! +10 energia» e passava avanti. Il campo
+`explanation` compariva **solo sbagliando**.
+
+Il gioco è tarato perché il bambino risponda bene la maggior parte delle volte.
+Quindi la maggior parte delle volte non riceveva niente: confermava di sapere una
+cosa e non ne imparava nessun'altra. **Tremilaquattrocentododici spiegazioni
+scritte, e l'unica strada per arrivare era aperta solo sull'errore.**
+
+È il tipo di difetto che nessuna rilettura del testo avrebbe trovato, perché il
+testo era a posto. Mancava il tubo.
+
+### Secondo: dicono COSA, non PERCHÉ
+
+Su 3412 item, **l'8%** contiene un nesso causale. Gli altri riformulano il fatto:
+alla domanda «qual è la capitale d'Italia?» la spiegazione era «Roma è la capitale
+della Repubblica Italiana». Vera, e inutile.
+
+Non è un problema di lunghezza — `bank_explanation_audit` l'aveva già misurato
+giorni fa: fra le spiegazioni sotto i 40 caratteri la maggioranza è ottima, corta
+perché precisa. È che non danno **niente a cui aggrapparsi**. Le poche buone si
+riconoscono al primo sguardo: «Da *aqua* vengono acquedotto e acquario», «Senza
+le piene l'Egitto sarebbe stato solo deserto», «Il cucchiaino di metallo nel tè
+scotta per conduzione».
+
+### Terzo: il manuale ereditava la debolezza
+
+`KnowledgeCodex` dichiarava di raccogliere le voci dai banchi «perché ogni item
+porta già una spiegazione causale». La premessa era falsa, e il manuale
+raccoglieva riformulazioni. Gli argomenti autorati a mano erano **due**.
+
+### La leva: 135 argomenti invece di 3412 item
+
+Riscrivere gli item sarebbe stato lavoro di massa a qualità bassa. Il perché di
+«declinazione terza» però è lo stesso per tutti e trentatré i suoi item: scritto
+una volta bene, vale per tutti. Gli argomenti del runtime sono **135**.
+
+`NoraExplanations` porta due campi per argomento: il **perché** (a che cosa serve,
+o perché funziona così) e il **come** (come ci si arriva da soli la prossima
+volta). L'item resta il caso particolare; NORA aggiunge la ragione generale — e
+solo quando l'item non ce l'ha già, per non ripetersi.
+
+Sull'esito giusto arriva il **perché**; sbagliando arriva il **come**, perché chi
+ha appena sbagliato ha bisogno di sapere come rifarlo, non di una ragione
+generale. È la convinzione di NORA applicata nel momento in cui conta: *la
+risposta non si presta, il metodo sì*.
+
+### Un errore mio, e la regola che ne esce
+
+Il primo audit pretendeva che ogni «perché» contenesse un nesso riconosciuto da
+una **lista di parole-spia**. Ha bocciato trenta voci scritte bene: «Le parentesi
+servono a dire *questo prima*» spiega una causa senza contenere «perché», e
+«L'uguale è una bilancia in equilibrio» non ha nessuna parola-spia ed è la voce
+migliore del gruppo.
+
+È lo stesso errore dei digrammi impossibili di qualche giorno fa, e la regola che
+ne esce vale per tutti e due: **un'euristica può scegliere, non giudicare.** La
+lista di parole è rimasta dov'è utile — decide se NORA debba aggiungere il suo
+perché o se l'item ce l'abbia già, e sbagliare lì costa al massimo una riga in
+più — ed è sparita da dove pretendeva di dare voti.
+
+Al suo posto l'audit misura una cosa esatta: **quanto NORA aggiunge** a quello
+che il bambino aveva già sotto gli occhi, con lo stesso conto del residuo che usa
+`bank_explanation_audit`. Sulle risposte giuste valeva **zero**, perché non
+arrivava niente. Adesso vale **100%**.
+
+### Che cosa resta da fare
+
+**N-1 · I 3412 item restano quelli che sono.** Il livello per argomento copre il
+perché generale, ma una spiegazione come «Roma è la capitale della Repubblica
+Italiana» continua a essere una riformulazione. Vanno riscritte, e conviene farlo
+per argomento — partendo da quelli allo 0% di nesso: le parole di casa, il
+lessico inglese, le declinazioni, la geografia fisica.
+
+**N-2 · Le battute di NoraVoice non sono state toccate.** Sono le sue reazioni
+(riuscito, fallito, ripasso), divise in tre atti, e stanno bene: il lotto ha
+riguardato le spiegazioni, non la voce.
 
 ---
 

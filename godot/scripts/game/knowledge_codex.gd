@@ -3,10 +3,19 @@ extends RefCounted
 
 ## Manuale NORA (O-P4): una voce (`ConceptEntry`) per ogni argomento del runtime.
 ## Ogni voce ha spiegazione breve, esempio svolto, errore tipico (e perché è
-## sbagliato) e strategia suggerita da NORA. Per non autorare a mano ~120 topic,
-## le voci dei banchi sono RACCOLTE dal contenuto reale (ogni item porta già una
-## spiegazione causale); i concetti matematici generati e i topic-cardine dei
-## primi mondi sono autorati con più cura.
+## sbagliato) e strategia suggerita da NORA.
+##
+## **Una premessa di questo file era falsa, e la correzione è del 12 agosto
+## 2026.** Diceva: «per non autorare a mano ~120 topic, le voci dei banchi sono
+## RACCOLTE dal contenuto reale, perché ogni item porta già una spiegazione
+## causale». Misurato: su 3412 item **l'8%** contiene un nesso causale, gli altri
+## riformulano il fatto. La raccolta quindi non raccoglieva spiegazioni, e i
+## topic autorati a mano erano **due**.
+##
+## Adesso il livello per argomento esiste davvero e sta in `NoraExplanations`:
+## 135 voci con il perché e il come, scritte una volta per argomento invece che
+## ripetute item per item. Il banco continua a fornire l'**esempio svolto**, che
+## è il lavoro per cui va bene.
 ##
 ## Stato per argomento (nel save): sconosciuto → incontrato → consultato →
 ## applicato → consolidato. Regole di consultazione: durante l'esame il manuale
@@ -112,16 +121,39 @@ func entry_for(subject: String, topic: String) -> Dictionary:
 			{"prompt": domanda, "answer": example, "explanation": come if not come.is_empty() else short_text},
 			{"wrong": err, "why": why}, strategy)
 
-	# 2) Raccolta dal banco: usa l'item più semplice come esempio svolto.
+	# **Il perché dell'argomento, quando c'è, batte la raccolta dal banco.**
+	#
+	# La riga di commento in cima a questo file diceva che le voci si potevano
+	# raccogliere dai banchi «perché ogni item porta già una spiegazione
+	# causale». Misurata, quella premessa era falsa: su 3412 item **l'8%**
+	# contiene un nesso, gli altri riformulano il fatto. Il manuale raccoglieva
+	# quindi riformulazioni, e a un bambino che apre la voce di «declinazione
+	# terza» diceva «il genitivo indica la specificazione». Sapeva già.
+	#
+	# `NoraExplanations` porta il livello che mancava, scritto una volta per
+	# argomento invece che ripetuto item per item. Quando c'è, è lui a fare la
+	# spiegazione breve e la strategia; l'item resta l'esempio svolto, che è il
+	# lavoro per cui va bene.
+	var causale := NoraExplanations.voce(subject, topic)
 	var item := _sample_item(subject, topic)
 	if not item.is_empty():
-		var short_text: String = str(authored.get("short", "")) if authored.has("short") else str(item.get("explanation", "Concetto di %s." % topic))
+		var short_text: String = str(item.get("explanation", "Concetto di %s." % topic))
+		if authored.has("short"):
+			short_text = str(authored["short"])
+		elif not causale.is_empty():
+			short_text = str(causale.get("perche", short_text))
+		if not causale.is_empty() and not authored.has("strategy"):
+			strategy = str(causale.get("come", strategy))
 		var example := {"prompt": str(item.get("prompt", "")), "answer": str(item.get("answer", "")), "explanation": str(item.get("explanation", ""))}
 		var typical := _typical_error(item)
 		return _entry(subject, topic, int(item.get("difficulty", 1)), short_text, example, typical, strategy)
 
 	# 3) Fallback (topic senza banco né concetto autorato): voce minima ma reale.
 	var short_fb: String = str(authored.get("short", "Concetto di %s in %s." % [topic, subject]))
+	if not authored.has("short") and not causale.is_empty():
+		short_fb = str(causale.get("perche", short_fb))
+	if not causale.is_empty() and not authored.has("strategy"):
+		strategy = str(causale.get("come", strategy))
 	return _entry(subject, topic, 1, short_fb, {"prompt": "", "answer": "", "explanation": short_fb}, {"wrong": "", "why": ""}, strategy)
 
 # Errore tipico raccolto da un item a scelta multipla: un distrattore come

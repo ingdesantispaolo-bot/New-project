@@ -23,6 +23,13 @@ func _init() -> void:
 		assert(str(lesson.get("explanation", "")).strip_edges() != "", "spiegazione mancante: %s" % key)
 		assert(str(lesson.get("strategy", "")).strip_edges() != "", "strategia mancante: %s" % key)
 		assert(lesson.has("workedExample") and lesson.has("watchOut"), "lezione incompleta: %s" % key)
+		# Non basta che la chiave esista: un esempio con risposta vuota non insegna
+		# niente al primo incontro. È esattamente il difetto che ha lasciato 14
+		# concetti di matematica su 16 con «answer: ''» finché non si è controllato
+		# il CONTENUTO invece della sola presenza della chiave (12 agosto 2026).
+		var worked: Dictionary = lesson.get("workedExample", {})
+		assert(str(worked.get("prompt", "")).strip_edges() != "", "esempio senza domanda: %s" % key)
+		assert(str(worked.get("answer", "")).strip_edges() != "", "esempio con risposta vuota: %s" % key)
 		count += 1
 	assert(count >= 100, "l'insegnamento deve coprire i topic del runtime, trovati %d" % count)
 

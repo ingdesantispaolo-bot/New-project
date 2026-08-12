@@ -9,6 +9,10 @@ extends Control
 
 signal risolto(vinto: bool, completati: int, totale: int)
 
+## **Luci e messaggi sono il vestito, non il gioco.** La trappola — *le parole
+## cambiano, il bisogno no* — vale identica per Cronia, che sotto pressione deve
+## capire **che cos'è** una fonte e non che cosa dice. Quando la scheda porta le
+## sue `destinazioni` e i suoi `messaggi`, questi restano solo il caso di Marea.
 const LUCI := ["RIPARO", "AIUTO", "ATTENZIONE"]
 const MESSAGGI := [
 	["Le onde stanno salendo: cerco un posto calmo.", 0],
@@ -23,6 +27,7 @@ const MESSAGGI := [
 ]
 
 var _scheda: Dictionary = {}
+var _luci: Array = LUCI
 var _coda: Array = []
 var _indice := 0
 var _giuste := 0
@@ -47,7 +52,13 @@ func avvia(scheda: Dictionary, reduced_motion: bool) -> void:
 	var parametri: Dictionary = _scheda.get("parametri", {})
 	_errori_max = int(parametri.get("errori", 2))
 	_secondi = float(parametri.get("secondi", 5.0)) * (1.5 if reduced_motion else 1.0)
-	_coda = MESSAGGI.slice(0, int(parametri.get("messaggi", 5)))
+	_luci = Array(_scheda.get("destinazioni", LUCI))
+	if _luci.size() < 2:
+		_luci = LUCI
+	var repertorio: Array = Array(_scheda.get("messaggi", MESSAGGI))
+	if repertorio.is_empty():
+		repertorio = MESSAGGI
+	_coda = repertorio.slice(0, mini(int(parametri.get("messaggi", 5)), repertorio.size()))
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_costruisci()
 	_attivo = true
@@ -116,11 +127,12 @@ func _costruisci() -> void:
 	luci.alignment = BoxContainer.ALIGNMENT_CENTER
 	luci.add_theme_constant_override("separation", 8)
 	colonna.add_child(luci)
-	for i in LUCI.size():
+	for i in _luci.size():
 		var b := Button.new()
 		b.name = "RadioLight_%d" % i
-		b.text = str(LUCI[i])
+		b.text = str(_luci[i])
 		b.custom_minimum_size = Vector2(170, 58)
+		b.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		b.pressed.connect(_scegli.bind(i))
 		luci.add_child(b)
 	_stato = Label.new()
@@ -131,6 +143,7 @@ func _costruisci() -> void:
 	var lascia := Button.new()
 	lascia.name = "RadioLeaveButton"
 	lascia.text = "LASCIA PERDERE"
+	lascia.custom_minimum_size = Vector2(0, 46)
 	lascia.pressed.connect(func(): if _attivo: _chiudi(false))
 	colonna.add_child(lascia)
 
@@ -140,7 +153,7 @@ func _mostra() -> void:
 		return
 	_secondi = float(Dictionary(_scheda.get("parametri", {})).get("secondi", 5.0)) * (1.5 if _reduced_motion else 1.0)
 	_messaggio.text = "~ " + str(_coda[_indice][0]) + " ~"
-	_aggiorna("Ascolta di che cosa ha bisogno, non le parole che usa.")
+	_aggiorna(str(_scheda.get("guida", "Ascolta di che cosa ha bisogno, non le parole che usa.")))
 
 func _scegli(luce: int) -> void:
 	if not _attivo:
@@ -154,7 +167,7 @@ func _scegli(luce: int) -> void:
 	if _errori > _errori_max:
 		_chiudi(false)
 		return
-	_aggiorna("Quella luce non risponde al bisogno. Riprova il messaggio.")
+	_aggiorna(str(_scheda.get("correzione", "Quella luce non risponde al bisogno. Riprova il messaggio.")))
 
 func _process(delta: float) -> void:
 	if not _attivo:

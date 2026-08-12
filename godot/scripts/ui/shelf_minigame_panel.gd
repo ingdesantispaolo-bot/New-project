@@ -35,6 +35,7 @@ var _attivo := false
 var _reduced_motion := false
 
 var _parola: Label
+var _esca: Label
 var _scheda_parola: PanelContainer
 var _stato: Label
 var _pulsanti: Array = []
@@ -46,13 +47,27 @@ func avvia(scheda: Dictionary, reduced_motion: bool) -> void:
 	_errori_max = int(parametri.get("errori", 3))
 	var quante := int(parametri.get("parole", 8))
 	var tutte: Array = Array(_scheda.get("parole", []))
-	# **Ordinate per lunghezza**: è l'ordine di Corinna, ed è l'esca. Presentarle
-	# mescolate toglierebbe al gioco la sua unica bugia, che è quella che il
-	# bambino deve smascherare.
-	tutte.sort_custom(func(a, b): return str(a[0]).length() < str(b[0]).length())
+	# **L'esca, che è tutto il gioco.**
+	#
+	# Le voci arrivano ordinate secondo un criterio che si vede benissimo e che
+	# **non c'entra niente** con lo scaffale giusto. Per Corinna è la lunghezza:
+	# «re» e «va» sono lunghe uguali e vanno su scaffali diversi. Per Danio è
+	# quante persone lo ripetono, per Vesca quanto è forte una specie: chi segue
+	# il numero grande sbaglia, ed è esattamente la cosa da capire.
+	#
+	# Una voce può quindi avere due forme: `[testo, scaffale]` — e allora l'esca è
+	# la lunghezza — oppure `[testo, scaffale, etichetta, valore]`, e allora
+	# l'esca è il valore, scritto sotto la parola perché sia impossibile
+	# ignorarlo. Presentarle mescolate toglierebbe al gioco la sua unica bugia.
+	tutte.sort_custom(func(a, b): return _peso_esca(a) < _peso_esca(b))
 	_parole = []
 	for voce in tutte.slice(0, mini(quante, tutte.size())):
-		_parole.append({"testo": str(voce[0]), "scaffale": int(voce[1])})
+		var riga: Array = Array(voce)
+		_parole.append({
+			"testo": str(riga[0]),
+			"scaffale": int(riga[1]),
+			"esca": str(riga[2]) if riga.size() > 2 else "",
+		})
 	_indice = 0
 	_giuste = 0
 	_errori = 0
@@ -60,6 +75,16 @@ func avvia(scheda: Dictionary, reduced_motion: bool) -> void:
 	_costruisci()
 	_attivo = true
 	_mostra()
+
+## Quanto «pesa» una voce per l'ordinamento-esca: chi pesa meno viene mostrato
+## per primo. Con quattro elementi il criterio è il valore dichiarato, al
+## contrario (il numero più grande in cima, come farebbe una classifica); con
+## due è la lunghezza del testo.
+func _peso_esca(voce: Variant) -> float:
+	var riga: Array = Array(voce)
+	if riga.size() > 3:
+		return -float(riga[3])
+	return float(str(riga[0]).length())
 
 func _costruisci() -> void:
 	var velo := ColorRect.new()
@@ -132,13 +157,25 @@ func _costruisci() -> void:
 	_scheda_parola.add_theme_stylebox_override("panel", _stile_pannello(
 		Color("18375a", 0.94), Color("72d8cf", 0.72), 16, 2))
 	colonna.add_child(_scheda_parola)
+	var pila := VBoxContainer.new()
+	pila.alignment = BoxContainer.ALIGNMENT_CENTER
+	_scheda_parola.add_child(pila)
 	_parola = Label.new()
 	_parola.name = "ShelfWord"
 	_parola.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_parola.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_parola.add_theme_font_size_override("font_size", 40)
+	_parola.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_parola.add_theme_font_size_override("font_size", 34)
 	_parola.add_theme_color_override("font_color", Color("8ff6d2"))
-	_scheda_parola.add_child(_parola)
+	pila.add_child(_parola)
+	# L'esca dichiarata, sotto la parola. Non è un aiuto: è la cosa che sembra
+	# contare e non conta, e va vista bene perché la si possa scartare.
+	_esca = Label.new()
+	_esca.name = "ShelfLure"
+	_esca.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_esca.add_theme_font_size_override("font_size", 14)
+	_esca.add_theme_color_override("font_color", Color("c8a7d8"))
+	pila.add_child(_esca)
 
 	var riga := HBoxContainer.new()
 	riga.name = "ShelfRow"
@@ -206,6 +243,8 @@ func _mostra() -> void:
 		return
 	if is_instance_valid(_parola):
 		_parola.text = str(Dictionary(_parole[_indice])["testo"])
+	if is_instance_valid(_esca):
+		_esca.text = str(Dictionary(_parole[_indice]).get("esca", ""))
 	if is_instance_valid(_scheda_parola):
 		_scheda_parola.modulate = Color.WHITE
 		_scheda_parola.add_theme_stylebox_override("panel", _stile_pannello(
@@ -235,7 +274,8 @@ func _scegli(scaffale: int) -> void:
 		return
 	# La parola resta: sbagliare non la fa sparire, la rimette davanti. È così
 	# che si scopre che la lunghezza non c'entra — riprovandoci sulla stessa.
-	_aggiorna_stato("Non è il suo scaffale. Guarda che cosa FA la parola, non quanto è lunga.")
+	_aggiorna_stato(str(_scheda.get("correzione",
+		"Non è il suo scaffale. Guarda che cosa FA la parola, non quanto è lunga.")))
 
 func _aggiorna_stato(messaggio: String) -> void:
 	if not is_instance_valid(_stato):

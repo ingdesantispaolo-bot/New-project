@@ -36,16 +36,36 @@ func _parole(testo: String) -> PackedStringArray:
 	return fuori
 
 ## Nessuna richiesta si serve accoppiando le lettere.
+##
+## **La regola vale solo dove significa qualcosa**, e la scheda lo dichiara con
+## `senzaRicalco`. Da Lino e da Talia la richiesta è in inglese e le cassette in
+## italiano: una parola in comune sarebbe una scorciatoia che salta la lingua. Da
+## Elmo le tre versioni della scena sono in italiano come la scena, e il
+## dettaglio decisivo **è** una parola — pretendere lì il non ricalco vorrebbe
+## dire vietare al gioco di essere quello che è.
 func _la_cassetta_giusta_non_ripete_la_richiesta() -> void:
-	for turno_dato in MARKET_MINIGAME_PANEL.TURNI:
-		var turno: Dictionary = turno_dato
-		var richiesta := str(turno["richiesta"])
-		var giusta := str(Array(turno["scelte"])[int(turno["giusta"])])
-		var parole_richiesta := _parole(richiesta)
-		for parola in _parole(giusta):
-			if parola in parole_richiesta:
-				_fallisci("«%s» → «%s»: la parola «%s» sta in tutte e due, si vince accoppiando le lettere" % [
-					richiesta, giusta, parola])
+	var controllati := 0
+	for npc_id_dato in CharacterMinigameCatalog.giochi_con_archetipo(
+			CharacterMinigameCatalog.ARCHETIPO_MERCATO):
+		var npc_id := str(npc_id_dato)
+		var scheda := CharacterMinigameCatalog.scheda(npc_id)
+		if not bool(scheda.get("senzaRicalco", false)):
+			continue
+		controllati += 1
+		var turni: Array = Array(scheda.get("turni", MARKET_MINIGAME_PANEL.TURNI))
+		if turni.is_empty():
+			turni = MARKET_MINIGAME_PANEL.TURNI
+		for turno_dato in turni:
+			var turno: Dictionary = turno_dato
+			var richiesta := str(turno["richiesta"])
+			var giusta := str(Array(turno["scelte"])[int(turno["giusta"])])
+			var parole_richiesta := _parole(richiesta)
+			for parola in _parole(giusta):
+				if parola in parole_richiesta:
+					_fallisci("%s · «%s» → «%s»: la parola «%s» sta in tutte e due, si vince accoppiando le lettere" % [
+						npc_id, richiesta, giusta, parola])
+	if controllati == 0:
+		_fallisci("nessun mercato dichiara «senzaRicalco»: la regola non sta guardando niente")
 
 func _esegui() -> void:
 	_la_cassetta_giusta_non_ripete_la_richiesta()

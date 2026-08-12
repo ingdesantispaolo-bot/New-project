@@ -42,7 +42,14 @@ func avvia(scheda: Dictionary, _reduced_motion: bool) -> void:
 	_scheda = scheda.duplicate(true)
 	var p: Dictionary = _scheda.get("parametri", {})
 	_errori_max = int(p.get("errori", 3))
-	_turni = TURNI.slice(0, int(p.get("richieste", 3)))
+	# **I turni sono il vestito.** La trappola — *richieste quasi uguali, un solo
+	# dettaglio decide* — vale per Lino al banco, per Talia al valico e per Elmo
+	# davanti alla stessa scena vista da tre punti. Quando la scheda porta i suoi
+	# `turni`, questi restano il caso del molo.
+	var repertorio: Array = Array(_scheda.get("turni", TURNI))
+	if repertorio.is_empty():
+		repertorio = TURNI
+	_turni = repertorio.slice(0, mini(int(p.get("richieste", 3)), repertorio.size()))
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_costruisci()
 	_attivo = true
@@ -140,6 +147,7 @@ func _costruisci() -> void:
 	var lascia := Button.new()
 	lascia.name = "MarketLeaveButton"
 	lascia.text = "LASCIA PERDERE"
+	lascia.custom_minimum_size = Vector2(0, 46)
 	lascia.pressed.connect(func(): if _attivo: _chiudi(false))
 	colonna.add_child(lascia)
 
@@ -149,7 +157,7 @@ func _mostra() -> void:
 		return
 	var turno: Dictionary = _turni[_indice]
 	_richiesta.text = "“%s”" % str(turno["richiesta"])
-	_categoria.text = "UNA PAROLA DECISIVA · %s" % str(turno["tipo"])
+	_categoria.text = "%s · %s" % [str(_scheda.get("indizio", "UNA PAROLA DECISIVA")), str(turno["tipo"])]
 	for i in _cassette.size():
 		_cassette[i].text = "▰\n%s" % str(turno["scelte"][i])
 		_cassette[i].disabled = false
@@ -157,7 +165,7 @@ func _mostra() -> void:
 		# il rosso restava addosso per tutta la partita, e al terzo cliente il
 		# banco mostrava un errore che non c'entrava più niente.
 		_cassette[i].add_theme_stylebox_override("normal", _stile(Color("68452b"), Color("d6a760"), 14, 2))
-	_aggiorna("Scegli la cassetta che rispetta tutta la richiesta.")
+	_aggiorna(str(_scheda.get("guida", "Scegli la cassetta che rispetta tutta la richiesta.")))
 
 func _scegli(scelta: int) -> void:
 	if not _attivo:

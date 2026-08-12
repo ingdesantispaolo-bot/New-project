@@ -73,6 +73,28 @@ duplica dialoghi o dati del personaggio.
 | 23 | Cronia | Velocità | **Archivio sotto pressione** — salva fonti con provenienza diversa mentre gli scaffali si chiudono; eliminare quelle scomode lascia buchi visibili nella sequenza. |
 | 23 | Ovidio | Riflessione | **Restauro clandestino** — ricompone frammenti, autore e provenienza delle copie nascoste; la disobbedienza documentata diventa lavoro storico. |
 
+## Stato reale (12 agosto 2026)
+
+La matrice qui sopra resta il **contratto autoriale**: dice che cosa deve fare il
+bambino per ciascun residente. Quello che è costruito è diverso, e di proposito.
+
+**Ventitré mondi abitati, tutti coperti**: il gioco di ciascuno specialista è
+scritto e verificato, più i due testimoni dei mondi 3 e 4. Sono **venticinque
+giochi su dieci meccaniche** — mucchio, scaffale, ciclo, traccia, radio, mercato,
+circuito, leva, prova controllata, stima.
+
+Dieci e non venticinque perché **le convinzioni non sono venticinque**: Ortensia,
+Gru e Sferza credono la stessa cosa in tre mestieri (*che la causa si trovi per
+forza bruta*), e una meccanica sola le smonta tutte e tre. Che il metodo ritorni
+in un altro mondo, con un'altra materia, è il modo in cui si verifica che il
+bambino l'ha capito e non solo eseguito.
+
+Il materiale — parole, segnali, manopole, grandezze, trappole — è invece sempre
+di quel personaggio e di quella materia, e sta nel catalogo, non nel renderer.
+
+La difficoltà viene da `CharacterMinigameCatalog.parametri(archetipo, mondo)`:
+una funzione sola, non venticinque tarature da tenere allineate.
+
 ## Ordine di produzione
 
 1. Collaudo dei tre pilot completi: Tobia, Corinna e Ciro.

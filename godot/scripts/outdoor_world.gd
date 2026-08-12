@@ -2375,6 +2375,15 @@ func _apri_minigioco_personaggio(npc_id: String) -> void:
 		CharacterMinigameCatalog.ARCHETIPO_CIRCUITO:
 			minigame_panel = CircuitMinigamePanel.new()
 			minigame_panel.name = "CircuitMinigamePanel"
+		CharacterMinigameCatalog.ARCHETIPO_LEVA:
+			minigame_panel = LeverMinigamePanel.new()
+			minigame_panel.name = "LeverMinigamePanel"
+		CharacterMinigameCatalog.ARCHETIPO_PROVA:
+			minigame_panel = ControlledTrialMinigamePanel.new()
+			minigame_panel.name = "ControlledTrialMinigamePanel"
+		CharacterMinigameCatalog.ARCHETIPO_STIMA:
+			minigame_panel = EstimateMinigamePanel.new()
+			minigame_panel.name = "EstimateMinigamePanel"
 		_:
 			minigame_panel = PileMinigamePanel.new()
 			minigame_panel.name = "PileMinigamePanel"

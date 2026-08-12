@@ -1094,28 +1094,118 @@ ricordo, non l'ho mai saputo» — per smentirlo bisogna prima *provare a
 ricordare e non riuscirci*. Basta velare la stanza **prima** della composizione,
 lasciando lo sguardo iniziale a tempo.
 
-### Compiti aperti, in ordine di peso
+---
 
-**C-MG-1 · Rifare il ciclo di Ruggine.** Serve il braccio manuale: un pulsante
-per gesto, un pezzo per volta, mentre il nastro continua a riempirsi. Si deve
-poter *provare a stare dietro* e non riuscirci. Solo dopo si apre il registratore
-di sequenza, e le ripetizioni vanno **mostrate mentre accadono**.
+## Tutti i mondi, dieci meccaniche (12 agosto 2026)
 
-**C-MG-2 · Velare la stanza di Sesto prima della composizione.**
+Richiesta del committente: «risistema tutti i minigiochi portandoli al massimo
+livello che riesci, ricordati che devono essere presenti in tutti i mondi con
+difficoltà corrispondente».
+
+### La decisione che ha deciso tutto il resto
+
+I mondi abitati sono ventitré, i residenti quarantasei. La matrice autoriale
+prometteva **quarantasei meccaniche diverse**, una per personaggio. È sbagliata
+due volte.
+
+La prima è ovvia: quarantasei meccaniche a metà valgono meno di dieci finite, e
+questo lotto ne ha già viste due — il ciclo senza il braccio manuale e la traccia
+che si copiava — che erano *esistenti* e non *funzionanti*.
+
+La seconda conta di più: **le convinzioni non sono quarantasei**. Ortensia crede
+che «se cambio tutto, prima o poi funziona»; Gru che «l'errore è solo sfortuna»;
+Sferza che «se non legge, spingi di più». Sono la stessa convinzione detta in tre
+mestieri: *che la causa si trovi per forza bruta*. Una meccanica sola le smonta
+tutte e tre, e il fatto che ritorni **è un pregio**: il bambino riconosce il
+metodo e lo vede funzionare fuori dal posto dove l'ha imparato, che è l'unica
+prova seria di averlo capito.
+
+Quindi: **dieci meccaniche, venticinque giochi, ventitré mondi coperti.** Quello
+che non si ripete mai è il materiale — parole, segnali, manopole, grandezze e
+trappole stanno nella scheda del personaggio, e il renderer non ne sa niente.
+
+### Le tre meccaniche nuove, e perché proprio queste
+
+Sono nate dove nessuna delle esistenti diceva la cosa giusta.
+
+**La leva** (Gerbo, fisica). Regge la regola vera: si solleva se `forza × braccio
+della mano ≥ peso × braccio del masso`. La forza della mano è **costante in tutti
+i mondi** e non c'è nessun modo di aumentarla: cresce solo il peso, quindi
+l'appoggio buono si stringe salendo, e al mondo 24 ce n'è **uno solo**. Se la
+forza crescesse col mondo, spingere resterebbe una strategia e Gerbo avrebbe
+ragione per sempre.
+
+**La prova controllata** (Ortensia, Gru, Sferza). Manopole, una sola conta, e le
+prove concesse sono esattamente quante ne servono cambiandone una per volta, più
+una. Non c'è **nessuna punizione** per chi ne cambia due: sarebbe una regola del
+gioco, e questo non è un gioco di regole. C'è che quell'esito *non dice quale*, e
+il gioco lo scrive — è l'unico punto in tutto il lotto in cui la lezione è
+scritta a parole, e ci sta perché arriva **dopo** il gesto.
+
+**La stima** (Solano, Nerea, Silo). Il bersaglio è nascosto e il riscontro dice
+solo *troppo corto* o *troppo lungo*. Chi lo usa dimezza e arriva in cinque tiri;
+chi tira a caso ha decine di caselle e sette tiri. La differenza fra stimare e
+indovinare **non è spiegata da nessuno**: è un'aritmetica, e l'audit la verifica
+mondo per mondo.
+
+### Quattro difetti trovati dalle regole nuove, tutti della stessa specie
+
+Sono tutti la stessa cosa: **la strategia vecchia funzionava**.
+
+- **La lunghezza di Livia predice.** Con sole prima e seconda declinazione
+  l'accusativo è il nominativo più una lettera: le corte erano soggetti, le
+  lunghe complementi, e l'ordine che si vede indovinava **due volte su tre**.
+  Copiare bastava — cioè Livia aveva ragione. Corretto mescolando terza e quinta
+  declinazione (`rex`/`regem`, `res`/`rem`);
+- **la popolarità di Danio predice.** Le frasi più ripetute erano tutte «sentito
+  dire», le meno ripetute tutti oggetti. Adesso ci sono oggetti famosissimi e
+  testimoni celebri, e il numero non dice più niente;
+- **la stima si vinceva a caso** ai mondi bassi: cinque caselle e mezza contro
+  sette tiri concessi. Solano vive al mondo 13, ma il Tavolo giochi riproporrà il
+  suo gioco ovunque, e una taratura che regge solo dove è nata non è una
+  taratura;
+- **il ciclo si vinceva a mano** da chi picchia veloce: tre tocchi per pezzo a un
+  quarto di secondo battono gli arrivi. Adesso la mano ha un `cooldown`, quindi
+  un tetto **noto**, e l'audit ci fa sopra l'aritmetica invece di sperare.
+
+Nessuno di questi si vedeva giocando una partita. Si vedono solo mettendo in
+numeri la domanda «la strategia del personaggio funziona?», ed è la ragione per
+cui quella domanda adesso è in `character_minigame_audit` mondo per mondo.
+
+### Che cosa protegge il codice adesso
+
+Suite a **153 verdi**. Le regole aggiunte in questo lotto:
+
+- **nessun mondo abitato resta scoperto** — è la richiesta del committente, ed è
+  una riga di audit invece che una promessa;
+- **l'esca dello scaffale non predice lo scaffale**, misurata come frequenza di
+  cambio di destinazione nell'ordine in cui il bambino le vede;
+- **il ciclo non si vince a mano**, con l'aritmetica del tetto della mano;
+- **la leva non cede alla forza** e un appoggio buono esiste sempre;
+- **la prova costringe a isolare** (le prove bastano al metodo, non al disordine);
+- **la stima converge e l'indovinare no**;
+- **il non ricalco** vale per tutti i mercati che dichiarano `senzaRicalco`, non
+  solo per quello di Lino;
+- **l'audit visivo copre tutti e dieci i pannelli** invece di tre, controlla i
+  bersagli sotto i 40 px su ogni pulsante e rifiuta un archetipo senza banco.
+
+### Compiti aperti
 
 **C-MG-3 · La lingua della radio.** Marea sta al mondo 4, la cui materia è
-**inglese**, e i nove messaggi sono tutti in italiano: il gioco è giusto, il
-materiale no. Passarli all'inglese cambia però la difficoltà in modo serio,
-soprattutto con cinque secondi di segnale. **Decisione del committente**, non da
-prendere in autonomia.
+**inglese**, e i suoi nove messaggi sono in italiano: la meccanica è giusta, il
+materiale no. Passarli all'inglese cambia la difficoltà in modo serio, con cinque
+secondi di segnale e un bambino al quarto mondo. **Decisione del committente.**
 
-**C-MG-4 · Adattamento in verticale.** `_adatta_verticale` sta solo in mucchio,
-scaffale e circuito: ciclo, traccia, radio e mercato su tablet in verticale
-restano a metà misura. Sette copie della stessa funzione sono già troppe —
-conviene una sola, condivisa.
+**C-MG-4 · Adattamento in verticale.** `_adatta_verticale` è ormai in sei
+pannelli su dieci, copiato uguale sei volte. Radio e mercato non ce l'hanno, e la
+duplicazione va tolta con una funzione condivisa.
 
-**C-MG-5 · Copertura del `character_minigame_visual_audit`.** Guarda solo i tre
-pilot. Ciclo, traccia, radio e mercato non hanno nessun controllo strutturale.
+**C-MG-6 · I ventun testimoni restanti.** Ogni mondo ha il suo gioco; i testimoni
+ne hanno uno solo nei mondi 3 e 4. Gli archetipi ci sono già, serve il materiale.
+
+**C-MG-7 · Misurare la durata.** Venticinque minigiochi che si **aggiungono**
+sono ore in più su una campagna già di 21,1; uno che **sostituisce** una tappa di
+missione no. Si decide col numero in mano, come per le minimissioni.
 
 ---
 

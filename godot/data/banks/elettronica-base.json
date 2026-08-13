@@ -17,7 +17,12 @@
 				"emette luce solo se polarità e corrente sono corrette"
 			],
 			"answer": "fornisce la spinta elettrica tra polo + e polo -",
-			"explanation": "Batteria: fornisce una differenza di potenziale: nel gioco è la spinta che mette in moto la corrente."
+			"explanation": "Batteria: fornisce una differenza di potenziale: nel gioco è la spinta che mette in moto la corrente.",
+			"distractorWhy": {
+				"emette luce solo se polarità e corrente sono corrette": "È la funzione di «LED», non di «Batteria».",
+				"chiude il giro riportando la corrente al polo -": "È la funzione di «Ritorno», non di «Batteria».",
+				"limita la corrente e protegge i componenti sensibili": "È la funzione di «Resistenza», non di «Batteria»."
+			}
 		},
 		{
 			"id": "elettronica-attenzione-battery",
@@ -33,7 +38,12 @@
 				"non è solo un interruttore manuale: viene comandato elettricamente"
 			],
 			"answer": "non è una resistenza: non limita la corrente, la alimenta",
-			"explanation": "Batteria: controlla sempre dove sono + e -."
+			"explanation": "Batteria: controlla sempre dove sono + e -.",
+			"distractorWhy": {
+				"non è solo un interruttore manuale: viene comandato elettricamente": "Riguarda «Relè», non «Batteria».",
+				"non è una batteria: non produce energia nuova, la conserva per poco": "Riguarda «Condensatore», non «Batteria».",
+				"non serve ad accendere di più: serve a non sovraccaricare": "Riguarda «Resistenza», non «Batteria»."
+			}
 		},
 		{
 			"id": "elettronica-funzione-switch",
@@ -49,7 +59,12 @@
 				"trasforma energia elettrica in movimento"
 			],
 			"answer": "apre o chiude il passaggio della corrente",
-			"explanation": "Interruttore: apre o chiude il percorso: se è aperto il circuito è interrotto anche se tutti i pezzi sono presenti."
+			"explanation": "Interruttore: apre o chiude il percorso: se è aperto il circuito è interrotto anche se tutti i pezzi sono presenti.",
+			"distractorWhy": {
+				"trasforma energia elettrica in movimento": "È la funzione di «Motore», non di «Interruttore».",
+				"misura un segnale e invia dati al terminale": "È la funzione di «Sensore», non di «Interruttore».",
+				"stabilizza il riferimento comune del ritorno": "È la funzione di «Massa», non di «Interruttore»."
+			}
 		},
 		{
 			"id": "elettronica-attenzione-switch",
@@ -65,7 +80,12 @@
 				"non genera corrente: decide solo se il percorso continua"
 			],
 			"answer": "non genera corrente: decide solo se il percorso continua",
-			"explanation": "Interruttore: verifica se la leva collega davvero i due contatti."
+			"explanation": "Interruttore: verifica se la leva collega davvero i due contatti.",
+			"distractorWhy": {
+				"non è un interruttore: è un riferimento stabile": "Riguarda «Massa», non «Interruttore».",
+				"non è solo un interruttore manuale: viene comandato elettricamente": "Riguarda «Relè», non «Interruttore».",
+				"non è una resistenza: non limita la corrente, la alimenta": "Riguarda «Batteria», non «Interruttore»."
+			}
 		},
 		{
 			"id": "elettronica-funzione-resistor",
@@ -81,7 +101,12 @@
 				"usa un comando debole per chiudere un circuito di potenza"
 			],
 			"answer": "limita la corrente e protegge i componenti sensibili",
-			"explanation": "Resistenza: limita la corrente e protegge il LED da impulsi troppo forti."
+			"explanation": "Resistenza: limita la corrente e protegge il LED da impulsi troppo forti.",
+			"distractorWhy": {
+				"chiude il giro riportando la corrente al polo -": "È la funzione di «Ritorno», non di «Resistenza».",
+				"emette luce solo se polarità e corrente sono corrette": "È la funzione di «LED», non di «Resistenza».",
+				"usa un comando debole per chiudere un circuito di potenza": "È la funzione di «Relè», non di «Resistenza»."
+			}
 		},
 		{
 			"id": "elettronica-attenzione-resistor",
@@ -97,7 +122,12 @@
 				"non è solo un interruttore manuale: viene comandato elettricamente"
 			],
 			"answer": "non serve ad accendere di più: serve a non sovraccaricare",
-			"explanation": "Resistenza: se manca, il LED non è certificabile anche quando si accende."
+			"explanation": "Resistenza: se manca, il LED non è certificabile anche quando si accende.",
+			"distractorWhy": {
+				"non è una batteria: non produce energia nuova, la conserva per poco": "Riguarda «Condensatore», non «Resistenza».",
+				"non è una resistenza: non limita la corrente, la alimenta": "Riguarda «Batteria», non «Resistenza».",
+				"non è solo un interruttore manuale: viene comandato elettricamente": "Riguarda «Relè», non «Resistenza»."
+			}
 		},
 		{
 			"id": "elettronica-funzione-led",
@@ -113,7 +143,12 @@
 				"fornisce la spinta elettrica tra polo + e polo -"
 			],
 			"answer": "emette luce solo se polarità e corrente sono corrette",
-			"explanation": "LED: è un diodo luminoso: lascia passare corrente quasi solo nel verso corretto."
+			"explanation": "LED: è un diodo luminoso: lascia passare corrente quasi solo nel verso corretto.",
+			"distractorWhy": {
+				"accumula carica e la rilascia per stabilizzare impulsi": "È la funzione di «Condensatore», non di «LED».",
+				"fornisce la spinta elettrica tra polo + e polo -": "È la funzione di «Batteria», non di «LED».",
+				"chiude il giro riportando la corrente al polo -": "È la funzione di «Ritorno», non di «LED»."
+			}
 		},
 		{
 			"id": "elettronica-attenzione-led",
@@ -129,7 +164,12 @@
 				"non è una lampadina normale: il verso conta"
 			],
 			"answer": "non è una lampadina normale: il verso conta",
-			"explanation": "LED: se arriva corrente ma resta spento, controlla la polarità."
+			"explanation": "LED: se arriva corrente ma resta spento, controlla la polarità.",
+			"distractorWhy": {
+				"non è un sensore: consuma energia, non misura": "Riguarda «Motore», non «LED».",
+				"se non è alimentato, non può misurare": "Riguarda «Sensore», non «LED».",
+				"non genera corrente: decide solo se il percorso continua": "Riguarda «Interruttore», non «LED»."
+			}
 		},
 		{
 			"id": "elettronica-funzione-sensor",
@@ -145,7 +185,12 @@
 				"trasforma energia elettrica in movimento"
 			],
 			"answer": "misura un segnale e invia dati al terminale",
-			"explanation": "Sensore: misura un valore e lo manda al terminale, ma solo se è alimentato e collegato al bus dati."
+			"explanation": "Sensore: misura un valore e lo manda al terminale, ma solo se è alimentato e collegato al bus dati.",
+			"distractorWhy": {
+				"trasforma energia elettrica in movimento": "È la funzione di «Motore», non di «Sensore».",
+				"stabilizza il riferimento comune del ritorno": "È la funzione di «Massa», non di «Sensore».",
+				"chiude il giro riportando la corrente al polo -": "È la funzione di «Ritorno», non di «Sensore»."
+			}
 		},
 		{
 			"id": "elettronica-attenzione-sensor",
@@ -161,7 +206,12 @@
 				"non è un sensore: consuma energia, non misura"
 			],
 			"answer": "se non è alimentato, non può misurare",
-			"explanation": "Sensore: un sensore scollegato può sembrare guasto anche quando il circuito principale funziona."
+			"explanation": "Sensore: un sensore scollegato può sembrare guasto anche quando il circuito principale funziona.",
+			"distractorWhy": {
+				"non è una lampadina normale: il verso conta": "Riguarda «LED», non «Sensore».",
+				"non trattarlo come un unico filo in serie": "Riguarda «Ramo parallelo», non «Sensore».",
+				"non è un sensore: consuma energia, non misura": "Riguarda «Motore», non «Sensore»."
+			}
 		},
 		{
 			"id": "elettronica-funzione-capacitor",
@@ -177,7 +227,12 @@
 				"usa un comando debole per chiudere un circuito di potenza"
 			],
 			"answer": "accumula carica e la rilascia per stabilizzare impulsi",
-			"explanation": "Condensatore: si carica piano e si scarica di colpo: per questo smorza i picchi improvvisi invece di seguirli."
+			"explanation": "Condensatore: si carica piano e si scarica di colpo: per questo smorza i picchi improvvisi invece di seguirli.",
+			"distractorWhy": {
+				"usa un comando debole per chiudere un circuito di potenza": "È la funzione di «Relè», non di «Condensatore».",
+				"fornisce la spinta elettrica tra polo + e polo -": "È la funzione di «Batteria», non di «Condensatore».",
+				"limita la corrente e protegge i componenti sensibili": "È la funzione di «Resistenza», non di «Condensatore»."
+			}
 		},
 		{
 			"id": "elettronica-attenzione-capacitor",
@@ -193,7 +248,12 @@
 				"non è una batteria: non produce energia nuova, la conserva per poco"
 			],
 			"answer": "non è una batteria: non produce energia nuova, la conserva per poco",
-			"explanation": "Condensatore: se è scarico, il LED può fare un lampo debole o ritardato."
+			"explanation": "Condensatore: se è scarico, il LED può fare un lampo debole o ritardato.",
+			"distractorWhy": {
+				"non genera corrente: decide solo se il percorso continua": "Riguarda «Interruttore», non «Condensatore».",
+				"non è solo un interruttore manuale: viene comandato elettricamente": "Riguarda «Relè», non «Condensatore».",
+				"non serve ad accendere di più: serve a non sovraccaricare": "Riguarda «Resistenza», non «Condensatore»."
+			}
 		},
 		{
 			"id": "elettronica-funzione-return",
@@ -209,7 +269,12 @@
 				"stabilizza il riferimento comune del ritorno"
 			],
 			"answer": "chiude il giro riportando la corrente al polo -",
-			"explanation": "Ritorno: riporta il percorso verso il polo negativo: senza ritorno non c'è circuito chiuso."
+			"explanation": "Ritorno: riporta il percorso verso il polo negativo: senza ritorno non c'è circuito chiuso.",
+			"distractorWhy": {
+				"stabilizza il riferimento comune del ritorno": "È la funzione di «Massa», non di «Ritorno».",
+				"limita la corrente e protegge i componenti sensibili": "È la funzione di «Resistenza», non di «Ritorno».",
+				"misura un segnale e invia dati al terminale": "È la funzione di «Sensore», non di «Ritorno»."
+			}
 		},
 		{
 			"id": "elettronica-attenzione-return",
@@ -225,7 +290,12 @@
 				"non è una batteria: non produce energia nuova, la conserva per poco"
 			],
 			"answer": "non è opzionale: ogni circuito deve tornare alla sorgente",
-			"explanation": "Ritorno: segui il filo fino al - della batteria."
+			"explanation": "Ritorno: segui il filo fino al - della batteria.",
+			"distractorWhy": {
+				"non genera corrente: decide solo se il percorso continua": "Riguarda «Interruttore», non «Ritorno».",
+				"non è una resistenza: non limita la corrente, la alimenta": "Riguarda «Batteria», non «Ritorno».",
+				"non è una batteria: non produce energia nuova, la conserva per poco": "Riguarda «Condensatore», non «Ritorno»."
+			}
 		},
 		{
 			"id": "elettronica-funzione-branchLed",
@@ -241,7 +311,12 @@
 				"emette luce solo se polarità e corrente sono corrette"
 			],
 			"answer": "divide la corrente in rami che possono funzionare separatamente",
-			"explanation": "Ramo parallelo: crea un secondo percorso: un guasto su un ramo non deve per forza spegnere tutto il circuito."
+			"explanation": "Ramo parallelo: crea un secondo percorso: un guasto su un ramo non deve per forza spegnere tutto il circuito.",
+			"distractorWhy": {
+				"fornisce la spinta elettrica tra polo + e polo -": "È la funzione di «Batteria», non di «Ramo parallelo».",
+				"emette luce solo se polarità e corrente sono corrette": "È la funzione di «LED», non di «Ramo parallelo».",
+				"limita la corrente e protegge i componenti sensibili": "È la funzione di «Resistenza», non di «Ramo parallelo»."
+			}
 		},
 		{
 			"id": "elettronica-attenzione-branchLed",
@@ -257,7 +332,12 @@
 				"non trattarlo come un unico filo in serie"
 			],
 			"answer": "non trattarlo come un unico filo in serie",
-			"explanation": "Ramo parallelo: controlla quale ramo resta alimentato e quale si interrompe."
+			"explanation": "Ramo parallelo: controlla quale ramo resta alimentato e quale si interrompe.",
+			"distractorWhy": {
+				"non è un sensore: consuma energia, non misura": "Riguarda «Motore», non «Ramo parallelo».",
+				"se non è alimentato, non può misurare": "Riguarda «Sensore», non «Ramo parallelo».",
+				"non è un interruttore: è un riferimento stabile": "Riguarda «Massa», non «Ramo parallelo»."
+			}
 		},
 		{
 			"id": "elettronica-funzione-relay",
@@ -273,7 +353,12 @@
 				"emette luce solo se polarità e corrente sono corrette"
 			],
 			"answer": "usa un comando debole per chiudere un circuito di potenza",
-			"explanation": "Relè: usa una piccola corrente di comando per chiudere un circuito più potente."
+			"explanation": "Relè: usa una piccola corrente di comando per chiudere un circuito più potente.",
+			"distractorWhy": {
+				"divide la corrente in rami che possono funzionare separatamente": "È la funzione di «Ramo parallelo», non di «Relè».",
+				"emette luce solo se polarità e corrente sono corrette": "È la funzione di «LED», non di «Relè».",
+				"limita la corrente e protegge i componenti sensibili": "È la funzione di «Resistenza», non di «Relè»."
+			}
 		},
 		{
 			"id": "elettronica-attenzione-relay",
@@ -289,7 +374,12 @@
 				"non è una batteria: non produce energia nuova, la conserva per poco"
 			],
 			"answer": "non è solo un interruttore manuale: viene comandato elettricamente",
-			"explanation": "Relè: verifica sia la bobina di comando sia il contatto che alimenta il carico."
+			"explanation": "Relè: verifica sia la bobina di comando sia il contatto che alimenta il carico.",
+			"distractorWhy": {
+				"non serve ad accendere di più: serve a non sovraccaricare": "Riguarda «Resistenza», non «Relè».",
+				"non è una batteria: non produce energia nuova, la conserva per poco": "Riguarda «Condensatore», non «Relè».",
+				"non è opzionale: ogni circuito deve tornare alla sorgente": "Riguarda «Ritorno», non «Relè»."
+			}
 		},
 		{
 			"id": "elettronica-funzione-motor",
@@ -305,7 +395,12 @@
 				"apre o chiude il passaggio della corrente"
 			],
 			"answer": "trasforma energia elettrica in movimento",
-			"explanation": "Motore: è un carico più esigente di un LED: richiede alimentazione stabile e protezione."
+			"explanation": "Motore: è un carico più esigente di un LED: richiede alimentazione stabile e protezione.",
+			"distractorWhy": {
+				"stabilizza il riferimento comune del ritorno": "È la funzione di «Massa», non di «Motore».",
+				"chiude il giro riportando la corrente al polo -": "È la funzione di «Ritorno», non di «Motore».",
+				"apre o chiude il passaggio della corrente": "È la funzione di «Interruttore», non di «Motore»."
+			}
 		},
 		{
 			"id": "elettronica-attenzione-motor",
@@ -321,7 +416,12 @@
 				"non è un sensore: consuma energia, non misura"
 			],
 			"answer": "non è un sensore: consuma energia, non misura",
-			"explanation": "Motore: se il LED funziona ma il motore no, controlla caduta di tensione e relè."
+			"explanation": "Motore: se il LED funziona ma il motore no, controlla caduta di tensione e relè.",
+			"distractorWhy": {
+				"non è un interruttore: è un riferimento stabile": "Riguarda «Massa», non «Motore».",
+				"non è una lampadina normale: il verso conta": "Riguarda «LED», non «Motore».",
+				"non trattarlo come un unico filo in serie": "Riguarda «Ramo parallelo», non «Motore»."
+			}
 		},
 		{
 			"id": "elettronica-funzione-ground",
@@ -337,7 +437,12 @@
 				"apre o chiude il passaggio della corrente"
 			],
 			"answer": "stabilizza il riferimento comune del ritorno",
-			"explanation": "Massa: è il riferimento di ritorno del circuito: se è ballerina, le misure diventano instabili."
+			"explanation": "Massa: è il riferimento di ritorno del circuito: se è ballerina, le misure diventano instabili.",
+			"distractorWhy": {
+				"apre o chiude il passaggio della corrente": "È la funzione di «Interruttore», non di «Massa».",
+				"fornisce la spinta elettrica tra polo + e polo -": "È la funzione di «Batteria», non di «Massa».",
+				"misura un segnale e invia dati al terminale": "È la funzione di «Sensore», non di «Massa»."
+			}
 		},
 		{
 			"id": "elettronica-attenzione-ground",
@@ -353,7 +458,12 @@
 				"non genera corrente: decide solo se il percorso continua"
 			],
 			"answer": "non è un interruttore: è un riferimento stabile",
-			"explanation": "Massa: cerca letture che passano da continuità a interruzione."
+			"explanation": "Massa: cerca letture che passano da continuità a interruzione.",
+			"distractorWhy": {
+				"non genera corrente: decide solo se il percorso continua": "Riguarda «Interruttore», non «Massa».",
+				"non è una lampadina normale: il verso conta": "Riguarda «LED», non «Massa».",
+				"non è un sensore: consuma energia, non misura": "Riguarda «Motore», non «Massa»."
+			}
 		},
 		{
 			"id": "elettronica-guasto-missing-wire",
@@ -369,7 +479,12 @@
 				"Condensatore scarico"
 			],
 			"answer": "Filo mancante",
-			"explanation": "Si segue il giro con il dito partendo dal positivo: dove il dito si ferma, manca il collegamento."
+			"explanation": "Si segue il giro con il dito partendo dal positivo: dove il dito si ferma, manca il collegamento.",
+			"distractorWhy": {
+				"Relè non attivato": "Si riconoscerebbe così: «Il relè è un interruttore comandato: prima alimenti il comando, poi parte il carico.» — non è l'indizio di questa domanda.",
+				"Ritorno instabile": "Si riconoscerebbe così: «Il ritorno al polo negativo deve essere stabile, non funzionare a tratti.» — non è l'indizio di questa domanda.",
+				"Condensatore scarico": "Si riconoscerebbe così: «Il condensatore è una piccola riserva: se è scarico, l'impulso dura poco.» — non è l'indizio di questa domanda."
+			}
 		},
 		{
 			"id": "elettronica-guasto-open-switch",
@@ -385,7 +500,12 @@
 				"Interruttore aperto"
 			],
 			"answer": "Interruttore aperto",
-			"explanation": "Si prova a ponticellare i due morsetti dell'interruttore: se il circuito riparte, era lui aperto."
+			"explanation": "Si prova a ponticellare i due morsetti dell'interruttore: se il circuito riparte, era lui aperto.",
+			"distractorWhy": {
+				"Resistenza sbagliata": "Si riconoscerebbe così: «La resistenza c'è, ma il suo valore non protegge bene il LED.» — non è l'indizio di questa domanda.",
+				"Sensore senza energia": "Si riconoscerebbe così: «Un sensore misura solo se riceve energia e ha un ritorno.» — non è l'indizio di questa domanda.",
+				"Condensatore scarico": "Si riconoscerebbe così: «Il condensatore è una piccola riserva: se è scarico, l'impulso dura poco.» — non è l'indizio di questa domanda."
+			}
 		},
 		{
 			"id": "elettronica-guasto-missing-resistor",
@@ -401,7 +521,12 @@
 				"Ritorno instabile"
 			],
 			"answer": "Resistenza assente",
-			"explanation": "Senza resistore il LED riceve tutta la tensione della pila: si accende fortissimo per un istante e poi resta spento per sempre."
+			"explanation": "Senza resistore il LED riceve tutta la tensione della pila: si accende fortissimo per un istante e poi resta spento per sempre.",
+			"distractorWhy": {
+				"Interruttore aperto": "Si riconoscerebbe così: «L'interruttore è come un ponte: se è aperto, la corrente si ferma.» — non è l'indizio di questa domanda.",
+				"Condensatore scarico": "Si riconoscerebbe così: «Il condensatore è una piccola riserva: se è scarico, l'impulso dura poco.» — non è l'indizio di questa domanda.",
+				"Ritorno instabile": "Si riconoscerebbe così: «Il ritorno al polo negativo deve essere stabile, non funzionare a tratti.» — non è l'indizio di questa domanda."
+			}
 		},
 		{
 			"id": "elettronica-guasto-reversed-led",
@@ -417,7 +542,12 @@
 				"Sensore senza energia"
 			],
 			"answer": "LED girato al contrario",
-			"explanation": "Il catodo va al negativo e si riconosce dal piedino più corto o dalla smussatura sul bordo. Basta girarlo."
+			"explanation": "Il catodo va al negativo e si riconosce dal piedino più corto o dalla smussatura sul bordo. Basta girarlo.",
+			"distractorWhy": {
+				"Sensore senza energia": "Si riconoscerebbe così: «Un sensore misura solo se riceve energia e ha un ritorno.» — non è l'indizio di questa domanda.",
+				"Resistenza sbagliata": "Si riconoscerebbe così: «La resistenza c'è, ma il suo valore non protegge bene il LED.» — non è l'indizio di questa domanda.",
+				"Ramo parallelo aperto": "Si riconoscerebbe così: «In parallelo ci sono due strade: una può essere rotta anche se l'altra funziona.» — non è l'indizio di questa domanda."
+			}
 		},
 		{
 			"id": "elettronica-guasto-wrong-resistor-value",
@@ -433,7 +563,12 @@
 				"Componente scollegato"
 			],
 			"answer": "Resistenza sbagliata",
-			"explanation": "Si rileggono le fasce colorate e si confronta il valore con quello previsto: troppo alto spegne, troppo basso brucia."
+			"explanation": "Si rileggono le fasce colorate e si confronta il valore con quello previsto: troppo alto spegne, troppo basso brucia.",
+			"distractorWhy": {
+				"Interruttore aperto": "Si riconoscerebbe così: «L'interruttore è come un ponte: se è aperto, la corrente si ferma.» — non è l'indizio di questa domanda.",
+				"Componente scollegato": "Si riconoscerebbe così: «Un pezzo può essere presente ma fuori dal giro della corrente.» — non è l'indizio di questa domanda.",
+				"Ramo parallelo aperto": "Si riconoscerebbe così: «In parallelo ci sono due strade: una può essere rotta anche se l'altra funziona.» — non è l'indizio di questa domanda."
+			}
 		},
 		{
 			"id": "elettronica-guasto-disconnected-component",
@@ -449,7 +584,12 @@
 				"Componente scollegato"
 			],
 			"answer": "Componente scollegato",
-			"explanation": "Essere sulla basetta non basta: si controlla che i piedini siano nella stessa fila di contatti del resto del giro."
+			"explanation": "Essere sulla basetta non basta: si controlla che i piedini siano nella stessa fila di contatti del resto del giro.",
+			"distractorWhy": {
+				"Ramo parallelo aperto": "Si riconoscerebbe così: «In parallelo ci sono due strade: una può essere rotta anche se l'altra funziona.» — non è l'indizio di questa domanda.",
+				"Sensore senza energia": "Si riconoscerebbe così: «Un sensore misura solo se riceve energia e ha un ritorno.» — non è l'indizio di questa domanda.",
+				"LED girato al contrario": "Si riconoscerebbe così: «Il LED ha un verso: se è girato al contrario, non lascia passare corrente.» — non è l'indizio di questa domanda."
+			}
 		},
 		{
 			"id": "elettronica-guasto-sensor-unpowered",
@@ -465,7 +605,12 @@
 				"Condensatore scarico"
 			],
 			"answer": "Sensore senza energia",
-			"explanation": "Si misura la tensione fra i due pin di alimentazione del sensore: se è zero, il sensore non sta nemmeno lavorando."
+			"explanation": "Si misura la tensione fra i due pin di alimentazione del sensore: se è zero, il sensore non sta nemmeno lavorando.",
+			"distractorWhy": {
+				"Ramo parallelo aperto": "Si riconoscerebbe così: «In parallelo ci sono due strade: una può essere rotta anche se l'altra funziona.» — non è l'indizio di questa domanda.",
+				"LED girato al contrario": "Si riconoscerebbe così: «Il LED ha un verso: se è girato al contrario, non lascia passare corrente.» — non è l'indizio di questa domanda.",
+				"Condensatore scarico": "Si riconoscerebbe così: «Il condensatore è una piccola riserva: se è scarico, l'impulso dura poco.» — non è l'indizio di questa domanda."
+			}
 		},
 		{
 			"id": "elettronica-guasto-parallel-branch-open",
@@ -481,7 +626,12 @@
 				"Componente scollegato"
 			],
 			"answer": "Ramo parallelo aperto",
-			"explanation": "Si prova un ramo per volta scollegando l'altro: quello che resta spento da solo è il ramo interrotto."
+			"explanation": "Si prova un ramo per volta scollegando l'altro: quello che resta spento da solo è il ramo interrotto.",
+			"distractorWhy": {
+				"Sensore senza energia": "Si riconoscerebbe così: «Un sensore misura solo se riceve energia e ha un ritorno.» — non è l'indizio di questa domanda.",
+				"Resistenza sbagliata": "Si riconoscerebbe così: «La resistenza c'è, ma il suo valore non protegge bene il LED.» — non è l'indizio di questa domanda.",
+				"Componente scollegato": "Si riconoscerebbe così: «Un pezzo può essere presente ma fuori dal giro della corrente.» — non è l'indizio di questa domanda."
+			}
 		},
 		{
 			"id": "elettronica-guasto-capacitor-discharged",
@@ -497,7 +647,12 @@
 				"Ramo parallelo aperto"
 			],
 			"answer": "Condensatore scarico",
-			"explanation": "Si misura la tensione ai suoi capi mentre il circuito lavora: se resta a zero, non si sta caricando."
+			"explanation": "Si misura la tensione ai suoi capi mentre il circuito lavora: se resta a zero, non si sta caricando.",
+			"distractorWhy": {
+				"Resistenza sbagliata": "Si riconoscerebbe così: «La resistenza c'è, ma il suo valore non protegge bene il LED.» — non è l'indizio di questa domanda.",
+				"Ramo parallelo aperto": "Si riconoscerebbe così: «In parallelo ci sono due strade: una può essere rotta anche se l'altra funziona.» — non è l'indizio di questa domanda.",
+				"Componente scollegato": "Si riconoscerebbe così: «Un pezzo può essere presente ma fuori dal giro della corrente.» — non è l'indizio di questa domanda."
+			}
 		},
 		{
 			"id": "elettronica-guasto-short-circuit",
@@ -513,7 +668,12 @@
 				"Corto circuito"
 			],
 			"answer": "Corto circuito",
-			"explanation": "Si stacca l'alimentazione e si misura la resistenza fra i due poli: vicino a zero significa che c'è una scorciatoia."
+			"explanation": "Si stacca l'alimentazione e si misura la resistenza fra i due poli: vicino a zero significa che c'è una scorciatoia.",
+			"distractorWhy": {
+				"Condensatore scarico": "Si riconoscerebbe così: «Il condensatore è una piccola riserva: se è scarico, l'impulso dura poco.» — non è l'indizio di questa domanda.",
+				"Resistenza assente": "Si riconoscerebbe così: «La resistenza protegge il LED: senza di lei la corrente è troppo forte.» — non è l'indizio di questa domanda.",
+				"Ritorno instabile": "Si riconoscerebbe così: «Il ritorno al polo negativo deve essere stabile, non funzionare a tratti.» — non è l'indizio di questa domanda."
+			}
 		},
 		{
 			"id": "elettronica-guasto-loose-ground",
@@ -529,7 +689,12 @@
 				"Condensatore scarico"
 			],
 			"answer": "Ritorno instabile",
-			"explanation": "Si muove piano il collegamento di massa a circuito acceso: se l'anomalia va e viene, il contatto non è stabile."
+			"explanation": "Si muove piano il collegamento di massa a circuito acceso: se l'anomalia va e viene, il contatto non è stabile.",
+			"distractorWhy": {
+				"Corto circuito": "Si riconoscerebbe così: «Nel corto la corrente trova una scorciatoia e salta i componenti utili.» — non è l'indizio di questa domanda.",
+				"Relè non attivato": "Si riconoscerebbe così: «Il relè è un interruttore comandato: prima alimenti il comando, poi parte il carico.» — non è l'indizio di questa domanda.",
+				"Condensatore scarico": "Si riconoscerebbe così: «Il condensatore è una piccola riserva: se è scarico, l'impulso dura poco.» — non è l'indizio di questa domanda."
+			}
 		},
 		{
 			"id": "elettronica-guasto-relay-not-armed",
@@ -545,7 +710,12 @@
 				"Condensatore scarico"
 			],
 			"answer": "Relè non attivato",
-			"explanation": "Si ascolta lo scatto: senza il «click» la bobina non è alimentata, e il carico non può partire."
+			"explanation": "Si ascolta lo scatto: senza il «click» la bobina non è alimentata, e il carico non può partire.",
+			"distractorWhy": {
+				"Condensatore scarico": "Si riconoscerebbe così: «Il condensatore è una piccola riserva: se è scarico, l'impulso dura poco.» — non è l'indizio di questa domanda.",
+				"Resistenza assente": "Si riconoscerebbe così: «La resistenza protegge il LED: senza di lei la corrente è troppo forte.» — non è l'indizio di questa domanda.",
+				"Interruttore aperto": "Si riconoscerebbe così: «L'interruttore è come un ponte: se è aperto, la corrente si ferma.» — non è l'indizio di questa domanda."
+			}
 		},
 		{
 			"id": "elettronica-sicurezza-elettrica-0",

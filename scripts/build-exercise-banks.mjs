@@ -78,13 +78,13 @@ function pickDistractors(pool, exclude, count, rand) {
 // restano mescolati tra loro, quindi le alternative non si ripetono in ordine fisso.
 const answerSlotBySubject = new Map();
 
-function multipleChoiceItem({ id, subject, topic, difficulty, prompt, answer, distractors, explanation }, rand) {
+function multipleChoiceItem({ id, subject, topic, difficulty, prompt, answer, distractors, explanation, extra = {} }, rand) {
   const options = shuffle(distractors, rand);
   const slots = options.length + 1;
   const slot = (answerSlotBySubject.get(subject) ?? 0) % slots;
   answerSlotBySubject.set(subject, slot + 1);
   options.splice(slot, 0, answer);
-  return { id, subject, topic, difficulty, format: "multiple_choice", prompt, options, answer, explanation };
+  return { id, subject, topic, difficulty, format: "multiple_choice", prompt, options, answer, explanation, ...extra };
 }
 
 // ---------------------------------------------------------------------------
@@ -145,14 +145,31 @@ function timesItem(a, b, difficulty, rand) {
     explanation,
   };
   if (useNumeric) return { ...base, format: "numeric_input", options: [] };
-  const distractors = new Set();
-  const candidates = [answer + a, answer - a, answer + b, answer - b, answer + 1, answer - 1, a * (b + 1), (a + 1) * b];
+  // Ogni candidato è un errore aritmetico preciso, non un numero a caso: la
+  // stessa formula che lo genera dice perché è sbagliato, quindi la spiegazione
+  // non va inventata a parte, va letta dalla formula (13 agosto 2026).
+  const gruppi = (n) => (n === 1 ? "1 gruppo" : `${n} gruppi`);
+  const candidates = [
+    { value: answer + a, why: `è ${a} in più: sono ${gruppi(b + 1)} da ${a}, non ${b}.` },
+    { value: answer - a, why: `mancano ${a}: sono solo ${gruppi(b - 1)} da ${a}, non ${b}.` },
+    { value: answer + b, why: `è ${b} in più: sono ${gruppi(a + 1)} da ${b}, non ${a}.` },
+    { value: answer - b, why: `mancano ${b}: sono solo ${gruppi(a - 1)} da ${b}, non ${a}.` },
+    { value: answer + 1, why: `è il risultato giusto più uno: un errore di un'unità nel conto finale.` },
+    { value: answer - 1, why: `è il risultato giusto meno uno: un errore di un'unità nel conto finale.` },
+    { value: a * (b + 1), why: `è ${a} × ${b + 1}: un gruppo da ${a} in più di quelli richiesti.` },
+    { value: (a + 1) * b, why: `è ${a + 1} × ${b}: un gruppo da ${b} in più di quelli richiesti.` },
+  ];
+  const distractorWhy = {};
+  const distractors = [];
   for (const c of candidates) {
-    if (c > 0 && c !== answer) distractors.add(c);
-    if (distractors.size >= 3) break;
+    if (c.value > 0 && c.value !== answer && !(String(c.value) in distractorWhy)) {
+      distractorWhy[String(c.value)] = c.why;
+      distractors.push(c.value);
+    }
+    if (distractors.length >= 3) break;
   }
-  const options = shuffle([answer, ...[...distractors].slice(0, 3)], rand).map(String);
-  return { ...base, format: "multiple_choice", options };
+  const options = shuffle([answer, ...distractors], rand).map(String);
+  return { ...base, format: "multiple_choice", options, distractorWhy };
 }
 
 function tabellineBank() {
@@ -226,6 +243,22 @@ function vocabularyBank(subject, entries, { fields, defField, promptFor }) {
     }
     pools.set(field, { byTopic, byClass });
   }
+  // Per ogni valore che può comparire come distrattore, la frase pronta che
+  // spiega perché è sbagliato: il termine → il suo vero significato, il
+  // significato → il suo vero termine. Non è testo inventato: è l'altro campo
+  // della stessa voce del vocabolario. Sostituisce, item per item, la frase
+  // generica «è un'alternativa plausibile» che il manuale mostrava per ogni
+  // esercizio a scelta multipla (vedi KnowledgeCodex._typical_error, 13
+  // agosto 2026).
+  const distractorWhyByField = new Map();
+  for (const field of fields) {
+    const m = new Map();
+    for (const entry of entries) {
+      const other = field === "term" ? entry[defField] : entry.term;
+      m.set(entry[field], `«${entry[field]}» vuol dire «${other}»: un'altra parola, non quella cercata.`);
+    }
+    distractorWhyByField.set(field, m);
+  }
   const items = [];
   entries.forEach((entry, index) => {
     const { prompt, answer, field } = promptFor(entry, index);
@@ -238,6 +271,12 @@ function vocabularyBank(subject, entries, { fields, defField, promptFor }) {
       : fieldPools.byClass.get(entry.wordClass) ?? [];
     const distractors = pickDistractors(pool, answer, 3, rand);
     if (distractors.length < 3) return; // classe troppo piccola, salta (nessun distrattore fittizio)
+    const whyMap = distractorWhyByField.get(field);
+    const distractorWhy = {};
+    for (const d of distractors) {
+      const why = whyMap.get(d);
+      if (why) distractorWhy[d] = why;
+    }
     items.push(
       multipleChoiceItem(
         {
@@ -248,6 +287,7 @@ function vocabularyBank(subject, entries, { fields, defField, promptFor }) {
           prompt,
           answer,
           distractors,
+          extra: { distractorWhy },
           // Quando la voce porta una `note` autorata, quella vince: è il caso
           // dei falsi amici, dove ripetere la coppia è addirittura dannoso
           // («library: biblioteca» non avverte che NON è la libreria).
@@ -493,12 +533,22 @@ function latinoBank(latinNouns, latinNounForm, distinctiveCases) {
   latinNouns.forEach((noun, nounIndex) => {
     const combos = distinctiveCases(noun); // [{kase, number}], già senza collisioni
     const labels = combos.map((c) => `${c.kase} ${c.number}`);
+    const comboByLabel = new Map(combos.map((c) => [`${c.kase} ${c.number}`, c]));
     combos.forEach((combo, comboIndex) => {
       const form = latinNounForm(noun, combo.kase, combo.number);
       const answer = `${combo.kase} ${combo.number}`;
       const distractors = pickDistractors(labels, answer, 3, rand);
       if (distractors.length < 3) return;
       const difficulty = noun.tier === 1 ? (comboIndex % 2 === 0 ? 1 : 2) : (comboIndex % 2 === 0 ? 3 : 4);
+      // Perché il distrattore è sbagliato: quella coppia caso/numero esiste
+      // davvero per questo nome, ma darebbe un'ALTRA forma. Calcolato, non
+      // inventato: la stessa `latinNounForm` che genera l'item.
+      const distractorWhy = {};
+      for (const label of distractors) {
+        const c = comboByLabel.get(label);
+        if (!c) continue;
+        distractorWhy[label] = `«${label}» di «${noun.nomSg}» si scriverebbe «${latinNounForm(noun, c.kase, c.number)}», non «${form}».`;
+      }
       items.push(
         multipleChoiceItem(
           {
@@ -510,6 +560,7 @@ function latinoBank(latinNouns, latinNounForm, distinctiveCases) {
             answer,
             distractors,
             explanation: declensionExplanation(noun, combo, form),
+            extra: { distractorWhy },
           },
           rand,
         ),
@@ -671,9 +722,16 @@ function elettronicaBank(circuitComponentGuide, circuitFaultTemplates) {
   const items = [];
   const functionPool = circuitComponentGuide.map((c) => c.functionSummary);
   const confusionPool = circuitComponentGuide.map((c) => c.commonConfusion);
+  // Il proprietario di ogni funzione/attenzione: un distrattore non è "un'altra
+  // frase plausibile", è la funzione VERA di un altro componente — dirlo non
+  // richiede testo nuovo, solo la mappa inversa (13 agosto 2026).
+  const labelByFunction = new Map(circuitComponentGuide.map((c) => [c.functionSummary, c.label]));
+  const labelByConfusion = new Map(circuitComponentGuide.map((c) => [c.commonConfusion, c.label]));
   for (const component of circuitComponentGuide) {
     const funcDistractors = pickDistractors(functionPool, component.functionSummary, 3, rand);
     if (funcDistractors.length === 3) {
+      const distractorWhy = {};
+      for (const d of funcDistractors) distractorWhy[d] = `È la funzione di «${labelByFunction.get(d)}», non di «${component.label}».`;
       items.push(
         multipleChoiceItem(
           {
@@ -685,6 +743,7 @@ function elettronicaBank(circuitComponentGuide, circuitFaultTemplates) {
             answer: component.functionSummary,
             distractors: funcDistractors,
             explanation: `${component.label}: ${component.role}.`,
+            extra: { distractorWhy },
           },
           rand,
         ),
@@ -692,6 +751,8 @@ function elettronicaBank(circuitComponentGuide, circuitFaultTemplates) {
     }
     const confusionDistractors = pickDistractors(confusionPool, component.commonConfusion, 3, rand);
     if (confusionDistractors.length === 3) {
+      const distractorWhy = {};
+      for (const d of confusionDistractors) distractorWhy[d] = `Riguarda «${labelByConfusion.get(d)}», non «${component.label}».`;
       items.push(
         multipleChoiceItem(
           {
@@ -703,6 +764,7 @@ function elettronicaBank(circuitComponentGuide, circuitFaultTemplates) {
             answer: component.commonConfusion,
             distractors: confusionDistractors,
             explanation: `${component.label}: ${component.check}.`,
+            extra: { distractorWhy },
           },
           rand,
         ),
@@ -710,9 +772,12 @@ function elettronicaBank(circuitComponentGuide, circuitFaultTemplates) {
     }
   }
   const faultLabels = circuitFaultTemplates.map((f) => f.label);
+  const hintByLabel = new Map(circuitFaultTemplates.map((f) => [f.label, f.hint]));
   for (const fault of circuitFaultTemplates) {
     const distractors = pickDistractors(faultLabels, fault.label, 3, rand);
     if (distractors.length < 3) continue;
+    const distractorWhy = {};
+    for (const d of distractors) distractorWhy[d] = `Si riconoscerebbe così: «${hintByLabel.get(d)}» — non è l'indizio di questa domanda.`;
     items.push(
       multipleChoiceItem(
         {
@@ -727,6 +792,7 @@ function elettronicaBank(circuitComponentGuide, circuitFaultTemplates) {
           // spiegazione faceva rileggere al bambino la stessa identica frase.
           // Qui serve il passo dopo — come si verifica quel guasto sul banco.
           explanation: VERIFICA_GUASTO[fault.type] ?? fault.hint,
+          extra: { distractorWhy },
         },
         rand,
       ),
@@ -1159,6 +1225,12 @@ function curatedTheoryBank(subject, topics, seed) {
   // distrattori che appartengono a un argomento sovrapposto a quello chiesto.
   const definitionCandidates = topics.map((t) => ({ value: t.definition, owner: t.title }));
   const watchOutCandidates = topics.map((t) => ({ value: t.watchOut[0], owner: t.title }));
+  // Ogni distrattore È vero, solo di un altro argomento: il proprietario è già
+  // scritto nel candidato (`owner`), quindi il perché non va inventato — va
+  // solo letto (13 agosto 2026).
+  const ownerByDef = new Map(definitionCandidates.map((c) => [c.value, c.owner]));
+  const ownerByWatch = new Map(watchOutCandidates.map((c) => [c.value, c.owner]));
+  const ownerByExample = new Map(topics.map((t) => [t.example.answer, t.title]));
   const items = [];
   for (const topic of topics) {
     const canonTopic = areaOf(topic);
@@ -1171,6 +1243,8 @@ function curatedTheoryBank(subject, topics, seed) {
     // correttamente il calore e la temperatura?» sì.
     const defDistractors = otherTopicDistractors(definitionCandidates, topic.title, topic.definition, rand);
     if (defDistractors.length === 3) {
+      const distractorWhy = {};
+      for (const d of defDistractors) distractorWhy[d] = `È vera, ma descrive «${ownerByDef.get(d)}», non «${topic.title}».`;
       items.push(
         multipleChoiceItem(
           {
@@ -1185,6 +1259,7 @@ function curatedTheoryBank(subject, topics, seed) {
             // cosa utile è dirgli DOVE stava la trappola: le altre affermazioni
             // sono vere, ma parlano d'altro.
             explanation: `${topic.definition} Le altre affermazioni sono vere, ma descrivono un altro argomento.`,
+            extra: { distractorWhy },
           },
           rand,
         ),
@@ -1192,6 +1267,11 @@ function curatedTheoryBank(subject, topics, seed) {
     }
     const exDistractors = nearestFirst(exampleAnswers, sameArea.map((t) => t.example.answer), topic.example.answer, rand);
     if (exDistractors.length === 3) {
+      const distractorWhy = {};
+      for (const d of exDistractors) {
+        const owner = ownerByExample.get(d);
+        if (owner && owner !== topic.title) distractorWhy[d] = `È la risposta giusta per «${owner}», non per questo esempio.`;
+      }
       items.push(
         multipleChoiceItem(
           {
@@ -1208,6 +1288,7 @@ function curatedTheoryBank(subject, topics, seed) {
             // quando i numeri dell'esercizio sono cambiati.
             explanation: (topic.example.why ? topic.example.why + " " : "")
               + topic.example.steps.join(" → ") + ".",
+            extra: { distractorWhy },
           },
           rand,
         ),
@@ -1215,6 +1296,8 @@ function curatedTheoryBank(subject, topics, seed) {
     }
     const watchDistractors = otherTopicDistractors(watchOutCandidates, topic.title, topic.watchOut[0], rand);
     if (watchDistractors.length === 3) {
+      const distractorWhy = {};
+      for (const d of watchDistractors) distractorWhy[d] = `È un errore vero, ma riguarda «${ownerByWatch.get(d)}», non «${topic.title}».`;
       items.push(
         multipleChoiceItem(
           {
@@ -1229,6 +1312,7 @@ function curatedTheoryBank(subject, topics, seed) {
             // quale argomento appartiene ciascuno. Ripetere la risposta non
             // aiuterebbe chi ha sbagliato proprio quello.
             explanation: `${topic.watchOut[0]} Anche le altre sono avvertenze giuste, ma riguardano un altro argomento.`,
+            extra: { distractorWhy },
           },
           rand,
         ),

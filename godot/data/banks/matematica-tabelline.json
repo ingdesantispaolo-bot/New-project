@@ -18,7 +18,12 @@
 				"6",
 				"4",
 				"5"
-			]
+			],
+			"distractorWhy": {
+				"2": "mancano 2: sono solo 1 gruppo da 2, non 2.",
+				"5": "è il risultato giusto più uno: un errore di un'unità nel conto finale.",
+				"6": "è 2 in più: sono 3 gruppi da 2, non 2."
+			}
 		},
 		{
 			"id": "math-times-2x3-d1",
@@ -34,7 +39,12 @@
 				"6",
 				"9",
 				"8"
-			]
+			],
+			"distractorWhy": {
+				"4": "mancano 2: sono solo 2 gruppi da 2, non 3.",
+				"8": "è 2 in più: sono 4 gruppi da 2, non 3.",
+				"9": "è 3 in più: sono 3 gruppi da 3, non 2."
+			}
 		},
 		{
 			"id": "math-times-2x4-d1",
@@ -50,7 +60,12 @@
 				"8",
 				"6",
 				"10"
-			]
+			],
+			"distractorWhy": {
+				"6": "mancano 2: sono solo 3 gruppi da 2, non 4.",
+				"10": "è 2 in più: sono 5 gruppi da 2, non 4.",
+				"12": "è 4 in più: sono 3 gruppi da 4, non 2."
+			}
 		},
 		{
 			"id": "math-times-2x5-d1",
@@ -66,7 +81,12 @@
 				"10",
 				"15",
 				"12"
-			]
+			],
+			"distractorWhy": {
+				"8": "mancano 2: sono solo 4 gruppi da 2, non 5.",
+				"12": "è 2 in più: sono 6 gruppi da 2, non 5.",
+				"15": "è 5 in più: sono 3 gruppi da 5, non 2."
+			}
 		},
 		{
 			"id": "math-times-3x2-d1",
@@ -115,7 +135,12 @@
 				"18",
 				"20",
 				"12"
-			]
+			],
+			"distractorWhy": {
+				"12": "mancano 3: sono solo 4 gruppi da 3, non 5.",
+				"18": "è 3 in più: sono 6 gruppi da 3, non 5.",
+				"20": "è 5 in più: sono 4 gruppi da 5, non 3."
+			}
 		},
 		{
 			"id": "math-times-4x2-d1",
@@ -131,7 +156,12 @@
 				"10",
 				"4",
 				"12"
-			]
+			],
+			"distractorWhy": {
+				"4": "mancano 4: sono solo 1 gruppo da 4, non 2.",
+				"10": "è 2 in più: sono 5 gruppi da 2, non 4.",
+				"12": "è 4 in più: sono 3 gruppi da 4, non 2."
+			}
 		},
 		{
 			"id": "math-times-4x3-d1",
@@ -147,7 +177,12 @@
 				"15",
 				"8",
 				"16"
-			]
+			],
+			"distractorWhy": {
+				"8": "mancano 4: sono solo 2 gruppi da 4, non 3.",
+				"15": "è 3 in più: sono 5 gruppi da 3, non 4.",
+				"16": "è 4 in più: sono 4 gruppi da 4, non 3."
+			}
 		},
 		{
 			"id": "math-times-4x4-d1",
@@ -169,7 +204,12 @@
 			"answer": "20",
 			"explanation": "Se non ricordi 4 × 5, per 5 fai la metà di 4 × 10, cioè la metà di 40: fa 20. E 5 × 4 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"16": "mancano 4: sono solo 4 gruppi da 4, non 5.",
+				"24": "è 4 in più: sono 6 gruppi da 4, non 5.",
+				"25": "è 5 in più: sono 5 gruppi da 5, non 4."
+			}
 		},
 		{
 			"id": "math-times-5x2-d1",
@@ -196,7 +236,12 @@
 				"10",
 				"20",
 				"15"
-			]
+			],
+			"distractorWhy": {
+				"10": "mancano 5: sono solo 2 gruppi da 5, non 3.",
+				"18": "è 3 in più: sono 6 gruppi da 3, non 5.",
+				"20": "è 5 in più: sono 4 gruppi da 5, non 3."
+			}
 		},
 		{
 			"id": "math-times-5x4-d1",
@@ -212,7 +257,12 @@
 				"20",
 				"15",
 				"25"
-			]
+			],
+			"distractorWhy": {
+				"15": "mancano 5: sono solo 3 gruppi da 5, non 4.",
+				"24": "è 4 in più: sono 6 gruppi da 4, non 5.",
+				"25": "è 5 in più: sono 5 gruppi da 5, non 4."
+			}
 		},
 		{
 			"id": "math-times-5x5-d1",
@@ -228,7 +278,12 @@
 				"25",
 				"26",
 				"20"
-			]
+			],
+			"distractorWhy": {
+				"20": "mancano 5: sono solo 4 gruppi da 5, non 5.",
+				"26": "è il risultato giusto più uno: un errore di un'unità nel conto finale.",
+				"30": "è 5 in più: sono 6 gruppi da 5, non 5."
+			}
 		},
 		{
 			"id": "math-times-2x2-d2",
@@ -244,7 +299,12 @@
 				"2",
 				"6",
 				"5"
-			]
+			],
+			"distractorWhy": {
+				"2": "mancano 2: sono solo 1 gruppo da 2, non 2.",
+				"5": "è il risultato giusto più uno: un errore di un'unità nel conto finale.",
+				"6": "è 2 in più: sono 3 gruppi da 2, non 2."
+			}
 		},
 		{
 			"id": "math-times-2x3-d2",
@@ -260,7 +320,12 @@
 				"6",
 				"9",
 				"4"
-			]
+			],
+			"distractorWhy": {
+				"4": "mancano 2: sono solo 2 gruppi da 2, non 3.",
+				"8": "è 2 in più: sono 4 gruppi da 2, non 3.",
+				"9": "è 3 in più: sono 3 gruppi da 3, non 2."
+			}
 		},
 		{
 			"id": "math-times-2x4-d2",
@@ -276,7 +341,12 @@
 				"8",
 				"6",
 				"10"
-			]
+			],
+			"distractorWhy": {
+				"6": "mancano 2: sono solo 3 gruppi da 2, non 4.",
+				"10": "è 2 in più: sono 5 gruppi da 2, non 4.",
+				"12": "è 4 in più: sono 3 gruppi da 4, non 2."
+			}
 		},
 		{
 			"id": "math-times-2x5-d2",
@@ -292,7 +362,12 @@
 				"8",
 				"15",
 				"12"
-			]
+			],
+			"distractorWhy": {
+				"8": "mancano 2: sono solo 4 gruppi da 2, non 5.",
+				"12": "è 2 in più: sono 6 gruppi da 2, non 5.",
+				"15": "è 5 in più: sono 3 gruppi da 5, non 2."
+			}
 		},
 		{
 			"id": "math-times-2x6-d2",
@@ -319,7 +394,12 @@
 				"14",
 				"12",
 				"16"
-			]
+			],
+			"distractorWhy": {
+				"12": "mancano 2: sono solo 6 gruppi da 2, non 7.",
+				"16": "è 2 in più: sono 8 gruppi da 2, non 7.",
+				"21": "è 7 in più: sono 3 gruppi da 7, non 2."
+			}
 		},
 		{
 			"id": "math-times-2x8-d2",
@@ -335,7 +415,12 @@
 				"14",
 				"18",
 				"24"
-			]
+			],
+			"distractorWhy": {
+				"14": "mancano 2: sono solo 7 gruppi da 2, non 8.",
+				"18": "è 2 in più: sono 9 gruppi da 2, non 8.",
+				"24": "è 8 in più: sono 3 gruppi da 8, non 2."
+			}
 		},
 		{
 			"id": "math-times-2x9-d2",
@@ -351,7 +436,12 @@
 				"16",
 				"27",
 				"18"
-			]
+			],
+			"distractorWhy": {
+				"16": "mancano 2: sono solo 8 gruppi da 2, non 9.",
+				"20": "è 2 in più: sono 10 gruppi da 2, non 9.",
+				"27": "è 9 in più: sono 3 gruppi da 9, non 2."
+			}
 		},
 		{
 			"id": "math-times-2x10-d2",
@@ -367,7 +457,12 @@
 				"30",
 				"20",
 				"18"
-			]
+			],
+			"distractorWhy": {
+				"18": "mancano 2: sono solo 9 gruppi da 2, non 10.",
+				"22": "è 2 in più: sono 11 gruppi da 2, non 10.",
+				"30": "è 10 in più: sono 3 gruppi da 10, non 2."
+			}
 		},
 		{
 			"id": "math-times-3x2-d2",
@@ -383,7 +478,12 @@
 				"3",
 				"9",
 				"8"
-			]
+			],
+			"distractorWhy": {
+				"3": "mancano 3: sono solo 1 gruppo da 3, non 2.",
+				"8": "è 2 in più: sono 4 gruppi da 2, non 3.",
+				"9": "è 3 in più: sono 3 gruppi da 3, non 2."
+			}
 		},
 		{
 			"id": "math-times-3x3-d2",
@@ -399,7 +499,12 @@
 				"9",
 				"10",
 				"6"
-			]
+			],
+			"distractorWhy": {
+				"6": "mancano 3: sono solo 2 gruppi da 3, non 3.",
+				"10": "è il risultato giusto più uno: un errore di un'unità nel conto finale.",
+				"12": "è 3 in più: sono 4 gruppi da 3, non 3."
+			}
 		},
 		{
 			"id": "math-times-3x4-d2",
@@ -426,7 +531,12 @@
 				"15",
 				"20",
 				"18"
-			]
+			],
+			"distractorWhy": {
+				"12": "mancano 3: sono solo 4 gruppi da 3, non 5.",
+				"18": "è 3 in più: sono 6 gruppi da 3, non 5.",
+				"20": "è 5 in più: sono 4 gruppi da 5, non 3."
+			}
 		},
 		{
 			"id": "math-times-3x6-d2",
@@ -442,7 +552,12 @@
 				"15",
 				"21",
 				"18"
-			]
+			],
+			"distractorWhy": {
+				"15": "mancano 3: sono solo 5 gruppi da 3, non 6.",
+				"21": "è 3 in più: sono 7 gruppi da 3, non 6.",
+				"24": "è 6 in più: sono 4 gruppi da 6, non 3."
+			}
 		},
 		{
 			"id": "math-times-3x7-d2",
@@ -469,7 +584,12 @@
 				"24",
 				"27",
 				"32"
-			]
+			],
+			"distractorWhy": {
+				"21": "mancano 3: sono solo 7 gruppi da 3, non 8.",
+				"27": "è 3 in più: sono 9 gruppi da 3, non 8.",
+				"32": "è 8 in più: sono 4 gruppi da 8, non 3."
+			}
 		},
 		{
 			"id": "math-times-3x9-d2",
@@ -485,7 +605,12 @@
 				"30",
 				"27",
 				"36"
-			]
+			],
+			"distractorWhy": {
+				"24": "mancano 3: sono solo 8 gruppi da 3, non 9.",
+				"30": "è 3 in più: sono 10 gruppi da 3, non 9.",
+				"36": "è 9 in più: sono 4 gruppi da 9, non 3."
+			}
 		},
 		{
 			"id": "math-times-3x10-d2",
@@ -501,7 +626,12 @@
 				"30",
 				"27",
 				"33"
-			]
+			],
+			"distractorWhy": {
+				"27": "mancano 3: sono solo 9 gruppi da 3, non 10.",
+				"33": "è 3 in più: sono 11 gruppi da 3, non 10.",
+				"40": "è 10 in più: sono 4 gruppi da 10, non 3."
+			}
 		},
 		{
 			"id": "math-times-4x2-d2",
@@ -517,7 +647,12 @@
 				"8",
 				"10",
 				"4"
-			]
+			],
+			"distractorWhy": {
+				"4": "mancano 4: sono solo 1 gruppo da 4, non 2.",
+				"10": "è 2 in più: sono 5 gruppi da 2, non 4.",
+				"12": "è 4 in più: sono 3 gruppi da 4, non 2."
+			}
 		},
 		{
 			"id": "math-times-4x3-d2",
@@ -555,7 +690,12 @@
 				"24",
 				"20",
 				"25"
-			]
+			],
+			"distractorWhy": {
+				"16": "mancano 4: sono solo 4 gruppi da 4, non 5.",
+				"24": "è 4 in più: sono 6 gruppi da 4, non 5.",
+				"25": "è 5 in più: sono 5 gruppi da 5, non 4."
+			}
 		},
 		{
 			"id": "math-times-4x6-d2",
@@ -604,7 +744,12 @@
 				"36",
 				"45",
 				"40"
-			]
+			],
+			"distractorWhy": {
+				"32": "mancano 4: sono solo 8 gruppi da 4, non 9.",
+				"40": "è 4 in più: sono 10 gruppi da 4, non 9.",
+				"45": "è 9 in più: sono 5 gruppi da 9, non 4."
+			}
 		},
 		{
 			"id": "math-times-4x10-d2",
@@ -653,7 +798,12 @@
 				"25",
 				"24",
 				"15"
-			]
+			],
+			"distractorWhy": {
+				"15": "mancano 5: sono solo 3 gruppi da 5, non 4.",
+				"24": "è 4 in più: sono 6 gruppi da 4, non 5.",
+				"25": "è 5 in più: sono 5 gruppi da 5, non 4."
+			}
 		},
 		{
 			"id": "math-times-5x5-d2",
@@ -669,7 +819,12 @@
 				"20",
 				"26",
 				"25"
-			]
+			],
+			"distractorWhy": {
+				"20": "mancano 5: sono solo 4 gruppi da 5, non 5.",
+				"26": "è il risultato giusto più uno: un errore di un'unità nel conto finale.",
+				"30": "è 5 in più: sono 6 gruppi da 5, non 5."
+			}
 		},
 		{
 			"id": "math-times-5x6-d2",
@@ -685,7 +840,12 @@
 				"25",
 				"36",
 				"35"
-			]
+			],
+			"distractorWhy": {
+				"25": "mancano 5: sono solo 5 gruppi da 5, non 6.",
+				"35": "è 5 in più: sono 7 gruppi da 5, non 6.",
+				"36": "è 6 in più: sono 6 gruppi da 6, non 5."
+			}
 		},
 		{
 			"id": "math-times-5x7-d2",
@@ -701,7 +861,12 @@
 				"35",
 				"42",
 				"40"
-			]
+			],
+			"distractorWhy": {
+				"30": "mancano 5: sono solo 6 gruppi da 5, non 7.",
+				"40": "è 5 in più: sono 8 gruppi da 5, non 7.",
+				"42": "è 7 in più: sono 6 gruppi da 7, non 5."
+			}
 		},
 		{
 			"id": "math-times-5x8-d2",
@@ -717,7 +882,12 @@
 				"35",
 				"48",
 				"40"
-			]
+			],
+			"distractorWhy": {
+				"35": "mancano 5: sono solo 7 gruppi da 5, non 8.",
+				"45": "è 5 in più: sono 9 gruppi da 5, non 8.",
+				"48": "è 8 in più: sono 6 gruppi da 8, non 5."
+			}
 		},
 		{
 			"id": "math-times-5x9-d2",
@@ -744,7 +914,12 @@
 				"55",
 				"50",
 				"45"
-			]
+			],
+			"distractorWhy": {
+				"45": "mancano 5: sono solo 9 gruppi da 5, non 10.",
+				"55": "è 5 in più: sono 11 gruppi da 5, non 10.",
+				"60": "è 10 in più: sono 6 gruppi da 10, non 5."
+			}
 		},
 		{
 			"id": "math-times-6x2-d2",
@@ -760,7 +935,12 @@
 				"6",
 				"14",
 				"12"
-			]
+			],
+			"distractorWhy": {
+				"6": "mancano 6: sono solo 1 gruppo da 6, non 2.",
+				"14": "è 2 in più: sono 7 gruppi da 2, non 6.",
+				"18": "è 6 in più: sono 3 gruppi da 6, non 2."
+			}
 		},
 		{
 			"id": "math-times-6x3-d2",
@@ -776,7 +956,12 @@
 				"24",
 				"12",
 				"18"
-			]
+			],
+			"distractorWhy": {
+				"12": "mancano 6: sono solo 2 gruppi da 6, non 3.",
+				"21": "è 3 in più: sono 7 gruppi da 3, non 6.",
+				"24": "è 6 in più: sono 4 gruppi da 6, non 3."
+			}
 		},
 		{
 			"id": "math-times-6x4-d2",
@@ -803,7 +988,12 @@
 				"35",
 				"36",
 				"24"
-			]
+			],
+			"distractorWhy": {
+				"24": "mancano 6: sono solo 4 gruppi da 6, non 5.",
+				"35": "è 5 in più: sono 7 gruppi da 5, non 6.",
+				"36": "è 6 in più: sono 6 gruppi da 6, non 5."
+			}
 		},
 		{
 			"id": "math-times-6x6-d2",
@@ -830,7 +1020,12 @@
 				"36",
 				"49",
 				"42"
-			]
+			],
+			"distractorWhy": {
+				"36": "mancano 6: sono solo 6 gruppi da 6, non 7.",
+				"48": "è 6 in più: sono 8 gruppi da 6, non 7.",
+				"49": "è 7 in più: sono 7 gruppi da 7, non 6."
+			}
 		},
 		{
 			"id": "math-times-6x8-d2",
@@ -846,7 +1041,12 @@
 				"54",
 				"48",
 				"56"
-			]
+			],
+			"distractorWhy": {
+				"42": "mancano 6: sono solo 7 gruppi da 6, non 8.",
+				"54": "è 6 in più: sono 9 gruppi da 6, non 8.",
+				"56": "è 8 in più: sono 7 gruppi da 8, non 6."
+			}
 		},
 		{
 			"id": "math-times-6x9-d2",
@@ -862,7 +1062,12 @@
 				"54",
 				"63",
 				"60"
-			]
+			],
+			"distractorWhy": {
+				"48": "mancano 6: sono solo 8 gruppi da 6, non 9.",
+				"60": "è 6 in più: sono 10 gruppi da 6, non 9.",
+				"63": "è 9 in più: sono 7 gruppi da 9, non 6."
+			}
 		},
 		{
 			"id": "math-times-6x10-d2",
@@ -873,7 +1078,12 @@
 			"answer": "60",
 			"explanation": "Se non ricordi 6 × 10, per 10 basta aggiungere uno zero: 6 diventa 60. E 10 × 6 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"54": "mancano 6: sono solo 9 gruppi da 6, non 10.",
+				"66": "è 6 in più: sono 11 gruppi da 6, non 10.",
+				"70": "è 10 in più: sono 7 gruppi da 10, non 6."
+			}
 		},
 		{
 			"id": "math-times-7x2-d2",
@@ -889,7 +1099,12 @@
 				"21",
 				"16",
 				"7"
-			]
+			],
+			"distractorWhy": {
+				"7": "mancano 7: sono solo 1 gruppo da 7, non 2.",
+				"16": "è 2 in più: sono 8 gruppi da 2, non 7.",
+				"21": "è 7 in più: sono 3 gruppi da 7, non 2."
+			}
 		},
 		{
 			"id": "math-times-7x3-d2",
@@ -905,7 +1120,12 @@
 				"24",
 				"14",
 				"28"
-			]
+			],
+			"distractorWhy": {
+				"14": "mancano 7: sono solo 2 gruppi da 7, non 3.",
+				"24": "è 3 in più: sono 8 gruppi da 3, non 7.",
+				"28": "è 7 in più: sono 4 gruppi da 7, non 3."
+			}
 		},
 		{
 			"id": "math-times-7x4-d2",
@@ -943,7 +1163,12 @@
 				"35",
 				"48",
 				"49"
-			]
+			],
+			"distractorWhy": {
+				"35": "mancano 7: sono solo 5 gruppi da 7, non 6.",
+				"48": "è 6 in più: sono 8 gruppi da 6, non 7.",
+				"49": "è 7 in più: sono 7 gruppi da 7, non 6."
+			}
 		},
 		{
 			"id": "math-times-7x7-d2",
@@ -959,7 +1184,12 @@
 				"56",
 				"42",
 				"49"
-			]
+			],
+			"distractorWhy": {
+				"42": "mancano 7: sono solo 6 gruppi da 7, non 7.",
+				"50": "è il risultato giusto più uno: un errore di un'unità nel conto finale.",
+				"56": "è 7 in più: sono 8 gruppi da 7, non 7."
+			}
 		},
 		{
 			"id": "math-times-7x8-d2",
@@ -975,7 +1205,12 @@
 				"49",
 				"63",
 				"64"
-			]
+			],
+			"distractorWhy": {
+				"49": "mancano 7: sono solo 7 gruppi da 7, non 8.",
+				"63": "è 7 in più: sono 9 gruppi da 7, non 8.",
+				"64": "è 8 in più: sono 8 gruppi da 8, non 7."
+			}
 		},
 		{
 			"id": "math-times-7x9-d2",
@@ -991,7 +1226,12 @@
 				"72",
 				"56",
 				"70"
-			]
+			],
+			"distractorWhy": {
+				"56": "mancano 7: sono solo 8 gruppi da 7, non 9.",
+				"70": "è 7 in più: sono 10 gruppi da 7, non 9.",
+				"72": "è 9 in più: sono 8 gruppi da 9, non 7."
+			}
 		},
 		{
 			"id": "math-times-7x10-d2",
@@ -1007,7 +1247,12 @@
 				"70",
 				"77",
 				"63"
-			]
+			],
+			"distractorWhy": {
+				"63": "mancano 7: sono solo 9 gruppi da 7, non 10.",
+				"77": "è 7 in più: sono 11 gruppi da 7, non 10.",
+				"80": "è 10 in più: sono 8 gruppi da 10, non 7."
+			}
 		},
 		{
 			"id": "math-times-8x2-d2",
@@ -1023,7 +1268,12 @@
 				"24",
 				"16",
 				"8"
-			]
+			],
+			"distractorWhy": {
+				"8": "mancano 8: sono solo 1 gruppo da 8, non 2.",
+				"18": "è 2 in più: sono 9 gruppi da 2, non 8.",
+				"24": "è 8 in più: sono 3 gruppi da 8, non 2."
+			}
 		},
 		{
 			"id": "math-times-8x3-d2",
@@ -1039,7 +1289,12 @@
 				"27",
 				"32",
 				"16"
-			]
+			],
+			"distractorWhy": {
+				"16": "mancano 8: sono solo 2 gruppi da 8, non 3.",
+				"27": "è 3 in più: sono 9 gruppi da 3, non 8.",
+				"32": "è 8 in più: sono 4 gruppi da 8, non 3."
+			}
 		},
 		{
 			"id": "math-times-8x4-d2",
@@ -1055,7 +1310,12 @@
 				"32",
 				"36",
 				"40"
-			]
+			],
+			"distractorWhy": {
+				"24": "mancano 8: sono solo 3 gruppi da 8, non 4.",
+				"36": "è 4 in più: sono 9 gruppi da 4, non 8.",
+				"40": "è 8 in più: sono 5 gruppi da 8, non 4."
+			}
 		},
 		{
 			"id": "math-times-8x5-d2",
@@ -1082,7 +1342,12 @@
 				"48",
 				"40",
 				"54"
-			]
+			],
+			"distractorWhy": {
+				"40": "mancano 8: sono solo 5 gruppi da 8, non 6.",
+				"54": "è 6 in più: sono 9 gruppi da 6, non 8.",
+				"56": "è 8 in più: sono 7 gruppi da 8, non 6."
+			}
 		},
 		{
 			"id": "math-times-8x7-d2",
@@ -1098,7 +1363,12 @@
 				"56",
 				"63",
 				"64"
-			]
+			],
+			"distractorWhy": {
+				"48": "mancano 8: sono solo 6 gruppi da 8, non 7.",
+				"63": "è 7 in più: sono 9 gruppi da 7, non 8.",
+				"64": "è 8 in più: sono 8 gruppi da 8, non 7."
+			}
 		},
 		{
 			"id": "math-times-8x8-d2",
@@ -1114,7 +1384,12 @@
 				"64",
 				"72",
 				"65"
-			]
+			],
+			"distractorWhy": {
+				"56": "mancano 8: sono solo 7 gruppi da 8, non 8.",
+				"65": "è il risultato giusto più uno: un errore di un'unità nel conto finale.",
+				"72": "è 8 in più: sono 9 gruppi da 8, non 8."
+			}
 		},
 		{
 			"id": "math-times-8x9-d2",
@@ -1141,7 +1416,12 @@
 				"88",
 				"90",
 				"80"
-			]
+			],
+			"distractorWhy": {
+				"72": "mancano 8: sono solo 9 gruppi da 8, non 10.",
+				"88": "è 8 in più: sono 11 gruppi da 8, non 10.",
+				"90": "è 10 in più: sono 9 gruppi da 10, non 8."
+			}
 		},
 		{
 			"id": "math-times-9x2-d2",
@@ -1157,7 +1437,12 @@
 				"27",
 				"18",
 				"9"
-			]
+			],
+			"distractorWhy": {
+				"9": "mancano 9: sono solo 1 gruppo da 9, non 2.",
+				"20": "è 2 in più: sono 10 gruppi da 2, non 9.",
+				"27": "è 9 in più: sono 3 gruppi da 9, non 2."
+			}
 		},
 		{
 			"id": "math-times-9x3-d2",
@@ -1173,7 +1458,12 @@
 				"27",
 				"30",
 				"36"
-			]
+			],
+			"distractorWhy": {
+				"18": "mancano 9: sono solo 2 gruppi da 9, non 3.",
+				"30": "è 3 in più: sono 10 gruppi da 3, non 9.",
+				"36": "è 9 in più: sono 4 gruppi da 9, non 3."
+			}
 		},
 		{
 			"id": "math-times-9x4-d2",
@@ -1189,7 +1479,12 @@
 				"40",
 				"36",
 				"27"
-			]
+			],
+			"distractorWhy": {
+				"27": "mancano 9: sono solo 3 gruppi da 9, non 4.",
+				"40": "è 4 in più: sono 10 gruppi da 4, non 9.",
+				"45": "è 9 in più: sono 5 gruppi da 9, non 4."
+			}
 		},
 		{
 			"id": "math-times-9x5-d2",
@@ -1205,7 +1500,12 @@
 				"45",
 				"36",
 				"50"
-			]
+			],
+			"distractorWhy": {
+				"36": "mancano 9: sono solo 4 gruppi da 9, non 5.",
+				"50": "è 5 in più: sono 10 gruppi da 5, non 9.",
+				"54": "è 9 in più: sono 6 gruppi da 9, non 5."
+			}
 		},
 		{
 			"id": "math-times-9x6-d2",
@@ -1232,7 +1532,12 @@
 				"72",
 				"63",
 				"54"
-			]
+			],
+			"distractorWhy": {
+				"54": "mancano 9: sono solo 6 gruppi da 9, non 7.",
+				"70": "è 7 in più: sono 10 gruppi da 7, non 9.",
+				"72": "è 9 in più: sono 8 gruppi da 9, non 7."
+			}
 		},
 		{
 			"id": "math-times-9x8-d2",
@@ -1248,7 +1553,12 @@
 				"81",
 				"72",
 				"63"
-			]
+			],
+			"distractorWhy": {
+				"63": "mancano 9: sono solo 7 gruppi da 9, non 8.",
+				"80": "è 8 in più: sono 10 gruppi da 8, non 9.",
+				"81": "è 9 in più: sono 9 gruppi da 9, non 8."
+			}
 		},
 		{
 			"id": "math-times-9x9-d2",
@@ -1264,7 +1574,12 @@
 				"90",
 				"81",
 				"82"
-			]
+			],
+			"distractorWhy": {
+				"72": "mancano 9: sono solo 8 gruppi da 9, non 9.",
+				"82": "è il risultato giusto più uno: un errore di un'unità nel conto finale.",
+				"90": "è 9 in più: sono 10 gruppi da 9, non 9."
+			}
 		},
 		{
 			"id": "math-times-9x10-d2",
@@ -1302,7 +1617,12 @@
 				"40",
 				"33",
 				"20"
-			]
+			],
+			"distractorWhy": {
+				"20": "mancano 10: sono solo 2 gruppi da 10, non 3.",
+				"33": "è 3 in più: sono 11 gruppi da 3, non 10.",
+				"40": "è 10 in più: sono 4 gruppi da 10, non 3."
+			}
 		},
 		{
 			"id": "math-times-10x4-d2",
@@ -1318,7 +1638,12 @@
 				"30",
 				"40",
 				"50"
-			]
+			],
+			"distractorWhy": {
+				"30": "mancano 10: sono solo 3 gruppi da 10, non 4.",
+				"44": "è 4 in più: sono 11 gruppi da 4, non 10.",
+				"50": "è 10 in più: sono 5 gruppi da 10, non 4."
+			}
 		},
 		{
 			"id": "math-times-10x5-d2",
@@ -1334,7 +1659,12 @@
 				"40",
 				"50",
 				"55"
-			]
+			],
+			"distractorWhy": {
+				"40": "mancano 10: sono solo 4 gruppi da 10, non 5.",
+				"55": "è 5 in più: sono 11 gruppi da 5, non 10.",
+				"60": "è 10 in più: sono 6 gruppi da 10, non 5."
+			}
 		},
 		{
 			"id": "math-times-10x6-d2",
@@ -1361,7 +1691,12 @@
 				"80",
 				"77",
 				"60"
-			]
+			],
+			"distractorWhy": {
+				"60": "mancano 10: sono solo 6 gruppi da 10, non 7.",
+				"77": "è 7 in più: sono 11 gruppi da 7, non 10.",
+				"80": "è 10 in più: sono 8 gruppi da 10, non 7."
+			}
 		},
 		{
 			"id": "math-times-10x8-d2",
@@ -1377,7 +1712,12 @@
 				"90",
 				"88",
 				"70"
-			]
+			],
+			"distractorWhy": {
+				"70": "mancano 10: sono solo 7 gruppi da 10, non 8.",
+				"88": "è 8 in più: sono 11 gruppi da 8, non 10.",
+				"90": "è 10 in più: sono 9 gruppi da 10, non 8."
+			}
 		},
 		{
 			"id": "math-times-10x9-d2",
@@ -1393,7 +1733,12 @@
 				"99",
 				"80",
 				"90"
-			]
+			],
+			"distractorWhy": {
+				"80": "mancano 10: sono solo 8 gruppi da 10, non 9.",
+				"99": "è 9 in più: sono 11 gruppi da 9, non 10.",
+				"100": "è 10 in più: sono 10 gruppi da 10, non 9."
+			}
 		},
 		{
 			"id": "math-times-10x10-d2",
@@ -1404,7 +1749,12 @@
 			"answer": "100",
 			"explanation": "10 × 10 fa 100: è il quadrato di 10. Se non lo ricordi, per 10 basta aggiungere uno zero: 10 diventa 100.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"90": "mancano 10: sono solo 9 gruppi da 10, non 10.",
+				"101": "è il risultato giusto più uno: un errore di un'unità nel conto finale.",
+				"110": "è 10 in più: sono 11 gruppi da 10, non 10."
+			}
 		},
 		{
 			"id": "math-times-3x2-d3",
@@ -1420,7 +1770,12 @@
 				"8",
 				"9",
 				"6"
-			]
+			],
+			"distractorWhy": {
+				"3": "mancano 3: sono solo 1 gruppo da 3, non 2.",
+				"8": "è 2 in più: sono 4 gruppi da 2, non 3.",
+				"9": "è 3 in più: sono 3 gruppi da 3, non 2."
+			}
 		},
 		{
 			"id": "math-times-3x3-d3",
@@ -1436,7 +1791,12 @@
 				"9",
 				"6",
 				"10"
-			]
+			],
+			"distractorWhy": {
+				"6": "mancano 3: sono solo 2 gruppi da 3, non 3.",
+				"10": "è il risultato giusto più uno: un errore di un'unità nel conto finale.",
+				"12": "è 3 in più: sono 4 gruppi da 3, non 3."
+			}
 		},
 		{
 			"id": "math-times-3x4-d3",
@@ -1452,7 +1812,12 @@
 				"15",
 				"9",
 				"12"
-			]
+			],
+			"distractorWhy": {
+				"9": "mancano 3: sono solo 3 gruppi da 3, non 4.",
+				"15": "è 3 in più: sono 5 gruppi da 3, non 4.",
+				"16": "è 4 in più: sono 4 gruppi da 4, non 3."
+			}
 		},
 		{
 			"id": "math-times-3x5-d3",
@@ -1468,7 +1833,12 @@
 				"12",
 				"15",
 				"18"
-			]
+			],
+			"distractorWhy": {
+				"12": "mancano 3: sono solo 4 gruppi da 3, non 5.",
+				"18": "è 3 in più: sono 6 gruppi da 3, non 5.",
+				"20": "è 5 in più: sono 4 gruppi da 5, non 3."
+			}
 		},
 		{
 			"id": "math-times-3x6-d3",
@@ -1495,7 +1865,12 @@
 				"18",
 				"21",
 				"28"
-			]
+			],
+			"distractorWhy": {
+				"18": "mancano 3: sono solo 6 gruppi da 3, non 7.",
+				"24": "è 3 in più: sono 8 gruppi da 3, non 7.",
+				"28": "è 7 in più: sono 4 gruppi da 7, non 3."
+			}
 		},
 		{
 			"id": "math-times-3x8-d3",
@@ -1522,7 +1897,12 @@
 				"30",
 				"36",
 				"24"
-			]
+			],
+			"distractorWhy": {
+				"24": "mancano 3: sono solo 8 gruppi da 3, non 9.",
+				"30": "è 3 in più: sono 10 gruppi da 3, non 9.",
+				"36": "è 9 in più: sono 4 gruppi da 9, non 3."
+			}
 		},
 		{
 			"id": "math-times-3x10-d3",
@@ -1538,7 +1918,12 @@
 				"40",
 				"30",
 				"33"
-			]
+			],
+			"distractorWhy": {
+				"27": "mancano 3: sono solo 9 gruppi da 3, non 10.",
+				"33": "è 3 in più: sono 11 gruppi da 3, non 10.",
+				"40": "è 10 in più: sono 4 gruppi da 10, non 3."
+			}
 		},
 		{
 			"id": "math-times-3x11-d3",
@@ -1549,7 +1934,12 @@
 			"answer": "33",
 			"explanation": "Se non ricordi 3 × 11, per 11 con una cifra sola basta ripeterla: 3 diventa 33. E 11 × 3 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"30": "mancano 3: sono solo 10 gruppi da 3, non 11.",
+				"36": "è 3 in più: sono 12 gruppi da 3, non 11.",
+				"44": "è 11 in più: sono 4 gruppi da 11, non 3."
+			}
 		},
 		{
 			"id": "math-times-3x12-d3",
@@ -1565,7 +1955,12 @@
 				"36",
 				"33",
 				"48"
-			]
+			],
+			"distractorWhy": {
+				"33": "mancano 3: sono solo 11 gruppi da 3, non 12.",
+				"39": "è 3 in più: sono 13 gruppi da 3, non 12.",
+				"48": "è 12 in più: sono 4 gruppi da 12, non 3."
+			}
 		},
 		{
 			"id": "math-times-4x2-d3",
@@ -1581,7 +1976,12 @@
 				"12",
 				"10",
 				"8"
-			]
+			],
+			"distractorWhy": {
+				"4": "mancano 4: sono solo 1 gruppo da 4, non 2.",
+				"10": "è 2 in più: sono 5 gruppi da 2, non 4.",
+				"12": "è 4 in più: sono 3 gruppi da 4, non 2."
+			}
 		},
 		{
 			"id": "math-times-4x3-d3",
@@ -1597,7 +1997,12 @@
 				"15",
 				"16",
 				"8"
-			]
+			],
+			"distractorWhy": {
+				"8": "mancano 4: sono solo 2 gruppi da 4, non 3.",
+				"15": "è 3 in più: sono 5 gruppi da 3, non 4.",
+				"16": "è 4 in più: sono 4 gruppi da 4, non 3."
+			}
 		},
 		{
 			"id": "math-times-4x4-d3",
@@ -1613,7 +2018,12 @@
 				"12",
 				"16",
 				"20"
-			]
+			],
+			"distractorWhy": {
+				"12": "mancano 4: sono solo 3 gruppi da 4, non 4.",
+				"17": "è il risultato giusto più uno: un errore di un'unità nel conto finale.",
+				"20": "è 4 in più: sono 5 gruppi da 4, non 4."
+			}
 		},
 		{
 			"id": "math-times-4x5-d3",
@@ -1629,7 +2039,12 @@
 				"16",
 				"24",
 				"20"
-			]
+			],
+			"distractorWhy": {
+				"16": "mancano 4: sono solo 4 gruppi da 4, non 5.",
+				"24": "è 4 in più: sono 6 gruppi da 4, non 5.",
+				"25": "è 5 in più: sono 5 gruppi da 5, non 4."
+			}
 		},
 		{
 			"id": "math-times-4x6-d3",
@@ -1645,7 +2060,12 @@
 				"30",
 				"24",
 				"28"
-			]
+			],
+			"distractorWhy": {
+				"20": "mancano 4: sono solo 5 gruppi da 4, non 6.",
+				"28": "è 4 in più: sono 7 gruppi da 4, non 6.",
+				"30": "è 6 in più: sono 5 gruppi da 6, non 4."
+			}
 		},
 		{
 			"id": "math-times-4x7-d3",
@@ -1661,7 +2081,12 @@
 				"28",
 				"32",
 				"24"
-			]
+			],
+			"distractorWhy": {
+				"24": "mancano 4: sono solo 6 gruppi da 4, non 7.",
+				"32": "è 4 in più: sono 8 gruppi da 4, non 7.",
+				"35": "è 7 in più: sono 5 gruppi da 7, non 4."
+			}
 		},
 		{
 			"id": "math-times-4x8-d3",
@@ -1688,7 +2113,12 @@
 				"32",
 				"40",
 				"36"
-			]
+			],
+			"distractorWhy": {
+				"32": "mancano 4: sono solo 8 gruppi da 4, non 9.",
+				"40": "è 4 in più: sono 10 gruppi da 4, non 9.",
+				"45": "è 9 in più: sono 5 gruppi da 9, non 4."
+			}
 		},
 		{
 			"id": "math-times-4x10-d3",
@@ -1715,7 +2145,12 @@
 				"44",
 				"40",
 				"48"
-			]
+			],
+			"distractorWhy": {
+				"40": "mancano 4: sono solo 10 gruppi da 4, non 11.",
+				"48": "è 4 in più: sono 12 gruppi da 4, non 11.",
+				"55": "è 11 in più: sono 5 gruppi da 11, non 4."
+			}
 		},
 		{
 			"id": "math-times-4x12-d3",
@@ -1731,7 +2166,12 @@
 				"44",
 				"60",
 				"52"
-			]
+			],
+			"distractorWhy": {
+				"44": "mancano 4: sono solo 11 gruppi da 4, non 12.",
+				"52": "è 4 in più: sono 13 gruppi da 4, non 12.",
+				"60": "è 12 in più: sono 5 gruppi da 12, non 4."
+			}
 		},
 		{
 			"id": "math-times-5x2-d3",
@@ -1747,7 +2187,12 @@
 				"12",
 				"10",
 				"5"
-			]
+			],
+			"distractorWhy": {
+				"5": "mancano 5: sono solo 1 gruppo da 5, non 2.",
+				"12": "è 2 in più: sono 6 gruppi da 2, non 5.",
+				"15": "è 5 in più: sono 3 gruppi da 5, non 2."
+			}
 		},
 		{
 			"id": "math-times-5x3-d3",
@@ -1774,7 +2219,12 @@
 				"15",
 				"20",
 				"25"
-			]
+			],
+			"distractorWhy": {
+				"15": "mancano 5: sono solo 3 gruppi da 5, non 4.",
+				"24": "è 4 in più: sono 6 gruppi da 4, non 5.",
+				"25": "è 5 in più: sono 5 gruppi da 5, non 4."
+			}
 		},
 		{
 			"id": "math-times-5x5-d3",
@@ -1801,7 +2251,12 @@
 				"30",
 				"25",
 				"35"
-			]
+			],
+			"distractorWhy": {
+				"25": "mancano 5: sono solo 5 gruppi da 5, non 6.",
+				"35": "è 5 in più: sono 7 gruppi da 5, non 6.",
+				"36": "è 6 in più: sono 6 gruppi da 6, non 5."
+			}
 		},
 		{
 			"id": "math-times-5x7-d3",
@@ -1828,7 +2283,12 @@
 				"40",
 				"35",
 				"48"
-			]
+			],
+			"distractorWhy": {
+				"35": "mancano 5: sono solo 7 gruppi da 5, non 8.",
+				"45": "è 5 in più: sono 9 gruppi da 5, non 8.",
+				"48": "è 8 in più: sono 6 gruppi da 8, non 5."
+			}
 		},
 		{
 			"id": "math-times-5x9-d3",
@@ -1844,7 +2304,12 @@
 				"54",
 				"50",
 				"45"
-			]
+			],
+			"distractorWhy": {
+				"40": "mancano 5: sono solo 8 gruppi da 5, non 9.",
+				"50": "è 5 in più: sono 10 gruppi da 5, non 9.",
+				"54": "è 9 in più: sono 6 gruppi da 9, non 5."
+			}
 		},
 		{
 			"id": "math-times-5x10-d3",
@@ -1860,7 +2325,12 @@
 				"50",
 				"60",
 				"45"
-			]
+			],
+			"distractorWhy": {
+				"45": "mancano 5: sono solo 9 gruppi da 5, non 10.",
+				"55": "è 5 in più: sono 11 gruppi da 5, non 10.",
+				"60": "è 10 in più: sono 6 gruppi da 10, non 5."
+			}
 		},
 		{
 			"id": "math-times-5x11-d3",
@@ -1876,7 +2346,12 @@
 				"50",
 				"66",
 				"55"
-			]
+			],
+			"distractorWhy": {
+				"50": "mancano 5: sono solo 10 gruppi da 5, non 11.",
+				"60": "è 5 in più: sono 12 gruppi da 5, non 11.",
+				"66": "è 11 in più: sono 6 gruppi da 11, non 5."
+			}
 		},
 		{
 			"id": "math-times-5x12-d3",
@@ -1914,7 +2389,12 @@
 				"18",
 				"21",
 				"24"
-			]
+			],
+			"distractorWhy": {
+				"12": "mancano 6: sono solo 2 gruppi da 6, non 3.",
+				"21": "è 3 in più: sono 7 gruppi da 3, non 6.",
+				"24": "è 6 in più: sono 4 gruppi da 6, non 3."
+			}
 		},
 		{
 			"id": "math-times-6x4-d3",
@@ -1930,7 +2410,12 @@
 				"30",
 				"28",
 				"24"
-			]
+			],
+			"distractorWhy": {
+				"18": "mancano 6: sono solo 3 gruppi da 6, non 4.",
+				"28": "è 4 in più: sono 7 gruppi da 4, non 6.",
+				"30": "è 6 in più: sono 5 gruppi da 6, non 4."
+			}
 		},
 		{
 			"id": "math-times-6x5-d3",
@@ -1957,7 +2442,12 @@
 				"36",
 				"42",
 				"30"
-			]
+			],
+			"distractorWhy": {
+				"30": "mancano 6: sono solo 5 gruppi da 6, non 6.",
+				"37": "è il risultato giusto più uno: un errore di un'unità nel conto finale.",
+				"42": "è 6 in più: sono 7 gruppi da 6, non 6."
+			}
 		},
 		{
 			"id": "math-times-6x7-d3",
@@ -1984,7 +2474,12 @@
 				"42",
 				"54",
 				"56"
-			]
+			],
+			"distractorWhy": {
+				"42": "mancano 6: sono solo 7 gruppi da 6, non 8.",
+				"54": "è 6 in più: sono 9 gruppi da 6, non 8.",
+				"56": "è 8 in più: sono 7 gruppi da 8, non 6."
+			}
 		},
 		{
 			"id": "math-times-6x9-d3",
@@ -2000,7 +2495,12 @@
 				"60",
 				"63",
 				"54"
-			]
+			],
+			"distractorWhy": {
+				"48": "mancano 6: sono solo 8 gruppi da 6, non 9.",
+				"60": "è 6 in più: sono 10 gruppi da 6, non 9.",
+				"63": "è 9 in più: sono 7 gruppi da 9, non 6."
+			}
 		},
 		{
 			"id": "math-times-6x10-d3",
@@ -2016,7 +2516,12 @@
 				"70",
 				"60",
 				"54"
-			]
+			],
+			"distractorWhy": {
+				"54": "mancano 6: sono solo 9 gruppi da 6, non 10.",
+				"66": "è 6 in più: sono 11 gruppi da 6, non 10.",
+				"70": "è 10 in più: sono 7 gruppi da 10, non 6."
+			}
 		},
 		{
 			"id": "math-times-6x11-d3",
@@ -2054,7 +2559,12 @@
 				"21",
 				"16",
 				"14"
-			]
+			],
+			"distractorWhy": {
+				"7": "mancano 7: sono solo 1 gruppo da 7, non 2.",
+				"16": "è 2 in più: sono 8 gruppi da 2, non 7.",
+				"21": "è 7 in più: sono 3 gruppi da 7, non 2."
+			}
 		},
 		{
 			"id": "math-times-7x3-d3",
@@ -2081,7 +2591,12 @@
 				"35",
 				"28",
 				"21"
-			]
+			],
+			"distractorWhy": {
+				"21": "mancano 7: sono solo 3 gruppi da 7, non 4.",
+				"32": "è 4 in più: sono 8 gruppi da 4, non 7.",
+				"35": "è 7 in più: sono 5 gruppi da 7, non 4."
+			}
 		},
 		{
 			"id": "math-times-7x5-d3",
@@ -2108,7 +2623,12 @@
 				"35",
 				"48",
 				"42"
-			]
+			],
+			"distractorWhy": {
+				"35": "mancano 7: sono solo 5 gruppi da 7, non 6.",
+				"48": "è 6 in più: sono 8 gruppi da 6, non 7.",
+				"49": "è 7 in più: sono 7 gruppi da 7, non 6."
+			}
 		},
 		{
 			"id": "math-times-7x7-d3",
@@ -2124,7 +2644,12 @@
 				"56",
 				"50",
 				"49"
-			]
+			],
+			"distractorWhy": {
+				"42": "mancano 7: sono solo 6 gruppi da 7, non 7.",
+				"50": "è il risultato giusto più uno: un errore di un'unità nel conto finale.",
+				"56": "è 7 in più: sono 8 gruppi da 7, non 7."
+			}
 		},
 		{
 			"id": "math-times-7x8-d3",
@@ -2140,7 +2665,12 @@
 				"56",
 				"49",
 				"63"
-			]
+			],
+			"distractorWhy": {
+				"49": "mancano 7: sono solo 7 gruppi da 7, non 8.",
+				"63": "è 7 in più: sono 9 gruppi da 7, non 8.",
+				"64": "è 8 in più: sono 8 gruppi da 8, non 7."
+			}
 		},
 		{
 			"id": "math-times-7x9-d3",
@@ -2167,7 +2697,12 @@
 				"80",
 				"63",
 				"70"
-			]
+			],
+			"distractorWhy": {
+				"63": "mancano 7: sono solo 9 gruppi da 7, non 10.",
+				"77": "è 7 in più: sono 11 gruppi da 7, non 10.",
+				"80": "è 10 in più: sono 8 gruppi da 10, non 7."
+			}
 		},
 		{
 			"id": "math-times-7x11-d3",
@@ -2178,7 +2713,12 @@
 			"answer": "77",
 			"explanation": "Se non ricordi 7 × 11, per 11 con una cifra sola basta ripeterla: 7 diventa 77. E 11 × 7 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"70": "mancano 7: sono solo 10 gruppi da 7, non 11.",
+				"84": "è 7 in più: sono 12 gruppi da 7, non 11.",
+				"88": "è 11 in più: sono 8 gruppi da 11, non 7."
+			}
 		},
 		{
 			"id": "math-times-7x12-d3",
@@ -2194,7 +2734,12 @@
 				"84",
 				"96",
 				"91"
-			]
+			],
+			"distractorWhy": {
+				"77": "mancano 7: sono solo 11 gruppi da 7, non 12.",
+				"91": "è 7 in più: sono 13 gruppi da 7, non 12.",
+				"96": "è 12 in più: sono 8 gruppi da 12, non 7."
+			}
 		},
 		{
 			"id": "math-times-8x2-d3",
@@ -2210,7 +2755,12 @@
 				"8",
 				"18",
 				"24"
-			]
+			],
+			"distractorWhy": {
+				"8": "mancano 8: sono solo 1 gruppo da 8, non 2.",
+				"18": "è 2 in più: sono 9 gruppi da 2, non 8.",
+				"24": "è 8 in più: sono 3 gruppi da 8, non 2."
+			}
 		},
 		{
 			"id": "math-times-8x3-d3",
@@ -2226,7 +2776,12 @@
 				"16",
 				"32",
 				"27"
-			]
+			],
+			"distractorWhy": {
+				"16": "mancano 8: sono solo 2 gruppi da 8, non 3.",
+				"27": "è 3 in più: sono 9 gruppi da 3, non 8.",
+				"32": "è 8 in più: sono 4 gruppi da 8, non 3."
+			}
 		},
 		{
 			"id": "math-times-8x4-d3",
@@ -2242,7 +2797,12 @@
 				"24",
 				"32",
 				"40"
-			]
+			],
+			"distractorWhy": {
+				"24": "mancano 8: sono solo 3 gruppi da 8, non 4.",
+				"36": "è 4 in più: sono 9 gruppi da 4, non 8.",
+				"40": "è 8 in più: sono 5 gruppi da 8, non 4."
+			}
 		},
 		{
 			"id": "math-times-8x5-d3",
@@ -2258,7 +2818,12 @@
 				"40",
 				"45",
 				"32"
-			]
+			],
+			"distractorWhy": {
+				"32": "mancano 8: sono solo 4 gruppi da 8, non 5.",
+				"45": "è 5 in più: sono 9 gruppi da 5, non 8.",
+				"48": "è 8 in più: sono 6 gruppi da 8, non 5."
+			}
 		},
 		{
 			"id": "math-times-8x6-d3",
@@ -2274,7 +2839,12 @@
 				"54",
 				"56",
 				"48"
-			]
+			],
+			"distractorWhy": {
+				"40": "mancano 8: sono solo 5 gruppi da 8, non 6.",
+				"54": "è 6 in più: sono 9 gruppi da 6, non 8.",
+				"56": "è 8 in più: sono 7 gruppi da 8, non 6."
+			}
 		},
 		{
 			"id": "math-times-8x7-d3",
@@ -2290,7 +2860,12 @@
 				"63",
 				"64",
 				"56"
-			]
+			],
+			"distractorWhy": {
+				"48": "mancano 8: sono solo 6 gruppi da 8, non 7.",
+				"63": "è 7 in più: sono 9 gruppi da 7, non 8.",
+				"64": "è 8 in più: sono 8 gruppi da 8, non 7."
+			}
 		},
 		{
 			"id": "math-times-8x8-d3",
@@ -2306,7 +2881,12 @@
 				"72",
 				"65",
 				"64"
-			]
+			],
+			"distractorWhy": {
+				"56": "mancano 8: sono solo 7 gruppi da 8, non 8.",
+				"65": "è il risultato giusto più uno: un errore di un'unità nel conto finale.",
+				"72": "è 8 in più: sono 9 gruppi da 8, non 8."
+			}
 		},
 		{
 			"id": "math-times-8x9-d3",
@@ -2322,7 +2902,12 @@
 				"64",
 				"81",
 				"80"
-			]
+			],
+			"distractorWhy": {
+				"64": "mancano 8: sono solo 8 gruppi da 8, non 9.",
+				"80": "è 8 in più: sono 10 gruppi da 8, non 9.",
+				"81": "è 9 in più: sono 9 gruppi da 9, non 8."
+			}
 		},
 		{
 			"id": "math-times-8x10-d3",
@@ -2360,7 +2945,12 @@
 				"108",
 				"88",
 				"104"
-			]
+			],
+			"distractorWhy": {
+				"88": "mancano 8: sono solo 11 gruppi da 8, non 12.",
+				"104": "è 8 in più: sono 13 gruppi da 8, non 12.",
+				"108": "è 12 in più: sono 9 gruppi da 12, non 8."
+			}
 		},
 		{
 			"id": "math-times-9x2-d3",
@@ -2387,7 +2977,12 @@
 				"27",
 				"30",
 				"36"
-			]
+			],
+			"distractorWhy": {
+				"18": "mancano 9: sono solo 2 gruppi da 9, non 3.",
+				"30": "è 3 in più: sono 10 gruppi da 3, non 9.",
+				"36": "è 9 in più: sono 4 gruppi da 9, non 3."
+			}
 		},
 		{
 			"id": "math-times-9x4-d3",
@@ -2403,7 +2998,12 @@
 				"40",
 				"27",
 				"45"
-			]
+			],
+			"distractorWhy": {
+				"27": "mancano 9: sono solo 3 gruppi da 9, non 4.",
+				"40": "è 4 in più: sono 10 gruppi da 4, non 9.",
+				"45": "è 9 in più: sono 5 gruppi da 9, non 4."
+			}
 		},
 		{
 			"id": "math-times-9x5-d3",
@@ -2419,7 +3019,12 @@
 				"45",
 				"50",
 				"54"
-			]
+			],
+			"distractorWhy": {
+				"36": "mancano 9: sono solo 4 gruppi da 9, non 5.",
+				"50": "è 5 in più: sono 10 gruppi da 5, non 9.",
+				"54": "è 9 in più: sono 6 gruppi da 9, non 5."
+			}
 		},
 		{
 			"id": "math-times-9x6-d3",
@@ -2435,7 +3040,12 @@
 				"60",
 				"63",
 				"54"
-			]
+			],
+			"distractorWhy": {
+				"45": "mancano 9: sono solo 5 gruppi da 9, non 6.",
+				"60": "è 6 in più: sono 10 gruppi da 6, non 9.",
+				"63": "è 9 in più: sono 7 gruppi da 9, non 6."
+			}
 		},
 		{
 			"id": "math-times-9x7-d3",
@@ -2451,7 +3061,12 @@
 				"72",
 				"63",
 				"54"
-			]
+			],
+			"distractorWhy": {
+				"54": "mancano 9: sono solo 6 gruppi da 9, non 7.",
+				"70": "è 7 in più: sono 10 gruppi da 7, non 9.",
+				"72": "è 9 in più: sono 8 gruppi da 9, non 7."
+			}
 		},
 		{
 			"id": "math-times-9x8-d3",
@@ -2467,7 +3082,12 @@
 				"80",
 				"63",
 				"81"
-			]
+			],
+			"distractorWhy": {
+				"63": "mancano 9: sono solo 7 gruppi da 9, non 8.",
+				"80": "è 8 in più: sono 10 gruppi da 8, non 9.",
+				"81": "è 9 in più: sono 9 gruppi da 9, non 8."
+			}
 		},
 		{
 			"id": "math-times-9x9-d3",
@@ -2483,7 +3103,12 @@
 				"72",
 				"81",
 				"90"
-			]
+			],
+			"distractorWhy": {
+				"72": "mancano 9: sono solo 8 gruppi da 9, non 9.",
+				"82": "è il risultato giusto più uno: un errore di un'unità nel conto finale.",
+				"90": "è 9 in più: sono 10 gruppi da 9, non 9."
+			}
 		},
 		{
 			"id": "math-times-9x10-d3",
@@ -2505,7 +3130,12 @@
 			"answer": "99",
 			"explanation": "Se non ricordi 9 × 11, per 9 fai 11 × 10 meno 11: 110 − 11 fa 99. E 11 × 9 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"90": "mancano 9: sono solo 10 gruppi da 9, non 11.",
+				"108": "è 9 in più: sono 12 gruppi da 9, non 11.",
+				"110": "è 11 in più: sono 10 gruppi da 11, non 9."
+			}
 		},
 		{
 			"id": "math-times-9x12-d3",
@@ -2521,7 +3151,12 @@
 				"99",
 				"120",
 				"108"
-			]
+			],
+			"distractorWhy": {
+				"99": "mancano 9: sono solo 11 gruppi da 9, non 12.",
+				"117": "è 9 in più: sono 13 gruppi da 9, non 12.",
+				"120": "è 12 in più: sono 10 gruppi da 12, non 9."
+			}
 		},
 		{
 			"id": "math-times-10x2-d3",
@@ -2537,7 +3172,12 @@
 				"20",
 				"10",
 				"30"
-			]
+			],
+			"distractorWhy": {
+				"10": "mancano 10: sono solo 1 gruppo da 10, non 2.",
+				"22": "è 2 in più: sono 11 gruppi da 2, non 10.",
+				"30": "è 10 in più: sono 3 gruppi da 10, non 2."
+			}
 		},
 		{
 			"id": "math-times-10x3-d3",
@@ -2553,7 +3193,12 @@
 				"30",
 				"40",
 				"33"
-			]
+			],
+			"distractorWhy": {
+				"20": "mancano 10: sono solo 2 gruppi da 10, non 3.",
+				"33": "è 3 in più: sono 11 gruppi da 3, non 10.",
+				"40": "è 10 in più: sono 4 gruppi da 10, non 3."
+			}
 		},
 		{
 			"id": "math-times-10x4-d3",
@@ -2569,7 +3214,12 @@
 				"40",
 				"50",
 				"44"
-			]
+			],
+			"distractorWhy": {
+				"30": "mancano 10: sono solo 3 gruppi da 10, non 4.",
+				"44": "è 4 in più: sono 11 gruppi da 4, non 10.",
+				"50": "è 10 in più: sono 5 gruppi da 10, non 4."
+			}
 		},
 		{
 			"id": "math-times-10x5-d3",
@@ -2585,7 +3235,12 @@
 				"55",
 				"50",
 				"40"
-			]
+			],
+			"distractorWhy": {
+				"40": "mancano 10: sono solo 4 gruppi da 10, non 5.",
+				"55": "è 5 in più: sono 11 gruppi da 5, non 10.",
+				"60": "è 10 in più: sono 6 gruppi da 10, non 5."
+			}
 		},
 		{
 			"id": "math-times-10x6-d3",
@@ -2601,7 +3256,12 @@
 				"50",
 				"60",
 				"70"
-			]
+			],
+			"distractorWhy": {
+				"50": "mancano 10: sono solo 5 gruppi da 10, non 6.",
+				"66": "è 6 in più: sono 11 gruppi da 6, non 10.",
+				"70": "è 10 in più: sono 7 gruppi da 10, non 6."
+			}
 		},
 		{
 			"id": "math-times-10x7-d3",
@@ -2617,7 +3277,12 @@
 				"60",
 				"77",
 				"70"
-			]
+			],
+			"distractorWhy": {
+				"60": "mancano 10: sono solo 6 gruppi da 10, non 7.",
+				"77": "è 7 in più: sono 11 gruppi da 7, non 10.",
+				"80": "è 10 in più: sono 8 gruppi da 10, non 7."
+			}
 		},
 		{
 			"id": "math-times-10x8-d3",
@@ -2633,7 +3298,12 @@
 				"90",
 				"70",
 				"80"
-			]
+			],
+			"distractorWhy": {
+				"70": "mancano 10: sono solo 7 gruppi da 10, non 8.",
+				"88": "è 8 in più: sono 11 gruppi da 8, non 10.",
+				"90": "è 10 in più: sono 9 gruppi da 10, non 8."
+			}
 		},
 		{
 			"id": "math-times-10x9-d3",
@@ -2649,7 +3319,12 @@
 				"100",
 				"99",
 				"90"
-			]
+			],
+			"distractorWhy": {
+				"80": "mancano 10: sono solo 8 gruppi da 10, non 9.",
+				"99": "è 9 in più: sono 11 gruppi da 9, non 10.",
+				"100": "è 10 in più: sono 10 gruppi da 10, non 9."
+			}
 		},
 		{
 			"id": "math-times-10x10-d3",
@@ -2676,7 +3351,12 @@
 				"121",
 				"100",
 				"120"
-			]
+			],
+			"distractorWhy": {
+				"100": "mancano 10: sono solo 10 gruppi da 10, non 11.",
+				"120": "è 10 in più: sono 12 gruppi da 10, non 11.",
+				"121": "è 11 in più: sono 11 gruppi da 11, non 10."
+			}
 		},
 		{
 			"id": "math-times-10x12-d3",
@@ -2692,7 +3372,12 @@
 				"130",
 				"120",
 				"110"
-			]
+			],
+			"distractorWhy": {
+				"110": "mancano 10: sono solo 11 gruppi da 10, non 12.",
+				"130": "è 10 in più: sono 13 gruppi da 10, non 12.",
+				"132": "è 12 in più: sono 11 gruppi da 12, non 10."
+			}
 		},
 		{
 			"id": "math-times-11x2-d3",
@@ -2719,7 +3404,12 @@
 				"33",
 				"36",
 				"22"
-			]
+			],
+			"distractorWhy": {
+				"22": "mancano 11: sono solo 2 gruppi da 11, non 3.",
+				"36": "è 3 in più: sono 12 gruppi da 3, non 11.",
+				"44": "è 11 in più: sono 4 gruppi da 11, non 3."
+			}
 		},
 		{
 			"id": "math-times-11x4-d3",
@@ -2735,7 +3425,12 @@
 				"33",
 				"48",
 				"55"
-			]
+			],
+			"distractorWhy": {
+				"33": "mancano 11: sono solo 3 gruppi da 11, non 4.",
+				"48": "è 4 in più: sono 12 gruppi da 4, non 11.",
+				"55": "è 11 in più: sono 5 gruppi da 11, non 4."
+			}
 		},
 		{
 			"id": "math-times-11x5-d3",
@@ -2751,7 +3446,12 @@
 				"66",
 				"60",
 				"55"
-			]
+			],
+			"distractorWhy": {
+				"44": "mancano 11: sono solo 4 gruppi da 11, non 5.",
+				"60": "è 5 in più: sono 12 gruppi da 5, non 11.",
+				"66": "è 11 in più: sono 6 gruppi da 11, non 5."
+			}
 		},
 		{
 			"id": "math-times-11x6-d3",
@@ -2767,7 +3467,12 @@
 				"72",
 				"66",
 				"55"
-			]
+			],
+			"distractorWhy": {
+				"55": "mancano 11: sono solo 5 gruppi da 11, non 6.",
+				"72": "è 6 in più: sono 12 gruppi da 6, non 11.",
+				"77": "è 11 in più: sono 7 gruppi da 11, non 6."
+			}
 		},
 		{
 			"id": "math-times-11x7-d3",
@@ -2783,7 +3488,12 @@
 				"88",
 				"66",
 				"77"
-			]
+			],
+			"distractorWhy": {
+				"66": "mancano 11: sono solo 6 gruppi da 11, non 7.",
+				"84": "è 7 in più: sono 12 gruppi da 7, non 11.",
+				"88": "è 11 in più: sono 8 gruppi da 11, non 7."
+			}
 		},
 		{
 			"id": "math-times-11x8-d3",
@@ -2810,7 +3520,12 @@
 				"108",
 				"88",
 				"110"
-			]
+			],
+			"distractorWhy": {
+				"88": "mancano 11: sono solo 8 gruppi da 11, non 9.",
+				"108": "è 9 in più: sono 12 gruppi da 9, non 11.",
+				"110": "è 11 in più: sono 10 gruppi da 11, non 9."
+			}
 		},
 		{
 			"id": "math-times-11x10-d3",
@@ -2826,7 +3541,12 @@
 				"121",
 				"120",
 				"110"
-			]
+			],
+			"distractorWhy": {
+				"99": "mancano 11: sono solo 9 gruppi da 11, non 10.",
+				"120": "è 10 in più: sono 12 gruppi da 10, non 11.",
+				"121": "è 11 in più: sono 11 gruppi da 11, non 10."
+			}
 		},
 		{
 			"id": "math-times-11x11-d3",
@@ -2842,7 +3562,12 @@
 				"132",
 				"122",
 				"121"
-			]
+			],
+			"distractorWhy": {
+				"110": "mancano 11: sono solo 10 gruppi da 11, non 11.",
+				"122": "è il risultato giusto più uno: un errore di un'unità nel conto finale.",
+				"132": "è 11 in più: sono 12 gruppi da 11, non 11."
+			}
 		},
 		{
 			"id": "math-times-11x12-d3",
@@ -2858,7 +3583,12 @@
 				"144",
 				"121",
 				"143"
-			]
+			],
+			"distractorWhy": {
+				"121": "mancano 11: sono solo 11 gruppi da 11, non 12.",
+				"143": "è 11 in più: sono 13 gruppi da 11, non 12.",
+				"144": "è 12 in più: sono 12 gruppi da 12, non 11."
+			}
 		},
 		{
 			"id": "math-times-12x2-d3",
@@ -2885,7 +3615,12 @@
 				"24",
 				"39",
 				"36"
-			]
+			],
+			"distractorWhy": {
+				"24": "mancano 12: sono solo 2 gruppi da 12, non 3.",
+				"39": "è 3 in più: sono 13 gruppi da 3, non 12.",
+				"48": "è 12 in più: sono 4 gruppi da 12, non 3."
+			}
 		},
 		{
 			"id": "math-times-12x4-d3",
@@ -2896,7 +3631,12 @@
 			"answer": "48",
 			"explanation": "Se non ricordi 12 × 4, per 4 raddoppi due volte: 12 → 24 → 48. E 4 × 12 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"36": "mancano 12: sono solo 3 gruppi da 12, non 4.",
+				"52": "è 4 in più: sono 13 gruppi da 4, non 12.",
+				"60": "è 12 in più: sono 5 gruppi da 12, non 4."
+			}
 		},
 		{
 			"id": "math-times-12x5-d3",
@@ -2912,7 +3652,12 @@
 				"60",
 				"48",
 				"65"
-			]
+			],
+			"distractorWhy": {
+				"48": "mancano 12: sono solo 4 gruppi da 12, non 5.",
+				"65": "è 5 in più: sono 13 gruppi da 5, non 12.",
+				"72": "è 12 in più: sono 6 gruppi da 12, non 5."
+			}
 		},
 		{
 			"id": "math-times-12x6-d3",
@@ -2928,7 +3673,12 @@
 				"72",
 				"78",
 				"84"
-			]
+			],
+			"distractorWhy": {
+				"60": "mancano 12: sono solo 5 gruppi da 12, non 6.",
+				"78": "è 6 in più: sono 13 gruppi da 6, non 12.",
+				"84": "è 12 in più: sono 7 gruppi da 12, non 6."
+			}
 		},
 		{
 			"id": "math-times-12x7-d3",
@@ -2944,7 +3694,12 @@
 				"72",
 				"96",
 				"84"
-			]
+			],
+			"distractorWhy": {
+				"72": "mancano 12: sono solo 6 gruppi da 12, non 7.",
+				"91": "è 7 in più: sono 13 gruppi da 7, non 12.",
+				"96": "è 12 in più: sono 8 gruppi da 12, non 7."
+			}
 		},
 		{
 			"id": "math-times-12x8-d3",
@@ -2960,7 +3715,12 @@
 				"108",
 				"96",
 				"104"
-			]
+			],
+			"distractorWhy": {
+				"84": "mancano 12: sono solo 7 gruppi da 12, non 8.",
+				"104": "è 8 in più: sono 13 gruppi da 8, non 12.",
+				"108": "è 12 in più: sono 9 gruppi da 12, non 8."
+			}
 		},
 		{
 			"id": "math-times-12x9-d3",
@@ -2987,7 +3747,12 @@
 				"108",
 				"132",
 				"130"
-			]
+			],
+			"distractorWhy": {
+				"108": "mancano 12: sono solo 9 gruppi da 12, non 10.",
+				"130": "è 10 in più: sono 13 gruppi da 10, non 12.",
+				"132": "è 12 in più: sono 11 gruppi da 12, non 10."
+			}
 		},
 		{
 			"id": "math-times-12x11-d3",
@@ -3014,7 +3779,12 @@
 				"156",
 				"145",
 				"144"
-			]
+			],
+			"distractorWhy": {
+				"132": "mancano 12: sono solo 11 gruppi da 12, non 12.",
+				"145": "è il risultato giusto più uno: un errore di un'unità nel conto finale.",
+				"156": "è 12 in più: sono 13 gruppi da 12, non 12."
+			}
 		},
 		{
 			"id": "math-times-6x2-d4",
@@ -3030,7 +3800,12 @@
 				"18",
 				"6",
 				"14"
-			]
+			],
+			"distractorWhy": {
+				"6": "mancano 6: sono solo 1 gruppo da 6, non 2.",
+				"14": "è 2 in più: sono 7 gruppi da 2, non 6.",
+				"18": "è 6 in più: sono 3 gruppi da 6, non 2."
+			}
 		},
 		{
 			"id": "math-times-6x3-d4",
@@ -3046,7 +3821,12 @@
 				"12",
 				"18",
 				"21"
-			]
+			],
+			"distractorWhy": {
+				"12": "mancano 6: sono solo 2 gruppi da 6, non 3.",
+				"21": "è 3 in più: sono 7 gruppi da 3, non 6.",
+				"24": "è 6 in più: sono 4 gruppi da 6, non 3."
+			}
 		},
 		{
 			"id": "math-times-6x4-d4",
@@ -3062,7 +3842,12 @@
 				"28",
 				"24",
 				"18"
-			]
+			],
+			"distractorWhy": {
+				"18": "mancano 6: sono solo 3 gruppi da 6, non 4.",
+				"28": "è 4 in più: sono 7 gruppi da 4, non 6.",
+				"30": "è 6 in più: sono 5 gruppi da 6, non 4."
+			}
 		},
 		{
 			"id": "math-times-6x5-d4",
@@ -3100,7 +3885,12 @@
 				"42",
 				"49",
 				"48"
-			]
+			],
+			"distractorWhy": {
+				"36": "mancano 6: sono solo 6 gruppi da 6, non 7.",
+				"48": "è 6 in più: sono 8 gruppi da 6, non 7.",
+				"49": "è 7 in più: sono 7 gruppi da 7, non 6."
+			}
 		},
 		{
 			"id": "math-times-6x8-d4",
@@ -3127,7 +3917,12 @@
 				"60",
 				"48",
 				"63"
-			]
+			],
+			"distractorWhy": {
+				"48": "mancano 6: sono solo 8 gruppi da 6, non 9.",
+				"60": "è 6 in più: sono 10 gruppi da 6, non 9.",
+				"63": "è 9 in più: sono 7 gruppi da 9, non 6."
+			}
 		},
 		{
 			"id": "math-times-6x10-d4",
@@ -3143,7 +3938,12 @@
 				"54",
 				"70",
 				"60"
-			]
+			],
+			"distractorWhy": {
+				"54": "mancano 6: sono solo 9 gruppi da 6, non 10.",
+				"66": "è 6 in più: sono 11 gruppi da 6, non 10.",
+				"70": "è 10 in più: sono 7 gruppi da 10, non 6."
+			}
 		},
 		{
 			"id": "math-times-6x11-d4",
@@ -3170,7 +3970,12 @@
 				"72",
 				"84",
 				"78"
-			]
+			],
+			"distractorWhy": {
+				"66": "mancano 6: sono solo 11 gruppi da 6, non 12.",
+				"78": "è 6 in più: sono 13 gruppi da 6, non 12.",
+				"84": "è 12 in più: sono 7 gruppi da 12, non 6."
+			}
 		},
 		{
 			"id": "math-times-7x2-d4",
@@ -3186,7 +3991,12 @@
 				"16",
 				"7",
 				"14"
-			]
+			],
+			"distractorWhy": {
+				"7": "mancano 7: sono solo 1 gruppo da 7, non 2.",
+				"16": "è 2 in più: sono 8 gruppi da 2, non 7.",
+				"21": "è 7 in più: sono 3 gruppi da 7, non 2."
+			}
 		},
 		{
 			"id": "math-times-7x3-d4",
@@ -3202,7 +4012,12 @@
 				"21",
 				"24",
 				"28"
-			]
+			],
+			"distractorWhy": {
+				"14": "mancano 7: sono solo 2 gruppi da 7, non 3.",
+				"24": "è 3 in più: sono 8 gruppi da 3, non 7.",
+				"28": "è 7 in più: sono 4 gruppi da 7, non 3."
+			}
 		},
 		{
 			"id": "math-times-7x4-d4",
@@ -3218,7 +4033,12 @@
 				"32",
 				"28",
 				"35"
-			]
+			],
+			"distractorWhy": {
+				"21": "mancano 7: sono solo 3 gruppi da 7, non 4.",
+				"32": "è 4 in più: sono 8 gruppi da 4, non 7.",
+				"35": "è 7 in più: sono 5 gruppi da 7, non 4."
+			}
 		},
 		{
 			"id": "math-times-7x5-d4",
@@ -3234,7 +4054,12 @@
 				"28",
 				"40",
 				"42"
-			]
+			],
+			"distractorWhy": {
+				"28": "mancano 7: sono solo 4 gruppi da 7, non 5.",
+				"40": "è 5 in più: sono 8 gruppi da 5, non 7.",
+				"42": "è 7 in più: sono 6 gruppi da 7, non 5."
+			}
 		},
 		{
 			"id": "math-times-7x6-d4",
@@ -3250,7 +4075,12 @@
 				"42",
 				"48",
 				"35"
-			]
+			],
+			"distractorWhy": {
+				"35": "mancano 7: sono solo 5 gruppi da 7, non 6.",
+				"48": "è 6 in più: sono 8 gruppi da 6, non 7.",
+				"49": "è 7 in più: sono 7 gruppi da 7, non 6."
+			}
 		},
 		{
 			"id": "math-times-7x7-d4",
@@ -3288,7 +4118,12 @@
 				"72",
 				"70",
 				"56"
-			]
+			],
+			"distractorWhy": {
+				"56": "mancano 7: sono solo 8 gruppi da 7, non 9.",
+				"70": "è 7 in più: sono 10 gruppi da 7, non 9.",
+				"72": "è 9 in più: sono 8 gruppi da 9, non 7."
+			}
 		},
 		{
 			"id": "math-times-7x10-d4",
@@ -3304,7 +4139,12 @@
 				"77",
 				"80",
 				"63"
-			]
+			],
+			"distractorWhy": {
+				"63": "mancano 7: sono solo 9 gruppi da 7, non 10.",
+				"77": "è 7 in più: sono 11 gruppi da 7, non 10.",
+				"80": "è 10 in più: sono 8 gruppi da 10, non 7."
+			}
 		},
 		{
 			"id": "math-times-7x11-d4",
@@ -3320,7 +4160,12 @@
 				"88",
 				"70",
 				"84"
-			]
+			],
+			"distractorWhy": {
+				"70": "mancano 7: sono solo 10 gruppi da 7, non 11.",
+				"84": "è 7 in più: sono 12 gruppi da 7, non 11.",
+				"88": "è 11 in più: sono 8 gruppi da 11, non 7."
+			}
 		},
 		{
 			"id": "math-times-7x12-d4",
@@ -3336,7 +4181,12 @@
 				"84",
 				"91",
 				"77"
-			]
+			],
+			"distractorWhy": {
+				"77": "mancano 7: sono solo 11 gruppi da 7, non 12.",
+				"91": "è 7 in più: sono 13 gruppi da 7, non 12.",
+				"96": "è 12 in più: sono 8 gruppi da 12, non 7."
+			}
 		},
 		{
 			"id": "math-times-8x2-d4",
@@ -3363,7 +4213,12 @@
 				"27",
 				"24",
 				"32"
-			]
+			],
+			"distractorWhy": {
+				"16": "mancano 8: sono solo 2 gruppi da 8, non 3.",
+				"27": "è 3 in più: sono 9 gruppi da 3, non 8.",
+				"32": "è 8 in più: sono 4 gruppi da 8, non 3."
+			}
 		},
 		{
 			"id": "math-times-8x4-d4",
@@ -3379,7 +4234,12 @@
 				"40",
 				"24",
 				"36"
-			]
+			],
+			"distractorWhy": {
+				"24": "mancano 8: sono solo 3 gruppi da 8, non 4.",
+				"36": "è 4 in più: sono 9 gruppi da 4, non 8.",
+				"40": "è 8 in più: sono 5 gruppi da 8, non 4."
+			}
 		},
 		{
 			"id": "math-times-8x5-d4",
@@ -3406,7 +4266,12 @@
 				"56",
 				"48",
 				"54"
-			]
+			],
+			"distractorWhy": {
+				"40": "mancano 8: sono solo 5 gruppi da 8, non 6.",
+				"54": "è 6 in più: sono 9 gruppi da 6, non 8.",
+				"56": "è 8 in più: sono 7 gruppi da 8, non 6."
+			}
 		},
 		{
 			"id": "math-times-8x7-d4",
@@ -3422,7 +4287,12 @@
 				"48",
 				"63",
 				"64"
-			]
+			],
+			"distractorWhy": {
+				"48": "mancano 8: sono solo 6 gruppi da 8, non 7.",
+				"63": "è 7 in più: sono 9 gruppi da 7, non 8.",
+				"64": "è 8 in più: sono 8 gruppi da 8, non 7."
+			}
 		},
 		{
 			"id": "math-times-8x8-d4",
@@ -3449,7 +4319,12 @@
 				"64",
 				"72",
 				"81"
-			]
+			],
+			"distractorWhy": {
+				"64": "mancano 8: sono solo 8 gruppi da 8, non 9.",
+				"80": "è 8 in più: sono 10 gruppi da 8, non 9.",
+				"81": "è 9 in più: sono 9 gruppi da 9, non 8."
+			}
 		},
 		{
 			"id": "math-times-8x10-d4",
@@ -3465,7 +4340,12 @@
 				"72",
 				"88",
 				"80"
-			]
+			],
+			"distractorWhy": {
+				"72": "mancano 8: sono solo 9 gruppi da 8, non 10.",
+				"88": "è 8 in più: sono 11 gruppi da 8, non 10.",
+				"90": "è 10 in più: sono 9 gruppi da 10, non 8."
+			}
 		},
 		{
 			"id": "math-times-8x11-d4",
@@ -3476,7 +4356,12 @@
 			"answer": "88",
 			"explanation": "Se non ricordi 8 × 11, per 11 con una cifra sola basta ripeterla: 8 diventa 88. E 11 × 8 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"80": "mancano 8: sono solo 10 gruppi da 8, non 11.",
+				"96": "è 8 in più: sono 12 gruppi da 8, non 11.",
+				"99": "è 11 in più: sono 9 gruppi da 11, non 8."
+			}
 		},
 		{
 			"id": "math-times-8x12-d4",
@@ -3492,7 +4377,12 @@
 				"88",
 				"108",
 				"104"
-			]
+			],
+			"distractorWhy": {
+				"88": "mancano 8: sono solo 11 gruppi da 8, non 12.",
+				"104": "è 8 in più: sono 13 gruppi da 8, non 12.",
+				"108": "è 12 in più: sono 9 gruppi da 12, non 8."
+			}
 		},
 		{
 			"id": "math-times-9x2-d4",
@@ -3508,7 +4398,12 @@
 				"27",
 				"18",
 				"9"
-			]
+			],
+			"distractorWhy": {
+				"9": "mancano 9: sono solo 1 gruppo da 9, non 2.",
+				"20": "è 2 in più: sono 10 gruppi da 2, non 9.",
+				"27": "è 9 in più: sono 3 gruppi da 9, non 2."
+			}
 		},
 		{
 			"id": "math-times-9x3-d4",
@@ -3524,7 +4419,12 @@
 				"30",
 				"36",
 				"27"
-			]
+			],
+			"distractorWhy": {
+				"18": "mancano 9: sono solo 2 gruppi da 9, non 3.",
+				"30": "è 3 in più: sono 10 gruppi da 3, non 9.",
+				"36": "è 9 in più: sono 4 gruppi da 9, non 3."
+			}
 		},
 		{
 			"id": "math-times-9x4-d4",
@@ -3540,7 +4440,12 @@
 				"45",
 				"36",
 				"27"
-			]
+			],
+			"distractorWhy": {
+				"27": "mancano 9: sono solo 3 gruppi da 9, non 4.",
+				"40": "è 4 in più: sono 10 gruppi da 4, non 9.",
+				"45": "è 9 in più: sono 5 gruppi da 9, non 4."
+			}
 		},
 		{
 			"id": "math-times-9x5-d4",
@@ -3556,7 +4461,12 @@
 				"54",
 				"45",
 				"50"
-			]
+			],
+			"distractorWhy": {
+				"36": "mancano 9: sono solo 4 gruppi da 9, non 5.",
+				"50": "è 5 in più: sono 10 gruppi da 5, non 9.",
+				"54": "è 9 in più: sono 6 gruppi da 9, non 5."
+			}
 		},
 		{
 			"id": "math-times-9x6-d4",
@@ -3583,7 +4493,12 @@
 				"63",
 				"72",
 				"54"
-			]
+			],
+			"distractorWhy": {
+				"54": "mancano 9: sono solo 6 gruppi da 9, non 7.",
+				"70": "è 7 in più: sono 10 gruppi da 7, non 9.",
+				"72": "è 9 in più: sono 8 gruppi da 9, non 7."
+			}
 		},
 		{
 			"id": "math-times-9x8-d4",
@@ -3599,7 +4514,12 @@
 				"72",
 				"81",
 				"80"
-			]
+			],
+			"distractorWhy": {
+				"63": "mancano 9: sono solo 7 gruppi da 9, non 8.",
+				"80": "è 8 in più: sono 10 gruppi da 8, non 9.",
+				"81": "è 9 in più: sono 9 gruppi da 9, non 8."
+			}
 		},
 		{
 			"id": "math-times-9x9-d4",
@@ -3626,7 +4546,12 @@
 				"81",
 				"90",
 				"100"
-			]
+			],
+			"distractorWhy": {
+				"81": "mancano 9: sono solo 9 gruppi da 9, non 10.",
+				"99": "è 9 in più: sono 11 gruppi da 9, non 10.",
+				"100": "è 10 in più: sono 10 gruppi da 10, non 9."
+			}
 		},
 		{
 			"id": "math-times-9x11-d4",
@@ -3642,7 +4567,12 @@
 				"90",
 				"108",
 				"99"
-			]
+			],
+			"distractorWhy": {
+				"90": "mancano 9: sono solo 10 gruppi da 9, non 11.",
+				"108": "è 9 in più: sono 12 gruppi da 9, non 11.",
+				"110": "è 11 in più: sono 10 gruppi da 11, non 9."
+			}
 		},
 		{
 			"id": "math-times-9x12-d4",
@@ -3658,7 +4588,12 @@
 				"120",
 				"99",
 				"108"
-			]
+			],
+			"distractorWhy": {
+				"99": "mancano 9: sono solo 11 gruppi da 9, non 12.",
+				"117": "è 9 in più: sono 13 gruppi da 9, non 12.",
+				"120": "è 12 in più: sono 10 gruppi da 12, non 9."
+			}
 		},
 		{
 			"id": "math-times-10x2-d4",
@@ -3685,7 +4620,12 @@
 				"40",
 				"33",
 				"20"
-			]
+			],
+			"distractorWhy": {
+				"20": "mancano 10: sono solo 2 gruppi da 10, non 3.",
+				"33": "è 3 in più: sono 11 gruppi da 3, non 10.",
+				"40": "è 10 in più: sono 4 gruppi da 10, non 3."
+			}
 		},
 		{
 			"id": "math-times-10x4-d4",
@@ -3701,7 +4641,12 @@
 				"44",
 				"40",
 				"30"
-			]
+			],
+			"distractorWhy": {
+				"30": "mancano 10: sono solo 3 gruppi da 10, non 4.",
+				"44": "è 4 in più: sono 11 gruppi da 4, non 10.",
+				"50": "è 10 in più: sono 5 gruppi da 10, non 4."
+			}
 		},
 		{
 			"id": "math-times-10x5-d4",
@@ -3717,7 +4662,12 @@
 				"55",
 				"50",
 				"60"
-			]
+			],
+			"distractorWhy": {
+				"40": "mancano 10: sono solo 4 gruppi da 10, non 5.",
+				"55": "è 5 in più: sono 11 gruppi da 5, non 10.",
+				"60": "è 10 in più: sono 6 gruppi da 10, non 5."
+			}
 		},
 		{
 			"id": "math-times-10x6-d4",
@@ -3733,7 +4683,12 @@
 				"50",
 				"60",
 				"70"
-			]
+			],
+			"distractorWhy": {
+				"50": "mancano 10: sono solo 5 gruppi da 10, non 6.",
+				"66": "è 6 in più: sono 11 gruppi da 6, non 10.",
+				"70": "è 10 in più: sono 7 gruppi da 10, non 6."
+			}
 		},
 		{
 			"id": "math-times-10x7-d4",
@@ -3760,7 +4715,12 @@
 				"88",
 				"80",
 				"70"
-			]
+			],
+			"distractorWhy": {
+				"70": "mancano 10: sono solo 7 gruppi da 10, non 8.",
+				"88": "è 8 in più: sono 11 gruppi da 8, non 10.",
+				"90": "è 10 in più: sono 9 gruppi da 10, non 8."
+			}
 		},
 		{
 			"id": "math-times-10x9-d4",
@@ -3771,7 +4731,12 @@
 			"answer": "90",
 			"explanation": "Se non ricordi 10 × 9, per 10 basta aggiungere uno zero: 9 diventa 90. E 9 × 10 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"80": "mancano 10: sono solo 8 gruppi da 10, non 9.",
+				"99": "è 9 in più: sono 11 gruppi da 9, non 10.",
+				"100": "è 10 in più: sono 10 gruppi da 10, non 9."
+			}
 		},
 		{
 			"id": "math-times-10x10-d4",
@@ -3809,7 +4774,12 @@
 				"132",
 				"110",
 				"120"
-			]
+			],
+			"distractorWhy": {
+				"110": "mancano 10: sono solo 11 gruppi da 10, non 12.",
+				"130": "è 10 in più: sono 13 gruppi da 10, non 12.",
+				"132": "è 12 in più: sono 11 gruppi da 12, non 10."
+			}
 		},
 		{
 			"id": "math-times-11x2-d4",
@@ -3836,7 +4806,12 @@
 				"36",
 				"44",
 				"22"
-			]
+			],
+			"distractorWhy": {
+				"22": "mancano 11: sono solo 2 gruppi da 11, non 3.",
+				"36": "è 3 in più: sono 12 gruppi da 3, non 11.",
+				"44": "è 11 in più: sono 4 gruppi da 11, non 3."
+			}
 		},
 		{
 			"id": "math-times-11x4-d4",
@@ -3852,7 +4827,12 @@
 				"33",
 				"48",
 				"44"
-			]
+			],
+			"distractorWhy": {
+				"33": "mancano 11: sono solo 3 gruppi da 11, non 4.",
+				"48": "è 4 in più: sono 12 gruppi da 4, non 11.",
+				"55": "è 11 in più: sono 5 gruppi da 11, non 4."
+			}
 		},
 		{
 			"id": "math-times-11x5-d4",
@@ -3890,7 +4870,12 @@
 				"77",
 				"84",
 				"88"
-			]
+			],
+			"distractorWhy": {
+				"66": "mancano 11: sono solo 6 gruppi da 11, non 7.",
+				"84": "è 7 in più: sono 12 gruppi da 7, non 11.",
+				"88": "è 11 in più: sono 8 gruppi da 11, non 7."
+			}
 		},
 		{
 			"id": "math-times-11x8-d4",
@@ -3906,7 +4891,12 @@
 				"99",
 				"96",
 				"88"
-			]
+			],
+			"distractorWhy": {
+				"77": "mancano 11: sono solo 7 gruppi da 11, non 8.",
+				"96": "è 8 in più: sono 12 gruppi da 8, non 11.",
+				"99": "è 11 in più: sono 9 gruppi da 11, non 8."
+			}
 		},
 		{
 			"id": "math-times-11x9-d4",
@@ -3922,7 +4912,12 @@
 				"108",
 				"99",
 				"110"
-			]
+			],
+			"distractorWhy": {
+				"88": "mancano 11: sono solo 8 gruppi da 11, non 9.",
+				"108": "è 9 in più: sono 12 gruppi da 9, non 11.",
+				"110": "è 11 in più: sono 10 gruppi da 11, non 9."
+			}
 		},
 		{
 			"id": "math-times-11x10-d4",
@@ -3938,7 +4933,12 @@
 				"121",
 				"120",
 				"99"
-			]
+			],
+			"distractorWhy": {
+				"99": "mancano 11: sono solo 9 gruppi da 11, non 10.",
+				"120": "è 10 in più: sono 12 gruppi da 10, non 11.",
+				"121": "è 11 in più: sono 11 gruppi da 11, non 10."
+			}
 		},
 		{
 			"id": "math-times-11x11-d4",
@@ -3954,7 +4954,12 @@
 				"122",
 				"132",
 				"110"
-			]
+			],
+			"distractorWhy": {
+				"110": "mancano 11: sono solo 10 gruppi da 11, non 11.",
+				"122": "è il risultato giusto più uno: un errore di un'unità nel conto finale.",
+				"132": "è 11 in più: sono 12 gruppi da 11, non 11."
+			}
 		},
 		{
 			"id": "math-times-11x12-d4",
@@ -3970,7 +4975,12 @@
 				"121",
 				"144",
 				"132"
-			]
+			],
+			"distractorWhy": {
+				"121": "mancano 11: sono solo 11 gruppi da 11, non 12.",
+				"143": "è 11 in più: sono 13 gruppi da 11, non 12.",
+				"144": "è 12 in più: sono 12 gruppi da 12, non 11."
+			}
 		},
 		{
 			"id": "math-times-12x2-d4",
@@ -3986,7 +4996,12 @@
 				"36",
 				"12",
 				"24"
-			]
+			],
+			"distractorWhy": {
+				"12": "mancano 12: sono solo 1 gruppo da 12, non 2.",
+				"26": "è 2 in più: sono 13 gruppi da 2, non 12.",
+				"36": "è 12 in più: sono 3 gruppi da 12, non 2."
+			}
 		},
 		{
 			"id": "math-times-12x3-d4",
@@ -4024,7 +5039,12 @@
 				"72",
 				"65",
 				"48"
-			]
+			],
+			"distractorWhy": {
+				"48": "mancano 12: sono solo 4 gruppi da 12, non 5.",
+				"65": "è 5 in più: sono 13 gruppi da 5, non 12.",
+				"72": "è 12 in più: sono 6 gruppi da 12, non 5."
+			}
 		},
 		{
 			"id": "math-times-12x6-d4",
@@ -4040,7 +5060,12 @@
 				"84",
 				"78",
 				"72"
-			]
+			],
+			"distractorWhy": {
+				"60": "mancano 12: sono solo 5 gruppi da 12, non 6.",
+				"78": "è 6 in più: sono 13 gruppi da 6, non 12.",
+				"84": "è 12 in più: sono 7 gruppi da 12, non 6."
+			}
 		},
 		{
 			"id": "math-times-12x7-d4",
@@ -4056,7 +5081,12 @@
 				"84",
 				"91",
 				"72"
-			]
+			],
+			"distractorWhy": {
+				"72": "mancano 12: sono solo 6 gruppi da 12, non 7.",
+				"91": "è 7 in più: sono 13 gruppi da 7, non 12.",
+				"96": "è 12 in più: sono 8 gruppi da 12, non 7."
+			}
 		},
 		{
 			"id": "math-times-12x8-d4",
@@ -4072,7 +5102,12 @@
 				"84",
 				"108",
 				"96"
-			]
+			],
+			"distractorWhy": {
+				"84": "mancano 12: sono solo 7 gruppi da 12, non 8.",
+				"104": "è 8 in più: sono 13 gruppi da 8, non 12.",
+				"108": "è 12 in più: sono 9 gruppi da 12, non 8."
+			}
 		},
 		{
 			"id": "math-times-12x9-d4",
@@ -4121,7 +5156,12 @@
 				"132",
 				"145",
 				"144"
-			]
+			],
+			"distractorWhy": {
+				"132": "mancano 12: sono solo 11 gruppi da 12, non 12.",
+				"145": "è il risultato giusto più uno: un errore di un'unità nel conto finale.",
+				"156": "è 12 in più: sono 13 gruppi da 12, non 12."
+			}
 		}
 	]
 }

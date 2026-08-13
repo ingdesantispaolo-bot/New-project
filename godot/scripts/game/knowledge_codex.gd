@@ -158,11 +158,23 @@ func entry_for(subject: String, topic: String) -> Dictionary:
 
 # Errore tipico raccolto da un item a scelta multipla: un distrattore come
 # risposta sbagliata plausibile, col perché è sbagliato.
+#
+# `distractorWhy` (13 agosto 2026: prima lessico italiano/inglese, poi
+# declinazioni latine) porta la frase già pronta, calcolata al bake dai dati
+# reali dell'item — non testo inventato qui in Godot, e non una sola frase
+# uguale per tutti come prima. Ogni generatore la scrive nella lingua giusta
+# per la sua materia (un vocabolo "vuol dire", una forma "si scriverebbe").
+# Dove manca (materie non ancora coperte) resta la frase generica: meglio
+# onesta che finta specifica.
 func _typical_error(item: Dictionary) -> Dictionary:
 	var answer := str(item.get("answer", ""))
+	var why_map: Dictionary = item.get("distractorWhy", {})
 	for opt in item.get("options", []):
-		if str(opt) != answer:
-			return {"wrong": str(opt), "why": "È un'alternativa plausibile: rileggi il prompt e verifica il significato prima di scegliere."}
+		var opt_str := str(opt)
+		if opt_str != answer:
+			if why_map.has(opt_str):
+				return {"wrong": opt_str, "why": str(why_map[opt_str])}
+			return {"wrong": opt_str, "why": "È un'alternativa plausibile: rileggi il prompt e verifica il significato prima di scegliere."}
 	return {"wrong": "", "why": ""}
 
 func _entry(subject: String, topic: String, difficulty: int, short_text: String, example: Dictionary, typical: Dictionary, strategy: String) -> Dictionary:

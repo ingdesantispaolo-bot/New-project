@@ -312,7 +312,11 @@
 			],
 			"answer": "Una nota più acuta di quelle che ci stanno",
 			"explanation": "Il pentagramma ha cinque righe: per le note che escono dall'alto o dal basso si aggiungono trattini corti, uno per grado.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Che il brano finisce a quel punto": "La fine del brano si indica con una doppia stanghetta, non con una linea aggiunta.",
+				"Che si deve suonare più forte": "Il volume si indica con segni di dinamica (p, f), non con linee aggiunte.",
+				"Che la nota va tenuta più a lungo": "La durata si indica con la forma della nota o un punto, non con una linea aggiunta."
+			}
 		},
 		{
 			"id": "musica-ritmo-1",
@@ -329,7 +333,11 @@
 			],
 			"answer": "Allunga la nota della metà del suo valore",
 			"explanation": "Una minima vale due movimenti; con il punto ne vale tre, cioè due più la metà di due.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Raddoppia esattamente la durata": "Il punto aggiunge solo la metà del valore, non lo raddoppia.",
+				"Indica di suonare quella nota staccata": "Lo staccato si indica con un puntino sopra la nota, un segno diverso dal punto di valore.",
+				"Segnala che la nota va ripetuta": "La ripetizione si indica con altri segni (ritornello), non con il punto di valore."
+			}
 		},
 		{
 			"id": "musica-tempo-2",
@@ -346,7 +354,11 @@
 			],
 			"answer": "La pulsazione regolare che scandisce il brano",
 			"explanation": "È il battito costante sotto la musica: quello che ti fa battere il piede senza pensarci.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"La durata totale della canzone": "La durata totale è quanto dura tutto il brano, non la pulsazione che lo scandisce.",
+				"Il momento in cui entra il cantante": "L'entrata del cantante è un evento del brano, non la pulsazione di fondo.",
+				"La velocità con cui si legge lo spartito": "Il tempo è la pulsazione della musica stessa, non la velocità di lettura di chi guarda lo spartito."
+			}
 		},
 		{
 			"id": "musica-tempo-3",
@@ -385,7 +397,11 @@
 			],
 			"answer": "Quale figura vale un movimento",
 			"explanation": "Il 4 in basso significa che la semiminima (un quarto) vale un movimento.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Quante battute ha il brano": "Il numero di battute non è indicato dalla frazione del tempo.",
+				"Quanto forte si deve suonare": "Il volume si indica con segni di dinamica, non con la frazione del tempo.",
+				"Quanti strumenti servono": "Il numero di strumenti non ha nulla a che fare con l'indicazione di tempo."
+			}
 		},
 		{
 			"id": "musica-tempo-6",
@@ -402,7 +418,11 @@
 			],
 			"answer": "Il gruppo di movimenti fra due stanghette",
 			"explanation": "Le stanghette verticali dividono lo spartito in battute, tutte con lo stesso numero di movimenti.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Un colpo secco dato sul tamburo": "Un colpo di tamburo è un suono, non un'unità di divisione dello spartito.",
+				"La nota più forte di tutto il brano": "Non è una nota, ma uno spazio di spartito compreso fra due stanghette.",
+				"L'inizio di una nuova strofa cantata": "Le strofe non coincidono necessariamente con le battute."
+			}
 		},
 		{
 			"id": "musica-tempo-7",
@@ -419,7 +439,11 @@
 			],
 			"answer": "Batte una pulsazione costante e regolabile",
 			"explanation": "Serve a tenere il tempo mentre si studia: si imposta quanti battiti al minuto e lui non sbaglia mai.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Misura quanto è acuto un suono": "L'altezza del suono si misura con l'accordatore, non con il metronomo.",
+				"Conta le battute già suonate": "Il metronomo scandisce il tempo, non tiene un conteggio delle battute passate.",
+				"Indica quale nota si sta suonando": "Le note si leggono sullo spartito, non dal metronomo."
+			}
 		},
 		{
 			"id": "musica-tempo-8",
@@ -436,7 +460,11 @@
 			],
 			"answer": "Il doppio più veloce",
 			"explanation": "Il doppio dei battiti nello stesso minuto significa che ogni battito dura la metà.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Il doppio più lento": "120 è il doppio di 60, quindi è più veloce, non più lento.",
+				"Della stessa velocità": "120 battiti al minuto non sono la stessa cosa di 60: sono il doppio.",
+				"Un quarto più veloce": "Il rapporto 120/60 è esattamente 2, cioè il doppio, non un quarto in più."
+			}
 		},
 		{
 			"id": "musica-tempo-9",
@@ -453,7 +481,11 @@
 			],
 			"answer": "Un'andatura moderata, come camminando",
 			"explanation": "Le indicazioni italiane di tempo si usano in tutto il mondo: adagio è lento, allegro veloce, andante sta a metà.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Un'andatura molto veloce e concitata": "Quella è «allegro» o «presto»: andante sta a metà, come un passo di cammino.",
+				"Un'andatura molto lenta e distesa": "Quella è «adagio» o «lento»: andante è più mosso.",
+				"Un volume che cresce di continuo": "Andante riguarda la velocità, non il volume: quello sarebbe un crescendo."
+			}
 		},
 		{
 			"id": "musica-tempo-10",
@@ -470,7 +502,11 @@
 			],
 			"answer": "Veloce e vivace",
 			"explanation": "Indica la velocità, non l'umore: un brano allegro può anche essere in tonalità minore e suonare triste.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Lento e solenne": "È il contrario: allegro indica velocità sostenuta, non lentezza.",
+				"Con volume crescente": "Allegro riguarda la velocità, non il volume: quello sarebbe un crescendo.",
+				"Con volume calante": "Allegro riguarda la velocità, non il volume: quello sarebbe un diminuendo."
+			}
 		},
 		{
 			"id": "musica-tempo-11",
@@ -509,7 +545,11 @@
 			],
 			"answer": "Una o più note prima della prima battuta piena",
 			"explanation": "Molte canzoni cominciano prima del tempo forte: «Tan-ti au-GU-ri» parte in levare.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"L'ultima nota che chiude tutto il brano": "Il levare sta all'inizio del brano, non alla fine.",
+				"Una pausa messa all'inizio della battuta": "Il levare è fatto di note suonate, non di una pausa.",
+				"Il momento esatto in cui si accelera": "Il levare riguarda dove iniziano le note rispetto alla battuta, non la velocità."
+			}
 		},
 		{
 			"id": "musica-tempo-14",
@@ -526,7 +566,11 @@
 			],
 			"answer": "Il tempo diventa progressivamente più lento",
 			"explanation": "Riguarda la velocità, non l'intensità: si usa spesso per preparare la fine di un brano.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Il volume diventa via via più debole": "Quello è un diminuendo: il rallentando riguarda la velocità, non il volume.",
+				"Le note diventano via via più gravi": "Il rallentando non cambia l'altezza delle note, solo la velocità.",
+				"Il brano si interrompe improvvisamente": "Rallentare è un cambiamento graduale, non un'interruzione improvvisa."
+			}
 		},
 		{
 			"id": "musica-tempo-15",
@@ -554,7 +598,11 @@
 			],
 			"answer": "Il colore che distingue uno strumento da un altro",
 			"explanation": "Un la del violino e un la del flauto hanno la stessa altezza e la stessa durata, ma non si confondono: è il timbro.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Quanto è acuto oppure grave un certo suono": "Quella è l'altezza, un'altra caratteristica del suono, diversa dal timbro.",
+				"Quanto è forte oppure debole un certo suono": "Quella è l'intensità (dinamica), non il timbro.",
+				"Quanto a lungo dura una singola nota scritta": "Quella è la durata, non il timbro."
+			}
 		},
 		{
 			"id": "musica-timbro-17",
@@ -571,7 +619,11 @@
 			],
 			"answer": "Il timbro",
 			"explanation": "Tolte altezza, durata e intensità, quello che resta è la qualità del suono: il timbro.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"L'altezza del suono": "L'altezza è già la stessa, dato che la nota è identica: non può essere lei a distinguerli.",
+				"La durata della nota": "La durata non è indicata come diversa: resta il timbro a distinguerli.",
+				"Il tempo del brano": "Il tempo del brano è indipendente dal confronto fra i due strumenti su una singola nota."
+			}
 		},
 		{
 			"id": "musica-timbro-18",
@@ -588,7 +640,11 @@
 			],
 			"answer": "Perché ogni voce ha il suo timbro",
 			"explanation": "La voce è uno strumento, e come ogni strumento ha un colore che dipende dal corpo che la produce.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Perché cambiano le note della melodia": "La melodia resta la stessa: cambia solo chi la canta, cioè il timbro della voce.",
+				"Perché cambia il tempo dell'esecuzione": "Il tempo può restare identico: è il colore della voce a cambiare.",
+				"Perché cambia il volume della voce": "Il volume può essere uguale: la differenza percepita è nel colore, cioè il timbro."
+			}
 		},
 		{
 			"id": "musica-timbro-19",
@@ -605,7 +661,11 @@
 			],
 			"answer": "Dal materiale e dalla forma del corpo",
 			"explanation": "Legno o metallo, cassa grande o piccola: il corpo dello strumento colora il suono in modo caratteristico.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Dalla bravura di chi lo suona": "La bravura cambia l'esecuzione, non il colore base dello strumento.",
+				"Dal numero di note che può fare": "L'estensione di note non determina il colore del suono.",
+				"Dal prezzo dello strumento": "Il prezzo non è una caratteristica fisica che genera il timbro."
+			}
 		},
 		{
 			"id": "musica-timbro-20",
@@ -622,7 +682,11 @@
 			],
 			"answer": "Perché il suono viene amplificato in modi diversi",
 			"explanation": "Nell'acustica risuona la cassa di legno; nell'elettrica il segnale passa da magneti e altoparlante, e il colore cambia.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Perché hanno un numero diverso di corde": "Acustica ed elettrica hanno di solito lo stesso numero di corde: la differenza è nel modo in cui il suono viene amplificato.",
+				"Perché l'elettrica suona sempre più forte": "Il volume si può regolare in entrambe: non è la vera causa della differenza di colore.",
+				"Perché usano note completamente diverse": "Possono suonare esattamente le stesse note: cambia il colore, non le note."
+			}
 		},
 		{
 			"id": "musica-timbro-21",
@@ -639,7 +703,11 @@
 			],
 			"answer": "Al timbro dei due strumenti",
 			"explanation": "Il timbro è la carta d'identità sonora: permette di riconoscere una fonte senza vederla.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Al volume più alto della tromba": "Il volume può essere regolato allo stesso livello: non è la vera causa del riconoscimento.",
+				"Alla maggiore velocità del piano": "La velocità di esecuzione non è ciò che permette di riconoscere lo strumento.",
+				"Alla diversa altezza delle note": "Possono suonare la stessa nota, alla stessa altezza, e restare comunque riconoscibili."
+			}
 		},
 		{
 			"id": "musica-timbro-22",
@@ -656,7 +724,11 @@
 			],
 			"answer": "Il timbro delle due famiglie",
 			"explanation": "Anche suonando la stessa melodia all'unisono, archi e fiati restano riconoscibili.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Il numero di musicisti": "Il numero di musicisti non determina il colore del suono che si sente.",
+				"La posizione sul palco": "La posizione aiuta a vederli, ma non è ciò che li fa suonare diversi all'orecchio.",
+				"L'altezza delle note suonate": "Possono suonare all'unisono, alla stessa altezza, e restare distinguibili."
+			}
 		},
 		{
 			"id": "musica-timbro-23",
@@ -673,7 +745,11 @@
 			],
 			"answer": "Cambia colore e diventa più nasale",
 			"explanation": "La sordina non abbassa solo il volume: modifica quali componenti del suono passano, cioè il timbro.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Diventa soltanto più debole": "La sordina non si limita ad abbassare il volume: cambia anche il colore del suono.",
+				"Le note diventano più acute": "L'altezza delle note non cambia con la sordina, solo il colore.",
+				"Il tempo del brano rallenta": "La sordina non ha effetto sulla velocità di esecuzione."
+			}
 		},
 		{
 			"id": "musica-timbro-24",
@@ -690,7 +766,11 @@
 			],
 			"answer": "Perché l'ambiente aggiunge il suo riverbero",
 			"explanation": "Il suono che arriva all'orecchio è quello dello strumento più quello che l'ambiente gli restituisce.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Perché le note cambiano la loro altezza": "Le note restano le stesse: cambia il suono che l'ambiente restituisce.",
+				"Perché lo strumento si scorda con l'umidità": "Non è l'accordatura a cambiare in pochi minuti, ma il riverbero dell'ambiente.",
+				"Perché cambia il tempo con cui si suona": "Il tempo di esecuzione non dipende dall'ambiente in cui si suona."
+			}
 		},
 		{
 			"id": "musica-timbro-25",
@@ -707,7 +787,11 @@
 			],
 			"answer": "Violino e viola",
 			"explanation": "Appartengono alla stessa famiglia e producono il suono allo stesso modo: corde sfregate da un archetto.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Violino e tamburo": "Sono di famiglie completamente diverse: uno ad arco, l'altro a percussione.",
+				"Flauto e pianoforte": "Uno è a fiato, l'altro a corde percosse: producono il suono in modo molto diverso.",
+				"Tromba e arpa": "Uno è un ottone, l'altra è a corde pizzicate: timbri molto lontani."
+			}
 		},
 		{
 			"id": "musica-timbro-26",
@@ -724,7 +808,11 @@
 			],
 			"answer": "Perché cambiano le cavità che risuonano",
 			"explanation": "Naso e gola fanno da cassa di risonanza: se sono ostruiti, il colore del suono cambia.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Perché le corde vocali si accorciano": "Il raffreddore non accorcia le corde vocali: ostruisce naso e gola, cambiando la risonanza.",
+				"Perché si parla sempre più piano": "Il volume non è necessariamente più basso: cambia il colore, non l'intensità.",
+				"Perché si sbagliano le note": "L'altezza delle note non cambia per il raffreddore: cambia solo il colore della voce."
+			}
 		},
 		{
 			"id": "musica-timbro-27",
@@ -741,7 +829,11 @@
 			],
 			"answer": "Se una nota è acuta o grave",
 			"explanation": "Acuto e grave sono l'altezza, che è un'altra caratteristica del suono: il timbro riguarda il colore.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Il riconoscere uno strumento": "Riconoscere uno strumento dipende proprio dal timbro: è l'opposto di ciò che si chiede.",
+				"La differenza fra due voci": "La differenza fra voci è proprio una questione di timbro.",
+				"Il colore di un suono": "Il colore del suono è un altro modo di chiamare il timbro stesso."
+			}
 		},
 		{
 			"id": "musica-strumenti-28",
@@ -758,7 +850,11 @@
 			],
 			"answer": "Archi",
 			"explanation": "Il suono nasce sfregando le corde con l'archetto: è la famiglia degli archi.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Fiati": "Il violoncello non si suona soffiando, ma sfregando le corde con l'archetto.",
+				"Percussioni": "Il violoncello non produce il suono percuotendo, ma sfregando le corde.",
+				"Tastiere": "Il violoncello non ha una tastiera: si suona con le dita sulle corde e l'archetto."
+			}
 		},
 		{
 			"id": "musica-strumenti-29",
@@ -775,7 +871,11 @@
 			],
 			"answer": "Fiati",
 			"explanation": "Il suono nasce dall'aria soffiata che fa vibrare un'ancia: è un fiato.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Archi": "Il clarinetto non ha corde da sfregare: il suono nasce da un'ancia che vibra con l'aria soffiata.",
+				"Percussioni": "Il clarinetto non si suona percuotendo, ma soffiando aria.",
+				"Corde pizzicate": "Il clarinetto non ha corde: il suono nasce dall'aria e da un'ancia vibrante."
+			}
 		},
 		{
 			"id": "musica-strumenti-30",
@@ -792,7 +892,11 @@
 			],
 			"answer": "Perché i tasti fanno battere martelletti sulle corde",
 			"explanation": "Premendo un tasto un martelletto colpisce una corda: c'è una tastiera, ma il suono lo fanno le corde.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Perché tiene le corde soltanto per decorazione": "Le corde del pianoforte non sono decorative: producono il suono quando i martelletti le colpiscono.",
+				"Perché si accorda esattamente come una chitarra": "Il pianoforte si accorda in modo diverso dalla chitarra, con chiavi e martelletti.",
+				"Perché si suona usando tutte e due le mani": "Usare due mani non c'entra col motivo per cui è uno strumento a corde."
+			}
 		},
 		{
 			"id": "musica-strumenti-31",
@@ -809,7 +913,11 @@
 			],
 			"answer": "Il tamburo",
 			"explanation": "Nelle percussioni a membrana il suono nasce dalla vibrazione di una pelle colpita.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Il flauto": "Il flauto produce il suono con l'aria soffiata, non percuotendo una pelle.",
+				"La chitarra": "La chitarra produce il suono pizzicando corde, non percuotendo una pelle.",
+				"Il violino": "Il violino produce il suono sfregando corde con l'archetto, non percuotendo una pelle."
+			}
 		},
 		{
 			"id": "musica-strumenti-32",
@@ -826,7 +934,11 @@
 			],
 			"answer": "La chitarra si pizzica, il violino si sfrega",
 			"explanation": "Pizzicare dà un suono che decade subito; l'archetto può tenerlo lungo quanto si vuole.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"La chitarra ha più corde del violino": "È vero che ne ha di più, ma non è la differenza chiesta sul modo di produrre il suono.",
+				"Il violino è sempre più acuto": "L'altezza dipende dalle note suonate, non dal tipo di strumento in sé.",
+				"La chitarra non ha cassa di risonanza": "La chitarra ha una cassa di risonanza, proprio come il violino."
+			}
 		},
 		{
 			"id": "musica-strumenti-33",
@@ -843,7 +955,11 @@
 			],
 			"answer": "Perché le corde sono più lunghe e grosse",
 			"explanation": "Corde più lunghe e pesanti vibrano più lentamente, e una vibrazione lenta dà un suono grave.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Perché ha più corde del violino": "Contrabbasso e violino hanno lo stesso numero di corde: la differenza è nella lunghezza e nello spessore.",
+				"Perché si suona stando in piedi": "La posizione di chi suona non cambia l'altezza del suono prodotto.",
+				"Perché è fatto di un legno diverso": "Il tipo di legno non è la causa principale: conta la lunghezza e lo spessore delle corde."
+			}
 		},
 		{
 			"id": "musica-strumenti-34",
@@ -860,7 +976,11 @@
 			],
 			"answer": "Gli archi, davanti al direttore",
 			"explanation": "Gli archi sono i più numerosi e stanno davanti; fiati e percussioni si dispongono dietro, in ordine di potenza sonora.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Le percussioni, in prima fila": "Le percussioni stanno di solito in fondo, non in prima fila.",
+				"Gli ottoni, al centro del palco": "Gli ottoni si dispongono più indietro, non davanti al centro.",
+				"Le tastiere, davanti a tutti": "Le tastiere non sono lo strumento tipico che apre la disposizione orchestrale."
+			}
 		},
 		{
 			"id": "musica-strumenti-35",
@@ -877,7 +997,11 @@
 			],
 			"answer": "Il suono nasce dall'aria in movimento",
 			"explanation": "In tutti e tre è una colonna d'aria a vibrare, anche se il modo di metterla in moto è molto diverso.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Si suonano tutti con una tastiera": "Il flauto non ha una tastiera come organo e fisarmonica: si suona con fori e chiavi.",
+				"Hanno tutti corde da far vibrare": "Nessuno dei tre ha corde: il suono nasce dall'aria.",
+				"Si portano tutti a tracolla": "L'organo non si porta a tracolla: resta fisso."
+			}
 		},
 		{
 			"id": "musica-strumenti-36",
@@ -894,7 +1018,11 @@
 			],
 			"answer": "Tromba",
 			"explanation": "La tromba è un ottone: il suono nasce dalle labbra che vibrano nel bocchino, non da una corda.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Violino": "È uno strumento ad arco, come gli altri della lista: non è lui l'intruso.",
+				"Viola": "È uno strumento ad arco, come gli altri della lista: non è lui l'intruso.",
+				"Contrabbasso": "È uno strumento ad arco, come gli altri della lista: non è lui l'intruso."
+			}
 		},
 		{
 			"id": "musica-dinamica-37",
@@ -911,7 +1039,11 @@
 			],
 			"answer": "Quanto forte o piano si suona",
 			"explanation": "È l'intensità del suono, indipendente dalla velocità e dall'altezza delle note.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Quanto veloce si suona": "Quella è il tempo, non la dinamica.",
+				"Quali note si devono suonare": "Le note da suonare sono un'altra informazione dello spartito, non la dinamica.",
+				"Quanto dura ogni nota": "La durata è un'altra caratteristica, non la dinamica."
+			}
 		},
 		{
 			"id": "musica-dinamica-38",
@@ -928,7 +1060,11 @@
 			],
 			"answer": "Piano, cioè debole",
 			"explanation": "Piano e forte sono i due estremi di base; da lì nascono pianissimo e fortissimo.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Presto, cioè veloce": "«Presto» è un'indicazione di tempo, non di dinamica: qui la lettera p sta per «piano».",
+				"Pausa, cioè silenzio": "La pausa ha un simbolo diverso, non la lettera p da sola.",
+				"Pieno, cioè con tutti gli strumenti": "Non esiste questo significato per la lettera p nella notazione musicale."
+			}
 		},
 		{
 			"id": "musica-dinamica-39",
@@ -945,7 +1081,11 @@
 			],
 			"answer": "Il volume aumenta a poco a poco",
 			"explanation": "Riguarda l'intensità: un crescendo può avvenire anche restando alla stessa velocità e sulle stesse note.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Il tempo accelera a poco a poco": "Quello è un accelerando: il crescendo riguarda il volume, non la velocità.",
+				"Le note diventano sempre più acute": "Il crescendo non cambia l'altezza delle note, solo il volume.",
+				"Entrano sempre più strumenti": "Il crescendo può avvenire anche con gli stessi strumenti che suonano più forte."
+			}
 		},
 		{
 			"id": "musica-dinamica-40",
@@ -962,7 +1102,11 @@
 			],
 			"answer": "Il volume cala a poco a poco",
 			"explanation": "È l'opposto del crescendo: si scende di intensità gradualmente, non di colpo.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Il tempo rallenta a poco a poco": "Quello è un rallentando: il diminuendo riguarda il volume, non la velocità.",
+				"Le note diventano sempre più gravi": "Il diminuendo non cambia l'altezza delle note, solo il volume.",
+				"Le battute diventano più corte": "Le battute hanno sempre la stessa lunghezza: cambia solo il volume."
+			}
 		},
 		{
 			"id": "musica-dinamica-41",
@@ -979,7 +1123,11 @@
 			],
 			"answer": "Perché il contrasto fra piano e forte crea tensione",
 			"explanation": "Una musica sempre allo stesso volume stanca: sono i cambi a far respirare e a colpire.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Perché rende il brano molto più lungo": "La dinamica non allunga il brano: agisce sull'intensità, non sulla durata.",
+				"Perché aiuta i musicisti a ricordare le note": "La dinamica non è una tecnica di memoria: è un elemento espressivo.",
+				"Perché fa suonare tutti quanti insieme": "La sincronizzazione dipende dal direttore e dal tempo, non dalla dinamica."
+			}
 		},
 		{
 			"id": "musica-dinamica-42",
@@ -996,7 +1144,11 @@
 			],
 			"answer": "pp",
 			"explanation": "Raddoppiare la lettera intensifica: pp è pianissimo, ff è fortissimo.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"p": "«p» da solo è già debole, ma «pp» raddoppiando la lettera indica un'intensità ancora minore.",
+				"Sono uguali": "Non sono uguali: raddoppiare la lettera intensifica il significato.",
+				"Dipende dallo strumento": "La convenzione «pp più debole di p» vale per tutti gli strumenti allo stesso modo."
+			}
 		},
 		{
 			"id": "musica-dinamica-43",
@@ -1013,7 +1165,11 @@
 			],
 			"answer": "Tutti suonano molto piano insieme",
 			"explanation": "La dinamica riguarda l'intensità di chi suona, non quanti suonano: cento musicisti possono fare pianissimo.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Suona un solo strumento alla volta": "La dinamica non riguarda quanti suonano, ma quanto forte suonano tutti insieme.",
+				"Metà orchestra resta in silenzio": "Pianissimo non vuol dire che qualcuno si ferma: tutti suonano, ma piano.",
+				"Si suona molto lentamente": "Pianissimo riguarda il volume, non la velocità."
+			}
 		},
 		{
 			"id": "musica-dinamica-44",
@@ -1030,7 +1186,11 @@
 			],
 			"answer": "L'altezza delle note",
 			"explanation": "Le note restano le stesse: cresce solo quanto forte vengono suonate.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"L'intensità del suono": "L'intensità è proprio ciò che cambia durante un crescendo: cresce.",
+				"L'energia dell'esecuzione": "L'energia percepita cambia insieme al volume durante il crescendo.",
+				"La percezione di tensione": "La tensione percepita aumenta insieme al volume durante il crescendo."
+			}
 		},
 		{
 			"id": "musica-intervalli-45",
@@ -1047,7 +1207,11 @@
 			],
 			"answer": "La distanza fra due note",
 			"explanation": "Si misura contando i gradi da una nota all'altra, estremi compresi.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"La pausa fra due brani": "Una pausa fra brani non è un intervallo musicale: quello è la distanza fra due note.",
+				"Il tempo fra due battute": "Il tempo fra battute riguarda la durata, non la distanza fra note.",
+				"Il volume fra due suoni": "Il volume è la dinamica, un concetto diverso dall'intervallo."
+			}
 		},
 		{
 			"id": "musica-intervalli-46",
@@ -1075,7 +1239,11 @@
 			],
 			"answer": "Ottava",
 			"explanation": "Si contano otto gradi: do, re, mi, fa, sol, la, si, do. Le due note hanno lo stesso nome e suonano «uguali ma più alte».",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Quinta": "La quinta si conta su cinque gradi, non su otto come da do a do.",
+				"Terza": "La terza si conta su tre gradi, non su otto.",
+				"Settima": "La settima si conta su sette gradi, uno in meno degli otto fra due do."
+			}
 		},
 		{
 			"id": "musica-intervalli-48",
@@ -1103,7 +1271,11 @@
 			],
 			"answer": "Si fondono e sembrano quasi la stessa nota",
 			"explanation": "L'ottava è l'intervallo più consonante che esista dopo l'unisono: per questo uomini e bambini possono cantare «la stessa» melodia.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Creano una forte dissonanza": "L'ottava è l'intervallo più consonante che ci sia dopo l'unisono, non dissonante.",
+				"Suonano come note lontanissime": "Anche se le frequenze sono diverse, l'orecchio le percepisce come molto vicine, quasi la stessa nota.",
+				"Non possono essere suonate insieme": "Si possono suonare insieme benissimo: è una delle combinazioni più naturali che esistano."
+			}
 		},
 		{
 			"id": "musica-intervalli-50",
@@ -1120,7 +1292,11 @@
 			],
 			"answer": "Perché le due frequenze si accordano semplicemente",
 			"explanation": "Il rapporto fra le due frequenze è semplice, e l'orecchio percepisce come consonante ciò che è semplice.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Perché è l'intervallo più ampio possibile": "L'ottava è più ampia della quinta: non è la quinta l'intervallo più ampio.",
+				"Perché usa sempre e solo le note bianche": "La quinta si può costruire anche con note alterate, non solo bianche.",
+				"Perché si suona soltanto sulle note basse": "La quinta è stabile a qualunque altezza, non solo sulle note basse."
+			}
 		},
 		{
 			"id": "musica-note-51",
@@ -1148,7 +1324,11 @@
 			],
 			"answer": "La",
 			"explanation": "L'ordine è do, re, mi, fa, sol, la, si: dopo sol viene la.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Mi": "Il mi viene molto prima nell'ordine delle note, non subito dopo il sol.",
+				"Re": "Il re viene molto prima nell'ordine delle note, non subito dopo il sol.",
+				"Si": "Il si viene dopo il la, non subito dopo il sol."
+			}
 		},
 		{
 			"id": "musica-note-53",
@@ -1165,7 +1345,11 @@
 			],
 			"answer": "La frequenza con cui vibra il suono",
 			"explanation": "Più veloce è la vibrazione, più il suono è acuto. Il timbro e il volume sono altre caratteristiche.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"L'intensità con cui si suona": "L'intensità è il volume, un'altra caratteristica indipendente dall'altezza.",
+				"La durata della nota scritta": "La durata non determina se una nota è acuta o grave.",
+				"Lo strumento che la produce": "Lo stesso strumento può produrre sia note acute sia gravi: non è lo strumento a deciderlo."
+			}
 		},
 		{
 			"id": "musica-note-54",
@@ -1193,7 +1377,11 @@
 			],
 			"answer": "Perché una vibra al doppio della velocità dell'altra",
 			"explanation": "Il rapporto esatto di 2 a 1 fra le frequenze è ciò che il nostro orecchio riconosce come «stessa nota, più alta».",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Perché si scrivono esattamente nello stesso punto": "Si scrivono in punti diversi del pentagramma, essendo un'ottava più in alto.",
+				"Perché hanno sempre lo stesso identico timbro": "Il timbro dipende dallo strumento, non dalla relazione di ottava.",
+				"Perché durano tutte e due lo stesso tempo": "La durata è indipendente dalla relazione di ottava fra le due note."
+			}
 		},
 		{
 			"id": "musica-note-56",
@@ -1210,7 +1398,11 @@
 			],
 			"answer": "Quale nota corrisponde a quale riga",
 			"explanation": "Senza chiave le righe non hanno un nome: la chiave di violino fissa il sol sulla seconda riga, e tutto il resto ne discende.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Quanto forte si deve suonare": "Il volume si indica con segni di dinamica, non con la chiave.",
+				"Con quale velocità si comincia": "La velocità si indica con termini come «allegro» o «andante», non con la chiave.",
+				"Quanti strumenti devono suonare": "Il numero di strumenti non è indicato dalla chiave musicale."
+			}
 		},
 		{
 			"id": "musica-note-57",
@@ -1222,7 +1414,11 @@
 			"options": [],
 			"answer": "7",
 			"explanation": "Do, Re, Mi, Fa, Sol, La, Si: sette note.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"5": "Sono di più: mancherebbero fa e si, per esempio.",
+				"8": "Contando anche la ripetizione del do all'ottava si arriva a otto note scritte, ma le note di base distinte sono sette.",
+				"10": "Non ci sono dieci note di base: sono sette, poi si ripetono."
+			}
 		},
 		{
 			"id": "musica-note-58",
@@ -1239,7 +1435,11 @@
 			],
 			"answer": "Re",
 			"explanation": "L'ordine è Do, Re, Mi, Fa, Sol, La, Si.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Mi": "Il mi viene due posizioni dopo il do, non subito dopo.",
+				"Si": "Il si viene molto dopo nell'ordine, appena prima che si ricominci dal do.",
+				"Fa": "Il fa viene più avanti nell'ordine delle note, non subito dopo il do."
+			}
 		},
 		{
 			"id": "musica-note-59",
@@ -1256,7 +1456,11 @@
 			],
 			"answer": "La",
 			"explanation": "…Sol, La, Si, poi si ricomincia da Do.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Fa": "Il fa viene prima del sol nell'ordine delle note, non dopo.",
+				"Do": "Il do è la prima nota della scala: viene molto prima del sol, non dopo.",
+				"Mi": "Il mi viene prima del sol nell'ordine delle note, non dopo."
+			}
 		},
 		{
 			"id": "musica-lettura-60",
@@ -1273,7 +1477,11 @@
 			],
 			"answer": "Sul pentagramma",
 			"explanation": "Il pentagramma ha 5 righe e 4 spazi.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Su un foglio a quadretti": "I quadretti non hanno le cinque righe necessarie per indicare l'altezza delle note.",
+				"Sulla tastiera del pc": "Le note si scrivono su carta o software musicale con righe, non direttamente sulla tastiera.",
+				"Su un foglio bianco": "Un foglio bianco non ha le righe che indicano l'altezza: serve il pentagramma."
+			}
 		},
 		{
 			"id": "musica-lettura-61",
@@ -1285,7 +1493,11 @@
 			"options": [],
 			"answer": "5",
 			"explanation": "Penta- significa cinque: cinque righe.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"4": "Sono di meno: il pentagramma ne ha una in più.",
+				"6": "Sono di più: il pentagramma ne ha una in meno.",
+				"7": "Il numero sette è quello delle note musicali, non delle righe del pentagramma."
+			}
 		},
 		{
 			"id": "musica-ritmo-62",
@@ -1302,7 +1514,11 @@
 			],
 			"answer": "La semibreve",
 			"explanation": "La semibreve vale 4 battiti: più di minima, semiminima e croma.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"La croma": "La croma è una delle figure più brevi, non la più lunga.",
+				"La semiminima": "La semiminima vale un solo movimento, molto meno della semibreve.",
+				"La minima": "La minima vale due movimenti, ancora meno della semibreve che ne vale quattro."
+			}
 		},
 		{
 			"id": "musica-ritmo-63",
@@ -1314,7 +1530,11 @@
 			"options": [],
 			"answer": "4",
 			"explanation": "Il 4 in alto indica quattro battiti per battuta.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"2": "Il numero in alto della frazione dice quattro, non due.",
+				"3": "Tre battiti per battuta è il tempo di 3/4, non di 4/4.",
+				"8": "Otto sarebbe il doppio: il 4 in alto indica proprio quattro battiti."
+			}
 		},
 		{
 			"id": "musica-ritmo-64",
@@ -1331,7 +1551,11 @@
 			],
 			"answer": "Il doppio",
 			"explanation": "La minima vale 2 battiti, la semiminima 1: il doppio.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"La metà": "È il contrario: la minima dura di più, non di meno, della semiminima.",
+				"Uguale": "Non sono uguali: la minima vale due movimenti, la semiminima uno.",
+				"Il triplo": "Il rapporto è di due a uno, non di tre a uno."
+			}
 		},
 		{
 			"id": "musica-intervalli-65",
@@ -1348,7 +1572,11 @@
 			],
 			"answer": "Quinta",
 			"explanation": "Do-Re-Mi-Fa-Sol: cinque note, quindi una quinta.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Terza": "La terza si conta su tre note, non su cinque come do-sol.",
+				"Quarta": "La quarta si conta su quattro note, una in meno di do-sol.",
+				"Ottava": "L'ottava si conta su otto note, tre in più di do-sol."
+			}
 		},
 		{
 			"id": "musica-strumenti-66",
@@ -1365,7 +1593,11 @@
 			],
 			"answer": "La chitarra",
 			"explanation": "La chitarra produce suono con le corde.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Il flauto": "Il flauto è uno strumento a fiato, non a corde.",
+				"La tromba": "La tromba è un ottone, non uno strumento a corde.",
+				"Il tamburo": "Il tamburo è una percussione, non uno strumento a corde."
+			}
 		},
 		{
 			"id": "musica-strumenti-67",
@@ -1382,7 +1614,11 @@
 			],
 			"answer": "Fiato",
 			"explanation": "Il flauto suona soffiando aria: è uno strumento a fiato.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Corde": "Il flauto non ha corde: produce il suono con l'aria soffiata.",
+				"Percussione": "Il flauto non si suona percuotendo, ma soffiando aria.",
+				"Tastiera": "Il flauto non ha una tastiera: si suona con fori e chiavi."
+			}
 		},
 		{
 			"id": "musica-timbro-68",
@@ -1399,7 +1635,11 @@
 			],
 			"answer": "Il timbro",
 			"explanation": "Il timbro è il 'colore' del suono, diverso per ogni strumento.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Il volume": "Il volume può essere regolato allo stesso livello in entrambi: non è la vera causa della differenza.",
+				"La durata": "La durata della nota non è ciò che li distingue all'ascolto.",
+				"Il tempo": "Il tempo del brano è indipendente dal confronto fra i due strumenti."
+			}
 		},
 		{
 			"id": "musica-dinamica-69",
@@ -1416,7 +1656,11 @@
 			],
 			"answer": "L'intensità del suono (il volume)",
 			"explanation": "Le dinamiche dicono quanto suonare forte o piano.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"La velocità con cui si suona": "Quella è il tempo, non la dinamica.",
+				"L'altezza (acuto o grave)": "L'altezza è un'altra caratteristica del suono, indipendente dalla dinamica.",
+				"La durata di ogni nota scritta": "La durata è un'altra caratteristica, non la dinamica."
+			}
 		},
 		{
 			"id": "musica-dinamica-70",
@@ -1433,7 +1677,11 @@
 			],
 			"answer": "Tempo (andamento)",
 			"explanation": "Il tempo indica la velocità: da lento (adagio) a veloce (allegro).",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Timbro (colore)": "Il timbro riguarda il colore del suono, non la velocità.",
+				"Volume (intensità)": "Il volume riguarda l'intensità, non la velocità.",
+				"Silenzio (pausa)": "La pausa è un silenzio scritto, non un'indicazione di velocità."
+			}
 		},
 		{
 			"id": "musica-lettura-71",
@@ -1593,7 +1841,12 @@
 				"Dodici"
 			],
 			"answer": "Sette",
-			"explanation": "Do, re, mi, fa, sol, la, si: sette note che poi ricominciano."
+			"explanation": "Do, re, mi, fa, sol, la, si: sette note che poi ricominciano.",
+			"distractorWhy": {
+				"Cinque": "Sono di meno: mancherebbero fa e si, per esempio.",
+				"Nove": "Sono di più delle sette note di base.",
+				"Dodici": "Dodici sono i semitoni in un'ottava, non le note della scala di base."
+			}
 		},
 		{
 			"id": "musica-note-quale-nota-viene-subito-dopo-il-mi",
@@ -1609,7 +1862,12 @@
 				"La"
 			],
 			"answer": "Fa",
-			"explanation": "L'ordine è do, re, mi, fa, sol, la, si: dopo il mi viene il fa."
+			"explanation": "L'ordine è do, re, mi, fa, sol, la, si: dopo il mi viene il fa.",
+			"distractorWhy": {
+				"Re": "Il re viene prima del mi, non dopo.",
+				"Sol": "Il sol viene due posizioni dopo il mi, non subito dopo.",
+				"La": "Il la viene ancora più avanti nell'ordine, non subito dopo il mi."
+			}
 		},
 		{
 			"id": "musica-note-quale-nota-viene-subito-prima-del-do",
@@ -1625,7 +1883,12 @@
 				"Fa"
 			],
 			"answer": "Si",
-			"explanation": "La scala si chiude con il si e poi ricomincia dal do."
+			"explanation": "La scala si chiude con il si e poi ricomincia dal do.",
+			"distractorWhy": {
+				"Re": "Il re viene subito dopo il do, non prima.",
+				"La": "Il la viene prima del si, non subito prima del do.",
+				"Fa": "Il fa è lontano dal do nell'ordine delle note."
+			}
 		},
 		{
 			"id": "musica-strumenti-la-chitarra-fa-parte-della-famiglia-degli-strume",
@@ -1641,7 +1904,12 @@
 				"a corda"
 			],
 			"answer": "a corda",
-			"explanation": "Il suono della chitarra nasce dalle corde che vibrano."
+			"explanation": "Il suono della chitarra nasce dalle corde che vibrano.",
+			"distractorWhy": {
+				"a fiato": "La chitarra non si suona soffiando: il suono nasce dalle corde.",
+				"a percussione": "La chitarra non si suona percuotendo: le corde vengono pizzicate.",
+				"a tastiera": "La chitarra non ha una tastiera: si suona con le dita sulle corde."
+			}
 		},
 		{
 			"id": "musica-strumenti-il-tamburo-fa-parte-della-famiglia-degli-strumen",
@@ -1657,7 +1925,12 @@
 				"a tastiera"
 			],
 			"answer": "a percussione",
-			"explanation": "Il tamburo suona quando viene percosso: è una percussione."
+			"explanation": "Il tamburo suona quando viene percosso: è una percussione.",
+			"distractorWhy": {
+				"a corda": "Il tamburo non ha corde: il suono nasce percuotendo la pelle.",
+				"a fiato": "Il tamburo non si suona soffiando, ma percuotendo.",
+				"a tastiera": "Il tamburo non ha una tastiera: si suona percuotendo la pelle."
+			}
 		},
 		{
 			"id": "musica-strumenti-il-flauto-fa-parte-della-famiglia-degli-strument",
@@ -1673,7 +1946,12 @@
 				"a tastiera"
 			],
 			"answer": "a fiato",
-			"explanation": "Nel flauto è l'aria soffiata a produrre il suono."
+			"explanation": "Nel flauto è l'aria soffiata a produrre il suono.",
+			"distractorWhy": {
+				"a corda": "Il flauto non ha corde: il suono nasce dall'aria soffiata.",
+				"a percussione": "Il flauto non si suona percuotendo, ma soffiando aria.",
+				"a tastiera": "Il flauto non ha una tastiera: si suona con fori e chiavi."
+			}
 		},
 		{
 			"id": "musica-ritmo-che-cosa-indica-il-ritmo-di-un-brano",
@@ -1689,7 +1967,12 @@
 				"Il volume dei suoni"
 			],
 			"answer": "La durata dei suoni",
-			"explanation": "Il ritmo organizza quanto dura ogni suono e ogni silenzio."
+			"explanation": "Il ritmo organizza quanto dura ogni suono e ogni silenzio.",
+			"distractorWhy": {
+				"Il colore del suono": "Il colore del suono è il timbro, non il ritmo.",
+				"L'altezza dei suoni": "L'altezza è acuto/grave, un'altra caratteristica, non il ritmo.",
+				"Il volume dei suoni": "Il volume è la dinamica, un'altra caratteristica, non il ritmo."
+			}
 		},
 		{
 			"id": "musica-ritmo-una-pausa-in-musica-serve-a-indicare",
@@ -1705,7 +1988,12 @@
 				"un silenzio"
 			],
 			"answer": "un silenzio",
-			"explanation": "La pausa dice per quanto tempo non si suona: è silenzio scritto."
+			"explanation": "La pausa dice per quanto tempo non si suona: è silenzio scritto.",
+			"distractorWhy": {
+				"una nota acuta": "La pausa non è una nota: indica l'assenza di suono, non un'altezza.",
+				"una nota grave": "La pausa non è una nota: indica l'assenza di suono, non un'altezza.",
+				"un suono forte": "La pausa indica silenzio, cioè l'assenza di suono, non un volume alto."
+			}
 		},
 		{
 			"id": "musica-dinamica-il-segno-piano-p-chiede-di-suonare",
@@ -1721,7 +2009,12 @@
 				"molto lento"
 			],
 			"answer": "a volume basso",
-			"explanation": "Piano riguarda l'intensità: si suona a volume basso."
+			"explanation": "Piano riguarda l'intensità: si suona a volume basso.",
+			"distractorWhy": {
+				"a volume alto": "È il contrario: piano indica un volume basso, non alto.",
+				"molto veloce": "Piano riguarda il volume, non la velocità.",
+				"molto lento": "Piano riguarda il volume, non la velocità."
+			}
 		},
 		{
 			"id": "musica-dinamica-il-segno-forte-f-chiede-di-suonare",
@@ -1737,7 +2030,12 @@
 				"molto veloce"
 			],
 			"answer": "a volume alto",
-			"explanation": "Forte riguarda l'intensità: si suona a volume alto."
+			"explanation": "Forte riguarda l'intensità: si suona a volume alto.",
+			"distractorWhy": {
+				"a volume basso": "È il contrario: forte indica un volume alto, non basso.",
+				"molto lento": "Forte riguarda il volume, non la velocità.",
+				"molto veloce": "Forte riguarda il volume, non la velocità."
+			}
 		},
 		{
 			"id": "musica-lettura-in-un-tempo-di-3-4-quante-semiminime-stanno-in-u",
@@ -1753,7 +2051,12 @@
 				"Sei"
 			],
 			"answer": "Tre",
-			"explanation": "Il 3/4 indica tre movimenti da un quarto: tre semiminime per battuta."
+			"explanation": "Il 3/4 indica tre movimenti da un quarto: tre semiminime per battuta.",
+			"distractorWhy": {
+				"Quattro": "Quattro semiminime per battuta è il tempo di 4/4, non di 3/4.",
+				"Due": "Due semiminime sarebbero solo metà della battuta di 3/4.",
+				"Sei": "Sei sarebbe il doppio: il numero in alto della frazione indica proprio tre."
+			}
 		},
 		{
 			"id": "musica-lettura-il-punto-dopo-una-nota-ne-aumenta-la-durata-di",
@@ -1769,7 +2072,12 @@
 				"metà del suo valore"
 			],
 			"answer": "metà del suo valore",
-			"explanation": "Una minima puntata dura due battiti più uno: tre in tutto."
+			"explanation": "Una minima puntata dura due battiti più uno: tre in tutto.",
+			"distractorWhy": {
+				"un quarto del valore": "Il punto aggiunge la metà del valore, non un quarto.",
+				"il doppio del valore": "Il punto non raddoppia la nota: aggiunge solo la metà del suo valore.",
+				"un ottavo del valore": "Un ottavo è troppo poco: il punto aggiunge la metà del valore della nota."
+			}
 		},
 		{
 			"id": "musica-lettura-la-chiave-di-violino-fissa-il-sol-sulla",
@@ -1785,7 +2093,12 @@
 				"quarta riga"
 			],
 			"answer": "seconda riga",
-			"explanation": "La chiave di violino avvolge la seconda riga, che diventa il sol."
+			"explanation": "La chiave di violino avvolge la seconda riga, che diventa il sol.",
+			"distractorWhy": {
+				"prima riga": "La chiave di violino avvolge proprio la seconda riga, non la prima.",
+				"terza riga": "La chiave di violino fissa il sol sulla seconda riga, non sulla terza.",
+				"quarta riga": "La chiave di violino fissa il sol sulla seconda riga, non sulla quarta."
+			}
 		},
 		{
 			"id": "musica-intervalli-l-intervallo-fra-do-e-sol-contando-le-note-compr",
@@ -1801,7 +2114,12 @@
 				"terza"
 			],
 			"answer": "quinta",
-			"explanation": "Do-re-mi-fa-sol: cinque note contate, quindi una quinta."
+			"explanation": "Do-re-mi-fa-sol: cinque note contate, quindi una quinta.",
+			"distractorWhy": {
+				"quarta": "La quarta si conta su quattro note, una in meno di do-sol.",
+				"sesta": "La sesta si conta su sei note, una in più di do-sol.",
+				"terza": "La terza si conta su tre note, molto meno di do-sol."
+			}
 		},
 		{
 			"id": "musica-intervalli-l-intervallo-fra-do-e-fa-contando-le-note-compre",
@@ -1817,7 +2135,12 @@
 				"sesta"
 			],
 			"answer": "quarta",
-			"explanation": "Do-re-mi-fa: quattro note contate, quindi una quarta."
+			"explanation": "Do-re-mi-fa: quattro note contate, quindi una quarta.",
+			"distractorWhy": {
+				"quinta": "La quinta si conta su cinque note, una in più di do-fa.",
+				"terza": "La terza si conta su tre note, una in meno di do-fa.",
+				"sesta": "La sesta si conta su sei note, molto più di do-fa."
+			}
 		},
 		{
 			"id": "musica-intervalli-due-note-con-lo-stesso-nome-ma-a-distanza-di-ott",
@@ -1833,7 +2156,12 @@
 				"ottava"
 			],
 			"answer": "ottava",
-			"explanation": "Otto gradi separano le due note: è l'intervallo di ottava."
+			"explanation": "Otto gradi separano le due note: è l'intervallo di ottava.",
+			"distractorWhy": {
+				"unisono": "L'unisono è la stessa nota senza distanza: qui invece ci sono otto gradi di distanza.",
+				"settima": "La settima si conta su sette gradi, uno in meno degli otto fra due do.",
+				"sesta": "La sesta si conta su sei gradi, ancora meno degli otto fra due do."
+			}
 		},
 		{
 			"id": "musica-ritmo-in-4-4-una-minima-e-due-semiminime-riempiono",
@@ -1849,7 +2177,12 @@
 				"un quarto di battuta"
 			],
 			"answer": "una battuta intera",
-			"explanation": "Due più uno più uno fa quattro quarti: la battuta è piena."
+			"explanation": "Due più uno più uno fa quattro quarti: la battuta è piena.",
+			"distractorWhy": {
+				"mezza battuta": "Sommando i valori si ottengono quattro quarti esatti, cioè una battuta intera, non mezza.",
+				"due battute": "I valori sommati danno esattamente quattro quarti, cioè una sola battuta, non due.",
+				"un quarto di battuta": "I valori sommati riempiono l'intera battuta, non solo un quarto."
+			}
 		},
 		{
 			"id": "musica-timbro-che-cosa-distingue-il-timbro-di-due-strumenti-ch",
@@ -1865,7 +2198,12 @@
 				"Il volume del suono"
 			],
 			"answer": "Il colore del suono",
-			"explanation": "Il timbro è ciò che fa riconoscere il violino dal flauto."
+			"explanation": "Il timbro è ciò che fa riconoscere il violino dal flauto.",
+			"distractorWhy": {
+				"L'altezza del suono": "L'altezza è la stessa, dato che è la stessa nota: non può essere lei a distinguerli.",
+				"La durata del suono": "La durata non è ciò che distingue due strumenti sulla stessa nota.",
+				"Il volume del suono": "Il volume può essere regolato allo stesso livello: non è la vera causa della differenza."
+			}
 		},
 		{
 			"id": "musica-dinamica-il-segno-crescendo-chiede-di",
@@ -1881,7 +2219,12 @@
 				"rallentare il tempo"
 			],
 			"answer": "aumentare gradualmente",
-			"explanation": "Crescendo riguarda l'intensità, che sale poco a poco."
+			"explanation": "Crescendo riguarda l'intensità, che sale poco a poco.",
+			"distractorWhy": {
+				"diminuire di colpo": "È il contrario: crescendo vuol dire aumentare, non diminuire, e in modo graduale non di colpo.",
+				"accelerare il tempo": "Crescendo riguarda il volume, non la velocità.",
+				"rallentare il tempo": "Crescendo riguarda il volume, non la velocità."
+			}
 		},
 		{
 			"id": "musica-note-un-alterazione-diesis-davanti-a-una-nota-la-fa-s",
@@ -1897,7 +2240,12 @@
 				"un semitono"
 			],
 			"answer": "un semitono",
-			"explanation": "Il diesis alza la nota del più piccolo passo: un semitono."
+			"explanation": "Il diesis alza la nota del più piccolo passo: un semitono.",
+			"distractorWhy": {
+				"un tono intero": "Il tono intero è un passo più grande: il diesis alza solo di un semitono.",
+				"una terza": "La terza è un intervallo fra note diverse, non l'alterazione minima del diesis.",
+				"un'ottava": "L'ottava è una distanza molto più grande: il diesis alza solo di un semitono."
+			}
 		},
 		{
 			"id": "musica-banda-intervalli-0",

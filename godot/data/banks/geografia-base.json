@@ -59,7 +59,12 @@
 				"Africa"
 			],
 			"answer": "Europa",
-			"explanation": "L'Italia si trova in Europa: è la penisola a forma di stivale allungata nel Mediterraneo."
+			"explanation": "L'Italia si trova in Europa: è la penisola a forma di stivale allungata nel Mediterraneo.",
+			"distractorWhy": {
+				"Antartide": "Antartide è un altro continente rispetto a quello dell'Italia.",
+				"Africa": "Africa ospita per esempio l'Egitto, non l'Italia.",
+				"Oceania": "Oceania ospita per esempio l'Australia, non l'Italia."
+			}
 		},
 		{
 			"id": "geografia-cap-Parigi",
@@ -117,7 +122,12 @@
 				"Africa"
 			],
 			"answer": "Europa",
-			"explanation": "La Francia si trova in Europa: si affaccia sia sull'Atlantico sia sul Mediterraneo."
+			"explanation": "La Francia si trova in Europa: si affaccia sia sull'Atlantico sia sul Mediterraneo.",
+			"distractorWhy": {
+				"Asia": "Asia ospita per esempio il Giappone, non la Francia.",
+				"Africa": "Africa ospita per esempio l'Egitto, non la Francia.",
+				"Antartide": "Antartide è un altro continente rispetto a quello della Francia."
+			}
 		},
 		{
 			"id": "geografia-cap-Madrid",
@@ -175,7 +185,12 @@
 				"Oceania"
 			],
 			"answer": "Europa",
-			"explanation": "La Spagna si trova in Europa: occupa quasi tutta la penisola iberica."
+			"explanation": "La Spagna si trova in Europa: occupa quasi tutta la penisola iberica.",
+			"distractorWhy": {
+				"Oceania": "Oceania ospita per esempio l'Australia, non la Spagna.",
+				"Asia": "Asia ospita per esempio il Giappone, non la Spagna.",
+				"Africa": "Africa ospita per esempio l'Egitto, non la Spagna."
+			}
 		},
 		{
 			"id": "geografia-cap-Berlino",
@@ -233,7 +248,12 @@
 				"Europa"
 			],
 			"answer": "Europa",
-			"explanation": "La Germania si trova in Europa: confina con nove Paesi, più di ogni altro Stato europeo."
+			"explanation": "La Germania si trova in Europa: confina con nove Paesi, più di ogni altro Stato europeo.",
+			"distractorWhy": {
+				"Asia": "Asia ospita per esempio il Giappone, non la Germania.",
+				"Africa": "Africa ospita per esempio l'Egitto, non la Germania.",
+				"Antartide": "Antartide è un altro continente rispetto a quello della Germania."
+			}
 		},
 		{
 			"id": "geografia-cap-Londra",
@@ -291,7 +311,12 @@
 				"Antartide"
 			],
 			"answer": "Europa",
-			"explanation": "Il Regno Unito si trova in Europa: è un'isola a nord-ovest dell'Europa continentale."
+			"explanation": "Il Regno Unito si trova in Europa: è un'isola a nord-ovest dell'Europa continentale.",
+			"distractorWhy": {
+				"Oceania": "Oceania ospita per esempio l'Australia, non il Regno Unito.",
+				"Antartide": "Antartide è un altro continente rispetto a quello del Regno Unito.",
+				"Africa": "Africa ospita per esempio l'Egitto, non il Regno Unito."
+			}
 		},
 		{
 			"id": "geografia-cap-Lisbona",
@@ -349,7 +374,12 @@
 				"Asia"
 			],
 			"answer": "Europa",
-			"explanation": "Il Portogallo si trova in Europa: è la punta occidentale dell'Europa continentale."
+			"explanation": "Il Portogallo si trova in Europa: è la punta occidentale dell'Europa continentale.",
+			"distractorWhy": {
+				"Africa": "Africa ospita per esempio l'Egitto, non il Portogallo.",
+				"Asia": "Asia ospita per esempio il Giappone, non il Portogallo.",
+				"Oceania": "Oceania ospita per esempio l'Australia, non il Portogallo."
+			}
 		},
 		{
 			"id": "geografia-cap-Atene",
@@ -407,7 +437,12 @@
 				"Africa"
 			],
 			"answer": "Europa",
-			"explanation": "La Grecia si trova in Europa: è fatta di una penisola e di migliaia di isole nel Mediterraneo."
+			"explanation": "La Grecia si trova in Europa: è fatta di una penisola e di migliaia di isole nel Mediterraneo.",
+			"distractorWhy": {
+				"Antartide": "Antartide è un altro continente rispetto a quello della Grecia.",
+				"Asia": "Asia ospita per esempio il Giappone, non la Grecia.",
+				"Africa": "Africa ospita per esempio l'Egitto, non la Grecia."
+			}
 		},
 		{
 			"id": "geografia-cap-Vienna",
@@ -465,7 +500,12 @@
 				"Europa"
 			],
 			"answer": "Europa",
-			"explanation": "L'Austria si trova in Europa: è uno Stato alpino, senza alcuno sbocco sul mare."
+			"explanation": "L'Austria si trova in Europa: è uno Stato alpino, senza alcuno sbocco sul mare.",
+			"distractorWhy": {
+				"Asia": "Asia ospita per esempio il Giappone, non l'Austria.",
+				"Antartide": "Antartide è un altro continente rispetto a quello dell'Austria.",
+				"Africa": "Africa ospita per esempio l'Egitto, non l'Austria."
+			}
 		},
 		{
 			"id": "geografia-cap-Bruxelles",
@@ -523,7 +563,12 @@
 				"Antartide"
 			],
 			"answer": "Europa",
-			"explanation": "Il Belgio si trova in Europa: è un piccolo Stato affacciato sul Mare del Nord."
+			"explanation": "Il Belgio si trova in Europa: è un piccolo Stato affacciato sul Mare del Nord.",
+			"distractorWhy": {
+				"Oceania": "Oceania ospita per esempio l'Australia, non il Belgio.",
+				"Africa": "Africa ospita per esempio l'Egitto, non il Belgio.",
+				"Antartide": "Antartide è un altro continente rispetto a quello del Belgio."
+			}
 		},
 		{
 			"id": "geografia-cap-Amsterdam",
@@ -581,7 +626,12 @@
 				"Oceania"
 			],
 			"answer": "Europa",
-			"explanation": "I Paesi Bassi si trovano in Europa: stanno in gran parte sotto il livello del mare, protetti dalle dighe."
+			"explanation": "I Paesi Bassi si trovano in Europa: stanno in gran parte sotto il livello del mare, protetti dalle dighe.",
+			"distractorWhy": {
+				"Africa": "Africa ospita per esempio l'Egitto, non i Paesi Bassi.",
+				"Asia": "Asia ospita per esempio il Giappone, non i Paesi Bassi.",
+				"Oceania": "Oceania ospita per esempio l'Australia, non i Paesi Bassi."
+			}
 		},
 		{
 			"id": "geografia-cap-Varsavia",
@@ -639,7 +689,12 @@
 				"Oceania"
 			],
 			"answer": "Europa",
-			"explanation": "La Polonia si trova in Europa: sta nell'Europa centro-orientale, affacciata sul Mar Baltico."
+			"explanation": "La Polonia si trova in Europa: sta nell'Europa centro-orientale, affacciata sul Mar Baltico.",
+			"distractorWhy": {
+				"Africa": "Africa ospita per esempio l'Egitto, non la Polonia.",
+				"Oceania": "Oceania ospita per esempio l'Australia, non la Polonia.",
+				"Antartide": "Antartide è un altro continente rispetto a quello della Polonia."
+			}
 		},
 		{
 			"id": "geografia-cap-Stoccolma",
@@ -697,7 +752,12 @@
 				"Europa"
 			],
 			"answer": "Europa",
-			"explanation": "La Svezia si trova in Europa: occupa gran parte della penisola scandinava."
+			"explanation": "La Svezia si trova in Europa: occupa gran parte della penisola scandinava.",
+			"distractorWhy": {
+				"Oceania": "Oceania ospita per esempio l'Australia, non la Svezia.",
+				"Antartide": "Antartide è un altro continente rispetto a quello della Svezia.",
+				"Asia": "Asia ospita per esempio il Giappone, non la Svezia."
+			}
 		},
 		{
 			"id": "geografia-cap-Oslo",
@@ -755,7 +815,12 @@
 				"Asia"
 			],
 			"answer": "Europa",
-			"explanation": "La Norvegia si trova in Europa: ha una costa frastagliata di fiordi lunga migliaia di chilometri."
+			"explanation": "La Norvegia si trova in Europa: ha una costa frastagliata di fiordi lunga migliaia di chilometri.",
+			"distractorWhy": {
+				"Asia": "Asia ospita per esempio il Giappone, non la Norvegia.",
+				"Africa": "Africa ospita per esempio l'Egitto, non la Norvegia.",
+				"Oceania": "Oceania ospita per esempio l'Australia, non la Norvegia."
+			}
 		},
 		{
 			"id": "geografia-cap-Mosca",
@@ -813,7 +878,12 @@
 				"Oceania"
 			],
 			"answer": "Europa",
-			"explanation": "La Russia si trova in Europa: è lo Stato più esteso del mondo e si allunga fra Europa e Asia."
+			"explanation": "La Russia si trova in Europa: è lo Stato più esteso del mondo e si allunga fra Europa e Asia.",
+			"distractorWhy": {
+				"Asia": "Asia ospita per esempio il Giappone, non la Russia.",
+				"Antartide": "Antartide è un altro continente rispetto a quello della Russia.",
+				"Oceania": "Oceania ospita per esempio l'Australia, non la Russia."
+			}
 		},
 		{
 			"id": "geografia-cap-Washington",
@@ -871,7 +941,12 @@
 				"Oceania"
 			],
 			"answer": "America del Nord",
-			"explanation": "Gli Stati Uniti si trovano in America del Nord: si estendono da un oceano all'altro."
+			"explanation": "Gli Stati Uniti si trovano in America del Nord: si estendono da un oceano all'altro.",
+			"distractorWhy": {
+				"America del Sud": "America del Sud ospita per esempio il Brasile, non gli Stati Uniti.",
+				"Africa": "Africa ospita per esempio l'Egitto, non gli Stati Uniti.",
+				"Oceania": "Oceania ospita per esempio l'Australia, non gli Stati Uniti."
+			}
 		},
 		{
 			"id": "geografia-cap-Ottawa",
@@ -929,7 +1004,12 @@
 				"America del Nord"
 			],
 			"answer": "America del Nord",
-			"explanation": "Il Canada si trova in America del Nord: è il secondo Stato più esteso del mondo."
+			"explanation": "Il Canada si trova in America del Nord: è il secondo Stato più esteso del mondo.",
+			"distractorWhy": {
+				"Africa": "Africa ospita per esempio l'Egitto, non il Canada.",
+				"Oceania": "Oceania ospita per esempio l'Australia, non il Canada.",
+				"America del Sud": "America del Sud ospita per esempio il Brasile, non il Canada."
+			}
 		},
 		{
 			"id": "geografia-cap-Città del Messico",
@@ -987,7 +1067,12 @@
 				"Oceania"
 			],
 			"answer": "America del Nord",
-			"explanation": "Il Messico si trova in America del Nord: fa da ponte fra l'America del Nord e quella centrale."
+			"explanation": "Il Messico si trova in America del Nord: fa da ponte fra l'America del Nord e quella centrale.",
+			"distractorWhy": {
+				"Oceania": "Oceania ospita per esempio l'Australia, non il Messico.",
+				"America del Sud": "America del Sud ospita per esempio il Brasile, non il Messico.",
+				"Europa": "Europa ospita per esempio l'Italia, non il Messico."
+			}
 		},
 		{
 			"id": "geografia-cap-Brasília",
@@ -1045,7 +1130,12 @@
 				"Europa"
 			],
 			"answer": "America del Sud",
-			"explanation": "Il Brasile si trova in America del Sud: è il Paese più grande dell'America del Sud e ospita gran parte dell'Amazzonia."
+			"explanation": "Il Brasile si trova in America del Sud: è il Paese più grande dell'America del Sud e ospita gran parte dell'Amazzonia.",
+			"distractorWhy": {
+				"Europa": "Europa ospita per esempio l'Italia, non il Brasile.",
+				"America del Nord": "America del Nord ospita per esempio gli Stati Uniti, non il Brasile.",
+				"Antartide": "Antartide è un altro continente rispetto a quello del Brasile."
+			}
 		},
 		{
 			"id": "geografia-cap-Buenos Aires",
@@ -1103,7 +1193,12 @@
 				"America del Nord"
 			],
 			"answer": "America del Sud",
-			"explanation": "L'Argentina si trova in America del Sud: si allunga verso sud fin quasi all'Antartide."
+			"explanation": "L'Argentina si trova in America del Sud: si allunga verso sud fin quasi all'Antartide.",
+			"distractorWhy": {
+				"America del Nord": "America del Nord ospita per esempio gli Stati Uniti, non l'Argentina.",
+				"Antartide": "Antartide è un altro continente rispetto a quello dell'Argentina.",
+				"Oceania": "Oceania ospita per esempio l'Australia, non l'Argentina."
+			}
 		},
 		{
 			"id": "geografia-cap-Tokyo",
@@ -1161,7 +1256,12 @@
 				"Asia"
 			],
 			"answer": "Asia",
-			"explanation": "Il Giappone si trova in Asia: è un arcipelago di isole al largo dell'Asia orientale."
+			"explanation": "Il Giappone si trova in Asia: è un arcipelago di isole al largo dell'Asia orientale.",
+			"distractorWhy": {
+				"Africa": "Africa ospita per esempio l'Egitto, non il Giappone.",
+				"Oceania": "Oceania ospita per esempio l'Australia, non il Giappone.",
+				"Antartide": "Antartide è un altro continente rispetto a quello del Giappone."
+			}
 		},
 		{
 			"id": "geografia-cap-Pechino",
@@ -1219,7 +1319,12 @@
 				"Africa"
 			],
 			"answer": "Asia",
-			"explanation": "La Cina si trova in Asia: occupa gran parte dell'Asia orientale."
+			"explanation": "La Cina si trova in Asia: occupa gran parte dell'Asia orientale.",
+			"distractorWhy": {
+				"Antartide": "Antartide è un altro continente rispetto a quello della Cina.",
+				"Africa": "Africa ospita per esempio l'Egitto, non la Cina.",
+				"Oceania": "Oceania ospita per esempio l'Australia, non la Cina."
+			}
 		},
 		{
 			"id": "geografia-cap-Nuova Delhi",
@@ -1277,7 +1382,12 @@
 				"Antartide"
 			],
 			"answer": "Asia",
-			"explanation": "L'India si trova in Asia: è un grande subcontinente che si spinge nell'Oceano Indiano."
+			"explanation": "L'India si trova in Asia: è un grande subcontinente che si spinge nell'Oceano Indiano.",
+			"distractorWhy": {
+				"Oceania": "Oceania ospita per esempio l'Australia, non l'India.",
+				"Antartide": "Antartide è un altro continente rispetto a quello dell'India.",
+				"Europa": "Europa ospita per esempio l'Italia, non l'India."
+			}
 		},
 		{
 			"id": "geografia-cap-Il Cairo",
@@ -1335,7 +1445,12 @@
 				"Oceania"
 			],
 			"answer": "Africa",
-			"explanation": "L'Egitto si trova in Africa: sta nell'angolo nord-orientale dell'Africa, a cavallo del Nilo."
+			"explanation": "L'Egitto si trova in Africa: sta nell'angolo nord-orientale dell'Africa, a cavallo del Nilo.",
+			"distractorWhy": {
+				"Oceania": "Oceania ospita per esempio l'Australia, non l'Egitto.",
+				"Europa": "Europa ospita per esempio l'Italia, non l'Egitto.",
+				"Asia": "Asia ospita per esempio il Giappone, non l'Egitto."
+			}
 		},
 		{
 			"id": "geografia-cap-Canberra",
@@ -1393,7 +1508,12 @@
 				"Oceania"
 			],
 			"answer": "Oceania",
-			"explanation": "L'Australia si trova in Oceania: è insieme uno Stato e un continente."
+			"explanation": "L'Australia si trova in Oceania: è insieme uno Stato e un continente.",
+			"distractorWhy": {
+				"Antartide": "Antartide è un altro continente rispetto a quello dell'Australia.",
+				"Europa": "Europa ospita per esempio l'Italia, non l'Australia.",
+				"Asia": "Asia ospita per esempio il Giappone, non l'Australia."
+			}
 		},
 		{
 			"id": "geografia-geografia-fisica-72",
@@ -1409,7 +1529,12 @@
 				"Asia"
 			],
 			"answer": "Africa",
-			"explanation": "Il Sahara è il grande deserto caldo dell'Africa settentrionale."
+			"explanation": "Il Sahara è il grande deserto caldo dell'Africa settentrionale.",
+			"distractorWhy": {
+				"Asia": "L'Asia ha i suoi grandi deserti, come il Gobi, ma non il Sahara.",
+				"Oceania": "L'Oceania ha il proprio deserto, l'Outback australiano, ma non il Sahara.",
+				"Europa": "L'Europa non ha un grande deserto caldo: il clima è troppo umido."
+			}
 		},
 		{
 			"id": "geografia-geografia-fisica-73",
@@ -1425,7 +1550,12 @@
 				"Tropico"
 			],
 			"answer": "Equatore",
-			"explanation": "L'Equatore divide la Terra in emisfero nord e sud."
+			"explanation": "L'Equatore divide la Terra in emisfero nord e sud.",
+			"distractorWhy": {
+				"Meridiano": "Un meridiano va da un polo all'altro, non divide la Terra in due metà uguali.",
+				"Tropico": "I tropici sono due linee parallele all'equatore, spostate a nord e a sud, non la linea di mezzo.",
+				"Polo": "I poli sono due punti, non una linea."
+			}
 		},
 		{
 			"id": "geografia-geografia-fisica-74",
@@ -1441,7 +1571,12 @@
 				"Oceano Artico"
 			],
 			"answer": "Oceano Pacifico",
-			"explanation": "Il Pacifico è il più esteso e profondo degli oceani."
+			"explanation": "Il Pacifico è il più esteso e profondo degli oceani.",
+			"distractorWhy": {
+				"Oceano Atlantico": "L'Atlantico è il secondo per estensione, non il più grande.",
+				"Oceano Indiano": "L'Oceano Indiano è il terzo per estensione.",
+				"Oceano Artico": "L'Oceano Artico è il più piccolo di tutti."
+			}
 		},
 		{
 			"id": "geografia-geografia-fisica-75",
@@ -1457,7 +1592,12 @@
 				"Everest"
 			],
 			"answer": "Everest",
-			"explanation": "L'Everest, in Asia, supera gli 8800 metri."
+			"explanation": "L'Everest, in Asia, supera gli 8800 metri.",
+			"distractorWhy": {
+				"Monte Bianco": "Il Monte Bianco è la vetta più alta delle Alpi, non del mondo.",
+				"Kilimangiaro": "Il Kilimangiaro è la vetta più alta dell'Africa, non del mondo.",
+				"Aconcagua": "L'Aconcagua è la vetta più alta dell'America, non del mondo."
+			}
 		},
 		{
 			"id": "geografia-geografia-fisica-76",
@@ -1468,7 +1608,12 @@
 			"prompt": "Quanti sono i continenti della Terra?",
 			"options": [],
 			"answer": "7",
-			"explanation": "Europa, Asia, Africa, America del Nord, America del Sud, Oceania e Antartide."
+			"explanation": "Europa, Asia, Africa, America del Nord, America del Sud, Oceania e Antartide.",
+			"distractorWhy": {
+				"5": "È il conteggio se si unisce l'America in un continente solo e non si conta l'Antartide: qui si contano separati.",
+				"6": "È il conteggio se non si conta l'Antartide, che pure è un continente.",
+				"8": "Nessuna suddivisione dei continenti ne conta così tanti."
+			}
 		},
 		{
 			"id": "geografia-geografia-fisica-77",
@@ -1484,7 +1629,12 @@
 				"Asia"
 			],
 			"answer": "America del Sud",
-			"explanation": "L'Amazzonia e il suo fiume si trovano in America del Sud."
+			"explanation": "L'Amazzonia e il suo fiume si trovano in America del Sud.",
+			"distractorWhy": {
+				"Africa": "L'Africa ha il Congo come grande fiume equatoriale, non il Rio delle Amazzoni.",
+				"Asia": "L'Asia non ospita il bacino amazzonico.",
+				"America del Nord": "Il Rio delle Amazzoni resta a sud dell'istmo di Panama, in America del Sud."
+			}
 		},
 		{
 			"id": "geografia-geografia-fisica-78",
@@ -1500,7 +1650,12 @@
 				"Cascate"
 			],
 			"answer": "Ghiacciai",
-			"explanation": "I ghiacciai sono fiumi di ghiaccio che scendono dai monti; gli iceberg galleggiano nel mare."
+			"explanation": "I ghiacciai sono fiumi di ghiaccio che scendono dai monti; gli iceberg galleggiano nel mare.",
+			"distractorWhy": {
+				"Iceberg": "Gli iceberg sono pezzi di ghiaccio staccati da un ghiacciaio che galleggiano in mare: non sono loro a scivolare a valle.",
+				"Cascate": "Le cascate sono acqua che cade, non ghiaccio che scivola.",
+				"Sorgenti": "Le sorgenti sono il punto in cui nasce un corso d'acqua, non masse di ghiaccio."
+			}
 		},
 		{
 			"id": "geografia-geografia-fisica-79",
@@ -1516,7 +1671,12 @@
 				"Fossa delle Marianne"
 			],
 			"answer": "Fossa delle Marianne",
-			"explanation": "La Fossa delle Marianne supera gli 11 000 metri di profondità."
+			"explanation": "La Fossa delle Marianne supera gli 11 000 metri di profondità.",
+			"distractorWhy": {
+				"Mar dei Sargassi": "Il Mar dei Sargassi è famoso per le alghe in superficie, non per la profondità.",
+				"Golfo del Bengala": "Il Golfo del Bengala è un tratto di mare fra India e Birmania, non il punto più profondo.",
+				"Fossa di Giava": "La Fossa di Giava è profonda, ma meno della Fossa delle Marianne."
+			}
 		},
 		{
 			"id": "geografia-geografia-italia-80",
@@ -1532,7 +1692,12 @@
 				"Torino"
 			],
 			"answer": "Roma",
-			"explanation": "Roma non lo è sempre stata: l'Italia unita nacque nel 1861 con capitale Torino, poi Firenze; Roma lo diventò solo nel 1871."
+			"explanation": "Roma non lo è sempre stata: l'Italia unita nacque nel 1861 con capitale Torino, poi Firenze; Roma lo diventò solo nel 1871.",
+			"distractorWhy": {
+				"Milano": "Milano è la capitale economica d'Italia, ma non quella politica.",
+				"Napoli": "Napoli fu capitale del Regno delle Due Sicilie, non dell'Italia unita.",
+				"Torino": "Torino fu la prima capitale d'Italia, dal 1861, ma Roma lo è dal 1871."
+			}
 		},
 		{
 			"id": "geografia-geografia-italia-81",
@@ -1548,7 +1713,12 @@
 				"Tevere"
 			],
 			"answer": "Po",
-			"explanation": "Il Po, che attraversa la Pianura Padana, è il fiume più lungo d'Italia."
+			"explanation": "Il Po, che attraversa la Pianura Padana, è il fiume più lungo d'Italia.",
+			"distractorWhy": {
+				"Tevere": "Il Tevere attraversa Roma, ma è più corto del Po.",
+				"Arno": "L'Arno attraversa Firenze e Pisa, ma è più corto del Po.",
+				"Adige": "L'Adige è il secondo fiume più lungo d'Italia, dopo il Po."
+			}
 		},
 		{
 			"id": "geografia-geografia-italia-82",
@@ -1564,7 +1734,12 @@
 				"Elba e Ischia"
 			],
 			"answer": "Sicilia e Sardegna",
-			"explanation": "La Sicilia supera la Sardegna di poco. Sono anche le due isole più grandi di tutto il Mediterraneo."
+			"explanation": "La Sicilia supera la Sardegna di poco. Sono anche le due isole più grandi di tutto il Mediterraneo.",
+			"distractorWhy": {
+				"Sicilia ed Elba": "L'Elba è piccola: la seconda isola più grande è la Sardegna, non l'Elba.",
+				"Sardegna e Capri": "Capri è piccolissima: la prima isola per grandezza è la Sicilia, non Capri.",
+				"Elba e Ischia": "Elba e Ischia sono entrambe isole minori: le due maggiori sono Sicilia e Sardegna."
+			}
 		},
 		{
 			"id": "geografia-geografia-italia-83",
@@ -1580,7 +1755,12 @@
 				"Etna"
 			],
 			"answer": "Etna",
-			"explanation": "Erutta più spesso di quasi ogni altro vulcano al mondo perché sta proprio dove la placca africana spinge contro quella euroasiatica."
+			"explanation": "Erutta più spesso di quasi ogni altro vulcano al mondo perché sta proprio dove la placca africana spinge contro quella euroasiatica.",
+			"distractorWhy": {
+				"Vesuvio": "Il Vesuvio è in Campania, vicino a Napoli, non in Sicilia.",
+				"Stromboli": "Lo Stromboli è siciliano ma più piccolo, nelle isole Eolie.",
+				"Vulcano": "Anche Vulcano è nelle isole Eolie: dà il nome comune a tutti i vulcani, ma non è il più grande."
+			}
 		},
 		{
 			"id": "geografia-geografia-italia-84",
@@ -1596,7 +1776,12 @@
 				"Lago Maggiore"
 			],
 			"answer": "Lago di Garda",
-			"explanation": "Il Lago di Garda è il maggiore lago italiano per superficie."
+			"explanation": "Il Lago di Garda è il maggiore lago italiano per superficie.",
+			"distractorWhy": {
+				"Lago di Como": "Il Lago di Como è più piccolo del Garda.",
+				"Lago Maggiore": "Il Lago Maggiore è il secondo per superficie, dopo il Garda.",
+				"Lago Trasimeno": "Il Lago Trasimeno è molto più piccolo del Garda."
+			}
 		},
 		{
 			"id": "geografia-geografia-italia-85",
@@ -1612,7 +1797,12 @@
 				"Pirenei"
 			],
 			"answer": "Appennini",
-			"explanation": "Gli Appennini attraversano la penisola; le Alpi chiudono l'Italia a nord."
+			"explanation": "Gli Appennini attraversano la penisola; le Alpi chiudono l'Italia a nord.",
+			"distractorWhy": {
+				"Alpi": "Le Alpi chiudono l'Italia a nord, ma non attraversano la penisola da nord a sud.",
+				"Pirenei": "I Pirenei separano Francia e Spagna: non sono in Italia.",
+				"Dolomiti": "Le Dolomiti sono un gruppo di monti dentro le Alpi, non una catena a parte."
+			}
 		},
 		{
 			"id": "geografia-geografia-italia-86",
@@ -1628,7 +1818,12 @@
 				"Mar Tirreno"
 			],
 			"answer": "Mar Adriatico",
-			"explanation": "L'Adriatico è a est, tra Italia e penisola balcanica."
+			"explanation": "L'Adriatico è a est, tra Italia e penisola balcanica.",
+			"distractorWhy": {
+				"Mar Tirreno": "Il Tirreno bagna l'Italia a ovest, non a est.",
+				"Mar Ionio": "Lo Ionio bagna il sud dell'Italia, non la costa orientale.",
+				"Mar Ligure": "Il Ligure bagna la costa nord-occidentale, vicino alla Liguria."
+			}
 		},
 		{
 			"id": "geografia-geografia-italia-87",
@@ -1644,7 +1839,12 @@
 				"Sicilia"
 			],
 			"answer": "Sicilia",
-			"explanation": "La Sicilia è la regione italiana più estesa, seguita dal Piemonte."
+			"explanation": "La Sicilia è la regione italiana più estesa, seguita dal Piemonte.",
+			"distractorWhy": {
+				"Piemonte": "Il Piemonte è la seconda regione per superficie, dopo la Sicilia.",
+				"Sardegna": "La Sardegna è grande, ma leggermente meno estesa della Sicilia.",
+				"Lombardia": "La Lombardia è più popolosa, ma non la più estesa."
+			}
 		},
 		{
 			"id": "geografia-climi-88",
@@ -1660,7 +1860,12 @@
 				"Vicino ai Poli"
 			],
 			"answer": "Vicino all'Equatore",
-			"explanation": "Vicino all'Equatore i raggi del Sole arrivano più diretti e riscaldano di più."
+			"explanation": "Vicino all'Equatore i raggi del Sole arrivano più diretti e riscaldano di più.",
+			"distractorWhy": {
+				"Vicino ai Poli": "Ai poli fa freddo tutto l'anno: i raggi del Sole arrivano radenti, non diretti.",
+				"In cima alle montagne": "In quota l'aria è più fredda, anche vicino all'equatore.",
+				"Nelle grotte": "Le grotte hanno una temperatura costante, ma non calda."
+			}
 		},
 		{
 			"id": "geografia-climi-89",
@@ -1676,7 +1881,12 @@
 				"Clima desertico"
 			],
 			"answer": "Clima mediterraneo",
-			"explanation": "Il mare vicino smorza gli sbalzi di temperatura, e d'estate un'alta pressione stabile tiene lontane le piogge: qui, al contrario del resto d'Europa, l'estate è la stagione più secca."
+			"explanation": "Il mare vicino smorza gli sbalzi di temperatura, e d'estate un'alta pressione stabile tiene lontane le piogge: qui, al contrario del resto d'Europa, l'estate è la stagione più secca.",
+			"distractorWhy": {
+				"Clima polare": "Il clima polare è gelido tutto l'anno, non caldo d'estate.",
+				"Clima desertico": "Il clima desertico è secco tutto l'anno, non solo d'estate.",
+				"Clima equatoriale": "Il clima equatoriale è caldo e piovoso tutto l'anno, senza stagioni marcate."
+			}
 		},
 		{
 			"id": "geografia-climi-90",
@@ -1692,7 +1902,12 @@
 				"Raddoppia"
 			],
 			"answer": "Diminuisce",
-			"explanation": "Più si sale in quota, più l'aria è fredda."
+			"explanation": "Più si sale in quota, più l'aria è fredda.",
+			"distractorWhy": {
+				"Aumenta": "È il contrario: l'aria si raffredda salendo, non si scalda.",
+				"Resta uguale": "La temperatura cambia con la quota: cala di circa mezzo grado ogni cento metri.",
+				"Raddoppia": "La temperatura non raddoppia: scende gradualmente, non si moltiplica."
+			}
 		},
 		{
 			"id": "geografia-climi-91",
@@ -1708,7 +1923,12 @@
 				"Foresta pluviale"
 			],
 			"answer": "Foresta pluviale",
-			"explanation": "La foresta pluviale è calda e umida tutto l'anno; la tundra invece è fredda."
+			"explanation": "La foresta pluviale è calda e umida tutto l'anno; la tundra invece è fredda.",
+			"distractorWhy": {
+				"Tundra": "La tundra è la fascia fredda vicino ai poli, non l'opposto.",
+				"Savana": "La savana ha una stagione secca e una piovosa, non piove tutto l'anno.",
+				"Taiga": "La taiga è la grande foresta di conifere delle zone fredde, non tropicali."
+			}
 		},
 		{
 			"id": "geografia-europa-92",
@@ -1724,7 +1944,12 @@
 				"Asia"
 			],
 			"answer": "Europa",
-			"explanation": "L'Italia è uno Stato dell'Europa meridionale."
+			"explanation": "L'Italia è uno Stato dell'Europa meridionale.",
+			"distractorWhy": {
+				"Asia": "L'Italia non tocca l'Asia: il confine convenzionale sta più a est, sugli Urali.",
+				"Africa": "L'Italia è vicina all'Africa attraverso il Mediterraneo, ma non ne fa parte.",
+				"America": "L'Italia è separata dall'America dall'oceano Atlantico."
+			}
 		},
 		{
 			"id": "geografia-europa-93",
@@ -1740,7 +1965,12 @@
 				"Danubio"
 			],
 			"answer": "Senna",
-			"explanation": "La Senna attraversa Parigi; il Tamigi passa per Londra."
+			"explanation": "La Senna attraversa Parigi; il Tamigi passa per Londra.",
+			"distractorWhy": {
+				"Tamigi": "Il Tamigi attraversa Londra, non Parigi.",
+				"Reno": "Il Reno attraversa la Germania, non Parigi.",
+				"Danubio": "Il Danubio attraversa Vienna e Budapest, non Parigi."
+			}
 		},
 		{
 			"id": "geografia-europa-94",
@@ -1756,7 +1986,12 @@
 				"Pirenei"
 			],
 			"answer": "Monti Urali",
-			"explanation": "Gli Urali, in Russia, dividono convenzionalmente Europa e Asia."
+			"explanation": "Gli Urali, in Russia, dividono convenzionalmente Europa e Asia.",
+			"distractorWhy": {
+				"Alpi": "Le Alpi sono interamente in Europa: non segnano il confine con l'Asia.",
+				"Pirenei": "I Pirenei separano Francia e Spagna, non Europa e Asia.",
+				"Carpazi": "I Carpazi sono in Europa centro-orientale, non sul confine con l'Asia."
+			}
 		},
 		{
 			"id": "geografia-europa-95",
@@ -1772,7 +2007,12 @@
 				"Unione Europea"
 			],
 			"answer": "Unione Europea",
-			"explanation": "L'Unione Europea riunisce numerosi Stati del continente."
+			"explanation": "L'Unione Europea riunisce numerosi Stati del continente.",
+			"distractorWhy": {
+				"Nazioni Unite": "Le Nazioni Unite riuniscono quasi tutti gli Stati del mondo, non solo quelli europei.",
+				"Commonwealth": "Il Commonwealth riunisce ex colonie britanniche in tutto il mondo, non gli Stati europei.",
+				"NATO": "La NATO è un'alleanza militare, non un'unione economica e politica."
+			}
 		},
 		{
 			"id": "geografia-mondo-96",
@@ -1788,7 +2028,12 @@
 				"Canada"
 			],
 			"answer": "Russia",
-			"explanation": "La Russia è lo Stato più esteso, tra Europa e Asia."
+			"explanation": "La Russia è lo Stato più esteso, tra Europa e Asia.",
+			"distractorWhy": {
+				"Canada": "Il Canada è il secondo Stato per superficie, dopo la Russia.",
+				"Cina": "La Cina è grande, ma meno estesa della Russia.",
+				"Stati Uniti": "Gli Stati Uniti sono grandi, ma meno estesi della Russia."
+			}
 		},
 		{
 			"id": "geografia-mondo-97",
@@ -1804,7 +2049,12 @@
 				"Indonesia"
 			],
 			"answer": "India",
-			"explanation": "L'India ha superato la Cina come Paese con più abitanti."
+			"explanation": "L'India ha superato la Cina come Paese con più abitanti.",
+			"distractorWhy": {
+				"Cina": "La Cina era il Paese più popoloso, ma l'India l'ha superata.",
+				"Stati Uniti": "Gli Stati Uniti hanno molti meno abitanti di India e Cina.",
+				"Indonesia": "L'Indonesia è molto popolosa, ma lontana dai primi due posti."
+			}
 		},
 		{
 			"id": "geografia-mondo-98",
@@ -1820,7 +2070,12 @@
 				"Canale di Panama"
 			],
 			"answer": "Canale di Suez",
-			"explanation": "Scavato nell'Ottocento per non dover circumnavigare tutta l'Africa: da allora una nave fra Europa e Asia risparmia settimane di viaggio."
+			"explanation": "Scavato nell'Ottocento per non dover circumnavigare tutta l'Africa: da allora una nave fra Europa e Asia risparmia settimane di viaggio.",
+			"distractorWhy": {
+				"Canale di Panama": "Il Canale di Panama collega Atlantico e Pacifico, non Mediterraneo e Mar Rosso.",
+				"Stretto di Gibilterra": "Lo Stretto di Gibilterra collega Mediterraneo e Atlantico, non il Mar Rosso.",
+				"Canale della Manica": "Il Canale della Manica separa Francia e Regno Unito, lontano dal Mar Rosso."
+			}
 		},
 		{
 			"id": "geografia-geografia-umana-99",
@@ -1836,7 +2091,12 @@
 				"Est"
 			],
 			"answer": "Est",
-			"explanation": "Il Sole sorge a est e tramonta a ovest."
+			"explanation": "Il Sole sorge a est e tramonta a ovest.",
+			"distractorWhy": {
+				"Ovest": "A ovest il Sole tramonta, non sorge.",
+				"Nord": "Il Sole non sorge mai esattamente a nord, alle nostre latitudini.",
+				"Sud": "Il Sole non sorge mai esattamente a sud, alle nostre latitudini."
+			}
 		},
 		{
 			"id": "geografia-geografia-umana-100",
@@ -1852,7 +2112,12 @@
 				"Calendario"
 			],
 			"answer": "Carta geografica",
-			"explanation": "La carta geografica riduce la realtà mantenendo le proporzioni."
+			"explanation": "La carta geografica riduce la realtà mantenendo le proporzioni.",
+			"distractorWhy": {
+				"Fotografia": "Una fotografia riprende la realtà così com'è, non la riduce in scala.",
+				"Calendario": "Un calendario organizza i giorni, non lo spazio.",
+				"Diario": "Un diario racconta il tempo che passa, non rappresenta un luogo."
+			}
 		},
 		{
 			"id": "geografia-geografia-umana-101",
@@ -1868,7 +2133,12 @@
 				"Il colore del mare"
 			],
 			"answer": "Di quanto è stata ridotta la realtà",
-			"explanation": "La scala dice quante volte le distanze reali sono state rimpicciolite."
+			"explanation": "La scala dice quante volte le distanze reali sono state rimpicciolite.",
+			"distractorWhy": {
+				"Il colore del mare": "Il colore sulla carta è una convenzione grafica, non ha a che fare con la scala.",
+				"La temperatura": "La temperatura si legge su un climogramma, non sulla scala di una carta.",
+				"Il nome delle vie": "I nomi delle vie sono un'altra informazione della carta, non quello che indica la scala."
+			}
 		},
 		{
 			"id": "geografia-mondo-0",
@@ -3453,7 +3723,12 @@
 				"Ai poli soffia sempre il vento"
 			],
 			"answer": "I raggi del Sole arrivano più diritti",
-			"explanation": "Non è questione di distanza ma di inclinazione: ai poli gli stessi raggi si spalmano su molta più superficie."
+			"explanation": "Non è questione di distanza ma di inclinazione: ai poli gli stessi raggi si spalmano su molta più superficie.",
+			"distractorWhy": {
+				"L'equatore è molto più vicino al Sole": "La distanza dal Sole è sostanzialmente la stessa in ogni punto della Terra.",
+				"Ai poli soffia sempre il vento": "Il vento non c'entra con quanto sono inclinati i raggi solari.",
+				"All'equatore non ci sono mai nuvole": "All'equatore piove moltissimo: le nuvole non mancano affatto."
+			}
 		},
 		{
 			"id": "geografia-banda-climi-1",
@@ -3469,7 +3744,12 @@
 				"Caldo e pioggia tutto l'anno"
 			],
 			"answer": "Estati calde e secche, inverni miti e piovosi",
-			"explanation": "È il clima delle coste del Mediterraneo, e per questo ci crescono ulivo, vite e agrumi."
+			"explanation": "È il clima delle coste del Mediterraneo, e per questo ci crescono ulivo, vite e agrumi.",
+			"distractorWhy": {
+				"Estati fresche e piovose, inverni gelidi": "È il contrario: nel clima mediterraneo le estati sono calde e secche.",
+				"Caldo e pioggia tutto l'anno": "Quello è più simile a un clima equatoriale, non mediterraneo.",
+				"Freddo e secco tutto l'anno": "Il clima mediterraneo ha inverni miti, non freddi tutto l'anno."
+			}
 		},
 		{
 			"id": "geografia-banda-geografia-fisica-2",
@@ -3485,7 +3765,12 @@
 				"Le rotte seguite dalle navi"
 			],
 			"answer": "Le linee che uniscono i due poli",
-			"explanation": "I meridiani vanno da polo a polo; i paralleli sono invece i cerchi paralleli all'equatore."
+			"explanation": "I meridiani vanno da polo a polo; i paralleli sono invece i cerchi paralleli all'equatore.",
+			"distractorWhy": {
+				"I cerchi paralleli all'equatore": "Quelli sono i paralleli, non i meridiani.",
+				"I confini fra gli Stati": "I confini seguono la politica, non le linee geografiche fisse.",
+				"Le rotte seguite dalle navi": "Le rotte cambiano da viaggio a viaggio: i meridiani sono linee fisse."
+			}
 		},
 		{
 			"id": "geografia-banda-geografia-fisica-3",
@@ -3501,7 +3786,12 @@
 				"Il golfo è mare che entra nella terra, la penisola è terra che entra nel mare"
 			],
 			"answer": "Il golfo è mare che entra nella terra, la penisola è terra che entra nel mare",
-			"explanation": "Sono due forme opposte della stessa costa: uno rientra, l'altra sporge."
+			"explanation": "Sono due forme opposte della stessa costa: uno rientra, l'altra sporge.",
+			"distractorWhy": {
+				"Sono la stessa cosa vista da lontano": "Sono forme opposte: uno è mare che entra nella terra, l'altra è terra che entra nel mare.",
+				"Il golfo è d'acqua dolce": "Un golfo è un tratto di mare, quindi acqua salata, non dolce.",
+				"La penisola è sempre un'isola": "Una penisola resta attaccata alla terraferma da un lato: un'isola è circondata dall'acqua su tutti i lati."
+			}
 		},
 		{
 			"id": "geografia-banda-geografia-umana-4",
@@ -3517,7 +3807,12 @@
 				"Quante case ci sono in un quartiere"
 			],
 			"answer": "Quanti abitanti ci sono per chilometro quadrato",
-			"explanation": "Due Paesi con la stessa popolazione hanno densità molto diverse se uno è più esteso dell'altro."
+			"explanation": "Due Paesi con la stessa popolazione hanno densità molto diverse se uno è più esteso dell'altro.",
+			"distractorWhy": {
+				"Quanti abitanti ha in tutto uno Stato": "Quello è il totale della popolazione, non la densità: manca il rapporto con la superficie.",
+				"Quanto è grande una città": "L'estensione da sola non dice quanto è affollata.",
+				"Quante case ci sono in un quartiere": "Le case non sono la stessa cosa degli abitanti: una casa può contenere più persone."
+			}
 		},
 		{
 			"id": "geografia-banda-europa-5",
@@ -3533,7 +3828,12 @@
 				"Il Po"
 			],
 			"answer": "Il Volga",
-			"explanation": "Il Volga scorre in Russia per oltre 3500 km; il Danubio è il secondo."
+			"explanation": "Il Volga scorre in Russia per oltre 3500 km; il Danubio è il secondo.",
+			"distractorWhy": {
+				"Il Danubio": "Il Danubio è il secondo fiume più lungo d'Europa, dopo il Volga.",
+				"Il Reno": "Il Reno è più corto sia del Volga sia del Danubio.",
+				"Il Po": "Il Po è il fiume più lungo d'Italia, ma molto più corto del Volga."
+			}
 		},
 		{
 			"id": "geografia-banda-mondo-6",
@@ -3549,7 +3849,12 @@
 				"L'Oceano Indiano"
 			],
 			"answer": "L'Oceano Atlantico",
-			"explanation": "L'Atlantico sta fra Europa-Africa e le Americhe; il Pacifico sta dall'altra parte del mondo."
+			"explanation": "L'Atlantico sta fra Europa-Africa e le Americhe; il Pacifico sta dall'altra parte del mondo.",
+			"distractorWhy": {
+				"L'Oceano Pacifico": "Il Pacifico sta dall'altra parte del mondo, fra Asia e America.",
+				"L'Oceano Indiano": "L'Oceano Indiano è fra Africa, Asia e Oceania, lontano dall'Europa.",
+				"L'Oceano Artico": "L'Oceano Artico bagna il nord di entrambi i continenti, ma non è quello che li separa nel mezzo."
+			}
 		},
 		{
 			"id": "geografia-banda-geografia-italia-7",
@@ -3565,7 +3870,12 @@
 				"Le Alpi"
 			],
 			"answer": "Le Alpi",
-			"explanation": "Le Alpi chiudono l'Italia a nord; gli Appennini invece la percorrono da nord a sud."
+			"explanation": "Le Alpi chiudono l'Italia a nord; gli Appennini invece la percorrono da nord a sud.",
+			"distractorWhy": {
+				"Gli Appennini": "Gli Appennini attraversano l'Italia da nord a sud, non la separano dal resto d'Europa.",
+				"I Pirenei": "I Pirenei sono fra Francia e Spagna, non in Italia.",
+				"I Carpazi": "I Carpazi sono in Europa centro-orientale, lontani dall'Italia."
+			}
 		}
 	]
 }

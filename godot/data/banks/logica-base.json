@@ -1920,7 +1920,12 @@
 				"Tutti i gatti sono di un altro colore"
 			],
 			"answer": "Almeno un gatto non è nero",
-			"explanation": "La negazione di «tutti» non è «nessuno»: basta un solo controesempio per smentire un «tutti»."
+			"explanation": "La negazione di «tutti» non è «nessuno»: basta un solo controesempio per smentire un «tutti».",
+			"distractorWhy": {
+				"Nessun gatto è nero": "È un'affermazione più forte di quella cercata: basta un solo gatto non nero, non che siano tutti non neri.",
+				"Tutti i gatti sono di un altro colore": "Non tutti neri non vuol dire che nessuno sia nero: potrebbero essercene ancora molti.",
+				"Esattamente metà dei gatti è nera": "La frase non dice una proporzione precisa, solo che non vale per tutti."
+			}
 		},
 		{
 			"id": "logica-banda-quantificatori-1",
@@ -1936,7 +1941,12 @@
 				"Nessuno studente è in ritardo"
 			],
 			"answer": "Nessuno studente è in ritardo",
-			"explanation": "«Alcuni» vuol dire almeno uno: negarlo significa dire zero, cioè nessuno."
+			"explanation": "«Alcuni» vuol dire almeno uno: negarlo significa dire zero, cioè nessuno.",
+			"distractorWhy": {
+				"Tutti gli studenti sono in ritardo": "È l'opposto esagerato: negare «alcuni» dà zero, non tutti.",
+				"Alcuni studenti non sono in ritardo": "Questa frase può essere vera insieme a quella di partenza: non è la sua negazione.",
+				"Non tutti gli studenti sono in ritardo": "Anche questa può essere vera insieme alla frase di partenza: negare «alcuni» richiede zero casi, non «non tutti»."
+			}
 		},
 		{
 			"id": "logica-banda-insiemi-2",
@@ -1952,7 +1962,12 @@
 				"Rombo e quadrato sono la stessa figura"
 			],
 			"answer": "Ogni quadrato è un parallelogramma",
-			"explanation": "La relazione «è un» si trasmette in avanti lungo la catena, mai all'indietro."
+			"explanation": "La relazione «è un» si trasmette in avanti lungo la catena, mai all'indietro.",
+			"distractorWhy": {
+				"Ogni parallelogramma è un quadrato": "La catena va in un solo verso: non tutti i parallelogrammi sono rombi, e non tutti i rombi sono quadrati.",
+				"Nessun rombo è un quadrato": "Il quadrato è un caso particolare di rombo: la catena dice il contrario.",
+				"Rombo e quadrato sono la stessa figura": "Il quadrato ha anche gli angoli retti: è un rombo speciale, non lo stesso identico."
+			}
 		},
 		{
 			"id": "logica-banda-deduzioni-3",
@@ -1968,7 +1983,12 @@
 				"L'esame era facile"
 			],
 			"answer": "Non si può dire se ho studiato",
-			"explanation": "Dall'effetto non si risale alla causa: l'esame potrei averlo passato anche senza studiare."
+			"explanation": "Dall'effetto non si risale alla causa: l'esame potrei averlo passato anche senza studiare.",
+			"distractorWhy": {
+				"Ho studiato di sicuro": "Passare l'esame non garantisce che sia stato lo studio a farlo passare: potrebbe essere stata fortuna.",
+				"Non ho studiato": "Non si può concludere il contrario: potresti aver studiato lo stesso.",
+				"L'esame era facile": "La difficoltà dell'esame non è un'informazione data dalla frase originale."
+			}
 		},
 		{
 			"id": "logica-banda-deduzioni-4",
@@ -1984,7 +2004,12 @@
 				"L'esame era troppo difficile"
 			],
 			"answer": "Non ho studiato",
-			"explanation": "Questa volta il passaggio è valido: se manca l'effetto garantito, manca anche la causa che lo garantiva."
+			"explanation": "Questa volta il passaggio è valido: se manca l'effetto garantito, manca anche la causa che lo garantiva.",
+			"distractorWhy": {
+				"Ho studiato lo stesso": "Se studiare garantiva di passare e non hai passato, allora non hai studiato: è l'unica conclusione valida.",
+				"Non si può dire niente": "Qui invece si può concludere qualcosa: è il passaggio logico valido.",
+				"L'esame era troppo difficile": "La regola dice che studiare garantisce di passare: se non hai passato, la spiegazione valida è che non hai studiato, non la difficoltà."
+			}
 		},
 		{
 			"id": "logica-banda-verita-5",
@@ -2000,7 +2025,12 @@
 				"No, mai"
 			],
 			"answer": "No, mai",
-			"explanation": "È il principio di non contraddizione: se «piove» è vera, «non piove» è falsa. Non c'è via di mezzo."
+			"explanation": "È il principio di non contraddizione: se «piove» è vera, «non piove» è falsa. Non c'è via di mezzo.",
+			"distractorWhy": {
+				"Sì, sempre": "Se fossero sempre vere insieme, dire qualcosa non escluderebbe più niente: la logica perderebbe senso.",
+				"Sì, se parlano di cose diverse": "Se parlano di cose diverse non sono più un'affermazione e la sua negazione: sono due frasi indipendenti.",
+				"Solo in matematica": "Il principio di non contraddizione vale per ogni ragionamento logico, non solo in matematica."
+			}
 		},
 		{
 			"id": "logica-banda-analogie-6",
@@ -2016,7 +2046,12 @@
 				"acqua"
 			],
 			"answer": "temperatura",
-			"explanation": "La relazione è «strumento → grandezza che misura». Il calore e la temperatura non sono la stessa cosa."
+			"explanation": "La relazione è «strumento → grandezza che misura». Il calore e la temperatura non sono la stessa cosa.",
+			"distractorWhy": {
+				"calore": "Il calore è l'energia che il termometro rileva, ma la grandezza che misura è la temperatura.",
+				"acqua": "L'acqua può essere il liquido dentro un termometro, ma non è ciò che misura.",
+				"altezza": "L'altezza si misura con un metro, non con un termometro."
+			}
 		},
 		{
 			"id": "logica-banda-analogie-7",
@@ -2032,7 +2067,12 @@
 				"favo"
 			],
 			"answer": "formicaio",
-			"explanation": "La relazione è «animale → la sua casa». Il favo sta dentro l'alveare, non è la casa della formica."
+			"explanation": "La relazione è «animale → la sua casa». Il favo sta dentro l'alveare, non è la casa della formica.",
+			"distractorWhy": {
+				"favo": "Il favo è la struttura dentro l'alveare, non la casa dell'ape nel suo insieme.",
+				"nido": "Il nido è la casa di molti uccelli, non delle formiche.",
+				"tana": "La tana è la casa di molti mammiferi, non delle formiche."
+			}
 		},
 		{
 			"id": "logica-banda-esclusioni-8",
@@ -2048,7 +2088,12 @@
 				"quadrato"
 			],
 			"answer": "cerchio",
-			"explanation": "Gli altri tre sono poligoni, cioè hanno i lati dritti. Il cerchio non ne ha nessuno."
+			"explanation": "Gli altri tre sono poligoni, cioè hanno i lati dritti. Il cerchio non ne ha nessuno.",
+			"distractorWhy": {
+				"quadrato": "Il quadrato è un poligono, ha lati dritti: appartiene al gruppo.",
+				"rombo": "Il rombo è un poligono, ha lati dritti: appartiene al gruppo.",
+				"trapezio": "Il trapezio è un poligono, ha lati dritti: appartiene al gruppo."
+			}
 		},
 		{
 			"id": "logica-banda-sequenze-9",
@@ -2059,7 +2104,12 @@
 			"prompt": "Quale numero continua la serie: 2, 6, 12, 20, 30, ?",
 			"options": [],
 			"answer": "42",
-			"explanation": "Le differenze crescono di due in due: +4, +6, +8, +10 e poi +12, quindi 30 + 12 = 42."
+			"explanation": "Le differenze crescono di due in due: +4, +6, +8, +10 e poi +12, quindi 30 + 12 = 42.",
+			"distractorWhy": {
+				"36": "Sommerebbe solo +6 invece di +12: la differenza dopo 30 deve continuare a crescere di due in due.",
+				"40": "Sommerebbe +10 invece di +12: la crescita delle differenze non si ferma prima.",
+				"44": "Sommerebbe +14 invece di +12: la crescita delle differenze è di due in due, non di quattro in quattro."
+			}
 		}
 	]
 }

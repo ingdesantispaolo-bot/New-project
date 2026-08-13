@@ -3515,7 +3515,12 @@
 				"Sunt"
 			],
 			"answer": "Sumus",
-			"explanation": "sum, es, est, sumus, estis, sunt."
+			"explanation": "sum, es, est, sumus, estis, sunt.",
+			"distractorWhy": {
+				"Estis": "«Estis» è «voi siete», seconda persona plurale.",
+				"Sunt": "«Sunt» è «loro sono», terza persona plurale.",
+				"Es": "«Es» è «tu sei», seconda persona singolare."
+			}
 		},
 		{
 			"id": "latino-banda-verbo-sum-1",
@@ -3531,7 +3536,12 @@
 				"(loro) sono"
 			],
 			"answer": "(voi) siete",
-			"explanation": "«Estis» è la seconda persona plurale di sum."
+			"explanation": "«Estis» è la seconda persona plurale di sum.",
+			"distractorWhy": {
+				"(noi) siamo": "«Noi siamo» si dice «sumus», non «estis».",
+				"(loro) sono": "«Loro sono» si dice «sunt», non «estis».",
+				"(tu) sei": "«Tu sei» si dice «es», non «estis»."
+			}
 		},
 		{
 			"id": "latino-banda-frasi-2",
@@ -3547,7 +3557,12 @@
 				"Gli allievi ascoltano il maestro"
 			],
 			"answer": "Il maestro loda gli allievi",
-			"explanation": "«Magister» è nominativo (soggetto), «discipulos» accusativo plurale (oggetto): a decidere chi fa l'azione è il caso, non la posizione."
+			"explanation": "«Magister» è nominativo (soggetto), «discipulos» accusativo plurale (oggetto): a decidere chi fa l'azione è il caso, non la posizione.",
+			"distractorWhy": {
+				"Gli allievi lodano il maestro": "Sarebbe il contrario: qui è «magister» (nominativo) a compiere l'azione, non «discipulos» (accusativo).",
+				"Il maestro chiama gli allievi": "«Laudat» vuol dire loda, non chiama: è un altro verbo.",
+				"Gli allievi ascoltano il maestro": "«Laudat» è lodare, non ascoltare, e il soggetto resta il maestro."
+			}
 		},
 		{
 			"id": "latino-banda-casi-3",
@@ -3563,7 +3578,12 @@
 				"Perché il caso dice già la funzione di ogni parola"
 			],
 			"answer": "Perché il caso dice già la funzione di ogni parola",
-			"explanation": "«Rosam puella amat» e «Puella rosam amat» dicono la stessa cosa: in tutte e due -am segna l'oggetto."
+			"explanation": "«Rosam puella amat» e «Puella rosam amat» dicono la stessa cosa: in tutte e due -am segna l'oggetto.",
+			"distractorWhy": {
+				"Perché il verbo sta sempre alla fine": "Il verbo spesso sta alla fine per stile, ma non è questo a rendere libero l'ordine delle parole.",
+				"Perché non esistono gli articoli": "L'assenza di articoli non ha a che fare con l'ordine delle parole nella frase.",
+				"Perché le frasi sono più corte": "La lunghezza della frase non c'entra: è la desinenza a segnare chi fa che cosa."
+			}
 		},
 		{
 			"id": "latino-banda-casi-4",
@@ -3579,7 +3599,12 @@
 				"Genitivo"
 			],
 			"answer": "Ablativo",
-			"explanation": "L'ablativo esprime mezzo, causa, modo e stato in luogo: «gladio» vuol dire con la spada."
+			"explanation": "L'ablativo esprime mezzo, causa, modo e stato in luogo: «gladio» vuol dire con la spada.",
+			"distractorWhy": {
+				"Accusativo": "L'accusativo indica di solito l'oggetto diretto, non il mezzo.",
+				"Dativo": "Il dativo indica il termine, a chi è rivolta l'azione, non il mezzo.",
+				"Genitivo": "Il genitivo indica la specificazione, di chi è una cosa, non il mezzo."
+			}
 		},
 		{
 			"id": "latino-banda-etimologia-5",
@@ -3595,7 +3620,12 @@
 				"ducere"
 			],
 			"answer": "scribere",
-			"explanation": "«Scribere» è scrivere: la stessa radice sta in descrizione, iscrizione e sottoscrivere."
+			"explanation": "«Scribere» è scrivere: la stessa radice sta in descrizione, iscrizione e sottoscrivere.",
+			"distractorWhy": {
+				"legere": "«Legere» vuol dire leggere: dà parole come lettura, non scrivere.",
+				"dicere": "«Dicere» vuol dire dire: dà parole come dizione, non scrivere.",
+				"ducere": "«Ducere» vuol dire condurre: dà parole come condurre, non scrivere."
+			}
 		},
 		{
 			"id": "latino-banda-etimologia-6",
@@ -3611,7 +3641,12 @@
 				"munus, il dono"
 			],
 			"answer": "manus, la mano",
-			"explanation": "Un lavoro manuale si fa con le mani, e la manutenzione è ciò che le tiene in efficienza."
+			"explanation": "Un lavoro manuale si fa con le mani, e la manutenzione è ciò che le tiene in efficienza.",
+			"distractorWhy": {
+				"mens, la mente": "«Mens» dà parole come mentale, non manuale.",
+				"munus, il dono": "«Munus» dà parole come munifico, non manuale.",
+				"mons, il monte": "«Mons» dà parole come montagna, non manuale."
+			}
 		},
 		{
 			"id": "latino-banda-declinazioni-base-7",
@@ -3627,7 +3662,12 @@
 				"terza declinazione"
 			],
 			"answer": "terza declinazione",
-			"explanation": "Genitivo in -is: terza declinazione. In -ae è la prima, in -i la seconda."
+			"explanation": "Genitivo in -is: terza declinazione. In -ae è la prima, in -i la seconda.",
+			"distractorWhy": {
+				"prima declinazione": "La prima declinazione ha il genitivo in -ae, non in -is.",
+				"seconda declinazione": "La seconda declinazione ha il genitivo in -i, non in -is.",
+				"quarta declinazione": "La quarta declinazione ha il genitivo in -us, non in -is."
+			}
 		}
 	]
 }

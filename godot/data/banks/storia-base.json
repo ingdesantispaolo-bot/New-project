@@ -2520,7 +2520,12 @@
 				"XIV secolo"
 			],
 			"answer": "XIII secolo",
-			"explanation": "Gli anni dal 1201 al 1300 formano il XIII secolo: si prendono le centinaia e si aggiunge uno."
+			"explanation": "Gli anni dal 1201 al 1300 formano il XIII secolo: si prendono le centinaia e si aggiunge uno.",
+			"distractorWhy": {
+				"XII secolo": "Il XII secolo va dal 1101 al 1200: il 1215 viene dopo.",
+				"XIV secolo": "Il XIV secolo va dal 1301 al 1400: il 1215 viene prima.",
+				"XI secolo": "L'XI secolo va dal 1001 al 1100: il 1215 viene molto dopo."
+			}
 		},
 		{
 			"id": "storia-banda-metodo-1",
@@ -2536,7 +2541,12 @@
 				"Sceglie la più lunga"
 			],
 			"answer": "Le confronta e ne cerca altre",
-			"explanation": "Il confronto fra fonti è il mestiere dello storico: una fonte sola non basta mai."
+			"explanation": "Il confronto fra fonti è il mestiere dello storico: una fonte sola non basta mai.",
+			"distractorWhy": {
+				"Sceglie la più antica e basta": "L'età di una fonte non garantisce che sia più affidabile: anche una fonte antica può essere di parte.",
+				"Sceglie la più lunga": "La lunghezza non dice niente sull'affidabilità di una fonte.",
+				"Le scarta tutte e due": "Scartarle non risolve niente: lo storico deve confrontarle, non ignorarle."
+			}
 		},
 		{
 			"id": "storia-banda-metodo-2",
@@ -2552,7 +2562,12 @@
 				"Racconta i fatti dal punto di vista di chi la scrive"
 			],
 			"answer": "Racconta i fatti dal punto di vista di chi la scrive",
-			"explanation": "Una fonte di parte non è per forza falsa: va letta sapendo chi l'ha scritta e perché."
+			"explanation": "Una fonte di parte non è per forza falsa: va letta sapendo chi l'ha scritta e perché.",
+			"distractorWhy": {
+				"Contiene almeno un errore di data o di nome": "Un errore di fatto è un'imprecisione, non un punto di vista: sono due problemi diversi.",
+				"È stata scritta molti secoli dopo i fatti": "Quella è una fonte tarda, un problema di distanza nel tempo, non di parzialità.",
+				"Racconta soltanto le battaglie e le guerre": "L'argomento trattato non c'entra con l'essere di parte."
+			}
 		},
 		{
 			"id": "storia-banda-fonti-3",
@@ -2568,7 +2583,12 @@
 				"Le iscrizioni venivano copiate in molte copie"
 			],
 			"answer": "La pietra resiste all'acqua, al fuoco e al tempo",
-			"explanation": "Il materiale decide che cosa sopravvive: per questo conosciamo meglio i popoli che scrivevano sulla pietra."
+			"explanation": "Il materiale decide che cosa sopravvive: per questo conosciamo meglio i popoli che scrivevano sulla pietra.",
+			"distractorWhy": {
+				"Sulla pietra si scriveva con più attenzione": "L'attenzione di chi scrive non c'entra: è la resistenza del materiale a farlo sopravvivere.",
+				"I papiri venivano distrutti apposta dai nemici": "I papiri si perdono soprattutto per il tempo e l'umidità, non per distruzioni intenzionali.",
+				"Le iscrizioni venivano copiate in molte copie": "Le iscrizioni su pietra restano uniche nel loro posto: non è la copiatura a farle sopravvivere."
+			}
 		},
 		{
 			"id": "storia-banda-roma-4",
@@ -2584,7 +2604,12 @@
 				"1492"
 			],
 			"answer": "476 d.C.",
-			"explanation": "Il 476 d.C. chiude l'età antica e apre il Medioevo."
+			"explanation": "Il 476 d.C. chiude l'età antica e apre il Medioevo.",
+			"distractorWhy": {
+				"1492": "Il 1492 è la data della scoperta dell'America, mille anni dopo la caduta di Roma.",
+				"753 a.C.": "Il 753 a.C. è la data tradizionale della fondazione di Roma, non della sua caduta.",
+				"800 d.C.": "L'800 d.C. è l'incoronazione di Carlo Magno, più di tre secoli dopo la caduta dell'Impero d'Occidente."
+			}
 		},
 		{
 			"id": "storia-banda-grecia-5",
@@ -2600,7 +2625,12 @@
 				"Una nave da guerra"
 			],
 			"answer": "Una città-stato indipendente",
-			"explanation": "Ogni polis aveva leggi e governo propri: Atene e Sparta erano due polis molto diverse fra loro."
+			"explanation": "Ogni polis aveva leggi e governo propri: Atene e Sparta erano due polis molto diverse fra loro.",
+			"distractorWhy": {
+				"Una grande piazza del mercato": "L'agorà era la piazza del mercato: la polis era l'intera città-stato, non solo la piazza.",
+				"Un tempio dedicato a Zeus": "Un tempio era un edificio religioso dentro la polis, non la polis stessa.",
+				"Una nave da guerra": "Una nave da guerra è un mezzo militare, non una forma di governo cittadino."
+			}
 		},
 		{
 			"id": "storia-banda-grecia-6",
@@ -2616,7 +2646,12 @@
 				"Sparta puntava tutto sull'esercito, Atene sul commercio e sulla politica"
 			],
 			"answer": "Sparta puntava tutto sull'esercito, Atene sul commercio e sulla politica",
-			"explanation": "Due modi opposti di stare al mondo: a Sparta si cresceva per combattere, ad Atene per discutere in assemblea."
+			"explanation": "Due modi opposti di stare al mondo: a Sparta si cresceva per combattere, ad Atene per discutere in assemblea.",
+			"distractorWhy": {
+				"Sparta viveva di commercio marittimo, Atene di agricoltura": "È il contrario: Sparta puntava su esercito e agricoltura del territorio, Atene sul commercio marittimo.",
+				"Sparta era governata dal popolo intero, Atene da un solo re": "È il contrario: Atene sviluppò la democrazia, Sparta restò un regime militare con due re.",
+				"Sparta sorgeva sul mare, Atene in mezzo alle montagne dell'interno": "È il contrario: Sparta era nell'entroterra del Peloponneso, Atene vicino alla costa."
+			}
 		},
 		{
 			"id": "storia-banda-medioevo-7",
@@ -2632,7 +2667,12 @@
 				"Una tassa che i contadini pagavano sul sale"
 			],
 			"answer": "Una terra concessa da un signore in cambio di fedeltà",
-			"explanation": "Il sistema feudale legava terra e fedeltà: chi riceveva il feudo doveva servizio militare al signore."
+			"explanation": "Il sistema feudale legava terra e fedeltà: chi riceveva il feudo doveva servizio militare al signore.",
+			"distractorWhy": {
+				"Una tassa che i contadini pagavano sul sale": "Una tassa è un pagamento, non una concessione di terra.",
+				"Un castello costruito in cima a una collina": "Il castello è un edificio, spesso dentro un feudo, ma non è il feudo stesso.",
+				"Una moneta d'oro coniata dall'imperatore stesso": "Il feudo è un rapporto fra terra e fedeltà, non una moneta."
+			}
 		},
 		{
 			"id": "storia-banda-medioevo-8",
@@ -2648,7 +2688,12 @@
 				"Eserciti di soldati pagati dai signori"
 			],
 			"answer": "Città che si diedero un governo proprio",
-			"explanation": "Fra XI e XII secolo molte città italiane si organizzarono da sole, staccandosi dai signori feudali."
+			"explanation": "Fra XI e XII secolo molte città italiane si organizzarono da sole, staccandosi dai signori feudali.",
+			"distractorWhy": {
+				"Eserciti di soldati pagati dai signori": "Un esercito è una forza militare, non una forma di governo cittadino.",
+				"Monasteri costruiti fuori dalle mura": "Un monastero è un edificio religioso, non un'organizzazione politica di città.",
+				"Porti concessi in uso dall'imperatore": "Un porto concesso resta sotto un altro potere: i Comuni invece si governavano da soli."
+			}
 		},
 		{
 			"id": "storia-banda-egizi-9",
@@ -2664,7 +2709,12 @@
 				"A trasportare i corpi fino alle piramidi"
 			],
 			"answer": "A conservare il corpo per la vita dopo la morte",
-			"explanation": "Gli Egizi credevano che l'anima avesse bisogno del corpo anche dopo la morte."
+			"explanation": "Gli Egizi credevano che l'anima avesse bisogno del corpo anche dopo la morte.",
+			"distractorWhy": {
+				"A curare le malattie con le erbe del Nilo": "La mummificazione avveniva dopo la morte: non curava nessuna malattia.",
+				"A trasportare i corpi fino alle piramidi": "Il trasporto è un'altra fase: la mummificazione serviva a conservare il corpo, non a spostarlo.",
+				"A misurare il tempo con le stagioni del Nilo": "Misurare le stagioni non ha a che fare con la conservazione dei corpi."
+			}
 		},
 		{
 			"id": "storia-banda-preistoria-10",
@@ -2680,7 +2730,12 @@
 				"Gli uomini smettono di spostarsi e nascono i villaggi"
 			],
 			"answer": "Gli uomini smettono di spostarsi e nascono i villaggi",
-			"explanation": "Coltivare obbliga a restare: da nomadi si diventa stanziali, ed è da lì che nascono i villaggi."
+			"explanation": "Coltivare obbliga a restare: da nomadi si diventa stanziali, ed è da lì che nascono i villaggi.",
+			"distractorWhy": {
+				"Si impara a fondere il ferro e a forgiare le armi": "La lavorazione dei metalli arriva molto dopo, nell'Età del Ferro.",
+				"Nascono i primi imperi con un re e un esercito": "I grandi imperi nascono più tardi, quando i villaggi crescono in città e Stati.",
+				"Gli uomini imparano ad accendere il fuoco": "Il controllo del fuoco è molto precedente al Neolitico, risale alla preistoria più antica."
+			}
 		},
 		{
 			"id": "storia-banda-civilta-11",
@@ -2696,7 +2751,12 @@
 				"Vicino ai fiumi non pioveva mai"
 			],
 			"answer": "L'acqua permetteva di coltivare e di spostarsi",
-			"explanation": "Nilo, Tigri, Eufrate e Indo davano acqua per i campi e una strada per i commerci."
+			"explanation": "Nilo, Tigri, Eufrate e Indo davano acqua per i campi e una strada per i commerci.",
+			"distractorWhy": {
+				"I fiumi erano più facili da difendere": "Un fiume non è una barriera difensiva particolarmente efficace: conta soprattutto l'acqua per l'agricoltura.",
+				"Vicino ai fiumi non pioveva mai": "È l'acqua del fiume stesso a contare, non l'assenza di pioggia.",
+				"I fiumi segnavano i confini": "I confini sono un effetto successivo, non la ragione per cui le civiltà nacquero lì."
+			}
 		}
 	]
 }

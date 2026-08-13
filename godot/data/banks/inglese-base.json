@@ -20413,7 +20413,12 @@
 				"Con attenzione"
 			],
 			"answer": "In realtà",
-			"explanation": "Falso amico classico: «attualmente» si dice currently."
+			"explanation": "Falso amico classico: «attualmente» si dice currently.",
+			"distractorWhy": {
+				"Attualmente": "«Attualmente» in inglese si dice currently, non actually: sono falsi amici.",
+				"Con attenzione": "«Con attenzione» si dice carefully, una parola diversa.",
+				"In azione": "«In azione» si dice in action: non ha a che fare con actually."
+			}
 		},
 		{
 			"id": "inglese-banda-false-friends-1",
@@ -20429,7 +20434,12 @@
 				"Libretto"
 			],
 			"answer": "Biblioteca",
-			"explanation": "La libreria dove si comprano i libri è bookshop."
+			"explanation": "La libreria dove si comprano i libri è bookshop.",
+			"distractorWhy": {
+				"Libreria, il negozio di libri": "Il negozio dove si comprano i libri si dice bookshop: library è dove si prendono in prestito.",
+				"Libretto": "«Libretto» si dice booklet, una parola diversa.",
+				"Libertà": "«Libertà» si dice freedom o liberty, non library."
+			}
 		},
 		{
 			"id": "inglese-banda-false-friends-2",
@@ -20445,7 +20455,12 @@
 				"Ragionevole, di buon senso"
 			],
 			"answer": "Ragionevole, di buon senso",
-			"explanation": "«Sensibile» nel senso delle emozioni si dice sensitive."
+			"explanation": "«Sensibile» nel senso delle emozioni si dice sensitive.",
+			"distractorWhy": {
+				"Sensibile ai sentimenti": "«Sensibile» nel senso emotivo si dice sensitive: sensible vuol dire ragionevole.",
+				"Percepibile": "«Percepibile» si dice perceptible, una parola diversa da sensible.",
+				"Delicato": "«Delicato» si dice delicate, non sensible."
+			}
 		},
 		{
 			"id": "inglese-banda-false-friends-3",
@@ -20461,7 +20476,12 @@
 				"Regolarmente"
 			],
 			"answer": "Alla fine, prima o poi",
-			"explanation": "«Eventualmente» si dice possibly: eventually indica che alla fine succede davvero."
+			"explanation": "«Eventualmente» si dice possibly: eventually indica che alla fine succede davvero.",
+			"distractorWhy": {
+				"Eventualmente, forse": "«Eventualmente» si dice possibly o maybe: eventually indica certezza, non possibilità.",
+				"Improvvisamente": "«Improvvisamente» si dice suddenly, una parola diversa.",
+				"Regolarmente": "«Regolarmente» si dice regularly, non eventually."
+			}
 		},
 		{
 			"id": "inglese-banda-connectors-4",
@@ -20477,7 +20497,12 @@
 				"Quando si parla del futuro"
 			],
 			"answer": "Quando si indica il momento di inizio",
-			"explanation": "for + durata (for three years), since + momento (since 2020)."
+			"explanation": "for + durata (for three years), since + momento (since 2020).",
+			"distractorWhy": {
+				"Quando si indica quanto è durato": "Quella è la funzione di for: since indica invece il punto di partenza nel tempo.",
+				"Quando la frase è negativa": "La scelta fra since e for non dipende dal fatto che la frase sia negativa.",
+				"Quando si parla del futuro": "Since e for si usano soprattutto con passato e presente perfetto, non specificamente per il futuro."
+			}
 		},
 		{
 			"id": "inglese-banda-connectors-5",
@@ -20493,7 +20518,12 @@
 				"Comunque vada"
 			],
 			"answer": "Tuttavia",
-			"explanation": "however introduce un contrasto con quanto appena detto, come «tuttavia»."
+			"explanation": "however introduce un contrasto con quanto appena detto, come «tuttavia».",
+			"distractorWhy": {
+				"Inoltre": "«Inoltre» si dice moreover o besides: however introduce un contrasto, non un'aggiunta.",
+				"Perciò": "«Perciò» si dice therefore o so: however non indica una conseguenza.",
+				"Comunque vada": "Quel significato si dice whatever happens: however da solo vuol dire tuttavia."
+			}
 		},
 		{
 			"id": "inglese-banda-digital-media-6",
@@ -20509,7 +20539,12 @@
 				"Scaricare"
 			],
 			"answer": "Scaricare",
-			"explanation": "upload è caricare verso la rete, download è scaricare da essa."
+			"explanation": "upload è caricare verso la rete, download è scaricare da essa.",
+			"distractorWhy": {
+				"Caricare": "«Caricare» verso la rete si dice to upload, il contrario di download.",
+				"Cancellare": "«Cancellare» si dice to delete, un'azione diversa.",
+				"Condividere": "«Condividere» si dice to share, non to download."
+			}
 		},
 		{
 			"id": "inglese-banda-school-communication-7",
@@ -20525,7 +20560,12 @@
 				"La linea di fondo del campo"
 			],
 			"answer": "La scadenza entro cui consegnare",
-			"explanation": "Oltre la deadline il lavoro è in ritardo: è il termine ultimo."
+			"explanation": "Oltre la deadline il lavoro è in ritardo: è il termine ultimo.",
+			"distractorWhy": {
+				"La linea di fondo del campo": "Quella si dice goal line o end line: deadline riguarda il tempo, non lo spazio di un campo.",
+				"Una riga cancellata": "Una riga cancellata si direbbe a crossed-out line: non è il senso di deadline.",
+				"La fine della lezione": "La fine della lezione è un orario fisso ogni giorno: la deadline è la scadenza per consegnare un lavoro."
+			}
 		}
 	]
 }

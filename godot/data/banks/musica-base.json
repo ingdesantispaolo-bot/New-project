@@ -1908,7 +1908,12 @@
 			"prompt": "Quanti semitoni ci sono in una quinta giusta?",
 			"options": [],
 			"answer": "7",
-			"explanation": "Do–Sol è una quinta giusta: contando i semitoni sono sette."
+			"explanation": "Do–Sol è una quinta giusta: contando i semitoni sono sette.",
+			"distractorWhy": {
+				"5": "Cinque semitoni è una quarta giusta, non una quinta.",
+				"6": "Sei semitoni è il tritono, a metà strada fra quarta e quinta.",
+				"8": "Otto semitoni è una sesta minore, più larga della quinta."
+			}
 		},
 		{
 			"id": "musica-banda-intervalli-1",
@@ -1924,7 +1929,12 @@
 				"Quinta giusta"
 			],
 			"answer": "Tritono",
-			"explanation": "Sei semitoni stanno esattamente fra la quarta giusta (5) e la quinta giusta (7): è il tritono."
+			"explanation": "Sei semitoni stanno esattamente fra la quarta giusta (5) e la quinta giusta (7): è il tritono.",
+			"distractorWhy": {
+				"Quarta giusta": "La quarta giusta ha cinque semitoni, uno in meno del tritono.",
+				"Quinta giusta": "La quinta giusta ha sette semitoni, uno in più del tritono.",
+				"Sesta minore": "La sesta minore ha otto semitoni, due in più del tritono."
+			}
 		},
 		{
 			"id": "musica-banda-note-2",
@@ -1935,7 +1945,12 @@
 			"prompt": "Quanti semitoni ci sono in un'ottava?",
 			"options": [],
 			"answer": "12",
-			"explanation": "Sette note ma dodici semitoni: fra Mi–Fa e fra Si–Do c'è un semitono e non un tono."
+			"explanation": "Sette note ma dodici semitoni: fra Mi–Fa e fra Si–Do c'è un semitono e non un tono.",
+			"distractorWhy": {
+				"7": "Sette sono le note dell'ottava, ma i semitoni sono di più.",
+				"8": "Otto è vicino ma manca ancora: nell'ottava ci sono cinque toni interi e due semitoni, dodici semitoni in tutto.",
+				"10": "Mancano ancora due semitoni per arrivare all'ottava completa."
+			}
 		},
 		{
 			"id": "musica-banda-lettura-3",
@@ -1951,7 +1966,12 @@
 				"La alza di un semitono"
 			],
 			"answer": "La alza di un semitono",
-			"explanation": "Il diesis alza di un semitono, il bemolle abbassa di un semitono."
+			"explanation": "Il diesis alza di un semitono, il bemolle abbassa di un semitono.",
+			"distractorWhy": {
+				"La abbassa di un semitono": "Quello è il bemolle, il segno opposto al diesis.",
+				"La allunga del doppio": "Il puntino dopo la nota allunga la durata, non il diesis.",
+				"La rende più forte": "L'intensità si scrive con segni come forte e piano, non con il diesis."
+			}
 		},
 		{
 			"id": "musica-banda-lettura-4",
@@ -1967,7 +1987,12 @@
 				"Fa"
 			],
 			"answer": "Mi",
-			"explanation": "Le note sulle righe, dal basso: Mi, Sol, Si, Re, Fa."
+			"explanation": "Le note sulle righe, dal basso: Mi, Sol, Si, Re, Fa.",
+			"distractorWhy": {
+				"Do": "Il Do centrale sta su una piccola riga aggiuntiva sotto il pentagramma, non sulla prima riga.",
+				"Sol": "Il Sol dà il nome alla chiave stessa, sulla seconda riga, non sulla prima.",
+				"Fa": "Il Fa sta nel primo spazio, non sulla prima riga."
+			}
 		},
 		{
 			"id": "musica-banda-ritmo-5",
@@ -1978,7 +2003,12 @@
 			"prompt": "In 3/4, quante semiminime stanno in una battuta?",
 			"options": [],
 			"answer": "3",
-			"explanation": "Il numero di sopra dice quante unità, quello di sotto quale figura: 3/4 vuol dire tre quarti per battuta."
+			"explanation": "Il numero di sopra dice quante unità, quello di sotto quale figura: 3/4 vuol dire tre quarti per battuta.",
+			"distractorWhy": {
+				"2": "Due quarti per battuta è il tempo 2/4, non 3/4.",
+				"4": "Quattro quarti per battuta è il tempo 4/4, non 3/4.",
+				"6": "Sei quarti sarebbero il doppio di quanto indica 3/4."
+			}
 		},
 		{
 			"id": "musica-banda-ritmo-6",
@@ -1989,7 +2019,12 @@
 			"prompt": "In 4/4, quanti battiti vale una minima puntata?",
 			"options": [],
 			"answer": "3",
-			"explanation": "Il punto aggiunge la metà del valore: la minima vale 2 battiti, più 1 fa 3."
+			"explanation": "Il punto aggiunge la metà del valore: la minima vale 2 battiti, più 1 fa 3.",
+			"distractorWhy": {
+				"1": "Un battito è il valore di una semiminima, molto meno di una minima puntata.",
+				"2": "Due battiti è il valore della minima senza il punto.",
+				"4": "Quattro battiti è il valore di un'intera, non di una minima puntata."
+			}
 		},
 		{
 			"id": "musica-banda-dinamica-7",
@@ -2005,7 +2040,12 @@
 				"Il volume aumenta poco a poco"
 			],
 			"answer": "Il volume aumenta poco a poco",
-			"explanation": "Il crescendo riguarda il volume, non l'altezza delle note né la velocità."
+			"explanation": "Il crescendo riguarda il volume, non l'altezza delle note né la velocità.",
+			"distractorWhy": {
+				"Il tempo accelera": "L'accelerazione del tempo si chiama accelerando, un segno diverso dal crescendo.",
+				"Le note salgono di altezza": "L'altezza delle note è scritta sul pentagramma, non indicata dal crescendo.",
+				"La frase si ripete": "La ripetizione si segna con altri simboli, come il ritornello."
+			}
 		},
 		{
 			"id": "musica-banda-tempo-8",
@@ -2021,7 +2061,12 @@
 				"Quanto è forte il suono"
 			],
 			"answer": "Quanti battiti al minuto",
-			"explanation": "60 BPM vuol dire un battito al secondo: il metronomo misura la velocità, non il volume."
+			"explanation": "60 BPM vuol dire un battito al secondo: il metronomo misura la velocità, non il volume.",
+			"distractorWhy": {
+				"Quanto è forte il suono": "Il volume si indica con segni come forte e piano, non con il metronomo.",
+				"Quanto è acuta la nota": "L'altezza della nota è scritta sul pentagramma, il metronomo non la misura.",
+				"Quante note ci sono": "Il numero di note è scritto in partitura: il metronomo dà solo la velocità del battito."
+			}
 		},
 		{
 			"id": "musica-banda-timbro-9",
@@ -2037,7 +2082,12 @@
 				"Suonano a volumi diversi"
 			],
 			"answer": "Hanno un timbro diverso",
-			"explanation": "Il timbro è il «colore» del suono e dipende da come vibra lo strumento: l'altezza invece è la stessa."
+			"explanation": "Il timbro è il «colore» del suono e dipende da come vibra lo strumento: l'altezza invece è la stessa.",
+			"distractorWhy": {
+				"Suonano altezze diverse": "Nella domanda la nota è la stessa: l'altezza è identica, cambia solo il colore del suono.",
+				"Suonano a volumi diversi": "Anche a parità di volume i due strumenti restano riconoscibili.",
+				"Suonano a velocità diverse": "La velocità di esecuzione non c'entra con il motivo per cui riconosci lo strumento."
+			}
 		},
 		{
 			"id": "musica-banda-note-10",
@@ -2053,7 +2103,12 @@
 				"La"
 			],
 			"answer": "Si",
-			"explanation": "L'ordine è La, Si, Do: dopo il Si si ricomincia da capo."
+			"explanation": "L'ordine è La, Si, Do: dopo il Si si ricomincia da capo.",
+			"distractorWhy": {
+				"La": "Il La viene due posizioni prima del Do, non subito prima.",
+				"Re": "Il Re viene subito dopo il Do, non prima.",
+				"Sol": "Il Sol è lontano dal Do nella scala, non la nota immediatamente precedente."
+			}
 		},
 		{
 			"id": "musica-banda-strumenti-11",
@@ -2069,7 +2124,12 @@
 				"Pizzicando le corde"
 			],
 			"answer": "Pizzicando le corde",
-			"explanation": "Le corde vibrano e la cassa amplifica il suono."
+			"explanation": "Le corde vibrano e la cassa amplifica il suono.",
+			"distractorWhy": {
+				"Soffiando in un tubo": "Soffiare in un tubo è come si suonano i fiati, non la chitarra.",
+				"Percuotendo una pelle": "Percuotere una pelle tesa è come funzionano i tamburi, non la chitarra.",
+				"Premendo un mantice": "Il mantice è tipico della fisarmonica, non della chitarra."
+			}
 		},
 		{
 			"id": "musica-banda-ritmo-12",
@@ -2085,7 +2145,12 @@
 				"La fine del brano"
 			],
 			"answer": "La fine di una battuta",
-			"explanation": "Le stanghette dividono la musica in battute che durano tutte uguale."
+			"explanation": "Le stanghette dividono la musica in battute che durano tutte uguale.",
+			"distractorWhy": {
+				"Una pausa lunga": "Una pausa si scrive con un simbolo apposito sul rigo, non con la stanghetta.",
+				"Un cambio di strumento": "Il cambio di strumento si indica a parole in partitura, non con la stanghetta.",
+				"La fine del brano": "La fine del brano si segna con una doppia stanghetta speciale, diversa da quella di ogni battuta."
+			}
 		},
 		{
 			"id": "musica-banda-dinamica-13",
@@ -2101,7 +2166,12 @@
 				"Suonare veloce"
 			],
 			"answer": "Suonare a volume alto",
-			"explanation": "Piano e forte indicano il volume; presto e lento la velocità."
+			"explanation": "Piano e forte indicano il volume; presto e lento la velocità.",
+			"distractorWhy": {
+				"Suonare veloce": "La velocità si indica con parole come presto o lento, non con forte.",
+				"Suonare acuto": "L'altezza della nota è già scritta sul pentagramma: forte riguarda il volume.",
+				"Suonare a lungo": "La durata è indicata dalla figura della nota, non dal segno di forte."
+			}
 		},
 		{
 			"id": "musica-banda-lettura-14",
@@ -2117,7 +2187,12 @@
 				"Un errore da correggere"
 			],
 			"answer": "Un silenzio che dura un tempo preciso",
-			"explanation": "Anche il silenzio ha una durata scritta: le pause si contano esattamente come le note."
+			"explanation": "Anche il silenzio ha una durata scritta: le pause si contano esattamente come le note.",
+			"distractorWhy": {
+				"Una nota molto lunga": "Una nota produce suono; la pausa è l'opposto, un silenzio.",
+				"La fine del brano": "Una pausa può capitare in qualsiasi punto del brano, non solo alla fine.",
+				"Un errore da correggere": "La pausa è scritta apposta dal compositore: fa parte della musica, non è uno sbaglio."
+			}
 		}
 	]
 }

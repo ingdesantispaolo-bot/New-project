@@ -2439,7 +2439,12 @@
 				"tenere la prima misura"
 			],
 			"answer": "calcolare la media delle cinque misure",
-			"explanation": "Ogni misura porta un piccolo errore casuale, in più o in meno. La media li compensa e si avvicina al valore vero."
+			"explanation": "Ogni misura porta un piccolo errore casuale, in più o in meno. La media li compensa e si avvicina al valore vero.",
+			"distractorWhy": {
+				"tenere la misura più grande": "La più grande non è più affidabile delle altre: anche lei porta un errore casuale.",
+				"tenere la prima misura": "La prima non è speciale: ha lo stesso errore casuale di tutte le altre.",
+				"tenere quella che ti aspettavi": "Scegliere quella che conferma le aspettative non è misurare: è decidere il risultato in anticipo."
+			}
 		},
 		{
 			"id": "fisica-banda-misure-1",
@@ -2455,7 +2460,12 @@
 				"sempre in numeri interi di centimetri"
 			],
 			"answer": "al millimetro, per esempio 12,4 cm",
-			"explanation": "Uno strumento non può dire più di quanto è fine: scrivere cifre in più non aggiunge precisione, la finge."
+			"explanation": "Uno strumento non può dire più di quanto è fine: scrivere cifre in più non aggiunge precisione, la finge.",
+			"distractorWhy": {
+				"al centesimo di millimetro": "Il righello non ha tacche così fini: scrivere quella precisione la inventa, non la misura.",
+				"sempre in numeri interi di centimetri": "Arrotondare agli interi butta via l'informazione data dalle tacche dei millimetri.",
+				"con tutte le cifre che dà la calcolatrice": "La calcolatrice fa i conti sui numeri che le dai: non può inventare precisione che lo strumento non ha."
+			}
 		},
 		{
 			"id": "fisica-banda-metodo-2",
@@ -2471,7 +2481,12 @@
 				"solo la luce, tenendo uguale tutto il resto"
 			],
 			"answer": "solo la luce, tenendo uguale tutto il resto",
-			"explanation": "Se cambi più cose insieme e qualcosa succede, non sai quale l'ha causato. Una variabile per volta."
+			"explanation": "Se cambi più cose insieme e qualcosa succede, non sai quale l'ha causato. Una variabile per volta.",
+			"distractorWhy": {
+				"luce, acqua e terra insieme": "Cambiando tre cose insieme non sai più quale ha causato la differenza.",
+				"la specie della pianta": "Cambiare specie confronta due piante diverse, non l'effetto della luce sulla stessa pianta.",
+				"il momento in cui li osservi": "Osservare in momenti diversi non isola l'effetto della luce."
+			}
 		},
 		{
 			"id": "fisica-banda-metodo-3",
@@ -2487,7 +2502,12 @@
 				"cambi la domanda di partenza"
 			],
 			"answer": "annoti il risultato e cambi l'ipotesi",
-			"explanation": "Un risultato che smentisce è un risultato utile: dice qualcosa di vero sul mondo. Tenere solo le prove che ti danno ragione non è più un esperimento."
+			"explanation": "Un risultato che smentisce è un risultato utile: dice qualcosa di vero sul mondo. Tenere solo le prove che ti danno ragione non è più un esperimento.",
+			"distractorWhy": {
+				"ripeti finché non viene quello che pensavi": "Scartare i risultati scomodi e tenere solo quelli graditi non è più un esperimento onesto.",
+				"butti via la misura sbagliata": "Non c'è una misura «sbagliata» solo perché non conferma l'ipotesi: è un dato vero da considerare.",
+				"cambi la domanda di partenza": "Cambiare domanda evita il problema invece di affrontarlo: prima si aggiorna l'ipotesi con quello che si è scoperto."
+			}
 		},
 		{
 			"id": "fisica-banda-moto-4",
@@ -2503,7 +2523,12 @@
 				"135 km/h"
 			],
 			"answer": "60 km/h",
-			"explanation": "Velocità media = spazio diviso tempo: 90 km diviso 1,5 ore fa 60 km/h."
+			"explanation": "Velocità media = spazio diviso tempo: 90 km diviso 1,5 ore fa 60 km/h.",
+			"distractorWhy": {
+				"90 km/h": "90 è la distanza percorsa, non la velocità: va divisa per il tempo.",
+				"45 km/h": "Si otterrebbe dividendo per 2 ore, non per 1,5.",
+				"135 km/h": "Si otterrebbe moltiplicando invece di dividere."
+			}
 		},
 		{
 			"id": "fisica-banda-moto-5",
@@ -2519,7 +2544,12 @@
 				"acceleri di continuo"
 			],
 			"answer": "sei fermo",
-			"explanation": "Il movimento è sempre rispetto a qualcosa: rispetto al vagone non ti sposti, rispetto ai binari corri con il treno."
+			"explanation": "Il movimento è sempre rispetto a qualcosa: rispetto al vagone non ti sposti, rispetto ai binari corri con il treno.",
+			"distractorWhy": {
+				"ti muovi a 100 km/h": "Quella potrebbe essere la velocità del treno rispetto ai binari, non la tua rispetto al vagone.",
+				"ti muovi all'indietro": "Se il treno viaggia liscio e a velocità costante, tu resti fermo rispetto al vagone.",
+				"acceleri di continuo": "Il treno viaggia a velocità costante: nessuna accelerazione, né tua né del vagone."
+			}
 		},
 		{
 			"id": "fisica-banda-forze-6",
@@ -2535,7 +2565,12 @@
 				"si dimezza"
 			],
 			"answer": "si dimezza",
-			"explanation": "Su una leva conta forza per distanza dal fulcro: raddoppiando la distanza basta metà forza per fare lo stesso effetto."
+			"explanation": "Su una leva conta forza per distanza dal fulcro: raddoppiando la distanza basta metà forza per fare lo stesso effetto.",
+			"distractorWhy": {
+				"raddoppia": "È il contrario: più ti allontani dal fulcro, meno forza ti serve.",
+				"resta la stessa": "La distanza dal fulcro conta eccome: è il principio su cui funziona ogni leva.",
+				"diventa quattro volte più grande": "Il rapporto è diretto, non al quadrato: doppia distanza, metà forza."
+			}
 		},
 		{
 			"id": "fisica-banda-energia-7",
@@ -2551,7 +2586,12 @@
 				"sparisce"
 			],
 			"answer": "diventa energia di movimento",
-			"explanation": "L'energia non sparisce, cambia forma: quella dovuta all'altezza diventa energia di movimento, e la palla arriva in basso veloce."
+			"explanation": "L'energia non sparisce, cambia forma: quella dovuta all'altezza diventa energia di movimento, e la palla arriva in basso veloce.",
+			"distractorWhy": {
+				"sparisce": "L'energia non sparisce mai: si trasforma, non svanisce.",
+				"si trasforma tutta in calore": "Una piccola parte diventa calore per l'attrito dell'aria, ma la maggior parte diventa velocità.",
+				"aumenta insieme all'altezza": "Mentre la palla scende l'altezza diminuisce, non aumenta: è l'energia di movimento a crescere."
+			}
 		},
 		{
 			"id": "fisica-banda-calore-8",
@@ -2567,7 +2607,12 @@
 				"perché il metallo è più pesante"
 			],
 			"answer": "perché il metallo conduce bene il calore e il legno male",
-			"explanation": "Il calore si sposta facilmente dentro i metalli e fatica ad attraversare il legno: per questo i manici si fanno di legno o di plastica."
+			"explanation": "Il calore si sposta facilmente dentro i metalli e fatica ad attraversare il legno: per questo i manici si fanno di legno o di plastica.",
+			"distractorWhy": {
+				"perché il metallo è più pesante": "Il peso non ha a che fare con quanto velocemente si scalda un materiale.",
+				"perché il legno è più freddo di partenza": "Prima di cucinare i due manici sono alla stessa temperatura ambiente.",
+				"perché il metallo è più vicino al fuoco": "I due manici sono attaccati alla stessa pentola, alla stessa distanza dal fuoco: cambia solo il materiale."
+			}
 		},
 		{
 			"id": "fisica-banda-onde-luce-9",
@@ -2583,7 +2628,12 @@
 				"perché il suono parte da più lontano"
 			],
 			"answer": "perché la luce viaggia molto più veloce del suono",
-			"explanation": "Lampo e tuono nascono insieme, ma la luce arriva quasi subito mentre il suono impiega circa tre secondi per ogni chilometro."
+			"explanation": "Lampo e tuono nascono insieme, ma la luce arriva quasi subito mentre il suono impiega circa tre secondi per ogni chilometro.",
+			"distractorWhy": {
+				"perché il lampo avviene prima del tuono": "Lampo e tuono nascono nello stesso istante: la differenza sta nella velocità con cui viaggiano, non in quando avvengono.",
+				"perché il suono parte da più lontano": "Lampo e tuono partono dallo stesso punto, il fulmine: non c'è distanza diversa fra le due partenze.",
+				"perché l'aria ferma il suono e non la luce": "L'aria lascia passare anche il suono, solo più lentamente della luce: non lo blocca."
+			}
 		},
 		{
 			"id": "fisica-banda-materia-10",
@@ -2599,7 +2649,12 @@
 				"perché il ghiaccio è meno denso dell'acqua liquida"
 			],
 			"answer": "perché il ghiaccio è meno denso dell'acqua liquida",
-			"explanation": "Congelandosi l'acqua occupa più spazio a parità di materia: il ghiaccio pesa meno dell'acqua che sposta, e galleggia. È un caso raro in natura."
+			"explanation": "Congelandosi l'acqua occupa più spazio a parità di materia: il ghiaccio pesa meno dell'acqua che sposta, e galleggia. È un caso raro in natura.",
+			"distractorWhy": {
+				"perché il ghiaccio è più leggero di qualsiasi cosa": "Il ghiaccio non è il materiale più leggero in assoluto: galleggia sull'acqua perché è meno denso di lei, non di tutto.",
+				"perché è più freddo dell'acqua": "La temperatura da sola non fa galleggiare: conta il rapporto fra peso e volume, cioè la densità.",
+				"perché contiene aria al suo interno": "Il ghiaccio comune non è pieno di bolle d'aria: galleggia perché le molecole si dispongono più larghe, occupando più spazio."
+			}
 		}
 	]
 }

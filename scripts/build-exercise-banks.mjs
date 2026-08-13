@@ -2576,8 +2576,10 @@ function scienzeBank(greenhousePlants) {
   if (byLight.length >= 3) {
     const brightest = byLight[byLight.length - 1];
     const dimmest = byLight[0];
-    items.push(multipleChoiceItem({ id: "scienze-serra-luce", subject: "scienze", topic: "viventi", difficulty: 3, prompt: `Nella serra, quale pianta ha bisogno di più luce?`, answer: brightest.name, distractors: byLight.slice(0, byLight.length - 1).map((p) => p.name), explanation: `${brightest.name}: ${brightest.scientificHint}` }, rand));
-    items.push(multipleChoiceItem({ id: "scienze-serra-ombra", subject: "scienze", topic: "viventi", difficulty: 3, prompt: `Nella serra, quale pianta preferisce la luce più morbida?`, answer: dimmest.name, distractors: byLight.slice(1).map((p) => p.name), explanation: `${dimmest.name}: ${dimmest.scientificHint}` }, rand));
+    const lightWhy = (p) => `Ha bisogno di meno luce del ${brightest.name} (ideale ${p.idealValues.light} contro ${brightest.idealValues.light}): ${p.scientificHint}`;
+    const shadeWhy = (p) => `Ha bisogno di più luce del ${dimmest.name} (ideale ${p.idealValues.light} contro ${dimmest.idealValues.light}): ${p.scientificHint}`;
+    items.push(multipleChoiceItem({ id: "scienze-serra-luce", subject: "scienze", topic: "viventi", difficulty: 3, prompt: `Nella serra, quale pianta ha bisogno di più luce?`, answer: brightest.name, distractors: byLight.slice(0, byLight.length - 1).map((p) => p.name), explanation: `${brightest.name}: ${brightest.scientificHint}`, extra: { distractorWhy: Object.fromEntries(byLight.slice(0, byLight.length - 1).map((p) => [p.name, lightWhy(p)])) } }, rand));
+    items.push(multipleChoiceItem({ id: "scienze-serra-ombra", subject: "scienze", topic: "viventi", difficulty: 3, prompt: `Nella serra, quale pianta preferisce la luce più morbida?`, answer: dimmest.name, distractors: byLight.slice(1).map((p) => p.name), explanation: `${dimmest.name}: ${dimmest.scientificHint}`, extra: { distractorWhy: Object.fromEntries(byLight.slice(1).map((p) => [p.name, shadeWhy(p)])) } }, rand));
   }
   return { schemaVersion: 1, subject: "scienze", generator: "scienze-authored-v1", items };
 }
@@ -4260,7 +4262,8 @@ const CURATED_TAIL = {
         "Pubblicare i risultati"
       ],
       "answer": "Farsi una domanda",
-      "explanation": "Tutto comincia da una domanda su qualcosa che si è osservato."
+      "explanation": "Tutto comincia da una domanda su qualcosa che si è osservato.",
+      "distractorWhy": { "Scrivere la conclusione": "La conclusione arriva alla fine del metodo scientifico, non all'inizio.", "Ripetere l'esperimento": "La ripetizione avviene dopo aver già fatto un esperimento, non come primo passo.", "Pubblicare i risultati": "La pubblicazione è l'ultimo passo, dopo aver raccolto e verificato i risultati." }
     },
     {
       "id": "scienze-viventi-che-cosa-hanno-in-comune-tutti-gli-esseri-vivent",
@@ -4276,7 +4279,8 @@ const CURATED_TAIL = {
         "Sono di colore verde"
       ],
       "answer": "Nascono e crescono",
-      "explanation": "Nascere, crescere, riprodursi e morire vale per ogni vivente."
+      "explanation": "Nascere, crescere, riprodursi e morire vale per ogni vivente.",
+      "distractorWhy": { "Hanno quattro zampe": "Molti viventi non hanno quattro zampe: piante, pesci, insetti sono viventi con corpi diversi.", "Vivono nell'acqua": "Molti viventi vivono sulla terraferma, non solo nell'acqua.", "Sono di colore verde": "Il colore verde è tipico di molte piante, ma non di tutti gli esseri viventi." }
     },
     {
       "id": "scienze-viventi-un-animale-che-mangia-solo-piante-si-dice",
@@ -4292,7 +4296,8 @@ const CURATED_TAIL = {
         "decompositore"
       ],
       "answer": "erbivoro",
-      "explanation": "Erbivoro significa proprio che si nutre di erbe e vegetali."
+      "explanation": "Erbivoro significa proprio che si nutre di erbe e vegetali.",
+      "distractorWhy": { "carnivoro": "Il carnivoro mangia carne, non solo piante: è l'opposto dell'erbivoro.", "onnivoro": "L'onnivoro mangia sia piante sia carne, non solo piante come l'erbivoro.", "decompositore": "Il decompositore si nutre di resti organici in decomposizione, non semplicemente di piante vive." }
     },
     {
       "id": "scienze-corpo-quale-organo-pompa-il-sangue-nel-corpo",
@@ -4308,7 +4313,8 @@ const CURATED_TAIL = {
         "Il cuore"
       ],
       "answer": "Il cuore",
-      "explanation": "Il cuore è un muscolo che spinge il sangue in tutto il corpo."
+      "explanation": "Il cuore è un muscolo che spinge il sangue in tutto il corpo.",
+      "distractorWhy": { "I polmoni": "I polmoni scambiano ossigeno e anidride carbonica, non pompano il sangue.", "Lo stomaco": "Lo stomaco digerisce il cibo, non pompa il sangue.", "Il fegato": "Il fegato filtra sostanze e produce bile, non pompa il sangue." }
     },
     {
       "id": "scienze-corpo-con-quale-organo-respiriamo",
@@ -4324,7 +4330,8 @@ const CURATED_TAIL = {
         "I reni"
       ],
       "answer": "I polmoni",
-      "explanation": "Nei polmoni l'aria cede ossigeno al sangue."
+      "explanation": "Nei polmoni l'aria cede ossigeno al sangue.",
+      "distractorWhy": { "Il cuore": "Il cuore pompa il sangue, ma non è dove avviene lo scambio di ossigeno con l'aria.", "Lo stomaco": "Lo stomaco digerisce il cibo, non ha a che fare con la respirazione.", "I reni": "I reni filtrano il sangue dalle scorie, non scambiano ossigeno con l'aria." }
     },
     {
       "id": "scienze-terra-universo-perche-sulla-terra-si-alternano-le-stagioni",
@@ -4340,7 +4347,8 @@ const CURATED_TAIL = {
         "La Luna copre il Sole"
       ],
       "answer": "L'asse terrestre è inclinato",
-      "explanation": "L'inclinazione fa arrivare i raggi più obliqui in una metà dell'anno."
+      "explanation": "L'inclinazione fa arrivare i raggi più obliqui in una metà dell'anno.",
+      "distractorWhy": { "La Terra rallenta d'inverno": "La velocità di rotazione della Terra non cambia con le stagioni.", "Il Sole cambia temperatura": "Il Sole mantiene una temperatura sostanzialmente costante: non è questo a causare le stagioni.", "La Luna copre il Sole": "Quello descriverebbe un'eclissi, un evento raro, non il ciclo regolare delle stagioni." }
     },
     {
       "id": "scienze-terra-universo-quanto-impiega-la-terra-a-compiere-un-giro-su-se",
@@ -4356,7 +4364,8 @@ const CURATED_TAIL = {
         "Circa 12 ore"
       ],
       "answer": "Circa 24 ore",
-      "explanation": "La rotazione dura un giorno e produce il dì e la notte."
+      "explanation": "La rotazione dura un giorno e produce il dì e la notte.",
+      "distractorWhy": { "Circa 365 giorni": "Quello è il tempo della rivoluzione intorno al Sole, non della rotazione su se stessa.", "Circa 28 giorni": "Quello è vicino al tempo impiegato dalla Luna per il suo ciclo, non dalla Terra per ruotare su se stessa.", "Circa 12 ore": "Sarebbe solo metà del tempo reale: la rotazione completa richiede circa 24 ore." }
     },
     {
       "id": "scienze-materia-come-si-chiama-il-passaggio-da-gas-a-liquido",
@@ -4372,7 +4381,8 @@ const CURATED_TAIL = {
         "Condensazione"
       ],
       "answer": "Condensazione",
-      "explanation": "Il vapore che si raffredda torna liquido: è la condensazione."
+      "explanation": "Il vapore che si raffredda torna liquido: è la condensazione.",
+      "distractorWhy": { "Evaporazione": "L'evaporazione è il passaggio contrario, da liquido a gas.", "Fusione": "La fusione è il passaggio da solido a liquido, non da gas a liquido.", "Solidificazione": "La solidificazione è il passaggio da liquido a solido, non da gas a liquido." }
     },
     {
       "id": "scienze-ecosistema-in-una-catena-alimentare-i-funghi-svolgono-il-ru",
@@ -4388,7 +4398,8 @@ const CURATED_TAIL = {
         "predatori"
       ],
       "answer": "decompositori",
-      "explanation": "I funghi smontano i resti e restituiscono sostanze al terreno."
+      "explanation": "I funghi smontano i resti e restituiscono sostanze al terreno.",
+      "distractorWhy": { "produttori": "I produttori (piante) creano nutrimento con la fotosintesi: i funghi non lo fanno.", "consumatori": "I consumatori mangiano organismi vivi: i funghi si nutrono di resti già morti.", "predatori": "I predatori cacciano prede vive: i funghi decompongono materia già morta." }
     },
     {
       "id": "scienze-energia-una-palla-ferma-in-cima-a-una-rampa-possiede-ene",
@@ -4404,7 +4415,8 @@ const CURATED_TAIL = {
         "sonora"
       ],
       "answer": "potenziale",
-      "explanation": "L'energia è immagazzinata nella posizione: è potenziale."
+      "explanation": "L'energia è immagazzinata nella posizione: è potenziale.",
+      "distractorWhy": { "cinetica": "L'energia cinetica è legata al movimento: la palla è ferma, quindi non ne ha.", "luminosa": "L'energia luminosa è legata alla luce emessa: una palla ferma non emette luce.", "sonora": "L'energia sonora è legata al suono: una palla ferma e silenziosa non ne produce." }
     }
   ],
   "storia-base": [

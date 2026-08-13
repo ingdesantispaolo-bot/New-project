@@ -17,7 +17,8 @@
 				"Soltanto un libro scritto dagli storici"
 			],
 			"answer": "Qualsiasi traccia che ci dice qualcosa del passato",
-			"explanation": "Una moneta, un muro, una lettera, un rifiuto sepolto: tutto ciò che è arrivato fino a noi può parlare del passato."
+			"explanation": "Una moneta, un muro, una lettera, un rifiuto sepolto: tutto ciò che è arrivato fino a noi può parlare del passato.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-fonti-1",
@@ -33,7 +34,8 @@
 				"Orale"
 			],
 			"answer": "Materiale",
-			"explanation": "Le fonti materiali sono oggetti: si studiano guardandoli e misurandoli, non leggendoli."
+			"explanation": "Le fonti materiali sono oggetti: si studiano guardandoli e misurandoli, non leggendoli.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-fonti-2",
@@ -49,7 +51,8 @@
 				"Archeologica"
 			],
 			"answer": "Scritta",
-			"explanation": "Le fonti scritte si leggono, e portano con sé anche il punto di vista di chi ha scritto."
+			"explanation": "Le fonti scritte si leggono, e portano con sé anche il punto di vista di chi ha scritto.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-fonti-3",
@@ -65,7 +68,8 @@
 				"Un documento prodotto nell'epoca studiata"
 			],
 			"answer": "Un documento prodotto nell'epoca studiata",
-			"explanation": "Primaria significa «di prima mano»: nasce nel periodo di cui parla, non secoli dopo."
+			"explanation": "Primaria significa «di prima mano»: nasce nel periodo di cui parla, non secoli dopo.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-fonti-4",
@@ -81,7 +85,8 @@
 				"Orale"
 			],
 			"answer": "Secondaria",
-			"explanation": "È secondaria perché racconta il passato basandosi su fonti primarie studiate da altri."
+			"explanation": "È secondaria perché racconta il passato basandosi su fonti primarie studiate da altri.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-fonti-5",
@@ -97,7 +102,8 @@
 				"Perché altrimenti non si può conservare"
 			],
 			"answer": "Perché chi scrive e quando cambia ciò che dice",
-			"explanation": "La stessa battaglia raccontata dal vincitore o dallo sconfitto, subito o cent'anni dopo, non è la stessa battaglia."
+			"explanation": "La stessa battaglia raccontata dal vincitore o dallo sconfitto, subito o cent'anni dopo, non è la stessa battaglia.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-fonti-6",
@@ -113,7 +119,8 @@
 				"Sceglie quella scritta in modo più chiaro"
 			],
 			"answer": "Le confronta e cerca perché differiscono",
-			"explanation": "La contraddizione non è un fastidio: è un indizio. Dice che qualcuno aveva un interesse, o una prospettiva diversa."
+			"explanation": "La contraddizione non è un fastidio: è un indizio. Dice che qualcuno aveva un interesse, o una prospettiva diversa.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-fonti-7",
@@ -129,7 +136,8 @@
 				"Orale"
 			],
 			"answer": "Orale",
-			"explanation": "Le fonti orali raccolgono ricordi. Sono preziose e fragili: la memoria cambia con il tempo."
+			"explanation": "Le fonti orali raccolgono ricordi. Sono preziose e fragili: la memoria cambia con il tempo.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-fonti-8",
@@ -145,7 +153,8 @@
 				"Perché contiene comunque dati esatti"
 			],
 			"answer": "Perché dice cosa qualcuno voleva far credere",
-			"explanation": "Un falso non racconta il fatto, ma racconta il falsario: chi l'ha fatto, quando, e a chi giovava."
+			"explanation": "Un falso non racconta il fatto, ma racconta il falsario: chi l'ha fatto, quando, e a chi giovava.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-fonti-9",
@@ -161,7 +170,8 @@
 				"Numerica e statistica"
 			],
 			"answer": "Iconografica",
-			"explanation": "Le fonti iconografiche sono immagini: dipinti, mosaici, incisioni. Si «leggono» guardandole."
+			"explanation": "Le fonti iconografiche sono immagini: dipinti, mosaici, incisioni. Si «leggono» guardandole.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-fonti-10",
@@ -177,7 +187,8 @@
 				"Può dedurlo dai secoli vicini"
 			],
 			"answer": "Poco o niente, e deve ammetterlo",
-			"explanation": "Il silenzio delle fonti non è una prova. Dire «non lo sappiamo» è una risposta storica legittima."
+			"explanation": "Il silenzio delle fonti non è una prova. Dire «non lo sappiamo» è una risposta storica legittima.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-fonti-11",
@@ -193,7 +204,8 @@
 				"Il luogo dove si conservano i documenti"
 			],
 			"answer": "Il luogo dove si conservano i documenti",
-			"explanation": "Negli archivi finiscono registri, lettere e atti: la materia prima con cui si scrive la storia."
+			"explanation": "Negli archivi finiscono registri, lettere e atti: la materia prima con cui si scrive la storia.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-fonti-12",
@@ -209,7 +221,8 @@
 				"Perché sono i resti meglio conservati"
 			],
 			"answer": "Perché raccontano la vita di tutti i giorni",
-			"explanation": "Nessuno decide come farsi ricordare buttando l'immondizia: per questo dice la verità sul cibo, sui mestieri, sulla povertà."
+			"explanation": "Nessuno decide come farsi ricordare buttando l'immondizia: per questo dice la verità sul cibo, sui mestieri, sulla povertà.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-fonti-13",
@@ -225,7 +238,8 @@
 				"Quante persone vivevano in città"
 			],
 			"answer": "Chi comandava e cosa voleva mostrare",
-			"explanation": "Sulle monete si mettevano il volto del sovrano e i simboli del potere: erano il manifesto più diffuso che esistesse."
+			"explanation": "Sulle monete si mettevano il volto del sovrano e i simboli del potere: erano il manifesto più diffuso che esistesse.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-civilta-14",
@@ -241,7 +255,8 @@
 				"Sono nate lontano dall'acqua"
 			],
 			"answer": "Sono nate vicino a grandi fiumi",
-			"explanation": "Nilo, Tigri, Eufrate, Indo, Fiume Giallo: l'acqua permetteva di coltivare e di spostarsi."
+			"explanation": "Nilo, Tigri, Eufrate, Indo, Fiume Giallo: l'acqua permetteva di coltivare e di spostarsi.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-civilta-15",
@@ -257,7 +272,8 @@
 				"La scrittura"
 			],
 			"answer": "La scrittura",
-			"explanation": "Con la scrittura gli uomini cominciano a lasciare documenti: da lì possiamo leggere il loro racconto."
+			"explanation": "Con la scrittura gli uomini cominciano a lasciare documenti: da lì possiamo leggere il loro racconto.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-civilta-16",
@@ -273,7 +289,8 @@
 				"Isola di Creta"
 			],
 			"answer": "Mesopotamia",
-			"explanation": "Mesopotamia significa «terra fra i fiumi»: Tigri ed Eufrate, l'attuale Iraq."
+			"explanation": "Mesopotamia significa «terra fra i fiumi»: Tigri ed Eufrate, l'attuale Iraq.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-civilta-17",
@@ -289,7 +306,8 @@
 				"Perché rese il cibo molto più saporito"
 			],
 			"answer": "Perché permise di restare fermi in un luogo",
-			"explanation": "Chi coltiva resta: nascono i villaggi, le case stabili, le proprietà e i primi conflitti su di esse."
+			"explanation": "Chi coltiva resta: nascono i villaggi, le case stabili, le proprietà e i primi conflitti su di esse.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-civilta-18",
@@ -305,7 +323,8 @@
 				"A scrivere poesie e canzoni"
 			],
 			"answer": "A registrare merci e magazzini",
-			"explanation": "La scrittura nasce come contabilità: quante pecore, quanto grano, di chi. La letteratura arriva molto dopo."
+			"explanation": "La scrittura nasce come contabilità: quante pecore, quanto grano, di chi. La letteratura arriva molto dopo.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-civilta-19",
@@ -321,7 +340,8 @@
 				"Una raccolta di leggi scritte"
 			],
 			"answer": "Una raccolta di leggi scritte",
-			"explanation": "Scrivere le leggi significa renderle uguali per tutti e non modificabili a piacere: è un passo enorme."
+			"explanation": "Scrivere le leggi significa renderle uguali per tutti e non modificabili a piacere: è un passo enorme.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-civilta-20",
@@ -337,7 +357,8 @@
 				"Perché sostituì la forza animale"
 			],
 			"answer": "Perché permise di trasportare pesi lontano",
-			"explanation": "Coltivare di più serve a poco se non puoi spostare il raccolto: produzione e trasporto crescono insieme."
+			"explanation": "Coltivare di più serve a poco se non puoi spostare il raccolto: produzione e trasporto crescono insieme.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-civilta-21",
@@ -353,7 +374,8 @@
 				"La civiltà cinese degli Shang"
 			],
 			"answer": "La civiltà della valle dell'Indo",
-			"explanation": "Città come Mohenjo-daro avevano strade regolari e fognature: erano pianificate, non cresciute a caso."
+			"explanation": "Città come Mohenjo-daro avevano strade regolari e fognature: erano pianificate, non cresciute a caso.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-civilta-22",
@@ -369,7 +391,8 @@
 				"Un gruppo che possiede molte ricchezze"
 			],
 			"answer": "Una società con città, scrittura e organizzazione",
-			"explanation": "Non è un giudizio di valore: è un insieme di caratteristiche osservabili, come vivere in città e amministrare per iscritto."
+			"explanation": "Non è un giudizio di valore: è un insieme di caratteristiche osservabili, come vivere in città e amministrare per iscritto.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-civilta-23",
@@ -385,7 +408,8 @@
 				"Per conservare il cibo e superare le carestie"
 			],
 			"answer": "Per conservare il cibo e superare le carestie",
-			"explanation": "Un raccolto abbondante serve a poco se marcisce: chi sa conservare sopravvive agli anni cattivi."
+			"explanation": "Un raccolto abbondante serve a poco se marcisce: chi sa conservare sopravvive agli anni cattivi.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-civilta-24",
@@ -401,7 +425,8 @@
 				"Perché alcuni erano più intelligenti"
 			],
 			"answer": "Perché non tutti dovevano più produrre cibo",
-			"explanation": "Con un surplus agricolo qualcuno può fare altro: il sacerdote, lo scriba, il soldato. Da lì nascono le differenze."
+			"explanation": "Con un surplus agricolo qualcuno può fare altro: il sacerdote, lo scriba, il soldato. Da lì nascono le differenze.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-civilta-25",
@@ -417,7 +442,8 @@
 				"Mura di difesa delle città"
 			],
 			"answer": "Templi a gradoni dedicati alle divinità",
-			"explanation": "Salivano verso il cielo perché lì si pensava abitassero gli dèi: la religione era al centro della città."
+			"explanation": "Salivano verso il cielo perché lì si pensava abitassero gli dèi: la religione era al centro della città.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-civilta-26",
@@ -433,7 +459,8 @@
 				"Perché si trovava dappertutto in natura"
 			],
 			"answer": "Perché diede attrezzi e armi più resistenti",
-			"explanation": "Il bronzo è più duro del rame puro. E poiché serve lo stagno, spesso lontano, nascono le grandi rotte commerciali."
+			"explanation": "Il bronzo è più duro del rame puro. E poiché serve lo stagno, spesso lontano, nascono le grandi rotte commerciali.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-civilta-27",
@@ -449,7 +476,8 @@
 				"Perché i segni hanno forma di cuneo"
 			],
 			"answer": "Perché i segni hanno forma di cuneo",
-			"explanation": "Si imprimeva su tavolette d'argilla morbida con uno stilo a punta triangolare: ogni segno resta a forma di chiodo."
+			"explanation": "Si imprimeva su tavolette d'argilla morbida con uno stilo a punta triangolare: ogni segno resta a forma di chiodo.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-egizi-28",
@@ -465,7 +493,8 @@
 				"Perché era l'unica via per il deserto"
 			],
 			"answer": "Perché le sue piene rendevano fertile la terra",
-			"explanation": "Ogni anno la piena depositava limo: senza quel fango il deserto sarebbe arrivato fino alle case."
+			"explanation": "Ogni anno la piena depositava limo: senza quel fango il deserto sarebbe arrivato fino alle case.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-egizi-29",
@@ -481,7 +510,8 @@
 				"Alfabetica"
 			],
 			"answer": "Geroglifica",
-			"explanation": "Geroglifico significa «incisione sacra»: si usava sui monumenti e nei testi religiosi."
+			"explanation": "Geroglifico significa «incisione sacra»: si usava sui monumenti e nei testi religiosi.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-egizi-30",
@@ -497,7 +527,8 @@
 				"Erano fortezze contro i nemici"
 			],
 			"answer": "Erano tombe monumentali dei faraoni",
-			"explanation": "Servivano a proteggere il corpo e il corredo del faraone per la vita dopo la morte."
+			"explanation": "Servivano a proteggere il corpo e il corredo del faraone per la vita dopo la morte.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-egizi-31",
@@ -513,7 +544,8 @@
 				"Per conservare il corpo per l'aldilà"
 			],
 			"answer": "Per conservare il corpo per l'aldilà",
-			"explanation": "Credevano che l'anima avesse bisogno del corpo per continuare a esistere: conservarlo era un atto religioso."
+			"explanation": "Credevano che l'anima avesse bisogno del corpo per continuare a esistere: conservarlo era un atto religioso.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-egizi-32",
@@ -529,7 +561,8 @@
 				"Il primo calendario egizio conosciuto"
 			],
 			"answer": "Una pietra con lo stesso testo in tre scritture",
-			"explanation": "Avendo lo stesso testo in greco e in egizio, permise finalmente di decifrare i geroglifici."
+			"explanation": "Avendo lo stesso testo in greco e in egizio, permise finalmente di decifrare i geroglifici.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-egizi-33",
@@ -545,7 +578,8 @@
 				"Il proprietario di tutte le terre coltivate"
 			],
 			"answer": "Un sovrano considerato anche divino",
-			"explanation": "Non era solo un re: era il legame fra gli dèi e gli uomini, e questo giustificava il suo potere assoluto."
+			"explanation": "Non era solo un re: era il legame fra gli dèi e gli uomini, e questo giustificava il suo potere assoluto.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-egizi-34",
@@ -561,7 +595,8 @@
 				"Per contare le tasse dei mercanti"
 			],
 			"answer": "Per ridisegnare i campi dopo ogni piena",
-			"explanation": "La piena cancellava i confini dei terreni ogni anno: bisognava misurarli di nuovo, e da lì nasce la «misura della terra»."
+			"explanation": "La piena cancellava i confini dei terreni ogni anno: bisognava misurarli di nuovo, e da lì nasce la «misura della terra».",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-egizi-35",
@@ -577,7 +612,8 @@
 				"Papiro"
 			],
 			"answer": "Papiro",
-			"explanation": "Il papiro si ricavava da una pianta che cresceva lungo il Nilo: leggero, arrotolabile, ed è la radice della parola «carta»."
+			"explanation": "Il papiro si ricavava da una pianta che cresceva lungo il Nilo: leggero, arrotolabile, ed è la radice della parola «carta».",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-metodo-36",
@@ -593,7 +629,8 @@
 				"Tradurla nella lingua di oggi"
 			],
 			"answer": "Capire in che epoca e situazione è nata",
-			"explanation": "Una frase può cambiare senso a seconda di chi la dice, quando e a chi: senza contesto si legge male."
+			"explanation": "Una frase può cambiare senso a seconda di chi la dice, quando e a chi: senza contesto si legge male.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-metodo-37",
@@ -609,7 +646,8 @@
 				"Che il fatto non è mai avvenuto"
 			],
 			"answer": "Una ricostruzione provvisoria, da verificare",
-			"explanation": "Una fonte sola può bastare a formulare un'ipotesi, non a chiuderla: serve incrocio con altre testimonianze."
+			"explanation": "Una fonte sola può bastare a formulare un'ipotesi, non a chiuderla: serve incrocio con altre testimonianze.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-metodo-38",
@@ -625,7 +663,8 @@
 				"Perché ogni epoca inventa il suo passato"
 			],
 			"answer": "Perché nuove fonti cambiano le ricostruzioni",
-			"explanation": "Non cambiano i fatti: cambia quello che sappiamo. Uno scavo nuovo può ribaltare una certezza di cent'anni."
+			"explanation": "Non cambiano i fatti: cambia quello che sappiamo. Uno scavo nuovo può ribaltare una certezza di cent'anni.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-metodo-39",
@@ -641,7 +680,8 @@
 				"Attribuire a un'epoca qualcosa che non aveva"
 			],
 			"answer": "Attribuire a un'epoca qualcosa che non aveva",
-			"explanation": "Un romano con l'orologio da polso è un anacronismo evidente; giudicarne le scelte con la nostra morale è un anacronismo più sottile."
+			"explanation": "Un romano con l'orologio da polso è un anacronismo evidente; giudicarne le scelte con la nostra morale è un anacronismo più sottile.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-metodo-40",
@@ -657,7 +697,8 @@
 				"Perché è una regola di cortesia fra studiosi"
 			],
 			"answer": "Perché altri possano controllare il lavoro",
-			"explanation": "Una ricostruzione senza fonti dichiarate non è verificabile, e ciò che non si può controllare non si può correggere."
+			"explanation": "Una ricostruzione senza fonti dichiarate non è verificabile, e ciò che non si può controllare non si può correggere.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-metodo-41",
@@ -673,7 +714,8 @@
 				"Il fatto è antico, l'interpretazione recente"
 			],
 			"answer": "Il fatto è accaduto, l'interpretazione lo spiega",
-			"explanation": "Che Roma sia caduta nel 476 è un fatto; perché sia caduta è interpretazione, e su quella gli storici discutono ancora."
+			"explanation": "Che Roma sia caduta nel 476 è un fatto; perché sia caduta è interpretazione, e su quella gli storici discutono ancora.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-metodo-42",
@@ -689,7 +731,8 @@
 				"Perché ci sono più fonti disponibili"
 			],
 			"answer": "Perché racconta come si viveva davvero",
-			"explanation": "La storia dei soli sovrani spiega le decisioni, non la vita: il cibo, il lavoro e le case dicono il resto."
+			"explanation": "La storia dei soli sovrani spiega le decisioni, non la vita: il cibo, il lavoro e le case dicono il resto.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-preistoria-43",
@@ -705,7 +748,8 @@
 				"Perché mancano documenti scritti da studiare"
 			],
 			"answer": "Perché mancano documenti scritti da studiare",
-			"explanation": "Lo studiamo solo con le fonti materiali: ossa, strumenti, pitture. Nessuno ci ha lasciato il proprio racconto."
+			"explanation": "Lo studiamo solo con le fonti materiali: ossa, strumenti, pitture. Nessuno ci ha lasciato il proprio racconto.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-preistoria-44",
@@ -721,7 +765,8 @@
 				"L'arco"
 			],
 			"answer": "Il fuoco",
-			"explanation": "Il fuoco allunga la giornata, rende il cibo digeribile e tiene lontani gli animali: cambia tutto."
+			"explanation": "Il fuoco allunga la giornata, rende il cibo digeribile e tiene lontani gli animali: cambia tutto.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-preistoria-45",
@@ -737,7 +782,8 @@
 				"Nel Paleolitico si vive già nelle città"
 			],
 			"answer": "Nel Neolitico nascono agricoltura e allevamento",
-			"explanation": "Paleolitico significa «pietra antica»: si caccia e si raccoglie. Nel Neolitico si produce il cibo, e si diventa stanziali."
+			"explanation": "Paleolitico significa «pietra antica»: si caccia e si raccoglie. Nel Neolitico si produce il cibo, e si diventa stanziali.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-preistoria-46",
@@ -753,7 +799,8 @@
 				"Perché temevano le altre tribù"
 			],
 			"answer": "Perché seguivano gli animali e le stagioni",
-			"explanation": "Chi vive di caccia e raccolta deve spostarsi dove c'è cibo: restare fermi diventa possibile solo coltivando."
+			"explanation": "Chi vive di caccia e raccolta deve spostarsi dove c'è cibo: restare fermi diventa possibile solo coltivando.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-preistoria-47",
@@ -769,7 +816,8 @@
 				"Avevano un valore rituale e simbolico"
 			],
 			"answer": "Avevano un valore rituale e simbolico",
-			"explanation": "Stanno spesso in grotte profonde e scomode, non nei luoghi in cui si viveva: la spiegazione decorativa non basta."
+			"explanation": "Stanno spesso in grotte profonde e scomode, non nei luoghi in cui si viveva: la spiegazione decorativa non basta.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-preistoria-48",
@@ -785,7 +833,8 @@
 				"Una tomba scavata nella roccia"
 			],
 			"answer": "Una grande pietra piantata verticalmente",
-			"explanation": "Erigerlo richiedeva molte persone coordinate: dice che quei gruppi sapevano organizzarsi per uno scopo comune."
+			"explanation": "Erigerlo richiedeva molte persone coordinate: dice che quei gruppi sapevano organizzarsi per uno scopo comune.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-preistoria-49",
@@ -801,7 +850,8 @@
 				"Perché rende inutile l'agricoltura"
 			],
 			"answer": "Perché dà strumenti migliori e nuovi scambi",
-			"explanation": "Gli attrezzi di metallo durano e tagliano meglio; e poiché i minerali sono in pochi luoghi, nascono commerci a lunga distanza."
+			"explanation": "Gli attrezzi di metallo durano e tagliano meglio; e poiché i minerali sono in pochi luoghi, nascono commerci a lunga distanza.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-grecia-50",
@@ -817,7 +867,8 @@
 				"Una piazza per il mercato"
 			],
 			"answer": "Una città-stato indipendente",
-			"explanation": "Ogni polis aveva leggi, monete ed esercito propri: la Grecia era un insieme di città, non uno Stato unico."
+			"explanation": "Ogni polis aveva leggi, monete ed esercito propri: la Grecia era un insieme di città, non uno Stato unico.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-grecia-51",
@@ -833,7 +884,8 @@
 				"Atene"
 			],
 			"answer": "Atene",
-			"explanation": "Ad Atene i cittadini decidevano in assemblea. «Cittadini» però escludeva donne, schiavi e stranieri."
+			"explanation": "Ad Atene i cittadini decidevano in assemblea. «Cittadini» però escludeva donne, schiavi e stranieri.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-grecia-52",
@@ -849,7 +901,8 @@
 				"Governo dei sacerdoti"
 			],
 			"answer": "Governo del popolo",
-			"explanation": "Da «demos» (popolo) e «kratos» (potere). Il nome dice il principio: le decisioni spettano ai cittadini."
+			"explanation": "Da «demos» (popolo) e «kratos» (potere). Il nome dice il principio: le decisioni spettano ai cittadini.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-grecia-53",
@@ -865,7 +918,8 @@
 				"Per le scuole di filosofia e matematica"
 			],
 			"answer": "Per l'educazione militare durissima",
-			"explanation": "A Sparta il cittadino era prima di tutto un soldato: l'addestramento cominciava da bambini e durava tutta la vita."
+			"explanation": "A Sparta il cittadino era prima di tutto un soldato: l'addestramento cominciava da bambini e durava tutta la vita.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-grecia-54",
@@ -881,7 +935,8 @@
 				"Perché volevano conquistare Roma"
 			],
 			"answer": "Perché la terra coltivabile in patria era poca",
-			"explanation": "Il territorio greco è montuoso e povero: chi non aveva terra partiva. Così nacque anche la Magna Grecia in Italia."
+			"explanation": "Il territorio greco è montuoso e povero: chi non aveva terra partiva. Così nacque anche la Magna Grecia in Italia.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-grecia-55",
@@ -897,7 +952,8 @@
 				"Gare sportive in onore di Zeus"
 			],
 			"answer": "Gare sportive in onore di Zeus",
-			"explanation": "Si tenevano a Olimpia ogni quattro anni, e durante i giochi le guerre fra le poleis venivano sospese."
+			"explanation": "Si tenevano a Olimpia ogni quattro anni, e durante i giochi le guerre fra le poleis venivano sospese.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-grecia-56",
@@ -913,7 +969,8 @@
 				"Perché serviva solo a far divertire"
 			],
 			"answer": "Perché faceva discutere la città sui suoi problemi",
-			"explanation": "Le tragedie mettevano in scena giustizia, potere e destino davanti a migliaia di cittadini: era spettacolo e riflessione pubblica."
+			"explanation": "Le tragedie mettevano in scena giustizia, potere e destino davanti a migliaia di cittadini: era spettacolo e riflessione pubblica.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-cronologia-57",
@@ -929,7 +986,8 @@
 				"XIX secolo"
 			],
 			"answer": "XVIII secolo",
-			"explanation": "Gli anni dal 1701 al 1800 formano il XVIII secolo: si prendono le centinaia e si aggiunge uno."
+			"explanation": "Gli anni dal 1701 al 1800 formano il XVIII secolo: si prendono le centinaia e si aggiunge uno.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-cronologia-58",
@@ -945,7 +1003,8 @@
 				"Sono contemporanei"
 			],
 			"answer": "300 a.C.",
-			"explanation": "Prima di Cristo si conta all'indietro: più il numero è grande, più l'anno è lontano nel passato."
+			"explanation": "Prima di Cristo si conta all'indietro: più il numero è grande, più l'anno è lontano nel passato.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-cronologia-59",
@@ -983,7 +1042,8 @@
 				"XIX secolo"
 			],
 			"answer": "XIX secolo",
-			"explanation": "Il 1900 chiude il XIX secolo: il XX comincia con il 1901, perché si conta da 1 e non da 0."
+			"explanation": "Il 1900 chiude il XIX secolo: il XX comincia con il 1901, perché si conta da 1 e non da 0.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-cronologia-62",
@@ -999,7 +1059,8 @@
 				"La durata di una singola epoca"
 			],
 			"answer": "Uno schema che mette gli eventi in ordine",
-			"explanation": "Serve a vedere la successione e le distanze: quali fatti sono vicini, quali lontani, cosa è avvenuto insieme."
+			"explanation": "Serve a vedere la successione e le distanze: quali fatti sono vicini, quali lontani, cosa è avvenuto insieme.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-roma-63",
@@ -1015,7 +1076,8 @@
 				"Tutti gli abitanti della città"
 			],
 			"answer": "Solo i cittadini maschi liberi",
-			"explanation": "Donne, schiavi e stranieri restavano fuori. E il voto pesava di più per i cittadini più ricchi."
+			"explanation": "Donne, schiavi e stranieri restavano fuori. E il voto pesava di più per i cittadini più ricchi.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-roma-64",
@@ -1031,7 +1093,8 @@
 				"A far defluire l'acqua piovana"
 			],
 			"answer": "A spostare rapidamente eserciti e merci",
-			"explanation": "Strade dritte e lastricate significano legioni che arrivano prima: l'impero si teneva insieme anche così."
+			"explanation": "Strade dritte e lastricate significano legioni che arrivano prima: l'impero si teneva insieme anche così.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-roma-65",
@@ -1047,7 +1110,8 @@
 				"Perché dava diritti e protezione legale"
 			],
 			"answer": "Perché dava diritti e protezione legale",
-			"explanation": "Un cittadino non poteva essere condannato senza processo e poteva appellarsi: era una garanzia enorme per l'epoca."
+			"explanation": "Un cittadino non poteva essere condannato senza processo e poteva appellarsi: era una garanzia enorme per l'epoca.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-roma-66",
@@ -1063,7 +1127,8 @@
 				"Templi dedicati alle divinità dell'acqua"
 			],
 			"answer": "Bagni pubblici e luogo di incontro",
-			"explanation": "Ci si lavava, ma soprattutto si parlava d'affari e di politica: erano il centro della vita sociale."
+			"explanation": "Ci si lavava, ma soprattutto si parlava d'affari e di politica: erano il centro della vita sociale.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-roma-67",
@@ -1079,7 +1144,8 @@
 				"Perché il territorio era piccolo"
 			],
 			"answer": "Per l'organizzazione di leggi, strade ed esercito",
-			"explanation": "Non bastava conquistare: servivano un diritto comune, vie di comunicazione e un esercito stabile per tenere insieme il tutto."
+			"explanation": "Non bastava conquistare: servivano un diritto comune, vie di comunicazione e un esercito stabile per tenere insieme il tutto.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-medioevo-68",
@@ -1095,7 +1161,8 @@
 				"Gli abitanti liberi delle città vicine"
 			],
 			"answer": "I contadini, in gran parte servi della gleba",
-			"explanation": "I servi della gleba erano legati alla terra: non potevano lasciarla, e passavano al signore successivo insieme al campo."
+			"explanation": "I servi della gleba erano legati alla terra: non potevano lasciarla, e passavano al signore successivo insieme al campo.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-medioevo-69",
@@ -1111,7 +1178,8 @@
 				"Copiavano a mano i libri antichi"
 			],
 			"answer": "Copiavano a mano i libri antichi",
-			"explanation": "Prima della stampa ogni copia era scritta a mano: senza quel lavoro paziente molti testi antichi sarebbero andati perduti."
+			"explanation": "Prima della stampa ogni copia era scritta a mano: senza quel lavoro paziente molti testi antichi sarebbero andati perduti.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-medioevo-70",
@@ -1127,7 +1195,8 @@
 				"Perché i castelli vengono abbandonati"
 			],
 			"answer": "Perché ripartono commerci e artigianato",
-			"explanation": "Con più scambi servono luoghi dove vendere e produrre: nascono i mercati, le corporazioni e i Comuni."
+			"explanation": "Con più scambi servono luoghi dove vendere e produrre: nascono i mercati, le corporazioni e i Comuni.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-medioevo-71",
@@ -1143,7 +1212,8 @@
 				"Un villaggio di contadini liberi"
 			],
 			"answer": "Una città che si governava da sé",
-			"explanation": "I cittadini si organizzavano per decidere da soli, spesso in conflitto con l'imperatore o con il vescovo."
+			"explanation": "I cittadini si organizzavano per decidere da soli, spesso in conflitto con l'imperatore o con il vescovo.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-medioevo-72",
@@ -1159,7 +1229,8 @@
 				"La bussola per la navigazione"
 			],
 			"answer": "La stampa a caratteri mobili",
-			"explanation": "Copiare un libro richiedeva mesi; stamparne centinaia diventa questione di giorni. Le idee cominciano a viaggiare."
+			"explanation": "Copiare un libro richiedeva mesi; stamparne centinaia diventa questione di giorni. Le idee cominciano a viaggiare.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-metodo-73",
@@ -1175,7 +1246,8 @@
 				"Lo storico"
 			],
 			"answer": "Lo storico",
-			"explanation": "Lo storico ricostruisce il passato interpretando le fonti."
+			"explanation": "Lo storico ricostruisce il passato interpretando le fonti.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-metodo-74",
@@ -1191,7 +1263,8 @@
 				"Le previsioni sul futuro lontano"
 			],
 			"answer": "Le tracce che ci parlano del passato",
-			"explanation": "Documenti, oggetti, resti e racconti sono fonti: ci fanno conoscere il passato."
+			"explanation": "Documenti, oggetti, resti e racconti sono fonti: ci fanno conoscere il passato.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-metodo-75",
@@ -1207,7 +1280,8 @@
 				"scritta"
 			],
 			"answer": "materiale",
-			"explanation": "Le fonti materiali sono oggetti e costruzioni; quelle scritte sono i testi."
+			"explanation": "Le fonti materiali sono oggetti e costruzioni; quelle scritte sono i testi.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-cronologia-76",
@@ -1223,7 +1297,8 @@
 				"Mille"
 			],
 			"answer": "Cento",
-			"explanation": "Attenzione al conto: il Novecento è il ventesimo secolo, perché il primo comprende gli anni dall'1 al 100."
+			"explanation": "Attenzione al conto: il Novecento è il ventesimo secolo, perché il primo comprende gli anni dall'1 al 100.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-cronologia-77",
@@ -1239,7 +1314,8 @@
 				"a.C."
 			],
 			"answer": "a.C.",
-			"explanation": "a.C. significa 'avanti Cristo'; d.C. significa 'dopo Cristo'."
+			"explanation": "a.C. significa 'avanti Cristo'; d.C. significa 'dopo Cristo'.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-cronologia-78",
@@ -1255,7 +1331,8 @@
 				"XVI secolo"
 			],
 			"answer": "XV secolo",
-			"explanation": "Gli anni dal 1401 al 1500 formano il XV secolo (il '400)."
+			"explanation": "Gli anni dal 1401 al 1500 formano il XV secolo (il '400).",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-preistoria-79",
@@ -1271,7 +1348,8 @@
 				"L'assenza degli animali"
 			],
 			"answer": "L'assenza della scrittura",
-			"explanation": "La Storia inizia con l'invenzione della scrittura; prima c'è la Preistoria."
+			"explanation": "La Storia inizia con l'invenzione della scrittura; prima c'è la Preistoria.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-preistoria-80",
@@ -1287,7 +1365,8 @@
 				"Allevamento in stalla"
 			],
 			"answer": "Caccia e raccolta",
-			"explanation": "Nel Paleolitico l'uomo era nomade e viveva di caccia, pesca e raccolta."
+			"explanation": "Nel Paleolitico l'uomo era nomade e viveva di caccia, pesca e raccolta.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-preistoria-81",
@@ -1303,7 +1382,8 @@
 				"L'agricoltura"
 			],
 			"answer": "L'agricoltura",
-			"explanation": "Con l'agricoltura l'uomo diventò sedentario e nacquero i primi villaggi."
+			"explanation": "Con l'agricoltura l'uomo diventò sedentario e nacquero i primi villaggi.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-preistoria-82",
@@ -1319,7 +1399,8 @@
 				"Dall'oro"
 			],
 			"answer": "Dal bronzo",
-			"explanation": "Il bronzo è una lega di rame e stagno: diede il nome a quell'età."
+			"explanation": "Il bronzo è una lega di rame e stagno: diede il nome a quell'età.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-egizi-83",
@@ -1335,7 +1416,8 @@
 				"Doge"
 			],
 			"answer": "Faraone",
-			"explanation": "Il faraone era il sovrano dell'Egitto, considerato quasi un dio."
+			"explanation": "Il faraone era il sovrano dell'Egitto, considerato quasi un dio.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-egizi-84",
@@ -1351,7 +1433,8 @@
 				"Il Po"
 			],
 			"answer": "Il Nilo",
-			"explanation": "La civiltà egizia fiorì lungo le rive del Nilo."
+			"explanation": "La civiltà egizia fiorì lungo le rive del Nilo.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-egizi-85",
@@ -1367,7 +1450,8 @@
 				"Perché con le piene rendeva fertili i campi"
 			],
 			"answer": "Perché con le piene rendeva fertili i campi",
-			"explanation": "Le piene del Nilo lasciavano fango fertile: permettevano l'agricoltura."
+			"explanation": "Le piene del Nilo lasciavano fango fertile: permettevano l'agricoltura.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-egizi-86",
@@ -1383,7 +1467,8 @@
 				"Braille"
 			],
 			"answer": "Geroglifici",
-			"explanation": "Gli Egizi scrivevano con i geroglifici, piccoli disegni-simbolo."
+			"explanation": "Gli Egizi scrivevano con i geroglifici, piccoli disegni-simbolo.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-grecia-87",
@@ -1399,7 +1484,8 @@
 				"Corinto"
 			],
 			"answer": "Sparta",
-			"explanation": "A Sparta l'educazione era tutta rivolta alla vita militare."
+			"explanation": "A Sparta l'educazione era tutta rivolta alla vita militare.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-grecia-88",
@@ -1415,7 +1501,8 @@
 				"Sparta"
 			],
 			"answer": "Atene",
-			"explanation": "Ad Atene i cittadini partecipavano alle decisioni: nacque la democrazia."
+			"explanation": "Ad Atene i cittadini partecipavano alle decisioni: nacque la democrazia.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-grecia-89",
@@ -1431,7 +1518,8 @@
 				"Pòleis"
 			],
 			"answer": "Pòleis",
-			"explanation": "Montagne e mare separavano le comunità greche, che restarono indipendenti invece di unirsi in un regno unico: ogni pòlis aveva le sue leggi e il suo esercito."
+			"explanation": "Montagne e mare separavano le comunità greche, che restarono indipendenti invece di unirsi in un regno unico: ogni pòlis aveva le sue leggi e il suo esercito.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-grecia-90",
@@ -1447,7 +1535,8 @@
 				"A Cartagine"
 			],
 			"answer": "A Olimpia",
-			"explanation": "I Giochi si svolgevano a Olimpia, in onore del dio Zeus."
+			"explanation": "I Giochi si svolgevano a Olimpia, in onore del dio Zeus.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-roma-91",
@@ -1463,7 +1552,8 @@
 				"L'inglese"
 			],
 			"answer": "Il latino",
-			"explanation": "I Romani parlavano latino, da cui deriva anche l'italiano."
+			"explanation": "I Romani parlavano latino, da cui deriva anche l'italiano.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-roma-92",
@@ -1479,7 +1569,8 @@
 				"Enea"
 			],
 			"answer": "Romolo",
-			"explanation": "La leggenda narra che Roma fu fondata da Romolo, con il fratello Remo."
+			"explanation": "La leggenda narra che Roma fu fondata da Romolo, con il fratello Remo.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-roma-93",
@@ -1495,7 +1586,8 @@
 				"753 a.C."
 			],
 			"answer": "753 a.C.",
-			"explanation": "È una data di leggenda, non di scavo: serviva ai Romani per darsi un inizio preciso da cui contare gli anni."
+			"explanation": "È una data di leggenda, non di scavo: serviva ai Romani per darsi un inizio preciso da cui contare gli anni.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-roma-94",
@@ -1511,7 +1603,8 @@
 				"L'anarchia"
 			],
 			"answer": "La repubblica",
-			"explanation": "Cacciato l'ultimo re, Roma diventò una repubblica guidata dai consoli."
+			"explanation": "Cacciato l'ultimo re, Roma diventò una repubblica guidata dai consoli.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-roma-95",
@@ -1527,7 +1620,8 @@
 				"Il Foro"
 			],
 			"answer": "Il Senato",
-			"explanation": "Il Senato riuniva i patrizi e consigliava chi governava Roma."
+			"explanation": "Il Senato riuniva i patrizi e consigliava chi governava Roma.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-roma-96",
@@ -1543,7 +1637,8 @@
 				"Il faraone"
 			],
 			"answer": "L'imperatore",
-			"explanation": "Dopo la repubblica, Roma fu guidata da un imperatore, il primo fu Augusto."
+			"explanation": "Dopo la repubblica, Roma fu guidata da un imperatore, il primo fu Augusto.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-medioevo-97",
@@ -1559,7 +1654,8 @@
 				"La caduta dell'Impero Romano d'Occidente"
 			],
 			"answer": "La caduta dell'Impero Romano d'Occidente",
-			"explanation": "Il Medioevo inizia nel 476 d.C., con la caduta dell'Impero Romano d'Occidente."
+			"explanation": "Il Medioevo inizia nel 476 d.C., con la caduta dell'Impero Romano d'Occidente.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-medioevo-98",
@@ -1575,7 +1671,8 @@
 				"Impero"
 			],
 			"answer": "Feudalesimo",
-			"explanation": "Nel feudalesimo il signore concedeva un feudo in cambio di fedeltà e aiuto militare."
+			"explanation": "Nel feudalesimo il signore concedeva un feudo in cambio di fedeltà e aiuto militare.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-medioevo-99",
@@ -1591,7 +1688,8 @@
 				"A coltivare il grano nei campi"
 			],
 			"answer": "A difendersi dagli attacchi",
-			"explanation": "Il castello, con mura e torri, proteggeva il signore e gli abitanti."
+			"explanation": "Il castello, con mura e torri, proteggeva il signore e gli abitanti.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-medioevo-100",
@@ -1607,7 +1705,8 @@
 				"I cavalieri armati"
 			],
 			"answer": "I monaci amanuensi",
-			"explanation": "I monaci amanuensi ricopiavano a mano i testi, custodendo il sapere."
+			"explanation": "I monaci amanuensi ricopiavano a mano i testi, custodendo il sapere.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-medioevo-101",
@@ -1623,7 +1722,8 @@
 				"Cavalieri"
 			],
 			"answer": "Cavalieri",
-			"explanation": "I cavalieri combattevano a cavallo e giuravano fedeltà al loro signore."
+			"explanation": "I cavalieri combattevano a cavallo e giuravano fedeltà al loro signore.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-medioevo-102",
@@ -1639,7 +1739,8 @@
 				"Nei supermercati"
 			],
 			"answer": "Nei monasteri",
-			"explanation": "I monasteri furono centri di cultura: vi si custodivano e copiavano i libri."
+			"explanation": "I monasteri furono centri di cultura: vi si custodivano e copiavano i libri.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "storia-preistoria-103",

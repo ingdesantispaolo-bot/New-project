@@ -287,7 +287,8 @@
 				"punti totali"
 			],
 			"answer": "punti_totali",
-			"explanation": "Un nome può avere lettere, cifre e underscore, ma non può iniziare con una cifra né contenere spazi o trattini."
+			"explanation": "Un nome può avere lettere, cifre e underscore, ma non può iniziare con una cifra né contenere spazi o trattini.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-variabili-1",
@@ -314,7 +315,8 @@
 				"Stampare un valore"
 			],
 			"answer": "Mettere un valore dentro una variabile",
-			"explanation": "= assegna, cioè scrive un valore nella variabile a sinistra. Per confrontare serve ==."
+			"explanation": "= assegna, cioè scrive un valore nella variabile a sinistra. Per confrontare serve ==.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-variabili-3",
@@ -341,7 +343,8 @@
 				"punti = ++1"
 			],
 			"answer": "punti += 1",
-			"explanation": "+= aggiunge al valore esistente. Python non ha l'operatore ++ di altri linguaggi."
+			"explanation": "+= aggiunge al valore esistente. Python non ha l'operatore ++ di altri linguaggi.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-variabili-5",
@@ -357,7 +360,8 @@
 				"Perché rileggendo il codice si capisce cosa contiene"
 			],
 			"answer": "Perché rileggendo il codice si capisce cosa contiene",
-			"explanation": "Il codice si legge molte più volte di quante si scriva: un nome che spiega sé stesso fa risparmiare tempo dopo."
+			"explanation": "Il codice si legge molte più volte di quante si scriva: un nome che spiega sé stesso fa risparmiare tempo dopo.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-variabili-6",
@@ -373,7 +377,8 @@
 				"print accetta solo testo"
 			],
 			"answer": "y non è mai stata definita",
-			"explanation": "Una variabile esiste solo dopo che le si è assegnato qualcosa: prima Python non sa cosa sia y."
+			"explanation": "Una variabile esiste solo dopo che le si è assegnato qualcosa: prima Python non sa cosa sia y.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-variabili-7",
@@ -400,7 +405,8 @@
 				"Sinonimi automatici"
 			],
 			"answer": "Due variabili diverse",
-			"explanation": "Python distingue maiuscole e minuscole: sono due nomi diversi, ed è una fonte di errori molto comune."
+			"explanation": "Python distingue maiuscole e minuscole: sono due nomi diversi, ed è una fonte di errori molto comune.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-variabili-9",
@@ -416,7 +422,8 @@
 				"Niente, va assegnata due volte"
 			],
 			"answer": "La stringa Eli",
-			"explanation": "L'assegnazione è immediata: da quel momento la variabile nome vale 'Eli'."
+			"explanation": "L'assegnazione è immediata: da quel momento la variabile nome vale 'Eli'.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-variabili-10",
@@ -443,7 +450,8 @@
 				"Booleano"
 			],
 			"answer": "Booleano",
-			"explanation": "True e False sono i due valori booleani: rappresentano vero e falso, e si scrivono con la maiuscola."
+			"explanation": "True e False sono i due valori booleani: rappresentano vero e falso, e si scrivono con la maiuscola.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-tipi-12",
@@ -459,7 +467,8 @@
 				"Numero intero senza decimali (int)"
 			],
 			"answer": "Numero con la virgola (float)",
-			"explanation": "Un numero con la parte decimale è un float. In Python il separatore è il punto, non la virgola."
+			"explanation": "Un numero con la parte decimale è un float. In Python il separatore è il punto, non la virgola.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-tipi-13",
@@ -475,7 +484,8 @@
 				"Sono entrambi numeri, scritti in due modi"
 			],
 			"answer": "Il primo è un numero, il secondo è testo",
-			"explanation": "Le virgolette cambiano il tipo: con 7 si può fare aritmetica, con '7' si può solo unire ad altro testo."
+			"explanation": "Le virgolette cambiano il tipo: con 7 si può fare aritmetica, con '7' si può solo unire ad altro testo.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-tipi-14",
@@ -502,7 +512,8 @@
 				"Restituisce 'ciao'"
 			],
 			"answer": "Un errore: non è un numero",
-			"explanation": "int() converte solo stringhe che rappresentano un numero: su un testo qualsiasi si ferma."
+			"explanation": "int() converte solo stringhe che rappresentano un numero: su un testo qualsiasi si ferma.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-tipi-16",
@@ -518,7 +529,8 @@
 				"type()"
 			],
 			"answer": "type()",
-			"explanation": "type(x) restituisce il tipo di x: utile quando un programma si comporta in modo inatteso."
+			"explanation": "type(x) restituisce il tipo di x: utile quando un programma si comporta in modo inatteso.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-tipi-17",
@@ -534,7 +546,8 @@
 				"Un errore"
 			],
 			"answer": "La stringa '9'",
-			"explanation": "str() trasforma un valore in testo: serve quando si vuole unirlo ad altre stringhe."
+			"explanation": "str() trasforma un valore in testo: serve quando si vuole unirlo ad altre stringhe.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-tipi-18",
@@ -561,7 +574,8 @@
 				"Booleano"
 			],
 			"answer": "Lista",
-			"explanation": "Le parentesi quadre con valori separati da virgole formano una lista."
+			"explanation": "Le parentesi quadre con valori separati da virgole formano una lista.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-tipi-20",
@@ -572,7 +586,8 @@
 			"prompt": "Cosa stampa: print(3 + 2.0)?",
 			"options": [],
 			"answer": "5.0",
-			"explanation": "Mescolando int e float Python usa il tipo più «largo»: il risultato è un float."
+			"explanation": "Mescolando int e float Python usa il tipo più «largo»: il risultato è un float.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-tipi-21",
@@ -588,7 +603,8 @@
 				"Perché input() restituisce sempre testo"
 			],
 			"answer": "Perché input() restituisce sempre testo",
-			"explanation": "Anche quando l'utente scrive 42, il programma riceve la stringa '42': senza conversione i calcoli non funzionano."
+			"explanation": "Anche quando l'utente scrive 42, il programma riceve la stringa '42': senza conversione i calcoli non funzionano.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-booleani-22",
@@ -604,7 +620,8 @@
 				"Vero e Falso, in italiano"
 			],
 			"answer": "True e False",
-			"explanation": "Si scrivono in inglese e con l'iniziale maiuscola: true minuscolo darebbe errore."
+			"explanation": "Si scrivono in inglese e con l'iniziale maiuscola: true minuscolo darebbe errore.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-booleani-23",
@@ -620,7 +637,8 @@
 				"False"
 			],
 			"answer": "True",
-			"explanation": "Un confronto non restituisce un numero: restituisce vero o falso."
+			"explanation": "Un confronto non restituisce un numero: restituisce vero o falso.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-booleani-24",
@@ -636,7 +654,8 @@
 				"Errore"
 			],
 			"answer": "False",
-			"explanation": "and è vero solo se lo sono entrambe le parti: la seconda è falsa, quindi tutto è falso."
+			"explanation": "and è vero solo se lo sono entrambe le parti: la seconda è falsa, quindi tutto è falso.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-booleani-25",
@@ -652,7 +671,8 @@
 				"True"
 			],
 			"answer": "True",
-			"explanation": "or basta che una parte sia vera: la prima lo è."
+			"explanation": "or basta che una parte sia vera: la prima lo è.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-booleani-26",
@@ -668,7 +688,8 @@
 				"True"
 			],
 			"answer": "False",
-			"explanation": "not capovolge il valore: rende falso ciò che è vero e viceversa."
+			"explanation": "not capovolge il valore: rende falso ciò che è vero e viceversa.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-booleani-27",
@@ -684,7 +705,8 @@
 				"3"
 			],
 			"answer": "True",
-			"explanation": "== confronta i valori, non i tipi: tre intero e tre virgola zero valgono lo stesso."
+			"explanation": "== confronta i valori, non i tipi: tre intero e tre virgola zero valgono lo stesso.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-booleani-28",
@@ -700,7 +722,8 @@
 				"=/="
 			],
 			"answer": "!=",
-			"explanation": "!= si legge «diverso da» e restituisce True quando i due valori non coincidono."
+			"explanation": "!= si legge «diverso da» e restituisce True quando i due valori non coincidono.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-booleani-29",
@@ -716,7 +739,8 @@
 				"True"
 			],
 			"answer": "True",
-			"explanation": "Python permette di concatenare i confronti: legge «eta è fra 10 e 14, estremi compresi»."
+			"explanation": "Python permette di concatenare i confronti: legge «eta è fra 10 e 14, estremi compresi».",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-booleani-30",
@@ -732,7 +756,8 @@
 				"A stampare a schermo"
 			],
 			"answer": "A decidere quale strada prendere",
-			"explanation": "if e while lavorano su valori booleani: sono loro a decidere se un blocco si esegue o si ripete."
+			"explanation": "if e while lavorano su valori booleani: sono loro a decidere se un blocco si esegue o si ripete.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-booleani-31",
@@ -748,7 +773,8 @@
 				"Nessuna differenza, sono uguali"
 			],
 			"answer": "Il primo assegna invece di confrontare",
-			"explanation": "Un solo uguale scrive nella variabile; il doppio uguale fa una domanda. È l'errore più comune di chi comincia."
+			"explanation": "Un solo uguale scrive nella variabile; il doppio uguale fa una domanda. È l'errore più comune di chi comincia.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-booleani-32",
@@ -764,7 +790,8 @@
 				"False"
 			],
 			"answer": "True",
-			"explanation": "2 > 5 è falso; not lo capovolge e restituisce vero."
+			"explanation": "2 > 5 è falso; not lo capovolge e restituisce vero.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-funzioni-33",
@@ -780,7 +807,8 @@
 				"A dare un nome a un pezzo di codice riutilizzabile"
 			],
 			"answer": "A dare un nome a un pezzo di codice riutilizzabile",
-			"explanation": "Scritta una volta, si richiama quante volte serve: meno codice ripetuto significa meno posti dove sbagliare."
+			"explanation": "Scritta una volta, si richiama quante volte serve: meno codice ripetuto significa meno posti dove sbagliare.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-funzioni-34",
@@ -796,7 +824,8 @@
 				"print(saluta, 'Eli')"
 			],
 			"answer": "saluta('Eli')",
-			"explanation": "Si scrive il nome della funzione e fra parentesi i valori da passarle."
+			"explanation": "Si scrive il nome della funzione e fra parentesi i valori da passarle.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-funzioni-35",
@@ -812,7 +841,8 @@
 				"Risultati"
 			],
 			"answer": "Parametri",
-			"explanation": "I parametri sono i posti vuoti che la funzione riempie con i valori ricevuti a ogni chiamata."
+			"explanation": "I parametri sono i posti vuoti che la funzione riempie con i valori ricevuti a ogni chiamata.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-funzioni-36",
@@ -828,7 +858,8 @@
 				"print"
 			],
 			"answer": "return",
-			"explanation": "print mostra a schermo; return consegna il valore a chi ha chiamato, che può usarlo o metterlo in una variabile."
+			"explanation": "print mostra a schermo; return consegna il valore a chi ha chiamato, che può usarlo o metterlo in una variabile.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-funzioni-37",
@@ -855,7 +886,8 @@
 				"None"
 			],
 			"answer": "None",
-			"explanation": "La funzione stampa ma non restituisce niente: senza return, x riceve None."
+			"explanation": "La funzione stampa ma non restituisce niente: senza return, x riceve None.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-funzioni-39",
@@ -871,7 +903,8 @@
 				"define"
 			],
 			"answer": "def",
-			"explanation": "def sta per «define»: dopo di essa vengono il nome, i parametri fra parentesi e i due punti."
+			"explanation": "def sta per «define»: dopo di essa vengono il nome, i parametri fra parentesi e i due punti.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-funzioni-40",
@@ -887,7 +920,8 @@
 				"La parola end alla fine del blocco"
 			],
 			"answer": "L'indentazione, cioè lo spazio a sinistra",
-			"explanation": "In Python il rientro non è estetica: è la sintassi che dice quali righe appartengono alla funzione."
+			"explanation": "In Python il rientro non è estetica: è la sintassi che dice quali righe appartengono alla funzione.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-funzioni-41",
@@ -914,7 +948,8 @@
 				"Perché così il programma occupa meno memoria"
 			],
 			"answer": "Perché è più facile capirla e correggerla",
-			"explanation": "Una funzione che fa cinque cose si può riusare solo quando servono tutte e cinque, e quando sbaglia non si sa quale delle cinque."
+			"explanation": "Una funzione che fa cinque cose si può riusare solo quando servono tutte e cinque, e quando sbaglia non si sa quale delle cinque.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-funzioni-43",
@@ -941,7 +976,8 @@
 				"A spiegare a chi legge perché il codice fa così"
 			],
 			"answer": "A spiegare a chi legge perché il codice fa così",
-			"explanation": "Il computer li ignora; servono alle persone, compreso te fra sei mesi."
+			"explanation": "Il computer li ignora; servono alle persone, compreso te fra sei mesi.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-stile-45",
@@ -957,7 +993,8 @@
 				"--"
 			],
 			"answer": "#",
-			"explanation": "Tutto ciò che segue # sulla stessa riga viene ignorato dall'interprete."
+			"explanation": "Tutto ciò che segue # sulla stessa riga viene ignorato dall'interprete.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-stile-46",
@@ -973,7 +1010,8 @@
 				"# da qui comincia il programma principale"
 			],
 			"answer": "# arrotondo per difetto: i punti sono sempre interi",
-			"explanation": "Un buon commento dice il PERCHÉ, non ripete quello che il codice già dice da solo."
+			"explanation": "Un buon commento dice il PERCHÉ, non ripete quello che il codice già dice da solo.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-stile-47",
@@ -989,7 +1027,8 @@
 				"Perché rende il file da salvare più piccolo"
 			],
 			"answer": "Perché decide quali righe stanno dentro un blocco",
-			"explanation": "In altri linguaggi si usano le graffe; in Python il rientro È la struttura, e sbagliarlo cambia il programma."
+			"explanation": "In altri linguaggi si usano le graffe; in Python il rientro È la struttura, e sbagliarlo cambia il programma.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-stile-48",
@@ -1005,7 +1044,8 @@
 				"punti_vita"
 			],
 			"answer": "punti_vita",
-			"explanation": "In Python le variabili si scrivono minuscole con l'underscore fra le parole: si chiama snake_case."
+			"explanation": "In Python le variabili si scrivono minuscole con l'underscore fra le parole: si chiama snake_case.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-stile-49",
@@ -1021,7 +1061,8 @@
 				"Dipende solo da quanto è lungo il programma"
 			],
 			"answer": "No: il codice si legge più di quanto si scriva",
-			"explanation": "Un programma vive anni e viene modificato molte volte: se non si capisce, ogni modifica è un rischio."
+			"explanation": "Un programma vive anni e viene modificato molte volte: se non si capisce, ogni modifica è un rischio.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-stile-50",
@@ -1037,7 +1078,8 @@
 				"Python se ne accorge e corregge da solo"
 			],
 			"answer": "Il programma può cambiare comportamento o dare errore",
-			"explanation": "Il rientro determina i blocchi: una riga rientrata di troppo finisce dentro un if o un ciclo a cui non apparteneva."
+			"explanation": "Il rientro determina i blocchi: una riga rientrata di troppo finisce dentro un if o un ciclo a cui non apparteneva.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-stile-51",
@@ -1053,7 +1095,8 @@
 				"Sempre la riga lunga, è più efficiente"
 			],
 			"answer": "Tre righe brevi, se si leggono meglio",
-			"explanation": "La velocità non cambia; la comprensibilità sì, ed è quella a costare tempo quando qualcosa va storto."
+			"explanation": "La velocità non cambia; la comprensibilità sì, ed è quella a costare tempo quando qualcosa va storto.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-stile-52",
@@ -1069,7 +1112,8 @@
 				"Metterlo in una funzione e chiamarla tre volte"
 			],
 			"answer": "Metterlo in una funzione e chiamarla tre volte",
-			"explanation": "Codice duplicato significa correzioni duplicate: se scopri un errore devi ricordarti di sistemarlo in tutti e tre i punti."
+			"explanation": "Codice duplicato significa correzioni duplicate: se scopri un errore devi ricordarti di sistemarlo in tutti e tre i punti.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-stile-53",
@@ -1085,7 +1129,8 @@
 				"Perché Python le richiede fra un blocco e l'altro"
 			],
 			"answer": "Perché separano visivamente i blocchi di ragionamento",
-			"explanation": "Come i paragrafi in un testo: aiutano l'occhio a capire dove finisce un'idea e ne comincia un'altra."
+			"explanation": "Come i paragrafi in un testo: aiutano l'occhio a capire dove finisce un'idea e ne comincia un'altra.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-stile-54",
@@ -1101,7 +1146,8 @@
 				"Sempre, i nomi corti sono migliori"
 			],
 			"answer": "Per un contatore breve dentro un ciclo",
-			"explanation": "Dove la variabile vive due righe e il suo ruolo è ovvio, un nome corto è chiaro. Per un valore che attraversa il programma, no."
+			"explanation": "Dove la variabile vive due righe e il suo ruolo è ovvio, un nome corto è chiaro. Per un valore che attraversa il programma, no.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-cicli-55",
@@ -1150,7 +1196,8 @@
 				"Quando dentro il ciclo serve chiamare una funzione"
 			],
 			"answer": "Quando non si sa in anticipo quante ripetizioni servono",
-			"explanation": "for scorre una sequenza nota; while continua finché una condizione resta vera, anche senza sapere per quanto."
+			"explanation": "for scorre una sequenza nota; while continua finché una condizione resta vera, anche senza sapere per quanto.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-cicli-59",
@@ -1177,7 +1224,8 @@
 				"Il programma non finisce più"
 			],
 			"answer": "Il programma non finisce più",
-			"explanation": "È il ciclo infinito: bisogna assicurarsi che dentro il corpo qualcosa avvicini la condizione al falso."
+			"explanation": "È il ciclo infinito: bisogna assicurarsi che dentro il corpo qualcosa avvicini la condizione al falso.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-cicli-61",
@@ -1193,7 +1241,8 @@
 				"exit"
 			],
 			"answer": "break",
-			"explanation": "break esce dal ciclo immediatamente, senza completare i giri rimanenti."
+			"explanation": "break esce dal ciclo immediatamente, senza completare i giri rimanenti.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-cicli-62",
@@ -1209,7 +1258,8 @@
 				"skip"
 			],
 			"answer": "continue",
-			"explanation": "continue abbandona il giro corrente e riparte dal successivo; break invece esce dal ciclo del tutto."
+			"explanation": "continue abbandona il giro corrente e riparte dal successivo; break invece esce dal ciclo del tutto.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-cicli-63",
@@ -1236,7 +1286,8 @@
 				"Sui numeri da 0 a 4"
 			],
 			"answer": "Sui caratteri della stringa",
-			"explanation": "Un for può scorrere qualsiasi sequenza: una stringa viene percorsa un carattere alla volta."
+			"explanation": "Un for può scorrere qualsiasi sequenza: una stringa viene percorsa un carattere alla volta.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-liste-65",
@@ -1274,7 +1325,8 @@
 				"append()"
 			],
 			"answer": "append()",
-			"explanation": "lista.append(x) mette x come ultimo elemento, allungando la lista di uno."
+			"explanation": "lista.append(x) mette x come ultimo elemento, allungando la lista di uno.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-liste-68",
@@ -1301,7 +1353,8 @@
 				"lista[ultimo]"
 			],
 			"answer": "lista[-1]",
-			"explanation": "Gli indici negativi contano dal fondo: -1 è l'ultimo, -2 il penultimo."
+			"explanation": "Gli indici negativi contano dal fondo: -1 è l'ultimo, -2 il penultimo.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-liste-70",
@@ -1317,7 +1370,8 @@
 				"Stampa una lista vuota senza errori"
 			],
 			"answer": "Errore: l'indice è fuori dalla lista",
-			"explanation": "Con tre elementi gli indici validi sono 0, 1 e 2: il 3 non esiste."
+			"explanation": "Con tre elementi gli indici validi sono 0, 1 e 2: il 3 non esiste.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-liste-71",
@@ -1333,7 +1387,8 @@
 				"No, devono essere tutti dello stesso tipo"
 			],
 			"answer": "Sì, per esempio numeri e stringhe insieme",
-			"explanation": "Python non lo vieta. Spesso però una lista omogenea è più facile da usare senza sbagliare."
+			"explanation": "Python non lo vieta. Spesso però una lista omogenea è più facile da usare senza sbagliare.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-liste-72",
@@ -1360,7 +1415,8 @@
 				"for elemento in lista:"
 			],
 			"answer": "for elemento in lista:",
-			"explanation": "Il for su una lista dà direttamente ogni elemento: più corto e senza il rischio di sbagliare gli indici."
+			"explanation": "Il for su una lista dà direttamente ogni elemento: più corto e senza il rischio di sbagliare gli indici.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-condizioni-74",
@@ -1376,7 +1432,8 @@
 				"Il punto e virgola"
 			],
 			"answer": "I due punti",
-			"explanation": "I due punti annunciano il blocco che segue, e il blocco va rientrato."
+			"explanation": "I due punti annunciano il blocco che segue, e il blocco va rientrato.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-condizioni-75",
@@ -1392,7 +1449,8 @@
 				"otherwise"
 			],
 			"answer": "else",
-			"explanation": "else copre tutti i casi in cui l'if non è verificato; elif serve a porre un'altra domanda."
+			"explanation": "else copre tutti i casi in cui l'if non è verificato; elif serve a porre un'altra domanda.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-condizioni-76",
@@ -1408,7 +1466,8 @@
 				"A chiudere il programma dopo il controllo"
 			],
 			"answer": "A porre una seconda domanda se la prima è falsa",
-			"explanation": "elif significa «else if»: si usa quando i casi possibili sono più di due."
+			"explanation": "elif significa «else if»: si usa quando i casi possibili sono più di due.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-condizioni-77",
@@ -1424,7 +1483,8 @@
 				"b"
 			],
 			"answer": "b",
-			"explanation": "La prima condizione è falsa, la seconda vera: si esegue quel ramo e si salta tutto il resto."
+			"explanation": "La prima condizione è falsa, la seconda vera: si esegue quel ramo e si salta tutto il resto.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-condizioni-78",
@@ -1451,7 +1511,8 @@
 				"if x fra 1 e 10:"
 			],
 			"answer": "if 1 <= x <= 10:",
-			"explanation": "Python permette il confronto concatenato; l'alternativa corretta sarebbe x >= 1 and x <= 10."
+			"explanation": "Python permette il confronto concatenato; l'alternativa corretta sarebbe x >= 1 and x <= 10.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-condizioni-80",
@@ -1467,7 +1528,8 @@
 				"niente"
 			],
 			"answer": "fine",
-			"explanation": "print('fine') non è rientrata: sta fuori dall'if e viene eseguita sempre."
+			"explanation": "print('fine') non è rientrata: sta fuori dall'if e viene eseguita sempre.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-condizioni-81",
@@ -1483,7 +1545,8 @@
 				"Il nome di una variabile"
 			],
 			"answer": "Una condizione vera o falsa",
-			"explanation": "L'if decide in base a un valore booleano: se è vero esegue il blocco, altrimenti lo salta."
+			"explanation": "L'if decide in base a un valore booleano: se è vero esegue il blocco, altrimenti lo salta.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-condizioni-82",
@@ -1499,7 +1562,8 @@
 				"Perché altrimenti un caso più generale la intercetta prima"
 			],
 			"answer": "Perché altrimenti un caso più generale la intercetta prima",
-			"explanation": "Se metti prima «x > 5», il caso «x > 10» non verrà mai raggiunto: l'ordine dei rami cambia il risultato."
+			"explanation": "Se metti prima «x > 5», il caso «x > 10» non verrà mai raggiunto: l'ordine dei rami cambia il risultato.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-operatori-83",
@@ -1537,7 +1601,8 @@
 				"n / 2 == 0"
 			],
 			"answer": "n % 2 == 0",
-			"explanation": "Un numero è pari quando il resto della divisione per due è zero."
+			"explanation": "Un numero è pari quando il resto della divisione per due è zero.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-operatori-86",
@@ -1575,7 +1640,8 @@
 				"&"
 			],
 			"answer": "+",
-			"explanation": "Fra stringhe + concatena. Fra numeri lo stesso simbolo somma: il significato dipende dai tipi."
+			"explanation": "Fra stringhe + concatena. Fra numeri lo stesso simbolo somma: il significato dipende dai tipi.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-operatori-89",
@@ -1586,7 +1652,8 @@
 			"prompt": "Quanto fa 9 / 2 in Python?",
 			"options": [],
 			"answer": "4.5",
-			"explanation": "/ restituisce sempre un float. Per la divisione intera si usa //."
+			"explanation": "/ restituisce sempre un float. Per la divisione intera si usa //.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-operatori-90",
@@ -1613,7 +1680,8 @@
 				"input()"
 			],
 			"answer": "input()",
-			"explanation": "input() ferma il programma, aspetta che l'utente scriva e restituisce quello che ha scritto."
+			"explanation": "input() ferma il programma, aspetta che l'utente scriva e restituisce quello che ha scritto.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-input-92",
@@ -1629,7 +1697,8 @@
 				"Da nessuna parte, va perso"
 			],
 			"answer": "Nella variabile nome",
-			"explanation": "input() restituisce un valore, e l'assegnazione lo mette dentro la variabile a sinistra dell'uguale."
+			"explanation": "input() restituisce un valore, e l'assegnazione lo mette dentro la variabile a sinistra dell'uguale.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-input-93",
@@ -1645,7 +1714,8 @@
 				"A dare un nome alla variabile"
 			],
 			"answer": "A mostrare una domanda prima di leggere",
-			"explanation": "È il messaggio che appare all'utente: senza, il programma sembrerebbe bloccato senza motivo."
+			"explanation": "È il messaggio che appare all'utente: senza, il programma sembrerebbe bloccato senza motivo.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-input-94",
@@ -1661,7 +1731,8 @@
 				"Stampa 5, ignorando la somma"
 			],
 			"answer": "Un errore: non si somma testo e numero",
-			"explanation": "input() restituisce sempre una stringa: '5' + 1 mette insieme testo e numero, e Python si ferma."
+			"explanation": "input() restituisce sempre una stringa: '5' + 1 mette insieme testo e numero, e Python si ferma.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-input-95",
@@ -1677,7 +1748,8 @@
 				"int(input('...'))"
 			],
 			"answer": "int(input('...'))",
-			"explanation": "int() converte la stringa in numero intero. Va messo attorno a input(), non dentro."
+			"explanation": "int() converte la stringa in numero intero. Va messo attorno a input(), non dentro.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-input-96",
@@ -1715,7 +1787,8 @@
 				"bool(input('...'))"
 			],
 			"answer": "float(input('...'))",
-			"explanation": "int() accetta solo interi e su '3.50' darebbe errore; float() gestisce i numeri con la parte decimale."
+			"explanation": "int() accetta solo interi e su '3.50' darebbe errore; float() gestisce i numeri con la parte decimale.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-input-99",
@@ -1731,7 +1804,8 @@
 				"eta non è un nome valido"
 			],
 			"answer": "Confronta una stringa con un numero",
-			"explanation": "eta è testo, 10 è un numero: Python non sa dire se un testo è maggiore di un numero. Serve int()."
+			"explanation": "eta è testo, 10 è un numero: Python non sa dire se un testo è maggiore di un numero. Serve int().",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-input-100",
@@ -1758,7 +1832,8 @@
 				"Uno zero"
 			],
 			"answer": "Una stringa vuota",
-			"explanation": "Non aver scritto niente è comunque una risposta: input() restituisce '' (stringa vuota)."
+			"explanation": "Non aver scritto niente è comunque una risposta: input() restituisce '' (stringa vuota).",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-input-102",
@@ -1774,7 +1849,8 @@
 				"Perché l'utente capisce cosa deve scrivere"
 			],
 			"answer": "Perché l'utente capisce cosa deve scrivere",
-			"explanation": "Funzionano entrambi, ma senza messaggio l'utente vede un cursore che lampeggia e non sa cosa fare."
+			"explanation": "Funzionano entrambi, ma senza messaggio l'utente vede un cursore che lampeggia e non sa cosa fare.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-input-103",
@@ -1801,7 +1877,8 @@
 				"Assegna, poi mostra la domanda"
 			],
 			"answer": "Mostra la domanda, aspetta, poi assegna",
-			"explanation": "Prima appare il messaggio, poi il programma si ferma; solo quando l'utente ha scritto il valore finisce nella variabile."
+			"explanation": "Prima appare il messaggio, poi il programma si ferma; solo quando l'utente ha scritto il valore finisce nella variabile.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-output-105",
@@ -1828,7 +1905,8 @@
 				"ciao,mondo"
 			],
 			"answer": "ciao mondo",
-			"explanation": "Separando con la virgola, print() mette automaticamente uno spazio fra i due valori."
+			"explanation": "Separando con la virgola, print() mette automaticamente uno spazio fra i due valori.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-output-107",
@@ -1855,7 +1933,8 @@
 				"6"
 			],
 			"answer": "2 * 3",
-			"explanation": "Tra virgolette è testo: Python non calcola niente e stampa i caratteri così come sono."
+			"explanation": "Tra virgolette è testo: Python non calcola niente e stampa i caratteri così come sono.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-output-109",
@@ -1871,7 +1950,8 @@
 				"x"
 			],
 			"answer": "x",
-			"explanation": "'x' fra virgolette è la lettera x, non la variabile. Senza virgolette avrebbe stampato 4."
+			"explanation": "'x' fra virgolette è la lettera x, non la variabile. Senza virgolette avrebbe stampato 4.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-output-110",
@@ -1887,7 +1967,8 @@
 				"Ho, 11, anni"
 			],
 			"answer": "Ho 11 anni",
-			"explanation": "Le virgole separano i pezzi e print() li unisce con uno spazio, sostituendo il valore della variabile."
+			"explanation": "Le virgole separano i pezzi e print() li unisce con uno spazio, sostituendo il valore della variabile.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-output-111",
@@ -1898,7 +1979,8 @@
 			"prompt": "Cosa stampa: print(10 / 2)?",
 			"options": [],
 			"answer": "5.0",
-			"explanation": "In Python la divisione / dà sempre un numero con la virgola, anche quando il risultato è esatto."
+			"explanation": "In Python la divisione / dà sempre un numero con la virgola, anche quando il risultato è esatto.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-output-112",
@@ -1925,7 +2007,8 @@
 				"I due punti"
 			],
 			"answer": "Le virgolette",
-			"explanation": "Le virgolette (singole o doppie) dicono a Python che quello è testo e non un nome di variabile."
+			"explanation": "Le virgolette (singole o doppie) dicono a Python che quello è testo e non un nome di variabile.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-output-114",
@@ -1941,7 +2024,8 @@
 				"somma: 7"
 			],
 			"answer": "somma: 7",
-			"explanation": "Il testo resta testo, ma 3 + 4 è fuori dalle virgolette: Python lo calcola prima di stampare."
+			"explanation": "Il testo resta testo, ma 3 + 4 è fuori dalle virgolette: Python lo calcola prima di stampare.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-output-115",
@@ -1968,7 +2052,8 @@
 				"Il primo modo funziona soltanto con i numeri"
 			],
 			"answer": "Il primo stampa il valore, il secondo la lettera",
-			"explanation": "Le virgolette trasformano tutto in testo: senza, Python cerca una variabile con quel nome."
+			"explanation": "Le virgolette trasformano tutto in testo: senza, Python cerca una variabile con quel nome.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-stringhe-117",
@@ -1995,7 +2080,8 @@
 				"size()"
 			],
 			"answer": "len()",
-			"explanation": "len() restituisce il numero di caratteri. Funziona anche con le liste."
+			"explanation": "len() restituisce il numero di caratteri. Funziona anche con le liste.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-stringhe-119",
@@ -2011,7 +2097,8 @@
 				"errore"
 			],
 			"answer": "p",
-			"explanation": "Gli indici partono da zero: s[0] è il primo carattere, non il secondo."
+			"explanation": "Gli indici partono da zero: s[0] è il primo carattere, non il secondo.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-stringhe-120",
@@ -2027,7 +2114,8 @@
 				"s[-1]"
 			],
 			"answer": "s[-1]",
-			"explanation": "Gli indici negativi contano dalla fine: -1 è l'ultimo. s[4] darebbe errore, perché gli indici vanno da 0 a 3."
+			"explanation": "Gli indici negativi contano dalla fine: -1 è l'ultimo. s[4] darebbe errore, perché gli indici vanno da 0 a 3.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-stringhe-121",
@@ -2043,7 +2131,8 @@
 				"abababab"
 			],
 			"answer": "ababab",
-			"explanation": "Con una stringa e un numero, * ripete: 'ab' tre volte di fila."
+			"explanation": "Con una stringa e un numero, * ripete: 'ab' tre volte di fila.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-stringhe-122",
@@ -2059,7 +2148,8 @@
 				"La mette al contrario"
 			],
 			"answer": "La rende tutta maiuscola",
-			"explanation": "'ciao'.upper() dà 'CIAO'. La stringa originale non cambia: .upper() ne restituisce una nuova."
+			"explanation": "'ciao'.upper() dà 'CIAO'. La stringa originale non cambia: .upper() ne restituisce una nuova.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-stringhe-123",
@@ -2075,7 +2165,8 @@
 				"CIAO"
 			],
 			"answer": "ciao",
-			"explanation": "Le stringhe non si modificano: .upper() restituisce una nuova stringa, e senza assegnarla il risultato si perde."
+			"explanation": "Le stringhe non si modificano: .upper() restituisce una nuova stringa, e senza assegnarla il risultato si perde.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-stringhe-124",
@@ -2091,7 +2182,8 @@
 				"nome + ' Quest'"
 			],
 			"answer": "nome + ' Quest'",
-			"explanation": "Con le stringhe l'operatore + concatena, cioè attacca la seconda in coda alla prima."
+			"explanation": "Con le stringhe l'operatore + concatena, cioè attacca la seconda in coda alla prima.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-stringhe-125",
@@ -2118,7 +2210,8 @@
 				"Perché 5 non è un numero valido"
 			],
 			"answer": "Perché sono stringhe e + le unisce",
-			"explanation": "Le virgolette rendono i due 5 testo: con il testo + significa «attacca», non «somma»."
+			"explanation": "Le virgolette rendono i due 5 testo: con il testo + significa «attacca», non «somma».",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-stringhe-127",
@@ -2134,7 +2227,8 @@
 				"cia"
 			],
 			"answer": "ia",
-			"explanation": "s[1:3] prende dall'indice 1 fino a 3 escluso: i caratteri 1 e 2, cioè 'ia'."
+			"explanation": "s[1:3] prende dall'indice 1 fino a 3 escluso: i caratteri 1 e 2, cioè 'ia'.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-stringhe-128",
@@ -2150,7 +2244,8 @@
 				"(ciao)"
 			],
 			"answer": "'ciao'",
-			"explanation": "Serve una coppia di virgolette. Senza, Python cerca una variabile di nome ciao."
+			"explanation": "Serve una coppia di virgolette. Senza, Python cerca una variabile di nome ciao.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-algoritmi-129",
@@ -2166,7 +2261,8 @@
 				"Perché è una sequenza di passi precisi in ordine"
 			],
 			"answer": "Perché è una sequenza di passi precisi in ordine",
-			"explanation": "Un algoritmo è fatto della stessa sostanza: passi definiti, in un ordine che conta, che portano a un risultato prevedibile."
+			"explanation": "Un algoritmo è fatto della stessa sostanza: passi definiti, in un ordine che conta, che portano a un risultato prevedibile.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-algoritmi-130",
@@ -2182,7 +2278,8 @@
 				"Rende il programma più veloce"
 			],
 			"answer": "Può cambiare il risultato",
-			"explanation": "Prima si versa il latte o prima i cereali? L'ordine conta: è il primo motivo per cui un programma non funziona."
+			"explanation": "Prima si versa il latte o prima i cereali? L'ordine conta: è il primo motivo per cui un programma non funziona.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-algoritmi-131",
@@ -2198,7 +2295,8 @@
 				"Sommare tutti i numeri della lista"
 			],
 			"answer": "Tenere da parte il maggiore visto finora",
-			"explanation": "Si scorre la lista una volta sola confrontando ogni numero con il record: alla fine il record è il massimo."
+			"explanation": "Si scorre la lista una volta sola confrontando ogni numero con il record: alla fine il record è il massimo.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-algoritmi-132",
@@ -2214,7 +2312,8 @@
 				"Ordinamento"
 			],
 			"answer": "Ricerca binaria",
-			"explanation": "Ogni apertura scarta metà del dizionario: bastano pochi passi anche con migliaia di pagine."
+			"explanation": "Ogni apertura scarta metà del dizionario: bastano pochi passi anche con migliaia di pagine.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-algoritmi-133",
@@ -2241,7 +2340,8 @@
 				"Ciclo infinito"
 			],
 			"answer": "Ciclo infinito",
-			"explanation": "Se la condizione non diventa mai falsa il programma resta bloccato: è uno degli errori più comuni."
+			"explanation": "Se la condizione non diventa mai falsa il programma resta bloccato: è uno degli errori più comuni.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-algoritmi-135",
@@ -2257,7 +2357,8 @@
 				"Risolverlo a caso"
 			],
 			"answer": "Dividerlo in problemi più piccoli",
-			"explanation": "Un problema grande diventa affrontabile quando si spezza in pezzi che si risolvono uno alla volta."
+			"explanation": "Un problema grande diventa affrontabile quando si spezza in pezzi che si risolvono uno alla volta.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-algoritmi-136",
@@ -2273,7 +2374,8 @@
 				"Guardare soltanto la prima e l'ultima della mano"
 			],
 			"answer": "Inserire ogni carta al posto giusto fra quelle già ordinate",
-			"explanation": "È l'ordinamento per inserimento: lo facciamo tutti con le carte senza sapere che ha un nome."
+			"explanation": "È l'ordinamento per inserimento: lo facciamo tutti con le carte senza sapere che ha un nome.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-algoritmi-137",
@@ -2300,7 +2402,8 @@
 				"Il codice scritto in modo disordinato e confuso"
 			],
 			"answer": "Un algoritmo scritto in italiano, prima del codice vero",
-			"explanation": "Serve a ragionare sui passi senza preoccuparsi della grammatica del linguaggio: si traduce dopo."
+			"explanation": "Serve a ragionare sui passi senza preoccuparsi della grammatica del linguaggio: si traduce dopo.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-algoritmi-139",
@@ -2316,7 +2419,8 @@
 				"Si guarda quanti passi fa al crescere dei dati"
 			],
 			"answer": "Si guarda quanti passi fa al crescere dei dati",
-			"explanation": "Con dieci dati la differenza non si vede; con un milione uno finisce in un secondo e l'altro non finisce."
+			"explanation": "Con dieci dati la differenza non si vede; con un milione uno finisce in un secondo e l'altro non finisce.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-algoritmi-140",
@@ -2332,7 +2436,8 @@
 				"Perché altrimenti viene eseguito più lentamente"
 			],
 			"answer": "Perché il computer non può intuire cosa intendevi",
-			"explanation": "Una persona capisce «aggiungi un po' di sale»; un computer no. Ogni passo deve avere un solo significato possibile."
+			"explanation": "Una persona capisce «aggiungi un po' di sale»; un computer no. Ogni passo deve avere un solo significato possibile.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-output-141",
@@ -2348,7 +2453,8 @@
 				"show()"
 			],
 			"answer": "print()",
-			"explanation": "print() stampa a schermo ciò che gli passi."
+			"explanation": "print() stampa a schermo ciò che gli passi.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-output-142",
@@ -2359,7 +2465,8 @@
 			"prompt": "Cosa stampa: print(3 + 4)?",
 			"options": [],
 			"answer": "7",
-			"explanation": "Con i numeri, + è la somma: 3 + 4 = 7."
+			"explanation": "Con i numeri, + è la somma: 3 + 4 = 7.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-output-143",
@@ -2370,7 +2477,8 @@
 			"prompt": "Cosa stampa: print('3' + '4')?",
 			"options": [],
 			"answer": "34",
-			"explanation": "Con le stringhe, + le unisce (concatenazione): '3'+'4' = '34'."
+			"explanation": "Con le stringhe, + le unisce (concatenazione): '3'+'4' = '34'.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-variabili-144",
@@ -2386,7 +2494,8 @@
 				"Un errore di scrittura"
 			],
 			"answer": "Una variabile che vale 5",
-			"explanation": "Una variabile è un contenitore con un nome e un valore."
+			"explanation": "Una variabile è un contenitore con un nome e un valore.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-variabili-145",
@@ -2397,7 +2506,8 @@
 			"prompt": "Dopo x = 5 e poi x = x + 1, quanto vale x?",
 			"options": [],
 			"answer": "6",
-			"explanation": "x + 1 = 5 + 1 = 6, e viene rimesso in x."
+			"explanation": "x + 1 = 5 + 1 = 6, e viene rimesso in x.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-tipi-146",
@@ -2413,7 +2523,8 @@
 				"Lista"
 			],
 			"answer": "Stringa (testo)",
-			"explanation": "Il testo tra virgolette è una stringa."
+			"explanation": "Il testo tra virgolette è una stringa.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-tipi-147",
@@ -2429,7 +2540,8 @@
 				"Numero intero (int)"
 			],
 			"answer": "Numero intero (int)",
-			"explanation": "7 senza virgolette è un numero intero."
+			"explanation": "7 senza virgolette è un numero intero.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-operatori-148",
@@ -2445,7 +2557,8 @@
 				"3 (il quoziente)"
 			],
 			"answer": "1 (il resto)",
-			"explanation": "% dà il resto della divisione: 10 = 3×3 + 1."
+			"explanation": "% dà il resto della divisione: 10 = 3×3 + 1.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-operatori-149",
@@ -2456,7 +2569,8 @@
 			"prompt": "Cosa calcola 2 ** 3 in Python?",
 			"options": [],
 			"answer": "8",
-			"explanation": "** è l'elevamento a potenza: 2 alla 3 = 8."
+			"explanation": "** è l'elevamento a potenza: 2 alla 3 = 8.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-condizioni-150",
@@ -2472,7 +2586,8 @@
 				"def"
 			],
 			"answer": "if",
-			"explanation": "if verifica una condizione ed esegue il blocco se è vera."
+			"explanation": "if verifica una condizione ed esegue il blocco se è vera.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-condizioni-151",
@@ -2488,7 +2603,8 @@
 				"grande"
 			],
 			"answer": "grande",
-			"explanation": "4 > 3 è vero, quindi esegue print('grande')."
+			"explanation": "4 > 3 è vero, quindi esegue print('grande').",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-condizioni-152",
@@ -2504,7 +2620,8 @@
 				"><"
 			],
 			"answer": "==",
-			"explanation": "= assegna un valore; == confronta due valori."
+			"explanation": "= assegna un valore; == confronta due valori.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-cicli-153",
@@ -2520,7 +2637,8 @@
 				"print (oppure input)"
 			],
 			"answer": "for (oppure while)",
-			"explanation": "I cicli for e while ripetono un blocco di istruzioni."
+			"explanation": "I cicli for e while ripetono un blocco di istruzioni.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-cicli-154",
@@ -2536,7 +2654,8 @@
 				"4 volte"
 			],
 			"answer": "3 volte (0, 1, 2)",
-			"explanation": "range(3) genera 0, 1, 2: tre ripetizioni."
+			"explanation": "range(3) genera 0, 1, 2: tre ripetizioni.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-liste-155",
@@ -2552,7 +2671,8 @@
 				"[1, 2, 3]"
 			],
 			"answer": "[1, 2, 3]",
-			"explanation": "Le liste si scrivono tra parentesi quadre, con virgole."
+			"explanation": "Le liste si scrivono tra parentesi quadre, con virgole.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-liste-156",
@@ -2563,7 +2683,8 @@
 			"prompt": "Data lista = [10, 20, 30], cosa vale lista[0]?",
 			"options": [],
 			"answer": "10",
-			"explanation": "Gli indici partono da 0: lista[0] è il primo elemento."
+			"explanation": "Gli indici partono da 0: lista[0] è il primo elemento.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-funzioni-157",
@@ -2579,7 +2700,8 @@
 				"func"
 			],
 			"answer": "def",
-			"explanation": "def introduce la definizione di una funzione."
+			"explanation": "def introduce la definizione di una funzione.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-funzioni-158",
@@ -2595,7 +2717,8 @@
 				"A creare di proposito errori nel codice"
 			],
 			"answer": "A riusare un blocco di codice dandogli un nome",
-			"explanation": "Le funzioni evitano di ripetere lo stesso codice."
+			"explanation": "Le funzioni evitano di ripetere lo stesso codice.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-booleani-159",
@@ -2611,7 +2734,8 @@
 				"True e False"
 			],
 			"answer": "True e False",
-			"explanation": "Un booleano può essere solo True (vero) o False (falso)."
+			"explanation": "Un booleano può essere solo True (vero) o False (falso).",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-booleani-160",
@@ -2627,7 +2751,8 @@
 				"False"
 			],
 			"answer": "True",
-			"explanation": "5 è maggiore di 3, quindi il confronto è True."
+			"explanation": "5 è maggiore di 3, quindi il confronto è True.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-algoritmi-161",
@@ -2643,7 +2768,8 @@
 				"Un linguaggio di programmazione nuovo"
 			],
 			"answer": "Una sequenza di passi per risolvere un problema",
-			"explanation": "L'algoritmo descrive i passi, come una ricetta."
+			"explanation": "L'algoritmo descrive i passi, come una ricetta.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-algoritmi-162",
@@ -2659,7 +2785,8 @@
 				"Un tipo di dato nuovo"
 			],
 			"answer": "Un errore nel programma",
-			"explanation": "Un bug è un difetto che fa comportare male il programma."
+			"explanation": "Un bug è un difetto che fa comportare male il programma.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "coding-algoritmi-che-cosa-distingue-un-algoritmo-da-un-elenco-di-",

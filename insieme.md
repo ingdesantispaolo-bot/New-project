@@ -1030,8 +1030,8 @@ solo ordine e lavoro ancora aperto.
    un esercizio. Le catture sono in `artifacts/character-minigames`;
 2. **i venti specialisti restanti**, uno per mondo, seguendo la matrice; il
    Ruggine e Sesto, mondo 3, Marea e Vecchio Lino, mondo 4, Gerbo e Tilla,
-   mondo 5, e Ambra, mondo 6, sono fatti e verificati. Il prossimo è Oreste,
-   mondo 6, con «Corde sotto le dita»;
+   mondo 5, Ambra e Oreste, mondo 6, e Livia e Zeno, mondo 7, sono fatti e
+   verificati. Il prossimo è Doria, mondo 8, con «Chiuse di corrente»;
 3. **i ventitré testimoni**;
 4. **Tavolo giochi globale** per il replay con difficoltà del mondo corrente.
 

@@ -73,17 +73,19 @@ duplica dialoghi o dati del personaggio.
 | 23 | Cronia | Velocità | **Archivio sotto pressione** — salva fonti con provenienza diversa mentre gli scaffali si chiudono; eliminare quelle scomode lascia buchi visibili nella sequenza. |
 | 23 | Ovidio | Riflessione | **Restauro clandestino** — ricompone frammenti, autore e provenienza delle copie nascoste; la disobbedienza documentata diventa lavoro storico. |
 
-## Stato reale (12 agosto 2026)
+## Stato reale (13 agosto 2026)
 
 La matrice qui sopra resta il **contratto autoriale**: dice che cosa deve fare il
 bambino per ciascun residente. Quello che è costruito è diverso, e di proposito.
 
-**Ventitré mondi abitati, tutti coperti**: il gioco di ciascuno specialista è
-scritto e verificato, più i due testimoni dei mondi 3 e 4. Sono **venticinque
-giochi su dieci meccaniche** — mucchio, scaffale, ciclo, traccia, radio, mercato,
-circuito, leva, prova controllata, stima.
+**Quarantasei residenti, tutti coperti**: specialista e testimone di ciascuno dei
+ventitré mondi hanno un gioco avviabile, coerente con la propria convinzione e
+con materiale specifico. Sono **46 giochi su 15 meccaniche** — mucchio,
+scaffale, ciclo, traccia, radio, mercato, circuito, leva, altalena, conta
+ritmica, vibrazione, glifi, parentela, prova controllata e stima. Le due forme
+sono bilanciate: **23 di velocità e 23 di riflessione**.
 
-Dieci e non venticinque perché **le convinzioni non sono venticinque**: Ortensia,
+Quindici e non quarantasei perché **le convinzioni non sono quarantasei**: Ortensia,
 Gru e Sferza credono la stessa cosa in tre mestieri (*che la causa si trovi per
 forza bruta*), e una meccanica sola le smonta tutte e tre. Che il metodo ritorni
 in un altro mondo, con un'altra materia, è il modo in cui si verifica che il
@@ -95,13 +97,11 @@ di quel personaggio e di quella materia, e sta nel catalogo, non nel renderer.
 La difficoltà viene da `CharacterMinigameCatalog.parametri(archetipo, mondo)`:
 una funzione sola, non venticinque tarature da tenere allineate.
 
-## Ordine di produzione
+## Collaudo prima del rilascio
 
-1. Collaudo dei tre pilot completi: Tobia, Corinna e Ciro.
-2. Un gioco per mondo: i 20 specialisti restanti, iniziando da Ruggine e
-   riusando renderer solo quando il gesto
-   resta davvero diverso per contenuti e trappola.
-3. I 23 testimoni, alternando sistematicamente velocità e riflessione come nella
-   matrice.
-4. Tavolo giochi globale e parametro `difficultyWorld`, solo dopo aver misurato
-   durata, ritorno volontario e fatica dei primi tre.
+1. Playtest su tablet di almeno un gioco per ciascuna delle quindici meccaniche,
+   includendo orientamento verticale, movimento ridotto e uscita volontaria.
+2. Misura di durata, errori prima della scoperta e capacità del bambino di
+   spiegare la strategia senza ripetere il testo del pannello.
+3. Tavolo giochi globale e parametro `difficultyWorld` dopo la prima tornata di
+   misure, così la curva di replay nasce dai dati e non da supposizioni.

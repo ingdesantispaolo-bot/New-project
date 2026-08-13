@@ -78,6 +78,7 @@ func _costruisci() -> void:
 	carta.name = "MarketCard"
 	carta.add_theme_stylebox_override("panel", _stile(Color("243c38"), Color("e5bd68"), 24, 2))
 	centro.add_child(carta)
+	call_deferred("_adatta_verticale", carta)
 	var margine := MarginContainer.new()
 	for lato in ["margin_left", "margin_right", "margin_top", "margin_bottom"]:
 		margine.add_theme_constant_override(lato, 26)
@@ -159,7 +160,8 @@ func _mostra() -> void:
 	_richiesta.text = "“%s”" % str(turno["richiesta"])
 	_categoria.text = "%s · %s" % [str(_scheda.get("indizio", "UNA PAROLA DECISIVA")), str(turno["tipo"])]
 	for i in _cassette.size():
-		_cassette[i].text = "▰\n%s" % str(turno["scelte"][i])
+		var simbolo := str(_scheda.get("simboloScelta", "▰"))
+		_cassette[i].text = ("%s\n" % simbolo if not simbolo.is_empty() else "") + str(turno["scelte"][i])
 		_cassette[i].disabled = false
 		# La cassetta segnata in rosso torna di legno a ogni cliente. Senza questo
 		# il rosso restava addosso per tutta la partita, e al terzo cliente il
@@ -181,7 +183,8 @@ func _scegli(scelta: int) -> void:
 	if _errori > _errori_max:
 		_chiudi(false)
 		return
-	_aggiorna("Quasi: cambia un dettaglio del cliente. Rileggilo e scegli ancora.")
+	_aggiorna(str(_scheda.get("correzione",
+		"Quasi: cambia un dettaglio del cliente. Rileggilo e scegli ancora.")))
 
 func _chiudi(vinto: bool) -> void:
 	if not _attivo:
@@ -191,7 +194,8 @@ func _chiudi(vinto: bool) -> void:
 
 func _aggiorna(messaggio: String) -> void:
 	if is_instance_valid(_stato):
-		_stato.text = "%s  ·  Clienti %d/%d  ·  errori %d/%d" % [messaggio, _giuste, _turni.size(), _errori, _errori_max]
+		_stato.text = "%s  ·  %s %d/%d  ·  errori %d/%d" % [
+			messaggio, str(_scheda.get("contatore", "Clienti")), _giuste, _turni.size(), _errori, _errori_max]
 
 func _stile(sfondo: Color, bordo: Color, raggio: int, spessore: int) -> StyleBoxFlat:
 	var stile := StyleBoxFlat.new()
@@ -200,3 +204,9 @@ func _stile(sfondo: Color, bordo: Color, raggio: int, spessore: int) -> StyleBox
 	stile.set_border_width_all(spessore)
 	stile.set_corner_radius_all(raggio)
 	return stile
+
+func _adatta_verticale(carta: Control) -> void:
+	await get_tree().process_frame
+	if get_viewport_rect().size.y > get_viewport_rect().size.x and is_instance_valid(carta):
+		carta.pivot_offset = carta.size * 0.5
+		carta.scale = Vector2(1.55, 1.55)

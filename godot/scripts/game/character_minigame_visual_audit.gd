@@ -30,6 +30,10 @@ const BANCHI := [
 	{"archetipo": "circuito", "script": "res://scripts/ui/circuit_minigame_panel.gd", "prefisso": "Circuit", "npc": "w08-ciro"},
 	{"archetipo": "leva", "script": "res://scripts/ui/lever_minigame_panel.gd", "prefisso": "Lever", "npc": "w05-gerbo"},
 	{"archetipo": "altalena", "script": "res://scripts/ui/seesaw_minigame_panel.gd", "prefisso": "Seesaw", "npc": "w05-tilla"},
+	{"archetipo": "ritmo", "script": "res://scripts/ui/rhythm_count_panel.gd", "prefisso": "Rhythm", "npc": "w01-ersilia"},
+	{"archetipo": "vibrazione", "script": "res://scripts/ui/vibration_minigame_panel.gd", "prefisso": "Vibration", "npc": "w06-oreste"},
+	{"archetipo": "glifi", "script": "res://scripts/ui/glyph_minigame_panel.gd", "prefisso": "Glyph", "npc": "w07-livia"},
+	{"archetipo": "parentela", "script": "res://scripts/ui/kinship_minigame_panel.gd", "prefisso": "Kinship", "npc": "w07-zeno"},
 	{"archetipo": "prova", "script": "res://scripts/ui/controlled_trial_minigame_panel.gd", "prefisso": "Trial", "npc": "w10-ortensia"},
 	{"archetipo": "stima", "script": "res://scripts/ui/estimate_minigame_panel.gd", "prefisso": "Estimate", "npc": "w13-solano"},
 ]

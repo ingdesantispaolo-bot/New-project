@@ -45,7 +45,7 @@ func _fallisci(messaggio: String) -> void:
 
 func _init() -> void:
 	_ogni_gioco_e_coerente()
-	_ogni_mondo_abitato_ha_il_suo_gioco()
+	_ogni_residente_ha_il_suo_gioco()
 	_ogni_gioco_ha_il_materiale_del_suo_renderer()
 	_la_strategia_vecchia_fallisce()
 	_la_difficolta_segue_il_mondo()
@@ -98,18 +98,22 @@ func _ogni_gioco_e_coerente() -> void:
 ## scoperto è un mondo dove i personaggi tornano a essere gente che parla e
 ## basta, e l'arco del residente resta una cosa che succede senza che il bambino
 ## ci metta le mani.
-func _ogni_mondo_abitato_ha_il_suo_gioco() -> void:
-	var abitati := {}
-	for npc_id in NpcCatalog.RESIDENTS.keys():
-		abitati[int(Dictionary(NpcCatalog.RESIDENTS[npc_id]).get("world", 0))] = true
-	var coperti := CharacterMinigameCatalog.mondi_coperti()
-	var scoperti: Array = []
-	for mondo in abitati.keys():
-		if not int(mondo) in coperti:
-			scoperti.append(int(mondo))
-	scoperti.sort()
-	if not scoperti.is_empty():
-		_fallisci("mondi abitati senza nessun minigioco: %s" % str(scoperti))
+func _ogni_residente_ha_il_suo_gioco() -> void:
+	var mancanti: Array[String] = []
+	for npc_id_data in NpcCatalog.RESIDENTS.keys():
+		var npc_id := str(npc_id_data)
+		var funzione := str(Dictionary(NpcCatalog.RESIDENTS[npc_id]).get("funzione", ""))
+		# I Bislacchi sono incontri itineranti, non residenti con arco in tre
+		# stadi. Il contratto dei 46 copre specialisti e testimoni.
+		if funzione not in ["specialista", "testimone"]:
+			continue
+		if not CharacterMinigameCatalog.ha_gioco(npc_id):
+			mancanti.append(npc_id)
+	mancanti.sort()
+	if not mancanti.is_empty():
+		_fallisci("residenti senza minigioco: %s" % str(mancanti))
+	if CharacterMinigameCatalog.GIOCHI.size() != 46:
+		_fallisci("il catalogo contiene %d giochi, il contratto ne richiede 46" % CharacterMinigameCatalog.GIOCHI.size())
 
 ## Ogni renderer si aspetta del materiale, e il materiale sta nella scheda. Uno
 ## scaffale senza parole o una prova senza manopole non si accorge di niente
@@ -120,6 +124,11 @@ func _ogni_gioco_ha_il_materiale_del_suo_renderer() -> void:
 		var scheda := CharacterMinigameCatalog.scheda(npc_id)
 		var parametri: Dictionary = scheda.get("parametri", {})
 		match str(scheda.get("archetipo", "")):
+			CharacterMinigameCatalog.ARCHETIPO_RITMO:
+				if int(parametri.get("strofe", 0)) < 3:
+					_fallisci("%s: meno di tre strofe, il pattern non viene verificato" % npc_id)
+				if float(parametri.get("secondi", -1.0)) != 0.0:
+					_fallisci("%s: la conta riflessiva ha un cronometro" % npc_id)
 			CharacterMinigameCatalog.ARCHETIPO_SCAFFALE:
 				var scaffali: Array = Array(scheda.get("scaffali", []))
 				var parole: Array = Array(scheda.get("parole", []))
@@ -172,6 +181,35 @@ func _ogni_gioco_ha_il_materiale_del_suo_renderer() -> void:
 				for campo in ["grandezza", "azione", "corto", "lungo"]:
 					if str(scheda.get(campo, "")).strip_edges().is_empty():
 						_fallisci("%s: alla stima manca «%s»" % [npc_id, campo])
+			CharacterMinigameCatalog.ARCHETIPO_VIBRAZIONE:
+				if int(parametri.get("prove", 0)) < 3:
+					_fallisci("%s: meno di tre tremiti da confrontare" % npc_id)
+				if int(parametri.get("corde", 0)) < 3:
+					_fallisci("%s: meno di tre corde, il confronto è troppo ovvio" % npc_id)
+			CharacterMinigameCatalog.ARCHETIPO_GLIFI:
+				var glifi: Array = Array(scheda.get("glifi", []))
+				if glifi.size() < int(parametri.get("glifi", 6)):
+					_fallisci("%s: servono %d glifi, ce ne sono %d" % [
+						npc_id, int(parametri.get("glifi", 6)), glifi.size()])
+				for glifo in glifi:
+					var voce: Dictionary = glifo
+					if str(voce.get("radice", "")).is_empty() or int(voce.get("funzione", -1)) not in [0, 1]:
+						_fallisci("%s: glifo senza radice o funzione valida" % npc_id)
+			CharacterMinigameCatalog.ARCHETIPO_PARENTELA:
+				var famiglie: Array = Array(scheda.get("famiglie", []))
+				if famiglie.size() < int(parametri.get("famiglie", 3)):
+					_fallisci("%s: servono %d famiglie, ce ne sono %d" % [
+						npc_id, int(parametri.get("famiglie", 3)), famiglie.size()])
+				for famiglia_data in famiglie:
+					var famiglia: Dictionary = famiglia_data
+					var significati: Array = Array(famiglia.get("significati", []))
+					var parenti: Array = Array(famiglia.get("parenti", []))
+					if str(famiglia.get("antica", "")).is_empty() or significati.size() != 3:
+						_fallisci("%s: famiglia senza parola antica o tre ipotesi" % npc_id)
+					if parenti.size() < int(parametri.get("indizi", 2)):
+						_fallisci("%s: una famiglia non ha due parenti verificabili" % npc_id)
+					if int(famiglia.get("giusta", -1)) < 0 or int(famiglia.get("giusta", -1)) >= significati.size():
+						_fallisci("%s: famiglia senza significato valido" % npc_id)
 
 ## **La regola del lotto, in numeri.** Per ogni mondo: contare uno per uno non
 ## deve bastare, e raggruppare deve bastare con margine. Senza margine il gioco

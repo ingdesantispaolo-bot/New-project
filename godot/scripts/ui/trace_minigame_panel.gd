@@ -196,7 +196,7 @@ func _costruisci() -> void:
 
 	_vela = Button.new()
 	_vela.name = "TraceVeilButton"
-	_vela.text = "CALA LA NEBBIA"
+	_vela.text = str(_scheda.get("veloAzione", "CALA LA NEBBIA"))
 	_vela.custom_minimum_size = Vector2(0, 52)
 	_vela.pressed.connect(_cala_la_nebbia)
 	colonna.add_child(_vela)
@@ -252,7 +252,7 @@ func _cala_la_nebbia() -> void:
 		return
 	_velata = true
 	_vela.disabled = true
-	_vela.text = "LA STANZA È CHIUSA"
+	_vela.text = str(_scheda.get("veloChiuso", "LA STANZA È CHIUSA"))
 	if _striscia.is_empty():
 		_aggiorna("La stanza non c'è più. Adesso il percorso ce l'hai solo tu.")
 	else:
@@ -269,7 +269,7 @@ func _aggiorna(messaggio: String = "") -> void:
 		_messaggio = messaggio
 	if is_instance_valid(_stanza):
 		if _velata:
-			_stanza.text = "N E B B I A"
+			_stanza.text = str(_scheda.get("veloParola", "N E B B I A"))
 		else:
 			var lettura: Array[String] = []
 			for segnale in _percorso:

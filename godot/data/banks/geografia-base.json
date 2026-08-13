@@ -17,7 +17,12 @@
 				"Tokyo"
 			],
 			"answer": "Roma",
-			"explanation": "Roma è la capitale dell'Italia. Roma sorge sul Tevere ed è l'unica capitale al mondo che ne contiene un'altra: lo Stato del Vaticano."
+			"explanation": "Roma è la capitale dell'Italia. Roma sorge sul Tevere ed è l'unica capitale al mondo che ne contiene un'altra: lo Stato del Vaticano.",
+			"distractorWhy": {
+				"Ottawa": "«Ottawa» è la capitale del Canada, non dell'Italia.",
+				"Londra": "«Londra» è la capitale del Regno Unito, non dell'Italia.",
+				"Tokyo": "«Tokyo» è la capitale del Giappone, non dell'Italia."
+			}
 		},
 		{
 			"id": "geografia-stato-Roma",
@@ -33,7 +38,12 @@
 				"Polonia"
 			],
 			"answer": "Italia",
-			"explanation": "Roma è la capitale dell'Italia, che è la penisola a forma di stivale allungata nel Mediterraneo. Roma sorge sul Tevere ed è l'unica capitale al mondo che ne contiene un'altra: lo Stato del Vaticano."
+			"explanation": "Roma è la capitale dell'Italia, che è la penisola a forma di stivale allungata nel Mediterraneo. Roma sorge sul Tevere ed è l'unica capitale al mondo che ne contiene un'altra: lo Stato del Vaticano.",
+			"distractorWhy": {
+				"Polonia": "La Polonia ha come capitale «Varsavia», non «Roma».",
+				"India": "L'India ha come capitale «Nuova Delhi», non «Roma».",
+				"Francia": "La Francia ha come capitale «Parigi», non «Roma»."
+			}
 		},
 		{
 			"id": "geografia-cont-Italia",
@@ -65,7 +75,12 @@
 				"Parigi"
 			],
 			"answer": "Parigi",
-			"explanation": "Parigi è la capitale della Francia. Parigi è attraversata dalla Senna, e la torre Eiffel fu costruita per l'Esposizione del 1889."
+			"explanation": "Parigi è la capitale della Francia. Parigi è attraversata dalla Senna, e la torre Eiffel fu costruita per l'Esposizione del 1889.",
+			"distractorWhy": {
+				"Madrid": "«Madrid» è la capitale della Spagna, non della Francia.",
+				"Brasília": "«Brasília» è la capitale del Brasile, non della Francia.",
+				"Vienna": "«Vienna» è la capitale dell'Austria, non della Francia."
+			}
 		},
 		{
 			"id": "geografia-stato-Parigi",
@@ -81,7 +96,12 @@
 				"Egitto"
 			],
 			"answer": "Francia",
-			"explanation": "Parigi è la capitale della Francia, che si affaccia sia sull'Atlantico sia sul Mediterraneo. Parigi è attraversata dalla Senna, e la torre Eiffel fu costruita per l'Esposizione del 1889."
+			"explanation": "Parigi è la capitale della Francia, che si affaccia sia sull'Atlantico sia sul Mediterraneo. Parigi è attraversata dalla Senna, e la torre Eiffel fu costruita per l'Esposizione del 1889.",
+			"distractorWhy": {
+				"Egitto": "L'Egitto ha come capitale «Il Cairo», non «Parigi».",
+				"Messico": "Il Messico ha come capitale «Città del Messico», non «Parigi».",
+				"Austria": "L'Austria ha come capitale «Vienna», non «Parigi»."
+			}
 		},
 		{
 			"id": "geografia-cont-Francia",
@@ -113,7 +133,12 @@
 				"Lisbona"
 			],
 			"answer": "Madrid",
-			"explanation": "Madrid è la capitale della Spagna. Madrid è la capitale più alta d'Europa: sta a quasi 700 metri sul livello del mare."
+			"explanation": "Madrid è la capitale della Spagna. Madrid è la capitale più alta d'Europa: sta a quasi 700 metri sul livello del mare.",
+			"distractorWhy": {
+				"Tokyo": "«Tokyo» è la capitale del Giappone, non della Spagna.",
+				"Pechino": "«Pechino» è la capitale della Cina, non della Spagna.",
+				"Lisbona": "«Lisbona» è la capitale del Portogallo, non della Spagna."
+			}
 		},
 		{
 			"id": "geografia-stato-Madrid",
@@ -129,7 +154,12 @@
 				"Spagna"
 			],
 			"answer": "Spagna",
-			"explanation": "Madrid è la capitale della Spagna, che occupa quasi tutta la penisola iberica. Madrid è la capitale più alta d'Europa: sta a quasi 700 metri sul livello del mare."
+			"explanation": "Madrid è la capitale della Spagna, che occupa quasi tutta la penisola iberica. Madrid è la capitale più alta d'Europa: sta a quasi 700 metri sul livello del mare.",
+			"distractorWhy": {
+				"Austria": "L'Austria ha come capitale «Vienna», non «Madrid».",
+				"Grecia": "La Grecia ha come capitale «Atene», non «Madrid».",
+				"Polonia": "La Polonia ha come capitale «Varsavia», non «Madrid»."
+			}
 		},
 		{
 			"id": "geografia-cont-Spagna",
@@ -161,7 +191,12 @@
 				"Brasília"
 			],
 			"answer": "Berlino",
-			"explanation": "Berlino è la capitale della Germania. Berlino è rimasta divisa da un muro fino al 1989."
+			"explanation": "Berlino è la capitale della Germania. Berlino è rimasta divisa da un muro fino al 1989.",
+			"distractorWhy": {
+				"Brasília": "«Brasília» è la capitale del Brasile, non della Germania.",
+				"Il Cairo": "«Il Cairo» è la capitale dell'Egitto, non della Germania.",
+				"Mosca": "«Mosca» è la capitale della Russia, non della Germania."
+			}
 		},
 		{
 			"id": "geografia-stato-Berlino",
@@ -177,7 +212,12 @@
 				"Giappone"
 			],
 			"answer": "Germania",
-			"explanation": "Berlino è la capitale della Germania, che confina con nove Paesi, più di ogni altro Stato europeo. Berlino è rimasta divisa da un muro fino al 1989."
+			"explanation": "Berlino è la capitale della Germania, che confina con nove Paesi, più di ogni altro Stato europeo. Berlino è rimasta divisa da un muro fino al 1989.",
+			"distractorWhy": {
+				"Australia": "L'Australia ha come capitale «Canberra», non «Berlino».",
+				"Giappone": "Il Giappone ha come capitale «Tokyo», non «Berlino».",
+				"Polonia": "La Polonia ha come capitale «Varsavia», non «Berlino»."
+			}
 		},
 		{
 			"id": "geografia-cont-Germania",
@@ -209,7 +249,12 @@
 				"Berlino"
 			],
 			"answer": "Londra",
-			"explanation": "Londra è la capitale del Regno Unito. Londra sorge sul Tamigi ed è stata la prima città al mondo ad avere una metropolitana."
+			"explanation": "Londra è la capitale del Regno Unito. Londra sorge sul Tamigi ed è stata la prima città al mondo ad avere una metropolitana.",
+			"distractorWhy": {
+				"Ottawa": "«Ottawa» è la capitale del Canada, non del Regno Unito.",
+				"Berlino": "«Berlino» è la capitale della Germania, non del Regno Unito.",
+				"Atene": "«Atene» è la capitale della Grecia, non del Regno Unito."
+			}
 		},
 		{
 			"id": "geografia-stato-Londra",
@@ -225,7 +270,12 @@
 				"Paesi Bassi"
 			],
 			"answer": "Regno Unito",
-			"explanation": "Londra è la capitale del Regno Unito, che è un'isola a nord-ovest dell'Europa continentale. Londra sorge sul Tamigi ed è stata la prima città al mondo ad avere una metropolitana."
+			"explanation": "Londra è la capitale del Regno Unito, che è un'isola a nord-ovest dell'Europa continentale. Londra sorge sul Tamigi ed è stata la prima città al mondo ad avere una metropolitana.",
+			"distractorWhy": {
+				"Paesi Bassi": "I Paesi Bassi ha come capitale «Amsterdam», non «Londra».",
+				"Polonia": "La Polonia ha come capitale «Varsavia», non «Londra».",
+				"Argentina": "L'Argentina ha come capitale «Buenos Aires», non «Londra»."
+			}
 		},
 		{
 			"id": "geografia-cont-Regno Unito",
@@ -257,7 +307,12 @@
 				"Lisbona"
 			],
 			"answer": "Lisbona",
-			"explanation": "Lisbona è la capitale del Portogallo. Lisbona guarda l'Atlantico ed è costruita su sette colline."
+			"explanation": "Lisbona è la capitale del Portogallo. Lisbona guarda l'Atlantico ed è costruita su sette colline.",
+			"distractorWhy": {
+				"Vienna": "«Vienna» è la capitale dell'Austria, non del Portogallo.",
+				"Londra": "«Londra» è la capitale del Regno Unito, non del Portogallo.",
+				"Parigi": "«Parigi» è la capitale della Francia, non del Portogallo."
+			}
 		},
 		{
 			"id": "geografia-stato-Lisbona",
@@ -273,7 +328,12 @@
 				"Norvegia"
 			],
 			"answer": "Portogallo",
-			"explanation": "Lisbona è la capitale del Portogallo, che è la punta occidentale dell'Europa continentale. Lisbona guarda l'Atlantico ed è costruita su sette colline."
+			"explanation": "Lisbona è la capitale del Portogallo, che è la punta occidentale dell'Europa continentale. Lisbona guarda l'Atlantico ed è costruita su sette colline.",
+			"distractorWhy": {
+				"Argentina": "L'Argentina ha come capitale «Buenos Aires», non «Lisbona».",
+				"Norvegia": "La Norvegia ha come capitale «Oslo», non «Lisbona».",
+				"Stati Uniti": "Gli Stati Uniti ha come capitale «Washington», non «Lisbona»."
+			}
 		},
 		{
 			"id": "geografia-cont-Portogallo",
@@ -305,7 +365,12 @@
 				"Lisbona"
 			],
 			"answer": "Atene",
-			"explanation": "Atene è la capitale della Grecia. Atene prende il nome dalla dea Atena, ed è la città dove è nata la democrazia."
+			"explanation": "Atene è la capitale della Grecia. Atene prende il nome dalla dea Atena, ed è la città dove è nata la democrazia.",
+			"distractorWhy": {
+				"Ottawa": "«Ottawa» è la capitale del Canada, non della Grecia.",
+				"Madrid": "«Madrid» è la capitale della Spagna, non della Grecia.",
+				"Lisbona": "«Lisbona» è la capitale del Portogallo, non della Grecia."
+			}
 		},
 		{
 			"id": "geografia-stato-Atene",
@@ -321,7 +386,12 @@
 				"Grecia"
 			],
 			"answer": "Grecia",
-			"explanation": "Atene è la capitale della Grecia, che è fatta di una penisola e di migliaia di isole nel Mediterraneo. Atene prende il nome dalla dea Atena, ed è la città dove è nata la democrazia."
+			"explanation": "Atene è la capitale della Grecia, che è fatta di una penisola e di migliaia di isole nel Mediterraneo. Atene prende il nome dalla dea Atena, ed è la città dove è nata la democrazia.",
+			"distractorWhy": {
+				"Canada": "Il Canada ha come capitale «Ottawa», non «Atene».",
+				"Messico": "Il Messico ha come capitale «Città del Messico», non «Atene».",
+				"Egitto": "L'Egitto ha come capitale «Il Cairo», non «Atene»."
+			}
 		},
 		{
 			"id": "geografia-cont-Grecia",
@@ -353,7 +423,12 @@
 				"Pechino"
 			],
 			"answer": "Vienna",
-			"explanation": "Vienna è la capitale dell'Austria. Vienna sorge sul Danubio ed è la città di Mozart e Beethoven."
+			"explanation": "Vienna è la capitale dell'Austria. Vienna sorge sul Danubio ed è la città di Mozart e Beethoven.",
+			"distractorWhy": {
+				"Tokyo": "«Tokyo» è la capitale del Giappone, non dell'Austria.",
+				"Pechino": "«Pechino» è la capitale della Cina, non dell'Austria.",
+				"Madrid": "«Madrid» è la capitale della Spagna, non dell'Austria."
+			}
 		},
 		{
 			"id": "geografia-stato-Vienna",
@@ -369,7 +444,12 @@
 				"Francia"
 			],
 			"answer": "Austria",
-			"explanation": "Vienna è la capitale dell'Austria, che è uno Stato alpino, senza alcuno sbocco sul mare. Vienna sorge sul Danubio ed è la città di Mozart e Beethoven."
+			"explanation": "Vienna è la capitale dell'Austria, che è uno Stato alpino, senza alcuno sbocco sul mare. Vienna sorge sul Danubio ed è la città di Mozart e Beethoven.",
+			"distractorWhy": {
+				"Messico": "Il Messico ha come capitale «Città del Messico», non «Vienna».",
+				"Francia": "La Francia ha come capitale «Parigi», non «Vienna».",
+				"Germania": "La Germania ha come capitale «Berlino», non «Vienna»."
+			}
 		},
 		{
 			"id": "geografia-cont-Austria",
@@ -401,7 +481,12 @@
 				"Il Cairo"
 			],
 			"answer": "Bruxelles",
-			"explanation": "Bruxelles è la capitale del Belgio. A Bruxelles hanno sede le principali istituzioni dell'Unione Europea."
+			"explanation": "Bruxelles è la capitale del Belgio. A Bruxelles hanno sede le principali istituzioni dell'Unione Europea.",
+			"distractorWhy": {
+				"Varsavia": "«Varsavia» è la capitale della Polonia, non del Belgio.",
+				"Il Cairo": "«Il Cairo» è la capitale dell'Egitto, non del Belgio.",
+				"Lisbona": "«Lisbona» è la capitale del Portogallo, non del Belgio."
+			}
 		},
 		{
 			"id": "geografia-stato-Bruxelles",
@@ -417,7 +502,12 @@
 				"Svezia"
 			],
 			"answer": "Belgio",
-			"explanation": "Bruxelles è la capitale del Belgio, che è un piccolo Stato affacciato sul Mare del Nord. A Bruxelles hanno sede le principali istituzioni dell'Unione Europea."
+			"explanation": "Bruxelles è la capitale del Belgio, che è un piccolo Stato affacciato sul Mare del Nord. A Bruxelles hanno sede le principali istituzioni dell'Unione Europea.",
+			"distractorWhy": {
+				"Austria": "L'Austria ha come capitale «Vienna», non «Bruxelles».",
+				"Svezia": "La Svezia ha come capitale «Stoccolma», non «Bruxelles».",
+				"Grecia": "La Grecia ha come capitale «Atene», non «Bruxelles»."
+			}
 		},
 		{
 			"id": "geografia-cont-Belgio",
@@ -449,7 +539,12 @@
 				"Amsterdam"
 			],
 			"answer": "Amsterdam",
-			"explanation": "Amsterdam è la capitale dei Paesi Bassi. Amsterdam è attraversata da più di cento canali."
+			"explanation": "Amsterdam è la capitale dei Paesi Bassi. Amsterdam è attraversata da più di cento canali.",
+			"distractorWhy": {
+				"Il Cairo": "«Il Cairo» è la capitale dell'Egitto, non dei Paesi Bassi.",
+				"Canberra": "«Canberra» è la capitale dell'Australia, non dei Paesi Bassi.",
+				"Berlino": "«Berlino» è la capitale della Germania, non dei Paesi Bassi."
+			}
 		},
 		{
 			"id": "geografia-stato-Amsterdam",
@@ -465,7 +560,12 @@
 				"Australia"
 			],
 			"answer": "Paesi Bassi",
-			"explanation": "Amsterdam è la capitale dei Paesi Bassi, che stanno in gran parte sotto il livello del mare, protetti dalle dighe. Amsterdam è attraversata da più di cento canali."
+			"explanation": "Amsterdam è la capitale dei Paesi Bassi, che stanno in gran parte sotto il livello del mare, protetti dalle dighe. Amsterdam è attraversata da più di cento canali.",
+			"distractorWhy": {
+				"Regno Unito": "Il Regno Unito ha come capitale «Londra», non «Amsterdam».",
+				"Giappone": "Il Giappone ha come capitale «Tokyo», non «Amsterdam».",
+				"Australia": "L'Australia ha come capitale «Canberra», non «Amsterdam»."
+			}
 		},
 		{
 			"id": "geografia-cont-Paesi Bassi",
@@ -497,7 +597,12 @@
 				"Brasília"
 			],
 			"answer": "Varsavia",
-			"explanation": "Varsavia è la capitale della Polonia. Varsavia fu ricostruita quasi da zero dopo la seconda guerra mondiale."
+			"explanation": "Varsavia è la capitale della Polonia. Varsavia fu ricostruita quasi da zero dopo la seconda guerra mondiale.",
+			"distractorWhy": {
+				"Canberra": "«Canberra» è la capitale dell'Australia, non della Polonia.",
+				"Brasília": "«Brasília» è la capitale del Brasile, non della Polonia.",
+				"Lisbona": "«Lisbona» è la capitale del Portogallo, non della Polonia."
+			}
 		},
 		{
 			"id": "geografia-stato-Varsavia",
@@ -513,7 +618,12 @@
 				"Polonia"
 			],
 			"answer": "Polonia",
-			"explanation": "Varsavia è la capitale della Polonia, che sta nell'Europa centro-orientale, affacciata sul Mar Baltico. Varsavia fu ricostruita quasi da zero dopo la seconda guerra mondiale."
+			"explanation": "Varsavia è la capitale della Polonia, che sta nell'Europa centro-orientale, affacciata sul Mar Baltico. Varsavia fu ricostruita quasi da zero dopo la seconda guerra mondiale.",
+			"distractorWhy": {
+				"Grecia": "La Grecia ha come capitale «Atene», non «Varsavia».",
+				"Germania": "La Germania ha come capitale «Berlino», non «Varsavia».",
+				"Russia": "La Russia ha come capitale «Mosca», non «Varsavia»."
+			}
 		},
 		{
 			"id": "geografia-cont-Polonia",
@@ -545,7 +655,12 @@
 				"Washington"
 			],
 			"answer": "Stoccolma",
-			"explanation": "Stoccolma è la capitale della Svezia. Stoccolma è costruita su quattordici isole collegate da ponti."
+			"explanation": "Stoccolma è la capitale della Svezia. Stoccolma è costruita su quattordici isole collegate da ponti.",
+			"distractorWhy": {
+				"Nuova Delhi": "«Nuova Delhi» è la capitale dell'India, non della Svezia.",
+				"Washington": "«Washington» è la capitale degli Stati Uniti, non della Svezia.",
+				"Varsavia": "«Varsavia» è la capitale della Polonia, non della Svezia."
+			}
 		},
 		{
 			"id": "geografia-stato-Stoccolma",
@@ -561,7 +676,12 @@
 				"Brasile"
 			],
 			"answer": "Svezia",
-			"explanation": "Stoccolma è la capitale della Svezia, che occupa gran parte della penisola scandinava. Stoccolma è costruita su quattordici isole collegate da ponti."
+			"explanation": "Stoccolma è la capitale della Svezia, che occupa gran parte della penisola scandinava. Stoccolma è costruita su quattordici isole collegate da ponti.",
+			"distractorWhy": {
+				"Brasile": "Il Brasile ha come capitale «Brasília», non «Stoccolma».",
+				"Egitto": "L'Egitto ha come capitale «Il Cairo», non «Stoccolma».",
+				"Austria": "L'Austria ha come capitale «Vienna», non «Stoccolma»."
+			}
 		},
 		{
 			"id": "geografia-cont-Svezia",
@@ -593,7 +713,12 @@
 				"Londra"
 			],
 			"answer": "Oslo",
-			"explanation": "Oslo è la capitale della Norvegia. Oslo sta in fondo a un lungo fiordo."
+			"explanation": "Oslo è la capitale della Norvegia. Oslo sta in fondo a un lungo fiordo.",
+			"distractorWhy": {
+				"Londra": "«Londra» è la capitale del Regno Unito, non della Norvegia.",
+				"Mosca": "«Mosca» è la capitale della Russia, non della Norvegia.",
+				"Lisbona": "«Lisbona» è la capitale del Portogallo, non della Norvegia."
+			}
 		},
 		{
 			"id": "geografia-stato-Oslo",
@@ -609,7 +734,12 @@
 				"Australia"
 			],
 			"answer": "Norvegia",
-			"explanation": "Oslo è la capitale della Norvegia, che ha una costa frastagliata di fiordi lunga migliaia di chilometri. Oslo sta in fondo a un lungo fiordo."
+			"explanation": "Oslo è la capitale della Norvegia, che ha una costa frastagliata di fiordi lunga migliaia di chilometri. Oslo sta in fondo a un lungo fiordo.",
+			"distractorWhy": {
+				"Australia": "L'Australia ha come capitale «Canberra», non «Oslo».",
+				"Francia": "La Francia ha come capitale «Parigi», non «Oslo».",
+				"Messico": "Il Messico ha come capitale «Città del Messico», non «Oslo»."
+			}
 		},
 		{
 			"id": "geografia-cont-Norvegia",
@@ -641,7 +771,12 @@
 				"Mosca"
 			],
 			"answer": "Mosca",
-			"explanation": "Mosca è la capitale della Russia. Mosca è la città più popolosa d'Europa, e la Piazza Rossa ne è il centro."
+			"explanation": "Mosca è la capitale della Russia. Mosca è la città più popolosa d'Europa, e la Piazza Rossa ne è il centro.",
+			"distractorWhy": {
+				"Berlino": "«Berlino» è la capitale della Germania, non della Russia.",
+				"Vienna": "«Vienna» è la capitale dell'Austria, non della Russia.",
+				"Londra": "«Londra» è la capitale del Regno Unito, non della Russia."
+			}
 		},
 		{
 			"id": "geografia-stato-Mosca",
@@ -657,7 +792,12 @@
 				"Francia"
 			],
 			"answer": "Russia",
-			"explanation": "Mosca è la capitale della Russia, che è lo Stato più esteso del mondo e si allunga fra Europa e Asia. Mosca è la città più popolosa d'Europa, e la Piazza Rossa ne è il centro."
+			"explanation": "Mosca è la capitale della Russia, che è lo Stato più esteso del mondo e si allunga fra Europa e Asia. Mosca è la città più popolosa d'Europa, e la Piazza Rossa ne è il centro.",
+			"distractorWhy": {
+				"Belgio": "Il Belgio ha come capitale «Bruxelles», non «Mosca».",
+				"Austria": "L'Austria ha come capitale «Vienna», non «Mosca».",
+				"Francia": "La Francia ha come capitale «Parigi», non «Mosca»."
+			}
 		},
 		{
 			"id": "geografia-cont-Russia",
@@ -689,7 +829,12 @@
 				"Il Cairo"
 			],
 			"answer": "Washington",
-			"explanation": "Washington è la capitale degli Stati Uniti. Washington non appartiene a nessuno Stato: è un distretto a sé."
+			"explanation": "Washington è la capitale degli Stati Uniti. Washington non appartiene a nessuno Stato: è un distretto a sé.",
+			"distractorWhy": {
+				"Amsterdam": "«Amsterdam» è la capitale dei Paesi Bassi, non degli Stati Uniti.",
+				"Stoccolma": "«Stoccolma» è la capitale della Svezia, non degli Stati Uniti.",
+				"Il Cairo": "«Il Cairo» è la capitale dell'Egitto, non degli Stati Uniti."
+			}
 		},
 		{
 			"id": "geografia-stato-Washington",
@@ -705,7 +850,12 @@
 				"Stati Uniti"
 			],
 			"answer": "Stati Uniti",
-			"explanation": "Washington è la capitale degli Stati Uniti, che si estendono da un oceano all'altro. Washington non appartiene a nessuno Stato: è un distretto a sé."
+			"explanation": "Washington è la capitale degli Stati Uniti, che si estendono da un oceano all'altro. Washington non appartiene a nessuno Stato: è un distretto a sé.",
+			"distractorWhy": {
+				"Portogallo": "Il Portogallo ha come capitale «Lisbona», non «Washington».",
+				"Messico": "Il Messico ha come capitale «Città del Messico», non «Washington».",
+				"Regno Unito": "Il Regno Unito ha come capitale «Londra», non «Washington»."
+			}
 		},
 		{
 			"id": "geografia-cont-Stati Uniti",
@@ -737,7 +887,12 @@
 				"Varsavia"
 			],
 			"answer": "Ottawa",
-			"explanation": "Ottawa è la capitale del Canada. Ottawa fu scelta come capitale perché sta a metà strada fra le città di lingua inglese e quelle di lingua francese."
+			"explanation": "Ottawa è la capitale del Canada. Ottawa fu scelta come capitale perché sta a metà strada fra le città di lingua inglese e quelle di lingua francese.",
+			"distractorWhy": {
+				"Mosca": "«Mosca» è la capitale della Russia, non del Canada.",
+				"Varsavia": "«Varsavia» è la capitale della Polonia, non del Canada.",
+				"Madrid": "«Madrid» è la capitale della Spagna, non del Canada."
+			}
 		},
 		{
 			"id": "geografia-stato-Ottawa",
@@ -753,7 +908,12 @@
 				"Egitto"
 			],
 			"answer": "Canada",
-			"explanation": "Ottawa è la capitale del Canada, che è il secondo Stato più esteso del mondo. Ottawa fu scelta come capitale perché sta a metà strada fra le città di lingua inglese e quelle di lingua francese."
+			"explanation": "Ottawa è la capitale del Canada, che è il secondo Stato più esteso del mondo. Ottawa fu scelta come capitale perché sta a metà strada fra le città di lingua inglese e quelle di lingua francese.",
+			"distractorWhy": {
+				"Egitto": "L'Egitto ha come capitale «Il Cairo», non «Ottawa».",
+				"Francia": "La Francia ha come capitale «Parigi», non «Ottawa».",
+				"Messico": "Il Messico ha come capitale «Città del Messico», non «Ottawa»."
+			}
 		},
 		{
 			"id": "geografia-cont-Canada",
@@ -785,7 +945,12 @@
 				"Il Cairo"
 			],
 			"answer": "Città del Messico",
-			"explanation": "Città del Messico è la capitale del Messico. Città del Messico è costruita sul letto di un lago prosciugato, e per questo sprofonda di qualche centimetro l'anno."
+			"explanation": "Città del Messico è la capitale del Messico. Città del Messico è costruita sul letto di un lago prosciugato, e per questo sprofonda di qualche centimetro l'anno.",
+			"distractorWhy": {
+				"Varsavia": "«Varsavia» è la capitale della Polonia, non del Messico.",
+				"Il Cairo": "«Il Cairo» è la capitale dell'Egitto, non del Messico.",
+				"Brasília": "«Brasília» è la capitale del Brasile, non del Messico."
+			}
 		},
 		{
 			"id": "geografia-stato-Città del Messico",
@@ -801,7 +966,12 @@
 				"Spagna"
 			],
 			"answer": "Messico",
-			"explanation": "Città del Messico è la capitale del Messico, che fa da ponte fra l'America del Nord e quella centrale. Città del Messico è costruita sul letto di un lago prosciugato, e per questo sprofonda di qualche centimetro l'anno."
+			"explanation": "Città del Messico è la capitale del Messico, che fa da ponte fra l'America del Nord e quella centrale. Città del Messico è costruita sul letto di un lago prosciugato, e per questo sprofonda di qualche centimetro l'anno.",
+			"distractorWhy": {
+				"Spagna": "La Spagna ha come capitale «Madrid», non «Città del Messico».",
+				"Francia": "La Francia ha come capitale «Parigi», non «Città del Messico».",
+				"Austria": "L'Austria ha come capitale «Vienna», non «Città del Messico»."
+			}
 		},
 		{
 			"id": "geografia-cont-Messico",
@@ -833,7 +1003,12 @@
 				"Brasília"
 			],
 			"answer": "Brasília",
-			"explanation": "Brasília è la capitale del Brasile. Brasília fu costruita dal nulla nel 1960, con la pianta a forma di aeroplano."
+			"explanation": "Brasília è la capitale del Brasile. Brasília fu costruita dal nulla nel 1960, con la pianta a forma di aeroplano.",
+			"distractorWhy": {
+				"Pechino": "«Pechino» è la capitale della Cina, non del Brasile.",
+				"Berlino": "«Berlino» è la capitale della Germania, non del Brasile.",
+				"Ottawa": "«Ottawa» è la capitale del Canada, non del Brasile."
+			}
 		},
 		{
 			"id": "geografia-stato-Brasília",
@@ -849,7 +1024,12 @@
 				"Giappone"
 			],
 			"answer": "Brasile",
-			"explanation": "Brasília è la capitale del Brasile, che è il Paese più grande dell'America del Sud e ospita gran parte dell'Amazzonia. Brasília fu costruita dal nulla nel 1960, con la pianta a forma di aeroplano."
+			"explanation": "Brasília è la capitale del Brasile, che è il Paese più grande dell'America del Sud e ospita gran parte dell'Amazzonia. Brasília fu costruita dal nulla nel 1960, con la pianta a forma di aeroplano.",
+			"distractorWhy": {
+				"Austria": "L'Austria ha come capitale «Vienna», non «Brasília».",
+				"Giappone": "Il Giappone ha come capitale «Tokyo», non «Brasília».",
+				"Messico": "Il Messico ha come capitale «Città del Messico», non «Brasília»."
+			}
 		},
 		{
 			"id": "geografia-cont-Brasile",
@@ -881,7 +1061,12 @@
 				"Canberra"
 			],
 			"answer": "Buenos Aires",
-			"explanation": "Buenos Aires è la capitale dell'Argentina. Buenos Aires si affaccia sul Río de la Plata, il grande estuario che sembra un mare."
+			"explanation": "Buenos Aires è la capitale dell'Argentina. Buenos Aires si affaccia sul Río de la Plata, il grande estuario che sembra un mare.",
+			"distractorWhy": {
+				"Canberra": "«Canberra» è la capitale dell'Australia, non dell'Argentina.",
+				"Pechino": "«Pechino» è la capitale della Cina, non dell'Argentina.",
+				"Bruxelles": "«Bruxelles» è la capitale del Belgio, non dell'Argentina."
+			}
 		},
 		{
 			"id": "geografia-stato-Buenos Aires",
@@ -897,7 +1082,12 @@
 				"Argentina"
 			],
 			"answer": "Argentina",
-			"explanation": "Buenos Aires è la capitale dell'Argentina, che si allunga verso sud fin quasi all'Antartide. Buenos Aires si affaccia sul Río de la Plata, il grande estuario che sembra un mare."
+			"explanation": "Buenos Aires è la capitale dell'Argentina, che si allunga verso sud fin quasi all'Antartide. Buenos Aires si affaccia sul Río de la Plata, il grande estuario che sembra un mare.",
+			"distractorWhy": {
+				"Stati Uniti": "Gli Stati Uniti ha come capitale «Washington», non «Buenos Aires».",
+				"Paesi Bassi": "I Paesi Bassi ha come capitale «Amsterdam», non «Buenos Aires».",
+				"Polonia": "La Polonia ha come capitale «Varsavia», non «Buenos Aires»."
+			}
 		},
 		{
 			"id": "geografia-cont-Argentina",
@@ -929,7 +1119,12 @@
 				"Berlino"
 			],
 			"answer": "Tokyo",
-			"explanation": "Tokyo è la capitale del Giappone. Tokyo è l'area urbana più popolosa del mondo."
+			"explanation": "Tokyo è la capitale del Giappone. Tokyo è l'area urbana più popolosa del mondo.",
+			"distractorWhy": {
+				"Roma": "«Roma» è la capitale dell'Italia, non del Giappone.",
+				"Berlino": "«Berlino» è la capitale della Germania, non del Giappone.",
+				"Atene": "«Atene» è la capitale della Grecia, non del Giappone."
+			}
 		},
 		{
 			"id": "geografia-stato-Tokyo",
@@ -945,7 +1140,12 @@
 				"Australia"
 			],
 			"answer": "Giappone",
-			"explanation": "Tokyo è la capitale del Giappone, che è un arcipelago di isole al largo dell'Asia orientale. Tokyo è l'area urbana più popolosa del mondo."
+			"explanation": "Tokyo è la capitale del Giappone, che è un arcipelago di isole al largo dell'Asia orientale. Tokyo è l'area urbana più popolosa del mondo.",
+			"distractorWhy": {
+				"Australia": "L'Australia ha come capitale «Canberra», non «Tokyo».",
+				"Brasile": "Il Brasile ha come capitale «Brasília», non «Tokyo».",
+				"Spagna": "La Spagna ha come capitale «Madrid», non «Tokyo»."
+			}
 		},
 		{
 			"id": "geografia-cont-Giappone",
@@ -977,7 +1177,12 @@
 				"Ottawa"
 			],
 			"answer": "Pechino",
-			"explanation": "Pechino è la capitale della Cina. A Pechino si trova la Città Proibita, il palazzo dove vivevano gli imperatori."
+			"explanation": "Pechino è la capitale della Cina. A Pechino si trova la Città Proibita, il palazzo dove vivevano gli imperatori.",
+			"distractorWhy": {
+				"Ottawa": "«Ottawa» è la capitale del Canada, non della Cina.",
+				"Madrid": "«Madrid» è la capitale della Spagna, non della Cina.",
+				"Brasília": "«Brasília» è la capitale del Brasile, non della Cina."
+			}
 		},
 		{
 			"id": "geografia-stato-Pechino",
@@ -993,7 +1198,12 @@
 				"Canada"
 			],
 			"answer": "Cina",
-			"explanation": "Pechino è la capitale della Cina, che occupa gran parte dell'Asia orientale. A Pechino si trova la Città Proibita, il palazzo dove vivevano gli imperatori."
+			"explanation": "Pechino è la capitale della Cina, che occupa gran parte dell'Asia orientale. A Pechino si trova la Città Proibita, il palazzo dove vivevano gli imperatori.",
+			"distractorWhy": {
+				"India": "L'India ha come capitale «Nuova Delhi», non «Pechino».",
+				"Russia": "La Russia ha come capitale «Mosca», non «Pechino».",
+				"Canada": "Il Canada ha come capitale «Ottawa», non «Pechino»."
+			}
 		},
 		{
 			"id": "geografia-cont-Cina",
@@ -1025,7 +1235,12 @@
 				"Nuova Delhi"
 			],
 			"answer": "Nuova Delhi",
-			"explanation": "Nuova Delhi è la capitale dell'India. Nuova Delhi fu costruita accanto all'antica città di Delhi, che esiste ancora."
+			"explanation": "Nuova Delhi è la capitale dell'India. Nuova Delhi fu costruita accanto all'antica città di Delhi, che esiste ancora.",
+			"distractorWhy": {
+				"Amsterdam": "«Amsterdam» è la capitale dei Paesi Bassi, non dell'India.",
+				"Brasília": "«Brasília» è la capitale del Brasile, non dell'India.",
+				"Stoccolma": "«Stoccolma» è la capitale della Svezia, non dell'India."
+			}
 		},
 		{
 			"id": "geografia-stato-Nuova Delhi",
@@ -1041,7 +1256,12 @@
 				"Messico"
 			],
 			"answer": "India",
-			"explanation": "Nuova Delhi è la capitale dell'India, che è un grande subcontinente che si spinge nell'Oceano Indiano. Nuova Delhi fu costruita accanto all'antica città di Delhi, che esiste ancora."
+			"explanation": "Nuova Delhi è la capitale dell'India, che è un grande subcontinente che si spinge nell'Oceano Indiano. Nuova Delhi fu costruita accanto all'antica città di Delhi, che esiste ancora.",
+			"distractorWhy": {
+				"Messico": "Il Messico ha come capitale «Città del Messico», non «Nuova Delhi».",
+				"Egitto": "L'Egitto ha come capitale «Il Cairo», non «Nuova Delhi».",
+				"Italia": "L'Italia ha come capitale «Roma», non «Nuova Delhi»."
+			}
 		},
 		{
 			"id": "geografia-cont-India",
@@ -1073,7 +1293,12 @@
 				"Ottawa"
 			],
 			"answer": "Il Cairo",
-			"explanation": "Il Cairo è la capitale dell'Egitto. Il Cairo sorge sul Nilo, a pochi chilometri dalle piramidi di Giza."
+			"explanation": "Il Cairo è la capitale dell'Egitto. Il Cairo sorge sul Nilo, a pochi chilometri dalle piramidi di Giza.",
+			"distractorWhy": {
+				"Ottawa": "«Ottawa» è la capitale del Canada, non dell'Egitto.",
+				"Stoccolma": "«Stoccolma» è la capitale della Svezia, non dell'Egitto.",
+				"Pechino": "«Pechino» è la capitale della Cina, non dell'Egitto."
+			}
 		},
 		{
 			"id": "geografia-stato-Il Cairo",
@@ -1089,7 +1314,12 @@
 				"Egitto"
 			],
 			"answer": "Egitto",
-			"explanation": "Il Cairo è la capitale dell'Egitto, che sta nell'angolo nord-orientale dell'Africa, a cavallo del Nilo. Il Cairo sorge sul Nilo, a pochi chilometri dalle piramidi di Giza."
+			"explanation": "Il Cairo è la capitale dell'Egitto, che sta nell'angolo nord-orientale dell'Africa, a cavallo del Nilo. Il Cairo sorge sul Nilo, a pochi chilometri dalle piramidi di Giza.",
+			"distractorWhy": {
+				"Italia": "L'Italia ha come capitale «Roma», non «Il Cairo».",
+				"Grecia": "La Grecia ha come capitale «Atene», non «Il Cairo».",
+				"Brasile": "Il Brasile ha come capitale «Brasília», non «Il Cairo»."
+			}
 		},
 		{
 			"id": "geografia-cont-Egitto",
@@ -1121,7 +1351,12 @@
 				"Varsavia"
 			],
 			"answer": "Canberra",
-			"explanation": "Canberra è la capitale dell'Australia. Canberra fu costruita apposta per fare da capitale, perché Sydney e Melbourne se la contendevano."
+			"explanation": "Canberra è la capitale dell'Australia. Canberra fu costruita apposta per fare da capitale, perché Sydney e Melbourne se la contendevano.",
+			"distractorWhy": {
+				"Varsavia": "«Varsavia» è la capitale della Polonia, non dell'Australia.",
+				"Vienna": "«Vienna» è la capitale dell'Austria, non dell'Australia.",
+				"Madrid": "«Madrid» è la capitale della Spagna, non dell'Australia."
+			}
 		},
 		{
 			"id": "geografia-stato-Canberra",
@@ -1137,7 +1372,12 @@
 				"Germania"
 			],
 			"answer": "Australia",
-			"explanation": "Canberra è la capitale dell'Australia, che è insieme uno Stato e un continente. Canberra fu costruita apposta per fare da capitale, perché Sydney e Melbourne se la contendevano."
+			"explanation": "Canberra è la capitale dell'Australia, che è insieme uno Stato e un continente. Canberra fu costruita apposta per fare da capitale, perché Sydney e Melbourne se la contendevano.",
+			"distractorWhy": {
+				"Polonia": "La Polonia ha come capitale «Varsavia», non «Canberra».",
+				"Messico": "Il Messico ha come capitale «Città del Messico», non «Canberra».",
+				"Germania": "La Germania ha come capitale «Berlino», non «Canberra»."
+			}
 		},
 		{
 			"id": "geografia-cont-Australia",
@@ -1655,7 +1895,12 @@
 				"Atlantico"
 			],
 			"answer": "Pacifico",
-			"explanation": "Da solo copre circa un terzo della superficie terrestre: più di tutte le terre emerse messe insieme."
+			"explanation": "Da solo copre circa un terzo della superficie terrestre: più di tutte le terre emerse messe insieme.",
+			"distractorWhy": {
+				"Atlantico": "L'Atlantico è il secondo oceano per estensione, non il primo.",
+				"Indiano": "L'Oceano Indiano è il terzo per estensione.",
+				"Artico": "L'Oceano Artico è il più piccolo di tutti."
+			}
 		},
 		{
 			"id": "geografia-mondo-2",
@@ -1671,7 +1916,12 @@
 				"La linea che divide la Terra in due emisferi"
 			],
 			"answer": "La linea che divide la Terra in due emisferi",
-			"explanation": "È il parallelo di latitudine zero: da lì si contano i gradi verso nord e verso sud."
+			"explanation": "È il parallelo di latitudine zero: da lì si contano i gradi verso nord e verso sud.",
+			"distractorWhy": {
+				"Il punto più caldo di tutto il pianeta": "Non è definito dalla temperatura: è una linea geometrica, non un punto caldo.",
+				"Il confine naturale fra due continenti": "L'equatore non segue i confini dei continenti: attraversa Africa, Sud America e Asia.",
+				"La linea lungo cui cambiano i fusi orari": "I fusi orari cambiano lungo i meridiani, non lungo l'equatore."
+			}
 		},
 		{
 			"id": "geografia-mondo-3",
@@ -1687,7 +1937,12 @@
 				"La linea che segna il livello del mare"
 			],
 			"answer": "Una linea che va da polo a polo",
-			"explanation": "I meridiani misurano la longitudine; i paralleli, che girano attorno alla Terra, misurano la latitudine."
+			"explanation": "I meridiani misurano la longitudine; i paralleli, che girano attorno alla Terra, misurano la latitudine.",
+			"distractorWhy": {
+				"Una linea parallela all'equatore": "Le linee parallele all'equatore sono i paralleli, non i meridiani.",
+				"Il confine fra due Stati vicini": "I confini fra Stati seguono la politica, non le linee geografiche fisse.",
+				"La linea che segna il livello del mare": "Il livello del mare è un'altra misura: non ha a che fare con i meridiani."
+			}
 		},
 		{
 			"id": "geografia-mondo-4",
@@ -1703,7 +1958,12 @@
 				"Perché la Terra non è perfettamente sferica"
 			],
 			"answer": "Perché la Terra ruota e non è giorno ovunque insieme",
-			"explanation": "Ruotando, ogni longitudine incontra il Sole in un momento diverso: servono ore diverse per tenere il mezzogiorno a mezzogiorno."
+			"explanation": "Ruotando, ogni longitudine incontra il Sole in un momento diverso: servono ore diverse per tenere il mezzogiorno a mezzogiorno.",
+			"distractorWhy": {
+				"Perché i Paesi hanno leggi diverse": "Le leggi non c'entrano: i fusi seguono la posizione del Sole, non le norme di un Paese.",
+				"Perché le stagioni cambiano da luogo a luogo": "Le stagioni dipendono dall'inclinazione dell'asse terrestre, non dai fusi orari.",
+				"Perché la Terra non è perfettamente sferica": "La Terra è quasi perfettamente sferica: non è questo il motivo dei fusi."
+			}
 		},
 		{
 			"id": "geografia-mondo-5",
@@ -1719,7 +1979,12 @@
 				"Africa"
 			],
 			"answer": "Asia",
-			"explanation": "L'Asia copre circa un terzo delle terre emerse e ospita più della metà della popolazione mondiale."
+			"explanation": "L'Asia copre circa un terzo delle terre emerse e ospita più della metà della popolazione mondiale.",
+			"distractorWhy": {
+				"Africa": "L'Africa è il secondo continente per estensione, dopo l'Asia.",
+				"America": "Le due Americhe insieme sono grandi, ma prese separatamente sono più piccole dell'Asia.",
+				"Antartide": "L'Antartide è ricoperta di ghiaccio, ma meno estesa dell'Asia."
+			}
 		},
 		{
 			"id": "geografia-mondo-6",
@@ -1735,7 +2000,12 @@
 				"La distanza in gradi dall'equatore"
 			],
 			"answer": "La distanza in gradi dall'equatore",
-			"explanation": "Va da 0° all'equatore a 90° ai poli, verso nord o verso sud."
+			"explanation": "Va da 0° all'equatore a 90° ai poli, verso nord o verso sud.",
+			"distractorWhy": {
+				"La distanza in gradi dal meridiano zero": "Quella è la longitudine, non la latitudine.",
+				"L'altezza sul livello del mare": "L'altitudine misura quanto un luogo è alto, non la sua posizione nord-sud.",
+				"La distanza dal Polo Nord in chilometri": "La latitudine si misura in gradi dall'equatore, non in chilometri dal polo."
+			}
 		},
 		{
 			"id": "geografia-mondo-7",
@@ -1751,7 +2021,12 @@
 				"La distanza fra due paralleli"
 			],
 			"answer": "La distanza in gradi dal meridiano di Greenwich",
-			"explanation": "Il meridiano fondamentale passa per Greenwich, a Londra: da lì si contano i gradi verso est e verso ovest."
+			"explanation": "Il meridiano fondamentale passa per Greenwich, a Londra: da lì si contano i gradi verso est e verso ovest.",
+			"distractorWhy": {
+				"La distanza in gradi dall'equatore": "Quella è la latitudine, non la longitudine.",
+				"La lunghezza di un Paese da nord a sud": "È un'estensione fisica, non un sistema di coordinate.",
+				"La distanza fra due paralleli": "I paralleli misurano la latitudine, non la longitudine."
+			}
 		},
 		{
 			"id": "geografia-mondo-8",
@@ -1767,7 +2042,12 @@
 				"Atacama"
 			],
 			"answer": "Sahara",
-			"explanation": "Copre gran parte del Nord Africa: da solo è grande quasi quanto tutta l'Europa."
+			"explanation": "Copre gran parte del Nord Africa: da solo è grande quasi quanto tutta l'Europa.",
+			"distractorWhy": {
+				"Gobi": "Il Gobi è un grande deserto, ma in Asia, non in Africa, ed è più piccolo del Sahara.",
+				"Atacama": "L'Atacama è il deserto più arido del mondo, in Sud America, ma molto più piccolo del Sahara.",
+				"Kalahari": "Il Kalahari è in Africa australe, ma molto più piccolo del Sahara."
+			}
 		},
 		{
 			"id": "geografia-mondo-9",
@@ -1783,7 +2063,12 @@
 				"Africa centrale"
 			],
 			"answer": "America meridionale",
-			"explanation": "Attraversa nove Paesi ed è la più grande foresta pluviale del pianeta."
+			"explanation": "Attraversa nove Paesi ed è la più grande foresta pluviale del pianeta.",
+			"distractorWhy": {
+				"Africa centrale": "L'Africa centrale ha la sua grande foresta pluviale, il bacino del Congo, non l'Amazzonia.",
+				"Asia sudorientale": "L'Asia sudorientale ha le sue foreste pluviali, ma non ospita il Rio delle Amazzoni.",
+				"Oceania": "L'Oceania non ha foreste amazzoniche."
+			}
 		},
 		{
 			"id": "geografia-mondo-10",
@@ -1799,7 +2084,12 @@
 				"Himalaya"
 			],
 			"answer": "Himalaya",
-			"explanation": "Vi si trova l'Everest, e nasce dallo scontro fra la placca indiana e quella eurasiatica: cresce ancora."
+			"explanation": "Vi si trova l'Everest, e nasce dallo scontro fra la placca indiana e quella eurasiatica: cresce ancora.",
+			"distractorWhy": {
+				"Ande": "Le Ande sono la catena più lunga del mondo, ma non la più alta.",
+				"Alpi": "Le Alpi sono le montagne più alte d'Europa, ma molto più basse dell'Himalaya.",
+				"Montagne Rocciose": "Le Montagne Rocciose sono in America del Nord, più basse dell'Himalaya."
+			}
 		},
 		{
 			"id": "geografia-geografia-umana-11",
@@ -1815,7 +2105,12 @@
 				"Non calcolabile"
 			],
 			"answer": "Bassa",
-			"explanation": "Un Paese può avere molti abitanti e bassa densità, se è molto esteso: Canada e Bangladesh sono i due estremi."
+			"explanation": "Un Paese può avere molti abitanti e bassa densità, se è molto esteso: Canada e Bangladesh sono i due estremi.",
+			"distractorWhy": {
+				"Alta": "Alta densità vorrebbe dire molti abitanti per km²: qui è il contrario.",
+				"Media": "Con pochi abitanti su tanto territorio la densità è bassa, non media.",
+				"Non calcolabile": "La densità si calcola sempre dividendo abitanti per superficie."
+			}
 		},
 		{
 			"id": "geografia-geografia-umana-12",
@@ -1831,7 +2126,12 @@
 				"L'aumento generale della popolazione mondiale"
 			],
 			"answer": "Lo spostamento della popolazione verso le città",
-			"explanation": "Oggi più di metà dell'umanità vive in città: due secoli fa era meno di un decimo."
+			"explanation": "Oggi più di metà dell'umanità vive in città: due secoli fa era meno di un decimo.",
+			"distractorWhy": {
+				"La costruzione di nuovi quartieri residenziali": "Costruire case è un effetto dell'urbanizzazione, non la sua definizione.",
+				"L'aumento generale della popolazione mondiale": "Quella è la crescita demografica, un fenomeno diverso.",
+				"La creazione di nuovi parchi dentro le città": "I parchi non hanno a che fare con lo spostamento di persone."
+			}
 		},
 		{
 			"id": "geografia-geografia-umana-13",
@@ -1847,7 +2147,12 @@
 				"Perché ci sono più materiali da costruzione"
 			],
 			"answer": "Perché acqua e trasporti facilitano gli scambi",
-			"explanation": "Acqua da bere, terra fertile e una via di comunicazione: sono le tre cose che una città non può inventarsi."
+			"explanation": "Acqua da bere, terra fertile e una via di comunicazione: sono le tre cose che una città non può inventarsi.",
+			"distractorWhy": {
+				"Perché il clima è più mite là": "Il clima non è la ragione principale: contano acqua e vie di scambio.",
+				"Perché il terreno è più pianeggiante": "Non tutte le pianure sono vicino a un fiume, e non tutte le città costiere sono in pianura.",
+				"Perché ci sono più materiali da costruzione": "I materiali da costruzione non sono legati specificamente a fiumi o coste."
+			}
 		},
 		{
 			"id": "geografia-geografia-umana-14",
@@ -1863,7 +2168,12 @@
 				"Lo spostamento stabile di persone da un luogo a un altro"
 			],
 			"answer": "Lo spostamento stabile di persone da un luogo a un altro",
-			"explanation": "Può essere interna, dentro lo stesso Paese, o internazionale, e ha sempre cause economiche, ambientali o politiche."
+			"explanation": "Può essere interna, dentro lo stesso Paese, o internazionale, e ha sempre cause economiche, ambientali o politiche.",
+			"distractorWhy": {
+				"Un viaggio di vacanza fatto in un altro Paese": "Una vacanza è temporanea, non uno spostamento stabile per viverci.",
+				"Il trasferimento di merci da uno Stato all'altro": "Quello è commercio, non movimento di persone.",
+				"Lo spostamento stagionale di alcune specie animali": "Quella è la migrazione animale: qui la parola riguarda le persone."
+			}
 		},
 		{
 			"id": "geografia-geografia-umana-15",
@@ -1879,7 +2189,12 @@
 				"Le attività più importanti di un Paese"
 			],
 			"answer": "Le attività che ricavano risorse dalla natura",
-			"explanation": "Agricoltura, pesca, allevamento, estrazione. Il secondario trasforma, il terziario fornisce servizi."
+			"explanation": "Agricoltura, pesca, allevamento, estrazione. Il secondario trasforma, il terziario fornisce servizi.",
+			"distractorWhy": {
+				"Le attività che trasformano le materie prime": "Quello è il settore secondario, l'industria.",
+				"I servizi come scuola e commercio": "Quello è il settore terziario.",
+				"Le attività più importanti di un Paese": "Il settore primario non è definito dall'importanza, ma dal tipo di attività."
+			}
 		},
 		{
 			"id": "geografia-geografia-umana-16",
@@ -1895,7 +2210,12 @@
 				"L'industria pesante e l'artigianato"
 			],
 			"answer": "L'insieme dei servizi come scuola, sanità, commercio",
-			"explanation": "Nei Paesi più sviluppati occupa la maggioranza dei lavoratori: non produce oggetti, fornisce prestazioni."
+			"explanation": "Nei Paesi più sviluppati occupa la maggioranza dei lavoratori: non produce oggetti, fornisce prestazioni.",
+			"distractorWhy": {
+				"L'agricoltura, la pesca e l'allevamento": "Quello è il settore primario.",
+				"L'industria pesante e l'artigianato": "Quello è il settore secondario.",
+				"Il terzo Paese più ricco di tutto il mondo": "«Terziario» descrive un tipo di attività economica, non una classifica fra Stati."
+			}
 		},
 		{
 			"id": "geografia-geografia-umana-17",
@@ -1911,7 +2231,12 @@
 				"Una città costruita di recente"
 			],
 			"answer": "Una città molto grande e influente",
-			"explanation": "Non conta solo la dimensione: una metropoli attira lavoro, servizi e persone da un'area vastissima."
+			"explanation": "Non conta solo la dimensione: una metropoli attira lavoro, servizi e persone da un'area vastissima.",
+			"distractorWhy": {
+				"La capitale di uno Stato": "Non tutte le capitali sono metropoli, e non tutte le metropoli sono capitali.",
+				"Una città con più di mille abitanti": "Mille abitanti sono pochissimi: una metropoli ne conta milioni.",
+				"Una città costruita di recente": "L'età della città non c'entra: conta l'influenza che esercita."
+			}
 		},
 		{
 			"id": "geografia-geografia-umana-18",
@@ -1927,7 +2252,12 @@
 				"Perché clima, acqua e risorse cambiano da luogo a luogo"
 			],
 			"answer": "Perché clima, acqua e risorse cambiano da luogo a luogo",
-			"explanation": "Deserti, ghiacci e alta montagna ospitano pochissimi abitanti: la gente si concentra dove si può vivere e coltivare."
+			"explanation": "Deserti, ghiacci e alta montagna ospitano pochissimi abitanti: la gente si concentra dove si può vivere e coltivare.",
+			"distractorWhy": {
+				"Perché alcuni Paesi lo vietano con apposite leggi": "Non ci sono leggi che vietano di abitare certe zone: sono le condizioni naturali a scoraggiarlo.",
+				"Perché le persone preferiscono vivere a nord": "Non è una questione di gusti: dipende da dove si trovano acqua e risorse.",
+				"Perché i confini fra Stati sono stati tracciati male": "I confini politici non spiegano dove le persone scelgono di vivere dentro uno stesso Paese."
+			}
 		},
 		{
 			"id": "geografia-geografia-umana-19",
@@ -1943,7 +2273,12 @@
 				"La costa di uno Stato sul mare"
 			],
 			"answer": "La linea che separa due territori",
-			"explanation": "Può seguire elementi naturali come fiumi e montagne, oppure essere tracciato per accordo: molti confini sono linee dritte disegnate a tavolino."
+			"explanation": "Può seguire elementi naturali come fiumi e montagne, oppure essere tracciato per accordo: molti confini sono linee dritte disegnate a tavolino.",
+			"distractorWhy": {
+				"La costa di uno Stato sul mare": "Una costa è un confine naturale possibile, ma non tutti i confini sono costieri.",
+				"Il centro geografico di un Paese": "Il centro di un Paese è un punto interno, non una linea di separazione.",
+				"La zona più lontana dalla capitale": "La distanza dalla capitale non definisce un confine."
+			}
 		},
 		{
 			"id": "geografia-geografia-umana-20",
@@ -1959,7 +2294,12 @@
 				"L'uso di una sola lingua in tutti i Paesi"
 			],
 			"answer": "La crescente connessione fra economie e culture del mondo",
-			"explanation": "Merci, informazioni e persone si spostano più facilmente: crea opportunità e disuguaglianze insieme."
+			"explanation": "Merci, informazioni e persone si spostano più facilmente: crea opportunità e disuguaglianze insieme.",
+			"distractorWhy": {
+				"L'aumento costante della popolazione mondiale": "Quella è la crescita demografica, un fenomeno diverso.",
+				"L'uso di una sola lingua in tutti i Paesi": "Il mondo resta multilingue: la connessione non significa uniformità linguistica.",
+				"La creazione di un unico governo per il pianeta": "Non esiste un governo mondiale: gli Stati restano indipendenti anche se più connessi."
+			}
 		},
 		{
 			"id": "geografia-geografia-umana-21",
@@ -1975,7 +2315,12 @@
 				"La città più antica di uno Stato"
 			],
 			"answer": "La città sede del governo di uno Stato",
-			"explanation": "Non è sempre la più popolosa: Washington, Canberra e Brasilia sono capitali ma non le città maggiori."
+			"explanation": "Non è sempre la più popolosa: Washington, Canberra e Brasilia sono capitali ma non le città maggiori.",
+			"distractorWhy": {
+				"La città più grande di uno Stato": "Non sempre coincide: New York non è capitale degli USA, e alcune capitali sono scelte apposta piccole.",
+				"La città più antica di uno Stato": "L'anzianità di una città non la rende capitale.",
+				"La città più ricca di uno Stato": "La ricchezza non è ciò che definisce una capitale: è la sede del governo."
+			}
 		},
 		{
 			"id": "geografia-europa-22",
@@ -1991,7 +2336,12 @@
 				"Danubio"
 			],
 			"answer": "Danubio",
-			"explanation": "Scorre interamente in Russia e sfocia nel Mar Caspio: il Danubio è il secondo e attraversa dieci Paesi."
+			"explanation": "Scorre interamente in Russia e sfocia nel Mar Caspio: il Danubio è il secondo e attraversa dieci Paesi.",
+			"distractorWhy": {
+				"Il Volga, in Russia": "Il Volga scorre interamente in Russia: non attraversa dieci Paesi diversi.",
+				"Il Reno, in Germania": "Il Reno attraversa diversi Paesi, ma meno del Danubio.",
+				"La Senna, in Francia": "La Senna scorre solo in Francia."
+			}
 		},
 		{
 			"id": "geografia-europa-23",
@@ -2007,7 +2357,12 @@
 				"Pirenei"
 			],
 			"answer": "Urali",
-			"explanation": "Il confine fra i due continenti è convenzionale e segue gli Urali, il fiume Ural e il Caucaso."
+			"explanation": "Il confine fra i due continenti è convenzionale e segue gli Urali, il fiume Ural e il Caucaso.",
+			"distractorWhy": {
+				"Alpi": "Le Alpi sono interamente europee: non segnano il confine con l'Asia.",
+				"Carpazi": "I Carpazi sono in Europa centro-orientale, non sul confine con l'Asia.",
+				"Pirenei": "I Pirenei separano Francia e Spagna, non Europa e Asia."
+			}
 		},
 		{
 			"id": "geografia-europa-24",
@@ -2023,7 +2378,12 @@
 				"Ligure"
 			],
 			"answer": "Adriatico",
-			"explanation": "L'Adriatico separa l'Italia dai Balcani; il Tirreno sta a ovest."
+			"explanation": "L'Adriatico separa l'Italia dai Balcani; il Tirreno sta a ovest.",
+			"distractorWhy": {
+				"Tirreno": "Il Tirreno bagna l'Italia a ovest, non a est.",
+				"Ionio": "Lo Ionio bagna il sud dell'Italia, non la costa orientale.",
+				"Ligure": "Il Ligure bagna la costa nord-occidentale, vicino alla Liguria."
+			}
 		},
 		{
 			"id": "geografia-europa-25",
@@ -2039,7 +2399,12 @@
 				"L'insieme di tutti i Paesi del continente europeo"
 			],
 			"answer": "Un'unione politica ed economica di Stati europei",
-			"explanation": "Non tutti gli Stati europei ne fanno parte, e non tutti i membri usano l'euro."
+			"explanation": "Non tutti gli Stati europei ne fanno parte, e non tutti i membri usano l'euro.",
+			"distractorWhy": {
+				"L'insieme di tutti i Paesi del continente europeo": "Non tutti gli Stati europei ne fanno parte, per esempio la Svizzera o la Norvegia.",
+				"Un'alleanza militare fra gli Stati membri": "L'alleanza militare in Europa è la NATO, un'organizzazione diversa.",
+				"Un accordo che riguarda solo la moneta unica": "L'euro è solo una parte: l'Unione riguarda anche leggi, commercio e libera circolazione."
+			}
 		},
 		{
 			"id": "geografia-europa-26",
@@ -2055,7 +2420,12 @@
 				"Penisola iberica"
 			],
 			"answer": "Penisola iberica",
-			"explanation": "Spagna e Portogallo si affacciano sui due mari: è la posizione che ne ha fatto la base delle esplorazioni oceaniche."
+			"explanation": "Spagna e Portogallo si affacciano sui due mari: è la posizione che ne ha fatto la base delle esplorazioni oceaniche.",
+			"distractorWhy": {
+				"Penisola italiana": "L'Italia si affaccia solo sul Mediterraneo, non sull'Atlantico.",
+				"Penisola balcanica": "La penisola balcanica si affaccia su Adriatico, Ionio ed Egeo, non sull'Atlantico.",
+				"Penisola scandinava": "La penisola scandinava si affaccia su Atlantico e Baltico, non sul Mediterraneo."
+			}
 		},
 		{
 			"id": "geografia-europa-27",
@@ -2071,7 +2441,12 @@
 				"Perché le montagne fermano i venti freddi"
 			],
 			"answer": "Per l'influenza della Corrente del Golfo",
-			"explanation": "Una corrente calda dall'Atlantico porta calore fino alle coste britanniche e norvegesi: alla stessa latitudine, il Canada gela."
+			"explanation": "Una corrente calda dall'Atlantico porta calore fino alle coste britanniche e norvegesi: alla stessa latitudine, il Canada gela.",
+			"distractorWhy": {
+				"Perché le montagne fermano i venti freddi": "Le montagne non spiegano il clima costiero mite: è il mare a portare calore.",
+				"Perché ci sono molte foreste": "Le foreste non scaldano il clima: l'effetto viene dalla corrente oceanica.",
+				"Perché è vicina al deserto africano": "La vicinanza al deserto renderebbe il clima più caldo e secco, non più mite e umido."
+			}
 		},
 		{
 			"id": "geografia-europa-28",
@@ -2087,7 +2462,12 @@
 				"Germania"
 			],
 			"answer": "Ucraina",
-			"explanation": "La Russia è più grande ma si estende soprattutto in Asia: fra quelli interamente europei l'Ucraina è il maggiore."
+			"explanation": "La Russia è più grande ma si estende soprattutto in Asia: fra quelli interamente europei l'Ucraina è il maggiore.",
+			"distractorWhy": {
+				"Francia": "La Francia è grande, ma meno estesa dell'Ucraina.",
+				"Spagna": "La Spagna è grande, ma meno estesa dell'Ucraina.",
+				"Germania": "La Germania è meno estesa dell'Ucraina."
+			}
 		},
 		{
 			"id": "geografia-europa-29",
@@ -2103,7 +2483,12 @@
 				"Alpi"
 			],
 			"answer": "Pirenei",
-			"explanation": "Corrono da un mare all'altro e hanno reso storicamente difficile il passaggio fra i due Paesi."
+			"explanation": "Corrono da un mare all'altro e hanno reso storicamente difficile il passaggio fra i due Paesi.",
+			"distractorWhy": {
+				"Alpi": "Le Alpi separano l'Italia dalla Francia e dall'Austria, non la Francia dalla Spagna.",
+				"Appennini": "Gli Appennini attraversano l'Italia, non il confine franco-spagnolo.",
+				"Carpazi": "I Carpazi sono in Europa centro-orientale, lontani dalla Spagna."
+			}
 		},
 		{
 			"id": "geografia-europa-30",
@@ -2119,7 +2504,12 @@
 				"Perché antichi ghiacciai hanno scavato valli poi invase dal mare"
 			],
 			"answer": "Perché antichi ghiacciai hanno scavato valli poi invase dal mare",
-			"explanation": "I ghiacciai scavano valli a U molto profonde: quando il ghiaccio si ritira, il mare entra e resta."
+			"explanation": "I ghiacciai scavano valli a U molto profonde: quando il ghiaccio si ritira, il mare entra e resta.",
+			"distractorWhy": {
+				"Perché il mare ha eroso quella costa per secoli": "L'erosione marina modella le coste, ma i fiordi hanno la forma a U tipica dei ghiacciai, non delle onde.",
+				"Perché i fiumi vi hanno scavato gole profondissime": "I fiumi scavano gole strette a V, non le ampie valli a U dei fiordi.",
+				"Perché il terreno si è spaccato durante i terremoti": "I fiordi hanno pareti levigate dal ghiaccio, non fratture da terremoto."
+			}
 		},
 		{
 			"id": "geografia-europa-31",
@@ -2135,7 +2525,12 @@
 				"Mar Nero"
 			],
 			"answer": "Mare del Nord",
-			"explanation": "Bagna Regno Unito, Norvegia, Danimarca, Germania e Paesi Bassi."
+			"explanation": "Bagna Regno Unito, Norvegia, Danimarca, Germania e Paesi Bassi.",
+			"distractorWhy": {
+				"Mar Nero": "Il Mar Nero è a sud-est dell'Europa, non a nord.",
+				"Mar Mediterraneo": "Il Mediterraneo è a sud dell'Europa, non a nord.",
+				"Mar Caspio": "Il Mar Caspio è chiuso fra Europa orientale e Asia, non a nord dell'Europa continentale."
+			}
 		},
 		{
 			"id": "geografia-climi-32",
@@ -2151,7 +2546,12 @@
 				"Sono la stessa cosa detta in due modi"
 			],
 			"answer": "Il tempo è di oggi, il clima è la media di molti anni",
-			"explanation": "Un giorno freddo d'estate non smentisce il clima: servono decenni di dati per parlare di clima."
+			"explanation": "Un giorno freddo d'estate non smentisce il clima: servono decenni di dati per parlare di clima.",
+			"distractorWhy": {
+				"Sono la stessa cosa detta in due modi": "Sono concetti diversi: uno cambia ogni giorno, l'altro descrive tendenze di decenni.",
+				"Il clima riguarda solo l'estate": "Il clima descrive tutte le stagioni, non solo l'estate.",
+				"Il tempo si misura solo con il termometro": "Il tempo meteorologico comprende anche pioggia, vento e pressione, non solo la temperatura."
+			}
 		},
 		{
 			"id": "geografia-climi-33",
@@ -2167,7 +2567,12 @@
 				"Piogge abbondanti tutto l'anno"
 			],
 			"answer": "Estati calde e secche, inverni miti e piovosi",
-			"explanation": "È tipico delle coste del Mediterraneo, ma si trova anche in California e in Cile centrale."
+			"explanation": "È tipico delle coste del Mediterraneo, ma si trova anche in California e in Cile centrale.",
+			"distractorWhy": {
+				"Piogge abbondanti tutto l'anno": "Nel clima mediterraneo le piogge si concentrano soprattutto in autunno e inverno, non tutto l'anno.",
+				"Inverni molto rigidi e nevosi": "Gli inverni mediterranei sono miti, non rigidi.",
+				"Temperature costanti in ogni stagione": "Il clima mediterraneo ha stagioni ben distinte, non temperature costanti."
+			}
 		},
 		{
 			"id": "geografia-climi-34",
@@ -2183,7 +2588,12 @@
 				"Perché l'aria si raffredda salendo di quota"
 			],
 			"answer": "Perché l'aria si raffredda salendo di quota",
-			"explanation": "Circa mezzo grado ogni cento metri: l'aria che sale si espande e si raffredda."
+			"explanation": "Circa mezzo grado ogni cento metri: l'aria che sale si espande e si raffredda.",
+			"distractorWhy": {
+				"Perché in quota si è più lontani dal Sole": "La distanza in più, poche migliaia di metri, è insignificante rispetto ai 150 milioni di km dal Sole.",
+				"Perché in montagna c'è sempre molto più vento": "Il vento può far sembrare più freddo, ma non è la causa del calo di temperatura in quota.",
+				"Perché la neve sul terreno raffredda l'aria": "La neve è un effetto del freddo, non la sua causa."
+			}
 		},
 		{
 			"id": "geografia-climi-35",
@@ -2199,7 +2609,12 @@
 				"Una mappa che mostra i climi del mondo"
 			],
 			"answer": "Un grafico con temperature e piogge mese per mese",
-			"explanation": "Combina due informazioni in un grafico solo: le colonne per le piogge, la linea per le temperature."
+			"explanation": "Combina due informazioni in un grafico solo: le colonne per le piogge, la linea per le temperature.",
+			"distractorWhy": {
+				"Una mappa che mostra i climi del mondo": "Quella è una carta climatica: il climogramma è un grafico di un singolo luogo, non una mappa.",
+				"Uno strumento che serve a misurare il clima": "Il climogramma non misura nulla: rappresenta dati già raccolti.",
+				"Un elenco degli eventi meteorologici passati": "Non è un elenco di eventi: è un grafico con due valori precisi, temperatura e pioggia."
+			}
 		},
 		{
 			"id": "geografia-climi-36",
@@ -2215,7 +2630,12 @@
 				"Perché in quelle zone non ci sono mai nuvole"
 			],
 			"answer": "Perché i raggi del Sole arrivano più perpendicolari",
-			"explanation": "Gli stessi raggi si distribuiscono su una superficie minore: più energia per metro quadrato."
+			"explanation": "Gli stessi raggi si distribuiscono su una superficie minore: più energia per metro quadrato.",
+			"distractorWhy": {
+				"Perché quelle zone sono più vicine al Sole": "La distanza dal Sole è sostanzialmente la stessa in ogni punto della Terra.",
+				"Perché sopra di esse c'è meno atmosfera": "Lo spessore dell'atmosfera non cambia in modo significativo fra equatore e poli.",
+				"Perché in quelle zone non ci sono mai nuvole": "All'equatore piove moltissimo: le nuvole non mancano affatto."
+			}
 		},
 		{
 			"id": "geografia-climi-37",
@@ -2231,7 +2651,12 @@
 				"Lo rende più freddo tutto l'anno"
 			],
 			"answer": "Lo rende più mite, con meno sbalzi",
-			"explanation": "L'acqua si scalda e si raffredda lentamente: fa da volano termico e smorza gli estremi."
+			"explanation": "L'acqua si scalda e si raffredda lentamente: fa da volano termico e smorza gli estremi.",
+			"distractorWhy": {
+				"Lo rende più freddo tutto l'anno": "Il mare non raffredda soltanto: smorza sia il caldo sia il freddo.",
+				"Lo rende più caldo tutto l'anno": "Il mare non scalda soltanto: smorza sia il caldo sia il freddo.",
+				"Non ha alcun effetto sul clima": "Il mare ha un effetto forte: chi vive sulla costa lo sente subito confrontando con l'entroterra."
+			}
 		},
 		{
 			"id": "geografia-climi-38",
@@ -2247,7 +2672,12 @@
 				"Perché lì l'aria scende secca dopo aver perso l'umidità"
 			],
 			"answer": "Perché lì l'aria scende secca dopo aver perso l'umidità",
-			"explanation": "L'aria salita e piovuta all'equatore ridiscende ai tropici ormai asciutta: nasce così la fascia dei grandi deserti."
+			"explanation": "L'aria salita e piovuta all'equatore ridiscende ai tropici ormai asciutta: nasce così la fascia dei grandi deserti.",
+			"distractorWhy": {
+				"Perché ai tropici il Sole è sempre perpendicolare": "Il Sole è perpendicolare all'equatore, non ai tropici: è un'altra la causa dei deserti tropicali.",
+				"Perché in quelle zone il terreno è già sabbioso": "Il terreno è diventato sabbioso perché è arido da millenni: non è la causa del deserto, ne è la conseguenza.",
+				"Perché i venti vi soffiano molto più forte": "Non è la forza del vento a creare il deserto, ma la mancanza di umidità nell'aria che scende."
+			}
 		},
 		{
 			"id": "geografia-climi-39",
@@ -2263,7 +2693,12 @@
 				"Il clima che si trova in tutti i grandi continenti"
 			],
 			"answer": "Un clima con inverni freddi ed estati calde, lontano dal mare",
-			"explanation": "Senza l'effetto mitigante del mare, la differenza fra inverno ed estate diventa molto ampia."
+			"explanation": "Senza l'effetto mitigante del mare, la differenza fra inverno ed estate diventa molto ampia.",
+			"distractorWhy": {
+				"Il clima che si trova in tutti i grandi continenti": "Non tutti i continenti hanno clima continentale: dipende dalla distanza dal mare, non dall'essere un continente.",
+				"Un clima che resta sempre umido e piovoso": "Il clima continentale ha stagioni secche, non piogge costanti.",
+				"Il clima tipico delle zone di alta montagna": "L'alta montagna ha un clima proprio, diverso da quello continentale delle pianure interne."
+			}
 		},
 		{
 			"id": "geografia-climi-40",
@@ -2279,7 +2714,12 @@
 				"Perché le estati sono sempre state calde"
 			],
 			"answer": "Perché il clima si misura su decenni, non su un anno",
-			"explanation": "Servono serie storiche lunghe: è la tendenza di fondo a dire qualcosa, non il singolo dato."
+			"explanation": "Servono serie storiche lunghe: è la tendenza di fondo a dire qualcosa, non il singolo dato.",
+			"distractorWhy": {
+				"Perché le estati sono sempre state calde": "Non è vero che le estati sono state sempre ugualmente calde: è proprio la tendenza nel tempo a dirlo.",
+				"Perché i termometri sbagliano spesso": "I termometri moderni sono affidabili: il problema è un altro, i dati di un solo anno non bastano.",
+				"Perché conta solo l'inverno": "Contano tutte le stagioni misurate su tanti anni, non una sola."
+			}
 		},
 		{
 			"id": "geografia-geografia-italia-41",
@@ -2295,7 +2735,12 @@
 				"Adige"
 			],
 			"answer": "Po",
-			"explanation": "Attraversa la pianura padana da ovest a est per oltre 650 chilometri."
+			"explanation": "Attraversa la pianura padana da ovest a est per oltre 650 chilometri.",
+			"distractorWhy": {
+				"Tevere": "Il Tevere attraversa Roma, molto più a sud della pianura padana.",
+				"Adige": "L'Adige attraversa il nordest, ma non l'intera pianura padana da ovest a est.",
+				"Arno": "L'Arno attraversa la Toscana, non la pianura padana."
+			}
 		},
 		{
 			"id": "geografia-geografia-italia-42",
@@ -2311,7 +2756,12 @@
 				"Lago di Garda"
 			],
 			"answer": "Lago di Garda",
-			"explanation": "Si trova fra Lombardia, Veneto e Trentino: è di origine glaciale, come gli altri grandi laghi del nord."
+			"explanation": "Si trova fra Lombardia, Veneto e Trentino: è di origine glaciale, come gli altri grandi laghi del nord.",
+			"distractorWhy": {
+				"Lago Maggiore": "Il Lago Maggiore è il secondo per superficie, dopo il Garda.",
+				"Lago di Como": "Il Lago di Como è più piccolo del Garda.",
+				"Lago Trasimeno": "Il Lago Trasimeno è molto più piccolo del Garda."
+			}
 		},
 		{
 			"id": "geografia-geografia-italia-43",
@@ -2338,7 +2788,12 @@
 				"Vulture"
 			],
 			"answer": "Etna",
-			"explanation": "È il vulcano attivo più alto d'Europa. Lo Stromboli è siciliano ma sta nelle Eolie, il Vesuvio è in Campania."
+			"explanation": "È il vulcano attivo più alto d'Europa. Lo Stromboli è siciliano ma sta nelle Eolie, il Vesuvio è in Campania.",
+			"distractorWhy": {
+				"Vesuvio": "Il Vesuvio è in Campania, vicino a Napoli, non in Sicilia.",
+				"Stromboli": "Lo Stromboli è siciliano, nelle isole Eolie, ma più piccolo dell'Etna.",
+				"Vulture": "Il Vulture è in Basilicata, non in Sicilia, ed è un vulcano spento."
+			}
 		},
 		{
 			"id": "geografia-geografia-italia-45",
@@ -2354,7 +2809,12 @@
 				"Perché riceve più pioggia di ogni altra zona"
 			],
 			"answer": "Perché i fiumi vi hanno depositato sedimenti per millenni",
-			"explanation": "Le Alpi e gli Appennini si erodono, i fiumi trasportano il materiale a valle e lo depositano: la pianura è nata così."
+			"explanation": "Le Alpi e gli Appennini si erodono, i fiumi trasportano il materiale a valle e lo depositano: la pianura è nata così.",
+			"distractorWhy": {
+				"Perché è la zona più calda di tutta l'Italia": "Il calore non rende fertile un terreno: è il sedimento portato dai fiumi a farlo.",
+				"Perché riceve più pioggia di ogni altra zona": "Non è la pianura più piovosa d'Italia: la fertilità viene dai sedimenti, non dalla pioggia.",
+				"Perché si trova vicina al mare Adriatico": "La vicinanza al mare non spiega la fertilità: contano i sedimenti portati dai fiumi nei millenni."
+			}
 		},
 		{
 			"id": "geografia-geografia-italia-46",
@@ -2370,7 +2830,12 @@
 				"Pirenei"
 			],
 			"answer": "Appennini",
-			"explanation": "Gli Appennini sono la spina dorsale della penisola; le Alpi la chiudono a nord."
+			"explanation": "Gli Appennini sono la spina dorsale della penisola; le Alpi la chiudono a nord.",
+			"distractorWhy": {
+				"Alpi": "Le Alpi chiudono l'Italia a nord: non attraversano la penisola.",
+				"Dolomiti": "Le Dolomiti sono un gruppo di monti dentro le Alpi, non la catena che attraversa tutta la penisola.",
+				"Pirenei": "I Pirenei sono fra Francia e Spagna, non in Italia."
+			}
 		},
 		{
 			"id": "geografia-geografia-fisica-47",
@@ -2386,7 +2851,12 @@
 				"L'area dove un fiume si divide sfociando in mare"
 			],
 			"answer": "L'area dove un fiume si divide sfociando in mare",
-			"explanation": "Il fiume rallenta, deposita i sedimenti e si divide in più rami: il nome viene dalla lettera greca triangolare."
+			"explanation": "Il fiume rallenta, deposita i sedimenti e si divide in più rami: il nome viene dalla lettera greca triangolare.",
+			"distractorWhy": {
+				"Il punto preciso in cui nasce un fiume": "Quella è la sorgente, l'esatto opposto della foce.",
+				"Il tratto più stretto del corso di un fiume": "Un tratto stretto è una gola, non ha a che fare con la foce.",
+				"Il lago che si forma lungo il corso di un fiume": "Un lago lungo il corso non è un delta: il delta si forma solo alla foce, dove il fiume incontra il mare."
+			}
 		},
 		{
 			"id": "geografia-geografia-fisica-48",
@@ -2402,7 +2872,12 @@
 				"Una pianura in riva al mare"
 			],
 			"answer": "Una zona elevata ma pianeggiante",
-			"explanation": "Sta in quota come una montagna, ma la superficie è piana: si può coltivare e abitare."
+			"explanation": "Sta in quota come una montagna, ma la superficie è piana: si può coltivare e abitare.",
+			"distractorWhy": {
+				"Una montagna con la cima piatta": "Un altopiano è più esteso di una singola cima: è un'intera zona pianeggiante in quota.",
+				"Una pianura in riva al mare": "Una pianura costiera è bassa, non elevata come un altopiano.",
+				"Una valle molto larga fra due monti": "Una valle sta più in basso, incassata fra i monti, non in quota come un altopiano."
+			}
 		},
 		{
 			"id": "geografia-geografia-fisica-49",
@@ -2418,7 +2893,12 @@
 				"Dall'erosione delle pianure circostanti"
 			],
 			"answer": "Dallo scontro fra placche della crosta terrestre",
-			"explanation": "Quando due placche si spingono, la crosta si corruga e si solleva: le Alpi e l'Himalaya nascono così, e crescono ancora."
+			"explanation": "Quando due placche si spingono, la crosta si corruga e si solleva: le Alpi e l'Himalaya nascono così, e crescono ancora.",
+			"distractorWhy": {
+				"Dall'accumulo di sabbia nel tempo": "L'accumulo di sabbia forma dune, non catene montuose alte migliaia di metri.",
+				"Dall'erosione delle pianure circostanti": "L'erosione consuma i rilievi, non li crea.",
+				"Dalla caduta di grandi meteoriti": "Gli impatti creano crateri isolati, non lunghe catene montuose."
+			}
 		},
 		{
 			"id": "geografia-geografia-fisica-50",
@@ -2434,7 +2914,12 @@
 				"Un lago che ghiaccia del tutto in inverno"
 			],
 			"answer": "Una massa di ghiaccio che si muove lentamente",
-			"explanation": "Si forma dove la neve non si scioglie mai del tutto: compressa negli anni diventa ghiaccio, e sotto il proprio peso scivola a valle."
+			"explanation": "Si forma dove la neve non si scioglie mai del tutto: compressa negli anni diventa ghiaccio, e sotto il proprio peso scivola a valle.",
+			"distractorWhy": {
+				"Un lago che ghiaccia del tutto in inverno": "Un lago ghiacciato si scioglie in primavera: un ghiacciaio invece resta e si muove per anni.",
+				"Una zona che resta sempre coperta di neve": "La neve da sola non basta: serve che si comprima in ghiaccio e scivoli a valle.",
+				"Un fiume che gela completamente ogni anno": "Un fiume gelato si scioglie ogni anno: un ghiacciaio è permanente e si sposta."
+			}
 		},
 		{
 			"id": "geografia-geografia-fisica-51",
@@ -2450,7 +2935,12 @@
 				"Perché acqua, vento e ghiaccio asportano materiale"
 			],
 			"answer": "Perché acqua, vento e ghiaccio asportano materiale",
-			"explanation": "È un lavoro lentissimo e continuo: il Grand Canyon è stato scavato da un fiume, un granello alla volta."
+			"explanation": "È un lavoro lentissimo e continuo: il Grand Canyon è stato scavato da un fiume, un granello alla volta.",
+			"distractorWhy": {
+				"Perché il terreno si consuma lentamente da solo": "Il terreno non si consuma da solo: serve un agente esterno come acqua, vento o ghiaccio.",
+				"Perché le rocce si sciolgono al calore del Sole": "Il Sole può spaccare le rocce con gli sbalzi di temperatura, ma non le scioglie.",
+				"Perché le radici delle piante spaccano il terreno": "Le radici contribuiscono in piccola parte, ma il grosso del lavoro lo fanno acqua, vento e ghiaccio."
+			}
 		},
 		{
 			"id": "geografia-continenti-52",

@@ -182,12 +182,15 @@ func _costruisci() -> void:
 	riga.add_theme_constant_override("separation", 12)
 	colonna.add_child(riga)
 	var scaffali: Array = Array(_scheda.get("scaffali", ["A", "B"]))
+	var larghezza_scaffale: float = floor((520.0 - 12.0 * float(maxi(0, scaffali.size() - 1))) /
+		float(maxi(1, scaffali.size())))
 	for i in scaffali.size():
 		var b := Button.new()
 		b.name = "Shelf_%d" % i
 		b.text = str(scaffali[i])
-		b.custom_minimum_size = Vector2(240, 92)
-		b.add_theme_font_size_override("font_size", 20)
+		b.custom_minimum_size = Vector2(larghezza_scaffale, 92)
+		b.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		b.add_theme_font_size_override("font_size", 17 if scaffali.size() > 2 else 20)
 		b.focus_mode = Control.FOCUS_ALL
 		b.add_theme_color_override("font_color", Color("f6f0dc"))
 		b.add_theme_color_override("font_hover_color", Color("ffffff"))

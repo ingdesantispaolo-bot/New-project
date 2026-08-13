@@ -731,7 +731,8 @@
 				"Perché le mani bagnate scivolano sulla presa"
 			],
 			"answer": "Perché l'acqua conduce la corrente verso il corpo",
-			"explanation": "L'acqua, soprattutto con i sali della pelle, offre una strada facile alla corrente: e quella strada passa da te."
+			"explanation": "L'acqua, soprattutto con i sali della pelle, offre una strada facile alla corrente: e quella strada passa da te.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-sicurezza-elettrica-1",
@@ -747,7 +748,8 @@
 				"A dare alla corrente una via sicura verso il suolo"
 			],
 			"answer": "A dare alla corrente una via sicura verso il suolo",
-			"explanation": "Se un guasto porta tensione sulla carcassa metallica, la corrente scarica a terra invece di passare da chi tocca."
+			"explanation": "Se un guasto porta tensione sulla carcassa metallica, la corrente scarica a terra invece di passare da chi tocca.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-sicurezza-elettrica-2",
@@ -763,7 +765,8 @@
 				"Aumenta la corrente quando serve"
 			],
 			"answer": "Si interrompe se passa troppa corrente",
-			"explanation": "È un anello debole messo apposta: si sacrifica lui per non far bruciare il resto del circuito."
+			"explanation": "È un anello debole messo apposta: si sacrifica lui per non far bruciare il resto del circuito.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-sicurezza-elettrica-3",
@@ -779,7 +782,8 @@
 				"Perché la tensione si abbassa troppo"
 			],
 			"answer": "Perché i fili si scaldano oltre il loro limite",
-			"explanation": "Ogni filo sopporta una corrente massima: superarla lo fa scaldare, e il calore può incendiare l'isolante."
+			"explanation": "Ogni filo sopporta una corrente massima: superarla lo fa scaldare, e il calore può incendiare l'isolante.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-sicurezza-elettrica-4",
@@ -795,7 +799,8 @@
 				"Perché quei fili sono coperti di plastica spessa"
 			],
 			"answer": "Perché toccano un solo filo e la corrente non ha dove andare",
-			"explanation": "Serve una differenza di potenziale fra due punti: toccando un solo conduttore non si chiude nessun circuito."
+			"explanation": "Serve una differenza di potenziale fra due punti: toccando un solo conduttore non si chiude nessun circuito.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-sicurezza-elettrica-5",
@@ -811,7 +816,8 @@
 				"Si toglie la corrente dall'interruttore generale"
 			],
 			"answer": "Si toglie la corrente dall'interruttore generale",
-			"explanation": "Non si lavora mai su un circuito in tensione: si stacca, e si verifica che sia davvero staccato."
+			"explanation": "Non si lavora mai su un circuito in tensione: si stacca, e si verifica che sia davvero staccato.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-sicurezza-elettrica-6",
@@ -827,7 +833,8 @@
 				"Perché rende i cavi più leggeri da tirare"
 			],
 			"answer": "Perché la plastica isola e impedisce contatti",
-			"explanation": "Il rame dentro conduce, la plastica fuori impedisce che la corrente esca dove non deve."
+			"explanation": "Il rame dentro conduce, la plastica fuori impedisce che la corrente esca dove non deve.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-sicurezza-elettrica-7",
@@ -843,7 +850,8 @@
 				"Perché la presa è collegata alla terra"
 			],
 			"answer": "Perché la tensione della presa è molto più alta",
-			"explanation": "Con 1,5 volt la corrente che attraverserebbe il corpo è minima; con 230 volt diventa abbastanza da fermare il cuore."
+			"explanation": "Con 1,5 volt la corrente che attraverserebbe il corpo è minima; con 230 volt diventa abbastanza da fermare il cuore.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-sicurezza-elettrica-8",
@@ -859,7 +867,8 @@
 				"Necessità di ricaricare la batteria"
 			],
 			"answer": "Pericolo di scossa elettrica",
-			"explanation": "È un avviso standard: dietro quello sportello ci sono parti in tensione."
+			"explanation": "È un avviso standard: dietro quello sportello ci sono parti in tensione.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-sicurezza-elettrica-9",
@@ -875,7 +884,8 @@
 				"Perché rileva anche piccole correnti che si disperdono"
 			],
 			"answer": "Perché rileva anche piccole correnti che si disperdono",
-			"explanation": "Il fusibile aspetta il sovraccarico; il salvavita confronta corrente in entrata e in uscita e scatta per pochi milliampere di differenza."
+			"explanation": "Il fusibile aspetta il sovraccarico; il salvavita confronta corrente in entrata e in uscita e scatta per pochi milliampere di differenza.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-sicurezza-elettrica-10",
@@ -891,7 +901,8 @@
 				"Il cavo di ricarica del telefono"
 			],
 			"answer": "Oggetti metallici come forbici o chiodi",
-			"explanation": "Un metallo chiude il circuito attraverso il corpo: è la causa più comune di folgorazione domestica."
+			"explanation": "Un metallo chiude il circuito attraverso il corpo: è la causa più comune di folgorazione domestica.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-sicurezza-elettrica-11",
@@ -907,7 +918,8 @@
 				"Perché il cavo si spezzerà comunque"
 			],
 			"answer": "Perché il conduttore nudo può dare la scossa",
-			"explanation": "L'isolante è l'unica cosa che separa il rame dalle mani: rotto quello, non c'è più protezione."
+			"explanation": "L'isolante è l'unica cosa che separa il rame dalle mani: rotto quello, non c'è più protezione.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-serie-parallelo-12",
@@ -923,7 +935,8 @@
 				"Diversa in ognuno di essi"
 			],
 			"answer": "La stessa in tutti",
-			"explanation": "La corrente ha una strada sola: quello che entra da una parte esce dall'altra, senza dividersi."
+			"explanation": "La corrente ha una strada sola: quello che entra da una parte esce dall'altra, senza dividersi.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-serie-parallelo-13",
@@ -939,7 +952,8 @@
 				"La stessa per tutti i rami"
 			],
 			"answer": "La stessa per tutti i rami",
-			"explanation": "Tutti i rami sono collegati agli stessi due punti: la differenza di potenziale è per forza identica."
+			"explanation": "Tutti i rami sono collegati agli stessi due punti: la differenza di potenziale è per forza identica.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-serie-parallelo-14",
@@ -955,7 +969,8 @@
 				"Uguale a una sola"
 			],
 			"answer": "Doppia di una sola",
-			"explanation": "In serie le resistenze si sommano: la corrente deve attraversarle entrambe una dopo l'altra."
+			"explanation": "In serie le resistenze si sommano: la corrente deve attraversarle entrambe una dopo l'altra.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-serie-parallelo-15",
@@ -971,7 +986,8 @@
 				"Doppia di una sola"
 			],
 			"answer": "La metà di una sola",
-			"explanation": "Due strade sono più facili di una: la resistenza complessiva scende."
+			"explanation": "Due strade sono più facili di una: la resistenza complessiva scende.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-serie-parallelo-16",
@@ -987,7 +1003,8 @@
 				"Perché hanno ognuna il suo fusibile"
 			],
 			"answer": "Perché sono collegate in parallelo",
-			"explanation": "In parallelo ogni lampadina ha la sua strada verso la corrente: interromperne una non tocca le altre."
+			"explanation": "In parallelo ogni lampadina ha la sua strada verso la corrente: interromperne una non tocca le altre.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-serie-parallelo-17",
@@ -1003,7 +1020,8 @@
 				"Meno"
 			],
 			"answer": "Meno",
-			"explanation": "La resistenza totale triplica, la corrente si riduce a un terzo e ogni lampadina riceve meno potenza."
+			"explanation": "La resistenza totale triplica, la corrente si riduce a un terzo e ogni lampadina riceve meno potenza.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-serie-parallelo-18",
@@ -1019,7 +1037,8 @@
 				"I componenti hanno ciascuno un interruttore"
 			],
 			"answer": "I componenti sono uno dopo l'altro su un unico anello",
-			"explanation": "Se puoi seguire il filo passando per tutti i componenti senza mai scegliere una strada, è una serie."
+			"explanation": "Se puoi seguire il filo passando per tutti i componenti senza mai scegliere una strada, è una serie.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-serie-parallelo-19",
@@ -1035,7 +1054,8 @@
 				"Si spegne solo ciò che viene dopo"
 			],
 			"answer": "Tutto il circuito si spegne",
-			"explanation": "Interrompere l'unico anello ferma la corrente ovunque, non solo a valle."
+			"explanation": "Interrompere l'unico anello ferma la corrente ovunque, non solo a valle.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-serie-parallelo-20",
@@ -1051,7 +1071,8 @@
 				"Perché il fusibile era troppo debole"
 			],
 			"answer": "Perché erano collegate in serie",
-			"explanation": "Bastava un filamento interrotto per aprire l'unico anello: oggi si usa il parallelo, o serie con cortocircuito automatico."
+			"explanation": "Bastava un filamento interrotto per aprire l'unico anello: oggi si usa il parallelo, o serie con cortocircuito automatico.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-serie-parallelo-21",
@@ -1067,7 +1088,8 @@
 				"Aumenta"
 			],
 			"answer": "Aumenta",
-			"explanation": "Ogni ramo nuovo assorbe la sua corrente: la pila deve fornirne di più, e si scarica prima."
+			"explanation": "Ogni ramo nuovo assorbe la sua corrente: la pila deve fornirne di più, e si scarica prima.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-serie-parallelo-22",
@@ -1083,7 +1105,8 @@
 				"Perché la pila lavora di più con la serie"
 			],
 			"answer": "Perché ogni componente ne consuma una parte",
-			"explanation": "La tensione della pila si distribuisce fra i componenti: sommando le cadute si ritrova il valore di partenza."
+			"explanation": "La tensione della pila si distribuisce fra i componenti: sommando le cadute si ritrova il valore di partenza.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-misure-elettriche-23",
@@ -1099,7 +1122,8 @@
 				"Volt, come la tensione"
 			],
 			"answer": "Ampere",
-			"explanation": "Il volt misura la tensione, l'ohm la resistenza, il watt la potenza."
+			"explanation": "Il volt misura la tensione, l'ohm la resistenza, il watt la potenza.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-misure-elettriche-24",
@@ -1115,7 +1139,8 @@
 				"Ampere"
 			],
 			"answer": "Volt",
-			"explanation": "La tensione è la differenza di potenziale fra due punti, e si misura in volt."
+			"explanation": "La tensione è la differenza di potenziale fra due punti, e si misura in volt.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-misure-elettriche-25",
@@ -1131,7 +1156,8 @@
 				"Ohm"
 			],
 			"answer": "Ohm",
-			"explanation": "Il simbolo è la lettera greca omega, e il nome viene dallo scienziato che formulò la legge."
+			"explanation": "Il simbolo è la lettera greca omega, e il nome viene dallo scienziato che formulò la legge.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-misure-elettriche-26",
@@ -1147,7 +1173,8 @@
 				"Ohmmetro, sul circuito acceso"
 			],
 			"answer": "Voltmetro, collegato in parallelo",
-			"explanation": "La tensione è una differenza fra due punti: bisogna toccarli entrambi, quindi in parallelo."
+			"explanation": "La tensione è una differenza fra due punti: bisogna toccarli entrambi, quindi in parallelo.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-misure-elettriche-27",
@@ -1163,7 +1190,8 @@
 				"Ohmmetro, ai capi del componente"
 			],
 			"answer": "Amperometro, collegato in serie",
-			"explanation": "Deve essere attraversato dalla stessa corrente che vuole misurare: va inserito lungo il percorso."
+			"explanation": "Deve essere attraversato dalla stessa corrente che vuole misurare: va inserito lungo il percorso.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-misure-elettriche-28",
@@ -1201,7 +1229,8 @@
 				"Perché il circuito acceso è più difficile"
 			],
 			"answer": "Perché manda lui una piccola corrente di prova",
-			"explanation": "Se il circuito è alimentato, le due correnti si sommano e la misura è falsa — o lo strumento si rovina."
+			"explanation": "Se il circuito è alimentato, le due correnti si sommano e la misura è falsa — o lo strumento si rovina.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-misure-elettriche-31",
@@ -1217,7 +1246,8 @@
 				"Watt"
 			],
 			"answer": "Watt",
-			"explanation": "La potenza è tensione per corrente: una lampadina da 60 W consuma 60 joule ogni secondo."
+			"explanation": "La potenza è tensione per corrente: una lampadina da 60 W consuma 60 joule ogni secondo.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-misure-elettriche-32",
@@ -1244,7 +1274,8 @@
 				"Il numero di apparecchi accesi"
 			],
 			"answer": "L'energia consumata nel tempo",
-			"explanation": "Si paga l'energia, cioè potenza per tempo: si misura in chilowattora."
+			"explanation": "Si paga l'energia, cioè potenza per tempo: si misura in chilowattora.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-circuito-34",
@@ -1260,7 +1291,8 @@
 				"Un interruttore aperto sul percorso"
 			],
 			"answer": "Un percorso chiuso e una sorgente di tensione",
-			"explanation": "Servono entrambe le cose: la pila spinge, ma senza anello chiuso la corrente non ha dove andare."
+			"explanation": "Servono entrambe le cose: la pila spinge, ma senza anello chiuso la corrente non ha dove andare.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-circuito-35",
@@ -1276,7 +1308,8 @@
 				"Un circuito senza la copertura isolante sui fili"
 			],
 			"answer": "Un circuito interrotto in cui non passa corrente",
-			"explanation": "Aperto significa spezzato: l'interruttore spento crea proprio un'interruzione voluta."
+			"explanation": "Aperto significa spezzato: l'interruttore spento crea proprio un'interruzione voluta.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-circuito-36",
@@ -1292,7 +1325,8 @@
 				"Un collegamento diretto che salta i componenti"
 			],
 			"answer": "Un collegamento diretto che salta i componenti",
-			"explanation": "La corrente trova una scorciatoia senza resistenza: ne passa moltissima, e tutto si scalda pericolosamente."
+			"explanation": "La corrente trova una scorciatoia senza resistenza: ne passa moltissima, e tutto si scalda pericolosamente.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-circuito-37",
@@ -1308,7 +1342,8 @@
 				"In entrambi i versi insieme"
 			],
 			"answer": "Dal polo positivo al negativo",
-			"explanation": "È una convenzione storica: gli elettroni si muovono in realtà al contrario, ma i calcoli restano validi."
+			"explanation": "È una convenzione storica: gli elettroni si muovono in realtà al contrario, ma i calcoli restano validi.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-circuito-38",
@@ -1324,7 +1359,8 @@
 				"Un componente che blocca la corrente"
 			],
 			"answer": "Un punto in cui si incontrano tre o più fili",
-			"explanation": "Nei nodi la corrente si divide o si ricongiunge: quello che entra è uguale a quello che esce."
+			"explanation": "Nei nodi la corrente si divide o si ricongiunge: quello che entra è uguale a quello che esce.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-circuito-39",
@@ -1340,7 +1376,8 @@
 				"A trasformare la corrente in luce visibile"
 			],
 			"answer": "Ad aprire e chiudere il percorso della corrente",
-			"explanation": "Non produce e non consuma: decide soltanto se il circuito è chiuso o interrotto."
+			"explanation": "Non produce e non consuma: decide soltanto se il circuito è chiuso o interrotto.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-circuito-40",
@@ -1356,7 +1393,8 @@
 				"Perché così il circuito si legge subito e ovunque"
 			],
 			"answer": "Perché così il circuito si legge subito e ovunque",
-			"explanation": "I simboli sono uno standard internazionale: conta come sono collegati i componenti, non come sono fatti."
+			"explanation": "I simboli sono uno standard internazionale: conta come sono collegati i componenti, non come sono fatti.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-circuito-41",
@@ -1372,7 +1410,8 @@
 				"Il LED cambia colore"
 			],
 			"answer": "Il LED non si accende",
-			"explanation": "Il LED è un diodo: lascia passare la corrente in un verso solo. Al contrario, semplicemente non conduce."
+			"explanation": "Il LED è un diodo: lascia passare la corrente in un verso solo. Al contrario, semplicemente non conduce.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-circuito-42",
@@ -1388,7 +1427,8 @@
 				"Perché così il montaggio diventa molto più veloce"
 			],
 			"answer": "Perché gli errori si trovano sulla carta invece che sui componenti",
-			"explanation": "Un collegamento sbagliato su carta si cancella; sul banco può bruciare un componente."
+			"explanation": "Un collegamento sbagliato su carta si cancella; sul banco può bruciare un componente.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-conduttori-43",
@@ -1404,7 +1444,8 @@
 				"Vetro"
 			],
 			"answer": "Rame",
-			"explanation": "I metalli hanno elettroni liberi di muoversi; vetro, gomma e legno secco no."
+			"explanation": "I metalli hanno elettroni liberi di muoversi; vetro, gomma e legno secco no.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-conduttori-44",
@@ -1420,7 +1461,8 @@
 				"Un materiale che non lascia passare la corrente"
 			],
 			"answer": "Un materiale che non lascia passare la corrente",
-			"explanation": "Plastica, vetro, gomma: si usano proprio per impedire che la corrente vada dove non deve."
+			"explanation": "Plastica, vetro, gomma: si usano proprio per impedire che la corrente vada dove non deve.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-conduttori-45",
@@ -1436,7 +1478,8 @@
 				"Perché sono duri e resistenti"
 			],
 			"answer": "Perché hanno elettroni liberi di spostarsi",
-			"explanation": "Nel reticolo metallico gli elettroni esterni non appartengono a un atomo solo: basta una spinta e si muovono."
+			"explanation": "Nel reticolo metallico gli elettroni esterni non appartengono a un atomo solo: basta una spinta e si muovono.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-conduttori-46",
@@ -1452,7 +1495,8 @@
 				"Maggiore"
 			],
 			"answer": "Minore",
-			"explanation": "Più spazio per passare significa meno ostacolo: come un tubo largo che lascia scorrere più acqua."
+			"explanation": "Più spazio per passare significa meno ostacolo: come un tubo largo che lascia scorrere più acqua.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-conduttori-47",
@@ -1468,7 +1512,8 @@
 				"Perché l'alluminio conduce meglio del rame"
 			],
 			"answer": "Perché a parità di conduzione pesa molto meno",
-			"explanation": "Il rame conduce meglio, ma pesa il triplo: su chilometri sospesi fra tralicci il peso decide."
+			"explanation": "Il rame conduce meglio, ma pesa il triplo: su chilometri sospesi fra tralicci il peso decide.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-conduttori-48",
@@ -1484,7 +1529,8 @@
 				"No, quasi per niente"
 			],
 			"answer": "No, quasi per niente",
-			"explanation": "È l'acqua con sali disciolti a condurre: sono gli ioni a trasportare la carica, non l'acqua in sé."
+			"explanation": "È l'acqua con sali disciolti a condurre: sono gli ioni a trasportare la carica, non l'acqua in sé.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-conduttori-49",
@@ -1500,7 +1546,8 @@
 				"Un materiale che conduce a metà velocità"
 			],
 			"answer": "Un materiale che conduce solo in certe condizioni",
-			"explanation": "Il silicio conduce o no a seconda di come lo si tratta: su questa proprietà è costruita tutta l'elettronica moderna."
+			"explanation": "Il silicio conduce o no a seconda di come lo si tratta: su questa proprietà è costruita tutta l'elettronica moderna.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-conduttori-50",
@@ -1516,7 +1563,8 @@
 				"Perché è nera e assorbe l'energia"
 			],
 			"answer": "Perché è una forma di carbonio con elettroni mobili",
-			"explanation": "È l'unico non metallo di uso comune che conduce: la sua struttura a strati lascia liberi alcuni elettroni."
+			"explanation": "È l'unico non metallo di uso comune che conduce: la sua struttura a strati lascia liberi alcuni elettroni.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-conduttori-51",
@@ -1532,7 +1580,8 @@
 				"Perché il filo si allunga per la dilatazione"
 			],
 			"answer": "Perché gli atomi vibrano e ostacolano gli elettroni",
-			"explanation": "Il calore agita il reticolo: gli elettroni urtano più spesso e fanno più fatica a passare."
+			"explanation": "Il calore agita il reticolo: gli elettroni urtano più spesso e fanno più fatica a passare.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-elettricita-base-52",
@@ -1548,7 +1597,8 @@
 				"Un movimento ordinato di cariche elettriche"
 			],
 			"answer": "Un movimento ordinato di cariche elettriche",
-			"explanation": "Senza movimento non c'è corrente: le cariche ferme danno elettricità statica, non corrente."
+			"explanation": "Senza movimento non c'è corrente: le cariche ferme danno elettricità statica, non corrente.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-elettricita-base-53",
@@ -1564,7 +1614,8 @@
 				"L'ostacolo che le cariche incontrano nel filo"
 			],
 			"answer": "La differenza di potenziale che spinge le cariche",
-			"explanation": "È come il dislivello per l'acqua: senza differenza fra i due punti, niente si muove."
+			"explanation": "È come il dislivello per l'acqua: senza differenza fra i due punti, niente si muove.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-elettricita-base-54",
@@ -1580,7 +1631,8 @@
 				"L'energia immagazzinata nel filo"
 			],
 			"answer": "L'ostacolo che il materiale oppone alla corrente",
-			"explanation": "Più resistenza, meno corrente a parità di tensione: è il freno del circuito."
+			"explanation": "Più resistenza, meno corrente a parità di tensione: è il freno del circuito.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-elettricita-base-55",
@@ -1596,7 +1648,8 @@
 				"Elettricità prodotta senza pila"
 			],
 			"answer": "Cariche accumulate e ferme su un corpo",
-			"explanation": "Strofinando una penna sui capelli si accumulano cariche: restano lì finché non trovano una via di scarico."
+			"explanation": "Strofinando una penna sui capelli si accumulano cariche: restano lì finché non trovano una via di scarico.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-elettricita-base-56",
@@ -1612,7 +1665,8 @@
 				"La continua scorre sempre nello stesso verso"
 			],
 			"answer": "La continua scorre sempre nello stesso verso",
-			"explanation": "Le pile danno corrente continua; la rete di casa dà corrente alternata, che inverte il verso molte volte al secondo."
+			"explanation": "Le pile danno corrente continua; la rete di casa dà corrente alternata, che inverte il verso molte volte al secondo.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-elettricita-base-57",
@@ -1628,7 +1682,8 @@
 				"Perché perde elettroni nell'aria"
 			],
 			"answer": "Perché finisce l'energia chimica al suo interno",
-			"explanation": "Dentro la pila avviene una reazione chimica: quando i reagenti si esauriscono, non c'è più nulla che spinga le cariche."
+			"explanation": "Dentro la pila avviene una reazione chimica: quando i reagenti si esauriscono, non c'è più nulla che spinga le cariche.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-elettricita-base-58",
@@ -1644,7 +1699,8 @@
 				"Lo allunga in modo permanente"
 			],
 			"answer": "Lo scalda",
-			"explanation": "È l'effetto Joule: si usa apposta nei fornelli e negli asciugacapelli, e si teme nei cavi sottodimensionati."
+			"explanation": "È l'effetto Joule: si usa apposta nei fornelli e negli asciugacapelli, e si teme nei cavi sottodimensionati.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-elettricita-base-59",
@@ -1660,7 +1716,8 @@
 				"Si dimezza"
 			],
 			"answer": "Resta uguale",
-			"explanation": "Corrente = tensione diviso resistenza: raddoppiando entrambe, il rapporto non cambia."
+			"explanation": "Corrente = tensione diviso resistenza: raddoppiando entrambe, il rapporto non cambia.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-guasti-60",
@@ -1676,7 +1733,8 @@
 				"Nella lampadina o nel suo collegamento"
 			],
 			"answer": "Nella lampadina o nel suo collegamento",
-			"explanation": "Se il guasto fosse a monte si spegnerebbe tutto: quando ne resta una sola, il problema è locale."
+			"explanation": "Se il guasto fosse a monte si spegnerebbe tutto: quando ne resta una sola, il problema è locale.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-guasti-61",
@@ -1692,7 +1750,8 @@
 				"Rifare il circuito da capo"
 			],
 			"answer": "Provare a metà e capire da che parte sta",
-			"explanation": "Ogni prova a metà dimezza la zona da controllare: è la ricerca binaria applicata a un guasto."
+			"explanation": "Ogni prova a metà dimezza la zona da controllare: è la ricerca binaria applicata a un guasto.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-elettricita-base-62",
@@ -1708,7 +1767,8 @@
 				"La luce del Sole"
 			],
 			"answer": "La corrente elettrica",
-			"explanation": "La corrente che scorre nel filo accende la lampadina."
+			"explanation": "La corrente che scorre nel filo accende la lampadina.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-elettricita-base-63",
@@ -1724,7 +1784,8 @@
 				"Calore"
 			],
 			"answer": "Corrente elettrica",
-			"explanation": "La corrente è il movimento delle cariche nel conduttore."
+			"explanation": "La corrente è il movimento delle cariche nel conduttore.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-elettricita-base-64",
@@ -1740,7 +1801,8 @@
 				"Tensione (voltaggio)"
 			],
 			"answer": "Tensione (voltaggio)",
-			"explanation": "La tensione (in volt) spinge la corrente nel circuito."
+			"explanation": "La tensione (in volt) spinge la corrente nel circuito.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-circuito-65",
@@ -1756,7 +1818,8 @@
 				"Aperto"
 			],
 			"answer": "Chiuso",
-			"explanation": "Solo con il circuito chiuso la corrente può fare un giro completo."
+			"explanation": "Solo con il circuito chiuso la corrente può fare un giro completo.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-circuito-66",
@@ -1772,7 +1835,8 @@
 				"A misurare il tempo che passa"
 			],
 			"answer": "Ad aprire o chiudere il passaggio di corrente",
-			"explanation": "L'interruttore apre (spegne) o chiude (accende) il circuito."
+			"explanation": "L'interruttore apre (spegne) o chiude (accende) il circuito.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-circuito-67",
@@ -1788,7 +1852,8 @@
 				"La lampadina"
 			],
 			"answer": "La pila (batteria)",
-			"explanation": "La pila è il generatore che alimenta il circuito."
+			"explanation": "La pila è il generatore che alimenta il circuito.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-conduttori-68",
@@ -1804,7 +1869,8 @@
 				"Il rame (un metallo)"
 			],
 			"answer": "Il rame (un metallo)",
-			"explanation": "I metalli come il rame sono buoni conduttori."
+			"explanation": "I metalli come il rame sono buoni conduttori.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-conduttori-69",
@@ -1820,7 +1886,8 @@
 				"Generatore"
 			],
 			"answer": "Isolante",
-			"explanation": "Gomma e plastica sono isolanti: proteggono dai contatti."
+			"explanation": "Gomma e plastica sono isolanti: proteggono dai contatti.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-serie-parallelo-70",
@@ -1836,7 +1903,8 @@
 				"Si accendono di più"
 			],
 			"answer": "Si spengono",
-			"explanation": "In serie la corrente ha un unico percorso: si interrompe per tutte."
+			"explanation": "In serie la corrente ha un unico percorso: si interrompe per tutte.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-serie-parallelo-71",
@@ -1852,7 +1920,8 @@
 				"Esplodono"
 			],
 			"answer": "Restano accese",
-			"explanation": "In parallelo ogni lampadina ha il suo percorso indipendente."
+			"explanation": "In parallelo ogni lampadina ha il suo percorso indipendente.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-sicurezza-elettrica-72",
@@ -1868,7 +1937,8 @@
 				"L'acqua conduce e si rischia la scossa"
 			],
 			"answer": "L'acqua conduce e si rischia la scossa",
-			"explanation": "L'acqua rende il corpo conduttore: pericolo di scossa."
+			"explanation": "L'acqua rende il corpo conduttore: pericolo di scossa.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-sicurezza-elettrica-73",
@@ -1884,7 +1954,8 @@
 				"Niente, è sempre sicuro"
 			],
 			"answer": "Oggetti metallici o le dita",
-			"explanation": "I metalli conducono: infilarli nella presa è pericolosissimo."
+			"explanation": "I metalli conducono: infilarli nella presa è pericolosissimo.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-componenti-74",
@@ -1900,7 +1971,8 @@
 				"A spegnere il computer"
 			],
 			"answer": "A limitare la corrente",
-			"explanation": "Il resistore riduce la corrente, proteggendo gli altri componenti."
+			"explanation": "Il resistore riduce la corrente, proteggendo gli altri componenti.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-componenti-75",
@@ -1916,7 +1988,8 @@
 				"Solo con l'acqua vicino"
 			],
 			"answer": "Nel verso giusto (ha una polarità)",
-			"explanation": "È fatto di due materiali diversi uniti insieme: la corrente passa da uno all'altro come per una valvola, ma non torna indietro."
+			"explanation": "È fatto di due materiali diversi uniti insieme: la corrente passa da uno all'altro come per una valvola, ma non torna indietro.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-misure-elettriche-76",
@@ -1932,7 +2005,8 @@
 				"Volt"
 			],
 			"answer": "Volt",
-			"explanation": "Il volt misura la differenza fra due punti: per questo si parla di tensione FRA due punti, mai in uno solo."
+			"explanation": "Il volt misura la differenza fra due punti: per questo si parla di tensione FRA due punti, mai in uno solo.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-misure-elettriche-77",
@@ -1948,7 +2022,8 @@
 				"Volt"
 			],
 			"answer": "Ampere",
-			"explanation": "Un ampere è una quantità di carica che passa ogni secondo: la corrente è un flusso, non una quantità ferma."
+			"explanation": "Un ampere è una quantità di carica che passa ogni secondo: la corrente è un flusso, non una quantità ferma.",
+			"distractorWhy": {}
 		},
 		{
 			"id": "elettronica-elettricita-base-78",

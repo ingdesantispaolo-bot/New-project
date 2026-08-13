@@ -529,6 +529,19 @@ try {
     await delay(250);
   }
 
+  // Dal completamento dei giochi-personaggio (13 agosto 2026) chiudere il
+  // dialogo apre anche il minigioco del residente. Lo smoke sta collaudando il
+  // percorso missione, quindi usa la sua uscita volontaria: non può lasciare il
+  // pannello sopra il mondo e poi concludere erroneamente che il POI non
+  // risponde. Tutti i pannelli condividono il pulsante in fondo alla carta.
+  const leaveCharacterGameY = canvas.top + canvas.height * 0.75;
+  await cdp.call("Input.dispatchTouchEvent", {
+    type: "touchStart",
+    touchPoints: [{ x: actionX, y: leaveCharacterGameY, radiusX: 2, radiusY: 2, force: 1 }],
+  }, sessionId);
+  await cdp.call("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] }, sessionId);
+  await delay(500);
+
   // Ora la stessa guida punta all'evento appena accettato.
   await cdp.call("Input.dispatchTouchEvent", {
     type: "touchStart",

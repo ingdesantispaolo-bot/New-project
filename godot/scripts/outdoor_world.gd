@@ -2381,6 +2381,18 @@ func _apri_minigioco_personaggio(npc_id: String) -> void:
 		CharacterMinigameCatalog.ARCHETIPO_ALTALENA:
 			minigame_panel = preload("res://scripts/ui/seesaw_minigame_panel.gd").new()
 			minigame_panel.name = "SeesawMinigamePanel"
+		CharacterMinigameCatalog.ARCHETIPO_RITMO:
+			minigame_panel = preload("res://scripts/ui/rhythm_count_panel.gd").new()
+			minigame_panel.name = "RhythmCountPanel"
+		CharacterMinigameCatalog.ARCHETIPO_VIBRAZIONE:
+			minigame_panel = preload("res://scripts/ui/vibration_minigame_panel.gd").new()
+			minigame_panel.name = "VibrationMinigamePanel"
+		CharacterMinigameCatalog.ARCHETIPO_GLIFI:
+			minigame_panel = preload("res://scripts/ui/glyph_minigame_panel.gd").new()
+			minigame_panel.name = "GlyphMinigamePanel"
+		CharacterMinigameCatalog.ARCHETIPO_PARENTELA:
+			minigame_panel = preload("res://scripts/ui/kinship_minigame_panel.gd").new()
+			minigame_panel.name = "KinshipMinigamePanel"
 		CharacterMinigameCatalog.ARCHETIPO_PROVA:
 			minigame_panel = ControlledTrialMinigamePanel.new()
 			minigame_panel.name = "ControlledTrialMinigamePanel"

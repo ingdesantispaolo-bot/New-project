@@ -82,6 +82,9 @@ func _test_world_one_fixture() -> void:
 	found.sort()
 	for npc_id in expected:
 		assert(found.has(npc_id), "cast mondo 1 incompleto: manca %s" % npc_id)
+		var illustrated := actors.filter(func(actor): return str(actor.get_meta("id", "")) == npc_id)[0] as Area2D
+		assert(illustrated.get_node_or_null("NpcArt") != null and bool(illustrated.get_meta("usesGeneratedArt", false)),
+			"pilot grafico assente per %s" % npc_id)
 	var itinerants := found.filter(func(npc_id): return str(npc_id).begins_with("itin-"))
 	assert(itinerants.size() == 1, "mondo 1: atteso un solo itinerante, trovati %s" % str(itinerants))
 

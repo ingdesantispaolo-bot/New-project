@@ -5,6 +5,35 @@ var npc_id := ""
 var display_name := ""
 var accent := Color("6be7d6")
 
+## Il catalogo visuale segue lo stesso ID del catalogo narrativo:
+## `w08-doria` -> `assets/npcs/world08/doria-v1.png`. Il caricamento resta lazy:
+## in memoria entrano soltanto i tre abitanti del mondo corrente, non tutti i 69.
+const PORTRAIT_REGIONS := {
+	"w01-tobia": Rect2(108, 16, 148, 148),
+	"w01-ersilia": Rect2(114, 18, 152, 152),
+	"w01-puccio": Rect2(98, 12, 154, 154),
+}
+
+static func art_for(id: String) -> Texture2D:
+	var parts := id.split("-", false, 1)
+	if parts.size() != 2 or not str(parts[0]).begins_with("w"):
+		return null
+	var world_number := str(parts[0]).trim_prefix("w")
+	var slug := str(parts[1])
+	var path := "res://assets/npcs/world%s/%s-v1.png" % [world_number, slug]
+	if not ResourceLoader.exists(path):
+		return null
+	return load(path) as Texture2D
+
+static func portrait_art_for(id: String) -> Texture2D:
+	var source := art_for(id)
+	if source == null:
+		return null
+	var portrait := AtlasTexture.new()
+	portrait.atlas = source
+	portrait.region = PORTRAIT_REGIONS.get(id, Rect2(98, 8, 188, 188))
+	return portrait
+
 func configure(id: String, label: String) -> void:
 	npc_id = id
 	display_name = label
@@ -17,6 +46,14 @@ func configure(id: String, label: String) -> void:
 func _draw() -> void:
 	var center := size * Vector2(0.5, 0.48)
 	var radius := minf(size.x, size.y) * 0.34
+	var generated := portrait_art_for(npc_id)
+	if generated != null:
+		draw_circle(center, radius + 5.0, Color("10272b"))
+		draw_circle(center, radius + 2.0, Color(accent, 0.24))
+		var art_rect := Rect2(center - Vector2(radius, radius), Vector2(radius * 2.0, radius * 2.0))
+		draw_texture_rect(generated, art_rect, false)
+		draw_arc(center, radius + 5.0, 0.0, TAU, 40, Color("f6c85f"), 3.0, true)
+		return
 	draw_circle(center + Vector2(0, radius * 0.82), radius * 0.72, Color(accent, 0.72))
 	draw_circle(center, radius, Color("f2c6a0"))
 	var hair := accent.darkened(0.52)

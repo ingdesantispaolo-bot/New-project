@@ -13,6 +13,7 @@ var reduced_motion := false
 var stream_active := true
 var occupation_phase := 0.0
 var accent := Color("6be7d6")
+var npc_art: Sprite2D
 
 func configure(id: String, data: Dictionary, use_reduced_motion: bool = false) -> void:
 	npc_id = id
@@ -33,6 +34,16 @@ func configure(id: String, data: Dictionary, use_reduced_motion: bool = false) -
 		circle.radius = 54.0
 		collision.shape = circle
 		add_child(collision)
+	var generated_art := PORTRAIT.art_for(id)
+	if generated_art != null and get_node_or_null("NpcArt") == null:
+		npc_art = Sprite2D.new()
+		npc_art.name = "NpcArt"
+		npc_art.texture = generated_art
+		npc_art.scale = Vector2(0.28, 0.28)
+		npc_art.position = Vector2(0, -7)
+		npc_art.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+		add_child(npc_art)
+		set_meta("usesGeneratedArt", true)
 	if get_node_or_null("NpcName") == null:
 		var label := Label.new()
 		label.name = "NpcName"
@@ -142,15 +153,27 @@ func set_reduced_motion(enabled: bool) -> void:
 	set_process(stream_active and not reduced_motion)
 	if enabled:
 		occupation_phase = 0.0
+	_update_art_pose()
 	queue_redraw()
 
 func _process(delta: float) -> void:
 	occupation_phase = fmod(occupation_phase + delta * 2.2, TAU)
+	_update_art_pose()
 	queue_redraw()
+
+func _update_art_pose() -> void:
+	if not is_instance_valid(npc_art):
+		return
+	var busy := 0.0 if reduced_motion else sin(occupation_phase) * 2.2
+	npc_art.position.y = -7.0 + busy
+	npc_art.rotation = 0.0 if reduced_motion else sin(occupation_phase * 0.72) * 0.012
 
 func _draw() -> void:
 	var busy := 0.0 if reduced_motion else sin(occupation_phase) * 3.0
 	_draw_ground_ellipse(Vector2(0, 42), Vector2(29, 9), Color(0, 0, 0, 0.28))
+	if is_instance_valid(npc_art):
+		draw_arc(Vector2.ZERO, 44.0, 0.0, TAU, 32, Color(accent, 0.36), 2.0, true)
+		return
 	draw_circle(Vector2(0, 10 + busy), 28.0, Color(accent, 0.88))
 	draw_circle(Vector2(0, -24 + busy), 21.0, Color("f2c6a0"))
 	draw_arc(Vector2(0, -25 + busy), 20.0, PI, TAU, 20, accent.darkened(0.5), 8.0, true)

@@ -412,7 +412,7 @@ func try_start_mission(payload: Dictionary, encounter_id: String) -> bool:
 	session = _decorate_teaching_session(session, subject)
 	_charge_exercise_entry()
 	active_session_context = {"kind": "mission", "encounterId": encounter_id, "subject": subject}
-	var nora_line := str(session.get("teachingLine", NoraContextEngine.open_line(subject, _has_review_node(session))))
+	var nora_line := str(session.get("teachingLine", NoraContextEngine.open_line(subject, _has_review_node(session), _learning_level())))
 	_present_feedback(nora_line, "nora")
 	# Il prezzo dell'uscita lo decide qui la semantica, non il player: così
 	# la cifra mostrata al bambino e quella addebitata sono la stessa.
@@ -445,7 +445,7 @@ func try_start_enigma(payload: Dictionary, encounter_id: String) -> bool:
 	_charge_exercise_entry()
 	var theme := str(session.get("theme", "ponte"))
 	active_session_context = {"kind": "enigma", "encounterId": encounter_id, "subject": subject, "theme": theme}
-	var nora_line := str(session.get("teachingLine", NoraContextEngine.open_line(subject, _has_review_node(session))))
+	var nora_line := str(session.get("teachingLine", NoraContextEngine.open_line(subject, _has_review_node(session), _learning_level())))
 	_present_feedback(nora_line, "nora")
 	# Il prezzo dell'uscita lo decide qui la semantica, non il player: così
 	# la cifra mostrata al bambino e quella addebitata sono la stessa.
@@ -820,7 +820,7 @@ func try_start_minigame(payload: Dictionary, encounter_id: String, sconto: bool 
 		"kind": "minigame", "encounterId": encounter_id, "subject": subject,
 		"topicHint": topic_hint, "formatHint": format_hint, "impronte": impronte,
 	}
-	_present_feedback(NoraContextEngine.open_line(subject, false), "nora")
+	_present_feedback(NoraContextEngine.open_line(subject, false, _learning_level()), "nora")
 	# Il prezzo dell'uscita lo decide qui la semantica, non il player: così
 	# la cifra mostrata al bambino e quella addebitata sono la stessa.
 	session["abandonCost"] = EXERCISE_ABANDON_COST

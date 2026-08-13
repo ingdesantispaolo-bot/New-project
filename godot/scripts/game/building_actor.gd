@@ -1,6 +1,8 @@
 class_name BuildingActor
 extends Node2D
 
+const RESIDENT_CONSEQUENCE_VISUAL := preload("res://scripts/visual/resident_consequence_visual.gd")
+
 var building_id := ""
 var role := ""
 var stage := 0
@@ -8,6 +10,8 @@ var high_contrast := false
 var reduced_motion := false
 var visual: Node2D
 var window_glows: Array[CanvasItem] = []
+var resident_owner := ""
+var resident_consequence: Node2D
 
 ## Quanto largo e' l'ingresso di un edificio. Piu' generoso di un POI (88): un
 ## edificio e' grande, e doverne cercare il punto esatto trasforma un luogo in
@@ -54,11 +58,13 @@ func _rendi_luogo(spec: Dictionary) -> void:
 func configure(spec: Dictionary, world_stage: int, use_high_contrast: bool, use_reduced_motion: bool) -> void:
 	building_id = str(spec.get("id", "building"))
 	role = str(spec.get("role", "work_home"))
+	resident_owner = str(spec.get("residentOwner", ""))
 	high_contrast = use_high_contrast
 	reduced_motion = use_reduced_motion
 	name = "Building_%s" % building_id.replace("-", "_")
 	set_meta("building_id", building_id)
 	set_meta("building_role", role)
+	set_meta("resident_owner", resident_owner)
 	set_meta("artKit", str(spec.get("artKit", "")))
 	add_to_group("world_building")
 	_rendi_luogo(spec)
@@ -94,6 +100,11 @@ func configure(spec: Dictionary, world_stage: int, use_high_contrast: bool, use_
 	add_child(label)
 
 	_collect_window_glows(self)
+	if RESIDENT_CONSEQUENCE_VISUAL.supports(resident_owner):
+		resident_consequence = RESIDENT_CONSEQUENCE_VISUAL.new()
+		resident_consequence.position = Vector2(154, 28) if role == "work_home" else Vector2(-154, 32)
+		resident_consequence.call("configure", resident_owner, world_stage, high_contrast, reduced_motion)
+		add_child(resident_consequence)
 	set_stage(world_stage)
 
 func set_stage(value: int) -> void:
@@ -101,7 +112,12 @@ func set_stage(value: int) -> void:
 	for index in window_glows.size():
 		window_glows[index].visible = stage >= 2 or (stage >= 1 and index == 0)
 	if is_instance_valid(visual):
-		visual.modulate = Color(0.64, 0.68, 0.72) if stage == 0 else Color(0.84, 0.88, 0.91) if stage == 1 else Color.WHITE
+		# Lo stato iniziale è un luogo normale, non un edificio spento dato in
+		# punizione. Gli stadi successivi aggiungono calore e luce senza fare del
+		# punto zero una versione peggiore del mondo.
+		visual.modulate = Color(0.88, 0.90, 0.92) if stage == 0 else Color(0.96, 0.97, 0.98) if stage == 1 else Color.WHITE
+	if is_instance_valid(resident_consequence):
+		resident_consequence.call("set_stage", stage)
 	queue_redraw()
 
 func _collect_window_glows(node: Node) -> void:

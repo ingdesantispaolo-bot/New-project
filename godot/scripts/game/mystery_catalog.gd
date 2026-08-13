@@ -78,6 +78,30 @@ const COLPI := {
 ## I semi. `dove` dice in che forma il giocatore ci inciampa — un oggetto da
 ## guardare, una battuta di un abitante, un dettaglio di NORA — perché tre semi
 ## tutti dello stesso tipo si notano come una lista e non come un mondo.
+##
+## Campo facoltativo **`eli`**: una riga della protagonista, mostrata come
+## seconda schermata quando esamina quel seme. Serve a due scopi e va usato con
+## avarizia. Eli non ha mai avuto una voce in tutta la campagna — tutti i beat
+## sono di NORA per contratto — e su un dettaglio che la riguarda il suo silenzio
+## si sente: chi gioca vede l'indizio e non sa se la ragazza che sta muovendo
+## l'ha visto anche lei.
+##
+## I due fili che ne fanno uso, e sono l'uno il rovescio dell'altro:
+##
+## - **le crepe** (mondi 2, 6, 10, 11), sui semi che incrinano la fiducia in
+##   NORA. In fila disegnano un arco: se ne accorge, chiede, viene scartata con
+##   garbo, **smette di chiedere**. È la progressione di un ragazzino a cui un
+##   adulto dice «poi ti spiego»;
+## - **lo specchio di Meridiana** (mondi 2, 7, 21), dove il filo non è il
+##   sospetto ma il riconoscersi. Meridiana aveva undici anni, è partita da sola
+##   verso il centro, ed è la sola persona in tutto il gioco che ha fatto la cosa
+##   che Eli sta facendo. Finora era una notizia che arriva al mondo 23; adesso
+##   Eli si misura contro la sua spirale al mondo 2 e scopre che è alla propria
+##   altezza. Il colpo 6 smette di essere una rivelazione su una terza persona.
+##
+## Dove `eli` **non** va messo: sullo Sbiadito del mondo 14. Quello funziona
+## perché nessuno lo commenta (vedi `SBIADITO_RICONOSCIBILE`), e una battuta di
+## Eli lo trasformerebbe da ricordo che torna a indizio da seguire.
 const SEMI := [
 	# --- colpo 1 · la spirale fresca (mondo 5) --------------------------------
 	{"colpo": "spirale-fresca", "world": 1, "dove": "oggetto",
@@ -91,7 +115,8 @@ const SEMI := [
 
 	# --- colpo 2 · tredici posti (mondo 8) ------------------------------------
 	{"colpo": "tredici-posti", "world": 2, "dove": "oggetto",
-		"cosa": "Il catalogo dei Primi ha tredici sezioni e undici intestazioni: una è raschiata, l'ultima non è mai stata scritta."},
+		"cosa": "Il catalogo dei Primi ha tredici sezioni e undici intestazioni: una è raschiata, l'ultima non è mai stata scritta.",
+		"eli": "Tredici e undici. L'ho fatto notare a NORA e ha detto che i registri vecchi sono pieni di sezioni vuote. Va bene. Però l'ha detto in fretta."},
 	{"colpo": "tredici-posti", "world": 3, "dove": "dialogo",
 		"cosa": "Sesto si presenta e dice «piacere, il dodicesimo», poi si corregge e non sa spiegare perché l'ha detto."},
 	{"colpo": "tredici-posti", "world": 6, "dove": "oggetto",
@@ -101,13 +126,15 @@ const SEMI := [
 
 	# --- colpo 3 · le dodici schede (mondo 12) --------------------------------
 	{"colpo": "dodici-schede", "world": 6, "dove": "dettaglio",
-		"cosa": "NORA dice ad Ambra dove tenevano il diapason, in un mondo che dichiara di non aver mai visto."},
+		"cosa": "NORA dice ad Ambra dove tenevano il diapason, in un mondo che dichiara di non aver mai visto.",
+		"eli": "Le ho chiesto come faceva a saperlo. Ha detto «l'avrò letto da qualche parte». Poi non ha più parlato fino al portale."},
 	{"colpo": "dodici-schede", "world": 9, "dove": "oggetto",
 		"cosa": "La carta di Alma ha dodici bolli di collaudo in un angolo. Undici sono sbiaditi, il dodicesimo è di quest'anno."},
 	{"colpo": "dodici-schede", "world": 10, "dove": "dialogo",
 		"cosa": "Mirta racconta che il primo quaderno gliel'ha regalato «una ragazza di passaggio, di quelle che vengono dalla nave». Dice «di quelle» come se ne avesse viste altre."},
 	{"colpo": "dodici-schede", "world": 11, "dove": "oggetto",
-		"cosa": "Fra i falsi di Danio c'è una targhetta autentica e senza valore: «unità mobile 07 — collaudo»."},
+		"cosa": "Fra i falsi di Danio c'è una targhetta autentica e senza valore: «unità mobile 07 — collaudo».",
+		"eli": "Zero-sette. Io non ce l'ho, un numero sulla schiena: ho controllato. Ma ho controllato."},
 
 	# --- colpo 4 · la stanza in più (mondo 16) --------------------------------
 	{"colpo": "stanza-in-piu", "world": 9, "dove": "oggetto",
@@ -137,17 +164,20 @@ const SEMI := [
 	# una notizia, non come una persona. Adesso ha lasciato tracce da subito, e
 	# sono tutte del tipo che al primo giro non si capisce e al secondo è ovvio.
 	{"colpo": "meridiana", "world": 2, "dove": "dettaglio",
-		"cosa": "Nell'Archivio la spirale più vecchia è incisa in basso, all'altezza di una bambina in piedi."},
+		"cosa": "Nell'Archivio la spirale più vecchia è incisa in basso, all'altezza di una bambina in piedi.",
+		"eli": "Mi ci sono messa accanto senza pensarci. È esattamente alla mia altezza. Sono rimasta lì un po' più del necessario."},
 	{"colpo": "meridiana", "world": 4, "dove": "oggetto",
 		"cosa": "Sul registro del faro, alla riga di un giorno qualunque di quattrocento anni fa: «passata una allieva del posto, diretta a nord. Non iscritta all'equipaggio». Nessun nome, e la grafia è frettolosa."},
 	{"colpo": "meridiana", "world": 6, "dove": "dialogo",
 		"cosa": "Nonna Ersilia — o chi canta al Giardino — dice che la conta gliel'ha insegnata «una ragazzina che passava», non sua nonna. Poi si corregge e dice che si confonde."},
 	{"colpo": "meridiana", "world": 7, "dove": "oggetto",
-		"cosa": "Su una colonna delle Rovine, sotto le iscrizioni ufficiali, una frase graffiata da mano inesperta: «se il senso finisce da qualche parte, quel posto esiste». Nessuna firma, ortografia da bambina."},
+		"cosa": "Su una colonna delle Rovine, sotto le iscrizioni ufficiali, una frase graffiata da mano inesperta: «se il senso finisce da qualche parte, quel posto esiste». Nessuna firma, ortografia da bambina.",
+		"eli": "Sopra ci sono le iscrizioni di quelli che sapevano scrivere. Questa sta sotto, storta, ed è l'unica che fa una domanda vera."},
 	{"colpo": "meridiana", "world": 9, "dove": "dialogo",
 		"cosa": "Remo parla di una rotta che «nessuno ha mai fatto tornare», e precisa: non affondata. Non tornata."},
 	{"colpo": "meridiana", "world": 21, "dove": "dialogo",
-		"cosa": "Mino dice che il calendario glielo insegnò suo nonno, e a suo nonno «quella che è partita». Non sa il nome, sa l'età: undici anni."},
+		"cosa": "Mino dice che il calendario glielo insegnò suo nonno, e a suo nonno «quella che è partita». Non sa il nome, sa l'età: undici anni.",
+		"eli": "Undici anni. Non ho chiesto altro a Mino, e non è perché non mi interessava: è perché mi sono accorta di quanto poco ci separa."},
 	{"colpo": "meridiana", "world": 22, "dove": "oggetto",
 		"cosa": "Le spirali in fondo alla caverna sono quattrocento e sono di quattrocento mani diverse. La più bassa è anche la più antica."},
 
@@ -155,7 +185,8 @@ const SEMI := [
 	{"colpo": "undici-quaderni", "world": 6, "dove": "dettaglio",
 		"cosa": "NORA ricorda una lezione e non un dato: una voce che contava il tempo con lei. Era un'allieva, e qualcuno le ha insegnato."},
 	{"colpo": "undici-quaderni", "world": 10, "dove": "dettaglio",
-		"cosa": "Quando una prova va male, per un istante NORA è sollevata. Non lo spiega, e cambia argomento con garbo."},
+		"cosa": "Quando una prova va male, per un istante NORA è sollevata. Non lo spiega, e cambia argomento con garbo.",
+		"eli": "Quando sbaglio, per un attimo respira. L'ho visto tre volte. Non glielo chiedo più: la seconda volta ha cambiato argomento così bene che l'ho cambiato anch'io."},
 	{"colpo": "undici-quaderni", "world": 13, "dove": "oggetto",
 		"cosa": "Un registro di manutenzione con undici voci cancellate e la dodicesima aperta oggi. Cancellate a mano, tutte con lo stesso tratto."},
 	{"colpo": "undici-quaderni", "world": 22, "dove": "oggetto",
@@ -338,14 +369,33 @@ static func traccia_for(world: int) -> Dictionary:
 		data["world"] = world
 	return data
 
+## Tutti i semi: quelli scritti qui **più** le undici tracce delle sorelle, che
+## vivono in `SistersThread` perché lì sono persone e non indizi, ma che nel
+## mondo devono essere la stessa cosa — un oggetto accanto alla Rovina che si
+## raccoglie e si legge. Passano da qui e non da una seconda pipeline di spawn:
+## un solo posto da cui escono gli artefatti, un solo posto che gli audit devono
+## guardare.
+static func tutti_i_semi() -> Array:
+	var out: Array = SEMI.duplicate(true)
+	out.append_array(SistersThread.semi())
+	return out
+
 ## I semi di un colpo, in ordine di mondo. Servono a Codex per collocarli e a me
 ## per contarli.
 static func seeds_of(colpo_id: String) -> Array:
 	var out: Array = []
-	for seed_data in SEMI:
+	for seed_data in tutti_i_semi():
 		if str((seed_data as Dictionary).get("colpo", "")) == colpo_id:
 			out.append((seed_data as Dictionary).duplicate(true))
 	out.sort_custom(func(a, b): return int(a["world"]) < int(b["world"]))
+	return out
+
+## I semi che stanno in un mondo. È quello che chiama la scena per costruirli.
+static func semi_for(world: int) -> Array:
+	var out: Array = []
+	for seed_data in tutti_i_semi():
+		if int((seed_data as Dictionary).get("world", 0)) == world:
+			out.append((seed_data as Dictionary).duplicate(true))
 	return out
 
 ## I colpi in ordine di apparizione.

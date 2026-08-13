@@ -1094,3 +1094,241 @@ senza errori di script. Export Web `2026.08.11-web-loader-6`, cache
 verdi. Lo smoke Chrome non è partito in due tentativi perché DevTools non ha
 risposto a `Page.enable` entro 30 secondi: errore precedente al caricamento del
 gioco, da ripetere quando il canale browser è disponibile.
+
+## C-ART-3/4 — confronto e conseguenze visibili (13 agosto)
+
+- Il confronto Eli/NORA si svolge nella prova trasversale del mondo 24, dopo i
+  dodici sistemi e prima del nodo di sintesi. Conserva indice, scudi e risposte,
+  cambia intestazione a ogni blocco ed è saltabile senza scelta o stato di gate.
+- I due luoghi vivi di ogni mondo 1–23 appartengono ora a residenti distinti:
+  specialista nella casa del mestiere, testimone al Ritrovo. Finestre e facciata
+  leggono lo stadio di quella persona; una vittoria con Tobia non modifica più
+  il posto di Ersilia.
+- Il pilot del mondo 1 aggiunge due conseguenze procedurali continue 0→1→2:
+  mucchio → guide → gruppi di dieci per Tobia; cesto → ritmo riconosciuto →
+  sette pagnotte sui battiti per Ersilia. Nessun testo, numero, segno di spunta,
+  input o vantaggio meccanico; due nodi totali.
+- Corretto un difetto emerso dal giro: il minigioco di Ersilia si apriva prima
+  di persistere `ersiliaCountHeard`, quindi la conta tornava al rientro. L'audit
+  dei mondi ora conta le tracce delle sorelle dalla stessa API usata dal runtime.
+
+Misura isolata: mondo 1 a **2.789/3.500 nodi** e **311/500 ms**. Verdi
+`building_audit`, `performance_budget_audit`, `world_l1_readiness_audit`,
+`world_wave_e2_audit`, i cinque audit `exercise`, i due `finale`, `npc_arc`,
+`mystery`, `world_life`, `c07`, `nora_arc`, `diary` e `thirteenth`.
+QA visuale sul renderer reale: sei catture 1024×600 in
+`artifacts/resident-consequences` confermano che i tre stadi restano distinguibili
+senza dialogo; la sonda riproducibile è `resident_consequence_render_probe.gd`.
+
+---
+
+## Registro dei lotti Opus (5–13 agosto 2026)
+
+Trasferito qui il 13 agosto 2026 snellendo `insieme.md`, che per sua regola
+contiene **solo lavoro da fare**. Un lotto per blocco: che cosa è cambiato, la
+misura che lo dice e l'audit che lo tiene. I residui aperti di ciascuno non stanno
+qui — stanno nel piano.
+
+**Le spiegazioni (5 agosto).** 3392 item, 3172 spiegazioni distinte, media da 56 a
+86 caratteri; i tre formati dominanti (abbinamento, ordinamento, classificazione)
+hanno 207 spiegazioni proprie e l'inglese non ripete più la risposta appena data.
+Tenuto da `minigame_explanation_audit` e `bank_explanation_audit`, che non guardano
+la lunghezza ma la circolarità e il riuso: *la lunghezza era la metrica sbagliata* —
+delle 242 spiegazioni «troppo corte» quasi tutte erano ottime, corte perché precise,
+e le difettose erano le 31 circolari.
+
+**La varietà delle prove (5 agosto).** Forme di sessione da **8 a 52**; l'apertura
+`abbinamento → ordinamento → classificazione`, che copriva 288 sessioni su 288, ora
+ne copre 24. Il formato `ciclo` è passato da una materia a otto. Tre formati nuovi
+(retta numerica, bilancia, linea del tempo) e tre strutture nuove — compositore
+vincolato (7 specifiche), tracciatore (6), indiziario (6) — tutti a disegno
+procedurale. Lo scorrimento ha spostato un guard-rail: la fluency è una proprietà
+dell'**argomento** e non della materia (`ContentManager.FLUENCY_TOPICS`), con
+`guardrails_audit` a pretendere che nessuna missione sia mai cronometrata.
+
+**Il gate a dodici materie (6 agosto).** Il livello si apre con tutte e dodici, la
+copertura si conta **per livello** e non da sempre, l'esame sale a cinque nodi con
+tre quarti per passare. Mondo 1 da 18 a **185** esercizi; campagna da 552 (~3 h) a
+**2712 (~15 h)**; mondi che costano lavoro da 1 su 24 a **24 su 24**.
+
+**Profili e copia in cloud (6 agosto).** Sei caselle per dispositivo e un codice di
+ripristino di otto caratteri (nessun account, nessuna email); Worker in `cloud/`.
+Tre regole: il locale è la verità, non si scarica mai da soli, un codice si occupa
+solo se è libero. Un profilo non si cancella.
+
+**Il registro dei giocatori (6 agosto).** Classifica d'apertura = **la settimana**
+(si recupera da sé), più il viaggio/le cose sapute/i giorni e dodici classifiche di
+materia; medaglie invece di «nessuna medaglia». Schede CASA (locale) e GRUPPO (solo
+un riepilogo di numeri: mai il salvataggio, mai il codice). Nessuna misura scende
+per un'assenza.
+
+**La pratica ripeteva i quesiti (6 agosto).** Da **55% a 20%** di quesiti identici
+su dieci giri, fondo per casella da 5–19 a **27–33**, almeno sette giri consecutivi
+interamente nuovi. La palestra superata si chiude e la successiva nasce altrove
+(`-r1`, `-r2`…). Sotto c'era un difetto strutturale: il ramo che chiude un incontro
+era `mission or enigma`, quindi la pratica non veniva mai chiusa e il controllo a
+monte leggeva una lista che nessuno riempiva. Tenuto da `practice_variety_audit`.
+
+**Rigiocare da capo, e una misura sbagliata (6 agosto).** L'identità di un quesito
+era il suo `prompt`, che nei formati interattivi è una **costante**: tutti gli
+abbinamenti risultavano un esercizio solo. Contando il contenuto, il catalogo dà
+354–826 nodi distinti a L1 (non 5–16) e gli inediti al secondo viaggio sono il
+**91%**, con o senza il tetto che avevo introdotto — rimosso. Lezione: prima di
+riparare su un numero, guardare da dove viene quel numero.
+
+**Il catalogo delle ricette (6 agosto).** Ricette al mondo 1 portate a **dieci** per
+ogni materia (undici l'italiano), scelte per azioni mentali mancanti: condizioni e
+cicli in coding, forze in fisica, diagnosi e sicurezza in elettronica, il metodo in
+scienze, le fonti in storia, l'etimologia in latino. Lezione pagata con un rosso: un
+serbatoio nuovo si allinea a quelli della materia, altrimenti una ricetta in più
+**peggiora** la varietà (musica L1 salita al 23% di ripetizioni).
+
+**Il rango del nucleo (6 agosto).** Italiano, matematica e inglese hanno soglia
+0,78 contro 0,70 e un argomento di copertura in più (`ApparatusConfig.CORE_MASTERY_BONUS`,
+applicato dentro `GateReadiness.evaluate_subject`); ogni esame porta **due nodi** di
+nucleo diversi dalla materia del mondo. Costo misurato: campagna da 20 a **21,1
+ore**, +5% contro il +30-40% previsto a occhio.
+
+**La voce di NORA (6 agosto).** Da 12 a **68** battute in tre atti allineati ai
+ribaltamenti, carattere dichiarato (si interrompe e si corregge: il tic *è* la
+trama) e i ricordi, assenti nel primo atto. Tenuto da `nora_voice_audit`: nessun
+pozzo sotto le quattro battute, atti disgiunti, nessuna lode alla persona.
+
+**Oggetti, epiloghi e la svolta severa (6 agosto).** Quattro «upgrade» promettevano
+meccaniche del prototipo Phaser che qui non esistono: riscritti, e `endings_audit`
+ora vieta a un oggetto di promettere una meccanica inesistente. Tutti i 55 oggetti
+hanno una `origine`. `LegacyScore` pesa padronanza/ritenzione/mondo/rotta/indagine e
+**non pesa** frammenti, cosmetici, ore né velocità — la prova più importante
+dell'audit è che riempire un salvataggio di ricchezza non muova il Lascito di un
+centesimo. Epiloghi da sei a **otto**, due severi (IL SILENZIO TIENE, IL CIRCUITO
+INCOMPLETO). La padronanza **decade**, misurata in sessioni giocate e non in giorni
+reali, con franchigia di dodici sessioni, pavimento a metà del proprio massimo e
+nessun decadimento per una materia mai praticata: `decay_audit` misura che duecento
+sessioni ignorando geografia richiudono il livello e dodici lo riaprono.
+
+**Complementarità banchi/minigiochi (6 agosto).** I due insiemi di formati sono
+perfettamente disgiunti — il banco misura il **sapere**, il catalogo il **fare**. Su
+241 etichette di argomento: 45 solo banco, 92 comuni, **104 solo minigioco**.
+
+**Dare senso al girovagare (6–7 agosto).** Gli edifici sono diventati luoghi
+interagibili con una funzione per ruolo (casa del mestiere con ingresso a metà
+prezzo, Ritrovo con bottega e conversazioni, prima rovina con un frammento di
+circuito); la bottega ha il **lavoretto**, l'unica prova del gioco che paga invece
+di costare; gli `hazard` sono passati da chiave di salvataggio senza produttore a
+meccanica vera; i passaggi che si aprono sono saliti da uno a tre per mondo e, dove
+non c'è acqua, la composizione mette uno sbarramento di terra con la stessa
+struttura dati — **ogni mondo ha almeno un passaggio da aprire**, sei d'acqua e
+diciotto di terra. Lo sbarramento è un segmento, mai un anello: aprirlo è una
+scorciatoia, non un permesso. Tenuto da `world_mechanics_audit`.
+
+**La camera sigillata e le ventiquattro pergamene (7 agosto).** L'unica zona
+davvero chiusa del gioco, lecita perché dentro non c'è niente che serva a
+progredire. Le pergamene sono la voce dei Dodici — testimoniano dove NORA deduce — e
+ogni tanto si contraddicono fra loro, che è la stessa lezione di metodo che il gioco
+insegna in storia. Tenuto da `parchment_audit`.
+
+**Gli Sbiaditi: guardiani e varco (7 agosto).** Un forziere su tre è difeso, deciso
+in modo stabile dall'identificativo, con un tetto di quattro guardiani vivi: la
+prima versione ne metteva da otto a quindici in vista insieme, che non è un pericolo
+ma un assedio. Il varco è un duello di riflessi le cui tre leve si muovono col grado
+di Eli. Tenuto da `reflex_duel_audit`: nessuna combinazione produce un varco sotto
+il 5% o sopra il 50% della pista, e perdere non costa mai più di un morso.
+
+**Le minimissioni (7 agosto).** Ventiquattro incarichi che cambiano la mappa in
+permanenza, e per direttiva esplicita del committente **sostituiscono** l'ultimo
+slot-gate invece di aggiungersi: `time_cost_probe` prima 21,1 ore, dopo 21,1 ore.
+Il timer previsto per la forma SPEGNERE non è stato fatto — un cronometro mentre si
+legge una domanda misura la velocità di lettura — e il rischio è stato messo negli
+errori di chi entra sotto il grado consigliato. Tenuto da `minimission_audit` e
+`minimission_scene_audit`.
+
+**Insegnare prima di chiedere (7 agosto).** La mini-lezione leggeva il topic del
+**primo nodo** e si fermava lì: misurato su 1440 nodi, il **60,6%** delle domande
+arrivava su un argomento mai spiegato in quella sessione, uniformemente su tutte e
+dodici le materie. Ora la lezione copre ogni argomento nuovo e viaggia sul nodo:
+**0,1%**.
+
+**Elettronica hands-on (7 agosto).** Scelta multipla a zero fuori dall'esame, con
+l'audit scritto sui formati e non sulla percentuale, così un `minLevel` spostato non
+può far tornare le domande secche da sole.
+
+**«E adesso che faccio?» (7 agosto).** IL PASSO nell'HUD: una frase, una cosa sola
+da fare, con dove farla.
+
+**I personaggi cambiano perché tu impari (8 agosto).** Stadio che avanza su ciò che
+il bambino impara, osservazione che si legge camminando e una convinzione precisa
+per ognuno dei 46 residenti.
+
+**Dieci meccaniche per ventitré mondi (9–12 agosto).** La matrice prometteva 46
+meccaniche, una per personaggio: sbagliata due volte — quarantasei a metà valgono
+meno di dieci finite, e **le convinzioni non sono quarantasei** (tre personaggi
+credono la stessa cosa in tre mestieri). Quindi dieci meccaniche, venticinque
+giochi, ventitré mondi coperti; quello che non si ripete mai è il materiale. Tre
+meccaniche nuove: la leva (la forza della mano non cresce mai, altrimenti spingere
+resterebbe una strategia), la prova controllata, la stima. Quattro difetti trovati
+dalle regole nuove, tutti della stessa specie — *la strategia vecchia funzionava*:
+la lunghezza latina prediceva il caso, la popolarità prediceva la fonte, la stima si
+vinceva a caso ai mondi bassi, il ciclo si vinceva a mano. Nessuno si vedeva
+giocando una partita. Suite a **153 verdi**; il ciclo di Ruggine e la traccia di
+Sesto sono stati rifatti dopo la valutazione del 12 agosto.
+
+**Le spiegazioni di NORA (12 agosto).** Il difetto più grosso non era di scrittura:
+`explanation` compariva **solo sbagliando**, e il gioco è tarato perché il bambino
+risponda bene la maggior parte delle volte — 3412 spiegazioni scritte e l'unica
+strada per arrivarci aperta solo sull'errore. `NoraExplanations` porta ora il
+**perché** (sull'esito giusto) e il **come** (sull'errore) per 135 argomenti invece
+che per 3412 item. Quanto NORA aggiunge a ciò che il bambino aveva già sotto gli
+occhi: da **zero** a **100%** sulle risposte giuste. Lezione, la stessa dei digrammi:
+**un'euristica può scegliere, non giudicare** — la lista di parole-spia è rimasta
+dove sceglie ed è sparita da dove dava voti.
+
+**Le undici sorelle e la voce di Eli (13 agosto).** Le sorelle esistevano al mondo
+12 e al 24, e in mezzo undici mondi senza la cosa più importante della vita di Eli:
+ora sono undici persone, una per mondo dal 13 al 23 (`sisters_thread.gd`), ognuna
+bravissima in un solo modo di capire. La distingue il metodo, non il talento — se
+fosse talento il gioco direbbe a chi lo gioca che o ce l'hai o non ce l'hai. Eli, che
+non aveva **una riga** in tutta la campagna, parla in quattro semi e nel confronto
+del mondo 24, dove chiede una regola nuova e NORA risponde «sì» senza attenuare.
+Nessuna seconda pipeline di spawn: le tracce passano da quella dei semi.
+
+**L'attrito, le posizioni, lo specchio e il prezzo (13 agosto).** Quattro difetti
+dello stesso tipo — il gioco *diceva* una cosa e non la *faceva* succedere a
+nessuno: Vera era un'alleata perfetta (cioè una funzione), il giocatore sceglieva
+una volta sola in ventiquattro mondi, Meridiana arrivava come una notizia, il
+Tredicesimo non costava niente. Aggiunto il caso profondo di `smemora`, una volta
+sola in tutta la campagna e non prima del mondo 21: un abitante non dimentica il
+nome di Eli, dimentica **il proprio mestiere**, e si ripristina facendo. Tenuto da
+`stance_audit` (cinque scelte, nessuna punita, nessuna che prometta energia) e da
+`thirteenth_audit` esteso.
+
+## C-ART-5/6 — posizioni che tornano e «smemora» profondo (13 agosto)
+
+- Le quattro posizioni mancanti sono scene, non più sole righe di catalogo:
+  domanda ritirata del Tredicesimo al mondo 22; `prova_accettata` di Orsolo;
+  fascicolo fisico di Squadra; segnale di Meridiana sui sensori lunghi. Tutte
+  passano dal pannello comune, sono saltabili e non toccano gate o ricompense.
+- Lo stato distingue incontro, risposta ed eco vista. Un salto chiude il
+  momento senza inventare una risposta; una risposta torna una volta sola:
+  Orsolo al Cuore, Squadra dopo il confronto NORA/Eli, Meridiana dopo
+  l'assegnazione della Cattedra, il Tredicesimo subito prima del proprio nome.
+- Nel solo `smemora` eleggibile del mondo 23, una volta per campagna, il
+  direttore sceglie un residente non proprietario e mai un Bislacco. Il suo
+  dialogo ordinario resta sostituito finché Eli supera una prova della sua
+  materia; uscire dal mondo ripristina comunque tutto.
+- Il caso profondo è visibile senza parlare: posa e gesto di lavoro restano
+  quelli dell'attore, ma l'attrezzo si ripete lungo due archi contrapposti e il
+  percorso si interrompe prima di un bersaglio integro. Al ritorno l'anello si
+  chiude e collega gesto e oggetto per un istante; movimento ridotto conserva
+  una versione statica senza lampeggi.
+
+Verdi `stance_audit`, `c_art_5_6_runtime_audit`,
+`c_art_world_staging_audit`, `stance_echo_finale_audit` e
+`world_wave_e2_audit`. QA sul renderer reale nella cattura
+`artifacts/deep-smemora-c-art-6.png`; sonda riproducibile
+`deep_smemora_render_probe.gd`. Export Web completato e sincronizzato come
+`2026.08.13-web-loader-8` / cache `v111-web-loader`: PCK 33,60 MiB, WASM
+37,68 MiB, core 71,28 MiB; `audit:web` verde. La suite Godot completa è stata
+fermata al limite documentato di 150 secondi: tutti gli audit emessi fino allo
+stop erano verdi, inclusi i due regressivi `dialogue_audit` ed
+`enigma_scene_audit`; il resto del pacchetto C-ART è stato eseguito in modo
+mirato e verde.

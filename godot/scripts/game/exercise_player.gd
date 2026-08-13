@@ -41,6 +41,11 @@ signal topic_struggle(topic: String)
 ## NORA, non al battito dell'esercizio. Questo segnala ogni risposta, e lo consuma
 ## il Custode per reagire. Annuncia, non comanda: chi ascolta decide cosa farne.
 signal answer_resolved(is_correct: bool)
+## Il finale trasversale ha una sola pausa narrativa: dopo i dodici sistemi e
+## prima del nodo di sintesi. La scena che possiede la regia la mostra e poi
+## richiama `resume_after_pre_synthesis()`. La prova resta viva: indice, scudi e
+## risposte non vengono ricreati né consegnati.
+signal pre_synthesis_requested()
 
 var session: Dictionary
 var _nodes: Array = []
@@ -67,6 +72,8 @@ var _struggle_emitted: Dictionary = {}  # topic -> già segnalato in questa sess
 var _maestro_voice: Dictionary = {}
 var _learning_emitted: Dictionary = {}
 var _systems_resolved: Dictionary = {}
+var _pre_synthesis_shown := false
+var _pre_synthesis_waiting := false
 
 var _prompt: Label
 var _options: VBoxContainer
@@ -175,6 +182,8 @@ func start_session(new_session: Dictionary) -> void:
 	_struggle_emitted = {}
 	_learning_emitted = {}
 	_systems_resolved = {}
+	_pre_synthesis_shown = false
+	_pre_synthesis_waiting = false
 	_convergence_display = null
 	if _rng == null:
 		_rng = RandomNumberGenerator.new()
@@ -187,6 +196,8 @@ func start_session(new_session: Dictionary) -> void:
 		audio.call("set_focus", true)
 	_build_ui()
 	_show_current()
+	if _pre_synthesis_waiting:
+		return
 	if not _maestro_voice.is_empty() and is_instance_valid(_feedback):
 		_feedback.add_theme_color_override("font_color", Color("9fded8"))
 		_feedback.text = "NORA · %s: %s" % [
@@ -744,6 +755,16 @@ func _answer_is_numeric(answer: String) -> bool:
 	return RegEx.create_from_string("^-?[0-9]+([.,][0-9]+)?$").search(trimmed) != null
 
 func _show_current() -> void:
+	# I dodici sistemi sono già stati attraversati: prima di mostrare la sintesi
+	# il mondo 24 consegna a Eli la ragione per affrontarla. È una pausa, non un
+	# nodo: non entra nel punteggio e non può essere emessa due volte.
+	if _should_pause_before_synthesis():
+		_pre_synthesis_shown = true
+		_pre_synthesis_waiting = true
+		if is_instance_valid(_next_button):
+			_next_button.visible = false
+		pre_synthesis_requested.emit()
+		return
 	_answered = false
 	_feedback.text = ""
 	_next_button.visible = false
@@ -1977,6 +1998,8 @@ func _advance() -> void:
 		return
 	_index += 1
 	_show_current()
+	if _pre_synthesis_waiting:
+		return
 	# La spiegazione dell'argomento nuovo, se questo nodo ne porta una: prima
 	# della domanda, non dopo l'errore.
 	#
@@ -1986,6 +2009,29 @@ func _advance() -> void:
 	# tocchi sopra una sessione che non esiste più.
 	if _index < _nodes.size():
 		_show_teaching_overlay()
+
+func _should_pause_before_synthesis() -> bool:
+	if _pre_synthesis_shown or not bool(session.get("transversal", false)):
+		return false
+	# Un ExercisePlayer usato fuori dalla nave non deve diventare un gate morto:
+	# senza un regista collegato la sintesi resta immediatamente giocabile.
+	if pre_synthesis_requested.get_connections().is_empty():
+		return false
+	if _index < 0 or _index >= _nodes.size():
+		return false
+	return str((_nodes[_index] as Dictionary).get("system", "")) == "sintesi"
+
+## Riprende esattamente dal nodo di sintesi. Chiamate fuori dalla pausa sono
+## innocue: la conversazione è saltabile e gli input doppi non devono avanzare
+## due volte la prova.
+func resume_after_pre_synthesis() -> void:
+	if not _pre_synthesis_waiting:
+		return
+	_pre_synthesis_waiting = false
+	_show_current()
+
+func waiting_for_pre_synthesis() -> bool:
+	return _pre_synthesis_waiting
 
 ## Uscita anticipata. La prova non è consegnata: niente esito, niente incontro
 ## completato, nessuna energia dalla sessione. Restano gli argomenti visti, che

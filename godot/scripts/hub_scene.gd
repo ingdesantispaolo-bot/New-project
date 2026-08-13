@@ -9,6 +9,8 @@ const SHIP_POWER_OVERLAY_SCRIPT := preload("res://scripts/ui/ship_power_overlay.
 const KNOWLEDGE_CODEX_PANEL_SCRIPT := preload("res://scripts/ui/knowledge_codex_panel.gd")
 const DIALOGUE_BOX_SCRIPT := preload("res://scripts/ui/dialogue_box.gd")
 const FINALE_CATALOG := preload("res://scripts/game/finale_catalog.gd")
+const SISTERS_THREAD := preload("res://scripts/game/sisters_thread.gd")
+const STANCE_CHOICES := preload("res://scripts/game/stance_choices.gd")
 
 var controller: HubController
 var content: ContentManager
@@ -64,6 +66,11 @@ var finale_choice_panel: Control
 var finale_choice_buttons: VBoxContainer
 var finale_cattedra_entries := 0
 var finale_choice_committed := false
+var finale_confronto_sequence: Array = []
+var finale_confronto_index := 0
+var finale_confronto_active := false
+var finale_confronto_closing := false
+var finale_confronto_skip_button: Button
 
 func _ready() -> void:
 	if OS.has_feature("web"):
@@ -531,6 +538,7 @@ func _build_exercise_overlay() -> void:
 	exercise_player.visible = false
 	exercise_player.session_finished.connect(_on_exam_finished)
 	exercise_player.learning_signal.connect(_on_nora_learning_signal)
+	exercise_player.pre_synthesis_requested.connect(_start_finale_confronto)
 	exercise_layer.add_child(exercise_player)
 	knowledge_codex_panel = KNOWLEDGE_CODEX_PANEL_SCRIPT.new()
 	knowledge_codex_panel.setup(save, content)
@@ -608,6 +616,19 @@ func _build_finale_overlay(parent: CanvasLayer) -> void:
 	finale_dialogue_box.name = "FinaleDialogueBox"
 	finale_dialogue_box.dialogue_closed.connect(_on_finale_dialogue_closed)
 	parent.add_child(finale_dialogue_box)
+	finale_confronto_skip_button = Button.new()
+	finale_confronto_skip_button.name = "FinaleConfrontoSkip"
+	finale_confronto_skip_button.text = "SALTA CONVERSAZIONE"
+	finale_confronto_skip_button.tooltip_text = "Prosegui direttamente al nodo di sintesi"
+	finale_confronto_skip_button.anchor_left = 0.72
+	finale_confronto_skip_button.anchor_right = 0.94
+	finale_confronto_skip_button.anchor_top = 0.06
+	finale_confronto_skip_button.anchor_bottom = 0.06
+	finale_confronto_skip_button.offset_bottom = 48.0
+	finale_confronto_skip_button.add_theme_font_size_override("font_size", 15)
+	finale_confronto_skip_button.visible = false
+	finale_confronto_skip_button.pressed.connect(_skip_finale_confronto)
+	finale_dialogue_box.add_child(finale_confronto_skip_button)
 
 func _build_activation_celebration() -> void:
 	var layer := CanvasLayer.new()
@@ -898,12 +919,83 @@ func _start_finale_epilogue() -> void:
 		return
 	finale_sequence.clear()
 	finale_sequence.append_array(Array((FINALE_CATALOG.CATTEDRA as Dictionary).get("scena", [])).duplicate(true))
+	# La Cattedra ha appena assegnato il posto: prima che il nome torni, la nave
+	# restituisce le due posizioni prese nei mondi 22 e 23. Sono righe vere della
+	# sequenza, non una notifica laterale, e ciascuna porta con sé il marcatore
+	# che la rende irripetibile solo quando viene davvero chiusa.
+	for choice_id in ["meridiana-riga", "tredicesimo-domanda"]:
+		var echo_entry := STANCE_CHOICES.eco_entry(save.data, choice_id)
+		if not echo_entry.is_empty():
+			finale_sequence.append(echo_entry)
 	finale_cattedra_entries = finale_sequence.size()
 	finale_sequence.append_array(Array((ThirteenthCatalog.RESTITUZIONE as Dictionary).get("scena", [])).duplicate(true))
 	finale_sequence_index = 0
 	finale_choice_committed = false
 	set_meta("finale_epilogue_phase", "cattedra")
 	_show_finale_sequence_entry()
+
+## Il confronto avviene DENTRO la prova finale, dopo i dodici sistemi e prima
+## della sintesi. Non è parte dell'epilogo: non salva niente, non offre scelte e
+## chiuderlo o saltarlo restituisce alla stessa sessione con lo stesso cursore.
+func _start_finale_confronto() -> void:
+	if finale_confronto_active:
+		return
+	if not is_instance_valid(finale_dialogue_box):
+		exercise_player.resume_after_pre_synthesis()
+		return
+	finale_confronto_sequence = Array(SISTERS_THREAD.CONFRONTO).duplicate(true)
+	var squad_echo := STANCE_CHOICES.eco_entry(save.data, "squadra-quaderno")
+	if not squad_echo.is_empty():
+		finale_confronto_sequence.append(squad_echo)
+	if finale_confronto_sequence.is_empty():
+		exercise_player.resume_after_pre_synthesis()
+		return
+	finale_confronto_index = 0
+	finale_confronto_active = true
+	set_meta("finale_confronto_phase", "dialogue")
+	_show_finale_confronto_entry()
+
+func _show_finale_confronto_entry() -> void:
+	if not finale_confronto_active:
+		return
+	if finale_confronto_index >= finale_confronto_sequence.size():
+		_finish_finale_confronto(false)
+		return
+	var entry: Dictionary = finale_confronto_sequence[finale_confronto_index]
+	var speaker_id := str(entry.get("chi", ""))
+	var speaker := "NORA" if speaker_id == "nora" else "Eli"
+	var role := "Custode della nave" if speaker_id == "nora" else "Sorella dodicesima"
+	var pages := Array(entry.get("dice", [])).duplicate()
+	finale_dialogue_box.configure_accessibility(
+		bool(save.data.get("accessibility", {}).get("highContrast", false)),
+		bool(save.data.get("accessibility", {}).get("reducedMotion", false)))
+	finale_dialogue_box.show_dialogue(speaker_id, speaker, role, pages)
+	finale_confronto_skip_button.visible = true
+
+func _skip_finale_confronto() -> void:
+	if not finale_confronto_active:
+		return
+	_finish_finale_confronto(true)
+
+func _finish_finale_confronto(skipped: bool) -> void:
+	if not finale_confronto_active:
+		return
+	finale_confronto_active = false
+	if is_instance_valid(finale_confronto_skip_button):
+		finale_confronto_skip_button.visible = false
+	if is_instance_valid(finale_dialogue_box) and finale_dialogue_box.visible:
+		# `close_dialogue` emette in modo sincrono: il flag impedisce al consumer
+		# dell'epilogo di scambiare questa chiusura per una riga della Cattedra.
+		finale_confronto_closing = true
+		finale_dialogue_box.close_dialogue()
+		finale_confronto_closing = false
+	if skipped:
+		# Saltare salta anche l'eco: non deve inseguire il giocatore in un replay
+		# futuro del finale. Rimane una scelta fatta, semplicemente non riletta.
+		for entry in finale_confronto_sequence:
+			_mark_stance_echo_from_entry(entry as Dictionary)
+	set_meta("finale_confronto_phase", "skipped" if skipped else "complete")
+	exercise_player.resume_after_pre_synthesis()
 
 func _show_finale_sequence_entry() -> void:
 	if finale_sequence_index >= finale_sequence.size():
@@ -929,11 +1021,28 @@ func _show_finale_sequence_entry() -> void:
 	finale_dialogue_box.show_dialogue(speaker_id, speaker_id.capitalize(), "", pages)
 
 func _on_finale_dialogue_closed(_speaker_id: String) -> void:
+	if finale_confronto_closing:
+		return
+	if finale_confronto_active:
+		if finale_confronto_index < finale_confronto_sequence.size():
+			_mark_stance_echo_from_entry(finale_confronto_sequence[finale_confronto_index])
+		finale_confronto_index += 1
+		_show_finale_confronto_entry()
+		return
 	if finale_choice_committed:
 		set_meta("finale_epilogue_phase", "complete")
 		return
+	if finale_sequence_index < finale_sequence.size():
+		_mark_stance_echo_from_entry(finale_sequence[finale_sequence_index])
 	finale_sequence_index += 1
 	_show_finale_sequence_entry()
+
+func _mark_stance_echo_from_entry(entry: Dictionary) -> void:
+	var choice_id := str(entry.get("stance_echo", ""))
+	if choice_id == "":
+		return
+	STANCE_CHOICES.segna_eco_vista(save.data, choice_id)
+	save.save()
 
 func _on_finale_choice(option_id: String) -> void:
 	var selected: Dictionary = {}

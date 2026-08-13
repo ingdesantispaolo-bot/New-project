@@ -89,7 +89,11 @@ func _test_world_one_fixture() -> void:
 	assert(itinerants.size() == 1, "mondo 1: atteso un solo itinerante, trovati %s" % str(itinerants))
 
 	var player := world.get("player") as OutdoorPlayerController
-	var target := actors[0] as Area2D
+	# Il contratto qui è la chiusura di un dialogo semplice. I residenti aprono
+	# legittimamente il proprio minigioco subito dopo: usarne uno renderebbe
+	# l'assert sul movimento una verifica falsa. L'itinerante non ha quel seguito.
+	var target := actors.filter(
+		func(actor): return str(actor.get_meta("id", "")).begins_with("itin-"))[0] as Area2D
 	target.global_position = player.global_position + Vector2(50, 0)
 	world.call("on_interactable_entered", target, player)
 	world.call("_interact")

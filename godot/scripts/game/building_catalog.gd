@@ -62,8 +62,25 @@ static func for_world(world: int, profile: Dictionary) -> Array:
 			"role": role,
 			"label": label,
 			"artKit": str(profile.get("artKit", "natura-rovine")),
+			"residentOwner": _resident_owner(world, role),
 		})
 	return specs
+
+## Ogni luogo vivo appartiene a una persona: lo specialista lavora nella casa
+## del mestiere, il testimone presidia il Ritrovo. La Rovina resta dei Primi.
+## Questa associazione è data-driven e copre tutti i mondi; il pilot del mondo 1
+## aggiunge anche oggetti autoriali specifici sopra la trasformazione edilizia.
+static func _resident_owner(world: int, role: String) -> String:
+	if role == "first_ruin":
+		return ""
+	var wanted := "specialista" if role == "work_home" else "testimone"
+	var residents: Array = NpcCatalog.for_world(world).get("residents", [])
+	for npc_id_data in residents:
+		var npc_id := str(npc_id_data)
+		if str(NpcCatalog.resident(npc_id).get("funzione", "")) == wanted:
+			return npc_id
+	# Un catalogo incompleto non deve attribuire il luogo alla persona sbagliata.
+	return ""
 
 ## Il nome dell'edificio. Fuori dalla scala dei ventiquattro mondi si ripiega
 ## sull'etichetta generica: e' un caso che non dovrebbe capitare, e una rovina

@@ -61,6 +61,18 @@ func choose_forgotten_resident(resident_ids: Array) -> String:
 	forgotten_residents.append(selected)
 	return selected
 
+## Il caso profondo non è una nuova azione: è il solo `smemora` tardo che, se
+## non è già accaduto nella campagna, dura abbastanza da vedersi nel lavoro del
+## residente. La scena persiste soltanto `already_used`; il bersaglio resta
+## effimero, così uscire dal mondo lo ripristina sempre.
+func choose_deep_forgotten_resident(resident_ids: Array, already_used: bool) -> String:
+	var deep := CATALOG.SMEMORA_PROFONDO as Dictionary
+	if already_used or world < int(deep.get("dal_mondo", 99)):
+		return ""
+	if ambient_action() != "smemora":
+		return ""
+	return choose_forgotten_resident(resident_ids)
+
 ## Una rotta e' chiudibile solo se non porta alla sala apparati corrente e ne
 ## resta almeno un'altra aperta. Senza una vera alternativa non viene simulata
 ## alcuna chiusura: il mondo aperto, che ha un solo portale, passa [] qui.

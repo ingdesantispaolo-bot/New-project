@@ -154,10 +154,17 @@ var world_buildings: Array[Node2D] = []
 var world_life
 var thirteenth_director
 var thirteenth_forgotten_npc := ""
+var thirteenth_deep_forgotten_npc := ""
+var thirteenth_deep_dialogue_cursor := 0
 var teaching_choice_panel: Control
 var vera_teaching_pending := false
 var vera_teaching_used := false
 var vera_topic_key := ""
+var vera_incrinatura_pending := false
+var vera_ricucitura_pending := false
+var open_choice_kind := ""
+var stance_choice_after_dialogue: Dictionary = {}
+var stance_echo_after_dialogue: Dictionary = {}
 var ersilia_count_pending := false
 var finale_convergence_wave := 0
 var finale_wave_heard: Array[String] = []
@@ -248,6 +255,7 @@ delete document.documentElement.dataset.eliExam;
 	var lesson_briefing := WORLD_LESSON_CATALOG.briefing(world_level)
 	_set_nora_feedback(lesson_briefing if lesson_briefing != "" else str(gameplay.runtime_state().get("narrative", "")))
 	_create_thirteenth_presence()
+	_stage_stance_world_beat()
 	var audio := get_node_or_null("/root/NativeAudio")
 	if audio != null:
 		audio.call("play_environment", "day")
@@ -1721,7 +1729,7 @@ func _create_world_buildings() -> void:
 	for index in specs.size():
 		var spec: Dictionary = specs[index]
 		var actor: Node2D = BUILDING_ACTOR_SCRIPT.new()
-		actor.call("configure", spec, _npc_story_stage(), high_contrast, reduced_motion)
+		actor.call("configure", spec, _building_story_stage(spec), high_contrast, reduced_motion)
 		actor.position = _building_position(str(spec.get("role", "")), index, occupied)
 		occupied.append(actor.position)
 		world_layer.add_child(actor)
@@ -1737,22 +1745,15 @@ func _create_mystery_artifacts() -> void:
 		return
 	var trace: Dictionary = MYSTERY_CATALOG.traccia_for(world_level)
 	var occupied: Array = []
-	var seed_count := 0
-	for raw_seed in MYSTERY_CATALOG.SEMI:
-		if int((raw_seed as Dictionary).get("world", 0)) == world_level:
-			seed_count += 1
+	var seeds: Array = MYSTERY_CATALOG.semi_for(world_level)
 	if not trace.is_empty():
 		var trace_area: Area2D = MYSTERY_ARTIFACT_SCRIPT.new()
 		trace_area.configure("trace", "trace-%02d" % world_level, trace, high_contrast)
-		trace_area.position = _mystery_artifact_position(ruin.global_position, 0, seed_count + 1, occupied)
+		trace_area.position = _mystery_artifact_position(
+			ruin.global_position, 0, seeds.size() + 1, occupied)
 		occupied.append(trace_area.position)
 		world_layer.add_child(trace_area)
 		_bind_mystery_artifact(trace_area)
-	var seeds: Array = []
-	for raw_seed in MYSTERY_CATALOG.SEMI:
-		var seed_data: Dictionary = raw_seed
-		if int(seed_data.get("world", 0)) == world_level:
-			seeds.append(seed_data.duplicate(true))
 	for index in seeds.size():
 		var seed_data: Dictionary = seeds[index]
 		var seed_area: Area2D = MYSTERY_ARTIFACT_SCRIPT.new()
@@ -1824,9 +1825,24 @@ func _open_mystery_artifact(target: Area2D) -> void:
 		_mark_mystery_seen("tracesSeen", str(world_level))
 	else:
 		pages = [str(payload.get("cosa", ""))]
-		speaker = str(payload.get("dove", "dettaglio")).capitalize()
-		role = "Seme · %s" % str(payload.get("colpo", "mistero")).replace("-", " ")
+		# La riga di Eli, quando c'è, è una seconda schermata e mai una sola: il
+		# giocatore legge prima la cosa e poi cosa ne pensa lei, che è l'ordine in
+		# cui la guarderebbe davvero. Il prefisso segue il contratto dei beat.
+		var eli_line := str(payload.get("eli", "")).strip_edges()
+		if eli_line != "":
+			pages.append("Eli: %s" % eli_line)
+		var sister := str(payload.get("sorella", "")).strip_edges()
+		speaker = sister if sister != "" else str(payload.get("dove", "dettaglio")).capitalize()
+		role = "Traccia di una sorella" if sister != "" \
+			else "Seme · %s" % str(payload.get("colpo", "mistero")).replace("-", " ")
 		_mark_mystery_seen("seedsSeen", id)
+		# Il fascicolo di Squadra non è soltanto un collezionabile: quando si
+		# chiude l'ultima pagina, il giocatore decide che cosa farne. Il legame
+		# usa l'id del dialogo, così nessun altro seme del mondo 23 può aprire la
+		# scelta per sbaglio.
+		if world_level == 23 and str(payload.get("sorella", "")) == "Squadra" \
+				and StanceChoices.dovuta(game_save.data, "squadra-quaderno"):
+			stance_choice_after_dialogue[id] = "squadra-quaderno"
 	if pages.is_empty() or str(pages[0]).strip_edges() == "":
 		return
 	if is_instance_valid(player):
@@ -1887,10 +1903,27 @@ func _building_position(role: String, index: int, occupied: Array) -> Vector2:
 	return chunks.clamp_to_world(base + Vector2(0, 180.0 * float(index + 1)))
 
 func _update_building_stages() -> void:
-	var current_stage := _npc_story_stage()
 	for building in world_buildings:
 		if is_instance_valid(building):
+			var resident_owner := str(building.get_meta("resident_owner", ""))
+			var current_stage := _resident_story_stage(resident_owner) \
+				if resident_owner != "" else _npc_story_stage()
 			building.call("set_stage", current_stage)
+
+func _building_story_stage(spec: Dictionary) -> int:
+	var resident_owner := str(spec.get("residentOwner", ""))
+	return _resident_story_stage(resident_owner) if resident_owner != "" else _npc_story_stage()
+
+## Il primo stadio segue ancora ciò che Eli impara; il compimento, invece,
+## appartiene alla persona la cui convinzione è stata messa alla prova. Il
+## marcatore `gioco-<npc>` è persistente e distinto per residente: è il segnale
+## che mancava al vecchio contatore unico del mondo.
+func _resident_story_stage(npc_id: String) -> int:
+	if npc_id == "" or not is_instance_valid(gameplay):
+		return 0
+	if _minigioco_personaggio_superato(npc_id):
+		return 2
+	return mini(NpcArc.stadio(gameplay.progression_manager, npc_id), 1)
 
 func ritrovo_position() -> Vector2:
 	for building in world_buildings:
@@ -2181,9 +2214,21 @@ func _create_thirteenth_presence() -> void:
 		"smemora":
 			var cast: Dictionary = NPC_CATALOG.for_world(world_level)
 			thirteenth_director.active_owner = _active_mission_owner()
-			thirteenth_forgotten_npc = thirteenth_director.choose_forgotten_resident(
-				Array(cast.get("residents", [])))
-			if thirteenth_forgotten_npc != "":
+			var residents := Array(cast.get("residents", []))
+			thirteenth_deep_forgotten_npc = thirteenth_director.choose_deep_forgotten_resident(
+				residents, bool(persistent.get("deepSmemoraUsed", false)))
+			if thirteenth_deep_forgotten_npc != "":
+				# Persistiamo che è accaduto, non che è ancora attivo. Il bersaglio
+				# vive soltanto in questa scena e uscire dal mondo lo ripristina.
+				persistent["deepSmemoraUsed"] = true
+				persistent["deepSmemoraHistory"] = {
+					"world": world_level,
+					"resident": thirteenth_deep_forgotten_npc,
+				}
+				_apply_deep_smemora_visual(true)
+			else:
+				thirteenth_forgotten_npc = thirteenth_director.choose_forgotten_resident(residents)
+			if thirteenth_deep_forgotten_npc != "" or thirteenth_forgotten_npc != "":
 				persistent["forgottenResidents"] = thirteenth_director.forgotten_residents.duplicate()
 				narrative["thirteenth"] = persistent
 				game_save.data["narrative"] = narrative
@@ -2195,13 +2240,123 @@ func _create_thirteenth_presence() -> void:
 			thirteenth_director.choose_closed_route([], str(runtime.get("apparatus", "")))
 	if not action.is_empty() and action_id != "chiude":
 		_present_feedback(str(action.get("manifestazione", "")), "thirteenth")
-	var voice: Dictionary = thirteenth_director.next_voice()
+	# Nel mondo 22 la voce puntuale della scelta sostituisce il richiamo
+	# ambientale: due finestre simultanee farebbero passare inosservata proprio
+	# la domanda che conta.
+	var voice: Dictionary = {} if (
+		world_level == 22 and StanceChoices.dovuta(game_save.data, "tredicesimo-domanda")
+	) else thirteenth_director.next_voice()
 	if not voice.is_empty():
 		var pages := PackedStringArray(Array(voice.get("dice", [])))
 		get_tree().create_timer(5.0).timeout.connect(func():
 			if is_inside_tree() and not _blocking_panel_visible():
 				_present_feedback("\n".join(pages), "thirteenth")
 		)
+
+## Due scelte arrivano da una voce, non da un oggetto o da un NPC. Entrambe
+## passano da un breve dialogo saltabile e solo alla sua chiusura aprono il
+## pannello: prima si sente il momento, poi si prende posizione.
+func _stage_stance_world_beat() -> void:
+	# Le fixture pilotano già tempi e input della scena. Un beat automatico che
+	# compare due secondi dopo trasforma un audit di dialogo/enigma in una gara
+	# contro un timer; l'unico audit che prova questi beat li abilita in modo
+	# esplicito. Il gioco normale non usa mai `launch_request_override`.
+	if not launch_request_override.is_empty() \
+			and not bool(request.get("stageNarrativeBeatsInFixture", false)):
+		return
+	if world_level == 22 and StanceChoices.dovuta(game_save.data, "tredicesimo-domanda"):
+		var pages: Array = []
+		for raw in ThirteenthCatalog.lines_for(22):
+			var entry: Dictionary = raw
+			var candidate := Array(entry.get("dice", []))
+			if " ".join(PackedStringArray(candidate)).to_lower().contains("fammi una domanda"):
+				pages = candidate.duplicate()
+				break
+		_schedule_stance_dialogue(
+			"tredicesimo-domanda", "Il Tredicesimo", "Una voce che si ritira", pages, 2.4)
+	elif world_level == 23 and StanceChoices.dovuta(game_save.data, "meridiana-riga"):
+		_schedule_stance_dialogue(
+			"meridiana-riga",
+			"NORA",
+			"Sensori lunghi · segnale di quattrocento anni fa",
+			[
+				"I sensori lunghi hanno agganciato una riga ancora accesa.",
+				"Meridiana: «c'è qualcosa. venite.»",
+			],
+			2.4)
+
+func _schedule_stance_dialogue(
+	choice_id: String,
+	speaker: String,
+	role: String,
+	pages: Array,
+	delay: float,
+	attempt: int = 0
+) -> void:
+	if pages.is_empty() or not is_inside_tree():
+		return
+	get_tree().create_timer(delay).timeout.connect(
+		_try_show_stance_dialogue.bind(choice_id, speaker, role, pages, attempt))
+
+func _try_show_stance_dialogue(
+	choice_id: String,
+	speaker: String,
+	role: String,
+	pages: Array,
+	attempt: int
+) -> void:
+	if not is_inside_tree() or not StanceChoices.dovuta(game_save.data, choice_id):
+		return
+	if _blocking_panel_visible():
+		if attempt < 30:
+			_schedule_stance_dialogue(choice_id, speaker, role, pages, 1.5, attempt + 1)
+		return
+	var dialogue_id := "stance-beat-%s" % choice_id
+	stance_choice_after_dialogue[dialogue_id] = choice_id
+	if is_instance_valid(player):
+		player.touch_target = Vector2.INF
+		player.velocity = Vector2.ZERO
+		player.set_physics_process(false)
+	dialogue_box.call("configure_accessibility", high_contrast, reduced_motion)
+	dialogue_box.call("show_dialogue", dialogue_id, speaker, role, pages)
+	set_meta("stance_world_beat", choice_id)
+
+func _apply_deep_smemora_visual(enabled: bool) -> void:
+	for actor in npc_actors:
+		if is_instance_valid(actor) and str(actor.get_meta("id", "")) == thirteenth_deep_forgotten_npc:
+			if actor.has_method("set_deep_forgotten"):
+				actor.call("set_deep_forgotten", enabled)
+			set_meta("deep_smemora_visual_target", thirteenth_deep_forgotten_npc if enabled else "")
+			return
+
+func _restore_deep_smemora(show_return: bool) -> void:
+	if thirteenth_deep_forgotten_npc == "":
+		return
+	var restored_id := thirteenth_deep_forgotten_npc
+	for actor in npc_actors:
+		if is_instance_valid(actor) and str(actor.get_meta("id", "")) == restored_id:
+			if show_return and actor.has_method("play_deep_memory_return"):
+				actor.call("play_deep_memory_return")
+			elif actor.has_method("set_deep_forgotten"):
+				actor.call("set_deep_forgotten", false)
+			break
+	thirteenth_deep_forgotten_npc = ""
+	set_meta("deep_smemora_visual_target", "")
+	if not show_return or not is_instance_valid(dialogue_box):
+		return
+	var data := NPC_CATALOG.resident(restored_id)
+	var returns: Array = (ThirteenthCatalog.SMEMORA_PROFONDO as Dictionary).get("ritorno", [])
+	if data.is_empty() or returns.is_empty():
+		return
+	if is_instance_valid(player):
+		player.set_physics_process(false)
+	dialogue_box.call("configure_accessibility", high_contrast, reduced_motion)
+	dialogue_box.call(
+		"show_dialogue",
+		"deep-smemora-return-%s" % restored_id,
+		str(data.get("nome", restored_id)),
+		"Il gesto e il suo scopo tornano insieme",
+		Array(returns[0]).duplicate())
 
 func _active_mission_owner() -> String:
 	if mission_ownership_flow == null:
@@ -2219,6 +2374,17 @@ func _open_npc_dialogue(npc_id: String) -> void:
 	if world_level == WorldProfileCatalog.MAX_LEVEL and not FINALE_CATALOG.lines_for(npc_id).is_empty():
 		_open_finale_convergence_dialogue(npc_id)
 		return
+	if npc_id == thirteenth_deep_forgotten_npc:
+		# Se sta per diventare proprietario, l'incarico ha la precedenza e il
+		# caso si scioglie prima dell'assegnazione. Così `smemora` non può mai
+		# trasformare una scena emotiva in un blocco di missione.
+		var about_to_assign: bool = mission_ownership_flow != null \
+			and not mission_ownership_flow.assignment_for(npc_id).is_empty()
+		if _active_mission_owner() == npc_id or about_to_assign:
+			_restore_deep_smemora(false)
+		else:
+			_open_deep_smemora_dialogue(npc_id)
+			return
 	if npc_id == thirteenth_forgotten_npc:
 		var owner_now := _active_mission_owner()
 		if owner_now == npc_id:
@@ -2268,17 +2434,42 @@ func _open_npc_dialogue(npc_id: String) -> void:
 			if not data.is_empty():
 				data["ruolo"] = str(data.get("funzione", "itinerante")).capitalize()
 				var pools: Dictionary = data.get("battute", {})
-				for pool_name in ["saluto", str(data.get("funzione", "")), "riempimento", "congedo"]:
-					if pool_name != "":
-						lines.append_array(Array(pools.get(pool_name, [])))
+				if npc_id == "itin-orsolo" and _orsolo_proof_available() \
+						and StanceChoices.dovuta(game_save.data, "orsolo-prova"):
+					lines = ITINERANT_CATALOG.lines_of(npc_id, "prova_accettata")
+					mission_pool = "prova_accettata"
+					stance_choice_after_dialogue[npc_id] = "orsolo-prova"
+				else:
+					var pool_order: Array = ["saluto", str(data.get("funzione", ""))]
+					# `attrito` descrive la funzione di Orsolo, ma le sue battute di
+					# attrito si chiamano `dubbio`: esplicitarlo evita che la sua
+					# conversione arrivi senza che lo si sia mai sentito dubitare.
+					if npc_id == "itin-orsolo":
+						pool_order.append("dubbio")
+					pool_order.append_array(["riempimento", "congedo"])
+					for pool_name in pool_order:
+						if pool_name != "":
+							lines.append_array(Array(pools.get(pool_name, [])))
 				if npc_id == "itin-vera" and not vera_teaching_used:
-					vera_topic_key = _vera_applied_topic()
-					if vera_topic_key != "":
-						var teaching_lines := ITINERANT_CATALOG.lines_of(npc_id, "rispiegamelo")
-						if not teaching_lines.is_empty():
-							lines = teaching_lines
-							mission_pool = "rispiegamelo"
-							vera_teaching_pending = true
+					var vera_arc := _vera_arc_lines()
+					if not Array(vera_arc.get("lines", [])).is_empty():
+						lines = vera_arc["lines"]
+						mission_pool = str(vera_arc["pool"])
+					else:
+						vera_topic_key = _vera_applied_topic()
+						if vera_topic_key != "":
+							var teaching_lines := ITINERANT_CATALOG.lines_of(npc_id, "rispiegamelo")
+							if not teaching_lines.is_empty():
+								lines = teaching_lines
+								mission_pool = "rispiegamelo"
+								vera_teaching_pending = true
+						elif VeraArc.stadio(game_save.data) == VeraArc.STADIO_RICUCITO:
+							# Solo quando non c'è niente da rispiegare: la meccanica
+							# didattica viene sempre prima del colore.
+							var teaching_back := ITINERANT_CATALOG.lines_of(npc_id, VeraArc.POOL_INSEGNA)
+							if not teaching_back.is_empty():
+								lines = teaching_back
+								mission_pool = VeraArc.POOL_INSEGNA
 	if data.is_empty() or lines.is_empty():
 		return
 	var cursor_key := "%s:%s" % [npc_id, mission_pool if mission_pool != "" else "ordinary"]
@@ -2329,6 +2520,36 @@ func _open_npc_dialogue(npc_id: String) -> void:
 	_update_ship_navigation()
 	_refresh_interaction_button(null)
 
+func _orsolo_proof_available() -> bool:
+	var narrative: Dictionary = game_save.data.get("narrative", {})
+	return not Array(narrative.get("tracesSeen", [])).is_empty() \
+		or not Array(narrative.get("seedsSeen", [])).is_empty()
+
+func _open_deep_smemora_dialogue(npc_id: String) -> void:
+	# Il proprietario di una missione non può essere colpito nemmeno se la
+	# proprietà cambiasse dopo il caricamento della scena.
+	if _active_mission_owner() == npc_id:
+		_restore_deep_smemora(false)
+		return
+	var data := NPC_CATALOG.resident(npc_id)
+	var lines: Array = (ThirteenthCatalog.SMEMORA_PROFONDO as Dictionary).get("battute", [])
+	if data.is_empty() or lines.is_empty():
+		return
+	var pages: Array = Array(lines[thirteenth_deep_dialogue_cursor % lines.size()]).duplicate()
+	thirteenth_deep_dialogue_cursor += 1
+	if is_instance_valid(player):
+		player.touch_target = Vector2.INF
+		player.velocity = Vector2.ZERO
+		player.set_physics_process(false)
+	dialogue_box.call("configure_accessibility", high_contrast, reduced_motion)
+	dialogue_box.call(
+		"show_dialogue",
+		npc_id,
+		str(data.get("nome", npc_id)),
+		"Continua a lavorare · lo scopo non c'è più",
+		pages)
+	set_meta("deep_smemora_dialogue_override", npc_id)
+
 func _open_finale_convergence_dialogue(npc_id: String) -> void:
 	var data := NPC_CATALOG.resident(npc_id)
 	if data.is_empty():
@@ -2338,6 +2559,11 @@ func _open_finale_convergence_dialogue(npc_id: String) -> void:
 	var pages := FINALE_CATALOG.lines_for(npc_id)
 	if data.is_empty() or pages.is_empty():
 		return
+	if npc_id == "itin-orsolo":
+		var echo := StanceChoices.eco_pendente(game_save.data, "orsolo-prova")
+		if echo != "":
+			pages.append(echo.trim_prefix("Orsolo:").strip_edges())
+			stance_echo_after_dialogue[npc_id] = "orsolo-prova"
 	if is_instance_valid(player):
 		player.touch_target = Vector2.INF
 		player.velocity = Vector2.ZERO
@@ -2456,6 +2682,9 @@ func _chiudi_minigioco_personaggio(npc_id: String, vinto: bool, presi: int, tota
 		_refresh_economy()
 		_spawn_gain_popup("+%d frammenti" % premio, Color("c7b8ff"))
 		_set_feedback(str(scheda.get("vittoria", "Fatto.")))
+		# La conseguenza compare nello stesso istante della prima vittoria e solo
+		# nel luogo di questa persona. Non aspetta un rientro nel mondo.
+		_update_building_stages()
 	else:
 		# Perdere non toglie niente: si e' fermato il tempo, non il percorso.
 		_set_feedback("%s (%d su %d)" % [str(scheda.get("sconfitta", "Non stavolta.")), presi, totale])
@@ -2467,9 +2696,25 @@ func _minigioco_personaggio_superato(npc_id: String) -> bool:
 func _on_dialogue_closed(npc_id: String) -> void:
 	if is_instance_valid(player):
 		player.set_physics_process(true)
-	if CharacterMinigameCatalog.ha_gioco(npc_id) and not _minigioco_personaggio_superato(npc_id):
-		_apri_minigioco_personaggio(npc_id)
+	if stance_echo_after_dialogue.has(npc_id):
+		var echo_id := str(stance_echo_after_dialogue.get(npc_id, ""))
+		stance_echo_after_dialogue.erase(npc_id)
+		StanceChoices.segna_eco_vista(game_save.data, echo_id)
+		_persist_save()
+	if stance_choice_after_dialogue.has(npc_id):
+		var choice_id := str(stance_choice_after_dialogue.get(npc_id, ""))
+		stance_choice_after_dialogue.erase(npc_id)
+		_open_stance_choice(choice_id)
 		return
+	# Finché il caso profondo è attivo, parlare non lo risolve e non apre il
+	# minigioco del personaggio: la sua battuta sostituisce davvero il dialogo.
+	if npc_id == thirteenth_deep_forgotten_npc:
+		_update_ship_navigation()
+		_refresh_prompt()
+		return
+	# La conta viene registrata PRIMA di aprire il minigioco di Ersilia. Il
+	# ritorno anticipato del minigioco la lasciava ascoltata ma mai persistita:
+	# al rientro ricominciava da capo, proprio sulla chiave del finale.
 	if npc_id == "w01-ersilia" and ersilia_count_pending:
 		ersilia_count_pending = false
 		var narrative: Dictionary = game_save.data.get("narrative", {})
@@ -2477,6 +2722,19 @@ func _on_dialogue_closed(npc_id: String) -> void:
 		game_save.data["narrative"] = narrative
 		if bool(request.get("loadLocalSave", true)):
 			game_save.save()
+	if CharacterMinigameCatalog.ha_gioco(npc_id) and not _minigioco_personaggio_superato(npc_id):
+		_apri_minigioco_personaggio(npc_id)
+		return
+	if vera_incrinatura_pending:
+		vera_incrinatura_pending = false
+		_open_vera_incrinatura_choice()
+		return
+	if vera_ricucitura_pending:
+		# Ha spiegato lei. Non c'è niente da scegliere e niente da guadagnare:
+		# l'arco passa allo stadio in cui insegna, e basta.
+		vera_ricucitura_pending = false
+		VeraArc.registra_ricucitura(game_save.data)
+		_persist_save()
 	if vera_teaching_pending:
 		vera_teaching_pending = false
 		_open_vera_teaching_choice()
@@ -2487,6 +2745,144 @@ func _on_dialogue_closed(npc_id: String) -> void:
 		_advance_finale_convergence_wave()
 	_update_ship_navigation()
 	_refresh_prompt()
+
+## **L'arco di Vera.** (13 agosto 2026)
+##
+## Sta *sopra* «Rispiegamelo», non accanto: stessa persona, stessi incontri, uno
+## stadio in più che dipende da quante volte le hai spiegato qualcosa davvero.
+## Il perché è in `vera_arc.gd`; qui c'è solo l'ordine di precedenza, che è la
+## sola cosa che si poteva sbagliare:
+##
+## 1. **l'eco** della risposta data all'incrinatura — una volta sola, e prima di
+##    tutto, perché è la cosa che dice «ti ho sentita» e invecchia in fretta;
+## 2. **l'incrinatura**, che interrompe di proposito «Rispiegamelo»: Vera si
+##    rifiuta di farsi spiegare un'altra volta, ed è tutto il punto;
+## 3. **la ricucitura**, in cui spiega lei.
+##
+## Sotto, invariato, quello che c'era: «Rispiegamelo» quando c'è un argomento da
+## rispiegare. Il colore non passa mai davanti alla didattica.
+func _vera_arc_lines() -> Dictionary:
+	var eco := VeraArc.eco(game_save.data)
+	if eco != "":
+		VeraArc.segna_eco_vista(game_save.data)
+		_persist_save()
+		return {"lines": [[eco.trim_prefix("Vera:").strip_edges()]], "pool": "eco"}
+	if VeraArc.incrinatura_dovuta(game_save.data):
+		vera_incrinatura_pending = true
+		return {
+			"lines": ITINERANT_CATALOG.lines_of("itin-vera", VeraArc.POOL_INCRINATURA),
+			"pool": VeraArc.POOL_INCRINATURA,
+		}
+	if VeraArc.stadio(game_save.data) == VeraArc.STADIO_INCRINATO:
+		vera_ricucitura_pending = true
+		return {
+			"lines": ITINERANT_CATALOG.lines_of("itin-vera", VeraArc.POOL_RICUCITURA),
+			"pool": VeraArc.POOL_RICUCITURA,
+		}
+	return {}
+
+func _persist_save() -> void:
+	if bool(request.get("loadLocalSave", true)):
+		game_save.save()
+
+## La scelta dell'incrinatura: tre modi di rispondere, nessuno giusto e nessuno
+## punito (`stance_audit` lo verifica). Passa dallo stesso pannello di
+## «Rispiegamelo» perché è lo stesso gesto — si sceglie una frase — e un secondo
+## pannello identico sarebbe solo un altro posto in cui sbagliare i margini.
+func _open_vera_incrinatura_choice() -> void:
+	_ensure_choice_panel()
+	open_choice_kind = "incrinatura"
+	if is_instance_valid(player):
+		player.set_physics_process(false)
+	var scelta := StanceChoices.scelta(VeraArc.SCELTA_ID)
+	teaching_choice_panel.call(
+		"open_choice", "VERA", str(scelta.get("domanda", "")), scelta.get("opzioni", []))
+
+## Un pannello solo per due scelte diverse: il `choice_made` va smistato qui,
+## altrimenti la seconda connessione al segnale farebbe partire tutti e due i
+## gestori sulla stessa pressione.
+func _ensure_choice_panel() -> void:
+	if is_instance_valid(teaching_choice_panel):
+		return
+	teaching_choice_panel = TEACHING_CHOICE_PANEL_SCRIPT.new()
+	teaching_choice_panel.name = "TeachingChoicePanel"
+	ui_layer.add_child(teaching_choice_panel)
+	teaching_choice_panel.connect("choice_made", _on_choice_panel_made)
+	teaching_choice_panel.connect("choice_skipped", _on_choice_panel_skipped)
+
+func _on_choice_panel_made(option_id: String, correct: bool) -> void:
+	var kind := open_choice_kind
+	open_choice_kind = ""
+	if kind == "incrinatura":
+		_on_vera_incrinatura_choice(option_id)
+	elif kind.begins_with("stance:"):
+		_on_stance_choice_made(kind.trim_prefix("stance:"), option_id)
+	else:
+		_on_vera_teaching_choice(option_id, correct)
+
+func _on_choice_panel_skipped() -> void:
+	var kind := open_choice_kind
+	open_choice_kind = ""
+	if kind.begins_with("stance:"):
+		StanceChoices.registra_salto(game_save.data, kind.trim_prefix("stance:"))
+		_persist_save()
+	if is_instance_valid(player):
+		player.set_physics_process(true)
+	_refresh_prompt()
+
+func _open_stance_choice(choice_id: String) -> void:
+	if not StanceChoices.dovuta(game_save.data, choice_id):
+		if is_instance_valid(player):
+			player.set_physics_process(true)
+		return
+	_ensure_choice_panel()
+	open_choice_kind = "stance:%s" % choice_id
+	if is_instance_valid(player):
+		player.set_physics_process(false)
+	var choice := StanceChoices.scelta(choice_id)
+	teaching_choice_panel.call(
+		"open_choice",
+		str(choice.get("titolo", "UNA SCELTA")),
+		str(choice.get("domanda", "")),
+		choice.get("opzioni", []),
+		true)
+	set_meta("last_stance_choice_opened", choice_id)
+
+func _on_stance_choice_made(choice_id: String, option_id: String) -> void:
+	StanceChoices.registra_risposta(game_save.data, choice_id, option_id)
+	_persist_save()
+	var line := StanceChoices.testo_opzione(choice_id, option_id)
+	if line == "":
+		if is_instance_valid(player):
+			player.set_physics_process(true)
+		return
+	dialogue_box.call("configure_accessibility", high_contrast, reduced_motion)
+	dialogue_box.call(
+		"show_dialogue",
+		"stance-result-%s" % choice_id,
+		"Eli",
+		"La scelta resterà nel mondo",
+		[line])
+
+func _on_vera_incrinatura_choice(option_id: String) -> void:
+	VeraArc.registra_risposta(game_save.data, option_id)
+	_persist_save()
+	var risposta := ""
+	for raw in StanceChoices.opzioni(VeraArc.SCELTA_ID):
+		if str((raw as Dictionary).get("id", "")) == option_id:
+			risposta = str((raw as Dictionary).get("dice", ""))
+	var pages: Array = []
+	if risposta != "":
+		pages.append("Eli: %s" % risposta)
+	var ritorno := ITINERANT_CATALOG.lines_of("itin-vera", VeraArc.POOL_DOPO_LA_SCELTA)
+	if not ritorno.is_empty():
+		pages.append_array(Array(ritorno[0]))
+	if pages.is_empty():
+		if is_instance_valid(player):
+			player.set_physics_process(true)
+		return
+	dialogue_box.call("configure_accessibility", high_contrast, reduced_motion)
+	dialogue_box.call("show_dialogue", "itin-vera-incrinatura", "Vera", "Nessuna risposta è quella giusta", pages)
 
 func _vera_applied_topic() -> String:
 	var codex: Dictionary = game_save.data.get("codex", {})
@@ -2503,11 +2899,8 @@ func _vera_applied_topic() -> String:
 func _open_vera_teaching_choice() -> void:
 	if vera_topic_key == "":
 		return
-	if not is_instance_valid(teaching_choice_panel):
-		teaching_choice_panel = TEACHING_CHOICE_PANEL_SCRIPT.new()
-		teaching_choice_panel.name = "TeachingChoicePanel"
-		ui_layer.add_child(teaching_choice_panel)
-		teaching_choice_panel.connect("choice_made", _on_vera_teaching_choice)
+	_ensure_choice_panel()
+	open_choice_kind = "rispiegamelo"
 	if is_instance_valid(player):
 		player.set_physics_process(false)
 	var topic := vera_topic_key.get_slice(":", 1) if vera_topic_key.contains(":") else vera_topic_key
@@ -5036,6 +5429,15 @@ func _on_exercise_finished(exercise_result: Dictionary) -> void:
 						"subject": str(exercise_result.get("subject", _world_subject())),
 						"level": game_save.level(),
 					})
+	# Non è il dialogo a restituire il mestiere: è rifarlo insieme. Tutti i
+	# residenti di un mondo testimoniano la sua materia, ma il confronto resta
+	# esplicito per impedire che una prova trasversale o un'altra materia chiuda
+	# la scena per caso.
+	if session_passed and thirteenth_deep_forgotten_npc != "":
+		var proof_subject := str(context.get(
+			"subject", exercise_result.get("subject", _world_subject())))
+		if proof_subject == NpcArc.materia_di(thirteenth_deep_forgotten_npc):
+			_restore_deep_smemora(true)
 	# Il legame cresce per aver GIOCATO, superata o no: conta aver provato. Se
 	# dipendesse dall'esito, sbagliare costerebbe anche l'affetto del compagno.
 	if is_instance_valid(game_save):
@@ -5260,6 +5662,9 @@ func _on_enigma_progress(built: int, total: int, theme: String, encounter_id: St
 	_spawn_gain_popup("+1 campata", Color("8ff6c0"))
 
 func _leave_world() -> void:
+	# Stato effimero per contratto: anche chi non ha notato il segno o non ha
+	# voluto fare la prova ritrova l'abitante intero al prossimo ingresso.
+	_restore_deep_smemora(false)
 	if is_instance_valid(gameplay):
 		if is_instance_valid(player):
 			gameplay.game_save.set_world_resume(str(world_level), player.global_position, day_clock)

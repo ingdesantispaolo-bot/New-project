@@ -132,6 +132,39 @@ func _assert_live_finale() -> void:
 		"gli errori non devono troncare il finale prima del dodicesimo sistema")
 	var display: FinalConvergenceDisplay = player.find_child("FinalConvergenceDisplay", true, false)
 	assert(display != null)
+	# C-ART-3: la conversazione non sta nell'epilogo. Interrompe la stessa prova
+	# esattamente davanti alla sintesi, conserva il cursore e cambia davvero
+	# l'intestazione quando passa da Eli a NORA.
+	var synthesis_index := -1
+	var exam_nodes: Array = player.session.get("nodes", [])
+	for index in exam_nodes.size():
+		if str((exam_nodes[index] as Dictionary).get("system", "")) == "sintesi":
+			synthesis_index = index
+			break
+	assert(synthesis_index == exam_nodes.size() - 1 and synthesis_index > 0,
+		"il nodo di sintesi non chiude i dodici sistemi")
+	player.set("_index", synthesis_index - 1)
+	player.call("_advance")
+	assert(player.waiting_for_pre_synthesis(),
+		"la sintesi compare senza il confronto Eli/NORA")
+	assert(int(player.session_cursor().get("index", -1)) == synthesis_index,
+		"il confronto ricrea o sposta la prova")
+	var finale_dialogue: DialogueBox = hub.get("finale_dialogue_box")
+	assert(finale_dialogue != null and finale_dialogue.visible,
+		"il confronto non è visibile prima della sintesi")
+	assert(finale_dialogue.speaker_label.text == "Eli",
+		"il confronto non si apre con l'intestazione di Eli")
+	finale_dialogue.close_dialogue()
+	assert(finale_dialogue.visible and finale_dialogue.speaker_label.text == "NORA",
+		"il riquadro non cambia intestazione fra Eli e NORA")
+	assert(bool(hub.get("finale_confronto_skip_button").visible),
+		"il confronto non è saltabile")
+	hub.call("_skip_finale_confronto")
+	assert(not player.waiting_for_pre_synthesis()
+		and int(player.session_cursor().get("index", -1)) == synthesis_index,
+		"saltare il confronto non restituisce allo stesso nodo di sintesi")
+	assert(str(hub.get_meta("finale_confronto_phase", "")) == "skipped",
+		"la regia non distingue una conversazione saltata")
 	for system in ApparatusConfig.SUBJECT_CYCLE:
 		display.resolve_system(str(system), true)
 	display.resolve_system("sintesi", true)
@@ -167,7 +200,6 @@ func _assert_live_finale() -> void:
 	assert(save.current_world() == 24 and save.is_world_unlocked(24))
 	assert(str(hub.get_meta("finale_epilogue_phase", "")) == "cattedra",
 		"la Cattedra non si apre dopo il nodo di sintesi")
-	var finale_dialogue: DialogueBox = hub.get("finale_dialogue_box")
 	assert(finale_dialogue != null and finale_dialogue.visible, "scena della Cattedra non visibile")
 	var safety := 0
 	while finale_dialogue.visible and safety < 24:

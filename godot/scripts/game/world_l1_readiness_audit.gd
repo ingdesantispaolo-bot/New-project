@@ -113,10 +113,9 @@ func _check_world(level: int) -> void:
 
 	var artifacts := get_nodes_in_group("mystery_artifact").filter(
 		func(artifact): return world.is_ancestor_of(artifact))
-	var expected_seeds := 0
-	for raw_seed in MysteryCatalog.SEMI:
-		if int((raw_seed as Dictionary).get("world", 0)) == level:
-			expected_seeds += 1
+	# Le tracce delle sorelle passano dalla stessa API dei semi, non dal vecchio
+	# array locale: l'audit deve contare ciò che la scena costruisce davvero.
+	var expected_seeds := MysteryCatalog.semi_for(level).size()
 	assert(artifacts.size() == expected_seeds + 1,
 		"mondo %d: Traccia o semi fisici mancanti" % level)
 	for artifact in artifacts:

@@ -2,8 +2,10 @@ class_name TeachingChoicePanel
 extends Control
 
 signal choice_made(option_id: String, correct: bool)
+signal choice_skipped
 
 var panel: PanelContainer
+var title_label: Label
 var question_label: Label
 var choices: VBoxContainer
 
@@ -34,11 +36,11 @@ func _ready() -> void:
 	var column := VBoxContainer.new()
 	column.add_theme_constant_override("separation", 14)
 	panel.add_child(column)
-	var title := Label.new()
-	title.text = "RISPIEGAMELO · VERA"
-	title.add_theme_font_size_override("font_size", 22)
-	title.add_theme_color_override("font_color", Color("f6c85f"))
-	column.add_child(title)
+	title_label = Label.new()
+	title_label.text = "RISPIEGAMELO · VERA"
+	title_label.add_theme_font_size_override("font_size", 22)
+	title_label.add_theme_color_override("font_color", Color("f6c85f"))
+	column.add_child(title_label)
 	question_label = Label.new()
 	question_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	question_label.add_theme_font_size_override("font_size", 18)
@@ -48,13 +50,31 @@ func _ready() -> void:
 	column.add_child(choices)
 
 func open(topic_label: String, options: Array) -> void:
+	open_choice(
+		"RISPIEGAMELO · VERA",
+		"Quale spiegazione aiuta Vera a capire davvero %s?" % topic_label.replace("-", " "),
+		options)
+
+## Una scelta qualunque, con il proprio titolo e la propria domanda.
+##
+## Le scelte di posizione (`StanceChoices`) passano di qui: usano `dice` come
+## testo del pulsante e **non hanno una risposta giusta**, quindi `choice_made`
+## porta sempre `false` come secondo argomento e chi ascolta lo ignora. Non è una
+## svista: è il motivo per cui esistono, e l'audit lo verifica.
+func open_choice(
+	title_text: String,
+	question: String,
+	options: Array,
+	skippable: bool = false
+) -> void:
 	for child in choices.get_children():
 		child.free()
-	question_label.text = "Quale spiegazione aiuta Vera a capire davvero %s?" % topic_label.replace("-", " ")
+	title_label.text = title_text
+	question_label.text = question
 	for raw_option in options:
 		var option: Dictionary = raw_option
 		var button := Button.new()
-		button.text = str(option.get("cosa", option.get("id", "Spiegazione")))
+		button.text = str(option.get("cosa", option.get("dice", option.get("id", "Spiegazione"))))
 		button.custom_minimum_size = Vector2(0, 70)
 		button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		button.add_theme_font_size_override("font_size", 16)
@@ -65,6 +85,17 @@ func open(topic_label: String, options: Array) -> void:
 			choice_made.emit(option_id, correct)
 		)
 		choices.add_child(button)
+	if skippable:
+		var skip := Button.new()
+		skip.name = "SkipChoice"
+		skip.text = "SALTA · NON DEVO DECIDERE ADESSO"
+		skip.custom_minimum_size = Vector2(0, 48)
+		skip.add_theme_font_size_override("font_size", 14)
+		skip.pressed.connect(func():
+			visible = false
+			choice_skipped.emit()
+		)
+		choices.add_child(skip)
 	visible = true
 	if choices.get_child_count() > 0:
 		(choices.get_child(0) as Button).grab_focus()

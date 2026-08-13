@@ -119,6 +119,7 @@ const AZIONI := {
 		# più stretta: mai sul residente che ti ha appena affidato una missione,
 		# e mai due volte sullo stesso abitante.
 		"nota": "Mai sul proprietario di una missione in corso. Mai due volte sullo stesso abitante.",
+		"profondo": true,
 	},
 	"chiude": {
 		"dal_mondo": 19,
@@ -138,6 +139,64 @@ const AZIONI := {
 		"ripristino": "Nessuno stato da ripristinare: è solo una voce.",
 		"nota": "Sempre saltabile, come ogni dialogo. Non ferma il loop.",
 	},
+}
+
+## **Il caso profondo di «smemora»** — una volta sola in tutta la campagna.
+##
+## Il difetto che risolve. Le cinque azioni sono reversibili e a costo dichiarato,
+## ed è giusto così; ma la somma fa un antagonista che non costa **niente**. Tre
+## azioni su cinque costano «nessuno», e le altre due si annullano uscendo da
+## un'area. Un bambino di dieci anni si accontenta di sapere che c'è qualcuno
+## dall'altra parte; a tredici la domanda arriva e non ha risposta: *e se non lo
+## fermo, cosa succede?* Se la risposta onesta è «niente», la tesi di Scala — che
+## il Silenzio sia una cosa vera e in arrivo — resta una cosa che si legge, non
+## una cosa che si è vista.
+##
+## Cosa cambia, e perché non rompe nessun guard-rail. Non è un'azione nuova (le
+## cinque restano cinque) ed è la stessa `smemora`, portata dove fa il danno che
+## il Silenzio fa davvero: **un abitante non dimentica il nome di Eli, dimentica
+## il proprio mestiere**. Continua a fare quello che ha sempre fatto — la forma
+## resta, come sempre nel Silenzio — e non sa più perché lo fa. Le battute qui
+## sotto sono **volutamente generiche**, e non è pigrizia: sono generiche perché
+## il particolare è esattamente ciò che gli è stato tolto. Vanno bene per uno
+## qualunque dei quarantasei, e proprio per questo fanno effetto.
+##
+## Le cinque regole che lo tengono dentro §10.1, §10.3 e §10.6:
+##
+## 1. **una volta sola in tutta la campagna**, e non prima del mondo 21 — quando
+##    lui ha già detto di stare cedendo. Due volte sarebbe una meccanica, e le
+##    meccaniche non fanno paura: si imparano;
+## 2. **niente si perde**. Stadio dell'arco, missioni, mastery e ricompense
+##    restano intatti nel salvataggio: cambia ciò che dice, mai ciò che vale;
+## 3. **si ripristina facendo**, non aspettando: gli torna il mestiere quando lo
+##    usa con Eli — una prova della sua materia. È la stessa cosa che il gioco
+##    dice da ventitré mondi, e qui si vede su qualcuno che non è il giocatore;
+## 4. **si ripristina comunque** uscendo dal mondo, per chi non lo ha capito o
+##    non ha voglia. Niente di tutto questo blocca il loop (§10.2), e nessuno
+##    resta indietro per non aver notato una cosa;
+## 5. **mai il proprietario di una missione aperta, mai un Bislacco.** Sui
+##    Bislacchi il dimenticare è il numero comico di Sesto: rifarlo sul serio a
+##    un personaggio che esiste per far ridere è la cosa più crudele di tutte.
+const SMEMORA_PROFONDO := {
+	"dal_mondo": 21,
+	"max_in_campagna": 1,
+	"chi": "Un residente del mondo, mai il proprietario di una missione aperta, mai un Bislacco.",
+	"cosa_perde": "Non il nome di Eli: il proprio mestiere. Continua a fare i gesti e non sa più perché.",
+	"costo": "emotivo",
+	"reversibile": true,
+	"ripristino": "Gli torna facendo: una prova della sua materia insieme a Eli. E comunque da sé, uscendo dal mondo.",
+	"progresso_perso": false,
+	"battute": [
+		["Ho gli attrezzi in mano.", "E non mi viene il nome di quello che sto facendo."],
+		["Lo faccio da sempre, questo. Da prima di ricordarmi.", "Perché lo faccio, però… aspetta. Aspetta che mi torna."],
+		["Non è che ho dimenticato una cosa.", "È che ho dimenticato a cosa serviva, e la cosa ce l'ho ancora in mano."],
+	],
+	# Torna com'era, e lo dice come lo direbbe Sesto — che è l'unico personaggio
+	# del gioco già passato di qui, ed è tornato indietro nello stesso modo.
+	"ritorno": [
+		["Ecco. Era questo.", "Non è che me lo ricordo: è che l'ho appena rifatto, e allora lo so."],
+	],
+	"nota": "Nessun abitante commenta cosa gli è successo, e NORA non lo spiega: è il Silenzio, e il Silenzio non si annuncia.",
 }
 
 ## Le sue battute, mondo per mondo, dal 18 al 24. Tre registri e basta, e sono

@@ -19,8 +19,8 @@ func _run() -> void:
 	var sprite := controller.visual.find_child("EliSprite", true, false) as Sprite2D
 	assert(sprite != null and sprite.texture is AtlasTexture, "sprite Eli non animabile")
 	var sheet := (sprite.texture as AtlasTexture).atlas
-	assert(sheet.resource_path.ends_with("eli-adventure-girl-sheet-v2.png"),
-		"il runtime non usa il foglio pittorico C-P6 approvato")
+	assert(sheet.resource_path.ends_with("assets/player/eli-scintilla-v1.png"),
+		"il runtime non parte dalla forma Scintilla approvata")
 	assert(sheet.get_width() == 480 and sheet.get_height() == 384,
 		"foglio Eli non conforme al contratto 5x4 da 96 px")
 	controller.velocity = Vector2.RIGHT * 100.0

@@ -17,7 +17,13 @@ const AmbientAnim := preload("res://scripts/ambient_anim.gd")
 const TREASURE_TEXTURE: Texture2D = preload("res://assets/academy-treasure.svg")
 const ENCOUNTER_TEXTURE: Texture2D = preload("res://assets/academy-encounter.svg")
 const OUTDOOR_SHEET: Texture2D = preload("res://assets/outdoor-world-sheet.png")
-const PLAYER_SHEET: Texture2D = preload("res://assets/eli-adventure-girl-sheet-v2.png")
+const PLAYER_SHEETS: Array[Texture2D] = [
+	preload("res://assets/player/eli-scintilla-v1.png"),
+	preload("res://assets/player/eli-lampada-v1.png"),
+	preload("res://assets/player/eli-faro-v1.png"),
+	preload("res://assets/player/eli-aurora-v1.png"),
+	preload("res://assets/player/eli-meridiana-v1.png"),
+]
 const NATURAL_ATLAS_PATHS := {
 	"academy": "res://assets/radura-academia-natural-atlas-v2.png",
 	"wild": "res://assets/bosco-variabile-natural-atlas-v2.png",
@@ -115,9 +121,12 @@ static func outdoor_sprite(frame_name: String, target_size: Vector2, y: float = 
 	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 	return sprite
 
-static func player_sprite(target_size: Vector2 = Vector2(84, 84)) -> Sprite2D:
+static func player_sheet_for_tier(power_tier: int) -> Texture2D:
+	return PLAYER_SHEETS[clampi(power_tier, 0, PLAYER_SHEETS.size() - 1)]
+
+static func player_sprite(target_size: Vector2 = Vector2(84, 84), power_tier: int = 0) -> Sprite2D:
 	var atlas := AtlasTexture.new()
-	atlas.atlas = PLAYER_SHEET
+	atlas.atlas = player_sheet_for_tier(power_tier)
 	atlas.region = Rect2(0, 0, 96, 96)
 	var sprite := Sprite2D.new()
 	sprite.name = "EliSprite"
@@ -2144,22 +2153,29 @@ static func build_encounter(kind: String, difficulty: int) -> Node2D:
 # Player
 # ---------------------------------------------------------------------------
 
-static func build_player(accent: Color) -> Node2D:
+static func build_player(accent: Color, power_tier: int = 0) -> Node2D:
 	# `accent` è la livrea = colore dell'outfit equipaggiato in bottega: tinge
 	# aura, anello a terra e punta luminosa, così comprare un outfit cambia il
 	# colore-firma di Eli nel mondo.
 	var root := Node2D.new()
 	root.add_child(make_shadow(22, 7.6, 0.36, 19))
 	var ring := make_ring(22, Color(accent, 0.62), 2.6, 24)
+	ring.name = "PlayerGroundRing"
 	ring.scale = Vector2(1, 0.4)
 	ring.position = Vector2(0, 20)
 	root.add_child(ring)
 	var aura := make_glow(39, accent, 0.21)
+	aura.name = "PlayerBaseAura"
 	aura.position = Vector2(0, 3)
 	root.add_child(aura)
 	var visual := Node2D.new()
 	visual.name = "Visual"
-	visual.add_child(player_sprite())
+	visual.add_child(player_sprite(Vector2(84, 84), power_tier))
+	var core := make_glow(7.0 + float(power_tier) * 1.2, accent.lightened(0.35), 0.42)
+	core.name = "EliCoreGlow"
+	core.position = Vector2(0, -28)
+	core.add_to_group("night_glow")
+	visual.add_child(core)
 	var tip := make_glow(8, accent.lightened(0.3), 0.76)
 	tip.position = Vector2(0, -59)
 	tip.add_to_group("night_glow")
@@ -2209,6 +2225,32 @@ static func build_accessory(id: String, color: Color) -> Node2D:
 		g.position = Vector2(0, -42.5)
 		g.add_to_group("night_glow")
 		root.add_child(g)
+	return root
+
+static func build_upgrade_marks(inventory: Array) -> Node2D:
+	var root := Node2D.new()
+	root.name = "EliUpgradeMarks"
+	var upgrades := [
+		{"id": "nora-lens", "color": Color("9ff5e9")},
+		{"id": "nora-reserve", "color": Color("f6c85f")},
+		{"id": "nora-shield", "color": Color("7ad7ff")},
+		{"id": "nora-prismatic-core", "color": Color("c7b8ff")},
+	]
+	var visible_index := 0
+	for data in upgrades:
+		if not inventory.has(str(data["id"])):
+			continue
+		var side := -1.0 if visible_index % 2 == 0 else 1.0
+		var row := floori(float(visible_index) / 2.0)
+		var color: Color = data["color"]
+		var mark := make_ring(3.8, color, 1.5, 12)
+		mark.position = Vector2(side * (25.0 + float(row) * 3.0), -34.0 + float(row) * 17.0)
+		root.add_child(mark)
+		var glow := make_glow(6.5, color, 0.42)
+		glow.position = mark.position
+		glow.add_to_group("night_glow")
+		root.add_child(glow)
+		visible_index += 1
 	return root
 
 # Compagno acquistato in bottega. Le creature (dog/cat/rabbit) hanno corpo,
@@ -2287,4 +2329,3 @@ static func build_apparatus_terminal(state: String = "broken", accent: Color = C
 		label_node.add_theme_color_override("font_color", Color(0.84, 0.96, 0.92, 0.88))
 		root.add_child(label_node)
 	return root
-

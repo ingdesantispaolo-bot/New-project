@@ -130,6 +130,8 @@ var progression_manager: ProgressionManager
 var content_manager: ContentManager
 var gain_popup_pool: Array[Label] = []
 var applied_cosmetic_signature := ""
+var applied_power_grade := -1
+var last_energy_visual := -1
 var pending_touch_interaction: Area2D
 var interaction_countdown_second := -1
 var world_weather_particles: CPUParticles2D
@@ -648,6 +650,7 @@ const PET_FADED_CHECK_INTERVAL := 2.0
 var _pet_faded_check_elapsed := 0.0
 
 func _process(delta: float) -> void:
+	_animare_potenza_eli(delta)
 	if is_instance_valid(pet_companion):
 		pet_companion.set_antics_blocked(_blocking_panel_visible())
 	_pet_faded_check_elapsed += delta
@@ -716,6 +719,14 @@ func _process(delta: float) -> void:
 			var visible_world := Rect2(player.global_position - view_size * 0.5, view_size)
 			world_life.update(phase_id, player.global_position, visible_world, delta)
 		_update_npc_streaming()
+
+func _animare_potenza_eli(delta: float) -> void:
+	if reduced_motion or not is_instance_valid(player):
+		return
+	for nome in ["PowerOrbitInner", "PowerOrbitOuter"]:
+		var orbit := player.get_node_or_null(nome) as Node2D
+		if orbit != null and orbit.visible:
+			orbit.rotation += float(orbit.get_meta("spin", 0.0)) * delta
 
 func _enforce_water_traversal() -> void:
 	if not is_instance_valid(player) or chunks == null or chunks.composition == null:
@@ -838,13 +849,15 @@ func _create_player() -> void:
 	player.add_child(shape)
 	var visual_data := _resolved_avatar_visual()
 	var livery := _avatar_color(visual_data.get("bodyColor", -1), PLAYER_ACCENT)
-	player_presentation = OutdoorVisualFactory.build_player(livery)
+	var power_grade := WorldLight.grado(game_save)
+	player_presentation = OutdoorVisualFactory.build_player(livery, power_grade)
 	player_presentation.name = "PlayerPresentation"
 	player.add_child(player_presentation)
 	player.visual = player_presentation.get_node("Visual")
 	player.reduced_motion = reduced_motion
 	_apply_accessory(player.visual, visual_data)
 	_apply_emblem(player.visual, visual_data)
+	_apply_upgrade_marks(player.visual)
 	_add_player_night_light()
 	fireflies = OutdoorVisualFactory.make_sparkles(Color(1.0, 0.93, 0.62, 0.85), 560.0, 24)
 	fireflies.lifetime = 5.0
@@ -855,6 +868,8 @@ func _create_player() -> void:
 	fireflies.emitting = not reduced_motion
 	player.add_child(fireflies)
 	world_layer.add_child(player)
+	_applica_grado_al_personaggio(power_grade)
+	_aggiorna_stato_energia(game_save.energy(), false)
 	_spawn_pet(visual_data)
 	camera = Camera2D.new()
 	camera.name = "Camera2D"
@@ -890,7 +905,10 @@ func _resolved_avatar_visual() -> Dictionary:
 	return visual_data
 
 func _cosmetic_signature() -> String:
-	return JSON.stringify(runtime.get("cosmeticsEquipped", {}))
+	return JSON.stringify({
+		"equipped": runtime.get("cosmeticsEquipped", {}),
+		"inventory": runtime.get("cosmeticsInventory", []),
+	})
 
 func _apply_cosmetic_presentation() -> void:
 	if not is_instance_valid(player) or not is_instance_valid(world_layer):
@@ -904,12 +922,16 @@ func _apply_cosmetic_presentation() -> void:
 	if is_instance_valid(player_presentation):
 		player.remove_child(player_presentation)
 		player_presentation.queue_free()
-	player_presentation = OutdoorVisualFactory.build_player(livery)
+	var power_grade := WorldLight.grado(game_save)
+	player_presentation = OutdoorVisualFactory.build_player(livery, power_grade)
 	player_presentation.name = "PlayerPresentation"
 	player.add_child(player_presentation)
 	player.visual = player_presentation.get_node("Visual")
 	_apply_accessory(player.visual, visual_data)
 	_apply_emblem(player.visual, visual_data)
+	_apply_upgrade_marks(player.visual)
+	_applica_grado_al_personaggio(power_grade)
+	_aggiorna_stato_energia(game_save.energy(), false)
 	if is_instance_valid(pet_companion):
 		world_layer.remove_child(pet_companion)
 		pet_companion.queue_free()
@@ -981,6 +1003,10 @@ func _apply_emblem(visual_node: Node2D, visual_data: Dictionary) -> void:
 	badge.add_theme_color_override("font_outline_color", Color(0.01, 0.04, 0.06, 0.92))
 	badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	visual_node.add_child(badge)
+
+func _apply_upgrade_marks(visual_node: Node2D) -> void:
+	visual_node.add_child(OutdoorVisualFactory.build_upgrade_marks(
+		Array(runtime.get("cosmeticsInventory", [])).duplicate()))
 
 func _spawn_pet(visual_data: Dictionary) -> void:
 	var pet_data = visual_data.get("pet", null)
@@ -3659,7 +3685,11 @@ func _on_world_light_changed(luce: float, grado: int, salito: bool) -> void:
 func _applica_grado_al_personaggio(grado: int) -> void:
 	if not is_instance_valid(player):
 		return
+	grado = clampi(grado, 0, WorldLight.SOGLIE.size() - 1)
 	var scheda := WorldLight.scheda_grado(game_save)
+	var sprite := player.find_child("EliSprite", true, false) as Sprite2D
+	if sprite != null and sprite.texture is AtlasTexture:
+		(sprite.texture as AtlasTexture).atlas = OutdoorVisualFactory.player_sheet_for_tier(grado)
 	var alone := player.get_node_or_null("PowerAura") as Node2D
 	if alone == null:
 		var nuovo := Line2D.new()
@@ -3676,6 +3706,81 @@ func _applica_grado_al_personaggio(grado: int) -> void:
 	linea.default_color.a = 0.20 + 0.14 * float(grado)
 	linea.scale = Vector2.ONE * (1.0 + 0.13 * float(grado))
 	linea.visible = grado > 0
+	linea.width = 3.0 + float(grado) * 0.8
+	_configura_orbita_potenza("PowerOrbitInner", 32.0, grado >= 3, grado, false)
+	_configura_orbita_potenza("PowerOrbitOuter", 39.0, grado >= 4, grado, true)
+	_configura_particelle_potenza(grado)
+	applied_power_grade = grado
+	if is_instance_valid(game_save):
+		_aggiorna_stato_energia(game_save.energy(), false)
+
+func _configura_orbita_potenza(nome: String, raggio: float, visibile: bool, grado: int, inversa: bool) -> void:
+	var orbit := player.get_node_or_null(nome) as Line2D
+	if orbit == null:
+		orbit = Line2D.new()
+		orbit.name = nome
+		orbit.closed = true
+		orbit.width = 2.0
+		for indice in range(25):
+			var punto := Vector2.RIGHT.rotated(TAU * float(indice) / 24.0) * raggio
+			punto.y *= 0.46
+			orbit.add_point(punto)
+		orbit.position.y = -4.0
+		orbit.z_index = -1
+		player.add_child(orbit)
+	orbit.default_color = Color(str(WorldLight.SOGLIE[grado].get("colore", "8ff6d2")), 0.52)
+	orbit.visible = visibile
+	orbit.set_meta("spin", (-1.0 if inversa else 1.0) * (0.25 + 0.08 * float(grado)))
+
+func _configura_particelle_potenza(grado: int) -> void:
+	var particles := player.get_node_or_null("EliPowerParticles") as CPUParticles2D
+	if particles == null:
+		particles = CPUParticles2D.new()
+		particles.name = "EliPowerParticles"
+		particles.position = Vector2(0, -22)
+		particles.z_index = 2
+		particles.lifetime = 1.5
+		particles.randomness = 0.8
+		particles.direction = Vector2.UP
+		particles.spread = 180.0
+		particles.gravity = Vector2(0, -8)
+		particles.initial_velocity_min = 5.0
+		particles.initial_velocity_max = 16.0
+		particles.scale_amount_min = 0.65
+		particles.scale_amount_max = 1.35
+		player.add_child(particles)
+	particles.amount = 4 + grado * 3
+	particles.color = Color(str(WorldLight.SOGLIE[grado].get("colore", "8ff6d2")), 0.72)
+	particles.emitting = grado >= 2 and not reduced_motion
+
+func _aggiorna_stato_energia(energia: int, celebra: bool = true) -> void:
+	if not is_instance_valid(player) or not is_instance_valid(player_presentation):
+		return
+	var precedente := last_energy_visual
+	last_energy_visual = maxi(0, energia)
+	# L'energia non ha un cap: una curva saturante rende 0 chiaramente scarico e
+	# continua a crescere senza far dipendere l'estetica da un massimo inventato.
+	var intensita := float(last_energy_visual) / (float(last_energy_visual) + 75.0)
+	var core := player.find_child("EliCoreGlow", true, false) as CanvasItem
+	if core != null:
+		core.modulate.a = 0.18 + intensita * 0.82
+		core.scale = Vector2.ONE * (0.78 + intensita * 0.34)
+	var aura_base := player.find_child("PlayerBaseAura", true, false) as CanvasItem
+	if aura_base != null:
+		aura_base.modulate.a = 0.28 + intensita * 0.72
+	var particles := player.get_node_or_null("EliPowerParticles") as CPUParticles2D
+	if particles != null:
+		particles.emitting = applied_power_grade >= 2 and last_energy_visual > 0 and not reduced_motion
+		particles.amount = maxi(1, 3 + applied_power_grade * 2 + roundi(intensita * 7.0))
+	if not celebra or precedente < 0 or precedente == last_energy_visual:
+		return
+	if reduced_motion:
+		player_presentation.modulate = Color.WHITE
+		return
+	var flash := Color("baffea") if last_energy_visual > precedente else Color("ff9b8a")
+	var tween := create_tween()
+	tween.tween_property(player_presentation, "modulate", flash, 0.09)
+	tween.tween_property(player_presentation, "modulate", Color.WHITE, 0.28)
 
 func _aggiorna_barra_potenza() -> void:
 	if not is_instance_valid(barra_potenza) or not is_instance_valid(game_save):
@@ -4405,6 +4510,7 @@ func _refresh_economy() -> void:
 	if runtime.is_empty():
 		return
 	var current := int(runtime.get("energy", 0))
+	_aggiorna_stato_energia(current, true)
 	if is_instance_valid(energy_label):
 		energy_label.text = "Energia %d" % current
 	if is_instance_valid(fragment_label):

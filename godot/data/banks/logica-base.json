@@ -12,7 +12,12 @@
 			"prompt": "Quale numero continua la serie: 2, 4, 6, 8, ?",
 			"options": [],
 			"answer": "10",
-			"explanation": "Si aggiunge 2 ogni volta: 8 + 2 = 10."
+			"explanation": "Si aggiunge 2 ogni volta: 8 + 2 = 10.",
+			"distractorWhy": {
+				"9": "Non segue la regola «+2»: 8 + 2 fa 10, non 9.",
+				"11": "Non segue la regola «+2»: 8 + 2 fa 10, non 11.",
+				"12": "Non segue la regola «+2»: 8 + 2 fa 10, non 12."
+			}
 		},
 		{
 			"id": "logica-arit-1-2",
@@ -23,7 +28,12 @@
 			"prompt": "Quale numero continua la serie: 1, 3, 5, 7, ?",
 			"options": [],
 			"answer": "9",
-			"explanation": "Si aggiunge 2 ogni volta: 7 + 2 = 9."
+			"explanation": "Si aggiunge 2 ogni volta: 7 + 2 = 9.",
+			"distractorWhy": {
+				"8": "Non segue la regola «+2»: 7 + 2 fa 9, non 8.",
+				"10": "Non segue la regola «+2»: 7 + 2 fa 9, non 10.",
+				"11": "Non segue la regola «+2»: 7 + 2 fa 9, non 11."
+			}
 		},
 		{
 			"id": "logica-arit-3-3",
@@ -34,7 +44,12 @@
 			"prompt": "Quale numero continua la serie: 3, 6, 9, 12, ?",
 			"options": [],
 			"answer": "15",
-			"explanation": "Si aggiunge 3 ogni volta: 12 + 3 = 15."
+			"explanation": "Si aggiunge 3 ogni volta: 12 + 3 = 15.",
+			"distractorWhy": {
+				"14": "Non segue la regola «+3»: 12 + 3 fa 15, non 14.",
+				"16": "Non segue la regola «+3»: 12 + 3 fa 15, non 16.",
+				"17": "Non segue la regola «+3»: 12 + 3 fa 15, non 17."
+			}
 		},
 		{
 			"id": "logica-arit-5-5",
@@ -45,7 +60,12 @@
 			"prompt": "Quale numero continua la serie: 5, 10, 15, 20, ?",
 			"options": [],
 			"answer": "25",
-			"explanation": "Si aggiunge 5 ogni volta: 20 + 5 = 25."
+			"explanation": "Si aggiunge 5 ogni volta: 20 + 5 = 25.",
+			"distractorWhy": {
+				"24": "Non segue la regola «+5»: 20 + 5 fa 25, non 24.",
+				"26": "Non segue la regola «+5»: 20 + 5 fa 25, non 26.",
+				"27": "Non segue la regola «+5»: 20 + 5 fa 25, non 27."
+			}
 		},
 		{
 			"id": "logica-arit-4-3",
@@ -56,7 +76,12 @@
 			"prompt": "Quale numero continua la serie: 4, 7, 10, 13, ?",
 			"options": [],
 			"answer": "16",
-			"explanation": "Si aggiunge 3 ogni volta: 13 + 3 = 16."
+			"explanation": "Si aggiunge 3 ogni volta: 13 + 3 = 16.",
+			"distractorWhy": {
+				"15": "Non segue la regola «+3»: 13 + 3 fa 16, non 15.",
+				"17": "Non segue la regola «+3»: 13 + 3 fa 16, non 17.",
+				"18": "Non segue la regola «+3»: 13 + 3 fa 16, non 18."
+			}
 		},
 		{
 			"id": "logica-arit-7-4",
@@ -67,7 +92,12 @@
 			"prompt": "Quale numero continua la serie: 7, 11, 15, 19, ?",
 			"options": [],
 			"answer": "23",
-			"explanation": "Si aggiunge 4 ogni volta: 19 + 4 = 23."
+			"explanation": "Si aggiunge 4 ogni volta: 19 + 4 = 23.",
+			"distractorWhy": {
+				"22": "Non segue la regola «+4»: 19 + 4 fa 23, non 22.",
+				"24": "Non segue la regola «+4»: 19 + 4 fa 23, non 24.",
+				"25": "Non segue la regola «+4»: 19 + 4 fa 23, non 25."
+			}
 		},
 		{
 			"id": "logica-arit-10-10",
@@ -78,7 +108,12 @@
 			"prompt": "Quale numero continua la serie: 10, 20, 30, 40, ?",
 			"options": [],
 			"answer": "50",
-			"explanation": "Si aggiunge 10 ogni volta: 40 + 10 = 50."
+			"explanation": "Si aggiunge 10 ogni volta: 40 + 10 = 50.",
+			"distractorWhy": {
+				"49": "Non segue la regola «+10»: 40 + 10 fa 50, non 49.",
+				"51": "Non segue la regola «+10»: 40 + 10 fa 50, non 51.",
+				"52": "Non segue la regola «+10»: 40 + 10 fa 50, non 52."
+			}
 		},
 		{
 			"id": "logica-arit-6-6",
@@ -89,7 +124,12 @@
 			"prompt": "Quale numero continua la serie: 6, 12, 18, 24, ?",
 			"options": [],
 			"answer": "30",
-			"explanation": "Si aggiunge 6 ogni volta: 24 + 6 = 30."
+			"explanation": "Si aggiunge 6 ogni volta: 24 + 6 = 30.",
+			"distractorWhy": {
+				"29": "Non segue la regola «+6»: 24 + 6 fa 30, non 29.",
+				"31": "Non segue la regola «+6»: 24 + 6 fa 30, non 31.",
+				"32": "Non segue la regola «+6»: 24 + 6 fa 30, non 32."
+			}
 		},
 		{
 			"id": "logica-arit-2-4",
@@ -100,7 +140,12 @@
 			"prompt": "Quale numero continua la serie: 2, 6, 10, 14, ?",
 			"options": [],
 			"answer": "18",
-			"explanation": "Si aggiunge 4 ogni volta: 14 + 4 = 18."
+			"explanation": "Si aggiunge 4 ogni volta: 14 + 4 = 18.",
+			"distractorWhy": {
+				"17": "Non segue la regola «+4»: 14 + 4 fa 18, non 17.",
+				"19": "Non segue la regola «+4»: 14 + 4 fa 18, non 19.",
+				"20": "Non segue la regola «+4»: 14 + 4 fa 18, non 20."
+			}
 		},
 		{
 			"id": "logica-arit-9-3",
@@ -111,7 +156,12 @@
 			"prompt": "Quale numero continua la serie: 9, 12, 15, 18, ?",
 			"options": [],
 			"answer": "21",
-			"explanation": "Si aggiunge 3 ogni volta: 18 + 3 = 21."
+			"explanation": "Si aggiunge 3 ogni volta: 18 + 3 = 21.",
+			"distractorWhy": {
+				"20": "Non segue la regola «+3»: 18 + 3 fa 21, non 20.",
+				"22": "Non segue la regola «+3»: 18 + 3 fa 21, non 22.",
+				"23": "Non segue la regola «+3»: 18 + 3 fa 21, non 23."
+			}
 		},
 		{
 			"id": "logica-geom-1-2",
@@ -122,7 +172,12 @@
 			"prompt": "Quale numero continua la serie: 1, 2, 4, 8, ?",
 			"options": [],
 			"answer": "16",
-			"explanation": "Si moltiplica per 2 ogni volta: 8 × 2 = 16."
+			"explanation": "Si moltiplica per 2 ogni volta: 8 × 2 = 16.",
+			"distractorWhy": {
+				"15": "Non segue la regola «×2»: 8 × 2 fa 16, non 15.",
+				"17": "Non segue la regola «×2»: 8 × 2 fa 16, non 17.",
+				"18": "Non segue la regola «×2»: 8 × 2 fa 16, non 18."
+			}
 		},
 		{
 			"id": "logica-geom-1-3",
@@ -133,7 +188,12 @@
 			"prompt": "Quale numero continua la serie: 1, 3, 9, 27, ?",
 			"options": [],
 			"answer": "81",
-			"explanation": "Si moltiplica per 3 ogni volta: 27 × 3 = 81."
+			"explanation": "Si moltiplica per 3 ogni volta: 27 × 3 = 81.",
+			"distractorWhy": {
+				"80": "Non segue la regola «×3»: 27 × 3 fa 81, non 80.",
+				"82": "Non segue la regola «×3»: 27 × 3 fa 81, non 82.",
+				"83": "Non segue la regola «×3»: 27 × 3 fa 81, non 83."
+			}
 		},
 		{
 			"id": "logica-geom-2-2",
@@ -144,7 +204,12 @@
 			"prompt": "Quale numero continua la serie: 2, 4, 8, 16, ?",
 			"options": [],
 			"answer": "32",
-			"explanation": "Si moltiplica per 2 ogni volta: 16 × 2 = 32."
+			"explanation": "Si moltiplica per 2 ogni volta: 16 × 2 = 32.",
+			"distractorWhy": {
+				"31": "Non segue la regola «×2»: 16 × 2 fa 32, non 31.",
+				"33": "Non segue la regola «×2»: 16 × 2 fa 32, non 33.",
+				"34": "Non segue la regola «×2»: 16 × 2 fa 32, non 34."
+			}
 		},
 		{
 			"id": "logica-geom-3-2",
@@ -155,7 +220,12 @@
 			"prompt": "Quale numero continua la serie: 3, 6, 12, 24, ?",
 			"options": [],
 			"answer": "48",
-			"explanation": "Si moltiplica per 2 ogni volta: 24 × 2 = 48."
+			"explanation": "Si moltiplica per 2 ogni volta: 24 × 2 = 48.",
+			"distractorWhy": {
+				"47": "Non segue la regola «×2»: 24 × 2 fa 48, non 47.",
+				"49": "Non segue la regola «×2»: 24 × 2 fa 48, non 49.",
+				"50": "Non segue la regola «×2»: 24 × 2 fa 48, non 50."
+			}
 		},
 		{
 			"id": "logica-geom-1-4",
@@ -166,7 +236,12 @@
 			"prompt": "Quale numero continua la serie: 1, 4, 16, 64, ?",
 			"options": [],
 			"answer": "256",
-			"explanation": "Si moltiplica per 4 ogni volta: 64 × 4 = 256."
+			"explanation": "Si moltiplica per 4 ogni volta: 64 × 4 = 256.",
+			"distractorWhy": {
+				"255": "Non segue la regola «×4»: 64 × 4 fa 256, non 255.",
+				"257": "Non segue la regola «×4»: 64 × 4 fa 256, non 257.",
+				"258": "Non segue la regola «×4»: 64 × 4 fa 256, non 258."
+			}
 		},
 		{
 			"id": "logica-quadrati",
@@ -177,7 +252,12 @@
 			"prompt": "Quale numero continua la serie: 1, 4, 9, 16, ?",
 			"options": [],
 			"answer": "25",
-			"explanation": "Sono i quadrati: 1, 4, 9, 16, 25 (5×5)."
+			"explanation": "Sono i quadrati: 1, 4, 9, 16, 25 (5×5).",
+			"distractorWhy": {
+				"24": "Non è un quadrato perfetto della serie: dopo 16 (4×4) viene 25 (5×5), non 24.",
+				"26": "Non è un quadrato perfetto della serie: dopo 16 (4×4) viene 25 (5×5), non 26.",
+				"27": "Non è un quadrato perfetto della serie: dopo 16 (4×4) viene 25 (5×5), non 27."
+			}
 		},
 		{
 			"id": "logica-alt-2-2-3",
@@ -188,7 +268,12 @@
 			"prompt": "Quale numero continua la serie: 2, 4, 7, 9, ?",
 			"options": [],
 			"answer": "12",
-			"explanation": "La serie alterna +2 e +3: 9 + 3 = 12."
+			"explanation": "La serie alterna +2 e +3: 9 + 3 = 12.",
+			"distractorWhy": {
+				"11": "Non segue l'alternanza +2/+3: dopo 9 tocca +3, che dà 12, non 11.",
+				"13": "Non segue l'alternanza +2/+3: dopo 9 tocca +3, che dà 12, non 13.",
+				"14": "Non segue l'alternanza +2/+3: dopo 9 tocca +3, che dà 12, non 14."
+			}
 		},
 		{
 			"id": "logica-alt-1-3-1",
@@ -199,7 +284,12 @@
 			"prompt": "Quale numero continua la serie: 1, 4, 5, 8, ?",
 			"options": [],
 			"answer": "9",
-			"explanation": "La serie alterna +3 e +1: 8 + 1 = 9."
+			"explanation": "La serie alterna +3 e +1: 8 + 1 = 9.",
+			"distractorWhy": {
+				"8": "Non segue l'alternanza +3/+1: dopo 8 tocca +1, che dà 9, non 8.",
+				"10": "Non segue l'alternanza +3/+1: dopo 8 tocca +1, che dà 9, non 10.",
+				"11": "Non segue l'alternanza +3/+1: dopo 8 tocca +1, che dà 9, non 11."
+			}
 		},
 		{
 			"id": "logica-alt-5-1-4",
@@ -210,7 +300,12 @@
 			"prompt": "Quale numero continua la serie: 5, 6, 10, 11, ?",
 			"options": [],
 			"answer": "15",
-			"explanation": "La serie alterna +1 e +4: 11 + 4 = 15."
+			"explanation": "La serie alterna +1 e +4: 11 + 4 = 15.",
+			"distractorWhy": {
+				"14": "Non segue l'alternanza +1/+4: dopo 11 tocca +4, che dà 15, non 14.",
+				"16": "Non segue l'alternanza +1/+4: dopo 11 tocca +4, che dà 15, non 16.",
+				"17": "Non segue l'alternanza +1/+4: dopo 11 tocca +4, che dà 15, non 17."
+			}
 		},
 		{
 			"id": "logica-odd-2467",
@@ -221,7 +316,12 @@
 			"prompt": "Quale numero non appartiene al gruppo: 2, 4, 6, 7?",
 			"options": [],
 			"answer": "7",
-			"explanation": "7 è dispari; gli altri sono pari."
+			"explanation": "7 è dispari; gli altri sono pari.",
+			"distractorWhy": {
+				"2": "È un numero pari, come gli altri: non è lui l'intruso.",
+				"4": "È un numero pari, come gli altri: non è lui l'intruso.",
+				"6": "È un numero pari, come gli altri: non è lui l'intruso."
+			}
 		},
 		{
 			"id": "logica-odd-3597",
@@ -232,7 +332,12 @@
 			"prompt": "Quale numero non appartiene al gruppo: 3, 5, 9, 7?",
 			"options": [],
 			"answer": "9",
-			"explanation": "9 non è primo (3×3); gli altri sono numeri primi."
+			"explanation": "9 non è primo (3×3); gli altri sono numeri primi.",
+			"distractorWhy": {
+				"3": "È un numero primo, come gli altri: non è lui l'intruso.",
+				"5": "È un numero primo, come gli altri: non è lui l'intruso.",
+				"7": "È un numero primo, come gli altri: non è lui l'intruso."
+			}
 		},
 		{
 			"id": "logica-odd-10202530",
@@ -243,7 +348,12 @@
 			"prompt": "Quale numero non appartiene al gruppo: 10, 20, 25, 30?",
 			"options": [],
 			"answer": "25",
-			"explanation": "25 non è un multiplo di 10; gli altri sì."
+			"explanation": "25 non è un multiplo di 10; gli altri sì.",
+			"distractorWhy": {
+				"10": "È un multiplo di 10, come gli altri: non è lui l'intruso.",
+				"20": "È un multiplo di 10, come gli altri: non è lui l'intruso.",
+				"30": "È un multiplo di 10, come gli altri: non è lui l'intruso."
+			}
 		},
 		{
 			"id": "logica-dec-20-3",
@@ -254,7 +364,12 @@
 			"prompt": "Quale numero continua la serie: 20, 17, 14, 11, ?",
 			"options": [],
 			"answer": "8",
-			"explanation": "Si toglie 3 ogni volta: 11 − 3 = 8."
+			"explanation": "Si toglie 3 ogni volta: 11 − 3 = 8.",
+			"distractorWhy": {
+				"7": "Non segue la regola «−3»: 11 − 3 fa 8, non 7.",
+				"9": "Non segue la regola «−3»: 11 − 3 fa 8, non 9.",
+				"10": "Non segue la regola «−3»: 11 − 3 fa 8, non 10."
+			}
 		},
 		{
 			"id": "logica-fib",
@@ -265,7 +380,12 @@
 			"prompt": "Quale numero continua la serie: 1, 1, 2, 3, ?",
 			"options": [],
 			"answer": "5",
-			"explanation": "Ogni numero è la somma dei due precedenti: 2 + 3 = 5."
+			"explanation": "Ogni numero è la somma dei due precedenti: 2 + 3 = 5.",
+			"distractorWhy": {
+				"4": "Non è la somma dei due precedenti: 2 + 3 fa 5, non 4.",
+				"6": "Non è la somma dei due precedenti: 2 + 3 fa 5, non 6.",
+				"7": "Non è la somma dei due precedenti: 2 + 3 fa 5, non 7."
+			}
 		},
 		{
 			"id": "logica-wodd-mela",
@@ -281,7 +401,12 @@
 				"cane"
 			],
 			"answer": "mela",
-			"explanation": "La mela è un frutto; gli altri sono animali."
+			"explanation": "La mela è un frutto; gli altri sono animali.",
+			"distractorWhy": {
+				"cane": "È un animale, come gli altri: non è lui l'intruso.",
+				"gatto": "È un animale, come gli altri: non è lui l'intruso.",
+				"cavallo": "È un animale, come gli altri: non è lui l'intruso."
+			}
 		},
 		{
 			"id": "logica-wodd-quercia",
@@ -297,7 +422,12 @@
 				"margherita"
 			],
 			"answer": "quercia",
-			"explanation": "La quercia è un albero; gli altri sono fiori."
+			"explanation": "La quercia è un albero; gli altri sono fiori.",
+			"distractorWhy": {
+				"rosa": "È un fiore, come gli altri: non è lui l'intruso.",
+				"tulipano": "È un fiore, come gli altri: non è lui l'intruso.",
+				"margherita": "È un fiore, come gli altri: non è lui l'intruso."
+			}
 		},
 		{
 			"id": "logica-wodd-tavolo",
@@ -313,7 +443,12 @@
 				"rosso"
 			],
 			"answer": "tavolo",
-			"explanation": "Il tavolo non è un colore."
+			"explanation": "Il tavolo non è un colore.",
+			"distractorWhy": {
+				"rosso": "È un colore, come gli altri: non è lui l'intruso.",
+				"verde": "È un colore, come gli altri: non è lui l'intruso.",
+				"blu": "È un colore, come gli altri: non è lui l'intruso."
+			}
 		},
 		{
 			"id": "logica-wodd-marzo",
@@ -329,7 +464,12 @@
 				"marzo"
 			],
 			"answer": "marzo",
-			"explanation": "Marzo è un mese; gli altri sono giorni della settimana."
+			"explanation": "Marzo è un mese; gli altri sono giorni della settimana.",
+			"distractorWhy": {
+				"lunedì": "È un giorno della settimana, come gli altri: non è lui l'intruso.",
+				"giovedì": "È un giorno della settimana, come gli altri: non è lui l'intruso.",
+				"domenica": "È un giorno della settimana, come gli altri: non è lui l'intruso."
+			}
 		},
 		{
 			"id": "logica-analogia-basso",
@@ -345,7 +485,12 @@
 				"lungo"
 			],
 			"answer": "basso",
-			"explanation": "Sono coppie di contrari: grande/piccolo, alto/basso."
+			"explanation": "Sono coppie di contrari: grande/piccolo, alto/basso.",
+			"distractorWhy": {
+				"lungo": "Non è il contrario di «alto»: riguarda la lunghezza, non l'altezza.",
+				"largo": "Non è il contrario di «alto»: riguarda la larghezza, non l'altezza.",
+				"veloce": "Non è un contrario di «alto»: riguarda la velocità."
+			}
 		},
 		{
 			"id": "logica-analogia-gattino",
@@ -361,7 +506,12 @@
 				"pulcino"
 			],
 			"answer": "gattino",
-			"explanation": "Il piccolo del gatto è il gattino."
+			"explanation": "Il piccolo del gatto è il gattino.",
+			"distractorWhy": {
+				"cavallo": "Non è il piccolo del gatto: è un altro animale adulto.",
+				"pulcino": "È il piccolo della gallina, non del gatto.",
+				"agnello": "È il piccolo della pecora, non del gatto."
+			}
 		},
 		{
 			"id": "logica-analogia-scarpa",
@@ -377,7 +527,12 @@
 				"sciarpa"
 			],
 			"answer": "scarpa",
-			"explanation": "Il guanto veste la mano, la scarpa il piede."
+			"explanation": "Il guanto veste la mano, la scarpa il piede.",
+			"distractorWhy": {
+				"cappello": "Il cappello veste la testa, non il piede.",
+				"sciarpa": "La sciarpa veste il collo, non il piede.",
+				"cintura": "La cintura veste la vita, non il piede."
+			}
 		},
 		{
 			"id": "logica-analogia-Luna",
@@ -393,7 +548,12 @@
 				"Luna"
 			],
 			"answer": "Luna",
-			"explanation": "Di giorno splende il Sole, di notte la Luna."
+			"explanation": "Di giorno splende il Sole, di notte la Luna.",
+			"distractorWhy": {
+				"lampada": "La lampada è una luce artificiale, non l'astro che illumina la notte.",
+				"buio totale": "Di notte c'è comunque la luce della Luna: non è buio totale.",
+				"stella cadente": "È un evento raro, non l'astro che illumina regolarmente la notte."
+			}
 		},
 		{
 			"id": "logica-analogia-ascoltare",
@@ -409,7 +569,12 @@
 				"annusare"
 			],
 			"answer": "ascoltare",
-			"explanation": "Un libro si legge, la musica si ascolta."
+			"explanation": "Un libro si legge, la musica si ascolta.",
+			"distractorWhy": {
+				"guardare": "La musica si ascolta, non si guarda.",
+				"scrivere": "Scrivere è comporre la musica, non l'azione di goderne come leggere per il libro.",
+				"annusare": "Non è affatto un'azione legata alla musica."
+			}
 		},
 		{
 			"id": "logica-deduzione-58-ha la coda",
@@ -425,7 +590,12 @@
 				"forse ha la coda"
 			],
 			"answer": "ha la coda",
-			"explanation": "Se vale per tutti i gatti e Fufi è un gatto, vale anche per Fufi."
+			"explanation": "Se vale per tutti i gatti e Fufi è un gatto, vale anche per Fufi.",
+			"distractorWhy": {
+				"non ha la coda": "È il contrario della regola: se vale per tutti i gatti e Fufi è un gatto, Fufi ce l'ha.",
+				"forse ha la coda": "Non è un forse: la regola vale per tutti i gatti, quindi è certo.",
+				"è un cane": "Il testo dice che Fufi è un gatto, non un cane."
+			}
 		},
 		{
 			"id": "logica-deduzione-48-non vola",
@@ -441,7 +611,12 @@
 				"vola"
 			],
 			"answer": "non vola",
-			"explanation": "Se nessun pesce vola e Nemo è un pesce, allora Nemo non vola."
+			"explanation": "Se nessun pesce vola e Nemo è un pesce, allora Nemo non vola.",
+			"distractorWhy": {
+				"vola": "È il contrario della regola: nessun pesce vola, quindi nemmeno Nemo.",
+				"forse vola": "Non è un forse: la regola «nessun pesce vola» è categorica.",
+				"è un uccello": "Il testo dice che Nemo è un pesce, non un uccello."
+			}
 		},
 		{
 			"id": "logica-deduzione-68-non sta piovendo",
@@ -457,7 +632,12 @@
 				"non sta piovendo"
 			],
 			"answer": "non sta piovendo",
-			"explanation": "Se piovesse avrebbe l'ombrello; non ce l'ha, quindi non piove."
+			"explanation": "Se piovesse avrebbe l'ombrello; non ce l'ha, quindi non piove.",
+			"distractorWhy": {
+				"sta piovendo": "Se piovesse, secondo la regola Lea avrebbe l'ombrello: non ce l'ha, quindi non piove.",
+				"ha perso l'ombrello": "Non è detto nel testo: è un'informazione inventata, non dedotta.",
+				"fa molto caldo": "La temperatura non è nella regola, che lega solo pioggia e ombrello."
+			}
 		},
 		{
 			"id": "logica-deduzione-69-Ugo",
@@ -473,7 +653,12 @@
 				"Sono uguali"
 			],
 			"answer": "Ugo",
-			"explanation": "Due confronti si incatenano quando hanno un termine in comune: qui è Sara. Messa in fila la catena, il più basso sta all'ultimo posto."
+			"explanation": "Due confronti si incatenano quando hanno un termine in comune: qui è Sara. Messa in fila la catena, il più basso sta all'ultimo posto.",
+			"distractorWhy": {
+				"Marco": "Marco è il più alto della fila, non il più basso.",
+				"Sara": "Sara è a metà catena: più bassa di Marco ma più alta di Ugo.",
+				"Sono uguali": "Non sono uguali: la catena mostra un ordine preciso tra i tre."
+			}
 		},
 		{
 			"id": "logica-deduzione-86-blu",
@@ -489,7 +674,12 @@
 				"rossa"
 			],
 			"answer": "blu",
-			"explanation": "Ci sono solo rosse e blu: se non è rossa, per forza è blu."
+			"explanation": "Ci sono solo rosse e blu: se non è rossa, per forza è blu.",
+			"distractorWhy": {
+				"rossa": "Il testo dice che NON è rossa: è l'opposto di quanto affermato.",
+				"verde": "Nella scatola ci sono solo palline rosse e blu: il verde non è un'opzione possibile.",
+				"non si può sapere": "Si può sapere: escludendo il rosso, l'unica possibilità rimasta è il blu."
+			}
 		},
 		{
 			"id": "logica-insiemi-0",
@@ -506,7 +696,11 @@
 			],
 			"answer": "È contenuto in quello dei mammiferi",
 			"explanation": "Ogni cane è un mammifero, ma non ogni mammifero è un cane: il gruppo più piccolo sta dentro quello più grande.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Contiene quello dei mammiferi": "È il contrario: i cani sono un sottoinsieme più piccolo, non contengono tutti i mammiferi.",
+				"Non ha punti in comune con esso": "Ogni cane è un mammifero: c'è la massima sovrapposizione possibile, non nessuna.",
+				"Coincide con quello dei mammiferi": "Esistono mammiferi che non sono cani: i due insiemi non coincidono."
+			}
 		},
 		{
 			"id": "logica-insiemi-1",
@@ -523,7 +717,11 @@
 			],
 			"answer": "Gli uccelli che volano",
 			"explanation": "L'intersezione contiene solo ciò che soddisfa entrambe le condizioni: i pipistrelli volano ma non hanno piume.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"I pipistrelli e le farfalle": "Volano ma non hanno piume: non soddisfano entrambe le condizioni.",
+				"Tutti gli animali con le ali": "Avere le ali non garantisce piume (i pipistrelli non le hanno) né di volare (gli struzzi non volano).",
+				"I pinguini e gli struzzi": "Hanno le piume ma non volano: manca la seconda condizione."
+			}
 		},
 		{
 			"id": "logica-insiemi-2",
@@ -540,7 +738,11 @@
 			],
 			"answer": "Tutti gli elementi dell'uno e dell'altro",
 			"explanation": "L'unione mette insieme tutto; l'intersezione tiene solo quello che appartiene a entrambi.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Solo gli elementi comuni ai due": "Quella è l'intersezione, non l'unione.",
+				"Solo gli elementi del primo insieme": "L'unione include anche gli elementi del secondo insieme.",
+				"Solo gli elementi che stanno in uno solo": "L'unione include anche quelli comuni a entrambi, non li esclude."
+			}
 		},
 		{
 			"id": "logica-insiemi-3",
@@ -557,7 +759,11 @@
 			],
 			"answer": "12, 14, 16 e così via",
 			"explanation": "Servono entrambe le proprietà insieme: pari E sopra il dieci. Il 12 le ha tutte e due, l'11 no e l'8 nemmeno.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Tutti i numeri pari esistenti": "Servono entrambe le condizioni: anche 2, 4, 6 sono pari ma non superano 10.",
+				"Tutti i numeri maggiori di dieci": "Servono entrambe le condizioni: anche 11, 13 superano 10 ma non sono pari.",
+				"Nessun numero, è vuota": "Esistono numeri che soddisfano entrambe le condizioni, come 12."
+			}
 		},
 		{
 			"id": "logica-insiemi-4",
@@ -574,7 +780,11 @@
 			],
 			"answer": "Perché ogni quadrato ha quattro angoli retti",
 			"explanation": "Un rettangolo è un quadrilatero con quattro angoli retti: il quadrato lo è, e in più ha i lati uguali.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Perché ogni rettangolo ha i lati uguali": "Non è vero: un rettangolo generico ha lati diversi a due a due, solo il quadrato li ha tutti uguali.",
+				"Perché hanno sempre la stessa area": "L'area non è fissa né per i quadrati né per i rettangoli.",
+				"Perché entrambi hanno quattro lati": "Anche altri quadrilateri hanno quattro lati: ciò che conta sono i quattro angoli retti."
+			}
 		},
 		{
 			"id": "logica-insiemi-5",
@@ -591,7 +801,11 @@
 			],
 			"answer": "Un insieme che non contiene alcun elemento",
 			"explanation": "Per esempio «i numeri pari dispari»: la condizione non può essere soddisfatta da nessuno.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Un insieme con un solo elemento": "Un elemento solo non è vuoto: è un insieme con un membro.",
+				"Un insieme di cui non si sa il contenuto": "Non sapere il contenuto non lo rende vuoto: potrebbe comunque avere elementi.",
+				"Un insieme uguale a tutti gli altri": "L'insieme vuoto è definito dall'assenza di elementi, non dall'uguaglianza con altri."
+			}
 		},
 		{
 			"id": "logica-insiemi-6",
@@ -608,7 +822,11 @@
 			],
 			"answer": "Disgiunti",
 			"explanation": "Insiemi disgiunti hanno intersezione vuota: per esempio i numeri pari e i numeri dispari.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Coincidenti": "Coincidenti significa che sono lo stesso insieme, il contrario di non avere nulla in comune.",
+				"Contenuti": "«Contenuti» descrive un insieme dentro l'altro, non l'assenza di elementi comuni.",
+				"Complementari": "I complementari coprono insieme tutto l'insieme di riferimento: qui si parla solo di elementi comuni."
+			}
 		},
 		{
 			"id": "logica-insiemi-7",
@@ -625,7 +843,11 @@
 			],
 			"answer": "Un sottoinsieme",
 			"explanation": "Ogni arco è uno strumento, ma esistono strumenti che non sono archi: la parte sta dentro il tutto.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Un insieme più grande": "Gli archi sono una parte degli strumenti musicali, non un gruppo più grande.",
+				"Un insieme disgiunto": "Gli archi sono strumenti musicali: c'è sovrapposizione totale, non assenza di elementi comuni.",
+				"L'insieme complementare": "Il complementare sarebbe «tutto ciò che non è strumento musicale»: gli archi sono invece dentro il gruppo."
+			}
 		},
 		{
 			"id": "logica-insiemi-8",
@@ -653,7 +875,11 @@
 			],
 			"answer": "A è contenuto in C",
 			"explanation": "L'inclusione si trasmette: se ogni A è un B e ogni B è un C, allora ogni A è un C.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"C è contenuto in A": "È il contrario: la relazione va da A verso C, non da C verso A.",
+				"A e C sono disgiunti": "Non sono disgiunti: A è dentro B che è dentro C, quindi A è dentro C.",
+				"A e C sono lo stesso insieme": "Non sono necessariamente uguali: C può contenere elementi che non sono in A."
+			}
 		},
 		{
 			"id": "logica-insiemi-10",
@@ -670,7 +896,11 @@
 			],
 			"answer": "Animali",
 			"explanation": "La scala va dal più ampio al più stretto: animali, vertebrati, mammiferi, cani.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Vertebrati e mammiferi": "Anche vertebrati e mammiferi sono contenuti in animali, il gruppo più ampio.",
+				"Mammiferi soltanto": "I mammiferi sono un sottoinsieme, non il gruppo che contiene tutti gli altri.",
+				"Cani e vertebrati": "Cani e vertebrati sono entrambi contenuti in animali, il gruppo più ampio di tutti."
+			}
 		},
 		{
 			"id": "logica-insiemi-11",
@@ -687,7 +917,11 @@
 			],
 			"answer": "Tutto ciò che sta fuori da quell'insieme",
 			"explanation": "Dentro un gruppo di riferimento: il complementare dei pari, fra i numeri interi, sono i dispari.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"L'insieme che gli assomiglia di più": "Il complementare non è definito dalla somiglianza: è tutto ciò che sta fuori.",
+				"La metà mancante dell'insieme": "Non è necessariamente la metà: è tutto quello che non appartiene all'insieme.",
+				"L'insieme con gli stessi elementi": "Il complementare ha elementi diversi, esattamente quelli che l'insieme originale non ha."
+			}
 		},
 		{
 			"id": "logica-insiemi-12",
@@ -704,7 +938,11 @@
 			],
 			"answer": "Si sovrappongono in parte",
 			"explanation": "Una parte dei musicisti suona la chitarra, un'altra no: gli insiemi si intersecano senza contenersi.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Sono completamente separati": "Se fossero separati, nessun musicista sarebbe chitarrista: invece «alcuni» lo sono.",
+				"Coincidono perfettamente": "Non tutti i musicisti sono chitarristi: gli insiemi si sovrappongono solo in parte.",
+				"Non hanno alcun elemento": "«Alcuni» significa che almeno un elemento è comune ai due insiemi."
+			}
 		},
 		{
 			"id": "logica-insiemi-13",
@@ -732,7 +970,11 @@
 			],
 			"answer": "Piove e fa freddo insieme",
 			"explanation": "La E richiede entrambe: basta che una sia falsa e tutta l'affermazione è falsa.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Piove, anche se non fa freddo": "La congiunzione E richiede entrambe le condizioni: una sola non basta.",
+				"Fa freddo, anche se non piove": "La congiunzione E richiede entrambe le condizioni: una sola non basta.",
+				"Almeno una delle due è vera": "Quella è la condizione della O, non della E, che richiede entrambe."
+			}
 		},
 		{
 			"id": "logica-verita-15",
@@ -749,7 +991,11 @@
 			],
 			"answer": "Non piove e non fa freddo",
 			"explanation": "La O si accontenta di una: perché sia falsa devono essere false tutte e due.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Piove ma non fa freddo": "Basta che una condizione sia vera perché la O sia vera: qui piove, quindi è vera.",
+				"Fa freddo ma non piove": "Basta che una sia vera: qui fa freddo, quindi la O è vera, non falsa.",
+				"Piove e fa freddo insieme": "Se sono vere entrambe, a maggior ragione la O è vera, non falsa."
+			}
 		},
 		{
 			"id": "logica-verita-16",
@@ -766,7 +1012,11 @@
 			],
 			"answer": "Almeno un gatto non dorme",
 			"explanation": "Per smentire un «tutti» basta un solo controesempio: non serve che sia vero il contrario di tutti.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Nessun gatto dorme": "Basta un solo gatto sveglio per smentire «tutti»: non serve che nessuno dorma.",
+				"Tutti i gatti sono svegli": "Basta un solo controesempio: non è detto che siano tutti svegli.",
+				"Metà dei gatti dorme": "Non c'è nessuna proporzione garantita: basta un solo gatto sveglio."
+			}
 		},
 		{
 			"id": "logica-verita-17",
@@ -783,7 +1033,11 @@
 			],
 			"answer": "Almeno uno è arrivato",
 			"explanation": "Negare un «nessuno» significa dire che ce n'è almeno uno, non che ci sono tutti.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Tutti sono arrivati": "Negare «nessuno» richiede solo un controesempio, non che siano arrivati tutti.",
+				"Nessuno è partito": "La negazione riguarda l'arrivo, non la partenza: sono due cose diverse.",
+				"Molti sono arrivati": "Basta uno solo per negare «nessuno»: non serve che siano molti."
+			}
 		},
 		{
 			"id": "logica-verita-18",
@@ -800,7 +1054,11 @@
 			],
 			"answer": "Non pioveva",
 			"explanation": "Se l'effetto manca, manca anche la causa che lo garantiva: è la forma corretta del ragionamento.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Pioveva comunque": "Se pioveva, secondo la regola avrei preso l'ombrello: non averlo preso esclude che piovesse.",
+				"Ho dimenticato l'ombrello": "La regola garantisce che prendo l'ombrello se piove: se non l'ho preso, non poteva piovere.",
+				"Non si può concludere niente": "Si può concludere: se manca l'effetto garantito, manca anche la causa che lo garantiva."
+			}
 		},
 		{
 			"id": "logica-verita-19",
@@ -817,7 +1075,11 @@
 			],
 			"answer": "Niente di certo: poteva esserci un altro motivo",
 			"explanation": "L'ombrello si può prendere anche per il sole o per abitudine: la regola non dice che sia l'unica ragione possibile.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Che sicuramente stava piovendo in quel momento": "L'ombrello si può prendere anche per altri motivi: non è la prova certa che piovesse.",
+				"Che sicuramente non stava piovendo per niente": "Non si può escludere che piovesse: prendere l'ombrello è compatibile con entrambe le situazioni.",
+				"Che pioverà sicuramente nel corso della giornata": "La regola riguarda il presente, non fa previsioni sul resto della giornata."
+			}
 		},
 		{
 			"id": "logica-verita-20",
@@ -834,7 +1096,11 @@
 			],
 			"answer": "Esiste almeno un cigno non bianco",
 			"explanation": "Un'affermazione universale cade con un solo caso contrario: basta un cigno nero.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Nessun cigno è bianco": "Basta un solo cigno non bianco per smentire «tutti»: non serve che nessuno lo sia.",
+				"Tutti i cigni sono neri": "Non serve che siano tutti neri: basta un solo cigno di un altro colore.",
+				"Quasi tutti i cigni sono bianchi": "Questa frase non nega «tutti»: la vera negazione richiede solo un controesempio."
+			}
 		},
 		{
 			"id": "logica-verita-21",
@@ -851,7 +1117,11 @@
 			],
 			"answer": "Piove",
 			"explanation": "Due negazioni si annullano: negare la negazione riporta all'affermazione di partenza.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Non piove": "È l'opposto: due negazioni si annullano, tornando all'affermazione positiva.",
+				"Forse piove": "Non c'è incertezza: la doppia negazione afferma con certezza che piove.",
+				"Ha smesso di piovere": "La doppia negazione afferma semplicemente che piove ora, non parla di un cambiamento nel tempo."
+			}
 		},
 		{
 			"id": "logica-verita-22",
@@ -868,7 +1138,11 @@
 			],
 			"answer": "Marco ha un gatto",
 			"explanation": "La O richiede almeno una delle due: se una è esclusa, l'altra deve valere.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Marco non ha animali": "La regola dice che ognuno ha almeno uno dei due: Marco deve avere il gatto.",
+				"Marco ha anche un cane": "Sappiamo che Marco non ha cani: quindi deve avere il gatto, non entrambi.",
+				"Non si può dire niente": "La regola garantisce almeno uno dei due: escluso il cane, resta il gatto."
+			}
 		},
 		{
 			"id": "logica-verita-23",
@@ -885,7 +1159,11 @@
 			],
 			"answer": "No, mai",
 			"explanation": "È il principio di non contraddizione: se una è vera l'altra è falsa, senza eccezioni.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Sì, se sono complicate": "La complessità della frase non cambia il principio di non contraddizione.",
+				"Sì, in certi casi particolari": "Non esistono eccezioni: se una è vera l'altra è sempre falsa.",
+				"Dipende da chi le dice": "La verità logica non dipende da chi parla."
+			}
 		},
 		{
 			"id": "logica-verita-24",
@@ -902,7 +1180,11 @@
 			],
 			"answer": "La regola di partenza",
 			"explanation": "Un solo caso in cui la premessa è vera e la conclusione falsa basta a smentire la regola.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Il fatto di aver studiato": "Aver studiato è un fatto dato, non qualcosa che risulta falso in questo ragionamento.",
+				"Il risultato dell'esame": "Il risultato è un fatto osservato, non ciò che risulta falso.",
+				"Nessuna delle due cose": "C'è qualcosa di falso: la regola stessa, visto che premessa vera e conclusione falsa la smentiscono."
+			}
 		},
 		{
 			"id": "logica-verita-25",
@@ -930,7 +1212,11 @@
 			],
 			"answer": "Almeno una delle due non l'ho presa",
 			"explanation": "Per far cadere una E basta che uno dei due pezzi sia falso: non serve che lo siano entrambi.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Non ho preso nessuna delle due": "Basta che una delle due sia falsa per far cadere la E: non serve che siano false entrambe.",
+				"Ho preso solo il gelato": "Questa è solo una delle possibilità compatibili con la frase falsa, non l'unica.",
+				"Ho preso solo la torta": "Questa è solo una delle possibilità compatibili con la frase falsa, non l'unica."
+			}
 		},
 		{
 			"id": "logica-verita-27",
@@ -947,7 +1233,11 @@
 			],
 			"answer": "Perché se è vera è falsa, e viceversa",
 			"explanation": "È il paradosso del mentitore: una frase che parla della propria verità può non avere alcun valore coerente.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Perché è scritta in modo scorretto": "Grammaticalmente la frase è corretta: il problema è logico, non di scrittura.",
+				"Perché parla di sé stessa senza dati": "Il problema non è la mancanza di dati: è che qualsiasi valore di verità le si assegni si contraddice.",
+				"Perché manca il soggetto della frase": "Il soggetto c'è: il problema è che si riferisce a sé stessa in modo contraddittorio."
+			}
 		},
 		{
 			"id": "logica-quantificatori-28",
@@ -964,7 +1254,11 @@
 			],
 			"answer": "Tutti",
 			"explanation": "«Tutti» non ammette eccezioni: basta un caso contrario per renderlo falso.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Alcuni": "«Alcuni» ammette eccezioni: basta almeno un caso, non ogni caso.",
+				"Molti": "«Molti» indica una gran parte, ma può comunque avere eccezioni.",
+				"Quasi tutti": "«Quasi tutti» ammette esplicitamente alcune eccezioni, «tutti» no."
+			}
 		},
 		{
 			"id": "logica-quantificatori-29",
@@ -981,7 +1275,11 @@
 			],
 			"answer": "Almeno uno non vola",
 			"explanation": "In logica «alcuni» significa «almeno uno», anche se nel parlare comune suggerisce «parecchi».",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Nessun uccello vola": "«Alcuni» non significa «nessuno»: dice che almeno uno non vola, non tutti.",
+				"La maggior parte non vola": "«Alcuni» non specifica una proporzione: basta anche un solo uccello che non vola.",
+				"Tutti gli uccelli volano": "È il contrario di quanto afferma la frase."
+			}
 		},
 		{
 			"id": "logica-quantificatori-30",
@@ -998,7 +1296,11 @@
 			],
 			"answer": "Almeno un cane abbaia, se i cani esistono",
 			"explanation": "Da un «tutti» si scende ad «alcuni», ma non si può girare la frase: altri animali potrebbero abbaiare.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Soltanto i cani sanno abbaiare": "La regola dice che i cani abbaiano, non che solo loro lo sanno fare.",
+				"Alcuni cani non abbaiano affatto": "Se «tutti» i cani abbaiano, non ce n'è nessuno che non lo fa.",
+				"Chiunque abbaia dev'essere un cane": "Non si può girare la frase: altri animali potrebbero abbaiare senza essere cani."
+			}
 		},
 		{
 			"id": "logica-quantificatori-31",
@@ -1015,7 +1317,11 @@
 			],
 			"answer": "Un solo studente in ritardo",
 			"explanation": "Le affermazioni universali, positive o negative, cadono con un unico controesempio.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Metà degli studenti in ritardo": "Non serve metà: basta un solo studente in ritardo per smentire «nessuno».",
+				"Tutti gli studenti in ritardo": "Non serve che siano tutti: basta un solo controesempio.",
+				"Nessun controesempio possibile": "Un controesempio è proprio ciò che serve per smentire l'affermazione."
+			}
 		},
 		{
 			"id": "logica-quantificatori-32",
@@ -1032,7 +1338,11 @@
 			],
 			"answer": "Alcuni rettangoli sono quadrati",
 			"explanation": "Girando un «tutti» si ottiene solo un «alcuni»: l'inclusione vale in una direzione sola.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Tutti i rettangoli sono quadrati": "Girare un «tutti» dà solo un «alcuni»: non tutti i rettangoli sono quadrati.",
+				"Nessun rettangolo è un quadrato": "I quadrati sono rettangoli: c'è sovrapposizione, non separazione totale.",
+				"I due gruppi sono separati": "I quadrati sono un sottoinsieme dei rettangoli: si sovrappongono, non sono separati."
+			}
 		},
 		{
 			"id": "logica-quantificatori-33",
@@ -1049,7 +1359,11 @@
 			],
 			"answer": "Non tutti",
 			"explanation": "«Nessuno» è molto più forte: negare «tutti» richiede solo che ce ne sia uno fuori.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Nessuno": "«Nessuno» è molto più forte: basta un solo caso mancante per negare «tutti», non l'assenza totale.",
+				"Pochi": "«Pochi» indica una quantità specifica: la vera negazione di «tutti» è «non tutti».",
+				"Quasi nessuno": "«Quasi nessuno» è troppo forte: basta un solo caso fuori per negare «tutti»."
+			}
 		},
 		{
 			"id": "logica-quantificatori-34",
@@ -1066,7 +1380,11 @@
 			],
 			"answer": "Due cose diverse",
 			"explanation": "Nella prima ogni chiave ha la sua porta; nella seconda esiste una porta che tutte le chiavi aprono. L'ordine dei quantificatori conta.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"La stessa cosa in due modi": "L'ordine dei quantificatori cambia il senso: nella prima ogni chiave ha la sua porta, nella seconda una porta è aperta da tutte.",
+				"Due cose sempre false": "Non sono necessariamente false: possono essere vere entrambe, ma dicono cose diverse.",
+				"Due cose sempre vere": "Non sono necessariamente vere: dipende dalla situazione."
+			}
 		},
 		{
 			"id": "logica-quantificatori-35",
@@ -1083,7 +1401,11 @@
 			],
 			"answer": "Due o più studenti",
 			"explanation": "«Almeno» fissa un minimo, non un numero esatto: tre, quattro o venti la rendono ugualmente vera.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Esattamente due studenti": "«Almeno» fissa un minimo, non un numero esatto: anche tre o più la rendono vera.",
+				"Meno di due studenti": "«Almeno due» richiede un minimo di due: meno di due non basta.",
+				"Tutti gli studenti": "Non serve che siano tutti: basta che siano due o più."
+			}
 		},
 		{
 			"id": "logica-quantificatori-36",
@@ -1100,7 +1422,11 @@
 			],
 			"answer": "No, in nessun caso",
 			"explanation": "Da un caso particolare non si sale a una regola generale: è il salto che rende sbagliati molti ragionamenti.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Sì, se i gatti sono pochi": "Il numero di gatti non cambia la logica: da «alcuni» non si può mai dedurre «tutti».",
+				"Sì, se non ci sono controesempi": "Anche senza controesempi noti, «alcuni» non garantisce «tutti»: mancano informazioni.",
+				"Dipende da quanti gatti sono neri": "Non dipende dalla quantità: da un caso particolare non si sale mai a una regola generale."
+			}
 		},
 		{
 			"id": "logica-quantificatori-37",
@@ -1117,7 +1443,11 @@
 			],
 			"answer": "Dicono la stessa cosa",
 			"explanation": "Sono due modi di esprimere la stessa negazione universale.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Dicono cose opposte": "Sono due modi equivalenti di esprimere la stessa negazione universale, non opposti.",
+				"La prima è più debole": "Le due frasi sono logicamente equivalenti: nessuna è più debole dell'altra.",
+				"La seconda è sempre falsa": "La seconda è vera esattamente quando lo è la prima: non è sempre falsa."
+			}
 		},
 		{
 			"id": "logica-quantificatori-38",
@@ -1145,7 +1475,11 @@
 			],
 			"answer": "Non sempre il treno è puntuale",
 			"explanation": "«Qualche volta» nega il «sempre» senza affermare nulla sulla frequenza.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Il treno è sempre in ritardo": "«Qualche volta» non dice «sempre»: nega solo la puntualità costante.",
+				"Il treno non è mai puntuale": "«Qualche volta» in ritardo lascia aperta la possibilità che sia puntuale altre volte.",
+				"Il treno è quasi sempre in ritardo": "«Qualche volta» non specifica una frequenza alta."
+			}
 		},
 		{
 			"id": "logica-quantificatori-40",
@@ -1162,7 +1496,11 @@
 			],
 			"answer": "Sì, perché non ce ne sono",
 			"explanation": "Un'affermazione su un insieme vuoto non ha controesempi possibili, quindi è considerata vera. Si dice vera «a vuoto».",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"No, perché non ce ne sono": "Un'affermazione su un insieme vuoto non ha controesempi possibili, quindi è considerata vera, non falsa.",
+				"Non si può stabilire": "Si può stabilire: un'affermazione su un insieme senza elementi è vera «a vuoto», per convenzione logica.",
+				"Solo se sono davvero grandi": "Non ci sono palline blu da controllare: la frase è vera a prescindere."
+			}
 		},
 		{
 			"id": "logica-analogie-41",
@@ -1179,7 +1517,11 @@
 			],
 			"answer": "Tagliare",
 			"explanation": "La relazione è «strumento → azione che compie»: si cerca la stessa relazione, non una parola simile.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Cucire": "Si cuce con ago e filo, non con le forbici.",
+				"Incollare": "Si incolla con la colla, non con le forbici.",
+				"Misurare": "Si misura con il righello, non con le forbici."
+			}
 		},
 		{
 			"id": "logica-analogie-42",
@@ -1196,7 +1538,11 @@
 			],
 			"answer": "Scuola",
 			"explanation": "La relazione è «chi lavora → luogo di lavoro»: lo studente è una persona, la lezione un'attività.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Libro": "Il libro è uno strumento di lavoro, non il luogo dove si lavora.",
+				"Studente": "Lo studente è una persona con cui si lavora, non il luogo di lavoro.",
+				"Lezione": "La lezione è l'attività svolta, non il luogo dove avviene."
+			}
 		},
 		{
 			"id": "logica-analogie-43",
@@ -1213,7 +1559,11 @@
 			],
 			"answer": "Luce",
 			"explanation": "La relazione è di opposizione. «Notte» è associata al buio ma non è il suo contrario.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Notte": "La notte è associata al buio, ma non è il suo contrario: quello è la luce.",
+				"Nero": "Il nero è un colore associato al buio, non il suo opposto.",
+				"Paura": "La paura è un'emozione che il buio può causare, non il suo contrario."
+			}
 		},
 		{
 			"id": "logica-analogie-44",
@@ -1230,7 +1580,11 @@
 			],
 			"answer": "Massa",
 			"explanation": "La relazione è «unità → grandezza misurata». La bilancia è lo strumento, non la grandezza.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Bilancia": "La bilancia è lo strumento che misura, non la grandezza misurata.",
+				"Peso di una persona": "È un esempio specifico di massa misurata, non il nome della grandezza.",
+				"Grandezza": "È troppo generico: serve il nome specifico della grandezza, come per «distanza»."
+			}
 		},
 		{
 			"id": "logica-analogie-45",
@@ -1247,7 +1601,11 @@
 			],
 			"answer": "Cavallo",
 			"explanation": "La relazione è «piccolo → animale adulto della stessa specie».",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Stalla": "La stalla è il luogo dove vive il cavallo, non l'animale adulto.",
+				"Corsa": "La corsa è un'attività del cavallo, non l'animale adulto.",
+				"Fieno": "Il fieno è il cibo del cavallo, non l'animale adulto."
+			}
 		},
 		{
 			"id": "logica-analogie-46",
@@ -1264,7 +1622,11 @@
 			],
 			"answer": "Film",
 			"explanation": "La relazione è «parte → intero di cui fa parte». Il cinema è il luogo, non l'opera.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Cinema": "Il cinema è il luogo dove si guarda, non l'opera di cui il fotogramma è parte.",
+				"Macchina fotografica": "È lo strumento che scatta le foto, non l'opera composta da fotogrammi.",
+				"Attore": "L'attore recita nel film, ma non è l'opera di cui il fotogramma è parte."
+			}
 		},
 		{
 			"id": "logica-deduzioni-47",
@@ -1281,7 +1643,11 @@
 			],
 			"answer": "Non necessariamente",
 			"explanation": "La regola dice che i musicisti leggono le note, non che solo loro lo fanno: girarla è un errore classico.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Sì, sicuramente": "Leggere le note non basta: la regola dice che i musicisti leggono le note, non che solo loro lo fanno.",
+				"No, di certo non lo è": "Non si può escludere: Sara potrebbe comunque essere musicista, solo non lo sappiamo con certezza.",
+				"Solo se suona uno strumento": "Suonare uno strumento non è l'informazione data: la regola parla solo di leggere le note."
+			}
 		},
 		{
 			"id": "logica-deduzioni-48",
@@ -1298,7 +1664,11 @@
 			],
 			"answer": "No, di sicuro",
 			"explanation": "Se nessun rettile ha piume e Kiwi le ha, Kiwi sta fuori dall'insieme dei rettili.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Sì, potrebbe esserlo": "Se nessun rettile ha piume e Kiwi le ha, Kiwi è escluso con certezza dai rettili.",
+				"Non si può stabilire": "Si può stabilire con certezza: la regola esclude ogni animale con piume dai rettili.",
+				"Solo se non vola": "Il volo non c'entra: la regola riguarda le piume, non il volo."
+			}
 		},
 		{
 			"id": "logica-deduzioni-49",
@@ -1315,7 +1685,11 @@
 			],
 			"answer": "A è più alto di C",
 			"explanation": "«Più alto di» è una relazione transitiva: si trasmette lungo la catena.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"C è più alto di A": "È l'esatto contrario: la catena va da A, il più alto, a C, il più basso.",
+				"A e C sono uguali": "Non sono uguali: la catena di disuguaglianze mostra che A supera anche C.",
+				"Non si può stabilire": "Si può stabilire: la relazione «più alto di» si trasmette lungo tutta la catena."
+			}
 		},
 		{
 			"id": "logica-deduzioni-50",
@@ -1332,7 +1706,11 @@
 			],
 			"answer": "Sara",
 			"explanation": "Mettendo in fila: Marta, Luca, Sara. L'ultima della catena è la più grande.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Luca": "Luca è più vecchio di Marta ma più giovane di Sara: non è lui il più vecchio.",
+				"Marta": "Marta è la più giovane della fila, non la più vecchia.",
+				"Non si può dire": "Si può dire: mettendo in fila le due relazioni si ottiene un ordine completo."
+			}
 		},
 		{
 			"id": "logica-deduzioni-51",
@@ -1349,7 +1727,11 @@
 			],
 			"answer": "La regola non dice niente su questo caso",
 			"explanation": "La regola copre il caso «verde»: sul rosso non si pronuncia. Serve un'altra regola per saperlo.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"No, la regola lo vieta esplicitamente": "La regola parla solo del verde: non dice nulla, né sì né no, sul rosso.",
+				"Sì, la regola lo permette comunque": "La regola non parla del rosso: non se ne può dedurre un permesso.",
+				"Solo se non arrivano altre auto": "Questa condizione non fa parte della regola data, che riguarda solo il colore verde."
+			}
 		},
 		{
 			"id": "logica-esclusioni-52",
@@ -1366,7 +1748,11 @@
 			],
 			"answer": "Flauto",
 			"explanation": "Gli altri tre sono strumenti ad arco; il flauto è a fiato. Non conta la somiglianza del nome.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Violino": "È uno strumento ad arco, come gli altri: non è lui l'intruso.",
+				"Viola": "È uno strumento ad arco, come gli altri: non è lui l'intruso.",
+				"Violoncello": "È uno strumento ad arco, come gli altri: non è lui l'intruso."
+			}
 		},
 		{
 			"id": "logica-esclusioni-53",
@@ -1383,7 +1769,11 @@
 			],
 			"answer": "Sicilia",
 			"explanation": "Le altre tre sono capitali; la Sicilia è un'isola, non una città.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Roma": "È una capitale, come le altre due: non è lei l'intrusa.",
+				"Parigi": "È una capitale, come le altre due: non è lei l'intrusa.",
+				"Berlino": "È una capitale, come le altre due: non è lei l'intrusa."
+			}
 		},
 		{
 			"id": "logica-esclusioni-54",
@@ -1395,7 +1785,11 @@
 			"options": [],
 			"answer": "9",
 			"explanation": "Gli altri sono numeri primi; 9 si divide anche per 3. Non basta guardare se sono dispari.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"2": "È un numero primo, come gli altri: non è lui l'intruso.",
+				"3": "È un numero primo, come gli altri: non è lui l'intruso.",
+				"5": "È un numero primo, come gli altri: non è lui l'intruso."
+			}
 		},
 		{
 			"id": "logica-esclusioni-55",
@@ -1412,7 +1806,11 @@
 			],
 			"answer": "Cerchio",
 			"explanation": "Gli altri sono poligoni, cioè figure con i lati dritti; il cerchio è delimitato da una curva.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Quadrato": "È un poligono con lati dritti, come gli altri: non è lui l'intruso.",
+				"Triangolo": "È un poligono con lati dritti, come gli altri: non è lui l'intruso.",
+				"Rettangolo": "È un poligono con lati dritti, come gli altri: non è lui l'intruso."
+			}
 		},
 		{
 			"id": "logica-sequenze-56",
@@ -1429,7 +1827,11 @@
 			],
 			"answer": "cerchio",
 			"explanation": "La serie alterna due figure: dopo il quadrato tocca di nuovo al cerchio. Una regola che si ripete a coppie si scopre guardando due passi, non uno.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"quadrato": "Il quadrato è appena apparso: nella sequenza a coppie tocca di nuovo al cerchio.",
+				"triangolo": "Il triangolo non fa parte della sequenza: si alternano solo cerchio e quadrato.",
+				"nessuna delle due": "La sequenza continua regolarmente: una delle due figure c'è di sicuro."
+			}
 		},
 		{
 			"id": "logica-sequenze-57",
@@ -1441,7 +1843,11 @@
 			"options": [],
 			"answer": "10",
 			"explanation": "Fra un numero e il successivo ci sono sempre due: la regola è «+2», e vale anche fra 8 e il termine dopo.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"9": "Rompe la regola «+2»: 8+2 fa 10, non 9.",
+				"12": "Salta un passo: sarebbe il numero dopo 10, non il prossimo della serie.",
+				"16": "È il doppio di 8, ma qui la regola è aggiungere 2, non raddoppiare."
+			}
 		},
 		{
 			"id": "logica-sequenze-58",
@@ -1453,7 +1859,11 @@
 			"options": [],
 			"answer": "6",
 			"explanation": "Qui la serie scende di uno per volta: le regole possono anche togliere, non solo aggiungere.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"5": "Scende di due invece che di uno: la regola qui è «−1».",
+				"8": "È un numero già comparso nella serie, non il successivo scendendo di uno.",
+				"11": "Va nella direzione sbagliata: la serie scende, non sale."
+			}
 		},
 		{
 			"id": "logica-sequenze-59",
@@ -1465,7 +1875,11 @@
 			"options": [],
 			"answer": "16",
 			"explanation": "Ogni numero è il doppio del precedente. Quando i salti crescono in fretta conviene provare a moltiplicare, non ad aggiungere.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"9": "È vicino ma non è il doppio di 8.",
+				"10": "Segue la regola «+2» invece di raddoppiare: qui ogni numero è il doppio del precedente.",
+				"12": "Non è il doppio di 8: 8×2 fa 16, non 12."
+			}
 		},
 		{
 			"id": "logica-sequenze-60",
@@ -1482,7 +1896,11 @@
 			],
 			"answer": "I",
 			"explanation": "Si salta una lettera ogni volta: A, (B), C, (D), E… Dopo la G si salta la H e si arriva alla I.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"H": "È la lettera subito dopo G, ma la regola salta una lettera ogni volta.",
+				"F": "È una lettera già saltata in precedenza, non la prossima da saltare.",
+				"L": "Salta due lettere invece di una: dopo G si salta solo la H."
+			}
 		},
 		{
 			"id": "logica-esclusioni-61",
@@ -1499,7 +1917,11 @@
 			],
 			"answer": "sedia",
 			"explanation": "Tre sono animali e uno è un oggetto. Per trovare l'intruso si cerca la proprietà che hanno TUTTI gli altri, non quella che manca a uno solo.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"cane": "È un animale, come gli altri: non è lui l'intruso.",
+				"gatto": "È un animale, come gli altri: non è lui l'intruso.",
+				"cavallo": "È un animale, come gli altri: non è lui l'intruso."
+			}
 		},
 		{
 			"id": "logica-esclusioni-62",
@@ -1516,7 +1938,11 @@
 			],
 			"answer": "gennaio",
 			"explanation": "Tre sono giorni della settimana, gennaio è un mese: appartengono a due scale di tempo diverse.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"lunedì": "È un giorno della settimana, come gli altri: non è lui l'intruso.",
+				"martedì": "È un giorno della settimana, come gli altri: non è lui l'intruso.",
+				"giovedì": "È un giorno della settimana, come gli altri: non è lui l'intruso."
+			}
 		},
 		{
 			"id": "logica-esclusioni-63",
@@ -1528,7 +1954,11 @@
 			"options": [],
 			"answer": "7",
 			"explanation": "Tre sono pari e il 7 è dispari. Con i numeri l'intruso si cerca fra le proprietà — pari, dispari, primo — non fra le cifre.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"2": "È un numero pari, come gli altri: non è lui l'intruso.",
+				"4": "È un numero pari, come gli altri: non è lui l'intruso.",
+				"8": "È un numero pari, come gli altri: non è lui l'intruso."
+			}
 		},
 		{
 			"id": "logica-esclusioni-64",
@@ -1545,7 +1975,11 @@
 			],
 			"answer": "mela",
 			"explanation": "Tre servono a lavorare, la mela si mangia: la categoria è l'uso, non la forma.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"martello": "È un attrezzo da lavoro, come gli altri: non è lui l'intruso.",
+				"cacciavite": "È un attrezzo da lavoro, come gli altri: non è lui l'intruso.",
+				"pinza": "È un attrezzo da lavoro, come gli altri: non è lui l'intruso."
+			}
 		},
 		{
 			"id": "logica-analogie-65",
@@ -1562,7 +1996,11 @@
 			],
 			"answer": "basso",
 			"explanation": "La relazione è «il contrario di». Trovata la relazione nella prima coppia, si applica identica alla seconda.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"grande": "Non è il contrario di «alto»: riguarda la dimensione generale, non l'altezza.",
+				"lungo": "Non è il contrario di «alto»: riguarda la lunghezza, non l'altezza.",
+				"veloce": "Non è affatto un contrario di «alto»: riguarda la velocità, un'altra caratteristica."
+			}
 		},
 		{
 			"id": "logica-analogie-66",
@@ -1579,7 +2017,11 @@
 			],
 			"answer": "nuotare",
 			"explanation": "La relazione è «come si sposta»: ogni animale va con il movimento del suo ambiente.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"camminare": "Non è il movimento tipico del pesce, che vive nell'acqua.",
+				"correre": "Non è il movimento tipico del pesce: si muove nell'acqua, non sulla terra.",
+				"saltare": "Non è il movimento tipico del pesce."
+			}
 		},
 		{
 			"id": "logica-analogie-67",
@@ -1596,7 +2038,11 @@
 			],
 			"answer": "mangiare",
 			"explanation": "La relazione è «che cosa se ne fa»: del libro si legge, del cibo si mangia. Cucinare viene prima, non è l'uso finale.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"cucinare": "Si cucina prima di mangiare: non è l'uso finale del cibo, come leggere lo è per il libro.",
+				"comprare": "Si compra prima di usarlo: non è l'azione finale, come leggere lo è per il libro.",
+				"servire": "Servire è un passaggio prima di mangiare, non l'azione finale."
+			}
 		},
 		{
 			"id": "logica-analogie-68",
@@ -1613,7 +2059,11 @@
 			],
 			"answer": "scuola",
 			"explanation": "La relazione è «dove lavora». Lavagna e studente stanno nella scuola, ma non sono il luogo.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"libro": "Il libro è uno strumento di lavoro, non il luogo dove si lavora.",
+				"lavagna": "La lavagna è uno strumento in classe, non il luogo di lavoro.",
+				"studente": "Lo studente è una persona con cui si lavora, non il luogo."
+			}
 		},
 		{
 			"id": "logica-insiemi-69",
@@ -1630,7 +2080,11 @@
 			],
 			"answer": "un rettangolo",
 			"explanation": "Se un insieme è dentro un altro, tutto ciò che sta nel piccolo sta anche nel grande. Non vale al contrario: non tutti i rettangoli sono quadrati.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"un triangolo": "Il quadrato non è mai stato definito come triangolo: sono figure diverse.",
+				"un cerchio": "Il quadrato non è un cerchio: sono figure diverse.",
+				"nessuna delle due": "Il quadrato appartiene proprio all'insieme dei rettangoli, come dice la regola."
+			}
 		},
 		{
 			"id": "logica-insiemi-70",
@@ -1647,7 +2101,11 @@
 			],
 			"answer": "gioca a pallavolo",
 			"explanation": "«O l'uno o l'altro» copre tutti: escluso il primo resta per forza il secondo. Funziona solo perché la frase dice TUTTI.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"non gioca a niente": "La regola dice che tutti giocano a uno dei due: escluso il calcio, resta per forza la pallavolo.",
+				"gioca a entrambi": "Non è detto: sappiamo solo che gioca almeno a pallavolo, non che li fa entrambi.",
+				"non si può sapere": "Si può sapere: la regola «tutti giocano all'uno o all'altro» lo determina con certezza."
+			}
 		},
 		{
 			"id": "logica-verita-71",
@@ -1664,7 +2122,11 @@
 			],
 			"answer": "trovare un gatto senza quattro zampe",
 			"explanation": "Una frase con «tutti» cade con un solo controesempio. Trovare mille casi favorevoli non la dimostra; trovarne uno contrario la abbatte.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"contare molti gatti con quattro zampe": "Trovare mille casi favorevoli non smentisce un «tutti»: serve un solo caso contrario.",
+				"chiedere a un veterinario": "Un'opinione non è una prova: serve un esempio reale che contraddica la regola.",
+				"guardare anche i cani": "I cani non c'entrano con una regola sui gatti."
+			}
 		},
 		{
 			"id": "logica-verita-72",
@@ -1681,7 +2143,11 @@
 			],
 			"answer": "trovare un uccello che non vola",
 			"explanation": "«Qualche» chiede un solo caso: il pinguino basta. È il rovescio di «tutti», che invece un solo caso lo distrugge.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"trovare molti uccelli che volano": "Non serve trovare uccelli che volano: basta un solo caso che non vola, cioè il contrario.",
+				"dimostrare che nessuno vola": "«Qualche» chiede solo un caso, non tutti: questa è un'affermazione più forte e diversa.",
+				"contare tutti gli uccelli": "Non serve contarli tutti: basta trovarne uno solo che non vola."
+			}
 		},
 		{
 			"id": "logica-quantificatori-73",
@@ -1698,7 +2164,11 @@
 			],
 			"answer": "almeno un cane non abbaia",
 			"explanation": "Negare «tutti» non dà «nessuno»: dà «almeno uno no». Sono due frasi molto diverse, e scambiarle è l'errore più comune.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"nessun cane abbaia": "È un'affermazione troppo forte: basta un solo cane che non abbaia per negare «tutti».",
+				"tutti i cani tacciono": "Dice il contrario totale: la vera negazione richiede solo un'eccezione, non l'opposto assoluto.",
+				"qualche cane abbaia": "Non nega la frase originale: potrebbe essere vera insieme a «tutti i cani abbaiano»."
+			}
 		},
 		{
 			"id": "logica-quantificatori-74",
@@ -1715,7 +2185,11 @@
 			],
 			"answer": "falsa",
 			"explanation": "«Nessuno» non ammette eccezioni: un solo caso contrario la rende falsa, senza vie di mezzo.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"ancora vera": "Un solo controesempio basta a rendere falsa un'affermazione con «nessuno».",
+				"vera a metà": "Le affermazioni logiche non sono «a metà»: o sono vere o sono false, e qui il controesempio la rende falsa.",
+				"non si può dire": "Si può dire con certezza: un controesempio trovato basta a stabilire che è falsa."
+			}
 		},
 		{
 			"id": "logica-deduzioni-75",
@@ -1732,7 +2206,11 @@
 			],
 			"answer": "sa cucinare",
 			"explanation": "Se la regola vale per tutti e Anna sta nel gruppo, la conclusione è obbligata: non è probabile, è certa.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"non sa cucinare": "È il contrario della regola: se tutti i cuochi sanno cucinare e Anna è cuoca, lo sa fare di certo.",
+				"forse sa cucinare": "Non è un forse: la regola vale per tutti i cuochi, quindi la conclusione è certa.",
+				"cucina solo dolci": "La regola non specifica il tipo di piatti: dice solo che sa cucinare."
+			}
 		},
 		{
 			"id": "logica-esclusioni-quale-elemento-non-appartiene-al-gruppo-cane-gat",
@@ -1748,7 +2226,12 @@
 				"Cavallo"
 			],
 			"answer": "Sedia",
-			"explanation": "Gli altri tre sono animali, la sedia è un oggetto."
+			"explanation": "Gli altri tre sono animali, la sedia è un oggetto.",
+			"distractorWhy": {
+				"Cane": "È un animale, come gli altri: non è lui l'intruso.",
+				"Gatto": "È un animale, come gli altri: non è lui l'intruso.",
+				"Cavallo": "È un animale, come gli altri: non è lui l'intruso."
+			}
 		},
 		{
 			"id": "logica-esclusioni-quale-elemento-non-appartiene-al-gruppo-rosso-bl",
@@ -1764,7 +2247,12 @@
 				"Verde"
 			],
 			"answer": "Tavolo",
-			"explanation": "Gli altri tre sono colori, il tavolo è un mobile."
+			"explanation": "Gli altri tre sono colori, il tavolo è un mobile.",
+			"distractorWhy": {
+				"Rosso": "È un colore, come gli altri: non è lui l'intruso.",
+				"Blu": "È un colore, come gli altri: non è lui l'intruso.",
+				"Verde": "È un colore, come gli altri: non è lui l'intruso."
+			}
 		},
 		{
 			"id": "logica-esclusioni-quale-elemento-non-appartiene-al-gruppo-mela-per",
@@ -1780,7 +2268,12 @@
 				"Banana"
 			],
 			"answer": "Martello",
-			"explanation": "Gli altri tre sono frutti, il martello è un attrezzo."
+			"explanation": "Gli altri tre sono frutti, il martello è un attrezzo.",
+			"distractorWhy": {
+				"Mela": "È un frutto, come gli altri: non è lui l'intruso.",
+				"Pera": "È un frutto, come gli altri: non è lui l'intruso.",
+				"Banana": "È un frutto, come gli altri: non è lui l'intruso."
+			}
 		},
 		{
 			"id": "logica-sequenze-quale-numero-continua-la-sequenza-2-4-6-8",
@@ -1829,7 +2322,12 @@
 				"volo"
 			],
 			"answer": "nido",
-			"explanation": "In entrambi i casi si tratta del posto in cui l'animale abita."
+			"explanation": "In entrambi i casi si tratta del posto in cui l'animale abita.",
+			"distractorWhy": {
+				"cielo": "Il cielo è dove vola, non la sua casa: la cuccia è la casa del cane, il nido quella dell'uccello.",
+				"becco": "Il becco è una parte del corpo dell'uccello, non il suo posto per abitare.",
+				"volo": "Il volo è un'azione, non un luogo dove abitare."
+			}
 		},
 		{
 			"id": "logica-analogie-la-penna-sta-allo-scrivere-come-le-forbici-stann",
@@ -1845,7 +2343,12 @@
 				"tagliare"
 			],
 			"answer": "tagliare",
-			"explanation": "In entrambi i casi si tratta di ciò per cui l'oggetto serve."
+			"explanation": "In entrambi i casi si tratta di ciò per cui l'oggetto serve.",
+			"distractorWhy": {
+				"cucire": "Si cuce con ago e filo, non con le forbici.",
+				"misurare": "Si misura con il righello, non con le forbici.",
+				"disegnare": "Si disegna con la matita, non con le forbici."
+			}
 		},
 		{
 			"id": "logica-deduzioni-tutti-i-gatti-sono-felini-micio-e-un-gatto-che-c",
@@ -1861,7 +2364,12 @@
 				"Alcuni felini non sono gatti"
 			],
 			"answer": "Micio è un felino",
-			"explanation": "La conclusione deve stare dentro le premesse: gatto implica felino."
+			"explanation": "La conclusione deve stare dentro le premesse: gatto implica felino.",
+			"distractorWhy": {
+				"Ogni felino è un gatto": "Gira la regola: non tutti i felini sono gatti, solo tutti i gatti sono felini.",
+				"Micio è un mammifero raro": "Non è detto nel testo: è un'informazione inventata, non dedotta dalle premesse.",
+				"Alcuni felini non sono gatti": "Può essere vero in generale, ma non è ciò che si deduce su Micio dalle premesse date."
+			}
 		},
 		{
 			"id": "logica-deduzioni-se-piove-allora-la-strada-e-bagnata-e-la-strada-",
@@ -1877,7 +2385,12 @@
 				"Pioverà domani"
 			],
 			"answer": "Nulla di certo",
-			"explanation": "La strada può essere bagnata per altri motivi: la regola non si inverte."
+			"explanation": "La strada può essere bagnata per altri motivi: la regola non si inverte.",
+			"distractorWhy": {
+				"Sta piovendo di sicuro": "La strada può essere bagnata per altri motivi: la regola non si inverte.",
+				"Non sta piovendo": "Non si può concludere questo: la strada bagnata non dice nulla di certo sulla pioggia.",
+				"Pioverà domani": "Il futuro non è nella regola, che collega pioggia e strada bagnata nel presente."
+			}
 		},
 		{
 			"id": "logica-deduzioni-se-piove-allora-la-strada-e-bagnata-e-la-strada--2",
@@ -1893,7 +2406,12 @@
 				"Pioverà fra poco"
 			],
 			"answer": "Non sta piovendo",
-			"explanation": "Se piovesse la strada sarebbe bagnata: quindi non piove."
+			"explanation": "Se piovesse la strada sarebbe bagnata: quindi non piove.",
+			"distractorWhy": {
+				"Sta piovendo": "È il contrario: se piovesse la strada sarebbe bagnata, ma è asciutta.",
+				"Nulla di certo": "Qui si può concludere con certezza: se piovesse la strada sarebbe bagnata, quindi non piove.",
+				"Pioverà fra poco": "Il futuro non è nella regola, che riguarda solo il presente."
+			}
 		},
 		{
 			"id": "logica-sequenze-quale-numero-continua-la-sequenza-3-6-5-10-9",

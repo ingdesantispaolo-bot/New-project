@@ -575,7 +575,11 @@
 			],
 			"answer": "Il cronometro",
 			"explanation": "Il cronometro misura durate; l'orologio dice che ora è, che è una cosa diversa.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Il termometro da parete": "Il termometro misura la temperatura, non il tempo.",
+				"La bilancia da cucina": "La bilancia misura la massa, non il tempo.",
+				"Il metro a nastro": "Il metro misura una lunghezza, non un intervallo di tempo."
+			}
 		},
 		{
 			"id": "fisica-misure-2",
@@ -592,7 +596,11 @@
 			],
 			"answer": "Perché lo strumento non arriva a quella precisione",
 			"explanation": "Scrivere più cifre di quelle che lo strumento può garantire non aggiunge precisione: la finge.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Perché i numeri lunghi sono scomodi": "Non è una questione di comodità: il righello non può garantire quella precisione.",
+				"Perché i decimali non si usano in fisica": "I decimali si usano eccome in fisica: il limite è quanto lo strumento può davvero distinguere.",
+				"Perché il righello misura solo interi": "Un righello può dare anche un decimale, i millimetri: il limite è oltre quella precisione."
+			}
 		},
 		{
 			"id": "fisica-moto-3",
@@ -620,7 +628,11 @@
 			],
 			"answer": "Che la sua velocità sta cambiando",
 			"explanation": "Anche frenare è accelerare, in fisica: l'accelerazione è qualsiasi variazione di velocità, in più o in meno.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Che si muove molto velocemente": "La velocità alta non è accelerazione: conta se il valore della velocità cambia nel tempo.",
+				"Che percorre una lunga distanza": "La distanza percorsa non definisce l'accelerazione: conta il cambiamento di velocità.",
+				"Che si muove sempre in avanti": "Muoversi in avanti a velocità costante non è accelerare: serve un cambiamento."
+			}
 		},
 		{
 			"id": "fisica-moto-5",
@@ -637,7 +649,11 @@
 			],
 			"answer": "Sì, perché cambia direzione",
 			"explanation": "La velocità in fisica ha un valore e una direzione: cambiarne una sola basta a parlare di accelerazione.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"No, perché la velocità non cambia": "In fisica la velocità include anche la direzione: cambiare direzione è già un'accelerazione.",
+				"No, perché non preme sul gas": "Non serve premere il gas per accelerare in fisica: basta cambiare direzione.",
+				"Sì, ma solo se aumenta il motore": "Non serve un aumento di potenza: il solo cambio di direzione conta come accelerazione."
+			}
 		},
 		{
 			"id": "fisica-forze-6",
@@ -654,7 +670,11 @@
 			],
 			"answer": "Newton",
 			"explanation": "Il joule misura l'energia, il watt la potenza, il pascal la pressione.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Joule": "Il joule misura l'energia, non la forza.",
+				"Watt": "Il watt misura la potenza, non la forza.",
+				"Pascal": "Il pascal misura la pressione, non la forza."
+			}
 		},
 		{
 			"id": "fisica-forze-7",
@@ -671,7 +691,11 @@
 			],
 			"answer": "Resta fermo o continua a muoversi uguale",
 			"explanation": "È il principio d'inerzia: senza forze non c'è motivo di cambiare. Sulla Terra però l'attrito c'è quasi sempre.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Si ferma sempre dopo un poco di tempo": "Senza forze non c'è motivo di fermarsi: è l'attrito, una forza, a farlo fermare nella vita reale.",
+				"Comincia lentamente a cadere verso il basso": "Cadere richiede la forza di gravità: senza nessuna forza, non cade.",
+				"Cambia direzione da solo senza motivo": "Senza forze non c'è motivo di cambiare direzione: il principio d'inerzia dice il contrario."
+			}
 		},
 		{
 			"id": "fisica-forze-8",
@@ -688,7 +712,11 @@
 			],
 			"answer": "La forza distribuita su una superficie",
 			"explanation": "La stessa forza su una punta o su un palmo dà pressioni diversissime: per questo un ago buca e un dito no.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"La forza totale applicata a un corpo": "Quella è semplicemente la forza: la pressione tiene conto anche della superficie su cui agisce.",
+				"Il peso di un oggetto molto pesante": "Il peso è una forza: la pressione è quella forza divisa per l'area su cui si scarica.",
+				"La spinta esercitata da un liquido": "Quella è un caso particolare, non la definizione generale di pressione."
+			}
 		},
 		{
 			"id": "fisica-forze-9",
@@ -705,7 +733,11 @@
 			],
 			"answer": "Perché il peso si distribuisce su più superficie",
 			"explanation": "Il peso resta lo stesso, ma la pressione cala: forza uguale distribuita su un'area maggiore.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Perché le racchette pesano meno degli scarponi": "Il peso della persona è lo stesso: cambia solo su quanta superficie si scarica.",
+				"Perché la neve si indurisce sotto le racchette": "Non è la neve a indurirsi: è la pressione a calare per l'area più grande.",
+				"Perché con le racchette si cammina più lentamente": "La velocità non c'entra: conta l'area di appoggio, che riduce la pressione."
+			}
 		},
 		{
 			"id": "fisica-forze-10",
@@ -722,7 +754,11 @@
 			],
 			"answer": "Si bilanciano e il corpo resta fermo",
 			"explanation": "La somma delle forze è zero: è quello che succede a un libro appoggiato sul tavolo.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Lo fanno muovere in avanti": "Forze uguali e opposte si annullano: la somma è zero, non c'è movimento.",
+				"Lo fanno girare su sé stesso": "Senza un braccio di leva diverso, forze opposte allineate si bilanciano, non fanno ruotare.",
+				"Raddoppiano il suo peso": "Le forze non si sommano al peso: si annullano a vicenda perché sono opposte."
+			}
 		},
 		{
 			"id": "fisica-metodo-11",
@@ -739,7 +775,11 @@
 			],
 			"answer": "Qualcosa che si può misurare con un numero",
 			"explanation": "La bellezza non è una grandezza fisica; la lunghezza sì, perché si può associare a un numero e a un'unità.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Qualsiasi proprietà di un oggetto": "Non tutte le proprietà si misurano con un numero: la bellezza è una proprietà, ma non è una grandezza fisica.",
+				"La dimensione di un corpo solido": "Le grandezze fisiche non riguardano solo le dimensioni: anche il tempo o la temperatura lo sono.",
+				"Un fenomeno che si può osservare": "Osservare non basta: serve poter associare un numero e un'unità."
+			}
 		},
 		{
 			"id": "fisica-metodo-12",
@@ -756,7 +796,11 @@
 			],
 			"answer": "Una quantità di riferimento con cui si confronta",
 			"explanation": "Dire «lungo 3» non significa niente: serve dire 3 di che cosa, cioè rispetto a quale campione.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Lo strumento con cui si esegue la misura": "Lo strumento è l'oggetto fisico usato per misurare, non l'unità di riferimento.",
+				"Il numero che esce dalla misurazione fatta": "Il numero da solo non basta: serve sapere rispetto a quale unità è stato misurato.",
+				"La precisione dello strumento che si è usato": "La precisione è una caratteristica dello strumento, non l'unità di misura in sé."
+			}
 		},
 		{
 			"id": "fisica-metodo-13",
@@ -773,7 +817,11 @@
 			],
 			"answer": "Perché nessuno strumento è infinitamente preciso",
 			"explanation": "Anche lo strumento migliore ha una risoluzione: sotto quella soglia non può dire niente.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Perché chi misura è quasi sempre distratto": "L'incertezza esiste anche con la massima attenzione: è un limite dello strumento, non della persona.",
+				"Perché le grandezze cambiano valore da sole": "La grandezza misurata resta la stessa: è la capacità dello strumento di distinguerla a essere limitata.",
+				"Perché i calcoli finali sono approssimati": "L'incertezza nasce dalla misura stessa, prima ancora di qualsiasi calcolo."
+			}
 		},
 		{
 			"id": "fisica-metodo-14",
@@ -790,7 +838,11 @@
 			],
 			"answer": "La più piccola variazione che riesce a rilevare",
 			"explanation": "Un righello con tacche al millimetro non può distinguere due lunghezze che differiscono di un decimo.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Il valore massimo che lo strumento può misurare": "Quello è il fondo scala, un'altra caratteristica: la sensibilità riguarda la più piccola variazione percepibile.",
+				"La velocità con cui restituisce il risultato": "La rapidità di risposta è un'altra proprietà: la sensibilità riguarda quanto è fine la misura.",
+				"La cura con cui lo strumento va maneggiato": "Il modo di maneggiarlo non è la sensibilità: quella è una proprietà tecnica dello strumento."
+			}
 		},
 		{
 			"id": "fisica-metodo-15",
@@ -807,7 +859,11 @@
 			],
 			"answer": "Il casuale varia, il sistematico è sempre nello stesso verso",
 			"explanation": "Ripetere le misure riduce gli errori casuali ma non tocca quelli sistematici: una bilancia tarata male sbaglia sempre uguale.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"L'errore casuale è sempre più grande di quello sistematico": "Non c'è una regola sulla grandezza relativa: la differenza è nel comportamento, non nella dimensione.",
+				"L'errore sistematico si corregge ripetendo più volte la misura": "Ripetere le misure riduce l'errore casuale, non quello sistematico, che resta sempre nello stesso verso.",
+				"L'errore casuale dipende soltanto dallo strumento usato": "L'errore casuale dipende da tante piccole variazioni imprevedibili, non solo dallo strumento."
+			}
 		},
 		{
 			"id": "fisica-metodo-16",
@@ -824,7 +880,11 @@
 			],
 			"answer": "Perché tutti misurino con gli stessi riferimenti",
 			"explanation": "Senza unità condivise i risultati non si possono confrontare: una sonda spaziale si è persa proprio per questo.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Perché è il sistema di misura più antico": "Non è il più antico: si usa perché permette a tutti di confrontare le misure con gli stessi riferimenti.",
+				"Perché permette di usare numeri più piccoli": "I numeri non sono necessariamente più piccoli: il vantaggio è la condivisione universale delle unità.",
+				"Perché è reso obbligatorio da una legge": "Non è solo un obbligo legale: è la condivisione a rendere confrontabili i risultati in tutto il mondo."
+			}
 		},
 		{
 			"id": "fisica-metodo-17",
@@ -841,7 +901,11 @@
 			],
 			"answer": "Il metro",
 			"explanation": "Centimetro e chilometro sono multipli e sottomultipli del metro, che è l'unità fondamentale.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Il centimetro": "Il centimetro è un sottomultiplo del metro, non l'unità fondamentale.",
+				"Il chilometro": "Il chilometro è un multiplo del metro, non l'unità fondamentale.",
+				"Il pollice": "Il pollice non fa parte del Sistema Internazionale."
+			}
 		},
 		{
 			"id": "fisica-metodo-18",
@@ -858,7 +922,11 @@
 			],
 			"answer": "Una rappresentazione semplificata della realtà",
 			"explanation": "Si trascurano i dettagli irrilevanti per capire l'essenziale: un modello utile non è un modello completo.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Un esperimento riuscito perfettamente": "Un esperimento è una prova pratica, non una rappresentazione semplificata della realtà.",
+				"Un oggetto costruito in scala ridotta": "Un modellino fisico è solo un caso particolare: un modello scientifico può anche essere matematico.",
+				"Una legge dimostrata definitivamente": "Un modello non è una dimostrazione definitiva: è una semplificazione utile per capire."
+			}
 		},
 		{
 			"id": "fisica-metodo-19",
@@ -875,7 +943,11 @@
 			],
 			"answer": "Perché un nuovo esperimento potrebbe smentirla",
 			"explanation": "Le teorie si tengono finché reggono alle prove: la meccanica di Newton funziona benissimo, ma non alle alte velocità.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Perché i fisici non sono mai d'accordo": "Il disaccordo fra scienziati non è la ragione: un nuovo dato potrebbe sempre smentire anche una teoria condivisa.",
+				"Perché le teorie sono solo opinioni": "Le teorie scientifiche sono verificate con prove rigorose: restano comunque aperte a nuove prove.",
+				"Perché mancano sempre gli strumenti": "Non è una questione di strumenti mancanti: nessun numero finito di conferme garantisce che sia vera per sempre."
+			}
 		},
 		{
 			"id": "fisica-metodo-20",
@@ -903,7 +975,11 @@
 			],
 			"answer": "Un mezzo materiale come l'aria",
 			"explanation": "Nel vuoto il suono non viaggia: servono particelle che si urtino trasmettendo la vibrazione.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Soltanto una fonte abbastanza forte": "L'intensità della fonte non basta: senza un mezzo materiale il suono non ha nulla da far vibrare.",
+				"Il vuoto assoluto senza ostacoli": "Nel vuoto non ci sono particelle da far vibrare: il suono non si propaga affatto.",
+				"Una superficie che rifletta bene": "Una superficie riflettente serve per l'eco, non è necessaria perché il suono si propaghi."
+			}
 		},
 		{
 			"id": "fisica-onde-luce-22",
@@ -920,7 +996,11 @@
 			],
 			"answer": "Sì, non le serve un mezzo materiale",
 			"explanation": "È un'onda elettromagnetica: per questo la luce del Sole arriva fin qui attraversando lo spazio vuoto.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"No, le serve sempre l'aria": "La luce del Sole attraversa lo spazio vuoto per arrivare fino a noi: non ha bisogno di un mezzo materiale.",
+				"Solo se è molto intensa": "L'intensità non c'entra: la luce, essendo un'onda elettromagnetica, viaggia nel vuoto comunque.",
+				"Solo se proviene da una stella": "Qualsiasi luce può viaggiare nel vuoto, non solo quella delle stelle."
+			}
 		},
 		{
 			"id": "fisica-onde-luce-23",
@@ -937,7 +1017,11 @@
 			],
 			"answer": "Perché la luce cambia direzione passando fra aria e acqua",
 			"explanation": "È la rifrazione: la luce rallenta entrando nell'acqua e devia, e i nostri occhi la interpretano come una linea spezzata.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Perché l'acqua ingrandisce gli oggetti immersi": "L'ingrandimento non spiega la spezzatura apparente: è la rifrazione a deviare la luce.",
+				"Perché il bastone si piega davvero nell'acqua": "Il bastone resta fisicamente dritto: è la luce a cambiare direzione, ingannando l'occhio.",
+				"Perché l'acqua riflette la luce verso l'alto": "Non è un riflesso: è la rifrazione, la deviazione della luce passando da un mezzo all'altro."
+			}
 		},
 		{
 			"id": "fisica-onde-luce-24",
@@ -954,7 +1038,11 @@
 			],
 			"answer": "Il suono che torna dopo essersi riflesso",
 			"explanation": "Serve una superficie abbastanza lontana: se torna troppo presto il nostro orecchio non lo distingue dal suono diretto.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Un suono che si ripete da solo": "Il suono non si ripete spontaneamente: torna perché rimbalza su una superficie lontana.",
+				"Un suono più acuto dell'originale": "L'eco non cambia l'altezza del suono: è lo stesso suono che torna indietro.",
+				"Il rumore prodotto dal vento": "Il vento non ha a che fare con l'eco: quello è un fenomeno di riflessione del suono."
+			}
 		},
 		{
 			"id": "fisica-onde-luce-25",
@@ -971,7 +1059,11 @@
 			],
 			"answer": "Perché riflette il rosso e assorbe gli altri colori",
 			"explanation": "Il colore non sta nell'oggetto: sta in quali lunghezze d'onda rimanda ai nostri occhi.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Perché produce luce rossa per conto proprio": "Un oggetto normale non produce luce propria: riflette parte di quella che riceve.",
+				"Perché assorbe il rosso e riflette il resto": "Se assorbisse il rosso e riflettesse il resto, l'oggetto apparirebbe di un altro colore, non rosso.",
+				"Perché è fatto di un materiale rosso dentro": "Il colore percepito dipende da quali lunghezze d'onda vengono riflesse, non dal materiale interno."
+			}
 		},
 		{
 			"id": "fisica-onde-luce-26",
@@ -988,7 +1080,11 @@
 			],
 			"answer": "La zona dove la luce non arriva perché bloccata",
 			"explanation": "La luce viaggia in linea retta: un corpo opaco le impedisce di raggiungere ciò che sta dietro.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Una macchia scura disegnata sul terreno": "L'ombra non è disegnata: è l'assenza di luce dove un corpo la blocca.",
+				"Il riflesso scuro proiettato da un oggetto": "Non è un riflesso: è la zona dove la luce, viaggiando in linea retta, viene bloccata.",
+				"Una zona in cui l'aria è più fredda": "La temperatura non definisce un'ombra: è un fenomeno di luce, non di calore."
+			}
 		},
 		{
 			"id": "fisica-onde-luce-27",
@@ -1005,7 +1101,11 @@
 			],
 			"answer": "Perché ogni colore devia in modo un po' diverso",
 			"explanation": "La luce bianca è la somma di tutti i colori, e ciascuno viene rifratto con un angolo leggermente diverso.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Perché il vetro aggiunge dei colori alla luce": "Il vetro non aggiunge colori: la luce bianca li contiene già tutti, il prisma li separa.",
+				"Perché la luce si scalda mentre attraversa il vetro": "Il calore non ha a che fare con la scomposizione dei colori: conta la diversa deviazione di ogni colore.",
+				"Perché il prisma riflette la luce molte volte": "Non sono riflessioni multiple: è la rifrazione, diversa per ogni colore, a separarli."
+			}
 		},
 		{
 			"id": "fisica-onde-luce-28",
@@ -1022,7 +1122,11 @@
 			],
 			"answer": "La frequenza della vibrazione",
 			"explanation": "Più vibrazioni al secondo, più il suono è acuto. L'intensità decide invece se è forte o debole.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"L'intensità della vibrazione": "L'intensità decide se il suono è forte o debole, non se è acuto o grave.",
+				"La distanza dalla sorgente": "La distanza cambia quanto forte sentiamo il suono, non la sua altezza.",
+				"Il materiale che vibra": "Il materiale può influenzare il timbro, ma è la frequenza a decidere se il suono è acuto o grave."
+			}
 		},
 		{
 			"id": "fisica-onde-luce-29",
@@ -1050,7 +1154,11 @@
 			],
 			"answer": "L'effetto di una forza che sposta qualcosa",
 			"explanation": "Se spingi un muro e non si muove, in fisica non hai compiuto lavoro, per quanto tu sia stanco.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Lo sforzo compiuto da una persona": "Lo sforzo percepito non è il lavoro fisico: se non c'è spostamento, non c'è lavoro anche con grande sforzo.",
+				"Il tempo impiegato a fare una cosa": "Il tempo da solo non definisce il lavoro: serve che una forza sposti qualcosa.",
+				"La fatica percepita durante lo sforzo": "La fatica è soggettiva: il lavoro in fisica dipende da forza e spostamento, non da quanto ci si stanca."
+			}
 		},
 		{
 			"id": "fisica-energia-31",
@@ -1067,7 +1175,11 @@
 			],
 			"answer": "L'energia impiegata in un certo tempo",
 			"explanation": "Fare lo stesso lavoro in metà tempo richiede il doppio della potenza.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"La forza applicata a un oggetto": "La forza è un'altra grandezza: la potenza è energia diviso il tempo impiegato.",
+				"L'energia totale disponibile": "L'energia totale non tiene conto del tempo: la potenza sì.",
+				"La velocità di un corpo in moto": "La velocità è un'altra grandezza: la potenza riguarda quanta energia si trasferisce nel tempo."
+			}
 		},
 		{
 			"id": "fisica-energia-32",
@@ -1084,7 +1196,11 @@
 			],
 			"answer": "Dalla sua massa e dall'altezza",
 			"explanation": "Più è pesante e più è in alto, più energia restituirà cadendo.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Dalla sua velocità e dalla forma": "La velocità riguarda l'energia cinetica, non quella potenziale: quella dipende da massa e altezza.",
+				"Dal materiale di cui è fatto": "Il materiale non conta direttamente: contano la massa e l'altezza.",
+				"Dal tempo che resta sollevato": "Il tempo di permanenza in alto non cambia l'energia potenziale: contano massa e altezza."
+			}
 		},
 		{
 			"id": "fisica-energia-33",
@@ -1101,7 +1217,11 @@
 			],
 			"answer": "Perché parte dell'energia si disperde sempre",
 			"explanation": "Attriti e resistenze trasformano energia utile in calore disperso: la macchina rallenta e si ferma.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Perché nessuno l'ha ancora costruita": "Non è un problema di ingegneria irrisolto: è una legge fisica, l'energia si disperde sempre in attriti.",
+				"Perché servirebbero materiali troppo cari": "Il costo dei materiali non è la ragione: nessun materiale elimina completamente gli attriti.",
+				"Perché la gravità la fermerebbe": "La gravità da sola non impedisce il moto perpetuo: è la dispersione di energia in calore a farlo."
+			}
 		},
 		{
 			"id": "fisica-energia-34",
@@ -1118,7 +1238,11 @@
 			],
 			"answer": "Joule",
 			"explanation": "Il newton misura le forze, il watt la potenza, il pascal la pressione.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Newton": "Il newton misura la forza, non l'energia.",
+				"Watt": "Il watt misura la potenza, non l'energia.",
+				"Pascal": "Il pascal misura la pressione, non l'energia."
+			}
 		},
 		{
 			"id": "fisica-energia-35",
@@ -1135,7 +1259,11 @@
 			],
 			"answer": "Energia potenziale in cinetica e viceversa",
 			"explanation": "In alto è ferma e ha il massimo di potenziale; in basso è velocissima e ha il massimo di cinetica.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Energia chimica in energia elettrica": "Non c'è una reazione chimica o un generatore elettrico coinvolti: è uno scambio fra altezza e velocità.",
+				"Energia termica in energia luminosa": "Non c'è calore né luce prodotti dall'oscillazione: è energia di posizione che diventa di movimento.",
+				"Energia cinetica in energia sonora": "Il piccolo rumore non è la trasformazione principale: il grosso dello scambio è fra potenziale e cinetica."
+			}
 		},
 		{
 			"id": "fisica-energia-36",
@@ -1152,7 +1280,11 @@
 			],
 			"answer": "Per vincere attriti e resistenza dell'aria",
 			"explanation": "Senza attriti basterebbe una spinta iniziale: il motore serve a compensare ciò che si perde.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Perché la velocità costante consuma di più": "Non è la costanza della velocità a richiedere energia: sono gli attriti da vincere continuamente.",
+				"Perché l'auto deve accelerare di continuo": "A velocità costante l'auto non accelera: serve energia comunque, per vincere attrito e resistenza.",
+				"Perché la gravità la rallenta sempre": "Su strada piana la gravità non rallenta l'auto: sono attrito e resistenza dell'aria a farlo."
+			}
 		},
 		{
 			"id": "fisica-energia-37",
@@ -1169,7 +1301,11 @@
 			],
 			"answer": "La fonte si rigenera in tempi brevi",
 			"explanation": "Non è l'energia a rinnovarsi — quella si degrada comunque — ma la fonte da cui si preleva.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"L'energia non si consuma mai": "L'energia comunque si degrada in ogni trasformazione: è la fonte a rigenerarsi, non l'energia stessa.",
+				"L'energia si può riutilizzare due volte": "L'energia non si riutilizza identica: la fonte rinnovabile si ricostituisce nel tempo.",
+				"La fonte non costa niente": "Il costo economico non è ciò che definisce «rinnovabile»: conta la velocità di rigenerazione della fonte."
+			}
 		},
 		{
 			"id": "fisica-energia-38",
@@ -1186,7 +1322,11 @@
 			],
 			"answer": "Raddoppia",
 			"explanation": "L'energia potenziale è proporzionale all'altezza: raddoppiando una, raddoppia l'altra.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Resta uguale": "L'energia potenziale è proporzionale all'altezza: cambiarla cambia anche l'energia.",
+				"Si dimezza": "È il contrario: aumentare l'altezza aumenta l'energia potenziale, non la riduce.",
+				"Diventa quattro volte": "La proporzionalità è diretta, non al quadrato: raddoppiando l'altezza, raddoppia anche l'energia."
+			}
 		},
 		{
 			"id": "fisica-materia-39",
@@ -1203,7 +1343,11 @@
 			],
 			"answer": "La quantità di materia che contiene",
 			"explanation": "La massa non cambia spostandosi sulla Luna; il peso sì, perché dipende dalla gravità del luogo.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"La forza con cui viene attratto": "Quella è il peso, non la massa: il peso cambia con la gravità, la massa no.",
+				"Lo spazio che occupa": "Quello è il volume, non la massa.",
+				"Il suo peso sulla Terra": "Il peso dipende dalla gravità del luogo; la massa resta la stessa ovunque."
+			}
 		},
 		{
 			"id": "fisica-materia-40",
@@ -1220,7 +1364,11 @@
 			],
 			"answer": "Il peso è la forza con cui la gravità attrae la massa",
 			"explanation": "La massa si misura in chilogrammi, il peso in newton: sulla Luna la massa resta, il peso diventa un sesto.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Sono sinonimi, cambia solo l'unità": "Non sono la stessa cosa: la massa non cambia da un luogo all'altro, il peso sì.",
+				"La massa si misura solo con la bilancia": "Anche il peso si può misurare, con un dinamometro: non è questo a distinguerli.",
+				"Il peso non cambia mai da un luogo all'altro": "Il peso cambia con la gravità: sulla Luna pesi un sesto."
+			}
 		},
 		{
 			"id": "fisica-materia-41",
@@ -1237,7 +1385,11 @@
 			],
 			"answer": "La massa contenuta in un certo volume",
 			"explanation": "Il ferro è più denso del legno: a parità di volume contiene più materia, quindi pesa di più.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Il peso totale di un oggetto": "Il peso non tiene conto del volume: la densità mette in rapporto massa e volume.",
+				"La durezza del materiale": "La durezza è un'altra proprietà, non ha a che fare con quanta massa sta in un volume.",
+				"Lo spessore di un corpo solido": "Lo spessore è una misura di lunghezza, non il rapporto fra massa e volume."
+			}
 		},
 		{
 			"id": "fisica-materia-42",
@@ -1254,7 +1406,11 @@
 			],
 			"answer": "Perché la nave contiene molta aria e la sua densità media è bassa",
 			"explanation": "Conta la densità media del corpo intero, non del materiale: una nave è per lo più aria.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Perché la nave è molto più grande del chiodo": "Le dimensioni da sole non decidono: conta la densità media, e la nave è per lo più aria.",
+				"Perché l'acciaio della nave è di un tipo diverso": "L'acciaio è lo stesso materiale denso: è la forma, piena d'aria, a ridurre la densità media.",
+				"Perché l'acqua del mare è più salata del previsto": "La salinità non è la causa principale qui: conta la densità media della nave."
+			}
 		},
 		{
 			"id": "fisica-materia-43",
@@ -1271,7 +1427,11 @@
 			],
 			"answer": "Lo spazio che occupa",
 			"explanation": "Due corpi possono avere lo stesso volume e masse molto diverse: dipende da che cosa sono fatti.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"La quantità di materia che contiene": "Quella è la massa, non il volume.",
+				"Il suo peso in chilogrammi": "Il peso è un'altra grandezza: il volume è lo spazio occupato.",
+				"La sua altezza massima": "L'altezza è solo una dimensione: il volume tiene conto di tutte e tre."
+			}
 		},
 		{
 			"id": "fisica-materia-44",
@@ -1288,7 +1448,11 @@
 			],
 			"answer": "Diminuisce, perché le particelle si avvicinano",
 			"explanation": "Nei gas le particelle sono molto distanti: c'è spazio per avvicinarle. Nei liquidi e nei solidi quasi no.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Resta uguale, il gas non si comprime": "I gas si comprimono facilmente perché le particelle sono molto distanziate.",
+				"Aumenta, perché il gas si scalda": "Comprimere riduce lo spazio, non lo aumenta: è il contrario.",
+				"Si annulla completamente": "Il volume diminuisce ma non sparisce: resta sempre uno spazio occupato dal gas."
+			}
 		},
 		{
 			"id": "fisica-materia-45",
@@ -1305,7 +1469,11 @@
 			],
 			"answer": "Perché è meno denso dell'acqua",
 			"explanation": "Il non mescolarsi spiega perché restano separati, ma è la densità minore a decidere chi sta sopra.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Perché è più leggero in assoluto": "Non è il peso assoluto: è la densità, il rapporto fra massa e volume, a decidere.",
+				"Perché non si mescola con l'acqua": "Il non mescolarsi spiega perché restano separati, ma è la densità minore a decidere chi sta sopra.",
+				"Perché è più caldo dell'acqua": "La temperatura non è la ragione: conta la densità dell'olio rispetto all'acqua."
+			}
 		},
 		{
 			"id": "fisica-materia-46",
@@ -1333,7 +1501,11 @@
 			],
 			"answer": "Una sostanza formata da un solo tipo di materia",
 			"explanation": "L'acqua distillata è pura; l'acqua di mare è un miscuglio di acqua e sali.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Una sostanza priva di qualsiasi sporcizia": "La pulizia visibile non basta: conta che sia formata da un solo tipo di materia, anche invisibile.",
+				"Una sostanza completamente trasparente alla luce": "La trasparenza non ha a che fare con la purezza chimica di una sostanza.",
+				"Una sostanza naturale che non è stata lavorata": "Anche una sostanza lavorata può essere pura: conta la composizione, non l'origine."
+			}
 		},
 		{
 			"id": "fisica-calore-48",
@@ -1350,7 +1522,11 @@
 			],
 			"answer": "Il calore è energia che passa, la temperatura è uno stato",
 			"explanation": "Una tazza e una piscina possono avere la stessa temperatura, ma la piscina contiene molta più energia termica.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Sono esattamente la stessa cosa con due nomi diversi": "Sono grandezze diverse: una tazza e una piscina alla stessa temperatura contengono energia termica molto diversa.",
+				"Il calore si misura in gradi centigradi come la temperatura": "Il calore si misura in joule, un'unità di energia, non in gradi.",
+				"La temperatura si trasferisce da un corpo all'altro": "È il calore a trasferirsi da un corpo all'altro, non la temperatura, che è uno stato."
+			}
 		},
 		{
 			"id": "fisica-calore-49",
@@ -1367,7 +1543,11 @@
 			],
 			"answer": "Dal corpo più caldo a quello più freddo",
 			"explanation": "Mai il contrario, da solo: per raffreddare qualcosa sotto la temperatura dell'ambiente serve una macchina.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Dal corpo più freddo a quello più caldo": "Spontaneamente non avviene mai il contrario: serve una macchina per raffreddare sotto la temperatura ambiente.",
+				"Sempre verso il basso": "La direzione del calore non dipende dalla posizione, ma dalla differenza di temperatura.",
+				"Sempre verso il corpo più grande": "Le dimensioni non decidono la direzione: conta solo quale corpo è più caldo."
+			}
 		},
 		{
 			"id": "fisica-calore-50",
@@ -1384,7 +1564,11 @@
 			],
 			"answer": "Conduzione",
 			"explanation": "Il manico del cucchiaio si scalda per conduzione: le vibrazioni si trasmettono da un atomo al vicino.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Convezione": "La convezione avviene nei liquidi e nei gas che si muovono, non nei solidi.",
+				"Irraggiamento": "L'irraggiamento non richiede contatto fisico: la conduzione sì, dentro un solido.",
+				"Evaporazione": "L'evaporazione è un passaggio di stato, non un modo di trasmettere calore."
+			}
 		},
 		{
 			"id": "fisica-calore-51",
@@ -1401,7 +1585,11 @@
 			],
 			"answer": "Per irraggiamento",
 			"explanation": "Fra Sole e Terra c'è il vuoto: solo l'irraggiamento può attraversarlo, perché non ha bisogno di materia.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Per conduzione attraverso l'aria": "Fra Sole e Terra c'è il vuoto: la conduzione richiede materia a contatto, che lì non c'è.",
+				"Per convezione delle correnti": "La convezione richiede un fluido che si muove: nello spazio vuoto non c'è nulla che possa muoversi così.",
+				"Per contatto diretto": "Il Sole non è a contatto con la Terra: il calore attraversa il vuoto solo per irraggiamento."
+			}
 		},
 		{
 			"id": "fisica-calore-52",
@@ -1418,7 +1606,11 @@
 			],
 			"answer": "Per convezione: la parte calda sale e quella fredda scende",
 			"explanation": "L'acqua calda è meno densa e sale; quella fredda scende a prendere il suo posto: nasce un movimento circolare.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Perché le bolle spingono l'acqua tutto intorno": "Le bolle sono un effetto dell'ebollizione, non la causa del movimento circolare, che è la convezione.",
+				"Perché il fuoco fa vibrare il fondo della pentola": "Non è una vibrazione meccanica: è l'acqua calda che sale e quella fredda che scende.",
+				"Perché l'acqua cerca di uscire dal recipiente": "L'acqua non cerca di scappare: si muove in circolo per convezione."
+			}
 		},
 		{
 			"id": "fisica-calore-53",
@@ -1435,7 +1627,11 @@
 			],
 			"answer": "Perché il legno conduce male il calore",
 			"explanation": "Il calore fatica ad attraversarlo: si ferma vicino alla punta invece di arrivare alla mano.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Perché il legno resta sempre freddo": "Il legno si scalda anche lui, solo molto lentamente: per questo la punta scotta ma il manico no.",
+				"Perché il legno assorbe la minestra": "L'assorbimento di liquido non c'entra con la trasmissione del calore.",
+				"Perché il legno è più leggero": "Il peso non ha a che fare con quanto bene un materiale conduce il calore."
+			}
 		},
 		{
 			"id": "fisica-calore-54",
@@ -1463,7 +1659,11 @@
 			],
 			"answer": "Perché l'acqua bolle a temperatura più bassa",
 			"explanation": "Meno pressione significa ebollizione a temperatura minore: l'acqua bolle, ma è meno calda di quella al mare.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Perché l'aria è troppo fredda": "La temperatura dell'aria esterna non è la causa diretta: conta la pressione più bassa che abbassa il punto di ebollizione.",
+				"Perché l'acqua evapora più in fretta": "L'evaporazione più rapida è una conseguenza: il punto chiave è la temperatura di ebollizione più bassa.",
+				"Perché il fuoco scalda di meno": "Il fuoco scalda allo stesso modo: è la pressione più bassa a far bollire l'acqua a temperatura minore."
+			}
 		},
 		{
 			"id": "fisica-calore-56",
@@ -1480,7 +1680,11 @@
 			],
 			"answer": "Si dilata, cioè aumenta di volume",
 			"explanation": "Per questo i binari e i ponti hanno giunti di dilatazione: senza, d'estate si deformerebbero.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Si contrae, cioè si restringe": "È il contrario: il calore fa aumentare il volume del metallo, non diminuirlo.",
+				"Cambia colore in modo permanente": "L'effetto tipico e universale del calore su un metallo è la dilatazione, non un cambio di colore permanente.",
+				"Diventa più leggero": "Il peso del metallo non cambia scaldandosi: cambia il suo volume."
+			}
 		},
 		{
 			"id": "fisica-misure-57",
@@ -1497,7 +1701,11 @@
 			],
 			"answer": "Il metro (righello)",
 			"explanation": "Il metro misura le lunghezze; la bilancia le masse.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"La bilancia da cucina": "La bilancia misura la massa, non la lunghezza.",
+				"Il termometro": "Il termometro misura la temperatura, non la lunghezza.",
+				"L'orologio da polso": "L'orologio misura il tempo, non la lunghezza."
+			}
 		},
 		{
 			"id": "fisica-misure-58",
@@ -1526,7 +1734,11 @@
 			],
 			"answer": "Una bilancia",
 			"explanation": "La bilancia misura la massa/peso; il termometro la temperatura.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Un metro": "Il metro misura una lunghezza, non il peso.",
+				"Un termometro": "Il termometro misura la temperatura, non il peso.",
+				"Un cronometro": "Il cronometro misura il tempo, non il peso."
+			}
 		},
 		{
 			"id": "fisica-moto-60",
@@ -1543,7 +1755,11 @@
 			],
 			"answer": "Fermo",
 			"explanation": "Fermo rispetto a che cosa, però: chi siede in treno è fermo rispetto al vagone e in corsa rispetto alla banchina.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Veloce": "Se non cambia posizione non si sta muovendo affatto, non velocemente.",
+				"Lento": "Anche muoversi lentamente è muoversi: qui la posizione non cambia per niente.",
+				"In caduta": "Cadere significa cambiare posizione: qui l'oggetto resta fermo."
+			}
 		},
 		{
 			"id": "fisica-moto-61",
@@ -1560,7 +1776,11 @@
 			],
 			"answer": "Più veloce",
 			"explanation": "Più spazio nello stesso tempo significa maggiore velocità.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Più lenta": "Più strada nello stesso tempo significa maggiore velocità, non minore.",
+				"Ferma": "Un'auto ferma non percorre nessuna strada.",
+				"Più pesante": "Il peso non ha a che fare con quanta strada si percorre nel tempo."
+			}
 		},
 		{
 			"id": "fisica-moto-62",
@@ -1577,7 +1797,11 @@
 			],
 			"answer": "Una velocità maggiore",
 			"explanation": "La pendenza del grafico rappresenta la velocità, non un percorso in salita.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Un oggetto fermo": "Un oggetto fermo darebbe una linea piatta, non ripida.",
+				"Una salita reale in collina": "Il grafico rappresenta spazio percorso nel tempo, non l'altezza reale del terreno.",
+				"Un peso maggiore": "Il peso non è rappresentato in un grafico spazio-tempo: la pendenza indica la velocità."
+			}
 		},
 		{
 			"id": "fisica-forze-63",
@@ -1594,7 +1818,11 @@
 			],
 			"answer": "La forza di gravità",
 			"explanation": "La gravità attira gli oggetti verso il centro della Terra.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Il vento leggero": "Il vento può spostare oggetti leggeri, ma non è la forza che li fa cadere verso il basso.",
+				"La luce del Sole": "La luce non esercita una forza percepibile che fa cadere gli oggetti.",
+				"Il suono forte": "Il suono non fa cadere gli oggetti verso il basso."
+			}
 		},
 		{
 			"id": "fisica-forze-64",
@@ -1611,7 +1839,11 @@
 			],
 			"answer": "L'attrito",
 			"explanation": "L'attrito tra palla e pavimento la frena a poco a poco.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"La gravità verso l'alto": "La gravità agisce verso il basso, non verso l'alto, e non frena il rotolamento orizzontale.",
+				"La luce": "La luce non ha effetto meccanico sulla palla che rotola.",
+				"Il colore della palla": "Il colore non influisce sull'attrito che la rallenta."
+			}
 		},
 		{
 			"id": "fisica-forze-65",
@@ -1628,7 +1860,11 @@
 			],
 			"answer": "Si bilanciano",
 			"explanation": "Il peso verso il basso e la spinta del tavolo verso l'alto si equilibrano.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Spingono solo in basso": "Se spingessero solo in basso il libro sprofonderebbe: c'è anche la spinta del tavolo verso l'alto.",
+				"Spingono solo in alto": "Se spingessero solo in alto il libro volerebbe via: c'è anche il peso verso il basso.",
+				"Non esistono": "Le forze esistono eccome: peso e spinta del tavolo, solo che si bilanciano a vicenda."
+			}
 		},
 		{
 			"id": "fisica-forze-66",
@@ -1645,7 +1881,11 @@
 			],
 			"answer": "La massa è la quantità di materia; il peso è la forza di gravità su di essa",
 			"explanation": "La massa non cambia; il peso dipende dalla gravità (sulla Luna pesi meno).",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Massa e peso sono esattamente la stessa grandezza, con lo stesso nome": "Sono grandezze diverse: la massa non cambia, il peso dipende dalla gravità del luogo.",
+				"Il peso resta identico ovunque, anche sulla Luna e su Marte": "Il peso cambia con la gravità: sulla Luna pesi meno che sulla Terra.",
+				"La massa si misura sempre in newton, esattamente come il peso": "La massa si misura in chilogrammi; il newton è l'unità del peso, che è una forza."
+			}
 		},
 		{
 			"id": "fisica-energia-67",
@@ -1662,7 +1902,11 @@
 			],
 			"answer": "Potenziale",
 			"explanation": "In alto e ferma ha energia potenziale (di posizione).",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Cinetica": "L'energia cinetica è di movimento: la palla ferma non si muove ancora.",
+				"Sonora": "Non c'è alcun suono prodotto da una palla ferma.",
+				"Luminosa": "La palla non emette luce propria."
+			}
 		},
 		{
 			"id": "fisica-energia-68",
@@ -1679,7 +1923,11 @@
 			],
 			"answer": "Energia cinetica (di movimento)",
 			"explanation": "Scendendo, l'energia di posizione diventa energia di movimento.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Ancora più energia potenziale": "Scendendo l'altezza diminuisce: l'energia potenziale cala, non aumenta.",
+				"Energia sonora (rumore)": "Il rumore è solo una piccola dispersione: la trasformazione principale è in energia di movimento.",
+				"Nulla: l'energia sparisce": "L'energia non sparisce mai: cambia forma, da potenziale a cinetica."
+			}
 		},
 		{
 			"id": "fisica-calore-69",
@@ -1696,7 +1944,11 @@
 			],
 			"answer": "Dal corpo più caldo a quello più freddo",
 			"explanation": "Il calore fluisce dal caldo al freddo finché non si equilibrano.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Dal corpo più freddo a quello più caldo": "È il contrario: il calore fluisce sempre dal caldo al freddo.",
+				"Dal corpo più piccolo a quello più grande": "Le dimensioni non decidono la direzione: conta solo la differenza di temperatura.",
+				"In nessuna direzione precisa": "Il calore ha sempre una direzione precisa: dal più caldo al più freddo."
+			}
 		},
 		{
 			"id": "fisica-calore-70",
@@ -1713,7 +1965,11 @@
 			],
 			"answer": "La temperatura dice quanto è caldo; il calore è l'energia che si trasferisce",
 			"explanation": "Sono grandezze diverse: gradi per la temperatura, energia per il calore.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Temperatura e calore sono la stessa identica grandezza fisica": "Sono due grandezze diverse: una misura uno stato, l'altra un'energia che si trasferisce.",
+				"Il calore si misura in gradi, esattamente come la temperatura": "Il calore si misura in joule, un'unità di energia, non in gradi.",
+				"La temperatura è un tipo di energia che passa fra i corpi": "È il calore a essere energia che passa: la temperatura è uno stato, non un flusso."
+			}
 		},
 		{
 			"id": "fisica-onde-luce-71",
@@ -1730,7 +1986,11 @@
 			],
 			"answer": "In linea retta",
 			"explanation": "La luce si propaga in linea retta finché non incontra ostacoli.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"A zig-zag sempre": "In aria limpida non ci sono ostacoli che deviano la luce: viaggia dritta.",
+				"Solo di notte": "La luce viaggia in linea retta sempre, di giorno e di notte.",
+				"Più lenta del suono": "La luce è molto più veloce del suono, non più lenta."
+			}
 		},
 		{
 			"id": "fisica-onde-luce-72",
@@ -1747,7 +2007,11 @@
 			],
 			"answer": "La luce è molto più veloce del suono",
 			"explanation": "La luce arriva quasi subito; il suono, più lento, arriva dopo.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Il suono è più veloce": "È il contrario: la luce viaggia molto più veloce del suono.",
+				"Sono simultanei": "Se fossero simultanei vedremmo il lampo e sentiremmo il tuono nello stesso istante: non è così.",
+				"Il tuono parte dopo il lampo": "Lampo e tuono nascono nello stesso istante: la differenza è nella velocità con cui viaggiano."
+			}
 		},
 		{
 			"id": "fisica-misure-73",
@@ -2115,7 +2379,11 @@
 			],
 			"answer": "Perché senza unità il numero non dice quanto vale la grandezza",
 			"explanation": "«3» non vuol dire niente: tre metri, tre secondi e tre chili sono cose diversissime.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Perché è una regola di scrittura senza vere conseguenze pratiche": "Ha conseguenze concrete: senza unità non si sa se sono metri, secondi o chili.",
+				"Perché il numero da solo risulterebbe troppo corto da leggere": "Non è una questione di lunghezza: senza unità il numero non ha significato fisico.",
+				"Perché così si riconosce subito chi ha svolto la misurazione": "L'unità non identifica chi misura: dice di che grandezza si tratta."
+			}
 		},
 		{
 			"id": "fisica-moto-101",
@@ -2132,7 +2400,11 @@
 			],
 			"answer": "Rispetto a un altro corpo che si sta muovendo",
 			"explanation": "Il moto è sempre relativo: chi è fermo in treno si muove rispetto alla banchina.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Rispetto a se stesso in un istante successivo del moto": "Non ha senso confrontare un corpo con sé stesso in un altro istante per stabilire il movimento.",
+				"Rispetto alla strada, se la si osserva con più attenzione": "Rispetto alla strada resta fermo, comunque la si osservi: il moto è relativo ad altri riferimenti.",
+				"Rispetto al proprio peso, che cambia continuamente": "Il peso di un corpo fermo non cambia continuamente: non è un riferimento per il movimento."
+			}
 		},
 		{
 			"id": "fisica-energia-102",
@@ -2149,7 +2421,11 @@
 			],
 			"answer": "Si trasforma in calore, non sparisce",
 			"explanation": "L'energia non si crea e non si distrugge: cambia forma. La strada e la palla si scaldano un po'.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Sparisce del tutto nel momento esatto in cui la palla si ferma": "L'energia non sparisce mai: si trasforma in calore per l'attrito.",
+				"Torna dentro la palla e resta lì immagazzinata per sempre": "L'energia non ritorna dentro la palla: si disperde come calore nell'ambiente.",
+				"Viene assorbita dall'aria e poi restituita alla palla dopo": "Il calore prodotto si disperde, non torna alla palla in un secondo momento."
+			}
 		},
 		{
 			"id": "fisica-materia-103",
@@ -2166,7 +2442,11 @@
 			],
 			"answer": "Perché il gas dentro si comprime e poi si riespande",
 			"explanation": "I gas si comprimono facilmente: è quello che rende un palloncino elastico.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Perché la gomma ricorda la forma che aveva prima di essere gonfiata": "La gomma da sola non spiega il ritorno rapido: è il gas compresso a riespandersi.",
+				"Perché l'aria fuori dal palloncino lo spinge sempre verso l'alto": "L'aria esterna non spinge selettivamente verso l'alto: è il gas interno compresso a farlo tornare com'era.",
+				"Perché il gas dentro si trasforma per un attimo in liquido": "Il gas non cambia stato in questo caso: si comprime e si riespande restando gas."
+			}
 		},
 		{
 			"id": "fisica-forze-104",
@@ -2183,7 +2463,11 @@
 			],
 			"answer": "Perché serve più forza per cambiare la velocità di una massa maggiore",
 			"explanation": "Più massa, più inerzia: più resistenza a mettersi in moto.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Perché una cassa pesante è quasi sempre anche più grande da afferrare": "Le dimensioni non sono la causa fisica: è la massa maggiore a richiedere più forza.",
+				"Perché la cassa leggera contiene più aria e quindi scivola meglio": "Il contenuto d'aria non è la ragione: conta l'inerzia della massa.",
+				"Perché il pavimento sotto una cassa pesante diventa più ruvido": "Il pavimento non cambia consistenza: è la massa della cassa a richiedere più forza."
+			}
 		},
 		{
 			"id": "fisica-metodo-105",
@@ -2200,7 +2484,11 @@
 			],
 			"answer": "Perché una volta sola può andare bene o male per caso",
 			"explanation": "Ripetere serve a distinguere l'effetto vero dal caso.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Perché la prima misura di uno strumento è sempre sbagliata di principio": "Non è vero che la prima misura sia sempre sbagliata: il punto è escludere un caso fortuito.",
+				"Perché ripetere serve soprattutto a fare pratica con lo strumento": "Fare pratica è un effetto collaterale: lo scopo scientifico è escludere la coincidenza.",
+				"Perché le regole della scuola chiedono almeno tre prove scritte": "Non è una regola scolastica: è un principio del metodo scientifico."
+			}
 		},
 		{
 			"id": "fisica-calore-106",
@@ -2246,7 +2534,11 @@
 			],
 			"answer": "Perché un liquido non ha forma propria ma ha volume proprio",
 			"explanation": "Il volume resta lo stesso: mezzo litro resta mezzo litro in qualunque recipiente.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Perché il vetro attira il liquido contro le sue pareti interne": "Il vetro non attira il liquido: un liquido non ha forma propria e si adatta al contenitore.",
+				"Perché l'acqua si trasforma in un solido appena tocca il vetro": "L'acqua resta liquida: semplicemente prende la forma di ciò che la contiene.",
+				"Perché l'aria dentro il bicchiere spinge il liquido verso i bordi": "Non è una spinta dell'aria: è una proprietà dei liquidi, che non hanno forma propria."
+			}
 		},
 		{
 			"id": "fisica-onde-luce-109",
@@ -2263,7 +2555,11 @@
 			],
 			"answer": "Perché senza luce che arriva agli occhi non c'è visione",
 			"explanation": "Vediamo la luce che gli oggetti rimandano: senza sorgente non c'è niente da rimandare.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"Perché gli occhi di notte smettono di funzionare del tutto": "Gli occhi funzionano anche al buio: il problema è che non c'è luce da percepire.",
+				"Perché il buio è una sostanza che copre gli oggetti nella stanza": "Il buio non è una sostanza: è semplicemente l'assenza di luce.",
+				"Perché gli oggetti al buio perdono per qualche ora il loro colore": "Gli oggetti non perdono il colore: senza luce che li illumina, semplicemente non li vediamo."
+			}
 		},
 		{
 			"id": "fisica-misure-con-quale-strumento-si-misura-la-lunghezza",
@@ -2279,7 +2575,12 @@
 				"Il cronometro"
 			],
 			"answer": "Il righello",
-			"explanation": "Il righello confronta l'oggetto con una scala di centimetri."
+			"explanation": "Il righello confronta l'oggetto con una scala di centimetri.",
+			"distractorWhy": {
+				"La bilancia": "La bilancia misura la massa, non la lunghezza.",
+				"Il termometro": "Il termometro misura la temperatura, non la lunghezza.",
+				"Il cronometro": "Il cronometro misura il tempo, non la lunghezza."
+			}
 		},
 		{
 			"id": "fisica-misure-con-quale-strumento-si-misura-la-massa",
@@ -2295,7 +2596,12 @@
 				"Il termometro"
 			],
 			"answer": "La bilancia",
-			"explanation": "La bilancia confronta la massa con dei pesi noti."
+			"explanation": "La bilancia confronta la massa con dei pesi noti.",
+			"distractorWhy": {
+				"Il righello": "Il righello misura una lunghezza, non la massa.",
+				"Il cronometro": "Il cronometro misura il tempo, non la massa.",
+				"Il termometro": "Il termometro misura la temperatura, non la massa."
+			}
 		},
 		{
 			"id": "fisica-misure-con-quale-strumento-si-misura-la-temperatura",
@@ -2311,7 +2617,12 @@
 				"Il cronometro"
 			],
 			"answer": "Il termometro",
-			"explanation": "Nel termometro il liquido si dilata quando fa più caldo."
+			"explanation": "Nel termometro il liquido si dilata quando fa più caldo.",
+			"distractorWhy": {
+				"La bilancia": "La bilancia misura la massa, non la temperatura.",
+				"Il righello": "Il righello misura una lunghezza, non la temperatura.",
+				"Il cronometro": "Il cronometro misura il tempo, non la temperatura."
+			}
 		},
 		{
 			"id": "fisica-misure-qual-e-l-unita-di-misura-del-tempo",
@@ -2327,7 +2638,12 @@
 				"Il secondo"
 			],
 			"answer": "Il secondo",
-			"explanation": "Nel sistema internazionale il tempo si misura in secondi."
+			"explanation": "Nel sistema internazionale il tempo si misura in secondi.",
+			"distractorWhy": {
+				"Il metro": "Il metro misura una lunghezza, non il tempo.",
+				"Il grammo": "Il grammo misura la massa, non il tempo.",
+				"Il grado": "Il grado misura la temperatura o un angolo, non il tempo."
+			}
 		},
 		{
 			"id": "fisica-moto-un-oggetto-fermo-che-comincia-a-muoversi-ha-rice",
@@ -2343,7 +2659,12 @@
 				"un suono"
 			],
 			"answer": "una forza",
-			"explanation": "Serve una forza per cambiare il moto di un corpo."
+			"explanation": "Serve una forza per cambiare il moto di un corpo.",
+			"distractorWhy": {
+				"un colore": "Il colore non ha nessun effetto sul movimento di un oggetto.",
+				"una massa": "La massa era già presente da fermo: non è ciò che lo mette in moto.",
+				"un suono": "Un suono da solo non esercita una forza che mette in moto un oggetto."
+			}
 		},
 		{
 			"id": "fisica-moto-chi-va-piu-veloce-fra-questi",
@@ -2359,7 +2680,12 @@
 				"Una tartaruga"
 			],
 			"answer": "Un'automobile",
-			"explanation": "L'automobile percorre molta più strada nello stesso tempo."
+			"explanation": "L'automobile percorre molta più strada nello stesso tempo.",
+			"distractorWhy": {
+				"Una lumaca": "La lumaca è fra gli animali più lenti in assoluto.",
+				"Una persona a piedi": "Una persona a piedi percorre molta meno strada nello stesso tempo di un'automobile.",
+				"Una tartaruga": "La tartaruga è molto più lenta di un'automobile."
+			}
 		},
 		{
 			"id": "fisica-forze-che-cosa-fa-cadere-gli-oggetti-verso-il-basso",
@@ -2375,7 +2701,12 @@
 				"L'attrito dell'aria"
 			],
 			"answer": "La forza di gravità",
-			"explanation": "La gravità attira ogni corpo verso il centro della Terra."
+			"explanation": "La gravità attira ogni corpo verso il centro della Terra.",
+			"distractorWhy": {
+				"La forza magnetica": "Il magnetismo agisce solo su alcuni materiali, non su tutti gli oggetti che cadono.",
+				"La spinta del vento": "Il vento non fa cadere gli oggetti in modo sistematico verso il basso.",
+				"L'attrito dell'aria": "L'attrito dell'aria rallenta la caduta, non la causa."
+			}
 		},
 		{
 			"id": "fisica-forze-che-cosa-rallenta-una-palla-che-rotola-sul-pavim",
@@ -2391,7 +2722,12 @@
 				"L'attrito"
 			],
 			"answer": "L'attrito",
-			"explanation": "L'attrito fra palla e pavimento consuma il movimento."
+			"explanation": "L'attrito fra palla e pavimento consuma il movimento.",
+			"distractorWhy": {
+				"La gravità": "La gravità agisce verso il basso, non frena il rotolamento orizzontale.",
+				"Il magnetismo": "Una palla comune non è magnetica.",
+				"La luce": "La luce non ha un effetto meccanico sulla palla."
+			}
 		},
 		{
 			"id": "fisica-materia-l-acqua-a-temperatura-ambiente-si-trova-allo-sta",
@@ -2407,7 +2743,12 @@
 				"acceso"
 			],
 			"answer": "liquido",
-			"explanation": "A temperatura ambiente l'acqua scorre: è liquida."
+			"explanation": "A temperatura ambiente l'acqua scorre: è liquida.",
+			"distractorWhy": {
+				"solido": "L'acqua è solida (ghiaccio) solo sotto lo zero.",
+				"gassoso": "L'acqua diventa vapore solo a temperature ben più alte di quella ambiente.",
+				"acceso": "«Acceso» non è uno stato della materia."
+			}
 		},
 		{
 			"id": "fisica-materia-il-ghiaccio-e-acqua-allo-stato",
@@ -2423,7 +2764,12 @@
 				"invisibile"
 			],
 			"answer": "solido",
-			"explanation": "Sotto lo zero l'acqua si solidifica e diventa ghiaccio."
+			"explanation": "Sotto lo zero l'acqua si solidifica e diventa ghiaccio.",
+			"distractorWhy": {
+				"liquido": "L'acqua liquida scorre: il ghiaccio invece mantiene una forma propria.",
+				"gassoso": "Il vapore acqueo è invisibile e si disperde: il ghiaccio è solido e tangibile.",
+				"invisibile": "Il ghiaccio si vede benissimo: non è uno stato invisibile."
+			}
 		},
 		{
 			"id": "fisica-banda-misure-0",

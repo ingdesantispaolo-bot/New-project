@@ -125,6 +125,8 @@ var knowledge_codex_panel: KnowledgeCodexPanel
 var diary_panel: DiaryPanel
 var diary_button: Button
 var shop_panel: Control
+## Il chiavistello: il minigioco che apre i forzieri ([[LockMinigamePanel]]).
+var lock_panel: Control
 var reward_cost := 0
 var reward_name := ""
 var gameplay: OutdoorGameplay
@@ -1977,7 +1979,57 @@ func _open_mystery_artifact(target: Area2D) -> void:
 ## L'ordine conta: si incassa **prima** e si racconta dopo. Chi chiude il
 ## riquadro senza leggere ha già preso tutto, e nessun testo di questo gioco può
 ## stare fra un bambino e una cosa che ha guadagnato.
+## **Il chiavistello davanti al forziere.** (14 agosto 2026)
+##
+## Richiesta del committente: i forzieri si aprono con un minigioco di velocità
+## di matematica, difficoltà per mondo. Qui c'è solo la regia — le regole stanno
+## in [[LockChallenge]], la scena in [[LockMinigamePanel]].
+##
+## Il seme cambia a ogni tentativo (`Time.get_ticks_msec`): un chiavistello
+## fallito e riprovato non deve poter essere rifatto a memoria, altrimenti la
+## seconda volta non si calcola più — si ricorda, che è la cosa che questo gioco
+## non vuole insegnare.
 func _apri_forziere(target: Area2D, id: String) -> void:
+	if is_instance_valid(lock_panel):
+		return
+	var custode := is_instance_valid(game_save) and PetState.is_granted(game_save)
+	var tipo := TreasureCatalog.tipo_di(id, custode)
+	var regole := LockChallenge.regole(world_level, tipo, reduced_motion)
+	var etichetta := "forziere chiuso con cura" if tipo == TreasureCatalog.TIPO_LASCITO else "cassa"
+	lock_panel = LockMinigamePanel.new()
+	lock_panel.name = "LockMinigamePanel"
+	lock_panel.risolto.connect(func(vinto: bool, pulito: bool):
+		_chiudi_chiavistello(target, id, vinto, pulito))
+	ui_layer.add_child(lock_panel)
+	lock_panel.call("avvia", regole, etichetta,
+		hash("%s:%d" % [id, Time.get_ticks_msec()]), reduced_motion, high_contrast)
+	# Eli si ferma: il pannello è modale, e lasciarla camminare sotto uno schermo
+	# pieno la fa finire chissà dove. Stessa regola del varco.
+	if is_instance_valid(player):
+		player.touch_target = Vector2.INF
+		player.velocity = Vector2.ZERO
+		player.set_physics_process(false)
+
+## Il chiavistello ha ceduto — o non ha ceduto. Fallire non toglie niente: il
+## forziere resta chiuso dov'è, non risulta raccolto, e si può riprovare subito.
+func _chiudi_chiavistello(target: Area2D, id: String, vinto: bool, pulito: bool) -> void:
+	if is_instance_valid(lock_panel):
+		lock_panel.queue_free()
+		lock_panel = null
+	if is_instance_valid(player):
+		player.set_physics_process(true)
+	if not vinto:
+		# Va tolto dai raccolti: `_interact` lo aveva segnato prima di aprire, e
+		# un forziere che risulta preso senza essere stato aperto è la sola cosa
+		# peggiore di un forziere che non si apre.
+		var raccolti: Array = result["collectedTreasureIds"]
+		raccolti.erase(id)
+		_set_warning_feedback(LockChallenge.riga_di_fallimento())
+		_refresh_prompt()
+		return
+	_svuota_forziere(target, id, pulito)
+
+func _svuota_forziere(target: Area2D, id: String, pulito := true) -> void:
 	var custode_disponibile := is_instance_valid(game_save) and PetState.is_granted(game_save)
 	var contenuto := TreasureCatalog.contenuto(world_level, id, custode_disponibile)
 	var premio := int(contenuto.get("frammenti", 0))
@@ -1994,13 +2046,21 @@ func _apri_forziere(target: Area2D, id: String) -> void:
 		owner_node.queue_free()
 	_refresh_prompt()
 
+	# Il chiavistello pulito non vale frammenti in più — il contenuto di un
+	# forziere non dipende da come si gioca ([[TreasureCatalog]]) — vale una riga
+	# diversa, che è l'unico premio che non sposta l'economia.
+	if pulito and is_instance_valid(pet_companion):
+		_pet_react("antic")
+
 	match str(contenuto.get("tipo", TreasureCatalog.TIPO_RESTO)):
 		TreasureCatalog.TIPO_LASCITO:
 			_racconta_lascito(id, contenuto, premio)
 		TreasureCatalog.TIPO_CUSTODE:
 			_regalo_dal_forziere(id, contenuto, premio)
 		_:
-			_set_feedback("%s +%d frammenti." % [str(contenuto.get("cosa", "Una cassa di roba.")), premio])
+			_set_feedback("%s %s +%d frammenti." % [
+				LockChallenge.riga_di_vittoria(pulito),
+				str(contenuto.get("cosa", "Una cassa di roba.")), premio])
 
 ## Il forziere di qualcuno. Lo speaker è l'oggetto e non la persona — la persona
 ## non c'è, ed è metà di quello che il forziere racconta. Il ruolo dice di chi

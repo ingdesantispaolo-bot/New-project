@@ -176,7 +176,13 @@ func _la_partita() -> void:
 	gameplay.collect_treasure({"rewardFragments": 500}, "pulse-audit-tesoro")
 	# L'acquisto deve RIUSCIRE perché il controllo abbia senso: quello che si
 	# verifica è che comprare non produca cariche, non che comprare fallisca.
-	_controlla(gameplay.try_purchase_cosmetic("tool-torch"),
+	#
+	# Il cosmetico è `bot-lime` e non più la torcia: dal 14 agosto 2026 gli
+	# strumenti di campo non si comprano affatto ([[FieldTools]]), e un acquisto
+	# che fallisce non direbbe niente sulle cariche. Vale anche come scelta
+	# migliore in sé — una livrea non tocca il mondo, quindi se le cariche si
+	# muovessero non ci sarebbe nessun'altra spiegazione.
+	_controlla(gameplay.try_purchase_cosmetic("bot-lime"),
 		"l'acquisto di prova è fallito: il controllo sulle cariche non direbbe niente")
 	_controlla(PulseCharge.cariche(save) == 0,
 		"energia, frammenti o acquisti hanno prodotto %d cariche" % PulseCharge.cariche(save))

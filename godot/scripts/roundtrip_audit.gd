@@ -49,6 +49,20 @@ func _run() -> void:
 	player.position = Vector2(treasure["x"], treasure["y"])
 	scene.call("on_interactable_entered", treasure_area, player)
 	scene.call("_interact")
+	# **Il forziere si apre con il chiavistello** (14 agosto 2026): `_interact`
+	# apre il minigioco, e il premio arriva quando i denti scattano. L'audit lo
+	# gioca dalla stessa porta del dito e dei tasti, così se il pannello cambia
+	# strada il roundtrip se ne accorge.
+	await process_frame
+	var lock = scene.get("lock_panel")
+	assert(lock != null, "l'apertura di un forziere deve passare dal chiavistello")
+	var denti := 0
+	while lock.call("attivo") and denti < 12:
+		var indice: int = lock.call("indice_giusto")
+		assert(indice >= 0, "il dente del chiavistello non ha una tessera giusta")
+		lock.call("scegli", indice)
+		denti += 1
+	await process_frame
 	var treasure_result: Dictionary = scene.get("result")
 	assert(treasure_result["collectedTreasureIds"].has(treasure["id"]))
 	assert(int(treasure_result["energyEarned"]) == 0)

@@ -64,6 +64,21 @@ const CATALOG := [
 	{"id": "emblem-atom", "slot": "emblem", "name": "Emblema Atomo", "description": "Per esploratori curiosi e precisi.", "origine": "Marchio del banco di osservazione: osserva, ipotizza, cambia una cosa sola.", "cost": 900, "glyph": "✺"},
 	{"id": "emblem-scroll", "slot": "emblem", "name": "Emblema Scriptorium", "description": "Per chi conquista lingue e glifi.", "origine": "Bollo dei copisti della Sala delle Ere. Copiare non è capire, dicevano. Poi copiavano.", "cost": 900, "glyph": "◈"},
 	# --- Strumenti NORA (vantaggi leggeri nelle run) -------------------------
+	# --- Moduli di spedizione (14 agosto 2026) -------------------------------
+	#
+	# L'unica cosa che la bottega vende oltre alla bellezza, e sono tre perché
+	# tre sono quelle che **funzionano davvero**: un oggetto che promette una
+	# meccanica inesistente è già stato il difetto del 6 agosto, e `endings_audit`
+	# lo vieta. Il radar dei forzieri e il raggio della torcia stanno nel piano
+	# come C-G4 e entreranno quando la resa esisterà, non prima.
+	#
+	# Tutti e tre agiscono **sulla mappa e mai su una prova**: è la decisione
+	# vincolante 15, ed è ciò che rende lecito vendere potere in un gioco che si
+	# studia. Costano insieme 950 energia, cioè l'1,3% del catalogo: la scelta in
+	# bottega esiste e il sink estetico non se ne accorge.
+	{"id": "module-tank", "slot": "module", "name": "Serbatoio ampliato", "description": "Una carica d'impulso in più prima di doverne riguadagnare.", "origine": "Cella di riserva dei Dodici: ne portavano sempre una oltre il necessario, perché il necessario si calcola sempre male.", "cost": 250, "glyph": "◈", "color": 0x8ff6d2, "minLevel": 2},
+	{"id": "module-coil", "slot": "module", "name": "Bobina larga", "description": "L'impulso stabilizza le sacche in un raggio più ampio.", "origine": "Avvolgimento da officina, rifatto a mano da Ruggine finché non le è venuto tondo.", "cost": 400, "glyph": "◎", "color": 0x9ff5e9, "minLevel": 3},
+	{"id": "module-stride", "slot": "module", "name": "Passo lungo", "description": "Lo scatto porta più lontano nello stesso tempo.", "origine": "Sospensioni della tuta da ricognizione. Servivano a tornare prima, non ad andare oltre.", "cost": 300, "glyph": "⇉", "color": 0xffb85c, "minLevel": 2},
 	{"id": "nora-lens", "slot": "upgrade", "name": "Lente causale", "description": "La lente con cui NORA guardava i guasti quando aveva ancora gli occhi della nave.", "origine": "Ritrovata nel primo apparato riparato. Non serve a vedere meglio: serve a ricordarsi di guardare.", "cost": 360, "glyph": "◇"},
 	{"id": "nora-reserve", "slot": "upgrade", "name": "Riserva di bordo", "description": "Una cella di scorta che si illumina piano nella sala macchine.", "origine": "I Dodici ne tenevano una per ciascuno. Undici sono ancora cariche.", "cost": 760, "glyph": "⟡"},
 	{"id": "nora-shield", "slot": "upgrade", "name": "Paratia rinforzata", "description": "La lastra che ha tenuto il ponte quando tutto il resto ha ceduto.", "origine": "Ha una crepa che nessuno ha mai riparato. NORA dice di lasciarla dov’è.", "cost": 980, "glyph": "⬡"},

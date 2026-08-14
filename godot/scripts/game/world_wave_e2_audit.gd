@@ -61,9 +61,7 @@ func _assert_world_24(world: Node) -> void:
 	assert(reaction != null and Array(reaction.get("active_parts")).size() == 5,
 		"il Cuore deve mostrare esattamente cinque fasi")
 	assert(ResourceLoader.exists("res://assets/cuore-primi-underpaint-v1.png"))
-	var texture := load("res://assets/cuore-primi-landmark-v1.png") as Texture2D
-	assert(texture != null)
-	var image := texture.get_image()
+	var image := Image.load_from_file("res://assets/cuore-primi-landmark-v1.png")
 	assert(image != null and image.get_pixel(0, 0).a < 0.05, "landmark senza alpha reale")
 	var actors: Array = world.get("npc_actors")
 	assert(actors.size() == FinaleCatalog.MAX_IN_SCENA,

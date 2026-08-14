@@ -63,15 +63,27 @@ func play_environment(phase: String) -> void:
 	call_deferred("_publish_web_state")
 
 func configure_world_soundscape(soundscape: String) -> void:
-	# I loop restano condivisi e leggeri per Web, ma ogni profilo ottiene un mix
-	# riconoscibile. Non modifica eventi didattici né stato di progressione.
+	# Il profilo sceglie un asset autorato nel manifest. Se manca, il mondo resta
+	# giocabile e torna all'ambiente giorno/notte condiviso.
 	_world_soundscape = soundscape.to_lower()
 	_apply_world_soundscape_mix()
 	call_deferred("_publish_web_state")
 
+static func resolve_soundscape_asset(manifest_data: Dictionary, soundscape: String, phase: String) -> String:
+	var normalized_phase := "night" if phase.to_lower() in ["night", "notte"] else "day"
+	var fallback := "ambience.%s" % normalized_phase
+	var soundscape_contract: Dictionary = manifest_data.get("soundscapes", {})
+	var by_id: Dictionary = soundscape_contract.get("byId", {})
+	var spec: Dictionary = by_id.get(soundscape.to_lower(), {})
+	var candidate := str(spec.get("asset", ""))
+	var manifest_assets: Dictionary = manifest_data.get("assets", {})
+	return candidate if candidate != "" and manifest_assets.has(candidate) else fallback
+
 func _apply_world_soundscape_mix() -> void:
 	if not is_instance_valid(_music) or not is_instance_valid(_ambience):
 		return
+	var ambience_key := resolve_soundscape_asset(manifest, _world_soundscape, _environment)
+	_play_loop(_ambience, ambience_key)
 	var music_pitch := 1.0
 	var ambience_pitch := 1.0
 	var ambience_offset_db := 0.0
@@ -167,7 +179,7 @@ func _apply_world_soundscape_mix() -> void:
 	_music.pitch_scale = music_pitch
 	_ambience.pitch_scale = ambience_pitch
 	if _environment != "":
-		var ambience_spec: Dictionary = assets.get("ambience.%s" % _environment, {})
+		var ambience_spec: Dictionary = assets.get(ambience_key, {})
 		_ambience.volume_db = float(ambience_spec.get("volumeDb", 0.0)) + ambience_offset_db
 
 func set_focus(active: bool) -> void:

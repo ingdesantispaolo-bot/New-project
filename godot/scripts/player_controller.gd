@@ -2,6 +2,10 @@ class_name OutdoorPlayerController
 extends CharacterBody2D
 
 @export var speed := 260.0
+## Quanto va più veloce lo scatto. Lo imposta la scena leggendo il contratto
+## runtime (`sprintMultiplier`): il modulo «Passo lungo» lo alza, e qui non si sa
+## niente di bottega né di acquisti.
+var sprint_multiplier := 1.65
 
 var touch_target := Vector2.INF
 ## Contenitore visivo animato (assegnato da outdoor_world alla creazione):
@@ -19,7 +23,7 @@ const FACING_LEFT_ROW := 3
 
 func _physics_process(delta: float) -> void:
 	var input_vector := Input.get_vector("move_left", "move_right", "move_up", "move_down")
-	var move_speed := speed * (1.65 if Input.is_action_pressed("sprint") else 1.0)
+	var move_speed := speed * (sprint_multiplier if Input.is_action_pressed("sprint") else 1.0)
 	if input_vector.length() > 0.0:
 		velocity = input_vector * move_speed
 		touch_target = Vector2.INF

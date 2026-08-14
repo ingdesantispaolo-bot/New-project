@@ -6,7 +6,20 @@ const root = process.cwd();
 const catalogPath = path.join(root, "src/core/RewardCatalog.ts");
 const imageDir = path.join(root, "src/assets/images");
 const spriteDir = path.join(root, "src/assets/sprites");
+const godotSpriteDir = path.join(root, "godot/assets/shop");
 const audioDir = path.join(root, "src/assets/audio/generated");
+
+// Presentazioni native Godot gia' approvate o in attesa del loro contratto
+// semantico. Non duplicano prezzi o regole: servono solo a riservare nel foglio
+// premi le illustrazioni C-G4. Se una voce entra anche nel catalogo TS, il merge
+// in fondo evita automaticamente il doppione.
+const expeditionModuleArt = [
+  { id: "module-tank", slot: "module", color: 0x8ff6d2, minLevel: 2 },
+  { id: "module-coil", slot: "module", color: 0x9ff5e9, minLevel: 3 },
+  { id: "module-stride", slot: "module", color: 0xffb85c, minLevel: 2 },
+  { id: "module-radar", slot: "module", color: 0x7ad7ff, minLevel: 3 },
+  { id: "module-torch", slot: "module", color: 0xffd75e, minLevel: 3 },
+];
 
 const catalogText = fs.readFileSync(catalogPath, "utf8");
 
@@ -41,6 +54,7 @@ function slotAccent(item) {
     accessory: "#f6c85f",
     pet: "#9ff5e9",
     emblem: "#ffd75e",
+    module: "#8ff6d2",
     upgrade: "#9f8cff",
     decor: "#7ad7ff",
   };
@@ -117,6 +131,42 @@ function iconBody(item, accent) {
       <circle cx="64" cy="62" r="22" fill="#0b1821" stroke="#f6c85f" stroke-width="2" opacity=".95"/>
       <path d="M45 94 L54 76 L64 84 L74 76 L83 94" fill="#34260e" stroke="${accent}" stroke-width="3"/>
       ${commonGlyph}`;
+  }
+  if (item.slot === "module") {
+    if (item.id === "module-tank") {
+      return `
+      <path d="M43 35 H82 L91 48 V91 L82 101 H43 L34 91 V48 Z" fill="#0a2831" stroke="${accent}" stroke-width="4"/>
+      <rect x="49" y="25" width="28" height="13" rx="5" fill="#183f48" stroke="#d9ffff" stroke-width="3"/>
+      <path d="M47 82 V57 Q47 48 56 48 H69 Q79 48 79 57 V82" fill="#133b43" stroke="#f6c85f" stroke-width="3"/>
+      <path d="M63 55 V75 M53 65 H73" stroke="#fff1b8" stroke-width="5" stroke-linecap="round"/>`;
+    }
+    if (item.id === "module-coil") {
+      return `
+      <circle cx="64" cy="64" r="34" fill="#071b24" stroke="${accent}" stroke-width="5"/>
+      <circle cx="64" cy="64" r="25" fill="none" stroke="#f6c85f" stroke-width="4"/>
+      <circle cx="64" cy="64" r="15" fill="#102f39" stroke="${accent}" stroke-width="4"/>
+      <circle cx="64" cy="64" r="5" fill="#fff1b8"/>
+      <path d="M28 48 H17 V80 H28 M100 48 H111 V80 H100" fill="none" stroke="#d9ffff" stroke-width="5" stroke-linecap="round"/>`;
+    }
+    if (item.id === "module-stride") {
+      return `
+      <path d="M34 39 H59 L63 69 L52 95 H25 L38 75 Z" fill="#15343c" stroke="${accent}" stroke-width="4"/>
+      <path d="M66 32 H91 L95 62 L84 88 H57 L70 68 Z" fill="#0b2732" stroke="#ffd778" stroke-width="4"/>
+      <path d="M29 103 H60 M67 96 H99" stroke="#d9ffff" stroke-width="5" stroke-linecap="round"/>
+      <path d="M18 58 H31 M13 70 H28 M98 45 H113" stroke="${accent}" stroke-width="4" stroke-linecap="round" opacity=".8"/>`;
+    }
+    if (item.id === "module-radar") {
+      return `
+      <path d="M31 82 H92 L86 104 H38 Z" fill="#16343d" stroke="#fff1b8" stroke-width="4"/>
+      <rect x="39" y="68" width="45" height="20" rx="5" fill="#0b2732" stroke="${accent}" stroke-width="4"/>
+      <circle cx="64" cy="70" r="6" fill="#ffd75e"/>
+      <path d="M64 59 V47 M52 52 Q64 39 76 52 M43 43 Q64 20 85 43" fill="none" stroke="${accent}" stroke-width="4" stroke-linecap="round"/>`;
+    }
+    return `
+      <path d="M30 72 L57 54 L69 70 L41 88 Z" fill="#5a3824" stroke="#fff1b8" stroke-width="4"/>
+      <path d="M58 52 L72 43 L82 57 L68 68 Z" fill="#ffd75e" stroke="#fff1b8" stroke-width="3"/>
+      <path d="M80 49 L113 25 L105 61 L118 75 L84 61 Z" fill="${accent}" opacity=".42"/>
+      <path d="M83 51 L111 36 M85 58 L110 64" stroke="#fff4c2" stroke-width="3" stroke-linecap="round"/>`;
   }
   if (item.slot === "upgrade") {
     return `
@@ -208,9 +258,7 @@ async function buildImages(items) {
     .png({ compressionLevel: 9, adaptiveFiltering: true })
     .toFile(path.join(spriteDir, "reward-items-sheet.png"));
 
-  fs.writeFileSync(
-    path.join(spriteDir, "reward-items-sheet.json"),
-    `${JSON.stringify({
+  const atlasJson = `${JSON.stringify({
       frames,
       meta: {
         app: "scripts/build-reward-assets.mjs",
@@ -219,8 +267,14 @@ async function buildImages(items) {
         size: { w: sheetW, h: sheetH },
         scale: "1",
       },
-    }, null, 2)}\n`,
+    }, null, 2)}\n`;
+  fs.writeFileSync(path.join(spriteDir, "reward-items-sheet.json"), atlasJson);
+  fs.mkdirSync(godotSpriteDir, { recursive: true });
+  fs.copyFileSync(
+    path.join(spriteDir, "reward-items-sheet.png"),
+    path.join(godotSpriteDir, "reward-items-sheet.png"),
   );
+  fs.writeFileSync(path.join(godotSpriteDir, "reward-items-sheet.json"), atlasJson);
 }
 
 function writeWav(name, notes, volume = 0.35) {
@@ -290,7 +344,12 @@ function buildAudio() {
   ], 0.24);
 }
 
-const items = parseCatalog(catalogText);
+const catalogItems = parseCatalog(catalogText);
+const catalogIds = new Set(catalogItems.map((item) => item.id));
+const items = [
+  ...catalogItems,
+  ...expeditionModuleArt.filter((item) => !catalogIds.has(item.id)),
+];
 if (items.length === 0) {
   throw new Error("Reward catalog parsing returned no items.");
 }

@@ -46,6 +46,13 @@ const MASSIMO := 3
 
 const _CHIAVE := "pulse"
 
+## Il tetto vero, moduli compresi. `MASSIMO` resta la base — quella che vale per
+## chi non ha comprato niente — e il serbatoio ampliato la alza di uno.
+## Chiunque legga il tetto deve passare di qui: un tetto letto dalla costante
+## ignorerebbe l'acquisto e il modulo sarebbe un altro oggetto bugiardo.
+static func massimo(save) -> int:
+	return ExpeditionModules.cariche_massime(save, MASSIMO)
+
 static func _stato(save) -> Dictionary:
 	var stato: Dictionary = save.data.get(_CHIAVE, {})
 	if stato.is_empty():
@@ -54,12 +61,12 @@ static func _stato(save) -> Dictionary:
 	return stato
 
 static func cariche(save) -> int:
-	return clampi(int(_stato(save).get("charges", 0)), 0, MASSIMO)
+	return clampi(int(_stato(save).get("charges", 0)), 0, massimo(save))
 
 ## Quante prove mancano alla prossima carica. A serbatoio pieno vale zero: non si
 ## sta accumulando niente, ed è esattamente ciò che il tetto significa.
 static func verso_la_prossima(save) -> int:
-	if cariche(save) >= MASSIMO:
+	if cariche(save) >= massimo(save):
 		return 0
 	return maxi(0, PROVE_PER_CARICA - int(_stato(save).get("progress", 0)))
 
@@ -72,7 +79,7 @@ static func verso_la_prossima(save) -> int:
 ## finzione, e la scelta *passo o giro attorno* tornerebbe a non esistere.
 static func accredita(save) -> bool:
 	var stato := _stato(save)
-	if cariche(save) >= MASSIMO:
+	if cariche(save) >= massimo(save):
 		stato["progress"] = 0
 		save.data[_CHIAVE] = stato
 		return false
@@ -82,7 +89,7 @@ static func accredita(save) -> bool:
 		save.data[_CHIAVE] = stato
 		return false
 	stato["progress"] = 0
-	stato["charges"] = mini(int(stato.get("charges", 0)) + 1, MASSIMO)
+	stato["charges"] = mini(int(stato.get("charges", 0)) + 1, massimo(save))
 	save.data[_CHIAVE] = stato
 	return true
 

@@ -5,9 +5,42 @@ import { fileURLToPath } from "node:url";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const outputDir = path.join(root, "godot", "assets", "audio");
 const legacyDir = path.join(root, "src", "assets", "audio", "generated");
+const worldProfilePath = path.join(root, "godot", "scripts", "game", "world_profile.gd");
 const sampleRate = 32000;
+const soundscapeSampleRate = 22050;
 const loopSeconds = 16;
+const soundscapeSeconds = 60;
 const checkOnly = process.argv.includes("--check");
+
+function worldSoundscapes() {
+  const source = fs.readFileSync(worldProfilePath, "utf8");
+  const rows = [...source.matchAll(/"terrainFamily": "([^"]+)"[^\n]+"soundscape": "([^"]+)"/g)]
+    .map((match) => ({ terrainFamily: match[1], id: match[2] }));
+  if (rows.length === 0) throw new Error("Nessun soundscape trovato in world_profile.gd");
+  const motifs = [
+    "nature", "archive", "machine", "water", "machine", "resonance",
+    "ruins", "water", "water", "nature", "ruins", "machine",
+    "wind", "archive", "machine", "human", "water", "resonance",
+    "archive", "machine", "wind", "nature", "archive", "convergence",
+  ];
+  if (rows.length !== motifs.length) {
+    throw new Error(`Profili audio inattesi: ${rows.length}, disegni disponibili ${motifs.length}`);
+  }
+  return rows.map((row, index) => ({ ...row, motif: motifs[index], seed: index + 1 }));
+}
+
+const soundscapeDesigns = worldSoundscapes();
+const motifDesigns = {
+  nature: { root: 46, air: 0.12, shimmer: 0.036, accent: 79 },
+  archive: { root: 38, air: 0.08, shimmer: 0.022, accent: 72 },
+  machine: { root: 55, air: 0.055, shimmer: 0.045, accent: 67 },
+  water: { root: 34, air: 0.14, shimmer: 0.026, accent: 76 },
+  resonance: { root: 49, air: 0.07, shimmer: 0.052, accent: 84 },
+  ruins: { root: 31, air: 0.10, shimmer: 0.018, accent: 69 },
+  wind: { root: 42, air: 0.15, shimmer: 0.020, accent: 74 },
+  human: { root: 58, air: 0.09, shimmer: 0.038, accent: 81 },
+  convergence: { root: 52, air: 0.10, shimmer: 0.048, accent: 88 },
+};
 
 const TAU = Math.PI * 2;
 const clamp = (value, min = -1, max = 1) => Math.max(min, Math.min(max, value));
@@ -104,6 +137,55 @@ function addPeriodicAmbience(buffer, amplitude, seed, panDrift = 0.35) {
   }
 }
 
+// Un minuto con una grammatica comune e un colore per famiglia. Le frequenze
+// del letto sono intere, quindi compiono un numero esatto di cicli e il bordo
+// del WAV resta continuo. Gli accenti irregolari cambiano ogni quindici secondi:
+// il loop non rivela subito dove ricomincia.
+function buildWorldSoundscape(design) {
+  const buffer = createBuffer(soundscapeSeconds);
+  const motif = motifDesigns[design.motif];
+  const rootNote = motif.root + design.seed % 5;
+  for (let frame = 0; frame < buffer.frames; frame += 1) {
+    const time = frame / sampleRate;
+    const cycle = time / buffer.seconds;
+    const breath = 0.58 + 0.22 * Math.sin(TAU * (2 + design.seed % 3) * cycle + design.seed);
+    const air = periodicAir(time, buffer.seconds, design.seed) * motif.air;
+    const drone = (
+      Math.sin(TAU * rootNote * time) * 0.46
+      + Math.sin(TAU * (rootNote * 2 + design.seed) * time + 0.7) * 0.13
+    ) * breath * 0.12;
+    const texture = Math.sin(TAU * (7 + design.seed % 6) * cycle)
+      * Math.sin(TAU * (rootNote + 11) * time)
+      * motif.shimmer;
+    const pan = Math.sin(TAU * (3 + design.seed % 4) * cycle + design.seed * 0.31) * 0.42;
+    mixSample(buffer, frame, air + drone + texture, pan);
+  }
+  for (let accent = 0; accent < 10; accent += 1) {
+    const start = 2.4 + ((design.seed * 17 + accent * 31) % 540) / 10;
+    const note = motif.accent + ((accent + design.seed) % 4) * 2;
+    addNote(buffer, {
+      start,
+      duration: 0.7 + ((accent + design.seed) % 5) * 0.16,
+      note,
+      amplitude: 0.018 + motif.shimmer * 0.34,
+      pan: accent % 2 === 0 ? -0.58 : 0.58,
+      voice: design.motif === "machine" ? "pluck" : "bell",
+      release: 0.55,
+    });
+  }
+  if (["water", "wind", "convergence"].includes(design.motif)) {
+    [11.5, 27.8, 44.2].forEach((start, index) => addSweep(buffer, {
+      start: start + (design.seed % 4) * 0.37,
+      duration: 1.6 + index * 0.2,
+      from: rootNote * (2.2 + index * 0.18),
+      to: rootNote * (3.4 + (design.seed % 3) * 0.25),
+      amplitude: 0.018,
+      pan: index % 2 === 0 ? -0.45 : 0.45,
+    }));
+  }
+  return finish(buffer, 0.44);
+}
+
 function finish(buffer, targetPeak) {
   let leftMean = 0;
   let rightMean = 0;
@@ -146,6 +228,33 @@ function writeWav(filename, buffer) {
   wav.writeUInt32LE(dataSize, 40);
   for (let index = 0; index < buffer.samples.length; index += 1) {
     wav.writeInt16LE(Math.round(clamp(buffer.samples[index]) * 32767), 44 + index * 2);
+  }
+  fs.writeFileSync(path.join(outputDir, filename), wav);
+}
+
+function writeMonoWav(filename, buffer) {
+	const channels = 1;
+	const bytesPerSample = 2;
+	const outputFrames = Math.floor(buffer.seconds * soundscapeSampleRate);
+	const dataSize = outputFrames * bytesPerSample;
+  const wav = Buffer.alloc(44 + dataSize);
+  wav.write("RIFF", 0);
+  wav.writeUInt32LE(36 + dataSize, 4);
+  wav.write("WAVE", 8);
+  wav.write("fmt ", 12);
+  wav.writeUInt32LE(16, 16);
+  wav.writeUInt16LE(1, 20);
+  wav.writeUInt16LE(channels, 22);
+	wav.writeUInt32LE(soundscapeSampleRate, 24);
+	wav.writeUInt32LE(soundscapeSampleRate * bytesPerSample, 28);
+  wav.writeUInt16LE(bytesPerSample, 32);
+  wav.writeUInt16LE(16, 34);
+  wav.write("data", 36);
+  wav.writeUInt32LE(dataSize, 40);
+	for (let frame = 0; frame < outputFrames; frame += 1) {
+		const sourceFrame = Math.min(buffer.frames - 1, Math.floor(frame * sampleRate / soundscapeSampleRate));
+		const mono = (buffer.samples[sourceFrame * 2] + buffer.samples[sourceFrame * 2 + 1]) * 0.5;
+    wav.writeInt16LE(Math.round(clamp(mono) * 32767), 44 + frame * bytesPerSample);
   }
   fs.writeFileSync(path.join(outputDir, filename), wav);
 }
@@ -357,6 +466,15 @@ const manifest = {
     focusLayer: "music.focus",
     crossfadeSeconds: 2.2,
   },
+  soundscapes: {
+    durationSeconds: soundscapeSeconds,
+    maxFamilyNeighbours: 4,
+    byId: Object.fromEntries(soundscapeDesigns.map((design) => [design.id, {
+      asset: `soundscape.${design.id}`,
+      terrainFamily: design.terrainFamily,
+      motif: design.motif,
+    }])),
+  },
   subjects: {
     matematica: "context.math",
     italiano: "context.language",
@@ -419,6 +537,14 @@ const manifest = {
     "context.science": asset("context-science.wav", "SFX", -8),
     "context.civics": asset("context-civics.wav", "SFX", -8),
     "context.logic": asset("context-logic.wav", "SFX", -8),
+    ...Object.fromEntries(soundscapeDesigns.map((design) => [
+      `soundscape.${design.id}`,
+      asset(`soundscape-${design.id}.wav`, "Ambience", -13, {
+        loop: true,
+        role: "world",
+        durationSeconds: soundscapeSeconds,
+      }),
+    ])),
   },
 };
 
@@ -453,6 +579,9 @@ function readWav(filePath) {
 
 function audit() {
   const issues = [];
+  const soundscapeSpecs = manifest.soundscapes.byId;
+  const soundscapeAssetKeys = new Set();
+  const motifCounts = new Map();
   const loopPaths = new Set(Object.values(manifest.assets).filter((spec) => spec.loop).map((spec) => spec.path));
   for (const [key, spec] of Object.entries(manifest.assets)) {
     const filePath = path.join(root, "godot", spec.path.replace("res://", ""));
@@ -465,8 +594,26 @@ function audit() {
     if (info.rms < 0.002 || info.peak < 0.015) issues.push(`${key}: segnale troppo debole`);
     if (info.peak > 0.985) issues.push(`${key}: rischio clipping`);
     if (loopPaths.has(spec.path)) {
-      if (Math.abs(info.seconds - loopSeconds) > 0.001) issues.push(`${key}: loop non lungo ${loopSeconds}s`);
+      const expectedSeconds = Number(spec.durationSeconds ?? loopSeconds);
+      if (Math.abs(info.seconds - expectedSeconds) > 0.001) issues.push(`${key}: durata loop inattesa, ${info.seconds}s invece di ${expectedSeconds}s`);
       if (Math.abs(info.firstLeft - info.lastLeft) > 0.035) issues.push(`${key}: discontinuità al loop`);
+    }
+  }
+  for (const design of soundscapeDesigns) {
+    const spec = soundscapeSpecs[design.id];
+    if (!spec) {
+      issues.push(`${design.id}: soundscape del profilo senza contratto`);
+      continue;
+    }
+    if (spec.terrainFamily !== design.terrainFamily) issues.push(`${design.id}: famiglia terreno disallineata`);
+    if (!manifest.assets[spec.asset]) issues.push(`${design.id}: asset dichiarato assente ${spec.asset}`);
+    if (soundscapeAssetKeys.has(spec.asset)) issues.push(`${design.id}: condivide lo stesso asset ${spec.asset}`);
+    soundscapeAssetKeys.add(spec.asset);
+    motifCounts.set(spec.motif, (motifCounts.get(spec.motif) ?? 0) + 1);
+  }
+  for (const [motif, count] of motifCounts) {
+    if (count - 1 > manifest.soundscapes.maxFamilyNeighbours) {
+      issues.push(`${motif}: ${count - 1} famiglie vicine, massimo ${manifest.soundscapes.maxFamilyNeighbours}`);
     }
   }
   for (const [subject, key] of Object.entries(manifest.subjects)) {
@@ -476,7 +623,7 @@ function audit() {
     if (!manifest.assets[key]) issues.push(`${event}: cue evento sconosciuto ${key}`);
   }
   if (issues.length > 0) throw new Error(`Audio audit fallito:\n- ${issues.join("\n- ")}`);
-  console.log(`GODOT AUDIO audit OK - ${Object.keys(manifest.assets).length} asset, 12 materie, 5 loop adattivi`);
+  console.log(`GODOT AUDIO audit OK - ${Object.keys(manifest.assets).length} asset, ${soundscapeDesigns.length} soundscape da ${soundscapeSeconds}s`);
 }
 
 if (!checkOnly) {
@@ -485,8 +632,11 @@ if (!checkOnly) {
     fs.copyFileSync(path.join(legacyDir, source), path.join(outputDir, filename));
   }
   for (const [filename, build] of Object.entries(generatedAssets)) writeWav(filename, build());
+  for (const design of soundscapeDesigns) {
+    writeMonoWav(`soundscape-${design.id}.wav`, buildWorldSoundscape(design));
+  }
   fs.writeFileSync(path.join(outputDir, "audio-manifest.json"), `${JSON.stringify(manifest, null, 2)}\n`);
-  console.log(`Generated ${Object.keys(generatedAssets).length} new and copied ${Object.keys(legacyAssets).length} proven audio assets.`);
+  console.log(`Generated ${Object.keys(generatedAssets).length} core, ${soundscapeDesigns.length} world soundscape and copied ${Object.keys(legacyAssets).length} proven audio assets.`);
 }
 
 audit();

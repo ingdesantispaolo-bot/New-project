@@ -127,9 +127,7 @@ func _assert_wave_world(world: Node, level: int, theme: String, landmark_kind: S
 		if level == 3 else
 		"res://assets/baia-radio-lighthouse-v1.png"
 	)
-	var landmark_texture := load(landmark_texture_path) as Texture2D
-	assert(landmark_texture != null, "texture landmark mancante")
-	var landmark_image := landmark_texture.get_image()
+	var landmark_image := Image.load_from_file(landmark_texture_path)
 	assert(landmark_image != null and landmark_image.get_pixel(0, 0).a < 0.05,
 		"il landmark deve avere sfondo realmente trasparente")
 	return {

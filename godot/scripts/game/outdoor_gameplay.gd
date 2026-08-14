@@ -76,6 +76,12 @@ signal world_light_changed(luce: float, grado: int, salito: bool)
 ## mondo. `forma` dice COME (spegnere/liberare/riparare/riaccendere), l'id dice
 ## DOVE. Qui non si sa niente di fuochi e di animali: si sa che e' fatta.
 signal minimission_completed(forma: String, encounter_id: String, esito: String)
+## Un argomento è passato allo stato **consolidato** nel manuale di NORA: tre
+## risposte giuste in sessioni distinte, con una notte di mezzo. È il traguardo
+## didattico più silenzioso del gioco — non dà energia, non apre niente — e prima
+## del 14 agosto non lo sapeva nessuno fuori di qui, tanto che il segnale
+## `topic_consolidated` del Custode era dichiarato e non veniva mai emesso.
+signal topic_consolidated(subject: String, topic: String)
 
 var game_save: GameSaveManager
 var content_manager: ContentManager
@@ -367,7 +373,12 @@ func runtime_state() -> Dictionary:
 		# pulsante leggendo di qui e non ricalcola niente — l'economia
 		# dell'impulso è semantica, come quella dell'energia.
 		"pulseCharges": PulseCharge.cariche(game_save),
-		"pulseChargeMax": PulseCharge.MASSIMO,
+		"pulseChargeMax": PulseCharge.massimo(game_save),
+		# Gli effetti dei moduli di spedizione, già risolti in numeri: la scena
+		# disegna e si muove, non guarda che cosa il giocatore ha comprato
+		# (invariante 1). Se un giorno un modulo cambia effetto, cambia qui.
+		"pulseRadius": ExpeditionModules.raggio_impulso(game_save),
+		"sprintMultiplier": ExpeditionModules.moltiplicatore_scatto(game_save),
 		"ready": bool(progress.get("ready", false)),
 		# Le stanze accese: è questa collezione, non il livello, ad aprire il Cuore.
 		"apparatusRepaired": int(progress.get("apparatusRepaired", 0)),
@@ -947,6 +958,10 @@ func resolve_session(exercise_result: Dictionary) -> void:
 		progression_manager.record_mission(subject, correct, total, gained, passed)
 	var codex_advanced: Array = progression_manager.record_topic_stats(
 		subject, exercise_result.get("topicStats", {}))
+	for avanzato in codex_advanced:
+		var voce: Dictionary = avanzato
+		if str(voce.get("a", "")) == KnowledgeCodex.STATE_CONSOLIDATED:
+			topic_consolidated.emit(subject, str(voce.get("topic", "")))
 	progress_report.record(game_save.level(), subject, game_save.mastery_of(subject), 1 if passed else 0, float(exercise_result.get("seconds", 0.0)))
 	if passed:
 		PlayDiary.register_passed_today(game_save)

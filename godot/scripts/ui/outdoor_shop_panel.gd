@@ -17,10 +17,13 @@ const SLOT_LABELS := {
 	"tool": "STRUMENTI",
 	"pet": "COMPAGNI",
 	"emblem": "EMBLEMI",
+	"module": "SPEDIZIONE",
 	"upgrade": "NORA",
 	"decor": "RESTAURI",
 }
-const SLOT_ORDER := ["bot", "avatar", "accessory", "tool", "pet", "emblem", "upgrade", "decor"]
+## I moduli stanno subito dopo gli strumenti, che sono la cosa a cui somigliano di
+## più: entrambi servono là fuori e non toccano una prova.
+const SLOT_ORDER := ["bot", "avatar", "accessory", "tool", "module", "pet", "emblem", "upgrade", "decor"]
 const SLOT_META := {
 	"bot": {
 		"title": "Livree di Bit",
@@ -51,6 +54,11 @@ const SLOT_META := {
 		"title": "Emblemi di metodo",
 		"intro": "Distintivi da esporre per ricordare costanza, curiosita e precisione.",
 		"impact": "Un emblema alla volta compare accanto all'esploratore nel mondo.",
+	},
+	"module": {
+		"title": "Moduli di spedizione",
+		"intro": "Attrezzatura che serve la fuori, contro il Silenzio: non tocca mai una prova.",
+		"impact": "Acquisto permanente e sempre attivo: l'effetto si vede sulla mappa, non nelle domande.",
 	},
 	"upgrade": {
 		"title": "Potenziamenti NORA",
@@ -765,7 +773,28 @@ func _tool_fallback_texture(id: String) -> Texture2D:
 <path d="M42 101 L55 106" stroke="#f6c85f" stroke-width="8" stroke-linecap="round"/>
 """
 	else:
-		return null
+		# **Ripiego generico: il glifo dichiarato dalla voce.** (14 agosto 2026)
+		#
+		# Prima di oggi qui c'era `return null`, e valeva per due strumenti
+		# disegnati a mano. Aggiungendo i moduli di spedizione —
+		# `shop_presentation_audit` pretende un'illustrazione per **ogni** voce
+		# del catalogo — la scelta era fra rimandare i moduli finché non esiste
+		# l'arte o dargli una resa onesta subito.
+		#
+		# È la regola che il progetto applica ai lotti di Codex: una cosa deve
+		# essere usabile con forme piene e colori piatti **prima** che esista un
+		# disegno, altrimenti l'arte diventa un prerequisito e il lotto si ferma
+		# ad aspettarla. Il glifo e il colore stanno già nel catalogo; C-G4
+		# sostituirà questo cerchio con l'illustrazione vera.
+		var voce := RewardCatalog.find(id)
+		var glifo := str(voce.get("glyph", "")).strip_edges()
+		if glifo == "":
+			return null
+		var tinta := Color(int(voce.get("color", 0x6be7d6))).to_html(false)
+		body = """
+<circle cx="64" cy="64" r="34" fill="none" stroke="#%s" stroke-width="5" opacity="0.85"/>
+<text x="64" y="80" font-size="46" text-anchor="middle" fill="#%s">%s</text>
+""" % [tinta, tinta, glifo.xml_escape()]
 	var svg := """
 <svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
 <defs><radialGradient id="g"><stop stop-color="#16444a"/><stop offset="1" stop-color="#061d24"/></radialGradient></defs>

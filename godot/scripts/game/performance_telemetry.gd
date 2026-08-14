@@ -10,6 +10,18 @@ var _by_scene: Dictionary = {}
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	_apply_frame_rate_cap()
+
+## Il budget dichiara `targetFps` 30 su web e mobile, ma senza cap il motore
+## punta comunque a 60: su un tablet debole significa disegnare il doppio dei
+## frame che il dispositivo riesce a presentare, bruciare batteria e finire in
+## throttling termico dopo pochi minuti — con il risultato che gli FPS crollano
+## sotto i 30 che si volevano tenere. Il cap si legge dal budget invece di
+## essere cablato, cosi' resta una sola cifra da cambiare.
+func _apply_frame_rate_cap() -> void:
+	var target_fps := int(WorldProfileCatalog.budget_for_current_tier().get("targetFps", 0))
+	if target_fps > 0 and target_fps < 60:
+		Engine.max_fps = target_fps
 
 func _process(delta: float) -> void:
 	_elapsed += delta

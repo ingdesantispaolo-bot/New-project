@@ -34,6 +34,7 @@ const MYSTERY_CATALOG := preload("res://scripts/game/mystery_catalog.gd")
 const MYSTERY_ARTIFACT_SCRIPT := preload("res://scripts/game/mystery_artifact.gd")
 const DIALOGUE_BOX_SCRIPT := preload("res://scripts/ui/dialogue_box.gd")
 const TEACHING_CHOICE_PANEL_SCRIPT := preload("res://scripts/ui/teaching_choice_panel.gd")
+const EXPEDITION_MODULE_PRESENTATION_SCRIPT := preload("res://scripts/visual/expedition_module_presentation.gd")
 
 const PLAYER_ACCENT := Color("6be7d6")
 const NIGHT_TINT := Color(0.46, 0.51, 0.70)
@@ -105,6 +106,9 @@ var camera: Camera2D
 var fireflies: CPUParticles2D
 var pet_companion: OutdoorPetCompanion
 var player_presentation: Node2D
+## Il tipo resta Node per non dipendere dall'aggiornamento della cache globale
+## delle classi durante l'import headless; lo script e' comunque pre-caricato.
+var expedition_module_presentation: Node
 var nearby: Array = []
 var day_clock := 0.0
 var current_audio_phase := ""
@@ -194,6 +198,8 @@ delete document.documentElement.dataset.eliExam;
 	gameplay.feedback_presented.connect(_present_feedback)
 	gameplay.enigma_progress.connect(_on_enigma_progress)
 	gameplay.minimission_completed.connect(_on_minimission_completed)
+	gameplay.topic_consolidated.connect(
+		func(_subject: String, _topic: String): _pet_react("topic_consolidated"))
 	gameplay.setup(request, result, bool(request.get("loadLocalSave", true)))
 	game_save = gameplay.game_save
 	# Entrare in un mondo È aver giocato oggi. Idempotente entro la giornata:
@@ -443,7 +449,7 @@ func _planned_world_events() -> Array:
 
 func _profile_performance_budget() -> Dictionary:
 	var budgets: Dictionary = world_profile.get("performanceBudget", {})
-	var tier := "mobile" if OS.has_feature("mobile") else "web" if OS.has_feature("web") else "desktop"
+	var tier := WorldProfileCatalog.current_tier()
 	return Dictionary(budgets.get(tier, budgets.get("web", {})))
 
 func _world_subject() -> String:
@@ -584,6 +590,12 @@ func _apply_resume() -> void:
 
 func _on_runtime_state(state: Dictionary) -> void:
 	runtime = state.duplicate(true)
+	if is_instance_valid(player):
+		player.sprint_multiplier = float(
+			runtime.get("sprintMultiplier", ExpeditionModules.SCATTO_BASE))
+	if is_instance_valid(expedition_module_presentation):
+		expedition_module_presentation.apply_runtime(
+			runtime, equipped_field_tool(), Array(result.get("collectedTreasureIds", [])))
 	_aggiorna_cariche_impulso()
 	_update_objective()
 	_update_ship_navigation()
@@ -598,6 +610,9 @@ func _on_runtime_state(state: Dictionary) -> void:
 func _on_gameplay_session_requested(session: Dictionary) -> void:
 	if not is_instance_valid(exercise_player):
 		return
+	# Il Custode si mette a guardare: la faccia «concentrato» dura finché qualcosa
+	# non la sostituisce, cioè per tutta la prova.
+	_pet_react("session_start")
 	_cancel_pending_touch_interaction()
 	if is_instance_valid(interaction_button):
 		interaction_button.visible = false
@@ -666,6 +681,7 @@ func _process(delta: float) -> void:
 	if _pet_faded_check_elapsed >= PET_FADED_CHECK_INTERVAL:
 		_pet_faded_check_elapsed = 0.0
 		_pet_check_faded_proximity()
+		_pet_aggiorna_silenzio()
 	# **Niente alternanza giorno/notte.** (7 agosto 2026)
 	#
 	# Il mondo adesso nasce coperto e si illumina man mano che le prove vengono
@@ -877,6 +893,12 @@ func _create_player() -> void:
 	fireflies.emitting = not reduced_motion
 	player.add_child(fireflies)
 	world_layer.add_child(player)
+	expedition_module_presentation = EXPEDITION_MODULE_PRESENTATION_SCRIPT.new()
+	expedition_module_presentation.name = "ExpeditionModulePresentation"
+	add_child(expedition_module_presentation)
+	expedition_module_presentation.setup(player)
+	expedition_module_presentation.apply_runtime(
+		runtime, equipped_field_tool(), Array(result.get("collectedTreasureIds", [])))
 	_applica_grado_al_personaggio(power_grade)
 	_aggiorna_stato_energia(game_save.energy(), false)
 	_spawn_pet(visual_data)
@@ -982,6 +1004,9 @@ func _update_equipment_presentation() -> void:
 		if light != null:
 			light.energy = 1.08 if tool == "tool-torch" else 0.10
 			light.texture_scale = 3.0 if tool == "tool-torch" else 1.15
+	if is_instance_valid(expedition_module_presentation):
+		expedition_module_presentation.apply_runtime(
+			runtime, tool, Array(result.get("collectedTreasureIds", [])))
 	for gate in get_tree().get_nodes_in_group("equipment_gate"):
 		if gate.has_method("set_equipped_tool"):
 			gate.call("set_equipped_tool", tool)
@@ -1843,6 +1868,11 @@ func _open_mystery_artifact(target: Area2D) -> void:
 		if eli_line != "":
 			pages.append("Eli: %s" % eli_line)
 		var sister := str(payload.get("sorella", "")).strip_edges()
+		if sister != "":
+			# **L'unico che sente dove il significato è svanito** (PET_CUSTODE §1).
+			# Una traccia di sorella è esattamente quello, e il Custode non dice
+			# niente — cambia faccia, e sta al bambino accorgersene.
+			_pet_react("sister_found")
 		speaker = sister if sister != "" else str(payload.get("dove", "dettaglio")).capitalize()
 		role = "Traccia di una sorella" if sister != "" \
 			else "Seme · %s" % str(payload.get("colpo", "mistero")).replace("-", " ")
@@ -3237,8 +3267,11 @@ func _combat_pulse() -> void:
 	player.play_pulse_action()
 	_spawn_combat_pulse_visual()
 	var hits := 0
+	# Il raggio lo dice la semantica: la bobina larga lo amplia, e qui non si sa
+	# che cosa il giocatore abbia comprato.
+	var raggio := float(runtime.get("pulseRadius", ExpeditionModules.RAGGIO_BASE))
 	for enemy in get_tree().get_nodes_in_group("world_enemy"):
-		if enemy is Node2D and player.global_position.distance_to(enemy.global_position) <= 168.0:
+		if enemy is Node2D and player.global_position.distance_to(enemy.global_position) <= raggio:
 			enemy.call("stun", 5.5)
 			hits += 1
 	_set_feedback(
@@ -4116,6 +4149,7 @@ func _on_world_light_changed(luce: float, grado: int, salito: bool) -> void:
 	_aggiorna_barra_potenza()
 	_applica_grado_al_personaggio(grado)
 	if salito:
+		_pet_react("power_grade_up")
 		var scheda := WorldLight.scheda_grado(game_save)
 		_set_feedback("Sei salita a %s. La luce che porti adesso arriva piu' lontano." % str(scheda.get("nome", "")))
 		_spawn_gain_popup(str(scheda.get("nome", "")).to_upper(), Color(str(scheda.get("colore", "8ff6d2"))))
@@ -4735,7 +4769,29 @@ func _refresh_pet_face() -> void:
 		PetState.faces(game_save),
 		reduced_motion)
 
+## Dopo quanto silenzio il Custode si offende. Quarantacinque secondi: il tempo
+## di attraversare mezza mappa senza che succeda niente.
+##
+## **Non è una penalità e non chiede niente.** È l'unica cosa che il Custode può
+## fare per esistere quando il gioco non lo guarda: cambia faccia, e basta. Non
+## toglie legame, non compare un messaggio, non si perde nulla — la decisione 13
+## vieta di punire l'assenza, e una faccia imbronciata che passa da sola non
+## punisce: fa compagnia.
+const PET_SILENZIO_SEC := 45.0
+var _pet_ultimo_segnale_msec := 0
+
+func _pet_aggiorna_silenzio() -> void:
+	if not is_instance_valid(pet_face) or _blocking_panel_visible():
+		return
+	if _pet_ultimo_segnale_msec == 0:
+		_pet_ultimo_segnale_msec = Time.get_ticks_msec()
+		return
+	if Time.get_ticks_msec() - _pet_ultimo_segnale_msec < int(PET_SILENZIO_SEC * 1000.0):
+		return
+	_pet_react("idle")
+
 func _pet_react(game_signal: String) -> void:
+	_pet_ultimo_segnale_msec = Time.get_ticks_msec()
 	if is_instance_valid(pet_face) and pet_face.visible:
 		pet_face.react_to(game_signal)
 	if is_instance_valid(pet_companion) and pet_companion.has_method("react_to"):
@@ -4805,7 +4861,7 @@ func _grant_pet_if_needed() -> void:
 	game_save.save()
 	_refresh_pet_face()
 	_respawn_pet_companion()
-	_pet_react("festa")
+	_pet_react("pet_granted")
 	if PetState.needs_name(game_save):
 		_open_pet_naming()
 
@@ -4890,7 +4946,7 @@ func _confirm_pet_name(field: LineEdit) -> void:
 	game_save.save()
 	_close_pet_naming()
 	_refresh_pet_face()
-	_pet_react("festa")
+	_pet_react("pet_granted")
 	_spawn_gain_popup("%s è con te" % chosen, Color("ffd75e"))
 
 func _close_pet_naming() -> void:
@@ -5691,6 +5747,10 @@ func _retire_completed_event(area: Area2D) -> void:
 	## e sfera della tappa. Gli enigmi conservano invece la struttura costruita.
 	if not is_instance_valid(area):
 		return
+	# La tappa si chiude e sparisce dalla mappa: è un momento visibile, e il
+	# Custode lo festeggia. Distinto da «sessione superata», che riguarda le
+	# risposte: qui riguarda il posto.
+	_pet_react("mission_complete")
 	area.set_meta("completed", true)
 	for group in ["world_interactable", "mission_poi", "enigma_poi"]:
 		if area.is_in_group(group):

@@ -12,6 +12,8 @@ const FINALE_CATALOG := preload("res://scripts/game/finale_catalog.gd")
 const SISTERS_THREAD := preload("res://scripts/game/sisters_thread.gd")
 const STANCE_CHOICES := preload("res://scripts/game/stance_choices.gd")
 const SHIP_BRIDGE_WALKWAY_SCRIPT := preload("res://scripts/visual/ship_bridge_walkway.gd")
+const PET_FACE_WIDGET_SCRIPT := preload("res://scripts/ui/pet_face_widget.gd")
+const PET_SCREEN_SCRIPT := preload("res://scripts/ui/pet_screen.gd")
 
 var controller: HubController
 var content: ContentManager
@@ -30,6 +32,9 @@ var power_overlay: ShipPowerOverlay
 var room_title: Label
 var room_description: Label
 var nora_portrait: Control
+var pet_face: Control
+var pet_screen: Control
+var _pet_cuddles_this_session := 0
 var nora_line: Label
 var level_label: Label
 var status_chip: Label
@@ -193,6 +198,12 @@ func _build_header(parent: VBoxContainer) -> void:
 	nora_portrait = NORA_PORTRAIT_SCRIPT.new()
 	nora_portrait.custom_minimum_size = Vector2(66, 66)
 	row.add_child(nora_portrait)
+	pet_face = PET_FACE_WIDGET_SCRIPT.new()
+	pet_face.name = "ShipPetFaceWidget"
+	pet_face.cuddled.connect(_on_pet_cuddled)
+	pet_face.screen_requested.connect(_open_pet_screen)
+	row.add_child(pet_face)
+	_refresh_pet_face()
 
 	var titles := VBoxContainer.new()
 	titles.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -554,6 +565,16 @@ func _build_exercise_overlay() -> void:
 	knowledge_codex_panel = KNOWLEDGE_CODEX_PANEL_SCRIPT.new()
 	knowledge_codex_panel.setup(save, content)
 	exercise_layer.add_child(knowledge_codex_panel)
+	pet_screen = PET_SCREEN_SCRIPT.new()
+	pet_screen.name = "ShipPetScreen"
+	pet_screen.closed.connect(_on_pet_screen_closed)
+	pet_screen.customization_changed.connect(_on_pet_customization_changed)
+	exercise_layer.add_child(pet_screen)
+	var accessibility: Dictionary = save.data.get("accessibility", {})
+	pet_screen.configure(
+		save,
+		bool(accessibility.get("highContrast", false)),
+		bool(accessibility.get("reducedMotion", false)))
 	log_dialog = AcceptDialog.new()
 	log_dialog.name = "ShipLogDialog"
 	log_dialog.title = "DIARIO DI BORDO · SOLO LOCALE"
@@ -732,6 +753,7 @@ func _position_bridge_walkway() -> void:
 func _apply_state(state: Dictionary) -> void:
 	if background == null:
 		return
+	_refresh_pet_face()
 	room_state = ShipRoomCatalog.room(current_room_id)
 	var accent := Color(str(room_state.get("accent", "6be7d6")))
 	var runtime_rooms: Dictionary = state.get("rooms", {})
@@ -919,6 +941,7 @@ func _on_exam_finished(exam_result: Dictionary) -> void:
 			_apply_state(state_after)
 			var activation_after: Dictionary = Dictionary(state_after.get("rooms", {})).get(repaired_room, {})
 			nora_line.text = str(narrative.reveal_level(save.level()).get("text", "NORA: Apparato riparato. Una nuova rotta è disponibile."))
+			_pet_react("apparatus_repaired")
 			await _play_reactivation_sequence(repaired_room, activation_before, activation_after)
 			if controller.progression.is_complete():
 				NoraState.sync_from_progress(save)
@@ -1221,6 +1244,51 @@ func _nora_integrity_ratio() -> float:
 func _on_nora_learning_signal(signal_name: String) -> void:
 	NoraState.register(save, signal_name)
 	save.save()
+
+func _refresh_pet_face() -> void:
+	if not is_instance_valid(pet_face) or not is_instance_valid(save):
+		return
+	pet_face.visible = PetState.is_granted(save)
+	var accessibility: Dictionary = save.data.get("accessibility", {})
+	pet_face.configure(
+		PetState.name_of(save),
+		PetState.livery(save),
+		PetState.temperament(save),
+		PetState.resting_face(save),
+		PetState.bond(save),
+		PetState.faces(save),
+		bool(accessibility.get("reducedMotion", false)))
+
+func _pet_react(game_signal: String) -> void:
+	set_meta("last_pet_signal", game_signal)
+	if is_instance_valid(pet_face) and pet_face.visible:
+		pet_face.react_to(game_signal)
+
+func _on_pet_cuddled() -> void:
+	if not is_instance_valid(save):
+		return
+	if _pet_cuddles_this_session < PetState.CUDDLES_PER_SESSION:
+		_pet_cuddles_this_session += 1
+		PetState.register_cuddle(save)
+		save.save()
+		_refresh_pet_face()
+	_pet_react("cuddle")
+
+func _open_pet_screen() -> void:
+	if not is_instance_valid(pet_screen) or not PetState.is_granted(save):
+		return
+	var accessibility: Dictionary = save.data.get("accessibility", {})
+	pet_screen.configure(
+		save,
+		bool(accessibility.get("highContrast", false)),
+		bool(accessibility.get("reducedMotion", false)))
+	pet_screen.open_screen()
+
+func _on_pet_screen_closed() -> void:
+	_refresh_pet_face()
+
+func _on_pet_customization_changed() -> void:
+	_refresh_pet_face()
 
 func _return_to_world() -> void:
 	save.save()

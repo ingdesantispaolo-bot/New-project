@@ -226,8 +226,14 @@ const INCARICHI := {
 ## progressione**. Ed è calcolato invece che scritto perché deve seguire le
 ## soglie di [[WorldLight]]: se un giorno cambiano quelle, questo si adegua da
 ## solo invece di mentire.
+## Il grado consigliato per un incarico segue la scala della minaccia, non una
+## sua. Era tarato su cinque gradi (uno ogni cinque mondi, tetto 4); con la scala
+## a nove del 14 agosto restava fermo a 4 dalla metà della campagna in poi, e da
+## lì in avanti qualunque giocatore lo superava senza accorgersene: il rischio
+## dichiarato — entrare impreparati costa una volta e mezzo e il danno si allarga
+## — smetteva semplicemente di esistere per dodici mondi.
 static func grado_richiesto(level: int) -> int:
-	return clampi(floori(float(level - 1) / 5.0), 0, 4)
+	return clampi(floori(float(level - 1) / 3.0), 0, WorldLight.SOGLIE.size() - 2)
 
 static func ha(level: int) -> bool:
 	return INCARICHI.has(level)

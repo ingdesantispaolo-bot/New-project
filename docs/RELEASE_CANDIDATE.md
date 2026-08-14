@@ -1186,10 +1186,12 @@ quindi finito dentro il PCK. Chi commette decide se separarli.
   ordinarie e ogni POI aggiorna il proprio `WorldLearningReaction`. Il visual
   sceglie la trasformazione già dichiarata per bioma e tipo; non calcola
   ricompense o completamenti. `event_progress_visual_audit` verde.
-- **C-G2 e C-G3, consumer pronti.** L'HUD mostra celle e conteggio cariche da
-  `pulseCharges`/`pulseChargeMax` (`pulse_hud_audit` verde). Quattro spritesheet
-  5×4, quattro orbite e il loader dei gradi 5–8 sono integrati; soglie e nomi
-  restano al lotto Claude, quindi non sono stati inventati nella scena.
+- **C-G2 e C-G3, consumer chiusi.** L'HUD mostra celle e conteggio cariche da
+  `pulseCharges`/`pulseChargeMax` (`pulse_hud_audit` verde). Le quattro
+  spritesheet 5×4 e le quattro orbite aggiuntive seguono ora il contratto
+  Solstizio → Costellazione → Galassia → Prima Luce. `eli_evolution_audit`
+  verifica nove tavole, l'associazione del loader, le sei orbite a grado 8 e la
+  riduzione del movimento.
 - **C-G9, presenza del Custode.** Il volto resta data-driven e ora la stessa
   decisione di `PetExpressionEngine` pilota una posa del corpo, con varianti per
   festa, orgoglio, curiosità, attenzione e incoraggiamento. Nessun segnale
@@ -1278,6 +1280,308 @@ carica con lo stesso gesto che la darebbe al giocatore.
 Suite completa **175/175 verde in 237 s**. Export finale fatto dal commit sorgente
 `30bfe49`: `2026.08.14-web-loader-3`, cache `v116-web-loader`, PCK 34,33 MiB,
 WASM 37,68 MiB, core 72,01 MiB. `audit:web` verde.
+
+---
+
+## La matematica del primo livello (14 agosto)
+
+Segnalazione di una studentessa in collaudo: «gli esercizi di matematica del
+primo livello sono troppo semplici». Misurata con una sonda nuova
+(`first_level_probe.gd`, quaranta sessioni campionate per condizione), aveva
+ragione, e le cause erano **tre e indipendenti**.
+
+**Uno · il pavimento del generatore.** La complessità 1 ammette sei archetipi —
+addizione, sottrazione, moltiplicazione, sequenza e due problemi a un passaggio —
+con somme sotto il 35 e sottrazioni sotto il 28. Uscivano «Quanto fa 11 − 6?» e
+«5 monete al mattino e 6 nel pomeriggio»: tre o quattro anni di scuola sotto la
+fascia dichiarata (10–13). Il livello 1 vale ora nominalmente **complessità 2**;
+la complessità 1 resta viva come gradino verso il basso per chi ha padronanza
+sotto 0,5. Limite dichiarato nel codice: ai livelli 1–3 quel gradino non c'è,
+perché il livello efficace non scende sotto 1 e lì il nominale *è* il pavimento.
+
+**Due · le tabelline non coprivano le tabelline.** Con i vecchi limiti il fattore
+massimo al livello 1 era **7**: quelle dell'8, del 9 e del 10 non uscivano mai, in
+una materia il cui banco si chiama `matematica-tabelline`. Ora al nominale si
+arriva a 10 e al gradino di chi fatica a 8.
+
+**Tre · il banco aveva un argomento solo.** 284 voci, tutte `tabelline` — l'unica
+materia su dodici così, le altre ne hanno da sette a ventuno. Aggiunti **80 item
+scritti a mano** su cinque argomenti che NORA già sa spiegare: frazioni,
+percentuali, geometria, espressioni, statistica. Il banco passa da 284 a **364
+voci e da 1 a 6 argomenti**; la difficoltà 1 da 16 voci di un argomento a **41 di
+sei**. Stanno in `build-exercise-banks.mjs` (il JSON è un prodotto del bake: chi
+scrivesse lì perderebbe tutto al giro dopo, ed è già successo).
+
+**Il difetto trovato scrivendoli, ed era il più grosso.** Per la matematica
+`build_mission` costruiva i nodi con il generatore e **usciva prima di guardare il
+banco** — sempre, anche nell'esame. Ottanta item scritti e nessuna strada per
+arrivarci: la stessa specie di guasto dei `modules` nel salvataggio. Ora un nodo
+su tre viene dal banco (`_innesta_banco_matematica`), le tabelline escluse
+dall'estrazione perché il generatore ne produce già in abbondanza.
+
+Tre regressioni prese dalla suite mentre lo si collegava, tutte vere:
+
+- l'innesto poteva **cancellare il nodo di ripasso spaziato** — il sistema
+  didattico decide che cosa deve tornare oggi, e un innesto che glielo sovrascrive
+  rompe la sua promessa. Le posizioni di ripasso sono ora escluse
+  (`c11_world_content_audit`);
+- due item di banco potevano cadere **sullo stesso argomento nello stesso
+  formato** nell'esame da cinque nodi: tre sessioni su 3648, e `format_mix_audit`
+  ne ammette zero. Un argomento per sessione, e mai uno già presente;
+- gli item di banco non portavano la `signature` che ogni nodo di matematica ha:
+  un lettore a valle andava in errore invece che in rosso.
+
+**Misurato dopo.** Al livello 1 la missione passa da 11 a **14 argomenti**, la
+banda di difficoltà da 105/15 a **58/62** fra 1 e 2, e compaiono le domande che
+prima non esistevano: «Come si trova rapidamente il 10% di un numero?», «Il
+perimetro di una figura è…». Il banco resta al **29,9% di risposta libera**,
+dentro la forbice 20–30% (la conversione è automatica nel bake).
+
+Suite completa **175/175 verde in 246 s**. Export: `2026.08.14-web-loader-4`,
+cache `v117-web-loader`, PCK 34,38 MiB. `audit:web` resta rosso per lo stamp di
+versione fermo a `af66cec`, come nei due lotti precedenti.
+
+---
+
+## G-3 · La potenza non si ferma a metà campagna (14 agosto)
+
+La scala della potenza si fermava a **140 prove, cinque gradi**, ed era stata
+scritta quando i mondi non erano ancora ventiquattro. Le sacche di Silenzio
+invece salgono fino al grado otto (`1 + floor((livello−1)/3)`).
+
+**La misura, con una sonda nuova.** `power_curve_probe` simula il percorso vero —
+missione della materia del mondo più pratica delle materie che il gate dichiara
+mancanti, fino a superare il livello, più l'esame — e conta le prove superate
+mondo per mondo. La campagna intera vale **590 prove**, e il grado massimo
+arrivava all'**ottavo mondo**: per sedici mondi Eli non cresceva più mentre la
+minaccia continuava a salire. Lo scarto misurato arrivava a **−4** ai mondi
+22–24, cioè otto energie a ogni morso contro un giocatore che non poteva farci
+niente.
+
+Nessun audit se ne era accorto perché ognuno guardava metà del problema:
+`world_light_audit` controllava che le soglie crescessero, `enemy_threat_audit`
+che il grado massimo bastasse. Nessuno confrontava **quando** si arriva a un
+grado con **quanto è forte la minaccia in quel momento**.
+
+- **Nove gradi**, con le prime cinque soglie **intatte**: un salvataggio in corso
+  non deve retrocedere di grado per una modifica alla scala. Le quattro nuove —
+  Solstizio, Costellazione, Galassia, Prima Luce — a 215, 300, 395 e 500 prove,
+  scelte perché lo scarto resti fra −1 e +1 in tutti e ventiquattro i mondi e
+  nessun gradino duri più di tre. Misurato dopo: grado 0 al mondo 1 (giusto: le
+  prime sacche devono mordere) e grado 8 al mondo 21.
+- **C-G3 chiuso**: le nove spritesheet di Eli e le sei orbite erano già pronte;
+  il contratto ora le nomina e `eli_evolution_audit` verifica l'associazione
+  esatta dei nove gradi, Prima Luce nella scena e il comportamento a movimento
+  ridotto.
+- **Il varco ha un tetto** (`VARCO_MASSIMO`): a grado otto contro una sacca di
+  grado uno copriva il 50,8% della pista, oltre il limite che `reflex_duel_audit`
+  chiama «un regalo». Il tetto non tocca i gradi 0–4, che restano tarati com'erano.
+- **Il grado consigliato delle minimissioni** seguiva una scala sua, tetto 4:
+  dalla metà della campagna in poi qualunque giocatore lo superava senza
+  accorgersene e il rischio dichiarato — entrare impreparati costa una volta e
+  mezzo — smetteva di esistere per dodici mondi. Ora segue la scala della minaccia.
+- `reflex_duel_audit` **leggeva il numero dei gradi da una costante scritta a
+  mano** (5): i quattro nuovi sarebbero rimasti fuori da ogni controllo senza che
+  diventasse rosso. Ora lo chiede alla scala.
+
+**Il cricchetto spostato, non allentato.** `world_light_audit` pretendeva che
+l'ultima soglia stesse sotto **400 prove**, con la motivazione giusta — «una
+promessa che nessun bambino vedrà» — e un numero **inventato**: una stima della
+campagna fatta prima di misurarla. Il controllo è passato a `power_curve_audit`,
+che possiede la tabella misurata e verifica tre cose che lì non si potevano
+vedere: che ogni grado arrivi dentro la campagna, che l'ultimo arrivi con almeno
+quaranta prove di margine, e che il grado di Eli non resti mai più di due sotto
+quello delle sacche di quel mondo. Verificato che morda: rimettendo la scala a
+cinque gradi elenca da solo i mondi 19–24 con scarto 3 e 4.
+
+Suite completa **176/176 verde in 245 s**. Export: `2026.08.14-web-loader-5`,
+cache `v118-web-loader`, PCK 34,38 MiB. `audit:web` resta rosso per lo stamp di
+versione fermo a `af66cec`.
+
+---
+
+## G-5 · L'economia misurata, e una voce di piano smentita (14 agosto)
+
+G-5 diceva: «un esercizio del mondo 22 paga come una tabellina del mondo 1», e
+proponeva di scalare la tariffa con la banda di difficoltà. **La misura l'ha
+smentita**, ed è il motivo per cui questo lotto non contiene la modifica che
+prometteva.
+
+La frase è vera per esercizio ed è **falsa per minuto giocato**, che è l'unica
+unità in cui la domanda ha senso: un mondo alto ha formati più lenti e più
+sessioni, e il conto si chiude da solo. Misurato con `economy_probe` su tutti e
+ventiquattro i mondi, simulando il percorso vero e calcolando l'energia con le
+regole del gioco (tariffa dichiarata, serie di [[Combo]], premio di
+completamento, meno l'ingresso): **da 40,6 a 45,4 energia al minuto, squilibrio
+1,12x**.
+
+Scalare le tariffe avrebbe **creato** lo squilibrio che voleva togliere.
+Provato: con una tariffa che cresce di sei per banda, il mondo 20 paga 86,6
+energia al minuto contro le 55,8 del mondo 4 — 1,55x — e tornare indietro a
+ripassare, che il design chiama esplicitamente «ripasso mirato», sarebbe
+diventato un modo per perdere tempo.
+
+Quindi al posto della modifica c'è un **cricchetto che impedisce di introdurla**:
+`economy_curve_audit` costruisce una sessione per ognuno dei ventiquattro mondi,
+ne calcola l'energia al minuto e pretende che lo squilibrio resti sotto 1,45x;
+in più riverifica il tetto della serie dal lato dell'economia — nessuna sessione
+perfetta paga più del doppio della sua tariffa piatta — perché è il punto in cui
+una modifica alle ricompense lo romperebbe senza toccare `combo.gd`. Verificato
+che morda: con le tariffe scalate diventa rosso e nomina i due mondi.
+
+**Il numero che serviva a G-4.** Il catalogo della bottega costa **72.600
+energia** su 55 voci; la campagna ne produce **53.783** senza errori e **42.758**
+sbagliandone una su cinque, cioè il **74%** e il **59%**. Il sink estetico è
+tarato bene e non c'è energia in eccesso da drenare: i moduli di spedizione, se
+entrano, devono essere **pochi e permanenti** (quattro o cinque a 150-600, circa
+il 3% del catalogo) e mai consumabili, che sarebbero un rubinetto senza fondo su
+un'economia già stretta.
+
+Suite completa **177/177 verde in 247 s**.
+
+---
+
+## G-4 · I moduli di spedizione (14 agosto)
+
+L'unica cosa che la bottega vende oltre alla bellezza, e nasce da una
+contraddizione fra due documenti che avevano ragione tutti e due:
+`DESIGN_COMPLETO` §8 prometteva sette moduli NORA (indizio, seconda chance, tempo
+extra), il lotto del 6 agosto aveva deciso il contrario — *«un consumabile utile
+diventa una scorciatoia per non sapere»*.
+
+**La distinzione che li concilia è dove agisce il modulo.** Uno che tocca una
+**prova** è una scorciatoia per non sapere; uno che tocca la **mappa** no — la
+stessa distinzione che rende lecito mettere un duello di riflessi davanti a un
+forziere di cosmetici. Da qui la decisione vincolante 15 applicata alla bottega.
+
+- **Tre moduli, non sette**, perché tre sono quelli che **funzionano davvero**:
+  Serbatoio ampliato (una carica d'impulso in più), Bobina larga (raggio
+  dell'impulso da 168 a 230), Passo lungo (scatto da 1,65× a 1,95×). Radar dei
+  forzieri e raggio della torcia restano nel piano finché non esiste la loro
+  resa: un oggetto che promette una meccanica inesistente è già stato il difetto
+  del 6 agosto, quattro upgrade da 1600 frammenti che non facevano nulla.
+- **Permanenti, mai consumabili**, e il numero lo dice: il catalogo costa 72.600
+  e una campagna produce fra 42.758 e 53.783 (G-5). Non c'è energia in eccesso da
+  drenare. I tre costano insieme **950, l'1,3% del catalogo**: la scelta in
+  bottega esiste e il sink estetico non se ne accorge. Un consumabile sarebbe un
+  rubinetto senza fondo su un'economia già stretta.
+- **Nessuna chiave nuova nel salvataggio.** `cosmetics.inventory` raccoglie già
+  gli acquisti permanenti che non si equipaggiano e ha i suoi lettori: è bastato
+  aggiungere `module` agli slot non equipaggiabili. La chiave `modules`,
+  dichiarata e mai costruita (decisione 14), resta sepolta dov'è.
+- **La semantica calcola, la scena legge un numero.** `runtime_state()` pubblica
+  `pulseChargeMax`, `pulseRadius` e `sprintMultiplier`; l'impulso e il
+  controller del giocatore non sanno niente di bottega né di acquisti.
+
+**Il guard-rail, provato sul comportamento.** `expedition_module_audit` verifica
+che ogni modulo esista e si compri davvero (compresa la sezione in bottega: un
+oggetto che nessuna schermata elenca non esiste), che **cambi un numero**
+misurabile fino al contratto runtime, che comprarlo non sposti padronanza,
+conteggi del gate o prontezza al livello successivo, che nessuno sia necessario,
+e che i moduli non superino il 6% del catalogo. Verificato che morda: rendendo
+un modulo inerte lo dichiara rosso in due righe.
+
+**Una regressione presa dalla suite**, e la riparazione vale oltre questo lotto:
+`shop_presentation_audit` pretende un'illustrazione per **ogni** voce del
+catalogo, e i tre moduli non ne hanno. La scelta era fra rimandare i moduli
+finché non esiste l'arte o dargli una resa onesta subito. La bottega ora ha un
+**ripiego generico** — un cerchio col glifo e il colore già dichiarati nella voce
+— al posto del `return null` che valeva solo per i due strumenti disegnati a
+mano: è la stessa regola che il progetto applica ai lotti di Codex, una cosa deve
+essere usabile con forme piene e colori piatti prima che esista un disegno.
+
+Suite completa **178/178 verde in 257 s**. Export: `2026.08.14-web-loader-6`,
+cache `v119-web-loader`, PCK 34,38 MiB.
+
+---
+
+## G-9 · La presenza del Custode (14 agosto)
+
+Il motore delle espressioni dichiarava **ventuno segnali** e la scena ne emetteva
+quindici. Cinque erano **morti** — `session_start`, `mission_complete`,
+`topic_consolidated`, `apparatus_repaired`, `idle` — ed è la decisione 14
+applicata ai segnali invece che alle chiavi del salvataggio: non è un'analogia,
+quella decisione nomina proprio `near_unexplored` e `near_faded` come il quarto
+caso della stessa malattia.
+
+**Il difetto senza sintomi.** Due chiamate passavano `_pet_react("festa")`, e
+`festa` è una **faccia**, non un segnale: `face_for` non trovava la chiave e
+ripiegava sul volto a riposo. Il Custode restava sereno nei due momenti che sono
+la sua stessa presentazione — quando viene consegnato al bambino e quando riceve
+un nome. Non dava nessun errore, e nessuna rilettura del codice l'avrebbe visto.
+
+Collegati ora, tutti a cose **già a schermo** (la decisione 12 vieta che il
+Custode anticipi o aiuti):
+
+| segnale | quando | faccia |
+|---|---|---|
+| `pet_granted` (nuovo) | il Custode arriva e riceve un nome | festa |
+| `power_grade_up` (nuovo) | Eli sale di grado di potenza | orgoglioso |
+| `sister_found` (nuovo) | si apre la traccia di una sorella | attento |
+| `session_start` | si apre una prova | concentrato |
+| `mission_complete` | una tappa si chiude e sparisce dalla mappa | festa |
+| `topic_consolidated` | un argomento diventa consolidato nel manuale | festa |
+| `idle` | quarantacinque secondi senza che accada niente | offeso |
+
+`topic_consolidated` ha richiesto un canale che non esisteva: `OutdoorGameplay`
+emette ora un segnale omonimo quando un argomento raggiunge lo stato
+consolidato — il traguardo più silenzioso del gioco, che non dà energia e non
+apre niente, e che fuori dalla semantica non sapeva nessuno.
+
+**Sull'`idle`, che era la scelta delicata.** Una faccia imbronciata dopo un
+lungo silenzio non punisce: non toglie legame, non mostra messaggi, passa da
+sola. La decisione 13 vieta di punire l'assenza, e qui non si perde niente — è
+l'unica cosa che il Custode può fare per esistere quando il gioco non lo guarda.
+
+**Il cricchetto.** `pet_presence_audit` pretende che ogni segnale dichiarato
+abbia qualcuno che lo emette, che nessuno passi una faccia al posto di un
+segnale, che ogni segnale abbia una faccia nota, e che **nessuna reazione nasca
+da energia, frammenti, cosmetici o moduli** — la decisione 12 verificata a monte,
+su ciò che fa reagire il Custode e non solo su ciò che fa. Verificato che morda:
+rimettendo `_pet_react("festa")` lo dichiara rosso nominando il file.
+
+**Un falso rosso, e la lezione.** Alla prima stesura l'audit dichiarava morti
+tutti e cinque i `learning:*`, che nascono da `_pet_react("learning:%s" % nome)`:
+la loro stringa intera non compare da nessuna parte. Un falso rosso è una bugia
+esattamente come un falso verde, e insegna a non fidarsi del cricchetto: la
+ricerca riconosce ora anche il modello interpolato.
+
+**C-G9, il Custode nella nave (14 agosto).** La voce in lista d'attesa è chiusa:
+`hub_scene.gd` mostra lo stesso `ShipPetFaceWidget` quando il Custode è stato
+consegnato, apre `ShipPetScreen` con la pressione lunga e conserva il tetto di
+legame per sessione anche sulla carezza. Un apparato riparato emette ora
+`apparatus_repaired` prima della riattivazione, senza energia, frammenti o effetti
+sui gate. `ship_pet_presence_audit` prova sul consumer reale volto, carezza,
+schermata e reazione alla riparazione; `pet_presence_audit` non ha più segnali in
+attesa. Il Custode resta accanto a Eli anche dentro la nave.
+
+Suite completa **180/180 verde in 253 s**. Export: `2026.08.14-web-loader-7`,
+cache `v120-web-loader`, PCK 34,45 MiB.
+
+---
+
+## C-G8 — paesaggio sonoro dei mondi (14 agosto 2026)
+
+Il profilo reale contiene **24** combinazioni `terrainFamily`/`soundscape`, non le
+22 stimate nel piano. Il generatore deterministico produce quindi 24 loop mono
+da **60 secondi** a 22.050 Hz: un file distinto per mondo sonoro, organizzato in
+nove famiglie di motivo. Nessun paesaggio ha più di quattro vicini con lo stesso
+motivo; il mix già esistente conserva volume e altezza specifici del profilo.
+
+`NativeAudioManager` risolve prima l'asset del `soundscape` e mantiene il vecchio
+`ambience.day`/`ambience.night` come fallback esplicito per manifest incompleti.
+Il manifest contiene 60 asset complessivi, inclusi i 24 loop lunghi, e l'audit del
+generatore controlla durata, clipping, RMS, continuità del loop, unicità e
+vicinanza timbrica. `audio_asset_audit` verifica anche il resolver usato dal
+runtime e stampa: **C-G8 AUDIO ASSET audit OK — 24 soundscape da un minuto,
+fallback intatto**.
+
+**Chiusura release.** Suite Godot completa **181/181 verde in 283 s**. Il primo
+passaggio aveva rivelato che gli audit delle ondate leggevano l'alpha dalla
+texture già compressa per GPU; ora le sette ondate controllano il PNG sorgente e
+restano valide anche con ETC2/S3TC. Export Web finale sincronizzato come
+`2026.08.14-web-loader-9`, cache `v122-web-loader`: PCK **60,36 MiB**, WASM
+**37,68 MiB**, core **98,04 MiB**; `audit:web` verde e manifest allineato.
 
 ---
 
@@ -1491,3 +1795,21 @@ fermata al limite documentato di 150 secondi: tutti gli audit emessi fino allo
 stop erano verdi, inclusi i due regressivi `dialogue_audit` ed
 `enigma_scene_audit`; il resto del pacchetto C-ART è stato eseguito in modo
 mirato e verde.
+
+## C-G4 — resa dei moduli di spedizione (14 agosto 2026)
+
+- `expedition_module_presentation.gd` consuma esclusivamente due numeri del
+  contratto runtime. `treasureRadarRadius` mostra un segnale direttamente sopra
+  le casse chiuse entro il raggio, senza introdurre una lista HUD;
+  `torchRadius` scala un vero cono `PointLight2D`, orientato secondo lo sguardo
+  di Eli. Valori assenti o zero tengono entrambe le rese dormienti finché la
+  semantica non pubblica i due effetti.
+- Il generatore deterministico del `reward-items-sheet` contiene ora cinque
+  illustrazioni dedicate: serbatoio, bobina, passo, radar e torcia. L'atlante
+  sincronizzato Web/Godot passa a 58 regioni su 1024×1024; i tre moduli già in
+  vendita non usano più il cerchio con glifo di ripiego.
+- Verde `expedition_module_presentation_audit`: prova valori zero, distanza e
+  stato raccolto del radar, equipaggiamento/scala/orientamento del cono, assenza
+  di calcoli semantici nella resa e tutte le cinque regioni 128×128. Verdi anche
+  le regressioni mirate `expedition_module_audit`, `shop_presentation_audit` e
+  `outdoor_presentation_audit`.

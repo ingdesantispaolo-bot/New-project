@@ -34,6 +34,23 @@ vec2 mirror_repeat(vec2 uv) {
 	return mix(local_uv, vec2(1.0) - local_uv, flip);
 }
 
+// Campionamento specchiato con mip corretto.
+//
+// `mirror_repeat` contiene `floor`/`fract`, quindi la UV che ne esce e'
+// DISCONTINUA sui bordi di ogni cella. Se si lascia scegliere il mip alla GPU
+// (che lo deduce dalle derivate della UV passata a `texture()`), sulle cuciture
+// la derivata schizza e viene scelto il livello piu' basso: cuciture sfocate
+// visibili e, cosa piu' costosa su GPU mobile, un accesso alla texture cache
+// completamente fuori pattern.
+//
+// La derivata corretta e' quella della UV CONTINUA, prima dello specchiamento:
+// la si calcola una volta per scala e la si passa a `textureGrad`. Lo
+// specchiamento inverte il segno del gradiente in celle alterne, ma il mip
+// dipende dalla magnitudine, quindi il livello resta quello giusto.
+vec3 sample_mirrored(sampler2D tex, vec2 continuous_uv, vec2 ddx, vec2 ddy) {
+	return textureGrad(tex, mirror_repeat(continuous_uv), ddx, ddy).rgb;
+}
+
 float value_noise(vec2 p) {
 	vec2 i = floor(p);
 	vec2 f = fract(p);
@@ -65,20 +82,29 @@ void fragment() {
 	float breakup = smoothstep(0.27, 0.73, fbm(world / 560.0));
 	float secondary_mix = (0.14 + breakup * 0.20) * detail_strength;
 
-	vec2 sample_a = mirror_repeat(uv_a);
-	vec2 sample_b = mirror_repeat(uv_b);
-	vec3 academy = mix(texture(academy_tex, sample_a).rgb, texture(academy_tex, sample_b).rgb, secondary_mix);
-	vec3 wild = mix(texture(wild_tex, sample_a).rgb, texture(wild_tex, sample_b).rgb, secondary_mix);
-	vec3 mineral = mix(texture(mineral_tex, sample_a).rgb, texture(mineral_tex, sample_b).rgb, secondary_mix);
-	vec3 magic = mix(texture(magic_tex, sample_a).rgb, texture(magic_tex, sample_b).rgb, secondary_mix);
+	// Derivate delle UV continue, calcolate una volta per scala e riusate da
+	// tutti i campionamenti specchiati (vedi `sample_mirrored`).
+	vec2 ddx_a = dFdx(uv_a);
+	vec2 ddy_a = dFdy(uv_a);
+	vec2 ddx_b = dFdx(uv_b);
+	vec2 ddy_b = dFdy(uv_b);
+
+	vec3 academy = mix(sample_mirrored(academy_tex, uv_a, ddx_a, ddy_a), sample_mirrored(academy_tex, uv_b, ddx_b, ddy_b), secondary_mix);
+	vec3 wild = mix(sample_mirrored(wild_tex, uv_a, ddx_a, ddy_a), sample_mirrored(wild_tex, uv_b, ddx_b, ddy_b), secondary_mix);
+	vec3 mineral = mix(sample_mirrored(mineral_tex, uv_a, ddx_a, ddy_a), sample_mirrored(mineral_tex, uv_b, ddx_b, ddy_b), secondary_mix);
+	vec3 magic = mix(sample_mirrored(magic_tex, uv_a, ddx_a, ddy_a), sample_mirrored(magic_tex, uv_b, ddx_b, ddy_b), secondary_mix);
 	vec3 color = academy * biome_weights.x + wild * biome_weights.y
 		+ mineral * biome_weights.z + magic * biome_weights.w;
 	vec2 identity_uv = clamp(
 		(world - identity_world_origin) / max(identity_world_size, vec2(1.0)),
 		vec2(0.0), vec2(1.0));
-	vec3 identity = texture(identity_tex, identity_unique_map ? identity_uv : sample_a).rgb;
+	// La mappa autorata (`identity_unique_map`) e' gia' in UV continue e
+	// clampate: li' le derivate automatiche vanno bene.
+	vec3 identity = identity_unique_map
+		? texture(identity_tex, identity_uv).rgb
+		: sample_mirrored(identity_tex, uv_a, ddx_a, ddy_a);
 	if (!identity_unique_map) {
-		identity = mix(identity, texture(identity_tex, sample_b).rgb, secondary_mix * 0.72);
+		identity = mix(identity, sample_mirrored(identity_tex, uv_b, ddx_b, ddy_b), secondary_mix * 0.72);
 	}
 	color = mix(color, identity, clamp(identity_strength, 0.0, 1.0));
 	// Maschere macro in coordinate mondo: alternano prato calmo, sottobosco e

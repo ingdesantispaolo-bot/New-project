@@ -23,6 +23,11 @@ window/stretch/aspect="expand"
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
 textures/default_filters/use_nearest_mipmap_filter=false
+; Senza import_etc2_astc il build Web cuoce solo varianti S3TC, che le GPU
+; Adreno/Mali dei tablet non sanno leggere: la texture torna a RGBA8 non
+; compresso e la VRAM esplode. Servono entrambi i set di formati.
+textures/vram_compression/import_s3tc_bptc=true
+textures/vram_compression/import_etc2_astc=true
 
 [input]
 move_up={"deadzone": 0.5, "events": [Object(InputEventKey,"physical_keycode":87), Object(InputEventKey,"physical_keycode":4194320)]}

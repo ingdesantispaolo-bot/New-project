@@ -46,6 +46,15 @@ const VARCO_PER_TIER := 5.0
 ## insegnerebbe soltanto che il gioco bara.
 const VARCO_MINIMO := 15.0
 
+## E sopra non si sale. (14 agosto 2026)
+##
+## Serve da quando i gradi di potenza sono nove invece di cinque: a grado otto
+## contro una sacca di grado uno il varco copriva il 50,8% della pista, cioe'
+## oltre il tetto che `reflex_duel_audit` chiama «un regalo». Un tetto esplicito
+## costa una riga e non tocca i gradi da zero a quattro, che restano identici a
+## come erano tarati — chi sta giocando adesso non si accorge di niente.
+const VARCO_MASSIMO := 128.0
+
 ## Velocita' del cursore a grado zero contro una sacca di grado uno, px/s.
 const VELOCITA_BASE := 250.0
 const VELOCITA_PER_TIER := 34.0
@@ -70,9 +79,9 @@ static func errori_ammessi(grado: int) -> int:
 	return clampi(1 + grado, 1, 5)
 
 static func semi_varco(tier: int, grado: int) -> float:
-	return maxf(
-		VARCO_MINIMO,
-		VARCO_BASE + float(grado) * VARCO_PER_GRADO - float(tier - 1) * VARCO_PER_TIER)
+	return clampf(
+		VARCO_BASE + float(grado) * VARCO_PER_GRADO - float(tier - 1) * VARCO_PER_TIER,
+		VARCO_MINIMO, VARCO_MASSIMO)
 
 static func velocita(tier: int, grado: int) -> float:
 	return clampf(

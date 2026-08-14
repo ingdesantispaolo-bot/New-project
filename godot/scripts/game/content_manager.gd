@@ -265,6 +265,98 @@ const ERA_GATED_TOPICS := {
 
 # Toglie dal banco gli item la cui era non è ancora sbloccata a questo livello.
 # Fallback prudente: se il filtro svuotasse il banco, restituisce l'originale.
+## Ogni quanti nodi di una sessione di matematica uno viene dal banco.
+const QUOTA_BANCO_MATEMATICA := 3
+
+## **Il banco entra anche in matematica.** (14 agosto 2026)
+##
+## Per undici materie su dodici una missione nasce dal banco. Per la matematica
+## no: `build_mission` costruiva i nodi con il generatore e **usciva prima di
+## guardare il banco**, sempre, anche nell'esame. Era una scelta ragionevole
+## finché il banco conteneva soltanto tabelline — il generatore le fa meglio e
+## infinite — ed è diventata un difetto nel momento in cui il banco ha imparato a
+## dire altro: frazioni, percentuali, geometria, espressioni, statistica. Ottanta
+## item scritti e nessuna strada per arrivarci: è la stessa specie di guasto dei
+## `modules` nel salvataggio, dichiarati e senza lettori.
+##
+## **Un nodo su tre**, non di più. Il generatore resta la spina dorsale della
+## materia: è l'unico che scala di complessità con la competenza e non si ripete
+## mai. Il banco porta ciò che un generatore non sa produrre — che cosa dice il
+## denominatore, perché la media a volte inganna — e sono domande che si scrivono
+## a mano una per una.
+##
+## **Le tabelline restano fuori** da questa estrazione: il generatore ne produce
+## già in abbondanza, e pescarle anche dal banco vorrebbe dire spendere il nodo
+## del banco per ridire la stessa cosa.
+func _innesta_banco_matematica(nodi: Array, level: int, rng: RandomNumberGenerator, mastery: float) -> Array:
+	var quanti := int(round(float(nodi.size()) / float(QUOTA_BANCO_MATEMATICA)))
+	if quanti <= 0 or nodi.is_empty():
+		return nodi
+	var target := effective_difficulty("matematica", level, mastery)
+	var candidati: Array = []
+	for voce in _era_gated("matematica", level, _load_bank("matematica")):
+		var item: Dictionary = voce
+		if str(item.get("topic", "")) == "tabelline":
+			continue
+		if absi(int(item.get("difficulty", 1)) - target) <= 1:
+			candidati.append(item)
+	if candidati.is_empty():
+		return nodi
+	var out := nodi.duplicate()
+	var posizioni_usate: Dictionary = {}
+	for _i in range(quanti):
+		# **Un argomento per sessione, e mai uno già presente.** Senza questo
+		# controllo l'esame di matematica — cinque nodi, quindi due dal banco —
+		# poteva chiedere due volte la statistica nello stesso formato: tre
+		# sessioni su 3648, trovate da `format_mix_audit`, che a ragione ne
+		# ammette zero. Il conto degli argomenti si rifà a ogni giro perché il
+		# nodo sostituito libera il proprio.
+		var presenti: Dictionary = {}
+		for voce_presente in out:
+			presenti[str(Dictionary(voce_presente).get("topic", ""))] = true
+		var scelto: Dictionary = {}
+		for _tentativo in range(12):
+			var c: Dictionary = candidati[rng.randi_range(0, candidati.size() - 1)]
+			if presenti.has(str(c.get("topic", ""))):
+				continue
+			scelto = c
+			break
+		if scelto.is_empty():
+			break
+		# Dove innestarlo. Tre esclusioni, e la prima vale più delle altre due:
+		#
+		# **mai sopra un nodo di ripasso.** Il ripasso spaziato decide che cosa
+		# deve tornare oggi, e un innesto che glielo cancella rompe la promessa
+		# più importante del sistema didattico. È successo: `c11_world_content_audit`
+		# chiedeva le tabelline in ripasso e non le trovava più.
+		#
+		# **mai l'ultimo nodo**, che lo preferisce `inject_non_mc` sostituendo le
+		# scelte multiple dal fondo: metterci un item di banco vorrebbe dire
+		# farselo cancellare un istante dopo.
+		#
+		# **mai una posizione fissa**, o ogni sessione di matematica avrebbe la
+		# stessa forma — il difetto misurato il 5 agosto sulle aperture.
+		var libere: Array = []
+		for indice in range(maxi(0, out.size() - 1)):
+			if posizioni_usate.has(indice):
+				continue
+			if bool(Dictionary(out[indice]).get("review", false)):
+				continue
+			libere.append(indice)
+		if libere.is_empty():
+			break
+		var posizione := int(libere[rng.randi_range(0, libere.size() - 1)])
+		posizioni_usate[posizione] = true
+		var innestato := scelto.duplicate(true)
+		# La `signature` la porta ogni nodo di matematica: il generatore la usa per
+		# non ripetersi e c'è chi la legge a valle senza difese. Un item di banco
+		# non ne ha una, e senza questa riga la sessione porta un nodo che sembra
+		# di matematica e non lo è del tutto — se ne è accorto `c11_world_content_audit`
+		# andando in errore invece che in rosso.
+		innestato["signature"] = "banco:%s" % str(scelto.get("id", ""))
+		out[posizione] = innestato
+	return out
+
 func _era_gated(subject: String, level: int, items: Array) -> Array:
 	if not ERA_GATED_TOPICS.has(subject):
 		return items
@@ -291,7 +383,7 @@ func build_mission(subject: String, level: int, node_count: int = 3, review_due:
 				review_topics.append(str(key).trim_prefix(prefix))
 		# La mastery sposta il livello efficace: matematica generata adattiva.
 		var generated := MathExerciseGenerator.new().build_nodes(math_effective_level(level, mastery), node_count, generator, _recent_math_signatures, review_topics)
-		return _session(subject, level, generated)
+		return _session(subject, level, _innesta_banco_matematica(generated, level, generator, mastery))
 	var items := _era_gated(subject, level, _load_bank(subject))
 	# Difficoltà efficace: livello + mastery, calibrata sul range reale del banco.
 	var target := effective_difficulty(subject, level, mastery)

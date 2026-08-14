@@ -140,9 +140,7 @@ func _assert_world(world: Node, level: int, spec: Dictionary) -> Dictionary:
 	assert(chunks.active_radius <= 2 and chunks.loaded.size() <= 25, "streaming oltre budget")
 
 	assert(ResourceLoader.exists(str(spec["underpaint"])), "underpaint mancante")
-	var landmark_texture := load(str(spec["texture"])) as Texture2D
-	assert(landmark_texture != null, "texture landmark mancante")
-	var landmark_image := landmark_texture.get_image()
+	var landmark_image := Image.load_from_file(str(spec["texture"]))
 	assert(landmark_image != null and landmark_image.get_pixel(0, 0).a < 0.05,
 		"il landmark deve avere sfondo realmente trasparente")
 	return {

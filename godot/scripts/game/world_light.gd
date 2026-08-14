@@ -32,12 +32,36 @@ const PROVE_PER_MONDO := 12
 
 ## Le soglie della potenza, cumulative sull'intera partita. I nomi sono quelli
 ## che il gioco mostra: un bambino deve poter dire a voce a che punto è.
+##
+## **Nove gradi, non cinque.** (14 agosto 2026)
+##
+## La scala si fermava a 140 prove ed era stata scritta quando i mondi non erano
+## ancora ventiquattro. Misurata con `power_curve_probe` — che simula il percorso
+## vero, missione della materia più pratica di quelle che il gate dichiara
+## mancanti — la campagna intera vale **590 prove**, e il grado massimo arrivava
+## all'**ottavo mondo**. Da lì in poi Eli non cresceva più per sedici mondi
+## mentre le sacche continuavano a salire fino al grado otto: lo scarto misurato
+## arrivava a **−4**, cioè otto energie a ogni morso, contro un giocatore che non
+## poteva farci niente.
+##
+## Le soglie nuove sono tarate su quella misura, non a occhio. Le prime cinque
+## **non si toccano**: un salvataggio in corso non deve mai retrocedere di grado
+## per una modifica alla scala. Le quattro nuove sono scelte perché lo scarto
+## fra il grado di Eli e il grado delle sacche resti fra −1 e +1 in tutti e
+## ventiquattro i mondi, e perché nessun gradino duri più di tre mondi.
+##
+## `power_curve_audit` tiene la taratura; `power_curve_probe` la rimisura quando
+## il costo dei mondi cambia.
 const SOGLIE := [
 	{"tier": 0, "prove": 0, "nome": "Scintilla", "colore": "9fb7bb"},
 	{"tier": 1, "prove": 15, "nome": "Lampada", "colore": "8ff6d2"},
 	{"tier": 2, "prove": 40, "nome": "Faro", "colore": "7ad7ff"},
 	{"tier": 3, "prove": 80, "nome": "Aurora", "colore": "9f8cff"},
 	{"tier": 4, "prove": 140, "nome": "Meridiana", "colore": "ffd75e"},
+	{"tier": 5, "prove": 215, "nome": "Solstizio", "colore": "ffb15c"},
+	{"tier": 6, "prove": 300, "nome": "Costellazione", "colore": "c7b8ff"},
+	{"tier": 7, "prove": 395, "nome": "Galassia", "colore": "9fe8ff"},
+	{"tier": 8, "prove": 500, "nome": "Prima Luce", "colore": "e8fff4"},
 ]
 
 # ---------------------------------------------------------------- luce

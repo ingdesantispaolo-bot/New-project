@@ -12,13 +12,8 @@
 			"prompt": "Quanto fa 2 × 2?",
 			"answer": "4",
 			"explanation": "2 × 2 fa 4: è il quadrato di 2. Se non lo ricordi, per 2 basta il doppio: 2 + 2 fa 4.",
-			"format": "multiple_choice",
-			"options": [
-				"2",
-				"6",
-				"4",
-				"5"
-			],
+			"format": "numeric_input",
+			"options": [],
 			"distractorWhy": {
 				"2": "mancano 2: sono solo 1 gruppo da 2, non 2.",
 				"5": "è il risultato giusto più uno: un errore di un'unità nel conto finale.",
@@ -203,8 +198,13 @@
 			"prompt": "Quanto fa 4 × 5?",
 			"answer": "20",
 			"explanation": "Se non ricordi 4 × 5, per 5 fai la metà di 4 × 10, cioè la metà di 40: fa 20. E 5 × 4 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
-			"format": "numeric_input",
-			"options": [],
+			"format": "multiple_choice",
+			"options": [
+				"16",
+				"25",
+				"20",
+				"24"
+			],
 			"distractorWhy": {
 				"16": "mancano 4: sono solo 4 gruppi da 4, non 5.",
 				"24": "è 4 in più: sono 6 gruppi da 4, non 5.",
@@ -356,13 +356,8 @@
 			"prompt": "Quanto fa 2 × 5?",
 			"answer": "10",
 			"explanation": "Se non ricordi 2 × 5, per 5 fai la metà di 2 × 10, cioè la metà di 20: fa 10. E 5 × 2 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
-			"format": "multiple_choice",
-			"options": [
-				"10",
-				"8",
-				"15",
-				"12"
-			],
+			"format": "numeric_input",
+			"options": [],
 			"distractorWhy": {
 				"8": "mancano 2: sono solo 4 gruppi da 2, non 5.",
 				"12": "è 2 in più: sono 6 gruppi da 2, non 5.",
@@ -525,13 +520,8 @@
 			"prompt": "Quanto fa 3 × 5?",
 			"answer": "15",
 			"explanation": "Se non ricordi 3 × 5, per 5 fai la metà di 3 × 10, cioè la metà di 30: fa 15. E 5 × 3 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
-			"format": "multiple_choice",
-			"options": [
-				"12",
-				"15",
-				"20",
-				"18"
-			],
+			"format": "numeric_input",
+			"options": [],
 			"distractorWhy": {
 				"12": "mancano 3: sono solo 4 gruppi da 3, non 5.",
 				"18": "è 3 in più: sono 6 gruppi da 3, non 5.",
@@ -792,13 +782,8 @@
 			"prompt": "Quanto fa 5 × 4?",
 			"answer": "20",
 			"explanation": "Se non ricordi 5 × 4, per 5 fai la metà di 4 × 10, cioè la metà di 40: fa 20. E 4 × 5 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
-			"format": "multiple_choice",
-			"options": [
-				"20",
-				"25",
-				"24",
-				"15"
-			],
+			"format": "numeric_input",
+			"options": [],
 			"distractorWhy": {
 				"15": "mancano 5: sono solo 3 gruppi da 5, non 4.",
 				"24": "è 4 in più: sono 6 gruppi da 4, non 5.",
@@ -876,13 +861,8 @@
 			"prompt": "Quanto fa 5 × 8?",
 			"answer": "40",
 			"explanation": "Se non ricordi 5 × 8, per 5 fai la metà di 8 × 10, cioè la metà di 80: fa 40. E 8 × 5 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
-			"format": "multiple_choice",
-			"options": [
-				"45",
-				"35",
-				"48",
-				"40"
-			],
+			"format": "numeric_input",
+			"options": [],
 			"distractorWhy": {
 				"35": "mancano 5: sono solo 7 gruppi da 5, non 8.",
 				"45": "è 5 in più: sono 9 gruppi da 5, non 8.",
@@ -929,13 +909,8 @@
 			"prompt": "Quanto fa 6 × 2?",
 			"answer": "12",
 			"explanation": "Se non ricordi 6 × 2, per 2 basta il doppio: 6 + 6 fa 12. E 2 × 6 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
-			"format": "multiple_choice",
-			"options": [
-				"18",
-				"6",
-				"14",
-				"12"
-			],
+			"format": "numeric_input",
+			"options": [],
 			"distractorWhy": {
 				"6": "mancano 6: sono solo 1 gruppo da 6, non 2.",
 				"14": "è 2 in più: sono 7 gruppi da 2, non 6.",
@@ -982,13 +957,8 @@
 			"prompt": "Quanto fa 6 × 5?",
 			"answer": "30",
 			"explanation": "Se non ricordi 6 × 5, per 5 fai la metà di 6 × 10, cioè la metà di 60: fa 30. E 5 × 6 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
-			"format": "multiple_choice",
-			"options": [
-				"30",
-				"35",
-				"36",
-				"24"
-			],
+			"format": "numeric_input",
+			"options": [],
 			"distractorWhy": {
 				"24": "mancano 6: sono solo 4 gruppi da 6, non 5.",
 				"35": "è 5 in più: sono 7 gruppi da 5, non 6.",
@@ -1077,8 +1047,13 @@
 			"prompt": "Quanto fa 6 × 10?",
 			"answer": "60",
 			"explanation": "Se non ricordi 6 × 10, per 10 basta aggiungere uno zero: 6 diventa 60. E 10 × 6 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
-			"format": "numeric_input",
-			"options": [],
+			"format": "multiple_choice",
+			"options": [
+				"54",
+				"70",
+				"66",
+				"60"
+			],
 			"distractorWhy": {
 				"54": "mancano 6: sono solo 9 gruppi da 6, non 10.",
 				"66": "è 6 in più: sono 11 gruppi da 6, non 10.",
@@ -1727,13 +1702,8 @@
 			"prompt": "Quanto fa 10 × 9?",
 			"answer": "90",
 			"explanation": "Se non ricordi 10 × 9, per 10 basta aggiungere uno zero: 9 diventa 90. E 9 × 10 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
-			"format": "multiple_choice",
-			"options": [
-				"100",
-				"99",
-				"80",
-				"90"
-			],
+			"format": "numeric_input",
+			"options": [],
 			"distractorWhy": {
 				"80": "mancano 10: sono solo 8 gruppi da 10, non 9.",
 				"99": "è 9 in più: sono 11 gruppi da 9, non 10.",
@@ -1933,8 +1903,13 @@
 			"prompt": "Quanto fa 3 × 11?",
 			"answer": "33",
 			"explanation": "Se non ricordi 3 × 11, per 11 con una cifra sola basta ripeterla: 3 diventa 33. E 11 × 3 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
-			"format": "numeric_input",
-			"options": [],
+			"format": "multiple_choice",
+			"options": [
+				"36",
+				"44",
+				"30",
+				"33"
+			],
 			"distractorWhy": {
 				"30": "mancano 3: sono solo 10 gruppi da 3, non 11.",
 				"36": "è 3 in più: sono 12 gruppi da 3, non 11.",
@@ -1949,13 +1924,8 @@
 			"prompt": "Quanto fa 3 × 12?",
 			"answer": "36",
 			"explanation": "Se non ricordi 3 × 12, per 3 fai il doppio più il numero: 24 + 12 fa 36. E 12 × 3 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
-			"format": "multiple_choice",
-			"options": [
-				"39",
-				"36",
-				"33",
-				"48"
-			],
+			"format": "numeric_input",
+			"options": [],
 			"distractorWhy": {
 				"33": "mancano 3: sono solo 11 gruppi da 3, non 12.",
 				"39": "è 3 in più: sono 13 gruppi da 3, non 12.",
@@ -2012,13 +1982,8 @@
 			"prompt": "Quanto fa 4 × 4?",
 			"answer": "16",
 			"explanation": "4 × 4 fa 16: è il quadrato di 4. Se non lo ricordi, per 4 raddoppi due volte: 4 → 8 → 16.",
-			"format": "multiple_choice",
-			"options": [
-				"17",
-				"12",
-				"16",
-				"20"
-			],
+			"format": "numeric_input",
+			"options": [],
 			"distractorWhy": {
 				"12": "mancano 4: sono solo 3 gruppi da 4, non 4.",
 				"17": "è il risultato giusto più uno: un errore di un'unità nel conto finale.",
@@ -2107,13 +2072,8 @@
 			"prompt": "Quanto fa 4 × 9?",
 			"answer": "36",
 			"explanation": "Se non ricordi 4 × 9, per 9 fai 4 × 10 meno 4: 40 − 4 fa 36. E 9 × 4 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
-			"format": "multiple_choice",
-			"options": [
-				"45",
-				"32",
-				"40",
-				"36"
-			],
+			"format": "numeric_input",
+			"options": [],
 			"distractorWhy": {
 				"32": "mancano 4: sono solo 8 gruppi da 4, non 9.",
 				"40": "è 4 in più: sono 10 gruppi da 4, non 9.",
@@ -2139,13 +2099,8 @@
 			"prompt": "Quanto fa 4 × 11?",
 			"answer": "44",
 			"explanation": "Se non ricordi 4 × 11, per 11 con una cifra sola basta ripeterla: 4 diventa 44. E 11 × 4 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
-			"format": "multiple_choice",
-			"options": [
-				"55",
-				"44",
-				"40",
-				"48"
-			],
+			"format": "numeric_input",
+			"options": [],
 			"distractorWhy": {
 				"40": "mancano 4: sono solo 10 gruppi da 4, non 11.",
 				"48": "è 4 in più: sono 12 gruppi da 4, non 11.",
@@ -2489,13 +2444,8 @@
 			"prompt": "Quanto fa 6 × 9?",
 			"answer": "54",
 			"explanation": "Se non ricordi 6 × 9, per 9 fai 6 × 10 meno 6: 60 − 6 fa 54. E 9 × 6 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
-			"format": "multiple_choice",
-			"options": [
-				"48",
-				"60",
-				"63",
-				"54"
-			],
+			"format": "numeric_input",
+			"options": [],
 			"distractorWhy": {
 				"48": "mancano 6: sono solo 8 gruppi da 6, non 9.",
 				"60": "è 6 in più: sono 10 gruppi da 6, non 9.",
@@ -2585,13 +2535,8 @@
 			"prompt": "Quanto fa 7 × 4?",
 			"answer": "28",
 			"explanation": "Se non ricordi 7 × 4, per 4 raddoppi due volte: 7 → 14 → 28. E 4 × 7 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
-			"format": "multiple_choice",
-			"options": [
-				"32",
-				"35",
-				"28",
-				"21"
-			],
+			"format": "numeric_input",
+			"options": [],
 			"distractorWhy": {
 				"21": "mancano 7: sono solo 3 gruppi da 7, non 4.",
 				"32": "è 4 in più: sono 8 gruppi da 4, non 7.",
@@ -2638,13 +2583,8 @@
 			"prompt": "Quanto fa 7 × 7?",
 			"answer": "49",
 			"explanation": "7 × 7 fa 49: è il quadrato di 7. Se non lo ricordi, per 7 fai 7 × 5 più 7 × 2: 35 + 14 fa 49.",
-			"format": "multiple_choice",
-			"options": [
-				"42",
-				"56",
-				"50",
-				"49"
-			],
+			"format": "numeric_input",
+			"options": [],
 			"distractorWhy": {
 				"42": "mancano 7: sono solo 6 gruppi da 7, non 7.",
 				"50": "è il risultato giusto più uno: un errore di un'unità nel conto finale.",
@@ -2712,8 +2652,13 @@
 			"prompt": "Quanto fa 7 × 11?",
 			"answer": "77",
 			"explanation": "Se non ricordi 7 × 11, per 11 con una cifra sola basta ripeterla: 7 diventa 77. E 11 × 7 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
-			"format": "numeric_input",
-			"options": [],
+			"format": "multiple_choice",
+			"options": [
+				"88",
+				"84",
+				"70",
+				"77"
+			],
 			"distractorWhy": {
 				"70": "mancano 7: sono solo 10 gruppi da 7, non 11.",
 				"84": "è 7 in più: sono 12 gruppi da 7, non 11.",
@@ -2728,13 +2673,8 @@
 			"prompt": "Quanto fa 7 × 12?",
 			"answer": "84",
 			"explanation": "Se non ricordi 7 × 12, per 12 fai 7 × 10 più 7 × 2: 70 + 14 fa 84. E 12 × 7 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
-			"format": "multiple_choice",
-			"options": [
-				"77",
-				"84",
-				"96",
-				"91"
-			],
+			"format": "numeric_input",
+			"options": [],
 			"distractorWhy": {
 				"77": "mancano 7: sono solo 11 gruppi da 7, non 12.",
 				"91": "è 7 in più: sono 13 gruppi da 7, non 12.",
@@ -3129,8 +3069,13 @@
 			"prompt": "Quanto fa 9 × 11?",
 			"answer": "99",
 			"explanation": "Se non ricordi 9 × 11, per 9 fai 11 × 10 meno 11: 110 − 11 fa 99. E 11 × 9 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
-			"format": "numeric_input",
-			"options": [],
+			"format": "multiple_choice",
+			"options": [
+				"99",
+				"90",
+				"110",
+				"108"
+			],
 			"distractorWhy": {
 				"90": "mancano 9: sono solo 10 gruppi da 9, non 11.",
 				"108": "è 9 in più: sono 12 gruppi da 9, non 11.",
@@ -3250,13 +3195,8 @@
 			"prompt": "Quanto fa 10 × 6?",
 			"answer": "60",
 			"explanation": "Se non ricordi 10 × 6, per 10 basta aggiungere uno zero: 6 diventa 60. E 6 × 10 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
-			"format": "multiple_choice",
-			"options": [
-				"66",
-				"50",
-				"60",
-				"70"
-			],
+			"format": "numeric_input",
+			"options": [],
 			"distractorWhy": {
 				"50": "mancano 10: sono solo 5 gruppi da 10, non 6.",
 				"66": "è 6 in più: sono 11 gruppi da 6, non 10.",
@@ -3461,13 +3401,8 @@
 			"prompt": "Quanto fa 11 × 6?",
 			"answer": "66",
 			"explanation": "Se non ricordi 11 × 6, per 11 con una cifra sola basta ripeterla: 6 diventa 66. E 6 × 11 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
-			"format": "multiple_choice",
-			"options": [
-				"77",
-				"72",
-				"66",
-				"55"
-			],
+			"format": "numeric_input",
+			"options": [],
 			"distractorWhy": {
 				"55": "mancano 11: sono solo 5 gruppi da 11, non 6.",
 				"72": "è 6 in più: sono 12 gruppi da 6, non 11.",
@@ -3577,13 +3512,8 @@
 			"prompt": "Quanto fa 11 × 12?",
 			"answer": "132",
 			"explanation": "Se non ricordi 11 × 12, per 11 fai 12 × 10 più 12: 120 + 12 fa 132. E 12 × 11 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
-			"format": "multiple_choice",
-			"options": [
-				"132",
-				"144",
-				"121",
-				"143"
-			],
+			"format": "numeric_input",
+			"options": [],
 			"distractorWhy": {
 				"121": "mancano 11: sono solo 11 gruppi da 11, non 12.",
 				"143": "è 11 in più: sono 13 gruppi da 11, non 12.",
@@ -3630,8 +3560,13 @@
 			"prompt": "Quanto fa 12 × 4?",
 			"answer": "48",
 			"explanation": "Se non ricordi 12 × 4, per 4 raddoppi due volte: 12 → 24 → 48. E 4 × 12 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
-			"format": "numeric_input",
-			"options": [],
+			"format": "multiple_choice",
+			"options": [
+				"48",
+				"52",
+				"36",
+				"60"
+			],
 			"distractorWhy": {
 				"36": "mancano 12: sono solo 3 gruppi da 12, non 4.",
 				"52": "è 4 in più: sono 13 gruppi da 4, non 12.",
@@ -3667,13 +3602,8 @@
 			"prompt": "Quanto fa 12 × 6?",
 			"answer": "72",
 			"explanation": "Se non ricordi 12 × 6, per 12 fai 6 × 10 più 6 × 2: 60 + 12 fa 72. E 6 × 12 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
-			"format": "multiple_choice",
-			"options": [
-				"60",
-				"72",
-				"78",
-				"84"
-			],
+			"format": "numeric_input",
+			"options": [],
 			"distractorWhy": {
 				"60": "mancano 12: sono solo 5 gruppi da 12, non 6.",
 				"78": "è 6 in più: sono 13 gruppi da 6, non 12.",
@@ -3773,13 +3703,8 @@
 			"prompt": "Quanto fa 12 × 12?",
 			"answer": "144",
 			"explanation": "12 × 12 fa 144: è il quadrato di 12. Se non lo ricordi, per 12 fai 12 × 10 più 12 × 2: 120 + 24 fa 144.",
-			"format": "multiple_choice",
-			"options": [
-				"132",
-				"156",
-				"145",
-				"144"
-			],
+			"format": "numeric_input",
+			"options": [],
 			"distractorWhy": {
 				"132": "mancano 12: sono solo 11 gruppi da 12, non 12.",
 				"145": "è il risultato giusto più uno: un errore di un'unità nel conto finale.",
@@ -4207,13 +4132,8 @@
 			"prompt": "Quanto fa 8 × 3?",
 			"answer": "24",
 			"explanation": "Se non ricordi 8 × 3, per 3 fai il doppio più il numero: 16 + 8 fa 24. E 3 × 8 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
-			"format": "multiple_choice",
-			"options": [
-				"16",
-				"27",
-				"24",
-				"32"
-			],
+			"format": "numeric_input",
+			"options": [],
 			"distractorWhy": {
 				"16": "mancano 8: sono solo 2 gruppi da 8, non 3.",
 				"27": "è 3 in più: sono 9 gruppi da 3, non 8.",
@@ -4260,13 +4180,8 @@
 			"prompt": "Quanto fa 8 × 6?",
 			"answer": "48",
 			"explanation": "Se non ricordi 8 × 6, per 6 fai 8 × 5 più 8: 40 + 8 fa 48. E 6 × 8 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
-			"format": "multiple_choice",
-			"options": [
-				"40",
-				"56",
-				"48",
-				"54"
-			],
+			"format": "numeric_input",
+			"options": [],
 			"distractorWhy": {
 				"40": "mancano 8: sono solo 5 gruppi da 8, non 6.",
 				"54": "è 6 in più: sono 9 gruppi da 6, non 8.",
@@ -4313,13 +4228,8 @@
 			"prompt": "Quanto fa 8 × 9?",
 			"answer": "72",
 			"explanation": "Se non ricordi 8 × 9, per 9 fai 8 × 10 meno 8: 80 − 8 fa 72. E 9 × 8 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
-			"format": "multiple_choice",
-			"options": [
-				"80",
-				"64",
-				"72",
-				"81"
-			],
+			"format": "numeric_input",
+			"options": [],
 			"distractorWhy": {
 				"64": "mancano 8: sono solo 8 gruppi da 8, non 9.",
 				"80": "è 8 in più: sono 10 gruppi da 8, non 9.",
@@ -4392,13 +4302,8 @@
 			"prompt": "Quanto fa 9 × 2?",
 			"answer": "18",
 			"explanation": "Se non ricordi 9 × 2, per 2 basta il doppio: 9 + 9 fa 18. E 2 × 9 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
-			"format": "multiple_choice",
-			"options": [
-				"20",
-				"27",
-				"18",
-				"9"
-			],
+			"format": "numeric_input",
+			"options": [],
 			"distractorWhy": {
 				"9": "mancano 9: sono solo 1 gruppo da 9, non 2.",
 				"20": "è 2 in più: sono 10 gruppi da 2, non 9.",
@@ -4614,13 +4519,8 @@
 			"prompt": "Quanto fa 10 × 3?",
 			"answer": "30",
 			"explanation": "Se non ricordi 10 × 3, per 10 basta aggiungere uno zero: 3 diventa 30. E 3 × 10 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
-			"format": "multiple_choice",
-			"options": [
-				"30",
-				"40",
-				"33",
-				"20"
-			],
+			"format": "numeric_input",
+			"options": [],
 			"distractorWhy": {
 				"20": "mancano 10: sono solo 2 gruppi da 10, non 3.",
 				"33": "è 3 in più: sono 11 gruppi da 3, non 10.",
@@ -4730,8 +4630,13 @@
 			"prompt": "Quanto fa 10 × 9?",
 			"answer": "90",
 			"explanation": "Se non ricordi 10 × 9, per 10 basta aggiungere uno zero: 9 diventa 90. E 9 × 10 dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.",
-			"format": "numeric_input",
-			"options": [],
+			"format": "multiple_choice",
+			"options": [
+				"100",
+				"80",
+				"99",
+				"90"
+			],
 			"distractorWhy": {
 				"80": "mancano 10: sono solo 8 gruppi da 10, non 9.",
 				"99": "è 9 in più: sono 11 gruppi da 9, non 10.",
@@ -5161,6 +5066,1661 @@
 				"132": "mancano 12: sono solo 11 gruppi da 12, non 12.",
 				"145": "è il risultato giusto più uno: un errore di un'unità nel conto finale.",
 				"156": "è 12 in più: sono 13 gruppi da 12, non 12."
+			}
+		},
+		{
+			"id": "matematica-frazioni-0",
+			"subject": "matematica",
+			"topic": "frazioni",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale frazione rappresenta metà di una torta?",
+			"options": [
+				"1/2",
+				"2/3",
+				"1/3",
+				"1/4"
+			],
+			"answer": "1/2",
+			"explanation": "Metà vuol dire due parti uguali e ne prendi una: il 2 sotto dice in quante parti hai diviso, l'1 sopra quante ne prendi.",
+			"distractorWhy": {
+				"1/3": "Un terzo divide la torta in tre parti, non in due.",
+				"1/4": "Un quarto divide in quattro parti: ne prendi meno della metà.",
+				"2/3": "Due terzi sono più della metà: prendi due parti su tre."
+			}
+		},
+		{
+			"id": "matematica-frazioni-1",
+			"subject": "matematica",
+			"topic": "frazioni",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "In 3/4, quale numero dice in quante parti uguali è stato diviso l'intero?",
+			"options": [
+				"l'1",
+				"il 4",
+				"il 3",
+				"il 7"
+			],
+			"answer": "il 4",
+			"explanation": "Il numero sotto la linea è il denominatore e dice in quante parti si divide l'intero; quello sopra dice quante ne prendi.",
+			"distractorWhy": {
+				"il 3": "Il 3 sta sopra: dice quante parti prendi, non in quante hai diviso.",
+				"il 7": "Il 7 non compare nella frazione: sommare 3 e 4 non ha senso qui.",
+				"l'1": "Nella frazione 3/4 non c'è nessun 1."
+			}
+		},
+		{
+			"id": "matematica-frazioni-2",
+			"subject": "matematica",
+			"topic": "frazioni",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Una pizza è divisa in 8 fette uguali e ne mangi 3. Quale frazione hai mangiato?",
+			"options": [
+				"5/8",
+				"8/3",
+				"3/8",
+				"3/5"
+			],
+			"answer": "3/8",
+			"explanation": "Sotto va in quante parti è divisa la pizza (8), sopra quante ne hai prese (3).",
+			"distractorWhy": {
+				"8/3": "È capovolta: 8/3 vale più di un intero, e tu hai mangiato meno di una pizza.",
+				"3/5": "Il 5 sono le fette rimaste, non quelle in cui era divisa la pizza.",
+				"5/8": "5/8 sono le fette che restano nel piatto, non quelle mangiate."
+			}
+		},
+		{
+			"id": "matematica-frazioni-3",
+			"subject": "matematica",
+			"topic": "frazioni",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quanti quarti servono per formare un intero?",
+			"options": [
+				"8",
+				"2",
+				"3",
+				"4"
+			],
+			"answer": "4",
+			"explanation": "Un quarto è una parte su quattro: per rifare l'intero servono tutte e quattro le parti.",
+			"distractorWhy": {
+				"2": "Due quarti sono solo metà dell'intero.",
+				"3": "Tre quarti sono quasi tutto, ma manca ancora una parte.",
+				"8": "Otto quarti sono due interi, uno di troppo."
+			}
+		},
+		{
+			"id": "matematica-frazioni-4",
+			"subject": "matematica",
+			"topic": "frazioni",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale di queste frazioni vale esattamente un intero?",
+			"options": [
+				"5/5",
+				"1/5",
+				"5/4",
+				"4/5"
+			],
+			"answer": "5/5",
+			"explanation": "Quando sopra e sotto c'è lo stesso numero hai preso tutte le parti in cui avevi diviso: cioè tutto.",
+			"distractorWhy": {
+				"5/4": "Hai preso una parte in più di quelle che formano l'intero: vale più di uno.",
+				"4/5": "Ne manca una: quattro parti su cinque non sono ancora tutto.",
+				"1/5": "Una parte su cinque è molto meno di un intero."
+			}
+		},
+		{
+			"id": "matematica-frazioni-5",
+			"subject": "matematica",
+			"topic": "frazioni",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale frazione è equivalente a 1/2?",
+			"options": [
+				"5/12",
+				"4/8",
+				"2/5",
+				"3/8"
+			],
+			"answer": "4/8",
+			"explanation": "Moltiplicando sopra e sotto per lo stesso numero la frazione non cambia valore: 1/2 diventa 4/8.",
+			"distractorWhy": {
+				"2/5": "5 non è il doppio di 2: 2/5 è meno della metà.",
+				"3/8": "Metà di 8 è 4, non 3: 3/8 è poco meno della metà.",
+				"5/12": "Metà di 12 è 6, non 5."
+			}
+		},
+		{
+			"id": "matematica-frazioni-6",
+			"subject": "matematica",
+			"topic": "frazioni",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Fra 1/3 e 1/5, quale è più grande?",
+			"options": [
+				"dipende dall'intero",
+				"1/5",
+				"1/3",
+				"sono uguali"
+			],
+			"answer": "1/3",
+			"explanation": "A parità di intero, più parti fai e più piccola diventa ciascuna: dividere in 3 dà pezzi più grandi che dividere in 5.",
+			"distractorWhy": {
+				"1/5": "Il 5 è più grande del 3, ma indica parti più numerose e quindi più piccole.",
+				"sono uguali": "Hanno lo stesso numeratore ma denominatori diversi: non possono valere uguale.",
+				"dipende dall'intero": "Vale per qualunque intero: un quinto è sempre più piccolo di un terzo."
+			}
+		},
+		{
+			"id": "matematica-frazioni-7",
+			"subject": "matematica",
+			"topic": "frazioni",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quanto fa 1/4 di 20?",
+			"options": [
+				"16",
+				"4",
+				"10",
+				"5"
+			],
+			"answer": "5",
+			"explanation": "Un quarto di una quantità si trova dividendola in quattro parti uguali: 20 diviso 4 fa 5.",
+			"distractorWhy": {
+				"4": "È il denominatore della frazione, non il risultato dell'operazione.",
+				"10": "10 è la metà di 20, cioè 1/2, non 1/4.",
+				"16": "16 sono i tre quarti che restano, non il quarto che hai preso."
+			}
+		},
+		{
+			"id": "matematica-frazioni-8",
+			"subject": "matematica",
+			"topic": "frazioni",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Ridotta ai minimi termini, 3/6 diventa…",
+			"options": [
+				"1/2",
+				"2/3",
+				"3/6",
+				"1/3"
+			],
+			"answer": "1/2",
+			"explanation": "Sopra e sotto si dividono per lo stesso numero, qui il 3: restano 1 e 2.",
+			"distractorWhy": {
+				"3/6": "È la frazione di partenza: ridurre significa scriverla con numeri più piccoli.",
+				"1/3": "Hai diviso solo il numeratore: bisogna dividere anche il denominatore.",
+				"2/3": "2/3 vale più della metà, mentre 3/6 è esattamente metà."
+			}
+		},
+		{
+			"id": "matematica-frazioni-9",
+			"subject": "matematica",
+			"topic": "frazioni",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Fra 2/5 e 3/5, quale è più grande?",
+			"options": [
+				"non si può stabilire",
+				"3/5",
+				"2/5",
+				"sono uguali"
+			],
+			"answer": "3/5",
+			"explanation": "Le parti hanno la stessa dimensione (quinti): vince chi ne prende di più.",
+			"distractorWhy": {
+				"2/5": "Prende una parte in meno, quindi vale meno.",
+				"sono uguali": "Hanno lo stesso denominatore ma numeratori diversi: una delle due è maggiore.",
+				"non si può stabilire": "Con lo stesso denominatore il confronto è immediato."
+			}
+		},
+		{
+			"id": "matematica-frazioni-10",
+			"subject": "matematica",
+			"topic": "frazioni",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quanto fa 2/7 + 3/7?",
+			"options": [
+				"1/7",
+				"5/14",
+				"5/7",
+				"6/14"
+			],
+			"answer": "5/7",
+			"explanation": "Le parti sono già della stessa misura (settimi): si sommano quante ne prendi e il denominatore resta com'è.",
+			"distractorWhy": {
+				"5/14": "Hai sommato anche i denominatori: la dimensione delle parti non cambia.",
+				"6/14": "Hai moltiplicato sopra e sommato sotto: nessuna delle due cose serve qui.",
+				"1/7": "Quella è la differenza fra le due frazioni, non la somma."
+			}
+		},
+		{
+			"id": "matematica-frazioni-11",
+			"subject": "matematica",
+			"topic": "frazioni",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quanto fa 3/5 di 25?",
+			"options": [
+				"75",
+				"5",
+				"20",
+				"15"
+			],
+			"answer": "15",
+			"explanation": "Prima trovi un quinto dividendo 25 per 5, cioè 5; poi ne prendi tre: 15.",
+			"distractorWhy": {
+				"5": "È un quinto solo: te ne servono tre.",
+				"20": "20 sono quattro quinti, una parte di troppo.",
+				"75": "Hai moltiplicato per 3 senza dividere per 5."
+			}
+		},
+		{
+			"id": "matematica-frazioni-12",
+			"subject": "matematica",
+			"topic": "frazioni",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Per sommare 1/2 + 1/3, che cosa serve fare prima?",
+			"options": [
+				"renderle parti della stessa misura",
+				"semplificare i numeratori",
+				"sommare i denominatori",
+				"moltiplicare i numeratori"
+			],
+			"answer": "renderle parti della stessa misura",
+			"explanation": "Si possono sommare solo pezzi uguali: metà e terzi vanno riscritti in sesti prima di poterli contare insieme.",
+			"distractorWhy": {
+				"sommare i denominatori": "Il denominatore dice quanto è grande la parte: sommarlo cambia la misura invece di uniformarla.",
+				"moltiplicare i numeratori": "La moltiplicazione dei numeratori serve per il prodotto di frazioni, non per la somma.",
+				"semplificare i numeratori": "Semplificare non rende le parti della stessa misura, che è il vero ostacolo."
+			}
+		},
+		{
+			"id": "matematica-frazioni-13",
+			"subject": "matematica",
+			"topic": "frazioni",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quanto fa 1/2 + 1/4?",
+			"options": [
+				"2/4",
+				"3/4",
+				"2/6",
+				"1/6"
+			],
+			"answer": "3/4",
+			"explanation": "Metà vale due quarti: due quarti più un quarto fanno tre quarti.",
+			"distractorWhy": {
+				"2/6": "Hai sommato sopra con sopra e sotto con sotto: così il risultato è più piccolo degli addendi.",
+				"1/6": "Hai moltiplicato invece di sommare.",
+				"2/4": "2/4 è ancora metà: hai dimenticato di aggiungere il quarto."
+			}
+		},
+		{
+			"id": "matematica-frazioni-14",
+			"subject": "matematica",
+			"topic": "frazioni",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quanto fa 2/3 × 3/4?",
+			"options": [
+				"8/9",
+				"5/7",
+				"1/2",
+				"6/7"
+			],
+			"answer": "1/2",
+			"explanation": "Nel prodotto si moltiplicano sopra con sopra e sotto con sotto: 6/12, che ridotto è 1/2.",
+			"distractorWhy": {
+				"5/7": "Hai sommato numeratori e denominatori: è la somma sbagliata, non il prodotto.",
+				"6/7": "Il 6 viene dai numeratori ma il 7 da una somma: i denominatori vanno moltiplicati.",
+				"8/9": "Non esce da nessuna delle due operazioni: né somma né prodotto."
+			}
+		},
+		{
+			"id": "matematica-frazioni-15",
+			"subject": "matematica",
+			"topic": "frazioni",
+			"difficulty": 4,
+			"format": "numeric_input",
+			"prompt": "Un cartone contiene 24 uova e ne usi 3/8. Quante uova hai usato?",
+			"options": [],
+			"answer": "9",
+			"explanation": "Un ottavo di 24 fa 3; tre ottavi sono tre volte tanto, cioè 9.",
+			"distractorWhy": {
+				"3": "È un ottavo soltanto: te ne servono tre.",
+				"8": "È il denominatore, non una quantità di uova.",
+				"15": "15 sono le uova rimaste nel cartone, cioè cinque ottavi."
+			}
+		},
+		{
+			"id": "matematica-percentuali-16",
+			"subject": "matematica",
+			"topic": "percentuali",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Il 50% di una quantità corrisponde a…",
+			"options": [
+				"la metà",
+				"un decimo",
+				"un quarto",
+				"il doppio"
+			],
+			"answer": "la metà",
+			"explanation": "Per cento significa «ogni cento»: 50 su 100 è esattamente la metà.",
+			"distractorWhy": {
+				"un quarto": "Un quarto è il 25%, cioè la metà della metà.",
+				"il doppio": "Il doppio sarebbe il 200%: una percentuale sotto 100 toglie, non aggiunge.",
+				"un decimo": "Un decimo è il 10%, molto meno della metà."
+			}
+		},
+		{
+			"id": "matematica-percentuali-17",
+			"subject": "matematica",
+			"topic": "percentuali",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quanto fa il 100% di 30?",
+			"options": [
+				"130",
+				"30",
+				"100",
+				"3"
+			],
+			"answer": "30",
+			"explanation": "Il 100% è tutto quanto: la quantità resta quella di partenza.",
+			"distractorWhy": {
+				"3": "È un decimo di 30, cioè il 10%.",
+				"100": "Il 100 è la percentuale, non la quantità di cui si parla.",
+				"130": "Hai aggiunto 100 invece di prendere tutto il 30."
+			}
+		},
+		{
+			"id": "matematica-percentuali-18",
+			"subject": "matematica",
+			"topic": "percentuali",
+			"difficulty": 1,
+			"format": "numeric_input",
+			"prompt": "Quanto fa il 50% di 80?",
+			"options": [],
+			"answer": "40",
+			"explanation": "Il 50% è la metà: 80 diviso 2 fa 40.",
+			"distractorWhy": {
+				"8": "8 è un decimo di 80, cioè il 10%.",
+				"50": "Il 50 è la percentuale richiesta, non il risultato.",
+				"60": "60 sarebbe il 75% di 80, non la metà."
+			}
+		},
+		{
+			"id": "matematica-percentuali-19",
+			"subject": "matematica",
+			"topic": "percentuali",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Nella parola «percento», il «cento» dice che si conta…",
+			"options": [
+				"cento in tutto",
+				"cento volte",
+				"più di cento",
+				"ogni cento parti"
+			],
+			"answer": "ogni cento parti",
+			"explanation": "Una percentuale è un confronto con cento: il 30% vuol dire 30 parti ogni 100.",
+			"distractorWhy": {
+				"cento volte": "Non è una moltiplicazione ripetuta: è un confronto con cento parti.",
+				"più di cento": "Le percentuali sotto il 100% indicano meno dell'intero.",
+				"cento in tutto": "Le parti totali possono essere qualsiasi numero: cento è il termine di paragone."
+			}
+		},
+		{
+			"id": "matematica-percentuali-20",
+			"subject": "matematica",
+			"topic": "percentuali",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "A quale frazione corrisponde il 25%?",
+			"options": [
+				"1/4",
+				"2/5",
+				"1/2",
+				"1/25"
+			],
+			"answer": "1/4",
+			"explanation": "25 su 100 si semplifica dividendo per 25: resta 1 su 4.",
+			"distractorWhy": {
+				"1/2": "Un mezzo è il 50%, il doppio di quanto chiesto.",
+				"1/25": "Il 25 va sopra la frazione 25/100, non sotto.",
+				"2/5": "2/5 vale il 40%, non il 25%."
+			}
+		},
+		{
+			"id": "matematica-percentuali-21",
+			"subject": "matematica",
+			"topic": "percentuali",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quanto fa il 10% di 250?",
+			"options": [
+				"2,5",
+				"25",
+				"10",
+				"50"
+			],
+			"answer": "25",
+			"explanation": "Il 10% è un decimo: basta dividere per 10, cioè togliere uno zero.",
+			"distractorWhy": {
+				"10": "Il 10 è la percentuale, non il risultato.",
+				"50": "50 è il 20% di 250, il doppio del richiesto.",
+				"2,5": "Hai diviso per 100 invece che per 10: quello sarebbe l'1%."
+			}
+		},
+		{
+			"id": "matematica-percentuali-22",
+			"subject": "matematica",
+			"topic": "percentuali",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Come si trova rapidamente il 10% di un numero?",
+			"options": [
+				"si tolgono 10 unità",
+				"si moltiplica per 10",
+				"si divide per 10",
+				"si divide per 100"
+			],
+			"answer": "si divide per 10",
+			"explanation": "Il 10% è una parte su dieci: dividere per 10 dà subito quella parte.",
+			"distractorWhy": {
+				"si moltiplica per 10": "Moltiplicare fa crescere il numero, mentre una percentuale sotto 100 lo riduce.",
+				"si divide per 100": "Dividere per 100 dà l'1%, dieci volte più piccolo.",
+				"si tolgono 10 unità": "Il 10% dipende da quanto è grande il numero, non è una quantità fissa."
+			}
+		},
+		{
+			"id": "matematica-percentuali-23",
+			"subject": "matematica",
+			"topic": "percentuali",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "In una classe di 20 alunni, il 50% porta gli occhiali. Quanti sono?",
+			"options": [
+				"20",
+				"5",
+				"15",
+				"10"
+			],
+			"answer": "10",
+			"explanation": "Il 50% è la metà del gruppo: metà di 20 fa 10.",
+			"distractorWhy": {
+				"5": "5 è il 25% della classe, la metà della metà.",
+				"15": "15 è il 75%, tre alunni su quattro.",
+				"20": "20 è tutta la classe, cioè il 100%."
+			}
+		},
+		{
+			"id": "matematica-percentuali-24",
+			"subject": "matematica",
+			"topic": "percentuali",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quanto fa il 20% di 60?",
+			"options": [
+				"12",
+				"30",
+				"20",
+				"6"
+			],
+			"answer": "12",
+			"explanation": "Il 10% di 60 è 6; il 20% è il doppio, cioè 12.",
+			"distractorWhy": {
+				"6": "6 è il 10%: ne serve il doppio.",
+				"20": "Il 20 è la percentuale, non la quantità.",
+				"30": "30 è la metà di 60, cioè il 50%."
+			}
+		},
+		{
+			"id": "matematica-percentuali-25",
+			"subject": "matematica",
+			"topic": "percentuali",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Il 25% di 40 quanto fa?",
+			"options": [
+				"25",
+				"10",
+				"15",
+				"4"
+			],
+			"answer": "10",
+			"explanation": "Il 25% è un quarto: 40 diviso 4 fa 10.",
+			"distractorWhy": {
+				"4": "4 è un decimo di 40, cioè il 10%.",
+				"15": "15 non è un quarto di 40: sarebbe più del 35%.",
+				"25": "Il 25 è la percentuale richiesta, non il risultato."
+			}
+		},
+		{
+			"id": "matematica-percentuali-26",
+			"subject": "matematica",
+			"topic": "percentuali",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Un gioco costa 40 € e viene scontato del 25%. Quanto si paga?",
+			"options": [
+				"15 €",
+				"10 €",
+				"30 €",
+				"35 €"
+			],
+			"answer": "30 €",
+			"explanation": "Lo sconto è un quarto di 40, cioè 10: si paga la differenza, 30.",
+			"distractorWhy": {
+				"10 €": "10 è lo sconto, non il prezzo da pagare.",
+				"35 €": "35 corrisponde a uno sconto di 5, cioè al 12,5%.",
+				"15 €": "15 sarebbe uno sconto del 62,5%: molto più di un quarto."
+			}
+		},
+		{
+			"id": "matematica-percentuali-27",
+			"subject": "matematica",
+			"topic": "percentuali",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Di 200 biglietti ne sono stati venduti 150. Quale percentuale è stata venduta?",
+			"options": [
+				"25%",
+				"50%",
+				"150%",
+				"75%"
+			],
+			"answer": "75%",
+			"explanation": "150 su 200 è tre quarti del totale, e tre quarti valgono 75 ogni 100.",
+			"distractorWhy": {
+				"50%": "La metà di 200 sarebbe 100 biglietti, non 150.",
+				"150%": "Il 150 è il numero dei biglietti, non la percentuale: non si può vendere più del totale.",
+				"25%": "Il 25% è la parte rimasta invenduta, cioè 50 biglietti."
+			}
+		},
+		{
+			"id": "matematica-percentuali-28",
+			"subject": "matematica",
+			"topic": "percentuali",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Un cappotto da 80 € è scontato del 15%. Quanto costa adesso?",
+			"options": [
+				"68 €",
+				"72 €",
+				"65 €",
+				"12 €"
+			],
+			"answer": "68 €",
+			"explanation": "Il 10% di 80 è 8 e il 5% è 4: lo sconto vale 12, quindi restano 68.",
+			"distractorWhy": {
+				"65 €": "65 corrisponde a uno sconto di 15 euro, non del 15 per cento.",
+				"12 €": "12 è lo sconto, non il prezzo finale.",
+				"72 €": "72 sarebbe uno sconto del 10%, senza il 5% che manca."
+			}
+		},
+		{
+			"id": "matematica-percentuali-29",
+			"subject": "matematica",
+			"topic": "percentuali",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Un prezzo viene aumentato del 10% e poi scontato del 10%. Si torna al prezzo di partenza?",
+			"options": [
+				"no, si finisce sopra",
+				"no, si finisce sotto",
+				"sì, sempre",
+				"sì, solo con prezzi pari"
+			],
+			"answer": "no, si finisce sotto",
+			"explanation": "Il secondo 10% si calcola sul prezzo già aumentato, quindi toglie più di quanto l'aumento avesse aggiunto.",
+			"distractorWhy": {
+				"sì, sempre": "Le due percentuali si applicano a quantità diverse, quindi non si annullano.",
+				"sì, solo con prezzi pari": "Vale per qualunque prezzo: non dipende dal fatto che sia pari o dispari.",
+				"no, si finisce sopra": "Lo sconto agisce su un numero più grande dell'aumento, quindi il saldo è negativo."
+			}
+		},
+		{
+			"id": "matematica-percentuali-30",
+			"subject": "matematica",
+			"topic": "percentuali",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Dopo uno sconto del 20% un oggetto costa 64 €. Quanto costava prima?",
+			"options": [
+				"51,20 €",
+				"76,80 €",
+				"80 €",
+				"84 €"
+			],
+			"answer": "80 €",
+			"explanation": "64 rappresenta l'80% del prezzo iniziale: un quinto vale 16, quindi l'intero è 80.",
+			"distractorWhy": {
+				"76,80 €": "Hai tolto il 20% da 96 invece di risalire dal prezzo scontato.",
+				"84 €": "Hai aggiunto 20 euro invece del 20 per cento del prezzo iniziale.",
+				"51,20 €": "Hai scontato una seconda volta invece di tornare indietro."
+			}
+		},
+		{
+			"id": "matematica-percentuali-31",
+			"subject": "matematica",
+			"topic": "percentuali",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "In una scuola 45 alunni su 300 fanno teatro. Quale percentuale è?",
+			"options": [
+				"30%",
+				"45%",
+				"6,7%",
+				"15%"
+			],
+			"answer": "15%",
+			"explanation": "45 su 300 equivale a 15 su 100: basta dividere entrambi per 3.",
+			"distractorWhy": {
+				"45%": "Il 45 è il numero degli alunni, non la loro percentuale sul totale.",
+				"6,7%": "È il conto capovolto, 300 diviso 45 invece di 45 diviso 300.",
+				"30%": "Il 30% di 300 sarebbe 90 alunni, il doppio di quelli che fanno teatro."
+			}
+		},
+		{
+			"id": "matematica-geometria-32",
+			"subject": "matematica",
+			"topic": "geometria",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quanti lati ha un quadrilatero?",
+			"options": [
+				"4",
+				"6",
+				"3",
+				"5"
+			],
+			"answer": "4",
+			"explanation": "Il nome lo dice: «quadri-» indica quattro, come in quadrato e quadriennio.",
+			"distractorWhy": {
+				"3": "Tre lati fanno un triangolo.",
+				"5": "Cinque lati fanno un pentagono.",
+				"6": "Sei lati fanno un esagono."
+			}
+		},
+		{
+			"id": "matematica-geometria-33",
+			"subject": "matematica",
+			"topic": "geometria",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Come si chiama un angolo di 90 gradi?",
+			"options": [
+				"piatto",
+				"retto",
+				"acuto",
+				"ottuso"
+			],
+			"answer": "retto",
+			"explanation": "È l'angolo dello spigolo di un foglio: retto perché sta «dritto», né chiuso né aperto.",
+			"distractorWhy": {
+				"acuto": "L'angolo acuto è più chiuso di 90 gradi.",
+				"ottuso": "L'angolo ottuso è più aperto di 90 gradi.",
+				"piatto": "L'angolo piatto è di 180 gradi: una linea dritta."
+			}
+		},
+		{
+			"id": "matematica-geometria-34",
+			"subject": "matematica",
+			"topic": "geometria",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale figura ha tutti i lati uguali e quattro angoli retti?",
+			"options": [
+				"il trapezio",
+				"il rettangolo",
+				"il quadrato",
+				"il rombo"
+			],
+			"answer": "il quadrato",
+			"explanation": "Servono tutte e due le condizioni insieme: lati uguali e angoli retti.",
+			"distractorWhy": {
+				"il rettangolo": "Ha quattro angoli retti ma i lati sono uguali solo a due a due.",
+				"il rombo": "Ha i lati uguali ma gli angoli in genere non sono retti.",
+				"il trapezio": "Ha solo due lati paralleli e nessuna delle due condizioni."
+			}
+		},
+		{
+			"id": "matematica-geometria-35",
+			"subject": "matematica",
+			"topic": "geometria",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quanti vertici ha un cubo?",
+			"options": [
+				"4",
+				"6",
+				"12",
+				"8"
+			],
+			"answer": "8",
+			"explanation": "Un cubo ha due facce quadrate opposte da quattro vertici ciascuna: 4 più 4 fa 8.",
+			"distractorWhy": {
+				"4": "Quattro sono i vertici di una faccia sola.",
+				"6": "Sei sono le facce del cubo, non i vertici.",
+				"12": "Dodici sono gli spigoli, cioè i segmenti dove le facce si incontrano."
+			}
+		},
+		{
+			"id": "matematica-geometria-36",
+			"subject": "matematica",
+			"topic": "geometria",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Un triangolo ha…",
+			"options": [
+				"tre lati e tre angoli",
+				"due lati e tre angoli",
+				"tre lati e quattro angoli",
+				"quattro lati e tre angoli"
+			],
+			"answer": "tre lati e tre angoli",
+			"explanation": "In ogni poligono lati e angoli sono in numero uguale: dove due lati si incontrano nasce un angolo.",
+			"distractorWhy": {
+				"tre lati e quattro angoli": "Con tre lati si formano esattamente tre incontri, quindi tre angoli.",
+				"quattro lati e tre angoli": "Quattro lati formerebbero quattro angoli, e la figura non sarebbe un triangolo.",
+				"due lati e tre angoli": "Con due lati soli la figura non si chiude."
+			}
+		},
+		{
+			"id": "matematica-geometria-37",
+			"subject": "matematica",
+			"topic": "geometria",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Il perimetro di una figura è…",
+			"options": [
+				"la sua altezza",
+				"la lunghezza del suo contorno",
+				"lo spazio che occupa dentro",
+				"la sua diagonale"
+			],
+			"answer": "la lunghezza del suo contorno",
+			"explanation": "Perimetro viene dal greco «misura attorno»: è la strada che si percorre girandole intorno.",
+			"distractorWhy": {
+				"lo spazio che occupa dentro": "Quella è l'area: si misura in centimetri quadrati, non in centimetri.",
+				"la sua diagonale": "La diagonale è un segmento solo, non tutto il contorno.",
+				"la sua altezza": "L'altezza è una misura sola fra le tante del contorno."
+			}
+		},
+		{
+			"id": "matematica-geometria-38",
+			"subject": "matematica",
+			"topic": "geometria",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Qual è il perimetro di un quadrato di lato 7 cm?",
+			"options": [
+				"21 cm",
+				"14 cm",
+				"28 cm",
+				"49 cm"
+			],
+			"answer": "28 cm",
+			"explanation": "Il quadrato ha quattro lati uguali: 7 preso quattro volte fa 28.",
+			"distractorWhy": {
+				"14 cm": "14 è il doppio del lato: hai contato solo due lati.",
+				"49 cm": "49 è 7 per 7, cioè l'area in centimetri quadrati.",
+				"21 cm": "21 sono tre lati: ne manca uno."
+			}
+		},
+		{
+			"id": "matematica-geometria-39",
+			"subject": "matematica",
+			"topic": "geometria",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Un rettangolo ha i lati di 5 cm e 3 cm. Quanto misura il perimetro?",
+			"options": [
+				"30 cm",
+				"15 cm",
+				"8 cm",
+				"16 cm"
+			],
+			"answer": "16 cm",
+			"explanation": "Ogni lato compare due volte: 5 più 3 fa 8, e 8 raddoppiato fa 16.",
+			"distractorWhy": {
+				"15 cm": "15 è 5 per 3, cioè l'area in centimetri quadrati.",
+				"8 cm": "8 è la somma di due lati soli: mancano gli altri due.",
+				"30 cm": "Hai raddoppiato l'area invece di sommare i quattro lati."
+			}
+		},
+		{
+			"id": "matematica-geometria-40",
+			"subject": "matematica",
+			"topic": "geometria",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quanti gradi misura un angolo piatto?",
+			"options": [
+				"180",
+				"270",
+				"90",
+				"360"
+			],
+			"answer": "180",
+			"explanation": "L'angolo piatto è una linea dritta: vale due angoli retti, cioè 90 più 90.",
+			"distractorWhy": {
+				"90": "90 gradi è l'angolo retto, la metà di quello piatto.",
+				"270": "270 gradi sono tre angoli retti, un giro meno un quarto.",
+				"360": "360 gradi è il giro completo, il doppio dell'angolo piatto."
+			}
+		},
+		{
+			"id": "matematica-geometria-41",
+			"subject": "matematica",
+			"topic": "geometria",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quanto misurano in tutto i tre angoli di un triangolo?",
+			"options": [
+				"dipende dal triangolo",
+				"180 gradi",
+				"90 gradi",
+				"360 gradi"
+			],
+			"answer": "180 gradi",
+			"explanation": "In qualunque triangolo i tre angoli messi insieme formano un angolo piatto.",
+			"distractorWhy": {
+				"90 gradi": "90 gradi è un angolo solo, quello retto.",
+				"360 gradi": "360 gradi è la somma degli angoli di un quadrilatero, non di un triangolo.",
+				"dipende dal triangolo": "La somma è sempre la stessa, anche se i singoli angoli cambiano."
+			}
+		},
+		{
+			"id": "matematica-geometria-42",
+			"subject": "matematica",
+			"topic": "geometria",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Qual è l'area di un rettangolo di 6 cm per 4 cm?",
+			"options": [
+				"24 cm",
+				"20 cm²",
+				"24 cm²",
+				"10 cm²"
+			],
+			"answer": "24 cm²",
+			"explanation": "L'area conta i quadretti da un centimetro: sei per ogni riga, per quattro righe.",
+			"distractorWhy": {
+				"20 cm²": "20 è il perimetro, e per giunta si misura in centimetri.",
+				"10 cm²": "10 è la somma dei due lati, non il loro prodotto.",
+				"24 cm": "Il numero è giusto ma l'unità no: un'area si misura in centimetri quadrati."
+			}
+		},
+		{
+			"id": "matematica-geometria-43",
+			"subject": "matematica",
+			"topic": "geometria",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Come si calcola l'area di un triangolo?",
+			"options": [
+				"somma dei tre lati",
+				"base per altezza",
+				"base più altezza",
+				"base per altezza diviso due"
+			],
+			"answer": "base per altezza diviso due",
+			"explanation": "Un triangolo è sempre metà del rettangolo che lo contiene con la stessa base e la stessa altezza.",
+			"distractorWhy": {
+				"base per altezza": "È l'area del rettangolo intero: il triangolo ne occupa la metà.",
+				"base più altezza": "Sommare due lunghezze dà una lunghezza, non una superficie.",
+				"somma dei tre lati": "Quella è il perimetro."
+			}
+		},
+		{
+			"id": "matematica-geometria-44",
+			"subject": "matematica",
+			"topic": "geometria",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Un triangolo ha base 10 cm e altezza 6 cm. Qual è la sua area?",
+			"options": [
+				"30 cm²",
+				"15 cm²",
+				"60 cm²",
+				"16 cm²"
+			],
+			"answer": "30 cm²",
+			"explanation": "Base per altezza fa 60, e il triangolo è metà del rettangolo: 30.",
+			"distractorWhy": {
+				"60 cm²": "60 è l'area del rettangolo: manca la divisione per due.",
+				"16 cm²": "16 è la somma di base e altezza, non il loro prodotto.",
+				"15 cm²": "Hai diviso per quattro invece che per due."
+			}
+		},
+		{
+			"id": "matematica-geometria-45",
+			"subject": "matematica",
+			"topic": "geometria",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Due rettangoli hanno lo stesso perimetro. Hanno per forza la stessa area?",
+			"options": [
+				"dipende dall'unità di misura",
+				"no",
+				"sì, sempre",
+				"sì, se hanno un lato uguale"
+			],
+			"answer": "no",
+			"explanation": "Con 16 cm di contorno si fa un 5×3 (area 15) oppure un 4×4 (area 16): stesso giro, superficie diversa.",
+			"distractorWhy": {
+				"sì, sempre": "Il contorno può essere distribuito in modi diversi, e la superficie cambia.",
+				"sì, se hanno un lato uguale": "Se un lato e il perimetro coincidono i rettangoli sono identici: non è il caso generale.",
+				"dipende dall'unità di misura": "Cambiare unità cambia i numeri di entrambe le figure allo stesso modo."
+			}
+		},
+		{
+			"id": "matematica-geometria-46",
+			"subject": "matematica",
+			"topic": "geometria",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Se raddoppi il lato di un quadrato, la sua area…",
+			"options": [
+				"diventa otto volte",
+				"raddoppia",
+				"diventa quattro volte",
+				"resta uguale"
+			],
+			"answer": "diventa quattro volte",
+			"explanation": "L'area dipende da due dimensioni: raddoppiando entrambe si moltiplica per 2 due volte.",
+			"distractorWhy": {
+				"raddoppia": "Raddoppia il perimetro, che dipende da una dimensione sola.",
+				"resta uguale": "Se cresce il lato, cresce anche la superficie racchiusa.",
+				"diventa otto volte": "Otto volte è ciò che accade al volume di un cubo, che ha tre dimensioni."
+			}
+		},
+		{
+			"id": "matematica-geometria-47",
+			"subject": "matematica",
+			"topic": "geometria",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Un quadrato ha area 49 cm². Quanto misura il suo lato?",
+			"options": [
+				"49 cm",
+				"24,5 cm",
+				"12,25 cm",
+				"7 cm"
+			],
+			"answer": "7 cm",
+			"explanation": "L'area di un quadrato è il lato per sé stesso: serve il numero che moltiplicato per sé fa 49.",
+			"distractorWhy": {
+				"24,5 cm": "Hai diviso l'area per due invece di cercare il fattore ripetuto.",
+				"12,25 cm": "Hai diviso per quattro, come se l'area fosse un perimetro.",
+				"49 cm": "49 è l'area: il lato è molto più corto."
+			}
+		},
+		{
+			"id": "matematica-espressioni-48",
+			"subject": "matematica",
+			"topic": "espressioni",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "In 3 + 4 × 2, quale operazione si esegue per prima?",
+			"options": [
+				"la moltiplicazione",
+				"è indifferente",
+				"l'addizione",
+				"quella scritta più a sinistra"
+			],
+			"answer": "la moltiplicazione",
+			"explanation": "Moltiplicazione e divisione vengono prima di addizione e sottrazione, ovunque siano scritte.",
+			"distractorWhy": {
+				"l'addizione": "L'addizione aspetta: viene dopo moltiplicazioni e divisioni.",
+				"quella scritta più a sinistra": "L'ordine di lettura conta solo fra operazioni dello stesso livello.",
+				"è indifferente": "Cambiando l'ordine cambia il risultato: qui 11 oppure 14."
+			}
+		},
+		{
+			"id": "matematica-espressioni-49",
+			"subject": "matematica",
+			"topic": "espressioni",
+			"difficulty": 1,
+			"format": "numeric_input",
+			"prompt": "Quanto vale 3 + 4 × 2?",
+			"options": [],
+			"answer": "11",
+			"explanation": "Prima 4 × 2 che fa 8, poi si aggiunge 3.",
+			"distractorWhy": {
+				"9": "Hai sommato tutti e tre i numeri ignorando il segno per.",
+				"14": "Hai sommato prima: è il risultato di (3 + 4) × 2.",
+				"24": "Hai moltiplicato tutto per 2 dopo aver sommato male."
+			}
+		},
+		{
+			"id": "matematica-espressioni-50",
+			"subject": "matematica",
+			"topic": "espressioni",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "A che cosa servono le parentesi in un'espressione?",
+			"options": [
+				"a indicare una sottrazione",
+				"a rendere il risultato più grande",
+				"a dire che cosa calcolare per primo",
+				"a separare le cifre"
+			],
+			"answer": "a dire che cosa calcolare per primo",
+			"explanation": "Le parentesi scavalcano l'ordine normale: quello che sta dentro si calcola prima di tutto il resto.",
+			"distractorWhy": {
+				"a rendere il risultato più grande": "Possono anche rimpicciolirlo: dipende dall'operazione che racchiudono.",
+				"a separare le cifre": "Le cifre di un numero non si separano mai con le parentesi.",
+				"a indicare una sottrazione": "La sottrazione ha il suo segno: le parentesi non ne indicano nessuna."
+			}
+		},
+		{
+			"id": "matematica-espressioni-51",
+			"subject": "matematica",
+			"topic": "espressioni",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quanto vale (3 + 4) × 2?",
+			"options": [
+				"10",
+				"11",
+				"24",
+				"14"
+			],
+			"answer": "14",
+			"explanation": "La parentesi comanda: prima 3 + 4 che fa 7, poi per 2.",
+			"distractorWhy": {
+				"10": "Hai sommato 3 + 4 + 2 ignorando la moltiplicazione.",
+				"11": "È il risultato senza parentesi, dove la moltiplicazione va per prima.",
+				"24": "Hai moltiplicato anche il 3 per il 2 prima di sommare."
+			}
+		},
+		{
+			"id": "matematica-espressioni-52",
+			"subject": "matematica",
+			"topic": "espressioni",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quanto vale 10 − 2 × 3?",
+			"options": [
+				"4",
+				"11",
+				"24",
+				"8"
+			],
+			"answer": "4",
+			"explanation": "Prima 2 × 3 che fa 6, poi 10 meno 6.",
+			"distractorWhy": {
+				"8": "Hai tolto solo il 2 e dimenticato la moltiplicazione.",
+				"11": "Hai sommato invece di sottrarre.",
+				"24": "Hai fatto prima la sottrazione: è il risultato di (10 − 2) × 3."
+			}
+		},
+		{
+			"id": "matematica-espressioni-53",
+			"subject": "matematica",
+			"topic": "espressioni",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quanto vale 20 ÷ 4 + 1?",
+			"options": [
+				"25",
+				"6",
+				"4",
+				"5"
+			],
+			"answer": "6",
+			"explanation": "La divisione precede l'addizione: 20 ÷ 4 fa 5, poi più 1.",
+			"distractorWhy": {
+				"4": "Hai sommato prima: è il risultato di 20 ÷ (4 + 1).",
+				"5": "Ti sei fermato alla divisione senza aggiungere l'1.",
+				"25": "Hai sommato 20 e 5 invece di dividere e poi aggiungere."
+			}
+		},
+		{
+			"id": "matematica-espressioni-54",
+			"subject": "matematica",
+			"topic": "espressioni",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quanto vale 2 × (5 + 3)?",
+			"options": [
+				"30",
+				"13",
+				"16",
+				"10"
+			],
+			"answer": "16",
+			"explanation": "Dentro la parentesi 5 + 3 fa 8, e 8 raddoppiato fa 16.",
+			"distractorWhy": {
+				"10": "Hai moltiplicato solo il 5 per 2 dimenticando il 3.",
+				"13": "Hai moltiplicato solo il 5 e poi aggiunto il 3.",
+				"30": "Hai moltiplicato entrambi i numeri per 2 e poi sommato due volte."
+			}
+		},
+		{
+			"id": "matematica-espressioni-55",
+			"subject": "matematica",
+			"topic": "espressioni",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quanto vale 12 ÷ (2 + 4)?",
+			"options": [
+				"6",
+				"10",
+				"8",
+				"2"
+			],
+			"answer": "2",
+			"explanation": "La parentesi va per prima: 2 + 4 fa 6, e 12 diviso 6 fa 2.",
+			"distractorWhy": {
+				"6": "6 è il contenuto della parentesi, non il risultato finale.",
+				"8": "Hai sommato 4 al risultato della divisione sbagliata.",
+				"10": "Hai diviso 12 per 2 e poi aggiunto 4 invece di rispettare la parentesi."
+			}
+		},
+		{
+			"id": "matematica-espressioni-56",
+			"subject": "matematica",
+			"topic": "espressioni",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "In 8 − 3 + 2, in quale ordine si procede?",
+			"options": [
+				"da sinistra a destra",
+				"è indifferente",
+				"prima l'addizione",
+				"prima la sottrazione più grande"
+			],
+			"answer": "da sinistra a destra",
+			"explanation": "Addizione e sottrazione stanno sullo stesso gradino: fra pari si segue l'ordine di scrittura.",
+			"distractorWhy": {
+				"prima l'addizione": "L'addizione non ha la precedenza sulla sottrazione: sono allo stesso livello.",
+				"prima la sottrazione più grande": "La grandezza dei numeri non decide mai l'ordine.",
+				"è indifferente": "Sommando prima verrebbe 3 invece di 7."
+			}
+		},
+		{
+			"id": "matematica-espressioni-57",
+			"subject": "matematica",
+			"topic": "espressioni",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quanto vale 8 − 3 + 2?",
+			"options": [
+				"9",
+				"7",
+				"3",
+				"13"
+			],
+			"answer": "7",
+			"explanation": "Si va da sinistra: 8 − 3 fa 5, poi più 2 fa 7.",
+			"distractorWhy": {
+				"3": "Hai sommato 3 + 2 prima di sottrarre.",
+				"9": "Hai sottratto il 2 invece di aggiungerlo.",
+				"13": "Hai sommato tutto ignorando il segno meno."
+			}
+		},
+		{
+			"id": "matematica-espressioni-58",
+			"subject": "matematica",
+			"topic": "espressioni",
+			"difficulty": 3,
+			"format": "numeric_input",
+			"prompt": "Quanto vale 5 + 2 × (8 − 3)?",
+			"options": [],
+			"answer": "15",
+			"explanation": "Prima la parentesi (5), poi la moltiplicazione (10), infine l'addizione.",
+			"distractorWhy": {
+				"13": "Hai sommato invece di moltiplicare il 2 per la parentesi.",
+				"25": "Hai moltiplicato l'intera espressione per 5.",
+				"35": "Hai sommato 5 + 2 prima di moltiplicare per la parentesi."
+			}
+		},
+		{
+			"id": "matematica-espressioni-59",
+			"subject": "matematica",
+			"topic": "espressioni",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quanto vale (12 − 4) ÷ 2 + 3?",
+			"options": [
+				"5",
+				"4",
+				"10",
+				"7"
+			],
+			"answer": "7",
+			"explanation": "Parentesi (8), poi divisione (4), infine si aggiunge 3.",
+			"distractorWhy": {
+				"4": "Ti sei fermato alla divisione senza aggiungere il 3.",
+				"5": "Hai diviso per 4 invece che per 2.",
+				"10": "Hai diviso per 2 solo dopo aver aggiunto il 3 alla parentesi."
+			}
+		},
+		{
+			"id": "matematica-espressioni-60",
+			"subject": "matematica",
+			"topic": "espressioni",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quanto vale 6 × 2 − 4 ÷ 2?",
+			"options": [
+				"10",
+				"14",
+				"4",
+				"8"
+			],
+			"answer": "10",
+			"explanation": "Le due operazioni forti si calcolano prima: 12 e 2, poi la sottrazione.",
+			"distractorWhy": {
+				"4": "Hai eseguito tutto da sinistra a destra ignorando le precedenze.",
+				"8": "Hai sottratto 4 prima di dividerlo per 2.",
+				"14": "Hai sommato il risultato della divisione invece di sottrarlo."
+			}
+		},
+		{
+			"id": "matematica-espressioni-61",
+			"subject": "matematica",
+			"topic": "espressioni",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Quanto vale 3 × (4 + 2) − 5?",
+			"options": [
+				"9",
+				"13",
+				"11",
+				"18"
+			],
+			"answer": "13",
+			"explanation": "Parentesi (6), poi la moltiplicazione (18), infine si toglie 5.",
+			"distractorWhy": {
+				"9": "Hai sottratto il 5 dentro la parentesi.",
+				"11": "Hai moltiplicato solo il 4 per 3 prima di aggiungere il 2.",
+				"18": "Ti sei fermato alla moltiplicazione senza togliere il 5."
+			}
+		},
+		{
+			"id": "matematica-espressioni-62",
+			"subject": "matematica",
+			"topic": "espressioni",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quanto vale 2 + 3²?",
+			"options": [
+				"10",
+				"25",
+				"11",
+				"13"
+			],
+			"answer": "11",
+			"explanation": "La potenza viene prima di tutto: 3² fa 9, poi si aggiunge 2.",
+			"distractorWhy": {
+				"10": "Hai sommato 3 due volte invece di moltiplicarlo per sé stesso.",
+				"13": "Hai moltiplicato 3 per 2 invece di elevarlo al quadrato.",
+				"25": "Hai sommato prima: è il risultato di (2 + 3)²."
+			}
+		},
+		{
+			"id": "matematica-espressioni-63",
+			"subject": "matematica",
+			"topic": "espressioni",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quanto vale (2 + 3)² − 5?",
+			"options": [
+				"30",
+				"8",
+				"14",
+				"20"
+			],
+			"answer": "20",
+			"explanation": "La parentesi comanda anche sulla potenza: 5 al quadrato fa 25, meno 5 fa 20.",
+			"distractorWhy": {
+				"8": "Hai elevato al quadrato solo il 3 e poi tolto 5.",
+				"14": "Hai raddoppiato la parentesi invece di elevarla al quadrato.",
+				"30": "Hai aggiunto 5 invece di toglierlo."
+			}
+		},
+		{
+			"id": "matematica-statistica-64",
+			"subject": "matematica",
+			"topic": "statistica",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "In un grafico a barre, la barra più alta indica…",
+			"options": [
+				"il valore più grande",
+				"il totale",
+				"il valore più piccolo",
+				"la media di tutti"
+			],
+			"answer": "il valore più grande",
+			"explanation": "L'altezza rappresenta la quantità: più è alta, più grande è il numero che rappresenta.",
+			"distractorWhy": {
+				"il valore più piccolo": "Il valore più piccolo è la barra più bassa.",
+				"la media di tutti": "La media di solito non coincide con nessuna barra in particolare.",
+				"il totale": "Il totale si ottiene sommando tutte le barre, non guardandone una."
+			}
+		},
+		{
+			"id": "matematica-statistica-65",
+			"subject": "matematica",
+			"topic": "statistica",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "La moda di un gruppo di numeri è…",
+			"options": [
+				"la somma dei valori",
+				"il valore che compare più volte",
+				"il valore più grande",
+				"il valore di mezzo"
+			],
+			"answer": "il valore che compare più volte",
+			"explanation": "Moda vuol dire «quello che va per la maggiore»: si conta quante volte compare ciascun valore.",
+			"distractorWhy": {
+				"il valore più grande": "Il più grande può comparire una volta sola e non essere la moda.",
+				"il valore di mezzo": "Quella è la mediana, che si trova ordinando i dati.",
+				"la somma dei valori": "La somma è un totale, non un valore del gruppo."
+			}
+		},
+		{
+			"id": "matematica-statistica-66",
+			"subject": "matematica",
+			"topic": "statistica",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Qual è la moda di 3, 5, 5, 7, 9?",
+			"options": [
+				"29",
+				"9",
+				"5",
+				"7"
+			],
+			"answer": "5",
+			"explanation": "Il 5 compare due volte, tutti gli altri una sola.",
+			"distractorWhy": {
+				"7": "7 è il valore centrale, cioè la mediana, non la moda.",
+				"9": "9 è il valore più grande, ma compare una volta sola.",
+				"29": "29 è la somma di tutti i numeri."
+			}
+		},
+		{
+			"id": "matematica-statistica-67",
+			"subject": "matematica",
+			"topic": "statistica",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "In 2, 4, 4, 6 qual è il valore che si ripete?",
+			"options": [
+				"16",
+				"2",
+				"6",
+				"4"
+			],
+			"answer": "4",
+			"explanation": "Solo il 4 compare due volte: è la moda del gruppo.",
+			"distractorWhy": {
+				"2": "Il 2 compare una volta sola.",
+				"6": "Il 6 compare una volta sola ed è solo il più grande.",
+				"16": "16 è la somma dei quattro numeri."
+			}
+		},
+		{
+			"id": "matematica-statistica-68",
+			"subject": "matematica",
+			"topic": "statistica",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Per mostrare quanti alunni preferiscono ciascuno sport, quale rappresentazione conviene?",
+			"options": [
+				"un grafico a barre",
+				"una tabella delle moltiplicazioni",
+				"una linea del tempo",
+				"una piantina"
+			],
+			"answer": "un grafico a barre",
+			"explanation": "Le barre mettono a confronto quantità diverse a colpo d'occhio, che è esattamente ciò che serve qui.",
+			"distractorWhy": {
+				"una linea del tempo": "La linea del tempo serve per eventi in ordine cronologico, non per confrontare quantità.",
+				"una piantina": "La piantina mostra dove sono le cose, non quante sono.",
+				"una tabella delle moltiplicazioni": "Serve a calcolare prodotti, non a rappresentare preferenze."
+			}
+		},
+		{
+			"id": "matematica-statistica-69",
+			"subject": "matematica",
+			"topic": "statistica",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Come si calcola la media di alcuni numeri?",
+			"options": [
+				"si moltiplicano fra loro",
+				"si sommano e si divide per quanti sono",
+				"si prende il più grande",
+				"si prende quello di mezzo"
+			],
+			"answer": "si sommano e si divide per quanti sono",
+			"explanation": "La media distribuisce il totale in parti uguali: risponde a «quanto toccherebbe a ciascuno».",
+			"distractorWhy": {
+				"si prende il più grande": "Il più grande è il massimo, non la media.",
+				"si prende quello di mezzo": "Quella è la mediana, che si trova ordinando i dati.",
+				"si moltiplicano fra loro": "Il prodotto cresce enormemente e non rappresenta il gruppo."
+			}
+		},
+		{
+			"id": "matematica-statistica-70",
+			"subject": "matematica",
+			"topic": "statistica",
+			"difficulty": 2,
+			"format": "numeric_input",
+			"prompt": "Qual è la media di 4, 6 e 8?",
+			"options": [],
+			"answer": "6",
+			"explanation": "La somma fa 18 e i numeri sono tre: 18 diviso 3 fa 6.",
+			"distractorWhy": {
+				"4": "4 è il numero più piccolo, non la media.",
+				"9": "Hai diviso per due invece che per tre.",
+				"18": "18 è la somma: manca la divisione per quanti sono i numeri."
+			}
+		},
+		{
+			"id": "matematica-statistica-71",
+			"subject": "matematica",
+			"topic": "statistica",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Qual è la media di 2, 3, 4 e 7?",
+			"options": [
+				"16",
+				"3",
+				"5",
+				"4"
+			],
+			"answer": "4",
+			"explanation": "La somma fa 16 e i numeri sono quattro: 16 diviso 4 fa 4.",
+			"distractorWhy": {
+				"3": "3 è uno dei valori, non la media del gruppo.",
+				"5": "Hai diviso per tre invece che per quattro.",
+				"16": "16 è la somma: manca la divisione."
+			}
+		},
+		{
+			"id": "matematica-statistica-72",
+			"subject": "matematica",
+			"topic": "statistica",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "La media fra 10 e 20 è…",
+			"options": [
+				"15",
+				"5",
+				"30",
+				"10"
+			],
+			"answer": "15",
+			"explanation": "Sommi i due numeri (30) e dividi per due: la media sta esattamente in mezzo.",
+			"distractorWhy": {
+				"5": "Hai diviso 10 per due invece di sommare prima i due numeri.",
+				"10": "10 è il più piccolo dei due, non il valore intermedio.",
+				"30": "30 è la somma, non la media."
+			}
+		},
+		{
+			"id": "matematica-statistica-73",
+			"subject": "matematica",
+			"topic": "statistica",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Come si ottiene il totale rappresentato da un grafico a barre?",
+			"options": [
+				"contando quante barre ci sono",
+				"sommando l'altezza di tutte le barre",
+				"guardando la barra più alta",
+				"moltiplicando le barre fra loro"
+			],
+			"answer": "sommando l'altezza di tutte le barre",
+			"explanation": "Ogni barra è una parte del totale: il totale è la loro somma.",
+			"distractorWhy": {
+				"guardando la barra più alta": "La più alta è solo la parte maggiore, non il totale.",
+				"moltiplicando le barre fra loro": "Il prodotto non ha nessun significato: le quantità si sommano.",
+				"contando quante barre ci sono": "Così conti le categorie, non le quantità."
+			}
+		},
+		{
+			"id": "matematica-statistica-74",
+			"subject": "matematica",
+			"topic": "statistica",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "La media di 1, 2 e 100 vale circa 34. Descrive bene il gruppo?",
+			"options": [
+				"sì, perché sta in mezzo ai valori",
+				"sì, perfettamente",
+				"no, il 100 la tira in alto",
+				"no, perché i numeri sono solo tre"
+			],
+			"answer": "no, il 100 la tira in alto",
+			"explanation": "Un valore molto lontano dagli altri sposta la media, che finisce per non somigliare a nessun dato.",
+			"distractorWhy": {
+				"sì, perfettamente": "Nessuno dei tre numeri assomiglia a 34: la media non li rappresenta.",
+				"no, perché i numeri sono solo tre": "Il problema non è quanti sono, ma quanto sono diversi fra loro.",
+				"sì, perché sta in mezzo ai valori": "Sta fra il minimo e il massimo, ma lontanissimo da due dati su tre."
+			}
+		},
+		{
+			"id": "matematica-statistica-75",
+			"subject": "matematica",
+			"topic": "statistica",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "La media di cinque voti è 7. Quanto vale la loro somma?",
+			"options": [
+				"5",
+				"7",
+				"12",
+				"35"
+			],
+			"answer": "35",
+			"explanation": "La media è la somma divisa per quanti sono: per tornare indietro si moltiplica, 7 per 5.",
+			"distractorWhy": {
+				"5": "5 è il numero dei voti, non la loro somma.",
+				"7": "7 è la media, cioè la somma già divisa.",
+				"12": "Hai sommato 7 e 5 invece di moltiplicarli."
+			}
+		},
+		{
+			"id": "matematica-statistica-76",
+			"subject": "matematica",
+			"topic": "statistica",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Come si chiama il valore centrale di una serie ordinata di dati?",
+			"options": [
+				"mediana",
+				"massimo",
+				"moda",
+				"media"
+			],
+			"answer": "mediana",
+			"explanation": "La mediana taglia i dati ordinati in due metà con lo stesso numero di valori.",
+			"distractorWhy": {
+				"moda": "La moda è il valore più frequente, che può stare ovunque nella serie.",
+				"media": "La media si calcola, non si trova guardando la posizione.",
+				"massimo": "Il massimo è l'ultimo valore della serie ordinata, non quello centrale."
+			}
+		},
+		{
+			"id": "matematica-statistica-77",
+			"subject": "matematica",
+			"topic": "statistica",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Qual è la mediana di 3, 7 e 9?",
+			"options": [
+				"6",
+				"7",
+				"3",
+				"9"
+			],
+			"answer": "7",
+			"explanation": "I dati sono già ordinati e sono tre: quello in mezzo è il secondo.",
+			"distractorWhy": {
+				"3": "3 è il valore più piccolo, il primo della serie.",
+				"6": "6 è vicino alla media (6,33), non alla mediana.",
+				"9": "9 è il più grande, l'ultimo della serie."
+			}
+		},
+		{
+			"id": "matematica-statistica-78",
+			"subject": "matematica",
+			"topic": "statistica",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quattro alunni prendono 6 e un quinto alunno prende 10. Qual è la media della classe?",
+			"options": [
+				"6",
+				"8",
+				"6,8",
+				"7,5"
+			],
+			"answer": "6,8",
+			"explanation": "La somma è 24 più 10 uguale 34, divisa per 5 alunni: 6,8.",
+			"distractorWhy": {
+				"6": "6 è il voto più frequente, cioè la moda, non la media.",
+				"8": "8 è la media fra 6 e 10 come se fossero due alunni soli.",
+				"7,5": "7,5 sarebbe la media se i voti alti fossero la metà della classe."
+			}
+		},
+		{
+			"id": "matematica-statistica-79",
+			"subject": "matematica",
+			"topic": "statistica",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "La media di quattro numeri è 5. Quanto vale la loro somma?",
+			"options": [
+				"45",
+				"5",
+				"9",
+				"20"
+			],
+			"answer": "20",
+			"explanation": "Se distribuendo il totale a quattro tocca 5 a testa, il totale era 5 per 4.",
+			"distractorWhy": {
+				"5": "5 è la media, cioè la parte di ciascuno.",
+				"9": "Hai sommato 5 e 4 invece di moltiplicarli.",
+				"45": "Hai accostato le cifre invece di moltiplicare."
 			}
 		}
 	]

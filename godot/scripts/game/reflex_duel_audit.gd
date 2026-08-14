@@ -13,7 +13,10 @@ extends SceneTree
 ## gioco sarebbe rotta — e nessun altro controllo se ne accorgerebbe.
 
 const OK := "REFLEX DUEL audit VERDE"
-const GRADI := 5      # i gradi di potenza esistenti, 0..4
+## I gradi di potenza si leggono dalla scala, non si scrivono qui: erano cinque
+## fino al 13 agosto e nove dal 14, e una costante scritta a mano avrebbe lasciato
+## i quattro nuovi fuori da ogni controllo senza diventare rossa.
+static var GRADI: int = WorldLight.SOGLIE.size()
 const TIER_MAX := 8   # i gradi delle sacche, 1..8
 
 var errori: Array = []

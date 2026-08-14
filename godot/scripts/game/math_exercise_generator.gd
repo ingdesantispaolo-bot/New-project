@@ -5,8 +5,31 @@ extends RefCounted
 ## attraversano otto profili e ampliano il repertorio senza sostituirlo: gli
 ## esercizi semplici restano disponibili, ma numeri e strutture cambiano.
 
+## **Il pavimento non è il posto in cui si comincia.** (14 agosto 2026)
+##
+## Segnalazione di una studentessa in collaudo: «gli esercizi di matematica del
+## primo livello sono troppo semplici». Misurata, aveva ragione e il difetto era
+## strutturale: la complessità 1 ammette sei archetipi soli — addizione,
+## sottrazione, moltiplicazione, sequenza e due problemi a un passaggio — con
+## somme sotto il 35 e sottrazioni sotto il 28. Campionando quaranta sessioni al
+## livello 1 uscivano «Quanto fa 11 − 6?» e «5 monete al mattino e 6 nel
+## pomeriggio». La fascia dichiarata del gioco è **10–13 anni**: erano tre o
+## quattro anni di scuola sotto.
+##
+## La riparazione non è cancellare il gradino più basso ma **smettere di
+## cominciare da lì**: il livello 1 vale ora nominalmente complessità 2, e la
+## complessità 1 resta viva come gradino verso il basso per chi fatica — ci
+## arriva chi ha padronanza sotto 0,5, perché `math_effective_level` gli toglie
+## tre livelli.
+##
+## **Un limite dichiarato**: ai livelli 1–3 quel gradino non c'è, perché il
+## livello efficace non scende sotto 1 e lì il nominale *è* il pavimento. Si
+## accetta perché la complessità 2 è la quarta-quinta elementare — dentro la
+## fascia dichiarata — e perché la rete per chi fatica non è solo questa: restano
+## la difficoltà del banco, l'indizio, gli scudi, l'assenza di cronometro e la
+## mini-lezione di NORA prima della domanda.
 static func complexity_for_level(level: int) -> int:
-	return clampi(1 + floori(float(maxi(0, level - 1)) / 3.0), 1, 8)
+	return clampi(2 + floori(float(maxi(0, level - 1)) / 3.0), 1, 8)
 
 # "Sapori" narrativi: personaggi e oggetti del mondo di Eli Quest per vestire i
 # piccoli problemi. La matematica resta identica e calibrata; cambia solo la
@@ -143,8 +166,13 @@ func _build_archetype(archetype: String, complexity: int, rng: RandomNumberGener
 			var a := answer + b
 			return _node("calcolo", complexity, "Quanto fa %d - %d?" % [a, b], answer, [answer - 1, answer + 2, a + b], "Sottraendo %d da %d rimane %d." % [b, a, answer], rng, index)
 		"multiplication":
-			var a := rng.randi_range(2, mini(12, 4 + complexity * 2))
-			var b := rng.randi_range(2, mini(12, 5 + complexity * 2))
+			# **Le tabelline devono coprire le tabelline.** Con i vecchi limiti
+			# (4 e 5 più due per grado) al livello 1 il fattore massimo era 7:
+			# quelle dell'8, del 9 e del 10 non uscivano mai, in una materia il
+			# cui banco si chiama `matematica-tabelline`. Al nominale del primo
+			# livello ora si arriva a 10, e al gradino di chi fatica a 8.
+			var a := rng.randi_range(2, mini(12, 6 + complexity * 2))
+			var b := rng.randi_range(2, mini(12, 6 + complexity * 2))
 			return _node("tabelline", complexity, "Quanto fa %d × %d?" % [a, b], a * b, [a * b - a, a * b + b, a + b], "%d gruppi da %d formano %d." % [a, b, a * b], rng, index)
 		"sequence":
 			var start := rng.randi_range(1, 15 + complexity * 3)

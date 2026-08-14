@@ -1,6 +1,6 @@
 # Eli Quest — Piano di lavoro
 
-Aggiornato al 13 agosto 2026.
+Aggiornato al 14 agosto 2026.
 
 **Questo file contiene solo lavoro da fare.** Niente resoconti: quelli stanno nel
 *Registro dei lavori* di [docs/RELEASE_CANDIDATE.md](docs/RELEASE_CANDIDATE.md).
@@ -14,13 +14,13 @@ Documenti autoritativi: [Visione](docs/VISIONE_DI_GIOCO.md) ·
 [Custode avanzato](docs/CUSTODE_LIVELLO_AVANZATO.md) ·
 [Minigiochi personaggi](docs/MINIGIOCHI_PERSONAGGI.md)
 
-> **Snellito il 13 agosto 2026.** Ventiquattro lotti chiusi fra il 5 e il 13 agosto
-> sono usciti da qui e stanno nel *Registro dei lotti Opus* del file di rilascio,
-> con le loro misure e i loro audit. Qui resta solo ciò che non è fatto.
+> **Snellito il 13 agosto 2026, ripulito il 14.** I lotti chiusi escono da qui e
+> stanno nel registro del file di rilascio, con le loro misure e i loro audit.
+> Qui resta solo ciò che non è fatto.
 
 ---
 
-## Dove ci orientiamo — 13 agosto 2026
+## Dove ci orientiamo — 14 agosto 2026
 
 Le tre direzioni misurate il 5 agosto erano: la profondità degli esercizi (non era
 il collo di bottiglia), le spiegazioni (lo era, ed è chiusa) e il divertimento
@@ -38,11 +38,14 @@ motorio che non chiede mai una decisione. Le cose che una decisione la chiedono
 esistono e sono **tre**: l'enigma che si costruisce mentre rispondi, la
 minimissione che cambia la mappa, il varco dei guardiani.
 
-Sette voci di questo piano sono lì per aggiungere la quarta, la quinta e la sesta.
-Nessuna aggiunge esercizi: **la campagna resta a 21,1 ore misurate**, e questo è
-un vincolo del piano, non una speranza — il collaudo l'ha già definita faticosa,
-e rispondere a «è noioso» con «è più lungo» è l'errore che ha prodotto quel
-verdetto.
+Le voci di questo piano sono lì per aggiungere la quarta, la quinta e la sesta.
+Otto sono state chiuse fra il 13 e il 14 agosto — la serie, l'impulso che si
+guadagna, la curva della potenza, la nave camminabile, la matematica del primo
+livello, i moduli di spedizione, l'audio dei mondi e il Custode nella nave — e
+**nessuna ha aggiunto un esercizio**: la
+campagna resta a 21,1 ore misurate. È un vincolo del piano, non una speranza: il
+collaudo l'ha già definita faticosa, e rispondere a «è noioso» con «è più lungo»
+è l'errore che ha prodotto quel verdetto.
 
 ### L'ordine, e perché questo
 
@@ -51,162 +54,31 @@ decisione o da un contratto di Claude sono uscite dal piano e stanno nel registr
 
 | | voce | impatto | costo | chi |
 |---|---|---|---|---|
-| **G-3** | La potenza non si ferma a metà | medio | basso | Claude |
-| **G-4** | I moduli di spedizione | medio | medio | **tua decisione** |
-| **G-5** | Ricompense che scalano | medio | basso | Claude |
-| **G-8** | L'audio | alto | **tua decisione** | Codex |
-| **G-9** | Il Custode presente | medio | basso | Claude |
+| **G-4** | Collegare i due moduli alla resa C-G4 | basso | basso | Claude |
 | **G-10** | Camminare è una scelta | ? | medio | dopo il collaudo |
 
 ---
 
-## G-3 · La potenza finisce a metà campagna, la minaccia no
+## G-4 · Collegare i due moduli — Claude
 
-**Oggi.** `WorldLight.SOGLIE` si ferma a **140 prove → grado 4 (Meridiana)**.
-`WorldEnemy.setup` calcola `tier = 1 + floor((level − 1) / 3)`, fino a **8**. Un
-mondo offre circa diciotto prove (sette di gate più undici di pratica): il grado
-massimo arriva intorno al **mondo 8**, e per i sedici mondi successivi Eli non
-cresce più mentre le sacche continuano a salire fino al tier 8.
+La resa C-G4 è pronta. Restano soltanto catalogo e semantica dei due moduli:
 
-**Perché conta.** `world_light.gd` dichiara la potenza come *«il traguardo di medio
-periodo»*. Se si esaurisce a un terzo di una campagna da 21 ore, per due terzi del
-gioco il ciclo lungo è vuoto — ed è lo stesso difetto che quel file era nato per
-riparare sul ciclo corto. Il collaudo che ha detto «noioso» parlava proprio di
-questo: lunghi tratti in cui non cambia niente.
+- aggiungere `module-radar` e `module-torch` a `RewardCatalog`, con slot `module`;
+- calcolare gli effetti in `expedition_modules.gd` e pubblicare i numeri
+  `treasureRadarRadius` e `torchRadius` in `runtime_state()`;
+- estendere `expedition_module_audit` ai due nuovi effetti.
 
-**Da fare.** Portare la scala a **otto gradi**, con i nomi che proseguono quelli
-esistenti, tarati perché a ogni mondo valga `grado(prove attese) ≥ tier(mondo) − 2`.
-I numeri esatti si tarano con la sonda del tempo, non a occhio: la scala attuale
-(15, 40, 80, 140) è stata scritta prima che i mondi fossero ventiquattro.
-
-**Chi.** Claude: soglie, nomi, audit. La resa C-G3 è già pronta: quattro
-spritesheet 5×4 e quattro orbite aggiuntive attendono i gradi 5–8 dal contratto.
-
-**Audit.** `power_curve_audit`: per ogni mondo il grado atteso non resta mai più di
-due sotto il tier delle sacche di quel mondo, e nessun grado della scala è
-irraggiungibile giocando la campagna intera.
-
----
-
-## G-4 · L'energia ha un sink solo, e la bottega non offre mai una scelta
-
-**Oggi.** `RewardCatalog` ha 56 voci su cinque slot: bot, avatar, accessorio,
-strumento, pet. Sono tutte estetiche tranne **due** — torcia e falce. I pet non
-danno vantaggi per contratto (decisione 12), e l'INDIZIO è già un pulsante
-gratuito nelle missioni. Quindi in bottega non esiste mai la domanda che rende
-viva una valuta: *compro potere o compro bellezza?*
-
-**La contraddizione da sciogliere prima di scrivere una riga.**
-[DESIGN_COMPLETO](docs/DESIGN_COMPLETO.md) §8 promette sette **Moduli NORA**
-(indizio, seconda chance, tempo extra, moltiplicatore, radar, torcia, scatto) e
-compagni funzionali. Il lotto del 6 agosto ha deciso il contrario, e con una buona
-ragione: *«un consumabile utile diventa una scorciatoia per non sapere, e uno
-inutile è un altro oggetto bugiardo»*.
-
-**Hanno ragione tutti e due, su due cose diverse.** Un modulo che tocca una
-**prova** è una scorciatoia per non sapere. Un modulo che tocca la **mappa** non lo
-è — è la stessa distinzione che rende lecito mettere un duello di riflessi davanti
-a un forziere di cosmetici.
-
-**Proposta: moduli di spedizione, mai d'esame.** Cariche d'impulso (che G-2 rende
-una risorsa vera), radar dei forzieri, raggio della torcia, scatto più lungo. Si
-comprano con l'energia, servono contro il Silenzio, non sfiorano una domanda.
-Niente indizio a pagamento: l'indizio oggi è gratuito, e farlo pagare sarebbe un
-peggioramento travestito da funzione nuova.
-
-**Nota tecnica che vale un rosso.** La chiave `modules` del salvataggio è già stata
-dichiarata una volta e mai costruita: stava in sette audit e in zero righe di
-gioco (decisione 14). Se torna, torna con il suo consumatore **nello stesso
-commit**, o `save_schema_audit` la boccia — giustamente.
-
-**Chi.** **Decisione tua** sul principio: i moduli di spedizione entrano o la
-bottega resta solo estetica? Poi Claude (catalogo, prezzi, regole) e **C-G4 ·
-Codex** (la sezione in bottega e le icone dei moduli).
-
-**Audit.** `expedition_module_audit`: nessun modulo tocca prove, mastery,
-copertura, ritenzione, gate o esami; ognuno dichiara un effetto verificabile sulla
-mappa; nessuno è necessario per completare qualcosa.
-
----
-
-## G-5 · Un esercizio del mondo 22 paga come una tabellina del mondo 1
-
-**Oggi.** `energyPerCorrect` è 10 in missione ed enigma, 12 all'esame e nella
-trasversale. Costante su ventiquattro mondi e su quattro bande di difficoltà.
-
-**Da fare.** Scalare con la **banda di difficoltà**, non col numero del mondo: le
-rivisitazioni sono ripasso mirato e devono pagare la banda di *quel* mondo, che è
-già la regola di `_learning_level`. Altrimenti tornare al mondo 3 dopo il 24
-diventa il modo più veloce di fare energia.
-
-**L'attenzione da tenere.** Se sale l'entrata devono salire i prezzi, o il catalogo
-si svuota a metà campagna e il sink sparisce. Si misura prima: energia totale della
-campagna contro costo totale del catalogo, con la sonda che esiste già.
-
-**Chi.** Claude. Nessun lavoro di Codex.
-
-**Audit.** `economy_curve_audit`: l'energia totale guadagnabile in campagna resta
-dentro una banda dichiarata rispetto al costo del catalogo, e nessuna rivisitazione
-paga più della frontiera.
-
----
-
-## G-8 · L'audio sono tre anelli di sedici secondi
-
-**Oggi.** `music-day`, `music-night`, `music-focus`, `ambience-day`,
-`ambience-night`: cinque file, tutti generati in modo deterministico da
-`scripts/build-godot-audio-assets.mjs`, **sedici secondi ciascuno**. Ogni
-`WorldProfile` dichiara un `soundscape` proprio: ne sono dichiarati ventiquattro e
-ne suonano tre.
-
-**Perché conta più di quanto sembri.** Su ventuno ore, la differenza percepita fra
-«un gioco» e «un esercizio con la grafica sopra» passa dal suono prima che dai
-poligoni. Ed è l'unica voce di questo piano che il collaudo su tablet giudicherà
-nei primi dieci secondi, prima di qualunque altra cosa.
-
-**Le due strade, e va scelta.**
-**(a)** Generare per **famiglia di bioma** dallo stesso script che c'è già: costo
-basso, tempi brevi, resta musica sintetica ma smette di essere la stessa musica in
-ventiquattro mondi.
-**(b)** Asset veri, che è un lavoro d'arte e di licenze, non di codice — e quindi
-una decisione di produzione con un costo esterno.
-
-**Chi.** **Decisione tua** sulla strada. Poi **C-G8 · Codex** su quella scelta: se
-(a), estendere il generatore per famiglia di bioma e agganciarlo al `soundscape`
-già dichiarato nei profili.
-
-**Audit.** `audio_asset_audit` esteso: nessun mondo condivide il soundscape con più
-di un numero dichiarato di vicini, e ogni `soundscape` dichiarato in un profilo ha
-un asset che esiste davvero.
-
----
-
-## G-9 · Il Custode è una freccia
-
-**Oggi.** Bob, scintille, quattro pose e una freccia che punta al POI aperto più
-vicino. La macchina c'è tutta — `pet_state`, `pet_gifts`, `pet_antics`,
-`pet_expression_engine`, `pet_face_widget` — e la presenza no.
-
-**Il vincolo che governa tutto.** Decisione 12: avanza in carattere, mai in potere.
-Quindi la riparazione non è «serve a qualcosa»: è **reagisce a qualcosa**. La
-lettura del mondo (curioso vicino a un incontro non esplorato, attento vicino a uno
-Sbiadito) è già agganciata; manca che reagisca alle cose che contano per il
-bambino — la stanza che si accende, il grado nuovo, la sorella trovata, la
-minimissione riuscita sotto il grado consigliato.
-
-**Chi.** Claude: che cosa nota e quando, con i testi che restano di NORA (il
-Custode è muto per contratto). Le pose C-G9 sono già pronte per tutti i segnali
-del motore delle espressioni.
-
-**Audit.** `pet_advanced_audit` esteso: nessuna reazione dipende da energia,
-frammenti, oggetti o acquisti, e nessuna anticipa un'informazione che il bambino
-non abbia già a schermo.
+I consumer visivi restano dormienti a valore zero: il primo mostra un segnale
+sulla cassa chiusa entro il raggio, il secondo scala il cono luminoso orientato
+con Eli. Le cinque illustrazioni sono già riservate nel `reward-items-sheet` con
+gli stessi identificativi.
 
 ---
 
 ## G-10 · Camminare non è una scelta
 
-**Oggi.** `player_controller.gd` sono settantuno righe: velocità, sprint 1,65×,
+**Oggi.** `player_controller.gd` sono settantacinque righe: velocità, uno scatto
+il cui moltiplicatore ora viene dai moduli (1,65× o 1,95×),
 bob. L'unica cosa che il terreno fa è l'acqua che blocca. L'unica prova d'abilità
 di tutto il gioco è il varco dei guardiani.
 
@@ -237,6 +109,19 @@ perdano.
 - **Quindici ricette al mondo 1.** Oggi sono dieci per materia. Deciso, e da fare
   **dopo** il collaudo: sei materie del mondo 1 sono cambiate molto e conviene
   sapere se la differenza si sente prima di scriverne altre sessanta.
+- **Il banco di matematica è ancora al 78% tabelline.** Il 14 agosto è passato da
+  1 a 6 argomenti (284 → 364 voci), ma le 284 tabelline restano la maggioranza e
+  gli argomenti nuovi hanno il minimo sindacale di sedici item ciascuno. Il
+  prossimo giro li porta al livello delle altre materie — venti-trenta per
+  argomento — e aggiunge i due che mancano per la fascia alta: proporzioni ed
+  equazioni, che NORA sa già spiegare e il banco non chiede mai.
+- **Il pavimento della matematica ai mondi 1–3.** Chi fatica non ha un gradino
+  sotto il nominale, perché il livello efficace non scende sotto 1 e lì il
+  nominale *è* il pavimento. Si ripara solo portando l'adattività della
+  matematica dal canale «livello» a quello «complessità», che oggi sono due
+  meccanismi sovrapposti (`effective_difficulty` per il banco,
+  `math_effective_level` per il generatore). Vale la pena farlo se il collaudo
+  segnala il difetto opposto — qualcuno che al mondo 1 fatica.
 - **I vocabolari di banco e minigiochi non coincidono.** La copertura del gate
   conta gli argomenti toccati e il bersaglio si calcola sul **banco**, ma la
   pratica marca anche i 104 argomenti che vivono solo nel catalogo interattivo. In

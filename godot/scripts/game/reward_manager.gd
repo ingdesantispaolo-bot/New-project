@@ -21,9 +21,13 @@ func _cosmetics() -> Dictionary:
 		save.data["cosmetics"] = {"unlocked": [], "equipped": {}, "inventory": []}
 	return save.data["cosmetics"]
 
+## Acquisti PERMANENTI: non si equipaggiano, non si sostituiscono, restano.
+## I moduli di spedizione entrano di qui (14 agosto 2026) e non hanno avuto
+## bisogno di una chiave nuova nel salvataggio: `cosmetics.inventory` fa già
+## esattamente questo, con i suoi lettori. Una chiave in meno da tenere viva.
 static func _is_unslotted(cosmetic: Dictionary) -> bool:
 	var slot := str(cosmetic.get("slot", ""))
-	return slot == "upgrade" or slot == "decor"
+	return slot == "upgrade" or slot == "decor" or slot == "module"
 
 func owned(id: String) -> bool:
 	var cosmetic := RewardCatalog.find(id)

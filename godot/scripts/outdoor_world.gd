@@ -1067,9 +1067,21 @@ func _spawn_pet(visual_data: Dictionary) -> void:
 		pet_data = {"kind": "spark"}
 	if typeof(pet_data) != TYPE_DICTIONARY:
 		return
+	# **Chi decide il colore del Custode.** (14 agosto 2026)
+	#
+	# La livrea vinceva sempre, e siccome ne esiste una di default il colore dei
+	# compagni comprati in bottega non si vedeva mai: chi pagava 3600 frammenti
+	# per il Prisma vedeva il giallo di serie. Adesso l'ordine è quello del
+	# significato: una livrea SCELTA a mano dal bambino batte tutto, perché è una
+	# decisione; sopra il default silenzioso vince invece l'aspetto comprato.
+	#
+	# (Non sono due creature: il Custode È il compagno, e lo slot `pet` decide che
+	# forma abbia — vedi `_resolved_avatar_visual`.)
 	var palette := PetState.livery(game_save)
+	var livrea_scelta := not palette.is_empty() 		and Array(palette) != Array(PetState.DEFAULT.get("livery", []))
 	var color := OutdoorVisualFactory.hex_color(
-		int(palette[0]) if not palette.is_empty() else int(pet_data.get("color", 0xf6c85f)))
+		int(palette[0]) if livrea_scelta or not pet_data.has("color")
+		else int(pet_data.get("color", 0xf6c85f)))
 	pet_companion = OutdoorPetCompanion.new()
 	world_layer.add_child(pet_companion)
 	pet_companion.setup(

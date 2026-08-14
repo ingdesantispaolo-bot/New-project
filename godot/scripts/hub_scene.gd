@@ -24,6 +24,17 @@ var progress_report: LocalProgressReport
 var exercise_player: ExercisePlayer
 var knowledge_codex_panel: KnowledgeCodexPanel
 
+## I dodici colori delle materie, gli stessi con cui i mondi tingono la notte
+## (`outdoor_world._configure_profile_palette`). Servono al nucleo prismatico.
+const PRISMA_COLORI := {
+	"matematica": Color("6be7d6"), "italiano": Color("e9a86d"),
+	"coding": Color("8fa7ff"), "inglese": Color("72c9ff"),
+	"fisica": Color("a2d8ff"), "musica": Color("d7a0ff"),
+	"latino": Color("d4b17a"), "elettronica": Color("79e7ff"),
+	"geografia": Color("7fd19b"), "scienze": Color("91dc72"),
+	"storia": Color("f2c96d"), "logica": Color("b7a2ff"),
+}
+
 var current_room_id := ShipRoomCatalog.DEFAULT_ROOM
 var room_state: Dictionary = {}
 var background: TextureRect
@@ -797,8 +808,14 @@ func _apply_state(state: Dictionary) -> void:
 	var restoration_id := str(room_state.get("restoration", ""))
 	var restored := rewards.owned(restoration_id)
 	background_material.set_shader_parameter("restored", 1.0 if restored else 0.0)
-	restoration_label.text = "✦ RESTAURO ATTIVO" if restored else "RESTAURO DISPONIBILE IN BOTTEGA"
+	# Il restauro è l'unica spesa che cambia un luogo per sempre: se non c'è, la
+	# scheda dice quanto costa invece di dire soltanto dove si compra. Un prezzo
+	# è un obiettivo; «disponibile in bottega» era un'insegna.
+	var restoration_item := RewardCatalog.find(restoration_id)
+	restoration_label.text = "✦ RESTAURO ATTIVO" if restored 		else "RESTAURO · ◈ %d IN BOTTEGA" % int(restoration_item.get("cost", 0))
 	restoration_label.add_theme_color_override("font_color", Color("f7d37a") if restored else Color("809da2"))
+	_refresh_restoration_lights(restored, accent)
+	_refresh_prismatic_portrait()
 	status_chip.text = str(activation.get("title", "SISTEMA INERTE"))
 	status_chip.add_theme_color_override("font_color", accent if int(activation.get("stage", 0)) > 0 else Color("a5b0b3"))
 	apparatus_label.text = displayed_apparatus.replace("-", " ").to_upper()
@@ -1322,6 +1339,90 @@ func _unhandled_input(event: InputEvent) -> void:
 		elif event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 			bridge_walkway.set_touch_target(event.position)
 
+## **Le luci del restauro.** (14 agosto 2026)
+##
+## Il restauro di un ponte esisteva già nei dati (`ShipRoomCatalog.restoration`) e
+## valeva 0,06 di luce nello shader: comprato, non si vedeva. Adesso pesa nello
+## shader **e** accende dei fuochi nella stanza — luci calde disposte in modo
+## stabile, che restano lì ogni volta che si rientra.
+##
+## Perché deterministiche e non casuali: un luogo restaurato che cambia forma a
+## ogni visita non è un luogo restaurato, è un effetto. Il seme è l'id della
+## stanza, quindi il Bio-ponte ha sempre le sue e sono sempre quelle.
+##
+## Non danno nessun vantaggio: non aprono, non sbloccano, non contano da nessuna
+## parte. Sono la differenza fra una stanza spenta e una stanza in cui qualcuno è
+## tornato ad abitare, e questo è tutto il loro lavoro.
+func _refresh_restoration_lights(restored: bool, accent: Color) -> void:
+	if not is_instance_valid(room_stage):
+		return
+	var vecchio := room_stage.get_node_or_null("RestorationLights")
+	if vecchio != null:
+		vecchio.queue_free()
+	if not restored:
+		return
+	var luci := Node2D.new()
+	luci.name = "RestorationLights"
+	luci.z_index = -1
+	room_stage.add_child(luci)
+	var rng := RandomNumberGenerator.new()
+	rng.seed = int(hash("restauro::%s" % current_room_id))
+	var larghezza := maxf(room_stage.size.x, 320.0)
+	var altezza := maxf(room_stage.size.y, 240.0)
+	for indice in range(7):
+		var punto := Vector2(
+			rng.randf_range(0.10, 0.90) * larghezza,
+			rng.randf_range(0.22, 0.86) * altezza)
+		var alone := OutdoorVisualFactory.make_glow(
+			rng.randf_range(26.0, 52.0), accent.lightened(0.25), 0.30)
+		alone.position = punto
+		luci.add_child(alone)
+		var nucleo := OutdoorVisualFactory.make_glow(9.0, Color("fff0c4"), 0.55)
+		nucleo.position = punto
+		luci.add_child(nucleo)
+
+## **Il nucleo prismatico: il ritratto promesso.** (14 agosto 2026)
+##
+## La sua descrizione a catalogo dice una cosa precisa — «si accende del colore
+## delle materie che hai portato più avanti. È un ritratto, non una macchina» —
+## e non la faceva. Costa 1600 frammenti: il pezzo più caro della nave prometteva
+## l'unica cosa che nessuno aveva costruito.
+##
+## Adesso c'è, ed è letteralmente quello che dice: dodici luci in cerchio, una per
+## materia, ognuna accesa quanto la padronanza di quella materia. Chi è forte in
+## tre materie vede tre luci e nove braci; chi ha lavorato ovunque vede un cerchio
+## intero. **Nessun numero, nessuna percentuale, nessuna classifica** — il divieto
+## di ordinare le materie dalla peggiore alla migliore è dello stesso documento
+## che governa il diario, e un ritratto non è una pagella.
+##
+## Non dà vantaggi, non apre niente, non conta da nessuna parte.
+func _refresh_prismatic_portrait() -> void:
+	if not is_instance_valid(room_stage):
+		return
+	var vecchio := room_stage.get_node_or_null("PrismaticPortrait")
+	if vecchio != null:
+		vecchio.queue_free()
+	if not rewards.owned("nora-prismatic-core") or not is_instance_valid(save):
+		return
+	var ritratto := Node2D.new()
+	ritratto.name = "PrismaticPortrait"
+	room_stage.add_child(ritratto)
+	var centro := Vector2(maxf(room_stage.size.x, 320.0) * 0.5, maxf(room_stage.size.y, 240.0) * 0.30)
+	var raggio := 54.0
+	var materie: Array = ApparatusConfig.SUBJECT_CYCLE
+	for indice in materie.size():
+		var materia := str(materie[indice])
+		var quota := clampf(float(save.mastery_of(materia)), 0.0, 1.0)
+		var angolo := TAU * float(indice) / float(materie.size()) - PI * 0.5
+		var punto := centro + Vector2(cos(angolo), sin(angolo)) * raggio
+		# Una brace resta accesa anche a zero: una materia mai toccata è buia, non
+		# assente. Toglierla direbbe che quella parte di Eli non esiste.
+		var colore: Color = PRISMA_COLORI.get(materia, Color("9ff5e9"))
+		var alone := OutdoorVisualFactory.make_glow(
+			9.0 + quota * 13.0, colore, 0.16 + quota * 0.5)
+		alone.position = punto
+		ritratto.add_child(alone)
+
 func _room_shader_material() -> ShaderMaterial:
 	var shader := Shader.new()
 	shader.code = """
@@ -1338,17 +1439,20 @@ void fragment() {
 	float pulse = (sin(TIME * (0.72 + activation * 1.4)) * 0.5 + 0.5);
 	float unstable = (1.0 - smoothstep(0.05, 0.28, activation)) * activation;
 	float flicker = 1.0 - unstable * (sin(TIME * 17.0) * 0.035 + 0.035);
-	float base_light = mix(0.42, 0.96, powered) + restored * 0.06;
-	vec3 dormant = mix(vec3(luma), tex.rgb, 0.38);
-	vec3 color = mix(dormant, tex.rgb, powered) * base_light * flicker;
+	// Il restauro pesava 0.06 di luce: comprato, non si vedeva. Adesso porta
+	// luce, colore e bordi meno cupi — è l'unica cosa che i frammenti cambiano
+	// dentro la nave, e deve essere una differenza che si nota entrando.
+	float base_light = mix(0.42, 0.96, powered) + restored * 0.20;
+	vec3 dormant = mix(vec3(luma), tex.rgb, 0.38 + restored * 0.30);
+	vec3 color = mix(dormant, tex.rgb, max(powered, restored * 0.55)) * base_light * flicker;
 	float highlight = smoothstep(0.34, 0.82, luma);
 	color += accent.rgb * highlight * (0.025 + powered * 0.15);
 	float scan = 1.0 - smoothstep(0.0, 0.018, abs(fract(UV.y - TIME * (0.035 + activation * 0.05)) - 0.5));
 	color += accent.rgb * scan * activation * 0.055;
-	color += accent.rgb * pulse * (activation * 0.018 + restored * 0.018);
+	color += accent.rgb * pulse * (activation * 0.018 + restored * 0.055);
 	float ignition = transition_burst * (1.0 - smoothstep(0.0, 0.72, distance(UV, vec2(0.5))));
 	color += accent.rgb * ignition * 0.85;
-	color *= 1.0 - edge * mix(0.58, 0.32, powered);
+	color *= 1.0 - edge * mix(0.58, 0.32, powered) * (1.0 - restored * 0.45);
 	COLOR = vec4(color, tex.a);
 }
 """

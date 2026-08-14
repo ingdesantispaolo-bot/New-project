@@ -31,6 +31,7 @@ import missionSynthesisBgUrl from "../assets/images/mission-synthesis-bg.webp";
 import logicGymHubBgUrl from "../assets/images/logic-gym-hub-bg.webp";
 import logicGymFirewallBgUrl from "../assets/images/logic-gym-firewall-bg.webp";
 import noraRoomBgUrl from "../assets/images/nora-room-bg.webp";
+import noraPresencePortraitV2Url from "../assets/images/generative/nora-presence-portrait-v2.webp";
 import missionAtlasBgUrl from "../assets/images/mission-atlas-bg.webp";
 import progressiveScalataBgUrl from "../assets/images/progressive-scalata-bg.webp";
 import rewardShopBgUrl from "../assets/images/reward-shop-bg.webp";
@@ -166,6 +167,7 @@ const packs: Record<SceneAssetPack, AssetEntry[]> = {
     atlas("reward-items", rewardItemsSheetUrl, rewardItemsSheetJsonUrl),
   ],
   story: [
+    image("nora-presence-portrait-v2", noraPresencePortraitV2Url),
     image("story-academy-hub-bg", storyAcademyHubBgUrl),
     image("story-archive-memory-bg", storyArchiveMemoryBgUrl),
     image("story-clue-blackout-signal", storyClueBlackoutSignalUrl),

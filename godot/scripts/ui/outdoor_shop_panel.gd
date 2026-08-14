@@ -43,15 +43,17 @@ const SLOT_META := {
 		"intro": "Dettagli tecnici, segni di metodo e strumenti per personalizzare l'equipaggio.",
 		"impact": "Puoi indossare un accessorio alla volta e sostituirlo senza altri costi.",
 	},
+	# Lo slot "tool" resta descritto qui ma non compare piu' in vetrina: gli
+	# strumenti li consegna il mondo dopo una riparazione ([[FieldTools]]).
 	"tool": {
 		"title": "Strumenti da esplorazione",
 		"intro": "Torcia e falce aprono deviazioni opzionali del mondo esterno.",
-		"impact": "La torcia illumina la notte; la falce libera l'erba alta invalicabile.",
+		"impact": "Non sono in vendita: te li da' chi li usa, quando gli finisci una riparazione.",
 	},
 	"pet": {
-		"title": "Compagni di rotta",
-		"intro": "Presenze vive che seguono l'esploratore e reagiscono ai progressi.",
-		"impact": "Il compagno scelto ti segue nel mondo e celebra i momenti riusciti.",
+		"title": "Le forme del Custode",
+		"intro": "Il Custode e' uno solo. Qui si decide che aspetto abbia quando ti cammina accanto.",
+		"impact": "Cambia la forma del compagno che hai gia': non ne aggiunge un altro, e non tocca il legame.",
 	},
 	"emblem": {
 		"title": "Emblemi di metodo",
@@ -63,15 +65,18 @@ const SLOT_META := {
 		"intro": "Attrezzatura che serve la fuori, contro il Silenzio: non tocca mai una prova.",
 		"impact": "Acquisto permanente e sempre attivo: l'effetto si vede sulla mappa, non nelle domande.",
 	},
+	# I due testi qui sotto dicevano «non ancora attivi in questa build» e «arriverà
+	# con le scene native»: era vero quando furono scritti e ha smesso di esserlo.
+	# Un catalogo che si scusa insegna al bambino che comprare non serve.
 	"upgrade": {
-		"title": "Potenziamenti NORA",
-		"intro": "Moduli permanenti che rendono piu solido il supporto durante le missioni.",
-		"impact": "Acquisto permanente registrato nel save; gli effetti sulle missioni non sono ancora attivi in questa build.",
+		"title": "Pezzi della nave",
+		"intro": "Quello che i Dodici avevano a bordo e che si ritrova un pezzo per volta.",
+		"impact": "Ognuno lascia un anello di luce addosso a Eli: si vede nel mondo, non tocca nessuna prova.",
 	},
 	"decor": {
 		"title": "Restauri del Relitto",
-		"intro": "Restituisci luce alle aree conquistate e rendi visibile la tua ricostruzione.",
-		"impact": "Progetto permanente registrato nel save; la trasformazione delle aree arrivera con le scene native dedicate.",
+		"intro": "Restituisci luce ai ponti riconquistati: è l'unica spesa che cambia un luogo per sempre.",
+		"impact": "Il ponte resta illuminato ogni volta che torni a bordo. Non apre niente e non sblocca niente: si vede.",
 	},
 }
 
@@ -658,9 +663,9 @@ func _detail_state_text(cosmetic: Dictionary) -> String:
 	var cost := int(cosmetic.get("cost", 0))
 	if _is_active(cosmetic):
 		if slot_name == "upgrade":
-			return "Modulo registrato nel save. L'effetto gameplay verra attivato in un blocco dedicato."
+			return "Recuperato. L'anello di luce e' addosso a Eli da adesso in poi."
 		if slot_name == "decor":
-			return "Progetto registrato nel save. La relativa scena del Relitto non e ancora disponibile."
+			return "Restaurato. Il ponte resta acceso: lo vedi salendo a bordo."
 		return "Questa ricompensa e gia applicata al Relitto."
 	if _is_owned(id):
 		return "Acquistata. Puoi equipaggiarla ora senza spendere altri frammenti."

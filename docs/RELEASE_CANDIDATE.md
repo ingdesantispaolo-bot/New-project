@@ -1220,6 +1220,67 @@ lotto precedente; l'export include il worktree non commesso corrente.
 
 ---
 
+## G-2 · L'impulso si guadagna (14 agosto)
+
+Il difetto più grosso trovato nella lettura dello strato di gioco, e nessun
+controllo lo aveva visto per una settimana perché ogni pezzo era coerente con se
+stesso. Il 7 agosto le sacche di Silenzio erano diventate un pericolo con un costo
+tarato sul grado di Eli — `world_enemy.gd` lo spiega per venti righe: *chi si
+allena passa senza pagare* — e nello stesso mondo c'era un pulsante che le
+stordiva **gratis**, con raggio 168 e ricarica in **1,25 secondi**. Il morso non
+lo pagava nessuno, il grado di potenza non serviva a niente contro le sacche, e la
+barra sullo schermo misurava una forza che non veniva mai messa alla prova.
+
+- **La riparazione cambia specie alla risorsa, non la tara.** Un cooldown si
+  rigenera da sé e quindi non è un costo, è un'attesa. Le cariche in
+  `pulse_charge.gd` si **guadagnano** nell'unico modo che questo gioco riconosce:
+  due prove superate una carica, tetto tre. Da qui la catena che il lotto del 7
+  agosto voleva e non aveva: *studi → hai l'impulso → passi*.
+- **A serbatoio pieno non si accumula.** Se il progresso continuasse a salire, chi
+  gioca a lungo con tre cariche si ritroverebbe una riserva invisibile che si
+  scarica tutta insieme: il tetto sarebbe una finzione e la scelta *passo o giro
+  attorno* tornerebbe a non esistere.
+- **Si parte da zero.** Regalare una carica all'avvio sembrerebbe gentile e
+  insegnerebbe la cosa sbagliata: le celle vuote accanto alla barra di potenza
+  dicono, senza una riga di testo, che quella cosa si riempie giocando. Non è un
+  vicolo cieco perché il morso non ferma nessuno.
+- **Il cronometro resta, ridotto a 350 ms**, e non è più l'economia: è un
+  antirimbalzo, perché un tocco doppio involontario non deve bruciare una carica
+  guadagnata con due prove.
+- **L'economia sta nella semantica** (`OutdoorGameplay.usa_impulso`), non nella
+  scena: la presentazione chiede e disegna. La resa C-G2 di Codex era già pronta e
+  legge `pulseCharges`/`pulseChargeMax` dal contratto runtime — questo lotto ha
+  collegato le due metà.
+
+**Misura e guard-rail.** `pulse_economy_audit` verde, e verificato che morda: un
+impulso che si accende sempre lo fa diventare rosso. Verifica l'aritmetica delle
+cariche (tetto compreso, e che non si banchi una riserva), che l'impulso non sia
+mai gratuito, che le cariche si guadagnino **solo** con le prove — energia,
+frammenti e acquisti provati uno per uno — che accenderlo non tocchi nient'altro
+nel salvataggio, e soprattutto che **le cariche non gattino niente**: due partite
+identiche con zero e con tre cariche hanno uno stato di progressione che differisce
+in `pulseCharges` e in nient'altro. È la forma verificabile di «niente sulla mappa
+può fermare la progressione». Una prova **fallita** non ricarica.
+
+**Una lezione, pagata falsificando.** Alla prima stesura l'audit conteneva un
+`while PulseCharge.consuma(...)`. Provando a falsificarlo — cioè rimettendo
+l'impulso gratuito — non è diventato rosso: si è **appeso**, quattro minuti, fino
+al timeout. Un cricchetto che si blocca invece di rompersi fa perdere il giro a
+tutta la suite e non dice niente a chi guarda. Ora il ciclo è limitato e fallisce
+in un secondo.
+
+**Due regressioni prese dalla suite**, entrambe vere e nessuna visibile
+rileggendo: `eli_enemy_audit` misurava lo stordimento e `accessibility_release_audit`
+la forma dell'onda con riduzione movimento, e da oggi senza una carica l'impulso
+non si accende — quindi non c'era niente da misurare. Entrambi accreditano ora la
+carica con lo stesso gesto che la darebbe al giocatore.
+
+Suite completa **175/175 verde in 237 s**. Export finale fatto dal commit sorgente
+`30bfe49`: `2026.08.14-web-loader-3`, cache `v116-web-loader`, PCK 34,33 MiB,
+WASM 37,68 MiB, core 72,01 MiB. `audit:web` verde.
+
+---
+
 ## Registro dei lotti Opus (5–13 agosto 2026)
 
 Trasferito qui il 13 agosto 2026 snellendo `insieme.md`, che per sua regola

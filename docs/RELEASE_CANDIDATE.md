@@ -1580,7 +1580,7 @@ fallback intatto**.
 passaggio aveva rivelato che gli audit delle ondate leggevano l'alpha dalla
 texture già compressa per GPU; ora le sette ondate controllano il PNG sorgente e
 restano valide anche con ETC2/S3TC. Export Web finale sincronizzato come
-`2026.08.14-web-loader-9`, cache `v122-web-loader`: PCK **60,36 MiB**, WASM
+`2026.08.14-web-loader-10`, cache `v123-web-loader`: PCK **60,36 MiB**, WASM
 **37,68 MiB**, core **98,04 MiB**; `audit:web` verde e manifest allineato.
 
 ---

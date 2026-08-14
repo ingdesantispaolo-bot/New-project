@@ -46,7 +46,20 @@ func can_unlock(id: String) -> bool:
 		return false
 	if FieldTools.is_field_tool(id):
 		return false
+	if not incontrato(id):
+		return false
 	return save.level() >= int(cosmetic.get("minLevel", 1))
+
+## **Hai visto il posto da cui viene?** (14 agosto 2026)
+##
+## Una voce ancorata a un mondo entra in vetrina quando quel mondo è fra le
+## destinazioni aperte. Non chiede di averlo finito né di sapere qualcosa: chiede
+## di esserci potuta andare. Vedi [[RewardCatalog]].
+func incontrato(id: String) -> bool:
+	var world := RewardCatalog.mondo_di(id)
+	if world <= 0:
+		return true
+	return save.unlocked_worlds().has(world)
 
 ## La consegna dal mondo: sblocca ed equipaggia SENZA prezzo e senza controlli di
 ## livello. È l'unica porta che scavalca `can_unlock`, ed esiste perché uno
@@ -72,6 +85,8 @@ func unavailable_reason(id: String) -> String:
 		return ""
 	if FieldTools.is_field_tool(id):
 		return FieldTools.motivo_non_in_vendita()
+	if not incontrato(id):
+		return "Si trova a %s: passa di lì e comparirà qui." % RewardCatalog.luogo_di(id)
 	var min_level := int(cosmetic.get("minLevel", 1))
 	if save.level() < min_level:
 		return "Richiede livello %d" % min_level

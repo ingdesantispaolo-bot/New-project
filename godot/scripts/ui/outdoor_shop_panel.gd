@@ -551,7 +551,7 @@ func _build_card(cosmetic: Dictionary) -> Control:
 	var price := Label.new()
 	price.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	price.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	price.text = _card_price_text(cost, min_level, owned, active)
+	price.text = _card_price_text(cost, min_level, owned, active, id)
 	price.add_theme_font_size_override("font_size", 10)
 	price.add_theme_color_override("font_color", _requirement_color(cosmetic))
 	bottom.add_child(price)
@@ -597,7 +597,7 @@ func _refresh_detail(cosmetic: Dictionary) -> void:
 		str(cosmetic.get("description", "")) if origine.is_empty()
 		else "%s\n\n%s" % [str(cosmetic.get("description", "")), origine])
 	_detail_impact.text = "IMPATTO\n%s" % str(SLOT_META[_slot]["impact"])
-	_detail_requirements.text = _detail_requirement_text(cost, min_level, owned, active)
+	_detail_requirements.text = _detail_requirement_text(cost, min_level, owned, active, id)
 	_detail_requirements.add_theme_color_override("font_color", _requirement_color(cosmetic))
 	_detail_state.text = _detail_state_text(cosmetic)
 	_configure_action(_detail_action, cosmetic, true)
@@ -624,6 +624,11 @@ func _configure_action(button: Button, cosmetic: Dictionary, detailed: bool) -> 
 	elif owned:
 		button.text = "EQUIPAGGIA"
 		button.pressed.connect(_equip.bind(id))
+	elif _luogo_da_incontrare(id) != "":
+		# Non è un rifiuto: è un indirizzo. La voce esiste, sta in un posto, e il
+		# posto ha un nome che si può raggiungere.
+		button.text = ("VAI A %s" % _luogo_da_incontrare(id).to_upper()) if detailed else "DA TROVARE"
+		button.disabled = true
 	elif level < min_level:
 		button.text = ("RAGGIUNGI LIVELLO %d" if detailed else "LIVELLO %d") % min_level
 		button.disabled = true
@@ -636,21 +641,38 @@ func _configure_action(button: Button, cosmetic: Dictionary, detailed: bool) -> 
 	_style_button(button, rarity_color, not button.disabled)
 
 
-func _card_price_text(cost: int, min_level: int, owned: bool, active: bool) -> String:
+## `id` serve a sapere se la voce è già stata incontrata: una cosa che viene da
+## un posto dove non sei ancora stata non mostra un prezzo, mostra il posto.
+func _card_price_text(cost: int, min_level: int, owned: bool, active: bool, id := "") -> String:
 	if active:
 		return "IN USO"
 	if owned:
 		return "POSSEDUTO"
+	var luogo := _luogo_da_incontrare(id)
+	if luogo != "":
+		return "DA TROVARE · %s" % luogo.to_upper()
 	if int(_state.get("level", 1)) < min_level:
 		return "RICHIEDE LV %d" % min_level
 	return "◈ %d" % cost
 
+## Il mondo da cui viene una voce, se non ci sei ancora arrivata; stringa vuota
+## se la voce è disponibile o non è ancorata a nessun posto.
+func _luogo_da_incontrare(id: String) -> String:
+	if id == "" or gameplay == null or gameplay.reward_manager == null:
+		return ""
+	if gameplay.reward_manager.incontrato(id):
+		return ""
+	return RewardCatalog.luogo_di(id)
 
-func _detail_requirement_text(cost: int, min_level: int, owned: bool, active: bool) -> String:
+
+func _detail_requirement_text(cost: int, min_level: int, owned: bool, active: bool, id := "") -> String:
 	if active:
 		return "CONFIGURAZIONE ATTIVA"
 	if owned:
 		return "NELLA TUA COLLEZIONE"
+	var luogo := _luogo_da_incontrare(id)
+	if luogo != "":
+		return "VIENE DA: %s" % luogo.to_upper()
 	if int(_state.get("level", 1)) < min_level:
 		return "SBLOCCO: LIVELLO %d  ·  COSTO: ◈ %d" % [min_level, cost]
 	return "COSTO: ◈ %d  ·  LIVELLO RICHIESTO: %d" % [cost, min_level]
@@ -669,6 +691,9 @@ func _detail_state_text(cosmetic: Dictionary) -> String:
 		return "Questa ricompensa e gia applicata al Relitto."
 	if _is_owned(id):
 		return "Acquistata. Puoi equipaggiarla ora senza spendere altri frammenti."
+	var luogo := _luogo_da_incontrare(id)
+	if luogo != "":
+		return "Viene da %s, e finché non ci arrivi resta lì. Non serve finire niente: basta che la rotta sia aperta." % luogo
 	if int(_state.get("level", 1)) < min_level:
 		return "Continua le missioni per raggiungere il livello necessario."
 	var missing := maxi(0, cost - int(_state.get("fragments", 0)))

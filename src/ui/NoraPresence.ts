@@ -20,6 +20,14 @@ const TONE_MOOD: Record<NoraPresenceTone, NoraPresenceMood> = {
   warning: "alert",
 };
 
+const STAGE_RENDER: Record<string, { aura: number; ring: number; nodes: number; ticks: number; orbitMs: number; scanMs: number; portraitAlpha: number }> = {
+  dormant: { aura: 0.025, ring: 0.12, nodes: 1, ticks: 1, orbitMs: 22000, scanMs: 4200, portraitAlpha: 0.78 },
+  awakening: { aura: 0.055, ring: 0.2, nodes: 2, ticks: 2, orbitMs: 16000, scanMs: 3200, portraitAlpha: 0.9 },
+  memory: { aura: 0.09, ring: 0.3, nodes: 3, ticks: 3, orbitMs: 12500, scanMs: 2600, portraitAlpha: 0.96 },
+  restored: { aura: 0.11, ring: 0.38, nodes: 4, ticks: 4, orbitMs: 10000, scanMs: 2200, portraitAlpha: 0.98 },
+  guardian: { aura: 0.16, ring: 0.52, nodes: 5, ticks: 5, orbitMs: 7600, scanMs: 1800, portraitAlpha: 1 },
+};
+
 type PresenceMountOptions = {
   x?: number;
   y?: number;
@@ -39,6 +47,7 @@ class NoraPresenceInstance {
   private portrait?: Phaser.GameObjects.Image;
   private portraitMask?: Phaser.GameObjects.Graphics;
   private scanLine?: Phaser.GameObjects.Rectangle;
+  private readonly stageAura: number;
   private label: Phaser.GameObjects.Text;
   private bubble: Phaser.GameObjects.Container;
   private bubbleText: Phaser.GameObjects.Text;
@@ -52,14 +61,18 @@ class NoraPresenceInstance {
     this.container = scene.add.container(x, y).setDepth(depth).setScrollFactor(0);
     this.container.setAlpha(0);
 
+    const visualStage = noraCompanion.currentVisualStage();
+    const stageRender = STAGE_RENDER[visualStage.id] ?? STAGE_RENDER.dormant;
+    this.stageAura = stageRender.aura;
     const radius = compact ? 25 : 31;
-    this.aura = scene.add.circle(0, 0, radius + 16, MOOD_COLORS.calm, 0.07);
+    this.aura = scene.add.circle(0, 0, radius + 16, MOOD_COLORS.calm, stageRender.aura);
     this.shell = scene.add.circle(0, 0, radius, 0x07151d, 0.96)
       .setStrokeStyle(2, MOOD_COLORS.calm, 0.86);
     this.ring = scene.add.circle(0, 0, radius + 10, 0x000000, 0)
-      .setStrokeStyle(2, MOOD_COLORS.calm, 0.24);
+      .setStrokeStyle(visualStage.id === "guardian" ? 3 : 2, MOOD_COLORS.calm, stageRender.ring);
     this.orbit = scene.add.container(0, 0);
-    this.orbitNodes = [0, 120, 240].map((degrees) => {
+    this.orbitNodes = Array.from({ length: stageRender.nodes }, (_, index) => {
+      const degrees = (360 / stageRender.nodes) * index;
       const radians = Phaser.Math.DegToRad(degrees);
       const node = scene.add.circle(
         Math.cos(radians) * (radius + 10),
@@ -71,18 +84,23 @@ class NoraPresenceInstance {
       this.orbit.add(node);
       return node;
     });
-    this.signalTicks = [-1, 0, 1].map((offset) => scene.add.rectangle(
+    this.signalTicks = Array.from({ length: stageRender.ticks }, (_, index) => {
+      const offset = index - (stageRender.ticks - 1) / 2;
+      return scene.add.rectangle(
       offset * (compact ? 5 : 6),
       radius + 7,
       compact ? 2 : 3,
-      compact ? 4 + (offset + 1) * 2 : 5 + (offset + 1) * 2,
+      compact ? 4 + index * 1.25 : 5 + index * 1.5,
       MOOD_COLORS.calm,
       0.66,
-    ));
+      );
+    });
 
-    if (scene.textures.exists("nora-presence-portrait-v2")) {
+    if (scene.textures.exists(visualStage.presenceKey)) {
       const portraitSize = radius * 2 - 4;
-      this.portrait = scene.add.image(0, 0, "nora-presence-portrait-v2").setDisplaySize(portraitSize, portraitSize);
+      this.portrait = scene.add.image(0, 0, visualStage.presenceKey)
+        .setDisplaySize(portraitSize, portraitSize)
+        .setAlpha(stageRender.portraitAlpha);
       this.portraitMask = scene.make.graphics({ x: options.x ?? 38, y: options.y ?? scene.scale.height - 96 });
       this.portraitMask.fillStyle(0xffffff).fillCircle(0, 0, radius - 2);
       this.portrait.setMask(this.portraitMask.createGeometryMask());
@@ -130,9 +148,9 @@ class NoraPresenceInstance {
     if (!reduced) {
       scene.tweens.add({ targets: this.ring, scale: 1.18, alpha: 0.54, duration: 1600, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
       scene.tweens.add({ targets: this.core, scale: 1.22, alpha: 0.72, duration: 920, yoyo: true, repeat: -1, ease: "Sine.easeInOut" });
-      scene.tweens.add({ targets: this.orbit, angle: 360, duration: 12000, repeat: -1, ease: "Linear" });
+      scene.tweens.add({ targets: this.orbit, angle: 360, duration: stageRender.orbitMs, repeat: -1, ease: "Linear" });
       if (this.scanLine) {
-        scene.tweens.add({ targets: this.scanLine, y: radius - 5, alpha: { from: 0.05, to: 0.26 }, duration: 2400, repeat: -1, ease: "Sine.easeInOut" });
+        scene.tweens.add({ targets: this.scanLine, y: radius - 5, alpha: { from: 0.05, to: 0.26 }, duration: stageRender.scanMs, repeat: -1, ease: "Sine.easeInOut" });
       }
     }
   }
@@ -142,7 +160,7 @@ class NoraPresenceInstance {
     const color = MOOD_COLORS[mood];
     this.shell.setStrokeStyle(2, color, 0.88);
     this.ring.setStrokeStyle(2, color, mood === "guardian" ? 0.42 : 0.26);
-    this.aura.setFillStyle(color, mood === "guardian" ? 0.16 : mood === "hurt" ? 0.04 : 0.08);
+    this.aura.setFillStyle(color, mood === "guardian" ? Math.max(0.16, this.stageAura) : mood === "hurt" ? this.stageAura * 0.45 : this.stageAura);
     this.core.setFillStyle(color, this.portrait ? 0.28 : 0.98);
     this.orbitNodes.forEach((node, index) => node.setFillStyle(color, mood === "hurt" ? 0.35 : 0.82 + index * 0.06));
     this.signalTicks.forEach((tick, index) => {

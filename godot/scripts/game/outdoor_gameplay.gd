@@ -363,6 +363,11 @@ func runtime_state() -> Dictionary:
 		"masteryThreshold": mastery_threshold,
 		"masteryProgress": clampf(
 			game_save.mastery_of(world_subject) / maxf(0.001, mastery_threshold), 0.0, 1.0),
+		# L'impulso: cariche possedute e tetto. La scena disegna le celle e il
+		# pulsante leggendo di qui e non ricalcola niente — l'economia
+		# dell'impulso è semantica, come quella dell'energia.
+		"pulseCharges": PulseCharge.cariche(game_save),
+		"pulseChargeMax": PulseCharge.MASSIMO,
 		"ready": bool(progress.get("ready", false)),
 		# Le stanze accese: è questa collezione, non il livello, ad aprire il Cuore.
 		"apparatusRepaired": int(progress.get("apparatusRepaired", 0)),
@@ -952,6 +957,13 @@ func resolve_session(exercise_result: Dictionary) -> void:
 		var luce := WorldLight.accendi(game_save, _world_id())
 		var salito_grado := WorldLight.avanza_potenza(game_save)
 		world_light_changed.emit(luce, WorldLight.grado(game_save), salito_grado)
+		# **L'impulso si guadagna qui, e solo qui.** Una prova superata riempie il
+		# serbatoio: è la catena studi → passi in mezzo alle sacche. Il messaggio
+		# arriva solo quando la carica c'è davvero — annunciare mezzo progresso a
+		# ogni prova sarebbe rumore sopra la riga di NORA.
+		if PulseCharge.accredita(game_save):
+			_present_feedback(
+				"Impulso ricaricato: %d cariche." % PulseCharge.cariche(game_save), "system")
 	_update_spaced_repetition(subject, exercise_result)
 	result["energyEarned"] = int(result.get("energyEarned", 0)) + maxi(0, gained)
 	if kind == "minigame":
@@ -1081,6 +1093,19 @@ func unequip_cosmetic(slot: String) -> void:
 	reward_manager.unequip(slot)
 	_persist()
 	_emit_state()
+
+## Spende una carica d'impulso. Vero se c'era e la scena può disegnare l'onda.
+##
+## L'economia sta qui e non nella scena, come quella dell'energia: la presentazione
+## chiede e disegna, non decide. **Falso non è un errore**: a impulso scarico si
+## attraversa lo stesso pagando il morso, e chi chiama non deve fare niente di
+## diverso — nessun percorso della mappa richiede una carica.
+func usa_impulso() -> bool:
+	if not PulseCharge.consuma(game_save):
+		return false
+	_persist()
+	_emit_state()
+	return true
 
 # Raccolta tesoro: solo frammenti (l'energia si guadagna con gli esercizi). Il
 # tesoro è persistente nel save canonico del mondo: raccolto una volta, non torna

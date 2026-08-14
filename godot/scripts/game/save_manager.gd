@@ -96,6 +96,10 @@ static func _default_data() -> Dictionary:
 		# `world_light.gd`.
 		"worldLight": {},           # "livello" -> prove superate li'
 		"powerRuns": 0,             # prove superate in tutta la partita
+		# Le cariche dell'impulso stabilizzante: si guadagnano superando prove e
+		# si spendono contro le sacche. Vedi `pulse_charge.gd` — prima di questa
+		# chiave l'impulso era gratuito e il morso non lo pagava nessuno.
+		"pulse": {"charges": 0, "progress": 0},
 		"apparatus": {},            # id -> {repairedLevel:int}
 		# Mondi (O-P1): livelli sbloccati (destinazioni di viaggio dalla nave) e
 		# mondo attualmente giocato. Il rango `level` è la frontiera di

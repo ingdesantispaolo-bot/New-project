@@ -3222,10 +3222,18 @@ func _on_enemy_contact(enemy: Node2D, body: Node) -> void:
 func _combat_pulse() -> void:
 	if not enemy_gameplay_active():
 		return
+	# Il cronometro non è più l'economia dell'impulso — quella sono le cariche,
+	# e le decide la semantica. Resta un antirimbalzo brevissimo: un tocco doppio
+	# involontario non deve bruciare due cariche guadagnate con quattro prove.
 	var now := Time.get_ticks_msec()
 	if now < pulse_ready_msec:
 		return
-	pulse_ready_msec = now + 1250
+	pulse_ready_msec = now + 350
+	if not gameplay.usa_impulso():
+		_set_feedback(
+			"Impulso scarico: si ricarica superando le prove. Puoi passare lo stesso, ti costerà energia.")
+		_update_pulse_button()
+		return
 	player.play_pulse_action()
 	_spawn_combat_pulse_visual()
 	var hits := 0

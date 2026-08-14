@@ -51,46 +51,12 @@ decisione o da un contratto di Claude sono uscite dal piano e stanno nel registr
 
 | | voce | impatto | costo | chi |
 |---|---|---|---|---|
-| **G-2** | L'impulso costa | alto | basso | Claude |
 | **G-3** | La potenza non si ferma a metà | medio | basso | Claude |
 | **G-4** | I moduli di spedizione | medio | medio | **tua decisione** |
 | **G-5** | Ricompense che scalano | medio | basso | Claude |
 | **G-8** | L'audio | alto | **tua decisione** | Codex |
 | **G-9** | Il Custode presente | medio | basso | Claude |
 | **G-10** | Camminare è una scelta | ? | medio | dopo il collaudo |
-
----
-
-## G-2 · L'impulso è gratis, quindi le sacche non esistono
-
-**Oggi.** `_combat_pulse` in `outdoor_world.gd` non costa niente, ha raggio 168,
-stordisce per **5,5 secondi** e si ricarica in **1,25 secondi**. Il morso di una
-sacca costa `(tier sacca − grado Eli) × 2` energie: **non lo paga mai nessuno**,
-perché basta premere il pulsante e passare.
-
-**Perché conta.** È la catena che il lotto del 7 agosto ha costruito apposta:
-prove → potenza → attraversare le sacche senza pagare. `world_enemy.gd` la spiega
-per venti righe — *«chi si allena passa in mezzo alle sacche senza pagare; chi non
-si allena le paga tutte»* — e un bottone gratuito con un cooldown di un secondo la
-annulla per intero. Con essa annulla il motivo per cui la barra di potenza sta
-sullo schermo.
-
-**Da fare.** L'impulso diventa una **risorsa**, non un cooldown: cariche che si
-guadagnano superando prove (ordine di grandezza: una ogni due prove, tetto tre),
-consumate una per uso. Chi si allena ha l'impulso quando serve; chi non si allena
-gira attorno alle sacche — che è esattamente la scelta che il lotto voleva far
-esistere.
-
-**Non blocca mai.** A zero cariche si passa lo stesso pagando il morso, e il morso
-già non blocca: se l'energia non basta si paga quel che c'è. È la regola di tutta
-la mappa e non cambia.
-
-**Chi.** Claude: regola e audit. La resa C-G2 è già pronta e legge
-`pulseCharges`/`pulseChargeMax` dal contratto runtime senza ricalcolarli.
-
-**Audit.** `pulse_economy_audit`: l'impulso non è mai gratuito, le cariche si
-guadagnano **solo** con le prove (mai con energia, frammenti o acquisti), e nessun
-percorso necessario della mappa richiede l'impulso per essere completato.
 
 ---
 

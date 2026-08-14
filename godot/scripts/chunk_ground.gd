@@ -42,6 +42,16 @@ const IDENTITY_UNDERPAINT_PATHS := {
 }
 const PATH_EARTH_TEXTURE: Texture2D = preload("res://assets/terrain-path-earth.png")
 const WATER_POND_TEXTURE: Texture2D = preload("res://assets/terrain-water-pond.png")
+# Campi di rumore precotti (scripts/build-terrain-noise-texture.mjs). Origine e
+# dimensione devono combaciare con quelle usate al bake, altrimenti il terreno
+# leggerebbe il rumore sbagliato per quella posizione mondo.
+const NOISE_FIELDS_TEXTURE: Texture2D = preload("res://assets/terrain-noise-fields-v1.png")
+const NOISE_WORLD_ORIGIN := Vector2(-4096.0, -4096.0)
+const NOISE_WORLD_SIZE := Vector2(8192.0, 8192.0)
+# Sopra questa soglia la tavola identitaria copre cosi' tanto del colore finale
+# che gli otto campionamenti dei bioma valgono meno del 6%: lo shader li salta.
+# Sotto, il contributo resta percepibile e il percorso completo va tenuto.
+const IDENTITY_DOMINANT_THRESHOLD := 0.94
 const RNG := preload("res://scripts/deterministic_rng.gd")
 
 var chunk: Dictionary
@@ -68,6 +78,18 @@ static func _identity_texture(visual_theme: String) -> Texture2D:
 	if not _identity_texture_cache.has(path):
 		_identity_texture_cache[path] = ResourceLoader.load(path, "Texture2D")
 	return _identity_texture_cache[path] as Texture2D
+
+## Sgancia le underpaint identitarie caricate a runtime.
+##
+## La cache e' statica, quindi sopravvive al cambio di scena: senza questo, ogni
+## mondo visitato lasciava in memoria la propria underpaint (1254x1254) per il
+## resto della sessione, e la VRAM cresceva monotona di mondo in mondo.
+##
+## Svuotare la cache e' sempre sicuro: toglie SOLO il riferimento che la teneva
+## bloccata. Le texture ancora usate da nodi vivi restano allocate finche' quei
+## nodi esistono; si liberano quando cade l'ultimo riferimento reale.
+static func release_texture_cache() -> void:
+	_identity_texture_cache.clear()
 
 func setup(data: Dictionary, lod_level: int = 0, composition_data: WorldCompositionData = null) -> void:
 	chunk = data
@@ -175,6 +197,9 @@ func _build_painterly_surface(size: float) -> void:
 	])
 	var material := ShaderMaterial.new()
 	material.shader = PAINTERLY_GROUND_SHADER
+	material.set_shader_parameter("noise_fields_tex", NOISE_FIELDS_TEXTURE)
+	material.set_shader_parameter("noise_world_origin", NOISE_WORLD_ORIGIN)
+	material.set_shader_parameter("noise_world_size", NOISE_WORLD_SIZE)
 	material.set_shader_parameter("academy_tex", UNDERPAINT_ACADEMY)
 	material.set_shader_parameter("wild_tex", UNDERPAINT_WILD)
 	material.set_shader_parameter("mineral_tex", UNDERPAINT_MINERAL)
@@ -257,6 +282,7 @@ func _build_painterly_surface(size: float) -> void:
 	material.set_shader_parameter("identity_strength", identity_strength)
 	material.set_shader_parameter("identity_calm_palette", identity_calm)
 	material.set_shader_parameter("identity_unique_map", visual_theme == "first_heart")
+	material.set_shader_parameter("identity_dominant", identity_strength >= IDENTITY_DOMINANT_THRESHOLD)
 	if visual_theme == "first_heart":
 		# La tavola 16:9 è una mappa autorata, non una texture da ripetere. Il
 		# suo alloggiamento centrale coincide con il nucleo a y=1500.

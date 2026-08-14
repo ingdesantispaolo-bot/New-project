@@ -2,9 +2,9 @@ class_name RewardManager
 extends RefCounted
 
 ## Logica di possesso/acquisto/equip dei cosmetici (C-14), porting di
-## src/core/RewardSystem.ts. Non tocca energia o riepilogo direttamente: la spesa e
-## la segnalazione restano a `OutdoorGameplay` (stesso pattern già
-## collaudato per missioni/enigmi: spend_energy + result.energySpent), qui
+## src/core/RewardSystem.ts. Non tocca la valuta o il riepilogo direttamente: la
+## spesa e la segnalazione restano a `OutdoorGameplay` (stesso pattern già
+## collaudato per missioni/enigmi: spend_fragments + result.fragmentsSpent), qui
 ## vive solo "chi possiede/equipaggia cosa e a quali condizioni".
 ##
 ## Slot upgrade/decor non occupano `cosmetics.equipped`: finiscono in
@@ -38,17 +38,31 @@ func owned(id: String) -> bool:
 		return true
 	return _is_unslotted(cosmetic) and Array(cosmetics.get("inventory", [])).has(id)
 
+## Gli strumenti di campo NON sono acquistabili (14 agosto 2026): li consegna il
+## mondo dopo una riparazione. Vedi [[FieldTools]].
 func can_unlock(id: String) -> bool:
 	var cosmetic := RewardCatalog.find(id)
 	if cosmetic.is_empty() or owned(id):
 		return false
+	if FieldTools.is_field_tool(id):
+		return false
 	return save.level() >= int(cosmetic.get("minLevel", 1))
 
+## La consegna dal mondo: sblocca ed equipaggia SENZA prezzo e senza controlli di
+## livello. È l'unica porta che scavalca `can_unlock`, ed esiste perché uno
+## strumento è una chiave, non una ricompensa.
+func deliver_field_tool(id: String) -> bool:
+	if not FieldTools.is_field_tool(id) or owned(id):
+		return false
+	return unlock_and_equip(id)
+
+## La bottega si paga in FRAMMENTI dal 14 agosto 2026: l'energia resta la valuta
+## delle prove e non compra più niente. Vedi [[FragmentEconomy]].
 func can_afford(id: String) -> bool:
 	if not can_unlock(id):
 		return false
 	var cosmetic := RewardCatalog.find(id)
-	return save.energy() >= int(cosmetic.get("cost", 0))
+	return save.fragments() >= int(cosmetic.get("cost", 0))
 
 ## Messaggio per l'HUD quando l'acquisto non è possibile; stringa vuota se lo è
 ## già o è già posseduto (nessun messaggio da mostrare in quel caso).
@@ -56,11 +70,13 @@ func unavailable_reason(id: String) -> String:
 	var cosmetic := RewardCatalog.find(id)
 	if cosmetic.is_empty() or owned(id):
 		return ""
+	if FieldTools.is_field_tool(id):
+		return FieldTools.motivo_non_in_vendita()
 	var min_level := int(cosmetic.get("minLevel", 1))
 	if save.level() < min_level:
 		return "Richiede livello %d" % min_level
-	if save.energy() < int(cosmetic.get("cost", 0)):
-		return "Energia insufficiente"
+	if save.fragments() < int(cosmetic.get("cost", 0)):
+		return "Frammenti insufficienti"
 	return ""
 
 func equipped_id(slot: String) -> String:

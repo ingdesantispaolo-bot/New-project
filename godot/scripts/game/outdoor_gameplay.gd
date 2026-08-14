@@ -1026,7 +1026,9 @@ func resolve_session(exercise_result: Dictionary) -> void:
 				completed.append(encounter_id)
 			# Incontro persistente nel save canonico del mondo (O-P0.4).
 			game_save.mark_encounter_completed(_world_id(), encounter_id)
-			_award_fragments(3 if kind != "mission" else 2)
+			_award_fragments(
+				FragmentEconomy.PREMIO_INCONTRO if kind != "mission"
+				else FragmentEconomy.PREMIO_MISSIONE)
 		if kind == "minimission":
 			_risolvi_minimissione(context, passed, encounter_id, correct, total)
 		elif kind == "enigma":
@@ -1061,7 +1063,7 @@ func resolve_session(exercise_result: Dictionary) -> void:
 			salito_di_livello = game_save.level() > livello_prima
 			var apparatus_bonus := maxi(0, game_save.energy() - energy_before - gained)
 			result["energyEarned"] = int(result.get("energyEarned", 0)) + apparatus_bonus
-			_award_fragments(4)
+			_award_fragments(FragmentEconomy.PREMIO_RIPARAZIONE)
 			if salito_di_livello:
 				_present_feedback("%s Livello %d." % [nora_voice.line("victory"), game_save.level()], "nora")
 				current_narrative = str(narrative_manager.reveal_level(game_save.level()).get("text", current_narrative))
@@ -1075,9 +1077,14 @@ func resolve_session(exercise_result: Dictionary) -> void:
 	_emit_state()
 
 # ---------------------------------------------------------------------------
-# Bottega (C-14): acquisto/equip cosmetici. La spesa passa da spend_energy() E
-# da result.energySpent, esattamente come le missioni, così il riepilogo della
-# sessione resta coerente senza duplicare l'economia del save canonico.
+# Bottega (C-14): acquisto/equip cosmetici. La spesa passa da spend_fragments() E
+# da result.fragmentsSpent, esattamente come le missioni fanno con l'energia,
+# così il riepilogo della sessione resta coerente senza duplicare l'economia del
+# save canonico.
+#
+# Dal 14 agosto 2026 si paga in FRAMMENTI e non più in energia: l'energia faceva
+# due mestieri in conflitto — pagava l'ingresso alle prove e comprava i cosmetici
+# — e comprare competeva con l'allenarsi. Vedi [[FragmentEconomy]].
 # ---------------------------------------------------------------------------
 
 func try_purchase_cosmetic(id: String) -> bool:
@@ -1087,10 +1094,10 @@ func try_purchase_cosmetic(id: String) -> bool:
 		return false
 	var cosmetic := RewardCatalog.find(id)
 	var cost := int(cosmetic.get("cost", 0))
-	if not game_save.spend_energy(cost):
-		_present_feedback("Energia insufficiente per \"%s\"." % str(cosmetic.get("name", id)), "system")
+	if not game_save.spend_fragments(cost):
+		_present_feedback("Frammenti insufficienti per \"%s\"." % str(cosmetic.get("name", id)), "system")
 		return false
-	result["energySpent"] = int(result.get("energySpent", 0)) + cost
+	result["fragmentsSpent"] = int(result.get("fragmentsSpent", 0)) + cost
 	reward_manager.unlock_and_equip(id)
 	_persist()
 	_present_feedback("Acquistato: %s" % str(cosmetic.get("name", id)), "system")

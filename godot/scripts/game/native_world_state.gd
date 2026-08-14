@@ -50,6 +50,9 @@ static func empty_result() -> Dictionary:
 		"energyEarned": 0,
 		"energySpent": 0,
 		"fragmentsEarned": 0,
+		# La bottega si paga in frammenti (14 agosto 2026): il riepilogo di
+		# sessione ha il suo contatore, come ce l'ha l'energia.
+		"fragmentsSpent": 0,
 		"completedEncounterIds": [],
 		"collectedTreasureIds": [],
 		"guardianWins": 0,

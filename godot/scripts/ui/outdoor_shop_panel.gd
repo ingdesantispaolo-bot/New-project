@@ -23,7 +23,10 @@ const SLOT_LABELS := {
 }
 ## I moduli stanno subito dopo gli strumenti, che sono la cosa a cui somigliano di
 ## più: entrambi servono là fuori e non toccano una prova.
-const SLOT_ORDER := ["bot", "avatar", "accessory", "tool", "module", "pet", "emblem", "upgrade", "decor"]
+# Lo slot "tool" non compare più: gli strumenti di campo non si comprano, li
+# consegna il mondo dopo una riparazione ([[FieldTools]]). Restano nel catalogo
+# perché il resto del gioco li cerca per id.
+const SLOT_ORDER := ["bot", "avatar", "accessory", "module", "pet", "emblem", "upgrade", "decor"]
 const SLOT_META := {
 	"bot": {
 		"title": "Livree di Bit",
@@ -93,7 +96,7 @@ var _detail_state: Label
 var _detail_action: Button
 var _category_heading: Label
 var _category_intro: Label
-var _energy: Label
+var _wallet: Label
 var _status: Label
 var _subtitle: Label
 var _category_buttons: Dictionary = {}
@@ -177,20 +180,20 @@ func _build_ui() -> void:
 	title.add_theme_color_override("font_color", Color("effffb"))
 	titles.add_child(title)
 	_subtitle = Label.new()
-	_subtitle.text = "Trasforma l'energia conquistata in identita, alleati e nuovi spazi da vivere."
+	_subtitle.text = "Trasforma i frammenti raccolti nei mondi in identita, alleati e nuovi spazi da vivere."
 	_subtitle.add_theme_font_size_override("font_size", 13)
 	_subtitle.add_theme_color_override("font_color", Color("a8c9c3"))
 	_subtitle.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	titles.add_child(_subtitle)
 
-	_energy = Label.new()
-	_energy.name = "ShopEnergy"
-	_energy.custom_minimum_size.x = 150
-	_energy.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	_energy.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	_energy.add_theme_font_size_override("font_size", 18)
-	_energy.add_theme_color_override("font_color", Color("ffd56a"))
-	header.add_child(_energy)
+	_wallet = Label.new()
+	_wallet.name = "ShopWallet"
+	_wallet.custom_minimum_size.x = 150
+	_wallet.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	_wallet.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_wallet.add_theme_font_size_override("font_size", 18)
+	_wallet.add_theme_color_override("font_color", Color("c7b8ff"))
+	header.add_child(_wallet)
 
 	var close_button := Button.new()
 	close_button.name = "CloseShopButton"
@@ -449,7 +452,7 @@ func _on_feedback(message: String) -> void:
 func _refresh() -> void:
 	if not is_instance_valid(_items):
 		return
-	_energy.text = "ENERGIA  ◆  %d" % int(_state.get("energy", 0))
+	_wallet.text = "FRAMMENTI  ◈  %d" % int(_state.get("fragments", 0))
 	_update_category_navigation()
 	var meta: Dictionary = SLOT_META[_slot]
 	_category_heading.text = str(meta["title"])
@@ -619,11 +622,11 @@ func _configure_action(button: Button, cosmetic: Dictionary, detailed: bool) -> 
 	elif level < min_level:
 		button.text = ("RAGGIUNGI LIVELLO %d" if detailed else "LIVELLO %d") % min_level
 		button.disabled = true
-	elif int(_state.get("energy", 0)) < cost:
-		button.text = ("ENERGIA INSUFFICIENTE" if detailed else "NON DISPONIBILE")
+	elif int(_state.get("fragments", 0)) < cost:
+		button.text = ("FRAMMENTI INSUFFICIENTI" if detailed else "NON DISPONIBILE")
 		button.disabled = true
 	else:
-		button.text = "ACQUISTA  ◆ %d" % cost if detailed else "ACQUISTA"
+		button.text = "ACQUISTA  ◈ %d" % cost if detailed else "ACQUISTA"
 		button.pressed.connect(_purchase.bind(id))
 	_style_button(button, rarity_color, not button.disabled)
 
@@ -635,7 +638,7 @@ func _card_price_text(cost: int, min_level: int, owned: bool, active: bool) -> S
 		return "POSSEDUTO"
 	if int(_state.get("level", 1)) < min_level:
 		return "RICHIEDE LV %d" % min_level
-	return "◆ %d" % cost
+	return "◈ %d" % cost
 
 
 func _detail_requirement_text(cost: int, min_level: int, owned: bool, active: bool) -> String:
@@ -644,8 +647,8 @@ func _detail_requirement_text(cost: int, min_level: int, owned: bool, active: bo
 	if owned:
 		return "NELLA TUA COLLEZIONE"
 	if int(_state.get("level", 1)) < min_level:
-		return "SBLOCCO: LIVELLO %d  ·  COSTO: ◆ %d" % [min_level, cost]
-	return "COSTO: ◆ %d  ·  LIVELLO RICHIESTO: %d" % [cost, min_level]
+		return "SBLOCCO: LIVELLO %d  ·  COSTO: ◈ %d" % [min_level, cost]
+	return "COSTO: ◈ %d  ·  LIVELLO RICHIESTO: %d" % [cost, min_level]
 
 
 func _detail_state_text(cosmetic: Dictionary) -> String:
@@ -660,13 +663,13 @@ func _detail_state_text(cosmetic: Dictionary) -> String:
 			return "Progetto registrato nel save. La relativa scena del Relitto non e ancora disponibile."
 		return "Questa ricompensa e gia applicata al Relitto."
 	if _is_owned(id):
-		return "Acquistata. Puoi equipaggiarla ora senza spendere altra energia."
+		return "Acquistata. Puoi equipaggiarla ora senza spendere altri frammenti."
 	if int(_state.get("level", 1)) < min_level:
 		return "Continua le missioni per raggiungere il livello necessario."
-	var missing := maxi(0, cost - int(_state.get("energy", 0)))
+	var missing := maxi(0, cost - int(_state.get("fragments", 0)))
 	if missing > 0:
-		return "Mancano %d energia: completare esercizi e sistemi alimenta la bottega." % missing
-	return "Disponibile ora. L'acquisto usa energia ma non riduce i progressi ottenuti."
+		return "Mancano %d frammenti: i forzieri e le prove nei mondi alimentano la bottega." % missing
+	return "Disponibile ora. L'acquisto usa frammenti e non tocca l'energia dello studio."
 
 
 func _requirement_color(cosmetic: Dictionary) -> Color:

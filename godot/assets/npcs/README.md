@@ -8,7 +8,7 @@ Convenzione deterministica:
 w08-doria → res://assets/npcs/world08/doria-v1.png
 ```
 
-`NpcPortrait.art_for()` risolve il percorso dall'ID narrativo. Questo evita un manifest duplicato e mantiene il caricamento lazy: il runtime carica soltanto il cast del mondo corrente. Gli itineranti e qualsiasi asset assente continuano a usare la grafica vettoriale precedente.
+`NpcPortrait.art_for()` risolve il percorso dall'ID narrativo. Questo evita un manifest duplicato e mantiene il caricamento lazy: il runtime carica soltanto il cast del mondo corrente. Dal 14 agosto 2026 anche i sei itineranti usano illustrazioni generative; soltanto un ID sconosciuto continua a usare la grafica vettoriale di sicurezza.
 
 ## Generazione
 
@@ -22,4 +22,4 @@ Nome, ruolo, registro e tic sono stati letti direttamente da `NpcCatalog`; palet
 
 ## Post-produzione e QA
 
-`scripts/process-chroma-character.mjs` campiona il colore ai bordi, applica matte morbido e despill, ritaglia, ridimensiona e valida angoli trasparenti e copertura del soggetto. `npc_visual_art_audit.gd` controlla tutti i 69 percorsi, le dimensioni, l'alpha, l'uso in `NpcActor`, il ritratto e il fallback.
+`scripts/process-chroma-character.mjs` campiona il colore ai bordi, applica matte morbido e despill, ritaglia, ridimensiona e valida angoli trasparenti e copertura del soggetto. `npc_visual_art_audit.gd` controlla i 69 residenti e i 6 itineranti, le dimensioni, l'alpha, l'uso in `NpcActor`, il ritratto e il fallback.

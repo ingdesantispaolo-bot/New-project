@@ -122,4 +122,4 @@ static func costo_sconfitta(tier: int, grado: int) -> int:
 ## una prova piu' difficile, e non con il grado di Eli — allenarsi rende la
 ## prova piu' facile, e sarebbe doppio anche pagarla di piu'.
 static func premio_frammenti(tier: int) -> int:
-	return clampi(3 + tier, 4, 11)
+	return FragmentEconomy.premio_varco(tier)

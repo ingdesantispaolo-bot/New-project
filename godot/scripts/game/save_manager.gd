@@ -381,6 +381,16 @@ func spend_energy(amount: int) -> bool:
 	data["energy"] = int(data["energy"]) - cost
 	return true
 
+## Lo scarico dei frammenti, che fino al 14 agosto 2026 non esisteva: la valuta
+## aveva `add_fragments` e nient'altro, e la bottega si pagava in energia. Vedi
+## [[FragmentEconomy]] per il perché della separazione.
+func spend_fragments(amount: int) -> bool:
+	var cost := maxi(0, amount)
+	if fragments() < cost:
+		return false
+	data["fragments"] = fragments() - cost
+	return true
+
 ## Applica uno stato iniziale esplicito per audit/import controllati. Il normale
 ## boot nativo non ne fornisce uno e mantiene il save locale autoritativo.
 func apply_launch_state(request: Dictionary) -> void:

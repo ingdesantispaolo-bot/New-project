@@ -173,8 +173,11 @@ func _la_partita() -> void:
 	# --- 3 · Si guadagnano solo con le prove ---------------------------------
 	# Energia, frammenti e acquisti: nessuno di questi è una prova superata.
 	save.add_energy(5000)
-	gameplay.collect_treasure({"rewardFragments": 50}, "pulse-audit-tesoro")
-	gameplay.try_purchase_cosmetic("tool-torch")
+	gameplay.collect_treasure({"rewardFragments": 500}, "pulse-audit-tesoro")
+	# L'acquisto deve RIUSCIRE perché il controllo abbia senso: quello che si
+	# verifica è che comprare non produca cariche, non che comprare fallisca.
+	_controlla(gameplay.try_purchase_cosmetic("tool-torch"),
+		"l'acquisto di prova è fallito: il controllo sulle cariche non direbbe niente")
 	_controlla(PulseCharge.cariche(save) == 0,
 		"energia, frammenti o acquisti hanno prodotto %d cariche" % PulseCharge.cariche(save))
 

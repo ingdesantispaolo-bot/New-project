@@ -10,7 +10,11 @@ extends SceneTree
 ##   Godot --path godot --rendering-driver opengl3 --script scripts/game/vram_probe.gd
 
 const WORLD_SCENE := preload("res://scenes/outdoor_world.tscn")
-const SAMPLE_LEVELS := [1, 7, 13, 19, 24]
+## Il mondo 1 torna due volte, in testa e in coda: se il rilascio delle cache
+## funziona le due letture coincidono, altrimenti la seconda porta con se' il
+## peso di tutti i mondi visitati nel mezzo. E' il controllo che distingue un
+## leak da una semplice differenza di contenuti tra mondi.
+const SAMPLE_LEVELS := [1, 7, 13, 19, 24, 1]
 
 func _init() -> void:
 	call_deferred("_run")

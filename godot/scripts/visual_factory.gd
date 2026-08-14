@@ -83,6 +83,16 @@ static var _glow_texture: Texture2D
 static var _add_material: CanvasItemMaterial
 static var _landmark_texture_cache: Dictionary = {}
 static var _natural_atlas_cache: Dictionary = {}
+static var _pet_texture_cache: Dictionary = {}
+
+static func pet_art_for(kind: String) -> Texture2D:
+	var normalized := kind.trim_prefix("pet-")
+	var path := "res://assets/custodi/%s-v1.png" % normalized
+	if not ResourceLoader.exists(path):
+		return null
+	if not _pet_texture_cache.has(path):
+		_pet_texture_cache[path] = ResourceLoader.load(path, "Texture2D")
+	return _pet_texture_cache[path] as Texture2D
 
 static func _landmark_texture(asset_id: String) -> Texture2D:
 	var path := str(LANDMARK_TEXTURE_PATHS.get(asset_id, ""))
@@ -101,6 +111,19 @@ static func _natural_atlas(biome_id: String) -> Texture2D:
 	if not _natural_atlas_cache.has(path):
 		_natural_atlas_cache[path] = ResourceLoader.load(path, "Texture2D")
 	return _natural_atlas_cache[path] as Texture2D
+
+## Sgancia landmark e atlanti naturali caricati a runtime.
+##
+## I landmark sono per-mondo (una tavola 1254x1254 a testa) e la cache statica li
+## tratteneva per tutta la sessione. Gli atlanti di bioma sono solo quattro, ma
+## pesano 1448x1086 l'uno e il mondo successivo ricarica comunque quelli che gli
+## servono: tenerli bloccati costa piu' di quanto la ricarica faccia risparmiare.
+##
+## Vedi la nota in `chunk_ground.release_texture_cache()` sul perche' svuotare
+## una cache di risorse non puo' invalidare nodi ancora vivi.
+static func release_world_texture_caches() -> void:
+	_landmark_texture_cache.clear()
+	_natural_atlas_cache.clear()
 
 static func outdoor_sprite(frame_name: String, target_size: Vector2, y: float = 0.0) -> Sprite2D:
 	var regions := {
@@ -2265,6 +2288,21 @@ static func build_pet(kind: String, color: Color) -> Node2D:
 	var glow := make_glow(18, color, 0.42)
 	glow.add_to_group("night_glow")
 	root.add_child(glow)
+	var generated_art := pet_art_for(kind)
+	if generated_art != null:
+		var sprite := Sprite2D.new()
+		sprite.name = "PetGeneratedArt"
+		sprite.texture = generated_art
+		sprite.scale = Vector2.ONE * (76.0 / 384.0)
+		sprite.position = Vector2(0, -12)
+		sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+		# La livrea resta visibile nel bagliore e sfiora soltanto il dipinto:
+		# una tinta piena cancellerebbe identita' e materiali dell'asset.
+		sprite.modulate = Color.WHITE.lerp(color, 0.10)
+		root.add_child(sprite)
+		root.set_meta("usesGeneratedArt", true)
+		root.set_meta("petArtPath", generated_art.resource_path)
+		return root
 	if kind == "dog" or kind == "cat" or kind == "rabbit":
 		root.add_child(make_polygon(ellipse_polygon(8, 6.5, 16), color))
 		root.add_child(make_polygon(circle_polygon(1.1, 8), color.lightened(0.3), Vector2(-6.5, -1)))

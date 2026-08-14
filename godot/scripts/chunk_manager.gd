@@ -185,6 +185,13 @@ func _profile_filtered_chunk(source: Dictionary) -> Dictionary:
 					keep_percent = 0
 				if posmod(hash(signature), 100) >= keep_percent:
 					continue
+			# **Meno forzieri, e ognuno vale qualcosa.** (14 agosto 2026)
+			# Misurati da `fragment_economy_probe`: quarantadue per mondo, cioè
+			# arredamento. Il catalogo ne tiene un terzo, sempre gli stessi a
+			# ogni reload, e a quelli rimasti dà un contenuto. Vedi
+			# [[TreasureCatalog]].
+			if field == "treasures" and not TreasureCatalog.presente(str(item.get("id", ""))):
+				continue
 			var kept_item: Dictionary = Dictionary(item).duplicate(true)
 			if field == "treasures" and int(world_profile.get("level", 1)) >= 2:
 				# Solo una parte dei tesori è strumentale: gli altri restano

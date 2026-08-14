@@ -9,6 +9,8 @@ const PORTAL_VISUAL := preload("res://scripts/portal_visual.gd")
 const EXERCISE_ENERGY_COST := 3
 const EXERCISE_PLAYER_SCRIPT := preload("res://scripts/game/exercise_player.gd")
 const ENIGMA_STRUCTURE := preload("res://scripts/visual/enigma_structure.gd")
+# chunk_ground.gd non ha class_name: serve il preload per raggiungerne gli statici.
+const CHUNK_GROUND_SCRIPT := preload("res://scripts/chunk_ground.gd")
 const LEARNING_REACTION_SCRIPT := preload("res://scripts/visual/world_learning_reaction.gd")
 const SHOP_PANEL_SCRIPT := preload("res://scripts/ui/outdoor_shop_panel.gd")
 const NORA_PORTRAIT_SCRIPT := preload("res://scripts/ui/nora_portrait.gd")
@@ -172,6 +174,21 @@ var stance_echo_after_dialogue: Dictionary = {}
 var ersilia_count_pending := false
 var finale_convergence_wave := 0
 var finale_wave_heard: Array[String] = []
+
+## Libera le texture per-mondo tenute dalle cache statiche.
+##
+## Sta in `_exit_tree` e non accanto al `change_scene_to_file` di rientro alla
+## nave perche' cosi' copre OGNI uscita dal mondo (nave, menu, cambio livello,
+## teardown negli audit) senza doversi ricordare di ogni nuova via d'uscita.
+##
+## Senza questo la VRAM texture cresceva monotona: misurata a 63,7 MiB dopo il
+## mondo 01 e 96,0 MiB dopo il mondo 24 nella stessa sessione, perche' underpaint
+## identitarie, landmark e tavole degli enigmi di ogni mondo visitato restavano
+## bloccati in cache statiche fino alla chiusura.
+func _exit_tree() -> void:
+	CHUNK_GROUND_SCRIPT.release_texture_cache()
+	EnigmaStructureVisual.release_texture_cache()
+	OutdoorVisualFactory.release_world_texture_caches()
 
 func _ready() -> void:
 	if OS.has_feature("web"):
@@ -1756,8 +1773,42 @@ func _on_minimission_completed(forma: String, encounter_id: String, _esito: Stri
 	var audio := get_node_or_null("/root/NativeAudio")
 	if audio != null:
 		audio.call("play_event", "enigmaProgress", 1.18)
+	_consegna_strumento_se_dovuto(encounter_id)
 	_update_objective()
 	_refresh_prompt()
+
+## **Chi ti ha visto lavorare ti passa l'attrezzo.** (14 agosto 2026)
+##
+## La torcia e la falce non stanno più a listino ([[FieldTools]]): arrivano qui,
+## alla prima riparazione finita in un mondo, dalle mani di chi quella
+## riparazione l'aveva chiesta. Non costa niente e non si può mancare — le
+## minimissioni prendono il posto del primo evento-gate, quindi ci passano tutti.
+##
+## Se il proprietario non è identificabile la riga cade su una formulazione senza
+## nome invece di saltare la consegna: uno strumento mancato chiuderebbe
+## deviazioni per il resto della campagna, e nessun dettaglio di messa in scena
+## vale quel prezzo.
+func _consegna_strumento_se_dovuto(encounter_id: String) -> void:
+	if not is_instance_valid(gameplay) or gameplay.reward_manager == null:
+		return
+	var dovuto := FieldTools.dovuto(gameplay.reward_manager)
+	if dovuto == "":
+		return
+	if not gameplay.reward_manager.deliver_field_tool(dovuto):
+		return
+	game_save.save()
+	var chi := ""
+	if mission_ownership_flow != null:
+		var owner_id: String = mission_ownership_flow.owner_of(encounter_id)
+		if str(owner_id) != "":
+			chi = str(NPC_CATALOG.resident(str(owner_id)).get("nome", ""))
+	_set_feedback(FieldTools.riga_di_consegna(dovuto, chi))
+	# Lo strumento è addosso da subito: la luce della torcia, i cancelli dei POI e
+	# la livrea si aggiornano nello stesso istante della riga, altrimenti il
+	# giocatore legge di averlo ricevuto e il mondo non se ne accorge.
+	gameplay.call("_emit_state")
+	_update_equipment_presentation()
+	_apply_cosmetic_presentation()
 
 func _create_world_buildings() -> void:
 	var specs := BUILDING_CATALOG.for_world(world_level, world_profile)
@@ -1893,6 +1944,104 @@ func _open_mystery_artifact(target: Area2D) -> void:
 	dialogue_box.call("configure_accessibility", high_contrast, reduced_motion)
 	dialogue_box.call("show_dialogue", id, speaker, role, pages)
 	_refresh_interaction_button(null)
+
+## **Aprire un forziere.** (14 agosto 2026)
+##
+## Prima era una riga sola per tutti: «Tesoro raccolto: +N frammenti». Adesso il
+## forziere ha un contenuto ([[TreasureCatalog]]) e tre modi di consegnarlo, che
+## sono tre pesi diversi dello stesso gesto:
+##
+##   LASCITO   la roba di qualcuno che abita qui. Si ferma il gioco e si legge,
+##             come per una Traccia — è l'unico forziere che chiede un momento;
+##   CUSTODE   il Custode fruga e tiene una cosa inutile per sé. Va a finire
+##             nella lista dei regali, che a fine campagna è il diario del
+##             viaggio (`PetGifts`);
+##   RESTO     una riga di feedback, e si cammina.
+##
+## La ricompensa in frammenti la decide il catalogo e non più il payload
+## procedurale: `rewardFragments` era tarato su un'economia in cui i frammenti
+## non compravano niente. Vedi [[FragmentEconomy]].
+##
+## L'ordine conta: si incassa **prima** e si racconta dopo. Chi chiude il
+## riquadro senza leggere ha già preso tutto, e nessun testo di questo gioco può
+## stare fra un bambino e una cosa che ha guadagnato.
+func _apri_forziere(target: Area2D, id: String) -> void:
+	var custode_disponibile := is_instance_valid(game_save) and PetState.is_granted(game_save)
+	var contenuto := TreasureCatalog.contenuto(world_level, id, custode_disponibile)
+	var premio := int(contenuto.get("frammenti", 0))
+
+	gameplay.collect_treasure({"rewardFragments": premio}, id)
+	_update_objective()
+	_refresh_economy()
+	_spawn_gain_popup("+%d frammenti" % premio, Color("c7b8ff"))
+	if is_instance_valid(pet_companion):
+		pet_companion.react()
+	nearby.erase(target)
+	var owner_node := target.get_parent()
+	if is_instance_valid(owner_node):
+		owner_node.queue_free()
+	_refresh_prompt()
+
+	match str(contenuto.get("tipo", TreasureCatalog.TIPO_RESTO)):
+		TreasureCatalog.TIPO_LASCITO:
+			_racconta_lascito(id, contenuto, premio)
+		TreasureCatalog.TIPO_CUSTODE:
+			_regalo_dal_forziere(id, contenuto, premio)
+		_:
+			_set_feedback("%s +%d frammenti." % [str(contenuto.get("cosa", "Una cassa di roba.")), premio])
+
+## Il forziere di qualcuno. Lo speaker è l'oggetto e non la persona — la persona
+## non c'è, ed è metà di quello che il forziere racconta. Il ruolo dice di chi
+## era, quando il mondo ha un cast scritto; quando non ce l'ha, l'oggetto parla
+## da solo invece di attribuirsi un proprietario inventato.
+func _racconta_lascito(id: String, contenuto: Dictionary, premio: int) -> void:
+	var chi: Dictionary = contenuto.get("proprietario", {})
+	var nome := str(chi.get("nome", ""))
+	var ruolo := "Lasciato qui da %s · %s" % [nome, str(chi.get("ruolo", "abitante"))] if nome != "" \
+		else "Lasciato qui da qualcuno"
+	var pages: Array = [str(contenuto.get("cosa", ""))]
+	var riga_eli := str(contenuto.get("eli", "")).strip_edges()
+	if riga_eli != "":
+		# Stesso contratto dei semi del mistero: prima la cosa, poi cosa ne pensa
+		# lei. È l'ordine in cui la guarderebbe davvero.
+		pages.append("Eli: %s" % riga_eli)
+	if pages.is_empty() or str(pages[0]).strip_edges() == "":
+		_set_feedback("Forziere aperto: +%d frammenti." % premio)
+		return
+	_set_feedback("+%d frammenti." % premio)
+	if is_instance_valid(player):
+		player.touch_target = Vector2.INF
+		player.velocity = Vector2.ZERO
+		player.set_physics_process(false)
+	dialogue_box.call("configure_accessibility", high_contrast, reduced_motion)
+	dialogue_box.call("show_dialogue", "forziere-%s" % id,
+		str(contenuto.get("nome", "reperto")).capitalize(), ruolo, pages)
+	_refresh_interaction_button(null)
+
+## Il Custode fruga nel forziere e tiene una cosa che non serve a niente. NORA
+## non la commenta qui: la commenta la schermata del Custode, dove la lista dei
+## regali è già il diario del viaggio. Se la registrazione fallisce — id ignoto,
+## Custode non concesso — resta un forziere normale, senza mezze scene.
+func _regalo_dal_forziere(id: String, contenuto: Dictionary, premio: int) -> void:
+	if _pet_gift_rng == null:
+		_pet_gift_rng = RandomNumberGenerator.new()
+		_pet_gift_rng.randomize()
+	# Il regalo è stabile sull'id come tutto il resto del forziere: due partite
+	# diverse trovano la stessa cosa nella stessa cassa.
+	var rng := RandomNumberGenerator.new()
+	rng.seed = hash("%s:regalo" % id)
+	var gift_id := PetGifts.pick(rng)
+	var voce := PetState.register_gift(game_save, gift_id, world_level)
+	if voce.is_empty():
+		_set_feedback("%s +%d frammenti." % [str(contenuto.get("cosa", "Una cassa di roba.")), premio])
+		return
+	game_save.save()
+	_pet_react("antic")
+	_set_feedback("%s %s. E per te, +%d frammenti." % [
+		str(contenuto.get("riga", "Il Custode fruga nella cassa.")),
+		PetGifts.label_of(gift_id).to_lower(),
+		premio,
+	])
 
 func _show_decisive_fallback_if_needed() -> bool:
 	if not MYSTERY_CATALOG.tracce_decisive().has(world_level):
@@ -2712,7 +2861,7 @@ func _chiudi_minigioco_personaggio(npc_id: String, vinto: bool, presi: int, tota
 		player.set_physics_process(true)
 	var scheda := CharacterMinigameCatalog.scheda(npc_id)
 	if vinto:
-		var premio := 4
+		var premio := FragmentEconomy.PREMIO_MINIGIOCO
 		var gioco_id := "gioco-%s" % npc_id
 		# Lo stesso id che rende unico il premio rende unico anche il momento
 		# narrativo. Senza rispecchiarlo nel risultato di sessione, il pannello si
@@ -4424,7 +4573,7 @@ func _sciogli_camera() -> void:
 	for nodo in get_tree().get_nodes_in_group("world_vault"):
 		nodo.queue_free()
 	if is_instance_valid(gameplay):
-		gameplay.collect_treasure({"rewardFragments": 12}, "camera-%d" % world_level)
+		gameplay.collect_treasure({"rewardFragments": FragmentEconomy.PREMIO_CAMERA}, "camera-%d" % world_level)
 	game_save.save()
 	_mostra_pergamena()
 
@@ -5040,11 +5189,16 @@ func _refresh_economy() -> void:
 		energy_label.text = "Energia %d" % current
 	if is_instance_valid(fragment_label):
 		fragment_label.text = "Frammenti %d" % int(runtime.get("fragments", 0))
+	# La barra del prossimo premio segue i FRAMMENTI, non l'energia: dal 14 agosto
+	# 2026 la bottega si paga cosi', e una barra che misura la valuta sbagliata
+	# dice a un bambino di allenarsi per comprare un cappello. Vedi
+	# [[FragmentEconomy]].
 	if reward_cost > 0 and is_instance_valid(reward_bar):
+		var frammenti := int(runtime.get("fragments", 0))
 		reward_name_label.text = "Prossimo: %s" % reward_name
-		reward_bar.value = clampf(float(current) / float(reward_cost) * 100.0, 0.0, 100.0)
-		var remaining := maxi(0, reward_cost - current)
-		reward_remaining_label.text = ("Ti manca %d energia" % remaining) if remaining > 0 else "Puoi comprarlo!"
+		reward_bar.value = clampf(float(frammenti) / float(reward_cost) * 100.0, 0.0, 100.0)
+		var remaining := maxi(0, reward_cost - frammenti)
+		reward_remaining_label.text = ("Ti mancano %d frammenti" % remaining) if remaining > 0 else "Puoi comprarlo!"
 
 func _spawn_gain_popup(text: String, color: Color) -> void:
 	if not is_instance_valid(player):
@@ -5285,8 +5439,13 @@ func _refresh_prompt() -> void:
 			_set_feedback("Tesoro già raccolto")
 		elif not _equipment_requirement_met(target):
 			_set_feedback(_equipment_requirement_message(target))
+		elif TreasureCatalog.tipo_di(id) == TreasureCatalog.TIPO_LASCITO:
+			# Si vede da fuori che questo qualcuno l'ha chiuso, non abbandonato.
+			# Dirlo prima è quello che rende l'apertura una decisione invece di
+			# un riflesso.
+			_set_feedback("Un forziere chiuso con cura. Qualcuno di qui ci teneva.")
 		else:
-			_set_feedback("Interagisci per raccogliere il tesoro")
+			_set_feedback("Interagisci per raccogliere la cassa")
 	elif kind == "encounter":
 		var payload := _mission_payload_for(target)
 		if result["completedEncounterIds"].has(id):
@@ -5374,7 +5533,7 @@ func _interaction_action_text(target: Area2D) -> String:
 		"enemy":
 			return "AFFRONTA"
 		"treasure":
-			return "RACCOGLI"
+			return "APRI" if TreasureCatalog.tipo_di(str(target.get_meta("id", ""))) 				== TreasureCatalog.TIPO_LASCITO else "RACCOGLI"
 		"encounter":
 			return "AVVIA MISSIONE"
 		"npc":
@@ -5404,12 +5563,18 @@ func _equipment_requirement_met(target: Area2D) -> bool:
 	var required := _required_tool(target)
 	return required == "" or required == equipped_field_tool()
 
+## Il messaggio cambia a seconda che lo strumento **non lo si abbia** o lo si
+## abbia e basti equipaggiarlo: sono due situazioni diverse e prima ricevevano
+## la stessa riga, che per giunta mandava in bottega — dove gli strumenti non
+## sono mai stati in vendita dal 14 agosto 2026. Vedi [[FieldTools]].
 func _equipment_requirement_message(target: Area2D) -> String:
-	return (
-		"Oscurità impenetrabile · equipaggia la Torcia da ricognizione in bottega."
-		if _required_tool(target) == "tool-torch"
-		else "Erba alta invalicabile · equipaggia la Falce da campo in bottega."
-	)
+	var richiesto := _required_tool(target)
+	var ostacolo := "Oscurità impenetrabile" if richiesto == FieldTools.TORCIA else "Erba alta invalicabile"
+	var arnese := "la Torcia da ricognizione" if richiesto == FieldTools.TORCIA else "la Falce da campo"
+	var posseduto := is_instance_valid(gameplay) and gameplay.reward_manager != null 		and gameplay.reward_manager.owned(richiesto)
+	if posseduto:
+		return "%s · equipaggia %s." % [ostacolo, arnese]
+	return "%s · %s ce l'ha chi lavora qui: finiscigli una riparazione." % [ostacolo, arnese]
 
 func _interact() -> void:
 	var target := _nearest()
@@ -5479,7 +5644,6 @@ func _interact() -> void:
 		gameplay.try_start_minigame(target.get_meta("payload"), id)
 		return
 	if kind == "treasure":
-		var payload: Dictionary = target.get_meta("payload")
 		if not _equipment_requirement_met(target):
 			_set_feedback(_equipment_requirement_message(target))
 			return
@@ -5497,18 +5661,7 @@ func _interact() -> void:
 			_set_feedback("Questa cassa è già stata raccolta.")
 		else:
 			collected.append(id)
-			gameplay.collect_treasure(payload, id)
-			_update_objective()
-			_set_feedback("Tesoro raccolto: +%d frammenti. L'energia si guadagna solo con gli esercizi." % int(payload["rewardFragments"]))
-			_refresh_economy()
-			_spawn_gain_popup("+%d frammenti" % int(payload["rewardFragments"]), Color("c7b8ff"))
-			if is_instance_valid(pet_companion):
-				pet_companion.react()
-			nearby.erase(target)
-			var owner_node := target.get_parent()
-			if is_instance_valid(owner_node):
-				owner_node.queue_free()
-			_refresh_prompt()
+			_apri_forziere(target, id)
 		return
 	if kind == "encounter":
 		var mission_payload := _mission_payload_for(target)

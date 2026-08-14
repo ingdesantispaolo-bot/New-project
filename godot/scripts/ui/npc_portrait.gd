@@ -16,6 +16,16 @@ const PORTRAIT_REGIONS := {
 }
 
 static func art_for(id: String) -> Texture2D:
+	if id.begins_with("itin-"):
+		# Sesto itinerante e' lo stesso personaggio incontrato nel mondo 3:
+		# riusare la sua illustrazione preserva identita', volto e costume.
+		if id == "itin-sesto":
+			return load("res://assets/npcs/world03/sesto-v1.png") as Texture2D
+		var itinerant_slug := id.trim_prefix("itin-")
+		var itinerant_path := "res://assets/itinerants/%s-v1.png" % itinerant_slug
+		if ResourceLoader.exists(itinerant_path):
+			return load(itinerant_path) as Texture2D
+		return null
 	var parts := id.split("-", false, 1)
 	if parts.size() != 2 or not str(parts[0]).begins_with("w"):
 		return null

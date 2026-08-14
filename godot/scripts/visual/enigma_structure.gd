@@ -291,6 +291,12 @@ func _texture_for_theme(value: String) -> Texture2D:
 		_texture_cache[path] = ResourceLoader.load(path, "Texture2D")
 	return _texture_cache[path] as Texture2D
 
+## Sgancia le tavole degli enigmi caricate a runtime. Vedi la nota in
+## `chunk_ground.release_texture_cache()`: la cache e' statica e sopravviverebbe
+## al cambio di scena, trattenendo un tema per ogni mondo visitato.
+static func release_texture_cache() -> void:
+	_texture_cache.clear()
+
 func _theme_title() -> String:
 	if display_label != "":
 		return display_label.to_upper()

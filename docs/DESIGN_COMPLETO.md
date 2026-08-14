@@ -322,6 +322,13 @@ reale, mai distruttiva).
 **L'energia si guadagna SOLO svolgendo missioni** (imparando). Valuta primaria;
 i **frammenti** sono la secondaria del mondo (tesori, beacon).
 
+> **Aggiornamento del 14 agosto 2026 — le due valute sono separate.** L'energia
+> la fa lo studio e la spendono le prove; i frammenti li fa l'esplorazione e li
+> spende la bottega. Prima l'energia faceva tutti e due i mestieri e comprare
+> competeva con l'allenarsi. Le tariffe, la taratura misurata e il contenuto dei
+> forzieri stanno in [FORZIERI_E_FRAMMENTI.md](FORZIERI_E_FRAMMENTI.md); la
+> tabella dei sink qui sotto va letta con «energia» → «frammenti».
+
 ### Fonti
 - Missioni superate (base + moltiplicatore combo), scalate su L.
 - Riparazione di un apparato (grande pacchetto + frammenti).

@@ -75,6 +75,13 @@ export type OutdoorWorldResult = {
   /** Energy spent to enter exercises while this Godot session was open. */
   energySpent?: number;
   fragmentsEarned: number;
+  /**
+   * Frammenti spesi in bottega mentre questa sessione Godot era aperta. Senza
+   * consumarlo, il ponte rimanderebbe il saldo di prima e la riconciliazione
+   * lato Godot (che tiene il massimo fra i due) restituirebbe i frammenti già
+   * spesi — cioè cosmetici gratis a ogni rientro.
+   */
+  fragmentsSpent?: number;
   completedEncounterIds: string[];
   collectedTreasureIds: string[];
   guardianWins: number;

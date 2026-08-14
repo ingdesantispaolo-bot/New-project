@@ -127,6 +127,12 @@ func generate_chunk(seed: String, chunk_x: int, chunk_y: int) -> Dictionary:
 		})
 
 	# treasures: count + per elemento pos(2), label(1/2), rewardEnergy(1), rewardFragments(2)
+	#
+	# `label`, `rewardEnergy` e `rewardFragments` sono EREDITATI e nessuno li
+	# legge più (14 agosto 2026): l'identità, il contenuto e il premio di un
+	# forziere li decide [[TreasureCatalog]] sull'id. Restano qui perché le loro
+	# estrazioni fanno parte della sequenza deterministica su cui poggiano le
+	# fixture di parità: toglierle sposterebbe ogni numero successivo.
 	var treasure_count := random.between(1, 3)
 	var treasures: Array = []
 	for index in range(treasure_count):

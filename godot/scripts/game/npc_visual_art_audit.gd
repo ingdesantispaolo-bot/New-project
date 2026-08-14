@@ -8,13 +8,12 @@ func _init() -> void:
 func _run() -> void:
 	var catalog: Dictionary = NpcCatalog.RESIDENTS.duplicate()
 	catalog.merge(NpcCatalog.BISLACCHI)
-	assert(catalog.size() == 69, "catalogo visuale inatteso: %d" % catalog.size())
+	catalog.merge(ItinerantCatalog.ITINERANTI)
+	assert(catalog.size() == 75, "catalogo visuale inatteso: %d" % catalog.size())
 	for npc_id in catalog:
-		var parts := str(npc_id).split("-", false, 1)
-		var asset_path := "res://assets/npcs/world%s/%s-v1.png" % [
-			str(parts[0]).trim_prefix("w"), str(parts[1])]
+		var texture := PORTRAIT.art_for(str(npc_id))
+		var asset_path := texture.resource_path if texture != null else ""
 		assert(ResourceLoader.exists(asset_path), "asset illustrato assente: %s" % asset_path)
-		var texture := load(asset_path) as Texture2D
 		assert(texture != null and texture.get_width() == 384 and texture.get_height() == 384,
 			"asset %s non normalizzato a 384x384" % npc_id)
 		var image := texture.get_image()
@@ -33,7 +32,7 @@ func _run() -> void:
 			"ritratto illustrato assente per %s" % npc_id)
 		actor.queue_free()
 
-	assert(PORTRAIT.art_for("itin-lucilla") == null,
-		"gli itineranti non illustrati devono mantenere il fallback")
-	print("NPC VISUAL ART audit OK - 69 asset alpha, mondo e ritratti con fallback")
+	assert(PORTRAIT.art_for("npc-inesistente") == null,
+		"un ID sconosciuto deve mantenere il fallback")
+	print("NPC VISUAL ART audit OK - 75 personaggi alpha, mondo e ritratti con fallback")
 	quit(0)

@@ -46,60 +46,18 @@ verdetto.
 
 ### L'ordine, e perché questo
 
-L'ordine è per **resa su costo**, non per impatto assoluto. G-6 (la nave) è la
-voce che cambia di più il gioco ed è la sesta: le prime cinque costano insieme
-meno di lei e si sentono tutte nella prima mezz'ora di gioco. Se preferisci
-l'impatto puro, la nave va prima di tutto e lo dici tu.
+L'ordine residuo è per **resa su costo**. Le voci Codex non bloccate da una
+decisione o da un contratto di Claude sono uscite dal piano e stanno nel registro.
 
 | | voce | impatto | costo | chi |
 |---|---|---|---|---|
-| **G-1** | La combo | alto | basso | Claude + C-G1 |
-| **G-2** | L'impulso costa | alto | basso | Claude + C-G2 |
-| **G-3** | La potenza non si ferma a metà | medio | basso | Claude + C-G3 |
+| **G-2** | L'impulso costa | alto | basso | Claude |
+| **G-3** | La potenza non si ferma a metà | medio | basso | Claude |
 | **G-4** | I moduli di spedizione | medio | medio | **tua decisione** |
 | **G-5** | Ricompense che scalano | medio | basso | Claude |
-| **G-6** | La nave diventa un luogo | **massimo** | alto | **Codex** |
-| **G-7** | La risposta cambia il mondo | alto | medio | Codex + Claude |
 | **G-8** | L'audio | alto | **tua decisione** | Codex |
-| **G-9** | Il Custode presente | medio | basso | Claude + C-G9 |
+| **G-9** | Il Custode presente | medio | basso | Claude |
 | **G-10** | Camminare è una scelta | ? | medio | dopo il collaudo |
-
----
-
-## G-1 · La combo non esiste
-
-**Oggi.** La parola `combo` non compare in **nessuno** script di `godot/scripts/`.
-`energyPerCorrect` vale 10 in missione e in enigma, 12 all'esame
-(`content_manager.gd`), costante su ventiquattro mondi. Gli scudi tolgono e non
-danno mai niente: l'intestazione dice «Scudi 3» e quel numero può solo scendere.
-
-**Perché conta.** [DESIGN_COMPLETO](docs/DESIGN_COMPLETO.md) §6 e §10 la danno per
-esistente — moltiplicatore x1.2→x2 visibile, l'errore lo azzera. In un gioco che
-per contratto non punisce, **una serie da non rompere è l'unica posta in gioco
-lecita**: non toglie niente a chi sbaglia, e dà qualcosa da difendere a chi va
-bene. Oggi non esiste nessun momento in cui il bambino pensi «non voglio
-spezzarla».
-
-**Da fare.** Il moltiplicatore vive nell'`ExercisePlayer`, che già somma
-`_energy += _energy_per_correct`: è un fattore su quella riga, non un secondo
-circuito. Sale ogni due risposte corrette consecutive, tetto x2, si azzera
-sull'errore insieme allo scudo. **Non attraversa le sessioni**: una serie che si
-porta dietro il mondo diventa una cosa da proteggere invece che da giocare, e chi
-la spezza per stanchezza smette di giocare.
-
-**Il guard-rail, che non è negoziabile.** La combo moltiplica **energia** — cioè
-cosmetici — e mai mastery, copertura, ritenzione o gate. Un bambino veloce non
-deve salire di livello prima di uno lento: è la decisione 3, e questa voce è
-esattamente il tipo di funzione che la eroderebbe senza dirlo.
-
-**Chi.** Claude: regola, taratura, audit. **C-G1 · Codex**: la resa nell'HUD — il
-numero che sale, il colore che cambia, il momento in cui si spezza. Sul momento in
-cui si spezza vale la decisione 13: **nessun suono negativo, nessun rosso, nessun
-messaggio**. La combo che finisce si spegne, non rimprovera.
-
-**Audit.** `combo_audit`: la combo non compare in nessuna scrittura di mastery o
-gate, si azzera sull'errore, il tetto è dichiarato, e l'energia di una sessione
-perfetta non supera il doppio di una sessione senza combo.
 
 ---
 
@@ -127,8 +85,8 @@ esistere.
 già non blocca: se l'energia non basta si paga quel che c'è. È la regola di tutta
 la mappa e non cambia.
 
-**Chi.** Claude: regola e audit. **C-G2 · Codex**: le cariche accanto alla barra di
-potenza e il pulsante che dice quante ne restano invece del cronometro attuale.
+**Chi.** Claude: regola e audit. La resa C-G2 è già pronta e legge
+`pulseCharges`/`pulseChargeMax` dal contratto runtime senza ricalcolarli.
 
 **Audit.** `pulse_economy_audit`: l'impulso non è mai gratuito, le cariche si
 guadagnano **solo** con le prove (mai con energia, frammenti o acquisti), e nessun
@@ -155,9 +113,8 @@ esistenti, tarati perché a ogni mondo valga `grado(prove attese) ≥ tier(mondo
 I numeri esatti si tarano con la sonda del tempo, non a occhio: la scala attuale
 (15, 40, 80, 140) è stata scritta prima che i mondi fossero ventiquattro.
 
-**Chi.** Claude: soglie, nomi, audit. **C-G3 · Codex**: la resa dei gradi 5–8 sul
-personaggio. Oggi `_applica_grado_al_personaggio` conosce quattro gradi, e quattro
-orbite: servono le altre quattro, ed è l'unica parte grafica di questa voce.
+**Chi.** Claude: soglie, nomi, audit. La resa C-G3 è già pronta: quattro
+spritesheet 5×4 e quattro orbite aggiuntive attendono i gradi 5–8 dal contratto.
 
 **Audit.** `power_curve_audit`: per ogni mondo il grado atteso non resta mai più di
 due sotto il tier delle sacche di quel mondo, e nessun grado della scala è
@@ -228,68 +185,6 @@ paga più della frontiera.
 
 ---
 
-## G-6 · La nave è un menu, e la nave è metà del gioco
-
-**Oggi.** `hub_scene.gd` costruisce un `CanvasLayer`, un `VBoxContainer`, un rail
-di pulsanti-stanza e una card dell'apparato su uno sfondo con shader.
-[VISIONE](docs/VISIONE_DI_GIOCO.md) §1 dice *«fuori si allena, **dentro si
-consacra»***; [DESIGN](docs/DESIGN_COMPLETO.md) §4 dice *«la nave **è** la barra di
-progresso, diegetica e soddisfacente»*. Un rail di pulsanti non è diegetico, e la
-metà «dentro» del loop dichiarato è oggi una schermata di interfaccia.
-
-**Perché è la voce di impatto massimo.** Il momento più importante del gioco —
-riparare un apparato, accendere una stanza, salire di livello — è **il meno
-giocabile di tutti**. Tutto il resto di questo piano rende migliore un'ora di
-gioco; questa rende migliore *il traguardo* di ogni ora. È anche la ragione per cui
-le nove stanze spente motivano meno di quanto il design si aspetti: una stanza
-spenta in un elenco non è una stanza spenta.
-
-**Da fare, nella versione minima difendibile.** Un ponte camminabile con lo stesso
-controller del mondo esterno, dodici porte, la luce che si propaga a partire da
-quella appena riparata. **Nessun contenuto nuovo**: apparati, requisiti, esame e
-celebrazione esistono già in `ShipRoomCatalog`, `ShipActivationModel` e
-`ship_power_overlay`, e non si toccano. È un lotto di **scena**, non di gioco né di
-contenuto.
-
-**Il vincolo da rispettare, e va contato prima.** Rischio 3 di questo file: il
-mondo 1 è già a 2789/3500 nodi. Un ponte camminabile va **contato prima di essere
-costruito**, non dopo.
-
-**Chi.** **C-G6 · Codex**, con Claude sui testi delle stanze e sull'audit.
-
-**Audit.** `ship_scene_audit`: le dodici stanze esistono come luoghi raggiungibili,
-lo stato acceso/spento viene da `runtime_state()` e non lo calcola la scena
-(invariante 1), da ogni punto si torna alla mappa dei mondi, e la scena non contiene
-un solo testo di catalogo (invariante 2).
-
----
-
-## G-7 · La risposta cambia il mondo solo negli enigmi
-
-**Oggi.** Ogni prova apre l'`ExercisePlayer` a schermo pieno e il mondo si ferma
-(`enemy_gameplay_active()` va a falso). L'eccezione sono l'enigma e la
-minimissione, dove le campate si costruiscono mentre rispondi — ed è, non a caso,
-la meccanica di cui il collaudo ha parlato meglio.
-
-**Da fare.** Estendere il principio alle missioni ordinarie. Non serve una
-meccanica nuova: `notify_progress` esiste già, la scena sa già disegnare un
-progresso per nodo, e il segnale `enigma_progress` porta già tema e
-`encounter_id`. Serve che ogni tipo di incontro dichiari **che cosa cambia** mentre
-lo si risolve — e che sia una cosa sola, visibile dal punto in cui si sta.
-
-**Il limite da dichiarare.** Non tutti gli incontri possono costruire qualcosa
-senza diventare un enigma travestito. Dove non c'è niente da costruire, il minimo
-onesto è che il *luogo* reagisca: la luce di quel POI, non un contatore.
-
-**Chi.** **C-G7 · Codex** (il progresso per nodo sugli incontri normali) + Claude
-(che cosa cambia, per tipo di incontro).
-
-**Audit.** Estensione di `completed_event_visual_audit`: ogni tipo di incontro
-dichiara la sua reazione per nodo, e la scena non concede né calcola nulla
-(invariante 1).
-
----
-
 ## G-8 · L'audio sono tre anelli di sedici secondi
 
 **Oggi.** `music-day`, `music-night`, `music-focus`, `ambience-day`,
@@ -334,7 +229,8 @@ bambino — la stanza che si accende, il grado nuovo, la sorella trovata, la
 minimissione riuscita sotto il grado consigliato.
 
 **Chi.** Claude: che cosa nota e quando, con i testi che restano di NORA (il
-Custode è muto per contratto). **C-G9 · Codex**: le pose corrispondenti.
+Custode è muto per contratto). Le pose C-G9 sono già pronte per tutti i segnali
+del motore delle espressioni.
 
 **Audit.** `pet_advanced_audit` esteso: nessuna reazione dipende da energia,
 frammenti, oggetti o acquisti, e nessuna anticipa un'informazione che il bambino
@@ -405,32 +301,17 @@ perdano.
   inglese, e i suoi nove messaggi sono in italiano: la meccanica è giusta, il
   materiale no. Passarli all'inglese cambia la difficoltà in modo serio, con cinque
   secondi di segnale e un bambino al quarto mondo. **Decisione tua.**
-- **C-MG-4 · Adattamento in verticale.** `_adatta_verticale` è in sei pannelli su
-  dieci, copiato uguale sei volte; radio e mercato non ce l'hanno. Va tolta la
-  duplicazione con una funzione condivisa. *Codex.*
-- **C-MG-6 · I ventun testimoni restanti.** Gli archetipi ci sono già, serve il
-  materiale: uno per mondo, oggi ce l'hanno solo i mondi 3 e 4.
-- **C-MG-7 · Misurare la durata.** Venticinque minigiochi che si **aggiungono**
-  sono ore in più su una campagna già di 21,1; uno che **sostituisce** una tappa di
-  missione no. Si decide col numero in mano, come per le minimissioni.
-
-**Arte e scena (Codex)**
-
-- **C-ART-2 · I ritratti dei quarantasei residenti.** Mezzo busto, stile coerente
-  col fondale della radura già in uso, in **tre versioni** una per stadio
-  dell'arco: non serve che si capisca «ha imparato», serve che si veda che non è
-  più fermo nella stessa posa. Vale la regola del lotto: il gioco deve essere
-  giocabile con forme piene e colori piatti **prima** che esista un disegno,
-  altrimenti l'arte diventa un prerequisito e il lotto si ferma ad aspettarla.
-- **La comparsa procedurale delle minimissioni.** Oggi l'incarico c'è dal primo
-  ingresso, in un punto deciso dal seme: non «si accende» mentre giochi.
-
----
 
 ## Le cose da guardare giocando
 
 Sono i punti in cui una resa sbagliata non rompe niente e toglie tutto il
 significato.
+
+- **La durata dei minigiochi dei personaggi.** Misurare su tablet almeno un gioco
+  per ciascuna delle quindici meccaniche, insieme agli errori prima della scoperta
+  e alla capacità di spiegare la strategia. Solo quei numeri possono decidere se
+  un gioco debba aggiungersi al giro o sostituire una tappa di missione, senza
+  allungare alla cieca la campagna da 21,1 ore.
 
 - **1 · la conta di nonna Ersilia** va sentita nei primi cinque minuti. È la
   tabellina del 7 e contiene il nome del Tredicesimo. Se il giocatore la salta,
@@ -498,8 +379,7 @@ a chi è arrivato.
 | Decisioni di prodotto (G-4, G-8, G-10, C-MG-3) | | | ✅ |
 
 Le voci **G-** sono di Claude tranne dove è nominata una **C-G**: quella riga è di
-Codex, ed è sempre la parte che si vede — mai la regola. G-6 fa eccezione ed è per
-intero di Codex, perché è un lotto di scena.
+Codex, ed è sempre la parte che si vede — mai la regola.
 
 Le richieste a Codex passano da questo file e vanno tenute **separate dalla
 meccanica**: una cosa deve essere giocabile con forme piene e colori piatti prima
@@ -661,10 +541,15 @@ Una proposta che le contraddice va discussa, non implementata.
    contano — `modules` stava in sette audit e in zero righe di gioco.
 
 15. **La potenza vale contro il Silenzio, mai contro una domanda** (13 agosto
-   2026). È la regola che tiene insieme G-1, G-2 e G-4: combo, cariche d'impulso
+   2026). È la regola che tiene insieme G-1, G-2 e G-4: serie, cariche d'impulso
    e moduli moltiplicano o aiutano sulla **mappa**, e non toccano mai mastery,
    copertura, ritenzione, gate o esami. Nel momento in cui una di queste tre
    sfiorasse una prova, il gioco comincerebbe a vendere l'apprendimento.
+   Per la serie la tiene già `combo_audit`, e non con una rilettura del codice:
+   registra due volte gli stessi esiti con energie diversissime e pretende la
+   **stessa** padronanza e lo **stesso** conteggio di gate. Chi domani leggesse
+   l'energia dentro il calcolo della padronanza lo troverebbe rosso lo stesso
+   giorno.
 
 ### Guard-rail narrativi (i tre che si rompono per primi)
 

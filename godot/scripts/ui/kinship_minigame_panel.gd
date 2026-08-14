@@ -72,7 +72,7 @@ func _costruisci() -> void:
 	carta.name = "KinshipCard"
 	carta.add_theme_stylebox_override("panel", _stile(Color("102536"), Color("6cb4bf"), 24, 2))
 	centro.add_child(carta)
-	call_deferred("_adatta_verticale", carta)
+	MinigamePanelLayout.adapt_vertical(self, carta, 1.32)
 	var margine := MarginContainer.new()
 	for lato in ["margin_left", "margin_right"]:
 		margine.add_theme_constant_override(lato, 22)
@@ -282,9 +282,3 @@ func _stile(sfondo: Color, bordo: Color, raggio: int, spessore: int) -> StyleBox
 	stile.set_border_width_all(spessore)
 	stile.set_corner_radius_all(raggio)
 	return stile
-
-func _adatta_verticale(carta: Control) -> void:
-	await get_tree().process_frame
-	if get_viewport_rect().size.y > get_viewport_rect().size.x and is_instance_valid(carta):
-		carta.pivot_offset = carta.size * 0.5
-		carta.scale = Vector2(1.32, 1.32)

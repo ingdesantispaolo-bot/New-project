@@ -411,7 +411,10 @@ func try_start_mission(payload: Dictionary, encounter_id: String) -> bool:
 		return false
 	session = _decorate_teaching_session(session, subject)
 	_charge_exercise_entry()
-	active_session_context = {"kind": "mission", "encounterId": encounter_id, "subject": subject}
+	active_session_context = {
+		"kind": "mission", "encounterId": encounter_id,
+		"subject": subject, "theme": subject,
+	}
 	var nora_line := str(session.get("teachingLine", NoraContextEngine.open_line(subject, _has_review_node(session), _learning_level())))
 	_present_feedback(nora_line, "nora")
 	# Il prezzo dell'uscita lo decide qui la semantica, non il player: così
@@ -829,13 +832,14 @@ func try_start_minigame(payload: Dictionary, encounter_id: String, sconto: bool 
 	return true
 
 # Inoltro del progresso dall'ExercisePlayer (la scena connette qui
-# `progress_changed`): rilancia `enigma_progress` con tema ed encounter_id solo
-# durante un enigma, ignorando le sessioni normali.
+# `progress_changed`): rilancia il progresso con tema ed encounter_id. Il
+# consumer visuale decide se costruire una struttura o accendere il luogo; il
+# runtime non decide la resa.
 func notify_progress(built: int, total: int) -> void:
 	# Le minimissioni si costruiscono a campate esattamente come gli enigmi: sono
 	# nate da quella meccanica, ed è l'unico punto del gioco in cui una risposta
 	# giusta lascia un oggetto nel mondo.
-	if not (str(active_session_context.get("kind", "")) in ["enigma", "minimission"]):
+	if not (str(active_session_context.get("kind", "")) in ["mission", "enigma", "minimission"]):
 		return
 	enigma_progress.emit(built, total, str(active_session_context.get("theme", "ponte")), str(active_session_context.get("encounterId", "")))
 

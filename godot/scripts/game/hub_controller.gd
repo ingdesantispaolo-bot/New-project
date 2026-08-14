@@ -17,7 +17,7 @@ func setup(save_manager: GameSaveManager) -> void:
 	progression = ProgressionManager.new(save, ContentManager.new())
 	_emit_state()
 
-func state() -> Dictionary:
+func runtime_state() -> Dictionary:
 	if not is_instance_valid(save):
 		return {}
 	# La stanza è quella della materia che abita il mondo corrente; la prontezza è
@@ -30,6 +30,9 @@ func state() -> Dictionary:
 	var ready := (
 		progression.can_open_heart() if is_heart
 		else progression.can_repair_apparatus(subject))
+	var rooms: Dictionary = {}
+	for room_id in ShipRoomCatalog.ids():
+		rooms[str(room_id)] = ShipActivationModel.activation_for_room(save, str(room_id))
 	return {
 		"level": save.level(),
 		"apparatus": apparatus,
@@ -41,7 +44,13 @@ func state() -> Dictionary:
 		"apparatusRepaired": progression.repaired_apparatus_count(),
 		"apparatusTotal": ApparatusConfig.SUBJECT_CYCLE.size(),
 		"missingApparatus": progression.missing_apparatus_subjects(),
+		"rooms": rooms,
 	}
+
+## Alias mantenuto per i consumer esistenti; la scena nuova usa esplicitamente
+## il contratto runtime e non ricostruisce stati dai dati del salvataggio.
+func state() -> Dictionary:
+	return runtime_state()
 
 func request_exam() -> bool:
 	if save.level() >= ApparatusConfig.MAX_LEVEL:

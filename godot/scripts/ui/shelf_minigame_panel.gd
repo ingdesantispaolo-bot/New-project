@@ -114,7 +114,7 @@ func _costruisci() -> void:
 	carta.add_theme_stylebox_override("panel", _stile_pannello(
 		Color("101d35", 0.98), Color("e6bd55", 0.78), 22, 2))
 	centro.add_child(carta)
-	call_deferred("_adatta_verticale", carta)
+	MinigamePanelLayout.adapt_vertical(self, carta)
 	var margine := MarginContainer.new()
 	for lato in ["margin_left", "margin_right"]:
 		margine.add_theme_constant_override(lato, 30)
@@ -231,13 +231,6 @@ func _stile_pannello(sfondo: Color, bordo: Color, raggio: int, spessore: int) ->
 	stile.set_corner_radius_all(raggio)
 	return stile
 
-func _adatta_verticale(carta: Control) -> void:
-	await get_tree().process_frame
-	var viewport_size := get_viewport_rect().size
-	if viewport_size.y <= viewport_size.x or not is_instance_valid(carta):
-		return
-	carta.pivot_offset = carta.size * 0.5
-	carta.scale = Vector2(2.0, 2.0)
 
 func _mostra() -> void:
 	if _indice >= _parole.size():

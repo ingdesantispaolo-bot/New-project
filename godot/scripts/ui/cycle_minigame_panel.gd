@@ -133,7 +133,7 @@ func _costruisci() -> void:
 	carta.name = "CycleCard"
 	carta.add_theme_stylebox_override("panel", _stile(Color("302015", 0.99), Color("f4cf69", 0.8), 22, 2))
 	centro.add_child(carta)
-	call_deferred("_adatta_verticale", carta)
+	MinigamePanelLayout.adapt_vertical(self, carta)
 	var margine := MarginContainer.new()
 	for lato in ["margin_left", "margin_right", "margin_top", "margin_bottom"]:
 		margine.add_theme_constant_override(lato, 24)
@@ -413,11 +413,3 @@ func _stile(sfondo: Color, bordo: Color, raggio: int, spessore: int) -> StyleBox
 	stile.set_border_width_all(spessore)
 	stile.set_corner_radius_all(raggio)
 	return stile
-
-func _adatta_verticale(carta: Control) -> void:
-	await get_tree().process_frame
-	var viewport_size := get_viewport_rect().size
-	if viewport_size.y <= viewport_size.x or not is_instance_valid(carta):
-		return
-	carta.pivot_offset = carta.size * 0.5
-	carta.scale = Vector2(2.0, 2.0)

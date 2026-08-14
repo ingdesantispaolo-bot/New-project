@@ -584,6 +584,7 @@ func _apply_resume() -> void:
 
 func _on_runtime_state(state: Dictionary) -> void:
 	runtime = state.duplicate(true)
+	_aggiorna_cariche_impulso()
 	_update_objective()
 	_update_ship_navigation()
 	_refresh_economy()
@@ -1451,6 +1452,7 @@ func _create_profile_event(event: Dictionary) -> void:
 	area.set_meta("completed", completed)
 	if not completed:
 		area.add_to_group("world_interactable")
+		area.add_to_group("progress_reaction_poi")
 		if bool(event.get("countsForGate", false)):
 			area.add_to_group("mission_poi")
 		if director_kind == "enigma" or director_kind == "minimission":
@@ -1543,6 +1545,15 @@ func _create_profile_event(event: Dictionary) -> void:
 		caption.name = "EventCaption"
 		area.add_child(caption)
 	world_layer.add_child(area)
+	if director_kind == "minimission" and not completed \
+			and WorldLight.prove_nel_mondo(game_save, _world_id_scena()) <= 0 \
+			and Array(result.get("completedEncounterIds", [])).is_empty():
+		# Al primo ingresso l'incarico non è già piantato sulla mappa: si accende
+		# dopo la prima prova riuscita, cioè mentre il mondo sta cambiando.
+		area.add_to_group("pending_minimission_reveal")
+		area.visible = false
+		area.monitoring = false
+		area.monitorable = false
 	area.body_entered.connect(func(body): on_interactable_entered(area, body))
 	area.body_exited.connect(func(body): on_interactable_exited(area, body))
 
@@ -2516,7 +2527,9 @@ func _open_npc_dialogue(npc_id: String) -> void:
 		player.velocity = Vector2.ZERO
 		player.set_physics_process(false)
 	dialogue_box.call("configure_accessibility", high_contrast, reduced_motion)
-	dialogue_box.call("show_dialogue", npc_id, str(data.get("nome", npc_id)), str(data.get("ruolo", "abitante")), pages)
+	dialogue_box.call(
+		"show_dialogue", npc_id, str(data.get("nome", npc_id)),
+		str(data.get("ruolo", "abitante")), pages, _resident_story_stage(npc_id))
 	_update_ship_navigation()
 	_refresh_interaction_button(null)
 
@@ -3251,9 +3264,28 @@ func _spawn_combat_pulse_visual() -> void:
 func _update_pulse_button() -> void:
 	if not is_instance_valid(pulse_button):
 		return
+	if runtime.has("pulseCharges"):
+		var charges := maxi(0, int(runtime.get("pulseCharges", 0)))
+		pulse_button.disabled = charges <= 0 or not enemy_gameplay_active()
+		pulse_button.text = "IMPULSO\n%d CARICHE" % charges
+		return
 	var remaining := maxi(0, pulse_ready_msec - Time.get_ticks_msec())
 	pulse_button.disabled = remaining > 0 or not enemy_gameplay_active()
 	pulse_button.text = "IMPULSO\n%.1f s" % (float(remaining) / 1000.0) if remaining > 0 else "IMPULSO\nTOCCA"
+
+func _aggiorna_cariche_impulso() -> void:
+	if not is_instance_valid(etichetta_cariche_impulso):
+		return
+	etichetta_cariche_impulso.visible = runtime.has("pulseCharges")
+	if not etichetta_cariche_impulso.visible:
+		return
+	var charges := maxi(0, int(runtime.get("pulseCharges", 0)))
+	var maximum := maxi(charges, int(runtime.get("pulseChargeMax", 3)))
+	var cells: Array[String] = []
+	for index in maximum:
+		cells.append("◆" if index < charges else "◇")
+	etichetta_cariche_impulso.text = "IMPULSO  %s  %d/%d" % [" ".join(cells), charges, maximum]
+	_update_pulse_button()
 
 func _event_visual_kind(subject: String) -> String:
 	if subject in ["matematica", "fisica"]:
@@ -3526,8 +3558,16 @@ func _crea_barra_potenza(genitore: Control) -> void:
 	barra_potenza.custom_minimum_size = Vector2(150, 8)
 	scatola.add_child(barra_potenza)
 
+	etichetta_cariche_impulso = Label.new()
+	etichetta_cariche_impulso.name = "PulseChargesLabel"
+	etichetta_cariche_impulso.add_theme_font_size_override("font_size", 11)
+	etichetta_cariche_impulso.add_theme_color_override("font_color", Color("f6c85f"))
+	etichetta_cariche_impulso.visible = false
+	scatola.add_child(etichetta_cariche_impulso)
+
 	genitore.add_child(scatola)
 	_aggiorna_barra_potenza()
+	_aggiorna_cariche_impulso()
 
 func _create_hud() -> void:
 	ui_layer = CanvasLayer.new()
@@ -3673,6 +3713,7 @@ void fragment() {
 	pulse_button.add_theme_stylebox_override("disabled", _touch_action_style(Color("5b5131"), Color("9f9462")))
 	pulse_button.pressed.connect(_combat_pulse)
 	root.add_child(pulse_button)
+	_aggiorna_cariche_impulso()
 	shop_button = Button.new()
 	shop_button.name = "OpenShopButton"
 	shop_button.text = "BOTTEGA"
@@ -4031,6 +4072,7 @@ const NEBBIA_MASSIMA := 0.66
 var velo_nebbia: ColorRect
 var barra_potenza: ProgressBar
 var etichetta_potenza: Label
+var etichetta_cariche_impulso: Label
 
 func _crea_velo_di_nebbia() -> void:
 	if not is_instance_valid(game_save) or not is_instance_valid(atmosphere_layer):
@@ -4062,6 +4104,7 @@ func _aggiorna_nebbia(luce: float, animata: bool) -> void:
 ## immediata, di sessione, di partita.
 func _on_world_light_changed(luce: float, grado: int, salito: bool) -> void:
 	_aggiorna_nebbia(luce, true)
+	_reveal_pending_minimissions()
 	_aggiorna_barra_potenza()
 	_applica_grado_al_personaggio(grado)
 	if salito:
@@ -4070,6 +4113,25 @@ func _on_world_light_changed(luce: float, grado: int, salito: bool) -> void:
 		_spawn_gain_popup(str(scheda.get("nome", "")).to_upper(), Color(str(scheda.get("colore", "8ff6d2"))))
 	elif luce < 1.0:
 		_spawn_gain_popup("+luce", Color("8ff6d2"))
+
+func _reveal_pending_minimissions() -> void:
+	for node in get_tree().get_nodes_in_group("pending_minimission_reveal"):
+		if not (node is Area2D) or not is_ancestor_of(node):
+			continue
+		var area := node as Area2D
+		area.remove_from_group("pending_minimission_reveal")
+		area.visible = true
+		area.monitoring = true
+		area.monitorable = true
+		area.scale = Vector2.ONE
+		area.modulate = Color.WHITE
+		if not reduced_motion:
+			area.scale = Vector2.ONE * 0.28
+			area.modulate.a = 0.0
+			var reveal := create_tween().set_parallel(true)
+			reveal.tween_property(area, "scale", Vector2.ONE, 0.46).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+			reveal.tween_property(area, "modulate:a", 1.0, 0.30)
+		_spawn_touch_ping(area.global_position)
 
 ## Il grado si vede addosso a Eli: un alone che cambia colore e cresce.
 ##
@@ -4102,6 +4164,10 @@ func _applica_grado_al_personaggio(grado: int) -> void:
 	linea.width = 3.0 + float(grado) * 0.8
 	_configura_orbita_potenza("PowerOrbitInner", 32.0, grado >= 3, grado, false)
 	_configura_orbita_potenza("PowerOrbitOuter", 39.0, grado >= 4, grado, true)
+	_configura_orbita_potenza("PowerOrbitZenith", 46.0, grado >= 5, grado, false)
+	_configura_orbita_potenza("PowerOrbitCrown", 53.0, grado >= 6, grado, true)
+	_configura_orbita_potenza("PowerOrbitPrism", 60.0, grado >= 7, grado, false)
+	_configura_orbita_potenza("PowerOrbitHeart", 67.0, grado >= 8, grado, true)
 	_configura_particelle_potenza(grado)
 	applied_power_grade = grado
 	if is_instance_valid(game_save):
@@ -4664,6 +4730,8 @@ func _refresh_pet_face() -> void:
 func _pet_react(game_signal: String) -> void:
 	if is_instance_valid(pet_face) and pet_face.visible:
 		pet_face.react_to(game_signal)
+	if is_instance_valid(pet_companion) and pet_companion.has_method("react_to"):
+		pet_companion.call("react_to", game_signal)
 
 func _on_pet_answer_resolved(is_correct: bool) -> void:
 	_pet_react("answer_correct" if is_correct else "answer_wrong")
@@ -5647,19 +5715,21 @@ func _retire_completed_event(area: Area2D) -> void:
 # Codex non ha ancora attaccato un visual con `set_stage` a quel POI, resta un
 # no-op sicuro e vale solo il riscontro testuale.
 func _on_enigma_progress(built: int, total: int, theme: String, encounter_id: String) -> void:
-	for area in get_tree().get_nodes_in_group("enigma_poi"):
+	for area in get_tree().get_nodes_in_group("progress_reaction_poi"):
 		if area is Area2D and str(area.get_meta("id", "")) == encounter_id:
 			for child in area.get_children():
 				if child.has_method("set_stage"):
 					child.set_stage(built, total)
 	if built <= 0:
-		_set_feedback("Enigma avviato: costruisci %s rispondendo (%d campate)" % [theme, total])
+		# Una risposta errata mantiene il POI allo stadio iniziale, ma non deve
+		# produrre commenti: l'errore resta narrativamente neutro (e il Custode
+		# può sdrammatizzarlo senza che un messaggio di sistema lo copra).
 		return
 	var audio := get_node_or_null("/root/NativeAudio")
 	if audio != null:
 		audio.call("play_event", "enigmaProgress", lerpf(0.9, 1.12, float(built) / maxf(float(total), 1.0)))
-	_set_feedback("%s: %d/%d campate costruite" % [theme.capitalize(), built, total])
-	_spawn_gain_popup("+1 campata", Color("8ff6c0"))
+	_set_feedback("%s: %d/%d passaggi visibili" % [theme.capitalize(), built, total])
+	_spawn_gain_popup("+1 segno nel mondo", Color("8ff6c0"))
 
 func _leave_world() -> void:
 	# Stato effimero per contratto: anche chi non ha notato il segno o non ha

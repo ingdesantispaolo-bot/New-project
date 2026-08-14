@@ -23,6 +23,10 @@ const PLAYER_SHEETS: Array[Texture2D] = [
 	preload("res://assets/player/eli-faro-v1.png"),
 	preload("res://assets/player/eli-aurora-v1.png"),
 	preload("res://assets/player/eli-meridiana-v1.png"),
+	preload("res://assets/player/eli-grade5-v1.png"),
+	preload("res://assets/player/eli-grade6-v1.png"),
+	preload("res://assets/player/eli-grade7-v1.png"),
+	preload("res://assets/player/eli-grade8-v1.png"),
 ]
 const NATURAL_ATLAS_PATHS := {
 	"academy": "res://assets/radura-academia-natural-atlas-v2.png",

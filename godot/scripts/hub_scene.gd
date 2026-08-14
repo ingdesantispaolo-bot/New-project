@@ -11,6 +11,7 @@ const DIALOGUE_BOX_SCRIPT := preload("res://scripts/ui/dialogue_box.gd")
 const FINALE_CATALOG := preload("res://scripts/game/finale_catalog.gd")
 const SISTERS_THREAD := preload("res://scripts/game/sisters_thread.gd")
 const STANCE_CHOICES := preload("res://scripts/game/stance_choices.gd")
+const SHIP_BRIDGE_WALKWAY_SCRIPT := preload("res://scripts/visual/ship_bridge_walkway.gd")
 
 var controller: HubController
 var content: ContentManager
@@ -43,6 +44,8 @@ var activation_segments: Label
 var activation_bar: ProgressBar
 var terminal_mount: Control
 var terminal_visual: Node2D
+var bridge_walkway: ShipBridgeWalkway
+var room_stage: Control
 var room_buttons: Dictionary = {}
 var room_rail_title: Label
 var log_dialog: AcceptDialog
@@ -94,7 +97,7 @@ func _ready() -> void:
 	_build_exercise_overlay()
 	var gate := controller.progression.current_gate()
 	current_room_id = ShipRoomCatalog.room_for_apparatus(str(gate.get("apparatus", "nucleo")))
-	_apply_state(controller.state())
+	_apply_state(controller.runtime_state())
 	var beat := narrative.reveal_level(save.level())
 	nora_line.text = str(beat.get("text", nora_line.text))
 	save.save()
@@ -311,12 +314,20 @@ func _build_body(parent: VBoxContainer) -> void:
 	rail_hint.add_theme_color_override("font_color", Color("78999f"))
 	rail_box.add_child(rail_hint)
 
-	var stage_space := Control.new()
-	stage_space.name = "RoomStage"
-	stage_space.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	stage_space.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	stage_space.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	body.add_child(stage_space)
+	room_stage = Control.new()
+	room_stage.name = "RoomStage"
+	room_stage.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	room_stage.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	room_stage.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	room_stage.clip_contents = true
+	room_stage.resized.connect(_position_bridge_walkway)
+	body.add_child(room_stage)
+	bridge_walkway = SHIP_BRIDGE_WALKWAY_SCRIPT.new()
+	bridge_walkway.room_entered.connect(_on_bridge_room_entered)
+	room_stage.add_child(bridge_walkway)
+	var accessibility: Dictionary = save.data.get("accessibility", {}) if is_instance_valid(save) else {}
+	bridge_walkway.configure({}, bool(accessibility.get("reducedMotion", false)))
+	call_deferred("_position_bridge_walkway")
 
 	var card := PanelContainer.new()
 	card.name = "ApparatusCard"
@@ -703,17 +714,28 @@ func _select_room(id: String) -> void:
 		var subjects: Array = ShipRoomCatalog.room(id).get("subjects", [])
 		if not subjects.is_empty():
 			audio.call("play_subject", str(subjects[0]))
-	_apply_state(controller.state())
+	_apply_state(controller.runtime_state())
 	nora_line.text = "NORA: %s" % str(room_state.get("description", "Sistema in ascolto."))
 	if is_instance_valid(nora_portrait):
 		nora_portrait.speak(nora_line.text)
+
+func _on_bridge_room_entered(room_id: String, _subject: String) -> void:
+	_select_room(room_id)
+
+func _position_bridge_walkway() -> void:
+	if not is_instance_valid(room_stage) or not is_instance_valid(bridge_walkway):
+		return
+	bridge_walkway.position = room_stage.size * 0.5
+	var fit := minf(room_stage.size.x / 720.0, room_stage.size.y / 460.0)
+	bridge_walkway.scale = Vector2.ONE * clampf(fit * 0.94, 0.42, 1.25)
 
 func _apply_state(state: Dictionary) -> void:
 	if background == null:
 		return
 	room_state = ShipRoomCatalog.room(current_room_id)
 	var accent := Color(str(room_state.get("accent", "6be7d6")))
-	var activation := ShipActivationModel.activation_for_room(save, current_room_id)
+	var runtime_rooms: Dictionary = state.get("rooms", {})
+	var activation: Dictionary = runtime_rooms.get(current_room_id, {})
 	background.texture = load(str(room_state.get("texture", ""))) as Texture2D
 	background_material.set_shader_parameter("accent", accent)
 	background_material.set_shader_parameter("activation", float(activation.get("ratio", 0.0)))
@@ -726,11 +748,13 @@ func _apply_state(state: Dictionary) -> void:
 	level_label.text = "LIVELLO %d\nENERGIA %d" % [save.level(), save.energy()]
 	for id in room_buttons:
 		var button: Button = room_buttons[id]
-		var room_activation := ShipActivationModel.activation_for_room(save, str(id))
+		var room_activation: Dictionary = runtime_rooms.get(str(id), {})
 		var spec := ShipRoomCatalog.room(str(id))
 		button.text = "%s  %s · %d%%" % [str(room_activation.get("short", "○")), str(spec.get("short", id)), int(room_activation.get("percent", 0))]
 		button.tooltip_text = "%s — %s" % [str(spec.get("label", id)), str(room_activation.get("title", "SISTEMA INERTE"))]
 		button.button_pressed = str(id) == current_room_id
+	if is_instance_valid(bridge_walkway):
+		bridge_walkway.set_room_states(runtime_rooms)
 
 	var current_gate := controller.progression.current_gate()
 	var campaign_complete := controller.progression.is_complete()
@@ -881,7 +905,8 @@ func _on_exam_finished(exam_result: Dictionary) -> void:
 	var repaired_subject := ApparatusConfig.world_subject(save.level())
 	var repaired_gate := ApparatusConfig.apparatus_gate(repaired_subject, save.level())
 	var repaired_room := ShipRoomCatalog.room_for_apparatus(str(repaired_gate.get("apparatus", "nucleo")))
-	var activation_before := ShipActivationModel.activation_for_room(save, repaired_room)
+	var state_before := controller.runtime_state()
+	var activation_before: Dictionary = Dictionary(state_before.get("rooms", {})).get(repaired_room, {})
 	if exam_passed:
 		var advanced := controller.progression.repair_and_advance(true)
 		if advanced:
@@ -890,8 +915,9 @@ func _on_exam_finished(exam_result: Dictionary) -> void:
 			save.save()
 			current_room_id = repaired_room
 			controller.refresh()
-			_apply_state(controller.state())
-			var activation_after := ShipActivationModel.activation_for_room(save, repaired_room)
+			var state_after := controller.runtime_state()
+			_apply_state(state_after)
+			var activation_after: Dictionary = Dictionary(state_after.get("rooms", {})).get(repaired_room, {})
 			nora_line.text = str(narrative.reveal_level(save.level()).get("text", "NORA: Apparato riparato. Una nuova rotta è disponibile."))
 			await _play_reactivation_sequence(repaired_room, activation_before, activation_after)
 			if controller.progression.is_complete():
@@ -1221,6 +1247,12 @@ func _unhandled_input(event: InputEvent) -> void:
 			_hide_world_map()
 		else:
 			_return_to_world()
+	elif not exercise_player.visible and is_instance_valid(bridge_walkway):
+		if event is InputEventScreenTouch and event.pressed:
+			bridge_walkway.set_touch_target(event.position)
+			get_viewport().set_input_as_handled()
+		elif event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+			bridge_walkway.set_touch_target(event.position)
 
 func _room_shader_material() -> ShaderMaterial:
 	var shader := Shader.new()

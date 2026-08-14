@@ -4,6 +4,7 @@ extends Control
 var npc_id := ""
 var display_name := ""
 var accent := Color("6be7d6")
+var stage := 0
 
 ## Il catalogo visuale segue lo stesso ID del catalogo narrativo:
 ## `w08-doria` -> `assets/npcs/world08/doria-v1.png`. Il caricamento resta lazy:
@@ -34,9 +35,11 @@ static func portrait_art_for(id: String) -> Texture2D:
 	portrait.region = PORTRAIT_REGIONS.get(id, Rect2(98, 8, 188, 188))
 	return portrait
 
-func configure(id: String, label: String) -> void:
+func configure(id: String, label: String, resident_stage: int = 0) -> void:
 	npc_id = id
 	display_name = label
+	stage = clampi(resident_stage, 0, 2)
+	set_meta("resident_stage", stage)
 	accent = _accent_for(id)
 	accessibility_name = "Ritratto di %s" % label
 	custom_minimum_size = Vector2(92, 92)
@@ -51,7 +54,14 @@ func _draw() -> void:
 		draw_circle(center, radius + 5.0, Color("10272b"))
 		draw_circle(center, radius + 2.0, Color(accent, 0.24))
 		var art_rect := Rect2(center - Vector2(radius, radius), Vector2(radius * 2.0, radius * 2.0))
-		draw_texture_rect(generated, art_rect, false)
+		# Tre regie del mezzo busto: composto, in movimento, aperto verso l'altro.
+		# L'identità resta l'asset approvato; gesto e postura cambiano con l'arco.
+		var angle: float = [-0.045, 0.035, -0.025][stage]
+		var pose_scale: Vector2 = [Vector2(0.96, 0.96), Vector2(1.02, 1.02), Vector2(-1.04, 1.04)][stage]
+		draw_set_transform(center, angle, pose_scale)
+		draw_texture_rect(generated, Rect2(-Vector2(radius, radius), Vector2(radius * 2.0, radius * 2.0)), false)
+		draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+		_draw_stage_gesture(center, radius)
 		draw_arc(center, radius + 5.0, 0.0, TAU, 40, Color("f6c85f"), 3.0, true)
 		return
 	draw_circle(center + Vector2(0, radius * 0.82), radius * 0.72, Color(accent, 0.72))
@@ -63,6 +73,17 @@ func _draw() -> void:
 		draw_circle(Vector2(center.x + side * radius * 0.34, eye_y), 3.2, Color("10272b"))
 	draw_arc(center + Vector2(0, radius * 0.18), radius * 0.28, 0.15, PI - 0.15, 18, Color("7b3f35"), 2.6, true)
 	draw_arc(center, radius + 5.0, 0.0, TAU, 40, Color("f6c85f"), 3.0, true)
+
+func _draw_stage_gesture(center: Vector2, radius: float) -> void:
+	var skin := Color("f2c6a0")
+	if stage == 1:
+		# Una mano al lavoro sul petto: il personaggio non è più fermo in posa.
+		draw_line(center + Vector2(radius * 0.72, radius * 0.52), center + Vector2(radius * 0.24, radius * 0.12), accent.darkened(0.18), radius * 0.20, true)
+		draw_circle(center + Vector2(radius * 0.20, radius * 0.10), radius * 0.105, skin)
+	elif stage == 2:
+		# Braccio aperto verso l'esterno: lo stadio concluso condivide, non posa.
+		draw_line(center + Vector2(-radius * 0.62, radius * 0.45), center + Vector2(-radius * 1.04, -radius * 0.10), accent.darkened(0.18), radius * 0.20, true)
+		draw_circle(center + Vector2(-radius * 1.07, -radius * 0.14), radius * 0.11, skin)
 
 static func _accent_for(id: String) -> Color:
 	var palette := [Color("6be7d6"), Color("f6c85f"), Color("c7b8ff"), Color("ff9c8f")]

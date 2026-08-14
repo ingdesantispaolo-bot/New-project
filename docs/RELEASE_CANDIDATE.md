@@ -1122,6 +1122,104 @@ senza dialogo; la sonda riproducibile è `resident_consequence_render_probe.gd`.
 
 ---
 
+## G-1 · La serie (13 agosto)
+
+Prima voce dello strato di gioco pianificato in `insieme.md`. La parola `combo`
+non compariva in **nessuno** script del progetto, benché `DESIGN_COMPLETO` §6 e
+§10 la dessero per esistente dal principio: una risposta giusta valeva dieci
+punti, la prima come la ventesima, dal mondo 1 al mondo 24.
+
+- **La regola** sta in `combo.gd`, modulo puro nello stile di `reflex_duel.gd`:
+  il moltiplicatore parte da uno, sale di un quarto per ogni risposta giusta
+  consecutiva dopo la prima e si ferma a **×2 alla quinta**, che è la lunghezza
+  di un esame — il tetto esiste e si guadagna tutto. Sotto due giuste di fila non
+  si mostra niente: un «×1» sempre a schermo non segnala nulla.
+- **La serie si spezza in `_spend_shield()`**, che è l'unico passaggio obbligato
+  di ogni errore in tutti i formati. Azzerarla in `_score_current` avrebbe
+  lasciato viva la serie di chi sbaglia *dentro* un minigioco senza chiudere il
+  nodo — cioè in metà del gioco.
+- **Non attraversa le sessioni.** Una serie che si porta dietro il mondo diventa
+  una cosa da proteggere invece che da giocare: si smetterebbe di toccare le
+  materie deboli per non spezzarla, che è il contrario di ciò che il gate chiede.
+- **Quando finisce non dice niente**: nessun suono, nessun rosso, nessun
+  messaggio (decisione 13). Il bambino ha già ricevuto la spiegazione e ha già
+  perso uno scudo; un terzo segnale sullo stesso errore è accanimento.
+- L'esito di sessione porta ora `comboBest` e `comboEnergy`. Nessuna regola li
+  legge: `energyGained` contiene già tutto, e la semantica a valle non è
+  cambiata di una riga.
+
+**Misura e guard-rail.** `combo_audit` verde, e verificato che morda: togliendo
+l'azzeramento fra una prova e l'altra diventa rosso. Controlla l'aritmetica
+(monotona, con tetto, raggiungibile in una sessione vera), il tetto di sessione
+(nessuna prova perfetta, fino a venti nodi, supera il doppio della tariffa
+piatta: il catalogo della bottega è tarato sul totale della campagna) e
+soprattutto la **decisione vincolante 15**, con una prova comportamentale invece
+che una lettura del codice — gli stessi esiti registrati due volte con energie
+0 e 9999 devono lasciare la stessa padronanza e lo stesso conteggio di gate, e
+l'energia deve davvero essere arrivata, altrimenti il confronto non proverebbe
+niente.
+
+Nessun esercizio aggiunto: la campagna resta a 21,1 ore. Suite completa
+**167/167 verde in 232 s**. **C-G1 chiusa da Codex**: `ComboBadge` cresce con
+un colpo neutro, cambia colore fino al tetto e si dissolve senza rosso, suono o
+messaggio quando la serie si spezza. `combo_audit` verde sul consumer reale.
+
+**Export fatto** il 13 agosto: `2026.08.13-web-loader-9`, cache `v112-web-loader`,
+PCK 33,60 MiB, WASM 37,68 MiB. **`audit:web` è ROSSO**, e non per questo lotto:
+`build_version.gd` stampa ancora `af66cec` mentre HEAD è `9005079`. Torna verde
+solo dopo un commit, `npm run version:stamp`, riesportazione e risincronizzazione
+— e al momento dell'export l'albero conteneva anche lavoro **non commesso di
+Codex** (il ponte camminabile della nave e il layout verticale condiviso), che è
+quindi finito dentro il PCK. Chi commette decide se separarli.
+
+---
+
+## Lotti visuali Codex — strato di gioco (13 agosto)
+
+- **G-6, nave camminabile.** Il corpo centrale ospita Eli con lo stesso
+  `player_controller.gd` del mondo esterno, dodici porte-materia e input
+  touch/click. Le luci leggono `HubController.runtime_state()`; la scena non
+  richiama più `ShipActivationModel`. La mappa dei mondi e il ritorno al mondo
+  restano raggiungibili. `ship_scene_audit` verde: **249 nodi**, contro il tetto
+  assoluto di 3500.
+- **C-G7, reazione per nodo.** `notify_progress` inoltra anche le missioni
+  ordinarie e ogni POI aggiorna il proprio `WorldLearningReaction`. Il visual
+  sceglie la trasformazione già dichiarata per bioma e tipo; non calcola
+  ricompense o completamenti. `event_progress_visual_audit` verde.
+- **C-G2 e C-G3, consumer pronti.** L'HUD mostra celle e conteggio cariche da
+  `pulseCharges`/`pulseChargeMax` (`pulse_hud_audit` verde). Quattro spritesheet
+  5×4, quattro orbite e il loader dei gradi 5–8 sono integrati; soglie e nomi
+  restano al lotto Claude, quindi non sono stati inventati nella scena.
+- **C-G9, presenza del Custode.** Il volto resta data-driven e ora la stessa
+  decisione di `PetExpressionEngine` pilota una posa del corpo, con varianti per
+  festa, orgoglio, curiosità, attenzione e incoraggiamento. Nessun segnale
+  concede potere. `pet_pose_audit` verde su tutti i segnali dichiarati.
+- **C-MG-4.** Quindici pannelli, inclusi radio e mercato, usano
+  `MinigamePanelLayout.adapt_vertical`; nessuna copia locale di
+  `_adatta_verticale`. `minigame_vertical_layout_audit` verde.
+- **C-ART-2.** I 46 asset-residente già approvati vengono composti in tre pose
+  mezzo busto guidate dallo stadio dell'arco; lo stadio arriva dal runtime e il
+  ritratto non lo calcola. `resident_portrait_stage_audit` verde: **46 × 3**.
+- **Comparsa minimissioni.** In un mondo nuovo il POI non è già visibile: la
+  prima prova riuscita lo accende con una transizione, mentre nei mondi già
+  giocati resta immediatamente disponibile. `minimission_reveal_audit` verde.
+
+Gli spritesheet evolutivi sono stati generati con ImageGen built-in partendo da
+Meridiana come riferimento vincolante, su chroma-key piatto; la normalizzazione
+locale produce PNG 480×384 con alpha e angoli trasparenti validati. Nessun testo
+è incorporato nelle immagini.
+
+**Chiusura e release (14 agosto).** La suite completa ha coperto 174 audit: il
+primo passaggio ne ha chiusi 173 e ha intercettato una sovrascrittura testuale
+del silenzio al terzo errore; corretto il consumer di progresso, sono verdi sia
+`pet_struggle_relief_audit` sia `event_progress_visual_audit`, quindi **174/174
+verdi**. Export Web finale sincronizzato come `2026.08.14-web-loader-1`, cache
+`v114-web-loader`: PCK 34,33 MiB, WASM 37,68 MiB, core 72,01 MiB;
+`audit:web` verde. Questo record sostituisce il rosso transitorio annotato nel
+lotto precedente; l'export include il worktree non commesso corrente.
+
+---
+
 ## Registro dei lotti Opus (5–13 agosto 2026)
 
 Trasferito qui il 13 agosto 2026 snellendo `insieme.md`, che per sua regola

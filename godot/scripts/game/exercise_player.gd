@@ -54,6 +54,16 @@ var _correct := 0
 var _shields := 3
 var _energy := 0
 var _energy_per_correct := 10
+## Risposte giuste consecutive in QUESTA sessione: la serie non attraversa le
+## prove (vedi `Combo`). Si spezza in `_spend_shield()`, che è l'unico passaggio
+## obbligato di ogni errore — nei minigiochi un errore può capitare prima che il
+## nodo sia risolto, e azzerarla solo in `_score_current` la lascerebbe intatta.
+var _serie := 0
+var _serie_massima := 0
+## L'energia dovuta alla serie, cioè quanto si è guadagnato oltre la tariffa
+## piatta. Viaggia nell'esito perché la resa possa dirlo, e perché l'audit possa
+## misurare il tetto senza rifare i conti.
+var _energia_serie := 0
 ## Costo dell'uscita anticipata, letto dalla sessione. Vedi `_build_exit_row()`.
 var _abandon_cost := 3
 var _abandon_armed := false
@@ -79,6 +89,8 @@ var _prompt: Label
 var _options: VBoxContainer
 var _feedback: Label
 var _status: Label
+var _combo_badge: Label
+var _combo_visual_series := 0
 var _next_button: Button
 var _help_button: Button
 var _exit_button: Button
@@ -170,6 +182,9 @@ func start_session(new_session: Dictionary) -> void:
 	_correct = 0
 	_shields = int(session.get("shields", 3))
 	_energy = 0
+	_serie = 0
+	_serie_massima = 0
+	_energia_serie = 0
 	_abandon_armed = false
 	_abandon_cost = int(session.get("abandonCost", 3))
 	_started_at_msec = Time.get_ticks_msec()
@@ -313,9 +328,33 @@ func _build_ui() -> void:
 		box.add_child(_convergence_display)
 
 	_status = Label.new()
+	# Nome stabile: è l'aggancio dell'intestazione per la resa della serie (C-G1)
+	# e per `combo_audit`, che verifica che la serie compaia davvero a schermo.
+	_status.name = "ExerciseStatus"
 	_status.add_theme_font_size_override("font_size", 14)
 	_status.add_theme_color_override("font_color", Color("f6c85f"))
 	box.add_child(_status)
+
+	# Spazio stabile e autonomo: comparendo non sposta scudi e avanzamento.
+	_combo_badge = Label.new()
+	_combo_badge.name = "ComboBadge"
+	_combo_badge.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_combo_badge.custom_minimum_size = Vector2(154, 38)
+	_combo_badge.add_theme_font_size_override("font_size", 20)
+	var combo_panel := StyleBoxFlat.new()
+	combo_panel.bg_color = Color(0.02, 0.10, 0.12, 0.94)
+	combo_panel.border_color = Color("6be7d6")
+	combo_panel.set_border_width_all(2)
+	combo_panel.set_corner_radius_all(14)
+	combo_panel.content_margin_left = 12
+	combo_panel.content_margin_right = 12
+	combo_panel.content_margin_top = 5
+	combo_panel.content_margin_bottom = 5
+	_combo_badge.add_theme_stylebox_override("normal", combo_panel)
+	_combo_badge.visible = false
+	_combo_badge.modulate = Color.TRANSPARENT
+	box.add_child(_combo_badge)
+	_combo_visual_series = 0
 
 	_prompt = Label.new()
 	_prompt.add_theme_font_size_override("font_size", 24)
@@ -885,6 +924,46 @@ func _refresh_status() -> void:
 			_status.text = "Sistema %d/%d · %s   ·   Stabilità %d" % [_index + 1, _nodes.size(), system, _shields]
 		else:
 			_status.text = "Esercizio %d/%d   ·   Scudi %d" % [_index + 1, _nodes.size(), _shields]
+	_refresh_combo_hud()
+
+func _refresh_combo_hud() -> void:
+	if not is_instance_valid(_combo_badge):
+		return
+	var visible_now := Combo.visibile(_serie)
+	if not visible_now:
+		_combo_visual_series = 0
+		if not _combo_badge.visible:
+			return
+		# La serie si spegne: nessun rosso, suono o messaggio aggiuntivo.
+		if reduced_motion or not is_inside_tree():
+			_combo_badge.visible = false
+			_combo_badge.modulate = Color.TRANSPARENT
+			return
+		var fade := create_tween()
+		fade.tween_property(_combo_badge, "modulate:a", 0.0, 0.16)
+		fade.finished.connect(func():
+			if is_instance_valid(_combo_badge) and not Combo.visibile(_serie):
+				_combo_badge.visible = false)
+		return
+
+	var increased := _serie > _combo_visual_series
+	_combo_visual_series = _serie
+	var progress := inverse_lerp(1.0, Combo.MASSIMO, Combo.moltiplicatore(_serie))
+	var color := Color("6be7d6").lerp(Color("f6c85f"), progress)
+	_combo_badge.text = "SERIE  %s" % Combo.etichetta(_serie)
+	_combo_badge.add_theme_color_override("font_color", color)
+	var panel := _combo_badge.get_theme_stylebox("normal") as StyleBoxFlat
+	if panel != null:
+		panel.border_color = color
+		panel.bg_color = Color(color.darkened(0.78), 0.94)
+	_combo_badge.visible = true
+	_combo_badge.modulate = Color.WHITE
+	if increased and not reduced_motion and is_inside_tree():
+		_combo_badge.pivot_offset = _combo_badge.size * 0.5
+		_combo_badge.scale = Vector2.ONE * 1.16
+		var rise := create_tween()
+		rise.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		rise.tween_property(_combo_badge, "scale", Vector2.ONE, 0.24)
 
 func _answer(given: String) -> void:
 	if _answered:
@@ -915,7 +994,15 @@ func _score_current(is_correct: bool, item: Dictionary) -> void:
 		if audio != null:
 			audio.call("play_event", "answerCorrect")
 		_correct += 1
-		_energy += _energy_per_correct
+		# La serie sale PRIMA di pagare, così la risposta che allunga la serie è
+		# anche quella che ne incassa il valore nuovo: farla pagare alla
+		# successiva significherebbe premiare sempre con un turno di ritardo, e
+		# nessun bambino collegherebbe le due cose.
+		_serie += 1
+		_serie_massima = maxi(_serie_massima, _serie)
+		var guadagno := Combo.energia(_energy_per_correct, _serie)
+		_energy += guadagno
+		_energia_serie += maxi(0, guadagno - _energy_per_correct)
 		if topic != "":
 			_topic_correct[topic] = int(_topic_correct.get(topic, 0)) + 1
 		if bool(item.get("review", false)) and topic != "":
@@ -933,7 +1020,10 @@ func _score_current(is_correct: bool, item: Dictionary) -> void:
 		# riceveva niente — confermava di sapere una cosa e non ne imparava
 		# nessun'altra. Tremilaquattrocento spiegazioni scritte, e l'unica strada
 		# per arrivare al bambino era aperta solo sull'errore.
-		_feedback.text = "Giusto! +%d energia" % _energy_per_correct
+		_feedback.text = (
+			"Giusto! +%d energia · serie %s" % [guadagno, Combo.etichetta(_serie)]
+			if Combo.visibile(_serie)
+			else "Giusto! +%d energia" % guadagno)
 		var detto := NoraExplanations.riga(
 			_materia_di(item), topic, str(item.get("explanation", "")), true)
 		if detto.strip_edges() != "":
@@ -942,6 +1032,10 @@ func _score_current(is_correct: bool, item: Dictionary) -> void:
 		var audio := get_tree().root.get_node_or_null("NativeAudio") if is_inside_tree() else null
 		if audio != null:
 			audio.call("play_event", "answerWrong")
+		# Ridondante rispetto a `_spend_shield()`, e voluto: un nodo chiuso in
+		# errore non può in nessun caso lasciare una serie viva, nemmeno se un
+		# formato futuro dimenticasse di togliere lo scudo.
+		_serie = 0
 		if topic != "":
 			_missed.append(topic)
 		_feedback.add_theme_color_override("font_color", Color("ffb3ba"))
@@ -974,6 +1068,10 @@ func _score_current(is_correct: bool, item: Dictionary) -> void:
 				var total_systems := maxi(1, int(Array(session.get("systems", [])).size()))
 				var stage_pitch := lerpf(0.90, 1.16, float(_systems_resolved.size()) / float(total_systems))
 				convergence_audio.call("play_event", "enigmaProgress", stage_pitch)
+	# L'intestazione si aggiorna adesso e non al nodo successivo: la serie deve
+	# cambiare nell'istante in cui il bambino vede l'esito, non dopo aver premuto
+	# «Avanti».
+	_refresh_status()
 	_next_button.text = "Fine" if _shields <= 0 else "Avanti"
 	_next_button.visible = true
 
@@ -1670,6 +1768,12 @@ func _retryable_result(correct: bool, item: Dictionary, retry_message: String) -
 
 func _spend_shield() -> void:
 	_shields -= 1
+	# **La serie si spezza qui, e solo qui.** È l'unico passaggio obbligato di
+	# ogni errore, in tutti e venti i formati: azzerarla in `_score_current`
+	# avrebbe lasciato intatta la serie di chi sbaglia dentro un minigioco senza
+	# chiudere il nodo. Si spegne e basta — nessun suono, nessun rosso, nessun
+	# messaggio (decisione 13): la serie che finisce non rimprovera.
+	_serie = 0
 	# Il finale deve far attraversare tutti i dodici sistemi anche quando un
 	# minigioco richiede più tentativi. L'accuratezza resta decisiva per passare,
 	# ma la sessione non si tronca prima della sintesi.
@@ -2106,6 +2210,11 @@ func _finish() -> void:
 		"total": total,
 		"passed": passed,
 		"energyGained": _energy,
+		# La serie viaggia nell'esito per la resa e per il riepilogo. Non la legge
+		# nessuna regola: `energyGained` la contiene già, e la padronanza non
+		# guarda l'energia (decisione 15).
+		"comboBest": _serie_massima,
+		"comboEnergy": _energia_serie,
 		"shieldsLeft": _shields,
 		"subject": str(session.get("subject", "")),
 		"seconds": maxf(0.0, float(Time.get_ticks_msec() - _started_at_msec) / 1000.0),

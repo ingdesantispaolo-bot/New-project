@@ -695,6 +695,11 @@ func set_progress(value: int, total: int, animate: bool = true) -> void:
 			part.visible = should_show
 	completed = ratio >= 0.999
 
+## Contratto visuale condiviso con le strutture degli enigmi. È un alias di
+## presentazione: nessuna ricompensa o completamento viene calcolato qui.
+func set_stage(value: int, total: int) -> void:
+	set_progress(value, total, true)
+
 func set_complete(value: bool, animate: bool = false) -> void:
 	if value:
 		# Un POI già completato mostra la trasformazione fin dal caricamento:

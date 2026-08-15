@@ -49,6 +49,30 @@ I contenuti scolastici sono integrati in bisogni narrativi:
 - le operazioni della fabbrica servono a produrre nuclei energetici, non a risolvere righe di calcolo isolate.
 - la grammatica dell'archivio serve a riparare comandi e fonti, non a compilare analisi grammaticali.
 
+## Una Prova Superata Non Torna
+
+Un esercizio risolto bene non viene piu richiesto. Non e una comodita: e la
+differenza fra misurare una competenza e misurare la memoria dell'ultima
+sessione. La seconda volta che arriva la stessa domanda si ricorda la risposta,
+non il ragionamento — la padronanza sale e la competenza resta ferma.
+
+Tre precisazioni, perche la regola non diventi il suo contrario:
+
+- **superata vuol dire risolta pulita.** Un esercizio chiuso giusto dopo un
+  errore resta disponibile: e proprio quello che conviene rivedere.
+- **il ripasso spaziato passa sopra.** Quando un argomento e dovuto viene servito
+  comunque; si preferisce una prova mai risolta su quell'argomento, e solo se non
+  ne restano si ripropone una gia superata. Un ripasso saltato e un danno piu
+  grande di una domanda gia vista.
+- **meglio ripetere che accorciare.** Se al livello corrente la materia non ha
+  piu niente di nuovo, la sessione si riempie con prove gia superate invece di
+  presentarsi corta.
+
+La memoria vive nel salvataggio (`solvedExercises`), quindi sopravvive a un
+viaggio, a un rientro nel mondo e a un riavvio: era li che il difetto si vedeva,
+perche le difese contro la ripetizione vivevano nell'istanza e sparivano con
+essa. Misurata da `solved_exercise_audit.gd`.
+
 ## Cosa Rende Una Sfida Formativa
 
 Una sfida valida non chiede soltanto una risposta. Deve obbligare a usare almeno uno di questi processi:

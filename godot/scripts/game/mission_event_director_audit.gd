@@ -53,8 +53,14 @@ func _init() -> void:
 			assert(pos.distance_to(ship) >= safe_radius, "livello %d: evento %s dentro la zona nave" % [level, str(e["id"])])
 			# Dentro l'area giocabile.
 			assert(absf(pos.x - ship.x) <= half_extent + 1.0 and absf(pos.y - ship.y) <= half_extent + 1.0, "livello %d: evento fuori area" % level)
-			assert(composition.distance_to_paths(pos) <= 190.0,
-				"livello %d: evento %s isolato dalla rete di strade" % [level, str(e["id"])])
+			if str(e.get("locationRole", "")) == "crossing":
+				# Un varco e' esso stesso un landmark di navigazione: obbligarlo a
+				# tornare sul sentiero distruggerebbe il legame con ponte o parete.
+				assert(composition.raw_water_weight(pos) < 0.58,
+					"livello %d: accesso al varco dentro l'acqua" % level)
+			else:
+				assert(composition.distance_to_paths(pos) <= 190.0,
+					"livello %d: evento %s isolato dalla rete di strade" % [level, str(e["id"])])
 			if bool(e["countsForGate"]):
 				occupied_cells[Vector2i(floori(pos.x / 420.0), floori(pos.y / 420.0))] = true
 				for previous in gate_positions:

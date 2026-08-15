@@ -25,6 +25,8 @@ const SHIP_MARGIN := 60.0          # scarto oltre il raggio nave
 const GATE_MIN_R := 420.0          # raggio min di un evento-gate dallo spawn
 const GATE_MAX_R := 1100.0         # raggio max di un evento-gate dallo spawn
 const GATE_SURPLUS := 2            # eventi-gate oltre il minimo (offre scelta)
+const SEMANTIC_MIN_SPACING := 176.0
+const SEMANTIC_MAX_SITE_OFFSET := 420.0
 
 ## Quanti eventi della materia DEL MONDO popolano il mondo. Non è più il requisito
 ## del gate — dal 30 luglio il livello non conta le missioni — ma quanto la materia
@@ -130,6 +132,205 @@ static func _distributed_position(
 			return candidate
 	return candidate
 
+## Sceglie un LUOGO prima di scegliere una coordinata. I socket arrivano dalla
+## composizione autorata e descrivono affordance (archivio, strumento, sentiero,
+## varco, landmark); il formato e la materia dell'evento dichiarano invece che
+## cosa cercano. La casualita' risolve soltanto pareggi e piccoli scarti locali.
+##
+## Il ritorno conserva anche l'identita' del posto: scena, bussola e audit non
+## devono piu' dedurre a posteriori perche' una prova sia finita li'.
+static func _semantic_placement(
+	rng: RandomNumberGenerator,
+	composition: WorldCompositionData,
+	spawn: Vector2,
+	ship: Vector2,
+	safe_radius: float,
+	half_extent: float,
+	event_kind: String,
+	format: String,
+	subject: String,
+	event_index: int,
+	events: Array,
+	fallback_t: float,
+	fallback_min_r: float,
+	fallback_max_r: float
+) -> Dictionary:
+	if composition == null or composition.activity_sockets.is_empty():
+		return _fallback_placement(
+			rng, composition, spawn, ship, safe_radius, half_extent,
+			event_index, events, fallback_t, fallback_min_r, fallback_max_r)
+
+	var wanted := _event_place_tags(event_kind, format, subject)
+	var socket_usage: Dictionary = {}
+	var cluster_usage: Dictionary = {}
+	for previous_data in events:
+		var previous: Dictionary = previous_data
+		var socket_id := str(previous.get("locationSocket", ""))
+		var cluster_id := str(previous.get("locationCluster", ""))
+		if not socket_id.is_empty():
+			socket_usage[socket_id] = int(socket_usage.get(socket_id, 0)) + 1
+		if not cluster_id.is_empty():
+			cluster_usage[cluster_id] = int(cluster_usage.get(cluster_id, 0)) + 1
+
+	var ranked: Array = []
+	for socket_data in composition.activity_sockets:
+		var socket: Dictionary = socket_data
+		var socket_id := str(socket.get("id", ""))
+		var cluster_id := str(socket.get("cluster", socket_id))
+		var role := str(socket.get("role", "region"))
+		var tags: Array = socket.get("tags", [])
+		var used := int(socket_usage.get(socket_id, 0))
+		var capacity := maxi(1, int(socket.get("capacity", 1)))
+		var score := 0.0
+		for tag_data in wanted:
+			if tags.has(str(tag_data)):
+				score += 34.0
+		score += _role_score(event_kind, role)
+		# Le prove dello stesso giro formano costellazioni, non un unico mucchio:
+		# riusare un quartiere e' lecito, saturare sempre lo stesso no.
+		score -= float(cluster_usage.get(cluster_id, 0)) * 18.0
+		score -= float(used) * 58.0
+		if used >= capacity:
+			score -= 180.0 + float(used - capacity) * 70.0
+		# Il primo incontro deve essere leggibile senza attraversare tutto il
+		# mondo; quelli successivi possono spingersi verso regioni piu' profonde.
+		var depth := float(socket.get("routeDepth", 0.5))
+		if event_index == 0:
+			score += maxf(0.0, 1.0 - depth) * 72.0
+		elif event_kind == "minimission":
+			score += minf(depth, 1.0) * 34.0
+		# Il seed varia la scelta solo fra luoghi gia' sensati.
+		score += rng.randf_range(-7.0, 7.0)
+		ranked.append({"score": score, "socket": socket})
+	ranked.sort_custom(func(a, b): return float(a["score"]) > float(b["score"]))
+
+	for ranked_data in ranked:
+		var socket: Dictionary = Dictionary(ranked_data)["socket"]
+		var socket_id := str(socket.get("id", "semantic-site"))
+		var used := int(socket_usage.get(socket_id, 0))
+		var anchor: Vector2 = socket.get("position", spawn)
+		for local_attempt in range(5):
+			var orbit_index := event_index + used * 3 + local_attempt
+			var candidate := anchor
+			if str(socket.get("role", "")) != "crossing":
+				var radius := 28.0 + float(used + local_attempt) * 74.0
+				var angle := GOLDEN_ANGLE * float(orbit_index) + rng.randf_range(-0.18, 0.18)
+				var target := anchor + Vector2(cos(angle), sin(angle)) * radius
+				candidate = _beside_path(composition, target, orbit_index)
+				# Un nome semantico non deve diventare un'etichetta finta: se la
+				# strada porterebbe la prova fuori vista dal luogo, prova un altro
+				# socket invece di dichiararla ancora parte di questo sito.
+				if candidate.distance_to(anchor) > SEMANTIC_MAX_SITE_OFFSET:
+					continue
+			candidate = _inside_playfield(candidate, ship, safe_radius, half_extent)
+			if composition.raw_water_weight(candidate) > 0.32:
+				continue
+			if composition.is_protected(candidate, 18.0):
+				continue
+			if not _separated_from_events(candidate, events, SEMANTIC_MIN_SPACING):
+				continue
+			return {
+				"position": candidate,
+				"locationSocket": socket_id,
+				"locationCluster": str(socket.get("cluster", socket_id)),
+				"locationRole": str(socket.get("role", "region")),
+				"discoveryCue": str(socket.get("visibility", "proximity")),
+				"placementModel": "semantic",
+			}
+
+	return _fallback_placement(
+		rng, composition, spawn, ship, safe_radius, half_extent,
+		event_index, events, fallback_t, fallback_min_r, fallback_max_r)
+
+static func _fallback_placement(
+	rng: RandomNumberGenerator,
+	composition: WorldCompositionData,
+	spawn: Vector2,
+	ship: Vector2,
+	safe_radius: float,
+	half_extent: float,
+	event_index: int,
+	events: Array,
+	t: float,
+	min_r: float,
+	max_r: float
+) -> Dictionary:
+	return {
+		"position": _distributed_position(
+			rng, composition, spawn, ship, safe_radius, event_index, t,
+			min_r, max_r, half_extent, events),
+		"locationSocket": "",
+		"locationCluster": "fallback",
+		"locationRole": "route",
+		"discoveryCue": "proximity",
+		"placementModel": "radial-fallback",
+	}
+
+static func _separated_from_events(position: Vector2, events: Array, spacing: float) -> bool:
+	for previous_data in events:
+		var previous: Vector2 = (previous_data as Dictionary).get("position", Vector2.INF)
+		if position.distance_to(previous) < spacing:
+			return false
+	return true
+
+static func _role_score(event_kind: String, role: String) -> float:
+	if event_kind == "enigma":
+		return 270.0 if role == "crossing" else 92.0 if role == "landmark" else 20.0
+	if event_kind == "minimission":
+		return 86.0 if role == "instrument" or role == "region" else 24.0
+	if event_kind == "practice":
+		return 78.0 if role == "instrument" else 46.0 if role == "trail" else 18.0
+	return 62.0 if role == "region" else 50.0 if role == "instrument" else 22.0
+
+static func _event_place_tags(event_kind: String, format: String, subject: String) -> Array:
+	var tags: Array = []
+	match event_kind:
+		"enigma":
+			tags.append_array(["crossing", "traversal", "mystery", "landmark"])
+		"minimission":
+			tags.append_array(["worksite", "machine", "living", "field"])
+		"practice":
+			tags.append_array(["instrument", "exploration"])
+		_:
+			tags.append_array(["region", "worksite", "observation"])
+	match format:
+		"numeric_input":
+			tags.append_array(["measurement", "sequence"])
+		"matching":
+			tags.append_array(["matching", "archive", "classification", "sound"])
+		"ordering":
+			tags.append_array(["ordering", "sequence", "route", "machine"])
+		"classification":
+			tags.append_array(["classification", "archive", "living"])
+		"graph":
+			tags.append_array(["graph", "measurement", "navigation"])
+		"circuit":
+			tags.append_array(["circuit", "machine", "energy"])
+		"cycle":
+			tags.append_array(["cycle", "living", "sequence"])
+		"code_debug":
+			tags.append_array(["machine", "sequence", "archive"])
+		_:
+			tags.append("observation")
+	match subject:
+		"matematica":
+			tags.append_array(["measurement", "sequence"])
+		"italiano", "inglese", "latino":
+			tags.append_array(["language", "archive"])
+		"coding", "logica":
+			tags.append_array(["sequence", "machine"])
+		"fisica", "elettronica":
+			tags.append_array(["measurement", "machine", "circuit"])
+		"musica":
+			tags.append_array(["sound", "sequence"])
+		"geografia":
+			tags.append_array(["navigation", "graph"])
+		"scienze":
+			tags.append_array(["living", "cycle", "classification"])
+		"storia":
+			tags.append_array(["history", "archive", "ordering"])
+	return tags
+
 # Sceglie un formato dalla pool evitando il precedente e quelli recenti (se
 # possibile), in modo deterministico (avanza un indice).
 static func _next_format(formats: Array, used_index: int, last_format: String, recent: Array) -> String:
@@ -229,9 +430,9 @@ static func plan(profile: Dictionary, context: Dictionary, world_seed: String) -
 		var fmt := _next_format(formats, fmt_index, last_format, recent_formats)
 		last_format = fmt
 		fmt_index += 1
-		var event_position := _distributed_position(
-			rng, composition, spawn, ship, safe_radius, i, t,
-			GATE_MIN_R, GATE_MAX_R, half_extent, events)
+		var placement := _semantic_placement(
+			rng, composition, spawn, ship, safe_radius, half_extent,
+			kind, fmt, subject, i, events, t, GATE_MIN_R, GATE_MAX_R)
 		var voce := {
 			"id": "evt-%d-gate-%d" % [level, i],
 			"kind": kind,
@@ -241,7 +442,12 @@ static func plan(profile: Dictionary, context: Dictionary, world_seed: String) -
 			# insegnare: è questo che rende la materia dominante davvero dominante.
 			"topicHint": _topic_hint(
 				due_topics, weak_topics, i, Array(context.get("lessonTopics", []))),
-			"position": event_position,
+			"position": placement["position"],
+			"locationSocket": placement["locationSocket"],
+			"locationCluster": placement["locationCluster"],
+			"locationRole": placement["locationRole"],
+			"discoveryCue": placement["discoveryCue"],
+			"placementModel": placement["placementModel"],
 			"navigationSector": posmod(i, 6),
 			"countsForGate": true,
 			"reachable": true,
@@ -296,9 +502,10 @@ static func plan(profile: Dictionary, context: Dictionary, world_seed: String) -
 		# nuova non è quella vecchia — e nella posizione, perché deve nascere
 		# ALTROVE: ritrovarla nello stesso punto sarebbe la stessa location, e la
 		# segnalazione di gioco del 6 agosto nasce proprio da lì.
-		var pos: Vector2 = _distributed_position(
-			rng, composition, spawn, ship, safe_radius, idx + giro * 5, t2,
-			GATE_MAX_R, reach + 350.0, half_extent, events)
+		var placement := _semantic_placement(
+			rng, composition, spawn, ship, safe_radius, half_extent,
+			"practice", fmt2, other, idx + giro * 5, events, t2,
+			GATE_MAX_R, reach + 350.0)
 		events.append({
 			"id": "evt-%d-practice-%s-r%d" % [level, other, giro],
 			"kind": "practice",
@@ -308,10 +515,15 @@ static func plan(profile: Dictionary, context: Dictionary, world_seed: String) -
 				Array(Dictionary(context.get("dueBySubject", {})).get(other, [])),
 				Array(Dictionary(context.get("weakBySubject", {})).get(other, [])),
 				idx),
-			"position": pos,
+			"position": placement["position"],
+			"locationSocket": placement["locationSocket"],
+			"locationCluster": placement["locationCluster"],
+			"locationRole": placement["locationRole"],
+			"discoveryCue": placement["discoveryCue"],
+			"placementModel": placement["placementModel"],
 			"navigationSector": posmod(idx, 6),
 			"countsForGate": false,
-			"reachable": spawn.distance_to(pos) <= reach,
+			"reachable": spawn.distance_to(placement["position"] as Vector2) <= reach,
 		})
 
 	return events

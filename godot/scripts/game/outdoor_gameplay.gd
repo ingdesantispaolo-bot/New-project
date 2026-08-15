@@ -166,6 +166,16 @@ func _manca_per_salire(subject: String) -> String:
 		+ "Più vicine: %s%s. Si allenano negli incontri di pratica sparsi nel mondo.") % [
 		testa, ", ".join(PackedStringArray(pezzi)), coda]
 
+## Quando l'esame non si ripete perché la materia è già stata superata QUI.
+## Dice anche dove sta il lavoro rimasto, altrimenti la porta chiusa resta una
+## porta chiusa: le materie che mancano davvero sono le altre.
+func _gia_certificata(subject: String) -> String:
+	var testa := "L'apparato di %s è già acceso a questo livello: l'esame l'hai passato, non si rifà." % subject
+	var mancanti: Array = Array(progression_manager.readiness().get("missing", []))
+	if mancanti.is_empty():
+		return "%s Manca solo salire: il livello si apre." % testa
+	return "%s Restano %d materie da portare a questo grado." % [testa, mancanti.size()]
+
 func _abandon_feedback(costo: int, advanced: Array) -> String:
 	var testa := "Prova chiusa."
 	if costo > 0:
@@ -193,6 +203,11 @@ func setup(request: Dictionary, session_result: Dictionary, load_local_save: boo
 		game_save.load_save()
 	game_save.apply_launch_state(request)
 	content_manager = ContentManager.new()
+	# Le prove già superate entrano nella selezione una volta sola e per
+	# riferimento: `solved_index()` è un oggetto stabile che il save aggiorna in
+	# casa propria, quindi una prova risolta adesso è fuori dalla scelta già alla
+	# prova successiva, senza che nessuno debba ricordarsi di riassegnarlo.
+	content_manager.solved_by_subject = game_save.solved_index()
 	# ContentManager prima di ProgressionManager: serve alla dimensione COPERTURA
 	# del gate (numero di argomenti che la materia può proporre).
 	progression_manager = ProgressionManager.new(game_save, content_manager)
@@ -750,13 +765,21 @@ func _inject_due_reviews(session: Dictionary, subject: String, level: int, due_t
 		if covered.has(topic):
 			continue
 		var replacement: Dictionary = {}
+		var ripiego_risolto: Dictionary = {}
 		# Prima scelta: conserva la forma interattiva della palestra.
 		var guided := minigame_manager.build_topic_minigame(subject, topic, level)
 		for candidate_data in Array(guided.get("nodes", [])):
 			var candidate: Dictionary = candidate_data
-			if str(candidate.get("topic", "")) == topic:
-				replacement = candidate.duplicate(true)
-				break
+			if str(candidate.get("topic", "")) != topic:
+				continue
+			# Il ripasso si fa comunque, ma su una prova non ancora risolta se ce
+			# n'è una: l'argomento è dovuto, la domanda identica no.
+			if game_save.has_solved(subject, candidate):
+				if ripiego_risolto.is_empty():
+					ripiego_risolto = candidate.duplicate(true)
+				continue
+			replacement = candidate.duplicate(true)
+			break
 		# Fallback: il banco/generatore della materia e' la fonte autoritativa. Il
 		# generatore matematico prioritizza esplicitamente il topic richiesto.
 		if replacement.is_empty():
@@ -769,6 +792,10 @@ func _inject_due_reviews(session: Dictionary, subject: String, level: int, due_t
 				if str(candidate.get("topic", "")) == topic:
 					replacement = candidate.duplicate(true)
 					break
+		# Se su questo argomento non è rimasto niente di nuovo, il ripasso si fa
+		# lo stesso con la prova già risolta: saltarlo sarebbe il danno maggiore.
+		if replacement.is_empty():
+			replacement = ripiego_risolto
 		if replacement.is_empty():
 			continue
 		replacement["review"] = true
@@ -796,6 +823,11 @@ func _build_practice_session(subject: String, topic_hint: String = "", format_hi
 		return session
 
 	var evita := game_save.recent_practice(subject)
+	# Le due memorie rispondono a due domande diverse e servono entrambe: `evita`
+	# dice «l'ha vista di recente» (finestra corta, solo palestra), `superate` dice
+	# «l'ha risolta» e non scade. La seconda arriva qui perché la palestra
+	# costruisce i propri nodi da sé, fuori dalla selezione di ContentManager.
+	var superate := game_save.solved_exercises(subject)
 	var visti_qui: Dictionary = {}      # niente doppioni dentro la stessa sessione
 	var tenuti: Array = []
 	var scartati: Array = []
@@ -808,7 +840,7 @@ func _build_practice_session(subject: String, topic_hint: String = "", format_hi
 			var impronta := GameSaveManager.practice_node_fingerprint(nodo)
 			if visti_qui.has(impronta):
 				continue
-			if evita.has(impronta):
+			if evita.has(impronta) or superate.has(GameSaveManager.solved_fingerprint(nodo)):
 				scartati.append(nodo)
 				continue
 			visti_qui[impronta] = true
@@ -938,6 +970,13 @@ func try_start_final_exam() -> bool:
 	# L'esame è quello dell'apparato della materia che ABITA il mondo: si ripara
 	# una stanza per volta, e la stanza è quella del mondo in cui ti trovi.
 	var subject := ApparatusConfig.world_subject(game_save.level())
+	# Già superato a questo livello: si dice, invece di non fare niente. Un
+	# pulsante che non risponde insegna che è rotto; una riga che spiega insegna
+	# che quella materia è a posto e che il lavoro sta altrove.
+	if progression_manager.apparatus_certified_now(subject):
+		_present_feedback(_gia_certificata(subject), "nora")
+		_emit_state()
+		return false
 	if not progression_manager.can_repair_apparatus(subject):
 		_emit_state()
 		return false
@@ -992,6 +1031,13 @@ func resolve_session(exercise_result: Dictionary) -> void:
 	# decidere se la copia in cloud debba partire subito invece di aspettare.
 	var salito_di_livello := false
 
+	# **Le prove superate escono dal giro, e prima di ogni ramo.** Non è un fatto
+	# della missione o della palestra: è un fatto dello studente, vale per l'esame
+	# come per il lavoretto in bottega, e vale anche per la sessione lasciata a
+	# metà. Da qui in poi la selezione non le ripropone (vedi
+	# `ContentManager.solved_by_subject`).
+	game_save.remember_solved_map(Dictionary(exercise_result.get("solved", {})))
+
 	# Prova abbandonata: si paga l'uscita, non si registra alcun esito e non si
 	# completa niente. Gli argomenti visti vanno comunque al Codex — quello che
 	# il bambino ha imparato non gli viene tolto perché ha chiuso la porta.
@@ -1003,6 +1049,11 @@ func resolve_session(exercise_result: Dictionary) -> void:
 			subject, exercise_result.get("topicStats", {}))
 		_update_spaced_repetition(subject, exercise_result)
 		_present_feedback(_abandon_feedback(costo, usciti_avanzati), "nora")
+		# Anche l'uscita anticipata si scrive su disco. Era l'unico ramo che non lo
+		# faceva: chiudere la prova e poi il gioco rimandava indietro l'energia
+		# spesa, e ora rimanderebbe indietro anche le prove risolte — che
+		# tornerebbero a essere chieste, cioè esattamente ciò che va evitato.
+		_persist()
 		_emit_state()
 		return
 	# Il LAVORETTO in bottega: paga e non conta per niente altro. Allena la

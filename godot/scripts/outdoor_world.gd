@@ -357,11 +357,17 @@ func _align_enigma_to_water_crossing() -> void:
 	var preview := WorldCompositionGenerator.generate(world_seed, world_profile)
 	if preview == null or preview.crossings.is_empty():
 		return
-	var crossing: Dictionary = preview.crossings[0]
 	for index in range(mission_events.size()):
 		var event: Dictionary = mission_events[index]
 		if str(event.get("kind", "")) != "enigma":
 			continue
+		var crossing: Dictionary = preview.crossings[0]
+		var selected_socket := str(event.get("locationSocket", ""))
+		for crossing_data in preview.crossings:
+			var candidate: Dictionary = crossing_data
+			if selected_socket == "site-%s" % str(candidate.get("id", "")):
+				crossing = candidate
+				break
 		event["position"] = crossing.get("approach", event.get("position", Vector2.ZERO))
 		event["crossingId"] = str(crossing.get("id", ""))
 		event["bridgeCenter"] = crossing.get("position", event["position"])
@@ -1521,6 +1527,10 @@ func _create_profile_event(event: Dictionary) -> void:
 	area.set_meta("kind", scene_kind)
 	area.set_meta("id", event_id)
 	area.set_meta("directorEvent", event.duplicate(true))
+	area.set_meta("location_socket", str(event.get("locationSocket", "")))
+	area.set_meta("location_cluster", str(event.get("locationCluster", "fallback")))
+	area.set_meta("location_role", str(event.get("locationRole", "route")))
+	area.set_meta("discovery_cue", str(event.get("discoveryCue", "proximity")))
 	var payload := {
 		"subject": str(event.get("subject", _world_subject())),
 		"label": _event_label(event),
@@ -1529,6 +1539,10 @@ func _create_profile_event(event: Dictionary) -> void:
 		"countsForGate": bool(event.get("countsForGate", false)),
 		"directorKind": director_kind,
 		"ownerNpc": NPC_CATALOG.owner_for(world_level, director_kind),
+		"locationSocket": str(event.get("locationSocket", "")),
+		"locationCluster": str(event.get("locationCluster", "fallback")),
+		"locationRole": str(event.get("locationRole", "route")),
+		"discoveryCue": str(event.get("discoveryCue", "proximity")),
 	}
 	if director_kind == "minimission":
 		# Il testo autoriale viaggia INTERO nel payload: la logica di gioco non
@@ -5531,6 +5545,15 @@ func _refresh_prompt() -> void:
 		_set_feedback("Parla con %s · %s" % [
 			str(npc_payload.get("label", "abitante")),
 			str(npc_payload.get("role", "abitante"))])
+	elif kind == "building":
+		var building_role := str(target.get_meta("building_role", ""))
+		var building_label := str(target.get_meta("label", "luogo"))
+		if building_role == "work_home":
+			_set_feedback("%s · entra e allenati nella materia guida" % building_label)
+		elif building_role == "ritrovo":
+			_set_feedback("%s · incontra chi vive e lavora qui" % building_label)
+		else:
+			_set_feedback("%s · cerca le tracce lasciate dai Primi" % building_label)
 
 	elif kind == "mystery_trace":
 		var trace_payload: Dictionary = target.get_meta("payload", {})
@@ -5610,6 +5633,13 @@ func _interaction_action_text(target: Area2D) -> String:
 			return "AVVIA MISSIONE"
 		"npc":
 			return "PARLA"
+		"building":
+			var building_role := str(target.get_meta("building_role", ""))
+			if building_role == "work_home":
+				return "ENTRA E ALLENATI"
+			if building_role == "ritrovo":
+				return "ENTRA NEL RITROVO"
+			return "ESPLORA LA ROVINA"
 		"mystery_trace":
 			return "LEGGI LA TRACCIA"
 		"mystery_seed":

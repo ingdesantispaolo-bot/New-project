@@ -31,6 +31,20 @@ extends RefCounted
 ## anche ciò che rende visibile la profondità delle specifiche a insieme: due
 ## estrazioni diverse dallo stesso insieme sono due prove diverse, e ora si vede.
 
+## L'IMPRONTA: la stessa identità, ridotta a un numero.
+##
+## Serve dove la firma va conservata e non letta — la memoria delle prove superate
+## vive nel salvataggio, e tenere per esteso il testo di ogni esercizio risolto
+## gonfierebbe ogni file e ogni copia in cloud. Sta qui e non in chi la usa perché
+## «stessa prova» deve restare una definizione sola: il save che scrive e la
+## selezione che filtra devono chiedersi la stessa cosa, o non si incontrano mai.
+static func fingerprint(node: Dictionary) -> int:
+	return hash(of(node))
+
+## Come sopra, per chi ha già la firma in mano e non deve ricalcolarla.
+static func fingerprint_of(signature: String) -> int:
+	return hash(signature)
+
 static func of(node: Dictionary) -> String:
 	var fmt := str(node.get("format", ""))
 	var parts: Array = [fmt, str(node.get("prompt", "")).strip_edges()]

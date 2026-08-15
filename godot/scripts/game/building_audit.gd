@@ -20,6 +20,14 @@ func _run() -> void:
 		for spec in specs:
 			assert(str(spec.get("artKit", "")) == str(profile.get("artKit", "")),
 				"edificio non vestito per artKit nel mondo %d" % level)
+			var art_path := str(spec.get("artPath", ""))
+			if not art_path.is_empty():
+				assert(ResourceLoader.exists(art_path),
+					"asset illustrato mancante nel mondo %d: %s" % [level, art_path])
+			var prop_path := str(spec.get("activityPropPath", ""))
+			if not prop_path.is_empty():
+				assert(ResourceLoader.exists(prop_path),
+					"oggetto di attivita' mancante nel mondo %d: %s" % [level, prop_path])
 			var role := str(spec.get("role", ""))
 			var label := str(spec.get("label", ""))
 			var resident_owner := str(spec.get("residentOwner", ""))
@@ -77,6 +85,15 @@ func _test_world_one() -> void:
 		var actor := building as Node2D
 		var role := str(actor.get_meta("building_role", ""))
 		assert(actor.get_node_or_null("BuildingLabel") != null, "edificio senza etichetta accessibile")
+		if role == "work_home":
+			assert(bool(actor.get_meta("generated_art", false)),
+				"la Casa del Conto non usa il pilot illustrato")
+			assert(actor.get_node_or_null("GeneratedBuildingVisual/GeneratedBuildingArt") != null,
+				"Casa del Conto senza edificio generato")
+			assert(actor.get_node_or_null("GeneratedBuildingVisual/GeneratedActivityProp") != null,
+				"Casa del Conto senza stazione di attivita'")
+			assert(Array(actor.get_meta("activity_tags", [])).has("matematica"),
+				"Casa del Conto non dichiara la materia che ospita")
 		if role == "first_ruin":
 			ruin = actor
 		else:

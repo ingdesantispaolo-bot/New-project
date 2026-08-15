@@ -222,8 +222,12 @@ Tipi di missione (per non annoiare):
 
 Le Palestre fisse non sono il target finale. Un `MissionEventDirector` sceglie
 eventi compatibili con mondo, materia, livello e bisogno didattico. La posizione
-è variabile ma deterministica rispetto al seed; una quota minima di eventi utili
-è garantita vicino ai percorsi raggiungibili, per evitare blocchi dovuti al caso.
+non nasce più da una rotazione radiale: la composizione espone **luoghi
+semantici** (regioni, strumenti, landmark, sentieri e varchi), raggruppati in
+costellazioni. Il Director abbina formato e materia alle affordance del luogo;
+seed e casualità risolvono soltanto i pareggi. Una Casa del mestiere illustrata
+ospita la materia guida del mondo, mentre strumenti e siti esterni danno una
+forma alle prove sul campo. Dettagli e criteri: [ESPLORAZIONE_SEMANTICA.md](ESPLORAZIONE_SEMANTICA.md).
 Se il minigioco è una tappa di missione, vale come tappa e non come missione
 aggiuntiva; gli eventi di pratica libera migliorano mastery/ripasso ma non
 farmano il gate.

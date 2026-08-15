@@ -237,8 +237,25 @@ func can_level_up() -> bool:
 	return bool(readiness()["ready"])
 
 # Si può riparare l'apparato di questa materia?
+#
+# **Una stanza accesa a questo livello non si riaccende.** Misurato il 15 agosto
+# 2026: superato l'esame di matematica al livello 1, `can_repair_apparatus`
+# continuava a dire di sì e `repair_apparatus` pagava altri 80 di energia a ogni
+# ripetizione. Non era solo una perdita economica — era la stessa prova richiesta
+# di nuovo a chi l'aveva appena passata, e con il premio più grosso del gioco
+# appeso davanti perché la rifacesse.
+#
+# Al passaggio successivo della materia (mondi 13-24) il livello è cresciuto oltre
+# `repairedLevel` e l'esame torna disponibile: lì è un grado nuovo, non una
+# ripetizione.
 func can_repair_apparatus(subject: String) -> bool:
+	if apparatus_certified_now(subject):
+		return false
 	return bool(apparatus_readiness(subject)["ready"])
+
+## La materia è già stata certificata a QUESTO livello?
+func apparatus_certified_now(subject: String) -> bool:
+	return GateReadiness.certified_at_level(save, subject)
 
 # Compatibilità: l'apparato del mondo corrente. Da preferire la forma esplicita
 # `can_repair_apparatus(subject)`, che dice quale stanza si sta aprendo.
@@ -249,8 +266,7 @@ func can_repair() -> bool:
 
 # Un apparato è acceso? (`repairedLevel > 0`)
 func is_apparatus_repaired(subject: String) -> bool:
-	var apparatus := ApparatusConfig.apparatus_of(subject)
-	return int(save.data.get("apparatus", {}).get(apparatus, {}).get("repairedLevel", 0)) > 0
+	return save.apparatus_repaired_level(ApparatusConfig.apparatus_of(subject)) > 0
 
 # Quante delle dodici stanze sono accese. Il Cuore si apre con dodici, non con
 # ventiquattro livelli: è la garanzia che tutte le competenze vengano acquisite.

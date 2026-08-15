@@ -86,6 +86,17 @@ var _topic_seen: Dictionary = {}     # topic -> item incontrati (per mastery per
 ## chiude senza guardarla, e da li' in poi si chiudono tutte.
 var _lezioni_mostrate: Dictionary = {}
 var _topic_correct: Dictionary = {}  # topic -> risposte corrette
+## Le prove SUPERATE in questa sessione, materia per materia: {materia: [impronte]}.
+## Il chiamante le porta nel save, e da lì non vengono più richieste. La materia è
+## per nodo e non per sessione apposta: l'esame di mondo ospita due prove di nucleo
+## di altre materie e il finale del Cuore ne attraversa dodici.
+var _superate: Dictionary = {}
+## Errori commessi sul nodo CORRENTE. Serve alla regola «superata = risolta
+## pulita»: un minigioco che si chiude giusto al terzo tentativo non è una prova
+## superata, è una prova che conviene rivedere. `_wrong_attempts` non poteva
+## rispondere — è per argomento, e due nodi dello stesso argomento si sporcano
+## l'un l'altro.
+var _errori_nodo := 0
 var _wrong_attempts: Dictionary = {}  # topic -> tentativi errati nella sessione
 var _struggle_emitted: Dictionary = {}  # topic -> già segnalato in questa sessione
 var _maestro_voice: Dictionary = {}
@@ -211,6 +222,8 @@ func start_session(new_session: Dictionary) -> void:
 	_topic_seen = {}
 	_lezioni_mostrate = {}
 	_topic_correct = {}
+	_superate = {}
+	_errori_nodo = 0
 	_wrong_attempts = {}
 	_struggle_emitted = {}
 	_learning_emitted = {}
@@ -918,6 +931,7 @@ func _show_current() -> void:
 		pre_synthesis_requested.emit()
 		return
 	_answered = false
+	_errori_nodo = 0
 	_feedback.text = ""
 	_next_button.visible = false
 	if is_instance_valid(_numpad):
@@ -1121,6 +1135,14 @@ func _score_current(is_correct: bool, item: Dictionary) -> void:
 		_energia_serie += maxi(0, guadagno - _energy_per_correct)
 		if topic != "":
 			_topic_correct[topic] = int(_topic_correct.get(topic, 0)) + 1
+		# **La prova è superata, e non tornerà più a chiedere la stessa cosa.**
+		# Solo se risolta al primo colpo: chi ci è arrivato dopo un errore ha
+		# bisogno di rivederla, ed è il caso in cui rivederla insegna qualcosa.
+		if _errori_nodo == 0:
+			var materia := _materia_di(item)
+			var risolte: Array = _superate.get(materia, [])
+			risolte.append(GameSaveManager.solved_fingerprint(item))
+			_superate[materia] = risolte
 		if bool(item.get("review", false)) and topic != "":
 			_reviewed_ok.append(topic)
 		if int(_wrong_attempts.get(topic, 0)) > 0:
@@ -1886,6 +1908,10 @@ func _retryable_result(correct: bool, item: Dictionary, retry_message: String) -
 
 func _spend_shield() -> void:
 	_shields -= 1
+	# Il passaggio obbligato di ogni errore è anche l'unico posto onesto in cui
+	# annotare che il nodo corrente non è più «pulito»: contarlo nei singoli
+	# formati vorrebbe dire fidarsi che tutti e venti se ne ricordino.
+	_errori_nodo += 1
 	# **La serie si spezza qui, e solo qui.** È l'unico passaggio obbligato di
 	# ogni errore, in tutti e venti i formati: azzerarla in `_score_current`
 	# avrebbe lasciato intatta la serie di chi sbaglia dentro un minigioco senza
@@ -2308,6 +2334,10 @@ func _abandon() -> void:
 		"systemsResolved": _systems_resolved.keys(),
 		"synthesisResolved": false,
 		"topicStats": _build_topic_stats(),
+		# Anche uscendo: le prove risolte prima di chiudere la porta restano
+		# risolte, come gli argomenti visti che vanno comunque al Codex. Chiedere
+		# di nuovo proprio quelle sarebbe il premio all'abbandono.
+		"solved": _superate.duplicate(true),
 	})
 
 ## Il tasto indietro del tablet e l'Esc della tastiera fanno la stessa cosa del
@@ -2371,6 +2401,9 @@ func _finish() -> void:
 		# Esiti per-argomento della sessione: {topic: {"seen": n, "correct": k}}.
 		# Alimentano la mastery per-topic (adattività fine dentro la materia).
 		"topicStats": _build_topic_stats(),
+		# Le prove superate (risolte al primo colpo), materia per materia: il
+		# chiamante le porta nel save e la selezione non le ripropone più.
+		"solved": _superate.duplicate(true),
 	})
 
 func _build_topic_stats() -> Dictionary:

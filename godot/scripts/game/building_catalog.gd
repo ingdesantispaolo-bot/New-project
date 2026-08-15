@@ -6,6 +6,21 @@ extends RefCounted
 
 const ROLES := ["work_home", "ritrovo", "first_ruin"]
 
+## Pilot degli edifici disciplinari illustrati. La tabella resta piccola finche'
+## una cattura in gioco e il collaudo touch non dimostrano scala e leggibilita':
+## il fallback vettoriale continua a coprire ogni ruolo degli altri mondi.
+const GENERATED_ART := {
+	"1:work_home": {
+		"artPath": "res://assets/radura-casa-conto-v1.png",
+		"artScale": 0.19,
+		"artBaseline": -98.0,
+		"activityPropPath": "res://assets/radura-stazione-conto-v1.png",
+		"activityPropScale": 0.09,
+		"activityPropOffset": Vector2(-164, -10),
+		"activityTags": ["matematica", "raggruppamento", "misura", "ordine"],
+	},
+}
+
 ## **Tre edifici con un nome, in ognuno dei ventiquattro mondi.**
 ##
 ## Difetto trovato il 6 agosto 2026: i nomi esistevano **solo per il mondo 1**.
@@ -56,14 +71,18 @@ static func for_world(world: int, profile: Dictionary) -> Array:
 	var specs: Array = []
 	for role in ROLES:
 		var label := _label(world, role, profile)
-		specs.append({
+		var spec := {
 			"id": "building-%02d-%s" % [world, role],
 			"world": world,
 			"role": role,
 			"label": label,
 			"artKit": str(profile.get("artKit", "natura-rovine")),
 			"residentOwner": _resident_owner(world, role),
-		})
+		}
+		var generated_key := "%d:%s" % [world, role]
+		if GENERATED_ART.has(generated_key):
+			spec.merge(Dictionary(GENERATED_ART[generated_key]).duplicate(true), true)
+		specs.append(spec)
 	return specs
 
 ## Ogni luogo vivo appartiene a una persona: lo specialista lavora nella casa

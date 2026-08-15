@@ -86,7 +86,16 @@ func _prioritize_review_archetypes(archetypes: Array, review_topics: Array) -> A
 			prioritized.append(archetype_data)
 	return prioritized
 
-func build_nodes(level: int, count: int, rng: RandomNumberGenerator, recent_signatures: Array, review_topics: Array = []) -> Array:
+## `superate` = impronte (`ExerciseSignature`) delle prove che lo studente ha già
+## risolto: un candidato che ne fa parte viene rigettato come se fosse un doppione,
+## perché per chi lo gioca è esattamente questo. Vuoto = nessuna memoria, cioè il
+## comportamento di prima per audit e sonde.
+##
+## Va qui e non a valle perché la matematica non ha un banco da filtrare: i nodi
+## nascono su richiesta, e togliere quello sbagliato dopo lascerebbe la sessione
+## corta. Ripescare invece non costa niente — il generatore ha già la sua ansa di
+## trentasei tentativi per non ripetersi, e questa è la stessa domanda.
+func build_nodes(level: int, count: int, rng: RandomNumberGenerator, recent_signatures: Array, review_topics: Array = [], superate: Dictionary = {}) -> Array:
 	var complexity := complexity_for_level(level)
 	var archetypes := _eligible_archetypes(complexity)
 	_shuffle(archetypes, rng)
@@ -98,7 +107,7 @@ func build_nodes(level: int, count: int, rng: RandomNumberGenerator, recent_sign
 		var preferred := str(archetypes[index % archetypes.size()])
 		var node := _unique_node(
 			preferred, complexity, rng, recent_signatures, session_signatures,
-			session_topic_keys, index)
+			session_topic_keys, index, superate)
 		if review_topics.has(str(node.get("topic", ""))):
 			node["review"] = true
 		nodes.append(node)
@@ -110,16 +119,25 @@ func build_nodes(level: int, count: int, rng: RandomNumberGenerator, recent_sign
 	return nodes
 
 func _unique_node(preferred: String, complexity: int, rng: RandomNumberGenerator,
-		recent: Array, current: Array, used_topic_keys: Dictionary, index: int) -> Dictionary:
+		recent: Array, current: Array, used_topic_keys: Dictionary, index: int,
+		superate: Dictionary = {}) -> Dictionary:
 	var candidate := {}
+	var ripiego := {}
 	for attempt in range(36):
 		var archetype := preferred if attempt < 12 else str(_eligible_archetypes(complexity)[rng.randi_range(0, _eligible_archetypes(complexity).size() - 1)])
 		candidate = _build_archetype(archetype, complexity, rng, index)
 		var signature := str(candidate.get("signature", ""))
 		if not recent.has(signature) and not current.has(signature) \
 				and not used_topic_keys.has(_topic_key(candidate)):
-			return candidate
-	return candidate
+			if not superate.has(ExerciseSignature.fingerprint(candidate)):
+				return candidate
+			# Va bene per varietà ma lo studente l'ha già risolta: si tiene da parte
+			# e si continua a cercare. Meglio questa che l'ultimo candidato
+			# qualunque se i tentativi finiscono — sarebbe un doppione DENTRO la
+			# stessa sessione, che è il difetto peggiore dei due.
+			if ripiego.is_empty():
+				ripiego = candidate
+	return ripiego if not ripiego.is_empty() else candidate
 
 func _topic_key(node: Dictionary) -> String:
 	return "%s|%s" % [str(node.get("format", "")), str(node.get("topic", ""))]

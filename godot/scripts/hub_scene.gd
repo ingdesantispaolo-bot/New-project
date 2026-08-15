@@ -109,6 +109,9 @@ func _ready() -> void:
 	controller.state_changed.connect(_apply_state)
 	controller.exam_requested.connect(_start_exam)
 	content = ContentManager.new()
+	# Anche l'esame della nave pesca dalle prove ancora da risolvere: un esame che
+	# ripropone le domande già superate misura la memoria dell'ultima sessione.
+	content.solved_by_subject = save.solved_index()
 	_build_scene()
 	_build_exercise_overlay()
 	var gate := controller.progression.current_gate()
@@ -833,13 +836,26 @@ func _apply_state(state: Dictionary) -> void:
 		# La barra che prima contava le missioni ora mostra il nucleo: è quello che
 		# apre il livello. La padronanza della materia della stanza apre l'apparato.
 		var core := GateReadiness.evaluate_core(save, threshold)
-		requirements_label.text = "%s · padronanza %.0f%% / %.0f%%\nNucleo (ita·mat·ing) %.0f%%" % [
-			subject.capitalize(), mastery * 100.0, threshold * 100.0,
-			float(core["progress"]) * 100.0]
+		# Già superata a questo livello: il terminale non deve mandare a rifare
+		# missioni per una materia chiusa. Era la scritta che compariva, ed è
+		# peggio di un pulsante spento — dice di rifare una cosa già fatta.
+		var certificata := GateReadiness.certified_at_level(save, subject)
+		requirements_label.text = (
+			"%s · superata a questo livello\nNucleo (ita·mat·ing) %.0f%%" % [
+				subject.capitalize(), float(core["progress"]) * 100.0]
+			if certificata
+			else "%s · padronanza %.0f%% / %.0f%%\nNucleo (ita·mat·ing) %.0f%%" % [
+				subject.capitalize(), mastery * 100.0, threshold * 100.0,
+				float(core["progress"]) * 100.0])
 		mission_bar.max_value = 100
 		mission_bar.value = float(core["progress"]) * 100.0
 		mastery_bar.value = mastery * 100.0
-		repair_button.text = "AVVIA ESAME FINALE" if bool(state.get("ready", false)) else "COMPLETA LE MISSIONI NEL MONDO"
+		if bool(state.get("ready", false)):
+			repair_button.text = "AVVIA ESAME FINALE"
+		elif certificata:
+			repair_button.text = "APPARATO GIÀ ACCESO"
+		else:
+			repair_button.text = "COMPLETA LE MISSIONI NEL MONDO"
 		repair_button.disabled = not bool(state.get("ready", false))
 	elif campaign_complete:
 		var completed_subjects := ", ".join(PackedStringArray(room_state.get("subjects", [])))
@@ -936,6 +952,9 @@ func _complete_release_smoke_exam() -> void:
 
 func _on_exam_finished(exam_result: Dictionary) -> void:
 	exercise_player.visible = false
+	# Le prove superate escono dal giro comunque, esame passato o no: è un fatto
+	# dello studente, non dell'esito. Prima di ogni ramo, come nel mondo aperto.
+	save.remember_solved_map(Dictionary(exam_result.get("solved", {})))
 	var completed_finale := false
 	var exam_passed := bool(exam_result.get("passed", false))
 	if save.level() >= ApparatusConfig.MAX_LEVEL:

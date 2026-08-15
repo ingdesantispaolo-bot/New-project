@@ -12,6 +12,7 @@ var visual: Node2D
 var window_glows: Array[CanvasItem] = []
 var resident_owner := ""
 var resident_consequence: Node2D
+var generated_art := false
 
 ## Quanto largo e' l'ingresso di un edificio. Piu' generoso di un POI (88): un
 ## edificio e' grande, e doverne cercare il punto esatto trasforma un luogo in
@@ -41,6 +42,9 @@ func _rendi_luogo(spec: Dictionary) -> void:
 	area.name = "BuildingDoor"
 	area.set_meta("kind", "building")
 	area.set_meta("id", building_id)
+	area.set_meta("building_role", role)
+	area.set_meta("label", str(spec.get("label", "")))
+	area.set_meta("activity_tags", Array(spec.get("activityTags", [])).duplicate())
 	area.set_meta("payload", {
 		"role": role,
 		"label": str(spec.get("label", "")),
@@ -66,6 +70,7 @@ func configure(spec: Dictionary, world_stage: int, use_high_contrast: bool, use_
 	set_meta("building_role", role)
 	set_meta("resident_owner", resident_owner)
 	set_meta("artKit", str(spec.get("artKit", "")))
+	set_meta("activity_tags", Array(spec.get("activityTags", [])).duplicate())
 	add_to_group("world_building")
 	_rendi_luogo(spec)
 
@@ -74,6 +79,9 @@ func configure(spec: Dictionary, world_stage: int, use_high_contrast: bool, use_
 		visual.name = "FirstRuinVisual"
 		add_child(visual)
 		_build_ruin_visual(visual)
+	elif _build_generated_visual(spec):
+		generated_art = true
+		set_meta("generated_art", true)
 	else:
 		visual = OutdoorVisualFactory.build_academy_pavilion()
 		visual.name = "PavilionVisual"
@@ -88,7 +96,7 @@ func configure(spec: Dictionary, world_stage: int, use_high_contrast: bool, use_
 	var label := Label.new()
 	label.name = "BuildingLabel"
 	label.text = str(spec.get("label", "Edificio"))
-	label.position = Vector2(-120, 88 if role == "ritrovo" else 50)
+	label.position = Vector2(-120, 88 if role == "ritrovo" else 34 if generated_art else 50)
 	label.size = Vector2(240, 28)
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label.add_theme_font_size_override("font_size", 13)
@@ -106,6 +114,39 @@ func configure(spec: Dictionary, world_stage: int, use_high_contrast: bool, use_
 		resident_consequence.call("configure", resident_owner, world_stage, high_contrast, reduced_motion)
 		add_child(resident_consequence)
 	set_stage(world_stage)
+
+## Asset illustrati e logica restano separati: l'immagine decide silhouette e
+## atmosfera; porta, hit-area, materia, costo e sessione continuano a essere
+## nodi Godot. Se un file manca, `false` riattiva il padiglione vettoriale senza
+## rendere il mondo non giocabile.
+func _build_generated_visual(spec: Dictionary) -> bool:
+	var art_path := str(spec.get("artPath", ""))
+	if art_path.is_empty() or not ResourceLoader.exists(art_path):
+		return false
+	var texture := ResourceLoader.load(art_path, "Texture2D") as Texture2D
+	if texture == null:
+		return false
+	visual = Node2D.new()
+	visual.name = "GeneratedBuildingVisual"
+	var sprite := Sprite2D.new()
+	sprite.name = "GeneratedBuildingArt"
+	sprite.texture = texture
+	sprite.scale = Vector2.ONE * float(spec.get("artScale", 0.16))
+	sprite.position = Vector2(0, float(spec.get("artBaseline", -82.0)))
+	visual.add_child(sprite)
+	add_child(visual)
+
+	var prop_path := str(spec.get("activityPropPath", ""))
+	if not prop_path.is_empty() and ResourceLoader.exists(prop_path):
+		var prop_texture := ResourceLoader.load(prop_path, "Texture2D") as Texture2D
+		if prop_texture != null:
+			var prop := Sprite2D.new()
+			prop.name = "GeneratedActivityProp"
+			prop.texture = prop_texture
+			prop.scale = Vector2.ONE * float(spec.get("activityPropScale", 0.11))
+			prop.position = spec.get("activityPropOffset", Vector2(150, -18))
+			visual.add_child(prop)
+	return true
 
 func set_stage(value: int) -> void:
 	stage = clampi(value, 0, 3)

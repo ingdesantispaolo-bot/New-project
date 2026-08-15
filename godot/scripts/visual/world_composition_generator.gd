@@ -1229,10 +1229,163 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 		{"id": "hero-landmark", "position": _profile_hero_position(ship, level), "radius": 210.0},
 	]
 	_author_passages(data, spawn, ship)
+	_author_activity_sockets(data, profile, spawn, ship)
 	# Mantiene il seed semanticamente visibile negli strumenti di debug senza
 	# usarlo per prendere decisioni didattiche.
 	data.seed = "%s::%s" % [seed, profile_id]
 	return data
+
+## Costruisce una grammatica di LUOGHI sopra la composizione gia' autorata.
+##
+## Non crea coordinate indipendenti dal mondo: promuove regioni, strumenti,
+## landmark, sentieri e varchi gia' presenti a possibili sedi di attivita'. In
+## questo modo l'Archivio propone prove presso scaffali e sale, il Cratere presso
+## macchine e terrazze, la Serra presso habitat e pod, senza scrivere ventiquattro
+## tabelle parallele destinate a divergere dall'arte.
+static func _author_activity_sockets(
+	data: WorldCompositionData, profile: Dictionary, spawn: Vector2, ship: Vector2
+) -> void:
+	var sockets: Array = []
+	var half_extent := float(profile.get("worldHalfExtent", 2200.0))
+	var reach := float(profile.get("eventPools", {}).get("reachRadius", 1900.0))
+
+	for region_data in data.identity_regions:
+		var region: Dictionary = region_data
+		var region_id := str(region.get("id", "region-%d" % sockets.size()))
+		var kind := str(region.get("kind", "region"))
+		var position: Vector2 = region.get("position", spawn)
+		sockets.append(_activity_socket(
+			"site-%s" % region_id, position, "region",
+			_activity_tags(kind, "region"), region_id, 3,
+			_route_depth(spawn, position, reach), "distant_signal"))
+
+	for prop_index in range(data.identity_props.size()):
+		var prop: Dictionary = data.identity_props[prop_index]
+		var kind := str(prop.get("kind", "instrument"))
+		var position: Vector2 = prop.get("position", spawn)
+		var cluster := _nearest_region_id(data.identity_regions, position)
+		sockets.append(_activity_socket(
+			"instrument-%s-%d" % [kind, prop_index], position, "instrument",
+			_activity_tags(kind, "instrument"), cluster, 2,
+			_route_depth(spawn, position, reach), "local_clue"))
+
+	for pocket_data in data.hero_pockets:
+		var pocket: Dictionary = pocket_data
+		if str(pocket.get("id", "")) != "hero-landmark":
+			continue
+		var position: Vector2 = pocket.get("position", spawn)
+		sockets.append(_activity_socket(
+			"site-hero-landmark", position, "landmark",
+			["landmark", "mystery", "archive", "observation", "climax"],
+			"hero-landmark", 3, _route_depth(spawn, position, reach),
+			"distant_signal"))
+
+	for crossing_index in range(data.crossings.size()):
+		var crossing: Dictionary = data.crossings[crossing_index]
+		var position: Vector2 = crossing.get("approach", crossing.get("position", spawn))
+		sockets.append(_activity_socket(
+			"site-%s" % str(crossing.get("id", "crossing-%d" % crossing_index)),
+			position, "crossing",
+			["crossing", "traversal", "mystery", "ordering", "measurement"],
+			"passage-%d" % crossing_index, 1,
+			_route_depth(spawn, position, reach), "distant_signal"))
+
+	# I sentieri sono il tessuto connettivo fra le costellazioni. Un solo punto
+	# per tracciato basta: i siti identitari restano i protagonisti, mentre questi
+	# socket garantiscono un appoggio leggibile anche a profili con poche regioni.
+	for path_index in range(data.paths.size()):
+		var path: Dictionary = data.paths[path_index]
+		var points: PackedVector2Array = path.get("points", PackedVector2Array())
+		if points.size() < 2:
+			continue
+		var middle_index := clampi(floori(float(points.size() - 1) * 0.58), 0, points.size() - 2)
+		var position := points[middle_index].lerp(points[middle_index + 1], 0.5)
+		# Nessun socket dentro la zona nave: quel tratto deve restare respiro e
+		# orientamento, non una bacheca di esercizi appena atterrati.
+		if position.distance_to(ship) < float(profile.get("shipEntrance", {}).get("safeRadius", 340.0)) + 120.0:
+			continue
+		var path_id := str(path.get("id", "path-%d" % path_index))
+		sockets.append(_activity_socket(
+			"trail-%s" % path_id, position, "trail",
+			["route", "ordering", "observation", "navigation"],
+			_nearest_region_id(data.identity_regions, position), 2,
+			_route_depth(spawn, position, reach), "proximity"))
+
+	# La composizione puo' oltrepassare lievemente il rettangolo giocabile con
+	# underpaint e acqua. I luoghi interattivi, invece, devono restarci dentro.
+	for socket_data in sockets:
+		var socket: Dictionary = socket_data
+		var position: Vector2 = socket["position"]
+		position.x = clampf(position.x, ship.x - half_extent, ship.x + half_extent)
+		position.y = clampf(position.y, ship.y - half_extent, ship.y + half_extent)
+		socket["position"] = position
+		data.activity_sockets.append(socket)
+
+static func _activity_socket(
+	id: String, position: Vector2, role: String, tags: Array, cluster: String,
+	capacity: int, route_depth: float, visibility: String
+) -> Dictionary:
+	return {
+		"id": id,
+		"position": position,
+		"role": role,
+		"tags": tags.duplicate(),
+		"cluster": cluster if not cluster.is_empty() else id,
+		"capacity": maxi(1, capacity),
+		"routeDepth": clampf(route_depth, 0.0, 1.5),
+		"visibility": visibility,
+	}
+
+static func _route_depth(spawn: Vector2, position: Vector2, reach: float) -> float:
+	return spawn.distance_to(position) / maxf(1.0, reach)
+
+static func _nearest_region_id(regions: Array, position: Vector2) -> String:
+	var best_id := "open-route"
+	var best_distance := INF
+	for region_data in regions:
+		var region: Dictionary = region_data
+		var center: Vector2 = region.get("position", position)
+		var distance := position.distance_squared_to(center)
+		if distance < best_distance:
+			best_distance = distance
+			best_id = str(region.get("id", best_id))
+	return best_id
+
+## Traduce il nome visivo di una regione/prop in affordance di gioco. Sono tag
+## larghi, non contenuto didattico: un `sensor_probe` sa ospitare misure e grafici,
+## ma non decide domanda, risposta, materia o ricompensa.
+static func _activity_tags(kind: String, role: String) -> Array:
+	var key := kind.to_lower()
+	var tags: Array = [role, "observation"]
+	if _has_any(key, ["archive", "shelf", "glyph", "stele", "tablet", "source", "voice", "root", "mosaic", "era"]):
+		tags.append_array(["archive", "matching", "classification", "language", "history"])
+	if _has_any(key, ["machine", "node", "piston", "rail", "circuit", "coil", "relay", "automaton", "debug", "sensor", "energy", "field", "conductor", "gate", "wall"]):
+		tags.append_array(["machine", "circuit", "ordering", "sequence", "measurement"])
+	if _has_any(key, ["garden", "bloom", "pod", "cell", "spore", "habitat", "symbiosis", "nursery", "bio"]):
+		tags.append_array(["living", "classification", "cycle", "matching"])
+	if _has_any(key, ["beacon", "buoy", "mast", "route", "contour", "map", "climate", "trajectory", "orbit", "dock"]):
+		tags.append_array(["navigation", "graph", "measurement", "matching"])
+	if _has_any(key, ["resonance", "tuning", "echo", "organ", "harmony", "timbre", "sound"]):
+		tags.append_array(["sound", "matching", "ordering", "sequence"])
+	if _has_any(key, ["plaza", "market", "forum", "courtyard", "harbour", "yard"]):
+		tags.append_array(["social", "classification", "worksite"])
+	if _has_any(key, ["crater", "dune", "terrace", "island", "basin", "sector", "cavern", "crypt", "chamber"]):
+		tags.append_array(["field", "exploration", "measurement"])
+	return _unique_strings(tags)
+
+static func _has_any(value: String, needles: Array) -> bool:
+	for needle_data in needles:
+		if value.contains(str(needle_data)):
+			return true
+	return false
+
+static func _unique_strings(values: Array) -> Array:
+	var out: Array = []
+	for value_data in values:
+		var value := str(value_data)
+		if not out.has(value):
+			out.append(value)
+	return out
 
 ## Sceglie il corso d'acqua più vicino all'asse della nave (i canali esterni
 ## restano confini naturali) e vi definisce un solo varco costruibile. La scena

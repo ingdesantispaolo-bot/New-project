@@ -73,6 +73,11 @@ func _run() -> void:
 	root.size = Vector2i(1280, 720)
 	player = PLAYER.new()
 	root.add_child(player)
+	# **Senza questo la sonda fotografa un layout che non esiste.** Il player
+	# restava alla dimensione ricevuta all'aggiunta, mentre `_capture` cambiava la
+	# finestra: il riquadro dell'esercizio calcolava gli ancoraggi su un'area
+	# vecchia e l'immagine salvata non corrispondeva a nessuno schermo vero.
+	player.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	if "--all-formats" in OS.get_cmdline_user_args():
 		await _capture_all_formats()
 		print("EXERCISE RENDER probe OK - 17 formati / 19 varianti tablet")
@@ -118,6 +123,17 @@ func _run() -> void:
 		print("EXERCISE RENDER probe OK — tastierino numerico landscape + portrait")
 		quit(0)
 		return
+	# **Schermo alto e contenuto corto**: e' il caso in cui l'ordinamento stava in
+	# una finestrella con la sua barra mentre sotto restavano settecento pixel
+	# vuoti. Qui si guarda che lo spazio venga occupato.
+	await _capture("ordering-schermo-alto", _node("ordering", {
+		"prompt": "Ordina i passi per risolvere un'analogia.",
+		"items": ["Guarda la prima coppia", "Di' a parole come sono legate",
+			"Cerca lo stesso legame nella seconda coppia", "Scegli la parola che lo completa"],
+		"correctOrder": ["Guarda la prima coppia", "Di' a parole come sono legate",
+			"Cerca lo stesso legame nella seconda coppia", "Scegli la parola che lo completa"],
+	}), "final_exam", Vector2i(820, 1180))
+
 	# **Il caso della segnalazione del 15 agosto**, in una finestra bassa apposta:
 	# la retta dei numeri occupa mezza schermata, ed e' li' che VERIFICA finiva
 	# sotto il bordo. Va guardata, non solo misurata.
@@ -200,6 +216,7 @@ func _run() -> void:
 func _capture(name: String, node: Dictionary, kind: String, viewport_size: Vector2i) -> void:
 	DisplayServer.window_set_size(viewport_size)
 	root.size = viewport_size
+	player.size = Vector2(viewport_size)
 	player.start_session({
 		"sessionId": name,
 		"kind": kind,
@@ -219,6 +236,7 @@ func _capture(name: String, node: Dictionary, kind: String, viewport_size: Vecto
 func _capture_session(name: String, session: Dictionary, viewport_size: Vector2i) -> void:
 	DisplayServer.window_set_size(viewport_size)
 	root.size = viewport_size
+	player.size = Vector2(viewport_size)
 	player.start_session(session)
 	await process_frame
 	await process_frame

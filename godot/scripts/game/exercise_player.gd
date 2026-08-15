@@ -132,6 +132,9 @@ var _options_scroll: ScrollContainer
 ## scorrimento: è lì che vivono i pulsanti che fanno proseguire.
 var _action_bar: VBoxContainer
 var _content_scroll: ScrollContainer
+## La colonna dentro lo scorrimento: le si dà un'altezza minima pari all'area
+## visibile, così riempie lo spazio invece di lasciarlo vuoto sotto.
+var _content_box: VBoxContainer
 
 # Stato dei minigiochi interattivi (formati "ordering" e "matching"). Ogni nodo
 # minigioco vale come un esercizio: risolverlo = 1 corretto; gli errori intermedi
@@ -332,6 +335,8 @@ func _build_ui() -> void:
 	# fuori da ogni scorrimento. Comunque cresca la domanda, il diagramma o il
 	# riscontro, VERIFICA resta dov'è.
 	_content_scroll = box_scroll
+	_content_box = box
+	box_scroll.resized.connect(_adatta_altezza_contenuto)
 	_action_bar = VBoxContainer.new()
 	_action_bar.name = "ExerciseActionBar"
 	_action_bar.add_theme_constant_override("separation", 8)
@@ -618,6 +623,7 @@ func _apply_format_layout(format: String) -> void:
 		return
 	_exercise_panel.anchor_top = 0.06 if compact else 0.04
 	_exercise_panel.anchor_bottom = 0.74 if compact else 0.96
+	call_deferred("_adatta_altezza_contenuto")
 	# Anche qui nessun minimo verticale: gli ancoraggi qui sopra decidono quanto
 	# e alto il riquadro, e un minimo piu grande della finestra lo farebbe
 	# sbordare comunque — che e il difetto appena riparato.
@@ -830,6 +836,29 @@ func _riallinea_barra_azioni() -> void:
 	_action_bar.offset_top = -(altezza + MARGINE_BARRA_AZIONI)
 	if is_instance_valid(_content_scroll):
 		_content_scroll.offset_bottom = -(altezza + MARGINE_BARRA_AZIONI * 2.0)
+		_adatta_altezza_contenuto()
+
+## **Se c'è spazio, non si scorre.** (15 agosto 2026)
+##
+## Segnalazione con schermata: in un esercizio di ordinamento gli elementi
+## stavano in una finestrella con la sua barra di scorrimento, e sotto restavano
+## **settecento pixel vuoti**. Da fuori sembra un difetto di stile; da dentro è
+## una cosa che si fa fare al bambino senza motivo — trascinare una barra per
+## vedere una tessera che ci sarebbe stata comodamente.
+##
+## La causa: la colonna dell'esercizio vive dentro uno ScrollContainer, e un
+## contenitore scorrevole dà ai figli la loro altezza MINIMA, non quella
+## disponibile. Così `size_flags_vertical = EXPAND_FILL` sull'area delle opzioni
+## non aveva alcun effetto: restava ai suoi 180 px di minimo qualunque schermo ci
+## fosse sotto.
+##
+## Il rimedio è dire alla colonna quanto è grande la finestra da riempire. Se il
+## contenuto è più alto, cresce comunque e lo scorrimento riprende il suo lavoro:
+## si scorre quando serve, non per abitudine.
+func _adatta_altezza_contenuto() -> void:
+	if not is_instance_valid(_content_box) or not is_instance_valid(_content_scroll):
+		return
+	_content_box.custom_minimum_size.y = maxf(0.0, _content_scroll.size.y)
 
 ## Pulisce le azioni costruite per l'esercizio precedente (ANNULLA/VERIFICA delle
 ## interazioni), lasciando al loro posto i pulsanti permanenti della barra.

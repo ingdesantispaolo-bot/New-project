@@ -246,6 +246,41 @@ func _run() -> void:
 		player.queue_free()
 		await process_frame
 
+	# **5 · se c'è spazio, non si scorre.** (15 agosto 2026)
+	#
+	# Segnalazione con schermata: le tessere da ordinare stavano in una
+	# finestrella con la sua barra di scorrimento mentre sotto restavano
+	# settecento pixel vuoti. Far scorrere un bambino per vedere una cosa che ci
+	# starebbe è lavoro inutile che il gioco gli chiede.
+	#
+	# La causa era strutturale: dentro uno ScrollContainer i figli ricevono la
+	# loro altezza MINIMA, quindi `EXPAND_FILL` sull'area delle opzioni non aveva
+	# effetto e restava ai suoi 180 px su qualunque schermo. Qui si verifica il
+	# risultato: su una finestra alta, con poco contenuto, la barra interna non
+	# deve comparire.
+	root.get_window().size = Vector2i(900, 1180)
+	for formato in ["ordering", "multiple_choice"]:
+		var player := ExercisePlayer.new()
+		player.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		root.add_child(player)
+		player.start_session(_sessione_interattiva(formato) if formato == "ordering" else _sessione(formato))
+		for _giro in range(4):
+			await process_frame
+		var opzioni := player.find_child("ExerciseOptionsScroll", true, false) as ScrollContainer
+		if opzioni != null:
+			var barra_v := opzioni.get_v_scroll_bar()
+			var contenuto := 0.0
+			for figlio in opzioni.get_children():
+				var controllo := figlio as Control
+				if controllo != null and controllo.visible:
+					contenuto = maxf(contenuto, controllo.get_combined_minimum_size().y)
+			if barra_v != null and barra_v.visible and contenuto <= opzioni.size.y + 1.0:
+				_fallisci("%s: la barra di scorrimento compare pur avendo spazio (contenuto %.0f, area %.0f)" % [
+					formato, contenuto, opzioni.size.y])
+		player.queue_free()
+		await process_frame
+	root.get_window().size = FINESTRA
+
 	# Un controllo che non trova mai il pulsante non sta controllando niente: se
 	# nessuno dei tre formati costruisce VERIFICA, questo audit è una finzione e
 	# deve dirlo invece di stare zitto.

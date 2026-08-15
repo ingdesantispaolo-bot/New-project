@@ -153,6 +153,29 @@ calendario. È ciò che si dichiara all'adulto (Manuale, report) e la soglia del
 stato "consolidato" nel Codex. La dimensione RITENZIONE del gate continua a
 chiedere soltanto che nessun argomento sia arretrato nel ripasso spaziato.
 
+### Una materia CERTIFICATA non si rifà (a quel grado)
+Superare l'esame di una materia accende la sua stanza e la **certifica per il
+livello corrente**: da quel momento e finché il livello non sale, quella materia
+non compare più fra le mancanti del gate e il suo esame non viene più offerto.
+
+Serviva perché due strade la riportavano indietro dopo che era stata passata:
+
+- il **decadimento per trascuratezza** faceva scendere la padronanza sotto soglia
+  mentre il bambino lavorava sulle *altre* materie — cioè facendo esattamente ciò
+  che il gate chiede. Misurato: certificata con 0,85, dopo 45 sessioni altrove
+  scendeva a 0,722 contro una soglia di 0,78, e tornava «da fare» con la stanza
+  accesa in bella vista;
+- l'**esame restava avviabile**, e ogni ripetizione ripagava gli 80 di energia
+  della riparazione: la prova appena superata riproposta con il premio più grosso
+  del gioco appeso davanti.
+
+La certificazione vale **solo per il grado in cui è stata presa**. Al livello
+successivo, e al secondo passaggio della materia (mondi 13-24), il grado è un
+altro e si ricomincia: è la ragione per cui la scala ha ventiquattro mondi e non
+dodici. Il decadimento resta e la padronanza mostrata è quella vera — cambia solo
+che non può più disfare una prova superata. Tenuto da
+`subject_certification_audit.gd`.
+
 ### Esempio di scala (tunable, dati)
 | Livello | Materia in focus | Apparato (stanza) | Missioni richieste (N) | Soglia mastery |
 |---|---|---|---|---|

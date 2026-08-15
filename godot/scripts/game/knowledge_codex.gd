@@ -73,13 +73,44 @@ func _key(subject: String, topic: String) -> String:
 
 # Tutti gli argomenti che il runtime può PROPORRE in missioni/enigmi/esami: i
 # topic dei banchi (12 materie) più i concetti generati dalla matematica.
+## **Tutti gli argomenti che il gioco serve davvero.** (15 agosto 2026)
+##
+## Fino a ieri erano i topic dei **banchi** più i concetti di matematica. Mancavano
+## quelli dei **minigiochi**, ed è per questo che la scheda «NUOVO CONCETTO» è
+## potuta uscire vuota su «numeri» mentre `codex_teaching_audit` restava verde:
+## l'audit chiedeva conto solo degli argomenti che questa funzione elencava, e
+## quello non c'era. Un registro che non elenca metà di ciò che esiste rende
+## inutile ogni controllo costruito sopra.
+##
+## `fonte` dice da dove viene l'argomento: chi verifica può pretendere l'esempio
+## con la risposta dai banchi (che ce l'hanno) senza pretenderlo dai minigiochi
+## (dove la risposta è un gesto sulla tavola, non una parola).
+## Cache del registro degli argomenti: vedi `runtime_topics`.
+var _registro_topics: Dictionary = {}
+
 func runtime_topics() -> Dictionary:
-	var out: Dictionary = {}  # "subject:topic" -> {subject, topic}
+	# **Si costruisce una volta sola.** Dal 15 agosto il registro scandisce anche
+	# le tabelle dei minigiochi, che sono grandi: ricostruirlo a ogni chiamata ha
+	# fatto sforare il tempo al Manuale, che lo interroga dentro un ciclo su tutte
+	# le voci. Il contenuto è statico per istanza, quindi la cache non può
+	# invecchiare.
+	if not _registro_topics.is_empty():
+		return _registro_topics
+	var out: Dictionary = {}  # "subject:topic" -> {subject, topic, fonte}
 	for subject in ApparatusConfig.SUBJECT_CYCLE:
 		for topic in content.bank_topics(str(subject)):
-			out[_key(str(subject), str(topic))] = {"subject": str(subject), "topic": str(topic)}
+			out[_key(str(subject), str(topic))] = {
+				"subject": str(subject), "topic": str(topic), "fonte": "banco"}
 	for topic in MATH_CONCEPTS.keys():
-		out[_key("matematica", str(topic))] = {"subject": "matematica", "topic": str(topic)}
+		out[_key("matematica", str(topic))] = {
+			"subject": "matematica", "topic": str(topic), "fonte": "banco"}
+	for subject in ApparatusConfig.SUBJECT_CYCLE:
+		for topic in MinigameManager.topics_for(str(subject)):
+			var chiave := _key(str(subject), str(topic))
+			if out.has(chiave):
+				continue
+			out[chiave] = {"subject": str(subject), "topic": str(topic), "fonte": "minigioco"}
+	_registro_topics = out
 	return out
 
 # Item del banco più semplice (difficoltà minima) per un argomento: è l'esempio
@@ -137,7 +168,12 @@ func entry_for(subject: String, topic: String) -> Dictionary:
 	var causale := NoraExplanations.voce(subject, topic)
 	var item := _sample_item(subject, topic)
 	if not item.is_empty():
-		var short_text: String = str(item.get("explanation", "Concetto di %s." % topic))
+		# **Niente spiegazione finta.** (15 agosto 2026)
+		# Il valore di ripiego era «Concetto di <topic>.», che non spiega niente e
+		# occupa il posto di una spiegazione. Meglio vuoto: chi presenta la scheda
+		# sa distinguere «non ho niente da dire» da una frase che gira a vuoto, e
+		# una sezione senza contenuto non viene proprio costruita.
+		var short_text: String = str(item.get("explanation", ""))
 		if authored.has("short"):
 			short_text = str(authored["short"])
 		elif not causale.is_empty():
@@ -149,12 +185,30 @@ func entry_for(subject: String, topic: String) -> Dictionary:
 		return _entry(subject, topic, int(item.get("difficulty", 1)), short_text, example, typical, strategy)
 
 	# 3) Fallback (topic senza banco né concetto autorato): voce minima ma reale.
-	var short_fb: String = str(authored.get("short", "Concetto di %s in %s." % [topic, subject]))
+	# Stessa regola del ramo sopra: se non c'è una spiegazione vera la voce resta
+	# vuota. E l'esempio svolto NON ripete la spiegazione: un esempio senza
+	# domanda non è un esempio, ed è ciò che produceva schede in cui sotto
+	# «ESEMPIO SVOLTO» compariva solo un «Perché:» che rigirava il titolo.
+	var short_fb: String = str(authored.get("short", ""))
 	if not authored.has("short") and not causale.is_empty():
 		short_fb = str(causale.get("perche", short_fb))
 	if not causale.is_empty() and not authored.has("strategy"):
 		strategy = str(causale.get("come", strategy))
-	return _entry(subject, topic, 1, short_fb, {"prompt": "", "answer": "", "explanation": short_fb}, {"wrong": "", "why": ""}, strategy)
+	# **Prima di arrendersi: la spiegazione può stare nel minigioco.** (15 agosto
+	# 2026) Gli argomenti serviti dai minigiochi non stanno nei banchi, quindi
+	# `_sample_item` non li trova — ma le loro spec portano spesso una
+	# spiegazione causale già scritta e già giocata. Misurato: erano 111 gli
+	# argomenti su 245 senza lezione, quasi tutti di qui.
+	var da_minigioco := MinigameManager.spiegazione_di_topic(subject, topic)
+	if not da_minigioco.is_empty():
+		if short_fb.strip_edges() == "":
+			short_fb = str(da_minigioco.get("explanation", ""))
+		var domanda := str(da_minigioco.get("prompt", ""))
+		if domanda != "":
+			return _entry(subject, topic, 1, short_fb,
+				{"prompt": domanda, "answer": "", "explanation": str(da_minigioco.get("explanation", ""))},
+				{"wrong": "", "why": ""}, strategy)
+	return _entry(subject, topic, 1, short_fb, {"prompt": "", "answer": "", "explanation": ""}, {"wrong": "", "why": ""}, strategy)
 
 # Errore tipico raccolto da un item a scelta multipla: un distrattore come
 # risposta sbagliata plausibile, col perché è sbagliato.
@@ -271,15 +325,43 @@ func mini_lesson(subject: String, topic: String) -> Dictionary:
 	var entry := entry_for(subject, topic)
 	var example: Dictionary = entry.get("example", {})
 	var typical: Dictionary = entry.get("typicalError", {})
+	var _spiegazione := str(entry.get("shortExplanation", "")).strip_edges()
 	return {
 		"subject": subject,
 		"topic": topic,
-		"intro": "Prima di provare, guardiamo insieme: %s" % str(entry.get("shortExplanation", "")),
+		# L'intro esiste solo se c'è qualcosa da introdurre: «Prima di provare,
+		# guardiamo insieme:» seguito dal nulla era la forma peggiore di tutte,
+		# perché prometteva una spiegazione nella stessa riga in cui non la dava.
+		"intro": ("Prima di provare, guardiamo insieme: %s" % _spiegazione)
+			if _spiegazione != "" else "",
 		"explanation": str(entry.get("shortExplanation", "")),
 		"workedExample": example,               # prompt → risposta, con il perché
 		"strategy": str(entry.get("noraStrategy", "")),
 		"watchOut": typical,                    # errore tipico + perché è sbagliato
 	}
+
+## **Questa lezione ha qualcosa da insegnare?** (15 agosto 2026)
+##
+## Nasce da una segnalazione con schermata: la scheda «NUOVO CONCETTO · NORA
+## SPIEGA» diceva «Prima di provare, guardiamo insieme: Concetto di numeri in
+## matematica», poi «ESEMPIO SVOLTO» seguito dal nulla, e sotto «Perché: Concetto
+## di numeri in matematica» — la stessa frase vuota due volte, con in mezzo il
+## titolo di un esempio che non esisteva.
+##
+## Il danno non è estetico. Una scheda che promette di spiegare e non spiega
+## insegna al bambino che le spiegazioni di NORA si saltano, e da quel momento le
+## salta **tutte**, comprese quelle scritte bene. Meglio nessuna scheda.
+##
+## La sostanza è **una spiegazione vera o un esempio con la sua domanda**. La
+## strategia da sola non basta: «nomina il vincolo, poi fai un passaggio alla
+## volta» è un buon promemoria accanto a un contenuto, e un guscio da solo.
+static func lezione_ha_sostanza(lesson: Dictionary) -> bool:
+	if lesson.is_empty():
+		return false
+	if str(lesson.get("explanation", "")).strip_edges() != "":
+		return true
+	var esempio: Dictionary = lesson.get("workedExample", {})
+	return str(esempio.get("prompt", "")).strip_edges() != ""
 
 # Momento d'insegnamento quando si AVVIA un esercizio su questo argomento:
 #   "pre_teach"  → primo incontro assoluto: NORA insegna prima di chiedere;

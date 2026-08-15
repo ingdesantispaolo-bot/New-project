@@ -2,6 +2,11 @@ class_name ExercisePlayer
 extends Control
 
 const ExerciseInteraction = preload("res://scripts/game/exercise_interaction.gd")
+
+## Quanto spazio lo scorrimento lascia SEMPRE libero in fondo, anche a barra
+## vuota: il margine che impedisce all'ultima riga di contenuto di incollarsi ai
+## pulsanti.
+const MARGINE_BARRA_AZIONI := 12.0
 const EXERCISE_DRAG_BUTTON := preload("res://scripts/ui/exercise_drag_button.gd")
 const EXERCISE_DROP_BUTTON := preload("res://scripts/ui/exercise_drop_button.gd")
 const EXERCISE_CONNECTION_CANVAS := preload("res://scripts/ui/exercise_connection_canvas.gd")
@@ -69,6 +74,10 @@ var _abandon_cost := 3
 var _abandon_armed := false
 var _started_at_msec := 0
 var _answered := false
+## Chiusura a prova di doppio input. Sul Web un rilascio touch puo arrivare
+## insieme al click sintetico del browser: l'esito deve partire una volta sola.
+var _completion_queued := false
+var _session_closed := false
 var _missed: Array = []       # topic sbagliati → ripasso spaziato
 var _reviewed_ok: Array = []  # topic di ripasso risolti correttamente
 var _topic_seen: Dictionary = {}     # topic -> item incontrati (per mastery per-topic)
@@ -119,6 +128,10 @@ var _numpad: GridContainer
 var _convergence_display: FinalConvergenceDisplay
 var _exercise_panel: Panel
 var _options_scroll: ScrollContainer
+## La barra delle azioni, ancorata al fondo del riquadro e fuori da ogni
+## scorrimento: è lì che vivono i pulsanti che fanno proseguire.
+var _action_bar: VBoxContainer
+var _content_scroll: ScrollContainer
 
 # Stato dei minigiochi interattivi (formati "ordering" e "matching"). Ogni nodo
 # minigioco vale come un esercizio: risolverlo = 1 corretto; gli errori intermedi
@@ -186,6 +199,8 @@ func start_session(new_session: Dictionary) -> void:
 	_serie_massima = 0
 	_energia_serie = 0
 	_abandon_armed = false
+	_completion_queued = false
+	_session_closed = false
 	_abandon_cost = int(session.get("abandonCost", 3))
 	_started_at_msec = Time.get_ticks_msec()
 	_missed = []
@@ -294,12 +309,46 @@ func _build_ui() -> void:
 	box_scroll.offset_left = 18.0
 	box_scroll.offset_right = -18.0
 	box_scroll.offset_top = 16.0
+	# Il fondo lo lascia libero alla barra delle azioni, che si misura da sola:
+	# vedi `_riallinea_barra_azioni`.
 	box_scroll.offset_bottom = -16.0
 	var box := VBoxContainer.new()
 	box.name = "ExerciseContent"
 	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	box.add_theme_constant_override("separation", 14)
 	box_scroll.add_child(box)
+
+	# **I pulsanti che fanno proseguire non scorrono via.** (15 agosto 2026)
+	#
+	# Terza segnalazione sullo stesso punto, e la prima con una schermata che
+	# spiega perché le due correzioni precedenti non bastavano: su una domanda con
+	# diagramma (la retta dei numeri) si vedeva SPIEGA CON NORA e sotto, tagliato
+	# dal bordo, il pulsante VERIFICA. Il contenuto scorreva — la correzione
+	# dell'8 agosto funzionava — ma **i pulsanti scorrevano insieme a lui**, e un
+	# pulsante che esiste sotto il bordo vale quanto un pulsante che non c'è.
+	#
+	# Rendere scorrevole il contenuto era la mezza risposta. L'altra metà è
+	# questa: le azioni stanno in una barra **ancorata al fondo del riquadro**,
+	# fuori da ogni scorrimento. Comunque cresca la domanda, il diagramma o il
+	# riscontro, VERIFICA resta dov'è.
+	_content_scroll = box_scroll
+	_action_bar = VBoxContainer.new()
+	_action_bar.name = "ExerciseActionBar"
+	_action_bar.add_theme_constant_override("separation", 8)
+	_exercise_panel.add_child(_action_bar)
+	_action_bar.anchor_left = 0.0
+	_action_bar.anchor_right = 1.0
+	_action_bar.anchor_top = 1.0
+	_action_bar.anchor_bottom = 1.0
+	_action_bar.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	_action_bar.offset_left = 18.0
+	_action_bar.offset_right = -18.0
+	_action_bar.offset_bottom = -12.0
+	# La barra si misura da sola e lo scorrimento le lascia esattamente lo spazio
+	# che le serve: con un'altezza fissa si sprecava mezzo riquadro quando c'era
+	# un pulsante solo, e con tre pulsanti si tornava a coprire il contenuto.
+	_action_bar.minimum_size_changed.connect(_riallinea_barra_azioni)
+	_riallinea_barra_azioni()
 
 	var heading := Label.new()
 	heading.name = "ExerciseHeading"
@@ -395,7 +444,7 @@ func _build_ui() -> void:
 		_exercise_button_style(Color("6be7d6"), Color("d8fff8"))
 	)
 	_input_submit.pressed.connect(func(): _answer(_input.text))
-	box.add_child(_input_submit)
+	_action_bar.add_child(_input_submit)
 
 	# **L'indizio, disponibile SUBITO.** (7 agosto 2026)
 	#
@@ -430,7 +479,7 @@ func _build_ui() -> void:
 	_help_button.add_theme_color_override("font_color", Color("06272a"))
 	_help_button.add_theme_stylebox_override("normal", _exercise_button_style(Color("6be7d6"), Color("d8fff8")))
 	_help_button.pressed.connect(_request_concept_help)
-	box.add_child(_help_button)
+	_action_bar.add_child(_help_button)
 
 	_next_button = Button.new()
 	# Un nome, perché è il pulsante da cui dipende «si può proseguire»: senza,
@@ -447,7 +496,7 @@ func _build_ui() -> void:
 	_next_button.add_theme_font_size_override("font_size", 16)
 	_next_button.add_theme_stylebox_override("normal", _exercise_button_style(Color(0.16, 0.32, 0.30, 0.98), Color(0.96, 0.78, 0.36, 0.72)))
 	_next_button.pressed.connect(_advance)
-	box.add_child(_next_button)
+	_action_bar.add_child(_next_button)
 
 	_build_exit_row(box)
 
@@ -691,6 +740,11 @@ func _show_teaching_overlay() -> void:
 			return
 	if lesson.is_empty() or moment == "none":
 		return
+	# **Una scheda che non ha niente da dire non si apre.** (15 agosto 2026)
+	# Vedi `KnowledgeCodex.lezione_ha_sostanza`: fermare il bambino davanti a un
+	# riquadro vuoto gli insegna a saltare anche le spiegazioni buone.
+	if not KnowledgeCodex.lezione_ha_sostanza(lesson):
+		return
 	if _lezioni_mostrate.has(str(lesson.get("topic", ""))):
 		return
 	_lezioni_mostrate[str(lesson.get("topic", ""))] = true
@@ -729,15 +783,19 @@ func _show_teaching_overlay() -> void:
 	_add_teaching_text(box, linea, Color("f6c85f"), 20)
 	_add_teaching_text(box, str(lesson.get("intro", "")), Color("e7fffb"), 17)
 
+	# **Un esempio senza domanda non è un esempio.** Prima la sezione si costruiva
+	# anche con il solo «Perché», e sotto il titolo ESEMPIO SVOLTO compariva una
+	# riga che non svolgeva niente — è la scheda della segnalazione del 15 agosto.
 	var example: Dictionary = lesson.get("workedExample", {})
 	var example_text := str(example.get("prompt", "")).strip_edges()
 	var answer := str(example.get("answer", "")).strip_edges()
 	var explanation := str(example.get("explanation", "")).strip_edges()
-	if answer != "":
-		example_text += "\n\nRisultato: %s" % answer
-	if explanation != "":
-		example_text += "\nPerché: %s" % explanation
-	_add_teaching_section(box, "ESEMPIO SVOLTO", example_text)
+	if example_text != "":
+		if answer != "":
+			example_text += "\n\nRisultato: %s" % answer
+		if explanation != "":
+			example_text += "\nPerché: %s" % explanation
+		_add_teaching_section(box, "ESEMPIO SVOLTO", example_text)
 	_add_teaching_section(box, "METODO DI NORA", str(lesson.get("strategy", "")))
 
 	var watch_out: Dictionary = lesson.get("watchOut", {})
@@ -757,6 +815,32 @@ func _show_teaching_overlay() -> void:
 	begin.pressed.connect(_dismiss_teaching_overlay.bind(overlay))
 	box.add_child(begin)
 	begin.call_deferred("grab_focus")
+
+## **La barra si misura e lo scorrimento le fa posto.** (15 agosto 2026)
+##
+## Chiamata quando la barra cambia contenuto o visibilità: calcola l'altezza che
+## le serve davvero e la sottrae al fondo dell'area scorrevole. Senza questo, o
+## si sceglie un'altezza fissa — che spreca mezzo riquadro quando c'è un pulsante
+## solo e non basta quando ce ne sono tre — oppure la barra finisce sopra il
+## contenuto e ne copre l'ultima riga.
+func _riallinea_barra_azioni() -> void:
+	if not is_instance_valid(_action_bar):
+		return
+	var altezza := _action_bar.get_combined_minimum_size().y
+	_action_bar.offset_top = -(altezza + MARGINE_BARRA_AZIONI)
+	if is_instance_valid(_content_scroll):
+		_content_scroll.offset_bottom = -(altezza + MARGINE_BARRA_AZIONI * 2.0)
+
+## Pulisce le azioni costruite per l'esercizio precedente (ANNULLA/VERIFICA delle
+## interazioni), lasciando al loro posto i pulsanti permanenti della barra.
+func _svuota_azioni_interazione() -> void:
+	if not is_instance_valid(_action_bar):
+		return
+	for figlio in _action_bar.get_children():
+		if str(figlio.name) == "InteractionActions":
+			_action_bar.remove_child(figlio)
+			figlio.queue_free()
+	_riallinea_barra_azioni()
 
 func _add_teaching_section(box: VBoxContainer, title: String, body: String) -> void:
 	if body.strip_edges() == "":
@@ -858,6 +942,9 @@ func _show_current() -> void:
 	_prompt.text = str(item.get("prompt", ""))
 	for child in _options.get_children():
 		child.queue_free()
+	# Le azioni dell'esercizio precedente vivono nella barra fissa, non fra le
+	# opzioni: vanno tolte di lì, o si accumulano una sopra l'altra.
+	_svuota_azioni_interazione()
 	var fmt := str(item.get("format", "multiple_choice"))
 	_apply_format_layout(fmt)
 	match fmt:
@@ -1751,7 +1838,9 @@ func _add_interaction_actions(undo_callback: Callable, submit_callback: Callable
 	submit.add_theme_stylebox_override("normal", _exercise_button_style(Color(0.13, 0.38, 0.32, 1.0), Color("8ff6d2")))
 	submit.pressed.connect(submit_callback)
 	actions.add_child(submit)
-	_options.add_child(actions)
+	# Nella barra fissa, non fra le opzioni: è il pulsante VERIFICA della
+	# segnalazione del 15 agosto, che con un diagramma alto finiva sotto il bordo.
+	_action_bar.add_child(actions)
 
 func _retryable_result(correct: bool, item: Dictionary, retry_message: String) -> void:
 	if correct:
@@ -2097,8 +2186,18 @@ func session_cursor() -> Dictionary:
 	}
 
 func _advance() -> void:
+	if _completion_queued or _session_closed:
+		return
 	if _shields <= 0:
-		_finish()
+		_request_finish()
+		return
+	# L'ultimo Avanti chiude direttamente la prova. Nella build Web la chiusura
+	# viene rinviata al frame successivo: il browser conclude il gesto prima di
+	# salvataggio, segnali e aggiornamenti del mondo. Il tasto viene disabilitato
+	# subito, cosi touch e click sintetico non possono consegnare due esiti.
+	if _index + 1 >= _nodes.size():
+		_index = _nodes.size()
+		_request_finish()
 		return
 	_index += 1
 	_show_current()
@@ -2113,6 +2212,17 @@ func _advance() -> void:
 	# tocchi sopra una sessione che non esiste più.
 	if _index < _nodes.size():
 		_show_teaching_overlay()
+
+func _request_finish() -> void:
+	if _completion_queued or _session_closed:
+		return
+	_completion_queued = true
+	if is_instance_valid(_next_button):
+		_next_button.disabled = true
+	if OS.has_feature("web"):
+		call_deferred("_finish")
+	else:
+		_finish()
 
 func _should_pause_before_synthesis() -> bool:
 	if _pre_synthesis_shown or not bool(session.get("transversal", false)):
@@ -2141,6 +2251,9 @@ func waiting_for_pre_synthesis() -> bool:
 ## completato, nessuna energia dalla sessione. Restano gli argomenti visti, che
 ## il chiamante gira al Codex esattamente come per una prova conclusa.
 func _abandon() -> void:
+	if _session_closed:
+		return
+	_session_closed = true
 	var audio := get_tree().root.get_node_or_null("NativeAudio") if is_inside_tree() else null
 	if audio != null:
 		audio.call("set_focus", false)
@@ -2187,6 +2300,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 
 func _finish() -> void:
+	if _session_closed:
+		return
+	_session_closed = true
+	_completion_queued = false
 	var total := _nodes.size()
 	var minimum_correct := int(session.get("minimumCorrect", ceili(float(total) * 0.5)))
 	var passed := _shields > 0 and _correct >= minimum_correct

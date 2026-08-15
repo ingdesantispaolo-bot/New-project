@@ -118,6 +118,15 @@ func _run() -> void:
 		print("EXERCISE RENDER probe OK — tastierino numerico landscape + portrait")
 		quit(0)
 		return
+	# **Il caso della segnalazione del 15 agosto**, in una finestra bassa apposta:
+	# la retta dei numeri occupa mezza schermata, ed e' li' che VERIFICA finiva
+	# sotto il bordo. Va guardata, non solo misurata.
+	await _capture("number-line-barra-bassa", _node("number_line", {
+		"prompt": "Quale punto sta esattamente a meta' fra 0 e 10?",
+		"line": {"min": 0, "max": 10, "step": 1},
+		"answer": "5",
+	}), "mission", Vector2i(900, 560))
+
 	await _capture("ordering-exam-desktop", _node("ordering", {
 		"items": ["Osserva i dati", "Scegli la strategia", "Verifica il risultato"],
 		"correctOrder": ["Osserva i dati", "Scegli la strategia", "Verifica il risultato"],

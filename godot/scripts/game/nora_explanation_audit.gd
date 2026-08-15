@@ -65,19 +65,51 @@ func _init() -> void:
 		printerr("  (%d in tutto)" % errori.size())
 	quit(0 if errori.is_empty() else 1)
 
+## Quanti argomenti dei MINIGIOCHI possono ancora stare senza il perché di NORA.
+##
+## Il 15 agosto 2026 il registro degli argomenti ha smesso di ignorare i
+## minigiochi (`KnowledgeCodex.runtime_topics`), e con loro sono comparsi 111
+## argomenti che il gioco serve da sempre e che questo audit non aveva mai
+## guardato. Non erano muti — la loro spiegazione sta nella spec del minigioco e
+## il Manuale adesso la raccoglie — ma il **perché causale di NORA**, quello
+## scritto a mano, ce l'hanno solo i topic dei banchi.
+##
+## Questo numero è un debito dichiarato, e serve a una cosa sola: **può scendere,
+## non salire**. Chi aggiunge un minigioco nuovo senza la sua voce lo trova
+## rosso; chi scrive una voce mancante lo fa scendere e lo aggiorna qui.
+const DEBITO_MINIGIOCHI := 111
+
 ## **Nessun argomento del runtime senza il suo perché.** Un argomento scoperto è
 ## un argomento su cui NORA non ha niente da aggiungere, e sono proprio quelli in
 ## cui il bambino resta con la riformulazione del banco.
+##
+## La garanzia è piena sui **banchi** — lì un buco è un errore — e a debito
+## dichiarato sui **minigiochi**, dove i buchi sono 111 e sono elencati sopra.
 func _ogni_argomento_del_runtime_ha_la_sua_voce() -> void:
 	var codex := KnowledgeCodex.new()
-	var scoperti: Array = []
-	for chiave in codex.runtime_topics().keys():
-		if not NoraExplanations.VOCI.has(str(chiave)):
-			scoperti.append(str(chiave))
-	scoperti.sort()
-	if not scoperti.is_empty():
-		_fallisci("argomenti del runtime senza il perché di NORA (%d): %s" % [
-			scoperti.size(), ", ".join(scoperti.slice(0, 10))])
+	var scoperti_banco: Array = []
+	var scoperti_minigioco: Array = []
+	for chiave_dato in codex.runtime_topics().keys():
+		var chiave := str(chiave_dato)
+		if NoraExplanations.VOCI.has(chiave):
+			continue
+		var meta: Dictionary = codex.runtime_topics()[chiave]
+		if str(meta.get("fonte", "banco")) == "banco":
+			scoperti_banco.append(chiave)
+		else:
+			scoperti_minigioco.append(chiave)
+	scoperti_banco.sort()
+	scoperti_minigioco.sort()
+	if not scoperti_banco.is_empty():
+		_fallisci("argomenti di banco senza il perché di NORA (%d): %s" % [
+			scoperti_banco.size(), ", ".join(scoperti_banco.slice(0, 10))])
+	if scoperti_minigioco.size() > DEBITO_MINIGIOCHI:
+		_fallisci("il debito dei minigiochi è salito a %d (dichiarato %d): %s" % [
+			scoperti_minigioco.size(), DEBITO_MINIGIOCHI,
+			", ".join(scoperti_minigioco.slice(0, 10))])
+	else:
+		print("  argomenti di minigioco senza il perché di NORA: %d su %d dichiarati" % [
+			scoperti_minigioco.size(), DEBITO_MINIGIOCHI])
 
 ## **Nessuna voce copiata da un'altra.** Due argomenti con lo stesso perché
 ## vogliono dire che uno dei due non è stato pensato — ed è il modo in cui un

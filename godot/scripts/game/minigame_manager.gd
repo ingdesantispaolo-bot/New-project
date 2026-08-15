@@ -3508,6 +3508,32 @@ static func topics_for(subject: String) -> Array:
 		topics[str(topic)] = true
 	return topics.keys()
 
+## **La spiegazione che il minigioco ha gia' scritto.** (15 agosto 2026)
+##
+## Nasce dalla scheda vuota della segnalazione: NORA non aveva niente da dire su
+## «numeri» perche' `KnowledgeCodex` raccoglie gli esempi dai BANCHI, e i topic
+## dei minigiochi non stanno nei banchi. Ma la spiegazione c'era gia', scritta
+## dentro la spec: «Un numero e' pari se finisce per 0, 2, 4, 6 o 8: basta
+## guardare l'ultima cifra, non serve dividere».
+##
+## Il contenuto non mancava: mancava una porta per andarlo a prendere. Questa e'
+## la porta. Ritorna la prima spec di quel topic che porta una spiegazione — e la
+## sua domanda, che diventa l'esempio svolto.
+static func spiegazione_di_topic(subject: String, topic: String) -> Dictionary:
+	for table in [MATCHING, ORDERING, CLASSIFICATION, GRAPH, CIRCUIT, CODE_DEBUG, SWIPE]:
+		for spec_data in Array((table as Dictionary).get(subject, [])):
+			var spec: Dictionary = spec_data
+			if str(spec.get("topic", "")) != topic:
+				continue
+			var spiegazione := str(spec.get("explanation", "")).strip_edges()
+			if spiegazione == "":
+				continue
+			return {
+				"explanation": spiegazione,
+				"prompt": str(spec.get("prompt", "")).strip_edges(),
+			}
+	return {}
+
 # --- Specifiche a insieme: quante voci si pescano, e quanto sono profonde -------
 #
 # Queste funzioni sono la SORGENTE UNICA della politica di estrazione: le usano sia

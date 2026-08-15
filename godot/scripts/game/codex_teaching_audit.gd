@@ -16,13 +16,29 @@ func _init() -> void:
 	# 1) Copertura: ogni argomento del runtime ha una mini-lezione completa.
 	var topics := codex.runtime_topics()
 	var count := 0
+	# **Due garanzie, perché le fonti sono due.** (15 agosto 2026)
+	#
+	# Dal 15 agosto il registro elenca anche gli argomenti dei minigiochi, che
+	# prima erano invisibili — ed è lì che si nascondeva la scheda vuota della
+	# segnalazione. Ma le due fonti non possono promettere la stessa cosa: un
+	# banco ha domanda E risposta scritte, un minigioco ha la domanda e una
+	# risposta che è un gesto sulla tavola (trascinare, ordinare, smistare).
+	#
+	# Quindi: a tutti si chiede una lezione con SOSTANZA — spiegazione vera o
+	# esempio con la sua domanda; ai soli banchi si continua a chiedere anche la
+	# risposta svolta, che è la garanzia guadagnata il 12 agosto e non si abbassa.
 	for key in topics.keys():
 		var meta: Dictionary = topics[key]
 		var lesson := codex.mini_lesson(str(meta["subject"]), str(meta["topic"]))
-		assert(str(lesson.get("intro", "")).strip_edges() != "", "intro mancante: %s" % key)
-		assert(str(lesson.get("explanation", "")).strip_edges() != "", "spiegazione mancante: %s" % key)
+		assert(KnowledgeCodex.lezione_ha_sostanza(lesson),
+			"lezione senza sostanza (né spiegazione né esempio): %s" % key)
 		assert(str(lesson.get("strategy", "")).strip_edges() != "", "strategia mancante: %s" % key)
 		assert(lesson.has("workedExample") and lesson.has("watchOut"), "lezione incompleta: %s" % key)
+		if str(meta.get("fonte", "banco")) != "banco":
+			count += 1
+			continue
+		assert(str(lesson.get("intro", "")).strip_edges() != "", "intro mancante: %s" % key)
+		assert(str(lesson.get("explanation", "")).strip_edges() != "", "spiegazione mancante: %s" % key)
 		# Non basta che la chiave esista: un esempio con risposta vuota non insegna
 		# niente al primo incontro. È esattamente il difetto che ha lasciato 14
 		# concetti di matematica su 16 con «answer: ''» finché non si è controllato

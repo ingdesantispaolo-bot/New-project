@@ -49,13 +49,48 @@ func _flavor(rng: RandomNumberGenerator) -> Dictionary:
 func _cap(s: String) -> String:
 	return (s.substr(0, 1).to_upper() + s.substr(1)) if s.length() > 0 else s
 
+## Argomento prodotto da ciascun archetipo. Serve anche al recupero: se un
+## argomento e' dovuto, almeno il primo nodo disponibile deve appartenere davvero
+## a quell'argomento, non soltanto portare un'etichetta che il caso potrebbe non
+## incontrare.
+const ARCHETYPE_TOPIC := {
+	"addition": "calcolo", "subtraction": "calcolo",
+	"multiplication": "tabelline", "sequence": "sequenze",
+	"division": "divisioni", "missing_factor": "tabelline",
+	"two_step": "problemi", "order_operations": "espressioni",
+	"fraction_of": "frazioni", "perimeter": "geometria", "area": "geometria",
+	"proportion": "proporzioni", "average": "statistica",
+	"percentage": "percentuali", "linear_equation": "equazioni",
+	"data_reading": "dati", "negative_expression": "numeri-relativi",
+	"scale": "proporzioni", "pythagoras": "geometria",
+	"power": "potenze", "root": "radici", "coordinate_slope": "coordinate",
+	"inverse_chain": "operazioni-inverse", "quadratic_root": "equazioni",
+	"weighted_average": "statistica",
+	"story_sum": "problemi", "story_take": "problemi",
+	"story_groups": "problemi", "story_share": "problemi",
+	"story_rate": "problemi", "story_change": "problemi",
+	"story_double": "problemi",
+}
+
+func _prioritize_review_archetypes(archetypes: Array, review_topics: Array) -> Array:
+	var prioritized: Array = []
+	for topic_data in review_topics:
+		var topic := str(topic_data)
+		for archetype_data in archetypes:
+			var archetype := str(archetype_data)
+			if str(ARCHETYPE_TOPIC.get(archetype, "problemi")) == topic and not prioritized.has(archetype):
+				prioritized.append(archetype)
+				break
+	for archetype_data in archetypes:
+		if not prioritized.has(archetype_data):
+			prioritized.append(archetype_data)
+	return prioritized
+
 func build_nodes(level: int, count: int, rng: RandomNumberGenerator, recent_signatures: Array, review_topics: Array = []) -> Array:
 	var complexity := complexity_for_level(level)
 	var archetypes := _eligible_archetypes(complexity)
 	_shuffle(archetypes, rng)
-	if review_topics.has("tabelline"):
-		archetypes.erase("multiplication")
-		archetypes.push_front("multiplication")
+	archetypes = _prioritize_review_archetypes(archetypes, review_topics)
 	var nodes: Array = []
 	var session_signatures: Array = []
 	var session_topic_keys: Dictionary = {}
@@ -97,7 +132,7 @@ func _eligible_archetypes(complexity: int) -> Array:
 	if complexity >= 4: result.append_array(["area", "proportion", "average"])
 	if complexity >= 5: result.append_array(["percentage", "linear_equation", "data_reading"])
 	if complexity >= 6: result.append_array(["negative_expression", "scale", "pythagoras"])
-	if complexity >= 7: result.append_array(["powers_roots", "coordinate_slope", "inverse_chain"])
+	if complexity >= 7: result.append_array(["power", "root", "coordinate_slope", "inverse_chain"])
 	if complexity >= 8: result.append_array(["quadratic_root", "weighted_average", "logic_chain"])
 	return result
 
@@ -258,10 +293,11 @@ func _build_archetype(archetype: String, complexity: int, rng: RandomNumberGener
 		"pythagoras":
 			var triple: Array = [[3, 4, 5], [5, 12, 13], [8, 15, 17]][rng.randi_range(0, 2)]
 			return _node("geometria", complexity, "Un triangolo rettangolo ha cateti %d e %d. Quanto misura l'ipotenusa?" % [triple[0], triple[1]], triple[2], [triple[0] + triple[1], triple[2] - 1, triple[2] + 2], "%d² + %d² = %d², quindi l'ipotenusa è %d." % [triple[0], triple[1], triple[2], triple[2]], rng, index)
-		"powers_roots":
+		"power":
 			var base := rng.randi_range(3, 12)
-			if rng.randf() < 0.5:
-				return _node("potenze", complexity, "Quanto fa %d²?" % base, base * base, [base * 2, base * base - base, base * base + 1], "%d² = %d × %d = %d." % [base, base, base, base * base], rng, index)
+			return _node("potenze", complexity, "Quanto fa %d²?" % base, base * base, [base * 2, base * base - base, base * base + 1], "%d² = %d × %d = %d." % [base, base, base, base * base], rng, index)
+		"root":
+			var base := rng.randi_range(3, 12)
 			return _node("radici", complexity, "Qual è la radice quadrata di %d?" % (base * base), base, [base - 1, base + 1, base * 2], "Poiché %d × %d = %d, la radice è %d." % [base, base, base * base, base], rng, index)
 		"coordinate_slope":
 			var slope := rng.randi_range(1, 5)

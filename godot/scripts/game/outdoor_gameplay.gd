@@ -715,9 +715,82 @@ func _catalog_practice_session(subject: String, level: int, topic_hint: String, 
 		return minigame_manager.build_guided_minigame(subject, topic_hint, format_hint, level)
 	return minigame_manager.build_minigame(subject, level)
 
+func _due_topics_for(subject: String) -> Array:
+	var prefix := "%s:" % subject
+	var topics: Array = []
+	for key_data in _due().keys():
+		var key := str(key_data)
+		if key.begins_with(prefix):
+			topics.append(key.trim_prefix(prefix))
+	return topics
+
+## Garantisce il contratto completo del recupero nelle palestre di QUALSIASI
+## materia e mondo: il topic dovuto deve essere presente e il nodo deve portare
+## `review:true`, perche' e' quel flag che ExercisePlayer traduce in
+## `reviewedOk`. Il suggerimento pianificato nel POI non basta: puo' essere stato
+## calcolato prima dell'errore, mentre questa funzione legge il save al momento
+## esatto in cui si apre la prova.
+func _inject_due_reviews(session: Dictionary, subject: String, level: int, due_topics: Array) -> Dictionary:
+	if due_topics.is_empty():
+		return session
+	var out := session.duplicate(true)
+	var nodes: Array = out.get("nodes", [])
+	if nodes.is_empty():
+		return out
+	var covered: Dictionary = {}
+	for node_data in nodes:
+		var node: Dictionary = node_data
+		var topic := str(node.get("topic", ""))
+		if due_topics.has(topic):
+			node["review"] = true
+			covered[topic] = true
+
+	for topic_data in due_topics:
+		var topic := str(topic_data)
+		if covered.has(topic):
+			continue
+		var replacement: Dictionary = {}
+		# Prima scelta: conserva la forma interattiva della palestra.
+		var guided := minigame_manager.build_topic_minigame(subject, topic, level)
+		for candidate_data in Array(guided.get("nodes", [])):
+			var candidate: Dictionary = candidate_data
+			if str(candidate.get("topic", "")) == topic:
+				replacement = candidate.duplicate(true)
+				break
+		# Fallback: il banco/generatore della materia e' la fonte autoritativa. Il
+		# generatore matematico prioritizza esplicitamente il topic richiesto.
+		if replacement.is_empty():
+			var one_due := {"%s:%s" % [subject, topic]: 1}
+			var recovery := content_manager.build_mission(
+				subject, level, 1, one_due, null,
+				game_save.mastery_of(subject), game_save.topic_masteries(subject))
+			for candidate_data in Array(recovery.get("nodes", [])):
+				var candidate: Dictionary = candidate_data
+				if str(candidate.get("topic", "")) == topic:
+					replacement = candidate.duplicate(true)
+					break
+		if replacement.is_empty():
+			continue
+		replacement["review"] = true
+		var replace_at := -1
+		for index in range(nodes.size() - 1, -1, -1):
+			if not bool(Dictionary(nodes[index]).get("review", false)):
+				replace_at = index
+				break
+		if replace_at < 0:
+			break
+		nodes[replace_at] = replacement
+		covered[topic] = true
+	out["nodes"] = nodes
+	return out
+
 func _build_practice_session(subject: String, topic_hint: String = "", format_hint: String = "") -> Dictionary:
 	var livello := _learning_level()
-	var session := _catalog_practice_session(subject, livello, topic_hint, format_hint)
+	var due_topics := _due_topics_for(subject)
+	# Un hint scritto quando il mondo e' stato generato puo' essere precedente
+	# all'ultimo errore. Il recupero corrente ha sempre precedenza.
+	var effective_topic := str(due_topics[0]) if not due_topics.is_empty() else topic_hint
+	var session := _catalog_practice_session(subject, livello, effective_topic, format_hint)
 	var voluti := Array(session.get("nodes", [])).size()
 	if voluti == 0:
 		return session
@@ -748,7 +821,7 @@ func _build_practice_session(subject: String, topic_hint: String = "", format_hi
 	var tentativi := 0
 	while tenuti.size() < tetto and tentativi < PRACTICE_RIESTRAZIONI:
 		tentativi += 1
-		raccogli.call(Array(_catalog_practice_session(subject, livello, topic_hint, format_hint).get("nodes", [])).slice(0, tetto))
+		raccogli.call(Array(_catalog_practice_session(subject, livello, effective_topic, format_hint).get("nodes", [])).slice(0, tetto))
 
 	if tenuti.size() < voluti:
 		# Il resto dai banchi, che di fondo ne hanno. Si chiede con abbondanza
@@ -764,7 +837,7 @@ func _build_practice_session(subject: String, topic_hint: String = "", format_hi
 	tentativi = 0
 	while tenuti.size() < voluti and tentativi < PRACTICE_RIESTRAZIONI:
 		tentativi += 1
-		raccogli.call(Array(_catalog_practice_session(subject, livello, topic_hint, format_hint).get("nodes", [])))
+		raccogli.call(Array(_catalog_practice_session(subject, livello, effective_topic, format_hint).get("nodes", [])))
 
 	# Ultima risorsa: si riammettono i già visti, i più vecchi per primi. Non
 	# capita quasi mai, e quando capita è meglio di una sessione vuota.
@@ -774,7 +847,7 @@ func _build_practice_session(subject: String, topic_hint: String = "", format_hi
 		i += 1
 
 	session["nodes"] = tenuti
-	return session
+	return _inject_due_reviews(session, subject, livello, due_topics)
 
 # Minigioco: un incontro risolto con formati interattivi (abbina/ordina) della
 # materia. Stessa pipeline delle missioni — conta per il gate dell'apparato,

@@ -823,6 +823,13 @@ func inject_non_mc(nodes: Array, subject: String, level: int, count: int, rng: R
 			break
 		if not (str(Dictionary(out[i]).get("format", "")) in sostituibili):
 			continue
+		# Un recupero e' un vincolo didattico, non un candidato al mix visuale.
+		# Sostituirlo con un minigioco casuale perde sia l'argomento dovuto sia il
+		# flag `review`, lasciando il registro bloccato anche dopo una risposta
+		# corretta. Il 20% di scelta multipla e' un obiettivo medio; saldare un
+		# recupero viene prima.
+		if bool(Dictionary(out[i]).get("review", false)):
+			continue
 		# Solo i formati con una prova ancora disponibile restano nella scelta.
 		var available: Array = []
 		var fresh: Array = []

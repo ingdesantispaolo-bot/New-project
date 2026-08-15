@@ -17,7 +17,8 @@ func _run() -> void:
 	panel.mark_encountered("matematica", ["tabelline", "problemi"])
 	await _capture("manuale-desktop", Vector2i(1280, 720), "matematica", "tabelline")
 	await _capture("manuale-tablet", Vector2i(900, 600), "italiano", "pensiero-linguaggio")
-	print("Knowledge Codex probe OK — capture desktop/tablet")
+	await _capture("manuale-circuito", Vector2i(1280, 720), "elettronica", "circuito")
+	print("Knowledge Codex probe OK — capture desktop/tablet/circuito")
 	quit(0)
 
 func _capture(file_name: String, viewport_size: Vector2i, subject: String, topic: String) -> void:

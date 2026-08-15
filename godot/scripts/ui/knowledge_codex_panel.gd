@@ -16,7 +16,6 @@ var context := "practice"
 var requested_subject := ""
 var requested_topic := ""
 var selected_key := ""
-var demo_step := 0
 
 var search_field: LineEdit
 var subject_filter: OptionButton
@@ -271,7 +270,6 @@ func _select_first_visible() -> void:
 
 func _select_entry(subject: String, topic: String) -> void:
 	selected_key = _key(subject, topic)
-	demo_step = 0
 	KNOWLEDGE_CODEX.advance_state(game_save, subject, topic, "consulted")
 	game_save.save()
 	_render_detail(codex.entry_for_context(subject, topic, context))
@@ -296,64 +294,37 @@ func _render_detail(entry: Dictionary) -> void:
 	favorite.pressed.connect(_toggle_favorite.bind(selected_key))
 	heading_row.add_child(favorite)
 	_add_label("%s · difficoltà %d · %s" % [subject.capitalize(), int(entry.get("difficulty", 1)), _state_label(KNOWLEDGE_CODEX.state_of(game_save, subject, topic))], Color("6be7d6"), 13)
-	if not bool(entry.get("answerHidden", false)):
-		var lesson := codex.mini_lesson(subject, topic)
-		_add_section("MINI-LEZIONE DI NORA", str(lesson.get("intro", "")))
-	_add_section("IN BREVE", str(entry.get("shortExplanation", "")))
+	# La spiegazione e il metodo formano un unico discorso: prima il perche', poi
+	# il controllo concreto da eseguire. Prima il pannello mostrava la stessa frase
+	# sia come mini-lezione sia come riassunto, facendo sembrare NORA ripetitiva.
+	var explanation := str(entry.get("shortExplanation", "")).strip_edges()
+	var strategy := str(entry.get("noraStrategy", "")).strip_edges()
+	if strategy != "" and not _same_content(explanation, strategy):
+		explanation += ("\n\n" if explanation != "" else "") + "Come procedere: %s" % strategy
+	_add_section("SPIEGAZIONE DI NORA", explanation, "CodexExplanation")
 
 	var example: Dictionary = entry.get("example", {})
-	var example_intro := str(example.get("prompt", "")).strip_edges()
-	if example_intro == "" and not bool(entry.get("answerHidden", false)):
-		example_intro = str(example.get("answer", "")).strip_edges()
-	if example_intro == "":
-		example_intro = "Applica il metodo un passaggio alla volta."
-	_add_section("ESEMPIO GUIDATO", example_intro)
-	var demo := Button.new()
-	demo.name = "CodexDemoStep"
-	demo.text = "MOSTRA PASSO 1"
-	demo.custom_minimum_size = Vector2(210, 46)
-	demo.pressed.connect(_advance_demo.bind(entry, demo))
-	detail_box.add_child(demo)
-	var demo_output := Label.new()
-	demo_output.name = "CodexDemoOutput"
-	demo_output.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	demo_output.add_theme_color_override("font_color", Color("dffcf6"))
-	demo_output.set_meta("entry", entry)
-	detail_box.add_child(demo_output)
+	var prompt := str(example.get("prompt", "")).strip_edges()
+	var answer := str(example.get("answer", "")).strip_edges()
+	var reasoning := str(example.get("explanation", "")).strip_edges()
+	# Un esempio dichiarato "svolto" deve contenere domanda, soluzione e
+	# ragionamento. Se manca uno dei tre elementi non mostriamo un controllo vuoto
+	# o una promessa incompleta: il metodo generale sopra resta comunque utile.
+	if not bool(entry.get("answerHidden", false)) and prompt != "" and answer != "" and reasoning != "":
+		var worked_example := "Domanda: %s\n\nSoluzione: %s\nRagionamento: %s" % [prompt, answer, reasoning]
+		_add_section("ESEMPIO SVOLTO", worked_example, "CodexWorkedExample")
 	if bool(entry.get("answerHidden", false)):
-		_add_label("Durante l’esame NORA mostra il metodo, non la soluzione corrente.", Color("ffd37a"), 13)
+		_add_label("Durante l’esame NORA mostra la spiegazione e il metodo, ma non la soluzione dell’esempio.", Color("ffd37a"), 13)
 
 	var typical: Dictionary = entry.get("typicalError", {})
 	var error_text := str(typical.get("wrong", "")).strip_edges()
 	var why_text := str(typical.get("why", "")).strip_edges()
-	if error_text == "":
-		error_text = "Nessun errore tipico validato per questa voce."
-	if why_text != "":
-		error_text += "\nPerché: %s" % why_text
-	_add_section("ERRORE TIPICO", error_text)
-	_add_section("STRATEGIA DI NORA", str(entry.get("noraStrategy", "")))
+	if error_text != "" and why_text != "":
+		error_text = "Errore: %s\nPerché non funziona: %s" % [error_text, why_text]
+		_add_section("ERRORE DA EVITARE", error_text, "CodexTypicalError")
 	if is_instance_valid(nora_portrait):
-		nora_portrait.speak(str(entry.get("noraStrategy", "")))
+		nora_portrait.speak(strategy)
 	_add_related(subject, topic)
-
-func _advance_demo(entry: Dictionary, button: Button) -> void:
-	var output := detail_box.get_node_or_null("CodexDemoOutput") as Label
-	if output == null:
-		return
-	var example: Dictionary = entry.get("example", {})
-	var steps := [
-		"1 · Individua che cosa chiede il problema:\n%s" % str(example.get("prompt", "Rileggi il concetto.")),
-		"2 · Applica la strategia di NORA:\n%s" % str(entry.get("noraStrategy", "")),
-	]
-	if not bool(entry.get("answerHidden", false)):
-		steps.append("3 · Confronta il risultato:\n%s\n%s" % [str(example.get("answer", "")), str(example.get("explanation", ""))])
-	demo_step = (demo_step + 1) % (steps.size() + 1)
-	if demo_step == 0:
-		output.text = ""
-		button.text = "MOSTRA PASSO 1"
-	else:
-		output.text = str(steps[demo_step - 1])
-		button.text = "MOSTRA PASSO %d" % (demo_step + 1) if demo_step < steps.size() else "RICOMINCIA"
 
 func _add_related(subject: String, topic: String) -> void:
 	_add_label("CONCETTI COLLEGATI", Color("6be7d6"), 14)
@@ -401,9 +372,18 @@ func _show_empty(message: String) -> void:
 		child.queue_free()
 	_add_label(message, Color("9fc4bb"), 16)
 
-func _add_section(title: String, text: String) -> void:
+func _add_section(title: String, text: String, body_name: String = "") -> void:
+	if text.strip_edges() == "":
+		return
 	_add_label(title, Color("6be7d6"), 14)
-	_add_label(text if text.strip_edges() != "" else "Contenuto in validazione didattica.", Color("e7f3f5"), 16)
+	var body := _add_label(text, Color("e7f3f5"), 16)
+	if body_name != "":
+		body.name = body_name
+
+func _same_content(first: String, second: String) -> bool:
+	var a := first.strip_edges().to_lower()
+	var b := second.strip_edges().to_lower()
+	return a != "" and (a == b or a.contains(b) or b.contains(a))
 
 func _add_label(text: String, color: Color, size: int) -> Label:
 	var label := Label.new()

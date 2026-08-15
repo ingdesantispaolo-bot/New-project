@@ -14,8 +14,26 @@ La prima applicazione è la Radura Accademia:
 - **Casa del Conto**: edificio-materia, porta e sessione restano interattive in
   Godot;
 - **Stazione del Conto**: oggetto esterno che comunica raggruppamento e misura;
+- **Bilancia delle Quantità**: sede per input numerico, stima e grafici;
+- **Sentiero delle Sequenze**: sede per ordinamento, pattern e debug;
+- **Giardino degli Abbinamenti**: sede per matching e classificazione;
 - **sentieri, regioni, strumenti e varchi**: diventano socket di attività che il
   Director può scegliere perché coerenti con formato e materia.
+
+### Stato della vertical slice del Mondo 1
+
+La Radura è il riferimento produttivo per i mondi successivi. I sette eventi
+principali comprendono quattro siti ordinari vestiti con le tre famiglie di
+apparati, due enigmi (uno apre fisicamente un varco) e la minimissione che
+riaccende l'obelisco. Ogni sito incompleto emette un segnale diegetico coerente
+con la sua distanza di scoperta; ogni risposta corretta accende una parte
+costruita dal codice; a completamento il segnale scompare e l'apparato restaurato
+rimane nel mondo.
+
+La Casa e la Stazione formano l'orientamento iniziale, gli apparati sostengono
+l'applicazione sul campo, mentre varco e obelisco chiudono il percorso con una
+trasformazione persistente. `world1_vertical_slice_audit.gd` è la definition of
+done automatica di questo ciclo.
 
 ## Costellazioni, non dispersione
 

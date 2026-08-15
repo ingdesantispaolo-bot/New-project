@@ -12,6 +12,7 @@ const ENIGMA_STRUCTURE := preload("res://scripts/visual/enigma_structure.gd")
 # chunk_ground.gd non ha class_name: serve il preload per raggiungerne gli statici.
 const CHUNK_GROUND_SCRIPT := preload("res://scripts/chunk_ground.gd")
 const LEARNING_REACTION_SCRIPT := preload("res://scripts/visual/world_learning_reaction.gd")
+const WORLD1_ACTIVITY_SITE_SCRIPT := preload("res://scripts/visual/world1_activity_site.gd")
 const SHOP_PANEL_SCRIPT := preload("res://scripts/ui/outdoor_shop_panel.gd")
 const NORA_PORTRAIT_SCRIPT := preload("res://scripts/ui/nora_portrait.gd")
 const WORLD_LESSON_CATALOG := preload("res://scripts/game/world_lesson.gd")
@@ -1591,6 +1592,12 @@ func _create_profile_event(event: Dictionary) -> void:
 		equipment_gate.name = "EquipmentGate"
 		area.add_child(equipment_gate)
 		equipment_gate.configure(str(payload.get("requiredTool", "")), equipped_field_tool())
+	elif world_level == 1 and str(payload["subject"]) == "matematica":
+		var activity_site := WORLD1_ACTIVITY_SITE_SCRIPT.new()
+		activity_site.setup(
+			str(payload["format"]), completed,
+			OutdoorVisualFactory.hex_color(_profile_accent_rgb()), reduced_motion)
+		area.add_child(activity_site)
 	elif not completed:
 		var marker := OutdoorVisualFactory.build_encounter(
 			_event_visual_kind(str(payload["subject"])),
@@ -1606,6 +1613,8 @@ func _create_profile_event(event: Dictionary) -> void:
 	reaction.position = Vector2(0, 28)
 	reaction.set_complete(completed)
 	area.add_child(reaction)
+	if world_level == 1 and bool(payload["countsForGate"]) and not completed:
+		area.add_child(_make_world1_discovery_cue(event, director_kind))
 	# EnigmaStructureVisual possiede già un titolo contestuale leggibile:
 	# aggiungerne un secondo produceva etichette sovrapposte su tablet.
 	# Una missione già conclusa conserva la trasformazione ambientale, ma non
@@ -1626,6 +1635,40 @@ func _create_profile_event(event: Dictionary) -> void:
 		area.monitorable = false
 	area.body_entered.connect(func(body): on_interactable_entered(area, body))
 	area.body_exited.connect(func(body): on_interactable_exited(area, body))
+
+## La Radura insegna a leggere il paesaggio in tre distanze. Il segnale non e'
+## un waypoint HUD: nasce dal sito e cambia altezza/intensita' secondo il
+## contratto del socket (`proximity`, `local_clue`, `distant_signal`).
+func _make_world1_discovery_cue(event: Dictionary, director_kind: String) -> Node2D:
+	var cue_type := str(event.get("discoveryCue", "proximity"))
+	var root_node := Node2D.new()
+	root_node.name = "DiscoveryCue"
+	root_node.set_meta("cue_type", cue_type)
+	root_node.add_to_group("world1_discovery_cue")
+	root_node.z_index = 8
+	var elevation := (
+		176.0 if director_kind == "enigma"
+		else 154.0 if cue_type == "distant_signal"
+		else 132.0 if cue_type == "local_clue"
+		else 108.0)
+	root_node.position = Vector2(0, -elevation)
+	var stem := Line2D.new()
+	stem.name = "SignalStem"
+	stem.points = PackedVector2Array([Vector2(0, 13), Vector2(0, elevation - 70.0)])
+	stem.width = 2.0 if cue_type == "proximity" else 3.0
+	stem.default_color = Color("8ff6c0", 0.60)
+	root_node.add_child(stem)
+	var diamond := OutdoorVisualFactory.make_polygon(PackedVector2Array([
+		Vector2(0, -14), Vector2(11, 0), Vector2(0, 14), Vector2(-11, 0),
+	]), Color("f6cf65") if director_kind == "minimission" else Color("8ff6c0"))
+	diamond.name = "SignalDiamond"
+	root_node.add_child(diamond)
+	var ring := OutdoorVisualFactory.make_ring(22, Color("8ff6c0", 0.72), 2.2, 24)
+	ring.scale.y = 0.55
+	root_node.add_child(ring)
+	if not reduced_motion:
+		OutdoorVisualFactory.attach_anim(ring, "pulse", 0.86, 0.62)
+	return root_node
 
 func _event_label(event: Dictionary) -> String:
 	var subject := str(event.get("subject", _world_subject())).capitalize()
@@ -5983,6 +6026,9 @@ func _on_exercise_progress(correct: int, total: int) -> void:
 			var reaction := node.get_node_or_null("LearningReaction")
 			if reaction != null and reaction.has_method("set_progress"):
 				reaction.call("set_progress", correct, total, true)
+			var activity_site := node.get_node_or_null("World1ActivitySite")
+			if activity_site != null and activity_site.has_method("set_progress"):
+				activity_site.call("set_progress", correct, total, true)
 			break
 
 func _complete_learning_reaction(encounter_id: String) -> void:
@@ -5993,6 +6039,9 @@ func _complete_learning_reaction(encounter_id: String) -> void:
 			var reaction := node.get_node_or_null("LearningReaction")
 			if reaction != null and reaction.has_method("set_complete"):
 				reaction.call("set_complete", true, true)
+			var activity_site := node.get_node_or_null("World1ActivitySite")
+			if activity_site != null and activity_site.has_method("set_complete"):
+				activity_site.call("set_complete", true, true)
 			_retire_completed_event(node as Area2D)
 			break
 	_sync_profile_environment_transform(true)
@@ -6018,7 +6067,7 @@ func _retire_completed_event(area: Area2D) -> void:
 		collision.set_deferred("disabled", true)
 	area.set_deferred("monitoring", false)
 	area.set_deferred("monitorable", false)
-	for child_name in ["EventMarker", "EventCaption"]:
+	for child_name in ["EventMarker", "EventCaption", "DiscoveryCue"]:
 		var visual := area.get_node_or_null(child_name) as CanvasItem
 		if visual == null:
 			continue

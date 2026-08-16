@@ -36,7 +36,7 @@ apre un pannello*. Tutto il resto — 24 mondi autorati, dieci meccaniche di
 minigioco, 46 residenti con un arco, sette colpi di scena — poggia su un ciclo
 motorio che non chiede mai una decisione. Le cose che una decisione la chiedono
 esistono e sono **tre**: l'enigma che si costruisce mentre rispondi, la
-minimissione che cambia la mappa, il varco dei guardiani.
+minimissione che cambia la mappa, il duello dei guardiani.
 
 Le voci di questo piano sono lì per aggiungere la quarta, la quinta e la sesta.
 Otto sono state chiuse fra il 13 e il 14 agosto — la serie, l'impulso che si
@@ -80,7 +80,7 @@ gli stessi identificativi.
 **Oggi.** `player_controller.gd` sono settantacinque righe: velocità, uno scatto
 il cui moltiplicatore ora viene dai moduli (1,65× o 1,95×),
 bob. L'unica cosa che il terreno fa è l'acqua che blocca. L'unica prova d'abilità
-di tutto il gioco è il varco dei guardiani.
+di tutto il gioco è il duello dei guardiani.
 
 **La cautela che viene prima della proposta**, ed è del lotto del 6 agosto: *ogni
 cosa che costa energia sulla mappa toglie prove fatte*, e la campagna è già lunga.

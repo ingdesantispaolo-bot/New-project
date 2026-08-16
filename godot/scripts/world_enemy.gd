@@ -250,10 +250,10 @@ func sorveglia(id: String) -> void:
 	enemy_name = GUARDIAN_VISUALS.name_for(int(world.get("world_level")) if world != null else 1)
 	var label := get_node_or_null("EnemyLabel") as Label
 	if label != null:
-		# Il nome completo vive nel varco e nell'accessibilita': sul mondo il
+		# Il nome completo vive nel duello e nell'accessibilita': sul mondo il
 		# cartiglio corto non copre il guardiano illustrato.
 		label.text = "GUARDIANO · T%d" % tier
-		label.accessibility_name = "%s, guardiano di un forziere; si scioglie vincendo il varco" % enemy_name
+		label.accessibility_name = "%s, guardiano di un forziere; si scioglie spezzandogli i sigilli nel duello" % enemy_name
 
 ## **Sciolta per sempre.** Non e' uno stordimento: la sacca sparisce, il
 ## forziere che sorvegliava si apre, e rientrando nel mondo non la si ritrova.

@@ -3479,16 +3479,21 @@ func _record_vera_retention() -> void:
 		game_save.save()
 
 # ---------------------------------------------------------------------------
-# **I guardiani dei forzieri e il varco.** (7 agosto 2026)
+# **I guardiani dei forzieri e il duello.** (7 agosto 2026)
 #
 # Richiesta del committente: gli Sbiaditi devono essere un pericolo vero,
-# devono sorvegliare i bauli, e si devono poter eliminare con un minigioco di
-# riflessi tarato sul progresso del personaggio.
+# devono sorvegliare i bauli, e si devono poter eliminare con un minigioco
+# tarato sul progresso del personaggio.
 #
 # Le tre cose sono una sola meccanica. Prima le sacche pattugliavano il vuoto:
 # facevano perdere energia a chi passava di li' per caso, il che e' una tassa,
 # non un pericolo. Un pericolo e' qualcosa che sta **fra te e una cosa che
 # vuoi** — e allora avvicinarsi diventa una decisione invece che un incidente.
+#
+# Il minigioco era di riflessi fino al 16 agosto 2026; adesso e' di **calcolo**
+# ([[GuardianDuel]]), su richiesta del committente e per una ragione che il
+# varco non poteva risolvere: allenarsi a leggere e a contare non rendeva
+# nessuno piu' bravo a centrare un cursore.
 # ---------------------------------------------------------------------------
 
 ## Ogni quanto si controlla se sono comparsi forzieri da sorvegliare. I pezzi di
@@ -3519,7 +3524,7 @@ var _guardia_prossima_msec := 0
 ## Le sacche gia' create, per identificativo: senza, ogni giro ne creerebbe
 ## un'altra sullo stesso forziere.
 var _guardiani: Dictionary = {}
-var duel_panel: ReflexDuelPanel
+var duel_panel: GuardianDuelPanel
 
 ## Mette una guardiana su ogni forziere scoperto e ancora chiuso.
 func _assegna_guardiani() -> void:
@@ -3596,9 +3601,14 @@ func _guardiano_di(treasure_id: String) -> Node2D:
 	var sacca = _guardiani.get("guardia-%s" % treasure_id, null)
 	return sacca as Node2D if is_instance_valid(sacca) else null
 
-## **Il varco.** Si apre il duello con le regole calcolate sul grado di Eli e su
-## quello della sacca: e' l'unico posto in cui la potenza accumulata cambia le
-## regole invece del prezzo.
+## **Il duello.** Si apre il combattimento con le regole calcolate su tre cose:
+## il **mondo** (che decide numeri, operazioni e lunghezza della catena), il
+## grado della sacca e il grado di potenza di Eli — l'unico posto in cui la
+## potenza accumulata cambia le regole invece del prezzo. Le regole stanno in
+## [[GuardianDuel]], la scena in [[GuardianDuelPanel]].
+##
+## Il seme cambia a ogni sfida: un duello perso e ripreso deve dare numeri nuovi,
+## altrimenti la seconda volta non si calcola — si ricorda.
 func _sfida_guardiano(sacca: Node2D) -> void:
 	if not is_instance_valid(sacca) or is_instance_valid(duel_panel):
 		return
@@ -3606,18 +3616,22 @@ func _sfida_guardiano(sacca: Node2D) -> void:
 		return
 	var tier := int(sacca.get("tier"))
 	var grado := WorldLight.grado(game_save)
-	var regole := ReflexDuel.regole(tier, grado)
-	duel_panel = ReflexDuelPanel.new()
-	duel_panel.name = "ReflexDuelPanel"
-	duel_panel.risolto.connect(func(vinto: bool): _chiudi_varco(sacca, vinto))
+	var regole := GuardianDuel.regole(world_level, tier, grado, reduced_motion)
+	duel_panel = GuardianDuelPanel.new()
+	duel_panel.name = "GuardianDuelPanel"
+	duel_panel.risolto.connect(func(vinto: bool, netto: bool): _chiudi_duello(sacca, vinto, netto))
 	ui_layer.add_child(duel_panel)
-	duel_panel.avvia(regole, str(sacca.get("enemy_name")), reduced_motion)
+	duel_panel.avvia(regole, str(sacca.get("enemy_name")),
+		hash("%s:%d" % [str(sacca.get_meta("guardId", "")), Time.get_ticks_msec()]),
+		reduced_motion, high_contrast)
 	# Eli si ferma: il duello e' modale, e lasciarla camminare sotto un pannello
 	# a tutto schermo la fa finire chissa' dove.
 	if is_instance_valid(player):
+		player.touch_target = Vector2.INF
+		player.velocity = Vector2.ZERO
 		player.set_physics_process(false)
 
-func _chiudi_varco(sacca: Node2D, vinto: bool) -> void:
+func _chiudi_duello(sacca: Node2D, vinto: bool, netto := false) -> void:
 	if is_instance_valid(duel_panel):
 		duel_panel.queue_free()
 		duel_panel = null
@@ -3631,11 +3645,12 @@ func _chiudi_varco(sacca: Node2D, vinto: bool) -> void:
 		var guardia_id := str(sacca.get_meta("guardId", ""))
 		if guardia_id != "":
 			game_save.mark_enemy_defeated(str(world_level), guardia_id)
-		var premio := ReflexDuel.premio_frammenti(tier)
-		gameplay.collect_treasure({"rewardFragments": premio}, "varco-%s" % guardia_id)
+		var premio := GuardianDuel.premio_frammenti(tier)
+		gameplay.collect_treasure({"rewardFragments": premio}, "duello-%s" % guardia_id)
 		sacca.call("elimina")
 		game_save.save()
-		_set_feedback("Sciolta. Il forziere è libero, e restano %d frammenti nel varco." % premio)
+		_set_feedback("%s Il forziere è libero, e restano %d frammenti sul campo." % [
+			GuardianDuel.riga_di_vittoria(netto), premio])
 		_spawn_gain_popup("+%d frammenti" % premio, Color("c7b8ff"))
 		_refresh_economy()
 		if is_instance_valid(pet_companion):
@@ -3644,7 +3659,7 @@ func _chiudi_varco(sacca: Node2D, vinto: bool) -> void:
 		# **Perdere non chiude niente.** La sacca resta, il forziere resta, si
 		# torna quando si e' piu' forti. Il costo e' lo stesso del morso: chi ci
 		# prova e sbaglia non deve stare peggio di chi gira alla larga.
-		var costo := mini(ReflexDuel.costo_sconfitta(tier, grado), game_save.energy())
+		var costo := mini(GuardianDuel.costo_sconfitta(tier, grado), game_save.energy())
 		if costo > 0:
 			game_save.spend_energy(costo)
 			game_save.save()
@@ -3653,8 +3668,8 @@ func _chiudi_varco(sacca: Node2D, vinto: bool) -> void:
 		# Un attimo di respiro: senza, la sacca e' addosso a Eli nell'istante in
 		# cui il pannello si chiude e il duello ricomincia da solo.
 		sacca.call("stun", 2.5)
-		_set_feedback("Il varco si è chiuso%s. La sacca è ancora lì: torna più forte." % (
-			" (−%d energia)" % costo if costo > 0 else ""))
+		_set_feedback("%s%s" % [GuardianDuel.riga_di_sconfitta(),
+			" (−%d energia)" % costo if costo > 0 else ""])
 	_refresh_prompt()
 
 func _create_world_enemies() -> void:
@@ -6012,7 +6027,7 @@ func _interact() -> void:
 		# cosa del gioco che una prova di abilita' puo' lecitamente chiudere.
 		var guardiano := _guardiano_di(id)
 		if is_instance_valid(guardiano):
-			_set_feedback("%s sorveglia questo forziere. Affrontalo nel varco per scioglierlo." % str(guardiano.get("enemy_name")))
+			_set_feedback("%s sorveglia questo forziere. Spezzagli i sigilli per scioglierlo." % str(guardiano.get("enemy_name")))
 			_sfida_guardiano(guardiano)
 			return
 		var collected: Array = result["collectedTreasureIds"]

@@ -194,7 +194,7 @@ Le alternative scartate, e perché:
 |---|---|
 | «quanto fa 7×8?» a risposta multipla | è un quiz, ed è già il formato di mezzo gioco: rifarlo a tempo lo rende solo più stressante |
 | scrivere il risultato | la tastiera numerica su tablet è lenta: la velocità la deciderebbe il dito |
-| centrare un bersaglio mobile | premia lo schermo grande e la mano ferma (stessa ragione per cui il varco è una barra) |
+| centrare un bersaglio mobile | premia lo schermo grande e la mano ferma: in questo gioco non si mira mai |
 
 Scegliere **l'operazione giusta fra tante** è invece calcolo mentale parallelo: il
 bambino non risolve una domanda, ne scarta quattro — e impara a scartare per
@@ -266,7 +266,132 @@ Lo verificano `lock_challenge_audit` (i numeri: nessun dente ambiguo su 22.800
 generati, difficoltà monotòna sui 24 mondi) e `lock_panel_audit` (la scena: apre,
 paga, e perdere non costa niente).
 
-## 7. Cosa non è stato fatto (e resta sul tavolo)
+## 7. Il duello: come si scioglie un guardiano
+
+*Quarto lotto, 16 agosto 2026: «miglioriamo il combattimento contro i guardiani
+con un minigioco di calcolo, con difficoltà che dipende dal livello del mondo.
+Non deve essere come quello per aprire i bauli. Deve insegnare a padroneggiare i
+calcoli veloci, e deve essere un combattimento».*
+
+Fino a quel giorno il guardiano si scioglieva con **il varco**: una barra, un
+cursore, il momento giusto. Funzionava, ed è stato tolto lo stesso per una
+ragione sola: era l'unico momento del gioco in cui *la bravura non c'entrava con
+quello che il gioco insegna*. Un bambino che si allena a contare non diventava
+più bravo a centrare un cursore, e un bambino con riflessi buoni prendeva i
+premi senza avere imparato niente. La potenza di Eli allargava il varco, ma la
+competenza vera restava fuori dalla porta.
+
+### 7.1 La forma, e perché non è il chiavistello
+
+Il guardiano porta un **sigillo**: un numero. Eli ha un **impulso**: un altro
+numero, che parte piccolo. In mano ha delle **rune** — `+7`, `×4`, `−5`, `÷3` —
+e ognuna è un colpo che cambia l'impulso. Quando l'impulso vale **esattamente**
+il sigillo, il sigillo si spezza. I colpi sono contati, le rune si consumano.
+
+La differenza col chiavistello non è cosmetica ed è tutto il punto:
+
+| | chiavistello | duello |
+|---|---|---|
+| gesto mentale | **riconoscere** (quale operazione fa 42) | **costruire** (sono a 12, come arrivo a 36) |
+| direzione | in avanti | all'indietro |
+| durata | una domanda, una risposta | una strada da pianificare in due o tre colpi |
+| forma | un quadrante che gira | un campo di battaglia con una scala |
+
+Il pensiero inverso è ciò che separa chi sa le tabelline da chi sa *usarle*, ed è
+la sola scorciatoia vera verso il calcolo mentale rapido. Due minigiochi di
+calcolo nello stesso gioco si giustificano solo se chiedono due gesti diversi.
+
+### 7.2 Perché è un combattimento
+
+Tre cose, tutte e tre assenti dal varco:
+
+1. **Il guardiano si carica.** La barra sotto di lui è il tempo, raccontato dalla
+   parte di chi ti sta davanti: quando è piena colpisce, e Eli perde un punto di
+   **tenuta**. Non è un cronometro sopra una domanda, è un avversario.
+2. **Ha da due a quattro sigilli**, secondo il suo grado: il duello è fatto di
+   scambi, e ogni sigillo spezzato lo fa arretrare. La ripresa esiste.
+3. **Accelera**: ogni sigillo spezzato accorcia del 10% la carica del successivo.
+   Un combattimento che finisce più teso di come è cominciato.
+
+### 7.3 La corda di risonanza (il pezzo che insegna)
+
+Sotto il guardiano c'è una scala: una tacca d'oro segna il sigillo, un ago segna
+l'impulso, e la zona **oltre** la tacca è disegnata e barrata.
+
+Un numero da raggiungere, scritto e basta, dice solo *quanto*. Una scala dice
+**quanto manca**, a colpo d'occhio: un bambino che vede l'ago fermo a un terzo
+della corda sa che gli serve un `×3` prima di averlo calcolato. Quell'ordine di
+grandezza è la prima cosa che fa un calcolatore veloce, ed è la sola parte del
+calcolo mentale che un'interfaccia può davvero insegnare.
+
+Sotto la corda resta scritta la **catena**: `4 → ×6 → 24 → +9 → 33`. È il
+quaderno del duello — l'unico posto del gioco in cui il ragionamento resta
+visibile dopo essere stato fatto.
+
+### 7.4 La difficoltà, mondo per mondo
+
+Cresce in quest'ordine: prima i **numeri**, poi le **operazioni**, poi i **passi**
+della catena, e per ultimo il **tempo**. Il salto da due a tre passi, a metà
+campagna, è il salto vero: con due colpi si può ancora andare a tentativi, con
+tre no.
+
+| Mondi | Numeri fino a | Operazioni | Fattori | Passi | Rune in mano | Carica |
+|---|---|---|---|---|---|---|
+| 1–4 | 30 | + × | ×2–×3 | 2 | 4 | 12,0 s |
+| 5–9 | 60 | + − × | ×2–×5 | 2 | 5 | 11,0 s |
+| 10–14 | 100 | + − × ÷ | ×2–×9 | 3 | 5 | 11,0 s |
+| 15–19 | 150 | + − × ÷ | ×2–×12 | 3 | 6 | 10,0 s |
+| 20–24 | 240 | + − × ÷ | ×2–×12 | 3 | 6 | 9,0 s |
+
+Sopra a questa tabella agiscono le due leve che c'erano già: **il grado di Eli**
+allunga la carica (+0,55 s per grado, fino a +3,5) e alza la tenuta (da 2 a 6);
+**il grado del guardiano** accorcia la carica (−0,5 s per grado) e aggiunge
+sigilli. Sotto i **6,5 secondi** non si scende mai: poco più di due secondi a
+colpo, e sotto non si misura il calcolo ma la velocità del dito.
+
+I colpi concessi sono i passi **più uno**. Quel colpo di riserva è ciò che rende
+sensate la sottrazione e la divisione: senza, chi supera il sigillo avrebbe già
+perso e le rune che tornano indietro non servirebbero mai. Con la riserva, chi
+sfonda ha una via di rientro — e trovarla è esattamente il calcolo da insegnare.
+
+### 7.5 Le rune spente, e le esche
+
+Una runa che **qui non entra** è disegnata spenta e barrata: `÷4` su 30 non si
+può fare. Non è un divieto arbitrario ed è l'unico posto del gioco in cui «non si
+può» significa «guarda perché» — la divisibilità si impara vedendola.
+
+Le esche non sono rune a caso, per la stessa ragione per cui non lo sono i
+distrattori del chiavistello: l'**esca d'ampiezza** (il moltiplicatore grosso che
+dalla partenza sfonda il sigillo), la **vicina** (una runa della strada giusta col
+numero spostato di uno), e la **runa che serve dopo** — una divisione spenta
+all'inizio che si accende a metà strada, e che insegna a guardare la mano *prima*
+di cominciare.
+
+### 7.6 Cosa succede quando si sbaglia, e accessibilità
+
+Perdere il duello costa **quanto un morso** e non un grammo di più: se costasse
+di più, la scelta razionale sarebbe girare alla larga e il minigioco non lo
+giocherebbe nessuno. Il guardiano resta dov'è, il forziere pure, si torna quando
+si vuole con numeri nuovi. Andarsene non costa niente. E se con le rune rimaste
+il sigillo non si fa più, lo scambio si chiude subito invece di lasciar scorrere
+la carica su una partita già persa.
+
+Incassare un colpo **non suona come una risposta sbagliata** e non è mai rosso:
+il guardiano para in ambra e avanza di un passo. È un colpo preso in un duello,
+non un errore su una domanda, e il gioco non deve mai lasciar credere il
+contrario. Con `reduced_motion` niente tremori né ondeggio e la carica cresce del
+40%; con `high_contrast` bordi pieni e niente aloni; si gioca col dito, col mouse
+e coi tasti 1-6.
+
+Lo tengono `guardian_duel_audit` (la taratura e la generazione: su migliaia di
+scambi nessuno è irrisolvibile, nessuno si spezza con un colpo solo, nessuno si
+apre con meno di due rune giocabili) e `guardian_scene_audit`, che il duello lo
+**gioca davvero** dentro un mondo vero. `guardian_duel_render_probe` salva sei
+viste reali in `artifacts/duello/`: la prima stesura ci si è rivelata con il
+numero dell'impulso appoggiato sopra l'ago e la carica del guardiano che ci
+passava attraverso — difetti che nessuna asserzione avrebbe visto.
+
+## 8. Cosa non è stato fatto (e resta sul tavolo)
 
 - **Tenere o restituire.** Un lascito è la roba di una persona viva: la scelta
   naturale è restituirla. L'impianto esiste già (`stance_choices.gd`, cinque

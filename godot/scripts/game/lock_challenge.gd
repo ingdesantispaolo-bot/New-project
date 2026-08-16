@@ -6,7 +6,7 @@ extends RefCounted
 ## Richiesta del committente: i forzieri si aprono con un minigioco di **velocità
 ## di matematica**, con difficoltà che dipende dal mondo. È l'unico posto del
 ## gioco dove una prova di abilità può lecitamente chiudere qualcosa — la regola
-## è già scritta in `outdoor_world` per il varco dei guardiani: *dentro c'è
+## è già scritta in `outdoor_world` per il duello dei guardiani: *dentro c'è
 ## bellezza, non progressione*, quindi sbagliare non toglie niente a nessuno.
 ##
 ## **La forma, e perché questa.** Un bersaglio al centro, N tessere attorno,
@@ -18,13 +18,19 @@ extends RefCounted
 ## - *scrivere il risultato*: la tastiera numerica è lenta su tablet, e la
 ##   velocità la deciderebbe il dito invece della testa;
 ## - *centrare un bersaglio che si muove*: premia lo schermo grande e la mano
-##   ferma. È lo stesso motivo per cui il varco è una barra e non una mira.
+##   ferma, ed è il motivo per cui in questo gioco non si mira mai.
 ##
 ## Toccare l'operazione **giusta fra tante** è invece calcolo mentale puro e
 ## parallelo: il bambino non risolve una domanda, ne scarta quattro. E il modo in
 ## cui si diventa veloci è esattamente quello che si vorrebbe insegnare — si
 ## impara a **stimare** e a scartare senza calcolare tutto (l'ordine di
 ## grandezza, la parità, l'ultima cifra).
+##
+## **Non è il duello dei guardiani, e la differenza è voluta** ([[GuardianDuel]]).
+## Qui si *riconosce*: un numero, quattro operazioni, si tocca quella giusta e si
+## ricomincia. Là si *costruisce*: si parte da un numero e lo si porta al sigillo
+## incatenando colpi, che è il pensiero inverso. Due minigiochi di calcolo nello
+## stesso gioco si giustificano solo se chiedono due gesti mentali diversi.
 ##
 ## **I distrattori sono errori tipici, non numeri a caso** (`_distrattori`):
 ## la somma al posto del prodotto, l'inversione della sottrazione, il vicino di
@@ -85,7 +91,7 @@ const DENTI := {
 
 ## Quanto si allunga il tempo con `reduced_motion`, e di quanto rallenta la
 ## rotazione. Chi ha bisogno di meno movimento non deve per questo perdere il
-## forziere: è la stessa scelta del varco (`ReflexDuelPanel`).
+## forziere: è la stessa scelta del duello dei guardiani ([[GuardianDuelPanel]]).
 const TEMPO_RIDOTTO := 1.45
 
 ## Il tempo minimo di un dente, qualunque cosa dicano le fasce. Sotto i tre

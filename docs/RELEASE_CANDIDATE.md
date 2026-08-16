@@ -1376,6 +1376,8 @@ grado con **quanto è forte la minaccia in quel momento**.
 - **Il varco ha un tetto** (`VARCO_MASSIMO`): a grado otto contro una sacca di
   grado uno copriva il 50,8% della pista, oltre il limite che `reflex_duel_audit`
   chiama «un regalo». Il tetto non tocca i gradi 0–4, che restano tarati com'erano.
+  *(Voce storica: il varco di riflessi è stato sostituito dal duello di calcolo il
+  16 agosto, e con lui sono spariti `VARCO_MASSIMO` e `reflex_duel_audit`.)*
 - **Il grado consigliato delle minimissioni** seguiva una scala sua, tetto 4:
   dalla metà della campagna in poi qualunque giocatore lo superava senza
   accorgersene e il rischio dichiarato — entrare impreparati costa una volta e
@@ -1451,7 +1453,7 @@ diventa una scorciatoia per non sapere»*.
 
 **La distinzione che li concilia è dove agisce il modulo.** Uno che tocca una
 **prova** è una scorciatoia per non sapere; uno che tocca la **mappa** no — la
-stessa distinzione che rende lecito mettere un duello di riflessi davanti a un
+stessa distinzione che rende lecito mettere una prova di abilità davanti a un
 forziere di cosmetici. Da qui la decisione vincolante 15 applicata alla bottega.
 
 - **Tre moduli, non sette**, perché tre sono quelli che **funzionano davvero**:
@@ -1690,12 +1692,13 @@ progredire. Le pergamene sono la voce dei Dodici — testimoniano dove NORA dedu
 ogni tanto si contraddicono fra loro, che è la stessa lezione di metodo che il gioco
 insegna in storia. Tenuto da `parchment_audit`.
 
-**Gli Sbiaditi: guardiani e varco (7 agosto).** Un forziere su tre è difeso, deciso
-in modo stabile dall'identificativo, con un tetto di quattro guardiani vivi: la
-prima versione ne metteva da otto a quindici in vista insieme, che non è un pericolo
-ma un assedio. Il varco è un duello di riflessi le cui tre leve si muovono col grado
-di Eli. Tenuto da `reflex_duel_audit`: nessuna combinazione produce un varco sotto
-il 5% o sopra il 50% della pista, e perdere non costa mai più di un morso.
+**Gli Sbiaditi: guardiani e duello (7 agosto, rifatto il 16).** Un forziere su tre è
+difeso, deciso in modo stabile dall'identificativo, con un tetto di quattro guardiani
+vivi: la prima versione ne metteva da otto a quindici in vista insieme, che non è un
+pericolo ma un assedio. Il duello era **di riflessi** (una barra, un cursore, il
+momento giusto) fino al 16 agosto; adesso è **di calcolo** — vedi la voce del 16
+agosto più sotto e `FORZIERI_E_FRAMMENTI` §7. Quel che non è cambiato: le leve si
+muovono col grado di Eli, e perdere non costa mai più di un morso.
 
 **Le minimissioni (7 agosto).** Ventiquattro incarichi che cambiano la mappa in
 permanenza, e per direttiva esplicita del committente **sostituiscono** l'ultimo
@@ -1813,3 +1816,52 @@ mirato e verde.
   di calcoli semantici nella resa e tutte le cinque regioni 128×128. Verdi anche
   le regressioni mirate `expedition_module_audit`, `shop_presentation_audit` e
   `outdoor_presentation_audit`.
+
+## Il duello dei guardiani diventa di calcolo (16 agosto 2026)
+
+*«Miglioriamo il combattimento contro i guardiani implementando un minigioco di
+calcolo di matematica con difficoltà dipendente dal livello del mondo. Non deve
+essere come quello per aprire i bauli. Cura la grafica e la giocabilità, deve
+insegnare a padroneggiare calcoli veloci. Deve essere un combattimento,
+divertente e stimolante.»*
+
+- **Il varco di riflessi è stato rimosso, non affiancato.** `reflex_duel.gd`,
+  `reflex_duel_panel.gd` e `reflex_duel_audit.gd` non esistono più. La ragione
+  non è che funzionasse male: era l'unico momento del gioco in cui la bravura non
+  c'entrava con quello che il gioco insegna. Allenarsi a contare non rendeva
+  nessuno più bravo a centrare un cursore.
+- **La forma nuova** ([[GuardianDuel]], `FORZIERI_E_FRAMMENTI` §7): il guardiano
+  porta un **sigillo** (un numero), Eli un **impulso** che parte piccolo, e in
+  mano delle **rune** (`+7`, `×4`, `−5`, `÷3`). Ogni runa è un colpo, i colpi
+  sono contati e le rune si consumano; l'impulso deve valere **esattamente** il
+  sigillo. Dove il chiavistello chiede di *riconoscere* (quale operazione fa 42),
+  il duello chiede di *costruire* (sono a 12, come arrivo a 36) — pensiero
+  inverso, ed è la ragione per cui due minigiochi di calcolo possono coesistere.
+- **È un combattimento**: la carica del guardiano al posto del cronometro, da due
+  a quattro sigilli secondo il suo grado, tenuta di Eli da 2 a 6 secondo il suo,
+  e ogni sigillo spezzato accorcia del 10% la carica del successivo. Il guardiano
+  in scena è l'**illustrazione vera** del mondo, la stessa che si vede sulla mappa.
+- **La corda di risonanza** è il pezzo che insegna: una scala con la tacca del
+  sigillo, l'ago dell'impulso e la zona *oltre* barrata. Dice **quanto manca** a
+  colpo d'occhio, cioè l'ordine di grandezza — la sola parte del calcolo mentale
+  che un'interfaccia possa davvero insegnare. Sotto resta scritta la catena
+  (`4 → ×6 → 24 → +9 → 33`), unico posto del gioco in cui il ragionamento resta
+  visibile dopo essere stato fatto.
+- **Difficoltà per mondo** su cinque fasce: numeri fino a 30→240, operazioni da
+  `+ ×` a `+ − × ÷`, catena da 2 a 3 passi, mano da 4 a 6 rune, carica da 12 a 9
+  secondi — modulata poi dai due gradi. Mai sotto **6,5 s**, cioè poco più di due
+  secondi a colpo: più giù non si misura il calcolo ma la velocità del dito.
+- **Guard-rail invariati**: il duello chiude solo frammenti, perdere costa quanto
+  un morso e non di più, andarsene è gratis, incassare un colpo non suona come
+  una risposta sbagliata e non è mai rosso. Novità: se con le rune rimaste il
+  sigillo non si fa più, lo scambio si chiude subito invece di lasciar scorrere
+  la carica su una partita già persa.
+- **Verde** `guardian_duel_audit` (taratura sui 24 mondi × 8 gradi guardiano × 9
+  gradi Eli, e 1.200 scambi generati e risolti davvero: nessuno irrisolvibile,
+  nessuno spezzabile con un colpo solo, nessuno che si apre con meno di due rune
+  giocabili) e `guardian_scene_audit`, che ora il duello lo **gioca** dentro un
+  mondo vero invece di chiamare la funzione di chiusura.
+- **Due difetti trovati solo guardando** (`guardian_duel_render_probe`, sei viste
+  in `artifacts/duello/`): il numero dell'impulso finiva appoggiato sopra l'ago e
+  la barra della carica gli passava attraverso; e un'attesa fra due scambi
+  sopravviveva alla sfida che l'aveva creata. Nessuna asserzione li avrebbe visti.

@@ -2,14 +2,19 @@ extends SceneTree
 
 ## **Il guardiano, giocato davvero.** (7 agosto 2026)
 ##
-## `reflex_duel_audit` verifica la taratura senza costruire niente. Qui si apre
+## `guardian_duel_audit` verifica la taratura senza costruire niente. Qui si apre
 ## un mondo vero e si controlla la catena che il committente ha chiesto:
 ##
 ##   1. sui forzieri scoperti compare una guardiana;
 ##   2. finché è viva **il forziere non si apre** — è il senso di «proteggono i
 ##      bauli», e senza questo controllo resterebbe una decorazione;
 ##   3. la si può affrontare (esiste il gesto, non solo il danno subìto);
-##   4. sciolta, il forziere si apre **e resta aperto**: rientrando nel mondo la
+##   4. il duello **si apre e si vince giocandolo**: dal 16 agosto 2026 il
+##      combattimento è di calcolo, e l'audit lo gioca davvero — genera lo
+##      scambio, cerca la strada e la percorre. Senza questo, un difetto nella
+##      generazione lascerebbe un bambino fermo davanti a un guardiano
+##      invincibile e nessun controllo se ne accorgerebbe;
+##   5. sciolta, il forziere si apre **e resta aperto**: rientrando nel mondo la
 ##      guardiana non ricompare, altrimenti si rigiocherebbe il duello per un
 ##      premio già preso.
 
@@ -89,14 +94,19 @@ func _run() -> void:
 	_controlla(guardia.find_child("EnemyChallenge", true, false) != null,
 		"il guardiano non si può affrontare")
 
-	# Vinto il varco: la sacca si scioglie e il fatto resta scritto.
-	world.call("_chiudi_varco", guardia, true)
-	await process_frame
+	# **Il duello, giocato per davvero.** Si apre il pannello e si spezzano i
+	# sigilli con la strada che il pannello stesso dichiara. Nessuna scorciatoia
+	# interna: se la generazione producesse uno scambio senza strada, o se il
+	# combattimento non si chiudesse da solo, qui l'audit resterebbe appeso al
+	# guardiano esattamente come ci resterebbe un bambino.
 	var guardia_id := str(guardia.get_meta("guardId", ""))
+	await _il_duello_si_gioca(world, guardia)
+
+	# Vinto il duello: la sacca si scioglie e il fatto resta scritto.
 	_controlla(save.enemy_defeated(str(LIVELLO), guardia_id),
 		"una sacca sciolta non risulta sciolta nel salvataggio")
 	_controlla(save.fragments() > frammenti_prima,
-		"vincere il varco non ha lasciato frammenti")
+		"vincere il duello non ha lasciato frammenti")
 
 	# **Resta sciolta.** Si riapre il mondo con quel salvataggio: quella
 	# guardiana non deve ricomparire.
@@ -110,6 +120,45 @@ func _run() -> void:
 	ritorno.queue_free()
 	await process_frame
 	_esito()
+
+## **Gioca il duello fino in fondo.** Chiede al pannello la strada più corta per
+## il sigillo di adesso e la percorre, sigillo dopo sigillo.
+##
+## Le attese sono su un timer vero e non su un numero di fotogrammi: fra un
+## sigillo e l'altro il pannello si prende il suo istante (il sigillo che si
+## spezza, il guardiano che arretra), e in headless i fotogrammi passano tanto in
+## fretta che contarli non direbbe niente sul tempo trascorso.
+func _il_duello_si_gioca(world: Node, guardia: Node2D) -> void:
+	world.call("_sfida_guardiano", guardia)
+	await process_frame
+	var pannello = world.get("duel_panel")
+	_controlla(pannello != null, "affrontare il guardiano non apre il duello")
+	if pannello == null:
+		return
+	_controlla(bool(pannello.call("attivo")), "il duello si apre già risolto")
+	var finito := false
+	var scambi := 0
+	while scambi < 12:
+		# Il pannello può essersi già chiuso da solo: vinto l'ultimo sigillo lo
+		# libera il mondo, e da lì in poi non gli si chiede più niente.
+		if not is_instance_valid(pannello) or not bool(pannello.call("attivo")):
+			finito = true
+			break
+		scambi += 1
+		var strada: Array = pannello.call("sequenza_vincente")
+		if strada.is_empty():
+			errori.append("il duello propone uno scambio senza nessuna strada verso il sigillo")
+			break
+		for passo in strada:
+			pannello.call("colpisci", int(passo))
+		await create_timer(1.1).timeout
+	_controlla(finito,
+		"il duello non si chiude nemmeno giocando la strada giusta a ogni scambio")
+	# E la vittoria arriva al mondo da sola: il pannello si chiude, la sacca si
+	# scioglie, nessuno chiama niente a mano.
+	await create_timer(1.1).timeout
+	_controlla(world.get("duel_panel") == null,
+		"vinto il duello, il pannello resta aperto sopra il mondo")
 
 func _area_forziere(world: Node, treasure_id: String) -> Area2D:
 	for nodo in get_nodes_in_group("world_interactable"):

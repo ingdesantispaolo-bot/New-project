@@ -176,6 +176,42 @@ dodici. Il decadimento resta e la padronanza mostrata è quella vera — cambia 
 che non può più disfare una prova superata. Tenuto da
 `subject_certification_audit.gd`.
 
+### Una materia IN LINEA non ricade perché ne hai giocata un'altra
+Estensione della regola precedente alle **undici materie che in un mondo non
+hanno un esame**. La certificazione nasce dall'esame d'apparato, e in un mondo se
+ne dà uno solo: le altre undici il bambino le porta in linea con le palestre, e
+per loro non c'era nessun traguardo registrato.
+
+Segnalazione di gioco del 16 agosto 2026: nel mondo 1, superata la prova di
+musica, l'elenco degli obiettivi tornava a chiedere **elettronica**, già portata
+in linea poco prima.
+
+La causa **non era il decadimento** — la padronanza misurata restava a 0,900 —
+era la **RITENZIONE**. L'orologio del ripasso spaziato è uno solo per tutta la
+partita e avanza a ogni sessione risolta, di qualunque materia: un argomento di
+elettronica ripassato bene torna dovuto due sessioni dopo, e se quelle due
+sessioni sono di musica, elettronica cade da sola. Con dodici materie da tenere
+in linea insieme ognuna rimetteva indietro le altre — giocare la cosa giusta
+disfaceva il lavoro appena fatto, che è il modo più rapido di convincere un
+bambino che il gioco non tiene il conto.
+
+Ora, quando una materia centra tutte e tre le condizioni, il grado a cui l'ha
+fatto viene **registrato** (`gateClearedLevel` nel save) e da lì in avanti quella
+materia è a posto per quel grado: fuori dall'elenco delle mancanti, esame aperto
+se è quella del mondo, e l'arco del suo residente non regredisce.
+
+Quello che **non** cambia, e conta quanto il resto:
+
+- i numeri veri restano veri. `apparatus_readiness` continua a misurare senza
+  guardare il traguardo, il ripasso continua a riproporre gli argomenti dovuti e
+  NORA continua a dirlo. Il traguardo cambia che cosa il gioco **chiede**, non
+  che cosa il gioco **mostra**;
+- il traguardo vale per il suo grado e scade salendo di livello, esattamente come
+  la certificazione;
+- non regala niente: si registra solo raggiungendo davvero le tre condizioni.
+
+Tenuto da `materia_in_linea_audit.gd`.
+
 ### Esempio di scala (tunable, dati)
 | Livello | Materia in focus | Apparato (stanza) | Missioni richieste (N) | Soglia mastery |
 |---|---|---|---|---|

@@ -60,6 +60,19 @@ static func _default_data() -> Dictionary:
 		# già noti. È la differenza fra chiedere di imparare altro e chiedere di
 		# tenere allenato ciò che si sa: la seconda si può fare a ogni livello.
 		"coverageThisLevel": {},    # subject -> [argomenti toccati in questo livello]
+		# **Le materie portate in linea, e a quale grado.** (16 agosto 2026)
+		#
+		# Una materia che ha soddisfatto tutte e tre le condizioni del gate a
+		# questo livello resta soddisfatta fino al livello successivo. Senza questo
+		# la ritenzione la faceva ricadere fra quelle da fare per il solo fatto che
+		# lo studente stava giocando **un'altra** materia: l'orologio del ripasso
+		# spaziato e' unico e avanza a ogni sessione. Vedi
+		# `GateReadiness.in_linea_a_questo_livello`.
+		#
+		# Si conserva il LIVELLO, non un booleano: al passaggio successivo della
+		# materia il grado e' un altro e il traguardo va riconquistato, esattamente
+		# come per `apparatus.repairedLevel`.
+		"gateClearedLevel": {},     # subject -> livello a cui e' andata in linea
 		# Impronte dei quesiti di PRATICA già visti di recente, materia per
 		# materia. Nasce da una segnalazione di gioco del 6 agosto 2026: lo
 		# studente rifaceva la stessa location e ritrovava gli stessi quesiti
@@ -258,6 +271,19 @@ func topics_seen_this_level(subject: String) -> int:
 ## ricomincia a contare, mentre padronanza e argomenti conosciuti restano.
 func reset_coverage_this_level() -> void:
 	data["coverageThisLevel"] = {}
+
+## Registra che questa materia ha raggiunto tutte e tre le condizioni del gate al
+## livello indicato. Monotono: un traguardo non si toglie, e al livello dopo
+## smette di valere da solo perche' quello che si conserva e' il grado.
+func set_subject_cleared(subject: String, cleared_level: int) -> void:
+	if not data.has("gateClearedLevel"):
+		data["gateClearedLevel"] = {}
+	var precedente := int(Dictionary(data["gateClearedLevel"]).get(subject, 0))
+	data["gateClearedLevel"][subject] = maxi(precedente, cleared_level)
+
+## A quale grado questa materia e' andata in linea. 0 = mai.
+func subject_cleared_level(subject: String) -> int:
+	return int(Dictionary(data.get("gateClearedLevel", {})).get(subject, 0))
 
 func add_mission(subject: String) -> void:
 	data["missionsBySubject"][subject] = missions_of(subject) + 1

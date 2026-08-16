@@ -66,7 +66,12 @@ static func passo(runtime: Dictionary, progression) -> Dictionary:
 	# L'apparato del mondo: è il traguardo vicino, quello che si chiude qui.
 	var materia := str(runtime.get("focusSubject", "matematica"))
 	var stato: Dictionary = progression.apparatus_readiness(materia)
-	if not bool(stato.get("ready", false)):
+	# `materia_in_linea` e non `stato.ready`: il traguardo di questo grado, una
+	# volta raggiunto, tiene. Senza, il passo tornava a mandare il bambino sulle
+	# prove di una materia che aveva appena chiuso, per un ripasso diventato
+	# dovuto mentre giocava altrove — e l'esame, che quel traguardo lo onora,
+	# sarebbe rimasto aperto contraddicendo la riga appena letta.
+	if not bool(progression.materia_in_linea(materia)):
 		return {
 			"titolo": "Apri la stanza di %s" % materia,
 			"azione": _cosa_manca(stato, true),

@@ -92,9 +92,41 @@ static func certified_at_level(save, subject: String) -> bool:
 	var quando := int(save.apparatus_repaired_level(ApparatusConfig.apparatus_of(subject)))
 	return quando > 0 and quando >= int(save.level())
 
+## **Una materia superata a questo grado non torna fra quelle da fare.**
+## (16 agosto 2026)
+##
+## Segnalazione di gioco: nel mondo 1, superata la prova di musica, l'elenco
+## tornava a chiedere **elettronica**, che era gia' stata portata in linea.
+##
+## Misurato: non era il decadimento — la padronanza restava a 0,900 — era la
+## RITENZIONE. L'orologio del ripasso spaziato e' **uno solo per tutta la
+## partita** e avanza a ogni sessione risolta, di qualunque materia. Un argomento
+## di elettronica ripassato bene torna dovuto due sessioni dopo; se quelle due
+## sessioni sono di musica, elettronica cade da sola. Con dodici materie da
+## tenere in linea insieme, ognuna rimetteva indietro le altre: giocare la cosa
+## giusta disfaceva il lavoro appena fatto, ed e' il modo piu' rapido di
+## convincere un bambino che il gioco non tiene il conto.
+##
+## Il rimedio ricalca quello gia' scelto il 15 agosto per la certificazione
+## d'apparato: **il traguardo si registra, e vale per questo grado**. Sotto non
+## cambia niente — il ripasso continua a riproporre gli argomenti dovuti, la
+## padronanza continua a calare e i numeri lo dicono. Quello che non succede piu'
+## e' che una materia gia' chiusa torni nella lista delle cose da fare per colpa
+## di una sessione altrove. Al livello successivo il grado e' nuovo e si
+## ricomincia: e' il senso della scala.
+##
+## Due sorgenti, un solo significato: l'esame d'apparato superato qui, oppure le
+## tre condizioni raggiunte qui (`ProgressionManager.aggiorna_traguardi_di_livello`).
+static func in_linea_a_questo_livello(save, subject: String) -> bool:
+	if certified_at_level(save, subject):
+		return true
+	var quando := int(save.subject_cleared_level(subject))
+	return quando > 0 and quando >= int(save.level())
+
 ## `certified` = la materia è già stata superata a questo livello (vedi
-## `certified_at_level`). Quando è vero il verdetto è «pronta» senza guardare le
-## tre dimensioni. **Il parametro è esplicito e di default falso apposta**: chi
+## `in_linea_a_questo_livello`: esame d'apparato passato qui, oppure tre
+## condizioni centrate qui). Quando è vero il verdetto è «pronta» senza guardare
+## le tre dimensioni. **Il parametro è esplicito e di default falso apposta**: chi
 ## valuta se un apparato si può RIPARARE non deve passarlo, o una stanza accesa
 ## si dichiarerebbe riparabile all'infinito.
 static func evaluate_subject(
@@ -132,6 +164,11 @@ static func evaluate_subject(
 		reasons.append("ritenzione")
 
 	# **Una materia superata a questo livello è superata, e basta.**
+	#
+	# Due difetti diversi rimediati dalla stessa riga. Il decadimento (15 agosto
+	# 2026) e la ritenzione (16 agosto 2026, vedi `in_linea_a_questo_livello`):
+	# il primo lento, la seconda immediata, entrambi capaci di disfare una prova
+	# già passata senza che lo studente sbagliasse niente.
 	#
 	# Senza questa riga il decadimento per trascuratezza disfaceva una prova già
 	# passata: misurato il 15 agosto 2026 — matematica certificata al livello 1
@@ -202,11 +239,14 @@ static func evaluate_core(
 	# mondo rispondendo sempre giusto.
 	for subject in GATE_SUBJECTS:
 		var s := str(subject)
-		# Il gate del LIVELLO onora la certificazione; la riparazione di un
-		# apparato (`evaluate_subject` chiamato senza `certified`) no.
+		# Il gate del LIVELLO onora il traguardo gia' raggiunto a questo grado —
+		# esame d'apparato superato QUI, oppure tre condizioni centrate QUI. La
+		# riparazione di un apparato (`evaluate_subject` chiamato senza
+		# `certified`) no: quella deve sempre guardare i numeri veri, o una stanza
+		# accesa si dichiarerebbe riparabile all'infinito.
 		var evaluation := evaluate_subject(
 			save, s, mastery_threshold, int(topics_by_subject.get(s, -1)),
-			certified_at_level(save, s))
+			in_linea_a_questo_livello(save, s))
 		subjects[s] = evaluation
 		total_progress += float(evaluation["progress"])
 		if not bool(evaluation["ready"]):

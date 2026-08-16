@@ -211,6 +211,12 @@ func setup(request: Dictionary, session_result: Dictionary, load_local_save: boo
 	# ContentManager prima di ProgressionManager: serve alla dimensione COPERTURA
 	# del gate (numero di argomenti che la materia può proporre).
 	progression_manager = ProgressionManager.new(game_save, content_manager)
+	# Anche all'ingresso, non solo a fine sessione: un salvataggio che arriva da
+	# prima di questa regola — o da un mondo lasciato a metà — ha materie già in
+	# linea e nessun traguardo registrato. Senza questa riga il quadro degli
+	# obiettivi resterebbe sbagliato fino alla prima prova giocata, che è proprio
+	# il momento in cui il bambino lo apre per sapere che cosa fare.
+	progression_manager.aggiorna_traguardi_di_livello()
 	reward_manager = RewardManager.new(game_save)
 	narrative_manager.setup(game_save)
 	progress_report.setup(game_save)
@@ -1048,6 +1054,7 @@ func resolve_session(exercise_result: Dictionary) -> void:
 		var usciti_avanzati: Array = progression_manager.record_topic_stats(
 			subject, exercise_result.get("topicStats", {}))
 		_update_spaced_repetition(subject, exercise_result)
+		progression_manager.aggiorna_traguardi_di_livello()
 		_present_feedback(_abandon_feedback(costo, usciti_avanzati), "nora")
 		# Anche l'uscita anticipata si scrive su disco. Era l'unico ramo che non lo
 		# faceva: chiudere la prova e poi il gioco rimandava indietro l'energia
@@ -1061,6 +1068,7 @@ func resolve_session(exercise_result: Dictionary) -> void:
 	# incontri e non apre apparati.
 	if kind == "lavoretto":
 		progression_manager.record_practice(subject, correct, total, 0)
+		progression_manager.aggiorna_traguardi_di_livello()
 		if passed:
 			var paga := LAVORETTO_PAGA
 			game_save.add_energy(paga)
@@ -1104,6 +1112,10 @@ func resolve_session(exercise_result: Dictionary) -> void:
 			_present_feedback(
 				"Impulso ricaricato: %d cariche." % PulseCharge.cariche(game_save), "system")
 	_update_spaced_repetition(subject, exercise_result)
+	# Dopo TUTTE le registrazioni della sessione, e prima di ogni ramo che
+	# presenta un esito: da qui in poi il gioco può dire «questa materia è
+	# chiusa», e non deve piu' tornare a chiederla a questo grado.
+	progression_manager.aggiorna_traguardi_di_livello()
 	result["energyEarned"] = int(result.get("energyEarned", 0)) + maxi(0, gained)
 	if kind == "minigame":
 		# Pratica: nessun gate, nessun completamento persistente → rigiocabile.

@@ -367,12 +367,69 @@ Regole di sicurezza:
 restare **deterministica** (stesso seed + stesso stato = stessa vita) e a costo
 quasi zero: nessuna simulazione, nessuna IA.
 
+### 6.0 Dove stanno (16 agosto 2026)
+
+**Il posto di un abitante viene da chi è**, non da un indice. Fino al 16 agosto
+2026 il cast veniva distribuito su quattro ancoraggi fissi in un anello di
+quattrocento pixel attorno allo sbarco: chiunque fossero, i quattro si trovavano
+tutti nei primi dieci passi, e i loro luoghi — che il gioco già assegna per nome
+in `BuildingCatalog._resident_owner` — restavano vuoti.
+
+| chi | dove sta | perché |
+| --- | --- | --- |
+| specialista | Casa del mestiere | è il suo laboratorio: trovarcelo dentro spiega l'edificio senza una riga di testo |
+| testimone | Ritrovo | è il luogo che presidia |
+| Bislacco | fuori mano, 1180 px dallo sbarco, in un arco fra 28° e 66° deciso dal seme del mondo | incontrarlo dev'essere una piccola scoperta, non un saluto obbligatorio all'arrivo |
+| itinerante | sulla strada, a metà della risalita verso la nave, dal lato opposto al Bislacco | è di passaggio: lo si incontra camminando |
+
+Distanza minima fra due abitanti: **420 px** (era 150). Sotto quella soglia due
+presenze si leggono ancora come un gruppo. `world_life_audit` verifica sia la
+corrispondenza persona↔luogo sia la dispersione (nessuna coppia sotto 380 px,
+almeno 900 px fra i due più lontani).
+
 ### 6.1 Routine
 
 Ogni abitante ha **tre ancoraggi**: casa, lavoro, Ritrovo. La fase giorno/notte,
 già presente, sceglie dove si trova. Si spostano con un cammino lento tra i punti
 quando sono fuori inquadratura; in campo, si limitano a un'animazione di
 occupazione (contare, martellare, scrivere).
+
+Due precisazioni nate dal collaudo del 16 agosto 2026:
+
+- **l'ancoraggio di lavoro è il proprio**, non la Casa del mestiere per tutti.
+  Con un ancoraggio comune il capannello si riformava da solo anche dopo aver
+  sparso il cast: lo specialista lavora alla Casa, il testimone al Ritrovo, il
+  Bislacco gira attorno alla Rovina, l'itinerante resta sulla strada. Il Ritrovo
+  è il solo momento in cui si radunano davvero, ed è giusto che sia l'unico:
+  è la scena in cui si parlano fra loro;
+- **il turno della gente ha un orologio suo**. La fase giorno/notte è ferma da
+  quando il mondo nasce coperto e si illumina col lavoro fatto, quindi non poteva
+  più muovere nessuno. `outdoor_world._turno_del_villaggio` scandisce lavoro
+  (110 s) → Ritrovo (40 s) → riposo (34 s) senza toccare la luce.
+
+### 6.1.5 Battute di passaggio
+
+**Chi ti vede passare ti dice qualcosa.** Il difetto che questa parte ripara non
+era il testo — registro, tic, convinzione e arco esistono per quarantasei
+persone — era che quel testo usciva **solo aprendo un dialogo**: attraversando il
+mondo un abitante era un birillo con un nome sopra, muto anche se gli passavi a
+due passi dopo avergli rimesso in moto l'apparato.
+
+Quando Eli arriva a 300 px, l'abitante dice **una riga sola**, presa dal suo
+stesso catalogo: la prima schermata di una battuta, quindi con la sua voce e il
+suo tic. Le regole servono a tenerla simpatica invece che molesta:
+
+- parla **all'arrivo**, non finché resti lì (isteresi 300/470 px);
+- un solo fumetto per volta nel mondo, con 4,5 s di pausa fra uno e l'altro;
+- 26 s di riposo per persona, e il cursore avanza: la seconda battuta non è mai
+  la prima;
+- alterna riempimento e battute dello **stadio d'arco corrente** — passandogli
+  davanti due volte si sente prima il colore, poi dove sta col suo cambiamento;
+- **la notizia ha la precedenza sul colore**: se hai appena superato una prova,
+  chi incontri commenta quello (pool `reazione`, una volta per persona per
+  notizia). È il pezzo che li rende partecipi della storia invece che
+  decorativi;
+- tacciono mentre un pannello copre il mondo.
 
 ### 6.2 Notizie
 

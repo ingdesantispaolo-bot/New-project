@@ -80,6 +80,14 @@ func configure(id: String, data: Dictionary, use_reduced_motion: bool = false) -
 		attivita.add_theme_constant_override("shadow_offset_x", 2)
 		attivita.add_theme_constant_override("shadow_offset_y", 2)
 		add_child(attivita)
+	# **Il fumetto nasce con la persona.** (16 agosto 2026)
+	#
+	# Prima veniva costruito dentro `set_activity`, che tocca soltanto chi ha un
+	# arco: l'itinerante — l'unico volto ricorrente del viaggio — non aveva dove
+	# scrivere, e `show_world_line` gli usciva a vuoto. Un personaggio muto per un
+	# dettaglio di costruzione è il difetto peggiore: non lo vedi, lo scambi per
+	# carattere.
+	_ensure_speech_bubble()
 
 ## Che cosa il bambino vede fare a questo personaggio, adesso. Vuoto = niente da
 ## dire, e allora non si scrive niente: una riga vuota sotto il nome sarebbe
@@ -92,32 +100,36 @@ func set_activity(testo: String) -> void:
 	riga.visible = not testo.strip_edges().is_empty()
 	if riga.visible:
 		riga.accessibility_name = "%s: %s" % [display_name, testo]
-	if get_node_or_null("WorldSpeech") == null:
-		var bubble := Label.new()
-		bubble.name = "WorldSpeech"
-		bubble.position = Vector2(-145, -132)
-		bubble.size = Vector2(290, 76)
-		bubble.visible = false
-		bubble.z_index = 12
-		bubble.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		bubble.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		bubble.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		bubble.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		bubble.add_theme_font_size_override("font_size", 15)
-		bubble.add_theme_color_override("font_color", Color("effffc"))
-		var panel := StyleBoxFlat.new()
-		panel.bg_color = Color(0.025, 0.105, 0.12, 0.94)
-		panel.border_color = Color(accent, 0.9)
-		panel.set_border_width_all(2)
-		panel.set_corner_radius_all(12)
-		panel.content_margin_left = 10
-		panel.content_margin_right = 10
-		panel.content_margin_top = 7
-		panel.content_margin_bottom = 7
-		bubble.add_theme_stylebox_override("normal", panel)
-		add_child(bubble)
+	_ensure_speech_bubble()
 	set_stream_active(true)
 	queue_redraw()
+
+func _ensure_speech_bubble() -> void:
+	if get_node_or_null("WorldSpeech") != null:
+		return
+	var bubble := Label.new()
+	bubble.name = "WorldSpeech"
+	bubble.position = Vector2(-145, -132)
+	bubble.size = Vector2(290, 76)
+	bubble.visible = false
+	bubble.z_index = 12
+	bubble.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	bubble.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	bubble.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	bubble.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	bubble.add_theme_font_size_override("font_size", 15)
+	bubble.add_theme_color_override("font_color", Color("effffc"))
+	var panel := StyleBoxFlat.new()
+	panel.bg_color = Color(0.025, 0.105, 0.12, 0.94)
+	panel.border_color = Color(accent, 0.9)
+	panel.set_border_width_all(2)
+	panel.set_corner_radius_all(12)
+	panel.content_margin_left = 10
+	panel.content_margin_right = 10
+	panel.content_margin_top = 7
+	panel.content_margin_bottom = 7
+	bubble.add_theme_stylebox_override("normal", panel)
+	add_child(bubble)
 
 ## Il caso profondo di «smemora» non cambia la posa né cancella il gesto di
 ## occupazione: sovrappone al lavoro un circuito che non arriva più al proprio

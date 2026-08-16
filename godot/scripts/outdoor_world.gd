@@ -161,6 +161,7 @@ var npc_dialogue_cursors: Dictionary = {}
 var mission_ownership_flow
 var world_buildings: Array[Node2D] = []
 var world_life
+var village_clock := 0.0
 var thirteenth_director
 var thirteenth_forgotten_npc := ""
 var thirteenth_deep_forgotten_npc := ""
@@ -630,6 +631,10 @@ func _on_runtime_state(state: Dictionary) -> void:
 	_update_building_stages()
 	if world_life != null:
 		world_life.set_stage(_npc_story_stage())
+		# Le battute di passaggio devono venire dallo stadio di QUELLA persona:
+		# senza questo, chi ha appena completato il suo arco continuerebbe a
+		# ripetere quello che diceva prima di capire.
+		world_life.set_resident_stages(_stadi_dei_residenti())
 	if is_instance_valid(portal) and portal.has_method("set_gate_state"):
 		portal.call("set_gate_state", bool(runtime.get("ready", false)), str(runtime.get("apparatus", "nucleo")), bool(runtime.get("complete", false)))
 
@@ -768,8 +773,41 @@ func _process(delta: float) -> void:
 			if is_instance_valid(camera):
 				view_size = Vector2(view_size.x / camera.zoom.x, view_size.y / camera.zoom.y)
 			var visible_world := Rect2(player.global_position - view_size * 0.5, view_size)
-			world_life.update(phase_id, player.global_position, visible_world, delta)
+			world_life.set_ambient_enabled(not _blocking_panel_visible())
+			world_life.update(
+				_turno_del_villaggio(delta), player.global_position, visible_world, delta)
 		_update_npc_streaming()
+
+## **Il villaggio ha un ritmo suo, e non è quello della luce.** (16 agosto 2026)
+##
+## `WorldLife` riceveva `phase_id`, che viene dall'orologio della luce. Quello
+## orologio è **fermo** da quando il mondo nasce coperto e si illumina col lavoro
+## fatto (il perché sta nel commento in `_process`): il profilo sceglie un'ora
+## d'autore e lì resta. Conseguenza mai messa in conto quando la notte è stata
+## tolta: la regia della vita riceveva sempre e solo «giorno» in quasi tutti i
+## mondi. Tutti verso l'ancoraggio di lavoro, e mai più via — il capannello si
+## riformava da solo — e la scena del Ritrovo, che parte all'alba, non si vedeva
+## in nessun mondo tranne i tre col profilo di tramonto.
+##
+## Il turno della gente è adesso una cosa a sé: una giornata di lavoro lunga, un
+## raduno breve al Ritrovo, un ritorno al proprio posto. Non è un ciclo
+## giorno/notte — la luce non si muove di un capello — è la ragione per cui
+## passare due volte dallo stesso punto non dà lo stesso mondo.
+##
+## I nomi delle fasi restano quelli che `WorldLife` già conosce: cambiarli
+## avrebbe voluto dire toccare la regia per un'etichetta.
+const TURNO_LAVORO := 110.0
+const TURNO_RITROVO := 40.0
+const TURNO_RIPOSO := 34.0
+
+func _turno_del_villaggio(delta: float) -> String:
+	var giro := TURNO_LAVORO + TURNO_RITROVO + TURNO_RIPOSO
+	village_clock = fmod(village_clock + maxf(delta, 0.0), giro)
+	if village_clock < TURNO_LAVORO:
+		return "giorno"
+	if village_clock < TURNO_LAVORO + TURNO_RITROVO:
+		return "alba"
+	return "notte"
 
 func _animare_potenza_eli(delta: float) -> void:
 	if reduced_motion or not is_instance_valid(player):
@@ -2273,13 +2311,12 @@ func _create_world_npcs() -> void:
 		var actor: Area2D = NPC_ACTOR_SCRIPT.new()
 		actor.call("configure", npc_id, data, reduced_motion)
 		actor.call("set_high_contrast", high_contrast)
-		actor.position = _npc_spawn_position(index, occupied)
+		actor.position = _npc_home_position(npc_id, data, index, occupied)
 		occupied.append(actor.position)
 		world_layer.add_child(actor)
 		actor.body_entered.connect(func(body): on_interactable_entered(actor, body))
 		actor.body_exited.connect(func(body): on_interactable_exited(actor, body))
 		npc_actors.append(actor)
-	_metti_in_scena_gli_archi()
 	# Un solo volto ricorrente per mondo. Residenti (2) + Bislacco (1) +
 	# itinerante (1) rispettano il budget assoluto di quattro presenze.
 	if npc_actors.size() < 4:
@@ -2291,12 +2328,17 @@ func _create_world_npcs() -> void:
 			var itinerant: Area2D = NPC_ACTOR_SCRIPT.new()
 			itinerant.call("configure", itinerant_id, actor_data, reduced_motion)
 			itinerant.call("set_high_contrast", high_contrast)
-			itinerant.position = _npc_spawn_position(npc_actors.size(), occupied)
+			itinerant.position = _npc_home_position(
+				itinerant_id, actor_data, npc_actors.size(), occupied)
 			occupied.append(itinerant.position)
 			world_layer.add_child(itinerant)
 			itinerant.body_entered.connect(func(body): on_interactable_entered(itinerant, body))
 			itinerant.body_exited.connect(func(body): on_interactable_exited(itinerant, body))
 			npc_actors.append(itinerant)
+	# Dopo l'itinerante, non prima: la messa in scena degli archi deve vedere
+	# tutto il cast — le tre parole sotto il nome e il fumetto valgono anche per
+	# chi è di passaggio.
+	_metti_in_scena_gli_archi()
 
 func _finale_stage2_residents() -> Array:
 	var out: Array = []
@@ -2353,6 +2395,95 @@ func _advance_finale_convergence_wave() -> void:
 	_create_finale_convergence_cast()
 	_refresh_prompt()
 
+## **Ognuno sta dove ha senso che stia.** (16 agosto 2026)
+##
+## Segnalazione del committente: «non devono essere collocati tutti insieme ma
+## sparsi intelligentemente nella mappa». Aveva ragione, e la causa era doppia.
+##
+## La prima: `_npc_spawn_position` distribuiva il cast su **quattro ancoraggi
+## fissi in un anello di quattrocento pixel attorno al punto di sbarco**,
+## assegnati per indice. Chiunque fossero, i quattro abitanti del mondo si
+## trovavano tutti nei primi dieci passi, in un capannello che non voleva dire
+## niente — mentre i loro luoghi, che il catalogo assegna **per nome** in
+## `BuildingCatalog._resident_owner`, restavano vuoti. Il gioco sapeva già che
+## Tobia lavora alla Casa del Conto e che Nonna Ersilia presidia la Fontana dei
+## Filari: non lo usava per metterceli.
+##
+## Adesso la posizione viene da CHI È la persona:
+##
+##   specialista  alla Casa del mestiere — è il suo laboratorio, e trovarcelo
+##                dentro spiega l'edificio senza una riga di testo;
+##   testimone    al Ritrovo, il luogo che presidia;
+##   bislacco     fuori mano, lontano dagli edifici e dal corridoio sicuro:
+##                incontrarlo dev'essere una piccola scoperta, non un saluto
+##                obbligatorio all'arrivo;
+##   itinerante   sulla strada fra lo sbarco e la nave — è di passaggio, e lo si
+##                incontra camminando, che è l'unico modo sensato.
+##
+## La distanza minima fra due abitanti sale da 150 a 420 pixel: sotto quella
+## soglia due presenze si leggono ancora come un gruppo.
+const NPC_MIN_SEPARATION := 420.0
+
+func _npc_home_position(npc_id: String, data: Dictionary, index: int, occupied: Array) -> Vector2:
+	var base := _npc_home_base(npc_id, data)
+	for attempt in 32:
+		var angle := TAU * float(attempt) / 8.0
+		var radius := 0.0 if attempt == 0 else 90.0 + 60.0 * floori(float(attempt) / 8.0)
+		var candidate := chunks.clamp_to_world(base + Vector2.RIGHT.rotated(angle) * radius)
+		if chunks.composition != null:
+			if chunks.composition.is_protected(candidate, 72.0) \
+					or chunks.composition.raw_water_weight(candidate) >= 0.24:
+				continue
+		var blocked := candidate.distance_to(_hero_landmark_position()) < 150.0
+		for event in mission_events:
+			if candidate.distance_to(event.get("position", Vector2.ZERO)) < 150.0:
+				blocked = true
+				break
+		for used in occupied:
+			if candidate.distance_to(used as Vector2) < NPC_MIN_SEPARATION:
+				blocked = true
+				break
+		if not blocked:
+			for artifact in get_tree().get_nodes_in_group("mystery_artifact"):
+				if artifact is Node2D and is_ancestor_of(artifact) \
+					and candidate.distance_to((artifact as Node2D).global_position) < 170.0:
+					blocked = true
+					break
+		if not blocked:
+			return candidate
+	# Nessun posto libero attorno al luogo giusto: meglio l'anello di ripiego che
+	# una presenza addosso a un'altra o dentro l'acqua.
+	return _npc_spawn_position(index, occupied)
+
+func _npc_home_base(npc_id: String, data: Dictionary) -> Vector2:
+	var spawn: Vector2 = world_profile.get("spawn", Vector2(0, 1180))
+	if not NPC_CATALOG.resident(npc_id).is_empty():
+		if str(data.get("funzione", "")) == "testimone":
+			return ritrovo_position() + Vector2(-136, 128)
+		return _building_role_position("work_home") + Vector2(136, 128)
+	var lato_bislacco := -1.0 if posmod(hash("%s:bislacco-lato" % world_seed), 2) == 0 else 1.0
+	if not NPC_CATALOG.bislacco(npc_id).is_empty():
+		# Fuori mano ma dentro il raggio raggiungibile: la direzione è decisa dal
+		# seme del mondo, così due mondi non mettono lo stravagante nello stesso
+		# angolo, e resta la stessa a ogni rientro nello stesso mondo.
+		#
+		# Fra 28° e 66° sopra l'orizzonte, da un lato o dall'altro. Mai in
+		# verticale sopra lo sbarco: lì passa il corridoio sicuro e più su c'è il
+		# raggio protetto della nave, e una presenza piazzata dentro finirebbe
+		# spinta fuori dal ripiego, cioè di nuovo nel capannello.
+		var quota := float(posmod(hash("%s:bislacco" % world_seed), 1000)) / 1000.0
+		var angolo := lerpf(deg_to_rad(28.0), deg_to_rad(66.0), quota)
+		return spawn + Vector2(cos(angolo) * lato_bislacco, -sin(angolo)) * 1180.0
+	# Itinerante: a mezza via sulla risalita verso la nave, spostato di lato —
+	# il corridoio sicuro non si occupa mai — e dalla parte opposta allo
+	# stravagante, così i due che stanno fuori dai luoghi non stanno insieme.
+	var ship: Vector2 = Dictionary(world_profile.get("shipEntrance", {})).get(
+		"position", Vector2.ZERO)
+	return spawn.lerp(ship, 0.58) + Vector2(430.0 * -lato_bislacco, 0.0)
+
+## Anello di ripiego attorno allo sbarco. Non è più il criterio di collocazione
+## degli abitanti — lo usano la convergenza del finale, dove il cast **deve**
+## radunarsi, e i casi in cui attorno al luogo giusto non c'è terreno libero.
 func _npc_spawn_position(index: int, occupied: Array) -> Vector2:
 	var spawn: Vector2 = world_profile.get("spawn", Vector2(0, 1180))
 	var anchors := [Vector2(-430, -250), Vector2(430, -220), Vector2(390, 170), Vector2(-420, 180)]
@@ -2389,18 +2520,71 @@ func _create_world_life() -> void:
 	var anchor_map: Dictionary = {}
 	var work_center := _building_role_position("work_home")
 	var social_center := ritrovo_position()
-	var work_offsets := [Vector2(-115, 72), Vector2(115, 72), Vector2(-175, 145), Vector2(175, 145)]
+	var ruin_center := _hero_landmark_position()
 	var social_offsets := [Vector2(-108, 92), Vector2(108, 92), Vector2(0, 164), Vector2(190, 40)]
 	for index in npc_actors.size():
 		var actor := npc_actors[index]
 		var npc_id := str(actor.get_meta("id", ""))
 		anchor_map[npc_id] = {
 			"home": actor.global_position,
-			"work": _safe_world_life_anchor(work_center + work_offsets[index % work_offsets.size()], index),
+			"work": _safe_world_life_anchor(_npc_work_anchor_base(
+				npc_id, work_center, social_center, ruin_center, actor.global_position), index),
 			"ritrovo": _safe_world_life_anchor(social_center + social_offsets[index % social_offsets.size()], index + 7),
 		}
 	world_life = WORLD_LIFE_SCRIPT.new()
 	world_life.configure(world_level, npc_actors, anchor_map, _npc_story_stage(), reduced_motion)
+	world_life.set_resident_stages(_stadi_dei_residenti())
+
+## **Il posto di lavoro è il PROPRIO, non quello di tutti.** (16 agosto 2026)
+##
+## Seconda causa del capannello, e la più insidiosa perché agiva DOPO aver
+## sparso il cast: l'ancoraggio `work` era la Casa del mestiere per tutti e
+## quattro, con quattro scostamenti presi per indice. La fase «giorno» è quella
+## in cui il mondo resta per quasi tutta la visita — la luce non si muove più,
+## vedi `_process` — quindi ogni abitante camminava verso lo stesso edificio e non
+## se ne andava più. Bastava girare due minuti e li si ritrovava tutti lì.
+##
+## Adesso il turno di lavoro di ciascuno sta dove sta il suo mestiere. Il Ritrovo
+## resta il solo momento in cui si radunano davvero, ed è giusto che sia l'unico:
+## è la scena in cui si parlano fra loro.
+func _npc_work_anchor_base(npc_id: String, work_center: Vector2, social_center: Vector2,
+		ruin_center: Vector2, home: Vector2) -> Vector2:
+	# Il turno sta dall'altro lato dell'edificio rispetto a dove la persona
+	# staziona (vedi `_npc_home_base`): se coincidessero non ci sarebbe niente da
+	# percorrere, e il turno di lavoro non si vedrebbe affatto.
+	var funzione := str(NPC_CATALOG.resident(npc_id).get("funzione", ""))
+	if funzione == "specialista":
+		return work_center + Vector2(-150, -96)
+	if funzione == "testimone":
+		return social_center + Vector2(168, -104)
+	if not NPC_CATALOG.bislacco(npc_id).is_empty():
+		# Lo stravagante non ha un mestiere: gira attorno alla Rovina, che è la
+		# cosa del mondo di cui nessuno sa dare una spiegazione sensata.
+		#
+		# Dalla parte della Rovina opposta alla nave, e non con uno scostamento
+		# fisso: la Rovina di alcuni mondi sta a ridosso del corridoio sicuro, e
+		# uno scostamento verso l'interno lo infilava dentro (`world_life_audit`).
+		# Allontanarsi lungo il raggio nave→Rovina esce sempre da entrambi.
+		var ship: Vector2 = Dictionary(world_profile.get("shipEntrance", {})).get(
+			"position", Vector2.ZERO)
+		var fuori := ship.direction_to(ruin_center)
+		if fuori.length_squared() < 0.01:
+			fuori = Vector2.DOWN
+		return ruin_center + fuori * 230.0
+	# L'itinerante è di passaggio: il suo turno è restare sulla strada.
+	return home
+
+func _stadi_dei_residenti() -> Dictionary:
+	var stadi: Dictionary = {}
+	if not is_instance_valid(gameplay):
+		return stadi
+	for attore in npc_actors:
+		if not is_instance_valid(attore):
+			continue
+		var npc_id := str(attore.get_meta("id", ""))
+		if npc_id != "" and NpcArc.ha_arco(npc_id):
+			stadi[npc_id] = NpcArc.stadio(gameplay.progression_manager, npc_id)
+	return stadi
 
 func _building_role_position(role: String) -> Vector2:
 	for building in world_buildings:
@@ -2472,11 +2656,7 @@ func _metti_in_scena_gli_archi() -> void:
 	if in_fondo.is_empty() or npc_actors.size() < 2:
 		return
 	for attore in in_fondo:
-		var compagno: Area2D = null
-		for altro in npc_actors:
-			if is_instance_valid(altro) and altro != attore:
-				compagno = altro
-				break
+		var compagno := _compagno_di_arco(attore)
 		if compagno == null:
 			continue
 		# Accanto, non addosso: a centoventi pixel si leggono come due persone
@@ -2485,6 +2665,29 @@ func _metti_in_scena_gli_archi() -> void:
 		if verso.length_squared() < 0.01:
 			verso = Vector2.RIGHT
 		attore.position = chunks.clamp_to_world(compagno.position + verso * 120.0)
+
+## A chi va vicino chi è arrivato in fondo al suo arco.
+##
+## Prima era «il primo altro attore della lista», che con quattro presenze nello
+## stesso capannello non si notava. Adesso che il cast è sparso, spostare Tobia
+## dall'altra parte della mappa per metterlo accanto a un venditore ambulante di
+## passaggio sarebbe un'immagine falsa: chi ha capito una cosa la insegna a
+## qualcuno **di qui**, e nell'arco scritto nel catalogo è sempre così.
+##
+## L'ordine è quello del significato: prima l'altro residente del mondo (è la
+## persona con cui condivide la materia), poi lo stravagante, e l'itinerante mai
+## — quello è già in cammino verso altrove.
+func _compagno_di_arco(attore: Area2D) -> Area2D:
+	var stravagante: Area2D = null
+	for altro in npc_actors:
+		if not is_instance_valid(altro) or altro == attore:
+			continue
+		var altro_id := str(altro.get_meta("id", ""))
+		if not NPC_CATALOG.resident(altro_id).is_empty():
+			return altro
+		if stravagante == null and not NPC_CATALOG.bislacco(altro_id).is_empty():
+			stravagante = altro
+	return stravagante
 
 func _create_dialogue_box() -> void:
 	dialogue_box = DIALOGUE_BOX_SCRIPT.new()

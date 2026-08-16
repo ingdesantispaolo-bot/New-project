@@ -388,5 +388,94 @@ static func teach_line(moment: String) -> String:
 			return "Nuovo concetto: te lo spiego prima di metterti alla prova. Imparare viene prima di rispondere."
 		"re_teach":
 			return "Questo ti è già sfuggito una volta: rivediamolo insieme, poi riprovi con un metodo in più."
+		"new_facts":
+			return "Alcuni di questi non li hai mai visti: guardiamoli insieme prima di ordinarli."
 		_:
 			return ""
+
+# --- Fatti individuali dentro un topic (16 agosto 2026) ------------------------
+#
+# Lo stato di un TOPIC (sopra) dice se l'argomento in generale è stato
+# insegnato; non dice se un FATTO preciso al suo interno lo è stato. Un
+# ordinamento a insieme (`ExercisePool`, docs/PROFONDITA_CONTENUTI.md) pesca
+# ogni volta un sottoinsieme diverso da un banco che arriva a ventotto voci:
+# «storia:cronologia» può restare «incontrato» per tutta la campagna mentre
+# sfilano decine di eventi mai spiegati uno per uno — segnalazione del 16
+# agosto 2026: «chiedere di ordinare eventi storici che non conosce a cosa
+# serve?». Stesso meccanismo per elettronica e ogni altra materia con
+# ordinamenti a insieme.
+#
+# Registro separato e additivo (non tocca `codex`, non richiede migrazione):
+# un salvataggio senza `codexFacts` parte vuoto e si comporta come se ogni
+# fatto fosse nuovo, che è l'unico stato sicuro di default.
+static func _facts(save) -> Dictionary:
+	if not save.data.has("codexFacts"):
+		save.data["codexFacts"] = {}
+	return save.data["codexFacts"]
+
+static func fact_known(save, subject: String, topic: String, label: String) -> bool:
+	var known: Dictionary = _facts(save).get("%s:%s" % [subject, topic], {})
+	return bool(known.get(label, false))
+
+static func mark_facts_known(save, subject: String, topic: String, labels: Array) -> void:
+	var key := "%s:%s" % [subject, topic]
+	var known: Dictionary = _facts(save).get(key, {})
+	for label in labels:
+		known[str(label)] = true
+	_facts(save)[key] = known
+
+## I fatti di un pescato (array di {label, value}) mai visti dallo studente,
+## nell'ordine dell'ALFABETO dell'etichetta — non nell'ordine corretto
+## dell'esercizio, che consegnerebbe la prova già risolta.
+static func unknown_facts(save, subject: String, topic: String, drawn: Array) -> Array:
+	var out: Array = []
+	for entry in drawn:
+		var label := str((entry as Dictionary).get("label", "")).strip_edges()
+		if label != "" and not fact_known(save, subject, topic, label):
+			out.append(entry)
+	out.sort_custom(func(a, b): return str((a as Dictionary)["label"]) < str((b as Dictionary)["label"]))
+	return out
+
+## Un fatto in una riga leggibile: «Caduta dell'Impero Romano d'Occidente —
+## 476 d.C.». Per la cronologia il valore è un anno con segno (negativo prima
+## di Cristo, docs/MISSION_FORMAT.md): un bambino non decodifica «-753.0», ma
+## legge «753 a.C.» al volo, perché è la stessa forma che vede sui libri.
+static func _fatto_leggibile(subject: String, topic: String, entry: Dictionary) -> String:
+	var label := str(entry.get("label", ""))
+	var value := float(entry.get("value", 0.0))
+	if subject == "storia" and topic == "cronologia":
+		if is_equal_approx(value, 0.0):
+			return "%s — anno 0 (nascita di Cristo, il punto da cui si contano gli altri)" % label
+		var anno := int(round(abs(value)))
+		return "%s — %d %s" % [label, anno, ("a.C." if value < 0.0 else "d.C.")]
+	# Altre materie: il valore che ordina davvero l'esercizio (tensione, massa,
+	# velocità, cifra…). Se l'etichetta lo mostra già (es. «50 mV») ripeterlo
+	# come numero nudo confonde più di quanto chiarisca.
+	var leggibile := str(int(round(value))) if is_equal_approx(value, round(value)) else str(value).replace(".", ",")
+	if label.containsn(leggibile):
+		return label
+	return "%s — %s" % [label, leggibile]
+
+## Mini-lezione per i fatti nuovi di un ordinamento a insieme, nella stessa
+## forma di `mini_lesson()` così `ExercisePlayer._show_teaching_overlay()` la
+## rende senza bisogno di un secondo layout. `criterio` è la spiegazione già
+## scritta nella specifica (il COME si ordina); qui si aggiunge il COSA, cioè
+## i fatti che quel come dovrà mettere in fila. La lista sta nel campo `facts`
+## dedicato (non dentro `workedExample`, che nel renderer porta l'etichetta
+## «Perché:» — corretta per un esempio svolto, fuori posto per un elenco).
+static func fact_lesson(subject: String, topic: String, criterio: String, nuovi: Array) -> Dictionary:
+	if nuovi.is_empty():
+		return {}
+	var righe := PackedStringArray()
+	for entry in nuovi:
+		righe.append("• %s" % _fatto_leggibile(subject, topic, entry))
+	return {
+		"subject": subject,
+		"topic": topic,
+		"intro": "Prima di ordinare, guardiamo insieme quelli che non hai ancora incontrato:",
+		"explanation": criterio,
+		"facts": "\n".join(righe),
+		"workedExample": {},
+		"strategy": NoraContextEngine.subject_method(subject),
+		"watchOut": {},
+	}

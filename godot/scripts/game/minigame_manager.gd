@@ -5301,6 +5301,11 @@ func _renumber_explanation(explanation: String, answer_line: int) -> String:
 ## migrazione di una materia alla volta non rompe le altre.
 func _ordering_node(subject: String, spec: Dictionary, level: int, step: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:
 	var correct: Array = []
+	# {label, value} dei soli ordinamenti a insieme: serve a chi insegna il
+	# fatto prima di chiederlo (KnowledgeCodex.unknown_facts, 16 agosto 2026),
+	# perché un `correctOrder` a lista fissa ripropone sempre lo stesso pescato
+	# e non ha bisogno di un fatto nuovo da spiegare ogni volta.
+	var detail: Array = []
 	if ExercisePool.is_pool(spec):
 		# Etichette e valori tutti distinti: due voci con lo stesso valore
 		# renderebbero l'ordine ambiguo, due con la stessa etichetta impossibile.
@@ -5310,6 +5315,7 @@ func _ordering_node(subject: String, spec: Dictionary, level: int, step: int, rn
 			drawn.reverse()
 		for entry in drawn:
 			correct.append(str((entry as Dictionary)["label"]))
+		detail = drawn.duplicate(true)
 	else:
 		correct = (spec["correctOrder"] as Array).duplicate()
 	var items := correct.duplicate()
@@ -5325,6 +5331,7 @@ func _ordering_node(subject: String, spec: Dictionary, level: int, step: int, rn
 		"prompt": str(spec["prompt"]),
 		"items": items,
 		"correctOrder": correct,
+		"correctOrderDetail": detail,
 		# L'ordine giusto resta — è informazione utile — ma da solo non spiegava
 		# niente: diceva *cosa*, mai *perché quello*. Il criterio dell'ordinamento
 		# viene dalla specifica e va davanti, perché è la parte che si porta via.

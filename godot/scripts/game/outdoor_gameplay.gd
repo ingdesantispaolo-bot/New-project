@@ -654,12 +654,43 @@ func _decorate_teaching_session(source: Dictionary, subject: String) -> Dictiona
 	for indice in range(nodi.size()):
 		var nodo: Dictionary = nodi[indice]
 		var topic := str(nodo.get("topic", "")).strip_edges()
-		if topic == "" or gia_insegnati.has(topic):
+		if topic == "":
 			continue
-		var moment := KnowledgeCodex.teaching_moment(game_save, subject, topic)
-		if moment == "none":
-			continue
-		var lesson := codex.mini_lesson(subject, topic)
+		# **Il topic può essere "incontrato" e il FATTO essere nuovo lo stesso.**
+		# (16 agosto 2026, segnalazione: «chiedere di ordinare eventi storici
+		# che non conosce a cosa serve?»)
+		#
+		# Un ordinamento a insieme (`correctOrderDetail`, popolato da
+		# `MinigameManager._ordering_node` per le sole specifiche a pool) pesca
+		# ogni volta un sottoinsieme diverso da un banco che arriva a ventotto
+		# voci. Lo stato del topic diventa "incontrato" alla prima estrazione e
+		# resta così per il resto della campagna, mentre gli eventi/valori
+		# pescati cambiano prova dopo prova: senza questo controllo, un bambino
+		# viene interrogato su fatti mai spiegati semplicemente perché
+		# l'ARGOMENTO gli era già stato presentato una volta, su fatti diversi.
+		#
+		# **Il controllo dei fatti non passa dal cancello `gia_insegnati`.**
+		# Quel cancello resta a proteggere la lezione GENERICA (una sola per
+		# argomento a sessione, per non impilare schede): un nodo di
+		# abbinamento su «misure-elettriche» può consumarlo, e un ordinamento
+		# sullo stesso argomento — con tensioni mai viste — arriverebbe muto se
+		# dipendesse dallo stesso cancello. È il caso reale che ha fatto fallire
+		# la prima versione di questa riparazione, misurato da
+		# `fact_level_teaching_audit.gd`.
+		var nuovi_fatti: Array = []
+		if str(nodo.get("format", "")) == "ordering":
+			nuovi_fatti = KnowledgeCodex.unknown_facts(
+				game_save, subject, topic, Array(nodo.get("correctOrderDetail", [])))
+		var moment := ""
+		var lesson := {}
+		if not gia_insegnati.has(topic):
+			moment = KnowledgeCodex.teaching_moment(game_save, subject, topic)
+			if moment != "none":
+				lesson = codex.mini_lesson(subject, topic)
+		if lesson.is_empty() and not nuovi_fatti.is_empty():
+			moment = "new_facts"
+			lesson = KnowledgeCodex.fact_lesson(
+				subject, topic, str(nodo.get("explanation", "")), nuovi_fatti)
 		if lesson.is_empty():
 			continue
 		gia_insegnati[topic] = true
@@ -667,7 +698,13 @@ func _decorate_teaching_session(source: Dictionary, subject: String) -> Dictiona
 		nodo["teachingLesson"] = lesson
 		nodo["teachingLine"] = KnowledgeCodex.teach_line(moment)
 		nodi[indice] = nodo
-		KnowledgeCodex.advance_state(game_save, subject, topic, "seen")
+		if moment != "new_facts":
+			KnowledgeCodex.advance_state(game_save, subject, topic, "seen")
+		if not nuovi_fatti.is_empty():
+			var labels: Array = []
+			for entry in nuovi_fatti:
+				labels.append(str((entry as Dictionary).get("label", "")))
+			KnowledgeCodex.mark_facts_known(game_save, subject, topic, labels)
 		if not qualcosa_da_insegnare:
 			# Il primo resta anche sulla sessione: la scena e alcuni controlli
 			# leggono ancora li', e la riga d'apertura di NORA nasce da qui.

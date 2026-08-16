@@ -15,8 +15,13 @@ extends RefCounted
 ## mai di più, una idea per schermata — e il `tic` del personaggio compare in
 ## almeno una riga su tre.
 ##
-## Stato: **mondo 1 completo**, come fixture. Gli altri ventitré mondi entrano
-## nella stessa forma; il cast è già progettato in `ABITANTI_E_LUOGHI.md` §3.
+## Stato (corretto il 16 agosto 2026): **tutti i 23 mondi con residenti sono
+## scritti** (46 residenti + 23 Bislacchi). Il mondo 1 resta la *fixture* usata
+## da `dialogue_audit.gd` — «completo» si riferiva a quello, non al catalogo
+## intero, e la nota precedente lasciava credere il contrario. Il cast è
+## progettato in `ABITANTI_E_LUOGHI.md` §3, con l'implementazione di
+## riferimento per `radice` e per la leggenda dell'Ingegnere in §3.2 e §2.5 —
+## quest'ultima vive in `engineer_legend_catalog.gd`, non qui.
 
 ## I due residenti di un mondo hanno registri diversi e mai entrambi «solenne»;
 ## ogni mondo ha almeno un personaggio che fa ridere (il Bislacco basta).

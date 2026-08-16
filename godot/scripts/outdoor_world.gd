@@ -25,6 +25,7 @@ const WORLD_ENEMY_SCRIPT := preload("res://scripts/world_enemy.gd")
 const NPC_ACTOR_SCRIPT := preload("res://scripts/game/npc_actor.gd")
 const NPC_CATALOG := preload("res://scripts/game/npc_catalog.gd")
 const ITINERANT_CATALOG := preload("res://scripts/game/itinerant_catalog.gd")
+const ENGINEER_LEGEND := preload("res://scripts/game/engineer_legend_catalog.gd")
 const FINALE_CATALOG := preload("res://scripts/game/finale_catalog.gd")
 const MAESTRI_CATALOG := preload("res://scripts/game/maestri_catalog.gd")
 const TEACHING_CATALOG := preload("res://scripts/game/teaching_catalog.gd")
@@ -2972,6 +2973,16 @@ func _open_npc_dialogue(npc_id: String) -> void:
 					for pool_name in pool_order:
 						if pool_name != "":
 							lines.append_array(Array(pools.get(pool_name, [])))
+					# **La leggenda dell'Ingegnere** (docs/ABITANTI_E_LUOGHI.md §2.5,
+					# 16 agosto 2026): una sola voce, nella voce di registro
+					# dell'itinerante, mescolata al resto del riempimento. Un solo
+					# elemento su un totale di dieci-quattordici battute mantiene la
+					# rarità prevista (massimo 1 estrazione su 10) senza bisogno di un
+					# contatore a parte — la stessa rotazione a cursore che sceglie le
+					# altre battute la sceglie di rado, per costruzione.
+					var leggenda := ENGINEER_LEGEND.for_registro(str(data.get("registro", "")))
+					if not leggenda.is_empty():
+						lines.append(leggenda[absi(hash(npc_id)) % leggenda.size()])
 				if npc_id == "itin-vera" and not vera_teaching_used:
 					var vera_arc := _vera_arc_lines()
 					if not Array(vera_arc.get("lines", [])).is_empty():

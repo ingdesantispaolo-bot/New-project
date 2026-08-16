@@ -764,9 +764,18 @@ func _show_teaching_overlay() -> void:
 	# riquadro vuoto gli insegna a saltare anche le spiegazioni buone.
 	if not KnowledgeCodex.lezione_ha_sostanza(lesson):
 		return
-	if _lezioni_mostrate.has(str(lesson.get("topic", ""))):
+	# **Chiave doppia: argomento + momento.** (16 agosto 2026)
+	# Un momento "new_facts" (fatti nuovi di un ordinamento a insieme) e un
+	# momento "pre_teach"/"re_teach" (l'argomento in generale) sullo stesso
+	# topic non sono la stessa scheda: possono capitare entrambi nella stessa
+	# sessione — un nodo di abbinamento insegna il topic, un nodo di
+	# ordinamento sullo stesso topic pesca fatti mai visti — e sopprimere il
+	# secondo perché il topic "risulta già mostrato" lascerebbe quei fatti
+	# senza lezione, esattamente il difetto che questo meccanismo ripara.
+	var chiave_scheda := "%s|%s" % [str(lesson.get("topic", "")), moment]
+	if _lezioni_mostrate.has(chiave_scheda):
 		return
-	_lezioni_mostrate[str(lesson.get("topic", ""))] = true
+	_lezioni_mostrate[chiave_scheda] = true
 	var overlay := Control.new()
 	overlay.name = "TeachingOverlay"
 	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -801,6 +810,15 @@ func _show_teaching_overlay() -> void:
 	box.add_child(eyebrow)
 	_add_teaching_text(box, linea, Color("f6c85f"), 20)
 	_add_teaching_text(box, str(lesson.get("intro", "")), Color("e7fffb"), 17)
+
+	# **I fatti nuovi di un ordinamento a insieme, elencati uno per uno.**
+	# (16 agosto 2026) — `KnowledgeCodex.fact_lesson()`: un ordinamento pesca da
+	# un insieme che può avere decine di voci, e restare "incontrato" a livello
+	# di argomento non vuol dire aver mai visto QUESTO evento o QUESTO valore.
+	# Sezione a parte, non dentro l'esempio svolto: quella porta l'etichetta
+	# «Perché:», corretta per un procedimento e fuori posto per un elenco di
+	# fatti.
+	_add_teaching_section(box, "FATTI NUOVI IN QUESTA PROVA", str(lesson.get("facts", "")))
 
 	# **Un esempio senza domanda non è un esempio.** Prima la sezione si costruiva
 	# anche con il solo «Perché», e sotto il titolo ESEMPIO SVOLTO compariva una

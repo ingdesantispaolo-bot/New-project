@@ -17,6 +17,13 @@
 > **Regola assoluta: in questa storia non muore nessuno.** Né in scena, né nel
 > passato, né fuori campo. Chi è perduto è **trattenuto**, e si può andare a
 > riprendere. Vedi §10.
+>
+> **Nota (16 agosto 2026)**: [ABITANTI_E_LUOGHI.md](ABITANTI_E_LUOGHI.md) §2.5
+> introduce la «leggenda dell'Ingegnere», una voce di paese sul chi-ha-scritto-
+> le-regole-del-mondo che ogni abitante può raccontare a modo suo. **Non è un
+> ottavo colpo di scena**: non ha semi, non entra in `mystery_audit`, non si
+> risolve mai. È intenzionalmente più leggera dei sette colpi di questo
+> documento — deve restare un pettegolezzo, non un mistero.
 
 ---
 
@@ -522,6 +529,11 @@ Specifica completa in [SECONDO_VIAGGIO.md](SECONDO_VIAGGIO.md).
    Fondo: il gioco dà **la sua** risposta (§4.3) e ammette che c'è chi ne ha
    un'altra.
 9. **Registro**: caldo, concreto, mai sarcastico, mai infantilizzante. 10–13 anni.
+10. **La leggenda dell'Ingegnere resta un pettegolezzo, mai una risposta.**
+    Nessun personaggio la conferma, la smentisce o la collega ai Primi, a NORA
+    o al Tredicesimo. Vive solo nel riempimento di
+    [ABITANTI_E_LUOGHI.md](ABITANTI_E_LUOGHI.md) §2.5, mai in un beat, mai in
+    una Traccia. Verificato da `dialogue_audit` insieme a `mystery_audit`.
 
 ---
 

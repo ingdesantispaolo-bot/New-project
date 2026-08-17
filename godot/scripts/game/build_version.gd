@@ -15,8 +15,8 @@ extends RefCounted
 ## chiamarlo mostrerebbe una versione vuota proprio dove serve di piu'.
 ## Rigenerato da `scripts/stamp-version.mjs`.
 
-const COMMIT := "337ce0c"
-const DATA := "16/08/2026 21:26"
+const COMMIT := "8cae3c8"
+const DATA := "17/08/2026 08:56"
 
 ## La riga da mostrare. Corta di proposito: sta sotto il titolo e non deve
 ## competere con il pulsante GIOCA.

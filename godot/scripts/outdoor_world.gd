@@ -3524,7 +3524,7 @@ var _guardia_prossima_msec := 0
 ## Le sacche gia' create, per identificativo: senza, ogni giro ne creerebbe
 ## un'altra sullo stesso forziere.
 var _guardiani: Dictionary = {}
-var duel_panel: GuardianDuelPanel
+var duel_panel: DuelStage
 
 ## Mette una guardiana su ogni forziere scoperto e ancora chiuso.
 func _assegna_guardiani() -> void:
@@ -3602,13 +3602,24 @@ func _guardiano_di(treasure_id: String) -> Node2D:
 	return sacca as Node2D if is_instance_valid(sacca) else null
 
 ## **Il duello.** Si apre il combattimento con le regole calcolate su tre cose:
-## il **mondo** (che decide numeri, operazioni e lunghezza della catena), il
-## grado della sacca e il grado di potenza di Eli — l'unico posto in cui la
-## potenza accumulata cambia le regole invece del prezzo. Le regole stanno in
-## [[GuardianDuel]], la scena in [[GuardianDuelPanel]].
+## il **mondo** (che decide la difficolta' della materia), il grado della sacca e
+## il grado di potenza di Eli — l'unico posto in cui la potenza accumulata cambia
+## le regole invece del prezzo.
 ##
-## Il seme cambia a ogni sfida: un duello perso e ripreso deve dare numeri nuovi,
-## altrimenti la seconda volta non si calcola — si ricorda.
+## **Due materie** (17 agosto 2026). Ogni guardiano ne chiede una:
+##
+##   CIFRE  costruisci un numero incatenando colpi ([[GuardianDuel]]);
+##   VOCI   porta un verbo alla casella giusta di modo, tempo e persona
+##          ([[VerbDuel]]).
+##
+## Quale tocchi lo decide l'identificativo del guardiano e non il caso del
+## momento ([[DuelRules.materia]]): lo stesso guardiano chiede sempre la stessa
+## cosa, e il cartiglio sulla mappa lo dice prima che ci si avvicini. Cosi'
+## andargli incontro e' una scelta invece che una lotteria — e chi ha perso su
+## una voce difficile puo' tornare proprio a quella.
+##
+## Il seme cambia a ogni sfida: un duello perso e ripreso deve dare numeri e voci
+## nuovi, altrimenti la seconda volta non si pensa — si ricorda.
 func _sfida_guardiano(sacca: Node2D) -> void:
 	if not is_instance_valid(sacca) or is_instance_valid(duel_panel):
 		return
@@ -3616,9 +3627,16 @@ func _sfida_guardiano(sacca: Node2D) -> void:
 		return
 	var tier := int(sacca.get("tier"))
 	var grado := WorldLight.grado(game_save)
-	var regole := GuardianDuel.regole(world_level, tier, grado, reduced_motion)
-	duel_panel = GuardianDuelPanel.new()
-	duel_panel.name = "GuardianDuelPanel"
+	var materia := DuelRules.materia(str(sacca.get_meta("guardId", "")))
+	var regole: Dictionary = {}
+	if materia == DuelRules.VOCI:
+		regole = VerbDuel.regole(world_level, tier, grado, reduced_motion)
+		duel_panel = VerbDuelPanel.new()
+		duel_panel.name = "VerbDuelPanel"
+	else:
+		regole = GuardianDuel.regole(world_level, tier, grado, reduced_motion)
+		duel_panel = GuardianDuelPanel.new()
+		duel_panel.name = "GuardianDuelPanel"
 	duel_panel.risolto.connect(func(vinto: bool, netto: bool): _chiudi_duello(sacca, vinto, netto))
 	ui_layer.add_child(duel_panel)
 	duel_panel.avvia(regole, str(sacca.get("enemy_name")),
@@ -3645,12 +3663,12 @@ func _chiudi_duello(sacca: Node2D, vinto: bool, netto := false) -> void:
 		var guardia_id := str(sacca.get_meta("guardId", ""))
 		if guardia_id != "":
 			game_save.mark_enemy_defeated(str(world_level), guardia_id)
-		var premio := GuardianDuel.premio_frammenti(tier)
+		var premio := DuelRules.premio_frammenti(tier)
 		gameplay.collect_treasure({"rewardFragments": premio}, "duello-%s" % guardia_id)
 		sacca.call("elimina")
 		game_save.save()
 		_set_feedback("%s Il forziere è libero, e restano %d frammenti sul campo." % [
-			GuardianDuel.riga_di_vittoria(netto), premio])
+			DuelRules.riga_di_vittoria(netto), premio])
 		_spawn_gain_popup("+%d frammenti" % premio, Color("c7b8ff"))
 		_refresh_economy()
 		if is_instance_valid(pet_companion):
@@ -3659,7 +3677,7 @@ func _chiudi_duello(sacca: Node2D, vinto: bool, netto := false) -> void:
 		# **Perdere non chiude niente.** La sacca resta, il forziere resta, si
 		# torna quando si e' piu' forti. Il costo e' lo stesso del morso: chi ci
 		# prova e sbaglia non deve stare peggio di chi gira alla larga.
-		var costo := mini(GuardianDuel.costo_sconfitta(tier, grado), game_save.energy())
+		var costo := mini(DuelRules.costo_sconfitta(tier, grado), game_save.energy())
 		if costo > 0:
 			game_save.spend_energy(costo)
 			game_save.save()
@@ -3668,7 +3686,7 @@ func _chiudi_duello(sacca: Node2D, vinto: bool, netto := false) -> void:
 		# Un attimo di respiro: senza, la sacca e' addosso a Eli nell'istante in
 		# cui il pannello si chiude e il duello ricomincia da solo.
 		sacca.call("stun", 2.5)
-		_set_feedback("%s%s" % [GuardianDuel.riga_di_sconfitta(),
+		_set_feedback("%s%s" % [DuelRules.riga_di_sconfitta(),
 			" (−%d energia)" % costo if costo > 0 else ""])
 	_refresh_prompt()
 

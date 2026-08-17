@@ -100,6 +100,13 @@ func _run() -> void:
 	# combattimento non si chiudesse da solo, qui l'audit resterebbe appeso al
 	# guardiano esattamente come ci resterebbe un bambino.
 	var guardia_id := str(guardia.get_meta("guardId", ""))
+	# **Le due materie arrivano davvero in scena** (17 agosto 2026). Prima di
+	# giocare il duello vero si controlla che ogni guardiano apra il pannello
+	# della materia che dichiara: un guardiano marcato VOCI che aprisse il campo
+	# dei conti sarebbe un cartiglio bugiardo sulla mappa, e il bambino avrebbe
+	# scelto di avvicinarsi per una ragione sbagliata.
+	await _ogni_guardiano_apre_la_sua_materia(world, guardiani)
+
 	await _il_duello_si_gioca(world, guardia)
 
 	# Vinto il duello: la sacca si scioglie e il fatto resta scritto.
@@ -120,6 +127,84 @@ func _run() -> void:
 	ritorno.queue_free()
 	await process_frame
 	_esito()
+
+## Apre il duello di ogni guardiano in vista e controlla che la scena
+## corrisponda alla materia dichiarata dal cartiglio, che lo scambio nasca
+## giocabile e che uscirne sia gratis. È il controllo che tiene onesta la
+## promessa fatta sulla mappa.
+func _ogni_guardiano_apre_la_sua_materia(world: Node, guardiani: Array) -> void:
+	var viste: Dictionary = {}
+	for sacca in guardiani:
+		var guardia_id := str(sacca.get_meta("guardId", ""))
+		var materia := DuelRules.materia(guardia_id)
+		if viste.has(materia):
+			continue
+		viste[materia] = true
+		world.call("_sfida_guardiano", sacca)
+		await process_frame
+		var pannello = world.get("duel_panel")
+		if pannello == null:
+			errori.append("il guardiano «%s» non apre nessun duello" % guardia_id)
+			continue
+		var giusto: bool = (pannello is VerbDuelPanel) if materia == DuelRules.VOCI \
+			else (pannello is GuardianDuelPanel)
+		_controlla(giusto,
+			"il guardiano «%s» dichiara %s ma apre «%s»" % [guardia_id, materia, pannello.name])
+		_controlla(str(Dictionary(pannello.get("regole")).get("materia", "")) == materia,
+			"le regole aperte non sono quelle della materia dichiarata da «%s»" % guardia_id)
+		_controlla(not Array(pannello.call("sequenza_vincente")).is_empty(),
+			"il duello di «%s» si apre senza nessuna strada verso il sigillo" % guardia_id)
+		# Andarsene è gratis: il pulsante c'è e chiude tutto senza conseguenze.
+		var uscita := pannello.find_child("DuelLeaveButton", true, false) as Button
+		_controlla(uscita != null, "dal duello di «%s» non si può uscire" % guardia_id)
+		if uscita != null:
+			uscita.emit_signal("pressed")
+			await process_frame
+		_controlla(world.get("duel_panel") == null,
+			"uscire dal duello di «%s» non chiude il pannello" % guardia_id)
+	_controlla(not viste.is_empty(), "nessun guardiano ha aperto un duello")
+	# **Le materie mancanti si forzano.** Un mondo di prova piccolo può avere tre
+	# guardiani che cadono tutti dalla stessa parte del sorteggio, e un verde che
+	# ha visto una materia sola non dice niente sull'altra. Qui si riscrive
+	# l'identificativo di un guardiano perché cada dall'altra parte: è la stessa
+	# strada che percorre il gioco — è `guardId` a decidere la materia — e alla
+	# fine l'identificativo torna quello vero.
+	for materia in DuelRules.MATERIE:
+		if viste.has(str(materia)) or guardiani.is_empty():
+			continue
+		var sacca: Node2D = guardiani[guardiani.size() - 1]
+		var vero := str(sacca.get_meta("guardId", ""))
+		var finto := _identificativo_per(str(materia))
+		if finto.is_empty():
+			errori.append("nessun identificativo produce la materia «%s»" % str(materia))
+			continue
+		sacca.set_meta("guardId", finto)
+		world.call("_sfida_guardiano", sacca)
+		await process_frame
+		var pannello = world.get("duel_panel")
+		_controlla(pannello != null, "forzando la materia «%s» non si apre nessun duello" % str(materia))
+		if pannello != null:
+			var giusto: bool = (pannello is VerbDuelPanel) if str(materia) == DuelRules.VOCI \
+				else (pannello is GuardianDuelPanel)
+			_controlla(giusto, "la materia «%s» apre il pannello sbagliato" % str(materia))
+			_controlla(not Array(pannello.call("sequenza_vincente")).is_empty(),
+				"il duello di «%s» si apre senza nessuna strada" % str(materia))
+			var uscita := pannello.find_child("DuelLeaveButton", true, false) as Button
+			if uscita != null:
+				uscita.emit_signal("pressed")
+				await process_frame
+		sacca.set_meta("guardId", vero)
+		viste[str(materia)] = true
+	print("  materie messe in scena: %s" % ", ".join(PackedStringArray(viste.keys())))
+
+## Un identificativo qualunque che cada sulla materia voluta. Non inventa niente:
+## interroga la stessa funzione che usa il gioco.
+func _identificativo_per(materia: String) -> String:
+	for tentativo in range(200):
+		var id := "guardia-audit-%d" % tentativo
+		if DuelRules.materia(id) == materia:
+			return id
+	return ""
 
 ## **Gioca il duello fino in fondo.** Chiede al pannello la strada più corta per
 ## il sigillo di adesso e la percorre, sigillo dopo sigillo.

@@ -108,42 +108,9 @@ const FASCE := [
 	},
 ]
 
-## **Il colpo di riserva.** I colpi concessi sono i passi della strada giusta più
-## uno. Quell'uno è la cosa che rende sensate la sottrazione e la divisione: senza
-## riserva, sbagliare un colpo chiuderebbe lo scambio e le rune che *tornano
-## indietro* non servirebbero mai a niente. Con la riserva, chi supera il sigillo
-## ha una via di rientro — e trovarla è esattamente il calcolo che si vuole
-## insegnare.
-const COLPO_DI_RISERVA := 1
-
 ## Il sigillo non scende mai sotto questo numero: un sigillo da 6 si spezza per
 ## caso, e un duello vinto per caso non insegna niente.
 const SIGILLO_MINIMO := 12
-
-## Quanto tempo dà ogni grado di potenza di Eli, e quanto ne toglie ogni grado
-## del guardiano. Le stesse due leve del vecchio varco, sulla stessa promessa:
-## **allenarsi deve servire**, e un guardiano più forte deve essere più duro.
-const SECONDI_PER_GRADO := 0.55
-const SECONDI_PER_TIER := 0.5
-## Il tetto del vantaggio: oltre, il grado massimo regalerebbe il duello. Tre
-## secondi e mezzo tengono il colpo più lento sotto gli otto secondi, che è la
-## soglia oltre la quale il guardiano smette di essere un pericolo e il duello
-## torna a essere un esercizio con un disegno intorno.
-const SECONDI_BONUS_MASSIMO := 3.5
-## Sotto questa soglia non si scende, qualunque cosa dicano fasce e gradi. Sei
-## secondi e mezzo per tre colpi sono poco più di due secondi a colpo: sotto non
-## si misura più il calcolo, si misura la velocità del dito — che a un bambino
-## non si insegna.
-const SECONDI_MINIMI := 6.5
-
-## Quanto si accorcia la carica dopo ogni sigillo spezzato. Il combattimento
-## accelera mentre lo si vince: è la sola forma di crescendo che non costa un
-## sistema nuovo.
-const ACCELERAZIONE := 0.9
-
-## Quanto si allunga tutto con `reduced_motion`. Stessa scelta del chiavistello:
-## chi ha bisogno di meno movimento non deve per questo perdere il premio.
-const TEMPO_RIDOTTO := 1.4
 
 static func fascia_per_mondo(world_level: int) -> Dictionary:
 	var livello := clampi(world_level, 1, 24)
@@ -154,53 +121,21 @@ static func fascia_per_mondo(world_level: int) -> Dictionary:
 			return fascia.duplicate(true)
 	return Dictionary(FASCE[0]).duplicate(true)
 
-## **Quanti sigilli porta un guardiano.** Cresce col suo grado, non col mondo: è
-## la stessa cifra che decide quanto fa male il morso, e un guardiano che sulla
-## mappa è più minaccioso deve esserlo anche da vicino.
-static func sigilli_richiesti(tier: int) -> int:
-	return clampi(2 + floori(float(tier - 1) / 3.0), 2, 4)
-
-## **Quanti colpi può incassare Eli**, e cresce solo con il suo grado di potenza.
-## È la leva più generosa delle tre, di proposito: dare più tempo aiuta chi già
-## calcola in fretta, dare più tenuta aiuta chi ci mette di più — e sono gli
-## stessi bambini che non devono restare fuori da un premio estetico.
-static func tenuta_di(grado: int) -> int:
-	return clampi(2 + floori(float(grado) / 2.0), 2, 6)
-
-static func secondi_di(fascia: Dictionary, tier: int, grado: int) -> float:
-	var base := float(fascia.get("secondi", 10.0))
-	return clampf(
-		base + float(grado) * SECONDI_PER_GRADO - float(tier - 1) * SECONDI_PER_TIER,
-		SECONDI_MINIMI, base + SECONDI_BONUS_MASSIMO)
-
-## Tutte le regole di UN duello. La scena non ne ricalcola nessuna.
+## Tutte le regole di UN duello. Il telaio del combattimento — sigilli, tenuta,
+## carica, colpi — viene da [[DuelRules]] ed è lo stesso del duello delle voci:
+## un guardiano deve fare la stessa paura qualunque cosa domandi. Qui si
+## aggiunge solo quello che è della matematica.
 static func regole(world_level: int, tier: int, grado: int, movimento_ridotto := false) -> Dictionary:
 	var fascia := fascia_per_mondo(world_level)
-	var passi := int(fascia["passi"])
-	var secondi := secondi_di(fascia, tier, grado)
-	if movimento_ridotto:
-		secondi *= TEMPO_RIDOTTO
-	return {
-		"nome": str(fascia["nome"]),
-		"mondo": clampi(world_level, 1, 24),
-		"tier": tier,
-		"grado": grado,
-		"sigilli": sigilli_richiesti(tier),
-		"tenuta": tenuta_di(grado),
-		"passi": passi,
-		"colpi": passi + COLPO_DI_RISERVA,
-		"mano": int(fascia["mano"]),
-		"secondi": secondi,
-		"massimo": int(fascia["massimo"]),
-		"operazioni": Array(fascia["operazioni"]).duplicate(),
-		"fattore": Array(fascia["fattore"]).duplicate(),
-	}
-
-## La carica del guardiano per il sigillo N-esimo: si accorcia a ogni sigillo
-## spezzato, mai sotto il minimo assoluto.
-static func secondi_del_sigillo(regole_duello: Dictionary, sigilli_rotti: int) -> float:
-	var secondi := float(regole_duello.get("secondi", 10.0))
-	return maxf(SECONDI_MINIMI, secondi * pow(ACCELERAZIONE, float(maxi(sigilli_rotti, 0))))
+	var regole_duello := DuelRules.telaio(world_level, tier, grado,
+		float(fascia["secondi"]), int(fascia["passi"]), movimento_ridotto)
+	regole_duello["materia"] = DuelRules.CIFRE
+	regole_duello["nome"] = str(fascia["nome"])
+	regole_duello["mano"] = int(fascia["mano"])
+	regole_duello["massimo"] = int(fascia["massimo"])
+	regole_duello["operazioni"] = Array(fascia["operazioni"]).duplicate()
+	regole_duello["fattore"] = Array(fascia["fattore"]).duplicate()
+	return regole_duello
 
 # --- Il colpo -----------------------------------------------------------------
 
@@ -307,7 +242,7 @@ static func _esplora(valore: int, bersaglio: int, rune: Array, usate: Dictionary
 ## perché uno scambio da tre colpi che se ne fa uno solo è una promessa rotta.
 static func genera_scambio(rng: RandomNumberGenerator, regole_duello: Dictionary) -> Dictionary:
 	var passi := int(regole_duello.get("passi", 2))
-	var colpi := int(regole_duello.get("colpi", passi + COLPO_DI_RISERVA))
+	var colpi := int(regole_duello.get("colpi", passi + DuelRules.COLPO_DI_RISERVA))
 	for _tentativo in range(32):
 		var scambio := _tenta_scambio(rng, regole_duello, passi, colpi)
 		if not scambio.is_empty():
@@ -502,27 +437,6 @@ static func _mescola(rng: RandomNumberGenerator, lista: Array) -> void:
 		lista[indice] = lista[scambio]
 		lista[scambio] = tmp
 
-# --- Quanto costa e quanto paga -----------------------------------------------
-
-## Quanto costa perdere: **la stessa formula del morso**, perché provarci e
-## sbagliare non può stare peggio che girare alla larga. Se costasse di più, la
-## scelta razionale sarebbe non giocare — e allora il minigioco non lo
-## giocherebbe nessuno.
-static func costo_sconfitta(tier: int, grado: int) -> int:
-	return maxi(0, tier - grado) * WorldEnemy.COSTO_PER_GRADO
-
-## Il premio: frammenti, cioè cosmetici. Cresce col guardiano e non col grado di
-## Eli — allenarsi rende il duello più facile, e sarebbe doppio anche pagarlo di più.
-static func premio_frammenti(tier: int) -> int:
-	return FragmentEconomy.premio_varco(tier)
-
-## La riga che accompagna la vittoria. `netto` è vero se ogni sigillo è stato
-## spezzato nel numero minimo di colpi: non vale frammenti in più — il premio non
-## dipende da come si gioca — vale una riga diversa, che è l'unica ricompensa che
-## non sposta l'economia.
-static func riga_di_vittoria(netto: bool) -> String:
-	return "Duello netto: ogni sigillo al colpo giusto." if netto \
-		else "L'ultimo sigillo si spezza."
-
-static func riga_di_sconfitta() -> String:
-	return "Il guardiano regge. Resta lì dov'è: si torna quando vuoi."
+## La voce dell'impulso, per chi deve scrivere la catena.
+static func testo_impulso(valore: int) -> String:
+	return str(valore)

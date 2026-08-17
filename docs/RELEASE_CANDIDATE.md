@@ -1865,3 +1865,60 @@ divertente e stimolante.»*
   in `artifacts/duello/`): il numero dell'impulso finiva appoggiato sopra l'ago e
   la barra della carica gli passava attraverso; e un'attesa fra due scambi
   sopravviveva alla sfida che l'aveva creata. Nessuna asserzione li avrebbe visti.
+
+## La seconda materia dei guardiani: il duello delle voci (17 agosto 2026)
+
+*«Ora possiamo prevedere un altro tipo di minigioco, questa volta di italiano. I
+guardiani possono sfidarti casualmente in italiano o matematica. Cura la grafica
+e la giocabilità, deve insegnare a padroneggiare modi e tempi verbali veloci.
+Deve essere un combattimento, divertente e stimolante con difficoltà dipendente
+dal livello del mondo.»*
+
+- **La forma** (`verb_duel.gd`, `FORZIERI_E_FRAMMENTI` §8): il sigillo è una
+  casella del sistema verbale — modo, tempo, persona. L'impulso di Eli è il suo
+  verbo, scritto per esteso. Le rune spostano **un asse alla volta**
+  (`modo → congiuntivo`, `tempo → imperfetto`, `persona → voi`), e il verbo si
+  trasforma sotto gli occhi: `canto → cantavo → cantavate → cantaste`.
+- **Le due cose che insegnano, e sono gratis.** Le rune **spente**:
+  `tempo → passato remoto` non entra nel congiuntivo perché il congiuntivo il
+  passato remoto non ce l'ha. E l'**ordine**: dal futuro indicativo al passato
+  condizionale non si arriva cambiando prima il modo, perché quella casella non
+  esiste. Entrambe sono grammatica, non regole inventate dal gioco.
+- **I tre binari.** Il primo disegno era la tabella modi × tempi del libro: a
+  nove tempi le intestazioni scendevano a corpo dieci. Sostituita da tre scale
+  orizzontali, una per asse, con la casella attuale accesa e quella del sigillo
+  cerchiata d'oro — e i tempi che **si spengono e si riaccendono mentre cambi
+  modo**, cosa che una tabella stampata non può fare.
+- **Difficoltà per mondo** su cinque fasce: dal solo indicativo con tre tempi e
+  verbi regolari in *-are* a tutti e tre i modi con nove tempi e gli irregolari;
+  catena da 2 a 3 assi; carica da 13 a 10 secondi. Il salto vero è al mondo 10,
+  quando il sigillo smette di dire a parole dove andare e comincia a mostrare
+  **una voce vera di un altro verbo** da riconoscere.
+- **Il coniugatore** (`verb_conjugator.gd`): 37 verbi, 13 caselle × 6 persone,
+  desinenze regolari dei tre gruppi, incoativi in `-isc-`, composti costruiti
+  dall'ausiliare giusto, accordo del participio con «essere», irregolarità
+  scritte per esteso. Verde `verb_conjugation_audit` su **126 voci scritte a
+  mano** — non confrontate con un'altra funzione del motore, che sarebbe come
+  farsi correggere il compito da chi l'ha copiato.
+- **Chi chiede cosa**: lo decide l'identificativo del guardiano
+  (`DuelRules.materia`), quindi è stabile fra le partite, e **sta scritto sul
+  cartiglio sulla mappa** (`GUARDIANO VOCI · T4`). Avvicinarsi è una scelta
+  informata; e chi ha perso su una voce difficile può tornare proprio a quella.
+- **Il combattimento è stato diviso in due** (`duel_rules.gd`, `duel_stage.gd`):
+  sigilli, tenuta, carica, colpi di riserva, prezzo della sconfitta e premio sono
+  **identici** nelle due materie e vivono in un posto solo. Se una fosse più
+  generosa, si imparerebbe a cercare i guardiani di quella invece di quelli che
+  si ha voglia di affrontare. Il pannello delle cifre è stato riscritto come
+  sottoclasse del campo comune: quattrocento righe non duplicate.
+- **Verde** `verb_duel_audit` (taratura sui 24 mondi, 1.200 scambi generati e
+  risolti davvero, e il controllo che nessun sigillo mostri una voce ambigua),
+  `verb_conjugation_audit`, e `guardian_scene_audit`, che ora apre **entrambe le
+  materie** in un mondo vero — forzando l'identificativo quando il mondo di prova
+  ne sorteggia una sola — e verifica che ogni guardiano apra il pannello che il
+  suo cartiglio promette.
+- **Tre difetti trovati solo guardando** (`verb_duel_render_probe`, sei viste in
+  `artifacts/voci/`): l'etichetta del sigillo usciva dalla cornice d'oro proprio
+  al primo mondo, dove è l'unica cosa per orientarsi; l'alone delle pietre era
+  calcolato sulla larghezza e dietro le rune larghe dei verbi diventava una
+  macchia; e i tre binari a quote fisse lasciavano un buco dove la seconda riga
+  dei tempi non serviva.

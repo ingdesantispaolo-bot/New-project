@@ -146,9 +146,9 @@ func _il_guardiano_forte_e_piu_duro() -> void:
 				"grado %d: il guardiano T%d carica più lentamente del T%d" % [grado, tier, tier - 1])
 			_controlla(int(ora["sigilli"]) >= int(prima["sigilli"]),
 				"grado %d: il guardiano T%d ha meno sigilli del T%d" % [grado, tier, tier - 1])
-	_controlla(GuardianDuel.premio_frammenti(TIER_MAX) > GuardianDuel.premio_frammenti(1),
+	_controlla(DuelRules.premio_frammenti(TIER_MAX) > DuelRules.premio_frammenti(1),
 		"un guardiano più forte non paga di più")
-	_controlla(GuardianDuel.sigilli_richiesti(TIER_MAX) > GuardianDuel.sigilli_richiesti(1),
+	_controlla(DuelRules.sigilli_richiesti(TIER_MAX) > DuelRules.sigilli_richiesti(1),
 		"il guardiano più forte non porta più sigilli del più debole")
 
 ## **Il controllo che nessuno può fare a mano.** Migliaia di scambi generati e
@@ -258,12 +258,12 @@ func _il_colpo_e_onesto() -> void:
 func _perdere_non_costa_piu_del_girare_alla_larga() -> void:
 	for tier in range(1, TIER_MAX + 1):
 		for grado in range(GRADI):
-			var duello := GuardianDuel.costo_sconfitta(tier, grado)
+			var duello := DuelRules.costo_sconfitta(tier, grado)
 			var morso := maxi(0, tier - grado) * WorldEnemy.COSTO_PER_GRADO
 			_controlla(duello <= morso,
 				"T%d/grado %d: perdere il duello costa %d, più del morso (%d)" %
 				[tier, grado, duello, morso])
-		_controlla(GuardianDuel.costo_sconfitta(tier, GRADI - 1) >= 0,
+		_controlla(DuelRules.costo_sconfitta(tier, GRADI - 1) >= 0,
 			"costo di sconfitta negativo per T%d" % tier)
-	_controlla(GuardianDuel.costo_sconfitta(1, 4) == 0,
+	_controlla(DuelRules.costo_sconfitta(1, 4) == 0,
 		"un guardiano molto più debole di Eli fa comunque pagare la sconfitta")

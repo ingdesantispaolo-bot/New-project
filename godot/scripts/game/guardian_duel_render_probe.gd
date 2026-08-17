@@ -18,7 +18,7 @@ var pannello: GuardianDuelPanel
 var _host: Control
 
 func _init() -> void:
-	root.size = Vector2i(1100, 900)
+	root.size = Vector2i(1280, 720)
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(OUTPUT_DIR))
 
 	var host := Control.new()
@@ -74,7 +74,7 @@ func _init() -> void:
 	# 5 · La parata: il guardiano incassa il tempo e colpisce.
 	await _avvia(18, 6, 4, 313, false, false)
 	await process_frame
-	pannello.call("_incassa")
+	pannello.call("incassa")
 	await process_frame
 	await process_frame
 	if await _capture("duello-parata.png") != OK:

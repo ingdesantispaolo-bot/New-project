@@ -252,8 +252,15 @@ func sorveglia(id: String) -> void:
 	if label != null:
 		# Il nome completo vive nel duello e nell'accessibilita': sul mondo il
 		# cartiglio corto non copre il guardiano illustrato.
-		label.text = "GUARDIANO · T%d" % tier
-		label.accessibility_name = "%s, guardiano di un forziere; si scioglie spezzandogli i sigilli nel duello" % enemy_name
+		#
+		# **La materia sta scritta sul cartiglio** (17 agosto 2026). Da quando i
+		# guardiani sfidano in due materie, avvicinarsi dev'essere una scelta e
+		# non una lotteria: si legge da lontano se quello chiede conti o voci, e
+		# si decide se affrontarlo adesso o allenarsi prima.
+		var materia := DuelRules.materia(str(get_meta("guardId", "")))
+		label.text = "GUARDIANO %s · T%d" % [str(DuelRules.NOMI_MATERIA.get(materia, "")), tier]
+		label.accessibility_name = "%s, guardiano di un forziere; sfida in %s, si scioglie spezzandogli i sigilli" % [
+			enemy_name, "modi e tempi verbali" if materia == DuelRules.VOCI else "calcolo veloce"]
 
 ## **Sciolta per sempre.** Non e' uno stordimento: la sacca sparisce, il
 ## forziere che sorvegliava si apre, e rientrando nel mondo non la si ritrova.

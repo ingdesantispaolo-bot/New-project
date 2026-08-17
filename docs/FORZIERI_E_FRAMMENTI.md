@@ -391,7 +391,129 @@ viste reali in `artifacts/duello/`: la prima stesura ci si è rivelata con il
 numero dell'impulso appoggiato sopra l'ago e la carica del guardiano che ci
 passava attraverso — difetti che nessuna asserzione avrebbe visto.
 
-## 8. Cosa non è stato fatto (e resta sul tavolo)
+## 8. Il duello delle voci: la seconda materia
+
+*Quinto lotto, 17 agosto 2026: «un altro tipo di minigioco, questa volta di
+italiano. I guardiani possono sfidarti casualmente in italiano o matematica.
+Deve insegnare a padroneggiare modi e tempi verbali veloci, deve essere un
+combattimento, con difficoltà dipendente dal livello del mondo».*
+
+### 8.1 La forma
+
+Il guardiano porta un **sigillo**: una casella del sistema verbale — modo, tempo,
+persona. Eli ha un **impulso**: il suo verbo, fermo su un'altra casella e scritto
+per esteso («canto»). In mano ha delle **rune**, e ognuna sposta *un asse solo*:
+
+| | |
+|---|---|
+| `modo → congiuntivo` | sposta il modo |
+| `tempo → imperfetto` | sposta il tempo |
+| `persona → voi` | sposta la persona |
+
+Quando l'impulso si ferma sulla casella del sigillo, il sigillo si spezza. E
+mentre lo si fa, **il verbo si trasforma sotto gli occhi**:
+`canto → cantavo → cantavate → cantaste`.
+
+Le alternative scartate, e perché:
+
+| Alternativa | Perché no |
+|---|---|
+| «che tempo è *cantavate*?» a risposta multipla | è un quiz: misura se lo sai già, non te lo insegna |
+| scegliere la voce giusta fra quattro | è il chiavistello con le parole al posto dei numeri |
+| scrivere la voce | la tastiera su tablet è lenta, e si misurerebbe l'ortografia |
+| trascinare le voci nella casella giusta | è un puzzle da tavolo: niente in esso somiglia a un combattimento |
+
+### 8.2 Le due cose che insegnano, e sono gratis
+
+**Le rune spente.** `tempo → passato remoto` è spenta quando sei nel congiuntivo,
+perché il congiuntivo il passato remoto **non ce l'ha**; `modo → condizionale` è
+spenta quando sei sul futuro, perché il condizionale il futuro non ce l'ha. Il
+bambino impara la forma del sistema sbattendoci contro, che è l'unico modo in cui
+quella forma si impara.
+
+**L'ordine conta.** Per arrivare al condizionale passato partendo dall'indicativo
+futuro non puoi cambiare modo per primo: quella casella non esiste. Devi passare
+da un tempo che i due modi hanno in comune. È pianificazione vera, e nasce dalla
+grammatica invece che da una regola inventata dal gioco.
+
+### 8.3 I tre binari (il pezzo che si vede)
+
+Il primo disegno era la tabella dei verbi, modi in riga e tempi in colonna, come
+sul libro. **Non ci sta**: a nove tempi e tre modi le intestazioni scendevano a
+corpo dieci, che su un tablet in mano a un bambino non è una tabella, è una
+macchia. E soprattutto non serviva — da una tabella si legge *dov'è tutto*, mentre
+qui bisogna leggere **dove sono e dove devo arrivare**, che sono tre informazioni,
+una per asse.
+
+Quindi tre binari, uno sopra l'altro, con la casella attuale accesa e quella del
+sigillo cerchiata d'oro. Fanno una cosa che una tabella stampata non può fare:
+**i tempi si spengono e si riaccendono mentre cambi modo**. Passi al condizionale
+e vedi sparire l'imperfetto e il futuro; torni all'indicativo e tornano.
+
+### 8.4 La difficoltà, mondo per mondo
+
+| Mondi | Modi | Tempi | Verbi | Assi da cambiare | Rune | Carica | Sigillo scritto come |
+|---|---|---|---|---|---|---|---|
+| 1–4 | indicativo | 3 | regolari in *-are* | 2 | 4 | 13,0 s | etichetta |
+| 5–9 | indicativo | 5 | regolari, i tre gruppi | 2 | 5 | 12,0 s | etichetta |
+| 10–14 | + congiuntivo | 5 | tutti, irregolari compresi | 3 | 5 | 12,0 s | voce da riconoscere |
+| 15–19 | + condizionale | 7 | tutti | 3 | 6 | 11,0 s | voce da riconoscere |
+| 20–24 | tutti e tre | 9 | tutti | 3 | 6 | 10,0 s | voce da riconoscere |
+
+Il passaggio più importante è l'ultima colonna. Fino al mondo 9 il sigillo dice a
+parole dove andare («INDICATIVO PRESENTE · io»): si impara la **mappa**, cioè
+quali caselle esistono. Dal mondo 10 il sigillo mostra una **voce vera di un
+altro verbo** («aveste temuto», *da temere*) e tocca a te capire che casella sia:
+si impara il **riconoscimento**, che è la competenza vera e che senza la mappa
+non si può nemmeno cominciare. Chiedere di riconoscere una casella a chi non sa
+ancora quali caselle esistono è il modo più rapido per far smettere di giocare.
+
+**Il bersaglio non può mentire.** La voce mostrata deve individuare **una casella
+sola** in tutto il paradigma del verbo campione: «cantaste» è passato remoto *e*
+congiuntivo imperfetto, «canti» è tre cose diverse. Mostrarne una e poi dire «no,
+intendevo l'altra» sarebbe la bugia peggiore che un gioco di grammatica possa
+raccontare a un bambino che ha ragione. `verb_duel_audit` lo verifica su ogni
+sigillo generato.
+
+### 8.5 Il coniugatore
+
+Le voci vengono da un motore (`verb_conjugator.gd`): desinenze regolari dei tre
+gruppi, incoativi in `-isc-`, tempi composti costruiti dall'ausiliare giusto,
+accordo del participio con «essere», e **ogni irregolarità scritta per esteso**,
+mai «quasi regolare». Trentasette verbi, 13 caselle × 6 persone ciascuno.
+
+`verb_conjugation_audit` confronta il motore con **126 voci scritte a mano**, non
+con un'altra funzione del motore — che sarebbe come farsi correggere il compito
+da chi l'ha copiato. È l'unico audit del progetto in cui l'errore non è un difetto
+di gioco ma un **danno didattico**: un bambino si fida di quello che legge qui e
+se lo porta al compito in classe.
+
+Fuori copertura, dichiarato: imperativo (le sue persone non sono sei), modi
+indefiniti (non hanno persona), trapassato remoto (vive solo dentro una
+subordinata). Nessuna delle tre toglie qualcosa al calcolo veloce di modi e tempi.
+
+### 8.6 Quale guardiano chiede cosa
+
+La materia la decide l'**identificativo del guardiano** e non il caso del momento:
+lo stesso guardiano chiede sempre la stessa cosa, in questa partita e nella
+prossima. Un guardiano che cambiasse materia fra un tentativo e l'altro
+toglierebbe senso al tornare — chi ha perso su una voce difficile deve poter
+tornare a **quella**, altrimenti allenarsi non paga e il duello è una slot machine.
+
+E la materia **sta scritta sul cartiglio** che si legge da lontano
+(`GUARDIANO VOCI · T4`): avvicinarsi è una scelta informata, non una lotteria.
+
+Non segue la materia del mondo, di proposito: le due devono comparire in tutti e
+ventiquattro i mondi, o un bambino che gioca il mondo di scienze non vedrebbe mai
+un verbo.
+
+**Nessuna delle due può essere la strada conveniente.** Sigilli, tenuta, colpi di
+riserva, prezzo della sconfitta e premio stanno in `duel_rules.gd` e sono
+identici: se una materia fosse più generosa, si imparerebbe a cercare i guardiani
+di quella invece di quelli che si ha voglia di affrontare. `verb_duel_audit`
+confronta le due tabelle mondo per mondo.
+
+## 9. Cosa non è stato fatto (e resta sul tavolo)
 
 - **Tenere o restituire.** Un lascito è la roba di una persona viva: la scelta
   naturale è restituirla. L'impianto esiste già (`stance_choices.gd`, cinque

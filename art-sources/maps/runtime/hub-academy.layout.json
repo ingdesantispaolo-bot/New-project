@@ -1,0 +1,70 @@
+{
+  "objects": {
+    "hub:missionCard": {
+      "x": 74,
+      "y": 98,
+      "width": 360,
+      "height": 210
+    },
+    "hub:title": {
+      "x": 74,
+      "y": 346,
+      "width": 420,
+      "height": 34
+    },
+    "hub:copy": {
+      "x": 74,
+      "y": 384,
+      "width": 440,
+      "height": 120
+    },
+    "hub:primary": {
+      "x": 250,
+      "y": 552,
+      "width": 320,
+      "height": 52
+    },
+    "hub:journal": {
+      "x": 250,
+      "y": 626,
+      "width": 320,
+      "height": 52
+    },
+    "hub:procedural": {
+      "x": 610,
+      "y": 552,
+      "width": 300,
+      "height": 52
+    },
+    "hub:reviewLab": {
+      "x": 610,
+      "y": 626,
+      "width": 260,
+      "height": 52
+    },
+    "hub:portal": {
+      "x": 740,
+      "y": 302,
+      "width": 360,
+      "height": 590
+    },
+    "hub:wing:num": {
+      "x": 1010,
+      "y": 170,
+      "width": 210,
+      "height": 88
+    },
+    "hub:wing:bio": {
+      "x": 1010,
+      "y": 315,
+      "width": 210,
+      "height": 88
+    },
+    "hub:wing:arc": {
+      "x": 1010,
+      "y": 460,
+      "width": 210,
+      "height": 88
+    }
+  }
+}

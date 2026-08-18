@@ -14,6 +14,11 @@ concurrency:
   group: "pages"
   cancel-in-progress: false
 
+env:
+  # Deve combaciare con l'eseguibile usato in locale (vedi run-godot-audits.mjs).
+  # Cambiare versione motore = cambiare questa riga, e nient'altro.
+  GODOT_VERSION: "4.7.1"
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -29,6 +34,53 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      # L'export Web non era mai stato automatizzato: il .pck e il .wasm
+      # venivano esportati a mano e committati. Farlo qui è ciò che permette di
+      # non tracciarli più, e garantisce che il pacchetto pubblicato sia
+      # esportato DA QUESTO commit invece che da uno stato locale non verificato.
+      - name: Cache Godot ${{ env.GODOT_VERSION }}
+        id: godot-cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/godot-bin
+            ~/.local/share/godot/export_templates
+          key: godot-${{ env.GODOT_VERSION }}-linux
+
+      - name: Install Godot and export templates
+        if: steps.godot-cache.outputs.cache-hit != 'true'
+        run: |
+          set -euo pipefail
+          BASE="https://github.com/godotengine/godot-builds/releases/download/${GODOT_VERSION}-stable"
+          mkdir -p ~/godot-bin
+          curl -fsSL -o /tmp/godot.zip \
+            "${BASE}/Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip"
+          unzip -q -o /tmp/godot.zip -d ~/godot-bin
+          mv ~/godot-bin/Godot_v${GODOT_VERSION}-stable_linux.x86_64 ~/godot-bin/godot
+          chmod +x ~/godot-bin/godot
+          curl -fsSL -o /tmp/templates.tpz \
+            "${BASE}/Godot_v${GODOT_VERSION}-stable_export_templates.tpz"
+          mkdir -p ~/.local/share/godot/export_templates
+          unzip -q -o /tmp/templates.tpz -d /tmp/templates
+          mv /tmp/templates/templates ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
+
+      - name: Add Godot to PATH
+        run: echo "$HOME/godot-bin" >> "$GITHUB_PATH"
+
+      # Marchia il commit REALE che viene pubblicato. In locale lo stamp
+      # precedeva il commit, quindi il gioco mostrava sempre la build prima.
+      - name: Stamp build version
+        run: node scripts/stamp-version.mjs
+
+      - name: Export Godot Web build
+        run: node scripts/export-godot-web.mjs
+
+      # Riallinea build.json e sw.js alle dimensioni appena esportate. Lo slug
+      # contiene il commit: senza, due deploy consecutivi produrrebbero la stessa
+      # cacheVersion e il tablet continuerebbe a servire il .pck vecchio.
+      - name: Sync web manifest
+        run: node scripts/sync-web-build.mjs --slug ci-${GITHUB_SHA::7}
 
       - name: Build static site
         env:

@@ -7,9 +7,11 @@
     "dev": "vite --config vite.config.mjs --configLoader native --host 127.0.0.1",
     "dev:lan": "vite --config vite.config.mjs --configLoader native --host 0.0.0.0",
     "build": "node scripts/audit-web-release.mjs && vite build --config vite.config.mjs --configLoader native",
-    "typecheck:legacy": "tsc --noEmit",
-    "assets:build": "node scripts/build-tiled-tileset.mjs && node scripts/build-tiled-maps.mjs && node scripts/build-visual-assets.mjs && node scripts/build-console-assets.mjs && node scripts/build-prop-assets.mjs && node scripts/build-outdoor-assets.mjs && node scripts/process-painted-prop-sheet.mjs && node scripts/build-audio-assets.mjs && node scripts/build-reward-assets.mjs && node scripts/optimize-assets.mjs",
-    "assets:optimize": "node scripts/optimize-assets.mjs",
+    "release:web": "npm run version:stamp && npm run export:web && npm run web:sync && npm run build",
+    "export:web": "node scripts/export-godot-web.mjs",
+    "banks:build": "node scripts/build-exercise-banks.mjs",
+    "assets:reward": "node scripts/build-reward-assets.mjs",
+    "assets:exercise-atlas": "node scripts/build-exercise-atlas.mjs",
     "terrain:noise": "node scripts/build-terrain-noise-texture.mjs",
     "terrain:noise:check": "node scripts/build-terrain-noise-texture.mjs --check",
     "audio:godot": "node scripts/build-godot-audio-assets.mjs",
@@ -19,23 +21,13 @@
     "web:sync:check": "node scripts/sync-web-build.mjs --check",
     "smoke:web:godot": "node scripts/smoke-godot-web.mjs public/godot/outdoor artifacts/web-smoke-current",
     "profile:web:godot": "node scripts/smoke-godot-web.mjs public/godot/outdoor artifacts/web-profile-current --school-profile",
-    "maps:build": "node scripts/build-tiled-tileset.mjs && node scripts/build-tiled-maps.mjs",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "test:seeds": "node scripts/test-procedural-seeds.mjs 100",
-    "audit:mission-layout": "node scripts/audit-mission-layout.mjs",
     "preview": "vite preview --config vite.config.mjs --configLoader native --host 127.0.0.1",
     "preview:lan": "vite preview --config vite.config.mjs --configLoader native --host 0.0.0.0",
     "audit:godot": "node scripts/run-godot-audits.mjs",
-    "version:stamp": "python scripts/stamp-version.py"
+    "version:stamp": "node scripts/stamp-version.mjs"
   },
   "devDependencies": {
-    "@types/howler": "^2.2.12",
-    "howler": "^2.2.4",
-    "phaser": "^4.1.0",
     "sharp": "^0.34.5",
-    "typescript": "^5.8.3",
-    "vite": "^6.3.5",
-    "vitest": "^4.1.9"
+    "vite": "^6.3.5"
   }
 }

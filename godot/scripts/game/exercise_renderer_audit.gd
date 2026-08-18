@@ -246,7 +246,14 @@ func _run() -> void:
 	# e target touch/focus presenti.
 	await _start(ordering, "final_exam")
 	var heading := player.find_child("ExerciseHeading", true, false) as Label
-	assert(heading != null and "ESAME FINALE" in heading.text, "esame non distinto dalla missione")
+	# Cercava «ESAME FINALE»; la voce a 11 anni dice «SFIDA FINALE». Quello che
+	# conta è che l'intestazione distingua la prova finale da una missione
+	# normale, non con quale parola lo faccia.
+	assert(
+		heading != null and ("ESAME FINALE" in heading.text or "SFIDA FINALE" in heading.text),
+		"prova finale non distinta dalla missione: intestazione «%s»" % [
+			"" if heading == null else heading.text],
+	)
 	assert(player.find_child("ExerciseOptionsScroll", true, false) != null, "overflow: manca lo scroll")
 	for node in player.find_children("*", "Button", true, false):
 		var button := node as Button

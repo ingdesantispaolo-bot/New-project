@@ -3492,22 +3492,25 @@ const NUMERIC_ORDERING_TOPICS := {
 	"matematica": ["tabelline", "frazioni"],
 }
 
-# Stessa ragione di NUMERIC_ORDERING_TOPICS, per i tre formati costruiti da
-# template invece che da tabella: percorso-macchine, campione misterioso e
-# decodifica dei verbi. Senza questa dichiarazione i loro argomenti restano fuori
-# dal registro — e `minigame_topic_scope_audit` li rifiuta, giustamente: un nodo
-# che parla di un argomento che la materia non riconosce non può alimentare né
-# la padronanza né il codex.
+# Stessa ragione di NUMERIC_ORDERING_TOPICS, per i formati costruiti da template
+# invece che da tabella. Qui c'è solo `calcolo`, e vale la pena dire perché gli
+# altri due formati non ci sono.
+#
+# Decodifica dei verbi e campione misterioso erano nati con argomenti propri e
+# più fini — `indicativo-tempi`, `congiuntivo-condizionale`,
+# `proprietà-dei-materiali`. Sembrava più preciso, e ha rotto cinque audit in una
+# volta: senza voce di manuale, senza contesto NORA, e soprattutto **fuori dalla
+# portata dell'esame**, che nasce dal banco. È il difetto che
+# `topic_alignment_audit` descrive per esteso: un argomento che conta per la
+# copertura ma che l'esame non può interrogare fa credere al gate che il
+# giocatore sia coperto su qualcosa che non gli verrà mai chiesto.
+#
+# Ora dichiarano gli argomenti che la materia già riconosce — `verbo` per
+# italiano, `materia` per scienze e fisica. Il minigioco insegna esattamente le
+# stesse cose; cambia solo sotto quale voce la padronanza viene registrata, e
+# quella voce ora è una che il manuale spiega e l'esame sa chiedere.
 const TEMPLATE_FORMAT_TOPICS := {
 	"matematica": ["calcolo"],
-	"scienze": ["proprietà-dei-materiali"],
-	"fisica": ["proprietà-dei-materiali"],
-	"italiano": [
-		"indicativo-tempi",
-		"congiuntivo-condizionale",
-		"imperativo-infinito-participio-gerundio",
-		"concordanza-tempi-verbali",
-	],
 }
 
 # Argomenti che la materia sa servire con i minigiochi (oltre al banco statico).
@@ -5542,17 +5545,51 @@ func _mystery_sample_node(subject: String, level: int, step: int, rng: RandomNum
 		tests = tests.filter(func(test): return str((test as Dictionary).get("id", "")) != "circuit")
 	_shuffle(tests, rng)
 	var answer := str((samples[rng.randi_range(0, samples.size() - 1)] as Dictionary).get("id", ""))
+	# Più modi di spiegare lo stesso materiale, non uno solo.
+	#
+	# Con una frase fissa per materiale, il ferro da solo copriva il 27% dei nodi
+	# del formato — `explanation_coverage_audit` lo rifiuta sopra il 25%, e ha
+	# ragione per un motivo che non è statistico: una frase che tornerà identica
+	# ogni volta smette di essere letta dopo la seconda. Ogni variante dice la
+	# stessa proprietà partendo da una prova diversa, così chi rigioca trova un
+	# appiglio nuovo invece di riconoscere una formula.
 	var explanations := {
-		"iron": "Il ferro conduce la corrente e, fra questi campioni, è l'unico attirato dalla calamita.",
-		"copper": "Il rame conduce la corrente ma non viene attirato dalla calamita: le due prove insieme lo distinguono dal ferro.",
-		"glass": "Il vetro non conduce e non galleggia, ma lascia passare il fascio della lampada.",
-		"cork": "Il sughero non conduce e non lascia passare la luce, ma galleggia perché è meno denso dell'acqua.",
-		"ceramic": "La ceramica non conduce, non è attirata dalla calamita, non lascia passare la luce e affonda: conta l'insieme delle prove.",
+		"iron": [
+			"Il ferro conduce la corrente e, fra questi campioni, è l'unico attirato dalla calamita.",
+			"La calamita da sola basta a riconoscere il ferro: nessuno degli altri campioni le risponde.",
+			"Il ferro fa passare la corrente e affonda, ma è la calamita a toglierti ogni dubbio.",
+		],
+		"copper": [
+			"Il rame conduce la corrente ma non viene attirato dalla calamita: le due prove insieme lo distinguono dal ferro.",
+			"Se la lampadina si accende e la calamita resta ferma, il metallo è rame e non ferro.",
+			"Il rame è un metallo che conduce, però alla calamita è indifferente: una prova sola qui non basta.",
+		],
+		"glass": [
+			"Il vetro non conduce e non galleggia, ma lascia passare il fascio della lampada.",
+			"Trasparente alla luce e muto alla corrente: è la coppia di prove che indica il vetro.",
+			"Il vetro affonda come la ceramica, ma la luce lo attraversa — ed è lì che si separano.",
+		],
+		"cork": [
+			"Il sughero non conduce e non lascia passare la luce, ma galleggia perché è meno denso dell'acqua.",
+			"È l'unico campione che resta a galla: il sughero pesa poco per quanto spazio occupa.",
+			"Sughero: la luce non passa, la corrente nemmeno, però l'acqua lo tiene su.",
+		],
+		"ceramic": [
+			"La ceramica non conduce, non è attirata dalla calamita, non lascia passare la luce e affonda: conta l'insieme delle prove.",
+			"Nessuna prova da sola riconosce la ceramica: la si trova escludendo tutti gli altri.",
+			"La ceramica dice no a ogni prova e va a fondo: è il profilo di chi non reagisce a niente.",
+		],
 	}
+	var varianti := Array(explanations.get(answer, []))
+	var spiegazione := (
+		str(varianti[rng.randi_range(0, varianti.size() - 1)])
+		if not varianti.is_empty()
+		else "Le proprietà osservate permettono di riconoscere il materiale."
+	)
 	return {
 		"id": "minigame-mystery-sample-%s-%d-%d" % [subject, level, idx],
 		"subject": subject,
-		"topic": "proprietà-dei-materiali",
+		"topic": "materia",
 		"difficulty": difficulty,
 		"format": "mystery_sample",
 		"title": "Il campione senza nome",
@@ -5562,7 +5599,7 @@ func _mystery_sample_node(subject: String, level: int, step: int, rng: RandomNum
 		"results": _mystery_sample_results(),
 		"answer": answer,
 		"minTests": 3 if difficulty >= 4 else 2,
-		"explanation": str(explanations.get(answer, "Le proprietà osservate permettono di riconoscere il materiale.")),
+		"explanation": spiegazione,
 	}
 
 func _mystery_sample_results() -> Dictionary:
@@ -5654,7 +5691,7 @@ func _verb_decoder_node(subject: String, level: int, step: int, rng: RandomNumbe
 ## soluzione ha una parola-spia o un rapporto logico che la rende univoca.
 static func _verb_decoder_templates() -> Array:
 	return [
-		{"case":"now", "tier":1, "topic":"indicativo-tempi",
+		{"case":"now", "tier":1, "topic":"verbo",
 			"segments":["Adesso NORA", "la mappa sul tavolo."], "time":"presente", "mood":"indicativo",
 			"times":[["presente","PRESENTE"],["passato_prossimo","PASSATO PROSSIMO"],["futuro_semplice","FUTURO SEMPLICE"]],
 			"moods":[["indicativo","INDICATIVO · fatto"],["congiuntivo","CONGIUNTIVO · dubbio o desiderio"],["condizionale","CONDIZIONALE · possibilità"]],
@@ -5662,7 +5699,7 @@ static func _verb_decoder_templates() -> Array:
 			"hints":{"time":"“Adesso” porta l'azione nel presente.","mood":"La frase presenta un fatto, quindi usa l'indicativo.","form":"Serve la forma che concorda con NORA e indica il presente."},
 			"discovery":"Sul bordo della mappa compare una traccia appena disegnata.",
 			"explanation":"“Adesso” indica il presente; la frase racconta un fatto come reale, quindi usa l'indicativo presente: osserva."},
-		{"case":"yesterday", "tier":1, "topic":"indicativo-tempi",
+		{"case":"yesterday", "tier":1, "topic":"verbo",
 			"segments":["Ieri Rame", "una chiave sotto la passerella."], "time":"passato_prossimo", "mood":"indicativo",
 			"times":[["presente","PRESENTE"],["passato_prossimo","PASSATO PROSSIMO"],["futuro_semplice","FUTURO SEMPLICE"]],
 			"moods":[["indicativo","INDICATIVO · fatto"],["congiuntivo","CONGIUNTIVO · dubbio o desiderio"],["imperativo","IMPERATIVO · ordine"]],
@@ -5670,7 +5707,7 @@ static func _verb_decoder_templates() -> Array:
 			"hints":{"time":"“Ieri” indica un fatto già concluso.","mood":"Il ritrovamento viene raccontato come reale.","form":"Cerca ausiliare + participio: è un tempo composto."},
 			"discovery":"La chiave apre un cassetto che nessuno aveva notato.",
 			"explanation":"“Ieri” e l'azione conclusa richiedono il passato prossimo indicativo: ha trovato."},
-		{"case":"tomorrow", "tier":1, "topic":"indicativo-tempi",
+		{"case":"tomorrow", "tier":1, "topic":"verbo",
 			"segments":["Domani NORA", "il corridoio oltre il vetro."], "time":"futuro_semplice", "mood":"indicativo",
 			"times":[["presente","PRESENTE"],["passato_prossimo","PASSATO PROSSIMO"],["futuro_semplice","FUTURO SEMPLICE"]],
 			"moods":[["indicativo","INDICATIVO · fatto previsto"],["condizionale","CONDIZIONALE · possibilità"],["imperativo","IMPERATIVO · ordine"]],
@@ -5678,7 +5715,7 @@ static func _verb_decoder_templates() -> Array:
 			"hints":{"time":"“Domani” sposta l'azione nel futuro.","mood":"È un programma presentato come certo, non come ipotesi.","form":"La desinenza -erà indica il futuro della terza persona."},
 			"discovery":"La voce conosce un luogo che non compare sulle mappe.",
 			"explanation":"“Domani” indica futuro; il programma è presentato come certo, quindi indicativo futuro semplice: esplorerà."},
-		{"case":"habit", "tier":1, "topic":"indicativo-tempi",
+		{"case":"habit", "tier":1, "topic":"verbo",
 			"segments":["Ogni notte la luce azzurra", "tre volte."], "time":"presente", "mood":"indicativo",
 			"times":[["presente","PRESENTE"],["imperfetto","IMPERFETTO"],["futuro_semplice","FUTURO SEMPLICE"]],
 			"moods":[["indicativo","INDICATIVO · fatto"],["congiuntivo","CONGIUNTIVO · dubbio"],["condizionale","CONDIZIONALE · possibilità"]],
@@ -5686,7 +5723,7 @@ static func _verb_decoder_templates() -> Array:
 			"hints":{"time":"Un'abitudine ancora valida può essere espressa al presente.","mood":"La luce viene descritta come un fenomeno osservato.","form":"Il soggetto è singolare: la luce lampeggia."},
 			"discovery":"I tre lampi sembrano una richiesta di risposta.",
 			"explanation":"“Ogni notte” descrive qui un'abitudine ancora valida: indicativo presente, lampeggia."},
-		{"case":"while", "tier":2, "topic":"indicativo-tempi",
+		{"case":"while", "tier":2, "topic":"verbo",
 			"segments":["Mentre Rame", "il corridoio, una porta si aprì."], "time":"imperfetto", "mood":"indicativo",
 			"times":[["imperfetto","IMPERFETTO"],["passato_prossimo","PASSATO PROSSIMO"],["futuro_semplice","FUTURO SEMPLICE"]],
 			"moods":[["indicativo","INDICATIVO · fatto"],["congiuntivo","CONGIUNTIVO · dubbio"],["condizionale","CONDIZIONALE · possibilità"]],
@@ -5694,7 +5731,7 @@ static func _verb_decoder_templates() -> Array:
 			"hints":{"time":"“Mentre” presenta un'azione in corso quando ne accade un'altra.","mood":"Entrambe le azioni sono narrate come fatti.","form":"L'imperfetto di esplorare termina in -ava."},
 			"discovery":"La porta reagì al passaggio di Rame, non a un comando.",
 			"explanation":"L'azione di esplorare era in corso quando la porta si aprì: indicativo imperfetto, esplorava."},
-		{"case":"before", "tier":2, "topic":"indicativo-tempi",
+		{"case":"before", "tier":2, "topic":"verbo",
 			"segments":["Quando arrivammo, NORA", "già il simbolo."], "time":"trapassato_prossimo", "mood":"indicativo",
 			"times":[["trapassato_prossimo","TRAPASSATO PROSSIMO"],["passato_prossimo","PASSATO PROSSIMO"],["imperfetto","IMPERFETTO"]],
 			"moods":[["indicativo","INDICATIVO · fatto"],["congiuntivo","CONGIUNTIVO · dubbio"],["condizionale","CONDIZIONALE · possibilità"]],
@@ -5702,7 +5739,7 @@ static func _verb_decoder_templates() -> Array:
 			"hints":{"time":"Un fatto concluso prima di un altro fatto passato usa il trapassato prossimo.","mood":"La decifrazione è presentata come reale.","form":"Serve aveva + participio passato."},
 			"discovery":"NORA aveva aspettato il gruppo prima di aprire il passaggio.",
 			"explanation":"Decifrare avviene prima del nostro arrivo, già passato: indicativo trapassato prossimo, aveva decifrato."},
-		{"case":"command", "tier":2, "topic":"imperativo-infinito-participio-gerundio",
+		{"case":"command", "tier":2, "topic":"verbo",
 			"segments":["Rame,", "la leva soltanto al mio via."], "time":"presente", "mood":"imperativo",
 			"times":[["presente","PRESENTE"],["passato","PASSATO"],["futuro","FUTURO"]],
 			"moods":[["imperativo","IMPERATIVO · ordine"],["indicativo","INDICATIVO · fatto"],["condizionale","CONDIZIONALE · possibilità"]],
@@ -5710,7 +5747,7 @@ static func _verb_decoder_templates() -> Array:
 			"hints":{"time":"L'ordine riguarda ciò che Rame deve fare ora.","mood":"Un'istruzione diretta usa l'imperativo.","form":"Alla seconda persona singolare: tira."},
 			"discovery":"La leva attiva una voce, ma solo nel momento esatto.",
 			"explanation":"È un ordine rivolto direttamente a Rame: imperativo presente, tira."},
-		{"case":"purpose", "tier":2, "topic":"imperativo-infinito-participio-gerundio",
+		{"case":"purpose", "tier":2, "topic":"verbo",
 			"segments":["Per", "la porta servono due chiavi."], "time":"presente", "mood":"infinito",
 			"times":[["presente","PRESENTE"],["passato","PASSATO"],["futuro","FUTURO"]],
 			"moods":[["infinito","INFINITO · forma base"],["imperativo","IMPERATIVO · ordine"],["indicativo","INDICATIVO · fatto"]],
@@ -5718,7 +5755,7 @@ static func _verb_decoder_templates() -> Array:
 			"hints":{"time":"L'azione è vista come scopo presente, non come già conclusa.","mood":"Dopo “per”, quando esprime uno scopo, si usa l'infinito.","form":"La forma base del verbo termina in -ire."},
 			"discovery":"Le due chiavi hanno incisioni che si completano a vicenda.",
 			"explanation":"“Per” introduce lo scopo e non indica chi compie l'azione: infinito presente, aprire."},
-		{"case":"following", "tier":2, "topic":"imperativo-infinito-participio-gerundio",
+		{"case":"following", "tier":2, "topic":"verbo",
 			"segments":["", "le impronte, NORA trovò il pannello nascosto."], "time":"presente", "mood":"gerundio",
 			"times":[["presente","PRESENTE"],["passato","PASSATO"],["futuro","FUTURO"]],
 			"moods":[["gerundio","GERUNDIO · azione collegata"],["participio","PARTICIPIO · qualità o risultato"],["infinito","INFINITO · forma base"]],
@@ -5726,7 +5763,7 @@ static func _verb_decoder_templates() -> Array:
 			"hints":{"time":"Seguire avviene mentre NORA cerca il pannello.","mood":"Il gerundio collega un'azione alla principale.","form":"Il gerundio di seguire termina in -endo."},
 			"discovery":"Le impronte appartengono a qualcuno che conosceva il Relitto.",
 			"explanation":"Le due azioni hanno lo stesso soggetto e avvengono insieme: gerundio presente, seguendo."},
-		{"case":"possible", "tier":3, "topic":"congiuntivo-condizionale",
+		{"case":"possible", "tier":3, "topic":"verbo",
 			"segments":["È possibile che la mappa", "incompleta."], "time":"presente", "mood":"congiuntivo",
 			"times":[["presente","PRESENTE"],["imperfetto","IMPERFETTO"],["passato","PASSATO"]],
 			"moods":[["congiuntivo","CONGIUNTIVO · dubbio o possibilità"],["indicativo","INDICATIVO · fatto"],["condizionale","CONDIZIONALE · conseguenza"]],
@@ -5734,7 +5771,7 @@ static func _verb_decoder_templates() -> Array:
 			"hints":{"time":"L'ipotesi riguarda lo stato attuale della mappa.","mood":"“È possibile che” richiede il congiuntivo.","form":"Il congiuntivo presente di essere è sia."},
 			"discovery":"Forse manca proprio il settore in cui ci troviamo.",
 			"explanation":"“È possibile che” introduce un'ipotesi presente: congiuntivo presente, sia."},
-		{"case":"feared", "tier":3, "topic":"concordanza-tempi-verbali",
+		{"case":"feared", "tier":3, "topic":"verbo",
 			"segments":["Temevo che il custode", "del passaggio."], "time":"imperfetto", "mood":"congiuntivo",
 			"times":[["presente","PRESENTE"],["imperfetto","IMPERFETTO"],["trapassato","TRAPASSATO"]],
 			"moods":[["congiuntivo","CONGIUNTIVO · timore"],["indicativo","INDICATIVO · fatto"],["condizionale","CONDIZIONALE · possibilità"]],
@@ -5742,7 +5779,7 @@ static func _verb_decoder_templates() -> Array:
 			"hints":{"time":"Il sapere è contemporaneo a un timore collocato nel passato.","mood":"“Temevo che” introduce un contenuto temuto, non affermato.","form":"Dopo una principale al passato serve qui sapesse."},
 			"discovery":"Il custode non era sorpreso: aveva già visto quella porta.",
 			"explanation":"Il timore è nel passato e il sapere è contemporaneo: congiuntivo imperfetto, sapesse."},
-		{"case":"would_explore", "tier":3, "topic":"congiuntivo-condizionale",
+		{"case":"would_explore", "tier":3, "topic":"verbo",
 			"segments":["Con una torcia, io", "anche il tunnel più buio."], "time":"presente", "mood":"condizionale",
 			"times":[["presente","PRESENTE"],["passato","PASSATO"],["futuro","FUTURO"]],
 			"moods":[["condizionale","CONDIZIONALE · possibilità"],["indicativo","INDICATIVO · fatto"],["congiuntivo","CONGIUNTIVO · dubbio"]],
@@ -5750,7 +5787,7 @@ static func _verb_decoder_templates() -> Array:
 			"hints":{"time":"La possibilità riguarda il presente o il futuro vicino.","mood":"L'azione dipende dalla condizione “con una torcia”.","form":"Alla prima persona: esplorerei."},
 			"discovery":"Nel tunnel c'è ancora una luce: qualcuno potrebbe essere dentro.",
 			"explanation":"Esplorare dipende da una condizione: condizionale presente, esplorerei."},
-		{"case":"if_present", "tier":3, "topic":"congiuntivo-condizionale",
+		{"case":"if_present", "tier":3, "topic":"verbo",
 			"segments":["Se trovassimo la chiave,", "la stanza nascosta."], "time":"presente", "mood":"condizionale",
 			"times":[["presente","PRESENTE"],["passato","PASSATO"],["imperfetto","IMPERFETTO"]],
 			"moods":[["condizionale","CONDIZIONALE · conseguenza"],["congiuntivo","CONGIUNTIVO · ipotesi"],["indicativo","INDICATIVO · fatto"]],
@@ -5758,7 +5795,7 @@ static func _verb_decoder_templates() -> Array:
 			"hints":{"time":"La conseguenza è ancora possibile, non già conclusa.","mood":"Dopo l'ipotesi al congiuntivo, la conseguenza va al condizionale.","form":"La prima persona plurale termina in -remmo."},
 			"discovery":"La stanza nascosta esiste, ma la sua posizione resta incerta.",
 			"explanation":"“Se trovassimo” esprime l'ipotesi; la conseguenza usa il condizionale presente: apriremmo."},
-		{"case":"if_past", "tier":4, "topic":"congiuntivo-condizionale",
+		{"case":"if_past", "tier":4, "topic":"verbo",
 			"segments":["Se avessimo letto il diario,", "la trappola."], "time":"passato", "mood":"condizionale",
 			"times":[["presente","PRESENTE"],["passato","PASSATO"],["imperfetto","IMPERFETTO"]],
 			"moods":[["condizionale","CONDIZIONALE · conseguenza"],["congiuntivo","CONGIUNTIVO · ipotesi"],["indicativo","INDICATIVO · fatto"]],
@@ -5766,7 +5803,7 @@ static func _verb_decoder_templates() -> Array:
 			"hints":{"time":"L'occasione è passata e non può più realizzarsi.","mood":"La conseguenza non avvenuta usa il condizionale.","form":"Serve avremmo + participio passato."},
 			"discovery":"Qualcuno aveva lasciato un avvertimento che non vedemmo in tempo.",
 			"explanation":"L'ipotesi passata non si è realizzata: la conseguenza usa il condizionale passato, avremmo evitato."},
-		{"case":"already_left", "tier":4, "topic":"concordanza-tempi-verbali",
+		{"case":"already_left", "tier":4, "topic":"verbo",
 			"segments":["NORA pensava che Rame", "già partito."], "time":"trapassato", "mood":"congiuntivo",
 			"times":[["presente","PRESENTE"],["imperfetto","IMPERFETTO"],["trapassato","TRAPASSATO"]],
 			"moods":[["congiuntivo","CONGIUNTIVO · pensiero"],["indicativo","INDICATIVO · fatto"],["condizionale","CONDIZIONALE · possibilità"]],
@@ -5774,7 +5811,7 @@ static func _verb_decoder_templates() -> Array:
 			"hints":{"time":"La partenza è anteriore a un pensiero già nel passato.","mood":"“Pensava che” introduce ciò che NORA riteneva, non un fatto certificato.","form":"Fosse + participio costruisce il congiuntivo trapassato."},
 			"discovery":"Rame non era partito: stava seguendo la voce da solo.",
 			"explanation":"La partenza sarebbe precedente al pensiero passato: congiuntivo trapassato, fosse già partito."},
-		{"case":"after_decoding", "tier":4, "topic":"imperativo-infinito-participio-gerundio",
+		{"case":"after_decoding", "tier":4, "topic":"verbo",
 			"segments":["Dopo", "il messaggio, Rame spense il ricevitore."], "time":"passato", "mood":"infinito",
 			"times":[["presente","PRESENTE"],["passato","PASSATO"],["futuro","FUTURO"]],
 			"moods":[["infinito","INFINITO · forma senza persona"],["gerundio","GERUNDIO · azione collegata"],["participio","PARTICIPIO · risultato"]],
@@ -5782,7 +5819,7 @@ static func _verb_decoder_templates() -> Array:
 			"hints":{"time":"Decifrare è concluso prima di spegnere.","mood":"Dopo la preposizione “dopo” si può usare l'infinito.","form":"L'infinito passato usa avere + participio: aver decifrato."},
 			"discovery":"Il ricevitore spento continuò a sussurrare per alcuni secondi.",
 			"explanation":"L'azione è anteriore e non indica una persona propria: infinito passato, aver decifrato."},
-		{"case":"having_understood", "tier":4, "topic":"imperativo-infinito-participio-gerundio",
+		{"case":"having_understood", "tier":4, "topic":"verbo",
 			"segments":["Pur", "la risposta, NORA attese prima di parlare."], "time":"passato", "mood":"gerundio",
 			"times":[["presente","PRESENTE"],["passato","PASSATO"],["futuro","FUTURO"]],
 			"moods":[["gerundio","GERUNDIO · azione collegata"],["infinito","INFINITO · forma base"],["participio","PARTICIPIO · risultato"]],

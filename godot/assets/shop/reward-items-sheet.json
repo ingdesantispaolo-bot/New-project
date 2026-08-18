@@ -520,9 +520,49 @@
         "h": 128
       }
     },
-    "pet-dog": {
+    "tool-torch": {
       "frame": {
         "x": 256,
+        "y": 384,
+        "w": 128,
+        "h": 128
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 128,
+        "h": 128
+      },
+      "sourceSize": {
+        "w": 128,
+        "h": 128
+      }
+    },
+    "tool-scythe": {
+      "frame": {
+        "x": 384,
+        "y": 384,
+        "w": 128,
+        "h": 128
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 128,
+        "h": 128
+      },
+      "sourceSize": {
+        "w": 128,
+        "h": 128
+      }
+    },
+    "pet-dog": {
+      "frame": {
+        "x": 512,
         "y": 384,
         "w": 128,
         "h": 128
@@ -542,7 +582,7 @@
     },
     "pet-cat": {
       "frame": {
-        "x": 384,
+        "x": 640,
         "y": 384,
         "w": 128,
         "h": 128
@@ -562,7 +602,7 @@
     },
     "pet-rabbit": {
       "frame": {
-        "x": 512,
+        "x": 768,
         "y": 384,
         "w": 128,
         "h": 128
@@ -582,7 +622,7 @@
     },
     "pet-spark": {
       "frame": {
-        "x": 640,
+        "x": 896,
         "y": 384,
         "w": 128,
         "h": 128
@@ -602,8 +642,8 @@
     },
     "pet-comet": {
       "frame": {
-        "x": 768,
-        "y": 384,
+        "x": 0,
+        "y": 512,
         "w": 128,
         "h": 128
       },
@@ -622,8 +662,8 @@
     },
     "pet-orbit": {
       "frame": {
-        "x": 896,
-        "y": 384,
+        "x": 128,
+        "y": 512,
         "w": 128,
         "h": 128
       },
@@ -642,7 +682,7 @@
     },
     "pet-satellite": {
       "frame": {
-        "x": 0,
+        "x": 256,
         "y": 512,
         "w": 128,
         "h": 128
@@ -662,7 +702,7 @@
     },
     "pet-prisma": {
       "frame": {
-        "x": 128,
+        "x": 384,
         "y": 512,
         "w": 128,
         "h": 128
@@ -682,7 +722,7 @@
     },
     "pet-luma": {
       "frame": {
-        "x": 256,
+        "x": 512,
         "y": 512,
         "w": 128,
         "h": 128
@@ -702,7 +742,7 @@
     },
     "pet-guardiano": {
       "frame": {
-        "x": 384,
+        "x": 640,
         "y": 512,
         "w": 128,
         "h": 128
@@ -722,7 +762,7 @@
     },
     "pet-codex": {
       "frame": {
-        "x": 512,
+        "x": 768,
         "y": 512,
         "w": 128,
         "h": 128
@@ -742,7 +782,7 @@
     },
     "emblem-star": {
       "frame": {
-        "x": 640,
+        "x": 896,
         "y": 512,
         "w": 128,
         "h": 128
@@ -762,8 +802,8 @@
     },
     "emblem-bolt": {
       "frame": {
-        "x": 768,
-        "y": 512,
+        "x": 0,
+        "y": 640,
         "w": 128,
         "h": 128
       },
@@ -782,8 +822,8 @@
     },
     "emblem-crown": {
       "frame": {
-        "x": 896,
-        "y": 512,
+        "x": 128,
+        "y": 640,
         "w": 128,
         "h": 128
       },
@@ -802,7 +842,7 @@
     },
     "emblem-atom": {
       "frame": {
-        "x": 0,
+        "x": 256,
         "y": 640,
         "w": 128,
         "h": 128
@@ -822,7 +862,67 @@
     },
     "emblem-scroll": {
       "frame": {
-        "x": 128,
+        "x": 384,
+        "y": 640,
+        "w": 128,
+        "h": 128
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 128,
+        "h": 128
+      },
+      "sourceSize": {
+        "w": 128,
+        "h": 128
+      }
+    },
+    "module-tank": {
+      "frame": {
+        "x": 512,
+        "y": 640,
+        "w": 128,
+        "h": 128
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 128,
+        "h": 128
+      },
+      "sourceSize": {
+        "w": 128,
+        "h": 128
+      }
+    },
+    "module-coil": {
+      "frame": {
+        "x": 640,
+        "y": 640,
+        "w": 128,
+        "h": 128
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 128,
+        "h": 128
+      },
+      "sourceSize": {
+        "w": 128,
+        "h": 128
+      }
+    },
+    "module-stride": {
+      "frame": {
+        "x": 768,
         "y": 640,
         "w": 128,
         "h": 128
@@ -842,7 +942,7 @@
     },
     "nora-lens": {
       "frame": {
-        "x": 256,
+        "x": 896,
         "y": 640,
         "w": 128,
         "h": 128
@@ -862,106 +962,6 @@
     },
     "nora-reserve": {
       "frame": {
-        "x": 384,
-        "y": 640,
-        "w": 128,
-        "h": 128
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 128,
-        "h": 128
-      },
-      "sourceSize": {
-        "w": 128,
-        "h": 128
-      }
-    },
-    "nora-shield": {
-      "frame": {
-        "x": 512,
-        "y": 640,
-        "w": 128,
-        "h": 128
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 128,
-        "h": 128
-      },
-      "sourceSize": {
-        "w": 128,
-        "h": 128
-      }
-    },
-    "nora-prismatic-core": {
-      "frame": {
-        "x": 640,
-        "y": 640,
-        "w": 128,
-        "h": 128
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 128,
-        "h": 128
-      },
-      "sourceSize": {
-        "w": 128,
-        "h": 128
-      }
-    },
-    "decor-laboratorio": {
-      "frame": {
-        "x": 768,
-        "y": 640,
-        "w": 128,
-        "h": 128
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 128,
-        "h": 128
-      },
-      "sourceSize": {
-        "w": 128,
-        "h": 128
-      }
-    },
-    "decor-serra": {
-      "frame": {
-        "x": 896,
-        "y": 640,
-        "w": 128,
-        "h": 128
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 128,
-        "h": 128
-      },
-      "sourceSize": {
-        "w": 128,
-        "h": 128
-      }
-    },
-    "decor-circuiti": {
-      "frame": {
         "x": 0,
         "y": 768,
         "w": 128,
@@ -980,7 +980,7 @@
         "h": 128
       }
     },
-    "decor-osservatorio": {
+    "nora-shield": {
       "frame": {
         "x": 128,
         "y": 768,
@@ -1000,7 +1000,7 @@
         "h": 128
       }
     },
-    "decor-musica": {
+    "nora-prismatic-core": {
       "frame": {
         "x": 256,
         "y": 768,
@@ -1020,7 +1020,7 @@
         "h": 128
       }
     },
-    "decor-archivio": {
+    "decor-laboratorio": {
       "frame": {
         "x": 384,
         "y": 768,
@@ -1040,7 +1040,7 @@
         "h": 128
       }
     },
-    "decor-biblioteca-classica": {
+    "decor-serra": {
       "frame": {
         "x": 512,
         "y": 768,
@@ -1060,7 +1060,7 @@
         "h": 128
       }
     },
-    "module-tank": {
+    "decor-circuiti": {
       "frame": {
         "x": 640,
         "y": 768,
@@ -1080,7 +1080,7 @@
         "h": 128
       }
     },
-    "module-coil": {
+    "decor-osservatorio": {
       "frame": {
         "x": 768,
         "y": 768,
@@ -1100,7 +1100,7 @@
         "h": 128
       }
     },
-    "module-stride": {
+    "decor-musica": {
       "frame": {
         "x": 896,
         "y": 768,
@@ -1120,7 +1120,7 @@
         "h": 128
       }
     },
-    "module-radar": {
+    "decor-archivio": {
       "frame": {
         "x": 0,
         "y": 896,
@@ -1140,9 +1140,49 @@
         "h": 128
       }
     },
-    "module-torch": {
+    "decor-biblioteca-classica": {
       "frame": {
         "x": 128,
+        "y": 896,
+        "w": 128,
+        "h": 128
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 128,
+        "h": 128
+      },
+      "sourceSize": {
+        "w": 128,
+        "h": 128
+      }
+    },
+    "module-radar": {
+      "frame": {
+        "x": 256,
+        "y": 896,
+        "w": 128,
+        "h": 128
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 128,
+        "h": 128
+      },
+      "sourceSize": {
+        "w": 128,
+        "h": 128
+      }
+    },
+    "module-torch": {
+      "frame": {
+        "x": 384,
         "y": 896,
         "w": 128,
         "h": 128

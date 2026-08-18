@@ -1,0 +1,50 @@
+{
+  "identifier": "main-hub-production-draft",
+  "worldGridWidth": 1280,
+  "worldGridHeight": 720,
+  "levels": [
+    {
+      "identifier": "MainMenu",
+      "pxWid": 1280,
+      "pxHei": 720,
+      "layerInstances": [
+        {
+          "__identifier": "UiLayout",
+          "entityInstances": [
+            { "__identifier": "Title", "px": [96, 92], "width": 520, "height": 84, "fieldInstances": [{ "__identifier": "id", "__value": "menu:title" }] },
+            { "__identifier": "Subtitle", "px": [102, 172], "width": 520, "height": 34, "fieldInstances": [{ "__identifier": "id", "__value": "menu:subtitle" }] },
+            { "__identifier": "IntroCopy", "px": [102, 226], "width": 620, "height": 74, "fieldInstances": [{ "__identifier": "id", "__value": "menu:copy" }] },
+            { "__identifier": "Button", "px": [250, 374], "width": 260, "height": 52, "fieldInstances": [{ "__identifier": "id", "__value": "menu:newMission" }] },
+            { "__identifier": "Button", "px": [250, 448], "width": 260, "height": 52, "fieldInstances": [{ "__identifier": "id", "__value": "menu:continue" }] },
+            { "__identifier": "Button", "px": [250, 522], "width": 260, "height": 52, "fieldInstances": [{ "__identifier": "id", "__value": "menu:journal" }] },
+            { "__identifier": "Button", "px": [250, 596], "width": 300, "height": 52, "fieldInstances": [{ "__identifier": "id", "__value": "menu:procedural" }] },
+            { "__identifier": "Portal", "px": [998, 360], "width": 360, "height": 390, "fieldInstances": [{ "__identifier": "id", "__value": "menu:portal" }] }
+          ]
+        }
+      ]
+    },
+    {
+      "identifier": "HubAccademia",
+      "pxWid": 1280,
+      "pxHei": 720,
+      "layerInstances": [
+        {
+          "__identifier": "HubLayout",
+          "entityInstances": [
+            { "__identifier": "MissionCard", "px": [74, 98], "width": 360, "height": 210, "fieldInstances": [{ "__identifier": "id", "__value": "hub:missionCard" }] },
+            { "__identifier": "InfoTitle", "px": [74, 346], "width": 420, "height": 34, "fieldInstances": [{ "__identifier": "id", "__value": "hub:title" }] },
+            { "__identifier": "InfoCopy", "px": [74, 384], "width": 440, "height": 120, "fieldInstances": [{ "__identifier": "id", "__value": "hub:copy" }] },
+            { "__identifier": "Button", "px": [250, 552], "width": 320, "height": 52, "fieldInstances": [{ "__identifier": "id", "__value": "hub:primary" }] },
+            { "__identifier": "Button", "px": [250, 626], "width": 320, "height": 52, "fieldInstances": [{ "__identifier": "id", "__value": "hub:journal" }] },
+            { "__identifier": "Button", "px": [610, 552], "width": 300, "height": 52, "fieldInstances": [{ "__identifier": "id", "__value": "hub:procedural" }] },
+            { "__identifier": "Button", "px": [610, 626], "width": 260, "height": 52, "fieldInstances": [{ "__identifier": "id", "__value": "hub:reviewLab" }] },
+            { "__identifier": "Portal", "px": [740, 302], "width": 360, "height": 590, "fieldInstances": [{ "__identifier": "id", "__value": "hub:portal" }] },
+            { "__identifier": "Wing", "px": [1010, 170], "width": 210, "height": 88, "fieldInstances": [{ "__identifier": "id", "__value": "hub:wing:num" }] },
+            { "__identifier": "Wing", "px": [1010, 315], "width": 210, "height": 88, "fieldInstances": [{ "__identifier": "id", "__value": "hub:wing:bio" }] },
+            { "__identifier": "Wing", "px": [1010, 460], "width": 210, "height": 88, "fieldInstances": [{ "__identifier": "id", "__value": "hub:wing:arc" }] }
+          ]
+        }
+      ]
+    }
+  ]
+}

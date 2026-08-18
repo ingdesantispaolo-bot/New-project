@@ -3197,8 +3197,8 @@ function validate(name, bank) {
 // Bake
 // ---------------------------------------------------------------------------
 
-const tsUrl = (...parts) => pathToFileURL(join(root, "src", "data", "procedural", ...parts)).href;
-const dataUrl = (...parts) => pathToFileURL(join(root, "src", "data", ...parts)).href;
+const tsUrl = (...parts) => pathToFileURL(join(root, "content-sources", "data", "procedural", ...parts)).href;
+const dataUrl = (...parts) => pathToFileURL(join(root, "content-sources", "data", ...parts)).href;
 const [italianMod, englishMod, latinMod, circuitMod, pythonMod, greenhouseMod] = await Promise.all([
   import(tsUrl("italianVocabularyBank.ts")),
   import(tsUrl("englishVocabularyBank.ts")),

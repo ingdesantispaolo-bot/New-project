@@ -2,7 +2,7 @@ import { readdirSync, statSync, writeFileSync } from "node:fs";
 import { basename, extname, join, relative } from "node:path";
 
 const root = process.cwd();
-const legacyRoot = join(root, "src", "assets", "images");
+const legacyRoot = join(root, "art-sources", "images");
 const godotRoot = join(root, "godot", "assets");
 const output = join(root, "docs", "GODOT_ASSET_MANIFEST.json");
 const visualExtensions = new Set([".png", ".webp", ".avif", ".jpg", ".jpeg", ".svg"]);

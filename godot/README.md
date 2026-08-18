@@ -87,19 +87,24 @@ giocatore non può restare bloccato fuori dall'unico loop che genera energia.
 
 ## Parità del generatore
 
-Il generatore GDScript (`scripts/outdoor_generator.gd`) è speculare a quello
-TypeScript. Il contratto condiviso è la fixture `data/parity-fixtures.json`:
+`data/parity-fixtures.json` è una fixture **congelata**: descrive chunk per chunk
+il mondo prodotto dal generatore, e `scripts/fixture_audit.gd` verifica che
+`scripts/outdoor_generator.gd` continui a riprodurlo identico.
 
 ```powershell
-# 1) genera la fixture dal generatore reale Phaser (lato Node)
-node scripts/build-outdoor-fixtures.mjs
-# 2) verifica il lato Godot
 godot --headless --path godot --script res://scripts/fixture_audit.gd
 ```
 
-Il test Vitest `src/integration/__tests__/outdoorGeneratorFixture.test.ts`
-verifica lo stesso file sul lato TypeScript. Qualsiasi modifica al generatore
-richiede di rigenerare la fixture e rieseguire entrambi i controlli.
+Nasceva come confronto fra due generatori — quello GDScript e quello TypeScript
+di Phaser — rigenerabile con `scripts/build-outdoor-fixtures.mjs`. Il lato
+TypeScript non esiste più: il generatore Godot è l'unica autorità, e la fixture
+ha cambiato ruolo. Ora è una **regressione sul mondo**: garantisce che una
+modifica al generatore non sposti un albero, un tesoro o un incontro nelle
+partite già salvate.
+
+Va rigenerata soltanto quando si vuole cambiare il mondo di proposito — e in quel
+caso il diff del JSON è la lista esatta di cosa si sta spostando, da guardare
+prima di accettarla.
 
 Smoke test del gameplay Godot (tesoro → missione → esame finale):
 

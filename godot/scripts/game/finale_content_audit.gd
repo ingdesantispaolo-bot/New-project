@@ -140,10 +140,21 @@ func _check_cattedra() -> Array:
 		joined += " ".join(PackedStringArray(screens)) + " "
 	out.append_array(_check_testo("cattedra", joined))
 
-	# §4.3: il posto si assegna DOPO il nodo di sintesi, non all'arrivo.
+	# §4.3: il posto si assegna DOPO la prova finale, non all'arrivo.
+	#
+	# Il controllo cercava la parola «sintesi», e la revisione della voce a 11 anni
+	# l'ha sostituita con «l'ultima sfida» — stessa regola, parola più leggibile,
+	# audit rosso. Un controllo su una parola sola si rompe ogni volta che si
+	# migliora il testo, e insegna la lezione sbagliata: non toccare le stringhe.
+	# Qui si accettano i modi in cui il gioco può dire la stessa cosa.
 	var innesco := str((FinaleCatalog.CATTEDRA as Dictionary).get("innesco", "")).to_lower()
-	if not innesco.contains("sintesi"):
-		out.append("l'innesco della cattedra non nomina il nodo di sintesi: si assegnerebbe a chi arriva, non a chi risolve")
+	var nomina_la_prova := false
+	for forma in ["sintesi", "ultima sfida", "ultima prova", "sfida finale", "esame finale"]:
+		if innesco.contains(forma):
+			nomina_la_prova = true
+			break
+	if not nomina_la_prova:
+		out.append("l'innesco della cattedra non nomina la prova finale: si assegnerebbe a chi arriva, non a chi risolve")
 	# §4.4: la domanda resta aperta.
 	if str((FinaleCatalog.CATTEDRA as Dictionary).get("resta_aperta", "")).strip_edges() == "":
 		out.append("il finale non dichiara cosa resta aperto: chiuderebbe una domanda che il gioco tiene aperta di proposito")

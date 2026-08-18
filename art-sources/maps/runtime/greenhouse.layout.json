@@ -1,0 +1,64 @@
+{
+  "objects": {
+    "greenhouse:header": {
+      "x": 640,
+      "y": 82,
+      "width": 1160,
+      "height": 88
+    },
+    "greenhouse:plant:0": {
+      "x": 190,
+      "y": 420,
+      "width": 170,
+      "height": 286
+    },
+    "greenhouse:plant:1": {
+      "x": 420,
+      "y": 410,
+      "width": 180,
+      "height": 302
+    },
+    "greenhouse:plant:2": {
+      "x": 650,
+      "y": 424,
+      "width": 170,
+      "height": 286
+    },
+    "greenhouse:dataPanel": {
+      "x": 820,
+      "y": 288,
+      "width": 420,
+      "height": 326
+    },
+    "greenhouse:objectivePanel": {
+      "x": 820,
+      "y": 130,
+      "width": 420,
+      "height": 136
+    },
+    "greenhouse:graph": {
+      "x": 1018,
+      "y": 506,
+      "width": 168,
+      "height": 96
+    },
+    "greenhouse:sensorTable": {
+      "x": 842,
+      "y": 444,
+      "width": 330,
+      "height": 104
+    },
+    "greenhouse:readSensors": {
+      "x": 882,
+      "y": 600,
+      "width": 168,
+      "height": 44
+    },
+    "greenhouse:advanceTurn": {
+      "x": 1098,
+      "y": 600,
+      "width": 168,
+      "height": 44
+    }
+  }
+}

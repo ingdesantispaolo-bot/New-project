@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const outputDir = path.join(root, "godot", "assets", "audio");
-const legacyDir = path.join(root, "src", "assets", "audio", "generated");
+const legacyDir = path.join(root, "art-sources", "audio", "generated");
 const worldProfilePath = path.join(root, "godot", "scripts", "game", "world_profile.gd");
 const sampleRate = 32000;
 const soundscapeSampleRate = 22050;

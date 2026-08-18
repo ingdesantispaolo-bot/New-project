@@ -3,11 +3,13 @@ import path from "node:path";
 import sharp from "sharp";
 
 const root = process.cwd();
-const catalogPath = path.join(root, "src/core/RewardCatalog.ts");
-const imageDir = path.join(root, "src/assets/images");
-const spriteDir = path.join(root, "src/assets/sprites");
+// Il catalogo autorevole è quello GDScript. Nasceva come trascrizione di
+// `src/core/RewardCatalog.ts` — lo dice il suo stesso commento — ma è andato
+// avanti da solo: al momento del passaggio aveva 58 voci contro le 53 del
+// TypeScript. Il foglio premi veniva quindi generato da una copia vecchia di
+// cinque cosmetici, che nel gioco esistevano senza illustrazione.
+const catalogPath = path.join(root, "godot/scripts/game/reward_catalog.gd");
 const godotSpriteDir = path.join(root, "godot/assets/shop");
-const audioDir = path.join(root, "src/assets/audio/generated");
 
 // Presentazioni native Godot gia' approvate o in attesa del loro contratto
 // semantico. Non duplicano prezzi o regole: servono solo a riservare nel foglio
@@ -23,23 +25,27 @@ const expeditionModuleArt = [
 
 const catalogText = fs.readFileSync(catalogPath, "utf8");
 
+// Le voci GDScript stanno una per riga e non hanno un ordine fisso delle chiavi
+// (`mondo` compare a volte fra `id` e `slot`): si legge per chiave, non per
+// posizione, altrimenti basta riordinare un campo per perdere silenziosamente
+// metà catalogo.
 function parseCatalog(text) {
-  return [...text.matchAll(/\{ id: "([^"]+)", slot: "([^"]+)", name: "([^"]+)", description: "([^"]+)", cost: (\d+)([^}]*)\}/g)]
-    .map((match) => {
-      const tail = match[6];
-      const color = tail.match(/color: (0x[0-9a-fA-F]+)/)?.[1];
-      const glyph = tail.match(/glyph: "([^"]+)"/)?.[1];
-      const minLevel = tail.match(/minLevel: (\d+)/)?.[1];
-      return {
-        id: match[1],
-        slot: match[2],
-        name: match[3],
-        cost: Number(match[5]),
-        color: color ? Number(color) : undefined,
-        glyph,
-        minLevel: minLevel ? Number(minLevel) : undefined,
-      };
-    });
+  return [...text.matchAll(/\{"id":[^\n]*\}/g)].map(([line]) => {
+    const str = (key) => line.match(new RegExp(`"${key}": *"([^"]*)"`))?.[1];
+    const num = (key) => {
+      const raw = line.match(new RegExp(`"${key}": *(0x[0-9a-fA-F]+|\\d+)`))?.[1];
+      return raw === undefined ? undefined : Number(raw);
+    };
+    return {
+      id: str("id"),
+      slot: str("slot"),
+      name: str("name"),
+      cost: num("cost"),
+      color: num("color"),
+      glyph: str("glyph"),
+      minLevel: num("minLevel"),
+    };
+  });
 }
 
 function hex(color, fallback = "#6be7d6") {
@@ -215,15 +221,6 @@ function escapeXml(value) {
 }
 
 async function buildImages(items) {
-  const bgSource = path.join(imageDir, "reward-shop-bg-source.png");
-  const bgOut = path.join(imageDir, "reward-shop-bg.webp");
-  if (fs.existsSync(bgSource)) {
-    await sharp(bgSource)
-      .resize(1600, 900, { fit: "cover", position: "center" })
-      .webp({ quality: 78, effort: 6 })
-      .toFile(bgOut);
-  }
-
   const cell = 128;
   const cols = 8;
   const rows = Math.ceil(items.length / cols);
@@ -256,7 +253,7 @@ async function buildImages(items) {
   })
     .composite(composites)
     .png({ compressionLevel: 9, adaptiveFiltering: true })
-    .toFile(path.join(spriteDir, "reward-items-sheet.png"));
+    .toFile(path.join(godotSpriteDir, "reward-items-sheet.png"));
 
   const atlasJson = `${JSON.stringify({
       frames,
@@ -268,80 +265,7 @@ async function buildImages(items) {
         scale: "1",
       },
     }, null, 2)}\n`;
-  fs.writeFileSync(path.join(spriteDir, "reward-items-sheet.json"), atlasJson);
-  fs.mkdirSync(godotSpriteDir, { recursive: true });
-  fs.copyFileSync(
-    path.join(spriteDir, "reward-items-sheet.png"),
-    path.join(godotSpriteDir, "reward-items-sheet.png"),
-  );
   fs.writeFileSync(path.join(godotSpriteDir, "reward-items-sheet.json"), atlasJson);
-}
-
-function writeWav(name, notes, volume = 0.35) {
-  const sampleRate = 44100;
-  const samples = [];
-  const pushTone = ({ freq, ms, type = "sine" }) => {
-    const total = Math.floor(sampleRate * ms / 1000);
-    for (let i = 0; i < total; i += 1) {
-      const t = i / sampleRate;
-      const a = Math.min(1, i / (sampleRate * 0.012)) * Math.max(0, 1 - i / total);
-      const wave = type === "tri"
-        ? 2 * Math.abs(2 * ((freq * t) % 1) - 1) - 1
-        : Math.sin(2 * Math.PI * freq * t);
-      samples.push(Math.round(wave * a * volume * 32767));
-    }
-  };
-  notes.forEach((note) => {
-    if (note.freq <= 0) {
-      const total = Math.floor(sampleRate * note.ms / 1000);
-      for (let i = 0; i < total; i += 1) samples.push(0);
-    } else {
-      pushTone(note);
-    }
-  });
-  const dataSize = samples.length * 2;
-  const buffer = Buffer.alloc(44 + dataSize);
-  buffer.write("RIFF", 0);
-  buffer.writeUInt32LE(36 + dataSize, 4);
-  buffer.write("WAVEfmt ", 8);
-  buffer.writeUInt32LE(16, 16);
-  buffer.writeUInt16LE(1, 20);
-  buffer.writeUInt16LE(1, 22);
-  buffer.writeUInt32LE(sampleRate, 24);
-  buffer.writeUInt32LE(sampleRate * 2, 28);
-  buffer.writeUInt16LE(2, 32);
-  buffer.writeUInt16LE(16, 34);
-  buffer.write("data", 36);
-  buffer.writeUInt32LE(dataSize, 40);
-  samples.forEach((sample, index) => buffer.writeInt16LE(sample, 44 + index * 2));
-  fs.writeFileSync(path.join(audioDir, `${name}.wav`), buffer);
-}
-
-function buildAudio() {
-  writeWav("shopOpen", [
-    { freq: 392, ms: 70, type: "tri" },
-    { freq: 0, ms: 18 },
-    { freq: 523.25, ms: 90, type: "tri" },
-    { freq: 783.99, ms: 130 },
-  ], 0.26);
-  writeWav("shopPurchase", [
-    { freq: 659.25, ms: 55, type: "tri" },
-    { freq: 880, ms: 75, type: "tri" },
-    { freq: 1174.66, ms: 140 },
-  ], 0.34);
-  writeWav("shopEquip", [
-    { freq: 440, ms: 55, type: "tri" },
-    { freq: 587.33, ms: 90 },
-  ], 0.28);
-  writeWav("shopLocked", [
-    { freq: 196, ms: 90, type: "tri" },
-    { freq: 164.81, ms: 120, type: "tri" },
-  ], 0.25);
-  writeWav("petEquip", [
-    { freq: 783.99, ms: 60 },
-    { freq: 987.77, ms: 70 },
-    { freq: 1318.51, ms: 150 },
-  ], 0.24);
 }
 
 const catalogItems = parseCatalog(catalogText);
@@ -351,9 +275,9 @@ const items = [
   ...expeditionModuleArt.filter((item) => !catalogIds.has(item.id)),
 ];
 if (items.length === 0) {
-  throw new Error("Reward catalog parsing returned no items.");
+  throw new Error("Il catalogo premi non ha prodotto nessuna voce.");
 }
 
+fs.mkdirSync(godotSpriteDir, { recursive: true });
 await buildImages(items);
-buildAudio();
-console.log(`Generated reward shop bg, ${items.length} item icons and shop SFX.`);
+console.log(`Foglio premi Godot rigenerato: ${items.length} icone.`);

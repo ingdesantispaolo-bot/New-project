@@ -1,0 +1,56 @@
+{
+  "identifier": "academy-lab-production-draft",
+  "worldGridWidth": 1280,
+  "worldGridHeight": 720,
+  "defs": {
+    "layers": [
+      { "identifier": "FarBackdrop", "type": "IntGrid" },
+      { "identifier": "MidArchitecture", "type": "Entities" },
+      { "identifier": "GameplayHotspots", "type": "Entities" },
+      { "identifier": "ForegroundLight", "type": "Entities" }
+    ],
+    "entities": [
+      { "identifier": "Door", "width": 150, "height": 230 },
+      { "identifier": "Terminal", "width": 230, "height": 126 },
+      { "identifier": "CircuitPanel", "width": 220, "height": 150 },
+      { "identifier": "RobotDock", "width": 150, "height": 150 },
+      { "identifier": "Journal", "width": 120, "height": 70 },
+      { "identifier": "CorruptedMessage", "width": 180, "height": 84 },
+      { "identifier": "Workbench", "width": 128, "height": 70 },
+      { "identifier": "NoraCore", "width": 84, "height": 84 },
+      { "identifier": "ObservationWindow", "width": 136, "height": 78 },
+      { "identifier": "FloorTrace", "width": 90, "height": 42 }
+    ]
+  },
+  "levels": [
+    {
+      "identifier": "LaboratorioSpento",
+      "pxWid": 1280,
+      "pxHei": 720,
+      "layerInstances": [
+        {
+          "__identifier": "MidArchitecture",
+          "entityInstances": [
+            { "__identifier": "Door", "px": [760, 214], "fieldInstances": [{ "__identifier": "state", "__value": "locked" }] },
+            { "__identifier": "Terminal", "px": [1072, 276], "fieldInstances": [{ "__identifier": "state", "__value": "lowPower" }] },
+            { "__identifier": "CircuitPanel", "px": [470, 286], "fieldInstances": [{ "__identifier": "state", "__value": "faulty" }] },
+            { "__identifier": "RobotDock", "px": [560, 500], "fieldInstances": [{ "__identifier": "state", "__value": "inactive" }] },
+            { "__identifier": "Journal", "px": [820, 575], "fieldInstances": [{ "__identifier": "state", "__value": "readable" }] },
+            { "__identifier": "CorruptedMessage", "px": [910, 502], "fieldInstances": [{ "__identifier": "state", "__value": "unstable" }] },
+            { "__identifier": "Workbench", "px": [430, 514], "fieldInstances": [{ "__identifier": "state", "__value": "inspectable" }] },
+            { "__identifier": "NoraCore", "px": [1120, 486], "fieldInstances": [{ "__identifier": "state", "__value": "lowSignal" }] },
+            { "__identifier": "ObservationWindow", "px": [1120, 180], "fieldInstances": [{ "__identifier": "state", "__value": "dimmed" }] },
+            { "__identifier": "FloorTrace", "px": [686, 590], "fieldInstances": [{ "__identifier": "state", "__value": "visible" }] }
+          ]
+        },
+        {
+          "__identifier": "ForegroundLight",
+          "entityInstances": [
+            { "__identifier": "LightBeam", "px": [310, 120], "fieldInstances": [{ "__identifier": "color", "__value": "cyan" }] },
+            { "__identifier": "DustLayer", "px": [640, 360], "fieldInstances": [{ "__identifier": "density", "__value": "medium" }] }
+          ]
+        }
+      ]
+    }
+  ]
+}

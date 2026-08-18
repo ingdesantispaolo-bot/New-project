@@ -14,3 +14,11 @@ vite-dev*.log
 # Output generati (export desktop e preview di render)
 build/
 artifacts/
+
+# Export Web di Godot: prodotto da `npm run export:web` e dalla CI.
+# Era tracciato, e ogni build aggiungeva ~66 MB di binari nuovi: settantadue
+# commit di questo tipo hanno portato .git a 1,4 GB. Rigenerarlo costa un minuto
+# di CI; tracciarlo costava un clone impraticabile e nessuna garanzia che il
+# pacchetto pubblicato venisse davvero dai sorgenti dello stesso commit.
+public/godot/outdoor/*
+!public/godot/outdoor/.gitkeep

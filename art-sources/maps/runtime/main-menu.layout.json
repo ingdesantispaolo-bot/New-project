@@ -1,0 +1,52 @@
+{
+  "objects": {
+    "menu:title": {
+      "x": 96,
+      "y": 92,
+      "width": 520,
+      "height": 84
+    },
+    "menu:subtitle": {
+      "x": 102,
+      "y": 172,
+      "width": 520,
+      "height": 34
+    },
+    "menu:copy": {
+      "x": 102,
+      "y": 226,
+      "width": 620,
+      "height": 74
+    },
+    "menu:newMission": {
+      "x": 250,
+      "y": 374,
+      "width": 260,
+      "height": 52
+    },
+    "menu:continue": {
+      "x": 250,
+      "y": 448,
+      "width": 260,
+      "height": 52
+    },
+    "menu:journal": {
+      "x": 250,
+      "y": 522,
+      "width": 260,
+      "height": 52
+    },
+    "menu:procedural": {
+      "x": 250,
+      "y": 596,
+      "width": 300,
+      "height": 52
+    },
+    "menu:portal": {
+      "x": 998,
+      "y": 360,
+      "width": 360,
+      "height": 390
+    }
+  }
+}

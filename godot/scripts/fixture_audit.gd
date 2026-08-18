@@ -1,9 +1,19 @@
 extends SceneTree
 
-## Audit di parità Godot ↔ TypeScript.
-## Ricarica la fixture prodotta da `node scripts/build-outdoor-fixtures.mjs`
-## (dal generatore reale Phaser) e verifica che OutdoorGenerator riproduca
-## esattamente ogni chunk. Uso:
+## Regressione sul mondo generato.
+##
+## Rilegge `data/parity-fixtures.json` — una fixture CONGELATA, chunk per chunk —
+## e verifica che OutdoorGenerator la riproduca ancora identica.
+##
+## Nasceva come audit di parità Godot ↔ TypeScript, quando il mondo veniva
+## generato da due implementazioni parallele e la fixture serviva a tenerle
+## allineate. Il generatore TypeScript non esiste più. La fixture resta perché il
+## suo valore vero era un altro: una modifica al generatore sposta alberi, tesori
+## e incontri anche nelle partite già salvate, e questo è l'unico controllo che
+## se ne accorge.
+##
+## Rigenerarla è una decisione, non un passo di build: significa accettare un
+## mondo diverso. Uso:
 ##   godot --headless --script res://scripts/fixture_audit.gd
 
 const FIXTURE_PATH := "res://data/parity-fixtures.json"

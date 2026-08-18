@@ -3493,24 +3493,28 @@ const NUMERIC_ORDERING_TOPICS := {
 }
 
 # Stessa ragione di NUMERIC_ORDERING_TOPICS, per i formati costruiti da template
-# invece che da tabella. Qui c'è solo `calcolo`, e vale la pena dire perché gli
-# altri due formati non ci sono.
+# invece che da tabella.
 #
-# Decodifica dei verbi e campione misterioso erano nati con argomenti propri e
-# più fini — `indicativo-tempi`, `congiuntivo-condizionale`,
-# `proprietà-dei-materiali`. Sembrava più preciso, e ha rotto cinque audit in una
-# volta: senza voce di manuale, senza contesto NORA, e soprattutto **fuori dalla
-# portata dell'esame**, che nasce dal banco. È il difetto che
-# `topic_alignment_audit` descrive per esteso: un argomento che conta per la
-# copertura ma che l'esame non può interrogare fa credere al gate che il
-# giocatore sia coperto su qualcosa che non gli verrà mai chiesto.
+# Le quattro famiglie verbali del decodificatore sono argomenti a sé, e non
+# accorpate sotto `verbo`: `verb_decoder_audit` pretende che la progressione ne
+# copra almeno quattro distinte, perché imparare quando si usa il congiuntivo non
+# è imparare a coniugare l'indicativo. Tenerle distinte ha un prezzo, che è stato
+# pagato: quindici item di banco ciascuna — così l'esame può davvero interrogarle
+# e `topic_alignment_audit` non peggiora — più una voce di manuale e un contesto
+# NORA a testa.
 #
-# Ora dichiarano gli argomenti che la materia già riconosce — `verbo` per
-# italiano, `materia` per scienze e fisica. Il minigioco insegna esattamente le
-# stesse cose; cambia solo sotto quale voce la padronanza viene registrata, e
-# quella voce ora è una che il manuale spiega e l'esame sa chiedere.
+# Il campione misterioso è il caso opposto: nessun audit chiede granularità, e
+# `materia` è già l'argomento che scienze e fisica riconoscono.
 const TEMPLATE_FORMAT_TOPICS := {
 	"matematica": ["calcolo"],
+	"scienze": ["materia"],
+	"fisica": ["materia"],
+	"italiano": [
+		"tempi-indicativo",
+		"congiuntivo-condizionale",
+		"imperativo-infinito-participio-gerundio",
+		"concordanza-tempi-verbali",
+	],
 }
 
 # Argomenti che la materia sa servire con i minigiochi (oltre al banco statico).
@@ -5691,7 +5695,7 @@ func _verb_decoder_node(subject: String, level: int, step: int, rng: RandomNumbe
 ## soluzione ha una parola-spia o un rapporto logico che la rende univoca.
 static func _verb_decoder_templates() -> Array:
 	return [
-		{"case":"now", "tier":1, "topic":"verbo",
+		{"case":"now", "tier":1, "topic":"tempi-indicativo",
 			"segments":["Adesso NORA", "la mappa sul tavolo."], "time":"presente", "mood":"indicativo",
 			"times":[["presente","PRESENTE"],["passato_prossimo","PASSATO PROSSIMO"],["futuro_semplice","FUTURO SEMPLICE"]],
 			"moods":[["indicativo","INDICATIVO · fatto"],["congiuntivo","CONGIUNTIVO · dubbio o desiderio"],["condizionale","CONDIZIONALE · possibilità"]],
@@ -5699,7 +5703,7 @@ static func _verb_decoder_templates() -> Array:
 			"hints":{"time":"“Adesso” porta l'azione nel presente.","mood":"La frase presenta un fatto, quindi usa l'indicativo.","form":"Serve la forma che concorda con NORA e indica il presente."},
 			"discovery":"Sul bordo della mappa compare una traccia appena disegnata.",
 			"explanation":"“Adesso” indica il presente; la frase racconta un fatto come reale, quindi usa l'indicativo presente: osserva."},
-		{"case":"yesterday", "tier":1, "topic":"verbo",
+		{"case":"yesterday", "tier":1, "topic":"tempi-indicativo",
 			"segments":["Ieri Rame", "una chiave sotto la passerella."], "time":"passato_prossimo", "mood":"indicativo",
 			"times":[["presente","PRESENTE"],["passato_prossimo","PASSATO PROSSIMO"],["futuro_semplice","FUTURO SEMPLICE"]],
 			"moods":[["indicativo","INDICATIVO · fatto"],["congiuntivo","CONGIUNTIVO · dubbio o desiderio"],["imperativo","IMPERATIVO · ordine"]],
@@ -5707,7 +5711,7 @@ static func _verb_decoder_templates() -> Array:
 			"hints":{"time":"“Ieri” indica un fatto già concluso.","mood":"Il ritrovamento viene raccontato come reale.","form":"Cerca ausiliare + participio: è un tempo composto."},
 			"discovery":"La chiave apre un cassetto che nessuno aveva notato.",
 			"explanation":"“Ieri” e l'azione conclusa richiedono il passato prossimo indicativo: ha trovato."},
-		{"case":"tomorrow", "tier":1, "topic":"verbo",
+		{"case":"tomorrow", "tier":1, "topic":"tempi-indicativo",
 			"segments":["Domani NORA", "il corridoio oltre il vetro."], "time":"futuro_semplice", "mood":"indicativo",
 			"times":[["presente","PRESENTE"],["passato_prossimo","PASSATO PROSSIMO"],["futuro_semplice","FUTURO SEMPLICE"]],
 			"moods":[["indicativo","INDICATIVO · fatto previsto"],["condizionale","CONDIZIONALE · possibilità"],["imperativo","IMPERATIVO · ordine"]],
@@ -5715,7 +5719,7 @@ static func _verb_decoder_templates() -> Array:
 			"hints":{"time":"“Domani” sposta l'azione nel futuro.","mood":"È un programma presentato come certo, non come ipotesi.","form":"La desinenza -erà indica il futuro della terza persona."},
 			"discovery":"La voce conosce un luogo che non compare sulle mappe.",
 			"explanation":"“Domani” indica futuro; il programma è presentato come certo, quindi indicativo futuro semplice: esplorerà."},
-		{"case":"habit", "tier":1, "topic":"verbo",
+		{"case":"habit", "tier":1, "topic":"tempi-indicativo",
 			"segments":["Ogni notte la luce azzurra", "tre volte."], "time":"presente", "mood":"indicativo",
 			"times":[["presente","PRESENTE"],["imperfetto","IMPERFETTO"],["futuro_semplice","FUTURO SEMPLICE"]],
 			"moods":[["indicativo","INDICATIVO · fatto"],["congiuntivo","CONGIUNTIVO · dubbio"],["condizionale","CONDIZIONALE · possibilità"]],
@@ -5723,7 +5727,7 @@ static func _verb_decoder_templates() -> Array:
 			"hints":{"time":"Un'abitudine ancora valida può essere espressa al presente.","mood":"La luce viene descritta come un fenomeno osservato.","form":"Il soggetto è singolare: la luce lampeggia."},
 			"discovery":"I tre lampi sembrano una richiesta di risposta.",
 			"explanation":"“Ogni notte” descrive qui un'abitudine ancora valida: indicativo presente, lampeggia."},
-		{"case":"while", "tier":2, "topic":"verbo",
+		{"case":"while", "tier":2, "topic":"tempi-indicativo",
 			"segments":["Mentre Rame", "il corridoio, una porta si aprì."], "time":"imperfetto", "mood":"indicativo",
 			"times":[["imperfetto","IMPERFETTO"],["passato_prossimo","PASSATO PROSSIMO"],["futuro_semplice","FUTURO SEMPLICE"]],
 			"moods":[["indicativo","INDICATIVO · fatto"],["congiuntivo","CONGIUNTIVO · dubbio"],["condizionale","CONDIZIONALE · possibilità"]],
@@ -5731,7 +5735,7 @@ static func _verb_decoder_templates() -> Array:
 			"hints":{"time":"“Mentre” presenta un'azione in corso quando ne accade un'altra.","mood":"Entrambe le azioni sono narrate come fatti.","form":"L'imperfetto di esplorare termina in -ava."},
 			"discovery":"La porta reagì al passaggio di Rame, non a un comando.",
 			"explanation":"L'azione di esplorare era in corso quando la porta si aprì: indicativo imperfetto, esplorava."},
-		{"case":"before", "tier":2, "topic":"verbo",
+		{"case":"before", "tier":2, "topic":"tempi-indicativo",
 			"segments":["Quando arrivammo, NORA", "già il simbolo."], "time":"trapassato_prossimo", "mood":"indicativo",
 			"times":[["trapassato_prossimo","TRAPASSATO PROSSIMO"],["passato_prossimo","PASSATO PROSSIMO"],["imperfetto","IMPERFETTO"]],
 			"moods":[["indicativo","INDICATIVO · fatto"],["congiuntivo","CONGIUNTIVO · dubbio"],["condizionale","CONDIZIONALE · possibilità"]],
@@ -5739,7 +5743,7 @@ static func _verb_decoder_templates() -> Array:
 			"hints":{"time":"Un fatto concluso prima di un altro fatto passato usa il trapassato prossimo.","mood":"La decifrazione è presentata come reale.","form":"Serve aveva + participio passato."},
 			"discovery":"NORA aveva aspettato il gruppo prima di aprire il passaggio.",
 			"explanation":"Decifrare avviene prima del nostro arrivo, già passato: indicativo trapassato prossimo, aveva decifrato."},
-		{"case":"command", "tier":2, "topic":"verbo",
+		{"case":"command", "tier":2, "topic":"imperativo-infinito-participio-gerundio",
 			"segments":["Rame,", "la leva soltanto al mio via."], "time":"presente", "mood":"imperativo",
 			"times":[["presente","PRESENTE"],["passato","PASSATO"],["futuro","FUTURO"]],
 			"moods":[["imperativo","IMPERATIVO · ordine"],["indicativo","INDICATIVO · fatto"],["condizionale","CONDIZIONALE · possibilità"]],
@@ -5747,7 +5751,7 @@ static func _verb_decoder_templates() -> Array:
 			"hints":{"time":"L'ordine riguarda ciò che Rame deve fare ora.","mood":"Un'istruzione diretta usa l'imperativo.","form":"Alla seconda persona singolare: tira."},
 			"discovery":"La leva attiva una voce, ma solo nel momento esatto.",
 			"explanation":"È un ordine rivolto direttamente a Rame: imperativo presente, tira."},
-		{"case":"purpose", "tier":2, "topic":"verbo",
+		{"case":"purpose", "tier":2, "topic":"imperativo-infinito-participio-gerundio",
 			"segments":["Per", "la porta servono due chiavi."], "time":"presente", "mood":"infinito",
 			"times":[["presente","PRESENTE"],["passato","PASSATO"],["futuro","FUTURO"]],
 			"moods":[["infinito","INFINITO · forma base"],["imperativo","IMPERATIVO · ordine"],["indicativo","INDICATIVO · fatto"]],
@@ -5755,7 +5759,7 @@ static func _verb_decoder_templates() -> Array:
 			"hints":{"time":"L'azione è vista come scopo presente, non come già conclusa.","mood":"Dopo “per”, quando esprime uno scopo, si usa l'infinito.","form":"La forma base del verbo termina in -ire."},
 			"discovery":"Le due chiavi hanno incisioni che si completano a vicenda.",
 			"explanation":"“Per” introduce lo scopo e non indica chi compie l'azione: infinito presente, aprire."},
-		{"case":"following", "tier":2, "topic":"verbo",
+		{"case":"following", "tier":2, "topic":"imperativo-infinito-participio-gerundio",
 			"segments":["", "le impronte, NORA trovò il pannello nascosto."], "time":"presente", "mood":"gerundio",
 			"times":[["presente","PRESENTE"],["passato","PASSATO"],["futuro","FUTURO"]],
 			"moods":[["gerundio","GERUNDIO · azione collegata"],["participio","PARTICIPIO · qualità o risultato"],["infinito","INFINITO · forma base"]],
@@ -5763,7 +5767,7 @@ static func _verb_decoder_templates() -> Array:
 			"hints":{"time":"Seguire avviene mentre NORA cerca il pannello.","mood":"Il gerundio collega un'azione alla principale.","form":"Il gerundio di seguire termina in -endo."},
 			"discovery":"Le impronte appartengono a qualcuno che conosceva il Relitto.",
 			"explanation":"Le due azioni hanno lo stesso soggetto e avvengono insieme: gerundio presente, seguendo."},
-		{"case":"possible", "tier":3, "topic":"verbo",
+		{"case":"possible", "tier":3, "topic":"congiuntivo-condizionale",
 			"segments":["È possibile che la mappa", "incompleta."], "time":"presente", "mood":"congiuntivo",
 			"times":[["presente","PRESENTE"],["imperfetto","IMPERFETTO"],["passato","PASSATO"]],
 			"moods":[["congiuntivo","CONGIUNTIVO · dubbio o possibilità"],["indicativo","INDICATIVO · fatto"],["condizionale","CONDIZIONALE · conseguenza"]],
@@ -5771,7 +5775,7 @@ static func _verb_decoder_templates() -> Array:
 			"hints":{"time":"L'ipotesi riguarda lo stato attuale della mappa.","mood":"“È possibile che” richiede il congiuntivo.","form":"Il congiuntivo presente di essere è sia."},
 			"discovery":"Forse manca proprio il settore in cui ci troviamo.",
 			"explanation":"“È possibile che” introduce un'ipotesi presente: congiuntivo presente, sia."},
-		{"case":"feared", "tier":3, "topic":"verbo",
+		{"case":"feared", "tier":3, "topic":"concordanza-tempi-verbali",
 			"segments":["Temevo che il custode", "del passaggio."], "time":"imperfetto", "mood":"congiuntivo",
 			"times":[["presente","PRESENTE"],["imperfetto","IMPERFETTO"],["trapassato","TRAPASSATO"]],
 			"moods":[["congiuntivo","CONGIUNTIVO · timore"],["indicativo","INDICATIVO · fatto"],["condizionale","CONDIZIONALE · possibilità"]],

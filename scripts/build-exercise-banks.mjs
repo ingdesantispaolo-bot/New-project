@@ -3703,6 +3703,1280 @@ const CURATED_TAIL = {
       "distractorWhy": { "liquido": "L'acqua liquida scorre: il ghiaccio invece mantiene una forma propria.", "gassoso": "Il vapore acqueo è invisibile e si disperde: il ghiaccio è solido e tangibile.", "invisibile": "Il ghiaccio si vede benissimo: non è uno stato invisibile." }
     }
   ],
+  // Le quattro famiglie verbali del decodificatore (formato verb_decoder).
+  //
+  // Il formato era nato con argomenti propri e nessun item di banco: il gate
+  // contava quegli argomenti per la copertura, ma l'esame — che nasce dal banco —
+  // non poteva chiederli mai. È il difetto che topic_alignment_audit descrive per
+  // esteso. Quindici item per famiglia sono la soglia di topic_density_audit:
+  // sotto quella soglia, tre risposte esatte alla stessa domanda verrebbero
+  // chiamate consolidamento, e non lo sono.
+  //
+  // Le famiglie restano quattro e non accorpate sotto «verbo» perché sapere
+  // quando serve il congiuntivo non è sapere coniugare l'indicativo:
+  // verb_decoder_audit lo pretende, e ha ragione.
+  "italiano-base": [
+    {
+      "id": "italiano-tempi-indicativo-ieri-marta-al-parco-quale-forma-completa-la-fr-0",
+      "subject": "italiano",
+      "topic": "tempi-indicativo",
+      "difficulty": 1,
+      "format": "multiple_choice",
+      "prompt": "«Ieri Marta ___ al parco.» Quale forma completa la frase?",
+      "options": [
+        "andò",
+        "andrà",
+        "va",
+        "andare"
+      ],
+      "answer": "andò",
+      "explanation": "«Ieri» colloca l'azione nel passato concluso: serve un tempo passato, e il passato remoto «andò» lo è.",
+      "distractorWhy": {
+        "andrà": "«Andrà» è futuro: contraddice «ieri».",
+        "va": "«Va» è presente: dice che l'azione accade adesso.",
+        "andare": "«Andare» è l'infinito: non ha persona né tempo, quindi non può reggere la frase."
+      }
+    },
+    {
+      "id": "italiano-tempi-indicativo-in-noi-mangiamo-alle-otto-il-verbo-e-al-1",
+      "subject": "italiano",
+      "topic": "tempi-indicativo",
+      "difficulty": 1,
+      "format": "multiple_choice",
+      "prompt": "In «Noi mangiamo alle otto», il verbo è al:",
+      "options": [
+        "futuro semplice",
+        "presente",
+        "imperfetto",
+        "passato prossimo"
+      ],
+      "answer": "presente",
+      "explanation": "«Mangiamo» descrive un'azione che avviene ora o abitualmente: è presente indicativo.",
+      "distractorWhy": {
+        "futuro semplice": "Il futuro sarebbe «mangeremo».",
+        "imperfetto": "L'imperfetto sarebbe «mangiavamo».",
+        "passato prossimo": "Il passato prossimo sarebbe «abbiamo mangiato»."
+      }
+    },
+    {
+      "id": "italiano-tempi-indicativo-quale-frase-usa-correttamente-il-passato-pross-2",
+      "subject": "italiano",
+      "topic": "tempi-indicativo",
+      "difficulty": 1,
+      "format": "multiple_choice",
+      "prompt": "Quale frase usa correttamente il passato prossimo?",
+      "options": [
+        "Finirò i compiti",
+        "Finivo i compiti ieri sera alle nove in punto",
+        "Ho finito i compiti",
+        "Finire i compiti"
+      ],
+      "answer": "Ho finito i compiti",
+      "explanation": "Il passato prossimo si forma con l'ausiliare al presente più il participio passato: «ho finito».",
+      "distractorWhy": {
+        "Finivo i compiti ieri sera alle nove in punto": "«Finivo» è imperfetto, non passato prossimo.",
+        "Finirò i compiti": "«Finirò» è futuro semplice.",
+        "Finire i compiti": "«Finire» è infinito: manca del tutto la persona."
+      }
+    },
+    {
+      "id": "italiano-tempi-indicativo-mentre-leggevo-il-telefono-squillo-che-cosa-es-3",
+      "subject": "italiano",
+      "topic": "tempi-indicativo",
+      "difficulty": 2,
+      "format": "multiple_choice",
+      "prompt": "«Mentre leggevo, il telefono squillò.» Che cosa esprime «leggevo»?",
+      "options": [
+        "Un'azione futura",
+        "Un'azione conclusa in un istante",
+        "Un ordine",
+        "Un'azione in corso nel passato"
+      ],
+      "answer": "Un'azione in corso nel passato",
+      "explanation": "L'imperfetto descrive la durata: fa da sfondo all'azione puntuale espressa dal passato remoto «squillò».",
+      "distractorWhy": {
+        "Un'azione futura": "Il futuro nel passato sarebbe «avrei letto».",
+        "Un'azione conclusa in un istante": "Quella è «squillò», il passato remoto.",
+        "Un ordine": "Un ordine richiederebbe l'imperativo, «leggi»."
+      }
+    },
+    {
+      "id": "italiano-tempi-indicativo-quale-coppia-distingue-correttamente-imperfett-4",
+      "subject": "italiano",
+      "topic": "tempi-indicativo",
+      "difficulty": 2,
+      "format": "multiple_choice",
+      "prompt": "Quale coppia distingue correttamente imperfetto e passato remoto?",
+      "options": [
+        "L'imperfetto dura, il passato remoto conclude",
+        "Entrambi indicano il futuro",
+        "Si distinguono solo dal numero di sillabe",
+        "Sono intercambiabili sempre"
+      ],
+      "answer": "L'imperfetto dura, il passato remoto conclude",
+      "explanation": "L'imperfetto racconta com'erano le cose; il passato remoto racconta che cosa accadde una volta sola.",
+      "distractorWhy": {
+        "Entrambi indicano il futuro": "Sono entrambi tempi del passato.",
+        "Si distinguono solo dal numero di sillabe": "La differenza è di significato, non di lunghezza della parola.",
+        "Sono intercambiabili sempre": "Cambiando l'uno con l'altro cambia il senso della frase."
+      }
+    },
+    {
+      "id": "italiano-tempi-indicativo-domani-presto-perche-c-e-la-gita-quale-forma-s-5",
+      "subject": "italiano",
+      "topic": "tempi-indicativo",
+      "difficulty": 2,
+      "format": "multiple_choice",
+      "prompt": "«Domani ___ presto perché c'è la gita.» Quale forma serve?",
+      "options": [
+        "mi sveglio",
+        "mi sveglierò",
+        "mi svegliai",
+        "svegliarmi"
+      ],
+      "answer": "mi sveglierò",
+      "explanation": "«Domani» proietta l'azione nel futuro: il futuro semplice «mi sveglierò» è la forma propria.",
+      "distractorWhy": {
+        "mi sveglio": "Il presente si usa per il futuro solo nel parlato informale; qui la forma piena è più corretta.",
+        "mi svegliai": "«Mi svegliai» è passato remoto: guarda indietro, non avanti.",
+        "svegliarmi": "L'infinito non indica quando accade l'azione."
+      }
+    },
+    {
+      "id": "italiano-tempi-indicativo-in-quando-arrivammo-il-treno-era-gia-partito-c-6",
+      "subject": "italiano",
+      "topic": "tempi-indicativo",
+      "difficulty": 3,
+      "format": "multiple_choice",
+      "prompt": "In «Quando arrivammo, il treno era già partito», che cosa indica «era partito»?",
+      "options": [
+        "Un'azione posteriore all'arrivo",
+        "Un'azione contemporanea all'arrivo",
+        "Un'azione anteriore all'arrivo",
+        "Un'ipotesi"
+      ],
+      "answer": "Un'azione anteriore all'arrivo",
+      "explanation": "Il trapassato prossimo colloca un fatto prima di un altro fatto già passato: il treno era partito prima che arrivassimo.",
+      "distractorWhy": {
+        "Un'azione posteriore all'arrivo": "Sarebbe «sarebbe partito».",
+        "Un'azione contemporanea all'arrivo": "La contemporaneità vorrebbe «partiva».",
+        "Un'ipotesi": "Un'ipotesi richiederebbe il congiuntivo o il condizionale."
+      }
+    },
+    {
+      "id": "italiano-tempi-indicativo-quale-frase-contiene-un-futuro-anteriore-7",
+      "subject": "italiano",
+      "topic": "tempi-indicativo",
+      "difficulty": 3,
+      "format": "multiple_choice",
+      "prompt": "Quale frase contiene un futuro anteriore?",
+      "options": [
+        "Finire e chiamare",
+        "Quando finivo, ti chiamavo",
+        "Quando finisco, ti chiamo",
+        "Quando avrò finito, ti chiamo"
+      ],
+      "answer": "Quando avrò finito, ti chiamo",
+      "explanation": "Il futuro anteriore «avrò finito» indica un'azione futura che si compie prima di un'altra azione futura.",
+      "distractorWhy": {
+        "Quando finivo, ti chiamavo": "Sono due imperfetti: tutto al passato.",
+        "Quando finisco, ti chiamo": "Sono due presenti: manca l'anteriorità.",
+        "Finire e chiamare": "Sono due infiniti, senza tempo."
+      }
+    },
+    {
+      "id": "italiano-tempi-indicativo-il-sole-sorge-a-est-perche-qui-il-presente-e-c-8",
+      "subject": "italiano",
+      "topic": "tempi-indicativo",
+      "difficulty": 3,
+      "format": "multiple_choice",
+      "prompt": "«Il sole sorge a est.» Perché qui il presente è corretto anche se non parla di adesso?",
+      "options": [
+        "Perché esprime un fatto sempre vero",
+        "Perché è un ordine",
+        "Perché è un'ipotesi",
+        "Perché indica il passato"
+      ],
+      "answer": "Perché esprime un fatto sempre vero",
+      "explanation": "Il presente indicativo esprime anche verità permanenti: si chiama presente atemporale.",
+      "distractorWhy": {
+        "Perché è un ordine": "Un ordine userebbe l'imperativo «sorgi».",
+        "Perché è un'ipotesi": "Le ipotesi non si esprimono con l'indicativo presente.",
+        "Perché indica il passato": "Il presente non colloca l'azione nel passato."
+      }
+    },
+    {
+      "id": "italiano-tempi-indicativo-in-quale-frase-l-imperfetto-e-usato-in-modo-sc-9",
+      "subject": "italiano",
+      "topic": "tempi-indicativo",
+      "difficulty": 4,
+      "format": "multiple_choice",
+      "prompt": "In quale frase l'imperfetto è usato in modo scorretto?",
+      "options": [
+        "Da bambino giocavo a pallone",
+        "Ieri alle tre esatte partivo il treno per Roma",
+        "Mentre pioveva, leggevo",
+        "Ogni estate andavamo al mare"
+      ],
+      "answer": "Ieri alle tre esatte partivo il treno per Roma",
+      "explanation": "Con un istante preciso serve il passato remoto o prossimo: «partì», «è partito». L'imperfetto vuole durata o abitudine.",
+      "distractorWhy": {
+        "Da bambino giocavo a pallone": "È un'abitudine nel passato: uso corretto.",
+        "Mentre pioveva, leggevo": "Sono due durate contemporanee: uso corretto.",
+        "Ogni estate andavamo al mare": "«Ogni estate» segnala l'abitudine: uso corretto."
+      }
+    },
+    {
+      "id": "italiano-tempi-indicativo-se-non-fosse-per-te-non-ce-l-avrei-fatta-il-ve-10",
+      "subject": "italiano",
+      "topic": "tempi-indicativo",
+      "difficulty": 4,
+      "format": "multiple_choice",
+      "prompt": "«Se non fosse per te, non ce l'avrei fatta.» Il verbo «avrei fatta» è:",
+      "options": [
+        "indicativo futuro",
+        "congiuntivo presente",
+        "condizionale passato",
+        "imperativo"
+      ],
+      "answer": "condizionale passato",
+      "explanation": "Il condizionale passato esprime ciò che sarebbe accaduto a una condizione: qui la condizione è «se non fosse per te».",
+      "distractorWhy": {
+        "indicativo futuro": "Il futuro sarebbe «farò».",
+        "congiuntivo presente": "Il congiuntivo presente sarebbe «faccia».",
+        "imperativo": "L'imperativo dà ordini: «fai»."
+      }
+    },
+    {
+      "id": "italiano-tempi-indicativo-perche-il-treno-parte-alle-sei-puo-indicare-il-11",
+      "subject": "italiano",
+      "topic": "tempi-indicativo",
+      "difficulty": 4,
+      "format": "multiple_choice",
+      "prompt": "Perché «Il treno parte alle sei» può indicare il futuro?",
+      "options": [
+        "Perché manca il soggetto",
+        "Perché il presente è sempre futuro",
+        "Perché il verbo è irregolare",
+        "Perché il presente vale per orari e programmi fissati"
+      ],
+      "answer": "Perché il presente vale per orari e programmi fissati",
+      "explanation": "Con eventi programmati l'italiano usa il presente al posto del futuro: è la regola degli orari.",
+      "distractorWhy": {
+        "Perché il presente è sempre futuro": "Nella maggior parte dei casi il presente indica proprio il presente.",
+        "Perché il verbo è irregolare": "L'irregolarità non c'entra con il valore temporale.",
+        "Perché manca il soggetto": "Il soggetto c'è: «il treno»."
+      }
+    },
+    {
+      "id": "italiano-tempi-indicativo-quale-di-queste-e-una-voce-dell-indicativo-12",
+      "subject": "italiano",
+      "topic": "tempi-indicativo",
+      "difficulty": 1,
+      "format": "multiple_choice",
+      "prompt": "Quale di queste è una voce dell'indicativo?",
+      "options": [
+        "vado",
+        "andrei",
+        "che io vada",
+        "andando"
+      ],
+      "answer": "vado",
+      "explanation": "L'indicativo è il modo della realtà: «vado» afferma un fatto.",
+      "distractorWhy": {
+        "che io vada": "«Che io vada» è congiuntivo presente.",
+        "andrei": "«Andrei» è condizionale presente.",
+        "andando": "«Andando» è gerundio, un modo indefinito."
+      }
+    },
+    {
+      "id": "italiano-tempi-indicativo-da-bambina-ogni-giorno-la-stessa-strada-quale--13",
+      "subject": "italiano",
+      "topic": "tempi-indicativo",
+      "difficulty": 2,
+      "format": "multiple_choice",
+      "prompt": "«Da bambina ___ ogni giorno la stessa strada.» Quale forma è corretta?",
+      "options": [
+        "farò",
+        "facevo",
+        "feci",
+        "fare"
+      ],
+      "answer": "facevo",
+      "explanation": "«Ogni giorno» nel passato indica abitudine: l'abitudine passata vuole l'imperfetto.",
+      "distractorWhy": {
+        "farò": "«Farò» è futuro.",
+        "feci": "«Feci» indica una volta sola, non un'abitudine.",
+        "fare": "L'infinito non ha persona né tempo."
+      }
+    },
+    {
+      "id": "italiano-tempi-indicativo-che-differenza-c-e-fra-ho-letto-e-lessi-14",
+      "subject": "italiano",
+      "topic": "tempi-indicativo",
+      "difficulty": 3,
+      "format": "multiple_choice",
+      "prompt": "Che differenza c'è fra «ho letto» e «lessi»?",
+      "options": [
+        "Nessuna, sono sinonimi perfetti in ogni contesto d'uso",
+        "«Ho letto» è futuro",
+        "«Ho letto» sente il passato ancora vicino, «lessi» lo allontana",
+        "«Lessi» è un congiuntivo"
+      ],
+      "answer": "«Ho letto» sente il passato ancora vicino, «lessi» lo allontana",
+      "explanation": "Passato prossimo e remoto raccontano entrambi fatti conclusi: cambia quanto quel fatto è sentito vicino a chi parla.",
+      "distractorWhy": {
+        "Nessuna, sono sinonimi perfetti in ogni contesto d'uso": "La scelta cambia il tono del racconto.",
+        "«Ho letto» è futuro": "È un tempo passato, formato con l'ausiliare al presente.",
+        "«Lessi» è un congiuntivo": "«Lessi» è indicativo passato remoto."
+      }
+    },
+    {
+      "id": "italiano-congiuntivo-condizionale-penso-che-lui-ragione-quale-forma-e-corretta-0",
+      "subject": "italiano",
+      "topic": "congiuntivo-condizionale",
+      "difficulty": 1,
+      "format": "multiple_choice",
+      "prompt": "«Penso che lui ___ ragione.» Quale forma è corretta?",
+      "options": [
+        "ha",
+        "avere",
+        "avrà",
+        "abbia"
+      ],
+      "answer": "abbia",
+      "explanation": "Dopo i verbi di opinione come «penso che» si usa il congiuntivo: esprime un'idea, non un fatto certo.",
+      "distractorWhy": {
+        "ha": "«Ha» è indicativo: dichiara un fatto certo, non un'opinione.",
+        "avrà": "«Avrà» è futuro indicativo.",
+        "avere": "L'infinito non può reggere una subordinata con «che»."
+      }
+    },
+    {
+      "id": "italiano-congiuntivo-condizionale-il-congiuntivo-e-il-modo-1",
+      "subject": "italiano",
+      "topic": "congiuntivo-condizionale",
+      "difficulty": 1,
+      "format": "multiple_choice",
+      "prompt": "Il congiuntivo è il modo:",
+      "options": [
+        "della possibilità e del dubbio",
+        "della certezza",
+        "dell'ordine",
+        "del passato"
+      ],
+      "answer": "della possibilità e del dubbio",
+      "explanation": "Il congiuntivo esprime ciò che è pensato, temuto, sperato o incerto: non ciò che è dato per certo.",
+      "distractorWhy": {
+        "dell'ordine": "L'ordine è dell'imperativo.",
+        "della certezza": "La certezza è dell'indicativo.",
+        "del passato": "Il passato è un tempo, non un modo."
+      }
+    },
+    {
+      "id": "italiano-congiuntivo-condizionale-quale-frase-richiede-il-congiuntivo-2",
+      "subject": "italiano",
+      "topic": "congiuntivo-condizionale",
+      "difficulty": 1,
+      "format": "multiple_choice",
+      "prompt": "Quale frase richiede il congiuntivo?",
+      "options": [
+        "So che è tardi",
+        "Spero che sia tardi",
+        "È tardi",
+        "Sarà tardi"
+      ],
+      "answer": "Spero che sia tardi",
+      "explanation": "«Sperare» esprime un desiderio, non un fatto: la subordinata va al congiuntivo.",
+      "distractorWhy": {
+        "So che è tardi": "«Sapere» esprime certezza: vuole l'indicativo.",
+        "È tardi": "È una principale affermativa: indicativo.",
+        "Sarà tardi": "È una supposizione espressa col futuro indicativo."
+      }
+    },
+    {
+      "id": "italiano-congiuntivo-condizionale-se-io-piu-tempo-verrei-con-te-quale-forma-serv-3",
+      "subject": "italiano",
+      "topic": "congiuntivo-condizionale",
+      "difficulty": 2,
+      "format": "multiple_choice",
+      "prompt": "«Se io ___ più tempo, verrei con te.» Quale forma serve?",
+      "options": [
+        "ho",
+        "avrei",
+        "avessi",
+        "avrò"
+      ],
+      "answer": "avessi",
+      "explanation": "Nel periodo ipotetico della possibilità la condizione va al congiuntivo imperfetto e la conseguenza al condizionale presente.",
+      "distractorWhy": {
+        "avrei": "«Avrei» è il condizionale: va nella conseguenza, non nella condizione.",
+        "ho": "L'indicativo presente rende la condizione reale, non possibile.",
+        "avrò": "Il futuro non regge questo tipo di ipotesi."
+      }
+    },
+    {
+      "id": "italiano-congiuntivo-condizionale-il-condizionale-presente-si-usa-soprattutto-pe-4",
+      "subject": "italiano",
+      "topic": "congiuntivo-condizionale",
+      "difficulty": 2,
+      "format": "multiple_choice",
+      "prompt": "Il condizionale presente si usa soprattutto per:",
+      "options": [
+        "dare ordini",
+        "esprimere un fatto certo",
+        "raccontare il passato remoto",
+        "esprimere desideri e richieste cortesi"
+      ],
+      "answer": "esprimere desideri e richieste cortesi",
+      "explanation": "«Vorrei un bicchiere d'acqua» è più cortese di «voglio»: il condizionale attenua la richiesta.",
+      "distractorWhy": {
+        "dare ordini": "Gli ordini sono dell'imperativo.",
+        "esprimere un fatto certo": "La certezza è dell'indicativo.",
+        "raccontare il passato remoto": "Il passato remoto è un tempo dell'indicativo."
+      }
+    },
+    {
+      "id": "italiano-congiuntivo-condizionale-in-vorrei-che-tu-venissi-quale-coppia-di-modi--5",
+      "subject": "italiano",
+      "topic": "congiuntivo-condizionale",
+      "difficulty": 2,
+      "format": "multiple_choice",
+      "prompt": "In «Vorrei che tu venissi», quale coppia di modi compare?",
+      "options": [
+        "condizionale e congiuntivo",
+        "indicativo e imperativo",
+        "due indicativi",
+        "due imperativi"
+      ],
+      "answer": "condizionale e congiuntivo",
+      "explanation": "«Vorrei» è condizionale presente, «venissi» congiuntivo imperfetto: è la coppia tipica del desiderio.",
+      "distractorWhy": {
+        "indicativo e imperativo": "Nessuno dei due verbi è indicativo o imperativo.",
+        "due indicativi": "«Vorrei» e «venissi» non sono indicativi.",
+        "due imperativi": "L'imperativo non compare in questa frase."
+      }
+    },
+    {
+      "id": "italiano-congiuntivo-condizionale-se-avessi-studiato-superato-la-prova-quale-for-6",
+      "subject": "italiano",
+      "topic": "congiuntivo-condizionale",
+      "difficulty": 3,
+      "format": "multiple_choice",
+      "prompt": "«Se avessi studiato, ___ superato la prova.» Quale forma completa l'ipotesi?",
+      "options": [
+        "avrò",
+        "avrei",
+        "ho",
+        "abbia"
+      ],
+      "answer": "avrei",
+      "explanation": "Nel periodo ipotetico dell'irrealtà nel passato la conseguenza va al condizionale passato: «avrei superato».",
+      "distractorWhy": {
+        "avrò": "Il futuro non esprime un'ipotesi non realizzata.",
+        "ho": "L'indicativo presente renderebbe il fatto reale.",
+        "abbia": "Il congiuntivo va nella condizione, non nella conseguenza."
+      }
+    },
+    {
+      "id": "italiano-congiuntivo-condizionale-quale-frase-usa-il-congiuntivo-in-modo-scorret-7",
+      "subject": "italiano",
+      "topic": "congiuntivo-condizionale",
+      "difficulty": 3,
+      "format": "multiple_choice",
+      "prompt": "Quale frase usa il congiuntivo in modo scorretto?",
+      "options": [
+        "Credo che piova",
+        "Temo che piova",
+        "Sono certo che piova",
+        "Dubito che piova"
+      ],
+      "answer": "Sono certo che piova",
+      "explanation": "«Sono certo» esprime certezza e vuole l'indicativo: «sono certo che piove».",
+      "distractorWhy": {
+        "Credo che piova": "«Credere» esprime opinione: congiuntivo corretto.",
+        "Temo che piova": "«Temere» esprime timore: congiuntivo corretto.",
+        "Dubito che piova": "«Dubitare» esprime dubbio: congiuntivo corretto."
+      }
+    },
+    {
+      "id": "italiano-congiuntivo-condizionale-benche-stanco-continuo-a-camminare-quale-forma-8",
+      "subject": "italiano",
+      "topic": "congiuntivo-condizionale",
+      "difficulty": 3,
+      "format": "multiple_choice",
+      "prompt": "«Benché ___ stanco, continuò a camminare.» Quale forma serve?",
+      "options": [
+        "era",
+        "sarà",
+        "essere",
+        "fosse"
+      ],
+      "answer": "fosse",
+      "explanation": "Le congiunzioni concessive come «benché», «sebbene», «nonostante» reggono sempre il congiuntivo.",
+      "distractorWhy": {
+        "era": "«Benché» non ammette l'indicativo.",
+        "sarà": "Il futuro indicativo non è ammesso dopo «benché».",
+        "essere": "L'infinito non può seguire «benché» in questa costruzione."
+      }
+    },
+    {
+      "id": "italiano-congiuntivo-condizionale-qual-e-la-differenza-fra-se-piove-resto-a-casa-9",
+      "subject": "italiano",
+      "topic": "congiuntivo-condizionale",
+      "difficulty": 4,
+      "format": "multiple_choice",
+      "prompt": "Qual è la differenza fra «Se piove resto a casa» e «Se piovesse resterei a casa»?",
+      "options": [
+        "La prima è reale, la seconda solo possibile",
+        "Sono identiche",
+        "La prima è impossibile",
+        "La seconda parla del passato"
+      ],
+      "answer": "La prima è reale, la seconda solo possibile",
+      "explanation": "Il primo è il periodo ipotetico della realtà, il secondo quello della possibilità: cambia quanto chi parla crede all'ipotesi.",
+      "distractorWhy": {
+        "Sono identiche": "Indicativo e congiuntivo cambiano il grado di certezza.",
+        "La prima è impossibile": "La prima è anzi la più concreta delle due.",
+        "La seconda parla del passato": "«Piovesse» è congiuntivo imperfetto, ma qui guarda al possibile, non al passato."
+      }
+    },
+    {
+      "id": "italiano-congiuntivo-condizionale-non-sapevo-che-tu-gia-partito-quale-forma-e-co-10",
+      "subject": "italiano",
+      "topic": "congiuntivo-condizionale",
+      "difficulty": 4,
+      "format": "multiple_choice",
+      "prompt": "«Non sapevo che tu ___ già partito.» Quale forma è corretta?",
+      "options": [
+        "eri",
+        "fossi",
+        "sarai",
+        "essere"
+      ],
+      "answer": "fossi",
+      "explanation": "Dopo una principale al passato la subordinata al congiuntivo va al trapassato: «che tu fossi già partito».",
+      "distractorWhy": {
+        "eri": "L'indicativo non è ammesso dopo «non sapevo che».",
+        "sarai": "Il futuro contraddice «non sapevo».",
+        "essere": "L'infinito non regge la subordinata con «che»."
+      }
+    },
+    {
+      "id": "italiano-congiuntivo-condizionale-perche-vorrei-che-tu-venga-e-scorretto-11",
+      "subject": "italiano",
+      "topic": "congiuntivo-condizionale",
+      "difficulty": 4,
+      "format": "multiple_choice",
+      "prompt": "Perché «Vorrei che tu venga» è scorretto?",
+      "options": [
+        "Perché «vorrei» è sbagliato",
+        "Perché manca il soggetto",
+        "Perché «vorrei» vuole il congiuntivo imperfetto, non il presente",
+        "Perché «venga» non esiste"
+      ],
+      "answer": "Perché «vorrei» vuole il congiuntivo imperfetto, non il presente",
+      "explanation": "Il condizionale presente nella principale chiede il congiuntivo imperfetto nella subordinata: «vorrei che tu venissi».",
+      "distractorWhy": {
+        "Perché manca il soggetto": "Il soggetto «tu» c'è.",
+        "Perché «vorrei» è sbagliato": "«Vorrei» è corretto: è il seguito che non concorda.",
+        "Perché «venga» non esiste": "«Venga» esiste, ma è congiuntivo presente."
+      }
+    },
+    {
+      "id": "italiano-congiuntivo-condizionale-quale-voce-e-al-congiuntivo-12",
+      "subject": "italiano",
+      "topic": "congiuntivo-condizionale",
+      "difficulty": 1,
+      "format": "multiple_choice",
+      "prompt": "Quale voce è al congiuntivo?",
+      "options": [
+        "andrei",
+        "andato",
+        "vado",
+        "che io vada"
+      ],
+      "answer": "che io vada",
+      "explanation": "Il congiuntivo presente si riconosce dalla forma introdotta da «che»: «che io vada».",
+      "distractorWhy": {
+        "andrei": "«Andrei» è condizionale presente.",
+        "vado": "«Vado» è indicativo presente.",
+        "andato": "«Andato» è participio passato."
+      }
+    },
+    {
+      "id": "italiano-congiuntivo-condizionale-mi-piacerebbe-con-voi-quale-forma-completa-la--13",
+      "subject": "italiano",
+      "topic": "congiuntivo-condizionale",
+      "difficulty": 2,
+      "format": "multiple_choice",
+      "prompt": "«Mi piacerebbe ___ con voi.» Quale forma completa la frase?",
+      "options": [
+        "venire",
+        "venissi",
+        "venga",
+        "vengo"
+      ],
+      "answer": "venire",
+      "explanation": "Quando il soggetto è lo stesso, dopo il condizionale si usa l'infinito, non il congiuntivo.",
+      "distractorWhy": {
+        "venga": "Il congiuntivo serve solo se il soggetto cambia.",
+        "venissi": "Anche qui il congiuntivo richiederebbe un soggetto diverso.",
+        "vengo": "L'indicativo presente non segue «mi piacerebbe»."
+      }
+    },
+    {
+      "id": "italiano-congiuntivo-condizionale-in-sarebbe-partito-ma-il-treno-era-in-ritardo--14",
+      "subject": "italiano",
+      "topic": "congiuntivo-condizionale",
+      "difficulty": 3,
+      "format": "multiple_choice",
+      "prompt": "In «Sarebbe partito, ma il treno era in ritardo», il condizionale passato indica:",
+      "options": [
+        "un ordine",
+        "un'azione non avvenuta",
+        "un'azione futura",
+        "un'azione certa"
+      ],
+      "answer": "un'azione non avvenuta",
+      "explanation": "Il condizionale passato racconta ciò che sarebbe successo e non è successo: qui il treno in ritardo lo ha impedito.",
+      "distractorWhy": {
+        "un ordine": "Gli ordini sono dell'imperativo.",
+        "un'azione certa": "Il fatto è appunto mancato.",
+        "un'azione futura": "Il condizionale passato guarda a un futuro nel passato, già smentito."
+      }
+    },
+    {
+      "id": "italiano-imperativo-infinito-participio-gerundio-la-porta-per-favore-quale-forma-da-l-ordine-0",
+      "subject": "italiano",
+      "topic": "imperativo-infinito-participio-gerundio",
+      "difficulty": 1,
+      "format": "multiple_choice",
+      "prompt": "«___ la porta, per favore.» Quale forma dà l'ordine?",
+      "options": [
+        "Chiudere",
+        "Chiudendo",
+        "Chiudi",
+        "Chiuso"
+      ],
+      "answer": "Chiudi",
+      "explanation": "L'imperativo è il modo del comando e della richiesta diretta: si rivolge a qualcuno.",
+      "distractorWhy": {
+        "Chiudere": "«Chiudere» è infinito: nomina l'azione, non la ordina.",
+        "Chiudendo": "«Chiudendo» è gerundio: dice come, non ordina.",
+        "Chiuso": "«Chiuso» è participio passato."
+      }
+    },
+    {
+      "id": "italiano-imperativo-infinito-participio-gerundio-quali-sono-i-modi-indefiniti-1",
+      "subject": "italiano",
+      "topic": "imperativo-infinito-participio-gerundio",
+      "difficulty": 1,
+      "format": "multiple_choice",
+      "prompt": "Quali sono i modi indefiniti?",
+      "options": [
+        "Indicativo, congiuntivo, condizionale",
+        "Prima, seconda, terza persona",
+        "Presente, passato, futuro",
+        "Infinito, participio, gerundio"
+      ],
+      "answer": "Infinito, participio, gerundio",
+      "explanation": "Si chiamano indefiniti perché non indicano la persona: da soli non dicono chi compie l'azione.",
+      "distractorWhy": {
+        "Indicativo, congiuntivo, condizionale": "Sono modi definiti: indicano la persona.",
+        "Presente, passato, futuro": "Sono tempi, non modi.",
+        "Prima, seconda, terza persona": "Sono le persone del verbo."
+      }
+    },
+    {
+      "id": "italiano-imperativo-infinito-participio-gerundio-in-mangiare-fa-bene-mangiare-funziona-come-2",
+      "subject": "italiano",
+      "topic": "imperativo-infinito-participio-gerundio",
+      "difficulty": 1,
+      "format": "multiple_choice",
+      "prompt": "In «Mangiare fa bene», «mangiare» funziona come:",
+      "options": [
+        "un nome",
+        "un ordine",
+        "un aggettivo",
+        "un avverbio"
+      ],
+      "answer": "un nome",
+      "explanation": "L'infinito può fare da soggetto della frase, esattamente come farebbe un nome: «il cibo fa bene».",
+      "distractorWhy": {
+        "un ordine": "Un ordine sarebbe «mangia».",
+        "un aggettivo": "Non qualifica nessun nome.",
+        "un avverbio": "Non indica come, quando o dove."
+      }
+    },
+    {
+      "id": "italiano-imperativo-infinito-participio-gerundio-in-correndo-arrivo-in-tempo-il-gerundio-indica-3",
+      "subject": "italiano",
+      "topic": "imperativo-infinito-participio-gerundio",
+      "difficulty": 2,
+      "format": "multiple_choice",
+      "prompt": "In «Correndo, arrivò in tempo», il gerundio indica:",
+      "options": [
+        "il motivo per cui non arrivò",
+        "il modo in cui arrivò",
+        "un ordine",
+        "un dubbio"
+      ],
+      "answer": "il modo in cui arrivò",
+      "explanation": "Il gerundio dice in che modo o in quale circostanza si svolge l'azione principale.",
+      "distractorWhy": {
+        "il motivo per cui non arrivò": "Arrivò eccome: il gerundio spiega come.",
+        "un ordine": "Gli ordini sono dell'imperativo.",
+        "un dubbio": "I dubbi vogliono il congiuntivo."
+      }
+    },
+    {
+      "id": "italiano-imperativo-infinito-participio-gerundio-quale-frase-contiene-un-participio-passato-con-4",
+      "subject": "italiano",
+      "topic": "imperativo-infinito-participio-gerundio",
+      "difficulty": 2,
+      "format": "multiple_choice",
+      "prompt": "Quale frase contiene un participio passato con funzione di aggettivo?",
+      "options": [
+        "Ho chiuso la porta",
+        "Chiudere la porta",
+        "La porta chiusa non si apre",
+        "Chiudendo la porta"
+      ],
+      "answer": "La porta chiusa non si apre",
+      "explanation": "Qui «chiusa» qualifica «porta» come farebbe un aggettivo, e ne segue il genere e il numero.",
+      "distractorWhy": {
+        "Ho chiuso la porta": "Qui «chiuso» forma il passato prossimo con l'ausiliare.",
+        "Chiudere la porta": "«Chiudere» è infinito.",
+        "Chiudendo la porta": "«Chiudendo» è gerundio."
+      }
+    },
+    {
+      "id": "italiano-imperativo-infinito-participio-gerundio-non-rumore-quale-forma-e-l-imperativo-negativo-5",
+      "subject": "italiano",
+      "topic": "imperativo-infinito-participio-gerundio",
+      "difficulty": 2,
+      "format": "multiple_choice",
+      "prompt": "«Non ___ rumore!» Quale forma è l'imperativo negativo corretto alla seconda persona singolare?",
+      "options": [
+        "fai",
+        "facendo",
+        "farai",
+        "fare"
+      ],
+      "answer": "fare",
+      "explanation": "L'imperativo negativo di seconda persona singolare si forma con «non» più l'infinito: «non fare rumore».",
+      "distractorWhy": {
+        "fai": "«Non fai» è un'affermazione negata, non un ordine.",
+        "farai": "«Non farai» è futuro indicativo.",
+        "facendo": "Il gerundio non dà ordini."
+      }
+    },
+    {
+      "id": "italiano-imperativo-infinito-participio-gerundio-in-avendo-finito-usci-il-gerundio-passato-indi-6",
+      "subject": "italiano",
+      "topic": "imperativo-infinito-participio-gerundio",
+      "difficulty": 3,
+      "format": "multiple_choice",
+      "prompt": "In «Avendo finito, uscì», il gerundio passato indica un'azione:",
+      "options": [
+        "anteriore",
+        "futura",
+        "contemporanea",
+        "ipotetica"
+      ],
+      "answer": "anteriore",
+      "explanation": "Il gerundio passato colloca l'azione prima di quella principale: prima finì, poi uscì.",
+      "distractorWhy": {
+        "contemporanea": "La contemporaneità vorrebbe il gerundio presente «finendo».",
+        "futura": "Il gerundio non proietta nel futuro.",
+        "ipotetica": "Le ipotesi richiedono congiuntivo o condizionale."
+      }
+    },
+    {
+      "id": "italiano-imperativo-infinito-participio-gerundio-qual-e-la-funzione-dell-infinito-in-ti-ho-vist-7",
+      "subject": "italiano",
+      "topic": "imperativo-infinito-participio-gerundio",
+      "difficulty": 3,
+      "format": "multiple_choice",
+      "prompt": "Qual è la funzione dell'infinito in «Ti ho visto entrare»?",
+      "options": [
+        "Dà un ordine",
+        "Regge una subordinata implicita",
+        "Fa da aggettivo",
+        "Indica il futuro"
+      ],
+      "answer": "Regge una subordinata implicita",
+      "explanation": "«Entrare» sostituisce «che entravi»: è una subordinata senza «che», detta implicita.",
+      "distractorWhy": {
+        "Dà un ordine": "Nessun ordine viene dato.",
+        "Fa da aggettivo": "Non qualifica alcun nome.",
+        "Indica il futuro": "L'azione è già avvenuta."
+      }
+    },
+    {
+      "id": "italiano-imperativo-infinito-participio-gerundio-quale-participio-presente-e-usato-come-aggetti-8",
+      "subject": "italiano",
+      "topic": "imperativo-infinito-participio-gerundio",
+      "difficulty": 3,
+      "format": "multiple_choice",
+      "prompt": "Quale participio presente è usato come aggettivo?",
+      "options": [
+        "Ho cantato bene",
+        "Cantando si impara",
+        "Una voce cantante riempiva la sala",
+        "Cantare è bello"
+      ],
+      "answer": "Una voce cantante riempiva la sala",
+      "explanation": "Il participio presente in «-ante»/«-ente» qualifica il nome: «voce cantante».",
+      "distractorWhy": {
+        "Ho cantato bene": "«Cantato» è participio passato dentro il passato prossimo.",
+        "Cantando si impara": "«Cantando» è gerundio.",
+        "Cantare è bello": "«Cantare» è infinito con funzione di nome."
+      }
+    },
+    {
+      "id": "italiano-imperativo-infinito-participio-gerundio-perche-sbagliando-si-impara-non-ha-bisogno-di--9",
+      "subject": "italiano",
+      "topic": "imperativo-infinito-participio-gerundio",
+      "difficulty": 4,
+      "format": "multiple_choice",
+      "prompt": "Perché «Sbagliando si impara» non ha bisogno di soggetto espresso?",
+      "options": [
+        "Perché manca il verbo principale",
+        "Perché il soggetto è «si»",
+        "Perché è un ordine",
+        "Perché il gerundio è indefinito e vale per chiunque"
+      ],
+      "answer": "Perché il gerundio è indefinito e vale per chiunque",
+      "explanation": "I modi indefiniti non indicano la persona: la frase vale per tutti, ed è per questo che funziona come proverbio.",
+      "distractorWhy": {
+        "Perché il soggetto è «si»": "«Si» è la particella impersonale, non il soggetto del gerundio.",
+        "Perché è un ordine": "Non c'è nessun imperativo.",
+        "Perché manca il verbo principale": "Il verbo principale «impara» c'è."
+      }
+    },
+    {
+      "id": "italiano-imperativo-infinito-participio-gerundio-in-quale-frase-il-participio-passato-e-concord-10",
+      "subject": "italiano",
+      "topic": "imperativo-infinito-participio-gerundio",
+      "difficulty": 4,
+      "format": "multiple_choice",
+      "prompt": "In quale frase il participio passato è concordato in modo scorretto?",
+      "options": [
+        "Le lettere sono arrivato stamattina",
+        "Le ho scritte ieri",
+        "Le lettere che ho scritto sono partite",
+        "Sono arrivate le lettere"
+      ],
+      "answer": "Le lettere sono arrivato stamattina",
+      "explanation": "Con l'ausiliare «essere» il participio concorda con il soggetto: «le lettere sono arrivate».",
+      "distractorWhy": {
+        "Le lettere che ho scritto sono partite": "Con «avere» il participio può restare invariato: corretto.",
+        "Le ho scritte ieri": "Il pronome femminile plurale impone «scritte»: corretto.",
+        "Sono arrivate le lettere": "Il participio concorda con «lettere»: corretto."
+      }
+    },
+    {
+      "id": "italiano-imperativo-infinito-participio-gerundio-pur-ragione-tacque-quale-forma-completa-la-con-11",
+      "subject": "italiano",
+      "topic": "imperativo-infinito-participio-gerundio",
+      "difficulty": 4,
+      "format": "multiple_choice",
+      "prompt": "«Pur ___ ragione, tacque.» Quale forma completa la concessiva implicita?",
+      "options": [
+        "ha",
+        "avendo",
+        "avesse",
+        "avrà"
+      ],
+      "answer": "avendo",
+      "explanation": "Con «pur» la concessiva implicita si costruisce con il gerundio: «pur avendo ragione».",
+      "distractorWhy": {
+        "ha": "L'indicativo richiederebbe «benché avesse», con «che».",
+        "avesse": "Il congiuntivo serve nella forma esplicita con «benché».",
+        "avrà": "Il futuro non regge la concessiva."
+      }
+    },
+    {
+      "id": "italiano-imperativo-infinito-participio-gerundio-quale-forma-e-un-infinito-12",
+      "subject": "italiano",
+      "topic": "imperativo-infinito-participio-gerundio",
+      "difficulty": 1,
+      "format": "multiple_choice",
+      "prompt": "Quale forma è un infinito?",
+      "options": [
+        "parlato",
+        "parlando",
+        "parlare",
+        "parla"
+      ],
+      "answer": "parlare",
+      "explanation": "L'infinito è la forma base del verbo, quella che si cerca nel dizionario: finisce in «-are», «-ere», «-ire».",
+      "distractorWhy": {
+        "parlato": "«Parlato» è participio passato.",
+        "parlando": "«Parlando» è gerundio.",
+        "parla": "«Parla» è indicativo presente o imperativo."
+      }
+    },
+    {
+      "id": "italiano-imperativo-infinito-participio-gerundio-attenzione-quando-attraversi-quale-imperativo--13",
+      "subject": "italiano",
+      "topic": "imperativo-infinito-participio-gerundio",
+      "difficulty": 2,
+      "format": "multiple_choice",
+      "prompt": "«___ attenzione quando attraversi.» Quale imperativo è corretto?",
+      "options": [
+        "Fare",
+        "Facendo",
+        "Fatto",
+        "Fai"
+      ],
+      "answer": "Fai",
+      "explanation": "L'imperativo di seconda persona singolare di «fare» è «fai» (o «fa'»): dà l'ordine direttamente a chi ascolta.",
+      "distractorWhy": {
+        "Facendo": "Il gerundio non dà ordini.",
+        "Fatto": "«Fatto» è participio passato.",
+        "Fare": "L'infinito da solo qui suonerebbe come un'istruzione scritta, non come una richiesta a una persona."
+      }
+    },
+    {
+      "id": "italiano-imperativo-infinito-participio-gerundio-che-cosa-distingue-ho-letto-da-letto-il-libro--14",
+      "subject": "italiano",
+      "topic": "imperativo-infinito-participio-gerundio",
+      "difficulty": 3,
+      "format": "multiple_choice",
+      "prompt": "Che cosa distingue «Ho letto» da «Letto il libro, uscì»?",
+      "options": [
+        "Nel primo il participio forma il tempo composto, nel secondo regge una subordinata",
+        "Sono la stessa costruzione",
+        "Nel primo «letto» è un nome",
+        "Nel secondo manca il verbo"
+      ],
+      "answer": "Nel primo il participio forma il tempo composto, nel secondo regge una subordinata",
+      "explanation": "Lo stesso participio può fare due lavori: con l'ausiliare costruisce il passato prossimo, da solo apre una subordinata implicita.",
+      "distractorWhy": {
+        "Sono la stessa costruzione": "Nella seconda manca l'ausiliare, e cambia tutto.",
+        "Nel primo «letto» è un nome": "«Letto» qui è verbo, non il mobile.",
+        "Nel secondo manca il verbo": "Il verbo principale «uscì» c'è."
+      }
+    },
+    {
+      "id": "italiano-concordanza-tempi-verbali-disse-che-stanco-quale-forma-rispetta-la-conco-0",
+      "subject": "italiano",
+      "topic": "concordanza-tempi-verbali",
+      "difficulty": 1,
+      "format": "multiple_choice",
+      "prompt": "«Disse che ___ stanco.» Quale forma rispetta la concordanza?",
+      "options": [
+        "è",
+        "era",
+        "sarà",
+        "sia"
+      ],
+      "answer": "era",
+      "explanation": "Quando la principale è al passato, la subordinata contemporanea va all'imperfetto: «disse che era stanco».",
+      "distractorWhy": {
+        "è": "Il presente non concorda con una principale al passato.",
+        "sarà": "Il futuro guarda avanti: non esprime contemporaneità nel passato.",
+        "sia": "Il congiuntivo qui non serve: «dire» riferisce un fatto."
+      }
+    },
+    {
+      "id": "italiano-concordanza-tempi-verbali-la-concordanza-dei-tempi-serve-a-1",
+      "subject": "italiano",
+      "topic": "concordanza-tempi-verbali",
+      "difficulty": 1,
+      "format": "multiple_choice",
+      "prompt": "La concordanza dei tempi serve a:",
+      "options": [
+        "abbellire la frase",
+        "evitare le ripetizioni",
+        "collocare le azioni nel tempo l'una rispetto all'altra",
+        "scegliere il soggetto"
+      ],
+      "answer": "collocare le azioni nel tempo l'una rispetto all'altra",
+      "explanation": "Concordare i tempi vuol dire far capire che cosa è successo prima, dopo o insieme.",
+      "distractorWhy": {
+        "abbellire la frase": "È una questione di senso, non di stile.",
+        "evitare le ripetizioni": "Le ripetizioni si evitano con i pronomi.",
+        "scegliere il soggetto": "Il soggetto non dipende dalla concordanza dei tempi."
+      }
+    },
+    {
+      "id": "italiano-concordanza-tempi-verbali-in-dice-che-arriva-domani-i-due-verbi-sono-2",
+      "subject": "italiano",
+      "topic": "concordanza-tempi-verbali",
+      "difficulty": 1,
+      "format": "multiple_choice",
+      "prompt": "In «Dice che arriva domani», i due verbi sono:",
+      "options": [
+        "entrambi al passato",
+        "entrambi al congiuntivo",
+        "uno al passato e uno al futuro",
+        "entrambi al presente"
+      ],
+      "answer": "entrambi al presente",
+      "explanation": "Con la principale al presente, la subordinata resta al presente anche se il fatto è futuro.",
+      "distractorWhy": {
+        "entrambi al passato": "Nessuno dei due è al passato.",
+        "uno al passato e uno al futuro": "«Dice» è presente, non passato.",
+        "entrambi al congiuntivo": "«Dire» che riferisce un fatto vuole l'indicativo."
+      }
+    },
+    {
+      "id": "italiano-concordanza-tempi-verbali-sapevo-che-gia-uscito-quale-forma-indica-l-ant-3",
+      "subject": "italiano",
+      "topic": "concordanza-tempi-verbali",
+      "difficulty": 2,
+      "format": "multiple_choice",
+      "prompt": "«Sapevo che ___ già uscito.» Quale forma indica l'anteriorità?",
+      "options": [
+        "era",
+        "è",
+        "sarà",
+        "sia"
+      ],
+      "answer": "era",
+      "explanation": "Con la principale al passato, un fatto ancora precedente vuole il trapassato: «era già uscito».",
+      "distractorWhy": {
+        "è": "«È uscito» è passato prossimo: non concorda con «sapevo».",
+        "sarà": "Il futuro non può precedere un passato.",
+        "sia": "Il congiuntivo non è richiesto da «sapere»."
+      }
+    },
+    {
+      "id": "italiano-concordanza-tempi-verbali-promise-che-il-giorno-dopo-quale-forma-esprime-4",
+      "subject": "italiano",
+      "topic": "concordanza-tempi-verbali",
+      "difficulty": 2,
+      "format": "multiple_choice",
+      "prompt": "«Promise che ___ il giorno dopo.» Quale forma esprime la posteriorità?",
+      "options": [
+        "torna",
+        "sarebbe tornato",
+        "tornerà",
+        "fosse tornato"
+      ],
+      "answer": "sarebbe tornato",
+      "explanation": "Il futuro visto da un punto del passato si esprime col condizionale passato: è il futuro nel passato.",
+      "distractorWhy": {
+        "torna": "Il presente non concorda con «promise».",
+        "tornerà": "Il futuro semplice si usa solo se la principale è al presente.",
+        "fosse tornato": "Il congiuntivo trapassato esprime anteriorità, non posteriorità."
+      }
+    },
+    {
+      "id": "italiano-concordanza-tempi-verbali-in-credevo-che-fosse-tardi-la-subordinata-espr-5",
+      "subject": "italiano",
+      "topic": "concordanza-tempi-verbali",
+      "difficulty": 2,
+      "format": "multiple_choice",
+      "prompt": "In «Credevo che fosse tardi», la subordinata esprime:",
+      "options": [
+        "posteriorità",
+        "un ordine",
+        "contemporaneità nel passato",
+        "un fatto certo"
+      ],
+      "answer": "contemporaneità nel passato",
+      "explanation": "Il congiuntivo imperfetto dopo una principale al passato indica che i due fatti avvenivano insieme.",
+      "distractorWhy": {
+        "posteriorità": "La posteriorità vorrebbe «sarebbe stato».",
+        "un ordine": "Nessun imperativo compare.",
+        "un fatto certo": "«Credevo» segnala un'opinione, non una certezza."
+      }
+    },
+    {
+      "id": "italiano-concordanza-tempi-verbali-quale-frase-sbaglia-la-concordanza-6",
+      "subject": "italiano",
+      "topic": "concordanza-tempi-verbali",
+      "difficulty": 3,
+      "format": "multiple_choice",
+      "prompt": "Quale frase sbaglia la concordanza?",
+      "options": [
+        "Disse che sarebbe venuto",
+        "Sapeva che era partito",
+        "Dice che verrà",
+        "Disse che verrà"
+      ],
+      "answer": "Disse che verrà",
+      "explanation": "Con «disse» al passato, il futuro va reso col condizionale passato: «disse che sarebbe venuto».",
+      "distractorWhy": {
+        "Disse che sarebbe venuto": "È proprio la forma corretta del futuro nel passato.",
+        "Dice che verrà": "Principale al presente e futuro semplice: corretto.",
+        "Sapeva che era partito": "Passato e trapassato: anteriorità corretta."
+      }
+    },
+    {
+      "id": "italiano-concordanza-tempi-verbali-temeva-che-troppo-tardi-per-rimediare-quale-fo-7",
+      "subject": "italiano",
+      "topic": "concordanza-tempi-verbali",
+      "difficulty": 3,
+      "format": "multiple_choice",
+      "prompt": "«Temeva che ___ troppo tardi per rimediare.» Quale forma serve?",
+      "options": [
+        "fosse",
+        "sarà",
+        "è",
+        "sia"
+      ],
+      "answer": "fosse",
+      "explanation": "«Temere» vuole il congiuntivo, e la principale al passato lo porta all'imperfetto: «fosse».",
+      "distractorWhy": {
+        "è": "L'indicativo non segue i verbi di timore.",
+        "sarà": "Il futuro indicativo non concorda con «temeva».",
+        "sia": "Il congiuntivo presente andrebbe con una principale al presente."
+      }
+    },
+    {
+      "id": "italiano-concordanza-tempi-verbali-se-la-principale-e-al-presente-un-fatto-anteri-8",
+      "subject": "italiano",
+      "topic": "concordanza-tempi-verbali",
+      "difficulty": 3,
+      "format": "multiple_choice",
+      "prompt": "Se la principale è al presente, un fatto anteriore nella subordinata si esprime con:",
+      "options": [
+        "il futuro semplice",
+        "il passato prossimo o il congiuntivo passato",
+        "l'imperativo",
+        "il gerundio presente"
+      ],
+      "answer": "il passato prossimo o il congiuntivo passato",
+      "explanation": "«So che è partito», «credo che sia partito»: entrambi collocano il fatto prima del momento in cui si parla.",
+      "distractorWhy": {
+        "il futuro semplice": "Il futuro colloca dopo, non prima.",
+        "l'imperativo": "L'imperativo non colloca nel tempo.",
+        "il gerundio presente": "Il gerundio presente indica contemporaneità."
+      }
+    },
+    {
+      "id": "italiano-concordanza-tempi-verbali-se-avessi-saputo-che-sarei-venuto-prima-quale--9",
+      "subject": "italiano",
+      "topic": "concordanza-tempi-verbali",
+      "difficulty": 4,
+      "format": "multiple_choice",
+      "prompt": "«Se avessi saputo che ___, sarei venuto prima.» Quale forma completa la frase?",
+      "options": [
+        "stavi male",
+        "starai male",
+        "stessi male",
+        "stare male"
+      ],
+      "answer": "stessi male",
+      "explanation": "Dentro un periodo ipotetico dell'irrealtà anche la subordinata oggettiva si allinea al congiuntivo imperfetto.",
+      "distractorWhy": {
+        "stavi male": "L'indicativo rompe la costruzione ipotetica.",
+        "starai male": "Il futuro contraddice «avessi saputo».",
+        "stare male": "L'infinito non regge la subordinata con «che»."
+      }
+    },
+    {
+      "id": "italiano-concordanza-tempi-verbali-perche-mi-ha-detto-che-e-arrivato-ieri-e-corre-10",
+      "subject": "italiano",
+      "topic": "concordanza-tempi-verbali",
+      "difficulty": 4,
+      "format": "multiple_choice",
+      "prompt": "Perché «Mi ha detto che è arrivato ieri» è corretto nonostante la principale sia al passato?",
+      "options": [
+        "Perché «arrivato» è un aggettivo",
+        "Perché «ieri» impone il presente",
+        "Perché è un errore tollerato",
+        "Perché il passato prossimo tiene il fatto legato al presente di chi parla"
+      ],
+      "answer": "Perché il passato prossimo tiene il fatto legato al presente di chi parla",
+      "explanation": "Il passato prossimo funziona da ponte: racconta un fatto concluso che chi parla sente ancora vicino, e regge anche dopo una principale al passato.",
+      "distractorWhy": {
+        "Perché «ieri» impone il presente": "«Ieri» colloca nel passato, semmai.",
+        "Perché è un errore tollerato": "La frase è pienamente corretta.",
+        "Perché «arrivato» è un aggettivo": "Qui «arrivato» è participio dentro il passato prossimo."
+      }
+    },
+    {
+      "id": "italiano-concordanza-tempi-verbali-in-pensavo-che-avrebbe-telefonato-il-condizion-11",
+      "subject": "italiano",
+      "topic": "concordanza-tempi-verbali",
+      "difficulty": 4,
+      "format": "multiple_choice",
+      "prompt": "In «Pensavo che avrebbe telefonato», il condizionale passato indica:",
+      "options": [
+        "un'azione posteriore al pensiero",
+        "un'azione contemporanea",
+        "un'azione anteriore",
+        "un ordine"
+      ],
+      "answer": "un'azione posteriore al pensiero",
+      "explanation": "Prima il pensiero, poi la telefonata attesa: il condizionale passato è il futuro visto dal passato.",
+      "distractorWhy": {
+        "un'azione anteriore": "L'anteriorità vorrebbe «avesse telefonato».",
+        "un'azione contemporanea": "La contemporaneità vorrebbe «telefonasse».",
+        "un ordine": "Nessun imperativo compare."
+      }
+    },
+    {
+      "id": "italiano-concordanza-tempi-verbali-ho-capito-che-ragione-quale-forma-e-corretta-12",
+      "subject": "italiano",
+      "topic": "concordanza-tempi-verbali",
+      "difficulty": 1,
+      "format": "multiple_choice",
+      "prompt": "«Ho capito che ___ ragione.» Quale forma è corretta?",
+      "options": [
+        "avrai",
+        "avevi",
+        "avessi",
+        "avere"
+      ],
+      "answer": "avevi",
+      "explanation": "Con una principale al passato prossimo, la contemporaneità nella subordinata si rende con l'imperfetto.",
+      "distractorWhy": {
+        "avrai": "Il futuro non concorda con «ho capito».",
+        "avessi": "Il congiuntivo non è richiesto da «capire» quando riferisce un fatto.",
+        "avere": "L'infinito non regge la subordinata con «che»."
+      }
+    },
+    {
+      "id": "italiano-concordanza-tempi-verbali-quale-coppia-di-tempi-esprime-correttamente-l--13",
+      "subject": "italiano",
+      "topic": "concordanza-tempi-verbali",
+      "difficulty": 2,
+      "format": "multiple_choice",
+      "prompt": "Quale coppia di tempi esprime correttamente l'anteriorità?",
+      "options": [
+        "Dice che partiva",
+        "Disse che parte",
+        "Disse che era partito",
+        "Dirà che partì"
+      ],
+      "answer": "Disse che era partito",
+      "explanation": "Passato remoto nella principale e trapassato nella subordinata: il secondo fatto è chiaramente precedente.",
+      "distractorWhy": {
+        "Dice che partiva": "Presente e imperfetto non costruiscono un'anteriorità chiara.",
+        "Disse che parte": "Il presente non concorda con «disse».",
+        "Dirà che partì": "Futuro e passato remoto stridono."
+      }
+    },
+    {
+      "id": "italiano-concordanza-tempi-verbali-che-cosa-cambia-fra-credo-che-sia-partito-e-cr-14",
+      "subject": "italiano",
+      "topic": "concordanza-tempi-verbali",
+      "difficulty": 3,
+      "format": "multiple_choice",
+      "prompt": "Che cosa cambia fra «Credo che sia partito» e «Credevo che fosse partito»?",
+      "options": [
+        "Solo la lunghezza",
+        "Il modo del verbo principale",
+        "Il soggetto",
+        "Il punto da cui si guarda l'azione"
+      ],
+      "answer": "Il punto da cui si guarda l'azione",
+      "explanation": "La concordanza sposta l'intero racconto: nella prima si guarda dal presente, nella seconda da un punto già passato.",
+      "distractorWhy": {
+        "Solo la lunghezza": "Cambia il tempo, non il numero di parole.",
+        "Il soggetto": "Il soggetto resta lo stesso.",
+        "Il modo del verbo principale": "«Credo» e «credevo» sono entrambi indicativi."
+      }
+    }
+  ],
   "logica-base": [
     {
       "id": "logica-esclusioni-quale-elemento-non-appartiene-al-gruppo-cane-gat",

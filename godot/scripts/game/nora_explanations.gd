@@ -294,6 +294,24 @@ const VOCI := {
 		"come": "Chiediti se l'azione è finita, in corso o doveva ancora succedere rispetto a un altro momento: quella relazione sceglie il tempo giusto.",
 	},
 
+	# Le altre tre famiglie verbali del decodificatore — la prima è
+	# `tempi-indicativo` qui sopra, che il curriculum già conosceva. Sono argomenti
+	# distinti e non un solo «verbo» perché sapere quando serve il congiuntivo non è
+	# sapere coniugare l'indicativo: sono due difficoltà diverse, e si sbagliano in
+	# momenti diversi.
+	"italiano:congiuntivo-condizionale": {
+		"perche": "Servono a dire ciò che non è certo: quello che si spera, si teme o accadrebbe a una condizione. Senza di loro si può solo raccontare quello che è già successo.",
+		"come": "Guarda il verbo che regge la frase: credere, temere e sperare aprono al congiuntivo; il condizionale sta nella conseguenza, non nella condizione.",
+	},
+	"italiano:imperativo-infinito-participio-gerundio": {
+		"perche": "Sono le forme che non dicono chi: l'imperativo perché si rivolge a te, gli altri tre perché valgono per chiunque. È per questo che stanno nei proverbi e nelle istruzioni.",
+		"come": "Prova a metterci davanti «io»: se non regge, sei davanti a un modo indefinito e devi cercare altrove chi compie l'azione.",
+	},
+	"italiano:concordanza-tempi-verbali": {
+		"perche": "Accordare i tempi è ciò che fa capire l'ordine dei fatti: senza, chi ascolta non sa più che cosa è successo prima.",
+		"come": "Fissa il tempo della frase principale, poi chiediti se il secondo fatto viene prima, insieme o dopo: sono tre risposte, e ognuna ha la sua forma.",
+	},
+
 	# -- inglese ----------------------------------------------------------------
 	"inglese:actions": {
 		"perche": "I verbi d'azione inglesi sono corti e cambiano senso con la preposizione che segue: è lì che sta il significato.",

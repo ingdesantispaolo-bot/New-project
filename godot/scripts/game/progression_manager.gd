@@ -244,6 +244,27 @@ func aggiorna_traguardi_di_livello() -> void:
 		var subject := str(subject_data)
 		if save.subject_cleared_level(subject) >= livello:
 			continue
+		# **Zero argomenti visti = non pronta, senza bisogno di contarli.**
+		# (18 agosto 2026)
+		#
+		# `apparatus_readiness` chiede `reachable_topic_count`, che per contare
+		# gli argomenti proponibili COSTRUISCE cinque missioni intere. Per dodici
+		# materie sono sessanta missioni, e la cache non aiuta: `ContentManager`
+		# nasce nuovo a ogni ingresso nel mondo. Da quando questo aggiornamento
+		# gira anche all'ingresso — e non solo a fine sessione, dove il costo era
+		# invisibile — quelle sessanta costruzioni erano diventate la voce più
+		# grossa dell'avvio: centosessanta millisecondi su un budget di cinquecento.
+		#
+		# La copertura si conta da quando il livello è cominciato, e
+		# `GateReadiness.coverage_target` non restituisce mai meno di uno: una
+		# materia con zero argomenti visti in questo livello fallisce la copertura
+		# qualunque sia il totale. Il conteggio caro non cambierebbe l'esito.
+		#
+		# Si controlla solo questo, e non anche padronanza e ripasso, per non
+		# duplicare le soglie di `evaluate_subject` — che applica il bonus del
+		# nucleo — e ritrovarsi con due punti del gioco che dissentono.
+		if int(save.topics_seen_this_level(subject)) <= 0:
+			continue
 		# Senza `certified`: si guardano i numeri veri, che è il solo modo di
 		# stabilire se il traguardo è stato raggiunto adesso.
 		if bool(apparatus_readiness(subject)["ready"]):

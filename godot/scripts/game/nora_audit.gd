@@ -38,6 +38,21 @@ func _test_context_engine_subjects() -> void:
 	var unknown := NoraContextEngine.open_line("robot", false)
 	assert(unknown.find("sistema") >= 0, "fallback generico per materia non mappata")
 
+	# L'apertura non può suonare identica a mondo 2 e a mondo 22: è lo stesso
+	# difetto per cui la voce di chiusura si era rotta (nora_voice_audit.gd).
+	var atto1_line := NoraContextEngine.open_line("matematica", false, 2)
+	var atto3_line := NoraContextEngine.open_line("matematica", false, 22)
+	assert(atto1_line != atto3_line, "l'apertura non cambia fra l'atto I e l'atto III")
+	assert(atto1_line.find("terminale numerico") >= 0 and atto3_line.find("terminale numerico") >= 0,
+		"il metodo e la label restano corretti in ogni atto")
+	var review_atto1 := NoraContextEngine.open_line("latino", true, 2)
+	var review_atto3 := NoraContextEngine.open_line("latino", true, 22)
+	assert(review_atto1 != review_atto3, "l'apertura di ripasso non cambia fra gli atti")
+	# Nessun livello passato: non deve rompersi, e resta l'atto I (comportamento
+	# precedente all'introduzione del parametro).
+	assert(NoraContextEngine.open_line("matematica", false) == atto1_line,
+		"senza livello l'apertura deve restare quella dell'atto I")
+
 func _new_gameplay() -> OutdoorGameplay:
 	var gameplay := OutdoorGameplay.new()
 	root.add_child(gameplay)

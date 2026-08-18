@@ -9,7 +9,10 @@ const PORTAL_VISUAL := preload("res://scripts/portal_visual.gd")
 const EXERCISE_ENERGY_COST := 3
 const EXERCISE_PLAYER_SCRIPT := preload("res://scripts/game/exercise_player.gd")
 const ENIGMA_STRUCTURE := preload("res://scripts/visual/enigma_structure.gd")
+# chunk_ground.gd non ha class_name: serve il preload per raggiungerne gli statici.
+const CHUNK_GROUND_SCRIPT := preload("res://scripts/chunk_ground.gd")
 const LEARNING_REACTION_SCRIPT := preload("res://scripts/visual/world_learning_reaction.gd")
+const WORLD1_ACTIVITY_SITE_SCRIPT := preload("res://scripts/visual/world1_activity_site.gd")
 const SHOP_PANEL_SCRIPT := preload("res://scripts/ui/outdoor_shop_panel.gd")
 const NORA_PORTRAIT_SCRIPT := preload("res://scripts/ui/nora_portrait.gd")
 const WORLD_LESSON_CATALOG := preload("res://scripts/game/world_lesson.gd")
@@ -22,6 +25,7 @@ const WORLD_ENEMY_SCRIPT := preload("res://scripts/world_enemy.gd")
 const NPC_ACTOR_SCRIPT := preload("res://scripts/game/npc_actor.gd")
 const NPC_CATALOG := preload("res://scripts/game/npc_catalog.gd")
 const ITINERANT_CATALOG := preload("res://scripts/game/itinerant_catalog.gd")
+const ENGINEER_LEGEND := preload("res://scripts/game/engineer_legend_catalog.gd")
 const FINALE_CATALOG := preload("res://scripts/game/finale_catalog.gd")
 const MAESTRI_CATALOG := preload("res://scripts/game/maestri_catalog.gd")
 const TEACHING_CATALOG := preload("res://scripts/game/teaching_catalog.gd")
@@ -34,6 +38,7 @@ const MYSTERY_CATALOG := preload("res://scripts/game/mystery_catalog.gd")
 const MYSTERY_ARTIFACT_SCRIPT := preload("res://scripts/game/mystery_artifact.gd")
 const DIALOGUE_BOX_SCRIPT := preload("res://scripts/ui/dialogue_box.gd")
 const TEACHING_CHOICE_PANEL_SCRIPT := preload("res://scripts/ui/teaching_choice_panel.gd")
+const EXPEDITION_MODULE_PRESENTATION_SCRIPT := preload("res://scripts/visual/expedition_module_presentation.gd")
 
 const PLAYER_ACCENT := Color("6be7d6")
 const NIGHT_TINT := Color(0.46, 0.51, 0.70)
@@ -86,6 +91,8 @@ var pulse_button: Button
 ## Il quadro degli obiettivi e il pulsante che lo apre.
 var objective_button: Button
 var objective_panel: ObjectivePanel
+## Il minigioco del personaggio che si sta affrontando, se ce n'e' uno aperto.
+var minigame_panel: Control
 var touch_controls_button: Button
 var touch_controls_panel: PanelContainer
 var touch_side_button: Button
@@ -103,6 +110,9 @@ var camera: Camera2D
 var fireflies: CPUParticles2D
 var pet_companion: OutdoorPetCompanion
 var player_presentation: Node2D
+## Il tipo resta Node per non dipendere dall'aggiornamento della cache globale
+## delle classi durante l'import headless; lo script e' comunque pre-caricato.
+var expedition_module_presentation: Node
 var nearby: Array = []
 var day_clock := 0.0
 var current_audio_phase := ""
@@ -117,6 +127,8 @@ var knowledge_codex_panel: KnowledgeCodexPanel
 var diary_panel: DiaryPanel
 var diary_button: Button
 var shop_panel: Control
+## Il chiavistello: il minigioco che apre i forzieri ([[LockMinigamePanel]]).
+var lock_panel: Control
 var reward_cost := 0
 var reward_name := ""
 var gameplay: OutdoorGameplay
@@ -128,6 +140,8 @@ var progression_manager: ProgressionManager
 var content_manager: ContentManager
 var gain_popup_pool: Array[Label] = []
 var applied_cosmetic_signature := ""
+var applied_power_grade := -1
+var last_energy_visual := -1
 var pending_touch_interaction: Area2D
 var interaction_countdown_second := -1
 var world_weather_particles: CPUParticles2D
@@ -148,15 +162,38 @@ var npc_dialogue_cursors: Dictionary = {}
 var mission_ownership_flow
 var world_buildings: Array[Node2D] = []
 var world_life
+var village_clock := 0.0
 var thirteenth_director
 var thirteenth_forgotten_npc := ""
+var thirteenth_deep_forgotten_npc := ""
+var thirteenth_deep_dialogue_cursor := 0
 var teaching_choice_panel: Control
 var vera_teaching_pending := false
 var vera_teaching_used := false
 var vera_topic_key := ""
+var vera_incrinatura_pending := false
+var vera_ricucitura_pending := false
+var open_choice_kind := ""
+var stance_choice_after_dialogue: Dictionary = {}
+var stance_echo_after_dialogue: Dictionary = {}
 var ersilia_count_pending := false
 var finale_convergence_wave := 0
 var finale_wave_heard: Array[String] = []
+
+## Libera le texture per-mondo tenute dalle cache statiche.
+##
+## Sta in `_exit_tree` e non accanto al `change_scene_to_file` di rientro alla
+## nave perche' cosi' copre OGNI uscita dal mondo (nave, menu, cambio livello,
+## teardown negli audit) senza doversi ricordare di ogni nuova via d'uscita.
+##
+## Senza questo la VRAM texture cresceva monotona: misurata a 63,7 MiB dopo il
+## mondo 01 e 96,0 MiB dopo il mondo 24 nella stessa sessione, perche' underpaint
+## identitarie, landmark e tavole degli enigmi di ogni mondo visitato restavano
+## bloccati in cache statiche fino alla chiusura.
+func _exit_tree() -> void:
+	CHUNK_GROUND_SCRIPT.release_texture_cache()
+	EnigmaStructureVisual.release_texture_cache()
+	OutdoorVisualFactory.release_world_texture_caches()
 
 func _ready() -> void:
 	if OS.has_feature("web"):
@@ -183,6 +220,8 @@ delete document.documentElement.dataset.eliExam;
 	gameplay.feedback_presented.connect(_present_feedback)
 	gameplay.enigma_progress.connect(_on_enigma_progress)
 	gameplay.minimission_completed.connect(_on_minimission_completed)
+	gameplay.topic_consolidated.connect(
+		func(_subject: String, _topic: String): _pet_react("topic_consolidated"))
 	gameplay.setup(request, result, bool(request.get("loadLocalSave", true)))
 	game_save = gameplay.game_save
 	# Entrare in un mondo È aver giocato oggi. Idempotente entro la giornata:
@@ -244,6 +283,7 @@ delete document.documentElement.dataset.eliExam;
 	var lesson_briefing := WORLD_LESSON_CATALOG.briefing(world_level)
 	_set_nora_feedback(lesson_briefing if lesson_briefing != "" else str(gameplay.runtime_state().get("narrative", "")))
 	_create_thirteenth_presence()
+	_stage_stance_world_beat()
 	var audio := get_node_or_null("/root/NativeAudio")
 	if audio != null:
 		audio.call("play_environment", "day")
@@ -320,11 +360,17 @@ func _align_enigma_to_water_crossing() -> void:
 	var preview := WorldCompositionGenerator.generate(world_seed, world_profile)
 	if preview == null or preview.crossings.is_empty():
 		return
-	var crossing: Dictionary = preview.crossings[0]
 	for index in range(mission_events.size()):
 		var event: Dictionary = mission_events[index]
 		if str(event.get("kind", "")) != "enigma":
 			continue
+		var crossing: Dictionary = preview.crossings[0]
+		var selected_socket := str(event.get("locationSocket", ""))
+		for crossing_data in preview.crossings:
+			var candidate: Dictionary = crossing_data
+			if selected_socket == "site-%s" % str(candidate.get("id", "")):
+				crossing = candidate
+				break
 		event["position"] = crossing.get("approach", event.get("position", Vector2.ZERO))
 		event["crossingId"] = str(crossing.get("id", ""))
 		event["bridgeCenter"] = crossing.get("position", event["position"])
@@ -431,7 +477,7 @@ func _planned_world_events() -> Array:
 
 func _profile_performance_budget() -> Dictionary:
 	var budgets: Dictionary = world_profile.get("performanceBudget", {})
-	var tier := "mobile" if OS.has_feature("mobile") else "web" if OS.has_feature("web") else "desktop"
+	var tier := WorldProfileCatalog.current_tier()
 	return Dictionary(budgets.get(tier, budgets.get("web", {})))
 
 func _world_subject() -> String:
@@ -572,6 +618,13 @@ func _apply_resume() -> void:
 
 func _on_runtime_state(state: Dictionary) -> void:
 	runtime = state.duplicate(true)
+	if is_instance_valid(player):
+		player.sprint_multiplier = float(
+			runtime.get("sprintMultiplier", ExpeditionModules.SCATTO_BASE))
+	if is_instance_valid(expedition_module_presentation):
+		expedition_module_presentation.apply_runtime(
+			runtime, equipped_field_tool(), Array(result.get("collectedTreasureIds", [])))
+	_aggiorna_cariche_impulso()
 	_update_objective()
 	_update_ship_navigation()
 	_refresh_economy()
@@ -579,12 +632,19 @@ func _on_runtime_state(state: Dictionary) -> void:
 	_update_building_stages()
 	if world_life != null:
 		world_life.set_stage(_npc_story_stage())
+		# Le battute di passaggio devono venire dallo stadio di QUELLA persona:
+		# senza questo, chi ha appena completato il suo arco continuerebbe a
+		# ripetere quello che diceva prima di capire.
+		world_life.set_resident_stages(_stadi_dei_residenti())
 	if is_instance_valid(portal) and portal.has_method("set_gate_state"):
 		portal.call("set_gate_state", bool(runtime.get("ready", false)), str(runtime.get("apparatus", "nucleo")), bool(runtime.get("complete", false)))
 
 func _on_gameplay_session_requested(session: Dictionary) -> void:
 	if not is_instance_valid(exercise_player):
 		return
+	# Il Custode si mette a guardare: la faccia «concentrato» dura finché qualcosa
+	# non la sostituisce, cioè per tutta la prova.
+	_pet_react("session_start")
 	_cancel_pending_touch_interaction()
 	if is_instance_valid(interaction_button):
 		interaction_button.visible = false
@@ -646,12 +706,14 @@ const PET_FADED_CHECK_INTERVAL := 2.0
 var _pet_faded_check_elapsed := 0.0
 
 func _process(delta: float) -> void:
+	_animare_potenza_eli(delta)
 	if is_instance_valid(pet_companion):
 		pet_companion.set_antics_blocked(_blocking_panel_visible())
 	_pet_faded_check_elapsed += delta
 	if _pet_faded_check_elapsed >= PET_FADED_CHECK_INTERVAL:
 		_pet_faded_check_elapsed = 0.0
 		_pet_check_faded_proximity()
+		_pet_aggiorna_silenzio()
 	# **Niente alternanza giorno/notte.** (7 agosto 2026)
 	#
 	# Il mondo adesso nasce coperto e si illumina man mano che le prove vengono
@@ -712,8 +774,49 @@ func _process(delta: float) -> void:
 			if is_instance_valid(camera):
 				view_size = Vector2(view_size.x / camera.zoom.x, view_size.y / camera.zoom.y)
 			var visible_world := Rect2(player.global_position - view_size * 0.5, view_size)
-			world_life.update(phase_id, player.global_position, visible_world, delta)
+			world_life.set_ambient_enabled(not _blocking_panel_visible())
+			world_life.update(
+				_turno_del_villaggio(delta), player.global_position, visible_world, delta)
 		_update_npc_streaming()
+
+## **Il villaggio ha un ritmo suo, e non è quello della luce.** (16 agosto 2026)
+##
+## `WorldLife` riceveva `phase_id`, che viene dall'orologio della luce. Quello
+## orologio è **fermo** da quando il mondo nasce coperto e si illumina col lavoro
+## fatto (il perché sta nel commento in `_process`): il profilo sceglie un'ora
+## d'autore e lì resta. Conseguenza mai messa in conto quando la notte è stata
+## tolta: la regia della vita riceveva sempre e solo «giorno» in quasi tutti i
+## mondi. Tutti verso l'ancoraggio di lavoro, e mai più via — il capannello si
+## riformava da solo — e la scena del Ritrovo, che parte all'alba, non si vedeva
+## in nessun mondo tranne i tre col profilo di tramonto.
+##
+## Il turno della gente è adesso una cosa a sé: una giornata di lavoro lunga, un
+## raduno breve al Ritrovo, un ritorno al proprio posto. Non è un ciclo
+## giorno/notte — la luce non si muove di un capello — è la ragione per cui
+## passare due volte dallo stesso punto non dà lo stesso mondo.
+##
+## I nomi delle fasi restano quelli che `WorldLife` già conosce: cambiarli
+## avrebbe voluto dire toccare la regia per un'etichetta.
+const TURNO_LAVORO := 110.0
+const TURNO_RITROVO := 40.0
+const TURNO_RIPOSO := 34.0
+
+func _turno_del_villaggio(delta: float) -> String:
+	var giro := TURNO_LAVORO + TURNO_RITROVO + TURNO_RIPOSO
+	village_clock = fmod(village_clock + maxf(delta, 0.0), giro)
+	if village_clock < TURNO_LAVORO:
+		return "giorno"
+	if village_clock < TURNO_LAVORO + TURNO_RITROVO:
+		return "alba"
+	return "notte"
+
+func _animare_potenza_eli(delta: float) -> void:
+	if reduced_motion or not is_instance_valid(player):
+		return
+	for nome in ["PowerOrbitInner", "PowerOrbitOuter"]:
+		var orbit := player.get_node_or_null(nome) as Node2D
+		if orbit != null and orbit.visible:
+			orbit.rotation += float(orbit.get_meta("spin", 0.0)) * delta
 
 func _enforce_water_traversal() -> void:
 	if not is_instance_valid(player) or chunks == null or chunks.composition == null:
@@ -836,13 +939,15 @@ func _create_player() -> void:
 	player.add_child(shape)
 	var visual_data := _resolved_avatar_visual()
 	var livery := _avatar_color(visual_data.get("bodyColor", -1), PLAYER_ACCENT)
-	player_presentation = OutdoorVisualFactory.build_player(livery)
+	var power_grade := WorldLight.grado(game_save)
+	player_presentation = OutdoorVisualFactory.build_player(livery, power_grade)
 	player_presentation.name = "PlayerPresentation"
 	player.add_child(player_presentation)
 	player.visual = player_presentation.get_node("Visual")
 	player.reduced_motion = reduced_motion
 	_apply_accessory(player.visual, visual_data)
 	_apply_emblem(player.visual, visual_data)
+	_apply_upgrade_marks(player.visual)
 	_add_player_night_light()
 	fireflies = OutdoorVisualFactory.make_sparkles(Color(1.0, 0.93, 0.62, 0.85), 560.0, 24)
 	fireflies.lifetime = 5.0
@@ -853,6 +958,14 @@ func _create_player() -> void:
 	fireflies.emitting = not reduced_motion
 	player.add_child(fireflies)
 	world_layer.add_child(player)
+	expedition_module_presentation = EXPEDITION_MODULE_PRESENTATION_SCRIPT.new()
+	expedition_module_presentation.name = "ExpeditionModulePresentation"
+	add_child(expedition_module_presentation)
+	expedition_module_presentation.setup(player)
+	expedition_module_presentation.apply_runtime(
+		runtime, equipped_field_tool(), Array(result.get("collectedTreasureIds", [])))
+	_applica_grado_al_personaggio(power_grade)
+	_aggiorna_stato_energia(game_save.energy(), false)
 	_spawn_pet(visual_data)
 	camera = Camera2D.new()
 	camera.name = "Camera2D"
@@ -888,7 +1001,10 @@ func _resolved_avatar_visual() -> Dictionary:
 	return visual_data
 
 func _cosmetic_signature() -> String:
-	return JSON.stringify(runtime.get("cosmeticsEquipped", {}))
+	return JSON.stringify({
+		"equipped": runtime.get("cosmeticsEquipped", {}),
+		"inventory": runtime.get("cosmeticsInventory", []),
+	})
 
 func _apply_cosmetic_presentation() -> void:
 	if not is_instance_valid(player) or not is_instance_valid(world_layer):
@@ -902,12 +1018,16 @@ func _apply_cosmetic_presentation() -> void:
 	if is_instance_valid(player_presentation):
 		player.remove_child(player_presentation)
 		player_presentation.queue_free()
-	player_presentation = OutdoorVisualFactory.build_player(livery)
+	var power_grade := WorldLight.grado(game_save)
+	player_presentation = OutdoorVisualFactory.build_player(livery, power_grade)
 	player_presentation.name = "PlayerPresentation"
 	player.add_child(player_presentation)
 	player.visual = player_presentation.get_node("Visual")
 	_apply_accessory(player.visual, visual_data)
 	_apply_emblem(player.visual, visual_data)
+	_apply_upgrade_marks(player.visual)
+	_applica_grado_al_personaggio(power_grade)
+	_aggiorna_stato_energia(game_save.energy(), false)
 	if is_instance_valid(pet_companion):
 		world_layer.remove_child(pet_companion)
 		pet_companion.queue_free()
@@ -949,6 +1069,9 @@ func _update_equipment_presentation() -> void:
 		if light != null:
 			light.energy = 1.08 if tool == "tool-torch" else 0.10
 			light.texture_scale = 3.0 if tool == "tool-torch" else 1.15
+	if is_instance_valid(expedition_module_presentation):
+		expedition_module_presentation.apply_runtime(
+			runtime, tool, Array(result.get("collectedTreasureIds", [])))
 	for gate in get_tree().get_nodes_in_group("equipment_gate"):
 		if gate.has_method("set_equipped_tool"):
 			gate.call("set_equipped_tool", tool)
@@ -980,6 +1103,10 @@ func _apply_emblem(visual_node: Node2D, visual_data: Dictionary) -> void:
 	badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	visual_node.add_child(badge)
 
+func _apply_upgrade_marks(visual_node: Node2D) -> void:
+	visual_node.add_child(OutdoorVisualFactory.build_upgrade_marks(
+		Array(runtime.get("cosmeticsInventory", [])).duplicate()))
+
 func _spawn_pet(visual_data: Dictionary) -> void:
 	var pet_data = visual_data.get("pet", null)
 	# Il primo Custode non è un acquisto di bottega: dopo la consegna deve avere
@@ -988,9 +1115,21 @@ func _spawn_pet(visual_data: Dictionary) -> void:
 		pet_data = {"kind": "spark"}
 	if typeof(pet_data) != TYPE_DICTIONARY:
 		return
+	# **Chi decide il colore del Custode.** (14 agosto 2026)
+	#
+	# La livrea vinceva sempre, e siccome ne esiste una di default il colore dei
+	# compagni comprati in bottega non si vedeva mai: chi pagava 3600 frammenti
+	# per il Prisma vedeva il giallo di serie. Adesso l'ordine è quello del
+	# significato: una livrea SCELTA a mano dal bambino batte tutto, perché è una
+	# decisione; sopra il default silenzioso vince invece l'aspetto comprato.
+	#
+	# (Non sono due creature: il Custode È il compagno, e lo slot `pet` decide che
+	# forma abbia — vedi `_resolved_avatar_visual`.)
 	var palette := PetState.livery(game_save)
+	var livrea_scelta := not palette.is_empty() 		and Array(palette) != Array(PetState.DEFAULT.get("livery", []))
 	var color := OutdoorVisualFactory.hex_color(
-		int(palette[0]) if not palette.is_empty() else int(pet_data.get("color", 0xf6c85f)))
+		int(palette[0]) if livrea_scelta or not pet_data.has("color")
+		else int(pet_data.get("color", 0xf6c85f)))
 	pet_companion = OutdoorPetCompanion.new()
 	world_layer.add_child(pet_companion)
 	pet_companion.setup(
@@ -1415,6 +1554,7 @@ func _create_profile_event(event: Dictionary) -> void:
 	area.set_meta("completed", completed)
 	if not completed:
 		area.add_to_group("world_interactable")
+		area.add_to_group("progress_reaction_poi")
 		if bool(event.get("countsForGate", false)):
 			area.add_to_group("mission_poi")
 		if director_kind == "enigma" or director_kind == "minimission":
@@ -1427,6 +1567,10 @@ func _create_profile_event(event: Dictionary) -> void:
 	area.set_meta("kind", scene_kind)
 	area.set_meta("id", event_id)
 	area.set_meta("directorEvent", event.duplicate(true))
+	area.set_meta("location_socket", str(event.get("locationSocket", "")))
+	area.set_meta("location_cluster", str(event.get("locationCluster", "fallback")))
+	area.set_meta("location_role", str(event.get("locationRole", "route")))
+	area.set_meta("discovery_cue", str(event.get("discoveryCue", "proximity")))
 	var payload := {
 		"subject": str(event.get("subject", _world_subject())),
 		"label": _event_label(event),
@@ -1435,6 +1579,10 @@ func _create_profile_event(event: Dictionary) -> void:
 		"countsForGate": bool(event.get("countsForGate", false)),
 		"directorKind": director_kind,
 		"ownerNpc": NPC_CATALOG.owner_for(world_level, director_kind),
+		"locationSocket": str(event.get("locationSocket", "")),
+		"locationCluster": str(event.get("locationCluster", "fallback")),
+		"locationRole": str(event.get("locationRole", "route")),
+		"discoveryCue": str(event.get("discoveryCue", "proximity")),
 	}
 	if director_kind == "minimission":
 		# Il testo autoriale viaggia INTERO nel payload: la logica di gioco non
@@ -1483,6 +1631,12 @@ func _create_profile_event(event: Dictionary) -> void:
 		equipment_gate.name = "EquipmentGate"
 		area.add_child(equipment_gate)
 		equipment_gate.configure(str(payload.get("requiredTool", "")), equipped_field_tool())
+	elif world_level == 1 and str(payload["subject"]) == "matematica":
+		var activity_site := WORLD1_ACTIVITY_SITE_SCRIPT.new()
+		activity_site.setup(
+			str(payload["format"]), completed,
+			OutdoorVisualFactory.hex_color(_profile_accent_rgb()), reduced_motion)
+		area.add_child(activity_site)
 	elif not completed:
 		var marker := OutdoorVisualFactory.build_encounter(
 			_event_visual_kind(str(payload["subject"])),
@@ -1498,6 +1652,8 @@ func _create_profile_event(event: Dictionary) -> void:
 	reaction.position = Vector2(0, 28)
 	reaction.set_complete(completed)
 	area.add_child(reaction)
+	if world_level == 1 and bool(payload["countsForGate"]) and not completed:
+		area.add_child(_make_world1_discovery_cue(event, director_kind))
 	# EnigmaStructureVisual possiede già un titolo contestuale leggibile:
 	# aggiungerne un secondo produceva etichette sovrapposte su tablet.
 	# Una missione già conclusa conserva la trasformazione ambientale, ma non
@@ -1507,8 +1663,51 @@ func _create_profile_event(event: Dictionary) -> void:
 		caption.name = "EventCaption"
 		area.add_child(caption)
 	world_layer.add_child(area)
+	if director_kind == "minimission" and not completed \
+			and WorldLight.prove_nel_mondo(game_save, _world_id_scena()) <= 0 \
+			and Array(result.get("completedEncounterIds", [])).is_empty():
+		# Al primo ingresso l'incarico non è già piantato sulla mappa: si accende
+		# dopo la prima prova riuscita, cioè mentre il mondo sta cambiando.
+		area.add_to_group("pending_minimission_reveal")
+		area.visible = false
+		area.monitoring = false
+		area.monitorable = false
 	area.body_entered.connect(func(body): on_interactable_entered(area, body))
 	area.body_exited.connect(func(body): on_interactable_exited(area, body))
+
+## La Radura insegna a leggere il paesaggio in tre distanze. Il segnale non e'
+## un waypoint HUD: nasce dal sito e cambia altezza/intensita' secondo il
+## contratto del socket (`proximity`, `local_clue`, `distant_signal`).
+func _make_world1_discovery_cue(event: Dictionary, director_kind: String) -> Node2D:
+	var cue_type := str(event.get("discoveryCue", "proximity"))
+	var root_node := Node2D.new()
+	root_node.name = "DiscoveryCue"
+	root_node.set_meta("cue_type", cue_type)
+	root_node.add_to_group("world1_discovery_cue")
+	root_node.z_index = 8
+	var elevation := (
+		176.0 if director_kind == "enigma"
+		else 154.0 if cue_type == "distant_signal"
+		else 132.0 if cue_type == "local_clue"
+		else 108.0)
+	root_node.position = Vector2(0, -elevation)
+	var stem := Line2D.new()
+	stem.name = "SignalStem"
+	stem.points = PackedVector2Array([Vector2(0, 13), Vector2(0, elevation - 70.0)])
+	stem.width = 2.0 if cue_type == "proximity" else 3.0
+	stem.default_color = Color("8ff6c0", 0.60)
+	root_node.add_child(stem)
+	var diamond := OutdoorVisualFactory.make_polygon(PackedVector2Array([
+		Vector2(0, -14), Vector2(11, 0), Vector2(0, 14), Vector2(-11, 0),
+	]), Color("f6cf65") if director_kind == "minimission" else Color("8ff6c0"))
+	diamond.name = "SignalDiamond"
+	root_node.add_child(diamond)
+	var ring := OutdoorVisualFactory.make_ring(22, Color("8ff6c0", 0.72), 2.2, 24)
+	ring.scale.y = 0.55
+	root_node.add_child(ring)
+	if not reduced_motion:
+		OutdoorVisualFactory.attach_anim(ring, "pulse", 0.86, 0.62)
+	return root_node
 
 func _event_label(event: Dictionary) -> String:
 	var subject := str(event.get("subject", _world_subject())).capitalize()
@@ -1684,8 +1883,42 @@ func _on_minimission_completed(forma: String, encounter_id: String, _esito: Stri
 	var audio := get_node_or_null("/root/NativeAudio")
 	if audio != null:
 		audio.call("play_event", "enigmaProgress", 1.18)
+	_consegna_strumento_se_dovuto(encounter_id)
 	_update_objective()
 	_refresh_prompt()
+
+## **Chi ti ha visto lavorare ti passa l'attrezzo.** (14 agosto 2026)
+##
+## La torcia e la falce non stanno più a listino ([[FieldTools]]): arrivano qui,
+## alla prima riparazione finita in un mondo, dalle mani di chi quella
+## riparazione l'aveva chiesta. Non costa niente e non si può mancare — le
+## minimissioni prendono il posto del primo evento-gate, quindi ci passano tutti.
+##
+## Se il proprietario non è identificabile la riga cade su una formulazione senza
+## nome invece di saltare la consegna: uno strumento mancato chiuderebbe
+## deviazioni per il resto della campagna, e nessun dettaglio di messa in scena
+## vale quel prezzo.
+func _consegna_strumento_se_dovuto(encounter_id: String) -> void:
+	if not is_instance_valid(gameplay) or gameplay.reward_manager == null:
+		return
+	var dovuto := FieldTools.dovuto(gameplay.reward_manager)
+	if dovuto == "":
+		return
+	if not gameplay.reward_manager.deliver_field_tool(dovuto):
+		return
+	game_save.save()
+	var chi := ""
+	if mission_ownership_flow != null:
+		var owner_id: String = mission_ownership_flow.owner_of(encounter_id)
+		if str(owner_id) != "":
+			chi = str(NPC_CATALOG.resident(str(owner_id)).get("nome", ""))
+	_set_feedback(FieldTools.riga_di_consegna(dovuto, chi))
+	# Lo strumento è addosso da subito: la luce della torcia, i cancelli dei POI e
+	# la livrea si aggiornano nello stesso istante della riga, altrimenti il
+	# giocatore legge di averlo ricevuto e il mondo non se ne accorge.
+	gameplay.call("_emit_state")
+	_update_equipment_presentation()
+	_apply_cosmetic_presentation()
 
 func _create_world_buildings() -> void:
 	var specs := BUILDING_CATALOG.for_world(world_level, world_profile)
@@ -1693,7 +1926,7 @@ func _create_world_buildings() -> void:
 	for index in specs.size():
 		var spec: Dictionary = specs[index]
 		var actor: Node2D = BUILDING_ACTOR_SCRIPT.new()
-		actor.call("configure", spec, _npc_story_stage(), high_contrast, reduced_motion)
+		actor.call("configure", spec, _building_story_stage(spec), high_contrast, reduced_motion)
 		actor.position = _building_position(str(spec.get("role", "")), index, occupied)
 		occupied.append(actor.position)
 		world_layer.add_child(actor)
@@ -1709,22 +1942,15 @@ func _create_mystery_artifacts() -> void:
 		return
 	var trace: Dictionary = MYSTERY_CATALOG.traccia_for(world_level)
 	var occupied: Array = []
-	var seed_count := 0
-	for raw_seed in MYSTERY_CATALOG.SEMI:
-		if int((raw_seed as Dictionary).get("world", 0)) == world_level:
-			seed_count += 1
+	var seeds: Array = MYSTERY_CATALOG.semi_for(world_level)
 	if not trace.is_empty():
 		var trace_area: Area2D = MYSTERY_ARTIFACT_SCRIPT.new()
 		trace_area.configure("trace", "trace-%02d" % world_level, trace, high_contrast)
-		trace_area.position = _mystery_artifact_position(ruin.global_position, 0, seed_count + 1, occupied)
+		trace_area.position = _mystery_artifact_position(
+			ruin.global_position, 0, seeds.size() + 1, occupied)
 		occupied.append(trace_area.position)
 		world_layer.add_child(trace_area)
 		_bind_mystery_artifact(trace_area)
-	var seeds: Array = []
-	for raw_seed in MYSTERY_CATALOG.SEMI:
-		var seed_data: Dictionary = raw_seed
-		if int(seed_data.get("world", 0)) == world_level:
-			seeds.append(seed_data.duplicate(true))
 	for index in seeds.size():
 		var seed_data: Dictionary = seeds[index]
 		var seed_area: Area2D = MYSTERY_ARTIFACT_SCRIPT.new()
@@ -1796,9 +2022,29 @@ func _open_mystery_artifact(target: Area2D) -> void:
 		_mark_mystery_seen("tracesSeen", str(world_level))
 	else:
 		pages = [str(payload.get("cosa", ""))]
-		speaker = str(payload.get("dove", "dettaglio")).capitalize()
-		role = "Seme · %s" % str(payload.get("colpo", "mistero")).replace("-", " ")
+		# La riga di Eli, quando c'è, è una seconda schermata e mai una sola: il
+		# giocatore legge prima la cosa e poi cosa ne pensa lei, che è l'ordine in
+		# cui la guarderebbe davvero. Il prefisso segue il contratto dei beat.
+		var eli_line := str(payload.get("eli", "")).strip_edges()
+		if eli_line != "":
+			pages.append("Eli: %s" % eli_line)
+		var sister := str(payload.get("sorella", "")).strip_edges()
+		if sister != "":
+			# **L'unico che sente dove il significato è svanito** (PET_CUSTODE §1).
+			# Una traccia di sorella è esattamente quello, e il Custode non dice
+			# niente — cambia faccia, e sta al bambino accorgersene.
+			_pet_react("sister_found")
+		speaker = sister if sister != "" else str(payload.get("dove", "dettaglio")).capitalize()
+		role = "Traccia di una sorella" if sister != "" \
+			else "Seme · %s" % str(payload.get("colpo", "mistero")).replace("-", " ")
 		_mark_mystery_seen("seedsSeen", id)
+		# Il fascicolo di Squadra non è soltanto un collezionabile: quando si
+		# chiude l'ultima pagina, il giocatore decide che cosa farne. Il legame
+		# usa l'id del dialogo, così nessun altro seme del mondo 23 può aprire la
+		# scelta per sbaglio.
+		if world_level == 23 and str(payload.get("sorella", "")) == "Squadra" \
+				and StanceChoices.dovuta(game_save.data, "squadra-quaderno"):
+			stance_choice_after_dialogue[id] = "squadra-quaderno"
 	if pages.is_empty() or str(pages[0]).strip_edges() == "":
 		return
 	if is_instance_valid(player):
@@ -1808,6 +2054,162 @@ func _open_mystery_artifact(target: Area2D) -> void:
 	dialogue_box.call("configure_accessibility", high_contrast, reduced_motion)
 	dialogue_box.call("show_dialogue", id, speaker, role, pages)
 	_refresh_interaction_button(null)
+
+## **Aprire un forziere.** (14 agosto 2026)
+##
+## Prima era una riga sola per tutti: «Tesoro raccolto: +N frammenti». Adesso il
+## forziere ha un contenuto ([[TreasureCatalog]]) e tre modi di consegnarlo, che
+## sono tre pesi diversi dello stesso gesto:
+##
+##   LASCITO   la roba di qualcuno che abita qui. Si ferma il gioco e si legge,
+##             come per una Traccia — è l'unico forziere che chiede un momento;
+##   CUSTODE   il Custode fruga e tiene una cosa inutile per sé. Va a finire
+##             nella lista dei regali, che a fine campagna è il diario del
+##             viaggio (`PetGifts`);
+##   RESTO     una riga di feedback, e si cammina.
+##
+## La ricompensa in frammenti la decide il catalogo e non più il payload
+## procedurale: `rewardFragments` era tarato su un'economia in cui i frammenti
+## non compravano niente. Vedi [[FragmentEconomy]].
+##
+## L'ordine conta: si incassa **prima** e si racconta dopo. Chi chiude il
+## riquadro senza leggere ha già preso tutto, e nessun testo di questo gioco può
+## stare fra un bambino e una cosa che ha guadagnato.
+## **Il chiavistello davanti al forziere.** (14 agosto 2026)
+##
+## Richiesta del committente: i forzieri si aprono con un minigioco di velocità
+## di matematica, difficoltà per mondo. Qui c'è solo la regia — le regole stanno
+## in [[LockChallenge]], la scena in [[LockMinigamePanel]].
+##
+## Il seme cambia a ogni tentativo (`Time.get_ticks_msec`): un chiavistello
+## fallito e riprovato non deve poter essere rifatto a memoria, altrimenti la
+## seconda volta non si calcola più — si ricorda, che è la cosa che questo gioco
+## non vuole insegnare.
+func _apri_forziere(target: Area2D, id: String) -> void:
+	if is_instance_valid(lock_panel):
+		return
+	var custode := is_instance_valid(game_save) and PetState.is_granted(game_save)
+	var tipo := TreasureCatalog.tipo_di(id, custode)
+	var regole := LockChallenge.regole(world_level, tipo, reduced_motion)
+	var etichetta := "forziere chiuso con cura" if tipo == TreasureCatalog.TIPO_LASCITO else "cassa"
+	lock_panel = LockMinigamePanel.new()
+	lock_panel.name = "LockMinigamePanel"
+	lock_panel.risolto.connect(func(vinto: bool, pulito: bool):
+		_chiudi_chiavistello(target, id, vinto, pulito))
+	ui_layer.add_child(lock_panel)
+	lock_panel.call("avvia", regole, etichetta,
+		hash("%s:%d" % [id, Time.get_ticks_msec()]), reduced_motion, high_contrast)
+	# Eli si ferma: il pannello è modale, e lasciarla camminare sotto uno schermo
+	# pieno la fa finire chissà dove. Stessa regola del varco.
+	if is_instance_valid(player):
+		player.touch_target = Vector2.INF
+		player.velocity = Vector2.ZERO
+		player.set_physics_process(false)
+
+## Il chiavistello ha ceduto — o non ha ceduto. Fallire non toglie niente: il
+## forziere resta chiuso dov'è, non risulta raccolto, e si può riprovare subito.
+func _chiudi_chiavistello(target: Area2D, id: String, vinto: bool, pulito: bool) -> void:
+	if is_instance_valid(lock_panel):
+		lock_panel.queue_free()
+		lock_panel = null
+	if is_instance_valid(player):
+		player.set_physics_process(true)
+	if not vinto:
+		# Va tolto dai raccolti: `_interact` lo aveva segnato prima di aprire, e
+		# un forziere che risulta preso senza essere stato aperto è la sola cosa
+		# peggiore di un forziere che non si apre.
+		var raccolti: Array = result["collectedTreasureIds"]
+		raccolti.erase(id)
+		_set_warning_feedback(LockChallenge.riga_di_fallimento())
+		_refresh_prompt()
+		return
+	_svuota_forziere(target, id, pulito)
+
+func _svuota_forziere(target: Area2D, id: String, pulito := true) -> void:
+	var custode_disponibile := is_instance_valid(game_save) and PetState.is_granted(game_save)
+	var contenuto := TreasureCatalog.contenuto(world_level, id, custode_disponibile)
+	var premio := int(contenuto.get("frammenti", 0))
+
+	gameplay.collect_treasure({"rewardFragments": premio}, id)
+	_update_objective()
+	_refresh_economy()
+	_spawn_gain_popup("+%d frammenti" % premio, Color("c7b8ff"))
+	if is_instance_valid(pet_companion):
+		pet_companion.react()
+	nearby.erase(target)
+	var owner_node := target.get_parent()
+	if is_instance_valid(owner_node):
+		owner_node.queue_free()
+	_refresh_prompt()
+
+	# Il chiavistello pulito non vale frammenti in più — il contenuto di un
+	# forziere non dipende da come si gioca ([[TreasureCatalog]]) — vale una riga
+	# diversa, che è l'unico premio che non sposta l'economia.
+	if pulito and is_instance_valid(pet_companion):
+		_pet_react("antic")
+
+	match str(contenuto.get("tipo", TreasureCatalog.TIPO_RESTO)):
+		TreasureCatalog.TIPO_LASCITO:
+			_racconta_lascito(id, contenuto, premio)
+		TreasureCatalog.TIPO_CUSTODE:
+			_regalo_dal_forziere(id, contenuto, premio)
+		_:
+			_set_feedback("%s %s +%d frammenti." % [
+				LockChallenge.riga_di_vittoria(pulito),
+				str(contenuto.get("cosa", "Una cassa di roba.")), premio])
+
+## Il forziere di qualcuno. Lo speaker è l'oggetto e non la persona — la persona
+## non c'è, ed è metà di quello che il forziere racconta. Il ruolo dice di chi
+## era, quando il mondo ha un cast scritto; quando non ce l'ha, l'oggetto parla
+## da solo invece di attribuirsi un proprietario inventato.
+func _racconta_lascito(id: String, contenuto: Dictionary, premio: int) -> void:
+	var chi: Dictionary = contenuto.get("proprietario", {})
+	var nome := str(chi.get("nome", ""))
+	var ruolo := "Lasciato qui da %s · %s" % [nome, str(chi.get("ruolo", "abitante"))] if nome != "" \
+		else "Lasciato qui da qualcuno"
+	var pages: Array = [str(contenuto.get("cosa", ""))]
+	var riga_eli := str(contenuto.get("eli", "")).strip_edges()
+	if riga_eli != "":
+		# Stesso contratto dei semi del mistero: prima la cosa, poi cosa ne pensa
+		# lei. È l'ordine in cui la guarderebbe davvero.
+		pages.append("Eli: %s" % riga_eli)
+	if pages.is_empty() or str(pages[0]).strip_edges() == "":
+		_set_feedback("Forziere aperto: +%d frammenti." % premio)
+		return
+	_set_feedback("+%d frammenti." % premio)
+	if is_instance_valid(player):
+		player.touch_target = Vector2.INF
+		player.velocity = Vector2.ZERO
+		player.set_physics_process(false)
+	dialogue_box.call("configure_accessibility", high_contrast, reduced_motion)
+	dialogue_box.call("show_dialogue", "forziere-%s" % id,
+		str(contenuto.get("nome", "reperto")).capitalize(), ruolo, pages)
+	_refresh_interaction_button(null)
+
+## Il Custode fruga nel forziere e tiene una cosa che non serve a niente. NORA
+## non la commenta qui: la commenta la schermata del Custode, dove la lista dei
+## regali è già il diario del viaggio. Se la registrazione fallisce — id ignoto,
+## Custode non concesso — resta un forziere normale, senza mezze scene.
+func _regalo_dal_forziere(id: String, contenuto: Dictionary, premio: int) -> void:
+	if _pet_gift_rng == null:
+		_pet_gift_rng = RandomNumberGenerator.new()
+		_pet_gift_rng.randomize()
+	# Il regalo è stabile sull'id come tutto il resto del forziere: due partite
+	# diverse trovano la stessa cosa nella stessa cassa.
+	var rng := RandomNumberGenerator.new()
+	rng.seed = hash("%s:regalo" % id)
+	var gift_id := PetGifts.pick(rng)
+	var voce := PetState.register_gift(game_save, gift_id, world_level)
+	if voce.is_empty():
+		_set_feedback("%s +%d frammenti." % [str(contenuto.get("cosa", "Una cassa di roba.")), premio])
+		return
+	game_save.save()
+	_pet_react("antic")
+	_set_feedback("%s %s. E per te, +%d frammenti." % [
+		str(contenuto.get("riga", "Il Custode fruga nella cassa.")),
+		PetGifts.label_of(gift_id).to_lower(),
+		premio,
+	])
 
 func _show_decisive_fallback_if_needed() -> bool:
 	if not MYSTERY_CATALOG.tracce_decisive().has(world_level):
@@ -1859,10 +2261,27 @@ func _building_position(role: String, index: int, occupied: Array) -> Vector2:
 	return chunks.clamp_to_world(base + Vector2(0, 180.0 * float(index + 1)))
 
 func _update_building_stages() -> void:
-	var current_stage := _npc_story_stage()
 	for building in world_buildings:
 		if is_instance_valid(building):
+			var resident_owner := str(building.get_meta("resident_owner", ""))
+			var current_stage := _resident_story_stage(resident_owner) \
+				if resident_owner != "" else _npc_story_stage()
 			building.call("set_stage", current_stage)
+
+func _building_story_stage(spec: Dictionary) -> int:
+	var resident_owner := str(spec.get("residentOwner", ""))
+	return _resident_story_stage(resident_owner) if resident_owner != "" else _npc_story_stage()
+
+## Il primo stadio segue ancora ciò che Eli impara; il compimento, invece,
+## appartiene alla persona la cui convinzione è stata messa alla prova. Il
+## marcatore `gioco-<npc>` è persistente e distinto per residente: è il segnale
+## che mancava al vecchio contatore unico del mondo.
+func _resident_story_stage(npc_id: String) -> int:
+	if npc_id == "" or not is_instance_valid(gameplay):
+		return 0
+	if _minigioco_personaggio_superato(npc_id):
+		return 2
+	return mini(NpcArc.stadio(gameplay.progression_manager, npc_id), 1)
 
 func ritrovo_position() -> Vector2:
 	for building in world_buildings:
@@ -1893,13 +2312,12 @@ func _create_world_npcs() -> void:
 		var actor: Area2D = NPC_ACTOR_SCRIPT.new()
 		actor.call("configure", npc_id, data, reduced_motion)
 		actor.call("set_high_contrast", high_contrast)
-		actor.position = _npc_spawn_position(index, occupied)
+		actor.position = _npc_home_position(npc_id, data, index, occupied)
 		occupied.append(actor.position)
 		world_layer.add_child(actor)
 		actor.body_entered.connect(func(body): on_interactable_entered(actor, body))
 		actor.body_exited.connect(func(body): on_interactable_exited(actor, body))
 		npc_actors.append(actor)
-	_metti_in_scena_gli_archi()
 	# Un solo volto ricorrente per mondo. Residenti (2) + Bislacco (1) +
 	# itinerante (1) rispettano il budget assoluto di quattro presenze.
 	if npc_actors.size() < 4:
@@ -1911,12 +2329,17 @@ func _create_world_npcs() -> void:
 			var itinerant: Area2D = NPC_ACTOR_SCRIPT.new()
 			itinerant.call("configure", itinerant_id, actor_data, reduced_motion)
 			itinerant.call("set_high_contrast", high_contrast)
-			itinerant.position = _npc_spawn_position(npc_actors.size(), occupied)
+			itinerant.position = _npc_home_position(
+				itinerant_id, actor_data, npc_actors.size(), occupied)
 			occupied.append(itinerant.position)
 			world_layer.add_child(itinerant)
 			itinerant.body_entered.connect(func(body): on_interactable_entered(itinerant, body))
 			itinerant.body_exited.connect(func(body): on_interactable_exited(itinerant, body))
 			npc_actors.append(itinerant)
+	# Dopo l'itinerante, non prima: la messa in scena degli archi deve vedere
+	# tutto il cast — le tre parole sotto il nome e il fumetto valgono anche per
+	# chi è di passaggio.
+	_metti_in_scena_gli_archi()
 
 func _finale_stage2_residents() -> Array:
 	var out: Array = []
@@ -1973,6 +2396,95 @@ func _advance_finale_convergence_wave() -> void:
 	_create_finale_convergence_cast()
 	_refresh_prompt()
 
+## **Ognuno sta dove ha senso che stia.** (16 agosto 2026)
+##
+## Segnalazione del committente: «non devono essere collocati tutti insieme ma
+## sparsi intelligentemente nella mappa». Aveva ragione, e la causa era doppia.
+##
+## La prima: `_npc_spawn_position` distribuiva il cast su **quattro ancoraggi
+## fissi in un anello di quattrocento pixel attorno al punto di sbarco**,
+## assegnati per indice. Chiunque fossero, i quattro abitanti del mondo si
+## trovavano tutti nei primi dieci passi, in un capannello che non voleva dire
+## niente — mentre i loro luoghi, che il catalogo assegna **per nome** in
+## `BuildingCatalog._resident_owner`, restavano vuoti. Il gioco sapeva già che
+## Tobia lavora alla Casa del Conto e che Nonna Ersilia presidia la Fontana dei
+## Filari: non lo usava per metterceli.
+##
+## Adesso la posizione viene da CHI È la persona:
+##
+##   specialista  alla Casa del mestiere — è il suo laboratorio, e trovarcelo
+##                dentro spiega l'edificio senza una riga di testo;
+##   testimone    al Ritrovo, il luogo che presidia;
+##   bislacco     fuori mano, lontano dagli edifici e dal corridoio sicuro:
+##                incontrarlo dev'essere una piccola scoperta, non un saluto
+##                obbligatorio all'arrivo;
+##   itinerante   sulla strada fra lo sbarco e la nave — è di passaggio, e lo si
+##                incontra camminando, che è l'unico modo sensato.
+##
+## La distanza minima fra due abitanti sale da 150 a 420 pixel: sotto quella
+## soglia due presenze si leggono ancora come un gruppo.
+const NPC_MIN_SEPARATION := 420.0
+
+func _npc_home_position(npc_id: String, data: Dictionary, index: int, occupied: Array) -> Vector2:
+	var base := _npc_home_base(npc_id, data)
+	for attempt in 32:
+		var angle := TAU * float(attempt) / 8.0
+		var radius := 0.0 if attempt == 0 else 90.0 + 60.0 * floori(float(attempt) / 8.0)
+		var candidate := chunks.clamp_to_world(base + Vector2.RIGHT.rotated(angle) * radius)
+		if chunks.composition != null:
+			if chunks.composition.is_protected(candidate, 72.0) \
+					or chunks.composition.raw_water_weight(candidate) >= 0.24:
+				continue
+		var blocked := candidate.distance_to(_hero_landmark_position()) < 150.0
+		for event in mission_events:
+			if candidate.distance_to(event.get("position", Vector2.ZERO)) < 150.0:
+				blocked = true
+				break
+		for used in occupied:
+			if candidate.distance_to(used as Vector2) < NPC_MIN_SEPARATION:
+				blocked = true
+				break
+		if not blocked:
+			for artifact in get_tree().get_nodes_in_group("mystery_artifact"):
+				if artifact is Node2D and is_ancestor_of(artifact) \
+					and candidate.distance_to((artifact as Node2D).global_position) < 170.0:
+					blocked = true
+					break
+		if not blocked:
+			return candidate
+	# Nessun posto libero attorno al luogo giusto: meglio l'anello di ripiego che
+	# una presenza addosso a un'altra o dentro l'acqua.
+	return _npc_spawn_position(index, occupied)
+
+func _npc_home_base(npc_id: String, data: Dictionary) -> Vector2:
+	var spawn: Vector2 = world_profile.get("spawn", Vector2(0, 1180))
+	if not NPC_CATALOG.resident(npc_id).is_empty():
+		if str(data.get("funzione", "")) == "testimone":
+			return ritrovo_position() + Vector2(-136, 128)
+		return _building_role_position("work_home") + Vector2(136, 128)
+	var lato_bislacco := -1.0 if posmod(hash("%s:bislacco-lato" % world_seed), 2) == 0 else 1.0
+	if not NPC_CATALOG.bislacco(npc_id).is_empty():
+		# Fuori mano ma dentro il raggio raggiungibile: la direzione è decisa dal
+		# seme del mondo, così due mondi non mettono lo stravagante nello stesso
+		# angolo, e resta la stessa a ogni rientro nello stesso mondo.
+		#
+		# Fra 28° e 66° sopra l'orizzonte, da un lato o dall'altro. Mai in
+		# verticale sopra lo sbarco: lì passa il corridoio sicuro e più su c'è il
+		# raggio protetto della nave, e una presenza piazzata dentro finirebbe
+		# spinta fuori dal ripiego, cioè di nuovo nel capannello.
+		var quota := float(posmod(hash("%s:bislacco" % world_seed), 1000)) / 1000.0
+		var angolo := lerpf(deg_to_rad(28.0), deg_to_rad(66.0), quota)
+		return spawn + Vector2(cos(angolo) * lato_bislacco, -sin(angolo)) * 1180.0
+	# Itinerante: a mezza via sulla risalita verso la nave, spostato di lato —
+	# il corridoio sicuro non si occupa mai — e dalla parte opposta allo
+	# stravagante, così i due che stanno fuori dai luoghi non stanno insieme.
+	var ship: Vector2 = Dictionary(world_profile.get("shipEntrance", {})).get(
+		"position", Vector2.ZERO)
+	return spawn.lerp(ship, 0.58) + Vector2(430.0 * -lato_bislacco, 0.0)
+
+## Anello di ripiego attorno allo sbarco. Non è più il criterio di collocazione
+## degli abitanti — lo usano la convergenza del finale, dove il cast **deve**
+## radunarsi, e i casi in cui attorno al luogo giusto non c'è terreno libero.
 func _npc_spawn_position(index: int, occupied: Array) -> Vector2:
 	var spawn: Vector2 = world_profile.get("spawn", Vector2(0, 1180))
 	var anchors := [Vector2(-430, -250), Vector2(430, -220), Vector2(390, 170), Vector2(-420, 180)]
@@ -2009,18 +2521,71 @@ func _create_world_life() -> void:
 	var anchor_map: Dictionary = {}
 	var work_center := _building_role_position("work_home")
 	var social_center := ritrovo_position()
-	var work_offsets := [Vector2(-115, 72), Vector2(115, 72), Vector2(-175, 145), Vector2(175, 145)]
+	var ruin_center := _hero_landmark_position()
 	var social_offsets := [Vector2(-108, 92), Vector2(108, 92), Vector2(0, 164), Vector2(190, 40)]
 	for index in npc_actors.size():
 		var actor := npc_actors[index]
 		var npc_id := str(actor.get_meta("id", ""))
 		anchor_map[npc_id] = {
 			"home": actor.global_position,
-			"work": _safe_world_life_anchor(work_center + work_offsets[index % work_offsets.size()], index),
+			"work": _safe_world_life_anchor(_npc_work_anchor_base(
+				npc_id, work_center, social_center, ruin_center, actor.global_position), index),
 			"ritrovo": _safe_world_life_anchor(social_center + social_offsets[index % social_offsets.size()], index + 7),
 		}
 	world_life = WORLD_LIFE_SCRIPT.new()
 	world_life.configure(world_level, npc_actors, anchor_map, _npc_story_stage(), reduced_motion)
+	world_life.set_resident_stages(_stadi_dei_residenti())
+
+## **Il posto di lavoro è il PROPRIO, non quello di tutti.** (16 agosto 2026)
+##
+## Seconda causa del capannello, e la più insidiosa perché agiva DOPO aver
+## sparso il cast: l'ancoraggio `work` era la Casa del mestiere per tutti e
+## quattro, con quattro scostamenti presi per indice. La fase «giorno» è quella
+## in cui il mondo resta per quasi tutta la visita — la luce non si muove più,
+## vedi `_process` — quindi ogni abitante camminava verso lo stesso edificio e non
+## se ne andava più. Bastava girare due minuti e li si ritrovava tutti lì.
+##
+## Adesso il turno di lavoro di ciascuno sta dove sta il suo mestiere. Il Ritrovo
+## resta il solo momento in cui si radunano davvero, ed è giusto che sia l'unico:
+## è la scena in cui si parlano fra loro.
+func _npc_work_anchor_base(npc_id: String, work_center: Vector2, social_center: Vector2,
+		ruin_center: Vector2, home: Vector2) -> Vector2:
+	# Il turno sta dall'altro lato dell'edificio rispetto a dove la persona
+	# staziona (vedi `_npc_home_base`): se coincidessero non ci sarebbe niente da
+	# percorrere, e il turno di lavoro non si vedrebbe affatto.
+	var funzione := str(NPC_CATALOG.resident(npc_id).get("funzione", ""))
+	if funzione == "specialista":
+		return work_center + Vector2(-150, -96)
+	if funzione == "testimone":
+		return social_center + Vector2(168, -104)
+	if not NPC_CATALOG.bislacco(npc_id).is_empty():
+		# Lo stravagante non ha un mestiere: gira attorno alla Rovina, che è la
+		# cosa del mondo di cui nessuno sa dare una spiegazione sensata.
+		#
+		# Dalla parte della Rovina opposta alla nave, e non con uno scostamento
+		# fisso: la Rovina di alcuni mondi sta a ridosso del corridoio sicuro, e
+		# uno scostamento verso l'interno lo infilava dentro (`world_life_audit`).
+		# Allontanarsi lungo il raggio nave→Rovina esce sempre da entrambi.
+		var ship: Vector2 = Dictionary(world_profile.get("shipEntrance", {})).get(
+			"position", Vector2.ZERO)
+		var fuori := ship.direction_to(ruin_center)
+		if fuori.length_squared() < 0.01:
+			fuori = Vector2.DOWN
+		return ruin_center + fuori * 230.0
+	# L'itinerante è di passaggio: il suo turno è restare sulla strada.
+	return home
+
+func _stadi_dei_residenti() -> Dictionary:
+	var stadi: Dictionary = {}
+	if not is_instance_valid(gameplay):
+		return stadi
+	for attore in npc_actors:
+		if not is_instance_valid(attore):
+			continue
+		var npc_id := str(attore.get_meta("id", ""))
+		if npc_id != "" and NpcArc.ha_arco(npc_id):
+			stadi[npc_id] = NpcArc.stadio(gameplay.progression_manager, npc_id)
+	return stadi
 
 func _building_role_position(role: String) -> Vector2:
 	for building in world_buildings:
@@ -2092,11 +2657,7 @@ func _metti_in_scena_gli_archi() -> void:
 	if in_fondo.is_empty() or npc_actors.size() < 2:
 		return
 	for attore in in_fondo:
-		var compagno: Area2D = null
-		for altro in npc_actors:
-			if is_instance_valid(altro) and altro != attore:
-				compagno = altro
-				break
+		var compagno := _compagno_di_arco(attore)
 		if compagno == null:
 			continue
 		# Accanto, non addosso: a centoventi pixel si leggono come due persone
@@ -2105,6 +2666,29 @@ func _metti_in_scena_gli_archi() -> void:
 		if verso.length_squared() < 0.01:
 			verso = Vector2.RIGHT
 		attore.position = chunks.clamp_to_world(compagno.position + verso * 120.0)
+
+## A chi va vicino chi è arrivato in fondo al suo arco.
+##
+## Prima era «il primo altro attore della lista», che con quattro presenze nello
+## stesso capannello non si notava. Adesso che il cast è sparso, spostare Tobia
+## dall'altra parte della mappa per metterlo accanto a un venditore ambulante di
+## passaggio sarebbe un'immagine falsa: chi ha capito una cosa la insegna a
+## qualcuno **di qui**, e nell'arco scritto nel catalogo è sempre così.
+##
+## L'ordine è quello del significato: prima l'altro residente del mondo (è la
+## persona con cui condivide la materia), poi lo stravagante, e l'itinerante mai
+## — quello è già in cammino verso altrove.
+func _compagno_di_arco(attore: Area2D) -> Area2D:
+	var stravagante: Area2D = null
+	for altro in npc_actors:
+		if not is_instance_valid(altro) or altro == attore:
+			continue
+		var altro_id := str(altro.get_meta("id", ""))
+		if not NPC_CATALOG.resident(altro_id).is_empty():
+			return altro
+		if stravagante == null and not NPC_CATALOG.bislacco(altro_id).is_empty():
+			stravagante = altro
+	return stravagante
 
 func _create_dialogue_box() -> void:
 	dialogue_box = DIALOGUE_BOX_SCRIPT.new()
@@ -2153,9 +2737,21 @@ func _create_thirteenth_presence() -> void:
 		"smemora":
 			var cast: Dictionary = NPC_CATALOG.for_world(world_level)
 			thirteenth_director.active_owner = _active_mission_owner()
-			thirteenth_forgotten_npc = thirteenth_director.choose_forgotten_resident(
-				Array(cast.get("residents", [])))
-			if thirteenth_forgotten_npc != "":
+			var residents := Array(cast.get("residents", []))
+			thirteenth_deep_forgotten_npc = thirteenth_director.choose_deep_forgotten_resident(
+				residents, bool(persistent.get("deepSmemoraUsed", false)))
+			if thirteenth_deep_forgotten_npc != "":
+				# Persistiamo che è accaduto, non che è ancora attivo. Il bersaglio
+				# vive soltanto in questa scena e uscire dal mondo lo ripristina.
+				persistent["deepSmemoraUsed"] = true
+				persistent["deepSmemoraHistory"] = {
+					"world": world_level,
+					"resident": thirteenth_deep_forgotten_npc,
+				}
+				_apply_deep_smemora_visual(true)
+			else:
+				thirteenth_forgotten_npc = thirteenth_director.choose_forgotten_resident(residents)
+			if thirteenth_deep_forgotten_npc != "" or thirteenth_forgotten_npc != "":
 				persistent["forgottenResidents"] = thirteenth_director.forgotten_residents.duplicate()
 				narrative["thirteenth"] = persistent
 				game_save.data["narrative"] = narrative
@@ -2167,13 +2763,123 @@ func _create_thirteenth_presence() -> void:
 			thirteenth_director.choose_closed_route([], str(runtime.get("apparatus", "")))
 	if not action.is_empty() and action_id != "chiude":
 		_present_feedback(str(action.get("manifestazione", "")), "thirteenth")
-	var voice: Dictionary = thirteenth_director.next_voice()
+	# Nel mondo 22 la voce puntuale della scelta sostituisce il richiamo
+	# ambientale: due finestre simultanee farebbero passare inosservata proprio
+	# la domanda che conta.
+	var voice: Dictionary = {} if (
+		world_level == 22 and StanceChoices.dovuta(game_save.data, "tredicesimo-domanda")
+	) else thirteenth_director.next_voice()
 	if not voice.is_empty():
 		var pages := PackedStringArray(Array(voice.get("dice", [])))
 		get_tree().create_timer(5.0).timeout.connect(func():
 			if is_inside_tree() and not _blocking_panel_visible():
 				_present_feedback("\n".join(pages), "thirteenth")
 		)
+
+## Due scelte arrivano da una voce, non da un oggetto o da un NPC. Entrambe
+## passano da un breve dialogo saltabile e solo alla sua chiusura aprono il
+## pannello: prima si sente il momento, poi si prende posizione.
+func _stage_stance_world_beat() -> void:
+	# Le fixture pilotano già tempi e input della scena. Un beat automatico che
+	# compare due secondi dopo trasforma un audit di dialogo/enigma in una gara
+	# contro un timer; l'unico audit che prova questi beat li abilita in modo
+	# esplicito. Il gioco normale non usa mai `launch_request_override`.
+	if not launch_request_override.is_empty() \
+			and not bool(request.get("stageNarrativeBeatsInFixture", false)):
+		return
+	if world_level == 22 and StanceChoices.dovuta(game_save.data, "tredicesimo-domanda"):
+		var pages: Array = []
+		for raw in ThirteenthCatalog.lines_for(22):
+			var entry: Dictionary = raw
+			var candidate := Array(entry.get("dice", []))
+			if " ".join(PackedStringArray(candidate)).to_lower().contains("fammi una domanda"):
+				pages = candidate.duplicate()
+				break
+		_schedule_stance_dialogue(
+			"tredicesimo-domanda", "Il Tredicesimo", "Una voce che si ritira", pages, 2.4)
+	elif world_level == 23 and StanceChoices.dovuta(game_save.data, "meridiana-riga"):
+		_schedule_stance_dialogue(
+			"meridiana-riga",
+			"NORA",
+			"Sensori lunghi · segnale di quattrocento anni fa",
+			[
+				"I sensori lunghi hanno agganciato una riga ancora accesa.",
+				"Meridiana: «c'è qualcosa. venite.»",
+			],
+			2.4)
+
+func _schedule_stance_dialogue(
+	choice_id: String,
+	speaker: String,
+	role: String,
+	pages: Array,
+	delay: float,
+	attempt: int = 0
+) -> void:
+	if pages.is_empty() or not is_inside_tree():
+		return
+	get_tree().create_timer(delay).timeout.connect(
+		_try_show_stance_dialogue.bind(choice_id, speaker, role, pages, attempt))
+
+func _try_show_stance_dialogue(
+	choice_id: String,
+	speaker: String,
+	role: String,
+	pages: Array,
+	attempt: int
+) -> void:
+	if not is_inside_tree() or not StanceChoices.dovuta(game_save.data, choice_id):
+		return
+	if _blocking_panel_visible():
+		if attempt < 30:
+			_schedule_stance_dialogue(choice_id, speaker, role, pages, 1.5, attempt + 1)
+		return
+	var dialogue_id := "stance-beat-%s" % choice_id
+	stance_choice_after_dialogue[dialogue_id] = choice_id
+	if is_instance_valid(player):
+		player.touch_target = Vector2.INF
+		player.velocity = Vector2.ZERO
+		player.set_physics_process(false)
+	dialogue_box.call("configure_accessibility", high_contrast, reduced_motion)
+	dialogue_box.call("show_dialogue", dialogue_id, speaker, role, pages)
+	set_meta("stance_world_beat", choice_id)
+
+func _apply_deep_smemora_visual(enabled: bool) -> void:
+	for actor in npc_actors:
+		if is_instance_valid(actor) and str(actor.get_meta("id", "")) == thirteenth_deep_forgotten_npc:
+			if actor.has_method("set_deep_forgotten"):
+				actor.call("set_deep_forgotten", enabled)
+			set_meta("deep_smemora_visual_target", thirteenth_deep_forgotten_npc if enabled else "")
+			return
+
+func _restore_deep_smemora(show_return: bool) -> void:
+	if thirteenth_deep_forgotten_npc == "":
+		return
+	var restored_id := thirteenth_deep_forgotten_npc
+	for actor in npc_actors:
+		if is_instance_valid(actor) and str(actor.get_meta("id", "")) == restored_id:
+			if show_return and actor.has_method("play_deep_memory_return"):
+				actor.call("play_deep_memory_return")
+			elif actor.has_method("set_deep_forgotten"):
+				actor.call("set_deep_forgotten", false)
+			break
+	thirteenth_deep_forgotten_npc = ""
+	set_meta("deep_smemora_visual_target", "")
+	if not show_return or not is_instance_valid(dialogue_box):
+		return
+	var data := NPC_CATALOG.resident(restored_id)
+	var returns: Array = (ThirteenthCatalog.SMEMORA_PROFONDO as Dictionary).get("ritorno", [])
+	if data.is_empty() or returns.is_empty():
+		return
+	if is_instance_valid(player):
+		player.set_physics_process(false)
+	dialogue_box.call("configure_accessibility", high_contrast, reduced_motion)
+	dialogue_box.call(
+		"show_dialogue",
+		"deep-smemora-return-%s" % restored_id,
+		str(data.get("nome", restored_id)),
+		"Il gesto e il suo scopo tornano insieme",
+		Array(returns[0]).duplicate())
 
 func _active_mission_owner() -> String:
 	if mission_ownership_flow == null:
@@ -2191,6 +2897,17 @@ func _open_npc_dialogue(npc_id: String) -> void:
 	if world_level == WorldProfileCatalog.MAX_LEVEL and not FINALE_CATALOG.lines_for(npc_id).is_empty():
 		_open_finale_convergence_dialogue(npc_id)
 		return
+	if npc_id == thirteenth_deep_forgotten_npc:
+		# Se sta per diventare proprietario, l'incarico ha la precedenza e il
+		# caso si scioglie prima dell'assegnazione. Così `smemora` non può mai
+		# trasformare una scena emotiva in un blocco di missione.
+		var about_to_assign: bool = mission_ownership_flow != null \
+			and not mission_ownership_flow.assignment_for(npc_id).is_empty()
+		if _active_mission_owner() == npc_id or about_to_assign:
+			_restore_deep_smemora(false)
+		else:
+			_open_deep_smemora_dialogue(npc_id)
+			return
 	if npc_id == thirteenth_forgotten_npc:
 		var owner_now := _active_mission_owner()
 		if owner_now == npc_id:
@@ -2240,17 +2957,52 @@ func _open_npc_dialogue(npc_id: String) -> void:
 			if not data.is_empty():
 				data["ruolo"] = str(data.get("funzione", "itinerante")).capitalize()
 				var pools: Dictionary = data.get("battute", {})
-				for pool_name in ["saluto", str(data.get("funzione", "")), "riempimento", "congedo"]:
-					if pool_name != "":
-						lines.append_array(Array(pools.get(pool_name, [])))
+				if npc_id == "itin-orsolo" and _orsolo_proof_available() \
+						and StanceChoices.dovuta(game_save.data, "orsolo-prova"):
+					lines = ITINERANT_CATALOG.lines_of(npc_id, "prova_accettata")
+					mission_pool = "prova_accettata"
+					stance_choice_after_dialogue[npc_id] = "orsolo-prova"
+				else:
+					var pool_order: Array = ["saluto", str(data.get("funzione", ""))]
+					# `attrito` descrive la funzione di Orsolo, ma le sue battute di
+					# attrito si chiamano `dubbio`: esplicitarlo evita che la sua
+					# conversione arrivi senza che lo si sia mai sentito dubitare.
+					if npc_id == "itin-orsolo":
+						pool_order.append("dubbio")
+					pool_order.append_array(["riempimento", "congedo"])
+					for pool_name in pool_order:
+						if pool_name != "":
+							lines.append_array(Array(pools.get(pool_name, [])))
+					# **La leggenda dell'Ingegnere** (docs/ABITANTI_E_LUOGHI.md §2.5,
+					# 16 agosto 2026): una sola voce, nella voce di registro
+					# dell'itinerante, mescolata al resto del riempimento. Un solo
+					# elemento su un totale di dieci-quattordici battute mantiene la
+					# rarità prevista (massimo 1 estrazione su 10) senza bisogno di un
+					# contatore a parte — la stessa rotazione a cursore che sceglie le
+					# altre battute la sceglie di rado, per costruzione.
+					var leggenda := ENGINEER_LEGEND.for_registro(str(data.get("registro", "")))
+					if not leggenda.is_empty():
+						lines.append(leggenda[absi(hash(npc_id)) % leggenda.size()])
 				if npc_id == "itin-vera" and not vera_teaching_used:
-					vera_topic_key = _vera_applied_topic()
-					if vera_topic_key != "":
-						var teaching_lines := ITINERANT_CATALOG.lines_of(npc_id, "rispiegamelo")
-						if not teaching_lines.is_empty():
-							lines = teaching_lines
-							mission_pool = "rispiegamelo"
-							vera_teaching_pending = true
+					var vera_arc := _vera_arc_lines()
+					if not Array(vera_arc.get("lines", [])).is_empty():
+						lines = vera_arc["lines"]
+						mission_pool = str(vera_arc["pool"])
+					else:
+						vera_topic_key = _vera_applied_topic()
+						if vera_topic_key != "":
+							var teaching_lines := ITINERANT_CATALOG.lines_of(npc_id, "rispiegamelo")
+							if not teaching_lines.is_empty():
+								lines = teaching_lines
+								mission_pool = "rispiegamelo"
+								vera_teaching_pending = true
+						elif VeraArc.stadio(game_save.data) == VeraArc.STADIO_RICUCITO:
+							# Solo quando non c'è niente da rispiegare: la meccanica
+							# didattica viene sempre prima del colore.
+							var teaching_back := ITINERANT_CATALOG.lines_of(npc_id, VeraArc.POOL_INSEGNA)
+							if not teaching_back.is_empty():
+								lines = teaching_back
+								mission_pool = VeraArc.POOL_INSEGNA
 	if data.is_empty() or lines.is_empty():
 		return
 	var cursor_key := "%s:%s" % [npc_id, mission_pool if mission_pool != "" else "ordinary"]
@@ -2297,9 +3049,41 @@ func _open_npc_dialogue(npc_id: String) -> void:
 		player.velocity = Vector2.ZERO
 		player.set_physics_process(false)
 	dialogue_box.call("configure_accessibility", high_contrast, reduced_motion)
-	dialogue_box.call("show_dialogue", npc_id, str(data.get("nome", npc_id)), str(data.get("ruolo", "abitante")), pages)
+	dialogue_box.call(
+		"show_dialogue", npc_id, str(data.get("nome", npc_id)),
+		str(data.get("ruolo", "abitante")), pages, _resident_story_stage(npc_id))
 	_update_ship_navigation()
 	_refresh_interaction_button(null)
+
+func _orsolo_proof_available() -> bool:
+	var narrative: Dictionary = game_save.data.get("narrative", {})
+	return not Array(narrative.get("tracesSeen", [])).is_empty() \
+		or not Array(narrative.get("seedsSeen", [])).is_empty()
+
+func _open_deep_smemora_dialogue(npc_id: String) -> void:
+	# Il proprietario di una missione non può essere colpito nemmeno se la
+	# proprietà cambiasse dopo il caricamento della scena.
+	if _active_mission_owner() == npc_id:
+		_restore_deep_smemora(false)
+		return
+	var data := NPC_CATALOG.resident(npc_id)
+	var lines: Array = (ThirteenthCatalog.SMEMORA_PROFONDO as Dictionary).get("battute", [])
+	if data.is_empty() or lines.is_empty():
+		return
+	var pages: Array = Array(lines[thirteenth_deep_dialogue_cursor % lines.size()]).duplicate()
+	thirteenth_deep_dialogue_cursor += 1
+	if is_instance_valid(player):
+		player.touch_target = Vector2.INF
+		player.velocity = Vector2.ZERO
+		player.set_physics_process(false)
+	dialogue_box.call("configure_accessibility", high_contrast, reduced_motion)
+	dialogue_box.call(
+		"show_dialogue",
+		npc_id,
+		str(data.get("nome", npc_id)),
+		"Continua a lavorare · lo scopo non c'è più",
+		pages)
+	set_meta("deep_smemora_dialogue_override", npc_id)
 
 func _open_finale_convergence_dialogue(npc_id: String) -> void:
 	var data := NPC_CATALOG.resident(npc_id)
@@ -2310,6 +3094,11 @@ func _open_finale_convergence_dialogue(npc_id: String) -> void:
 	var pages := FINALE_CATALOG.lines_for(npc_id)
 	if data.is_empty() or pages.is_empty():
 		return
+	if npc_id == "itin-orsolo":
+		var echo := StanceChoices.eco_pendente(game_save.data, "orsolo-prova")
+		if echo != "":
+			pages.append(echo.trim_prefix("Orsolo:").strip_edges())
+			stance_echo_after_dialogue[npc_id] = "orsolo-prova"
 	if is_instance_valid(player):
 		player.touch_target = Vector2.INF
 		player.velocity = Vector2.ZERO
@@ -2337,9 +3126,130 @@ func _npc_story_stage() -> int:
 		return 1
 	return 0
 
+## **Il minigioco del personaggio.** (9 agosto 2026)
+##
+## Si apre chiudendo il dialogo di chi ne ha uno: e' il momento giusto, perche'
+## si e' appena letto che cosa quella persona crede — e il gioco serve proprio a
+## mettere quella convinzione alla prova.
+##
+## Vincerlo non regala progressione: lascia frammenti e fa avanzare la storia di
+## quel personaggio. La padronanza si guadagna con le prove, e un minigioco di
+## velocita' non e' una prova di matematica.
+func _apri_minigioco_personaggio(npc_id: String) -> void:
+	if is_instance_valid(minigame_panel) or not CharacterMinigameCatalog.ha_gioco(npc_id):
+		return
+	if not is_instance_valid(ui_layer):
+		return
+	# Un pannello per archetipo: la meccanica cambia, il contorno no. Il
+	# catalogo dice quale, e la scena non conosce nessuna regola di gioco.
+	var scheda_gioco := CharacterMinigameCatalog.scheda(npc_id)
+	match str(scheda_gioco.get("archetipo", "")):
+		CharacterMinigameCatalog.ARCHETIPO_SCAFFALE:
+			minigame_panel = ShelfMinigamePanel.new()
+			minigame_panel.name = "ShelfMinigamePanel"
+		CharacterMinigameCatalog.ARCHETIPO_CICLO:
+			minigame_panel = preload("res://scripts/ui/cycle_minigame_panel.gd").new()
+			minigame_panel.name = "CycleMinigamePanel"
+		CharacterMinigameCatalog.ARCHETIPO_TRACCIA:
+			minigame_panel = preload("res://scripts/ui/trace_minigame_panel.gd").new()
+			minigame_panel.name = "TraceMinigamePanel"
+		CharacterMinigameCatalog.ARCHETIPO_RADIO:
+			minigame_panel = preload("res://scripts/ui/radio_minigame_panel.gd").new()
+			minigame_panel.name = "RadioMinigamePanel"
+		CharacterMinigameCatalog.ARCHETIPO_MERCATO:
+			minigame_panel = preload("res://scripts/ui/market_minigame_panel.gd").new()
+			minigame_panel.name = "MarketMinigamePanel"
+		CharacterMinigameCatalog.ARCHETIPO_CIRCUITO:
+			minigame_panel = CircuitMinigamePanel.new()
+			minigame_panel.name = "CircuitMinigamePanel"
+		CharacterMinigameCatalog.ARCHETIPO_LEVA:
+			minigame_panel = LeverMinigamePanel.new()
+			minigame_panel.name = "LeverMinigamePanel"
+		CharacterMinigameCatalog.ARCHETIPO_ALTALENA:
+			minigame_panel = preload("res://scripts/ui/seesaw_minigame_panel.gd").new()
+			minigame_panel.name = "SeesawMinigamePanel"
+		CharacterMinigameCatalog.ARCHETIPO_RITMO:
+			minigame_panel = preload("res://scripts/ui/rhythm_count_panel.gd").new()
+			minigame_panel.name = "RhythmCountPanel"
+		CharacterMinigameCatalog.ARCHETIPO_VIBRAZIONE:
+			minigame_panel = preload("res://scripts/ui/vibration_minigame_panel.gd").new()
+			minigame_panel.name = "VibrationMinigamePanel"
+		CharacterMinigameCatalog.ARCHETIPO_GLIFI:
+			minigame_panel = preload("res://scripts/ui/glyph_minigame_panel.gd").new()
+			minigame_panel.name = "GlyphMinigamePanel"
+		CharacterMinigameCatalog.ARCHETIPO_PARENTELA:
+			minigame_panel = preload("res://scripts/ui/kinship_minigame_panel.gd").new()
+			minigame_panel.name = "KinshipMinigamePanel"
+		CharacterMinigameCatalog.ARCHETIPO_PROVA:
+			minigame_panel = ControlledTrialMinigamePanel.new()
+			minigame_panel.name = "ControlledTrialMinigamePanel"
+		CharacterMinigameCatalog.ARCHETIPO_STIMA:
+			minigame_panel = EstimateMinigamePanel.new()
+			minigame_panel.name = "EstimateMinigamePanel"
+		_:
+			minigame_panel = PileMinigamePanel.new()
+			minigame_panel.name = "PileMinigamePanel"
+	minigame_panel.risolto.connect(func(vinto: bool, presi: int, totale: int):
+		_chiudi_minigioco_personaggio(npc_id, vinto, presi, totale))
+	ui_layer.add_child(minigame_panel)
+	minigame_panel.avvia(scheda_gioco, reduced_motion)
+	if is_instance_valid(player):
+		player.set_physics_process(false)
+
+func _chiudi_minigioco_personaggio(npc_id: String, vinto: bool, presi: int, totale: int) -> void:
+	if is_instance_valid(minigame_panel):
+		minigame_panel.queue_free()
+		minigame_panel = null
+	if is_instance_valid(player):
+		player.set_physics_process(true)
+	var scheda := CharacterMinigameCatalog.scheda(npc_id)
+	if vinto:
+		var premio := FragmentEconomy.PREMIO_MINIGIOCO
+		var gioco_id := "gioco-%s" % npc_id
+		# Lo stesso id che rende unico il premio rende unico anche il momento
+		# narrativo. Senza rispecchiarlo nel risultato di sessione, il pannello si
+		# riapriva a ogni saluto fino al prossimo riavvio del mondo.
+		var raccolti: Array = Array(result.get("collectedTreasureIds", []))
+		if not raccolti.has(gioco_id):
+			raccolti.append(gioco_id)
+			result["collectedTreasureIds"] = raccolti
+		gameplay.collect_treasure({"rewardFragments": premio}, gioco_id)
+		_refresh_economy()
+		_spawn_gain_popup("+%d frammenti" % premio, Color("c7b8ff"))
+		_set_feedback(str(scheda.get("vittoria", "Fatto.")))
+		# La conseguenza compare nello stesso istante della prima vittoria e solo
+		# nel luogo di questa persona. Non aspetta un rientro nel mondo.
+		_update_building_stages()
+	else:
+		# Perdere non toglie niente: si e' fermato il tempo, non il percorso.
+		_set_feedback("%s (%d su %d)" % [str(scheda.get("sconfitta", "Non stavolta.")), presi, totale])
+	_refresh_prompt()
+
+func _minigioco_personaggio_superato(npc_id: String) -> bool:
+	return Array(result.get("collectedTreasureIds", [])).has("gioco-%s" % npc_id)
+
 func _on_dialogue_closed(npc_id: String) -> void:
 	if is_instance_valid(player):
 		player.set_physics_process(true)
+	if stance_echo_after_dialogue.has(npc_id):
+		var echo_id := str(stance_echo_after_dialogue.get(npc_id, ""))
+		stance_echo_after_dialogue.erase(npc_id)
+		StanceChoices.segna_eco_vista(game_save.data, echo_id)
+		_persist_save()
+	if stance_choice_after_dialogue.has(npc_id):
+		var choice_id := str(stance_choice_after_dialogue.get(npc_id, ""))
+		stance_choice_after_dialogue.erase(npc_id)
+		_open_stance_choice(choice_id)
+		return
+	# Finché il caso profondo è attivo, parlare non lo risolve e non apre il
+	# minigioco del personaggio: la sua battuta sostituisce davvero il dialogo.
+	if npc_id == thirteenth_deep_forgotten_npc:
+		_update_ship_navigation()
+		_refresh_prompt()
+		return
+	# La conta viene registrata PRIMA di aprire il minigioco di Ersilia. Il
+	# ritorno anticipato del minigioco la lasciava ascoltata ma mai persistita:
+	# al rientro ricominciava da capo, proprio sulla chiave del finale.
 	if npc_id == "w01-ersilia" and ersilia_count_pending:
 		ersilia_count_pending = false
 		var narrative: Dictionary = game_save.data.get("narrative", {})
@@ -2347,6 +3257,19 @@ func _on_dialogue_closed(npc_id: String) -> void:
 		game_save.data["narrative"] = narrative
 		if bool(request.get("loadLocalSave", true)):
 			game_save.save()
+	if CharacterMinigameCatalog.ha_gioco(npc_id) and not _minigioco_personaggio_superato(npc_id):
+		_apri_minigioco_personaggio(npc_id)
+		return
+	if vera_incrinatura_pending:
+		vera_incrinatura_pending = false
+		_open_vera_incrinatura_choice()
+		return
+	if vera_ricucitura_pending:
+		# Ha spiegato lei. Non c'è niente da scegliere e niente da guadagnare:
+		# l'arco passa allo stadio in cui insegna, e basta.
+		vera_ricucitura_pending = false
+		VeraArc.registra_ricucitura(game_save.data)
+		_persist_save()
 	if vera_teaching_pending:
 		vera_teaching_pending = false
 		_open_vera_teaching_choice()
@@ -2357,6 +3280,144 @@ func _on_dialogue_closed(npc_id: String) -> void:
 		_advance_finale_convergence_wave()
 	_update_ship_navigation()
 	_refresh_prompt()
+
+## **L'arco di Vera.** (13 agosto 2026)
+##
+## Sta *sopra* «Rispiegamelo», non accanto: stessa persona, stessi incontri, uno
+## stadio in più che dipende da quante volte le hai spiegato qualcosa davvero.
+## Il perché è in `vera_arc.gd`; qui c'è solo l'ordine di precedenza, che è la
+## sola cosa che si poteva sbagliare:
+##
+## 1. **l'eco** della risposta data all'incrinatura — una volta sola, e prima di
+##    tutto, perché è la cosa che dice «ti ho sentita» e invecchia in fretta;
+## 2. **l'incrinatura**, che interrompe di proposito «Rispiegamelo»: Vera si
+##    rifiuta di farsi spiegare un'altra volta, ed è tutto il punto;
+## 3. **la ricucitura**, in cui spiega lei.
+##
+## Sotto, invariato, quello che c'era: «Rispiegamelo» quando c'è un argomento da
+## rispiegare. Il colore non passa mai davanti alla didattica.
+func _vera_arc_lines() -> Dictionary:
+	var eco := VeraArc.eco(game_save.data)
+	if eco != "":
+		VeraArc.segna_eco_vista(game_save.data)
+		_persist_save()
+		return {"lines": [[eco.trim_prefix("Vera:").strip_edges()]], "pool": "eco"}
+	if VeraArc.incrinatura_dovuta(game_save.data):
+		vera_incrinatura_pending = true
+		return {
+			"lines": ITINERANT_CATALOG.lines_of("itin-vera", VeraArc.POOL_INCRINATURA),
+			"pool": VeraArc.POOL_INCRINATURA,
+		}
+	if VeraArc.stadio(game_save.data) == VeraArc.STADIO_INCRINATO:
+		vera_ricucitura_pending = true
+		return {
+			"lines": ITINERANT_CATALOG.lines_of("itin-vera", VeraArc.POOL_RICUCITURA),
+			"pool": VeraArc.POOL_RICUCITURA,
+		}
+	return {}
+
+func _persist_save() -> void:
+	if bool(request.get("loadLocalSave", true)):
+		game_save.save()
+
+## La scelta dell'incrinatura: tre modi di rispondere, nessuno giusto e nessuno
+## punito (`stance_audit` lo verifica). Passa dallo stesso pannello di
+## «Rispiegamelo» perché è lo stesso gesto — si sceglie una frase — e un secondo
+## pannello identico sarebbe solo un altro posto in cui sbagliare i margini.
+func _open_vera_incrinatura_choice() -> void:
+	_ensure_choice_panel()
+	open_choice_kind = "incrinatura"
+	if is_instance_valid(player):
+		player.set_physics_process(false)
+	var scelta := StanceChoices.scelta(VeraArc.SCELTA_ID)
+	teaching_choice_panel.call(
+		"open_choice", "VERA", str(scelta.get("domanda", "")), scelta.get("opzioni", []))
+
+## Un pannello solo per due scelte diverse: il `choice_made` va smistato qui,
+## altrimenti la seconda connessione al segnale farebbe partire tutti e due i
+## gestori sulla stessa pressione.
+func _ensure_choice_panel() -> void:
+	if is_instance_valid(teaching_choice_panel):
+		return
+	teaching_choice_panel = TEACHING_CHOICE_PANEL_SCRIPT.new()
+	teaching_choice_panel.name = "TeachingChoicePanel"
+	ui_layer.add_child(teaching_choice_panel)
+	teaching_choice_panel.connect("choice_made", _on_choice_panel_made)
+	teaching_choice_panel.connect("choice_skipped", _on_choice_panel_skipped)
+
+func _on_choice_panel_made(option_id: String, correct: bool) -> void:
+	var kind := open_choice_kind
+	open_choice_kind = ""
+	if kind == "incrinatura":
+		_on_vera_incrinatura_choice(option_id)
+	elif kind.begins_with("stance:"):
+		_on_stance_choice_made(kind.trim_prefix("stance:"), option_id)
+	else:
+		_on_vera_teaching_choice(option_id, correct)
+
+func _on_choice_panel_skipped() -> void:
+	var kind := open_choice_kind
+	open_choice_kind = ""
+	if kind.begins_with("stance:"):
+		StanceChoices.registra_salto(game_save.data, kind.trim_prefix("stance:"))
+		_persist_save()
+	if is_instance_valid(player):
+		player.set_physics_process(true)
+	_refresh_prompt()
+
+func _open_stance_choice(choice_id: String) -> void:
+	if not StanceChoices.dovuta(game_save.data, choice_id):
+		if is_instance_valid(player):
+			player.set_physics_process(true)
+		return
+	_ensure_choice_panel()
+	open_choice_kind = "stance:%s" % choice_id
+	if is_instance_valid(player):
+		player.set_physics_process(false)
+	var choice := StanceChoices.scelta(choice_id)
+	teaching_choice_panel.call(
+		"open_choice",
+		str(choice.get("titolo", "UNA SCELTA")),
+		str(choice.get("domanda", "")),
+		choice.get("opzioni", []),
+		true)
+	set_meta("last_stance_choice_opened", choice_id)
+
+func _on_stance_choice_made(choice_id: String, option_id: String) -> void:
+	StanceChoices.registra_risposta(game_save.data, choice_id, option_id)
+	_persist_save()
+	var line := StanceChoices.testo_opzione(choice_id, option_id)
+	if line == "":
+		if is_instance_valid(player):
+			player.set_physics_process(true)
+		return
+	dialogue_box.call("configure_accessibility", high_contrast, reduced_motion)
+	dialogue_box.call(
+		"show_dialogue",
+		"stance-result-%s" % choice_id,
+		"Eli",
+		"La scelta resterà nel mondo",
+		[line])
+
+func _on_vera_incrinatura_choice(option_id: String) -> void:
+	VeraArc.registra_risposta(game_save.data, option_id)
+	_persist_save()
+	var risposta := ""
+	for raw in StanceChoices.opzioni(VeraArc.SCELTA_ID):
+		if str((raw as Dictionary).get("id", "")) == option_id:
+			risposta = str((raw as Dictionary).get("dice", ""))
+	var pages: Array = []
+	if risposta != "":
+		pages.append("Eli: %s" % risposta)
+	var ritorno := ITINERANT_CATALOG.lines_of("itin-vera", VeraArc.POOL_DOPO_LA_SCELTA)
+	if not ritorno.is_empty():
+		pages.append_array(Array(ritorno[0]))
+	if pages.is_empty():
+		if is_instance_valid(player):
+			player.set_physics_process(true)
+		return
+	dialogue_box.call("configure_accessibility", high_contrast, reduced_motion)
+	dialogue_box.call("show_dialogue", "itin-vera-incrinatura", "Vera", "Nessuna risposta è quella giusta", pages)
 
 func _vera_applied_topic() -> String:
 	var codex: Dictionary = game_save.data.get("codex", {})
@@ -2373,11 +3434,8 @@ func _vera_applied_topic() -> String:
 func _open_vera_teaching_choice() -> void:
 	if vera_topic_key == "":
 		return
-	if not is_instance_valid(teaching_choice_panel):
-		teaching_choice_panel = TEACHING_CHOICE_PANEL_SCRIPT.new()
-		teaching_choice_panel.name = "TeachingChoicePanel"
-		ui_layer.add_child(teaching_choice_panel)
-		teaching_choice_panel.connect("choice_made", _on_vera_teaching_choice)
+	_ensure_choice_panel()
+	open_choice_kind = "rispiegamelo"
 	if is_instance_valid(player):
 		player.set_physics_process(false)
 	var topic := vera_topic_key.get_slice(":", 1) if vera_topic_key.contains(":") else vera_topic_key
@@ -2421,16 +3479,21 @@ func _record_vera_retention() -> void:
 		game_save.save()
 
 # ---------------------------------------------------------------------------
-# **I guardiani dei forzieri e il varco.** (7 agosto 2026)
+# **I guardiani dei forzieri e il duello.** (7 agosto 2026)
 #
 # Richiesta del committente: gli Sbiaditi devono essere un pericolo vero,
-# devono sorvegliare i bauli, e si devono poter eliminare con un minigioco di
-# riflessi tarato sul progresso del personaggio.
+# devono sorvegliare i bauli, e si devono poter eliminare con un minigioco
+# tarato sul progresso del personaggio.
 #
 # Le tre cose sono una sola meccanica. Prima le sacche pattugliavano il vuoto:
 # facevano perdere energia a chi passava di li' per caso, il che e' una tassa,
 # non un pericolo. Un pericolo e' qualcosa che sta **fra te e una cosa che
 # vuoi** — e allora avvicinarsi diventa una decisione invece che un incidente.
+#
+# Il minigioco era di riflessi fino al 16 agosto 2026; adesso e' di **calcolo**
+# ([[GuardianDuel]]), su richiesta del committente e per una ragione che il
+# varco non poteva risolvere: allenarsi a leggere e a contare non rendeva
+# nessuno piu' bravo a centrare un cursore.
 # ---------------------------------------------------------------------------
 
 ## Ogni quanto si controlla se sono comparsi forzieri da sorvegliare. I pezzi di
@@ -2461,7 +3524,7 @@ var _guardia_prossima_msec := 0
 ## Le sacche gia' create, per identificativo: senza, ogni giro ne creerebbe
 ## un'altra sullo stesso forziere.
 var _guardiani: Dictionary = {}
-var duel_panel: ReflexDuelPanel
+var duel_panel: DuelStage
 
 ## Mette una guardiana su ogni forziere scoperto e ancora chiuso.
 func _assegna_guardiani() -> void:
@@ -2538,9 +3601,25 @@ func _guardiano_di(treasure_id: String) -> Node2D:
 	var sacca = _guardiani.get("guardia-%s" % treasure_id, null)
 	return sacca as Node2D if is_instance_valid(sacca) else null
 
-## **Il varco.** Si apre il duello con le regole calcolate sul grado di Eli e su
-## quello della sacca: e' l'unico posto in cui la potenza accumulata cambia le
-## regole invece del prezzo.
+## **Il duello.** Si apre il combattimento con le regole calcolate su tre cose:
+## il **mondo** (che decide la difficolta' della materia), il grado della sacca e
+## il grado di potenza di Eli — l'unico posto in cui la potenza accumulata cambia
+## le regole invece del prezzo.
+##
+## **Due materie** (17 agosto 2026). Ogni guardiano ne chiede una:
+##
+##   CIFRE  costruisci un numero incatenando colpi ([[GuardianDuel]]);
+##   VOCI   porta un verbo alla casella giusta di modo, tempo e persona
+##          ([[VerbDuel]]).
+##
+## Quale tocchi lo decide l'identificativo del guardiano e non il caso del
+## momento ([[DuelRules.materia]]): lo stesso guardiano chiede sempre la stessa
+## cosa, e il cartiglio sulla mappa lo dice prima che ci si avvicini. Cosi'
+## andargli incontro e' una scelta invece che una lotteria — e chi ha perso su
+## una voce difficile puo' tornare proprio a quella.
+##
+## Il seme cambia a ogni sfida: un duello perso e ripreso deve dare numeri e voci
+## nuovi, altrimenti la seconda volta non si pensa — si ricorda.
 func _sfida_guardiano(sacca: Node2D) -> void:
 	if not is_instance_valid(sacca) or is_instance_valid(duel_panel):
 		return
@@ -2548,18 +3627,29 @@ func _sfida_guardiano(sacca: Node2D) -> void:
 		return
 	var tier := int(sacca.get("tier"))
 	var grado := WorldLight.grado(game_save)
-	var regole := ReflexDuel.regole(tier, grado)
-	duel_panel = ReflexDuelPanel.new()
-	duel_panel.name = "ReflexDuelPanel"
-	duel_panel.risolto.connect(func(vinto: bool): _chiudi_varco(sacca, vinto))
+	var materia := DuelRules.materia(str(sacca.get_meta("guardId", "")))
+	var regole: Dictionary = {}
+	if materia == DuelRules.VOCI:
+		regole = VerbDuel.regole(world_level, tier, grado, reduced_motion)
+		duel_panel = VerbDuelPanel.new()
+		duel_panel.name = "VerbDuelPanel"
+	else:
+		regole = GuardianDuel.regole(world_level, tier, grado, reduced_motion)
+		duel_panel = GuardianDuelPanel.new()
+		duel_panel.name = "GuardianDuelPanel"
+	duel_panel.risolto.connect(func(vinto: bool, netto: bool): _chiudi_duello(sacca, vinto, netto))
 	ui_layer.add_child(duel_panel)
-	duel_panel.avvia(regole, str(sacca.get("enemy_name")), reduced_motion)
+	duel_panel.avvia(regole, str(sacca.get("enemy_name")),
+		hash("%s:%d" % [str(sacca.get_meta("guardId", "")), Time.get_ticks_msec()]),
+		reduced_motion, high_contrast)
 	# Eli si ferma: il duello e' modale, e lasciarla camminare sotto un pannello
 	# a tutto schermo la fa finire chissa' dove.
 	if is_instance_valid(player):
+		player.touch_target = Vector2.INF
+		player.velocity = Vector2.ZERO
 		player.set_physics_process(false)
 
-func _chiudi_varco(sacca: Node2D, vinto: bool) -> void:
+func _chiudi_duello(sacca: Node2D, vinto: bool, netto := false) -> void:
 	if is_instance_valid(duel_panel):
 		duel_panel.queue_free()
 		duel_panel = null
@@ -2573,11 +3663,12 @@ func _chiudi_varco(sacca: Node2D, vinto: bool) -> void:
 		var guardia_id := str(sacca.get_meta("guardId", ""))
 		if guardia_id != "":
 			game_save.mark_enemy_defeated(str(world_level), guardia_id)
-		var premio := ReflexDuel.premio_frammenti(tier)
-		gameplay.collect_treasure({"rewardFragments": premio}, "varco-%s" % guardia_id)
+		var premio := DuelRules.premio_frammenti(tier)
+		gameplay.collect_treasure({"rewardFragments": premio}, "duello-%s" % guardia_id)
 		sacca.call("elimina")
 		game_save.save()
-		_set_feedback("Sciolta. Il forziere è libero, e restano %d frammenti nel varco." % premio)
+		_set_feedback("%s Il forziere è libero, e restano %d frammenti sul campo." % [
+			DuelRules.riga_di_vittoria(netto), premio])
 		_spawn_gain_popup("+%d frammenti" % premio, Color("c7b8ff"))
 		_refresh_economy()
 		if is_instance_valid(pet_companion):
@@ -2586,7 +3677,7 @@ func _chiudi_varco(sacca: Node2D, vinto: bool) -> void:
 		# **Perdere non chiude niente.** La sacca resta, il forziere resta, si
 		# torna quando si e' piu' forti. Il costo e' lo stesso del morso: chi ci
 		# prova e sbaglia non deve stare peggio di chi gira alla larga.
-		var costo := mini(ReflexDuel.costo_sconfitta(tier, grado), game_save.energy())
+		var costo := mini(DuelRules.costo_sconfitta(tier, grado), game_save.energy())
 		if costo > 0:
 			game_save.spend_energy(costo)
 			game_save.save()
@@ -2595,8 +3686,8 @@ func _chiudi_varco(sacca: Node2D, vinto: bool) -> void:
 		# Un attimo di respiro: senza, la sacca e' addosso a Eli nell'istante in
 		# cui il pannello si chiude e il duello ricomincia da solo.
 		sacca.call("stun", 2.5)
-		_set_feedback("Il varco si è chiuso%s. La sacca è ancora lì: torna più forte." % (
-			" (−%d energia)" % costo if costo > 0 else ""))
+		_set_feedback("%s%s" % [DuelRules.riga_di_sconfitta(),
+			" (−%d energia)" % costo if costo > 0 else ""])
 	_refresh_prompt()
 
 func _create_world_enemies() -> void:
@@ -2686,15 +3777,26 @@ func _on_enemy_contact(enemy: Node2D, body: Node) -> void:
 func _combat_pulse() -> void:
 	if not enemy_gameplay_active():
 		return
+	# Il cronometro non è più l'economia dell'impulso — quella sono le cariche,
+	# e le decide la semantica. Resta un antirimbalzo brevissimo: un tocco doppio
+	# involontario non deve bruciare due cariche guadagnate con quattro prove.
 	var now := Time.get_ticks_msec()
 	if now < pulse_ready_msec:
 		return
-	pulse_ready_msec = now + 1250
+	pulse_ready_msec = now + 350
+	if not gameplay.usa_impulso():
+		_set_feedback(
+			"Impulso scarico: si ricarica superando le prove. Puoi passare lo stesso, ti costerà energia.")
+		_update_pulse_button()
+		return
 	player.play_pulse_action()
 	_spawn_combat_pulse_visual()
 	var hits := 0
+	# Il raggio lo dice la semantica: la bobina larga lo amplia, e qui non si sa
+	# che cosa il giocatore abbia comprato.
+	var raggio := float(runtime.get("pulseRadius", ExpeditionModules.RAGGIO_BASE))
 	for enemy in get_tree().get_nodes_in_group("world_enemy"):
-		if enemy is Node2D and player.global_position.distance_to(enemy.global_position) <= 168.0:
+		if enemy is Node2D and player.global_position.distance_to(enemy.global_position) <= raggio:
 			enemy.call("stun", 5.5)
 			hits += 1
 	_set_feedback(
@@ -2728,9 +3830,28 @@ func _spawn_combat_pulse_visual() -> void:
 func _update_pulse_button() -> void:
 	if not is_instance_valid(pulse_button):
 		return
+	if runtime.has("pulseCharges"):
+		var charges := maxi(0, int(runtime.get("pulseCharges", 0)))
+		pulse_button.disabled = charges <= 0 or not enemy_gameplay_active()
+		pulse_button.text = "IMPULSO\n%d CARICHE" % charges
+		return
 	var remaining := maxi(0, pulse_ready_msec - Time.get_ticks_msec())
 	pulse_button.disabled = remaining > 0 or not enemy_gameplay_active()
 	pulse_button.text = "IMPULSO\n%.1f s" % (float(remaining) / 1000.0) if remaining > 0 else "IMPULSO\nTOCCA"
+
+func _aggiorna_cariche_impulso() -> void:
+	if not is_instance_valid(etichetta_cariche_impulso):
+		return
+	etichetta_cariche_impulso.visible = runtime.has("pulseCharges")
+	if not etichetta_cariche_impulso.visible:
+		return
+	var charges := maxi(0, int(runtime.get("pulseCharges", 0)))
+	var maximum := maxi(charges, int(runtime.get("pulseChargeMax", 3)))
+	var cells: Array[String] = []
+	for index in maximum:
+		cells.append("◆" if index < charges else "◇")
+	etichetta_cariche_impulso.text = "IMPULSO  %s  %d/%d" % [" ".join(cells), charges, maximum]
+	_update_pulse_button()
 
 func _event_visual_kind(subject: String) -> String:
 	if subject in ["matematica", "fisica"]:
@@ -3003,8 +4124,16 @@ func _crea_barra_potenza(genitore: Control) -> void:
 	barra_potenza.custom_minimum_size = Vector2(150, 8)
 	scatola.add_child(barra_potenza)
 
+	etichetta_cariche_impulso = Label.new()
+	etichetta_cariche_impulso.name = "PulseChargesLabel"
+	etichetta_cariche_impulso.add_theme_font_size_override("font_size", 11)
+	etichetta_cariche_impulso.add_theme_color_override("font_color", Color("f6c85f"))
+	etichetta_cariche_impulso.visible = false
+	scatola.add_child(etichetta_cariche_impulso)
+
 	genitore.add_child(scatola)
 	_aggiorna_barra_potenza()
+	_aggiorna_cariche_impulso()
 
 func _create_hud() -> void:
 	ui_layer = CanvasLayer.new()
@@ -3150,6 +4279,7 @@ void fragment() {
 	pulse_button.add_theme_stylebox_override("disabled", _touch_action_style(Color("5b5131"), Color("9f9462")))
 	pulse_button.pressed.connect(_combat_pulse)
 	root.add_child(pulse_button)
+	_aggiorna_cariche_impulso()
 	shop_button = Button.new()
 	shop_button.name = "OpenShopButton"
 	shop_button.text = "BOTTEGA"
@@ -3508,6 +4638,7 @@ const NEBBIA_MASSIMA := 0.66
 var velo_nebbia: ColorRect
 var barra_potenza: ProgressBar
 var etichetta_potenza: Label
+var etichetta_cariche_impulso: Label
 
 func _crea_velo_di_nebbia() -> void:
 	if not is_instance_valid(game_save) or not is_instance_valid(atmosphere_layer):
@@ -3539,14 +4670,35 @@ func _aggiorna_nebbia(luce: float, animata: bool) -> void:
 ## immediata, di sessione, di partita.
 func _on_world_light_changed(luce: float, grado: int, salito: bool) -> void:
 	_aggiorna_nebbia(luce, true)
+	_reveal_pending_minimissions()
 	_aggiorna_barra_potenza()
 	_applica_grado_al_personaggio(grado)
 	if salito:
+		_pet_react("power_grade_up")
 		var scheda := WorldLight.scheda_grado(game_save)
 		_set_feedback("Sei salita a %s. La luce che porti adesso arriva piu' lontano." % str(scheda.get("nome", "")))
 		_spawn_gain_popup(str(scheda.get("nome", "")).to_upper(), Color(str(scheda.get("colore", "8ff6d2"))))
 	elif luce < 1.0:
 		_spawn_gain_popup("+luce", Color("8ff6d2"))
+
+func _reveal_pending_minimissions() -> void:
+	for node in get_tree().get_nodes_in_group("pending_minimission_reveal"):
+		if not (node is Area2D) or not is_ancestor_of(node):
+			continue
+		var area := node as Area2D
+		area.remove_from_group("pending_minimission_reveal")
+		area.visible = true
+		area.monitoring = true
+		area.monitorable = true
+		area.scale = Vector2.ONE
+		area.modulate = Color.WHITE
+		if not reduced_motion:
+			area.scale = Vector2.ONE * 0.28
+			area.modulate.a = 0.0
+			var reveal := create_tween().set_parallel(true)
+			reveal.tween_property(area, "scale", Vector2.ONE, 0.46).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+			reveal.tween_property(area, "modulate:a", 1.0, 0.30)
+		_spawn_touch_ping(area.global_position)
 
 ## Il grado si vede addosso a Eli: un alone che cambia colore e cresce.
 ##
@@ -3555,7 +4707,11 @@ func _on_world_light_changed(luce: float, grado: int, salito: bool) -> void:
 func _applica_grado_al_personaggio(grado: int) -> void:
 	if not is_instance_valid(player):
 		return
+	grado = clampi(grado, 0, WorldLight.SOGLIE.size() - 1)
 	var scheda := WorldLight.scheda_grado(game_save)
+	var sprite := player.find_child("EliSprite", true, false) as Sprite2D
+	if sprite != null and sprite.texture is AtlasTexture:
+		(sprite.texture as AtlasTexture).atlas = OutdoorVisualFactory.player_sheet_for_tier(grado)
 	var alone := player.get_node_or_null("PowerAura") as Node2D
 	if alone == null:
 		var nuovo := Line2D.new()
@@ -3572,6 +4728,85 @@ func _applica_grado_al_personaggio(grado: int) -> void:
 	linea.default_color.a = 0.20 + 0.14 * float(grado)
 	linea.scale = Vector2.ONE * (1.0 + 0.13 * float(grado))
 	linea.visible = grado > 0
+	linea.width = 3.0 + float(grado) * 0.8
+	_configura_orbita_potenza("PowerOrbitInner", 32.0, grado >= 3, grado, false)
+	_configura_orbita_potenza("PowerOrbitOuter", 39.0, grado >= 4, grado, true)
+	_configura_orbita_potenza("PowerOrbitZenith", 46.0, grado >= 5, grado, false)
+	_configura_orbita_potenza("PowerOrbitCrown", 53.0, grado >= 6, grado, true)
+	_configura_orbita_potenza("PowerOrbitPrism", 60.0, grado >= 7, grado, false)
+	_configura_orbita_potenza("PowerOrbitHeart", 67.0, grado >= 8, grado, true)
+	_configura_particelle_potenza(grado)
+	applied_power_grade = grado
+	if is_instance_valid(game_save):
+		_aggiorna_stato_energia(game_save.energy(), false)
+
+func _configura_orbita_potenza(nome: String, raggio: float, visibile: bool, grado: int, inversa: bool) -> void:
+	var orbit := player.get_node_or_null(nome) as Line2D
+	if orbit == null:
+		orbit = Line2D.new()
+		orbit.name = nome
+		orbit.closed = true
+		orbit.width = 2.0
+		for indice in range(25):
+			var punto := Vector2.RIGHT.rotated(TAU * float(indice) / 24.0) * raggio
+			punto.y *= 0.46
+			orbit.add_point(punto)
+		orbit.position.y = -4.0
+		orbit.z_index = -1
+		player.add_child(orbit)
+	orbit.default_color = Color(str(WorldLight.SOGLIE[grado].get("colore", "8ff6d2")), 0.52)
+	orbit.visible = visibile
+	orbit.set_meta("spin", (-1.0 if inversa else 1.0) * (0.25 + 0.08 * float(grado)))
+
+func _configura_particelle_potenza(grado: int) -> void:
+	var particles := player.get_node_or_null("EliPowerParticles") as CPUParticles2D
+	if particles == null:
+		particles = CPUParticles2D.new()
+		particles.name = "EliPowerParticles"
+		particles.position = Vector2(0, -22)
+		particles.z_index = 2
+		particles.lifetime = 1.5
+		particles.randomness = 0.8
+		particles.direction = Vector2.UP
+		particles.spread = 180.0
+		particles.gravity = Vector2(0, -8)
+		particles.initial_velocity_min = 5.0
+		particles.initial_velocity_max = 16.0
+		particles.scale_amount_min = 0.65
+		particles.scale_amount_max = 1.35
+		player.add_child(particles)
+	particles.amount = 4 + grado * 3
+	particles.color = Color(str(WorldLight.SOGLIE[grado].get("colore", "8ff6d2")), 0.72)
+	particles.emitting = grado >= 2 and not reduced_motion
+
+func _aggiorna_stato_energia(energia: int, celebra: bool = true) -> void:
+	if not is_instance_valid(player) or not is_instance_valid(player_presentation):
+		return
+	var precedente := last_energy_visual
+	last_energy_visual = maxi(0, energia)
+	# L'energia non ha un cap: una curva saturante rende 0 chiaramente scarico e
+	# continua a crescere senza far dipendere l'estetica da un massimo inventato.
+	var intensita := float(last_energy_visual) / (float(last_energy_visual) + 75.0)
+	var core := player.find_child("EliCoreGlow", true, false) as CanvasItem
+	if core != null:
+		core.modulate.a = 0.18 + intensita * 0.82
+		core.scale = Vector2.ONE * (0.78 + intensita * 0.34)
+	var aura_base := player.find_child("PlayerBaseAura", true, false) as CanvasItem
+	if aura_base != null:
+		aura_base.modulate.a = 0.28 + intensita * 0.72
+	var particles := player.get_node_or_null("EliPowerParticles") as CPUParticles2D
+	if particles != null:
+		particles.emitting = applied_power_grade >= 2 and last_energy_visual > 0 and not reduced_motion
+		particles.amount = maxi(1, 3 + applied_power_grade * 2 + roundi(intensita * 7.0))
+	if not celebra or precedente < 0 or precedente == last_energy_visual:
+		return
+	if reduced_motion:
+		player_presentation.modulate = Color.WHITE
+		return
+	var flash := Color("baffea") if last_energy_visual > precedente else Color("ff9b8a")
+	var tween := create_tween()
+	tween.tween_property(player_presentation, "modulate", flash, 0.09)
+	tween.tween_property(player_presentation, "modulate", Color.WHITE, 0.28)
 
 func _aggiorna_barra_potenza() -> void:
 	if not is_instance_valid(barra_potenza) or not is_instance_valid(game_save):
@@ -3699,8 +4934,12 @@ func _posizione_camera() -> Vector2:
 func _apri_camera() -> void:
 	if not is_instance_valid(gameplay) or gameplay.session_active():
 		return
-	if gameplay.try_start_minigame(
-			{"subject": _world_subject()}, "serratura-%d" % world_level):
+	var subject := _world_subject()
+	var payload := {"subject": subject}
+	var formats := MinigameManager.runtime_formats_for(subject, world_level)
+	if not formats.is_empty():
+		payload["format"] = formats[posmod(world_level + 1, formats.size())]
+	if gameplay.try_start_minigame(payload, "serratura-%d" % world_level):
 		_set_feedback("La serratura chiede la materia di questo mondo. Aprila.")
 
 ## Superata la serratura: l'anello cade, la pergamena si legge, il tesoro e' preso.
@@ -3710,7 +4949,7 @@ func _sciogli_camera() -> void:
 	for nodo in get_tree().get_nodes_in_group("world_vault"):
 		nodo.queue_free()
 	if is_instance_valid(gameplay):
-		gameplay.collect_treasure({"rewardFragments": 12}, "camera-%d" % world_level)
+		gameplay.collect_treasure({"rewardFragments": FragmentEconomy.PREMIO_CAMERA}, "camera-%d" % world_level)
 	game_save.save()
 	_mostra_pergamena()
 
@@ -3934,7 +5173,16 @@ func _allenati_in_casa(nome: String) -> void:
 	if not is_instance_valid(gameplay) or gameplay.session_active():
 		return
 	var materia := _world_subject()
-	if gameplay.try_start_minigame({"subject": materia}, "casa-%d-%s" % [world_level, materia], true):
+	var payload := {"subject": materia}
+	var formats := MinigameManager.runtime_formats_for(materia, world_level)
+	if not formats.is_empty():
+		payload["format"] = formats[posmod(world_level, formats.size())]
+	# Nel Deserto delle Orbite (mondo 13) la lezione promette esplicitamente le
+	# frazioni: la casa della matematica apre quindi la Forgia, invece di affidare
+	# il tema principale del mondo a un'estrazione casuale.
+	if materia == "matematica" and WORLD_LESSON_CATALOG.topics(world_level).has("frazioni"):
+		payload["topicHint"] = "frazioni"
+	if gameplay.try_start_minigame(payload, "casa-%d-%s" % [world_level, materia], true):
 		_set_feedback("%s: si lavora %s, e qui l'ingresso costa meno." % [nome, materia])
 
 ## La rovina dei Primi: una riga di trama, mai un esercizio.
@@ -4046,9 +5294,33 @@ func _refresh_pet_face() -> void:
 		PetState.faces(game_save),
 		reduced_motion)
 
+## Dopo quanto silenzio il Custode si offende. Quarantacinque secondi: il tempo
+## di attraversare mezza mappa senza che succeda niente.
+##
+## **Non è una penalità e non chiede niente.** È l'unica cosa che il Custode può
+## fare per esistere quando il gioco non lo guarda: cambia faccia, e basta. Non
+## toglie legame, non compare un messaggio, non si perde nulla — la decisione 13
+## vieta di punire l'assenza, e una faccia imbronciata che passa da sola non
+## punisce: fa compagnia.
+const PET_SILENZIO_SEC := 45.0
+var _pet_ultimo_segnale_msec := 0
+
+func _pet_aggiorna_silenzio() -> void:
+	if not is_instance_valid(pet_face) or _blocking_panel_visible():
+		return
+	if _pet_ultimo_segnale_msec == 0:
+		_pet_ultimo_segnale_msec = Time.get_ticks_msec()
+		return
+	if Time.get_ticks_msec() - _pet_ultimo_segnale_msec < int(PET_SILENZIO_SEC * 1000.0):
+		return
+	_pet_react("idle")
+
 func _pet_react(game_signal: String) -> void:
+	_pet_ultimo_segnale_msec = Time.get_ticks_msec()
 	if is_instance_valid(pet_face) and pet_face.visible:
 		pet_face.react_to(game_signal)
+	if is_instance_valid(pet_companion) and pet_companion.has_method("react_to"):
+		pet_companion.call("react_to", game_signal)
 
 func _on_pet_answer_resolved(is_correct: bool) -> void:
 	_pet_react("answer_correct" if is_correct else "answer_wrong")
@@ -4114,7 +5386,7 @@ func _grant_pet_if_needed() -> void:
 	game_save.save()
 	_refresh_pet_face()
 	_respawn_pet_companion()
-	_pet_react("festa")
+	_pet_react("pet_granted")
 	if PetState.needs_name(game_save):
 		_open_pet_naming()
 
@@ -4199,7 +5471,7 @@ func _confirm_pet_name(field: LineEdit) -> void:
 	game_save.save()
 	_close_pet_naming()
 	_refresh_pet_face()
-	_pet_react("festa")
+	_pet_react("pet_granted")
 	_spawn_gain_popup("%s è con te" % chosen, Color("ffd75e"))
 
 func _close_pet_naming() -> void:
@@ -4288,15 +5560,21 @@ func _refresh_economy() -> void:
 	if runtime.is_empty():
 		return
 	var current := int(runtime.get("energy", 0))
+	_aggiorna_stato_energia(current, true)
 	if is_instance_valid(energy_label):
 		energy_label.text = "Energia %d" % current
 	if is_instance_valid(fragment_label):
 		fragment_label.text = "Frammenti %d" % int(runtime.get("fragments", 0))
+	# La barra del prossimo premio segue i FRAMMENTI, non l'energia: dal 14 agosto
+	# 2026 la bottega si paga cosi', e una barra che misura la valuta sbagliata
+	# dice a un bambino di allenarsi per comprare un cappello. Vedi
+	# [[FragmentEconomy]].
 	if reward_cost > 0 and is_instance_valid(reward_bar):
+		var frammenti := int(runtime.get("fragments", 0))
 		reward_name_label.text = "Prossimo: %s" % reward_name
-		reward_bar.value = clampf(float(current) / float(reward_cost) * 100.0, 0.0, 100.0)
-		var remaining := maxi(0, reward_cost - current)
-		reward_remaining_label.text = ("Ti manca %d energia" % remaining) if remaining > 0 else "Puoi comprarlo!"
+		reward_bar.value = clampf(float(frammenti) / float(reward_cost) * 100.0, 0.0, 100.0)
+		var remaining := maxi(0, reward_cost - frammenti)
+		reward_remaining_label.text = ("Ti mancano %d frammenti" % remaining) if remaining > 0 else "Puoi comprarlo!"
 
 func _spawn_gain_popup(text: String, color: Color) -> void:
 	if not is_instance_valid(player):
@@ -4537,8 +5815,13 @@ func _refresh_prompt() -> void:
 			_set_feedback("Tesoro già raccolto")
 		elif not _equipment_requirement_met(target):
 			_set_feedback(_equipment_requirement_message(target))
+		elif TreasureCatalog.tipo_di(id) == TreasureCatalog.TIPO_LASCITO:
+			# Si vede da fuori che questo qualcuno l'ha chiuso, non abbandonato.
+			# Dirlo prima è quello che rende l'apertura una decisione invece di
+			# un riflesso.
+			_set_feedback("Un forziere chiuso con cura. Qualcuno di qui ci teneva.")
 		else:
-			_set_feedback("Interagisci per raccogliere il tesoro")
+			_set_feedback("Interagisci per raccogliere la cassa")
 	elif kind == "encounter":
 		var payload := _mission_payload_for(target)
 		if result["completedEncounterIds"].has(id):
@@ -4552,6 +5835,15 @@ func _refresh_prompt() -> void:
 		_set_feedback("Parla con %s · %s" % [
 			str(npc_payload.get("label", "abitante")),
 			str(npc_payload.get("role", "abitante"))])
+	elif kind == "building":
+		var building_role := str(target.get_meta("building_role", ""))
+		var building_label := str(target.get_meta("label", "luogo"))
+		if building_role == "work_home":
+			_set_feedback("%s · entra e allenati nella materia guida" % building_label)
+		elif building_role == "ritrovo":
+			_set_feedback("%s · incontra chi vive e lavora qui" % building_label)
+		else:
+			_set_feedback("%s · cerca le tracce lasciate dai Primi" % building_label)
 
 	elif kind == "mystery_trace":
 		var trace_payload: Dictionary = target.get_meta("payload", {})
@@ -4626,11 +5918,18 @@ func _interaction_action_text(target: Area2D) -> String:
 		"enemy":
 			return "AFFRONTA"
 		"treasure":
-			return "RACCOGLI"
+			return "APRI" if TreasureCatalog.tipo_di(str(target.get_meta("id", ""))) 				== TreasureCatalog.TIPO_LASCITO else "RACCOGLI"
 		"encounter":
 			return "AVVIA MISSIONE"
 		"npc":
 			return "PARLA"
+		"building":
+			var building_role := str(target.get_meta("building_role", ""))
+			if building_role == "work_home":
+				return "ENTRA E ALLENATI"
+			if building_role == "ritrovo":
+				return "ENTRA NEL RITROVO"
+			return "ESPLORA LA ROVINA"
 		"mystery_trace":
 			return "LEGGI LA TRACCIA"
 		"mystery_seed":
@@ -4656,12 +5955,18 @@ func _equipment_requirement_met(target: Area2D) -> bool:
 	var required := _required_tool(target)
 	return required == "" or required == equipped_field_tool()
 
+## Il messaggio cambia a seconda che lo strumento **non lo si abbia** o lo si
+## abbia e basti equipaggiarlo: sono due situazioni diverse e prima ricevevano
+## la stessa riga, che per giunta mandava in bottega — dove gli strumenti non
+## sono mai stati in vendita dal 14 agosto 2026. Vedi [[FieldTools]].
 func _equipment_requirement_message(target: Area2D) -> String:
-	return (
-		"Oscurità impenetrabile · equipaggia la Torcia da ricognizione in bottega."
-		if _required_tool(target) == "tool-torch"
-		else "Erba alta invalicabile · equipaggia la Falce da campo in bottega."
-	)
+	var richiesto := _required_tool(target)
+	var ostacolo := "Oscurità impenetrabile" if richiesto == FieldTools.TORCIA else "Erba alta invalicabile"
+	var arnese := "la Torcia da ricognizione" if richiesto == FieldTools.TORCIA else "la Falce da campo"
+	var posseduto := is_instance_valid(gameplay) and gameplay.reward_manager != null 		and gameplay.reward_manager.owned(richiesto)
+	if posseduto:
+		return "%s · equipaggia %s." % [ostacolo, arnese]
+	return "%s · %s ce l'ha chi lavora qui: finiscigli una riparazione." % [ostacolo, arnese]
 
 func _interact() -> void:
 	var target := _nearest()
@@ -4731,7 +6036,6 @@ func _interact() -> void:
 		gameplay.try_start_minigame(target.get_meta("payload"), id)
 		return
 	if kind == "treasure":
-		var payload: Dictionary = target.get_meta("payload")
 		if not _equipment_requirement_met(target):
 			_set_feedback(_equipment_requirement_message(target))
 			return
@@ -4741,7 +6045,7 @@ func _interact() -> void:
 		# cosa del gioco che una prova di abilita' puo' lecitamente chiudere.
 		var guardiano := _guardiano_di(id)
 		if is_instance_valid(guardiano):
-			_set_feedback("%s sorveglia questo forziere. Affrontalo nel varco per scioglierlo." % str(guardiano.get("enemy_name")))
+			_set_feedback("%s sorveglia questo forziere. Spezzagli i sigilli per scioglierlo." % str(guardiano.get("enemy_name")))
 			_sfida_guardiano(guardiano)
 			return
 		var collected: Array = result["collectedTreasureIds"]
@@ -4749,18 +6053,7 @@ func _interact() -> void:
 			_set_feedback("Questa cassa è già stata raccolta.")
 		else:
 			collected.append(id)
-			gameplay.collect_treasure(payload, id)
-			_update_objective()
-			_set_feedback("Tesoro raccolto: +%d frammenti. L'energia si guadagna solo con gli esercizi." % int(payload["rewardFragments"]))
-			_refresh_economy()
-			_spawn_gain_popup("+%d frammenti" % int(payload["rewardFragments"]), Color("c7b8ff"))
-			if is_instance_valid(pet_companion):
-				pet_companion.react()
-			nearby.erase(target)
-			var owner_node := target.get_parent()
-			if is_instance_valid(owner_node):
-				owner_node.queue_free()
-			_refresh_prompt()
+			_apri_forziere(target, id)
 		return
 	if kind == "encounter":
 		var mission_payload := _mission_payload_for(target)
@@ -4813,6 +6106,15 @@ func _on_exercise_finished(exercise_result: Dictionary) -> void:
 						"subject": str(exercise_result.get("subject", _world_subject())),
 						"level": game_save.level(),
 					})
+	# Non è il dialogo a restituire il mestiere: è rifarlo insieme. Tutti i
+	# residenti di un mondo testimoniano la sua materia, ma il confronto resta
+	# esplicito per impedire che una prova trasversale o un'altra materia chiuda
+	# la scena per caso.
+	if session_passed and thirteenth_deep_forgotten_npc != "":
+		var proof_subject := str(context.get(
+			"subject", exercise_result.get("subject", _world_subject())))
+		if proof_subject == NpcArc.materia_di(thirteenth_deep_forgotten_npc):
+			_restore_deep_smemora(true)
 	# Il legame cresce per aver GIOCATO, superata o no: conta aver provato. Se
 	# dipendesse dall'esito, sbagliare costerebbe anche l'affetto del compagno.
 	if is_instance_valid(game_save):
@@ -4971,6 +6273,9 @@ func _on_exercise_progress(correct: int, total: int) -> void:
 			var reaction := node.get_node_or_null("LearningReaction")
 			if reaction != null and reaction.has_method("set_progress"):
 				reaction.call("set_progress", correct, total, true)
+			var activity_site := node.get_node_or_null("World1ActivitySite")
+			if activity_site != null and activity_site.has_method("set_progress"):
+				activity_site.call("set_progress", correct, total, true)
 			break
 
 func _complete_learning_reaction(encounter_id: String) -> void:
@@ -4981,6 +6286,9 @@ func _complete_learning_reaction(encounter_id: String) -> void:
 			var reaction := node.get_node_or_null("LearningReaction")
 			if reaction != null and reaction.has_method("set_complete"):
 				reaction.call("set_complete", true, true)
+			var activity_site := node.get_node_or_null("World1ActivitySite")
+			if activity_site != null and activity_site.has_method("set_complete"):
+				activity_site.call("set_complete", true, true)
 			_retire_completed_event(node as Area2D)
 			break
 	_sync_profile_environment_transform(true)
@@ -4990,6 +6298,10 @@ func _retire_completed_event(area: Area2D) -> void:
 	## e sfera della tappa. Gli enigmi conservano invece la struttura costruita.
 	if not is_instance_valid(area):
 		return
+	# La tappa si chiude e sparisce dalla mappa: è un momento visibile, e il
+	# Custode lo festeggia. Distinto da «sessione superata», che riguarda le
+	# risposte: qui riguarda il posto.
+	_pet_react("mission_complete")
 	area.set_meta("completed", true)
 	for group in ["world_interactable", "mission_poi", "enigma_poi"]:
 		if area.is_in_group(group):
@@ -5002,7 +6314,7 @@ func _retire_completed_event(area: Area2D) -> void:
 		collision.set_deferred("disabled", true)
 	area.set_deferred("monitoring", false)
 	area.set_deferred("monitorable", false)
-	for child_name in ["EventMarker", "EventCaption"]:
+	for child_name in ["EventMarker", "EventCaption", "DiscoveryCue"]:
 		var visual := area.get_node_or_null(child_name) as CanvasItem
 		if visual == null:
 			continue
@@ -5022,21 +6334,26 @@ func _retire_completed_event(area: Area2D) -> void:
 # Codex non ha ancora attaccato un visual con `set_stage` a quel POI, resta un
 # no-op sicuro e vale solo il riscontro testuale.
 func _on_enigma_progress(built: int, total: int, theme: String, encounter_id: String) -> void:
-	for area in get_tree().get_nodes_in_group("enigma_poi"):
+	for area in get_tree().get_nodes_in_group("progress_reaction_poi"):
 		if area is Area2D and str(area.get_meta("id", "")) == encounter_id:
 			for child in area.get_children():
 				if child.has_method("set_stage"):
 					child.set_stage(built, total)
 	if built <= 0:
-		_set_feedback("Enigma avviato: costruisci %s rispondendo (%d campate)" % [theme, total])
+		# Una risposta errata mantiene il POI allo stadio iniziale, ma non deve
+		# produrre commenti: l'errore resta narrativamente neutro (e il Custode
+		# può sdrammatizzarlo senza che un messaggio di sistema lo copra).
 		return
 	var audio := get_node_or_null("/root/NativeAudio")
 	if audio != null:
 		audio.call("play_event", "enigmaProgress", lerpf(0.9, 1.12, float(built) / maxf(float(total), 1.0)))
-	_set_feedback("%s: %d/%d campate costruite" % [theme.capitalize(), built, total])
-	_spawn_gain_popup("+1 campata", Color("8ff6c0"))
+	_set_feedback("%s: %d/%d passaggi visibili" % [theme.capitalize(), built, total])
+	_spawn_gain_popup("+1 segno nel mondo", Color("8ff6c0"))
 
 func _leave_world() -> void:
+	# Stato effimero per contratto: anche chi non ha notato il segno o non ha
+	# voluto fare la prova ritrova l'abitante intero al prossimo ingresso.
+	_restore_deep_smemora(false)
 	if is_instance_valid(gameplay):
 		if is_instance_valid(player):
 			gameplay.game_save.set_world_resume(str(world_level), player.global_position, day_clock)

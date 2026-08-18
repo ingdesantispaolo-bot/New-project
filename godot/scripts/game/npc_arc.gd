@@ -66,7 +66,15 @@ static func stadio(progression, npc_id: String) -> int:
 		return 0
 	var materia := ApparatusConfig.world_subject(int(dati.get("world", 1)))
 	var stato: Dictionary = progression.apparatus_readiness(materia)
-	if bool(stato.get("ready", false)):
+	# **Un personaggio non torna indietro.** (16 agosto 2026)
+	#
+	# `apparatus_readiness` è la misura grezza, e cala anche per cose che non
+	# dipendono da questa materia — un ripasso che scade mentre il bambino ne
+	# gioca un'altra. Letta da sola, faceva regredire allo stadio 1 chi era già
+	# arrivato in fondo al proprio arco: Tobia che aveva imparato a raggruppare
+	# tornava a contare uno per uno perché nel frattempo si era giocato musica.
+	# Disimparare non è una cosa che questo gioco deve mostrare per sbaglio.
+	if bool(progression.materia_in_linea(materia)):
 		return STADI - 1
 	var quota := float(stato.get("progress", 0.0))
 	if quota >= SOGLIA_METODO:

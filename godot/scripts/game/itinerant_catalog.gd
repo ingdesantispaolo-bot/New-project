@@ -83,6 +83,43 @@ const ITINERANTI := {
 				["Aspetta che me lo ridico da sola… sì. Sì!", "Posso spiegarlo io a qualcun altro adesso?"],
 				["Questa me la ricordo per sempre. Lo dico sempre, lo so.", "Però stavolta è vero, no?"],
 			],
+			# L'incrinatura (`vera_arc.gd`). Non si arrabbia perché Eli ha
+			# sbagliato qualcosa: si arrabbia **perché Eli è brava**, ed essere in
+			# modo permanente quella che non capisce è insostenibile a dodici anni.
+			# Il tic non si sospende — cambia il tipo di domanda: non chiede più
+			# aiuto, chiede conto.
+			"incrinatura": [
+				["Posso dirti una cosa e non ti offendi?",
+					"Sono quattro volte che mi spieghi qualcosa. Quattro. E io non ti ho mai spiegato niente.",
+					"Secondo te è perché non c'è proprio niente che io so e tu no?"],
+				["Oggi non chiedermi di ripetere. Si può dire «oggi no»?",
+					"Non ce l'ho con te. Ce l'ho con la parte in cui quella che non capisce sono sempre io — si sente la differenza?"],
+				["Tu quando torni a casa a chi lo racconti, quello che hai imparato?",
+					"Io lo racconto a te. E tu a me racconti la risposta.",
+					"Non è la stessa cosa, vero?"],
+			],
+			# Qualunque cosa Eli risponda, Vera torna. La riconciliazione non è il
+			# premio per aver risposto bene: è il presupposto. Fra le tre risposte
+			# cambia l'eco, non se ti rivolge la parola.
+			"dopo_la_scelta": [
+				["Va bene.", "Cioè: non va bene bene, ma va bene. Domani ci vediamo lo stesso?"],
+			],
+			"ricucitura": [
+				["Aspetta. Questa la so io e tu no — posso?",
+					"Non te la dico tutta, eh. Ti dico il pezzo che ti manca e il resto lo fai tu.",
+					"L'ho imparato guardando qualcuna — indovina chi?"],
+			],
+			# Da qui insegna, e insegna **come è stata insegnata**: dà il pezzo che
+			# manca e lascia il resto. È l'unico posto in cui si vede che il metodo
+			# del gioco ha attecchito su qualcuno che non è il giocatore.
+			"insegna": [
+				["Fermati un attimo: questa parte l'ho capita prima io. Comincio io?",
+					"Ti do solo l'inizio. Se ti do tutto poi non è tua — giusto?"],
+				["No, non ti dico se è giusto. Ti dico dove guardare, va bene uguale?",
+					"Il secondo passaggio. Che cosa cambia lì in mezzo?"],
+				["L'ho spiegato a mio cugino ieri e non mi sono impappinata?",
+					"Cioè, un po' sì. Ma sono arrivata in fondo. Vuol dire che adesso l'ho capita davvero?"],
+			],
 			"non_capito": [
 				["Mmm. No, mi sono persa a metà. Ma non è colpa tua.", "Me lo rifai domani con un esempio diverso?"],
 				["Niente, non mi entra. Succede anche a te di sbatterci contro?", "Ci riproviamo quando abbiamo fame di meno?"],

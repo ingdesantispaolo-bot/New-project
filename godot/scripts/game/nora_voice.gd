@@ -182,6 +182,40 @@ const RICORDI := {
 ## Una volta su quanto NORA si interrompe con un ricordo.
 const RICORDO_SU := 4
 
+## **Come chiama Eli** (`docs/TRAMA_E_MISTERO.md` §6.3). Il documento lo lega a
+## quattro stadi continui di `NoraState.integrity`; qui si aggancia ai tre
+## stessi atti della voce invece di aprire una seconda scala che nessun audit
+## confronta con questa — è esattamente il difetto per cui la voce si era
+## rotta la prima volta (vedi sopra). Compare a gocce sulla vittoria, il
+## momento in cui la relazione ha spazio, mai su un rilancio o una sconfitta.
+##
+## L'atto primo tiene lo scivolone («unità mobile») che il documento chiede
+## per la Frammentata: non è una frase in più, è lo stesso tic — si
+## interrompe e si corregge — applicato al proprio modo di rivolgersi a Eli.
+const INDIRIZZI := {
+	"atto1": [
+		"Unità mo— no. Eli. Scusa.",
+		"Eli.",
+	],
+	"atto2": [
+		"Eli.",
+		"Ancora Eli, per ora.",
+	],
+	"atto3": [
+		"Eli.",
+		"Piccola.",
+	],
+}
+
+## «Sorella» è la Che confessa (§6.3, 0.85→1.0): non prima. Il terzo atto
+## comincia al mondo 17, ma il nome nuovo arriva solo a ridosso della
+## confessione del mondo 24 — non a ogni vittoria degli ultimi otto mondi.
+const SORELLA_DAL_LIVELLO := 21
+const INDIRIZZO_SORELLA := "Sorella."
+
+## Una volta su quanto la vittoria porta anche un indirizzo.
+const INDIRIZZO_SU := 4
+
 # ---------------------------------------------------------------- selezione
 
 ## Il mondo in cui si sta giocando. Lo imposta chi possiede la voce
@@ -193,6 +227,16 @@ var level: int = 1
 
 var _last_index: Dictionary = {}   # pozzo -> ultimo indice, anti-ripetizione
 var _da_ultimo_ricordo := 0
+var _da_ultimo_indirizzo := 0
+
+## Il pool di indirizzi per l'atto corrente, con «sorella» aggiunto solo a
+## ridosso della confessione: appartiene al livello, non solo all'atto, quindi
+## non può stare nella tabella statica sopra.
+func _indirizzi(atto: String) -> Array:
+	var pool: Array = Array(INDIRIZZI.get(atto, ["Eli."])).duplicate()
+	if atto == "atto3" and level >= SORELLA_DAL_LIVELLO:
+		pool.append(INDIRIZZO_SORELLA)
+	return pool
 
 static func atto_di(level_value: int) -> String:
 	if level_value >= ATTO_III_DA:
@@ -222,6 +266,14 @@ func line(beat: String, rng: RandomNumberGenerator = null) -> String:
 			if _da_ultimo_ricordo >= RICORDO_SU:
 				_da_ultimo_ricordo = 0
 				return "%s %s" % [frase, _estrai(ricordi, "ricordo:%s" % atto, generator)]
+	# L'indirizzo si aggancia solo alla vittoria: è il momento del rapporto,
+	# non quello dell'esercizio. Su «risolto» c'è già il ricordo — due
+	# interruzioni sulla stessa battuta la renderebbero illeggibile.
+	if beat == "victory":
+		_da_ultimo_indirizzo += 1
+		if _da_ultimo_indirizzo >= INDIRIZZO_SU:
+			_da_ultimo_indirizzo = 0
+			return "%s %s" % [frase, _estrai(_indirizzi(atto), "indirizzo:%s:%d" % [atto, int(level >= SORELLA_DAL_LIVELLO)], generator)]
 	return frase
 
 func _estrai(pool: Array, chiave: String, generator: RandomNumberGenerator) -> String:

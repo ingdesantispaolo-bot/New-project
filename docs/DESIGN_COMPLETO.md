@@ -153,6 +153,65 @@ calendario. È ciò che si dichiara all'adulto (Manuale, report) e la soglia del
 stato "consolidato" nel Codex. La dimensione RITENZIONE del gate continua a
 chiedere soltanto che nessun argomento sia arretrato nel ripasso spaziato.
 
+### Una materia CERTIFICATA non si rifà (a quel grado)
+Superare l'esame di una materia accende la sua stanza e la **certifica per il
+livello corrente**: da quel momento e finché il livello non sale, quella materia
+non compare più fra le mancanti del gate e il suo esame non viene più offerto.
+
+Serviva perché due strade la riportavano indietro dopo che era stata passata:
+
+- il **decadimento per trascuratezza** faceva scendere la padronanza sotto soglia
+  mentre il bambino lavorava sulle *altre* materie — cioè facendo esattamente ciò
+  che il gate chiede. Misurato: certificata con 0,85, dopo 45 sessioni altrove
+  scendeva a 0,722 contro una soglia di 0,78, e tornava «da fare» con la stanza
+  accesa in bella vista;
+- l'**esame restava avviabile**, e ogni ripetizione ripagava gli 80 di energia
+  della riparazione: la prova appena superata riproposta con il premio più grosso
+  del gioco appeso davanti.
+
+La certificazione vale **solo per il grado in cui è stata presa**. Al livello
+successivo, e al secondo passaggio della materia (mondi 13-24), il grado è un
+altro e si ricomincia: è la ragione per cui la scala ha ventiquattro mondi e non
+dodici. Il decadimento resta e la padronanza mostrata è quella vera — cambia solo
+che non può più disfare una prova superata. Tenuto da
+`subject_certification_audit.gd`.
+
+### Una materia IN LINEA non ricade perché ne hai giocata un'altra
+Estensione della regola precedente alle **undici materie che in un mondo non
+hanno un esame**. La certificazione nasce dall'esame d'apparato, e in un mondo se
+ne dà uno solo: le altre undici il bambino le porta in linea con le palestre, e
+per loro non c'era nessun traguardo registrato.
+
+Segnalazione di gioco del 16 agosto 2026: nel mondo 1, superata la prova di
+musica, l'elenco degli obiettivi tornava a chiedere **elettronica**, già portata
+in linea poco prima.
+
+La causa **non era il decadimento** — la padronanza misurata restava a 0,900 —
+era la **RITENZIONE**. L'orologio del ripasso spaziato è uno solo per tutta la
+partita e avanza a ogni sessione risolta, di qualunque materia: un argomento di
+elettronica ripassato bene torna dovuto due sessioni dopo, e se quelle due
+sessioni sono di musica, elettronica cade da sola. Con dodici materie da tenere
+in linea insieme ognuna rimetteva indietro le altre — giocare la cosa giusta
+disfaceva il lavoro appena fatto, che è il modo più rapido di convincere un
+bambino che il gioco non tiene il conto.
+
+Ora, quando una materia centra tutte e tre le condizioni, il grado a cui l'ha
+fatto viene **registrato** (`gateClearedLevel` nel save) e da lì in avanti quella
+materia è a posto per quel grado: fuori dall'elenco delle mancanti, esame aperto
+se è quella del mondo, e l'arco del suo residente non regredisce.
+
+Quello che **non** cambia, e conta quanto il resto:
+
+- i numeri veri restano veri. `apparatus_readiness` continua a misurare senza
+  guardare il traguardo, il ripasso continua a riproporre gli argomenti dovuti e
+  NORA continua a dirlo. Il traguardo cambia che cosa il gioco **chiede**, non
+  che cosa il gioco **mostra**;
+- il traguardo vale per il suo grado e scade salendo di livello, esattamente come
+  la certificazione;
+- non regala niente: si registra solo raggiungendo davvero le tre condizioni.
+
+Tenuto da `materia_in_linea_audit.gd`.
+
 ### Esempio di scala (tunable, dati)
 | Livello | Materia in focus | Apparato (stanza) | Missioni richieste (N) | Soglia mastery |
 |---|---|---|---|---|
@@ -222,8 +281,12 @@ Tipi di missione (per non annoiare):
 
 Le Palestre fisse non sono il target finale. Un `MissionEventDirector` sceglie
 eventi compatibili con mondo, materia, livello e bisogno didattico. La posizione
-è variabile ma deterministica rispetto al seed; una quota minima di eventi utili
-è garantita vicino ai percorsi raggiungibili, per evitare blocchi dovuti al caso.
+non nasce più da una rotazione radiale: la composizione espone **luoghi
+semantici** (regioni, strumenti, landmark, sentieri e varchi), raggruppati in
+costellazioni. Il Director abbina formato e materia alle affordance del luogo;
+seed e casualità risolvono soltanto i pareggi. Una Casa del mestiere illustrata
+ospita la materia guida del mondo, mentre strumenti e siti esterni danno una
+forma alle prove sul campo. Dettagli e criteri: [ESPLORAZIONE_SEMANTICA.md](ESPLORAZIONE_SEMANTICA.md).
 Se il minigioco è una tappa di missione, vale come tappa e non come missione
 aggiuntiva; gli eventi di pratica libera migliorano mastery/ripasso ma non
 farmano il gate.
@@ -321,6 +384,13 @@ reale, mai distruttiva).
 
 **L'energia si guadagna SOLO svolgendo missioni** (imparando). Valuta primaria;
 i **frammenti** sono la secondaria del mondo (tesori, beacon).
+
+> **Aggiornamento del 14 agosto 2026 — le due valute sono separate.** L'energia
+> la fa lo studio e la spendono le prove; i frammenti li fa l'esplorazione e li
+> spende la bottega. Prima l'energia faceva tutti e due i mestieri e comprare
+> competeva con l'allenarsi. Le tariffe, la taratura misurata e il contenuto dei
+> forzieri stanno in [FORZIERI_E_FRAMMENTI.md](FORZIERI_E_FRAMMENTI.md); la
+> tabella dei sink qui sotto va letta con «energia» → «frammenti».
 
 ### Fonti
 - Missioni superate (base + moltiplicatore combo), scalate su L.

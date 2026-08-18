@@ -20,8 +20,21 @@ func _init() -> void:
 	for key in topics.keys():
 		var meta: Dictionary = topics[key]
 		var e := codex.entry_for(str(meta["subject"]), str(meta["topic"]))
-		assert(str(e.get("shortExplanation", "")).strip_edges() != "", "spiegazione vuota: %s" % key)
-		assert(str(e.get("noraStrategy", "")).strip_edges() != "", "strategia NORA vuota: %s" % key)
+		var explanation := str(e.get("shortExplanation", "")).strip_edges()
+		var strategy := str(e.get("noraStrategy", "")).strip_edges()
+		assert(explanation != "", "spiegazione vuota: %s" % key)
+		assert(strategy != "", "strategia NORA vuota: %s" % key)
+		# Il Manuale presenta questi due campi come un unico discorso. Insieme devono
+		# dare sia il perche' sia un controllo concreto, non due etichette scarne o
+		# la stessa frase copiata due volte.
+		assert(explanation.length() + strategy.length() >= 80,
+			"spiegazione troppo scarna per essere comprensibile: %s" % key)
+		var explanation_lower := explanation.to_lower()
+		var strategy_lower := strategy.to_lower()
+		assert(explanation_lower != strategy_lower
+			and not explanation_lower.contains(strategy_lower)
+			and not strategy_lower.contains(explanation_lower),
+			"spiegazione e metodo duplicati: %s" % key)
 		assert(e.has("example") and e.has("typicalError"), "voce incompleta: %s" % key)
 		count += 1
 	assert(count >= 100, "il manuale deve coprire i ~120 topic del runtime, trovati %d" % count)
@@ -45,5 +58,5 @@ func _init() -> void:
 	KnowledgeCodex.advance_state(save, "matematica", "tabelline", "seen")  # non deve regredire
 	assert(KnowledgeCodex.state_of(save, "matematica", "tabelline") == KnowledgeCodex.STATE_CONSOLIDATED)
 
-	print("Knowledge codex audit OK — %d voci, copertura completa, consultazione in esame protetta, stati monotoni" % count)
+	print("Knowledge codex audit OK — %d voci dettagliate e non duplicate, consultazione in esame protetta, stati monotoni" % count)
 	quit(0)

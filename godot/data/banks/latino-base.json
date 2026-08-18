@@ -17,7 +17,12 @@
 				"genitivo plurale"
 			],
 			"answer": "nominativo singolare",
-			"explanation": "nominativo (spesso soggetto), singolare."
+			"explanation": "«dominus» è nominativo (spesso soggetto), singolare: la desinenza «-us» lo segnala nella seconda declinazione.",
+			"distractorWhy": {
+				"accusativo plurale": "«accusativo plurale» di «dominus» si scriverebbe «dominos», non «dominus».",
+				"accusativo singolare": "«accusativo singolare» di «dominus» si scriverebbe «dominum», non «dominus».",
+				"genitivo plurale": "«genitivo plurale» di «dominus» si scriverebbe «dominorum», non «dominus»."
+			}
 		},
 		{
 			"id": "latino-dominus-accusativo-singolare",
@@ -33,7 +38,12 @@
 				"genitivo plurale"
 			],
 			"answer": "accusativo singolare",
-			"explanation": "accusativo (spesso oggetto), singolare."
+			"explanation": "«dominum» è accusativo (spesso oggetto), singolare: la desinenza «-um» lo segnala nella seconda declinazione.",
+			"distractorWhy": {
+				"nominativo singolare": "«nominativo singolare» di «dominus» si scriverebbe «dominus», non «dominum».",
+				"genitivo plurale": "«genitivo plurale» di «dominus» si scriverebbe «dominorum», non «dominum».",
+				"accusativo plurale": "«accusativo plurale» di «dominus» si scriverebbe «dominos», non «dominum»."
+			}
 		},
 		{
 			"id": "latino-dominus-genitivo-plurale",
@@ -49,7 +59,12 @@
 				"accusativo plurale"
 			],
 			"answer": "genitivo plurale",
-			"explanation": "genitivo (specificazione), plurale."
+			"explanation": "«dominorum» è genitivo (specificazione), plurale: la desinenza «-orum» lo segnala nella seconda declinazione.",
+			"distractorWhy": {
+				"nominativo singolare": "«nominativo singolare» di «dominus» si scriverebbe «dominus», non «dominorum».",
+				"accusativo singolare": "«accusativo singolare» di «dominus» si scriverebbe «dominum», non «dominorum».",
+				"accusativo plurale": "«accusativo plurale» di «dominus» si scriverebbe «dominos», non «dominorum»."
+			}
 		},
 		{
 			"id": "latino-dominus-accusativo-plurale",
@@ -65,7 +80,12 @@
 				"accusativo plurale"
 			],
 			"answer": "accusativo plurale",
-			"explanation": "accusativo (spesso oggetto), plurale."
+			"explanation": "«dominos» è accusativo (spesso oggetto), plurale: la desinenza «-os» lo segnala nella seconda declinazione.",
+			"distractorWhy": {
+				"accusativo singolare": "«accusativo singolare» di «dominus» si scriverebbe «dominum», non «dominos».",
+				"nominativo singolare": "«nominativo singolare» di «dominus» si scriverebbe «dominus», non «dominos».",
+				"genitivo plurale": "«genitivo plurale» di «dominus» si scriverebbe «dominorum», non «dominos»."
+			}
 		},
 		{
 			"id": "latino-servus-nominativo-singolare",
@@ -81,7 +101,12 @@
 				"accusativo singolare"
 			],
 			"answer": "nominativo singolare",
-			"explanation": "nominativo (spesso soggetto), singolare."
+			"explanation": "«servus» è nominativo (spesso soggetto), singolare: la desinenza «-us» lo segnala nella seconda declinazione.",
+			"distractorWhy": {
+				"genitivo plurale": "«genitivo plurale» di «servus» si scriverebbe «servorum», non «servus».",
+				"accusativo plurale": "«accusativo plurale» di «servus» si scriverebbe «servos», non «servus».",
+				"accusativo singolare": "«accusativo singolare» di «servus» si scriverebbe «servum», non «servus»."
+			}
 		},
 		{
 			"id": "latino-servus-accusativo-singolare",
@@ -97,7 +122,12 @@
 				"nominativo singolare"
 			],
 			"answer": "accusativo singolare",
-			"explanation": "accusativo (spesso oggetto), singolare."
+			"explanation": "«servum» è accusativo (spesso oggetto), singolare: la desinenza «-um» lo segnala nella seconda declinazione.",
+			"distractorWhy": {
+				"accusativo plurale": "«accusativo plurale» di «servus» si scriverebbe «servos», non «servum».",
+				"genitivo plurale": "«genitivo plurale» di «servus» si scriverebbe «servorum», non «servum».",
+				"nominativo singolare": "«nominativo singolare» di «servus» si scriverebbe «servus», non «servum»."
+			}
 		},
 		{
 			"id": "latino-servus-genitivo-plurale",
@@ -113,7 +143,12 @@
 				"accusativo plurale"
 			],
 			"answer": "genitivo plurale",
-			"explanation": "genitivo (specificazione), plurale."
+			"explanation": "«servorum» è genitivo (specificazione), plurale: la desinenza «-orum» lo segnala nella seconda declinazione.",
+			"distractorWhy": {
+				"nominativo singolare": "«nominativo singolare» di «servus» si scriverebbe «servus», non «servorum».",
+				"accusativo singolare": "«accusativo singolare» di «servus» si scriverebbe «servum», non «servorum».",
+				"accusativo plurale": "«accusativo plurale» di «servus» si scriverebbe «servos», non «servorum»."
+			}
 		},
 		{
 			"id": "latino-servus-accusativo-plurale",
@@ -129,7 +164,12 @@
 				"accusativo plurale"
 			],
 			"answer": "accusativo plurale",
-			"explanation": "accusativo (spesso oggetto), plurale."
+			"explanation": "«servos» è accusativo (spesso oggetto), plurale: la desinenza «-os» lo segnala nella seconda declinazione.",
+			"distractorWhy": {
+				"nominativo singolare": "«nominativo singolare» di «servus» si scriverebbe «servus», non «servos».",
+				"genitivo plurale": "«genitivo plurale» di «servus» si scriverebbe «servorum», non «servos».",
+				"accusativo singolare": "«accusativo singolare» di «servus» si scriverebbe «servum», non «servos»."
+			}
 		},
 		{
 			"id": "latino-amicus-nominativo-singolare",
@@ -145,7 +185,12 @@
 				"genitivo plurale"
 			],
 			"answer": "nominativo singolare",
-			"explanation": "nominativo (spesso soggetto), singolare."
+			"explanation": "«amicus» è nominativo (spesso soggetto), singolare: la desinenza «-us» lo segnala nella seconda declinazione.",
+			"distractorWhy": {
+				"accusativo plurale": "«accusativo plurale» di «amicus» si scriverebbe «amicos», non «amicus».",
+				"accusativo singolare": "«accusativo singolare» di «amicus» si scriverebbe «amicum», non «amicus».",
+				"genitivo plurale": "«genitivo plurale» di «amicus» si scriverebbe «amicorum», non «amicus»."
+			}
 		},
 		{
 			"id": "latino-amicus-accusativo-singolare",
@@ -161,7 +206,12 @@
 				"accusativo plurale"
 			],
 			"answer": "accusativo singolare",
-			"explanation": "accusativo (spesso oggetto), singolare."
+			"explanation": "«amicum» è accusativo (spesso oggetto), singolare: la desinenza «-um» lo segnala nella seconda declinazione.",
+			"distractorWhy": {
+				"nominativo singolare": "«nominativo singolare» di «amicus» si scriverebbe «amicus», non «amicum».",
+				"genitivo plurale": "«genitivo plurale» di «amicus» si scriverebbe «amicorum», non «amicum».",
+				"accusativo plurale": "«accusativo plurale» di «amicus» si scriverebbe «amicos», non «amicum»."
+			}
 		},
 		{
 			"id": "latino-amicus-genitivo-plurale",
@@ -177,7 +227,12 @@
 				"accusativo plurale"
 			],
 			"answer": "genitivo plurale",
-			"explanation": "genitivo (specificazione), plurale."
+			"explanation": "«amicorum» è genitivo (specificazione), plurale: la desinenza «-orum» lo segnala nella seconda declinazione.",
+			"distractorWhy": {
+				"nominativo singolare": "«nominativo singolare» di «amicus» si scriverebbe «amicus», non «amicorum».",
+				"accusativo singolare": "«accusativo singolare» di «amicus» si scriverebbe «amicum», non «amicorum».",
+				"accusativo plurale": "«accusativo plurale» di «amicus» si scriverebbe «amicos», non «amicorum»."
+			}
 		},
 		{
 			"id": "latino-amicus-accusativo-plurale",
@@ -193,7 +248,12 @@
 				"accusativo plurale"
 			],
 			"answer": "accusativo plurale",
-			"explanation": "accusativo (spesso oggetto), plurale."
+			"explanation": "«amicos» è accusativo (spesso oggetto), plurale: la desinenza «-os» lo segnala nella seconda declinazione.",
+			"distractorWhy": {
+				"accusativo singolare": "«accusativo singolare» di «amicus» si scriverebbe «amicum», non «amicos».",
+				"nominativo singolare": "«nominativo singolare» di «amicus» si scriverebbe «amicus», non «amicos».",
+				"genitivo plurale": "«genitivo plurale» di «amicus» si scriverebbe «amicorum», non «amicos»."
+			}
 		},
 		{
 			"id": "latino-populus-nominativo-singolare",
@@ -209,7 +269,12 @@
 				"accusativo plurale"
 			],
 			"answer": "nominativo singolare",
-			"explanation": "nominativo (spesso soggetto), singolare."
+			"explanation": "«populus» è nominativo (spesso soggetto), singolare: la desinenza «-us» lo segnala nella seconda declinazione.",
+			"distractorWhy": {
+				"genitivo plurale": "«genitivo plurale» di «populus» si scriverebbe «populorum», non «populus».",
+				"accusativo plurale": "«accusativo plurale» di «populus» si scriverebbe «populos», non «populus».",
+				"accusativo singolare": "«accusativo singolare» di «populus» si scriverebbe «populum», non «populus»."
+			}
 		},
 		{
 			"id": "latino-populus-accusativo-singolare",
@@ -225,7 +290,12 @@
 				"accusativo plurale"
 			],
 			"answer": "accusativo singolare",
-			"explanation": "accusativo (spesso oggetto), singolare."
+			"explanation": "«populum» è accusativo (spesso oggetto), singolare: la desinenza «-um» lo segnala nella seconda declinazione.",
+			"distractorWhy": {
+				"genitivo plurale": "«genitivo plurale» di «populus» si scriverebbe «populorum», non «populum».",
+				"nominativo singolare": "«nominativo singolare» di «populus» si scriverebbe «populus», non «populum».",
+				"accusativo plurale": "«accusativo plurale» di «populus» si scriverebbe «populos», non «populum»."
+			}
 		},
 		{
 			"id": "latino-populus-genitivo-plurale",
@@ -241,7 +311,12 @@
 				"nominativo singolare"
 			],
 			"answer": "genitivo plurale",
-			"explanation": "genitivo (specificazione), plurale."
+			"explanation": "«populorum» è genitivo (specificazione), plurale: la desinenza «-orum» lo segnala nella seconda declinazione.",
+			"distractorWhy": {
+				"nominativo singolare": "«nominativo singolare» di «populus» si scriverebbe «populus», non «populorum».",
+				"accusativo singolare": "«accusativo singolare» di «populus» si scriverebbe «populum», non «populorum».",
+				"accusativo plurale": "«accusativo plurale» di «populus» si scriverebbe «populos», non «populorum»."
+			}
 		},
 		{
 			"id": "latino-populus-accusativo-plurale",
@@ -257,7 +332,12 @@
 				"accusativo plurale"
 			],
 			"answer": "accusativo plurale",
-			"explanation": "accusativo (spesso oggetto), plurale."
+			"explanation": "«populos» è accusativo (spesso oggetto), plurale: la desinenza «-os» lo segnala nella seconda declinazione.",
+			"distractorWhy": {
+				"accusativo singolare": "«accusativo singolare» di «populus» si scriverebbe «populum», non «populos».",
+				"nominativo singolare": "«nominativo singolare» di «populus» si scriverebbe «populus», non «populos».",
+				"genitivo plurale": "«genitivo plurale» di «populus» si scriverebbe «populorum», non «populos»."
+			}
 		},
 		{
 			"id": "latino-rex-nominativo-singolare",
@@ -273,7 +353,12 @@
 				"genitivo singolare"
 			],
 			"answer": "nominativo singolare",
-			"explanation": "nominativo (spesso soggetto), singolare."
+			"explanation": "Nella terza declinazione il nominativo singolare non segue una desinenza fissa: si impara insieme al genitivo, che qui è «regis».",
+			"distractorWhy": {
+				"dativo singolare": "«dativo singolare» di «rex» si scriverebbe «regi», non «rex».",
+				"genitivo singolare": "«genitivo singolare» di «rex» si scriverebbe «regis», non «rex».",
+				"ablativo singolare": "«ablativo singolare» di «rex» si scriverebbe «rege», non «rex»."
+			}
 		},
 		{
 			"id": "latino-rex-genitivo-singolare",
@@ -289,7 +374,12 @@
 				"accusativo singolare"
 			],
 			"answer": "genitivo singolare",
-			"explanation": "genitivo (specificazione), singolare."
+			"explanation": "«regis» è genitivo (specificazione), singolare: la desinenza «-is» lo segnala nella terza declinazione.",
+			"distractorWhy": {
+				"ablativo singolare": "«ablativo singolare» di «rex» si scriverebbe «rege», non «regis».",
+				"accusativo singolare": "«accusativo singolare» di «rex» si scriverebbe «regem», non «regis».",
+				"nominativo singolare": "«nominativo singolare» di «rex» si scriverebbe «rex», non «regis»."
+			}
 		},
 		{
 			"id": "latino-rex-dativo-singolare",
@@ -305,7 +395,12 @@
 				"accusativo singolare"
 			],
 			"answer": "dativo singolare",
-			"explanation": "dativo (termine), singolare."
+			"explanation": "«regi» è dativo (termine), singolare: la desinenza «-i» lo segnala nella terza declinazione.",
+			"distractorWhy": {
+				"genitivo plurale": "«genitivo plurale» di «rex» si scriverebbe «regum», non «regi».",
+				"accusativo singolare": "«accusativo singolare» di «rex» si scriverebbe «regem», non «regi».",
+				"ablativo singolare": "«ablativo singolare» di «rex» si scriverebbe «rege», non «regi»."
+			}
 		},
 		{
 			"id": "latino-rex-accusativo-singolare",
@@ -321,7 +416,12 @@
 				"accusativo singolare"
 			],
 			"answer": "accusativo singolare",
-			"explanation": "accusativo (spesso oggetto), singolare."
+			"explanation": "«regem» è accusativo (spesso oggetto), singolare: la desinenza «-em» lo segnala nella terza declinazione.",
+			"distractorWhy": {
+				"genitivo singolare": "«genitivo singolare» di «rex» si scriverebbe «regis», non «regem».",
+				"nominativo singolare": "«nominativo singolare» di «rex» si scriverebbe «rex», non «regem».",
+				"ablativo singolare": "«ablativo singolare» di «rex» si scriverebbe «rege», non «regem»."
+			}
 		},
 		{
 			"id": "latino-rex-ablativo-singolare",
@@ -337,7 +437,12 @@
 				"genitivo plurale"
 			],
 			"answer": "ablativo singolare",
-			"explanation": "ablativo (mezzo, causa, modo o stato), singolare."
+			"explanation": "«rege» è ablativo (mezzo, causa, modo o stato), singolare: la desinenza «-e» lo segnala nella terza declinazione.",
+			"distractorWhy": {
+				"dativo singolare": "«dativo singolare» di «rex» si scriverebbe «regi», non «rege».",
+				"genitivo plurale": "«genitivo plurale» di «rex» si scriverebbe «regum», non «rege».",
+				"genitivo singolare": "«genitivo singolare» di «rex» si scriverebbe «regis», non «rege»."
+			}
 		},
 		{
 			"id": "latino-rex-genitivo-plurale",
@@ -353,7 +458,12 @@
 				"ablativo singolare"
 			],
 			"answer": "genitivo plurale",
-			"explanation": "genitivo (specificazione), plurale."
+			"explanation": "«regum» è genitivo (specificazione), plurale: la desinenza «-um» lo segnala nella terza declinazione.",
+			"distractorWhy": {
+				"accusativo singolare": "«accusativo singolare» di «rex» si scriverebbe «regem», non «regum».",
+				"ablativo singolare": "«ablativo singolare» di «rex» si scriverebbe «rege», non «regum».",
+				"dativo singolare": "«dativo singolare» di «rex» si scriverebbe «regi», non «regum»."
+			}
 		},
 		{
 			"id": "latino-consul-nominativo-singolare",
@@ -369,7 +479,12 @@
 				"dativo singolare"
 			],
 			"answer": "nominativo singolare",
-			"explanation": "nominativo (spesso soggetto), singolare."
+			"explanation": "Nella terza declinazione il nominativo singolare non segue una desinenza fissa: si impara insieme al genitivo, che qui è «consulis».",
+			"distractorWhy": {
+				"ablativo singolare": "«ablativo singolare» di «consul» si scriverebbe «consule», non «consul».",
+				"dativo singolare": "«dativo singolare» di «consul» si scriverebbe «consuli», non «consul».",
+				"genitivo singolare": "«genitivo singolare» di «consul» si scriverebbe «consulis», non «consul»."
+			}
 		},
 		{
 			"id": "latino-consul-genitivo-singolare",
@@ -385,7 +500,12 @@
 				"genitivo singolare"
 			],
 			"answer": "genitivo singolare",
-			"explanation": "genitivo (specificazione), singolare."
+			"explanation": "«consulis» è genitivo (specificazione), singolare: la desinenza «-is» lo segnala nella terza declinazione.",
+			"distractorWhy": {
+				"nominativo singolare": "«nominativo singolare» di «consul» si scriverebbe «consul», non «consulis».",
+				"accusativo singolare": "«accusativo singolare» di «consul» si scriverebbe «consulem», non «consulis».",
+				"ablativo singolare": "«ablativo singolare» di «consul» si scriverebbe «consule», non «consulis»."
+			}
 		},
 		{
 			"id": "latino-consul-dativo-singolare",
@@ -401,7 +521,12 @@
 				"accusativo singolare"
 			],
 			"answer": "dativo singolare",
-			"explanation": "dativo (termine), singolare."
+			"explanation": "«consuli» è dativo (termine), singolare: la desinenza «-i» lo segnala nella terza declinazione.",
+			"distractorWhy": {
+				"genitivo singolare": "«genitivo singolare» di «consul» si scriverebbe «consulis», non «consuli».",
+				"accusativo singolare": "«accusativo singolare» di «consul» si scriverebbe «consulem», non «consuli».",
+				"ablativo singolare": "«ablativo singolare» di «consul» si scriverebbe «consule», non «consuli»."
+			}
 		},
 		{
 			"id": "latino-consul-accusativo-singolare",
@@ -417,7 +542,12 @@
 				"genitivo plurale"
 			],
 			"answer": "accusativo singolare",
-			"explanation": "accusativo (spesso oggetto), singolare."
+			"explanation": "«consulem» è accusativo (spesso oggetto), singolare: la desinenza «-em» lo segnala nella terza declinazione.",
+			"distractorWhy": {
+				"ablativo singolare": "«ablativo singolare» di «consul» si scriverebbe «consule», non «consulem».",
+				"genitivo singolare": "«genitivo singolare» di «consul» si scriverebbe «consulis», non «consulem».",
+				"genitivo plurale": "«genitivo plurale» di «consul» si scriverebbe «consulum», non «consulem»."
+			}
 		},
 		{
 			"id": "latino-consul-ablativo-singolare",
@@ -433,7 +563,12 @@
 				"nominativo singolare"
 			],
 			"answer": "ablativo singolare",
-			"explanation": "ablativo (mezzo, causa, modo o stato), singolare."
+			"explanation": "«consule» è ablativo (mezzo, causa, modo o stato), singolare: la desinenza «-e» lo segnala nella terza declinazione.",
+			"distractorWhy": {
+				"nominativo singolare": "«nominativo singolare» di «consul» si scriverebbe «consul», non «consule».",
+				"genitivo singolare": "«genitivo singolare» di «consul» si scriverebbe «consulis», non «consule».",
+				"accusativo singolare": "«accusativo singolare» di «consul» si scriverebbe «consulem», non «consule»."
+			}
 		},
 		{
 			"id": "latino-consul-genitivo-plurale",
@@ -449,7 +584,12 @@
 				"genitivo plurale"
 			],
 			"answer": "genitivo plurale",
-			"explanation": "genitivo (specificazione), plurale."
+			"explanation": "«consulum» è genitivo (specificazione), plurale: la desinenza «-um» lo segnala nella terza declinazione.",
+			"distractorWhy": {
+				"genitivo singolare": "«genitivo singolare» di «consul» si scriverebbe «consulis», non «consulum».",
+				"ablativo singolare": "«ablativo singolare» di «consul» si scriverebbe «consule», non «consulum».",
+				"accusativo singolare": "«accusativo singolare» di «consul» si scriverebbe «consulem», non «consulum»."
+			}
 		},
 		{
 			"id": "latino-miles-nominativo-singolare",
@@ -465,7 +605,12 @@
 				"accusativo singolare"
 			],
 			"answer": "nominativo singolare",
-			"explanation": "nominativo (spesso soggetto), singolare."
+			"explanation": "Nella terza declinazione il nominativo singolare non segue una desinenza fissa: si impara insieme al genitivo, che qui è «militis».",
+			"distractorWhy": {
+				"accusativo singolare": "«accusativo singolare» di «miles» si scriverebbe «militem», non «miles».",
+				"dativo singolare": "«dativo singolare» di «miles» si scriverebbe «militi», non «miles».",
+				"ablativo singolare": "«ablativo singolare» di «miles» si scriverebbe «milite», non «miles»."
+			}
 		},
 		{
 			"id": "latino-miles-genitivo-singolare",
@@ -481,7 +626,12 @@
 				"ablativo singolare"
 			],
 			"answer": "genitivo singolare",
-			"explanation": "genitivo (specificazione), singolare."
+			"explanation": "«militis» è genitivo (specificazione), singolare: la desinenza «-is» lo segnala nella terza declinazione.",
+			"distractorWhy": {
+				"nominativo singolare": "«nominativo singolare» di «miles» si scriverebbe «miles», non «militis».",
+				"accusativo singolare": "«accusativo singolare» di «miles» si scriverebbe «militem», non «militis».",
+				"ablativo singolare": "«ablativo singolare» di «miles» si scriverebbe «milite», non «militis»."
+			}
 		},
 		{
 			"id": "latino-miles-dativo-singolare",
@@ -497,7 +647,12 @@
 				"genitivo plurale"
 			],
 			"answer": "dativo singolare",
-			"explanation": "dativo (termine), singolare."
+			"explanation": "«militi» è dativo (termine), singolare: la desinenza «-i» lo segnala nella terza declinazione.",
+			"distractorWhy": {
+				"genitivo plurale": "«genitivo plurale» di «miles» si scriverebbe «militum», non «militi».",
+				"genitivo singolare": "«genitivo singolare» di «miles» si scriverebbe «militis», non «militi».",
+				"accusativo singolare": "«accusativo singolare» di «miles» si scriverebbe «militem», non «militi»."
+			}
 		},
 		{
 			"id": "latino-miles-accusativo-singolare",
@@ -513,7 +668,12 @@
 				"accusativo singolare"
 			],
 			"answer": "accusativo singolare",
-			"explanation": "accusativo (spesso oggetto), singolare."
+			"explanation": "«militem» è accusativo (spesso oggetto), singolare: la desinenza «-em» lo segnala nella terza declinazione.",
+			"distractorWhy": {
+				"genitivo singolare": "«genitivo singolare» di «miles» si scriverebbe «militis», non «militem».",
+				"ablativo singolare": "«ablativo singolare» di «miles» si scriverebbe «milite», non «militem».",
+				"nominativo singolare": "«nominativo singolare» di «miles» si scriverebbe «miles», non «militem»."
+			}
 		},
 		{
 			"id": "latino-miles-ablativo-singolare",
@@ -529,7 +689,12 @@
 				"genitivo plurale"
 			],
 			"answer": "ablativo singolare",
-			"explanation": "ablativo (mezzo, causa, modo o stato), singolare."
+			"explanation": "«milite» è ablativo (mezzo, causa, modo o stato), singolare: la desinenza «-e» lo segnala nella terza declinazione.",
+			"distractorWhy": {
+				"accusativo singolare": "«accusativo singolare» di «miles» si scriverebbe «militem», non «milite».",
+				"genitivo plurale": "«genitivo plurale» di «miles» si scriverebbe «militum», non «milite».",
+				"genitivo singolare": "«genitivo singolare» di «miles» si scriverebbe «militis», non «milite»."
+			}
 		},
 		{
 			"id": "latino-miles-genitivo-plurale",
@@ -545,7 +710,12 @@
 				"dativo singolare"
 			],
 			"answer": "genitivo plurale",
-			"explanation": "genitivo (specificazione), plurale."
+			"explanation": "«militum» è genitivo (specificazione), plurale: la desinenza «-um» lo segnala nella terza declinazione.",
+			"distractorWhy": {
+				"nominativo singolare": "«nominativo singolare» di «miles» si scriverebbe «miles», non «militum».",
+				"dativo singolare": "«dativo singolare» di «miles» si scriverebbe «militi», non «militum».",
+				"ablativo singolare": "«ablativo singolare» di «miles» si scriverebbe «milite», non «militum»."
+			}
 		},
 		{
 			"id": "latino-virtus-nominativo-singolare",
@@ -561,7 +731,12 @@
 				"genitivo plurale"
 			],
 			"answer": "nominativo singolare",
-			"explanation": "nominativo (spesso soggetto), singolare."
+			"explanation": "Nella terza declinazione il nominativo singolare non segue una desinenza fissa: si impara insieme al genitivo, che qui è «virtutis».",
+			"distractorWhy": {
+				"ablativo singolare": "«ablativo singolare» di «virtus» si scriverebbe «virtute», non «virtus».",
+				"genitivo plurale": "«genitivo plurale» di «virtus» si scriverebbe «virtutum», non «virtus».",
+				"accusativo singolare": "«accusativo singolare» di «virtus» si scriverebbe «virtutem», non «virtus»."
+			}
 		},
 		{
 			"id": "latino-virtus-genitivo-singolare",
@@ -577,7 +752,12 @@
 				"genitivo singolare"
 			],
 			"answer": "genitivo singolare",
-			"explanation": "genitivo (specificazione), singolare."
+			"explanation": "«virtutis» è genitivo (specificazione), singolare: la desinenza «-is» lo segnala nella terza declinazione.",
+			"distractorWhy": {
+				"genitivo plurale": "«genitivo plurale» di «virtus» si scriverebbe «virtutum», non «virtutis».",
+				"accusativo singolare": "«accusativo singolare» di «virtus» si scriverebbe «virtutem», non «virtutis».",
+				"nominativo singolare": "«nominativo singolare» di «virtus» si scriverebbe «virtus», non «virtutis»."
+			}
 		},
 		{
 			"id": "latino-virtus-dativo-singolare",
@@ -593,7 +773,12 @@
 				"ablativo singolare"
 			],
 			"answer": "dativo singolare",
-			"explanation": "dativo (termine), singolare."
+			"explanation": "«virtuti» è dativo (termine), singolare: la desinenza «-i» lo segnala nella terza declinazione.",
+			"distractorWhy": {
+				"ablativo singolare": "«ablativo singolare» di «virtus» si scriverebbe «virtute», non «virtuti».",
+				"nominativo singolare": "«nominativo singolare» di «virtus» si scriverebbe «virtus», non «virtuti».",
+				"genitivo singolare": "«genitivo singolare» di «virtus» si scriverebbe «virtutis», non «virtuti»."
+			}
 		},
 		{
 			"id": "latino-virtus-accusativo-singolare",
@@ -609,7 +794,12 @@
 				"nominativo singolare"
 			],
 			"answer": "accusativo singolare",
-			"explanation": "accusativo (spesso oggetto), singolare."
+			"explanation": "«virtutem» è accusativo (spesso oggetto), singolare: la desinenza «-em» lo segnala nella terza declinazione.",
+			"distractorWhy": {
+				"genitivo singolare": "«genitivo singolare» di «virtus» si scriverebbe «virtutis», non «virtutem».",
+				"nominativo singolare": "«nominativo singolare» di «virtus» si scriverebbe «virtus», non «virtutem».",
+				"ablativo singolare": "«ablativo singolare» di «virtus» si scriverebbe «virtute», non «virtutem»."
+			}
 		},
 		{
 			"id": "latino-virtus-ablativo-singolare",
@@ -625,7 +815,12 @@
 				"genitivo singolare"
 			],
 			"answer": "ablativo singolare",
-			"explanation": "ablativo (mezzo, causa, modo o stato), singolare."
+			"explanation": "«virtute» è ablativo (mezzo, causa, modo o stato), singolare: la desinenza «-e» lo segnala nella terza declinazione.",
+			"distractorWhy": {
+				"dativo singolare": "«dativo singolare» di «virtus» si scriverebbe «virtuti», non «virtute».",
+				"genitivo singolare": "«genitivo singolare» di «virtus» si scriverebbe «virtutis», non «virtute».",
+				"nominativo singolare": "«nominativo singolare» di «virtus» si scriverebbe «virtus», non «virtute»."
+			}
 		},
 		{
 			"id": "latino-virtus-genitivo-plurale",
@@ -641,7 +836,12 @@
 				"genitivo plurale"
 			],
 			"answer": "genitivo plurale",
-			"explanation": "genitivo (specificazione), plurale."
+			"explanation": "«virtutum» è genitivo (specificazione), plurale: la desinenza «-um» lo segnala nella terza declinazione.",
+			"distractorWhy": {
+				"ablativo singolare": "«ablativo singolare» di «virtus» si scriverebbe «virtute», non «virtutum».",
+				"genitivo singolare": "«genitivo singolare» di «virtus» si scriverebbe «virtutis», non «virtutum».",
+				"dativo singolare": "«dativo singolare» di «virtus» si scriverebbe «virtuti», non «virtutum»."
+			}
 		},
 		{
 			"id": "latino-lex-nominativo-singolare",
@@ -657,7 +857,12 @@
 				"dativo singolare"
 			],
 			"answer": "nominativo singolare",
-			"explanation": "nominativo (spesso soggetto), singolare."
+			"explanation": "Nella terza declinazione il nominativo singolare non segue una desinenza fissa: si impara insieme al genitivo, che qui è «legis».",
+			"distractorWhy": {
+				"ablativo singolare": "«ablativo singolare» di «lex» si scriverebbe «lege», non «lex».",
+				"dativo singolare": "«dativo singolare» di «lex» si scriverebbe «legi», non «lex».",
+				"genitivo singolare": "«genitivo singolare» di «lex» si scriverebbe «legis», non «lex»."
+			}
 		},
 		{
 			"id": "latino-lex-genitivo-singolare",
@@ -673,7 +878,12 @@
 				"nominativo singolare"
 			],
 			"answer": "genitivo singolare",
-			"explanation": "genitivo (specificazione), singolare."
+			"explanation": "«legis» è genitivo (specificazione), singolare: la desinenza «-is» lo segnala nella terza declinazione.",
+			"distractorWhy": {
+				"nominativo singolare": "«nominativo singolare» di «lex» si scriverebbe «lex», non «legis».",
+				"dativo singolare": "«dativo singolare» di «lex» si scriverebbe «legi», non «legis».",
+				"ablativo singolare": "«ablativo singolare» di «lex» si scriverebbe «lege», non «legis»."
+			}
 		},
 		{
 			"id": "latino-lex-dativo-singolare",
@@ -689,7 +899,12 @@
 				"genitivo singolare"
 			],
 			"answer": "dativo singolare",
-			"explanation": "dativo (termine), singolare."
+			"explanation": "«legi» è dativo (termine), singolare: la desinenza «-i» lo segnala nella terza declinazione.",
+			"distractorWhy": {
+				"genitivo plurale": "«genitivo plurale» di «lex» si scriverebbe «legum», non «legi».",
+				"genitivo singolare": "«genitivo singolare» di «lex» si scriverebbe «legis», non «legi».",
+				"accusativo singolare": "«accusativo singolare» di «lex» si scriverebbe «legem», non «legi»."
+			}
 		},
 		{
 			"id": "latino-lex-accusativo-singolare",
@@ -705,7 +920,12 @@
 				"accusativo singolare"
 			],
 			"answer": "accusativo singolare",
-			"explanation": "accusativo (spesso oggetto), singolare."
+			"explanation": "«legem» è accusativo (spesso oggetto), singolare: la desinenza «-em» lo segnala nella terza declinazione.",
+			"distractorWhy": {
+				"genitivo plurale": "«genitivo plurale» di «lex» si scriverebbe «legum», non «legem».",
+				"genitivo singolare": "«genitivo singolare» di «lex» si scriverebbe «legis», non «legem».",
+				"ablativo singolare": "«ablativo singolare» di «lex» si scriverebbe «lege», non «legem»."
+			}
 		},
 		{
 			"id": "latino-lex-ablativo-singolare",
@@ -721,7 +941,12 @@
 				"genitivo plurale"
 			],
 			"answer": "ablativo singolare",
-			"explanation": "ablativo (mezzo, causa, modo o stato), singolare."
+			"explanation": "«lege» è ablativo (mezzo, causa, modo o stato), singolare: la desinenza «-e» lo segnala nella terza declinazione.",
+			"distractorWhy": {
+				"dativo singolare": "«dativo singolare» di «lex» si scriverebbe «legi», non «lege».",
+				"genitivo singolare": "«genitivo singolare» di «lex» si scriverebbe «legis», non «lege».",
+				"genitivo plurale": "«genitivo plurale» di «lex» si scriverebbe «legum», non «lege»."
+			}
 		},
 		{
 			"id": "latino-lex-genitivo-plurale",
@@ -737,7 +962,12 @@
 				"ablativo singolare"
 			],
 			"answer": "genitivo plurale",
-			"explanation": "genitivo (specificazione), plurale."
+			"explanation": "«legum» è genitivo (specificazione), plurale: la desinenza «-um» lo segnala nella terza declinazione.",
+			"distractorWhy": {
+				"dativo singolare": "«dativo singolare» di «lex» si scriverebbe «legi», non «legum».",
+				"ablativo singolare": "«ablativo singolare» di «lex» si scriverebbe «lege», non «legum».",
+				"genitivo singolare": "«genitivo singolare» di «lex» si scriverebbe «legis», non «legum»."
+			}
 		},
 		{
 			"id": "latino-corpus-genitivo-singolare",
@@ -753,7 +983,12 @@
 				"ablativo singolare"
 			],
 			"answer": "genitivo singolare",
-			"explanation": "genitivo (specificazione), singolare."
+			"explanation": "«corporis» è genitivo (specificazione), singolare: la desinenza «-is» lo segnala nella terza declinazione (neutri).",
+			"distractorWhy": {
+				"ablativo singolare": "«ablativo singolare» di «corpus» si scriverebbe «corpore», non «corporis».",
+				"dativo singolare": "«dativo singolare» di «corpus» si scriverebbe «corpori», non «corporis».",
+				"genitivo plurale": "«genitivo plurale» di «corpus» si scriverebbe «corporum», non «corporis»."
+			}
 		},
 		{
 			"id": "latino-corpus-dativo-singolare",
@@ -769,7 +1004,12 @@
 				"dativo singolare"
 			],
 			"answer": "dativo singolare",
-			"explanation": "dativo (termine), singolare."
+			"explanation": "«corpori» è dativo (termine), singolare: la desinenza «-i» lo segnala nella terza declinazione (neutri).",
+			"distractorWhy": {
+				"genitivo plurale": "«genitivo plurale» di «corpus» si scriverebbe «corporum», non «corpori».",
+				"ablativo singolare": "«ablativo singolare» di «corpus» si scriverebbe «corpore», non «corpori».",
+				"genitivo singolare": "«genitivo singolare» di «corpus» si scriverebbe «corporis», non «corpori»."
+			}
 		},
 		{
 			"id": "latino-corpus-ablativo-singolare",
@@ -785,7 +1025,12 @@
 				"dativo singolare"
 			],
 			"answer": "ablativo singolare",
-			"explanation": "ablativo (mezzo, causa, modo o stato), singolare."
+			"explanation": "«corpore» è ablativo (mezzo, causa, modo o stato), singolare: la desinenza «-e» lo segnala nella terza declinazione (neutri).",
+			"distractorWhy": {
+				"genitivo singolare": "«genitivo singolare» di «corpus» si scriverebbe «corporis», non «corpore».",
+				"genitivo plurale": "«genitivo plurale» di «corpus» si scriverebbe «corporum», non «corpore».",
+				"dativo singolare": "«dativo singolare» di «corpus» si scriverebbe «corpori», non «corpore»."
+			}
 		},
 		{
 			"id": "latino-corpus-genitivo-plurale",
@@ -801,7 +1046,12 @@
 				"ablativo singolare"
 			],
 			"answer": "genitivo plurale",
-			"explanation": "genitivo (specificazione), plurale."
+			"explanation": "«corporum» è genitivo (specificazione), plurale: la desinenza «-um» lo segnala nella terza declinazione (neutri).",
+			"distractorWhy": {
+				"dativo singolare": "«dativo singolare» di «corpus» si scriverebbe «corpori», non «corporum».",
+				"ablativo singolare": "«ablativo singolare» di «corpus» si scriverebbe «corpore», non «corporum».",
+				"genitivo singolare": "«genitivo singolare» di «corpus» si scriverebbe «corporis», non «corporum»."
+			}
 		},
 		{
 			"id": "latino-tempus-genitivo-singolare",
@@ -817,7 +1067,12 @@
 				"genitivo plurale"
 			],
 			"answer": "genitivo singolare",
-			"explanation": "genitivo (specificazione), singolare."
+			"explanation": "«temporis» è genitivo (specificazione), singolare: la desinenza «-is» lo segnala nella terza declinazione (neutri).",
+			"distractorWhy": {
+				"dativo singolare": "«dativo singolare» di «tempus» si scriverebbe «tempori», non «temporis».",
+				"ablativo singolare": "«ablativo singolare» di «tempus» si scriverebbe «tempore», non «temporis».",
+				"genitivo plurale": "«genitivo plurale» di «tempus» si scriverebbe «temporum», non «temporis»."
+			}
 		},
 		{
 			"id": "latino-tempus-dativo-singolare",
@@ -833,7 +1088,12 @@
 				"dativo singolare"
 			],
 			"answer": "dativo singolare",
-			"explanation": "dativo (termine), singolare."
+			"explanation": "«tempori» è dativo (termine), singolare: la desinenza «-i» lo segnala nella terza declinazione (neutri).",
+			"distractorWhy": {
+				"ablativo singolare": "«ablativo singolare» di «tempus» si scriverebbe «tempore», non «tempori».",
+				"genitivo plurale": "«genitivo plurale» di «tempus» si scriverebbe «temporum», non «tempori».",
+				"genitivo singolare": "«genitivo singolare» di «tempus» si scriverebbe «temporis», non «tempori»."
+			}
 		},
 		{
 			"id": "latino-tempus-ablativo-singolare",
@@ -849,7 +1109,12 @@
 				"dativo singolare"
 			],
 			"answer": "ablativo singolare",
-			"explanation": "ablativo (mezzo, causa, modo o stato), singolare."
+			"explanation": "«tempore» è ablativo (mezzo, causa, modo o stato), singolare: la desinenza «-e» lo segnala nella terza declinazione (neutri).",
+			"distractorWhy": {
+				"dativo singolare": "«dativo singolare» di «tempus» si scriverebbe «tempori», non «tempore».",
+				"genitivo plurale": "«genitivo plurale» di «tempus» si scriverebbe «temporum», non «tempore».",
+				"genitivo singolare": "«genitivo singolare» di «tempus» si scriverebbe «temporis», non «tempore»."
+			}
 		},
 		{
 			"id": "latino-tempus-genitivo-plurale",
@@ -865,7 +1130,12 @@
 				"dativo singolare"
 			],
 			"answer": "genitivo plurale",
-			"explanation": "genitivo (specificazione), plurale."
+			"explanation": "«temporum» è genitivo (specificazione), plurale: la desinenza «-um» lo segnala nella terza declinazione (neutri).",
+			"distractorWhy": {
+				"ablativo singolare": "«ablativo singolare» di «tempus» si scriverebbe «tempore», non «temporum».",
+				"genitivo singolare": "«genitivo singolare» di «tempus» si scriverebbe «temporis», non «temporum».",
+				"dativo singolare": "«dativo singolare» di «tempus» si scriverebbe «tempori», non «temporum»."
+			}
 		},
 		{
 			"id": "latino-manus-dativo-singolare",
@@ -881,7 +1151,12 @@
 				"ablativo singolare"
 			],
 			"answer": "dativo singolare",
-			"explanation": "dativo (termine), singolare."
+			"explanation": "«manui» è dativo (termine), singolare: la desinenza «-ui» lo segnala nella quarta declinazione.",
+			"distractorWhy": {
+				"genitivo plurale": "«genitivo plurale» di «manus» si scriverebbe «manuum», non «manui».",
+				"ablativo singolare": "«ablativo singolare» di «manus» si scriverebbe «manu», non «manui».",
+				"accusativo singolare": "«accusativo singolare» di «manus» si scriverebbe «manum», non «manui»."
+			}
 		},
 		{
 			"id": "latino-manus-accusativo-singolare",
@@ -897,7 +1172,12 @@
 				"accusativo singolare"
 			],
 			"answer": "accusativo singolare",
-			"explanation": "accusativo (spesso oggetto), singolare."
+			"explanation": "«manum» è accusativo (spesso oggetto), singolare: la desinenza «-um» lo segnala nella quarta declinazione.",
+			"distractorWhy": {
+				"ablativo singolare": "«ablativo singolare» di «manus» si scriverebbe «manu», non «manum».",
+				"genitivo plurale": "«genitivo plurale» di «manus» si scriverebbe «manuum», non «manum».",
+				"dativo singolare": "«dativo singolare» di «manus» si scriverebbe «manui», non «manum»."
+			}
 		},
 		{
 			"id": "latino-manus-ablativo-singolare",
@@ -913,7 +1193,12 @@
 				"genitivo plurale"
 			],
 			"answer": "ablativo singolare",
-			"explanation": "ablativo (mezzo, causa, modo o stato), singolare."
+			"explanation": "«manu» è ablativo (mezzo, causa, modo o stato), singolare: la desinenza «-u» lo segnala nella quarta declinazione.",
+			"distractorWhy": {
+				"genitivo plurale": "«genitivo plurale» di «manus» si scriverebbe «manuum», non «manu».",
+				"accusativo singolare": "«accusativo singolare» di «manus» si scriverebbe «manum», non «manu».",
+				"dativo singolare": "«dativo singolare» di «manus» si scriverebbe «manui», non «manu»."
+			}
 		},
 		{
 			"id": "latino-manus-genitivo-plurale",
@@ -929,7 +1214,12 @@
 				"accusativo singolare"
 			],
 			"answer": "genitivo plurale",
-			"explanation": "genitivo (specificazione), plurale."
+			"explanation": "«manuum» è genitivo (specificazione), plurale: la desinenza «-uum» lo segnala nella quarta declinazione.",
+			"distractorWhy": {
+				"dativo singolare": "«dativo singolare» di «manus» si scriverebbe «manui», non «manuum».",
+				"ablativo singolare": "«ablativo singolare» di «manus» si scriverebbe «manu», non «manuum».",
+				"accusativo singolare": "«accusativo singolare» di «manus» si scriverebbe «manum», non «manuum»."
+			}
 		},
 		{
 			"id": "latino-exercitus-dativo-singolare",
@@ -945,7 +1235,12 @@
 				"genitivo plurale"
 			],
 			"answer": "dativo singolare",
-			"explanation": "dativo (termine), singolare."
+			"explanation": "«exercitui» è dativo (termine), singolare: la desinenza «-ui» lo segnala nella quarta declinazione.",
+			"distractorWhy": {
+				"ablativo singolare": "«ablativo singolare» di «exercitus» si scriverebbe «exercitu», non «exercitui».",
+				"genitivo plurale": "«genitivo plurale» di «exercitus» si scriverebbe «exercituum», non «exercitui».",
+				"accusativo singolare": "«accusativo singolare» di «exercitus» si scriverebbe «exercitum», non «exercitui»."
+			}
 		},
 		{
 			"id": "latino-exercitus-accusativo-singolare",
@@ -961,7 +1256,12 @@
 				"accusativo singolare"
 			],
 			"answer": "accusativo singolare",
-			"explanation": "accusativo (spesso oggetto), singolare."
+			"explanation": "«exercitum» è accusativo (spesso oggetto), singolare: la desinenza «-um» lo segnala nella quarta declinazione.",
+			"distractorWhy": {
+				"ablativo singolare": "«ablativo singolare» di «exercitus» si scriverebbe «exercitu», non «exercitum».",
+				"genitivo plurale": "«genitivo plurale» di «exercitus» si scriverebbe «exercituum», non «exercitum».",
+				"dativo singolare": "«dativo singolare» di «exercitus» si scriverebbe «exercitui», non «exercitum»."
+			}
 		},
 		{
 			"id": "latino-exercitus-ablativo-singolare",
@@ -977,7 +1277,12 @@
 				"dativo singolare"
 			],
 			"answer": "ablativo singolare",
-			"explanation": "ablativo (mezzo, causa, modo o stato), singolare."
+			"explanation": "«exercitu» è ablativo (mezzo, causa, modo o stato), singolare: la desinenza «-u» lo segnala nella quarta declinazione.",
+			"distractorWhy": {
+				"accusativo singolare": "«accusativo singolare» di «exercitus» si scriverebbe «exercitum», non «exercitu».",
+				"dativo singolare": "«dativo singolare» di «exercitus» si scriverebbe «exercitui», non «exercitu».",
+				"genitivo plurale": "«genitivo plurale» di «exercitus» si scriverebbe «exercituum», non «exercitu»."
+			}
 		},
 		{
 			"id": "latino-exercitus-genitivo-plurale",
@@ -993,7 +1298,12 @@
 				"ablativo singolare"
 			],
 			"answer": "genitivo plurale",
-			"explanation": "genitivo (specificazione), plurale."
+			"explanation": "«exercituum» è genitivo (specificazione), plurale: la desinenza «-uum» lo segnala nella quarta declinazione.",
+			"distractorWhy": {
+				"accusativo singolare": "«accusativo singolare» di «exercitus» si scriverebbe «exercitum», non «exercituum».",
+				"dativo singolare": "«dativo singolare» di «exercitus» si scriverebbe «exercitui», non «exercituum».",
+				"ablativo singolare": "«ablativo singolare» di «exercitus» si scriverebbe «exercitu», non «exercituum»."
+			}
 		},
 		{
 			"id": "latino-declinazioni-base-0",
@@ -1009,7 +1319,12 @@
 				"Seconda"
 			],
 			"answer": "Prima",
-			"explanation": "Il genitivo in -ae è il segno della prima declinazione, quasi tutta femminile."
+			"explanation": "Il genitivo in -ae è il segno della prima declinazione, quasi tutta femminile.",
+			"distractorWhy": {
+				"Seconda": "La seconda ha il genitivo in -i, non in -ae come «rosae».",
+				"Terza": "La terza ha il genitivo in -is, non in -ae come «rosae».",
+				"Quarta": "La quarta ha il genitivo in -us, non in -ae come «rosae»."
+			}
 		},
 		{
 			"id": "latino-declinazioni-base-1",
@@ -1025,7 +1340,12 @@
 				"Seconda"
 			],
 			"answer": "Seconda",
-			"explanation": "Il genitivo in -i indica la seconda declinazione, in gran parte maschile e neutra."
+			"explanation": "Il genitivo in -i indica la seconda declinazione, in gran parte maschile e neutra.",
+			"distractorWhy": {
+				"Prima": "La prima ha il genitivo in -ae, non in -i come «domini».",
+				"Terza": "La terza ha il genitivo in -is, non in -i come «domini».",
+				"Quinta": "La quinta ha il genitivo in -ei, non in -i come «domini»."
+			}
 		},
 		{
 			"id": "latino-declinazioni-base-2",
@@ -1036,7 +1356,12 @@
 			"prompt": "Qual è il nominativo plurale di «rosa»?",
 			"options": [],
 			"answer": "rosae",
-			"explanation": "Nella prima declinazione il nominativo plurale esce in -ae, come il genitivo singolare: solo il contesto li distingue."
+			"explanation": "Nella prima declinazione il nominativo plurale esce in -ae, come il genitivo singolare: solo il contesto li distingue.",
+			"distractorWhy": {
+				"rosas": "«Rosas» è l'accusativo plurale, non il nominativo.",
+				"rosis": "«Rosis» è dativo/ablativo plurale, non il nominativo.",
+				"rosam": "«Rosam» è l'accusativo singolare, non il nominativo plurale."
+			}
 		},
 		{
 			"id": "latino-declinazioni-base-3",
@@ -1047,7 +1372,12 @@
 			"prompt": "Qual è l'accusativo singolare di «rosa»?",
 			"options": [],
 			"answer": "rosam",
-			"explanation": "La -m finale è il segno tipico dell'accusativo singolare in quasi tutte le declinazioni."
+			"explanation": "La -m finale è il segno tipico dell'accusativo singolare in quasi tutte le declinazioni.",
+			"distractorWhy": {
+				"rosae": "«Rosae» è genitivo singolare o nominativo plurale, non l'accusativo singolare.",
+				"rosa": "«Rosa» è il nominativo (o l'ablativo) singolare, senza la -m dell'accusativo.",
+				"rosas": "«Rosas» è l'accusativo plurale, non singolare."
+			}
 		},
 		{
 			"id": "latino-declinazioni-base-4",
@@ -1058,7 +1388,12 @@
 			"prompt": "Qual è l'accusativo plurale di «rosa»?",
 			"options": [],
 			"answer": "rosas",
-			"explanation": "L'accusativo plurale della prima declinazione esce in -as."
+			"explanation": "L'accusativo plurale della prima declinazione esce in -as.",
+			"distractorWhy": {
+				"rosae": "«Rosae» è nominativo plurale o genitivo singolare, non l'accusativo plurale.",
+				"rosarum": "«Rosarum» è il genitivo plurale, non l'accusativo.",
+				"rosis": "«Rosis» è dativo/ablativo plurale, non l'accusativo."
+			}
 		},
 		{
 			"id": "latino-declinazioni-base-5",
@@ -1069,7 +1404,12 @@
 			"prompt": "Qual è il genitivo singolare di «dominus»?",
 			"options": [],
 			"answer": "domini",
-			"explanation": "Il genitivo indica di solito il possesso: «domini» significa «del padrone»."
+			"explanation": "Il genitivo indica di solito il possesso: «domini» significa «del padrone».",
+			"distractorWhy": {
+				"domino": "«Domino» è dativo o ablativo singolare, non il genitivo.",
+				"dominum": "«Dominum» è l'accusativo singolare, non il genitivo.",
+				"dominis": "«Dominis» è dativo/ablativo plurale, non il genitivo singolare."
+			}
 		},
 		{
 			"id": "latino-declinazioni-base-6",
@@ -1080,7 +1420,12 @@
 			"prompt": "Qual è il nominativo plurale di «dominus»?",
 			"options": [],
 			"answer": "domini",
-			"explanation": "Attenzione: «domini» è sia genitivo singolare sia nominativo plurale. È il verbo a chiarire quale sia."
+			"explanation": "Attenzione: «domini» è sia genitivo singolare sia nominativo plurale. È il verbo a chiarire quale sia.",
+			"distractorWhy": {
+				"dominos": "«Dominos» è l'accusativo plurale, non il nominativo.",
+				"dominorum": "«Dominorum» è il genitivo plurale, non il nominativo.",
+				"dominis": "«Dominis» è dativo/ablativo plurale, non il nominativo."
+			}
 		},
 		{
 			"id": "latino-declinazioni-base-7",
@@ -1096,7 +1441,12 @@
 				"Dalla lunghezza della parola"
 			],
 			"answer": "Dalla desinenza del genitivo singolare",
-			"explanation": "Il vocabolario riporta sempre due forme: nominativo e genitivo. La seconda dice il gruppo."
+			"explanation": "Il vocabolario riporta sempre due forme: nominativo e genitivo. La seconda dice il gruppo.",
+			"distractorWhy": {
+				"Dalla lettera con cui comincia": "La lettera iniziale non ha nessuna relazione con la declinazione di un nome.",
+				"Dal genere maschile o femminile": "Il genere non basta: la prima declinazione ha anche maschili, la seconda anche neutri.",
+				"Dalla lunghezza della parola": "La lunghezza della parola non indica affatto la declinazione."
+			}
 		},
 		{
 			"id": "latino-declinazioni-base-8",
@@ -1112,7 +1462,12 @@
 				"Appartengono solo alla seconda"
 			],
 			"answer": "Nominativo e accusativo sono sempre uguali",
-			"explanation": "È una regola che vale per tutte le declinazioni: nei neutri il soggetto e l'oggetto hanno la stessa forma."
+			"explanation": "È una regola che vale per tutte le declinazioni: nei neutri il soggetto e l'oggetto hanno la stessa forma.",
+			"distractorWhy": {
+				"Finiscono sempre in -um al singolare": "Vale solo per la seconda declinazione: nella terza i neutri finiscono in modi diversi, come «tempus» o «mare».",
+				"Non hanno mai il plurale": "I neutri hanno il plurale come tutti gli altri nomi, per esempio «templa».",
+				"Appartengono solo alla seconda": "Esistono neutri anche nella terza, quarta e quinta declinazione."
+			}
 		},
 		{
 			"id": "latino-declinazioni-base-9",
@@ -1128,7 +1483,12 @@
 				"In -a"
 			],
 			"answer": "In -a",
-			"explanation": "«Templa», «bella», «maria»: la -a finale dei neutri plurali è entrata anche in italiano, in parole come «le braccia»."
+			"explanation": "«Templa», «bella», «maria»: la -a finale dei neutri plurali è entrata anche in italiano, in parole come «le braccia».",
+			"distractorWhy": {
+				"In -es": "-es è tipico del nominativo plurale maschile/femminile della terza declinazione, non dei neutri.",
+				"In -os": "Questa desinenza non esiste per i neutri plurali latini.",
+				"In -is": "-is è tipico del dativo/ablativo plurale, non del nominativo/accusativo dei neutri."
+			}
 		},
 		{
 			"id": "latino-declinazioni-base-10",
@@ -1155,7 +1515,12 @@
 				"Io faccio"
 			],
 			"answer": "Io sono",
-			"explanation": "«Sum» è la prima persona singolare del presente indicativo del verbo essere."
+			"explanation": "«Sum» è la prima persona singolare del presente indicativo del verbo essere.",
+			"distractorWhy": {
+				"Io ho": "«Avere» in latino è «habeo», non «sum».",
+				"Io vado": "«Andare» in latino è «eo», non «sum».",
+				"Io faccio": "«Fare» in latino è «facio», non «sum»."
+			}
 		},
 		{
 			"id": "latino-verbo-sum-12",
@@ -1171,7 +1536,12 @@
 				"Io sono"
 			],
 			"answer": "Tu sei",
-			"explanation": "La seconda persona singolare: sum, es, est."
+			"explanation": "La seconda persona singolare: sum, es, est.",
+			"distractorWhy": {
+				"Io sono": "«Io sono» si dice «sum», non «es».",
+				"Egli è": "«Egli è» si dice «est», non «es».",
+				"Noi siamo": "«Noi siamo» si dice «sumus», non «es»."
+			}
 		},
 		{
 			"id": "latino-verbo-sum-13",
@@ -1187,7 +1557,12 @@
 				"Tu sei"
 			],
 			"answer": "Noi siamo",
-			"explanation": "Prima persona plurale: sumus, estis, sunt."
+			"explanation": "Prima persona plurale: sumus, estis, sunt.",
+			"distractorWhy": {
+				"Voi siete": "«Voi siete» si dice «estis», non «sumus».",
+				"Essi sono": "«Essi sono» si dice «sunt», non «sumus».",
+				"Tu sei": "«Tu sei» si dice «es», non «sumus»."
+			}
 		},
 		{
 			"id": "latino-verbo-sum-14",
@@ -1203,7 +1578,12 @@
 				"Voi siete"
 			],
 			"answer": "Voi siete",
-			"explanation": "La desinenza -tis segnala la seconda persona plurale in tutti i verbi latini."
+			"explanation": "La desinenza -tis segnala la seconda persona plurale in tutti i verbi latini.",
+			"distractorWhy": {
+				"Noi siamo": "«Noi siamo» si dice «sumus», non «estis».",
+				"Essi sono": "«Essi sono» si dice «sunt», non «estis».",
+				"Egli è": "«Egli è» si dice «est», non «estis»."
+			}
 		},
 		{
 			"id": "latino-verbo-sum-15",
@@ -1219,7 +1599,12 @@
 				"Egli è"
 			],
 			"answer": "Essi sono",
-			"explanation": "La desinenza -nt indica la terza persona plurale: sunt, amant, legunt."
+			"explanation": "La desinenza -nt indica la terza persona plurale: sunt, amant, legunt.",
+			"distractorWhy": {
+				"Noi siamo": "«Noi siamo» si dice «sumus», non «sunt».",
+				"Voi siete": "«Voi siete» si dice «estis», non «sunt».",
+				"Egli è": "«Egli è» si dice «est», non «sunt»."
+			}
 		},
 		{
 			"id": "latino-verbo-sum-16",
@@ -1235,7 +1620,12 @@
 				"Egli è"
 			],
 			"answer": "Egli era",
-			"explanation": "È l'imperfetto: descrive uno stato che durava nel passato."
+			"explanation": "È l'imperfetto: descrive uno stato che durava nel passato.",
+			"distractorWhy": {
+				"Egli è": "«Egli è» è il presente «est», non l'imperfetto «erat».",
+				"Egli sarà": "«Egli sarà» è il futuro «erit», non l'imperfetto «erat».",
+				"Egli fu": "«Egli fu» rimanda al perfetto (azione conclusa), mentre «erat» è imperfetto (stato che durava)."
+			}
 		},
 		{
 			"id": "latino-verbo-sum-17",
@@ -1251,7 +1641,12 @@
 				"Egli fu"
 			],
 			"answer": "Egli sarà",
-			"explanation": "Futuro semplice del verbo sum: ero, eris, erit."
+			"explanation": "Futuro semplice del verbo sum: ero, eris, erit.",
+			"distractorWhy": {
+				"Egli era": "«Egli era» è l'imperfetto «erat», non il futuro «erit».",
+				"Egli è": "«Egli è» è il presente «est», non il futuro «erit».",
+				"Egli fu": "«Egli fu» è un tempo passato, mentre «erit» è futuro."
+			}
 		},
 		{
 			"id": "latino-verbo-sum-18",
@@ -1267,7 +1662,12 @@
 				"esse"
 			],
 			"answer": "esse",
-			"explanation": "Da «esse» vengono essenza ed essere: l'infinito è la forma che dà il nome al verbo."
+			"explanation": "Da «esse» vengono essenza ed essere: l'infinito è la forma che dà il nome al verbo.",
+			"distractorWhy": {
+				"sum": "«Sum» è la prima persona («io sono»), non l'infinito.",
+				"est": "«Est» è la terza persona («egli è»), non l'infinito.",
+				"erat": "«Erat» è l'imperfetto («egli era»), non l'infinito."
+			}
 		},
 		{
 			"id": "latino-verbo-sum-19",
@@ -1283,7 +1683,12 @@
 				"Perché si usa soltanto al presente"
 			],
 			"answer": "Perché le sue forme non seguono uno schema costante",
-			"explanation": "Sum, es, est, sumus, estis, sunt: la radice cambia. Succede in tutte le lingue ai verbi più usati."
+			"explanation": "Sum, es, est, sumus, estis, sunt: la radice cambia. Succede in tutte le lingue ai verbi più usati.",
+			"distractorWhy": {
+				"Perché si usa soltanto al presente": "«Sum» ha anche l'imperfetto («erat») e il futuro («erit»): non si usa solo al presente.",
+				"Perché non ha mai un soggetto espresso": "Il soggetto può essere sottinteso o espresso, come per ogni altro verbo latino.",
+				"Perché non appartiene a nessuna coniugazione": "Il motivo dell'irregolarità è che la radice cambia da forma a forma, non l'assenza di coniugazione."
+			}
 		},
 		{
 			"id": "latino-verbo-sum-20",
@@ -1299,7 +1704,12 @@
 				"Complemento oggetto della frase"
 			],
 			"answer": "Copula, collega soggetto e predicato nominale",
-			"explanation": "Non dice un'azione: unisce «Roma» a «magna». Il predicato nominale è la coppia copula più nome o aggettivo."
+			"explanation": "Non dice un'azione: unisce «Roma» a «magna». Il predicato nominale è la coppia copula più nome o aggettivo.",
+			"distractorWhy": {
+				"Predicato verbale che esprime un'azione": "«Est» non esprime un'azione: collega soggetto e aggettivo, quindi è copula.",
+				"Complemento oggetto della frase": "«Est» è un verbo, non un complemento.",
+				"Ausiliare di un tempo composto": "Qui non c'è un participio da affiancare: «est» funge da copula, non da ausiliare."
+			}
 		},
 		{
 			"id": "latino-casi-21",
@@ -1315,7 +1725,12 @@
 				"Dativo"
 			],
 			"answer": "Genitivo",
-			"explanation": "«Liber Marci» è il libro di Marco: il genitivo risponde a «di chi?»."
+			"explanation": "«Liber Marci» è il libro di Marco: il genitivo risponde a «di chi?».",
+			"distractorWhy": {
+				"Dativo": "Il dativo risponde a «a chi?», non a «di chi?».",
+				"Accusativo": "L'accusativo indica il complemento oggetto, non il possesso.",
+				"Ablativo": "L'ablativo indica altre relazioni (mezzo, luogo, modo), non il possesso."
+			}
 		},
 		{
 			"id": "latino-casi-22",
@@ -1331,7 +1746,12 @@
 				"Dativo"
 			],
 			"answer": "Dativo",
-			"explanation": "Risponde a «a chi?»: «Marco do librum», do il libro a Marco."
+			"explanation": "Risponde a «a chi?»: «Marco do librum», do il libro a Marco.",
+			"distractorWhy": {
+				"Genitivo": "Il genitivo risponde a «di chi?», non a «a chi?».",
+				"Accusativo": "L'accusativo indica il complemento oggetto, non il termine.",
+				"Vocativo": "Il vocativo serve solo a chiamare qualcuno, non a indicare il termine."
+			}
 		},
 		{
 			"id": "latino-casi-23",
@@ -1347,7 +1767,12 @@
 				"Vocativo"
 			],
 			"answer": "Ablativo",
-			"explanation": "«In Italia sum»: con «in» e stato in luogo si usa l'ablativo. Con il moto a luogo si usa l'accusativo."
+			"explanation": "«In Italia sum»: con «in» e stato in luogo si usa l'ablativo. Con il moto a luogo si usa l'accusativo.",
+			"distractorWhy": {
+				"Nominativo": "Il nominativo indica il soggetto, non lo stato in luogo.",
+				"Dativo": "Il dativo indica il termine, non lo stato in luogo.",
+				"Vocativo": "Il vocativo serve solo a chiamare qualcuno, non a indicare un luogo."
+			}
 		},
 		{
 			"id": "latino-casi-24",
@@ -1363,7 +1788,12 @@
 				"Perché segue sempre la preposizione in"
 			],
 			"answer": "Perché indica un movimento verso un luogo",
-			"explanation": "La stessa preposizione «in» regge l'ablativo per lo stato e l'accusativo per il moto: il caso cambia il senso."
+			"explanation": "La stessa preposizione «in» regge l'ablativo per lo stato e l'accusativo per il moto: il caso cambia il senso.",
+			"distractorWhy": {
+				"Perché è il soggetto della frase": "Il soggetto è sottinteso «io»: «Italiam» è il complemento di moto a luogo.",
+				"Perché segue sempre la preposizione in": "«In» regge sia l'accusativo (moto) sia l'ablativo (stato): non lo fa «sempre».",
+				"Perché è un nome di città": "«Italia» è un nome di regione, non di città, e comunque non è questo a spiegare il caso."
+			}
 		},
 		{
 			"id": "latino-casi-25",
@@ -1379,7 +1809,12 @@
 				"Nominativo"
 			],
 			"answer": "Vocativo",
-			"explanation": "Il vocativo serve solo a chiamare. Nella seconda declinazione ha una forma propria: «Marce!»."
+			"explanation": "Il vocativo serve solo a chiamare. Nella seconda declinazione ha una forma propria: «Marce!».",
+			"distractorWhy": {
+				"Nominativo": "Il nominativo indica il soggetto di una frase, non una chiamata diretta.",
+				"Dativo": "Il dativo indica il termine («a chi»), non una chiamata diretta.",
+				"Accusativo": "L'accusativo indica il complemento oggetto, non una chiamata diretta."
+			}
 		},
 		{
 			"id": "latino-casi-26",
@@ -1395,7 +1830,12 @@
 				"Perché ci pensano le desinenze dei casi"
 			],
 			"answer": "Perché ci pensano le desinenze dei casi",
-			"explanation": "Il genitivo dice «di», il dativo dice «a»: l'informazione è nella parola stessa, non in una parolina davanti."
+			"explanation": "Il genitivo dice «di», il dativo dice «a»: l'informazione è nella parola stessa, non in una parolina davanti.",
+			"distractorWhy": {
+				"Perché le preposizioni sono sottintese": "Non sono sottintese: semplicemente non servono, perché la desinenza porta già l'informazione.",
+				"Perché il latino non ha complementi": "Il latino ha tutti i complementi dell'italiano: li esprime con i casi invece che con le preposizioni.",
+				"Perché si usa solo il nominativo": "Il latino usa tutti e sei i casi, non solo il nominativo."
+			}
 		},
 		{
 			"id": "latino-casi-27",
@@ -1422,7 +1862,12 @@
 				"Cambia soltanto il tempo del verbo"
 			],
 			"answer": "Cambia chi fa l'azione o su chi ricade",
-			"explanation": "«Marcus Iuliam amat» e «Marcum Iulia amat» hanno le stesse parole e significati opposti."
+			"explanation": "«Marcus Iuliam amat» e «Marcum Iulia amat» hanno le stesse parole e significati opposti.",
+			"distractorWhy": {
+				"Cambia soltanto il tempo del verbo": "Il caso non ha nulla a che fare con il tempo del verbo: cambia chi fa l'azione e chi la subisce.",
+				"La frase resta uguale nel significato": "Scambiare i casi scambia soggetto e oggetto: il significato cambia completamente.",
+				"Il verbo va tradotto al plurale": "Il caso dei nomi non impone un numero al verbo."
+			}
 		},
 		{
 			"id": "latino-declinazione-3n-29",
@@ -1438,7 +1883,12 @@
 				"Dal genere sempre neutro"
 			],
 			"answer": "Dal genitivo singolare in -is",
-			"explanation": "Il nominativo della terza è imprevedibile: è il genitivo in -is a identificarla con certezza."
+			"explanation": "Il nominativo della terza è imprevedibile: è il genitivo in -is a identificarla con certezza.",
+			"distractorWhy": {
+				"Dal nominativo che finisce in -e": "Il nominativo della terza è imprevedibile: può finire in molti modi diversi, non solo in -e.",
+				"Dal genere sempre neutro": "La terza declinazione ha nomi maschili, femminili e neutri, non solo neutri.",
+				"Dalla lunghezza della parola": "La lunghezza della parola non ha nessuna relazione con la declinazione."
+			}
 		},
 		{
 			"id": "latino-declinazione-3n-30",
@@ -1454,7 +1904,12 @@
 				"Differiscono solo al plurale"
 			],
 			"answer": "Sono sempre uguali fra loro",
-			"explanation": "Vale per tutti i neutri latini: «tempus» è sia soggetto sia oggetto, senza cambiare forma."
+			"explanation": "Vale per tutti i neutri latini: «tempus» è sia soggetto sia oggetto, senza cambiare forma.",
+			"distractorWhy": {
+				"Differiscono solo al plurale": "È il contrario: sono uguali sia al singolare sia al plurale.",
+				"Non esistono al singolare": "Il singolare esiste eccome: «tempus» è la forma singolare stessa.",
+				"Escono sempre in -um": "L'uscita in -um è tipica della seconda declinazione, non regola generale della terza."
+			}
 		},
 		{
 			"id": "latino-declinazione-3n-31",
@@ -1465,7 +1920,12 @@
 			"prompt": "Qual è il nominativo plurale di un neutro della terza, come «tempus»?",
 			"options": [],
 			"answer": "tempora",
-			"explanation": "I neutri plurali escono in -a: «tempora». «Temporum» è il genitivo plurale."
+			"explanation": "I neutri plurali escono in -a: «tempora». «Temporum» è il genitivo plurale.",
+			"distractorWhy": {
+				"tempi": "«Tempi» è la parola italiana, non la forma latina.",
+				"tempores": "Questa desinenza non è quella corretta per un neutro plurale: i neutri escono in -a.",
+				"temporum": "«Temporum» è il genitivo plurale, non il nominativo."
+			}
 		},
 		{
 			"id": "latino-declinazione-3n-32",
@@ -1476,7 +1936,12 @@
 			"prompt": "Qual è il genitivo singolare di «corpus»?",
 			"options": [],
 			"answer": "corporis",
-			"explanation": "Da «corporis» viene «corporeo»: la radice vera si vede nel genitivo, non nel nominativo."
+			"explanation": "Da «corporis» viene «corporeo»: la radice vera si vede nel genitivo, non nel nominativo.",
+			"distractorWhy": {
+				"corpi": "«Corpi» è la parola italiana, non la forma latina.",
+				"corpus": "«Corpus» è il nominativo, la forma di partenza: il genitivo cambia radice in «corporis».",
+				"corporum": "«Corporum» è il genitivo plurale, non singolare."
+			}
 		},
 		{
 			"id": "latino-declinazione-3n-33",
@@ -1492,7 +1957,12 @@
 				"Perché cambia da regione a regione"
 			],
 			"answer": "Perché non segue una forma prevedibile",
-			"explanation": "Rex, corpus, mare, civis: il nominativo può finire in molti modi. La regolarità comincia dal genitivo."
+			"explanation": "Rex, corpus, mare, civis: il nominativo può finire in molti modi. La regolarità comincia dal genitivo.",
+			"distractorWhy": {
+				"Perché cambia da regione a regione": "Il nominativo latino non varia per regione: è imprevedibile per la struttura stessa della declinazione.",
+				"Perché è uguale al genitivo": "È vero il contrario: nominativo e genitivo sono spesso diversi, ed è proprio il genitivo a essere regolare.",
+				"Perché non esiste nei vocabolari": "Il vocabolario riporta sempre il nominativo: è la prima forma elencata."
+			}
 		},
 		{
 			"id": "latino-declinazione-3n-34",
@@ -1508,7 +1978,12 @@
 				"Coprire"
 			],
 			"answer": "Corporeo",
-			"explanation": "L'italiano eredita spesso la radice del genitivo: corpor- dà corporeo, incorporare, corporatura."
+			"explanation": "L'italiano eredita spesso la radice del genitivo: corpor- dà corporeo, incorporare, corporatura.",
+			"distractorWhy": {
+				"Copioso": "Viene da «copia», non dalla radice corpor- di «corpus».",
+				"Cooperare": "Viene da «co-operari» (lavorare insieme), non da «corpus».",
+				"Coprire": "Viene da «cooperire», non dalla radice corpor- di «corpus»."
+			}
 		},
 		{
 			"id": "latino-declinazione-3n-35",
@@ -1524,7 +1999,12 @@
 				"Temporale"
 			],
 			"answer": "Temporale",
-			"explanation": "Dalla radice tempor- vengono temporale, contemporaneo, temporeggiare."
+			"explanation": "Dalla radice tempor- vengono temporale, contemporaneo, temporeggiare.",
+			"distractorWhy": {
+				"Tempestivo soltanto": "Viene da «tempestas» (occasione, stagione), una parola diversa da «tempus».",
+				"Tempio": "Viene da «templum», una parola diversa e non imparentata con «tempus».",
+				"Tentativo": "Viene da «temptare» (tentare), non dalla radice tempor- di «tempus»."
+			}
 		},
 		{
 			"id": "latino-declinazione-4-36",
@@ -1540,7 +2020,12 @@
 				"Dal nominativo in -a"
 			],
 			"answer": "Dal genitivo singolare in -us",
-			"explanation": "Nominativo e genitivo si somigliano molto: «manus, manus». È il contesto a distinguerli."
+			"explanation": "Nominativo e genitivo si somigliano molto: «manus, manus». È il contesto a distinguerli.",
+			"distractorWhy": {
+				"Dal nominativo in -a": "Il nominativo in -a è tipico della prima declinazione, non della quarta.",
+				"Dal genitivo in -ei": "Il genitivo in -ei è tipico della quinta declinazione, non della quarta.",
+				"Dal nominativo in -er": "Il nominativo in -er è tipico di alcuni nomi della seconda declinazione, non della quarta."
+			}
 		},
 		{
 			"id": "latino-declinazione-4-37",
@@ -1556,7 +2041,12 @@
 				"Perché è un nome neutro irregolare"
 			],
 			"answer": "Perché nominativo e genitivo si scrivono uguali",
-			"explanation": "Solo la funzione nella frase, e spesso il verbo, dicono quale dei due casi sia."
+			"explanation": "Solo la funzione nella frase, e spesso il verbo, dicono quale dei due casi sia.",
+			"distractorWhy": {
+				"Perché è un nome neutro irregolare": "«Manus» è femminile, non neutro: la confusione nasce dalla forma identica di nominativo e genitivo.",
+				"Perché non ha il plurale": "«Manus» ha regolarmente il plurale, come ogni altro nome della quarta.",
+				"Perché appartiene a due declinazioni": "«Manus» appartiene solo alla quarta declinazione: il problema è che due casi coincidono nella forma."
+			}
 		},
 		{
 			"id": "latino-declinazione-4-38",
@@ -1572,7 +2062,12 @@
 				"Mondo"
 			],
 			"answer": "Mano",
-			"explanation": "Da «manus» vengono manuale, manutenzione, manoscritto, manovra."
+			"explanation": "Da «manus» vengono manuale, manutenzione, manoscritto, manovra.",
+			"distractorWhy": {
+				"Monte": "«Monte» in latino è «mons, montis», una parola diversa da «manus».",
+				"Muro": "«Muro» in latino è «murus», una parola diversa da «manus».",
+				"Mondo": "«Mondo» in latino è «mundus», una parola diversa da «manus»."
+			}
 		},
 		{
 			"id": "latino-declinazione-4-39",
@@ -1588,7 +2083,12 @@
 				"Esercito"
 			],
 			"answer": "Esercito",
-			"explanation": "Da «exercere» (esercitare): l'esercito è ciò che viene addestrato. Anche «esercizio» viene dalla stessa radice."
+			"explanation": "Da «exercere» (esercitare): l'esercito è ciò che viene addestrato. Anche «esercizio» viene dalla stessa radice.",
+			"distractorWhy": {
+				"Esercizio scolastico": "Condivide la radice, ma «exercitus» come nome indica l'esercito militare, non un compito scolastico.",
+				"Esperimento": "«Esperimento» viene da «experiri» (provare), una radice diversa da «exercere».",
+				"Esperienza": "«Esperienza» viene da «experientia», da «experiri», non da «exercere»."
+			}
 		},
 		{
 			"id": "latino-declinazione-4-40",
@@ -1604,7 +2104,12 @@
 				"Sentimento"
 			],
 			"answer": "Senato",
-			"explanation": "Da «senex» (vecchio): il senato era l'assemblea degli anziani. Da lì anche «senile» e «senatore»."
+			"explanation": "Da «senex» (vecchio): il senato era l'assemblea degli anziani. Da lì anche «senile» e «senatore».",
+			"distractorWhy": {
+				"Sentenza": "Viene da «sentire», una radice diversa da «senex» a cui appartiene «senatus».",
+				"Sentimento": "Viene da «sentire», non da «senex».",
+				"Sentiero": "Viene da «semita», una parola non imparentata con «senex»."
+			}
 		},
 		{
 			"id": "latino-declinazione-4-41",
@@ -1620,7 +2125,12 @@
 				"Femminile"
 			],
 			"answer": "Maschile",
-			"explanation": "Ci sono eccezioni importanti come «manus», che è femminile pur finendo in -us."
+			"explanation": "Ci sono eccezioni importanti come «manus», che è femminile pur finendo in -us.",
+			"distractorWhy": {
+				"Femminile": "Il femminile è l'eccezione (come «manus»), non la maggioranza dei nomi della quarta.",
+				"Neutro": "I neutri della quarta sono pochissimi (come «cornu»), non la maggioranza.",
+				"Non hanno genere": "In latino ogni nome ha un genere: la quarta declinazione non fa eccezione."
+			}
 		},
 		{
 			"id": "latino-declinazione-4-42",
@@ -1647,7 +2157,12 @@
 				"La bambina cantava"
 			],
 			"answer": "La bambina canta",
-			"explanation": "«Puella» è nominativo singolare (soggetto) e «cantat» è terza persona singolare del presente."
+			"explanation": "«Puella» è nominativo singolare (soggetto) e «cantat» è terza persona singolare del presente.",
+			"distractorWhy": {
+				"Le bambine cantano": "«Puella» è singolare, non plurale: sarebbe «puellae» per il plurale.",
+				"La bambina cantava": "«Cantat» è presente, non imperfetto (che sarebbe «cantabat»).",
+				"La bambina non canta": "Non c'è nessuna negazione nella frase latina."
+			}
 		},
 		{
 			"id": "latino-frasi-44",
@@ -1663,7 +2178,12 @@
 				"La rosa è bella"
 			],
 			"answer": "La rosa è bella",
-			"explanation": "«Est» è la terza persona singolare di «sum»: «pulchra» è il predicato nominale riferito a «rosa»."
+			"explanation": "«Est» è la terza persona singolare di «sum»: «pulchra» è il predicato nominale riferito a «rosa».",
+			"distractorWhy": {
+				"Le rose sono belle": "«Rosa» ed «est» sono singolari, non plurali.",
+				"La rosa era bella": "«Est» è presente, non imperfetto (che sarebbe «erat»).",
+				"La bella rosa": "Manca il verbo «est»: questa traduzione ignora che c'è un'affermazione, non solo una descrizione."
+			}
 		},
 		{
 			"id": "latino-frasi-45",
@@ -1679,7 +2199,12 @@
 				"Nessuno, è passiva"
 			],
 			"answer": "Marcus",
-			"explanation": "«Marcus» è al nominativo, quindi soggetto; «librum» è accusativo, cioè complemento oggetto."
+			"explanation": "«Marcus» è al nominativo, quindi soggetto; «librum» è accusativo, cioè complemento oggetto.",
+			"distractorWhy": {
+				"Librum": "«Librum» è accusativo: è l'oggetto dell'azione, non chi la compie.",
+				"Legit": "«Legit» è il verbo, l'azione stessa, non chi la compie.",
+				"Nessuno, è passiva": "La frase è attiva: «legit» significa «legge», non «è letto»."
+			}
 		},
 		{
 			"id": "latino-frasi-46",
@@ -1695,7 +2220,12 @@
 				"Soggetto della frase"
 			],
 			"answer": "Complemento oggetto",
-			"explanation": "La desinenza -um dell'accusativo segnala l'oggetto diretto: Marco legge il libro."
+			"explanation": "La desinenza -um dell'accusativo segnala l'oggetto diretto: Marco legge il libro.",
+			"distractorWhy": {
+				"Soggetto della frase": "Il soggetto è «Marcus», al nominativo: «librum» è accusativo, cioè oggetto.",
+				"Complemento di termine": "Il complemento di termine sarebbe al dativo («libro»), non all'accusativo.",
+				"Complemento di luogo": "Non c'è nessuna preposizione di luogo: «librum» è l'oggetto letto, non un luogo."
+			}
 		},
 		{
 			"id": "latino-frasi-47",
@@ -1711,7 +2241,12 @@
 				"Perché il verbo va comunque letto per primo"
 			],
 			"answer": "Perché sono i casi a dire chi fa che cosa",
-			"explanation": "«Marcus librum legit» e «librum Marcus legit» significano lo stesso: è il caso, non la posizione, a dire chi fa cosa."
+			"explanation": "«Marcus librum legit» e «librum Marcus legit» significano lo stesso: è il caso, non la posizione, a dire chi fa cosa.",
+			"distractorWhy": {
+				"Perché il latino ammette qualsiasi ordine": "È vero che l'ordine è libero, ma la vera ragione è che sono i casi a portare l'informazione grammaticale.",
+				"Perché il verbo va comunque letto per primo": "Il verbo qui è in fondo, non per primo: la posizione del verbo non è la spiegazione.",
+				"Perché le due frasi hanno parole diverse": "Le parole sono esattamente le stesse: cambia solo l'ordine, non le parole."
+			}
 		},
 		{
 			"id": "latino-frasi-48",
@@ -1727,7 +2262,12 @@
 				"Il maestro loda gli allievi"
 			],
 			"answer": "Il maestro loda gli allievi",
-			"explanation": "«Magister» è nominativo singolare, «discipulos» accusativo plurale: chi loda è il maestro."
+			"explanation": "«Magister» è nominativo singolare, «discipulos» accusativo plurale: chi loda è il maestro.",
+			"distractorWhy": {
+				"Gli allievi lodano il maestro": "Scambia soggetto e oggetto: «magister» è nominativo, quindi è lui a lodare.",
+				"Il maestro lodava gli allievi": "«Laudat» è presente, non imperfetto (che sarebbe «laudabat»).",
+				"I maestri lodano l'allievo": "«Magister» è singolare e «discipulos» è plurale: è il maestro (uno) a lodare gli allievi (più di uno)."
+			}
 		},
 		{
 			"id": "latino-frasi-49",
@@ -1743,7 +2283,12 @@
 				"L'allievo loda i maestri"
 			],
 			"answer": "Gli allievi lodano il maestro",
-			"explanation": "Qui i casi sono invertiti rispetto alla frase precedente: cambia chi fa l'azione, non le parole."
+			"explanation": "Qui i casi sono invertiti rispetto alla frase precedente: cambia chi fa l'azione, non le parole.",
+			"distractorWhy": {
+				"Il maestro loda gli allievi": "Scambia soggetto e oggetto: qui «discipuli» è nominativo, quindi sono loro a lodare.",
+				"Gli allievi lodavano il maestro": "«Laudant» è presente, non imperfetto (che sarebbe «laudabant»).",
+				"L'allievo loda i maestri": "«Discipuli» è plurale e «magistrum» è singolare: sono gli allievi (più di uno) a lodare il maestro (uno)."
+			}
 		},
 		{
 			"id": "latino-frasi-50",
@@ -1759,7 +2304,12 @@
 				"esse"
 			],
 			"answer": "est",
-			"explanation": "«Sunt» è plurale, «erat» imperfetto, «esse» l'infinito."
+			"explanation": "«Sunt» è plurale, «erat» imperfetto, «esse» l'infinito.",
+			"distractorWhy": {
+				"sunt": "«Sunt» è la terza persona plurale («essi sono»), non singolare.",
+				"esse": "«Esse» è l'infinito («essere»), non una persona coniugata.",
+				"erat": "«Erat» è l'imperfetto («egli era»), non il presente."
+			}
 		},
 		{
 			"id": "latino-frasi-51",
@@ -1775,7 +2325,12 @@
 				"Roma va in Italia"
 			],
 			"answer": "Roma è in Italia",
-			"explanation": "«In» con l'ablativo indica stato in luogo: si sta, non ci si muove."
+			"explanation": "«In» con l'ablativo indica stato in luogo: si sta, non ci si muove.",
+			"distractorWhy": {
+				"Roma va in Italia": "Non c'è nessun verbo di movimento: «est» indica uno stato, non un'azione di andare.",
+				"Roma era in Italia": "«Est» è presente, non imperfetto (che sarebbe «erat»).",
+				"L'Italia è a Roma": "Scambia soggetto e complemento: «Roma» è il soggetto, «in Italia» è il complemento di luogo."
+			}
 		},
 		{
 			"id": "latino-frasi-52",
@@ -1791,7 +2346,12 @@
 				"Più di una"
 			],
 			"answer": "Più di una",
-			"explanation": "«Amant» è plurale e «puellae» qui è nominativo plurale: il verbo conferma quale caso è."
+			"explanation": "«Amant» è plurale e «puellae» qui è nominativo plurale: il verbo conferma quale caso è.",
+			"distractorWhy": {
+				"Una sola": "Il verbo «amant» è plurale: se fosse una sola bambina si direbbe «amat».",
+				"Nessuna": "«Puellae» è il soggetto della frase: le bambine ci sono, e sono più di una.",
+				"Non si può sapere": "Si può sapere con certezza: il verbo plurale «amant» conferma che «puellae» è nominativo plurale."
+			}
 		},
 		{
 			"id": "latino-frasi-53",
@@ -1807,7 +2367,12 @@
 				"Perché sono sempre sottintesi nel verbo"
 			],
 			"answer": "Perché il latino non ha articoli",
-			"explanation": "Gli articoli italiani nascono dopo, dai dimostrativi latini: «illa rosa» diventa «la rosa»."
+			"explanation": "Gli articoli italiani nascono dopo, dai dimostrativi latini: «illa rosa» diventa «la rosa».",
+			"distractorWhy": {
+				"Perché sono sempre sottintesi nel verbo": "Il verbo latino non porta nessuna informazione sull'articolo: l'articolo semplicemente non esiste in latino.",
+				"Perché si usano solo nelle frasi lunghe": "Non è una questione di lunghezza: il latino non ha articoli in nessuna frase.",
+				"Perché li sostituiscono i pronomi": "I pronomi dimostrativi esistono ma non funzionano come articoli: l'articolo nasce solo più tardi, nelle lingue romanze."
+			}
 		},
 		{
 			"id": "latino-frasi-54",
@@ -1823,7 +2388,12 @@
 				"I contadini arano le terre"
 			],
 			"answer": "Il contadino ara la terra",
-			"explanation": "«Agricola» finisce in -a ma è maschile e nominativo: il caso, non la vocale finale, dice la funzione."
+			"explanation": "«Agricola» finisce in -a ma è maschile e nominativo: il caso, non la vocale finale, dice la funzione.",
+			"distractorWhy": {
+				"La terra ara il contadino": "Scambia soggetto e oggetto: «agricola» è nominativo (soggetto), «terram» è accusativo (oggetto).",
+				"I contadini arano le terre": "«Agricola» e «terram» sono entrambi singolari, non plurali.",
+				"Il contadino arava la terra": "«Arat» è presente, non imperfetto (che sarebbe «arabat»)."
+			}
 		},
 		{
 			"id": "latino-frasi-55",
@@ -1839,7 +2409,12 @@
 				"Prima persona singolare"
 			],
 			"answer": "Terza persona singolare",
-			"explanation": "Cantat, legit, amat: la -t finale dice «lui/lei» senza bisogno del pronome."
+			"explanation": "Cantat, legit, amat: la -t finale dice «lui/lei» senza bisogno del pronome.",
+			"distractorWhy": {
+				"Prima persona singolare": "La prima persona singolare finisce in -o, non in -t (es. «canto»).",
+				"Terza persona plurale": "La terza plurale finisce in -nt, non solo -t (es. «cantant»).",
+				"Il tempo passato": "La -t finale indica la persona, non il tempo: si trova anche al presente."
+			}
 		},
 		{
 			"id": "latino-etimologia-56",
@@ -1855,7 +2430,12 @@
 				"aqua"
 			],
 			"answer": "aqua",
-			"explanation": "Da «aqua» vengono anche acquedotto, acquario e acquerello."
+			"explanation": "Da «aqua» vengono anche acquedotto, acquario e acquerello.",
+			"distractorWhy": {
+				"aer": "«Aer» significa aria, non acqua: dà parole come «aereo».",
+				"ager": "«Ager» significa campo, non acqua: dà parole come «agricoltura».",
+				"arbor": "«Arbor» significa albero, non acqua: dà parole come «arboreo»."
+			}
 		},
 		{
 			"id": "latino-etimologia-57",
@@ -1871,7 +2451,12 @@
 				"tempus"
 			],
 			"answer": "terra",
-			"explanation": "La stessa radice dà territorio, terrestre, sotterraneo, interrare."
+			"explanation": "La stessa radice dà territorio, terrestre, sotterraneo, interrare.",
+			"distractorWhy": {
+				"tempus": "«Tempus» significa tempo, non terra: dà parole come «temporale».",
+				"turris": "«Turris» significa torre, non terra: dà parole come «torretta».",
+				"tectum": "«Tectum» significa tetto, non terra: dà parole come «tetto» stesso."
+			}
 		},
 		{
 			"id": "latino-etimologia-58",
@@ -1887,7 +2472,12 @@
 				"vivere"
 			],
 			"answer": "videre",
-			"explanation": "Da «videre» (vedere) nascono visione, evidente, provvedere e perfino televisione."
+			"explanation": "Da «videre» (vedere) nascono visione, evidente, provvedere e perfino televisione.",
+			"distractorWhy": {
+				"vincere": "«Vincere» significa vincere, non vedere: dà parole come «vittoria».",
+				"venire": "«Venire» significa venire, non vedere: dà parole come «evento».",
+				"vivere": "«Vivere» significa vivere, non vedere: dà parole come «vitale»."
+			}
 		},
 		{
 			"id": "latino-etimologia-59",
@@ -1903,7 +2493,12 @@
 				"Sotto, al di sotto"
 			],
 			"answer": "Attraverso, oltre",
-			"explanation": "Transatlantico attraversa l'Atlantico, trasparente si lascia attraversare dalla luce."
+			"explanation": "Transatlantico attraversa l'Atlantico, trasparente si lascia attraversare dalla luce.",
+			"distractorWhy": {
+				"Sotto, al di sotto": "«Sotto» si dice con il prefisso «sub-», non «trans-».",
+				"Prima, in anticipo": "«Prima» si dice con il prefisso «ante-», non «trans-».",
+				"Contro, in opposizione": "«Contro» si dice con il prefisso «contra-», non «trans-»."
+			}
 		},
 		{
 			"id": "latino-etimologia-60",
@@ -1919,7 +2514,12 @@
 				"Sotto"
 			],
 			"answer": "Sotto",
-			"explanation": "Sottomarino sta sotto il mare, subacqueo sotto l'acqua, suburbano sotto (cioè attorno) alla città."
+			"explanation": "Sottomarino sta sotto il mare, subacqueo sotto l'acqua, suburbano sotto (cioè attorno) alla città.",
+			"distractorWhy": {
+				"Sopra": "«Sopra» si dice con il prefisso «super-», non «sub-».",
+				"Prima": "«Prima» si dice con il prefisso «ante-», non «sub-».",
+				"Dopo": "«Dopo» si dice con il prefisso «post-», non «sub-»."
+			}
 		},
 		{
 			"id": "latino-etimologia-61",
@@ -1935,7 +2535,12 @@
 				"malum"
 			],
 			"answer": "manus",
-			"explanation": "Da «manus» (mano): manuale, manutenzione, manoscritto, manovra."
+			"explanation": "Da «manus» (mano): manuale, manutenzione, manoscritto, manovra.",
+			"distractorWhy": {
+				"mens": "«Mens» significa mente, non mano: dà parole come «mentale».",
+				"mare": "«Mare» significa mare, non mano: dà parole come «marino».",
+				"malum": "«Malum» significa male (o mela), non mano: dà parole come «malevolo»."
+			}
 		},
 		{
 			"id": "latino-etimologia-62",
@@ -1951,7 +2556,12 @@
 				"potestas"
 			],
 			"answer": "populus",
-			"explanation": "Da «populus» (popolo) vengono popolare, popolazione, popoloso."
+			"explanation": "Da «populus» (popolo) vengono popolare, popolazione, popoloso.",
+			"distractorWhy": {
+				"pons": "«Pons» significa ponte, non popolo: dà parole come «pontile».",
+				"porta": "«Porta» significa porta, non popolo: dà parole come «portale».",
+				"potestas": "«Potestas» significa potere, non popolo: dà parole come «potestativo»."
+			}
 		},
 		{
 			"id": "latino-etimologia-63",
@@ -1967,7 +2577,12 @@
 				"Dopo"
 			],
 			"answer": "Prima",
-			"explanation": "Da «ante» (prima): anteprima, antefatto, antenato. «Post-» significa invece dopo."
+			"explanation": "Da «ante» (prima): anteprima, antefatto, antenato. «Post-» significa invece dopo.",
+			"distractorWhy": {
+				"Dopo": "«Dopo» si dice con il prefisso «post-», l'opposto di «ante-».",
+				"Contro": "«Contro» si dice con il prefisso «contra-», non «ante-».",
+				"Insieme": "«Insieme» si dice con il prefisso «con-», non «ante-»."
+			}
 		},
 		{
 			"id": "latino-etimologia-64",
@@ -1983,7 +2598,12 @@
 				"scribere"
 			],
 			"answer": "scribere",
-			"explanation": "Da «scribere»: scrittura, descrivere, manoscritto, iscrizione."
+			"explanation": "Da «scribere»: scrittura, descrivere, manoscritto, iscrizione.",
+			"distractorWhy": {
+				"sedere": "«Sedere» significa stare seduti, non scrivere: dà parole come «sedia».",
+				"sentire": "«Sentire» significa sentire/percepire, non scrivere: dà parole come «sensazione».",
+				"servare": "«Servare» significa conservare/custodire, non scrivere: dà parole come «conservare»."
+			}
 		},
 		{
 			"id": "latino-etimologia-65",
@@ -1999,7 +2619,12 @@
 				"Perché finiscono in modo simile"
 			],
 			"answer": "Condividono la radice che significa libro",
-			"explanation": "La radice «biblio-» viene dal greco ma è entrata in latino: significa libro."
+			"explanation": "La radice «biblio-» viene dal greco ma è entrata in latino: significa libro.",
+			"distractorWhy": {
+				"Perché parlano entrambe di scuola": "Non parlano di scuola in generale: la parentela è nella radice «biblio-» (libro), non nel tema scolastico.",
+				"Perché sono parole molto lunghe": "La lunghezza non crea nessuna parentela: è la radice condivisa a farlo.",
+				"Perché finiscono in modo simile": "Finiscono in modo diverso («-teca» e «-grafia»): la parentela sta all'inizio, nella radice «biblio-»."
+			}
 		},
 		{
 			"id": "latino-etimologia-66",
@@ -2015,7 +2640,12 @@
 				"Insieme, con altri"
 			],
 			"answer": "Di nuovo, indietro",
-			"explanation": "Rifare, rivedere, ritornare: indica ripetizione o ritorno."
+			"explanation": "Rifare, rivedere, ritornare: indica ripetizione o ritorno.",
+			"distractorWhy": {
+				"Molto, moltissimo": "L'intensità si esprime con altri prefissi o avverbi, non con «re-».",
+				"Insieme, con altri": "«Insieme» si dice con il prefisso «con-», non «re-».",
+				"Male, in modo sbagliato": "«Male» si esprime con altri prefissi (come «mal-»), non con «re-»."
+			}
 		},
 		{
 			"id": "latino-etimologia-67",
@@ -2031,7 +2661,12 @@
 				"civis"
 			],
 			"answer": "caput",
-			"explanation": "Da «caput» (testa): capitale è la città a capo, capitolo è la testa di un discorso, capitano è chi sta in testa."
+			"explanation": "Da «caput» (testa): capitale è la città a capo, capitolo è la testa di un discorso, capitano è chi sta in testa.",
+			"distractorWhy": {
+				"campus": "«Campus» significa campo, non testa: dà parole come «campestre».",
+				"carmen": "«Carmen» significa canto/poesia, non testa: dà parole come «carme».",
+				"civis": "«Civis» significa cittadino, non testa: dà parole come «civile»."
+			}
 		},
 		{
 			"id": "latino-etimologia-68",
@@ -2047,7 +2682,12 @@
 				"Perché molte parole nascono dalle stesse radici"
 			],
 			"answer": "Perché molte parole nascono dalle stesse radici",
-			"explanation": "Riconosciuta la radice, il significato di una parola mai vista si intuisce: è un metodo, non una memoria."
+			"explanation": "Riconosciuta la radice, il significato di una parola mai vista si intuisce: è un metodo, non una memoria.",
+			"distractorWhy": {
+				"Perché il latino si parla ancora oggi": "Il latino non è più parlato come lingua viva: aiuta comunque perché le radici restano nelle parole moderne.",
+				"Perché le parole nuove sono tutte latine": "Non tutte le parole italiane vengono dal latino: alcune vengono dal greco o da altre lingue.",
+				"Perché la grammatica è identica": "La grammatica italiana e quella latina sono molto diverse: ciò che aiuta è la radice delle parole, non la grammatica."
+			}
 		},
 		{
 			"id": "latino-basi-69",
@@ -2074,7 +2714,12 @@
 				"Il genere maschile o femminile"
 			],
 			"answer": "La forma che indica la funzione di un nome",
-			"explanation": "Cambiando la desinenza cambia il ruolo nella frase: soggetto, oggetto, complemento."
+			"explanation": "Cambiando la desinenza cambia il ruolo nella frase: soggetto, oggetto, complemento.",
+			"distractorWhy": {
+				"Il genere maschile o femminile": "Il genere è un'altra caratteristica del nome, indipendente dal caso.",
+				"Il numero singolare o plurale": "Il numero è un'altra caratteristica del nome, indipendente dal caso.",
+				"Il tempo in cui avviene l'azione": "Il tempo riguarda il verbo, non il caso di un nome."
+			}
 		},
 		{
 			"id": "latino-basi-71",
@@ -2101,7 +2746,12 @@
 				"Etrusco"
 			],
 			"answer": "Latino",
-			"explanation": "Il latino era la lingua ufficiale dell'impero: le iscrizioni pubbliche lo usavano quasi sempre."
+			"explanation": "Il latino era la lingua ufficiale dell'impero: le iscrizioni pubbliche lo usavano quasi sempre.",
+			"distractorWhy": {
+				"Greco antico": "Il greco era diffuso soprattutto a Oriente, ma le iscrizioni ufficiali romane usavano il latino.",
+				"Etrusco": "L'etrusco era parlato prima dei Romani in alcune zone d'Italia, ma non era la lingua delle iscrizioni ufficiali di Roma.",
+				"Italiano antico": "L'italiano non esisteva ancora ai tempi dell'antica Roma: nasce secoli dopo dal latino parlato."
+			}
 		},
 		{
 			"id": "latino-basi-73",
@@ -2117,7 +2767,12 @@
 				"Una lingua senza regole fisse"
 			],
 			"answer": "Una lingua in cui le parole cambiano desinenza",
-			"explanation": "Latino, greco e tedesco sono flessivi: la fine della parola porta l'informazione grammaticale."
+			"explanation": "Latino, greco e tedesco sono flessivi: la fine della parola porta l'informazione grammaticale.",
+			"distractorWhy": {
+				"Una lingua che si adatta ai dialetti": "Non ha a che fare con i dialetti: «flessiva» descrive come cambiano le desinenze delle parole.",
+				"Una lingua senza regole fisse": "È vero il contrario: le lingue flessive hanno regole di declinazione molto precise.",
+				"Una lingua che si scrive senza vocali": "Il latino si scrive normalmente con le vocali: questo non c'entra con l'essere flessiva."
+			}
 		},
 		{
 			"id": "latino-basi-74",
@@ -2133,7 +2788,12 @@
 				"Perché l'italiano deriva direttamente da esso"
 			],
 			"answer": "Perché l'italiano deriva direttamente da esso",
-			"explanation": "Italiano, spagnolo, francese, portoghese e rumeno nascono dal latino parlato: sono le lingue romanze."
+			"explanation": "Italiano, spagnolo, francese, portoghese e rumeno nascono dal latino parlato: sono le lingue romanze.",
+			"distractorWhy": {
+				"Perché si insegna prima dell'italiano": "A scuola oggi si impara prima l'italiano: l'ordine di insegnamento non è il motivo della parentela.",
+				"Perché è più antico di tutte le lingue": "Esistono lingue più antiche del latino, come il sumerico o l'egiziano: non è l'anzianità a renderlo «lingua madre» dell'italiano.",
+				"Perché era parlato dalle madri romane": "L'espressione non si riferisce alle madri in famiglia, ma al fatto che l'italiano discende direttamente dal latino."
+			}
 		},
 		{
 			"id": "latino-basi-75",
@@ -2149,7 +2809,12 @@
 				"Genitivo"
 			],
 			"answer": "Nominativo",
-			"explanation": "Il nominativo «nomina» chi compie l'azione: è la forma che si trova sul vocabolario."
+			"explanation": "Il nominativo «nomina» chi compie l'azione: è la forma che si trova sul vocabolario.",
+			"distractorWhy": {
+				"Accusativo": "L'accusativo indica il complemento oggetto, non il soggetto.",
+				"Genitivo": "Il genitivo indica il possesso, non il soggetto.",
+				"Ablativo": "L'ablativo indica altre relazioni (mezzo, luogo, modo), non il soggetto."
+			}
 		},
 		{
 			"id": "latino-basi-76",
@@ -2165,7 +2830,12 @@
 				"Vocativo"
 			],
 			"answer": "Accusativo",
-			"explanation": "L'accusativo risponde a «chi? che cosa?» senza preposizione."
+			"explanation": "L'accusativo risponde a «chi? che cosa?» senza preposizione.",
+			"distractorWhy": {
+				"Nominativo": "Il nominativo indica il soggetto, non il complemento oggetto.",
+				"Dativo": "Il dativo indica il complemento di termine, non l'oggetto diretto.",
+				"Vocativo": "Il vocativo serve solo a chiamare qualcuno, non a indicare l'oggetto."
+			}
 		},
 		{
 			"id": "latino-basi-77",
@@ -2181,7 +2851,12 @@
 				"Genitivo"
 			],
 			"answer": "Vocativo",
-			"explanation": "«Brute!» è vocativo: serve solo a rivolgersi direttamente a una persona."
+			"explanation": "«Brute!» è vocativo: serve solo a rivolgersi direttamente a una persona.",
+			"distractorWhy": {
+				"Dativo": "Il dativo indica il termine («a chi»), non una chiamata diretta.",
+				"Genitivo": "Il genitivo indica il possesso, non una chiamata diretta.",
+				"Ablativo": "L'ablativo indica altre relazioni (mezzo, luogo, modo), non una chiamata diretta."
+			}
 		},
 		{
 			"id": "latino-basi-78",
@@ -2197,7 +2872,12 @@
 				"Guardando la desinenza del genitivo singolare"
 			],
 			"answer": "Guardando la desinenza del genitivo singolare",
-			"explanation": "Rosa, rosae è prima; dominus, domini è seconda. Il vocabolario riporta sempre nominativo e genitivo."
+			"explanation": "Rosa, rosae è prima; dominus, domini è seconda. Il vocabolario riporta sempre nominativo e genitivo.",
+			"distractorWhy": {
+				"Guardando la lettera iniziale": "La lettera iniziale non ha nessuna relazione con la declinazione di un nome.",
+				"Contando le sillabe della parola": "Il numero di sillabe non indica la declinazione: conta la desinenza del genitivo.",
+				"Guardando se è maschile o femminile": "Il genere non basta: la prima declinazione ha anche maschili, la seconda anche neutri."
+			}
 		},
 		{
 			"id": "latino-basi-79",
@@ -2213,7 +2893,12 @@
 				"Sì, ma solo al singolare"
 			],
 			"answer": "No, il latino non ha articoli",
-			"explanation": "«Rosa» può significare «rosa», «la rosa» o «una rosa»: lo decide il contesto."
+			"explanation": "«Rosa» può significare «rosa», «la rosa» o «una rosa»: lo decide il contesto.",
+			"distractorWhy": {
+				"Sì, sono uguali all'italiano": "Il latino non ha nessun articolo, uguale o diverso da quello italiano.",
+				"Sì, ma solo al singolare": "Il latino non ha articoli né al singolare né al plurale.",
+				"Sì, ma si scrivono attaccati": "Non esiste nessuna forma di articolo in latino, attaccata o separata."
+			}
 		},
 		{
 			"id": "latino-basi-80",
@@ -2229,7 +2914,12 @@
 				"Perché le desinenze cambiano ogni secolo"
 			],
 			"answer": "Perché la stessa desinenza appare in casi diversi",
-			"explanation": "«Rosae» può essere genitivo, dativo o nominativo plurale: solo il contesto e il verbo lo chiariscono."
+			"explanation": "«Rosae» può essere genitivo, dativo o nominativo plurale: solo il contesto e il verbo lo chiariscono.",
+			"distractorWhy": {
+				"Perché il latino ammette gli errori": "Non è una questione di errori: è una caratteristica regolare del sistema delle desinenze.",
+				"Perché dipende da chi scrive la frase": "Non dipende da chi scrive: dipende dalla struttura stessa della lingua, uguale per tutti.",
+				"Perché le desinenze cambiano ogni secolo": "Le desinenze latine non cambiavano nel tempo classico: l'ambiguità è strutturale, non storica."
+			}
 		},
 		{
 			"id": "latino-vocabolario-81",
@@ -2245,7 +2935,12 @@
 				"Terra"
 			],
 			"answer": "Acqua",
-			"explanation": "Da «aqua» vengono acquedotto e acquario."
+			"explanation": "Da «aqua» vengono acquedotto e acquario.",
+			"distractorWhy": {
+				"Aria": "«Aria» in latino è «aer», una parola diversa da «aqua».",
+				"Terra": "«Terra» in latino è «terra» stessa, una parola diversa da «aqua».",
+				"Fuoco": "«Fuoco» in latino è «ignis», una parola diversa da «aqua»."
+			}
 		},
 		{
 			"id": "latino-vocabolario-82",
@@ -2261,7 +2956,12 @@
 				"Bambina"
 			],
 			"answer": "Bambina",
-			"explanation": "«Puer» è il bambino, «puella» la bambina: è un nome della prima declinazione."
+			"explanation": "«Puer» è il bambino, «puella» la bambina: è un nome della prima declinazione.",
+			"distractorWhy": {
+				"Bambino": "«Bambino» in latino è «puer», la forma maschile di «puella».",
+				"Donna anziana": "«Donna anziana» in latino è un'altra parola, come «anus»: non è «puella».",
+				"Sorella": "«Sorella» in latino è «soror», una parola diversa da «puella»."
+			}
 		},
 		{
 			"id": "latino-vocabolario-83",
@@ -2277,7 +2977,12 @@
 				"Libero"
 			],
 			"answer": "Libro",
-			"explanation": "Da «liber» vengono libro, libreria, libraio. L'aggettivo «liber» che significa libero si scrive uguale ma ha altra origine."
+			"explanation": "Da «liber» vengono libro, libreria, libraio. L'aggettivo «liber» che significa libero si scrive uguale ma ha altra origine.",
+			"distractorWhy": {
+				"Libero": "«Libero» si scrive uguale ma è un aggettivo di origine diversa: qui «liber» è il sostantivo «libro».",
+				"Lettera": "«Lettera» in latino è «littera», una parola diversa da «liber».",
+				"Lingua": "«Lingua» in latino è «lingua» stessa, una parola diversa da «liber»."
+			}
 		},
 		{
 			"id": "latino-vocabolario-84",
@@ -2293,7 +2998,12 @@
 				"Padre"
 			],
 			"answer": "Maestro",
-			"explanation": "Da «magister» vengono maestro, magistrale, magistrato."
+			"explanation": "Da «magister» vengono maestro, magistrale, magistrato.",
+			"distractorWhy": {
+				"Allievo": "«Allievo» in latino è «discipulus», l'opposto di «magister».",
+				"Padre": "«Padre» in latino è «pater», una parola diversa da «magister».",
+				"Comandante": "«Comandante» si direbbe con altre parole come «dux», diverse da «magister»."
+			}
 		},
 		{
 			"id": "latino-vocabolario-85",
@@ -2309,7 +3019,12 @@
 				"Nemico"
 			],
 			"answer": "Amico",
-			"explanation": "Da «amare» (amare) viene «amicus»: chi si ama, l'amico."
+			"explanation": "Da «amare» (amare) viene «amicus»: chi si ama, l'amico.",
+			"distractorWhy": {
+				"Nemico": "«Nemico» in latino è «inimicus», l'opposto di «amicus».",
+				"Vicino": "«Vicino» in latino è «vicinus», una parola diversa da «amicus».",
+				"Parente": "«Parente» in latino è «cognatus» o simili, parole diverse da «amicus»."
+			}
 		},
 		{
 			"id": "latino-vocabolario-86",
@@ -2325,7 +3040,12 @@
 				"Guerra"
 			],
 			"answer": "Guerra",
-			"explanation": "Attenzione al falso amico: «bellum» significa guerra, mentre «bellus» significa bello."
+			"explanation": "Attenzione al falso amico: «bellum» significa guerra, mentre «bellus» significa bello.",
+			"distractorWhy": {
+				"Bello": "È il falso amico: «bellus» significa bello, ma «bellum» significa guerra.",
+				"Campo": "«Campo» in latino è «campus», una parola diversa da «bellum».",
+				"Città": "«Città» in latino è «urbs», una parola diversa da «bellum»."
+			}
 		},
 		{
 			"id": "latino-vocabolario-87",
@@ -2341,7 +3061,12 @@
 				"Muro"
 			],
 			"answer": "Città",
-			"explanation": "Da «urbs» vengono urbano, suburbano, urbanistica. Per i Romani «Urbs» senza altro significava Roma."
+			"explanation": "Da «urbs» vengono urbano, suburbano, urbanistica. Per i Romani «Urbs» senza altro significava Roma.",
+			"distractorWhy": {
+				"Campagna": "«Campagna» in latino è «rus», l'opposto concettuale di «urbs».",
+				"Strada": "«Strada» in latino è «via», una parola diversa da «urbs».",
+				"Muro": "«Muro» in latino è «murus», una parola diversa da «urbs»."
+			}
 		},
 		{
 			"id": "latino-vocabolario-88",
@@ -2357,7 +3082,12 @@
 				"Testa"
 			],
 			"answer": "Tempo",
-			"explanation": "Da «tempus» vengono temporale, contemporaneo, temporeggiare. «Templum» è invece il tempio."
+			"explanation": "Da «tempus» vengono temporale, contemporaneo, temporeggiare. «Templum» è invece il tempio.",
+			"distractorWhy": {
+				"Tempio": "«Tempio» in latino è «templum», una parola diversa e non imparentata con «tempus».",
+				"Tempesta": "«Tempesta» in latino è «tempestas», imparentata ma con significato diverso da «tempus».",
+				"Testa": "«Testa» in latino è «caput», una parola diversa da «tempus»."
+			}
 		},
 		{
 			"id": "latino-vocabolario-89",
@@ -2373,7 +3103,12 @@
 				"Vino"
 			],
 			"answer": "Strada",
-			"explanation": "Da «via» vengono viaggio, viadotto, deviare, ovvio (che sta sulla via, davanti agli occhi)."
+			"explanation": "Da «via» vengono viaggio, viadotto, deviare, ovvio (che sta sulla via, davanti agli occhi).",
+			"distractorWhy": {
+				"Vita": "«Vita» in latino è «vita» stessa, una parola diversa da «via».",
+				"Voce": "«Voce» in latino è «vox», una parola diversa da «via».",
+				"Vino": "«Vino» in latino è «vinum», una parola diversa da «via»."
+			}
 		},
 		{
 			"id": "latino-vocabolario-90",
@@ -2389,7 +3124,12 @@
 				"Valore, coraggio"
 			],
 			"answer": "Valore, coraggio",
-			"explanation": "Da «vir» (uomo): per i Romani era il valore, soprattutto militare. Il senso morale è più tardo."
+			"explanation": "Da «vir» (uomo): per i Romani era il valore, soprattutto militare. Il senso morale è più tardo.",
+			"distractorWhy": {
+				"Virtù religiosa soltanto": "Il senso religioso della «virtù» è un'evoluzione successiva: per i Romani «virtus» era anzitutto coraggio militare.",
+				"Forza fisica soltanto": "Non è solo forza fisica: «virtus» indica soprattutto il valore morale e militare, legato a «vir» (uomo).",
+				"Ricchezza personale": "La ricchezza in latino si dice «divitiae», un concetto diverso da «virtus»."
+			}
 		},
 		{
 			"id": "latino-vocabolario-91",
@@ -2405,7 +3145,12 @@
 				"Lezione del maestro"
 			],
 			"answer": "Tempo libero dedicato allo studio",
-			"explanation": "Dal greco «scholé», che significava proprio ozio, tempo libero: studiare era ciò che si faceva quando non si lavorava."
+			"explanation": "Dal greco «scholé», che significava proprio ozio, tempo libero: studiare era ciò che si faceva quando non si lavorava.",
+			"distractorWhy": {
+				"Edificio con molte aule": "Il significato originario non è l'edificio, ma il tempo libero dedicato allo studio: l'edificio è un senso successivo.",
+				"Gruppo di allievi": "«Schola» non indica le persone, ma il tempo libero dedicato allo studio.",
+				"Lezione del maestro": "«Schola» non indica una singola lezione, ma il tempo libero dedicato allo studio in generale."
+			}
 		},
 		{
 			"id": "latino-vocabolario-92",
@@ -2421,7 +3166,12 @@
 				"Regno"
 			],
 			"answer": "Re",
-			"explanation": "Da «rex, regis» vengono regale, reggia, e anche «regola», perché il re è chi dirige."
+			"explanation": "Da «rex, regis» vengono regale, reggia, e anche «regola», perché il re è chi dirige.",
+			"distractorWhy": {
+				"Regola": "«Regola» in latino è «regula», una parola imparentata ma diversa da «rex».",
+				"Regno": "«Regno» in latino è «regnum», una parola imparentata ma diversa da «rex» (che è la persona, non il territorio).",
+				"Console": "«Console» in latino è «consul», una carica diversa dal re."
+			}
 		},
 		{
 			"id": "latino-basi-93",
@@ -2437,7 +3187,12 @@
 				"I Celti"
 			],
 			"answer": "I Romani",
-			"explanation": "Nata nel Lazio, si diffuse con l'impero: da lì vengono italiano, spagnolo, francese, portoghese e rumeno."
+			"explanation": "Nata nel Lazio, si diffuse con l'impero: da lì vengono italiano, spagnolo, francese, portoghese e rumeno.",
+			"distractorWhy": {
+				"I Greci": "I Greci parlavano il greco antico, una lingua diversa dal latino.",
+				"Gli Egizi": "Gli Egizi parlavano l'egiziano antico, una lingua diversa dal latino.",
+				"I Celti": "I Celti parlavano lingue celtiche, diverse dal latino."
+			}
 		},
 		{
 			"id": "latino-basi-94",
@@ -2453,7 +3208,12 @@
 				"Il latino"
 			],
 			"answer": "Il latino",
-			"explanation": "Sono lingue 'romanze', nate dal latino."
+			"explanation": "Sono lingue 'romanze', nate dal latino.",
+			"distractorWhy": {
+				"Il greco": "Il greco ha influenzato il lessico scientifico, ma le lingue romanze derivano dal latino.",
+				"L'inglese": "L'inglese è una lingua germanica, non l'origine delle lingue romanze.",
+				"L'arabo": "L'arabo ha lasciato alcune parole in prestito, ma non è l'origine di italiano, spagnolo e francese."
+			}
 		},
 		{
 			"id": "latino-basi-95",
@@ -2469,7 +3229,12 @@
 				"Vivi a lungo"
 			],
 			"answer": "Cogli l'attimo",
-			"explanation": "Invita a vivere e apprezzare il presente."
+			"explanation": "Invita a vivere e apprezzare il presente.",
+			"distractorWhy": {
+				"Vivi a lungo": "«Carpe diem» non parla della durata della vita, ma di cogliere il momento presente.",
+				"Sii coraggioso": "«Carpe diem» non è un invito al coraggio, ma a vivere l'attimo.",
+				"Studia ogni giorno": "«Carpe diem» non riguarda lo studio: invita a godersi il presente."
+			}
 		},
 		{
 			"id": "latino-casi-96",
@@ -2485,7 +3250,12 @@
 				"Accusativo"
 			],
 			"answer": "Nominativo",
-			"explanation": "Il nominativo indica il soggetto della frase."
+			"explanation": "Il nominativo indica il soggetto della frase.",
+			"distractorWhy": {
+				"Accusativo": "L'accusativo indica il complemento oggetto, non il soggetto.",
+				"Genitivo": "Il genitivo indica il possesso, non il soggetto.",
+				"Ablativo": "L'ablativo indica altre relazioni (mezzo, luogo, modo), non il soggetto."
+			}
 		},
 		{
 			"id": "latino-casi-97",
@@ -2501,7 +3271,12 @@
 				"Dativo"
 			],
 			"answer": "Accusativo",
-			"explanation": "Risponde alla domanda «chi? che cosa?» dopo il verbo, e in latino lo segnala la desinenza, non la posizione."
+			"explanation": "Risponde alla domanda «chi? che cosa?» dopo il verbo, e in latino lo segnala la desinenza, non la posizione.",
+			"distractorWhy": {
+				"Nominativo": "Il nominativo indica il soggetto, non il complemento oggetto.",
+				"Dativo": "Il dativo indica il complemento di termine, non l'oggetto diretto.",
+				"Vocativo": "Il vocativo serve solo a chiamare qualcuno, non a indicare l'oggetto."
+			}
 		},
 		{
 			"id": "latino-casi-98",
@@ -2517,7 +3292,12 @@
 				"Genitivo"
 			],
 			"answer": "Genitivo",
-			"explanation": "Il genitivo indica la specificazione (es. il libro di Marco)."
+			"explanation": "Il genitivo indica la specificazione (es. il libro di Marco).",
+			"distractorWhy": {
+				"Dativo": "Il dativo risponde a «a chi?», non a «di chi?».",
+				"Ablativo": "L'ablativo indica altre relazioni (mezzo, luogo, modo), non la specificazione.",
+				"Accusativo": "L'accusativo indica il complemento oggetto, non la specificazione."
+			}
 		},
 		{
 			"id": "latino-casi-99",
@@ -2533,7 +3313,12 @@
 				"Genitivo"
 			],
 			"answer": "Dativo",
-			"explanation": "Il dativo indica il termine (es. dono a Giulia)."
+			"explanation": "Il dativo indica il termine (es. dono a Giulia).",
+			"distractorWhy": {
+				"Genitivo": "Il genitivo risponde a «di chi?», non a «a chi?».",
+				"Accusativo": "L'accusativo indica il complemento oggetto, non il termine.",
+				"Nominativo": "Il nominativo indica il soggetto, non il termine."
+			}
 		},
 		{
 			"id": "latino-casi-100",
@@ -2549,7 +3334,12 @@
 				"Nominativo"
 			],
 			"answer": "Vocativo",
-			"explanation": "Il vocativo si usa per rivolgersi direttamente a qualcuno."
+			"explanation": "Il vocativo si usa per rivolgersi direttamente a qualcuno.",
+			"distractorWhy": {
+				"Nominativo": "Il nominativo indica il soggetto di una frase, non una chiamata diretta.",
+				"Dativo": "Il dativo indica il termine, non una chiamata diretta.",
+				"Ablativo": "L'ablativo indica altre relazioni (mezzo, luogo, modo), non una chiamata diretta."
+			}
 		},
 		{
 			"id": "latino-declinazioni-base-101",
@@ -2560,7 +3350,12 @@
 			"prompt": "Quante sono le declinazioni del latino?",
 			"options": [],
 			"answer": "5",
-			"explanation": "I nomi latini si dividono in cinque declinazioni."
+			"explanation": "I nomi latini si dividono in cinque declinazioni.",
+			"distractorWhy": {
+				"3": "Sono di più: il latino ne conta cinque, non tre.",
+				"4": "Sono di più: il latino ne conta cinque, non quattro.",
+				"6": "Sono di meno: il latino ne conta cinque, non sei (sei sono invece i casi)."
+			}
 		},
 		{
 			"id": "latino-declinazioni-base-102",
@@ -2576,7 +3371,12 @@
 				"Prima declinazione"
 			],
 			"answer": "Prima declinazione",
-			"explanation": "La prima declinazione ha genitivo singolare in -ae."
+			"explanation": "La prima declinazione ha genitivo singolare in -ae.",
+			"distractorWhy": {
+				"Seconda declinazione": "La seconda ha il genitivo in -i, non in -ae come «rosae».",
+				"Terza declinazione": "La terza ha il genitivo in -is, non in -ae come «rosae».",
+				"Quinta declinazione": "La quinta ha il genitivo in -ei, non in -ae come «rosae»."
+			}
 		},
 		{
 			"id": "latino-declinazioni-base-103",
@@ -2592,7 +3392,12 @@
 				"Quarta declinazione"
 			],
 			"answer": "Seconda declinazione",
-			"explanation": "La seconda declinazione ha genitivo singolare in -i."
+			"explanation": "La seconda declinazione ha genitivo singolare in -i.",
+			"distractorWhy": {
+				"Prima declinazione": "La prima ha il genitivo in -ae, non in -i come «lupi».",
+				"Terza declinazione": "La terza ha il genitivo in -is, non in -i come «lupi».",
+				"Quarta declinazione": "La quarta ha il genitivo in -us, non in -i come «lupi»."
+			}
 		},
 		{
 			"id": "latino-vocabolario-104",
@@ -2608,7 +3413,12 @@
 				"Terra"
 			],
 			"answer": "Acqua",
-			"explanation": "Prima declinazione. Da questa radice l'italiano ha acquedotto, acquario e acquerello."
+			"explanation": "Prima declinazione. Da questa radice l'italiano ha acquedotto, acquario e acquerello.",
+			"distractorWhy": {
+				"Aria": "«Aria» in latino è «aer», una parola diversa da «aqua».",
+				"Fuoco": "«Fuoco» in latino è «ignis», una parola diversa da «aqua».",
+				"Terra": "«Terra» in latino è «terra» stessa, una parola diversa da «aqua»."
+			}
 		},
 		{
 			"id": "latino-vocabolario-105",
@@ -2624,7 +3434,12 @@
 				"Casa"
 			],
 			"answer": "Fanciulla, ragazza",
-			"explanation": "Prima declinazione, come rosa e silva: il femminile in -a è il gruppo più regolare del latino."
+			"explanation": "Prima declinazione, come rosa e silva: il femminile in -a è il gruppo più regolare del latino.",
+			"distractorWhy": {
+				"Ragazzo": "«Ragazzo» in latino è «puer», la forma maschile di «puella».",
+				"Casa": "«Casa» in latino è «domus» o «casa» stessa, una parola diversa da «puella».",
+				"Cane": "«Cane» in latino è «canis», una parola diversa da «puella»."
+			}
 		},
 		{
 			"id": "latino-vocabolario-106",
@@ -2640,7 +3455,12 @@
 				"Bosco, selva"
 			],
 			"answer": "Bosco, selva",
-			"explanation": "'Silva' è il bosco (da cui 'selva')."
+			"explanation": "'Silva' è il bosco (da cui 'selva').",
+			"distractorWhy": {
+				"Città": "«Città» in latino è «urbs», una parola diversa da «silva».",
+				"Fiume": "«Fiume» in latino è «flumen», una parola diversa da «silva».",
+				"Strada": "«Strada» in latino è «via», una parola diversa da «silva»."
+			}
 		},
 		{
 			"id": "latino-verbo-sum-107",
@@ -2656,7 +3476,12 @@
 				"Es"
 			],
 			"answer": "Sum",
-			"explanation": "'Sum' = io sono; 'es' = tu sei; 'est' = egli è."
+			"explanation": "'Sum' = io sono; 'es' = tu sei; 'est' = egli è.",
+			"distractorWhy": {
+				"Est": "«Est» significa «egli/ella è», non «io sono».",
+				"Sunt": "«Sunt» significa «essi sono», non «io sono».",
+				"Es": "«Es» significa «tu sei», non «io sono»."
+			}
 		},
 		{
 			"id": "latino-verbo-sum-108",
@@ -2672,7 +3497,12 @@
 				"(io) sono"
 			],
 			"answer": "(egli/ella) è",
-			"explanation": "'Est' è la terza persona singolare di 'sum'."
+			"explanation": "'Est' è la terza persona singolare di 'sum'.",
+			"distractorWhy": {
+				"(io) sono": "«Io sono» si dice «sum», non «est».",
+				"(loro) sono": "«Loro sono» si dice «sunt», non «est».",
+				"(tu) sei": "«Tu sei» si dice «es», non «est»."
+			}
 		},
 		{
 			"id": "latino-verbo-sum-109",
@@ -2688,7 +3518,12 @@
 				"(io) sono"
 			],
 			"answer": "(loro) sono",
-			"explanation": "'Sunt' è la terza persona plurale di 'sum'."
+			"explanation": "'Sunt' è la terza persona plurale di 'sum'.",
+			"distractorWhy": {
+				"(egli) è": "«Egli è» si dice «est», non «sunt».",
+				"(io) sono": "«Io sono» si dice «sum», non «sunt».",
+				"(noi) siamo": "«Noi siamo» si dice «sumus», non «sunt»."
+			}
 		},
 		{
 			"id": "latino-frasi-110",
@@ -2704,7 +3539,12 @@
 				"La fanciulla ama la rosa"
 			],
 			"answer": "La fanciulla ama la rosa",
-			"explanation": "'Rosam' è accusativo (oggetto): la fanciulla (soggetto) ama la rosa (oggetto)."
+			"explanation": "'Rosam' è accusativo (oggetto): la fanciulla (soggetto) ama la rosa (oggetto).",
+			"distractorWhy": {
+				"La rosa ama la fanciulla": "Scambia soggetto e oggetto: «puella» è nominativo (soggetto), «rosam» è accusativo (oggetto).",
+				"Le fanciulle amano le rose": "«Puella» e «rosam» sono entrambi singolari, non plurali.",
+				"La fanciulla guarda la rosa": "Il verbo «amat» significa «ama», non «guarda»."
+			}
 		},
 		{
 			"id": "latino-declinazioni-base-111",
@@ -3099,7 +3939,12 @@
 				"Sunt"
 			],
 			"answer": "Sumus",
-			"explanation": "sum, es, est, sumus, estis, sunt."
+			"explanation": "sum, es, est, sumus, estis, sunt.",
+			"distractorWhy": {
+				"Estis": "«Estis» è «voi siete», seconda persona plurale.",
+				"Sunt": "«Sunt» è «loro sono», terza persona plurale.",
+				"Es": "«Es» è «tu sei», seconda persona singolare."
+			}
 		},
 		{
 			"id": "latino-banda-verbo-sum-1",
@@ -3115,7 +3960,12 @@
 				"(loro) sono"
 			],
 			"answer": "(voi) siete",
-			"explanation": "«Estis» è la seconda persona plurale di sum."
+			"explanation": "«Estis» è la seconda persona plurale di sum.",
+			"distractorWhy": {
+				"(noi) siamo": "«Noi siamo» si dice «sumus», non «estis».",
+				"(loro) sono": "«Loro sono» si dice «sunt», non «estis».",
+				"(tu) sei": "«Tu sei» si dice «es», non «estis»."
+			}
 		},
 		{
 			"id": "latino-banda-frasi-2",
@@ -3131,7 +3981,12 @@
 				"Gli allievi ascoltano il maestro"
 			],
 			"answer": "Il maestro loda gli allievi",
-			"explanation": "«Magister» è nominativo (soggetto), «discipulos» accusativo plurale (oggetto): a decidere chi fa l'azione è il caso, non la posizione."
+			"explanation": "«Magister» è nominativo (soggetto), «discipulos» accusativo plurale (oggetto): a decidere chi fa l'azione è il caso, non la posizione.",
+			"distractorWhy": {
+				"Gli allievi lodano il maestro": "Sarebbe il contrario: qui è «magister» (nominativo) a compiere l'azione, non «discipulos» (accusativo).",
+				"Il maestro chiama gli allievi": "«Laudat» vuol dire loda, non chiama: è un altro verbo.",
+				"Gli allievi ascoltano il maestro": "«Laudat» è lodare, non ascoltare, e il soggetto resta il maestro."
+			}
 		},
 		{
 			"id": "latino-banda-casi-3",
@@ -3147,7 +4002,12 @@
 				"Perché il caso dice già la funzione di ogni parola"
 			],
 			"answer": "Perché il caso dice già la funzione di ogni parola",
-			"explanation": "«Rosam puella amat» e «Puella rosam amat» dicono la stessa cosa: in tutte e due -am segna l'oggetto."
+			"explanation": "«Rosam puella amat» e «Puella rosam amat» dicono la stessa cosa: in tutte e due -am segna l'oggetto.",
+			"distractorWhy": {
+				"Perché il verbo sta sempre alla fine": "Il verbo spesso sta alla fine per stile, ma non è questo a rendere libero l'ordine delle parole.",
+				"Perché non esistono gli articoli": "L'assenza di articoli non ha a che fare con l'ordine delle parole nella frase.",
+				"Perché le frasi sono più corte": "La lunghezza della frase non c'entra: è la desinenza a segnare chi fa che cosa."
+			}
 		},
 		{
 			"id": "latino-banda-casi-4",
@@ -3163,7 +4023,12 @@
 				"Genitivo"
 			],
 			"answer": "Ablativo",
-			"explanation": "L'ablativo esprime mezzo, causa, modo e stato in luogo: «gladio» vuol dire con la spada."
+			"explanation": "L'ablativo esprime mezzo, causa, modo e stato in luogo: «gladio» vuol dire con la spada.",
+			"distractorWhy": {
+				"Accusativo": "L'accusativo indica di solito l'oggetto diretto, non il mezzo.",
+				"Dativo": "Il dativo indica il termine, a chi è rivolta l'azione, non il mezzo.",
+				"Genitivo": "Il genitivo indica la specificazione, di chi è una cosa, non il mezzo."
+			}
 		},
 		{
 			"id": "latino-banda-etimologia-5",
@@ -3179,7 +4044,12 @@
 				"ducere"
 			],
 			"answer": "scribere",
-			"explanation": "«Scribere» è scrivere: la stessa radice sta in descrizione, iscrizione e sottoscrivere."
+			"explanation": "«Scribere» è scrivere: la stessa radice sta in descrizione, iscrizione e sottoscrivere.",
+			"distractorWhy": {
+				"legere": "«Legere» vuol dire leggere: dà parole come lettura, non scrivere.",
+				"dicere": "«Dicere» vuol dire dire: dà parole come dizione, non scrivere.",
+				"ducere": "«Ducere» vuol dire condurre: dà parole come condurre, non scrivere."
+			}
 		},
 		{
 			"id": "latino-banda-etimologia-6",
@@ -3195,7 +4065,12 @@
 				"munus, il dono"
 			],
 			"answer": "manus, la mano",
-			"explanation": "Un lavoro manuale si fa con le mani, e la manutenzione è ciò che le tiene in efficienza."
+			"explanation": "Un lavoro manuale si fa con le mani, e la manutenzione è ciò che le tiene in efficienza.",
+			"distractorWhy": {
+				"mens, la mente": "«Mens» dà parole come mentale, non manuale.",
+				"munus, il dono": "«Munus» dà parole come munifico, non manuale.",
+				"mons, il monte": "«Mons» dà parole come montagna, non manuale."
+			}
 		},
 		{
 			"id": "latino-banda-declinazioni-base-7",
@@ -3211,7 +4086,12 @@
 				"terza declinazione"
 			],
 			"answer": "terza declinazione",
-			"explanation": "Genitivo in -is: terza declinazione. In -ae è la prima, in -i la seconda."
+			"explanation": "Genitivo in -is: terza declinazione. In -ae è la prima, in -i la seconda.",
+			"distractorWhy": {
+				"prima declinazione": "La prima declinazione ha il genitivo in -ae, non in -is.",
+				"seconda declinazione": "La seconda declinazione ha il genitivo in -i, non in -is.",
+				"quarta declinazione": "La quarta declinazione ha il genitivo in -us, non in -is."
+			}
 		}
 	]
 }

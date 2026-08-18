@@ -36,6 +36,7 @@ func _init() -> void:
 
 	failures.append_array(_check_azioni())
 	failures.append_array(_check_presagi())
+	failures.append_array(_check_smemora_profondo())
 	failures.append_array(_check_battute())
 	failures.append_array(_check_nome())
 	failures.append_array(_check_scelta())
@@ -116,6 +117,64 @@ func _check_presagi() -> Array:
 	# E la regola non deve aprire le porte a tutto il resto.
 	if ThirteenthCatalog.action_allowed_at("chiude", 13):
 		out.append("la regola dei presagi ammette «chiude» al mondo 13: era un'eccezione, non un cancello aperto")
+	return out
+
+## Il caso profondo di «smemora» è l'unico punto in cui l'antagonista costa
+## qualcosa, e quindi l'unico che poteva scivolare in una punizione. I controlli
+## sono tutti negativi, come le regole che li generano: che sia raro, tardi,
+## reversibile in due modi, e che non porti via **niente** dal salvataggio.
+func _check_smemora_profondo() -> Array:
+	var out: Array = []
+	var deep := ThirteenthCatalog.SMEMORA_PROFONDO as Dictionary
+
+	# Deve restare un caso di «smemora», non una sesta azione mascherata.
+	var smemora := ThirteenthCatalog.AZIONI.get("smemora", {}) as Dictionary
+	if not bool(smemora.get("profondo", false)):
+		out.append("«smemora» non dichiara di avere un caso profondo: il collegamento fra i due si perde")
+	if str(deep.get("costo", "")) != str(smemora.get("costo", "")):
+		out.append("il caso profondo costa «%s» e «smemora» costa «%s»: se costa di più è un'altra azione" % [
+			str(deep.get("costo", "")), str(smemora.get("costo", ""))])
+
+	var world := int(deep.get("dal_mondo", 0))
+	if world < 21:
+		out.append("il caso profondo comincia al mondo %d: prima del 21 lui non ha ancora detto di stare cedendo" % world)
+	if world > 23:
+		out.append("il caso profondo comincia al mondo %d: non resta campagna per ripristinarlo" % world)
+	if int(deep.get("max_in_campagna", 99)) != 1:
+		out.append("il caso profondo può accadere %d volte: due lo trasformano in una meccanica" % int(
+			deep.get("max_in_campagna", 99)))
+	if not bool(deep.get("reversibile", false)):
+		out.append("il caso profondo non è reversibile — nessuna azione lo è")
+	if bool(deep.get("progresso_perso", true)):
+		out.append("il caso profondo toglie progresso: vietato da §10.3, e sarebbe una punizione")
+
+	# Due strade di ripristino: una che si merita e una che arriva comunque. La
+	# seconda è quella che impedisce di lasciare indietro chi non ha capito.
+	var ripristino := str(deep.get("ripristino", "")).to_lower()
+	if ripristino.strip_edges() == "":
+		out.append("il caso profondo non dichiara come si ripristina")
+	elif not ripristino.contains("da sé") and not ripristino.contains("da se"):
+		out.append("il caso profondo non si ripristina anche da solo: chi non lo nota resterebbe con un mondo peggiore per sempre")
+
+	var battute: Array = deep.get("battute", [])
+	if battute.size() < 3:
+		out.append("il caso profondo ha %d battute: troppo poche perché non si riconoscano subito" % battute.size())
+	if Array(deep.get("ritorno", [])).is_empty():
+		out.append("il caso profondo non ha una battuta di ritorno: senza, il ripristino non si vede")
+	for entry in battute + Array(deep.get("ritorno", [])):
+		var screens: Array = entry
+		if screens.is_empty() or screens.size() > MAX_SCHERMATE:
+			out.append("caso profondo: battuta di %d schermate, ammesse 1-%d" % [screens.size(), MAX_SCHERMATE])
+		out.append_array(_check_testo("caso profondo", screens))
+		# Nessuna battuta deve nominare un mestiere: valgono per tutti e 46, ed è
+		# il particolare che il Silenzio ha portato via.
+		var joined := " ".join(PackedStringArray(screens)).to_lower()
+		for nome in ["conta", "scaffale", "circuito", "telaio", "erbario"]:
+			if joined.contains(nome):
+				out.append("caso profondo: la battuta nomina «%s» — deve valere per un residente qualunque" % nome)
+
+	print("\ncaso profondo di «smemora»: dal mondo %d, %d volta per campagna, ripristino doppio" % [
+		world, int(deep.get("max_in_campagna", 0))])
 	return out
 
 func _check_battute() -> Array:

@@ -43,6 +43,7 @@ func _init() -> void:
 		var has_enigma := false
 		var has_practice := false
 		var last_format := ""
+		var last_subject := ""
 		var occupied_cells := {}
 		var gate_positions: Array[Vector2] = []
 		var composition := WorldCompositionGenerator.generate(seed_a, profile)
@@ -52,18 +53,30 @@ func _init() -> void:
 			assert(pos.distance_to(ship) >= safe_radius, "livello %d: evento %s dentro la zona nave" % [level, str(e["id"])])
 			# Dentro l'area giocabile.
 			assert(absf(pos.x - ship.x) <= half_extent + 1.0 and absf(pos.y - ship.y) <= half_extent + 1.0, "livello %d: evento fuori area" % level)
-			assert(composition.distance_to_paths(pos) <= 190.0,
-				"livello %d: evento %s isolato dalla rete di strade" % [level, str(e["id"])])
+			if str(e.get("locationRole", "")) == "crossing":
+				# Un varco e' esso stesso un landmark di navigazione: obbligarlo a
+				# tornare sul sentiero distruggerebbe il legame con ponte o parete.
+				assert(composition.raw_water_weight(pos) < 0.58,
+					"livello %d: accesso al varco dentro l'acqua" % level)
+			else:
+				assert(composition.distance_to_paths(pos) <= 190.0,
+					"livello %d: evento %s isolato dalla rete di strade" % [level, str(e["id"])])
 			if bool(e["countsForGate"]):
 				occupied_cells[Vector2i(floori(pos.x / 420.0), floori(pos.y / 420.0))] = true
 				for previous in gate_positions:
 					assert(pos.distance_to(previous) >= 96.0,
 						"livello %d: esercizi sovrapposti nello stesso punto" % level)
 				gate_positions.append(pos)
-			# 4) Nessun formato ripetuto tra eventi consecutivi.
+			# 4) La stessa materia non ripete una meccanica consecutiva. Materie
+			# diverse possono condividere il formato: ciascuna palestra deve poter
+			# completare la propria rotazione senza essere deviata dalla precedente.
 			var fmt := str(e["format"])
-			assert(fmt != last_format, "livello %d: formato ripetuto consecutivo (%s)" % [level, fmt])
+			var event_subject := str(e.get("subject", ""))
+			assert(
+				event_subject != last_subject or fmt != last_format,
+				"livello %d: stessa materia e formato ripetuti consecutivamente (%s/%s)" % [level, event_subject, fmt])
 			last_format = fmt
+			last_subject = event_subject
 			# La pratica non conta per il gate; missioni/enigmi sì.
 			match str(e["kind"]):
 				"mission":

@@ -73,6 +73,16 @@ func _run() -> void:
 	root.size = Vector2i(1280, 720)
 	player = PLAYER.new()
 	root.add_child(player)
+	# **Senza questo la sonda fotografa un layout che non esiste.** Il player
+	# restava alla dimensione ricevuta all'aggiunta, mentre `_capture` cambiava la
+	# finestra: il riquadro dell'esercizio calcolava gli ancoraggi su un'area
+	# vecchia e l'immagine salvata non corrispondeva a nessuno schermo vero.
+	player.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	if "--all-formats" in OS.get_cmdline_user_args():
+		await _capture_all_formats()
+		print("EXERCISE RENDER probe OK - 17 formati / 19 varianti tablet")
+		quit(0)
+		return
 	if "--notation-only" in OS.get_cmdline_user_args():
 		await _capture("notation-tablet", _notation_node(), "mission", Vector2i(900, 600))
 		print("EXERCISE RENDER probe OK — notazione")
@@ -113,6 +123,26 @@ func _run() -> void:
 		print("EXERCISE RENDER probe OK — tastierino numerico landscape + portrait")
 		quit(0)
 		return
+	# **Schermo alto e contenuto corto**: e' il caso in cui l'ordinamento stava in
+	# una finestrella con la sua barra mentre sotto restavano settecento pixel
+	# vuoti. Qui si guarda che lo spazio venga occupato.
+	await _capture("ordering-schermo-alto", _node("ordering", {
+		"prompt": "Ordina i passi per risolvere un'analogia.",
+		"items": ["Guarda la prima coppia", "Di' a parole come sono legate",
+			"Cerca lo stesso legame nella seconda coppia", "Scegli la parola che lo completa"],
+		"correctOrder": ["Guarda la prima coppia", "Di' a parole come sono legate",
+			"Cerca lo stesso legame nella seconda coppia", "Scegli la parola che lo completa"],
+	}), "final_exam", Vector2i(820, 1180))
+
+	# **Il caso della segnalazione del 15 agosto**, in una finestra bassa apposta:
+	# la retta dei numeri occupa mezza schermata, ed e' li' che VERIFICA finiva
+	# sotto il bordo. Va guardata, non solo misurata.
+	await _capture("number-line-barra-bassa", _node("number_line", {
+		"prompt": "Quale punto sta esattamente a meta' fra 0 e 10?",
+		"line": {"min": 0, "max": 10, "step": 1},
+		"answer": "5",
+	}), "mission", Vector2i(900, 560))
+
 	await _capture("ordering-exam-desktop", _node("ordering", {
 		"items": ["Osserva i dati", "Scegli la strategia", "Verifica il risultato"],
 		"correctOrder": ["Osserva i dati", "Scegli la strategia", "Verifica il risultato"],
@@ -186,6 +216,7 @@ func _run() -> void:
 func _capture(name: String, node: Dictionary, kind: String, viewport_size: Vector2i) -> void:
 	DisplayServer.window_set_size(viewport_size)
 	root.size = viewport_size
+	player.size = Vector2(viewport_size)
 	player.start_session({
 		"sessionId": name,
 		"kind": kind,
@@ -205,6 +236,7 @@ func _capture(name: String, node: Dictionary, kind: String, viewport_size: Vecto
 func _capture_session(name: String, session: Dictionary, viewport_size: Vector2i) -> void:
 	DisplayServer.window_set_size(viewport_size)
 	root.size = viewport_size
+	player.size = Vector2(viewport_size)
 	player.start_session(session)
 	await process_frame
 	await process_frame
@@ -218,3 +250,41 @@ func _capture_current(name: String) -> void:
 	await create_timer(0.10).timeout
 	var image := root.get_texture().get_image()
 	image.save_png(ProjectSettings.globalize_path("%s/%s.png" % [OUTPUT, name]))
+
+func _capture_all_formats() -> void:
+	var manager := MinigameManager.new()
+	var cases := [
+		["matching", "italiano", "matching", 8, ""],
+		["ordering", "coding", "ordering", 8, ""],
+		["classification", "scienze", "classification", 8, ""],
+		["graph", "fisica", "graph", 8, ""],
+		["circuit", "elettronica", "circuit", 8, ""],
+		["cycle", "scienze", "cycle", 8, ""],
+		["notation", "musica", "notation", 8, ""],
+		["map", "geografia", "map", 8, ""],
+		["hotspot", "storia", "hotspot", 8, ""],
+		["code-debug", "coding", "code_debug", 8, ""],
+		["number-line", "matematica", "number_line", 8, ""],
+		["balance", "matematica", "balance", 8, ""],
+		["timeline", "storia", "timeline", 8, ""],
+		["compose", "italiano", "compose", 8, ""],
+		["trace", "matematica", "trace", 8, ""],
+		["clue", "scienze", "clue", 8, ""],
+		["swipe-fractions", "matematica", "swipe", 13, "frazioni"],
+		["swipe-verb-times", "italiano", "swipe", 12, "tempi-indicativo"],
+		["swipe-verb-modes", "italiano", "swipe", 12, "modi-verbali"],
+	]
+	for case_data in cases:
+		var name := str(case_data[0])
+		var subject := str(case_data[1])
+		var fmt := str(case_data[2])
+		var level := int(case_data[3])
+		var topic := str(case_data[4])
+		var rng := RandomNumberGenerator.new()
+		rng.seed = hash("renderer:%s" % name)
+		var session := manager.build_guided_minigame(subject, topic, fmt, level, rng)
+		for node_data in Array(session.get("nodes", [])):
+			var node: Dictionary = node_data
+			if str(node.get("format", "")) == fmt:
+				await _capture("all-%s-tablet" % name, node, "mission", Vector2i(900, 600))
+				break

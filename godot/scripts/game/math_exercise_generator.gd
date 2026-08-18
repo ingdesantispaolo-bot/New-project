@@ -5,8 +5,31 @@ extends RefCounted
 ## attraversano otto profili e ampliano il repertorio senza sostituirlo: gli
 ## esercizi semplici restano disponibili, ma numeri e strutture cambiano.
 
+## **Il pavimento non è il posto in cui si comincia.** (14 agosto 2026)
+##
+## Segnalazione di una studentessa in collaudo: «gli esercizi di matematica del
+## primo livello sono troppo semplici». Misurata, aveva ragione e il difetto era
+## strutturale: la complessità 1 ammette sei archetipi soli — addizione,
+## sottrazione, moltiplicazione, sequenza e due problemi a un passaggio — con
+## somme sotto il 35 e sottrazioni sotto il 28. Campionando quaranta sessioni al
+## livello 1 uscivano «Quanto fa 11 − 6?» e «5 monete al mattino e 6 nel
+## pomeriggio». La fascia dichiarata del gioco è **10–13 anni**: erano tre o
+## quattro anni di scuola sotto.
+##
+## La riparazione non è cancellare il gradino più basso ma **smettere di
+## cominciare da lì**: il livello 1 vale ora nominalmente complessità 2, e la
+## complessità 1 resta viva come gradino verso il basso per chi fatica — ci
+## arriva chi ha padronanza sotto 0,5, perché `math_effective_level` gli toglie
+## tre livelli.
+##
+## **Un limite dichiarato**: ai livelli 1–3 quel gradino non c'è, perché il
+## livello efficace non scende sotto 1 e lì il nominale *è* il pavimento. Si
+## accetta perché la complessità 2 è la quarta-quinta elementare — dentro la
+## fascia dichiarata — e perché la rete per chi fatica non è solo questa: restano
+## la difficoltà del banco, l'indizio, gli scudi, l'assenza di cronometro e la
+## mini-lezione di NORA prima della domanda.
 static func complexity_for_level(level: int) -> int:
-	return clampi(1 + floori(float(maxi(0, level - 1)) / 3.0), 1, 8)
+	return clampi(2 + floori(float(maxi(0, level - 1)) / 3.0), 1, 8)
 
 # "Sapori" narrativi: personaggi e oggetti del mondo di Eli Quest per vestire i
 # piccoli problemi. La matematica resta identica e calibrata; cambia solo la
@@ -26,13 +49,57 @@ func _flavor(rng: RandomNumberGenerator) -> Dictionary:
 func _cap(s: String) -> String:
 	return (s.substr(0, 1).to_upper() + s.substr(1)) if s.length() > 0 else s
 
-func build_nodes(level: int, count: int, rng: RandomNumberGenerator, recent_signatures: Array, review_topics: Array = []) -> Array:
+## Argomento prodotto da ciascun archetipo. Serve anche al recupero: se un
+## argomento e' dovuto, almeno il primo nodo disponibile deve appartenere davvero
+## a quell'argomento, non soltanto portare un'etichetta che il caso potrebbe non
+## incontrare.
+const ARCHETYPE_TOPIC := {
+	"addition": "calcolo", "subtraction": "calcolo",
+	"multiplication": "tabelline", "sequence": "sequenze",
+	"division": "divisioni", "missing_factor": "tabelline",
+	"two_step": "problemi", "order_operations": "espressioni",
+	"fraction_of": "frazioni", "perimeter": "geometria", "area": "geometria",
+	"proportion": "proporzioni", "average": "statistica",
+	"percentage": "percentuali", "linear_equation": "equazioni",
+	"data_reading": "dati", "negative_expression": "numeri-relativi",
+	"scale": "proporzioni", "pythagoras": "geometria",
+	"power": "potenze", "root": "radici", "coordinate_slope": "coordinate",
+	"inverse_chain": "operazioni-inverse", "quadratic_root": "equazioni",
+	"weighted_average": "statistica",
+	"story_sum": "problemi", "story_take": "problemi",
+	"story_groups": "problemi", "story_share": "problemi",
+	"story_rate": "problemi", "story_change": "problemi",
+	"story_double": "problemi",
+}
+
+func _prioritize_review_archetypes(archetypes: Array, review_topics: Array) -> Array:
+	var prioritized: Array = []
+	for topic_data in review_topics:
+		var topic := str(topic_data)
+		for archetype_data in archetypes:
+			var archetype := str(archetype_data)
+			if str(ARCHETYPE_TOPIC.get(archetype, "problemi")) == topic and not prioritized.has(archetype):
+				prioritized.append(archetype)
+				break
+	for archetype_data in archetypes:
+		if not prioritized.has(archetype_data):
+			prioritized.append(archetype_data)
+	return prioritized
+
+## `superate` = impronte (`ExerciseSignature`) delle prove che lo studente ha già
+## risolto: un candidato che ne fa parte viene rigettato come se fosse un doppione,
+## perché per chi lo gioca è esattamente questo. Vuoto = nessuna memoria, cioè il
+## comportamento di prima per audit e sonde.
+##
+## Va qui e non a valle perché la matematica non ha un banco da filtrare: i nodi
+## nascono su richiesta, e togliere quello sbagliato dopo lascerebbe la sessione
+## corta. Ripescare invece non costa niente — il generatore ha già la sua ansa di
+## trentasei tentativi per non ripetersi, e questa è la stessa domanda.
+func build_nodes(level: int, count: int, rng: RandomNumberGenerator, recent_signatures: Array, review_topics: Array = [], superate: Dictionary = {}) -> Array:
 	var complexity := complexity_for_level(level)
 	var archetypes := _eligible_archetypes(complexity)
 	_shuffle(archetypes, rng)
-	if review_topics.has("tabelline"):
-		archetypes.erase("multiplication")
-		archetypes.push_front("multiplication")
+	archetypes = _prioritize_review_archetypes(archetypes, review_topics)
 	var nodes: Array = []
 	var session_signatures: Array = []
 	var session_topic_keys: Dictionary = {}
@@ -40,7 +107,7 @@ func build_nodes(level: int, count: int, rng: RandomNumberGenerator, recent_sign
 		var preferred := str(archetypes[index % archetypes.size()])
 		var node := _unique_node(
 			preferred, complexity, rng, recent_signatures, session_signatures,
-			session_topic_keys, index)
+			session_topic_keys, index, superate)
 		if review_topics.has(str(node.get("topic", ""))):
 			node["review"] = true
 		nodes.append(node)
@@ -52,16 +119,25 @@ func build_nodes(level: int, count: int, rng: RandomNumberGenerator, recent_sign
 	return nodes
 
 func _unique_node(preferred: String, complexity: int, rng: RandomNumberGenerator,
-		recent: Array, current: Array, used_topic_keys: Dictionary, index: int) -> Dictionary:
+		recent: Array, current: Array, used_topic_keys: Dictionary, index: int,
+		superate: Dictionary = {}) -> Dictionary:
 	var candidate := {}
+	var ripiego := {}
 	for attempt in range(36):
 		var archetype := preferred if attempt < 12 else str(_eligible_archetypes(complexity)[rng.randi_range(0, _eligible_archetypes(complexity).size() - 1)])
 		candidate = _build_archetype(archetype, complexity, rng, index)
 		var signature := str(candidate.get("signature", ""))
 		if not recent.has(signature) and not current.has(signature) \
 				and not used_topic_keys.has(_topic_key(candidate)):
-			return candidate
-	return candidate
+			if not superate.has(ExerciseSignature.fingerprint(candidate)):
+				return candidate
+			# Va bene per varietà ma lo studente l'ha già risolta: si tiene da parte
+			# e si continua a cercare. Meglio questa che l'ultimo candidato
+			# qualunque se i tentativi finiscono — sarebbe un doppione DENTRO la
+			# stessa sessione, che è il difetto peggiore dei due.
+			if ripiego.is_empty():
+				ripiego = candidate
+	return ripiego if not ripiego.is_empty() else candidate
 
 func _topic_key(node: Dictionary) -> String:
 	return "%s|%s" % [str(node.get("format", "")), str(node.get("topic", ""))]
@@ -74,7 +150,7 @@ func _eligible_archetypes(complexity: int) -> Array:
 	if complexity >= 4: result.append_array(["area", "proportion", "average"])
 	if complexity >= 5: result.append_array(["percentage", "linear_equation", "data_reading"])
 	if complexity >= 6: result.append_array(["negative_expression", "scale", "pythagoras"])
-	if complexity >= 7: result.append_array(["powers_roots", "coordinate_slope", "inverse_chain"])
+	if complexity >= 7: result.append_array(["power", "root", "coordinate_slope", "inverse_chain"])
 	if complexity >= 8: result.append_array(["quadratic_root", "weighted_average", "logic_chain"])
 	return result
 
@@ -143,8 +219,13 @@ func _build_archetype(archetype: String, complexity: int, rng: RandomNumberGener
 			var a := answer + b
 			return _node("calcolo", complexity, "Quanto fa %d - %d?" % [a, b], answer, [answer - 1, answer + 2, a + b], "Sottraendo %d da %d rimane %d." % [b, a, answer], rng, index)
 		"multiplication":
-			var a := rng.randi_range(2, mini(12, 4 + complexity * 2))
-			var b := rng.randi_range(2, mini(12, 5 + complexity * 2))
+			# **Le tabelline devono coprire le tabelline.** Con i vecchi limiti
+			# (4 e 5 più due per grado) al livello 1 il fattore massimo era 7:
+			# quelle dell'8, del 9 e del 10 non uscivano mai, in una materia il
+			# cui banco si chiama `matematica-tabelline`. Al nominale del primo
+			# livello ora si arriva a 10, e al gradino di chi fatica a 8.
+			var a := rng.randi_range(2, mini(12, 6 + complexity * 2))
+			var b := rng.randi_range(2, mini(12, 6 + complexity * 2))
 			return _node("tabelline", complexity, "Quanto fa %d × %d?" % [a, b], a * b, [a * b - a, a * b + b, a + b], "%d gruppi da %d formano %d." % [a, b, a * b], rng, index)
 		"sequence":
 			var start := rng.randi_range(1, 15 + complexity * 3)
@@ -230,10 +311,11 @@ func _build_archetype(archetype: String, complexity: int, rng: RandomNumberGener
 		"pythagoras":
 			var triple: Array = [[3, 4, 5], [5, 12, 13], [8, 15, 17]][rng.randi_range(0, 2)]
 			return _node("geometria", complexity, "Un triangolo rettangolo ha cateti %d e %d. Quanto misura l'ipotenusa?" % [triple[0], triple[1]], triple[2], [triple[0] + triple[1], triple[2] - 1, triple[2] + 2], "%d² + %d² = %d², quindi l'ipotenusa è %d." % [triple[0], triple[1], triple[2], triple[2]], rng, index)
-		"powers_roots":
+		"power":
 			var base := rng.randi_range(3, 12)
-			if rng.randf() < 0.5:
-				return _node("potenze", complexity, "Quanto fa %d²?" % base, base * base, [base * 2, base * base - base, base * base + 1], "%d² = %d × %d = %d." % [base, base, base, base * base], rng, index)
+			return _node("potenze", complexity, "Quanto fa %d²?" % base, base * base, [base * 2, base * base - base, base * base + 1], "%d² = %d × %d = %d." % [base, base, base, base * base], rng, index)
+		"root":
+			var base := rng.randi_range(3, 12)
 			return _node("radici", complexity, "Qual è la radice quadrata di %d?" % (base * base), base, [base - 1, base + 1, base * 2], "Poiché %d × %d = %d, la radice è %d." % [base, base, base * base, base], rng, index)
 		"coordinate_slope":
 			var slope := rng.randi_range(1, 5)

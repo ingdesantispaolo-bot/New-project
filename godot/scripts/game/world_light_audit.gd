@@ -81,11 +81,23 @@ func _prova_gradi() -> void:
 		assert(not nomi.has(str(s["nome"])), "due gradi hanno lo stesso nome: %s" % str(s["nome"]))
 		nomi[str(s["nome"])] = true
 
-	# Ogni grado deve essere raggiungibile dentro una campagna: la più alta non
-	# può chiedere più prove di quante la campagna ne contenga.
+	# **La raggiungibilità non si controlla più qui.** (14 agosto 2026)
+	#
+	# Fino a oggi questa riga pretendeva che l'ultima soglia stesse sotto **400
+	# prove**, con la motivazione giusta — «una promessa che nessun bambino
+	# vedrà» — e un numero **inventato**: era una stima della lunghezza della
+	# campagna fatta prima che qualcuno la misurasse. Misurata con
+	# `power_curve_probe`, la campagna vale 590 prove, quindi il tetto vero era
+	# un altro e per giunta tagliava fuori i gradi alti che servivano.
+	#
+	# Non è un cricchetto allentato: è un cricchetto **spostato dove sa il
+	# fatto**. `power_curve_audit` possiede la tabella misurata delle prove per
+	# mondo e verifica tre cose che qui non si potevano vedere — che ogni grado
+	# arrivi dentro la campagna, che l'ultimo arrivi con margine, e che il grado
+	# di Eli non resti mai più di due sotto quello delle sacche di quel mondo.
+	# Duplicare qui il numero 590 avrebbe solo creato due verità da tenere
+	# allineate a mano.
 	var massima := int(Dictionary(WorldLight.SOGLIE[WorldLight.SOGLIE.size() - 1])["prove"])
-	assert(massima <= 400,
-		"l'ultimo grado chiede %d prove: è una promessa che nessun bambino vedrà" % massima)
 
 	# La barra dice sempre quanto manca, finché non si è al massimo.
 	for _i in range(massima + 5):

@@ -59,7 +59,7 @@ static func is_untimed(subject: String) -> bool:
 ## ansia. Un argomento non elencato qui resta senza tempo: è la scelta prudente,
 ## come lo era il ritmo di default per le materie nuove.
 const FLUENCY_TOPICS := {
-	"matematica": ["tabelline", "calcolo", "frazioni", "percentuali", "potenze", "numeri"],
+	"matematica": ["tabelline", "calcolo", "multipli", "frazioni", "percentuali", "potenze", "numeri"],
 	# Nota: «analisi-grammaticale» è stata tolta da qui. Riconoscere che «gatto»
 	# è un nome sembra automatico, ma il confine con l'analisi vera è sottile e
 	# la scelta prudente vale più della copertura: un argomento in dubbio resta
@@ -112,6 +112,26 @@ var _recent_node_signatures: Array = []
 # formati (O-P3, policy "scelta multipla non dominante") ed esami multi-formato.
 var minigame_manager := MinigameManager.new()
 var _mission_serial := 0
+
+## Le prove GIÀ SUPERATE dallo studente: {materia: {impronta: true}}.
+##
+## Vuoto significa «nessuna memoria», ed è il comportamento di prima: gli audit e
+## le sonde che costruiscono missioni senza un save continuano a vedere l'intero
+## banco. Il percorso vivo ci mette l'indice del salvataggio (`solved_index()`),
+## che è un oggetto stabile aggiornato in casa sua: assegnarlo una volta basta.
+##
+## È una PREFERENZA con l'ultima parola al didattico, non un filtro cieco: una
+## prova superata esce dalla scelta finché resta altro da chiedere, e rientra solo
+## quando l'alternativa sarebbe una missione corta o un ripasso saltato.
+var solved_by_subject: Dictionary = {}
+
+func _superate(subject: String) -> Dictionary:
+	return Dictionary(solved_by_subject.get(subject, {}))
+
+func _e_superata(superate: Dictionary, item: Dictionary) -> bool:
+	if superate.is_empty():
+		return false
+	return superate.has(ExerciseSignature.fingerprint(item))
 
 func _load_bank(subject: String) -> Array:
 	if _cache.has(subject):
@@ -265,6 +285,108 @@ const ERA_GATED_TOPICS := {
 
 # Toglie dal banco gli item la cui era non è ancora sbloccata a questo livello.
 # Fallback prudente: se il filtro svuotasse il banco, restituisce l'originale.
+## Ogni quanti nodi di una sessione di matematica uno viene dal banco.
+const QUOTA_BANCO_MATEMATICA := 3
+
+## **Il banco entra anche in matematica.** (14 agosto 2026)
+##
+## Per undici materie su dodici una missione nasce dal banco. Per la matematica
+## no: `build_mission` costruiva i nodi con il generatore e **usciva prima di
+## guardare il banco**, sempre, anche nell'esame. Era una scelta ragionevole
+## finché il banco conteneva soltanto tabelline — il generatore le fa meglio e
+## infinite — ed è diventata un difetto nel momento in cui il banco ha imparato a
+## dire altro: frazioni, percentuali, geometria, espressioni, statistica. Ottanta
+## item scritti e nessuna strada per arrivarci: è la stessa specie di guasto dei
+## `modules` nel salvataggio, dichiarati e senza lettori.
+##
+## **Un nodo su tre**, non di più. Il generatore resta la spina dorsale della
+## materia: è l'unico che scala di complessità con la competenza e non si ripete
+## mai. Il banco porta ciò che un generatore non sa produrre — che cosa dice il
+## denominatore, perché la media a volte inganna — e sono domande che si scrivono
+## a mano una per una.
+##
+## **Le tabelline restano fuori** da questa estrazione: il generatore ne produce
+## già in abbondanza, e pescarle anche dal banco vorrebbe dire spendere il nodo
+## del banco per ridire la stessa cosa.
+func _innesta_banco_matematica(nodi: Array, level: int, rng: RandomNumberGenerator, mastery: float) -> Array:
+	var quanti := int(round(float(nodi.size()) / float(QUOTA_BANCO_MATEMATICA)))
+	if quanti <= 0 or nodi.is_empty():
+		return nodi
+	var target := effective_difficulty("matematica", level, mastery)
+	var superate := _superate("matematica")
+	var candidati: Array = []
+	var gia_risolti: Array = []
+	for voce in _era_gated("matematica", level, _load_bank("matematica")):
+		var item: Dictionary = voce
+		if str(item.get("topic", "")) == "tabelline":
+			continue
+		if absi(int(item.get("difficulty", 1)) - target) <= 1:
+			if _e_superata(superate, item):
+				gia_risolti.append(item)
+			else:
+				candidati.append(item)
+	# Gli ottanta item scritti a mano finiscono: quando il livello li ha risolti
+	# tutti, il nodo del banco torna a pescare fra quelli invece di sparire — la
+	# matematica senza innesto tornerebbe alle sole tabelline generate.
+	if candidati.is_empty():
+		candidati = gia_risolti
+	if candidati.is_empty():
+		return nodi
+	var out := nodi.duplicate()
+	var posizioni_usate: Dictionary = {}
+	for _i in range(quanti):
+		# **Un argomento per sessione, e mai uno già presente.** Senza questo
+		# controllo l'esame di matematica — cinque nodi, quindi due dal banco —
+		# poteva chiedere due volte la statistica nello stesso formato: tre
+		# sessioni su 3648, trovate da `format_mix_audit`, che a ragione ne
+		# ammette zero. Il conto degli argomenti si rifà a ogni giro perché il
+		# nodo sostituito libera il proprio.
+		var presenti: Dictionary = {}
+		for voce_presente in out:
+			presenti[str(Dictionary(voce_presente).get("topic", ""))] = true
+		var scelto: Dictionary = {}
+		for _tentativo in range(12):
+			var c: Dictionary = candidati[rng.randi_range(0, candidati.size() - 1)]
+			if presenti.has(str(c.get("topic", ""))):
+				continue
+			scelto = c
+			break
+		if scelto.is_empty():
+			break
+		# Dove innestarlo. Tre esclusioni, e la prima vale più delle altre due:
+		#
+		# **mai sopra un nodo di ripasso.** Il ripasso spaziato decide che cosa
+		# deve tornare oggi, e un innesto che glielo cancella rompe la promessa
+		# più importante del sistema didattico. È successo: `c11_world_content_audit`
+		# chiedeva le tabelline in ripasso e non le trovava più.
+		#
+		# **mai l'ultimo nodo**, che lo preferisce `inject_non_mc` sostituendo le
+		# scelte multiple dal fondo: metterci un item di banco vorrebbe dire
+		# farselo cancellare un istante dopo.
+		#
+		# **mai una posizione fissa**, o ogni sessione di matematica avrebbe la
+		# stessa forma — il difetto misurato il 5 agosto sulle aperture.
+		var libere: Array = []
+		for indice in range(maxi(0, out.size() - 1)):
+			if posizioni_usate.has(indice):
+				continue
+			if bool(Dictionary(out[indice]).get("review", false)):
+				continue
+			libere.append(indice)
+		if libere.is_empty():
+			break
+		var posizione := int(libere[rng.randi_range(0, libere.size() - 1)])
+		posizioni_usate[posizione] = true
+		var innestato := scelto.duplicate(true)
+		# La `signature` la porta ogni nodo di matematica: il generatore la usa per
+		# non ripetersi e c'è chi la legge a valle senza difese. Un item di banco
+		# non ne ha una, e senza questa riga la sessione porta un nodo che sembra
+		# di matematica e non lo è del tutto — se ne è accorto `c11_world_content_audit`
+		# andando in errore invece che in rosso.
+		innestato["signature"] = "banco:%s" % str(scelto.get("id", ""))
+		out[posizione] = innestato
+	return out
+
 func _era_gated(subject: String, level: int, items: Array) -> Array:
 	if not ERA_GATED_TOPICS.has(subject):
 		return items
@@ -290,22 +412,37 @@ func build_mission(subject: String, level: int, node_count: int = 3, review_due:
 			if str(key).begins_with(prefix) and int(review_due[key]) > 0:
 				review_topics.append(str(key).trim_prefix(prefix))
 		# La mastery sposta il livello efficace: matematica generata adattiva.
-		var generated := MathExerciseGenerator.new().build_nodes(math_effective_level(level, mastery), node_count, generator, _recent_math_signatures, review_topics)
-		return _session(subject, level, generated)
+		# Le prove già superate viaggiano fin dentro il generatore: qui non si può
+		# filtrare a valle come per un banco — scartare un nodo generato lascerebbe
+		# la sessione corta — e l'unico posto che può riprovare è chi lo costruisce.
+		var generated := MathExerciseGenerator.new().build_nodes(
+			math_effective_level(level, mastery), node_count, generator,
+			_recent_math_signatures, review_topics, _superate(subject))
+		return _session(subject, level, _innesta_banco_matematica(generated, level, generator, mastery))
 	var items := _era_gated(subject, level, _load_bank(subject))
 	# Difficoltà efficace: livello + mastery, calibrata sul range reale del banco.
 	var target := effective_difficulty(subject, level, mastery)
 	var lesson := lesson_topic_set(subject, level)
+	var superate := _superate(subject)
 	var review_pool: Array = []
+	var review_done_pool: Array = [] # ripasso dovuto, ma su prove già superate
 	var weak_near_pool: Array = []   # item vicini alla difficoltà su argomenti deboli
 	var near_pool: Array = []        # gli altri item vicini alla difficoltà
 	var lesson_weak_pool: Array = [] # argomenti del mondo, ancora deboli
 	var lesson_near_pool: Array = [] # argomenti del mondo
+	var done_pool: Array = []        # prove già superate: ultima risorsa
 	for item in items:
 		var topic := str(item.get("topic", ""))
+		var done := _e_superata(superate, item)
 		if int(review_due.get("%s:%s" % [subject, topic], 0)) > 0:
-			review_pool.append(item)
+			if done:
+				review_done_pool.append(item)
+			else:
+				review_pool.append(item)
 		elif abs(int(item.get("difficulty", 1)) - target) <= 1:
+			if done:
+				done_pool.append(item)
+				continue
 			var tm := float(topic_mastery.get(topic, -1.0))
 			var weak := tm >= 0.0 and tm < WEAK_TOPIC_THRESHOLD
 			if lesson.has(topic):
@@ -318,12 +455,17 @@ func build_mission(subject: String, level: int, node_count: int = 3, review_due:
 			else:
 				near_pool.append(item)
 	if review_pool.is_empty() and weak_near_pool.is_empty() and near_pool.is_empty() \
-			and lesson_weak_pool.is_empty() and lesson_near_pool.is_empty():
+			and lesson_weak_pool.is_empty() and lesson_near_pool.is_empty() \
+			and review_done_pool.is_empty() and done_pool.is_empty():
 		near_pool = items.duplicate()
 	var chosen: Array = []
 	# Priorità: ripasso spaziato → argomenti del mondo (quota morbida) → argomenti
 	# deboli → resto vicino → di nuovo argomenti del mondo → riempimento.
 	_drain_into(chosen, review_pool, node_count, generator, true)
+	# Il ripasso su una prova già superata viene subito dopo quello su materiale
+	# nuovo e PRIMA di tutto il resto: l'argomento dovuto va onorato comunque, e
+	# rivedere una prova risolta è meno grave che lasciare scadere un ripasso.
+	_drain_into(chosen, review_done_pool, node_count, generator, true)
 	var lesson_quota := int(ceil(float(node_count) * LESSON_TOPIC_SHARE))
 	_drain_into(chosen, lesson_weak_pool, lesson_quota, generator, false)
 	_drain_into(chosen, lesson_near_pool, lesson_quota, generator, false)
@@ -331,6 +473,10 @@ func build_mission(subject: String, level: int, node_count: int = 3, review_due:
 	_drain_into(chosen, near_pool, node_count, generator, false)
 	_drain_into(chosen, lesson_weak_pool, node_count, generator, false)
 	_drain_into(chosen, lesson_near_pool, node_count, generator, false)
+	# Solo qui le prove già superate: quando il livello non ha più niente di nuovo
+	# da chiedere in questa materia. Prima del riempimento casuale, che pescherebbe
+	# anche fuori dalla difficoltà giusta.
+	_drain_into(chosen, done_pool, node_count, generator, false)
 	while chosen.size() < node_count and not items.is_empty():
 		chosen.append(items[generator.randi_range(0, items.size() - 1)].duplicate())
 	return _session(subject, level, chosen)
@@ -526,6 +672,11 @@ func _aggiungi_prova_di_nucleo(
 			# Marcato, perché la resa possa dirlo: il bambino deve capire perché
 			# gli arriva una domanda di un'altra materia.
 			nodo["coreCheck"] = true
+			# E la materia scritta addosso, perché a valle nessuno la indovini dalla
+			# sessione: sarebbe quella del mondo, non quella della domanda — NORA
+			# spiegherebbe le declinazioni dopo una divisione, e la prova risolta
+			# finirebbe segnata nella materia sbagliata.
+			nodo["subject"] = core
 			out.append(nodo)
 			break
 	return out
@@ -554,13 +705,34 @@ func build_final_transversal_exam(level: int = ApparatusConfig.MAX_LEVEL, rng: R
 	# Nodo di SINTESI finale: un formato interattivo (non scelta multipla) di logica,
 	# marcato come prova di trasferimento — l'ultimo impulso che accende il Cuore.
 	var synth := minigame_manager.build_minigame("logica", level, generator)
+	# L'ultima prova dell'avventura non può essere una che lo studente ha già
+	# risolto. Non passa da `inject_non_mc`, quindi il filtro va messo qui a mano:
+	# si preferisce un nodo interattivo mai risolto e si ripiega sul primo utile —
+	# il Cuore deve poter essere acceso comunque.
+	var superate_logica := _superate("logica")
+	var sintesi: Dictionary = {}
+	var ripiego: Dictionary = {}
 	for node in synth.get("nodes", []):
-		if not ExerciseInteraction.is_multiple_choice(node):
-			var s: Dictionary = (node as Dictionary).duplicate(true)
-			s["system"] = "sintesi"
-			s["transfer"] = true
-			nodes.append(s)
-			break
+		if ExerciseInteraction.is_multiple_choice(node):
+			continue
+		var candidato: Dictionary = node
+		if _e_superata(superate_logica, candidato):
+			if ripiego.is_empty():
+				ripiego = candidato
+			continue
+		sintesi = candidato
+		break
+	if sintesi.is_empty():
+		sintesi = ripiego
+	if not sintesi.is_empty():
+		var s := sintesi.duplicate(true)
+		s["system"] = "sintesi"
+		s["transfer"] = true
+		# La materia vera del nodo: senza, a valle vale «trasversale», che non è
+		# una materia e manderebbe fuori posto sia la spiegazione sia il segno
+		# della prova superata.
+		s["subject"] = "logica"
+		nodes.append(s)
 	return {
 		"sessionId": "final-transversal-exam",
 		"kind": "final_exam",
@@ -692,6 +864,8 @@ func inject_non_mc(nodes: Array, subject: String, level: int, count: int, rng: R
 	var palette: Dictionary = {}   # format -> Array[Dictionary] prove distinte
 	var seen: Dictionary = {}      # firma prova -> true
 	var stale: Dictionary = {}     # format -> prove già viste di recente
+	var risolte: Dictionary = {}   # format -> prove GIÀ SUPERATE (in fondo a tutto)
+	var superate := _superate(subject)
 	for draw in range(PALETTE_DRAWS):
 		for n in minigame_manager.build_minigame(subject, level, rng).get("nodes", []):
 			if ExerciseInteraction.is_multiple_choice(n):
@@ -716,8 +890,14 @@ func inject_non_mc(nodes: Array, subject: String, level: int, count: int, rng: R
 			seen[session_key] = true
 			var f := str(n.get("format", ""))
 			# Le prove viste di recente finiscono in fondo, non fuori: con due sole
-			# specifiche per formato escluderle svuoterebbe la tavolozza.
-			if _recent_node_signatures.has(content_key):
+			# specifiche per formato escluderle svuoterebbe la tavolozza. Le prove
+			# già SUPERATE finiscono ancora più in fondo — «l'ha risolta» pesa più
+			# di «l'ha vista», perché la seconda volta la risposta è già in mano.
+			if superate.has(ExerciseSignature.fingerprint_of(content_key)):
+				var risolta: Array = risolte.get(f, [])
+				risolta.append(n)
+				risolte[f] = risolta
+			elif _recent_node_signatures.has(content_key):
 				var back: Array = stale.get(f, [])
 				back.append(n)
 				stale[f] = back
@@ -728,6 +908,10 @@ func inject_non_mc(nodes: Array, subject: String, level: int, count: int, rng: R
 	for f in stale.keys():
 		var queue: Array = palette.get(f, [])
 		queue.append_array(stale[f])
+		palette[f] = queue
+	for f in risolte.keys():
+		var queue: Array = palette.get(f, [])
+		queue.append_array(risolte[f])
 		palette[f] = queue
 	if palette.is_empty():
 		return nodes
@@ -740,6 +924,13 @@ func inject_non_mc(nodes: Array, subject: String, level: int, count: int, rng: R
 			break
 		if not (str(Dictionary(out[i]).get("format", "")) in sostituibili):
 			continue
+		# Un recupero e' un vincolo didattico, non un candidato al mix visuale.
+		# Sostituirlo con un minigioco casuale perde sia l'argomento dovuto sia il
+		# flag `review`, lasciando il registro bloccato anche dopo una risposta
+		# corretta. Il 20% di scelta multipla e' un obiettivo medio; saldare un
+		# recupero viene prima.
+		if bool(Dictionary(out[i]).get("review", false)):
+			continue
 		# Solo i formati con una prova ancora disponibile restano nella scelta.
 		var available: Array = []
 		var fresh: Array = []
@@ -748,8 +939,10 @@ func inject_non_mc(nodes: Array, subject: String, level: int, count: int, rng: R
 			if pool.is_empty():
 				continue
 			available.append(f)
-			# Formato la cui prossima prova NON è stata vista di recente.
-			if not _recent_node_signatures.has(_node_signature(pool[0])):
+			# Formato la cui prossima prova NON è stata vista di recente né risolta.
+			var prossima := _node_signature(pool[0])
+			if not _recent_node_signatures.has(prossima) \
+					and not superate.has(ExerciseSignature.fingerprint_of(prossima)):
 				fresh.append(f)
 		if available.is_empty():
 			break

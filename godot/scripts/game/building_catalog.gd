@@ -6,6 +6,21 @@ extends RefCounted
 
 const ROLES := ["work_home", "ritrovo", "first_ruin"]
 
+## Pilot degli edifici disciplinari illustrati. La tabella resta piccola finche'
+## una cattura in gioco e il collaudo touch non dimostrano scala e leggibilita':
+## il fallback vettoriale continua a coprire ogni ruolo degli altri mondi.
+const GENERATED_ART := {
+	"1:work_home": {
+		"artPath": "res://assets/radura-casa-conto-v1.png",
+		"artScale": 0.19,
+		"artBaseline": -98.0,
+		"activityPropPath": "res://assets/radura-stazione-conto-v1.png",
+		"activityPropScale": 0.09,
+		"activityPropOffset": Vector2(-164, -10),
+		"activityTags": ["matematica", "raggruppamento", "misura", "ordine"],
+	},
+}
+
 ## **Tre edifici con un nome, in ognuno dei ventiquattro mondi.**
 ##
 ## Difetto trovato il 6 agosto 2026: i nomi esistevano **solo per il mondo 1**.
@@ -56,14 +71,35 @@ static func for_world(world: int, profile: Dictionary) -> Array:
 	var specs: Array = []
 	for role in ROLES:
 		var label := _label(world, role, profile)
-		specs.append({
+		var spec := {
 			"id": "building-%02d-%s" % [world, role],
 			"world": world,
 			"role": role,
 			"label": label,
 			"artKit": str(profile.get("artKit", "natura-rovine")),
-		})
+			"residentOwner": _resident_owner(world, role),
+		}
+		var generated_key := "%d:%s" % [world, role]
+		if GENERATED_ART.has(generated_key):
+			spec.merge(Dictionary(GENERATED_ART[generated_key]).duplicate(true), true)
+		specs.append(spec)
 	return specs
+
+## Ogni luogo vivo appartiene a una persona: lo specialista lavora nella casa
+## del mestiere, il testimone presidia il Ritrovo. La Rovina resta dei Primi.
+## Questa associazione è data-driven e copre tutti i mondi; il pilot del mondo 1
+## aggiunge anche oggetti autoriali specifici sopra la trasformazione edilizia.
+static func _resident_owner(world: int, role: String) -> String:
+	if role == "first_ruin":
+		return ""
+	var wanted := "specialista" if role == "work_home" else "testimone"
+	var residents: Array = NpcCatalog.for_world(world).get("residents", [])
+	for npc_id_data in residents:
+		var npc_id := str(npc_id_data)
+		if str(NpcCatalog.resident(npc_id).get("funzione", "")) == wanted:
+			return npc_id
+	# Un catalogo incompleto non deve attribuire il luogo alla persona sbagliata.
+	return ""
 
 ## Il nome dell'edificio. Fuori dalla scala dei ventiquattro mondi si ripiega
 ## sull'etichetta generica: e' un caso che non dovrebbe capitare, e una rovina

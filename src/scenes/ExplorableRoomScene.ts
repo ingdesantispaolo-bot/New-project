@@ -125,6 +125,7 @@ export class ExplorableRoomScene extends Phaser.Scene {
       .filter((id) => !previousTreasures.has(id))
       .forEach((id) => saveSystem.recordOutdoorTreasure(id, 0, 0));
     if (result.fragmentsEarned > 0) saveSystem.grantOutdoorFragments(result.fragmentsEarned);
+    if ((result.fragmentsSpent ?? 0) > 0) saveSystem.spendOutdoorFragments(result.fragmentsSpent ?? 0);
     if (result.energyEarned > 0) saveSystem.addEnergy(result.energyEarned);
     if ((result.energySpent ?? 0) > 0) saveSystem.spendEnergy(result.energySpent ?? 0);
   }

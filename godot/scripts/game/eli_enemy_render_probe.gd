@@ -13,6 +13,8 @@ func _init() -> void:
 func _request() -> Dictionary:
 	var initial := GameSaveManager._default_data()
 	initial["level"] = 24
+	initial["powerRuns"] = 140
+	initial["energy"] = 500
 	initial["worlds"] = {"unlocked": range(1, 25), "current": 24}
 	var request := NativeWorldState.default_request("eli-enemy-render")
 	request["loadLocalSave"] = false

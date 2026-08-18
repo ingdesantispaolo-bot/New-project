@@ -75,6 +75,11 @@ func _run() -> void:
 
 	var first_enemy := enemies[0] as Node2D
 	first_enemy.global_position = player.global_position + Vector2(48, 0)
+	# L'impulso costa una carica dal 14 agosto 2026: senza, non si accende e qui
+	# non ci sarebbe nessuna onda da misurare. La carica si accredita come la
+	# otterrebbe il giocatore — superando prove.
+	for _prova in range(PulseCharge.PROVE_PER_CARICA):
+		PulseCharge.accredita(world.get("game_save"))
 	world.call("_combat_pulse")
 	var pulse := world.find_child("EliCombatPulse", true, false) as Node2D
 	assert(pulse != null and pulse.scale.x <= 1.36,

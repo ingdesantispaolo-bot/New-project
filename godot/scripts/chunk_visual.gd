@@ -421,11 +421,11 @@ func _build_landmarks() -> void:
 
 func _build_treasures() -> void:
 	for treasure in chunk.get("treasures", []):
-		var treasure_label := str(treasure.get("label", ""))
-		# CompatibilitÃ  con il campo procedurale legacy: nessun tesoro comunica
-		# piÃ¹ una raccolta di energia, la cassa contiene frammenti.
-		if treasure_label.to_lower().contains("energia"):
-			treasure_label = "scrigno frammenti"
+		# L'etichetta non viene piu' dal generatore (tre stringhe a sorte, di cui
+		# una — «cassa energia» — prometteva un'energia che nessuno ha mai
+		# pagato): la decide [[TreasureCatalog]] sull'id, e distingue da fuori il
+		# forziere di qualcuno dalla cassa qualunque.
+		var treasure_label := TreasureCatalog.etichetta(str(treasure.get("id", "")))
 		# **Il forziere deve stare su terra.** (7 agosto 2026)
 		#
 		# Segnalazione di gioco: «alcuni forzieri non sono raggiungibili». Erano

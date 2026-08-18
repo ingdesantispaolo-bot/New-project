@@ -35,13 +35,13 @@ func configure_accessibility(use_high_contrast: bool, use_reduced_motion: bool) 
 	if visible and reduced_motion:
 		_complete_reveal()
 
-func show_dialogue(id: String, speaker: String, role: String, pages: Array) -> void:
+func show_dialogue(id: String, speaker: String, role: String, pages: Array, resident_stage: int = 0) -> void:
 	if pages.is_empty():
 		return
 	npc_id = id
 	screens = pages.duplicate()
 	screen_index = 0
-	portrait.call("configure", id, speaker)
+	portrait.call("configure", id, speaker, resident_stage)
 	speaker_label.text = speaker
 	speaker_label.accessibility_name = "Parla %s" % speaker
 	role_label.text = role

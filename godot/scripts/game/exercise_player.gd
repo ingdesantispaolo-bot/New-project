@@ -2,6 +2,11 @@ class_name ExercisePlayer
 extends Control
 
 const ExerciseInteraction = preload("res://scripts/game/exercise_interaction.gd")
+
+## Quanto spazio lo scorrimento lascia SEMPRE libero in fondo, anche a barra
+## vuota: il margine che impedisce all'ultima riga di contenuto di incollarsi ai
+## pulsanti.
+const MARGINE_BARRA_AZIONI := 12.0
 const EXERCISE_DRAG_BUTTON := preload("res://scripts/ui/exercise_drag_button.gd")
 const EXERCISE_DROP_BUTTON := preload("res://scripts/ui/exercise_drop_button.gd")
 const EXERCISE_CONNECTION_CANVAS := preload("res://scripts/ui/exercise_connection_canvas.gd")
@@ -41,6 +46,11 @@ signal topic_struggle(topic: String)
 ## NORA, non al battito dell'esercizio. Questo segnala ogni risposta, e lo consuma
 ## il Custode per reagire. Annuncia, non comanda: chi ascolta decide cosa farne.
 signal answer_resolved(is_correct: bool)
+## Il finale trasversale ha una sola pausa narrativa: dopo i dodici sistemi e
+## prima del nodo di sintesi. La scena che possiede la regia la mostra e poi
+## richiama `resume_after_pre_synthesis()`. La prova resta viva: indice, scudi e
+## risposte non vengono ricreati né consegnati.
+signal pre_synthesis_requested()
 
 var session: Dictionary
 var _nodes: Array = []
@@ -49,11 +59,25 @@ var _correct := 0
 var _shields := 3
 var _energy := 0
 var _energy_per_correct := 10
+## Risposte giuste consecutive in QUESTA sessione: la serie non attraversa le
+## prove (vedi `Combo`). Si spezza in `_spend_shield()`, che è l'unico passaggio
+## obbligato di ogni errore — nei minigiochi un errore può capitare prima che il
+## nodo sia risolto, e azzerarla solo in `_score_current` la lascerebbe intatta.
+var _serie := 0
+var _serie_massima := 0
+## L'energia dovuta alla serie, cioè quanto si è guadagnato oltre la tariffa
+## piatta. Viaggia nell'esito perché la resa possa dirlo, e perché l'audit possa
+## misurare il tetto senza rifare i conti.
+var _energia_serie := 0
 ## Costo dell'uscita anticipata, letto dalla sessione. Vedi `_build_exit_row()`.
 var _abandon_cost := 3
 var _abandon_armed := false
 var _started_at_msec := 0
 var _answered := false
+## Chiusura a prova di doppio input. Sul Web un rilascio touch puo arrivare
+## insieme al click sintetico del browser: l'esito deve partire una volta sola.
+var _completion_queued := false
+var _session_closed := false
 var _missed: Array = []       # topic sbagliati → ripasso spaziato
 var _reviewed_ok: Array = []  # topic di ripasso risolti correttamente
 var _topic_seen: Dictionary = {}     # topic -> item incontrati (per mastery per-topic)
@@ -62,16 +86,31 @@ var _topic_seen: Dictionary = {}     # topic -> item incontrati (per mastery per
 ## chiude senza guardarla, e da li' in poi si chiudono tutte.
 var _lezioni_mostrate: Dictionary = {}
 var _topic_correct: Dictionary = {}  # topic -> risposte corrette
+## Le prove SUPERATE in questa sessione, materia per materia: {materia: [impronte]}.
+## Il chiamante le porta nel save, e da lì non vengono più richieste. La materia è
+## per nodo e non per sessione apposta: l'esame di mondo ospita due prove di nucleo
+## di altre materie e il finale del Cuore ne attraversa dodici.
+var _superate: Dictionary = {}
+## Errori commessi sul nodo CORRENTE. Serve alla regola «superata = risolta
+## pulita»: un minigioco che si chiude giusto al terzo tentativo non è una prova
+## superata, è una prova che conviene rivedere. `_wrong_attempts` non poteva
+## rispondere — è per argomento, e due nodi dello stesso argomento si sporcano
+## l'un l'altro.
+var _errori_nodo := 0
 var _wrong_attempts: Dictionary = {}  # topic -> tentativi errati nella sessione
 var _struggle_emitted: Dictionary = {}  # topic -> già segnalato in questa sessione
 var _maestro_voice: Dictionary = {}
 var _learning_emitted: Dictionary = {}
 var _systems_resolved: Dictionary = {}
+var _pre_synthesis_shown := false
+var _pre_synthesis_waiting := false
 
 var _prompt: Label
 var _options: VBoxContainer
 var _feedback: Label
 var _status: Label
+var _combo_badge: Label
+var _combo_visual_series := 0
 var _next_button: Button
 var _help_button: Button
 var _exit_button: Button
@@ -98,8 +137,15 @@ var _hint_level := 0
 ## modo più comodo di scrivere un numero.
 var _numpad: GridContainer
 var _convergence_display: FinalConvergenceDisplay
-var _exercise_panel: PanelContainer
+var _exercise_panel: Panel
 var _options_scroll: ScrollContainer
+## La barra delle azioni, ancorata al fondo del riquadro e fuori da ogni
+## scorrimento: è lì che vivono i pulsanti che fanno proseguire.
+var _action_bar: VBoxContainer
+var _content_scroll: ScrollContainer
+## La colonna dentro lo scorrimento: le si dà un'altezza minima pari all'area
+## visibile, così riempie lo spazio invece di lasciarlo vuoto sotto.
+var _content_box: VBoxContainer
 
 # Stato dei minigiochi interattivi (formati "ordering" e "matching"). Ogni nodo
 # minigioco vale come un esercizio: risolverlo = 1 corretto; gli errori intermedi
@@ -180,7 +226,12 @@ func start_session(new_session: Dictionary) -> void:
 	_correct = 0
 	_shields = int(session.get("shields", 3))
 	_energy = 0
+	_serie = 0
+	_serie_massima = 0
+	_energia_serie = 0
 	_abandon_armed = false
+	_completion_queued = false
+	_session_closed = false
 	_abandon_cost = int(session.get("abandonCost", 3))
 	_started_at_msec = Time.get_ticks_msec()
 	_missed = []
@@ -188,10 +239,14 @@ func start_session(new_session: Dictionary) -> void:
 	_topic_seen = {}
 	_lezioni_mostrate = {}
 	_topic_correct = {}
+	_superate = {}
+	_errori_nodo = 0
 	_wrong_attempts = {}
 	_struggle_emitted = {}
 	_learning_emitted = {}
 	_systems_resolved = {}
+	_pre_synthesis_shown = false
+	_pre_synthesis_waiting = false
 	_convergence_display = null
 	if _rng == null:
 		_rng = RandomNumberGenerator.new()
@@ -204,6 +259,8 @@ func start_session(new_session: Dictionary) -> void:
 		audio.call("set_focus", true)
 	_build_ui()
 	_show_current()
+	if _pre_synthesis_waiting:
+		return
 	if not _maestro_voice.is_empty() and is_instance_valid(_feedback):
 		_feedback.add_theme_color_override("font_color", Color("9fded8"))
 		_feedback.text = "NORA · %s: %s" % [
@@ -224,12 +281,38 @@ func _build_ui() -> void:
 	dim.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(dim)
 
-	_exercise_panel = PanelContainer.new()
+	# **Un Panel, non un PanelContainer.** (12 agosto 2026)
+	#
+	# Segnalazione di uno studente al mondo 1: «il programma si blocca se si
+	# sbaglia esercizio». Riprodotto: in una finestra da 560 px il pulsante
+	# AVANTI finiva a y=722 con una risposta numerica — fuori schermo, come nella
+	# segnalazione precedente, ma per una causa DIVERSA e piu' profonda.
+	#
+	# Ieri avevo reso scorrevole il contenuto e creduto di aver chiuso il caso.
+	# Non bastava: un `PanelContainer` **impone al figlio la propria dimensione
+	# minima e ne eredita il minimo**, e uno ScrollContainer riporta come minimo
+	# quello del suo contenuto. Risultato: piu' cresceva il contenuto, piu'
+	# cresceva il pannello — cioe' proprio la cosa che lo scorrimento doveva
+	# evitare. Scorreva, ma il riquadro sbordava dallo schermo insieme al testo.
+	#
+	# Un `Panel` semplice non impone niente: lo scorrimento ancorato dentro resta
+	# grande quanto il riquadro, e il riquadro resta dentro lo schermo.
+	#
+	# **Perche' proprio sbagliando.** La risposta sbagliata aggiunge la
+	# spiegazione dell'esercizio al riquadro del riscontro: e' il momento in cui
+	# il contenuto e' piu' alto. Rispondendo giusto si legge «Giusto! +10
+	# energia» e spesso ci si sta dentro — ed e' per questo che lo studente ha
+	# visto il blocco solo sbagliando.
+	_exercise_panel = Panel.new()
+	_exercise_panel.name = "ExercisePanel"
 	_exercise_panel.anchor_left = 0.08
 	_exercise_panel.anchor_top = 0.04
 	_exercise_panel.anchor_right = 0.92
 	_exercise_panel.anchor_bottom = 0.96
-	_exercise_panel.custom_minimum_size = Vector2(640, 480)
+	# Nessun minimo verticale: e' quello che faceva sbordare il riquadro quando
+	# il contenuto cresceva. La larghezza resta, l altezza la decidono gli
+	# ancoraggi — cioe la finestra, che e l unica cosa che non si puo superare.
+	_exercise_panel.custom_minimum_size = Vector2(640, 0)
 	var is_exam := str(session.get("kind", "mission")) == "final_exam"
 	_exercise_panel.add_theme_stylebox_override("panel", _exercise_panel_style(is_exam))
 	add_child(_exercise_panel)
@@ -253,11 +336,54 @@ func _build_ui() -> void:
 	box_scroll.name = "ExerciseContentScroll"
 	box_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	_exercise_panel.add_child(box_scroll)
+	# Ancorato al riquadro: lo scorrimento occupa il pannello e non un pixel di
+	# piu'. E' questa riga a impedire che il contenuto detti l'altezza.
+	box_scroll.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	box_scroll.offset_left = 18.0
+	box_scroll.offset_right = -18.0
+	box_scroll.offset_top = 16.0
+	# Il fondo lo lascia libero alla barra delle azioni, che si misura da sola:
+	# vedi `_riallinea_barra_azioni`.
+	box_scroll.offset_bottom = -16.0
 	var box := VBoxContainer.new()
 	box.name = "ExerciseContent"
 	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	box.add_theme_constant_override("separation", 14)
 	box_scroll.add_child(box)
+
+	# **I pulsanti che fanno proseguire non scorrono via.** (15 agosto 2026)
+	#
+	# Terza segnalazione sullo stesso punto, e la prima con una schermata che
+	# spiega perché le due correzioni precedenti non bastavano: su una domanda con
+	# diagramma (la retta dei numeri) si vedeva SPIEGA CON NORA e sotto, tagliato
+	# dal bordo, il pulsante VERIFICA. Il contenuto scorreva — la correzione
+	# dell'8 agosto funzionava — ma **i pulsanti scorrevano insieme a lui**, e un
+	# pulsante che esiste sotto il bordo vale quanto un pulsante che non c'è.
+	#
+	# Rendere scorrevole il contenuto era la mezza risposta. L'altra metà è
+	# questa: le azioni stanno in una barra **ancorata al fondo del riquadro**,
+	# fuori da ogni scorrimento. Comunque cresca la domanda, il diagramma o il
+	# riscontro, VERIFICA resta dov'è.
+	_content_scroll = box_scroll
+	_content_box = box
+	box_scroll.resized.connect(_adatta_altezza_contenuto)
+	_action_bar = VBoxContainer.new()
+	_action_bar.name = "ExerciseActionBar"
+	_action_bar.add_theme_constant_override("separation", 8)
+	_exercise_panel.add_child(_action_bar)
+	_action_bar.anchor_left = 0.0
+	_action_bar.anchor_right = 1.0
+	_action_bar.anchor_top = 1.0
+	_action_bar.anchor_bottom = 1.0
+	_action_bar.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	_action_bar.offset_left = 18.0
+	_action_bar.offset_right = -18.0
+	_action_bar.offset_bottom = -12.0
+	# La barra si misura da sola e lo scorrimento le lascia esattamente lo spazio
+	# che le serve: con un'altezza fissa si sprecava mezzo riquadro quando c'era
+	# un pulsante solo, e con tre pulsanti si tornava a coprire il contenuto.
+	_action_bar.minimum_size_changed.connect(_riallinea_barra_azioni)
+	_riallinea_barra_azioni()
 
 	var heading := Label.new()
 	heading.name = "ExerciseHeading"
@@ -286,9 +412,33 @@ func _build_ui() -> void:
 		box.add_child(_convergence_display)
 
 	_status = Label.new()
+	# Nome stabile: è l'aggancio dell'intestazione per la resa della serie (C-G1)
+	# e per `combo_audit`, che verifica che la serie compaia davvero a schermo.
+	_status.name = "ExerciseStatus"
 	_status.add_theme_font_size_override("font_size", 14)
 	_status.add_theme_color_override("font_color", Color("f6c85f"))
 	box.add_child(_status)
+
+	# Spazio stabile e autonomo: comparendo non sposta scudi e avanzamento.
+	_combo_badge = Label.new()
+	_combo_badge.name = "ComboBadge"
+	_combo_badge.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_combo_badge.custom_minimum_size = Vector2(154, 38)
+	_combo_badge.add_theme_font_size_override("font_size", 20)
+	var combo_panel := StyleBoxFlat.new()
+	combo_panel.bg_color = Color(0.02, 0.10, 0.12, 0.94)
+	combo_panel.border_color = Color("6be7d6")
+	combo_panel.set_border_width_all(2)
+	combo_panel.set_corner_radius_all(14)
+	combo_panel.content_margin_left = 12
+	combo_panel.content_margin_right = 12
+	combo_panel.content_margin_top = 5
+	combo_panel.content_margin_bottom = 5
+	_combo_badge.add_theme_stylebox_override("normal", combo_panel)
+	_combo_badge.visible = false
+	_combo_badge.modulate = Color.TRANSPARENT
+	box.add_child(_combo_badge)
+	_combo_visual_series = 0
 
 	_prompt = Label.new()
 	_prompt.add_theme_font_size_override("font_size", 24)
@@ -329,7 +479,7 @@ func _build_ui() -> void:
 		_exercise_button_style(Color("6be7d6"), Color("d8fff8"))
 	)
 	_input_submit.pressed.connect(func(): _answer(_input.text))
-	box.add_child(_input_submit)
+	_action_bar.add_child(_input_submit)
 
 	# **L'indizio, disponibile SUBITO.** (7 agosto 2026)
 	#
@@ -364,7 +514,7 @@ func _build_ui() -> void:
 	_help_button.add_theme_color_override("font_color", Color("06272a"))
 	_help_button.add_theme_stylebox_override("normal", _exercise_button_style(Color("6be7d6"), Color("d8fff8")))
 	_help_button.pressed.connect(_request_concept_help)
-	box.add_child(_help_button)
+	_action_bar.add_child(_help_button)
 
 	_next_button = Button.new()
 	# Un nome, perché è il pulsante da cui dipende «si può proseguire»: senza,
@@ -381,7 +531,7 @@ func _build_ui() -> void:
 	_next_button.add_theme_font_size_override("font_size", 16)
 	_next_button.add_theme_stylebox_override("normal", _exercise_button_style(Color(0.16, 0.32, 0.30, 0.98), Color(0.96, 0.78, 0.36, 0.72)))
 	_next_button.pressed.connect(_advance)
-	box.add_child(_next_button)
+	_action_bar.add_child(_next_button)
 
 	_build_exit_row(box)
 
@@ -496,10 +646,18 @@ func _apply_format_layout(format: String) -> void:
 		_exercise_panel.anchor_bottom = 1.0
 		_exercise_panel.custom_minimum_size.y = 0.0
 		_options_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		# La plancia d'azione è alta 320 px e sotto ospita due grandi comandi
+		# touch. Conservare il minimo generico da 180 px mostrava solo una striscia
+		# della forgia/corsa e nascondeva proprio la parte da padroneggiare.
+		_options_scroll.custom_minimum_size.y = 420.0
 		return
 	_exercise_panel.anchor_top = 0.06 if compact else 0.04
 	_exercise_panel.anchor_bottom = 0.74 if compact else 0.96
-	_exercise_panel.custom_minimum_size.y = 400.0 if compact else 480.0
+	call_deferred("_adatta_altezza_contenuto")
+	# Anche qui nessun minimo verticale: gli ancoraggi qui sopra decidono quanto
+	# e alto il riquadro, e un minimo piu grande della finestra lo farebbe
+	# sbordare comunque — che e il difetto appena riparato.
+	_exercise_panel.custom_minimum_size.y = 0.0
 	# Lo scroll deve continuare a ricevere l'altezza residua: matching e
 	# classificazione includono il CTA verifica nello stesso contenitore.
 	_options_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -517,6 +675,15 @@ func _apply_format_layout(format: String) -> void:
 	if format in ["numeric_input", "short_answer", "free_text"]:
 		_options_scroll.size_flags_vertical = Control.SIZE_FILL
 		_options_scroll.custom_minimum_size.y = 0.0
+	elif format in [
+		"hotspot", "graph", "circuit", "notation", "map", "cycle",
+		"number_line", "balance", "timeline", "compose", "trace", "clue",
+	]:
+		# Nei formati visuali il campo e i bersagli sono il gioco, non una
+		# miniatura fra domanda e comandi. A 180 px il diagramma (230 px) veniva
+		# tagliato dal suo stesso ScrollContainer. Il pannello esterno resta
+		# scorrevole: aiuti e uscita rimangono raggiungibili sotto la plancia.
+		_options_scroll.custom_minimum_size.y = 320.0
 	else:
 		_options_scroll.custom_minimum_size.y = 180.0
 
@@ -609,9 +776,23 @@ func _show_teaching_overlay() -> void:
 			return
 	if lesson.is_empty() or moment == "none":
 		return
-	if _lezioni_mostrate.has(str(lesson.get("topic", ""))):
+	# **Una scheda che non ha niente da dire non si apre.** (15 agosto 2026)
+	# Vedi `KnowledgeCodex.lezione_ha_sostanza`: fermare il bambino davanti a un
+	# riquadro vuoto gli insegna a saltare anche le spiegazioni buone.
+	if not KnowledgeCodex.lezione_ha_sostanza(lesson):
 		return
-	_lezioni_mostrate[str(lesson.get("topic", ""))] = true
+	# **Chiave doppia: argomento + momento.** (16 agosto 2026)
+	# Un momento "new_facts" (fatti nuovi di un ordinamento a insieme) e un
+	# momento "pre_teach"/"re_teach" (l'argomento in generale) sullo stesso
+	# topic non sono la stessa scheda: possono capitare entrambi nella stessa
+	# sessione — un nodo di abbinamento insegna il topic, un nodo di
+	# ordinamento sullo stesso topic pesca fatti mai visti — e sopprimere il
+	# secondo perché il topic "risulta già mostrato" lascerebbe quei fatti
+	# senza lezione, esattamente il difetto che questo meccanismo ripara.
+	var chiave_scheda := "%s|%s" % [str(lesson.get("topic", "")), moment]
+	if _lezioni_mostrate.has(chiave_scheda):
+		return
+	_lezioni_mostrate[chiave_scheda] = true
 	var overlay := Control.new()
 	overlay.name = "TeachingOverlay"
 	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -647,15 +828,28 @@ func _show_teaching_overlay() -> void:
 	_add_teaching_text(box, linea, Color("f6c85f"), 20)
 	_add_teaching_text(box, str(lesson.get("intro", "")), Color("e7fffb"), 17)
 
+	# **I fatti nuovi di un ordinamento a insieme, elencati uno per uno.**
+	# (16 agosto 2026) — `KnowledgeCodex.fact_lesson()`: un ordinamento pesca da
+	# un insieme che può avere decine di voci, e restare "incontrato" a livello
+	# di argomento non vuol dire aver mai visto QUESTO evento o QUESTO valore.
+	# Sezione a parte, non dentro l'esempio svolto: quella porta l'etichetta
+	# «Perché:», corretta per un procedimento e fuori posto per un elenco di
+	# fatti.
+	_add_teaching_section(box, "FATTI NUOVI IN QUESTA PROVA", str(lesson.get("facts", "")))
+
+	# **Un esempio senza domanda non è un esempio.** Prima la sezione si costruiva
+	# anche con il solo «Perché», e sotto il titolo ESEMPIO SVOLTO compariva una
+	# riga che non svolgeva niente — è la scheda della segnalazione del 15 agosto.
 	var example: Dictionary = lesson.get("workedExample", {})
 	var example_text := str(example.get("prompt", "")).strip_edges()
 	var answer := str(example.get("answer", "")).strip_edges()
 	var explanation := str(example.get("explanation", "")).strip_edges()
-	if answer != "":
-		example_text += "\n\nRisultato: %s" % answer
-	if explanation != "":
-		example_text += "\nPerché: %s" % explanation
-	_add_teaching_section(box, "ESEMPIO SVOLTO", example_text)
+	if example_text != "":
+		if answer != "":
+			example_text += "\n\nRisultato: %s" % answer
+		if explanation != "":
+			example_text += "\nPerché: %s" % explanation
+		_add_teaching_section(box, "ESEMPIO SVOLTO", example_text)
 	_add_teaching_section(box, "METODO DI NORA", str(lesson.get("strategy", "")))
 
 	var watch_out: Dictionary = lesson.get("watchOut", {})
@@ -675,6 +869,55 @@ func _show_teaching_overlay() -> void:
 	begin.pressed.connect(_dismiss_teaching_overlay.bind(overlay))
 	box.add_child(begin)
 	begin.call_deferred("grab_focus")
+
+## **La barra si misura e lo scorrimento le fa posto.** (15 agosto 2026)
+##
+## Chiamata quando la barra cambia contenuto o visibilità: calcola l'altezza che
+## le serve davvero e la sottrae al fondo dell'area scorrevole. Senza questo, o
+## si sceglie un'altezza fissa — che spreca mezzo riquadro quando c'è un pulsante
+## solo e non basta quando ce ne sono tre — oppure la barra finisce sopra il
+## contenuto e ne copre l'ultima riga.
+func _riallinea_barra_azioni() -> void:
+	if not is_instance_valid(_action_bar):
+		return
+	var altezza := _action_bar.get_combined_minimum_size().y
+	_action_bar.offset_top = -(altezza + MARGINE_BARRA_AZIONI)
+	if is_instance_valid(_content_scroll):
+		_content_scroll.offset_bottom = -(altezza + MARGINE_BARRA_AZIONI * 2.0)
+		_adatta_altezza_contenuto()
+
+## **Se c'è spazio, non si scorre.** (15 agosto 2026)
+##
+## Segnalazione con schermata: in un esercizio di ordinamento gli elementi
+## stavano in una finestrella con la sua barra di scorrimento, e sotto restavano
+## **settecento pixel vuoti**. Da fuori sembra un difetto di stile; da dentro è
+## una cosa che si fa fare al bambino senza motivo — trascinare una barra per
+## vedere una tessera che ci sarebbe stata comodamente.
+##
+## La causa: la colonna dell'esercizio vive dentro uno ScrollContainer, e un
+## contenitore scorrevole dà ai figli la loro altezza MINIMA, non quella
+## disponibile. Così `size_flags_vertical = EXPAND_FILL` sull'area delle opzioni
+## non aveva alcun effetto: restava ai suoi 180 px di minimo qualunque schermo ci
+## fosse sotto.
+##
+## Il rimedio è dire alla colonna quanto è grande la finestra da riempire. Se il
+## contenuto è più alto, cresce comunque e lo scorrimento riprende il suo lavoro:
+## si scorre quando serve, non per abitudine.
+func _adatta_altezza_contenuto() -> void:
+	if not is_instance_valid(_content_box) or not is_instance_valid(_content_scroll):
+		return
+	_content_box.custom_minimum_size.y = maxf(0.0, _content_scroll.size.y)
+
+## Pulisce le azioni costruite per l'esercizio precedente (ANNULLA/VERIFICA delle
+## interazioni), lasciando al loro posto i pulsanti permanenti della barra.
+func _svuota_azioni_interazione() -> void:
+	if not is_instance_valid(_action_bar):
+		return
+	for figlio in _action_bar.get_children():
+		if str(figlio.name) == "InteractionActions":
+			_action_bar.remove_child(figlio)
+			figlio.queue_free()
+	_riallinea_barra_azioni()
 
 func _add_teaching_section(box: VBoxContainer, title: String, body: String) -> void:
 	if body.strip_edges() == "":
@@ -712,7 +955,18 @@ func _answer_is_numeric(answer: String) -> bool:
 	return RegEx.create_from_string("^-?[0-9]+([.,][0-9]+)?$").search(trimmed) != null
 
 func _show_current() -> void:
+	# I dodici sistemi sono già stati attraversati: prima di mostrare la sintesi
+	# il mondo 24 consegna a Eli la ragione per affrontarla. È una pausa, non un
+	# nodo: non entra nel punteggio e non può essere emessa due volte.
+	if _should_pause_before_synthesis():
+		_pre_synthesis_shown = true
+		_pre_synthesis_waiting = true
+		if is_instance_valid(_next_button):
+			_next_button.visible = false
+		pre_synthesis_requested.emit()
+		return
 	_answered = false
+	_errori_nodo = 0
 	_feedback.text = ""
 	_next_button.visible = false
 	if is_instance_valid(_numpad):
@@ -783,6 +1037,9 @@ func _show_current() -> void:
 	_prompt.text = str(item.get("prompt", ""))
 	for child in _options.get_children():
 		child.queue_free()
+	# Le azioni dell'esercizio precedente vivono nella barra fissa, non fra le
+	# opzioni: vanno tolte di lì, o si accumulano una sopra l'altra.
+	_svuota_azioni_interazione()
 	var fmt := str(item.get("format", "multiple_choice"))
 	_apply_format_layout(fmt)
 	match fmt:
@@ -858,6 +1115,46 @@ func _refresh_status() -> void:
 			_status.text = "Parte %d/%d · %s   ·   Stabilità %d" % [_index + 1, _nodes.size(), system, _shields]
 		else:
 			_status.text = "Tappa %d/%d   ·   Scudi %d" % [_index + 1, _nodes.size(), _shields]
+	_refresh_combo_hud()
+
+func _refresh_combo_hud() -> void:
+	if not is_instance_valid(_combo_badge):
+		return
+	var visible_now := Combo.visibile(_serie)
+	if not visible_now:
+		_combo_visual_series = 0
+		if not _combo_badge.visible:
+			return
+		# La serie si spegne: nessun rosso, suono o messaggio aggiuntivo.
+		if reduced_motion or not is_inside_tree():
+			_combo_badge.visible = false
+			_combo_badge.modulate = Color.TRANSPARENT
+			return
+		var fade := create_tween()
+		fade.tween_property(_combo_badge, "modulate:a", 0.0, 0.16)
+		fade.finished.connect(func():
+			if is_instance_valid(_combo_badge) and not Combo.visibile(_serie):
+				_combo_badge.visible = false)
+		return
+
+	var increased := _serie > _combo_visual_series
+	_combo_visual_series = _serie
+	var progress := inverse_lerp(1.0, Combo.MASSIMO, Combo.moltiplicatore(_serie))
+	var color := Color("6be7d6").lerp(Color("f6c85f"), progress)
+	_combo_badge.text = "SERIE  %s" % Combo.etichetta(_serie)
+	_combo_badge.add_theme_color_override("font_color", color)
+	var panel := _combo_badge.get_theme_stylebox("normal") as StyleBoxFlat
+	if panel != null:
+		panel.border_color = color
+		panel.bg_color = Color(color.darkened(0.78), 0.94)
+	_combo_badge.visible = true
+	_combo_badge.modulate = Color.WHITE
+	if increased and not reduced_motion and is_inside_tree():
+		_combo_badge.pivot_offset = _combo_badge.size * 0.5
+		_combo_badge.scale = Vector2.ONE * 1.16
+		var rise := create_tween()
+		rise.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		rise.tween_property(_combo_badge, "scale", Vector2.ONE, 0.24)
 
 func _answer(given: String) -> void:
 	if _answered:
@@ -1426,9 +1723,25 @@ func _score_current(is_correct: bool, item: Dictionary) -> void:
 		if audio != null:
 			audio.call("play_event", "answerCorrect")
 		_correct += 1
-		_energy += _energy_per_correct
+		# La serie sale PRIMA di pagare, così la risposta che allunga la serie è
+		# anche quella che ne incassa il valore nuovo: farla pagare alla
+		# successiva significherebbe premiare sempre con un turno di ritardo, e
+		# nessun bambino collegherebbe le due cose.
+		_serie += 1
+		_serie_massima = maxi(_serie_massima, _serie)
+		var guadagno := Combo.energia(_energy_per_correct, _serie)
+		_energy += guadagno
+		_energia_serie += maxi(0, guadagno - _energy_per_correct)
 		if topic != "":
 			_topic_correct[topic] = int(_topic_correct.get(topic, 0)) + 1
+		# **La prova è superata, e non tornerà più a chiedere la stessa cosa.**
+		# Solo se risolta al primo colpo: chi ci è arrivato dopo un errore ha
+		# bisogno di rivederla, ed è il caso in cui rivederla insegna qualcosa.
+		if _errori_nodo == 0:
+			var materia := _materia_di(item)
+			var risolte: Array = _superate.get(materia, [])
+			risolte.append(GameSaveManager.solved_fingerprint(item))
+			_superate[materia] = risolte
 		if bool(item.get("review", false)) and topic != "":
 			_reviewed_ok.append(topic)
 		if int(_wrong_attempts.get(topic, 0)) > 0:
@@ -1436,20 +1749,44 @@ func _score_current(is_correct: bool, item: Dictionary) -> void:
 		if bool(item.get("transfer", false)):
 			_emit_learning_once("transfer:%s" % topic, "transfer")
 		_feedback.add_theme_color_override("font_color", Color("8ff6c0"))
-		_feedback.text = "Funziona! +%d energia" % _energy_per_correct
+		# **Anche indovinando si riceve la spiegazione**, ed è la correzione più
+		# grossa di tutta la revisione delle spiegazioni. Prima qui c'era solo
+		# «Giusto! +N energia»: il campo `explanation` compariva **soltanto
+		# sbagliando**. Il gioco è tarato perché il bambino risponda bene la
+		# maggior parte delle volte, quindi la maggior parte delle volte non
+		# riceveva niente — confermava di sapere una cosa e non ne imparava
+		# nessun'altra. Tremilaquattrocento spiegazioni scritte, e l'unica strada
+		# per arrivare al bambino era aperta solo sull'errore.
+		_feedback.text = (
+			"Funziona! +%d energia · serie %s" % [guadagno, Combo.etichetta(_serie)]
+			if Combo.visibile(_serie)
+			else "Funziona! +%d energia" % guadagno)
+		var detto := NoraExplanations.riga(
+			_materia_di(item), topic, str(item.get("explanation", "")), true)
+		if detto.strip_edges() != "":
+			_feedback.text += "\n%s" % detto
 	else:
 		var audio := get_tree().root.get_node_or_null("NativeAudio") if is_inside_tree() else null
 		if audio != null:
 			audio.call("play_event", "answerWrong")
+		# Ridondante rispetto a `_spend_shield()`, e voluto: un nodo chiuso in
+		# errore non può in nessun caso lasciare una serie viva, nemmeno se un
+		# formato futuro dimenticasse di togliere lo scudo.
+		_serie = 0
 		if topic != "":
 			_missed.append(topic)
 		_feedback.add_theme_color_override("font_color", Color("ffb3ba"))
+		# Sbagliando arriva il **come**, non il perché: chi ha appena sbagliato ha
+		# bisogno di sapere come rifarlo da solo la prossima volta. È la
+		# convinzione di NORA nel momento in cui conta — la risposta non si
+		# presta, il metodo sì.
 		_feedback.text = (
 			"NORA · %s: %s" % [
 				str(_maestro_voice.get("name", "Maestro")),
 				str(_maestro_voice.get("rilancio", ""))]
 			if not _maestro_voice.is_empty()
-			else "Non ha ancora funzionato. %s" % str(item.get("explanation", "")))
+			else "Non ha ancora funzionato. %s" % NoraExplanations.riga(
+				_materia_di(item), topic, str(item.get("explanation", "")), false))
 		_offer_concept_help(item)
 	# La costruzione avanza di una campata per ogni nodo risolto (built = _correct);
 	# su errore resta ferma, senza mai regredire.
@@ -1468,7 +1805,11 @@ func _score_current(is_correct: bool, item: Dictionary) -> void:
 				var total_systems := maxi(1, int(Array(session.get("systems", [])).size()))
 				var stage_pitch := lerpf(0.90, 1.16, float(_systems_resolved.size()) / float(total_systems))
 				convergence_audio.call("play_event", "enigmaProgress", stage_pitch)
-	_next_button.text = "CONCLUDI" if _shields <= 0 else "CONTINUA"
+	# L'intestazione si aggiorna adesso e non al nodo successivo: la serie deve
+	# cambiare nell'istante in cui il bambino vede l'esito, non dopo aver premuto
+	# «Avanti».
+	_refresh_status()
+	_next_button.text = "Fine" if _shields <= 0 else "Avanti"
 	_next_button.visible = true
 
 func _lock_interactions() -> void:
@@ -1476,6 +1817,14 @@ func _lock_interactions() -> void:
 	if is_instance_valid(_input_submit):
 		_input_submit.disabled = true
 	_disable_buttons(_options)
+
+## La materia di un item. Nelle prove trasversali del Cuore i nodi vengono da
+## materie diverse e se la portano scritta addosso; nelle sessioni normali la
+## materia è quella della sessione. Serve a NORA per prendere il perché giusto:
+## sbagliare materia vorrebbe dire spiegare le declinazioni dopo una divisione.
+func _materia_di(item: Dictionary) -> String:
+	var materia := str(item.get("subject", "")).strip_edges()
+	return materia if materia != "" else str(session.get("subject", ""))
 
 func _disable_buttons(node: Node) -> void:
 	for child in node.get_children():
@@ -1861,6 +2210,7 @@ func _build_visual_selection(item: Dictionary, fmt: String) -> void:
 			resolved.append(target)
 		diagram_model["hotspots"] = resolved
 	diagram.call("configure", fmt, diagram_model)
+	diagram.custom_minimum_size.y = 286.0
 	_visual_diagram = diagram
 	_options.add_child(diagram)
 	if fmt == "clue":
@@ -2143,7 +2493,9 @@ func _add_interaction_actions(
 	submit.add_theme_stylebox_override("normal", _exercise_button_style(Color(0.13, 0.38, 0.32, 1.0), Color("8ff6d2")))
 	submit.pressed.connect(submit_callback)
 	actions.add_child(submit)
-	_options.add_child(actions)
+	# Nella barra fissa, non fra le opzioni: è il pulsante VERIFICA della
+	# segnalazione del 15 agosto, che con un diagramma alto finiva sotto il bordo.
+	_action_bar.add_child(actions)
 
 func _retryable_result(correct: bool, item: Dictionary, retry_message: String) -> void:
 	if correct:
@@ -2160,6 +2512,16 @@ func _retryable_result(correct: bool, item: Dictionary, retry_message: String) -
 
 func _spend_shield() -> void:
 	_shields -= 1
+	# Il passaggio obbligato di ogni errore è anche l'unico posto onesto in cui
+	# annotare che il nodo corrente non è più «pulito»: contarlo nei singoli
+	# formati vorrebbe dire fidarsi che tutti e venti se ne ricordino.
+	_errori_nodo += 1
+	# **La serie si spezza qui, e solo qui.** È l'unico passaggio obbligato di
+	# ogni errore, in tutti e venti i formati: azzerarla in `_score_current`
+	# avrebbe lasciato intatta la serie di chi sbaglia dentro un minigioco senza
+	# chiudere il nodo. Si spegne e basta — nessun suono, nessun rosso, nessun
+	# messaggio (decisione 13): la serie che finisce non rimprovera.
+	_serie = 0
 	# Il finale deve far attraversare tutti i dodici sistemi anche quando un
 	# minigioco richiede più tentativi. L'accuratezza resta decisiva per passare,
 	# ma la sessione non si tronca prima della sintesi.
@@ -2282,6 +2644,26 @@ func _build_swipe(item: Dictionary) -> void:
 		b.add_theme_font_size_override("font_size", 19)
 		b.add_theme_color_override("font_color", Color("06272a"))
 		b.add_theme_stylebox_override("normal", _exercise_button_style(dati["colore"], Color("d8fff8")))
+		var action_theme := str(item.get("actionTheme", ""))
+		if action_theme != "":
+			if bool(dati["giusto"]):
+				if action_theme == "math_dash":
+					b.text = "APRI VARCO  >"
+				elif action_theme == "fraction_forge":
+					b.text = "STABILIZZA  >"
+				elif action_theme == "verb_time_race":
+					b.text = "TEMPO GIUSTO  >"
+				elif action_theme == "verb_mode_factory":
+					b.text = "COMANDO CALIBRATO  >"
+				else:
+					b.text = "COLPISCI  >"
+			else:
+				if action_theme == "fraction_forge":
+					b.text = "<  RIFONDI"
+				elif action_theme in ["verb_time_race", "verb_mode_factory"]:
+					b.text = "<  CORREGGI"
+				else:
+					b.text = "<  DEVIA"
 		b.pressed.connect(_swipe_judge.bind(bool(dati["giusto"])))
 		riga.add_child(b)
 	_push_swipe_state("")
@@ -2463,11 +2845,23 @@ func session_cursor() -> Dictionary:
 	}
 
 func _advance() -> void:
+	if _completion_queued or _session_closed:
+		return
 	if _shields <= 0:
-		_finish()
+		_request_finish()
+		return
+	# L'ultimo Avanti chiude direttamente la prova. Nella build Web la chiusura
+	# viene rinviata al frame successivo: il browser conclude il gesto prima di
+	# salvataggio, segnali e aggiornamenti del mondo. Il tasto viene disabilitato
+	# subito, cosi touch e click sintetico non possono consegnare due esiti.
+	if _index + 1 >= _nodes.size():
+		_index = _nodes.size()
+		_request_finish()
 		return
 	_index += 1
 	_show_current()
+	if _pre_synthesis_waiting:
+		return
 	# La spiegazione dell'argomento nuovo, se questo nodo ne porta una: prima
 	# della domanda, non dopo l'errore.
 	#
@@ -2478,10 +2872,47 @@ func _advance() -> void:
 	if _index < _nodes.size():
 		_show_teaching_overlay()
 
+func _request_finish() -> void:
+	if _completion_queued or _session_closed:
+		return
+	_completion_queued = true
+	if is_instance_valid(_next_button):
+		_next_button.disabled = true
+	if OS.has_feature("web"):
+		call_deferred("_finish")
+	else:
+		_finish()
+
+func _should_pause_before_synthesis() -> bool:
+	if _pre_synthesis_shown or not bool(session.get("transversal", false)):
+		return false
+	# Un ExercisePlayer usato fuori dalla nave non deve diventare un gate morto:
+	# senza un regista collegato la sintesi resta immediatamente giocabile.
+	if pre_synthesis_requested.get_connections().is_empty():
+		return false
+	if _index < 0 or _index >= _nodes.size():
+		return false
+	return str((_nodes[_index] as Dictionary).get("system", "")) == "sintesi"
+
+## Riprende esattamente dal nodo di sintesi. Chiamate fuori dalla pausa sono
+## innocue: la conversazione è saltabile e gli input doppi non devono avanzare
+## due volte la prova.
+func resume_after_pre_synthesis() -> void:
+	if not _pre_synthesis_waiting:
+		return
+	_pre_synthesis_waiting = false
+	_show_current()
+
+func waiting_for_pre_synthesis() -> bool:
+	return _pre_synthesis_waiting
+
 ## Uscita anticipata. La prova non è consegnata: niente esito, niente incontro
 ## completato, nessuna energia dalla sessione. Restano gli argomenti visti, che
 ## il chiamante gira al Codex esattamente come per una prova conclusa.
 func _abandon() -> void:
+	if _session_closed:
+		return
+	_session_closed = true
 	var audio := get_tree().root.get_node_or_null("NativeAudio") if is_inside_tree() else null
 	if audio != null:
 		audio.call("set_focus", false)
@@ -2507,6 +2938,10 @@ func _abandon() -> void:
 		"systemsResolved": _systems_resolved.keys(),
 		"synthesisResolved": false,
 		"topicStats": _build_topic_stats(),
+		# Anche uscendo: le prove risolte prima di chiudere la porta restano
+		# risolte, come gli argomenti visti che vanno comunque al Codex. Chiedere
+		# di nuovo proprio quelle sarebbe il premio all'abbandono.
+		"solved": _superate.duplicate(true),
 	})
 
 ## Il tasto indietro del tablet e l'Esc della tastiera fanno la stessa cosa del
@@ -2528,6 +2963,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 
 func _finish() -> void:
+	if _session_closed:
+		return
+	_session_closed = true
+	_completion_queued = false
 	var total := _nodes.size()
 	var minimum_correct := int(session.get("minimumCorrect", ceili(float(total) * 0.5)))
 	var passed := _shields > 0 and _correct >= minimum_correct
@@ -2551,6 +2990,11 @@ func _finish() -> void:
 		"total": total,
 		"passed": passed,
 		"energyGained": _energy,
+		# La serie viaggia nell'esito per la resa e per il riepilogo. Non la legge
+		# nessuna regola: `energyGained` la contiene già, e la padronanza non
+		# guarda l'energia (decisione 15).
+		"comboBest": _serie_massima,
+		"comboEnergy": _energia_serie,
 		"shieldsLeft": _shields,
 		"subject": str(session.get("subject", "")),
 		"seconds": maxf(0.0, float(Time.get_ticks_msec() - _started_at_msec) / 1000.0),
@@ -2561,6 +3005,9 @@ func _finish() -> void:
 		# Esiti per-argomento della sessione: {topic: {"seen": n, "correct": k}}.
 		# Alimentano la mastery per-topic (adattività fine dentro la materia).
 		"topicStats": _build_topic_stats(),
+		# Le prove superate (risolte al primo colpo), materia per materia: il
+		# chiamante le porta nel save e la selezione non le ripropone più.
+		"solved": _superate.duplicate(true),
 	})
 
 func _build_topic_stats() -> Dictionary:

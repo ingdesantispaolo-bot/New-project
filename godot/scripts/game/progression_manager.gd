@@ -225,6 +225,30 @@ func readiness() -> Dictionary:
 	return GateReadiness.evaluate_core(
 		save, ApparatusConfig.mastery_threshold(save.level()), _core_topic_counts())
 
+## **Registra le materie arrivate in linea a questo grado.**
+##
+## Da chiamare quando una sessione è stata registrata per intero — padronanza,
+## copertura e ripasso spaziato — perché è l'unico momento in cui le tre
+## dimensioni sono tutte aggiornate. Prima di allora si leggerebbe uno stato a
+## metà e si stamperebbe un traguardo sbagliato (o si mancherebbe quello giusto).
+##
+## Scandisce tutte e dodici e non solo la materia giocata: chiudere un ripasso
+## arretrato di una materia può portarne in linea un'altra, e un traguardo
+## mancato per un giro è esattamente il difetto che questa funzione ripara.
+##
+## Idempotente e monotona: un traguardo non si toglie mai, e il grado conservato
+## lo fa scadere da solo al livello successivo.
+func aggiorna_traguardi_di_livello() -> void:
+	var livello := int(save.level())
+	for subject_data in GateReadiness.GATE_SUBJECTS:
+		var subject := str(subject_data)
+		if save.subject_cleared_level(subject) >= livello:
+			continue
+		# Senza `certified`: si guardano i numeri veri, che è il solo modo di
+		# stabilire se il traguardo è stato raggiunto adesso.
+		if bool(apparatus_readiness(subject)["ready"]):
+			save.set_subject_cleared(subject, livello)
+
 # Prontezza di un APPARATO: le stesse tre dimensioni sulla sua materia.
 func apparatus_readiness(subject: String) -> Dictionary:
 	return GateReadiness.evaluate_subject(
@@ -237,8 +261,50 @@ func can_level_up() -> bool:
 	return bool(readiness()["ready"])
 
 # Si può riparare l'apparato di questa materia?
+#
+# **Una stanza accesa a questo livello non si riaccende.** Misurato il 15 agosto
+# 2026: superato l'esame di matematica al livello 1, `can_repair_apparatus`
+# continuava a dire di sì e `repair_apparatus` pagava altri 80 di energia a ogni
+# ripetizione. Non era solo una perdita economica — era la stessa prova richiesta
+# di nuovo a chi l'aveva appena passata, e con il premio più grosso del gioco
+# appeso davanti perché la rifacesse.
+#
+# Al passaggio successivo della materia (mondi 13-24) il livello è cresciuto oltre
+# `repairedLevel` e l'esame torna disponibile: lì è un grado nuovo, non una
+# ripetizione.
+## **Il diritto all'esame, una volta guadagnato, non si perde.** (16 agosto 2026)
+##
+## `apparatus_readiness` guarda i numeri veri, ed è giusto che lo faccia: è la
+## misura, e serve a stabilire QUANDO il traguardo viene raggiunto. Ma leggerla
+## qui direttamente rendeva la porta dell'esame intermittente — bastava una
+## palestra di un'altra materia lungo la strada del ritorno alla nave perché un
+## ripasso di questa tornasse dovuto e l'esame si richiudesse in faccia a chi
+## l'aveva appena aperto. Lo stesso difetto che rimetteva le materie chiuse
+## nell'elenco di quelle da fare, e con un effetto peggiore: lì confondeva, qui
+## faceva attraversare il mondo per niente.
+##
+## Il blocco della stanza GIÀ ACCESA resta sopra e non passa dal traguardo: è
+## un'altra domanda, e va risposta con l'apparato in mano.
 func can_repair_apparatus(subject: String) -> bool:
+	if apparatus_certified_now(subject):
+		return false
+	return materia_in_linea(subject)
+
+## **Questa materia è a posto per questo grado?**
+##
+## È la domanda che si fa la PRESENTAZIONE — «devo ancora lavorare qui?» — ed è
+## diversa da `apparatus_readiness`, che è la misura grezza e serve a stabilire
+## quando il traguardo viene raggiunto. Tenerle separate è ciò che permette al
+## gioco di dire il numero vero («hai 1 ripasso arretrato») senza per questo
+## rimettere in discussione una materia già chiusa.
+func materia_in_linea(subject: String) -> bool:
+	if GateReadiness.in_linea_a_questo_livello(save, subject):
+		return true
 	return bool(apparatus_readiness(subject)["ready"])
+
+## La materia è già stata certificata a QUESTO livello?
+func apparatus_certified_now(subject: String) -> bool:
+	return GateReadiness.certified_at_level(save, subject)
 
 # Compatibilità: l'apparato del mondo corrente. Da preferire la forma esplicita
 # `can_repair_apparatus(subject)`, che dice quale stanza si sta aprendo.
@@ -249,8 +315,7 @@ func can_repair() -> bool:
 
 # Un apparato è acceso? (`repairedLevel > 0`)
 func is_apparatus_repaired(subject: String) -> bool:
-	var apparatus := ApparatusConfig.apparatus_of(subject)
-	return int(save.data.get("apparatus", {}).get(apparatus, {}).get("repairedLevel", 0)) > 0
+	return save.apparatus_repaired_level(ApparatusConfig.apparatus_of(subject)) > 0
 
 # Quante delle dodici stanze sono accese. Il Cuore si apre con dodici, non con
 # ventiquattro livelli: è la garanzia che tutte le competenze vengano acquisite.

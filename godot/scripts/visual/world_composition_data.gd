@@ -16,6 +16,15 @@ var hero_pockets: Array = []
 var visual_theme := "legacy"
 var identity_regions: Array = []
 var identity_props: Array = []
+## Luoghi che possono ospitare attivita'. A differenza delle vecchie coordinate
+## radiali, un socket dice PERCHE' una prova abita li': rovina, strumento,
+## regione, sentiero o attraversamento. Il MissionEventDirector sceglie fra
+## questi punti in base a tipo e formato dell'evento; la posizione procedurale
+## resta soltanto un fallback di sicurezza.
+##
+## Contratto minimo di un socket:
+##   {id, position, role, tags, cluster, capacity, routeDepth, visibility}
+var activity_sockets: Array = []
 ## Zone e corridoi autorati dal WorldProfile. Acqua e decorazioni di terreno
 ## possono lambirli, ma non devono rendere illeggibili ingresso nave e percorso
 ## sicuro spawn→nave.

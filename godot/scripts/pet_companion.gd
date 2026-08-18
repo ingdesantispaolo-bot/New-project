@@ -23,6 +23,10 @@ var _antics: Node
 var _unlocked_antics: Array = []
 var _antic_id := ""
 var _antic_time := 0.0
+var _expression_pose := "sereno"
+var _expression_time := 0.0
+var _expression_duration := 0.0
+var _expression_mark: Node2D
 
 func setup(
 	kind: String,
@@ -46,6 +50,10 @@ func setup(
 	if is_instance_valid(target):
 		global_position = target.global_position + offset
 	_bob = randf() * TAU
+	_expression_mark = Node2D.new()
+	_expression_mark.name = "PetExpressionPose"
+	_expression_mark.position = Vector2(0, -42)
+	add_child(_expression_mark)
 
 ## **La freccia del Custode.** (7 agosto 2026)
 ##
@@ -127,6 +135,7 @@ func _process(delta: float) -> void:
 		global_position = global_position.lerp(desired, minf(1.0, delta * 5.0))
 	if visual != null:
 		_update_antic_pose(delta)
+		_update_expression_pose(delta)
 		var lift := 0.0 if _reduced_motion else sin(_bob * 3.2) * 3.0 * _amplitude
 		if _reaction_delay > 0.0:
 			_reaction_delay = maxf(0.0, _reaction_delay - delta)
@@ -156,6 +165,16 @@ func react() -> void:
 	add_child(burst)
 	burst.emitting = true
 	get_tree().create_timer(1.4).timeout.connect(burst.queue_free)
+
+## Traduce il volto già deciso da PetExpressionEngine in una posa del corpo.
+## Non decide eventi né utilità: è soltanto la parte visibile di C-G9.
+func react_to(game_signal: String) -> void:
+	_expression_pose = PetExpressionEngine.face_for(game_signal)
+	_expression_time = 0.0
+	_expression_duration = maxf(1.0, PetExpressionEngine.duration_of(_expression_pose))
+	set_meta("expression_pose", _expression_pose)
+	react()
+	queue_redraw()
 
 var _temperament := "vivace"
 
@@ -212,3 +231,52 @@ func _update_antic_pose(delta: float) -> void:
 			visual.rotation = 0.30
 		"guard":
 			visual.rotation = 0.08
+
+func _update_expression_pose(delta: float) -> void:
+	if _expression_duration <= 0.0 or not is_instance_valid(visual):
+		return
+	_expression_time += delta
+	var phase := clampf(_expression_time / _expression_duration, 0.0, 1.0)
+	if _expression_time >= _expression_duration:
+		_expression_duration = 0.0
+		_expression_pose = "sereno"
+		set_meta("expression_pose", _expression_pose)
+		queue_redraw()
+		return
+	if _reduced_motion:
+		match _expression_pose:
+			"festa", "orgoglioso": visual.rotation = -0.10
+			"curioso": visual.rotation = 0.14
+			"attento", "concentrato": visual.rotation = -0.04
+			"incoraggiante": visual.rotation = 0.06
+		return
+	var pulse := sin(phase * PI)
+	match _expression_pose:
+		"festa":
+			visual.rotation = sin(_expression_time * 8.0) * 0.18 * pulse
+		"orgoglioso":
+			visual.rotation = -0.12 * pulse
+			visual.scale *= 1.0 + 0.16 * pulse
+		"curioso":
+			visual.rotation = 0.20 * pulse
+		"attento", "concentrato":
+			visual.rotation = sin(_expression_time * 3.0) * 0.035
+			visual.position.y += 3.0 * pulse
+		"incoraggiante":
+			visual.rotation = sin(_expression_time * 4.5) * 0.08 * pulse
+
+func _draw() -> void:
+	if _expression_duration <= 0.0 or _expression_pose == "sereno":
+		return
+	var accent := Color("f6c85f")
+	match _expression_pose:
+		"curioso":
+			draw_arc(Vector2(18, -48), 8, -0.4, 2.4, 12, accent, 2.0, true)
+		"attento", "concentrato":
+			draw_line(Vector2(-16, -47), Vector2(16, -47), Color("7ad7ff"), 3.0, true)
+		"orgoglioso", "festa":
+			for index in 5:
+				var angle := TAU * float(index) / 5.0
+				draw_circle(Vector2.RIGHT.rotated(angle) * 27 + Vector2(0, -15), 2.5, accent)
+		"incoraggiante":
+			draw_arc(Vector2(0, -16), 30, 0.25, PI - 0.25, 18, Color("8ff6d2"), 2.5, true)

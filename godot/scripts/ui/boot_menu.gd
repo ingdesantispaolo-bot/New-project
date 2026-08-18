@@ -406,10 +406,11 @@ func _prepare_release_smoke_save() -> void:
 	var progression := ProgressionManager.new(save, content)
 	var gate := progression.current_gate()
 	var threshold := float(gate.get("masteryThreshold", 0.7))
-	# Il gate del livello è il NUCLEO: la fixture deve soddisfare accuratezza e
-	# copertura su tutte e tre le materie, non su quella del mondo. Più la materia
-	# ospite, perché il collaudo apre anche l'esame dell'apparato.
-	var prepared: Array = Array(ApparatusConfig.CORE_SUBJECTS).duplicate()
+	# Il gate del livello certifica ora tutte e dodici le materie: la fixture deve
+	# soddisfare accuratezza e copertura sulla stessa lista letta dal gate reale.
+	# Usare ancora le sole tre materie del nucleo lasciava la nave al 25% e faceva
+	# fallire lo smoke prima ancora di poter aprire l'esame.
+	var prepared: Array = Array(GateReadiness.GATE_SUBJECTS).duplicate()
 	var host := ApparatusConfig.world_subject(save.level())
 	if not prepared.has(host):
 		prepared.append(host)
@@ -418,7 +419,9 @@ func _prepare_release_smoke_save() -> void:
 		save.add_mission(subject)
 		save.set_mastery(subject, ApparatusConfig.subject_mastery_threshold(subject, save.level()))
 		var topic_target := GateReadiness.coverage_target(
-			content.subject_topic_count(subject), save.level(),
+			# Stesso denominatore usato da ProgressionManager: per matematica il
+			# banco statico non rappresenta i topic prodotti dal generatore runtime.
+			content.reachable_topic_count(subject, save.level()), save.level(),
 			ApparatusConfig.is_core(subject))
 		for index in range(maxi(topic_target, 1)):
 			save.set_topic_mastery(subject, "release-smoke-topic-%d" % index, 1.0)

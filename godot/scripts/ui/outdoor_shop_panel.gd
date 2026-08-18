@@ -17,10 +17,16 @@ const SLOT_LABELS := {
 	"tool": "STRUMENTI",
 	"pet": "COMPAGNI",
 	"emblem": "EMBLEMI",
+	"module": "SPEDIZIONE",
 	"upgrade": "NORA",
 	"decor": "RESTAURI",
 }
-const SLOT_ORDER := ["bot", "avatar", "accessory", "tool", "pet", "emblem", "upgrade", "decor"]
+## I moduli stanno subito dopo gli strumenti, che sono la cosa a cui somigliano di
+## più: entrambi servono là fuori e non toccano una prova.
+# Lo slot "tool" non compare più: gli strumenti di campo non si comprano, li
+# consegna il mondo dopo una riparazione ([[FieldTools]]). Restano nel catalogo
+# perché il resto del gioco li cerca per id.
+const SLOT_ORDER := ["bot", "avatar", "accessory", "module", "pet", "emblem", "upgrade", "decor"]
 const SLOT_META := {
 	"bot": {
 		"title": "Livree di Bit",
@@ -37,30 +43,40 @@ const SLOT_META := {
 		"intro": "Dettagli tecnici, segni di metodo e strumenti per personalizzare l'equipaggio.",
 		"impact": "Puoi indossare un accessorio alla volta e sostituirlo senza altri costi.",
 	},
+	# Lo slot "tool" resta descritto qui ma non compare piu' in vetrina: gli
+	# strumenti li consegna il mondo dopo una riparazione ([[FieldTools]]).
 	"tool": {
 		"title": "Strumenti da esplorazione",
 		"intro": "Torcia e falce aprono deviazioni opzionali del mondo esterno.",
-		"impact": "La torcia illumina la notte; la falce libera l'erba alta invalicabile.",
+		"impact": "Non sono in vendita: te li da' chi li usa, quando gli finisci una riparazione.",
 	},
 	"pet": {
-		"title": "Compagni di rotta",
-		"intro": "Presenze vive che seguono l'esploratore e reagiscono ai progressi.",
-		"impact": "Il compagno scelto ti segue nel mondo e celebra i momenti riusciti.",
+		"title": "Le forme del Custode",
+		"intro": "Il Custode e' uno solo. Qui si decide che aspetto abbia quando ti cammina accanto.",
+		"impact": "Cambia la forma del compagno che hai gia': non ne aggiunge un altro, e non tocca il legame.",
 	},
 	"emblem": {
 		"title": "Emblemi di metodo",
 		"intro": "Distintivi da esporre per ricordare costanza, curiosita e precisione.",
 		"impact": "Un emblema alla volta compare accanto all'esploratore nel mondo.",
 	},
+	"module": {
+		"title": "Moduli di spedizione",
+		"intro": "Attrezzatura che serve la fuori, contro il Silenzio: non tocca mai una prova.",
+		"impact": "Acquisto permanente e sempre attivo: l'effetto si vede sulla mappa, non nelle domande.",
+	},
+	# I due testi qui sotto dicevano «non ancora attivi in questa build» e «arriverà
+	# con le scene native»: era vero quando furono scritti e ha smesso di esserlo.
+	# Un catalogo che si scusa insegna al bambino che comprare non serve.
 	"upgrade": {
-		"title": "Potenziamenti NORA",
-		"intro": "Moduli permanenti che rendono piu solido il supporto durante le missioni.",
-		"impact": "Acquisto permanente registrato nel save; gli effetti sulle missioni non sono ancora attivi in questa build.",
+		"title": "Pezzi della nave",
+		"intro": "Quello che i Dodici avevano a bordo e che si ritrova un pezzo per volta.",
+		"impact": "Ognuno lascia un anello di luce addosso a Eli: si vede nel mondo, non tocca nessuna prova.",
 	},
 	"decor": {
 		"title": "Restauri del Relitto",
-		"intro": "Restituisci luce alle aree conquistate e rendi visibile la tua ricostruzione.",
-		"impact": "Progetto permanente registrato nel save; la trasformazione delle aree arrivera con le scene native dedicate.",
+		"intro": "Restituisci luce ai ponti riconquistati: è l'unica spesa che cambia un luogo per sempre.",
+		"impact": "Il ponte resta illuminato ogni volta che torni a bordo. Non apre niente e non sblocca niente: si vede.",
 	},
 }
 
@@ -85,7 +101,7 @@ var _detail_state: Label
 var _detail_action: Button
 var _category_heading: Label
 var _category_intro: Label
-var _energy: Label
+var _wallet: Label
 var _status: Label
 var _subtitle: Label
 var _category_buttons: Dictionary = {}
@@ -169,20 +185,20 @@ func _build_ui() -> void:
 	title.add_theme_color_override("font_color", Color("effffb"))
 	titles.add_child(title)
 	_subtitle = Label.new()
-	_subtitle.text = "Trasforma l'energia conquistata in identita, alleati e nuovi spazi da vivere."
+	_subtitle.text = "Trasforma i frammenti raccolti nei mondi in identita, alleati e nuovi spazi da vivere."
 	_subtitle.add_theme_font_size_override("font_size", 13)
 	_subtitle.add_theme_color_override("font_color", Color("a8c9c3"))
 	_subtitle.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	titles.add_child(_subtitle)
 
-	_energy = Label.new()
-	_energy.name = "ShopEnergy"
-	_energy.custom_minimum_size.x = 150
-	_energy.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	_energy.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	_energy.add_theme_font_size_override("font_size", 18)
-	_energy.add_theme_color_override("font_color", Color("ffd56a"))
-	header.add_child(_energy)
+	_wallet = Label.new()
+	_wallet.name = "ShopWallet"
+	_wallet.custom_minimum_size.x = 150
+	_wallet.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	_wallet.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_wallet.add_theme_font_size_override("font_size", 18)
+	_wallet.add_theme_color_override("font_color", Color("c7b8ff"))
+	header.add_child(_wallet)
 
 	var close_button := Button.new()
 	close_button.name = "CloseShopButton"
@@ -441,7 +457,7 @@ func _on_feedback(message: String) -> void:
 func _refresh() -> void:
 	if not is_instance_valid(_items):
 		return
-	_energy.text = "ENERGIA  ◆  %d" % int(_state.get("energy", 0))
+	_wallet.text = "FRAMMENTI  ◈  %d" % int(_state.get("fragments", 0))
 	_update_category_navigation()
 	var meta: Dictionary = SLOT_META[_slot]
 	_category_heading.text = str(meta["title"])
@@ -535,7 +551,7 @@ func _build_card(cosmetic: Dictionary) -> Control:
 	var price := Label.new()
 	price.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	price.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	price.text = _card_price_text(cost, min_level, owned, active)
+	price.text = _card_price_text(cost, min_level, owned, active, id)
 	price.add_theme_font_size_override("font_size", 10)
 	price.add_theme_color_override("font_color", _requirement_color(cosmetic))
 	bottom.add_child(price)
@@ -581,7 +597,7 @@ func _refresh_detail(cosmetic: Dictionary) -> void:
 		str(cosmetic.get("description", "")) if origine.is_empty()
 		else "%s\n\n%s" % [str(cosmetic.get("description", "")), origine])
 	_detail_impact.text = "IMPATTO\n%s" % str(SLOT_META[_slot]["impact"])
-	_detail_requirements.text = _detail_requirement_text(cost, min_level, owned, active)
+	_detail_requirements.text = _detail_requirement_text(cost, min_level, owned, active, id)
 	_detail_requirements.add_theme_color_override("font_color", _requirement_color(cosmetic))
 	_detail_state.text = _detail_state_text(cosmetic)
 	_configure_action(_detail_action, cosmetic, true)
@@ -608,36 +624,58 @@ func _configure_action(button: Button, cosmetic: Dictionary, detailed: bool) -> 
 	elif owned:
 		button.text = "EQUIPAGGIA"
 		button.pressed.connect(_equip.bind(id))
+	elif _luogo_da_incontrare(id) != "":
+		# Non è un rifiuto: è un indirizzo. La voce esiste, sta in un posto, e il
+		# posto ha un nome che si può raggiungere.
+		button.text = ("VAI A %s" % _luogo_da_incontrare(id).to_upper()) if detailed else "DA TROVARE"
+		button.disabled = true
 	elif level < min_level:
 		button.text = ("RAGGIUNGI LIVELLO %d" if detailed else "LIVELLO %d") % min_level
 		button.disabled = true
-	elif int(_state.get("energy", 0)) < cost:
-		button.text = ("ENERGIA INSUFFICIENTE" if detailed else "NON DISPONIBILE")
+	elif int(_state.get("fragments", 0)) < cost:
+		button.text = ("FRAMMENTI INSUFFICIENTI" if detailed else "NON DISPONIBILE")
 		button.disabled = true
 	else:
-		button.text = "ACQUISTA  ◆ %d" % cost if detailed else "ACQUISTA"
+		button.text = "ACQUISTA  ◈ %d" % cost if detailed else "ACQUISTA"
 		button.pressed.connect(_purchase.bind(id))
 	_style_button(button, rarity_color, not button.disabled)
 
 
-func _card_price_text(cost: int, min_level: int, owned: bool, active: bool) -> String:
+## `id` serve a sapere se la voce è già stata incontrata: una cosa che viene da
+## un posto dove non sei ancora stata non mostra un prezzo, mostra il posto.
+func _card_price_text(cost: int, min_level: int, owned: bool, active: bool, id := "") -> String:
 	if active:
 		return "IN USO"
 	if owned:
 		return "POSSEDUTO"
+	var luogo := _luogo_da_incontrare(id)
+	if luogo != "":
+		return "DA TROVARE · %s" % luogo.to_upper()
 	if int(_state.get("level", 1)) < min_level:
 		return "RICHIEDE LV %d" % min_level
-	return "◆ %d" % cost
+	return "◈ %d" % cost
+
+## Il mondo da cui viene una voce, se non ci sei ancora arrivata; stringa vuota
+## se la voce è disponibile o non è ancorata a nessun posto.
+func _luogo_da_incontrare(id: String) -> String:
+	if id == "" or gameplay == null or gameplay.reward_manager == null:
+		return ""
+	if gameplay.reward_manager.incontrato(id):
+		return ""
+	return RewardCatalog.luogo_di(id)
 
 
-func _detail_requirement_text(cost: int, min_level: int, owned: bool, active: bool) -> String:
+func _detail_requirement_text(cost: int, min_level: int, owned: bool, active: bool, id := "") -> String:
 	if active:
 		return "CONFIGURAZIONE ATTIVA"
 	if owned:
 		return "NELLA TUA COLLEZIONE"
+	var luogo := _luogo_da_incontrare(id)
+	if luogo != "":
+		return "VIENE DA: %s" % luogo.to_upper()
 	if int(_state.get("level", 1)) < min_level:
-		return "SBLOCCO: LIVELLO %d  ·  COSTO: ◆ %d" % [min_level, cost]
-	return "COSTO: ◆ %d  ·  LIVELLO RICHIESTO: %d" % [cost, min_level]
+		return "SBLOCCO: LIVELLO %d  ·  COSTO: ◈ %d" % [min_level, cost]
+	return "COSTO: ◈ %d  ·  LIVELLO RICHIESTO: %d" % [cost, min_level]
 
 
 func _detail_state_text(cosmetic: Dictionary) -> String:
@@ -647,18 +685,21 @@ func _detail_state_text(cosmetic: Dictionary) -> String:
 	var cost := int(cosmetic.get("cost", 0))
 	if _is_active(cosmetic):
 		if slot_name == "upgrade":
-			return "Modulo registrato nel save. L'effetto gameplay verra attivato in un blocco dedicato."
+			return "Recuperato. L'anello di luce e' addosso a Eli da adesso in poi."
 		if slot_name == "decor":
-			return "Progetto registrato nel save. La relativa scena del Relitto non e ancora disponibile."
+			return "Restaurato. Il ponte resta acceso: lo vedi salendo a bordo."
 		return "Questa ricompensa e gia applicata al Relitto."
 	if _is_owned(id):
-		return "Acquistata. Puoi equipaggiarla ora senza spendere altra energia."
+		return "Acquistata. Puoi equipaggiarla ora senza spendere altri frammenti."
+	var luogo := _luogo_da_incontrare(id)
+	if luogo != "":
+		return "Viene da %s, e finché non ci arrivi resta lì. Non serve finire niente: basta che la rotta sia aperta." % luogo
 	if int(_state.get("level", 1)) < min_level:
 		return "Continua le missioni per raggiungere il livello necessario."
-	var missing := maxi(0, cost - int(_state.get("energy", 0)))
+	var missing := maxi(0, cost - int(_state.get("fragments", 0)))
 	if missing > 0:
-		return "Mancano %d energia: completare esercizi e sistemi alimenta la bottega." % missing
-	return "Disponibile ora. L'acquisto usa energia ma non riduce i progressi ottenuti."
+		return "Mancano %d frammenti: i forzieri e le prove nei mondi alimentano la bottega." % missing
+	return "Disponibile ora. L'acquisto usa frammenti e non tocca l'energia dello studio."
 
 
 func _requirement_color(cosmetic: Dictionary) -> Color:
@@ -765,7 +806,28 @@ func _tool_fallback_texture(id: String) -> Texture2D:
 <path d="M42 101 L55 106" stroke="#f6c85f" stroke-width="8" stroke-linecap="round"/>
 """
 	else:
-		return null
+		# **Ripiego generico: il glifo dichiarato dalla voce.** (14 agosto 2026)
+		#
+		# Prima di oggi qui c'era `return null`, e valeva per due strumenti
+		# disegnati a mano. Aggiungendo i moduli di spedizione —
+		# `shop_presentation_audit` pretende un'illustrazione per **ogni** voce
+		# del catalogo — la scelta era fra rimandare i moduli finché non esiste
+		# l'arte o dargli una resa onesta subito.
+		#
+		# È la regola che il progetto applica ai lotti di Codex: una cosa deve
+		# essere usabile con forme piene e colori piatti **prima** che esista un
+		# disegno, altrimenti l'arte diventa un prerequisito e il lotto si ferma
+		# ad aspettarla. Il glifo e il colore stanno già nel catalogo; C-G4
+		# sostituirà questo cerchio con l'illustrazione vera.
+		var voce := RewardCatalog.find(id)
+		var glifo := str(voce.get("glyph", "")).strip_edges()
+		if glifo == "":
+			return null
+		var tinta := Color(int(voce.get("color", 0x6be7d6))).to_html(false)
+		body = """
+<circle cx="64" cy="64" r="34" fill="none" stroke="#%s" stroke-width="5" opacity="0.85"/>
+<text x="64" y="80" font-size="46" text-anchor="middle" fill="#%s">%s</text>
+""" % [tinta, tinta, glifo.xml_escape()]
 	var svg := """
 <svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
 <defs><radialGradient id="g"><stop stop-color="#16444a"/><stop offset="1" stop-color="#061d24"/></radialGradient></defs>

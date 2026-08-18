@@ -1,6 +1,8 @@
 class_name WorldEnemy
 extends CharacterBody2D
 
+const GUARDIAN_VISUALS := preload("res://scripts/game/guardian_visual_catalog.gd")
+
 ## **Le sacche di Silenzio.** Pattugliano, inseguono e respingono Eli.
 ##
 ## **Cattive sul serio dal 7 agosto 2026**, su indicazione del committente dopo
@@ -96,6 +98,19 @@ func _build_visual(level: int) -> void:
 	var aura := OutdoorVisualFactory.make_glow(40.0 + tier * 4.0, faded_accent, 0.22)
 	aura.add_to_group("night_glow")
 	visual.add_child(aura)
+	var generated_guardian := GUARDIAN_VISUALS.texture_for(level)
+	var guardian_sprite: Sprite2D = null
+	if generated_guardian != null:
+		guardian_sprite = Sprite2D.new()
+		guardian_sprite.name = "GuardianGeneratedArt"
+		guardian_sprite.texture = generated_guardian
+		guardian_sprite.scale = Vector2.ONE * (118.0 / 384.0)
+		guardian_sprite.position = Vector2(0, -14)
+		guardian_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+		visual.add_child(guardian_sprite)
+		set_meta("usesGeneratedGuardianArt", true)
+		set_meta("guardianArtPath", generated_guardian.resource_path)
+		set_meta("guardianVisualFamily", GUARDIAN_VISUALS.family_for(level))
 	var shell_color := faded_accent.darkened(0.38)
 	var outer_ring := OutdoorVisualFactory.make_ring(31.0 + tier * 2.0, Color(faded_accent, 0.48), 2.6, 28)
 	outer_ring.scale = Vector2(1.0, 0.82)
@@ -161,6 +176,10 @@ func _build_visual(level: int) -> void:
 	tier_ring.scale = Vector2(1.0, 0.34)
 	tier_ring.position.y = 17
 	visual.add_child(tier_ring)
+	# Il vecchio corpo procedurale resta dietro come fallback strutturale e per i
+	# nodi semantici degli audit; l'illustrazione approvata e' il livello visibile.
+	if guardian_sprite != null:
+		visual.move_child(guardian_sprite, visual.get_child_count() - 1)
 	add_child(visual)
 
 	var label := Label.new()
@@ -228,10 +247,20 @@ func stun(seconds: float = 5.0) -> void:
 ## contiene e' stato costruito.
 func sorveglia(id: String) -> void:
 	treasure_id = id
+	enemy_name = GUARDIAN_VISUALS.name_for(int(world.get("world_level")) if world != null else 1)
 	var label := get_node_or_null("EnemyLabel") as Label
 	if label != null:
-		label.text = "GUARDIANO · T%d" % tier
-		label.accessibility_name = "%s, guardiano di un forziere; si scioglie vincendo il varco" % enemy_name
+		# Il nome completo vive nel duello e nell'accessibilita': sul mondo il
+		# cartiglio corto non copre il guardiano illustrato.
+		#
+		# **La materia sta scritta sul cartiglio** (17 agosto 2026). Da quando i
+		# guardiani sfidano in due materie, avvicinarsi dev'essere una scelta e
+		# non una lotteria: si legge da lontano se quello chiede conti o voci, e
+		# si decide se affrontarlo adesso o allenarsi prima.
+		var materia := DuelRules.materia(str(get_meta("guardId", "")))
+		label.text = "GUARDIANO %s · T%d" % [str(DuelRules.NOMI_MATERIA.get(materia, "")), tier]
+		label.accessibility_name = "%s, guardiano di un forziere; sfida in %s, si scioglie spezzandogli i sigilli" % [
+			enemy_name, "modi e tempi verbali" if materia == DuelRules.VOCI else "calcolo veloce"]
 
 ## **Sciolta per sempre.** Non e' uno stordimento: la sacca sparisce, il
 ## forziere che sorvegliava si apre, e rientrando nel mondo non la si ritrova.

@@ -60,6 +60,18 @@ func _assert_world(world: Node, expected_level: int) -> Dictionary:
 		var position: Vector2 = event["position"]
 		assert(position.distance_to(profile["shipEntrance"]["position"]) >= float(profile["shipEntrance"]["safeRadius"]),
 			"evento %s dentro la zona nave" % str(event["id"]))
+		var event_node := world.find_child(
+			"MissionEvent_%s" % str(event["id"]).replace("-", "_"), true, false)
+		assert(event_node != null, "evento %s assente dalla scena" % str(event["id"]))
+		assert(str(event_node.get_meta("location_socket", "")) == str(event.get("locationSocket", "")),
+			"la scena perde il luogo semantico di %s" % str(event["id"]))
+		assert(str(event_node.get_meta("location_cluster", "")) == str(event.get("locationCluster", "")),
+			"la scena perde la costellazione di %s" % str(event["id"]))
+		var payload: Dictionary = event_node.get_meta("payload", {})
+		assert(str(payload.get("locationRole", "")) == str(event.get("locationRole", "")),
+			"il payload perde il ruolo esplorativo di %s" % str(event["id"]))
+		assert(str(payload.get("discoveryCue", "")) == str(event.get("discoveryCue", "")),
+			"il payload perde il segnale di scoperta di %s" % str(event["id"]))
 		if str(event["kind"]) == "practice":
 			practices += 1
 	assert(practices > 0, "il mondo deve contenere pratica distribuita dal Director")

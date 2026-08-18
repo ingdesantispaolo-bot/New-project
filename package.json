@@ -10,6 +10,8 @@
     "typecheck:legacy": "tsc --noEmit",
     "assets:build": "node scripts/build-tiled-tileset.mjs && node scripts/build-tiled-maps.mjs && node scripts/build-visual-assets.mjs && node scripts/build-console-assets.mjs && node scripts/build-prop-assets.mjs && node scripts/build-outdoor-assets.mjs && node scripts/process-painted-prop-sheet.mjs && node scripts/build-audio-assets.mjs && node scripts/build-reward-assets.mjs && node scripts/optimize-assets.mjs",
     "assets:optimize": "node scripts/optimize-assets.mjs",
+    "terrain:noise": "node scripts/build-terrain-noise-texture.mjs",
+    "terrain:noise:check": "node scripts/build-terrain-noise-texture.mjs --check",
     "audio:godot": "node scripts/build-godot-audio-assets.mjs",
     "audio:godot:audit": "node scripts/build-godot-audio-assets.mjs --check",
     "audit:web": "node scripts/audit-web-release.mjs",

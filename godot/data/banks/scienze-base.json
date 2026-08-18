@@ -17,7 +17,12 @@
 				"La quantità di piante di una specie"
 			],
 			"answer": "La varietà di specie viventi in un ambiente",
-			"explanation": "Non conta quanti individui ci sono, ma quante specie diverse: un ambiente vario resiste meglio ai cambiamenti."
+			"explanation": "Non conta quanti individui ci sono, ma quante specie diverse: un ambiente vario resiste meglio ai cambiamenti.",
+			"distractorWhy": {
+				"Il numero totale di animali presenti": "Contare gli individui non basta: la biodiversità misura la varietà di specie, non la quantità totale.",
+				"La quantità di piante di una specie": "Una sola specie molto numerosa non è biodiversità: serve varietà, non abbondanza di un solo tipo.",
+				"La superficie occupata da un bosco": "L'estensione del territorio non misura la varietà di specie che lo abitano."
+			}
 		},
 		{
 			"id": "scienze-ambiente-1",
@@ -33,7 +38,12 @@
 				"Perché abbassano di molto la temperatura dell'aria"
 			],
 			"answer": "Perché assorbono anidride carbonica e liberano ossigeno",
-			"explanation": "Con la fotosintesi prendono CO₂ e restituiscono ossigeno: sono il polmone di ogni ecosistema terrestre."
+			"explanation": "Con la fotosintesi prendono CO₂ e restituiscono ossigeno: sono il polmone di ogni ecosistema terrestre.",
+			"distractorWhy": {
+				"Perché filtrano la pioggia prima che tocchi il suolo": "Questo effetto esiste, ma non è il motivo per cui gli alberi sono importanti per l'aria che respiriamo.",
+				"Perché abbassano di molto la temperatura dell'aria": "L'ombra rinfresca localmente, ma non è questo il ruolo chiave per l'aria che respiriamo.",
+				"Perché fermano il vento quando soffia troppo forte": "Il ruolo da frangivento non ha a che fare con la qualità dell'aria che respiriamo."
+			}
 		},
 		{
 			"id": "scienze-ambiente-2",
@@ -49,7 +59,12 @@
 				"Le altre specie diventano più numerose"
 			],
 			"answer": "Può cambiare l'equilibrio di molte altre specie",
-			"explanation": "Le specie sono collegate: togliere un predatore fa esplodere le sue prede, che a loro volta consumano più piante."
+			"explanation": "Le specie sono collegate: togliere un predatore fa esplodere le sue prede, che a loro volta consumano più piante.",
+			"distractorWhy": {
+				"Non cambia nulla per le altre specie": "Le specie sono collegate fra loro: la scomparsa di una ne influenza molte altre.",
+				"Le altre specie diventano più numerose": "Non tutte diventano più numerose: alcune, come le prede senza predatori naturali che le limitano, ma altre soffrono.",
+				"L'ambiente si ricostruisce in pochi giorni": "Il riequilibrio di un ecosistema richiede tempi molto più lunghi di pochi giorni."
+			}
 		},
 		{
 			"id": "scienze-ambiente-3",
@@ -65,7 +80,12 @@
 				"Perché impiega secoli a degradarsi"
 			],
 			"answer": "Perché impiega secoli a degradarsi",
-			"explanation": "Si spezza in pezzi sempre più piccoli senza sparire: le microplastiche entrano nella catena alimentare."
+			"explanation": "Si spezza in pezzi sempre più piccoli senza sparire: le microplastiche entrano nella catena alimentare.",
+			"distractorWhy": {
+				"Perché rende l'acqua più salata": "La plastica non altera la salinità dell'acqua: il problema è che non si degrada per secoli.",
+				"Perché fa aumentare la temperatura": "La plastica non riscalda l'acqua del mare: il problema è la sua persistenza nell'ambiente.",
+				"Perché toglie ossigeno ai pesci": "La plastica non sottrae ossigeno direttamente: il danno viene dalla sua permanenza e frammentazione."
+			}
 		},
 		{
 			"id": "scienze-ambiente-4",
@@ -81,7 +101,12 @@
 				"Una fonte che si trova sottoterra"
 			],
 			"answer": "Una fonte che si rigenera in tempi brevi",
-			"explanation": "Sole, vento e acqua si rinnovano di continuo; carbone e petrolio hanno impiegato milioni di anni a formarsi."
+			"explanation": "Sole, vento e acqua si rinnovano di continuo; carbone e petrolio hanno impiegato milioni di anni a formarsi.",
+			"distractorWhy": {
+				"Una fonte che non costa niente": "Le fonti rinnovabili hanno comunque un costo: la caratteristica chiave è che si rigenerano rapidamente.",
+				"Una fonte che non produce energia": "Una fonte rinnovabile produce energia eccome: la differenza è che si rigenera in tempi brevi.",
+				"Una fonte che si trova sottoterra": "Le fonti sottoterra come carbone e petrolio sono di solito fossili, cioè non rinnovabili."
+			}
 		},
 		{
 			"id": "scienze-ambiente-5",
@@ -97,7 +122,12 @@
 				"Il gas naturale"
 			],
 			"answer": "Il vento",
-			"explanation": "Il vento soffia di continuo e non si esaurisce; le altre tre sono riserve fossili che finiscono."
+			"explanation": "Il vento soffia di continuo e non si esaurisce; le altre tre sono riserve fossili che finiscono.",
+			"distractorWhy": {
+				"Il carbone": "Il carbone è un combustibile fossile: ha impiegato milioni di anni a formarsi e si esaurisce.",
+				"Il petrolio": "Il petrolio è un combustibile fossile: ha impiegato milioni di anni a formarsi e si esaurisce.",
+				"Il gas naturale": "Il gas naturale è un combustibile fossile: ha impiegato milioni di anni a formarsi e si esaurisce."
+			}
 		},
 		{
 			"id": "scienze-ambiente-6",
@@ -113,7 +143,12 @@
 				"Perché si producono meno rifiuti in totale"
 			],
 			"answer": "Perché il materiale riciclato sostituisce quello nuovo",
-			"explanation": "Una lattina riciclata risparmia l'alluminio che si sarebbe dovuto estrarre, e insieme l'energia per estrarlo."
+			"explanation": "Una lattina riciclata risparmia l'alluminio che si sarebbe dovuto estrarre, e insieme l'energia per estrarlo.",
+			"distractorWhy": {
+				"Perché i rifiuti pesano complessivamente meno": "Il peso dei rifiuti non cambia con la differenziazione: cambia il fatto che vengono riutilizzati invece di scartati.",
+				"Perché le discariche diventano più ordinate": "L'ordine delle discariche non è il punto: il risparmio sta nell'evitare di estrarre materiali nuovi.",
+				"Perché si producono meno rifiuti in totale": "Differenziare non riduce la quantità di rifiuti prodotti: permette di riutilizzarli invece di estrarne di nuovi."
+			}
 		},
 		{
 			"id": "scienze-ambiente-7",
@@ -129,7 +164,12 @@
 				"Alcuni gas trattengono il calore vicino alla Terra"
 			],
 			"answer": "Alcuni gas trattengono il calore vicino alla Terra",
-			"explanation": "Senza effetto serra la Terra sarebbe gelida: il problema nasce quando quei gas aumentano troppo e il calore trattenuto cresce."
+			"explanation": "Senza effetto serra la Terra sarebbe gelida: il problema nasce quando quei gas aumentano troppo e il calore trattenuto cresce.",
+			"distractorWhy": {
+				"Il Sole scalda di più in certe stagioni": "Le stagioni dipendono dall'inclinazione dell'asse terrestre, un fenomeno diverso dall'effetto serra.",
+				"Le serre agricole riscaldano l'atmosfera": "Le serre agricole sono una cosa diversa: l'effetto serra riguarda gas atmosferici, non serre reali.",
+				"L'aria si riscalda salendo verso l'alto": "In realtà l'aria si raffredda salendo di quota: non è questo il meccanismo dell'effetto serra."
+			}
 		},
 		{
 			"id": "scienze-ambiente-8",
@@ -145,7 +185,12 @@
 				"Perché il suolo si sposta con il vento"
 			],
 			"answer": "Perché il terreno fertile impiega secoli a formarsi",
-			"explanation": "Servono centinaia di anni per formare pochi centimetri di suolo fertile, e coprirlo di cemento lo rende irrecuperabile."
+			"explanation": "Servono centinaia di anni per formare pochi centimetri di suolo fertile, e coprirlo di cemento lo rende irrecuperabile.",
+			"distractorWhy": {
+				"Perché il terreno cementificato costa di più": "Il costo economico non è la preoccupazione scientifica principale: conta la perdita irreversibile di fertilità.",
+				"Perché le città diventano troppo affollate": "L'affollamento urbano è un problema diverso, non legato direttamente alla perdita di suolo fertile.",
+				"Perché il suolo si sposta con il vento": "L'erosione eolica è un fenomeno diverso dal consumo di suolo per cementificazione."
+			}
 		},
 		{
 			"id": "scienze-ambiente-9",
@@ -161,7 +206,12 @@
 				"Una specie che si sposta ogni anno"
 			],
 			"answer": "Una specie che rischia di sparire per sempre",
-			"explanation": "Estinzione significa che non ne resta più nessun individuo: è una perdita che non si può annullare."
+			"explanation": "Estinzione significa che non ne resta più nessun individuo: è una perdita che non si può annullare.",
+			"distractorWhy": {
+				"Una specie che vive in pochi luoghi": "Vivere in pochi luoghi può essere un fattore di rischio, ma non è la definizione di specie a rischio.",
+				"Una specie che si sposta ogni anno": "La migrazione stagionale non ha a che fare con il rischio di estinzione.",
+				"Una specie che si riproduce lentamente": "La riproduzione lenta può essere un fattore di rischio, ma non definisce da sola una specie a rischio."
+			}
 		},
 		{
 			"id": "scienze-ambiente-10",
@@ -177,7 +227,12 @@
 				"Perché è più pesante e densa dell'acqua salata"
 			],
 			"answer": "Perché è una piccolissima parte dell'acqua terrestre",
-			"explanation": "Quasi tutta l'acqua del pianeta è salata; di quella dolce, gran parte è ghiacciata: ne resta pochissima disponibile."
+			"explanation": "Quasi tutta l'acqua del pianeta è salata; di quella dolce, gran parte è ghiacciata: ne resta pochissima disponibile.",
+			"distractorWhy": {
+				"Perché è più pesante e densa dell'acqua salata": "È il contrario: l'acqua dolce è meno densa di quella salata, e comunque non è questo il motivo della sua preziosità.",
+				"Perché si trova soltanto dentro i ghiacciai polari": "Non si trova solo nei ghiacciai: c'è anche in fiumi, laghi e falde, ma la quantità totale resta piccola.",
+				"Perché evapora molto più lentamente di quella salata": "La velocità di evaporazione non è la ragione: è la scarsità della quantità totale disponibile."
+			}
 		},
 		{
 			"id": "scienze-ambiente-11",
@@ -193,7 +248,12 @@
 				"Una specie portata altrove che danneggia l'ambiente"
 			],
 			"answer": "Una specie portata altrove che danneggia l'ambiente",
-			"explanation": "Fuori dal suo ambiente d'origine può non avere predatori: si moltiplica senza freni e soffoca le specie locali."
+			"explanation": "Fuori dal suo ambiente d'origine può non avere predatori: si moltiplica senza freni e soffoca le specie locali.",
+			"distractorWhy": {
+				"Una specie che si riproduce molto in fretta": "La riproduzione rapida da sola non basta: serve che sia stata portata fuori dal suo ambiente originario e danneggi quello nuovo.",
+				"Una specie che caccia di notte in gruppo": "Il comportamento di caccia non definisce una specie invasiva: conta l'essere fuori dal proprio ambiente d'origine.",
+				"Una specie che vive in ambienti diversi": "Vivere in più ambienti non basta a renderla invasiva: serve che danneggi l'ecosistema in cui è stata introdotta."
+			}
 		},
 		{
 			"id": "scienze-metodo-12",
@@ -209,7 +269,12 @@
 				"Una conclusione già dimostrata"
 			],
 			"answer": "Una risposta possibile ancora da verificare",
-			"explanation": "L'ipotesi si formula prima dell'esperimento, e l'esperimento serve proprio a metterla alla prova."
+			"explanation": "L'ipotesi si formula prima dell'esperimento, e l'esperimento serve proprio a metterla alla prova.",
+			"distractorWhy": {
+				"Una conclusione già dimostrata": "Una conclusione dimostrata viene dopo l'esperimento: l'ipotesi viene prima, ancora da verificare.",
+				"Un'opinione personale del ricercatore": "Un'ipotesi scientifica deve poter essere verificata con dati, non essere una semplice opinione.",
+				"Una domanda a cui non si può rispondere": "Un'ipotesi deve essere verificabile: se non si può rispondere, non è un'ipotesi scientifica utile."
+			}
 		},
 		{
 			"id": "scienze-metodo-13",
@@ -225,7 +290,12 @@
 				"Per risparmiare materiale da laboratorio"
 			],
 			"answer": "Per sapere quale ha causato il risultato",
-			"explanation": "Se cambi tre cose insieme e qualcosa succede, non sai a quale delle tre attribuirlo."
+			"explanation": "Se cambi tre cose insieme e qualcosa succede, non sai a quale delle tre attribuirlo.",
+			"distractorWhy": {
+				"Per fare l'esperimento più in fretta": "Cambiare una sola variabile spesso richiede più prove, non meno tempo: il motivo è isolare la causa.",
+				"Per risparmiare materiale da laboratorio": "Il risparmio di materiale non è il motivo scientifico: è isolare quale fattore causa l'effetto.",
+				"Perché due variabili non si possono misurare": "Si possono misurare anche più variabili insieme: il problema è che non sapresti quale ha causato l'effetto."
+			}
 		},
 		{
 			"id": "scienze-metodo-14",
@@ -241,7 +311,12 @@
 				"A verificare i calcoli fatti alla fine"
 			],
 			"answer": "A confrontare con ciò che accade senza intervento",
-			"explanation": "Senza un termine di paragone non sai se il cambiamento sarebbe avvenuto comunque."
+			"explanation": "Senza un termine di paragone non sai se il cambiamento sarebbe avvenuto comunque.",
+			"distractorWhy": {
+				"A ripetere lo stesso esperimento due volte": "Il gruppo di controllo non è una ripetizione identica: è un confronto senza l'intervento studiato.",
+				"A misurare gli strumenti prima dell'uso": "Calibrare gli strumenti è un'altra pratica: il gruppo di controllo serve al confronto dei risultati.",
+				"A verificare i calcoli fatti alla fine": "Il gruppo di controllo non riguarda i calcoli: fornisce un termine di paragone durante l'esperimento."
+			}
 		},
 		{
 			"id": "scienze-metodo-15",
@@ -257,7 +332,12 @@
 				"Perché un risultato singolo può essere un caso"
 			],
 			"answer": "Perché un risultato singolo può essere un caso",
-			"explanation": "La ripetizione distingue un effetto reale da una coincidenza: se succede una volta sola, non prova niente."
+			"explanation": "La ripetizione distingue un effetto reale da una coincidenza: se succede una volta sola, non prova niente.",
+			"distractorWhy": {
+				"Perché la prima volta si sbaglia sempre": "Non è detto che la prima prova sia sbagliata: il punto è escludere che sia stata una coincidenza.",
+				"Perché così si consuma meno materiale": "Ripetere l'esperimento consuma più materiale, non meno: il motivo è la validità statistica del risultato.",
+				"Perché lo richiedono i regolamenti": "Non è una questione burocratica: è un principio del metodo scientifico stesso."
+			}
 		},
 		{
 			"id": "scienze-metodo-16",
@@ -273,7 +353,12 @@
 				"Difficile ma comunque verificabile"
 			],
 			"answer": "Inutile dal punto di vista scientifico",
-			"explanation": "Se nessun risultato possibile potrebbe contraddirla, l'esperimento non aggiunge nulla: non è un'ipotesi scientifica."
+			"explanation": "Se nessun risultato possibile potrebbe contraddirla, l'esperimento non aggiunge nulla: non è un'ipotesi scientifica.",
+			"distractorWhy": {
+				"La più solida di tutte le ipotesi": "Al contrario: se non si può mai smentire, non è verificabile e quindi non è scientificamente utile.",
+				"Vera fino a prova contraria": "Un'ipotesi non falsificabile non può nemmeno avere una «prova contraria»: per questo è inutile.",
+				"Difficile ma comunque verificabile": "Se non si può smentire in nessun modo, non è verificabile: è proprio questo il problema."
+			}
 		},
 		{
 			"id": "scienze-metodo-17",
@@ -289,7 +374,12 @@
 				"Non c'è differenza fra le due cose"
 			],
 			"answer": "L'osservazione registra, l'interpretazione spiega",
-			"explanation": "«La pianta è gialla» è un'osservazione; «le manca acqua» è un'interpretazione, e va verificata."
+			"explanation": "«La pianta è gialla» è un'osservazione; «le manca acqua» è un'interpretazione, e va verificata.",
+			"distractorWhy": {
+				"L'osservazione è più lenta da eseguire": "La velocità non è ciò che distingue le due cose: conta il fatto che una registra e l'altra spiega.",
+				"L'interpretazione si fa con gli strumenti": "Gli strumenti servono per l'osservazione: l'interpretazione è un ragionamento successivo, non richiede strumenti.",
+				"Non c'è differenza fra le due cose": "Sono passaggi diversi: registrare un fatto e spiegarne la causa sono operazioni distinte."
+			}
 		},
 		{
 			"id": "scienze-metodo-18",
@@ -305,7 +395,12 @@
 				"Perché lo impongono le università"
 			],
 			"answer": "Perché altri possano ripetere e controllare",
-			"explanation": "Un risultato che nessuno può verificare non entra nella conoscenza condivisa: la controllabilità è il cuore del metodo."
+			"explanation": "Un risultato che nessuno può verificare non entra nella conoscenza condivisa: la controllabilità è il cuore del metodo.",
+			"distractorWhy": {
+				"Perché così diventano più famosi": "La fama personale non è il motivo scientifico: è permettere ad altri di verificare il lavoro.",
+				"Perché lo impongono le università": "Non è solo una regola istituzionale: è un principio fondamentale del metodo scientifico.",
+				"Perché i dati occupano troppo spazio": "Lo spazio occupato non c'entra: la pubblicazione serve alla verificabilità, non a liberare spazio."
+			}
 		},
 		{
 			"id": "scienze-metodo-19",
@@ -321,7 +416,12 @@
 				"Un fattore che può cambiare e influenzare il risultato"
 			],
 			"answer": "Un fattore che può cambiare e influenzare il risultato",
-			"explanation": "Luce, acqua, temperatura: sono variabili. Sapere quali controllare è metà del lavoro."
+			"explanation": "Luce, acqua, temperatura: sono variabili. Sapere quali controllare è metà del lavoro.",
+			"distractorWhy": {
+				"Un errore commesso durante una misurazione": "Una variabile non è un errore: è un fattore che si può controllare o modificare intenzionalmente.",
+				"Uno strumento che si usa dentro il laboratorio": "Una variabile non è uno strumento: è un fattore che può influenzare l'esperimento.",
+				"Un risultato che cambia a ogni ripetizione": "Il risultato è ciò che si osserva alla fine: la variabile è il fattore che si modifica in ingresso."
+			}
 		},
 		{
 			"id": "scienze-metodo-20",
@@ -337,7 +437,12 @@
 				"Niente: l'esperimento è tutto da rifare"
 			],
 			"answer": "Che quell'ipotesi non funziona, ed è un risultato",
-			"explanation": "Escludere una spiegazione restringe il campo: è progresso, anche se non è la risposta che si sperava."
+			"explanation": "Escludere una spiegazione restringe il campo: è progresso, anche se non è la risposta che si sperava.",
+			"distractorWhy": {
+				"Niente: l'esperimento è tutto da rifare": "Smentire un'ipotesi è comunque un risultato utile: non significa che l'esperimento sia stato inutile.",
+				"Che gli strumenti usati erano sbagliati": "Non c'è motivo di presumere che gli strumenti siano difettosi solo perché l'ipotesi è stata smentita.",
+				"Che la domanda di partenza era mal posta": "Una domanda può essere ben posta anche se la risposta attesa risulta sbagliata: è comunque progresso."
+			}
 		},
 		{
 			"id": "scienze-metodo-21",
@@ -353,7 +458,12 @@
 				"Perché una misura sola non è mai leggibile"
 			],
 			"answer": "Perché più misure riducono l'effetto degli errori",
-			"explanation": "Ogni misura porta un piccolo errore casuale: mediando molte misure gli errori tendono a compensarsi."
+			"explanation": "Ogni misura porta un piccolo errore casuale: mediando molte misure gli errori tendono a compensarsi.",
+			"distractorWhy": {
+				"Perché uno studente misura più lentamente": "La velocità di misurazione non è il punto: conta la riduzione statistica degli errori con più misure.",
+				"Perché servono dieci strumenti diversi": "Non servono strumenti diversi: si può usare lo stesso strumento più volte per ridurre l'errore casuale.",
+				"Perché una misura sola non è mai leggibile": "Una misura singola è leggibile: il problema è che porta con sé un errore che tante misure aiutano a compensare."
+			}
 		},
 		{
 			"id": "scienze-ecosistema-22",
@@ -369,7 +479,12 @@
 				"Il gruppo di animali di una stessa specie"
 			],
 			"answer": "L'insieme dei viventi e dell'ambiente in cui stanno",
-			"explanation": "Comprende sia gli esseri viventi sia l'acqua, il suolo, il clima: tutto ciò che interagisce in quel luogo."
+			"explanation": "Comprende sia gli esseri viventi sia l'acqua, il suolo, il clima: tutto ciò che interagisce in quel luogo.",
+			"distractorWhy": {
+				"Il gruppo di animali di una stessa specie": "Una singola specie non basta: l'ecosistema comprende tutti i viventi e l'ambiente insieme.",
+				"La zona protetta di un parco naturale": "Un ecosistema non richiede protezione legale: è un concetto biologico, presente ovunque ci sia vita.",
+				"L'insieme delle piante di una regione": "Le sole piante non bastano: l'ecosistema comprende tutti i viventi e l'ambiente fisico."
+			}
 		},
 		{
 			"id": "scienze-ecosistema-23",
@@ -385,7 +500,12 @@
 				"Le piante, che si fabbricano il nutrimento"
 			],
 			"answer": "Le piante, che si fabbricano il nutrimento",
-			"explanation": "I produttori usano la luce del Sole per costruire sostanze nutritive: tutta l'energia della catena comincia da loro."
+			"explanation": "I produttori usano la luce del Sole per costruire sostanze nutritive: tutta l'energia della catena comincia da loro.",
+			"distractorWhy": {
+				"Gli animali che cacciano le prede": "Quelli sono i predatori/consumatori, che dipendono dal cibo prodotto da altri, non i produttori.",
+				"I funghi che decompongono i resti": "Quelli sono i decompositori, che chiudono il ciclo, non i produttori che lo aprono.",
+				"Gli animali che mangiano le piante": "Quelli sono gli erbivori, consumatori primari: dipendono dalle piante, non producono il proprio nutrimento."
+			}
 		},
 		{
 			"id": "scienze-ecosistema-24",
@@ -401,7 +521,12 @@
 				"Producono nutrimento con la luce"
 			],
 			"answer": "Trasformano i resti in sostanze riutilizzabili",
-			"explanation": "Funghi e batteri chiudono il ciclo: senza di loro le sostanze resterebbero bloccate nei resti e il suolo si esaurirebbe."
+			"explanation": "Funghi e batteri chiudono il ciclo: senza di loro le sostanze resterebbero bloccate nei resti e il suolo si esaurirebbe.",
+			"distractorWhy": {
+				"Cacciano gli animali più deboli": "Quello è il ruolo dei predatori, non dei decompositori, che si nutrono di resti già morti.",
+				"Producono nutrimento con la luce": "Quello è il ruolo dei produttori (piante), non dei decompositori.",
+				"Trasportano i semi da un luogo all'altro": "Quello è il ruolo di alcuni animali impollinatori o dispersori di semi, non dei decompositori."
+			}
 		},
 		{
 			"id": "scienze-ecosistema-25",
@@ -417,7 +542,12 @@
 				"Perché i predatori vivono più a lungo"
 			],
 			"answer": "Perché a ogni passaggio si perde molta energia",
-			"explanation": "Solo una piccola parte dell'energia passa da un anello all'altro: in cima ne resta poca, e sostiene pochi individui."
+			"explanation": "Solo una piccola parte dell'energia passa da un anello all'altro: in cima ne resta poca, e sostiene pochi individui.",
+			"distractorWhy": {
+				"Perché i predatori sono animali più grandi": "La dimensione non è la causa diretta: è la perdita di energia a ogni passaggio a limitare il numero di predatori.",
+				"Perché le prede si riproducono in fretta": "La velocità di riproduzione delle prede non spiega perché ce ne siano più dei predatori: conta la perdita di energia lungo la catena.",
+				"Perché i predatori vivono più a lungo": "La durata della vita non determina il numero di individui: conta l'energia disponibile a ogni livello."
+			}
 		},
 		{
 			"id": "scienze-ecosistema-26",
@@ -433,7 +563,12 @@
 				"Il percorso che il cibo fa nel corpo"
 			],
 			"answer": "Più catene alimentari collegate fra loro",
-			"explanation": "Nella realtà un animale mangia più cose e viene mangiato da più predatori: le catene si intrecciano in una rete."
+			"explanation": "Nella realtà un animale mangia più cose e viene mangiato da più predatori: le catene si intrecciano in una rete.",
+			"distractorWhy": {
+				"Una catena alimentare molto lunga": "Non è una questione di lunghezza: la rete è fatta di più catene intrecciate fra loro.",
+				"L'insieme dei soli animali carnivori": "La rete alimentare comprende tutti i livelli, non solo i carnivori.",
+				"Il percorso che il cibo fa nel corpo": "Quello è un processo digestivo interno, non la relazione fra specie di un ecosistema."
+			}
 		},
 		{
 			"id": "scienze-ecosistema-27",
@@ -449,7 +584,12 @@
 				"Una convivenza stretta fra due specie diverse"
 			],
 			"answer": "Una convivenza stretta fra due specie diverse",
-			"explanation": "Può giovare a entrambi, come per le api e i fiori, oppure a uno solo: l'importante è che la convivenza sia stabile."
+			"explanation": "Può giovare a entrambi, come per le api e i fiori, oppure a uno solo: l'importante è che la convivenza sia stabile.",
+			"distractorWhy": {
+				"La competizione fra due specie simili": "La competizione è l'opposto della simbiosi: qui le specie si contendono le stesse risorse, non convivono stabilmente.",
+				"La caccia praticata in gruppo": "La caccia di gruppo riguarda una sola specie che collabora, non una convivenza stretta fra due specie diverse.",
+				"La migrazione stagionale di una specie": "La migrazione è lo spostamento di una specie, non una relazione stretta fra due specie diverse."
+			}
 		},
 		{
 			"id": "scienze-ecosistema-28",
@@ -465,7 +605,12 @@
 				"Il periodo dell'anno in cui si riproduce"
 			],
 			"answer": "Il luogo con le condizioni adatte a viverci",
-			"explanation": "È l'indirizzo di casa: temperatura, cibo e riparo devono essere quelli che quella specie tollera."
+			"explanation": "È l'indirizzo di casa: temperatura, cibo e riparo devono essere quelli che quella specie tollera.",
+			"distractorWhy": {
+				"Il territorio che difende dai rivali": "Il territorio difeso è un concetto diverso e più specifico: l'habitat è il luogo con le condizioni adatte in generale.",
+				"Il periodo dell'anno in cui si riproduce": "Quello è un momento temporale, non un luogo: l'habitat è una questione di spazio, non di tempo.",
+				"Il gruppo con cui si sposta di solito": "Il gruppo sociale non è l'habitat: l'habitat è il luogo fisico con le condizioni adatte."
+			}
 		},
 		{
 			"id": "scienze-ecosistema-29",
@@ -481,7 +626,12 @@
 				"Perché si accoppiano fra specie diverse"
 			],
 			"answer": "Perché competono e una prevale sull'altra",
-			"explanation": "Se la risorsa è la stessa e limitata, la specie che la sfrutta meglio finisce per escludere l'altra, o la costringe a cambiare abitudini."
+			"explanation": "Se la risorsa è la stessa e limitata, la specie che la sfrutta meglio finisce per escludere l'altra, o la costringe a cambiare abitudini.",
+			"distractorWhy": {
+				"Perché non riescono a comunicare fra loro": "La comunicazione fra specie non è il punto: è la competizione per la stessa risorsa limitata.",
+				"Perché si accoppiano fra specie diverse": "Specie diverse di solito non si accoppiano fra loro: il problema è la competizione per il cibo.",
+				"Perché consumano l'ambiente troppo in fretta": "Non è la velocità di consumo in sé: è la competizione diretta per la stessa risorsa a determinare chi prevale."
+			}
 		},
 		{
 			"id": "scienze-ecosistema-30",
@@ -497,7 +647,12 @@
 				"Onnivoro"
 			],
 			"answer": "Erbivoro",
-			"explanation": "Erbivoro mangia vegetali, carnivoro carne, onnivoro entrambi. I decompositori si nutrono di resti."
+			"explanation": "Erbivoro mangia vegetali, carnivoro carne, onnivoro entrambi. I decompositori si nutrono di resti.",
+			"distractorWhy": {
+				"Carnivoro": "Il carnivoro mangia carne, non piante: è l'opposto dell'erbivoro.",
+				"Onnivoro": "L'onnivoro mangia sia piante sia carne, non solo piante come l'erbivoro.",
+				"Decompositore": "Il decompositore si nutre di resti organici in decomposizione, non semplicemente di piante vive."
+			}
 		},
 		{
 			"id": "scienze-ecosistema-31",
@@ -524,7 +679,12 @@
 				"L'energia non si crea né si distrugge, si trasforma"
 			],
 			"answer": "L'energia non si crea né si distrugge, si trasforma",
-			"explanation": "Cambia forma continuamente — movimento, calore, luce — ma la quantità totale resta la stessa."
+			"explanation": "Cambia forma continuamente — movimento, calore, luce — ma la quantità totale resta la stessa.",
+			"distractorWhy": {
+				"L'energia diminuisce un poco a ogni passaggio": "L'energia totale non diminuisce mai: si trasforma in altre forme, come il calore.",
+				"L'energia si può creare usando certe macchine": "Nessuna macchina crea energia dal nulla: può solo trasformarla da una forma a un'altra.",
+				"L'energia si conserva soltanto alle basse temperature": "Il principio di conservazione vale a qualsiasi temperatura, non solo a quelle basse."
+			}
 		},
 		{
 			"id": "scienze-energia-33",
@@ -540,7 +700,12 @@
 				"Solo luce, senza altro"
 			],
 			"answer": "Luce e calore",
-			"explanation": "Nessuna trasformazione è perfetta: una parte dell'energia finisce sempre in calore, anche quando non serve."
+			"explanation": "Nessuna trasformazione è perfetta: una parte dell'energia finisce sempre in calore, anche quando non serve.",
+			"distractorWhy": {
+				"Solo luce, senza altro": "Nessuna trasformazione è perfetta: una parte dell'energia diventa sempre calore, non solo luce.",
+				"Solo calore, senza luce": "Una lampadina produce anche luce, il suo scopo principale, non solo calore.",
+				"Movimento e suono": "Una lampadina non produce movimento né suono: produce luce e, come sottoprodotto, calore."
+			}
 		},
 		{
 			"id": "scienze-energia-34",
@@ -556,7 +721,12 @@
 				"L'energia che si produce con il calore"
 			],
 			"answer": "L'energia che un corpo ha per la sua posizione",
-			"explanation": "Un sasso in cima a una collina ha energia proprio perché sta in alto: appena può, la trasforma in movimento."
+			"explanation": "Un sasso in cima a una collina ha energia proprio perché sta in alto: appena può, la trasforma in movimento.",
+			"distractorWhy": {
+				"L'energia che un corpo ha per il movimento": "Quella è l'energia cinetica, non quella potenziale legata alla posizione.",
+				"L'energia che si produce con il calore": "Il calore è un'altra forma di energia, non ciò che definisce l'energia potenziale.",
+				"L'energia che un corpo può ancora creare": "Un corpo non crea energia: l'energia potenziale è quella già immagazzinata per via della posizione."
+			}
 		},
 		{
 			"id": "scienze-energia-35",
@@ -572,7 +742,12 @@
 				"Dal movimento delle maree"
 			],
 			"answer": "Dal Sole, direttamente o indirettamente",
-			"explanation": "Il vento nasce dal Sole che scalda l'aria; il petrolio da piante antiche cresciute grazie al Sole. Perfino il cibo."
+			"explanation": "Il vento nasce dal Sole che scalda l'aria; il petrolio da piante antiche cresciute grazie al Sole. Perfino il cibo.",
+			"distractorWhy": {
+				"Dal calore interno del pianeta": "Il calore geotermico esiste, ma è una fonte minoritaria rispetto all'energia solare, diretta o indiretta.",
+				"Dal movimento delle maree": "Le maree sono generate dalla Luna e dal Sole, ma sono una fonte minoritaria rispetto all'energia solare totale.",
+				"Dalle centrali costruite dall'uomo": "Le centrali trasformano energia già esistente (spesso di origine solare): non la creano."
+			}
 		},
 		{
 			"id": "scienze-energia-36",
@@ -588,7 +763,12 @@
 				"Perché parte dell'energia si disperde in calore"
 			],
 			"answer": "Perché parte dell'energia si disperde in calore",
-			"explanation": "Attriti e resistenze trasformano energia utile in calore disperso: non torna indietro, e la macchina si ferma."
+			"explanation": "Attriti e resistenze trasformano energia utile in calore disperso: non torna indietro, e la macchina si ferma.",
+			"distractorWhy": {
+				"Perché i materiali si consumano subito": "L'usura dei materiali è un fattore separato: il problema fisico di fondo è la dispersione di energia in calore.",
+				"Perché manca sempre qualcuno che la accenda": "Una volta avviata, una macchina si fermerebbe comunque per la dispersione di energia, non per mancanza di un operatore.",
+				"Perché l'energia si crea troppo lentamente": "L'energia non si crea affatto: il problema è che si disperde, non che venga creata lentamente."
+			}
 		},
 		{
 			"id": "scienze-energia-37",
@@ -604,7 +784,12 @@
 				"L'energia contenuta negli alimenti"
 			],
 			"answer": "L'energia che ha un corpo perché si muove",
-			"explanation": "Più un corpo è veloce e pesante, più energia cinetica ha: è per questo che un'auto veloce frena in più spazio."
+			"explanation": "Più un corpo è veloce e pesante, più energia cinetica ha: è per questo che un'auto veloce frena in più spazio.",
+			"distractorWhy": {
+				"L'energia che ha un corpo perché è in alto": "Quella è l'energia potenziale, legata alla posizione, non al movimento.",
+				"L'energia che un corpo emette come calore": "Il calore è un'altra forma di energia, distinta da quella cinetica legata al movimento.",
+				"L'energia contenuta negli alimenti": "Quella è energia chimica, immagazzinata nei legami molecolari, non energia cinetica."
+			}
 		},
 		{
 			"id": "scienze-energia-38",
@@ -620,7 +805,12 @@
 				"Il movimento diventa energia chimica"
 			],
 			"answer": "L'acqua in alto diventa acqua in movimento",
-			"explanation": "L'acqua cade e acquista velocità, poi fa girare la turbina, e solo alla fine l'alternatore produce elettricità."
+			"explanation": "L'acqua cade e acquista velocità, poi fa girare la turbina, e solo alla fine l'alternatore produce elettricità.",
+			"distractorWhy": {
+				"L'acqua diventa direttamente elettricità": "Non c'è una trasformazione diretta: prima l'acqua cade e si muove, poi fa girare la turbina, solo alla fine si produce elettricità.",
+				"Il calore dell'acqua diventa movimento": "Non è il calore dell'acqua a produrre movimento: è la caduta dovuta alla gravità.",
+				"Il movimento diventa energia chimica": "L'energia meccanica diventa elettrica tramite l'alternatore, non energia chimica."
+			}
 		},
 		{
 			"id": "scienze-energia-39",
@@ -636,7 +826,12 @@
 				"Energia luminosa"
 			],
 			"answer": "Energia chimica",
-			"explanation": "È immagazzinata nei legami fra le molecole: il corpo li spezza e ne ricava movimento e calore."
+			"explanation": "È immagazzinata nei legami fra le molecole: il corpo li spezza e ne ricava movimento e calore.",
+			"distractorWhy": {
+				"Energia cinetica": "L'energia cinetica è legata al movimento: il cibo fermo non ne ha, ma contiene energia chimica immagazzinata.",
+				"Energia elettrica": "Il cibo non contiene elettricità: contiene energia chimica nei legami molecolari.",
+				"Energia luminosa": "Il cibo non emette luce: la sua energia è chimica, immagazzinata nei legami molecolari."
+			}
 		},
 		{
 			"id": "scienze-energia-40",
@@ -652,7 +847,12 @@
 				"Perché parte dell'energia si disperde a ogni urto"
 			],
 			"answer": "Perché parte dell'energia si disperde a ogni urto",
-			"explanation": "A ogni rimbalzo un po' di energia diventa calore e suono: quella che resta non basta a risalire fino in cima."
+			"explanation": "A ogni rimbalzo un po' di energia diventa calore e suono: quella che resta non basta a risalire fino in cima.",
+			"distractorWhy": {
+				"Perché la gravità aumenta a ogni rimbalzo": "La gravità resta costante: non aumenta con i rimbalzi.",
+				"Perché la pallina diventa più leggera": "Il peso della pallina non cambia con i rimbalzi: cambia solo l'energia disponibile, che si disperde.",
+				"Perché l'aria la spinge verso il basso": "L'aria non spinge sistematicamente verso il basso: la vera causa è la dispersione di energia a ogni urto."
+			}
 		},
 		{
 			"id": "scienze-energia-41",
@@ -690,7 +890,12 @@
 				"Il movimento della Terra attorno al Sole"
 			],
 			"answer": "La rotazione della Terra su sé stessa",
-			"explanation": "Il Sole non si sposta: siamo noi a girare, e ogni punto passa alternativamente in luce e in ombra."
+			"explanation": "Il Sole non si sposta: siamo noi a girare, e ogni punto passa alternativamente in luce e in ombra.",
+			"distractorWhy": {
+				"Il movimento della Terra attorno al Sole": "Quello (la rivoluzione) determina l'anno e le stagioni, non l'alternanza di giorno e notte.",
+				"Lo spostamento della Luna nel cielo": "La Luna non causa il giorno e la notte: è la rotazione terrestre a farlo.",
+				"L'inclinazione dell'asse terrestre": "L'inclinazione causa le stagioni, non l'alternanza quotidiana di giorno e notte."
+			}
 		},
 		{
 			"id": "scienze-terra-universo-44",
@@ -706,7 +911,12 @@
 				"Il passaggio della Luna davanti al Sole"
 			],
 			"answer": "L'inclinazione dell'asse terrestre",
-			"explanation": "L'asse inclinato fa arrivare i raggi più o meno obliqui secondo il periodo: non è la distanza dal Sole a decidere."
+			"explanation": "L'asse inclinato fa arrivare i raggi più o meno obliqui secondo il periodo: non è la distanza dal Sole a decidere.",
+			"distractorWhy": {
+				"La distanza variabile dal Sole": "La distanza dal Sole cambia poco durante l'anno: sono l'inclinazione dell'asse a determinare le stagioni.",
+				"La rotazione della Terra su sé stessa": "Quella causa il giorno e la notte, non le stagioni.",
+				"Il passaggio della Luna davanti al Sole": "Quello causerebbe un'eclissi, un evento raro, non il ciclo regolare delle stagioni."
+			}
 		},
 		{
 			"id": "scienze-terra-universo-45",
@@ -722,7 +932,12 @@
 				"Perché la Luna cambia davvero forma"
 			],
 			"answer": "Perché ne vediamo illuminata una parte diversa",
-			"explanation": "La Luna è sempre una sfera per metà illuminata: cambia solo quanta di quella metà è rivolta verso di noi."
+			"explanation": "La Luna è sempre una sfera per metà illuminata: cambia solo quanta di quella metà è rivolta verso di noi.",
+			"distractorWhy": {
+				"Perché la Luna cambia davvero forma": "La Luna resta sempre una sfera: cambia solo quanta parte illuminata vediamo da Terra.",
+				"Perché a volte è coperta dalle nuvole": "Le nuvole terrestri non causano le fasi lunari regolari: dipende dalla posizione relativa Sole-Terra-Luna.",
+				"Perché si allontana e si avvicina": "La distanza della Luna varia poco e non è la causa delle fasi: conta quale parte illuminata vediamo."
+			}
 		},
 		{
 			"id": "scienze-terra-universo-46",
@@ -738,7 +953,12 @@
 				"Un enorme insieme di stelle, gas e polveri"
 			],
 			"answer": "Un enorme insieme di stelle, gas e polveri",
-			"explanation": "La nostra si chiama Via Lattea e contiene centinaia di miliardi di stelle: il Sole è una di quelle."
+			"explanation": "La nostra si chiama Via Lattea e contiene centinaia di miliardi di stelle: il Sole è una di quelle.",
+			"distractorWhy": {
+				"Un gruppo di pianeti attorno a una stella": "Quello è un sistema solare/planetario, molto più piccolo di una galassia che contiene miliardi di stelle.",
+				"Una stella molto più grande delle altre": "Una galassia non è una singola stella: è un insieme enorme di miliardi di stelle.",
+				"Lo spazio vuoto fra due sistemi solari": "Una galassia non è vuoto: è piena di stelle, gas e polveri."
+			}
 		},
 		{
 			"id": "scienze-terra-universo-47",
@@ -754,7 +974,12 @@
 				"Perché la Terra le nasconde con l'ombra"
 			],
 			"answer": "Perché la luce del Sole diffusa nell'aria le copre",
-			"explanation": "Le stelle ci sono anche di giorno: è l'atmosfera illuminata a diventare troppo luminosa perché si vedano."
+			"explanation": "Le stelle ci sono anche di giorno: è l'atmosfera illuminata a diventare troppo luminosa perché si vedano.",
+			"distractorWhy": {
+				"Perché le stelle si spengono di giorno": "Le stelle non si spengono: continuano a brillare, ma la luce diffusa del Sole le sovrasta.",
+				"Perché si spostano dietro il Sole": "Le stelle non si spostano dietro il Sole ogni giorno: restano nella stessa posizione relativa nel cielo.",
+				"Perché la Terra le nasconde con l'ombra": "L'ombra della Terra copre la Luna in un'eclissi, ma non nasconde le stelle di giorno: è la luce solare diffusa a farlo."
+			}
 		},
 		{
 			"id": "scienze-terra-universo-48",
@@ -770,7 +995,12 @@
 				"Venere"
 			],
 			"answer": "Mercurio",
-			"explanation": "L'ordine è Mercurio, Venere, Terra, Marte: Mercurio è il primo e compie il giro più breve."
+			"explanation": "L'ordine è Mercurio, Venere, Terra, Marte: Mercurio è il primo e compie il giro più breve.",
+			"distractorWhy": {
+				"Venere": "Venere è il secondo pianeta dal Sole, dopo Mercurio.",
+				"Nettuno": "Nettuno è l'ultimo pianeta, il più lontano dal Sole, non il più vicino.",
+				"Saturno": "Saturno è molto più lontano dal Sole di Mercurio."
+			}
 		},
 		{
 			"id": "scienze-terra-universo-49",
@@ -786,7 +1016,12 @@
 				"Una nube molto densa copre il Sole per un istante"
 			],
 			"answer": "La Luna si mette fra la Terra e il Sole",
-			"explanation": "L'ombra della Luna cade sulla Terra: dove passa, il Sole appare coperto. Nell'eclissi di Luna è la Terra a fare ombra."
+			"explanation": "L'ombra della Luna cade sulla Terra: dove passa, il Sole appare coperto. Nell'eclissi di Luna è la Terra a fare ombra.",
+			"distractorWhy": {
+				"L'ombra della Terra cade sopra la Luna piena": "Quella è l'eclissi di Luna, non di Sole: nell'eclissi di Sole è la Luna a fare ombra sulla Terra.",
+				"Il Sole si spegne del tutto per qualche minuto": "Il Sole non si spegne mai: appare coperto perché la Luna si frappone, ma continua a brillare.",
+				"Una nube molto densa copre il Sole per un istante": "Non è una nube atmosferica: è la Luna stessa a bloccare la vista del Sole."
+			}
 		},
 		{
 			"id": "scienze-terra-universo-50",
@@ -813,7 +1048,12 @@
 				"Solido"
 			],
 			"answer": "Solido",
-			"explanation": "Il solido tiene la sua forma; il liquido prende quella del recipiente; il gas riempie tutto lo spazio disponibile."
+			"explanation": "Il solido tiene la sua forma; il liquido prende quella del recipiente; il gas riempie tutto lo spazio disponibile.",
+			"distractorWhy": {
+				"Liquido": "Il liquido ha volume proprio ma non forma propria: prende quella del recipiente.",
+				"Gassoso": "Il gas non ha né forma né volume propri: riempie tutto lo spazio disponibile.",
+				"Nessuno dei tre": "Il solido ha proprio entrambe le caratteristiche: forma e volume propri."
+			}
 		},
 		{
 			"id": "scienze-materia-52",
@@ -829,7 +1069,12 @@
 				"Condensazione"
 			],
 			"answer": "Evaporazione",
-			"explanation": "La condensazione fa il contrario; la fusione è da solido a liquido."
+			"explanation": "La condensazione fa il contrario; la fusione è da solido a liquido.",
+			"distractorWhy": {
+				"Condensazione": "La condensazione è il passaggio contrario, da gas a liquido.",
+				"Solidificazione": "La solidificazione è il passaggio da liquido a solido, non a gas.",
+				"Fusione": "La fusione è il passaggio da solido a liquido, non da liquido a gas."
+			}
 		},
 		{
 			"id": "scienze-materia-53",
@@ -845,7 +1090,12 @@
 				"Diventano più grandi e pesanti"
 			],
 			"answer": "Si muovono di più e perdono la posizione fissa",
-			"explanation": "Il calore aumenta il movimento: superata una certa soglia le particelle non restano più al loro posto e il solido diventa liquido."
+			"explanation": "Il calore aumenta il movimento: superata una certa soglia le particelle non restano più al loro posto e il solido diventa liquido.",
+			"distractorWhy": {
+				"Diventano più grandi e pesanti": "Le particelle non cambiano dimensione o peso: cambia solo il loro movimento.",
+				"Si moltiplicano formando altra materia": "Il numero di particelle resta lo stesso: cambia solo come si muovono e si dispongono.",
+				"Si fermano completamente sul posto": "È il contrario: il calore aumenta il movimento delle particelle, non lo ferma."
+			}
 		},
 		{
 			"id": "scienze-materia-54",
@@ -861,7 +1111,12 @@
 				"Una sostanza pura molto fine"
 			],
 			"answer": "Più sostanze mescolate ma non combinate",
-			"explanation": "Nel miscuglio le sostanze restano quelle di prima e spesso si possono separare: sabbia e sale, per esempio."
+			"explanation": "Nel miscuglio le sostanze restano quelle di prima e spesso si possono separare: sabbia e sale, per esempio.",
+			"distractorWhy": {
+				"Una sostanza pura molto fine": "Un miscuglio contiene più sostanze diverse, non una sola sostanza pura.",
+				"Due sostanze legate chimicamente": "Nel miscuglio le sostanze non si legano chimicamente: restano distinte e separabili.",
+				"Un liquido che contiene solo acqua": "Un miscuglio può non contenere affatto acqua: è la combinazione di più sostanze in generale."
+			}
 		},
 		{
 			"id": "scienze-materia-55",
@@ -877,7 +1132,12 @@
 				"Perché le molecole si dispongono più distanziate"
 			],
 			"answer": "Perché le molecole si dispongono più distanziate",
-			"explanation": "Congelandosi le molecole formano una struttura ordinata e più aperta: stessa materia, più volume. Per questo il ghiaccio galleggia."
+			"explanation": "Congelandosi le molecole formano una struttura ordinata e più aperta: stessa materia, più volume. Per questo il ghiaccio galleggia.",
+			"distractorWhy": {
+				"Perché il freddo aggiunge nuova materia": "Il freddo non aggiunge materia: la quantità di acqua resta la stessa, cambia solo la disposizione delle molecole.",
+				"Perché il ghiaccio pesa più dell'acqua": "Il ghiaccio non pesa di più: a parità di massa occupa più spazio, quindi è meno denso, non più pesante.",
+				"Perché entra aria fra le molecole": "Non è aria a entrare: è la struttura cristallina del ghiaccio a distanziare di più le molecole d'acqua stesse."
+			}
 		},
 		{
 			"id": "scienze-materia-56",
@@ -893,7 +1153,12 @@
 				"Filtrando con un panno fitto"
 			],
 			"answer": "Facendo evaporare l'acqua",
-			"explanation": "Il sale è sciolto, quindi il filtro non lo trattiene: bisogna far andare via l'acqua e lasciarlo depositato."
+			"explanation": "Il sale è sciolto, quindi il filtro non lo trattiene: bisogna far andare via l'acqua e lasciarlo depositato.",
+			"distractorWhy": {
+				"Filtrando con un panno fitto": "Il sale è disciolto a livello molecolare: nessun filtro, per quanto fitto, può trattenerlo.",
+				"Raffreddando fino a congelare": "Congelare non separa efficacemente il sale: resta comunque disciolto nel ghiaccio formato.",
+				"Mescolando molto energicamente": "Mescolare non separa le sostanze: anzi, aiuta il sale a sciogliersi ancora meglio."
+			}
 		},
 		{
 			"id": "scienze-materia-57",
@@ -909,7 +1174,12 @@
 				"Quanto è duro un materiale al tatto"
 			],
 			"answer": "Quanta massa c'è in un certo volume",
-			"explanation": "Un chilo di piombo e uno di piume pesano uguale, ma il piombo sta in molto meno spazio: ha densità maggiore."
+			"explanation": "Un chilo di piombo e uno di piume pesano uguale, ma il piombo sta in molto meno spazio: ha densità maggiore.",
+			"distractorWhy": {
+				"Quanto pesa un oggetto in totale": "Il peso totale non è la densità: la densità è il rapporto fra massa e volume.",
+				"Quanto è duro un materiale al tatto": "La durezza è una proprietà diversa, non collegata direttamente alla densità.",
+				"Quanto spazio occupa un oggetto": "Quello è il volume, non la densità: la densità è la massa in relazione a quel volume."
+			}
 		},
 		{
 			"id": "scienze-materia-58",
@@ -925,7 +1195,12 @@
 				"Sono uguali in tutti"
 			],
 			"answer": "Gassoso",
-			"explanation": "Nel gas le particelle sono lontane e veloci: per questo un gas riempie tutto lo spazio disponibile."
+			"explanation": "Nel gas le particelle sono lontane e veloci: per questo un gas riempie tutto lo spazio disponibile.",
+			"distractorWhy": {
+				"Solido": "Nel solido le particelle sono le meno libere: restano in posizioni fisse.",
+				"Liquido": "Nel liquido le particelle sono più libere che nel solido, ma meno che nel gas.",
+				"Sono uguali in tutti": "La libertà di movimento delle particelle cambia molto fra i tre stati: non è uguale."
+			}
 		},
 		{
 			"id": "scienze-corpo-59",
@@ -941,7 +1216,12 @@
 				"Il sangue"
 			],
 			"answer": "Il sangue",
-			"explanation": "L'ossigeno passa negli alveoli, entra nel sangue e viaggia nelle arterie fino a ogni cellula."
+			"explanation": "L'ossigeno passa negli alveoli, entra nel sangue e viaggia nelle arterie fino a ogni cellula.",
+			"distractorWhy": {
+				"I nervi": "I nervi trasmettono segnali elettrici, non trasportano ossigeno.",
+				"I muscoli": "I muscoli consumano ossigeno, ma non lo trasportano attraverso il corpo.",
+				"La linfa": "La linfa trasporta altre sostanze e cellule immunitarie, non l'ossigeno."
+			}
 		},
 		{
 			"id": "scienze-corpo-60",
@@ -957,7 +1237,12 @@
 				"A filtrare il sangue dalle scorie"
 			],
 			"answer": "A scambiare ossigeno e anidride carbonica",
-			"explanation": "Nell'inspirazione entra ossigeno e nell'espirazione esce anidride carbonica: lo scambio avviene negli alveoli."
+			"explanation": "Nell'inspirazione entra ossigeno e nell'espirazione esce anidride carbonica: lo scambio avviene negli alveoli.",
+			"distractorWhy": {
+				"A filtrare il sangue dalle scorie": "Quello è il compito dei reni, non dei polmoni.",
+				"A digerire il cibo che mangiamo": "La digestione avviene in stomaco e intestino, non nei polmoni.",
+				"A produrre le cellule del sangue": "Le cellule del sangue si producono nel midollo osseo, non nei polmoni."
+			}
 		},
 		{
 			"id": "scienze-corpo-61",
@@ -973,7 +1258,12 @@
 				"Nell'intestino, con l'assorbimento"
 			],
 			"answer": "In bocca, con la masticazione e la saliva",
-			"explanation": "La saliva contiene già sostanze che cominciano a smontare gli amidi: masticare bene aiuta tutto il resto."
+			"explanation": "La saliva contiene già sostanze che cominciano a smontare gli amidi: masticare bene aiuta tutto il resto.",
+			"distractorWhy": {
+				"Nello stomaco, con i succhi gastrici": "Lo stomaco continua la digestione, ma non è dove comincia: la saliva agisce già in bocca.",
+				"Nell'intestino, con l'assorbimento": "L'assorbimento avviene molto più avanti nel processo digestivo, non all'inizio.",
+				"Nell'esofago, durante la deglutizione": "L'esofago trasporta il cibo verso lo stomaco: la digestione vera e propria comincia già in bocca."
+			}
 		},
 		{
 			"id": "scienze-corpo-62",
@@ -989,7 +1279,12 @@
 				"Digerisce le sostanze più dure del cibo"
 			],
 			"answer": "Protegge gli organi e produce cellule del sangue",
-			"explanation": "Cranio e costole fanno da armatura, e dentro le ossa lunghe il midollo produce le cellule del sangue."
+			"explanation": "Cranio e costole fanno da armatura, e dentro le ossa lunghe il midollo produce le cellule del sangue.",
+			"distractorWhy": {
+				"Digerisce le sostanze più dure del cibo": "La digestione è compito dell'apparato digerente, non dello scheletro.",
+				"Regola la temperatura di tutto il corpo": "La regolazione della temperatura è compito della pelle e della circolazione, non dello scheletro.",
+				"Trasporta i segnali nervosi al cervello": "Quello è il compito del sistema nervoso, non dello scheletro."
+			}
 		},
 		{
 			"id": "scienze-corpo-63",
@@ -1005,7 +1300,12 @@
 				"Grazie ai muscoli che le tirano"
 			],
 			"answer": "Grazie ai muscoli che le tirano",
-			"explanation": "I muscoli si accorciano e tirano il tendine attaccato all'osso: le ossa da sole non possono muoversi."
+			"explanation": "I muscoli si accorciano e tirano il tendine attaccato all'osso: le ossa da sole non possono muoversi.",
+			"distractorWhy": {
+				"Perché si allungano da sole": "Le ossa non si muovono autonomamente: hanno bisogno della trazione dei muscoli.",
+				"Grazie al sangue che le spinge": "Il sangue trasporta ossigeno e nutrienti, ma non fornisce la forza meccanica per muovere le ossa.",
+				"Perché le articolazioni si gonfiano": "Le articolazioni permettono il movimento, ma non lo generano: serve la contrazione dei muscoli."
+			}
 		},
 		{
 			"id": "scienze-corpo-64",
@@ -1021,7 +1321,12 @@
 				"Perché i polmoni si riempiono d'acqua"
 			],
 			"answer": "Perché i muscoli chiedono più ossigeno",
-			"explanation": "Lavorando, i muscoli consumano più ossigeno e producono più anidride carbonica: respiro e battito aumentano per stare al passo."
+			"explanation": "Lavorando, i muscoli consumano più ossigeno e producono più anidride carbonica: respiro e battito aumentano per stare al passo.",
+			"distractorWhy": {
+				"Perché il cuore diventa più grande": "Il cuore batte più veloce durante lo sforzo, ma non cambia dimensione in pochi minuti.",
+				"Perché aumenta la temperatura esterna": "La temperatura dell'ambiente non è la causa: è il maggior bisogno di ossigeno dei muscoli.",
+				"Perché i polmoni si riempiono d'acqua": "I polmoni non si riempiono d'acqua durante la corsa: questo sarebbe un problema serio, non normale."
+			}
 		},
 		{
 			"id": "scienze-corpo-65",
@@ -1037,7 +1342,12 @@
 				"Immagazzinare le riserve di zucchero"
 			],
 			"answer": "Filtrare il sangue e produrre l'urina",
-			"explanation": "Ripuliscono il sangue dalle sostanze di scarto, che vengono eliminate con l'urina."
+			"explanation": "Ripuliscono il sangue dalle sostanze di scarto, che vengono eliminate con l'urina.",
+			"distractorWhy": {
+				"Pompare il sangue nelle arterie": "Quello è il compito del cuore, non dei reni.",
+				"Assorbire i nutrienti dal cibo": "L'assorbimento dei nutrienti avviene nell'intestino, non nei reni.",
+				"Immagazzinare le riserve di zucchero": "Le riserve di zucchero si immagazzinano soprattutto nel fegato, non nei reni."
+			}
 		},
 		{
 			"id": "scienze-corpo-66",
@@ -1053,7 +1363,12 @@
 				"Perché durante la notte si consuma molto meno cibo"
 			],
 			"answer": "Perché durante il sonno il corpo si ripara e consolida la memoria",
-			"explanation": "Nel sonno avvengono riparazioni dei tessuti e il cervello riorganizza ciò che ha imparato durante il giorno."
+			"explanation": "Nel sonno avvengono riparazioni dei tessuti e il cervello riorganizza ciò che ha imparato durante il giorno.",
+			"distractorWhy": {
+				"Perché durante la notte si consuma molto meno cibo": "Il consumo di cibo non ha a che fare con il motivo per cui dormire è importante.",
+				"Perché il cuore si ferma qualche istante per riposare": "Il cuore non si ferma mai durante il sonno: continua a battere, anche se a ritmo più lento.",
+				"Perché i muscoli riescono a crescere soltanto al buio": "Il buio in sé non è la condizione: è il processo di sonno stesso a favorire riparazione e memoria."
+			}
 		},
 		{
 			"id": "scienze-viventi-67",
@@ -1069,7 +1384,12 @@
 				"Nascono, crescono, si riproducono e muoiono"
 			],
 			"answer": "Nascono, crescono, si riproducono e muoiono",
-			"explanation": "Anche una pianta, che non si sposta, compie il ciclo vitale. È quello a definire un vivente."
+			"explanation": "Anche una pianta, che non si sposta, compie il ciclo vitale. È quello a definire un vivente.",
+			"distractorWhy": {
+				"Si muovono da un posto all'altro": "Le piante non si spostano ma sono comunque viventi: il movimento non è una caratteristica comune a tutti.",
+				"Hanno tutti bisogno di luce solare": "Molti organismi (come alcuni funghi e batteri) non hanno bisogno diretto di luce solare.",
+				"Sono formati da molte cellule": "Molti esseri viventi, come i batteri, sono formati da una sola cellula."
+			}
 		},
 		{
 			"id": "scienze-viventi-68",
@@ -1085,7 +1405,12 @@
 				"La molecola"
 			],
 			"answer": "La cellula",
-			"explanation": "Ogni vivente è fatto di cellule: alcuni ne hanno una sola, altri miliardi."
+			"explanation": "Ogni vivente è fatto di cellule: alcuni ne hanno una sola, altri miliardi.",
+			"distractorWhy": {
+				"L'organo": "Un organo è fatto di tessuti, che a loro volta sono fatti di cellule: la cellula è l'unità più piccola.",
+				"Il tessuto": "Un tessuto è un insieme di cellule simili: la cellula è l'unità di base più piccola.",
+				"La molecola": "Le molecole compongono le cellule, ma non sono considerate l'unità di base dei viventi."
+			}
 		},
 		{
 			"id": "scienze-viventi-69",
@@ -1101,7 +1426,12 @@
 				"L'invertebrato non ha organi interni"
 			],
 			"answer": "Il vertebrato ha una colonna vertebrale",
-			"explanation": "La colonna vertebrale è lo scheletro interno: la maggior parte degli animali, in realtà, ne è priva."
+			"explanation": "La colonna vertebrale è lo scheletro interno: la maggior parte degli animali, in realtà, ne è priva.",
+			"distractorWhy": {
+				"Il vertebrato è sempre più grande": "La dimensione non è il criterio: esistono vertebrati piccoli e invertebrati molto grandi.",
+				"L'invertebrato vive soltanto in acqua": "Molti invertebrati vivono sulla terraferma, come insetti e lombrichi.",
+				"L'invertebrato non ha organi interni": "Gli invertebrati hanno organi interni: quello che manca loro è la colonna vertebrale."
+			}
 		},
 		{
 			"id": "scienze-viventi-70",
@@ -1117,7 +1447,12 @@
 				"Una malattia che si trasmette ai figli"
 			],
 			"answer": "Una caratteristica che aiuta a vivere in un ambiente",
-			"explanation": "Il collo lungo della giraffa o le foglie a spina del cactus: caratteristiche selezionate perché in quell'ambiente funzionano."
+			"explanation": "Il collo lungo della giraffa o le foglie a spina del cactus: caratteristiche selezionate perché in quell'ambiente funzionano.",
+			"distractorWhy": {
+				"Un cambiamento deciso dall'animale stesso": "Un adattamento non è una scelta consapevole: è il risultato della selezione naturale nel tempo.",
+				"Una malattia che si trasmette ai figli": "Un adattamento è vantaggioso per la sopravvivenza, non una malattia.",
+				"Uno spostamento verso un clima migliore": "Uno spostamento è un comportamento temporaneo, non una caratteristica ereditaria come l'adattamento."
+			}
 		},
 		{
 			"id": "scienze-viventi-71",
@@ -1133,7 +1468,12 @@
 				"Perché non fanno la fotosintesi"
 			],
 			"answer": "Perché non fanno la fotosintesi",
-			"explanation": "Le piante si costruiscono il nutrimento con la luce; i funghi lo assorbono da materia già esistente, viva o morta."
+			"explanation": "Le piante si costruiscono il nutrimento con la luce; i funghi lo assorbono da materia già esistente, viva o morta.",
+			"distractorWhy": {
+				"Perché crescono soltanto all'ombra": "Alcuni funghi crescono anche in luoghi luminosi: non è questo il criterio che li distingue dalle piante.",
+				"Perché non hanno bisogno di acqua": "I funghi hanno bisogno di acqua come le piante: non è questo a distinguerli.",
+				"Perché si spostano lentamente nel suolo": "I funghi non si spostano più delle piante: la differenza chiave è come ottengono il nutrimento."
+			}
 		},
 		{
 			"id": "scienze-metodo-72",
@@ -1149,7 +1489,12 @@
 				"Almeno tre"
 			],
 			"answer": "Una sola",
-			"explanation": "Cambiando una sola variabile capisci quale causa l'effetto."
+			"explanation": "Cambiando una sola variabile capisci quale causa l'effetto.",
+			"distractorWhy": {
+				"Tutte insieme": "Cambiando tutte insieme non sapresti quale ha causato l'effetto osservato.",
+				"Almeno tre": "Cambiare più variabili contemporaneamente rende impossibile isolare la causa.",
+				"Nessuna": "Senza cambiare nulla non c'è nessun effetto da osservare o misurare."
+			}
 		},
 		{
 			"id": "scienze-metodo-73",
@@ -1165,7 +1510,12 @@
 				"La conclusione precede l'esperimento"
 			],
 			"answer": "L'ipotesi è una previsione da verificare",
-			"explanation": "Prima l'ipotesi (previsione), poi i dati, infine la conclusione."
+			"explanation": "Prima l'ipotesi (previsione), poi i dati, infine la conclusione.",
+			"distractorWhy": {
+				"Sono la stessa cosa": "Sono momenti diversi del metodo scientifico: l'ipotesi viene prima, la conclusione dopo i dati.",
+				"L'ipotesi arriva dopo i dati": "È il contrario: l'ipotesi si formula prima di raccogliere i dati.",
+				"La conclusione precede l'esperimento": "È il contrario: la conclusione arriva dopo l'esperimento e i dati raccolti."
+			}
 		},
 		{
 			"id": "scienze-metodo-74",
@@ -1181,7 +1531,12 @@
 				"A rendere l'esperimento molto più lungo del solito"
 			],
 			"answer": "A confrontare con qualcosa che non è stato cambiato",
-			"explanation": "Il gruppo di controllo mostra cosa succede senza la variabile che stai studiando."
+			"explanation": "Il gruppo di controllo mostra cosa succede senza la variabile che stai studiando.",
+			"distractorWhy": {
+				"A rendere l'esperimento molto più lungo del solito": "Il gruppo di controllo non serve ad allungare i tempi: serve a fornire un termine di paragone.",
+				"A cambiare più cose insieme e vedere": "È l'opposto: il gruppo di controllo non cambia nulla, proprio per fare da confronto.",
+				"A saltare qualche misura per fare prima": "Il gruppo di controllo richiede comunque misure complete: serve al confronto, non a velocizzare."
+			}
 		},
 		{
 			"id": "scienze-metodo-75",
@@ -1197,7 +1552,12 @@
 				"Non sai quale delle due abbia agito"
 			],
 			"answer": "Non sai quale delle due abbia agito",
-			"explanation": "Cambiando due variabili insieme non puoi isolare la causa: vanno provate separatamente."
+			"explanation": "Cambiando due variabili insieme non puoi isolare la causa: vanno provate separatamente.",
+			"distractorWhy": {
+				"È stata solo la luce": "Non puoi saperlo con certezza: hai cambiato anche l'acqua nello stesso esperimento.",
+				"È stata solo l'acqua": "Non puoi saperlo con certezza: hai cambiato anche la luce nello stesso esperimento.",
+				"Sono state entrambe di sicuro": "Non è detto: potrebbe essere stata solo una delle due, ma cambiandole insieme non puoi saperlo."
+			}
 		},
 		{
 			"id": "scienze-materia-76",
@@ -1213,7 +1573,12 @@
 				"Pieno, vuoto, misto"
 			],
 			"answer": "Solido, liquido, gassoso",
-			"explanation": "Solido, liquido e gassoso sono i tre stati fondamentali."
+			"explanation": "Sono le stesse particelle, legate in modo diverso: ferme e strette nel solido, vicine ma libere di scorrere nel liquido, lontane e indipendenti nel gassoso.",
+			"distractorWhy": {
+				"Caldo, freddo, tiepido": "Queste sono sensazioni di temperatura, non stati della materia.",
+				"Duro, molle, liquido": "«Duro» e «molle» non sono stati della materia: sono proprietà, non categorie fisiche complete.",
+				"Pieno, vuoto, misto": "Questi termini non descrivono gli stati fisici della materia."
+			}
 		},
 		{
 			"id": "scienze-materia-77",
@@ -1229,7 +1594,12 @@
 				"Vapore"
 			],
 			"answer": "Ghiaccio",
-			"explanation": "L'acqua solida è il ghiaccio; allo stato gassoso è vapore."
+			"explanation": "L'acqua solida è il ghiaccio; allo stato gassoso è vapore.",
+			"distractorWhy": {
+				"Vapore": "Il vapore è l'acqua allo stato gassoso, non solido.",
+				"Rugiada": "La rugiada è acqua liquida condensata, non lo stato solido.",
+				"Nuvola": "Una nuvola è fatta di minuscole goccioline o cristalli sospesi, non è il nome dello stato solido dell'acqua."
+			}
 		},
 		{
 			"id": "scienze-materia-78",
@@ -1245,7 +1615,12 @@
 				"Fusione"
 			],
 			"answer": "Evaporazione",
-			"explanation": "Nell'evaporazione il liquido diventa gas; nella condensazione avviene il contrario."
+			"explanation": "Nell'evaporazione il liquido diventa gas; nella condensazione avviene il contrario.",
+			"distractorWhy": {
+				"Fusione": "La fusione è il passaggio da solido a liquido, non da liquido a gas.",
+				"Solidificazione": "La solidificazione è il passaggio da liquido a solido, non a gas.",
+				"Condensazione": "La condensazione è il passaggio contrario, da gas a liquido."
+			}
 		},
 		{
 			"id": "scienze-materia-79",
@@ -1261,7 +1636,12 @@
 				"Condensazione"
 			],
 			"answer": "Condensazione",
-			"explanation": "La condensazione forma le goccioline: è il contrario dell'evaporazione."
+			"explanation": "La condensazione forma le goccioline: è il contrario dell'evaporazione.",
+			"distractorWhy": {
+				"Evaporazione": "L'evaporazione è il passaggio contrario, da liquido a gas.",
+				"Fusione": "La fusione è il passaggio da solido a liquido, non da gas a liquido.",
+				"Sublimazione": "La sublimazione è il passaggio diretto da solido a gas, non da gas a liquido."
+			}
 		},
 		{
 			"id": "scienze-materia-80",
@@ -1277,7 +1657,12 @@
 				"Sublimazione"
 			],
 			"answer": "Fusione",
-			"explanation": "Il ghiaccio che diventa acqua è fusione."
+			"explanation": "Il ghiaccio che diventa acqua è fusione.",
+			"distractorWhy": {
+				"Evaporazione": "L'evaporazione è il passaggio da liquido a gas, non da solido a liquido.",
+				"Sublimazione": "La sublimazione è il passaggio diretto da solido a gas, non a liquido.",
+				"Solidificazione": "La solidificazione è il passaggio contrario, da liquido a solido."
+			}
 		},
 		{
 			"id": "scienze-materia-81",
@@ -1293,7 +1678,12 @@
 				"Fusione"
 			],
 			"answer": "Sublimazione",
-			"explanation": "Nella sublimazione un solido diventa gas direttamente (es. la neve che 'sparisce' senza sciogliersi)."
+			"explanation": "Nella sublimazione un solido diventa gas direttamente (es. la neve che 'sparisce' senza sciogliersi).",
+			"distractorWhy": {
+				"Fusione": "La fusione è il passaggio da solido a liquido, non direttamente a gas.",
+				"Evaporazione": "L'evaporazione parte dallo stato liquido, non direttamente dal solido.",
+				"Condensazione": "La condensazione è il passaggio da gas a liquido, l'opposto della sublimazione."
+			}
 		},
 		{
 			"id": "scienze-viventi-82",
@@ -1309,7 +1699,12 @@
 				"I fiori"
 			],
 			"answer": "Le radici",
-			"explanation": "Le radici assorbono acqua e sali minerali dal suolo."
+			"explanation": "Le radici assorbono acqua e sali minerali dal suolo.",
+			"distractorWhy": {
+				"I fiori": "I fiori servono alla riproduzione della pianta, non all'assorbimento dell'acqua.",
+				"Le foglie": "Le foglie fanno la fotosintesi e traspirano acqua, ma non la assorbono dal terreno.",
+				"I frutti": "I frutti contengono i semi, non assorbono acqua dal terreno."
+			}
 		},
 		{
 			"id": "scienze-viventi-83",
@@ -1325,7 +1720,12 @@
 				"Luce, acqua e anidride carbonica"
 			],
 			"answer": "Luce, acqua e anidride carbonica",
-			"explanation": "Con luce, acqua e CO2 la pianta produce nutrimento e ossigeno."
+			"explanation": "Con luce, acqua e CO2 la pianta produce nutrimento e ossigeno.",
+			"distractorWhy": {
+				"Soltanto acqua abbondante": "L'acqua da sola non basta: servono anche luce e anidride carbonica.",
+				"Buio completo e freddo": "La fotosintesi richiede luce, non buio: senza luce non può avvenire.",
+				"Soltanto terra da giardino": "La terra da sola non basta: servono anche luce, acqua e anidride carbonica."
+			}
 		},
 		{
 			"id": "scienze-viventi-84",
@@ -1341,7 +1741,12 @@
 				"Idrogeno"
 			],
 			"answer": "Ossigeno",
-			"explanation": "Le piante assorbono CO2 e liberano ossigeno."
+			"explanation": "Le piante assorbono CO2 e liberano ossigeno.",
+			"distractorWhy": {
+				"Anidride carbonica": "L'anidride carbonica è ciò che le piante assorbono durante la fotosintesi, non ciò che rilasciano.",
+				"Azoto": "L'azoto non è un prodotto della fotosintesi.",
+				"Idrogeno": "L'idrogeno non viene rilasciato come gas libero durante la fotosintesi."
+			}
 		},
 		{
 			"id": "scienze-viventi-85",
@@ -1357,7 +1762,12 @@
 				"Carnivori"
 			],
 			"answer": "Erbivori",
-			"explanation": "Gli erbivori mangiano vegetali; i carnivori altri animali."
+			"explanation": "Gli erbivori mangiano vegetali; i carnivori altri animali.",
+			"distractorWhy": {
+				"Carnivori": "I carnivori mangiano carne, non piante: è l'opposto degli erbivori.",
+				"Onnivori": "Gli onnivori mangiano sia piante sia carne, non solo piante come gli erbivori.",
+				"Predatori": "I predatori cacciano altri animali: non è il termine per chi mangia solo piante."
+			}
 		},
 		{
 			"id": "scienze-viventi-86",
@@ -1373,7 +1783,12 @@
 				"Decompositori"
 			],
 			"answer": "Onnivori",
-			"explanation": "Gli onnivori (come l'orso o l'uomo) si nutrono di tutto."
+			"explanation": "Gli onnivori (come l'orso o l'uomo) si nutrono di tutto.",
+			"distractorWhy": {
+				"Erbivori": "Gli erbivori mangiano solo piante, non anche altri animali.",
+				"Carnivori": "I carnivori mangiano solo carne, non anche piante.",
+				"Decompositori": "I decompositori si nutrono di resti organici in decomposizione, non genericamente di piante e animali vivi."
+			}
 		},
 		{
 			"id": "scienze-viventi-87",
@@ -1389,7 +1804,12 @@
 				"Respirazione cellulare"
 			],
 			"answer": "Respirazione cellulare",
-			"explanation": "La respirazione cellulare libera l'energia del cibo; la fotosintesi invece la immagazzina nelle piante."
+			"explanation": "La respirazione cellulare libera l'energia del cibo; la fotosintesi invece la immagazzina nelle piante.",
+			"distractorWhy": {
+				"Fotosintesi": "La fotosintesi immagazzina energia nelle piante, è il processo opposto alla respirazione cellulare.",
+				"Digestione lenta": "La digestione scompone il cibo in nutrienti: la respirazione cellulare è il processo successivo che ne ricava energia.",
+				"Evaporazione rapida": "L'evaporazione è un fenomeno fisico dell'acqua, non un processo biologico per ricavare energia."
+			}
 		},
 		{
 			"id": "scienze-ecosistema-88",
@@ -1405,7 +1825,12 @@
 				"Il Sole"
 			],
 			"answer": "I carnivori",
-			"explanation": "I carnivori si nutrono di altri animali, come gli erbivori."
+			"explanation": "I carnivori si nutrono di altri animali, come gli erbivori.",
+			"distractorWhy": {
+				"Le piante": "Le piante sono cibo per gli erbivori, non i loro predatori.",
+				"Il Sole": "Il Sole fornisce energia alle piante, ma non mangia nessuno.",
+				"I produttori": "I produttori sono le piante stesse, alla base della catena, non chi mangia gli erbivori."
+			}
 		},
 		{
 			"id": "scienze-ecosistema-89",
@@ -1421,7 +1846,12 @@
 				"I decompositori"
 			],
 			"answer": "Le piante (produttori)",
-			"explanation": "Le piante sono i produttori: creano nutrimento con la fotosintesi."
+			"explanation": "Le piante sono i produttori: creano nutrimento con la fotosintesi.",
+			"distractorWhy": {
+				"I predatori (carnivori)": "I predatori dipendono da altri animali per il cibo: non producono il proprio nutrimento.",
+				"I decompositori": "I decompositori si nutrono di resti, non producono nutrimento con la fotosintesi.",
+				"Gli erbivori": "Gli erbivori dipendono dalle piante per il cibo: non producono il proprio nutrimento."
+			}
 		},
 		{
 			"id": "scienze-ecosistema-90",
@@ -1437,7 +1867,12 @@
 				"Erbivori"
 			],
 			"answer": "Decompositori",
-			"explanation": "I decompositori riciclano la materia, restituendo sostanze utili al terreno."
+			"explanation": "I decompositori riciclano la materia, restituendo sostanze utili al terreno.",
+			"distractorWhy": {
+				"Produttori": "I produttori (piante) creano nutrimento con la fotosintesi, non decompongono resti.",
+				"Predatori": "I predatori cacciano prede vive, non decompongono resti organici.",
+				"Erbivori": "Gli erbivori mangiano piante vive, non decompongono resti."
+			}
 		},
 		{
 			"id": "scienze-ecosistema-91",
@@ -1453,7 +1888,12 @@
 				"Diminuirebbero per mancanza di cibo"
 			],
 			"answer": "Diminuirebbero per mancanza di cibo",
-			"explanation": "Senza produttori manca la base della catena alimentare: tutti gli altri ne risentono."
+			"explanation": "Senza produttori manca la base della catena alimentare: tutti gli altri ne risentono.",
+			"distractorWhy": {
+				"Aumenterebbero di numero": "Senza cibo disponibile gli erbivori non potrebbero aumentare: diminuirebbero.",
+				"Non cambierebbe proprio nulla": "Le piante sono la base della catena alimentare: la loro scomparsa avrebbe effetti enormi.",
+				"Diventerebbero tutti carnivori": "Un erbivoro non può trasformarsi in carnivoro per necessità: la sua fisiologia è adattata alle piante."
+			}
 		},
 		{
 			"id": "scienze-corpo-92",
@@ -1469,7 +1909,12 @@
 				"I muscoli"
 			],
 			"answer": "Il cervello",
-			"explanation": "Riceve i segnali dai sensi e manda ordini ai muscoli in continuo: lavora anche mentre dormi."
+			"explanation": "Riceve i segnali dai sensi e manda ordini ai muscoli in continuo: lavora anche mentre dormi.",
+			"distractorWhy": {
+				"Il cuore": "Il cuore pompa il sangue, ma non è la sede del pensiero.",
+				"Lo stomaco": "Lo stomaco digerisce il cibo, non comanda il corpo.",
+				"I muscoli": "I muscoli eseguono i comandi, non li generano: quello è compito del cervello."
+			}
 		},
 		{
 			"id": "scienze-corpo-93",
@@ -1485,7 +1930,12 @@
 				"A digerire il cibo più in fretta"
 			],
 			"answer": "A sostenere e proteggere il corpo",
-			"explanation": "Le ossa sostengono il corpo e proteggono gli organi (il cranio protegge il cervello)."
+			"explanation": "Le ossa sostengono il corpo e proteggono gli organi (il cranio protegge il cervello).",
+			"distractorWhy": {
+				"A digerire il cibo più in fretta": "La digestione è compito dell'apparato digerente, non dello scheletro.",
+				"A respirare più a lungo": "La respirazione è compito dei polmoni, non dello scheletro.",
+				"A vedere meglio i colori": "La vista è compito degli occhi, non dello scheletro."
+			}
 		},
 		{
 			"id": "scienze-corpo-94",
@@ -1501,7 +1951,12 @@
 				"Lo stomaco"
 			],
 			"answer": "Il cuore",
-			"explanation": "È un muscolo che si contrae da solo, circa centomila volte al giorno, senza che tu debba pensarci."
+			"explanation": "È un muscolo che si contrae da solo, circa centomila volte al giorno, senza che tu debba pensarci.",
+			"distractorWhy": {
+				"I polmoni": "I polmoni scambiano ossigeno e anidride carbonica, non pompano il sangue.",
+				"Il fegato": "Il fegato filtra sostanze e produce bile, non pompa il sangue.",
+				"Lo stomaco": "Lo stomaco digerisce il cibo, non pompa il sangue."
+			}
 		},
 		{
 			"id": "scienze-corpo-95",
@@ -1517,7 +1972,12 @@
 				"I polmoni"
 			],
 			"answer": "I polmoni",
-			"explanation": "Nei polmoni il sangue prende ossigeno e cede anidride carbonica."
+			"explanation": "Nei polmoni il sangue prende ossigeno e cede anidride carbonica.",
+			"distractorWhy": {
+				"Il cuore": "Il cuore pompa il sangue, ma lo scambio di gas avviene nei polmoni.",
+				"I reni": "I reni filtrano il sangue dalle scorie, non scambiano ossigeno.",
+				"L'intestino": "L'intestino assorbe nutrienti dal cibo, non ossigeno dall'aria."
+			}
 		},
 		{
 			"id": "scienze-corpo-96",
@@ -1533,7 +1993,12 @@
 				"I polmoni"
 			],
 			"answer": "L'intestino",
-			"explanation": "Nell'intestino le sostanze nutritive passano nel sangue."
+			"explanation": "Nell'intestino le sostanze nutritive passano nel sangue.",
+			"distractorWhy": {
+				"I polmoni": "I polmoni scambiano gas respiratori, non assorbono nutrienti dal cibo.",
+				"Il cuore": "Il cuore pompa il sangue, ma non assorbe nutrienti dal cibo digerito.",
+				"I reni": "I reni filtrano il sangue dalle scorie, non assorbono nutrienti dal cibo."
+			}
 		},
 		{
 			"id": "scienze-energia-97",
@@ -1549,7 +2014,12 @@
 				"Dalle stelle lontane"
 			],
 			"answer": "Dal Sole",
-			"explanation": "Il Sole è la fonte principale di luce e calore per la Terra."
+			"explanation": "Il Sole è la fonte principale di luce e calore per la Terra.",
+			"distractorWhy": {
+				"Dalla Luna": "La Luna non emette luce o calore propri: riflette solo quella del Sole.",
+				"Dal vento": "Il vento stesso nasce dal Sole che scalda l'aria in modo diseguale: non è la fonte primaria.",
+				"Dalle stelle lontane": "Le altre stelle sono troppo lontane per contribuire in modo significativo al calore della Terra."
+			}
 		},
 		{
 			"id": "scienze-energia-98",
@@ -1565,7 +2035,12 @@
 				"Energia solare"
 			],
 			"answer": "Energia eolica",
-			"explanation": "L'energia eolica sfrutta il vento; quella idroelettrica l'acqua che scorre."
+			"explanation": "L'energia eolica sfrutta il vento; quella idroelettrica l'acqua che scorre.",
+			"distractorWhy": {
+				"Energia idroelettrica": "L'energia idroelettrica sfrutta l'acqua in movimento, non il vento.",
+				"Energia solare": "L'energia solare sfrutta direttamente la luce del Sole, non il vento.",
+				"Energia nucleare": "L'energia nucleare viene dalle reazioni degli atomi, non dal vento."
+			}
 		},
 		{
 			"id": "scienze-energia-99",
@@ -1581,7 +2056,12 @@
 				"Energia idroelettrica"
 			],
 			"answer": "Energia idroelettrica",
-			"explanation": "Le dighe sfruttano l'acqua in movimento per produrre elettricità."
+			"explanation": "Le dighe sfruttano l'acqua in movimento per produrre elettricità.",
+			"distractorWhy": {
+				"Energia eolica": "L'energia eolica sfrutta il vento, non l'acqua che scorre.",
+				"Energia solare": "L'energia solare sfrutta la luce del Sole, non l'acqua.",
+				"Energia geotermica": "L'energia geotermica sfrutta il calore interno della Terra, non l'acqua che scorre."
+			}
 		},
 		{
 			"id": "scienze-energia-100",
@@ -1597,7 +2077,12 @@
 				"Carbone e petrolio estratti"
 			],
 			"answer": "Sole, vento e acqua (rinnovabili)",
-			"explanation": "Le fonti rinnovabili si rigenerano e sono più pulite dei combustibili fossili."
+			"explanation": "Le fonti rinnovabili si rigenerano e sono più pulite dei combustibili fossili.",
+			"distractorWhy": {
+				"Carbone e petrolio estratti": "Sono combustibili fossili: si esauriscono e inquinano molto, l'opposto delle rinnovabili.",
+				"Gas e benzina dei motori": "Sono derivati da fonti fossili: si esauriscono e inquinano, non sono rinnovabili.",
+				"Plastica bruciata negli inceneritori": "Bruciare plastica produce inquinamento significativo: non è una fonte pulita e rinnovabile."
+			}
 		},
 		{
 			"id": "scienze-terra-universo-101",
@@ -1613,7 +2098,12 @@
 				"Marte"
 			],
 			"answer": "Il Sole",
-			"explanation": "La Terra orbita intorno al Sole in circa un anno."
+			"explanation": "La Terra orbita intorno al Sole in circa un anno.",
+			"distractorWhy": {
+				"La Luna": "È la Luna a girare intorno alla Terra, non il contrario.",
+				"Marte": "Marte è un altro pianeta che orbita intorno al Sole, come la Terra: non è il centro dell'orbita terrestre.",
+				"Una cometa": "Le comete orbitano anch'esse intorno al Sole: la Terra non gira attorno a una cometa."
+			}
 		},
 		{
 			"id": "scienze-terra-universo-102",
@@ -1629,7 +2119,12 @@
 				"Venere"
 			],
 			"answer": "La Luna",
-			"explanation": "Le mostra sempre la stessa faccia, perché impiega lo stesso tempo a girare su di sé e attorno a noi."
+			"explanation": "Le mostra sempre la stessa faccia, perché impiega lo stesso tempo a girare su di sé e attorno a noi.",
+			"distractorWhy": {
+				"Marte": "Marte è un pianeta, non un satellite della Terra.",
+				"Il Sole": "Il Sole è la stella al centro del sistema solare, non un satellite della Terra.",
+				"Venere": "Venere è un altro pianeta del sistema solare, non un satellite della Terra."
+			}
 		},
 		{
 			"id": "scienze-terra-universo-103",
@@ -1645,7 +2140,12 @@
 				"La rotazione della Terra su se stessa"
 			],
 			"answer": "La rotazione della Terra su se stessa",
-			"explanation": "Ruotando su se stessa, ogni punto della Terra si affaccia al Sole e poi all'ombra."
+			"explanation": "Ruotando su se stessa, ogni punto della Terra si affaccia al Sole e poi all'ombra.",
+			"distractorWhy": {
+				"La Terra che gira intorno al Sole": "Quello (la rivoluzione) determina l'anno e le stagioni, non l'alternanza quotidiana di giorno e notte.",
+				"Le nuvole": "Le nuvole non causano il ciclo giorno-notte: sono un fenomeno atmosferico locale e variabile.",
+				"La Luna che si sposta": "Il movimento della Luna non causa il ciclo giorno-notte sulla Terra: è la rotazione terrestre a farlo."
+			}
 		},
 		{
 			"id": "scienze-terra-universo-104",
@@ -1661,7 +2161,12 @@
 				"Il vento che soffia da nord per tutto l'anno"
 			],
 			"answer": "L'inclinazione della Terra mentre gira intorno al Sole",
-			"explanation": "L'asse inclinato fa arrivare i raggi del Sole più o meno diretti nei vari periodi dell'anno."
+			"explanation": "L'asse inclinato fa arrivare i raggi del Sole più o meno diretti nei vari periodi dell'anno.",
+			"distractorWhy": {
+				"La distanza che cambia dalla Luna": "La distanza dalla Luna non ha un ruolo significativo nelle stagioni: conta l'inclinazione dell'asse terrestre rispetto al Sole.",
+				"Il vento che soffia da nord per tutto l'anno": "Il vento non soffia sempre da nord, e comunque non è la causa delle stagioni.",
+				"Le maree provocate dalla Luna": "Le maree sono un fenomeno diverso, legato all'attrazione gravitazionale, non alle stagioni."
+			}
 		},
 		{
 			"id": "scienze-ambiente-105",
@@ -1677,7 +2182,12 @@
 				"Bruciarli nel cortile di casa"
 			],
 			"answer": "Fare la raccolta differenziata",
-			"explanation": "Separare i rifiuti permette di riciclarli e sprecare meno risorse."
+			"explanation": "Separare i rifiuti permette di riciclarli e sprecare meno risorse.",
+			"distractorWhy": {
+				"Buttarli tutti nello stesso sacco": "Mescolare i rifiuti rende difficile o impossibile riciclarli correttamente.",
+				"Bruciarli nel cortile di casa": "Bruciare i rifiuti in modo incontrollato produce inquinamento pericoloso.",
+				"Lasciarli per terra dove capita": "Abbandonare i rifiuti danneggia l'ambiente invece di aiutarlo."
+			}
 		},
 		{
 			"id": "scienze-ambiente-106",
@@ -1693,7 +2203,12 @@
 				"Non è importante, ce n'è tanta"
 			],
 			"answer": "È una risorsa preziosa e limitata",
-			"explanation": "L'acqua dolce pulita è limitata: va usata con attenzione."
+			"explanation": "L'acqua dolce pulita è limitata: va usata con attenzione.",
+			"distractorWhy": {
+				"Perché è pesante da trasportare": "Il peso non è il motivo per cui risparmiare acqua: è la sua scarsità come risorsa.",
+				"Perché è di colore trasparente": "Il colore dell'acqua non ha nulla a che fare con l'importanza di non sprecarla.",
+				"Non è importante, ce n'è tanta": "È il contrario: l'acqua dolce pulita è una risorsa limitata e preziosa."
+			}
 		},
 		{
 			"id": "scienze-ambiente-107",
@@ -1709,7 +2224,12 @@
 				"Riscaldamento globale"
 			],
 			"answer": "Riscaldamento globale",
-			"explanation": "L'eccesso di gas serra trattiene più calore e riscalda il pianeta."
+			"explanation": "L'eccesso di gas serra trattiene più calore e riscalda il pianeta.",
+			"distractorWhy": {
+				"Effetto arcobaleno": "Non è un termine scientifico legato al riscaldamento del pianeta.",
+				"Effetto marea": "L'effetto marea riguarda l'attrazione gravitazionale della Luna, non il riscaldamento del pianeta.",
+				"Effetto eco": "Non è un termine scientifico legato al riscaldamento del pianeta."
+			}
 		},
 		{
 			"id": "scienze-ambiente-108",
@@ -2097,7 +2617,12 @@
 				"Perché riciclare è vietato per la maggior parte dei materiali"
 			],
 			"answer": "Perché un rifiuto che non nasce non va nemmeno trattato",
-			"explanation": "Riciclare consuma energia e acqua: meglio non produrre l'oggetto inutile."
+			"explanation": "Riciclare consuma energia e acqua: meglio non produrre l'oggetto inutile.",
+			"distractorWhy": {
+				"Perché il riciclo funziona bene soltanto con la carta e il vetro": "Il riciclo funziona anche con molti altri materiali: non è questo il motivo per preferire la riduzione.",
+				"Perché i rifiuti riciclati costano di più di quelli nuovi": "Il costo economico non è il punto: ridurre evita del tutto il consumo di energia e risorse per il trattamento.",
+				"Perché riciclare è vietato per la maggior parte dei materiali": "Il riciclo non è vietato: è consentito e incoraggiato per molti materiali, ma la riduzione resta preferibile."
+			}
 		},
 		{
 			"id": "scienze-viventi-138",
@@ -2113,7 +2638,12 @@
 				"Ha una forma che resta uguale per tutta la sua esistenza"
 			],
 			"answer": "Si nutre, cresce e può riprodursi",
-			"explanation": "Le piante non camminano e certi organismi non respirano ossigeno: il resto vale per tutti."
+			"explanation": "Le piante non camminano e certi organismi non respirano ossigeno: il resto vale per tutti.",
+			"distractorWhy": {
+				"Si muove da solo da un posto all'altro durante il giorno": "Le piante sono viventi ma non si spostano da sole: il movimento non è il criterio giusto.",
+				"Ha una forma che resta uguale per tutta la sua esistenza": "Gli esseri viventi cambiano forma crescendo: non è la forma costante a distinguerli da un sasso.",
+				"È fatto di materia, mentre il sasso non lo è affatto": "Anche il sasso è fatto di materia: la differenza è che il vivente si nutre, cresce e si riproduce."
+			}
 		},
 		{
 			"id": "scienze-corpo-139",
@@ -2129,7 +2659,12 @@
 				"Perché le mani sporche rendono il cibo più difficile da masticare"
 			],
 			"answer": "Perché sulle mani restano microbi che finirebbero nel cibo",
-			"explanation": "Gran parte delle infezioni intestinali passa proprio dalle mani."
+			"explanation": "Gran parte delle infezioni intestinali passa proprio dalle mani.",
+			"distractorWhy": {
+				"Perché le mani sporche rendono il cibo più difficile da masticare": "Lo sporco sulle mani non influenza la masticazione: il problema reale sono i microbi trasferiti al cibo.",
+				"Perché l'acqua fredda sulle mani aiuta lo stomaco a digerire": "L'acqua sulle mani non ha alcun effetto sulla digestione nello stomaco.",
+				"Perché è una regola di buona educazione senza effetti sulla salute": "Ha effetti concreti sulla salute: previene il passaggio di microbi nel cibo, non è solo educazione."
+			}
 		},
 		{
 			"id": "scienze-ecosistema-140",
@@ -2145,7 +2680,12 @@
 				"Cambiano anche le specie collegate a quella"
 			],
 			"answer": "Cambiano anche le specie collegate a quella",
-			"explanation": "Gli anelli sono legati: togliendone uno la catena si riorganizza, a volte male."
+			"explanation": "Gli anelli sono legati: togliendone uno la catena si riorganizza, a volte male.",
+			"distractorWhy": {
+				"Non cambia niente, perché ogni specie vive per conto suo": "Le specie sono collegate fra loro in una rete: nessuna vive completamente isolata dalle altre.",
+				"Sparisce subito tutto l'ecosistema nel giro di pochi giorni": "Un ecosistema di solito si riorganizza gradualmente, non sparisce interamente in pochi giorni.",
+				"Le altre specie diventano automaticamente più numerose e forti": "Non tutte diventano più numerose: alcune, dipendenti dalla specie scomparsa, ne soffrono."
+			}
 		},
 		{
 			"id": "scienze-energia-141",
@@ -2161,7 +2701,12 @@
 				"Perché è l'unico corpo celeste visibile durante tutto il giorno"
 			],
 			"answer": "Perché le piante ne catturano la luce e la passano a tutti gli altri",
-			"explanation": "Anche il carbone e il petrolio sono luce solare immagazzinata milioni di anni fa."
+			"explanation": "Anche il carbone e il petrolio sono luce solare immagazzinata milioni di anni fa.",
+			"distractorWhy": {
+				"Perché scalda direttamente il corpo di ogni animale del pianeta": "Il Sole non scalda direttamente ogni animale: l'energia passa attraverso le piante e la catena alimentare.",
+				"Perché è l'unico corpo celeste visibile durante tutto il giorno": "La visibilità del Sole di giorno non spiega perché sia la fonte di quasi tutta l'energia sulla Terra.",
+				"Perché la sua luce si trasforma da sola in elettricità nell'aria": "La luce solare non si trasforma spontaneamente in elettricità nell'aria: servono pannelli solari o altri processi."
+			}
 		},
 		{
 			"id": "scienze-materia-142",
@@ -2177,7 +2722,12 @@
 				"Perché scende sul fondo e si nasconde sotto lo strato d'acqua"
 			],
 			"answer": "Perché si divide in parti troppo piccole da vedere, ma resta lì",
-			"explanation": "L'acqua diventa dolce: la prova che lo zucchero c'è ancora."
+			"explanation": "L'acqua diventa dolce: la prova che lo zucchero c'è ancora.",
+			"distractorWhy": {
+				"Perché si trasforma in acqua e smette del tutto di esistere": "Lo zucchero non smette di esistere: resta disciolto, come dimostra il sapore dolce dell'acqua.",
+				"Perché evapora subito appena entra in contatto con il liquido": "Lo zucchero non evapora: si scioglie, restando presente nell'acqua in particelle minuscole.",
+				"Perché scende sul fondo e si nasconde sotto lo strato d'acqua": "Se fosse solo depositato sul fondo, si potrebbe vedere o filtrare: invece è disciolto uniformemente."
+			}
 		},
 		{
 			"id": "scienze-serra-luce",
@@ -2192,7 +2742,11 @@
 				"Cactus di Vetro"
 			],
 			"answer": "Cactus di Vetro",
-			"explanation": "Cactus di Vetro: Conserva acqua, vuole luce intensa e non ama radici bagnate."
+			"explanation": "Cactus di Vetro: Conserva acqua, vuole luce intensa e non ama radici bagnate.",
+			"distractorWhy": {
+				"Felce Luna": "Ha bisogno di meno luce del Cactus di Vetro (ideale 42 contro 88): Ama luce morbida e terreno umido, ma soffre quando la serra diventa troppo calda.",
+				"Pomodoro Aurora": "Ha bisogno di meno luce del Cactus di Vetro (ideale 82 contro 88): Cresce bene con molta luce, acqua regolare e temperatura tiepida."
+			}
 		},
 		{
 			"id": "scienze-serra-ombra",
@@ -2207,7 +2761,11 @@
 				"Pomodoro Aurora"
 			],
 			"answer": "Felce Luna",
-			"explanation": "Felce Luna: Ama luce morbida e terreno umido, ma soffre quando la serra diventa troppo calda."
+			"explanation": "Felce Luna: Ama luce morbida e terreno umido, ma soffre quando la serra diventa troppo calda.",
+			"distractorWhy": {
+				"Pomodoro Aurora": "Ha bisogno di più luce del Felce Luna (ideale 82 contro 42): Cresce bene con molta luce, acqua regolare e temperatura tiepida.",
+				"Cactus di Vetro": "Ha bisogno di più luce del Felce Luna (ideale 88 contro 42): Conserva acqua, vuole luce intensa e non ama radici bagnate."
+			}
 		},
 		{
 			"id": "scienze-metodo-qual-e-il-primo-passo-del-metodo-scientifico",
@@ -2223,7 +2781,12 @@
 				"Pubblicare i risultati"
 			],
 			"answer": "Farsi una domanda",
-			"explanation": "Tutto comincia da una domanda su qualcosa che si è osservato."
+			"explanation": "Tutto comincia da una domanda su qualcosa che si è osservato.",
+			"distractorWhy": {
+				"Scrivere la conclusione": "La conclusione arriva alla fine del metodo scientifico, non all'inizio.",
+				"Ripetere l'esperimento": "La ripetizione avviene dopo aver già fatto un esperimento, non come primo passo.",
+				"Pubblicare i risultati": "La pubblicazione è l'ultimo passo, dopo aver raccolto e verificato i risultati."
+			}
 		},
 		{
 			"id": "scienze-viventi-che-cosa-hanno-in-comune-tutti-gli-esseri-vivent",
@@ -2239,7 +2802,12 @@
 				"Sono di colore verde"
 			],
 			"answer": "Nascono e crescono",
-			"explanation": "Nascere, crescere, riprodursi e morire vale per ogni vivente."
+			"explanation": "Nascere, crescere, riprodursi e morire vale per ogni vivente.",
+			"distractorWhy": {
+				"Hanno quattro zampe": "Molti viventi non hanno quattro zampe: piante, pesci, insetti sono viventi con corpi diversi.",
+				"Vivono nell'acqua": "Molti viventi vivono sulla terraferma, non solo nell'acqua.",
+				"Sono di colore verde": "Il colore verde è tipico di molte piante, ma non di tutti gli esseri viventi."
+			}
 		},
 		{
 			"id": "scienze-viventi-un-animale-che-mangia-solo-piante-si-dice",
@@ -2255,7 +2823,12 @@
 				"decompositore"
 			],
 			"answer": "erbivoro",
-			"explanation": "Erbivoro significa proprio che si nutre di erbe e vegetali."
+			"explanation": "Erbivoro significa proprio che si nutre di erbe e vegetali.",
+			"distractorWhy": {
+				"carnivoro": "Il carnivoro mangia carne, non solo piante: è l'opposto dell'erbivoro.",
+				"onnivoro": "L'onnivoro mangia sia piante sia carne, non solo piante come l'erbivoro.",
+				"decompositore": "Il decompositore si nutre di resti organici in decomposizione, non semplicemente di piante vive."
+			}
 		},
 		{
 			"id": "scienze-corpo-quale-organo-pompa-il-sangue-nel-corpo",
@@ -2271,7 +2844,12 @@
 				"Il cuore"
 			],
 			"answer": "Il cuore",
-			"explanation": "Il cuore è un muscolo che spinge il sangue in tutto il corpo."
+			"explanation": "Il cuore è un muscolo che spinge il sangue in tutto il corpo.",
+			"distractorWhy": {
+				"I polmoni": "I polmoni scambiano ossigeno e anidride carbonica, non pompano il sangue.",
+				"Lo stomaco": "Lo stomaco digerisce il cibo, non pompa il sangue.",
+				"Il fegato": "Il fegato filtra sostanze e produce bile, non pompa il sangue."
+			}
 		},
 		{
 			"id": "scienze-corpo-con-quale-organo-respiriamo",
@@ -2287,7 +2865,12 @@
 				"I reni"
 			],
 			"answer": "I polmoni",
-			"explanation": "Nei polmoni l'aria cede ossigeno al sangue."
+			"explanation": "Nei polmoni l'aria cede ossigeno al sangue.",
+			"distractorWhy": {
+				"Il cuore": "Il cuore pompa il sangue, ma non è dove avviene lo scambio di ossigeno con l'aria.",
+				"Lo stomaco": "Lo stomaco digerisce il cibo, non ha a che fare con la respirazione.",
+				"I reni": "I reni filtrano il sangue dalle scorie, non scambiano ossigeno con l'aria."
+			}
 		},
 		{
 			"id": "scienze-terra-universo-perche-sulla-terra-si-alternano-le-stagioni",
@@ -2303,7 +2886,12 @@
 				"La Luna copre il Sole"
 			],
 			"answer": "L'asse terrestre è inclinato",
-			"explanation": "L'inclinazione fa arrivare i raggi più obliqui in una metà dell'anno."
+			"explanation": "L'inclinazione fa arrivare i raggi più obliqui in una metà dell'anno.",
+			"distractorWhy": {
+				"La Terra rallenta d'inverno": "La velocità di rotazione della Terra non cambia con le stagioni.",
+				"Il Sole cambia temperatura": "Il Sole mantiene una temperatura sostanzialmente costante: non è questo a causare le stagioni.",
+				"La Luna copre il Sole": "Quello descriverebbe un'eclissi, un evento raro, non il ciclo regolare delle stagioni."
+			}
 		},
 		{
 			"id": "scienze-terra-universo-quanto-impiega-la-terra-a-compiere-un-giro-su-se",
@@ -2319,7 +2907,12 @@
 				"Circa 12 ore"
 			],
 			"answer": "Circa 24 ore",
-			"explanation": "La rotazione dura un giorno e produce il dì e la notte."
+			"explanation": "La rotazione dura un giorno e produce il dì e la notte.",
+			"distractorWhy": {
+				"Circa 365 giorni": "Quello è il tempo della rivoluzione intorno al Sole, non della rotazione su se stessa.",
+				"Circa 28 giorni": "Quello è vicino al tempo impiegato dalla Luna per il suo ciclo, non dalla Terra per ruotare su se stessa.",
+				"Circa 12 ore": "Sarebbe solo metà del tempo reale: la rotazione completa richiede circa 24 ore."
+			}
 		},
 		{
 			"id": "scienze-materia-come-si-chiama-il-passaggio-da-gas-a-liquido",
@@ -2335,7 +2928,12 @@
 				"Condensazione"
 			],
 			"answer": "Condensazione",
-			"explanation": "Il vapore che si raffredda torna liquido: è la condensazione."
+			"explanation": "Il vapore che si raffredda torna liquido: è la condensazione.",
+			"distractorWhy": {
+				"Evaporazione": "L'evaporazione è il passaggio contrario, da liquido a gas.",
+				"Fusione": "La fusione è il passaggio da solido a liquido, non da gas a liquido.",
+				"Solidificazione": "La solidificazione è il passaggio da liquido a solido, non da gas a liquido."
+			}
 		},
 		{
 			"id": "scienze-ecosistema-in-una-catena-alimentare-i-funghi-svolgono-il-ru",
@@ -2351,7 +2949,12 @@
 				"predatori"
 			],
 			"answer": "decompositori",
-			"explanation": "I funghi smontano i resti e restituiscono sostanze al terreno."
+			"explanation": "I funghi smontano i resti e restituiscono sostanze al terreno.",
+			"distractorWhy": {
+				"produttori": "I produttori (piante) creano nutrimento con la fotosintesi: i funghi non lo fanno.",
+				"consumatori": "I consumatori mangiano organismi vivi: i funghi si nutrono di resti già morti.",
+				"predatori": "I predatori cacciano prede vive: i funghi decompongono materia già morta."
+			}
 		},
 		{
 			"id": "scienze-energia-una-palla-ferma-in-cima-a-una-rampa-possiede-ene",
@@ -2367,7 +2970,12 @@
 				"sonora"
 			],
 			"answer": "potenziale",
-			"explanation": "L'energia è immagazzinata nella posizione: è potenziale."
+			"explanation": "L'energia è immagazzinata nella posizione: è potenziale.",
+			"distractorWhy": {
+				"cinetica": "L'energia cinetica è legata al movimento: la palla è ferma, quindi non ne ha.",
+				"luminosa": "L'energia luminosa è legata alla luce emessa: una palla ferma non emette luce.",
+				"sonora": "L'energia sonora è legata al suono: una palla ferma e silenziosa non ne produce."
+			}
 		}
 	]
 }

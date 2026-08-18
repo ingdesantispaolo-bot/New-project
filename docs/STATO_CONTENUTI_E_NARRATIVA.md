@@ -303,6 +303,22 @@ cui la fisica debba spiegare tre volte più dell'inglese al primo incontro.
 Sospetto un effetto collaterale della copertura dei topic, non una scelta.
 Da guardare, non urgente.
 
+> **Risolto, 16 agosto 2026.** La sospetta correlava con `NoraExplanations`:
+> `entry_for()` predilige la voce di contesto («perché» generale) quando esiste,
+> e cade sulla riformulazione stretta dell'item quando manca. Misurato lo stesso
+> giorno: **111 argomenti su 246 (45%) non avevano voce di contesto**, quasi
+> tutta fisica (14/22) ed elettronica/scienze a metà (13/21 ciascuna) — la
+> materia con la copertura più bassa **è** quella che sembrava «spiegare
+> meno», solo che il sintomo misurato qui era la conta delle sessioni di tipo
+> lezione, non la profondità di quello che dicevano. Scritte le 111 voci
+> mancanti (`godot/scripts/game/nora_explanations.gd`, stesso formato
+> perché/come delle 135 esistenti), copertura ora 246/246, verificata da
+> `nora_explanation_depth_audit.gd` (nuovo — impedisce la regressione). Non
+> risolve la domanda originale di questa sezione (perché fisica *apra* più
+> spesso con una lezione rispetto a inglese) ma toglie la spiegazione più
+> probabile: ora ogni argomento, qualunque sia la sua frequenza di apertura,
+> porta lo stesso contesto più ampio della singola domanda.
+
 ---
 
 ## 3. La storia: cosa funziona e cosa no

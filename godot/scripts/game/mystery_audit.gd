@@ -40,6 +40,8 @@ func _init() -> void:
 	failures.append_array(_check_colpi())
 	failures.append_array(_check_sbiadito())
 	failures.append_array(_check_conta())
+	failures.append_array(_check_sorelle())
+	failures.append_array(_check_confronto())
 	failures.append_array(_check_tracce())
 	failures.append_array(_check_beats())
 
@@ -88,6 +90,14 @@ func _check_colpi() -> Array:
 			if str(seme.get("cosa", "")).strip_edges() == "":
 				out.append("colpo %d: un seme è vuoto" % numero)
 			out.append_array(_check_morte("seme del colpo %d" % numero, str(seme.get("cosa", ""))))
+			# Un seme è **una** schermata di dialogo: se non ci sta, non si legge.
+			# Non era controllato, e le Tracce accanto lo erano già.
+			out.append_array(_check_schermata(
+				"seme del mondo %d (colpo %d)" % [seme_world, numero], str(seme.get("cosa", ""))))
+			var eli_line := str(seme.get("eli", "")).strip_edges()
+			if eli_line != "":
+				out.append_array(_check_morte("riga di Eli al mondo %d" % seme_world, eli_line))
+				out.append_array(_check_schermata("riga di Eli al mondo %d" % seme_world, eli_line))
 		if prima.size() < MIN_SEMI:
 			out.append("colpo %d «%s»: %d semi nei mondi precedenti, minimo %d — arriverebbe come un colpo di mano" % [
 				numero, str(colpo["titolo"]), prima.size(), MIN_SEMI])
@@ -167,6 +177,124 @@ func _check_conta() -> Array:
 		occorrenze, ", ".join(PackedStringArray(mondi.map(func(w): return str(w))))])
 	return out
 
+## Le undici sorelle. Il filo regge se e solo se: sono undici, stanno **fra** il
+## colpo 3 e il colpo 7 (prima non hanno senso, dopo arrivano tardi), sono una per
+## mondo, e ognuna porta la materia del suo mondo — perché la risposta del finale
+## («l'unica che tiene dodici modi di capire nella stessa testa») è vera solo se
+## ciascuna ne teneva davvero uno solo.
+func _check_sorelle() -> Array:
+	var out: Array = []
+	var sorelle: Array = SistersThread.SORELLE
+	if sorelle.size() != 11:
+		out.append("le sorelle sono %d, il colpo 7 ne dichiara undici" % sorelle.size())
+
+	var numeri: Dictionary = {}
+	var mondi: Dictionary = {}
+	var nomi: Dictionary = {}
+	# Un nome già preso da un abitante trasformerebbe una sorella in un cameo.
+	var presi := _nomi_gia_usati()
+	for raw in sorelle:
+		var sorella: Dictionary = raw
+		var numero := int(sorella.get("numero", 0))
+		var world := int(sorella.get("world", 0))
+		var nome := str(sorella.get("nome", "")).strip_edges()
+
+		if numero < 1 or numero > 11:
+			out.append("sorella «%s»: numero %d fuori da 1-11" % [nome, numero])
+		if numeri.has(numero):
+			out.append("due sorelle hanno il numero %d" % numero)
+		numeri[numero] = true
+
+		if world <= 12 or world >= 24:
+			out.append("sorella %d «%s»: mondo %d — le tracce stanno fra il colpo 3 (12) e il colpo 7 (24)" % [
+				numero, nome, world])
+		if mondi.has(world):
+			out.append("due sorelle nel mondo %d: una per mondo, o si leggono come una collezione" % world)
+		mondi[world] = true
+
+		if nome == "":
+			out.append("sorella %d senza nome" % numero)
+		if nomi.has(nome):
+			out.append("due sorelle si chiamano %s" % nome)
+		nomi[nome] = true
+		if presi.has(nome.to_lower()):
+			out.append("sorella %d si chiama %s, come un personaggio che il giocatore incontra davvero" % [
+				numero, nome])
+
+		var attesa := ApparatusConfig.world_subject(world)
+		if str(sorella.get("materia", "")) != attesa:
+			out.append("sorella %d «%s» al mondo %d porta «%s», ma quel mondo insegna «%s»" % [
+				numero, nome, world, str(sorella.get("materia", "")), attesa])
+
+		for campo in ["cosa", "eli"]:
+			var testo := str(sorella.get(campo, "")).strip_edges()
+			if testo == "":
+				out.append("sorella %d «%s»: campo «%s» vuoto" % [numero, nome, campo])
+				continue
+			out.append_array(_check_morte("sorella %s (%s)" % [nome, campo], testo))
+			out.append_array(_check_schermata("sorella %s (%s)" % [nome, campo], testo))
+
+	# Le tracce devono arrivare nel mondo per la stessa strada dei semi: se
+	# `tutti_i_semi` non le contiene, esistono solo su carta.
+	var nei_semi := 0
+	for seme in MysteryCatalog.tutti_i_semi():
+		if str((seme as Dictionary).get("sorella", "")) != "":
+			nei_semi += 1
+	if nei_semi != sorelle.size():
+		out.append("le sorelle sono %d ma i semi che le portano sono %d: non diventerebbero oggetti nel mondo" % [
+			sorelle.size(), nei_semi])
+
+	print("\nsorelle: %d, mondi %s, una materia ciascuna" % [
+		sorelle.size(),
+		", ".join(PackedStringArray(SistersThread.mondi().map(func(w): return str(w))))])
+	return out
+
+## Il confronto del mondo 24. Le due cose che lo rendono quella scena e non un
+## altro monologo: **Eli parla**, e parla per prima.
+func _check_confronto() -> Array:
+	var out: Array = []
+	var scena: Array = SistersThread.CONFRONTO
+	if scena.is_empty():
+		out.append("il confronto del mondo 24 è vuoto")
+		return out
+
+	var voci: Dictionary = {}
+	for raw in scena:
+		var blocco: Dictionary = raw
+		var chi := str(blocco.get("chi", ""))
+		if chi != "eli" and chi != "nora":
+			out.append("nel confronto parla «%s»: la scena è a due" % chi)
+		voci[chi] = int(voci.get(chi, 0)) + 1
+		var dice: Array = blocco.get("dice", [])
+		if dice.is_empty():
+			out.append("un blocco del confronto non dice niente")
+		for riga in dice:
+			var testo := str(riga).strip_edges()
+			if testo == "":
+				out.append("riga vuota nel confronto")
+				continue
+			out.append_array(_check_morte("confronto (%s)" % chi, testo))
+			out.append_array(_check_schermata("confronto (%s)" % chi, testo))
+
+	if int(voci.get("eli", 0)) == 0:
+		out.append("nel confronto Eli non parla: è esattamente il difetto che la scena esiste per togliere")
+	if str((scena[0] as Dictionary).get("chi", "")) != "eli":
+		out.append("il confronto non lo apre Eli: la scena è sua, non un'altra confessione di NORA")
+
+	print("confronto del mondo 24: %d blocchi · Eli %d, NORA %d" % [
+		scena.size(), int(voci.get("eli", 0)), int(voci.get("nora", 0))])
+	return out
+
+## I nomi che il giocatore sente addosso a qualcuno di vivo e presente.
+func _nomi_gia_usati() -> Dictionary:
+	var out: Dictionary = {}
+	for gruppo in [NpcCatalog.RESIDENTS, NpcCatalog.BISLACCHI, ItinerantCatalog.ITINERANTI]:
+		for key in (gruppo as Dictionary).keys():
+			var nome := str(((gruppo as Dictionary)[key] as Dictionary).get("nome", "")).strip_edges()
+			if nome != "":
+				out[nome.to_lower()] = true
+	return out
+
 func _check_tracce() -> Array:
 	var out: Array = []
 	print("")
@@ -241,6 +369,14 @@ func _check_beats() -> Array:
 		out.append("il beat finale non dice esplicitamente che le undici e Meridiana sono vive (§10.4)")
 	print("\nbeat: %d su 24, nessuno ripetuto · il beat finale le dichiara vive" % NarrativeManager.BEATS.size())
 	return out
+
+## Una schermata è una schermata: §10.2 dà quattro righe, e oltre `MAX_CARATTERI`
+## il testo o esce dal riquadro o diventa un muro che nessuno legge.
+func _check_schermata(where: String, text: String) -> Array:
+	if text.length() <= MAX_CARATTERI:
+		return []
+	return ["%s: %d caratteri, massimo %d — va letta, non recitata" % [
+		where, text.length(), MAX_CARATTERI]]
 
 ## Il termine è vietato solo se **affermato**. Guardo le venti battute prima:
 ## se c'è una negazione, la frase sta dicendo il contrario ed è quella giusta.

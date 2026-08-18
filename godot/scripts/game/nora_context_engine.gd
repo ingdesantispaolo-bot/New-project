@@ -54,14 +54,37 @@ static func subject_method(subject: String) -> String:
 static func _is_feminine(subject: String) -> bool:
 	return bool(SUBJECT_FEMININE.get(subject, false))
 
+## Come si presenta ad aprire una sessione, per atto. Riusa `NoraVoice.atto_di`
+## invece di ripetere le soglie 9/17: due tabelle che dividono la campagna in
+## atti e non si parlano fra loro sono come si è rotto l'indirizzo di NORA
+## (vedi `nora_voice.gd`) — qui non doveva ripetersi. Il primo atto è la frase
+## originale (analisi tecnica e sola); il secondo la fa insieme, non da sola;
+## il terzo si tira indietro apposta, perché non dare mai la risposta è
+## ormai una scelta e non un limite.
+const APERTURA_PER_ATTO := {
+	"atto1": "Prima diagnosi, poi risposta",
+	"atto2": "Ragioniamo insieme, non ti guido io",
+	"atto3": "Tu decidi il primo passo, io guardo",
+}
+const RIPASSO_PER_ATTO := {
+	"atto1": "Ti resto vicina",
+	"atto2": "Lo conosci già: fidati di quello che ricordi",
+	"atto3": "Ci sei già arrivata una volta: ci arrivi di nuovo",
+}
+
 ## Frase d'apertura sessione (missione o enigma), con metodo per materia. Se
 ## la sessione contiene topic in ripasso spaziato, NORA lo segnala invece
 ## della diagnosi standard (equivalente del beat "open" con recurrent>=1 in
 ## NoraContextEngine.ts, qui derivato dal flag `review` già in ContentManager).
-static func open_line(subject: String, is_review: bool) -> String:
+## `level` è opzionale (default il primo atto) per i chiamanti che non hanno
+## ancora un livello — un'unica sessione senza narrativa non deve rompersi.
+static func open_line(subject: String, is_review: bool, level: int = 1) -> String:
 	var feminine := _is_feminine(subject)
+	var atto := NoraVoice.atto_di(level)
 	if is_review:
 		var demonstrative := "Questa" if feminine else "Questo"
-		return "%s %s ti ha già fatto inciampare. Ti resto vicina: %s." % [demonstrative, subject_label(subject), subject_method(subject)]
+		var chiusura := str(RIPASSO_PER_ATTO.get(atto, RIPASSO_PER_ATTO["atto1"]))
+		return "%s %s ti ha già fatto inciampare. %s: %s." % [demonstrative, subject_label(subject), chiusura, subject_method(subject)]
 	var article := "la" if feminine else "il"
-	return "Apro %s %s. Prima diagnosi, poi risposta: %s." % [article, subject_label(subject), subject_method(subject)]
+	var apertura := str(APERTURA_PER_ATTO.get(atto, APERTURA_PER_ATTO["atto1"]))
+	return "Apro %s %s. %s: %s." % [article, subject_label(subject), apertura, subject_method(subject)]

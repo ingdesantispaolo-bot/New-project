@@ -26,6 +26,7 @@ func _init() -> void:
 	_test_registro_argomenti(content, manager)
 	_test_ordinamento_matematica_calcolabile(manager)
 	_test_logica_ha_ordinamenti_autorati(manager)
+	_test_forgia_frazioni_integrata(manager)
 	print("Minigame topic scope audit OK — nessun argomento fuori registro")
 	quit(0)
 
@@ -122,3 +123,39 @@ func _test_logica_ha_ordinamenti_autorati(manager: MinigameManager) -> void:
 			"logica: ordinamento su argomento %s, fuori dalle lezioni dei mondi 12 e 24" % str(spec.get("topic", "")))
 		var correct: Array = spec.get("correctOrder", [])
 		assert(correct.size() >= 3, "logica: ordinamento troppo corto (%d elementi)" % correct.size())
+
+func _test_forgia_frazioni_integrata(manager: MinigameManager) -> void:
+	# La Forgia resta disponibile in ogni mondo, con il mazzo filtrato sulla
+	# difficolta della campata; nel mondo 13 e anche il tema esplicito della lezione.
+	assert(
+		str(WorldLessonCatalog.lesson(13).get("subject", "")) == "matematica",
+		"mondo 13: la Forgia richiede il focus matematica")
+	assert(
+		WorldLessonCatalog.topics(13).has("frazioni"),
+		"mondo 13: la lezione deve dichiarare frazioni")
+	assert(
+		MinigameManager.topics_for("matematica").has("frazioni"),
+		"matematica: frazioni assente dal registro dei minigiochi")
+	for level in range(1, ApparatusConfig.MAX_LEVEL + 1):
+		var rng := RandomNumberGenerator.new()
+		rng.seed = hash("fraction-forge:world-%d" % level)
+		var session := manager.build_topic_minigame("matematica", "frazioni", level, rng)
+		var validation := ExerciseInteraction.validate_session(session)
+		assert(bool(validation.get("ok", false)), "Forgia L%d non valida: %s" % [level, str(validation.get("errors", []))])
+		var found := false
+		for node_data in Array(session.get("nodes", [])):
+			var node: Dictionary = node_data
+			if str(node.get("actionTheme", "")) != "fraction_forge":
+				continue
+			found = true
+			assert(str(node.get("format", "")) == "swipe", "Forgia L%d: formato non swipe" % level)
+			assert(str(node.get("topic", "")) == "frazioni", "Forgia L%d: argomento non coerente" % level)
+			assert(Array(node.get("statements", [])).size() >= 10, "Forgia L%d: round troppo corto" % level)
+			var node_difficulty := int(node.get("difficulty", 1))
+			for statement_data in Array(node.get("statements", [])):
+				var statement: Dictionary = statement_data
+				assert(statement.has("visual"), "Forgia L%d: affermazione senza modello grafico" % level)
+				assert(
+					int(statement.get("minDifficulty", 1)) <= node_difficulty,
+					"Forgia L%d: operazione troppo difficile per la campata" % level)
+		assert(found, "mondo %d: la sessione mirata non contiene la Forgia delle Frazioni" % level)

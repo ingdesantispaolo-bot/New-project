@@ -37,6 +37,21 @@ static func performance_budget() -> Dictionary:
 		"desktop": {"targetFps": 60, "minSteadyFps": 30, "maxDrawCalls": 1200, "maxMemoryMiB": 192, "maxActivePois": 20, "streamRadius": 2000},
 	}
 
+# Tier del dispositivo su cui si sta girando. Unica fonte di verita': prima
+# viveva duplicata in `outdoor_world.gd` e nell'autoload di telemetria, con il
+# rischio che le due copie divergessero e che il cap FPS non corrispondesse al
+# budget effettivamente applicato agli eventi.
+static func current_tier() -> String:
+	if OS.has_feature("mobile"):
+		return "mobile"
+	if OS.has_feature("web"):
+		return "web"
+	return "desktop"
+
+static func budget_for_current_tier() -> Dictionary:
+	var budgets := performance_budget()
+	return Dictionary(budgets.get(current_tier(), budgets.get("web", {})))
+
 # Formati d'esercizio REALMENTE serviti dalla materia (famiglie ExerciseInteraction).
 # Servono all'event pool per variare le tappe evitando la scelta multipla ovunque.
 # Non è una preferenza: è il repertorio misurato sull'esperienza giocata

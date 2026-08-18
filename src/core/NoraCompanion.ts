@@ -35,6 +35,7 @@ export type NoraVisualStage = {
   id: string;
   title: string;
   key: string;
+  presenceKey: string;
   unlocked: boolean;
   current: boolean;
 };
@@ -118,30 +119,35 @@ const VISUAL_STAGES: NoraVisualStageDef[] = [
     id: "dormant",
     title: "NORA quasi spenta",
     key: "story-nora-core-dormant",
+    presenceKey: "nora-presence-dormant-v3",
     unlock: () => true,
   },
   {
     id: "awakening",
     title: "Primo risveglio",
     key: "story-nora-core-awakening",
+    presenceKey: "nora-presence-awakening-v3",
     unlock: () => chapterDone("mission-01-laboratorio-spento"),
   },
   {
     id: "memory",
     title: "Memoria in ricostruzione",
     key: "story-nora-core-memory",
+    presenceKey: "nora-presence-memory-v3",
     unlock: () => chapterDone("mission-03-fabbrica-numeri"),
   },
   {
     id: "restored",
     title: "NORA restaurata",
     key: "story-nora-core-restored",
+    presenceKey: "nora-presence-portrait-v2",
     unlock: () => chapterDone("mission-04-archivio-parole"),
   },
   {
     id: "guardian",
     title: "Custode della Città",
     key: "story-nora-core-guardian",
+    presenceKey: "nora-presence-guardian-v3",
     unlock: () => chapterDone("mission-06-citta-intelligente"),
   },
 ];
@@ -306,6 +312,7 @@ export class NoraCompanion {
       id: stage.id,
       title: stage.title,
       key: stage.key,
+      presenceKey: stage.presenceKey,
       unlocked: stage.unlock(),
       current: stage.id === currentId,
     }));
@@ -317,6 +324,7 @@ export class NoraCompanion {
       id: "dormant",
       title: "NORA quasi spenta",
       key: "story-nora-core-dormant",
+      presenceKey: "nora-presence-dormant-v3",
       unlocked: true,
       current: true,
     };

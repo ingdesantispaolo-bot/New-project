@@ -76,6 +76,12 @@ signal world_light_changed(luce: float, grado: int, salito: bool)
 ## mondo. `forma` dice COME (spegnere/liberare/riparare/riaccendere), l'id dice
 ## DOVE. Qui non si sa niente di fuochi e di animali: si sa che e' fatta.
 signal minimission_completed(forma: String, encounter_id: String, esito: String)
+## Un argomento è passato allo stato **consolidato** nel manuale di NORA: tre
+## risposte giuste in sessioni distinte, con una notte di mezzo. È il traguardo
+## didattico più silenzioso del gioco — non dà energia, non apre niente — e prima
+## del 14 agosto non lo sapeva nessuno fuori di qui, tanto che il segnale
+## `topic_consolidated` del Custode era dichiarato e non veniva mai emesso.
+signal topic_consolidated(subject: String, topic: String)
 
 var game_save: GameSaveManager
 var content_manager: ContentManager
@@ -160,6 +166,16 @@ func _manca_per_salire(subject: String) -> String:
 		+ "Più vicine: %s%s. Si allenano negli incontri di pratica sparsi nel mondo.") % [
 		testa, ", ".join(PackedStringArray(pezzi)), coda]
 
+## Quando l'esame non si ripete perché la materia è già stata superata QUI.
+## Dice anche dove sta il lavoro rimasto, altrimenti la porta chiusa resta una
+## porta chiusa: le materie che mancano davvero sono le altre.
+func _gia_certificata(subject: String) -> String:
+	var testa := "L'apparato di %s è già acceso a questo livello: l'esame l'hai passato, non si rifà." % subject
+	var mancanti: Array = Array(progression_manager.readiness().get("missing", []))
+	if mancanti.is_empty():
+		return "%s Manca solo salire: il livello si apre." % testa
+	return "%s Restano %d materie da portare a questo grado." % [testa, mancanti.size()]
+
 func _abandon_feedback(costo: int, advanced: Array) -> String:
 	var testa := "Prova chiusa."
 	if costo > 0:
@@ -187,9 +203,20 @@ func setup(request: Dictionary, session_result: Dictionary, load_local_save: boo
 		game_save.load_save()
 	game_save.apply_launch_state(request)
 	content_manager = ContentManager.new()
+	# Le prove già superate entrano nella selezione una volta sola e per
+	# riferimento: `solved_index()` è un oggetto stabile che il save aggiorna in
+	# casa propria, quindi una prova risolta adesso è fuori dalla scelta già alla
+	# prova successiva, senza che nessuno debba ricordarsi di riassegnarlo.
+	content_manager.solved_by_subject = game_save.solved_index()
 	# ContentManager prima di ProgressionManager: serve alla dimensione COPERTURA
 	# del gate (numero di argomenti che la materia può proporre).
 	progression_manager = ProgressionManager.new(game_save, content_manager)
+	# Anche all'ingresso, non solo a fine sessione: un salvataggio che arriva da
+	# prima di questa regola — o da un mondo lasciato a metà — ha materie già in
+	# linea e nessun traguardo registrato. Senza questa riga il quadro degli
+	# obiettivi resterebbe sbagliato fino alla prima prova giocata, che è proprio
+	# il momento in cui il bambino lo apre per sapere che cosa fare.
+	progression_manager.aggiorna_traguardi_di_livello()
 	reward_manager = RewardManager.new(game_save)
 	narrative_manager.setup(game_save)
 	progress_report.setup(game_save)
@@ -363,6 +390,16 @@ func runtime_state() -> Dictionary:
 		"masteryThreshold": mastery_threshold,
 		"masteryProgress": clampf(
 			game_save.mastery_of(world_subject) / maxf(0.001, mastery_threshold), 0.0, 1.0),
+		# L'impulso: cariche possedute e tetto. La scena disegna le celle e il
+		# pulsante leggendo di qui e non ricalcola niente — l'economia
+		# dell'impulso è semantica, come quella dell'energia.
+		"pulseCharges": PulseCharge.cariche(game_save),
+		"pulseChargeMax": PulseCharge.massimo(game_save),
+		# Gli effetti dei moduli di spedizione, già risolti in numeri: la scena
+		# disegna e si muove, non guarda che cosa il giocatore ha comprato
+		# (invariante 1). Se un giorno un modulo cambia effetto, cambia qui.
+		"pulseRadius": ExpeditionModules.raggio_impulso(game_save),
+		"sprintMultiplier": ExpeditionModules.moltiplicatore_scatto(game_save),
 		"ready": bool(progress.get("ready", false)),
 		# Le stanze accese: è questa collezione, non il livello, ad aprire il Cuore.
 		"apparatusRepaired": int(progress.get("apparatusRepaired", 0)),
@@ -411,8 +448,11 @@ func try_start_mission(payload: Dictionary, encounter_id: String) -> bool:
 		return false
 	session = _decorate_teaching_session(session, subject)
 	_charge_exercise_entry()
-	active_session_context = {"kind": "mission", "encounterId": encounter_id, "subject": subject}
-	var nora_line := str(session.get("teachingLine", NoraContextEngine.open_line(subject, _has_review_node(session))))
+	active_session_context = {
+		"kind": "mission", "encounterId": encounter_id,
+		"subject": subject, "theme": subject,
+	}
+	var nora_line := str(session.get("teachingLine", NoraContextEngine.open_line(subject, _has_review_node(session), _learning_level())))
 	_present_feedback(nora_line, "nora")
 	# Il prezzo dell'uscita lo decide qui la semantica, non il player: così
 	# la cifra mostrata al bambino e quella addebitata sono la stessa.
@@ -445,7 +485,7 @@ func try_start_enigma(payload: Dictionary, encounter_id: String) -> bool:
 	_charge_exercise_entry()
 	var theme := str(session.get("theme", "ponte"))
 	active_session_context = {"kind": "enigma", "encounterId": encounter_id, "subject": subject, "theme": theme}
-	var nora_line := str(session.get("teachingLine", NoraContextEngine.open_line(subject, _has_review_node(session))))
+	var nora_line := str(session.get("teachingLine", NoraContextEngine.open_line(subject, _has_review_node(session), _learning_level())))
 	_present_feedback(nora_line, "nora")
 	# Il prezzo dell'uscita lo decide qui la semantica, non il player: così
 	# la cifra mostrata al bambino e quella addebitata sono la stessa.
@@ -614,12 +654,43 @@ func _decorate_teaching_session(source: Dictionary, subject: String) -> Dictiona
 	for indice in range(nodi.size()):
 		var nodo: Dictionary = nodi[indice]
 		var topic := str(nodo.get("topic", "")).strip_edges()
-		if topic == "" or gia_insegnati.has(topic):
+		if topic == "":
 			continue
-		var moment := KnowledgeCodex.teaching_moment(game_save, subject, topic)
-		if moment == "none":
-			continue
-		var lesson := codex.mini_lesson(subject, topic)
+		# **Il topic può essere "incontrato" e il FATTO essere nuovo lo stesso.**
+		# (16 agosto 2026, segnalazione: «chiedere di ordinare eventi storici
+		# che non conosce a cosa serve?»)
+		#
+		# Un ordinamento a insieme (`correctOrderDetail`, popolato da
+		# `MinigameManager._ordering_node` per le sole specifiche a pool) pesca
+		# ogni volta un sottoinsieme diverso da un banco che arriva a ventotto
+		# voci. Lo stato del topic diventa "incontrato" alla prima estrazione e
+		# resta così per il resto della campagna, mentre gli eventi/valori
+		# pescati cambiano prova dopo prova: senza questo controllo, un bambino
+		# viene interrogato su fatti mai spiegati semplicemente perché
+		# l'ARGOMENTO gli era già stato presentato una volta, su fatti diversi.
+		#
+		# **Il controllo dei fatti non passa dal cancello `gia_insegnati`.**
+		# Quel cancello resta a proteggere la lezione GENERICA (una sola per
+		# argomento a sessione, per non impilare schede): un nodo di
+		# abbinamento su «misure-elettriche» può consumarlo, e un ordinamento
+		# sullo stesso argomento — con tensioni mai viste — arriverebbe muto se
+		# dipendesse dallo stesso cancello. È il caso reale che ha fatto fallire
+		# la prima versione di questa riparazione, misurato da
+		# `fact_level_teaching_audit.gd`.
+		var nuovi_fatti: Array = []
+		if str(nodo.get("format", "")) == "ordering":
+			nuovi_fatti = KnowledgeCodex.unknown_facts(
+				game_save, subject, topic, Array(nodo.get("correctOrderDetail", [])))
+		var moment := ""
+		var lesson := {}
+		if not gia_insegnati.has(topic):
+			moment = KnowledgeCodex.teaching_moment(game_save, subject, topic)
+			if moment != "none":
+				lesson = codex.mini_lesson(subject, topic)
+		if lesson.is_empty() and not nuovi_fatti.is_empty():
+			moment = "new_facts"
+			lesson = KnowledgeCodex.fact_lesson(
+				subject, topic, str(nodo.get("explanation", "")), nuovi_fatti)
 		if lesson.is_empty():
 			continue
 		gia_insegnati[topic] = true
@@ -627,7 +698,13 @@ func _decorate_teaching_session(source: Dictionary, subject: String) -> Dictiona
 		nodo["teachingLesson"] = lesson
 		nodo["teachingLine"] = KnowledgeCodex.teach_line(moment)
 		nodi[indice] = nodo
-		KnowledgeCodex.advance_state(game_save, subject, topic, "seen")
+		if moment != "new_facts":
+			KnowledgeCodex.advance_state(game_save, subject, topic, "seen")
+		if not nuovi_fatti.is_empty():
+			var labels: Array = []
+			for entry in nuovi_fatti:
+				labels.append(str((entry as Dictionary).get("label", "")))
+			KnowledgeCodex.mark_facts_known(game_save, subject, topic, labels)
 		if not qualcosa_da_insegnare:
 			# Il primo resta anche sulla sessione: la scena e alcuni controlli
 			# leggono ancora li', e la riga d'apertura di NORA nasce da qui.
@@ -691,14 +768,109 @@ const PRACTICE_QUOTA_CATALOGO := 1.0
 ##
 ## Se anche i banchi non bastano si riempie con quello che c'è: una sessione
 ## vuota sarebbe un vicolo cieco, e un vicolo cieco è peggio di una ripetizione.
-func _build_practice_session(subject: String) -> Dictionary:
+func _catalog_practice_session(subject: String, level: int, topic_hint: String, format_hint: String) -> Dictionary:
+	if topic_hint != "" or format_hint != "":
+		return minigame_manager.build_guided_minigame(subject, topic_hint, format_hint, level)
+	return minigame_manager.build_minigame(subject, level)
+
+func _due_topics_for(subject: String) -> Array:
+	var prefix := "%s:" % subject
+	var topics: Array = []
+	for key_data in _due().keys():
+		var key := str(key_data)
+		if key.begins_with(prefix):
+			topics.append(key.trim_prefix(prefix))
+	return topics
+
+## Garantisce il contratto completo del recupero nelle palestre di QUALSIASI
+## materia e mondo: il topic dovuto deve essere presente e il nodo deve portare
+## `review:true`, perche' e' quel flag che ExercisePlayer traduce in
+## `reviewedOk`. Il suggerimento pianificato nel POI non basta: puo' essere stato
+## calcolato prima dell'errore, mentre questa funzione legge il save al momento
+## esatto in cui si apre la prova.
+func _inject_due_reviews(session: Dictionary, subject: String, level: int, due_topics: Array) -> Dictionary:
+	if due_topics.is_empty():
+		return session
+	var out := session.duplicate(true)
+	var nodes: Array = out.get("nodes", [])
+	if nodes.is_empty():
+		return out
+	var covered: Dictionary = {}
+	for node_data in nodes:
+		var node: Dictionary = node_data
+		var topic := str(node.get("topic", ""))
+		if due_topics.has(topic):
+			node["review"] = true
+			covered[topic] = true
+
+	for topic_data in due_topics:
+		var topic := str(topic_data)
+		if covered.has(topic):
+			continue
+		var replacement: Dictionary = {}
+		var ripiego_risolto: Dictionary = {}
+		# Prima scelta: conserva la forma interattiva della palestra.
+		var guided := minigame_manager.build_topic_minigame(subject, topic, level)
+		for candidate_data in Array(guided.get("nodes", [])):
+			var candidate: Dictionary = candidate_data
+			if str(candidate.get("topic", "")) != topic:
+				continue
+			# Il ripasso si fa comunque, ma su una prova non ancora risolta se ce
+			# n'è una: l'argomento è dovuto, la domanda identica no.
+			if game_save.has_solved(subject, candidate):
+				if ripiego_risolto.is_empty():
+					ripiego_risolto = candidate.duplicate(true)
+				continue
+			replacement = candidate.duplicate(true)
+			break
+		# Fallback: il banco/generatore della materia e' la fonte autoritativa. Il
+		# generatore matematico prioritizza esplicitamente il topic richiesto.
+		if replacement.is_empty():
+			var one_due := {"%s:%s" % [subject, topic]: 1}
+			var recovery := content_manager.build_mission(
+				subject, level, 1, one_due, null,
+				game_save.mastery_of(subject), game_save.topic_masteries(subject))
+			for candidate_data in Array(recovery.get("nodes", [])):
+				var candidate: Dictionary = candidate_data
+				if str(candidate.get("topic", "")) == topic:
+					replacement = candidate.duplicate(true)
+					break
+		# Se su questo argomento non è rimasto niente di nuovo, il ripasso si fa
+		# lo stesso con la prova già risolta: saltarlo sarebbe il danno maggiore.
+		if replacement.is_empty():
+			replacement = ripiego_risolto
+		if replacement.is_empty():
+			continue
+		replacement["review"] = true
+		var replace_at := -1
+		for index in range(nodes.size() - 1, -1, -1):
+			if not bool(Dictionary(nodes[index]).get("review", false)):
+				replace_at = index
+				break
+		if replace_at < 0:
+			break
+		nodes[replace_at] = replacement
+		covered[topic] = true
+	out["nodes"] = nodes
+	return out
+
+func _build_practice_session(subject: String, topic_hint: String = "", format_hint: String = "") -> Dictionary:
 	var livello := _learning_level()
-	var session := minigame_manager.build_minigame(subject, livello)
+	var due_topics := _due_topics_for(subject)
+	# Un hint scritto quando il mondo e' stato generato puo' essere precedente
+	# all'ultimo errore. Il recupero corrente ha sempre precedenza.
+	var effective_topic := str(due_topics[0]) if not due_topics.is_empty() else topic_hint
+	var session := _catalog_practice_session(subject, livello, effective_topic, format_hint)
 	var voluti := Array(session.get("nodes", [])).size()
 	if voluti == 0:
 		return session
 
 	var evita := game_save.recent_practice(subject)
+	# Le due memorie rispondono a due domande diverse e servono entrambe: `evita`
+	# dice «l'ha vista di recente» (finestra corta, solo palestra), `superate` dice
+	# «l'ha risolta» e non scade. La seconda arriva qui perché la palestra
+	# costruisce i propri nodi da sé, fuori dalla selezione di ContentManager.
+	var superate := game_save.solved_exercises(subject)
 	var visti_qui: Dictionary = {}      # niente doppioni dentro la stessa sessione
 	var tenuti: Array = []
 	var scartati: Array = []
@@ -711,7 +883,7 @@ func _build_practice_session(subject: String) -> Dictionary:
 			var impronta := GameSaveManager.practice_node_fingerprint(nodo)
 			if visti_qui.has(impronta):
 				continue
-			if evita.has(impronta):
+			if evita.has(impronta) or superate.has(GameSaveManager.solved_fingerprint(nodo)):
 				scartati.append(nodo)
 				continue
 			visti_qui[impronta] = true
@@ -724,7 +896,7 @@ func _build_practice_session(subject: String) -> Dictionary:
 	var tentativi := 0
 	while tenuti.size() < tetto and tentativi < PRACTICE_RIESTRAZIONI:
 		tentativi += 1
-		raccogli.call(Array(minigame_manager.build_minigame(subject, livello).get("nodes", [])).slice(0, tetto))
+		raccogli.call(Array(_catalog_practice_session(subject, livello, effective_topic, format_hint).get("nodes", [])).slice(0, tetto))
 
 	if tenuti.size() < voluti:
 		# Il resto dai banchi, che di fondo ne hanno. Si chiede con abbondanza
@@ -740,7 +912,7 @@ func _build_practice_session(subject: String) -> Dictionary:
 	tentativi = 0
 	while tenuti.size() < voluti and tentativi < PRACTICE_RIESTRAZIONI:
 		tentativi += 1
-		raccogli.call(Array(minigame_manager.build_minigame(subject, livello).get("nodes", [])))
+		raccogli.call(Array(_catalog_practice_session(subject, livello, effective_topic, format_hint).get("nodes", [])))
 
 	# Ultima risorsa: si riammettono i già visti, i più vecchi per primi. Non
 	# capita quasi mai, e quando capita è meglio di una sessione vuota.
@@ -750,7 +922,7 @@ func _build_practice_session(subject: String) -> Dictionary:
 		i += 1
 
 	session["nodes"] = tenuti
-	return session
+	return _inject_due_reviews(session, subject, livello, due_topics)
 
 # Minigioco: un incontro risolto con formati interattivi (abbina/ordina) della
 # materia. Stessa pipeline delle missioni — conta per il gate dell'apparato,
@@ -797,7 +969,9 @@ func try_start_minigame(payload: Dictionary, encounter_id: String, sconto: bool 
 		_present_feedback("Minigioco già completato.", "system")
 		return false
 	var subject := _subject_for_payload(payload)
-	var session := _build_practice_session(subject)
+	var topic_hint := str(payload.get("topicHint", ""))
+	var format_hint := str(payload.get("format", ""))
+	var session := _build_practice_session(subject, topic_hint, format_hint)
 	if Array(session.get("nodes", [])).is_empty():
 		_present_feedback("Minigioco non disponibile per %s." % subject, "system")
 		return false
@@ -811,9 +985,9 @@ func try_start_minigame(payload: Dictionary, encounter_id: String, sconto: bool 
 		impronte.append(GameSaveManager.practice_node_fingerprint(n as Dictionary))
 	active_session_context = {
 		"kind": "minigame", "encounterId": encounter_id, "subject": subject,
-		"impronte": impronte,
+		"topicHint": topic_hint, "formatHint": format_hint, "impronte": impronte,
 	}
-	_present_feedback(NoraContextEngine.open_line(subject, false), "nora")
+	_present_feedback(NoraContextEngine.open_line(subject, false, _learning_level()), "nora")
 	# Il prezzo dell'uscita lo decide qui la semantica, non il player: così
 	# la cifra mostrata al bambino e quella addebitata sono la stessa.
 	session["abandonCost"] = EXERCISE_ABANDON_COST
@@ -822,13 +996,14 @@ func try_start_minigame(payload: Dictionary, encounter_id: String, sconto: bool 
 	return true
 
 # Inoltro del progresso dall'ExercisePlayer (la scena connette qui
-# `progress_changed`): rilancia `enigma_progress` con tema ed encounter_id solo
-# durante un enigma, ignorando le sessioni normali.
+# `progress_changed`): rilancia il progresso con tema ed encounter_id. Il
+# consumer visuale decide se costruire una struttura o accendere il luogo; il
+# runtime non decide la resa.
 func notify_progress(built: int, total: int) -> void:
 	# Le minimissioni si costruiscono a campate esattamente come gli enigmi: sono
 	# nate da quella meccanica, ed è l'unico punto del gioco in cui una risposta
 	# giusta lascia un oggetto nel mondo.
-	if not (str(active_session_context.get("kind", "")) in ["enigma", "minimission"]):
+	if not (str(active_session_context.get("kind", "")) in ["mission", "enigma", "minimission"]):
 		return
 	enigma_progress.emit(built, total, str(active_session_context.get("theme", "ponte")), str(active_session_context.get("encounterId", "")))
 
@@ -838,6 +1013,13 @@ func try_start_final_exam() -> bool:
 	# L'esame è quello dell'apparato della materia che ABITA il mondo: si ripara
 	# una stanza per volta, e la stanza è quella del mondo in cui ti trovi.
 	var subject := ApparatusConfig.world_subject(game_save.level())
+	# Già superato a questo livello: si dice, invece di non fare niente. Un
+	# pulsante che non risponde insegna che è rotto; una riga che spiega insegna
+	# che quella materia è a posto e che il lavoro sta altrove.
+	if progression_manager.apparatus_certified_now(subject):
+		_present_feedback(_gia_certificata(subject), "nora")
+		_emit_state()
+		return false
 	if not progression_manager.can_repair_apparatus(subject):
 		_emit_state()
 		return false
@@ -892,6 +1074,13 @@ func resolve_session(exercise_result: Dictionary) -> void:
 	# decidere se la copia in cloud debba partire subito invece di aspettare.
 	var salito_di_livello := false
 
+	# **Le prove superate escono dal giro, e prima di ogni ramo.** Non è un fatto
+	# della missione o della palestra: è un fatto dello studente, vale per l'esame
+	# come per il lavoretto in bottega, e vale anche per la sessione lasciata a
+	# metà. Da qui in poi la selezione non le ripropone (vedi
+	# `ContentManager.solved_by_subject`).
+	game_save.remember_solved_map(Dictionary(exercise_result.get("solved", {})))
+
 	# Prova abbandonata: si paga l'uscita, non si registra alcun esito e non si
 	# completa niente. Gli argomenti visti vanno comunque al Codex — quello che
 	# il bambino ha imparato non gli viene tolto perché ha chiuso la porta.
@@ -902,7 +1091,13 @@ func resolve_session(exercise_result: Dictionary) -> void:
 		var usciti_avanzati: Array = progression_manager.record_topic_stats(
 			subject, exercise_result.get("topicStats", {}))
 		_update_spaced_repetition(subject, exercise_result)
+		progression_manager.aggiorna_traguardi_di_livello()
 		_present_feedback(_abandon_feedback(costo, usciti_avanzati), "nora")
+		# Anche l'uscita anticipata si scrive su disco. Era l'unico ramo che non lo
+		# faceva: chiudere la prova e poi il gioco rimandava indietro l'energia
+		# spesa, e ora rimanderebbe indietro anche le prove risolte — che
+		# tornerebbero a essere chieste, cioè esattamente ciò che va evitato.
+		_persist()
 		_emit_state()
 		return
 	# Il LAVORETTO in bottega: paga e non conta per niente altro. Allena la
@@ -910,6 +1105,7 @@ func resolve_session(exercise_result: Dictionary) -> void:
 	# incontri e non apre apparati.
 	if kind == "lavoretto":
 		progression_manager.record_practice(subject, correct, total, 0)
+		progression_manager.aggiorna_traguardi_di_livello()
 		if passed:
 			var paga := LAVORETTO_PAGA
 			game_save.add_energy(paga)
@@ -931,6 +1127,10 @@ func resolve_session(exercise_result: Dictionary) -> void:
 		progression_manager.record_mission(subject, correct, total, gained, passed)
 	var codex_advanced: Array = progression_manager.record_topic_stats(
 		subject, exercise_result.get("topicStats", {}))
+	for avanzato in codex_advanced:
+		var voce: Dictionary = avanzato
+		if str(voce.get("a", "")) == KnowledgeCodex.STATE_CONSOLIDATED:
+			topic_consolidated.emit(subject, str(voce.get("topic", "")))
 	progress_report.record(game_save.level(), subject, game_save.mastery_of(subject), 1 if passed else 0, float(exercise_result.get("seconds", 0.0)))
 	if passed:
 		PlayDiary.register_passed_today(game_save)
@@ -941,7 +1141,18 @@ func resolve_session(exercise_result: Dictionary) -> void:
 		var luce := WorldLight.accendi(game_save, _world_id())
 		var salito_grado := WorldLight.avanza_potenza(game_save)
 		world_light_changed.emit(luce, WorldLight.grado(game_save), salito_grado)
+		# **L'impulso si guadagna qui, e solo qui.** Una prova superata riempie il
+		# serbatoio: è la catena studi → passi in mezzo alle sacche. Il messaggio
+		# arriva solo quando la carica c'è davvero — annunciare mezzo progresso a
+		# ogni prova sarebbe rumore sopra la riga di NORA.
+		if PulseCharge.accredita(game_save):
+			_present_feedback(
+				"Impulso ricaricato: %d cariche." % PulseCharge.cariche(game_save), "system")
 	_update_spaced_repetition(subject, exercise_result)
+	# Dopo TUTTE le registrazioni della sessione, e prima di ogni ramo che
+	# presenta un esito: da qui in poi il gioco può dire «questa materia è
+	# chiusa», e non deve piu' tornare a chiederla a questo grado.
+	progression_manager.aggiorna_traguardi_di_livello()
 	result["energyEarned"] = int(result.get("energyEarned", 0)) + maxi(0, gained)
 	if kind == "minigame":
 		# Pratica: nessun gate, nessun completamento persistente → rigiocabile.
@@ -988,7 +1199,9 @@ func resolve_session(exercise_result: Dictionary) -> void:
 				completed.append(encounter_id)
 			# Incontro persistente nel save canonico del mondo (O-P0.4).
 			game_save.mark_encounter_completed(_world_id(), encounter_id)
-			_award_fragments(3 if kind != "mission" else 2)
+			_award_fragments(
+				FragmentEconomy.PREMIO_INCONTRO if kind != "mission"
+				else FragmentEconomy.PREMIO_MISSIONE)
 		if kind == "minimission":
 			_risolvi_minimissione(context, passed, encounter_id, correct, total)
 		elif kind == "enigma":
@@ -1023,7 +1236,7 @@ func resolve_session(exercise_result: Dictionary) -> void:
 			salito_di_livello = game_save.level() > livello_prima
 			var apparatus_bonus := maxi(0, game_save.energy() - energy_before - gained)
 			result["energyEarned"] = int(result.get("energyEarned", 0)) + apparatus_bonus
-			_award_fragments(4)
+			_award_fragments(FragmentEconomy.PREMIO_RIPARAZIONE)
 			if salito_di_livello:
 				_present_feedback("%s Livello %d." % [nora_voice.line("victory"), game_save.level()], "nora")
 				current_narrative = str(narrative_manager.reveal_level(game_save.level()).get("text", current_narrative))
@@ -1037,9 +1250,14 @@ func resolve_session(exercise_result: Dictionary) -> void:
 	_emit_state()
 
 # ---------------------------------------------------------------------------
-# Bottega (C-14): acquisto/equip cosmetici. La spesa passa da spend_energy() E
-# da result.energySpent, esattamente come le missioni, così il riepilogo della
-# sessione resta coerente senza duplicare l'economia del save canonico.
+# Bottega (C-14): acquisto/equip cosmetici. La spesa passa da spend_fragments() E
+# da result.fragmentsSpent, esattamente come le missioni fanno con l'energia,
+# così il riepilogo della sessione resta coerente senza duplicare l'economia del
+# save canonico.
+#
+# Dal 14 agosto 2026 si paga in FRAMMENTI e non più in energia: l'energia faceva
+# due mestieri in conflitto — pagava l'ingresso alle prove e comprava i cosmetici
+# — e comprare competeva con l'allenarsi. Vedi [[FragmentEconomy]].
 # ---------------------------------------------------------------------------
 
 func try_purchase_cosmetic(id: String) -> bool:
@@ -1049,10 +1267,10 @@ func try_purchase_cosmetic(id: String) -> bool:
 		return false
 	var cosmetic := RewardCatalog.find(id)
 	var cost := int(cosmetic.get("cost", 0))
-	if not game_save.spend_energy(cost):
-		_present_feedback("Energia insufficiente per \"%s\"." % str(cosmetic.get("name", id)), "system")
+	if not game_save.spend_fragments(cost):
+		_present_feedback("Frammenti insufficienti per \"%s\"." % str(cosmetic.get("name", id)), "system")
 		return false
-	result["energySpent"] = int(result.get("energySpent", 0)) + cost
+	result["fragmentsSpent"] = int(result.get("fragmentsSpent", 0)) + cost
 	reward_manager.unlock_and_equip(id)
 	_persist()
 	_present_feedback("Acquistato: %s" % str(cosmetic.get("name", id)), "system")
@@ -1070,6 +1288,19 @@ func unequip_cosmetic(slot: String) -> void:
 	reward_manager.unequip(slot)
 	_persist()
 	_emit_state()
+
+## Spende una carica d'impulso. Vero se c'era e la scena può disegnare l'onda.
+##
+## L'economia sta qui e non nella scena, come quella dell'energia: la presentazione
+## chiede e disegna, non decide. **Falso non è un errore**: a impulso scarico si
+## attraversa lo stesso pagando il morso, e chi chiama non deve fare niente di
+## diverso — nessun percorso della mappa richiede una carica.
+func usa_impulso() -> bool:
+	if not PulseCharge.consuma(game_save):
+		return false
+	_persist()
+	_emit_state()
+	return true
 
 # Raccolta tesoro: solo frammenti (l'energia si guadagna con gli esercizi). Il
 # tesoro è persistente nel save canonico del mondo: raccolto una volta, non torna

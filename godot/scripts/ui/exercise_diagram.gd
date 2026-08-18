@@ -116,6 +116,8 @@ func layout_hotspot_targets() -> void:
 func _draw() -> void:
 	var bounds := Rect2(Vector2(8, 8), size - Vector2(16, 16))
 	draw_style_box(_panel_style(), bounds)
+	if not (diagram_kind == "hotspot" and background_texture != null) and diagram_kind != "swipe":
+		_draw_game_backdrop(bounds)
 	match diagram_kind:
 		"graph":
 			_draw_graph(bounds)
@@ -201,8 +203,17 @@ func _draw_graph(bounds: Rect2) -> void:
 	var origin := Vector2(bounds.position.x + 48, bounds.end.y - 38)
 	var end_x := Vector2(bounds.end.x - 24, origin.y)
 	var end_y := Vector2(origin.x, bounds.position.y + 24)
-	draw_line(origin, end_x, Color("b8d7dc"), 2.0)
-	draw_line(origin, end_y, Color("b8d7dc"), 2.0)
+	# Una griglia da strumento scientifico rende immediatamente percepibili
+	# pendenza e distanza, senza aggiungere testo alla domanda.
+	for step in range(1, 6):
+		var tx := lerpf(origin.x, end_x.x, float(step) / 6.0)
+		var ty := lerpf(origin.y, end_y.y, float(step) / 6.0)
+		draw_line(Vector2(tx, origin.y), Vector2(tx, end_y.y), Color(0.35, 0.76, 0.78, 0.11), 1.0)
+		draw_line(Vector2(origin.x, ty), Vector2(end_x.x, ty), Color(0.35, 0.76, 0.78, 0.11), 1.0)
+	draw_line(origin, end_x, Color(0.60, 0.94, 0.92, 0.22), 7.0, true)
+	draw_line(origin, end_y, Color(0.60, 0.94, 0.92, 0.22), 7.0, true)
+	draw_line(origin, end_x, Color("d8fff8"), 2.2, true)
+	draw_line(origin, end_y, Color("d8fff8"), 2.2, true)
 	var font := ThemeDB.fallback_font
 	draw_string(font, Vector2(end_x.x - 70, origin.y - 9), str(model.get("xLabel", "x")), HORIZONTAL_ALIGNMENT_RIGHT, 68, 13, Color("b8d7dc"))
 	draw_string(font, Vector2(origin.x + 8, end_y.y + 15), str(model.get("yLabel", "y")), HORIZONTAL_ALIGNMENT_LEFT, 80, 13, Color("b8d7dc"))
@@ -211,13 +222,19 @@ func _draw_graph(bounds: Rect2) -> void:
 		var ty := lerpf(origin.y, end_y.y, float(step) / 5.0)
 		draw_line(Vector2(tx, origin.y - 4), Vector2(tx, origin.y + 4), Color("75999f"), 1.0)
 		draw_line(Vector2(origin.x - 4, ty), Vector2(origin.x + 4, ty), Color("75999f"), 1.0)
-	var previous := Vector2.INF
+	var curve: Array[Vector2] = []
 	for point in model.get("points", []):
-		var p := _graph_position(point, origin, end_x, end_y)
-		if previous != Vector2.INF:
-			draw_line(previous, p, Color("6be7d6"), 3.0, true)
+		curve.append(_graph_position(point, origin, end_x, end_y))
+	if curve.size() >= 2:
+		var area: Array[Vector2] = [Vector2(curve[0].x, origin.y)]
+		area.append_array(curve)
+		area.append(Vector2(curve[curve.size() - 1].x, origin.y))
+		draw_colored_polygon(PackedVector2Array(area), Color(0.23, 0.87, 0.78, 0.12))
+		draw_polyline(PackedVector2Array(curve), Color(0.25, 0.96, 0.85, 0.20), 9.0, true)
+		draw_polyline(PackedVector2Array(curve), Color("6be7d6"), 3.2, true)
+	for p in curve:
+		draw_circle(p, 11.0, Color(0.96, 0.78, 0.36, 0.13))
 		draw_circle(p, 6.0, Color("f6c85f"))
-		previous = p
 
 func _graph_position(point: Dictionary, origin: Vector2, end_x: Vector2, end_y: Vector2) -> Vector2:
 	var x := clampf(float(point.get("x", 0.5)), 0.0, 1.0)
@@ -234,12 +251,17 @@ func _draw_circuit(_bounds: Rect2) -> void:
 			continue
 		var a: Vector2 = positions.get(str(edge[0]), Vector2.ZERO)
 		var b: Vector2 = positions.get(str(edge[1]), Vector2.ZERO)
-		draw_line(a, b, Color(0.10, 0.55, 0.60, 0.85), 8.0, true)
-		draw_line(a, b, Color("8ff6d2"), 2.5, true)
+		var bend := Vector2((a.x + b.x) * 0.5, a.y)
+		var bend_2 := Vector2((a.x + b.x) * 0.5, b.y)
+		var wire := PackedVector2Array([a, bend, bend_2, b])
+		draw_polyline(wire, Color(0.12, 0.84, 0.82, 0.16), 11.0, true)
+		draw_polyline(wire, Color("65e5d2"), 3.0, true)
 	for component in model.get("components", []):
+		var entry := component as Dictionary
 		var p := point_position(component)
-		draw_circle(p, 24.0, Color(0.02, 0.12, 0.15, 0.98))
-		draw_arc(p, 24.0, 0.0, TAU, 28, Color("f6c85f"), 2.5, true)
+		var card := Rect2(p - Vector2(49, 29), Vector2(98, 58))
+		draw_style_box(_node_style(Color("f6c85f")), card)
+		_draw_component_glyph(p, str(entry.get("id", "")))
 
 func _draw_notation(bounds: Rect2) -> void:
 	var ink := Color("d8fff8")
@@ -492,6 +514,10 @@ func _draw_number_line(bounds: Rect2) -> void:
 	var y := bounds.position.y + bounds.size.y * 0.58
 	var x0 := bounds.position.x + bounds.size.x * 0.10
 	var x1 := bounds.position.x + bounds.size.x * 0.90
+	# Binario luminoso: i numeri diventano posizioni da raggiungere, non tacche
+	# isolate su una scheda.
+	draw_rect(Rect2(Vector2(x0, y - 11), Vector2(x1 - x0, 22)), Color(0.12, 0.55, 0.58, 0.10))
+	draw_line(Vector2(x0, y), Vector2(x1, y), Color(0.32, 0.96, 0.88, 0.18), 10.0, true)
 	draw_line(Vector2(x0, y), Vector2(x1, y), ink, 2.6, true)
 	# Le punte: dicono che la retta continua oltre ciò che si vede.
 	for verso in [-1.0, 1.0]:
@@ -509,6 +535,8 @@ func _draw_number_line(bounds: Rect2) -> void:
 		var frazione := (valore - minimo) / estensione
 		var x := lerpf(x0, x1, frazione)
 		var alta := absf(valore - minimo) < 0.0001 or absf(valore - massimo) < 0.0001
+		if alta:
+			draw_circle(Vector2(x, y), 13.0, Color(0.96, 0.78, 0.36, 0.12))
 		draw_line(Vector2(x, y - (13.0 if alta else 7.0)), Vector2(x, y + (13.0 if alta else 7.0)),
 			ink, 2.4 if alta else 1.6, true)
 		valore += passo
@@ -539,13 +567,17 @@ func _draw_balance(bounds: Rect2) -> void:
 	var ink := Color("d8fff8")
 	var centro := Vector2(bounds.position.x + bounds.size.x * 0.5, bounds.position.y + bounds.size.y * 0.30)
 	# Colonna e fulcro.
-	draw_line(centro, centro + Vector2(0, bounds.size.y * 0.46), ink, 3.0, true)
+	draw_line(centro, centro + Vector2(0, bounds.size.y * 0.46), Color(0.42, 0.90, 0.84, 0.16), 13.0, true)
+	draw_line(centro, centro + Vector2(0, bounds.size.y * 0.46), ink, 3.2, true)
 	draw_colored_polygon(PackedVector2Array([
 		centro + Vector2(0, bounds.size.y * 0.46), centro + Vector2(-24, bounds.size.y * 0.56),
-		centro + Vector2(24, bounds.size.y * 0.56)]), Color("9299a8"))
+		centro + Vector2(24, bounds.size.y * 0.56)]), Color("6be7d6"))
+	draw_circle(centro, 14.0, Color(0.96, 0.78, 0.36, 0.20))
+	draw_circle(centro, 6.0, Color("f6c85f"))
 	# Giogo: sempre orizzontale. La bilancia si disegna GIÀ in equilibrio perché
 	# la domanda è «che cosa la tiene così», non «da che parte pende».
 	var braccio := bounds.size.x * 0.30
+	draw_line(centro + Vector2(-braccio, 0), centro + Vector2(braccio, 0), Color(0.42, 0.90, 0.84, 0.18), 12.0, true)
 	draw_line(centro + Vector2(-braccio, 0), centro + Vector2(braccio, 0), ink, 3.4, true)
 	var font := ThemeDB.fallback_font
 	for lato in [-1.0, 1.0]:
@@ -557,7 +589,9 @@ func _draw_balance(bounds: Rect2) -> void:
 		for voce in voci:
 			testi.append(str((voce as Dictionary).get("label", "?")))
 		var riga := " + ".join(PackedStringArray(testi))
-		draw_string(font, gancio + Vector2(-riga.length() * 4.0, 84.0), riga,
+		var plate := Rect2(gancio + Vector2(-54, 54), Vector2(108, 38))
+		draw_style_box(_node_style(Color("6be7d6")), plate)
+		draw_string(font, gancio + Vector2(-riga.length() * 4.0, 80.0), riga,
 			HORIZONTAL_ALIGNMENT_LEFT, -1, 17, Color("f6c85f"))
 	# Il posto vuoto, dichiarato dal contenuto: è lì che va la risposta.
 	var lato_vuoto := 1.0 if str(model.get("gapSide", "right")) == "right" else -1.0
@@ -578,6 +612,8 @@ func _draw_timeline(bounds: Rect2) -> void:
 	var y := bounds.position.y + bounds.size.y * 0.46
 	var x0 := bounds.position.x + bounds.size.x * 0.09
 	var x1 := bounds.position.x + bounds.size.x * 0.91
+	draw_rect(Rect2(Vector2(x0, y - 10), Vector2(x1 - x0, 20)), Color(0.56, 0.42, 0.18, 0.13))
+	draw_line(Vector2(x0, y), Vector2(x1, y), Color(0.96, 0.78, 0.36, 0.16), 10.0, true)
 	draw_line(Vector2(x0, y), Vector2(x1, y), ink, 2.6, true)
 	var minimo := float(model.get("min", 0.0))
 	var massimo := float(model.get("max", 100.0))
@@ -599,6 +635,7 @@ func _draw_timeline(bounds: Rect2) -> void:
 		var alto := (i % 2) == 0
 		var cima := y + (-46.0 if alto else 46.0)
 		draw_line(Vector2(x, y), Vector2(x, cima), Color("6be7d6"), 1.8, true)
+		draw_circle(Vector2(x, cima), 14.0, Color(0.42, 0.90, 0.84, 0.13))
 		draw_circle(Vector2(x, cima), 6.0, Color("6be7d6"))
 
 ## L'INDIZIARIO. Carte coperte che si scoprono una per volta.
@@ -624,13 +661,16 @@ func _draw_clue(bounds: Rect2) -> void:
 	for i in indizi.size():
 		var scoperto := i < clues_revealed
 		var rect := Rect2(Vector2(x, y), Vector2(larga, alta - 8.0))
-		draw_rect(rect, Color(0.03, 0.15, 0.18, 0.92) if scoperto else Color(0.06, 0.10, 0.13, 0.9))
-		draw_rect(rect, Color(0.42, 0.90, 0.84, 0.55) if scoperto else Color(0.42, 0.90, 0.84, 0.22), false, 2.0)
+		draw_style_box(_node_style(Color("6be7d6") if scoperto else Color("49676d")), rect)
+		draw_circle(rect.position + Vector2(22, rect.size.y * 0.5), 12.0,
+			Color(0.96, 0.78, 0.36, 0.92) if scoperto else Color(0.25, 0.38, 0.40, 0.9))
+		draw_string(font, rect.position + Vector2(17.5, rect.size.y * 0.5 + 5), str(i + 1),
+			HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color("08262a"))
 		var testo := (
 			str((indizi[i] as Dictionary).get("text", "")) if scoperto
 			else "Indizio %d — coperto" % (i + 1))
-		draw_string(font, rect.position + Vector2(14.0, alta * 0.58), testo,
-			HORIZONTAL_ALIGNMENT_LEFT, larga - 28.0, 15,
+		draw_string(font, rect.position + Vector2(44.0, alta * 0.58), testo,
+			HORIZONTAL_ALIGNMENT_LEFT, larga - 56.0, 15,
 			Color("d8fff8") if scoperto else Color(0.42, 0.90, 0.84, 0.45))
 		y += alta
 	# Il contatore: la soddisfazione di averne usati pochi si sente solo se si
@@ -651,6 +691,9 @@ func _draw_clue(bounds: Rect2) -> void:
 ## meccanica che questo progetto ha già rifiutato due volte — il legame del
 ## Custode e i giorni del diario — perché punisce invece di misurare.
 func _draw_swipe(bounds: Rect2) -> void:
+	if str(model.get("actionTheme", "")) != "":
+		_draw_action_swipe(bounds)
+		return
 	var font := ThemeDB.fallback_font
 	var frasi: Array = Array(model.get("statements", []))
 	var centro := bounds.position + bounds.size * 0.5
@@ -696,6 +739,222 @@ func _draw_swipe(bounds: Rect2) -> void:
 			Vector2((bounds.size.x - 2.0 * lato - 48) * fatte, 6))
 		draw_rect(barra, Color(0.42, 0.90, 0.84, 0.7))
 
+## Variante d'azione per i round matematici: la stessa scelta binaria resta
+## accessibile su touch e tastiera, ma lo spazio comunica una corsa o una difesa
+## invece del classico test vero/falso.
+func _draw_action_swipe(bounds: Rect2) -> void:
+	var font := ThemeDB.fallback_font
+	var theme := str(model.get("actionTheme", ""))
+	if theme == "fraction_forge":
+		_draw_fraction_forge(bounds, font)
+		return
+	if theme in ["verb_time_race", "verb_mode_factory"]:
+		_draw_verb_action_swipe(bounds, theme, font)
+		return
+	var is_dash := theme == "math_dash"
+	var accent := Color("ff6d8d") if is_dash else Color("9f8cff")
+	var safe := Color("75d98b")
+	var danger := Color("ff8f7e")
+	var panel := bounds.grow(-4.0)
+	draw_rect(panel, Color("081525"), true)
+	draw_rect(panel, accent.darkened(0.42), false, 2.0)
+	var header := "CORSA NUMERICA" if is_dash else "DIFESA DEI MULTIPLI"
+	draw_string(font, panel.position + Vector2(18, 30), header,
+		HORIZONTAL_ALIGNMENT_LEFT, -1, 18, accent.lightened(0.20))
+	draw_string(font, panel.position + Vector2(18, 54),
+		"Apri i varchi corretti" if is_dash else "Colpisci solo i segnali validi",
+		HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color("d8fff8"))
+
+	var progress := float(swipe_index) / float(maxi(1, Array(model.get("statements", [])).size()))
+	if is_dash:
+		var left := panel.position.x + 42.0
+		var right := panel.end.x - 42.0
+		for lane in range(5):
+			var x := lerpf(left, right, float(lane) / 4.0)
+			draw_line(Vector2(x, panel.position.y + 82), Vector2(x, panel.end.y - 48), accent.darkened(0.25), 2.0)
+			var gate_y := lerpf(panel.position.y + 106.0, panel.end.y - 98.0, progress)
+			draw_rect(Rect2(Vector2(x - 30.0, gate_y - 18.0), Vector2(60, 36)),
+				Color(accent, 0.25), true)
+			draw_rect(Rect2(Vector2(x - 30.0, gate_y - 18.0), Vector2(60, 36)), accent, false, 1.5)
+		var player_x := lerpf(left, right, 0.5 + 0.34 * sin(swipe_seconds * 2.4))
+		var ship := PackedVector2Array([Vector2(player_x, panel.end.y - 34), Vector2(player_x - 16, panel.end.y - 4), Vector2(player_x + 16, panel.end.y - 4)])
+		draw_colored_polygon(ship, safe)
+		draw_circle(Vector2(player_x, panel.end.y - 17), 27.0, Color(accent, 0.12))
+	else:
+		var core := Vector2(panel.get_center().x, panel.end.y - 62.0)
+		draw_circle(core, 42.0, Color(accent, 0.16))
+		draw_arc(core, 42.0, 0.0, TAU, 32, accent, 2.0)
+		draw_circle(core, 16.0, Color("5ec8ff"))
+		draw_string(font, core + Vector2(-20, 5), "NORA", HORIZONTAL_ALIGNMENT_CENTER, 40, 11, Color("f5fbff"))
+		for i in range(5):
+			var angle := float(i) * TAU / 5.0 + swipe_seconds * 0.65
+			var target := core + Vector2(cos(angle), sin(angle) * 0.55) * 112.0
+			var target_color := safe if (i + swipe_index) % 2 == 0 else danger
+			draw_circle(target, 23.0, Color(target_color, 0.20))
+			draw_arc(target, 23.0, 0.0, TAU, 20, target_color, 2.0)
+
+	var statements: Array = Array(model.get("statements", []))
+	var text := str((statements[swipe_index] as Dictionary).get("text", "")) if swipe_index < statements.size() else "Round completato"
+	draw_rect(Rect2(Vector2(panel.position.x + 76, panel.get_center().y - 28), Vector2(panel.size.x - 152, 58)), Color("10263b"), true)
+	draw_string(font, Vector2(panel.position.x + 92, panel.get_center().y + 8), text,
+		HORIZONTAL_ALIGNMENT_CENTER, panel.size.x - 184, 24, Color("f5fbff"))
+	var hud := panel.position + Vector2(18, panel.size.y - 16)
+	draw_string(font, hud, "Tempo %d\"" % int(ceil(swipe_seconds)), HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color("f6c85f"))
+	draw_string(font, hud + Vector2(126, 0), "Combo x%d" % maxi(1, swipe_streak), HORIZONTAL_ALIGNMENT_LEFT, -1, 15, safe)
+	draw_string(font, hud + Vector2(246, 0), "Punti %d" % swipe_score, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color("d8fff8"))
+
+## La Forgia delle Frazioni rende visibili gli operandi come barre composte da
+## parti uguali. Non anticipa se l'equazione e corretta: mostra esattamente cio
+## che la formula afferma, cosi il giocatore puo confrontare quantita e regola.
+func _draw_fraction_forge(bounds: Rect2, font: Font) -> void:
+	var panel := bounds.grow(-4.0)
+	var cyan := Color("66e6d2")
+	var gold := Color("f6c85f")
+	var violet := Color("a890ff")
+	var coral := Color("ff7896")
+	draw_rect(panel, Color("071426"), true)
+	# Profondita da laboratorio orbitale: griglia, stelle e due anelli animati.
+	for i in range(12):
+		var px := panel.position.x + fmod(float(i * 83 + 31), panel.size.x - 24.0) + 12.0
+		var py := panel.position.y + fmod(float(i * 47 + 19), panel.size.y - 24.0) + 12.0
+		var pulse := 0.28 + 0.22 * sin(swipe_seconds * 1.8 + float(i))
+		draw_circle(Vector2(px, py), 1.5 + float(i % 3), Color(0.65, 0.92, 1.0, pulse))
+	for x in range(0, 9):
+		var gx := panel.position.x + float(x) * panel.size.x / 8.0
+		draw_line(Vector2(gx, panel.position.y + 64), Vector2(gx, panel.end.y - 28), Color(0.30, 0.72, 0.78, 0.07), 1.0)
+	for y in range(0, 5):
+		var gy := panel.position.y + 66.0 + float(y) * (panel.size.y - 96.0) / 4.0
+		draw_line(Vector2(panel.position.x + 8, gy), Vector2(panel.end.x - 8, gy), Color(0.30, 0.72, 0.78, 0.07), 1.0)
+	draw_rect(panel, Color(cyan, 0.62), false, 2.0)
+	draw_string(font, panel.position + Vector2(18, 29), "FORGIA DELLE FRAZIONI", HORIZONTAL_ALIGNMENT_LEFT, -1, 19, gold)
+	draw_string(font, panel.position + Vector2(18, 53), "Allinea le parti, controlla l'operazione, stabilizza il risultato", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color("d8fff8"))
+
+	var statements: Array = Array(model.get("statements", []))
+	var current: Dictionary = statements[swipe_index] if swipe_index < statements.size() else {}
+	var visual: Dictionary = current.get("visual", {})
+	var card_y := panel.position.y + 84.0
+	var card_h := minf(154.0, panel.size.y * 0.48)
+	var gap := 54.0
+	var card_w := (panel.size.x - 76.0 - gap * 2.0) / 3.0
+	var first := Rect2(Vector2(panel.position.x + 38.0, card_y), Vector2(card_w, card_h))
+	var second := Rect2(Vector2(first.end.x + gap, card_y), Vector2(card_w, card_h))
+	var result := Rect2(Vector2(second.end.x + gap, card_y), Vector2(card_w, card_h))
+	_draw_fraction_vessel(first, int(visual.get("aNum", 0)), int(visual.get("aDen", 1)), cyan, "OPERANDO A", font)
+	_draw_fraction_vessel(second, int(visual.get("bNum", 0)), int(visual.get("bDen", 1)), violet, "OPERANDO B", font)
+	_draw_fraction_vessel(result, int(visual.get("rNum", 0)), int(visual.get("rDen", 1)), gold, "RISULTATO", font)
+
+	var operator_center := Vector2(first.end.x + gap * 0.5, card_y + card_h * 0.52)
+	var equals_center := Vector2(second.end.x + gap * 0.5, card_y + card_h * 0.52)
+	draw_circle(operator_center, 22.0, Color(coral, 0.18))
+	draw_arc(operator_center, 22.0, swipe_seconds * 0.7, swipe_seconds * 0.7 + TAU * 0.82, 22, coral, 2.5)
+	draw_string(font, operator_center + Vector2(-18, 8), str(visual.get("op", "+")), HORIZONTAL_ALIGNMENT_CENTER, 36, 25, Color("f5fbff"))
+	draw_circle(equals_center, 22.0, Color(cyan, 0.14))
+	draw_arc(equals_center, 22.0, -swipe_seconds * 0.6, -swipe_seconds * 0.6 + TAU * 0.82, 22, cyan, 2.5)
+	draw_string(font, equals_center + Vector2(-18, 8), "=", HORIZONTAL_ALIGNMENT_CENTER, 36, 24, Color("f5fbff"))
+
+	# Flusso di particelle tra i tre recipienti: movimento ridotto automaticamente
+	# dal valore del timer, senza sprite o asset pesanti per il Web.
+	for i in range(7):
+		var phase := fmod(swipe_seconds * 0.42 + float(i) / 7.0, 1.0)
+		var start := Vector2(first.end.x, card_y + card_h * 0.30 + float(i % 3) * 14.0)
+		var finish := Vector2(result.position.x, card_y + card_h * 0.30 + float((i + 1) % 3) * 14.0)
+		var particle := start.lerp(finish, phase)
+		draw_circle(particle, 3.5, Color(cyan if i % 2 == 0 else violet, 0.64))
+
+	var equation_card := Rect2(Vector2(panel.position.x + 62, panel.end.y - 76), Vector2(panel.size.x - 124, 48))
+	draw_rect(equation_card, Color("132942"), true)
+	draw_rect(equation_card, Color(gold, 0.72), false, 2.0)
+	var equation := str(current.get("text", "Forgia completata"))
+	draw_string(font, equation_card.position + Vector2(14, 32), equation, HORIZONTAL_ALIGNMENT_CENTER, equation_card.size.x - 28, 22, Color("f5fbff"))
+	var progress := float(swipe_index) / float(maxi(1, statements.size()))
+	var meter := Rect2(Vector2(panel.position.x + 18, panel.end.y - 15), Vector2(panel.size.x - 36, 5))
+	draw_rect(meter, Color(0.30, 0.72, 0.78, 0.16), true)
+	draw_rect(Rect2(meter.position, Vector2(meter.size.x * progress, meter.size.y)), gold, true)
+	draw_string(font, panel.position + Vector2(panel.size.x - 280, 29), "Combo x%d   Punti %d   %d\"" % [maxi(1, swipe_streak), swipe_score, int(ceil(swipe_seconds))], HORIZONTAL_ALIGNMENT_LEFT, 260, 14, cyan)
+
+func _draw_fraction_vessel(rect: Rect2, numerator: int, denominator: int, color: Color, label: String, font: Font) -> void:
+	var safe_den := clampi(denominator, 1, 12)
+	var safe_num := maxi(0, numerator)
+	draw_rect(rect, Color("0d2036"), true)
+	draw_rect(rect, Color(color, 0.76), false, 2.0)
+	draw_string(font, rect.position + Vector2(10, 22), label, HORIZONTAL_ALIGNMENT_CENTER, rect.size.x - 20, 11, color.lightened(0.15))
+	var rows := maxi(1, ceili(float(safe_num) / float(safe_den)))
+	rows = mini(rows, 2)
+	var bar_h := 25.0
+	var bar_gap := 8.0
+	var bar_w := rect.size.x - 28.0
+	var cell_w := bar_w / float(safe_den)
+	var start_y := rect.position.y + 42.0
+	for row in range(rows):
+		for cell in range(safe_den):
+			var index := row * safe_den + cell
+			var cell_rect := Rect2(Vector2(rect.position.x + 14.0 + float(cell) * cell_w, start_y + float(row) * (bar_h + bar_gap)), Vector2(maxf(2.0, cell_w - 2.0), bar_h))
+			draw_rect(cell_rect, Color(color, 0.72) if index < safe_num else Color(0.20, 0.34, 0.45, 0.35), true)
+			draw_rect(cell_rect, Color(color, 0.54), false, 1.0)
+	var fraction_y := rect.end.y - 23.0
+	draw_string(font, Vector2(rect.position.x, fraction_y - 8), str(safe_num), HORIZONTAL_ALIGNMENT_CENTER, rect.size.x, 18, Color("f5fbff"))
+	draw_line(Vector2(rect.get_center().x - 18, fraction_y - 3), Vector2(rect.get_center().x + 18, fraction_y - 3), color, 2.0)
+	draw_string(font, Vector2(rect.position.x, fraction_y + 15), str(safe_den), HORIZONTAL_ALIGNMENT_CENTER, rect.size.x, 18, Color("f5fbff"))
+
+## Due tavoli da gioco per i verbi: il Cronoporto rende visibile la linea del
+## tempo, l'Officina rende visibile la diversa intenzione di ogni modo. Il testo
+## al centro resta la fonte dell'esercizio, mentre scenografia e animazione lo
+## trasformano in un gioco da tablet leggibile anche su schermi piccoli.
+func _draw_verb_action_swipe(bounds: Rect2, theme: String, font: Font) -> void:
+	var is_time := theme == "verb_time_race"
+	var accent := Color("ffb35c") if is_time else Color("58d6cb")
+	var ink := Color("f5fbff")
+	var panel := bounds.grow(-4.0)
+	draw_rect(panel, Color("10172d") if is_time else Color("071c25"), true)
+	draw_rect(panel, accent.darkened(0.35), false, 2.0)
+	var title := "CRONOPORTO DEI VERBI" if is_time else "OFFICINA DEI MODI"
+	var subtitle := "Salta nel tempo giusto" if is_time else "Calibra l'intenzione della frase"
+	draw_string(font, panel.position + Vector2(18, 30), title, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, accent)
+	draw_string(font, panel.position + Vector2(18, 53), subtitle, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color("d8fff8"))
+	var current := float(swipe_index) / float(maxi(1, Array(model.get("statements", [])).size()))
+
+	if is_time:
+		var rail_y := panel.position.y + 110.0
+		var rail := Rect2(Vector2(panel.position.x + 44, rail_y), Vector2(panel.size.x - 88, 8))
+		draw_rect(rail, Color("465588"), true)
+		var labels := ["IERI", "ORA", "DOMANI"]
+		var colors := [Color("9f8cff"), Color("6be7d6"), Color("ffb35c")]
+		for i in range(3):
+			var x := lerpf(rail.position.x + 22, rail.end.x - 22, float(i) / 2.0)
+			draw_circle(Vector2(x, rail_y + 4), 22.0, Color(colors[i], 0.24))
+			draw_arc(Vector2(x, rail_y + 4), 22.0, 0.0, TAU, 20, colors[i], 2.0)
+			draw_string(font, Vector2(x - 34, rail_y + 45), labels[i], HORIZONTAL_ALIGNMENT_CENTER, 68, 11, colors[i])
+		var traveler_x := lerpf(rail.position.x + 22, rail.end.x - 22, 0.5 + 0.42 * sin(swipe_seconds * 1.75))
+		var traveler := PackedVector2Array([Vector2(traveler_x, rail_y - 36), Vector2(traveler_x - 15, rail_y - 6), Vector2(traveler_x + 15, rail_y - 6)])
+		draw_colored_polygon(traveler, accent)
+		draw_circle(Vector2(traveler_x, rail_y - 19), 24.0, Color(accent, 0.13))
+	else:
+		var center := Vector2(panel.get_center().x, panel.position.y + 126.0)
+		draw_circle(center, 46.0, Color(accent, 0.13))
+		draw_arc(center, 46.0, 0.0, TAU, 28, accent, 3.0)
+		draw_circle(center, 18.0, Color("f6c85f"))
+		var modes := ["FATTO", "DUBBIO", "POSSIBILE", "COMANDO"]
+		var mode_colors := [Color("6be7d6"), Color("9f8cff"), Color("ffb35c"), Color("ff7d9a")]
+		for i in range(4):
+			var angle := float(i) * TAU / 4.0 + swipe_seconds * 0.32
+			var gear := center + Vector2(cos(angle), sin(angle) * 0.52) * 124.0
+			draw_circle(gear, 27.0, Color(mode_colors[i], 0.20))
+			draw_arc(gear, 27.0, 0.0, TAU, 16, mode_colors[i], 2.0)
+			draw_string(font, gear + Vector2(-38, 5), modes[i], HORIZONTAL_ALIGNMENT_CENTER, 76, 10, mode_colors[i])
+
+	var card := Rect2(Vector2(panel.position.x + 58, panel.get_center().y - 20), Vector2(panel.size.x - 116, 66))
+	draw_rect(card, Color("1a2a43"), true)
+	draw_rect(card, accent, false, 2.0)
+	var statements: Array = Array(model.get("statements", []))
+	var text := str((statements[swipe_index] as Dictionary).get("text", "")) if swipe_index < statements.size() else "Livello completato"
+	draw_string(font, card.position + Vector2(16, 40), text, HORIZONTAL_ALIGNMENT_CENTER, card.size.x - 32, 23, ink)
+	var hud := panel.position + Vector2(18, panel.size.y - 16)
+	draw_string(font, hud, "Tempo %d\"" % int(ceil(swipe_seconds)), HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color("f6c85f"))
+	draw_string(font, hud + Vector2(126, 0), "Combo x%d" % maxi(1, swipe_streak), HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color("75d98b"))
+	draw_string(font, hud + Vector2(246, 0), "Punti %d" % swipe_score, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color("d8fff8"))
+	var fill := Rect2(Vector2(panel.end.x - 160, panel.end.y - 24), Vector2(138.0 * current, 6))
+	draw_rect(fill, accent, true)
+
 func clue_anchor(target_id: String) -> Vector2:
 	var voci: Array = Array(model.get("targets", []))
 	var indice := 0
@@ -737,8 +996,11 @@ func _draw_compose(bounds: Rect2) -> void:
 		var testo := str(casella.get("text", ""))
 		var vuota := testo == ""
 		var rect := Rect2(Vector2(x + 5.0, y), Vector2(larghezza - 10.0, 52.0))
-		draw_rect(rect, Color(0.42, 0.90, 0.84, 0.16) if vuota else Color(0.03, 0.15, 0.18, 0.9))
-		draw_rect(rect, Color("6be7d6") if vuota else Color(0.42, 0.90, 0.84, 0.45), false, 2.0)
+		if x > bounds.position.x + (bounds.size.x - totale) * 0.5:
+			draw_line(Vector2(rect.position.x - 8, rect.get_center().y), Vector2(rect.position.x + 3, rect.get_center().y), Color("f6c85f"), 3.0, true)
+		draw_style_box(_node_style(Color("f6c85f") if vuota else Color("6be7d6")), rect)
+		if vuota:
+			draw_circle(rect.get_center(), 24.0, Color(0.42, 0.90, 0.84, 0.09))
 		var mostrato := "?" if vuota else testo
 		draw_string(font, rect.position + Vector2(maxf(8.0, (rect.size.x - mostrato.length() * 8.0) * 0.5), 33.0),
 			mostrato, HORIZONTAL_ALIGNMENT_LEFT, -1, 17,
@@ -771,9 +1033,13 @@ func _draw_trace(bounds: Rect2) -> void:
 		var p := passi[i] as Dictionary
 		var stato := str(p.get("state", ""))
 		var coperto := stato == ""
-		draw_circle(Vector2(x, y + 8.0), 5.0, Color("6be7d6") if coperto else ink)
+		var marker := Vector2(x, y + 8.0)
+		draw_circle(marker, 13.0, Color(0.42, 0.90, 0.84, 0.12))
+		draw_circle(marker, 6.0, Color("f6c85f") if coperto else Color("6be7d6"))
 		if i < passi.size() - 1:
 			draw_line(Vector2(x, y + 14.0), Vector2(x, y + passo_y + 2.0), Color(0.42, 0.90, 0.84, 0.5), 1.8, true)
+		var row := Rect2(Vector2(x + 18, y - 12), Vector2(bounds.size.x * 0.76, 38))
+		draw_style_box(_node_style(Color("f6c85f") if coperto else Color("6be7d6")), row)
 		draw_string(font, Vector2(x + 16.0, y + 14.0), str(p.get("label", "")),
 			HORIZONTAL_ALIGNMENT_LEFT, -1, 15, ink)
 		var destra := bounds.position.x + bounds.size.x * 0.72
@@ -923,10 +1189,72 @@ func _hotspot_image_rect(bounds: Rect2) -> Rect2:
 	var fitted := texture_size * scale
 	return Rect2(bounds.position + (bounds.size - fitted) * 0.5, fitted)
 
+## Linguaggio comune delle plance: una superficie profonda, leggibile anche a
+## luminosità bassa, con una griglia appena accennata che suggerisce un tablet
+## da esplorazione senza competere con il contenuto didattico.
+func _draw_game_backdrop(bounds: Rect2) -> void:
+	var inner := bounds.grow(-5.0)
+	draw_rect(inner, Color(0.01, 0.055, 0.075, 0.72))
+	draw_rect(Rect2(inner.position, Vector2(inner.size.x, inner.size.y * 0.30)), Color(0.10, 0.38, 0.40, 0.10))
+	for column in range(1, 12):
+		var x := lerpf(inner.position.x, inner.end.x, float(column) / 12.0)
+		draw_line(Vector2(x, inner.position.y), Vector2(x, inner.end.y), Color(0.42, 0.90, 0.84, 0.035), 1.0)
+	for row in range(1, 6):
+		var y := lerpf(inner.position.y, inner.end.y, float(row) / 6.0)
+		draw_line(Vector2(inner.position.x, y), Vector2(inner.end.x, y), Color(0.42, 0.90, 0.84, 0.035), 1.0)
+	# Quattro riferimenti angolari fanno percepire l'area come una plancia viva.
+	var accent := Color(0.96, 0.78, 0.36, 0.48)
+	for corner in [
+		[inner.position + Vector2(10, 10), Vector2(1, 1)],
+		[Vector2(inner.end.x - 10, inner.position.y + 10), Vector2(-1, 1)],
+		[Vector2(inner.position.x + 10, inner.end.y - 10), Vector2(1, -1)],
+		[inner.end - Vector2(10, 10), Vector2(-1, -1)],
+	]:
+		var p: Vector2 = corner[0]
+		var direction: Vector2 = corner[1]
+		draw_line(p, p + Vector2(14 * direction.x, 0), accent, 2.0, true)
+		draw_line(p, p + Vector2(0, 14 * direction.y), accent, 2.0, true)
+
+func _node_style(accent: Color) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(0.025, 0.12, 0.15, 0.94)
+	style.border_color = Color(accent, 0.68)
+	style.shadow_color = Color(accent, 0.14)
+	style.shadow_size = 7
+	style.set_border_width_all(2)
+	style.set_corner_radius_all(10)
+	return style
+
+func _draw_component_glyph(center: Vector2, id: String) -> void:
+	var glyph_center := center + Vector2(0, -36)
+	var ink := Color("f6c85f")
+	var key := id.to_lower()
+	if "pila" in key or "batter" in key:
+		draw_line(glyph_center + Vector2(-6, -9), glyph_center + Vector2(-6, 9), ink, 2.5, true)
+		draw_line(glyph_center + Vector2(5, -14), glyph_center + Vector2(5, 14), ink, 3.0, true)
+	elif "resist" in key:
+		var zig := PackedVector2Array()
+		for i in range(7):
+			zig.append(glyph_center + Vector2(-18 + i * 6, -6 if i % 2 == 0 else 6))
+		draw_polyline(zig, ink, 2.5, true)
+	elif "led" in key or "lamp" in key:
+		draw_arc(glyph_center, 11.0, 0.0, TAU, 22, ink, 2.5, true)
+		draw_line(glyph_center + Vector2(-7, -7), glyph_center + Vector2(7, 7), ink, 2.0, true)
+		draw_line(glyph_center + Vector2(7, -7), glyph_center + Vector2(-7, 7), ink, 2.0, true)
+	elif "interrutt" in key or "switch" in key:
+		draw_circle(glyph_center + Vector2(-11, 5), 3.0, ink)
+		draw_circle(glyph_center + Vector2(11, 5), 3.0, ink)
+		draw_line(glyph_center + Vector2(-8, 3), glyph_center + Vector2(7, -8), ink, 2.5, true)
+	else:
+		draw_circle(glyph_center, 9.0, Color(0.42, 0.90, 0.84, 0.18))
+		draw_circle(glyph_center, 3.5, ink)
+
 func _panel_style() -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.015, 0.07, 0.09, 0.96)
-	style.border_color = Color(0.42, 0.90, 0.84, 0.55)
+	style.bg_color = Color(0.008, 0.045, 0.065, 0.98)
+	style.border_color = Color(0.42, 0.90, 0.84, 0.72)
+	style.shadow_color = Color(0.18, 0.85, 0.76, 0.14)
+	style.shadow_size = 10
 	style.set_border_width_all(2)
-	style.set_corner_radius_all(14)
+	style.set_corner_radius_all(18)
 	return style

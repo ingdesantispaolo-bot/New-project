@@ -18,12 +18,19 @@ extends SceneTree
 ##      l'intero motivo per cui gli atti esistono;
 ##   3. **nessun ricordo nell'atto primo.** I ricordi alludono a rivelazioni che
 ##      lì non sono ancora avvenute: sarebbe il gioco che si anticipa da solo.
+##
+## Aggiunta del 13 agosto 2026: **l'indirizzo** («come chiama Eli», §6.3 di
+## `TRAMA_E_MISTERO.md`) era documentato e mai scritto. Il canale più
+## ascoltato del gioco non diceva mai «piccola» né «sorella»: la relazione
+## restava piatta esattamente dove il documento la vuole in movimento. Vale
+## la stessa proprietà 2: «sorella» non prima della confessione.
 
 func _init() -> void:
 	_prova_carattere()
 	_prova_repertorio()
 	_prova_atti_distinti()
 	_prova_ricordi()
+	_prova_indirizzo()
 	_prova_estrazione()
 	print("NORA VOICE audit OK — %d battute, tre atti distinti, ricordi solo dopo le rivelazioni" % _totale())
 	quit(0)
@@ -109,6 +116,34 @@ func _prova_ricordi() -> void:
 			assert(str(frase_data).begins_with("…"),
 				"un ricordo non si apre come un'interruzione: «%s»" % str(frase_data))
 
+## Come chiama Eli (§6.3): «piccola» e «sorella» non prima dell'atto in cui il
+## documento li ammette, «sorella» solo a ridosso della confessione, e ogni
+## atto ha almeno un indirizzo con cui rivolgersi.
+func _prova_indirizzo() -> void:
+	for atto in ["atto1", "atto2", "atto3"]:
+		assert(NoraVoice.INDIRIZZI.has(atto), "manca l'indirizzo per %s" % atto)
+		assert(not Array(NoraVoice.INDIRIZZI[atto]).is_empty(), "%s non ha nessun indirizzo" % atto)
+
+	for atto in ["atto1", "atto2"]:
+		for frase_data in Array(NoraVoice.INDIRIZZI[atto]):
+			var frase := str(frase_data).to_lower()
+			assert(not frase.contains("piccola"),
+				"«%s» chiama Eli «piccola» prima dell'atto III, dove il documento la ammette" % frase)
+			assert(not frase.contains("sorella"),
+				"«%s» chiama Eli «sorella» prima della confessione" % frase)
+	for frase_data in Array(NoraVoice.INDIRIZZI["atto1"]):
+		var frase := str(frase_data)
+		assert(frase.strip_edges() != "", "un indirizzo del primo atto è vuoto")
+
+	# «Sorella» non è nella tabella statica: entra solo a ridosso del mondo 24.
+	var voce := NoraVoice.new()
+	voce.level = NoraVoice.ATTO_III_DA
+	assert(not voce._indirizzi("atto3").has(NoraVoice.INDIRIZZO_SORELLA),
+		"«sorella» compare appena entrati nell'atto III, non a ridosso della confessione")
+	voce.level = NoraVoice.SORELLA_DAL_LIVELLO
+	assert(voce._indirizzi("atto3").has(NoraVoice.INDIRIZZO_SORELLA),
+		"al livello dichiarato «sorella» dovrebbe essere nel pool")
+
 func _prova_estrazione() -> void:
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 4242
@@ -146,3 +181,31 @@ func _prova_estrazione() -> void:
 	for _i in range(60):
 		assert(not voce.line("solve", rng).contains("…"),
 			"nel primo atto NORA allude a qualcosa che non ha ancora scoperto")
+
+	# L'indirizzo arriva a gocce sulla vittoria, mai su rilancio o sconfitta.
+	voce = NoraVoice.new()
+	voce.level = 20
+	var pool_indirizzi: Array = voce._indirizzi("atto3")
+	var con_indirizzo := 0
+	giri = 60
+	for _i in range(giri):
+		var frase := voce.line("victory", rng)
+		for indirizzo in pool_indirizzi:
+			if frase.ends_with(str(indirizzo)):
+				con_indirizzo += 1
+				break
+	assert(con_indirizzo > 0, "NORA non chiama mai Eli per nome sulla vittoria: l'indirizzo non arriva al giocatore")
+	for _i in range(60):
+		var rilancio := voce.line("scaffold", rng)
+		var porta_indirizzo := false
+		for indirizzo in pool_indirizzi:
+			if rilancio.ends_with(str(indirizzo)) and rilancio != str(indirizzo):
+				porta_indirizzo = true
+		assert(not porta_indirizzo, "un rilancio porta un indirizzo: doveva restare solo sulla vittoria")
+
+	# «Sorella» non esce mai prima del livello dichiarato, nemmeno per caso.
+	voce = NoraVoice.new()
+	voce.level = NoraVoice.SORELLA_DAL_LIVELLO - 1
+	for _i in range(80):
+		assert(not voce.line("victory", rng).ends_with(NoraVoice.INDIRIZZO_SORELLA),
+			"«sorella» è uscita un livello prima di quando il documento la ammette")

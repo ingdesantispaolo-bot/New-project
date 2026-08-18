@@ -81,8 +81,57 @@ static func coverage_target(total_topics: int, level: int = 1, core: bool = fals
 
 # Valuta la prontezza. Ritorna ogni dimensione (bool + dettaglio numerico), la
 # lista dei motivi non soddisfatti e il verdetto complessivo `ready`.
+## **Una materia già certificata a questo livello.** (15 agosto 2026)
+##
+## Vero quando la stanza di quella materia è stata accesa **a questo grado**: cioè
+## l'esame è stato superato al livello corrente e da allora il livello non è
+## salito. Non basta «l'apparato è acceso»: al secondo passaggio della materia
+## (mondi 13-24) il grado è un altro e la certificazione va rifatta — è il senso
+## dell'intera scala.
+static func certified_at_level(save, subject: String) -> bool:
+	var quando := int(save.apparatus_repaired_level(ApparatusConfig.apparatus_of(subject)))
+	return quando > 0 and quando >= int(save.level())
+
+## **Una materia superata a questo grado non torna fra quelle da fare.**
+## (16 agosto 2026)
+##
+## Segnalazione di gioco: nel mondo 1, superata la prova di musica, l'elenco
+## tornava a chiedere **elettronica**, che era gia' stata portata in linea.
+##
+## Misurato: non era il decadimento — la padronanza restava a 0,900 — era la
+## RITENZIONE. L'orologio del ripasso spaziato e' **uno solo per tutta la
+## partita** e avanza a ogni sessione risolta, di qualunque materia. Un argomento
+## di elettronica ripassato bene torna dovuto due sessioni dopo; se quelle due
+## sessioni sono di musica, elettronica cade da sola. Con dodici materie da
+## tenere in linea insieme, ognuna rimetteva indietro le altre: giocare la cosa
+## giusta disfaceva il lavoro appena fatto, ed e' il modo piu' rapido di
+## convincere un bambino che il gioco non tiene il conto.
+##
+## Il rimedio ricalca quello gia' scelto il 15 agosto per la certificazione
+## d'apparato: **il traguardo si registra, e vale per questo grado**. Sotto non
+## cambia niente — il ripasso continua a riproporre gli argomenti dovuti, la
+## padronanza continua a calare e i numeri lo dicono. Quello che non succede piu'
+## e' che una materia gia' chiusa torni nella lista delle cose da fare per colpa
+## di una sessione altrove. Al livello successivo il grado e' nuovo e si
+## ricomincia: e' il senso della scala.
+##
+## Due sorgenti, un solo significato: l'esame d'apparato superato qui, oppure le
+## tre condizioni raggiunte qui (`ProgressionManager.aggiorna_traguardi_di_livello`).
+static func in_linea_a_questo_livello(save, subject: String) -> bool:
+	if certified_at_level(save, subject):
+		return true
+	var quando := int(save.subject_cleared_level(subject))
+	return quando > 0 and quando >= int(save.level())
+
+## `certified` = la materia è già stata superata a questo livello (vedi
+## `in_linea_a_questo_livello`: esame d'apparato passato qui, oppure tre
+## condizioni centrate qui). Quando è vero il verdetto è «pronta» senza guardare
+## le tre dimensioni. **Il parametro è esplicito e di default falso apposta**: chi
+## valuta se un apparato si può RIPARARE non deve passarlo, o una stanza accesa
+## si dichiarerebbe riparabile all'infinito.
 static func evaluate_subject(
-	save, subject: String, mastery_threshold: float, total_topics: int = -1
+	save, subject: String, mastery_threshold: float, total_topics: int = -1,
+	certified: bool = false
 ) -> Dictionary:
 	# L'asticella del NUCLEO sta più in alto. Il bonus si applica QUI, dove passa
 	# ogni valutazione di materia, invece che nei chiamanti: così l'HUD, il
@@ -114,10 +163,34 @@ static func evaluate_subject(
 	if not retention_ok:
 		reasons.append("ritenzione")
 
+	# **Una materia superata a questo livello è superata, e basta.**
+	#
+	# Due difetti diversi rimediati dalla stessa riga. Il decadimento (15 agosto
+	# 2026) e la ritenzione (16 agosto 2026, vedi `in_linea_a_questo_livello`):
+	# il primo lento, la seconda immediata, entrambi capaci di disfare una prova
+	# già passata senza che lo studente sbagliasse niente.
+	#
+	# Senza questa riga il decadimento per trascuratezza disfaceva una prova già
+	# passata: misurato il 15 agosto 2026 — matematica certificata al livello 1
+	# con padronanza 0,85, quarantacinque sessioni sulle ALTRE materie (che è
+	# esattamente ciò che il gate chiede di fare, non un ozio), padronanza scesa a
+	# 0,722 sotto la soglia 0,78, e la materia tornava nell'elenco di quelle
+	# mancanti con la stanza accesa in bella vista. Il bambino aveva superato
+	# l'esame e il gioco glielo richiedeva.
+	#
+	# Il decadimento resta: la padronanza cala davvero e il numero lo dice. Quello
+	# che non deve più succedere è che cancelli una CERTIFICAZIONE. La distinzione
+	# è la stessa fra sapere e aver dimostrato di sapere — e vale per questo
+	# livello soltanto: al successivo il grado cambia e si ricomincia.
+	if certified:
+		reasons = []
 	return {
 		"subject": subject,
-		"ready": accuracy_ok and coverage_ok and retention_ok,
+		"ready": certified or (accuracy_ok and coverage_ok and retention_ok),
 		"reasons": reasons,
+		# Perché la presentazione possa dire «già superata» invece di disegnare
+		# una barra piena che non corrisponde ai numeri qui sotto.
+		"certified": certified,
 		"accuracy": accuracy_ok,
 		"coverage": coverage_ok,
 		"retention": retention_ok,
@@ -166,8 +239,14 @@ static func evaluate_core(
 	# mondo rispondendo sempre giusto.
 	for subject in GATE_SUBJECTS:
 		var s := str(subject)
+		# Il gate del LIVELLO onora il traguardo gia' raggiunto a questo grado —
+		# esame d'apparato superato QUI, oppure tre condizioni centrate QUI. La
+		# riparazione di un apparato (`evaluate_subject` chiamato senza
+		# `certified`) no: quella deve sempre guardare i numeri veri, o una stanza
+		# accesa si dichiarerebbe riparabile all'infinito.
 		var evaluation := evaluate_subject(
-			save, s, mastery_threshold, int(topics_by_subject.get(s, -1)))
+			save, s, mastery_threshold, int(topics_by_subject.get(s, -1)),
+			in_linea_a_questo_livello(save, s))
 		subjects[s] = evaluation
 		total_progress += float(evaluation["progress"])
 		if not bool(evaluation["ready"]):

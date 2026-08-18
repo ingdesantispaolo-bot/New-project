@@ -35,6 +35,132 @@
     "focusLayer": "music.focus",
     "crossfadeSeconds": 2.2
   },
+  "soundscapes": {
+    "durationSeconds": 60,
+    "maxFamilyNeighbours": 4,
+    "byId": {
+      "bosco-cristallino": {
+        "asset": "soundscape.bosco-cristallino",
+        "terrainFamily": "prato-luminoso",
+        "motif": "nature"
+      },
+      "pagine-e-vento": {
+        "asset": "soundscape.pagine-e-vento",
+        "terrainFamily": "biblioteca-vegetale",
+        "motif": "archive"
+      },
+      "ingranaggi-ritmici": {
+        "asset": "soundscape.ingranaggi-ritmici",
+        "terrainFamily": "canyon-modulare",
+        "motif": "machine"
+      },
+      "onde-e-radio": {
+        "asset": "soundscape.onde-e-radio",
+        "terrainFamily": "porto-radio",
+        "motif": "water"
+      },
+      "metallo-e-vapore": {
+        "asset": "soundscape.metallo-e-vapore",
+        "terrainFamily": "officina-meccanica",
+        "motif": "machine"
+      },
+      "campane-di-cristallo": {
+        "asset": "soundscape.campane-di-cristallo",
+        "terrainFamily": "flora-sonora",
+        "motif": "resonance"
+      },
+      "eco-di-pietra": {
+        "asset": "soundscape.eco-di-pietra",
+        "terrainFamily": "città-antica",
+        "motif": "ruins"
+      },
+      "ronzio-e-acqua": {
+        "asset": "soundscape.ronzio-e-acqua",
+        "terrainFamily": "acqua-conduttiva",
+        "motif": "water"
+      },
+      "gabbiani-e-risacca": {
+        "asset": "soundscape.gabbiani-e-risacca",
+        "terrainFamily": "isole-e-rotte",
+        "motif": "water"
+      },
+      "vita-brulicante": {
+        "asset": "soundscape.vita-brulicante",
+        "terrainFamily": "ecosistema-vivo",
+        "motif": "nature"
+      },
+      "vento-e-tracce": {
+        "asset": "soundscape.vento-e-tracce",
+        "terrainFamily": "strati-archeologici",
+        "motif": "ruins"
+      },
+      "scatti-e-silenzi": {
+        "asset": "soundscape.scatti-e-silenzi",
+        "terrainFamily": "geometrie-mobili",
+        "motif": "machine"
+      },
+      "vento-di-sabbia": {
+        "asset": "soundscape.vento-di-sabbia",
+        "terrainFamily": "deserto-osservatorio",
+        "motif": "wind"
+      },
+      "sussurri-narranti": {
+        "asset": "soundscape.sussurri-narranti",
+        "terrainFamily": "biblioteca-voci",
+        "motif": "archive"
+      },
+      "clic-e-segnali": {
+        "asset": "soundscape.clic-e-segnali",
+        "terrainFamily": "città-macchina",
+        "motif": "machine"
+      },
+      "mercato-poliglotta": {
+        "asset": "soundscape.mercato-poliglotta",
+        "terrainFamily": "frontiera-scambi",
+        "motif": "human"
+      },
+      "abisso-e-bolle": {
+        "asset": "soundscape.abisso-e-bolle",
+        "terrainFamily": "oceano-profondo",
+        "motif": "water"
+      },
+      "riverbero-armonico": {
+        "asset": "soundscape.riverbero-armonico",
+        "terrainFamily": "grandi-spazi",
+        "motif": "resonance"
+      },
+      "silenzio-antico": {
+        "asset": "soundscape.silenzio-antico",
+        "terrainFamily": "necropoli-antica",
+        "motif": "archive"
+      },
+      "statica-e-tuoni": {
+        "asset": "soundscape.statica-e-tuoni",
+        "terrainFamily": "campi-instabili",
+        "motif": "machine"
+      },
+      "terra-e-vento": {
+        "asset": "soundscape.terra-e-vento",
+        "terrainFamily": "placche-e-climi",
+        "motif": "wind"
+      },
+      "pulsazioni-vitali": {
+        "asset": "soundscape.pulsazioni-vitali",
+        "terrainFamily": "biosfera-profonda",
+        "motif": "nature"
+      },
+      "pagine-e-memorie": {
+        "asset": "soundscape.pagine-e-memorie",
+        "terrainFamily": "archivio-storico-orbitale",
+        "motif": "archive"
+      },
+      "coro-dei-sistemi": {
+        "asset": "soundscape.coro-dei-sistemi",
+        "terrainFamily": "convergenza-finale",
+        "motif": "convergence"
+      }
+    }
+  },
   "subjects": {
     "matematica": "context.math",
     "italiano": "context.language",
@@ -258,6 +384,198 @@
       "path": "res://assets/audio/context-logic.wav",
       "bus": "SFX",
       "volumeDb": -8
+    },
+    "soundscape.bosco-cristallino": {
+      "path": "res://assets/audio/soundscape-bosco-cristallino.wav",
+      "bus": "Ambience",
+      "volumeDb": -13,
+      "loop": true,
+      "role": "world",
+      "durationSeconds": 60
+    },
+    "soundscape.pagine-e-vento": {
+      "path": "res://assets/audio/soundscape-pagine-e-vento.wav",
+      "bus": "Ambience",
+      "volumeDb": -13,
+      "loop": true,
+      "role": "world",
+      "durationSeconds": 60
+    },
+    "soundscape.ingranaggi-ritmici": {
+      "path": "res://assets/audio/soundscape-ingranaggi-ritmici.wav",
+      "bus": "Ambience",
+      "volumeDb": -13,
+      "loop": true,
+      "role": "world",
+      "durationSeconds": 60
+    },
+    "soundscape.onde-e-radio": {
+      "path": "res://assets/audio/soundscape-onde-e-radio.wav",
+      "bus": "Ambience",
+      "volumeDb": -13,
+      "loop": true,
+      "role": "world",
+      "durationSeconds": 60
+    },
+    "soundscape.metallo-e-vapore": {
+      "path": "res://assets/audio/soundscape-metallo-e-vapore.wav",
+      "bus": "Ambience",
+      "volumeDb": -13,
+      "loop": true,
+      "role": "world",
+      "durationSeconds": 60
+    },
+    "soundscape.campane-di-cristallo": {
+      "path": "res://assets/audio/soundscape-campane-di-cristallo.wav",
+      "bus": "Ambience",
+      "volumeDb": -13,
+      "loop": true,
+      "role": "world",
+      "durationSeconds": 60
+    },
+    "soundscape.eco-di-pietra": {
+      "path": "res://assets/audio/soundscape-eco-di-pietra.wav",
+      "bus": "Ambience",
+      "volumeDb": -13,
+      "loop": true,
+      "role": "world",
+      "durationSeconds": 60
+    },
+    "soundscape.ronzio-e-acqua": {
+      "path": "res://assets/audio/soundscape-ronzio-e-acqua.wav",
+      "bus": "Ambience",
+      "volumeDb": -13,
+      "loop": true,
+      "role": "world",
+      "durationSeconds": 60
+    },
+    "soundscape.gabbiani-e-risacca": {
+      "path": "res://assets/audio/soundscape-gabbiani-e-risacca.wav",
+      "bus": "Ambience",
+      "volumeDb": -13,
+      "loop": true,
+      "role": "world",
+      "durationSeconds": 60
+    },
+    "soundscape.vita-brulicante": {
+      "path": "res://assets/audio/soundscape-vita-brulicante.wav",
+      "bus": "Ambience",
+      "volumeDb": -13,
+      "loop": true,
+      "role": "world",
+      "durationSeconds": 60
+    },
+    "soundscape.vento-e-tracce": {
+      "path": "res://assets/audio/soundscape-vento-e-tracce.wav",
+      "bus": "Ambience",
+      "volumeDb": -13,
+      "loop": true,
+      "role": "world",
+      "durationSeconds": 60
+    },
+    "soundscape.scatti-e-silenzi": {
+      "path": "res://assets/audio/soundscape-scatti-e-silenzi.wav",
+      "bus": "Ambience",
+      "volumeDb": -13,
+      "loop": true,
+      "role": "world",
+      "durationSeconds": 60
+    },
+    "soundscape.vento-di-sabbia": {
+      "path": "res://assets/audio/soundscape-vento-di-sabbia.wav",
+      "bus": "Ambience",
+      "volumeDb": -13,
+      "loop": true,
+      "role": "world",
+      "durationSeconds": 60
+    },
+    "soundscape.sussurri-narranti": {
+      "path": "res://assets/audio/soundscape-sussurri-narranti.wav",
+      "bus": "Ambience",
+      "volumeDb": -13,
+      "loop": true,
+      "role": "world",
+      "durationSeconds": 60
+    },
+    "soundscape.clic-e-segnali": {
+      "path": "res://assets/audio/soundscape-clic-e-segnali.wav",
+      "bus": "Ambience",
+      "volumeDb": -13,
+      "loop": true,
+      "role": "world",
+      "durationSeconds": 60
+    },
+    "soundscape.mercato-poliglotta": {
+      "path": "res://assets/audio/soundscape-mercato-poliglotta.wav",
+      "bus": "Ambience",
+      "volumeDb": -13,
+      "loop": true,
+      "role": "world",
+      "durationSeconds": 60
+    },
+    "soundscape.abisso-e-bolle": {
+      "path": "res://assets/audio/soundscape-abisso-e-bolle.wav",
+      "bus": "Ambience",
+      "volumeDb": -13,
+      "loop": true,
+      "role": "world",
+      "durationSeconds": 60
+    },
+    "soundscape.riverbero-armonico": {
+      "path": "res://assets/audio/soundscape-riverbero-armonico.wav",
+      "bus": "Ambience",
+      "volumeDb": -13,
+      "loop": true,
+      "role": "world",
+      "durationSeconds": 60
+    },
+    "soundscape.silenzio-antico": {
+      "path": "res://assets/audio/soundscape-silenzio-antico.wav",
+      "bus": "Ambience",
+      "volumeDb": -13,
+      "loop": true,
+      "role": "world",
+      "durationSeconds": 60
+    },
+    "soundscape.statica-e-tuoni": {
+      "path": "res://assets/audio/soundscape-statica-e-tuoni.wav",
+      "bus": "Ambience",
+      "volumeDb": -13,
+      "loop": true,
+      "role": "world",
+      "durationSeconds": 60
+    },
+    "soundscape.terra-e-vento": {
+      "path": "res://assets/audio/soundscape-terra-e-vento.wav",
+      "bus": "Ambience",
+      "volumeDb": -13,
+      "loop": true,
+      "role": "world",
+      "durationSeconds": 60
+    },
+    "soundscape.pulsazioni-vitali": {
+      "path": "res://assets/audio/soundscape-pulsazioni-vitali.wav",
+      "bus": "Ambience",
+      "volumeDb": -13,
+      "loop": true,
+      "role": "world",
+      "durationSeconds": 60
+    },
+    "soundscape.pagine-e-memorie": {
+      "path": "res://assets/audio/soundscape-pagine-e-memorie.wav",
+      "bus": "Ambience",
+      "volumeDb": -13,
+      "loop": true,
+      "role": "world",
+      "durationSeconds": 60
+    },
+    "soundscape.coro-dei-sistemi": {
+      "path": "res://assets/audio/soundscape-coro-dei-sistemi.wav",
+      "bus": "Ambience",
+      "volumeDb": -13,
+      "loop": true,
+      "role": "world",
+      "durationSeconds": 60
     }
   }
 }

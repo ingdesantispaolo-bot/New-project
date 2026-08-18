@@ -16,6 +16,10 @@ func _run() -> void:
 	var initial := GameSaveManager._default_data()
 	initial["level"] = 2
 	initial["energy"] = 1000
+	# Gli strumenti si comprano in bottega, e la bottega si paga in frammenti dal
+	# 14 agosto 2026 ([[FragmentEconomy]]): senza questi, l'acquisto della torcia
+	# fallirebbe per un motivo che non c'entra niente con la traversata.
+	initial["fragments"] = 1000
 	initial["worlds"] = {"unlocked": [1, 2], "current": 2}
 	var request := NativeWorldState.default_request("equipment-audit")
 	request["loadLocalSave"] = false
@@ -43,7 +47,13 @@ func _run() -> void:
 	assert(tool_area != null, "manca una deviazione opzionale legata all'equipaggiamento")
 	assert(not bool(world.call("_equipment_requirement_met", tool_area)), "il POI deve essere chiuso senza strumento")
 	var required := str(Dictionary(tool_area.get_meta("payload", {})).get("requiredTool", ""))
-	assert(world.get("gameplay").try_purchase_cosmetic(required), "acquisto dello strumento richiesto fallito")
+	# Gli strumenti non si comprano più (14 agosto 2026): li consegna il mondo
+	# dopo una riparazione. L'audit usa la stessa porta che usa il gioco.
+	assert(not world.get("gameplay").try_purchase_cosmetic(required),
+		"uno strumento di campo non deve essere acquistabile in bottega")
+	assert(world.get("gameplay").reward_manager.deliver_field_tool(required),
+		"consegna dello strumento richiesto fallita")
+	world.get("gameplay").call("_emit_state")
 	await process_frame
 	assert(str(world.call("equipped_field_tool")) == required, "lo strumento non è equipaggiato nel runtime")
 	assert(bool(world.call("_equipment_requirement_met", tool_area)), "il POI non si apre dopo l'equip")

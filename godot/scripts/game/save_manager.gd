@@ -60,6 +60,19 @@ static func _default_data() -> Dictionary:
 		# già noti. È la differenza fra chiedere di imparare altro e chiedere di
 		# tenere allenato ciò che si sa: la seconda si può fare a ogni livello.
 		"coverageThisLevel": {},    # subject -> [argomenti toccati in questo livello]
+		# **Le materie portate in linea, e a quale grado.** (16 agosto 2026)
+		#
+		# Una materia che ha soddisfatto tutte e tre le condizioni del gate a
+		# questo livello resta soddisfatta fino al livello successivo. Senza questo
+		# la ritenzione la faceva ricadere fra quelle da fare per il solo fatto che
+		# lo studente stava giocando **un'altra** materia: l'orologio del ripasso
+		# spaziato e' unico e avanza a ogni sessione. Vedi
+		# `GateReadiness.in_linea_a_questo_livello`.
+		#
+		# Si conserva il LIVELLO, non un booleano: al passaggio successivo della
+		# materia il grado e' un altro e il traguardo va riconquistato, esattamente
+		# come per `apparatus.repairedLevel`.
+		"gateClearedLevel": {},     # subject -> livello a cui e' andata in linea
 		# Impronte dei quesiti di PRATICA già visti di recente, materia per
 		# materia. Nasce da una segnalazione di gioco del 6 agosto 2026: lo
 		# studente rifaceva la stessa location e ritrovava gli stessi quesiti
@@ -69,6 +82,12 @@ static func _default_data() -> Dictionary:
 		# rispondere «questo l'ha già visto?», e conservare le domande per esteso
 		# gonfierebbe ogni salvataggio e ogni copia in cloud.
 		"recentPractice": {},       # subject -> [impronte, dalla più vecchia]
+		# Le prove SUPERATE: le impronte degli esercizi chiusi correttamente e senza
+		# sbagliare, materia per materia. A differenza di `recentPractice` — una
+		# finestra corta, e solo per la palestra — questa memoria vale per OGNI tipo
+		# di prova e non è un «di recente»: una prova risolta non torna a chiedere la
+		# stessa cosa. Vedi la sezione «Prove superate» in fondo.
+		"solvedExercises": {},      # subject -> [impronte, dalla più vecchia]
 		# Quando ogni materia è stata praticata l'ultima volta, in SESSIONI
 		# giocate (non in giorni reali). Serve al decadimento della padronanza:
 		# vedi `ProgressionManager.applica_decadimento`.
@@ -96,6 +115,10 @@ static func _default_data() -> Dictionary:
 		# `world_light.gd`.
 		"worldLight": {},           # "livello" -> prove superate li'
 		"powerRuns": 0,             # prove superate in tutta la partita
+		# Le cariche dell'impulso stabilizzante: si guadagnano superando prove e
+		# si spendono contro le sacche. Vedi `pulse_charge.gd` — prima di questa
+		# chiave l'impulso era gratuito e il morso non lo pagava nessuno.
+		"pulse": {"charges": 0, "progress": 0},
 		"apparatus": {},            # id -> {repairedLevel:int}
 		# Mondi (O-P1): livelli sbloccati (destinazioni di viaggio dalla nave) e
 		# mondo attualmente giocato. Il rango `level` è la frontiera di
@@ -143,6 +166,10 @@ func load_save() -> void:
 	var parsed = JSON.parse_string(file.get_as_text())
 	if typeof(parsed) == TYPE_DICTIONARY:
 		data = migrate_legacy_save(parsed)
+		# `data` è un altro dizionario: l'indice delle prove superate va rifatto,
+		# o resterebbe quello del profilo precedente.
+		if _solved_index_built:
+			_rebuild_solved_index()
 
 func save() -> void:
 	var file := FileAccess.open(path, FileAccess.WRITE)
@@ -244,6 +271,19 @@ func topics_seen_this_level(subject: String) -> int:
 ## ricomincia a contare, mentre padronanza e argomenti conosciuti restano.
 func reset_coverage_this_level() -> void:
 	data["coverageThisLevel"] = {}
+
+## Registra che questa materia ha raggiunto tutte e tre le condizioni del gate al
+## livello indicato. Monotono: un traguardo non si toglie, e al livello dopo
+## smette di valere da solo perche' quello che si conserva e' il grado.
+func set_subject_cleared(subject: String, cleared_level: int) -> void:
+	if not data.has("gateClearedLevel"):
+		data["gateClearedLevel"] = {}
+	var precedente := int(Dictionary(data["gateClearedLevel"]).get(subject, 0))
+	data["gateClearedLevel"][subject] = maxi(precedente, cleared_level)
+
+## A quale grado questa materia e' andata in linea. 0 = mai.
+func subject_cleared_level(subject: String) -> int:
+	return int(Dictionary(data.get("gateClearedLevel", {})).get(subject, 0))
 
 func add_mission(subject: String) -> void:
 	data["missionsBySubject"][subject] = missions_of(subject) + 1
@@ -367,6 +407,17 @@ func set_world_resume(world_id: String, position: Vector2, day_clock: float) -> 
 func set_apparatus_repaired(id: String, repaired_level: int) -> void:
 	data["apparatus"][id] = {"repairedLevel": repaired_level}
 
+## A quale livello è stata accesa la stanza di questo apparato. 0 = mai accesa.
+##
+## Il numero non è decorativo: distingue «questa materia l'ha già superata **a
+## questo grado**» da «l'aveva superata dodici mondi fa». Sulla prima il gioco non
+## deve tornare a chiedere niente; sulla seconda sì, perché il secondo passaggio
+## della materia è un grado di difficoltà nuovo. Prima esisteva solo il setter e
+## ogni lettore si frugava dentro `data` da sé — tre punti diversi con la stessa
+## catena di `get`, che è il modo in cui due di loro finiscono per dissentire.
+func apparatus_repaired_level(id: String) -> int:
+	return int(Dictionary(data.get("apparatus", {})).get(id, {}).get("repairedLevel", 0))
+
 func set_level(value: int) -> void:
 	data["level"] = value
 
@@ -377,6 +428,16 @@ func spend_energy(amount: int) -> bool:
 	data["energy"] = int(data["energy"]) - cost
 	return true
 
+## Lo scarico dei frammenti, che fino al 14 agosto 2026 non esisteva: la valuta
+## aveva `add_fragments` e nient'altro, e la bottega si pagava in energia. Vedi
+## [[FragmentEconomy]] per il perché della separazione.
+func spend_fragments(amount: int) -> bool:
+	var cost := maxi(0, amount)
+	if fragments() < cost:
+		return false
+	data["fragments"] = fragments() - cost
+	return true
+
 ## Applica uno stato iniziale esplicito per audit/import controllati. Il normale
 ## boot nativo non ne fornisce uno e mantiene il save locale autoritativo.
 func apply_launch_state(request: Dictionary) -> void:
@@ -385,6 +446,8 @@ func apply_launch_state(request: Dictionary) -> void:
 		var candidate := migrate_legacy_save(canonical)
 		if int(candidate.get("level", 0)) >= level():
 			data = candidate
+			if _solved_index_built:
+				_rebuild_solved_index()
 	if request.has("playerLevel"):
 		set_level(maxi(level(), int(request.get("playerLevel", level()))))
 
@@ -553,6 +616,113 @@ func recent_practice(subject: String) -> Dictionary:
 	for impronta in Array(Dictionary(data.get("recentPractice", {})).get(subject, [])):
 		out[int(impronta)] = true
 	return out
+
+# --- Prove superate (15 agosto 2026) ------------------------------------------
+
+## **Una prova superata non si richiede più.**
+##
+## Fino a oggi il gioco aveva una sola memoria di ciò che lo studente aveva già
+## visto — `recentPractice` — e serviva a un caso solo: la palestra, dove il
+## difetto era stato segnalato. Missioni, enigmi, riparazioni ed esami pescavano
+## dallo stesso banco senza guardare niente: bastava rifare la stessa location, o
+## anche solo tornare nel mondo, per ritrovare parola per parola l'esercizio a cui
+## si era già risposto bene. Ed è il modo peggiore in cui una domanda può tornare:
+## chi l'ha risolta ricorda la RISPOSTA, non il ragionamento, e la rifà giusta
+## senza imparare niente — la padronanza sale e la competenza no.
+##
+## Due scelte dentro questa memoria, e nessuna delle due è ovvia:
+##
+## **Superata vuol dire risolta pulita.** Un esercizio chiuso correttamente ma
+## dopo un errore NON è superato e resta disponibile: è esattamente quello che
+## conviene rivedere. Il giudizio lo dà l'ExercisePlayer, che è l'unico posto a
+## sapere quanti tentativi sono serviti.
+##
+## **Il ripasso spaziato passa sopra.** Quando un argomento è dovuto, la selezione
+## preferisce comunque una prova mai risolta su quell'argomento; se non ne restano,
+## ripropone una superata invece di saltare il ripasso. Un ripasso mancato è un
+## danno più grande di una domanda già vista.
+##
+## **Il tetto, e perché è questo.** Duecentocinquantasei impronte per materia sono
+## circa ottanta missioni della stessa materia: molto oltre un ciclo di visite al
+## suo mondo, e chi le supera ha comunque svuotato il banco a quella difficoltà —
+## lì la prova più anziana che rientra è ripasso, non ripetizione. Il tetto serve
+## perché questa memoria è l'unica del salvataggio che cresce con le ore giocate:
+## dodici materie al massimo pesano una trentina di KB, e la copia in cloud
+## (`cloud/index.ts`) si ferma a 256 KB. Un salvataggio che non entra più nel
+## cloud sarebbe un danno molto peggiore di una domanda ripetuta.
+const SOLVED_MAX := 256
+
+## L'impronta di una prova superata è la sua IDENTITÀ DI CONTENUTO
+## (`ExerciseSignature`), non il testo grezzo né l'id: due estrazioni della stessa
+## prova con gli elementi mescolati sono la stessa prova per chi la gioca, e l'id
+## cambia a ogni estrazione senza che cambi niente. Si conserva l'hash e non la
+## firma per esteso: serve solo a rispondere «questa l'ha già risolta?», e i testi
+## gonfierebbero ogni salvataggio e ogni copia in cloud.
+static func solved_fingerprint(node: Dictionary) -> int:
+	return ExerciseSignature.fingerprint(node)
+
+## Indice vivo delle prove superate: {materia: {impronta: true}}.
+##
+## Esiste come OGGETTO STABILE apposta. `ContentManager` se lo tiene per
+## riferimento una volta sola (vedi `solved_by_subject`) e lo consulta a ogni
+## costruzione: se ogni scrittura lo sostituisse, il selettore continuerebbe a
+## leggere una fotografia vecchia e le prove appena risolte tornerebbero subito.
+## Perciò qui si svuota e si riempie, mai si riassegna.
+var _solved_index: Dictionary = {}
+var _solved_index_built := false
+
+func solved_index() -> Dictionary:
+	if not _solved_index_built:
+		_rebuild_solved_index()
+	return _solved_index
+
+func _rebuild_solved_index() -> void:
+	_solved_index.clear()
+	var tutte: Dictionary = data.get("solvedExercises", {})
+	for subject in tutte.keys():
+		_solved_index[str(subject)] = _solved_set(Array(tutte[subject]))
+	_solved_index_built = true
+
+func _solved_set(coda: Array) -> Dictionary:
+	var out: Dictionary = {}
+	for impronta in coda:
+		out[int(impronta)] = true
+	return out
+
+## Le impronte già superate in una materia, come insieme per la ricerca rapida.
+func solved_exercises(subject: String) -> Dictionary:
+	return Dictionary(solved_index().get(subject, {}))
+
+func has_solved(subject: String, node: Dictionary) -> bool:
+	return solved_exercises(subject).has(solved_fingerprint(node))
+
+## Segna come superate le impronte passate. Idempotente: una prova già in elenco
+## resta dov'è invece di essere riportata in fondo — al contrario di
+## `remember_practice_prints`, dove l'ordine è la finestra e conta il «visto ora».
+## Qui l'ordine serve solo a decidere che cosa cede per primo quando si arriva al
+## tetto, e la più anziana è la scelta giusta.
+func remember_solved(subject: String, impronte: Array) -> void:
+	if subject == "" or impronte.is_empty():
+		return
+	var tutte: Dictionary = data.get("solvedExercises", {})
+	var coda: Array = Array(tutte.get(subject, []))
+	for grezza in impronte:
+		var impronta := int(grezza)
+		if not coda.has(impronta):
+			coda.append(impronta)
+	while coda.size() > SOLVED_MAX:
+		coda.remove_at(0)
+	tutte[subject] = coda
+	data["solvedExercises"] = tutte
+	if _solved_index_built:
+		_solved_index[subject] = _solved_set(coda)
+
+## Come sopra ma per l'esito di una sessione intera, dove i nodi possono venire da
+## materie diverse: l'esame di mondo aggiunge due prove di nucleo e il finale del
+## Cuore ne attraversa dodici. La materia la porta scritta il nodo.
+func remember_solved_map(per_materia: Dictionary) -> void:
+	for subject in per_materia.keys():
+		remember_solved(str(subject), Array(per_materia[subject]))
 
 # --- Trascuratezza (6 agosto 2026, svolta severa) -----------------------------
 

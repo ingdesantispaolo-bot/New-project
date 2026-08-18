@@ -1062,3 +1062,863 @@ Costo: due item in meno, ed erano i due ambigui — `fisica-moto-forze-energia`
 **Esito complessivo: il ×4 è sparito.** Peggiore ripetizione del gioco ×3, le tre
 materie a ×2. Profondità: coppie (materia, formato) sopra le 10.000 da 23 a 25 su
 69. Suite 82/82 Godot, 184/184 TypeScript.
+
+## Minigiochi-personaggio — tre pilot e contratto completo (11–12 agosto)
+
+Lavoro condiviso Opus/Codex a partire da `insieme.md`:
+
+- **Tobia**: `Il mucchio che non finisce`, velocità e raggruppamento in decine;
+  cristallo generativo trasparente, file leggibili 5+5, vassoi visivi e bersagli
+  da 40 px;
+- **Corinna**: `Lo scaffale che non si vede`, riflessione senza cronometro;
+  carta-parola, scaffali da 92 px, feedback d'errore non punitivo e movimento
+  disattivabile;
+- **Ciro**: `Il circuito mutante`, tre reti riconfigurate e tre nodi per rete al
+  mondo 8; corrente animata, incroci non connessi, errore locale senza reset e
+  difficoltà crescente per schemi/passaggi anziché per tempo;
+- glifo unico della convinzione, disegnato dal motore e predisposto nello stato
+  intatto/spezzato;
+- prima vittoria resa un momento narrativo unico: il gioco resta riprovabile
+  dopo una sconfitta, ma non si riapre più a ogni saluto dopo il successo;
+- matrice completa dei **46 residenti**, bilanciata 23 velocità / 23 riflessione,
+  in `docs/MINIGIOCHI_PERSONAGGI.md`;
+- layout verticale dei tre pilot ingrandito dopo il layout Godot: a 600×900 il
+  circuito occupa quasi tutta la larghezza e conserva bersagli fisici di circa
+  45 px. Catture riproducibili in `artifacts/character-minigames`.
+
+Verifiche: `character_minigame_audit` verde,
+`character_minigame_visual_audit` verde e `circuit_minigame_audit` verde; la
+prova giocata attraversa un errore e tutte e tre le riconfigurazioni. Caricamento progetto e export Godot
+senza errori di script. Export Web `2026.08.11-web-loader-6`, cache
+`v96-web-loader`, PCK 25,39 MiB e core 63,07 MiB; `audit:web` e build Vite
+verdi. Lo smoke Chrome non è partito in due tentativi perché DevTools non ha
+risposto a `Page.enable` entro 30 secondi: errore precedente al caricamento del
+gioco, da ripetere quando il canale browser è disponibile.
+
+## C-ART-3/4 — confronto e conseguenze visibili (13 agosto)
+
+- Il confronto Eli/NORA si svolge nella prova trasversale del mondo 24, dopo i
+  dodici sistemi e prima del nodo di sintesi. Conserva indice, scudi e risposte,
+  cambia intestazione a ogni blocco ed è saltabile senza scelta o stato di gate.
+- I due luoghi vivi di ogni mondo 1–23 appartengono ora a residenti distinti:
+  specialista nella casa del mestiere, testimone al Ritrovo. Finestre e facciata
+  leggono lo stadio di quella persona; una vittoria con Tobia non modifica più
+  il posto di Ersilia.
+- Il pilot del mondo 1 aggiunge due conseguenze procedurali continue 0→1→2:
+  mucchio → guide → gruppi di dieci per Tobia; cesto → ritmo riconosciuto →
+  sette pagnotte sui battiti per Ersilia. Nessun testo, numero, segno di spunta,
+  input o vantaggio meccanico; due nodi totali.
+- Corretto un difetto emerso dal giro: il minigioco di Ersilia si apriva prima
+  di persistere `ersiliaCountHeard`, quindi la conta tornava al rientro. L'audit
+  dei mondi ora conta le tracce delle sorelle dalla stessa API usata dal runtime.
+
+Misura isolata: mondo 1 a **2.789/3.500 nodi** e **311/500 ms**. Verdi
+`building_audit`, `performance_budget_audit`, `world_l1_readiness_audit`,
+`world_wave_e2_audit`, i cinque audit `exercise`, i due `finale`, `npc_arc`,
+`mystery`, `world_life`, `c07`, `nora_arc`, `diary` e `thirteenth`.
+QA visuale sul renderer reale: sei catture 1024×600 in
+`artifacts/resident-consequences` confermano che i tre stadi restano distinguibili
+senza dialogo; la sonda riproducibile è `resident_consequence_render_probe.gd`.
+
+---
+
+## G-1 · La serie (13 agosto)
+
+Prima voce dello strato di gioco pianificato in `insieme.md`. La parola `combo`
+non compariva in **nessuno** script del progetto, benché `DESIGN_COMPLETO` §6 e
+§10 la dessero per esistente dal principio: una risposta giusta valeva dieci
+punti, la prima come la ventesima, dal mondo 1 al mondo 24.
+
+- **La regola** sta in `combo.gd`, modulo puro nello stile di `reflex_duel.gd`:
+  il moltiplicatore parte da uno, sale di un quarto per ogni risposta giusta
+  consecutiva dopo la prima e si ferma a **×2 alla quinta**, che è la lunghezza
+  di un esame — il tetto esiste e si guadagna tutto. Sotto due giuste di fila non
+  si mostra niente: un «×1» sempre a schermo non segnala nulla.
+- **La serie si spezza in `_spend_shield()`**, che è l'unico passaggio obbligato
+  di ogni errore in tutti i formati. Azzerarla in `_score_current` avrebbe
+  lasciato viva la serie di chi sbaglia *dentro* un minigioco senza chiudere il
+  nodo — cioè in metà del gioco.
+- **Non attraversa le sessioni.** Una serie che si porta dietro il mondo diventa
+  una cosa da proteggere invece che da giocare: si smetterebbe di toccare le
+  materie deboli per non spezzarla, che è il contrario di ciò che il gate chiede.
+- **Quando finisce non dice niente**: nessun suono, nessun rosso, nessun
+  messaggio (decisione 13). Il bambino ha già ricevuto la spiegazione e ha già
+  perso uno scudo; un terzo segnale sullo stesso errore è accanimento.
+- L'esito di sessione porta ora `comboBest` e `comboEnergy`. Nessuna regola li
+  legge: `energyGained` contiene già tutto, e la semantica a valle non è
+  cambiata di una riga.
+
+**Misura e guard-rail.** `combo_audit` verde, e verificato che morda: togliendo
+l'azzeramento fra una prova e l'altra diventa rosso. Controlla l'aritmetica
+(monotona, con tetto, raggiungibile in una sessione vera), il tetto di sessione
+(nessuna prova perfetta, fino a venti nodi, supera il doppio della tariffa
+piatta: il catalogo della bottega è tarato sul totale della campagna) e
+soprattutto la **decisione vincolante 15**, con una prova comportamentale invece
+che una lettura del codice — gli stessi esiti registrati due volte con energie
+0 e 9999 devono lasciare la stessa padronanza e lo stesso conteggio di gate, e
+l'energia deve davvero essere arrivata, altrimenti il confronto non proverebbe
+niente.
+
+Nessun esercizio aggiunto: la campagna resta a 21,1 ore. Suite completa
+**167/167 verde in 232 s**. **C-G1 chiusa da Codex**: `ComboBadge` cresce con
+un colpo neutro, cambia colore fino al tetto e si dissolve senza rosso, suono o
+messaggio quando la serie si spezza. `combo_audit` verde sul consumer reale.
+
+**Export fatto** il 13 agosto: `2026.08.13-web-loader-9`, cache `v112-web-loader`,
+PCK 33,60 MiB, WASM 37,68 MiB. **`audit:web` è ROSSO**, e non per questo lotto:
+`build_version.gd` stampa ancora `af66cec` mentre HEAD è `9005079`. Torna verde
+solo dopo un commit, `npm run version:stamp`, riesportazione e risincronizzazione
+— e al momento dell'export l'albero conteneva anche lavoro **non commesso di
+Codex** (il ponte camminabile della nave e il layout verticale condiviso), che è
+quindi finito dentro il PCK. Chi commette decide se separarli.
+
+---
+
+## Lotti visuali Codex — strato di gioco (13 agosto)
+
+- **G-6, nave camminabile.** Il corpo centrale ospita Eli con lo stesso
+  `player_controller.gd` del mondo esterno, dodici porte-materia e input
+  touch/click. Le luci leggono `HubController.runtime_state()`; la scena non
+  richiama più `ShipActivationModel`. La mappa dei mondi e il ritorno al mondo
+  restano raggiungibili. `ship_scene_audit` verde: **249 nodi**, contro il tetto
+  assoluto di 3500.
+- **C-G7, reazione per nodo.** `notify_progress` inoltra anche le missioni
+  ordinarie e ogni POI aggiorna il proprio `WorldLearningReaction`. Il visual
+  sceglie la trasformazione già dichiarata per bioma e tipo; non calcola
+  ricompense o completamenti. `event_progress_visual_audit` verde.
+- **C-G2 e C-G3, consumer chiusi.** L'HUD mostra celle e conteggio cariche da
+  `pulseCharges`/`pulseChargeMax` (`pulse_hud_audit` verde). Le quattro
+  spritesheet 5×4 e le quattro orbite aggiuntive seguono ora il contratto
+  Solstizio → Costellazione → Galassia → Prima Luce. `eli_evolution_audit`
+  verifica nove tavole, l'associazione del loader, le sei orbite a grado 8 e la
+  riduzione del movimento.
+- **C-G9, presenza del Custode.** Il volto resta data-driven e ora la stessa
+  decisione di `PetExpressionEngine` pilota una posa del corpo, con varianti per
+  festa, orgoglio, curiosità, attenzione e incoraggiamento. Nessun segnale
+  concede potere. `pet_pose_audit` verde su tutti i segnali dichiarati.
+- **C-MG-4.** Quindici pannelli, inclusi radio e mercato, usano
+  `MinigamePanelLayout.adapt_vertical`; nessuna copia locale di
+  `_adatta_verticale`. `minigame_vertical_layout_audit` verde.
+- **C-ART-2.** I 46 asset-residente già approvati vengono composti in tre pose
+  mezzo busto guidate dallo stadio dell'arco; lo stadio arriva dal runtime e il
+  ritratto non lo calcola. `resident_portrait_stage_audit` verde: **46 × 3**.
+- **Comparsa minimissioni.** In un mondo nuovo il POI non è già visibile: la
+  prima prova riuscita lo accende con una transizione, mentre nei mondi già
+  giocati resta immediatamente disponibile. `minimission_reveal_audit` verde.
+
+Gli spritesheet evolutivi sono stati generati con ImageGen built-in partendo da
+Meridiana come riferimento vincolante, su chroma-key piatto; la normalizzazione
+locale produce PNG 480×384 con alpha e angoli trasparenti validati. Nessun testo
+è incorporato nelle immagini.
+
+**Chiusura e release (14 agosto).** La suite completa ha coperto 174 audit: il
+primo passaggio ne ha chiusi 173 e ha intercettato una sovrascrittura testuale
+del silenzio al terzo errore; corretto il consumer di progresso, sono verdi sia
+`pet_struggle_relief_audit` sia `event_progress_visual_audit`, quindi **174/174
+verdi**. Export Web finale sincronizzato come `2026.08.14-web-loader-1`, cache
+`v114-web-loader`: PCK 34,33 MiB, WASM 37,68 MiB, core 72,01 MiB;
+`audit:web` verde. Questo record sostituisce il rosso transitorio annotato nel
+lotto precedente; l'export include il worktree non commesso corrente.
+
+---
+
+## G-2 · L'impulso si guadagna (14 agosto)
+
+Il difetto più grosso trovato nella lettura dello strato di gioco, e nessun
+controllo lo aveva visto per una settimana perché ogni pezzo era coerente con se
+stesso. Il 7 agosto le sacche di Silenzio erano diventate un pericolo con un costo
+tarato sul grado di Eli — `world_enemy.gd` lo spiega per venti righe: *chi si
+allena passa senza pagare* — e nello stesso mondo c'era un pulsante che le
+stordiva **gratis**, con raggio 168 e ricarica in **1,25 secondi**. Il morso non
+lo pagava nessuno, il grado di potenza non serviva a niente contro le sacche, e la
+barra sullo schermo misurava una forza che non veniva mai messa alla prova.
+
+- **La riparazione cambia specie alla risorsa, non la tara.** Un cooldown si
+  rigenera da sé e quindi non è un costo, è un'attesa. Le cariche in
+  `pulse_charge.gd` si **guadagnano** nell'unico modo che questo gioco riconosce:
+  due prove superate una carica, tetto tre. Da qui la catena che il lotto del 7
+  agosto voleva e non aveva: *studi → hai l'impulso → passi*.
+- **A serbatoio pieno non si accumula.** Se il progresso continuasse a salire, chi
+  gioca a lungo con tre cariche si ritroverebbe una riserva invisibile che si
+  scarica tutta insieme: il tetto sarebbe una finzione e la scelta *passo o giro
+  attorno* tornerebbe a non esistere.
+- **Si parte da zero.** Regalare una carica all'avvio sembrerebbe gentile e
+  insegnerebbe la cosa sbagliata: le celle vuote accanto alla barra di potenza
+  dicono, senza una riga di testo, che quella cosa si riempie giocando. Non è un
+  vicolo cieco perché il morso non ferma nessuno.
+- **Il cronometro resta, ridotto a 350 ms**, e non è più l'economia: è un
+  antirimbalzo, perché un tocco doppio involontario non deve bruciare una carica
+  guadagnata con due prove.
+- **L'economia sta nella semantica** (`OutdoorGameplay.usa_impulso`), non nella
+  scena: la presentazione chiede e disegna. La resa C-G2 di Codex era già pronta e
+  legge `pulseCharges`/`pulseChargeMax` dal contratto runtime — questo lotto ha
+  collegato le due metà.
+
+**Misura e guard-rail.** `pulse_economy_audit` verde, e verificato che morda: un
+impulso che si accende sempre lo fa diventare rosso. Verifica l'aritmetica delle
+cariche (tetto compreso, e che non si banchi una riserva), che l'impulso non sia
+mai gratuito, che le cariche si guadagnino **solo** con le prove — energia,
+frammenti e acquisti provati uno per uno — che accenderlo non tocchi nient'altro
+nel salvataggio, e soprattutto che **le cariche non gattino niente**: due partite
+identiche con zero e con tre cariche hanno uno stato di progressione che differisce
+in `pulseCharges` e in nient'altro. È la forma verificabile di «niente sulla mappa
+può fermare la progressione». Una prova **fallita** non ricarica.
+
+**Una lezione, pagata falsificando.** Alla prima stesura l'audit conteneva un
+`while PulseCharge.consuma(...)`. Provando a falsificarlo — cioè rimettendo
+l'impulso gratuito — non è diventato rosso: si è **appeso**, quattro minuti, fino
+al timeout. Un cricchetto che si blocca invece di rompersi fa perdere il giro a
+tutta la suite e non dice niente a chi guarda. Ora il ciclo è limitato e fallisce
+in un secondo.
+
+**Due regressioni prese dalla suite**, entrambe vere e nessuna visibile
+rileggendo: `eli_enemy_audit` misurava lo stordimento e `accessibility_release_audit`
+la forma dell'onda con riduzione movimento, e da oggi senza una carica l'impulso
+non si accende — quindi non c'era niente da misurare. Entrambi accreditano ora la
+carica con lo stesso gesto che la darebbe al giocatore.
+
+Suite completa **175/175 verde in 237 s**. Export finale fatto dal commit sorgente
+`30bfe49`: `2026.08.14-web-loader-3`, cache `v116-web-loader`, PCK 34,33 MiB,
+WASM 37,68 MiB, core 72,01 MiB. `audit:web` verde.
+
+---
+
+## La matematica del primo livello (14 agosto)
+
+Segnalazione di una studentessa in collaudo: «gli esercizi di matematica del
+primo livello sono troppo semplici». Misurata con una sonda nuova
+(`first_level_probe.gd`, quaranta sessioni campionate per condizione), aveva
+ragione, e le cause erano **tre e indipendenti**.
+
+**Uno · il pavimento del generatore.** La complessità 1 ammette sei archetipi —
+addizione, sottrazione, moltiplicazione, sequenza e due problemi a un passaggio —
+con somme sotto il 35 e sottrazioni sotto il 28. Uscivano «Quanto fa 11 − 6?» e
+«5 monete al mattino e 6 nel pomeriggio»: tre o quattro anni di scuola sotto la
+fascia dichiarata (10–13). Il livello 1 vale ora nominalmente **complessità 2**;
+la complessità 1 resta viva come gradino verso il basso per chi ha padronanza
+sotto 0,5. Limite dichiarato nel codice: ai livelli 1–3 quel gradino non c'è,
+perché il livello efficace non scende sotto 1 e lì il nominale *è* il pavimento.
+
+**Due · le tabelline non coprivano le tabelline.** Con i vecchi limiti il fattore
+massimo al livello 1 era **7**: quelle dell'8, del 9 e del 10 non uscivano mai, in
+una materia il cui banco si chiama `matematica-tabelline`. Ora al nominale si
+arriva a 10 e al gradino di chi fatica a 8.
+
+**Tre · il banco aveva un argomento solo.** 284 voci, tutte `tabelline` — l'unica
+materia su dodici così, le altre ne hanno da sette a ventuno. Aggiunti **80 item
+scritti a mano** su cinque argomenti che NORA già sa spiegare: frazioni,
+percentuali, geometria, espressioni, statistica. Il banco passa da 284 a **364
+voci e da 1 a 6 argomenti**; la difficoltà 1 da 16 voci di un argomento a **41 di
+sei**. Stanno in `build-exercise-banks.mjs` (il JSON è un prodotto del bake: chi
+scrivesse lì perderebbe tutto al giro dopo, ed è già successo).
+
+**Il difetto trovato scrivendoli, ed era il più grosso.** Per la matematica
+`build_mission` costruiva i nodi con il generatore e **usciva prima di guardare il
+banco** — sempre, anche nell'esame. Ottanta item scritti e nessuna strada per
+arrivarci: la stessa specie di guasto dei `modules` nel salvataggio. Ora un nodo
+su tre viene dal banco (`_innesta_banco_matematica`), le tabelline escluse
+dall'estrazione perché il generatore ne produce già in abbondanza.
+
+Tre regressioni prese dalla suite mentre lo si collegava, tutte vere:
+
+- l'innesto poteva **cancellare il nodo di ripasso spaziato** — il sistema
+  didattico decide che cosa deve tornare oggi, e un innesto che glielo sovrascrive
+  rompe la sua promessa. Le posizioni di ripasso sono ora escluse
+  (`c11_world_content_audit`);
+- due item di banco potevano cadere **sullo stesso argomento nello stesso
+  formato** nell'esame da cinque nodi: tre sessioni su 3648, e `format_mix_audit`
+  ne ammette zero. Un argomento per sessione, e mai uno già presente;
+- gli item di banco non portavano la `signature` che ogni nodo di matematica ha:
+  un lettore a valle andava in errore invece che in rosso.
+
+**Misurato dopo.** Al livello 1 la missione passa da 11 a **14 argomenti**, la
+banda di difficoltà da 105/15 a **58/62** fra 1 e 2, e compaiono le domande che
+prima non esistevano: «Come si trova rapidamente il 10% di un numero?», «Il
+perimetro di una figura è…». Il banco resta al **29,9% di risposta libera**,
+dentro la forbice 20–30% (la conversione è automatica nel bake).
+
+Suite completa **175/175 verde in 246 s**. Export: `2026.08.14-web-loader-4`,
+cache `v117-web-loader`, PCK 34,38 MiB. `audit:web` resta rosso per lo stamp di
+versione fermo a `af66cec`, come nei due lotti precedenti.
+
+---
+
+## G-3 · La potenza non si ferma a metà campagna (14 agosto)
+
+La scala della potenza si fermava a **140 prove, cinque gradi**, ed era stata
+scritta quando i mondi non erano ancora ventiquattro. Le sacche di Silenzio
+invece salgono fino al grado otto (`1 + floor((livello−1)/3)`).
+
+**La misura, con una sonda nuova.** `power_curve_probe` simula il percorso vero —
+missione della materia del mondo più pratica delle materie che il gate dichiara
+mancanti, fino a superare il livello, più l'esame — e conta le prove superate
+mondo per mondo. La campagna intera vale **590 prove**, e il grado massimo
+arrivava all'**ottavo mondo**: per sedici mondi Eli non cresceva più mentre la
+minaccia continuava a salire. Lo scarto misurato arrivava a **−4** ai mondi
+22–24, cioè otto energie a ogni morso contro un giocatore che non poteva farci
+niente.
+
+Nessun audit se ne era accorto perché ognuno guardava metà del problema:
+`world_light_audit` controllava che le soglie crescessero, `enemy_threat_audit`
+che il grado massimo bastasse. Nessuno confrontava **quando** si arriva a un
+grado con **quanto è forte la minaccia in quel momento**.
+
+- **Nove gradi**, con le prime cinque soglie **intatte**: un salvataggio in corso
+  non deve retrocedere di grado per una modifica alla scala. Le quattro nuove —
+  Solstizio, Costellazione, Galassia, Prima Luce — a 215, 300, 395 e 500 prove,
+  scelte perché lo scarto resti fra −1 e +1 in tutti e ventiquattro i mondi e
+  nessun gradino duri più di tre. Misurato dopo: grado 0 al mondo 1 (giusto: le
+  prime sacche devono mordere) e grado 8 al mondo 21.
+- **C-G3 chiuso**: le nove spritesheet di Eli e le sei orbite erano già pronte;
+  il contratto ora le nomina e `eli_evolution_audit` verifica l'associazione
+  esatta dei nove gradi, Prima Luce nella scena e il comportamento a movimento
+  ridotto.
+- **Il varco ha un tetto** (`VARCO_MASSIMO`): a grado otto contro una sacca di
+  grado uno copriva il 50,8% della pista, oltre il limite che `reflex_duel_audit`
+  chiama «un regalo». Il tetto non tocca i gradi 0–4, che restano tarati com'erano.
+  *(Voce storica: il varco di riflessi è stato sostituito dal duello di calcolo il
+  16 agosto, e con lui sono spariti `VARCO_MASSIMO` e `reflex_duel_audit`.)*
+- **Il grado consigliato delle minimissioni** seguiva una scala sua, tetto 4:
+  dalla metà della campagna in poi qualunque giocatore lo superava senza
+  accorgersene e il rischio dichiarato — entrare impreparati costa una volta e
+  mezzo — smetteva di esistere per dodici mondi. Ora segue la scala della minaccia.
+- `reflex_duel_audit` **leggeva il numero dei gradi da una costante scritta a
+  mano** (5): i quattro nuovi sarebbero rimasti fuori da ogni controllo senza che
+  diventasse rosso. Ora lo chiede alla scala.
+
+**Il cricchetto spostato, non allentato.** `world_light_audit` pretendeva che
+l'ultima soglia stesse sotto **400 prove**, con la motivazione giusta — «una
+promessa che nessun bambino vedrà» — e un numero **inventato**: una stima della
+campagna fatta prima di misurarla. Il controllo è passato a `power_curve_audit`,
+che possiede la tabella misurata e verifica tre cose che lì non si potevano
+vedere: che ogni grado arrivi dentro la campagna, che l'ultimo arrivi con almeno
+quaranta prove di margine, e che il grado di Eli non resti mai più di due sotto
+quello delle sacche di quel mondo. Verificato che morda: rimettendo la scala a
+cinque gradi elenca da solo i mondi 19–24 con scarto 3 e 4.
+
+Suite completa **176/176 verde in 245 s**. Export: `2026.08.14-web-loader-5`,
+cache `v118-web-loader`, PCK 34,38 MiB. `audit:web` resta rosso per lo stamp di
+versione fermo a `af66cec`.
+
+---
+
+## G-5 · L'economia misurata, e una voce di piano smentita (14 agosto)
+
+G-5 diceva: «un esercizio del mondo 22 paga come una tabellina del mondo 1», e
+proponeva di scalare la tariffa con la banda di difficoltà. **La misura l'ha
+smentita**, ed è il motivo per cui questo lotto non contiene la modifica che
+prometteva.
+
+La frase è vera per esercizio ed è **falsa per minuto giocato**, che è l'unica
+unità in cui la domanda ha senso: un mondo alto ha formati più lenti e più
+sessioni, e il conto si chiude da solo. Misurato con `economy_probe` su tutti e
+ventiquattro i mondi, simulando il percorso vero e calcolando l'energia con le
+regole del gioco (tariffa dichiarata, serie di [[Combo]], premio di
+completamento, meno l'ingresso): **da 40,6 a 45,4 energia al minuto, squilibrio
+1,12x**.
+
+Scalare le tariffe avrebbe **creato** lo squilibrio che voleva togliere.
+Provato: con una tariffa che cresce di sei per banda, il mondo 20 paga 86,6
+energia al minuto contro le 55,8 del mondo 4 — 1,55x — e tornare indietro a
+ripassare, che il design chiama esplicitamente «ripasso mirato», sarebbe
+diventato un modo per perdere tempo.
+
+Quindi al posto della modifica c'è un **cricchetto che impedisce di introdurla**:
+`economy_curve_audit` costruisce una sessione per ognuno dei ventiquattro mondi,
+ne calcola l'energia al minuto e pretende che lo squilibrio resti sotto 1,45x;
+in più riverifica il tetto della serie dal lato dell'economia — nessuna sessione
+perfetta paga più del doppio della sua tariffa piatta — perché è il punto in cui
+una modifica alle ricompense lo romperebbe senza toccare `combo.gd`. Verificato
+che morda: con le tariffe scalate diventa rosso e nomina i due mondi.
+
+**Il numero che serviva a G-4.** Il catalogo della bottega costa **72.600
+energia** su 55 voci; la campagna ne produce **53.783** senza errori e **42.758**
+sbagliandone una su cinque, cioè il **74%** e il **59%**. Il sink estetico è
+tarato bene e non c'è energia in eccesso da drenare: i moduli di spedizione, se
+entrano, devono essere **pochi e permanenti** (quattro o cinque a 150-600, circa
+il 3% del catalogo) e mai consumabili, che sarebbero un rubinetto senza fondo su
+un'economia già stretta.
+
+Suite completa **177/177 verde in 247 s**.
+
+---
+
+## G-4 · I moduli di spedizione (14 agosto)
+
+L'unica cosa che la bottega vende oltre alla bellezza, e nasce da una
+contraddizione fra due documenti che avevano ragione tutti e due:
+`DESIGN_COMPLETO` §8 prometteva sette moduli NORA (indizio, seconda chance, tempo
+extra), il lotto del 6 agosto aveva deciso il contrario — *«un consumabile utile
+diventa una scorciatoia per non sapere»*.
+
+**La distinzione che li concilia è dove agisce il modulo.** Uno che tocca una
+**prova** è una scorciatoia per non sapere; uno che tocca la **mappa** no — la
+stessa distinzione che rende lecito mettere una prova di abilità davanti a un
+forziere di cosmetici. Da qui la decisione vincolante 15 applicata alla bottega.
+
+- **Tre moduli, non sette**, perché tre sono quelli che **funzionano davvero**:
+  Serbatoio ampliato (una carica d'impulso in più), Bobina larga (raggio
+  dell'impulso da 168 a 230), Passo lungo (scatto da 1,65× a 1,95×). Radar dei
+  forzieri e raggio della torcia restano nel piano finché non esiste la loro
+  resa: un oggetto che promette una meccanica inesistente è già stato il difetto
+  del 6 agosto, quattro upgrade da 1600 frammenti che non facevano nulla.
+- **Permanenti, mai consumabili**, e il numero lo dice: il catalogo costa 72.600
+  e una campagna produce fra 42.758 e 53.783 (G-5). Non c'è energia in eccesso da
+  drenare. I tre costano insieme **950, l'1,3% del catalogo**: la scelta in
+  bottega esiste e il sink estetico non se ne accorge. Un consumabile sarebbe un
+  rubinetto senza fondo su un'economia già stretta.
+- **Nessuna chiave nuova nel salvataggio.** `cosmetics.inventory` raccoglie già
+  gli acquisti permanenti che non si equipaggiano e ha i suoi lettori: è bastato
+  aggiungere `module` agli slot non equipaggiabili. La chiave `modules`,
+  dichiarata e mai costruita (decisione 14), resta sepolta dov'è.
+- **La semantica calcola, la scena legge un numero.** `runtime_state()` pubblica
+  `pulseChargeMax`, `pulseRadius` e `sprintMultiplier`; l'impulso e il
+  controller del giocatore non sanno niente di bottega né di acquisti.
+
+**Il guard-rail, provato sul comportamento.** `expedition_module_audit` verifica
+che ogni modulo esista e si compri davvero (compresa la sezione in bottega: un
+oggetto che nessuna schermata elenca non esiste), che **cambi un numero**
+misurabile fino al contratto runtime, che comprarlo non sposti padronanza,
+conteggi del gate o prontezza al livello successivo, che nessuno sia necessario,
+e che i moduli non superino il 6% del catalogo. Verificato che morda: rendendo
+un modulo inerte lo dichiara rosso in due righe.
+
+**Una regressione presa dalla suite**, e la riparazione vale oltre questo lotto:
+`shop_presentation_audit` pretende un'illustrazione per **ogni** voce del
+catalogo, e i tre moduli non ne hanno. La scelta era fra rimandare i moduli
+finché non esiste l'arte o dargli una resa onesta subito. La bottega ora ha un
+**ripiego generico** — un cerchio col glifo e il colore già dichiarati nella voce
+— al posto del `return null` che valeva solo per i due strumenti disegnati a
+mano: è la stessa regola che il progetto applica ai lotti di Codex, una cosa deve
+essere usabile con forme piene e colori piatti prima che esista un disegno.
+
+Suite completa **178/178 verde in 257 s**. Export: `2026.08.14-web-loader-6`,
+cache `v119-web-loader`, PCK 34,38 MiB.
+
+---
+
+## G-9 · La presenza del Custode (14 agosto)
+
+Il motore delle espressioni dichiarava **ventuno segnali** e la scena ne emetteva
+quindici. Cinque erano **morti** — `session_start`, `mission_complete`,
+`topic_consolidated`, `apparatus_repaired`, `idle` — ed è la decisione 14
+applicata ai segnali invece che alle chiavi del salvataggio: non è un'analogia,
+quella decisione nomina proprio `near_unexplored` e `near_faded` come il quarto
+caso della stessa malattia.
+
+**Il difetto senza sintomi.** Due chiamate passavano `_pet_react("festa")`, e
+`festa` è una **faccia**, non un segnale: `face_for` non trovava la chiave e
+ripiegava sul volto a riposo. Il Custode restava sereno nei due momenti che sono
+la sua stessa presentazione — quando viene consegnato al bambino e quando riceve
+un nome. Non dava nessun errore, e nessuna rilettura del codice l'avrebbe visto.
+
+Collegati ora, tutti a cose **già a schermo** (la decisione 12 vieta che il
+Custode anticipi o aiuti):
+
+| segnale | quando | faccia |
+|---|---|---|
+| `pet_granted` (nuovo) | il Custode arriva e riceve un nome | festa |
+| `power_grade_up` (nuovo) | Eli sale di grado di potenza | orgoglioso |
+| `sister_found` (nuovo) | si apre la traccia di una sorella | attento |
+| `session_start` | si apre una prova | concentrato |
+| `mission_complete` | una tappa si chiude e sparisce dalla mappa | festa |
+| `topic_consolidated` | un argomento diventa consolidato nel manuale | festa |
+| `idle` | quarantacinque secondi senza che accada niente | offeso |
+
+`topic_consolidated` ha richiesto un canale che non esisteva: `OutdoorGameplay`
+emette ora un segnale omonimo quando un argomento raggiunge lo stato
+consolidato — il traguardo più silenzioso del gioco, che non dà energia e non
+apre niente, e che fuori dalla semantica non sapeva nessuno.
+
+**Sull'`idle`, che era la scelta delicata.** Una faccia imbronciata dopo un
+lungo silenzio non punisce: non toglie legame, non mostra messaggi, passa da
+sola. La decisione 13 vieta di punire l'assenza, e qui non si perde niente — è
+l'unica cosa che il Custode può fare per esistere quando il gioco non lo guarda.
+
+**Il cricchetto.** `pet_presence_audit` pretende che ogni segnale dichiarato
+abbia qualcuno che lo emette, che nessuno passi una faccia al posto di un
+segnale, che ogni segnale abbia una faccia nota, e che **nessuna reazione nasca
+da energia, frammenti, cosmetici o moduli** — la decisione 12 verificata a monte,
+su ciò che fa reagire il Custode e non solo su ciò che fa. Verificato che morda:
+rimettendo `_pet_react("festa")` lo dichiara rosso nominando il file.
+
+**Un falso rosso, e la lezione.** Alla prima stesura l'audit dichiarava morti
+tutti e cinque i `learning:*`, che nascono da `_pet_react("learning:%s" % nome)`:
+la loro stringa intera non compare da nessuna parte. Un falso rosso è una bugia
+esattamente come un falso verde, e insegna a non fidarsi del cricchetto: la
+ricerca riconosce ora anche il modello interpolato.
+
+**C-G9, il Custode nella nave (14 agosto).** La voce in lista d'attesa è chiusa:
+`hub_scene.gd` mostra lo stesso `ShipPetFaceWidget` quando il Custode è stato
+consegnato, apre `ShipPetScreen` con la pressione lunga e conserva il tetto di
+legame per sessione anche sulla carezza. Un apparato riparato emette ora
+`apparatus_repaired` prima della riattivazione, senza energia, frammenti o effetti
+sui gate. `ship_pet_presence_audit` prova sul consumer reale volto, carezza,
+schermata e reazione alla riparazione; `pet_presence_audit` non ha più segnali in
+attesa. Il Custode resta accanto a Eli anche dentro la nave.
+
+Suite completa **180/180 verde in 253 s**. Export: `2026.08.14-web-loader-7`,
+cache `v120-web-loader`, PCK 34,45 MiB.
+
+---
+
+## C-G8 — paesaggio sonoro dei mondi (14 agosto 2026)
+
+Il profilo reale contiene **24** combinazioni `terrainFamily`/`soundscape`, non le
+22 stimate nel piano. Il generatore deterministico produce quindi 24 loop mono
+da **60 secondi** a 22.050 Hz: un file distinto per mondo sonoro, organizzato in
+nove famiglie di motivo. Nessun paesaggio ha più di quattro vicini con lo stesso
+motivo; il mix già esistente conserva volume e altezza specifici del profilo.
+
+`NativeAudioManager` risolve prima l'asset del `soundscape` e mantiene il vecchio
+`ambience.day`/`ambience.night` come fallback esplicito per manifest incompleti.
+Il manifest contiene 60 asset complessivi, inclusi i 24 loop lunghi, e l'audit del
+generatore controlla durata, clipping, RMS, continuità del loop, unicità e
+vicinanza timbrica. `audio_asset_audit` verifica anche il resolver usato dal
+runtime e stampa: **C-G8 AUDIO ASSET audit OK — 24 soundscape da un minuto,
+fallback intatto**.
+
+**Chiusura release.** Suite Godot completa **181/181 verde in 283 s**. Il primo
+passaggio aveva rivelato che gli audit delle ondate leggevano l'alpha dalla
+texture già compressa per GPU; ora le sette ondate controllano il PNG sorgente e
+restano valide anche con ETC2/S3TC. Export Web finale sincronizzato come
+`2026.08.14-web-loader-10`, cache `v123-web-loader`: PCK **60,36 MiB**, WASM
+**37,68 MiB**, core **98,04 MiB**; `audit:web` verde e manifest allineato.
+
+---
+
+## Registro dei lotti Opus (5–13 agosto 2026)
+
+Trasferito qui il 13 agosto 2026 snellendo `insieme.md`, che per sua regola
+contiene **solo lavoro da fare**. Un lotto per blocco: che cosa è cambiato, la
+misura che lo dice e l'audit che lo tiene. I residui aperti di ciascuno non stanno
+qui — stanno nel piano.
+
+**Le spiegazioni (5 agosto).** 3392 item, 3172 spiegazioni distinte, media da 56 a
+86 caratteri; i tre formati dominanti (abbinamento, ordinamento, classificazione)
+hanno 207 spiegazioni proprie e l'inglese non ripete più la risposta appena data.
+Tenuto da `minigame_explanation_audit` e `bank_explanation_audit`, che non guardano
+la lunghezza ma la circolarità e il riuso: *la lunghezza era la metrica sbagliata* —
+delle 242 spiegazioni «troppo corte» quasi tutte erano ottime, corte perché precise,
+e le difettose erano le 31 circolari.
+
+**La varietà delle prove (5 agosto).** Forme di sessione da **8 a 52**; l'apertura
+`abbinamento → ordinamento → classificazione`, che copriva 288 sessioni su 288, ora
+ne copre 24. Il formato `ciclo` è passato da una materia a otto. Tre formati nuovi
+(retta numerica, bilancia, linea del tempo) e tre strutture nuove — compositore
+vincolato (7 specifiche), tracciatore (6), indiziario (6) — tutti a disegno
+procedurale. Lo scorrimento ha spostato un guard-rail: la fluency è una proprietà
+dell'**argomento** e non della materia (`ContentManager.FLUENCY_TOPICS`), con
+`guardrails_audit` a pretendere che nessuna missione sia mai cronometrata.
+
+**Il gate a dodici materie (6 agosto).** Il livello si apre con tutte e dodici, la
+copertura si conta **per livello** e non da sempre, l'esame sale a cinque nodi con
+tre quarti per passare. Mondo 1 da 18 a **185** esercizi; campagna da 552 (~3 h) a
+**2712 (~15 h)**; mondi che costano lavoro da 1 su 24 a **24 su 24**.
+
+**Profili e copia in cloud (6 agosto).** Sei caselle per dispositivo e un codice di
+ripristino di otto caratteri (nessun account, nessuna email); Worker in `cloud/`.
+Tre regole: il locale è la verità, non si scarica mai da soli, un codice si occupa
+solo se è libero. Un profilo non si cancella.
+
+**Il registro dei giocatori (6 agosto).** Classifica d'apertura = **la settimana**
+(si recupera da sé), più il viaggio/le cose sapute/i giorni e dodici classifiche di
+materia; medaglie invece di «nessuna medaglia». Schede CASA (locale) e GRUPPO (solo
+un riepilogo di numeri: mai il salvataggio, mai il codice). Nessuna misura scende
+per un'assenza.
+
+**La pratica ripeteva i quesiti (6 agosto).** Da **55% a 20%** di quesiti identici
+su dieci giri, fondo per casella da 5–19 a **27–33**, almeno sette giri consecutivi
+interamente nuovi. La palestra superata si chiude e la successiva nasce altrove
+(`-r1`, `-r2`…). Sotto c'era un difetto strutturale: il ramo che chiude un incontro
+era `mission or enigma`, quindi la pratica non veniva mai chiusa e il controllo a
+monte leggeva una lista che nessuno riempiva. Tenuto da `practice_variety_audit`.
+
+**Rigiocare da capo, e una misura sbagliata (6 agosto).** L'identità di un quesito
+era il suo `prompt`, che nei formati interattivi è una **costante**: tutti gli
+abbinamenti risultavano un esercizio solo. Contando il contenuto, il catalogo dà
+354–826 nodi distinti a L1 (non 5–16) e gli inediti al secondo viaggio sono il
+**91%**, con o senza il tetto che avevo introdotto — rimosso. Lezione: prima di
+riparare su un numero, guardare da dove viene quel numero.
+
+**Il catalogo delle ricette (6 agosto).** Ricette al mondo 1 portate a **dieci** per
+ogni materia (undici l'italiano), scelte per azioni mentali mancanti: condizioni e
+cicli in coding, forze in fisica, diagnosi e sicurezza in elettronica, il metodo in
+scienze, le fonti in storia, l'etimologia in latino. Lezione pagata con un rosso: un
+serbatoio nuovo si allinea a quelli della materia, altrimenti una ricetta in più
+**peggiora** la varietà (musica L1 salita al 23% di ripetizioni).
+
+**Il rango del nucleo (6 agosto).** Italiano, matematica e inglese hanno soglia
+0,78 contro 0,70 e un argomento di copertura in più (`ApparatusConfig.CORE_MASTERY_BONUS`,
+applicato dentro `GateReadiness.evaluate_subject`); ogni esame porta **due nodi** di
+nucleo diversi dalla materia del mondo. Costo misurato: campagna da 20 a **21,1
+ore**, +5% contro il +30-40% previsto a occhio.
+
+**La voce di NORA (6 agosto).** Da 12 a **68** battute in tre atti allineati ai
+ribaltamenti, carattere dichiarato (si interrompe e si corregge: il tic *è* la
+trama) e i ricordi, assenti nel primo atto. Tenuto da `nora_voice_audit`: nessun
+pozzo sotto le quattro battute, atti disgiunti, nessuna lode alla persona.
+
+**Oggetti, epiloghi e la svolta severa (6 agosto).** Quattro «upgrade» promettevano
+meccaniche del prototipo Phaser che qui non esistono: riscritti, e `endings_audit`
+ora vieta a un oggetto di promettere una meccanica inesistente. Tutti i 55 oggetti
+hanno una `origine`. `LegacyScore` pesa padronanza/ritenzione/mondo/rotta/indagine e
+**non pesa** frammenti, cosmetici, ore né velocità — la prova più importante
+dell'audit è che riempire un salvataggio di ricchezza non muova il Lascito di un
+centesimo. Epiloghi da sei a **otto**, due severi (IL SILENZIO TIENE, IL CIRCUITO
+INCOMPLETO). La padronanza **decade**, misurata in sessioni giocate e non in giorni
+reali, con franchigia di dodici sessioni, pavimento a metà del proprio massimo e
+nessun decadimento per una materia mai praticata: `decay_audit` misura che duecento
+sessioni ignorando geografia richiudono il livello e dodici lo riaprono.
+
+**Complementarità banchi/minigiochi (6 agosto).** I due insiemi di formati sono
+perfettamente disgiunti — il banco misura il **sapere**, il catalogo il **fare**. Su
+241 etichette di argomento: 45 solo banco, 92 comuni, **104 solo minigioco**.
+
+**Dare senso al girovagare (6–7 agosto).** Gli edifici sono diventati luoghi
+interagibili con una funzione per ruolo (casa del mestiere con ingresso a metà
+prezzo, Ritrovo con bottega e conversazioni, prima rovina con un frammento di
+circuito); la bottega ha il **lavoretto**, l'unica prova del gioco che paga invece
+di costare; gli `hazard` sono passati da chiave di salvataggio senza produttore a
+meccanica vera; i passaggi che si aprono sono saliti da uno a tre per mondo e, dove
+non c'è acqua, la composizione mette uno sbarramento di terra con la stessa
+struttura dati — **ogni mondo ha almeno un passaggio da aprire**, sei d'acqua e
+diciotto di terra. Lo sbarramento è un segmento, mai un anello: aprirlo è una
+scorciatoia, non un permesso. Tenuto da `world_mechanics_audit`.
+
+**La camera sigillata e le ventiquattro pergamene (7 agosto).** L'unica zona
+davvero chiusa del gioco, lecita perché dentro non c'è niente che serva a
+progredire. Le pergamene sono la voce dei Dodici — testimoniano dove NORA deduce — e
+ogni tanto si contraddicono fra loro, che è la stessa lezione di metodo che il gioco
+insegna in storia. Tenuto da `parchment_audit`.
+
+**Gli Sbiaditi: guardiani e duello (7 agosto, rifatto il 16).** Un forziere su tre è
+difeso, deciso in modo stabile dall'identificativo, con un tetto di quattro guardiani
+vivi: la prima versione ne metteva da otto a quindici in vista insieme, che non è un
+pericolo ma un assedio. Il duello era **di riflessi** (una barra, un cursore, il
+momento giusto) fino al 16 agosto; adesso è **di calcolo** — vedi la voce del 16
+agosto più sotto e `FORZIERI_E_FRAMMENTI` §7. Quel che non è cambiato: le leve si
+muovono col grado di Eli, e perdere non costa mai più di un morso.
+
+**Le minimissioni (7 agosto).** Ventiquattro incarichi che cambiano la mappa in
+permanenza, e per direttiva esplicita del committente **sostituiscono** l'ultimo
+slot-gate invece di aggiungersi: `time_cost_probe` prima 21,1 ore, dopo 21,1 ore.
+Il timer previsto per la forma SPEGNERE non è stato fatto — un cronometro mentre si
+legge una domanda misura la velocità di lettura — e il rischio è stato messo negli
+errori di chi entra sotto il grado consigliato. Tenuto da `minimission_audit` e
+`minimission_scene_audit`.
+
+**Insegnare prima di chiedere (7 agosto).** La mini-lezione leggeva il topic del
+**primo nodo** e si fermava lì: misurato su 1440 nodi, il **60,6%** delle domande
+arrivava su un argomento mai spiegato in quella sessione, uniformemente su tutte e
+dodici le materie. Ora la lezione copre ogni argomento nuovo e viaggia sul nodo:
+**0,1%**.
+
+**Elettronica hands-on (7 agosto).** Scelta multipla a zero fuori dall'esame, con
+l'audit scritto sui formati e non sulla percentuale, così un `minLevel` spostato non
+può far tornare le domande secche da sole.
+
+**«E adesso che faccio?» (7 agosto).** IL PASSO nell'HUD: una frase, una cosa sola
+da fare, con dove farla.
+
+**I personaggi cambiano perché tu impari (8 agosto).** Stadio che avanza su ciò che
+il bambino impara, osservazione che si legge camminando e una convinzione precisa
+per ognuno dei 46 residenti.
+
+**Dieci meccaniche per ventitré mondi (9–12 agosto).** La matrice prometteva 46
+meccaniche, una per personaggio: sbagliata due volte — quarantasei a metà valgono
+meno di dieci finite, e **le convinzioni non sono quarantasei** (tre personaggi
+credono la stessa cosa in tre mestieri). Quindi dieci meccaniche, venticinque
+giochi, ventitré mondi coperti; quello che non si ripete mai è il materiale. Tre
+meccaniche nuove: la leva (la forza della mano non cresce mai, altrimenti spingere
+resterebbe una strategia), la prova controllata, la stima. Quattro difetti trovati
+dalle regole nuove, tutti della stessa specie — *la strategia vecchia funzionava*:
+la lunghezza latina prediceva il caso, la popolarità prediceva la fonte, la stima si
+vinceva a caso ai mondi bassi, il ciclo si vinceva a mano. Nessuno si vedeva
+giocando una partita. Suite a **153 verdi**; il ciclo di Ruggine e la traccia di
+Sesto sono stati rifatti dopo la valutazione del 12 agosto.
+
+**Le spiegazioni di NORA (12 agosto).** Il difetto più grosso non era di scrittura:
+`explanation` compariva **solo sbagliando**, e il gioco è tarato perché il bambino
+risponda bene la maggior parte delle volte — 3412 spiegazioni scritte e l'unica
+strada per arrivarci aperta solo sull'errore. `NoraExplanations` porta ora il
+**perché** (sull'esito giusto) e il **come** (sull'errore) per 135 argomenti invece
+che per 3412 item. Quanto NORA aggiunge a ciò che il bambino aveva già sotto gli
+occhi: da **zero** a **100%** sulle risposte giuste. Lezione, la stessa dei digrammi:
+**un'euristica può scegliere, non giudicare** — la lista di parole-spia è rimasta
+dove sceglie ed è sparita da dove dava voti.
+
+**Le undici sorelle e la voce di Eli (13 agosto).** Le sorelle esistevano al mondo
+12 e al 24, e in mezzo undici mondi senza la cosa più importante della vita di Eli:
+ora sono undici persone, una per mondo dal 13 al 23 (`sisters_thread.gd`), ognuna
+bravissima in un solo modo di capire. La distingue il metodo, non il talento — se
+fosse talento il gioco direbbe a chi lo gioca che o ce l'hai o non ce l'hai. Eli, che
+non aveva **una riga** in tutta la campagna, parla in quattro semi e nel confronto
+del mondo 24, dove chiede una regola nuova e NORA risponde «sì» senza attenuare.
+Nessuna seconda pipeline di spawn: le tracce passano da quella dei semi.
+
+**L'attrito, le posizioni, lo specchio e il prezzo (13 agosto).** Quattro difetti
+dello stesso tipo — il gioco *diceva* una cosa e non la *faceva* succedere a
+nessuno: Vera era un'alleata perfetta (cioè una funzione), il giocatore sceglieva
+una volta sola in ventiquattro mondi, Meridiana arrivava come una notizia, il
+Tredicesimo non costava niente. Aggiunto il caso profondo di `smemora`, una volta
+sola in tutta la campagna e non prima del mondo 21: un abitante non dimentica il
+nome di Eli, dimentica **il proprio mestiere**, e si ripristina facendo. Tenuto da
+`stance_audit` (cinque scelte, nessuna punita, nessuna che prometta energia) e da
+`thirteenth_audit` esteso.
+
+## C-ART-5/6 — posizioni che tornano e «smemora» profondo (13 agosto)
+
+- Le quattro posizioni mancanti sono scene, non più sole righe di catalogo:
+  domanda ritirata del Tredicesimo al mondo 22; `prova_accettata` di Orsolo;
+  fascicolo fisico di Squadra; segnale di Meridiana sui sensori lunghi. Tutte
+  passano dal pannello comune, sono saltabili e non toccano gate o ricompense.
+- Lo stato distingue incontro, risposta ed eco vista. Un salto chiude il
+  momento senza inventare una risposta; una risposta torna una volta sola:
+  Orsolo al Cuore, Squadra dopo il confronto NORA/Eli, Meridiana dopo
+  l'assegnazione della Cattedra, il Tredicesimo subito prima del proprio nome.
+- Nel solo `smemora` eleggibile del mondo 23, una volta per campagna, il
+  direttore sceglie un residente non proprietario e mai un Bislacco. Il suo
+  dialogo ordinario resta sostituito finché Eli supera una prova della sua
+  materia; uscire dal mondo ripristina comunque tutto.
+- Il caso profondo è visibile senza parlare: posa e gesto di lavoro restano
+  quelli dell'attore, ma l'attrezzo si ripete lungo due archi contrapposti e il
+  percorso si interrompe prima di un bersaglio integro. Al ritorno l'anello si
+  chiude e collega gesto e oggetto per un istante; movimento ridotto conserva
+  una versione statica senza lampeggi.
+
+Verdi `stance_audit`, `c_art_5_6_runtime_audit`,
+`c_art_world_staging_audit`, `stance_echo_finale_audit` e
+`world_wave_e2_audit`. QA sul renderer reale nella cattura
+`artifacts/deep-smemora-c-art-6.png`; sonda riproducibile
+`deep_smemora_render_probe.gd`. Export Web completato e sincronizzato come
+`2026.08.13-web-loader-8` / cache `v111-web-loader`: PCK 33,60 MiB, WASM
+37,68 MiB, core 71,28 MiB; `audit:web` verde. La suite Godot completa è stata
+fermata al limite documentato di 150 secondi: tutti gli audit emessi fino allo
+stop erano verdi, inclusi i due regressivi `dialogue_audit` ed
+`enigma_scene_audit`; il resto del pacchetto C-ART è stato eseguito in modo
+mirato e verde.
+
+## C-G4 — resa dei moduli di spedizione (14 agosto 2026)
+
+- `expedition_module_presentation.gd` consuma esclusivamente due numeri del
+  contratto runtime. `treasureRadarRadius` mostra un segnale direttamente sopra
+  le casse chiuse entro il raggio, senza introdurre una lista HUD;
+  `torchRadius` scala un vero cono `PointLight2D`, orientato secondo lo sguardo
+  di Eli. Valori assenti o zero tengono entrambe le rese dormienti finché la
+  semantica non pubblica i due effetti.
+- Il generatore deterministico del `reward-items-sheet` contiene ora cinque
+  illustrazioni dedicate: serbatoio, bobina, passo, radar e torcia. L'atlante
+  sincronizzato Web/Godot passa a 58 regioni su 1024×1024; i tre moduli già in
+  vendita non usano più il cerchio con glifo di ripiego.
+- Verde `expedition_module_presentation_audit`: prova valori zero, distanza e
+  stato raccolto del radar, equipaggiamento/scala/orientamento del cono, assenza
+  di calcoli semantici nella resa e tutte le cinque regioni 128×128. Verdi anche
+  le regressioni mirate `expedition_module_audit`, `shop_presentation_audit` e
+  `outdoor_presentation_audit`.
+
+## Il duello dei guardiani diventa di calcolo (16 agosto 2026)
+
+*«Miglioriamo il combattimento contro i guardiani implementando un minigioco di
+calcolo di matematica con difficoltà dipendente dal livello del mondo. Non deve
+essere come quello per aprire i bauli. Cura la grafica e la giocabilità, deve
+insegnare a padroneggiare calcoli veloci. Deve essere un combattimento,
+divertente e stimolante.»*
+
+- **Il varco di riflessi è stato rimosso, non affiancato.** `reflex_duel.gd`,
+  `reflex_duel_panel.gd` e `reflex_duel_audit.gd` non esistono più. La ragione
+  non è che funzionasse male: era l'unico momento del gioco in cui la bravura non
+  c'entrava con quello che il gioco insegna. Allenarsi a contare non rendeva
+  nessuno più bravo a centrare un cursore.
+- **La forma nuova** ([[GuardianDuel]], `FORZIERI_E_FRAMMENTI` §7): il guardiano
+  porta un **sigillo** (un numero), Eli un **impulso** che parte piccolo, e in
+  mano delle **rune** (`+7`, `×4`, `−5`, `÷3`). Ogni runa è un colpo, i colpi
+  sono contati e le rune si consumano; l'impulso deve valere **esattamente** il
+  sigillo. Dove il chiavistello chiede di *riconoscere* (quale operazione fa 42),
+  il duello chiede di *costruire* (sono a 12, come arrivo a 36) — pensiero
+  inverso, ed è la ragione per cui due minigiochi di calcolo possono coesistere.
+- **È un combattimento**: la carica del guardiano al posto del cronometro, da due
+  a quattro sigilli secondo il suo grado, tenuta di Eli da 2 a 6 secondo il suo,
+  e ogni sigillo spezzato accorcia del 10% la carica del successivo. Il guardiano
+  in scena è l'**illustrazione vera** del mondo, la stessa che si vede sulla mappa.
+- **La corda di risonanza** è il pezzo che insegna: una scala con la tacca del
+  sigillo, l'ago dell'impulso e la zona *oltre* barrata. Dice **quanto manca** a
+  colpo d'occhio, cioè l'ordine di grandezza — la sola parte del calcolo mentale
+  che un'interfaccia possa davvero insegnare. Sotto resta scritta la catena
+  (`4 → ×6 → 24 → +9 → 33`), unico posto del gioco in cui il ragionamento resta
+  visibile dopo essere stato fatto.
+- **Difficoltà per mondo** su cinque fasce: numeri fino a 30→240, operazioni da
+  `+ ×` a `+ − × ÷`, catena da 2 a 3 passi, mano da 4 a 6 rune, carica da 12 a 9
+  secondi — modulata poi dai due gradi. Mai sotto **6,5 s**, cioè poco più di due
+  secondi a colpo: più giù non si misura il calcolo ma la velocità del dito.
+- **Guard-rail invariati**: il duello chiude solo frammenti, perdere costa quanto
+  un morso e non di più, andarsene è gratis, incassare un colpo non suona come
+  una risposta sbagliata e non è mai rosso. Novità: se con le rune rimaste il
+  sigillo non si fa più, lo scambio si chiude subito invece di lasciar scorrere
+  la carica su una partita già persa.
+- **Verde** `guardian_duel_audit` (taratura sui 24 mondi × 8 gradi guardiano × 9
+  gradi Eli, e 1.200 scambi generati e risolti davvero: nessuno irrisolvibile,
+  nessuno spezzabile con un colpo solo, nessuno che si apre con meno di due rune
+  giocabili) e `guardian_scene_audit`, che ora il duello lo **gioca** dentro un
+  mondo vero invece di chiamare la funzione di chiusura.
+- **Due difetti trovati solo guardando** (`guardian_duel_render_probe`, sei viste
+  in `artifacts/duello/`): il numero dell'impulso finiva appoggiato sopra l'ago e
+  la barra della carica gli passava attraverso; e un'attesa fra due scambi
+  sopravviveva alla sfida che l'aveva creata. Nessuna asserzione li avrebbe visti.
+
+## La seconda materia dei guardiani: il duello delle voci (17 agosto 2026)
+
+*«Ora possiamo prevedere un altro tipo di minigioco, questa volta di italiano. I
+guardiani possono sfidarti casualmente in italiano o matematica. Cura la grafica
+e la giocabilità, deve insegnare a padroneggiare modi e tempi verbali veloci.
+Deve essere un combattimento, divertente e stimolante con difficoltà dipendente
+dal livello del mondo.»*
+
+- **La forma** (`verb_duel.gd`, `FORZIERI_E_FRAMMENTI` §8): il sigillo è una
+  casella del sistema verbale — modo, tempo, persona. L'impulso di Eli è il suo
+  verbo, scritto per esteso. Le rune spostano **un asse alla volta**
+  (`modo → congiuntivo`, `tempo → imperfetto`, `persona → voi`), e il verbo si
+  trasforma sotto gli occhi: `canto → cantavo → cantavate → cantaste`.
+- **Le due cose che insegnano, e sono gratis.** Le rune **spente**:
+  `tempo → passato remoto` non entra nel congiuntivo perché il congiuntivo il
+  passato remoto non ce l'ha. E l'**ordine**: dal futuro indicativo al passato
+  condizionale non si arriva cambiando prima il modo, perché quella casella non
+  esiste. Entrambe sono grammatica, non regole inventate dal gioco.
+- **I tre binari.** Il primo disegno era la tabella modi × tempi del libro: a
+  nove tempi le intestazioni scendevano a corpo dieci. Sostituita da tre scale
+  orizzontali, una per asse, con la casella attuale accesa e quella del sigillo
+  cerchiata d'oro — e i tempi che **si spengono e si riaccendono mentre cambi
+  modo**, cosa che una tabella stampata non può fare.
+- **Difficoltà per mondo** su cinque fasce: dal solo indicativo con tre tempi e
+  verbi regolari in *-are* a tutti e tre i modi con nove tempi e gli irregolari;
+  catena da 2 a 3 assi; carica da 13 a 10 secondi. Il salto vero è al mondo 10,
+  quando il sigillo smette di dire a parole dove andare e comincia a mostrare
+  **una voce vera di un altro verbo** da riconoscere.
+- **Il coniugatore** (`verb_conjugator.gd`): 37 verbi, 13 caselle × 6 persone,
+  desinenze regolari dei tre gruppi, incoativi in `-isc-`, composti costruiti
+  dall'ausiliare giusto, accordo del participio con «essere», irregolarità
+  scritte per esteso. Verde `verb_conjugation_audit` su **126 voci scritte a
+  mano** — non confrontate con un'altra funzione del motore, che sarebbe come
+  farsi correggere il compito da chi l'ha copiato.
+- **Chi chiede cosa**: lo decide l'identificativo del guardiano
+  (`DuelRules.materia`), quindi è stabile fra le partite, e **sta scritto sul
+  cartiglio sulla mappa** (`GUARDIANO VOCI · T4`). Avvicinarsi è una scelta
+  informata; e chi ha perso su una voce difficile può tornare proprio a quella.
+- **Il combattimento è stato diviso in due** (`duel_rules.gd`, `duel_stage.gd`):
+  sigilli, tenuta, carica, colpi di riserva, prezzo della sconfitta e premio sono
+  **identici** nelle due materie e vivono in un posto solo. Se una fosse più
+  generosa, si imparerebbe a cercare i guardiani di quella invece di quelli che
+  si ha voglia di affrontare. Il pannello delle cifre è stato riscritto come
+  sottoclasse del campo comune: quattrocento righe non duplicate.
+- **Verde** `verb_duel_audit` (taratura sui 24 mondi, 1.200 scambi generati e
+  risolti davvero, e il controllo che nessun sigillo mostri una voce ambigua),
+  `verb_conjugation_audit`, e `guardian_scene_audit`, che ora apre **entrambe le
+  materie** in un mondo vero — forzando l'identificativo quando il mondo di prova
+  ne sorteggia una sola — e verifica che ogni guardiano apra il pannello che il
+  suo cartiglio promette.
+- **Tre difetti trovati solo guardando** (`verb_duel_render_probe`, sei viste in
+  `artifacts/voci/`): l'etichetta del sigillo usciva dalla cornice d'oro proprio
+  al primo mondo, dove è l'unica cosa per orientarsi; l'alone delle pietre era
+  calcolato sulla larghezza e dietro le rune larghe dei verbi diventava una
+  macchia; e i tre binari a quote fisse lasciavano un buco dove la seconda riga
+  dei tempi non serviva.

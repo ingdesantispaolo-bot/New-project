@@ -19,8 +19,8 @@ func _run() -> void:
 	var sprite := controller.visual.find_child("EliSprite", true, false) as Sprite2D
 	assert(sprite != null and sprite.texture is AtlasTexture, "sprite Eli non animabile")
 	var sheet := (sprite.texture as AtlasTexture).atlas
-	assert(sheet.resource_path.ends_with("eli-adventure-girl-sheet-v2.png"),
-		"il runtime non usa il foglio pittorico C-P6 approvato")
+	assert(sheet.resource_path.ends_with("assets/player/eli-scintilla-v1.png"),
+		"il runtime non parte dalla forma Scintilla approvata")
 	assert(sheet.get_width() == 480 and sheet.get_height() == 384,
 		"foglio Eli non conforme al contratto 5x4 da 96 px")
 	controller.velocity = Vector2.RIGHT * 100.0
@@ -98,6 +98,13 @@ func _run() -> void:
 	first.global_position = player.global_position + Vector2(54, 0)
 	first.set("anchor", first.global_position)
 	var energy_before := int(world.get("game_save").energy())
+	# **L'impulso adesso si guadagna** (14 agosto 2026): non è più un cooldown che
+	# si ricarica da solo, è una carica che si ottiene superando prove. Qui si
+	# misura la meccanica dello stordimento, non l'economia — quella la tiene
+	# `pulse_economy_audit` — quindi la carica si accredita esplicitamente, con lo
+	# stesso gesto che la darebbe al giocatore: prove superate.
+	for _prova in range(PulseCharge.PROVE_PER_CARICA):
+		PulseCharge.accredita(world.get("game_save"))
 	world.call("_combat_pulse")
 	await process_frame
 	assert(bool(first.call("is_stunned")), "l'impulso non stabilizza l'anomalia vicina")
@@ -105,7 +112,9 @@ func _run() -> void:
 	assert(first.visible and first.modulate.a >= 0.9 and first.scale.x >= 0.9,
 		"stabilizzare elimina lo Sbiadito invece di renderlo leggibile")
 	assert(int(world.get("game_save").energy()) == energy_before, "il combattimento non deve tassare l'energia didattica")
-	assert(pulse.disabled, "cooldown dell'impulso non comunicato al touch")
+	# Spesa l'unica carica, il pulsante deve dirlo: un comando che sembra pronto e
+	# non fa niente è peggio di un comando spento.
+	assert(pulse.disabled, "serbatoio dell'impulso vuoto non comunicato al touch")
 
 	var second: Node2D = enemies[1]
 	second.global_position = player.global_position - Vector2(28, 0)

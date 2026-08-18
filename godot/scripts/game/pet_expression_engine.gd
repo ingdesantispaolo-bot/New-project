@@ -69,6 +69,12 @@ const SIGNAL_FACES := {
 	"cuddle": "beato",
 	"antic": "impicciato",
 	"idle": "offeso",
+	# I momenti che contano per il bambino (14 agosto 2026). Il Custode non aiuta
+	# e non anticipa niente: reagisce a cose che sono **già a schermo**, ed è
+	# l'unica forma di presenza che la decisione 12 gli consente.
+	"pet_granted": "festa",
+	"power_grade_up": "orgoglioso",
+	"sister_found": "attento",
 }
 
 ## Segnali che il gioco può emettere. Serve all'audit per provare che la mappa non
@@ -80,6 +86,7 @@ const GAME_SIGNALS := [
 	"learning:transfer", "learning:help_request", "learning:recurring_error",
 	"near_unexplored", "near_faded", "meet_beloved", "meet_shy", "meet_fond",
 	"cuddle", "antic", "idle",
+	"pet_granted", "power_grade_up", "sister_found",
 ]
 
 ## Segnali che rappresentano un esito negativo per il giocatore. Nessuno di questi

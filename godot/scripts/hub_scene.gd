@@ -9,6 +9,11 @@ const SHIP_POWER_OVERLAY_SCRIPT := preload("res://scripts/ui/ship_power_overlay.
 const KNOWLEDGE_CODEX_PANEL_SCRIPT := preload("res://scripts/ui/knowledge_codex_panel.gd")
 const DIALOGUE_BOX_SCRIPT := preload("res://scripts/ui/dialogue_box.gd")
 const FINALE_CATALOG := preload("res://scripts/game/finale_catalog.gd")
+const SISTERS_THREAD := preload("res://scripts/game/sisters_thread.gd")
+const STANCE_CHOICES := preload("res://scripts/game/stance_choices.gd")
+const SHIP_BRIDGE_WALKWAY_SCRIPT := preload("res://scripts/visual/ship_bridge_walkway.gd")
+const PET_FACE_WIDGET_SCRIPT := preload("res://scripts/ui/pet_face_widget.gd")
+const PET_SCREEN_SCRIPT := preload("res://scripts/ui/pet_screen.gd")
 
 var controller: HubController
 var content: ContentManager
@@ -19,6 +24,17 @@ var progress_report: LocalProgressReport
 var exercise_player: ExercisePlayer
 var knowledge_codex_panel: KnowledgeCodexPanel
 
+## I dodici colori delle materie, gli stessi con cui i mondi tingono la notte
+## (`outdoor_world._configure_profile_palette`). Servono al nucleo prismatico.
+const PRISMA_COLORI := {
+	"matematica": Color("6be7d6"), "italiano": Color("e9a86d"),
+	"coding": Color("8fa7ff"), "inglese": Color("72c9ff"),
+	"fisica": Color("a2d8ff"), "musica": Color("d7a0ff"),
+	"latino": Color("d4b17a"), "elettronica": Color("79e7ff"),
+	"geografia": Color("7fd19b"), "scienze": Color("91dc72"),
+	"storia": Color("f2c96d"), "logica": Color("b7a2ff"),
+}
+
 var current_room_id := ShipRoomCatalog.DEFAULT_ROOM
 var room_state: Dictionary = {}
 var background: TextureRect
@@ -27,6 +43,9 @@ var power_overlay: ShipPowerOverlay
 var room_title: Label
 var room_description: Label
 var nora_portrait: Control
+var pet_face: Control
+var pet_screen: Control
+var _pet_cuddles_this_session := 0
 var nora_line: Label
 var level_label: Label
 var status_chip: Label
@@ -41,6 +60,8 @@ var activation_segments: Label
 var activation_bar: ProgressBar
 var terminal_mount: Control
 var terminal_visual: Node2D
+var bridge_walkway: ShipBridgeWalkway
+var room_stage: Control
 var room_buttons: Dictionary = {}
 var room_rail_title: Label
 var log_dialog: AcceptDialog
@@ -64,6 +85,11 @@ var finale_choice_panel: Control
 var finale_choice_buttons: VBoxContainer
 var finale_cattedra_entries := 0
 var finale_choice_committed := false
+var finale_confronto_sequence: Array = []
+var finale_confronto_index := 0
+var finale_confronto_active := false
+var finale_confronto_closing := false
+var finale_confronto_skip_button: Button
 
 func _ready() -> void:
 	if OS.has_feature("web"):
@@ -83,11 +109,14 @@ func _ready() -> void:
 	controller.state_changed.connect(_apply_state)
 	controller.exam_requested.connect(_start_exam)
 	content = ContentManager.new()
+	# Anche l'esame della nave pesca dalle prove ancora da risolvere: un esame che
+	# ripropone le domande già superate misura la memoria dell'ultima sessione.
+	content.solved_by_subject = save.solved_index()
 	_build_scene()
 	_build_exercise_overlay()
 	var gate := controller.progression.current_gate()
 	current_room_id = ShipRoomCatalog.room_for_apparatus(str(gate.get("apparatus", "nucleo")))
-	_apply_state(controller.state())
+	_apply_state(controller.runtime_state())
 	var beat := narrative.reveal_level(save.level())
 	nora_line.text = str(beat.get("text", nora_line.text))
 	save.save()
@@ -183,6 +212,12 @@ func _build_header(parent: VBoxContainer) -> void:
 	nora_portrait = NORA_PORTRAIT_SCRIPT.new()
 	nora_portrait.custom_minimum_size = Vector2(66, 66)
 	row.add_child(nora_portrait)
+	pet_face = PET_FACE_WIDGET_SCRIPT.new()
+	pet_face.name = "ShipPetFaceWidget"
+	pet_face.cuddled.connect(_on_pet_cuddled)
+	pet_face.screen_requested.connect(_open_pet_screen)
+	row.add_child(pet_face)
+	_refresh_pet_face()
 
 	var titles := VBoxContainer.new()
 	titles.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -304,12 +339,20 @@ func _build_body(parent: VBoxContainer) -> void:
 	rail_hint.add_theme_color_override("font_color", Color("78999f"))
 	rail_box.add_child(rail_hint)
 
-	var stage_space := Control.new()
-	stage_space.name = "RoomStage"
-	stage_space.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	stage_space.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	stage_space.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	body.add_child(stage_space)
+	room_stage = Control.new()
+	room_stage.name = "RoomStage"
+	room_stage.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	room_stage.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	room_stage.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	room_stage.clip_contents = true
+	room_stage.resized.connect(_position_bridge_walkway)
+	body.add_child(room_stage)
+	bridge_walkway = SHIP_BRIDGE_WALKWAY_SCRIPT.new()
+	bridge_walkway.room_entered.connect(_on_bridge_room_entered)
+	room_stage.add_child(bridge_walkway)
+	var accessibility: Dictionary = save.data.get("accessibility", {}) if is_instance_valid(save) else {}
+	bridge_walkway.configure({}, bool(accessibility.get("reducedMotion", false)))
+	call_deferred("_position_bridge_walkway")
 
 	var card := PanelContainer.new()
 	card.name = "ApparatusCard"
@@ -531,10 +574,21 @@ func _build_exercise_overlay() -> void:
 	exercise_player.visible = false
 	exercise_player.session_finished.connect(_on_exam_finished)
 	exercise_player.learning_signal.connect(_on_nora_learning_signal)
+	exercise_player.pre_synthesis_requested.connect(_start_finale_confronto)
 	exercise_layer.add_child(exercise_player)
 	knowledge_codex_panel = KNOWLEDGE_CODEX_PANEL_SCRIPT.new()
 	knowledge_codex_panel.setup(save, content)
 	exercise_layer.add_child(knowledge_codex_panel)
+	pet_screen = PET_SCREEN_SCRIPT.new()
+	pet_screen.name = "ShipPetScreen"
+	pet_screen.closed.connect(_on_pet_screen_closed)
+	pet_screen.customization_changed.connect(_on_pet_customization_changed)
+	exercise_layer.add_child(pet_screen)
+	var accessibility: Dictionary = save.data.get("accessibility", {})
+	pet_screen.configure(
+		save,
+		bool(accessibility.get("highContrast", false)),
+		bool(accessibility.get("reducedMotion", false)))
 	log_dialog = AcceptDialog.new()
 	log_dialog.name = "ShipLogDialog"
 	log_dialog.title = "DIARIO DI BORDO · SOLO LOCALE"
@@ -608,6 +662,19 @@ func _build_finale_overlay(parent: CanvasLayer) -> void:
 	finale_dialogue_box.name = "FinaleDialogueBox"
 	finale_dialogue_box.dialogue_closed.connect(_on_finale_dialogue_closed)
 	parent.add_child(finale_dialogue_box)
+	finale_confronto_skip_button = Button.new()
+	finale_confronto_skip_button.name = "FinaleConfrontoSkip"
+	finale_confronto_skip_button.text = "SALTA CONVERSAZIONE"
+	finale_confronto_skip_button.tooltip_text = "Prosegui direttamente al nodo di sintesi"
+	finale_confronto_skip_button.anchor_left = 0.72
+	finale_confronto_skip_button.anchor_right = 0.94
+	finale_confronto_skip_button.anchor_top = 0.06
+	finale_confronto_skip_button.anchor_bottom = 0.06
+	finale_confronto_skip_button.offset_bottom = 48.0
+	finale_confronto_skip_button.add_theme_font_size_override("font_size", 15)
+	finale_confronto_skip_button.visible = false
+	finale_confronto_skip_button.pressed.connect(_skip_finale_confronto)
+	finale_dialogue_box.add_child(finale_confronto_skip_button)
 
 func _build_activation_celebration() -> void:
 	var layer := CanvasLayer.new()
@@ -682,17 +749,29 @@ func _select_room(id: String) -> void:
 		var subjects: Array = ShipRoomCatalog.room(id).get("subjects", [])
 		if not subjects.is_empty():
 			audio.call("play_subject", str(subjects[0]))
-	_apply_state(controller.state())
+	_apply_state(controller.runtime_state())
 	nora_line.text = "NORA: %s" % str(room_state.get("description", "Sistema in ascolto."))
 	if is_instance_valid(nora_portrait):
 		nora_portrait.speak(nora_line.text)
 
+func _on_bridge_room_entered(room_id: String, _subject: String) -> void:
+	_select_room(room_id)
+
+func _position_bridge_walkway() -> void:
+	if not is_instance_valid(room_stage) or not is_instance_valid(bridge_walkway):
+		return
+	bridge_walkway.position = room_stage.size * 0.5
+	var fit := minf(room_stage.size.x / 720.0, room_stage.size.y / 460.0)
+	bridge_walkway.scale = Vector2.ONE * clampf(fit * 0.94, 0.42, 1.25)
+
 func _apply_state(state: Dictionary) -> void:
 	if background == null:
 		return
+	_refresh_pet_face()
 	room_state = ShipRoomCatalog.room(current_room_id)
 	var accent := Color(str(room_state.get("accent", "6be7d6")))
-	var activation := ShipActivationModel.activation_for_room(save, current_room_id)
+	var runtime_rooms: Dictionary = state.get("rooms", {})
+	var activation: Dictionary = runtime_rooms.get(current_room_id, {})
 	background.texture = load(str(room_state.get("texture", ""))) as Texture2D
 	background_material.set_shader_parameter("accent", accent)
 	background_material.set_shader_parameter("activation", float(activation.get("ratio", 0.0)))
@@ -705,11 +784,13 @@ func _apply_state(state: Dictionary) -> void:
 	level_label.text = "LIVELLO %d\nENERGIA %d" % [save.level(), save.energy()]
 	for id in room_buttons:
 		var button: Button = room_buttons[id]
-		var room_activation := ShipActivationModel.activation_for_room(save, str(id))
+		var room_activation: Dictionary = runtime_rooms.get(str(id), {})
 		var spec := ShipRoomCatalog.room(str(id))
 		button.text = "%s  %s · %d%%" % [str(room_activation.get("short", "○")), str(spec.get("short", id)), int(room_activation.get("percent", 0))]
 		button.tooltip_text = "%s — %s" % [str(spec.get("label", id)), str(room_activation.get("title", "SISTEMA INERTE"))]
 		button.button_pressed = str(id) == current_room_id
+	if is_instance_valid(bridge_walkway):
+		bridge_walkway.set_room_states(runtime_rooms)
 
 	var current_gate := controller.progression.current_gate()
 	var campaign_complete := controller.progression.is_complete()
@@ -730,8 +811,14 @@ func _apply_state(state: Dictionary) -> void:
 	var restoration_id := str(room_state.get("restoration", ""))
 	var restored := rewards.owned(restoration_id)
 	background_material.set_shader_parameter("restored", 1.0 if restored else 0.0)
-	restoration_label.text = "✦ RESTAURO ATTIVO" if restored else "RESTAURO DISPONIBILE IN BOTTEGA"
+	# Il restauro è l'unica spesa che cambia un luogo per sempre: se non c'è, la
+	# scheda dice quanto costa invece di dire soltanto dove si compra. Un prezzo
+	# è un obiettivo; «disponibile in bottega» era un'insegna.
+	var restoration_item := RewardCatalog.find(restoration_id)
+	restoration_label.text = "✦ RESTAURO ATTIVO" if restored 		else "RESTAURO · ◈ %d IN BOTTEGA" % int(restoration_item.get("cost", 0))
 	restoration_label.add_theme_color_override("font_color", Color("f7d37a") if restored else Color("809da2"))
+	_refresh_restoration_lights(restored, accent)
+	_refresh_prismatic_portrait()
 	status_chip.text = str(activation.get("title", "SISTEMA INERTE"))
 	status_chip.add_theme_color_override("font_color", accent if int(activation.get("stage", 0)) > 0 else Color("a5b0b3"))
 	apparatus_label.text = displayed_apparatus.replace("-", " ").to_upper()
@@ -749,13 +836,26 @@ func _apply_state(state: Dictionary) -> void:
 		# La barra che prima contava le missioni ora mostra il nucleo: è quello che
 		# apre il livello. La padronanza della materia della stanza apre l'apparato.
 		var core := GateReadiness.evaluate_core(save, threshold)
-		requirements_label.text = "%s · preparazione %.0f%% / %.0f%%\nTre chiavi (italiano · matematica · inglese) %.0f%%" % [
-			subject.capitalize(), mastery * 100.0, threshold * 100.0,
-			float(core["progress"]) * 100.0]
+		# Già superata a questo livello: il terminale non deve mandare a rifare
+		# missioni per una materia chiusa. Era la scritta che compariva, ed è
+		# peggio di un pulsante spento — dice di rifare una cosa già fatta.
+		var certificata := GateReadiness.certified_at_level(save, subject)
+		requirements_label.text = (
+			"%s · superata a questo livello\nTre chiavi (italiano · matematica · inglese) %.0f%%" % [
+				subject.capitalize(), float(core["progress"]) * 100.0]
+			if certificata
+			else "%s · preparazione %.0f%% / %.0f%%\nTre chiavi (italiano · matematica · inglese) %.0f%%" % [
+				subject.capitalize(), mastery * 100.0, threshold * 100.0,
+				float(core["progress"]) * 100.0])
 		mission_bar.max_value = 100
 		mission_bar.value = float(core["progress"]) * 100.0
 		mastery_bar.value = mastery * 100.0
-		repair_button.text = "AVVIA LA SFIDA FINALE" if bool(state.get("ready", false)) else "COMPLETA LE MISSIONI NEL MONDO"
+		if bool(state.get("ready", false)):
+			repair_button.text = "AVVIA LA SFIDA FINALE"
+		elif certificata:
+			repair_button.text = "APPARATO GIÀ ACCESO"
+		else:
+			repair_button.text = "COMPLETA LE MISSIONI NEL MONDO"
 		repair_button.disabled = not bool(state.get("ready", false))
 	elif campaign_complete:
 		var completed_subjects := ", ".join(PackedStringArray(room_state.get("subjects", [])))
@@ -852,6 +952,9 @@ func _complete_release_smoke_exam() -> void:
 
 func _on_exam_finished(exam_result: Dictionary) -> void:
 	exercise_player.visible = false
+	# Le prove superate escono dal giro comunque, esame passato o no: è un fatto
+	# dello studente, non dell'esito. Prima di ogni ramo, come nel mondo aperto.
+	save.remember_solved_map(Dictionary(exam_result.get("solved", {})))
 	var completed_finale := false
 	var exam_passed := bool(exam_result.get("passed", false))
 	if save.level() >= ApparatusConfig.MAX_LEVEL:
@@ -860,7 +963,8 @@ func _on_exam_finished(exam_result: Dictionary) -> void:
 	var repaired_subject := ApparatusConfig.world_subject(save.level())
 	var repaired_gate := ApparatusConfig.apparatus_gate(repaired_subject, save.level())
 	var repaired_room := ShipRoomCatalog.room_for_apparatus(str(repaired_gate.get("apparatus", "nucleo")))
-	var activation_before := ShipActivationModel.activation_for_room(save, repaired_room)
+	var state_before := controller.runtime_state()
+	var activation_before: Dictionary = Dictionary(state_before.get("rooms", {})).get(repaired_room, {})
 	if exam_passed:
 		var advanced := controller.progression.repair_and_advance(true)
 		if advanced:
@@ -869,9 +973,11 @@ func _on_exam_finished(exam_result: Dictionary) -> void:
 			save.save()
 			current_room_id = repaired_room
 			controller.refresh()
-			_apply_state(controller.state())
-			var activation_after := ShipActivationModel.activation_for_room(save, repaired_room)
+			var state_after := controller.runtime_state()
+			_apply_state(state_after)
+			var activation_after: Dictionary = Dictionary(state_after.get("rooms", {})).get(repaired_room, {})
 			nora_line.text = str(narrative.reveal_level(save.level()).get("text", "NORA: Apparato riparato. Una nuova rotta è disponibile."))
+			_pet_react("apparatus_repaired")
 			await _play_reactivation_sequence(repaired_room, activation_before, activation_after)
 			if controller.progression.is_complete():
 				NoraState.sync_from_progress(save)
@@ -898,12 +1004,83 @@ func _start_finale_epilogue() -> void:
 		return
 	finale_sequence.clear()
 	finale_sequence.append_array(Array((FINALE_CATALOG.CATTEDRA as Dictionary).get("scena", [])).duplicate(true))
+	# La Cattedra ha appena assegnato il posto: prima che il nome torni, la nave
+	# restituisce le due posizioni prese nei mondi 22 e 23. Sono righe vere della
+	# sequenza, non una notifica laterale, e ciascuna porta con sé il marcatore
+	# che la rende irripetibile solo quando viene davvero chiusa.
+	for choice_id in ["meridiana-riga", "tredicesimo-domanda"]:
+		var echo_entry := STANCE_CHOICES.eco_entry(save.data, choice_id)
+		if not echo_entry.is_empty():
+			finale_sequence.append(echo_entry)
 	finale_cattedra_entries = finale_sequence.size()
 	finale_sequence.append_array(Array((ThirteenthCatalog.RESTITUZIONE as Dictionary).get("scena", [])).duplicate(true))
 	finale_sequence_index = 0
 	finale_choice_committed = false
 	set_meta("finale_epilogue_phase", "cattedra")
 	_show_finale_sequence_entry()
+
+## Il confronto avviene DENTRO la prova finale, dopo i dodici sistemi e prima
+## della sintesi. Non è parte dell'epilogo: non salva niente, non offre scelte e
+## chiuderlo o saltarlo restituisce alla stessa sessione con lo stesso cursore.
+func _start_finale_confronto() -> void:
+	if finale_confronto_active:
+		return
+	if not is_instance_valid(finale_dialogue_box):
+		exercise_player.resume_after_pre_synthesis()
+		return
+	finale_confronto_sequence = Array(SISTERS_THREAD.CONFRONTO).duplicate(true)
+	var squad_echo := STANCE_CHOICES.eco_entry(save.data, "squadra-quaderno")
+	if not squad_echo.is_empty():
+		finale_confronto_sequence.append(squad_echo)
+	if finale_confronto_sequence.is_empty():
+		exercise_player.resume_after_pre_synthesis()
+		return
+	finale_confronto_index = 0
+	finale_confronto_active = true
+	set_meta("finale_confronto_phase", "dialogue")
+	_show_finale_confronto_entry()
+
+func _show_finale_confronto_entry() -> void:
+	if not finale_confronto_active:
+		return
+	if finale_confronto_index >= finale_confronto_sequence.size():
+		_finish_finale_confronto(false)
+		return
+	var entry: Dictionary = finale_confronto_sequence[finale_confronto_index]
+	var speaker_id := str(entry.get("chi", ""))
+	var speaker := "NORA" if speaker_id == "nora" else "Eli"
+	var role := "Custode della nave" if speaker_id == "nora" else "Sorella dodicesima"
+	var pages := Array(entry.get("dice", [])).duplicate()
+	finale_dialogue_box.configure_accessibility(
+		bool(save.data.get("accessibility", {}).get("highContrast", false)),
+		bool(save.data.get("accessibility", {}).get("reducedMotion", false)))
+	finale_dialogue_box.show_dialogue(speaker_id, speaker, role, pages)
+	finale_confronto_skip_button.visible = true
+
+func _skip_finale_confronto() -> void:
+	if not finale_confronto_active:
+		return
+	_finish_finale_confronto(true)
+
+func _finish_finale_confronto(skipped: bool) -> void:
+	if not finale_confronto_active:
+		return
+	finale_confronto_active = false
+	if is_instance_valid(finale_confronto_skip_button):
+		finale_confronto_skip_button.visible = false
+	if is_instance_valid(finale_dialogue_box) and finale_dialogue_box.visible:
+		# `close_dialogue` emette in modo sincrono: il flag impedisce al consumer
+		# dell'epilogo di scambiare questa chiusura per una riga della Cattedra.
+		finale_confronto_closing = true
+		finale_dialogue_box.close_dialogue()
+		finale_confronto_closing = false
+	if skipped:
+		# Saltare salta anche l'eco: non deve inseguire il giocatore in un replay
+		# futuro del finale. Rimane una scelta fatta, semplicemente non riletta.
+		for entry in finale_confronto_sequence:
+			_mark_stance_echo_from_entry(entry as Dictionary)
+	set_meta("finale_confronto_phase", "skipped" if skipped else "complete")
+	exercise_player.resume_after_pre_synthesis()
 
 func _show_finale_sequence_entry() -> void:
 	if finale_sequence_index >= finale_sequence.size():
@@ -929,11 +1106,28 @@ func _show_finale_sequence_entry() -> void:
 	finale_dialogue_box.show_dialogue(speaker_id, speaker_id.capitalize(), "", pages)
 
 func _on_finale_dialogue_closed(_speaker_id: String) -> void:
+	if finale_confronto_closing:
+		return
+	if finale_confronto_active:
+		if finale_confronto_index < finale_confronto_sequence.size():
+			_mark_stance_echo_from_entry(finale_confronto_sequence[finale_confronto_index])
+		finale_confronto_index += 1
+		_show_finale_confronto_entry()
+		return
 	if finale_choice_committed:
 		set_meta("finale_epilogue_phase", "complete")
 		return
+	if finale_sequence_index < finale_sequence.size():
+		_mark_stance_echo_from_entry(finale_sequence[finale_sequence_index])
 	finale_sequence_index += 1
 	_show_finale_sequence_entry()
+
+func _mark_stance_echo_from_entry(entry: Dictionary) -> void:
+	var choice_id := str(entry.get("stance_echo", ""))
+	if choice_id == "":
+		return
+	STANCE_CHOICES.segna_eco_vista(save.data, choice_id)
+	save.save()
 
 func _on_finale_choice(option_id: String) -> void:
 	var selected: Dictionary = {}
@@ -1087,6 +1281,51 @@ func _on_nora_learning_signal(signal_name: String) -> void:
 	NoraState.register(save, signal_name)
 	save.save()
 
+func _refresh_pet_face() -> void:
+	if not is_instance_valid(pet_face) or not is_instance_valid(save):
+		return
+	pet_face.visible = PetState.is_granted(save)
+	var accessibility: Dictionary = save.data.get("accessibility", {})
+	pet_face.configure(
+		PetState.name_of(save),
+		PetState.livery(save),
+		PetState.temperament(save),
+		PetState.resting_face(save),
+		PetState.bond(save),
+		PetState.faces(save),
+		bool(accessibility.get("reducedMotion", false)))
+
+func _pet_react(game_signal: String) -> void:
+	set_meta("last_pet_signal", game_signal)
+	if is_instance_valid(pet_face) and pet_face.visible:
+		pet_face.react_to(game_signal)
+
+func _on_pet_cuddled() -> void:
+	if not is_instance_valid(save):
+		return
+	if _pet_cuddles_this_session < PetState.CUDDLES_PER_SESSION:
+		_pet_cuddles_this_session += 1
+		PetState.register_cuddle(save)
+		save.save()
+		_refresh_pet_face()
+	_pet_react("cuddle")
+
+func _open_pet_screen() -> void:
+	if not is_instance_valid(pet_screen) or not PetState.is_granted(save):
+		return
+	var accessibility: Dictionary = save.data.get("accessibility", {})
+	pet_screen.configure(
+		save,
+		bool(accessibility.get("highContrast", false)),
+		bool(accessibility.get("reducedMotion", false)))
+	pet_screen.open_screen()
+
+func _on_pet_screen_closed() -> void:
+	_refresh_pet_face()
+
+func _on_pet_customization_changed() -> void:
+	_refresh_pet_face()
+
 func _return_to_world() -> void:
 	save.save()
 	_stage_world_launch("ship-return")
@@ -1112,6 +1351,96 @@ func _unhandled_input(event: InputEvent) -> void:
 			_hide_world_map()
 		else:
 			_return_to_world()
+	elif not exercise_player.visible and is_instance_valid(bridge_walkway):
+		if event is InputEventScreenTouch and event.pressed:
+			bridge_walkway.set_touch_target(event.position)
+			get_viewport().set_input_as_handled()
+		elif event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+			bridge_walkway.set_touch_target(event.position)
+
+## **Le luci del restauro.** (14 agosto 2026)
+##
+## Il restauro di un ponte esisteva già nei dati (`ShipRoomCatalog.restoration`) e
+## valeva 0,06 di luce nello shader: comprato, non si vedeva. Adesso pesa nello
+## shader **e** accende dei fuochi nella stanza — luci calde disposte in modo
+## stabile, che restano lì ogni volta che si rientra.
+##
+## Perché deterministiche e non casuali: un luogo restaurato che cambia forma a
+## ogni visita non è un luogo restaurato, è un effetto. Il seme è l'id della
+## stanza, quindi il Bio-ponte ha sempre le sue e sono sempre quelle.
+##
+## Non danno nessun vantaggio: non aprono, non sbloccano, non contano da nessuna
+## parte. Sono la differenza fra una stanza spenta e una stanza in cui qualcuno è
+## tornato ad abitare, e questo è tutto il loro lavoro.
+func _refresh_restoration_lights(restored: bool, accent: Color) -> void:
+	if not is_instance_valid(room_stage):
+		return
+	var vecchio := room_stage.get_node_or_null("RestorationLights")
+	if vecchio != null:
+		vecchio.queue_free()
+	if not restored:
+		return
+	var luci := Node2D.new()
+	luci.name = "RestorationLights"
+	luci.z_index = -1
+	room_stage.add_child(luci)
+	var rng := RandomNumberGenerator.new()
+	rng.seed = int(hash("restauro::%s" % current_room_id))
+	var larghezza := maxf(room_stage.size.x, 320.0)
+	var altezza := maxf(room_stage.size.y, 240.0)
+	for indice in range(7):
+		var punto := Vector2(
+			rng.randf_range(0.10, 0.90) * larghezza,
+			rng.randf_range(0.22, 0.86) * altezza)
+		var alone := OutdoorVisualFactory.make_glow(
+			rng.randf_range(26.0, 52.0), accent.lightened(0.25), 0.30)
+		alone.position = punto
+		luci.add_child(alone)
+		var nucleo := OutdoorVisualFactory.make_glow(9.0, Color("fff0c4"), 0.55)
+		nucleo.position = punto
+		luci.add_child(nucleo)
+
+## **Il nucleo prismatico: il ritratto promesso.** (14 agosto 2026)
+##
+## La sua descrizione a catalogo dice una cosa precisa — «si accende del colore
+## delle materie che hai portato più avanti. È un ritratto, non una macchina» —
+## e non la faceva. Costa 1600 frammenti: il pezzo più caro della nave prometteva
+## l'unica cosa che nessuno aveva costruito.
+##
+## Adesso c'è, ed è letteralmente quello che dice: dodici luci in cerchio, una per
+## materia, ognuna accesa quanto la padronanza di quella materia. Chi è forte in
+## tre materie vede tre luci e nove braci; chi ha lavorato ovunque vede un cerchio
+## intero. **Nessun numero, nessuna percentuale, nessuna classifica** — il divieto
+## di ordinare le materie dalla peggiore alla migliore è dello stesso documento
+## che governa il diario, e un ritratto non è una pagella.
+##
+## Non dà vantaggi, non apre niente, non conta da nessuna parte.
+func _refresh_prismatic_portrait() -> void:
+	if not is_instance_valid(room_stage):
+		return
+	var vecchio := room_stage.get_node_or_null("PrismaticPortrait")
+	if vecchio != null:
+		vecchio.queue_free()
+	if not rewards.owned("nora-prismatic-core") or not is_instance_valid(save):
+		return
+	var ritratto := Node2D.new()
+	ritratto.name = "PrismaticPortrait"
+	room_stage.add_child(ritratto)
+	var centro := Vector2(maxf(room_stage.size.x, 320.0) * 0.5, maxf(room_stage.size.y, 240.0) * 0.30)
+	var raggio := 54.0
+	var materie: Array = ApparatusConfig.SUBJECT_CYCLE
+	for indice in materie.size():
+		var materia := str(materie[indice])
+		var quota := clampf(float(save.mastery_of(materia)), 0.0, 1.0)
+		var angolo := TAU * float(indice) / float(materie.size()) - PI * 0.5
+		var punto := centro + Vector2(cos(angolo), sin(angolo)) * raggio
+		# Una brace resta accesa anche a zero: una materia mai toccata è buia, non
+		# assente. Toglierla direbbe che quella parte di Eli non esiste.
+		var colore: Color = PRISMA_COLORI.get(materia, Color("9ff5e9"))
+		var alone := OutdoorVisualFactory.make_glow(
+			9.0 + quota * 13.0, colore, 0.16 + quota * 0.5)
+		alone.position = punto
+		ritratto.add_child(alone)
 
 func _room_shader_material() -> ShaderMaterial:
 	var shader := Shader.new()
@@ -1129,17 +1458,20 @@ void fragment() {
 	float pulse = (sin(TIME * (0.72 + activation * 1.4)) * 0.5 + 0.5);
 	float unstable = (1.0 - smoothstep(0.05, 0.28, activation)) * activation;
 	float flicker = 1.0 - unstable * (sin(TIME * 17.0) * 0.035 + 0.035);
-	float base_light = mix(0.42, 0.96, powered) + restored * 0.06;
-	vec3 dormant = mix(vec3(luma), tex.rgb, 0.38);
-	vec3 color = mix(dormant, tex.rgb, powered) * base_light * flicker;
+	// Il restauro pesava 0.06 di luce: comprato, non si vedeva. Adesso porta
+	// luce, colore e bordi meno cupi — è l'unica cosa che i frammenti cambiano
+	// dentro la nave, e deve essere una differenza che si nota entrando.
+	float base_light = mix(0.42, 0.96, powered) + restored * 0.20;
+	vec3 dormant = mix(vec3(luma), tex.rgb, 0.38 + restored * 0.30);
+	vec3 color = mix(dormant, tex.rgb, max(powered, restored * 0.55)) * base_light * flicker;
 	float highlight = smoothstep(0.34, 0.82, luma);
 	color += accent.rgb * highlight * (0.025 + powered * 0.15);
 	float scan = 1.0 - smoothstep(0.0, 0.018, abs(fract(UV.y - TIME * (0.035 + activation * 0.05)) - 0.5));
 	color += accent.rgb * scan * activation * 0.055;
-	color += accent.rgb * pulse * (activation * 0.018 + restored * 0.018);
+	color += accent.rgb * pulse * (activation * 0.018 + restored * 0.055);
 	float ignition = transition_burst * (1.0 - smoothstep(0.0, 0.72, distance(UV, vec2(0.5))));
 	color += accent.rgb * ignition * 0.85;
-	color *= 1.0 - edge * mix(0.58, 0.32, powered);
+	color *= 1.0 - edge * mix(0.58, 0.32, powered) * (1.0 - restored * 0.45);
 	COLOR = vec4(color, tex.a);
 }
 """

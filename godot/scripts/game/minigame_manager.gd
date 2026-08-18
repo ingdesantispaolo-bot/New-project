@@ -3492,12 +3492,30 @@ const NUMERIC_ORDERING_TOPICS := {
 	"matematica": ["tabelline", "frazioni"],
 }
 
+# Stessa ragione di NUMERIC_ORDERING_TOPICS, per i tre formati costruiti da
+# template invece che da tabella: percorso-macchine, campione misterioso e
+# decodifica dei verbi. Senza questa dichiarazione i loro argomenti restano fuori
+# dal registro — e `minigame_topic_scope_audit` li rifiuta, giustamente: un nodo
+# che parla di un argomento che la materia non riconosce non può alimentare né
+# la padronanza né il codex.
+const TEMPLATE_FORMAT_TOPICS := {
+	"matematica": ["calcolo"],
+	"scienze": ["proprietà-dei-materiali"],
+	"fisica": ["proprietà-dei-materiali"],
+	"italiano": [
+		"indicativo-tempi",
+		"congiuntivo-condizionale",
+		"imperativo-infinito-participio-gerundio",
+		"concordanza-tempi-verbali",
+	],
+}
+
 # Argomenti che la materia sa servire con i minigiochi (oltre al banco statico).
 # Sono contenuto reale a tutti gli effetti: una lezione può prometterli e il
 # mondo li serve davvero (verificato in `world_lesson_audit`).
 static func topics_for(subject: String) -> Array:
 	var topics: Dictionary = {}
-	for table in [MATCHING, ORDERING, CLASSIFICATION, GRAPH, CIRCUIT, CODE_DEBUG]:
+	for table in [MATCHING, ORDERING, CLASSIFICATION, GRAPH, CIRCUIT, CODE_DEBUG, SWIPE]:
 		for spec in Array((table as Dictionary).get(subject, [])):
 			var topic := str((spec as Dictionary).get("topic", ""))
 			if topic != "":
@@ -3506,7 +3524,35 @@ static func topics_for(subject: String) -> Array:
 	# a mano, altrimenti resta fuori dal registro e nessun audit lo controlla.
 	for topic in Array(NUMERIC_ORDERING_TOPICS.get(subject, [])):
 		topics[str(topic)] = true
+	for topic in Array(TEMPLATE_FORMAT_TOPICS.get(subject, [])):
+		topics[str(topic)] = true
 	return topics.keys()
+
+## **La spiegazione che il minigioco ha gia' scritto.** (15 agosto 2026)
+##
+## Nasce dalla scheda vuota della segnalazione: NORA non aveva niente da dire su
+## «numeri» perche' `KnowledgeCodex` raccoglie gli esempi dai BANCHI, e i topic
+## dei minigiochi non stanno nei banchi. Ma la spiegazione c'era gia', scritta
+## dentro la spec: «Un numero e' pari se finisce per 0, 2, 4, 6 o 8: basta
+## guardare l'ultima cifra, non serve dividere».
+##
+## Il contenuto non mancava: mancava una porta per andarlo a prendere. Questa e'
+## la porta. Ritorna la prima spec di quel topic che porta una spiegazione — e la
+## sua domanda, che diventa l'esempio svolto.
+static func spiegazione_di_topic(subject: String, topic: String) -> Dictionary:
+	for table in [MATCHING, ORDERING, CLASSIFICATION, GRAPH, CIRCUIT, CODE_DEBUG, SWIPE]:
+		for spec_data in Array((table as Dictionary).get(subject, [])):
+			var spec: Dictionary = spec_data
+			if str(spec.get("topic", "")) != topic:
+				continue
+			var spiegazione := str(spec.get("explanation", "")).strip_edges()
+			if spiegazione == "":
+				continue
+			return {
+				"explanation": spiegazione,
+				"prompt": str(spec.get("prompt", "")).strip_edges(),
+			}
+	return {}
 
 # --- Specifiche a insieme: quante voci si pescano, e quanto sono profonde -------
 #
@@ -3556,6 +3602,51 @@ const ORDERING_UNIQUE := ["label", "value"]  # voci {label, value}
 # davvero (3³ = 9, un'amico, eated, Barcellona capitale di Spagna).
 const SWIPE := {
 	"matematica": [
+		{"topic": "frazioni", "minLevel": 1, "actionTheme": "fraction_forge", "prompt": "Forgia delle Frazioni: stabilizza a destra le operazioni corrette; rifondi a sinistra quelle che violano le regole.", "seconds": 68.0, "secondsByDifficulty": [0.0, 72.0, 68.0, 64.0, 60.0], "draw": 12, "minAccuracy": 0.80,
+			"statements": [
+				{"text": "1/4 + 2/4 = 3/4", "correct": true, "minDifficulty": 1, "visual": {"aNum": 1, "aDen": 4, "op": "+", "bNum": 2, "bDen": 4, "rNum": 3, "rDen": 4}},
+				{"text": "1/3 + 1/3 = 2/3", "correct": true, "minDifficulty": 1, "visual": {"aNum": 1, "aDen": 3, "op": "+", "bNum": 1, "bDen": 3, "rNum": 2, "rDen": 3}},
+				{"text": "3/4 - 1/4 = 2/4", "correct": true, "minDifficulty": 1, "visual": {"aNum": 3, "aDen": 4, "op": "-", "bNum": 1, "bDen": 4, "rNum": 2, "rDen": 4}},
+				{"text": "2/5 + 1/5 = 3/5", "correct": true, "minDifficulty": 1, "visual": {"aNum": 2, "aDen": 5, "op": "+", "bNum": 1, "bDen": 5, "rNum": 3, "rDen": 5}},
+				{"text": "1/2 + 1/2 = 1", "correct": true, "minDifficulty": 1, "visual": {"aNum": 1, "aDen": 2, "op": "+", "bNum": 1, "bDen": 2, "rNum": 1, "rDen": 1}},
+				{"text": "1/4 + 1/4 = 2/8", "correct": false, "minDifficulty": 1, "visual": {"aNum": 1, "aDen": 4, "op": "+", "bNum": 1, "bDen": 4, "rNum": 2, "rDen": 8}},
+				{"text": "1/3 + 1/3 = 2/6", "correct": false, "minDifficulty": 1, "visual": {"aNum": 1, "aDen": 3, "op": "+", "bNum": 1, "bDen": 3, "rNum": 2, "rDen": 6}},
+				{"text": "3/4 - 1/4 = 2/3", "correct": false, "minDifficulty": 1, "visual": {"aNum": 3, "aDen": 4, "op": "-", "bNum": 1, "bDen": 4, "rNum": 2, "rDen": 3}},
+				{"text": "2/5 + 1/5 = 3/10", "correct": false, "minDifficulty": 1, "visual": {"aNum": 2, "aDen": 5, "op": "+", "bNum": 1, "bDen": 5, "rNum": 3, "rDen": 10}},
+				{"text": "1/2 + 1/2 = 2/4", "correct": false, "minDifficulty": 1, "visual": {"aNum": 1, "aDen": 2, "op": "+", "bNum": 1, "bDen": 2, "rNum": 2, "rDen": 4}},
+				{"text": "1/2 + 1/4 = 3/4", "correct": true, "minDifficulty": 3, "visual": {"aNum": 1, "aDen": 2, "op": "+", "bNum": 1, "bDen": 4, "rNum": 3, "rDen": 4}},
+				{"text": "2/3 + 1/6 = 5/6", "correct": true, "minDifficulty": 3, "visual": {"aNum": 2, "aDen": 3, "op": "+", "bNum": 1, "bDen": 6, "rNum": 5, "rDen": 6}},
+				{"text": "7/8 - 3/8 = 1/2", "correct": true, "minDifficulty": 2, "visual": {"aNum": 7, "aDen": 8, "op": "-", "bNum": 3, "bDen": 8, "rNum": 1, "rDen": 2}},
+				{"text": "1/2 + 1/3 = 2/5", "correct": false, "minDifficulty": 3, "visual": {"aNum": 1, "aDen": 2, "op": "+", "bNum": 1, "bDen": 3, "rNum": 2, "rDen": 5}},
+				{"text": "5/6 - 1/3 = 4/3", "correct": false, "minDifficulty": 3, "visual": {"aNum": 5, "aDen": 6, "op": "-", "bNum": 1, "bDen": 3, "rNum": 4, "rDen": 3}},
+				{"text": "2/3 x 3/4 = 1/2", "correct": true, "minDifficulty": 3, "visual": {"aNum": 2, "aDen": 3, "op": "x", "bNum": 3, "bDen": 4, "rNum": 1, "rDen": 2}},
+				{"text": "3/4 x 2/3 = 1/2", "correct": true, "minDifficulty": 3, "visual": {"aNum": 3, "aDen": 4, "op": "x", "bNum": 2, "bDen": 3, "rNum": 1, "rDen": 2}},
+				{"text": "2/5 x 3/4 = 6/9", "correct": false, "minDifficulty": 3, "visual": {"aNum": 2, "aDen": 5, "op": "x", "bNum": 3, "bDen": 4, "rNum": 6, "rDen": 9}},
+				{"text": "1/2 : 1/4 = 1/8", "correct": false, "minDifficulty": 4, "visual": {"aNum": 1, "aDen": 2, "op": ":", "bNum": 1, "bDen": 4, "rNum": 1, "rDen": 8}},
+				{"text": "4/5 : 2 = 2/5", "correct": true, "minDifficulty": 4, "visual": {"aNum": 4, "aDen": 5, "op": ":", "bNum": 2, "bDen": 1, "rNum": 2, "rDen": 5}},
+				{"text": "2/3 : 4/3 = 1/2", "correct": true, "minDifficulty": 4, "visual": {"aNum": 2, "aDen": 3, "op": ":", "bNum": 4, "bDen": 3, "rNum": 1, "rDen": 2}},
+				{"text": "3/5 : 2/5 = 3/2", "correct": true, "minDifficulty": 4, "visual": {"aNum": 3, "aDen": 5, "op": ":", "bNum": 2, "bDen": 5, "rNum": 3, "rDen": 2}}],
+			"explanation": "Per sommare o sottrarre servono parti della stessa grandezza: rendi uguali i denominatori e lavora sui numeratori. Per moltiplicare opera sopra con sopra e sotto con sotto; per dividere moltiplica per il reciproco. Alla fine semplifica sempre."},
+		{"topic": "multipli", "minLevel": 3, "actionTheme": "multiple_defense", "prompt": "Difesa dei Multipli: colpisci a destra i bersagli che rispettano la regola; deviali a sinistra se sono esche.", "seconds": 48.0, "minAccuracy": 0.78,
+			"statements": [
+				{"text": "Multiplo di 3: 27", "correct": true}, {"text": "Multiplo di 4: 18", "correct": false},
+				{"text": "Multiplo di 5: 45", "correct": true}, {"text": "Multiplo di 6: 32", "correct": false},
+				{"text": "Multiplo di 8: 56", "correct": true}, {"text": "Multiplo di 7: 45", "correct": false},
+				{"text": "Multiplo di 9: 63", "correct": true}, {"text": "Multiplo di 2: 37", "correct": false},
+				{"text": "Multiplo di 4: 36", "correct": true}, {"text": "Multiplo di 5: 52", "correct": false},
+				{"text": "Multiplo di 6: 54", "correct": true}, {"text": "Multiplo di 3: 40", "correct": false},
+				{"text": "Multiplo di 8: 64", "correct": true}],
+			"explanation": "Un multiplo nasce moltiplicando il numero per un intero. Le esche qui sono vicine apposta: 36 e divisibile per 4, ma 18 non lo e; 54 e divisibile per 6, ma 32 no."},
+		{"topic": "calcolo", "minLevel": 5, "actionTheme": "math_dash", "prompt": "Corsa Numerica: apri a destra i varchi con il risultato corretto, devia a sinistra quelli fuori traiettoria.", "seconds": 50.0, "minAccuracy": 0.78,
+			"statements": [
+				{"text": "Varco: 7 x 8 = 56", "correct": true}, {"text": "Varco: 45 + 19 = 63", "correct": false},
+				{"text": "Varco: 96 : 12 = 8", "correct": true}, {"text": "Varco: doppio di 37 = 72", "correct": false},
+				{"text": "Varco: meta di 86 = 43", "correct": true}, {"text": "Varco: 25% di 80 = 25", "correct": false},
+				{"text": "Varco: 9 x 6 - 4 = 50", "correct": true}, {"text": "Varco: 120 - 37 = 93", "correct": false},
+				{"text": "Varco: 15% di 200 = 30", "correct": true}, {"text": "Varco: 144 : 12 = 14", "correct": false},
+				{"text": "Varco: 18 + 27 = 45", "correct": true}, {"text": "Varco: 3/4 di 40 = 25", "correct": false},
+				{"text": "Varco: 11 x 11 = 121", "correct": true}],
+			"explanation": "La corsa non premia un tocco frettoloso: ogni varco chiede un controllo rapido. 25% e un quarto, 15% di 200 e 10% piu 5%, e 96 : 12 si verifica con 12 x 8."},
 		{"topic": "tabelline", "prompt": "Scorri: a destra se il calcolo è giusto, a sinistra se è sbagliato.", "seconds": 45.0, "minAccuracy": 0.75,
 			"statements": [
 				{"text": "6 × 7 = 42", "correct": true},
@@ -3624,6 +3715,26 @@ const SWIPE := {
 			"explanation": "Il 10% si trova spostando la virgola di un posto, e da lì si costruisce tutto: il 20% è il doppio, il 5% la metà. Chi lo fa a mente riconosce un prezzo sbagliato prima di finire il conto."},
 	],
 	"italiano": [
+		{"topic": "tempi-indicativo", "minLevel": 9, "actionTheme": "verb_time_race", "prompt": "Corsa nel Tempo: apri a destra i portali con il tempo verbale giusto; correggi a sinistra quelli falsi.", "seconds": 52.0, "minAccuracy": 0.80,
+			"statements": [
+				{"text": "Domani partiremo -> futuro semplice", "correct": true}, {"text": "Da piccolo giocavo fuori -> passato prossimo", "correct": false},
+				{"text": "Ho chiuso la porta -> passato prossimo", "correct": true}, {"text": "Ogni estate andavamo al mare -> presente", "correct": false},
+				{"text": "Ora preparo lo zaino -> presente", "correct": true}, {"text": "Ieri finii il libro -> imperfetto", "correct": false},
+				{"text": "Mentre pioveva, leggevo -> imperfetto", "correct": true}, {"text": "Tra poco arrivera Marta -> passato remoto", "correct": false},
+				{"text": "Nel 1861 nacque lo Stato italiano -> passato remoto", "correct": true}, {"text": "Abbiamo visto il film ieri -> futuro semplice", "correct": false},
+				{"text": "Fra un'ora iniziera la gara -> futuro semplice", "correct": true}, {"text": "Ogni lunedi studio chitarra -> imperfetto", "correct": false},
+				{"text": "Quando ero piccolo temevo il buio -> imperfetto", "correct": true}],
+			"explanation": "Il tempo racconta quando e come accade l'azione: presente adesso o abituale, imperfetto per sfondo e ripetizione, passato prossimo per un fatto concluso, futuro per cio che deve arrivare."},
+		{"topic": "modi-verbali", "minLevel": 10, "actionTheme": "verb_mode_factory", "prompt": "Officina dei Modi: conferma a destra i comandi verbali calibrati; manda a sinistra quelli con il modo sbagliato.", "seconds": 54.0, "minAccuracy": 0.80,
+			"statements": [
+				{"text": "Spero che tu arrivi -> congiuntivo", "correct": true}, {"text": "Se avessi tempo, partirei -> imperativo", "correct": false},
+				{"text": "Chiudi la finestra! -> imperativo", "correct": true}, {"text": "Vorrei un gelato -> indicativo", "correct": false},
+				{"text": "Luca legge un fumetto -> indicativo", "correct": true}, {"text": "Che noi vinciamo -> condizionale", "correct": false},
+				{"text": "Se piovesse, resterei qui -> condizionale", "correct": true}, {"text": "Penso che sia tardi -> imperativo", "correct": false},
+				{"text": "Credo che Marta abbia capito -> congiuntivo", "correct": true}, {"text": "Andiamo al parco ogni sabato -> congiuntivo", "correct": false},
+				{"text": "Vorremmo provare ancora -> condizionale", "correct": true}, {"text": "Non toccare quel filo! -> indicativo", "correct": false},
+				{"text": "Portate i quaderni! -> imperativo", "correct": true}],
+			"explanation": "Il modo mostra l'atteggiamento verso l'azione: l'indicativo afferma un fatto, il congiuntivo porta dubbio o desiderio, il condizionale immagina una possibilita, l'imperativo da un comando."},
 		{"topic": "verbo", "minLevel": 3, "prompt": "Scorri: a destra se la frase è corretta, a sinistra se è sbagliata.", "seconds": 50.0, "minAccuracy": 0.75,
 			"statements": [
 				{"text": "Le bambine corrono in giardino.", "correct": true},
@@ -3767,7 +3878,7 @@ const CLUE := {
 			"explanation": "Il secondo indizio esclude l'Italia, che confina anche con l'Austria e la Svizzera. Il terzo lascia Spagna e Portogallo; il quarto decide, perché Madrid è al centro e Lisbona è sulla costa."},
 	],
 	"scienze": [
-		{"topic": "viventi", "minLevel": 5, "prompt": "Quale animale è? Scopri solo gli indizi che ti servono.",
+		{"topic": "viventi", "minLevel": 1, "prompt": "Quale animale è? Scopri solo gli indizi che ti servono.",
 			"clues": [{"text": "È un vertebrato e vive in ambienti caldi e umidi."}, {"text": "Da piccolo respira nell'acqua, da adulto anche fuori."}, {"text": "La sua pelle è nuda e umida, senza squame né peli."}, {"text": "Da uovo diventa girino prima di avere le zampe."}],
 			"targets": [{"id": "a", "label": "Rana"}, {"id": "b", "label": "Serpente"}, {"id": "c", "label": "Pesce rosso"}, {"id": "d", "label": "Tartaruga"}],
 			"answer": "a",
@@ -3796,6 +3907,12 @@ const CLUE := {
 # è tutta la storia.
 const TIMELINE := {
 	"storia": [
+		{"topic": "cronologia", "minLevel": 1, "prompt": "Quale momento della giornata e piu vicino alle 12:00?",
+			"min": 0.0, "max": 24.0,
+			"labels": [{"value": 0.0, "text": "mezzanotte"}, {"value": 12.0, "text": "mezzogiorno"}, {"value": 24.0, "text": "mezzanotte"}],
+			"targets": [{"id": "a", "label": "Colazione (8:00)", "value": 8.0}, {"id": "b", "label": "Pranzo (13:00)", "value": 13.0}, {"id": "c", "label": "Cena (20:00)", "value": 20.0}],
+			"answer": "b",
+			"explanation": "La linea del tempo mostra anche le distanze: le 13 sono a un'ora da mezzogiorno, le 8 a quattro ore e le 20 a otto. Prima si impara a leggere la distanza, poi si applica alle epoche."},
 		{"topic": "cronologia", "minLevel": 8, "prompt": "Quale evento è il più vicino nel tempo alla caduta dell'Impero romano d'Occidente?",
 			"min": -800.0, "max": 1500.0,
 			"labels": [{"value": -800.0, "text": "800 a.C."}, {"value": 0.0, "text": "0"}, {"value": 476.0, "text": "476"}, {"value": 1500.0, "text": "1500"}],
@@ -3835,7 +3952,7 @@ const TIMELINE := {
 # due punti che in Python aprono il blocco.
 const COMPOSE := {
 	"italiano": [
-		{"topic": "analisi-grammaticale", "minLevel": 3, "prompt": "Completa la frase scegliendo la forma che concorda.",
+		{"topic": "analisi-grammaticale", "minLevel": 1, "prompt": "Completa la frase scegliendo la forma che concorda.",
 			"slots": [{"text": "Le"}, {"text": "bambine"}, {"text": ""}, {"text": "in giardino"}],
 			"targets": [{"id": "a", "label": "corre"}, {"id": "b", "label": "corrono"}, {"id": "c", "label": "correva"}],
 			"answer": "b",
@@ -3902,6 +4019,11 @@ const TRACE := {
 			"explanation": "Raddoppiando tre volte da 1 si arriva a 8, non a 6: moltiplicare ripetutamente non è sommare. È la differenza fra crescita lineare ed esponenziale, vista su tre righe."},
 	],
 	"matematica": [
+		{"topic": "calcolo", "minLevel": 1, "prompt": "Segui i passi: quale numero ottieni?",
+			"steps": [{"label": "parti da 2", "state": "2"}, {"label": "aggiungi 1", "state": "3"}, {"label": "aggiungi ancora 1", "state": ""}],
+			"targets": [{"id": "a", "label": "3"}, {"id": "b", "label": "4"}, {"id": "c", "label": "5"}],
+			"answer": "b",
+			"explanation": "Si esegue un passo alla volta: 2 diventa 3 e poi 4. Il tracciato rende visibile lo stato dopo ogni azione, prima di introdurre operazioni piu lunghe."},
 		{"topic": "calcolo", "minLevel": 4, "prompt": "Applica le operazioni in ordine: che numero esce?",
 			"steps": [{"label": "parti da 7", "state": "7"}, {"label": "aggiungi 5", "state": "12"}, {"label": "dividi per 3", "state": "4"}, {"label": "moltiplica per 10", "state": ""}],
 			"targets": [{"id": "a", "label": "40"}, {"id": "b", "label": "34"}, {"id": "c", "label": "120"}],
@@ -3946,6 +4068,13 @@ const TRACE := {
 # la risposta deve pareggiare davvero e gli altri candidati no.
 const BALANCE := {
 	"matematica": [
+		{"topic": "calcolo", "minLevel": 1, "prompt": "Che cosa manca per avere la stessa quantita sui due piatti?",
+			"left": [{"label": "3", "value": 3.0}, {"label": "2", "value": 2.0}],
+			"right": [{"label": "3", "value": 3.0}],
+			"gapSide": "right",
+			"targets": [{"id": "a", "label": "1", "value": 1.0}, {"id": "b", "label": "2", "value": 2.0}, {"id": "c", "label": "3", "value": 3.0}],
+			"answer": "b",
+			"explanation": "A sinistra ci sono cinque unita e a destra tre: ne mancano due. La bilancia introduce l'uguaglianza con quantita piccole prima delle espressioni."},
 		{"topic": "calcolo", "minLevel": 5, "prompt": "Che cosa manca perché i due piatti pesino uguale?",
 			"left": [{"label": "7", "value": 7.0}, {"label": "5", "value": 5.0}],
 			"right": [{"label": "9", "value": 9.0}],
@@ -4180,7 +4309,7 @@ const MAP_READING := {
 				{"id": "sardinia", "label": "Segnaposto C"}],
 			"answer": "po",
 			"explanation": "Il Po attraversa da ovest a est la grande pianura del nord, quella che porta il suo nome: è l'unico dei tre segnaposto sulla terraferma."},
-		{"topic": "italia-fisica", "minLevel": 3, "mapId": "italy",
+		{"topic": "italia-fisica", "minLevel": 1, "mapId": "italy",
 			"prompt": "Sulla carta muta dell'Italia, quale segnaposto indica la Sicilia?",
 			"domande": [
 				{"prompt": "Sulla carta muta, quale segnaposto indica l'isola a ovest della penisola?", "answer": "sardinia", "explanation": "La Sardegna sta a ovest, in mezzo al Mar Tirreno: la Sicilia invece è a sud."},
@@ -4272,7 +4401,7 @@ const HOTSPOT := {
 				{"id": "mosaic", "label": "Quarto reperto"}],
 			"answer": "aqueduct",
 			"explanation": "L'acquedotto porta l'acqua da lontano sfruttando una pendenza minima: gli archi servono a tenere il canale sempre alla quota giusta mentre il terreno sale e scende."},
-		{"topic": "roma", "minLevel": 3, "assetId": "roman_artifacts",
+		{"topic": "roma", "minLevel": 1, "assetId": "roman_artifacts",
 			"prompt": "Quale di questi reperti serviva a conservare e trasportare vino e olio?",
 			"domande": [
 				{"prompt": "Quale di questi reperti si spostava da un posto all'altro, e non stava fermo dov'era costruito?", "answer": "amphora", "explanation": "L'anfora è l'unico oggetto mobile: aveva due anse proprio per essere sollevata e caricata sulle navi. Acquedotto, colonna e mosaico si costruiscono sul posto."},
@@ -4356,6 +4485,40 @@ static func eligible_specs(subject: String, fmt: String, level: int) -> Array:
 ## che abbia almeno due alternative reali.
 static func format_available(subject: String, fmt: String, level: int) -> bool:
 	return eligible_specs(subject, fmt, level).size() >= 2
+
+## Meccaniche che il runtime puo' davvero costruire per materia e livello.
+## Questa lista alimenta gli eventi di pratica: non include formati soltanto
+## dichiarati nei profili, ma esclusivamente corsie con contenuto giocabile.
+static func runtime_formats_for(subject: String, level: int) -> Array:
+	var out: Array = []
+	if MATCHING.has(subject):
+		out.append("matching")
+	if ORDERING.has(subject) or NUMERIC_ORDERING_SUBJECTS.has(subject):
+		out.append("ordering")
+	if CLASSIFICATION.has(subject):
+		out.append("classification")
+	for fmt in [
+		"graph", "circuit", "cycle", "balance", "timeline", "clue", "swipe",
+		"compose", "trace", "number_line", "code_debug",
+	]:
+		if not eligible_specs(subject, str(fmt), level).is_empty():
+			out.append(str(fmt))
+	# Questi renderer richiedono almeno due specifiche introduttive, perche' una
+	# sola carta fissa verrebbe imparata a memoria gia' alla seconda visita.
+	for fmt in ["notation", "map", "hotspot"]:
+		if format_available(subject, str(fmt), level):
+			out.append(str(fmt))
+	# Formati costruiti da template: non hanno specifiche in tabella, quindi
+	# `eligible_specs` non li vede mai e i cicli qui sopra non possono trovarli.
+	# La disponibilità dipende solo dalla materia — gli stessi criteri con cui
+	# `build_minigame` li mette in scaletta.
+	if NUMERIC_ORDERING_SUBJECTS.has(subject):
+		out.append("machine_path")
+	if subject in ["scienze", "fisica"]:
+		out.append("mystery_sample")
+	if subject == "italiano":
+		out.append("verb_decoder")
+	return out
 
 ## GRADIENTE DI DIFFICOLTÀ dentro la sessione.
 ##
@@ -4566,6 +4729,43 @@ static func _fraction_depth(index: int, remaining: int) -> int:
 	var d := int(FRACTION_DENOMINATORS[index])
 	return (d - 1) * _fraction_depth(index + 1, remaining - 1) + _fraction_depth(index + 1, remaining)
 
+func _build_node_for_format(fmt: String, subject: String, level: int, step: int, rng: RandomNumberGenerator, idx: int, forced_spec: Dictionary = {}) -> Dictionary:
+	var difficulty := difficulty_of(level, step)
+	var spec := forced_spec
+	if spec.is_empty() and fmt != "ordering":
+		var table := table_for(fmt)
+		if table.has(subject):
+			spec = _pick(Array(table[subject]), rng, level)
+	match fmt:
+		"matching": return _matching_node(subject, spec, level, step, rng, idx)
+		"ordering":
+			if NUMERIC_ORDERING_SUBJECTS.has(subject):
+				return _numeric_ordering_node(subject, level, step, rng, idx)
+			if spec.is_empty() and ORDERING.has(subject):
+				spec = _pick(Array(ORDERING[subject]), rng, level)
+			return _ordering_node(subject, spec, level, step, rng, idx)
+		"classification": return _classification_node(subject, spec, level, step, rng, idx)
+		"graph": return _graph_node(subject, spec, difficulty, rng, idx)
+		"circuit": return _circuit_node(subject, spec, difficulty, rng, idx)
+		"cycle": return _cycle_node(subject, spec, difficulty, rng, idx)
+		"notation": return _notation_node(subject, spec, difficulty, rng, idx)
+		"swipe": return _swipe_node(subject, spec, difficulty, rng, idx)
+		"clue": return _clue_node(subject, spec, difficulty, rng, idx)
+		"timeline": return _timeline_node(subject, spec, difficulty, rng, idx)
+		"compose": return _compose_node(subject, spec, difficulty, rng, idx)
+		"trace": return _trace_node(subject, spec, difficulty, rng, idx)
+		"balance": return _balance_node(subject, spec, difficulty, rng, idx)
+		"number_line": return _number_line_node(subject, spec, difficulty, rng, idx)
+		"map": return _map_node(subject, spec, difficulty, rng, idx)
+		"hotspot": return _hotspot_node(subject, spec, difficulty, rng, idx)
+		"code_debug": return _code_debug_node(subject, spec, difficulty, rng, idx)
+		# Costruiscono da template propri, non da una tabella di specifiche:
+		# `table_for` restituisce {} e `spec` resta vuoto senza fare danni.
+		"machine_path": return _machine_path_node(subject, level, step, rng, idx)
+		"mystery_sample": return _mystery_sample_node(subject, level, step, rng, idx)
+		"verb_decoder": return _verb_decoder_node(subject, level, step, rng, idx)
+	return {}
+
 func build_minigame(subject: String, level: int, rng: RandomNumberGenerator = null) -> Dictionary:
 	var generator := rng
 	if generator == null:
@@ -4669,50 +4869,8 @@ func build_minigame(subject: String, level: int, rng: RandomNumberGenerator = nu
 	for idx in total:
 		var fmt := str(plan[idx])
 		var step := gradient_step(idx, total)
-		var difficulty := difficulty_of(level, step)
-		match fmt:
-			"machine_path":
-				nodes.append(_machine_path_node(subject, level, step, generator, idx))
-			"mystery_sample":
-				nodes.append(_mystery_sample_node(subject, level, step, generator, idx))
-			"verb_decoder":
-				nodes.append(_verb_decoder_node(subject, level, step, generator, idx))
-			"matching":
-				nodes.append(_matching_node(subject, _pick(MATCHING[subject], generator, level), level, step, generator, idx))
-			"ordering":
-				nodes.append(_ordering_node(subject, _pick(ORDERING[subject], generator, level), level, step, generator, idx))
-			"numeric":
-				nodes.append(_numeric_ordering_node(subject, level, step, generator, idx))
-			"classification":
-				nodes.append(_classification_node(subject, _pick(CLASSIFICATION[subject], generator, level), level, step, generator, idx))
-			"graph":
-				nodes.append(_graph_node(subject, _pick(GRAPH[subject], generator, level), difficulty, generator, idx))
-			"circuit":
-				nodes.append(_circuit_node(subject, _pick(CIRCUIT[subject], generator, level), difficulty, generator, idx))
-			"cycle":
-				nodes.append(_cycle_node(subject, _pick(CYCLE[subject], generator, level), difficulty, generator, idx))
-			"notation":
-				nodes.append(_notation_node(subject, _pick(NOTATION[subject], generator, level), difficulty, generator, idx))
-			"swipe":
-				nodes.append(_swipe_node(subject, _pick(SWIPE[subject], generator, level), difficulty, generator, idx))
-			"clue":
-				nodes.append(_clue_node(subject, _pick(CLUE[subject], generator, level), difficulty, generator, idx))
-			"timeline":
-				nodes.append(_timeline_node(subject, _pick(TIMELINE[subject], generator, level), difficulty, generator, idx))
-			"compose":
-				nodes.append(_compose_node(subject, _pick(COMPOSE[subject], generator, level), difficulty, generator, idx))
-			"trace":
-				nodes.append(_trace_node(subject, _pick(TRACE[subject], generator, level), difficulty, generator, idx))
-			"balance":
-				nodes.append(_balance_node(subject, _pick(BALANCE[subject], generator, level), difficulty, generator, idx))
-			"number_line":
-				nodes.append(_number_line_node(subject, _pick(NUMBER_LINE[subject], generator, level), difficulty, generator, idx))
-			"map":
-				nodes.append(_map_node(subject, _pick(MAP_READING[subject], generator, level), difficulty, generator, idx))
-			"hotspot":
-				nodes.append(_hotspot_node(subject, _pick(HOTSPOT[subject], generator, level), difficulty, generator, idx))
-			"code_debug":
-				nodes.append(_code_debug_node(subject, _pick(CODE_DEBUG[subject], generator, level), difficulty, generator, idx))
+		var runtime_fmt := "ordering" if fmt == "numeric" else fmt
+		nodes.append(_build_node_for_format(runtime_fmt, subject, level, step, generator, idx))
 	return {
 		"sessionId": "minigame-%s-lvl%d" % [subject, level],
 		"kind": "minigame",
@@ -4724,6 +4882,66 @@ func build_minigame(subject: String, level: int, rng: RandomNumberGenerator = nu
 		"timed": false,
 		"rewards": {"energyPerCorrect": 12, "onComplete": {"energy": 30, "fragments": 2}},
 	}
+
+## Costruisce una sessione normale, poi guida UNA campata verso l'argomento o la
+## meccanica richiesti dal mondo. Il topic ha precedenza didattica; il formato
+## entra quando non c'e' un ripasso mirato. Le altre campate restano varie.
+func build_guided_minigame(subject: String, topic: String, format_hint: String, level: int, rng: RandomNumberGenerator = null) -> Dictionary:
+	var generator := rng
+	if generator == null:
+		generator = RandomNumberGenerator.new()
+		generator.randomize()
+	var session := build_minigame(subject, level, generator)
+	var target_format := ""
+	var selected: Dictionary = {}
+	var topic_candidates: Array = []
+	var themed: Array = []
+	if topic != "":
+		for fmt_data in runtime_formats_for(subject, level):
+			var fmt := str(fmt_data)
+			for spec_data in eligible_specs(subject, fmt, level):
+				var spec: Dictionary = spec_data
+				if str(spec.get("topic", "")) != topic:
+					continue
+				var candidate := {"format": fmt, "spec": spec}
+				topic_candidates.append(candidate)
+				if str(spec.get("actionTheme", "")) != "":
+					themed.append(candidate)
+		var candidates := themed if not themed.is_empty() else topic_candidates
+		if not candidates.is_empty():
+			var candidate: Dictionary = candidates[generator.randi_range(0, candidates.size() - 1)]
+			target_format = str(candidate["format"])
+			selected = candidate["spec"] as Dictionary
+
+	if target_format == "" and runtime_formats_for(subject, level).has(format_hint):
+		target_format = format_hint
+		var specs := eligible_specs(subject, target_format, level)
+		if not specs.is_empty():
+			selected = specs[generator.randi_range(0, specs.size() - 1)] as Dictionary
+	if target_format == "":
+		return session
+
+	var nodes: Array = Array(session.get("nodes", [])).duplicate(true)
+	if nodes.is_empty():
+		return session
+	var replace_at := nodes.size() - 1
+	for index in nodes.size():
+		var node: Dictionary = nodes[index]
+		if str(node.get("format", "")) == target_format:
+			replace_at = index
+			break
+	var step := gradient_step(replace_at, nodes.size())
+	var replacement := _build_node_for_format(target_format, subject, level, step, generator, replace_at, selected)
+	if replacement.is_empty():
+		return session
+	nodes[replace_at] = replacement
+	session["nodes"] = nodes
+	var guide := topic if topic != "" else target_format
+	session["sessionId"] = "%s-guide-%s" % [str(session.get("sessionId", "minigame")), guide]
+	return session
+
+func build_topic_minigame(subject: String, topic: String, level: int, rng: RandomNumberGenerator = null) -> Dictionary:
+	return build_guided_minigame(subject, topic, "", level, rng)
 
 func _pick(list: Array, rng: RandomNumberGenerator, level: int = -1) -> Dictionary:
 	# Con `level` >= 0 si scartano gli spec con "minLevel" oltre il livello: così i
@@ -4877,8 +5095,58 @@ func _notation_node(subject: String, spec: Dictionary, difficulty: int, rng: Ran
 	}
 
 func _swipe_node(subject: String, spec: Dictionary, difficulty: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:
-	var frasi: Array = (spec["statements"] as Array).duplicate(true)
+	var tutte: Array = spec["statements"] as Array
+	var consentite: Array = []
+	for statement_data in tutte:
+		var statement: Dictionary = statement_data
+		if int(statement.get("minDifficulty", 1)) <= difficulty:
+			consentite.append(statement.duplicate(true))
+	if consentite.is_empty():
+		consentite = tutte.duplicate(true)
+
+	var frasi: Array = consentite
+	var draw := mini(int(spec.get("draw", consentite.size())), consentite.size())
+	if draw < consentite.size():
+		# I contenuti appena sbloccati entrano sempre nel round; il resto completa
+		# un mazzo vero/falso equilibrato. Cosi la difficolta non e solo un numero
+		# nell'HUD: cambia davvero le operazioni che il giocatore deve dominare.
+		var tier_true: Array = []
+		var tier_false: Array = []
+		var lower_true: Array = []
+		var lower_false: Array = []
+		for statement_data in consentite:
+			var statement: Dictionary = statement_data
+			var target: Array
+			if bool(statement.get("correct", false)):
+				target = tier_true if int(statement.get("minDifficulty", 1)) == difficulty else lower_true
+			else:
+				target = tier_false if int(statement.get("minDifficulty", 1)) == difficulty else lower_false
+			target.append(statement)
+		for pool in [tier_true, tier_false, lower_true, lower_false]:
+			_shuffle(pool, rng)
+		var true_pool := tier_true + lower_true
+		var false_pool := tier_false + lower_false
+		var per_side := int(ceil(float(draw) * 0.5))
+		var used_true := mini(per_side, true_pool.size())
+		var used_false := mini(draw - used_true, false_pool.size())
+		frasi = []
+		for pool_index in used_true:
+			frasi.append(true_pool[pool_index])
+		for pool_index in used_false:
+			frasi.append(false_pool[pool_index])
+		if frasi.size() < draw:
+			var extra_true := mini(draw - frasi.size(), true_pool.size() - used_true)
+			for offset in extra_true:
+				frasi.append(true_pool[used_true + offset])
+		if frasi.size() < draw:
+			var extra_false := mini(draw - frasi.size(), false_pool.size() - used_false)
+			for offset in extra_false:
+				frasi.append(false_pool[used_false + offset])
 	_shuffle(frasi, rng)
+	var seconds := float(spec.get("seconds", 45.0))
+	var seconds_by_difficulty: Array = spec.get("secondsByDifficulty", [])
+	if difficulty < seconds_by_difficulty.size() and float(seconds_by_difficulty[difficulty]) > 0.0:
+		seconds = float(seconds_by_difficulty[difficulty])
 	return {
 		"id": "minigame-swipe-%s-%d" % [subject, idx],
 		"subject": subject,
@@ -4886,8 +5154,9 @@ func _swipe_node(subject: String, spec: Dictionary, difficulty: int, rng: Random
 		"difficulty": difficulty,
 		"format": "swipe",
 		"prompt": str(spec["prompt"]),
-		"seconds": float(spec.get("seconds", 45.0)),
+		"seconds": seconds,
 		"minAccuracy": float(spec.get("minAccuracy", 0.75)),
+		"actionTheme": str(spec.get("actionTheme", "")),
 		# Le affermazioni si mescolano: l'ordine non è contenuto, e un round
 		# rigiocato che ripropone la stessa fila si impara a memoria.
 		"statements": frasi,
@@ -5095,6 +5364,11 @@ func _renumber_explanation(explanation: String, answer_line: int) -> String:
 ## migrazione di una materia alla volta non rompe le altre.
 func _ordering_node(subject: String, spec: Dictionary, level: int, step: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:
 	var correct: Array = []
+	# {label, value} dei soli ordinamenti a insieme: serve a chi insegna il
+	# fatto prima di chiederlo (KnowledgeCodex.unknown_facts, 16 agosto 2026),
+	# perché un `correctOrder` a lista fissa ripropone sempre lo stesso pescato
+	# e non ha bisogno di un fatto nuovo da spiegare ogni volta.
+	var detail: Array = []
 	if ExercisePool.is_pool(spec):
 		# Etichette e valori tutti distinti: due voci con lo stesso valore
 		# renderebbero l'ordine ambiguo, due con la stessa etichetta impossibile.
@@ -5104,6 +5378,7 @@ func _ordering_node(subject: String, spec: Dictionary, level: int, step: int, rn
 			drawn.reverse()
 		for entry in drawn:
 			correct.append(str((entry as Dictionary)["label"]))
+		detail = drawn.duplicate(true)
 	else:
 		correct = (spec["correctOrder"] as Array).duplicate()
 	var items := correct.duplicate()
@@ -5119,6 +5394,7 @@ func _ordering_node(subject: String, spec: Dictionary, level: int, step: int, rn
 		"prompt": str(spec["prompt"]),
 		"items": items,
 		"correctOrder": correct,
+		"correctOrderDetail": detail,
 		# L'ordine giusto resta — è informazione utile — ma da solo non spiegava
 		# niente: diceva *cosa*, mai *perché quello*. Il criterio dell'ordinamento
 		# viene dalla specifica e va davanti, perché è la parte che si porta via.

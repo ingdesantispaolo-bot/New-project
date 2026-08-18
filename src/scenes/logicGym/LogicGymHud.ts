@@ -25,9 +25,9 @@ export function renderLogicGymHub(scene: Phaser.Scene, track: Track, input: {
   track(new Button(scene, 1138, 54, "+", () => input.onLevelDelta(1), { width: 42, height: 38, fontSize: 22, fill: 0x263743 }));
   placeHiddenAnomaly(scene, "LogicGymScene");
 
-  const cols = 4;
-  const w = 288;
-  const h = 172;
+  const cols = 5;
+  const w = 224;
+  const h = 168;
   const gap = 10;
   const startX = 40;
   const startY = 110;
@@ -37,12 +37,12 @@ export function renderLogicGymHub(scene: Phaser.Scene, track: Track, input: {
     track(scene.add.rectangle(x, y, w, h, 0x0c1d2a, 0.94).setOrigin(0).setStrokeStyle(2, activity.color, 0.55));
     track(scene.add.rectangle(x, y, w, 5, activity.color, 0.9).setOrigin(0));
     renderActivityIcon(scene, track, activity, x + 34, y + 38);
-    track(scene.add.text(x + 70, y + 14, activity.title, { fontFamily: "Inter, Arial", fontSize: "16px", color: "#f5fbff", fontStyle: "bold", wordWrap: { width: w - 88 } }));
-    track(scene.add.text(x + 72, y + 42, activity.theme.toUpperCase(), { fontFamily: "Inter, Arial", fontSize: "11px", color: Phaser.Display.Color.IntegerToColor(activity.color).rgba, fontStyle: "bold" }));
-    track(scene.add.text(x + 20, y + 60, activity.desc, { fontFamily: "Inter, Arial", fontSize: "10px", color: "#c7dce7", wordWrap: { width: w - 40, useAdvancedWrap: true }, lineSpacing: 1 }));
-    track(scene.add.text(x + 20, y + 110, activity.levelLine, { fontFamily: "Inter, Arial", fontSize: "9px", color: "#9ff5e9", wordWrap: { width: w - 40, useAdvancedWrap: true } }));
-    track(scene.add.text(x + 20, y + 142, `Record: ${activity.record}`, { fontFamily: "Inter, Arial", fontSize: "11px", color: "#f7d37a", fontStyle: "bold" }));
-    track(new Button(scene, x + w - 62, y + 146, "Gioca", () => activity.start(), { width: 100, height: 34, fill: 0x1f5a51, stroke: activity.color, fontSize: 13 }));
+    track(scene.add.text(x + 64, y + 14, activity.title, { fontFamily: "Inter, Arial", fontSize: "14px", color: "#f5fbff", fontStyle: "bold", wordWrap: { width: w - 76 } }));
+    track(scene.add.text(x + 66, y + 42, activity.theme.toUpperCase(), { fontFamily: "Inter, Arial", fontSize: "9px", color: Phaser.Display.Color.IntegerToColor(activity.color).rgba, fontStyle: "bold" }));
+    track(scene.add.text(x + 16, y + 60, activity.desc, { fontFamily: "Inter, Arial", fontSize: "9px", color: "#c7dce7", wordWrap: { width: w - 32, useAdvancedWrap: true }, lineSpacing: 1 }));
+    track(scene.add.text(x + 16, y + 108, activity.levelLine, { fontFamily: "Inter, Arial", fontSize: "8px", color: "#9ff5e9", wordWrap: { width: w - 32, useAdvancedWrap: true } }));
+    track(scene.add.text(x + 16, y + 140, `Record: ${activity.record}`, { fontFamily: "Inter, Arial", fontSize: "10px", color: "#f7d37a", fontStyle: "bold" }));
+    track(new Button(scene, x + w - 54, y + 143, "Gioca", () => activity.start(), { width: 88, height: 32, fill: 0x1f5a51, stroke: activity.color, fontSize: 12 }));
   });
 
   track(new Button(scene, 132, 686, "Menu", input.onMenu, { width: 170, height: 44, fill: 0x263743 }));

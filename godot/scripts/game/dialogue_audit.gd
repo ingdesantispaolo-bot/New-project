@@ -82,11 +82,18 @@ func _test_world_one_fixture() -> void:
 	found.sort()
 	for npc_id in expected:
 		assert(found.has(npc_id), "cast mondo 1 incompleto: manca %s" % npc_id)
+		var illustrated := actors.filter(func(actor): return str(actor.get_meta("id", "")) == npc_id)[0] as Area2D
+		assert(illustrated.get_node_or_null("NpcArt") != null and bool(illustrated.get_meta("usesGeneratedArt", false)),
+			"pilot grafico assente per %s" % npc_id)
 	var itinerants := found.filter(func(npc_id): return str(npc_id).begins_with("itin-"))
 	assert(itinerants.size() == 1, "mondo 1: atteso un solo itinerante, trovati %s" % str(itinerants))
 
 	var player := world.get("player") as OutdoorPlayerController
-	var target := actors[0] as Area2D
+	# Il contratto qui è la chiusura di un dialogo semplice. I residenti aprono
+	# legittimamente il proprio minigioco subito dopo: usarne uno renderebbe
+	# l'assert sul movimento una verifica falsa. L'itinerante non ha quel seguito.
+	var target := actors.filter(
+		func(actor): return str(actor.get_meta("id", "")).begins_with("itin-"))[0] as Area2D
 	target.global_position = player.global_position + Vector2(50, 0)
 	world.call("on_interactable_entered", target, player)
 	world.call("_interact")

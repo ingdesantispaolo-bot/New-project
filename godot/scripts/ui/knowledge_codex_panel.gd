@@ -26,10 +26,29 @@ var result_count: Label
 var nora_portrait: NoraPortrait
 var _subject_ids: Array[String] = []
 
+## **Il manuale si costruisce quando lo si apre.** (18 agosto 2026)
+##
+## `setup()` costruiva l'intera interfaccia all'ingresso nel mondo, e il filtro
+## per materia legge il numero di argomenti di tutte e dodici: ventiquattro letture
+## di banco prima che il giocatore avesse chiesto niente. Il manuale è un pannello
+## a richiesta — nella maggior parte delle partite non viene nemmeno aperto.
+##
+## `mark_encountered` continua a funzionare senza interfaccia: scrive solo nel
+## save, e nel gioco viene chiamata ogni volta che una lezione nomina un argomento.
+var _ui_pronta := false
+
 func setup(save_manager, content_manager: ContentManager = null) -> void:
 	game_save = save_manager
 	codex = KNOWLEDGE_CODEX.new(content_manager)
 	_ensure_ui_state()
+	# Il pannello esiste ma è vuoto: senza figli non si vede nulla, e `visible`
+	# va spento subito perché un Control nasce visibile.
+	visible = false
+
+func _assicura_ui() -> void:
+	if _ui_pronta:
+		return
+	_ui_pronta = true
 	_build_ui()
 
 func _ensure_ui_state() -> Dictionary:
@@ -52,6 +71,7 @@ func mark_encountered(subject: String, topics: Array) -> void:
 func open_codex(subject: String = "", topic: String = "", use_context: String = "practice") -> void:
 	if codex == null:
 		return
+	_assicura_ui()
 	context = use_context
 	requested_subject = subject
 	requested_topic = topic

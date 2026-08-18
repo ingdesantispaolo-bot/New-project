@@ -13,10 +13,10 @@ static func complexity_for_level(level: int) -> int:
 # storia, così l'esercizio è più divertente e concreto.
 const STORY_FLAVORS := [
 	{"actor": "lo scoiattolo Nocciola", "item": "ghiande"},
-	{"actor": "il robottino BIT", "item": "viti"},
+	{"actor": "BIT, il robot riparatore", "item": "viti"},
 	{"actor": "Eli", "item": "gemme"},
-	{"actor": "la piccola Luce", "item": "stelline"},
-	{"actor": "il draghetto Ember", "item": "monete"},
+	{"actor": "Luce, la creatura luminosa", "item": "scintille"},
+	{"actor": "Ember, il giovane drago", "item": "monete"},
 ]
 
 func _flavor(rng: RandomNumberGenerator) -> Dictionary:
@@ -285,7 +285,7 @@ func _build_archetype(archetype: String, complexity: int, rng: RandomNumberGener
 		"story_rate":
 			var rate := rng.randi_range(2, 5 + complexity)
 			var hours := rng.randi_range(2, 4 + complexity)
-			return _node("problemi", complexity, "Il robottino BIT ripara %d moduli ogni ora. Quanti moduli ripara in %d ore?" % [rate, hours], rate * hours, [rate + hours, rate * hours - rate, rate * hours + hours], "Ogni ora %d moduli, per %d ore: %d per %d = %d." % [rate, hours, rate, hours, rate * hours], rng, index)
+			return _node("problemi", complexity, "BIT ripara %d moduli ogni ora. Quanti moduli riesce a riparare in %d ore?" % [rate, hours], rate * hours, [rate + hours, rate * hours - rate, rate * hours + hours], "Ogni ora %d moduli, per %d ore: %d per %d = %d." % [rate, hours, rate, hours, rate * hours], rng, index)
 		"story_change":
 			var fc := _flavor(rng)
 			var qty := rng.randi_range(2, 5)

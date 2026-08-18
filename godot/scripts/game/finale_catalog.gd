@@ -84,11 +84,11 @@ const RESIDENTI := {
 }
 
 ## L'assegnazione del tredicesimo posto (§4.3). Non è una ricompensa: è la nave
-## che fa una cosa che nessuno le ha ordinato, e la fa **dopo** il nodo di
-## sintesi, cioè dopo che il giocatore ha fatto da solo la cosa che una civiltà
+## che fa una cosa che nessuno le ha ordinato, e la fa **dopo** l'ultima sfida,
+## cioè dopo che il giocatore ha fatto da solo la cosa che una civiltà
 ## non era riuscita a fare in secoli.
 const CATTEDRA := {
-	"innesco": "Il nodo di sintesi risolto. Non prima: il posto si assegna a chi l'ha fatto, non a chi è arrivato.",
+	"innesco": "L'ultima sfida è risolta. Non prima: il posto si assegna a chi l'ha fatto, non a chi è arrivato.",
 	"scena": [
 		{"chi": "nora", "dice": [
 			"Eli. La nave sta apparecchiando.",

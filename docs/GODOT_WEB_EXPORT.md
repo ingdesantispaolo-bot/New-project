@@ -1,5 +1,12 @@
 # Export del mondo Godot per il Web
 
+## Definizione di completato
+
+Una modifica al gioco Godot non è conclusa finché non sono stati eseguiti tutti
+e tre i passaggi: export Web in `public/godot/outdoor/`, sincronizzazione con
+`npm run web:sync` e verifica finale con `npm run build`. Il pacchetto esportato
+fa parte della modifica, non è un'attività facoltativa successiva.
+
 Il modulo Godot viene esportato in `public/godot/outdoor/` e servito dal client
 Phaser all'URL `/godot/outdoor/index.html`. Se il bundle non è presente,
 Phaser mantiene automaticamente il mondo nativo come fallback.

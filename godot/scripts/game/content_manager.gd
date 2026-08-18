@@ -668,6 +668,15 @@ func _stochastic_round(x: float, rng: RandomNumberGenerator) -> int:
 const NONMC_FORMAT_WEIGHTS := {
 	"matching": 20, "ordering": 15, "classification": 13,
 	"graph": 25, "circuit": 25, "cycle": 18, "code_debug": 25, "hotspot": 18,
+	# La matematica diventa un oggetto da far funzionare, non una risposta da
+	# riconoscere. Il peso alto rende il vertical slice visibile nel percorso live.
+	"machine_path": 34,
+	# Scienze e fisica diventano indagine: prima si producono prove, poi si dà un
+	# nome al campione. Il formato è intenzionalmente visibile nel percorso live.
+	"mystery_sample": 34,
+	# Italiano come indagine: tre regolazioni separate rendono visibili tempo,
+	# modo e forma prima che il messaggio del Relitto possa essere aperto.
+	"verb_decoder": 34,
 }
 
 # Quante costruzioni di minigioco attingere per la tavolozza: con più prove per

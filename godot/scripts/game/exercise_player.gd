@@ -117,6 +117,23 @@ var _matching_canvas: Control
 var _classification_state: Dictionary = {}
 var _classification_buttons: Dictionary = {}
 var _classification_selected := ""
+var _machine_state: Array = []
+var _machine_slots: Array = []
+var _machine_buttons: Dictionary = {}
+var _machine_readout: Label
+var _machine_running := false
+var _sample_tests_run: Array = []
+var _sample_test_buttons: Dictionary = {}
+var _sample_candidate_buttons: Dictionary = {}
+var _sample_selected := ""
+var _sample_log: Label
+var _sample_capsule: PanelContainer
+var _sample_capsule_label: Label
+var _verb_selection := {"time": "", "mood": "", "form": ""}
+var _verb_buttons: Dictionary = {}
+var _verb_preview: Label
+var _verb_scanner: ColorRect
+var _verb_running := false
 var _visual_selected := ""
 var _visual_buttons: Dictionary = {}
 var _visual_diagram: Control
@@ -245,8 +262,8 @@ func _build_ui() -> void:
 	var heading := Label.new()
 	heading.name = "ExerciseHeading"
 	var transversal := bool(session.get("transversal", false))
-	var heading_kind := "PROVA NORA" if str(session.get("kind", "mission")) == "mission" else ("ENIGMA NORA" if str(session.get("kind", "mission")) == "enigma" else "APPARATO · ESAME FINALE")
-	heading.text = "CUORE DEI PRIMI · PROVA TRASVERSALE" if transversal else "%s  ·  %s" % [heading_kind, str(session.get("subject", "matematica")).capitalize()]
+	var heading_kind := "SFIDA DI NORA" if str(session.get("kind", "mission")) == "mission" else ("MISTERO DA RISOLVERE" if str(session.get("kind", "mission")) == "enigma" else "APPARATO · SFIDA FINALE")
+	heading.text = "CUORE DEI PRIMI · SFIDA DELLE TRE CHIAVI" if transversal else "%s  ·  %s" % [heading_kind, str(session.get("subject", "matematica")).capitalize()]
 	heading.add_theme_font_size_override("font_size", 19 if is_exam else 16)
 	heading.add_theme_color_override("font_color", Color("f6c85f") if is_exam else Color("6be7d6"))
 	box.add_child(heading)
@@ -291,7 +308,7 @@ func _build_ui() -> void:
 	_options_scroll.add_child(_options)
 
 	_input = LineEdit.new()
-	_input.placeholder_text = "Scrivi la risposta"
+	_input.placeholder_text = "Scrivi qui"
 	_input.visible = false
 	# Il tipo viene scelto per il nodo corrente: questo stesso campo serve anche
 	# alle risposte testuali e non deve intrappolarle in una tastiera numerica.
@@ -302,7 +319,7 @@ func _build_ui() -> void:
 	box.add_child(_numpad)
 	_input_submit = Button.new()
 	_input_submit.name = "TextAnswerSubmit"
-	_input_submit.text = "CONFERMA RISPOSTA"
+	_input_submit.text = "CONFERMA"
 	_input_submit.visible = false
 	_input_submit.custom_minimum_size = Vector2(0, 52)
 	_input_submit.add_theme_font_size_override("font_size", 16)
@@ -353,7 +370,7 @@ func _build_ui() -> void:
 	# Un nome, perché è il pulsante da cui dipende «si può proseguire»: senza,
 	# `exercise_reachability_audit` non potrebbe verificare che sia raggiungibile.
 	_next_button.name = "ExerciseNextButton"
-	_next_button.text = "Avanti"
+	_next_button.text = "CONTINUA"
 	_next_button.visible = false
 	if is_instance_valid(_input_submit):
 		_input_submit.visible = false
@@ -727,6 +744,23 @@ func _show_current() -> void:
 	_classification_state = {}
 	_classification_buttons = {}
 	_classification_selected = ""
+	_machine_state = []
+	_machine_slots = []
+	_machine_buttons = {}
+	_machine_readout = null
+	_machine_running = false
+	_sample_tests_run = []
+	_sample_test_buttons = {}
+	_sample_candidate_buttons = {}
+	_sample_selected = ""
+	_sample_log = null
+	_sample_capsule = null
+	_sample_capsule_label = null
+	_verb_selection = {"time": "", "mood": "", "form": ""}
+	_verb_buttons = {}
+	_verb_preview = null
+	_verb_scanner = null
+	_verb_running = false
 	_visual_selected = ""
 	_visual_buttons = {}
 	_visual_diagram = null
@@ -752,6 +786,15 @@ func _show_current() -> void:
 	var fmt := str(item.get("format", "multiple_choice"))
 	_apply_format_layout(fmt)
 	match fmt:
+		"machine_path":
+			_input.visible = false
+			_build_machine_path(item)
+		"mystery_sample":
+			_input.visible = false
+			_build_mystery_sample(item)
+		"verb_decoder":
+			_input.visible = false
+			_build_verb_decoder(item)
 		"ordering":
 			_input.visible = false
 			_build_ordering(item)
@@ -812,9 +855,9 @@ func _refresh_status() -> void:
 	if is_instance_valid(_status):
 		if bool(session.get("transversal", false)) and _index < _nodes.size():
 			var system := str((_nodes[_index] as Dictionary).get("system", "sintesi")).replace("_", " ").capitalize()
-			_status.text = "Sistema %d/%d · %s   ·   Stabilità %d" % [_index + 1, _nodes.size(), system, _shields]
+			_status.text = "Parte %d/%d · %s   ·   Stabilità %d" % [_index + 1, _nodes.size(), system, _shields]
 		else:
-			_status.text = "Esercizio %d/%d   ·   Scudi %d" % [_index + 1, _nodes.size(), _shields]
+			_status.text = "Tappa %d/%d   ·   Scudi %d" % [_index + 1, _nodes.size(), _shields]
 
 func _answer(given: String) -> void:
 	if _answered:
@@ -825,6 +868,544 @@ func _answer(given: String) -> void:
 		_spend_shield()
 		_register_wrong_attempt(item)
 	_score_current(is_correct, item)
+
+# --- IL PONTE DELLE TRASFORMAZIONI -----------------------------------------
+# La matematica è una macchina da montare: ogni passaggio usa il risultato del
+# precedente e la sfera mostra subito che cosa è successo. Non esiste una
+# risposta da scegliere; il bambino costruisce un percorso che funziona.
+func _build_machine_path(item: Dictionary) -> void:
+	var title := Label.new()
+	title.text = str(item.get("title", "Il ponte delle trasformazioni")).to_upper()
+	title.add_theme_font_size_override("font_size", 17)
+	title.add_theme_color_override("font_color", Color("7ad7ff"))
+	_options.add_child(title)
+
+	var instruction := Label.new()
+	instruction.text = "Scegli le macchine e montale da sinistra a destra. Puoi spostarle prima di avviare la sfera."
+	instruction.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	instruction.add_theme_color_override("font_color", Color("b8d7dc"))
+	_options.add_child(instruction)
+
+	var track := HFlowContainer.new()
+	track.name = "MachinePathTrack"
+	track.add_theme_constant_override("h_separation", 8)
+	track.add_theme_constant_override("v_separation", 8)
+	_options.add_child(track)
+
+	var start_label := Label.new()
+	start_label.text = "PARTENZA\n%d" % int(item.get("start", 0))
+	start_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	start_label.custom_minimum_size = Vector2(112, 64)
+	start_label.add_theme_font_size_override("font_size", 17)
+	start_label.add_theme_color_override("font_color", Color("f6c85f"))
+	track.add_child(start_label)
+
+	var count := int(item.get("slotCount", 2))
+	_machine_state.resize(count)
+	_machine_state.fill("")
+	for slot_index in count:
+		var slot := EXERCISE_DROP_BUTTON.new()
+		slot.name = "MachineSlot_%02d" % slot_index
+		slot.text = "%d · macchina" % (slot_index + 1)
+		slot.custom_minimum_size = Vector2(138, 64)
+		slot.add_theme_font_size_override("font_size", 15)
+		slot.add_theme_stylebox_override("normal", _exercise_button_style(Color(0.04, 0.13, 0.16, 0.96), Color("527980")))
+		slot.call("configure_target", str(slot_index), "machine_path")
+		slot.connect("item_dropped", _machine_drop.bind(item))
+		slot.pressed.connect(_machine_clear_slot.bind(slot_index, item))
+		slot.tooltip_text = "Posto %d del percorso. Tocca per liberarlo." % (slot_index + 1)
+		track.add_child(slot)
+		_machine_slots.append(slot)
+
+	var target_label := Label.new()
+	target_label.text = "TRAGUARDO\n%d" % int(item.get("target", 0))
+	target_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	target_label.custom_minimum_size = Vector2(112, 64)
+	target_label.add_theme_font_size_override("font_size", 17)
+	target_label.add_theme_color_override("font_color", Color("8ff6d2"))
+	track.add_child(target_label)
+
+	_machine_readout = Label.new()
+	_machine_readout.name = "MachinePathReadout"
+	_machine_readout.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_machine_readout.add_theme_font_size_override("font_size", 16)
+	_machine_readout.add_theme_color_override("font_color", Color("d9fff4"))
+	_options.add_child(_machine_readout)
+
+	var shelf := HFlowContainer.new()
+	shelf.name = "MachineShelf"
+	shelf.add_theme_constant_override("h_separation", 8)
+	shelf.add_theme_constant_override("v_separation", 8)
+	_options.add_child(shelf)
+	for raw in Array(item.get("machines", [])):
+		var machine := raw as Dictionary
+		var id := str(machine.get("id", ""))
+		var button := EXERCISE_DRAG_BUTTON.new()
+		button.name = "NumberMachine_%s" % id
+		button.text = str(machine.get("label", ""))
+		button.custom_minimum_size = Vector2(112, 54)
+		button.add_theme_font_size_override("font_size", 20)
+		button.add_theme_color_override("font_color", Color("e7fff8"))
+		button.add_theme_stylebox_override("normal", _exercise_button_style(Color(0.08, 0.22, 0.23, 0.96), Color("6be7d6")))
+		button.call("configure", id, "machine_path")
+		button.connect("drag_started", _on_drag_started.bind(button))
+		button.pressed.connect(_machine_click.bind(id, item))
+		button.tooltip_text = "Macchina %s. Trascina o tocca per montarla." % button.text
+		shelf.add_child(button)
+		_machine_buttons[id] = button
+
+	_refresh_machine_path(item)
+	_add_interaction_actions(
+		_machine_clear_last.bind(item), _machine_submit.bind(item),
+		"SMONTA L'ULTIMA", "AVVIA LA SFERA")
+
+func _machine_click(id: String, item: Dictionary) -> void:
+	if _answered or _machine_running:
+		return
+	var empty := _machine_state.find("")
+	if empty < 0:
+		_flash_feedback("Il percorso è pieno. Tocca una macchina montata per liberare il posto.")
+		return
+	_machine_place(id, empty, item)
+
+func _machine_drop(source_id: String, target_id: String, item: Dictionary) -> void:
+	_machine_place(source_id, int(target_id), item)
+
+func _machine_place(id: String, slot_index: int, item: Dictionary) -> void:
+	if _answered or _machine_running or not _machine_buttons.has(id):
+		return
+	if slot_index < 0 or slot_index >= _machine_state.size():
+		return
+	var previous := _machine_state.find(id)
+	if previous >= 0:
+		_machine_state[previous] = ""
+	var displaced := str(_machine_state[slot_index])
+	if displaced != "" and _machine_buttons.has(displaced):
+		(_machine_buttons[displaced] as Button).disabled = false
+	_machine_state[slot_index] = id
+	(_machine_buttons[id] as Button).disabled = true
+	_refresh_machine_path(item)
+	_causal_feedback("snap", _machine_slots[slot_index], 0.98 + float(slot_index) * 0.05)
+
+func _machine_clear_slot(slot_index: int, item: Dictionary) -> void:
+	if _answered or _machine_running or slot_index < 0 or slot_index >= _machine_state.size():
+		return
+	var id := str(_machine_state[slot_index])
+	if id == "":
+		return
+	_machine_state[slot_index] = ""
+	if _machine_buttons.has(id):
+		(_machine_buttons[id] as Button).disabled = false
+	_refresh_machine_path(item)
+	_causal_feedback("cancel", _machine_slots[slot_index], 0.94)
+
+func _machine_clear_last(item: Dictionary) -> void:
+	for index in range(_machine_state.size() - 1, -1, -1):
+		if str(_machine_state[index]) != "":
+			_machine_clear_slot(index, item)
+			return
+	_flash_feedback("Il percorso è già vuoto.")
+
+func _machine_by_id(item: Dictionary, id: String) -> Dictionary:
+	for raw in Array(item.get("machines", [])):
+		var machine := raw as Dictionary
+		if str(machine.get("id", "")) == id:
+			return machine
+	return {}
+
+func _refresh_machine_path(item: Dictionary) -> void:
+	var used: Array = []
+	for index in _machine_state.size():
+		var id := str(_machine_state[index])
+		var slot := _machine_slots[index] as Button
+		if id == "":
+			slot.text = "%d · macchina" % (index + 1)
+			continue
+		used.append(id)
+		var machine := _machine_by_id(item, id)
+		slot.text = "%d · %s" % [index + 1, str(machine.get("label", ""))]
+	var result := ExerciseInteraction.evaluate_machine_path(
+		int(item.get("start", 0)), used, Array(item.get("machines", [])))
+	var values: Array = result.get("values", [])
+	var trail: Array = []
+	for value in values:
+		trail.append(str(value))
+	var suffix := ""
+	if not bool(result.get("ok", false)):
+		suffix = " · Si ferma: %s" % str(result.get("reason", ""))
+	elif used.size() < _machine_state.size():
+		suffix = " · Mancano %d macchine" % (_machine_state.size() - used.size())
+	_machine_readout.text = "Percorso: %s%s" % ["  →  ".join(PackedStringArray(trail)), suffix]
+
+func _machine_submit(item: Dictionary) -> void:
+	if _machine_running or _answered:
+		return
+	if _machine_state.has(""):
+		_flash_feedback("Monta tutte le macchine prima di far partire la sfera.")
+		return
+	var result := ExerciseInteraction.evaluate_machine_path(
+		int(item.get("start", 0)), _machine_state, Array(item.get("machines", [])))
+	_machine_running = true
+	_machine_set_enabled(false)
+	var tween := create_tween()
+	for slot in _machine_slots:
+		tween.tween_callback(_causal_feedback.bind("connect", slot as Control, 1.02))
+		if not reduced_motion:
+			tween.tween_interval(0.16)
+	tween.tween_callback(_finish_machine_run.bind(item, result))
+
+func _finish_machine_run(item: Dictionary, result: Dictionary) -> void:
+	_machine_running = false
+	var reached := bool(result.get("ok", false)) and int(result.get("value", 0)) == int(item.get("target", 0))
+	if reached:
+		_machine_readout.text += " · Il ponte si apre!"
+		_score_current(true, item)
+		return
+	var message := ""
+	if not bool(result.get("ok", false)):
+		message = "La sfera si ferma: %s Cambia una macchina o il suo posto." % str(result.get("reason", ""))
+	else:
+		message = "La sfera arriva a %d, ma il ponte si apre a %d. Cambia una macchina o il suo posto." % [
+			int(result.get("value", 0)), int(item.get("target", 0))]
+	_retryable_result(false, item, message)
+	if not _answered:
+		_machine_set_enabled(true)
+
+func _machine_set_enabled(enabled: bool) -> void:
+	for index in _machine_slots.size():
+		(_machine_slots[index] as Button).disabled = not enabled
+	for id in _machine_buttons.keys():
+		(_machine_buttons[id] as Button).disabled = not enabled or _machine_state.has(str(id))
+
+# --- IL CAMPIONE SENZA NOME -----------------------------------------------
+# Non si sceglie una risposta al buio: ogni pulsante produce un'osservazione
+# reale, conservata nel quaderno. L'identificazione arriva solo dopo gli
+# esperimenti e può essere corretta confrontando ciò che non torna.
+func _build_mystery_sample(item: Dictionary) -> void:
+	var title := Label.new()
+	title.text = str(item.get("title", "Il campione senza nome")).to_upper()
+	title.add_theme_font_size_override("font_size", 17)
+	title.add_theme_color_override("font_color", Color("9fe58c"))
+	_options.add_child(title)
+
+	var bit_line := Label.new()
+	bit_line.text = "BIT: Il campione è sigillato. Io muovo gli strumenti; tu decidi quali prove servono."
+	bit_line.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	bit_line.add_theme_color_override("font_color", Color("b8c8ff"))
+	_options.add_child(bit_line)
+
+	_sample_capsule = PanelContainer.new()
+	_sample_capsule.name = "MysterySampleCapsule"
+	_sample_capsule.custom_minimum_size = Vector2(0, 90)
+	_sample_capsule.add_theme_stylebox_override("panel", _exercise_button_style(Color(0.05, 0.13, 0.12, 0.98), Color("79dba1")))
+	_options.add_child(_sample_capsule)
+	_sample_capsule_label = Label.new()
+	_sample_capsule_label.text = "CAMPIONE SIGILLATO\n?"
+	_sample_capsule_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_sample_capsule_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_sample_capsule_label.add_theme_font_size_override("font_size", 19)
+	_sample_capsule_label.add_theme_color_override("font_color", Color("e7fff0"))
+	_sample_capsule.add_child(_sample_capsule_label)
+
+	var tools_heading := Label.new()
+	tools_heading.text = "STRUMENTI"
+	tools_heading.add_theme_font_size_override("font_size", 14)
+	tools_heading.add_theme_color_override("font_color", Color("f6c85f"))
+	_options.add_child(tools_heading)
+	var tools := HFlowContainer.new()
+	tools.name = "MysterySampleTools"
+	tools.add_theme_constant_override("h_separation", 8)
+	tools.add_theme_constant_override("v_separation", 8)
+	_options.add_child(tools)
+	for raw in Array(item.get("tests", [])):
+		var test := raw as Dictionary
+		var id := str(test.get("id", ""))
+		var button := Button.new()
+		button.name = "SampleTest_%s" % id
+		button.text = "%s  %s" % [str(test.get("glyph", "◆")), str(test.get("label", "Osserva"))]
+		button.custom_minimum_size = Vector2(190, 50)
+		button.add_theme_font_size_override("font_size", 14)
+		button.add_theme_stylebox_override("normal", _exercise_button_style(Color(0.08, 0.20, 0.16, 0.98), Color("79dba1")))
+		button.pressed.connect(_sample_run_test.bind(id, item))
+		tools.add_child(button)
+		_sample_test_buttons[id] = button
+
+	_sample_log = Label.new()
+	_sample_log.name = "MysterySampleLog"
+	_sample_log.text = "QUADERNO DI BIT · nessuna osservazione"
+	_sample_log.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_sample_log.add_theme_font_size_override("font_size", 14)
+	_sample_log.add_theme_color_override("font_color", Color("d9efe5"))
+	_options.add_child(_sample_log)
+
+	var candidates_heading := Label.new()
+	candidates_heading.text = "QUALE MATERIALE SPIEGA TUTTI GLI INDIZI?"
+	candidates_heading.add_theme_font_size_override("font_size", 14)
+	candidates_heading.add_theme_color_override("font_color", Color("f6c85f"))
+	_options.add_child(candidates_heading)
+	var candidates := HFlowContainer.new()
+	candidates.name = "MysterySampleCandidates"
+	candidates.add_theme_constant_override("h_separation", 8)
+	candidates.add_theme_constant_override("v_separation", 8)
+	_options.add_child(candidates)
+	for raw in Array(item.get("samples", [])):
+		var sample := raw as Dictionary
+		var id := str(sample.get("id", ""))
+		var button := Button.new()
+		button.name = "SampleCandidate_%s" % id
+		button.text = str(sample.get("name", id)).to_upper()
+		button.custom_minimum_size = Vector2(125, 46)
+		button.add_theme_font_size_override("font_size", 14)
+		button.add_theme_stylebox_override("normal", _exercise_button_style(Color(0.08, 0.13, 0.16, 0.98), Color("657f85")))
+		button.pressed.connect(_sample_select_candidate.bind(id))
+		candidates.add_child(button)
+		_sample_candidate_buttons[id] = button
+
+	var submit := Button.new()
+	submit.name = "MysterySampleSubmit"
+	submit.text = "REGISTRA LA SCOPERTA"
+	submit.custom_minimum_size = Vector2(0, 50)
+	submit.add_theme_font_size_override("font_size", 15)
+	submit.add_theme_stylebox_override("normal", _exercise_button_style(Color(0.14, 0.36, 0.25, 1.0), Color("9ff0bd")))
+	submit.pressed.connect(_sample_submit.bind(item))
+	_options.add_child(submit)
+
+func _sample_run_test(test_id: String, item: Dictionary) -> void:
+	if _answered or _sample_tests_run.has(test_id) or not _sample_test_buttons.has(test_id):
+		return
+	_sample_tests_run.append(test_id)
+	var button := _sample_test_buttons[test_id] as Button
+	button.disabled = true
+	button.text = "✓  %s" % button.text.get_slice("  ", 1)
+	var observation := ExerciseInteraction.mystery_sample_result(item, test_id)
+	var test := _sample_test_by_id(item, test_id)
+	_sample_capsule_label.text = "%s\n%s" % [str(test.get("short", "PROVA")), str(test.get("glyph", "◆"))]
+	_refresh_sample_log(item)
+	_flash_feedback(observation)
+	_causal_feedback("connect", _sample_capsule, 0.98 + float(_sample_tests_run.size()) * 0.05)
+
+func _sample_test_by_id(item: Dictionary, test_id: String) -> Dictionary:
+	for raw in Array(item.get("tests", [])):
+		var test := raw as Dictionary
+		if str(test.get("id", "")) == test_id:
+			return test
+	return {}
+
+func _refresh_sample_log(item: Dictionary) -> void:
+	var rows: Array = []
+	for test_id in _sample_tests_run:
+		var test := _sample_test_by_id(item, str(test_id))
+		rows.append("• %s — %s" % [str(test.get("short", "PROVA")), ExerciseInteraction.mystery_sample_result(item, str(test_id))])
+	_sample_log.text = "QUADERNO DI BIT · %d/%d prove\n%s" % [
+		_sample_tests_run.size(), Array(item.get("tests", [])).size(),
+		"\n".join(PackedStringArray(rows)),
+	]
+
+func _sample_select_candidate(sample_id: String) -> void:
+	if _answered:
+		return
+	_sample_selected = sample_id
+	for id in _sample_candidate_buttons.keys():
+		(_sample_candidate_buttons[id] as Button).modulate = Color("f6c85f") if str(id) == sample_id else Color.WHITE
+	_causal_feedback("select", _sample_candidate_buttons[sample_id] as Control, 1.02)
+
+func _sample_submit(item: Dictionary) -> void:
+	if _answered:
+		return
+	var needed := int(item.get("minTests", 2))
+	if _sample_tests_run.size() < needed:
+		_flash_feedback("Servono almeno %d esperimenti prima di registrare una scoperta." % needed)
+		return
+	if _sample_selected == "":
+		_flash_feedback("Scegli il materiale che spiega tutte le osservazioni.")
+		return
+	if _sample_selected == str(item.get("answer", "")):
+		var name := _sample_name_by_id(item, _sample_selected)
+		_sample_capsule_label.text = "CAMPIONE IDENTIFICATO\n%s" % name.to_upper()
+		_causal_feedback("connect", _sample_capsule, 1.12)
+		_score_current(true, item)
+		return
+	var mismatch := _sample_first_mismatch(item, _sample_selected)
+	var message := (
+		"L'ipotesi non spiega la prova %s. Confronta quell'osservazione e prova un altro materiale." % mismatch
+		if mismatch != ""
+		else "Gli indizi raccolti non bastano a sostenere questa ipotesi. Prova un altro strumento.")
+	_retryable_result(false, item, message)
+	if not _answered:
+		_sample_selected = ""
+		for button in _sample_candidate_buttons.values():
+			(button as Button).modulate = Color.WHITE
+
+func _sample_first_mismatch(item: Dictionary, candidate_id: String) -> String:
+	var results := item.get("results", {}) as Dictionary
+	var candidate_results := results.get(candidate_id, {}) as Dictionary
+	for test_id in _sample_tests_run:
+		if str(candidate_results.get(test_id, "")) != ExerciseInteraction.mystery_sample_result(item, str(test_id)):
+			return str(_sample_test_by_id(item, str(test_id)).get("short", ""))
+	return ""
+
+func _sample_name_by_id(item: Dictionary, sample_id: String) -> String:
+	for raw in Array(item.get("samples", [])):
+		var sample := raw as Dictionary
+		if str(sample.get("id", "")) == sample_id:
+			return str(sample.get("name", sample_id))
+	return sample_id
+
+# --- IL MESSAGGIO FUORI TEMPO ----------------------------------------------
+# Tre ghiere rendono visibile la grammatica nascosta nella frase. Il giocatore
+# non sceglie soltanto una parola: deve prima dichiarare quando accade l'azione
+# e con quale intenzione viene raccontata.
+func _build_verb_decoder(item: Dictionary) -> void:
+	var title := Label.new()
+	title.text = str(item.get("title", "Il messaggio fuori tempo")).to_upper()
+	title.add_theme_font_size_override("font_size", 17)
+	title.add_theme_color_override("font_color", Color("f0b57b"))
+	_options.add_child(title)
+
+	var nora := Label.new()
+	nora.text = "NORA: La frase non è rotta a caso. Il verbo conserva tre tracce: quando, intenzione e forma."
+	nora.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	nora.add_theme_color_override("font_color", Color("b8c8ff"))
+	_options.add_child(nora)
+
+	var evidence := HFlowContainer.new()
+	evidence.name = "VerbEvidence"
+	evidence.add_theme_constant_override("h_separation", 8)
+	evidence.add_theme_constant_override("v_separation", 6)
+	_options.add_child(evidence)
+	for clue in Array(item.get("clues", [])):
+		var chip := Label.new()
+		chip.text = "  INDIZIO · %s  " % str(clue)
+		chip.add_theme_font_size_override("font_size", 14)
+		chip.add_theme_color_override("font_color", Color("f6c85f"))
+		evidence.add_child(chip)
+
+	_verb_preview = Label.new()
+	_verb_preview.name = "VerbMessagePreview"
+	_verb_preview.custom_minimum_size = Vector2(0, 72)
+	_verb_preview.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_verb_preview.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_verb_preview.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_verb_preview.add_theme_font_size_override("font_size", 20)
+	_verb_preview.add_theme_color_override("font_color", Color("fff0df"))
+	_options.add_child(_verb_preview)
+
+	_verb_scanner = ColorRect.new()
+	_verb_scanner.name = "VerbDecoderScanner"
+	_verb_scanner.custom_minimum_size = Vector2(0, 5)
+	_verb_scanner.color = Color("f0b57b")
+	_verb_scanner.modulate.a = 0.28
+	_options.add_child(_verb_scanner)
+
+	_build_verb_axis(item, "time", "1 · QUANDO ACCADE?", Array(item.get("timeChoices", [])))
+	_build_verb_axis(item, "mood", "2 · COME VIENE PRESENTATA?", Array(item.get("moodChoices", [])))
+	_build_verb_axis(item, "form", "3 · QUALE FORMA COMPLETA LA FRASE?", Array(item.get("forms", [])))
+	_refresh_verb_decoder(item)
+	_add_interaction_actions(
+		_verb_clear.bind(item), _verb_submit.bind(item),
+		"AZZERA LE GHIERE", "APRI IL MESSAGGIO")
+
+func _build_verb_axis(item: Dictionary, axis: String, heading: String, entries: Array) -> void:
+	var label := Label.new()
+	label.text = heading
+	label.add_theme_font_size_override("font_size", 14)
+	label.add_theme_color_override("font_color", Color("f6c85f"))
+	_options.add_child(label)
+	var row := HFlowContainer.new()
+	row.name = "VerbAxis_%s" % axis
+	row.add_theme_constant_override("h_separation", 8)
+	row.add_theme_constant_override("v_separation", 8)
+	_options.add_child(row)
+	for raw in entries:
+		var entry := raw as Dictionary
+		var id := str(entry.get("id", ""))
+		var button := Button.new()
+		button.name = "VerbChoice_%s_%s" % [axis, id]
+		button.text = str(entry.get("label", id))
+		button.custom_minimum_size = Vector2(170 if axis == "mood" else 135, 48)
+		button.add_theme_font_size_override("font_size", 14)
+		button.add_theme_color_override("font_color", Color("e7fff8"))
+		button.add_theme_stylebox_override("normal", _exercise_button_style(Color(0.08, 0.17, 0.20, 0.98), Color("6d858d")))
+		button.pressed.connect(_verb_select.bind(axis, id, item))
+		row.add_child(button)
+		_verb_buttons["%s:%s" % [axis, id]] = button
+
+func _verb_select(axis: String, id: String, item: Dictionary) -> void:
+	if _answered or _verb_running:
+		return
+	_verb_selection[axis] = id
+	for key in _verb_buttons.keys():
+		if str(key).begins_with("%s:" % axis):
+			var button := _verb_buttons[key] as Button
+			button.modulate = Color("f6c85f") if str(key) == "%s:%s" % [axis, id] else Color.WHITE
+	_refresh_verb_decoder(item)
+	_causal_feedback("snap", _verb_buttons["%s:%s" % [axis, id]] as Control, 1.02)
+
+func _verb_clear(item: Dictionary) -> void:
+	if _answered or _verb_running:
+		return
+	_verb_selection = {"time": "", "mood": "", "form": ""}
+	for button in _verb_buttons.values():
+		(button as Button).modulate = Color.WHITE
+	_refresh_verb_decoder(item)
+	_causal_feedback("cancel", _verb_scanner, 0.94)
+
+func _refresh_verb_decoder(item: Dictionary) -> void:
+	if not is_instance_valid(_verb_preview):
+		return
+	var result := ExerciseInteraction.evaluate_verb_decoder(item, _verb_selection)
+	var time_label := _verb_choice_label(item, "timeChoices", str(_verb_selection.get("time", "")))
+	var mood_label := _verb_choice_label(item, "moodChoices", str(_verb_selection.get("mood", "")))
+	_verb_preview.text = "%s\n%s · %s" % [
+		str(result.get("rendered", "")),
+		time_label if time_label != "" else "tempo da scegliere",
+		mood_label if mood_label != "" else "modo da scegliere",
+	]
+
+func _verb_choice_label(item: Dictionary, field: String, id: String) -> String:
+	for raw in Array(item.get(field, [])):
+		var entry := raw as Dictionary
+		if str(entry.get("id", "")) == id:
+			return str(entry.get("label", ""))
+	return ""
+
+func _verb_submit(item: Dictionary) -> void:
+	if _answered or _verb_running:
+		return
+	for axis in ["time", "mood", "form"]:
+		if str(_verb_selection.get(axis, "")) == "":
+			_flash_feedback("Regola tutte e tre le parti prima di aprire il messaggio.")
+			return
+	var result := ExerciseInteraction.evaluate_verb_decoder(item, _verb_selection)
+	_verb_running = true
+	_verb_set_enabled(false)
+	if reduced_motion:
+		_finish_verb_decode(item, result)
+		return
+	var tween := create_tween()
+	tween.tween_property(_verb_scanner, "modulate:a", 1.0, 0.14)
+	tween.tween_property(_verb_scanner, "modulate:a", 0.28, 0.18)
+	tween.tween_callback(_finish_verb_decode.bind(item, result))
+
+func _finish_verb_decode(item: Dictionary, result: Dictionary) -> void:
+	_verb_running = false
+	if bool(result.get("correct", false)):
+		_verb_preview.text = "%s\nINDIZIO RECUPERATO · %s" % [
+			str(result.get("rendered", "")), str(item.get("discovery", ""))]
+		_causal_feedback("connect", _verb_scanner, 1.12)
+		_score_current(true, item)
+		return
+	var axis := str(result.get("firstMismatch", "form"))
+	var hints := item.get("hints", {}) as Dictionary
+	var names := {"time": "Il quando non coincide.", "mood": "L'intenzione della frase non coincide.", "form": "La forma non completa bene la frase."}
+	_retryable_result(false, item, "%s %s Cambia una ghiera e riprova." % [
+		str(names.get(axis, "La ricostruzione non coincide.")), str(hints.get(axis, ""))])
+	if not _answered:
+		_verb_set_enabled(true)
+
+func _verb_set_enabled(enabled: bool) -> void:
+	for button in _verb_buttons.values():
+		(button as Button).disabled = not enabled
 
 # Registra l'esito del nodo CORRENTE (scelta multipla, inserimento o minigioco) e
 # mostra il pulsante Avanti. Punto unico di bookkeeping: mastery per-topic,
@@ -855,7 +1436,7 @@ func _score_current(is_correct: bool, item: Dictionary) -> void:
 		if bool(item.get("transfer", false)):
 			_emit_learning_once("transfer:%s" % topic, "transfer")
 		_feedback.add_theme_color_override("font_color", Color("8ff6c0"))
-		_feedback.text = "Giusto! +%d energia" % _energy_per_correct
+		_feedback.text = "Funziona! +%d energia" % _energy_per_correct
 	else:
 		var audio := get_tree().root.get_node_or_null("NativeAudio") if is_inside_tree() else null
 		if audio != null:
@@ -868,7 +1449,7 @@ func _score_current(is_correct: bool, item: Dictionary) -> void:
 				str(_maestro_voice.get("name", "Maestro")),
 				str(_maestro_voice.get("rilancio", ""))]
 			if not _maestro_voice.is_empty()
-			else "Non completato. %s" % str(item.get("explanation", "")))
+			else "Non ha ancora funzionato. %s" % str(item.get("explanation", "")))
 		_offer_concept_help(item)
 	# La costruzione avanza di una campata per ogni nodo risolto (built = _correct);
 	# su errore resta ferma, senza mai regredire.
@@ -887,7 +1468,7 @@ func _score_current(is_correct: bool, item: Dictionary) -> void:
 				var total_systems := maxi(1, int(Array(session.get("systems", [])).size()))
 				var stage_pitch := lerpf(0.90, 1.16, float(_systems_resolved.size()) / float(total_systems))
 				convergence_audio.call("play_event", "enigmaProgress", stage_pitch)
-	_next_button.text = "Fine" if _shields <= 0 else "Avanti"
+	_next_button.text = "CONCLUDI" if _shields <= 0 else "CONTINUA"
 	_next_button.visible = true
 
 func _lock_interactions() -> void:
@@ -1536,13 +2117,18 @@ func _code_submit(item: Dictionary) -> void:
 		return
 	_retryable_result(int(_visual_selected) == int(item.get("answerLine", 0)), item, "Quella riga è valida: segui i valori passo per passo e riprova.")
 
-func _add_interaction_actions(undo_callback: Callable, submit_callback: Callable) -> void:
+func _add_interaction_actions(
+	undo_callback: Callable,
+	submit_callback: Callable,
+	undo_text: String = "ANNULLA",
+	submit_text: String = "PROVA"
+) -> void:
 	var actions := HBoxContainer.new()
 	actions.name = "InteractionActions"
 	actions.add_theme_constant_override("separation", 10)
 	var undo := Button.new()
 	undo.name = "InteractionUndo"
-	undo.text = "ANNULLA"
+	undo.text = undo_text
 	undo.custom_minimum_size = Vector2(140, 48)
 	undo.focus_mode = Control.FOCUS_ALL
 	undo.add_theme_stylebox_override("normal", _exercise_button_style(Color(0.09, 0.15, 0.18, 0.96), Color("75999f")))
@@ -1550,7 +2136,7 @@ func _add_interaction_actions(undo_callback: Callable, submit_callback: Callable
 	actions.add_child(undo)
 	var submit := Button.new()
 	submit.name = "InteractionSubmit"
-	submit.text = "VERIFICA"
+	submit.text = submit_text
 	submit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	submit.custom_minimum_size = Vector2(180, 48)
 	submit.focus_mode = Control.FOCUS_ALL

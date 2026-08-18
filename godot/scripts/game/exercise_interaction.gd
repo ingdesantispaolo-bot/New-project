@@ -20,7 +20,8 @@ const ArtifactAtlasCatalog = preload("res://scripts/visual/artifact_atlas_catalo
 const IMPLEMENTED := [
 	"multiple_choice", "numeric_input", "short_answer", "ordering", "matching",
 	"classification", "hotspot", "graph", "circuit", "notation", "map", "cycle", "code_debug",
-	"number_line", "balance", "timeline", "compose", "trace", "clue", "swipe",
+	"number_line", "balance", "timeline", "compose", "trace", "clue", "swipe", "machine_path",
+	"mystery_sample", "verb_decoder",
 ]
 # La simulazione usa la stessa futura API visuale, ma non entra nelle missioni
 # finché non possiede un modello disciplinare validato.
@@ -138,6 +139,12 @@ static func validate(node: Dictionary) -> Dictionary:
 				errors.append("risposta troppo lunga per essere digitata (%d caratteri)" % str(node.get("answer", "")).length())
 		"ordering":
 			_validate_ordering(node, errors)
+		"machine_path":
+			_validate_machine_path(node, errors)
+		"mystery_sample":
+			_validate_mystery_sample(node, errors)
+		"verb_decoder":
+			_validate_verb_decoder(node, errors)
 		"matching":
 			_validate_matching(node, errors)
 		"classification":
@@ -176,6 +183,193 @@ static func validate(node: Dictionary) -> Dictionary:
 			pass
 
 	return {"ok": errors.is_empty(), "errors": errors}
+
+## Percorso di macchine numeriche. Il bambino monta trasformazioni in fila e
+## avvia una sfera di energia: il risultato e' prodotto dal sistema, non scelto
+## da un elenco. Sono ammesse anche soluzioni alternative, purche' portino
+## davvero al valore richiesto.
+static func _validate_machine_path(node: Dictionary, errors: Array) -> void:
+	var slot_count := int(node.get("slotCount", 0))
+	var machines: Array = node.get("machines", [])
+	if slot_count < 2 or slot_count > 4:
+		errors.append("percorso macchine con numero di posti fuori scala 2..4")
+	if machines.size() <= slot_count:
+		errors.append("percorso macchine senza almeno una macchina alternativa")
+	var ids: Dictionary = {}
+	for raw in machines:
+		var machine := raw as Dictionary
+		var id := str(machine.get("id", "")).strip_edges()
+		var op := str(machine.get("op", ""))
+		var value := int(machine.get("value", 0))
+		if id == "":
+			errors.append("macchina senza id")
+		elif ids.has(id):
+			errors.append("id macchina duplicato: %s" % id)
+		ids[id] = true
+		if not op in ["add", "subtract", "multiply", "divide"]:
+			errors.append("operazione macchina sconosciuta: %s" % op)
+		if value <= 0:
+			errors.append("valore macchina non positivo: %s" % id)
+		if str(machine.get("label", "")).strip_edges() == "":
+			errors.append("macchina senza etichetta: %s" % id)
+	var solution: Array = node.get("solution", [])
+	if solution.size() != slot_count:
+		errors.append("soluzione percorso di lunghezza diversa dai posti")
+	for raw_id in solution:
+		if not ids.has(str(raw_id)):
+			errors.append("soluzione usa macchina inesistente: %s" % str(raw_id))
+	var result := evaluate_machine_path(int(node.get("start", 0)), solution, machines)
+	if not bool(result.get("ok", false)):
+		errors.append("la soluzione dichiarata si blocca")
+	elif int(result.get("value", 0)) != int(node.get("target", 0)):
+		errors.append("la soluzione dichiarata non raggiunge il traguardo")
+
+## Esegue un percorso scelto dal giocatore. Questa funzione e' condivisa fra
+## validatore e renderer: il contenuto non puo' promettere una regola e la UI
+## applicarne un'altra.
+static func evaluate_machine_path(start: int, path: Array, machines: Array) -> Dictionary:
+	var by_id: Dictionary = {}
+	for raw in machines:
+		var machine := raw as Dictionary
+		by_id[str(machine.get("id", ""))] = machine
+	var current := start
+	var values: Array = [current]
+	for index in path.size():
+		var id := str(path[index])
+		if not by_id.has(id):
+			return {"ok": false, "value": current, "values": values, "blockedAt": index, "reason": "Macchina non trovata."}
+		var machine := by_id[id] as Dictionary
+		var amount := int(machine.get("value", 0))
+		match str(machine.get("op", "")):
+			"add": current += amount
+			"subtract": current -= amount
+			"multiply": current *= amount
+			"divide":
+				if amount == 0 or current % amount != 0:
+					return {
+						"ok": false, "value": current, "values": values,
+						"blockedAt": index,
+						"reason": "%d non si divide in %d parti uguali." % [current, amount],
+					}
+				current = int(current / amount)
+			_:
+				return {"ok": false, "value": current, "values": values, "blockedAt": index, "reason": "Macchina sconosciuta."}
+		values.append(current)
+	return {"ok": true, "value": current, "values": values, "blockedAt": -1, "reason": ""}
+
+## Laboratorio investigativo: il giocatore sceglie esperimenti, osserva le
+## reazioni di un campione sconosciuto e solo dopo formula un'ipotesi. La tabella
+## delle proprietà è condivisa da validatore e renderer, così ogni indizio è
+## davvero coerente con il materiale nascosto.
+static func _validate_mystery_sample(node: Dictionary, errors: Array) -> void:
+	var samples: Array = node.get("samples", [])
+	var tests: Array = node.get("tests", [])
+	var results := node.get("results", {}) as Dictionary
+	var answer := str(node.get("answer", ""))
+	if samples.size() < 3 or samples.size() > 5:
+		errors.append("mistero con numero di materiali fuori scala 3..5")
+	if tests.size() < 3 or tests.size() > 4:
+		errors.append("mistero con numero di esperimenti fuori scala 3..4")
+	var sample_ids: Dictionary = {}
+	for raw in samples:
+		var sample := raw as Dictionary
+		var id := str(sample.get("id", "")).strip_edges()
+		if id == "" or str(sample.get("name", "")).strip_edges() == "":
+			errors.append("materiale senza id o nome")
+		elif sample_ids.has(id):
+			errors.append("materiale duplicato: %s" % id)
+		sample_ids[id] = true
+	if not sample_ids.has(answer):
+		errors.append("il campione nascosto non è fra i materiali")
+	var test_ids: Dictionary = {}
+	for raw in tests:
+		var test := raw as Dictionary
+		var id := str(test.get("id", "")).strip_edges()
+		if id == "" or str(test.get("label", "")).strip_edges() == "":
+			errors.append("esperimento senza id o nome")
+		elif test_ids.has(id):
+			errors.append("esperimento duplicato: %s" % id)
+		test_ids[id] = true
+	var min_tests := int(node.get("minTests", 0))
+	if min_tests < 1 or min_tests > tests.size():
+		errors.append("numero minimo di esperimenti non valido")
+	var fingerprints: Dictionary = {}
+	for sample_id in sample_ids.keys():
+		if not results.has(sample_id):
+			errors.append("risultati mancanti per %s" % sample_id)
+			continue
+		var sample_results := results[sample_id] as Dictionary
+		var fingerprint: Array = []
+		for test_id in test_ids.keys():
+			var observation := str(sample_results.get(test_id, "")).strip_edges()
+			if observation == "":
+				errors.append("risultato mancante: %s/%s" % [sample_id, test_id])
+			fingerprint.append(observation)
+		var key := "|".join(PackedStringArray(fingerprint))
+		if fingerprints.has(key):
+			errors.append("due materiali reagiscono allo stesso modo: %s e %s" % [str(fingerprints[key]), sample_id])
+		fingerprints[key] = sample_id
+
+static func mystery_sample_result(node: Dictionary, test_id: String) -> String:
+	var answer := str(node.get("answer", ""))
+	var results := node.get("results", {}) as Dictionary
+	return str((results.get(answer, {}) as Dictionary).get(test_id, ""))
+
+## Decodificatore verbale. Il giocatore ricostruisce tre informazioni diverse:
+## tempo, modo e forma del verbo. Separarle impedisce di indovinare una parola
+## senza capire perche' funziona nella frase.
+static func _validate_verb_decoder(node: Dictionary, errors: Array) -> void:
+	var solution := node.get("solution", {}) as Dictionary
+	var valid_axes := {"time": "timeChoices", "mood": "moodChoices", "form": "forms"}
+	for axis in valid_axes.keys():
+		var entries: Array = node.get(str(valid_axes[axis]), [])
+		if entries.size() < 3 or entries.size() > 6:
+			errors.append("decodificatore: %s con numero di scelte fuori scala 3..6" % axis)
+		var ids: Dictionary = {}
+		for raw in entries:
+			var entry := raw as Dictionary
+			var id := str(entry.get("id", "")).strip_edges()
+			if id == "" or str(entry.get("label", "")).strip_edges() == "":
+				errors.append("decodificatore: scelta %s senza id o etichetta" % axis)
+			elif ids.has(id):
+				errors.append("decodificatore: id duplicato %s/%s" % [axis, id])
+			ids[id] = true
+		if not ids.has(str(solution.get(axis, ""))):
+			errors.append("decodificatore: soluzione %s non presente nelle scelte" % axis)
+	var segments: Array = node.get("segments", [])
+	if segments.size() != 2 or (str(segments[0]).strip_edges() == "" and str(segments[1]).strip_edges() == ""):
+		errors.append("decodificatore: frase spezzata non valida")
+	var hints := node.get("hints", {}) as Dictionary
+	for axis in ["time", "mood", "form"]:
+		if str(hints.get(axis, "")).strip_edges() == "":
+			errors.append("decodificatore: indizio mancante per %s" % axis)
+	if str(node.get("discovery", "")).strip_edges() == "":
+		errors.append("decodificatore: scoperta narrativa mancante")
+	if not bool(evaluate_verb_decoder(node, solution).get("correct", false)):
+		errors.append("decodificatore: soluzione dichiarata non valida")
+
+static func evaluate_verb_decoder(node: Dictionary, selected: Dictionary) -> Dictionary:
+	var solution := node.get("solution", {}) as Dictionary
+	var first_mismatch := ""
+	for axis in ["time", "mood", "form"]:
+		if str(selected.get(axis, "")) != str(solution.get(axis, "")):
+			first_mismatch = axis
+			break
+	var form_label := "_____"
+	for raw in Array(node.get("forms", [])):
+		var form := raw as Dictionary
+		if str(form.get("id", "")) == str(selected.get("form", "")):
+			form_label = str(form.get("label", "_____"))
+			break
+	var segments: Array = node.get("segments", [])
+	var rendered := ""
+	if segments.size() == 2:
+		rendered = ("%s %s %s" % [str(segments[0]).strip_edges(), form_label, str(segments[1]).strip_edges()]).strip_edges()
+	return {
+		"correct": first_mismatch == "",
+		"firstMismatch": first_mismatch,
+		"rendered": rendered,
+	}
 
 static func _validate_multiple_choice(node: Dictionary, errors: Array) -> void:
 	var options: Array = node.get("options", [])

@@ -20,7 +20,7 @@ func _init() -> void:
 	_test_gioco_specialisti()
 	_test_sottrazione_con_prestito()
 	_test_integrazione_pipeline()
-	print("Minigame audit OK — 10 formati validi, giocabili e integrati nel loop")
+	print("Minigame audit OK — formati validi, giocabili e integrati nel loop")
 	quit(0)
 
 # Ogni materia produce almeno un nodo minigioco ben formato.
@@ -46,6 +46,7 @@ func _test_costruzione_tutte_materie() -> void:
 				# questa riga un formato a selezione ci finiva dentro e l'audit
 				# lo dichiarava «sequenza troppo corta».
 				"number_line", "balance", "timeline", "compose", "trace", "clue", "swipe",
+				"machine_path", "mystery_sample", "verb_decoder",
 			]:
 				# Formati specialisti: valida col contratto comune.
 				var res := ExerciseInteraction.validate(node)
@@ -104,7 +105,7 @@ func _test_gioco_specialisti() -> void:
 	# Alcune materie ora RUOTANO più formati specialisti (es. coding: diagramma di
 	# flusso + caccia all'errore). Cerchiamo il formato su più seed anziché
 	# presumere che un singolo build lo produca sempre.
-	for pair in [["fisica", "graph"], ["matematica", "graph"], ["elettronica", "circuit"], ["coding", "circuit"], ["coding", "code_debug"], ["scienze", "cycle"], ["musica", "notation"], ["geografia", "map"], ["storia", "hotspot"], ["italiano", "classification"]]:
+	for pair in [["fisica", "graph"], ["matematica", "graph"], ["elettronica", "circuit"], ["coding", "circuit"], ["coding", "code_debug"], ["scienze", "cycle"], ["musica", "notation"], ["geografia", "map"], ["storia", "hotspot"], ["italiano", "classification"], ["italiano", "verb_decoder"]]:
 		var subject := str(pair[0])
 		var fmt := str(pair[1])
 		var node := {}
@@ -215,7 +216,43 @@ func _play_session(gameplay, session: Dictionary, solve_correctly: bool) -> Dict
 		guard += 1
 		var node: Dictionary = player._nodes[player._index]
 		var fmt := str(node.get("format", ""))
-		if fmt == "ordering":
+		if fmt == "mystery_sample":
+			var tests: Array = node.get("tests", [])
+			for test_index in mini(tests.size(), int(node.get("minTests", 2))):
+				player._sample_run_test(str((tests[test_index] as Dictionary).get("id", "")), node)
+			var candidate := str(node.get("answer", ""))
+			if not solve_correctly:
+				for raw in Array(node.get("samples", [])):
+					var alternative := str((raw as Dictionary).get("id", ""))
+					if alternative != candidate:
+						candidate = alternative
+						break
+			player._sample_select_candidate(candidate)
+			player._sample_submit(node)
+		elif fmt == "verb_decoder":
+			var selected := (node.get("solution", {}) as Dictionary).duplicate()
+			if not solve_correctly:
+				for raw in Array(node.get("timeChoices", [])):
+					var alternative := str((raw as Dictionary).get("id", ""))
+					if alternative != str(selected.get("time", "")):
+						selected["time"] = alternative
+						break
+			player._verb_selection = selected
+			player._finish_verb_decode(node, ExerciseInteraction.evaluate_verb_decoder(node, selected))
+		elif fmt == "machine_path":
+			var path: Array = Array(node.get("solution", [])).duplicate()
+			if not solve_correctly:
+				for raw in Array(node.get("machines", [])):
+					var candidate := str((raw as Dictionary).get("id", ""))
+					if not path.has(candidate):
+						path[0] = candidate
+						break
+			for index in path.size():
+				player._machine_place(str(path[index]), index, node)
+			var machine_result := ExerciseInteraction.evaluate_machine_path(
+				int(node.get("start", 0)), path, Array(node.get("machines", [])))
+			player._finish_machine_run(node, machine_result)
+		elif fmt == "ordering":
 			_solve_ordering(player, node, solve_correctly)
 		elif fmt == "matching":
 			_solve_matching(player, node, solve_correctly)

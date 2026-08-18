@@ -46,6 +46,42 @@ static func of(node: Dictionary) -> String:
 		"ordering":
 			# `items` è la presentazione mescolata: l'esercizio è l'ordine giusto.
 			parts.append(";".join(PackedStringArray(_strings(node.get("correctOrder", [])))))
+		"machine_path":
+			parts.append("%d→%d" % [int(node.get("start", 0)), int(node.get("target", 0))])
+			var machines: Array = []
+			for entry in Array(node.get("machines", [])):
+				var machine := entry as Dictionary
+				machines.append("%s:%s:%d" % [
+					str(machine.get("id", "")), str(machine.get("op", "")),
+					int(machine.get("value", 0)),
+				])
+			machines.sort()
+			parts.append(";".join(PackedStringArray(machines)))
+			parts.append("posti=%d" % int(node.get("slotCount", 0)))
+		"mystery_sample":
+			var sample_ids: Array = []
+			for entry in Array(node.get("samples", [])):
+				sample_ids.append(str((entry as Dictionary).get("id", "")))
+			sample_ids.sort()
+			var test_ids: Array = []
+			for entry in Array(node.get("tests", [])):
+				test_ids.append(str((entry as Dictionary).get("id", "")))
+			test_ids.sort()
+			parts.append("samples=%s" % ";".join(PackedStringArray(sample_ids)))
+			parts.append("tests=%s" % ";".join(PackedStringArray(test_ids)))
+			parts.append("hidden=%s" % str(node.get("answer", "")))
+		"verb_decoder":
+			# Le tessere vengono mescolate, ma il caso grammaticale resta lo stesso:
+			# frase, tempo, modo e forma corretti ne definiscono l'identita'.
+			parts.append("%s___%s" % [
+				str(Array(node.get("segments", ["", ""]))[0]),
+				str(Array(node.get("segments", ["", ""]))[1]),
+			])
+			var solution := node.get("solution", {}) as Dictionary
+			parts.append("%s:%s:%s" % [
+				str(solution.get("time", "")), str(solution.get("mood", "")),
+				str(solution.get("form", "")),
+			])
 		"classification":
 			var assignments := node.get("assignments", {}) as Dictionary
 			var rows: Array = []

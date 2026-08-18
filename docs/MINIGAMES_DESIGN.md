@@ -109,20 +109,57 @@ Per ciascuno: meccanica, competenza, materie, **contratto dati (Opus)** e
 - **Uso residuo, ≤ 1/3 dei nodi.** Resta per vero/falso motivato o quando la
   discriminazione tra alternative È la competenza. Mai dominante.
 
+### 10. Ponte delle trasformazioni — `machine_path`
+- **Gioco:** monta in ordine macchine matematiche, avvia una sfera e osserva
+  come cambia a ogni passaggio fino al traguardo.
+- **Competenza:** calcolo a più passaggi, ordine delle operazioni, previsione e
+  correzione di una strategia.
+- **Dati:** `start`, `target`, `slotCount`, `machines`, `solution`.
+  *(implementato e attivo nelle missioni di matematica)*
+- **Resa & feel:** trascinamento o tocco, percorso numerico sempre visibile,
+  animazione sequenziale all'avvio e ponte che si apre quando il valore arriva
+  al traguardo. Sono accettati anche percorsi corretti diversi da quello creato
+  dal generatore.
+
+### 11. Il campione senza nome — `mystery_sample`
+- **Gioco:** scegli gli strumenti del laboratorio, produci osservazioni e scopri
+  quale materiale è nascosto nella capsula.
+- **Competenza:** metodo sperimentale, proprietà dei materiali e deduzione da
+  più prove — calamita, conducibilità elettrica, luce e galleggiamento.
+- **Dati:** `samples`, `tests`, `results`, `answer`, `minTests`.
+  *(implementato e attivo nelle missioni di scienze e fisica)*
+- **Resa & feel:** ogni strumento fa reagire il campione e aggiunge una riga al
+  quaderno di BIT. Un'ipotesi sbagliata indica quale esperimento la contraddice,
+  senza rivelare il materiale. Campione, strumenti e ipotesi cambiano ordine a
+  ogni caso.
+
+### 12. Il messaggio fuori tempo — `verb_decoder`
+- **Gioco:** una frase arrivata dal Relitto ha perso il verbo. Si regolano tre
+  ghiere — quando accade, come viene presentata, forma corretta — e si avvia il
+  decodificatore per recuperare una piccola scoperta narrativa.
+- **Competenza:** tempi dell'indicativo, differenza fra fatto/dubbio/possibilità/
+  ordine, congiuntivo e condizionale, concordanza dei tempi e modi indefiniti.
+- **Dati:** `segments`, `clues`, `timeChoices`, `moodChoices`, `forms`,
+  `solution`, `hints`, `discovery`.
+  *(implementato e attivo nelle missioni di italiano)*
+- **Resa & feel:** la frase cambia mentre si inserisce la forma; il controllo
+  finale anima la barra del decodificatore. Un errore indica quale ragionamento
+  non coincide — tempo, modo o forma — senza consegnare tutta la soluzione.
+
 ## Materia → formati consigliati
 
 | Materia | Formati minigioco prioritari |
 |---|---|
-| matematica | numeric_input · graph · ordering (passi) · classification (proprietà) |
-| italiano | classification (classi di parole) · ordering (frase) · matching (sinonimi/contrari) |
+| matematica | machine_path · numeric_input · graph · ordering (passi) · classification (proprietà) |
+| italiano | verb_decoder (tempi e modi) · classification (classi di parole) · ordering (frase) · matching (sinonimi/contrari) |
 | coding | code_debug · ordering (algoritmo) · classification (tipi) · matching (operatori) |
 | inglese | matching (lessico) · classification (categorie) · ordering (frase) |
-| fisica | graph (moto/pressione) · numeric_input · matching (grandezza↔unità) |
+| fisica | mystery_sample · graph (moto/pressione) · numeric_input · matching (grandezza↔unità) |
 | musica | hotspot (nota sul pentagramma) · ordering (ritmo) · matching (strumenti) |
 | latino | matching (caso↔funzione, lessico) · ordering (frase) · classification (declinazioni) |
 | elettronica | circuit · matching (grandezza↔unità) · classification (serie/parallelo) |
 | geografia | hotspot (mappa) · matching (capitali) · classification (continenti) |
-| scienze | classification (viventi/ecosistemi) · hotspot (corpo/cellula) · graph (crescita) |
+| scienze | mystery_sample · classification (viventi/ecosistemi) · hotspot (corpo/cellula) · graph (crescita) |
 | storia | ordering (linea del tempo, fasi di Roma) · classification (reperti per epoca) · matching (personaggi e fonti) |
 | logica | ordering (sequenze) · classification (esclusioni) · code_debug (deduzione) |
 

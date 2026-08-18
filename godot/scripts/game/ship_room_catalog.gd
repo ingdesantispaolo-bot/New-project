@@ -20,7 +20,7 @@ const ROOMS := {
 		"apparatuses": ["nucleo", "cratere-logico"],
 		"restoration": "decor-laboratorio",
 		"subjects": ["matematica", "coding", "logica"],
-		"description": "Nodo di navigazione, diagnosi e coordinamento del Relitto.",
+		"description": "Sala di navigazione, diagnosi e coordinamento del Relitto.",
 	},
 	"bio": {
 		"label": "Bio-ponte",

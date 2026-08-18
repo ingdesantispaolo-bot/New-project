@@ -76,7 +76,7 @@ const LINES := {
 	"atto1": {
 		"solve": [
 			"Sistema stabilizzato. Hai seguito il metodo, non la fortuna.",
-			"Nodo chiaro. Hai trovato la causa, non solo l'effetto.",
+			"Passaggio chiaro. Hai trovato la causa, non solo l'effetto.",
 			"Il circuito regge. Hai controllato prima di rispondere: si vede.",
 			"Rientra nei parametri. Hai cambiato un passaggio solo, ed era quello giusto.",
 			"Sentito? È il rumore di qualcosa che torna a funzionare.",
@@ -95,7 +95,7 @@ const LINES := {
 		],
 		"scaffold": [
 			"Questo schema l'ho già visto. Te lo rimetto davanti perché si fissi.",
-			"Conosco questo nodo. Torniamo a guardarlo con calma.",
+			"Conosco questo passaggio. Torniamo a guardarlo con calma.",
 			"Ripasso: non perché tu abbia sbagliato, perché domani ti serva ancora.",
 			"Questo torna spesso. Meglio averlo pronto che doverlo ricostruire.",
 		],
@@ -104,7 +104,7 @@ const LINES := {
 		"solve": [
 			"Stabilizzato. Tu impari in fretta — più in fretta di come lo faccia io.",
 			"Risolto. Anch'io ho imparato così, credo. Qualcuno mi ha insegnato: non ricordo chi.",
-			"Nodo chiuso. Vedi? Hai ragionato tu. Io ti ho solo tenuto la porta.",
+			"Passaggio superato. Vedi? Hai ragionato tu. Io ti ho solo tenuto la porta.",
 			"Funziona. Mi fido di come sei arrivata alla risposta, non del risultato.",
 			"Torna. E mi accorgo che sto imparando qualcosa guardando te: non dovrebbe funzionare così.",
 		],

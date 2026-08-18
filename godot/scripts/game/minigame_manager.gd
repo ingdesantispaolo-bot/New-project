@@ -4315,7 +4315,8 @@ const HOTSPOT := {
 const FORMATS := [
 	"matching", "ordering", "classification", "graph", "circuit", "cycle",
 	"notation", "map", "hotspot", "code_debug", "number_line", "balance",
-	"timeline", "compose", "trace", "clue", "swipe",
+	"timeline", "compose", "trace", "clue", "swipe", "machine_path", "mystery_sample",
+	"verb_decoder",
 ]
 
 static func table_for(fmt: String) -> Dictionary:
@@ -4505,6 +4506,23 @@ static func question_of(spec: Dictionary, idx: int) -> Dictionary:
 	}
 
 static func format_depth(subject: String, fmt: String, level: int) -> int:
+	if fmt == "machine_path":
+		# Generato a ogni comparsa: partenza, valori e ordine delle macchine
+		# cambiano. La stima è prudente e conta solo la matematica.
+		return 40000 if subject == "matematica" else 0
+	if fmt == "mystery_sample":
+		# Il campione nascosto cambia, così come l'ordine di strumenti e ipotesi.
+		# La profondità conta solo i casi scientificamente distinti.
+		return 12 if subject in ["scienze", "fisica"] else 0
+	if fmt == "verb_decoder":
+		if subject != "italiano":
+			return 0
+		var difficulty := ContentManager.target_difficulty(level)
+		var count := 0
+		for spec in _verb_decoder_templates():
+			if int((spec as Dictionary).get("tier", 1)) <= difficulty:
+				count += 1
+		return count
 	# Solo i tre specialisti appena introdotti hanno il gate di attivazione a
 	# due specifiche. `ordering` può avere anche il generatore quantitativo fuori
 	# tabella: azzerarlo in base alla sola tabella perderebbe profondità reale.
@@ -4579,11 +4597,21 @@ func build_minigame(subject: String, level: int, rng: RandomNumberGenerator = nu
 	if has_match:
 		base.append("matching")
 	if numeric:
+		# In matematica, fra le azioni possibili ora si monta anche una piccola
+		# macchina e la si vede funzionare. L'ordinamento numerico resta nel
+		# repertorio: non si perde contenuto già validato.
+		base.append("machine_path")
 		base.append("numeric")
 	elif has_order:
 		base.append("ordering")
 	if has_classify:
 		base.append("classification")
+	if subject in ["scienze", "fisica"]:
+		base.append("mystery_sample")
+	if subject == "italiano":
+		# Un messaggio da ricostruire con tre regolazioni: quando accade,
+		# con quale intenzione viene detto e quale forma verbale lo completa.
+		base.append("verb_decoder")
 	var giro := posmod(hash(subject) + level, maxi(1, base.size()))
 	for i in base.size():
 		plan.append(base[(giro + i) % base.size()])
@@ -4643,6 +4671,12 @@ func build_minigame(subject: String, level: int, rng: RandomNumberGenerator = nu
 		var step := gradient_step(idx, total)
 		var difficulty := difficulty_of(level, step)
 		match fmt:
+			"machine_path":
+				nodes.append(_machine_path_node(subject, level, step, generator, idx))
+			"mystery_sample":
+				nodes.append(_mystery_sample_node(subject, level, step, generator, idx))
+			"verb_decoder":
+				nodes.append(_verb_decoder_node(subject, level, step, generator, idx))
 			"matching":
 				nodes.append(_matching_node(subject, _pick(MATCHING[subject], generator, level), level, step, generator, idx))
 			"ordering":
@@ -5119,6 +5153,368 @@ func _spiegazione_ordinamento(spec: Dictionary, correct: Array) -> String:
 	var elenco := "Ordine giusto: %s." % ", ".join(PackedStringArray(correct))
 	var criterio := str(spec.get("explanation", "")).strip_edges()
 	return elenco if criterio == "" else "%s %s" % [criterio, elenco]
+
+## PONTE DELLE TRASFORMAZIONI — primo minigioco in cui la matematica è la
+## regola fisica del sistema. Non si sceglie un risultato: si montano macchine,
+## si fa partire la sfera e si osservano tutti i valori intermedi.
+func _machine_path_node(subject: String, level: int, step: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:
+	var difficulty := difficulty_of(level, step)
+	var slot_count := 2 if difficulty == 1 else 3 if difficulty <= 3 else 4
+	var start := rng.randi_range(2, 9 + difficulty * 2)
+	var machines: Array = []
+	var solution: Array = []
+	var current := start
+
+	# Le bande cambiano il tipo di ragionamento, non soltanto la grandezza dei
+	# numeri. Dalla terza compare la divisione, ma solo quando è esatta.
+	var plan: Array = []
+	if difficulty == 1:
+		plan = [
+			{"op": "add", "value": rng.randi_range(2, 6)},
+			{"op": "multiply", "value": rng.randi_range(2, 3)},
+		]
+	elif difficulty == 2:
+		plan = [
+			{"op": "multiply", "value": rng.randi_range(2, 4)},
+			{"op": "add", "value": rng.randi_range(2, 8)},
+			{"op": "subtract", "value": rng.randi_range(1, mini(6, start))},
+		]
+	else:
+		var divisor := rng.randi_range(2, 4)
+		start = divisor * rng.randi_range(3, 8 + difficulty)
+		plan = [
+			{"op": "divide", "value": divisor},
+			{"op": "add", "value": rng.randi_range(2, 9)},
+			{"op": "multiply", "value": rng.randi_range(2, 4)},
+		]
+		if slot_count == 4:
+			plan.append({"op": "subtract", "value": rng.randi_range(2, 8)})
+
+	# Le bande avanzate scelgono una nuova partenza divisibile: il calcolo del
+	# traguardo deve partire da quella, non dal valore provvisorio iniziale.
+	current = start
+	for op_index in plan.size():
+		var spec := plan[op_index] as Dictionary
+		var id := "m%d" % op_index
+		var machine := _number_machine(id, str(spec["op"]), int(spec["value"]))
+		machines.append(machine)
+		solution.append(id)
+		current = int(ExerciseInteraction.evaluate_machine_path(current, [id], [machine]).get("value", current))
+
+	var target := current
+	# Due macchine credibili ma non necessarie. I valori sono scelti lontano da
+	# quelli del percorso per evitare doppioni visivi e tocchi ambigui.
+	machines.append(_number_machine("d0", "add", 10 + difficulty))
+	machines.append(_number_machine("d1", "multiply", 5 + difficulty))
+	_shuffle(machines, rng)
+
+	var labels: Array = []
+	for id in solution:
+		for raw in machines:
+			var machine := raw as Dictionary
+			if str(machine.get("id", "")) == str(id):
+				labels.append(str(machine.get("label", "")))
+				break
+	return {
+		"id": "minigame-machine-path-%s-%d-%d" % [subject, level, idx],
+		"subject": subject,
+		"topic": "calcolo",
+		"difficulty": difficulty,
+		"format": "machine_path",
+		"title": "Il ponte delle trasformazioni",
+		"prompt": "La sfera parte con %d unità. Il ponte si apre a %d. Monta %d macchine e avvia il percorso." % [start, target, slot_count],
+		"start": start,
+		"target": target,
+		"slotCount": slot_count,
+		"machines": machines,
+		"solution": solution,
+		"explanation": "Ogni macchina lavora sul risultato della precedente. Un percorso possibile è: %s. La sfera arriva così a %d." % ["  →  ".join(PackedStringArray(labels)), target],
+	}
+
+func _number_machine(id: String, op: String, value: int) -> Dictionary:
+	var symbol: String = str({"add": "+", "subtract": "−", "multiply": "×", "divide": "÷"}.get(op, "?"))
+	return {"id": id, "op": op, "value": value, "label": "%s %d" % [symbol, value]}
+
+## IL CAMPIONE SENZA NOME — un piccolo giallo scientifico. Il giocatore sceglie
+## gli esperimenti, raccoglie osservazioni e formula l'ipotesi; la risposta è
+## l'ultima conseguenza del metodo, non il centro dell'interazione.
+func _mystery_sample_node(subject: String, level: int, step: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:
+	var difficulty := difficulty_of(level, step)
+	var all_samples := [
+		{"id": "iron", "name": "Ferro"},
+		{"id": "copper", "name": "Rame"},
+		{"id": "glass", "name": "Vetro"},
+		{"id": "cork", "name": "Sughero"},
+		{"id": "ceramic", "name": "Ceramica"},
+	]
+	var sample_ids: Array = (
+		["iron", "glass", "cork"] if difficulty <= 1
+		else ["iron", "copper", "glass", "cork"] if difficulty == 2
+		else ["iron", "copper", "glass", "cork", "ceramic"])
+	var samples: Array = []
+	for sample in all_samples:
+		if sample_ids.has(str((sample as Dictionary).get("id", ""))):
+			samples.append((sample as Dictionary).duplicate())
+	_shuffle(samples, rng)
+	var tests: Array = [
+		{"id": "magnet", "label": "Avvicina la calamita", "short": "CALAMITA", "glyph": "⌁"},
+		{"id": "circuit", "label": "Chiudi il circuito", "short": "CIRCUITO", "glyph": "ϟ"},
+		{"id": "light", "label": "Accendi la lampada", "short": "LUCE", "glyph": "✦"},
+		{"id": "water", "label": "Posa sull'acqua", "short": "ACQUA", "glyph": "≈"},
+	]
+	if difficulty <= 1:
+		tests = tests.filter(func(test): return str((test as Dictionary).get("id", "")) != "circuit")
+	_shuffle(tests, rng)
+	var answer := str((samples[rng.randi_range(0, samples.size() - 1)] as Dictionary).get("id", ""))
+	var explanations := {
+		"iron": "Il ferro conduce la corrente e, fra questi campioni, è l'unico attirato dalla calamita.",
+		"copper": "Il rame conduce la corrente ma non viene attirato dalla calamita: le due prove insieme lo distinguono dal ferro.",
+		"glass": "Il vetro non conduce e non galleggia, ma lascia passare il fascio della lampada.",
+		"cork": "Il sughero non conduce e non lascia passare la luce, ma galleggia perché è meno denso dell'acqua.",
+		"ceramic": "La ceramica non conduce, non è attirata dalla calamita, non lascia passare la luce e affonda: conta l'insieme delle prove.",
+	}
+	return {
+		"id": "minigame-mystery-sample-%s-%d-%d" % [subject, level, idx],
+		"subject": subject,
+		"topic": "proprietà-dei-materiali",
+		"difficulty": difficulty,
+		"format": "mystery_sample",
+		"title": "Il campione senza nome",
+		"prompt": "Dal Relitto è arrivato un campione senza etichetta. Scegli gli esperimenti, osserva le reazioni e scopri di quale materiale si tratta.",
+		"samples": samples,
+		"tests": tests,
+		"results": _mystery_sample_results(),
+		"answer": answer,
+		"minTests": 3 if difficulty >= 4 else 2,
+		"explanation": str(explanations.get(answer, "Le proprietà osservate permettono di riconoscere il materiale.")),
+	}
+
+func _mystery_sample_results() -> Dictionary:
+	return {
+		"iron": {
+			"magnet": "La calamita scatta verso il campione.",
+			"circuit": "La lampadina si accende: la corrente passa.",
+			"light": "Il fascio non attraversa il campione.",
+			"water": "Il campione affonda.",
+		},
+		"copper": {
+			"magnet": "La calamita non si muove.",
+			"circuit": "La lampadina si accende: la corrente passa.",
+			"light": "Il fascio non attraversa il campione.",
+			"water": "Il campione affonda.",
+		},
+		"glass": {
+			"magnet": "La calamita non si muove.",
+			"circuit": "La lampadina resta spenta: la corrente non passa.",
+			"light": "Il fascio attraversa il campione.",
+			"water": "Il campione affonda.",
+		},
+		"cork": {
+			"magnet": "La calamita non si muove.",
+			"circuit": "La lampadina resta spenta: la corrente non passa.",
+			"light": "Il fascio non attraversa il campione.",
+			"water": "Il campione galleggia.",
+		},
+		"ceramic": {
+			"magnet": "La calamita non si muove.",
+			"circuit": "La lampadina resta spenta: la corrente non passa.",
+			"light": "Il fascio non attraversa il campione.",
+			"water": "Il campione affonda.",
+		},
+	}
+
+## IL MESSAGGIO FUORI TEMPO — grammatica trasformata in indagine. Tre ghiere
+## separano domande che spesso vengono confuse: QUANDO accade, CON QUALE
+## INTENZIONE viene detto e QUALE FORMA completa davvero la frase.
+func _verb_decoder_node(subject: String, level: int, step: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:
+	var difficulty := difficulty_of(level, step)
+	var eligible: Array = []
+	for raw in _verb_decoder_templates():
+		if int((raw as Dictionary).get("tier", 1)) <= difficulty:
+			eligible.append(raw)
+	var spec := (eligible[rng.randi_range(0, eligible.size() - 1)] as Dictionary).duplicate(true)
+	var time_choices: Array = []
+	for raw in Array(spec.get("times", [])):
+		var pair := raw as Array
+		time_choices.append({"id": str(pair[0]), "label": str(pair[1])})
+	var mood_choices: Array = []
+	for raw in Array(spec.get("moods", [])):
+		var pair := raw as Array
+		mood_choices.append({"id": str(pair[0]), "label": str(pair[1])})
+	var forms: Array = []
+	var labels: Array = spec.get("forms", [])
+	for form_index in labels.size():
+		forms.append({
+			"id": "right" if form_index == 0 else "decoy%d" % form_index,
+			"label": str(labels[form_index]),
+		})
+	_shuffle(time_choices, rng)
+	_shuffle(mood_choices, rng)
+	_shuffle(forms, rng)
+	return {
+		"id": "minigame-verb-decoder-%s-%d-%d" % [str(spec.get("case", "case")), level, idx],
+		"subject": subject,
+		"topic": str(spec.get("topic", "verbi-mappa-modi-tempi")),
+		"difficulty": difficulty,
+		"format": "verb_decoder",
+		"title": "Il messaggio fuori tempo",
+		"prompt": "Una voce dal Relitto ha lasciato una frase incompleta. Regola tempo e modo, poi scegli la forma che restituisce il significato.",
+		"segments": Array(spec.get("segments", [])).duplicate(),
+		"clues": Array(spec.get("clues", [])).duplicate(),
+		"timeChoices": time_choices,
+		"moodChoices": mood_choices,
+		"forms": forms,
+		"solution": {
+			"time": str(spec.get("time", "")),
+			"mood": str(spec.get("mood", "")),
+			"form": "right",
+		},
+		"hints": (spec.get("hints", {}) as Dictionary).duplicate(),
+		"discovery": str(spec.get("discovery", "")),
+		"explanation": str(spec.get("explanation", "")),
+	}
+
+## Casi scritti a mano: ogni distrattore cambia davvero tempo o modo, e ogni
+## soluzione ha una parola-spia o un rapporto logico che la rende univoca.
+static func _verb_decoder_templates() -> Array:
+	return [
+		{"case":"now", "tier":1, "topic":"indicativo-tempi",
+			"segments":["Adesso NORA", "la mappa sul tavolo."], "time":"presente", "mood":"indicativo",
+			"times":[["presente","PRESENTE"],["passato_prossimo","PASSATO PROSSIMO"],["futuro_semplice","FUTURO SEMPLICE"]],
+			"moods":[["indicativo","INDICATIVO · fatto"],["congiuntivo","CONGIUNTIVO · dubbio o desiderio"],["condizionale","CONDIZIONALE · possibilità"]],
+			"forms":["osserva","ha osservato","osserverà"], "clues":["adesso","un fatto osservato"],
+			"hints":{"time":"“Adesso” porta l'azione nel presente.","mood":"La frase presenta un fatto, quindi usa l'indicativo.","form":"Serve la forma che concorda con NORA e indica il presente."},
+			"discovery":"Sul bordo della mappa compare una traccia appena disegnata.",
+			"explanation":"“Adesso” indica il presente; la frase racconta un fatto come reale, quindi usa l'indicativo presente: osserva."},
+		{"case":"yesterday", "tier":1, "topic":"indicativo-tempi",
+			"segments":["Ieri Rame", "una chiave sotto la passerella."], "time":"passato_prossimo", "mood":"indicativo",
+			"times":[["presente","PRESENTE"],["passato_prossimo","PASSATO PROSSIMO"],["futuro_semplice","FUTURO SEMPLICE"]],
+			"moods":[["indicativo","INDICATIVO · fatto"],["congiuntivo","CONGIUNTIVO · dubbio o desiderio"],["imperativo","IMPERATIVO · ordine"]],
+			"forms":["ha trovato","trova","troverà"], "clues":["ieri","azione conclusa"],
+			"hints":{"time":"“Ieri” indica un fatto già concluso.","mood":"Il ritrovamento viene raccontato come reale.","form":"Cerca ausiliare + participio: è un tempo composto."},
+			"discovery":"La chiave apre un cassetto che nessuno aveva notato.",
+			"explanation":"“Ieri” e l'azione conclusa richiedono il passato prossimo indicativo: ha trovato."},
+		{"case":"tomorrow", "tier":1, "topic":"indicativo-tempi",
+			"segments":["Domani NORA", "il corridoio oltre il vetro."], "time":"futuro_semplice", "mood":"indicativo",
+			"times":[["presente","PRESENTE"],["passato_prossimo","PASSATO PROSSIMO"],["futuro_semplice","FUTURO SEMPLICE"]],
+			"moods":[["indicativo","INDICATIVO · fatto previsto"],["condizionale","CONDIZIONALE · possibilità"],["imperativo","IMPERATIVO · ordine"]],
+			"forms":["esplorerà","esplora","esplorerebbe"], "clues":["domani","programma stabilito"],
+			"hints":{"time":"“Domani” sposta l'azione nel futuro.","mood":"È un programma presentato come certo, non come ipotesi.","form":"La desinenza -erà indica il futuro della terza persona."},
+			"discovery":"La voce conosce un luogo che non compare sulle mappe.",
+			"explanation":"“Domani” indica futuro; il programma è presentato come certo, quindi indicativo futuro semplice: esplorerà."},
+		{"case":"habit", "tier":1, "topic":"indicativo-tempi",
+			"segments":["Ogni notte la luce azzurra", "tre volte."], "time":"presente", "mood":"indicativo",
+			"times":[["presente","PRESENTE"],["imperfetto","IMPERFETTO"],["futuro_semplice","FUTURO SEMPLICE"]],
+			"moods":[["indicativo","INDICATIVO · fatto"],["congiuntivo","CONGIUNTIVO · dubbio"],["condizionale","CONDIZIONALE · possibilità"]],
+			"forms":["lampeggia","lampeggiava","lampeggerebbe"], "clues":["ogni notte","fenomeno che si ripete"],
+			"hints":{"time":"Un'abitudine ancora valida può essere espressa al presente.","mood":"La luce viene descritta come un fenomeno osservato.","form":"Il soggetto è singolare: la luce lampeggia."},
+			"discovery":"I tre lampi sembrano una richiesta di risposta.",
+			"explanation":"“Ogni notte” descrive qui un'abitudine ancora valida: indicativo presente, lampeggia."},
+		{"case":"while", "tier":2, "topic":"indicativo-tempi",
+			"segments":["Mentre Rame", "il corridoio, una porta si aprì."], "time":"imperfetto", "mood":"indicativo",
+			"times":[["imperfetto","IMPERFETTO"],["passato_prossimo","PASSATO PROSSIMO"],["futuro_semplice","FUTURO SEMPLICE"]],
+			"moods":[["indicativo","INDICATIVO · fatto"],["congiuntivo","CONGIUNTIVO · dubbio"],["condizionale","CONDIZIONALE · possibilità"]],
+			"forms":["esplorava","ha esplorato","esplorerà"], "clues":["mentre","azione in corso nel passato"],
+			"hints":{"time":"“Mentre” presenta un'azione in corso quando ne accade un'altra.","mood":"Entrambe le azioni sono narrate come fatti.","form":"L'imperfetto di esplorare termina in -ava."},
+			"discovery":"La porta reagì al passaggio di Rame, non a un comando.",
+			"explanation":"L'azione di esplorare era in corso quando la porta si aprì: indicativo imperfetto, esplorava."},
+		{"case":"before", "tier":2, "topic":"indicativo-tempi",
+			"segments":["Quando arrivammo, NORA", "già il simbolo."], "time":"trapassato_prossimo", "mood":"indicativo",
+			"times":[["trapassato_prossimo","TRAPASSATO PROSSIMO"],["passato_prossimo","PASSATO PROSSIMO"],["imperfetto","IMPERFETTO"]],
+			"moods":[["indicativo","INDICATIVO · fatto"],["congiuntivo","CONGIUNTIVO · dubbio"],["condizionale","CONDIZIONALE · possibilità"]],
+			"forms":["aveva decifrato","ha decifrato","decifrava"], "clues":["quando arrivammo","l'altra azione era già conclusa"],
+			"hints":{"time":"Un fatto concluso prima di un altro fatto passato usa il trapassato prossimo.","mood":"La decifrazione è presentata come reale.","form":"Serve aveva + participio passato."},
+			"discovery":"NORA aveva aspettato il gruppo prima di aprire il passaggio.",
+			"explanation":"Decifrare avviene prima del nostro arrivo, già passato: indicativo trapassato prossimo, aveva decifrato."},
+		{"case":"command", "tier":2, "topic":"imperativo-infinito-participio-gerundio",
+			"segments":["Rame,", "la leva soltanto al mio via."], "time":"presente", "mood":"imperativo",
+			"times":[["presente","PRESENTE"],["passato","PASSATO"],["futuro","FUTURO"]],
+			"moods":[["imperativo","IMPERATIVO · ordine"],["indicativo","INDICATIVO · fatto"],["condizionale","CONDIZIONALE · possibilità"]],
+			"forms":["tira","tirerai","tireresti"], "clues":["Rame, ...","un'istruzione diretta"],
+			"hints":{"time":"L'ordine riguarda ciò che Rame deve fare ora.","mood":"Un'istruzione diretta usa l'imperativo.","form":"Alla seconda persona singolare: tira."},
+			"discovery":"La leva attiva una voce, ma solo nel momento esatto.",
+			"explanation":"È un ordine rivolto direttamente a Rame: imperativo presente, tira."},
+		{"case":"purpose", "tier":2, "topic":"imperativo-infinito-participio-gerundio",
+			"segments":["Per", "la porta servono due chiavi."], "time":"presente", "mood":"infinito",
+			"times":[["presente","PRESENTE"],["passato","PASSATO"],["futuro","FUTURO"]],
+			"moods":[["infinito","INFINITO · forma base"],["imperativo","IMPERATIVO · ordine"],["indicativo","INDICATIVO · fatto"]],
+			"forms":["aprire","apri","aperta"], "clues":["per ...","non è indicata una persona"],
+			"hints":{"time":"L'azione è vista come scopo presente, non come già conclusa.","mood":"Dopo “per”, quando esprime uno scopo, si usa l'infinito.","form":"La forma base del verbo termina in -ire."},
+			"discovery":"Le due chiavi hanno incisioni che si completano a vicenda.",
+			"explanation":"“Per” introduce lo scopo e non indica chi compie l'azione: infinito presente, aprire."},
+		{"case":"following", "tier":2, "topic":"imperativo-infinito-participio-gerundio",
+			"segments":["", "le impronte, NORA trovò il pannello nascosto."], "time":"presente", "mood":"gerundio",
+			"times":[["presente","PRESENTE"],["passato","PASSATO"],["futuro","FUTURO"]],
+			"moods":[["gerundio","GERUNDIO · azione collegata"],["participio","PARTICIPIO · qualità o risultato"],["infinito","INFINITO · forma base"]],
+			"forms":["Seguendo","Seguite","Seguire"], "clues":["due azioni dello stesso soggetto","azioni contemporanee"],
+			"hints":{"time":"Seguire avviene mentre NORA cerca il pannello.","mood":"Il gerundio collega un'azione alla principale.","form":"Il gerundio di seguire termina in -endo."},
+			"discovery":"Le impronte appartengono a qualcuno che conosceva il Relitto.",
+			"explanation":"Le due azioni hanno lo stesso soggetto e avvengono insieme: gerundio presente, seguendo."},
+		{"case":"possible", "tier":3, "topic":"congiuntivo-condizionale",
+			"segments":["È possibile che la mappa", "incompleta."], "time":"presente", "mood":"congiuntivo",
+			"times":[["presente","PRESENTE"],["imperfetto","IMPERFETTO"],["passato","PASSATO"]],
+			"moods":[["congiuntivo","CONGIUNTIVO · dubbio o possibilità"],["indicativo","INDICATIVO · fatto"],["condizionale","CONDIZIONALE · conseguenza"]],
+			"forms":["sia","è","sarebbe"], "clues":["è possibile che","ipotesi nel presente"],
+			"hints":{"time":"L'ipotesi riguarda lo stato attuale della mappa.","mood":"“È possibile che” richiede il congiuntivo.","form":"Il congiuntivo presente di essere è sia."},
+			"discovery":"Forse manca proprio il settore in cui ci troviamo.",
+			"explanation":"“È possibile che” introduce un'ipotesi presente: congiuntivo presente, sia."},
+		{"case":"feared", "tier":3, "topic":"concordanza-tempi-verbali",
+			"segments":["Temevo che il custode", "del passaggio."], "time":"imperfetto", "mood":"congiuntivo",
+			"times":[["presente","PRESENTE"],["imperfetto","IMPERFETTO"],["trapassato","TRAPASSATO"]],
+			"moods":[["congiuntivo","CONGIUNTIVO · timore"],["indicativo","INDICATIVO · fatto"],["condizionale","CONDIZIONALE · possibilità"]],
+			"forms":["sapesse","sa","saprebbe"], "clues":["temevo che","timore contemporaneo nel passato"],
+			"hints":{"time":"Il sapere è contemporaneo a un timore collocato nel passato.","mood":"“Temevo che” introduce un contenuto temuto, non affermato.","form":"Dopo una principale al passato serve qui sapesse."},
+			"discovery":"Il custode non era sorpreso: aveva già visto quella porta.",
+			"explanation":"Il timore è nel passato e il sapere è contemporaneo: congiuntivo imperfetto, sapesse."},
+		{"case":"would_explore", "tier":3, "topic":"congiuntivo-condizionale",
+			"segments":["Con una torcia, io", "anche il tunnel più buio."], "time":"presente", "mood":"condizionale",
+			"times":[["presente","PRESENTE"],["passato","PASSATO"],["futuro","FUTURO"]],
+			"moods":[["condizionale","CONDIZIONALE · possibilità"],["indicativo","INDICATIVO · fatto"],["congiuntivo","CONGIUNTIVO · dubbio"]],
+			"forms":["esplorerei","esploro","esplorassi"], "clues":["con una torcia","azione possibile a una condizione"],
+			"hints":{"time":"La possibilità riguarda il presente o il futuro vicino.","mood":"L'azione dipende dalla condizione “con una torcia”.","form":"Alla prima persona: esplorerei."},
+			"discovery":"Nel tunnel c'è ancora una luce: qualcuno potrebbe essere dentro.",
+			"explanation":"Esplorare dipende da una condizione: condizionale presente, esplorerei."},
+		{"case":"if_present", "tier":3, "topic":"congiuntivo-condizionale",
+			"segments":["Se trovassimo la chiave,", "la stanza nascosta."], "time":"presente", "mood":"condizionale",
+			"times":[["presente","PRESENTE"],["passato","PASSATO"],["imperfetto","IMPERFETTO"]],
+			"moods":[["condizionale","CONDIZIONALE · conseguenza"],["congiuntivo","CONGIUNTIVO · ipotesi"],["indicativo","INDICATIVO · fatto"]],
+			"forms":["apriremmo","aprissimo","apriamo"], "clues":["se trovassimo","conseguenza possibile"],
+			"hints":{"time":"La conseguenza è ancora possibile, non già conclusa.","mood":"Dopo l'ipotesi al congiuntivo, la conseguenza va al condizionale.","form":"La prima persona plurale termina in -remmo."},
+			"discovery":"La stanza nascosta esiste, ma la sua posizione resta incerta.",
+			"explanation":"“Se trovassimo” esprime l'ipotesi; la conseguenza usa il condizionale presente: apriremmo."},
+		{"case":"if_past", "tier":4, "topic":"congiuntivo-condizionale",
+			"segments":["Se avessimo letto il diario,", "la trappola."], "time":"passato", "mood":"condizionale",
+			"times":[["presente","PRESENTE"],["passato","PASSATO"],["imperfetto","IMPERFETTO"]],
+			"moods":[["condizionale","CONDIZIONALE · conseguenza"],["congiuntivo","CONGIUNTIVO · ipotesi"],["indicativo","INDICATIVO · fatto"]],
+			"forms":["avremmo evitato","eviteremmo","avessimo evitato"], "clues":["se avessimo letto","occasione ormai trascorsa"],
+			"hints":{"time":"L'occasione è passata e non può più realizzarsi.","mood":"La conseguenza non avvenuta usa il condizionale.","form":"Serve avremmo + participio passato."},
+			"discovery":"Qualcuno aveva lasciato un avvertimento che non vedemmo in tempo.",
+			"explanation":"L'ipotesi passata non si è realizzata: la conseguenza usa il condizionale passato, avremmo evitato."},
+		{"case":"already_left", "tier":4, "topic":"concordanza-tempi-verbali",
+			"segments":["NORA pensava che Rame", "già partito."], "time":"trapassato", "mood":"congiuntivo",
+			"times":[["presente","PRESENTE"],["imperfetto","IMPERFETTO"],["trapassato","TRAPASSATO"]],
+			"moods":[["congiuntivo","CONGIUNTIVO · pensiero"],["indicativo","INDICATIVO · fatto"],["condizionale","CONDIZIONALE · possibilità"]],
+			"forms":["fosse","sia","sarebbe"], "clues":["pensava che","partire è precedente al pensiero"],
+			"hints":{"time":"La partenza è anteriore a un pensiero già nel passato.","mood":"“Pensava che” introduce ciò che NORA riteneva, non un fatto certificato.","form":"Fosse + participio costruisce il congiuntivo trapassato."},
+			"discovery":"Rame non era partito: stava seguendo la voce da solo.",
+			"explanation":"La partenza sarebbe precedente al pensiero passato: congiuntivo trapassato, fosse già partito."},
+		{"case":"after_decoding", "tier":4, "topic":"imperativo-infinito-participio-gerundio",
+			"segments":["Dopo", "il messaggio, Rame spense il ricevitore."], "time":"passato", "mood":"infinito",
+			"times":[["presente","PRESENTE"],["passato","PASSATO"],["futuro","FUTURO"]],
+			"moods":[["infinito","INFINITO · forma senza persona"],["gerundio","GERUNDIO · azione collegata"],["participio","PARTICIPIO · risultato"]],
+			"forms":["aver decifrato","decifrare","avendo decifrato"], "clues":["dopo","azione conclusa prima della principale"],
+			"hints":{"time":"Decifrare è concluso prima di spegnere.","mood":"Dopo la preposizione “dopo” si può usare l'infinito.","form":"L'infinito passato usa avere + participio: aver decifrato."},
+			"discovery":"Il ricevitore spento continuò a sussurrare per alcuni secondi.",
+			"explanation":"L'azione è anteriore e non indica una persona propria: infinito passato, aver decifrato."},
+		{"case":"having_understood", "tier":4, "topic":"imperativo-infinito-participio-gerundio",
+			"segments":["Pur", "la risposta, NORA attese prima di parlare."], "time":"passato", "mood":"gerundio",
+			"times":[["presente","PRESENTE"],["passato","PASSATO"],["futuro","FUTURO"]],
+			"moods":[["gerundio","GERUNDIO · azione collegata"],["infinito","INFINITO · forma base"],["participio","PARTICIPIO · risultato"]],
+			"forms":["avendo capito","capendo","aver capito"], "clues":["pur","capire avviene prima di attendere"],
+			"hints":{"time":"NORA ha già capito quando decide di aspettare.","mood":"“Pur” collega qui due azioni dello stesso soggetto con il gerundio.","form":"Il gerundio passato usa avendo + participio."},
+			"discovery":"NORA riconobbe la voce, ma non volle ancora dire di chi fosse.",
+			"explanation":"Capire precede l'attesa e il soggetto resta NORA: gerundio passato, avendo capito."},
+	]
 
 func _numeric_ordering_node(subject: String, level: int, step: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:
 	var count := clampi(4 + int(level / 9.0) + step, 4, 5)

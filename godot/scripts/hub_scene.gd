@@ -740,7 +740,7 @@ func _apply_state(state: Dictionary) -> void:
 	activation_bar.value = int(activation.get("percent", 0))
 	activation_bar.add_theme_stylebox_override("background", _progress_style(Color(0.02, 0.055, 0.065, 0.92), 4))
 	activation_bar.add_theme_stylebox_override("fill", _progress_style(Color(accent, 0.88), 4))
-	activation_segments.text = "%s   %d/%d NODI" % [str(activation.get("segments", "")), int(activation.get("completed", 0)), int(activation.get("total", 0))]
+	activation_segments.text = "%s   %d/%d PARTI ATTIVE" % [str(activation.get("segments", "")), int(activation.get("completed", 0)), int(activation.get("total", 0))]
 
 	if is_current_gate:
 		var subject := ApparatusConfig.world_subject(save.level())
@@ -749,17 +749,17 @@ func _apply_state(state: Dictionary) -> void:
 		# La barra che prima contava le missioni ora mostra il nucleo: è quello che
 		# apre il livello. La padronanza della materia della stanza apre l'apparato.
 		var core := GateReadiness.evaluate_core(save, threshold)
-		requirements_label.text = "%s · padronanza %.0f%% / %.0f%%\nNucleo (ita·mat·ing) %.0f%%" % [
+		requirements_label.text = "%s · preparazione %.0f%% / %.0f%%\nTre chiavi (italiano · matematica · inglese) %.0f%%" % [
 			subject.capitalize(), mastery * 100.0, threshold * 100.0,
 			float(core["progress"]) * 100.0]
 		mission_bar.max_value = 100
 		mission_bar.value = float(core["progress"]) * 100.0
 		mastery_bar.value = mastery * 100.0
-		repair_button.text = "AVVIA ESAME FINALE" if bool(state.get("ready", false)) else "COMPLETA LE MISSIONI NEL MONDO"
+		repair_button.text = "AVVIA LA SFIDA FINALE" if bool(state.get("ready", false)) else "COMPLETA LE MISSIONI NEL MONDO"
 		repair_button.disabled = not bool(state.get("ready", false))
 	elif campaign_complete:
 		var completed_subjects := ", ".join(PackedStringArray(room_state.get("subjects", [])))
-		requirements_label.text = "Materie del ponte: %s\nTutti i nodi della nave sono operativi" % completed_subjects
+		requirements_label.text = "Materie del ponte: %s\nTutte le parti della nave sono operative" % completed_subjects
 		mission_bar.max_value = maxi(1, int(activation.get("total", 1)))
 		mission_bar.value = int(activation.get("total", 1))
 		mastery_bar.value = 100
@@ -821,7 +821,7 @@ func _start_exam() -> void:
 	else:
 		session = content.build_final_exam(subject, save.level(), 3, null, save.mastery_of(subject), save.topic_masteries(subject))
 	if Array(session.get("nodes", [])).is_empty():
-		nora_line.text = "NORA: Banco esame non disponibile per %s." % subject
+		nora_line.text = "NORA: La sfida di %s non è ancora pronta." % subject
 		return
 	exercise_player.visible = true
 	exercise_player.start_session(session)
@@ -976,7 +976,7 @@ func _play_reactivation_sequence(room_id: String, before: Dictionary, after: Dic
 	celebration_detail.text = (
 		"CUORE DEI PRIMI · 12/12 SISTEMI · NAVE A PIENA POTENZA"
 		if final_activation
-		else "%s · POTENZA %d%% · NODO %d/%d" % [
+		else "%s · POTENZA %d%% · PARTE %d/%d" % [
 			str(spec.get("label", room_id)).to_upper(),
 			int(after.get("percent", 0)),
 			int(after.get("completed", 0)),

@@ -156,7 +156,9 @@ const MAESTRI := {
 		],
 	},
 	"nodo": {
-		"nome": "Nodo", "apparato": "reattore", "materia": "elettronica",
+		# L'id interno resta stabile per salvataggi e storia. Il nome mostrato e'
+		# concreto e memorabile: "Nodo" sembrava il nome di una funzione della UI.
+		"nome": "Rame", "apparato": "reattore", "materia": "elettronica",
 		"inflessione": "«Segui il percorso», diffidente delle scorciatoie.",
 		"apertura": [
 			"Parti dal più e arriva al meno, senza saltare niente. Il dito sul filo.",

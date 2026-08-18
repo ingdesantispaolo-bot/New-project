@@ -1,5 +1,7 @@
 extends SceneTree
 
+const ExerciseAutoplay = preload("res://scripts/game/exercise_autoplay.gd")
+
 ## Audit headless del percorso completo C-01 (mondo esterno nativo, niente Phaser):
 ## missioni → gate → esame finale → riparazione apparato → salita di livello,
 ## usando l'ExercisePlayer reale simulando le risposte.
@@ -96,40 +98,4 @@ func _play(session: Dictionary, answer_correct: bool) -> Dictionary:
 # Risolve correttamente il nodo secondo il suo FORMATO (l'esame è multi-formato:
 # scelta multipla/inserimento, abbinamento, ordinamento).
 func _solve_correct(player: ExercisePlayer, item: Dictionary) -> void:
-	match str(item.get("format", "multiple_choice")):
-		"matching":
-			var pairs: Array = item.get("pairs", [])
-			for i in pairs.size():
-				player._matching_left(i)
-				player._matching_right(str((pairs[i] as Dictionary).get("right", "")), item)
-		"ordering":
-			# Modello a slot numerati: riempi in ordine corretto, poi invia.
-			var items: Array = item.get("items", [])
-			var order: Array = item.get("correctOrder", [])
-			for expected in order:
-				var idx := items.find(expected)
-				if idx < 0:
-					for k in items.size():
-						if str(items[k]) == str(expected):
-							idx = k
-							break
-				if idx >= 0:
-					player._ordering_click(idx, item)
-			player._ordering_submit(item)
-		"classification":
-			var assignments: Dictionary = item.get("assignments", {})
-			for key in assignments.keys():
-				player._classification_assign(str(key), str(assignments[key]))
-			player._classification_submit(item)
-		"graph", "circuit", "hotspot", "notation", "map":
-			player._visual_select(str(item.get("answer", "")))
-			player._visual_submit(item)
-		"cycle":
-			for id in item.get("correctOrder", []):
-				player._cycle_select(str(id))
-			player._cycle_submit(item)
-		"code_debug":
-			player._code_line_select(int(item.get("answerLine", 0)))
-			player._code_submit(item)
-		_:
-			player._answer(str(item.get("answer", "")))
+	ExerciseAutoplay.solve(player, item, true)

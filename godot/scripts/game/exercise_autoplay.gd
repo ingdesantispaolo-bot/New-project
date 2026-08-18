@@ -12,6 +12,12 @@ extends RefCounted
 
 static func solve(player, node: Dictionary, correctly: bool) -> void:
 	match str(node.get("format", "multiple_choice")):
+		"machine_path":
+			_solve_machine_path(player, node, correctly)
+		"mystery_sample":
+			_solve_mystery_sample(player, node, correctly)
+		"verb_decoder":
+			_solve_verb_decoder(player, node, correctly)
 		"ordering":
 			_solve_ordering(player, node, correctly)
 		"matching":
@@ -69,6 +75,51 @@ static func _solve_ordering(player, node: Dictionary, correctly: bool) -> void:
 		if idx >= 0:
 			player._ordering_click(idx, node)
 	player._ordering_submit(node)
+
+static func _solve_machine_path(player, node: Dictionary, correctly: bool) -> void:
+	var path: Array = Array(node.get("solution", [])).duplicate()
+	if not correctly:
+		var solution_ids: Array = path.duplicate()
+		for raw in Array(node.get("machines", [])):
+			var id := str((raw as Dictionary).get("id", ""))
+			if not solution_ids.has(id):
+				path[0] = id
+				break
+	for index in path.size():
+		player._machine_place(str(path[index]), index, node)
+	var result := ExerciseInteraction.evaluate_machine_path(
+		int(node.get("start", 0)), path, Array(node.get("machines", [])))
+	# Gli audit non aspettano l'animazione: consegnano direttamente il risultato
+	# prodotto dallo stesso motore usato dal pulsante AVVIA LA SFERA.
+	player._finish_machine_run(node, result)
+
+static func _solve_mystery_sample(player, node: Dictionary, correctly: bool) -> void:
+	var tests: Array = node.get("tests", [])
+	for index in mini(tests.size(), int(node.get("minTests", 2))):
+		player._sample_run_test(str((tests[index] as Dictionary).get("id", "")), node)
+	var answer := str(node.get("answer", ""))
+	if not correctly:
+		for raw in Array(node.get("samples", [])):
+			var candidate := str((raw as Dictionary).get("id", ""))
+			if candidate != answer:
+				answer = candidate
+				break
+	player._sample_select_candidate(answer)
+	player._sample_submit(node)
+
+static func _solve_verb_decoder(player, node: Dictionary, correctly: bool) -> void:
+	var selected := (node.get("solution", {}) as Dictionary).duplicate()
+	if not correctly:
+		for raw in Array(node.get("timeChoices", [])):
+			var id := str((raw as Dictionary).get("id", ""))
+			if id != str(selected.get("time", "")):
+				selected["time"] = id
+				break
+	player._verb_selection = selected
+	var result := ExerciseInteraction.evaluate_verb_decoder(node, selected)
+	# Gli audit saltano soltanto l'animazione della barra: valutazione e scoring
+	# restano quelli usati dal pulsante APRI IL MESSAGGIO.
+	player._finish_verb_decode(node, result)
 
 static func _solve_matching(player, node: Dictionary, correctly: bool) -> void:
 	var pairs: Array = node.get("pairs", [])

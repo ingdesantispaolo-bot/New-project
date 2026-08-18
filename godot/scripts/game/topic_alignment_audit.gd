@@ -17,18 +17,26 @@ extends SceneTree
 ## Non si pretende zero — sarebbe una promessa che blocca il lavoro invece di
 ## guidarlo — si pretende che nessuna modifica lo faccia risalire.
 
-## Il valore misurato oggi. **Non è ancora sceso**, e la ragione va scritta.
+## **104 → 102 il 18 agosto 2026.** Prima discesa del cricchetto.
 ##
 ## Il primo tentativo di allineamento — 63 item di grammatica inglese su 21
-## argomenti — portava il totale da 104 a 88, e l'ho annullato. `topic_density_audit`
-## dichiara inglese COMPLETA allo standard di quindici item per argomento, e
-## quei ventun argomenti nuovi ne avevano tre: avrei allargato la gamma
-## degradando una garanzia di profondità che inglese aveva già guadagnato.
+## argomenti — portava il totale da 104 a 88, ed era stato annullato.
+## `topic_density_audit` dichiara inglese COMPLETA allo standard di quindici item
+## per argomento, e quei ventun argomenti nuovi ne avevano tre: avrebbe allargato
+## la gamma degradando una garanzia di profondità già guadagnata. Portarli allo
+## standard vuol dire duecentocinquantadue item in più per la sola inglese: è il
+## costo vero dell'allineamento, e va pianificato.
 ##
-## Portarli allo standard vuol dire duecentocinquantadue item in più per la sola
-## inglese. È il costo vero dell'allineamento, e va pianificato — non fatto
-## scivolare dentro un lotto con tre item per argomento.
-const DISALLINEATI_MAX := 104
+## La discesa a 102 è italiano, e paga il prezzo pieno invece di aggirarlo.
+## `tempi-indicativo`, `modi-verbali` e `modi-indefiniti` erano tre argomenti che
+## i minigiochi servivano da tempo e che l'esame non poteva chiedere: ora hanno
+## quindici item ciascuno, la soglia di densità, non tre.
+##
+## Restano sei argomenti italiani fuori — categorie, contrari, definizioni,
+## modi-di-dire, morfologia, sinonimi — e sono tutti di area lessicale. È il
+## prossimo lotto sensato: hanno bisogno dello stesso trattamento, non di una
+## soglia più larga.
+const DISALLINEATI_MAX := 102
 
 const LIVELLI := [1, 4, 8, 12, 16, 20, 24]
 const GIRI := 20

@@ -4975,6 +4975,636 @@ const CURATED_TAIL = {
         "Il soggetto": "Il soggetto resta lo stesso.",
         "Il modo del verbo principale": "«Credo» e «credevo» sono entrambi indicativi."
       }
+    },
+    {
+      "id": "italiano-modi-verbali-in-marco-studia-ogni-sera-il-modo-del-verbo-e-0",
+      "subject": "italiano",
+      "topic": "modi-verbali",
+      "difficulty": 1,
+      "format": "multiple_choice",
+      "prompt": "In «Marco studia ogni sera», il modo del verbo è:",
+      "options": [
+        "indicativo",
+        "congiuntivo",
+        "condizionale",
+        "imperativo"
+      ],
+      "answer": "indicativo",
+      "explanation": "L'indicativo presenta l'azione come un fatto: Marco studia davvero.",
+      "distractorWhy": {
+        "condizionale": "Il condizionale sarebbe «studierebbe», legato a una condizione.",
+        "congiuntivo": "Il congiuntivo sarebbe «che studi», e direbbe un'ipotesi.",
+        "imperativo": "L'imperativo sarebbe «studia!», e darebbe un ordine."
+      }
+    },
+    {
+      "id": "italiano-modi-verbali-quale-modo-si-usa-per-dare-un-ordine-1",
+      "subject": "italiano",
+      "topic": "modi-verbali",
+      "difficulty": 1,
+      "format": "multiple_choice",
+      "prompt": "Quale modo si usa per dare un ordine?",
+      "options": [
+        "indicativo",
+        "imperativo",
+        "congiuntivo",
+        "condizionale"
+      ],
+      "answer": "imperativo",
+      "explanation": "L'imperativo esiste per rivolgersi direttamente a qualcuno e chiedergli di agire.",
+      "distractorWhy": {
+        "indicativo": "L'indicativo racconta i fatti, non li comanda.",
+        "congiuntivo": "Il congiuntivo esprime dubbio o desiderio.",
+        "condizionale": "Il condizionale lega l'azione a una condizione."
+      }
+    },
+    {
+      "id": "italiano-modi-verbali-vorrei-un-gelato-e-al-modo-2",
+      "subject": "italiano",
+      "topic": "modi-verbali",
+      "difficulty": 1,
+      "format": "multiple_choice",
+      "prompt": "«Vorrei un gelato» è al modo:",
+      "options": [
+        "imperativo",
+        "indicativo",
+        "condizionale",
+        "congiuntivo"
+      ],
+      "answer": "condizionale",
+      "explanation": "Il condizionale rende la richiesta cortese: «voglio» suonerebbe come una pretesa.",
+      "distractorWhy": {
+        "imperativo": "L'imperativo sarebbe «dammi un gelato».",
+        "indicativo": "L'indicativo sarebbe «voglio un gelato».",
+        "congiuntivo": "Il congiuntivo comparirebbe in una subordinata, non da solo."
+      }
+    },
+    {
+      "id": "italiano-modi-verbali-quale-modo-presenta-l-azione-come-incerta-o-de-3",
+      "subject": "italiano",
+      "topic": "modi-verbali",
+      "difficulty": 2,
+      "format": "multiple_choice",
+      "prompt": "Quale modo presenta l'azione come incerta o desiderata?",
+      "options": [
+        "indicativo",
+        "imperativo",
+        "participio",
+        "congiuntivo"
+      ],
+      "answer": "congiuntivo",
+      "explanation": "Il congiuntivo è il modo di ciò che si pensa, si teme o si spera: non di ciò che è dato per certo.",
+      "distractorWhy": {
+        "indicativo": "L'indicativo presenta l'azione come reale.",
+        "imperativo": "L'imperativo comanda, non dubita.",
+        "participio": "Il participio è un modo indefinito: non esprime incertezza."
+      }
+    },
+    {
+      "id": "italiano-modi-verbali-se-potessi-partirei-subito-quali-due-modi-comp-4",
+      "subject": "italiano",
+      "topic": "modi-verbali",
+      "difficulty": 2,
+      "format": "multiple_choice",
+      "prompt": "«Se potessi, partirei subito.» Quali due modi compaiono?",
+      "options": [
+        "congiuntivo e condizionale",
+        "indicativo e imperativo",
+        "imperativo e gerundio",
+        "due indicativi"
+      ],
+      "answer": "congiuntivo e condizionale",
+      "explanation": "La condizione sta al congiuntivo, la conseguenza al condizionale: è la coppia del periodo ipotetico.",
+      "distractorWhy": {
+        "indicativo e imperativo": "Nessuno dei due verbi comanda o afferma un fatto.",
+        "imperativo e gerundio": "Non compare né un ordine né un gerundio.",
+        "due indicativi": "«Potessi» e «partirei» non sono indicativi."
+      }
+    },
+    {
+      "id": "italiano-modi-verbali-che-cosa-cambia-fra-vieni-qui-e-verresti-qui-5",
+      "subject": "italiano",
+      "topic": "modi-verbali",
+      "difficulty": 2,
+      "format": "multiple_choice",
+      "prompt": "Che cosa cambia fra «Vieni qui» e «Verresti qui?»",
+      "options": [
+        "Il tempo del verbo",
+        "Il modo: ordine contro richiesta cortese",
+        "Il soggetto",
+        "Nulla"
+      ],
+      "answer": "Il modo: ordine contro richiesta cortese",
+      "explanation": "Lo stesso contenuto cambia forza a seconda del modo: l'imperativo comanda, il condizionale chiede.",
+      "distractorWhy": {
+        "Il tempo del verbo": "Entrambi guardano al presente.",
+        "Il soggetto": "Il soggetto è «tu» in tutti e due.",
+        "Nulla": "La differenza di tono è netta, ed è ciò che il modo serve a esprimere."
+      }
+    },
+    {
+      "id": "italiano-modi-verbali-in-credo-che-tu-abbia-ragione-perche-non-si-us-6",
+      "subject": "italiano",
+      "topic": "modi-verbali",
+      "difficulty": 3,
+      "format": "multiple_choice",
+      "prompt": "In «Credo che tu abbia ragione», perché non si usa l'indicativo?",
+      "options": [
+        "Perché è una domanda",
+        "Perché manca il soggetto",
+        "Perché «credere» presenta l'idea come opinione",
+        "Perché il verbo è irregolare"
+      ],
+      "answer": "Perché «credere» presenta l'idea come opinione",
+      "explanation": "I verbi di opinione aprono al congiuntivo: chi parla non garantisce il fatto, lo pensa.",
+      "distractorWhy": {
+        "Perché manca il soggetto": "Il soggetto «tu» è espresso.",
+        "Perché è una domanda": "La frase è affermativa.",
+        "Perché il verbo è irregolare": "L'irregolarità non decide il modo."
+      }
+    },
+    {
+      "id": "italiano-modi-verbali-quale-frase-usa-il-modo-sbagliato-7",
+      "subject": "italiano",
+      "topic": "modi-verbali",
+      "difficulty": 3,
+      "format": "multiple_choice",
+      "prompt": "Quale frase usa il modo sbagliato?",
+      "options": [
+        "Spero che venga",
+        "So che viene",
+        "Dubito che venga",
+        "Penso che viene"
+      ],
+      "answer": "Penso che viene",
+      "explanation": "«Pensare» esprime opinione e chiede il congiuntivo: «penso che venga».",
+      "distractorWhy": {
+        "Spero che venga": "«Sperare» con congiuntivo: corretto.",
+        "So che viene": "«Sapere» esprime certezza e vuole l'indicativo: corretto.",
+        "Dubito che venga": "«Dubitare» con congiuntivo: corretto."
+      }
+    },
+    {
+      "id": "italiano-modi-verbali-l-imperativo-negativo-alla-seconda-persona-sin-8",
+      "subject": "italiano",
+      "topic": "modi-verbali",
+      "difficulty": 3,
+      "format": "multiple_choice",
+      "prompt": "L'imperativo negativo alla seconda persona singolare si forma con:",
+      "options": [
+        "«non» più l'infinito",
+        "«non» più il congiuntivo",
+        "«non» più il condizionale",
+        "«non» più il participio"
+      ],
+      "answer": "«non» più l'infinito",
+      "explanation": "«Non correre», «non parlare»: alla seconda persona singolare l'italiano usa l'infinito dopo «non».",
+      "distractorWhy": {
+        "«non» più il congiuntivo": "Il congiuntivo serve alla forma di cortesia, «non corra».",
+        "«non» più il condizionale": "Il condizionale non dà ordini.",
+        "«non» più il participio": "Il participio non può reggere un comando."
+      }
+    },
+    {
+      "id": "italiano-modi-verbali-perche-i-modi-si-chiamano-cosi-9",
+      "subject": "italiano",
+      "topic": "modi-verbali",
+      "difficulty": 4,
+      "format": "multiple_choice",
+      "prompt": "Perché i modi si chiamano così?",
+      "options": [
+        "Perché indicano quando accade",
+        "Perché dicono il modo in cui l'azione viene presentata",
+        "Perché contano le persone",
+        "Perché distinguono maschile e femminile"
+      ],
+      "answer": "Perché dicono il modo in cui l'azione viene presentata",
+      "explanation": "Il tempo dice quando, la persona dice chi, il modo dice come chi parla si pone davanti al fatto: certo, possibile, comandato.",
+      "distractorWhy": {
+        "Perché indicano quando accade": "Quello è il compito dei tempi.",
+        "Perché contano le persone": "Le persone sono un'altra categoria del verbo.",
+        "Perché distinguono maschile e femminile": "Il genere riguarda nomi e aggettivi."
+      }
+    },
+    {
+      "id": "italiano-modi-verbali-in-quale-frase-il-condizionale-non-esprime-cor-10",
+      "subject": "italiano",
+      "topic": "modi-verbali",
+      "difficulty": 4,
+      "format": "multiple_choice",
+      "prompt": "In quale frase il condizionale NON esprime cortesia?",
+      "options": [
+        "Potresti aiutarmi?",
+        "Vorrei un caffè",
+        "Sarebbe partito, ma perse il treno",
+        "Mi presteresti la penna?"
+      ],
+      "answer": "Sarebbe partito, ma perse il treno",
+      "explanation": "Qui il condizionale passato racconta un fatto mancato, non attenua una richiesta.",
+      "distractorWhy": {
+        "Potresti aiutarmi?": "È una richiesta attenuata.",
+        "Vorrei un caffè": "È una richiesta cortese.",
+        "Mi presteresti la penna?": "È una richiesta cortese."
+      }
+    },
+    {
+      "id": "italiano-modi-verbali-sia-fatta-la-tua-volonta-che-valore-ha-qui-il--11",
+      "subject": "italiano",
+      "topic": "modi-verbali",
+      "difficulty": 4,
+      "format": "multiple_choice",
+      "prompt": "«Sia fatta la tua volontà.» Che valore ha qui il congiuntivo?",
+      "options": [
+        "Dà un'informazione",
+        "Racconta un fatto",
+        "Pone una condizione",
+        "Esorta o augura"
+      ],
+      "answer": "Esorta o augura",
+      "explanation": "Il congiuntivo può reggere da solo una frase e vale come esortazione: si chiama congiuntivo esortativo.",
+      "distractorWhy": {
+        "Racconta un fatto": "Un fatto vorrebbe l'indicativo.",
+        "Pone una condizione": "Manca il «se» che introdurrebbe la condizione.",
+        "Dà un'informazione": "La frase non informa: auspica."
+      }
+    },
+    {
+      "id": "italiano-modi-verbali-quale-voce-e-all-imperativo-12",
+      "subject": "italiano",
+      "topic": "modi-verbali",
+      "difficulty": 1,
+      "format": "multiple_choice",
+      "prompt": "Quale voce è all'imperativo?",
+      "options": [
+        "vai",
+        "andresti",
+        "andavi",
+        "andare"
+      ],
+      "answer": "vai",
+      "explanation": "L'imperativo si rivolge direttamente a chi ascolta e non ha bisogno del soggetto espresso.",
+      "distractorWhy": {
+        "andresti": "«Andresti» è condizionale.",
+        "andavi": "«Andavi» è indicativo imperfetto.",
+        "andare": "«Andare» è infinito."
+      }
+    },
+    {
+      "id": "italiano-modi-verbali-che-tu-sia-felice-esprime-13",
+      "subject": "italiano",
+      "topic": "modi-verbali",
+      "difficulty": 2,
+      "format": "multiple_choice",
+      "prompt": "«Che tu sia felice» esprime:",
+      "options": [
+        "un ordine secco",
+        "un augurio",
+        "un fatto certo",
+        "una domanda"
+      ],
+      "answer": "un augurio",
+      "explanation": "Il congiuntivo introdotto da «che» in frase indipendente esprime un desiderio rivolto a qualcuno.",
+      "distractorWhy": {
+        "un ordine secco": "Un ordine userebbe l'imperativo «sii felice».",
+        "un fatto certo": "La certezza vorrebbe l'indicativo «sei felice».",
+        "una domanda": "Manca l'interrogazione."
+      }
+    },
+    {
+      "id": "italiano-modi-verbali-quale-coppia-associa-correttamente-modo-e-valo-14",
+      "subject": "italiano",
+      "topic": "modi-verbali",
+      "difficulty": 3,
+      "format": "multiple_choice",
+      "prompt": "Quale coppia associa correttamente modo e valore?",
+      "options": [
+        "Indicativo — dubbio",
+        "Congiuntivo — certezza",
+        "Imperativo — comando",
+        "Condizionale — ordine"
+      ],
+      "answer": "Imperativo — comando",
+      "explanation": "Ogni modo ha un valore proprio: l'imperativo esiste per comandare o chiedere direttamente.",
+      "distractorWhy": {
+        "Indicativo — dubbio": "L'indicativo è il modo della certezza.",
+        "Congiuntivo — certezza": "Il congiuntivo è il modo dell'incertezza.",
+        "Condizionale — ordine": "Il condizionale attenua, non ordina."
+      }
+    },
+    {
+      "id": "italiano-modi-indefiniti-quali-sono-i-tre-modi-indefiniti-0",
+      "subject": "italiano",
+      "topic": "modi-indefiniti",
+      "difficulty": 1,
+      "format": "multiple_choice",
+      "prompt": "Quali sono i tre modi indefiniti?",
+      "options": [
+        "Presente, passato, futuro",
+        "Prima, seconda, terza persona",
+        "Indicativo, congiuntivo, imperativo",
+        "Infinito, participio, gerundio"
+      ],
+      "answer": "Infinito, participio, gerundio",
+      "explanation": "Si chiamano indefiniti perché non definiscono la persona: da soli non dicono chi compie l'azione.",
+      "distractorWhy": {
+        "Presente, passato, futuro": "Sono tempi, non modi.",
+        "Indicativo, congiuntivo, imperativo": "Sono modi definiti: indicano la persona.",
+        "Prima, seconda, terza persona": "Sono le persone del verbo."
+      }
+    },
+    {
+      "id": "italiano-modi-indefiniti-cantando-e-un-1",
+      "subject": "italiano",
+      "topic": "modi-indefiniti",
+      "difficulty": 1,
+      "format": "multiple_choice",
+      "prompt": "«Cantando» è un:",
+      "options": [
+        "gerundio",
+        "participio",
+        "infinito",
+        "imperativo"
+      ],
+      "answer": "gerundio",
+      "explanation": "Il gerundio finisce in «-ando» o «-endo» e dice in che modo o circostanza avviene l'azione principale.",
+      "distractorWhy": {
+        "infinito": "L'infinito sarebbe «cantare».",
+        "participio": "Il participio sarebbe «cantato» o «cantante».",
+        "imperativo": "L'imperativo sarebbe «canta!»."
+      }
+    },
+    {
+      "id": "italiano-modi-indefiniti-quale-forma-si-cerca-nel-dizionario-2",
+      "subject": "italiano",
+      "topic": "modi-indefiniti",
+      "difficulty": 1,
+      "format": "multiple_choice",
+      "prompt": "Quale forma si cerca nel dizionario?",
+      "options": [
+        "il participio",
+        "l'infinito",
+        "l'imperativo",
+        "il gerundio"
+      ],
+      "answer": "l'infinito",
+      "explanation": "L'infinito è la forma base del verbo: è con quella che i verbi vengono elencati.",
+      "distractorWhy": {
+        "il participio": "Il participio è una forma derivata.",
+        "il gerundio": "Il gerundio è una forma derivata.",
+        "l'imperativo": "L'imperativo è coniugato su una persona precisa."
+      }
+    },
+    {
+      "id": "italiano-modi-indefiniti-in-ho-mangiato-la-parola-mangiato-e-3",
+      "subject": "italiano",
+      "topic": "modi-indefiniti",
+      "difficulty": 2,
+      "format": "multiple_choice",
+      "prompt": "In «Ho mangiato», la parola «mangiato» è:",
+      "options": [
+        "un gerundio",
+        "un infinito",
+        "un participio passato",
+        "un imperativo"
+      ],
+      "answer": "un participio passato",
+      "explanation": "Il participio passato unito all'ausiliare forma i tempi composti: «ho mangiato» è passato prossimo.",
+      "distractorWhy": {
+        "un gerundio": "Il gerundio sarebbe «mangiando».",
+        "un infinito": "L'infinito sarebbe «mangiare».",
+        "un imperativo": "L'imperativo sarebbe «mangia!»."
+      }
+    },
+    {
+      "id": "italiano-modi-indefiniti-uscendo-di-casa-ho-incontrato-luca-il-gerundio-4",
+      "subject": "italiano",
+      "topic": "modi-indefiniti",
+      "difficulty": 2,
+      "format": "multiple_choice",
+      "prompt": "«Uscendo di casa, ho incontrato Luca.» Il gerundio indica:",
+      "options": [
+        "un ordine",
+        "una condizione impossibile",
+        "un dubbio",
+        "la circostanza in cui avviene l'incontro"
+      ],
+      "answer": "la circostanza in cui avviene l'incontro",
+      "explanation": "Il gerundio colloca l'azione principale dentro una situazione: mentre uscivo, è successo questo.",
+      "distractorWhy": {
+        "un ordine": "Gli ordini sono dell'imperativo.",
+        "un dubbio": "I dubbi vogliono il congiuntivo.",
+        "una condizione impossibile": "Non c'è nessuna ipotesi."
+      }
+    },
+    {
+      "id": "italiano-modi-indefiniti-quale-frase-usa-l-infinito-come-soggetto-5",
+      "subject": "italiano",
+      "topic": "modi-indefiniti",
+      "difficulty": 2,
+      "format": "multiple_choice",
+      "prompt": "Quale frase usa l'infinito come soggetto?",
+      "options": [
+        "Nuotare fa bene",
+        "Nuoto ogni giorno",
+        "Nuota più forte",
+        "Nuotando si impara"
+      ],
+      "answer": "Nuotare fa bene",
+      "explanation": "L'infinito può occupare il posto del soggetto, come farebbe un nome: «il nuoto fa bene».",
+      "distractorWhy": {
+        "Nuoto ogni giorno": "«Nuoto» è indicativo presente.",
+        "Nuota più forte": "«Nuota» è imperativo.",
+        "Nuotando si impara": "«Nuotando» è gerundio, non soggetto."
+      }
+    },
+    {
+      "id": "italiano-modi-indefiniti-il-participio-presente-si-riconosce-dalla-desi-6",
+      "subject": "italiano",
+      "topic": "modi-indefiniti",
+      "difficulty": 3,
+      "format": "multiple_choice",
+      "prompt": "Il participio presente si riconosce dalla desinenza:",
+      "options": [
+        "-ato / -uto / -ito",
+        "-ante / -ente",
+        "-are / -ere / -ire",
+        "-ando / -endo"
+      ],
+      "answer": "-ante / -ente",
+      "explanation": "«Cantante», «vivente», «sorridente»: il participio presente qualifica come farebbe un aggettivo.",
+      "distractorWhy": {
+        "-ato / -uto / -ito": "Sono le desinenze del participio passato.",
+        "-ando / -endo": "Sono le desinenze del gerundio.",
+        "-are / -ere / -ire": "Sono le desinenze dell'infinito presente."
+      }
+    },
+    {
+      "id": "italiano-modi-indefiniti-in-finito-il-lavoro-uscimmo-che-cosa-fa-il-par-7",
+      "subject": "italiano",
+      "topic": "modi-indefiniti",
+      "difficulty": 3,
+      "format": "multiple_choice",
+      "prompt": "In «Finito il lavoro, uscimmo», che cosa fa il participio?",
+      "options": [
+        "Dà un ordine",
+        "Fa da soggetto",
+        "Apre una subordinata che indica anteriorità",
+        "Esprime un dubbio"
+      ],
+      "answer": "Apre una subordinata che indica anteriorità",
+      "explanation": "Il participio passato da solo, senza ausiliare, regge una frase e la colloca prima della principale.",
+      "distractorWhy": {
+        "Dà un ordine": "Nessun imperativo compare.",
+        "Fa da soggetto": "Il soggetto della principale è sottinteso, «noi».",
+        "Esprime un dubbio": "Il dubbio richiederebbe il congiuntivo."
+      }
+    },
+    {
+      "id": "italiano-modi-indefiniti-perche-il-gerundio-non-puo-reggere-da-solo-una-8",
+      "subject": "italiano",
+      "topic": "modi-indefiniti",
+      "difficulty": 3,
+      "format": "multiple_choice",
+      "prompt": "Perché il gerundio non può reggere da solo una frase compiuta?",
+      "options": [
+        "Perché indica solo il futuro",
+        "Perché è troppo corto",
+        "Perché non ha desinenza",
+        "Perché non indica chi compie l'azione"
+      ],
+      "answer": "Perché non indica chi compie l'azione",
+      "explanation": "Senza persona il gerundio ha bisogno di appoggiarsi a un altro verbo che dica chi agisce.",
+      "distractorWhy": {
+        "Perché è troppo corto": "La lunghezza non c'entra.",
+        "Perché non ha desinenza": "Ha desinenza propria, «-ando» o «-endo».",
+        "Perché indica solo il futuro": "Il gerundio non colloca nel futuro."
+      }
+    },
+    {
+      "id": "italiano-modi-indefiniti-in-avendo-studiato-supero-la-prova-il-gerundio-9",
+      "subject": "italiano",
+      "topic": "modi-indefiniti",
+      "difficulty": 4,
+      "format": "multiple_choice",
+      "prompt": "In «Avendo studiato, superò la prova», il gerundio passato indica un'azione:",
+      "options": [
+        "avvenuta prima",
+        "posteriore",
+        "contemporanea",
+        "impossibile"
+      ],
+      "answer": "avvenuta prima",
+      "explanation": "Il gerundio composto colloca l'azione prima della principale: prima studiò, poi superò.",
+      "distractorWhy": {
+        "contemporanea": "La contemporaneità vorrebbe «studiando».",
+        "posteriore": "Il gerundio non proietta in avanti.",
+        "impossibile": "Nulla nella frase segnala un'ipotesi."
+      }
+    },
+    {
+      "id": "italiano-modi-indefiniti-quale-frase-contiene-un-participio-usato-come--10",
+      "subject": "italiano",
+      "topic": "modi-indefiniti",
+      "difficulty": 4,
+      "format": "multiple_choice",
+      "prompt": "Quale frase contiene un participio usato come aggettivo?",
+      "options": [
+        "Ho perso le chiavi",
+        "Le chiavi perse erano sul tavolo",
+        "Perdere le chiavi è seccante",
+        "Perdendo le chiavi, tornai indietro"
+      ],
+      "answer": "Le chiavi perse erano sul tavolo",
+      "explanation": "Qui «perse» qualifica «chiavi» e ne segue genere e numero: si comporta esattamente come un aggettivo.",
+      "distractorWhy": {
+        "Ho perso le chiavi": "Qui il participio forma il passato prossimo con l'ausiliare.",
+        "Perdere le chiavi è seccante": "«Perdere» è infinito con funzione di soggetto.",
+        "Perdendo le chiavi, tornai indietro": "«Perdendo» è gerundio."
+      }
+    },
+    {
+      "id": "italiano-modi-indefiniti-perche-vietato-fumare-funziona-senza-soggetto--11",
+      "subject": "italiano",
+      "topic": "modi-indefiniti",
+      "difficulty": 4,
+      "format": "multiple_choice",
+      "prompt": "Perché «Vietato fumare» funziona senza soggetto né persona?",
+      "options": [
+        "Perché il soggetto è sottinteso «io»",
+        "Perché è un ordine rivolto a una persona",
+        "Perché usa due forme indefinite e vale per chiunque",
+        "Perché manca il verbo"
+      ],
+      "answer": "Perché usa due forme indefinite e vale per chiunque",
+      "explanation": "Participio più infinito: nessuno dei due indica la persona, ed è per questo che i cartelli li usano.",
+      "distractorWhy": {
+        "Perché è un ordine rivolto a una persona": "Non è rivolto a nessuno in particolare, ed è voluto.",
+        "Perché il soggetto è sottinteso «io»": "Il divieto vale per tutti, non per chi scrive.",
+        "Perché manca il verbo": "I verbi ci sono: sono due, entrambi indefiniti."
+      }
+    },
+    {
+      "id": "italiano-modi-indefiniti-letto-puo-essere-participio-passato-di-quale-v-12",
+      "subject": "italiano",
+      "topic": "modi-indefiniti",
+      "difficulty": 1,
+      "format": "multiple_choice",
+      "prompt": "«Letto» può essere participio passato di quale verbo?",
+      "options": [
+        "legare",
+        "levare",
+        "lasciare",
+        "leggere"
+      ],
+      "answer": "leggere",
+      "explanation": "«Leggere» ha participio irregolare «letto»: non segue la regola del «-uto».",
+      "distractorWhy": {
+        "legare": "Il participio di «legare» è «legato».",
+        "lasciare": "Il participio di «lasciare» è «lasciato».",
+        "levare": "Il participio di «levare» è «levato»."
+      }
+    },
+    {
+      "id": "italiano-modi-indefiniti-sto-leggendo-e-formato-da-13",
+      "subject": "italiano",
+      "topic": "modi-indefiniti",
+      "difficulty": 2,
+      "format": "multiple_choice",
+      "prompt": "«Sto leggendo» è formato da:",
+      "options": [
+        "un verbo più un gerundio",
+        "due infiniti",
+        "due participi",
+        "un imperativo più un nome"
+      ],
+      "answer": "un verbo più un gerundio",
+      "explanation": "«Stare» più il gerundio esprime un'azione in corso proprio adesso: è la forma progressiva.",
+      "distractorWhy": {
+        "due infiniti": "«Sto» non è un infinito.",
+        "due participi": "Nessuna delle due parole è un participio.",
+        "un imperativo più un nome": "Non c'è né ordine né nome."
+      }
+    },
+    {
+      "id": "italiano-modi-indefiniti-quale-funzione-non-puo-avere-l-infinito-14",
+      "subject": "italiano",
+      "topic": "modi-indefiniti",
+      "difficulty": 3,
+      "format": "multiple_choice",
+      "prompt": "Quale funzione NON può avere l'infinito?",
+      "options": [
+        "Fare da soggetto",
+        "Indicare da solo chi compie l'azione",
+        "Reggere una subordinata implicita",
+        "Seguire un verbo servile"
+      ],
+      "answer": "Indicare da solo chi compie l'azione",
+      "explanation": "È proprio ciò che lo rende indefinito: per sapere chi agisce bisogna guardare l'altro verbo della frase.",
+      "distractorWhy": {
+        "Fare da soggetto": "«Correre stanca»: l'infinito è il soggetto.",
+        "Reggere una subordinata implicita": "«Penso di partire»: lo fa normalmente.",
+        "Seguire un verbo servile": "«Devo partire»: è il suo uso più comune."
+      }
     }
   ],
   "logica-base": [

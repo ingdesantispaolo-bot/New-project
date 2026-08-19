@@ -72,6 +72,26 @@ var ruolo := RUOLO_PATTUGLIA
 ## pedaggio su un forziere gia' aperto.
 var presidio := ""
 
+## **Il richiamo.** (19 agosto 2026) Quando l'apparato diventa riparabile e la
+## nave chiama, le sacche si accorgono che Eli sta andando via: la soglia di
+## inseguimento si allunga di meta'. Il morso non cambia di un'energia e la
+## regola della mappa non si tocca — non fermano niente, non chiudono niente:
+## solo, per l'ultima traversata, si fanno sentire.
+var richiamo := false
+
+## Quanto si allunga la soglia di inseguimento durante il richiamo.
+const RICHIAMO_ALLUNGO := 1.5
+
+## **La caccia.** (19 agosto 2026) Il momento d'autore del mondo 5
+## ([[WorldSetPiece]]): per sedici secondi tutte le sacche del mondo si voltano
+## insieme. Il morso resta quello di sempre — non c'e' un danno nuovo e non si
+## puo' perdere niente — cambia solo che, per una volta, il mondo ti insegue.
+var caccia := false
+
+## Quanto si allunga la soglia durante la caccia. Quattro volte: da qualunque
+## punto della mappa visibile, si voltano.
+const CACCIA_ALLUNGO := 4.0
+
 ## **Il forziere che questa sacca sorveglia**, vuoto se pattuglia e basta.
 ##
 ## Richiesta del committente del 7 agosto 2026: «i nemici proteggono i bauli con
@@ -268,6 +288,10 @@ func _physics_process(delta: float) -> void:
 		# mezza mappa — sarebbe fastidio, non pericolo — ma chi si avvicina al
 		# forziere se la trova addosso subito.
 		var soglia := 190.0 + tier * 12.0 if _ancorata() else 250.0 + tier * 20.0
+		if caccia:
+			soglia *= CACCIA_ALLUNGO
+		elif richiamo:
+			soglia *= RICHIAMO_ALLUNGO
 		if distance < soglia:
 			target = player.global_position
 		if _ancorata() and anchor.distance_to(target) > _guinzaglio():

@@ -185,6 +185,12 @@ func _aggiorna_fiuto(delta: float) -> void:
 func _aggiorna_freccia() -> void:
 	if not is_instance_valid(_freccia) or not is_instance_valid(target):
 		return
+	# Mentre è dentro una tana non indica niente: sta facendo un'altra cosa, e una
+	# bussola che continua a funzionare mentre il suo portatore è sottoterra
+	# toglierebbe al momento tutto quello che ha.
+	if _meta != Vector2.INF or not visible:
+		_freccia.visible = false
+		return
 	var meta := _obiettivo_piu_vicino()
 	if meta == Vector2.INF:
 		_freccia.visible = false
@@ -206,7 +212,11 @@ func _process(delta: float) -> void:
 		_crea_freccia()
 	_aggiorna_freccia()
 	_aggiorna_fiuto(delta)
-	if is_instance_valid(target):
+	if _meta != Vector2.INF:
+		# Con una meta sua smette di seguire: è l'unico momento in cui il Custode
+		# non è al fianco di Eli.
+		global_position = global_position.move_toward(_meta, VELOCITA_INCARICO * delta)
+	elif is_instance_valid(target):
 		# il pet resta sul lato opposto alla direzione di marcia
 		var side := signf(offset.x)
 		if target.velocity.x > 8.0:
@@ -244,6 +254,41 @@ func _process(delta: float) -> void:
 		# qualunque smorfia il Custode stia facendo — che e' giusto: sentire una
 		# cosa non lo rende meno vivo.
 		visual.position.x = _fiuto_sporgenza
+
+## **Il Custode va da solo.** (19 agosto 2026)
+##
+## Finché c'è una meta, smette di seguire Eli e ci va. È l'unico momento in cui
+## il compagno non è attaccato al fianco di chi gioca, ed è tutta la ragione per
+## cui le tane esistono ([[PetErrand]]): si preme un pulsante e non si apre
+## niente — si guarda qualcun altro fare una cosa.
+##
+## Qui non si sa che cosa ci sia in fondo. La scena decide quando sparisce, che
+## cosa riporta e quando torna; questo file sa soltanto camminare e nascondersi.
+var _meta := Vector2.INF
+
+## Quanto va veloce quando ha una meta sua. Più svelto del passo con cui segue:
+## ci va di corsa, perché è entusiasta e perché una traversata lenta mentre non
+## si può fare altro sarebbe un'attesa e basta.
+const VELOCITA_INCARICO := 210.0
+
+func manda_a(posizione: Vector2) -> void:
+	_meta = posizione
+	_fiuto = Vector2.INF
+	_fiuto_lato = 0.0
+	queue_redraw()
+
+## Vero quando è arrivato: la scena aspetta questo per farlo sparire dentro.
+func arrivato() -> bool:
+	return _meta != Vector2.INF and global_position.distance_to(_meta) < 26.0
+
+## Torna al fianco di Eli. Da qui in poi il seguito riprende da solo.
+func torna() -> void:
+	_meta = Vector2.INF
+	visible = true
+
+## Sparisce dentro. Non è `queue_free`: è lo stesso Custode, che rientra.
+func entra() -> void:
+	visible = false
 
 func react() -> void:
 	var profile := PetExpressionEngine.temperament_profile(_temperament)

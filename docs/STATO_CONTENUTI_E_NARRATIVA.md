@@ -359,6 +359,10 @@ per sedici mondi non c'è nessuno che ostacoli, solo cose da capire.
 `scrive` — a un mondo dell'atto II, come evento isolato e senza spiegazione. Un
 «FERMATI» su un'insegna al mondo 13 costa zero e cambia il ritmo di otto mondi.
 
+> **✔ Fatto, 19 agosto 2026.** È il momento d'autore del mondo 12
+> (`world_set_piece.gd`, forma `scritta`): una parola sola su un'insegna, senza
+> spiegazione e senza minaccia. Vedi [DESIGN_COMPLETO §10.1](DESIGN_COMPLETO.md).
+
 **b) Meridiana arriva tardi per quanto pesa.** È il colpo 6, al mondo 23, e
 regge il Secondo Viaggio intero — ma i suoi semi sono solo quattro e tre stanno
 oltre il mondo 20. Chi finisce il gioco la incontra come una notizia, non come
@@ -373,6 +377,9 @@ nessuna di loro: sono un numero. Gli Sbiaditi esistono già come nemici del mond
 *Rimedio*: rendere **uno** Sbiadito riconoscibile — che ripete una frase che NORA
 ha detto al giocatore dieci mondi prima. Un solo caso, senza spiegazione. Al
 colpo 7 quel ricordo torna e il numero diventa una persona.
+
+> **✔ Fatto, 19 agosto 2026.** È il momento d'autore del mondo 16 (forma `eco`):
+> una sacca si ferma e dice «Non te la do io la risposta. La rifai tu».
 
 **d) La conta di nonna Ersilia è l'unica chiave e si sente una volta sola.** Se
 un bambino salta quel dialogo nei primi cinque minuti, al mondo 24 non ha la
@@ -394,6 +401,12 @@ e Lucilla che gli parla — ma non compare in nessuno dei 24 beat né in nessun
 colpo di scena. È il compagno costante del giocatore ed è narrativamente muto.
 *Rimedio*: un solo beat in cui NORA lo nomina, e una reazione del Custode al
 colpo 5. Poco, ma lo lega.
+
+> **Parzialmente fatto, 19 agosto 2026.** Il Custode adesso **agisce**: le tane
+> sono la prima interazione del gioco che non apre un pannello, e il buio del
+> mondo 8 è il primo momento in cui la sua presenza cambia che cosa si vede
+> ([PET_CUSTODE §3.5](PET_CUSTODE.md)). Resta da fare la parte narrativa vera:
+> un beat in cui NORA lo nomina.
 
 ---
 

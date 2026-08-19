@@ -214,6 +214,46 @@ stadio *Che confessa* smette di fingere: «È ridicolo. Mi mancherebbe.»
 
 ---
 
+### 3.5 Le tane: il Custode **fa** qualcosa (19 agosto 2026)
+
+Fino al 18 agosto il Custode aveva diciotto segnali, dieci espressioni, quattro
+indoli, sedici combinelle, un legame che sale, i regali e Lucilla che gli parla —
+e **non faceva mai niente**. Era uno specchio affettivo con una freccia sopra.
+
+E c'era un secondo difetto che questa cosa risolve insieme al primo: **tutte e
+dodici le cose interattive della mappa finivano in un pannello.** Avvicinati,
+premi, si apre una finestra. La tana è la prima interazione del gioco in cui si
+preme e non si apre niente: si **guarda il proprio compagno andare**.
+
+**La forma.** Una fenditura, un tubo crollato, una tana sotto le radici: un posto
+in cui Eli non entra e il Custode sì. Due per mondo. Si manda lui; sparisce
+dentro; dopo quattro secondi esce.
+
+**Che cosa riporta**, in ordine di frequenza:
+
+| esito | peso | cosa succede |
+|---|---:|---|
+| niente | 5 | esce a marcia indietro con una ragnatela in testa, e finge che fosse il piano. NORA prende appunti |
+| un regalo | 3 | un sasso. Una vite storta. Quelli di §3.3, che non valgono niente per contratto |
+| frammenti | 2 | diciotto. Un forziere di lascito ne vale dieci volte tanto |
+
+La figura barbina vince su tutto perché è la cosa che il Custode fa meglio, ed è
+l'unica che non si può ottenere altrove. **Il momento è lui che esce, non quello
+che ha in bocca.**
+
+**I guard-rail sono quelli di sempre.** Da una tana non escono mai energia,
+padronanza, pezzi di gate o strumenti: escono frammenti — cioè cosmetici — e
+regali, che non servono a niente. È la stessa linea che rende lecito mettere un
+duello davanti a un forziere: si può chiudere solo ciò che non serve a imparare.
+
+Non si può fallire, non c'è un tempo, non c'è un'abilità: una tana dà sempre
+qualcosa, foss'anche solo una riga. Ed è l'unico posto del gioco che non chiede
+niente a nessuno. Una tana svuotata resta svuotata — l'esito dipende dal suo
+identificativo, quindi rimandarci il Custode darebbe sempre la stessa cosa, e una
+gag ripetuta a comando smette di essere una gag.
+
+Contratto in `pet_errand.gd`, verificato da `ritmo_del_mondo_audit.gd`.
+
 ## 4. La schermata del Custode
 
 Si apre con un tocco lungo sul widget, o dalla Bottega.

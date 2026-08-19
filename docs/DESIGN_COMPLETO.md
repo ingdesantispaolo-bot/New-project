@@ -506,6 +506,48 @@ ai topic vicini.
 - **Celebrazione** misurata di vittorie, riparazioni, salite di livello, record.
 - **Sorpresa**: beacon notturni, tesori rari, echi.
 
+### 10.1 La curva di un mondo (19 agosto 2026)
+
+**Il difetto misurato:** un mondo non aveva una curva. Diciotto punti
+d'interesse equivalenti, in qualunque ordine, ricetta identica ventiquattro
+volte — la composizione semantica cambia *dove* le cose stanno, mai *che cosa*
+succede. Al quarto mondo un bambino ha già capito la forma di tutti i venti che
+restano. E poi si torna al portale camminando come si era arrivati: l'esame sta
+dentro la nave, quindi il mondo esterno finiva senza accorgersene.
+
+Adesso un mondo ha un inizio, un mezzo e una fine.
+
+**Il mezzo — il momento d'autore** (`world_set_piece.gd`). Sei in tutta la
+campagna, agganciati ai mondi dei colpi di scena (5, 8, 12, 16, 19, 23), che
+scattano quando il mondo è scoperto a metà — a lavoro cominciato, quando il posto
+è già familiare. Uno per forma, mai la stessa due volte:
+
+| mondo | forma | cosa succede |
+|---:|---|---|
+| 5 | branco | tutte le sacche si voltano insieme, per sedici secondi |
+| 8 | buio | la luce crolla, e la torcia diventa l'unica cosa che conta |
+| 12 | scritta | il Tredicesimo lascia **una parola** su un'insegna |
+| 16 | eco | una sacca si ferma e ripete una frase che NORA ha detto |
+| 19 | marea | il velo si alza e si riabbassa tre volte |
+| 23 | convergenza | gli abitanti smettono di lavorare, tutti insieme |
+
+Sei e non ventiquattro perché sei bastano a dare un ritmo a ventuno ore, e perché
+si agganciano a qualcosa che la storia paga già. Tre di questi chiudono buchi che
+[STATO_CONTENUTI_E_NARRATIVA §3.3](STATO_CONTENUTI_E_NARRATIVA.md) aveva misurato
+e lasciato aperti: il Tredicesimo che entra prima (a), una sorella che ha un
+volto (c), il Custode che conta in una scena (f).
+
+**La fine — il richiamo.** Quando l'apparato diventa riparabile il mondo cambia
+stato, una volta sola, e non torna indietro finché Eli non se ne va: la luce sale
+al massimo, la gente smette di lavorare e si raduna, le sacche si allungano
+dietro a Eli, la rotta verso la nave si accende. Non è contenuto nuovo — è regia
+su sistemi che c'erano già e non parlavano fra loro.
+
+**Le regole, per tutti e sette.** Nessuno toglie niente: né energia, né
+padronanza, né progressione. Il branco insegue ma morde con le regole di sempre;
+le sacche del richiamo non fermano nulla. E niente si ripete: un momento visto è
+visto. Tenuto da `ritmo_del_mondo_audit.gd`.
+
 ---
 
 ## 11. UX, HUD, onboarding

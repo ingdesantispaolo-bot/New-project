@@ -122,6 +122,13 @@ func _anchor_for_phase(value: String) -> String:
 			return "work"
 		"alba":
 			return "ritrovo"
+		# **Il richiamo** (19 agosto 2026): quando l'apparato diventa riparabile la
+		# nave chiama, e la gente smette di lavorare e si raduna. Non è una fase
+		# dell'orologio — non torna e non ruota — è uno stato in cui il mondo
+		# entra e da cui esce solo quando Eli se ne va. Vedi
+		# `OutdoorWorld._apri_il_richiamo`.
+		"richiamo":
+			return "ritrovo"
 	return "home"
 
 func _update_routines(visible_world: Rect2, delta: float) -> void:

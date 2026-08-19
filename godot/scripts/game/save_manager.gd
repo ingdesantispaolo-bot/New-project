@@ -134,6 +134,10 @@ static func _default_data() -> Dictionary:
 		# uno strumento nuovo sarebbe soltanto una riga di dialogo, perché nessuno
 		# si ricorda dove ha visto un rovo dodici ore prima.
 		"toolGates": {},
+		# I momenti d'autore già visti ([[WorldSetPiece]]): sei in tutta la
+		# campagna, uno per colpo di scena. Non si ripetono — una cutscene che
+		# ricompare la seconda volta si salta, e questi non si possono saltare.
+		"setPiecesSeen": [],
 		"narrative": {"seen": [], "beats": {}},
 		"progressReport": {"events": []},
 		"daily": {"date": "", "missions": 0, "streak": 0},
@@ -831,6 +835,45 @@ func claim_world_intro(level: int) -> bool:
 
 func world_intro_seen(level: int) -> bool:
 	return Array(data.get("worldIntroSeen", [])).has(level)
+
+## **Un momento d'autore si vede una volta sola.** (19 agosto 2026)
+##
+## Chiede e segna in un colpo: due chiamate separate — «l'ho già visto?» e poi
+## «segnalo» — potrebbero farlo partire due volte se la luce del mondo attraversa
+## la soglia mentre il primo è ancora in corso.
+func claim_set_piece(id: String) -> bool:
+	if id == "":
+		return false
+	var visti: Array = Array(data.get("setPiecesSeen", []))
+	if visti.has(id):
+		return false
+	visti.append(id)
+	data["setPiecesSeen"] = visti
+	return true
+
+func set_piece_seen(id: String) -> bool:
+	return Array(data.get("setPiecesSeen", [])).has(id)
+
+## **Una tana svuotata resta svuotata.** (19 agosto 2026, [[PetErrand]])
+##
+## Non e' avarizia: l'esito di una tana e' deciso dal suo identificativo, quindi
+## rimandarci il Custode darebbe sempre la stessa cosa. Riaprirla vorrebbe dire
+## farmare la stessa figura barbina, e una gag ripetuta a comando smette di
+## essere una gag.
+func tana_svuotata(world_id: String, tana_id: String) -> bool:
+	return Array(world_progress(world_id).get("emptiedDenIds", [])).has(tana_id)
+
+func mark_tana_svuotata(world_id: String, tana_id: String) -> bool:
+	var progresso := world_progress(world_id)
+	var svuotate: Array = Array(progresso.get("emptiedDenIds", []))
+	if svuotate.has(tana_id):
+		return false
+	svuotate.append(tana_id)
+	progresso["emptiedDenIds"] = svuotate
+	var tutti: Dictionary = data.get("worldProgress", {})
+	tutti[world_id] = progresso
+	data["worldProgress"] = tutti
+	return true
 
 ## Un hazard sgombrato resta sgombrato: il pedaggio si paga una volta sola.
 func mark_hazard_cleared(world_id: String, hazard_id: String) -> bool:

@@ -298,6 +298,7 @@ delete document.documentElement.dataset.eliExam;
 		audio.call("play_subject", _world_subject())
 	_publish_web_accessibility_state()
 	_crea_hazard()
+	_crea_tane()
 	_crea_sbarramenti()
 	_crea_camera_chiusa()
 	_crea_velo_di_nebbia()
@@ -653,6 +654,9 @@ func _on_runtime_state(state: Dictionary) -> void:
 		expedition_module_presentation.apply_runtime(
 			runtime, equipped_field_tool(), Array(result.get("collectedTreasureIds", [])))
 	_aggiorna_cariche_impulso()
+	# Il richiamo scatta quando l'apparato diventa riparabile, una volta sola.
+	if bool(runtime.get("ready", false)) and not _richiamo_attivo:
+		_apri_il_richiamo()
 	_update_objective()
 	_update_ship_navigation()
 	_refresh_economy()
@@ -853,7 +857,73 @@ const TURNO_LAVORO := 110.0
 const TURNO_RITROVO := 40.0
 const TURNO_RIPOSO := 34.0
 
+## **IL RICHIAMO.** (19 agosto 2026)
+##
+## Un mondo non aveva una curva: diciotto punti d'interesse equivalenti, in
+## qualunque ordine, e poi si tornava al portale camminando come si era arrivati.
+## L'esame sta dentro la nave, quindi il mondo esterno finiva senza accorgersene.
+##
+## Quando l'apparato diventa riparabile il mondo **cambia stato**, una volta
+## sola, e non torna indietro finché Eli non se ne va:
+##
+##   - la luce sale al massimo: qui hai finito, e si vede;
+##   - la gente smette di lavorare e si raduna ([[WorldLife]] fase «richiamo»);
+##   - le sacche si allungano dietro a Eli — sempre senza fermarla, la regola
+##     della mappa non si tocca: solo si accorgono che sta andando via;
+##   - la rotta verso la nave si accende.
+##
+## Non è contenuto nuovo: è regia su cose che c'erano già e non parlavano fra
+## loro. Ed è il motivo per cui adesso un mondo ha un inizio, un mezzo e una fine
+## invece di un elenco.
+var _richiamo_attivo := false
+
+func _apri_il_richiamo() -> void:
+	if _richiamo_attivo:
+		return
+	_richiamo_attivo = true
+	# La luce al massimo: la nebbia si alza tutta insieme, e il mondo che si era
+	# scoperto un pezzo per volta si vede intero per la prima volta.
+	_aggiorna_nebbia(1.0, true)
+	for enemy in get_tree().get_nodes_in_group("world_enemy"):
+		if is_instance_valid(enemy):
+			enemy.set("richiamo", true)
+	_accendi_la_rotta()
+	_set_nora_feedback(
+		"L'apparato è pronto. La nave chiama: senti che la gente ha smesso di lavorare?")
+	_update_ship_navigation()
+
+## La rotta accesa: una fila di impulsi dal punto in cui sei fino all'ingresso
+## della nave. Non è una freccia e non guida — è la stessa strada di prima, vista
+## una volta sola con la luce addosso.
+func _accendi_la_rotta() -> void:
+	if reduced_motion or not is_instance_valid(player):
+		return
+	var meta := PORTAL_POSITION
+	var da := player.global_position
+	var quanti := clampi(int(da.distance_to(meta) / 190.0), 3, 14)
+	for indice in range(quanti):
+		var punto := da.lerp(meta, float(indice + 1) / float(quanti))
+		var scintilla := OutdoorVisualFactory.make_glow(26.0, Color("f6c85f"), 0.0)
+		scintilla.name = "RichiamoScintilla_%02d" % indice
+		scintilla.position = punto
+		scintilla.z_index = 4
+		world_layer.add_child(scintilla)
+		var tween := create_tween()
+		tween.tween_interval(float(indice) * 0.09)
+		tween.tween_property(scintilla, "modulate:a", 0.9, 0.22)
+		tween.tween_interval(0.5)
+		tween.tween_property(scintilla, "modulate:a", 0.0, 0.7)
+		tween.tween_callback(scintilla.queue_free)
+
 func _turno_del_villaggio(delta: float) -> String:
+	# Durante il richiamo l'orologio del villaggio si ferma sul raduno: la gente
+	# non torna al lavoro mentre la nave chiama, e un capannello che si scioglie
+	# da solo mentre Eli attraversa il mondo per uscire toglierebbe il momento.
+	if _richiamo_attivo or _momento_convergenza_attiva:
+		return "richiamo"
+	return _turno_dell_orologio(delta)
+
+func _turno_dell_orologio(delta: float) -> String:
 	var giro := TURNO_LAVORO + TURNO_RITROVO + TURNO_RIPOSO
 	village_clock = fmod(village_clock + maxf(delta, 0.0), giro)
 	if village_clock < TURNO_LAVORO:
@@ -3746,6 +3816,9 @@ func _assegna_guardiani() -> void:
 		# forziere e un premio che non si vede non si desidera.
 		sacca.setup(self, posto + Vector2(0, -54), world_level, _world_subject(), accento, _guardiani.size())
 		sacca.reduced_motion = reduced_motion
+		# Una sacca nata dopo il richiamo lo eredita: altrimenti le guardiane
+		# comparse durante l'ultima traversata sarebbero le uniche distratte.
+		sacca.richiamo = _richiamo_attivo
 		sacca.sorveglia(id)
 		sacca.set_meta("guardId", guardia_id)
 		world_layer.add_child(sacca)
@@ -3792,6 +3865,7 @@ func _schiera_presidio(guardia_id: String, centro: Vector2) -> void:
 			chunks.composition.blended_accent(posto),
 			_guardiani.size() * 8 + indice, WorldEnemy.RUOLO_SCORTA)
 		scorta.reduced_motion = reduced_motion
+		scorta.richiamo = _richiamo_attivo
 		scorta.fa_la_scorta(guardia_id)
 		world_layer.add_child(scorta)
 		schiera.append(scorta)
@@ -5106,8 +5180,171 @@ func _aggiorna_nebbia(luce: float, animata: bool) -> void:
 ## Una prova e' andata bene: il mondo si scopre, la barra sale, e se il grado e'
 ## cambiato lo si dice. Tre ricompense diverse su tre orizzonti diversi —
 ## immediata, di sessione, di partita.
+## **IL MOMENTO D'AUTORE.** (19 agosto 2026, [[WorldSetPiece]])
+##
+## Sei in tutta la campagna, agganciati ai colpi di scena. Scattano quando il
+## mondo è scoperto a metà — a lavoro cominciato, quando il posto è già
+## familiare — e durano al massimo quaranta secondi.
+##
+## Qui c'è solo la regia: che cosa dicono e quando stanno lo decide il catalogo.
+## Nessuno dei sei toglie qualcosa a chi gioca; la riga è nel catalogo e vale
+## quanto le altre.
+var _luce_corrente := 0.0
+var _momento_in_corso := ""
+
+func _prova_il_momento(luce: float) -> void:
+	if luce < WorldSetPiece.LUCE_DI_INNESCO or _momento_in_corso != "":
+		return
+	var momento := WorldSetPiece.momento(world_level)
+	if momento.is_empty() or not is_instance_valid(game_save):
+		return
+	if not game_save.claim_set_piece(str(momento["id"])):
+		return
+	game_save.save()
+	_momento_in_corso = str(momento["id"])
+	_apri_il_momento(momento)
+
+func _apri_il_momento(momento: Dictionary) -> void:
+	_set_nora_feedback(str(momento.get("apertura", "")))
+	match str(momento.get("forma", "")):
+		WorldSetPiece.BRANCO:
+			_momento_branco()
+		WorldSetPiece.BUIO:
+			_momento_buio()
+		WorldSetPiece.SCRITTA:
+			_momento_scritta(str(momento.get("parola", "FERMATI")))
+		WorldSetPiece.ECO:
+			_momento_eco(str(momento.get("eco", "")))
+		WorldSetPiece.MAREA:
+			_momento_marea()
+		WorldSetPiece.CONVERGENZA:
+			_momento_convergenza()
+	await get_tree().create_timer(float(momento.get("durata", 20.0))).timeout
+	_chiudi_il_momento(momento)
+
+func _chiudi_il_momento(momento: Dictionary) -> void:
+	match str(momento.get("forma", "")):
+		WorldSetPiece.BRANCO:
+			for enemy in get_tree().get_nodes_in_group("world_enemy"):
+				if is_instance_valid(enemy):
+					enemy.set("caccia", false)
+		WorldSetPiece.BUIO, WorldSetPiece.MAREA:
+			_aggiorna_nebbia(_luce_corrente, true)
+		WorldSetPiece.CONVERGENZA:
+			_momento_convergenza_attiva = false
+	var chiusura := str(momento.get("chiusura", "")).strip_edges()
+	if chiusura != "":
+		_set_nora_feedback(chiusura)
+	_momento_in_corso = ""
+
+## **Il branco.** Tutte le sacche si voltano insieme. Il morso non cambia di
+## un'energia: cambia che per sedici secondi il mondo ti sta dietro.
+func _momento_branco() -> void:
+	for enemy in get_tree().get_nodes_in_group("world_enemy"):
+		if is_instance_valid(enemy):
+			enemy.set("caccia", true)
+
+## **Il buio.** La luce crolla, e la torcia diventa l'unica cosa che conta. È il
+## primo momento in cui avere il Custode e avere un attrezzo cambiano che cosa
+## si vede, invece di che cosa si può aprire.
+func _momento_buio() -> void:
+	_aggiorna_nebbia(0.12, true)
+
+## **La scritta.** Il Tredicesimo lascia una parola su un'insegna, senza
+## spiegazione e senza minaccia. Non si può leggere meglio avvicinandosi e non si
+## può interagire: è lì, e basta.
+func _momento_scritta(parola: String) -> void:
+	if not is_instance_valid(player):
+		return
+	var insegna := Node2D.new()
+	insegna.name = "MomentoScritta"
+	insegna.position = player.global_position + Vector2(0, -200)
+	insegna.z_index = 60
+	insegna.add_child(OutdoorVisualFactory.make_polygon(
+		PackedVector2Array([
+			Vector2(-118, -44), Vector2(118, -44), Vector2(118, 32), Vector2(-118, 32),
+		]), Color(0.08, 0.07, 0.09, 0.92)))
+	var testo := Label.new()
+	testo.name = "MomentoScrittaTesto"
+	testo.text = parola
+	testo.position = Vector2(-118, -34)
+	testo.custom_minimum_size = Vector2(236, 56)
+	testo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	testo.add_theme_font_size_override("font_size", 40)
+	testo.add_theme_constant_override("outline_size", 8)
+	testo.add_theme_color_override("font_color", Color("ff9b8a"))
+	testo.accessibility_name = "Un'insegna con una parola scritta di fresco: %s" % parola
+	insegna.add_child(testo)
+	world_layer.add_child(insegna)
+	insegna.modulate.a = 0.0
+	if reduced_motion:
+		insegna.modulate.a = 1.0
+	else:
+		var tween := create_tween()
+		tween.tween_property(insegna, "modulate:a", 1.0, 1.6)
+	get_tree().create_timer(21.0).timeout.connect(func():
+		if is_instance_valid(insegna):
+			insegna.queue_free())
+
+## **L'eco.** Una sacca si ferma e ripete una frase che NORA ha detto. Nessuna
+## spiegazione adesso — al colpo di scena, quel ricordo torna.
+func _momento_eco(frase: String) -> void:
+	var vicina: Node2D = null
+	var distanza := INF
+	for enemy in get_tree().get_nodes_in_group("world_enemy"):
+		if not (enemy is Node2D) or not is_instance_valid(player):
+			continue
+		var quanto: float = player.global_position.distance_to((enemy as Node2D).global_position)
+		if quanto < distanza:
+			distanza = quanto
+			vicina = enemy as Node2D
+	if vicina == null:
+		# Nessuna sacca in vista: la frase arriva lo stesso, da nessuna parte, ed
+		# è persino peggio. Un momento d'autore non si perde per una posizione.
+		_set_feedback(frase)
+		return
+	vicina.call("stun", 20.0)
+	var voce := Label.new()
+	voce.name = "MomentoEco"
+	voce.text = frase
+	voce.position = Vector2(-190, -132)
+	voce.custom_minimum_size = Vector2(380, 44)
+	voce.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	voce.add_theme_font_size_override("font_size", 17)
+	voce.add_theme_constant_override("outline_size", 7)
+	voce.add_theme_color_override("font_color", Color("d8f3ff"))
+	voce.accessibility_name = "Una sacca di Silenzio ripete: %s" % frase
+	vicina.add_child(voce)
+	_pet_react("sister_found")
+	get_tree().create_timer(19.0).timeout.connect(func():
+		if is_instance_valid(voce):
+			voce.queue_free())
+
+## **La marea.** Il velo si alza e si riabbassa tre volte: la mappa si legge a
+## intermittenza, e non c'è niente da fare se non aspettare.
+func _momento_marea() -> void:
+	for giro in range(3):
+		if _momento_in_corso == "":
+			return
+		_aggiorna_nebbia(0.18, true)
+		await get_tree().create_timer(4.0).timeout
+		_aggiorna_nebbia(_luce_corrente, true)
+		await get_tree().create_timer(4.0).timeout
+
+## **La convergenza.** Gli abitanti smettono di lavorare e si radunano. È lo
+## stesso stato del richiamo — la regia della vita lo conosce già — e qui dura
+## diciotto secondi invece che fino all'uscita dal mondo.
+var _momento_convergenza_attiva := false
+
+func _momento_convergenza() -> void:
+	_momento_convergenza_attiva = true
+
 func _on_world_light_changed(luce: float, grado: int, salito: bool) -> void:
+	_luce_corrente = luce
+	# La nebbia prima del momento: buio e marea la sovrascrivono, e invertire
+	# l'ordine vorrebbe dire cancellarli nello stesso fotogramma in cui partono.
 	_aggiorna_nebbia(luce, true)
+	_prova_il_momento(luce)
 	_reveal_pending_minimissions()
 	_aggiorna_barra_potenza()
 	_applica_grado_al_personaggio(grado)
@@ -5553,6 +5790,167 @@ func _crea_hazard() -> void:
 		world_layer.add_child(area)
 		area.body_entered.connect(func(body): on_interactable_entered(area, body))
 		area.body_exited.connect(func(body): on_interactable_exited(area, body))
+
+## **LE TANE.** (19 agosto 2026, [[PetErrand]])
+##
+## Due per mondo, e sono la prima cosa della mappa che non apre un pannello: si
+## preme e si guarda il proprio compagno andare. Vedi `_manda_il_custode`.
+const TANE_PER_MONDO := 2
+
+func _crea_tane() -> void:
+	if not is_instance_valid(game_save) or not is_instance_valid(chunks) or chunks.composition == null:
+		return
+	var rng := RandomNumberGenerator.new()
+	rng.seed = hash("tana-%d" % world_level)
+	for indice in range(TANE_PER_MONDO):
+		var id := "tana-%d-%d" % [world_level, indice]
+		if game_save.tana_svuotata(str(world_level), id):
+			continue
+		var posizione := Vector2.ZERO
+		var trovata := false
+		for tentativo in range(12):
+			var angolo := rng.randf() * TAU
+			var raggio := rng.randf_range(520.0, 1400.0)
+			posizione = chunks.clamp_to_world(
+				WorldProfileCatalog.SPAWN + Vector2.RIGHT.rotated(angolo) * raggio)
+			if chunks.composition.is_protected(posizione, 60.0):
+				continue
+			if chunks.composition.raw_water_weight(posizione) >= 0.4:
+				continue
+			trovata = true
+			break
+		if not trovata:
+			continue
+		var area := Area2D.new()
+		area.name = "Tana_%d" % indice
+		area.position = posizione
+		area.set_meta("kind", "tana")
+		area.set_meta("id", id)
+		area.set_meta("payload", {"descrizione": PetErrand.descrizione_di(id)})
+		var forma := CollisionShape2D.new()
+		var cerchio := CircleShape2D.new()
+		cerchio.radius = INTERACTION_DISTANCE
+		forma.shape = cerchio
+		area.add_child(forma)
+		area.add_to_group("world_interactable")
+		area.add_child(_make_tana_marker())
+		world_layer.add_child(area)
+		area.body_entered.connect(func(body): on_interactable_entered(area, body))
+		area.body_exited.connect(func(body): on_interactable_exited(area, body))
+
+## Il segno della tana: un'apertura scura sotto una sporgenza, e l'erba pettinata
+## di chi ci entra e ne esce. Nessun luccichio e nessuna promessa — quello che si
+## va a prendere non è il contenuto.
+func _make_tana_marker() -> Node2D:
+	var marker := Node2D.new()
+	marker.name = "TanaMarker"
+	marker.add_child(OutdoorVisualFactory.make_shadow(30.0, 11.0, 0.5, 14.0))
+	marker.add_child(OutdoorVisualFactory.make_polygon(
+		PackedVector2Array([
+			Vector2(-30, 12), Vector2(-22, -16), Vector2(0, -26),
+			Vector2(22, -16), Vector2(30, 12),
+		]), Color(0.30, 0.28, 0.26, 0.96)))
+	# Il buco: nero pieno, che è l'unica cosa che dice «qui non ci passi».
+	marker.add_child(OutdoorVisualFactory.make_polygon(
+		OutdoorVisualFactory.ellipse_polygon(13.0, 11.0, 18),
+		Color(0.02, 0.03, 0.04, 0.98), Vector2(0, 2)))
+	for filo in range(7):
+		var linea := Line2D.new()
+		linea.name = "ErbaPettinata_%d" % filo
+		linea.width = 2.0
+		linea.default_color = Color(0.42, 0.58, 0.32, 0.8)
+		var x := -26.0 + float(filo) * 8.5
+		linea.points = PackedVector2Array([Vector2(x, 14), Vector2(x + 5.0, 6.0)])
+		marker.add_child(linea)
+	var etichetta := Label.new()
+	etichetta.name = "TanaLabel"
+	etichetta.text = "TANA"
+	etichetta.position = Vector2(-52, 20)
+	etichetta.custom_minimum_size.x = 104
+	etichetta.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	etichetta.add_theme_font_size_override("font_size", 11)
+	etichetta.add_theme_constant_override("outline_size", 5)
+	etichetta.add_theme_color_override("font_color", Color("d8f3ff"))
+	etichetta.accessibility_name = "Tana: ci entra il Custode, non Eli"
+	marker.add_child(etichetta)
+	return marker
+
+## **Si preme, e non si apre niente.**
+##
+## Il Custode si stacca dal fianco di Eli, ci va, sparisce dentro, e dopo qualche
+## secondo esce. È l'unica interazione del gioco in cui chi gioca non fa altro
+## che guardare — ed è il motivo per cui esiste: tutte e dodici le altre cose
+## della mappa finivano in un pannello.
+func _manda_il_custode(target: Area2D) -> void:
+	var id := str(target.get_meta("id", ""))
+	if not is_instance_valid(game_save) or not PetState.is_granted(game_save):
+		_set_feedback(PetErrand.SENZA_CUSTODE)
+		return
+	if not is_instance_valid(pet_companion) or _tana_in_corso != "":
+		return
+	_tana_in_corso = id
+	pet_companion.manda_a(target.global_position)
+	_set_nora_feedback(PetErrand.riga_di_partenza(PetState.name_of(game_save)))
+	_pet_react("near_unexplored")
+	# Da qui in avanti è una scena: si aspetta che arrivi, poi che esca.
+	var atteso := 0.0
+	while not pet_companion.arrivato() and atteso < 6.0:
+		await get_tree().process_frame
+		atteso += get_process_delta_time()
+		if not is_instance_valid(pet_companion) or not is_instance_valid(target):
+			_tana_in_corso = ""
+			return
+	pet_companion.entra()
+	await get_tree().create_timer(PetErrand.DURATA).timeout
+	if not is_instance_valid(pet_companion):
+		_tana_in_corso = ""
+		return
+	pet_companion.torna()
+	_risolvi_tana(target, id)
+	_tana_in_corso = ""
+
+## Che cosa ha riportato. Mai energia, mai padronanza, mai un pezzo di gate: dalle
+## tane escono soltanto frammenti e regali, cioè cose che non servono a imparare.
+## È la stessa linea che rende lecito il duello davanti a un forziere.
+func _risolvi_tana(target: Area2D, id: String) -> void:
+	game_save.mark_tana_svuotata(str(world_level), id)
+	match PetErrand.esito_di(id):
+		"frammenti":
+			gameplay.collect_treasure({"rewardFragments": PetErrand.FRAMMENTI}, "tana-%s" % id)
+			_spawn_gain_popup("+%d frammenti" % PetErrand.FRAMMENTI, Color("c7b8ff"))
+			_refresh_economy()
+			_set_feedback("Esce trascinando qualcosa che luccica. +%d frammenti." % PetErrand.FRAMMENTI)
+			_pet_react("mission_complete")
+		"regalo":
+			# Un regalo dalla tana è lo stesso oggetto inutile di sempre
+			# ([[PetGifts]]): un sasso, una vite storta. Non vale niente per
+			# contratto, ed è il motivo per cui è il premio giusto — chi torna
+			# da una spedizione porta qualcosa, e quel qualcosa è un sasso.
+			var rng := RandomNumberGenerator.new()
+			rng.seed = hash("%s:regalo" % id)
+			var gift_id := PetGifts.pick(rng)
+			var voce := PetState.register_gift(game_save, gift_id, world_level)
+			_pet_react("antic")
+			if voce.is_empty():
+				# Ne aveva già uno uguale: lo riporta lo stesso, ed è più buffo.
+				_set_feedback("Esce con qualcosa in bocca. Ne ha già uno identico.")
+			else:
+				_set_nora_feedback(_nora_gift_line(gift_id, PetState.gifts(game_save).size()))
+		_:
+			_set_feedback(PetErrand.barbina_di(id))
+			_set_nora_feedback(PetErrand.appunto_di(id))
+			_pet_react("antic")
+	game_save.save()
+	# La tana si chiude: svuotata resta svuotata, e la gag non si farma.
+	nearby.erase(target)
+	var contenitore := target
+	if is_instance_valid(contenitore):
+		contenitore.queue_free()
+	_refresh_prompt()
+
+## L'identificativo della tana attualmente in corso, vuoto se nessuna: due
+## spedizioni insieme spezzerebbero la scena e il Custode è uno solo.
+var _tana_in_corso := ""
 
 func _make_hazard_marker() -> Node2D:
 	var nodo := Node2D.new()
@@ -6290,6 +6688,9 @@ func _refresh_prompt() -> void:
 		else:
 			_set_feedback("%s · cerca le tracce lasciate dai Primi" % building_label)
 
+	elif kind == "tana":
+		var tana_payload: Dictionary = target.get_meta("payload", {})
+		_set_feedback("%s Tu non ci passi." % str(tana_payload.get("descrizione", "Una tana.")))
 	elif kind == "mystery_trace":
 		var trace_payload: Dictionary = target.get_meta("payload", {})
 		_set_feedback("Leggi la Traccia: %s" % str(trace_payload.get("oggetto", "reperto dei Primi")))
@@ -6377,6 +6778,8 @@ func _interaction_action_text(target: Area2D) -> String:
 			if building_role == "ritrovo":
 				return "ENTRA NEL RITROVO"
 			return "ESPLORA LA ROVINA"
+		"tana":
+			return "MANDA IL CUSTODE"
 		"mystery_trace":
 			return "LEGGI LA TRACCIA"
 		"mystery_seed":
@@ -6476,6 +6879,9 @@ func _interact() -> void:
 		return
 	if kind == "hazard":
 		_sgombra_hazard(target)
+		return
+	if kind == "tana":
+		_manda_il_custode(target)
 		return
 	if kind == "enemy":
 		var sacca := target.get_parent()

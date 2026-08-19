@@ -6,7 +6,7 @@ const root = process.cwd();
 const publicRoot = path.join(root, "public");
 const exportRoot = path.join(publicRoot, "godot", "outdoor");
 
-const [manifestSource, workerSource, launcherSource, godotHtml, viteSource, compressionSource, versionSource, pck, wasm] = await Promise.all([
+const [manifestSource, workerSource, launcherSource, godotHtml, viteSource, compressionSource, versionSource, pck, wasm, contentPck] = await Promise.all([
   readFile(path.join(publicRoot, "build.json"), "utf8"),
   readFile(path.join(publicRoot, "sw.js"), "utf8"),
   readFile(path.join(root, "index.html"), "utf8"),
@@ -16,6 +16,7 @@ const [manifestSource, workerSource, launcherSource, godotHtml, viteSource, comp
   readFile(path.join(root, "godot/scripts/game/build_version.gd"), "utf8"),
   stat(path.join(exportRoot, "index.pck")),
   stat(path.join(exportRoot, "index.wasm")),
+  stat(path.join(exportRoot, "content.pck")),
 ]);
 
 const manifest = JSON.parse(manifestSource);
@@ -43,6 +44,11 @@ if (manifest.pckBytes !== pck.size || godotPck !== pck.size) {
 }
 if (manifest.wasmBytes !== wasm.size || godotWasm !== wasm.size) {
   failures.push(`index.wasm disallineato: file=${wasm.size}, build.json=${manifest.wasmBytes}, Godot HTML=${godotWasm}`);
+}
+// content.pck non compare nell'HTML di Godot: non lo carica il motore, lo chiede
+// il gioco a runtime. Il confronto possibile e' quindi file contro manifesto.
+if (manifest.contentPckBytes !== contentPck.size) {
+  failures.push(`content.pck disallineato: file=${contentPck.size}, build.json=${manifest.contentPckBytes}`);
 }
 // --- La catena della versione, anello per anello -----------------------------
 //

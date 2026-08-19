@@ -201,6 +201,26 @@ async function waitForScene(cdp, sessionId, scene, timeoutMs) {
   throw new Error(`La scena Web '${scene}' non è comparsa entro ${timeoutMs / 1000}s.`);
 }
 
+/// Attende che l'audio differito diventi attivo. Il ritorno e' lo stato letto,
+/// cosi' il report continua a fotografare l'audio reale e non un'attesa riuscita.
+async function waitForAudio(cdp, sessionId, timeoutMs) {
+  const deadline = Date.now() + timeoutMs;
+  let last = null;
+  while (Date.now() < deadline) {
+    last = await evaluate(
+      cdp,
+      sessionId,
+      "window.__eliAudioState ? JSON.parse(JSON.stringify(window.__eliAudioState)) : null",
+    );
+    if (last?.musicPlaying && last?.ambiencePlaying) return last;
+    await delay(500);
+  }
+  const packState = await evaluate(cdp, sessionId, "window.__eliContentPack || 'assente'");
+  throw new Error(
+    `Audio non attivo entro ${timeoutMs / 1000}s. Pacchetto contenuti: ${packState}. Audio: ${JSON.stringify(last)}`,
+  );
+}
+
 async function capture(cdp, sessionId, destination) {
   const screenshot = await cdp.call("Page.captureScreenshot", { format: "png" }, sessionId);
   await writeFile(destination, Buffer.from(screenshot.data, "base64"));
@@ -356,14 +376,12 @@ try {
   if (!accessibility?.highContrast || !accessibility?.reducedMotion) {
     throw new Error("Il profilo browser non ha applicato contrasto elevato e riduzione movimento.");
   }
-  const audioAtWorld = await evaluate(
-    cdp,
-    sessionId,
-    "window.__eliAudioState ? JSON.parse(JSON.stringify(window.__eliAudioState)) : null",
-  );
-  if (!audioAtWorld?.musicPlaying || !audioAtWorld?.ambiencePlaying || audioAtWorld.playCount < 1) {
-    throw new Error("Musica, ambiente o feedback audio non risultano attivi dopo il gesto touch.");
-  }
+  // L'audio non e' piu' nel `.pck` di boot: arriva con `content.pck`, chiesto a
+  // mondo gia' interattivo. Quindi qui non si misura piu' «suona subito» — che
+  // non e' piu' il contratto — ma «il pacchetto differito arriva e l'audio
+  // riparte da solo». Se questa attesa scade, il pacchetto non si sta montando:
+  // e' un guasto vero, non un ritardo.
+  const audioAtWorld = await waitForAudio(cdp, sessionId, 60_000);
 
   // Nel runtime live Esc imposta una rotta fisica verso la nave: non cambia
   // scena e attraversa quindi davvero corridoio sicuro, collisioni e streaming.
@@ -570,6 +588,22 @@ try {
   }
   if (exerciseFormat === "") throw new Error("Il touch sul POI non ha aperto una missione variata.");
   await delay(2_000);
+
+  // Il conteggio degli effetti si verifica QUI e non all'ingresso nel mondo: i
+  // primi suoni d'interfaccia cadono mentre `content.pck` e' ancora in volo, ed
+  // e' voluto. A questo punto il pacchetto e' montato da un pezzo e le decine di
+  // tocchi fatti nel mezzo devono aver prodotto feedback.
+  const audioAfterPlay = await evaluate(
+    cdp,
+    sessionId,
+    "window.__eliAudioState ? JSON.parse(JSON.stringify(window.__eliAudioState)) : null",
+  );
+  if (!(audioAfterPlay?.playCount >= 1)) {
+    throw new Error(
+      `Nessun effetto audio riprodotto dopo il montaggio dei contenuti: ${JSON.stringify(audioAfterPlay)}`,
+    );
+  }
+
   await capture(cdp, sessionId, path.join(outputRoot, "smoke-exercise.png"));
   runtimeProfiles.push(await collectRuntimeProfile(cdp, sessionId, "exercise"));
   await cdp.call("Emulation.setDeviceMetricsOverride", {

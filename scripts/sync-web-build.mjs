@@ -32,12 +32,16 @@ const checkOnly = args.includes("--check");
 const slugIndex = args.indexOf("--slug");
 const requestedSlug = slugIndex >= 0 ? args[slugIndex + 1] : null;
 
-const [manifestSource, workerSource, versionSource, pck, wasm] = await Promise.all([
+const [manifestSource, workerSource, versionSource, pck, wasm, contentPck] = await Promise.all([
   readFile(manifestPath, "utf8"),
   readFile(workerPath, "utf8"),
   readFile(path.join(root, "godot/scripts/game/build_version.gd"), "utf8"),
   stat(path.join(exportRoot, "index.pck")),
   stat(path.join(exportRoot, "index.wasm")),
+  // Il pacchetto differito sta nello stesso contratto degli altri due: ha un
+  // indirizzo fisso, quindi senza un valore da confrontare un "content.pck"
+  // stantio o mancante passerebbe senza che nessuno se ne accorga.
+  stat(path.join(exportRoot, "content.pck")),
 ]);
 
 // Il commit marchiato DENTRO il pacchetto esportato. Finisce nel manifesto
@@ -73,6 +77,7 @@ const nextBuildId = `${stamp}-${currentSlug}-${buildCounter}`;
 const inSync =
   manifest.pckBytes === pck.size &&
   manifest.wasmBytes === wasm.size &&
+  manifest.contentPckBytes === contentPck.size &&
   manifest.buildId === workerSource.match(/const BUILD_ID = "([^"]+)"/)?.[1] &&
   manifest.cacheVersion === workerSource.match(/const CACHE_VERSION = "([^"]+)"/)?.[1] &&
   manifest.commit === exportedCommit;
@@ -93,6 +98,7 @@ if (checkOnly) {
     commit: exportedCommit,
     pckBytes: pck.size,
     wasmBytes: wasm.size,
+    contentPckBytes: contentPck.size,
   };
 
   const nextWorker = workerSource

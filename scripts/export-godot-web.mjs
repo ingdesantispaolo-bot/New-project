@@ -26,7 +26,9 @@ const root = join(here, "..");
 const projectPath = join(root, "godot");
 const exportRoot = join(root, "public", "godot", "outdoor");
 const exportTarget = join(exportRoot, "index.html");
+const contentTarget = join(exportRoot, "content.pck");
 const PRESET = "Web";
+const CONTENT_PRESET = "Web Content";
 
 // Stesso ordine di ricerca di `run-godot-audits.mjs`: se un giorno cambia la
 // posizione dell'eseguibile va cambiata in due punti, ma tenere i due script
@@ -88,10 +90,21 @@ console.log(`Godot: ${GODOT_BIN}`);
 console.log("1/2 import risorse…");
 await run(["--headless", "--path", projectPath, "--import"], "import");
 
-console.log(`2/2 export preset «${PRESET}» → ${exportTarget}`);
+console.log(`2/3 export preset «${PRESET}» → ${exportTarget}`);
 await run(
   ["--headless", "--path", projectPath, "--export-release", PRESET, exportTarget],
   "export",
+);
+
+// Audio e ritratti viaggiano in un pacchetto a parte, chiesto dal gioco quando
+// è già interattivo (`scripts/game/content_pack_loader.gd`). Sono 26 MB che
+// prima si pagavano prima del primo fotogramma pur non servendo per entrare nel
+// mondo. L'ordine conta: il pacchetto va prodotto dopo il `.pck` di boot, che è
+// quello che ne definisce le esclusioni.
+console.log(`3/3 export pacchetto contenuti «${CONTENT_PRESET}» → ${contentTarget}`);
+await run(
+  ["--headless", "--path", projectPath, "--export-pack", CONTENT_PRESET, contentTarget],
+  "export-pack",
 );
 
 console.log("Export Web completato.");

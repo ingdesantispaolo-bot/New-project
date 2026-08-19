@@ -62,6 +62,19 @@ func play_environment(phase: String) -> void:
 	_apply_world_soundscape_mix()
 	call_deferred("_publish_web_state")
 
+## Richiamata da ContentPack quando il pacchetto audio finisce di arrivare.
+##
+## Fino a quel momento `_stream_for()` ha restituito null e i player sono rimasti
+## fermi: il mondo era gia' entrato, semplicemente in silenzio. Qui si ripete
+## l'ultima richiesta, ora che i file esistono davvero.
+func refresh_after_content_load() -> void:
+	if _environment == "":
+		return
+	_play_loop(_music, "music.%s" % _environment)
+	_play_loop(_ambience, "ambience.%s" % _environment)
+	_apply_world_soundscape_mix()
+	call_deferred("_publish_web_state")
+
 func configure_world_soundscape(soundscape: String) -> void:
 	# Il profilo sceglie un asset autorato nel manifest. Se manca, il mondo resta
 	# giocabile e torna all'ambiente giorno/notte condiviso.

@@ -495,6 +495,45 @@ ai topic vicini.
   acquisto → prima riparazione. Una domanda per schermata, testi brevi.
 - **Input**: tastiera, touch, mouse; layout mobile e desktop.
 
+### 11.1 I verbi del corpo (19 agosto 2026)
+
+Fino al 18 agosto Eli aveva **un verbo solo**. Il controller erano settantaquattro
+righe — cammina, e una corsa che moltiplica la velocità — e le dodici cose
+interattive della mappa finivano tutte nello stesso gesto: *avvicinati, premi*. Il
+corpo non decideva mai niente, e l'avventura era il tempo di trasferimento fra un
+esercizio e il successivo.
+
+I verbi adesso sono due, **su un tasto solo**:
+
+| gesto | cosa fa |
+|---|---|
+| **premere** `sprint` | uno **scatto**: un balzo di 190 unità in due decimi di secondo |
+| **tenere premuto** | la **corsa**, come prima |
+
+Perché un tasto e non due: lo spazio è già `interact`, e Ctrl in una pagina Web
+insieme a W chiude la scheda. Ma soprattutto perché su tablet la corsa **non
+esisteva affatto** — `sprint` era legato al solo Maiusc — quindi un unico
+pulsante nuovo ne consegna due, e «Passo lungo» smette di essere un modulo che su
+tablet non faceva niente.
+
+**Che cosa attraversa lo scatto: le sacche di Silenzio, e nient'altro.** Durante
+il balzo non c'è morso e non c'è spintone: ci si passa dentro. È il primo momento
+del gioco in cui il tempismo conta quanto il grado, ed è lecito perché dietro una
+sacca non c'è mai niente che serva a progredire.
+
+Le due esclusioni valgono più della regola:
+
+- **l'acqua, mai.** Il fiume si passa col ponte-enigma e con nient'altro
+  (decisione vincolante §3): un balzo che guadasse trasformerebbe l'enigma in
+  scenografia. Lo scatto che tocca l'acqua **si spegne**, e la ricarica resta
+  consumata;
+- **l'erba alta**, e in generale i varchi da equipaggiamento. Sono le chiavi del
+  gioco: il rovo si taglia con la falce, e il blocco è fisico.
+
+Non costa energia, non tocca padronanza, non apre niente. Ricarica 1,1 s — la
+stessa finestra del morso di una sacca. Contratto in `player_controller.gd`,
+verificato da `scatto_audit.gd`.
+
 ---
 
 ## 12. Accessibilità e benessere

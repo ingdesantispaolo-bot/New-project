@@ -44,6 +44,10 @@ func _run() -> void:
 	for button_name in [
 		"ContextInteractButton",
 		"CombatPulseButton",
+		# Lo scatto (19 agosto 2026) è un comando di gioco a tutti gli effetti, e su
+		# tablet è anche l'unica corsa che esista: sta nella lista dei bersagli
+		# touch come gli altri.
+		"ScattoButton",
 		"OpenKnowledgeCodexButton",
 		"CustomizeTouchControlsButton",
 	]:
@@ -63,6 +67,13 @@ func _run() -> void:
 	assert(action.anchor_left == 0.5 and pulse_button.anchor_left == 0.0
 		and action.custom_minimum_size.y >= 64.0,
 		"preset touch mancino/standard non applicato")
+	# Tutte le azioni sotto lo stesso pollice: è il senso della preferenza di lato,
+	# e un comando che resta dall'altra parte la rende inutile.
+	var scatto_button := world.find_child("ScattoButton", true, false) as Button
+	assert(scatto_button != null and scatto_button.anchor_left == pulse_button.anchor_left,
+		"lo scatto non segue il lato scelto per i comandi touch")
+	assert(scatto_button.offset_bottom <= pulse_button.offset_top,
+		"lo scatto si sovrappone all'impulso invece di stargli sopra")
 	assert(is_equal_approx(action.modulate.a, 0.72),
 		"visibilità personalizzata dei comandi non applicata")
 

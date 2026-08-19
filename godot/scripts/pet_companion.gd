@@ -83,14 +83,37 @@ func _crea_freccia() -> void:
 	_freccia.visible = false
 	add_child(_freccia)
 
-## L'obiettivo piu' vicino fra quelli ancora aperti. `Vector2.INF` se non ce ne
-## sono: a quel punto la freccia sparisce invece di puntare a caso.
+## **La freccia indica soltanto cio' che il gioco ha gia' dichiarato.**
+## (19 agosto 2026)
+##
+## Fino a oggi questa funzione scorreva `world_interactable` e puntava al nodo
+## aperto piu' vicino, **qualunque fosse**: un forziere, una traccia del mistero,
+## e perfino il portale o un landmark — che stanno in quel gruppo e non hanno mai
+## una `completed` a vero, quindi risultavano eternamente «da fare».
+##
+## Il difetto non era la freccia sbagliata, era la freccia **onnisciente**: in un
+## mondo dove ogni cosa e' gia' indicata non si scopre niente, e l'esplorazione
+## diventa il percorso di una lista. Le deviazioni — che sono la meta' facoltativa
+## del gioco, quella dei frammenti e del racconto — venivano consegnate esattamente
+## come gli obiettivi, e quindi non erano piu' deviazioni.
+##
+## Adesso la freccia conosce un gruppo solo: `mission_poi`, cioe' gli eventi che
+## contano per il gate — esattamente quelli che il quadro degli obiettivi nomina.
+## Quello che il gioco non ha dichiarato si trova; non si riceve. E quando non
+## resta nessun obiettivo aperto la freccia si spegne invece di ripiegare sul
+## portale: la strada verso la nave ha gia' la sua barra di navigazione, e due
+## indicatori per la stessa cosa sono uno di troppo.
+##
+## Quello che prendeva il posto della freccia sulle deviazioni non e' un'altra
+## freccia: e' il fiuto, che indica molto meno. Vedi `fiuta`.
+const GRUPPO_OBIETTIVI := "mission_poi"
+
 func _obiettivo_piu_vicino() -> Vector2:
 	if not is_instance_valid(target):
 		return Vector2.INF
 	var migliore := Vector2.INF
 	var distanza := INF
-	for nodo in get_tree().get_nodes_in_group("world_interactable"):
+	for nodo in get_tree().get_nodes_in_group(GRUPPO_OBIETTIVI):
 		if not (nodo is Node2D):
 			continue
 		if bool((nodo as Node).get_meta("completed", false)):
@@ -100,6 +123,64 @@ func _obiettivo_piu_vicino() -> Vector2:
 			distanza = d
 			migliore = (nodo as Node2D).global_position
 	return migliore
+
+## **Il fiuto del Custode.** (19 agosto 2026)
+##
+## Il posto lasciato libero dalla freccia non resta vuoto, ma quello che ci va
+## dentro e' di un'altra specie. Non una direzione da seguire: un **sospetto**.
+## Il Custode si mette dalla parte in cui sente qualcosa e si sporge da quel lato,
+## e non dice altro — niente nome, niente distanza, niente freccia, nessuna riga
+## di testo. Chi lo vede sporgersi sa che da quella parte c'e' qualcosa e non sa
+## che cosa: e' la differenza fra ricevere un elenco e avere un motivo per
+## deviare.
+##
+## **Chi decide che cosa vale un fiuto non e' questo file.** La scena e' l'unica a
+## sapere quali forzieri sono gia' stati presi e quali tracce gia' lette; qui si
+## riceve un punto e lo si guarda. Il contratto e' che siano sempre e solo
+## **deviazioni** — forzieri e tracce, cioe' frammenti e racconto — e mai un
+## obiettivo del gate: il Custode non ha mai aiutato a progredire e non comincia
+## adesso (`pet_state.gd`, «nessun vantaggio di gioco»).
+##
+## `Vector2.INF` spegne il fiuto.
+func fiuta(posizione: Vector2) -> void:
+	var lato_prima := _fiuto_lato
+	var acceso_prima := _fiuto != Vector2.INF
+	_fiuto = posizione
+	if _fiuto == Vector2.INF:
+		_fiuto_lato = 0.0
+	elif is_instance_valid(target):
+		# `target` e' volutamente senza tipo (accesso dinamico a `.velocity`), quindi
+		# il tipo qui va scritto a mano: senza, l'inferenza non ha da dove partire.
+		var dx: float = _fiuto.x - target.global_position.x
+		_fiuto_lato = signf(dx) if absf(dx) > FIUTO_ZONA_MORTA else _fiuto_lato
+	# Il segno dipende solo dall'essere acceso e dal lato: si ridisegna quando
+	# cambia una delle due cose, non a ogni fotogramma. La sporgenza invece e'
+	# animata, ma vive sulla posizione del corpo e non sul disegno.
+	if _fiuto_lato != lato_prima or acceso_prima != (_fiuto != Vector2.INF):
+		queue_redraw()
+
+## Il punto sentito, `Vector2.INF` quando non c'e' niente.
+var _fiuto := Vector2.INF
+## Da che parte sta (−1 sinistra, +1 destra, 0 nessuna). Si tiene a parte dal
+## punto perche' e' quello che disegna il segno, e un segno che sfarfalla mentre
+## Eli passa esattamente sopra la verticale del forziere sarebbe rumore.
+var _fiuto_lato := 0.0
+## Quanto e' sporto adesso, in pixel. Animato, cosi' il gesto si nota anche di
+## coda d'occhio.
+var _fiuto_sporgenza := 0.0
+
+## Sotto questo scarto orizzontale il lato non cambia: vedi `_fiuto_lato`.
+const FIUTO_ZONA_MORTA := 24.0
+## Quanto si sporge il Custode quando sente. Nove pixel: si vede, e non lo
+## stacca dal fianco di Eli.
+const FIUTO_SPORGENZA := 9.0
+
+func _aggiorna_fiuto(delta: float) -> void:
+	var voluta := FIUTO_SPORGENZA * _fiuto_lato if _fiuto != Vector2.INF else 0.0
+	if _reduced_motion:
+		_fiuto_sporgenza = voluta
+	else:
+		_fiuto_sporgenza = lerpf(_fiuto_sporgenza, voluta, minf(1.0, delta * 6.0))
 
 func _aggiorna_freccia() -> void:
 	if not is_instance_valid(_freccia) or not is_instance_valid(target):
@@ -124,6 +205,7 @@ func _process(delta: float) -> void:
 	if _freccia == null:
 		_crea_freccia()
 	_aggiorna_freccia()
+	_aggiorna_fiuto(delta)
 	if is_instance_valid(target):
 		# il pet resta sul lato opposto alla direzione di marcia
 		var side := signf(offset.x)
@@ -131,6 +213,11 @@ func _process(delta: float) -> void:
 			side = -1.0
 		elif target.velocity.x < -8.0:
 			side = 1.0
+		# ...a meno che non abbia sentito qualcosa: allora passa da quella parte.
+		# E' l'unica cosa che gli fa scegliere il fianco al posto della marcia, ed
+		# e' meta' di come si legge il fiuto — l'altra meta' e' la sporgenza.
+		if _fiuto != Vector2.INF and _fiuto_lato != 0.0:
+			side = _fiuto_lato
 		var desired: Vector2 = target.global_position + Vector2(absf(offset.x) * side, offset.y)
 		global_position = global_position.lerp(desired, minf(1.0, delta * 5.0))
 	if visual != null:
@@ -150,6 +237,13 @@ func _process(delta: float) -> void:
 		else:
 			visual.scale = Vector2.ONE
 		visual.position.y = -14.0 + lift
+		# La sporgenza sta sulla X del corpo e non sulla rotazione apposta: la
+		# rotazione e' gia' contesa da combinelle ed espressioni, e sommarcisi
+		# avrebbe voluto dire togliere e rimettere un pezzo di posa a ogni
+		# fotogramma. La X non la scrive nessun altro, quindi il fiuto convive con
+		# qualunque smorfia il Custode stia facendo — che e' giusto: sentire una
+		# cosa non lo rende meno vivo.
+		visual.position.x = _fiuto_sporgenza
 
 func react() -> void:
 	var profile := PetExpressionEngine.temperament_profile(_temperament)
@@ -266,6 +360,7 @@ func _update_expression_pose(delta: float) -> void:
 			visual.rotation = sin(_expression_time * 4.5) * 0.08 * pulse
 
 func _draw() -> void:
+	_disegna_fiuto()
 	if _expression_duration <= 0.0 or _expression_pose == "sereno":
 		return
 	var accent := Color("f6c85f")
@@ -280,3 +375,25 @@ func _draw() -> void:
 				draw_circle(Vector2.RIGHT.rotated(angle) * 27 + Vector2(0, -15), 2.5, accent)
 		"incoraggiante":
 			draw_arc(Vector2(0, -16), 30, 0.25, PI - 0.25, 18, Color("8ff6d2"), 2.5, true)
+
+## Il segno del fiuto: due archetti dalla parte in cui il Custode ha sentito.
+##
+## Sono **due trattini**, non una punta: una punta e' una freccia, e una freccia
+## e' esattamente quello che questo lotto ha tolto. Non dicono quanto e' lontano
+## e non dicono che cos'e'; dicono che da quella parte c'e' qualcosa e che il
+## Custode se n'e' accorto.
+##
+## Il colore e' quello del Custode e non quello degli obiettivi: chi ha imparato
+## a leggere la freccia dorata non deve confondersi.
+func _disegna_fiuto() -> void:
+	if _fiuto == Vector2.INF or _fiuto_lato == 0.0:
+		return
+	var tinta := Color("d8f3ff", 0.72)
+	for indice in 2:
+		var scarto := 20.0 + float(indice) * 8.0
+		var altezza := -34.0 + float(indice) * 7.0
+		draw_arc(
+			Vector2(_fiuto_lato * scarto, altezza), 5.0 + float(indice) * 1.5,
+			-0.7 if _fiuto_lato > 0.0 else PI + 0.7,
+			0.7 if _fiuto_lato > 0.0 else PI - 0.7,
+			8, tinta, 1.8, true)

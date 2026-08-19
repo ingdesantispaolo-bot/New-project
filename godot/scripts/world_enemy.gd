@@ -29,6 +29,49 @@ const GUARDIAN_VISUALS := preload("res://scripts/game/guardian_visual_catalog.gd
 ## assorbe, una traversata fatta di sacche no.
 const COSTO_PER_GRADO := 2
 
+## **Tre popolazioni, non due.** (19 agosto 2026)
+##
+## Fino a oggi una sacca era di due specie e si capiva quale guardando se avesse
+## un forziere addosso: `treasure_id` vuoto voleva dire «pattuglia», pieno voleva
+## dire «guardiana». Era una deduzione, non una dichiarazione — e `eli_enemy_audit`
+## partizionava le sacche esattamente cosi', il che significa che qualunque terza
+## specie sarebbe finita, muta, dentro una delle due.
+##
+## Adesso il ruolo si dichiara. Le tre specie:
+##
+##   PATTUGLIA  vaga per il mondo. Respinge e morde, non custodisce niente;
+##   GUARDIANO  sta su un forziere e lo chiude finche' non lo si batte in duello;
+##   SCORTA     sta nell'anello attorno a un forziere gia' sorvegliato. Non si
+##              sfida e non chiude niente: rende l'**avvicinamento** una scelta.
+const RUOLO_PATTUGLIA := "pattuglia"
+const RUOLO_GUARDIANO := "guardiano"
+const RUOLO_SCORTA := "scorta"
+
+## Quanti gradi in meno ha una scorta rispetto alla guardiana che affianca.
+##
+## **Quattro, e il numero e' l'unico modo di rispettare un limite gia' scritto.**
+## `enemy_threat_audit` pretende che un morso non cancelli una sessione di
+## lavoro: il tetto e' `LAVORETTO_PAGA * 2`, cioe' diciotto energie. Un anello
+## intero e' due morsi, e attraversarlo e' una cosa che si **sceglie** — quindi
+## il tetto deve valere sull'anello intero, non sulla singola sacca, altrimenti
+## la scelta razionale tornerebbe a essere girare alla larga, che e' il difetto
+## da cui nasce tutto questo lotto.
+##
+## Con quattro gradi di scarto la scorta arriva al grado quattro nell'ultimo
+## mondo: due morsi fanno sedici, e il tetto regge in tutti e ventiquattro i
+## mondi. Nei primi quindici la scorta resta al grado uno — l'anello li' costa
+## quattro energie, ed e' giusto cosi': quello che si paga davvero a inizio
+## campagna e' lo **spintone**, non l'energia.
+const SCARTO_SCORTA := 4
+
+## Che cosa fa questa sacca sulla mappa. Vedi le tre costanti qui sopra.
+var ruolo := RUOLO_PATTUGLIA
+
+## Il guardiano che questa scorta affianca, vuoto per tutte le altre. Serve a
+## scioglierle insieme a lui: un anello che sopravvive al suo centro sarebbe un
+## pedaggio su un forziere gia' aperto.
+var presidio := ""
+
 ## **Il forziere che questa sacca sorveglia**, vuoto se pattuglia e basta.
 ##
 ## Richiesta del committente del 7 agosto 2026: «i nemici proteggono i bauli con
@@ -54,15 +97,24 @@ var body_shape: CollisionShape2D
 var contact_area: Area2D
 var visual: Node2D
 
-func setup(world_ref: Node, start: Vector2, level: int, subject: String, color: Color, index: int) -> void:
+func setup(
+	world_ref: Node, start: Vector2, level: int, subject: String, color: Color,
+	index: int, ruolo_iniziale := RUOLO_PATTUGLIA
+) -> void:
 	world = world_ref
 	anchor = start
 	position = start
+	ruolo = ruolo_iniziale
 	# Il grado cresce ogni TRE mondi invece che ogni sei: a ventiquattro mondi
 	# la scala arriva a otto invece che a quattro, e la differenza fra il mondo 3
 	# e il mondo 21 si sente. Prima due mondi lontanissimi avevano la stessa
 	# sacca.
 	tier = clampi(1 + floori(float(level - 1) / 3.0), 1, 8)
+	# Il ruolo si decide PRIMA del corpo perche' il grado entra nella scala, nei
+	# frammenti che orbitano e nel raggio del contatto: una scorta di grado sei
+	# con l'ingombro di una guardiana di grado otto sarebbe una bugia disegnata.
+	if ruolo == RUOLO_SCORTA:
+		tier = maxi(1, tier - SCARTO_SCORTA)
 	accent = color
 	phase = float(index) * 1.73
 	enemy_name = _name_for_subject(subject, tier)
@@ -205,21 +257,24 @@ func _physics_process(delta: float) -> void:
 		velocity = Vector2.ZERO
 		return
 	phase += delta * (0.75 + float(tier) * 0.08)
-	var target := anchor + Vector2(cos(phase), sin(phase * 0.72)) * Vector2(92.0, 62.0)
+	# La scorta oscilla stretta: l'anello dev'essere leggibile da lontano, ed e'
+	# quello che permette di decidere PRIMA di entrarci — che e' tutto il punto.
+	var respiro := Vector2(34.0, 24.0) if ruolo == RUOLO_SCORTA else Vector2(92.0, 62.0)
+	var target := anchor + Vector2(cos(phase), sin(phase * 0.72)) * respiro
 	var player := world.get("player") as CharacterBody2D
 	if is_instance_valid(player):
 		var distance := global_position.distance_to(player.global_position)
-		# La guardiana ha un guinzaglio corto e una soglia bassa: non insegue per
+		# Chi custodisce ha un guinzaglio corto e una soglia bassa: non insegue per
 		# mezza mappa — sarebbe fastidio, non pericolo — ma chi si avvicina al
 		# forziere se la trova addosso subito.
-		var soglia := 190.0 + tier * 12.0 if treasure_id != "" else 250.0 + tier * 20.0
+		var soglia := 190.0 + tier * 12.0 if _ancorata() else 250.0 + tier * 20.0
 		if distance < soglia:
 			target = player.global_position
-		if treasure_id != "" and anchor.distance_to(target) > 260.0:
+		if _ancorata() and anchor.distance_to(target) > _guinzaglio():
 			target = anchor
 	var speed := 74.0 + float(tier) * 11.0
-	if treasure_id != "":
-		# Una guardiana e' piu' svelta dentro il suo territorio: e' li' che deve
+	if _ancorata():
+		# Chi custodisce e' piu' svelto dentro il suo territorio: e' li' che deve
 		# essere un pericolo, ed e' li' che c'e' qualcosa da difendere.
 		speed += 26.0
 	velocity = global_position.direction_to(target) * speed
@@ -242,11 +297,24 @@ func stun(seconds: float = 5.0) -> void:
 	tween.tween_property(self, "modulate", Color(0.78, 0.98, 1.0, 0.96), 0.18)
 	tween.tween_property(self, "scale", Vector2.ONE * 0.94, 0.18)
 
+## Vero se questa sacca ha qualcosa da custodire, e quindi un territorio. Le
+## pattuglie non ce l'hanno: vagano, e il mondo intero e' il loro giro.
+func _ancorata() -> bool:
+	return ruolo != RUOLO_PATTUGLIA
+
+## Quanto puo' allontanarsi dal proprio ancoraggio inseguendo Eli. La scorta ha
+## il guinzaglio piu' corto di tutti: deve restare **sull'anello**, altrimenti
+## dopo un inseguimento il presidio si e' sciolto da solo e il forziere e'
+## rimasto scoperto senza che nessuno lo abbia guadagnato.
+func _guinzaglio() -> float:
+	return 170.0 if ruolo == RUOLO_SCORTA else 260.0
+
 ## Mette questa sacca di guardia a un forziere. Si chiama DOPO `setup`, perche'
 ## chi crea le sacche scopre i forzieri solo quando il pezzo di mappa che li
 ## contiene e' stato costruito.
 func sorveglia(id: String) -> void:
 	treasure_id = id
+	ruolo = RUOLO_GUARDIANO
 	enemy_name = GUARDIAN_VISUALS.name_for(int(world.get("world_level")) if world != null else 1)
 	var label := get_node_or_null("EnemyLabel") as Label
 	if label != null:
@@ -261,6 +329,41 @@ func sorveglia(id: String) -> void:
 		label.text = "GUARDIANO %s · T%d" % [str(DuelRules.NOMI_MATERIA.get(materia, "")), tier]
 		label.accessibility_name = "%s, guardiano di un forziere; sfida in %s, si scioglie spezzandogli i sigilli" % [
 			enemy_name, "modi e tempi verbali" if materia == DuelRules.VOCI else "calcolo veloce"]
+
+## **Mette questa sacca nell'anello attorno a un forziere sorvegliato.**
+## (19 agosto 2026)
+##
+## Nasce da una cosa che mancava a tutta la mappa: **nessun posto in cui l'impulso
+## fosse una decisione**. Le cariche si guadagnano studiando ([[PulseCharge]]) e
+## il morso non blocca mai, quindi finora si passava sempre e comunque — pagando
+## due energie o non pagandole. Una risorsa che non si sceglie mai quando spendere
+## non e' una risorsa, e' un numero sullo schermo.
+##
+## L'anello e' il posto dove quella scelta esiste: attraversarlo costa piu' di un
+## morso solo, e una carica d'impulso lo spegne per il tempo di passare. Passo
+## adesso pagando, o spendo una carica, o torno quando sono piu' forte.
+##
+## **Perche' e' lecito, e la riga vale piu' delle altre.** Un presidio sta SOLO
+## davanti a un forziere, cioe' davanti a frammenti, cioe' a cosmetici. E' la
+## stessa condizione che rende lecito il duello del guardiano: niente di quello
+## che serve a finire la campagna puo' stare dietro un'abilita'. La scena lo
+## verifica prima di schierarlo — nessun presidio nasce vicino a un obiettivo del
+## gate — e `presidio_audit` lo verifica su tutti i mondi.
+##
+## E come tutto il resto della mappa: **non blocca**. Si passa lo stesso, si paga
+## quel che si ha, e a zero energia si passa gratis.
+func fa_la_scorta(guardia_id: String) -> void:
+	ruolo = RUOLO_SCORTA
+	presidio = guardia_id
+	var label := get_node_or_null("EnemyLabel") as Label
+	if label != null:
+		# Il cartiglio resta quello delle pattuglie, e apposta: una scorta **e'**
+		# una sacca qualunque, non si sfida e non custodisce. Chi legge
+		# «GUARDIANO» sa che li' c'e' un duello; chi legge «SBIADITO» sa che li'
+		# c'e' solo da passare. Cambiare la parola avrebbe promesso una meccanica
+		# che questa sacca non ha.
+		label.accessibility_name = ("%s, sacca di Silenzio nell'anello attorno a un forziere; "
+			+ "si attraversa pagando o con l'impulso, non si sfida") % enemy_name
 
 ## **Sciolta per sempre.** Non e' uno stordimento: la sacca sparisce, il
 ## forziere che sorvegliava si apre, e rientrando nel mondo non la si ritrova.

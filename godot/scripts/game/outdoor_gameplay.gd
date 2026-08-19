@@ -400,6 +400,9 @@ func runtime_state() -> Dictionary:
 		# (invariante 1). Se un giorno un modulo cambia effetto, cambia qui.
 		"pulseRadius": ExpeditionModules.raggio_impulso(game_save),
 		"sprintMultiplier": ExpeditionModules.moltiplicatore_scatto(game_save),
+		# Quanto lontano porta un balzo. Passa di qui per la stessa ragione di
+		# tutto il resto: la scena si muove, non guarda che cosa è stato comprato.
+		"dashDistance": ExpeditionModules.distanza_scatto(game_save),
 		"ready": bool(progress.get("ready", false)),
 		# Le stanze accese: è questa collezione, non il livello, ad aprire il Cuore.
 		"apparatusRepaired": int(progress.get("apparatusRepaired", 0)),

@@ -61,6 +61,13 @@ const SIGNAL_FACES := {
 	# Lettura del mondo
 	"near_unexplored": "curioso",
 	"near_faded": "attento",
+	# Il fiuto (19 agosto 2026): una deviazione non catalogata — un forziere, una
+	# traccia — dalle parti di Eli. Stessa faccia di `near_unexplored`, e non è una
+	# svista: la curiosità è la stessa. Quello che distingue i due segnali non è il
+	# volto, è il **corpo** — solo il fiuto fa cambiare fianco al Custode e lo fa
+	# sporgere (`pet_companion.fiuta`). La faccia dice come si sente, il corpo dice
+	# dove: è la sola informazione che il Custode dà, ed è volutamente vaga.
+	"near_secret": "curioso",
 	# Il Custode riconosce un abitante (docs/PET_CUSTODE.md §3.4)
 	"meet_beloved": "festa",
 	"meet_shy": "impicciato",
@@ -84,7 +91,8 @@ const GAME_SIGNALS := [
 	"session_failed", "mission_complete", "apparatus_repaired",
 	"topic_consolidated", "learning:perseverance", "learning:improvement",
 	"learning:transfer", "learning:help_request", "learning:recurring_error",
-	"near_unexplored", "near_faded", "meet_beloved", "meet_shy", "meet_fond",
+	"near_unexplored", "near_faded", "near_secret",
+	"meet_beloved", "meet_shy", "meet_fond",
 	"cuddle", "antic", "idle",
 	"pet_granted", "power_grade_up", "sister_found",
 ]

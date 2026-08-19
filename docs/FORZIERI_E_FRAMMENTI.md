@@ -513,7 +513,103 @@ identici: se una materia fosse più generosa, si imparerebbe a cercare i guardia
 di quella invece di quelli che si ha voglia di affrontare. `verb_duel_audit`
 confronta le due tabelle mondo per mondo.
 
-## 9. Cosa non è stato fatto (e resta sul tavolo)
+## 9. Il presidio: l'anello attorno al forziere
+
+*Sesto lotto, 19 agosto 2026. Nasce da un'analisi del gioco giocato, non da una
+segnalazione: la mappa non oppone resistenza da nessuna parte, e l'impulso — che
+è la risorsa meglio progettata del gioco — non è mai una decisione.*
+
+### 9.1 Il difetto
+
+Due regole giustissime, prese insieme, ne producevano una terza che nessuna delle
+due voleva. Le cariche d'impulso **si guadagnano studiando** (`PulseCharge`: due
+prove superate, una carica, tetto tre) e il morso di una sacca **non blocca mai**
+— si passa comunque, pagando quel che si ha.
+
+Conseguenza mai messa in conto: **non è mai esistito un momento in cui valesse la
+pena spendere una carica.** Si passava e basta, pagando due energie o non
+pagandole. Una risorsa che non si sceglie mai quando spendere non è una risorsa,
+è un numero sullo schermo — e la catena che il lotto del 14 agosto voleva
+costruire (*studi → hai l'impulso → passi*) restava dichiarata e mai giocata.
+
+### 9.2 La forma
+
+Attorno a un forziere già sorvegliato si schiera un **anello di due scorte**.
+Non si sfidano, non chiudono niente, non hanno il gesto del duello: rendono
+l'**avvicinamento** una scelta.
+
+- attraversare l'anello costa più di un morso solo;
+- un impulso lo spegne tutto insieme per il tempo di passare;
+- **uno scatto attraversa una sacca senza pagarla** (dal 19 agosto,
+  [DESIGN_COMPLETO §11.1](DESIGN_COMPLETO.md)): gratis, ma passa *una* sacca e si
+  ricarica in 1,1 s — la stessa finestra del morso;
+- oppure si torna più forti: il grado di Eli sottrae dal costo come sempre.
+
+Le quattro strade esistono davvero, ed è la prima volta che sulla mappa ce n'è
+più di una.
+
+**Lo scatto non svuota l'impulso, e la differenza è netta**: lo scatto passa
+*una* sacca e chiede tempismo, l'impulso passa *tutte* quelle nel raggio e le
+tiene ferme cinque secondi e mezzo — abbastanza per arrivare al guardiano e
+aprire il duello senza essere addosso a nessuno. Chi ha quattro scorte attorno, o
+chi non vuole giocare di tempismo, continua a volere la carica. Ed è giusto che
+sia così: in un gioco che si studia, il tempismo non può diventare l'unica strada.
+
+L'anello **si scioglie con la guardiana**: battuto il duello, il forziere è
+guadagnato e continuare a farlo pagare sarebbe una tassa invece che una scelta.
+
+### 9.3 Perché è lecito
+
+Stessa condizione del duello, e vale la pena riscriverla: un presidio sta
+**soltanto** davanti a un forziere, cioè davanti a frammenti, cioè a cosmetici.
+Niente che serva a finire la campagna può stare dietro un'abilità.
+
+La regola è verificata prima di schierare l'anello — nessun presidio nasce entro
+340 unità da un evento che conta per il gate — e `presidio_audit` la prova sulla
+regola, non sulla disposizione di un seed: piazza un obiettivo finto accanto al
+centro e pretende che l'anello non nasca, poi lo dichiara completato e pretende
+che nasca. Una zona franca che non scade mai sarebbe un difetto uguale e
+contrario.
+
+E come tutto il resto della mappa: **non blocca**. A energia zero si attraversa
+gratis, e l'audit lo prova invece di dichiararlo.
+
+### 9.4 La taratura, e il numero che la decide
+
+Una scorta ha **quattro gradi meno** della guardiana che affianca
+(`WorldEnemy.SCARTO_SCORTA`), e quel quattro non è una preferenza: è l'unico
+valore che rispetta un limite già scritto. `enemy_threat_audit` pretende che un
+morso non cancelli una sessione di lavoro — tetto `LAVORETTO_PAGA * 2`, diciotto
+energie. Un anello è due morsi e attraversarlo è una cosa che si **sceglie**,
+quindi il tetto deve valere sull'anello intero: altrimenti la scelta razionale
+tornerebbe a essere girare alla larga, che è il difetto di partenza con un
+vestito nuovo.
+
+| mondi | grado guardiana | grado scorta | anello al grado zero |
+|---|---:|---:|---:|
+| 1–15 | 1–5 | 1 | 4 |
+| 16–18 | 6 | 2 | 8 |
+| 19–21 | 7 | 3 | 12 |
+| 22–24 | 8 | 4 | 16 |
+
+Nei primi quindici mondi l'anello costa quattro energie, e va bene così: quello
+che si paga davvero a inizio campagna non è l'energia, è lo **spintone** — due
+sacche che ti rimbalzano indietro mentre cerchi di arrivare alla cassa.
+
+### 9.5 Quanti, e dove
+
+L'anello segue la guardiana, che è già limitata: circa un forziere su tre, mai
+più di quattro vive insieme, mai entro 420 unità dallo spawn. Quindi al massimo
+otto scorte in tutto il mondo, raccolte in quattro anelli stretti — che è una
+cosa diversa da otto sacche sparse, ed è la ragione per cui il tetto delle
+guardiane non è stato toccato.
+
+Le sacche hanno adesso un **ruolo dichiarato** (`pattuglia` / `guardiano` /
+`scorta`) invece che dedotto dal forziere che portano addosso: `eli_enemy_audit`
+partizionava le due popolazioni guardando `treasure_id`, ed è esattamente il
+motivo per cui una terza specie sarebbe finita muta dentro una delle due.
+
+## 10. Cosa non è stato fatto (e resta sul tavolo)
 
 - **Tenere o restituire.** Un lascito è la roba di una persona viva: la scelta
   naturale è restituirla. L'impianto esiste già (`stance_choices.gd`, cinque

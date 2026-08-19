@@ -22,8 +22,32 @@ la pena costruirlo bene, e vale la pena essere severi su cosa **non** deve fare.
 2. **Un comico.** Fa cose stupide, se ne vanta, porta regali inutili, si mette
    nei guai da solo. In un gioco che chiede di studiare, il compagno è il posto
    dove **non** si deve capire niente: si ride e basta. Vedi §3.
-3. **Una bussola morbida.** Si illumina dove c'è qualcosa da capire, si fa
-   attento vicino alle zone sbiadite. Guardi il muso e sai dove andare.
+3. **Una bussola morbida — e da qui in avanti *morbida* è la parola che conta.**
+   Si fa attento vicino alle zone sbiadite, e si accorge di quello che sta
+   intorno. Guardi il muso e sai che c'è qualcosa; non sai ancora che cosa.
+
+   *Ristretta il 19 agosto 2026.* La freccia sopra il Custode puntava al nodo
+   interattivo aperto più vicino, **qualunque fosse** — un obiettivo, ma anche un
+   forziere, una traccia del mistero, perfino il portale. Il difetto non era la
+   freccia sbagliata: era la freccia **onnisciente**. In un mondo dove ogni cosa
+   è già indicata non si scopre niente, e le deviazioni — che sono la metà
+   facoltativa del gioco — venivano consegnate come gli obiettivi e quindi
+   smettevano di essere deviazioni.
+
+   Adesso sono due canali diversi, ed è la distinzione che regge tutto:
+
+   - **la freccia** nomina soltanto ciò che il gioco ha già dichiarato (gli
+     eventi che contano per il gate, gli stessi del quadro degli obiettivi) e si
+     spegne quando non ne resta nessuno aperto — la strada per la nave ha già la
+     sua barra di navigazione;
+   - **il fiuto** riguarda solo le deviazioni (forzieri e tracce), entro poco più
+     di una schermata, e non è una direzione da seguire: il Custode cambia fianco
+     e si sporge da quella parte. Niente nome, niente distanza, niente freccia.
+
+   Il fiuto dice **meno** di quanto dicesse la freccia che sostituisce: quella
+   indicava le stesse cose da qualunque distanza e ne dava il punto esatto.
+   Contratto in `pet_companion.gd` (`_obiettivo_piu_vicino`, `fiuta`), verificato
+   da `pet_compass_audit.gd`.
 4. **Un oggetto di storia.** I Custodi sono creature dei Primi che **sentono il
    significato**. Dove c'è un Custode, resta un filo. Il volto è sempre in vista
    perché è uno strumento, non un adesivo.
@@ -35,6 +59,7 @@ la pena costruirlo bene, e vale la pena essere severi su cosa **non** deve fare.
 | **Non ha fame, non si sporca, non si ammala** | Un ciclo di accudimento a decadimento produce senso di colpa quando il bambino non gioca. Un gioco che si studia non può punire chi torna dopo tre giorni |
 | **Non è mai triste per un tuo errore** | Il vincolo più importante di tutti. Vedere il proprio compagno deluso dopo una risposta sbagliata è vergogna, e la vergogna spegne l'apprendimento. All'errore fa la faccia **incoraggiante**, sempre |
 | **Non dà mastery, energia o aiuti in esame** | Nessuna ricompensa scavalca una prova di competenza |
+| **Non fiuta mai un obiettivo del gate** | Il fiuto riguarda forzieri e tracce, cioè frammenti e racconto. Se indicasse la strada per salire di livello, il Custode starebbe aiutando a progredire — ed è la sola cosa che non gli è concessa. Provato sulla forma, non sul caso, da `pet_compass_audit.gd` |
 | **Non muore, non si perde, non va via** | Nessuna leva di ansia |
 | **Non chiede acquisti per essere felice** | Il legame cresce giocando, non spendendo |
 | **Non fa mai una battuta su di te** | Il bersaglio comico è sempre lui, o un oggetto. Mai Eli, mai un errore |

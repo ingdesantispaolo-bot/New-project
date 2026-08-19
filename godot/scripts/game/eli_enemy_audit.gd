@@ -58,21 +58,27 @@ func _run() -> void:
 	root.add_child(world)
 	await process_frame
 	await process_frame
-	# **Due popolazioni, non una.** (7 agosto 2026)
+	# **Tre popolazioni, non due.** (7 agosto 2026 → 19 agosto 2026)
 	#
 	# Le sacche che pattugliano scalano col mondo, e quella regola resta. Dal
 	# 7 agosto ce ne sono anche di GUARDIANE, una per forziere scoperto: quelle
 	# non seguono il conteggio del mondo — seguono i forzieri, che compaiono e
 	# spariscono mentre la mappa scorre. Contarle insieme faceva fallire questo
 	# audit su una regola che non e' mai stata violata.
+	#
+	# Dal 19 agosto ce n'e' una terza — le SCORTE dell'anello — e la partizione
+	# non si deduce piu' dal forziere addosso: la dice il **ruolo**, che ogni
+	# sacca dichiara ([[WorldEnemy]]). Dedurla era la ragione per cui una terza
+	# specie sarebbe finita muta dentro una delle due.
 	var tutte := get_nodes_in_group("world_enemy")
 	var enemies: Array = []
 	var guardiani: Array = []
+	var scorte: Array = []
 	for sacca in tutte:
-		if str(sacca.get("treasure_id")).is_empty():
-			enemies.append(sacca)
-		else:
-			guardiani.append(sacca)
+		match str(sacca.get("ruolo")):
+			WorldEnemy.RUOLO_GUARDIANO: guardiani.append(sacca)
+			WorldEnemy.RUOLO_SCORTA: scorte.append(sacca)
+			_: enemies.append(sacca)
 	assert(enemies.size() == 2, "il mondo 7 deve scalare a due anomalie in pattuglia, trovate %d" % enemies.size())
 	# Una guardiana senza forziere sarebbe una sacca piazzata a caso con
 	# un'etichetta diversa: il legame col premio e' tutto il senso della cosa.
@@ -81,6 +87,14 @@ func _run() -> void:
 			"guardiano senza forziere da sorvegliare")
 		assert(guardia.find_child("EnemyChallenge", true, false) != null,
 			"guardiano che non si puo' affrontare: si potrebbe solo subire")
+	# Una scorta non si sfida: non ha il gesto, e non deve averlo. Se un giorno
+	# ne comparisse una con `EnemyChallenge`, il bambino aprirebbe un duello
+	# davanti a una sacca che non custodisce niente.
+	for scorta in scorte:
+		assert(scorta.find_child("EnemyChallenge", true, false) == null,
+			"una scorta si puo' sfidare: promette un duello che non esiste")
+		assert(not str(scorta.get("presidio")).is_empty(),
+			"scorta senza presidio: e' una pattuglia con un'etichetta diversa")
 	for enemy in enemies:
 		assert(str(enemy.get("enemy_name")).begins_with("Sbiadito"),
 			"sentinella legacy non rinominata: %s" % str(enemy.get("enemy_name")))

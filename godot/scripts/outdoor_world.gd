@@ -88,6 +88,13 @@ var shop_button: Button
 var manual_button: Button
 var interaction_button: Button
 var pulse_button: Button
+## Il pulsante dello scatto. Su tablet è anche l'unica corsa che esista: `sprint`
+## era legato al solo Maiusc, e una tastiera lì non c'è.
+var scatto_button: Button
+## Il varco dello scatto si spiega una volta sola, la prima volta che capita. Una
+## riga che torna a ogni attraversamento diventa rumore, e questa è una cosa che
+## si capisce facendola.
+var _scatto_varco_raccontato := false
 ## Il quadro degli obiettivi e il pulsante che lo apre.
 var objective_button: Button
 var objective_panel: ObjectivePanel
@@ -621,6 +628,8 @@ func _on_runtime_state(state: Dictionary) -> void:
 	if is_instance_valid(player):
 		player.sprint_multiplier = float(
 			runtime.get("sprintMultiplier", ExpeditionModules.SCATTO_BASE))
+		player.dash_distance = float(
+			runtime.get("dashDistance", ExpeditionModules.SCATTO_DISTANZA))
 	if is_instance_valid(expedition_module_presentation):
 		expedition_module_presentation.apply_runtime(
 			runtime, equipped_field_tool(), Array(result.get("collectedTreasureIds", [])))
@@ -705,6 +714,25 @@ const PET_FADED_SENSE_RADIUS := 110.0
 const PET_FADED_CHECK_INTERVAL := 2.0
 var _pet_faded_check_elapsed := 0.0
 
+## **Il raggio del fiuto.** (19 agosto 2026)
+##
+## Seicento unità: alla velocità di Eli (260 al secondo) sono poco più di due
+## secondi di cammino, cioè poco più di una schermata. È la distanza giusta
+## perché il gesto voglia dire «da quella parte, vicino» e non «ecco la mappa»:
+## chi si sporge per una cosa a mezzo mondo di distanza sta consegnando un elenco
+## con un'altra faccia, ed è esattamente ciò che questo lotto ha tolto.
+const PET_FIUTO_RAGGIO := 600.0
+## Più fitto del sensore degli Sbiaditi: quello è atmosfera e due secondi bastano,
+## questo è un gesto che deve seguire il passo, e a due secondi il Custode si
+## sporgerebbe verso un forziere quando Eli gli è già oltre.
+const PET_FIUTO_INTERVALLO := 0.7
+var _pet_fiuto_trascorso := 0.0
+## L'ultima deviazione sentita, per identificativo. Serve a far scattare la
+## faccia curiosa **una volta sola** per ogni cosa trovata: un Custode che fa la
+## stessa smorfia ogni settecento millisecondi finché resti nel raggio non è un
+## compagno, è un allarme.
+var _pet_fiuto_ultimo := ""
+
 func _process(delta: float) -> void:
 	_animare_potenza_eli(delta)
 	if is_instance_valid(pet_companion):
@@ -714,6 +742,10 @@ func _process(delta: float) -> void:
 		_pet_faded_check_elapsed = 0.0
 		_pet_check_faded_proximity()
 		_pet_aggiorna_silenzio()
+	_pet_fiuto_trascorso += delta
+	if _pet_fiuto_trascorso >= PET_FIUTO_INTERVALLO:
+		_pet_fiuto_trascorso = 0.0
+		_pet_check_secret_proximity()
 	# **Niente alternanza giorno/notte.** (7 agosto 2026)
 	#
 	# Il mondo adesso nasce coperto e si illumina man mano che le prove vengono
@@ -768,6 +800,7 @@ func _process(delta: float) -> void:
 		_update_pending_touch_interaction()
 		_update_interaction_countdown()
 		_update_pulse_button()
+		_update_scatto_button()
 		_assegna_guardiani()
 		if world_life != null:
 			var view_size := get_viewport_rect().size
@@ -824,13 +857,24 @@ func _enforce_water_traversal() -> void:
 	if not _water_blocks_position(player.position):
 		last_traversable_position = player.position
 		return
+	# **Lo scatto non guada.** (19 agosto 2026) Il fiume si passa col ponte-enigma
+	# e con nient'altro: è una decisione vincolante del progetto, e un balzo che
+	# la scavalcasse trasformerebbe l'enigma in scenografia. Il balzo si spegne
+	# qui — la ricarica resta consumata, perché un balzo tirato contro una riva è
+	# comunque un balzo tirato.
+	var scattava := player.sta_scattando()
+	if scattava:
+		player.annulla_scatto()
 	player.position = last_traversable_position
 	player.velocity = Vector2.ZERO
 	player.touch_target = Vector2.INF
 	var now := Time.get_ticks_msec()
 	if now - water_block_feedback_msec > 1500:
 		water_block_feedback_msec = now
-		_set_feedback("La corrente è invalicabile · ricostruisci il ponte-enigma dalla riva.")
+		_set_feedback(
+			"Nemmeno di slancio: la corrente è invalicabile · ricostruisci il ponte-enigma dalla riva."
+			if scattava
+			else "La corrente è invalicabile · ricostruisci il ponte-enigma dalla riva.")
 
 func _water_blocks_position(position: Vector2) -> bool:
 	if chunks == null or chunks.composition == null:
@@ -1946,6 +1990,11 @@ func _create_mystery_artifacts() -> void:
 	if not trace.is_empty():
 		var trace_area: Area2D = MYSTERY_ARTIFACT_SCRIPT.new()
 		trace_area.configure("trace", "trace-%02d" % world_level, trace, high_contrast)
+		# Una Traccia già letta resta sulla mappa — si rilegge quando si vuole —
+		# ma non è più una scoperta, e il Custode non deve sporgersi verso una
+		# cosa che il bambino ha già in mano. Il segno vive nel salvataggio; i
+		# semi non hanno una memoria propria e si segnano leggendoli.
+		trace_area.set_meta("completed", _mystery_seen_list("tracesSeen").has(str(world_level)))
 		trace_area.position = _mystery_artifact_position(
 			ruin.global_position, 0, seeds.size() + 1, occupied)
 		occupied.append(trace_area.position)
@@ -1954,7 +2003,9 @@ func _create_mystery_artifacts() -> void:
 	for index in seeds.size():
 		var seed_data: Dictionary = seeds[index]
 		var seed_area: Area2D = MYSTERY_ARTIFACT_SCRIPT.new()
-		seed_area.configure("seed", "seed-%02d-%d" % [world_level, index], seed_data, high_contrast)
+		var seed_id := "seed-%02d-%d" % [world_level, index]
+		seed_area.configure("seed", seed_id, seed_data, high_contrast)
+		seed_area.set_meta("completed", _mystery_seen_list("seedsSeen").has(seed_id))
 		seed_area.position = _mystery_artifact_position(
 			ruin.global_position, index + 1, seeds.size() + 1, occupied)
 		occupied.append(seed_area.position)
@@ -2011,6 +2062,9 @@ func _mark_mystery_seen(key: String, id: String) -> void:
 func _open_mystery_artifact(target: Area2D) -> void:
 	var kind := str(target.get_meta("kind", ""))
 	var id := str(target.get_meta("id", ""))
+	# Letta è letta: resta sulla mappa e si rilegge quando si vuole, ma smette di
+	# essere una scoperta — e quindi smette di far sporgere il Custode.
+	target.set_meta("completed", true)
 	var payload: Dictionary = target.get_meta("payload", {})
 	var pages: Array = []
 	var speaker := "Indizio"
@@ -3520,10 +3574,41 @@ const GUARDIANI_VIVI_MAX := 4
 ## mondo e trovarsi una sacca addosso non e' una sfida, e' un'imboscata.
 const GUARDIA_DISTANZA_MINIMA := 420.0
 
+## **Il presidio.** (19 agosto 2026)
+##
+## Attorno a una guardiana si schiera un anello di sacche di scorta. Non si
+## sfidano e non chiudono niente: rendono l'**avvicinamento** una scelta, che è
+## la cosa che a questa mappa mancava del tutto.
+##
+## Il difetto da cui nasce: le cariche d'impulso si guadagnano studiando
+## ([[PulseCharge]]) e il morso non blocca mai, quindi non è mai esistito un
+## momento in cui valesse la pena spenderne una — si passava e basta, pagando due
+## energie o non pagandole. Una risorsa che non si sceglie mai quando spendere non
+## è una risorsa. L'anello è il posto dove quella scelta esiste: attraversarlo
+## costa più di un morso solo, e un impulso lo spegne per il tempo di passare.
+##
+## **Due scorte, non tre.** Con tre, attraversare al grado zero costerebbe più di
+## un turno di lavoro in bottega e la scelta razionale tornerebbe a essere girare
+## alla larga — cioè il difetto di partenza con un vestito nuovo. Con due, e con
+## il grado ridotto di [[WorldEnemy.SCARTO_SCORTA]], costa come un morso e mezzo.
+const SCORTE_PER_PRESIDIO := 2
+## Il raggio dell'anello. Abbastanza largo da vedersi come un anello attorno al
+## forziere, abbastanza stretto da doverlo attraversare invece che aggirare.
+const PRESIDIO_RAGGIO := 156.0
+## **Nessun presidio vicino a un obiettivo del gate.** È la riga che tiene in
+## piedi tutto il resto: un pedaggio davanti a una prova che apre il livello
+## sarebbe un'abilità messa davanti alla progressione, e in questo gioco non può
+## esistere. `presidio_audit` la verifica su tutti i mondi.
+const PRESIDIO_DISTANZA_DA_OBIETTIVO := 340.0
+
 var _guardia_prossima_msec := 0
 ## Le sacche gia' create, per identificativo: senza, ogni giro ne creerebbe
 ## un'altra sullo stesso forziere.
 var _guardiani: Dictionary = {}
+## Le scorte di ciascun presidio, per identificativo della guardiana. Si sciolgono
+## con lei: un anello che sopravvive al proprio centro sarebbe un pedaggio su un
+## forziere già guadagnato.
+var _scorte: Dictionary = {}
 var duel_panel: DuelStage
 
 ## Mette una guardiana su ogni forziere scoperto e ancora chiuso.
@@ -3571,6 +3656,74 @@ func _assegna_guardiani() -> void:
 		world_layer.add_child(sacca)
 		_guardiani[guardia_id] = sacca
 		_rendi_sfidabile(sacca)
+		_schiera_presidio(guardia_id, posto)
+
+## Schiera l'anello attorno a un forziere appena sorvegliato. Vedi le costanti
+## del presidio per il perché di ogni numero.
+func _schiera_presidio(guardia_id: String, centro: Vector2) -> void:
+	if _scorte.has(guardia_id):
+		return
+	# Chi chiama dal gioco ha già controllato, ma questa funzione è anche il punto
+	# d'ingresso dell'audit: senza terreno non si sa dove sia l'acqua, e un anello
+	# schierato alla cieca finirebbe metà in un fiume.
+	if chunks == null or chunks.composition == null:
+		return
+	# La riga che rende lecito tutto il resto: se lì accanto c'è una prova che
+	# apre il livello, il presidio non nasce. Meglio un forziere indifeso che una
+	# progressione a pedaggio.
+	if _obiettivo_di_gate_vicino(centro, PRESIDIO_DISTANZA_DA_OBIETTIVO):
+		return
+	var schiera: Array = []
+	# La fase viene dall'identificativo: lo stesso forziere ha sempre lo stesso
+	# anello, partita dopo partita. Un presidio che si dispone a caso insegnerebbe
+	# a riprovare finché non capita comodo.
+	var fase := float(posmod(hash(guardia_id), 628)) / 100.0
+	for indice in range(SCORTE_PER_PRESIDIO):
+		var angolo := TAU * float(indice) / float(SCORTE_PER_PRESIDIO) + fase
+		var posto := centro + Vector2.RIGHT.rotated(angolo) * PRESIDIO_RAGGIO
+		# Una scorta in acqua o dentro un'area protetta non è un ostacolo, è un
+		# difetto: si salta quella posizione invece di forzarla altrove, perché
+		# l'anello resti un anello.
+		if (
+			chunks.composition.raw_water_weight(posto) > 0.35
+			or chunks.composition.is_protected(posto, 40.0)
+		):
+			continue
+		posto = chunks.clamp_to_world(posto)
+		var scorta := WORLD_ENEMY_SCRIPT.new()
+		scorta.name = "Scorta_%s_%d" % [guardia_id.replace("-", "_"), indice]
+		scorta.setup(
+			self, posto, world_level, _world_subject(),
+			chunks.composition.blended_accent(posto),
+			_guardiani.size() * 8 + indice, WorldEnemy.RUOLO_SCORTA)
+		scorta.reduced_motion = reduced_motion
+		scorta.fa_la_scorta(guardia_id)
+		world_layer.add_child(scorta)
+		schiera.append(scorta)
+	if not schiera.is_empty():
+		_scorte[guardia_id] = schiera
+
+## Vero se un evento che conta per il gate cade entro `raggio` dal punto. Il
+## gruppo `mission_poi` è popolato in `_create_profile_event` con i soli eventi
+## `countsForGate`, ed è la stessa lista che il quadro degli obiettivi nomina.
+func _obiettivo_di_gate_vicino(punto: Vector2, raggio: float) -> bool:
+	for nodo in get_tree().get_nodes_in_group("mission_poi"):
+		if not (nodo is Node2D):
+			continue
+		if bool((nodo as Node).get_meta("completed", false)):
+			continue
+		if punto.distance_to((nodo as Node2D).global_position) < raggio:
+			return true
+	return false
+
+## Scioglie l'anello. Si chiama quando la guardiana cade: da quel momento il
+## forziere è guadagnato, e farlo pagare ancora sarebbe una tassa invece che una
+## scelta.
+func _sciogli_presidio(guardia_id: String) -> void:
+	for scorta in Array(_scorte.get(guardia_id, [])):
+		if is_instance_valid(scorta):
+			scorta.call("elimina")
+	_scorte.erase(guardia_id)
 
 func _guardiani_vivi() -> int:
 	var quante := 0
@@ -3666,6 +3819,7 @@ func _chiudi_duello(sacca: Node2D, vinto: bool, netto := false) -> void:
 		var premio := DuelRules.premio_frammenti(tier)
 		gameplay.collect_treasure({"rewardFragments": premio}, "duello-%s" % guardia_id)
 		sacca.call("elimina")
+		_sciogli_presidio(guardia_id)
 		game_save.save()
 		_set_feedback("%s Il forziere è libero, e restano %d frammenti sul campo." % [
 			DuelRules.riga_di_vittoria(netto), premio])
@@ -3728,6 +3882,70 @@ func _pet_check_faded_proximity() -> void:
 			_pet_react("near_faded")
 			return
 
+## **Le deviazioni.** Quello che il gioco NON ha dichiarato e che si può ancora
+## prendere: forzieri e tracce del mistero, cioè frammenti e racconto. Niente che
+## serva a salire di livello sta in questo elenco, ed è la riga che rende lecito
+## il fiuto — il Custode non ha mai aiutato a progredire e non comincia adesso.
+const PET_FIUTO_KINDS := ["treasure", "mystery_trace", "mystery_seed"]
+
+## **Il Custode sente una deviazione e si sporge da quella parte.**
+## (19 agosto 2026)
+##
+## È la metà che risponde alla freccia ristretta (`pet_companion._obiettivo_piu_vicino`).
+## La freccia adesso nomina solo gli obiettivi dichiarati; quello che resta fuori
+## non torna a essere invisibile, ma **cambia specie di informazione**: non più
+## «vai lì», soltanto «da quella parte c'è qualcosa». Nessun nome, nessuna
+## distanza, nessuna freccia — il Custode cambia fianco e si sporge, e la scelta
+## di deviare resta di chi gioca.
+##
+## Perché sia meno di prima e non di più: la vecchia freccia puntava a queste
+## stesse cose **da qualunque distanza** e diceva anche il punto esatto. Qui il
+## raggio è poco più di una schermata (`PET_FIUTO_RAGGIO`) e l'informazione è un
+## verso, non una destinazione.
+func _pet_check_secret_proximity() -> void:
+	if not is_instance_valid(pet_companion) or not is_instance_valid(player):
+		return
+	if not is_instance_valid(game_save) or not PetState.is_granted(game_save):
+		pet_companion.fiuta(Vector2.INF)
+		return
+	var sentito := _deviazione_piu_vicina()
+	pet_companion.fiuta(sentito.get("posizione", Vector2.INF))
+	var id := str(sentito.get("id", ""))
+	if id.is_empty():
+		_pet_fiuto_ultimo = ""
+		return
+	if id == _pet_fiuto_ultimo:
+		return
+	# La faccia scatta alla scoperta, una volta per cosa trovata; la sporgenza
+	# invece resta finché si è nel raggio. Il volto dice che se n'è accorto, il
+	# corpo dice dove: separarli è il motivo per cui questa non è una notifica.
+	_pet_fiuto_ultimo = id
+	_pet_react("near_secret")
+
+## La deviazione aperta più vicina entro il raggio del fiuto, o un dizionario
+## vuoto. I forzieri già raccolti li sa solo la scena, ed è per questo che il
+## conto si fa qui e non dentro il Custode.
+func _deviazione_piu_vicina() -> Dictionary:
+	var raccolti: Array = Array(result.get("collectedTreasureIds", []))
+	var migliore: Dictionary = {}
+	var distanza := PET_FIUTO_RAGGIO
+	for nodo in get_tree().get_nodes_in_group("world_interactable"):
+		if not (nodo is Node2D):
+			continue
+		var area := nodo as Node2D
+		if not PET_FIUTO_KINDS.has(str(area.get_meta("kind", ""))):
+			continue
+		if bool(area.get_meta("completed", false)):
+			continue
+		var id := str(area.get_meta("id", ""))
+		if id.is_empty() or raccolti.has(id):
+			continue
+		var quanto := player.global_position.distance_to(area.global_position)
+		if quanto < distanza:
+			distanza = quanto
+			migliore = {"id": id, "posizione": area.global_position}
+	return migliore
+
 func enemy_gameplay_active() -> bool:
 	return (
 		is_instance_valid(player)
@@ -3739,6 +3957,21 @@ func enemy_gameplay_active() -> bool:
 
 func _on_enemy_contact(enemy: Node2D, body: Node) -> void:
 	if body != player or not enemy_gameplay_active():
+		return
+	# **Il varco dello scatto.** (19 agosto 2026) Chi passa di slancio non paga e
+	# non viene respinto: ci si passa attraverso. È l'unico momento del gioco in
+	# cui il tempismo vale quanto il grado, ed è lecito perché dietro una sacca
+	# non c'è mai niente che serva a progredire.
+	#
+	# La sacca ha già consumato la propria finestra di morso (`_on_body_entered`
+	# la segna prima di chiamarci): per il secondo dopo un attraversamento
+	# riuscito quella sacca non morde. È un vantaggio, ed è voluto — è la
+	# ricompensa del tempismo, e dura un secondo.
+	if player.sta_scattando():
+		if not _scatto_varco_raccontato:
+			_scatto_varco_raccontato = true
+			_set_feedback("Ci sei passata attraverso. Di slancio le sacche non ti toccano.")
+		_pet_react("near_faded")
 		return
 	var away := enemy.global_position.direction_to(player.global_position)
 	if away.length_squared() < 0.01:
@@ -3826,6 +4059,71 @@ func _spawn_combat_pulse_visual() -> void:
 	tween.tween_property(pulse, "modulate:a", 0.0, 0.34)
 	tween.set_parallel(false)
 	tween.tween_callback(pulse.queue_free)
+
+## **Lo scatto.** (19 agosto 2026)
+##
+## Il secondo verbo del corpo di Eli, e il primo che non finisce in un pannello.
+## Le regole stanno tutte in [[OutdoorPlayerController]]: qui c'è solo il gesto —
+## chi lo chiede, la scia che lascia, e il pulsante che dice quando torna.
+##
+## Non costa niente e non concede niente. Il balzo è movimento, e l'unica cosa
+## che apre è il passaggio attraverso una sacca — che sta davanti ai frammenti,
+## mai davanti a una prova.
+func _scatto() -> void:
+	if not is_instance_valid(player) or not enemy_gameplay_active():
+		return
+	if not player.scatta():
+		return
+	_spawn_scia_di_scatto()
+	_update_scatto_button()
+
+## Dito giù sul pulsante: parte il balzo **e** comincia la corsa. Sono lo stesso
+## gesto perché sono la stessa idea — parti di slancio e prosegui — e perché un
+## quarto bottone in fondo allo schermo lo si sarebbe pagato in leggibilità.
+func _scatto_premuto() -> void:
+	_scatto()
+	if is_instance_valid(player):
+		player.corsa_richiesta = true
+
+func _scatto_rilasciato() -> void:
+	if is_instance_valid(player):
+		player.corsa_richiesta = false
+
+## La scia: quattro sagome che restano indietro e svaniscono. Serve a far leggere
+## il balzo come un gesto invece che come uno scatto di velocità — senza, a due
+## decimi di secondo, Eli sembra semplicemente teletrasportata di un passo.
+func _spawn_scia_di_scatto() -> void:
+	if reduced_motion or not is_instance_valid(player):
+		return
+	var scia := Node2D.new()
+	scia.name = "EliScattoScia"
+	scia.z_index = 6
+	var verso := player.scatto_direzione()
+	var lunghezza := float(runtime.get("dashDistance", ExpeditionModules.SCATTO_DISTANZA))
+	for indice in range(4):
+		var quanto := lunghezza * (float(indice) + 1.0) / 5.0
+		scia.add_child(OutdoorVisualFactory.make_polygon(
+			OutdoorVisualFactory.ellipse_polygon(13.0, 19.0, 16),
+			Color(0.42, 0.91, 0.84, 0.34 - float(indice) * 0.06),
+			verso * quanto))
+	scia.position = player.global_position
+	world_layer.add_child(scia)
+	var tween := create_tween()
+	tween.tween_property(scia, "modulate:a", 0.0, 0.28)
+	tween.tween_callback(scia.queue_free)
+
+func _update_scatto_button() -> void:
+	if not is_instance_valid(scatto_button) or not is_instance_valid(player):
+		return
+	var attesa := int(player.scatto_attesa_msec())
+	scatto_button.disabled = attesa > 0 or not enemy_gameplay_active()
+	if scatto_button.disabled:
+		# Un pannello aperto mentre il dito era giù lascerebbe Eli a correre da
+		# sola sotto la finestra: il rilascio non arriva mai su un bottone spento.
+		player.corsa_richiesta = false
+	# Tenendolo premuto si corre: il pulsante dice tutte e due le cose, perché su
+	# tablet questa è anche l'unica corsa che esista.
+	scatto_button.text = "SCATTO\n%.1f s" % (float(attesa) / 1000.0) if attesa > 0 else "SCATTO\nTIENI = CORRI"
 
 func _update_pulse_button() -> void:
 	if not is_instance_valid(pulse_button):
@@ -4279,6 +4577,24 @@ void fragment() {
 	pulse_button.add_theme_stylebox_override("disabled", _touch_action_style(Color("5b5131"), Color("9f9462")))
 	pulse_button.pressed.connect(_combat_pulse)
 	root.add_child(pulse_button)
+	scatto_button = Button.new()
+	scatto_button.name = "ScattoButton"
+	scatto_button.text = "SCATTO\nTIENI = CORRI"
+	scatto_button.anchor_left = 1.0
+	scatto_button.anchor_right = 1.0
+	scatto_button.anchor_top = 1.0
+	scatto_button.anchor_bottom = 1.0
+	scatto_button.tooltip_text = "Un balzo che attraversa le sacche · tienilo premuto per correre"
+	scatto_button.add_theme_font_size_override("font_size", 13)
+	scatto_button.add_theme_color_override("font_color", Color("06272a"))
+	scatto_button.add_theme_stylebox_override("normal", _touch_action_style(Color("9ad8ff"), Color("e2f4ff")))
+	scatto_button.add_theme_stylebox_override("pressed", _touch_action_style(Color("6be7d6"), Color("d8fff8")))
+	scatto_button.add_theme_stylebox_override("disabled", _touch_action_style(Color("36505e"), Color("6d8794")))
+	# `pressed` scatta al rilascio: per un balzo è tardi, e chi tiene premuto per
+	# correre non vuole un balzo quando alza il dito. `button_down` è il gesto.
+	scatto_button.button_down.connect(_scatto_premuto)
+	scatto_button.button_up.connect(_scatto_rilasciato)
+	root.add_child(scatto_button)
 	_aggiorna_cariche_impulso()
 	shop_button = Button.new()
 	shop_button.name = "OpenShopButton"
@@ -4490,6 +4806,24 @@ func _apply_touch_controls_layout() -> void:
 	var opacity := float(touch_controls_settings.get("opacity", 1.0))
 	interaction_button.modulate.a = opacity
 	pulse_button.modulate.a = opacity
+	# Lo scatto sale sopra l'impulso, sullo stesso lato: il senso della preferenza
+	# «destra o sinistra» è che tutte le azioni stiano sotto lo stesso pollice.
+	if is_instance_valid(scatto_button):
+		scatto_button.anchor_left = 0.0 if on_left else 1.0
+		scatto_button.anchor_right = 0.0 if on_left else 1.0
+		scatto_button.anchor_top = 1.0
+		scatto_button.anchor_bottom = 1.0
+		if on_left:
+			scatto_button.offset_left = margin
+			scatto_button.offset_right = margin + pulse_side
+		else:
+			scatto_button.offset_left = -margin - pulse_side
+			scatto_button.offset_right = -margin
+		scatto_button.offset_bottom = pulse_button.offset_top - 12.0
+		scatto_button.offset_top = scatto_button.offset_bottom - pulse_side
+		scatto_button.custom_minimum_size = Vector2(pulse_side, pulse_side)
+		scatto_button.add_theme_font_size_override("font_size", 13 if is_large else 10)
+		scatto_button.modulate.a = opacity
 	_refresh_touch_controls_labels()
 
 func _refresh_touch_controls_labels() -> void:
@@ -4597,6 +4931,15 @@ func _apply_accessibility_settings() -> void:
 			"normal", _touch_action_style(Color("f6c85f"), Color("fff1b8")))
 		pulse_button.add_theme_stylebox_override(
 			"pressed", _touch_action_style(Color("6be7d6"), Color("d8fff8")))
+	# Il bordo dei comandi si ispessisce col contrasto elevato (`_touch_action_style`):
+	# senza questo blocco lo scatto sarebbe l'unico comando a non accorgersene.
+	if is_instance_valid(scatto_button):
+		scatto_button.add_theme_stylebox_override(
+			"normal", _touch_action_style(Color("9ad8ff"), Color("e2f4ff")))
+		scatto_button.add_theme_stylebox_override(
+			"pressed", _touch_action_style(Color("6be7d6"), Color("d8fff8")))
+		scatto_button.add_theme_stylebox_override(
+			"disabled", _touch_action_style(Color("36505e"), Color("6d8794")))
 	_refresh_touch_controls_labels()
 	_publish_web_accessibility_state()
 
@@ -5645,6 +5988,12 @@ func _input(event: InputEvent) -> void:
 	elif event.is_action_pressed("combat_pulse") and not event.is_echo():
 		_combat_pulse()
 		get_viewport().set_input_as_handled()
+	elif event.is_action_pressed("sprint") and not event.is_echo():
+		# **Premere è scattare, tenere è correre.** Un tasto, due verbi: lo spazio
+		# è già `interact` e Ctrl in una pagina Web, insieme a W, chiude la scheda.
+		# La corsa continua a leggersi da sola nel controller, quindi qui non si
+		# consuma l'evento — Maiusc deve restare premuto per chi corre.
+		_scatto()
 	elif event.is_action_pressed("leave_portal") and not event.is_echo():
 		_guide_to_ship()
 		get_viewport().set_input_as_handled()

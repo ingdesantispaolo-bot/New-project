@@ -50,10 +50,23 @@ const CARICA_EXTRA := 1
 const RAGGIO_BASE := 168.0
 const RAGGIO_AMPIO := 230.0
 
-## Il moltiplicatore dello scatto. Il passo lungo aggiunge circa un quinto: è la
+## Il moltiplicatore della corsa. Il passo lungo aggiunge circa un quinto: è la
 ## differenza fra arrivare e arrivare prima, non fra potere e non potere.
 const SCATTO_BASE := 1.65
 const SCATTO_LUNGO := 1.95
+
+## **Quanto lontano porta uno scatto.** (19 agosto 2026)
+##
+## Dal giorno in cui il tasto della corsa è diventato anche il tasto dello scatto
+## ([[OutdoorPlayerController]]), «Passo lungo» ha smesso di essere un +20% di
+## velocità ed è diventato una **capacità**: allunga il balzo di quaranta unità,
+## cioè quanto basta perché un varco che prima si mancava adesso si prenda.
+##
+## Resta dentro il contratto della decisione vincolante 15 — un modulo può
+## toccare la mappa, mai una prova. Uno scatto più lungo non risponde a nessuna
+## domanda: attraversa una sacca, che è una cosa che sta davanti ai frammenti.
+const SCATTO_DISTANZA := 190.0
+const SCATTO_DISTANZA_LUNGA := 230.0
 
 ## Gli identificativi dei moduli, per gli audit e per la bottega.
 static func ids() -> Array:
@@ -73,6 +86,10 @@ static func cariche_massime(save, base: int) -> int:
 static func raggio_impulso(save) -> float:
 	return RAGGIO_AMPIO if posseduto(save, BOBINA) else RAGGIO_BASE
 
-## Quanto va più veloce lo scatto.
+## Quanto va più veloce la corsa.
 static func moltiplicatore_scatto(save) -> float:
 	return SCATTO_LUNGO if posseduto(save, PASSO) else SCATTO_BASE
+
+## Quanto lontano porta un balzo.
+static func distanza_scatto(save) -> float:
+	return SCATTO_DISTANZA_LUNGA if posseduto(save, PASSO) else SCATTO_DISTANZA

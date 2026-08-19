@@ -416,16 +416,42 @@ i **frammenti** sono la secondaria del mondo (tesori, beacon).
 ## 8. Potenziamenti e acquisti
 
 ### Moduli NORA (funzionali)
-Acquistati con energia, con slot che crescono col livello.
-| Modulo | Effetto |
-|---|---|
-| Indizio | un aiuto sull'esercizio corrente |
-| Seconda chance | un secondo tentativo dopo un errore |
-| Tempo extra | più tempo nelle prove a tempo |
-| Moltiplicatore | potenzia la combo per una sessione |
-| Radar tesori | evidenzia tesori/frammenti vicini |
-| Torcia | esplora di notte, sblocca beacon |
-| Scatto potenziato | sprint più veloce/lungo (già presente) |
+
+> **Superato in parte.** Questa tabella descriveva sette moduli acquistabili; il
+> lotto del 6 agosto 2026 ha stabilito che *un consumabile utile diventa una
+> scorciatoia per non sapere*, e quello del 14 agosto ha conciliato le due cose
+> con una distinzione che regge: un modulo può toccare la **mappa**, mai una
+> **prova**. Ne restano tre, permanenti (`expedition_modules.gd`); Indizio,
+> Seconda chance, Tempo extra e Moltiplicatore non esistono e non entreranno.
+>
+> La **Torcia** è uscita da questa tabella per un'altra ragione: non è un
+> potenziamento, è una **chiave**, e le chiavi non si vendono a chi impara. Vedi
+> §8.1.
+
+| Modulo | Effetto | Stato |
+|---|---|---|
+| Serbatoio | una carica d'impulso in più | in gioco |
+| Bobina larga | raggio dell'impulso più ampio | in gioco |
+| Passo lungo | corsa più veloce **e balzo più lungo** (§11.1) | in gioco |
+| Radar tesori | evidenzia tesori/frammenti vicini | non fatto: chiede una resa che non esiste |
+
+### 8.1 Gli strumenti da campo: cinque chiavi sull'arco
+
+Non si comprano: **te li dà chi li usa**, alla prima riparazione portata a
+termine in un mondo. Sono l'unica cosa del catalogo che apre il mondo invece di
+decorarlo, e dal 19 agosto 2026 sono **cinque**, distribuiti sui mondi 1, 2, 5, 7
+e 11 — ognuno la materia del mondo che lo consegna.
+
+Prima erano due, consegnate entrambe entro il mondo 2: dal mondo 3 in poi non
+esisteva **una sola porta chiusa** in tutta la campagna. Adesso ogni mondo lascia
+esattamente una porta da tornare a prendere, il salvataggio registra dove
+(`toolGates`), e il gioco lo dice quando la chiave arriva.
+
+Regole che non cambiano: uno strumento **posseduto** apre (non c'è da
+equipaggiarlo), le porte che guardano avanti stanno solo sui **forzieri** — mai
+su una palestra, mai su un evento che apre il livello — e la consegna non si può
+mancare. Dettaglio in
+[FORZIERI_E_FRAMMENTI §5.1-bis](FORZIERI_E_FRAMMENTI.md).
 
 ### Compagni funzionali (evoluzione dei pet)
 Estetica **e** utilità: il Cane fiuta i tesori, il Prisma dà uno scudo-combo, la

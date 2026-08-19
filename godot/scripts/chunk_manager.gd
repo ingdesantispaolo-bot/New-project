@@ -25,12 +25,18 @@ var world_profile: Dictionary = {}
 var reserved_event_positions: Array = []
 var profile_bounds := Rect2()
 var active_radius := ACTIVE_RADIUS
+## Le chiavi che possono chiudere un forziere in questo mondo ([[FieldTools]]).
+## Si calcolano una volta in `configure`: dipendono dal solo livello, e ricavarle
+## dentro il ciclo dei forzieri voleva dire ricostruire un array per ogni cassa
+## di ogni pezzo di mappa.
+var _varchi_del_mondo: Array = []
 
 func configure(seed: String, world_ref: Node = null, profile: Dictionary = {}, event_positions: Array = []) -> void:
 	world_seed = seed
 	world = world_ref
 	world_profile = profile.duplicate(true)
 	reserved_event_positions = event_positions.duplicate()
+	_varchi_del_mondo = FieldTools.varchi_del_mondo(int(world_profile.get("level", 1)))
 	if not world_profile.is_empty():
 		var ship: Vector2 = world_profile.get("shipEntrance", {}).get("position", Vector2.ZERO)
 		var half_extent := float(world_profile.get("worldHalfExtent", 2200.0))
@@ -196,11 +202,16 @@ func _profile_filtered_chunk(source: Dictionary) -> Dictionary:
 			if field == "treasures" and int(world_profile.get("level", 1)) >= 2:
 				# Solo una parte dei tesori è strumentale: gli altri restano
 				# subito accessibili. L'id rende stabile la scelta al reload.
-				var tool_roll := posmod(hash(str(kept_item.get("id", ""))), 3)
-				if tool_roll == 0:
-					kept_item["requiredTool"] = "tool-torch"
-				elif tool_roll == 1:
-					kept_item["requiredTool"] = "tool-scythe"
+				#
+				# **QUALE chiave lo chiuda viene dai varchi del mondo** (19 agosto
+				# 2026): gli strumenti già consegnabili più il prossimo
+				# ([[FieldTools.varchi_del_mondo]]). Prima erano sempre e solo
+				# torcia e falce — entrambe in mano entro il mondo 2 — e dal mondo
+				# 3 in avanti nessun forziere era davvero chiuso.
+				var id_forziere := str(kept_item.get("id", ""))
+				if posmod(hash(id_forziere), 3) != 2 and not _varchi_del_mondo.is_empty():
+					kept_item["requiredTool"] = str(_varchi_del_mondo[
+						posmod(hash("%s:tool" % id_forziere), _varchi_del_mondo.size())])
 			kept.append(kept_item)
 		chunk[field] = kept
 	# Il profilo ha già un landmark eroe autorato: i landmark casuali legacy

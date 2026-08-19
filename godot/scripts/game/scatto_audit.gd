@@ -242,7 +242,7 @@ func _run() -> void:
 	varco.name = "VarcoDiProva"
 	mondo.get("world_layer").add_child(varco)
 	varco.global_position = player.global_position + Vector2(150, 0)
-	varco.configure("tool-scythe", "")
+	varco.configure(FieldTools.FALCE, [])
 	await process_frame
 	_controlla(not varco.is_open(), "il varco di prova nasce gia' aperto: non prova niente")
 	player.global_position = varco.global_position - Vector2(150, 0)

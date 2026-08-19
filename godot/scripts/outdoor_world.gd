@@ -302,6 +302,25 @@ delete document.documentElement.dataset.eliExam;
 	_crea_camera_chiusa()
 	_crea_velo_di_nebbia()
 	_mostra_soglia_del_mondo()
+	_ricorda_cosa_hai_lasciato_qui()
+
+## **Rientrando in un mondo già visto: che cosa adesso sapresti aprire.**
+## (19 agosto 2026)
+##
+## La soglia del mondo si mostra una volta sola, quindi chi torna indietro non
+## riceve niente — ed è proprio chi torna indietro che questo lotto vuole
+## servire. Una riga, alla ripresa del controllo, e soltanto se c'è davvero
+## qualcosa: un promemoria che compare sempre diventa arredamento, e un
+## promemoria che promette e non mantiene è peggio del silenzio.
+func _ricorda_cosa_hai_lasciato_qui() -> void:
+	if not is_instance_valid(game_save):
+		return
+	var quante := int(game_save.tool_gates_openable(str(world_level), _strumenti_posseduti()))
+	if quante <= 0:
+		return
+	_set_nora_feedback(
+		"Qui avevi lasciato %s: adesso hai la chiave." %
+		("una cosa chiusa" if quante == 1 else "%d cose chiuse" % quante))
 
 ## La schermata di benvenuto del mondo, una volta sola per mondo.
 ##
@@ -1103,22 +1122,42 @@ func _add_player_night_light() -> void:
 	player.add_child(light)
 	_update_equipment_presentation()
 
+## Lo strumento che Eli **porta addosso**: decide la livrea e la luce, e non
+## decide più nessuna porta. Vedi `_strumenti_posseduti`.
 func equipped_field_tool() -> String:
 	return str(Dictionary(runtime.get("cosmeticsEquipped", {})).get("tool", ""))
 
+## **Gli strumenti che il giocatore ha.** (19 agosto 2026)
+##
+## È questo — e non lo slot equipaggiato — che apre le porte. Con due attrezzi la
+## differenza era un fastidio (tornare in bottega davanti a un rovo); con cinque
+## sarebbe un pedaggio, e comunque in un gioco fatto di chiavi una chiave non si
+## equipaggia, si ha. Vedi [[EquipmentGate]].
+func _strumenti_posseduti() -> Array:
+	var sbloccati: Array = Array(runtime.get("cosmeticsUnlocked", []))
+	var out: Array = []
+	for id in FieldTools.ids():
+		if sbloccati.has(id):
+			out.append(id)
+	return out
+
 func _update_equipment_presentation() -> void:
 	var tool := equipped_field_tool()
+	var posseduti := _strumenti_posseduti()
 	if is_instance_valid(player):
 		var light := player.get_node_or_null("PlayerNightLight") as PointLight2D
 		if light != null:
-			light.energy = 1.08 if tool == "tool-torch" else 0.10
-			light.texture_scale = 3.0 if tool == "tool-torch" else 1.15
+			# Avere la torcia basta per vederci: una torcia che illumina solo se
+			# la si è scelta in bottega è un interruttore nascosto in un menu.
+			var illumina := posseduti.has(FieldTools.TORCIA)
+			light.energy = 1.08 if illumina else 0.10
+			light.texture_scale = 3.0 if illumina else 1.15
 	if is_instance_valid(expedition_module_presentation):
 		expedition_module_presentation.apply_runtime(
 			runtime, tool, Array(result.get("collectedTreasureIds", [])))
 	for gate in get_tree().get_nodes_in_group("equipment_gate"):
-		if gate.has_method("set_equipped_tool"):
-			gate.call("set_equipped_tool", tool)
+		if gate.has_method("set_strumenti"):
+			gate.call("set_strumenti", posseduti)
 
 func _avatar_color(value, fallback: Color) -> Color:
 	if (typeof(value) == TYPE_INT or typeof(value) == TYPE_FLOAT) and int(value) >= 0:
@@ -1638,9 +1677,22 @@ func _create_profile_event(event: Dictionary) -> void:
 		payload["campate"] = int(event.get("campate", incarico.get("campate", 4)))
 	if director_kind == "practice" and world_level >= 2:
 		# Solo deviazioni opzionali: nessuno strumento può bloccare il gate.
-		payload["requiredTool"] = (
-			"tool-torch" if posmod(hash(event_id), 2) == 0 else "tool-scythe"
-		)
+		#
+		# **E nessuna chiave futura su una palestra.** (19 agosto 2026) La prima
+		# stesura di questo lotto pescava dai varchi del mondo — quelli già
+		# consegnabili *più il prossimo* — e sarebbe stato un errore serio: le
+		# undici palestre sono una per materia, e chiuderne una fino a tre mondi
+		# dopo vuol dire togliere a un bambino l'unico posto in cui allena quella
+		# materia in questo mondo. La progressione non si sarebbe fermata (le
+		# palestre non contano per il gate) ma l'apprendimento sì, che è peggio.
+		#
+		# Le palestre usano quindi solo le chiavi che il mondo ha **già**
+		# consegnato: al più restano chiuse fino alla riparazione di questo mondo,
+		# che è la scena che le consegna. Le porte che guardano avanti stanno sui
+		# forzieri ([[ChunkManager]]), cioè davanti ai frammenti, cioè davanti ai
+		# cosmetici — l'unico posto in cui questo gioco ammette di chiudere.
+		var chiavi := FieldTools.consegnati_entro(world_level)
+		payload["requiredTool"] = str(chiavi[posmod(hash(event_id), chiavi.size())])
 	area.set_meta("payload", payload)
 	var shape := CollisionShape2D.new()
 	shape.name = "EventCollision"
@@ -1674,7 +1726,7 @@ func _create_profile_event(event: Dictionary) -> void:
 		var equipment_gate := EQUIPMENT_GATE_SCRIPT.new()
 		equipment_gate.name = "EquipmentGate"
 		area.add_child(equipment_gate)
-		equipment_gate.configure(str(payload.get("requiredTool", "")), equipped_field_tool())
+		equipment_gate.configure(str(payload.get("requiredTool", "")), _strumenti_posseduti())
 	elif world_level == 1 and str(payload["subject"]) == "matematica":
 		var activity_site := WORLD1_ACTIVITY_SITE_SCRIPT.new()
 		activity_site.setup(
@@ -1945,7 +1997,11 @@ func _on_minimission_completed(forma: String, encounter_id: String, _esito: Stri
 func _consegna_strumento_se_dovuto(encounter_id: String) -> void:
 	if not is_instance_valid(gameplay) or gameplay.reward_manager == null:
 		return
-	var dovuto := FieldTools.dovuto(gameplay.reward_manager)
+	# **Il calendario, dal 19 agosto 2026.** Si consegna il primo strumento dovuto
+	# a questo mondo o a uno precedente: chi arriva al 7 senza aver finito una
+	# riparazione al 5 riceve prima la leva e la lente al mondo dopo. Gli arretrati
+	# non si perdono e non si accavallano — uno per riparazione, in ordine.
+	var dovuto := FieldTools.dovuto(gameplay.reward_manager, world_level)
 	if dovuto == "":
 		return
 	if not gameplay.reward_manager.deliver_field_tool(dovuto):
@@ -1957,12 +2013,51 @@ func _consegna_strumento_se_dovuto(encounter_id: String) -> void:
 		if str(owner_id) != "":
 			chi = str(NPC_CATALOG.resident(str(owner_id)).get("nome", ""))
 	_set_feedback(FieldTools.riga_di_consegna(dovuto, chi))
+	_racconta_dove_apre(dovuto)
 	# Lo strumento è addosso da subito: la luce della torcia, i cancelli dei POI e
 	# la livrea si aggiornano nello stesso istante della riga, altrimenti il
 	# giocatore legge di averlo ricevuto e il mondo non se ne accorge.
 	gameplay.call("_emit_state")
 	_update_equipment_presentation()
 	_apply_cosmetic_presentation()
+
+## **Dove ti aspetta, adesso che ce l'hai.** (19 agosto 2026)
+##
+## È la riga che chiude l'arcipelago. Un attrezzo nuovo senza questo elenco è una
+## bella scena e niente più: nessun bambino si ricorda di aver visto una lastra
+## sigillata al mondo 3 dodici ore di gioco prima, e senza il ricordo non torna
+## indietro — che era esattamente lo stato del gioco prima di questo lotto.
+##
+## Non promette niente che non abbia registrato: nomina i mondi in cui **questa
+## partita** ha davvero incontrato una porta di quella chiave. Se non ne ha
+## incontrata nessuna, non si inventa un elenco: dice che d'ora in poi si aprono,
+## e basta.
+func _racconta_dove_apre(tool_id: String) -> void:
+	if not is_instance_valid(game_save):
+		return
+	var aperti: Array = game_save.tool_gate_worlds(tool_id)
+	if aperti.is_empty():
+		return
+	var qui := 0
+	var altrove: Array = []
+	for voce_data in aperti:
+		var voce: Dictionary = voce_data
+		if int(voce["world"]) == world_level:
+			qui = int(voce["porte"])
+		else:
+			altrove.append("mondo %d" % int(voce["world"]))
+	var pezzi: Array = []
+	if qui > 0:
+		pezzi.append("%d qui" % qui)
+	# Al massimo tre mondi per nome: un elenco di otto si legge come un compito.
+	if not altrove.is_empty():
+		var nomi: Array = altrove.slice(0, 3)
+		var coda := " e altri %d" % (altrove.size() - nomi.size()) if altrove.size() > nomi.size() else ""
+		pezzi.append("%s%s" % [", ".join(PackedStringArray(nomi)), coda])
+	if pezzi.is_empty():
+		return
+	_set_nora_feedback("Con %s si apre quello che avevi lasciato: %s." % [
+		FieldTools.nome(tool_id), " · ".join(PackedStringArray(pezzi))])
 
 func _create_world_buildings() -> void:
 	var specs := BUILDING_CATALOG.for_world(world_level, world_profile)
@@ -6133,6 +6228,7 @@ func _refresh_prompt() -> void:
 	if target == null:
 		_set_feedback("")
 		return
+	_annota_varco(target)
 	var kind := str(target.get_meta("kind"))
 	var id := str(target.get_meta("id"))
 	if kind == "portal":
@@ -6245,7 +6341,9 @@ func _interaction_action_text(target: Area2D) -> String:
 	if target == null:
 		return "INTERAGISCI"
 	if not _equipment_requirement_met(target):
-		return "SERVE TORCIA" if _required_tool(target) == "tool-torch" else "SERVE FALCE"
+		# Il pulsante nomina l'attrezzo: con cinque chiavi, «SERVE UNO STRUMENTO»
+		# manderebbe a indovinare quale.
+		return "SERVE %s" % FieldTools.nome(_required_tool(target)).to_upper().trim_prefix("LA ").trim_prefix("IL ")
 	var event_id := str(target.get_meta("id", ""))
 	if mission_ownership_flow != null and mission_ownership_flow.requires_request(event_id):
 		var owner_id: String = mission_ownership_flow.owner_of(event_id)
@@ -6302,19 +6400,55 @@ func _required_tool(target: Area2D) -> String:
 
 func _equipment_requirement_met(target: Area2D) -> bool:
 	var required := _required_tool(target)
-	return required == "" or required == equipped_field_tool()
+	return required == "" or _strumenti_posseduti().has(required)
 
-## Il messaggio cambia a seconda che lo strumento **non lo si abbia** o lo si
-## abbia e basti equipaggiarlo: sono due situazioni diverse e prima ricevevano
-## la stessa riga, che per giunta mandava in bottega — dove gli strumenti non
-## sono mai stati in vendita dal 14 agosto 2026. Vedi [[FieldTools]].
+## **Segna una porta chiusa che il giocatore ha appena visto** — e la toglie dal
+## registro quando invece la può aprire. (19 agosto 2026)
+##
+## Si chiama quando ci si avvicina abbastanza da leggerne il cartello, non
+## quando ci si prova: «l'ho vista» è il fatto che conta, e chi passa davanti a
+## un rovo senza premere l'ha vista lo stesso.
+##
+## Il registro vive nel salvataggio ([[GameSaveManager.record_tool_gate]]) ed è
+## il pezzo che rende utile avere cinque chiavi invece di due: senza, uno
+## strumento nuovo sarebbe una riga di dialogo, perché nessuno si ricorda dove
+## ha visto una lastra sigillata dodici ore prima.
+func _annota_varco(target: Area2D) -> void:
+	if not is_instance_valid(game_save):
+		return
+	var richiesto := _required_tool(target)
+	if richiesto == "":
+		return
+	var id := str(target.get_meta("id", ""))
+	var mondo := str(world_level)
+	if _strumenti_posseduti().has(richiesto):
+		# Aperta, o apribile adesso: non è più qualcosa che aspetta.
+		game_save.clear_tool_gate(mondo, richiesto, id)
+		return
+	if game_save.record_tool_gate(mondo, richiesto, id):
+		# Si scrive solo alla PRIMA volta che questa porta viene vista: un
+		# salvataggio a ogni passaggio davanti allo stesso rovo sarebbe decine di
+		# scritture per niente.
+		game_save.save()
+
+## **Il messaggio dice quale chiave manca, dove si prende e quando.**
+## (19 agosto 2026)
+##
+## Prima distingueva fra «non ce l'hai» e «ce l'hai ma non e' equipaggiato»: la
+## seconda situazione non esiste piu' — uno strumento posseduto apre — e al suo
+## posto c'e' quella che conta adesso, con cinque attrezzi distribuiti sull'arco
+## della campagna: **questa porta si apre piu' avanti, e si sa quanto avanti.**
+##
+## Una porta chiusa senza data e' un vicolo cieco; una porta chiusa con la data
+## e' un appuntamento, ed e' tutta la differenza fra frustrazione e curiosita'.
 func _equipment_requirement_message(target: Area2D) -> String:
 	var richiesto := _required_tool(target)
-	var ostacolo := "Oscurità impenetrabile" if richiesto == FieldTools.TORCIA else "Erba alta invalicabile"
-	var arnese := "la Torcia da ricognizione" if richiesto == FieldTools.TORCIA else "la Falce da campo"
-	var posseduto := is_instance_valid(gameplay) and gameplay.reward_manager != null 		and gameplay.reward_manager.owned(richiesto)
-	if posseduto:
-		return "%s · equipaggia %s." % [ostacolo, arnese]
+	var ostacolo := FieldTools.ostacolo(richiesto)
+	var arnese := FieldTools.nome(richiesto)
+	var mondo_strumento := FieldTools.mondo_di(richiesto)
+	if is_instance_valid(game_save) and mondo_strumento > int(game_save.level()):
+		return "%s · %s te la dara' chi lavora al mondo %d. Torna qui quando ce l'hai." % [
+			ostacolo, arnese, mondo_strumento]
 	return "%s · %s ce l'ha chi lavora qui: finiscigli una riparazione." % [ostacolo, arnese]
 
 func _interact() -> void:

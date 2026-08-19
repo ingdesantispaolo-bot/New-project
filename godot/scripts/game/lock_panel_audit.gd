@@ -56,9 +56,20 @@ func _mondo() -> Node:
 	initial["energy"] = 400
 	initial["fragments"] = 200
 	initial["worlds"] = {"unlocked": [1, 2], "current": 2}
-	# Con entrambi gli strumenti nessun forziere resta chiuso per un motivo che
+	# **Con TUTTI gli strumenti** nessun forziere resta chiuso per un motivo che
 	# non c'entra con il chiavistello.
-	initial["cosmetics"] = {"unlocked": ["tool-torch"], "equipped": {"tool": "tool-torch"}, "inventory": []}
+	#
+	# Il commento diceva «entrambi» e l'elenco ne conteneva uno solo: finché le
+	# chiavi erano due e il mondo 2 le distribuiva quasi tutte a torcia, la svista
+	# non si vedeva. Dal 19 agosto le chiavi sono cinque e un forziere del mondo 2
+	# può chiedere la leva, che arriva al mondo 5 ([[FieldTools]]): l'audit
+	# cercava un forziere apribile e non ne trovava più. Qui si vuole giocare il
+	# chiavistello, quindi si entra con il mazzo completo.
+	initial["cosmetics"] = {
+		"unlocked": FieldTools.ids(),
+		"equipped": {"tool": FieldTools.TORCIA},
+		"inventory": [],
+	}
 	var request := NativeWorldState.default_request("lock-panel-audit")
 	request["loadLocalSave"] = false
 	request["initialSave"] = initial

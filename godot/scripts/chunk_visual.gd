@@ -449,8 +449,12 @@ func _build_treasures() -> void:
 			var gate := EQUIPMENT_GATE.new()
 			gate.name = "EquipmentGate"
 			node.add_child(gate)
-			var equipped_tool := str(world.call("equipped_field_tool")) if world != null and world.has_method("equipped_field_tool") else ""
-			gate.configure(required_tool, equipped_tool)
+			# Il varco guarda gli strumenti POSSEDUTI, non quello indossato
+			# (19 agosto 2026): una chiave che hai è una chiave che hai.
+			var posseduti: Array = []
+			if world != null and world.has_method("_strumenti_posseduti"):
+				posseduti = Array(world.call("_strumenti_posseduti"))
+			gate.configure(required_tool, posseduti)
 		_attach_interactable(node, "treasure", str(treasure["id"]), treasure)
 
 func _build_encounters() -> void:

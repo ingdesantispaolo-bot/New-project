@@ -43,8 +43,15 @@ const CATALOG := [
 	# --- Strumenti da esplorazione -------------------------------------------
 	# Cambiano leggibilità/percorribilità di POI opzionali, senza alterare
 	# mastery, gate o ricompense didattiche.
+	# Il `cost` resta scritto e non lo paga nessuno: dal 14 agosto 2026 gli
+	# strumenti non sono in vendita ([[FieldTools]]), e `can_unlock` li rifiuta
+	# prima di guardare il prezzo. Toglierlo vorrebbe dire trattare la vetrina in
+	# modo speciale per cinque voci su settanta; lasciarlo costa una riga morta.
 	{"id": "tool-torch", "slot": "tool", "name": "Torcia da ricognizione", "description": "Illumina la notte profonda e rivela tesori schermati dall'oscurità.", "origine": "Torcia delle caverne. Serve davvero: senza, certe deviazioni restano chiuse.", "cost": 140, "glyph": "✦", "color": 0xffc76b},
 	{"id": "tool-scythe", "slot": "tool", "name": "Falce da campo", "description": "Taglia l'erba alta che protegge deviazioni e tesori opzionali.", "origine": "Falce da sterpaglia della Serra. Apre passaggi, non prove.", "cost": 180, "glyph": "⌁", "color": 0x91dc72, "minLevel": 2},
+	{"id": "tool-lever", "mondo": 5, "slot": "tool", "name": "Leva dei Primi", "description": "Solleva le lastre sigillate che i Primi lasciavano sopra ciò che non voleva essere trovato.", "origine": "Barra di ferro nero delle Officine del Moto. Non era forza: era sapere dove spingere.", "cost": 260, "glyph": "⌐", "color": 0xc0c6d0, "minLevel": 5},
+	{"id": "tool-lens", "mondo": 7, "slot": "tool", "name": "Lente dei Primi", "description": "Rende leggibili le iscrizioni sbiadite: le scritte ci sono ancora, è l'occhio che non arriva.", "origine": "Disco di vetro della Sala dei Glifi, con il bordo consumato dalle dita.", "cost": 300, "glyph": "◎", "color": 0x9ad8ff, "minLevel": 7},
+	{"id": "tool-bellows", "mondo": 11, "slot": "tool", "name": "Soffietto", "description": "Disperde i banchi di Silenzio denso. Il Silenzio si posa come la polvere, e come la polvere si soffia via.", "origine": "Soffietto da forgia della Sala delle Ere, col cuoio rappezzato tre volte.", "cost": 360, "glyph": "≋", "color": 0xd9c7a4, "minLevel": 11},
 	# --- Le forme del Custode: obiettivi costosi di lungo periodo -------------
 	#
 	# Non sono creature in piu'. Il Custode e' UNO — quello consegnato dalla nave,

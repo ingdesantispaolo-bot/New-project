@@ -121,6 +121,59 @@ prendono il posto del primo evento-gate, quindi la consegna **non si può
 mancare**: nessun bambino resta senza strumenti per non aver esplorato
 abbastanza, che sarebbe il modo peggiore di legare l'esplorazione a sé stessa.
 
+### 5.1-bis Cinque chiavi, e i mondi dietro restano aperti
+
+*Lotto del 19 agosto 2026, da un'analisi del gioco giocato.*
+
+**Il difetto misurato:** le chiavi erano **due**, consegnate entrambe entro il
+mondo 2. Dal mondo 3 in poi, in tutta la campagna, **non esisteva una sola porta
+chiusa**. Un gioco con due chiavi date subito non ha verticalità: ha un tutorial
+sugli attrezzi e poi ventidue mondi piatti. E i mondi erano già rivisitabili
+dalla navigazione della nave — mancava soltanto la *ragione* per tornarci.
+
+Adesso gli strumenti sono cinque, distribuiti sull'arco, e ognuno è la materia
+del mondo che lo consegna:
+
+| strumento | mondo | materia | apre | come |
+|---|---:|---|---|---|
+| Torcia | 1 | matematica | l'oscurità | rivela |
+| Falce | 2 | italiano | l'erba alta | blocca |
+| Leva dei Primi | 5 | fisica | le lastre sigillate | blocca |
+| Lente dei Primi | 7 | latino | le iscrizioni illeggibili | rivela |
+| Soffietto | 11 | storia | i banchi di Silenzio denso | blocca |
+
+Non è un abbellimento: la leva è il gesto della fisica, la lente quello del
+latino, il soffietto quello di chi scava. Chi riceve l'attrezzo ha appena passato
+una settimana di gioco su quella materia.
+
+**Tre decisioni tengono il lotto in piedi.**
+
+1. **Una chiave che hai è una chiave che hai.** Il varco guardava lo strumento
+   *equipaggiato*: con due attrezzi era un fastidio (tornare in bottega davanti a
+   un rovo), con cinque sarebbe un pedaggio. Adesso guarda quelli **posseduti**;
+   lo slot indossato decide solo cosa Eli porta addosso.
+2. **Le porte che guardano avanti stanno sui forzieri, mai sulle palestre.** La
+   prima stesura chiudeva anche le palestre con chiavi future, ed era un errore
+   serio: le undici palestre sono una per materia, e chiuderne una fino a tre
+   mondi dopo toglie a un bambino l'unico posto in cui allena quella materia lì.
+   La progressione non si sarebbe fermata — le palestre non contano per il gate —
+   ma l'apprendimento sì, che è peggio. Le palestre usano solo chiavi già
+   consegnate; i forzieri, cioè i cosmetici, portano quelle future.
+3. **Un solo attrezzo di anticipo per mondo.** Con due o tre, mezzo mondo
+   diventerebbe un elenco di appuntamenti invece che un posto.
+
+**Il registro è la metà che rende utile la prima.** Il salvataggio annota le
+porte viste e non aperte (`toolGates`: mondo → strumento → id dei varchi):
+quando la chiave arriva, il gioco dice in quali mondi ti aspetta qualcosa, e
+rientrando in un mondo già visto lo ricorda. Senza, un attrezzo nuovo sarebbe una
+riga di dialogo — nessuno si ricorda dove ha visto una lastra sigillata dodici
+ore di gioco prima, e senza il ricordo non torna indietro.
+
+Tiene tutto `tool_verticality_audit.gd`: il calendario sale, ogni mondo prima
+dell'ultima chiave lascia esattamente una porta da riprendere, gli arretrati non
+si perdono, nessun evento del gate e nessuna palestra stanno dietro una chiave
+futura, e il registro ricorda e dimentica al momento giusto.
+
 ### 5.2 Il catalogo si scrive giocando
 
 Tutte e 58 le voci avevano già un campo `origine` che le lega a un posto o a una

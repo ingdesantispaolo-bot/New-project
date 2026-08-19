@@ -83,7 +83,10 @@ func _la_consegna_e_gratuita() -> void:
 	var frammenti := save.fragments()
 	var energia := save.energy()
 
-	_controlla(FieldTools.dovuto(manager) == FieldTools.TORCIA,
+	# Il mondo del save è il 2: `dovuto` ragiona per calendario dal 19 agosto 2026
+	# ([[FieldTools]]), quindi vuole sapere DOVE si è — al mondo 2 sono dovute le
+	# prime due chiavi e nessuna delle successive.
+	_controlla(FieldTools.dovuto(manager, 2) == FieldTools.TORCIA,
 		"il primo strumento dovuto non è la torcia")
 	_controlla(manager.deliver_field_tool(FieldTools.TORCIA), "la consegna della torcia è fallita")
 	_controlla(manager.owned(FieldTools.TORCIA), "dopo la consegna la torcia non risulta posseduta")
@@ -92,11 +95,14 @@ func _la_consegna_e_gratuita() -> void:
 	_controlla(save.fragments() == frammenti, "la consegna ha speso frammenti")
 	_controlla(save.energy() == energia, "la consegna ha speso energia")
 
-	_controlla(FieldTools.dovuto(manager) == FieldTools.FALCE,
+	_controlla(FieldTools.dovuto(manager, 2) == FieldTools.FALCE,
 		"dopo la torcia il secondo strumento dovuto non è la falce")
 	_controlla(manager.deliver_field_tool(FieldTools.FALCE), "la consegna della falce è fallita")
-	_controlla(FieldTools.dovuto(manager) == "",
-		"con entrambi gli strumenti il mondo ne deve ancora qualcuno")
+	_controlla(FieldTools.dovuto(manager, 2) == "",
+		"al mondo 2, con torcia e falce, il mondo ne deve ancora qualcuno")
+	# E le chiavi dei mondi alti non si anticipano: al 2 la leva non è dovuta.
+	_controlla(FieldTools.dovuto(manager, 2) != FieldTools.LEVA,
+		"la leva viene consegnata al mondo 2, tre mondi prima del suo")
 	_controlla(not manager.deliver_field_tool(FieldTools.TORCIA),
 		"uno strumento già posseduto viene consegnato una seconda volta")
 

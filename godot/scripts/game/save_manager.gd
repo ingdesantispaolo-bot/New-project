@@ -127,6 +127,13 @@ static func _default_data() -> Dictionary:
 		"worlds": {"unlocked": [1], "current": 1},
 		"worldProgress": {},        # "level" -> {completedEncounterIds, collectedTreasureIds, clearedHazardIds, enigmaCooldowns}
 		"cosmetics": {"unlocked": [], "equipped": {}, "inventory": []},
+		# **Le porte viste e non aperte** (19 agosto 2026, [[FieldTools]]):
+		# "mondo" -> "strumento" -> [id dei varchi]. È il registro che trasforma
+		# ventiquattro mondi in fila in un arcipelago: quando arriva una chiave
+		# nuova, il gioco sa dire in quali mondi ti sta aspettando qualcosa. Senza,
+		# uno strumento nuovo sarebbe soltanto una riga di dialogo, perché nessuno
+		# si ricorda dove ha visto un rovo dodici ore prima.
+		"toolGates": {},
 		"narrative": {"seen": [], "beats": {}},
 		"progressReport": {"events": []},
 		"daily": {"date": "", "missions": 0, "streak": 0},
@@ -351,6 +358,75 @@ func _world_bucket(world_id: String) -> Dictionary:
 
 func world_progress(world_id: String) -> Dictionary:
 	return _world_bucket(world_id).duplicate(true)
+
+# --- Le porte viste e non aperte ----------------------------------------------
+#
+# Vedi la chiave `toolGates` nello schema. Tre sole operazioni: si segna una
+# porta quando la si incontra chiusa, si toglie quando la si apre, e si chiede
+# in quali mondi una certa chiave abbia ancora qualcosa da aprire.
+
+func _tool_gates() -> Dictionary:
+	if not data.has("toolGates") or typeof(data["toolGates"]) != TYPE_DICTIONARY:
+		data["toolGates"] = {}
+	return data["toolGates"]
+
+## Segna una porta chiusa. Vero solo la prima volta che QUESTA porta viene vista:
+## il chiamante lo usa per non riscrivere il salvataggio a ogni passaggio.
+func record_tool_gate(world_id: String, tool_id: String, gate_id: String) -> bool:
+	if world_id == "" or tool_id == "" or gate_id == "":
+		return false
+	var registro := _tool_gates()
+	var per_mondo: Dictionary = registro.get(world_id, {})
+	var porte: Array = per_mondo.get(tool_id, [])
+	if porte.has(gate_id):
+		return false
+	porte.append(gate_id)
+	per_mondo[tool_id] = porte
+	registro[world_id] = per_mondo
+	return true
+
+## Toglie una porta dal registro: è stata aperta, e continuare a segnalarla
+## manderebbe il giocatore a cercare una cosa che ha già preso.
+func clear_tool_gate(world_id: String, tool_id: String, gate_id: String) -> void:
+	var registro := _tool_gates()
+	if not registro.has(world_id):
+		return
+	var per_mondo: Dictionary = registro[world_id]
+	if not per_mondo.has(tool_id):
+		return
+	var porte: Array = per_mondo[tool_id]
+	porte.erase(gate_id)
+	if porte.is_empty():
+		per_mondo.erase(tool_id)
+	else:
+		per_mondo[tool_id] = porte
+	if per_mondo.is_empty():
+		registro.erase(world_id)
+	else:
+		registro[world_id] = per_mondo
+
+## I mondi in cui questa chiave ha ancora qualcosa da aprire, in ordine, con
+## quante porte per mondo: `[{"world": 3, "porte": 2}, ...]`.
+func tool_gate_worlds(tool_id: String) -> Array:
+	var out: Array = []
+	for chiave in _tool_gates().keys():
+		var per_mondo: Dictionary = _tool_gates()[chiave]
+		var porte: Array = per_mondo.get(tool_id, [])
+		if porte.is_empty():
+			continue
+		out.append({"world": int(str(chiave)), "porte": porte.size()})
+	out.sort_custom(func(a, b): return int(a["world"]) < int(b["world"]))
+	return out
+
+## Quante porte, in tutto questo mondo, aspettano una chiave che il giocatore
+## adesso possiede. Serve alla soglia del mondo per dire «qui hai lasciato
+## qualcosa» a chi rientra.
+func tool_gates_openable(world_id: String, posseduti: Array) -> int:
+	var per_mondo: Dictionary = _tool_gates().get(world_id, {})
+	var quante := 0
+	for tool_id in posseduti:
+		quante += Array(per_mondo.get(str(tool_id), [])).size()
+	return quante
 
 func _mark_world_id(world_id: String, field: String, id: String) -> bool:
 	if id == "":

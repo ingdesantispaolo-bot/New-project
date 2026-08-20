@@ -7,6 +7,13 @@ import path from "node:path";
 import process from "node:process";
 
 const root = path.resolve(process.argv[2] ?? "public/godot/outdoor");
+// Il guscio esportato carica `../../tablet-fullscreen.js`: in produzione quella
+// e' la radice del sito, qui la radice servita e' la cartella dell'export. Senza
+// questa deroga il file mancherebbe, e il rapporto elencherebbe un errore di
+// console che in produzione non esiste — rumore che somiglia a una regressione.
+const SITE_ROOT_FILES = new Map([
+  ["/tablet-fullscreen.js", path.resolve("public/tablet-fullscreen.js")],
+]);
 const outputRoot = path.resolve(process.argv[3] ?? "artifacts/web-smoke-current");
 const schoolProfile = process.argv.includes("--school-profile");
 const chromeCandidates = [
@@ -46,9 +53,10 @@ function startStaticServer() {
     try {
       const url = new URL(request.url ?? "/", "http://127.0.0.1");
       const relative = decodeURIComponent(url.pathname === "/" ? "/index.html" : url.pathname);
-      const requestedPath = path.resolve(root, `.${relative}`);
+      const fromSiteRoot = SITE_ROOT_FILES.get(relative);
+      const requestedPath = fromSiteRoot ?? path.resolve(root, `.${relative}`);
       const insideRoot = requestedPath === root || requestedPath.startsWith(`${root}${path.sep}`);
-      if (!insideRoot) {
+      if (!fromSiteRoot && !insideRoot) {
         response.writeHead(403).end("Forbidden");
         return;
       }
@@ -104,6 +112,10 @@ function startStaticServer() {
       }
       createReadStream(requestedPath, { start, end }).pipe(response);
     } catch {
+      // Il nome del file mancante, non solo il numero: il rapporto elenca i 404
+      // visti dal browser, e senza questa riga capire QUALE risorsa manchi
+      // costava una corsa intera del test.
+      console.warn(`404: ${request.url}`);
       response.writeHead(404).end("Not found");
     }
   });

@@ -10,6 +10,7 @@ shell e l'export presente in `public/godot/outdoor`. Per tablet usiamo:
 - overlay se il tablet è in verticale;
 - aree touch più grandi di bottoni e hotspot;
 - unlock audio al primo tap;
+- schermo intero al primo tocco (vedi sotto);
 - manifest PWA e service worker leggero.
 
 ## Prova Su Tablet Nella Stessa Rete
@@ -52,6 +53,47 @@ Se il tablet mostra comunque una build precedente, chiudi tutte le schede di Eli
 Quest e riapri l'indirizzo. La cache `v9-web-loader` elimina le versioni
 precedenti durante l'attivazione; il primo accesso scarica il pacchetto, quelli
 successivi lo riusano dalla cache.
+
+## Schermo Intero
+
+Aperto dal browser di un tablet, il gioco perde fra il 15% e il 25% dell'altezza
+fra barra degli indirizzi e barra di navigazione. Non è un problema estetico: il
+mondo viene scalato con `stretch/aspect="expand"`, quindi meno altezza significa
+meno mondo visibile e bersagli touch più piccoli.
+
+Come funziona:
+
+- **il primo tocco sul gioco porta a schermo intero.** Nessuna istruzione da
+  dare al bambino: il tocco che serve al browser è lo stesso con cui inizia a
+  giocare;
+- finché si è in finestra, in alto al centro compare **SCHERMO INTERO** — sbiadisce
+  dopo otto secondi ma resta toccabile. È l'unico punto libero: i quattro angoli
+  sono occupati da missione, opzioni, NORA ed energia;
+- dentro lo schermo intero il pulsante sparisce, per non rubare tocchi al gioco;
+- **uscire è una scelta che viene ricordata.** Chi esce (gesto di sistema o Esc)
+  riapre in finestra anche ai lanci successivi, e il pulsante lo riporta dentro
+  con un tocco.
+
+Per preparare un parco tablet senza toccare il gioco: `?schermo=finestra`
+disattiva tutto e `?schermo=pieno` riattiva. Una visita sola basta — la scelta
+resta salvata nel browser, l'indirizzo torna pulito.
+
+Su Safari iPhone (e su alcune versioni di iPadOS) la Fullscreen API non esiste
+per elementi diversi dai video: lì compare invece il suggerimento di installare
+l'app dalla schermata Home, che è l'unica strada davvero senza cornice.
+
+Dove vive il codice — importante prima di metterci le mani:
+
+| | |
+|---|---|
+| `public/tablet-fullscreen.js` | tutta la logica |
+| `godot/export_presets.cfg` | `html/head_include` lo aggancia al guscio |
+| `scripts/audit-web-release.mjs` | verifica che l'aggancio esista ancora |
+
+Il guscio `public/godot/outdoor/index.html` **lo riscrive Godot a ogni export**:
+una modifica fatta lì sparisce al primo `npm run export:web`, senza rompere
+niente e senza dirlo. `html/head_include` è l'unico punto in cui un aggancio
+sopravvive, ed è per questo che l'audit lo controlla.
 
 ## Budget Asset Tablet
 
@@ -152,4 +194,8 @@ Il manifest permette l'installazione su home screen. Su iPad/iPhone:
 2. usa `Condividi`;
 3. scegli `Aggiungi alla schermata Home`.
 
-L'app si aprirà quasi a schermo intero. L'audio partirà solo dopo il primo tap, come richiesto dai browser mobile.
+Il manifest dichiara `display: fullscreen` (con `standalone` come ripiego per i
+browser che non lo sostengono): aperta dalla schermata Home l'app non ha nessuna
+cornice, e il pulsante dello schermo intero non compare perché non serve.
+
+L'audio partirà solo dopo il primo tap, come richiesto dai browser mobile.

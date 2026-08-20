@@ -6,12 +6,15 @@ const root = process.cwd();
 const publicRoot = path.join(root, "public");
 const exportRoot = path.join(publicRoot, "godot", "outdoor");
 
-const [manifestSource, workerSource, launcherSource, godotHtml, viteSource, compressionSource, versionSource, pck, wasm, contentPck] = await Promise.all([
+const [manifestSource, workerSource, launcherSource, godotHtml, viteSource, presetsSource, fullscreenSource, webManifestSource, compressionSource, versionSource, pck, wasm, contentPck] = await Promise.all([
   readFile(path.join(publicRoot, "build.json"), "utf8"),
   readFile(path.join(publicRoot, "sw.js"), "utf8"),
   readFile(path.join(root, "index.html"), "utf8"),
   readFile(path.join(exportRoot, "index.html"), "utf8"),
   readFile(path.join(root, "vite.config.mjs"), "utf8"),
+  readFile(path.join(root, "godot", "export_presets.cfg"), "utf8"),
+  readFile(path.join(publicRoot, "tablet-fullscreen.js"), "utf8").catch(() => ""),
+  readFile(path.join(publicRoot, "manifest.webmanifest"), "utf8"),
   readFile(path.join(root, "scripts", "vite-godot-compression.mjs"), "utf8"),
   readFile(path.join(root, "godot/scripts/game/build_version.gd"), "utf8"),
   stat(path.join(exportRoot, "index.pck")),
@@ -98,6 +101,39 @@ for (const [needle, label] of [
   ["gzip", "Gzip"],
 ]) {
   if (!compressionSource.includes(needle)) failures.push(`compressione Vite: manca ${label}`);
+}
+
+// --- Lo schermo intero è sopravvissuto all'export? ---------------------------
+//
+// Il guscio HTML lo scrive Godot da zero a ogni export: l'unico modo di farci
+// entrare qualcosa è `html/head_include` nel preset. È un aggancio che sparisce
+// in silenzio — basta che qualcuno salvi il pannello di export con il campo
+// vuoto — e sparirebbe senza rompere niente: il gioco parte lo stesso, solo con
+// un quarto di schermo mangiato dalle barre del browser sul tablet. Nessun altro
+// controllo se ne accorgerebbe.
+if (!fullscreenSource) {
+  failures.push("public/tablet-fullscreen.js manca: il guscio esportato lo carica e non lo troverà");
+} else if (!fullscreenSource.includes("requestFullscreen")) {
+  failures.push("public/tablet-fullscreen.js non chiede più lo schermo intero");
+}
+if (!presetsSource.includes("tablet-fullscreen.js")) {
+  failures.push(
+    "export_presets.cfg: `html/head_include` non aggancia più tablet-fullscreen.js — "
+    + "il prossimo export uscirà senza schermo intero",
+  );
+}
+if (!godotHtml.includes("tablet-fullscreen.js")) {
+  failures.push(
+    "guscio Godot esportato: manca lo script dello schermo intero. "
+    + "Riesporta con `npm run export:web` dopo aver corretto il preset.",
+  );
+}
+const webManifest = JSON.parse(webManifestSource);
+if (webManifest.display !== "fullscreen") {
+  failures.push(
+    `manifest.webmanifest: display=${webManifest.display}. Installato dalla schermata Home `
+    + "il gioco si riprenderebbe solo una parte dello schermo.",
+  );
 }
 
 // --- L'export è più vecchio dei sorgenti? -------------------------------------

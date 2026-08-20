@@ -23,6 +23,7 @@ const ALTEZZA_TOCCO := 52
 var livello := 1
 var trovate := 0
 var totali := 24
+var high_contrast := false
 
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -45,13 +46,9 @@ func _ready() -> void:
 
 	var pannello := PanelContainer.new()
 	pannello.custom_minimum_size = Vector2(420, 0)
-	var stile := StyleBoxFlat.new()
+	var stile := SurfaceStyles.parchment(high_contrast)
 	# Carta vecchia, non vetro: è l'unico pannello del gioco che non è
 	# un'interfaccia della nave ma un oggetto trovato.
-	stile.bg_color = Color(0.16, 0.13, 0.10, 0.98)
-	stile.border_color = Color(0.78, 0.66, 0.42, 0.85)
-	stile.set_border_width_all(2)
-	stile.set_corner_radius_all(10)
 	pannello.add_theme_stylebox_override("panel", stile)
 	centro.add_child(pannello)
 
@@ -69,7 +66,10 @@ func _ready() -> void:
 	occhiello.text = "PERGAMENA %d DI %d" % [trovate, totali]
 	occhiello.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	occhiello.add_theme_font_size_override("font_size", 12)
-	occhiello.add_theme_color_override("font_color", Color("c9a86a"))
+	# Ocra su carta scura era leggibile; su carta chiara sta a 1,8:1. Questi due
+	# secondari sono rimasti indietro quando la superficie è cambiata, e li ha
+	# presi `tavole_guard_audit`: adesso 5,8:1 sulla texture e 5,5:1 sul ripiego.
+	occhiello.add_theme_color_override("font_color", Color.BLACK if high_contrast else Color("6b5427"))
 	colonna.add_child(occhiello)
 
 	var scheda := ParchmentCatalog.per_world(livello)
@@ -80,7 +80,7 @@ func _ready() -> void:
 	autore.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	autore.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	autore.add_theme_font_size_override("font_size", 20)
-	autore.add_theme_color_override("font_color", Color("f2e3c4"))
+	autore.add_theme_color_override("font_color", Color.BLACK if high_contrast else Color("392814"))
 	colonna.add_child(autore)
 
 	var riga := HSeparator.new()
@@ -91,7 +91,7 @@ func _ready() -> void:
 	testo.text = "«%s»" % str(scheda.get("testo", ""))
 	testo.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	testo.add_theme_font_size_override("font_size", 17)
-	testo.add_theme_color_override("font_color", Color("ede0c8"))
+	testo.add_theme_color_override("font_color", Color.BLACK if high_contrast else Color("24180d"))
 	colonna.add_child(testo)
 
 	var nota := Label.new()
@@ -102,7 +102,7 @@ func _ready() -> void:
 	nota.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	nota.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	nota.add_theme_font_size_override("font_size", 12)
-	nota.add_theme_color_override("font_color", Color("a8977a"))
+	nota.add_theme_color_override("font_color", Color.BLACK if high_contrast else Color("6b5427"))
 	colonna.add_child(nota)
 
 	var chiudi := Button.new()

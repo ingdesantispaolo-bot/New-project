@@ -9,6 +9,20 @@ func _init() -> void:
 	call_deferred("_run")
 
 func _run() -> void:
+	# C-ART-9: i materiali sono condivisi nel gioco normale e spariscono davvero
+	# (non solo per colore) quando si chiede il contrasto elevato.
+	for surface in [
+		SurfaceStyles.ship(false), SurfaceStyles.parchment(false),
+		SurfaceStyles.desk(false, Color("6be7d6"), false),
+	]:
+		assert(surface is StyleBoxTexture, "superficie condivisa senza texture piastrellabile")
+	for surface in [
+		SurfaceStyles.ship(true), SurfaceStyles.parchment(true),
+		SurfaceStyles.desk(true, Color("6be7d6"), false),
+	]:
+		var flat := surface as StyleBoxFlat
+		assert(flat != null and flat.border_color == Color.WHITE and flat.border_width_left >= 4,
+			"contrasto elevato non spegne la superficie illustrata")
 	var initial := GameSaveManager._default_data()
 	initial["level"] = 20
 	initial["worlds"] = {"unlocked": range(1, 21), "current": 20}
@@ -77,8 +91,8 @@ func _run() -> void:
 	assert(is_equal_approx(action.modulate.a, 0.72),
 		"visibilità personalizzata dei comandi non applicata")
 
-	var panel_style: StyleBoxFlat = world.call("_panel_style")
-	assert(panel_style.border_width_left >= 3 and panel_style.border_color == Color.WHITE,
+	var panel_style := world.call("_panel_style") as StyleBoxFlat
+	assert(panel_style != null and panel_style.border_width_left >= 3 and panel_style.border_color == Color.WHITE,
 		"contrasto elevato non applicato ai pannelli del mondo")
 	var weather := world.get("world_weather_particles") as CPUParticles2D
 	assert(weather == null or not weather.emitting,

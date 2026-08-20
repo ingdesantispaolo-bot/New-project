@@ -21,9 +21,11 @@ func _run() -> void:
 			assert(str(spec.get("artKit", "")) == str(profile.get("artKit", "")),
 				"edificio non vestito per artKit nel mondo %d" % level)
 			var art_path := str(spec.get("artPath", ""))
-			if not art_path.is_empty():
-				assert(ResourceLoader.exists(art_path),
-					"asset illustrato mancante nel mondo %d: %s" % [level, art_path])
+			assert(not art_path.is_empty() and ResourceLoader.exists(art_path),
+				"asset illustrato mancante nel mondo %d: %s" % [level, art_path])
+			var art_cell: Vector2i = spec.get("artAtlasCell", Vector2i(-1, -1))
+			assert(art_cell == Vector2i(posmod(level - 1, 4), int((level - 1) / 4)),
+				"edificio %s del mondo %d senza cella illustrata propria" % [str(spec.get("role", "")), level])
 			var prop_path := str(spec.get("activityPropPath", ""))
 			if not prop_path.is_empty():
 				assert(ResourceLoader.exists(prop_path),
@@ -57,6 +59,7 @@ func _run() -> void:
 					label, int(_nomi_visti.get(label, 0)), level])
 			_nomi_visti[label] = level
 	await _test_world_one()
+	_test_generated_fallback()
 	print("Building audit OK — 3 ruoli × 24 mondi, finestre a stadio e Rovina allineata")
 	quit(0)
 
@@ -85,6 +88,10 @@ func _test_world_one() -> void:
 		var actor := building as Node2D
 		var role := str(actor.get_meta("building_role", ""))
 		assert(actor.get_node_or_null("BuildingLabel") != null, "edificio senza etichetta accessibile")
+		assert(bool(actor.get_meta("generated_art", false)),
+			"edificio %s del mondo 1 senza tavola illustrata" % role)
+		assert(actor.get_node_or_null("GeneratedBuildingVisual/GeneratedBuildingArt") != null,
+			"edificio %s del mondo 1 senza sprite illustrato" % role)
 		if role == "work_home":
 			assert(bool(actor.get_meta("generated_art", false)),
 				"la Casa del Conto non usa il pilot illustrato")
@@ -152,3 +159,15 @@ func _test_world_one() -> void:
 	world.queue_free()
 	await process_frame
 	await process_frame
+
+func _test_generated_fallback() -> void:
+	var fallback := BuildingActor.new()
+	fallback.configure({
+		"id": "fallback-building", "role": "work_home", "label": "Ripiego sicuro",
+		"world": 1, "artPath": "res://assets/non-esiste.png",
+	}, 0, false, true)
+	assert(not bool(fallback.get_meta("generated_art", false)),
+		"un asset assente non deve fingere di essere stato caricato")
+	assert(fallback.get_node_or_null("PavilionVisual") != null,
+		"asset assente senza fallback vettoriale")
+	fallback.free()

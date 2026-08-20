@@ -361,13 +361,44 @@ const TRACCE := {
 		]},
 }
 
+## Identificativi semantici delle tavole. Il catalogo dichiara *quale* reperto
+## serve; `MysteryArtifact` decide come renderlo nell'atlante. Non ci sono
+## coordinate o dettagli di scena nei dati.
+const TAVOLE_TRACCE := {
+	1: "mystery-trace-01", 2: "mystery-trace-02", 3: "mystery-trace-03",
+	4: "mystery-trace-04", 5: "mystery-trace-05", 6: "mystery-trace-06",
+	7: "mystery-trace-07", 8: "mystery-trace-08", 9: "mystery-trace-09",
+	10: "mystery-trace-10", 11: "mystery-trace-11", 12: "mystery-trace-12",
+	13: "mystery-trace-13", 14: "mystery-trace-14", 15: "mystery-trace-15",
+	16: "mystery-trace-16", 17: "mystery-trace-17", 18: "mystery-trace-18",
+	19: "mystery-trace-19", 20: "mystery-trace-20", 21: "mystery-trace-21",
+	22: "mystery-trace-22", 23: "mystery-trace-23", 24: "mystery-trace-24",
+}
+
+## I quattro semi che preparano il sigillo o uno dei tre colpi decisivi hanno
+## una tavola propria. Gli altri dichiarano il pittogramma volutamente generico
+## che usano: nessun oggetto torna alla forma piatta per omissione.
+const TAVOLE_SEMI := {
+	"tredici-posti": "mystery-seed-sigillo",
+	"dodici-schede": "mystery-seed-schede",
+	"stanza-in-piu": "mystery-seed-stanza",
+	"il-tredicesimo": "mystery-seed-tredicesimo",
+}
+
 ## --- API -------------------------------------------------------------------
 
 static func traccia_for(world: int) -> Dictionary:
 	var data := (TRACCE.get(world, {}) as Dictionary).duplicate(true)
 	if not data.is_empty():
 		data["world"] = world
+		data["tavola"] = str(TAVOLE_TRACCE.get(world, ""))
 	return data
+
+static func tavola_per_seme(seed_data: Dictionary) -> String:
+	var colpo := str(seed_data.get("colpo", ""))
+	if TAVOLE_SEMI.has(colpo):
+		return str(TAVOLE_SEMI[colpo])
+	return "mystery-seed-%s" % str(seed_data.get("dove", "dettaglio"))
 
 ## Tutti i semi: quelli scritti qui **più** le undici tracce delle sorelle, che
 ## vivono in `SistersThread` perché lì sono persone e non indizi, ma che nel

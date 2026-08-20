@@ -18,6 +18,7 @@ func _request_for(world_level: int) -> Dictionary:
 	return request
 
 func _run() -> void:
+	_assert_art_contract()
 	root.size = Vector2i(900, 600)
 	var world = WORLD_SCENE.instantiate()
 	world.set("launch_request_override", _request_for(12))
@@ -56,3 +57,30 @@ func _run() -> void:
 
 	print("Mystery runtime audit OK - Tracce, semi e ripiego fisici")
 	quit(0)
+
+func _assert_art_contract() -> void:
+	assert(MysteryCatalog.TAVOLE_TRACCE.size() == MysteryCatalog.TRACCE.size(),
+		"ogni Traccia deve dichiarare una tavola")
+	for world_level in MysteryCatalog.TRACCE.keys():
+		var trace := MysteryCatalog.traccia_for(int(world_level))
+		var table_id := str(trace.get("tavola", ""))
+		assert(table_id == "mystery-trace-%02d" % int(world_level),
+			"Traccia %d senza la propria tavola" % int(world_level))
+	for seed in MysteryCatalog.tutti_i_semi():
+		var table_id := MysteryCatalog.tavola_per_seme(seed as Dictionary)
+		assert(table_id != "", "seme senza tavola o pittogramma dichiarato")
+	for required_table in [
+		"mystery-seed-sigillo", "mystery-seed-schede",
+		"mystery-seed-stanza", "mystery-seed-tredicesimo"]:
+		assert(MysteryCatalog.TAVOLE_SEMI.values().has(required_table),
+			"manca tavola per %s" % required_table)
+	for world_level in MysteryCatalog.tracce_decisive():
+		var decisive_artifact := MysteryArtifact.new()
+		decisive_artifact.configure("trace", "audit-%02d" % world_level,
+			MysteryCatalog.traccia_for(world_level), true)
+		assert(decisive_artifact.get_node_or_null("ArtifactIllustration") != null,
+			"Traccia decisiva %d senza tavola ad alto contrasto" % world_level)
+		var label := decisive_artifact.get_node_or_null("ArtifactLabel") as Label
+		assert(label != null and label.text.begins_with("TRACCIA"),
+			"Traccia decisiva %d non leggibile ad alto contrasto" % world_level)
+		decisive_artifact.queue_free()

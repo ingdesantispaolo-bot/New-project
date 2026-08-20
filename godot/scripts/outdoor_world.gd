@@ -38,10 +38,12 @@ const MYSTERY_ARTIFACT_SCRIPT := preload("res://scripts/game/mystery_artifact.gd
 const DIALOGUE_BOX_SCRIPT := preload("res://scripts/ui/dialogue_box.gd")
 const TEACHING_CHOICE_PANEL_SCRIPT := preload("res://scripts/ui/teaching_choice_panel.gd")
 const EXPEDITION_MODULE_PRESENTATION_SCRIPT := preload("res://scripts/visual/expedition_module_presentation.gd")
+const SURFACE_STYLES := preload("res://scripts/ui/surface_styles.gd")
 
 const PLAYER_ACCENT := Color("6be7d6")
 const NIGHT_TINT := Color(0.46, 0.51, 0.70)
 const DAWN_TINT := Color(1.0, 0.84, 0.72)
+const WORLD_ATMOSPHERE_SHADER: Shader = preload("res://shaders/world_atmosphere.gdshader")
 
 var request: Dictionary
 var result: Dictionary
@@ -856,6 +858,7 @@ func _process(delta: float) -> void:
 	if is_instance_valid(atmosphere_material):
 		atmosphere_material.set_shader_parameter("daylight", daylight)
 		atmosphere_material.set_shader_parameter("clock", 0.0 if reduced_motion else giro)
+		atmosphere_material.set_shader_parameter("motion_factor", 0.0 if reduced_motion else 1.0)
 	_update_night_glow(daylight)
 	if is_instance_valid(player):
 		_enforce_water_traversal()
@@ -1053,34 +1056,8 @@ func _create_atmosphere() -> void:
 	atmosphere_rect = ColorRect.new()
 	atmosphere_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
 	atmosphere_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var shader := Shader.new()
-	shader.code = """
-shader_type canvas_item;
-render_mode unshaded;
-
-uniform float daylight = 0.75;
-uniform float clock = 0.0;
-uniform vec3 biome_tint = vec3(0.42, 0.90, 0.84);
-
-void fragment() {
-    vec2 uv = UV;
-    vec2 centered = uv - vec2(0.5);
-    float edge = smoothstep(0.38, 0.92, length(centered * vec2(1.0, 0.82)));
-    float night = 1.0 - daylight;
-    float dawn = clamp(1.0 - abs(daylight - 0.5) * 2.4, 0.0, 1.0);
-    float horizon = smoothstep(0.15, 0.9, uv.y) * (1.0 - smoothstep(0.72, 1.0, uv.y));
-    float mist_wave = 0.5 + 0.5 * sin((uv.x * 9.0) + (clock * 6.283) + sin(uv.y * 5.0));
-    float mist = horizon * mist_wave * (0.018 + dawn * 0.035);
-    vec3 night_tint = vec3(0.08, 0.13, 0.28);
-    vec3 dawn_tint = vec3(1.0, 0.58, 0.28);
-    vec3 tint = mix(night_tint, dawn_tint, dawn * 0.72);
-    tint = mix(tint, biome_tint, 0.16);
-    float alpha = (night * 0.045) + (dawn * 0.028) + (edge * 0.050) + mist;
-    COLOR = vec4(tint, clamp(alpha, 0.0, 0.16));
-}
-"""
 	atmosphere_material = ShaderMaterial.new()
-	atmosphere_material.shader = shader
+	atmosphere_material.shader = WORLD_ATMOSPHERE_SHADER
 	atmosphere_rect.material = atmosphere_material
 	atmosphere_layer.add_child(atmosphere_rect)
 
@@ -4625,14 +4602,8 @@ func _create_exercise_player() -> void:
 	diary_panel.panel_closed.connect(_on_diary_closed)
 	ui_layer.add_child(diary_panel)
 
-func _panel_style() -> StyleBoxFlat:
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.02, 0.09, 0.12, 0.72)
-	style.set_corner_radius_all(10)
-	style.set_content_margin_all(12)
-	style.set_border_width_all(3 if high_contrast else 1)
-	style.border_color = Color.WHITE if high_contrast else Color(0.42, 0.9, 0.84, 0.25)
-	return style
+func _panel_style() -> StyleBox:
+	return SURFACE_STYLES.ship(high_contrast)
 
 func _touch_action_style(background: Color, border: Color) -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
@@ -5872,6 +5843,7 @@ func _mostra_pergamena() -> void:
 	pannello.livello = world_level
 	pannello.trovate = game_save.parchment_count()
 	pannello.totali = ApparatusConfig.MAX_LEVEL
+	pannello.high_contrast = high_contrast
 	pannello.chiusa.connect(func():
 		if is_instance_valid(pannello):
 			pannello.queue_free()

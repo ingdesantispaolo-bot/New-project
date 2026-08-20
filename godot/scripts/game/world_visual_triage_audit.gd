@@ -79,6 +79,18 @@ func _cleanup_audio() -> void:
 	audio.set("_stream_cache", {})
 
 func _run() -> void:
+	var covered := 0
+	for family in IdentityPropArt.FAMILIES:
+		for kind in IdentityPropArt.FAMILIES[family]:
+			var prop := IdentityPropArt.build(str(kind), 0.5)
+			assert(prop != null and prop.find_child("IdentityPropSprite", true, false) != null,
+				"prop %s senza tavola illustrata" % str(kind))
+			assert(str(prop.get_meta("identity_art_family", "")) == str(family),
+				"prop %s assegnata alla famiglia sbagliata" % str(kind))
+			assert(prop.get_child_count() <= 3,
+				"prop %s supera il budget C-ART-10 di tre nodi" % str(kind))
+			covered += 1
+	assert(covered == 71, "copertura C-ART-10 incompleta: %d prop" % covered)
 	root.size = Vector2i(900, 600)
 	for level in range(1, ApparatusConfig.MAX_LEVEL + 1):
 		var world := await _open_world(level)

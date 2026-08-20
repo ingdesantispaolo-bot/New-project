@@ -9,7 +9,34 @@ const PLAYER := preload("res://scripts/player_controller.gd")
 func _init() -> void:
 	call_deferred("_run")
 
+func _assert_role_silhouettes() -> void:
+	var patrol := WorldEnemy.new()
+	patrol.setup(null, Vector2.ZERO, 7, "matematica", Color("ff7b72"), 0)
+	var guardian := WorldEnemy.new()
+	guardian.setup(null, Vector2.ZERO, 7, "matematica", Color("ff7b72"), 1)
+	guardian.sorveglia("audit-treasure")
+	var escort := WorldEnemy.new()
+	escort.setup(null, Vector2.ZERO, 7, "matematica", Color("ff7b72"), 2)
+	escort.fa_la_scorta("audit-guardian")
+	var seen: Array = []
+	var accessible_names: Array = []
+	for enemy in [patrol, guardian, escort]:
+		var marker := str(enemy.get_meta("roleVisualMarker", ""))
+		assert(marker != "" and not seen.has(marker),
+			"ogni ruolo del Silenzio deve avere una sagoma distinta")
+		assert(bool(enemy.get_meta("roleVisualDistinct", false)),
+			"marcatore visuale di ruolo mancante")
+		var label := enemy.get_node_or_null("EnemyLabel") as Label
+		assert(label != null and not label.accessibility_name.is_empty(),
+			"ruolo senza nome accessibile")
+		assert(not accessible_names.has(label.accessibility_name),
+			"due ruoli del Silenzio hanno lo stesso nome accessibile")
+		seen.append(marker)
+		accessible_names.append(label.accessibility_name)
+		enemy.queue_free()
+
 func _run() -> void:
+	_assert_role_silhouettes()
 	# Animazione direzionale: il vecchio runtime restava sempre sul frame (0,0).
 	var controller := PLAYER.new()
 	var presentation := OutdoorVisualFactory.build_player(Color("6be7d6"))

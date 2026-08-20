@@ -11,7 +11,7 @@ var high_contrast := false
 var reduced_motion := false
 
 static func supports(id: String) -> bool:
-	return id in ["w01-tobia", "w01-ersilia"]
+	return id in ["w01-tobia", "w01-ersilia", "w02-corinna", "w02-bruno", "w03-ruggine", "w03-sesto"]
 
 func configure(id: String, value: int, use_high_contrast: bool, use_reduced_motion: bool) -> void:
 	resident_id = id
@@ -33,6 +33,14 @@ func _semantic() -> String:
 			return "groups-of-ten" if stage >= 2 else "counting-guides" if stage == 1 else "ordinary-pile"
 		"w01-ersilia":
 			return "seven-beat-bread" if stage >= 2 else "noticed-rhythm" if stage == 1 else "ordinary-bread-basket"
+		"w02-corinna":
+			return "function-shelves" if stage >= 2 else "function-tabs" if stage == 1 else "length-sorted-cards"
+		"w02-bruno":
+			return "shared-dictionary" if stage >= 2 else "word-workbench" if stage == 1 else "hidden-word-notes"
+		"w03-ruggine":
+			return "working-cycle" if stage >= 2 else "counted-loop" if stage == 1 else "hand-crank"
+		"w03-sesto":
+			return "restored-toolbox" if stage >= 2 else "remembered-gesture" if stage == 1 else "scattered-tools"
 	return ""
 
 func _draw() -> void:
@@ -41,6 +49,14 @@ func _draw() -> void:
 			_draw_tobia()
 		"w01-ersilia":
 			_draw_ersilia()
+		"w02-corinna":
+			_draw_corinna()
+		"w02-bruno":
+			_draw_bruno()
+		"w03-ruggine":
+			_draw_ruggine()
+		"w03-sesto":
+			_draw_sesto()
 
 func _draw_tobia() -> void:
 	var crystal := Color.WHITE if high_contrast else Color("84e8d4")
@@ -94,6 +110,69 @@ func _draw_ersilia() -> void:
 		if stage == 1:
 			for index in 7:
 				draw_circle(Vector2(-48 + index * 16, -31), 2.7, rhythm)
+
+func _draw_corinna() -> void:
+	var paper := Color.WHITE if high_contrast else Color("e7d7ad")
+	var edge := Color.BLACK if high_contrast else Color("6a4e37")
+	var accent := Color.WHITE if high_contrast else Color("82c9a1")
+	draw_ellipse_shadow(Vector2(0, 24), Vector2(76, 17))
+	for index in 6:
+		var p := Vector2(-54 + (index % 3) * 42, -18 + (index / 3) * 33)
+		draw_rect(Rect2(p, Vector2(31, 24)), paper, true)
+		draw_rect(Rect2(p, Vector2(31, 24)), edge, false, 1.5)
+		if stage >= 1:
+			draw_rect(Rect2(p, Vector2(5, 24)), accent, true)
+	if stage >= 2:
+		for x in [-50.0, 0.0, 50.0]:
+			draw_line(Vector2(x - 18, 19), Vector2(x + 18, 19), edge, 3.0)
+			draw_circle(Vector2(x, -29), 5.0, accent)
+
+func _draw_bruno() -> void:
+	var paper := Color.WHITE if high_contrast else Color("f4dc9b")
+	var edge := Color.BLACK if high_contrast else Color("70503d")
+	var ink := Color.WHITE if high_contrast else Color("a78cff")
+	draw_ellipse_shadow(Vector2(0, 24), Vector2(76, 17))
+	for index in 5:
+		var p := Vector2(-48 + index * 24, 4 - (index % 2) * 15)
+		draw_rect(Rect2(p, Vector2(20, 28)), paper, true)
+		draw_rect(Rect2(p, Vector2(20, 28)), edge, false, 1.4)
+	if stage >= 1:
+		for index in 3:
+			draw_circle(Vector2(-28 + index * 28, -34), 6.0, ink)
+	if stage >= 2:
+		draw_rect(Rect2(-61, -49, 122, 12), ink, true)
+		draw_rect(Rect2(-61, -49, 122, 12), edge, false, 2.0)
+
+func _draw_ruggine() -> void:
+	var metal := Color.WHITE if high_contrast else Color("a8b7bd")
+	var edge := Color.BLACK if high_contrast else Color("3d4a52")
+	var spark := Color.WHITE if high_contrast else Color("ffcb67")
+	draw_ellipse_shadow(Vector2(0, 25), Vector2(78, 17))
+	draw_circle(Vector2(-22, 0), 25.0, metal)
+	draw_arc(Vector2(-22, 0), 25.0, 0.0, TAU, 24, edge, 3.0)
+	draw_line(Vector2(-22, 0), Vector2(34, -42), edge, 6.0)
+	draw_circle(Vector2(34, -42), 8.0, metal)
+	if stage >= 1:
+		draw_arc(Vector2(22, -5), 31.0, -0.4, 5.8, 26, spark, 3.0)
+	if stage >= 2:
+		for x in [-4.0, 27.0, 58.0]:
+			draw_circle(Vector2(x, 10), 11.0, spark)
+			draw_arc(Vector2(x, 10), 11.0, 0.0, TAU, 16, edge, 2.0)
+
+func _draw_sesto() -> void:
+	var tool := Color.WHITE if high_contrast else Color("8fc9e6")
+	var edge := Color.BLACK if high_contrast else Color("35536b")
+	var memory := Color.WHITE if high_contrast else Color("d9a6ff")
+	draw_ellipse_shadow(Vector2(0, 25), Vector2(78, 17))
+	for index in 4:
+		var p := Vector2(-49 + index * 31, 6 - (index % 2) * 23)
+		draw_line(p, p + Vector2(17, -16), tool, 5.0)
+		draw_circle(p + Vector2(17, -16), 6.0, edge)
+	if stage >= 1:
+		draw_circle(Vector2(0, -38), 10.0, memory)
+	if stage >= 2:
+		draw_rect(Rect2(-61, -48, 122, 15), tool, true)
+		draw_rect(Rect2(-61, -48, 122, 15), edge, false, 2.0)
 
 func _draw_crystal(center: Vector2, radius: float, fill: Color, edge: Color) -> void:
 	var points := PackedVector2Array([

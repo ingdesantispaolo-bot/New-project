@@ -6,19 +6,12 @@ extends RefCounted
 
 const ROLES := ["work_home", "ritrovo", "first_ruin"]
 
-## Pilot degli edifici disciplinari illustrati. La tabella resta piccola finche'
-## una cattura in gioco e il collaudo touch non dimostrano scala e leggibilita':
-## il fallback vettoriale continua a coprire ogni ruolo degli altri mondi.
+## Tre atlanti 4×6: una cella per mondo in ognuna delle tre famiglie. Il
+## fallback vettoriale resta disponibile se un asset non puo' essere caricato.
 const GENERATED_ART := {
-	"1:work_home": {
-		"artPath": "res://assets/radura-casa-conto-v1.png",
-		"artScale": 0.19,
-		"artBaseline": -98.0,
-		"activityPropPath": "res://assets/radura-stazione-conto-v1.png",
-		"activityPropScale": 0.09,
-		"activityPropOffset": Vector2(-164, -10),
-		"activityTags": ["matematica", "raggruppamento", "misura", "ordine"],
-	},
+	"work_home": {"artPath": "res://assets/building-work-home-atlas-v1.png", "artScale": 0.72, "artBaseline": -96.0},
+	"ritrovo": {"artPath": "res://assets/building-ritrovo-atlas-v1.png", "artScale": 0.72, "artBaseline": -96.0},
+	"first_ruin": {"artPath": "res://assets/building-first-ruin-atlas-v1.png", "artScale": 0.72, "artBaseline": -96.0},
 }
 
 ## **Tre edifici con un nome, in ognuno dei ventiquattro mondi.**
@@ -79,11 +72,28 @@ static func for_world(world: int, profile: Dictionary) -> Array:
 			"artKit": str(profile.get("artKit", "natura-rovine")),
 			"residentOwner": _resident_owner(world, role),
 		}
-		var generated_key := "%d:%s" % [world, role]
-		if GENERATED_ART.has(generated_key):
-			spec.merge(Dictionary(GENERATED_ART[generated_key]).duplicate(true), true)
+		var generated_art := _generated_art_for(world, role)
+		if not generated_art.is_empty():
+			spec.merge(generated_art, true)
 		specs.append(spec)
 	return specs
+
+static func _generated_art_for(world: int, role: String) -> Dictionary:
+	if not GENERATED_ART.has(role):
+		return {}
+	var art := Dictionary(GENERATED_ART[role]).duplicate(true)
+	art["artAtlasGrid"] = Vector2i(4, 6)
+	art["artAtlasCell"] = Vector2i(posmod(world - 1, 4), int((world - 1) / 4))
+	# La stazione del primo mondo resta un oggetto didattico separato, non una
+	# parte dell'illustrazione: puo' ancora cambiare senza rigenerare la casa.
+	if world == 1 and role == "work_home":
+		art.merge({
+			"activityPropPath": "res://assets/radura-stazione-conto-v1.png",
+			"activityPropScale": 0.09,
+			"activityPropOffset": Vector2(-164, -10),
+			"activityTags": ["matematica", "raggruppamento", "misura", "ordine"],
+		}, true)
+	return art
 
 ## Ogni luogo vivo appartiene a una persona: lo specialista lavora nella casa
 ## del mestiere, il testimone presidia il Ritrovo. La Rovina resta dei Primi.

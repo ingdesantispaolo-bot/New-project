@@ -1922,3 +1922,155 @@ dal livello del mondo.»*
   calcolato sulla larghezza e dietro le rune larghe dei verbi diventava una
   macchia; e i tre binari a quote fisse lasciavano un buco dove la seconda riga
   dei tempi non serviva.
+
+## C-ART-10 · 71 oggetti identitari illustrati (20 agosto 2026)
+
+- Tutti i 71 `kind` di `build_identity_prop` sono ora coperti da otto atlanti
+  illustrati 4×3, raggruppati per archivio, segnale, moto, risonanza, glifi,
+  circuito, simbiosi e sintesi. Ogni corpo è un solo `Sprite2D`; l'ombra, il
+  bagliore `night_glow` e il suo impulso restano procedurali.
+- Le tavole non contengono testo. Il loro peso sorgente dichiarato è 8.481.177
+  byte (8,09 MiB); non è stato effettuato un nuovo export Web per questa misura.
+- Verdi `world_visual_triage_audit` (copertura 71/71, famiglia corretta e
+  massimo tre nodi per prop), `c_art_world_staging_audit` e
+  `performance_budget_audit` in isolamento.
+
+## C-ART-8 · Le tre specie del Silenzio si riconoscono prima del morso (20 agosto 2026)
+
+- `world_enemy.gd` dichiarava tre ruoli dal 19 agosto e `_build_visual(level)`
+  non leggeva `ruolo`: pattuglia, guardiano e scorta avevano lo stesso corpo e si
+  distinguevano solo per la scala e per il forziere sotto i piedi. Ora ognuno ha
+  la sua sagoma — corona, lame, vele — applicata anche sulle due transizioni
+  tardive, `sorveglia()` e `fa_la_scorta()`: una sacca che diventa guardiana
+  cambia forma davvero.
+- I tre nomi accessibili sono distinti e dicono la meccanica giusta. Il cartiglio
+  della scorta resta «SBIADITO» di proposito: scrivere «GUARDIANO» prometterebbe
+  un duello che quella sacca non ha.
+- Verde `eli_enemy_audit`, esteso a pretendere una sagoma e un nome accessibile
+  diversi per ciascuno dei tre ruoli.
+- **Da guardare giocando**: il marcatore è l'ultimo figlio di `visual`, quindi la
+  corona disegna sopra il guardiano illustrato — 43×56 px al centro di uno sprite
+  da 118. Tre righe più su, il commento del cartiglio dice che era stato tenuto
+  corto proprio per non coprirlo.
+
+## C-ART-11 · 72 edifici illustrati (20 agosto 2026)
+
+- Tre atlanti 4×6 coprono una cella per mondo nelle tre famiglie: casa del
+  mestiere, ritrovo e Rovina dei Primi. Le silhouette rendono riconoscibili il
+  mestiere, il luogo sociale e il frammento antico senza spostare porte,
+  collisioni, residenti o regole.
+- `BuildingCatalog` dichiara `artPath`, `artAtlasGrid` e `artAtlasCell` per
+  tutti i 72 edifici. `BuildingActor` costruisce il `Sprite2D` dall'atlante e
+  conserva il padiglione vettoriale come ripiego sicuro se la risorsa manca.
+- Le tre tavole non contengono testo; pesano 5.618.933 byte (5,36 MiB). Verdi
+  `building_audit` (copertura 3×24, cella univoca e fallback),
+  `world_l1_readiness_audit`, `c_art_world_staging_audit` e
+  `performance_budget_audit` in isolamento.
+
+## C-ART-14 · Atlanti naturali di Rovine e Cristallo (20 agosto 2026)
+
+- I due biomi che prendevano celle in prestito hanno ora un atlante 4×3 proprio
+  ciascuno. `build_obstacle` usa soltanto i nuovi vocabolari per alberi, cespugli,
+  funghi, rovine, pilastri, cristalli e rocce.
+- Le tavole non contengono testo e sono già RGBA; pesano 4.526.762 byte
+  (4,32 MiB). Non è stato effettuato un nuovo export Web per questa misura.
+- Verde `natural_atlas_audit`, che carica ogni silhouette dei due biomi e rifiuta
+  un `AtlasTexture` proveniente da un'altra famiglia.
+
+## G-11 · La guardia sulle tavole (20 agosto 2026)
+
+`godot/scripts/game/tavole_guard_audit.gd`. Nasce da una coincidenza che non è
+una coincidenza: tre lotti d'arte in un giorno, tre audit nuovi scritti insieme
+a loro, **tutti e tre verdi**, e tre difetti di resa passati sotto — un ritaglio
+che taglia l'oggetto, due testi a 1,8:1 su carta chiara, un budget di nodi
+misurato su un oggetto che in scena non esiste. Quegli audit verificano che la
+cosa sia *dichiarata*, ed è esattamente ciò che un difetto di resa lascia
+intatto: è la decisione 14 applicata alle immagini.
+
+Tre controlli, tutti sull'oggetto che il gioco costruisce e non sulla costante
+che lo descrive:
+
+- **i ritagli.** Le regioni si raccolgono interrogando `MysteryArtifact` e
+  `IdentityPropArt`, non leggendo le loro costanti. Ogni regione deve stare
+  dentro il foglio, non essere vuota, non sovrapporsi a quella di un'altra
+  tavola; e se tutte le regioni di un foglio hanno la stessa misura, quella
+  misura deve **dividere il foglio esattamente**.
+- **il contrasto.** Rapporto WCAG fra il colore di ogni etichetta e il colore
+  medio della texture che ha sotto — non il colore che il progettista aveva in
+  mente — nelle due modalità, soglia 4,5:1. Più il controllo che l'esame produca
+  una superficie diversa dal banco ordinario.
+- **il budget di nodi.** Contati su `build_identity_prop`, cioè sull'oggetto che
+  il mondo mette in scena, con un cricchetto a 5 che può solo scendere. Misura
+  registrata: **massimo 5 nodi** (archive_shelf), e **71 prop su 71** portano un
+  nodo che gira in `_process`.
+
+**Una regola scartata, e il motivo.** La prima versione diceva «nessun pixel
+opaco tocca il bordo del ritaglio». Misurata sui fogli veri dà **45 falsi
+positivi su 71**: un arco di radici tocca i bordi della sua cella perché è
+disegnato così. La regola aritmetica — la griglia divide il foglio — separa i
+due casi senza guardare i pixel, e sul foglio dei misteri (celle alte 241, foglio
+alto 1659) scatta subito.
+
+**L'assert sta in una funzione a parte.** Un assert fallito interrompe la
+funzione in corso: nel corpo di `_run` avrebbe impedito di arrivare a `quit()` e
+il processo sarebbe rimasto appeso fino al timeout del runner — un rosso
+travestito da lentezza. Così il messaggio esce e il processo muore in un secondo
+con exit code 1.
+
+**Nasce rossa su dieci punti**, e sono tutti e soli quelli già scritti in
+`insieme.md`: cinque di C-ART-7 (la griglia e i quattro ritagli fuori bordo),
+cinque della coda di C-ART-9 (i due testi in due modalità e l'esame
+indistinguibile). I 71 prop identitari passano tutti e quattro i controlli dei
+ritagli. Fino alla chiusura di quelle due voci, l'unico rosso della suite è
+questo — e non è una regressione.
+
+
+## C-ART-7 chiusa · una regione per tavola, misurata sul foglio (20 agosto 2026)
+
+La griglia 237x241 su un foglio 948x1659 e' stata sostituita da **28 regioni
+misurate una per una sui pixel**, come fa gia' `NpcPortrait.PORTRAIT_REGIONS`.
+Correggere 241 in 237 non bastava: quel foglio non e' su una griglia — passo del
+contenuto ~228 px, oggetti da 94 a 262 px, margini asimmetrici, terza colonna che
+sfora nella cella accanto.
+
+- prima: dalla seconda riga in giu' il ritaglio scivolava di 4 px per riga; ai
+  mondi 21-24 restava fuori il **21-26%** dell'oggetto e i quattro semi decisivi
+  avevano regioni che uscivano di 28 px oltre il bordo del foglio. Il registro
+  del mondo 24 arrivava decapitato e con dentro un pezzo del progetto della riga
+  sotto;
+- adesso: 28 regioni aderenti, nessuna sovrapposta, nessuna fuori dal foglio, e
+  la scala si normalizza sul **lato maggiore** — non sull'altezza, altrimenti il
+  foglio di appunti (240x96) uscirebbe dal suo posto. Il lato a schermo resta 92
+  px, la misura che avevano prima;
+- i 28 semi non decisivi restano sui quattro pittogrammi piatti: e' il perimetro
+  dichiarato della voce.
+
+Verdi `tavole_guard_audit`, `mystery_runtime_audit`, `mystery_audit`.
+
+## C-ART-9 · le due correzioni delle superfici (20 agosto 2026)
+
+- **La pergamena si rilegge.** La carta e' passata da scura a chiara e due
+  etichette su quattro erano rimaste dell'inchiostro di prima: occhiello a
+  **1,8:1** e nota a **2,3:1**. Ora `#6b5427` per entrambe: **5,8:1** sulla
+  texture, **16:1** sul ripiego ad alto contrasto.
+- **L'esame torna a distinguersi.** `desk()` calcolava un bordo — oro per
+  l'esame, accento della materia altrimenti — che `_surface()` non usava in
+  nessuna delle due modalita': `is_exam` non cambiava un pixel. Una
+  `StyleBoxTexture` non ha bordo, quindi la differenza torna come velatura del
+  materiale (`modulate_color`), leggera per non cambiare il banco.
+- **Resta aperta la trasparenza** dei sei pannelli del mondo: erano `alpha 0,72`,
+  le texture non hanno alfa. E' una scelta di resa e sta in `insieme.md`.
+
+## Difetto corretto: la sagoma di ruolo copriva il guardiano (20 agosto 2026)
+
+`generated_character_art_audit` pretende dal lotto dei guardiani che
+l'illustrazione sia l'**ultima figlia** di `visual`: niente le si disegna sopra.
+La sagoma di ruolo di C-ART-8 veniva aggiunta dopo, quindi 43x56 px di poligono
+piatto stavano in mezzo a uno sprite da 118. Il rosso e' emerso nella suite
+completa ed e' stato riverificato in isolamento, come vuole la regola sui rossi.
+
+Adesso la sagoma passa **sotto** e sporge dalla silhouette invece di
+sovrapporsi: lo sprite occupa x +-59 e da y -73 a +45, e ogni ruolo esce da un
+lato diverso — corona sopra la testa, lame di lato, vele sopra. Scala e quota
+sono calcolate su quei numeri; **la leggibilita' vera va guardata giocando**, ed
+e' annotata fra le cose da vedere al collaudo.

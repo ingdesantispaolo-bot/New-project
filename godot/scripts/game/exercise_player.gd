@@ -14,6 +14,7 @@ const EXERCISE_DIAGRAM := preload("res://scripts/ui/exercise_diagram.gd")
 const MAP_GEOMETRY_CATALOG := preload("res://scripts/visual/map_geometry_catalog.gd")
 const ARTIFACT_ATLAS_CATALOG := preload("res://scripts/visual/artifact_atlas_catalog.gd")
 const FINAL_CONVERGENCE_DISPLAY := preload("res://scripts/ui/final_convergence_display.gd")
+const SURFACE_STYLES := preload("res://scripts/ui/surface_styles.gd")
 
 ## UI data-driven degli esercizi: riceve una sessione (missione o esame finale) e
 ## la gioca item per item. Supporta scelta/input, ordering, matching,
@@ -612,15 +613,8 @@ func _disarm_exit() -> void:
 	if is_instance_valid(_exit_notice):
 		_exit_notice.visible = false
 
-func _exercise_panel_style(is_exam: bool = false) -> StyleBoxFlat:
-	var style := StyleBoxFlat.new()
-	var accent := _subject_accent()
-	style.bg_color = Color(0.055, 0.075, 0.10, 0.98) if is_exam else Color(0.018, 0.055, 0.07, 0.97).lerp(Color(accent, 0.97), 0.075)
-	style.border_color = Color.WHITE if high_contrast else Color("f6c85f") if is_exam else Color(accent, 0.62)
-	style.set_border_width_all(4 if high_contrast else 3 if is_exam else 2)
-	style.set_corner_radius_all(18)
-	style.set_content_margin_all(24)
-	return style
+func _exercise_panel_style(is_exam: bool = false) -> StyleBox:
+	return SURFACE_STYLES.desk(high_contrast, _subject_accent(), is_exam)
 
 func _subject_accent() -> Color:
 	var colors := {

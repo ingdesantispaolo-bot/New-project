@@ -253,6 +253,7 @@ func _build_visual(level: int) -> void:
 	if guardian_sprite != null:
 		visual.move_child(guardian_sprite, visual.get_child_count() - 1)
 	add_child(visual)
+	_apply_role_visual()
 
 	var label := Label.new()
 	label.name = "EnemyLabel"
@@ -263,8 +264,69 @@ func _build_visual(level: int) -> void:
 	label.add_theme_font_size_override("font_size", 13)
 	label.add_theme_constant_override("outline_size", 6)
 	label.add_theme_color_override("font_color", accent.lightened(0.25))
-	label.accessibility_name = "%s, sacca di Silenzio; l'impulso la rende leggibile" % enemy_name
+	label.accessibility_name = "%s, pattuglia di Silenzio; l'impulso la rende leggibile" % enemy_name
 	add_child(label)
+
+func _apply_role_visual() -> void:
+	if visual == null:
+		return
+	var previous := visual.get_node_or_null("RoleVisualMarker")
+	if previous != null:
+		previous.queue_free()
+	var marker := Node2D.new()
+	marker.name = "RoleVisualMarker"
+	var faded := accent.lerp(Color("9299a8"), 0.68)
+	match ruolo:
+		RUOLO_GUARDIANO:
+			# Corona alta: ferma e larga, riconoscibile prima del raggio di sfida.
+			marker.add_child(OutdoorVisualFactory.make_polygon(PackedVector2Array([
+				Vector2(-28, 8), Vector2(-24, -26), Vector2(-10, -13),
+				Vector2(0, -35), Vector2(10, -13), Vector2(24, -26), Vector2(28, 8),
+			]), Color(faded.lightened(0.12), 0.92)))
+			set_meta("roleVisualMarker", "crown")
+		RUOLO_SCORTA:
+			# Due lame laterali: l'anello non promette un duello e si legge da lontano.
+			for side in [-1.0, 1.0]:
+				marker.add_child(OutdoorVisualFactory.make_polygon(PackedVector2Array([
+					Vector2(8 * side, -18), Vector2(30 * side, -7),
+					Vector2(18 * side, 6), Vector2(7 * side, 2),
+				]), Color(accent.lightened(0.15), 0.9)))
+			set_meta("roleVisualMarker", "wings")
+		_:
+			# Tre vele spezzate: una pattuglia mobile, senza il profilo del guardiano.
+			for x in [-13.0, 0.0, 13.0]:
+				marker.add_child(OutdoorVisualFactory.make_polygon(PackedVector2Array([
+					Vector2(x - 5, 8), Vector2(x, -20), Vector2(x + 5, 8),
+				]), Color(faded.lightened(0.08), 0.86)))
+			set_meta("roleVisualMarker", "sails")
+	# **La sagoma sta dietro e sopra, non addosso.** (20 agosto 2026)
+	#
+	# Nata al centro del corpo e come ultima figlia, copriva il guardiano
+	# illustrato: 43×56 px in mezzo a uno sprite da 118. Non è una questione di
+	# gusto — `generated_character_art_audit` lo vieta da prima di questo lotto,
+	# e pretende che l'illustrazione resti l'ultima figlia di `visual`.
+	#
+	# Quindi la sagoma passa sotto, e per restare leggibile deve **sporgere**
+	# dalla silhouette invece di sovrapporsi: lo sprite occupa x ±59 e da y −73
+	# a +45, e ogni ruolo esce da un lato diverso — la corona con le punte sopra
+	# la testa, le lame di lato, le vele sopra. Scala e quota sono calcolate su
+	# quei numeri, non a occhio: se un giorno lo sprite cambia misura, vanno
+	# rifatte insieme a lui.
+	match ruolo:
+		RUOLO_GUARDIANO:
+			marker.scale = Vector2(2.0, 2.0)
+			marker.position.y = -34.0
+		RUOLO_SCORTA:
+			marker.scale = Vector2(2.6, 2.2)
+			marker.position.y = -30.0
+		_:
+			marker.scale = Vector2(2.6, 2.6)
+			marker.position.y = -40.0
+	visual.add_child(marker)
+	var illustrazione := visual.get_node_or_null("GuardianGeneratedArt")
+	if illustrazione != null:
+		visual.move_child(illustrazione, visual.get_child_count() - 1)
+	set_meta("roleVisualDistinct", true)
 
 func _physics_process(delta: float) -> void:
 	var now := Time.get_ticks_msec()
@@ -339,6 +401,7 @@ func _guinzaglio() -> float:
 func sorveglia(id: String) -> void:
 	treasure_id = id
 	ruolo = RUOLO_GUARDIANO
+	_apply_role_visual()
 	enemy_name = GUARDIAN_VISUALS.name_for(int(world.get("world_level")) if world != null else 1)
 	var label := get_node_or_null("EnemyLabel") as Label
 	if label != null:
@@ -379,6 +442,7 @@ func sorveglia(id: String) -> void:
 func fa_la_scorta(guardia_id: String) -> void:
 	ruolo = RUOLO_SCORTA
 	presidio = guardia_id
+	_apply_role_visual()
 	var label := get_node_or_null("EnemyLabel") as Label
 	if label != null:
 		# Il cartiglio resta quello delle pattuglie, e apposta: una scorta **e'**

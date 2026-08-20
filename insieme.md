@@ -1,6 +1,6 @@
 # Eli Quest — Piano di lavoro
 
-Aggiornato al 14 agosto 2026.
+Aggiornato al 20 agosto 2026.
 
 **Questo file contiene solo lavoro da fare.** Niente resoconti: quelli stanno nel
 *Registro dei lavori* di [docs/RELEASE_CANDIDATE.md](docs/RELEASE_CANDIDATE.md).
@@ -49,12 +49,17 @@ collaudo l'ha già definita faticosa, e rispondere a «è noioso» con «è più
 
 ### L'ordine, e perché questo
 
-L'ordine residuo è per **resa su costo**. Le voci Codex non bloccate da una
-decisione o da un contratto di Claude sono uscite dal piano e stanno nel registro.
+L'ordine residuo è per **resa su costo**. Le voci Codex del lotto di agosto sono
+uscite dal piano e stanno nel registro; le **C-ART-7…14** che le sostituiscono
+nascono dalla lettura dell'arte del 20 agosto, più sotto.
 
 | | voce | impatto | costo | chi |
 |---|---|---|---|---|
 | **G-4** | Collegare i due moduli alla resa C-G4 | basso | basso | Claude |
+| **C-ART-9** | Coda: i pannelli del mondo hanno perso la trasparenza | basso | basso | tua decisione |
+| **C-ART-10** | Coda: celle vuote, peso in memoria, un bagliore su tutto | medio | basso | Codex |
+| **C-ART-12** | Cinque shader per tutto il gioco (1/5 condiviso) | medio | medio | Codex |
+| **C-ART-13** | Conseguenze dei residenti (6/46) | medio | medio | Codex |
 | **G-10** | Camminare è una scelta | ? | medio | dopo il collaudo |
 
 ---
@@ -92,6 +97,214 @@ senza accorgersene, perché il suo unico giudice è il tatto — e il tatto arri
 tuo collaudo, non da una misura. Farla adesso significherebbe indovinare.
 
 **Chi.** **Decisione tua dopo il collaudo**, poi Codex.
+
+---
+
+## Arte generativa — la lettura del 20 agosto 2026
+
+Stessa lettura fatta il 14 agosto sullo strato di gioco, applicata ai disegni:
+non che cosa il gioco **contiene** in fatto d'arte, ma che cosa un bambino
+**guarda** mentre gioca.
+
+Il gioco ha molta arte, e la parte grande è coperta: 23 tavole di terreno (una
+per mondo), 22 landmark illustrati, 69 residenti più cinque itineranti, 24
+guardiani, 11 Custodi, 9 tavole di Eli, 5 presenze di NORA, 60 riquadri di
+ricompensa.
+
+La misura, in una riga: **è illustrato ciò che sta sullo sfondo o si guarda da
+lontano, ed è un poligono piatto quasi tutto ciò che si tocca.** Il terreno della
+Necropoli delle Radici è dipinto; le tre pietre della sua Rovina dei Primi sono
+le stesse tre pietre grigie degli altri ventitré mondi.
+
+Le voci **C-** che seguono sono di Codex — sono resa, mai regola — e sono
+ordinate per resa su costo: il numero segue la priorità. L'unica **G-** del
+blocco, G-11, è la guardia che le tiene, ed è di Claude. Nessuna aggiunge un
+esercizio, un nodo di regola o un minuto alla campagna, e nessuna è un
+prerequisito: ogni cosa che nominano **è già giocabile oggi** con forme piene e
+colori piatti. Si sostituisce un segnaposto, non si sblocca un lotto.
+
+Tre vincoli valgono per tutte, e non si negoziano:
+
+- **nessuna immagine contiene testo.** Le iscrizioni descritte nei cataloghi —
+  «contare in gruppi non è pigrizia» sul bastone del mondo 1 — restano righe di
+  catalogo, lette dal pannello e dal lettore di schermo;
+- **il conto dei nodi si fa prima.** Il mondo 1 sta a 2.789/3.500 nodi e 311/500
+  ms. Una tavola che sostituisce trenta poligoni **restituisce** nodi; un
+  effetto che ne aggiunge va misurato con `performance_budget_audit` in
+  isolamento, perché quell'audit è fragile al carico;
+- **il peso arriva su un tablet scolastico.** Il PCK esportato è passato da
+  34,33 a **52,27 MiB** in una giornata di tavole, e il pacchetto completo sta a
+  89,96 MiB. Ogni atlante nuovo si dichiara in MB prima di essere generato, e da
+  qui in avanti la domanda non è più «quanto pesa questo» ma «quanto pesa il
+  primo caricamento su una rete di scuola».
+
+> **Stato alla sera del 20 agosto.** Otto voci aperte la mattina, **sei chiuse**
+> e nel registro: C-ART-7, 8, 10, 11, 14 e la guardia G-11. Restano due code
+> misurate (C-ART-10 e la trasparenza di C-ART-9) e due voci a metà per scelta,
+> C-ART-12 e C-ART-13, che avanzano a lotti.
+>
+> Un fatto va scritto perché è tornato tre volte su tre: **i tre audit scritti
+> insieme alle tavole erano verdi, e nessuno dei tre difetti li ha fatti
+> arrossire.** Verificavano la dichiarazione — che la tavola sia dichiarata, che
+> il nodo esista, che il tipo sia quello giusto — non il disegno. È la stessa
+> forma della decisione 14.
+>
+> Da lì è nata **G-11**, `tavole_guard_audit`, che misura il disegno: i ritagli,
+> il contrasto del testo sulla superficie che ha sotto, i nodi contati
+> sull'oggetto che il mondo costruisce. È nata rossa su dieci punti e li ha
+> chiusi tutti; copre anche le tavole arrivate dopo — 72 edifici e sei atlanti
+> naturali — che passano senza correzioni.
+>
+> **Un quarto difetto l'ha preso un audit che c'era già.** La sagoma di ruolo di
+> C-ART-8 copriva il guardiano illustrato, e `generated_character_art_audit`
+> vieta da prima di questo lotto che qualcosa gli si disegni sopra. Ora la sagoma
+> sta dietro e sporge — corona sopra la testa, lame di lato — ma **la resa è
+> geometria, non un occhio**: è la prima cosa da guardare giocando.
+>
+> **Il peso è la cosa da tenere d'occhio.** Il PCK esportato è passato da
+> **34,33 a 52,27 MiB** (+52%), il pacchetto completo a 89,96 MiB. Ogni tavola
+> di oggi è dentro quel numero, e quel numero arriva su un tablet scolastico.
+>
+> E una correzione mia, perché il numero era in questo file: gli oggetti
+> identitari non sono 46 ma **71**. Contavo i `match` a un nome per riga e ce ne
+> sono a tre.
+
+---
+
+### C-ART-9 · Coda: i pannelli del mondo hanno perso la trasparenza
+
+Le tre superfici ci sono e le due cose che le rompevano sono chiuse: i due testi
+della pergamena stanno adesso a **5,8:1** sulla carta e 16:1 sul ripiego, e
+l'esame torna a distinguersi dal banco ordinario — non con un bordo, che una
+`StyleBoxTexture` non ha, ma con una velatura del materiale. Le tiene
+`tavole_guard_audit`, che stampa il rapporto di ogni etichetta: la prossima
+correzione si misura invece di guardarla.
+
+**Resta una cosa, ed è una tua decisione, non un difetto.** I sei pannelli del
+mondo erano `alpha 0,72` sopra la mappa e adesso sono opachi, perché nessuna
+delle tre texture ha canale alfa. Il mondo non si intravede più dietro l'HUD.
+Si ripara in una riga — un alfa nel materiale o un `modulate` sul pannello — ma
+è resa: va decisa guardando, non misurata.
+
+---
+
+### C-ART-10 · La coda (chiusa nel registro, non nel gioco)
+
+Il lotto sta nel registro e le tavole sono buone: 71 kind su otto atlanti 4×3,
+mappatura verificata a campione — la libreria è una libreria, il leggio è un
+leggio, la caravana è una caravana. Restano quattro cose piccole.
+
+- **La misura non è stata scritta, e intanto si è mossa.**
+  `performance_budget_audit` è verde, ma il numero non è più quello:
+  mondo 1 a **2.918/3.500 nodi e 403/500 ms**, contro i 2.789 e 311 dell'ultima
+  misura scritta — l'81% del budget d'avvio. Non è tutto di questo lotto, in
+  mezzo sono passati il cielo e i fuochi; ma la voce prometteva di
+  **restituire** nodi, e nella misura non si vede. Va preso prima e dopo sullo
+  stesso commit, e scritto nel registro accanto al «verde».
+- **In scena ogni prop porta cinque nodi, non tre.** `IdentityPropArt.build()`
+  ne restituisce due — radice e tavola — e `build_identity_prop` aggiunge ombra,
+  bagliore e l'animazione del bagliore: cinque, uno dei quali gira in `_process`
+  a ogni fotogramma. L'audit misura il primo oggetto e non il secondo:
+  `get_child_count() <= 3` passa su una cosa che nel gioco non esiste.
+- **Un alone che pulsa su tutto.** Prima ce l'avevano alcuni prop, e per un
+  motivo; adesso ce l'hanno tutti e settantuno, un colore per famiglia. Un alone
+  che pulsa è il segno con cui questo gioco dice «qui c'è qualcosa»: metterlo
+  sulla scenografia insegna a non fidarsene. Va tenuto dove significa e tolto
+  dove decora.
+- **Venticinque celle vuote, otto atlanti sempre in memoria, 850 righe morte.**
+  Le famiglie simbiosi (2 kind) e sintesi (3) hanno fogli da dodici celle: dieci
+  e nove disegni fatti e mai raggiungibili, circa 2 MB su 8,1. I `preload`
+  tengono tutti e otto gli atlanti in memoria per l'intera sessione, mentre
+  landmark e atlanti naturali si caricano pigri e si liberano con
+  `release_world_texture_caches()` — qui quella cura non c'è. E poiché nessun
+  kind resta fuori dalle famiglie, i poligoni di `build_identity_prop` non sono
+  più raggiungibili: o tornano a essere un ripiego vero quando una tavola manca,
+  o vanno via.
+
+---
+
+### C-ART-12 · Cinque shader per tutto il gioco
+
+**Oggi.** Due file — `painterly_ground` e `painterly_water` — e tre stringhe
+inline: la stanza della nave, l'atmosfera, la vignetta. Tutto il resto
+dell'atmosfera è CPU: `OutdoorAtmosphere` è un `ColorRect` più due
+`CPUParticles2D`, e ogni chioma che ondeggia porta un nodo `OutdoorAmbientAnim`
+che gira in `_process` a ogni fotogramma — 91 punti di aggancio nel codice.
+
+**Progresso (20 agosto).** La foschia del mondo è uscita dalla stringa inline:
+`world_atmosphere.gdshader` è una risorsa condivisa, con tinta per bioma e
+movimento congelato da `reducedMotion`. Restano il vento vertex sugli atlanti,
+la migrazione delle altre due stringhe e il cono della torcia.
+
+**Perché adesso.** Il tempo ha ricominciato a passare il 20 agosto. La luce
+cambia e **non cambia nient'altro**: niente vento che cala la sera, niente
+foschia che si alza, nessuna ombra che si allunga. Un ciclo giorno/notte che
+muove solo un `CanvasModulate` si legge come un filtro, non come un'ora.
+
+**Cosa, in ordine di resa.**
+
+- **Il vento sull'atlante naturale**, in vertex shader: zero nodi, e restituisce
+  quelli di `OutdoorAmbientAnim` insieme al loro `_process`.
+- **La foschia per bioma**, oggi un velo di colore uniforme sull'intera
+  schermata.
+- **Il cono di luce della torcia.** G-4 lo dichiara già come consumer dormiente
+  a valore zero — «scala il cono luminoso orientato con Eli» — e le
+  illustrazioni sono riservate nel `reward-items-sheet`. È la metà Codex di una
+  voce già aperta, non una voce nuova.
+
+**Il vincolo.** Movimento ridotto spegne il vento e la foschia mobile; il
+pavimento di leggibilità di `WorldSky` (0,20) non si tocca da nessuna direzione.
+Giudici: `world_light_audit`, `world_sky_audit`, `accessibility_release_audit` e
+una misura isolata di `performance_budget_audit`.
+
+---
+
+### C-ART-13 · Le conseguenze dei residenti sono due su quarantasei
+
+**Oggi.** `ResidentConsequenceVisual.supports()` risponde vero per `w01-tobia` e
+`w01-ersilia`, e basta. Il commento lo dichiara: pilot del mondo 1, gli altri
+«solo dopo aver misurato nodi e tempo di avvio». Nel frattempo
+`resident_portrait_stage_audit` verifica 46 × 3 pose **nel ritratto**: la persona
+cambia quando ci parli, il posto in cui vive no.
+
+**Progresso (20 agosto).** Il primo lotto ha portato la copertura a **6/46**:
+Corinna, Bruno, Ruggine e Sesto hanno tre conseguenze leggibili nei loro luoghi
+dei mondi 2–3, sempre come un solo nodo procedurale. `resident_consequence_batch_audit`
+verifica il montaggio nel `BuildingActor`, i tre stadi e il budget di nodi.
+Restano quaranta residenti, da estendere a lotti misurati.
+
+**Perché.** È l'unica cosa in tutto il gioco che dice, senza una parola e senza
+un numero, che quello che il bambino ha imparato è arrivato a qualcuno. Due
+mucchi di cristalli nel mondo 1 su quarantasei persone è un pilot rimasto pilot.
+
+**Cosa.** Un lotto per volta, non tutti insieme: i sei residenti dei mondi 2–3,
+misurati nodi e millisecondi prima e dopo, e si prosegue solo se il conto regge.
+La misura che quel commento aspettava adesso esiste — 2.789/3.500 e 311/500 ms —
+quindi il cancello si può aprire, un mondo alla volta.
+
+**L'audit.** `resident_consequence_render_probe.gd` esiste già e produce catture
+riproducibili: la regola resta quella del lotto del 13 agosto — i tre stadi
+devono restare distinguibili **senza dialogo**.
+
+---
+
+### Le due che aspettano
+
+Non sono voci: sono cose viste in questa lettura che non conviene aprire adesso.
+
+- **Il formato che mostra l'oggetto vero vive in una materia sola.** `HOTSPOT`
+  esiste per `storia`, con un atlante (`roman_artifacts`) e quattro bersagli;
+  `ArtifactAtlasCatalog` ha una voce sola. È l'unico formato in cui un bambino
+  riconosce una cosa vera invece di leggerne il nome, e delle dodici materie ne
+  serve una. Non sostituisce il minigioco di montaggio già in piano per i
+  ventidue quesiti sui componenti elettronici: semmai gli prepara il materiale.
+  Aspetta perché il **secondo foglio di reperti** è già una voce aperta, e i due
+  fogli conviene deciderli insieme.
+- **I quindici minigiochi dei personaggi hanno un asset in tutto**
+  (`assets/minigames/tobia-crystal-v1.png`). Le tavole vettoriali sono leggibili
+  e funzionano. Aspetta il collaudo per la ragione già scritta nel piano: finché
+  non si misura quali meccaniche restano nel giro, illustrarle tutte e quindici
+  è lavoro su un'ipotesi.
 
 ---
 

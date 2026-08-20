@@ -1,0 +1,32 @@
+extends SceneTree
+
+const OWNERS := {
+	2: ["w02-corinna", "w02-bruno"],
+	3: ["w03-ruggine", "w03-sesto"],
+}
+
+func _init() -> void:
+	for level in OWNERS:
+		var specs := BuildingCatalog.for_world(level, WorldProfileCatalog.profile(level))
+		for owner_data in OWNERS[level]:
+			var owner := str(owner_data)
+			assert(ResidentConsequenceVisual.supports(owner), "%s fuori dal lotto C-ART-13" % owner)
+			var spec: Dictionary = {}
+			for candidate_data in specs:
+				var candidate: Dictionary = candidate_data
+				if str(candidate.get("residentOwner", "")) == owner:
+					spec = candidate
+			assert(not spec.is_empty(), "%s senza luogo proprietario" % owner)
+			var seen: Array = []
+			for stage in [0, 1, 2]:
+				var building := BuildingActor.new()
+				building.configure(spec, stage, false, true)
+				var visual := building.get("resident_consequence") as ResidentConsequenceVisual
+				assert(visual != null, "%s non arriva nel proprio luogo" % owner)
+				seen.append(str(visual.get_meta("visual_semantic", "")))
+				assert(visual.get_child_count() == 0, "%s aggiunge nodi al lotto" % owner)
+				building.free()
+			assert(seen.size() == 3 and seen[0] != seen[1] and seen[1] != seen[2],
+				"%s non rende leggibili i tre stadi" % owner)
+	print("RESIDENT CONSEQUENCE BATCH audit OK — mondi 2-3, quattro luoghi proprietari")
+	quit(0)

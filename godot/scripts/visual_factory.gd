@@ -33,6 +33,8 @@ const NATURAL_ATLAS_PATHS := {
 	"wild": "res://assets/bosco-variabile-natural-atlas-v2.png",
 	"geo": "res://assets/dorsale-geografica-natural-atlas-v2.png",
 	"logic": "res://assets/cratere-logico-natural-atlas-v2.png",
+	"ruins": "res://assets/rovine-natural-atlas-v1.png",
+	"crystal": "res://assets/cristallo-natural-atlas-v1.png",
 }
 const NATURAL_DETAIL_ATLAS: Texture2D = preload("res://assets/natural-detail-atlas-v1.png")
 const LANDMARK_TEXTURE_PATHS := {
@@ -187,6 +189,12 @@ static func geo_natural_sprite(cell: Vector2i, target_size: Vector2, y: float = 
 static func logic_natural_sprite(cell: Vector2i, target_size: Vector2, y: float = 0.0) -> Sprite2D:
 	return natural_atlas_sprite(_natural_atlas("logic"), cell, target_size, y)
 
+static func ruins_natural_sprite(cell: Vector2i, target_size: Vector2, y: float = 0.0) -> Sprite2D:
+	return natural_atlas_sprite(_natural_atlas("ruins"), cell, target_size, y)
+
+static func crystal_natural_sprite(cell: Vector2i, target_size: Vector2, y: float = 0.0) -> Sprite2D:
+	return natural_atlas_sprite(_natural_atlas("crystal"), cell, target_size, y)
+
 static func natural_detail_sprite(kind: String, target_size: Vector2, y: float = 0.0) -> Sprite2D:
 	if not NATURAL_DETAIL_CELLS.has(kind):
 		return null
@@ -318,22 +326,16 @@ static func build_obstacle(kind: String, radius: float, rgb: int, variant: float
 	var root := Node2D.new()
 	var color := hex_color(rgb).darkened(variant * 0.16)
 	if biome == "ruins":
-		var ruins_sprite: Sprite2D
-		if kind == "tree": ruins_sprite = wild_natural_sprite(Vector2i(0, 0), Vector2(radius * 1.9, radius * 1.9), -radius * 0.72)
-		elif kind == "bush": ruins_sprite = wild_natural_sprite(Vector2i(2, 0), Vector2(radius * 1.9, radius * 1.65), -radius * 0.62)
-		elif kind == "mushroom": ruins_sprite = wild_natural_sprite(Vector2i(0, 1), Vector2(radius * 1.8, radius * 1.8), -radius * 0.68)
-		elif kind == "ruin": ruins_sprite = wild_natural_sprite(Vector2i(3, 1), Vector2(radius * 2.0, radius * 1.8), -radius * 0.68)
-		elif kind == "pillar": ruins_sprite = geo_natural_sprite(Vector2i(2, 1), Vector2(radius * 1.7, radius * 1.9), -radius * 0.72)
-		elif kind == "crystal": ruins_sprite = logic_natural_sprite(Vector2i(1, 0), Vector2(radius * 1.8, radius * 1.85), -radius * 0.70)
-		else: ruins_sprite = geo_natural_sprite(Vector2i(0, 2), Vector2(radius * 1.9, radius * 1.75), -radius * 0.66)
+		var ruins_cell := Vector2i(0, 0) if kind == "tree" else Vector2i(1, 0) if kind == "bush" else Vector2i(2, 0) if kind == "mushroom" else Vector2i(3, 0) if kind == "ruin" else Vector2i(0, 1) if kind == "pillar" else Vector2i(2, 2) if kind == "crystal" else Vector2i(1, 1)
+		var ruins_target := Vector2(radius * 1.9, radius * 1.82)
 		root.add_child(make_shadow(radius * 1.05, radius * 0.36, 0.24, radius * 0.5))
-		root.add_child(ruins_sprite)
+		root.add_child(ruins_natural_sprite(ruins_cell, ruins_target, -ruins_target.y * 0.38))
 		return root
 	if biome == "crystal":
-		var crystal_cell := Vector2i(0, 0) if kind == "crystal" and variant < 0.55 else Vector2i(1, 0) if kind == "crystal" else Vector2i(2, 0) if kind in ["tree", "pillar"] else Vector2i(3, 0) if kind == "bush" else Vector2i(0, 2) if kind == "mushroom" else Vector2i(2, 1) if kind == "ruin" else Vector2i(3, 2)
+		var crystal_cell := Vector2i(0, 0) if kind == "crystal" and variant < 0.55 else Vector2i(1, 0) if kind == "crystal" else Vector2i(0, 1) if kind == "tree" else Vector2i(3, 0) if kind == "bush" else Vector2i(1, 1) if kind == "mushroom" else Vector2i(2, 1) if kind == "pillar" else Vector2i(3, 2) if kind == "ruin" else Vector2i(0, 2)
 		var crystal_target := Vector2(radius * 1.86, radius * 1.82)
 		root.add_child(make_shadow(radius * 1.05, radius * 0.36, 0.24, radius * 0.5))
-		root.add_child(logic_natural_sprite(crystal_cell, crystal_target, -crystal_target.y * 0.38))
+		root.add_child(crystal_natural_sprite(crystal_cell, crystal_target, -crystal_target.y * 0.38))
 		return root
 	if biome == "academy":
 		var academy_cell := Vector2i(-1, -1)
@@ -804,6 +806,25 @@ static func build_academy_fountain() -> Node2D:
 ## Props identitari dei WorldProfile. Sono silhouette di scena, non POI:
 ## nessuna logica didattica o ricompensa viene decisa qui.
 static func build_identity_prop(kind: String, _theme: String, variant: float = 0.5) -> Node2D:
+	var illustrated := IdentityPropArt.build(kind, variant)
+	if illustrated != null:
+		# Il corpo e' una tavola, ma l'illuminazione resta un segnale vivo del mondo.
+		var shadow := make_shadow(48, 12, 0.30, 7)
+		illustrated.add_child(shadow)
+		illustrated.move_child(shadow, 0)
+		var family := str(illustrated.get_meta("identity_art_family", ""))
+		var glow_colors := {
+			"archive": Color("8ea9ff"), "signal": Color("73e8ff"),
+			"motion": Color("ffbd68"), "resonance": Color("d99cff"),
+			"glyph": Color("a6d77c"), "circuit": Color("72f1e1"),
+			"symbiosis": Color("9de77c"), "final": Color("f3cf78"),
+		}
+		var glow := make_glow(19, glow_colors.get(family, Color.WHITE), 0.42)
+		glow.position = Vector2(0, -50)
+		glow.add_to_group("night_glow")
+		illustrated.add_child(glow)
+		attach_anim(glow, "pulse", 0.85 + variant * 0.35, 0.72)
+		return illustrated
 	var root := Node2D.new()
 	match kind:
 		"archive_shelf":

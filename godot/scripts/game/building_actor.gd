@@ -74,14 +74,14 @@ func configure(spec: Dictionary, world_stage: int, use_high_contrast: bool, use_
 	add_to_group("world_building")
 	_rendi_luogo(spec)
 
-	if role == "first_ruin":
+	if _build_generated_visual(spec):
+		generated_art = true
+		set_meta("generated_art", true)
+	elif role == "first_ruin":
 		visual = Node2D.new()
 		visual.name = "FirstRuinVisual"
 		add_child(visual)
 		_build_ruin_visual(visual)
-	elif _build_generated_visual(spec):
-		generated_art = true
-		set_meta("generated_art", true)
 	else:
 		visual = OutdoorVisualFactory.build_academy_pavilion()
 		visual.name = "PavilionVisual"
@@ -96,7 +96,7 @@ func configure(spec: Dictionary, world_stage: int, use_high_contrast: bool, use_
 	var label := Label.new()
 	label.name = "BuildingLabel"
 	label.text = str(spec.get("label", "Edificio"))
-	label.position = Vector2(-120, 88 if role == "ritrovo" else 34 if generated_art else 50)
+	label.position = Vector2(-120, 42 if generated_art else 88 if role == "ritrovo" else 50)
 	label.size = Vector2(240, 28)
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label.add_theme_font_size_override("font_size", 13)
@@ -130,7 +130,19 @@ func _build_generated_visual(spec: Dictionary) -> bool:
 	visual.name = "GeneratedBuildingVisual"
 	var sprite := Sprite2D.new()
 	sprite.name = "GeneratedBuildingArt"
-	sprite.texture = texture
+	var atlas_cell: Vector2i = spec.get("artAtlasCell", Vector2i(-1, -1))
+	var atlas_grid: Vector2i = spec.get("artAtlasGrid", Vector2i.ONE)
+	if atlas_cell.x >= 0 and atlas_cell.y >= 0 and atlas_grid.x > 0 and atlas_grid.y > 0:
+		var cell_size := Vector2(
+			float(texture.get_width()) / float(atlas_grid.x),
+			float(texture.get_height()) / float(atlas_grid.y))
+		var atlas := AtlasTexture.new()
+		atlas.atlas = texture
+		atlas.region = Rect2(Vector2(atlas_cell) * cell_size, cell_size)
+		sprite.texture = atlas
+		visual.set_meta("art_atlas_cell", atlas_cell)
+	else:
+		sprite.texture = texture
 	sprite.scale = Vector2.ONE * float(spec.get("artScale", 0.16))
 	sprite.position = Vector2(0, float(spec.get("artBaseline", -82.0)))
 	visual.add_child(sprite)

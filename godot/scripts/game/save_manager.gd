@@ -114,6 +114,12 @@ static func _default_data() -> Dictionary:
 		# mezz'ora, e queste due misure lo riportano a una prova. Vedi
 		# `world_light.gd`.
 		"worldLight": {},           # "livello" -> prove superate li'
+		# QUALI fuochi del risveglio sono accesi in ogni mondo. Il contatore qui
+		# sopra dice quanti, e da solo bastava finche' la ricompensa era un velo
+		# di nebbia uguale dappertutto. Da quando e' un oggetto in un punto
+		# preciso ([[WorldAwakening]]) serve sapere anche dove, o rientrando in un
+		# mondo gia' giocato i fuochi si sposterebbero.
+		"worldAwakening": {},       # "livello" -> [indici accesi]
 		"powerRuns": 0,             # prove superate in tutta la partita
 		# Le cariche dell'impulso stabilizzante: si guadagnano superando prove e
 		# si spendono contro le sacche. Vedi `pulse_charge.gd` — prima di questa
@@ -477,11 +483,20 @@ func clear_enigma_cooldown(world_id: String, encounter_id: String) -> void:
 func world_resume(world_id: String) -> Dictionary:
 	return Dictionary(_world_bucket(world_id).get("resume", {})).duplicate(true)
 
-func set_world_resume(world_id: String, position: Vector2, day_clock: float) -> void:
+## **L'ora si salva in giri, non in secondi.** (20 agosto 2026)
+##
+## Prima era `dayClock`, i secondi di un orologio che durava due minuti. Da
+## quando il giro dura dodici ([[WorldSky]]) quei secondi cadrebbero in un'altra
+## ora del giorno: un salvataggio fatto a mezzogiorno riaprirebbe di notte. La
+## frazione non ha il problema — e la chiave vecchia si lascia morire invece di
+## convertirla, perche' non c'e' modo di distinguere «62 secondi vecchi» da «62
+## secondi nuovi», e chi rientra con un salvataggio d'ieri riparte semplicemente
+## dall'ora d'autore del suo mondo.
+func set_world_resume(world_id: String, position: Vector2, giro_del_giorno: float) -> void:
 	_world_bucket(world_id)["resume"] = {
 		"playerX": position.x,
 		"playerY": position.y,
-		"dayClock": day_clock,
+		"dayPhase": giro_del_giorno,
 	}
 
 func set_apparatus_repaired(id: String, repaired_level: int) -> void:

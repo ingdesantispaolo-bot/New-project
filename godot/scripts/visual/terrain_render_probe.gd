@@ -33,7 +33,7 @@ func _initialize() -> void:
 	root.add_child(scene)
 	# Stable daylight makes painterly material/detail QA independent from the
 	# saved day/night phase.
-	scene.set("day_clock", 60.0)
+	scene.set("day_clock", WorldSky.DURATA * 0.5) # mezzogiorno
 	_capture_tour.call_deferred(scene)
 
 func _capture_tour(scene: Node) -> void:
@@ -47,7 +47,7 @@ func _capture_tour(scene: Node) -> void:
 	player.set_physics_process(false)
 	camera.position_smoothing_enabled = false
 	for probe in PROBES:
-		scene.set("day_clock", float(probe.get("clock", 60.0)))
+		scene.set("day_clock", float(probe.get("clock", WorldSky.DURATA * 0.5)))
 		if probe.has("enigma_stage"):
 			for area in get_nodes_in_group("enigma_poi"):
 				if area is Area2D:

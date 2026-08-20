@@ -87,17 +87,15 @@ func _assert_wave_world(world: Node, level: int, theme: String, landmark_kind: S
 	reaction.call("set_progress", 0, 5, false)
 	assert(str(reaction.get_meta("transform_trigger", "")) == str(semantics["trigger"]),
 		"il POI non consuma il trigger didattico")
-	var gate_event: Dictionary = {}
-	for event_data in world.get("mission_events"):
-		if bool(event_data.get("countsForGate", false)):
-			gate_event = event_data
-			break
-	assert(not gate_event.is_empty(), "evento gate assente")
-	var result_state: Dictionary = world.get("result")
-	var completed_ids: Array = result_state.get("completedEncounterIds", [])
-	completed_ids.append(str(gate_event["id"]))
-	result_state["completedEncounterIds"] = completed_ids
-	world.set("result", result_state)
+	# **Il landmark si muove sulle prove, non sulle missioni.** (20 agosto 2026)
+	#
+	# Qui si concludeva un evento del gate. Da quando la trasformazione conta le
+	# prove superate ([[WorldAwakening]]) chiudere un incontro non la muove piu':
+	# quello che la muove e' una prova andata bene, che e' anche la cosa che il
+	# contratto `environmentTransform` chiama «evento di apprendimento».
+	var save_del_mondo = world.get("game_save")
+	assert(save_del_mondo != null, "salvataggio del mondo assente")
+	WorldLight.accendi(save_del_mondo, str(world.get("world_level")))
 	var hero_art := hero.find_child("Landmark*Art", true, false) as CanvasItem
 	var inactive_color := hero_art.modulate
 	world.call("_sync_profile_environment_transform", false)

@@ -4,7 +4,6 @@ const PORTAL_POSITION := Vector2(448, 300)
 const INTERACTION_DISTANCE := 88.0
 const TOUCH_POI_RADIUS := 104.0
 const TOUCH_APPROACH_DISTANCE := 58.0
-const DAY_LENGTH := 120.0
 const PORTAL_VISUAL := preload("res://scripts/portal_visual.gd")
 const EXERCISE_ENERGY_COST := 3
 const EXERCISE_PLAYER_SCRIPT := preload("res://scripts/game/exercise_player.gd")
@@ -122,6 +121,11 @@ var player_presentation: Node2D
 var expedition_module_presentation: Node
 var nearby: Array = []
 var day_clock := 0.0
+## L'etichetta d'autore del mondo («neon-notturno», «blu-profondo»…) e se qui il
+## tempo passa. Si leggono una volta all'ingresso: `_process` gira sessanta volte
+## al secondo e non deve rifare una ricerca in dizionario per saperlo.
+var _lighting_del_mondo := ""
+var _il_cielo_cammina := true
 var current_audio_phase := ""
 var current_biome_chunk := ""
 var energy_label: Label
@@ -302,6 +306,8 @@ delete document.documentElement.dataset.eliExam;
 	_crea_sbarramenti()
 	_crea_camera_chiusa()
 	_crea_velo_di_nebbia()
+	# Dopo edifici, punti d'interesse e landmark: i fuochi si appoggiano a loro.
+	_crea_i_fuochi_del_risveglio()
 	_mostra_soglia_del_mondo()
 	_ricorda_cosa_hai_lasciato_qui()
 
@@ -524,7 +530,22 @@ func _configure_profile_palette() -> void:
 	profile_night_tint = NIGHT_TINT.lerp(accent.darkened(0.58), 0.28)
 	profile_dawn_tint = DAWN_TINT.lerp(accent.lightened(0.12), 0.30)
 	profile_day_tint = Color.WHITE.lerp(accent.lightened(0.42), 0.08)
-	if world_level == 3:
+	if world_level == 1:
+		# **La Radura ha un'ora d'oro.** (20 agosto 2026)
+		#
+		# Era l'unico mondo giocato davvero che ancora derivava le tinte
+		# dall'accento della materia: matematica e' verde-azzurra, quindi il suo
+		# tramonto veniva **freddo** — un mondo che si chiama «mattino dorato»
+		# calava in un crepuscolo d'acquario. Finche' l'orologio era fermo non lo
+		# vedeva nessuno, perche' quell'ora non arrivava mai.
+		#
+		# Le tre tinte adesso sono scritte, e sono un prato: mattino caldo di
+		# grano, ora d'oro ambrata al tramonto, notte blu di luna — fredda, ma
+		# con dentro il verde dell'erba, o il prato diventerebbe pietra.
+		profile_night_tint = Color("41577f")
+		profile_dawn_tint = Color("ffa257")
+		profile_day_tint = Color("f7edd4")
+	elif world_level == 3:
 		# Basalto freddo, rame e circuiti: il Cratere resta tecnico anche in pieno giorno.
 		profile_night_tint = Color("26314c")
 		profile_dawn_tint = Color("8f6b72")
@@ -620,16 +641,17 @@ func _configure_profile_palette() -> void:
 		profile_night_tint = Color("6f668c")
 		profile_dawn_tint = Color("c9a477")
 		profile_day_tint = Color("f0dfbd")
+	# **L'ora d'autore, dalla tabella.** (20 agosto 2026, [[WorldSky]])
+	#
+	# Qui c'era un riconoscimento per sottostringa che capiva quattro casi su
+	# ventiquattro etichette: diciotto mondi rendevano a mezzogiorno identico,
+	# compresi quelli il cui nome prometteva il buio — «neon-notturno» non
+	# contiene «notte», e nessuno se n'era accorto perche' il risultato era un
+	# mondo perfettamente giocabile, solo con l'ora sbagliata.
+	_lighting_del_mondo = str(world_profile.get("lighting", "")).to_lower()
+	_il_cielo_cammina = WorldSky.cammina(_lighting_del_mondo)
 	if not request.has("resume"):
-		var lighting := str(world_profile.get("lighting", "")).to_lower()
-		if "notte" in lighting or "penombra" in lighting:
-			day_clock = 0.0
-		elif "tramonto" in lighting or "crepuscolo" in lighting:
-			day_clock = DAY_LENGTH * 0.76
-		elif "mattino" in lighting:
-			day_clock = DAY_LENGTH * 0.36
-		else:
-			day_clock = DAY_LENGTH * 0.52
+		day_clock = WorldSky.ora_iniziale(_lighting_del_mondo) * WorldSky.DURATA
 
 func _apply_resume() -> void:
 	var resume: Dictionary = request.get("resume", {})
@@ -639,7 +661,11 @@ func _apply_resume() -> void:
 		return
 	var resumed := Vector2(float(resume.get("playerX", player.position.x)), float(resume.get("playerY", player.position.y)))
 	player.position = chunks.clamp_to_world(resumed)
-	day_clock = float(resume.get("dayClock", 0.0))
+	# Senza `dayPhase` — un salvataggio piu' vecchio dell'orologio nuovo — l'ora
+	# resta quella d'autore, gia' impostata dal profilo. Non e' una perdita: e'
+	# l'ora giusta per quel mondo.
+	if resume.has("dayPhase"):
+		day_clock = fposmod(float(resume["dayPhase"]), 1.0) * WorldSky.DURATA
 	if is_instance_valid(camera):
 		camera.position = player.position
 
@@ -769,33 +795,55 @@ func _process(delta: float) -> void:
 	if _pet_fiuto_trascorso >= PET_FIUTO_INTERVALLO:
 		_pet_fiuto_trascorso = 0.0
 		_pet_check_secret_proximity()
-	# **Niente alternanza giorno/notte.** (7 agosto 2026)
+	# **Il tempo torna a passare.** (20 agosto 2026, [[WorldSky]])
 	#
-	# Il mondo adesso nasce coperto e si illumina man mano che le prove vengono
-	# superate: due sorgenti di buio che si muovono da sole si contraddicono, e
-	# un bambino non puo' capire se e' scuro perche' non ha ancora lavorato o
-	# perche' e' calata la notte. La luce deve dipendere da UNA cosa sola, e
-	# quella cosa e' il lavoro fatto.
+	# Era fermo dal 7 agosto, e la ragione era buona: il mondo si scopriva col
+	# lavoro fatto, quindi c'erano due sorgenti di buio che si muovevano da sole
+	# e un bambino non poteva sapere se era scuro perche' non aveva ancora
+	# lavorato o perche' era calata la notte.
 	#
-	# L'orologio resta fermo sull'ora scelta dal profilo del mondo — ogni mondo
-	# ha la sua luce d'autore, e quella si tiene.
-	pass
-	var daylight := (sin(day_clock / DAY_LENGTH * TAU - PI / 2.0) + 1.0) * 0.5
-	var phase_id := "giorno" if daylight > 0.72 else "alba" if daylight > 0.42 else "notte"
+	# Adesso l'avanzamento non tocca piu' la luce della scena — accende fuochi,
+	# uno per prova ([[WorldAwakening]]) — e la contraddizione non c'e' piu'.
+	# Resta la regola che le tiene separate: **la luce della scena dice che ora
+	# e', gli oggetti che si accendono dicono quanto hai lavorato.**
+	#
+	# Dove non c'e' un cielo — un abisso, una cripta, un archivio — la banda del
+	# mondo ha larghezza zero e l'orologio, pur girando, non cambia niente.
+	if _il_cielo_cammina:
+		day_clock = fposmod(day_clock + delta, WorldSky.DURATA)
+	var giro := day_clock / WorldSky.DURATA
+	var daylight := WorldSky.luce_del_cielo(_lighting_del_mondo, giro)
+	var fase_estesa := WorldSky.fase(daylight, giro)
+	var phase_id := WorldSky.fase_di_sistema(fase_estesa)
 	if is_instance_valid(day_light):
 		# notte → giorno con transizione calda (alba/tramonto) a metà corsa
 		var base := profile_night_tint.lerp(profile_day_tint, daylight)
 		# Senza torcia la notte è una vera condizione di esplorazione; con la
 		# torcia resta scura globalmente ma il chiarore locale diventa ampio.
-		# La notte deve cambiare lettura e valorizzare la torcia, non cancellare
-		# Eli, POI e percorsi sui pannelli scolastici a contrasto ridotto.
-		var night_depth := (1.0 - daylight) * (0.06 if equipped_field_tool() == "tool-torch" else 0.20)
+		#
+		# **Possedere la torcia basta.** (20 agosto 2026) Questa riga guardava lo
+		# strumento EQUIPAGGIATO mentre la lampada addosso a Eli guarda quello
+		# posseduto: chi aveva comprato la torcia e teneva in mano un altro
+		# attrezzo si ritrovava la lampada accesa e il mondo scuro come se non
+		# l'avesse. Vale qui la ragione gia' scritta la' sotto: una torcia che
+		# illumina solo se la si e' scelta in bottega e' un interruttore nascosto
+		# in un menu.
+		var night_depth := (1.0 - daylight) * (0.06 if _strumenti_posseduti().has(FieldTools.TORCIA) else 0.20)
 		base = base.darkened(night_depth)
 		var dawn_mix := clampf(1.0 - absf(daylight - 0.5) * 2.2, 0.0, 1.0)
-		day_light.color = base.lerp(profile_dawn_tint, dawn_mix * 0.35)
+		# Il pavimento di leggibilita' e' l'ultimo passaggio, e per forza: e' una
+		# garanzia sul colore che finisce davvero sullo schermo, non
+		# sull'intenzione di chi lo ha composto.
+		day_light.color = WorldSky.sopra_il_pavimento(base.lerp(profile_dawn_tint, dawn_mix * 0.35))
 		if is_instance_valid(phase_label):
+			# Dove il tempo non passa, l'ora non e' un'informazione: «Tramonto» in
+			# un archivio chiuso o in un abisso e' una parola presa a caso. Li' la
+			# targa dice il nome d'autore della luce, che e' la cosa vera di quel
+			# posto — ed e' anche il primo posto in cui quelle ventiquattro
+			# etichette si vedono in gioco.
 			phase_label.text = "%s · %s" % [
-				phase_id.capitalize(),
+				fase_estesa.capitalize() if _il_cielo_cammina
+					else _lighting_del_mondo.replace("-", " ").capitalize(),
 				str(world_profile.get("weather", "sereno")).replace("-", " ").capitalize()]
 	if is_instance_valid(gameplay):
 		gameplay.update_phase(phase_id)
@@ -807,7 +855,7 @@ func _process(delta: float) -> void:
 			audio.call("configure_world_soundscape", str(world_profile.get("soundscape", "")))
 	if is_instance_valid(atmosphere_material):
 		atmosphere_material.set_shader_parameter("daylight", daylight)
-		atmosphere_material.set_shader_parameter("clock", 0.0 if reduced_motion else day_clock / DAY_LENGTH)
+		atmosphere_material.set_shader_parameter("clock", 0.0 if reduced_motion else giro)
 	_update_night_glow(daylight)
 	if is_instance_valid(player):
 		_enforce_water_traversal()
@@ -881,9 +929,17 @@ func _apri_il_richiamo() -> void:
 	if _richiamo_attivo:
 		return
 	_richiamo_attivo = true
-	# La luce al massimo: la nebbia si alza tutta insieme, e il mondo che si era
-	# scoperto un pezzo per volta si vede intero per la prima volta.
+	# **La fiammata.** (20 agosto 2026) Qui la nebbia si alzava tutta insieme, e
+	# il mondo scoperto un pezzo per volta si vedeva intero per la prima volta.
+	# Da quando l'avanzamento non passa piu' dalla nebbia, la battuta ce l'hanno i
+	# fuochi: quelli accesi divampano insieme, una volta. Non se ne accende
+	# nessuno di nuovo — quelli si pagano una prova per volta, e il richiamo non
+	# e' una prova.
 	_aggiorna_nebbia(1.0, true)
+	for nodo in get_tree().get_nodes_in_group("fuoco_del_risveglio"):
+		var fuoco := nodo as WorldAwakeningFire
+		if is_instance_valid(fuoco):
+			fuoco.fiammata()
 	for enemy in get_tree().get_nodes_in_group("world_enemy"):
 		if is_instance_valid(enemy):
 			enemy.set("richiamo", true)
@@ -1035,6 +1091,14 @@ func _update_night_glow(daylight: float) -> void:
 		var canvas := node as CanvasItem
 		if canvas != null:
 			canvas.modulate.a = alpha
+	# I fuochi del risveglio hanno una regola loro, e non e' un capriccio: questo
+	# gruppo alza TUTTO al calare della luce, e un fuoco ancora da guadagnare si
+	# sarebbe acceso da solo alla prima sera. L'ora decide quanto si vede un
+	# fuoco acceso; se sia acceso lo decidono le prove.
+	for node in get_tree().get_nodes_in_group("fuoco_del_risveglio"):
+		var fuoco := node as WorldAwakeningFire
+		if is_instance_valid(fuoco):
+			fuoco.aggiorna_notte(daylight)
 
 func _update_biome_hud() -> void:
 	if not is_instance_valid(biome_label):
@@ -1616,28 +1680,38 @@ func _learning_reaction_theme() -> String:
 		return "first_heart"
 	return "radura"
 
+## **Il landmark segue le prove, non le missioni.** (20 agosto 2026)
+##
+## Fino a ieri la trasformazione del landmark contava gli **eventi del gate**
+## conclusi: sette passi in un mondo, cioe' uno ogni venti o trenta minuti. Era
+## la stessa grana lenta che il collaudo aveva bocciato — e restava lenta anche
+## dopo che il velo di nebbia aveva rimesso a posto il ritmo, perche' il velo
+## era un'altra cosa e stava altrove.
+##
+## Adesso conta le **prove superate** (dodici), le stesse che accendono i
+## fuochi. Il contratto didattico non cambia: `environmentTransform` dice «quale
+## evento di apprendimento cambia il mondo», e una prova superata e' un evento
+## di apprendimento — piu' di quanto lo sia la chiusura amministrativa di un
+## incontro. Cambia solo che il mondo risponde cinque volte piu' spesso.
+##
+## Il landmark e' l'unico posto in cui l'avanzamento si legge **da lontano**: i
+## fuochi dicono «e' successo qui», la sua targa dice «quanto manca».
 func _sync_profile_environment_transform(animate: bool) -> void:
 	if not is_instance_valid(profile_environment_reaction):
 		return
-	var completed_ids: Array = result.get("completedEncounterIds", [])
 	var completed_count := 0
-	var total_count := 0
-	for event_data in mission_events:
-		var event: Dictionary = event_data
-		if not bool(event.get("countsForGate", false)):
-			continue
-		total_count += 1
-		if completed_ids.has(str(event.get("id", ""))):
-			completed_count += 1
+	if is_instance_valid(game_save):
+		completed_count = WorldLight.prove_nel_mondo(game_save, _world_id_scena())
+	var total_count := WorldLight.PROVE_PER_MONDO
 	profile_environment_reaction.set_progress(completed_count, total_count, animate)
 	var ratio := clampf(float(completed_count) / maxf(float(total_count), 1.0), 0.0, 1.0)
 	if not is_instance_valid(profile_hero_landmark):
 		return
 	var purpose := profile_hero_landmark.get_node_or_null("LandmarkPurpose") as Label
 	if purpose != null:
-		purpose.text = "%s\nPROGRESSO %d/%d" % [
+		purpose.text = "%s\nRISVEGLIO %d/%d" % [
 			str(world_profile.get("heroLandmarks", ["PUNTO CHIAVE"])[0]).replace("-", " ").to_upper(),
-			completed_count,
+			mini(completed_count, total_count),
 			total_count,
 		]
 	var art := profile_hero_landmark.find_child("Landmark*Art", true, false) as CanvasItem
@@ -5131,20 +5205,23 @@ func _publish_web_accessibility_state() -> void:
 		"nearestMission": nearest_mission,
 	}))
 
-## **La nebbia che si dirada.** (7 agosto 2026)
+## **Il velo non misura piu' il lavoro fatto.** (20 agosto 2026)
 ##
-## Il mondo comincia coperto e ogni prova superata ne scopre un pezzo. E' la
-## ricompensa immediata che il collaudo ha trovato mancante: prima l'unico
-## momento in cui il gioco cambiava era l'esame, a mezz'ora di distanza.
+## Dal 7 agosto il mondo nasceva coperto e ogni prova ne scopriva un pezzo: e'
+## stata la risposta giusta al difetto che il collaudo aveva misurato — l'unico
+## momento in cui il gioco cambiava era l'esame, a mezz'ora di distanza — ma
+## teneva occupata la **luminosita' della scena**, che e' il posto dove sta
+## scritto che ora e'. Finche' la teneva occupata, il tempo non poteva tornare a
+## passare.
 ##
-## **Segno positivo, e conta.** L'alternativa era un fronte di Silenzio che
-## avanza; il committente l'ha invertita, e aveva ragione: in un gioco che si
-## studia la nebbia che si dirada premia, il fronte che avanza rimprovera.
+## L'avanzamento adesso accende fuochi, uno per prova ([[WorldAwakening]]): sono
+## oggetti in punti precisi, non un livello di luce. Il velo resta, ma solo come
+## strumento di REGIA — il momento del buio e quello della marea lo alzano e lo
+## riabbassano per pochi secondi — e all'ingresso di un mondo e' sempre a zero.
 ##
-## Non nasconde mai del tutto — resta un velo, non un muro nero: un bambino deve
-## vedere dove sta andando, e una mappa illeggibile e' un ostacolo, non un
-## mistero. E non torna mai indietro: un mondo scoperto resta scoperto anche se
-## la prova dopo va male.
+## `NEBBIA_MASSIMA` non e' piu' la nebbia di un mondo appena aperto: e' il tetto
+## che un momento d'autore non puo' superare. Sopra i due terzi la mappa diventa
+## illeggibile, e un mondo illeggibile e' un ostacolo travestito da atmosfera.
 const NEBBIA_MASSIMA := 0.66
 
 var velo_nebbia: ColorRect
@@ -5161,10 +5238,152 @@ func _crea_velo_di_nebbia() -> void:
 	velo_nebbia.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	velo_nebbia.color = Color(0.05, 0.07, 0.11, 0.0)
 	atmosphere_layer.add_child(velo_nebbia)
-	_aggiorna_nebbia(WorldLight.luce(game_save, _world_id_scena()), false)
+	_aggiorna_nebbia(1.0, false)
 
 func _world_id_scena() -> String:
 	return str(world_level)
+
+# --- I fuochi del risveglio ---------------------------------------------------
+#
+## **Una prova, un fuoco.** (20 agosto 2026, [[WorldAwakening]])
+##
+## Il posto dove si vede che il lavoro fatto ha cambiato qualcosa. Dodici fuochi
+## per mondo, quante sono le prove che lo risvegliano, ognuno appoggiato a
+## qualcosa che nel mondo c'e' gia': una casa, un punto d'interesse, il landmark.
+## Non sono arredamento sparso — un fuoco in mezzo al nulla direbbe soltanto «qui
+## c'e' un fuoco», mentre uno accanto alla casa di qualcuno dice che quella casa
+## si e' svegliata.
+##
+## Perche' il PIU' VICINO a Eli e non il prossimo di una lista: il velo cambiava
+## dappertutto, e quindi in nessun posto in particolare. Chi esce da un pannello
+## di esercizi deve poter riportare lo sguardo nel mondo e trovare la cosa nuova
+## senza cercarla.
+var _fuochi: Array[Node2D] = []
+
+func _crea_i_fuochi_del_risveglio() -> void:
+	if not is_instance_valid(game_save):
+		return
+	# Il fuoco prende il colore della materia del mondo, schiarito: deve leggersi
+	# come fiamma anche su un accento freddo come quello di coding o inglese.
+	var accento := OutdoorVisualFactory.hex_color(_profile_accent_rgb()).lerp(Color("ffd79a"), 0.45)
+	var ancore := _ancore_del_risveglio()
+	for indice in range(WorldAwakening.FUOCHI):
+		var fuoco := WorldAwakeningFire.new()
+		fuoco.configure(accento, reduced_motion)
+		fuoco.position = ancore[indice]
+		fuoco.add_to_group("fuoco_del_risveglio")
+		world_layer.add_child(fuoco)
+		_fuochi.append(fuoco)
+	# I fuochi gia' guadagnati sono accesi dal primo fotogramma, e senza
+	# animazione: una parata di dodici accensioni all'ingresso celebrerebbe un
+	# lavoro che nessuno ha appena fatto.
+	var gia_accesi := WorldAwakening.allinea(
+		game_save, _world_id_scena(), WorldLight.prove_nel_mondo(game_save, _world_id_scena()))
+	for indice in gia_accesi:
+		var i := int(indice)
+		if i >= 0 and i < _fuochi.size():
+			(_fuochi[i] as WorldAwakeningFire).accendi(false)
+
+## Dodici punti, presi da cio' che il mondo ha gia' costruito e **il piu'
+## lontani possibile fra loro**.
+##
+## La prima versione prendeva le ancore a passo regolare da un elenco ordinato:
+## sembrava ragionevole e ha prodotto due fuochi a ottantacinque unita' l'uno
+## dall'altro — meno di mezzo secondo di cammino, cioe' un fuoco solo con una
+## fiamma in piu'. `world_awakening_audit` l'ha misurato prima che lo vedesse un
+## bambino.
+##
+## Adesso i posti si scelgono uno per volta prendendo ogni volta quello **piu'
+## lontano da tutti i gia' scelti**. E' il modo piu' semplice di dire «sparsi» a
+## una macchina, ed e' deterministico: due ingressi nello stesso mondo danno gli
+## stessi dodici posti, o i fuochi guadagnati si sposterebbero da una sessione
+## all'altra.
+func _ancore_del_risveglio() -> Array[Vector2]:
+	var candidate: Array[Vector2] = []
+	for building in world_buildings:
+		if is_instance_valid(building):
+			candidate.append(_posto_del_fuoco(building.position))
+	for nodo in get_tree().get_nodes_in_group("world_interactable"):
+		var area := nodo as Node2D
+		if is_instance_valid(area):
+			candidate.append(_posto_del_fuoco(area.position))
+	if is_instance_valid(profile_hero_landmark):
+		candidate.append(_posto_del_fuoco(profile_hero_landmark.position))
+
+	# Se il mondo avesse meno ancore dei fuochi — non succede con diciotto punti
+	# d'interesse, ma un mondo futuro potrebbe essere piu' spoglio — si completa
+	# con un anello attorno allo spawn, largo abbastanza da non ammucchiarsi.
+	var base: Vector2 = world_profile.get("spawn", PORTAL_POSITION)
+	var riempimento := 0
+	while candidate.size() < WorldAwakening.FUOCHI:
+		var angolo := float(riempimento) * 2.39996323
+		candidate.append(chunks.clamp_to_world(base + Vector2.RIGHT.rotated(angolo) * (420.0 + 130.0 * float(riempimento % 3))))
+		riempimento += 1
+
+	candidate.sort_custom(func(a: Vector2, b: Vector2) -> bool:
+		return a.y < b.y if not is_equal_approx(a.y, b.y) else a.x < b.x)
+
+	var out: Array[Vector2] = []
+	# Si parte dal piu' lontano dallo spawn: il primo fuoco della partita non
+	# deve cadere addosso al portale da cui si e' appena entrati.
+	var primo := 0
+	var piu_lontano := -1.0
+	for indice in range(candidate.size()):
+		var quanto := base.distance_squared_to(candidate[indice])
+		if quanto > piu_lontano:
+			piu_lontano = quanto
+			primo = indice
+	out.append(candidate[primo])
+	var presi: Dictionary = {primo: true}
+	while out.size() < WorldAwakening.FUOCHI:
+		var migliore := -1
+		var migliore_distanza := -1.0
+		for indice in range(candidate.size()):
+			if presi.has(indice):
+				continue
+			var minima := INF
+			for scelto in out:
+				minima = minf(minima, candidate[indice].distance_squared_to(scelto))
+			if minima > migliore_distanza:
+				migliore_distanza = minima
+				migliore = indice
+		if migliore < 0:
+			break
+		presi[migliore] = true
+		out.append(candidate[migliore])
+	return out
+
+## Il fuoco sta ACCANTO alla cosa a cui appartiene, non sopra. La direzione la
+## decide la posizione dell'ancora: cosi' resta la stessa a ogni ingresso senza
+## bisogno di ricordarsela, e due ancore vicine non scelgono lo stesso lato.
+func _posto_del_fuoco(ancora: Vector2) -> Vector2:
+	var angolo := fposmod(ancora.x * 0.0131 + ancora.y * 0.0197, TAU)
+	return chunks.clamp_to_world(ancora + Vector2.RIGHT.rotated(angolo) * 86.0)
+
+## Una prova superata: si accende il fuoco spento piu' vicino a Eli.
+##
+## Ritorna l'indice acceso, oppure -1 se erano gia' tutti accesi — succede
+## quando si continua a giocare in un mondo gia' risvegliato, e non e' un errore:
+## il mondo ha finito di cambiare molto prima dell'esame, apposta.
+func _risveglia_il_fuoco_piu_vicino() -> int:
+	if not is_instance_valid(player) or _fuochi.is_empty():
+		return -1
+	var migliore := -1
+	var distanza := INF
+	for indice in range(_fuochi.size()):
+		var fuoco := _fuochi[indice] as WorldAwakeningFire
+		if not is_instance_valid(fuoco) or fuoco.acceso:
+			continue
+		var quanto := player.global_position.distance_squared_to(fuoco.global_position)
+		if quanto < distanza:
+			distanza = quanto
+			migliore = indice
+	if migliore < 0:
+		return -1
+	if not WorldAwakening.accendi(game_save, _world_id_scena(), migliore):
+		return -1
+	(_fuochi[migliore] as WorldAwakeningFire).accendi(true)
+	return migliore
 
 func _aggiorna_nebbia(luce: float, animata: bool) -> void:
 	if not is_instance_valid(velo_nebbia):
@@ -5229,7 +5448,11 @@ func _chiudi_il_momento(momento: Dictionary) -> void:
 				if is_instance_valid(enemy):
 					enemy.set("caccia", false)
 		WorldSetPiece.BUIO, WorldSetPiece.MAREA:
-			_aggiorna_nebbia(_luce_corrente, true)
+			# Torna PULITO. Fino al 20 agosto qui si tornava al livello delle
+			# prove, perche' il velo misurava quelle: adesso il velo e' solo
+			# regia, e restituirgli il numero dell'avanzamento lascerebbe addosso
+			# al mondo una nebbia che nessuno ha piu' motivo di vedere.
+			_aggiorna_nebbia(1.0, true)
 		WorldSetPiece.CONVERGENZA:
 			_momento_convergenza_attiva = false
 	var chiusura := str(momento.get("chiusura", "")).strip_edges()
@@ -5328,7 +5551,7 @@ func _momento_marea() -> void:
 			return
 		_aggiorna_nebbia(0.18, true)
 		await get_tree().create_timer(4.0).timeout
-		_aggiorna_nebbia(_luce_corrente, true)
+		_aggiorna_nebbia(1.0, true)
 		await get_tree().create_timer(4.0).timeout
 
 ## **La convergenza.** Gli abitanti smettono di lavorare e si radunano. È lo
@@ -5341,9 +5564,12 @@ func _momento_convergenza() -> void:
 
 func _on_world_light_changed(luce: float, grado: int, salito: bool) -> void:
 	_luce_corrente = luce
-	# La nebbia prima del momento: buio e marea la sovrascrivono, e invertire
-	# l'ordine vorrebbe dire cancellarli nello stesso fotogramma in cui partono.
-	_aggiorna_nebbia(luce, true)
+	# **Il fuoco, non la nebbia.** (20 agosto 2026) Qui si alzava il velo di un
+	# dodicesimo. Adesso si accende un oggetto: la ricompensa e' rimasta
+	# immediata e ha smesso di occupare la luminosita' della scena, che da oggi
+	# dice soltanto che ora e' ([[WorldSky]]).
+	_risveglia_il_fuoco_piu_vicino()
+	_sync_profile_environment_transform(true)
 	_prova_il_momento(luce)
 	_reveal_pending_minimissions()
 	_aggiorna_barra_potenza()
@@ -5354,7 +5580,11 @@ func _on_world_light_changed(luce: float, grado: int, salito: bool) -> void:
 		_set_feedback("Sei salita a %s. La luce che porti adesso arriva piu' lontano." % str(scheda.get("nome", "")))
 		_spawn_gain_popup(str(scheda.get("nome", "")).to_upper(), Color(str(scheda.get("colore", "8ff6d2"))))
 	elif luce < 1.0:
-		_spawn_gain_popup("+luce", Color("8ff6d2"))
+		# «+luce» era il nome giusto finche' la ricompensa era il velo che si
+		# alzava. Adesso quello che succede e' che un fuoco si accende, e la
+		# scritta deve dire quella cosa li' — e' l'unica riga che il bambino
+		# legge nel momento esatto in cui il mondo cambia.
+		_spawn_gain_popup("+fuoco", Color("ffd79a"))
 
 func _reveal_pending_minimissions() -> void:
 	for node in get_tree().get_nodes_in_group("pending_minimission_reveal"):
@@ -7245,7 +7475,8 @@ func _leave_world() -> void:
 	_restore_deep_smemora(false)
 	if is_instance_valid(gameplay):
 		if is_instance_valid(player):
-			gameplay.game_save.set_world_resume(str(world_level), player.global_position, day_clock)
+			gameplay.game_save.set_world_resume(
+				str(world_level), player.global_position, day_clock / WorldSky.DURATA)
 		gameplay.game_save.save()
 	var audio := get_node_or_null("/root/NativeAudio")
 	if audio != null:

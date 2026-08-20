@@ -10,9 +10,17 @@ func _init() -> void:
 		"la comparsa non distingue un mondo appena iniziato da uno già giocato")
 	assert("func _reveal_pending_minimissions" in source,
 		"manca la regia di comparsa mentre si gioca")
+	# **«Dentro la stessa funzione», non «entro quattrocento caratteri».**
+	# (20 agosto 2026) La misura vecchia era una distanza in caratteri, e si e'
+	# rotta il giorno in cui l'aggancio ha guadagnato un commento: il codice
+	# faceva esattamente la cosa giusta e l'audit diceva di no. Il confine vero e'
+	# la funzione successiva.
 	var light_hook := source.find("func _on_world_light_changed")
+	var prossima_funzione := source.find("\nfunc ", light_hook + 1)
+	if prossima_funzione < 0:
+		prossima_funzione = source.length()
 	var reveal_call := source.find("_reveal_pending_minimissions()", light_hook)
-	assert(light_hook >= 0 and reveal_call > light_hook and reveal_call - light_hook < 400,
+	assert(light_hook >= 0 and reveal_call > light_hook and reveal_call < prossima_funzione,
 		"la prima prova riuscita non accende la minimissione")
 	assert("TRANS_BACK" in source.substr(reveal_call, 1600),
 		"la comparsa non ha una transizione visuale percepibile")

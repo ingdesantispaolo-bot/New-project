@@ -33,7 +33,7 @@ func _run() -> void:
 		actor.global_position = Dictionary(anchors[npc_id])["ritrovo"]
 	var player := world.get("player") as OutdoorPlayerController
 	player.global_position = world.call("ritrovo_position") + Vector2(190, 175)
-	world.set("day_clock", 27.6) # fascia alba/tramonto: il Ritrovo si popola
+	world.set("day_clock", WorldSky.DURATA * 0.23) # fascia alba: il Ritrovo si popola
 	world.get("chunks").update_stream(player.global_position)
 	var camera := world.get("camera") as Camera2D
 	camera.reset_smoothing()

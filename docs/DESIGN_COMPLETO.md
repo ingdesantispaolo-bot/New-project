@@ -519,7 +519,7 @@ Adesso un mondo ha un inizio, un mezzo e una fine.
 
 **Il mezzo — il momento d'autore** (`world_set_piece.gd`). Sei in tutta la
 campagna, agganciati ai mondi dei colpi di scena (5, 8, 12, 16, 19, 23), che
-scattano quando il mondo è scoperto a metà — a lavoro cominciato, quando il posto
+scattano quando il mondo è risvegliato a metà — a lavoro cominciato, quando il posto
 è già familiare. Uno per forma, mai la stessa due volte:
 
 | mondo | forma | cosa succede |
@@ -538,9 +538,9 @@ e lasciato aperti: il Tredicesimo che entra prima (a), una sorella che ha un
 volto (c), il Custode che conta in una scena (f).
 
 **La fine — il richiamo.** Quando l'apparato diventa riparabile il mondo cambia
-stato, una volta sola, e non torna indietro finché Eli non se ne va: la luce sale
-al massimo, la gente smette di lavorare e si raduna, le sacche si allungano
-dietro a Eli, la rotta verso la nave si accende. Non è contenuto nuovo — è regia
+stato, una volta sola, e non torna indietro finché Eli non se ne va: i fuochi
+accesi divampano tutti insieme, la gente smette di lavorare e si raduna, le
+sacche si allungano dietro a Eli, la rotta verso la nave si accende. Non è contenuto nuovo — è regia
 su sistemi che c'erano già e non parlavano fra loro.
 
 **Le regole, per tutti e sette.** Nessuno toglie niente: né energia, né
@@ -549,6 +549,72 @@ le sacche del richiamo non fermano nulla. E niente si ripete: un momento visto �
 visto. Tenuto da `ritmo_del_mondo_audit.gd`.
 
 ---
+
+### 10.2 Il tempo e il risveglio (20 agosto 2026)
+
+Due sistemi che per due settimane sono stati **uno solo**, con danno per
+entrambi. La regola che adesso li separa, e che vale la pena tenere a mente prima
+di toccare qualsiasi cosa qui dentro:
+
+> **La luce della scena dice soltanto che ora è. Gli oggetti che si accendono
+> dicono quanto hai lavorato.**
+
+**Perché erano uno solo.** Il 7 agosto un collaudo aveva misurato che il ciclo di
+ricompensa durava **dai 27 ai 72 minuti**: l'esame era l'unico momento in cui il
+gioco cambiava. La risposta fu un velo di nebbia che si alzava di un dodicesimo a
+ogni prova superata — ricompensa immediata, segno positivo, mai un passo
+indietro. Funzionò. Il prezzo, pagato in silenzio: l'avanzamento occupava la
+**luminosità della scena**, quindi il ciclo giorno/notte andava congelato, o due
+sorgenti di buio si sarebbero contraddette. Con l'orologio fermo, le ventiquattro
+ore d'autore dei profili sono diventate quattro, e **diciotto mondi su
+ventiquattro rendevano a mezzogiorno identico** — compresi quelli il cui nome
+prometteva il buio.
+
+**Il tempo** (`world_sky.gd`). Un giro dura dodici minuti: una sessione ne vede
+due o tre, quindi il tempo si vede passare senza che il cielo lampeggi. Ogni
+mondo ha un'ora di partenza e una **banda** entro cui vive:
+
+| | |
+|---|---|
+| diciassette mondi | banda piena: l'ora d'autore, e da lì il tempo cammina |
+| i tre notturni | l'orologio gira, la luna sale, l'alba non arriva mai |
+| la Tempesta | il tempo passa, ma il sole non arriva mai a picco |
+| sette interni e abissi | banda larga zero: qui un cielo non c'è, e l'orologio non tocca niente |
+
+Un mondo a ora fissa non è un caso speciale nel codice: è un mondo con la banda
+larga zero. La notte è più corta e meno profonda del giorno — non è realismo, è
+che questo è un gioco che si studia — e sotto una **luminanza di 0.20** il mondo
+non scende mai, torcia o non torcia. Quel numero ha una forbice difesa da un
+audit: sopra 0.28 la notte smette di essere notte, sotto 0.12 su un pannello
+scolastico non si gioca più.
+
+**Il risveglio** (`world_awakening.gd`). Una prova superata accende **un fuoco**:
+il più vicino a Eli fra i dodici del mondo, ognuno appoggiato a qualcosa che nel
+mondo c'è già — una casa, un punto d'interesse, il landmark. Dodici come le prove
+che risvegliano un mondo, e i due numeri sono tenuti uguali da un audit.
+
+Perché il *più vicino* e non il prossimo di una lista: il velo cambiava
+dappertutto, e quindi in nessun posto in particolare. Chi esce da un pannello di
+esercizi deve poter riportare lo sguardo nel mondo e trovare la cosa nuova senza
+cercarla. E perché un fuoco e non un colore: deve leggersi a ogni ora, adesso che
+le ore esistono di nuovo.
+
+Il **landmark** del mondo si muove sullo stesso contatore e porta la targa
+`RISVEGLIO n/12`: i fuochi dicono «è successo qui», il landmark dice «quanto
+manca», ed è l'unico dei due che si legge da lontano. Prima contava gli eventi
+del gate — sette passi, uno ogni venti o trenta minuti: la stessa grana lenta che
+il collaudo aveva bocciato.
+
+**Cosa è rimasto del velo.** Esiste ancora, ma solo come strumento di regia: il
+momento del **buio** (mondo 8) e quello della **marea** (mondo 19) lo alzano e lo
+riabbassano per pochi secondi. All'ingresso di un mondo è sempre pulito.
+
+**I salvataggi non migrano.** Il contatore è lo stesso di prima (`worldLight`);
+la chiave nuova tiene soltanto *quali* fuochi sono accesi, e un salvataggio nato
+prima di oggi viene pareggiato al primo ingresso — sette prove, sette fuochi
+accesi — perché la ricompensa non deve mai sembrare tornata indietro.
+
+Tenuto da `world_sky_audit.gd` e `world_light_audit.gd`.
 
 ## 11. UX, HUD, onboarding
 

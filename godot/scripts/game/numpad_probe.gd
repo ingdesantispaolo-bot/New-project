@@ -25,7 +25,7 @@ func _init() -> void:
 	for child in numpad.get_children():
 		keys.append(str((child as Button).text))
 	print("tasti: %s" % ", ".join(PackedStringArray(keys)))
-	for atteso in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "−", ",", "←", "C", "OK"]:
+	for atteso in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "−", ",", "«", "C", "OK"]:
 		if not keys.has(atteso):
 			failures.append("manca il tasto «%s»" % atteso)
 
@@ -40,7 +40,7 @@ func _init() -> void:
 		failures.append("comporre 4 e 2 ha dato «%s» invece di «42»" % player._input.text)
 
 	# 2 · cancellare una cifra, poi tutto.
-	player._numpad_press("←")
+	player._numpad_press("«")
 	if player._input.text != "4":
 		failures.append("la cancellazione ha lasciato «%s» invece di «4»" % player._input.text)
 	player._numpad_press("C")

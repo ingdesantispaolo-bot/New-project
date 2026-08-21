@@ -13,16 +13,12 @@ extends SceneTree
 
 const PRESENTATION := preload("res://scripts/visual/expedition_module_presentation.gd")
 const SHOP := preload("res://scripts/ui/outdoor_shop_panel.gd")
-## Le illustrazioni riservate a C-G4: esistono nel foglio premi ma i due moduli
-## non sono ancora in vendita. Restano qui finche' non entrano nel catalogo.
-const MODULE_ART_RISERVATE := ["module-radar", "module-torch"]
-
+## **Niente piu' illustrazioni riservate.** (21 agosto 2026) Radar e torcia
+## sono stati ritirati con G-4: la lista e' quella dei moduli che si vendono,
+## e basta. Un'illustrazione tenuta in caldo per un modulo che non esiste e'
+## un pezzo di foglio premi che nessuno vedra' mai.
 static func _module_art_ids() -> Array:
-	var fuori: Array = ExpeditionModules.ids().duplicate()
-	for id in MODULE_ART_RISERVATE:
-		if not fuori.has(id):
-			fuori.append(id)
-	return fuori
+	return ExpeditionModules.ids()
 
 
 func _treasure(host: Node2D, id: String, position: Vector2) -> Area2D:

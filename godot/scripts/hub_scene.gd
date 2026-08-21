@@ -546,11 +546,11 @@ func _world_map_status(level: int, frontier: int, selected: int, unlocked: bool)
 	var bucket: Dictionary = save.data.get("worldProgress", {}).get(str(level), {})
 	var has_activity := not Array(bucket.get("completedEncounterIds", [])).is_empty() or not Array(bucket.get("collectedTreasureIds", [])).is_empty()
 	if level == selected and level == frontier:
-		return "◎ CORRENTE" if has_activity else "◎ CORRENTE · NUOVO"
+		return "o CORRENTE" if has_activity else "o CORRENTE · NUOVO"
 	if level == selected:
-		return "◎ IN VISITA"
+		return "o IN VISITA"
 	if level < frontier:
-		return "✓ COMPLETATO · RIVISITABILE"
+		return "√ COMPLETATO · RIVISITABILE"
 	if level == frontier:
 		return "NUOVO"
 	return "SBLOCCATO"
@@ -729,7 +729,7 @@ func _build_activation_celebration() -> void:
 	copy.add_theme_constant_override("separation", 8)
 	margin.add_child(copy)
 	celebration_eyebrow = Label.new()
-	celebration_eyebrow.text = "✦  PROTOCOLLO DI RIATTIVAZIONE  ✦"
+	celebration_eyebrow.text = "*  PROTOCOLLO DI RIATTIVAZIONE  *"
 	celebration_eyebrow.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	celebration_eyebrow.add_theme_font_size_override("font_size", 12)
 	copy.add_child(celebration_eyebrow)
@@ -789,7 +789,7 @@ func _apply_state(state: Dictionary) -> void:
 		var button: Button = room_buttons[id]
 		var room_activation: Dictionary = runtime_rooms.get(str(id), {})
 		var spec := ShipRoomCatalog.room(str(id))
-		button.text = "%s  %s · %d%%" % [str(room_activation.get("short", "○")), str(spec.get("short", id)), int(room_activation.get("percent", 0))]
+		button.text = "%s  %s · %d%%" % [str(room_activation.get("short", "o")), str(spec.get("short", id)), int(room_activation.get("percent", 0))]
 		button.tooltip_text = "%s — %s" % [str(spec.get("label", id)), str(room_activation.get("title", "SISTEMA INERTE"))]
 		button.button_pressed = str(id) == current_room_id
 	if is_instance_valid(bridge_walkway):
@@ -818,7 +818,7 @@ func _apply_state(state: Dictionary) -> void:
 	# scheda dice quanto costa invece di dire soltanto dove si compra. Un prezzo
 	# è un obiettivo; «disponibile in bottega» era un'insegna.
 	var restoration_item := RewardCatalog.find(restoration_id)
-	restoration_label.text = "✦ RESTAURO ATTIVO" if restored 		else "RESTAURO · ◈ %d IN BOTTEGA" % int(restoration_item.get("cost", 0))
+	restoration_label.text = "* RESTAURO ATTIVO" if restored 		else "RESTAURO · ◊ %d IN BOTTEGA" % int(restoration_item.get("cost", 0))
 	restoration_label.add_theme_color_override("font_color", Color("f7d37a") if restored else Color("809da2"))
 	_refresh_restoration_lights(restored, accent)
 	_refresh_prismatic_portrait()
@@ -1167,7 +1167,7 @@ func _play_reactivation_sequence(room_id: String, before: Dictionary, after: Dic
 		cue_log.append("finale")
 	set_meta("last_milestone_kind", "finale" if final_activation else "ship_reactivation")
 	set_meta("last_milestone_cues", cue_log)
-	celebration_eyebrow.text = "✦  CONVERGENZA DEI DODICI SISTEMI  ✦" if final_activation else "✦  PROTOCOLLO DI RIATTIVAZIONE  ✦"
+	celebration_eyebrow.text = "*  CONVERGENZA DEI DODICI SISTEMI  *" if final_activation else "*  PROTOCOLLO DI RIATTIVAZIONE  *"
 	celebration_title.text = "TUTTI I SISTEMI CONVERGONO" if final_activation else str(after.get("title", "SISTEMA RIATTIVATO"))
 	celebration_title.add_theme_color_override("font_color", accent.lightened(0.20))
 	celebration_detail.text = (

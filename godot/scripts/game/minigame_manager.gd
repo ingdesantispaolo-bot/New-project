@@ -167,7 +167,7 @@ const MATCHING := {
 		{"explanation": "La classe si riconosce da pelle, respirazione e riproduzione, non dall'aspetto: la balena vive in acqua ma non è un pesce.", "topic": "classi", "minLevel": 5, "pairs": [["Rana", "Anfibio"], ["Serpente", "Rettile"], ["Aquila", "Uccello"], ["Balena", "Mammifero"], ["Trota", "Pesce"]]},
 		# Scuola media — sistemi del corpo e passaggi di stato.
 		{"explanation": "Ogni organo lavora dentro un sistema, e il sistema prende il nome dal lavoro che fa, non dall'organo più grande.", "topic": "sistemi", "minLevel": 6, "pairs": [["Cuore", "Sistema circolatorio"], ["Polmoni", "Sistema respiratorio"], ["Stomaco", "Sistema digerente"], ["Cervello", "Sistema nervoso"]]},
-		{"explanation": "Ogni passaggio di stato ha un nome proprio e un verso preciso: fusione e solidificazione sono lo stesso confine percorso nei due sensi.", "topic": "passaggi-stato", "minLevel": 5, "pairs": [["Fusione", "solido → liquido"], ["Evaporazione", "liquido → gas"], ["Solidificazione", "liquido → solido"], ["Condensazione", "gas → liquido"]]},
+		{"explanation": "Ogni passaggio di stato ha un nome proprio e un verso preciso: fusione e solidificazione sono lo stesso confine percorso nei due sensi.", "topic": "passaggi-stato", "minLevel": 5, "pairs": [["Fusione", "solido » liquido"], ["Evaporazione", "liquido » gas"], ["Solidificazione", "liquido » solido"], ["Condensazione", "gas » liquido"]]},
 		# --- Mondo 1: ricette in più (tappa 3, 6 agosto 2026) -----------------
 		{"explanation": "Gli organi non lavorano da soli: stanno in squadre che si chiamano apparati, e ogni squadra ha un compito solo per tutto il corpo.", "topic": "corpo", "pairs": [
 			["cuore", "apparato circolatorio"], ["polmoni", "apparato respiratorio"],
@@ -2834,7 +2834,7 @@ const CIRCUIT := {
 			],
 			"components": [{"id": "ali", "x": 0.50, "y": 0.12, "label": "Ha le ali?"}, {"id": "uccello", "x": 0.22, "y": 0.52, "label": "Uccello"}, {"id": "pinne", "x": 0.72, "y": 0.44, "label": "Ha le pinne?"}, {"id": "pesce", "x": 0.55, "y": 0.86, "label": "Pesce"}, {"id": "mammifero", "x": 0.90, "y": 0.86, "label": "Mammifero"}],
 			"connections": [["ali", "uccello"], ["ali", "pinne"], ["pinne", "pesce"], ["pinne", "mammifero"]],
-			"explanation": "Ha le ali → sì → il ramo porta a 'Uccello'."},
+			"explanation": "Ha le ali » sì » il ramo porta a 'Uccello'."},
 		{"topic": "albero-decisioni", "minLevel": 6, "answer": "quadrato",
 			"prompt": "Segui l'albero: una figura ha 4 lati UGUALI e 4 angoli retti. Dove arrivi?",
 			"domande": [
@@ -2843,7 +2843,7 @@ const CIRCUIT := {
 			],
 			"components": [{"id": "quattro", "x": 0.50, "y": 0.12, "label": "Ha 4 lati?"}, {"id": "triangolo", "x": 0.20, "y": 0.52, "label": "Triangolo"}, {"id": "uguali", "x": 0.70, "y": 0.44, "label": "Lati uguali?"}, {"id": "quadrato", "x": 0.55, "y": 0.86, "label": "Quadrato"}, {"id": "rettangolo", "x": 0.90, "y": 0.86, "label": "Rettangolo"}],
 			"connections": [["quattro", "triangolo"], ["quattro", "uguali"], ["uguali", "quadrato"], ["uguali", "rettangolo"]],
-			"explanation": "4 lati → sì → lati uguali → sì → il ramo porta a 'Quadrato'."},
+			"explanation": "4 lati » sì » lati uguali » sì » il ramo porta a 'Quadrato'."},
 	],
 	# GEOGRAFIA — il renderer nodi+collegamenti diventa il CORSO DI UN FIUME, con un
 	# affluente che confluisce: si legge dove nasce e dove sfocia.
@@ -3777,19 +3777,19 @@ const SWIPE := {
 	"inglese": [
 		{"topic": "irregular-past", "minLevel": 6, "prompt": "Scorri: a destra se il passato è giusto, a sinistra se è sbagliato.", "seconds": 50.0, "minAccuracy": 0.75,
 			"statements": [
-				{"text": "go → went", "correct": true},
-				{"text": "eat → eated", "correct": false},
-				{"text": "see → saw", "correct": true},
-				{"text": "take → took", "correct": true},
-				{"text": "make → maked", "correct": false},
-				{"text": "come → came", "correct": true},
-				{"text": "give → gave", "correct": true},
-				{"text": "run → runned", "correct": false},
-				{"text": "write → wrote", "correct": true},
-				{"text": "buy → buyed", "correct": false},
-				{"text": "find → found", "correct": true},
-				{"text": "know → knew", "correct": true},
-				{"text": "think → thinked", "correct": false}],
+				{"text": "go » went", "correct": true},
+				{"text": "eat » eated", "correct": false},
+				{"text": "see » saw", "correct": true},
+				{"text": "take » took", "correct": true},
+				{"text": "make » maked", "correct": false},
+				{"text": "come » came", "correct": true},
+				{"text": "give » gave", "correct": true},
+				{"text": "run » runned", "correct": false},
+				{"text": "write » wrote", "correct": true},
+				{"text": "buy » buyed", "correct": false},
+				{"text": "find » found", "correct": true},
+				{"text": "know » knew", "correct": true},
+				{"text": "think » thinked", "correct": false}],
 			"explanation": "I verbi irregolari non seguono la regola del -ed, e sono proprio quelli che si usano di più: le lingue non regolarizzano mai ciò che si dice ogni giorno. Le forme false qui sono quelle che un bambino costruirebbe applicando la regola — ed è giusto che sembrino plausibili."},
 	],
 	"latino": [
@@ -3830,20 +3830,20 @@ const SWIPE := {
 	"geografia": [
 		{"topic": "capitali", "minLevel": 4, "prompt": "Scorri: a destra se la capitale è giusta, a sinistra se è sbagliata.", "seconds": 50.0, "minAccuracy": 0.75,
 			"statements": [
-				{"text": "Francia → Parigi", "correct": true},
-				{"text": "Spagna → Barcellona", "correct": false},
-				{"text": "Germania → Berlino", "correct": true},
-				{"text": "Portogallo → Lisbona", "correct": true},
-				{"text": "Svizzera → Zurigo", "correct": false},
-				{"text": "Grecia → Atene", "correct": true},
-				{"text": "Austria → Vienna", "correct": true},
-				{"text": "Turchia → Istanbul", "correct": false},
-				{"text": "Polonia → Varsavia", "correct": true},
-				{"text": "Italia → Roma", "correct": true},
-				{"text": "Regno Unito → Londra", "correct": true},
-				{"text": "Belgio → Bruxelles", "correct": true},
-				{"text": "Paesi Bassi → Rotterdam", "correct": false},
-				{"text": "Stati Uniti → New York", "correct": false}],
+				{"text": "Francia » Parigi", "correct": true},
+				{"text": "Spagna » Barcellona", "correct": false},
+				{"text": "Germania » Berlino", "correct": true},
+				{"text": "Portogallo » Lisbona", "correct": true},
+				{"text": "Svizzera » Zurigo", "correct": false},
+				{"text": "Grecia » Atene", "correct": true},
+				{"text": "Austria » Vienna", "correct": true},
+				{"text": "Turchia » Istanbul", "correct": false},
+				{"text": "Polonia » Varsavia", "correct": true},
+				{"text": "Italia » Roma", "correct": true},
+				{"text": "Regno Unito » Londra", "correct": true},
+				{"text": "Belgio » Bruxelles", "correct": true},
+				{"text": "Paesi Bassi » Rotterdam", "correct": false},
+				{"text": "Stati Uniti » New York", "correct": false}],
 			"explanation": "Gli errori qui non sono a caso: Barcellona, Zurigo e Istanbul sono le città più grandi o più famose dei loro Paesi, ma la capitale è dove sta il governo. È la confusione più comune, e riconoscerla al volo vale più di ripetere l'elenco."},
 	],
 }
@@ -5511,7 +5511,7 @@ func _machine_path_node(subject: String, level: int, step: int, rng: RandomNumbe
 		"slotCount": slot_count,
 		"machines": machines,
 		"solution": solution,
-		"explanation": "Ogni macchina lavora sul risultato della precedente. Un percorso possibile è: %s. La sfera arriva così a %d." % ["  →  ".join(PackedStringArray(labels)), target],
+		"explanation": "Ogni macchina lavora sul risultato della precedente. Un percorso possibile è: %s. La sfera arriva così a %d." % ["  »  ".join(PackedStringArray(labels)), target],
 	}
 
 func _number_machine(id: String, op: String, value: int) -> Dictionary:
@@ -5540,9 +5540,9 @@ func _mystery_sample_node(subject: String, level: int, step: int, rng: RandomNum
 			samples.append((sample as Dictionary).duplicate())
 	_shuffle(samples, rng)
 	var tests: Array = [
-		{"id": "magnet", "label": "Avvicina la calamita", "short": "CALAMITA", "glyph": "⌁"},
-		{"id": "circuit", "label": "Chiudi il circuito", "short": "CIRCUITO", "glyph": "ϟ"},
-		{"id": "light", "label": "Accendi la lampada", "short": "LUCE", "glyph": "✦"},
+		{"id": "magnet", "label": "Avvicina la calamita", "short": "CALAMITA", "glyph": "~"},
+		{"id": "circuit", "label": "Chiudi il circuito", "short": "CIRCUITO", "glyph": "*"},
+		{"id": "light", "label": "Accendi la lampada", "short": "LUCE", "glyph": "*"},
 		{"id": "water", "label": "Posa sull'acqua", "short": "ACQUA", "glyph": "≈"},
 	]
 	if difficulty <= 1:

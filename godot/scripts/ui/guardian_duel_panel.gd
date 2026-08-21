@@ -144,7 +144,7 @@ func _riga_catena() -> String:
 	var pezzi: Array = _catena.duplicate()
 	while pezzi.size() > 9:
 		pezzi.remove_at(0)
-	return " → ".join(PackedStringArray(pezzi))
+	return " » ".join(PackedStringArray(pezzi))
 
 func _posiziona_campo() -> void:
 	# L'ago porta con sé il proprio numero: il valore dell'impulso sta sopra il

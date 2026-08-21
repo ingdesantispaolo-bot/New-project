@@ -274,20 +274,20 @@ func _aggiorna(messaggio: String = "") -> void:
 			var lettura: Array[String] = []
 			for segnale in _percorso:
 				lettura.append(str(_vocabolario[segnale]))
-			_stanza.text = "STANZA:   " + "   →   ".join(lettura)
+			_stanza.text = "STANZA:   " + "   »   ".join(lettura)
 	if is_instance_valid(_striscia_label):
 		var segni: Array[String] = []
 		for segnale in _striscia:
 			segni.append(str(_vocabolario[segnale]))
 		while segni.size() < _percorso.size():
-			segni.append("▢")
+			segni.append("◊")
 		_striscia_label.text = "STRISCIA:   " + "   ".join(segni)
 	if is_instance_valid(_tentativo_label):
 		var passi: Array[String] = []
 		for segnale in _tentativo:
 			passi.append(str(_vocabolario[segnale]))
 		while passi.size() < _percorso.size():
-			passi.append("▢")
+			passi.append("◊")
 		_tentativo_label.text = "PERCORSO:   " + "   ".join(passi)
 	if is_instance_valid(_stato):
 		_stato.text = "%s   ·   errori %d/%d" % [_messaggio, _errori, _errori_max]

@@ -104,20 +104,20 @@ func _disegna_elenco() -> void:
 		# casella anche se il fratello gli ha messo un nome simile.
 		scelta.text = "%s   ·   livello %d" % [str(profilo.get("name", "")), _livello_di(id)]
 		if id == attivo:
-			scelta.text = "▸ " + scelta.text
+			scelta.text = "› " + scelta.text
 		scelta.add_theme_font_size_override("font_size", 17)
 		scelta.pressed.connect(_scegli.bind(id))
 		riga.add_child(scelta)
 
 		var rinomina := Button.new()
-		rinomina.text = "✎"
+		rinomina.text = "Aa"
 		rinomina.tooltip_text = "Cambia nome"
 		rinomina.custom_minimum_size = Vector2(ALTEZZA_TOCCO, ALTEZZA_TOCCO)
 		rinomina.pressed.connect(_apri_nome.bind(id, false))
 		riga.add_child(rinomina)
 
 		var codice := Button.new()
-		codice.text = "☁"
+		codice.text = "COD"
 		codice.tooltip_text = "Codice di ripristino"
 		codice.custom_minimum_size = Vector2(ALTEZZA_TOCCO, ALTEZZA_TOCCO)
 		codice.pressed.connect(_apri_codice.bind(id))
@@ -134,7 +134,7 @@ func _disegna_elenco() -> void:
 	else:
 		# Onesto sul perché non si può aggiungere, invece di un pulsante spento.
 		_colonna.add_child(_nota(
-			"Le caselle sono %d, tutte piene. Per riusarne una, cambiale nome con ✎: la partita che c'è dentro resta." % PlayerProfiles.MAX_PROFILES))
+			"Le caselle sono %d, tutte piene. Per riusarne una, cambiale nome con Aa: la partita che c'è dentro resta." % PlayerProfiles.MAX_PROFILES))
 
 	_colonna.add_child(_chiudi("GIOCA"))
 

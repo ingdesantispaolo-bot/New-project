@@ -102,7 +102,7 @@ func _disegna() -> void:
 		_colonna.add_child(_paragrafo(briefing, Color("e7f2f0"), 15))
 
 	for obiettivo in Array(lezione.get("objectives", [])).slice(0, 3):
-		_colonna.add_child(_voce("→  %s" % str(obiettivo)))
+		_colonna.add_child(_voce("»  %s" % str(obiettivo)))
 
 	var prerequisiti: Array = Array(lezione.get("prerequisites", []))
 	if not prerequisiti.is_empty():

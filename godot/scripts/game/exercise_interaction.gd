@@ -751,7 +751,7 @@ static func _validate_number_line(node: Dictionary, errors: Array) -> void:
 	var minimo := float(node.get("min", 0.0))
 	var massimo := float(node.get("max", 0.0))
 	if massimo <= minimo:
-		errors.append("retta numerica con scala vuota o rovesciata (%s → %s)" % [minimo, massimo])
+		errors.append("retta numerica con scala vuota o rovesciata (%s » %s)" % [minimo, massimo])
 	if float(node.get("tick", 0.0)) <= 0.0:
 		errors.append("retta numerica senza passo delle tacche")
 	var targets: Array = node.get("targets", [])

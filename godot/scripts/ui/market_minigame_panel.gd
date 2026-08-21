@@ -160,7 +160,7 @@ func _mostra() -> void:
 	_richiesta.text = "“%s”" % str(turno["richiesta"])
 	_categoria.text = "%s · %s" % [str(_scheda.get("indizio", "UNA PAROLA DECISIVA")), str(turno["tipo"])]
 	for i in _cassette.size():
-		var simbolo := str(_scheda.get("simboloScelta", "▰"))
+		var simbolo := str(_scheda.get("simboloScelta", "="))
 		_cassette[i].text = ("%s\n" % simbolo if not simbolo.is_empty() else "") + str(turno["scelte"][i])
 		_cassette[i].disabled = false
 		# La cassetta segnata in rosso torna di legno a ogni cliente. Senza questo

@@ -29,7 +29,7 @@ func _percorso_letto(pannello: Control) -> PackedStringArray:
 		return PackedStringArray()
 	var testo := stanza.text.replace("STANZA:", "")
 	var fuori := PackedStringArray()
-	for pezzo in testo.split("→", false):
+	for pezzo in testo.split("»", false):
 		var pulito := str(pezzo).strip_edges()
 		if pulito != "":
 			fuori.append(pulito)

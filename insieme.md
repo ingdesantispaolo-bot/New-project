@@ -64,19 +64,24 @@ nascono dalla lettura dell'arte del 20 agosto, più sotto.
 
 ---
 
-## G-4 · Collegare i due moduli — Claude
+## G-4 · Radar e torcia — ritirata il 21 agosto 2026
 
-La resa C-G4 è pronta. Restano soltanto catalogo e semantica dei due moduli:
+*Decisione del committente.*
 
-- aggiungere `module-radar` e `module-torch` a `RewardCatalog`, con slot `module`;
-- calcolare gli effetti in `expedition_modules.gd` e pubblicare i numeri
-  `treasureRadarRadius` e `torchRadius` in `runtime_state()`;
-- estendere `expedition_module_audit` ai due nuovi effetti.
+I due moduli restavano in attesa del loro contratto semantico, con le
+illustrazioni gia' riservate nel foglio premi. Sono usciti per la stessa
+ragione per cui e' uscito l'impulso: **chiedono una resa che non esiste** — un
+segnale sulla cassa entro il raggio, un cono luminoso orientato con Eli — e
+venderli prima sarebbe stato il difetto del 6 agosto ripetuto, quattro
+potenziamenti che costavano fino a 1600 frammenti e non facevano nulla.
 
-I consumer visivi restano dormienti a valore zero: il primo mostra un segnale
-sulla cassa chiusa entro il raggio, il secondo scala il cono luminoso orientato
-con Eli. Le cinque illustrazioni sono già riservate nel `reward-items-sheet` con
-gli stessi identificativi.
+La sezione spedizione non ne ha bisogno: ha gia' tre moduli che si vedono
+(Passo lungo, Andatura felpata, Zavorra da campo), tutti e tre su numeri che il
+grado di Eli non azzera.
+
+Tolte anche le due illustrazioni riservate da `build-reward-assets.mjs`: il
+foglio premi si genera dal solo catalogo, che e' la sola fonte di verita'. Se un
+giorno la resa esistera', il modulo entra allora — con la sua resa, non prima.
 
 ---
 
@@ -641,16 +646,53 @@ posizione, eco — e diventa rosso quando una materia esce dalla banda del caso.
 Senza l'audit il difetto torna al primo blocco di quesiti nuovi, perché scrivere
 la risposta giusta più esplicita delle altre è la cosa naturale da fare.
 
-### E i minigiochi dei personaggi?
+### G-14 · Quali minigiochi si vincono a caso — misurato il 21 agosto 2026
 
 Quindici archetipi, quarantasei personaggi, tutti con un pannello e tutti con un
-audit. Ma nessuno di quegli audit chiede **se si vincono giocando a caso**: è la
-misura che ha smascherato il duello delle voci (`voci_valore_probe`, il giocatore
-CIECO) e non esiste da nessun'altra parte. Il metodo si generalizza — si gioca il
-pannello con tocchi casuali e si conta — ed è la prima cosa da fare prima di
-aggiungere un sedicesimo archetipo.
+audit. Ma nessuno di quegli audit chiedeva la cosa che conta: **si vincono senza
+capirli?** `minigiochi_cieco_probe` gioca ogni pannello con tocchi casuali,
+sessanta partite per archetipo, e conta.
+
+| archetipo | vinti a caso | tocchi medi | |
+|---|---|---|---|
+| **mucchio** | **100,0%** | 6 | *il primo che un bambino incontra, mondo 1* |
+| **prova** | **68,3%** | 5 | *«una causa si isola, non si indovina»* |
+| scaffale | 43,3% | 8 | |
+| vibrazione | 36,7% | 62 | |
+| leva | 35,0% | 77 | |
+| mercato | 25,0% | 5 | |
+| glifi | 21,7% | 7 | |
+| parentela | 20,0% | 78 | |
+| stima | 8,3% | 87 | |
+| altalena | 3,3% | 54 | |
+| traccia | 1,7% | 14 | |
+| ciclo · radio · circuito · ritmo | **0,0%** | | *sani* |
+
+**I due da guardare.**
+
+Il **mucchio** è il minigioco di Tobia, mondo 1: il primo che un bambino
+incontra, e si vince **sempre** toccando a caso in sei tocchi. Un fallimento
+c'è — il cronometro — ma non stringe mai. La lezione dichiarata è «raggruppare
+batte contare», e raggruppare non serve: si tocca tutto.
+
+La **prova** dice di sé «una causa si isola, non si indovina», e si indovina due
+volte su tre.
+
+Gli altri tredici stanno sotto il 45%, e quattro sono a zero. La colonna dei
+tocchi medi separa due famiglie: chi si chiude in cinque-otto tocchi (mucchio,
+prova, scaffale, mercato, glifi) e chi ne chiede decine. Nei primi il caso ha
+poche occasioni di sbagliare, ed è lì che il numero sale.
+
+**Che cosa NON è questo numero.** Non è un verdetto: alcuni archetipi sono giochi
+di velocità, dove sbagliare costa tempo e non la partita, e un CIECO paziente li
+finisce comunque. È il numero da guardare **prima** di dire che un minigioco
+funziona — e prima di aggiungere il sedicesimo archetipo.
+
+**Da decidere insieme:** se e come stringere mucchio e prova. La sonda resta e
+misura di nuovo dopo ogni taratura.
 
 ---
+
 
 ## Chi fa cosa
 

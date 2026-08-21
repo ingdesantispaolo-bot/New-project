@@ -109,7 +109,7 @@ func _costruisci() -> void:
 	var guida := Label.new()
 	guida.name = "GlyphGuide"
 	guida.text = str(_scheda.get("guidaGlifi",
-		"RADICE azzurra = famiglia   ·   FINE dorata:  -A / -US / -ER / -X → AGISCE   ·   -AM / -UM / -EM → RICEVE"))
+		"RADICE azzurra = famiglia   ·   FINE dorata:  -A / -US / -ER / -X » AGISCE   ·   -AM / -UM / -EM » RICEVE"))
 	guida.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	guida.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	guida.add_theme_font_size_override("font_size", 14)

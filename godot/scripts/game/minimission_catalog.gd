@@ -59,10 +59,10 @@ const FORME := [FORMA_SPEGNERE, FORMA_LIBERARE, FORMA_RIPARARE, FORMA_RIACCENDER
 ## imparare a riconoscere una minimissione a colpo d'occhio, e un glifo che
 ## cambia da un mondo all'altro non si impara.
 const RESA := {
-	FORMA_SPEGNERE: {"verbo": "SPEGNI", "glifo": "🜂", "colore": "ff8a5c", "campate": 3},
-	FORMA_LIBERARE: {"verbo": "LIBERA", "glifo": "⟡", "colore": "8ff6c0", "campate": 3},
-	FORMA_RIPARARE: {"verbo": "RIPARA", "glifo": "⚙", "colore": "ffd75e", "campate": 3},
-	FORMA_RIACCENDERE: {"verbo": "RIACCENDI", "glifo": "✷", "colore": "7ad7ff", "campate": 3},
+	FORMA_SPEGNERE: {"verbo": "SPEGNI", "glifo": "*", "colore": "ff8a5c", "campate": 3},
+	FORMA_LIBERARE: {"verbo": "LIBERA", "glifo": "◊", "colore": "8ff6c0", "campate": 3},
+	FORMA_RIPARARE: {"verbo": "RIPARA", "glifo": "*", "colore": "ffd75e", "campate": 3},
+	FORMA_RIACCENDERE: {"verbo": "RIACCENDI", "glifo": "*", "colore": "7ad7ff", "campate": 3},
 }
 
 ## Gli incarichi, uno per mondo.

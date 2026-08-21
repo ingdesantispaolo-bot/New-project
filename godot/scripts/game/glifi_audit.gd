@@ -17,5 +17,65 @@ func _init() -> void:
 	var panel_source := FileAccess.get_file_as_string("res://scripts/ui/outdoor_shop_panel.gd")
 	assert(not panel_source.contains("return _tool_fallback_texture"),
 		"la bottega non deve ricadere sul glifo di sistema")
-	print("GLIFI audit OK - %d articoli disegnati dall'atlante, nessun fallback Unicode" % RewardCatalog.CATALOG.size())
+	# **E nessuna stringa mostrata usa un carattere che il font non ha.**
+	# (21 agosto 2026)
+	#
+	# La bottega era il caso piu' vistoso ma non l'unico: c'erano 232
+	# occorrenze di sessanta simboli in giro per il codice, e le peggiori
+	# stavano nei posti che si vedono sempre — la freccia della catena del
+	# duello, i pallini della tenuta, la freccia di cancellazione del
+	# tastierino numerico, la bussola a otto direzioni.
+	#
+	# Su Windows non si vedeva niente: Godot ripiega sui font di sistema. Nel
+	# Web e su tablet quel ripiego non esiste, e resta il rettangolo col codice
+	# esadecimale dentro. Il difetto e' invisibile **esattamente sulla macchina
+	# di chi scrive il codice**, ed e' per questo che serve un audit e non
+	# l'attenzione.
+	#
+	# Si guardano solo i letterali fra virgolette: un simbolo in un commento
+	# non finisce sullo schermo, e vietarlo sarebbe una regola di stile.
+	var font := ThemeDB.fallback_font
+	var rotte: Array[String] = []
+	_scandaglia("res://scripts", font, rotte)
+	for riga in rotte:
+		printerr("  carattere senza glifo: %s" % riga)
+	assert(rotte.is_empty(),
+		"%d stringhe usano un carattere che il font imbarcato non ha" % rotte.size())
+	print("GLIFI audit OK - %d articoli dall'atlante, e nessuna stringa mostrata senza glifo" % RewardCatalog.CATALOG.size())
 	quit(0)
+
+## Percorre gli script e raccoglie i letterali che chiedono un glifo assente.
+##
+## Gli audit e le sonde restano fuori: stampano su console, dove il font non
+## c'entra, e sono l'unico posto in cui un simbolo serve a leggere una tabella.
+func _scandaglia(percorso: String, font: Font, fuori: Array[String]) -> void:
+	var d := DirAccess.open(percorso)
+	if d == null:
+		return
+	d.list_dir_begin()
+	var nome := d.get_next()
+	while nome != "":
+		var pieno := "%s/%s" % [percorso, nome]
+		if d.current_is_dir():
+			_scandaglia(pieno, font, fuori)
+		elif nome.ends_with(".gd") and not nome.ends_with("_audit.gd") 				and not nome.ends_with("_probe.gd"):
+			_leggi_file(pieno, nome, font, fuori)
+		nome = d.get_next()
+	d.list_dir_end()
+
+func _leggi_file(pieno: String, nome: String, font: Font, fuori: Array[String]) -> void:
+	var testo := FileAccess.get_file_as_string(pieno)
+	var numero := 0
+	for riga in testo.split("
+"):
+		numero += 1
+		if riga.strip_edges().begins_with("#"):
+			continue
+		var dentro := false
+		for i in riga.length():
+			var code := riga.unicode_at(i)
+			if code == 34:  # virgolette doppie
+				dentro = not dentro
+				continue
+			if dentro and code > 0x7F and not font.has_char(code):
+				fuori.append("%s:%d U+%04X" % [nome, numero, code])

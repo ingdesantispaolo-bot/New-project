@@ -112,7 +112,7 @@ func _disegna_casa() -> void:
 		# Con una casella sola non c'è confronto. Invece di disegnare una
 		# classifica di una riga — che è una presa in giro — si dice come si fa.
 		_colonna.add_child(_nota(
-			"Su questo tablet gioca una persona sola, quindi non c'è ancora niente da confrontare.\n\nDal menu di avvio, «CAMBIA» → «+ NUOVO GIOCATORE»: ogni casella ha la sua partita, e qui comincia la sfida."))
+			"Su questo tablet gioca una persona sola, quindi non c'è ancora niente da confrontare.\n\nDal menu di avvio, «CAMBIA» » «+ NUOVO GIOCATORE»: ogni casella ha la sua partita, e qui comincia la sfida."))
 		return
 	_colonna.add_child(_selettore_asse())
 	_colonna.add_child(_tabella(schede))

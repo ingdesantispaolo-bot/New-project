@@ -109,7 +109,7 @@ func _costruisci() -> void:
 
 	var metodo := Label.new()
 	metodo.name = "KinshipMethod"
-	metodo.text = "1  IPOTIZZA   →   2  ILLUMINA DUE PARENTI   →   3  TIENI O CAMBIA   →   4  CONFERMA"
+	metodo.text = "1  IPOTIZZA   »   2  ILLUMINA DUE PARENTI   »   3  TIENI O CAMBIA   »   4  CONFERMA"
 	metodo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	metodo.add_theme_font_size_override("font_size", 13)
 	metodo.add_theme_color_override("font_color", Color("f1c979"))

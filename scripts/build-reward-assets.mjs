@@ -15,11 +15,13 @@ const godotSpriteDir = path.join(root, "godot/assets/shop");
 // semantico. Non duplicano prezzi o regole: servono solo a riservare nel foglio
 // premi le illustrazioni C-G4. Se una voce entra anche nel catalogo TS, il merge
 // in fondo evita automaticamente il doppione.
-const expeditionModuleArt = [
-  { id: "module-stride", slot: "module", color: 0xffb85c, minLevel: 2 },
-  { id: "module-radar", slot: "module", color: 0x7ad7ff, minLevel: 3 },
-  { id: "module-torch", slot: "module", color: 0xffd75e, minLevel: 3 },
-];
+// **Nessuna illustrazione riservata.** (21 agosto 2026) Qui stavano radar e
+// torcia, tenuti in caldo per C-G4. Ritirati: chiedono una resa che non esiste —
+// un segnale sulla cassa e un cono luminoso — ed e' esattamente il difetto del
+// 6 agosto, vendere potenziamenti che non fanno niente. Il foglio premi si
+// genera dal solo catalogo, che e' la sola fonte di verita'.
+const expeditionModuleArt = [];
+
 
 const catalogText = fs.readFileSync(catalogPath, "utf8");
 

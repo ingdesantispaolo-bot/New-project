@@ -1178,7 +1178,7 @@ func _resolved_avatar_visual() -> Dictionary:
 	if not emblem_item.is_empty():
 		visual_data["emblem"] = {
 			"id": emblem_id,
-			"glyph": str(emblem_item.get("glyph", "◆")),
+			"glyph": str(emblem_item.get("glyph", "◊")),
 			"color": int(emblem_item.get("color", 0xf6c85f)),
 		}
 	return visual_data
@@ -1298,7 +1298,7 @@ func _apply_emblem(visual_node: Node2D, visual_data: Dictionary) -> void:
 		return
 	var badge := Label.new()
 	badge.name = "EquippedEmblem"
-	badge.text = str(emblem.get("glyph", "◆"))
+	badge.text = str(emblem.get("glyph", "◊"))
 	badge.position = Vector2(22, -61)
 	badge.add_theme_font_size_override("font_size", 17)
 	badge.add_theme_constant_override("outline_size", 5)
@@ -1714,6 +1714,7 @@ func _sync_profile_environment_transform(animate: bool) -> void:
 func _create_profile_events() -> void:
 	for event_data in mission_events:
 		_create_profile_event(event_data as Dictionary)
+	_rebuild_practice_circuit()
 
 ## La palestra successiva di una materia, piantata altrove a mondo già costruito.
 ##
@@ -1741,6 +1742,7 @@ func _respawn_practice_event(subject: String) -> void:
 				return
 		mission_events.append(e)
 		_create_profile_event(e)
+		_rebuild_practice_circuit()
 		return
 
 ## Un solo evento, disegnato sulla mappa.
@@ -1853,7 +1855,7 @@ func _create_profile_event(event: Dictionary) -> void:
 		visual.set_stage(4 if completed else 0, 4)
 		area.add_child(visual)
 	elif director_kind == "practice":
-		area.add_child(_make_minigame_marker(str(payload["subject"])))
+		area.add_child(_make_practice_repeater(str(payload["subject"]), completed))
 		var equipment_gate := EQUIPMENT_GATE_SCRIPT.new()
 		equipment_gate.name = "EquipmentGate"
 		area.add_child(equipment_gate)
@@ -1974,7 +1976,7 @@ func _disegna_incarico(area: Area2D, payload: Dictionary, completed: bool) -> vo
 	var guasto := Node2D.new()
 	guasto.name = "IncaricoGuasto"
 	var glifo := Label.new()
-	glifo.text = str(payload.get("glifo", "⚙"))
+	glifo.text = str(payload.get("glifo", "*"))
 	glifo.add_theme_font_size_override("font_size", 34)
 	glifo.add_theme_color_override("font_color", colore)
 	glifo.position = Vector2(-12, -52)
@@ -4527,6 +4529,28 @@ func _create_profile_weather() -> void:
 ## il mondo di quella materia tinge la notte e con cui la sua scheda si accende
 ## nel nucleo prismatico della nave. Il verde della geografia e' lo stesso in
 ## tutti e tre i posti, e si riconosce da lontano senza leggere niente.
+func _make_practice_repeater(subject: String, completed: bool) -> Node2D:
+	var marker := Node2D.new()
+	marker.name = "PracticeRepeater"
+	var tint := SubjectPalette.colore(subject)
+	marker.add_child(OutdoorVisualFactory.make_shadow(28, 8, 0.30, 8))
+	var stone := Polygon2D.new()
+	stone.name = "FirstRepeaterStone"
+	stone.polygon = PackedVector2Array([Vector2(-22, 6), Vector2(-15, -42), Vector2(0, -56), Vector2(15, -42), Vector2(22, 6)])
+	stone.color = Color.WHITE if high_contrast else Color("4a515c")
+	marker.add_child(stone)
+	var core := OutdoorVisualFactory.make_ring(15.0, tint if completed else Color("8a929a"), 2.2, 16)
+	core.name = "RepeaterCore"
+	core.position = Vector2(0, -25)
+	marker.add_child(core)
+	if completed:
+		var glow := OutdoorVisualFactory.make_glow(28.0, tint, 0.62)
+		glow.position = core.position
+		glow.add_to_group("night_glow")
+		marker.add_child(glow)
+	return marker
+
+
 func _make_minigame_marker(subject: String) -> Node2D:
 	var marker := Node2D.new()
 	marker.name = "MinigameMarker"
@@ -4557,6 +4581,33 @@ func _make_minigame_marker(subject: String) -> Node2D:
 	stella.color = tinta.lightened(0.28)
 	marker.add_child(stella)
 	return marker
+
+func _rebuild_practice_circuit() -> void:
+	var old := get_node_or_null("PracticeCircuit")
+	if old != null:
+		old.queue_free()
+	var circuit := Node2D.new()
+	circuit.name = "PracticeCircuit"
+	add_child(circuit)
+	var completed: Array = result.get("completedEncounterIds", [])
+	var stations: Array[Dictionary] = []
+	for event_data in mission_events:
+		var event: Dictionary = event_data
+		if str(event.get("kind", "")) == "practice":
+			stations.append(event)
+	for index in range(1, stations.size()):
+		var previous: Dictionary = stations[index - 1]
+		var current: Dictionary = stations[index]
+		if not completed.has(str(previous.get("id", ""))) or not completed.has(str(current.get("id", ""))):
+			continue
+		var line := Line2D.new()
+		line.name = "PracticeCircuitLink"
+		line.points = PackedVector2Array([previous.get("position", Vector2.ZERO), current.get("position", Vector2.ZERO)])
+		line.width = 5.0
+		line.default_color = Color(SubjectPalette.colore(str(current.get("subject", "matematica"))), 0.78)
+		line.z_index = -1
+		circuit.add_child(line)
+
 
 func _create_exercise_player() -> void:
 	exercise_player = EXERCISE_PLAYER_SCRIPT.new()
@@ -5754,7 +5805,7 @@ func _crea_camera_chiusa() -> void:
 	serratura.add_child(sforma)
 	serratura.add_to_group("world_interactable")
 	var glifo := Label.new()
-	glifo.text = "✦ CAMERA SIGILLATA"
+	glifo.text = "* CAMERA SIGILLATA"
 	glifo.add_theme_font_size_override("font_size", 13)
 	glifo.add_theme_color_override("font_color", Color("d9c8ff"))
 	glifo.position = Vector2(-70, -46)
@@ -6139,7 +6190,7 @@ func _make_hazard_marker() -> Node2D:
 	var nodo := Node2D.new()
 	nodo.name = "HazardMarker"
 	var glifo := Label.new()
-	glifo.text = "⚠"
+	glifo.text = "!"
 	glifo.add_theme_font_size_override("font_size", 30)
 	glifo.add_theme_color_override("font_color", Color("ffb35c"))
 	glifo.position = Vector2(-10, -34)
@@ -6914,7 +6965,7 @@ func _refresh_interaction_button(target: Area2D) -> void:
 	)
 	interaction_button.disabled = completed or cooldown > 0
 	interaction_button.text = (
-		"✓ GIÀ COMPLETATO" if completed
+		"√ GIÀ COMPLETATO" if completed
 		else "RICALIBRAZIONE · %d s" % cooldown if cooldown > 0
 		else _interaction_action_text(target)
 	)
@@ -7739,10 +7790,10 @@ func _mission_payload_for(area: Area2D) -> Dictionary:
 
 func _direction_arrow(delta: Vector2) -> String:
 	if delta.length() < INTERACTION_DISTANCE:
-		return "◎"
+		return "o"
 	var angle := fposmod(delta.angle() + PI / 8.0, TAU)
 	var index := int(floor(angle / (PI / 4.0))) % 8
-	var arrows := PackedStringArray(["→", "↘", "↓", "↙", "←", "↖", "↑", "↗"])
+	var arrows := PackedStringArray(["»", "»", "v", "«", "«", "«", "^", "»"])
 	return arrows[index]
 
 func _set_feedback(message: String) -> void:

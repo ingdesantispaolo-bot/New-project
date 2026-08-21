@@ -693,7 +693,7 @@ func _build_numpad() -> GridContainer:
 	grid.visible = false
 	grid.add_theme_constant_override("h_separation", 6)
 	grid.add_theme_constant_override("v_separation", 6)
-	for key in ["7", "8", "9", "−", "C", "4", "5", "6", ",", "←", "1", "2", "3", "0", "OK"]:
+	for key in ["7", "8", "9", "−", "C", "4", "5", "6", ",", "«", "1", "2", "3", "0", "OK"]:
 		var button := Button.new()
 		button.name = "Numpad_%s" % key
 		button.text = key
@@ -716,7 +716,7 @@ func _numpad_press(key: String) -> void:
 			return
 		"C":
 			_input.text = ""
-		"←":
+		"«":
 			_input.text = _input.text.substr(0, maxi(0, _input.text.length() - 1))
 		"−":
 			# Il meno solo in testa, e come interruttore: premerlo due volte lo
@@ -1326,7 +1326,7 @@ func _refresh_machine_path(item: Dictionary) -> void:
 		suffix = " · Si ferma: %s" % str(result.get("reason", ""))
 	elif used.size() < _machine_state.size():
 		suffix = " · Mancano %d macchine" % (_machine_state.size() - used.size())
-	_machine_readout.text = "Percorso: %s%s" % ["  →  ".join(PackedStringArray(trail)), suffix]
+	_machine_readout.text = "Percorso: %s%s" % ["  »  ".join(PackedStringArray(trail)), suffix]
 
 func _machine_submit(item: Dictionary) -> void:
 	if _machine_running or _answered:
@@ -1413,7 +1413,7 @@ func _build_mystery_sample(item: Dictionary) -> void:
 		var id := str(test.get("id", ""))
 		var button := Button.new()
 		button.name = "SampleTest_%s" % id
-		button.text = "%s  %s" % [str(test.get("glyph", "◆")), str(test.get("label", "Osserva"))]
+		button.text = "%s  %s" % [str(test.get("glyph", "◊")), str(test.get("label", "Osserva"))]
 		button.custom_minimum_size = Vector2(190, 50)
 		button.add_theme_font_size_override("font_size", 14)
 		button.add_theme_stylebox_override("normal", _exercise_button_style(Color(0.08, 0.20, 0.16, 0.98), Color("79dba1")))
@@ -1467,10 +1467,10 @@ func _sample_run_test(test_id: String, item: Dictionary) -> void:
 	_sample_tests_run.append(test_id)
 	var button := _sample_test_buttons[test_id] as Button
 	button.disabled = true
-	button.text = "✓  %s" % button.text.get_slice("  ", 1)
+	button.text = "√  %s" % button.text.get_slice("  ", 1)
 	var observation := ExerciseInteraction.mystery_sample_result(item, test_id)
 	var test := _sample_test_by_id(item, test_id)
-	_sample_capsule_label.text = "%s\n%s" % [str(test.get("short", "PROVA")), str(test.get("glyph", "◆"))]
+	_sample_capsule_label.text = "%s\n%s" % [str(test.get("short", "PROVA")), str(test.get("glyph", "◊"))]
 	_refresh_sample_log(item)
 	_flash_feedback(observation)
 	_causal_feedback("connect", _sample_capsule, 0.98 + float(_sample_tests_run.size()) * 0.05)
@@ -2134,7 +2134,7 @@ func _classification_assign(key: String, category: String) -> void:
 	_classification_state[key] = category
 	_classification_selected = ""
 	var button := _classification_buttons[key] as Button
-	button.text = "%s  →  %s" % [key, category]
+	button.text = "%s  »  %s" % [key, category]
 	button.modulate = Color(0.72, 1.0, 0.84)
 	_flash_feedback("Assegnato a %s. Puoi ancora cambiarlo." % category)
 	_causal_feedback("snap", button, 1.02 + float(_classification_state.size()) * 0.025)
@@ -2427,7 +2427,7 @@ func _build_code_debug(item: Dictionary) -> void:
 		var line_number := index + 1
 		var button := Button.new()
 		button.name = "CodeLine_%02d" % line_number
-		button.text = "%02d  │  %s" % [line_number, raw]
+		button.text = "%02d  |  %s" % [line_number, raw]
 		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		button.custom_minimum_size = Vector2(0, 48)
 		button.focus_mode = Control.FOCUS_ALL
@@ -2626,8 +2626,8 @@ func _build_swipe(item: Dictionary) -> void:
 	riga.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_options.add_child(riga)
 	for dati in [
-		{"nome": "SwipeWrongButton", "testo": "◀  SBAGLIATO", "giusto": false, "colore": Color("ff8f7e")},
-		{"nome": "SwipeRightButton", "testo": "CORRETTO  ▶", "giusto": true, "colore": Color("91dc72")},
+		{"nome": "SwipeWrongButton", "testo": "«  SBAGLIATO", "giusto": false, "colore": Color("ff8f7e")},
+		{"nome": "SwipeRightButton", "testo": "CORRETTO  »", "giusto": true, "colore": Color("91dc72")},
 	]:
 		var b := Button.new()
 		b.name = str(dati["nome"])

@@ -354,7 +354,7 @@ func aggiorna_stato() -> void:
 	_stato.text = "sigilli %d/%d · colpi %d/%d · tenuta %s" % [
 		_sigilli_rotti, int(regole.get("sigilli", 2)),
 		_colpi_dati, int(regole.get("colpi", 3)),
-		"●".repeat(maxi(_tenuta, 0))]
+		"•".repeat(maxi(_tenuta, 0))]
 
 func _posiziona() -> void:
 	var centro_x := _arena.size.x * 0.5

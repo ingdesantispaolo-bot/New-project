@@ -53,7 +53,7 @@ func _init() -> void:
 
 	# --- Scrive il Markdown direttamente (UTF-8) in docs/COMPETENCY_MATRIX.md ----
 	var lines: Array = []
-	lines.append("# Matrice competenze — livello → competenze → evidenze → apparato")
+	lines.append("# Matrice competenze — livello » competenze » evidenze » apparato")
 	lines.append("")
 	lines.append("GENERATA da `competency_matrix.gd` dai contratti (`WorldLessonCatalog`,")
 	lines.append("`ApparatusConfig`, `GateReadiness`): unica fonte di verità, nessun drift.")

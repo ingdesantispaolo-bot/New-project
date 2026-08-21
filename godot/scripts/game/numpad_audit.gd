@@ -25,12 +25,12 @@ func _run() -> void:
 		var button := child as Button
 		keys.append(button.text)
 		assert(button.custom_minimum_size.y >= 44.0, "tasto numerico troppo piccolo per il touch")
-	for expected in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "−", ",", "←", "C", "OK"]:
+	for expected in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "−", ",", "«", "C", "OK"]:
 		assert(keys.has(expected), "tasto numerico assente: %s" % expected)
 	assert(player._input != null and player._input.virtual_keyboard_type == LineEdit.KEYBOARD_TYPE_NUMBER,
 		"il campo non richiede la tastiera numerica di sistema")
 	player._input.text = ""
-	for key in ["4", "2", "←", "8"]:
+	for key in ["4", "2", "«", "8"]:
 		player._numpad_press(key)
 	assert(player._input.text == "48", "il tastierino non compone/cancella correttamente")
 	player._numpad_press("−")

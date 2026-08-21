@@ -5,11 +5,11 @@ extends RefCounted
 ## didattica persistita. Nessuna valuta o acquisto cosmetico concede potenza.
 
 const STAGES := [
-	{"id": "offline", "title": "SISTEMA INERTE", "short": "○", "minimum": 0.0},
-	{"id": "ignition", "title": "RIACCENSIONE", "short": "◔", "minimum": 0.001},
-	{"id": "routing", "title": "RETE PARZIALE", "short": "◑", "minimum": 0.20},
-	{"id": "synchronized", "title": "SINCRONIZZATO", "short": "◕", "minimum": 0.50},
-	{"id": "full_power", "title": "PIENA POTENZA", "short": "●", "minimum": 0.999},
+	{"id": "offline", "title": "SISTEMA INERTE", "short": "o", "minimum": 0.0},
+	{"id": "ignition", "title": "RIACCENSIONE", "short": "o", "minimum": 0.001},
+	{"id": "routing", "title": "RETE PARZIALE", "short": "o", "minimum": 0.20},
+	{"id": "synchronized", "title": "SINCRONIZZATO", "short": "o", "minimum": 0.50},
+	{"id": "full_power", "title": "PIENA POTENZA", "short": "•", "minimum": 0.999},
 ]
 
 ## I nodi di una stanza: un nodo per ogni livello la cui materia ospite appartiene
@@ -86,9 +86,9 @@ static func _segments(completed: int, total: int, partial: float) -> String:
 	var cells := PackedStringArray()
 	for index in total:
 		if index < completed:
-			cells.append("◆")
+			cells.append("◊")
 		elif index == completed and partial > 0.001:
-			cells.append("◇")
+			cells.append("◊")
 		else:
 			cells.append("·")
 	return " ".join(cells)

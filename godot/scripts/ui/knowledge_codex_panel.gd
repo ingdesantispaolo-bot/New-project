@@ -180,7 +180,7 @@ func _build_ui() -> void:
 	filters.add_child(subject_filter)
 	favorites_filter = CheckButton.new()
 	favorites_filter.name = "CodexFavoritesFilter"
-	favorites_filter.text = "★ PREFERITI"
+	favorites_filter.text = "* PREFERITI"
 	favorites_filter.custom_minimum_size = Vector2(150, 46)
 	favorites_filter.toggled.connect(func(_enabled): _refresh_list())
 	filters.add_child(favorites_filter)
@@ -262,7 +262,7 @@ func _refresh_list() -> void:
 		var key := _key(str(entry.get("subject", "")), str(entry.get("topic", "")))
 		var button := Button.new()
 		button.name = "Concept_%s" % key.replace(":", "_").replace("-", "_")
-		var star := "★" if favorites.has(key) else "·"
+		var star := "*" if favorites.has(key) else "·"
 		var state := KNOWLEDGE_CODEX.state_of(game_save, str(entry.get("subject", "")), str(entry.get("topic", "")))
 		button.text = "%s  %s\n%s · %s" % [star, _title(str(entry.get("topic", ""))), str(entry.get("subject", "")).capitalize(), _state_label(state)]
 		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
@@ -309,7 +309,7 @@ func _render_detail(entry: Dictionary) -> void:
 	heading_row.add_child(heading)
 	var favorite := Button.new()
 	favorite.name = "ToggleCodexFavorite"
-	favorite.text = "★ SALVATO" if _is_favorite(selected_key) else "☆ SALVA"
+	favorite.text = "* SALVATO" if _is_favorite(selected_key) else "o SALVA"
 	favorite.custom_minimum_size = Vector2(126, 46)
 	favorite.pressed.connect(_toggle_favorite.bind(selected_key))
 	heading_row.add_child(favorite)

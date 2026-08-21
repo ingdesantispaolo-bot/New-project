@@ -707,9 +707,9 @@ func _draw_swipe(bounds: Rect2) -> void:
 		Vector2(bounds.position.x + bounds.size.x - lato - 6, bounds.position.y + 6),
 		Vector2(lato, bounds.size.y - 12))
 	draw_rect(destra, Color(0.35, 0.82, 0.55, 0.20 if swipe_flash != "right" else 0.45))
-	draw_string(font, sinistra.position + Vector2(14, 34), "◀ SBAGLIATO",
+	draw_string(font, sinistra.position + Vector2(14, 34), "« SBAGLIATO",
 		HORIZONTAL_ALIGNMENT_LEFT, lato - 20, 16, Color("ffd0c8"))
-	draw_string(font, destra.position + Vector2(14, 34), "CORRETTO ▶",
+	draw_string(font, destra.position + Vector2(14, 34), "CORRETTO »",
 		HORIZONTAL_ALIGNMENT_LEFT, lato - 20, 16, Color("c8ffd8"))
 
 	# L'affermazione corrente, grande al centro.

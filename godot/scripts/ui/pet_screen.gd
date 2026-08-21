@@ -120,7 +120,7 @@ func _build() -> void:
 		var palette: Array = STATE.LIVERIES[index]
 		var button := Button.new()
 		button.name = "PetLivery%d" % index
-		button.text = "●  ●"
+		button.text = "•  •"
 		button.tooltip_text = "Livrea %d" % (index + 1)
 		button.custom_minimum_size = Vector2(92, 48)
 		button.add_theme_color_override("font_color", OutdoorVisualFactory.hex_color(int(palette[0])))

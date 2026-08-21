@@ -83,7 +83,7 @@ func _costruisci_interruttori() -> void:
 		for riga in 3:
 			var pulsante := Button.new()
 			pulsante.name = "CircuitSwitch_%d_%d" % [passaggio, riga]
-			pulsante.text = "◇"
+			pulsante.text = "◊"
 			pulsante.tooltip_text = "Interruttore %d, fila %d" % [passaggio + 1, riga + 1]
 			pulsante.accessibility_name = pulsante.tooltip_text
 			pulsante.custom_minimum_size = Vector2(48, 48)
@@ -113,7 +113,7 @@ func _premuto(passaggio: int, riga: int, pulsante: Button) -> void:
 		var timer := get_tree().create_timer(0.10 if _reduced_motion else 0.38)
 		timer.timeout.connect(_ripristina_errore.bind(passaggio, riga, pulsante))
 		return
-	pulsante.text = "◆"
+	pulsante.text = "◊"
 	pulsante.disabled = true
 	pulsante.add_theme_color_override("font_disabled_color", COLOR_ORO)
 	pulsante.add_theme_stylebox_override("disabled", _stile_nodo(Color("235548"), COLOR_CORRENTE, 3))

@@ -401,7 +401,7 @@ func _aggiorna(messaggio: String = "") -> void:
 		for comando in _programma:
 			parole.append(str(_comandi[comando]))
 		while parole.size() < _comandi.size():
-			parole.append("▢")
+			parole.append("◊")
 		_slot.text = ("LA STAFFETTA RIPETE:   " if _tema_musica else "IL BRACCIO RIPETE:   ") + "   ".join(parole)
 	if is_instance_valid(_stato):
 		_stato.text = _messaggio

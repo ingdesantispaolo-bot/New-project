@@ -457,7 +457,7 @@ func _on_feedback(message: String) -> void:
 func _refresh() -> void:
 	if not is_instance_valid(_items):
 		return
-	_wallet.text = "FRAMMENTI  ◈  %d" % int(_state.get("fragments", 0))
+	_wallet.text = "FRAMMENTI  ◊  %d" % int(_state.get("fragments", 0))
 	_update_category_navigation()
 	var meta: Dictionary = SLOT_META[_slot]
 	_category_heading.text = str(meta["title"])
@@ -636,7 +636,7 @@ func _configure_action(button: Button, cosmetic: Dictionary, detailed: bool) -> 
 		button.text = ("FRAMMENTI INSUFFICIENTI" if detailed else "NON DISPONIBILE")
 		button.disabled = true
 	else:
-		button.text = "ACQUISTA  ◈ %d" % cost if detailed else "ACQUISTA"
+		button.text = "ACQUISTA  ◊ %d" % cost if detailed else "ACQUISTA"
 		button.pressed.connect(_purchase.bind(id))
 	_style_button(button, rarity_color, not button.disabled)
 
@@ -653,7 +653,7 @@ func _card_price_text(cost: int, min_level: int, owned: bool, active: bool, id :
 		return "DA TROVARE · %s" % luogo.to_upper()
 	if int(_state.get("level", 1)) < min_level:
 		return "RICHIEDE LV %d" % min_level
-	return "◈ %d" % cost
+	return "◊ %d" % cost
 
 ## Il mondo da cui viene una voce, se non ci sei ancora arrivata; stringa vuota
 ## se la voce è disponibile o non è ancorata a nessun posto.
@@ -674,8 +674,8 @@ func _detail_requirement_text(cost: int, min_level: int, owned: bool, active: bo
 	if luogo != "":
 		return "VIENE DA: %s" % luogo.to_upper()
 	if int(_state.get("level", 1)) < min_level:
-		return "SBLOCCO: LIVELLO %d  ·  COSTO: ◈ %d" % [min_level, cost]
-	return "COSTO: ◈ %d  ·  LIVELLO RICHIESTO: %d" % [cost, min_level]
+		return "SBLOCCO: LIVELLO %d  ·  COSTO: ◊ %d" % [min_level, cost]
+	return "COSTO: ◊ %d  ·  LIVELLO RICHIESTO: %d" % [cost, min_level]
 
 
 func _detail_state_text(cosmetic: Dictionary) -> String:

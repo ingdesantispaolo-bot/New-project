@@ -215,7 +215,7 @@ func _riga_catena() -> String:
 	var pezzi: Array = _catena.duplicate()
 	while pezzi.size() > 7:
 		pezzi.remove_at(0)
-	return " → ".join(PackedStringArray(pezzi))
+	return " » ".join(PackedStringArray(pezzi))
 
 func _posiziona_campo() -> void:
 	_voce_label.size = Vector2(_arena.size.x - 40.0, 42)

@@ -54,14 +54,14 @@ static func of(node: Dictionary) -> String:
 			var pairs: Array = []
 			for entry in Array(node.get("pairs", [])):
 				var pair := entry as Dictionary
-				pairs.append("%s→%s" % [str(pair.get("left", "")), str(pair.get("right", ""))])
+				pairs.append("%s»%s" % [str(pair.get("left", "")), str(pair.get("right", ""))])
 			pairs.sort()
 			parts.append(";".join(PackedStringArray(pairs)))
 		"ordering":
 			# `items` è la presentazione mescolata: l'esercizio è l'ordine giusto.
 			parts.append(";".join(PackedStringArray(_strings(node.get("correctOrder", [])))))
 		"machine_path":
-			parts.append("%d→%d" % [int(node.get("start", 0)), int(node.get("target", 0))])
+			parts.append("%d»%d" % [int(node.get("start", 0)), int(node.get("target", 0))])
 			var machines: Array = []
 			for entry in Array(node.get("machines", [])):
 				var machine := entry as Dictionary
@@ -100,7 +100,7 @@ static func of(node: Dictionary) -> String:
 			var assignments := node.get("assignments", {}) as Dictionary
 			var rows: Array = []
 			for key in assignments.keys():
-				rows.append("%s→%s" % [str(key), str(assignments[key])])
+				rows.append("%s»%s" % [str(key), str(assignments[key])])
 			rows.sort()
 			parts.append(";".join(PackedStringArray(rows)))
 		"code_debug":
@@ -114,7 +114,7 @@ static func of(node: Dictionary) -> String:
 			var sorted_lines: Array = lines.duplicate()
 			sorted_lines.sort()
 			parts.append(";".join(PackedStringArray(sorted_lines)))
-			parts.append("→%s" % solution)
+			parts.append("»%s" % solution)
 		"cycle":
 			var stages: Array = []
 			for entry in Array(node.get("stages", [])):
@@ -122,7 +122,7 @@ static func of(node: Dictionary) -> String:
 				stages.append("%s:%s" % [str(stage.get("id", "")), str(stage.get("glyph", ""))])
 			stages.sort()
 			parts.append(";".join(PackedStringArray(stages)))
-			parts.append("→%s" % ";".join(PackedStringArray(_strings(node.get("correctOrder", [])))))
+			parts.append("»%s" % ";".join(PackedStringArray(_strings(node.get("correctOrder", [])))))
 		"graph", "circuit", "hotspot", "notation", "map":
 			var field := "points"
 			if fmt == "circuit":
@@ -159,14 +159,14 @@ static func of(node: Dictionary) -> String:
 					map_targets.append(str((entry as Dictionary).get("id", "")))
 				map_targets.sort()
 				parts.append(";".join(PackedStringArray(map_targets)))
-			parts.append("→%s" % str(node.get("answer", "")))
+			parts.append("»%s" % str(node.get("answer", "")))
 		_:
 			# Scelta multipla, risposta numerica e formati ancora pianificati: le
 			# opzioni contano come insieme, la risposta come contenuto.
 			var options := _strings(node.get("options", []))
 			options.sort()
 			parts.append(";".join(PackedStringArray(options)))
-			parts.append("→%s" % str(node.get("answer", "")))
+			parts.append("»%s" % str(node.get("answer", "")))
 	return "|".join(PackedStringArray(parts))
 
 static func _strings(value: Variant) -> Array:

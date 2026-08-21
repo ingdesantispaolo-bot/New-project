@@ -1177,10 +1177,20 @@ static func parametri(archetipo: String, world: int) -> Dictionary:
 			# metodo si veda. Con prove abbondanti anche il disordine arriva in
 			# fondo, e allora il gioco non direbbe niente su come ci si arriva.
 			var fattori := clampi(3 + int(floor(float(livello - 1) / 8.0)), 3, 5)
+			# **Un errore, non due.** (21 agosto 2026) Con tre fattori e due errori
+			# concessi i tentativi di nome erano tre: si nominavano **tutti**, e la
+			# prova controllata si vinceva senza fare un esperimento.
+			# `minigiochi_cieco_probe` lo ha misurato — il 68% delle partite vinte
+			# toccando a caso — ed e' esattamente cio' che questo archetipo dice di
+			# smontare: la convinzione che la causa si trovi per forza bruta.
+			#
+			# Uno resta, e resta apposta: chi ha fatto gli esperimenti giusti e
+			# legge male un esito ha diritto a ricredersi. Due erano l'intero
+			# spazio delle risposte.
 			return {
 				"fattori": fattori,
 				"prove": fattori + 1,
-				"errori": 2,
+				"errori": 1,
 				"secondi": 0.0,
 			}
 		ARCHETIPO_STIMA:

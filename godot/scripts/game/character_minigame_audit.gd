@@ -267,8 +267,23 @@ func _le_due_famiglie_esistono_entrambe() -> void:
 		if secondi > 0.0:
 			_fallisci("%s: gioco di riflessione con un cronometro (%.0f s)" % [npc_id_data, secondi])
 		var errori_concessi := int(Dictionary(scheda.get("parametri", {})).get("errori", 0))
-		if errori_concessi < 2:
+		if errori_concessi < 1:
 			_fallisci("%s: %d errori concessi — il primo tocco decide tutto" % [npc_id_data, errori_concessi])
+		# **E non devono coprire tutte le risposte.** (21 agosto 2026)
+		#
+		# La soglia era «almeno due», scritta quando l'unico rischio sembrava la
+		# durezza. `minigiochi_cieco_probe` ha misurato il rischio opposto: nella
+		# prova controllata due errori concessi su tre fattori volevano dire tre
+		# tentativi di nome, cioe' **nominarli tutti** — il 68% delle partite
+		# vinte a caso, senza fare un esperimento, in un gioco che esiste per
+		# dire che la causa non si trova per forza bruta.
+		#
+		# Le due soglie insieme dicono la cosa giusta: perdonare un errore si',
+		# regalare l'intero spazio delle risposte no.
+		var quante_risposte := int(Dictionary(scheda.get("parametri", {})).get("fattori", 0))
+		if quante_risposte > 0 and errori_concessi + 1 >= quante_risposte:
+			_fallisci("%s: %d tentativi di nome su %d risposte — si vince nominandole tutte" % [
+				npc_id_data, errori_concessi + 1, quante_risposte])
 
 ## La difficoltà cresce col mondo, e il tempo cresce **meno** della quantità: è
 ## ciò che rende la strategia vecchia sempre meno sufficiente.

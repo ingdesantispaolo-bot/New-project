@@ -23,14 +23,29 @@ extends SceneTree
 ## ## Come si legge
 ##
 ## Un archetipo che il CIECO vince spesso non sta misurando quello che dice di
-## misurare. Non è di per sé un difetto — alcuni sono giochi di velocità, dove
-## sbagliare costa tempo e non la partita — ma è il numero da guardare prima di
-## dire che un minigioco «funziona».
+## misurare. È il numero da guardare prima di dire che un minigioco «funziona».
+##
+## ## Quello che questa sonda NON misura, e va detto
+##
+## **La velocità del dito.** Il CIECO tocca un pulsante per fotogramma, cioè
+## sessanta volte al secondo: nei giochi col cronometro il tempo non gli finisce
+## mai, e la sua percentuale è un **tetto** che nessun bambino raggiunge.
+##
+## Per quegli archetipi il numero che conta è l'altro: **quanti tocchi** servono.
+## Il 21 agosto 2026 il mucchio di Tobia ne chiedeva sei — ogni tocco prendeva
+## una decina, perché nascevano tutti in file piene — e adesso ne chiede
+## ventiquattro. La colonna «regge il tempo?» fa il conto al posto di chi legge:
+## a `RITMO_UMANO` tocchi al secondo, quei tocchi stanno dentro il cronometro?
+## Se non ci stanno, un giocatore a caso perde davvero, ed è quello che serve.
 ##
 ## Uso: godot --headless --path godot --script res://scripts/game/minigiochi_cieco_probe.gd
 
 const PARTITE := 60
 const TOCCHI_MASSIMI := 90
+
+## Quanti tocchi al secondo fa un bambino di undici anni su un tablet, con
+## intenzione e non a raffica. Due: e' il ritmo di chi guarda dove tocca.
+const RITMO_UMANO := 2.0
 
 var _host: Control
 var _esito := {}
@@ -48,7 +63,7 @@ func _run() -> void:
 	print("")
 	print("Minigiochi dei personaggi — quanti ne vince chi tocca a caso")
 	print("")
-	print("ARCHETIPO      personaggio      vinti a caso   tocchi medi")
+	print("ARCHETIPO      personaggio      vinti a caso   tocchi   regge il tempo?")
 	var rng := RandomNumberGenerator.new()
 	var peggiore := 0.0
 	var peggiore_nome := ""
@@ -66,8 +81,16 @@ func _run() -> void:
 		if quota > peggiore:
 			peggiore = quota
 			peggiore_nome = str(archetipo)
-		print("%-14s %-16s %10.1f%%  %11.1f" % [
-			archetipo, npc, quota, float(tocchi_totali) / float(PARTITE)])
+		var tocchi_medi := float(tocchi_totali) / float(PARTITE)
+		var secondi := float(Dictionary(CharacterMinigameCatalog.scheda(npc)
+			.get("parametri", {})).get("secondi", 0.0))
+		var verdetto := "niente cronometro"
+		if secondi > 0.0:
+			var servono := tocchi_medi / RITMO_UMANO
+			verdetto = "%s (%.0f s su %.0f)" % [
+				"sì" if servono <= secondi else "NO", servono, secondi]
+		print("%-14s %-16s %10.1f%%  %6.1f   %s" % [
+			archetipo, npc, quota, tocchi_medi, verdetto])
 	print("")
 	print("Il piu' vincibile a caso: %s, %.1f%%" % [peggiore_nome, peggiore])
 	print("")

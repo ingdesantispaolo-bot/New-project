@@ -46,6 +46,10 @@ var _griglia: Control
 var _cronometro: Label
 var _conta: Label
 var _pezzi: Dictionary = {}        # indice -> Control
+## Dove sta ogni cristallo: indice -> (fila, colonna). Prima era implicito
+## nell'indice, e proprio per questo il mucchio era sempre tutto in file piene.
+var _posti: Dictionary = {}
+var _file := 0
 
 func avvia(scheda: Dictionary, reduced_motion: bool) -> void:
 	_scheda = scheda.duplicate(true)
@@ -61,10 +65,64 @@ func avvia(scheda: Dictionary, reduced_motion: bool) -> void:
 	_restanti = []
 	for i in range(_totale):
 		_restanti.append(i)
+	_disponi()
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_costruisci()
 	_attivo = true
 	set_process(true)
+
+## **Il mucchio misto.** (21 agosto 2026)
+##
+## Fino al 20 agosto i cristalli nascevano tutti in file da dieci, e la
+## conseguenza era che **ogni tocco ne prendeva dieci**: la scoperta non si
+## poteva mancare perche' non esisteva un'altra mossa. `minigiochi_cieco_probe`
+## lo ha misurato — cento partite su cento vinte toccando a caso, in sei tocchi.
+##
+## Adesso una parte del mucchio sta in file piene e il resto e' **sparso**: due
+## o tre pezzi per fila, che si prendono uno per volta. Il bambino sente sulla
+## mano la differenza fra le due cose — la decina che sparisce insieme e il
+## granello che va preso da solo — e quella differenza e' la lezione.
+##
+## La regola non cambia di una virgola: si prende il gruppo dove il gruppo c'e'.
+## Cambia che adesso non c'e' dappertutto.
+func _disponi() -> void:
+	_posti.clear()
+	var rng := RandomNumberGenerator.new()
+	# Deterministico sul personaggio: lo stesso mucchio, ogni volta che si torna.
+	rng.seed = int(hash("mucchio::%s::%d" % [str(_scheda.get("npc", "")), _totale]))
+	var gruppo := int(Dictionary(_scheda.get("parametri", {})).get("gruppo", PER_FILA))
+	# **Quattro quinti in file piene, un quinto sparso.** Misurato: a due terzi
+	# il mucchio del mondo 1 chiedeva ventiquattro tocchi, cioe' dodici secondi
+	# a ritmo umano contro tredici concessi — una corsa al fotofinish per
+	# chiunque, non una prova di metodo. A quattro quinti il lavoro resta due
+	# volte e mezzo quello di prima e il tempo torna a bastare a chi gioca.
+	#
+	# E almeno una fila piena ci deve essere, o la scoperta non ha dove avvenire.
+	var in_fila := maxi(gruppo, (_totale * 4 / 5) / gruppo * gruppo)
+	in_fila = mini(in_fila, _totale)
+	var fila := 0
+	var indice := 0
+	while indice < in_fila:
+		for colonna in range(gruppo):
+			_posti[indice] = Vector2i(fila, colonna)
+			indice += 1
+		fila += 1
+	# Gli sparsi: due o tre per fila, in colonne che non si toccano.
+	while indice < _totale:
+		var quanti := mini(2 + rng.randi_range(0, 1), _totale - indice)
+		var colonne: Array = []
+		for _c in range(quanti):
+			var colonna := rng.randi_range(0, PER_FILA - 1)
+			var giri := 0
+			while colonne.has(colonna) and giri < PER_FILA:
+				colonna = (colonna + 3) % PER_FILA
+				giri += 1
+			colonne.append(colonna)
+		for colonna in colonne:
+			_posti[indice] = Vector2i(fila, int(colonna))
+			indice += 1
+		fila += 1
+	_file = fila
 
 func _costruisci() -> void:
 	var velo := ColorRect.new()
@@ -146,10 +204,9 @@ func _costruisci() -> void:
 
 	_griglia = Control.new()
 	_griglia.name = "PileGrid"
-	var file := ceili(float(_totale) / float(PER_FILA))
-	_griglia.custom_minimum_size = Vector2(LARGHEZZA_GRIGLIA, float(file) * PASSO_FILA)
+	_griglia.custom_minimum_size = Vector2(LARGHEZZA_GRIGLIA, float(_file) * PASSO_FILA)
 	colonna.add_child(_griglia)
-	for fila in range(file):
+	for fila in range(_file):
 		_griglia.add_child(_crea_vassoio_fila(fila))
 	for i in range(_totale):
 		_griglia.add_child(_crea_pezzo(i))
@@ -178,10 +235,11 @@ func _crea_pezzo(indice: int) -> Control:
 	var pezzo := Button.new()
 	pezzo.name = "Crystal_%02d" % indice
 	pezzo.custom_minimum_size = Vector2(LATO, LATO)
-	var colonna := indice % PER_FILA
+	var posto: Vector2i = _posti.get(indice, Vector2i(indice / PER_FILA, indice % PER_FILA))
+	var colonna := int(posto.y)
 	pezzo.position = Vector2(
 		float(colonna) * LATO + (SPAZIO_CINQUINE if colonna >= 5 else 0.0),
-		float(indice / PER_FILA) * PASSO_FILA + 2.0)
+		float(posto.x) * PASSO_FILA + 2.0)
 	pezzo.icon = CRISTALLO
 	pezzo.expand_icon = true
 	#  su Button e' una COSTANTE DI TEMA, non una proprieta':
@@ -242,10 +300,11 @@ func _stile_pannello(sfondo: Color, bordo: Color, raggio: int, spessore: int) ->
 func _tocca(indice: int) -> void:
 	if not _attivo or not _restanti.has(indice):
 		return
-	var fila := indice / PER_FILA
+	var fila := int(Vector2i(_posti.get(indice, Vector2i(indice / PER_FILA, 0))).x)
 	var compagni: Array = []
 	for altro in _restanti:
-		if int(altro) / PER_FILA == fila:
+		var posto: Vector2i = _posti.get(int(altro), Vector2i(int(altro) / PER_FILA, 0))
+		if int(posto.x) == fila:
 			compagni.append(int(altro))
 	var gruppo := int(Dictionary(_scheda.get("parametri", {})).get("gruppo", PER_FILA))
 	var presi: Array = compagni if compagni.size() >= gruppo else [indice]

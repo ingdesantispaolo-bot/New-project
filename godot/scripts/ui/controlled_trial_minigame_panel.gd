@@ -241,6 +241,12 @@ func _accusa(fattore: int) -> void:
 		_chiudi(true)
 		return
 	_errori += 1
+	# **Sbagliare il nome costa una prova.** (21 agosto 2026) Prima nominare
+	# era gratis, quindi si poteva tirare a indovinare senza toccare le
+	# manopole: il metodo che questo gioco insegna era aggirabile ignorandolo.
+	# Adesso un nome sbagliato consuma quello che consumerebbe un esperimento,
+	# perche' e' quello che e': un tentativo speso senza aver isolato niente.
+	_prove_usate = mini(_prove_usate + 1, _prove_totali)
 	if _errori > _errori_max:
 		_aggiorna("Non era quella, e i tentativi sono finiti.")
 		_chiudi(false)

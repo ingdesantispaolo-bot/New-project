@@ -2120,3 +2120,32 @@ riprodurre in editor: toglie la tavola a un personaggio gia' costruito, chiama
 l'annuncio vero dell'autoload — non il metodo del consumatore — e pretende che
 il volto torni. Verifica anche che chi non ha tavola **si dichiari**: un attore
 che ripiega in silenzio e' il difetto di partenza.
+
+
+## L'arte parte con il gioco, sempre (21 agosto 2026)
+
+Decisione del committente dopo il difetto del giorno prima: *«eliminiamo le
+figure di ripiego, il gioco deve partire con la grafica migliore sempre»*.
+
+Il preset Web non esclude piu' `assets/npcs/**/*`, `assets/guardians/*`,
+`assets/custodi/*` e `assets/itinerants/*`: le 109 tavole con una faccia stanno
+nel pacchetto d'avvio. Nel preset «Web Content» restano i 60 file audio, che
+degradano in silenzio e non hanno una faccia da mostrare peggio.
+
+- **PCK 52,27 -> 63,51 MiB**, pacchetto completo 89,96 -> 101,19 MiB; il
+  differito 25,8 -> 14,6 MiB. Undici mega in piu' sul primo caricamento, e il
+  primo mondo giusto da subito.
+- Misura sulla build esportata, entrando nel mondo appena parte:
+  **`montato-e-riapplicato:0`** contro i 12 della build precedente, e la cattura
+  mostra il guardiano illustrato dal primo fotogramma.
+- Nuovo `boot_art_audit`: nessun preset puo' rimettere quelle quattro cartelle
+  nel differito, e l'audio deve restarci. Un filtro di export e' una stringa che
+  nessun test esegue: e' esattamente il posto in cui questo torna indietro senza
+  che nessuno se ne accorga.
+- Il rimontaggio (`arte_differita` + `content_pack_refresh_audit`) resta: non
+  serve piu' all'arte dei personaggi, serve all'audio e a qualunque cosa venga
+  differita domani.
+- Il disegno vettoriale resta nel codice. Nelle sacche di Silenzio quelle forme
+  **non sono un ripiego**: sono il corpo, e l'illustrazione ci sta sopra per
+  costruzione. Eliminata la condizione in cui il ripiego si vede, non il codice
+  che tiene in piedi la resa.

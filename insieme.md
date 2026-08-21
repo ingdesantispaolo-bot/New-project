@@ -366,25 +366,38 @@ perdano.
   materiale no. Passarli all'inglese cambia la difficoltà in modo serio, con cinque
   secondi di segnale e un bambino al quarto mondo. **Decisione tua.**
 
-## Il pacchetto differito — la cosa da sapere prima di giudicare l'arte
+## Il pacchetto differito — che cosa contiene, adesso
 
-**Se entri nel mondo nei primi venti secondi di una build nuova, i personaggi e
-i guardiani sono ancora vettoriali.** Non è un difetto: le loro tavole, con
-l'audio, viaggiano in `content.pck` — 27 MB chiesti in sottofondo a gioco già
-interattivo, invece che prima del primo fotogramma. Misurato sulla build del 20
-agosto: il pacchetto si monta intorno al **ventesimo secondo**.
+**Decisione del 21 agosto: l'arte parte con il gioco, sempre.** I 74 ritratti,
+le 24 tavole dei guardiani, gli 11 Custodi e i 5 itineranti sono nel pacchetto
+d'avvio. Nel differito resta **solo l'audio**, che degrada in silenzio e non ha
+una faccia.
 
-Quello che era un difetto, ed è chiuso, è che il ripiego **restava**: il segnale
-`content_ready` non aveva ascoltatori, quindi chi era già nato non tornava più
-indietro. Adesso chi ripiega si dichiara e viene richiamato all'arrivo — misurato
-sulla build Web, dodici nodi rimontati entrando nel mondo mentre il pacchetto era
-ancora in volo. Lo tiene `content_pack_refresh_audit`.
+Prima quelle tavole viaggiavano col pacchetto chiesto in sottofondo, e chi
+entrava nel mondo nei primi venti secondi vedeva i gusci vettoriali. Il
+rimontaggio all'arrivo aveva chiuso il difetto, ma la finestra restava: una
+finestra in cui il gioco si mostra peggio di com'è non è un compromesso che
+questo progetto fa.
 
-Resta un fatto di prodotto che vale la pena decidere, e non è codice: **la copia
-locale del pacchetto porta il commit nel nome**, quindi ogni build nuova la
-ributta via e riscarica 27 MB. Ha un motivo giusto — i contenuti devono
-aggiornarsi col gioco — ma su una rete di scuola quei 27 MB si sommano ai 52 del
-PCK. Se il collaudo dirà che il primo minuto è lento, è qui che si interviene.
+Il prezzo, dichiarato: **PCK da 52,27 a 63,51 MiB**, pacchetto completo a 101,19
+MiB; il differito scende da 25,8 a 14,6 MiB. Il primo caricamento è più pesante
+di undici mega e il primo mondo è quello giusto da subito.
+
+Misura sulla build esportata, entrando nel mondo appena parte:
+**`montato-e-riapplicato:0`** — nessun nodo in attesa, nessun ripiego mostrato.
+Prima erano dodici.
+
+Due guardie, e servono tutt'e due perché il difetto è vissuto un mese senza che
+nessuno lo vedesse: `boot_art_audit` non lascia rimettere l'arte nel differito —
+è una riga di un `.cfg` che nessun test esegue e rimetterla costa un secondo — e
+`content_pack_refresh_audit` tiene in piedi il rimontaggio, che resta come rete
+di sicurezza per l'audio e per qualunque cosa venga differita domani.
+
+**Il disegno vettoriale resta nel codice, e non è una contraddizione.** Nel
+guscio delle sacche di Silenzio quelle forme non sono un ripiego: sono il corpo,
+e l'illustrazione ci sta sopra per costruzione. Toglierle cambierebbe la resa
+voluta, non semplificherebbe niente. Quello che è stato eliminato è la
+*condizione* in cui il ripiego si vede.
 
 ---
 

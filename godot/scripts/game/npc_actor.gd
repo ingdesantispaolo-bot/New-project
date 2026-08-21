@@ -37,16 +37,7 @@ func configure(id: String, data: Dictionary, use_reduced_motion: bool = false) -
 		circle.radius = 54.0
 		collision.shape = circle
 		add_child(collision)
-	var generated_art := PORTRAIT.art_for(id)
-	if generated_art != null and get_node_or_null("NpcArt") == null:
-		npc_art = Sprite2D.new()
-		npc_art.name = "NpcArt"
-		npc_art.texture = generated_art
-		npc_art.scale = Vector2(0.28, 0.28)
-		npc_art.position = Vector2(0, -7)
-		npc_art.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
-		add_child(npc_art)
-		set_meta("usesGeneratedArt", true)
+	_monta_arte()
 	if get_node_or_null("NpcName") == null:
 		var label := Label.new()
 		label.name = "NpcName"
@@ -88,6 +79,44 @@ func configure(id: String, data: Dictionary, use_reduced_motion: bool = false) -
 	# dettaglio di costruzione è il difetto peggiore: non lo vedi, lo scambi per
 	# carattere.
 	_ensure_speech_bubble()
+
+## **Il volto arriva dopo, e bisogna accorgersene.** (20 agosto 2026)
+##
+## I 74 ritratti non stanno nel pacchetto di avvio: viaggiano in `content.pck`,
+## chiesto in sottofondo a gioco gia' interattivo ([[ContentPackLoader]]). Chi
+## nasce mentre quel pacchetto e' ancora in volo trova `art_for()` vuoto e
+## ripiega sul volto disegnato — ed e' giusto cosi', il gioco resta completo.
+##
+## Quello che mancava e' la seconda meta': **quando il pacchetto arriva, nessuno
+## lo diceva a chi era gia' nato.** Il ripiego restava fino al cambio di mondo, e
+## siccome la copia locale porta il commit nel nome, ogni build nuova ricomincia
+## da capo — quindi al primo giro di ogni versione i personaggi e i guardiani
+## erano quelli vettoriali. L'audio aveva gia' la sua spinta
+## (`refresh_after_content_load`); l'arte no.
+##
+## Restituisce vero se il volto illustrato e' montato adesso.
+func _monta_arte() -> bool:
+	if get_node_or_null("NpcArt") != null:
+		return true
+	var generated_art := PORTRAIT.art_for(npc_id)
+	if generated_art == null:
+		add_to_group("arte_differita")
+		return false
+	npc_art = Sprite2D.new()
+	npc_art.name = "NpcArt"
+	npc_art.texture = generated_art
+	npc_art.scale = Vector2(0.28, 0.28)
+	npc_art.position = Vector2(0, -7)
+	npc_art.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+	add_child(npc_art)
+	set_meta("usesGeneratedArt", true)
+	remove_from_group("arte_differita")
+	queue_redraw()
+	return true
+
+## Chiamata da `ContentPackLoader` quando il pacchetto differito e' montato.
+func riapplica_arte_differita() -> void:
+	_monta_arte()
 
 ## Che cosa il bambino vede fare a questo personaggio, adesso. Vuoto = niente da
 ## dire, e allora non si scrive niente: una riga vuota sotto il nome sarebbe

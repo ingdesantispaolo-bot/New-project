@@ -116,6 +116,9 @@ var reduced_motion := false
 var body_shape: CollisionShape2D
 var contact_area: Area2D
 var visual: Node2D
+## Il mondo di questa sacca. Serve a rimontare l'illustrazione del guardiano se
+## `content.pck` arriva dopo che la sacca è già nata.
+var livello_del_mondo := 1
 
 func setup(
 	world_ref: Node, start: Vector2, level: int, subject: String, color: Color,
@@ -170,19 +173,8 @@ func _build_visual(level: int) -> void:
 	var aura := OutdoorVisualFactory.make_glow(40.0 + tier * 4.0, faded_accent, 0.22)
 	aura.add_to_group("night_glow")
 	visual.add_child(aura)
-	var generated_guardian := GUARDIAN_VISUALS.texture_for(level)
-	var guardian_sprite: Sprite2D = null
-	if generated_guardian != null:
-		guardian_sprite = Sprite2D.new()
-		guardian_sprite.name = "GuardianGeneratedArt"
-		guardian_sprite.texture = generated_guardian
-		guardian_sprite.scale = Vector2.ONE * (118.0 / 384.0)
-		guardian_sprite.position = Vector2(0, -14)
-		guardian_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
-		visual.add_child(guardian_sprite)
-		set_meta("usesGeneratedGuardianArt", true)
-		set_meta("guardianArtPath", generated_guardian.resource_path)
-		set_meta("guardianVisualFamily", GUARDIAN_VISUALS.family_for(level))
+	livello_del_mondo = level
+	var guardian_sprite := _monta_arte_guardiano()
 	var shell_color := faded_accent.darkened(0.38)
 	var outer_ring := OutdoorVisualFactory.make_ring(31.0 + tier * 2.0, Color(faded_accent, 0.48), 2.6, 28)
 	outer_ring.scale = Vector2(1.0, 0.82)
@@ -266,6 +258,51 @@ func _build_visual(level: int) -> void:
 	label.add_theme_color_override("font_color", accent.lightened(0.25))
 	label.accessibility_name = "%s, pattuglia di Silenzio; l'impulso la rende leggibile" % enemy_name
 	add_child(label)
+
+## **L'illustrazione del guardiano arriva con il pacchetto differito.**
+## (20 agosto 2026)
+##
+## Le 24 tavole dei guardiani stanno in `content.pck` insieme ai 74 ritratti e
+## all'audio ([[ContentPackLoader]]): una sacca che nasce mentre il pacchetto è
+## ancora in volo trova `texture_for()` vuoto e resta il guscio vettoriale. Era
+## previsto — il ripiego esiste apposta, il gioco non si rompe — ma non era
+## previsto che ci restasse **per sempre**: nessuno diceva a chi era già nato
+## che i contenuti erano arrivati. E siccome la copia locale del pacchetto porta
+## il commit nel nome, ogni build nuova la ributta via e la riscarica: il primo
+## giro di ogni versione mostrava i gusci al posto dei guardiani.
+##
+## L'audio quella spinta ce l'aveva già (`refresh_after_content_load`).
+## L'arte no.
+func _monta_arte_guardiano() -> Sprite2D:
+	if visual == null:
+		return null
+	var gia_montata := visual.get_node_or_null("GuardianGeneratedArt") as Sprite2D
+	if gia_montata != null:
+		return gia_montata
+	var texture := GUARDIAN_VISUALS.texture_for(livello_del_mondo)
+	if texture == null:
+		add_to_group("arte_differita")
+		return null
+	var sprite := Sprite2D.new()
+	sprite.name = "GuardianGeneratedArt"
+	sprite.texture = texture
+	sprite.scale = Vector2.ONE * (118.0 / 384.0)
+	sprite.position = Vector2(0, -14)
+	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+	visual.add_child(sprite)
+	set_meta("usesGeneratedGuardianArt", true)
+	set_meta("guardianArtPath", texture.resource_path)
+	set_meta("guardianVisualFamily", GUARDIAN_VISUALS.family_for(livello_del_mondo))
+	remove_from_group("arte_differita")
+	return sprite
+
+## Chiamata da `ContentPackLoader` quando il pacchetto differito è montato.
+## L'illustrazione torna in fondo alla lista: la sagoma di ruolo le sta sotto e
+## non deve coprirla — lo pretende `generated_character_art_audit`.
+func riapplica_arte_differita() -> void:
+	var sprite := _monta_arte_guardiano()
+	if sprite != null and visual != null:
+		visual.move_child(sprite, visual.get_child_count() - 1)
 
 func _apply_role_visual() -> void:
 	if visual == null:

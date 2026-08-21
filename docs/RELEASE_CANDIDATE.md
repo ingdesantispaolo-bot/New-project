@@ -2074,3 +2074,49 @@ sovrapporsi: lo sprite occupa x +-59 e da y -73 a +45, e ogni ruolo esce da un
 lato diverso — corona sopra la testa, lame di lato, vele sopra. Scala e quota
 sono calcolate su quei numeri; **la leggibilita' vera va guardata giocando**, ed
 e' annotata fra le cose da vedere al collaudo.
+
+
+## Difetto grave corretto: l'arte tornava «base» a ogni build nuova (20 agosto 2026)
+
+Segnalato giocando: *«la grafica migliorata dei personaggi e dei guardiani e'
+sparita ed e' tornata quella base»*.
+
+**Non era sparita: in quella sessione non era mai arrivata.** I 74 ritratti, le
+24 tavole dei guardiani, gli 11 Custodi e i 60 file audio non stanno nel
+pacchetto d'avvio — il preset Web li esclude e li mette in `content.pck`, chiesto
+in sottofondo a gioco gia' interattivo, perche' 27 MB prima del primo fotogramma
+sono 27 MB di attesa per roba che non serve a entrare nel mondo.
+
+Il presupposto era giusto: ogni consumatore degrada da solo, e finche' il
+pacchetto non arriva il gioco e' completo, non rotto. Mancava la seconda meta':
+**quando arriva, nessuno lo diceva a chi era gia' nato.** `content_ready` non
+aveva un solo ascoltatore in tutto il progetto; l'unica spinta esistente era
+quella dell'audio (`refresh_after_content_load`). Il ripiego restava quindi fino
+al cambio di mondo — e siccome la copia locale del pacchetto porta il commit nel
+nome ed e' ributtata via a ogni versione, **il primo giro di ogni build si
+giocava con i gusci vettoriali**.
+
+**Perche' nessun audit lo aveva visto, ed e' la parte che vale.** In editor e
+nell'export desktop il pacchetto c'e' sempre: la sonda risponde, la strada del
+ripiego non viene mai percorsa, e ogni verifica sull'arte resta verde. Il difetto
+vive solo dove le due cose sono separate — sul Web — e nessuna misura ci
+arrivava. E' lo stesso difetto di forma della decisione 14, spostato di un piano:
+non «una chiave senza lettori», ma **un segnale senza ascoltatori**.
+
+La riparazione: chi ripiega si dichiara nel gruppo `arte_differita` e ne esce da
+solo quando rimonta la propria tavola; `ContentPackLoader._announce()` chiama il
+gruppo insieme alla spinta dell'audio. Coperti `NpcActor` (residenti e
+itineranti), `WorldEnemy` (guardiani, con l'illustrazione che torna ULTIMA figlia
+come pretende `generated_character_art_audit`) e `OutdoorPetCompanion`.
+
+Misurato sulla build Web esportata, entrando nel mondo mentre il pacchetto e'
+ancora in volo: **`montato-e-riapplicato:12`** — dodici nodi in attesa, tutti
+rimontati all'arrivo — e la cattura mostra il guardiano illustrato al posto del
+guscio. Il conteggio finisce nello stato pubblicato apposta: un rimontaggio che
+non avviene sarebbe altrimenti invisibile.
+
+Tenuto da `content_pack_refresh_audit`, che simula la separazione impossibile da
+riprodurre in editor: toglie la tavola a un personaggio gia' costruito, chiama
+l'annuncio vero dell'autoload — non il metodo del consumatore — e pretende che
+il volto torni. Verifica anche che chi non ha tavola **si dichiari**: un attore
+che ripiega in silenzio e' il difetto di partenza.

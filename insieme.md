@@ -366,6 +366,28 @@ perdano.
   materiale no. Passarli all'inglese cambia la difficoltà in modo serio, con cinque
   secondi di segnale e un bambino al quarto mondo. **Decisione tua.**
 
+## Il pacchetto differito — la cosa da sapere prima di giudicare l'arte
+
+**Se entri nel mondo nei primi venti secondi di una build nuova, i personaggi e
+i guardiani sono ancora vettoriali.** Non è un difetto: le loro tavole, con
+l'audio, viaggiano in `content.pck` — 27 MB chiesti in sottofondo a gioco già
+interattivo, invece che prima del primo fotogramma. Misurato sulla build del 20
+agosto: il pacchetto si monta intorno al **ventesimo secondo**.
+
+Quello che era un difetto, ed è chiuso, è che il ripiego **restava**: il segnale
+`content_ready` non aveva ascoltatori, quindi chi era già nato non tornava più
+indietro. Adesso chi ripiega si dichiara e viene richiamato all'arrivo — misurato
+sulla build Web, dodici nodi rimontati entrando nel mondo mentre il pacchetto era
+ancora in volo. Lo tiene `content_pack_refresh_audit`.
+
+Resta un fatto di prodotto che vale la pena decidere, e non è codice: **la copia
+locale del pacchetto porta il commit nel nome**, quindi ogni build nuova la
+ributta via e riscarica 27 MB. Ha un motivo giusto — i contenuti devono
+aggiornarsi col gioco — ma su una rete di scuola quei 27 MB si sommano ai 52 del
+PCK. Se il collaudo dirà che il primo minuto è lento, è qui che si interviene.
+
+---
+
 ## Le cose da guardare giocando
 
 Sono i punti in cui una resa sbagliata non rompe niente e toglie tutto il

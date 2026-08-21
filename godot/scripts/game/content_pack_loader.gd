@@ -136,4 +136,26 @@ func _announce() -> void:
 	var audio := get_node_or_null("/root/NativeAudio")
 	if audio != null and audio.has_method("refresh_after_content_load"):
 		audio.call("refresh_after_content_load")
+	# **E la stessa cosa vale per l'arte.** (20 agosto 2026)
+	#
+	# Il difetto era simmetrico a quello dell'audio e per un mese non l'ha visto
+	# nessuno, perche' in editor e nell'export desktop il pacchetto c'e' sempre:
+	# la sonda risponde, `_ready` esce subito e la strada del ripiego non viene
+	# mai percorsa. Sul Web invece i personaggi e i guardiani nascono mentre i
+	# 27 MB sono in volo, ripiegano sul disegno vettoriale — che e' la cosa
+	# giusta da fare — e **non tornavano piu' indietro**: il segnale
+	# `content_ready` non aveva un solo ascoltatore in tutto il progetto.
+	#
+	# Chi ha ripiegato si mette nel gruppo `arte_differita` e se ne esce da solo
+	# appena rimonta la propria tavola. Il gruppo e' vuoto in tutte le sessioni
+	# in cui il pacchetto era gia' li', quindi questa chiamata di solito non
+	# tocca nessuno.
+	#
+	# Il conteggio finisce nello stato pubblicato per la stessa ragione per cui
+	# c'e' lo stato: un rimontaggio che non avviene e' invisibile. Se un giorno
+	# qualcuno rivedra' i gusci vettoriali, questo numero dira' subito se il
+	# problema e' che nessuno aspettava o che nessuno ha risposto.
+	var in_attesa := get_tree().get_nodes_in_group("arte_differita").size()
+	get_tree().call_group("arte_differita", "riapplica_arte_differita")
+	_publish("montato-e-riapplicato:%d" % in_attesa)
 	content_ready.emit()

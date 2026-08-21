@@ -12,6 +12,9 @@ const PET_ANTICS := preload("res://scripts/game/pet_antics.gd")
 
 var target  # OutdoorPlayerController (untyped: accesso dinamico a .velocity)
 var visual: Node2D
+## Che Custode e di che livrea, per poterlo rifare se la sua tavola arriva dopo.
+var _kind_del_custode := ""
+var _colore_del_custode := Color.WHITE
 var offset := Vector2(-34, -6)
 var _bob := 0.0
 var _react := 0.0
@@ -38,8 +41,14 @@ func setup(
 	target = follow_target
 	set_temperament(temperament)
 	set_reduced_motion(reduced_motion)
+	_kind_del_custode = kind
+	_colore_del_custode = color
 	visual = OutdoorVisualFactory.build_pet(kind, color)
 	add_child(visual)
+	if visual.get_node_or_null("PetGeneratedArt") == null:
+		# Il Custode illustrato viaggia in `content.pck` come i ritratti e i
+		# guardiani: se non c'è ancora, si torna qui quando arriva.
+		add_to_group("arte_differita")
 	_antics = PET_ANTICS.new()
 	_antics.name = "PetAntics"
 	add_child(_antics)
@@ -442,3 +451,26 @@ func _disegna_fiuto() -> void:
 			-0.7 if _fiuto_lato > 0.0 else PI + 0.7,
 			0.7 if _fiuto_lato > 0.0 else PI - 0.7,
 			8, tinta, 1.8, true)
+
+## Chiamata da `ContentPackLoader` quando il pacchetto differito è montato: il
+## corpo del Custode si ricostruisce con la tavola che prima non c'era. È un
+## nodo solo e succede una volta per sessione, quindi si rifà invece di
+## rattopparlo — posa e temperamento li ridecide comunque il motore delle
+## espressioni al fotogramma dopo.
+func riapplica_arte_differita() -> void:
+	if _kind_del_custode.is_empty() or not is_instance_valid(visual):
+		return
+	if visual.get_node_or_null("PetGeneratedArt") != null:
+		remove_from_group("arte_differita")
+		return
+	var rifatto := OutdoorVisualFactory.build_pet(_kind_del_custode, _colore_del_custode)
+	if rifatto.get_node_or_null("PetGeneratedArt") == null:
+		rifatto.queue_free()
+		return
+	var posto := visual.get_index()
+	var vecchio := visual
+	visual = rifatto
+	add_child(visual)
+	move_child(visual, posto)
+	vecchio.queue_free()
+	remove_from_group("arte_differita")

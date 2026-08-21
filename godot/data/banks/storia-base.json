@@ -13,15 +13,15 @@
 			"options": [
 				"Qualsiasi traccia che ci dice qualcosa del passato",
 				"Una data importante da ricordare",
-				"Il racconto di chi ha studiato la storia",
+				"Il racconto di chi ha studiato la storia sui libri",
 				"Soltanto un libro scritto dagli storici"
 			],
 			"answer": "Qualsiasi traccia che ci dice qualcosa del passato",
 			"explanation": "Una moneta, un muro, una lettera, un rifiuto sepolto: tutto ciò che è arrivato fino a noi può parlare del passato.",
 			"distractorWhy": {
 				"Soltanto un libro scritto dagli storici": "I libri degli storici sono fonti secondarie: le fonti includono anche oggetti, immagini e testimonianze dirette.",
-				"Il racconto di chi ha studiato la storia": "Questo descrive un libro di storia, non una fonte: la fonte è la traccia originale su cui lo storico lavora.",
-				"Una data importante da ricordare": "Una data non è una traccia del passato: è un'informazione che si ricava dalle fonti."
+				"Una data importante da ricordare": "Una data non è una traccia del passato: è un'informazione che si ricava dalle fonti.",
+				"Il racconto di chi ha studiato la storia sui libri": "Questo descrive un libro di storia, non una fonte: la fonte è la traccia originale su cui lo storico lavora."
 			}
 		},
 		{
@@ -118,15 +118,15 @@
 			"options": [
 				"Perché le fonti antiche valgono di più",
 				"Perché chi scrive e quando cambia ciò che dice",
-				"Perché lo richiede la legge sugli archivi",
+				"Perché lo richiede la legge che regola gli archivi",
 				"Perché altrimenti non si può conservare"
 			],
 			"answer": "Perché chi scrive e quando cambia ciò che dice",
 			"explanation": "La stessa battaglia raccontata dal vincitore o dallo sconfitto, subito o cent'anni dopo, non è la stessa battaglia.",
 			"distractorWhy": {
 				"Perché altrimenti non si può conservare": "La conservazione fisica del documento non dipende dal sapere chi l'ha scritto.",
-				"Perché lo richiede la legge sugli archivi": "Non è una questione legale ma di metodo storico: capire punto di vista ed epoca cambia l'interpretazione.",
-				"Perché le fonti antiche valgono di più": "L'età della fonte non è il punto: anche una fonte recente va datata e attribuita per capirla bene."
+				"Perché le fonti antiche valgono di più": "L'età della fonte non è il punto: anche una fonte recente va datata e attribuita per capirla bene.",
+				"Perché lo richiede la legge che regola gli archivi": "Non è una questione legale ma di metodo storico: capire punto di vista ed epoca cambia l'interpretazione."
 			}
 		},
 		{
@@ -180,7 +180,7 @@
 			"prompt": "Perché anche una fonte falsa può essere utile allo storico?",
 			"options": [
 				"Perché dice cosa qualcuno voleva far credere",
-				"Perché è più antica delle altre fonti",
+				"Perché è sempre più antica delle altre fonti",
 				"Perché è più facile da conservare",
 				"Perché contiene comunque dati esatti"
 			],
@@ -188,8 +188,8 @@
 			"explanation": "Un falso non racconta il fatto, ma racconta il falsario: chi l'ha fatto, quando, e a chi giovava.",
 			"distractorWhy": {
 				"Perché contiene comunque dati esatti": "Un falso, per definizione, non garantisce dati esatti: la sua utilità sta in quello che rivela sul falsario.",
-				"Perché è più antica delle altre fonti": "L'utilità di un falso non dipende dalla sua età, ma da cosa rivela su chi l'ha creato.",
-				"Perché è più facile da conservare": "La facilità di conservazione non è ciò che rende utile un falso allo storico."
+				"Perché è più facile da conservare": "La facilità di conservazione non è ciò che rende utile un falso allo storico.",
+				"Perché è sempre più antica delle altre fonti": "L'utilità di un falso non dipende dalla sua età, ma da cosa rivela su chi l'ha creato."
 			}
 		},
 		{
@@ -266,14 +266,14 @@
 				"Perché raccontano la vita di tutti i giorni",
 				"Perché contengono oggetti di valore",
 				"Perché sono più facili da datare",
-				"Perché sono i resti meglio conservati"
+				"Perché sono quasi sempre i resti meglio conservati"
 			],
 			"answer": "Perché raccontano la vita di tutti i giorni",
 			"explanation": "Nessuno decide come farsi ricordare buttando l'immondizia: per questo dice la verità sul cibo, sui mestieri, sulla povertà.",
 			"distractorWhy": {
 				"Perché contengono oggetti di valore": "I rifiuti sono per definizione ciò che veniva scartato, non oggetti preziosi.",
-				"Perché sono i resti meglio conservati": "Non sono necessariamente i resti meglio conservati: il loro valore è che nessuno li ha manipolati per fare bella figura.",
-				"Perché sono più facili da datare": "Non sono più facili da datare di altri reperti: il loro valore è raccontare la vita quotidiana senza filtri."
+				"Perché sono più facili da datare": "Non sono più facili da datare di altri reperti: il loro valore è raccontare la vita quotidiana senza filtri.",
+				"Perché sono quasi sempre i resti meglio conservati": "Non sono necessariamente i resti meglio conservati: il loro valore è che nessuno li ha manipolati per fare bella figura."
 			}
 		},
 		{
@@ -432,7 +432,7 @@
 			"prompt": "Perché la ruota fu importante quanto l'aratro?",
 			"options": [
 				"Perché permise di trasportare pesi lontano",
-				"Perché serviva a costruire i templi",
+				"Perché serviva soprattutto a costruire i templi",
 				"Perché rese più belle le città",
 				"Perché sostituì la forza animale"
 			],
@@ -440,8 +440,8 @@
 			"explanation": "Coltivare di più serve a poco se non puoi spostare il raccolto: produzione e trasporto crescono insieme.",
 			"distractorWhy": {
 				"Perché rese più belle le città": "L'estetica delle città non è il motivo storico della sua importanza: conta il trasporto di merci.",
-				"Perché serviva a costruire i templi": "I templi si costruivano soprattutto con altre tecniche: la ruota serviva soprattutto al trasporto.",
-				"Perché sostituì la forza animale": "La ruota non sostituisce la forza animale: anzi, spesso viene trainata proprio da animali."
+				"Perché sostituì la forza animale": "La ruota non sostituisce la forza animale: anzi, spesso viene trainata proprio da animali.",
+				"Perché serviva soprattutto a costruire i templi": "I templi si costruivano soprattutto con altre tecniche: la ruota serviva soprattutto al trasporto."
 			}
 		},
 		{
@@ -474,7 +474,7 @@
 			"prompt": "Che cos'è una civiltà, in senso storico?",
 			"options": [
 				"Un popolo che vive in modo educato",
-				"Una popolazione numerosa e in crescita",
+				"Una popolazione numerosa e in crescita continua da anni",
 				"Una società con città, scrittura e organizzazione",
 				"Un gruppo che possiede molte ricchezze"
 			],
@@ -483,7 +483,7 @@
 			"distractorWhy": {
 				"Un popolo che vive in modo educato": "Non è un giudizio morale sui comportamenti: è una definizione basata su caratteristiche osservabili come città e scrittura.",
 				"Un gruppo che possiede molte ricchezze": "La ricchezza da sola non definisce una civiltà: serve organizzazione, città e scrittura.",
-				"Una popolazione numerosa e in crescita": "Il numero di abitanti da solo non basta: conta l'organizzazione sociale e la scrittura."
+				"Una popolazione numerosa e in crescita continua da anni": "Il numero di abitanti da solo non basta: conta l'organizzazione sociale e la scrittura."
 			}
 		},
 		{
@@ -494,7 +494,7 @@
 			"format": "multiple_choice",
 			"prompt": "Perché le prime città avevano bisogno di magazzini?",
 			"options": [
-				"Per tenerci gli strumenti dei contadini",
+				"Per tenerci al riparo gli strumenti dei contadini",
 				"Per esporre gli oggetti più preziosi",
 				"Per ospitare i viaggiatori di passaggio",
 				"Per conservare il cibo e superare le carestie"
@@ -504,7 +504,7 @@
 			"distractorWhy": {
 				"Per esporre gli oggetti più preziosi": "Quello sarebbe un tesoro o un museo: i magazzini servivano a conservare il cibo, non a esporre oggetti.",
 				"Per ospitare i viaggiatori di passaggio": "Ospitare persone è compito di un alloggio, non di un magazzino per derrate.",
-				"Per tenerci gli strumenti dei contadini": "Gli attrezzi si conservavano altrove: i magazzini servivano soprattutto per il raccolto."
+				"Per tenerci al riparo gli strumenti dei contadini": "Gli attrezzi si conservavano altrove: i magazzini servivano soprattutto per il raccolto."
 			}
 		},
 		{
@@ -516,7 +516,7 @@
 			"prompt": "Perché nelle prime civiltà nacquero classi sociali diverse?",
 			"options": [
 				"Perché non tutti dovevano più produrre cibo",
-				"Perché il territorio era troppo grande",
+				"Perché il territorio da governare era troppo grande",
 				"Perché lo imponevano le divinità",
 				"Perché alcuni erano più intelligenti"
 			],
@@ -525,7 +525,7 @@
 			"distractorWhy": {
 				"Perché alcuni erano più intelligenti": "Non è una differenza di intelligenza: è la disponibilità di cibo in eccesso a liberare alcuni dal lavoro agricolo.",
 				"Perché lo imponevano le divinità": "Non è imposto dalla religione: è una conseguenza economica del surplus di cibo prodotto.",
-				"Perché il territorio era troppo grande": "La dimensione del territorio non spiega la nascita delle classi sociali: conta il surplus di cibo prodotto."
+				"Perché il territorio da governare era troppo grande": "La dimensione del territorio non spiega la nascita delle classi sociali: conta il surplus di cibo prodotto."
 			}
 		},
 		{
@@ -536,7 +536,7 @@
 			"format": "multiple_choice",
 			"prompt": "Che cosa sono le ziggurat mesopotamiche?",
 			"options": [
-				"Magazzini per conservare il grano",
+				"Magazzini usati per conservare il grano",
 				"Templi a gradoni dedicati alle divinità",
 				"Tombe reali sotterranee",
 				"Mura di difesa delle città"
@@ -546,7 +546,7 @@
 			"distractorWhy": {
 				"Tombe reali sotterranee": "Le ziggurat si innalzano verso il cielo, non scendono sottoterra come le tombe.",
 				"Mura di difesa delle città": "Le ziggurat non servivano a difendersi: erano edifici religiosi dedicati agli dèi.",
-				"Magazzini per conservare il grano": "Le ziggurat erano templi, non depositi per il cibo."
+				"Magazzini usati per conservare il grano": "Le ziggurat erano templi, non depositi per il cibo."
 			}
 		},
 		{
@@ -601,15 +601,15 @@
 			"options": [
 				"Perché le sue piene rendevano fertile la terra",
 				"Perché conteneva molti pesci pregiati",
-				"Perché segnava il confine con i nemici",
+				"Perché segnava il confine con i popoli nemici del sud",
 				"Perché era l'unica via per il deserto"
 			],
 			"answer": "Perché le sue piene rendevano fertile la terra",
 			"explanation": "Ogni anno la piena depositava limo: senza quel fango il deserto sarebbe arrivato fino alle case.",
 			"distractorWhy": {
 				"Perché conteneva molti pesci pregiati": "La pesca era un'attività secondaria: l'essenziale era il limo fertile lasciato dalle piene.",
-				"Perché segnava il confine con i nemici": "Il Nilo non era usato come confine militare: era la fonte di fertilità dei campi.",
-				"Perché era l'unica via per il deserto": "Il Nilo era una via d'acqua fertile, non una strada verso il deserto."
+				"Perché era l'unica via per il deserto": "Il Nilo era una via d'acqua fertile, non una strada verso il deserto.",
+				"Perché segnava il confine con i popoli nemici del sud": "Il Nilo non era usato come confine militare: era la fonte di fertilità dei campi."
 			}
 		},
 		{
@@ -644,14 +644,14 @@
 				"Erano templi per le cerimonie",
 				"Erano magazzini per il grano",
 				"Erano tombe monumentali dei faraoni",
-				"Erano fortezze contro i nemici"
+				"Erano fortezze costruite contro i nemici"
 			],
 			"answer": "Erano tombe monumentali dei faraoni",
 			"explanation": "Servivano a proteggere il corpo e il corredo del faraone per la vita dopo la morte.",
 			"distractorWhy": {
 				"Erano templi per le cerimonie": "Le cerimonie religiose avvenivano in templi separati: le piramidi erano tombe.",
 				"Erano magazzini per il grano": "Il grano si conservava in magazzini separati, non nelle piramidi.",
-				"Erano fortezze contro i nemici": "Le piramidi non avevano funzione difensiva: erano monumenti funebri."
+				"Erano fortezze costruite contro i nemici": "Le piramidi non avevano funzione difensiva: erano monumenti funebri."
 			}
 		},
 		{
@@ -686,14 +686,14 @@
 				"Una pietra con lo stesso testo in tre scritture",
 				"La mappa del corso completo del Nilo",
 				"Una lastra con le leggi del faraone",
-				"Il primo calendario egizio conosciuto"
+				"Il primo calendario egizio di cui si abbia notizia"
 			],
 			"answer": "Una pietra con lo stesso testo in tre scritture",
 			"explanation": "Avendo lo stesso testo in greco e in egizio, permise finalmente di decifrare i geroglifici.",
 			"distractorWhy": {
-				"Il primo calendario egizio conosciuto": "Non è un calendario: è una pietra con lo stesso testo scritto in tre scritture diverse.",
 				"Una lastra con le leggi del faraone": "Non contiene leggi: contiene lo stesso testo in tre scritture, utile per decifrare i geroglifici.",
-				"La mappa del corso completo del Nilo": "Non è una mappa geografica: è un testo trilingue inciso su pietra."
+				"La mappa del corso completo del Nilo": "Non è una mappa geografica: è un testo trilingue inciso su pietra.",
+				"Il primo calendario egizio di cui si abbia notizia": "Non è un calendario: è una pietra con lo stesso testo scritto in tre scritture diverse."
 			}
 		},
 		{
@@ -726,16 +726,16 @@
 			"prompt": "Perché gli Egizi svilupparono la geometria?",
 			"options": [
 				"Per orientare le navi sul fiume",
-				"Per decorare meglio i loro templi",
+				"Per decorare meglio i templi delle città",
 				"Per ridisegnare i campi dopo ogni piena",
 				"Per contare le tasse dei mercanti"
 			],
 			"answer": "Per ridisegnare i campi dopo ogni piena",
 			"explanation": "La piena cancellava i confini dei terreni ogni anno: bisognava misurarli di nuovo, e da lì nasce la «misura della terra».",
 			"distractorWhy": {
-				"Per decorare meglio i loro templi": "La decorazione non richiedeva calcoli geometrici precisi come quelli per ridefinire i confini dei campi.",
 				"Per contare le tasse dei mercanti": "Le tasse si calcolavano con l'aritmetica, non con la geometria dei terreni.",
-				"Per orientare le navi sul fiume": "La navigazione non richiedeva la geometria dei campi: nasce dalla necessità di ridisegnare i confini dopo le piene."
+				"Per orientare le navi sul fiume": "La navigazione non richiedeva la geometria dei campi: nasce dalla necessità di ridisegnare i confini dopo le piene.",
+				"Per decorare meglio i templi delle città": "La decorazione non richiedeva calcoli geometrici precisi come quelli per ridefinire i confini dei campi."
 			}
 		},
 		{
@@ -768,7 +768,7 @@
 			"prompt": "Che cosa vuol dire contestualizzare una fonte?",
 			"options": [
 				"Capire in che epoca e situazione è nata",
-				"Confrontarla con il libro di testo",
+				"Confrontarla subito con il libro di testo",
 				"Riassumerla nei suoi punti chiave",
 				"Tradurla nella lingua di oggi"
 			],
@@ -777,7 +777,7 @@
 			"distractorWhy": {
 				"Tradurla nella lingua di oggi": "La traduzione linguistica non basta a capire il contesto storico in cui è nata.",
 				"Riassumerla nei suoi punti chiave": "Riassumere non spiega l'epoca e la situazione: quello è contestualizzare.",
-				"Confrontarla con il libro di testo": "Il libro di testo è un'altra fonte, secondaria: contestualizzare significa capire l'epoca originale."
+				"Confrontarla subito con il libro di testo": "Il libro di testo è un'altra fonte, secondaria: contestualizzare significa capire l'epoca originale."
 			}
 		},
 		{
@@ -790,7 +790,7 @@
 			"options": [
 				"Una verità certa, perché è scritta",
 				"Una ricostruzione provvisoria, da verificare",
-				"Che il documento è sicuramente falso",
+				"Che il documento è di sicuro un falso recente",
 				"Che il fatto non è mai avvenuto"
 			],
 			"answer": "Una ricostruzione provvisoria, da verificare",
@@ -798,7 +798,7 @@
 			"distractorWhy": {
 				"Una verità certa, perché è scritta": "Essere scritta non garantisce che sia vera: serve sempre l'incrocio con altre fonti.",
 				"Che il fatto non è mai avvenuto": "Un solo documento non basta a negare un fatto: serve prudenza, non una conclusione negativa affrettata.",
-				"Che il documento è sicuramente falso": "Non c'è motivo di presumere che sia falso solo perché è l'unico trovato."
+				"Che il documento è di sicuro un falso recente": "Non c'è motivo di presumere che sia falso solo perché è l'unico trovato."
 			}
 		},
 		{
@@ -830,7 +830,7 @@
 			"format": "multiple_choice",
 			"prompt": "Che cos'è un anacronismo?",
 			"options": [
-				"Raccontare i fatti in ordine sbagliato",
+				"Raccontare i fatti in un ordine tutto sbagliato",
 				"Usare una fonte non affidabile",
 				"Confondere due date molto vicine",
 				"Attribuire a un'epoca qualcosa che non aveva"
@@ -839,8 +839,8 @@
 			"explanation": "Un romano con l'orologio da polso è un anacronismo evidente; giudicarne le scelte con la nostra morale è un anacronismo più sottile.",
 			"distractorWhy": {
 				"Confondere due date molto vicine": "Questo è un semplice errore cronologico, non l'attribuzione di qualcosa che l'epoca non aveva.",
-				"Raccontare i fatti in ordine sbagliato": "L'ordine dei fatti è un altro tipo di errore: l'anacronismo riguarda cose fuori dal loro tempo.",
-				"Usare una fonte non affidabile": "L'affidabilità della fonte è un problema diverso dall'anacronismo, che riguarda il tempo storico."
+				"Usare una fonte non affidabile": "L'affidabilità della fonte è un problema diverso dall'anacronismo, che riguarda il tempo storico.",
+				"Raccontare i fatti in un ordine tutto sbagliato": "L'ordine dei fatti è un altro tipo di errore: l'anacronismo riguarda cose fuori dal loro tempo."
 			}
 		},
 		{
@@ -956,7 +956,7 @@
 			"format": "multiple_choice",
 			"prompt": "Che cosa distingue il Paleolitico dal Neolitico?",
 			"options": [
-				"Nel Neolitico si scopre l'uso del fuoco",
+				"Nel Neolitico si scopre per la prima volta il fuoco",
 				"Nel Neolitico nascono agricoltura e allevamento",
 				"Nel Paleolitico si lavora già il ferro",
 				"Nel Paleolitico si vive già nelle città"
@@ -964,9 +964,9 @@
 			"answer": "Nel Neolitico nascono agricoltura e allevamento",
 			"explanation": "Paleolitico significa «pietra antica»: si caccia e si raccoglie. Nel Neolitico si produce il cibo, e si diventa stanziali.",
 			"distractorWhy": {
-				"Nel Neolitico si scopre l'uso del fuoco": "Il fuoco è già usato nel Paleolitico, molto prima del Neolitico.",
 				"Nel Paleolitico si vive già nelle città": "Le città nascono più tardi, dopo che l'agricoltura del Neolitico rende possibile restare stanziali.",
-				"Nel Paleolitico si lavora già il ferro": "Il ferro si lavora in un'epoca molto successiva, non nel Paleolitico."
+				"Nel Paleolitico si lavora già il ferro": "Il ferro si lavora in un'epoca molto successiva, non nel Paleolitico.",
+				"Nel Neolitico si scopre per la prima volta il fuoco": "Il fuoco è già usato nel Paleolitico, molto prima del Neolitico."
 			}
 		},
 		{
@@ -977,7 +977,7 @@
 			"format": "multiple_choice",
 			"prompt": "Perché gli uomini del Paleolitico erano nomadi?",
 			"options": [
-				"Perché cercavano metalli preziosi",
+				"Perché andavano in cerca di metalli preziosi",
 				"Perché il clima era sempre uguale",
 				"Perché seguivano gli animali e le stagioni",
 				"Perché temevano le altre tribù"
@@ -986,8 +986,8 @@
 			"explanation": "Chi vive di caccia e raccolta deve spostarsi dove c'è cibo: restare fermi diventa possibile solo coltivando.",
 			"distractorWhy": {
 				"Perché temevano le altre tribù": "La paura di altri gruppi non è il motivo principale: era la ricerca di cibo a imporre gli spostamenti.",
-				"Perché cercavano metalli preziosi": "La ricerca di metalli è un'attività di epoche successive, non del Paleolitico nomade.",
-				"Perché il clima era sempre uguale": "È il contrario: il cambio di stagioni spingeva a seguire gli animali e le risorse disponibili."
+				"Perché il clima era sempre uguale": "È il contrario: il cambio di stagioni spingeva a seguire gli animali e le risorse disponibili.",
+				"Perché andavano in cerca di metalli preziosi": "La ricerca di metalli è un'attività di epoche successive, non del Paleolitico nomade."
 			}
 		},
 		{
@@ -1020,7 +1020,7 @@
 			"prompt": "Che cos'è un menhir?",
 			"options": [
 				"Una grande pietra piantata verticalmente",
-				"Un utensile per lavorare la pelle",
+				"Un utensile che serviva a lavorare la pelle",
 				"Una capanna di pietra e paglia",
 				"Una tomba scavata nella roccia"
 			],
@@ -1029,7 +1029,7 @@
 			"distractorWhy": {
 				"Una capanna di pietra e paglia": "Un menhir non è un'abitazione: è una singola grande pietra piantata verticalmente.",
 				"Una tomba scavata nella roccia": "Un menhir non è scavato: è una pietra eretta, non una cavità funeraria.",
-				"Un utensile per lavorare la pelle": "Un menhir è un monumento di grandi dimensioni, non un piccolo attrezzo."
+				"Un utensile che serviva a lavorare la pelle": "Un menhir è un monumento di grandi dimensioni, non un piccolo attrezzo."
 			}
 		},
 		{
@@ -1040,7 +1040,7 @@
 			"format": "multiple_choice",
 			"prompt": "Perché la lavorazione dei metalli segna una svolta?",
 			"options": [
-				"Perché fa nascere subito la scrittura",
+				"Perché fa nascere quasi subito la scrittura",
 				"Perché dà strumenti migliori e nuovi scambi",
 				"Perché elimina le guerre fra gruppi",
 				"Perché rende inutile l'agricoltura"
@@ -1049,8 +1049,8 @@
 			"explanation": "Gli attrezzi di metallo durano e tagliano meglio; e poiché i minerali sono in pochi luoghi, nascono commerci a lunga distanza.",
 			"distractorWhy": {
 				"Perché rende inutile l'agricoltura": "L'agricoltura resta essenziale: i metalli danno solo attrezzi migliori per lavorare, non la sostituiscono.",
-				"Perché fa nascere subito la scrittura": "La scrittura nasce per altre ragioni (la contabilità) e non è una conseguenza diretta e immediata dei metalli.",
-				"Perché elimina le guerre fra gruppi": "I metalli anzi danno anche armi migliori: non eliminano i conflitti."
+				"Perché elimina le guerre fra gruppi": "I metalli anzi danno anche armi migliori: non eliminano i conflitti.",
+				"Perché fa nascere quasi subito la scrittura": "La scrittura nasce per altre ragioni (la contabilità) e non è una conseguenza diretta e immediata dei metalli."
 			}
 		},
 		{
@@ -1145,7 +1145,7 @@
 			"format": "multiple_choice",
 			"prompt": "Perché i Greci fondarono colonie nel Mediterraneo?",
 			"options": [
-				"Perché cercavano nuovi dèi da adorare",
+				"Perché andavano in cerca di nuovi dèi da adorare",
 				"Perché fuggivano da un'epidemia",
 				"Perché la terra coltivabile in patria era poca",
 				"Perché volevano conquistare Roma"
@@ -1155,7 +1155,7 @@
 			"distractorWhy": {
 				"Perché volevano conquistare Roma": "Roma era ancora poco rilevante in quel periodo: le colonie nascevano per necessità di terra, non per conquista militare.",
 				"Perché fuggivano da un'epidemia": "Non ci sono prove di una fuga da epidemie: il motivo principale era la scarsità di terra coltivabile.",
-				"Perché cercavano nuovi dèi da adorare": "I Greci portavano con sé i propri dèi nelle colonie: non partivano per cercarne di nuovi."
+				"Perché andavano in cerca di nuovi dèi da adorare": "I Greci portavano con sé i propri dèi nelle colonie: non partivano per cercarne di nuovi."
 			}
 		},
 		{
@@ -1189,7 +1189,7 @@
 			"options": [
 				"Perché faceva discutere la città sui suoi problemi",
 				"Perché era riservato ai sacerdoti",
-				"Perché sostituiva le assemblee politiche",
+				"Perché sostituiva del tutto le assemblee politiche",
 				"Perché serviva solo a far divertire"
 			],
 			"answer": "Perché faceva discutere la città sui suoi problemi",
@@ -1197,7 +1197,7 @@
 			"distractorWhy": {
 				"Perché serviva solo a far divertire": "Il teatro greco, soprattutto la tragedia, affrontava temi seri come giustizia e potere, non solo intrattenimento.",
 				"Perché era riservato ai sacerdoti": "Il teatro era aperto a migliaia di cittadini, non riservato ai sacerdoti.",
-				"Perché sostituiva le assemblee politiche": "Il teatro non sostituiva le assemblee: era un luogo diverso di riflessione pubblica, non decisionale."
+				"Perché sostituiva del tutto le assemblee politiche": "Il teatro non sostituiva le assemblee: era un luogo diverso di riflessione pubblica, non decisionale."
 			}
 		},
 		{
@@ -1294,16 +1294,16 @@
 			"prompt": "Che cos'è una linea del tempo?",
 			"options": [
 				"Uno schema che mette gli eventi in ordine",
-				"L'elenco delle date più importanti",
+				"L'elenco ordinato di tutte le date più importanti",
 				"Il racconto di un secolo intero",
 				"La durata di una singola epoca"
 			],
 			"answer": "Uno schema che mette gli eventi in ordine",
 			"explanation": "Serve a vedere la successione e le distanze: quali fatti sono vicini, quali lontani, cosa è avvenuto insieme.",
 			"distractorWhy": {
-				"L'elenco delle date più importanti": "Un elenco di date non mostra le distanze e la successione visiva come fa la linea del tempo.",
 				"Il racconto di un secolo intero": "La linea del tempo può coprire periodi diversi, non necessariamente un secolo intero, e non è un racconto ma uno schema.",
-				"La durata di una singola epoca": "La linea del tempo mette in ordine più eventi ed epoche, non misura la durata di una sola."
+				"La durata di una singola epoca": "La linea del tempo mette in ordine più eventi ed epoche, non misura la durata di una sola.",
+				"L'elenco ordinato di tutte le date più importanti": "Un elenco di date non mostra le distanze e la successione visiva come fa la linea del tempo."
 			}
 		},
 		{
@@ -1335,7 +1335,7 @@
 			"format": "multiple_choice",
 			"prompt": "A che cosa serviva una via consolare romana?",
 			"options": [
-				"A segnare i confini dell'impero",
+				"A segnare con precisione i confini dell'impero",
 				"A collegare i templi principali",
 				"A spostare rapidamente eserciti e merci",
 				"A far defluire l'acqua piovana"
@@ -1343,9 +1343,9 @@
 			"answer": "A spostare rapidamente eserciti e merci",
 			"explanation": "Strade dritte e lastricate significano legioni che arrivano prima: l'impero si teneva insieme anche così.",
 			"distractorWhy": {
-				"A segnare i confini dell'impero": "I confini si segnavano con altre strutture (come i limes), non con le strade interne.",
 				"A collegare i templi principali": "Le strade collegavano città e province per scopi militari e commerciali, non solo templi.",
-				"A far defluire l'acqua piovana": "Quello era compito delle fognature e degli acquedotti, non delle vie consolari."
+				"A far defluire l'acqua piovana": "Quello era compito delle fognature e degli acquedotti, non delle vie consolari.",
+				"A segnare con precisione i confini dell'impero": "I confini si segnavano con altre strutture (come i limes), non con le strade interne."
 			}
 		},
 		{
@@ -1400,15 +1400,15 @@
 			"options": [
 				"Perché non ebbe mai nemici veri",
 				"Per l'organizzazione di leggi, strade ed esercito",
-				"Perché tutti parlavano la stessa lingua",
+				"Perché tutti quanti parlavano una sola stessa lingua",
 				"Perché il territorio era piccolo"
 			],
 			"answer": "Per l'organizzazione di leggi, strade ed esercito",
 			"explanation": "Non bastava conquistare: servivano un diritto comune, vie di comunicazione e un esercito stabile per tenere insieme il tutto.",
 			"distractorWhy": {
 				"Perché non ebbe mai nemici veri": "Roma affrontò molti nemici seri nel corso dei secoli: la sua forza era l'organizzazione, non l'assenza di rivali.",
-				"Perché tutti parlavano la stessa lingua": "L'impero era multilingue: a tenerlo insieme erano leggi, strade ed esercito, non un'unica lingua.",
-				"Perché il territorio era piccolo": "Il territorio dell'impero era enorme, non piccolo: la sua tenuta dipendeva dall'organizzazione."
+				"Perché il territorio era piccolo": "Il territorio dell'impero era enorme, non piccolo: la sua tenuta dipendeva dall'organizzazione.",
+				"Perché tutti quanti parlavano una sola stessa lingua": "L'impero era multilingue: a tenerlo insieme erano leggi, strade ed esercito, non un'unica lingua."
 			}
 		},
 		{
@@ -2029,7 +2029,7 @@
 			"prompt": "Quale evento segna l'inizio del Medioevo?",
 			"options": [
 				"L'unità d'Italia con i Savoia",
-				"La scoperta dell'America nel 1492",
+				"La scoperta dell'America da parte di Colombo",
 				"La fondazione della città di Roma",
 				"La caduta dell'Impero Romano d'Occidente"
 			],
@@ -2037,8 +2037,8 @@
 			"explanation": "Il Medioevo inizia nel 476 d.C., con la caduta dell'Impero Romano d'Occidente.",
 			"distractorWhy": {
 				"La fondazione della città di Roma": "La fondazione di Roma segna l'inizio della storia romana, non del Medioevo, che viene molti secoli dopo.",
-				"La scoperta dell'America nel 1492": "Il 1492 segna piuttosto la fine del Medioevo e l'inizio dell'età moderna.",
-				"L'unità d'Italia con i Savoia": "L'unità d'Italia avviene nell'Ottocento, molto dopo la fine del Medioevo."
+				"L'unità d'Italia con i Savoia": "L'unità d'Italia avviene nell'Ottocento, molto dopo la fine del Medioevo.",
+				"La scoperta dell'America da parte di Colombo": "Il 1492 segna piuttosto la fine del Medioevo e l'inizio dell'età moderna."
 			}
 		},
 		{
@@ -2935,16 +2935,16 @@
 			"prompt": "Quale evento segna convenzionalmente la fine del Medioevo?",
 			"options": [
 				"La scoperta dell'America",
-				"La caduta di Roma",
+				"La caduta di Roma d'Oriente",
 				"La prima crociata",
 				"La peste nera"
 			],
 			"answer": "La scoperta dell'America",
 			"explanation": "Il 1492 chiude il Medioevo e apre l'età moderna.",
 			"distractorWhy": {
-				"La caduta di Roma": "La caduta di Roma segna l'inizio del Medioevo, non la sua fine.",
 				"La prima crociata": "La prima crociata avviene nell'XI secolo, in pieno Medioevo, non alla sua fine.",
-				"La peste nera": "La peste nera del Trecento è un evento importante ma non è convenzionalmente la fine del Medioevo."
+				"La peste nera": "La peste nera del Trecento è un evento importante ma non è convenzionalmente la fine del Medioevo.",
+				"La caduta di Roma d'Oriente": "La caduta di Roma segna l'inizio del Medioevo, non la sua fine."
 			}
 		},
 		{
@@ -2958,14 +2958,14 @@
 				"La nascita di Cristo",
 				"La caduta di Roma d'Occidente",
 				"La fondazione di Roma",
-				"La scoperta dell'America"
+				"La scoperta dell'America del Nord"
 			],
 			"answer": "La caduta di Roma d'Occidente",
 			"explanation": "Il 476 d.C. chiude l'antichità e apre il Medioevo.",
 			"distractorWhy": {
 				"La nascita di Cristo": "La nascita di Cristo segna l'inizio del calendario cristiano, non del Medioevo.",
 				"La fondazione di Roma": "La fondazione di Roma è all'inizio della sua storia antica, non del Medioevo.",
-				"La scoperta dell'America": "La scoperta dell'America segna la fine del Medioevo, non il suo inizio."
+				"La scoperta dell'America del Nord": "La scoperta dell'America segna la fine del Medioevo, non il suo inizio."
 			}
 		},
 		{
@@ -2976,7 +2976,7 @@
 			"format": "multiple_choice",
 			"prompt": "A che cosa serviva la mummificazione presso gli Egizi?",
 			"options": [
-				"A curare le malattie dei vivi",
+				"A curare le malattie gravi dei vivi",
 				"A misurare il tempo dell'anno",
 				"A conservare il corpo per l'aldilà",
 				"A segnare i confini dei campi"
@@ -2984,9 +2984,9 @@
 			"answer": "A conservare il corpo per l'aldilà",
 			"explanation": "Gli Egizi credevano che il defunto avesse bisogno del proprio corpo.",
 			"distractorWhy": {
-				"A curare le malattie dei vivi": "La mummificazione riguardava i defunti, non la cura dei vivi.",
 				"A misurare il tempo dell'anno": "Misurare il tempo era compito del calendario, non della mummificazione.",
-				"A segnare i confini dei campi": "I confini si ridisegnavano con la geometria, non con la mummificazione."
+				"A segnare i confini dei campi": "I confini si ridisegnavano con la geometria, non con la mummificazione.",
+				"A curare le malattie gravi dei vivi": "La mummificazione riguardava i defunti, non la cura dei vivi."
 			}
 		},
 		{
@@ -3060,7 +3060,7 @@
 			"format": "multiple_choice",
 			"prompt": "Che cosa vuol dire che una fonte è «di parte»?",
 			"options": [
-				"Contiene almeno un errore di data o di nome",
+				"Contiene almeno un errore di data oppure di nome proprio",
 				"È stata scritta molti secoli dopo i fatti",
 				"Racconta soltanto le battaglie e le guerre",
 				"Racconta i fatti dal punto di vista di chi la scrive"
@@ -3068,9 +3068,9 @@
 			"answer": "Racconta i fatti dal punto di vista di chi la scrive",
 			"explanation": "Una fonte di parte non è per forza falsa: va letta sapendo chi l'ha scritta e perché.",
 			"distractorWhy": {
-				"Contiene almeno un errore di data o di nome": "Un errore di fatto è un'imprecisione, non un punto di vista: sono due problemi diversi.",
 				"È stata scritta molti secoli dopo i fatti": "Quella è una fonte tarda, un problema di distanza nel tempo, non di parzialità.",
-				"Racconta soltanto le battaglie e le guerre": "L'argomento trattato non c'entra con l'essere di parte."
+				"Racconta soltanto le battaglie e le guerre": "L'argomento trattato non c'entra con l'essere di parte.",
+				"Contiene almeno un errore di data oppure di nome proprio": "Un errore di fatto è un'imprecisione, non un punto di vista: sono due problemi diversi."
 			}
 		},
 		{
@@ -3145,7 +3145,7 @@
 			"prompt": "Che cosa distingueva Sparta da Atene?",
 			"options": [
 				"Sparta viveva di commercio marittimo, Atene di agricoltura",
-				"Sparta sorgeva sul mare, Atene in mezzo alle montagne dell'interno",
+				"Sparta sorgeva in riva al mare, Atene in mezzo alle montagne dell'interno",
 				"Sparta era governata dal popolo intero, Atene da un solo re",
 				"Sparta puntava tutto sull'esercito, Atene sul commercio e sulla politica"
 			],
@@ -3154,7 +3154,7 @@
 			"distractorWhy": {
 				"Sparta viveva di commercio marittimo, Atene di agricoltura": "È il contrario: Sparta puntava su esercito e agricoltura del territorio, Atene sul commercio marittimo.",
 				"Sparta era governata dal popolo intero, Atene da un solo re": "È il contrario: Atene sviluppò la democrazia, Sparta restò un regime militare con due re.",
-				"Sparta sorgeva sul mare, Atene in mezzo alle montagne dell'interno": "È il contrario: Sparta era nell'entroterra del Peloponneso, Atene vicino alla costa."
+				"Sparta sorgeva in riva al mare, Atene in mezzo alle montagne dell'interno": "È il contrario: Sparta era nell'entroterra del Peloponneso, Atene vicino alla costa."
 			}
 		},
 		{
@@ -3167,7 +3167,7 @@
 			"options": [
 				"Una terra concessa da un signore in cambio di fedeltà",
 				"Un castello costruito in cima a una collina",
-				"Una moneta d'oro coniata dall'imperatore stesso",
+				"Una moneta d'oro coniata personalmente dall'imperatore",
 				"Una tassa che i contadini pagavano sul sale"
 			],
 			"answer": "Una terra concessa da un signore in cambio di fedeltà",
@@ -3175,7 +3175,7 @@
 			"distractorWhy": {
 				"Una tassa che i contadini pagavano sul sale": "Una tassa è un pagamento, non una concessione di terra.",
 				"Un castello costruito in cima a una collina": "Il castello è un edificio, spesso dentro un feudo, ma non è il feudo stesso.",
-				"Una moneta d'oro coniata dall'imperatore stesso": "Il feudo è un rapporto fra terra e fedeltà, non una moneta."
+				"Una moneta d'oro coniata personalmente dall'imperatore": "Il feudo è un rapporto fra terra e fedeltà, non una moneta."
 			}
 		},
 		{
@@ -3251,15 +3251,15 @@
 			"options": [
 				"L'acqua permetteva di coltivare e di spostarsi",
 				"I fiumi segnavano i confini",
-				"I fiumi erano più facili da difendere",
+				"I fiumi erano molto più facili da difendere in guerra",
 				"Vicino ai fiumi non pioveva mai"
 			],
 			"answer": "L'acqua permetteva di coltivare e di spostarsi",
 			"explanation": "Nilo, Tigri, Eufrate e Indo davano acqua per i campi e una strada per i commerci.",
 			"distractorWhy": {
-				"I fiumi erano più facili da difendere": "Un fiume non è una barriera difensiva particolarmente efficace: conta soprattutto l'acqua per l'agricoltura.",
 				"Vicino ai fiumi non pioveva mai": "È l'acqua del fiume stesso a contare, non l'assenza di pioggia.",
-				"I fiumi segnavano i confini": "I confini sono un effetto successivo, non la ragione per cui le civiltà nacquero lì."
+				"I fiumi segnavano i confini": "I confini sono un effetto successivo, non la ragione per cui le civiltà nacquero lì.",
+				"I fiumi erano molto più facili da difendere in guerra": "Un fiume non è una barriera difensiva particolarmente efficace: conta soprattutto l'acqua per l'agricoltura."
 			}
 		}
 	]

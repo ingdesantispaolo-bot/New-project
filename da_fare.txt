@@ -1,0 +1,68 @@
+scienze-ambiente-0|43|La varietà di specie viventi in un ambiente|36|Il numero totale di animali presenti
+scienze-ambiente-2|47|Può cambiare l'equilibrio di molte altre specie|42|L'ambiente si ricostruisce in pochi giorni
+scienze-ambiente-4|40|Una fonte che si rigenera in tempi brevi|33|Una fonte che non produce energia
+scienze-ambiente-6|54|Perché il materiale riciclato sostituisce quello nuovo|45|Perché i rifiuti pesano complessivamente meno
+scienze-ambiente-7|50|Alcuni gas trattengono il calore vicino alla Terra|40|Le serre agricole riscaldano l'atmosfera
+scienze-ambiente-8|51|Perché il terreno fertile impiega secoli a formarsi|44|Perché il terreno cementificato costa di più
+scienze-ambiente-9|44|Una specie che rischia di sparire per sempre|38|Una specie che si riproduce lentamente
+scienze-ambiente-11|51|Una specie portata altrove che danneggia l'ambiente|43|Una specie che si riproduce molto in fretta
+scienze-metodo-14|49|A confrontare con ciò che accade senza intervento|42|A ripetere lo stesso esperimento due volte
+scienze-metodo-15|46|Perché un risultato singolo può essere un caso|39|Perché la prima volta si sbaglia sempre
+scienze-metodo-17|49|L'osservazione registra, l'interpretazione spiega|41|L'interpretazione si fa con gli strumenti
+scienze-metodo-18|43|Perché altri possano ripetere e controllare|36|Perché i dati occupano troppo spazio
+scienze-metodo-19|54|Un fattore che può cambiare e influenzare il risultato|46|Uno strumento che si usa dentro il laboratorio
+scienze-metodo-20|49|Che quell'ipotesi non funziona, ed è un risultato|40|Che la domanda di partenza era mal posta
+scienze-metodo-21|49|Perché più misure riducono l'effetto degli errori|42|Perché una misura sola non è mai leggibile
+scienze-ecosistema-22|51|L'insieme dei viventi e dell'ambiente in cui stanno|41|Il gruppo di animali di una stessa specie
+scienze-ecosistema-23|42|Le piante, che si fabbricano il nutrimento|34|Gli animali che mangiano le piante
+scienze-ecosistema-24|46|Trasformano i resti in sostanze riutilizzabili|40|Trasportano i semi da un luogo all'altro
+scienze-ecosistema-27|45|Una convivenza stretta fra due specie diverse|38|La migrazione stagionale di una specie
+scienze-energia-35|39|Dal Sole, direttamente o indirettamente|34|Dalle centrali costruite dall'uomo
+scienze-energia-40|49|Perché parte dell'energia si disperde a ogni urto|41|Perché la gravità aumenta a ogni rimbalzo
+scienze-terra-universo-45|46|Perché ne vediamo illuminata una parte diversa|37|Perché a volte è coperta dalle nuvole
+scienze-terra-universo-47|50|Perché la luce del Sole diffusa nell'aria le copre|39|Perché la Terra le nasconde con l'ombra
+scienze-materia-53|46|Si muovono di più e perdono la posizione fissa|38|Si moltiplicano formando altra materia
+scienze-materia-54|39|Più sostanze mescolate ma non combinate|34|Un liquido che contiene solo acqua
+scienze-materia-55|48|Perché le molecole si dispongono più distanziate|39|Perché il freddo aggiunge nuova materia
+scienze-corpo-60|41|A scambiare ossigeno e anidride carbonica|33|A filtrare il sangue dalle scorie
+scienze-corpo-62|48|Protegge gli organi e produce cellule del sangue|39|Regola la temperatura di tutto il corpo
+scienze-corpo-66|65|Perché durante il sonno il corpo si ripara e consolida la memoria|53|Perché i muscoli riescono a crescere soltanto al buio
+scienze-viventi-67|43|Nascono, crescono, si riproducono e muoiono|34|Hanno tutti bisogno di luce solare
+scienze-viventi-70|52|Una caratteristica che aiuta a vivere in un ambiente|41|Un cambiamento deciso dall'animale stesso
+scienze-metodo-75|35|Non sai quale delle due abbia agito|29|Sono state entrambe di sicuro
+scienze-viventi-83|32|Luce, acqua e anidride carbonica|26|Soltanto terra da giardino
+scienze-ecosistema-91|35|Diminuirebbero per mancanza di cibo|30|Diventerebbero tutti carnivori
+scienze-terra-universo-104|54|L'inclinazione della Terra mentre gira intorno al Sole|44|Il vento che soffia da nord per tutto l'anno
+storia-fonti-0|50|Qualsiasi traccia che ci dice qualcosa del passato|40|Il racconto di chi ha studiato la storia
+storia-fonti-5|46|Perché chi scrive e quando cambia ciò che dice|41|Perché lo richiede la legge sugli archivi
+storia-fonti-8|44|Perché dice cosa qualcuno voleva far credere|37|Perché è più antica delle altre fonti
+storia-fonti-12|43|Perché raccontano la vita di tutti i giorni|37|Perché sono i resti meglio conservati
+storia-civilta-20|42|Perché permise di trasportare pesi lontano|35|Perché serviva a costruire i templi
+storia-civilta-22|49|Una società con città, scrittura e organizzazione|38|Una popolazione numerosa e in crescita
+storia-civilta-23|45|Per conservare il cibo e superare le carestie|39|Per tenerci gli strumenti dei contadini
+storia-civilta-24|43|Perché non tutti dovevano più produrre cibo|38|Perché il territorio era troppo grande
+storia-civilta-25|39|Templi a gradoni dedicati alle divinità|33|Magazzini per conservare il grano
+storia-egizi-28|46|Perché le sue piene rendevano fertile la terra|38|Perché segnava il confine con i nemici
+storia-egizi-30|35|Erano tombe monumentali dei faraoni|30|Erano fortezze contro i nemici
+storia-egizi-32|47|Una pietra con lo stesso testo in tre scritture|37|Il primo calendario egizio conosciuto
+storia-egizi-34|39|Per ridisegnare i campi dopo ogni piena|33|Per decorare meglio i loro templi
+storia-metodo-36|39|Capire in che epoca e situazione è nata|34|Confrontarla con il libro di testo
+storia-metodo-37|44|Una ricostruzione provvisoria, da verificare|36|Che il documento è sicuramente falso
+storia-metodo-39|44|Attribuire a un'epoca qualcosa che non aveva|38|Raccontare i fatti in ordine sbagliato
+storia-preistoria-45|47|Nel Neolitico nascono agricoltura e allevamento|39|Nel Neolitico si scopre l'uso del fuoco
+storia-preistoria-46|42|Perché seguivano gli animali e le stagioni|33|Perché cercavano metalli preziosi
+storia-preistoria-48|40|Una grande pietra piantata verticalmente|33|Un utensile per lavorare la pelle
+storia-preistoria-49|43|Perché dà strumenti migliori e nuovi scambi|37|Perché fa nascere subito la scrittura
+storia-grecia-54|46|Perché la terra coltivabile in patria era poca|37|Perché cercavano nuovi dèi da adorare
+storia-grecia-56|50|Perché faceva discutere la città sui suoi problemi|40|Perché sostituiva le assemblee politiche
+storia-cronologia-62|41|Uno schema che mette gli eventi in ordine|34|L'elenco delle date più importanti
+storia-roma-64|39|A spostare rapidamente eserciti e merci|31|A segnare i confini dell'impero
+storia-roma-67|49|Per l'organizzazione di leggi, strade ed esercito|39|Perché tutti parlavano la stessa lingua
+storia-medioevo-97|40|La caduta dell'Impero Romano d'Occidente|33|La scoperta dell'America nel 1492
+storia-cronologia-quale-evento-segna-convenzionalmente-la-fine-del|24|La scoperta dell'America|17|La caduta di Roma
+storia-cronologia-quale-evento-segna-convenzionalmente-l-inizio-de|29|La caduta di Roma d'Occidente|24|La scoperta dell'America
+storia-egizi-a-che-cosa-serviva-la-mummificazione-presso-gli-|34|A conservare il corpo per l'aldilà|29|A curare le malattie dei vivi
+storia-banda-metodo-2|52|Racconta i fatti dal punto di vista di chi la scrive|43|Contiene almeno un errore di data o di nome
+storia-banda-grecia-6|72|Sparta puntava tutto sull'esercito, Atene sul commercio e sulla politica|66|Sparta sorgeva sul mare, Atene in mezzo alle montagne dell'interno
+storia-banda-medioevo-7|53|Una terra concessa da un signore in cambio di fedeltà|47|Una moneta d'oro coniata dall'imperatore stesso
+storia-banda-civilta-11|46|L'acqua permetteva di coltivare e di spostarsi|37|I fiumi erano più facili da difendere

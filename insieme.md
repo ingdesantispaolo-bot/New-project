@@ -601,50 +601,60 @@ esiste già e non è mai stato usato per la pratica.
 
 ---
 
-## G-13 · La risposta più lunga è quella giusta — 21 agosto 2026
+## G-13 · La risposta più lunga — pagata su scienze e storia, 21 agosto 2026
 
-*Domanda del committente dopo il difetto dell'italiano: «possono esserci casi
-simili in altre materie o in altri minigiochi?». Misurato: **sì**, in nove
-materie su dodici, e in una forma diversa.*
+*Domanda del committente: «possono esserci casi simili in altre materie?». Sì.*
 
-Il difetto dell'italiano era «la domanda e la risposta usano le stesse parole».
-Nelle banche a scelta multipla la scorciatoia è un'altra e non richiede di saper
-leggere: **si tocca l'opzione più lunga**.
+Nel duello dei verbi la scorciatoia era «la domanda e la risposta usano le stesse
+parole». In una banca a scelta multipla è un'altra e non richiede nemmeno di
+saper leggere: **si tocca l'opzione più lunga**.
 
-Misura su 2.672 quesiti a scelta multipla, tutte e dodici le materie:
+### La prima misura era troppo severa, e l'ho corretta
 
-| materia | quesiti | «la più lunga» vince | atteso dal caso |
+Contavo «la risposta è la più lunga» e basta — quindi anche «Mercurio (8) contro
+Saturno (7)», che nessun bambino può sfruttare: un carattere non si vede. Quel
+numero descriveva la prosa italiana, non una scorciatoia giocabile.
+
+Adesso la scorciatoia è **simulata come la userebbe qualcuno**: tocco la più
+lunga se il divario supera i cinque caratteri — circa una parola — altrimenti
+tiro a caso. Il confronto è col caso, che con quattro opzioni è il 25%.
+
+### Pagato
+
+Sessantotto distrattori allungati a mano, trentacinque in scienze e trentatré in
+storia. **Mai accorciando la risposta giusta**: la sua precisione è contenuto
+didattico, la lunghezza di un distrattore no. Ogni sostituzione tiene il
+distrattore sbagliato e plausibile — una precisazione che un bambino potrebbe
+credere, mai una parola di riempimento.
+
+| materia | prima | dopo | |
 |---|---|---|---|
-| scienze | 122 | **62,3%** | 27,3% |
-| storia | 133 | **48,1%** | 27,1% |
-| musica | 104 | **54,8%** | 35,1% |
-| coding | 137 | 46,0% | 30,7% |
-| fisica | 121 | 44,6% | 28,7% |
-| elettronica | 127 | 42,5% | 28,1% |
-| geografia | 159 | 40,3% | 29,2% |
-| latino | 168 | 44,6% | 36,8% |
-| italiano | 527 | 45,2% | 37,8% |
-| inglese, matematica, logica | — | in linea col caso | ✅ |
+| **scienze** | 45,4% | **22,1%** | sotto il caso: la scorciatoia fa perdere |
+| **storia** | 42,5% | **22,2%** | sotto il caso |
+| fisica | 39,3% | — | debito |
+| elettronica · musica | 38% | — | debito |
+| geografia | 35,2% | — | debito |
+| italiano · coding | 33% | — | debito |
+| latino | 31,5% | — | debito |
+| inglese · matematica · logica | 25-26% | — | in banda |
 
-In scienze **la scorciatoia risponde giusto sei volte su dieci** senza sapere
-niente, contro le tre del caso. Non è un sospetto: è la stessa famiglia di
-difetto del duello delle voci, e si scopre solo contandolo.
+### Il debito che resta, e il guardiano
 
-**Due cose che invece sono sane**, e vale la pena scriverle perché non vadano
-perse:
+`bank_scorciatoie_audit` misura le tre scorciatoie — lunghezza, posizione, eco —
+e ogni materia ha il **tetto che aveva il 21 agosto**. Serve a due cose, e la
+seconda vale più della prima: non si può peggiorare, e il debito è visibile e si
+accorcia. Un debito che non sta scritto da nessuna parte non viene mai pagato.
 
-- la **posizione** della risposta giusta è uniforme (667 / 676 / 653 / 676 sulle
-  quattro caselle): nessuno può imparare «è sempre la seconda»;
-- l'**eco della domanda** non aiuta: la risposta giusta ripete le parole del
-  quesito **meno** del caso (11,2% contro ~30%). I distrattori sono scritti bene:
-  sono loro a somigliare alla domanda, ed è giusto così.
+Le nove materie sopra il caso si pagano nello stesso modo: si guardano i quesiti
+in cui la giusta supera la seconda di cinque caratteri e si allunga un
+distrattore. Sono fra i venti e i quaranta per materia.
 
-**Il lavoro.** Non è riscrivere 2.672 quesiti: è pareggiare la lunghezza dei
-distrattori dove la differenza è grossa, materia per materia, partendo da scienze
-e storia. Poi un `bank_scorciatoie_audit` che tiene le tre misure — lunghezza,
-posizione, eco — e diventa rosso quando una materia esce dalla banda del caso.
-Senza l'audit il difetto torna al primo blocco di quesiti nuovi, perché scrivere
-la risposta giusta più esplicita delle altre è la cosa naturale da fare.
+**Due cose invece sane, e vale la pena saperlo:** la posizione della risposta
+giusta è uniforme, e l'eco della domanda non aiuta — la risposta giusta ripete le
+parole del quesito **meno** del caso. I distrattori sono scritti bene: sono loro a
+somigliare alla domanda, ed è giusto così.
+
+---
 
 ### G-14 · Quali minigiochi si vincono a caso — misurato il 21 agosto 2026
 

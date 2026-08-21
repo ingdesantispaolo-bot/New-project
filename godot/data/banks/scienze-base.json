@@ -12,16 +12,16 @@
 			"prompt": "Che cos'è la biodiversità?",
 			"options": [
 				"La varietà di specie viventi in un ambiente",
-				"Il numero totale di animali presenti",
+				"Il numero totale di animali presenti nel bosco",
 				"La superficie occupata da un bosco",
 				"La quantità di piante di una specie"
 			],
 			"answer": "La varietà di specie viventi in un ambiente",
 			"explanation": "Non conta quanti individui ci sono, ma quante specie diverse: un ambiente vario resiste meglio ai cambiamenti.",
 			"distractorWhy": {
-				"Il numero totale di animali presenti": "Contare gli individui non basta: la biodiversità misura la varietà di specie, non la quantità totale.",
 				"La quantità di piante di una specie": "Una sola specie molto numerosa non è biodiversità: serve varietà, non abbondanza di un solo tipo.",
-				"La superficie occupata da un bosco": "L'estensione del territorio non misura la varietà di specie che lo abitano."
+				"La superficie occupata da un bosco": "L'estensione del territorio non misura la varietà di specie che lo abitano.",
+				"Il numero totale di animali presenti nel bosco": "Contare gli individui non basta: la biodiversità misura la varietà di specie, non la quantità totale."
 			}
 		},
 		{
@@ -53,7 +53,7 @@
 			"format": "multiple_choice",
 			"prompt": "Che cosa succede a un ecosistema se sparisce una specie chiave?",
 			"options": [
-				"L'ambiente si ricostruisce in pochi giorni",
+				"L'ambiente si ricostruisce da solo in pochi giorni",
 				"Non cambia nulla per le altre specie",
 				"Può cambiare l'equilibrio di molte altre specie",
 				"Le altre specie diventano più numerose"
@@ -63,7 +63,7 @@
 			"distractorWhy": {
 				"Non cambia nulla per le altre specie": "Le specie sono collegate fra loro: la scomparsa di una ne influenza molte altre.",
 				"Le altre specie diventano più numerose": "Non tutte diventano più numerose: alcune, come le prede senza predatori naturali che le limitano, ma altre soffrono.",
-				"L'ambiente si ricostruisce in pochi giorni": "Il riequilibrio di un ecosistema richiede tempi molto più lunghi di pochi giorni."
+				"L'ambiente si ricostruisce da solo in pochi giorni": "Il riequilibrio di un ecosistema richiede tempi molto più lunghi di pochi giorni."
 			}
 		},
 		{
@@ -96,7 +96,7 @@
 			"prompt": "Che cos'è una fonte di energia rinnovabile?",
 			"options": [
 				"Una fonte che si rigenera in tempi brevi",
-				"Una fonte che non produce energia",
+				"Una fonte che non produce abbastanza energia",
 				"Una fonte che non costa niente",
 				"Una fonte che si trova sottoterra"
 			],
@@ -104,8 +104,8 @@
 			"explanation": "Sole, vento e acqua si rinnovano di continuo; carbone e petrolio hanno impiegato milioni di anni a formarsi.",
 			"distractorWhy": {
 				"Una fonte che non costa niente": "Le fonti rinnovabili hanno comunque un costo: la caratteristica chiave è che si rigenerano rapidamente.",
-				"Una fonte che non produce energia": "Una fonte rinnovabile produce energia eccome: la differenza è che si rigenera in tempi brevi.",
-				"Una fonte che si trova sottoterra": "Le fonti sottoterra come carbone e petrolio sono di solito fossili, cioè non rinnovabili."
+				"Una fonte che si trova sottoterra": "Le fonti sottoterra come carbone e petrolio sono di solito fossili, cioè non rinnovabili.",
+				"Una fonte che non produce abbastanza energia": "Una fonte rinnovabile produce energia eccome: la differenza è che si rigenera in tempi brevi."
 			}
 		},
 		{
@@ -138,16 +138,16 @@
 			"prompt": "Perché fare la raccolta differenziata riduce l'uso di materie prime?",
 			"options": [
 				"Perché le discariche diventano più ordinate",
-				"Perché i rifiuti pesano complessivamente meno",
+				"Perché i rifiuti raccolti pesano complessivamente di meno",
 				"Perché il materiale riciclato sostituisce quello nuovo",
 				"Perché si producono meno rifiuti in totale"
 			],
 			"answer": "Perché il materiale riciclato sostituisce quello nuovo",
 			"explanation": "Una lattina riciclata risparmia l'alluminio che si sarebbe dovuto estrarre, e insieme l'energia per estrarlo.",
 			"distractorWhy": {
-				"Perché i rifiuti pesano complessivamente meno": "Il peso dei rifiuti non cambia con la differenziazione: cambia il fatto che vengono riutilizzati invece di scartati.",
 				"Perché le discariche diventano più ordinate": "L'ordine delle discariche non è il punto: il risparmio sta nell'evitare di estrarre materiali nuovi.",
-				"Perché si producono meno rifiuti in totale": "Differenziare non riduce la quantità di rifiuti prodotti: permette di riutilizzarli invece di estrarne di nuovi."
+				"Perché si producono meno rifiuti in totale": "Differenziare non riduce la quantità di rifiuti prodotti: permette di riutilizzarli invece di estrarne di nuovi.",
+				"Perché i rifiuti raccolti pesano complessivamente di meno": "Il peso dei rifiuti non cambia con la differenziazione: cambia il fatto che vengono riutilizzati invece di scartati."
 			}
 		},
 		{
@@ -158,7 +158,7 @@
 			"format": "multiple_choice",
 			"prompt": "Che cos'è l'effetto serra?",
 			"options": [
-				"Le serre agricole riscaldano l'atmosfera",
+				"Le serre agricole riscaldano l'aria di tutto il pianeta",
 				"Il Sole scalda di più in certe stagioni",
 				"L'aria si riscalda salendo verso l'alto",
 				"Alcuni gas trattengono il calore vicino alla Terra"
@@ -167,8 +167,8 @@
 			"explanation": "Senza effetto serra la Terra sarebbe gelida: il problema nasce quando quei gas aumentano troppo e il calore trattenuto cresce.",
 			"distractorWhy": {
 				"Il Sole scalda di più in certe stagioni": "Le stagioni dipendono dall'inclinazione dell'asse terrestre, un fenomeno diverso dall'effetto serra.",
-				"Le serre agricole riscaldano l'atmosfera": "Le serre agricole sono una cosa diversa: l'effetto serra riguarda gas atmosferici, non serre reali.",
-				"L'aria si riscalda salendo verso l'alto": "In realtà l'aria si raffredda salendo di quota: non è questo il meccanismo dell'effetto serra."
+				"L'aria si riscalda salendo verso l'alto": "In realtà l'aria si raffredda salendo di quota: non è questo il meccanismo dell'effetto serra.",
+				"Le serre agricole riscaldano l'aria di tutto il pianeta": "Le serre agricole sono una cosa diversa: l'effetto serra riguarda gas atmosferici, non serre reali."
 			}
 		},
 		{
@@ -181,15 +181,15 @@
 			"options": [
 				"Perché il terreno fertile impiega secoli a formarsi",
 				"Perché le città diventano troppo affollate",
-				"Perché il terreno cementificato costa di più",
+				"Perché il terreno cementificato costa di più da mantenere",
 				"Perché il suolo si sposta con il vento"
 			],
 			"answer": "Perché il terreno fertile impiega secoli a formarsi",
 			"explanation": "Servono centinaia di anni per formare pochi centimetri di suolo fertile, e coprirlo di cemento lo rende irrecuperabile.",
 			"distractorWhy": {
-				"Perché il terreno cementificato costa di più": "Il costo economico non è la preoccupazione scientifica principale: conta la perdita irreversibile di fertilità.",
 				"Perché le città diventano troppo affollate": "L'affollamento urbano è un problema diverso, non legato direttamente alla perdita di suolo fertile.",
-				"Perché il suolo si sposta con il vento": "L'erosione eolica è un fenomeno diverso dal consumo di suolo per cementificazione."
+				"Perché il suolo si sposta con il vento": "L'erosione eolica è un fenomeno diverso dal consumo di suolo per cementificazione.",
+				"Perché il terreno cementificato costa di più da mantenere": "Il costo economico non è la preoccupazione scientifica principale: conta la perdita irreversibile di fertilità."
 			}
 		},
 		{
@@ -202,7 +202,7 @@
 			"options": [
 				"Una specie che vive in pochi luoghi",
 				"Una specie che rischia di sparire per sempre",
-				"Una specie che si riproduce lentamente",
+				"Una specie che si riproduce troppo lentamente",
 				"Una specie che si sposta ogni anno"
 			],
 			"answer": "Una specie che rischia di sparire per sempre",
@@ -210,7 +210,7 @@
 			"distractorWhy": {
 				"Una specie che vive in pochi luoghi": "Vivere in pochi luoghi può essere un fattore di rischio, ma non è la definizione di specie a rischio.",
 				"Una specie che si sposta ogni anno": "La migrazione stagionale non ha a che fare con il rischio di estinzione.",
-				"Una specie che si riproduce lentamente": "La riproduzione lenta può essere un fattore di rischio, ma non definisce da sola una specie a rischio."
+				"Una specie che si riproduce troppo lentamente": "La riproduzione lenta può essere un fattore di rischio, ma non definisce da sola una specie a rischio."
 			}
 		},
 		{
@@ -242,7 +242,7 @@
 			"format": "multiple_choice",
 			"prompt": "Che cos'è una specie invasiva?",
 			"options": [
-				"Una specie che si riproduce molto in fretta",
+				"Una specie che si riproduce molto più in fretta delle altre",
 				"Una specie che caccia di notte in gruppo",
 				"Una specie che vive in ambienti diversi",
 				"Una specie portata altrove che danneggia l'ambiente"
@@ -250,9 +250,9 @@
 			"answer": "Una specie portata altrove che danneggia l'ambiente",
 			"explanation": "Fuori dal suo ambiente d'origine può non avere predatori: si moltiplica senza freni e soffoca le specie locali.",
 			"distractorWhy": {
-				"Una specie che si riproduce molto in fretta": "La riproduzione rapida da sola non basta: serve che sia stata portata fuori dal suo ambiente originario e danneggi quello nuovo.",
 				"Una specie che caccia di notte in gruppo": "Il comportamento di caccia non definisce una specie invasiva: conta l'essere fuori dal proprio ambiente d'origine.",
-				"Una specie che vive in ambienti diversi": "Vivere in più ambienti non basta a renderla invasiva: serve che danneggi l'ecosistema in cui è stata introdotta."
+				"Una specie che vive in ambienti diversi": "Vivere in più ambienti non basta a renderla invasiva: serve che danneggi l'ecosistema in cui è stata introdotta.",
+				"Una specie che si riproduce molto più in fretta delle altre": "La riproduzione rapida da sola non basta: serve che sia stata portata fuori dal suo ambiente originario e danneggi quello nuovo."
 			}
 		},
 		{
@@ -305,7 +305,7 @@
 			"format": "multiple_choice",
 			"prompt": "A che cosa serve il gruppo di controllo?",
 			"options": [
-				"A ripetere lo stesso esperimento due volte",
+				"A ripetere lo stesso esperimento almeno un paio di volte",
 				"A misurare gli strumenti prima dell'uso",
 				"A confrontare con ciò che accade senza intervento",
 				"A verificare i calcoli fatti alla fine"
@@ -313,9 +313,9 @@
 			"answer": "A confrontare con ciò che accade senza intervento",
 			"explanation": "Senza un termine di paragone non sai se il cambiamento sarebbe avvenuto comunque.",
 			"distractorWhy": {
-				"A ripetere lo stesso esperimento due volte": "Il gruppo di controllo non è una ripetizione identica: è un confronto senza l'intervento studiato.",
 				"A misurare gli strumenti prima dell'uso": "Calibrare gli strumenti è un'altra pratica: il gruppo di controllo serve al confronto dei risultati.",
-				"A verificare i calcoli fatti alla fine": "Il gruppo di controllo non riguarda i calcoli: fornisce un termine di paragone durante l'esperimento."
+				"A verificare i calcoli fatti alla fine": "Il gruppo di controllo non riguarda i calcoli: fornisce un termine di paragone durante l'esperimento.",
+				"A ripetere lo stesso esperimento almeno un paio di volte": "Il gruppo di controllo non è una ripetizione identica: è un confronto senza l'intervento studiato."
 			}
 		},
 		{
@@ -328,15 +328,15 @@
 			"options": [
 				"Perché lo richiedono i regolamenti",
 				"Perché così si consuma meno materiale",
-				"Perché la prima volta si sbaglia sempre",
+				"Perché la prima volta ci si sbaglia quasi sempre",
 				"Perché un risultato singolo può essere un caso"
 			],
 			"answer": "Perché un risultato singolo può essere un caso",
 			"explanation": "La ripetizione distingue un effetto reale da una coincidenza: se succede una volta sola, non prova niente.",
 			"distractorWhy": {
-				"Perché la prima volta si sbaglia sempre": "Non è detto che la prima prova sia sbagliata: il punto è escludere che sia stata una coincidenza.",
 				"Perché così si consuma meno materiale": "Ripetere l'esperimento consuma più materiale, non meno: il motivo è la validità statistica del risultato.",
-				"Perché lo richiedono i regolamenti": "Non è una questione burocratica: è un principio del metodo scientifico stesso."
+				"Perché lo richiedono i regolamenti": "Non è una questione burocratica: è un principio del metodo scientifico stesso.",
+				"Perché la prima volta ci si sbaglia quasi sempre": "Non è detto che la prima prova sia sbagliata: il punto è escludere che sia stata una coincidenza."
 			}
 		},
 		{
@@ -368,7 +368,7 @@
 			"format": "multiple_choice",
 			"prompt": "Che differenza c'è fra osservare e interpretare?",
 			"options": [
-				"L'interpretazione si fa con gli strumenti",
+				"L'interpretazione si fa soltanto con gli strumenti",
 				"L'osservazione registra, l'interpretazione spiega",
 				"L'osservazione è più lenta da eseguire",
 				"Non c'è differenza fra le due cose"
@@ -377,8 +377,8 @@
 			"explanation": "«La pianta è gialla» è un'osservazione; «le manca acqua» è un'interpretazione, e va verificata.",
 			"distractorWhy": {
 				"L'osservazione è più lenta da eseguire": "La velocità non è ciò che distingue le due cose: conta il fatto che una registra e l'altra spiega.",
-				"L'interpretazione si fa con gli strumenti": "Gli strumenti servono per l'osservazione: l'interpretazione è un ragionamento successivo, non richiede strumenti.",
-				"Non c'è differenza fra le due cose": "Sono passaggi diversi: registrare un fatto e spiegarne la causa sono operazioni distinte."
+				"Non c'è differenza fra le due cose": "Sono passaggi diversi: registrare un fatto e spiegarne la causa sono operazioni distinte.",
+				"L'interpretazione si fa soltanto con gli strumenti": "Gli strumenti servono per l'osservazione: l'interpretazione è un ragionamento successivo, non richiede strumenti."
 			}
 		},
 		{
@@ -389,7 +389,7 @@
 			"format": "multiple_choice",
 			"prompt": "Perché gli scienziati pubblicano i loro dati?",
 			"options": [
-				"Perché i dati occupano troppo spazio",
+				"Perché altrimenti i dati occupano troppo spazio",
 				"Perché così diventano più famosi",
 				"Perché altri possano ripetere e controllare",
 				"Perché lo impongono le università"
@@ -399,7 +399,7 @@
 			"distractorWhy": {
 				"Perché così diventano più famosi": "La fama personale non è il motivo scientifico: è permettere ad altri di verificare il lavoro.",
 				"Perché lo impongono le università": "Non è solo una regola istituzionale: è un principio fondamentale del metodo scientifico.",
-				"Perché i dati occupano troppo spazio": "Lo spazio occupato non c'entra: la pubblicazione serve alla verificabilità, non a liberare spazio."
+				"Perché altrimenti i dati occupano troppo spazio": "Lo spazio occupato non c'entra: la pubblicazione serve alla verificabilità, non a liberare spazio."
 			}
 		},
 		{
@@ -411,7 +411,7 @@
 			"prompt": "Che cos'è una variabile in un esperimento?",
 			"options": [
 				"Un errore commesso durante una misurazione",
-				"Uno strumento che si usa dentro il laboratorio",
+				"Uno strumento che si usa soltanto dentro il laboratorio",
 				"Un risultato che cambia a ogni ripetizione",
 				"Un fattore che può cambiare e influenzare il risultato"
 			],
@@ -419,8 +419,8 @@
 			"explanation": "Luce, acqua, temperatura: sono variabili. Sapere quali controllare è metà del lavoro.",
 			"distractorWhy": {
 				"Un errore commesso durante una misurazione": "Una variabile non è un errore: è un fattore che si può controllare o modificare intenzionalmente.",
-				"Uno strumento che si usa dentro il laboratorio": "Una variabile non è uno strumento: è un fattore che può influenzare l'esperimento.",
-				"Un risultato che cambia a ogni ripetizione": "Il risultato è ciò che si osserva alla fine: la variabile è il fattore che si modifica in ingresso."
+				"Un risultato che cambia a ogni ripetizione": "Il risultato è ciò che si osserva alla fine: la variabile è il fattore che si modifica in ingresso.",
+				"Uno strumento che si usa soltanto dentro il laboratorio": "Una variabile non è uno strumento: è un fattore che può influenzare l'esperimento."
 			}
 		},
 		{
@@ -432,7 +432,7 @@
 			"prompt": "Un esperimento smentisce l'ipotesi. Che cosa hai imparato?",
 			"options": [
 				"Che quell'ipotesi non funziona, ed è un risultato",
-				"Che la domanda di partenza era mal posta",
+				"Che la domanda di partenza era per forza mal posta",
 				"Che gli strumenti usati erano sbagliati",
 				"Niente: l'esperimento è tutto da rifare"
 			],
@@ -441,7 +441,7 @@
 			"distractorWhy": {
 				"Niente: l'esperimento è tutto da rifare": "Smentire un'ipotesi è comunque un risultato utile: non significa che l'esperimento sia stato inutile.",
 				"Che gli strumenti usati erano sbagliati": "Non c'è motivo di presumere che gli strumenti siano difettosi solo perché l'ipotesi è stata smentita.",
-				"Che la domanda di partenza era mal posta": "Una domanda può essere ben posta anche se la risposta attesa risulta sbagliata: è comunque progresso."
+				"Che la domanda di partenza era per forza mal posta": "Una domanda può essere ben posta anche se la risposta attesa risulta sbagliata: è comunque progresso."
 			}
 		},
 		{
@@ -455,14 +455,14 @@
 				"Perché uno studente misura più lentamente",
 				"Perché più misure riducono l'effetto degli errori",
 				"Perché servono dieci strumenti diversi",
-				"Perché una misura sola non è mai leggibile"
+				"Perché una misura sola non è mai del tutto leggibile"
 			],
 			"answer": "Perché più misure riducono l'effetto degli errori",
 			"explanation": "Ogni misura porta un piccolo errore casuale: mediando molte misure gli errori tendono a compensarsi.",
 			"distractorWhy": {
 				"Perché uno studente misura più lentamente": "La velocità di misurazione non è il punto: conta la riduzione statistica degli errori con più misure.",
 				"Perché servono dieci strumenti diversi": "Non servono strumenti diversi: si può usare lo stesso strumento più volte per ridurre l'errore casuale.",
-				"Perché una misura sola non è mai leggibile": "Una misura singola è leggibile: il problema è che porta con sé un errore che tante misure aiutano a compensare."
+				"Perché una misura sola non è mai del tutto leggibile": "Una misura singola è leggibile: il problema è che porta con sé un errore che tante misure aiutano a compensare."
 			}
 		},
 		{
@@ -476,14 +476,14 @@
 				"La zona protetta di un parco naturale",
 				"L'insieme delle piante di una regione",
 				"L'insieme dei viventi e dell'ambiente in cui stanno",
-				"Il gruppo di animali di una stessa specie"
+				"Il gruppo di animali che appartengono a una stessa specie"
 			],
 			"answer": "L'insieme dei viventi e dell'ambiente in cui stanno",
 			"explanation": "Comprende sia gli esseri viventi sia l'acqua, il suolo, il clima: tutto ciò che interagisce in quel luogo.",
 			"distractorWhy": {
-				"Il gruppo di animali di una stessa specie": "Una singola specie non basta: l'ecosistema comprende tutti i viventi e l'ambiente insieme.",
 				"La zona protetta di un parco naturale": "Un ecosistema non richiede protezione legale: è un concetto biologico, presente ovunque ci sia vita.",
-				"L'insieme delle piante di una regione": "Le sole piante non bastano: l'ecosistema comprende tutti i viventi e l'ambiente fisico."
+				"L'insieme delle piante di una regione": "Le sole piante non bastano: l'ecosistema comprende tutti i viventi e l'ambiente fisico.",
+				"Il gruppo di animali che appartengono a una stessa specie": "Una singola specie non basta: l'ecosistema comprende tutti i viventi e l'ambiente insieme."
 			}
 		},
 		{
@@ -496,7 +496,7 @@
 			"options": [
 				"I funghi che decompongono i resti",
 				"Gli animali che cacciano le prede",
-				"Gli animali che mangiano le piante",
+				"Gli animali che mangiano soltanto le piante",
 				"Le piante, che si fabbricano il nutrimento"
 			],
 			"answer": "Le piante, che si fabbricano il nutrimento",
@@ -504,7 +504,7 @@
 			"distractorWhy": {
 				"Gli animali che cacciano le prede": "Quelli sono i predatori/consumatori, che dipendono dal cibo prodotto da altri, non i produttori.",
 				"I funghi che decompongono i resti": "Quelli sono i decompositori, che chiudono il ciclo, non i produttori che lo aprono.",
-				"Gli animali che mangiano le piante": "Quelli sono gli erbivori, consumatori primari: dipendono dalle piante, non producono il proprio nutrimento."
+				"Gli animali che mangiano soltanto le piante": "Quelli sono gli erbivori, consumatori primari: dipendono dalle piante, non producono il proprio nutrimento."
 			}
 		},
 		{
@@ -517,7 +517,7 @@
 			"options": [
 				"Trasformano i resti in sostanze riutilizzabili",
 				"Cacciano gli animali più deboli",
-				"Trasportano i semi da un luogo all'altro",
+				"Trasportano i semi da un luogo all'altro del bosco",
 				"Producono nutrimento con la luce"
 			],
 			"answer": "Trasformano i resti in sostanze riutilizzabili",
@@ -525,7 +525,7 @@
 			"distractorWhy": {
 				"Cacciano gli animali più deboli": "Quello è il ruolo dei predatori, non dei decompositori, che si nutrono di resti già morti.",
 				"Producono nutrimento con la luce": "Quello è il ruolo dei produttori (piante), non dei decompositori.",
-				"Trasportano i semi da un luogo all'altro": "Quello è il ruolo di alcuni animali impollinatori o dispersori di semi, non dei decompositori."
+				"Trasportano i semi da un luogo all'altro del bosco": "Quello è il ruolo di alcuni animali impollinatori o dispersori di semi, non dei decompositori."
 			}
 		},
 		{
@@ -578,7 +578,7 @@
 			"format": "multiple_choice",
 			"prompt": "Che cos'è la simbiosi?",
 			"options": [
-				"La migrazione stagionale di una specie",
+				"La migrazione stagionale di una specie di uccelli",
 				"La caccia praticata in gruppo",
 				"La competizione fra due specie simili",
 				"Una convivenza stretta fra due specie diverse"
@@ -588,7 +588,7 @@
 			"distractorWhy": {
 				"La competizione fra due specie simili": "La competizione è l'opposto della simbiosi: qui le specie si contendono le stesse risorse, non convivono stabilmente.",
 				"La caccia praticata in gruppo": "La caccia di gruppo riguarda una sola specie che collabora, non una convivenza stretta fra due specie diverse.",
-				"La migrazione stagionale di una specie": "La migrazione è lo spostamento di una specie, non una relazione stretta fra due specie diverse."
+				"La migrazione stagionale di una specie di uccelli": "La migrazione è lo spostamento di una specie, non una relazione stretta fra due specie diverse."
 			}
 		},
 		{
@@ -737,7 +737,7 @@
 			"prompt": "Da dove viene quasi tutta l'energia che usiamo sulla Terra?",
 			"options": [
 				"Dal calore interno del pianeta",
-				"Dalle centrali costruite dall'uomo",
+				"Dalle centrali elettriche costruite dall'uomo",
 				"Dal Sole, direttamente o indirettamente",
 				"Dal movimento delle maree"
 			],
@@ -746,7 +746,7 @@
 			"distractorWhy": {
 				"Dal calore interno del pianeta": "Il calore geotermico esiste, ma è una fonte minoritaria rispetto all'energia solare, diretta o indiretta.",
 				"Dal movimento delle maree": "Le maree sono generate dalla Luna e dal Sole, ma sono una fonte minoritaria rispetto all'energia solare totale.",
-				"Dalle centrali costruite dall'uomo": "Le centrali trasformano energia già esistente (spesso di origine solare): non la creano."
+				"Dalle centrali elettriche costruite dall'uomo": "Le centrali trasformano energia già esistente (spesso di origine solare): non la creano."
 			}
 		},
 		{
@@ -841,7 +841,7 @@
 			"format": "multiple_choice",
 			"prompt": "Perché una pallina che rimbalza non torna mai all'altezza di partenza?",
 			"options": [
-				"Perché la gravità aumenta a ogni rimbalzo",
+				"Perché la forza di gravità aumenta a ogni rimbalzo",
 				"Perché l'aria la spinge verso il basso",
 				"Perché la pallina diventa più leggera",
 				"Perché parte dell'energia si disperde a ogni urto"
@@ -849,9 +849,9 @@
 			"answer": "Perché parte dell'energia si disperde a ogni urto",
 			"explanation": "A ogni rimbalzo un po' di energia diventa calore e suono: quella che resta non basta a risalire fino in cima.",
 			"distractorWhy": {
-				"Perché la gravità aumenta a ogni rimbalzo": "La gravità resta costante: non aumenta con i rimbalzi.",
 				"Perché la pallina diventa più leggera": "Il peso della pallina non cambia con i rimbalzi: cambia solo l'energia disponibile, che si disperde.",
-				"Perché l'aria la spinge verso il basso": "L'aria non spinge sistematicamente verso il basso: la vera causa è la dispersione di energia a ogni urto."
+				"Perché l'aria la spinge verso il basso": "L'aria non spinge sistematicamente verso il basso: la vera causa è la dispersione di energia a ogni urto.",
+				"Perché la forza di gravità aumenta a ogni rimbalzo": "La gravità resta costante: non aumenta con i rimbalzi."
 			}
 		},
 		{
@@ -926,7 +926,7 @@
 			"format": "multiple_choice",
 			"prompt": "Perché vediamo la Luna cambiare forma?",
 			"options": [
-				"Perché a volte è coperta dalle nuvole",
+				"Perché a volte viene coperta in parte dalle nuvole",
 				"Perché si allontana e si avvicina",
 				"Perché ne vediamo illuminata una parte diversa",
 				"Perché la Luna cambia davvero forma"
@@ -935,8 +935,8 @@
 			"explanation": "La Luna è sempre una sfera per metà illuminata: cambia solo quanta di quella metà è rivolta verso di noi.",
 			"distractorWhy": {
 				"Perché la Luna cambia davvero forma": "La Luna resta sempre una sfera: cambia solo quanta parte illuminata vediamo da Terra.",
-				"Perché a volte è coperta dalle nuvole": "Le nuvole terrestri non causano le fasi lunari regolari: dipende dalla posizione relativa Sole-Terra-Luna.",
-				"Perché si allontana e si avvicina": "La distanza della Luna varia poco e non è la causa delle fasi: conta quale parte illuminata vediamo."
+				"Perché si allontana e si avvicina": "La distanza della Luna varia poco e non è la causa delle fasi: conta quale parte illuminata vediamo.",
+				"Perché a volte viene coperta in parte dalle nuvole": "Le nuvole terrestri non causano le fasi lunari regolari: dipende dalla posizione relativa Sole-Terra-Luna."
 			}
 		},
 		{
@@ -971,14 +971,14 @@
 				"Perché la luce del Sole diffusa nell'aria le copre",
 				"Perché le stelle si spengono di giorno",
 				"Perché si spostano dietro il Sole",
-				"Perché la Terra le nasconde con l'ombra"
+				"Perché la Terra le nasconde dietro la propria ombra"
 			],
 			"answer": "Perché la luce del Sole diffusa nell'aria le copre",
 			"explanation": "Le stelle ci sono anche di giorno: è l'atmosfera illuminata a diventare troppo luminosa perché si vedano.",
 			"distractorWhy": {
 				"Perché le stelle si spengono di giorno": "Le stelle non si spengono: continuano a brillare, ma la luce diffusa del Sole le sovrasta.",
 				"Perché si spostano dietro il Sole": "Le stelle non si spostano dietro il Sole ogni giorno: restano nella stessa posizione relativa nel cielo.",
-				"Perché la Terra le nasconde con l'ombra": "L'ombra della Terra copre la Luna in un'eclissi, ma non nasconde le stelle di giorno: è la luce solare diffusa a farlo."
+				"Perché la Terra le nasconde dietro la propria ombra": "L'ombra della Terra copre la Luna in un'eclissi, ma non nasconde le stelle di giorno: è la luce solare diffusa a farlo."
 			}
 		},
 		{
@@ -1086,15 +1086,15 @@
 			"options": [
 				"Si fermano completamente sul posto",
 				"Si muovono di più e perdono la posizione fissa",
-				"Si moltiplicano formando altra materia",
+				"Si moltiplicano fino a formare altra materia nuova",
 				"Diventano più grandi e pesanti"
 			],
 			"answer": "Si muovono di più e perdono la posizione fissa",
 			"explanation": "Il calore aumenta il movimento: superata una certa soglia le particelle non restano più al loro posto e il solido diventa liquido.",
 			"distractorWhy": {
 				"Diventano più grandi e pesanti": "Le particelle non cambiano dimensione o peso: cambia solo il loro movimento.",
-				"Si moltiplicano formando altra materia": "Il numero di particelle resta lo stesso: cambia solo come si muovono e si dispongono.",
-				"Si fermano completamente sul posto": "È il contrario: il calore aumenta il movimento delle particelle, non lo ferma."
+				"Si fermano completamente sul posto": "È il contrario: il calore aumenta il movimento delle particelle, non lo ferma.",
+				"Si moltiplicano fino a formare altra materia nuova": "Il numero di particelle resta lo stesso: cambia solo come si muovono e si dispongono."
 			}
 		},
 		{
@@ -1106,7 +1106,7 @@
 			"prompt": "Che cos'è un miscuglio?",
 			"options": [
 				"Due sostanze legate chimicamente",
-				"Un liquido che contiene solo acqua",
+				"Un liquido che contiene soltanto acqua pura",
 				"Più sostanze mescolate ma non combinate",
 				"Una sostanza pura molto fine"
 			],
@@ -1115,7 +1115,7 @@
 			"distractorWhy": {
 				"Una sostanza pura molto fine": "Un miscuglio contiene più sostanze diverse, non una sola sostanza pura.",
 				"Due sostanze legate chimicamente": "Nel miscuglio le sostanze non si legano chimicamente: restano distinte e separabili.",
-				"Un liquido che contiene solo acqua": "Un miscuglio può non contenere affatto acqua: è la combinazione di più sostanze in generale."
+				"Un liquido che contiene soltanto acqua pura": "Un miscuglio può non contenere affatto acqua: è la combinazione di più sostanze in generale."
 			}
 		},
 		{
@@ -1127,16 +1127,16 @@
 			"prompt": "Perché l'acqua ghiacciata occupa più spazio dell'acqua liquida?",
 			"options": [
 				"Perché il ghiaccio pesa più dell'acqua",
-				"Perché il freddo aggiunge nuova materia",
+				"Perché il freddo aggiunge nuova materia al ghiaccio",
 				"Perché entra aria fra le molecole",
 				"Perché le molecole si dispongono più distanziate"
 			],
 			"answer": "Perché le molecole si dispongono più distanziate",
 			"explanation": "Congelandosi le molecole formano una struttura ordinata e più aperta: stessa materia, più volume. Per questo il ghiaccio galleggia.",
 			"distractorWhy": {
-				"Perché il freddo aggiunge nuova materia": "Il freddo non aggiunge materia: la quantità di acqua resta la stessa, cambia solo la disposizione delle molecole.",
 				"Perché il ghiaccio pesa più dell'acqua": "Il ghiaccio non pesa di più: a parità di massa occupa più spazio, quindi è meno denso, non più pesante.",
-				"Perché entra aria fra le molecole": "Non è aria a entrare: è la struttura cristallina del ghiaccio a distanziare di più le molecole d'acqua stesse."
+				"Perché entra aria fra le molecole": "Non è aria a entrare: è la struttura cristallina del ghiaccio a distanziare di più le molecole d'acqua stesse.",
+				"Perché il freddo aggiunge nuova materia al ghiaccio": "Il freddo non aggiunge materia: la quantità di acqua resta la stessa, cambia solo la disposizione delle molecole."
 			}
 		},
 		{
@@ -1234,14 +1234,14 @@
 				"A scambiare ossigeno e anidride carbonica",
 				"A produrre le cellule del sangue",
 				"A digerire il cibo che mangiamo",
-				"A filtrare il sangue dalle scorie"
+				"A filtrare il sangue e liberarlo dalle scorie"
 			],
 			"answer": "A scambiare ossigeno e anidride carbonica",
 			"explanation": "Nell'inspirazione entra ossigeno e nell'espirazione esce anidride carbonica: lo scambio avviene negli alveoli.",
 			"distractorWhy": {
-				"A filtrare il sangue dalle scorie": "Quello è il compito dei reni, non dei polmoni.",
 				"A digerire il cibo che mangiamo": "La digestione avviene in stomaco e intestino, non nei polmoni.",
-				"A produrre le cellule del sangue": "Le cellule del sangue si producono nel midollo osseo, non nei polmoni."
+				"A produrre le cellule del sangue": "Le cellule del sangue si producono nel midollo osseo, non nei polmoni.",
+				"A filtrare il sangue e liberarlo dalle scorie": "Quello è il compito dei reni, non dei polmoni."
 			}
 		},
 		{
@@ -1273,7 +1273,7 @@
 			"format": "multiple_choice",
 			"prompt": "Che cosa fa lo scheletro oltre a sostenere il corpo?",
 			"options": [
-				"Regola la temperatura di tutto il corpo",
+				"Regola da sola la temperatura di tutto quanto il corpo",
 				"Trasporta i segnali nervosi al cervello",
 				"Protegge gli organi e produce cellule del sangue",
 				"Digerisce le sostanze più dure del cibo"
@@ -1282,8 +1282,8 @@
 			"explanation": "Cranio e costole fanno da armatura, e dentro le ossa lunghe il midollo produce le cellule del sangue.",
 			"distractorWhy": {
 				"Digerisce le sostanze più dure del cibo": "La digestione è compito dell'apparato digerente, non dello scheletro.",
-				"Regola la temperatura di tutto il corpo": "La regolazione della temperatura è compito della pelle e della circolazione, non dello scheletro.",
-				"Trasporta i segnali nervosi al cervello": "Quello è il compito del sistema nervoso, non dello scheletro."
+				"Trasporta i segnali nervosi al cervello": "Quello è il compito del sistema nervoso, non dello scheletro.",
+				"Regola da sola la temperatura di tutto quanto il corpo": "La regolazione della temperatura è compito della pelle e della circolazione, non dello scheletro."
 			}
 		},
 		{
@@ -1357,7 +1357,7 @@
 			"format": "multiple_choice",
 			"prompt": "Perché è importante dormire abbastanza?",
 			"options": [
-				"Perché i muscoli riescono a crescere soltanto al buio",
+				"Perché i muscoli riescono a crescere soltanto mentre si sta dormendo",
 				"Perché il cuore si ferma qualche istante per riposare",
 				"Perché durante il sonno il corpo si ripara e consolida la memoria",
 				"Perché durante la notte si consuma molto meno cibo"
@@ -1367,7 +1367,7 @@
 			"distractorWhy": {
 				"Perché durante la notte si consuma molto meno cibo": "Il consumo di cibo non ha a che fare con il motivo per cui dormire è importante.",
 				"Perché il cuore si ferma qualche istante per riposare": "Il cuore non si ferma mai durante il sonno: continua a battere, anche se a ritmo più lento.",
-				"Perché i muscoli riescono a crescere soltanto al buio": "Il buio in sé non è la condizione: è il processo di sonno stesso a favorire riparazione e memoria."
+				"Perché i muscoli riescono a crescere soltanto mentre si sta dormendo": "Il buio in sé non è la condizione: è il processo di sonno stesso a favorire riparazione e memoria."
 			}
 		},
 		{
@@ -1378,7 +1378,7 @@
 			"format": "multiple_choice",
 			"prompt": "Che cos'hanno in comune tutti gli esseri viventi?",
 			"options": [
-				"Hanno tutti bisogno di luce solare",
+				"Hanno tutti bisogno della luce diretta del Sole",
 				"Si muovono da un posto all'altro",
 				"Sono formati da molte cellule",
 				"Nascono, crescono, si riproducono e muoiono"
@@ -1387,8 +1387,8 @@
 			"explanation": "Anche una pianta, che non si sposta, compie il ciclo vitale. È quello a definire un vivente.",
 			"distractorWhy": {
 				"Si muovono da un posto all'altro": "Le piante non si spostano ma sono comunque viventi: il movimento non è una caratteristica comune a tutti.",
-				"Hanno tutti bisogno di luce solare": "Molti organismi (come alcuni funghi e batteri) non hanno bisogno diretto di luce solare.",
-				"Sono formati da molte cellule": "Molti esseri viventi, come i batteri, sono formati da una sola cellula."
+				"Sono formati da molte cellule": "Molti esseri viventi, come i batteri, sono formati da una sola cellula.",
+				"Hanno tutti bisogno della luce diretta del Sole": "Molti organismi (come alcuni funghi e batteri) non hanno bisogno diretto di luce solare."
 			}
 		},
 		{
@@ -1442,16 +1442,16 @@
 			"prompt": "Che cos'è un adattamento?",
 			"options": [
 				"Uno spostamento verso un clima migliore",
-				"Un cambiamento deciso dall'animale stesso",
+				"Un cambiamento deciso dall'animale stesso per comodità",
 				"Una caratteristica che aiuta a vivere in un ambiente",
 				"Una malattia che si trasmette ai figli"
 			],
 			"answer": "Una caratteristica che aiuta a vivere in un ambiente",
 			"explanation": "Il collo lungo della giraffa o le foglie a spina del cactus: caratteristiche selezionate perché in quell'ambiente funzionano.",
 			"distractorWhy": {
-				"Un cambiamento deciso dall'animale stesso": "Un adattamento non è una scelta consapevole: è il risultato della selezione naturale nel tempo.",
 				"Una malattia che si trasmette ai figli": "Un adattamento è vantaggioso per la sopravvivenza, non una malattia.",
-				"Uno spostamento verso un clima migliore": "Uno spostamento è un comportamento temporaneo, non una caratteristica ereditaria come l'adattamento."
+				"Uno spostamento verso un clima migliore": "Uno spostamento è un comportamento temporaneo, non una caratteristica ereditaria come l'adattamento.",
+				"Un cambiamento deciso dall'animale stesso per comodità": "Un adattamento non è una scelta consapevole: è il risultato della selezione naturale nel tempo."
 			}
 		},
 		{
@@ -1546,7 +1546,7 @@
 			"format": "multiple_choice",
 			"prompt": "Cambi luce E acqua insieme e la pianta cresce di più. Cosa puoi concludere?",
 			"options": [
-				"Sono state entrambe di sicuro",
+				"Sono state di sicuro tutte e due insieme",
 				"È stata solo l'acqua",
 				"È stata solo la luce",
 				"Non sai quale delle due abbia agito"
@@ -1556,7 +1556,7 @@
 			"distractorWhy": {
 				"È stata solo la luce": "Non puoi saperlo con certezza: hai cambiato anche l'acqua nello stesso esperimento.",
 				"È stata solo l'acqua": "Non puoi saperlo con certezza: hai cambiato anche la luce nello stesso esperimento.",
-				"Sono state entrambe di sicuro": "Non è detto: potrebbe essere stata solo una delle due, ma cambiandole insieme non puoi saperlo."
+				"Sono state di sicuro tutte e due insieme": "Non è detto: potrebbe essere stata solo una delle due, ma cambiandole insieme non puoi saperlo."
 			}
 		},
 		{
@@ -1714,7 +1714,7 @@
 			"format": "multiple_choice",
 			"prompt": "Di cosa hanno bisogno le piante per fare la fotosintesi?",
 			"options": [
-				"Soltanto terra da giardino",
+				"Soltanto della buona terra da giardino",
 				"Buio completo e freddo",
 				"Soltanto acqua abbondante",
 				"Luce, acqua e anidride carbonica"
@@ -1724,7 +1724,7 @@
 			"distractorWhy": {
 				"Soltanto acqua abbondante": "L'acqua da sola non basta: servono anche luce e anidride carbonica.",
 				"Buio completo e freddo": "La fotosintesi richiede luce, non buio: senza luce non può avvenire.",
-				"Soltanto terra da giardino": "La terra da sola non basta: servono anche luce, acqua e anidride carbonica."
+				"Soltanto della buona terra da giardino": "La terra da sola non basta: servono anche luce, acqua e anidride carbonica."
 			}
 		},
 		{
@@ -1882,7 +1882,7 @@
 			"format": "multiple_choice",
 			"prompt": "Se in un bosco sparissero tutte le piante, cosa accadrebbe agli erbivori?",
 			"options": [
-				"Diventerebbero tutti carnivori",
+				"Diventerebbero tutti quanti carnivori",
 				"Non cambierebbe proprio nulla",
 				"Aumenterebbero di numero",
 				"Diminuirebbero per mancanza di cibo"
@@ -1892,7 +1892,7 @@
 			"distractorWhy": {
 				"Aumenterebbero di numero": "Senza cibo disponibile gli erbivori non potrebbero aumentare: diminuirebbero.",
 				"Non cambierebbe proprio nulla": "Le piante sono la base della catena alimentare: la loro scomparsa avrebbe effetti enormi.",
-				"Diventerebbero tutti carnivori": "Un erbivoro non può trasformarsi in carnivoro per necessità: la sua fisiologia è adattata alle piante."
+				"Diventerebbero tutti quanti carnivori": "Un erbivoro non può trasformarsi in carnivoro per necessità: la sua fisiologia è adattata alle piante."
 			}
 		},
 		{
@@ -2158,14 +2158,14 @@
 				"L'inclinazione della Terra mentre gira intorno al Sole",
 				"La distanza che cambia dalla Luna",
 				"Le maree provocate dalla Luna",
-				"Il vento che soffia da nord per tutto l'anno"
+				"Il vento freddo che soffia da nord durante tutto l'anno"
 			],
 			"answer": "L'inclinazione della Terra mentre gira intorno al Sole",
 			"explanation": "L'asse inclinato fa arrivare i raggi del Sole più o meno diretti nei vari periodi dell'anno.",
 			"distractorWhy": {
 				"La distanza che cambia dalla Luna": "La distanza dalla Luna non ha un ruolo significativo nelle stagioni: conta l'inclinazione dell'asse terrestre rispetto al Sole.",
-				"Il vento che soffia da nord per tutto l'anno": "Il vento non soffia sempre da nord, e comunque non è la causa delle stagioni.",
-				"Le maree provocate dalla Luna": "Le maree sono un fenomeno diverso, legato all'attrazione gravitazionale, non alle stagioni."
+				"Le maree provocate dalla Luna": "Le maree sono un fenomeno diverso, legato all'attrazione gravitazionale, non alle stagioni.",
+				"Il vento freddo che soffia da nord durante tutto l'anno": "Il vento non soffia sempre da nord, e comunque non è la causa delle stagioni."
 			}
 		},
 		{

@@ -1,0 +1,345 @@
+scienze-ambiente-0
+  * 43 La varietà di specie viventi in un ambiente
+    36 Il numero totale di animali presenti
+    34 La superficie occupata da un bosco
+    35 La quantità di piante di una specie
+scienze-ambiente-1
+  * 55 Perché assorbono anidride carbonica e liberano ossigeno
+    52 Perché filtrano la pioggia prima che tocchi il suolo
+    50 Perché fermano il vento quando soffia troppo forte
+    50 Perché abbassano di molto la temperatura dell'aria
+scienze-ambiente-2
+  * 47 Può cambiare l'equilibrio di molte altre specie
+    42 L'ambiente si ricostruisce in pochi giorni
+    36 Non cambia nulla per le altre specie
+    38 Le altre specie diventano più numerose
+scienze-ambiente-4
+  * 40 Una fonte che si rigenera in tempi brevi
+    33 Una fonte che non produce energia
+    30 Una fonte che non costa niente
+    33 Una fonte che si trova sottoterra
+scienze-ambiente-6
+  * 54 Perché il materiale riciclato sostituisce quello nuovo
+    43 Perché le discariche diventano più ordinate
+    45 Perché i rifiuti pesano complessivamente meno
+    42 Perché si producono meno rifiuti in totale
+scienze-ambiente-7
+  * 50 Alcuni gas trattengono il calore vicino alla Terra
+    40 Le serre agricole riscaldano l'atmosfera
+    39 Il Sole scalda di più in certe stagioni
+    39 L'aria si riscalda salendo verso l'alto
+scienze-ambiente-8
+  * 51 Perché il terreno fertile impiega secoli a formarsi
+    42 Perché le città diventano troppo affollate
+    44 Perché il terreno cementificato costa di più
+    38 Perché il suolo si sposta con il vento
+scienze-ambiente-9
+  * 44 Una specie che rischia di sparire per sempre
+    35 Una specie che vive in pochi luoghi
+    38 Una specie che si riproduce lentamente
+    34 Una specie che si sposta ogni anno
+scienze-ambiente-11
+  * 51 Una specie portata altrove che danneggia l'ambiente
+    43 Una specie che si riproduce molto in fretta
+    40 Una specie che caccia di notte in gruppo
+    39 Una specie che vive in ambienti diversi
+scienze-metodo-12
+  * 43 Una risposta possibile ancora da verificare
+    39 Una domanda a cui non si può rispondere
+    37 Un'opinione personale del ricercatore
+    30 Una conclusione già dimostrata
+scienze-metodo-14
+  * 49 A confrontare con ciò che accade senza intervento
+    42 A ripetere lo stesso esperimento due volte
+    39 A misurare gli strumenti prima dell'uso
+    38 A verificare i calcoli fatti alla fine
+scienze-metodo-15
+  * 46 Perché un risultato singolo può essere un caso
+    34 Perché lo richiedono i regolamenti
+    37 Perché così si consuma meno materiale
+    39 Perché la prima volta si sbaglia sempre
+scienze-metodo-16
+  * 38 Inutile dal punto di vista scientifico
+    33 La più solida di tutte le ipotesi
+    27 Vera fino a prova contraria
+    34 Difficile ma comunque verificabile
+scienze-metodo-17
+  * 49 L'osservazione registra, l'interpretazione spiega
+    41 L'interpretazione si fa con gli strumenti
+    38 L'osservazione è più lenta da eseguire
+    34 Non c'è differenza fra le due cose
+scienze-metodo-18
+  * 43 Perché altri possano ripetere e controllare
+    36 Perché i dati occupano troppo spazio
+    32 Perché così diventano più famosi
+    33 Perché lo impongono le università
+scienze-metodo-19
+  * 54 Un fattore che può cambiare e influenzare il risultato
+    42 Un errore commesso durante una misurazione
+    46 Uno strumento che si usa dentro il laboratorio
+    42 Un risultato che cambia a ogni ripetizione
+scienze-metodo-20
+  * 49 Che quell'ipotesi non funziona, ed è un risultato
+    40 Che la domanda di partenza era mal posta
+    39 Che gli strumenti usati erano sbagliati
+    39 Niente: l'esperimento è tutto da rifare
+scienze-metodo-21
+  * 49 Perché più misure riducono l'effetto degli errori
+    41 Perché uno studente misura più lentamente
+    38 Perché servono dieci strumenti diversi
+    42 Perché una misura sola non è mai leggibile
+scienze-ecosistema-22
+  * 51 L'insieme dei viventi e dell'ambiente in cui stanno
+    37 La zona protetta di un parco naturale
+    37 L'insieme delle piante di una regione
+    41 Il gruppo di animali di una stessa specie
+scienze-ecosistema-23
+  * 42 Le piante, che si fabbricano il nutrimento
+    33 I funghi che decompongono i resti
+    33 Gli animali che cacciano le prede
+    34 Gli animali che mangiano le piante
+scienze-ecosistema-24
+  * 46 Trasformano i resti in sostanze riutilizzabili
+    31 Cacciano gli animali più deboli
+    40 Trasportano i semi da un luogo all'altro
+    32 Producono nutrimento con la luce
+scienze-ecosistema-25
+  * 46 Perché a ogni passaggio si perde molta energia
+    42 Perché i predatori sono animali più grandi
+    40 Perché le prede si riproducono in fretta
+    37 Perché i predatori vivono più a lungo
+scienze-ecosistema-26
+  * 40 Più catene alimentari collegate fra loro
+    36 L'insieme dei soli animali carnivori
+    33 Una catena alimentare molto lunga
+    36 Il percorso che il cibo fa nel corpo
+scienze-ecosistema-27
+  * 45 Una convivenza stretta fra due specie diverse
+    38 La migrazione stagionale di una specie
+    29 La caccia praticata in gruppo
+    37 La competizione fra due specie simili
+scienze-ecosistema-28
+  * 43 Il luogo con le condizioni adatte a viverci
+    36 Il territorio che difende dai rivali
+    37 Il gruppo con cui si sposta di solito
+    40 Il periodo dell'anno in cui si riproduce
+scienze-energia-34
+  * 46 L'energia che un corpo ha per la sua posizione
+    42 L'energia che un corpo ha per il movimento
+    40 L'energia che un corpo può ancora creare
+    38 L'energia che si produce con il calore
+scienze-energia-35
+  * 39 Dal Sole, direttamente o indirettamente
+    30 Dal calore interno del pianeta
+    34 Dalle centrali costruite dall'uomo
+    25 Dal movimento delle maree
+scienze-energia-36
+  * 47 Perché parte dell'energia si disperde in calore
+    42 Perché l'energia si crea troppo lentamente
+    38 Perché i materiali si consumano subito
+    43 Perché manca sempre qualcuno che la accenda
+scienze-energia-38
+  * 42 L'acqua in alto diventa acqua in movimento
+    40 L'acqua diventa direttamente elettricità
+    38 Il calore dell'acqua diventa movimento
+    36 Il movimento diventa energia chimica
+scienze-energia-40
+  * 49 Perché parte dell'energia si disperde a ogni urto
+    41 Perché la gravità aumenta a ogni rimbalzo
+    38 Perché l'aria la spinge verso il basso
+    37 Perché la pallina diventa più leggera
+scienze-terra-universo-45
+  * 46 Perché ne vediamo illuminata una parte diversa
+    37 Perché a volte è coperta dalle nuvole
+    33 Perché si allontana e si avvicina
+    35 Perché la Luna cambia davvero forma
+scienze-terra-universo-46
+  * 42 Un enorme insieme di stelle, gas e polveri
+    38 Lo spazio vuoto fra due sistemi solari
+    39 Una stella molto più grande delle altre
+    41 Un gruppo di pianeti attorno a una stella
+scienze-terra-universo-47
+  * 50 Perché la luce del Sole diffusa nell'aria le copre
+    38 Perché le stelle si spengono di giorno
+    33 Perché si spostano dietro il Sole
+    39 Perché la Terra le nasconde con l'ombra
+scienze-terra-universo-48
+  *  8 Mercurio
+     7 Saturno
+     7 Nettuno
+     6 Venere
+scienze-materia-53
+  * 46 Si muovono di più e perdono la posizione fissa
+    34 Si fermano completamente sul posto
+    38 Si moltiplicano formando altra materia
+    30 Diventano più grandi e pesanti
+scienze-materia-54
+  * 39 Più sostanze mescolate ma non combinate
+    32 Due sostanze legate chimicamente
+    34 Un liquido che contiene solo acqua
+    28 Una sostanza pura molto fine
+scienze-materia-55
+  * 48 Perché le molecole si dispongono più distanziate
+    38 Perché il ghiaccio pesa più dell'acqua
+    39 Perché il freddo aggiunge nuova materia
+    33 Perché entra aria fra le molecole
+scienze-corpo-60
+  * 41 A scambiare ossigeno e anidride carbonica
+    32 A produrre le cellule del sangue
+    31 A digerire il cibo che mangiamo
+    33 A filtrare il sangue dalle scorie
+scienze-corpo-61
+  * 41 In bocca, con la masticazione e la saliva
+    36 Nello stomaco, con i succhi gastrici
+    37 Nell'esofago, durante la deglutizione
+    34 Nell'intestino, con l'assorbimento
+scienze-corpo-62
+  * 48 Protegge gli organi e produce cellule del sangue
+    39 Regola la temperatura di tutto il corpo
+    39 Trasporta i segnali nervosi al cervello
+    39 Digerisce le sostanze più dure del cibo
+scienze-corpo-64
+  * 38 Perché i muscoli chiedono più ossigeno
+    37 Perché aumenta la temperatura esterna
+    34 Perché il cuore diventa più grande
+    37 Perché i polmoni si riempiono d'acqua
+scienze-corpo-65
+  * 37 Filtrare il sangue e produrre l'urina
+    30 Assorbire i nutrienti dal cibo
+    31 Pompare il sangue nelle arterie
+    36 Immagazzinare le riserve di zucchero
+scienze-corpo-66
+  * 65 Perché durante il sonno il corpo si ripara e consolida la memoria
+    53 Perché i muscoli riescono a crescere soltanto al buio
+    53 Perché il cuore si ferma qualche istante per riposare
+    50 Perché durante la notte si consuma molto meno cibo
+scienze-viventi-67
+  * 43 Nascono, crescono, si riproducono e muoiono
+    34 Hanno tutti bisogno di luce solare
+    32 Si muovono da un posto all'altro
+    29 Sono formati da molte cellule
+scienze-viventi-69
+  * 39 Il vertebrato ha una colonna vertebrale
+    33 Il vertebrato è sempre più grande
+    37 L'invertebrato vive soltanto in acqua
+    36 L'invertebrato non ha organi interni
+scienze-viventi-70
+  * 52 Una caratteristica che aiuta a vivere in un ambiente
+    39 Uno spostamento verso un clima migliore
+    41 Un cambiamento deciso dall'animale stesso
+    38 Una malattia che si trasmette ai figli
+scienze-metodo-73
+  * 40 L'ipotesi è una previsione da verificare
+    28 L'ipotesi arriva dopo i dati
+    19 Sono la stessa cosa
+    36 La conclusione precede l'esperimento
+scienze-metodo-74
+  * 51 A confrontare con qualcosa che non è stato cambiato
+    36 A cambiare più cose insieme e vedere
+    39 A saltare qualche misura per fare prima
+    50 A rendere l'esperimento molto più lungo del solito
+scienze-metodo-75
+  * 35 Non sai quale delle due abbia agito
+    29 Sono state entrambe di sicuro
+    20 È stata solo l'acqua
+    20 È stata solo la luce
+scienze-materia-76
+  * 24 Solido, liquido, gassoso
+    22 Caldo, freddo, tiepido
+    20 Duro, molle, liquido
+    19 Pieno, vuoto, misto
+scienze-materia-77
+  *  8 Ghiaccio
+     7 Rugiada
+     6 Nuvola
+     6 Vapore
+scienze-materia-79
+  * 13 Condensazione
+    12 Evaporazione
+     7 Fusione
+    12 Sublimazione
+scienze-viventi-83
+  * 32 Luce, acqua e anidride carbonica
+    26 Soltanto terra da giardino
+    22 Buio completo e freddo
+    25 Soltanto acqua abbondante
+scienze-viventi-87
+  * 22 Respirazione cellulare
+    19 Evaporazione rapida
+    11 Fotosintesi
+    16 Digestione lenta
+scienze-ecosistema-90
+  * 13 Decompositori
+    10 Produttori
+     9 Predatori
+     8 Erbivori
+scienze-ecosistema-91
+  * 35 Diminuirebbero per mancanza di cibo
+    30 Diventerebbero tutti carnivori
+    29 Non cambierebbe proprio nulla
+    24 Aumenterebbero di numero
+scienze-corpo-92
+  * 11 Il cervello
+     8 Il cuore
+    10 Lo stomaco
+     9 I muscoli
+scienze-corpo-93
+  * 33 A sostenere e proteggere il corpo
+    24 A vedere meglio i colori
+    23 A respirare più a lungo
+    32 A digerire il cibo più in fretta
+scienze-corpo-96
+  * 11 L'intestino
+     8 Il cuore
+     6 I reni
+     9 I polmoni
+scienze-energia-99
+  * 21 Energia idroelettrica
+    14 Energia eolica
+    18 Energia geotermica
+    14 Energia solare
+scienze-terra-universo-103
+  * 37 La rotazione della Terra su se stessa
+    21 La Luna che si sposta
+    33 La Terra che gira intorno al Sole
+     9 Le nuvole
+scienze-terra-universo-104
+  * 54 L'inclinazione della Terra mentre gira intorno al Sole
+    33 La distanza che cambia dalla Luna
+    29 Le maree provocate dalla Luna
+    44 Il vento che soffia da nord per tutto l'anno
+scienze-ambiente-106
+  * 33 È una risorsa preziosa e limitata
+    30 Perché è di colore trasparente
+    31 Perché è pesante da trasportare
+    30 Non è importante, ce n'è tanta
+scienze-ambiente-107
+  * 21 Riscaldamento globale
+    11 Effetto eco
+    13 Effetto marea
+    18 Effetto arcobaleno
+scienze-energia-141
+  * 68 Perché le piante ne catturano la luce e la passano a tutti gli altri
+    63 Perché scalda direttamente il corpo di ogni animale del pianeta
+    64 Perché la sua luce si trasforma da sola in elettricità nell'aria
+    63 Perché è l'unico corpo celeste visibile durante tutto il giorno
+scienze-materia-142
+  * 63 Perché si divide in parti troppo piccole da vedere, ma resta lì
+    61 Perché evapora subito appena entra in contatto con il liquido
+    59 Perché si trasforma in acqua e smette del tutto di esistere
+    61 Perché scende sul fondo e si nasconde sotto lo strato d'acqua
+scienze-terra-universo-perche-sulla-terra-si-alternano-le-stagioni
+  * 28 L'asse terrestre è inclinato
+    27 La Terra rallenta d'inverno
+    26 Il Sole cambia temperatura
+    21 La Luna copre il Sole
+scienze-ecosistema-in-una-catena-alimentare-i-funghi-svolgono-il-ru
+  * 13 decompositori
+    10 produttori
+    11 consumatori
+     9 predatori
+scienze-energia-una-palla-ferma-in-cima-a-una-rampa-possiede-ene
+  * 10 potenziale
+     8 cinetica
+     8 luminosa
+     6 sonora

@@ -4,67 +4,78 @@ extends SceneTree
 ## (21 agosto 2026)
 ##
 ## Domanda del committente dopo il difetto del duello dei verbi: *«possono
-## esserci casi simili in altre materie o in altri minigiochi?»*. Misurato: sì.
+## esserci casi simili in altre materie?»*. Misurato: sì.
 ##
 ## Nel duello la scorciatoia era «la domanda e la risposta usano le stesse
-## parole». In una banca a scelta multipla le scorciatoie possibili sono tre, e
-## nessuna delle tre richiede di aver capito la domanda:
+## parole». In una banca a scelta multipla le scorciatoie sono tre, e nessuna
+## richiede di aver capito la domanda:
 ##
-##   LUNGHEZZA   si tocca l'opzione più lunga. È la più forte, perché la
-##               risposta giusta tende a essere la più precisa, e la più precisa
-##               tende a essere la più lunga;
+##   LUNGHEZZA   si tocca l'opzione più lunga. È la più forte, perché la risposta
+##               giusta tende a essere la più precisa, e la più precisa tende a
+##               essere la più lunga;
 ##   POSIZIONE   la risposta giusta sta sempre nella stessa casella;
 ##   ECO         la risposta giusta ripete le parole della domanda.
 ##
-## ## Come si legge lo scarto
+## ## Il margine, e perché la prima misura era troppo severa
 ##
-## Non conta la percentuale nuda: con quattro opzioni, «la più lunga» azzecca il
-## 25% per puro caso, e se in una materia le opzioni hanno spesso la stessa
-## lunghezza il caso sale. Conta lo **scarto** fra quanto la scorciatoia vince e
-## quanto vincerebbe il caso in **quella** banca. Zero significa che la
-## scorciatoia non insegna niente a chi la usa; trentacinque significa che
-## risponde giusto sei volte su dieci contro le tre del caso.
+## La prima stesura contava «la risposta è la più lunga» e basta. Contava quindi
+## anche «Mercurio (8) contro Saturno (7)», che nessun bambino può sfruttare:
+## un carattere non si vede. Il numero che ne usciva descriveva la prosa italiana,
+## non una scorciatoia giocabile.
 ##
-## ## Il debito dichiarato, e perché sta scritto qui
+## Adesso la scorciatoia è simulata come la userebbe qualcuno: **tocco la più
+## lunga se il divario si vede, altrimenti tiro a caso**. `MARGINE_VISIBILE` è
+## cinque caratteri, cioè circa una parola. Il confronto è col **caso**: con
+## quattro opzioni si azzecca il 25%, e tutto ciò che sta sopra è quello che la
+## scorciatoia regala.
 ##
-## Il 21 agosto 2026 nove materie su dodici erano sopra la banda. Sistemare quei
-## quesiti è lavoro di **contenuto** — si pareggiano i distrattori, uno per uno,
-## e non lo si fa con una sostituzione automatica senza peggiorarli. Quindi
-## questo audit nasce con il debito **scritto per esteso**: ogni materia ha il
-## suo tetto, e il tetto è quello che aveva quel giorno.
+## ## Il debito dichiarato
 ##
+## Il 21 agosto 2026 scienze e storia sono state pareggiate a mano — 68 distrattori
+## allungati, mai accorciando la risposta giusta, perché la sua precisione è
+## contenuto didattico mentre la lunghezza di un distrattore non lo è. Sono
+## scese sotto il caso: la scorciatoia lì adesso **fa perdere**.
+##
+## Le altre nove restano sopra, e il loro tetto è quello che avevano quel giorno.
 ## Serve a due cose, e la seconda vale più della prima:
 ##
-##   1. **non si può peggiorare.** Un blocco di quesiti nuovi che sposta una
+##   1. **non si può peggiorare**: un blocco di quesiti nuovi che sposta una
 ##      materia oltre il suo tetto diventa rosso subito;
-##   2. **il debito è visibile e si accorcia.** Ogni volta che qualcuno pareggia
+##   2. **il debito è visibile e si accorcia**. Ogni volta che qualcuno pareggia
 ##      i distrattori di una materia, abbassa il numero qui sotto. Un debito che
 ##      non sta scritto da nessuna parte non viene mai pagato.
-##
-## Le tre materie già in banda — logica, matematica, inglese — hanno il tetto
-## della banda e non un tetto su misura: non devono poter scivolare.
 ##
 ## Uso: godot --headless --path godot --script res://scripts/game/bank_scorciatoie_audit.gd
 
 const OK := "BANK SCORCIATOIE audit VERDE"
 const CARTELLA := "res://data/banks"
 
-## Quanto una scorciatoia può battere il caso senza che sia un difetto. Cinque
-## punti: sotto, è rumore statistico su banche da un centinaio di quesiti.
+## Quanti caratteri di differenza si vedono a colpo d'occhio. Cinque: circa una
+## parola. Sotto, due opzioni sembrano lunghe uguale e la scelta torna fortuna.
+const MARGINE_VISIBILE := 5
+
+## Mezzo punto di tolleranza sul tetto: i tetti sono scritti con un decimale, e
+## un quesito aggiunto o tolto sposta la percentuale sull'ultima cifra.
+const TOLLERANZA := 0.5
+
+## Quanto la scorciatoia può battere il caso in una materia già sana.
 const BANDA := 5.0
 
-## Il debito del 21 agosto 2026, materia per materia, in punti di scarto sulla
-## scorciatoia della LUNGHEZZA. Si abbassa, non si alza.
-const DEBITO_LUNGHEZZA := {
-	"scienze": 35.0,
-	"storia": 21.1,
-	"musica": 19.7,
-	"fisica": 15.9,
-	"coding": 15.3,
-	"elettronica": 14.4,
-	"geografia": 11.0,
-	"latino": 7.9,
-	"italiano": 7.4,
+## Il tetto per materia, misurato il 21 agosto 2026. Si abbassa, non si alza.
+## Scienze e storia sono **sotto il caso**: là la scorciatoia fa perdere.
+const TETTO := {
+	"coding": 32.7,
+	"elettronica": 38.2,
+	"fisica": 39.3,
+	"geografia": 35.2,
+	"inglese": 26.5,
+	"italiano": 33.4,
+	"latino": 31.5,
+	"logica": 25.8,
+	"matematica": 25.9,
+	"musica": 38.0,
+	"scienze": 22.1,
+	"storia": 22.2,
 }
 
 var errori: Array = []
@@ -78,7 +89,7 @@ func _init() -> void:
 	_controlla(banche.size() >= 12,
 		"trovate %d banche invece delle dodici materie" % banche.size())
 	print("")
-	print("MATERIA        quesiti  lunghezza  atteso  scarto  tetto")
+	print("MATERIA        quesiti  scorciatoia  caso  tetto")
 	for percorso in banche:
 		_misura(percorso)
 	print("")
@@ -124,81 +135,78 @@ func _misura(percorso: String) -> void:
 	if quesiti.is_empty():
 		return
 
-	var lunga := 0
-	var attesa := 0.0
+	# **La scorciatoia della LUNGHEZZA, giocata come la giocherebbe qualcuno.**
+	var vittorie := 0.0
+	var caso := 0.0
 	var caselle: Dictionary = {}
-	var eco := 0
-	var eco_attesa := 0.0
+	var eco := 0.0
+	var eco_caso := 0.0
 	for voce_data in quesiti:
 		var voce: Dictionary = voce_data
 		var opzioni: Array = voce["options"]
 		var giusta := str(voce["answer"])
 		var quante := float(opzioni.size())
+		caso += 1.0 / quante
 
-		# LUNGHEZZA
-		var massima := 0
+		var prima := 0
+		var seconda := 0
 		for o in opzioni:
-			massima = maxi(massima, str(o).length())
-		var quante_massime := 0
-		for o in opzioni:
-			if str(o).length() == massima:
-				quante_massime += 1
-		if giusta.length() == massima:
-			lunga += 1
-		attesa += float(quante_massime) / quante
+			var quanto := str(o).length()
+			if quanto > prima:
+				seconda = prima
+				prima = quanto
+			elif quanto > seconda:
+				seconda = quanto
+		if prima - seconda >= MARGINE_VISIBILE:
+			vittorie += 1.0 if giusta.length() == prima else 0.0
+		else:
+			vittorie += 1.0 / quante
 
-		# POSIZIONE
 		var casella := opzioni.find(voce["answer"])
 		caselle[casella] = int(caselle.get(casella, 0)) + 1
 
-		# ECO
+		# **L'ECO**: la risposta giusta ripete le parole della domanda?
 		var dalla_domanda := _parole(str(voce.get("prompt", "")))
-		var punteggi: Array = []
 		var migliore := 0
+		var quanti_migliori := 0
+		var punteggio_giusta := 0
 		for o in opzioni:
 			var comuni := 0
 			for parola in _parole(str(o)):
 				if dalla_domanda.has(parola):
 					comuni += 1
-			punteggi.append(comuni)
-			migliore = maxi(migliore, comuni)
-		if migliore > 0:
-			var quante_migliori := 0
-			for p in punteggi:
-				if int(p) == migliore:
-					quante_migliori += 1
-			if int(punteggi[casella]) == migliore:
-				eco += 1
-			eco_attesa += float(quante_migliori) / quante
-		else:
-			eco_attesa += 1.0 / quante
+			if str(o) == giusta:
+				punteggio_giusta = comuni
+			if comuni > migliore:
+				migliore = comuni
+				quanti_migliori = 1
+			elif comuni == migliore:
+				quanti_migliori += 1
+		if migliore > 0 and punteggio_giusta == migliore:
+			eco += 1.0 / float(maxi(quanti_migliori, 1))
+		eco_caso += 1.0 / quante
 
 	var n := float(quesiti.size())
-	var scarto_lunghezza := 100.0 * float(lunga) / n - 100.0 * attesa / n
-	var tetto := maxf(BANDA, float(DEBITO_LUNGHEZZA.get(materia, BANDA)))
-	print("%-14s %7d  %8.1f%% %6.1f%% %6.1f  %5.1f" % [
-		materia, quesiti.size(), 100.0 * float(lunga) / n, 100.0 * attesa / n,
-		scarto_lunghezza, tetto])
-	# Mezzo punto di tolleranza: il debito e' scritto con un decimale, e un
-	# quesito aggiunto o tolto sposta la percentuale dell'ultima cifra.
-	_controlla(scarto_lunghezza <= tetto + 0.5,
-		"%s: «tocca la piu' lunga» batte il caso di %.1f punti (tetto %.1f). Si pareggiano i distrattori, non si alza il tetto." % [
-			materia, scarto_lunghezza, tetto])
+	var quota := 100.0 * vittorie / n
+	var quota_caso := 100.0 * caso / n
+	var tetto := float(TETTO.get(materia, quota_caso + BANDA))
+	print("%-14s %7d  %10.1f%% %5.1f%% %6.1f" % [
+		materia, quesiti.size(), quota, quota_caso, tetto])
+	_controlla(quota <= tetto + TOLLERANZA,
+		"%s: «tocca la più lunga» vince il %.1f%% contro il %.1f%% del caso (tetto %.1f). Si pareggiano i distrattori, non si alza il tetto." % [
+			materia, quota, quota_caso, tetto])
 
-	var scarto_eco := 100.0 * float(eco) / n - 100.0 * eco_attesa / n
-	_controlla(scarto_eco <= BANDA,
-		"%s: la risposta giusta ripete le parole della domanda %.1f punti piu' del caso: si vince rileggendo, non capendo" % [
-			materia, scarto_eco])
+	_controlla(100.0 * eco / n <= 100.0 * eco_caso / n + BANDA,
+		"%s: la risposta giusta ripete le parole della domanda più del caso: si vince rileggendo, non capendo" % materia)
 
-	# La POSIZIONE deve restare uniforme: nessuna casella oltre la sua quota piu'
-	# la banda. E' l'unica delle tre che al 21 agosto 2026 era gia' sana ovunque,
-	# e va tenuta tale — «e' sempre la seconda» si impara in una sessione.
+	# La POSIZIONE era già sana ovunque il 21 agosto 2026, e va tenuta tale:
+	# «è sempre la seconda» si impara in una sessione.
 	var quote := int(Array(Dictionary(quesiti[0])["options"]).size())
 	for casella in caselle.keys():
-		var quota := 100.0 * float(caselle[casella]) / n
-		_controlla(quota <= 100.0 / float(maxi(quote, 1)) + BANDA * 2.0,
+		var percentuale := 100.0 * float(caselle[casella]) / n
+		_controlla(percentuale <= 100.0 / float(maxi(quote, 1)) + BANDA * 2.0,
 			"%s: la risposta giusta sta nella casella %d nel %.1f%% dei quesiti" % [
-				materia, int(casella), quota])
+				materia, int(casella), percentuale])
 
 ## Le parole di una stringa, minuscole e senza le troppo corte: «che», «una» e
 ## «per» stanno ovunque e non distinguono niente.

@@ -14,6 +14,7 @@ extends RefCounted
 ##   outdoor_world ne modula l'alpha in base alla luce del giorno.
 
 const AmbientAnim := preload("res://scripts/ambient_anim.gd")
+const NATURAL_WIND_SHADER: Shader = preload("res://shaders/natural_wind.gdshader")
 const TREASURE_TEXTURE: Texture2D = preload("res://assets/academy-treasure.svg")
 const ENCOUNTER_TEXTURE: Texture2D = preload("res://assets/academy-encounter.svg")
 const OUTDOOR_SHEET: Texture2D = preload("res://assets/outdoor-world-sheet.png")
@@ -87,6 +88,11 @@ static var _landmark_texture_cache: Dictionary = {}
 static var _natural_atlas_cache: Dictionary = {}
 static var _pet_texture_cache: Dictionary = {}
 
+# Le tavole dei Custodi sono quadrate (384 px), ma nel mondo rappresentano un
+# compagno piccolo, non un secondo personaggio. 48 px tengono anche le forme piu'
+# larghe sotto l'ingombro di Eli e lasciano leggibili ombra e bagliore.
+const PET_WORLD_ART_SIZE := 48.0
+
 static func pet_art_for(kind: String) -> Texture2D:
 	var normalized := kind.trim_prefix("pet-")
 	var path := "res://assets/custodi/%s-v1.png" % normalized
@@ -126,6 +132,7 @@ static func _natural_atlas(biome_id: String) -> Texture2D:
 static func release_world_texture_caches() -> void:
 	_landmark_texture_cache.clear()
 	_natural_atlas_cache.clear()
+	IdentityPropArt.release_texture_cache()
 
 static func outdoor_sprite(frame_name: String, target_size: Vector2, y: float = 0.0) -> Sprite2D:
 	var regions := {
@@ -175,6 +182,11 @@ static func natural_atlas_sprite(texture: Texture2D, cell: Vector2i, target_size
 	sprite.position.y = y
 	sprite.scale = target_size / atlas.region.size
 	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
+	var wind := ShaderMaterial.new()
+	wind.shader = NATURAL_WIND_SHADER
+	wind.set_shader_parameter("wind_phase", float(cell.x * 7 + cell.y * 13))
+	sprite.material = wind
+	sprite.add_to_group("natural_wind")
 	return sprite
 
 static func academy_natural_sprite(cell: Vector2i, target_size: Vector2, y: float = 0.0) -> Sprite2D:
@@ -808,22 +820,11 @@ static func build_academy_fountain() -> Node2D:
 static func build_identity_prop(kind: String, _theme: String, variant: float = 0.5) -> Node2D:
 	var illustrated := IdentityPropArt.build(kind, variant)
 	if illustrated != null:
-		# Il corpo e' una tavola, ma l'illuminazione resta un segnale vivo del mondo.
+		# Un alone pulsante sui prop di scena direbbe falsamente Â«interagisciÂ».
+		# I bagliori restano riservati a incontri, tesori e cambi di stato.
 		var shadow := make_shadow(48, 12, 0.30, 7)
 		illustrated.add_child(shadow)
 		illustrated.move_child(shadow, 0)
-		var family := str(illustrated.get_meta("identity_art_family", ""))
-		var glow_colors := {
-			"archive": Color("8ea9ff"), "signal": Color("73e8ff"),
-			"motion": Color("ffbd68"), "resonance": Color("d99cff"),
-			"glyph": Color("a6d77c"), "circuit": Color("72f1e1"),
-			"symbiosis": Color("9de77c"), "final": Color("f3cf78"),
-		}
-		var glow := make_glow(19, glow_colors.get(family, Color.WHITE), 0.42)
-		glow.position = Vector2(0, -50)
-		glow.add_to_group("night_glow")
-		illustrated.add_child(glow)
-		attach_anim(glow, "pulse", 0.85 + variant * 0.35, 0.72)
 		return illustrated
 	var root := Node2D.new()
 	match kind:
@@ -2314,7 +2315,7 @@ static func build_pet(kind: String, color: Color) -> Node2D:
 		var sprite := Sprite2D.new()
 		sprite.name = "PetGeneratedArt"
 		sprite.texture = generated_art
-		sprite.scale = Vector2.ONE * (76.0 / 384.0)
+		sprite.scale = Vector2.ONE * (PET_WORLD_ART_SIZE / 384.0)
 		sprite.position = Vector2(0, -12)
 		sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 		# La livrea resta visibile nel bagliore e sfiora soltanto il dipinto:

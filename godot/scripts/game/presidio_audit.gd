@@ -3,7 +3,7 @@ extends SceneTree
 ## **Il presidio: l'unico posto in cui l'impulso e' una decisione.**
 ## (19 agosto 2026)
 ##
-## Le cariche d'impulso si guadagnano studiando ([[PulseCharge]]) e il morso non
+## Il morso non
 ## blocca mai. Messe insieme, queste due regole giustissime producevano una cosa
 ## che nessuna delle due voleva: **non e' mai esistito un momento in cui valesse
 ## la pena spendere una carica**. Si passava sempre e comunque, pagando due
@@ -220,19 +220,29 @@ func _run() -> void:
 	_controlla(player.global_position.distance_to(dove_era) > 40.0,
 		"a energia zero Eli e' rimasta ferma: il presidio sta bloccando la mappa")
 
-	# --- 4. Un impulso spegne l'anello intero ---------------------------------
-	# Senza questo la scelta non e' pagabile e resta soltanto il pedaggio: e' il
-	# controllo che dice se questo lotto ha fatto quello che diceva di fare.
-	for scorta in anello:
-		(scorta as Node2D).global_position = player.global_position + Vector2(0, 40)
-		scorta.set("stunned_until_msec", 0)
-	for _prova in range(PulseCharge.PROVE_PER_CARICA):
-		PulseCharge.accredita(save)
-	mondo.call("_combat_pulse")
-	await process_frame
-	for scorta in anello:
-		_controlla(bool(scorta.call("is_stunned")),
-			"una scorta e' rimasta attiva dopo l'impulso: la carica non compra il passaggio")
+	# --- 4. Di slancio l'anello si attraversa ---------------------------------
+	# **Era la prova dell'impulso, fino al 21 agosto 2026.** L'impulso e' stato
+	# tolto (`costo_delle_sacche_probe`: dal mondo 2 in poi nessuna sacca costa
+	# energia, quindi non c'era piu' niente da comprare con una carica), e la
+	# seconda strada attraverso l'anello e' rimasta una sola: lo scatto.
+	#
+	# Ed e' la strada che conta davvero, perche' non si esaurisce: lo spintone
+	# non si azzera col grado, e a Eli grado otto attraversare l'anello resta
+	# una decisione anche quando l'energia non c'entra piu'.
+	var scorta_di_prova := anello[0] as Node2D
+	player.set("_scatto_pronto_msec", 0)
+	_controlla(bool(player.scatta()), "il balzo non parte davanti all'anello")
+	scorta_di_prova.global_position = player.global_position + Vector2(20, 0)
+	scorta_di_prova.set("contact_ready_msec", 0)
+	dove_era = player.global_position
+	var energia_prima_del_balzo := int(save.energy())
+	save.add_energy(40)
+	energia_prima_del_balzo = int(save.energy())
+	mondo.call("_on_enemy_contact", scorta_di_prova, player)
+	_controlla(int(save.energy()) == energia_prima_del_balzo,
+		"di slancio la scorta morde lo stesso: l'anello non ha una seconda strada")
+	_controlla(player.global_position.distance_to(dove_era) < 40.0,
+		"di slancio la scorta respinge lo stesso: non ci si passa attraverso")
 
 	# --- 5. L'anello si scioglie con la guardiana -----------------------------
 	mondo.call("_sciogli_presidio", chiave)

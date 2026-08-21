@@ -1,6 +1,6 @@
 extends SceneTree
 
-## Evidenza visuale C-P6: leggibilità di Eli, posa impulso e quattro tier delle
+## Evidenza visuale C-P6: leggibilità di Eli e quattro tier delle
 ## anomalie sul renderer reale del mondo.
 
 const OUTPUT_DIR := "res://../artifacts/eli-enemies"
@@ -70,19 +70,11 @@ func _run() -> void:
 	player.call("_animate", 0.24)
 	await _capture("02-eli-cammino-desktop.png")
 	player.velocity = Vector2.ZERO
-	player.play_pulse_action()
-	player.call("_animate", 0.01)
-	world.call("_spawn_combat_pulse_visual")
-	await process_frame
-	var pulse := world.find_child("EliCombatPulse", true, false) as Node2D
-	if pulse != null:
-		pulse.get_tree().paused = true
-	await _capture("03-eli-impulso-desktop.png")
 	paused = false
 
 	root.size = Vector2i(900, 600)
 	await _capture("04-eli-tier-tablet.png")
 	world.queue_free()
 	await process_frame
-	print("ELI/ENEMY RENDER probe OK — idle, cammino, impulso e tier 1→4 desktop/tablet")
+	print("ELI/ENEMY RENDER probe OK — idle, cammino e tier 1→4 desktop/tablet")
 	quit(0)

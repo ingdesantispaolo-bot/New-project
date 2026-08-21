@@ -94,19 +94,41 @@ func _esistono_e_si_comprano() -> void:
 ## 6 agosto non rispettavano: promettevano meccaniche e non toccavano niente.
 func _fanno_qualcosa() -> void:
 	var senza := _save_con([])
-	var base_cariche := PulseCharge.massimo(senza)
-	var base_raggio := ExpeditionModules.raggio_impulso(senza)
 	var base_scatto := ExpeditionModules.moltiplicatore_scatto(senza)
+	var base_distanza := ExpeditionModules.distanza_scatto(senza)
 
-	var con_serbatoio := _save_con([ExpeditionModules.SERBATOIO])
-	_controlla(PulseCharge.massimo(con_serbatoio) > base_cariche,
-		"il serbatoio ampliato non aumenta le cariche d'impulso")
-	var con_bobina := _save_con([ExpeditionModules.BOBINA])
-	_controlla(ExpeditionModules.raggio_impulso(con_bobina) > base_raggio,
-		"la bobina larga non amplia il raggio dell'impulso")
+	var base_vista := ExpeditionModules.vista_delle_sacche(senza)
+	var base_spinta := ExpeditionModules.spinta_del_morso(senza)
 	var con_passo := _save_con([ExpeditionModules.PASSO])
 	_controlla(ExpeditionModules.moltiplicatore_scatto(con_passo) > base_scatto,
-		"il passo lungo non rende lo scatto più veloce")
+		"il passo lungo non rende la corsa più veloce")
+	_controlla(ExpeditionModules.distanza_scatto(con_passo) > base_distanza,
+		"il passo lungo non allunga il balzo")
+	var con_felpa := _save_con([ExpeditionModules.FELPA])
+	_controlla(ExpeditionModules.vista_delle_sacche(con_felpa) < base_vista,
+		"l'andatura felpata non accorcia la vista delle sacche")
+	# **E non la azzera.** Una sacca che non nota piu' nessuno non e' un
+	# pericolo disinnescato: e' un pericolo cancellato, e il presidio
+	# diventerebbe un disegno.
+	_controlla(ExpeditionModules.vista_delle_sacche(con_felpa) > 0.4,
+		"l'andatura felpata rende Eli invisibile: il presidio smette di esistere")
+	var con_zavorra := _save_con([ExpeditionModules.ZAVORRA])
+	_controlla(ExpeditionModules.spinta_del_morso(con_zavorra) < base_spinta,
+		"la zavorra non accorcia lo spintone")
+	_controlla(ExpeditionModules.spinta_del_morso(con_zavorra) > 0.0,
+		"la zavorra annulla lo spintone: la sacca smette di essere un ostacolo")
+	# **Nessuno dei due satura col grado.** E' la lezione della misura che ha
+	# tolto l'impulso: un effetto scritto come differenza fra il grado della
+	# sacca e quello di Eli sparisce da solo dal mondo 2 in poi
+	# (`costo_delle_sacche_probe`). Questi due sono fattori su numeri che il
+	# grado di Eli non tocca, e questa riga e' il posto in cui ce ne si
+	# accorge se un giorno qualcuno li riscrivesse come differenze.
+	for grado in range(0, 9):
+		var forte := _save_con([ExpeditionModules.FELPA, ExpeditionModules.ZAVORRA])
+		forte.data["powerRuns"] = 500
+		_controlla(ExpeditionModules.vista_delle_sacche(forte) < base_vista
+			and ExpeditionModules.spinta_del_morso(forte) < base_spinta,
+			"a grado massimo i moduli di spedizione smettono di fare effetto")
 
 	# E l'effetto arriva davvero fino al contratto che la scena legge: un numero
 	# che cambia nel modulo ma non nel contratto è un numero che nessuno vedrà.
@@ -119,12 +141,14 @@ func _fanno_qualcosa() -> void:
 	cosmetics["inventory"] = ExpeditionModules.ids()
 	gameplay.game_save.data["cosmetics"] = cosmetics
 	var dopo: Dictionary = gameplay.runtime_state()
-	_controlla(int(dopo.get("pulseChargeMax", 0)) > int(prima.get("pulseChargeMax", 0)),
-		"il tetto delle cariche non cambia nel contratto runtime")
-	_controlla(float(dopo.get("pulseRadius", 0.0)) > float(prima.get("pulseRadius", 0.0)),
-		"il raggio dell'impulso non cambia nel contratto runtime")
 	_controlla(float(dopo.get("sprintMultiplier", 0.0)) > float(prima.get("sprintMultiplier", 0.0)),
-		"lo scatto non cambia nel contratto runtime")
+		"la corsa non cambia nel contratto runtime")
+	_controlla(float(dopo.get("dashDistance", 0.0)) > float(prima.get("dashDistance", 0.0)),
+		"il balzo non cambia nel contratto runtime")
+	_controlla(float(dopo.get("enemyNoticeScale", 9.0)) < float(prima.get("enemyNoticeScale", 0.0)),
+		"la vista delle sacche non cambia nel contratto runtime")
+	_controlla(float(dopo.get("knockbackDistance", 9999.0)) < float(prima.get("knockbackDistance", 0.0)),
+		"lo spintone non cambia nel contratto runtime")
 	root.remove_child(gameplay)
 	gameplay.free()
 
@@ -155,14 +179,18 @@ func _non_toccano_l_apprendimento() -> void:
 ## troverebbe una mappa più povera invece che uguale.
 func _nessuno_e_necessario() -> void:
 	var senza := _save_con([])
-	_controlla(PulseCharge.massimo(senza) == PulseCharge.MASSIMO,
-		"senza moduli il tetto delle cariche non è quello di base")
-	_controlla(is_equal_approx(
-		ExpeditionModules.raggio_impulso(senza), ExpeditionModules.RAGGIO_BASE),
-		"senza moduli il raggio dell'impulso non è quello di base")
 	_controlla(is_equal_approx(
 		ExpeditionModules.moltiplicatore_scatto(senza), ExpeditionModules.SCATTO_BASE),
-		"senza moduli lo scatto non è quello di base")
+		"senza moduli la corsa non è quella di base")
+	_controlla(is_equal_approx(
+		ExpeditionModules.distanza_scatto(senza), ExpeditionModules.SCATTO_DISTANZA),
+		"senza moduli il balzo non è quello di base")
+	_controlla(is_equal_approx(
+		ExpeditionModules.vista_delle_sacche(senza), ExpeditionModules.VISTA_PIENA),
+		"senza moduli le sacche non hanno la vista piena")
+	_controlla(is_equal_approx(
+		ExpeditionModules.spinta_del_morso(senza), ExpeditionModules.SPINTA_PIENA),
+		"senza moduli lo spintone non è quello di base")
 
 func _non_svuotano_la_bottega() -> void:
 	var moduli := 0

@@ -176,10 +176,13 @@ func _refresh() -> void:
 	if _save == null or not is_instance_valid(_name_field):
 		return
 	_name_field.text = STATE.name_of(_save)
+	var cosmetics: Dictionary = _save.data.get("cosmetics", {})
+	var equipped: Dictionary = cosmetics.get("equipped", {})
+	var pet_id := str(equipped.get("pet", "pet-spark"))
 	_portrait.configure(
 		STATE.name_of(_save), STATE.livery(_save), STATE.temperament(_save),
 		STATE.resting_face(_save), STATE.bond(_save), STATE.faces(_save),
-		_reduced_motion)
+		_reduced_motion, pet_id.trim_prefix("pet-"))
 	var temperament_index := STATE.TEMPERAMENTS.find(STATE.temperament(_save))
 	_temperament.select(maxi(0, temperament_index))
 	_resting.clear()

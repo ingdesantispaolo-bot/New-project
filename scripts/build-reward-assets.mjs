@@ -16,8 +16,6 @@ const godotSpriteDir = path.join(root, "godot/assets/shop");
 // premi le illustrazioni C-G4. Se una voce entra anche nel catalogo TS, il merge
 // in fondo evita automaticamente il doppione.
 const expeditionModuleArt = [
-  { id: "module-tank", slot: "module", color: 0x8ff6d2, minLevel: 2 },
-  { id: "module-coil", slot: "module", color: 0x9ff5e9, minLevel: 3 },
   { id: "module-stride", slot: "module", color: 0xffb85c, minLevel: 2 },
   { id: "module-radar", slot: "module", color: 0x7ad7ff, minLevel: 3 },
   { id: "module-torch", slot: "module", color: 0xffd75e, minLevel: 3 },

@@ -11,16 +11,20 @@ extends RefCounted
 ## Fonte: https://www.naturalearthdata.com/ — acquisita il 2026-08-03.
 
 const ITALY_BOUNDS := Rect2(6.40, 36.30, 12.50, 11.20)
+## Natural Earth 5.1.1, Admin 0 Countries (public domain), acquisito il
+## 2026-08-21 e semplificato per una carta muta a schermo intero.
+const EUROPE_BOUNDS := Rect2(-25.0, 34.0, 70.0, 39.0)
 
 static func has_map(map_id: String) -> bool:
-	return map_id == "italy"
+	return map_id in ["italy", "europe"]
 
 static func target_ids(map_id: String) -> Array:
 	return Array(map_data(map_id).get("targets", {}).keys())
 
 static func map_data(map_id: String) -> Dictionary:
-	if map_id != "italy":
-		return {}
+	if map_id == "europe":
+		return _europe_data()
+	if map_id != "italy": return {}
 	return {
 		"bounds": ITALY_BOUNDS,
 		"polygons": [
@@ -103,5 +107,29 @@ static func map_data(map_id: String) -> Dictionary:
 			"tyrrhenian_sea": Vector2(11.45, 40.35),
 			"adriatic_sea": Vector2(16.25, 43.15),
 			"ionian_sea": Vector2(17.15, 38.25),
+		},
+	}
+
+
+static func _europe_data() -> Dictionary:
+	# Sagome costiere, non confini politici: il contenuto decide bersagli e
+	# didattica; qui restano soltanto geografia e hit-area accessibili.
+	return {
+		"bounds": EUROPE_BOUNDS,
+		"polygons": [
+			PackedVector2Array([Vector2(-9.4,43.0),Vector2(-5.0,36.2),Vector2(0.5,42.6),Vector2(3.0,43.1),Vector2(6.0,45.0),Vector2(8.0,44.0),Vector2(7.0,46.5),Vector2(10.4,46.9),Vector2(13.8,46.5),Vector2(16.2,46.8),Vector2(18.8,45.9),Vector2(22.7,44.2),Vector2(26.3,45.1),Vector2(28.6,47.1),Vector2(30.8,46.5),Vector2(31.6,52.1),Vector2(28.2,56.2),Vector2(28.0,60.5),Vector2(31.5,62.9),Vector2(30.0,63.6),Vector2(27.0,60.0),Vector2(24.0,64.9),Vector2(19.9,68.4),Vector2(14.0,64.0),Vector2(12.0,59.4),Vector2(10.5,64.5),Vector2(5.0,62.0),Vector2(5.7,58.6),Vector2(8.5,57.1),Vector2(10.0,54.9),Vector2(6.9,53.5),Vector2(6.2,50.8),Vector2(2.7,51.2),Vector2(1.3,50.1),Vector2(-1.9,49.8),Vector2(-4.6,48.7),Vector2(-4.5,48.0),Vector2(-1.9,47.1),Vector2(-1.4,44.0),Vector2(-9.4,43.0)]),
+			PackedVector2Array([Vector2(-6.2,50.0),Vector2(-5.7,51.0),Vector2(-4.2,52.3),Vector2(-5.8,53.5),Vector2(-3.1,54.6),Vector2(-4.2,58.6),Vector2(-1.1,54.6),Vector2(1.7,52.7),Vector2(1.1,51.8),Vector2(-3.6,50.2),Vector2(-6.2,50.0)]),
+			PackedVector2Array([Vector2(-10.0,51.8),Vector2(-9.2,52.9),Vector2(-9.7,53.9),Vector2(-7.6,55.1),Vector2(-6.0,53.2),Vector2(-6.8,52.3),Vector2(-10.0,51.8)]),
+			PackedVector2Array([Vector2(-24.3,63.7),Vector2(-21.8,64.4),Vector2(-18.7,63.5),Vector2(-14.5,65.8),Vector2(-17.8,66.0),Vector2(-22.1,65.1),Vector2(-24.3,63.7)]),
+			PackedVector2Array([Vector2(8.2,40.9),Vector2(9.2,41.2),Vector2(9.8,40.5),Vector2(9.2,39.2),Vector2(8.4,39.2),Vector2(8.2,40.9)]),
+			PackedVector2Array([Vector2(14.8,38.1),Vector2(15.5,38.2),Vector2(15.2,37.4),Vector2(15.1,36.6),Vector2(13.8,37.1),Vector2(12.4,37.6),Vector2(14.8,38.1)]),
+		],
+		"lines": {},
+		"targets": {
+			"italy": Vector2(12.5,42.5), "france": Vector2(2.2,46.5), "spain": Vector2(-3.7,40.1),
+			"germany": Vector2(10.4,51.0), "poland": Vector2(19.0,52.0), "greece": Vector2(22.8,39.2),
+			"united_kingdom": Vector2(-2.8,54.5), "ireland": Vector2(-8.0,53.2), "iceland": Vector2(-18.0,65.0),
+			"norway": Vector2(10.5,62.0), "sweden": Vector2(17.5,61.0), "finland": Vector2(26.0,63.0),
+			"ukraine": Vector2(31.0,49.0), "balkans": Vector2(20.0,44.0), "mediterranean": Vector2(14.0,36.0),
 		},
 	}

@@ -57,7 +57,6 @@ func _run() -> void:
 
 	for button_name in [
 		"ContextInteractButton",
-		"CombatPulseButton",
 		# Lo scatto (19 agosto 2026) è un comando di gioco a tutti gli effetti, e su
 		# tablet è anche l'unica corsa che esista: sta nella lista dei bersagli
 		# touch come gli altri.
@@ -68,6 +67,13 @@ func _run() -> void:
 		var button := world.find_child(button_name, true, false) as Button
 		assert(button != null and button.custom_minimum_size.y >= 44.0,
 			"bersaglio touch insufficiente: %s" % button_name)
+		# **E dev'essere tutto sullo schermo.** (21 agosto 2026) Il pulsante
+		# della corsa misurava 127 in un riquadro da 92: Godot lo allargava da
+		# solo e sette pixel finivano oltre il bordo. Un bersaglio touch fuori
+		# dal viewport e' un bersaglio che il dito non trova, e non si vede in
+		# nessuna cattura — si vede solo misurando il rect.
+		assert(world.get_viewport().get_visible_rect().encloses(button.get_global_rect()),
+			"bersaglio touch fuori dallo schermo: %s %s" % [button_name, str(button.get_global_rect())])
 	var action := world.find_child("ContextInteractButton", true, false) as Button
 	assert(action.visible and action.disabled,
 		"il comando AZIONE deve restare visibile anche lontano dai POI")
@@ -77,17 +83,16 @@ func _run() -> void:
 	assert(customizer != null, "pannello di personalizzazione touch assente")
 	world.set("touch_controls_settings", {"side": "left", "size": "standard", "opacity": 0.72})
 	world.call("_apply_touch_controls_layout")
-	var pulse_button := world.find_child("CombatPulseButton", true, false) as Button
-	assert(action.anchor_left == 0.5 and pulse_button.anchor_left == 0.0
+	var scatto_button := world.find_child("ScattoButton", true, false) as Button
+	assert(action.anchor_left == 0.5 and scatto_button.anchor_left == 0.0
 		and action.custom_minimum_size.y >= 64.0,
 		"preset touch mancino/standard non applicato")
 	# Tutte le azioni sotto lo stesso pollice: è il senso della preferenza di lato,
 	# e un comando che resta dall'altra parte la rende inutile.
-	var scatto_button := world.find_child("ScattoButton", true, false) as Button
-	assert(scatto_button != null and scatto_button.anchor_left == pulse_button.anchor_left,
-		"lo scatto non segue il lato scelto per i comandi touch")
-	assert(scatto_button.offset_bottom <= pulse_button.offset_top,
-		"lo scatto si sovrappone all'impulso invece di stargli sopra")
+	assert(scatto_button != null and scatto_button.anchor_left != 0.5,
+		"la corsa non segue il lato scelto per i comandi touch")
+	assert(scatto_button.offset_bottom <= action.offset_top,
+		"la corsa si sovrappone ad AZIONE invece di stargli sopra")
 	assert(is_equal_approx(action.modulate.a, 0.72),
 		"visibilità personalizzata dei comandi non applicata")
 
@@ -100,18 +105,7 @@ func _run() -> void:
 
 	var first_enemy := enemies[0] as Node2D
 	first_enemy.global_position = player.global_position + Vector2(48, 0)
-	# L'impulso costa una carica dal 14 agosto 2026: senza, non si accende e qui
-	# non ci sarebbe nessuna onda da misurare. La carica si accredita come la
-	# otterrebbe il giocatore — superando prove.
-	for _prova in range(PulseCharge.PROVE_PER_CARICA):
-		PulseCharge.accredita(world.get("game_save"))
-	world.call("_combat_pulse")
-	var pulse := world.find_child("EliCombatPulse", true, false) as Node2D
-	assert(pulse != null and pulse.scale.x <= 1.36,
-		"impulso usa ancora l'espansione ampia con riduzione movimento")
 	await create_timer(0.16).timeout
-	assert(not is_instance_valid(pulse) or pulse.is_queued_for_deletion(),
-		"feedback ridotto dell'impulso non viene ritirato")
 
 	exercise.start_session({
 		"kind": "practice",

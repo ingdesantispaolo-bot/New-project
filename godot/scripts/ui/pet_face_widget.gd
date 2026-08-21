@@ -22,6 +22,8 @@ var _resting := "sereno"
 var _elapsed := 0.0
 var _bond := 0.0
 var _pet_name := ""
+var _pet_kind := ""
+var _pet_art: Texture2D
 var _primary := Color("f6c85f")
 var _secondary := Color("ffe3a8")
 var _amplitude := 1.0
@@ -46,9 +48,12 @@ func configure(
 	resting_face: String,
 	bond_value: float,
 	available_faces: Array,
-	reduced_motion: bool
+	reduced_motion: bool,
+	pet_kind: String = ""
 ) -> void:
 	_pet_name = pet_name
+	_pet_kind = pet_kind.trim_prefix("pet-")
+	_pet_art = OutdoorVisualFactory.pet_art_for(_pet_kind) if not _pet_kind.is_empty() else null
 	if livery.size() >= 1:
 		_primary = OutdoorVisualFactory.hex_color(int(livery[0]))
 	if livery.size() >= 2:
@@ -80,6 +85,9 @@ func react_to(game_signal: String) -> void:
 
 func current_face() -> String:
 	return _face
+
+func current_pet_kind() -> String:
+	return _pet_kind
 
 ## Anteprima statica per l'album: non passa dall'isteresi perché non rappresenta
 ## una reazione di gioco e non modifica lo stato del Custode.
@@ -145,26 +153,37 @@ func _draw() -> void:
 			Color(_secondary, 0.95), 3.0, true)
 
 	var radius := SIZE * 0.36 * breath
-	# Ombra, bordo e riflesso danno volume anche nei 76 px dell'HUD.
-	draw_circle(center + Vector2(0, radius * 0.12), radius * 1.10, Color(0.01, 0.035, 0.045, 0.28))
-	draw_circle(center, radius + 2.5, Color(0.02, 0.07, 0.08, 0.94))
-	_draw_ears(center, radius)
-	draw_circle(center, radius, _primary)
-	draw_circle(center - Vector2(0, radius * 0.23), radius * 0.78, _primary.lightened(0.11))
-	draw_circle(center + Vector2(0, radius * 0.31), radius * 0.43, Color(_secondary, 0.42))
-	draw_colored_polygon(PackedVector2Array([
-		center + Vector2(-radius * 0.18, -radius * 0.82),
-		center + Vector2(0, -radius * 1.06),
-		center + Vector2(radius * 0.12, -radius * 0.80),
-	]), _secondary)
-	_draw_eyes(center, radius)
-	draw_colored_polygon(PackedVector2Array([
-		center + Vector2(-radius * 0.075, radius * 0.16),
-		center + Vector2(radius * 0.075, radius * 0.16),
-		center + Vector2(0, radius * 0.24),
-	]), Color(0.10, 0.14, 0.15))
-	_draw_mouth(center, radius)
-	_draw_flourish(center, radius)
+	# Nel HUD si deve riconoscere la stessa forma che cammina accanto a Eli.
+	# Le anteprime dell'album non passano una forma e conservano invece il volto
+	# espressivo astratto, utile per confrontare chiaramente le dieci facce.
+	if _pet_art != null:
+		draw_circle(center + Vector2(0, radius * 0.12), radius * 1.10, Color(0.01, 0.035, 0.045, 0.28))
+		draw_circle(center, radius + 2.5, Color(0.02, 0.07, 0.08, 0.94))
+		var art_side := radius * 1.92
+		var art_rect := Rect2(center - Vector2.ONE * art_side * 0.5, Vector2.ONE * art_side)
+		draw_texture_rect(_pet_art, art_rect, false, Color.WHITE.lerp(_primary, 0.08))
+		_draw_flourish(center, radius)
+	else:
+		# Ombra, bordo e riflesso danno volume anche nei 76 px dell'HUD.
+		draw_circle(center + Vector2(0, radius * 0.12), radius * 1.10, Color(0.01, 0.035, 0.045, 0.28))
+		draw_circle(center, radius + 2.5, Color(0.02, 0.07, 0.08, 0.94))
+		_draw_ears(center, radius)
+		draw_circle(center, radius, _primary)
+		draw_circle(center - Vector2(0, radius * 0.23), radius * 0.78, _primary.lightened(0.11))
+		draw_circle(center + Vector2(0, radius * 0.31), radius * 0.43, Color(_secondary, 0.42))
+		draw_colored_polygon(PackedVector2Array([
+			center + Vector2(-radius * 0.18, -radius * 0.82),
+			center + Vector2(0, -radius * 1.06),
+			center + Vector2(radius * 0.12, -radius * 0.80),
+		]), _secondary)
+		_draw_eyes(center, radius)
+		draw_colored_polygon(PackedVector2Array([
+			center + Vector2(-radius * 0.075, radius * 0.16),
+			center + Vector2(radius * 0.075, radius * 0.16),
+			center + Vector2(0, radius * 0.24),
+		]), Color(0.10, 0.14, 0.15))
+		_draw_mouth(center, radius)
+		_draw_flourish(center, radius)
 
 	if _pet_name != "":
 		var font := ThemeDB.fallback_font

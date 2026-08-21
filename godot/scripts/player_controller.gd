@@ -180,9 +180,6 @@ func annulla_scatto() -> void:
 	_scatto_restante = 0.0
 	velocity = Vector2.ZERO
 
-func play_pulse_action() -> void:
-	_action_until_msec = Time.get_ticks_msec() + 360
-
 func _animate(delta: float) -> void:
 	if visual == null:
 		return

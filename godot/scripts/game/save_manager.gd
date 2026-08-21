@@ -499,6 +499,20 @@ func set_world_resume(world_id: String, position: Vector2, giro_del_giorno: floa
 		"dayPhase": giro_del_giorno,
 	}
 
+## **Dimentica dov'era rimasto** in questo mondo, e nient'altro.
+##
+## La usa il riavvio del mondo dal menu di pausa (21 agosto 2026). Cancella una
+## cosa sola — la posizione e l'ora a cui si era arrivati — perche' e' l'unica
+## che il riavvio deve davvero rifare: chi rientra riparte dal portale, all'ora
+## d'autore del suo mondo.
+##
+## Quello che NON tocca e' la parte importante: incontri risolti, tesori raccolti
+## e maestria restano dove sono. Azzerarli renderebbe il riavvio un modo per
+## raccogliere due volte gli stessi frammenti, e trasformerebbe un comando di
+## servizio nella strada piu' conveniente del gioco.
+func clear_world_resume(world_id: String) -> void:
+	_world_bucket(world_id)["resume"] = {}
+
 func set_apparatus_repaired(id: String, repaired_level: int) -> void:
 	data["apparatus"][id] = {"repairedLevel": repaired_level}
 

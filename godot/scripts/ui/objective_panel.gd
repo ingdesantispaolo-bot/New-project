@@ -16,8 +16,22 @@ extends Control
 ## **Perché le materie chiuse restano nell'elenco.** Toglierle sarebbe più
 ## pulito e sbagliato: vedere quello che si è già fatto è metà della
 ## motivazione, e un elenco che si accorcia da solo nasconde i progressi.
+##
+## ## PORTAMI (21 agosto 2026)
+##
+## Questo quadro diceva già che cosa manca a ciascuna materia, e poi lasciava
+## il bambino a cercarla camminando: la scelta di che cosa allenare si prendeva
+## leggendo le etichette dei punti uno per uno, cioè non si prendeva. Adesso
+## ogni materia aperta ha il suo **PORTAMI**, che chiude il quadro e punta la
+## bussola alla sua stazione.
+##
+## È il pezzo che mancava al filo delle palestre: il filo risolve il **dove**,
+## questo pulsante risolve il **come ci arrivo**.
 
 signal chiuso
+## La materia che il bambino ha scelto di allenare adesso. La scena la
+## trasforma in una rotta verso la sua stazione del filo.
+signal portami(materia: String)
 
 const VERDE := Color("8ff6d2")
 const ORO := Color("f4cf69")
@@ -95,7 +109,7 @@ func _materia(riga: Dictionary) -> void:
 	# bambino legge «italiano più indietro di storia» come una sua mancanza,
 	# mentre è il gioco che chiede di più.
 	testa.text = "%s %s%s" % [
-		"✔" if fatto else "•", nome, "  ·  asticella più alta" if bool(riga.get("nucleo", false)) else ""]
+		"OK" if fatto else "·", nome, "  ·  asticella più alta" if bool(riga.get("nucleo", false)) else ""]
 	testa.add_theme_font_size_override("font_size", 16)
 	testa.add_theme_color_override("font_color", VERDE if fatto else ORO)
 	blocco.add_child(testa)
@@ -106,6 +120,13 @@ func _materia(riga: Dictionary) -> void:
 		manca.add_theme_font_size_override("font_size", 14)
 		manca.add_theme_color_override("font_color", SPENTO)
 		blocco.add_child(manca)
+		var portami_bottone := Button.new()
+		portami_bottone.name = "Portami_%s" % str(riga.get("materia", ""))
+		portami_bottone.text = "PORTAMI"
+		portami_bottone.custom_minimum_size = Vector2(0, 44)
+		portami_bottone.add_theme_font_size_override("font_size", 13)
+		portami_bottone.pressed.connect(_chiedi_rotta.bind(str(riga.get("materia", ""))))
+		blocco.add_child(portami_bottone)
 	var barra := ProgressBar.new()
 	barra.name = "Progress_%s" % str(riga.get("materia", ""))
 	barra.custom_minimum_size = Vector2(0, 8)
@@ -114,6 +135,9 @@ func _materia(riga: Dictionary) -> void:
 	barra.value = 1.0 if fatto else float(riga.get("progresso", 0.0))
 	blocco.add_child(barra)
 	_colonna.add_child(blocco)
+
+func _chiedi_rotta(materia: String) -> void:
+	portami.emit(materia)
 
 func _riga(testo: String, dimensione: int, colore: Color) -> void:
 	if testo.strip_edges().is_empty():

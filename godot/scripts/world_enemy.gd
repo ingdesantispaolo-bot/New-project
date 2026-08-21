@@ -22,8 +22,8 @@ const GUARDIAN_VISUALS := preload("res://scripts/game/guardian_visual_catalog.gd
 ##
 ## **Non blocca mai.** Se l'energia non basta si paga quel che c'e' e si passa
 ## lo stesso: e' la regola di tutta la mappa — niente che sta qui puo' fermare
-## la progressione. L'impulso continua a stabilizzarle, e resta la via gratuita
-## per chi preferisce pensare invece di incassare.
+## la progressione. E chi non vuole pagare attraversa di slancio: la corsa
+## passa una sacca senza morso, gratis, ogni 1,1 secondi.
 
 ## Quanta energia costa ogni grado di scarto. Due: un incontro sfortunato si
 ## assorbe, una traversata fatta di sacche no.
@@ -112,6 +112,11 @@ var enemy_name := "Sbiadito"
 var phase := 0.0
 var stunned_until_msec := 0
 var contact_ready_msec := 0
+## Quanto lontano questa sacca si accorge di Eli, in frazione della sua vista
+## piena. Lo abbassa «Andatura felpata» ([[ExpeditionModules]]); la scena lo
+## passa dal contratto runtime, e qui non si sa niente di che cosa sia stato
+## comprato.
+var vista_scala := 1.0
 var reduced_motion := false
 var body_shape: CollisionShape2D
 var contact_area: Area2D
@@ -386,7 +391,7 @@ func _physics_process(delta: float) -> void:
 		# Chi custodisce ha un guinzaglio corto e una soglia bassa: non insegue per
 		# mezza mappa — sarebbe fastidio, non pericolo — ma chi si avvicina al
 		# forziere se la trova addosso subito.
-		var soglia := 190.0 + tier * 12.0 if _ancorata() else 250.0 + tier * 20.0
+		var soglia := (190.0 + tier * 12.0 if _ancorata() else 250.0 + tier * 20.0) * vista_scala
 		if caccia:
 			soglia *= CACCIA_ALLUNGO
 		elif richiamo:
@@ -405,6 +410,18 @@ func _physics_process(delta: float) -> void:
 		velocity = Vector2.ZERO
 	move_and_slide()
 
+## **Ferma una sacca per qualche secondo.** Non la scioglie: si riprende da
+## sola, e nel frattempo non morde e non respinge.
+##
+## **Non e' piu' l'impulso.** (21 agosto 2026) Fino al 20 agosto la chiamava
+## soprattutto l'impulso stabilizzante, che e' stato tolto. I due chiamanti
+## rimasti non c'entrano niente con quello, e sono tutti e due necessari:
+##
+##   - la **sconfitta in duello**, per due secondi e mezzo: senza, la sacca e'
+##     addosso a Eli nell'istante in cui il pannello si chiude e il duello
+##     ricomincerebbe da solo;
+##   - i **momenti d'autore**, per venti: una sacca che morde mentre il mondo
+##     sta dicendo la sua battuta trasforma una scena in un incidente.
 func stun(seconds: float = 5.0) -> void:
 	stunned_until_msec = Time.get_ticks_msec() + roundi(seconds * 1000.0)
 	velocity = Vector2.ZERO
@@ -488,7 +505,7 @@ func fa_la_scorta(guardia_id: String) -> void:
 		# c'e' solo da passare. Cambiare la parola avrebbe promesso una meccanica
 		# che questa sacca non ha.
 		label.accessibility_name = ("%s, sacca di Silenzio nell'anello attorno a un forziere; "
-			+ "si attraversa pagando o con l'impulso, non si sfida") % enemy_name
+			+ "si attraversa pagando o di slancio, non si sfida") % enemy_name
 
 ## **Sciolta per sempre.** Non e' uno stordimento: la sacca sparisce, il
 ## forziere che sorvegliava si apre, e rientrando nel mondo non la si ritrova.

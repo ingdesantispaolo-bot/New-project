@@ -84,11 +84,12 @@ var objective_label: Label
 var world_title_label: Label
 var ship_navigation_label: Label
 var guide_button: Button
+var pause_button: Button
+var pause_menu: PauseMenuPanel
 var utility_menu_button: Button
 var shop_button: Button
 var manual_button: Button
 var interaction_button: Button
-var pulse_button: Button
 ## Il pulsante dello scatto. Su tablet è anche l'unica corsa che esista: `sprint`
 ## era legato al solo Maiusc, e una tastiera lì non c'è.
 var scatto_button: Button
@@ -166,7 +167,6 @@ var profile_hero_landmark: Node2D
 var profile_environment_reaction: WorldLearningReaction
 var last_traversable_position := Vector2.ZERO
 var water_block_feedback_msec := 0
-var pulse_ready_msec := 0
 var high_contrast := false
 var reduced_motion := false
 var dialogue_box: Control
@@ -515,20 +515,20 @@ func _profile_performance_budget() -> Dictionary:
 	var tier := WorldProfileCatalog.current_tier()
 	return Dictionary(budgets.get(tier, budgets.get("web", {})))
 
+## Quanto lontano le sacche notano Eli adesso. Sta nel contratto runtime
+## perche' dipende da un acquisto, e la scena non deve sapere quale.
+func _vista_delle_sacche() -> float:
+	return float(runtime.get("enemyNoticeScale", ExpeditionModules.VISTA_PIENA))
+
 func _world_subject() -> String:
 	return str(world_profile.get("learningFocus", {}).get("subject", "matematica"))
 
 func _configure_profile_palette() -> void:
 	var subject := _world_subject()
-	var subject_colors := {
-		"matematica": Color("6be7d6"), "italiano": Color("e9a86d"),
-		"coding": Color("8fa7ff"), "inglese": Color("72c9ff"),
-		"fisica": Color("a2d8ff"), "musica": Color("d7a0ff"),
-		"latino": Color("d4b17a"), "elettronica": Color("79e7ff"),
-		"geografia": Color("7fd19b"), "scienze": Color("91dc72"),
-		"storia": Color("f2c96d"), "logica": Color("b7a2ff"),
-	}
-	var accent: Color = subject_colors.get(subject, PLAYER_ACCENT)
+	# La tavolozza sta in [[SubjectPalette]] e non piu' qui: era in due copie,
+	# e la seconda accendeva il nucleo prismatico della nave. Due copie della
+	# stessa verita' sono una verita' che prima o poi diverge.
+	var accent: Color = SubjectPalette.colore(subject)
 	profile_night_tint = NIGHT_TINT.lerp(accent.darkened(0.58), 0.28)
 	profile_dawn_tint = DAWN_TINT.lerp(accent.lightened(0.12), 0.30)
 	profile_day_tint = Color.WHITE.lerp(accent.lightened(0.42), 0.08)
@@ -678,10 +678,16 @@ func _on_runtime_state(state: Dictionary) -> void:
 			runtime.get("sprintMultiplier", ExpeditionModules.SCATTO_BASE))
 		player.dash_distance = float(
 			runtime.get("dashDistance", ExpeditionModules.SCATTO_DISTANZA))
+	# La vista delle sacche gia' in campo si aggiorna appena il modulo entra
+	# nell'inventario: un acquisto che si vede solo rientrando nel mondo e' un
+	# acquisto che il bambino non collega a quello che ha appena speso.
+	var vista := float(runtime.get("enemyNoticeScale", ExpeditionModules.VISTA_PIENA))
+	for sacca in get_tree().get_nodes_in_group("world_enemy"):
+		if sacca is Node2D:
+			sacca.set("vista_scala", vista)
 	if is_instance_valid(expedition_module_presentation):
 		expedition_module_presentation.apply_runtime(
 			runtime, equipped_field_tool(), Array(result.get("collectedTreasureIds", [])))
-	_aggiorna_cariche_impulso()
 	# Il richiamo scatta quando l'apparato diventa riparabile, una volta sola.
 	if bool(runtime.get("ready", false)) and not _richiamo_attivo:
 		_apri_il_richiamo()
@@ -859,6 +865,10 @@ func _process(delta: float) -> void:
 		atmosphere_material.set_shader_parameter("daylight", daylight)
 		atmosphere_material.set_shader_parameter("clock", 0.0 if reduced_motion else giro)
 		atmosphere_material.set_shader_parameter("motion_factor", 0.0 if reduced_motion else 1.0)
+	for node in get_tree().get_nodes_in_group("natural_wind"):
+		var canvas := node as CanvasItem
+		if canvas != null and canvas.material is ShaderMaterial:
+			(canvas.material as ShaderMaterial).set_shader_parameter("wind_strength", 0.0 if reduced_motion else 1.0)
 	_update_night_glow(daylight)
 	if is_instance_valid(player):
 		_enforce_water_traversal()
@@ -873,7 +883,6 @@ func _process(delta: float) -> void:
 		_update_ship_navigation()
 		_update_pending_touch_interaction()
 		_update_interaction_countdown()
-		_update_pulse_button()
 		_update_scatto_button()
 		_assegna_guardiani()
 		if world_life != null:
@@ -1207,6 +1216,7 @@ func _apply_cosmetic_presentation() -> void:
 		pet_companion.queue_free()
 		pet_companion = null
 	_spawn_pet(visual_data)
+	_refresh_pet_face()
 	_update_equipment_presentation()
 	var bot_id := str(Dictionary(runtime.get("cosmeticsEquipped", {})).get("bot", ""))
 	var bot_item := RewardCatalog.find(bot_id)
@@ -1843,7 +1853,7 @@ func _create_profile_event(event: Dictionary) -> void:
 		visual.set_stage(4 if completed else 0, 4)
 		area.add_child(visual)
 	elif director_kind == "practice":
-		area.add_child(_make_minigame_marker())
+		area.add_child(_make_minigame_marker(str(payload["subject"])))
 		var equipment_gate := EQUIPMENT_GATE_SCRIPT.new()
 		equipment_gate.name = "EquipmentGate"
 		area.add_child(equipment_gate)
@@ -3796,12 +3806,18 @@ const GUARDIA_DISTANZA_MINIMA := 420.0
 ## sfidano e non chiudono niente: rendono l'**avvicinamento** una scelta, che è
 ## la cosa che a questa mappa mancava del tutto.
 ##
-## Il difetto da cui nasce: le cariche d'impulso si guadagnano studiando
-## ([[PulseCharge]]) e il morso non blocca mai, quindi non è mai esistito un
-## momento in cui valesse la pena spenderne una — si passava e basta, pagando due
-## energie o non pagandole. Una risorsa che non si sceglie mai quando spendere non
-## è una risorsa. L'anello è il posto dove quella scelta esiste: attraversarlo
-## costa più di un morso solo, e un impulso lo spegne per il tempo di passare.
+## Il difetto da cui nasce: la mappa non opponeva resistenza da nessuna parte, e
+## avvicinarsi a un forziere era identico ad attraversare un prato. L'anello è il
+## posto dove quell'avvicinamento diventa una scelta: lo si paga, oppure lo si
+## attraversa di slancio giocando di tempismo.
+##
+## **Nato per l'impulso, sopravvissuto senza.** (21 agosto 2026) Fino a oggi
+## l'anello serviva a dare all'impulso un momento in cui valesse la pena
+## spendere una carica. `impulso_scatto_probe` ha misurato che quel momento non
+## esisteva — dal mondo 2 in poi nessuna sacca costa energia — e l'impulso è
+## stato tolto. L'anello resta perché il suo secondo mestiere non dipendeva da
+## quello: **spinge indietro**, e lo spintone non si azzera col grado. È lì che
+## lo scatto trova il suo lavoro.
 ##
 ## **Due scorte, non tre.** Con tre, attraversare al grado zero costerebbe più di
 ## un turno di lavoro in bottega e la scelta razionale tornerebbe a essere girare
@@ -3867,6 +3883,7 @@ func _assegna_guardiani() -> void:
 		# forziere e un premio che non si vede non si desidera.
 		sacca.setup(self, posto + Vector2(0, -54), world_level, _world_subject(), accento, _guardiani.size())
 		sacca.reduced_motion = reduced_motion
+		sacca.vista_scala = _vista_delle_sacche()
 		# Una sacca nata dopo il richiamo lo eredita: altrimenti le guardiane
 		# comparse durante l'ultima traversata sarebbero le uniche distratte.
 		sacca.richiamo = _richiamo_attivo
@@ -3916,6 +3933,7 @@ func _schiera_presidio(guardia_id: String, centro: Vector2) -> void:
 			chunks.composition.blended_accent(posto),
 			_guardiani.size() * 8 + indice, WorldEnemy.RUOLO_SCORTA)
 		scorta.reduced_motion = reduced_motion
+		scorta.vista_scala = _vista_delle_sacche()
 		scorta.richiamo = _richiamo_attivo
 		scorta.fa_la_scorta(guardia_id)
 		world_layer.add_child(scorta)
@@ -4088,6 +4106,7 @@ func _create_world_enemies() -> void:
 		var accent := chunks.composition.blended_accent(enemy_position)
 		enemy.setup(self, enemy_position, world_level, subject, accent, index)
 		enemy.reduced_motion = reduced_motion
+		enemy.vista_scala = _vista_delle_sacche()
 		world_layer.add_child(enemy)
 
 ## Il Custode si irrigidisce vicino a uno Sbiadito, prima ancora del contatto
@@ -4196,7 +4215,11 @@ func _on_enemy_contact(enemy: Node2D, body: Node) -> void:
 	var away := enemy.global_position.direction_to(player.global_position)
 	if away.length_squared() < 0.01:
 		away = Vector2.DOWN
-	var target := chunks.clamp_to_world(player.global_position + away * 104.0)
+	# Quanto lontano butta lo spintone: la zavorra da campo lo accorcia, e non
+	# lo azzera mai — una sacca che non sposta piu' nessuno smette di essere
+	# l'ostacolo attorno a cui il presidio e' costruito.
+	var spinta := float(runtime.get("knockbackDistance", ExpeditionModules.SPINTA_PIENA))
+	var target := chunks.clamp_to_world(player.global_position + away * spinta)
 	if _water_blocks_position(target):
 		target = last_traversable_position
 	player.global_position = target
@@ -4215,7 +4238,7 @@ func _on_enemy_contact(enemy: Node2D, body: Node) -> void:
 		game_save.spend_energy(costo)
 		game_save.save()
 		_spawn_gain_popup("−%d" % costo, Color("ff9b8a"))
-		_set_feedback("%s ti respinge. −%d energia: e' piu' forte di te di %d gradi. Allenati, o usa IMPULSO." % [
+		_set_feedback("%s ti respinge. −%d energia: è più forte di te di %d gradi. Allenati, oppure passale accanto di slancio." % [
 			str(enemy.get("enemy_name")), costo, scarto])
 	else:
 		_set_feedback("%s ti respinge, ma non ti scalfisce: sei abbastanza forte." % str(enemy.get("enemy_name")))
@@ -4226,59 +4249,6 @@ func _on_enemy_contact(enemy: Node2D, body: Node) -> void:
 		var tween := create_tween()
 		tween.tween_property(player_presentation, "modulate", Color(1.0, 0.46, 0.42), 0.08)
 		tween.tween_property(player_presentation, "modulate", Color.WHITE, 0.22)
-
-func _combat_pulse() -> void:
-	if not enemy_gameplay_active():
-		return
-	# Il cronometro non è più l'economia dell'impulso — quella sono le cariche,
-	# e le decide la semantica. Resta un antirimbalzo brevissimo: un tocco doppio
-	# involontario non deve bruciare due cariche guadagnate con quattro prove.
-	var now := Time.get_ticks_msec()
-	if now < pulse_ready_msec:
-		return
-	pulse_ready_msec = now + 350
-	if not gameplay.usa_impulso():
-		_set_feedback(
-			"Impulso scarico: si ricarica superando le prove. Puoi passare lo stesso, ti costerà energia.")
-		_update_pulse_button()
-		return
-	player.play_pulse_action()
-	_spawn_combat_pulse_visual()
-	var hits := 0
-	# Il raggio lo dice la semantica: la bobina larga lo amplia, e qui non si sa
-	# che cosa il giocatore abbia comprato.
-	var raggio := float(runtime.get("pulseRadius", ExpeditionModules.RAGGIO_BASE))
-	for enemy in get_tree().get_nodes_in_group("world_enemy"):
-		if enemy is Node2D and player.global_position.distance_to(enemy.global_position) <= raggio:
-			enemy.call("stun", 5.5)
-			hits += 1
-	_set_feedback(
-		"Impulso stabilizzante · varco libero per alcuni secondi."
-		if hits > 0
-		else "Impulso emesso · nessuna anomalia nel raggio."
-	)
-	_update_pulse_button()
-
-func _spawn_combat_pulse_visual() -> void:
-	var pulse := Node2D.new()
-	pulse.name = "EliCombatPulse"
-	pulse.position = player.global_position
-	pulse.z_index = 80
-	var ring := OutdoorVisualFactory.make_ring(24.0, Color("6be7d6"), 5.0, 36)
-	pulse.add_child(ring)
-	world_layer.add_child(pulse)
-	if reduced_motion:
-		pulse.scale = Vector2.ONE * 1.35
-		pulse.modulate.a = 0.72
-		await get_tree().create_timer(0.12).timeout
-		pulse.queue_free()
-		return
-	var tween := create_tween()
-	tween.set_parallel(true)
-	tween.tween_property(pulse, "scale", Vector2.ONE * 6.8, 0.34).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	tween.tween_property(pulse, "modulate:a", 0.0, 0.34)
-	tween.set_parallel(false)
-	tween.tween_callback(pulse.queue_free)
 
 ## **Lo scatto.** (19 agosto 2026)
 ##
@@ -4341,35 +4311,9 @@ func _update_scatto_button() -> void:
 		# Un pannello aperto mentre il dito era giù lascerebbe Eli a correre da
 		# sola sotto la finestra: il rilascio non arriva mai su un bottone spento.
 		player.corsa_richiesta = false
-	# Tenendolo premuto si corre: il pulsante dice tutte e due le cose, perché su
-	# tablet questa è anche l'unica corsa che esista.
-	scatto_button.text = "SCATTO\n%.1f s" % (float(attesa) / 1000.0) if attesa > 0 else "SCATTO\nTIENI = CORRI"
-
-func _update_pulse_button() -> void:
-	if not is_instance_valid(pulse_button):
-		return
-	if runtime.has("pulseCharges"):
-		var charges := maxi(0, int(runtime.get("pulseCharges", 0)))
-		pulse_button.disabled = charges <= 0 or not enemy_gameplay_active()
-		pulse_button.text = "IMPULSO\n%d CARICHE" % charges
-		return
-	var remaining := maxi(0, pulse_ready_msec - Time.get_ticks_msec())
-	pulse_button.disabled = remaining > 0 or not enemy_gameplay_active()
-	pulse_button.text = "IMPULSO\n%.1f s" % (float(remaining) / 1000.0) if remaining > 0 else "IMPULSO\nTOCCA"
-
-func _aggiorna_cariche_impulso() -> void:
-	if not is_instance_valid(etichetta_cariche_impulso):
-		return
-	etichetta_cariche_impulso.visible = runtime.has("pulseCharges")
-	if not etichetta_cariche_impulso.visible:
-		return
-	var charges := maxi(0, int(runtime.get("pulseCharges", 0)))
-	var maximum := maxi(charges, int(runtime.get("pulseChargeMax", 3)))
-	var cells: Array[String] = []
-	for index in maximum:
-		cells.append("◆" if index < charges else "◇")
-	etichetta_cariche_impulso.text = "IMPULSO  %s  %d/%d" % [" ".join(cells), charges, maximum]
-	_update_pulse_button()
+	# Il pulsante dice tutte e due le cose, e la corsa per prima: su tablet questa
+	# è anche l'unica corsa che esista.
+	scatto_button.text = "CORRI\n%.1f s" % (float(attesa) / 1000.0) if attesa > 0 else "CORRI\nTOCCA = BALZO"
 
 func _event_visual_kind(subject: String) -> String:
 	if subject in ["matematica", "fisica"]:
@@ -4560,23 +4504,58 @@ func _create_profile_weather() -> void:
 		world_weather_particles.color = Color(profile_dawn_tint, 0.32)
 	world_layer.add_child(world_weather_particles)
 
-func _make_minigame_marker() -> Node2D:
+## **L'insegna di una palestra.** (21 agosto 2026)
+##
+## Era un disco verde-azzurro uguale per tutte le undici materie, con una
+## stella disegnata **come carattere di testo**: `"★"`, cioe' U+2605.
+##
+## Due difetti in una riga sola, e il secondo e' quello che si vede giocando:
+##
+## 1. **il carattere non esiste nel font imbarcato.** Il progetto non ha un
+##    font suo e usa Open Sans SemiBold, che di quel simbolo non ha il glifo.
+##    Su Windows Godot ripiega sui font di sistema e la stella si vede; nel
+##    Web e su tablet quel ripiego non c'e', e il motore disegna il rettangolo
+##    col codice dentro. Le palestre portavano **«2605» come insegna**, ed e'
+##    la segnalazione da cui nasce questa riscrittura;
+## 2. **erano tutte uguali.** Undici materie, un disco solo: da lontano non si
+##    poteva decidere dove andare, e la scelta di che cosa allenare — che e' la
+##    scelta piu' importante che questo gioco offra — si prendeva solo dopo
+##    essersi avvicinati a leggere l'etichetta.
+##
+## Adesso l'insegna e' **disegnata** (nessun glifo, nessun ripiego possibile) e
+## porta il **colore della materia** da [[SubjectPalette]] — lo stesso con cui
+## il mondo di quella materia tinge la notte e con cui la sua scheda si accende
+## nel nucleo prismatico della nave. Il verde della geografia e' lo stesso in
+## tutti e tre i posti, e si riconosce da lontano senza leggere niente.
+func _make_minigame_marker(subject: String) -> Node2D:
 	var marker := Node2D.new()
 	marker.name = "MinigameMarker"
-	var disc := Polygon2D.new()
-	var pts := PackedVector2Array()
+	var tinta := SubjectPalette.colore(subject)
+	# L'alone: dice «qui c'e' qualcosa» prima che la forma sia leggibile.
+	marker.add_child(OutdoorVisualFactory.make_glow(46.0, tinta, 0.20))
+	var disco := Polygon2D.new()
+	disco.name = "PracticeDisc"
+	var punti := PackedVector2Array()
 	for i in range(24):
 		var a := TAU * float(i) / 24.0
-		pts.append(Vector2(cos(a), sin(a)) * 30.0)
-	disc.polygon = pts
-	disc.color = Color(0.10, 0.42, 0.46, 0.92)
-	marker.add_child(disc)
-	var label := Label.new()
-	label.text = "★"
-	label.add_theme_font_size_override("font_size", 26)
-	label.add_theme_color_override("font_color", Color("f6c85f"))
-	label.position = Vector2(-9, -20)
-	marker.add_child(label)
+		punti.append(Vector2(cos(a), sin(a)) * 30.0)
+	disco.polygon = punti
+	disco.color = Color(tinta.darkened(0.72), 0.94)
+	marker.add_child(disco)
+	marker.add_child(OutdoorVisualFactory.make_ring(30.0, tinta, 2.4, 28))
+	# La stella a cinque punte, disegnata: dieci vertici alternati fra il
+	# raggio pieno e il raggio interno. E' la stessa forma di prima, ma adesso
+	# e' geometria e non una speranza sul font di chi gioca.
+	var stella := Polygon2D.new()
+	stella.name = "PracticeStar"
+	var vertici := PackedVector2Array()
+	for i in range(10):
+		var raggio := 16.0 if i % 2 == 0 else 6.6
+		var angolo := -PI * 0.5 + TAU * float(i) / 10.0
+		vertici.append(Vector2(cos(angolo), sin(angolo)) * raggio)
+	stella.polygon = vertici
+	stella.color = tinta.lightened(0.28)
+	marker.add_child(stella)
 	return marker
 
 func _create_exercise_player() -> void:
@@ -4636,16 +4615,8 @@ func _crea_barra_potenza(genitore: Control) -> void:
 	barra_potenza.custom_minimum_size = Vector2(150, 8)
 	scatola.add_child(barra_potenza)
 
-	etichetta_cariche_impulso = Label.new()
-	etichetta_cariche_impulso.name = "PulseChargesLabel"
-	etichetta_cariche_impulso.add_theme_font_size_override("font_size", 11)
-	etichetta_cariche_impulso.add_theme_color_override("font_color", Color("f6c85f"))
-	etichetta_cariche_impulso.visible = false
-	scatola.add_child(etichetta_cariche_impulso)
-
 	genitore.add_child(scatola)
 	_aggiorna_barra_potenza()
-	_aggiorna_cariche_impulso()
 
 func _create_hud() -> void:
 	ui_layer = CanvasLayer.new()
@@ -4744,6 +4715,24 @@ void fragment() {
 	guide_button.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT, Control.PRESET_MODE_MINSIZE, 16)
 	guide_button.pressed.connect(_guide_to_objective)
 	root.add_child(guide_button)
+	# **La pausa sta fuori da OPZIONI, e non e' un dettaglio di layout.**
+	# (21 agosto 2026) Le voci del menu utilita' sono cose che si fanno *dentro*
+	# il gioco — la bottega, il manuale, il diario. Smettere, ricominciare e
+	# passare il tablet a un altro bambino sono cose che si fanno *al* gioco, e
+	# chi le cerca non sa che si chiamano «opzioni»: cerca il tasto per fermare.
+	pause_button = Button.new()
+	pause_button.name = "OpenPauseMenuButton"
+	pause_button.text = "PAUSA"
+	pause_button.anchor_left = 1.0
+	pause_button.anchor_right = 1.0
+	pause_button.offset_left = -148.0
+	pause_button.offset_right = -16.0
+	pause_button.offset_top = 68.0
+	pause_button.offset_bottom = 114.0
+	pause_button.custom_minimum_size.y = 46
+	pause_button.add_theme_color_override("font_color", Color("f4cf69"))
+	pause_button.pressed.connect(_apri_pausa)
+	root.add_child(pause_button)
 	utility_menu_button = Button.new()
 	utility_menu_button.name = "OpenUtilityMenuButton"
 	utility_menu_button.text = "OPZIONI"
@@ -4751,8 +4740,8 @@ void fragment() {
 	utility_menu_button.anchor_right = 1.0
 	utility_menu_button.offset_left = -148.0
 	utility_menu_button.offset_right = -16.0
-	utility_menu_button.offset_top = 68.0
-	utility_menu_button.offset_bottom = 114.0
+	utility_menu_button.offset_top = 120.0
+	utility_menu_button.offset_bottom = 166.0
 	utility_menu_button.custom_minimum_size.y = 46
 	utility_menu_button.pressed.connect(_toggle_utility_menu)
 	root.add_child(utility_menu_button)
@@ -4776,29 +4765,19 @@ void fragment() {
 	interaction_button.add_theme_stylebox_override("disabled", _touch_action_style(Color("426a68"), Color("739b96")))
 	interaction_button.pressed.connect(_interact)
 	root.add_child(interaction_button)
-	pulse_button = Button.new()
-	pulse_button.name = "CombatPulseButton"
-	pulse_button.text = "IMPULSO\nTOCCA"
-	pulse_button.anchor_left = 1.0
-	pulse_button.anchor_right = 1.0
-	pulse_button.anchor_top = 1.0
-	pulse_button.anchor_bottom = 1.0
-	pulse_button.tooltip_text = "Stabilizza temporaneamente le anomalie vicine"
-	pulse_button.add_theme_font_size_override("font_size", 14)
-	pulse_button.add_theme_color_override("font_color", Color("06272a"))
-	pulse_button.add_theme_stylebox_override("normal", _touch_action_style(Color("f6c85f"), Color("fff1b8")))
-	pulse_button.add_theme_stylebox_override("pressed", _touch_action_style(Color("6be7d6"), Color("d8fff8")))
-	pulse_button.add_theme_stylebox_override("disabled", _touch_action_style(Color("5b5131"), Color("9f9462")))
-	pulse_button.pressed.connect(_combat_pulse)
-	root.add_child(pulse_button)
 	scatto_button = Button.new()
 	scatto_button.name = "ScattoButton"
-	scatto_button.text = "SCATTO\nTIENI = CORRI"
+	# **Prima diceva «SCATTO / TIENI = CORRI».** (21 agosto 2026) Metteva per
+	# primo il verbo che si usa meno: il balzo serve davanti a una sacca, la
+	# corsa serve sempre — e su tablet questo pulsante è l'unica corsa che
+	# esista, perché `sprint` è legato al solo Maiusc. Adesso l'etichetta dice
+	# prima la cosa che si fa cento volte, e poi quella che si fa dieci.
+	scatto_button.text = "CORRI\nTOCCA = BALZO"
 	scatto_button.anchor_left = 1.0
 	scatto_button.anchor_right = 1.0
 	scatto_button.anchor_top = 1.0
 	scatto_button.anchor_bottom = 1.0
-	scatto_button.tooltip_text = "Un balzo che attraversa le sacche · tienilo premuto per correre"
+	scatto_button.tooltip_text = "Tienilo premuto per correre · toccalo per un balzo che attraversa le sacche"
 	scatto_button.add_theme_font_size_override("font_size", 13)
 	scatto_button.add_theme_color_override("font_color", Color("06272a"))
 	scatto_button.add_theme_stylebox_override("normal", _touch_action_style(Color("9ad8ff"), Color("e2f4ff")))
@@ -4809,7 +4788,6 @@ void fragment() {
 	scatto_button.button_down.connect(_scatto_premuto)
 	scatto_button.button_up.connect(_scatto_rilasciato)
 	root.add_child(scatto_button)
-	_aggiorna_cariche_impulso()
 	shop_button = Button.new()
 	shop_button.name = "OpenShopButton"
 	shop_button.text = "BOTTEGA"
@@ -4817,8 +4795,8 @@ void fragment() {
 	shop_button.anchor_right = 1.0
 	shop_button.offset_left = -132.0
 	shop_button.offset_right = -16.0
-	shop_button.offset_top = 120.0
-	shop_button.offset_bottom = 164.0
+	shop_button.offset_top = 172.0
+	shop_button.offset_bottom = 216.0
 	shop_button.custom_minimum_size = Vector2(116, 44)
 	shop_button.add_theme_color_override("font_color", Color("f6c85f"))
 	shop_button.pressed.connect(_open_shop)
@@ -4831,8 +4809,8 @@ void fragment() {
 	manual_button.anchor_right = 1.0
 	manual_button.offset_left = -164.0
 	manual_button.offset_right = -16.0
-	manual_button.offset_top = 168.0
-	manual_button.offset_bottom = 214.0
+	manual_button.offset_top = 220.0
+	manual_button.offset_bottom = 266.0
 	manual_button.custom_minimum_size.y = 46
 	manual_button.add_theme_color_override("font_color", Color("6be7d6"))
 	manual_button.pressed.connect(_open_codex)
@@ -4845,8 +4823,8 @@ void fragment() {
 	diary_button.anchor_right = 1.0
 	diary_button.offset_left = -164.0
 	diary_button.offset_right = -16.0
-	diary_button.offset_top = 268.0
-	diary_button.offset_bottom = 314.0
+	diary_button.offset_top = 320.0
+	diary_button.offset_bottom = 366.0
 	diary_button.custom_minimum_size.y = 46
 	diary_button.add_theme_color_override("font_color", Color("f6c85f"))
 	diary_button.pressed.connect(_open_diary)
@@ -4910,8 +4888,8 @@ func _create_touch_controls_customizer(root: Control) -> void:
 	touch_controls_button.anchor_right = 1.0
 	touch_controls_button.offset_left = -164.0
 	touch_controls_button.offset_right = -16.0
-	touch_controls_button.offset_top = 218.0
-	touch_controls_button.offset_bottom = 264.0
+	touch_controls_button.offset_top = 270.0
+	touch_controls_button.offset_bottom = 316.0
 	touch_controls_button.custom_minimum_size.y = 46
 	touch_controls_button.add_theme_color_override("font_color", Color("f6c85f"))
 	touch_controls_button.pressed.connect(_toggle_touch_controls_panel)
@@ -4925,8 +4903,8 @@ func _create_touch_controls_customizer(root: Control) -> void:
 	touch_controls_panel.anchor_right = 1.0
 	touch_controls_panel.offset_left = -360.0
 	touch_controls_panel.offset_right = -16.0
-	touch_controls_panel.offset_top = 120.0
-	touch_controls_panel.offset_bottom = 448.0
+	touch_controls_panel.offset_top = 172.0
+	touch_controls_panel.offset_bottom = 500.0
 	touch_controls_panel.add_theme_stylebox_override("panel", _panel_style())
 	root.add_child(touch_controls_panel)
 	var box := VBoxContainer.new()
@@ -4984,14 +4962,14 @@ func _persist_touch_controls_settings() -> void:
 	game_save.save()
 
 func _apply_touch_controls_layout() -> void:
-	if not is_instance_valid(interaction_button) or not is_instance_valid(pulse_button):
+	if not is_instance_valid(interaction_button) or not is_instance_valid(scatto_button):
 		return
 	var on_left := str(touch_controls_settings.get("side", "right")) == "left"
 	var is_large := str(touch_controls_settings.get("size", "large")) == "large"
 	var margin := 28.0
 	var action_width := 332.0 if is_large else 280.0
 	var action_height := 72.0 if is_large else 64.0
-	var pulse_side := 92.0 if is_large else 76.0
+	var lato_corsa := 92.0 if is_large else 76.0
 	var lower_hud_clearance := 116.0
 	interaction_button.anchor_left = 0.5
 	interaction_button.anchor_right = 0.5
@@ -4999,50 +4977,59 @@ func _apply_touch_controls_layout() -> void:
 	interaction_button.anchor_bottom = 1.0
 	interaction_button.offset_left = -action_width * 0.5
 	interaction_button.offset_right = action_width * 0.5
-	pulse_button.anchor_left = 0.0 if on_left else 1.0
-	pulse_button.anchor_right = 0.0 if on_left else 1.0
-	pulse_button.anchor_top = 1.0
-	pulse_button.anchor_bottom = 1.0
-	if on_left:
-		pulse_button.offset_left = margin
-		pulse_button.offset_right = margin + pulse_side
-	else:
-		pulse_button.offset_left = -margin - pulse_side
-		pulse_button.offset_right = -margin
 	interaction_button.offset_top = -lower_hud_clearance - action_height
 	interaction_button.offset_bottom = -lower_hud_clearance
-	pulse_button.offset_top = -lower_hud_clearance - action_height - 16.0 - pulse_side
-	pulse_button.offset_bottom = -lower_hud_clearance - action_height - 16.0
 	interaction_button.custom_minimum_size = Vector2(action_width, action_height)
-	pulse_button.custom_minimum_size = Vector2(pulse_side, pulse_side)
 	interaction_button.add_theme_font_size_override("font_size", 18 if is_large else 15)
-	pulse_button.add_theme_font_size_override("font_size", 14 if is_large else 10)
 	var opacity := float(touch_controls_settings.get("opacity", 1.0))
 	interaction_button.modulate.a = opacity
-	pulse_button.modulate.a = opacity
-	# Lo scatto sale sopra l'impulso, sullo stesso lato: il senso della preferenza
-	# «destra o sinistra» è che tutte le azioni stiano sotto lo stesso pollice.
+	# **La corsa prende il posto che era dell'impulso.** (21 agosto 2026) Erano
+	# due pulsanti in colonna sopra AZIONE; l'impulso non c'è più e la corsa
+	# scende al primo posto, che è anche quello più vicino al pollice. Il senso
+	# della preferenza «destra o sinistra» resta lo stesso: tutte le azioni sotto
+	# lo stesso dito.
 	if is_instance_valid(scatto_button):
+		# **Il riquadro segue la scritta.** (21 agosto 2026) Con una larghezza
+		# fissa di 92 il pulsante misurava 127 — la seconda riga non ci stava e
+		# Godot lo faceva crescere da solo, verso i due lati: sette pixel
+		# finivano **fuori dallo schermo**, cioe' fuori dal bersaglio del dito.
+		# Difetto vecchio quanto lo scatto, e visibile solo misurando il rect.
+		var larghezza_corsa := maxf(lato_corsa, _larghezza_del_testo(scatto_button) + 22.0)
 		scatto_button.anchor_left = 0.0 if on_left else 1.0
 		scatto_button.anchor_right = 0.0 if on_left else 1.0
 		scatto_button.anchor_top = 1.0
 		scatto_button.anchor_bottom = 1.0
 		if on_left:
 			scatto_button.offset_left = margin
-			scatto_button.offset_right = margin + pulse_side
+			scatto_button.offset_right = margin + larghezza_corsa
 		else:
-			scatto_button.offset_left = -margin - pulse_side
+			scatto_button.offset_left = -margin - larghezza_corsa
 			scatto_button.offset_right = -margin
-		scatto_button.offset_bottom = pulse_button.offset_top - 12.0
-		scatto_button.offset_top = scatto_button.offset_bottom - pulse_side
-		scatto_button.custom_minimum_size = Vector2(pulse_side, pulse_side)
+		scatto_button.offset_top = -lower_hud_clearance - action_height - 16.0 - lato_corsa
+		scatto_button.offset_bottom = -lower_hud_clearance - action_height - 16.0
+		scatto_button.custom_minimum_size = Vector2(larghezza_corsa, lato_corsa)
 		scatto_button.add_theme_font_size_override("font_size", 13 if is_large else 10)
 		scatto_button.modulate.a = opacity
 	_refresh_touch_controls_labels()
 
+## Quanto e' larga la riga piu' lunga di un pulsante, con il suo font e il suo
+## corpo. Serve a dare al riquadro la misura della scritta invece di sperare
+## che ci stia: quando non ci sta, Godot allarga il Control da solo e la parte
+## che cresce puo' finire oltre il bordo dello schermo.
+func _larghezza_del_testo(bottone: Button) -> float:
+	var font := bottone.get_theme_font("font")
+	var corpo := bottone.get_theme_font_size("font_size")
+	if font == null:
+		return 0.0
+	var larga := 0.0
+	for riga in str(bottone.text).split("\n"):
+		larga = maxf(larga, font.get_string_size(
+			str(riga), HORIZONTAL_ALIGNMENT_CENTER, -1, corpo).x)
+	return larga
+
 func _refresh_touch_controls_labels() -> void:
 	if is_instance_valid(touch_side_button):
-		touch_side_button.text = "IMPULSO: %s" % ("SINISTRA" if str(touch_controls_settings["side"]) == "left" else "DESTRA")
+		touch_side_button.text = "COMANDI: %s" % ("SINISTRA" if str(touch_controls_settings["side"]) == "left" else "DESTRA")
 	if is_instance_valid(touch_size_button):
 		touch_size_button.text = "DIMENSIONE: %s" % ("GRANDE" if str(touch_controls_settings["size"]) == "large" else "STANDARD")
 	if is_instance_valid(touch_opacity_button):
@@ -5140,13 +5127,8 @@ func _apply_accessibility_settings() -> void:
 			"normal", _touch_action_style(Color("4b746f"), Color("b5d8d3")))
 		interaction_button.add_theme_stylebox_override(
 			"disabled", _touch_action_style(Color("31514f"), Color("789b97")))
-	if is_instance_valid(pulse_button):
-		pulse_button.add_theme_stylebox_override(
-			"normal", _touch_action_style(Color("f6c85f"), Color("fff1b8")))
-		pulse_button.add_theme_stylebox_override(
-			"pressed", _touch_action_style(Color("6be7d6"), Color("d8fff8")))
 	# Il bordo dei comandi si ispessisce col contrasto elevato (`_touch_action_style`):
-	# senza questo blocco lo scatto sarebbe l'unico comando a non accorgersene.
+	# senza questo blocco la corsa sarebbe l'unico comando a non accorgersene.
 	if is_instance_valid(scatto_button):
 		scatto_button.add_theme_stylebox_override(
 			"normal", _touch_action_style(Color("9ad8ff"), Color("e2f4ff")))
@@ -5198,7 +5180,6 @@ const NEBBIA_MASSIMA := 0.66
 var velo_nebbia: ColorRect
 var barra_potenza: ProgressBar
 var etichetta_potenza: Label
-var etichetta_cariche_impulso: Label
 
 func _crea_velo_di_nebbia() -> void:
 	if not is_instance_valid(game_save) or not is_instance_valid(atmosphere_layer):
@@ -6323,6 +6304,8 @@ func _refresh_pet_face() -> void:
 	if not is_instance_valid(pet_face) or not is_instance_valid(game_save):
 		return
 	pet_face.visible = PetState.is_granted(game_save)
+	var equipped: Dictionary = runtime.get("cosmeticsEquipped", {})
+	var pet_kind := str(equipped.get("pet", "pet-spark")).trim_prefix("pet-")
 	pet_face.configure(
 		PetState.name_of(game_save),
 		PetState.livery(game_save),
@@ -6330,7 +6313,8 @@ func _refresh_pet_face() -> void:
 		PetState.resting_face(game_save),
 		PetState.bond(game_save),
 		PetState.faces(game_save),
-		reduced_motion)
+		reduced_motion,
+		pet_kind)
 
 ## Dopo quanto silenzio il Custode si offende. Quarantacinque secondi: il tempo
 ## di attraversare mezza mappa senza che succeda niente.
@@ -6655,6 +6639,13 @@ func _release_gain_popup(label: Label) -> void:
 	label.modulate = Color.WHITE
 
 func _input(event: InputEvent) -> void:
+	# A pausa aperta il mondo non riceve niente: Esc la richiude, tutto il
+	# resto appartiene ai suoi pulsanti.
+	if is_instance_valid(pause_menu) and pause_menu.aperto():
+		if event.is_action_pressed("leave_portal") and not event.is_echo():
+			pause_menu.chiudi()
+			get_viewport().set_input_as_handled()
+		return
 	# Le azioni di gameplay devono arrivare prima dei Control dell'HUD. In Web
 	# un Control visibile/focalizzato puo consumare il tasto e impedire a
 	# `_unhandled_input` di riceverlo: era il motivo per cui E non avviava i POI.
@@ -6680,9 +6671,6 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("interact") and not event.is_echo():
 		_interact()
 		get_viewport().set_input_as_handled()
-	elif event.is_action_pressed("combat_pulse") and not event.is_echo():
-		_combat_pulse()
-		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("sprint") and not event.is_echo():
 		# **Premere è scattare, tenere è correre.** Un tasto, due verbi: lo spazio
 		# è già `interact` e Ctrl in una pagina Web, insieme a W, chiude la scheda.
@@ -6690,10 +6678,16 @@ func _input(event: InputEvent) -> void:
 		# consuma l'evento — Maiusc deve restare premuto per chi corre.
 		_scatto()
 	elif event.is_action_pressed("leave_portal") and not event.is_echo():
-		_guide_to_ship()
+		# **Esc ferma il gioco**, come in qualunque altro gioco esista. Prima
+		# evidenziava la rotta verso la nave: una scorciatoia che il pulsante
+		# della missione gia' offre (diventa «RAGGIUNGI LA NAVE» da solo quando
+		# l'esame e' pronto), mentre il tasto per fermarsi non esisteva.
+		_apri_pausa()
 		get_viewport().set_input_as_handled()
 
 func _unhandled_input(event: InputEvent) -> void:
+	if is_instance_valid(pause_menu) and pause_menu.aperto():
+		return
 	if is_instance_valid(dialogue_box) and dialogue_box.visible:
 		return
 	if is_instance_valid(pet_screen) and pet_screen.visible:
@@ -7455,6 +7449,138 @@ func _leave_world() -> void:
 		audio.call("play_event", "portalOpened")
 	get_tree().change_scene_to_file("res://scenes/hub.tscn")
 
+# --- La pausa ------------------------------------------------------------------
+#
+# **Le tre uscite.** (21 agosto 2026) Richiesta del committente: tornare al menu
+# principale, riavviare la missione, cambiare utente. Nel mondo aperto non ce
+# n'era nessuna delle tre: l'unico modo di smettere era raggiungere il portale,
+# entrare nella nave e cercare lassu'.
+#
+# Il pannello e' [[PauseMenuPanel]] e lo condivide con la nave. Qui vive soltanto
+# che cosa significano quei comandi **dentro un mondo**.
+
+## I pannelli che, se aperti, hanno gia' la loro via d'uscita e non devono
+## averne due. Un menu di pausa sopra una prova in corso sarebbe due tasti
+## «esci» sovrapposti, e il bambino imparerebbe che uno dei due perde il lavoro.
+func _pausa_possibile() -> bool:
+	for pannello in [
+		exercise_player, dialogue_box, knowledge_codex_panel, diary_panel,
+		shop_panel, pet_screen, pet_naming_panel, teaching_choice_panel,
+		minigame_panel, duel_panel, objective_panel, lock_panel,
+	]:
+		if is_instance_valid(pannello) and pannello.visible:
+			return false
+	return true
+
+## **Fermarsi salva.** Il salvataggio esplicito qui non e' prudenza generica: da
+## questo pannello si esce in tre modi diversi e tutti e tre cambiano scena.
+## Farlo una volta sola, all'apertura, e' l'unico modo per non doverselo
+## ricordare tre volte, e per poter scrivere sul pannello che la partita e' al
+## sicuro senza che sia una promessa.
+func _apri_pausa() -> void:
+	if not _pausa_possibile():
+		return
+	_salva_posizione_e_partita()
+	if not is_instance_valid(pause_menu):
+		pause_menu = PauseMenuPanel.new()
+		pause_menu.name = "PauseMenuPanel"
+		pause_menu.ripreso.connect(_on_pausa_chiusa)
+		pause_menu.riavvio_chiesto.connect(_riavvia_mondo)
+		pause_menu.giocatore_scelto.connect(_cambia_giocatore)
+		pause_menu.menu_chiesto.connect(_torna_al_menu)
+		ui_layer.add_child(pause_menu)
+	pause_menu.move_to_front()
+	pause_menu.apri(
+		_nome_del_giocatore(),
+		"Mondo %d · %s" % [world_level, str(world_profile.get("title", ""))],
+		"RIAVVIA IL MONDO",
+		"Torni al portale, all'ora in cui questo mondo comincia. Prove superate, tesori e frammenti restano tuoi.",
+		true,
+		high_contrast)
+	var audio := get_node_or_null("/root/NativeAudio")
+	if audio != null:
+		audio.call("play", "panel.open")
+
+func _on_pausa_chiusa() -> void:
+	# Il dito che ha toccato RIPRENDI e' ancora sullo schermo, e senza questo
+	# diventerebbe subito un ordine di camminare verso quel punto.
+	_cancel_pending_touch_interaction()
+
+func _nome_del_giocatore() -> String:
+	if PlayerProfiles.has_profiles():
+		return str(PlayerProfiles.active().get("name", "Giocatore 1"))
+	return "Giocatore 1"
+
+## Salva dove si e' arrivati e poi la partita, come fa l'uscita verso la nave.
+## Senza la posizione, «menu principale» e poi «gioca» rimetterebbe Eli al
+## portale: e' quello che il riavvio chiede, ed e' sbagliato per tutti gli altri.
+func _salva_posizione_e_partita() -> void:
+	if not is_instance_valid(game_save):
+		return
+	if is_instance_valid(player):
+		game_save.set_world_resume(
+			str(world_level), player.global_position, day_clock / WorldSky.DURATA)
+	game_save.save()
+
+## **Riavviare il mondo e' rifare il giro, non rifare la scuola.**
+##
+## Si cancella una cosa sola: dov'era rimasto. Tutto il resto (incontri risolti,
+## tesori raccolti, maestria, frammenti) resta scritto, e non per pigrizia: un
+## riavvio che restituisse i tesori sarebbe il modo piu' veloce di guadagnare
+## frammenti che il gioco abbia, e diventerebbe la strada conveniente invece del
+## comando di servizio che deve essere.
+##
+## Quello che torna davvero indietro e' il mondo effimero: Eli al portale, l'ora
+## d'autore, le anomalie di nuovo in piedi, gli abitanti ai loro posti.
+func _riavvia_mondo() -> void:
+	if is_instance_valid(game_save):
+		game_save.clear_world_resume(str(world_level))
+		game_save.save()
+	if is_instance_valid(pause_menu):
+		pause_menu.congeda()
+	_stage_rientro_nel_mondo("riavvio-%d" % world_level)
+	get_tree().change_scene_to_file("res://scenes/outdoor_world.tscn")
+
+## **Cambiare giocatore.** La partita di chi esce e' gia' salvata (lo ha fatto
+## l'apertura della pausa) e il profilo attivo l'ha gia' spostato il pannello dei
+## profili: qui resta soltanto da entrare nel mondo dell'altro bambino.
+##
+## Non si passa dal menu d'avvio, di proposito: due fratelli che si alternano lo
+## fanno dieci volte in un pomeriggio, e ogni passaggio in piu' e' un motivo per
+## non farlo e giocare sopra la partita dell'altro, che e' esattamente il difetto
+## che i profili sono nati per chiudere.
+##
+## Nessuna richiesta preparata: il mondo senza richiesta legge il salvataggio del
+## profilo attivo e apre il mondo in cui **quel** bambino era arrivato.
+func _cambia_giocatore(id: String) -> void:
+	PlayerProfiles.set_active(id)
+	PlayerProfiles.touch(id)
+	if is_instance_valid(pause_menu):
+		pause_menu.congeda()
+	NativeWorldState.stage_launch_request({})
+	get_tree().change_scene_to_file("res://scenes/outdoor_world.tscn")
+
+func _torna_al_menu() -> void:
+	if is_instance_valid(pause_menu):
+		pause_menu.congeda()
+	get_tree().change_scene_to_file("res://scenes/boot_menu.tscn")
+
+## La richiesta di rientro nello stesso mondo con lo stesso salvataggio, nella
+## forma che usa la nave quando ci riporta dentro.
+func _stage_rientro_nel_mondo(seme: String) -> void:
+	if not is_instance_valid(game_save):
+		return
+	var richiesta := NativeWorldState.default_request(seme)
+	richiesta["loadLocalSave"] = false
+	richiesta["initialSave"] = game_save.data.duplicate(true)
+	richiesta["worldLevel"] = world_level
+	richiesta["accessibility"] = {
+		"highContrast": high_contrast,
+		"reducedMotion": reduced_motion,
+	}
+	richiesta["accessibilityExplicit"] = true
+	NativeWorldState.stage_launch_request(richiesta)
+
 func _guide_to_ship() -> void:
 	if not is_instance_valid(player):
 		return
@@ -7662,12 +7788,40 @@ func _apri_obiettivi() -> void:
 	objective_panel = ObjectivePanel.new()
 	objective_panel.name = "ObjectivePanel"
 	objective_panel.chiuso.connect(_chiudi_obiettivi)
+	objective_panel.portami.connect(_portami_alla_palestra)
 	ui_layer.add_child(objective_panel)
 	objective_panel.apri(
 		ObjectiveBriefing.passo(runtime, gameplay.progression_manager),
 		ObjectiveBriefing.percorso(gameplay.progression_manager))
 	if is_instance_valid(player):
 		player.set_physics_process(false)
+
+## **PORTAMI.** (21 agosto 2026) Il quadro degli obiettivi dice che cosa manca;
+## questo porta dove si recupera. Punta la stazione di quella materia e chiude
+## il quadro: se restasse aperto, il bambino leggerebbe una rotta che non vede.
+##
+## Non teletrasporta e non apre niente: imposta il bersaglio del passo, come
+## fa «SEGUI LA MISSIONE». Camminarci resta il gioco.
+func _portami_alla_palestra(materia: String) -> void:
+	var meta: Node2D = null
+	for nodo in get_tree().get_nodes_in_group("minigame_poi"):
+		if not (nodo is Node2D) or not is_instance_valid(nodo):
+			continue
+		var carico: Dictionary = (nodo as Node).get_meta("payload", {})
+		if str(carico.get("subject", "")) != materia:
+			continue
+		meta = nodo as Node2D
+		break
+	_chiudi_obiettivi()
+	if meta == null:
+		# Onesto invece che muto: la palestra di quella materia in questo mondo
+		# puo' essere gia' stata chiusa, e ne rinasce una al giro dopo.
+		_set_feedback("Qui la palestra di %s l'hai gia' chiusa: ne riapre una piu' avanti." % materia)
+		return
+	if is_instance_valid(player):
+		player.set_touch_target(meta.global_position)
+	_spawn_touch_ping(meta.global_position)
+	_set_feedback("Rotta verso l'allenamento di %s." % materia)
 
 func _chiudi_obiettivi() -> void:
 	if is_instance_valid(objective_panel):

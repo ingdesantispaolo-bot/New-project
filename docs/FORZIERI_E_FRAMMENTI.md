@@ -570,7 +570,12 @@ confronta le due tabelle mondo per mondo.
 
 *Sesto lotto, 19 agosto 2026. Nasce da un'analisi del gioco giocato, non da una
 segnalazione: la mappa non oppone resistenza da nessuna parte, e l'impulso — che
-è la risorsa meglio progettata del gioco — non è mai una decisione.*
+sembrava la risorsa meglio progettata del gioco — non è mai una decisione.*
+
+> **Aggiornato il 21 agosto 2026.** L'impulso è stato tolto: la misura in §9.2.1
+> mostra che non aveva lavoro da nessuna parte, e il presidio è rimasto in piedi
+> senza di lui. Il §9.1 qui sotto resta com'era scritto quel giorno, perché
+> racconta il ragionamento che ha prodotto l'anello.
 
 ### 9.1 Il difetto
 
@@ -591,22 +596,48 @@ Attorno a un forziere già sorvegliato si schiera un **anello di due scorte**.
 Non si sfidano, non chiudono niente, non hanno il gesto del duello: rendono
 l'**avvicinamento** una scelta.
 
-- attraversare l'anello costa più di un morso solo;
-- un impulso lo spegne tutto insieme per il tempo di passare;
-- **uno scatto attraversa una sacca senza pagarla** (dal 19 agosto,
+- attraversare l'anello costa più di un morso solo, finché Eli è più debole
+  delle scorte;
+- **la corsa attraversa una sacca senza pagarla** (dal 19 agosto,
   [DESIGN_COMPLETO §11.1](DESIGN_COMPLETO.md)): gratis, ma passa *una* sacca e si
   ricarica in 1,1 s — la stessa finestra del morso;
 - oppure si torna più forti: il grado di Eli sottrae dal costo come sempre.
 
-Le quattro strade esistono davvero, ed è la prima volta che sulla mappa ce n'è
-più di una.
+### 9.2.1 L'impulso è stato tolto (21 agosto 2026)
 
-**Lo scatto non svuota l'impulso, e la differenza è netta**: lo scatto passa
-*una* sacca e chiede tempismo, l'impulso passa *tutte* quelle nel raggio e le
-tiene ferme cinque secondi e mezzo — abbastanza per arrivare al guardiano e
-aprire il duello senza essere addosso a nessuno. Chi ha quattro scorte attorno, o
-chi non vuole giocare di tempismo, continua a volere la carica. Ed è giusto che
-sia così: in un gioco che si studia, il tempismo non può diventare l'unica strada.
+Fino al 20 agosto qui c'era una quarta strada: **spendere una carica d'impulso**,
+che spegneva l'anello intero per cinque secondi e mezzo. Era il motivo per cui il
+presidio era nato.
+
+`costo_delle_sacche_probe` l'ha misurata, incrociando il costo del morso —
+`(grado sacca − grado Eli) × 2` — con gli esercizi che ogni mondo richiede
+(`effort_probe`) e con le soglie di potenza (`WorldLight.SOGLIE`):
+
+| mondo | prove all'ingresso | grado Eli | anello |
+|---|---|---|---|
+| 1 | 0 | 0 | 4 energie |
+| 2 | 41 | 2 | **0** |
+| 12 | 1243 | 8 | **0** |
+| 24 | 2851 | 8 | **0** |
+
+**Dal mondo 2 in poi nessuna sacca costa una sola energia**, per 23 mondi su 24.
+Non era una taratura sbagliata ma un difetto di struttura: il grado di Eli e le
+cariche d'impulso uscivano dallo **stesso rubinetto** — una prova superata
+chiamava `WorldLight.avanza_potenza` e `PulseCharge.accredita` nella stessa riga.
+Più cariche avevi, più eri forte; più eri forte, meno c'era da comprare con
+quelle cariche. La promessa del 7 agosto — *chi si allena passa senza pagare* —
+era mantenuta, e mantenerla toglieva all'impulso ogni lavoro.
+
+Con l'impulso sono usciti il suo pulsante, il quadro delle cariche `◆ ◇ ◇`, la
+chiave `pulse` del salvataggio e due dei tre moduli di bottega — Serbatoio
+ampliato e Bobina larga, 650 energia su 950, che vendevano un potenziamento a una
+meccanica senza lavoro.
+
+**L'anello è rimasto**, perché il suo secondo mestiere non dipendeva
+dall'impulso: **spinge indietro**, e lo spintone non si azzera col grado. A Eli
+grado otto attraversare il presidio resta una decisione anche quando l'energia
+non c'entra più — ed è lì che la corsa trova il suo lavoro, per tutti e
+ventiquattro i mondi.
 
 L'anello **si scioglie con la guardiana**: battuto il duello, il forziere è
 guadagnato e continuare a farlo pagare sarebbe una tassa invece che una scelta.

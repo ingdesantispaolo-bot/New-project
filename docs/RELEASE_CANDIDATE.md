@@ -2149,3 +2149,55 @@ degradano in silenzio e non hanno una faccia da mostrare peggio.
   **non sono un ripiego**: sono il corpo, e l'illustrazione ci sta sopra per
   costruzione. Eliminata la condizione in cui il ripiego si vede, non il codice
   che tiene in piedi la resa.
+
+
+## L'impulso e' stato tolto, la corsa e' rimasta (21 agosto 2026)
+
+Domanda del committente: *«dare valore se serve, altrimenti eliminare pulsante
+scatto e quadro impulso»*. Misurato prima di decidere, con esito opposto per i
+due.
+
+**La misura** (`costo_delle_sacche_probe`, nuovo). Il costo di un morso e'
+`(grado sacca − grado Eli) × 2`. Incrociando gli esercizi per mondo
+(`effort_probe`: 41 per uscire dal primo, 3000 in tutto) con le soglie di potenza
+(`WorldLight.SOGLIE`):
+
+| mondo | prove all'ingresso | grado Eli | guardiana | anello |
+|---|---|---|---|---|
+| 1 | 0 | 0 | 2 | 4 |
+| 2 | 41 | 2 | **0** | **0** |
+| 7 | 606 | 8 | **0** | **0** |
+| 24 | 2851 | 8 | **0** | **0** |
+
+**Dal mondo 2 in poi nessuna sacca costa una sola energia**, 23 mondi su 24. Non
+e' una taratura: il grado di Eli e le cariche d'impulso uscivano dallo **stesso
+rubinetto** — `WorldLight.avanza_potenza` e `PulseCharge.accredita` sulla stessa
+riga di `outdoor_gameplay`. Piu' cariche guadagni, meno c'e' da comprarci. Il
+grado delle sacche arriva a 8 al mondo 22; Eli ci arriva al mondo 7.
+
+**Tolto**: `pulse_charge.gd`, `pulse_economy_audit`, `pulse_hud_audit`, il
+pulsante `CombatPulseButton`, il quadro `IMPULSO ◆ ◇ ◇`, l'azione input
+`combat_pulse`, `WorldEnemy.stun` e lo stato «stabilizzata», le chiavi
+`pulseCharges`/`pulseChargeMax`/`pulseRadius` del contratto runtime, e due dei
+tre moduli di bottega — Serbatoio ampliato (250) e Bobina larga (400), cioe' 650
+energia su 950 spesi per potenziare una meccanica senza lavoro. Chi li aveva
+comprati se li tiene nell'inventario.
+
+**Il presidio resta.** Era nato per dare all'impulso un momento in cui valesse la
+pena spendere, ma il suo secondo mestiere non dipendeva da lui: **spinge
+indietro**, e lo spintone non si azzera col grado. La prova 4 di `presidio_audit`
+adesso misura la corsa al posto dell'impulso.
+
+**La corsa e' rimasta, e ha cambiato nome.** Diceva «SCATTO / TIENI = CORRI»:
+metteva per primo il verbo che si usa meno. Su tablet questo pulsante e' l'unica
+corsa che esista — `sprint` e' legato al solo Maiusc — e adesso dice «CORRI /
+TOCCA = BALZO». Ha preso il posto che era dell'impulso, quello piu' vicino al
+pollice.
+
+**Difetto trovato misurando, non guardando.** Il pulsante misurava **127 px in un
+riquadro da 92**: la seconda riga non ci stava, Godot allargava il Control da
+solo e sette pixel finivano **oltre il bordo dello schermo**, cioe' fuori dal
+bersaglio del dito. C'era da quando esiste lo scatto (19 agosto) e non si vede in
+nessuna cattura. Adesso il riquadro segue la scritta, e
+`accessibility_release_audit` pretende che ogni bersaglio touch sia **contenuto
+nel viewport** — non solo alto 44.

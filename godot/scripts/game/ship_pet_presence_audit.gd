@@ -15,6 +15,11 @@ func _run() -> void:
 	fixture.data = GameSaveManager._default_data()
 	PetState.grant(fixture, 1)
 	PetState.set_pet_name(fixture, "Luma")
+	fixture.data["cosmetics"] = {
+		"unlocked": ["pet-guardiano"],
+		"equipped": {"pet": "pet-guardiano"},
+		"inventory": [],
+	}
 	var subject := ApparatusConfig.world_subject(1)
 	fixture.add_mission(subject)
 	fixture.set_mastery(subject, ApparatusConfig.subject_mastery_threshold(subject, 1))
@@ -31,6 +36,8 @@ func _run() -> void:
 	var face := hub.find_child("ShipPetFaceWidget", true, false) as PetFaceWidget
 	assert(face != null and face.is_visible_in_tree(),
 		"il Custode consegnato non è visibile nella nave")
+	assert(face.current_pet_kind() == "guardiano",
+		"il volto nella nave non mostra la forma del Custode equipaggiata")
 	hub.call("_pet_react", "apparatus_repaired")
 	assert(face.current_face() == PetExpressionEngine.face_for("apparatus_repaired"),
 		"il widget della nave non traduce il segnale dell'apparato")

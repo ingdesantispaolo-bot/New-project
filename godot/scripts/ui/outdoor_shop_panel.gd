@@ -782,7 +782,7 @@ func _load_atlas_regions() -> void:
 
 func _item_texture(id: String) -> Texture2D:
 	if not _atlas_regions.has(id):
-		return _tool_fallback_texture(id)
+		return null
 	var texture := AtlasTexture.new()
 	texture.atlas = REWARD_ATLAS
 	texture.region = _atlas_regions[id]

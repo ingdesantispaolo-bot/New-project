@@ -25,7 +25,10 @@ func _run() -> void:
 		_assert_alpha_texture(texture, "Custode %s" % kind)
 		var visual := FACTORY.build_pet(kind, Color("f6c85f"))
 		assert(bool(visual.get_meta("usesGeneratedArt", false)), "%s usa ancora il fallback" % kind)
-		assert(visual.get_node_or_null("PetGeneratedArt") != null, "%s senza sprite" % kind)
+		var pet_sprite := visual.get_node_or_null("PetGeneratedArt") as Sprite2D
+		assert(pet_sprite != null, "%s senza sprite" % kind)
+		assert(is_equal_approx(pet_sprite.scale.x * 384.0, FACTORY.PET_WORLD_ART_SIZE),
+			"%s: il Custode non rispetta l'ingombro compatto" % kind)
 		visual.free()
 
 	assert(GUARDIANS.NAMES.size() == 24, "servono 24 nomi guardiano distinti")

@@ -467,6 +467,191 @@ a chi è arrivato.
 
 ---
 
+## Gli allenamenti: dove si fanno, e con che faccia — 21 agosto 2026
+
+*Segnalazione di gioco: «dobbiamo gestire meglio come e dove fare allenamenti.
+Ora gli ingressi sono in icone sparse a caso anche brutte con 2605 come logo».*
+
+Tre difetti distinti dietro una frase sola. Il primo è chiuso, gli altri due sono
+qui sotto divisi fra chi li deve fare.
+
+### Che cos'era «2605» — chiuso
+
+Non era un logo: è il **codice esadecimale di ★**, U+2605. Il progetto non
+imbarca nessun font e usa `Open Sans SemiBold`, che quel glifo non ce l'ha. Su
+Windows Godot ripiega sui font di sistema e la stella si vede; **nel Web e su
+tablet quel ripiego non esiste** e resta il rettangolo col codice dentro. È il
+motivo per cui nessuna cattura di sviluppo aveva mai mostrato il difetto: è
+invisibile esattamente sulla macchina di chi scrive il codice.
+
+Misurato da `glifi_probe`: **58 simboli su 63** usati nel codice non hanno glifo
+nel font imbarcato, e nella bottega **0 articoli su 44** si disegnano interi.
+
+Chiuso oggi: l'insegna delle palestre è **disegnata** — nessun glifo, nessun
+ripiego possibile — e porta il **colore della materia** da `SubjectPalette`, che
+da oggi è una tabella sola per il mondo, la nave e le palestre (prima erano due
+copie divergenti). Resta aperta la bottega, qui sotto.
+
+### C-G-12 · Le insegne della bottega — chiusa il 21 agosto 2026
+
+Ogni articolo del catalogo aveva un campo `glyph` con un carattere Unicode, e
+**nessuno dei quarantaquattro si disegnava** fuori da Windows: chi giocava nel
+browser comprava rettangoli con dentro `25C9`, `1F436`, `2726`.
+
+Chiusa per una strada migliore di quella che avevo proposto. Non sono servite
+quarantaquattro forme nuove: **l'atlante illustrato esisteva gia'**
+(`reward-items-sheet`), e alla bottega mancava solo di usarlo sempre. Tolto il
+ripiego `_tool_fallback_texture` da `outdoor_shop_panel`, rigenerato il foglio
+premi dal catalogo — 63 icone, e i tre strumenti che stavano fuori dall'atlante
+(`tool-lever`, `tool-lens`, `tool-bellows`) adesso ci sono davvero.
+
+`glifi_audit` tiene le due condizioni: **ogni articolo del catalogo ha una
+regione nell'atlante**, e la bottega **non puo' tornare al glifo di sistema**.
+`glifi_probe` resta come censimento del repertorio Unicode nel codice, che e' il
+posto da cui il difetto e' arrivato.
+
+Nota per chi tocca il catalogo: aggiungere o togliere una voce **richiede
+`npm run assets:reward`**. Il 21 agosto due moduli nuovi hanno fatto diventare
+rosso `shop_presentation_audit` proprio per questo, e le illustrazioni riservate
+ai moduli ritirati vanno tolte anche da `build-reward-assets.mjs`.
+
+### G-12 · Il quartiere degli allenamenti — chiusa il 21 agosto 2026
+
+**Il difetto.** Le undici palestre nascevano nella banda esterna, una per
+materia, e c'era una riga che le allontanava **di proposito**:
+
+    score -= float(cluster_usage.get(cluster_id, 0)) * 18.0
+
+con il commento «formano costellazioni, non un unico mucchio». Giusta per gli
+eventi del gate — che devono offrire una scelta di rotta — e sbagliata per gli
+allenamenti, che non sono un percorso: sono un **servizio**, e un servizio
+sparso su duemila unità di mappa non si usa.
+
+**La forma.** Per le palestre quella riga si rovescia: il quartiere ripetuto
+diventa un pregio, e la vicinanza alla stazione precedente pesa più di ogni
+altra cosa (`ancora` in `_semantic_placement`). L'ordine lungo il filo è quello
+del ciclo delle materie, quindi è **stabile fra i mondi**: chi ha imparato che il
+latino viene dopo l'inglese lo ritrova al mondo dopo.
+
+**Che cosa ho creduto e che cosa dice la misura.** Avevo scritto «una catena
+leggibile». Non si ottiene, e alzare il premio di vicinanza non la produce: il
+collo di bottiglia è la **capienza dei luoghi**, non il punteggio — undici
+palestre più otto eventi di gate non entrano nei socket di un quartiere solo.
+Misurato: col premio a 340 il passo fra due stazioni consecutive resta anche di
+2400 unità, e alzarlo ancora peggiora.
+
+Quello che l'ancora ottiene davvero, e che è ciò che serviva:
+
+| | prima | dopo |
+|---|---|---|
+| quartieri per mondo (media) | 4,2 | **2,9** |
+| quartieri nel mondo peggiore | 11 | **5** |
+| raggio del gruppo (media) | 1452 | **1319** |
+
+Non è una collana: è un **quartiere degli allenamenti**, che è la cosa che si
+impara a memoria e si torna a cercare. `semantic_placement_audit` tiene i due
+tetti — sei quartieri, raggio 2300 — misurati sul caso peggiore. Si abbassano,
+non si alzano.
+
+**E il «come», non solo il «dove».** Il quadro degli obiettivi elencava già le
+dodici materie con quanto manca a ciascuna, e poi lasciava il bambino a cercarle
+camminando. Adesso ogni materia aperta ha il suo **PORTAMI**: chiude il quadro e
+punta la bussola alla sua stazione. Il filo risolve il *dove*, il pulsante il
+*come ci arrivo*.
+
+Trovato per strada: quel quadro usava `✔` (U+2714) per le materie chiuse — un
+altro «2605», stesso font, stesso rettangolo col codice su Web e tablet.
+
+### C-G-13 · La faccia di una stazione — Codex, dopo G-12
+
+Quando il filo esiste, una stazione non è più un disco con una stella: è un
+**ripetitore dei Primi**, e le undici insieme sono il circuito che il nucleo
+prismatico della nave rimette in fila. Serve la resa: la pietra, il filo che
+collega una stazione alla successiva quando le hai visitate tutte e due, e la
+luce che si accende del colore della materia quando la stazione è stata usata in
+questo mondo.
+
+Il colore lo dà già `SubjectPalette` ed è lo stesso della notte di quel mondo e
+della scheda sul ponte: non va reinventato, va letto.
+
+### Perché il filo è coerente con la storia, e la spirale no
+
+I Primi hanno lasciato un **circuito**, e `BuildingCatalog` lo dice già: la
+*first_ruin* di ogni mondo «è un pezzo del circuito, e messe in fila raccontano
+che qualcuno è passato di qui prima, dodici volte». Il nucleo prismatico che si
+compra in bottega è descritto come «il cuore della nave, che scompone la luce in
+dodici colori: uno per sistema — è un ritratto, non una macchina».
+
+Undici pietre in fila, ognuna del colore del suo sistema, che partono dalla
+piazza degli abitanti e si allontanano nel mondo, **sono** quel circuito visto da
+terra invece che dal ponte. Undici dischi identici sparsi a caso non sono niente:
+sono interfaccia travestita da mondo, ed è esattamente quello che la segnalazione
+ha visto.
+
+C'è anche una conseguenza narrativa che il filo si porta dietro gratis: gli
+abitanti allenano **quello che sanno fare**, e il ritrovo è dove si parlano. Una
+stazione accanto alla piazza è un posto in cui qualcuno può stare; una stazione a
+duemila unità nel nulla no. Il gancio con `TeachingCatalog` e con i maestri
+esiste già e non è mai stato usato per la pratica.
+
+---
+
+## G-13 · La risposta più lunga è quella giusta — 21 agosto 2026
+
+*Domanda del committente dopo il difetto dell'italiano: «possono esserci casi
+simili in altre materie o in altri minigiochi?». Misurato: **sì**, in nove
+materie su dodici, e in una forma diversa.*
+
+Il difetto dell'italiano era «la domanda e la risposta usano le stesse parole».
+Nelle banche a scelta multipla la scorciatoia è un'altra e non richiede di saper
+leggere: **si tocca l'opzione più lunga**.
+
+Misura su 2.672 quesiti a scelta multipla, tutte e dodici le materie:
+
+| materia | quesiti | «la più lunga» vince | atteso dal caso |
+|---|---|---|---|
+| scienze | 122 | **62,3%** | 27,3% |
+| storia | 133 | **48,1%** | 27,1% |
+| musica | 104 | **54,8%** | 35,1% |
+| coding | 137 | 46,0% | 30,7% |
+| fisica | 121 | 44,6% | 28,7% |
+| elettronica | 127 | 42,5% | 28,1% |
+| geografia | 159 | 40,3% | 29,2% |
+| latino | 168 | 44,6% | 36,8% |
+| italiano | 527 | 45,2% | 37,8% |
+| inglese, matematica, logica | — | in linea col caso | ✅ |
+
+In scienze **la scorciatoia risponde giusto sei volte su dieci** senza sapere
+niente, contro le tre del caso. Non è un sospetto: è la stessa famiglia di
+difetto del duello delle voci, e si scopre solo contandolo.
+
+**Due cose che invece sono sane**, e vale la pena scriverle perché non vadano
+perse:
+
+- la **posizione** della risposta giusta è uniforme (667 / 676 / 653 / 676 sulle
+  quattro caselle): nessuno può imparare «è sempre la seconda»;
+- l'**eco della domanda** non aiuta: la risposta giusta ripete le parole del
+  quesito **meno** del caso (11,2% contro ~30%). I distrattori sono scritti bene:
+  sono loro a somigliare alla domanda, ed è giusto così.
+
+**Il lavoro.** Non è riscrivere 2.672 quesiti: è pareggiare la lunghezza dei
+distrattori dove la differenza è grossa, materia per materia, partendo da scienze
+e storia. Poi un `bank_scorciatoie_audit` che tiene le tre misure — lunghezza,
+posizione, eco — e diventa rosso quando una materia esce dalla banda del caso.
+Senza l'audit il difetto torna al primo blocco di quesiti nuovi, perché scrivere
+la risposta giusta più esplicita delle altre è la cosa naturale da fare.
+
+### E i minigiochi dei personaggi?
+
+Quindici archetipi, quarantasei personaggi, tutti con un pannello e tutti con un
+audit. Ma nessuno di quegli audit chiede **se si vincono giocando a caso**: è la
+misura che ha smascherato il duello delle voci (`voci_valore_probe`, il giocatore
+CIECO) e non esiste da nessun'altra parte. Il metodo si generalizza — si gioca il
+pannello con tocchi casuali e si conta — ed è la prima cosa da fare prima di
+aggiungere un sedicesimo archetipo.
+
+---
+
 ## Chi fa cosa
 
 | | Claude | Codex | Tu |
@@ -640,9 +825,13 @@ Una proposta che le contraddice va discussa, non implementata.
    contano — `modules` stava in sette audit e in zero righe di gioco.
 
 15. **La potenza vale contro il Silenzio, mai contro una domanda** (13 agosto
-   2026). È la regola che tiene insieme G-1, G-2 e G-4: serie, cariche d'impulso
-   e moduli moltiplicano o aiutano sulla **mappa**, e non toccano mai mastery,
-   copertura, ritenzione, gate o esami. Nel momento in cui una di queste tre
+   2026). È la regola che tiene insieme G-1, G-2 e G-4: serie e moduli
+   moltiplicano o aiutano sulla **mappa**, e non toccano mai mastery,
+   copertura, ritenzione, gate o esami.
+   *(Le cariche d'impulso stavano in questo elenco fino al 21 agosto 2026:
+   l'impulso è stato tolto perché non aveva lavoro — vedi
+   [FORZIERI_E_FRAMMENTI §9.2.1](docs/FORZIERI_E_FRAMMENTI.md). La regola non
+   cambia, cambia l'elenco di chi la deve rispettare.)* Nel momento in cui una di queste tre
    sfiorasse una prova, il gioco comincerebbe a vendere l'apprendimento.
    Per la serie la tiene già `combo_audit`, e non con una rilettura del codice:
    registra due volte gli stessi esiti con energie diversissime e pretende la

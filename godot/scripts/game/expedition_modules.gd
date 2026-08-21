@@ -18,7 +18,7 @@ extends RefCounted
 ## la ritenzione, un gate o un esame — è la decisione vincolante 15, e
 ## `expedition_module_audit` la verifica sul comportamento invece che a parole.
 ##
-## **Perché tre e non sette.** Perché tre sono quelli che **funzionano davvero**.
+## **Perché pochi e non sette.** Perché sono quelli che **funzionano davvero**.
 ## Il radar dei forzieri e il raggio della torcia chiedono una resa che ancora non
 ## esiste, e un oggetto che promette una meccanica inesistente è già stato il
 ## difetto del 6 agosto — quattro upgrade che costavano fino a 1600 frammenti e
@@ -35,20 +35,42 @@ extends RefCounted
 ## già gli acquisti permanenti che non si equipaggiano, e ha i suoi lettori. La
 ## chiave `modules`, dichiarata e mai costruita, resta sepolta dov'è.
 
-const SERBATOIO := "module-tank"
-const BOBINA := "module-coil"
 const PASSO := "module-stride"
+const FELPA := "module-hush"
+const ZAVORRA := "module-ballast"
 
-## Una carica d'impulso in più. Una, non due: il tetto esiste perché la scelta
-## *passo o giro attorno* continui a esistere, e comprarsela via del tutto
-## sarebbe comprarsi il gioco.
-const CARICA_EXTRA := 1
+## **Due moduli ritirati, due nuovi.** (21 agosto 2026)
+##
+## «Serbatoio ampliato» e «Bobina larga» potenziavano l'impulso, e l'impulso non
+## c'è più: `costo_delle_sacche_probe` ha misurato che dal mondo 2 in poi nessuna
+## sacca costa energia, quindi non restava niente da comprare con una carica.
+## Erano 650 energia su 950 — due terzi della sezione — spesi per potenziare una
+## meccanica senza lavoro, cioè esattamente il difetto che questo file dice di
+## aver chiuso il 6 agosto.
+##
+## La regola con cui ho scelto i due che li sostituiscono: **il numero deve
+## esistere già nel codice, e non deve saturare col grado di Eli.** È la lezione
+## della misura che ha ucciso l'impulso — il morso si azzera perché è scritto
+## come differenza fra due gradi, e qualunque cosa scritta così sparisce da sola.
+## Questi due non sono differenze di grado:
+##
+##   - **quanto lontano una sacca ti nota** (`world_enemy`: 190 + grado × 12).
+##     Cresce col grado della SACCA e non cala mai con quello di Eli;
+##   - **quanto ti sposta lo spintone** (`outdoor_world`: 104 unità). È una
+##     costante, e nessuno l'ha mai scalata.
 
-## Il raggio dell'impulso, base e ampliato. La bobina larga vale circa un terzo
-## in più: si sente attraversando un gruppo di sacche, e non trasforma l'impulso
-## in un'arma che pulisce lo schermo.
-const RAGGIO_BASE := 168.0
-const RAGGIO_AMPIO := 230.0
+## Quanto si accorcia la vista di una sacca con l'andatura felpata. Poco più di
+## un quarto: abbastanza da poter costeggiare un presidio invece di doverlo
+## attraversare, troppo poco perché la mappa diventi vuota. Una sacca che non
+## nota più nessuno non è un pericolo disinnescato, è un pericolo cancellato.
+const VISTA_PIENA := 1.0
+const VISTA_FELPATA := 0.72
+
+## Quanto lontano ti butta uno spintone, con e senza zavorra. Non si azzera: una
+## sacca deve continuare a spostarti, o l'anello del presidio smette di essere un
+## ostacolo e resta un disegno.
+const SPINTA_PIENA := 104.0
+const SPINTA_ZAVORRATA := 62.0
 
 ## Il moltiplicatore della corsa. Il passo lungo aggiunge circa un quinto: è la
 ## differenza fra arrivare e arrivare prima, non fra potere e non potere.
@@ -70,7 +92,7 @@ const SCATTO_DISTANZA_LUNGA := 230.0
 
 ## Gli identificativi dei moduli, per gli audit e per la bottega.
 static func ids() -> Array:
-	return [SERBATOIO, BOBINA, PASSO]
+	return [PASSO, FELPA, ZAVORRA]
 
 static func posseduto(save, id: String) -> bool:
 	if save == null:
@@ -78,13 +100,14 @@ static func posseduto(save, id: String) -> bool:
 	var cosmetics: Dictionary = save.data.get("cosmetics", {})
 	return Array(cosmetics.get("inventory", [])).has(id)
 
-## Quante cariche d'impulso può tenere in tasca Eli.
-static func cariche_massime(save, base: int) -> int:
-	return base + (CARICA_EXTRA if posseduto(save, SERBATOIO) else 0)
+## Quanto lontano una sacca si accorge di Eli, in frazione della sua vista
+## piena. L'andatura felpata la accorcia; senza il modulo resta uno.
+static func vista_delle_sacche(save) -> float:
+	return VISTA_FELPATA if posseduto(save, FELPA) else VISTA_PIENA
 
-## Il raggio entro cui l'impulso stabilizza le sacche.
-static func raggio_impulso(save) -> float:
-	return RAGGIO_AMPIO if posseduto(save, BOBINA) else RAGGIO_BASE
+## Quanto lontano butta uno spintone.
+static func spinta_del_morso(save) -> float:
+	return SPINTA_ZAVORRATA if posseduto(save, ZAVORRA) else SPINTA_PIENA
 
 ## Quanto va più veloce la corsa.
 static func moltiplicatore_scatto(save) -> float:

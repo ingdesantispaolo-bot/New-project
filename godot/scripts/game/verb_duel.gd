@@ -72,8 +72,12 @@ extends RefCounted
 ##
 ## `bersaglio` è la scelta più importante della progressione:
 ##
-##   - `etichetta`  il sigillo dice a parole dove andare: «indicativo imperfetto
-##                  · voi». Si impara la **mappa**: dove stanno le caselle.
+##   - `descrizione` il sigillo dice **a che cosa serve** la casella: «quello
+##                  che durava, o si ripeteva · 2ª plur.». Si impara che cosa
+##                  significa un tempo, che è quello che a scuola si chiede.
+##                  Fino al 20 agosto qui c'era `etichetta`, che scriveva
+##                  «INDICATIVO IMPERFETTO · voi» — le stesse parole delle
+##                  rune, quindi un abbinamento invece di una domanda.
 ##   - `campione`   il sigillo mostra una **voce vera di un altro verbo**
 ##                  («aveste temuto») e tocca a te capire che casella sia. Si
 ##                  impara il **riconoscimento**, che è la competenza vera e che
@@ -87,15 +91,19 @@ const FASCE := [
 		"mondi": [1, 4], "nome": "prima voce",
 		"modi": ["indicativo"],
 		"tempi": ["presente", "imperfetto", "futuro semplice"],
-		"verbi": "are", "passi": 2, "mano": 4, "secondi": 13.0,
-		"bersaglio": "etichetta",
+		# **Cinque rune e non quattro** (21 agosto 2026): con due passi e quattro
+		# rune restavano due sole esche, e chi toccava a caso ne azzeccava
+		# troppe. Una quinta pietra non allunga la strada — restano due passi —
+		# ma toglie alla fortuna un terzo delle sue probabilita'.
+		"verbi": "are", "passi": 2, "mano": 5, "secondi": 13.0,
+		"bersaglio": "descrizione",
 	},
 	{
 		"mondi": [5, 9], "nome": "voce doppia",
 		"modi": ["indicativo"],
 		"tempi": ["presente", "imperfetto", "passato remoto", "futuro semplice", "passato prossimo"],
 		"verbi": "regolari", "passi": 2, "mano": 5, "secondi": 12.0,
-		"bersaglio": "etichetta",
+		"bersaglio": "descrizione",
 	},
 	{
 		"mondi": [10, 14], "nome": "voce del congiuntivo",
@@ -126,6 +134,12 @@ const FASCE := [
 		"bersaglio": "campione",
 	},
 ]
+
+## Quante rune, al massimo, si pretende che entrino all'apertura di uno
+## scambio. Il minimo vero e' `mini(mano - 1, VIVE_MINIME)`: una mano da
+## quattro non puo' averne cinque, e pretenderlo farebbe fallire la
+## generazione invece di migliorarla.
+const VIVE_MINIME := 4
 
 const ASSI := ["modo", "tempo", "persona"]
 
@@ -294,7 +308,14 @@ static func _esplora(cella: Dictionary, bersaglio: Dictionary, rune: Array, usat
 static func genera_scambio(rng: RandomNumberGenerator, regole_duello: Dictionary) -> Dictionary:
 	var passi := int(regole_duello.get("passi", 2))
 	var colpi := int(regole_duello.get("colpi", passi + DuelRules.COLPO_DI_RISERVA))
-	for _tentativo in range(48):
+	# **Duecento tentativi e non quarantotto.** (21 agosto 2026) Con il minimo
+	# di rune giocabili alzato a quattro, quarantotto tentativi non bastavano
+	# piu' nelle fasce alte e lo scambio cadeva sul ripiego — che e' lungo due
+	# passi mentre la fascia ne promette tre. Se n'e' accorto l'audit.
+	#
+	# Provare di piu' non costa: un tentativo e' qualche operazione su
+	# dizionari, e se ne fa uno per scambio, non uno per fotogramma.
+	for _tentativo in range(200):
 		var scambio := _tenta_scambio(rng, regole_duello, passi, colpi)
 		if not scambio.is_empty():
 			return scambio
@@ -341,13 +362,23 @@ static func _tenta_scambio(rng: RandomNumberGenerator, regole_duello: Dictionary
 		return {}
 	_mescola(rng, rune)
 
-	# **Almeno due rune devono entrare subito**: chi apre lo scambio e non ha
-	# niente da toccare non sta pensando, sta aspettando.
+	# **Quante rune devono entrare subito.** (rivisto il 21 agosto 2026)
+	#
+	# Erano due, e bastava a evitare uno scambio che si apre senza niente da
+	# toccare. Ma `voci_valore_probe` ha misurato che entravano in media 3,2
+	# rune su sei, e con cosi' poche scelte **la fortuna vinceva il 91% dei
+	# duelli** al mondo 1 con Eli al grado massimo: bastava toccare a caso.
+	#
+	# Alzare il minimo non rende lo scambio piu' duro — la strada giusta e'
+	# sempre la stessa, lunga gli stessi passi — ma **diluisce il caso**: chi
+	# tocca a vanvera ha piu' modi di sbagliare, e chi ha letto il sigillo no.
+	# E' l'unica leva che sta dentro le voci: sigilli, tenuta e colpo di
+	# riserva stanno in [[DuelRules]] e li condivide il duello delle cifre.
 	var vive := 0
 	for r in rune:
 		if applicabile(da, r):
 			vive += 1
-	if vive < 2:
+	if vive < mini(mano - 1, VIVE_MINIME):
 		return {}
 
 	var percorso := percorso_minimo(da, a, rune, colpi)
@@ -369,7 +400,9 @@ static func _tenta_scambio(rng: RandomNumberGenerator, regole_duello: Dictionary
 
 ## **Come è scritto il sigillo.**
 ##
-## `etichetta`: a parole, «indicativo imperfetto · voi». È la mappa.
+## `descrizione`: che cosa fa quella casella — «quello che durava, o si
+## ripeteva» — con la persona come la chiama la scuola. Nessuna delle sue parole
+## sta su una runa: per trovarla bisogna sapere che cos'è un imperfetto.
 ##
 ## `campione`: una **voce vera di un altro verbo** nella stessa casella, e tocca
 ## a te capire quale sia. Con due condizioni severe, perché un bersaglio che
@@ -389,11 +422,18 @@ static func _sigillo(rng: RandomNumberGenerator, fascia: Dictionary, verbo: Dict
 	var modo := str(bersaglio.get("modo", ""))
 	var tempo := str(bersaglio.get("tempo", ""))
 	var persona := int(bersaglio.get("persona", 0))
-	if str(fascia.get("bersaglio", "etichetta")) == "etichetta":
+	if str(fascia.get("bersaglio", "descrizione")) == "descrizione":
+		# **Non piu' «INDICATIVO IMPERFETTO · voi».** (21 agosto 2026)
+		# `voci_valore_probe` ha misurato che un giocatore che non sa niente
+		# di verbi vinceva il 99% di questi scambi: bastava abbinare la parola
+		# scritta sul sigillo alla parola scritta su una runa. Adesso il
+		# sigillo dice **che cosa fa** quella casella, e la persona la dice
+		# come la scuola. Nessuna parola del sigillo sta su una runa, quindi
+		# l'abbinamento non ha piu' niente da abbinare.
 		return {
-			"tipo": "etichetta",
-			"testo": VerbConjugator.etichetta(modo, tempo, persona),
-			"sotto": "",
+			"tipo": "descrizione",
+			"testo": VerbConjugator.descrizione(modo, tempo),
+			"sotto": "persona: %s" % VerbConjugator.persona_grammaticale(persona),
 		}
 	var candidati: Array = []
 	for scheda in verbi:
@@ -412,7 +452,7 @@ static func _sigillo(rng: RandomNumberGenerator, fascia: Dictionary, verbo: Dict
 		return {
 			"tipo": "campione",
 			"testo": forma,
-			"sotto": "da %s" % str(campione.get("infinito", "")),
+			"sotto": "verbo del guardiano: %s" % str(campione.get("infinito", "")),
 			"campione": str(campione.get("infinito", "")),
 		}
 	return {}
@@ -510,9 +550,9 @@ static func _scambio_di_ripiego(rng: RandomNumberGenerator, regole_duello: Dicti
 		"rune": rune,
 		"minimi": maxi(percorso_minimo(da, a, rune, colpi).size(), 2),
 		"sigillo": {
-			"tipo": "etichetta",
-			"testo": VerbConjugator.etichetta("indicativo", "imperfetto", 4),
-			"sotto": "",
+			"tipo": "descrizione",
+			"testo": VerbConjugator.descrizione("indicativo", "imperfetto"),
+			"sotto": "persona: %s" % VerbConjugator.persona_grammaticale(4),
 		},
 	}
 

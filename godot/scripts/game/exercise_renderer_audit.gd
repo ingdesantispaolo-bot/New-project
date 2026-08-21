@@ -208,6 +208,18 @@ func _run() -> void:
 	semantic_map["answer"] = "alps"
 	assert(bool(INTERACTION.validate(semantic_map)["ok"]),
 		"map: catene e mari italiani devono essere bersagli semantici disponibili")
+	var europe_map := _base("map")
+	europe_map.merge({
+		"mapId": "europe",
+		"targets": [
+			{"id": "italy", "label": "Segnaposto A"},
+			{"id": "france", "label": "Segnaposto B"},
+			{"id": "germany", "label": "Segnaposto C"},
+		],
+		"answer": "italy",
+	})
+	assert(bool(INTERACTION.validate(europe_map)["ok"]),
+		"map: la carta vettoriale d'Europa deve offrire bersagli validi")
 
 	var cycle := _base("cycle")
 	cycle.merge({

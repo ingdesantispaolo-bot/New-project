@@ -46,6 +46,11 @@ func _test_world_screen() -> void:
 	pet["grantedAtLevel"] = 1
 	pet["name"] = "Briciola"
 	initial["pet"] = pet
+	initial["cosmetics"] = {
+		"unlocked": ["pet-guardiano"],
+		"equipped": {"pet": "pet-guardiano"},
+		"inventory": [],
+	}
 	var request := NativeWorldState.default_request("pet-customization-audit")
 	request["loadLocalSave"] = false
 	request["initialSave"] = initial
@@ -64,6 +69,11 @@ func _test_world_screen() -> void:
 	var companion := world.get("pet_companion") as OutdoorPetCompanion
 	assert(face != null and face.visible, "volto del Custode consegnato non visibile")
 	assert(companion != null, "Custode gratuito senza corpo perché non acquistato in bottega")
+	assert(face.call("current_pet_kind") == "guardiano",
+		"il pulsante del Custode non mostra la forma equipaggiata")
+	var body_art := companion.find_child("PetGeneratedArt", true, false) as Sprite2D
+	assert(body_art != null and body_art.texture.resource_path.ends_with("guardiano-v1.png"),
+		"il corpo nel mondo non usa la stessa forma del pulsante")
 	assert(screen != null and not screen.visible, "schermata Custode aperta all'avvio")
 	face.emit_signal("screen_requested")
 	await process_frame

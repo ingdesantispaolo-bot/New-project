@@ -83,8 +83,8 @@ func _le_fasce_coprono_i_ventiquattro_mondi() -> void:
 		"la catena finale non è più lunga di quella iniziale")
 	_controlla(VerbDuel.caselle_di(ultima).size() >= VerbDuel.caselle_di(prima).size() * 3,
 		"le caselle finali non sono sensibilmente più delle iniziali")
-	_controlla(str(prima["bersaglio"]) == "etichetta" and str(ultima["bersaglio"]) == "campione",
-		"la progressione del bersaglio non va dall'etichetta alla voce da riconoscere")
+	_controlla(str(prima["bersaglio"]) == "descrizione" and str(ultima["bersaglio"]) == "campione",
+		"la progressione del bersaglio non va dalla descrizione alla voce da riconoscere")
 
 ## **I due bordi.** Nessuna combinazione di mondo e gradi deve produrre un duello
 ## che non si può vincere, né uno che si vince senza guardare.
@@ -190,6 +190,7 @@ func _ogni_scambio_si_puo_vincere() -> void:
 		var spente_in_partenza := 0
 		var bersagli_ambigui := 0
 		var campione_uguale := 0
+		var sigilli_abbinabili := 0
 		var voci_vuote := 0
 		for campione in range(CAMPIONI):
 			rng.seed = hash("voci-%d-%d" % [mondo, campione])
@@ -221,8 +222,35 @@ func _ogni_scambio_si_puo_vincere() -> void:
 			# La voce di Eli non può mai essere vuota lungo la strada.
 			if VerbDuel.voce_di(scambio, da).is_empty() or VerbDuel.voce_di(scambio, a).is_empty():
 				voci_vuote += 1
-			# **Il bersaglio non mente.**
+			# **Il bersaglio non mente, e non si abbina.**
+			#
+			# La seconda meta' nasce dalla misura di `voci_valore_probe`
+			# (21 agosto 2026): un finto giocatore che non sapeva niente di verbi,
+			# e leggeva soltanto le parole del sigillo per toccare le rune con lo
+			# stesso testo, vinceva il **99% degli scambi dei primi nove mondi**.
+			# Il sigillo diceva «INDICATIVO IMPERFETTO · voi» e una runa diceva
+			# «imperfetto»: due parole uguali da accostare, e il duello misurava la
+			# vista invece della grammatica.
+			#
+			# Da qui in avanti **nessuna parola del sigillo puo' comparire su una
+			# runa**. E' la riga che tiene in piedi il valore didattico di questo
+			# minigioco: se un giorno tornasse comodo scrivere il nome del tempo
+			# sul cartiglio, il duello tornerebbe un gioco di abbinamento senza che
+			# nessuno se ne accorga rileggendo il codice.
 			var sigillo: Dictionary = scambio.get("sigillo", {})
+			# Il confronto e' per PAROLA INTERA e non per sottostringa: «studiare»
+			# contiene «tu», e un giocatore che accosta parole non accosta pezzi di
+			# parola. Cercare la sottostringa rendeva rosso un sigillo onesto.
+			var parole_sigillo := _parole(str(sigillo.get("testo", ""))
+				+ " " + str(sigillo.get("sotto", "")))
+			for runa in rune:
+				for parola in _parole(str(runa.get("testo", ""))):
+					if parole_sigillo.has(parola):
+						sigilli_abbinabili += 1
+					if sigilli_abbinabili > 0:
+						break
+				if sigilli_abbinabili > 0:
+					break
 			if str(sigillo.get("tipo", "")) == "campione":
 				var campione_verbo := VerbConjugator.verbo_per_infinito(str(sigillo.get("campione", "")))
 				if campione_verbo.is_empty():
@@ -245,6 +273,21 @@ func _ogni_scambio_si_puo_vincere() -> void:
 			"mondo %d: %d sigilli mostrano una voce che vale per più di una casella" % [mondo, bersagli_ambigui])
 		_controlla(campione_uguale == 0,
 			"mondo %d: %d sigilli usano lo stesso verbo di Eli, cioè la risposta in chiaro" % [mondo, campione_uguale])
+		_controlla(sigilli_abbinabili == 0,
+			"mondo %d: %d sigilli contengono la parola di una runa — si vince abbinando, senza sapere niente di verbi" % [
+				mondo, sigilli_abbinabili])
+
+## Le parole di una stringa, ridotte a lettere minuscole e senza punteggiatura.
+## «lui/lei» sono due parole, e vanno confrontate come tali.
+func _parole(testo: String) -> Dictionary:
+	var fuori: Dictionary = {}
+	var pulito := testo.to_lower()
+	for segno in ["/", ",", ".", ";", ":", "·", "«", "»", "'", "(", ")"]:
+		pulito = pulito.replace(segno, " ")
+	for parola in pulito.split(" ", false):
+		if not str(parola).strip_edges().is_empty():
+			fuori[str(parola).strip_edges()] = true
+	return fuori
 
 ## **Nessuna delle due materie può essere la strada conveniente.** Sigilli,
 ## tenuta, colpi di riserva e premio devono coincidere: se una fosse più

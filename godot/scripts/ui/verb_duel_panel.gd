@@ -64,6 +64,12 @@ const X_BINARI := 92.0
 
 var _cella: Dictionary = {}
 var _voce_label: Label
+## L'infinito del verbo di Eli, sotto la sua voce. Il cartiglio del guardiano
+## scrive «da temere» sotto il campione dal primo giorno, per una ragione
+## scritta in [[VerbDuel]]: il duello misura modi e tempi, non il vocabolario.
+## Lo stesso ragionamento non era mai stato applicato al verbo di Eli, e chi
+## leggeva «abbiate dato» doveva risalire da solo a «dare».
+var _infinito_label: Label
 ## Dove cade ogni chip, ricalcolato a ogni disegno: serve al fascio del colpo,
 ## che deve arrivare sul binario dell'asse appena mosso.
 var _ultimo_asse := "persona"
@@ -84,6 +90,8 @@ func _init() -> void:
 func _costruisci_campo() -> void:
 	_voce_label = etichetta("DuelVerbForm", 30, GHIACCIO)
 	_arena.add_child(_voce_label)
+	_infinito_label = etichetta("DuelVerbInfinitive", 13, Color("9fd8d2"))
+	_arena.add_child(_infinito_label)
 
 func _nuovo_scambio() -> void:
 	_scambio = VerbDuel.genera_scambio(_rng, regole)
@@ -101,15 +109,16 @@ func _nuovo_scambio() -> void:
 	# dove l'etichetta è l'unica cosa che il bambino ha per orientarsi. Quindi
 	# l'etichetta si spezza in due: modo e tempo sopra, la persona sotto.
 	var sigillo: Dictionary = _scambio.get("sigillo", {})
-	if str(sigillo.get("tipo", "")) == "etichetta":
-		var bersaglio: Dictionary = _scambio.get("bersaglio", {})
-		_sigillo_label.add_theme_font_size_override("font_size", 22)
-		_sigillo_label.text = "%s %s" % [
-			str(bersaglio.get("modo", "")).to_upper(), str(bersaglio.get("tempo", "")).to_upper()]
-		_sigillo_sotto.text = "persona: %s" % str(
-			VerbConjugator.PERSONE[clampi(int(bersaglio.get("persona", 0)), 0, 5)])
+	if str(sigillo.get("tipo", "")) == "descrizione":
+		# La descrizione e' una frase, non due parole: va a capo e sta piu'
+		# piccola, o esce dalla cornice d'oro.
+		_sigillo_label.add_theme_font_size_override("font_size", 17)
+		_sigillo_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		_sigillo_label.text = str(sigillo.get("testo", ""))
+		_sigillo_sotto.text = str(sigillo.get("sotto", ""))
 	else:
 		_sigillo_label.add_theme_font_size_override("font_size", 30)
+		_sigillo_label.autowrap_mode = TextServer.AUTOWRAP_OFF
 		_sigillo_label.text = str(sigillo.get("testo", ""))
 		_sigillo_sotto.text = str(sigillo.get("sotto", ""))
 	_costruisci_rune()
@@ -143,7 +152,12 @@ func colpisci(indice: int) -> void:
 	_cella = prossima
 	_ultimo_asse = str(runa.get("asse", "persona"))
 	_colpi_dati += 1
-	_catena.append(str(runa.get("testo", "")))
+	# **La runa entra fra parentesi quadre, e con il suo asse davanti.**
+	# (21 agosto 2026) La catena scriveva «servissimo -> indicativo ->
+	# servivamo»: tre parole con la stessa grafica, e in un gioco di grammatica
+	# «servissimo -> indicativo» si legge come «servissimo E' indicativo», che e'
+	# falso. Adesso la voce e il colpo hanno due forme diverse.
+	_catena.append("[%s: %s]" % [str(runa.get("asse", "")), str(runa.get("testo", ""))])
 	_catena.append(VerbDuel.voce_di(_scambio, _cella))
 	segna_colpo(indice)
 	_aggiorna_testi()
@@ -186,6 +200,8 @@ func _aggiorna_testi() -> void:
 	if not is_instance_valid(_stato):
 		return
 	_voce_label.text = VerbDuel.voce_di(_scambio, _cella)
+	if is_instance_valid(_infinito_label):
+		_infinito_label.text = "il tuo verbo: %s" % str(_scambio.get("infinito", ""))
 	_catena_label.text = _riga_catena()
 	aggiorna_stato()
 
@@ -204,6 +220,8 @@ func _riga_catena() -> String:
 func _posiziona_campo() -> void:
 	_voce_label.size = Vector2(_arena.size.x - 40.0, 42)
 	_voce_label.position = Vector2(20, Y_VOCE)
+	_infinito_label.size = Vector2(_arena.size.x - 40.0, 16)
+	_infinito_label.position = Vector2(20, Y_VOCE + 34.0)
 	for indice in _rune_label.size():
 		var nodo: Label = _rune_label[indice]
 		if not is_instance_valid(nodo):
@@ -269,7 +287,6 @@ func _disegna_campo(scossa: Vector2) -> void:
 ## Disegna un binario e torna l'altezza che ha occupato.
 func _disegna_binario(asse: String, titolo: String, y: float, scossa: Vector2) -> float:
 	var font := ThemeDB.fallback_font
-	var bersaglio: Dictionary = _scambio.get("bersaglio", {})
 	_arena.draw_string(font, Vector2(14, y + 18) + scossa, titolo,
 		HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(TESTO, 0.42))
 
@@ -286,7 +303,17 @@ func _disegna_binario(asse: String, titolo: String, y: float, scossa: Vector2) -
 			riga += ALTEZZA_CHIP + 4.0
 		var rect := Rect2(Vector2(x, y + riga) + scossa, Vector2(larghezza, ALTEZZA_CHIP))
 		var qui: bool = str(_cella.get(asse)) == str(valore)
-		var meta_asse: bool = str(bersaglio.get(asse)) == str(valore)
+		# **Sui binari non c'e' piu' nessun oro.** (21 agosto 2026)
+		#
+		# Cerchiare d'oro la casella del sigillo sembrava un aiuto e invece era
+		# la risposta scritta accanto alla domanda: `voci_valore_probe` ha
+		# misurato che un giocatore che non sa niente di verbi vinceva quasi
+		# ogni scambio guardando soltanto quei tre chip.
+		#
+		# Il sigillo pone la domanda, i binari sono la MAPPA su cui cercarla, e
+		# la voce di Eli che si trasforma e' la risposta che arriva dopo il
+		# colpo. Tre cose distinte: metterne due nella stessa non lascia niente
+		# da fare al bambino.
 		var vivo := _valore_vivo(asse, valore)
 
 		var riempimento := Color(0.04, 0.10, 0.14, 0.85)
@@ -296,18 +323,14 @@ func _disegna_binario(asse: String, titolo: String, y: float, scossa: Vector2) -
 			riempimento = Color(0.03, 0.06, 0.08, 0.6)
 		_arena.draw_rect(rect, riempimento)
 		var bordo := Color(FREDDO, 0.22)
-		if meta_asse:
-			bordo = ORO
-		elif qui:
+		if qui:
 			bordo = GHIACCIO
 		elif not vivo:
 			bordo = Color(FREDDO, 0.10)
-		_arena.draw_rect(rect, bordo, false, 2.0 if (meta_asse or qui) else 1.0)
+		_arena.draw_rect(rect, bordo, false, 2.0 if qui else 1.0)
 		var colore_testo := Color(TESTO, 0.9)
 		if not vivo:
 			colore_testo = Color(TESTO, 0.28)
-		elif meta_asse and not qui:
-			colore_testo = ORO
 		_arena.draw_string(font, rect.position + Vector2(8, rect.size.y - 8), testo,
 			HORIZONTAL_ALIGNMENT_LEFT, -1, 13, colore_testo)
 		# Il valore spento porta la sua sbarra, come la runa che non entra.

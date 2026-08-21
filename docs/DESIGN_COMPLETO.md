@@ -430,10 +430,19 @@ i **frammenti** sono la secondaria del mondo (tesori, beacon).
 
 | Modulo | Effetto | Stato |
 |---|---|---|
-| Serbatoio | una carica d'impulso in più | in gioco |
-| Bobina larga | raggio dell'impulso più ampio | in gioco |
 | Passo lungo | corsa più veloce **e balzo più lungo** (§11.1) | in gioco |
+| Serbatoio | una carica d'impulso in più | **ritirato il 21 agosto 2026** con l'impulso |
+| Bobina larga | raggio dell'impulso più ampio | **ritirato il 21 agosto 2026** con l'impulso |
 | Radar tesori | evidenzia tesori/frammenti vicini | non fatto: chiede una resa che non esiste |
+
+> **I due moduli dell'impulso sono usciti** perché l'impulso è uscito:
+> `costo_delle_sacche_probe` ha misurato che dal mondo 2 in poi nessuna sacca
+> costa energia, quindi non restava niente da comprare con una carica. Erano 650
+> energia su 950 — due terzi della sezione — spesi per potenziare una meccanica
+> senza lavoro, cioè esattamente il difetto che la tabella qui sopra dice di aver
+> chiuso il 6 agosto. Vedi
+> [FORZIERI_E_FRAMMENTI §9.2.1](FORZIERI_E_FRAMMENTI.md). Chi li aveva già
+> comprati se li tiene nell'inventario: non si toglie niente a nessuno.
 
 ### 8.1 Gli strumenti da campo: cinque chiavi sull'arco
 

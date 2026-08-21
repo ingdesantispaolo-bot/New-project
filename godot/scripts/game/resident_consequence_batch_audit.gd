@@ -3,6 +3,8 @@ extends SceneTree
 const OWNERS := {
 	2: ["w02-corinna", "w02-bruno"],
 	3: ["w03-ruggine", "w03-sesto"],
+	4: ["w04-marea", "w04-lino"],
+	5: ["w05-gerbo", "w05-tilla"],
 }
 
 func _init() -> void:

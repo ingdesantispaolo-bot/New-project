@@ -387,6 +387,54 @@ static func caselle_che_danno(verbo: Dictionary, forma: String) -> int:
 			quante += 1
 	return quante
 
+## **A che cosa serve una casella, detto a un bambino di undici anni.**
+## (21 agosto 2026)
+##
+## Nasce da una misura, non da un'idea: `voci_valore_probe` ha giocato ogni
+## scambio con un finto giocatore che **non sa niente di verbi** e legge soltanto
+## le parole scritte sul sigillo, toccando le rune il cui valore compare lì
+## dentro. Nei mondi 1-9 quel giocatore vinceva il **99% degli scambi**.
+##
+## Il motivo era che il sigillo diceva «INDICATIVO IMPERFETTO · voi» e una runa
+## diceva «imperfetto»: due parole uguali da abbinare. Il duello misurava la
+## vista, non la grammatica — è quello che la segnalazione chiama «banale, senza
+## alcun valore didattico», e aveva ragione.
+##
+## Adesso il sigillo dice **che cosa fa** quella casella, e la persona la dice
+## come la dice la scuola (`2ª plur.`, non `voi`). Nessuna parola del sigillo
+## compare più su una runa: per trovare la casella bisogna sapere che l'azione
+## che durava è l'imperfetto, e che «voi» è la seconda plurale. `verb_duel_audit`
+## lo tiene: nessun sigillo può contenere il valore di una runa.
+##
+## **La regola che governa queste righe** è la stessa del coniugatore: un gioco
+## che insegna una grammatica sbagliata è peggio di un gioco che non insegna
+## niente. Sono descrizioni scolastiche standard, brevi perché devono stare in un
+## cartiglio, e nessuna di esse prova a essere spiritosa.
+const DESCRIZIONI := {
+	"indicativo|presente": "quello che succede adesso",
+	"indicativo|imperfetto": "quello che durava, o si ripeteva",
+	"indicativo|passato remoto": "quello che finì, e finì molto tempo fa",
+	"indicativo|futuro semplice": "quello che deve ancora succedere",
+	"indicativo|passato prossimo": "quello che è successo da poco",
+	"indicativo|trapassato prossimo": "quello che era già finito prima",
+	"indicativo|futuro anteriore": "quello che sarà finito prima di un'altra cosa",
+	"congiuntivo|presente": "quello che si spera o si teme, adesso",
+	"congiuntivo|imperfetto": "quello che si sperava, o che non è vero",
+	"congiuntivo|passato": "quello che si spera sia già successo",
+	"congiuntivo|trapassato": "quello che si temeva fosse già successo",
+	"condizionale|presente": "quello che si farebbe, a una condizione",
+	"condizionale|passato": "quello che si sarebbe fatto, e non si è fatto",
+}
+
+## Il sigillo dei mondi bassi: la casella descritta per quello che fa.
+static func descrizione(modo: String, tempo: String) -> String:
+	return str(DESCRIZIONI.get(chiave(modo, tempo), ""))
+
+## La persona come la chiama la grammatica. Sul sigillo va questa e non «voi»:
+## «voi» è scritto su una runa, e due parole uguali si abbinano senza capirle.
+static func persona_grammaticale(persona: int) -> String:
+	return str(PERSONE_GRAMMATICA[clampi(persona, 0, 5)])
+
 ## L'etichetta di una casella come la si legge a scuola: «congiuntivo trapassato
 ## · voi».
 static func etichetta(modo: String, tempo: String, persona: int) -> String:

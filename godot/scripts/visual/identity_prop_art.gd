@@ -1,12 +1,15 @@
 class_name IdentityPropArt
 extends RefCounted
 
-const ATLASES := {
-	"archive": preload("res://assets/identity-archive-atlas-v1.png"), "signal": preload("res://assets/identity-signal-atlas-v1.png"),
-	"motion": preload("res://assets/identity-motion-atlas-v1.png"), "resonance": preload("res://assets/identity-resonance-atlas-v1.png"),
-	"glyph": preload("res://assets/identity-glyph-atlas-v1.png"), "circuit": preload("res://assets/identity-circuit-atlas-v1.png"),
-	"symbiosis": preload("res://assets/identity-symbiosis-atlas-v1.png"), "final": preload("res://assets/identity-final-atlas-v1.png"),
+## Un mondo usa una sola famiglia alla volta: queste tavole non devono entrare
+## tutte nel primo caricamento, né restare fissate in memoria fra due mondi.
+const ATLAS_PATHS := {
+	"archive": "res://assets/identity-archive-atlas-v1.png", "signal": "res://assets/identity-signal-atlas-v1.png",
+	"motion": "res://assets/identity-motion-atlas-v1.png", "resonance": "res://assets/identity-resonance-atlas-v1.png",
+	"glyph": "res://assets/identity-glyph-atlas-v1.png", "circuit": "res://assets/identity-circuit-atlas-v1.png",
+	"symbiosis": "res://assets/identity-symbiosis-atlas-v1.png", "final": "res://assets/identity-final-atlas-v1.png",
 }
+static var _atlas_cache: Dictionary = {}
 const FAMILIES := {
 	"archive": ["archive_shelf","archive_pillar","archive_scriptorium","number_stone","artifact_table","voice_shelf","echo_lectern","memory_lantern","roman_archive_pod","medieval_archive_pod"],
 	"signal": ["signal_buoy","radio_mast","signal_console","route_beacon","contour_plinth","dock_crane","passage_beacon","market_stall","connector_arch","pressure_buoy","current_vane","ballast_station"],
@@ -23,7 +26,7 @@ static func build(kind: String, variant: float = 0.5) -> Node2D:
 		var slot := (FAMILIES[family] as Array).find(kind)
 		if slot < 0: continue
 		var atlas := AtlasTexture.new()
-		atlas.atlas = ATLASES[family]
+		atlas.atlas = _atlas_for(str(family))
 		atlas.region = Rect2(float(slot % 4) * 256.0, float(slot / 4) * 256.0, 256.0, 256.0)
 		var root := Node2D.new()
 		root.name = "IdentityPropArt_%s" % kind
@@ -36,3 +39,13 @@ static func build(kind: String, variant: float = 0.5) -> Node2D:
 		root.add_child(sprite)
 		return root
 	return null
+
+
+static func release_texture_cache() -> void:
+	_atlas_cache.clear()
+
+
+static func _atlas_for(family: String) -> Texture2D:
+	if not _atlas_cache.has(family):
+		_atlas_cache[family] = load(str(ATLAS_PATHS.get(family, "")))
+	return _atlas_cache.get(family) as Texture2D

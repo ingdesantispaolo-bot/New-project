@@ -4,7 +4,7 @@ const WORLD_SCENE := preload("res://scenes/outdoor_world.tscn")
 const PLAYER := preload("res://scripts/player_controller.gd")
 
 ## C-P6 #7/#8: Eli usa le 4 direzioni del foglio a 20 frame; le anomalie
-## ostacolano senza sottrarre progresso e l'impulso è disponibile su tablet.
+## ostacolano senza sottrarre progresso e la corsa è disponibile su tablet.
 
 func _init() -> void:
 	call_deferred("_run")
@@ -66,9 +66,6 @@ func _run() -> void:
 	controller.velocity = Vector2.ZERO
 	controller.call("_animate", 0.2)
 	assert((sprite.texture as AtlasTexture).region.position.y == 0.0, "Eli cambia direzione quando si ferma")
-	controller.play_pulse_action()
-	controller.call("_animate", 0.01)
-	assert((sprite.texture as AtlasTexture).region.position.x == 384.0, "posa impulso assente")
 	controller.queue_free()
 
 	var initial := GameSaveManager._default_data()
@@ -131,36 +128,24 @@ func _run() -> void:
 			"Sbiadito senza iscrizione illeggibile")
 		assert(enemy.find_children("BrokenInscription_*", "Line2D", true, false).size() == 3,
 			"iscrizione spezzata non riconoscibile per forma")
-	var pulse := world.find_child("CombatPulseButton", true, false) as Button
-	assert(pulse != null and pulse.custom_minimum_size.x >= 64.0 and pulse.custom_minimum_size.y >= 64.0, "impulso touch insufficiente")
+	# **Il comando touch che deve esserci e' la corsa.** (21 agosto 2026)
+	# L'impulso e' stato tolto: `impulso_scatto_probe` ha misurato che dal
+	# mondo 2 in poi nessuna sacca costa energia, quindi non c'era piu' niente
+	# da comprare con una carica. Questo pulsante invece lavora sempre: su
+	# tablet e' l'unica corsa che esista.
+	var corsa := world.find_child("ScattoButton", true, false) as Button
+	assert(corsa != null and corsa.custom_minimum_size.x >= 64.0 and corsa.custom_minimum_size.y >= 64.0, "corsa touch insufficiente")
+	assert(str(corsa.text).begins_with("CORRI"), "il comando touch non dice per primo il verbo che si usa sempre")
 
 	var player: CharacterBody2D = world.get("player")
 	var first: Node2D = enemies[0]
 	first.global_position = player.global_position + Vector2(54, 0)
 	first.set("anchor", first.global_position)
-	var energy_before := int(world.get("game_save").energy())
-	# **L'impulso adesso si guadagna** (14 agosto 2026): non è più un cooldown che
-	# si ricarica da solo, è una carica che si ottiene superando prove. Qui si
-	# misura la meccanica dello stordimento, non l'economia — quella la tiene
-	# `pulse_economy_audit` — quindi la carica si accredita esplicitamente, con lo
-	# stesso gesto che la darebbe al giocatore: prove superate.
-	for _prova in range(PulseCharge.PROVE_PER_CARICA):
-		PulseCharge.accredita(world.get("game_save"))
-	world.call("_combat_pulse")
-	await process_frame
-	assert(bool(first.call("is_stunned")), "l'impulso non stabilizza l'anomalia vicina")
-	assert(bool(first.get_meta("stabilized", false)), "l'impulso non marca lo Sbiadito come leggibile")
-	assert(first.visible and first.modulate.a >= 0.9 and first.scale.x >= 0.9,
-		"stabilizzare elimina lo Sbiadito invece di renderlo leggibile")
-	assert(int(world.get("game_save").energy()) == energy_before, "il combattimento non deve tassare l'energia didattica")
-	# Spesa l'unica carica, il pulsante deve dirlo: un comando che sembra pronto e
-	# non fa niente è peggio di un comando spento.
-	assert(pulse.disabled, "serbatoio dell'impulso vuoto non comunicato al touch")
-
 	var second: Node2D = enemies[1]
 	second.global_position = player.global_position - Vector2(28, 0)
 	var before_contact := player.global_position
 	var save_prima: GameSaveManager = world.get("game_save")
+	var energy_before := int(save_prima.energy())
 	var materia := str(world.call("_world_subject"))
 	var mastery_before := float(save_prima.mastery_of(materia))
 	world.call("_on_enemy_contact", second, player)
@@ -184,5 +169,5 @@ func _run() -> void:
 
 	world.queue_free()
 	await process_frame
-	print("ELI/ENEMY audit OK — 20 frame direzionali, ostacoli per livello e impulso touch non punitivo")
+	print("ELI/ENEMY audit OK — 20 frame direzionali, ostacoli per livello e corsa touch non punitiva")
 	quit(0)

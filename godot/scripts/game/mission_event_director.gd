@@ -28,6 +28,23 @@ const GATE_SURPLUS := 2            # eventi-gate oltre il minimo (offre scelta)
 const SEMANTIC_MIN_SPACING := 176.0
 const SEMANTIC_MAX_SITE_OFFSET := 420.0
 
+## **Quanto e' lungo un passo del filo delle palestre.** (21 agosto 2026)
+##
+## Oltre questa distanza dalla stazione precedente il premio di vicinanza si
+## annulla e il luogo torna a valere per le sue sole affordance.
+##
+## **Non produce una catena stretta, e non puo'.** Misurato: alzare il premio non
+## accorcia il passo fra due stazioni consecutive — il collo di bottiglia e' la
+## **capienza dei luoghi**, non il punteggio. Undici palestre piu' otto eventi di
+## gate non entrano nei socket di un quartiere solo, e a un certo punto il filo
+## deve spostarsi.
+##
+## Quello che l'ancora ottiene davvero, e che e' cio' che serviva, e' **raccogliere
+## le palestre in meno quartieri**: da 4,2 di media a 2,9, e nel mondo peggiore da
+## undici quartieri distinti a cinque. Non e' una collana: e' un quartiere degli
+## allenamenti, che e' la cosa che si puo' imparare a memoria e tornare a cercare.
+const PASSO_DEL_FILO := 700.0
+
 ## Quanti eventi della materia DEL MONDO popolano il mondo. Non è più il requisito
 ## del gate — dal 30 luglio il livello non conta le missioni — ma quanto la materia
 ## ospite è presente: è la sua dominanza, resa in numero di POI.
@@ -139,6 +156,9 @@ static func _distributed_position(
 ##
 ## Il ritorno conserva anche l'identita' del posto: scena, bussola e audit non
 ## devono piu' dedurre a posteriori perche' una prova sia finita li'.
+## `ancora` e' la novita' del 21 agosto 2026 ed e' quello che trasforma undici
+## punti sparsi in un filo: quando e' valida, il punteggio premia i luoghi
+## **vicini a lei** invece di allontanarli. La usano solo le palestre.
 static func _semantic_placement(
 	rng: RandomNumberGenerator,
 	composition: WorldCompositionData,
@@ -153,7 +173,8 @@ static func _semantic_placement(
 	events: Array,
 	fallback_t: float,
 	fallback_min_r: float,
-	fallback_max_r: float
+	fallback_max_r: float,
+	ancora := Vector2.INF
 ) -> Dictionary:
 	if composition == null or composition.activity_sockets.is_empty():
 		return _fallback_placement(
@@ -186,9 +207,27 @@ static func _semantic_placement(
 			if tags.has(str(tag_data)):
 				score += 34.0
 		score += _role_score(event_kind, role)
-		# Le prove dello stesso giro formano costellazioni, non un unico mucchio:
-		# riusare un quartiere e' lecito, saturare sempre lo stesso no.
-		score -= float(cluster_usage.get(cluster_id, 0)) * 18.0
+		if ancora == Vector2.INF:
+			# Gli eventi del gate formano costellazioni, non un unico mucchio:
+			# riusare un quartiere e' lecito, saturare sempre lo stesso no. Devono
+			# offrire una scelta di rotta, e una scelta vuole distanza.
+			score -= float(cluster_usage.get(cluster_id, 0)) * 18.0
+		else:
+			# **Le palestre no: quelle stanno in fila.** (21 agosto 2026)
+			#
+			# Segnalazione di gioco: «gli ingressi sono icone sparse a caso». Lo
+			# erano per costruzione — la riga qui sopra le allontanava di
+			# proposito. Era giusta per gli eventi del gate e sbagliata per le
+			# palestre, che non sono un percorso da scegliere ma un **servizio**:
+			# undici servizi sparsi su duemila unita' di mappa non si usano.
+			#
+			# Qui il quartiere ripetuto diventa un pregio, e la vicinanza
+			# all'ancora — la stazione precedente del filo — pesa piu' di ogni
+			# altra cosa. Il risultato e' una catena che si percorre invece di
+			# undici deviazioni che si rimandano.
+			score += float(cluster_usage.get(cluster_id, 0)) * 12.0
+			var quanto: float = ancora.distance_to(Vector2(socket.get("position", spawn)))
+			score += maxf(0.0, 1.0 - quanto / PASSO_DEL_FILO) * 340.0
 		score -= float(used) * 58.0
 		if used >= capacity:
 			score -= 180.0 + float(used - capacity) * 70.0
@@ -479,6 +518,9 @@ static func plan(profile: Dictionary, context: Dictionary, world_seed: String) -
 	# quindi delle tabelline arrugginite al mondo 12 non tornavano mai.
 	var reach := float(profile["eventPools"].get("reachRadius", 1900.0))
 	var others := other_subjects(subject)
+	## La stazione precedente del filo. Vuota per la prima, che nasce dove la
+	## semantica la vuole: il filo parte da un luogo sensato, non da un punto.
+	var ancora_del_filo := Vector2.INF
 	for j in others.size():
 		var other := str(others[j])
 		var idx := gate_total + j
@@ -502,10 +544,15 @@ static func plan(profile: Dictionary, context: Dictionary, world_seed: String) -
 		# nuova non è quella vecchia — e nella posizione, perché deve nascere
 		# ALTROVE: ritrovarla nello stesso punto sarebbe la stessa location, e la
 		# segnalazione di gioco del 6 agosto nasce proprio da lì.
+		# **Il filo.** La prima palestra nasce dove la semantica la vuole; ognuna
+		# delle successive si ancora a quella prima. L'ordine e' quello del ciclo
+		# delle materie, quindi il filo e' **lo stesso in tutti i mondi**: chi ha
+		# imparato che il latino viene dopo l'inglese lo ritrova al mondo dopo.
 		var placement := _semantic_placement(
 			rng, composition, spawn, ship, safe_radius, half_extent,
 			"practice", fmt2, other, idx + giro * 5, events, t2,
-			GATE_MAX_R, reach + 350.0)
+			GATE_MAX_R, reach + 350.0, ancora_del_filo)
+		ancora_del_filo = placement["position"]
 		events.append({
 			"id": "evt-%d-practice-%s-r%d" % [level, other, giro],
 			"kind": "practice",

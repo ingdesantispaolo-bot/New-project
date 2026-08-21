@@ -11,7 +11,7 @@ var high_contrast := false
 var reduced_motion := false
 
 static func supports(id: String) -> bool:
-	return id in ["w01-tobia", "w01-ersilia", "w02-corinna", "w02-bruno", "w03-ruggine", "w03-sesto"]
+	return id in ["w01-tobia", "w01-ersilia", "w02-corinna", "w02-bruno", "w03-ruggine", "w03-sesto", "w04-marea", "w04-lino", "w05-gerbo", "w05-tilla"]
 
 func configure(id: String, value: int, use_high_contrast: bool, use_reduced_motion: bool) -> void:
 	resident_id = id
@@ -41,6 +41,14 @@ func _semantic() -> String:
 			return "working-cycle" if stage >= 2 else "counted-loop" if stage == 1 else "hand-crank"
 		"w03-sesto":
 			return "restored-toolbox" if stage >= 2 else "remembered-gesture" if stage == 1 else "scattered-tools"
+		"w04-marea":
+			return "open-signal-route" if stage >= 2 else "tuned-receiver" if stage == 1 else "silent-receiver"
+		"w04-lino":
+			return "shared-message-flags" if stage >= 2 else "ordered-flags" if stage == 1 else "folded-flags"
+		"w05-gerbo":
+			return "balanced-loads" if stage >= 2 else "marked-loads" if stage == 1 else "uneven-loads"
+		"w05-tilla":
+			return "moving-workshop" if stage >= 2 else "ready-lever" if stage == 1 else "stalled-lever"
 	return ""
 
 func _draw() -> void:
@@ -57,6 +65,14 @@ func _draw() -> void:
 			_draw_ruggine()
 		"w03-sesto":
 			_draw_sesto()
+		"w04-marea":
+			_draw_marea()
+		"w04-lino":
+			_draw_lino()
+		"w05-gerbo":
+			_draw_gerbo()
+		"w05-tilla":
+			_draw_tilla()
 
 func _draw_tobia() -> void:
 	var crystal := Color.WHITE if high_contrast else Color("84e8d4")
@@ -173,6 +189,59 @@ func _draw_sesto() -> void:
 	if stage >= 2:
 		draw_rect(Rect2(-61, -48, 122, 15), tool, true)
 		draw_rect(Rect2(-61, -48, 122, 15), edge, false, 2.0)
+
+func _draw_marea() -> void:
+	var wire := Color.WHITE if high_contrast else Color("76dff5")
+	var edge := Color.BLACK if high_contrast else Color("31536c")
+	draw_ellipse_shadow(Vector2(0, 25), Vector2(76, 17))
+	draw_rect(Rect2(-18, -10, 36, 31), edge, true)
+	draw_rect(Rect2(-14, -6, 28, 23), wire, true)
+	if stage >= 1:
+		draw_arc(Vector2(0, 5), 35, PI * 1.18, PI * 1.82, 20, wire, 2.5)
+	if stage >= 2:
+		for x in [-50.0, 50.0]:
+			draw_line(Vector2(0, 5), Vector2(x, -26), wire, 2.5)
+			draw_circle(Vector2(x, -26), 6.0, wire)
+
+func _draw_lino() -> void:
+	var cloth := Color.WHITE if high_contrast else Color("f0bf72")
+	var edge := Color.BLACK if high_contrast else Color("6d4935")
+	draw_ellipse_shadow(Vector2(0, 25), Vector2(76, 17))
+	for index in 4:
+		var p := Vector2(-54 + index * 32, 4)
+		draw_rect(Rect2(p, Vector2(22, 18)), cloth if stage > 0 else edge, true)
+		if stage >= 1:
+			draw_line(p + Vector2(11, 0), p + Vector2(11, -34), edge, 2.0)
+	if stage >= 2:
+		draw_line(Vector2(-60, -31), Vector2(60, -31), cloth, 3.0)
+
+func _draw_gerbo() -> void:
+	var load := Color.WHITE if high_contrast else Color("e7c47d")
+	var edge := Color.BLACK if high_contrast else Color("5d4733")
+	draw_ellipse_shadow(Vector2(0, 25), Vector2(76, 17))
+	for index in 3:
+		var height := 18.0 if stage == 0 and index == 1 else 28.0
+		var rect := Rect2(-51 + index * 38, 18 - height, 28, height)
+		draw_rect(rect, load, true)
+		draw_rect(rect, edge, false, 2.0)
+		if stage >= 1:
+			draw_line(Vector2(rect.get_center().x, rect.position.y), Vector2(rect.get_center().x, 24), edge, 1.5)
+	if stage >= 2:
+		draw_line(Vector2(-60, 25), Vector2(60, 25), edge, 3.0)
+
+func _draw_tilla() -> void:
+	var metal := Color.WHITE if high_contrast else Color("b9c9d2")
+	var accent := Color.WHITE if high_contrast else Color("ffcb68")
+	var edge := Color.BLACK if high_contrast else Color("3d4d59")
+	draw_ellipse_shadow(Vector2(0, 25), Vector2(76, 17))
+	draw_rect(Rect2(-48, -5, 96, 24), metal, true)
+	draw_rect(Rect2(-48, -5, 96, 24), edge, false, 2.0)
+	draw_line(Vector2(-8, -5), Vector2(20, -42), edge, 5.0)
+	if stage >= 1:
+		draw_circle(Vector2(20, -42), 8.0, accent)
+	if stage >= 2:
+		for x in [-34.0, 0.0, 34.0]:
+			draw_circle(Vector2(x, 28), 8.0, accent)
 
 func _draw_crystal(center: Vector2, radius: float, fill: Color, edge: Color) -> void:
 	var points := PackedVector2Array([

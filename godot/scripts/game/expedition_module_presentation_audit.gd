@@ -1,19 +1,28 @@
 extends SceneTree
 
 ## C-G4: la scena disegna numeri pubblicati dal runtime, senza conoscere
-## acquisti o regole. Verifica anche che i cinque moduli abbiano vere regioni
-## nell'atlante premi e che i tre gia' in vendita non usino piu' il glifo di
-## ripiego.
+## acquisti o regole. Verifica anche che ogni modulo abbia una vera regione
+## nell'atlante premi e non il glifo di ripiego.
+##
+## **La lista non e' piu' scritta a mano.** (21 agosto 2026) Erano cinque nomi
+## fissi, e due — «module-tank» e «module-coil» — sono usciti col ritiro
+## dell'impulso: l'audit ha continuato a pretenderne l'illustrazione ed e'
+## diventato rosso su una voce che nessuno vende piu'. Adesso legge i moduli in
+## vendita da [[ExpeditionModules]] e ci somma quelli riservati a C-G4, cosi'
+## togliere o aggiungere un modulo non lascia indietro questo file.
 
 const PRESENTATION := preload("res://scripts/visual/expedition_module_presentation.gd")
 const SHOP := preload("res://scripts/ui/outdoor_shop_panel.gd")
-const MODULE_ART_IDS := [
-	"module-tank",
-	"module-coil",
-	"module-stride",
-	"module-radar",
-	"module-torch",
-]
+## Le illustrazioni riservate a C-G4: esistono nel foglio premi ma i due moduli
+## non sono ancora in vendita. Restano qui finche' non entrano nel catalogo.
+const MODULE_ART_RISERVATE := ["module-radar", "module-torch"]
+
+static func _module_art_ids() -> Array:
+	var fuori: Array = ExpeditionModules.ids().duplicate()
+	for id in MODULE_ART_RISERVATE:
+		if not fuori.has(id):
+			fuori.append(id)
+	return fuori
 
 
 func _treasure(host: Node2D, id: String, position: Vector2) -> Area2D:
@@ -39,7 +48,7 @@ func _init() -> void:
 
 	var shop := SHOP.new()
 	shop.call("_load_atlas_regions")
-	for id in MODULE_ART_IDS:
+	for id in _module_art_ids():
 		var texture = shop.call("_item_texture", id)
 		assert(texture is AtlasTexture, "illustrazione modulo fuori atlante: %s" % id)
 		assert((texture as AtlasTexture).region.size == Vector2(128, 128),

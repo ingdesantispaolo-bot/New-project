@@ -7,6 +7,12 @@ extends SceneTree
 
 const FIXTURE_SEED := "semantic-placement-fixture"
 
+## I due tetti del quartiere degli allenamenti, misurati sul caso peggiore dei
+## ventiquattro mondi il 21 agosto 2026. Prima dell'ancora erano undici
+## quartieri e 1993 unita' di raggio.
+const QUARTIERI_MASSIMI := 6
+const RAGGIO_MASSIMO := 2300.0
+
 func _init() -> void:
 	for level in range(1, WorldProfileCatalog.MAX_LEVEL + 1):
 		var profile := WorldProfileCatalog.profile(level)
@@ -41,6 +47,8 @@ func _init() -> void:
 		}
 		var events := MissionEventDirector.plan(profile, context, FIXTURE_SEED)
 		var gate_clusters: Dictionary = {}
+		var filo: Array = []
+		var filo_cluster: Array = []
 		for event_data in events:
 			var event: Dictionary = event_data
 			assert(str(event.get("placementModel", "")) == "semantic",
@@ -62,8 +70,46 @@ func _init() -> void:
 				"mondo %d: evento troppo lontano dal luogo dichiarato" % level)
 			if bool(event.get("countsForGate", false)):
 				gate_clusters[str(event.get("locationCluster", ""))] = true
+			elif str(event.get("kind", "")) == "practice":
+				filo.append(event_position)
+				filo_cluster.append(str(event.get("locationCluster", "")))
 		assert(gate_clusters.size() >= 3,
 			"mondo %d: gate concentrato in %d sole costellazioni" % [level, gate_clusters.size()])
 
-	print("Semantic placement audit OK - 24 mondi: luoghi nominati, costellazioni e segnali di scoperta")
+		# **Il quartiere degli allenamenti.** (21 agosto 2026)
+		#
+		# Gli eventi del gate devono stare in costellazioni diverse — e' l'assert
+		# qui sopra, e serve a offrire una scelta di rotta. Le palestre vogliono
+		# l'opposto: sono un **servizio**, e undici servizi sparsi su duemila
+		# unita' non si usano. Segnalazione di gioco: «icone sparse a caso».
+		#
+		# **La misura giusta e' il numero di quartieri, non il passo fra due
+		# stazioni.** La prima stesura di questa guardia contava il passo, ed era
+		# sbagliata: alzare il premio di vicinanza non lo accorcia, perche' il
+		# collo di bottiglia e' la capienza dei luoghi. Quello che l'ancora
+		# ottiene davvero e' raccogliere le palestre in **meno quartieri**, e
+		# quello e' anche cio' che un bambino puo' imparare a memoria.
+		#
+		# I due tetti sono il caso peggiore misurato sui 24 mondi il giorno in cui
+		# la guardia e' nata. Si abbassano, non si alzano.
+		assert(filo.size() >= 6,
+			"mondo %d: solo %d palestre, non c'e' un quartiere da misurare" % [level, filo.size()])
+		var quartieri: Dictionary = {}
+		for cluster_data in filo_cluster:
+			quartieri[str(cluster_data)] = true
+		assert(quartieri.size() <= QUARTIERI_MASSIMI,
+			"mondo %d: le palestre finiscono in %d quartieri diversi (tetto %d): sono tornate sparse" % [
+				level, quartieri.size(), QUARTIERI_MASSIMI])
+		var centro := Vector2.ZERO
+		for punto in filo:
+			centro += Vector2(punto)
+		centro /= float(filo.size())
+		var raggio := 0.0
+		for punto in filo:
+			raggio = maxf(raggio, centro.distance_to(Vector2(punto)))
+		assert(raggio <= RAGGIO_MASSIMO,
+			"mondo %d: il gruppo delle palestre ha raggio %.0f (tetto %.0f)" % [
+				level, raggio, RAGGIO_MASSIMO])
+
+	print("Semantic placement audit OK - 24 mondi: luoghi nominati, costellazioni, segnali di scoperta e filo delle palestre")
 	quit(0)

@@ -9,8 +9,40 @@ sostituisce il vecchio contratto Phaser → Godot.
 
 - `GIOCA` apre il mondo;
 - il portale entra nella nave;
-- `TORNA AL MONDO` e `Esc` dalla nave riaprono il mondo;
+- `TORNA AL MONDO` dalla nave riapre il mondo;
+- `PAUSA` (o `Esc`) apre il menu di pausa, da mondo e da nave;
 - non esistono redirect, ricariche pagina, `returnUrl` o result file esterni.
+
+## Il menu di pausa (21 agosto 2026)
+
+`PauseMenuPanel` e' un solo pannello condiviso da `outdoor_world.gd` e
+`hub_scene.gd`: stessi comandi, stesso ordine, in tutte e due le scene. Fino al
+20 agosto il ritorno al menu principale esisteva **solo nella nave**, e riavviare
+o cambiare giocatore non esistevano da nessuna parte.
+
+| Comando | Che cosa fa | Che cosa NON tocca |
+|---|---|---|
+| `RIPRENDI` | toglie `get_tree().paused` e chiude | — |
+| `RIAVVIA IL MONDO` | `clear_world_resume` + rientro in `outdoor_world.tscn` | incontri risolti, tesori, maestria, frammenti |
+| `CAMBIA GIOCATORE` | `ProfilePanel` -> `set_active` -> entra nel mondo di quel bambino | il salvataggio di chi esce, gia' scritto all'apertura |
+| `MENU PRINCIPALE` | `boot_menu.tscn` | niente: la partita e' gia' salvata |
+
+Tre regole che il pannello non negozia:
+
+- **aprirlo salva.** Da qui si esce in tre modi e tutti e tre cambiano scena:
+  farlo una volta sola all'apertura e' l'unico modo per non doverlo ricordare
+  tre volte, e per poter scrivere sul pannello che la partita e' al sicuro;
+- **riavviare e' rifare il giro, non rifare la scuola.** Si cancella solo la
+  posizione e l'ora (`resume`). Restituire i tesori renderebbe il riavvio il
+  modo piu' veloce di guadagnare frammenti che il gioco abbia;
+- **il cambio di giocatore non passa dal menu d'avvio.** Due fratelli che si
+  alternano lo fanno dieci volte in un pomeriggio, e ogni passaggio in piu' e'
+  un motivo per non farlo e giocare sopra la partita dell'altro.
+
+Il pannello non si apre sopra una prova, un dialogo o un minigioco: quelli hanno
+gia' la loro uscita, e due tasti «esci» sovrapposti insegnano che uno dei due
+perde il lavoro. Le viste reali stanno in `artifacts/pausa/`
+(`pause_menu_render_probe.gd`).
 
 ## Stato
 

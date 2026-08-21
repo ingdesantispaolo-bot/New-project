@@ -86,13 +86,22 @@ const CATALOG := [
 	# lo vieta. Il radar dei forzieri e il raggio della torcia stanno nel piano
 	# come C-G4 e entreranno quando la resa esisterà, non prima.
 	#
-	# Tutti e tre agiscono **sulla mappa e mai su una prova**: è la decisione
-	# vincolante 15, ed è ciò che rende lecito vendere potere in un gioco che si
-	# studia. Costano insieme 950 energia, cioè l'1,3% del catalogo: la scelta in
-	# bottega esiste e il sink estetico non se ne accorge.
-	{"id": "module-tank", "slot": "module", "name": "Serbatoio ampliato", "description": "Una carica d'impulso in più prima di doverne riguadagnare.", "origine": "Cella di riserva dei Dodici: ne portavano sempre una oltre il necessario, perché il necessario si calcola sempre male.", "cost": 250, "glyph": "◈", "color": 0x8ff6d2, "minLevel": 2},
-	{"id": "module-coil", "slot": "module", "name": "Bobina larga", "description": "L'impulso stabilizza le sacche in un raggio più ampio.", "origine": "Avvolgimento da officina, rifatto a mano da Ruggine finché non le è venuto tondo.", "cost": 400, "glyph": "◎", "color": 0x9ff5e9, "minLevel": 3},
+	# Agiscono **sulla mappa e mai su una prova**: è la decisione vincolante 15,
+	# ed è ciò che rende lecito vendere potere in un gioco che si studia.
+	#
+	# **Erano altri tre fino al 21 agosto 2026.** «Serbatoio ampliato» e «Bobina
+	# larga» potenziavano l'impulso, che è stato tolto: `costo_delle_sacche_probe`
+	# ha misurato che dal mondo 2 in poi nessuna sacca costa energia, quindi
+	# quelle due voci vendevano un potenziamento a una meccanica senza lavoro.
+	# Al loro posto due numeri che il grado di Eli non azzera: quanto lontano una
+	# sacca la nota, e quanto la butta indietro uno spintone.
+	#
+	# Chi tocca questo elenco deve rigenerare il foglio premi
+	# (`npm run assets:reward`): senza, la bottega resta senza illustrazione e
+	# `shop_presentation_audit` diventa rosso.
 	{"id": "module-stride", "slot": "module", "name": "Passo lungo", "description": "Lo scatto porta più lontano nello stesso tempo.", "origine": "Sospensioni della tuta da ricognizione. Servivano a tornare prima, non ad andare oltre.", "cost": 300, "glyph": "⇉", "color": 0xffb85c, "minLevel": 2},
+	{"id": "module-hush", "slot": "module", "name": "Andatura felpata", "description": "Le sacche di Silenzio ti notano solo da vicino.", "origine": "Suole di feltro dei turni di notte: i Dodici le mettevano per non svegliare chi dormiva, e hanno scoperto che non svegliavano nemmeno il Silenzio.", "cost": 340, "glyph": "◌", "color": 0x8ff6d2, "minLevel": 3},
+	{"id": "module-ballast", "slot": "module", "name": "Zavorra da campo", "description": "Uno spintone ti sposta molto meno.", "origine": "Piombo cucito nell'orlo della tuta. Ruggine dice che il trucco è antico quanto il vento: chi pesa di più resta dov'era.", "cost": 380, "glyph": "▰", "color": 0x9fd8ff, "minLevel": 3},
 	{"id": "nora-lens", "slot": "upgrade", "name": "Lente causale", "description": "La lente con cui NORA guardava i guasti quando aveva ancora gli occhi della nave.", "origine": "Ritrovata nel primo apparato riparato. Non serve a vedere meglio: serve a ricordarsi di guardare.", "cost": 360, "glyph": "◇"},
 	{"id": "nora-reserve", "slot": "upgrade", "name": "Riserva di bordo", "description": "Una cella di scorta che si illumina piano nella sala macchine.", "origine": "I Dodici ne tenevano una per ciascuno. Undici sono ancora cariche.", "cost": 760, "glyph": "⟡"},
 	{"id": "nora-shield", "slot": "upgrade", "name": "Paratia rinforzata", "description": "La lastra che ha tenuto il ponte quando tutto il resto ha ceduto.", "origine": "Ha una crepa che nessuno ha mai riparato. NORA dice di lasciarla dov’è.", "cost": 980, "glyph": "⬡"},

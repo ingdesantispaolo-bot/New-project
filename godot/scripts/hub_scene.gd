@@ -24,18 +24,15 @@ var progress_report: LocalProgressReport
 var exercise_player: ExercisePlayer
 var knowledge_codex_panel: KnowledgeCodexPanel
 
-## I dodici colori delle materie, gli stessi con cui i mondi tingono la notte
-## (`outdoor_world._configure_profile_palette`). Servono al nucleo prismatico.
-const PRISMA_COLORI := {
-	"matematica": Color("6be7d6"), "italiano": Color("e9a86d"),
-	"coding": Color("8fa7ff"), "inglese": Color("72c9ff"),
-	"fisica": Color("a2d8ff"), "musica": Color("d7a0ff"),
-	"latino": Color("d4b17a"), "elettronica": Color("79e7ff"),
-	"geografia": Color("7fd19b"), "scienze": Color("91dc72"),
-	"storia": Color("f2c96d"), "logica": Color("b7a2ff"),
-}
+## I dodici colori del nucleo prismatico. Sono gli stessi con cui i mondi
+## tingono la notte e con cui le palestre si riconoscono da lontano: dal
+## 21 agosto 2026 la tabella e' una sola, in [[SubjectPalette]]. Perche' il
+## nucleo sia il «ritratto» che la bottega promette, il colore di una materia
+## deve essere lo stesso in tutti i posti in cui quella materia compare.
 
 var current_room_id := ShipRoomCatalog.DEFAULT_ROOM
+var ui_layer: CanvasLayer
+var pause_menu: PauseMenuPanel
 var room_state: Dictionary = {}
 var background: TextureRect
 var background_material: ShaderMaterial
@@ -147,6 +144,8 @@ func _build_scene() -> void:
 	var ui := CanvasLayer.new()
 	ui.name = "ShipUI"
 	add_child(ui)
+	# Tenuto: la pausa nasce quando serve e deve poterci salire sopra.
+	ui_layer = ui
 
 	var screen := Control.new()
 	screen.name = "ShipScreen"
@@ -258,13 +257,17 @@ func _build_header(parent: VBoxContainer) -> void:
 	# Sta qui e non nel mondo di proposito: la nave è la base a cui si torna da
 	# ogni mondo, ed è il posto in cui ci si ferma. Un'uscita in mezzo a una
 	# passeggiata sarebbe una porta di troppo accanto a una prova.
+	# **Dal 21 agosto 2026 apre la pausa invece di uscire.** Il pulsante
+	# prometteva gia' tre cose nel suo tooltip e ne faceva una sola: portava
+	# fuori. Adesso le tre cose ci sono davvero, e sono le stesse che si
+	# trovano nel mondo aperto, nello stesso ordine.
 	var menu_button := Button.new()
 	menu_button.name = "MainMenuButton"
-	menu_button.text = "MENU"
-	menu_button.tooltip_text = "Cambia giocatore, guarda i progressi, ricomincia"
+	menu_button.text = "PAUSA"
+	menu_button.tooltip_text = "Riavvia il mondo, cambia giocatore, torna al menu"
 	menu_button.custom_minimum_size = Vector2(92, 48)
 	menu_button.add_theme_font_size_override("font_size", 12)
-	menu_button.pressed.connect(_torna_al_menu)
+	menu_button.pressed.connect(_apri_pausa)
 	row.add_child(menu_button)
 
 	var log_button := Button.new()
@@ -1256,6 +1259,72 @@ func _set_activation_burst(value: float) -> void:
 	if is_instance_valid(power_overlay):
 		power_overlay.burst = value
 
+# --- La pausa ------------------------------------------------------------------
+#
+# **Le tre uscite, anche qui.** (21 agosto 2026) Il pannello e' [[PauseMenuPanel]]
+# ed e' lo stesso del mondo aperto: stessi comandi, stesso ordine, stesso posto.
+# Cambia solo che cosa vuol dire riavviare, perche' dalla nave nel mondo ci si
+# entra invece di restarci.
+
+## Aprire la pausa salva, come nel mondo: da qui si esce in tre modi e tutti e
+## tre cambiano scena.
+func _apri_pausa() -> void:
+	if is_instance_valid(exercise_player) and exercise_player.visible:
+		return
+	if is_instance_valid(knowledge_codex_panel) and knowledge_codex_panel.visible:
+		return
+	if is_instance_valid(save):
+		save.save()
+	if not is_instance_valid(pause_menu):
+		pause_menu = PauseMenuPanel.new()
+		pause_menu.name = "PauseMenuPanel"
+		pause_menu.riavvio_chiesto.connect(_riavvia_mondo)
+		pause_menu.giocatore_scelto.connect(_cambia_giocatore)
+		pause_menu.menu_chiesto.connect(_torna_al_menu)
+		ui_layer.add_child(pause_menu)
+	pause_menu.move_to_front()
+	var mondo := save.current_world()
+	var profilo := WorldProfileCatalog.profile(mondo)
+	pause_menu.apri(
+		_nome_del_giocatore(),
+		"Nave · %s" % str(ShipRoomCatalog.room(current_room_id).get("label", "ponte")),
+		"RIAVVIA IL MONDO",
+		"Rientri nel mondo %d (%s) dal portale, all'ora in cui comincia. Prove superate, tesori e frammenti restano tuoi." % [
+			mondo, str(profilo.get("title", ""))],
+		true,
+		bool(Dictionary(save.data.get("accessibility", {})).get("highContrast", false)))
+
+func _nome_del_giocatore() -> String:
+	if PlayerProfiles.has_profiles():
+		return str(PlayerProfiles.active().get("name", "Giocatore 1"))
+	return "Giocatore 1"
+
+## Dalla nave, riavviare vuol dire **rientrare nel mondo dal principio**: si
+## cancella dov'era rimasto e si entra. Come nel mondo aperto non tocca niente
+## di quello che e' stato imparato o raccolto: un riavvio che restituisse i
+## tesori sarebbe il modo piu' veloce di guadagnare frammenti che il gioco abbia.
+func _riavvia_mondo() -> void:
+	if is_instance_valid(save):
+		save.clear_world_resume(str(save.current_world()))
+		save.save()
+	if is_instance_valid(pause_menu):
+		pause_menu.congeda()
+	_stage_world_launch("riavvio-nave")
+	get_tree().change_scene_to_file("res://scenes/outdoor_world.tscn")
+
+## Il cambio di giocatore porta **nel mondo dell'altro bambino**, non al menu:
+## due fratelli che si alternano lo fanno dieci volte in un pomeriggio, e ogni
+## passaggio in piu' e' un motivo per non farlo e giocare sopra la partita
+## dell'altro. La sua partita e' gia' salvata dall'apertura della pausa, e senza
+## richiesta preparata il mondo legge il salvataggio del profilo attivo.
+func _cambia_giocatore(id: String) -> void:
+	PlayerProfiles.set_active(id)
+	PlayerProfiles.touch(id)
+	if is_instance_valid(pause_menu):
+		pause_menu.congeda()
+	NativeWorldState.stage_launch_request({})
+	get_tree().change_scene_to_file("res://scenes/outdoor_world.tscn")
+
 ## Salva e torna al menu principale.
 ##
 ## Il salvataggio esplicito PRIMA del cambio di scena non è prudenza generica:
@@ -1265,6 +1334,8 @@ func _set_activation_burst(value: float) -> void:
 func _torna_al_menu() -> void:
 	if is_instance_valid(save):
 		save.save()
+	if is_instance_valid(pause_menu):
+		pause_menu.congeda()
 	get_tree().change_scene_to_file("res://scenes/boot_menu.tscn")
 
 func _show_ship_log() -> void:
@@ -1286,6 +1357,8 @@ func _refresh_pet_face() -> void:
 		return
 	pet_face.visible = PetState.is_granted(save)
 	var accessibility: Dictionary = save.data.get("accessibility", {})
+	var pet_id := rewards.equipped_id("pet") if is_instance_valid(rewards) else ""
+	var pet_kind := (pet_id if not pet_id.is_empty() else "pet-spark").trim_prefix("pet-")
 	pet_face.configure(
 		PetState.name_of(save),
 		PetState.livery(save),
@@ -1293,7 +1366,8 @@ func _refresh_pet_face() -> void:
 		PetState.resting_face(save),
 		PetState.bond(save),
 		PetState.faces(save),
-		bool(accessibility.get("reducedMotion", false)))
+		bool(accessibility.get("reducedMotion", false)),
+		pet_kind)
 
 func _pet_react(game_signal: String) -> void:
 	set_meta("last_pet_signal", game_signal)
@@ -1344,13 +1418,20 @@ func _stage_world_launch(seed: String) -> void:
 	NativeWorldState.stage_launch_request(request)
 
 func _unhandled_input(event: InputEvent) -> void:
+	if is_instance_valid(pause_menu) and pause_menu.aperto():
+		if event.is_action_pressed("ui_cancel"):
+			pause_menu.chiudi()
+			get_viewport().set_input_as_handled()
+		return
 	if is_instance_valid(knowledge_codex_panel) and knowledge_codex_panel.visible:
 		return
 	if event.is_action_pressed("ui_cancel") and not exercise_player.visible:
 		if is_instance_valid(world_map_overlay) and world_map_overlay.visible:
 			_hide_world_map()
 		else:
-			_return_to_world()
+			# Esc ferma il gioco, come nel mondo. Il rientro nel mondo resta il
+			# suo pulsante grande, che l'audit di navigazione gia' presidia.
+			_apri_pausa()
 	elif not exercise_player.visible and is_instance_valid(bridge_walkway):
 		if event is InputEventScreenTouch and event.pressed:
 			bridge_walkway.set_touch_target(event.position)
@@ -1436,7 +1517,7 @@ func _refresh_prismatic_portrait() -> void:
 		var punto := centro + Vector2(cos(angolo), sin(angolo)) * raggio
 		# Una brace resta accesa anche a zero: una materia mai toccata è buia, non
 		# assente. Toglierla direbbe che quella parte di Eli non esiste.
-		var colore: Color = PRISMA_COLORI.get(materia, Color("9ff5e9"))
+		var colore: Color = SubjectPalette.colore(materia)
 		var alone := OutdoorVisualFactory.make_glow(
 			9.0 + quota * 13.0, colore, 0.16 + quota * 0.5)
 		alone.position = punto

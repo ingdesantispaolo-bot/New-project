@@ -836,19 +836,27 @@ func _apply_state(state: Dictionary) -> void:
 		var subject := ApparatusConfig.world_subject(save.level())
 		var mastery := save.mastery_of(subject)
 		var threshold := float(current_gate.get("masteryThreshold", 0.7))
-		# La barra mostra i compiti del mondo corrente: sono quelli che aprono il
-		# livello. La padronanza della materia della stanza apre l'apparato.
+		# La barra riassume le dodici materie: sono quelle che aprono il livello.
+		# La padronanza della materia della stanza apre l'apparato.
+		#
+		# Si chiede alla progressione invece che a `GateReadiness` direttamente: la
+		# valutazione ha bisogno del conteggio degli argomenti proponibili per
+		# materia, e chi la interroga a mano lo dimentica — la copertura ripiega
+		# allora sul minimo assoluto e il terminale mostra un numero più generoso
+		# di quello vero.
 		var core := controller.progression.readiness()
+		var in_linea := ApparatusConfig.SUBJECT_CYCLE.size() - Array(core.get("missing", [])).size()
 		# Già superata a questo livello: il terminale non deve mandare a rifare
 		# missioni per una materia chiusa. Era la scritta che compariva, ed è
 		# peggio di un pulsante spento — dice di rifare una cosa già fatta.
 		var certificata := GateReadiness.certified_at_level(save, subject)
 		requirements_label.text = (
-			"%s · superata a questo livello\nCompiti del mondo completati" % subject.capitalize()
+			"%s · superata a questo livello\n%d materie su %d in linea" % [
+				subject.capitalize(), in_linea, ApparatusConfig.SUBJECT_CYCLE.size()]
 			if certificata
-			else "%s · preparazione %.0f%% / %.0f%%\nCompiti del mondo %.0f%%" % [
+			else "%s · preparazione %.0f%% / %.0f%%\n%d materie su %d in linea" % [
 				subject.capitalize(), mastery * 100.0, threshold * 100.0,
-				float(core["progress"]) * 100.0])
+				in_linea, ApparatusConfig.SUBJECT_CYCLE.size()])
 		mission_bar.max_value = 100
 		mission_bar.value = float(core["progress"]) * 100.0
 		mastery_bar.value = mastery * 100.0

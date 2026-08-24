@@ -1611,6 +1611,42 @@ procedurale. Lo scorrimento ha spostato un guard-rail: la fluency è una proprie
 dell'**argomento** e non della materia (`ContentManager.FLUENCY_TOPICS`), con
 `guardrails_audit` a pretendere che nessuna missione sia mai cronometrata.
 
+**Il gate resta a dodici, ma il mondo dichiara i compiti (24 agosto).**
+Segnalazione di gioco: «ho finito il mondo 1 con tutti i compiti assegnati e non
+passo al mondo 2». Vera, e la causa non era l'ampiezza del gate — era che **la
+lista dei compiti e la lista di ciò che il gate chiede non erano la stessa
+lista**. Misurato (`compiti_bastano_probe`): completando tutti e diciotto gli
+eventi del mondo una volta ciascuno, il gate si apre al mondo 1 e **non** si apre
+dal 2 in poi — l'unico evento che il mondo dedica a ciascuna delle altre undici
+materie vale tre argomenti distinti, il gate ne chiede da quattro a sei. La
+strada c'era già (una palestra chiusa ne fa nascere un'altra altrove) ma nessuno
+diceva **quante ne servissero**, e chi guardava la mappa la vedeva spenta.
+Rimedio: il numero si dice dove sta il compito — sul cartello della palestra e a
+fine prova — e viene dalla stessa funzione che alimenta il quadro degli obiettivi
+(`ObjectiveBriefing.prove_mancanti`), così mappa e quadro non possono dissentire.
+Tenuto da `compiti_dichiarati_audit`, che percorre tutti e 24 i mondi facendo
+**solo** quello che il quadro dichiara mancante: il mondo più caro è il 23 con 34
+prove. Nella stessa giornata il gate era stato ridotto alla sola materia del
+mondo (campagna da 2964 a 1056 esercizi, da ~16 a ~5 ore) e rimesso a dodici:
+quella riduzione toglieva il blocco cancellando la decisione del 5 agosto, e con
+essa la garanzia delle dodici stanze — che con un gate locale si sarebbe
+soddisfatta da sola.
+
+**Via le scorte, e le pattuglie si sfidano (24 agosto).** Stessa segnalazione,
+seconda metà: «i combattimenti con i guardiani non partono e quindi non si
+possono eliminare». Censite le sacche vive del mondo 1: **sette su nove non
+avevano nessun gesto** — una pattuglia e quattro scorte, contro due guardiane
+affrontabili. Le sacche che il bambino incontrava davvero erano proprio quelle
+senza duello. Le scorte sono state tolte su indicazione del committente (nessun
+valore didattico: mordono e respingono, chiedono riflessi e pazienza invece di
+competenza) e le pattuglie hanno preso i due duelli dei guardiani, CONTI e VOCI,
+con lo stesso guard-rail — dietro una pattuglia non c'è mai niente che serva a
+salire di livello, e vincere dà frammenti. Una pattuglia battuta non rinasce al
+rientro nel mondo. Sparisce con l'anello il **pedaggio d'avvicinamento**, l'unico
+punto della mappa in cui si pagava per avvicinarsi a qualcosa; scatto e spintone
+restano e non perdono il mestiere. Tenuto da `eli_enemy_audit`, che adesso
+pretende che **nessuna sacca del mondo sia senza gesto**.
+
 **Il gate a dodici materie (6 agosto).** Il livello si apre con tutte e dodici, la
 copertura si conta **per livello** e non da sempre, l'esame sale a cinque nodi con
 tre quarti per passare. Mondo 1 da 18 a **185** esercizi; campagna da 552 (~3 h) a

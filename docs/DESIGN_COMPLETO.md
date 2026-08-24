@@ -75,14 +75,26 @@ Niente più missioni sparse nelle stanze: la nave contiene **solo** gli apparati
   materie con difficoltà crescente, così ogni disciplina torna più volte, sempre
   più su.
 
-### Nucleo e satelliti (decisione del 30 luglio)
+### Nucleo e satelliti (decisione del 30 luglio, allargata il 5 agosto)
 
-**Si sale di livello con tre materie; si finisce il gioco con dodici.**
+**Si sale di livello con dodici materie, e si finisce il gioco con dodici.**
+
+> Il 30 luglio si saliva con **tre** (il nucleo). Il 5 agosto la decisione è
+> cambiata dopo un collaudo vero: con tre materie un bambino saliva in diciotto
+> esercizi — circa dieci minuti — e le altre nove poteva non toccarle mai. Il
+> nucleo resta una categoria, ma non è più il gate: quello che il nucleo ha di
+> diverso è **l'asticella più alta** (`CORE_MASTERY_BONUS`), non l'esclusiva.
+>
+> Il 24 agosto 2026 il gate è stato ridotto alla sola materia del mondo e rimesso
+> a dodici lo stesso giorno: la segnalazione che l'aveva provocato («ho finito il
+> mondo 1 con tutti i compiti assegnati e non passo al mondo 2») era vera, ma la
+> causa era un'altra — il mondo non **dichiarava** come compiti tutto quello che
+> il gate chiedeva. Vedi `ApparatusConfig.level_gate` e `compiti_dichiarati_audit`.
 
 | | Materie | Ruolo |
 |---|---|---|
-| **Nucleo** | italiano, matematica, inglese | **Gatano il livello.** Sono le competenze *abilitanti*: leggere, calcolare, comunicare. Le altre nove ci poggiano sopra |
-| **Satelliti** | le altre nove | **Non gatano il livello.** Danno ricompense, accendono le stanze della nave e **sono obbligatorie per il finale** |
+| **Nucleo** | italiano, matematica, inglese | **Asticella più alta** (+0,08 di padronanza). Sono le competenze *abilitanti*: leggere, calcolare, comunicare. Le altre nove ci poggiano sopra |
+| **Satelliti** | le altre nove | Stesso gate, asticella di base. Danno ricompense, accendono le stanze della nave e **sono obbligatorie per il finale** |
 
 Due assi che prima erano uno solo:
 
@@ -97,8 +109,8 @@ Questo è possibile **solo** perché ogni mondo ospita tutte e dodici le materie
 
 ### Requisiti per salire dal livello L a L+1
 
-Per **ciascuna** delle tre materie del nucleo, **niente conteggio di missioni** —
-si sale quando la competenza c'è, non quando si sono fatti abbastanza giri:
+Per **ciascuna** delle dodici materie, **niente conteggio di missioni** — si sale
+quando la competenza c'è, non quando si sono fatti abbastanza giri:
 
 1. **Accuratezza**: mastery ≥ soglia del livello.
 2. **Copertura**: abbastanza argomenti distinti incontrati (non basta ripetere il

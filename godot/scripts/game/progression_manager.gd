@@ -211,16 +211,20 @@ func _total_topics(subject: String) -> int:
 		return -1
 	return content.reachable_topic_count(subject, save.level())
 
-# Argomenti proponibili per la materia assegnata dal mondo corrente.
+# Argomenti proponibili per OGNI materia: dal 5 agosto 2026 il gate le chiede
+# tutte, non solo le tre strumentali.
 func _core_topic_counts() -> Dictionary:
 	var out: Dictionary = {}
-	var subject := ApparatusConfig.world_subject(save.level())
-	out[subject] = _total_topics(subject)
+	for subject in GateReadiness.GATE_SUBJECTS:
+		out[str(subject)] = _total_topics(str(subject))
 	return out
 
-# Prontezza del LIVELLO: accuratezza, copertura e ritenzione sulla materia
-# assegnata dal mondo. Così completare i compiti dichiarati nel mondo apre
-# davvero il passaggio successivo.
+# Prontezza del LIVELLO: accuratezza, copertura e ritenzione su tutte e dodici le
+# materie. Nessun conteggio di missioni (decisione del 30 luglio).
+#
+# Le materie richieste arrivano da `current_gate()` invece che dalla costante:
+# è l'unico punto in cui il gioco decide **che cosa serve per salire**, e leggerlo
+# da lì impedisce che due parti del gioco dissentano.
 func readiness() -> Dictionary:
 	return GateReadiness.evaluate_core(
 		save, ApparatusConfig.mastery_threshold(save.level()), _core_topic_counts(),

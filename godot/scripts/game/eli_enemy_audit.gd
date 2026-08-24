@@ -15,12 +15,14 @@ func _assert_role_silhouettes() -> void:
 	var guardian := WorldEnemy.new()
 	guardian.setup(null, Vector2.ZERO, 7, "matematica", Color("ff7b72"), 1)
 	guardian.sorveglia("audit-treasure")
-	var escort := WorldEnemy.new()
-	escort.setup(null, Vector2.ZERO, 7, "matematica", Color("ff7b72"), 2)
-	escort.fa_la_scorta("audit-guardian")
+	# La pattuglia sfidabile: dal 24 agosto 2026 e' la seconda popolazione, e deve
+	# restare distinguibile dalla guardiana a colpo d'occhio — chi legge il
+	# cartiglio deve sapere se li' c'e' un forziere da liberare o soltanto una
+	# sacca da togliere di mezzo.
+	patrol.pattuglia_sfidabile("audit-pattuglia")
 	var seen: Array = []
 	var accessible_names: Array = []
-	for enemy in [patrol, guardian, escort]:
+	for enemy in [patrol, guardian]:
 		var marker := str(enemy.get_meta("roleVisualMarker", ""))
 		assert(marker != "" and not seen.has(marker),
 			"ogni ruolo del Silenzio deve avere una sagoma distinta")
@@ -97,11 +99,9 @@ func _run() -> void:
 	var tutte := get_nodes_in_group("world_enemy")
 	var enemies: Array = []
 	var guardiani: Array = []
-	var scorte: Array = []
 	for sacca in tutte:
 		match str(sacca.get("ruolo")):
 			WorldEnemy.RUOLO_GUARDIANO: guardiani.append(sacca)
-			WorldEnemy.RUOLO_SCORTA: scorte.append(sacca)
 			_: enemies.append(sacca)
 	assert(enemies.size() == 2, "il mondo 7 deve scalare a due anomalie in pattuglia, trovate %d" % enemies.size())
 	# Una guardiana senza forziere sarebbe una sacca piazzata a caso con
@@ -111,14 +111,16 @@ func _run() -> void:
 			"guardiano senza forziere da sorvegliare")
 		assert(guardia.find_child("EnemyChallenge", true, false) != null,
 			"guardiano che non si puo' affrontare: si potrebbe solo subire")
-	# Una scorta non si sfida: non ha il gesto, e non deve averlo. Se un giorno
-	# ne comparisse una con `EnemyChallenge`, il bambino aprirebbe un duello
-	# davanti a una sacca che non custodisce niente.
-	for scorta in scorte:
-		assert(scorta.find_child("EnemyChallenge", true, false) == null,
-			"una scorta si puo' sfidare: promette un duello che non esiste")
-		assert(not str(scorta.get("presidio")).is_empty(),
-			"scorta senza presidio: e' una pattuglia con un'etichetta diversa")
+	# **Nessuna sacca senza gesto.** (24 agosto 2026) E' la riga che chiude la
+	# segnalazione da cui nasce questo lotto: le sacche che il bambino incontrava
+	# davvero erano proprio quelle che non si potevano affrontare. Adesso
+	# qualunque cosa stia in `world_enemy` si sfida, e se un giorno ne comparisse
+	# una senza `EnemyChallenge` questo audit lo direbbe prima di lui.
+	for enemy in enemies:
+		assert(enemy.find_child("EnemyChallenge", true, false) != null,
+			"pattuglia che non si puo' affrontare: si potrebbe solo subire")
+		assert(not str(enemy.get_meta("guardId", "")).is_empty(),
+			"pattuglia senza identificativo: il cartiglio non sa che materia annunciare")
 	for enemy in enemies:
 		assert(str(enemy.get("enemy_name")).begins_with("Sbiadito"),
 			"sentinella legacy non rinominata: %s" % str(enemy.get("enemy_name")))

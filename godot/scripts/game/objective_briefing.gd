@@ -74,7 +74,7 @@ static func passo(runtime: Dictionary, progression) -> Dictionary:
 	if not bool(progression.materia_in_linea(materia)):
 		return {
 			"titolo": "Apri la stanza di %s" % materia,
-			"azione": _cosa_manca(stato, true),
+			"azione": _cosa_manca(stato, true, bool(progression.save.mastery_never_set(materia))),
 			"dove": "le prove di %s, qui nel mondo" % materia,
 		}
 	return {
@@ -91,10 +91,10 @@ static func passo(runtime: Dictionary, progression) -> Dictionary:
 ## Pubblica per l'audit: e' la funzione che compone tutte le frasi mostrate, e
 ## controllarla dall'esterno e' il solo modo di verificarne l'ortografia senza
 ## costruire una scena.
-static func frase_di_stato(stato: Dictionary, con_dove: bool) -> String:
-	return _cosa_manca(stato, con_dove)
+static func frase_di_stato(stato: Dictionary, con_dove: bool, mai_giocata: bool = false) -> String:
+	return _cosa_manca(stato, con_dove, mai_giocata)
 
-static func _cosa_manca(stato: Dictionary, con_dove: bool) -> String:
+static func _cosa_manca(stato: Dictionary, con_dove: bool, mai_giocata: bool = false) -> String:
 	var arretrati := int(stato.get("topicsOverdue", 0))
 	var visti := int(stato.get("topicsSeen", 0))
 	var bersaglio := int(stato.get("topicsTarget", 0))
@@ -120,7 +120,7 @@ static func _cosa_manca(stato: Dictionary, con_dove: bool) -> String:
 	if padronanza < soglia:
 		# Il numero da mostrare è **quante prove**, non la percentuale: una
 		# percentuale non dice quanto lavoro manca, un conteggio sì.
-		var quante := prove_stimate(padronanza, soglia)
+		var quante := prove_stimate(padronanza, soglia, mai_giocata)
 		return "Sei al %.0f%% e serve il %.0f%%: circa %d %s da superare." % [
 			padronanza * 100.0, soglia * 100.0, quante,
 			"prova" if quante == 1 else "prove"]
@@ -132,13 +132,80 @@ static func _cosa_manca(stato: Dictionary, con_dove: bool) -> String:
 ## quando si è indietro e di meno vicino alla soglia, e dipende da quanto si
 ## risponde bene. Meglio un numero vicino che una percentuale esatta e muta —
 ## «tre prove» si può decidere di fare, «34%» no.
-static func prove_stimate(padronanza: float, soglia: float) -> int:
+## **Il primo contatto è un salto, non un passo.** (24 agosto 2026)
+##
+## `PASSO_PER_PROVA` descrive la media mobile: da padronanza già fissata, una
+## prova quasi perfetta ne aggiunge circa quattro centesimi. Ma la **prima** prova
+## di una materia non passa dalla media mobile — `ProgressionManager` la fissa in
+## un colpo a `PRUDENZA_PRIMO_CONTATTO` (0,85), che a metà campagna è già sopra
+## la soglia.
+##
+## Senza questa distinzione il quadro leggeva padronanza 0,0 e rispondeva
+## «ancora 18 prove» per una materia che se ne chiude con **una**. Misurato sul
+## mondo 2 il 24 agosto: dodici materie mai giocate, diciotto o venti prove
+## ciascuna, cioè oltre duecento prove annunciate a un bambino per passare al
+## mondo 3 — un numero che non guida, spaventa e basta. È il difetto peggiore che
+## un numero dichiarato possa avere: essere falso verso l'alto.
+##
+## `mai_giocata` va passato quando la materia non ha ancora una padronanza nel
+## salvataggio ([[GameSaveManager.mastery_never_set]]).
+const PRIMO_CONTATTO := 0.85
+
+static func prove_stimate(padronanza: float, soglia: float, mai_giocata: bool = false) -> int:
 	if padronanza >= soglia:
 		return 0
 	# Circa quattro punti di padronanza per prova superata: misurato sul
 	# comportamento di `record_mission` a risposte quasi tutte giuste.
 	const PASSO_PER_PROVA := 0.04
+	if mai_giocata:
+		# La prima prova porta di colpo a `PRIMO_CONTATTO`; da lì in poi è la
+		# media mobile a fare il resto.
+		if PRIMO_CONTATTO >= soglia:
+			return 1
+		return 1 + clampi(ceili((soglia - PRIMO_CONTATTO) / PASSO_PER_PROVA), 1, 99)
 	return clampi(ceili((soglia - padronanza) / PASSO_PER_PROVA), 1, 99)
+
+## **Quante prove mancano ancora a questa materia**, in un numero solo.
+##
+## Nasce dalla segnalazione del 24 agosto 2026: «ho finito il mondo 1 con tutti i
+## compiti assegnati e non passo al mondo 2». Era vera e non era un difetto del
+## gate — era che i compiti **non erano tutti dichiarati**. I sette eventi della
+## materia del mondo stanno sulla mappa e si vedono finire; le undici palestre
+## delle altre materie si vedono finire allo stesso modo, ma finirne una non
+## chiude la materia: ne serve un altro giro, e la palestra successiva compare
+## altrove. Chi guardava la mappa vedeva tutto spento e concludeva di aver
+## finito.
+##
+## Il quadro degli obiettivi lo diceva già, materia per materia. Quello che
+## mancava era dirlo **dove sta il compito**, cioè sul cartello della palestra e
+## alla fine della prova. Questa funzione è il numero unico che entrambi mostrano,
+## così la mappa e il quadro non possono dissentire.
+##
+## Zero vuol dire in linea. Il conto è il massimo fra le tre dimensioni, non la
+## somma: si giocano insieme, e sommarle prometterebbe più lavoro di quello che
+## serve — che è il modo più rapido di far smettere qualcuno.
+static func prove_mancanti(stato_materia: Dictionary, mai_giocata: bool = false) -> int:
+	if bool(stato_materia.get("ready", false)):
+		return 0
+	var arretrati := int(stato_materia.get("topicsOverdue", 0))
+	var scoperti := maxi(0, int(stato_materia.get("topicsTarget", 0)) - int(stato_materia.get("topicsSeen", 0)))
+	var per_padronanza := prove_stimate(
+		float(stato_materia.get("mastery", 0.0)),
+		float(stato_materia.get("masteryThreshold", 0.0)),
+		mai_giocata)
+	return maxi(1, maxi(arretrati, maxi(scoperti, per_padronanza)))
+
+## Come sopra, ma partendo dalla progressione e dal nome della materia: è la forma
+## che serve al mondo aperto, che ha in mano una materia e non una valutazione.
+static func prove_mancanti_di(progression, subject: String) -> int:
+	if progression == null:
+		return 0
+	var stato: Dictionary = progression.readiness()
+	var materie: Dictionary = stato.get("subjects", {})
+	if not materie.has(subject):
+		return 0
+	return prove_mancanti(
+		Dictionary(materie[subject]), bool(progression.save.mastery_never_set(subject)))
 
 ## **Il percorso completo verso il mondo successivo.**
 ##
@@ -160,7 +227,7 @@ static func percorso(progression) -> Dictionary:
 			"fatto": bool(voce.get("ready", false)),
 			"nucleo": bool(voce.get("core", false)),
 			"progresso": float(voce.get("progress", 0.0)),
-			"manca": _cosa_manca(voce, false),
+			"manca": _cosa_manca(voce, false, bool(progression.save.mastery_never_set(str(chiave)))),
 		})
 	righe.sort_custom(func(a, b):
 		# Le fatte in fondo; fra le aperte, prima quella più vicina.
@@ -181,7 +248,7 @@ static func percorso(progression) -> Dictionary:
 		# latino, se questo mondo e' di matematica?». La risposta e' la stessa
 		# per undici materie su dodici, quindi va scritta una volta sola —
 		# ripeterla riga per riga la renderebbe invisibile.
-		"dove": "Completa le prove assegnate in questo mondo: aprono il passaggio verso il prossimo.",
+		"dove": "Ogni mondo ospita una prova per OGNI materia: le palestre sparse sulla mappa. La materia del mondo apre la sua stanza; le altre si allenano lì, e il quadro dice quante prove mancano a ciascuna.",
 	}
 
 ## La riga di riepilogo del percorso: «7 materie su 12 in linea».
@@ -192,6 +259,6 @@ static func riassunto(percorso_dati: Dictionary) -> String:
 	var fatte := int(percorso_dati.get("fatte", 0))
 	var totali := int(percorso_dati.get("totali", 12))
 	if bool(percorso_dati.get("pronto", false)):
-		return "I compiti assegnati sono completati: il mondo successivo è aperto."
-	return "%d %s su %d è in linea. Completa i compiti assegnati per aprire il mondo successivo." % [
+		return "Tutte e %d le materie sono in linea: il mondo successivo è aperto." % totali
+	return "%d %s su %d in linea. Servono tutte per aprire il mondo successivo: qui sotto c'è quanto manca a ciascuna." % [
 		fatte, "materia" if fatte == 1 else "materie", totali]

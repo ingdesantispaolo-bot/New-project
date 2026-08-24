@@ -576,6 +576,30 @@ sembrava la risorsa meglio progettata del gioco — non è mai una decisione.*
 > mostra che non aveva lavoro da nessuna parte, e il presidio è rimasto in piedi
 > senza di lui. Il §9.1 qui sotto resta com'era scritto quel giorno, perché
 > racconta il ragionamento che ha prodotto l'anello.
+>
+> **Tolto il 24 agosto 2026, su indicazione del committente.** L'anello non aveva
+> **valore didattico**: due sacche che mordono e respingono e basta chiedono
+> riflessi e pazienza, non competenza. Contava anche quanto si vedevano — nel
+> mondo 1 erano quattro scorte contro due guardiane, quindi la faccia che il
+> mondo mostrava più spesso era quella di un nemico che non si può affrontare.
+> È esattamente la segnalazione arrivata quel giorno: «i combattimenti con i
+> guardiani non partono e quindi non si possono eliminare».
+>
+> Al posto dell'anello, il gesto che mancava all'altra popolazione senza duello:
+> **le pattuglie adesso si sfidano** ([[WorldEnemy.pattuglia_sfidabile]]), con gli
+> stessi due combattimenti dei guardiani e lo stesso guard-rail — dietro una
+> pattuglia non c'è mai niente che serva a salire di livello. Da quel giorno
+> `eli_enemy_audit` pretende che **nessuna sacca del mondo sia senza gesto**.
+>
+> Quello che sparisce con l'anello è il **pedaggio d'avvicinamento**: era il solo
+> punto della mappa in cui si pagava per avvicinarsi a qualcosa. Lo scatto e lo
+> spintone restano e non perdono il mestiere — una pattuglia continua a
+> respingere, e passarle accanto di slancio continua a essere gratis.
+>
+> Il resto del §9 racconta l'anello com'era, e resta qui perché il ragionamento
+> che l'ha prodotto vale ancora: è il documento di che cosa succede quando si
+> costruisce un ostacolo attorno a una risorsa invece che attorno a una
+> competenza.
 
 ### 9.1 Il difetto
 
@@ -688,10 +712,11 @@ otto scorte in tutto il mondo, raccolte in quattro anelli stretti — che è una
 cosa diversa da otto sacche sparse, ed è la ragione per cui il tetto delle
 guardiane non è stato toccato.
 
-Le sacche hanno adesso un **ruolo dichiarato** (`pattuglia` / `guardiano` /
-`scorta`) invece che dedotto dal forziere che portano addosso: `eli_enemy_audit`
-partizionava le due popolazioni guardando `treasure_id`, ed è esattamente il
-motivo per cui una terza specie sarebbe finita muta dentro una delle due.
+Le sacche hanno un **ruolo dichiarato** (`pattuglia` / `guardiano`; la `scorta`
+è esistita dal 19 al 24 agosto 2026) invece che dedotto dal forziere che portano
+addosso: `eli_enemy_audit` partizionava le due popolazioni guardando
+`treasure_id`, ed è esattamente il motivo per cui una terza specie sarebbe finita
+muta dentro una delle due.
 
 ## 10. Cosa non è stato fatto (e resta sul tavolo)
 

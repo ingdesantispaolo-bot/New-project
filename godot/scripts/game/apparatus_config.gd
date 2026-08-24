@@ -104,8 +104,7 @@ static func apparatus_of(subject: String) -> String:
 static func mastery_threshold(level: int) -> float:
 	return minf(0.70 + float(clampi(level, 1, MAX_LEVEL) - 1) * 0.007, 0.90)
 
-## Gate del LIVELLO: la materia che il mondo ha assegnato, con la soglia di
-## padronanza.
+## Gate del LIVELLO: **tutte** le materie, con la soglia di padronanza.
 ##
 ## Non contiene più `subject` né `missionsRequired`. Prima il gate era «una materia
 ## e N missioni»; dal 30 luglio si sale con la competenza nelle tre strumentali e
@@ -113,16 +112,35 @@ static func mastery_threshold(level: int) -> float:
 ## `world_subject()`: sono due domande diverse, e tenerle nella stessa funzione
 ## faceva dipendere l'identità dei mondi dalla regola di progressione.
 ##
-## Un livello assegna e certifica la propria materia. Chiedere anche le altre
-## undici qui trasformava esercizi facoltativi e sparsi in prerequisiti nascosti:
-## uno studente poteva terminare tutti i compiti del mondo 1 senza poter aprire
-## il mondo 2. Le materie restanti arrivano con i rispettivi mondi e concorrono
-## comunque alla riattivazione completa della nave.
+## Dal 5 agosto 2026 le materie sono dodici, non tre: si sale padroneggiando
+## **tutte le materie a quel grado di difficoltà**, e la pratica smette di essere
+## un extra per diventare la strada.
+##
+## **Il 24 agosto 2026 questo gate è stato ridotto alla sola materia del mondo, e
+## rimesso com'era lo stesso giorno.** La segnalazione era vera — «ho finito il
+## mondo 1 con tutti i compiti assegnati e non passo al mondo 2» — ma la causa non
+## era l'ampiezza del gate: era che **il mondo non dichiarava come compiti tutto
+## quello che il gate chiedeva**. I sette eventi del focus stavano segnati sulla
+## mappa; le undici palestre delle altre materie c'erano, ma nessuno le chiamava
+## compiti e nessuno diceva quante ne servissero.
+##
+## Misurato prima di decidere (`compiti_bastano_probe`): completando **tutti** i
+## diciotto eventi del mondo una volta ciascuno, il gate si apre al mondo 1 e
+## **non** si apre dal mondo 2 in poi — quattro materie restano corte di
+## copertura, perché l'unico evento che il mondo dedica a ciascuna vale tre
+## argomenti distinti e il gate ne chiede da quattro a sei.
+##
+## Ridurre il gate a una materia sola avrebbe tolto il blocco cancellando la
+## decisione del 5 agosto — e con essa la garanzia delle dodici stanze, che con un
+## gate locale si soddisferebbe da sola. La strada presa è l'altra: **il mondo
+## dichiara la quota**, cioè quante prove servono ancora per ogni materia, e le
+## mette fra i compiti. Vedi [[ObjectiveBriefing.percorso]] e
+## `compiti_dichiarati_audit`.
 static func level_gate(level: int) -> Dictionary:
 	var lvl := clampi(level, 1, MAX_LEVEL)
 	return {
 		"level": lvl,
-		"coreSubjects": [world_subject(lvl)],
+		"coreSubjects": Array(SUBJECT_CYCLE).duplicate(),
 		"masteryThreshold": mastery_threshold(lvl),
 	}
 

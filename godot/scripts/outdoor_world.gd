@@ -3802,47 +3802,35 @@ const GUARDIANI_VIVI_MAX := 4
 ## mondo e trovarsi una sacca addosso non e' una sfida, e' un'imboscata.
 const GUARDIA_DISTANZA_MINIMA := 420.0
 
-## **Il presidio.** (19 agosto 2026)
+## **Le scorte sono state tolte.** (24 agosto 2026)
 ##
-## Attorno a una guardiana si schiera un anello di sacche di scorta. Non si
-## sfidano e non chiudono niente: rendono l'**avvicinamento** una scelta, che è
-## la cosa che a questa mappa mancava del tutto.
+## Dal 19 al 24 agosto attorno a ogni guardiana stava un anello di due sacche di
+## scorta: non si sfidavano e non chiudevano niente, servivano a rendere
+## l'**avvicinamento** una scelta — lo si paga in energia, oppure lo si attraversa
+## di slancio giocando di tempismo.
 ##
-## Il difetto da cui nasce: la mappa non opponeva resistenza da nessuna parte, e
-## avvicinarsi a un forziere era identico ad attraversare un prato. L'anello è il
-## posto dove quell'avvicinamento diventa una scelta: lo si paga, oppure lo si
-## attraversa di slancio giocando di tempismo.
+## Tolte su indicazione del committente, e la ragione è la sola che conti in
+## questo gioco: **non avevano valore didattico**. Una sacca che morde e respinge
+## e basta chiede riflessi e pazienza, non competenza — ed era per giunta la
+## popolazione più numerosa della mappa (quattro scorte contro due guardiane nel
+## mondo 1), quindi la faccia che il mondo mostrava più spesso era quella di un
+## nemico che non si può affrontare. È esattamente la segnalazione arrivata: «i
+## combattimenti con i guardiani non partono e quindi non si possono eliminare».
 ##
-## **Nato per l'impulso, sopravvissuto senza.** (21 agosto 2026) Fino a oggi
-## l'anello serviva a dare all'impulso un momento in cui valesse la pena
-## spendere una carica. `impulso_scatto_probe` ha misurato che quel momento non
-## esisteva — dal mondo 2 in poi nessuna sacca costa energia — e l'impulso è
-## stato tolto. L'anello resta perché il suo secondo mestiere non dipendeva da
-## quello: **spinge indietro**, e lo spintone non si azzera col grado. È lì che
-## lo scatto trova il suo lavoro.
+## Quello che resta al posto loro: **le pattuglie adesso si sfidano**. Erano
+## l'altra popolazione senza gesto, e a differenza delle scorte hanno una ragione
+## d'essere che il duello non cancella — girano per il mondo, ti trovano loro, e
+## adesso quell'incontro finisce in una prova invece che in un morso.
 ##
-## **Due scorte, non tre.** Con tre, attraversare al grado zero costerebbe più di
-## un turno di lavoro in bottega e la scelta razionale tornerebbe a essere girare
-## alla larga — cioè il difetto di partenza con un vestito nuovo. Con due, e con
-## il grado ridotto di [[WorldEnemy.SCARTO_SCORTA]], costa come un morso e mezzo.
-const SCORTE_PER_PRESIDIO := 2
-## Il raggio dell'anello. Abbastanza largo da vedersi come un anello attorno al
-## forziere, abbastanza stretto da doverlo attraversare invece che aggirare.
-const PRESIDIO_RAGGIO := 156.0
-## **Nessun presidio vicino a un obiettivo del gate.** È la riga che tiene in
-## piedi tutto il resto: un pedaggio davanti a una prova che apre il livello
-## sarebbe un'abilità messa davanti alla progressione, e in questo gioco non può
-## esistere. `presidio_audit` la verifica su tutti i mondi.
-const PRESIDIO_DISTANZA_DA_OBIETTIVO := 340.0
+## Lo scatto e lo spintone restano e non perdono il mestiere: una pattuglia
+## continua a respingere, e passarle accanto di slancio continua a essere gratis.
+## Quello che sparisce è il **pedaggio d'anello**, cioè il solo punto della mappa
+## in cui si pagava per avvicinarsi a qualcosa.
 
 var _guardia_prossima_msec := 0
 ## Le sacche gia' create, per identificativo: senza, ogni giro ne creerebbe
 ## un'altra sullo stesso forziere.
 var _guardiani: Dictionary = {}
-## Le scorte di ciascun presidio, per identificativo della guardiana. Si sciolgono
-## con lei: un anello che sopravvive al proprio centro sarebbe un pedaggio su un
-## forziere già guadagnato.
-var _scorte: Dictionary = {}
 var duel_panel: DuelStage
 
 ## Mette una guardiana su ogni forziere scoperto e ancora chiuso.
@@ -3896,76 +3884,6 @@ func _assegna_guardiani() -> void:
 		world_layer.add_child(sacca)
 		_guardiani[guardia_id] = sacca
 		_rendi_sfidabile(sacca)
-		_schiera_presidio(guardia_id, posto)
-
-## Schiera l'anello attorno a un forziere appena sorvegliato. Vedi le costanti
-## del presidio per il perché di ogni numero.
-func _schiera_presidio(guardia_id: String, centro: Vector2) -> void:
-	if _scorte.has(guardia_id):
-		return
-	# Chi chiama dal gioco ha già controllato, ma questa funzione è anche il punto
-	# d'ingresso dell'audit: senza terreno non si sa dove sia l'acqua, e un anello
-	# schierato alla cieca finirebbe metà in un fiume.
-	if chunks == null or chunks.composition == null:
-		return
-	# La riga che rende lecito tutto il resto: se lì accanto c'è una prova che
-	# apre il livello, il presidio non nasce. Meglio un forziere indifeso che una
-	# progressione a pedaggio.
-	if _obiettivo_di_gate_vicino(centro, PRESIDIO_DISTANZA_DA_OBIETTIVO):
-		return
-	var schiera: Array = []
-	# La fase viene dall'identificativo: lo stesso forziere ha sempre lo stesso
-	# anello, partita dopo partita. Un presidio che si dispone a caso insegnerebbe
-	# a riprovare finché non capita comodo.
-	var fase := float(posmod(hash(guardia_id), 628)) / 100.0
-	for indice in range(SCORTE_PER_PRESIDIO):
-		var angolo := TAU * float(indice) / float(SCORTE_PER_PRESIDIO) + fase
-		var posto := centro + Vector2.RIGHT.rotated(angolo) * PRESIDIO_RAGGIO
-		# Una scorta in acqua o dentro un'area protetta non è un ostacolo, è un
-		# difetto: si salta quella posizione invece di forzarla altrove, perché
-		# l'anello resti un anello.
-		if (
-			chunks.composition.raw_water_weight(posto) > 0.35
-			or chunks.composition.is_protected(posto, 40.0)
-		):
-			continue
-		posto = chunks.clamp_to_world(posto)
-		var scorta := WORLD_ENEMY_SCRIPT.new()
-		scorta.name = "Scorta_%s_%d" % [guardia_id.replace("-", "_"), indice]
-		scorta.setup(
-			self, posto, world_level, _world_subject(),
-			chunks.composition.blended_accent(posto),
-			_guardiani.size() * 8 + indice, WorldEnemy.RUOLO_SCORTA)
-		scorta.reduced_motion = reduced_motion
-		scorta.vista_scala = _vista_delle_sacche()
-		scorta.richiamo = _richiamo_attivo
-		scorta.fa_la_scorta(guardia_id)
-		world_layer.add_child(scorta)
-		schiera.append(scorta)
-	if not schiera.is_empty():
-		_scorte[guardia_id] = schiera
-
-## Vero se un evento che conta per il gate cade entro `raggio` dal punto. Il
-## gruppo `mission_poi` è popolato in `_create_profile_event` con i soli eventi
-## `countsForGate`, ed è la stessa lista che il quadro degli obiettivi nomina.
-func _obiettivo_di_gate_vicino(punto: Vector2, raggio: float) -> bool:
-	for nodo in get_tree().get_nodes_in_group("mission_poi"):
-		if not (nodo is Node2D):
-			continue
-		if bool((nodo as Node).get_meta("completed", false)):
-			continue
-		if punto.distance_to((nodo as Node2D).global_position) < raggio:
-			return true
-	return false
-
-## Scioglie l'anello. Si chiama quando la guardiana cade: da quel momento il
-## forziere è guadagnato, e farlo pagare ancora sarebbe una tassa invece che una
-## scelta.
-func _sciogli_presidio(guardia_id: String) -> void:
-	for scorta in Array(_scorte.get(guardia_id, [])):
-		if is_instance_valid(scorta):
-			scorta.call("elimina")
-	_scorte.erase(guardia_id)
 
 func _guardiani_vivi() -> int:
 	var quante := 0
@@ -4075,7 +3993,6 @@ func _chiudi_duello(sacca: Node2D, vinto: bool, netto := false) -> void:
 		var premio := DuelRules.premio_frammenti(tier)
 		gameplay.collect_treasure({"rewardFragments": premio}, "duello-%s" % guardia_id)
 		sacca.call("elimina")
-		_sciogli_presidio(guardia_id)
 		game_save.save()
 		_set_feedback("%s Il forziere è libero, e restano %d frammenti sul campo." % [
 			DuelRules.riga_di_vittoria(netto), premio])
@@ -4106,6 +4023,15 @@ func _create_world_enemies() -> void:
 	var count := clampi(1 + floori(float(world_level - 1) / 6.0), 1, 4)
 	var subject := _world_subject()
 	for index in range(count):
+		# **Una pattuglia battuta non rinasce.** Da quando si sfidano, vincere
+		# deve voler dire toglierla di mezzo: ritrovarla al rientro nel mondo
+		# renderebbe il duello un pedaggio che si ripaga ogni volta, ed è
+		# esattamente la cosa che il duello non deve essere. La guardia sta qui
+		# e non dopo, perché costruire la sacca per poi scartarla lascerebbe
+		# comunque il suo costo di scena.
+		var pattuglia_id := "pattuglia-%d-%d" % [world_level, index]
+		if is_instance_valid(game_save) and game_save.enemy_defeated(str(world_level), pattuglia_id):
+			continue
 		var event: Dictionary = mission_events[(index * 2 + 1) % mission_events.size()]
 		var base: Vector2 = event.get("position", world_profile.get("spawn", Vector2.ZERO))
 		var angle := float(posmod(hash("%s:enemy:%d" % [world_seed, index]), 6283)) / 1000.0
@@ -4125,7 +4051,27 @@ func _create_world_enemies() -> void:
 		enemy.setup(self, enemy_position, world_level, subject, accent, index)
 		enemy.reduced_motion = reduced_motion
 		enemy.vista_scala = _vista_delle_sacche()
+		# **Anche una pattuglia si sfida.** (24 agosto 2026)
+		#
+		# Fino a oggi il duello stava solo sulle guardiane, cioè sulle sacche
+		# **ferme su un forziere**. La pattuglia è quella che ti trova lei: gira,
+		# insegue, morde, e non aveva nessun gesto — la si poteva solo subire o
+		# scansare. Nel mondo 1 era più della metà delle sacche vive senza duello,
+		# ed è la ragione della segnalazione «i combattimenti non partono e non si
+		# possono eliminare»: le sacche che il bambino incontrava davvero erano
+		# proprio quelle senza combattimento.
+		#
+		# L'identificativo si dà **prima** di renderla sfidabile: il cartiglio e
+		# [[DuelRules.materia]] lo leggono per dire quale prova aspetta Eli, e uno
+		# vuoto farebbe annunciare la materia sbagliata.
+		#
+		# Il guard-rail regge lo stesso: dietro una pattuglia non c'è niente che
+		# serva a salire di livello. Vincere dà frammenti, cioè cosmetici, e
+		# toglie di mezzo la sacca; perdere costa quanto un morso.
+		enemy.set_meta("guardId", pattuglia_id)
+		enemy.pattuglia_sfidabile(pattuglia_id)
 		world_layer.add_child(enemy)
+		_rendi_sfidabile(enemy)
 
 ## Il Custode si irrigidisce vicino a uno Sbiadito, prima ancora del contatto
 ## che respinge Eli. Vedi docs/CUSTODE_LIVELLO_AVANZATO.md §Asse B.
@@ -4235,7 +4181,7 @@ func _on_enemy_contact(enemy: Node2D, body: Node) -> void:
 		away = Vector2.DOWN
 	# Quanto lontano butta lo spintone: la zavorra da campo lo accorcia, e non
 	# lo azzera mai — una sacca che non sposta piu' nessuno smette di essere
-	# l'ostacolo attorno a cui il presidio e' costruito.
+	# l'ostacolo che rende una sacca una sacca.
 	var spinta := float(runtime.get("knockbackDistance", ExpeditionModules.SPINTA_PIENA))
 	var target := chunks.clamp_to_world(player.global_position + away * spinta)
 	if _water_blocks_position(target):
@@ -6799,6 +6745,44 @@ func _handle_world_tap(world_pos: Vector2) -> void:
 	else:
 		_set_feedback("Eli si avvicina · %s" % _interaction_action_text(target).to_lower())
 
+## **Quanto manca a questa materia, detto dove sta il compito.**
+## (24 agosto 2026)
+##
+## Segnalazione di gioco: «ho finito il mondo 1 con tutti i compiti assegnati e
+## non passo al mondo 2». Misurata (`compiti_bastano_probe`), la segnalazione era
+## vera e il gate non c'entrava: **i compiti non erano tutti dichiarati**.
+##
+## I sette eventi della materia del mondo si vedono finire sulla mappa. Anche le
+## undici palestre delle altre materie si vedono finire — ma finirne una non
+## chiude la materia, e la successiva nasce ALTROVE ([[_respawn_practice_event]]).
+## Chi guardava la mappa la vedeva spenta e concludeva di aver finito, mentre il
+## quadro degli obiettivi — un'altra schermata — diceva che a latino ne servivano
+## ancora due.
+##
+## Quindi il numero si dice qui, sul cartello e a fine prova, e viene dalla stessa
+## funzione che alimenta il quadro ([[ObjectiveBriefing.prove_mancanti]]): due
+## posti che dicono numeri diversi sarebbero peggio di uno solo che tace.
+func _quota_della_materia(subject: String) -> String:
+	if not is_instance_valid(gameplay) or gameplay.progression_manager == null:
+		return ""
+	var mancano := ObjectiveBriefing.prove_mancanti_di(gameplay.progression_manager, subject)
+	if mancano <= 0:
+		return " · in linea per il mondo successivo"
+	return " · ancora %d %s per il mondo successivo" % [
+		mancano, "prova" if mancano == 1 else "prove"]
+
+## Chiusa una palestra: si dice subito se quella materia è a posto o quanto le
+## manca. È il momento in cui la domanda «ho finito?» se la pone davvero.
+func _annuncia_quota(subject: String) -> void:
+	if subject.is_empty() or not is_instance_valid(gameplay) or gameplay.progression_manager == null:
+		return
+	var mancano := ObjectiveBriefing.prove_mancanti_di(gameplay.progression_manager, subject)
+	if mancano <= 0:
+		_set_feedback("%s è in linea per il mondo successivo." % subject.capitalize())
+		return
+	_set_feedback("%s: ancora %d %s. La prossima palestra è comparsa altrove sulla mappa." % [
+		subject.capitalize(), mancano, "prova" if mancano == 1 else "prove"])
+
 func _interactable_at(world_pos: Vector2) -> Area2D:
 	var best: Area2D = null
 	var best_distance := TOUCH_POI_RADIUS * TOUCH_POI_RADIUS
@@ -6915,7 +6899,9 @@ func _refresh_prompt() -> void:
 		if not _equipment_requirement_met(target):
 			_set_feedback(_equipment_requirement_message(target))
 		else:
-			_set_feedback("Interagisci · %s: minigioco di %s" % [str(mg_payload.get("label", "Palestra")), str(mg_payload.get("subject", "matematica")).capitalize()])
+			_set_feedback("Interagisci · %s%s" % [
+				str(mg_payload.get("label", "Palestra")),
+				_quota_della_materia(str(mg_payload.get("subject", "matematica")))])
 	elif kind == "treasure":
 		if result["collectedTreasureIds"].has(id):
 			_set_feedback("Tesoro già raccolto")
@@ -7292,6 +7278,13 @@ func _on_exercise_finished(exercise_result: Dictionary) -> void:
 	_refresh_economy()
 	_update_ship_navigation()
 	_refresh_prompt()
+	# **Dopo `_refresh_prompt`, e non prima.** Quella riscrive la riga di feedback
+	# con il cartello di ciò che Eli ha vicino: annunciare la quota più su
+	# significava scriverla e vedersela cancellare nello stesso fotogramma. È il
+	# genere di difetto che non si vede leggendo, perché le due chiamate stanno a
+	# sessanta righe di distanza.
+	if str(context.get("kind", "")) == "minigame" and session_passed:
+		_annuncia_quota(str(context.get("subject", "")))
 
 ## Ogni tanto, a fine sessione, il Custode ha portato qualcosa.
 ##

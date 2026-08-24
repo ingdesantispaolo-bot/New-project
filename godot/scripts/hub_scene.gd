@@ -836,18 +836,17 @@ func _apply_state(state: Dictionary) -> void:
 		var subject := ApparatusConfig.world_subject(save.level())
 		var mastery := save.mastery_of(subject)
 		var threshold := float(current_gate.get("masteryThreshold", 0.7))
-		# La barra che prima contava le missioni ora mostra il nucleo: è quello che
-		# apre il livello. La padronanza della materia della stanza apre l'apparato.
-		var core := GateReadiness.evaluate_core(save, threshold)
+		# La barra mostra i compiti del mondo corrente: sono quelli che aprono il
+		# livello. La padronanza della materia della stanza apre l'apparato.
+		var core := controller.progression.readiness()
 		# Già superata a questo livello: il terminale non deve mandare a rifare
 		# missioni per una materia chiusa. Era la scritta che compariva, ed è
 		# peggio di un pulsante spento — dice di rifare una cosa già fatta.
 		var certificata := GateReadiness.certified_at_level(save, subject)
 		requirements_label.text = (
-			"%s · superata a questo livello\nTre chiavi (italiano · matematica · inglese) %.0f%%" % [
-				subject.capitalize(), float(core["progress"]) * 100.0]
+			"%s · superata a questo livello\nCompiti del mondo completati" % subject.capitalize()
 			if certificata
-			else "%s · preparazione %.0f%% / %.0f%%\nTre chiavi (italiano · matematica · inglese) %.0f%%" % [
+			else "%s · preparazione %.0f%% / %.0f%%\nCompiti del mondo %.0f%%" % [
 				subject.capitalize(), mastery * 100.0, threshold * 100.0,
 				float(core["progress"]) * 100.0])
 		mission_bar.max_value = 100

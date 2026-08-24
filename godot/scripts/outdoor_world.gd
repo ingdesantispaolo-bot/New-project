@@ -3889,8 +3889,10 @@ func _assegna_guardiani() -> void:
 		# Una sacca nata dopo il richiamo lo eredita: altrimenti le guardiane
 		# comparse durante l'ultima traversata sarebbero le uniche distratte.
 		sacca.richiamo = _richiamo_attivo
-		sacca.sorveglia(id)
 		sacca.set_meta("guardId", guardia_id)
+		# Il cartiglio legge il guardId per dire quale duello attende Eli: deve
+		# esistere prima di costruire la guardiana, non un fotogramma dopo.
+		sacca.sorveglia(id)
 		world_layer.add_child(sacca)
 		_guardiani[guardia_id] = sacca
 		_rendi_sfidabile(sacca)
@@ -3979,6 +3981,13 @@ func _rendi_sfidabile(sacca: Node2D) -> void:
 	area.name = "EnemyChallenge"
 	area.set_meta("kind", "enemy")
 	area.set_meta("id", str(sacca.get_meta("guardId", "")))
+	# Il punto nasce dinamicamente quando arriva il pezzo di mappa. Dichiarare
+	# esplicitamente il filtro evita che un profilo di collisione diverso dal
+	# default lasci il guardiano visibile ma senza il gesto "AFFRONTA".
+	area.collision_layer = 0
+	area.collision_mask = 1
+	area.monitoring = true
+	area.monitorable = false
 	area.add_to_group("world_interactable")
 	var forma := CollisionShape2D.new()
 	var cerchio := CircleShape2D.new()
@@ -3988,6 +3997,13 @@ func _rendi_sfidabile(sacca: Node2D) -> void:
 	sacca.add_child(area)
 	area.body_entered.connect(func(body): on_interactable_entered(area, body))
 	area.body_exited.connect(func(body): on_interactable_exited(area, body))
+	# Se la guardiana compare mentre Eli è già accanto al forziere, Godot non
+	# garantisce un nuovo body_entered per un'area aggiunta a sovrapposizione
+	# avvenuta. Registrarla subito rende il duello disponibile anche in quel caso.
+	if is_instance_valid(player) and player.global_position.distance_to(area.global_position) <= INTERACTION_DISTANCE:
+		if not nearby.has(area):
+			nearby.append(area)
+		_refresh_prompt()
 
 ## La guardiana viva di un forziere, se c'e'.
 func _guardiano_di(treasure_id: String) -> Node2D:

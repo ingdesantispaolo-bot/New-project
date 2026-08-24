@@ -211,19 +211,20 @@ func _total_topics(subject: String) -> int:
 		return -1
 	return content.reachable_topic_count(subject, save.level())
 
-# Argomenti proponibili per OGNI materia: dal 5 agosto 2026 il gate le chiede
-# tutte, non solo le tre strumentali.
+# Argomenti proponibili per la materia assegnata dal mondo corrente.
 func _core_topic_counts() -> Dictionary:
 	var out: Dictionary = {}
-	for subject in GateReadiness.GATE_SUBJECTS:
-		out[str(subject)] = _total_topics(str(subject))
+	var subject := ApparatusConfig.world_subject(save.level())
+	out[subject] = _total_topics(subject)
 	return out
 
-# Prontezza del LIVELLO: accuratezza, copertura e ritenzione su italiano,
-# matematica e inglese. Nessun conteggio di missioni (decisione del 30 luglio).
+# Prontezza del LIVELLO: accuratezza, copertura e ritenzione sulla materia
+# assegnata dal mondo. Così completare i compiti dichiarati nel mondo apre
+# davvero il passaggio successivo.
 func readiness() -> Dictionary:
 	return GateReadiness.evaluate_core(
-		save, ApparatusConfig.mastery_threshold(save.level()), _core_topic_counts())
+		save, ApparatusConfig.mastery_threshold(save.level()), _core_topic_counts(),
+		Array(current_gate().get("coreSubjects", [])))
 
 ## **Registra le materie arrivate in linea a questo grado.**
 ##
@@ -413,7 +414,7 @@ func advance_level() -> bool:
 	# nove materie mai toccate.
 	if save.level() >= ApparatusConfig.MAX_LEVEL and not all_apparatus_repaired():
 		return false
-	for subject in ApparatusConfig.CORE_SUBJECTS:
+	for subject in Array(readiness().get("coreSubjects", [])):
 		save.consume_gate(str(subject))
 	var next_level: int = int(save.level()) + 1
 	save.set_level(next_level)

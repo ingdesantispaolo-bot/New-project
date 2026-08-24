@@ -91,8 +91,26 @@ func _run() -> void:
 			"il forziere sorvegliato risulta raccolto")
 
 	# Si può affrontare: il gesto esiste.
-	_controlla(guardia.find_child("EnemyChallenge", true, false) != null,
+	var challenge := guardia.find_child("EnemyChallenge", true, false) as Area2D
+	_controlla(challenge != null,
 		"il guardiano non si può affrontare")
+	# La strada del giocatore passa dall'area interattiva, non dalla chiamata
+	# interna al duello: un guardiano visibile ma senza "AFFRONTA" è proprio il
+	# difetto che questa verifica deve intercettare.
+	if challenge != null:
+		var eli := world.get("player") as Node2D
+		eli.global_position = challenge.global_position
+		world.call("on_interactable_entered", challenge, eli)
+		world.call("_interact")
+		await process_frame
+		_controlla(world.get("duel_panel") != null,
+			"il gesto AFFRONTA del guardiano non apre il duello")
+		var pannello_iniziale = world.get("duel_panel")
+		if pannello_iniziale != null:
+			var uscita_iniziale := pannello_iniziale.find_child("DuelLeaveButton", true, false) as Button
+			if uscita_iniziale != null:
+				uscita_iniziale.emit_signal("pressed")
+				await process_frame
 
 	# **Il duello, giocato per davvero.** Si apre il pannello e si spezzano i
 	# sigilli con la strada che il pannello stesso dichiara. Nessuna scorciatoia

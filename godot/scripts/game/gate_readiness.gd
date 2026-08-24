@@ -216,7 +216,7 @@ static func evaluate_subject(
 const GATE_SUBJECTS := ApparatusConfig.SUBJECT_CYCLE
 
 static func evaluate_core(
-	save, mastery_threshold: float, topics_by_subject: Dictionary = {}
+	save, mastery_threshold: float, topics_by_subject: Dictionary = {}, required_subjects: Array = GATE_SUBJECTS
 ) -> Dictionary:
 	var subjects: Dictionary = {}
 	var missing: Array = []
@@ -237,7 +237,7 @@ static func evaluate_core(
 	#
 	# Costo misurato (`effort_probe`): 180 esercizi contro 18, circa un'ora per
 	# mondo rispondendo sempre giusto.
-	for subject in GATE_SUBJECTS:
+	for subject in required_subjects:
 		var s := str(subject)
 		# Il gate del LIVELLO onora il traguardo gia' raggiunto a questo grado —
 		# esame d'apparato superato QUI, oppure tre condizioni centrate QUI. La
@@ -254,11 +254,11 @@ static func evaluate_core(
 			missing.append(s)
 	return {
 		"ready": ready,
-		"coreSubjects": Array(GATE_SUBJECTS).duplicate(),
+		"coreSubjects": required_subjects.duplicate(),
 		"subjects": subjects,
 		"missing": missing,
 		"masteryThreshold": mastery_threshold,
 		# Media dei tre avanzamenti: una sola barra riassuntiva per l'HUD compatto,
 		# accanto alle tre di dettaglio.
-		"progress": total_progress / float(maxi(1, GATE_SUBJECTS.size())),
+		"progress": total_progress / float(maxi(1, required_subjects.size())),
 	}

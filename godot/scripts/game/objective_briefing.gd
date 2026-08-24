@@ -181,7 +181,7 @@ static func percorso(progression) -> Dictionary:
 		# latino, se questo mondo e' di matematica?». La risposta e' la stessa
 		# per undici materie su dodici, quindi va scritta una volta sola —
 		# ripeterla riga per riga la renderebbe invisibile.
-		"dove": "Ogni mondo ospita una prova per OGNI materia: le palestre sparse sulla mappa. La materia del mondo apre la sua stanza; le altre si allenano lì.",
+		"dove": "Completa le prove assegnate in questo mondo: aprono il passaggio verso il prossimo.",
 	}
 
 ## La riga di riepilogo del percorso: «7 materie su 12 in linea».
@@ -192,6 +192,6 @@ static func riassunto(percorso_dati: Dictionary) -> String:
 	var fatte := int(percorso_dati.get("fatte", 0))
 	var totali := int(percorso_dati.get("totali", 12))
 	if bool(percorso_dati.get("pronto", false)):
-		return "Tutte e %d le materie sono in linea: il mondo successivo è aperto." % totali
-	return "%d materie su %d sono in linea. Servono tutte per aprire il mondo successivo." % [
-		fatte, totali]
+		return "I compiti assegnati sono completati: il mondo successivo è aperto."
+	return "%d %s su %d è in linea. Completa i compiti assegnati per aprire il mondo successivo." % [
+		fatte, "materia" if fatte == 1 else "materie", totali]

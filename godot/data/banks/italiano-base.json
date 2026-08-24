@@ -20,7 +20,7 @@
 			"explanation": "\"famiglia\": insieme delle persone legate da parentela o vita comune. Stesso gruppo: genitore = madre o padre rispetto ai figli, fratello = figlio degli stessi genitori.",
 			"distractorWhy": {
 				"fratello": "«fratello» vuol dire «figlio degli stessi genitori»: un'altra parola, non quella cercata.",
-				"parente": "«parente» vuol dire «persona legata da parentela»: un'altra parola, non quella cercata.",
+				"parente": "«parente» vuol dire «persona della stessa famiglia, come uno zio»: un'altra parola, non quella cercata.",
 				"mensola": "«mensola» vuol dire «ripiano fissato alla parete»: un'altra parola, non quella cercata."
 			}
 		},
@@ -59,7 +59,7 @@
 				"bolletta"
 			],
 			"answer": "fratello",
-			"explanation": "\"fratello\": figlio degli stessi genitori. Stesso gruppo: sorella = figlia degli stessi genitori, parente = persona legata da parentela.",
+			"explanation": "\"fratello\": figlio degli stessi genitori. Stesso gruppo: sorella = figlia degli stessi genitori, parente = persona della stessa famiglia, come uno zio.",
 			"distractorWhy": {
 				"famiglia": "«famiglia» vuol dire «insieme delle persone legate da parentela o vita comune»: un'altra parola, non quella cercata.",
 				"bolletta": "«bolletta» vuol dire «documento con il costo di un servizio domestico»: un'altra parola, non quella cercata.",
@@ -80,10 +80,10 @@
 				"sorella"
 			],
 			"answer": "sorella",
-			"explanation": "\"sorella\": figlia degli stessi genitori. Stesso gruppo: parente = persona legata da parentela, vicino = persona che abita accanto o molto vicino.",
+			"explanation": "\"sorella\": figlia degli stessi genitori. Stesso gruppo: parente = persona della stessa famiglia, come uno zio, vicino = persona che abita nella casa accanto.",
 			"distractorWhy": {
 				"tavolo": "«tavolo» vuol dire «mobile con piano usato per mangiare o lavorare»: un'altra parola, non quella cercata.",
-				"parente": "«parente» vuol dire «persona legata da parentela»: un'altra parola, non quella cercata.",
+				"parente": "«parente» vuol dire «persona della stessa famiglia, come uno zio»: un'altra parola, non quella cercata.",
 				"chiave": "«chiave» vuol dire «oggetto usato per aprire una serratura»: un'altra parola, non quella cercata."
 			}
 		},
@@ -93,7 +93,7 @@
 			"topic": "casa-famiglia",
 			"difficulty": 1,
 			"format": "multiple_choice",
-			"prompt": "Quale parola corrisponde a: \"persona legata da parentela\"?",
+			"prompt": "Quale parola corrisponde a: \"persona della stessa famiglia, come uno zio\"?",
 			"options": [
 				"parente",
 				"balcone",
@@ -101,7 +101,7 @@
 				"sorella"
 			],
 			"answer": "parente",
-			"explanation": "\"parente\": persona legata da parentela. Stesso gruppo: vicino = persona che abita accanto o molto vicino, ospite = persona accolta in casa.",
+			"explanation": "\"parente\": persona della stessa famiglia, come uno zio. Stesso gruppo: vicino = persona che abita nella casa accanto, ospite = persona accolta in casa.",
 			"distractorWhy": {
 				"mensola": "«mensola» vuol dire «ripiano fissato alla parete»: un'altra parola, non quella cercata.",
 				"balcone": "«balcone» vuol dire «spazio esterno collegato a una stanza»: un'altra parola, non quella cercata.",
@@ -114,7 +114,7 @@
 			"topic": "casa-famiglia",
 			"difficulty": 1,
 			"format": "multiple_choice",
-			"prompt": "Quale parola corrisponde a: \"persona che abita accanto o molto vicino\"?",
+			"prompt": "Quale parola corrisponde a: \"persona che abita nella casa accanto\"?",
 			"options": [
 				"cucina",
 				"vicino",
@@ -122,7 +122,7 @@
 				"camera"
 			],
 			"answer": "vicino",
-			"explanation": "\"vicino\": persona che abita accanto o molto vicino. Stesso gruppo: ospite = persona accolta in casa, cucina = stanza in cui si preparano i pasti.",
+			"explanation": "\"vicino\": persona che abita nella casa accanto. Stesso gruppo: ospite = persona accolta in casa, cucina = stanza in cui si preparano i pasti.",
 			"distractorWhy": {
 				"armadio": "«armadio» vuol dire «mobile in cui si tengono vestiti o oggetti»: un'altra parola, non quella cercata.",
 				"cucina": "«cucina» vuol dire «stanza in cui si preparano i pasti»: un'altra parola, non quella cercata.",
@@ -145,7 +145,7 @@
 			"answer": "ospite",
 			"explanation": "\"ospite\": persona accolta in casa. Stesso gruppo: cucina = stanza in cui si preparano i pasti, soggiorno = stanza della casa usata per stare insieme.",
 			"distractorWhy": {
-				"vicino": "«vicino» vuol dire «persona che abita accanto o molto vicino»: un'altra parola, non quella cercata.",
+				"vicino": "«vicino» vuol dire «persona che abita nella casa accanto»: un'altra parola, non quella cercata.",
 				"chiave": "«chiave» vuol dire «oggetto usato per aprire una serratura»: un'altra parola, non quella cercata.",
 				"cucina": "«cucina» vuol dire «stanza in cui si preparano i pasti»: un'altra parola, non quella cercata."
 			}
@@ -189,7 +189,7 @@
 			"distractorWhy": {
 				"balcone": "«balcone» vuol dire «spazio esterno collegato a una stanza»: un'altra parola, non quella cercata.",
 				"armadio": "«armadio» vuol dire «mobile in cui si tengono vestiti o oggetti»: un'altra parola, non quella cercata.",
-				"parente": "«parente» vuol dire «persona legata da parentela»: un'altra parola, non quella cercata."
+				"parente": "«parente» vuol dire «persona della stessa famiglia, come uno zio»: un'altra parola, non quella cercata."
 			}
 		},
 		{
@@ -230,7 +230,7 @@
 			"explanation": "\"bagno\": stanza per lavarsi e curare l'igiene. Stesso gruppo: balcone = spazio esterno collegato a una stanza, tavolo = mobile con piano usato per mangiare o lavorare.",
 			"distractorWhy": {
 				"mensola": "«mensola» vuol dire «ripiano fissato alla parete»: un'altra parola, non quella cercata.",
-				"vicino": "«vicino» vuol dire «persona che abita accanto o molto vicino»: un'altra parola, non quella cercata.",
+				"vicino": "«vicino» vuol dire «persona che abita nella casa accanto»: un'altra parola, non quella cercata.",
 				"camera": "«camera» vuol dire «stanza in cui si dorme o si studia»: un'altra parola, non quella cercata."
 			}
 		},
@@ -315,7 +315,7 @@
 			"distractorWhy": {
 				"chiave": "«chiave» vuol dire «oggetto usato per aprire una serratura»: un'altra parola, non quella cercata.",
 				"camera": "«camera» vuol dire «stanza in cui si dorme o si studia»: un'altra parola, non quella cercata.",
-				"parente": "«parente» vuol dire «persona legata da parentela»: un'altra parola, non quella cercata."
+				"parente": "«parente» vuol dire «persona della stessa famiglia, come uno zio»: un'altra parola, non quella cercata."
 			}
 		},
 		{
@@ -335,7 +335,7 @@
 			"explanation": "\"mensola\": ripiano fissato alla parete. Stesso gruppo: cassetto = vano estraibile di un mobile, chiave = oggetto usato per aprire una serratura.",
 			"distractorWhy": {
 				"cucina": "«cucina» vuol dire «stanza in cui si preparano i pasti»: un'altra parola, non quella cercata.",
-				"parente": "«parente» vuol dire «persona legata da parentela»: un'altra parola, non quella cercata.",
+				"parente": "«parente» vuol dire «persona della stessa famiglia, come uno zio»: un'altra parola, non quella cercata.",
 				"armadio": "«armadio» vuol dire «mobile in cui si tengono vestiti o oggetti»: un'altra parola, non quella cercata."
 			}
 		},
@@ -418,7 +418,7 @@
 			"answer": "bolletta",
 			"explanation": "\"bolletta\": documento con il costo di un servizio domestico. Stesso gruppo: famiglia = insieme delle persone legate da parentela o vita comune, genitore = madre o padre rispetto ai figli.",
 			"distractorWhy": {
-				"parente": "«parente» vuol dire «persona legata da parentela»: un'altra parola, non quella cercata.",
+				"parente": "«parente» vuol dire «persona della stessa famiglia, come uno zio»: un'altra parola, non quella cercata.",
 				"armadio": "«armadio» vuol dire «mobile in cui si tengono vestiti o oggetti»: un'altra parola, non quella cercata.",
 				"soggiorno": "«soggiorno» vuol dire «stanza della casa usata per stare insieme»: un'altra parola, non quella cercata."
 			}
@@ -2117,11 +2117,11 @@
 				"nuvoloso"
 			],
 			"answer": "puntuale",
-			"explanation": "\"puntuale\": che arriva o agisce all'orario previsto. Stesso gruppo: tardivo = che avviene troppo tardi, soleggiato = con molto sole.",
+			"explanation": "\"puntuale\": che arriva o agisce all'orario previsto. Stesso gruppo: tardivo = che arriva più in là del solito, soleggiato = con molto sole.",
 			"distractorWhy": {
-				"ventoso": "«ventoso» vuol dire «con molto vento»: un'altra parola, non quella cercata.",
+				"ventoso": "«ventoso» vuol dire «con aria che soffia forte»: un'altra parola, non quella cercata.",
 				"nuvoloso": "«nuvoloso» vuol dire «coperto da nuvole»: un'altra parola, non quella cercata.",
-				"tardivo": "«tardivo» vuol dire «che avviene troppo tardi»: un'altra parola, non quella cercata."
+				"tardivo": "«tardivo» vuol dire «che arriva più in là del solito»: un'altra parola, non quella cercata."
 			}
 		},
 		{
@@ -2130,7 +2130,7 @@
 			"topic": "tempo-meteo",
 			"difficulty": 1,
 			"format": "multiple_choice",
-			"prompt": "Quale parola corrisponde a: \"che avviene troppo tardi\"?",
+			"prompt": "Quale parola corrisponde a: \"che arriva più in là del solito\"?",
 			"options": [
 				"piovoso",
 				"tardivo",
@@ -2138,10 +2138,10 @@
 				"puntuale"
 			],
 			"answer": "tardivo",
-			"explanation": "\"tardivo\": che avviene troppo tardi. Stesso gruppo: soleggiato = con molto sole, nuvoloso = coperto da nuvole.",
+			"explanation": "\"tardivo\": che arriva più in là del solito. Stesso gruppo: soleggiato = con molto sole, nuvoloso = coperto da nuvole.",
 			"distractorWhy": {
 				"puntuale": "«puntuale» vuol dire «che arriva o agisce all'orario previsto»: un'altra parola, non quella cercata.",
-				"ventoso": "«ventoso» vuol dire «con molto vento»: un'altra parola, non quella cercata.",
+				"ventoso": "«ventoso» vuol dire «con aria che soffia forte»: un'altra parola, non quella cercata.",
 				"piovoso": "«piovoso» vuol dire «con molta pioggia»: un'altra parola, non quella cercata."
 			}
 		},
@@ -2162,7 +2162,7 @@
 			"explanation": "\"soleggiato\": con molto sole. Stesso gruppo: nuvoloso = coperto da nuvole, piovoso = con molta pioggia.",
 			"distractorWhy": {
 				"nuvoloso": "«nuvoloso» vuol dire «coperto da nuvole»: un'altra parola, non quella cercata.",
-				"ventoso": "«ventoso» vuol dire «con molto vento»: un'altra parola, non quella cercata.",
+				"ventoso": "«ventoso» vuol dire «con aria che soffia forte»: un'altra parola, non quella cercata.",
 				"piovoso": "«piovoso» vuol dire «con molta pioggia»: un'altra parola, non quella cercata."
 			}
 		},
@@ -2180,11 +2180,11 @@
 				"nuvoloso"
 			],
 			"answer": "nuvoloso",
-			"explanation": "\"nuvoloso\": coperto da nuvole. Stesso gruppo: piovoso = con molta pioggia, ventoso = con molto vento.",
+			"explanation": "\"nuvoloso\": coperto da nuvole. Stesso gruppo: piovoso = con molta pioggia, ventoso = con aria che soffia forte.",
 			"distractorWhy": {
 				"piovoso": "«piovoso» vuol dire «con molta pioggia»: un'altra parola, non quella cercata.",
-				"tardivo": "«tardivo» vuol dire «che avviene troppo tardi»: un'altra parola, non quella cercata.",
-				"ventoso": "«ventoso» vuol dire «con molto vento»: un'altra parola, non quella cercata."
+				"tardivo": "«tardivo» vuol dire «che arriva più in là del solito»: un'altra parola, non quella cercata.",
+				"ventoso": "«ventoso» vuol dire «con aria che soffia forte»: un'altra parola, non quella cercata."
 			}
 		},
 		{
@@ -2201,11 +2201,11 @@
 				"nuvoloso"
 			],
 			"answer": "piovoso",
-			"explanation": "\"piovoso\": con molta pioggia. Stesso gruppo: ventoso = con molto vento, freddo = con temperatura bassa.",
+			"explanation": "\"piovoso\": con molta pioggia. Stesso gruppo: ventoso = con aria che soffia forte, freddo = con temperatura bassa.",
 			"distractorWhy": {
-				"ventoso": "«ventoso» vuol dire «con molto vento»: un'altra parola, non quella cercata.",
+				"ventoso": "«ventoso» vuol dire «con aria che soffia forte»: un'altra parola, non quella cercata.",
 				"nuvoloso": "«nuvoloso» vuol dire «coperto da nuvole»: un'altra parola, non quella cercata.",
-				"tardivo": "«tardivo» vuol dire «che avviene troppo tardi»: un'altra parola, non quella cercata."
+				"tardivo": "«tardivo» vuol dire «che arriva più in là del solito»: un'altra parola, non quella cercata."
 			}
 		},
 		{
@@ -2214,7 +2214,7 @@
 			"topic": "tempo-meteo",
 			"difficulty": 1,
 			"format": "multiple_choice",
-			"prompt": "Quale parola corrisponde a: \"con molto vento\"?",
+			"prompt": "Quale parola corrisponde a: \"con aria che soffia forte\"?",
 			"options": [
 				"puntuale",
 				"ventoso",
@@ -2222,7 +2222,7 @@
 				"piovoso"
 			],
 			"answer": "ventoso",
-			"explanation": "\"ventoso\": con molto vento. Stesso gruppo: freddo = con temperatura bassa, caldo = con temperatura alta.",
+			"explanation": "\"ventoso\": con aria che soffia forte. Stesso gruppo: freddo = con temperatura bassa, caldo = con temperatura alta.",
 			"distractorWhy": {
 				"piovoso": "«piovoso» vuol dire «con molta pioggia»: un'altra parola, non quella cercata.",
 				"puntuale": "«puntuale» vuol dire «che arriva o agisce all'orario previsto»: un'altra parola, non quella cercata.",
@@ -2247,7 +2247,7 @@
 			"distractorWhy": {
 				"caldo": "«caldo» vuol dire «con temperatura alta»: un'altra parola, non quella cercata.",
 				"piovoso": "«piovoso» vuol dire «con molta pioggia»: un'altra parola, non quella cercata.",
-				"ventoso": "«ventoso» vuol dire «con molto vento»: un'altra parola, non quella cercata."
+				"ventoso": "«ventoso» vuol dire «con aria che soffia forte»: un'altra parola, non quella cercata."
 			}
 		},
 		{
@@ -2264,10 +2264,10 @@
 				"caldo"
 			],
 			"answer": "caldo",
-			"explanation": "\"caldo\": con temperatura alta. Stesso gruppo: puntuale = che arriva o agisce all'orario previsto, tardivo = che avviene troppo tardi.",
+			"explanation": "\"caldo\": con temperatura alta. Stesso gruppo: puntuale = che arriva o agisce all'orario previsto, tardivo = che arriva più in là del solito.",
 			"distractorWhy": {
-				"tardivo": "«tardivo» vuol dire «che avviene troppo tardi»: un'altra parola, non quella cercata.",
-				"ventoso": "«ventoso» vuol dire «con molto vento»: un'altra parola, non quella cercata.",
+				"tardivo": "«tardivo» vuol dire «che arriva più in là del solito»: un'altra parola, non quella cercata.",
+				"ventoso": "«ventoso» vuol dire «con aria che soffia forte»: un'altra parola, non quella cercata.",
 				"piovoso": "«piovoso» vuol dire «con molta pioggia»: un'altra parola, non quella cercata."
 			}
 		},
@@ -3545,10 +3545,10 @@
 				"paziente"
 			],
 			"answer": "felice",
-			"explanation": "\"felice\": che prova gioia. Stesso gruppo: triste = che prova tristezza, preoccupato = che teme un problema.",
+			"explanation": "\"felice\": che prova gioia. Stesso gruppo: triste = che prova dispiacere o malinconia, preoccupato = che teme un problema.",
 			"distractorWhy": {
 				"paziente": "«paziente» vuol dire «capace di aspettare senza agitarsi»: un'altra parola, non quella cercata.",
-				"triste": "«triste» vuol dire «che prova tristezza»: un'altra parola, non quella cercata.",
+				"triste": "«triste» vuol dire «che prova dispiacere o malinconia»: un'altra parola, non quella cercata.",
 				"timido": "«timido» vuol dire «che si espone con difficoltà»: un'altra parola, non quella cercata."
 			}
 		},
@@ -3558,7 +3558,7 @@
 			"topic": "emozioni-relazioni",
 			"difficulty": 1,
 			"format": "multiple_choice",
-			"prompt": "Quale parola corrisponde a: \"che prova tristezza\"?",
+			"prompt": "Quale parola corrisponde a: \"che prova dispiacere o malinconia\"?",
 			"options": [
 				"sereno",
 				"triste",
@@ -3566,7 +3566,7 @@
 				"paziente"
 			],
 			"answer": "triste",
-			"explanation": "\"triste\": che prova tristezza. Stesso gruppo: preoccupato = che teme un problema, arrabbiato = che prova rabbia.",
+			"explanation": "\"triste\": che prova dispiacere o malinconia. Stesso gruppo: preoccupato = che teme un problema, arrabbiato = che prova rabbia.",
 			"distractorWhy": {
 				"sereno": "«sereno» vuol dire «calmo e tranquillo»: un'altra parola, non quella cercata.",
 				"paziente": "«paziente» vuol dire «capace di aspettare senza agitarsi»: un'altra parola, non quella cercata.",
@@ -3633,7 +3633,7 @@
 			"distractorWhy": {
 				"leale": "«leale» vuol dire «fedele e corretto verso gli altri»: un'altra parola, non quella cercata.",
 				"timido": "«timido» vuol dire «che si espone con difficoltà»: un'altra parola, non quella cercata.",
-				"triste": "«triste» vuol dire «che prova tristezza»: un'altra parola, non quella cercata."
+				"triste": "«triste» vuol dire «che prova dispiacere o malinconia»: un'altra parola, non quella cercata."
 			}
 		},
 		{
@@ -3652,7 +3652,7 @@
 			"answer": "timido",
 			"explanation": "\"timido\": che si espone con difficoltà. Stesso gruppo: coraggioso = che affronta una difficoltà, leale = fedele e corretto verso gli altri.",
 			"distractorWhy": {
-				"triste": "«triste» vuol dire «che prova tristezza»: un'altra parola, non quella cercata.",
+				"triste": "«triste» vuol dire «che prova dispiacere o malinconia»: un'altra parola, non quella cercata.",
 				"paziente": "«paziente» vuol dire «capace di aspettare senza agitarsi»: un'altra parola, non quella cercata.",
 				"felice": "«felice» vuol dire «che prova gioia»: un'altra parola, non quella cercata."
 			}
@@ -3717,7 +3717,7 @@
 			"distractorWhy": {
 				"felice": "«felice» vuol dire «che prova gioia»: un'altra parola, non quella cercata.",
 				"coraggioso": "«coraggioso» vuol dire «che affronta una difficoltà»: un'altra parola, non quella cercata.",
-				"triste": "«triste» vuol dire «che prova tristezza»: un'altra parola, non quella cercata."
+				"triste": "«triste» vuol dire «che prova dispiacere o malinconia»: un'altra parola, non quella cercata."
 			}
 		},
 		{
@@ -3734,7 +3734,7 @@
 				"coraggioso"
 			],
 			"answer": "impulsivo",
-			"explanation": "\"impulsivo\": che agisce senza riflettere abbastanza. Stesso gruppo: felice = che prova gioia, triste = che prova tristezza.",
+			"explanation": "\"impulsivo\": che agisce senza riflettere abbastanza. Stesso gruppo: felice = che prova gioia, triste = che prova dispiacere o malinconia.",
 			"distractorWhy": {
 				"coraggioso": "«coraggioso» vuol dire «che affronta una difficoltà»: un'altra parola, non quella cercata.",
 				"arrabbiato": "«arrabbiato» vuol dire «che prova rabbia»: un'altra parola, non quella cercata.",
@@ -5427,7 +5427,7 @@
 			"topic": "natura-ambiente",
 			"difficulty": 2,
 			"format": "multiple_choice",
-			"prompt": "Quale parola corrisponde a: \"che appartiene alla natura\"?",
+			"prompt": "Quale parola corrisponde a: \"che non è stato fatto dall'uomo\"?",
 			"options": [
 				"sostenibile",
 				"inquinato",
@@ -5435,7 +5435,7 @@
 				"riciclabile"
 			],
 			"answer": "naturale",
-			"explanation": "\"naturale\": che appartiene alla natura. Stesso gruppo: inquinato = reso sporco o dannoso, riciclabile = che può essere trasformato e riutilizzato.",
+			"explanation": "\"naturale\": che non è stato fatto dall'uomo. Stesso gruppo: inquinato = reso sporco o dannoso, riciclabile = che può essere trasformato e riutilizzato.",
 			"distractorWhy": {
 				"riciclabile": "«riciclabile» vuol dire «che può essere trasformato e riutilizzato»: un'altra parola, non quella cercata.",
 				"inquinato": "«inquinato» vuol dire «reso sporco o dannoso»: un'altra parola, non quella cercata.",
@@ -5479,7 +5479,7 @@
 			"answer": "riciclabile",
 			"explanation": "\"riciclabile\": che può essere trasformato e riutilizzato. Stesso gruppo: sostenibile = che rispetta risorse e futuro, rinnovabile = che si rigenera o non si esaurisce facilmente.",
 			"distractorWhy": {
-				"naturale": "«naturale» vuol dire «che appartiene alla natura»: un'altra parola, non quella cercata.",
+				"naturale": "«naturale» vuol dire «che non è stato fatto dall'uomo»: un'altra parola, non quella cercata.",
 				"rinnovabile": "«rinnovabile» vuol dire «che si rigenera o non si esaurisce facilmente»: un'altra parola, non quella cercata.",
 				"sostenibile": "«sostenibile» vuol dire «che rispetta risorse e futuro»: un'altra parola, non quella cercata."
 			}
@@ -5500,7 +5500,7 @@
 			"answer": "sostenibile",
 			"explanation": "\"sostenibile\": che rispetta risorse e futuro. Stesso gruppo: rinnovabile = che si rigenera o non si esaurisce facilmente, secco = senza acqua o umidità.",
 			"distractorWhy": {
-				"naturale": "«naturale» vuol dire «che appartiene alla natura»: un'altra parola, non quella cercata.",
+				"naturale": "«naturale» vuol dire «che non è stato fatto dall'uomo»: un'altra parola, non quella cercata.",
 				"riciclabile": "«riciclabile» vuol dire «che può essere trasformato e riutilizzato»: un'altra parola, non quella cercata.",
 				"inquinato": "«inquinato» vuol dire «reso sporco o dannoso»: un'altra parola, non quella cercata."
 			}
@@ -5519,7 +5519,7 @@
 				"riciclabile"
 			],
 			"answer": "rinnovabile",
-			"explanation": "\"rinnovabile\": che si rigenera o non si esaurisce facilmente. Stesso gruppo: secco = senza acqua o umidità, naturale = che appartiene alla natura.",
+			"explanation": "\"rinnovabile\": che si rigenera o non si esaurisce facilmente. Stesso gruppo: secco = senza acqua o umidità, naturale = che non è stato fatto dall'uomo.",
 			"distractorWhy": {
 				"sostenibile": "«sostenibile» vuol dire «che rispetta risorse e futuro»: un'altra parola, non quella cercata.",
 				"riciclabile": "«riciclabile» vuol dire «che può essere trasformato e riutilizzato»: un'altra parola, non quella cercata.",
@@ -5540,11 +5540,11 @@
 				"secco"
 			],
 			"answer": "secco",
-			"explanation": "\"secco\": senza acqua o umidità. Stesso gruppo: naturale = che appartiene alla natura, inquinato = reso sporco o dannoso.",
+			"explanation": "\"secco\": senza acqua o umidità. Stesso gruppo: naturale = che non è stato fatto dall'uomo, inquinato = reso sporco o dannoso.",
 			"distractorWhy": {
 				"inquinato": "«inquinato» vuol dire «reso sporco o dannoso»: un'altra parola, non quella cercata.",
 				"riciclabile": "«riciclabile» vuol dire «che può essere trasformato e riutilizzato»: un'altra parola, non quella cercata.",
-				"naturale": "«naturale» vuol dire «che appartiene alla natura»: un'altra parola, non quella cercata."
+				"naturale": "«naturale» vuol dire «che non è stato fatto dall'uomo»: un'altra parola, non quella cercata."
 			}
 		},
 		{
@@ -7024,14 +7024,14 @@
 				"Perché è un'ipotesi",
 				"Perché è un ordine",
 				"Perché esprime un fatto sempre vero",
-				"Perché indica il passato"
+				"Perché indica un fatto già accaduto"
 			],
 			"answer": "Perché esprime un fatto sempre vero",
 			"explanation": "Il presente indicativo esprime anche verità permanenti: si chiama presente atemporale.",
 			"distractorWhy": {
 				"Perché è un ordine": "Un ordine userebbe l'imperativo «sorgi».",
 				"Perché è un'ipotesi": "Le ipotesi non si esprimono con l'indicativo presente.",
-				"Perché indica il passato": "Il presente non colloca l'azione nel passato."
+				"Perché indica un fatto già accaduto": "Il presente non colloca l'azione nel passato."
 			}
 		},
 		{
@@ -7042,7 +7042,7 @@
 			"format": "multiple_choice",
 			"prompt": "In quale frase l'imperfetto è usato in modo scorretto?",
 			"options": [
-				"Da bambino giocavo a pallone",
+				"Da bambino giocavo a pallone tutti i giorni",
 				"Ogni estate andavamo al mare",
 				"Mentre pioveva, leggevo",
 				"Ieri alle tre esatte partivo il treno per Roma"
@@ -7050,7 +7050,7 @@
 			"answer": "Ieri alle tre esatte partivo il treno per Roma",
 			"explanation": "Con un istante preciso serve il passato remoto o prossimo: «partì», «è partito». L'imperfetto vuole durata o abitudine.",
 			"distractorWhy": {
-				"Da bambino giocavo a pallone": "È un'abitudine nel passato: uso corretto.",
+				"Da bambino giocavo a pallone tutti i giorni": "È un'abitudine nel passato: uso corretto.",
 				"Mentre pioveva, leggevo": "Sono due durate contemporanee: uso corretto.",
 				"Ogni estate andavamo al mare": "«Ogni estate» segnala l'abitudine: uso corretto."
 			}
@@ -7084,7 +7084,7 @@
 			"format": "multiple_choice",
 			"prompt": "Perché «Il treno parte alle sei» può indicare il futuro?",
 			"options": [
-				"Perché il presente è sempre futuro",
+				"Perché in italiano il presente è sempre anche futuro",
 				"Perché il presente vale per orari e programmi fissati",
 				"Perché il verbo è irregolare",
 				"Perché manca il soggetto"
@@ -7092,7 +7092,7 @@
 			"answer": "Perché il presente vale per orari e programmi fissati",
 			"explanation": "Con eventi programmati l'italiano usa il presente al posto del futuro: è la regola degli orari.",
 			"distractorWhy": {
-				"Perché il presente è sempre futuro": "Nella maggior parte dei casi il presente indica proprio il presente.",
+				"Perché in italiano il presente è sempre anche futuro": "Nella maggior parte dei casi il presente indica proprio il presente.",
 				"Perché il verbo è irregolare": "L'irregolarità non c'entra con il valore temporale.",
 				"Perché manca il soggetto": "Il soggetto c'è: «il treno»."
 			}
@@ -7142,7 +7142,7 @@
 			"format": "multiple_choice",
 			"prompt": "Che differenza c'è fra «ho letto» e «lessi»?",
 			"options": [
-				"Nessuna, sono sinonimi perfetti in ogni contesto d'uso",
+				"Nessuna: sono sinonimi perfetti in qualunque contesto d'uso",
 				"«Lessi» è un congiuntivo",
 				"«Ho letto» è futuro",
 				"«Ho letto» sente il passato ancora vicino, «lessi» lo allontana"
@@ -7150,7 +7150,7 @@
 			"answer": "«Ho letto» sente il passato ancora vicino, «lessi» lo allontana",
 			"explanation": "Passato prossimo e remoto raccontano entrambi fatti conclusi: cambia quanto quel fatto è sentito vicino a chi parla.",
 			"distractorWhy": {
-				"Nessuna, sono sinonimi perfetti in ogni contesto d'uso": "La scelta cambia il tono del racconto.",
+				"Nessuna: sono sinonimi perfetti in qualunque contesto d'uso": "La scelta cambia il tono del racconto.",
 				"«Ho letto» è futuro": "È un tempo passato, formato con l'ausiliare al presente.",
 				"«Lessi» è un congiuntivo": "«Lessi» è indicativo passato remoto."
 			}
@@ -7180,7 +7180,7 @@
 			"prompt": "Il congiuntivo è il modo:",
 			"options": [
 				"della possibilità e del dubbio",
-				"della certezza",
+				"della certezza e dei fatti",
 				"dell'ordine",
 				"del passato"
 			],
@@ -7188,7 +7188,7 @@
 			"explanation": "Il congiuntivo esprime ciò che è pensato, temuto, sperato o incerto: non ciò che è dato per certo.",
 			"distractorWhy": {
 				"dell'ordine": "L'ordine è dell'imperativo.",
-				"della certezza": "La certezza è dell'indicativo.",
+				"della certezza e dei fatti": "La certezza è dell'indicativo.",
 				"del passato": "Il passato è un tempo, non un modo."
 			}
 		},
@@ -7200,7 +7200,7 @@
 			"format": "multiple_choice",
 			"prompt": "Quale frase richiede il congiuntivo?",
 			"options": [
-				"So che è tardi",
+				"So bene che è tardi",
 				"Spero che sia tardi",
 				"È tardi",
 				"Sarà tardi"
@@ -7208,7 +7208,7 @@
 			"answer": "Spero che sia tardi",
 			"explanation": "«Sperare» esprime un desiderio, non un fatto: la subordinata va al congiuntivo.",
 			"distractorWhy": {
-				"So che è tardi": "«Sapere» esprime certezza: vuole l'indicativo.",
+				"So bene che è tardi": "«Sapere» esprime certezza: vuole l'indicativo.",
 				"È tardi": "È una principale affermativa: indicativo.",
 				"Sarà tardi": "È una supposizione espressa col futuro indicativo."
 			}
@@ -7240,14 +7240,14 @@
 				"dare ordini",
 				"esprimere un fatto certo",
 				"esprimere desideri e richieste cortesi",
-				"raccontare il passato remoto"
+				"raccontare i fatti del passato remoto"
 			],
 			"answer": "esprimere desideri e richieste cortesi",
 			"explanation": "«Vorrei un bicchiere d'acqua» è più cortese di «voglio»: il condizionale attenua la richiesta.",
 			"distractorWhy": {
 				"dare ordini": "Gli ordini sono dell'imperativo.",
 				"esprimere un fatto certo": "La certezza è dell'indicativo.",
-				"raccontare il passato remoto": "Il passato remoto è un tempo dell'indicativo."
+				"raccontare i fatti del passato remoto": "Il passato remoto è un tempo dell'indicativo."
 			}
 		},
 		{
@@ -7335,14 +7335,14 @@
 				"Sono identiche",
 				"La prima è reale, la seconda solo possibile",
 				"La prima è impossibile",
-				"La seconda parla del passato"
+				"La seconda parla di un fatto già passato"
 			],
 			"answer": "La prima è reale, la seconda solo possibile",
 			"explanation": "Il primo è il periodo ipotetico della realtà, il secondo quello della possibilità: cambia quanto chi parla crede all'ipotesi.",
 			"distractorWhy": {
 				"Sono identiche": "Indicativo e congiuntivo cambiano il grado di certezza.",
 				"La prima è impossibile": "La prima è anzi la più concreta delle due.",
-				"La seconda parla del passato": "«Piovesse» è congiuntivo imperfetto, ma qui guarda al possibile, non al passato."
+				"La seconda parla di un fatto già passato": "«Piovesse» è congiuntivo imperfetto, ma qui guarda al possibile, non al passato."
 			}
 		},
 		{
@@ -7369,7 +7369,7 @@
 			"format": "multiple_choice",
 			"prompt": "Perché «Vorrei che tu venga» è scorretto?",
 			"options": [
-				"Perché «vorrei» è sbagliato",
+				"Perché «vorrei» è una forma sbagliata che non si dovrebbe usare",
 				"Perché manca il soggetto",
 				"Perché «vorrei» vuole il congiuntivo imperfetto, non il presente",
 				"Perché «venga» non esiste"
@@ -7378,7 +7378,7 @@
 			"explanation": "Il condizionale presente nella principale chiede il congiuntivo imperfetto nella subordinata: «vorrei che tu venissi».",
 			"distractorWhy": {
 				"Perché manca il soggetto": "Il soggetto «tu» c'è.",
-				"Perché «vorrei» è sbagliato": "«Vorrei» è corretto: è il seguito che non concorda.",
+				"Perché «vorrei» è una forma sbagliata che non si dovrebbe usare": "«Vorrei» è corretto: è il seguito che non concorda.",
 				"Perché «venga» non esiste": "«Venga» esiste, ma è congiuntivo presente."
 			}
 		},
@@ -7391,7 +7391,7 @@
 			"prompt": "Quale voce è al congiuntivo?",
 			"options": [
 				"andrei",
-				"andato",
+				"sono andato",
 				"vado",
 				"che io vada"
 			],
@@ -7400,7 +7400,7 @@
 			"distractorWhy": {
 				"andrei": "«Andrei» è condizionale presente.",
 				"vado": "«Vado» è indicativo presente.",
-				"andato": "«Andato» è participio passato."
+				"sono andato": "«Andato» è participio passato."
 			}
 		},
 		{
@@ -7409,14 +7409,14 @@
 			"topic": "congiuntivo-condizionale",
 			"difficulty": 2,
 			"format": "short_answer",
-			"prompt": "«Mi piacerebbe ___ con voi.» Quale forma di «venire» completa la frase?",
+			"prompt": "«Mi piacerebbe che tu ___ con noi.» Quale forma di «venire» completa la frase?",
 			"options": [],
-			"answer": "venire",
-			"explanation": "Quando il soggetto è lo stesso, dopo il condizionale si usa l'infinito, non il congiuntivo.",
+			"answer": "venissi",
+			"explanation": "Quando il soggetto cambia, dopo il condizionale ci vuole il congiuntivo imperfetto. Se il soggetto restasse lo stesso si userebbe l'infinito: «mi piacerebbe venire con voi».",
 			"distractorWhy": {
-				"venga": "Il congiuntivo serve solo se il soggetto cambia.",
-				"venissi": "Anche qui il congiuntivo richiederebbe un soggetto diverso.",
-				"vengo": "L'indicativo presente non segue «mi piacerebbe»."
+				"venga": "Il congiuntivo presente non regge dopo un condizionale: ci vuole l'imperfetto, «venissi».",
+				"venire": "L'infinito va bene solo se il soggetto non cambia: qui c'è «che tu», quindi serve il congiuntivo.",
+				"vieni": "L'indicativo non segue «mi piacerebbe che»: quella costruzione chiede il congiuntivo."
 			}
 		},
 		{
@@ -7429,7 +7429,7 @@
 			"options": [
 				"un'azione non avvenuta",
 				"un'azione certa",
-				"un'azione futura",
+				"un'azione futura e certa",
 				"un ordine"
 			],
 			"answer": "un'azione non avvenuta",
@@ -7437,7 +7437,7 @@
 			"distractorWhy": {
 				"un ordine": "Gli ordini sono dell'imperativo.",
 				"un'azione certa": "Il fatto è appunto mancato.",
-				"un'azione futura": "Il condizionale passato guarda a un futuro nel passato, già smentito."
+				"un'azione futura e certa": "Il condizionale passato guarda a un futuro nel passato, già smentito."
 			}
 		},
 		{
@@ -7462,19 +7462,19 @@
 			"topic": "imperativo-infinito-participio-gerundio",
 			"difficulty": 1,
 			"format": "multiple_choice",
-			"prompt": "Quali sono i modi indefiniti?",
+			"prompt": "Perché infinito, participio e gerundio si dicono «indefiniti»?",
 			"options": [
-				"Indicativo, congiuntivo, condizionale",
-				"Infinito, participio, gerundio",
-				"Presente, passato, futuro",
-				"Prima, seconda, terza persona"
+				"Perché da soli non dicono chi compie l'azione",
+				"Perché non si possono usare in una frase intera",
+				"Perché non hanno un tempo passato o presente",
+				"Perché si trovano soltanto nei testi antichi"
 			],
-			"answer": "Infinito, participio, gerundio",
-			"explanation": "Si chiamano indefiniti perché non indicano la persona: da soli non dicono chi compie l'azione.",
+			"answer": "Perché da soli non dicono chi compie l'azione",
+			"explanation": "«Correre» e «correndo» valgono per chiunque: la persona la deve dire il verbo della frase principale.",
 			"distractorWhy": {
-				"Indicativo, congiuntivo, condizionale": "Sono modi definiti: indicano la persona.",
-				"Presente, passato, futuro": "Sono tempi, non modi.",
-				"Prima, seconda, terza persona": "Sono le persone del verbo."
+				"Perché non si possono usare in una frase intera": "Si usano eccome: «mangiare fa bene» è una frase completa con l'infinito come soggetto.",
+				"Perché non hanno un tempo passato o presente": "Ce l'hanno: «avere mangiato» è infinito passato, «avendo mangiato» gerundio passato.",
+				"Perché si trovano soltanto nei testi antichi": "Sono comunissimi anche oggi: «vietato fumare», «correndo, arrivò in tempo»."
 			}
 		},
 		{
@@ -7529,7 +7529,7 @@
 			"options": [
 				"La porta chiusa non si apre",
 				"Chiudere la porta",
-				"Chiudendo la porta",
+				"Chiudendo bene la porta",
 				"Ho chiuso la porta"
 			],
 			"answer": "La porta chiusa non si apre",
@@ -7537,7 +7537,7 @@
 			"distractorWhy": {
 				"Ho chiuso la porta": "Qui «chiuso» forma il passato prossimo con l'ausiliare.",
 				"Chiudere la porta": "«Chiudere» è infinito.",
-				"Chiudendo la porta": "«Chiudendo» è gerundio."
+				"Chiudendo bene la porta": "«Chiudendo» è gerundio."
 			}
 		},
 		{
@@ -7588,14 +7588,14 @@
 				"Fa da aggettivo",
 				"Dà un ordine",
 				"Regge una subordinata implicita",
-				"Indica il futuro"
+				"Indica un'azione che deve ancora avvenire"
 			],
 			"answer": "Regge una subordinata implicita",
 			"explanation": "«Entrare» sostituisce «che entravi»: è una subordinata senza «che», detta implicita.",
 			"distractorWhy": {
 				"Dà un ordine": "Nessun ordine viene dato.",
 				"Fa da aggettivo": "Non qualifica alcun nome.",
-				"Indica il futuro": "L'azione è già avvenuta."
+				"Indica un'azione che deve ancora avvenire": "L'azione è già avvenuta."
 			}
 		},
 		{
@@ -7608,14 +7608,14 @@
 			"options": [
 				"Ho cantato bene",
 				"Cantare è bello",
-				"Cantando si impara",
+				"Cantando tutti insieme si impara",
 				"Una voce cantante riempiva la sala"
 			],
 			"answer": "Una voce cantante riempiva la sala",
 			"explanation": "Il participio presente in «-ante»/«-ente» qualifica il nome: «voce cantante».",
 			"distractorWhy": {
 				"Ho cantato bene": "«Cantato» è participio passato dentro il passato prossimo.",
-				"Cantando si impara": "«Cantando» è gerundio.",
+				"Cantando tutti insieme si impara": "«Cantando» è gerundio.",
 				"Cantare è bello": "«Cantare» è infinito con funzione di nome."
 			}
 		},
@@ -7630,14 +7630,14 @@
 				"Perché il gerundio è indefinito e vale per chiunque",
 				"Perché il soggetto è «si»",
 				"Perché è un ordine",
-				"Perché manca il verbo principale"
+				"Perché nella frase manca del tutto il verbo principale"
 			],
 			"answer": "Perché il gerundio è indefinito e vale per chiunque",
 			"explanation": "I modi indefiniti non indicano la persona: la frase vale per tutti, ed è per questo che funziona come proverbio.",
 			"distractorWhy": {
 				"Perché il soggetto è «si»": "«Si» è la particella impersonale, non il soggetto del gerundio.",
 				"Perché è un ordine": "Non c'è nessun imperativo.",
-				"Perché manca il verbo principale": "Il verbo principale «impara» c'è."
+				"Perché nella frase manca del tutto il verbo principale": "Il verbo principale «impara» c'è."
 			}
 		},
 		{
@@ -7729,14 +7729,14 @@
 			"options": [
 				"Nel secondo manca il verbo",
 				"Sono la stessa costruzione",
-				"Nel primo «letto» è un nome",
+				"Nel primo «letto» è il nome del mobile, nel secondo un participio con valore di verbo",
 				"Nel primo il participio forma il tempo composto, nel secondo regge una subordinata"
 			],
 			"answer": "Nel primo il participio forma il tempo composto, nel secondo regge una subordinata",
 			"explanation": "Lo stesso participio può fare due lavori: con l'ausiliare costruisce il passato prossimo, da solo apre una subordinata implicita.",
 			"distractorWhy": {
 				"Sono la stessa costruzione": "Nella seconda manca l'ausiliare, e cambia tutto.",
-				"Nel primo «letto» è un nome": "«Letto» qui è verbo, non il mobile.",
+				"Nel primo «letto» è il nome del mobile, nel secondo un participio con valore di verbo": "«Letto» qui è verbo, non il mobile.",
 				"Nel secondo manca il verbo": "Il verbo principale «uscì» c'è."
 			}
 		},
@@ -7766,14 +7766,14 @@
 			"options": [
 				"collocare le azioni nel tempo l'una rispetto all'altra",
 				"abbellire la frase",
-				"evitare le ripetizioni",
+				"evitare che le stesse parole si ripetano troppo spesso",
 				"scegliere il soggetto"
 			],
 			"answer": "collocare le azioni nel tempo l'una rispetto all'altra",
 			"explanation": "Concordare i tempi vuol dire far capire che cosa è successo prima, dopo o insieme.",
 			"distractorWhy": {
 				"abbellire la frase": "È una questione di senso, non di stile.",
-				"evitare le ripetizioni": "Le ripetizioni si evitano con i pronomi.",
+				"evitare che le stesse parole si ripetano troppo spesso": "Le ripetizioni si evitano con i pronomi.",
 				"scegliere il soggetto": "Il soggetto non dipende dalla concordanza dei tempi."
 			}
 		},
@@ -7841,14 +7841,14 @@
 				"posteriorità",
 				"un ordine",
 				"contemporaneità nel passato",
-				"un fatto certo"
+				"un fatto certo e concluso"
 			],
 			"answer": "contemporaneità nel passato",
 			"explanation": "Il congiuntivo imperfetto dopo una principale al passato indica che i due fatti avvenivano insieme.",
 			"distractorWhy": {
 				"posteriorità": "La posteriorità vorrebbe «sarebbe stato».",
 				"un ordine": "Nessun imperativo compare.",
-				"un fatto certo": "«Credevo» segnala un'opinione, non una certezza."
+				"un fatto certo e concluso": "«Credevo» segnala un'opinione, non una certezza."
 			}
 		},
 		{
@@ -7899,14 +7899,14 @@
 				"il passato prossimo o il congiuntivo passato",
 				"il futuro semplice",
 				"l'imperativo",
-				"il gerundio presente"
+				"il gerundio presente al posto del passato"
 			],
 			"answer": "il passato prossimo o il congiuntivo passato",
 			"explanation": "«So che è partito», «credo che sia partito»: entrambi collocano il fatto prima del momento in cui si parla.",
 			"distractorWhy": {
 				"il futuro semplice": "Il futuro colloca dopo, non prima.",
 				"l'imperativo": "L'imperativo non colloca nel tempo.",
-				"il gerundio presente": "Il gerundio presente indica contemporaneità."
+				"il gerundio presente al posto del passato": "Il gerundio presente indica contemporaneità."
 			}
 		},
 		{
@@ -7933,7 +7933,7 @@
 			"format": "multiple_choice",
 			"prompt": "Perché «Mi ha detto che è arrivato ieri» è corretto nonostante la principale sia al passato?",
 			"options": [
-				"Perché «ieri» impone il presente",
+				"Perché la presenza di «ieri» obbliga comunque a usare il tempo presente",
 				"Perché il passato prossimo tiene il fatto legato al presente di chi parla",
 				"Perché è un errore tollerato",
 				"Perché «arrivato» è un aggettivo"
@@ -7941,7 +7941,7 @@
 			"answer": "Perché il passato prossimo tiene il fatto legato al presente di chi parla",
 			"explanation": "Il passato prossimo funziona da ponte: racconta un fatto concluso che chi parla sente ancora vicino, e regge anche dopo una principale al passato.",
 			"distractorWhy": {
-				"Perché «ieri» impone il presente": "«Ieri» colloca nel passato, semmai.",
+				"Perché la presenza di «ieri» obbliga comunque a usare il tempo presente": "«Ieri» colloca nel passato, semmai.",
 				"Perché è un errore tollerato": "La frase è pienamente corretta.",
 				"Perché «arrivato» è un aggettivo": "Qui «arrivato» è participio dentro il passato prossimo."
 			}
@@ -7955,7 +7955,7 @@
 			"prompt": "In «Pensavo che avrebbe telefonato», il condizionale passato indica:",
 			"options": [
 				"un'azione anteriore",
-				"un'azione contemporanea",
+				"un'azione contemporanea al pensiero",
 				"un'azione posteriore al pensiero",
 				"un ordine"
 			],
@@ -7963,7 +7963,7 @@
 			"explanation": "Prima il pensiero, poi la telefonata attesa: il condizionale passato è il futuro visto dal passato.",
 			"distractorWhy": {
 				"un'azione anteriore": "L'anteriorità vorrebbe «avesse telefonato».",
-				"un'azione contemporanea": "La contemporaneità vorrebbe «telefonasse».",
+				"un'azione contemporanea al pensiero": "La contemporaneità vorrebbe «telefonasse».",
 				"un ordine": "Nessun imperativo compare."
 			}
 		},
@@ -7991,7 +7991,7 @@
 			"format": "multiple_choice",
 			"prompt": "Quale coppia di tempi esprime correttamente l'anteriorità?",
 			"options": [
-				"Dice che partiva",
+				"Dice che partiva proprio ieri",
 				"Dirà che partì",
 				"Disse che parte",
 				"Disse che era partito"
@@ -7999,7 +7999,7 @@
 			"answer": "Disse che era partito",
 			"explanation": "Passato remoto nella principale e trapassato nella subordinata: il secondo fatto è chiaramente precedente.",
 			"distractorWhy": {
-				"Dice che partiva": "Presente e imperfetto non costruiscono un'anteriorità chiara.",
+				"Dice che partiva proprio ieri": "Presente e imperfetto non costruiscono un'anteriorità chiara.",
 				"Disse che parte": "Il presente non concorda con «disse».",
 				"Dirà che partì": "Futuro e passato remoto stridono."
 			}
@@ -8015,14 +8015,14 @@
 				"Il punto da cui si guarda l'azione",
 				"Solo la lunghezza",
 				"Il soggetto",
-				"Il modo del verbo principale"
+				"Il modo del verbo della principale"
 			],
 			"answer": "Il punto da cui si guarda l'azione",
 			"explanation": "La concordanza sposta l'intero racconto: nella prima si guarda dal presente, nella seconda da un punto già passato.",
 			"distractorWhy": {
 				"Solo la lunghezza": "Cambia il tempo, non il numero di parole.",
 				"Il soggetto": "Il soggetto resta lo stesso.",
-				"Il modo del verbo principale": "«Credo» e «credevo» sono entrambi indicativi."
+				"Il modo del verbo della principale": "«Credo» e «credevo» sono entrambi indicativi."
 			}
 		},
 		{
@@ -8138,7 +8138,7 @@
 			"format": "multiple_choice",
 			"prompt": "Che cosa cambia fra «Vieni qui» e «Verresti qui?»",
 			"options": [
-				"Il tempo del verbo",
+				"Il tempo del verbo, presente contro futuro",
 				"Il modo: ordine contro richiesta cortese",
 				"Il soggetto",
 				"Nulla"
@@ -8146,7 +8146,7 @@
 			"answer": "Il modo: ordine contro richiesta cortese",
 			"explanation": "Lo stesso contenuto cambia forza a seconda del modo: l'imperativo comanda, il condizionale chiede.",
 			"distractorWhy": {
-				"Il tempo del verbo": "Entrambi guardano al presente.",
+				"Il tempo del verbo, presente contro futuro": "Entrambi guardano al presente.",
 				"Il soggetto": "Il soggetto è «tu» in tutti e due.",
 				"Nulla": "La differenza di tono è netta, ed è ciò che il modo serve a esprimere."
 			}
@@ -8162,14 +8162,14 @@
 				"Perché è una domanda",
 				"Perché manca il soggetto",
 				"Perché «credere» presenta l'idea come opinione",
-				"Perché il verbo è irregolare"
+				"Perché il verbo della subordinata è irregolare"
 			],
 			"answer": "Perché «credere» presenta l'idea come opinione",
 			"explanation": "I verbi di opinione aprono al congiuntivo: chi parla non garantisce il fatto, lo pensa.",
 			"distractorWhy": {
 				"Perché manca il soggetto": "Il soggetto «tu» è espresso.",
 				"Perché è una domanda": "La frase è affermativa.",
-				"Perché il verbo è irregolare": "L'irregolarità non decide il modo."
+				"Perché il verbo della subordinata è irregolare": "L'irregolarità di un verbo non decide mai il modo che si deve usare."
 			}
 		},
 		{
@@ -8225,14 +8225,14 @@
 				"Perché indicano quando accade",
 				"Perché dicono il modo in cui l'azione viene presentata",
 				"Perché contano le persone",
-				"Perché distinguono maschile e femminile"
+				"Perché servono a distinguere il maschile dal femminile"
 			],
 			"answer": "Perché dicono il modo in cui l'azione viene presentata",
 			"explanation": "Il tempo dice quando, la persona dice chi, il modo dice come chi parla si pone davanti al fatto: certo, possibile, comandato.",
 			"distractorWhy": {
 				"Perché indicano quando accade": "Quello è il compito dei tempi.",
 				"Perché contano le persone": "Le persone sono un'altra categoria del verbo.",
-				"Perché distinguono maschile e femminile": "Il genere riguarda nomi e aggettivi."
+				"Perché servono a distinguere il maschile dal femminile": "Il genere riguarda nomi e aggettivi."
 			}
 		},
 		{
@@ -8246,14 +8246,14 @@
 				"Potresti aiutarmi?",
 				"Vorrei un caffè",
 				"Sarebbe partito, ma perse il treno",
-				"Mi presteresti la penna?"
+				"Mi presteresti la penna un momento?"
 			],
 			"answer": "Sarebbe partito, ma perse il treno",
 			"explanation": "Qui il condizionale passato racconta un fatto mancato, non attenua una richiesta.",
 			"distractorWhy": {
 				"Potresti aiutarmi?": "È una richiesta attenuata.",
 				"Vorrei un caffè": "È una richiesta cortese.",
-				"Mi presteresti la penna?": "È una richiesta cortese."
+				"Mi presteresti la penna un momento?": "È una richiesta cortese."
 			}
 		},
 		{
@@ -8414,14 +8414,14 @@
 				"un gerundio",
 				"un infinito",
 				"un participio passato",
-				"un imperativo"
+				"un imperativo negativo"
 			],
 			"answer": "un participio passato",
 			"explanation": "Il participio passato unito all'ausiliare forma i tempi composti: «ho mangiato» è passato prossimo.",
 			"distractorWhy": {
 				"un gerundio": "Il gerundio sarebbe «mangiando».",
 				"un infinito": "L'infinito sarebbe «mangiare».",
-				"un imperativo": "L'imperativo sarebbe «mangia!»."
+				"un imperativo negativo": "L'imperativo sarebbe «mangia!»."
 			}
 		},
 		{
@@ -8433,7 +8433,7 @@
 			"prompt": "«Uscendo di casa, ho incontrato Luca.» Il gerundio indica:",
 			"options": [
 				"un ordine",
-				"una condizione impossibile",
+				"una condizione impossibile da avverare",
 				"un dubbio",
 				"la circostanza in cui avviene l'incontro"
 			],
@@ -8442,7 +8442,7 @@
 			"distractorWhy": {
 				"un ordine": "Gli ordini sono dell'imperativo.",
 				"un dubbio": "I dubbi vogliono il congiuntivo.",
-				"una condizione impossibile": "Non c'è nessuna ipotesi."
+				"una condizione impossibile da avverare": "Non c'è nessuna ipotesi."
 			}
 		},
 		{
@@ -8498,14 +8498,14 @@
 				"Dà un ordine",
 				"Fa da soggetto",
 				"Apre una subordinata che indica anteriorità",
-				"Esprime un dubbio"
+				"Esprime un dubbio su quello che è successo"
 			],
 			"answer": "Apre una subordinata che indica anteriorità",
 			"explanation": "Il participio passato da solo, senza ausiliare, regge una frase e la colloca prima della principale.",
 			"distractorWhy": {
 				"Dà un ordine": "Nessun imperativo compare.",
 				"Fa da soggetto": "Il soggetto della principale è sottinteso, «noi».",
-				"Esprime un dubbio": "Il dubbio richiederebbe il congiuntivo."
+				"Esprime un dubbio su quello che è successo": "Il dubbio richiederebbe il congiuntivo."
 			}
 		},
 		{
@@ -8516,7 +8516,7 @@
 			"format": "multiple_choice",
 			"prompt": "Perché il gerundio non può reggere da solo una frase compiuta?",
 			"options": [
-				"Perché indica solo il futuro",
+				"Perché indica soltanto azioni al futuro",
 				"Perché è troppo corto",
 				"Perché non ha desinenza",
 				"Perché non indica chi compie l'azione"
@@ -8526,7 +8526,7 @@
 			"distractorWhy": {
 				"Perché è troppo corto": "La lunghezza non c'entra.",
 				"Perché non ha desinenza": "Ha desinenza propria, «-ando» o «-endo».",
-				"Perché indica solo il futuro": "Il gerundio non colloca nel futuro."
+				"Perché indica soltanto azioni al futuro": "Il gerundio non colloca nel futuro."
 			}
 		},
 		{
@@ -8580,14 +8580,14 @@
 			"prompt": "Perché «Vietato fumare» funziona senza soggetto né persona?",
 			"options": [
 				"Perché il soggetto è sottinteso «io»",
-				"Perché è un ordine rivolto a una persona",
+				"Perché è un ordine rivolto a una persona precisa",
 				"Perché usa due forme indefinite e vale per chiunque",
 				"Perché manca il verbo"
 			],
 			"answer": "Perché usa due forme indefinite e vale per chiunque",
 			"explanation": "Participio più infinito: nessuno dei due indica la persona, ed è per questo che i cartelli li usano.",
 			"distractorWhy": {
-				"Perché è un ordine rivolto a una persona": "Non è rivolto a nessuno in particolare, ed è voluto.",
+				"Perché è un ordine rivolto a una persona precisa": "Non è rivolto a nessuno in particolare, ed è voluto.",
 				"Perché il soggetto è sottinteso «io»": "Il divieto vale per tutti, non per chi scrive.",
 				"Perché manca il verbo": "I verbi ci sono: sono due, entrambi indefiniti."
 			}
@@ -8735,7 +8735,7 @@
 			"topic": "ortografia",
 			"difficulty": 2,
 			"format": "multiple_choice",
-			"prompt": "Si scrive «ho fatto» o «o fatto»?",
+			"prompt": "Quale forma completa «Ieri ___ i compiti tutti insieme»?",
 			"options": [
 				"o fatto",
 				"hò fatto",
@@ -8840,19 +8840,19 @@
 			"topic": "ortografia",
 			"difficulty": 4,
 			"format": "multiple_choice",
-			"prompt": "Si scrive «efficiente» o «efficente»?",
+			"prompt": "Quale di queste parole in -ente è scritta correttamente?",
 			"options": [
 				"efficente",
-				"efficiente e",
+				"efficente e sufficente",
 				"eficiente",
 				"efficiente"
 			],
 			"answer": "efficiente",
 			"explanation": "Si scrive con la i: efficiente, sufficiente, deficiente. Segue la regola dei participi in -ente da verbi in -ire.",
 			"distractorWhy": {
-				"efficente": "Manca la i: si scrive con la i come sufficiente e deficiente.",
+				"efficente": "Manca la i: si scrive «efficiente», come sufficiente e deficiente.",
 				"eficiente": "Manca una c: la parola raddoppia la consonante, effi-ciente.",
-				"efficiente e": "C'è una lettera in più staccata alla fine, che non fa parte della parola."
+				"efficente e sufficente": "Sono sbagliate tutte e due allo stesso modo: la i ci vuole in entrambe."
 			}
 		},
 		{
@@ -8898,19 +8898,19 @@
 			"topic": "ortografia",
 			"difficulty": 2,
 			"format": "multiple_choice",
-			"prompt": "Il pronome «se» riflessivo vuole l'accento?",
+			"prompt": "Come si scrive il pronome riflessivo in «pensa solo a ___ stesso»?",
 			"options": [
-				"sè stesso",
-				"se stesso senza accento mai",
-				"sé stesso",
-				"sé stessó"
+				"se",
+				"sè",
+				"sé",
+				"s'è"
 			],
-			"answer": "sé stesso",
-			"explanation": "Il pronome «sé» vuole l'accento acuto. Davanti a «stesso» oggi è ammessa anche la forma senza, ma con accento è sempre corretta.",
+			"answer": "sé",
+			"explanation": "Il pronome vuole l'accento acuto: «sé». Senza accento «se» è la congiunzione dell'ipotesi, «se piove». Davanti a «stesso» oggi si tollera anche «se stesso», ma con l'accento è sempre corretto.",
 			"distractorWhy": {
-				"se stesso senza accento mai": "L'accento sul pronome sé è sempre corretto: dire che non va mai messo è sbagliato.",
-				"sè stesso": "L'accento giusto è quello acuto (é), non quello grave (è).",
-				"sé stessó": "L'accento va sul pronome «sé», non sulla parola «stesso»."
+				"sè": "L'accento c'è ma è quello sbagliato: sul pronome va l'acuto (é), non il grave (è).",
+				"se": "Senza accento «se» è la congiunzione che introduce un'ipotesi: «se piove, resto».",
+				"s'è": "«S'è» è «si è», due parole con l'elisione: «s'è fatto tardi». Qui serve il pronome."
 			}
 		},
 		{
@@ -9005,7 +9005,7 @@
 			"format": "multiple_choice",
 			"prompt": "Perché non si mette mai la virgola fra soggetto e verbo?",
 			"options": [
-				"Perché la virgola serve solo agli elenchi",
+				"Perché la virgola serve soltanto agli elenchi",
 				"Perché il verbo non ammette pause vicine",
 				"Perché il soggetto va sempre per ultimo",
 				"Perché spezza il legame fondamentale della frase"
@@ -9013,7 +9013,7 @@
 			"answer": "Perché spezza il legame fondamentale della frase",
 			"explanation": "«Il cane, abbaia» è sbagliato: soggetto e verbo formano il nucleo della frase e non vanno separati.",
 			"distractorWhy": {
-				"Perché la virgola serve solo agli elenchi": "La virgola serve anche ad altro, per esempio isolare un vocativo o un inciso: non solo agli elenchi.",
+				"Perché la virgola serve soltanto agli elenchi": "La virgola serve anche ad altro, per esempio isolare un vocativo o un inciso: non solo agli elenchi.",
 				"Perché il soggetto va sempre per ultimo": "In italiano il soggetto può stare in vari punti della frase, anche dopo il verbo.",
 				"Perché il verbo non ammette pause vicine": "Il verbo può avere pause vicine, per esempio dopo un inciso: il problema specifico è fra soggetto e verbo."
 			}
@@ -9049,7 +9049,7 @@
 			"options": [
 				"A chiudere in modo definitivo un periodo",
 				"A separare parti collegate ma abbastanza autonome",
-				"A segnalare che nella frase manca una parola",
+				"A segnalare che nella frase manca qualche parola",
 				"A introdurre sempre e solo un elenco puntato"
 			],
 			"answer": "A separare parti collegate ma abbastanza autonome",
@@ -9057,7 +9057,7 @@
 			"distractorWhy": {
 				"A chiudere in modo definitivo un periodo": "Quella è la funzione del punto fermo: il punto e virgola lascia le due parti collegate.",
 				"A introdurre sempre e solo un elenco puntato": "Il punto e virgola può separare anche solo due frasi, non serve sempre a un elenco.",
-				"A segnalare che nella frase manca una parola": "Il punto e virgola non segnala parole mancanti: è un segno di pausa fra frasi complete."
+				"A segnalare che nella frase manca qualche parola": "Il punto e virgola non segnala parole mancanti: è un segno di pausa fra frasi complete."
 			}
 		},
 		{
@@ -9112,14 +9112,14 @@
 			"options": [
 				"A inserire un'informazione accessoria",
 				"A chiudere un elenco lungo",
-				"A introdurre un discorso diretto",
+				"A introdurre sempre un discorso diretto",
 				"A segnalare un errore nel testo"
 			],
 			"answer": "A inserire un'informazione accessoria",
 			"explanation": "Quello che sta fra parentesi si può togliere senza rompere la frase: è un inciso.",
 			"distractorWhy": {
 				"A segnalare un errore nel testo": "Le parentesi non segnalano errori: contengono un'informazione in più, corretta.",
-				"A introdurre un discorso diretto": "Il discorso diretto si introduce con i due punti e le virgolette, non con le parentesi.",
+				"A introdurre sempre un discorso diretto": "Il discorso diretto si introduce con i due punti e le virgolette, non con le parentesi.",
 				"A chiudere un elenco lungo": "Le parentesi non chiudono elenchi: isolano un inciso che si può togliere."
 			}
 		},
@@ -9131,7 +9131,7 @@
 			"format": "multiple_choice",
 			"prompt": "«Non lo faccio, però ci penso» — che rapporto segnala la virgola?",
 			"options": [
-				"Una causa e il suo effetto",
+				"Una causa con il suo effetto",
 				"Un'opposizione fra le due parti",
 				"Una successione nel tempo",
 				"Un elenco di due azioni"
@@ -9140,7 +9140,7 @@
 			"explanation": "La virgola prepara il «però»: le due parti si contrappongono invece di sommarsi.",
 			"distractorWhy": {
 				"Un elenco di due azioni": "Un elenco userebbe «e», non «però»: qui le due parti si contrappongono.",
-				"Una causa e il suo effetto": "«Però» non introduce una conseguenza, ma un contrasto con quanto detto prima.",
+				"Una causa con il suo effetto": "«Però» non introduce una conseguenza, ma un contrasto con quanto detto prima.",
 				"Una successione nel tempo": "Non c'è un ordine temporale fra le due azioni: sono messe in contrasto, non in sequenza."
 			}
 		},
@@ -9175,13 +9175,13 @@
 			"options": [
 				"Perché l'elenco ha solo tre voci",
 				"Perché le uova sono un plurale",
-				"Perché l'ultimo elemento è più corto",
+				"Perché l'ultimo elemento dell'elenco è corto",
 				"Perché la congiunzione sostituisce la virgola"
 			],
 			"answer": "Perché la congiunzione sostituisce la virgola",
 			"explanation": "In italiano la virgola prima della «e» conclusiva di solito non si mette: la congiunzione fa già il lavoro.",
 			"distractorWhy": {
-				"Perché l'ultimo elemento è più corto": "La lunghezza della parola non c'entra: è la congiunzione «e» a sostituire la virgola.",
+				"Perché l'ultimo elemento dell'elenco è corto": "La lunghezza della parola non c'entra: è la congiunzione «e» a sostituire la virgola.",
 				"Perché le uova sono un plurale": "Il numero (singolare o plurale) dell'ultima parola non cambia la regola sulla virgola.",
 				"Perché l'elenco ha solo tre voci": "La regola vale per elenchi di qualsiasi lunghezza, non solo per tre elementi."
 			}
@@ -9217,13 +9217,13 @@
 			"options": [
 				"Il complemento oggetto",
 				"Un inciso che si può togliere",
-				"Il soggetto della frase",
+				"Il soggetto di tutta la frase",
 				"Il verbo principale"
 			],
 			"answer": "Un inciso che si può togliere",
 			"explanation": "Togliendo l'inciso resta «Luca arriva domani»: la frase regge, quindi quella parte era accessoria.",
 			"distractorWhy": {
-				"Il soggetto della frase": "Il soggetto è «Luca», fuori dalle virgole: quello che c'è dentro è un'aggiunta su di lui.",
+				"Il soggetto di tutta la frase": "Il soggetto è «Luca», fuori dalle virgole: quello che c'è dentro è un'aggiunta su di lui.",
 				"Il complemento oggetto": "Non c'è un complemento oggetto in questa frase: «arriva» è un verbo intransitivo.",
 				"Il verbo principale": "Il verbo principale è «arriva», fuori dalle virgole: dentro c'è solo un'informazione in più su Luca."
 			}
@@ -9407,14 +9407,14 @@
 				"L'intransitivo non ha mai un soggetto",
 				"Il transitivo si usa solo al passato",
 				"Il transitivo può reggere un complemento oggetto",
-				"L'intransitivo si coniuga in modo diverso"
+				"L'intransitivo si coniuga in un modo diverso"
 			],
 			"answer": "Il transitivo può reggere un complemento oggetto",
 			"explanation": "«Mangio la mela» è transitivo; «vado a casa» è intransitivo, perché «a casa» non è un oggetto diretto.",
 			"distractorWhy": {
 				"Il transitivo si usa solo al passato": "Un verbo transitivo si può usare in qualsiasi tempo: «mangio la mela» è transitivo al presente.",
 				"L'intransitivo non ha mai un soggetto": "Anche i verbi intransitivi hanno un soggetto: «io vado a casa», il soggetto è «io».",
-				"L'intransitivo si coniuga in modo diverso": "Transitivi e intransitivi si coniugano con le stesse regole: cambia solo se reggono un oggetto diretto."
+				"L'intransitivo si coniuga in un modo diverso": "Transitivi e intransitivi si coniugano con le stesse regole: cambia solo se reggono un oggetto diretto."
 			}
 		},
 		{
@@ -9942,13 +9942,13 @@
 			"options": [
 				"La parte che completa il nome",
 				"L'aggettivo riferito al soggetto",
-				"Il nome che accompagna il soggetto",
+				"Il nome che accompagna sempre il soggetto",
 				"Il verbo che esprime l'azione del soggetto"
 			],
 			"answer": "Il verbo che esprime l'azione del soggetto",
 			"explanation": "«Marco corre»: corre è predicato verbale. Con essere più un nome o aggettivo si ha il predicato nominale.",
 			"distractorWhy": {
-				"Il nome che accompagna il soggetto": "Un nome che accompagna il soggetto è un'altra parte della frase, non il predicato verbale, che è il verbo stesso.",
+				"Il nome che accompagna sempre il soggetto": "Un nome che accompagna il soggetto è un'altra parte della frase, non il predicato verbale, che è il verbo stesso.",
 				"L'aggettivo riferito al soggetto": "Un aggettivo riferito al soggetto fa parte del predicato nominale, non di quello verbale.",
 				"La parte che completa il nome": "Quello che completa un nome è un attributo o un complemento, non il predicato verbale."
 			}
@@ -10006,12 +10006,12 @@
 				"Complemento di mezzo",
 				"Complemento di termine",
 				"Complemento di fine o scopo",
-				"Complemento di causa"
+				"Complemento di causa efficiente"
 			],
 			"answer": "Complemento di fine o scopo",
 			"explanation": "Risponde a «per quale scopo?». Sarebbe di causa se rispondesse a «perché?»: «tremo per il freddo».",
 			"distractorWhy": {
-				"Complemento di causa": "La causa risponde a «perché?», un motivo già accaduto: qui c'è uno scopo futuro, per cui si studia.",
+				"Complemento di causa efficiente": "La causa efficiente è la cosa che provoca l'azione in una frase passiva: qui c'è uno scopo futuro, per cui si studia.",
 				"Complemento di termine": "Il termine risponde a «a chi?»: l'esame non è un destinatario.",
 				"Complemento di mezzo": "Il mezzo è uno strumento concreto usato per fare qualcosa: l'esame è lo scopo, non lo strumento."
 			}
@@ -10351,7 +10351,7 @@
 			"prompt": "Che cos'è una subordinata di primo grado?",
 			"options": [
 				"La prima subordinata che si incontra",
-				"La subordinata più importante del periodo",
+				"La subordinata più importante di tutto il periodo",
 				"Una frase che dipende direttamente dalla principale",
 				"Una subordinata con un solo verbo"
 			],
@@ -10359,7 +10359,7 @@
 			"explanation": "Se una subordinata dipende a sua volta da un'altra subordinata, è di secondo grado.",
 			"distractorWhy": {
 				"La prima subordinata che si incontra": "L'ordine in cui si legge la frase non definisce il grado: conta da che cosa dipende direttamente.",
-				"La subordinata più importante del periodo": "Il grado non misura l'importanza: misura quanti passaggi di dipendenza ci sono dalla principale.",
+				"La subordinata più importante di tutto il periodo": "Il grado non misura l'importanza: misura quanti passaggi di dipendenza ci sono dalla principale.",
 				"Una subordinata con un solo verbo": "Ogni proposizione ha un solo verbo per definizione: non è questo a definire il grado."
 			}
 		},
@@ -10371,7 +10371,7 @@
 			"format": "multiple_choice",
 			"prompt": "Perché l'ordine delle parole conta in italiano?",
 			"options": [
-				"Perché altrimenti la frase è più lunga",
+				"Perché altrimenti la frase diventa più lunga",
 				"Perché la grammatica lo impone sempre",
 				"Perché i verbi vanno sempre in fondo",
 				"Perché può cambiare il significato o l'enfasi"
@@ -10380,7 +10380,7 @@
 			"explanation": "«Solo io l'ho detto» e «io l'ho detto solo» dicono cose diverse: la posizione sposta il fuoco.",
 			"distractorWhy": {
 				"Perché la grammatica lo impone sempre": "L'italiano ha un ordine abbastanza libero: cambiarlo è permesso e cambia il senso, non è vietato.",
-				"Perché altrimenti la frase è più lunga": "La lunghezza della frase non cambia spostando le parole: cambia il peso che danno.",
+				"Perché altrimenti la frase diventa più lunga": "La lunghezza della frase non cambia spostando le parole: cambia il peso che danno.",
 				"Perché i verbi vanno sempre in fondo": "In italiano il verbo non va sempre in fondo, a differenza di altre lingue."
 			}
 		},
@@ -10519,14 +10519,14 @@
 			"prompt": "«Sempre caro mi fu quell'ermo colle» — perché l'ordine è insolito?",
 			"options": [
 				"Le parole sono state tradotte male",
-				"È un errore di scrittura dell'autore",
+				"È un errore di scrittura sfuggito all'autore",
 				"Le parole sono spostate per effetto poetico",
 				"È un dialetto antico ormai scomparso"
 			],
 			"answer": "Le parole sono spostate per effetto poetico",
 			"explanation": "Si chiama anastrofe o iperbato: cambiare l'ordine consueto crea ritmo e mette in rilievo certe parole.",
 			"distractorWhy": {
-				"È un errore di scrittura dell'autore": "È una scelta stilistica voluta, non un errore: si chiama anastrofe o iperbato.",
+				"È un errore di scrittura sfuggito all'autore": "È una scelta stilistica voluta, non un errore: si chiama anastrofe o iperbato.",
 				"È un dialetto antico ormai scomparso": "Non è una questione di dialetto: è italiano letterario con l'ordine delle parole cambiato apposta.",
 				"Le parole sono state tradotte male": "Il verso è stato scritto originariamente in italiano: non è una traduzione."
 			}
@@ -10605,14 +10605,14 @@
 				"Per allungare il testo di più",
 				"Per rendere il testo più difficile",
 				"Per rendere più vivo ed efficace il messaggio",
-				"Per rispettare le regole di grammatica"
+				"Per rispettare le regole della grammatica"
 			],
 			"answer": "Per rendere più vivo ed efficace il messaggio",
 			"explanation": "Non sono ornamenti: una metafora giusta fa capire in tre parole ciò che richiederebbe un paragrafo.",
 			"distractorWhy": {
 				"Per allungare il testo di più": "Le figure retoriche spesso dicono di più con meno parole, non servono ad allungare.",
 				"Per rendere il testo più difficile": "Lo scopo non è complicare: è comunicare meglio, anche se richiede attenzione in più.",
-				"Per rispettare le regole di grammatica": "Le figure retoriche non sono regole grammaticali obbligatorie: sono scelte espressive."
+				"Per rispettare le regole della grammatica": "Le figure retoriche non sono regole grammaticali obbligatorie: sono scelte espressive."
 			}
 		},
 		{
@@ -10687,14 +10687,14 @@
 			"prompt": "Che cos'è la trama di un racconto?",
 			"options": [
 				"Il messaggio dell'autore",
-				"Il luogo in cui si svolge",
+				"Il luogo in cui si svolge tutto",
 				"La successione dei fatti narrati",
 				"L'insieme dei personaggi"
 			],
 			"answer": "La successione dei fatti narrati",
 			"explanation": "La trama è cosa succede; l'ambientazione è dove, e i personaggi sono chi.",
 			"distractorWhy": {
-				"Il luogo in cui si svolge": "Quella è l'ambientazione: la trama è quello che succede, non dove succede.",
+				"Il luogo in cui si svolge tutto": "Quella è l'ambientazione: la trama è quello che succede, non dove succede.",
 				"L'insieme dei personaggi": "I personaggi sono chi agisce nella storia: la trama è la sequenza di eventi.",
 				"Il messaggio dell'autore": "Il messaggio è quello che il racconto vuole comunicare, diverso dalla successione dei fatti."
 			}
@@ -10707,7 +10707,7 @@
 			"format": "multiple_choice",
 			"prompt": "Chi è il protagonista di un racconto?",
 			"options": [
-				"Il primo personaggio che appare",
+				"Il primo personaggio che appare nel testo",
 				"Il personaggio più simpatico",
 				"Chi racconta la storia",
 				"Il personaggio principale della vicenda"
@@ -10717,7 +10717,7 @@
 			"distractorWhy": {
 				"Il personaggio più simpatico": "La simpatia è soggettiva: il protagonista può anche non piacere al lettore.",
 				"Chi racconta la storia": "Quello è il narratore, che può essere esterno alla vicenda e non un personaggio.",
-				"Il primo personaggio che appare": "L'ordine di apparizione non definisce il protagonista: conta il ruolo centrale nella vicenda."
+				"Il primo personaggio che appare nel testo": "L'ordine di apparizione non definisce il protagonista: conta il ruolo centrale nella vicenda."
 			}
 		},
 		{
@@ -10729,14 +10729,14 @@
 			"prompt": "Che cos'è l'antagonista?",
 			"options": [
 				"Il personaggio che si oppone al protagonista",
-				"Il personaggio cattivo per definizione",
+				"Il personaggio sempre cattivo per definizione",
 				"Il personaggio che appare per ultimo",
 				"Il narratore che giudica i fatti"
 			],
 			"answer": "Il personaggio che si oppone al protagonista",
 			"explanation": "Non deve essere malvagio: può essere una persona in buona fede con un obiettivo incompatibile.",
 			"distractorWhy": {
-				"Il personaggio cattivo per definizione": "Un antagonista non deve essere malvagio: basta che i suoi obiettivi siano incompatibili con quelli del protagonista.",
+				"Il personaggio sempre cattivo per definizione": "Un antagonista non deve essere malvagio: basta che i suoi obiettivi siano incompatibili con quelli del protagonista.",
 				"Il narratore che giudica i fatti": "Il narratore racconta la storia: l'antagonista è un personaggio dentro la vicenda.",
 				"Il personaggio che appare per ultimo": "Il momento in cui compare non definisce l'antagonista: conta il suo ruolo di ostacolo."
 			}
@@ -10773,13 +10773,13 @@
 				"Un narratore che appare come personaggio",
 				"Un narratore che non prende posizione",
 				"Un narratore che conosce pensieri e futuro di tutti",
-				"Un narratore che racconta solo i dialoghi"
+				"Un narratore che racconta soltanto quello che si dice"
 			],
 			"answer": "Un narratore che conosce pensieri e futuro di tutti",
 			"explanation": "Sa più dei personaggi: può dire cosa pensano tutti e anticipare quello che accadrà.",
 			"distractorWhy": {
 				"Un narratore che appare come personaggio": "Apparire come personaggio riguarda il narratore interno: l'onnisciente resta fuori dalla vicenda.",
-				"Un narratore che racconta solo i dialoghi": "L'onnisciente racconta molto di più dei soli dialoghi: anche pensieri ed eventi futuri.",
+				"Un narratore che racconta soltanto quello che si dice": "L'onnisciente racconta molto di più dei soli dialoghi: anche pensieri ed eventi futuri.",
 				"Un narratore che non prende posizione": "L'onnisciente può benissimo commentare i fatti: la caratteristica è sapere tutto, non essere neutrale."
 			}
 		},
@@ -10793,7 +10793,7 @@
 			"options": [
 				"Un salto in avanti nel futuro",
 				"Un sogno di un personaggio",
-				"La fine anticipata della storia",
+				"La fine della storia raccontata prima",
 				"Un salto indietro nel tempo del racconto"
 			],
 			"answer": "Un salto indietro nel tempo del racconto",
@@ -10801,7 +10801,7 @@
 			"distractorWhy": {
 				"Un salto in avanti nel futuro": "Quello si chiama flashforward, l'opposto del flashback.",
 				"Un sogno di un personaggio": "Un sogno non è necessariamente un salto temporale nel passato reale della storia.",
-				"La fine anticipata della storia": "Anticipare la fine non è un flashback: il flashback torna indietro, non salta avanti alla conclusione."
+				"La fine della storia raccontata prima": "Anticipare la fine non è un flashback: il flashback torna indietro, non salta avanti alla conclusione."
 			}
 		},
 		{
@@ -10899,13 +10899,13 @@
 				"Le parole del personaggio riportate esattamente",
 				"Il riassunto di quello che ha detto",
 				"La descrizione del tono con cui parla",
-				"Il pensiero che non viene espresso a voce"
+				"Il pensiero che non viene mai espresso a voce"
 			],
 			"answer": "Le parole del personaggio riportate esattamente",
 			"explanation": "Si segnala con virgolette o trattini: «Vieni qui», disse. Nel discorso indiretto: disse di venire.",
 			"distractorWhy": {
 				"Il riassunto di quello che ha detto": "Quello è il discorso indiretto: il diretto riporta le parole esatte, non un riassunto.",
-				"Il pensiero che non viene espresso a voce": "Il discorso diretto riguarda parole dette, non pensieri non espressi.",
+				"Il pensiero che non viene mai espresso a voce": "Il discorso diretto riguarda parole dette, non pensieri non espressi.",
 				"La descrizione del tono con cui parla": "Descrivere il tono è un commento del narratore, diverso dal riportare le parole esatte."
 			}
 		},
@@ -10920,13 +10920,13 @@
 				"Un personaggio che appare una sola volta",
 				"Un personaggio che ha un ruolo minore nella vicenda",
 				"Un personaggio senza nome proprio",
-				"Un personaggio inventato dal protagonista"
+				"Un personaggio inventato dal protagonista stesso"
 			],
 			"answer": "Un personaggio che ha un ruolo minore nella vicenda",
 			"explanation": "Può essere importantissimo pur non essendo al centro: aiuta, ostacola o rivela qualcosa del protagonista.",
 			"distractorWhy": {
 				"Un personaggio che appare una sola volta": "Un personaggio secondario può comparire molte volte: conta il ruolo minore, non il numero di apparizioni.",
-				"Un personaggio inventato dal protagonista": "Un personaggio secondario esiste nella storia allo stesso titolo degli altri, non è un'invenzione interna al racconto.",
+				"Un personaggio inventato dal protagonista stesso": "Un personaggio secondario esiste nella storia allo stesso titolo degli altri, non è un'invenzione interna al racconto.",
 				"Un personaggio senza nome proprio": "Un personaggio secondario può benissimo avere un nome: conta il peso nella vicenda, non l'anagrafica."
 			}
 		},
@@ -11066,13 +11066,13 @@
 			"options": [
 				"Una parte che si aggiunge prima della radice",
 				"Un segno che indica il plurale",
-				"Una parte che si aggiunge alla fine",
+				"Una parte che si aggiunge alla fine della parola",
 				"La parte centrale di una parola"
 			],
 			"answer": "Una parte che si aggiunge prima della radice",
 			"explanation": "In «rifare», «ri-» è il prefisso e indica ripetizione. In fondo si mettono i suffissi.",
 			"distractorWhy": {
-				"Una parte che si aggiunge alla fine": "Quello è il suffisso, l'opposto del prefisso.",
+				"Una parte che si aggiunge alla fine della parola": "Quello è il suffisso, l'opposto del prefisso.",
 				"La parte centrale di una parola": "La parte centrale è la radice: il prefisso sta prima di essa, non al centro.",
 				"Un segno che indica il plurale": "Il plurale in italiano si segna di solito con la desinenza finale, non con un prefisso."
 			}
@@ -11107,14 +11107,14 @@
 			"prompt": "Che cos'è un campo semantico?",
 			"options": [
 				"Le parole che si scrivono uguali",
-				"L'insieme delle parole di una lingua",
+				"L'insieme di tutte le parole di una lingua",
 				"L'insieme di parole legate a uno stesso tema",
 				"Le parole con la stessa radice"
 			],
 			"answer": "L'insieme di parole legate a uno stesso tema",
 			"explanation": "Mare, onda, barca, scoglio appartengono allo stesso campo: non sono parenti, parlano della stessa cosa.",
 			"distractorWhy": {
-				"L'insieme delle parole di una lingua": "Tutta la lingua è troppo ampia: il campo semantico riguarda solo le parole legate a un tema preciso.",
+				"L'insieme di tutte le parole di una lingua": "Tutta la lingua è troppo ampia: il campo semantico riguarda solo le parole legate a un tema preciso.",
 				"Le parole con la stessa radice": "Quella è la famiglia di parole: il campo semantico riguarda il tema, non la forma.",
 				"Le parole che si scrivono uguali": "Quelli sono gli omonimi: il campo semantico riguarda parole diverse legate a uno stesso argomento."
 			}
@@ -11149,14 +11149,14 @@
 			"prompt": "Che cos'è un diminutivo?",
 			"options": [
 				"Una forma alterata che indica piccolezza",
-				"Una parola più corta della normale",
+				"Una parola più corta di quella normale",
 				"Un contrario attenuato",
 				"Un sinonimo poco usato"
 			],
 			"answer": "Una forma alterata che indica piccolezza",
 			"explanation": "Casa→casetta, libro→libretto. Esistono anche accrescitivi, vezzeggiativi e dispregiativi.",
 			"distractorWhy": {
-				"Una parola più corta della normale": "Casetta è più lunga di casa, non più corta: il diminutivo aggiunge un suffisso.",
+				"Una parola più corta di quella normale": "Casetta è più lunga di casa, non più corta: il diminutivo aggiunge un suffisso.",
 				"Un sinonimo poco usato": "Il diminutivo non è un'altra parola con lo stesso senso: è la stessa parola alterata.",
 				"Un contrario attenuato": "Il diminutivo non nega né oppone nulla: indica piccolezza della stessa cosa."
 			}
@@ -11169,7 +11169,7 @@
 			"format": "multiple_choice",
 			"prompt": "Che differenza c'è fra significato letterale e figurato?",
 			"options": [
-				"Il senso letterale si usa solo in poesia",
+				"Il significato letterale si usa soltanto in poesia",
 				"Il figurato usa la parola oltre il suo senso proprio",
 				"Il senso figurato è sempre più antico",
 				"Il senso figurato vale solo per i verbi"
@@ -11178,7 +11178,7 @@
 			"explanation": "«Ha il cuore di pietra» non parla di minerali: il senso figurato nasce da un'immagine.",
 			"distractorWhy": {
 				"Il senso figurato è sempre più antico": "L'età di un'espressione non definisce se è letterale o figurata: dipende dal significato usato.",
-				"Il senso letterale si usa solo in poesia": "Il senso letterale è quello di tutti i giorni: è il figurato a comparire spesso in poesia.",
+				"Il significato letterale si usa soltanto in poesia": "Il senso letterale è quello di tutti i giorni: è il figurato a comparire spesso in poesia.",
 				"Il senso figurato vale solo per i verbi": "Anche nomi e aggettivi possono avere un senso figurato, non solo i verbi."
 			}
 		},
@@ -11212,14 +11212,14 @@
 			"prompt": "Che cos'è un termine specialistico?",
 			"options": [
 				"Una parola che ormai non si usa più",
-				"Una parola difficile da pronunciare bene",
+				"Una parola difficile da pronunciare e da scrivere",
 				"Una parola presa da una lingua straniera",
 				"Una parola usata soprattutto in un certo ambito"
 			],
 			"answer": "Una parola usata soprattutto in un certo ambito",
 			"explanation": "«Battuta» in musica significa una cosa precisa: fuori da lì significa altro. Ogni disciplina ha il suo lessico.",
 			"distractorWhy": {
-				"Una parola difficile da pronunciare bene": "La difficoltà di pronuncia non definisce un termine specialistico: conta l'ambito in cui si usa.",
+				"Una parola difficile da pronunciare e da scrivere": "La difficoltà di pronuncia non definisce un termine specialistico: conta l'ambito in cui si usa.",
 				"Una parola presa da una lingua straniera": "Un termine specialistico può essere benissimo italiano: conta l'uso in un settore preciso.",
 				"Una parola che ormai non si usa più": "Un termine specialistico è vivo e usato, solo dentro un ambito specifico."
 			}
@@ -11235,13 +11235,13 @@
 				"Perché si evitano ripetizioni e si sceglie la sfumatura giusta",
 				"Perché il testo che si scrive diventa molto più lungo",
 				"Perché la grammatica italiana lo richiede espressamente",
-				"Perché si possono usare parole più difficili e ricercate"
+				"Perché si possono usare parole ancora più difficili e ricercate"
 			],
 			"answer": "Perché si evitano ripetizioni e si sceglie la sfumatura giusta",
 			"explanation": "Non è questione di eleganza: fra «casa», «dimora» e «tugurio» cambia quello che il lettore immagina.",
 			"distractorWhy": {
 				"Perché il testo che si scrive diventa molto più lungo": "Usare sinonimi non allunga il testo: aiuta a variare senza ripetere.",
-				"Perché si possono usare parole più difficili e ricercate": "Non è questione di difficoltà: è questione di scegliere la sfumatura più precisa.",
+				"Perché si possono usare parole ancora più difficili e ricercate": "Non è questione di difficoltà: è questione di scegliere la sfumatura più precisa.",
 				"Perché la grammatica italiana lo richiede espressamente": "Non è una regola grammaticale obbligatoria: è una scelta stilistica utile."
 			}
 		},
@@ -11272,19 +11272,19 @@
 			"topic": "analisi-grammaticale",
 			"difficulty": 4,
 			"format": "multiple_choice",
-			"prompt": "Che parte del discorso è «velocemente»?",
+			"prompt": "In «corre veloce», che parte del discorso è «veloce»?",
 			"options": [
-				"Aggettivo",
-				"Verbo",
-				"Avverbio",
-				"Nome"
+				"Aggettivo, perché finisce in -e",
+				"Nome, perché indica la velocità",
+				"Avverbio, perché precisa il verbo",
+				"Aggettivo, perché descrive una qualità"
 			],
-			"answer": "Avverbio",
-			"explanation": "Gli avverbi in -mente nascono dagli aggettivi e dicono come avviene l'azione: veloce → velocemente.",
+			"answer": "Avverbio, perché precisa il verbo",
+			"explanation": "La stessa parola è aggettivo in «una macchina veloce», dove accompagna il nome, e avverbio in «corre veloce», dove dice come corre. Non tutti gli avverbi finiscono in -mente.",
 			"distractorWhy": {
-				"Aggettivo": "Gli aggettivi concordano in genere e numero: gli avverbi in -mente restano invariabili.",
-				"Nome": "«Velocemente» non nomina una cosa: descrive come avviene un'azione.",
-				"Verbo": "«Velocemente» non esprime un'azione propria: modifica il verbo della frase."
+				"Aggettivo, perché finisce in -e": "La desinenza non decide la categoria: conta a che cosa la parola si riferisce.",
+				"Aggettivo, perché descrive una qualità": "Qui non descrive nessun nome: dice come avviene il correre, quindi lavora sul verbo.",
+				"Nome, perché indica la velocità": "Il nome sarebbe «velocità»: «veloce» qui non nomina niente."
 			}
 		},
 		{
@@ -11398,19 +11398,19 @@
 			"topic": "ortografia",
 			"difficulty": 4,
 			"format": "multiple_choice",
-			"prompt": "Quale forma è corretta?",
+			"prompt": "Quale forma è corretta davanti a «uovo»?",
 			"options": [
-				"Un'amica",
-				"Un amica",
-				"Un'amico",
-				"Una amica"
+				"Un uovo, senza apostrofo",
+				"Un'uovo, con l'apostrofo",
+				"Un' uovo, con lo spazio",
+				"Uno uovo, per la vocale"
 			],
-			"answer": "Un'amica",
-			"explanation": "L'apostrofo va davanti a un nome femminile che comincia per vocale. Al maschile si scrive «un amico», senza apostrofo.",
+			"answer": "Un uovo, senza apostrofo",
+			"explanation": "«Uovo» è maschile, e al maschile l'apostrofo non si mette mai: «un uovo», «un amico», «un orso». L'apostrofo serve solo a elidere «una».",
 			"distractorWhy": {
-				"Un amica": "Manca l'apostrofo: davanti a vocale femminile ci vuole sempre.",
-				"Una amica": "Davanti a vocale l'articolo «una» si elide in «un'»: la doppia vocale va evitata.",
-				"Un'amico": "«Amico» è maschile: al maschile non si mette l'apostrofo."
+				"Un'uovo, con l'apostrofo": "L'apostrofo elide «una», che è femminile: «uovo» è maschile e non ne ha bisogno.",
+				"Uno uovo, per la vocale": "«Uno» si usa davanti a s+consonante, z, gn, ps: davanti a vocale si dice «un».",
+				"Un' uovo, con lo spazio": "L'apostrofo non vuole mai lo spazio dopo, e qui comunque non ci va."
 			}
 		},
 		{
@@ -11419,19 +11419,19 @@
 			"topic": "testo-narrativo",
 			"difficulty": 4,
 			"format": "multiple_choice",
-			"prompt": "Che cos'è un narratore in prima persona?",
+			"prompt": "Perché il narratore di una storia non va confuso con l'autore?",
 			"options": [
-				"Chi racconta è l'autore del libro",
-				"Chi racconta è dentro la storia e dice «io»",
-				"Chi racconta parla solo al presente",
-				"Chi racconta sa tutto di tutti"
+				"Perché l'autore scrive e il narratore corregge",
+				"Perché il narratore è una voce che l'autore inventa",
+				"Perché il narratore parla sempre in terza persona",
+				"Perché l'autore non compare mai nei suoi libri"
 			],
-			"answer": "Chi racconta è dentro la storia e dice «io»",
-			"explanation": "Il narratore in prima persona vede solo quello che vede il personaggio: è un limite che l'autore sceglie apposta.",
+			"answer": "Perché il narratore è una voce che l'autore inventa",
+			"explanation": "Chi scrive può far raccontare la storia a un bambino, a un vecchio o a un bugiardo: quello che dice il narratore non è per forza quello che pensa l'autore.",
 			"distractorWhy": {
-				"Chi racconta sa tutto di tutti": "Quello è il narratore onnisciente: la prima persona vede solo quello che il personaggio vive.",
-				"Chi racconta parla solo al presente": "Il tempo verbale usato non definisce la persona narrativa: si può narrare in prima persona anche al passato.",
-				"Chi racconta è l'autore del libro": "Il narratore in prima persona è spesso un personaggio inventato, diverso dall'autore reale."
+				"Perché l'autore non compare mai nei suoi libri": "A volte compare eccome, ma anche allora quello che parla è una versione costruita di lui.",
+				"Perché il narratore parla sempre in terza persona": "Può parlare in prima persona: cambia il punto di vista, non il fatto che sia una voce scelta.",
+				"Perché l'autore scrive e il narratore corregge": "Il narratore non corregge niente: è la voce che racconta dentro il testo."
 			}
 		},
 		{
@@ -11443,14 +11443,14 @@
 			"prompt": "A che cosa servono i due punti?",
 			"options": [
 				"A indicare una domanda",
-				"A separare due frasi senza legame",
+				"A separare due frasi senza alcun legame",
 				"Ad annunciare una spiegazione o un elenco",
 				"A chiudere il discorso diretto"
 			],
 			"answer": "Ad annunciare una spiegazione o un elenco",
 			"explanation": "I due punti aprono qualcosa: una spiegazione, un elenco o le parole di qualcuno.",
 			"distractorWhy": {
-				"A separare due frasi senza legame": "I due punti collegano quello che segue a quello che precede: non separano senza legame.",
+				"A separare due frasi senza alcun legame": "I due punti collegano quello che segue a quello che precede: non separano senza legame.",
 				"A chiudere il discorso diretto": "Il discorso diretto si chiude con le virgolette: i due punti di solito lo introducono.",
 				"A indicare una domanda": "Le domande si chiudono con il punto interrogativo, non con i due punti."
 			}
@@ -11464,8 +11464,10 @@
 			"prompt": "Come si scrive il plurale di «amico»?",
 			"options": [],
 			"answer": "amici",
-			"accept": [],
-			"explanation": "Davanti alla i il c resta duro: amici si legge con la c di casa."
+			"accept": [
+				"gli amici"
+			],
+			"explanation": "Qui il suono cambia: «amico» ha la c dura, «amici» la c dolce, come in «ciao». È un'eccezione: in «fuoco → fuochi» si aggiunge la h proprio per tenere il suono duro."
 		},
 		{
 			"id": "italiano-banda-ortografia-136",
@@ -11526,7 +11528,9 @@
 			"prompt": "Qual è il contrario di «regolare» ottenuto aggiungendo un prefisso?",
 			"options": [],
 			"answer": "irregolare",
-			"accept": [],
+			"accept": [
+				"irregolari"
+			],
 			"explanation": "Davanti a r il prefisso in- diventa ir-."
 		},
 		{
@@ -11566,7 +11570,9 @@
 			"prompt": "Come si chiama il segno che separa parti collegate ma abbastanza autonome?",
 			"options": [],
 			"answer": "punto e virgola",
-			"accept": [],
+			"accept": [
+				"il punto e virgola"
+			],
 			"explanation": "Più della virgola, meno del punto."
 		},
 		{
@@ -11578,7 +11584,9 @@
 			"prompt": "Come si chiamano i segni che racchiudono le parole dette da un personaggio?",
 			"options": [],
 			"answer": "virgolette",
-			"accept": [],
+			"accept": [
+				"le virgolette"
+			],
 			"explanation": "Aprono e chiudono il discorso diretto."
 		},
 		{
@@ -11604,7 +11612,9 @@
 			"prompt": "Qual è l'infinito del verbo nella frase «io corro»?",
 			"options": [],
 			"answer": "correre",
-			"accept": [],
+			"accept": [
+				"il verbo correre"
+			],
 			"explanation": "L'infinito è la forma con cui il verbo si cerca nel vocabolario."
 		},
 		{
@@ -11616,7 +11626,9 @@
 			"prompt": "A quale modo del verbo appartiene la forma «correndo»?",
 			"options": [],
 			"answer": "gerundio",
-			"accept": [],
+			"accept": [
+				"il gerundio"
+			],
 			"explanation": "Il gerundio esprime un'azione contemporanea a un'altra."
 		},
 		{
@@ -11628,7 +11640,9 @@
 			"prompt": "A quale modo appartiene la forma «corri!» rivolta a qualcuno?",
 			"options": [],
 			"answer": "imperativo",
-			"accept": [],
+			"accept": [
+				"l'imperativo"
+			],
 			"explanation": "È il modo dell'ordine, dell'invito e della richiesta."
 		},
 		{
@@ -11640,7 +11654,9 @@
 			"prompt": "A quale tempo dell'indicativo appartiene «correvo»?",
 			"options": [],
 			"answer": "imperfetto",
-			"accept": [],
+			"accept": [
+				"l'imperfetto"
+			],
 			"explanation": "Racconta un'azione che durava o si ripeteva nel passato."
 		},
 		{
@@ -11652,7 +11668,9 @@
 			"prompt": "A quale modo appartiene «se io corressi»?",
 			"options": [],
 			"answer": "congiuntivo",
-			"accept": [],
+			"accept": [
+				"il congiuntivo"
+			],
 			"explanation": "Il congiuntivo esprime possibilità, dubbio, desiderio."
 		},
 		{
@@ -11664,7 +11682,9 @@
 			"prompt": "Come si chiama la parte del verbo che resta uguale in tutte le voci?",
 			"options": [],
 			"answer": "radice",
-			"accept": [],
+			"accept": [
+				"la radice"
+			],
 			"explanation": "Alla radice si attaccano le desinenze: cant-o, cant-avo, cant-erò."
 		},
 		{
@@ -11676,7 +11696,10 @@
 			"prompt": "Come si chiama il verbo che regge un complemento oggetto?",
 			"options": [],
 			"answer": "transitivo",
-			"accept": [],
+			"accept": [
+				"verbo transitivo",
+				"il transitivo"
+			],
 			"explanation": "L'azione passa dal soggetto all'oggetto: transitivo vuol dire che «passa»."
 		},
 		{
@@ -11688,7 +11711,9 @@
 			"prompt": "Come si chiama la parte del discorso che indica un'azione o uno stato?",
 			"options": [],
 			"answer": "verbo",
-			"accept": [],
+			"accept": [
+				"il verbo"
+			],
 			"explanation": "È il cuore della frase: senza verbo non c'è frase."
 		},
 		{
@@ -11700,7 +11725,9 @@
 			"prompt": "Come si chiama la parte del discorso che indica una qualità del nome?",
 			"options": [],
 			"answer": "aggettivo",
-			"accept": [],
+			"accept": [
+				"l'aggettivo"
+			],
 			"explanation": "Si accorda con il nome in genere e numero."
 		},
 		{
@@ -11712,7 +11739,9 @@
 			"prompt": "Come si chiama la parte del discorso che sostituisce un nome?",
 			"options": [],
 			"answer": "pronome",
-			"accept": [],
+			"accept": [
+				"il pronome"
+			],
 			"explanation": "Pro-nome: al posto del nome."
 		},
 		{
@@ -11724,7 +11753,9 @@
 			"prompt": "Come si chiama la parte del discorso che precisa un verbo, come «lentamente»?",
 			"options": [],
 			"answer": "avverbio",
-			"accept": [],
+			"accept": [
+				"l'avverbio"
+			],
 			"explanation": "Precisa come, quando, quanto, dove."
 		},
 		{
@@ -11736,7 +11767,9 @@
 			"prompt": "Come si chiama la parolina che collega due elementi, come «e» o «ma»?",
 			"options": [],
 			"answer": "congiunzione",
-			"accept": [],
+			"accept": [
+				"la congiunzione"
+			],
 			"explanation": "Unisce parole o intere proposizioni."
 		},
 		{
@@ -11748,7 +11781,9 @@
 			"prompt": "Come si chiama la parte invariabile che introduce un complemento, come «di» o «con»?",
 			"options": [],
 			"answer": "preposizione",
-			"accept": [],
+			"accept": [
+				"la preposizione"
+			],
 			"explanation": "Da sola non dice niente: serve a legare."
 		},
 		{
@@ -11760,7 +11795,9 @@
 			"prompt": "Come si chiama la parola che accompagna il nome, come «il» o «una»?",
 			"options": [],
 			"answer": "articolo",
-			"accept": [],
+			"accept": [
+				"l'articolo"
+			],
 			"explanation": "Determinativo se la cosa è nota, indeterminativo se è generica."
 		},
 		{
@@ -11772,7 +11809,9 @@
 			"prompt": "Come si chiama chi compie l'azione nella frase?",
 			"options": [],
 			"answer": "soggetto",
-			"accept": [],
+			"accept": [
+				"il soggetto"
+			],
 			"explanation": "Risponde a «chi? che cosa?» prima del verbo."
 		},
 		{
@@ -11837,13 +11876,15 @@
 			"topic": "analisi-logica",
 			"difficulty": 3,
 			"format": "short_answer",
-			"prompt": "Come si chiama il complemento che indica chi subisce, introdotto da «da» in una frase passiva?",
+			"prompt": "Come si chiama il complemento che indica chi compie l'azione, introdotto da «da» in una frase passiva?",
 			"options": [],
 			"answer": "complemento d'agente",
 			"accept": [
-				"agente"
+				"agente",
+				"d'agente",
+				"complemento agente"
 			],
-			"explanation": "«La lettera è scritta da Luca»: Luca è l'agente."
+			"explanation": "«La lettera è scritta da Luca»: Luca è l'agente, cioè chi scrive. A subire l'azione è invece il soggetto, la lettera."
 		},
 		{
 			"id": "italiano-banda-sintassi-166",
@@ -11924,7 +11965,10 @@
 			"prompt": "Come si chiama il paragone fatto senza «come», dicendo che una cosa è un'altra?",
 			"options": [],
 			"answer": "metafora",
-			"accept": [],
+			"accept": [
+				"la metafora",
+				"una metafora"
+			],
 			"explanation": "«Sei un leone» non usa il come: è metafora."
 		},
 		{
@@ -11936,7 +11980,10 @@
 			"prompt": "Come si chiama il paragone esplicito introdotto da «come»?",
 			"options": [],
 			"answer": "similitudine",
-			"accept": [],
+			"accept": [
+				"la similitudine",
+				"una similitudine"
+			],
 			"explanation": "«Forte come un leone»: il paragone è dichiarato."
 		},
 		{
@@ -11948,7 +11995,10 @@
 			"prompt": "Come si chiama la figura che attribuisce qualità umane a cose o animali?",
 			"options": [],
 			"answer": "personificazione",
-			"accept": [],
+			"accept": [
+				"la personificazione",
+				"una personificazione"
+			],
 			"explanation": "«Il vento sussurra»: il vento non parla, ma noi lo sentiamo così."
 		},
 		{
@@ -11960,7 +12010,10 @@
 			"prompt": "Come si chiama l'esagerazione voluta, come «te l'ho detto mille volte»?",
 			"options": [],
 			"answer": "iperbole",
-			"accept": [],
+			"accept": [
+				"l'iperbole",
+				"un'iperbole"
+			],
 			"explanation": "Non mente: esagera per farsi sentire."
 		},
 		{
@@ -11972,7 +12025,10 @@
 			"prompt": "Come si chiama la ripetizione della stessa parola all'inizio di più versi?",
 			"options": [],
 			"answer": "anafora",
-			"accept": [],
+			"accept": [
+				"l'anafora",
+				"un'anafora"
+			],
 			"explanation": "Batte come un tamburo e tiene insieme il testo."
 		},
 		{
@@ -11984,7 +12040,10 @@
 			"prompt": "Come si chiama la parola che imita un suono, come «tic tac»?",
 			"options": [],
 			"answer": "onomatopea",
-			"accept": [],
+			"accept": [
+				"l'onomatopea",
+				"un'onomatopea"
+			],
 			"explanation": "Il suono della parola è già il suo significato."
 		},
 		{
@@ -11996,7 +12055,9 @@
 			"prompt": "Come si chiama chi racconta la storia?",
 			"options": [],
 			"answer": "narratore",
-			"accept": [],
+			"accept": [
+				"il narratore"
+			],
 			"explanation": "Può essere un personaggio o una voce esterna."
 		},
 		{
@@ -12008,7 +12069,9 @@
 			"prompt": "Come si chiama il personaggio principale di una storia?",
 			"options": [],
 			"answer": "protagonista",
-			"accept": [],
+			"accept": [
+				"il protagonista"
+			],
 			"explanation": "È quello che vuole qualcosa e si muove per ottenerlo."
 		},
 		{
@@ -12020,7 +12083,9 @@
 			"prompt": "Come si chiama il personaggio che si oppone al protagonista?",
 			"options": [],
 			"answer": "antagonista",
-			"accept": [],
+			"accept": [
+				"l'antagonista"
+			],
 			"explanation": "Senza opposizione non c'è racconto, solo cronaca."
 		},
 		{
@@ -12032,7 +12097,9 @@
 			"prompt": "Come si chiama il momento di massima tensione di una storia?",
 			"options": [],
 			"answer": "climax",
-			"accept": [],
+			"accept": [
+				"il climax"
+			],
 			"explanation": "Da lì in poi la vicenda si scioglie."
 		},
 		{
@@ -12058,7 +12125,9 @@
 			"prompt": "Come si chiama il momento in cui la situazione iniziale viene rotta da un fatto nuovo?",
 			"options": [],
 			"answer": "esordio",
-			"accept": [],
+			"accept": [
+				"l'esordio"
+			],
 			"explanation": "È la scintilla che mette in moto la storia."
 		},
 		{
@@ -12070,7 +12139,10 @@
 			"prompt": "Come si chiama una parola che ha lo stesso significato di un'altra?",
 			"options": [],
 			"answer": "sinonimo",
-			"accept": [],
+			"accept": [
+				"il sinonimo",
+				"un sinonimo"
+			],
 			"explanation": "Casa e abitazione dicono quasi la stessa cosa, con toni diversi."
 		},
 		{
@@ -12110,7 +12182,10 @@
 			"prompt": "Come si chiama la parte iniziale che si aggiunge a una parola per cambiarne il senso?",
 			"options": [],
 			"answer": "prefisso",
-			"accept": [],
+			"accept": [
+				"il prefisso",
+				"un prefisso"
+			],
 			"explanation": "In-, s-, ri-: piccole aggiunte che ribaltano il significato."
 		},
 		{
@@ -12122,7 +12197,10 @@
 			"prompt": "Come si chiama la parte finale che si aggiunge a una radice per formare una parola nuova?",
 			"options": [],
 			"answer": "suffisso",
-			"accept": [],
+			"accept": [
+				"il suffisso",
+				"un suffisso"
+			],
 			"explanation": "Da libro a libreria, da fiore a fiorista."
 		},
 		{
@@ -12163,7 +12241,9 @@
 			"prompt": "Come si chiama l'idea principale attorno a cui ruota un testo?",
 			"options": [],
 			"answer": "tema",
-			"accept": [],
+			"accept": [
+				"il tema"
+			],
 			"explanation": "Tutto il resto serve a sostenerla o a chiarirla."
 		},
 		{
@@ -12189,7 +12269,9 @@
 			"prompt": "Come si chiama l'affermazione che si vuole dimostrare in un testo argomentativo?",
 			"options": [],
 			"answer": "tesi",
-			"accept": [],
+			"accept": [
+				"la tesi"
+			],
 			"explanation": "Va enunciata chiaramente, altrimenti non si capisce cosa si sta difendendo."
 		},
 		{
@@ -12201,7 +12283,10 @@
 			"prompt": "Come si chiama la parola che collega due frasi indicando una conseguenza, come «quindi»?",
 			"options": [],
 			"answer": "connettivo",
-			"accept": [],
+			"accept": [
+				"il connettivo",
+				"i connettivi"
+			],
 			"explanation": "I connettivi fanno vedere il ragionamento, non solo le frasi."
 		},
 		{
@@ -12213,7 +12298,9 @@
 			"prompt": "Come si chiama il ragionamento che parte da casi particolari per arrivare a una regola generale?",
 			"options": [],
 			"answer": "induzione",
-			"accept": [],
+			"accept": [
+				"l'induzione"
+			],
 			"explanation": "È il ragionamento dello scienziato che osserva molti casi."
 		},
 		{
@@ -12225,7 +12312,9 @@
 			"prompt": "Come si chiama il ragionamento che parte da una regola generale per arrivare a un caso particolare?",
 			"options": [],
 			"answer": "deduzione",
-			"accept": [],
+			"accept": [
+				"la deduzione"
+			],
 			"explanation": "Se la regola è vera, la conclusione è obbligata."
 		},
 		{
@@ -12237,7 +12326,9 @@
 			"prompt": "Come si chiama il paragrafo che apre un testo e ne annuncia il contenuto?",
 			"options": [],
 			"answer": "introduzione",
-			"accept": [],
+			"accept": [
+				"l'introduzione"
+			],
 			"explanation": "Dice al lettore dove sta per andare."
 		},
 		{
@@ -12249,7 +12340,9 @@
 			"prompt": "Come si chiama il paragrafo che chiude un testo tirando le somme?",
 			"options": [],
 			"answer": "conclusione",
-			"accept": [],
+			"accept": [
+				"la conclusione"
+			],
 			"explanation": "Non aggiunge idee nuove: chiude quelle aperte."
 		},
 		{
@@ -12332,7 +12425,9 @@
 			"prompt": "Come si chiama l'insieme dei mobili e degli oggetti che arredano una stanza?",
 			"options": [],
 			"answer": "arredamento",
-			"accept": [],
+			"accept": [
+				"l'arredamento"
+			],
 			"explanation": "Dalla stessa radice: arredare, arredo."
 		},
 		{
@@ -12341,7 +12436,7 @@
 			"topic": "scuola-studio",
 			"difficulty": 1,
 			"format": "short_answer",
-			"prompt": "Come si chiama la prova scritta che verifica quello che hai studiato?",
+			"prompt": "Come si chiama la prova scritta con cui l'insegnante controlla quello che hai studiato?",
 			"options": [],
 			"answer": "verifica",
 			"accept": [
@@ -12543,7 +12638,9 @@
 			"prompt": "Come si chiama lo strumento che misura la temperatura dell'aria?",
 			"options": [],
 			"answer": "termometro",
-			"accept": [],
+			"accept": [
+				"il termometro"
+			],
 			"explanation": "Va tenuto all'ombra, altrimenti misura il sole e non l'aria."
 		},
 		{
@@ -12566,7 +12663,7 @@
 			"topic": "tempo-meteo",
 			"difficulty": 2,
 			"format": "short_answer",
-			"prompt": "Come si chiama la previsione del tempo per i giorni successivi?",
+			"prompt": "Come si chiama quello che dicono al telegiornale sul tempo che farà domani?",
 			"options": [],
 			"answer": "previsione",
 			"accept": [
@@ -12736,7 +12833,7 @@
 			"topic": "corpo-salute",
 			"difficulty": 2,
 			"format": "short_answer",
-			"prompt": "Come si chiama la visita in cui il medico ti controlla?",
+			"prompt": "Come si chiama l'incontro in cui il medico ti guarda e ti fa domande?",
 			"options": [],
 			"answer": "visita",
 			"accept": [
@@ -12782,7 +12879,9 @@
 			"prompt": "Come si chiama la capacità di capire quello che sente un altro?",
 			"options": [],
 			"answer": "empatia",
-			"accept": [],
+			"accept": [
+				"l'empatia"
+			],
 			"explanation": "Non è essere d'accordo: è capire da dentro."
 		},
 		{

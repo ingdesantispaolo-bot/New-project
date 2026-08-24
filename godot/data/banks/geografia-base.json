@@ -13,15 +13,15 @@
 			"options": [
 				"Roma",
 				"Londra",
-				"Ottawa",
-				"Tokyo"
+				"Oslo",
+				"Mosca"
 			],
 			"answer": "Roma",
 			"explanation": "Roma è la capitale dell'Italia. Roma sorge sul Tevere ed è l'unica capitale al mondo che ne contiene un'altra: lo Stato del Vaticano.",
 			"distractorWhy": {
-				"Ottawa": "«Ottawa» è la capitale del Canada, non dell'Italia.",
+				"Mosca": "«Mosca» è la capitale della Russia, non dell'Italia.",
 				"Londra": "«Londra» è la capitale del Regno Unito, non dell'Italia.",
-				"Tokyo": "«Tokyo» è la capitale del Giappone, non dell'Italia."
+				"Oslo": "«Oslo» è la capitale della Norvegia, non dell'Italia."
 			}
 		},
 		{
@@ -32,17 +32,17 @@
 			"format": "multiple_choice",
 			"prompt": "Di quale Stato è capitale Roma?",
 			"options": [
-				"Francia",
+				"Canada",
 				"Italia",
-				"India",
-				"Polonia"
+				"Polonia",
+				"Messico"
 			],
 			"answer": "Italia",
 			"explanation": "Roma è la capitale dell'Italia, che è la penisola a forma di stivale allungata nel Mediterraneo. Roma sorge sul Tevere ed è l'unica capitale al mondo che ne contiene un'altra: lo Stato del Vaticano.",
 			"distractorWhy": {
+				"Messico": "Il Messico ha come capitale «Città del Messico», non «Roma».",
 				"Polonia": "La Polonia ha come capitale «Varsavia», non «Roma».",
-				"India": "L'India ha come capitale «Nuova Delhi», non «Roma».",
-				"Francia": "La Francia ha come capitale «Parigi», non «Roma»."
+				"Canada": "Il Canada ha come capitale «Ottawa», non «Roma»."
 			}
 		},
 		{
@@ -61,9 +61,9 @@
 			"answer": "Europa",
 			"explanation": "L'Italia si trova in Europa: è la penisola a forma di stivale allungata nel Mediterraneo.",
 			"distractorWhy": {
-				"Antartide": "Antartide è un altro continente rispetto a quello dell'Italia.",
 				"Africa": "Africa ospita per esempio l'Egitto, non l'Italia.",
-				"Oceania": "Oceania ospita per esempio l'Australia, non l'Italia."
+				"Oceania": "Oceania ospita per esempio l'Australia, non l'Italia.",
+				"Antartide": "Antartide è un altro continente rispetto a quello dell'Italia."
 			}
 		},
 		{
@@ -74,17 +74,17 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la capitale della Francia?",
 			"options": [
-				"Brasília",
+				"Lisbona",
+				"Mosca",
 				"Vienna",
-				"Madrid",
 				"Parigi"
 			],
 			"answer": "Parigi",
 			"explanation": "Parigi è la capitale della Francia. Parigi è attraversata dalla Senna, e la torre Eiffel fu costruita per l'Esposizione del 1889.",
 			"distractorWhy": {
-				"Madrid": "«Madrid» è la capitale della Spagna, non della Francia.",
-				"Brasília": "«Brasília» è la capitale del Brasile, non della Francia.",
-				"Vienna": "«Vienna» è la capitale dell'Austria, non della Francia."
+				"Mosca": "«Mosca» è la capitale della Russia, non della Francia.",
+				"Vienna": "«Vienna» è la capitale dell'Austria, non della Francia.",
+				"Lisbona": "«Lisbona» è la capitale del Portogallo, non della Francia."
 			}
 		},
 		{
@@ -96,16 +96,16 @@
 			"prompt": "Di quale Stato è capitale Parigi?",
 			"options": [
 				"Francia",
+				"Germania",
 				"Messico",
-				"Austria",
-				"Egitto"
+				"Polonia"
 			],
 			"answer": "Francia",
 			"explanation": "Parigi è la capitale della Francia, che si affaccia sia sull'Atlantico sia sul Mediterraneo. Parigi è attraversata dalla Senna, e la torre Eiffel fu costruita per l'Esposizione del 1889.",
 			"distractorWhy": {
-				"Egitto": "L'Egitto ha come capitale «Il Cairo», non «Parigi».",
-				"Messico": "Il Messico ha come capitale «Città del Messico», non «Parigi».",
-				"Austria": "L'Austria ha come capitale «Vienna», non «Parigi»."
+				"Polonia": "La Polonia ha come capitale «Varsavia», non «Parigi».",
+				"Germania": "La Germania ha come capitale «Berlino», non «Parigi».",
+				"Messico": "Il Messico ha come capitale «Città del Messico», non «Parigi»."
 			}
 		},
 		{
@@ -118,15 +118,15 @@
 			"options": [
 				"Asia",
 				"Europa",
-				"Antartide",
-				"Africa"
+				"Africa",
+				"Oceania"
 			],
 			"answer": "Europa",
 			"explanation": "La Francia si trova in Europa: si affaccia sia sull'Atlantico sia sul Mediterraneo.",
 			"distractorWhy": {
 				"Asia": "Asia ospita per esempio il Giappone, non la Francia.",
-				"Africa": "Africa ospita per esempio l'Egitto, non la Francia.",
-				"Antartide": "Antartide è un altro continente rispetto a quello della Francia."
+				"Oceania": "Oceania ospita per esempio l'Australia, non la Francia.",
+				"Africa": "Africa ospita per esempio l'Egitto, non la Francia."
 			}
 		},
 		{
@@ -137,17 +137,17 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la capitale della Spagna?",
 			"options": [
-				"Pechino",
-				"Tokyo",
+				"Canberra",
+				"Berlino",
 				"Madrid",
-				"Lisbona"
+				"Ottawa"
 			],
 			"answer": "Madrid",
 			"explanation": "Madrid è la capitale della Spagna. Madrid è la capitale più alta d'Europa: sta a quasi 700 metri sul livello del mare.",
 			"distractorWhy": {
-				"Tokyo": "«Tokyo» è la capitale del Giappone, non della Spagna.",
-				"Pechino": "«Pechino» è la capitale della Cina, non della Spagna.",
-				"Lisbona": "«Lisbona» è la capitale del Portogallo, non della Spagna."
+				"Ottawa": "«Ottawa» è la capitale del Canada, non della Spagna.",
+				"Berlino": "«Berlino» è la capitale della Germania, non della Spagna.",
+				"Canberra": "«Canberra» è la capitale dell'Australia, non della Spagna."
 			}
 		},
 		{
@@ -158,17 +158,17 @@
 			"format": "multiple_choice",
 			"prompt": "Di quale Stato è capitale Madrid?",
 			"options": [
+				"Brasile",
 				"Grecia",
-				"Austria",
-				"Polonia",
+				"Italia",
 				"Spagna"
 			],
 			"answer": "Spagna",
 			"explanation": "Madrid è la capitale della Spagna, che occupa quasi tutta la penisola iberica. Madrid è la capitale più alta d'Europa: sta a quasi 700 metri sul livello del mare.",
 			"distractorWhy": {
-				"Austria": "L'Austria ha come capitale «Vienna», non «Madrid».",
-				"Grecia": "La Grecia ha come capitale «Atene», non «Madrid».",
-				"Polonia": "La Polonia ha come capitale «Varsavia», non «Madrid»."
+				"Italia": "L'Italia ha come capitale «Roma», non «Madrid».",
+				"Brasile": "Il Brasile ha come capitale «Brasília», non «Madrid».",
+				"Grecia": "La Grecia ha come capitale «Atene», non «Madrid»."
 			}
 		},
 		{
@@ -180,16 +180,16 @@
 			"prompt": "In quale continente si trova la Spagna?",
 			"options": [
 				"Europa",
+				"Oceania",
 				"Africa",
-				"Asia",
-				"Oceania"
+				"Antartide"
 			],
 			"answer": "Europa",
 			"explanation": "La Spagna si trova in Europa: occupa quasi tutta la penisola iberica.",
 			"distractorWhy": {
-				"Oceania": "Oceania ospita per esempio l'Australia, non la Spagna.",
-				"Asia": "Asia ospita per esempio il Giappone, non la Spagna.",
-				"Africa": "Africa ospita per esempio l'Egitto, non la Spagna."
+				"Antartide": "Antartide è un altro continente rispetto a quello della Spagna.",
+				"Africa": "Africa ospita per esempio l'Egitto, non la Spagna.",
+				"Oceania": "Oceania ospita per esempio l'Australia, non la Spagna."
 			}
 		},
 		{
@@ -200,17 +200,17 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la capitale della Germania?",
 			"options": [
-				"Mosca",
-				"Berlino",
 				"Il Cairo",
-				"Brasília"
+				"Berlino",
+				"Brasília",
+				"Lisbona"
 			],
 			"answer": "Berlino",
 			"explanation": "Berlino è la capitale della Germania. Berlino è rimasta divisa da un muro fino al 1989.",
 			"distractorWhy": {
-				"Brasília": "«Brasília» è la capitale del Brasile, non della Germania.",
 				"Il Cairo": "«Il Cairo» è la capitale dell'Egitto, non della Germania.",
-				"Mosca": "«Mosca» è la capitale della Russia, non della Germania."
+				"Brasília": "«Brasília» è la capitale del Brasile, non della Germania.",
+				"Lisbona": "«Lisbona» è la capitale del Portogallo, non della Germania."
 			}
 		},
 		{
@@ -221,17 +221,17 @@
 			"format": "multiple_choice",
 			"prompt": "Di quale Stato è capitale Berlino?",
 			"options": [
-				"Polonia",
-				"Australia",
+				"Norvegia",
+				"Russia",
 				"Germania",
-				"Giappone"
+				"Svezia"
 			],
 			"answer": "Germania",
 			"explanation": "Berlino è la capitale della Germania, che confina con nove Paesi, più di ogni altro Stato europeo. Berlino è rimasta divisa da un muro fino al 1989.",
 			"distractorWhy": {
-				"Australia": "L'Australia ha come capitale «Canberra», non «Berlino».",
-				"Giappone": "Il Giappone ha come capitale «Tokyo», non «Berlino».",
-				"Polonia": "La Polonia ha come capitale «Varsavia», non «Berlino»."
+				"Svezia": "La Svezia ha come capitale «Stoccolma», non «Berlino».",
+				"Russia": "La Russia ha come capitale «Mosca», non «Berlino».",
+				"Norvegia": "La Norvegia ha come capitale «Oslo», non «Berlino»."
 			}
 		},
 		{
@@ -242,17 +242,17 @@
 			"format": "multiple_choice",
 			"prompt": "In quale continente si trova la Germania?",
 			"options": [
-				"Africa",
 				"Antartide",
-				"Asia",
+				"Oceania",
+				"Africa",
 				"Europa"
 			],
 			"answer": "Europa",
 			"explanation": "La Germania si trova in Europa: confina con nove Paesi, più di ogni altro Stato europeo.",
 			"distractorWhy": {
-				"Asia": "Asia ospita per esempio il Giappone, non la Germania.",
 				"Africa": "Africa ospita per esempio l'Egitto, non la Germania.",
-				"Antartide": "Antartide è un altro continente rispetto a quello della Germania."
+				"Antartide": "Antartide è un altro continente rispetto a quello della Germania.",
+				"Oceania": "Oceania ospita per esempio l'Australia, non la Germania."
 			}
 		},
 		{
@@ -264,16 +264,16 @@
 			"prompt": "Qual è la capitale del Regno Unito?",
 			"options": [
 				"Londra",
-				"Atene",
-				"Ottawa",
-				"Berlino"
+				"Mosca",
+				"Madrid",
+				"Brasília"
 			],
 			"answer": "Londra",
 			"explanation": "Londra è la capitale del Regno Unito. Londra sorge sul Tamigi ed è stata la prima città al mondo ad avere una metropolitana.",
 			"distractorWhy": {
-				"Ottawa": "«Ottawa» è la capitale del Canada, non del Regno Unito.",
-				"Berlino": "«Berlino» è la capitale della Germania, non del Regno Unito.",
-				"Atene": "«Atene» è la capitale della Grecia, non del Regno Unito."
+				"Madrid": "«Madrid» è la capitale della Spagna, non del Regno Unito.",
+				"Mosca": "«Mosca» è la capitale della Russia, non del Regno Unito.",
+				"Brasília": "«Brasília» è la capitale del Brasile, non del Regno Unito."
 			}
 		},
 		{
@@ -284,17 +284,17 @@
 			"format": "multiple_choice",
 			"prompt": "Di quale Stato è capitale Londra?",
 			"options": [
-				"Argentina",
+				"Giappone",
 				"Regno Unito",
-				"Polonia",
-				"Paesi Bassi"
+				"Stati Uniti",
+				"Austria"
 			],
 			"answer": "Regno Unito",
 			"explanation": "Londra è la capitale del Regno Unito, che è un'isola a nord-ovest dell'Europa continentale. Londra sorge sul Tamigi ed è stata la prima città al mondo ad avere una metropolitana.",
 			"distractorWhy": {
-				"Paesi Bassi": "I Paesi Bassi ha come capitale «Amsterdam», non «Londra».",
-				"Polonia": "La Polonia ha come capitale «Varsavia», non «Londra».",
-				"Argentina": "L'Argentina ha come capitale «Buenos Aires», non «Londra»."
+				"Stati Uniti": "Gli Stati Uniti ha come capitale «Washington», non «Londra».",
+				"Giappone": "Il Giappone ha come capitale «Tokyo», non «Londra».",
+				"Austria": "L'Austria ha come capitale «Vienna», non «Londra»."
 			}
 		},
 		{
@@ -305,7 +305,7 @@
 			"format": "multiple_choice",
 			"prompt": "In quale continente si trova il Regno Unito?",
 			"options": [
-				"Oceania",
+				"Asia",
 				"Africa",
 				"Europa",
 				"Antartide"
@@ -313,7 +313,7 @@
 			"answer": "Europa",
 			"explanation": "Il Regno Unito si trova in Europa: è un'isola a nord-ovest dell'Europa continentale.",
 			"distractorWhy": {
-				"Oceania": "Oceania ospita per esempio l'Australia, non il Regno Unito.",
+				"Asia": "Asia ospita per esempio il Giappone, non il Regno Unito.",
 				"Antartide": "Antartide è un altro continente rispetto a quello del Regno Unito.",
 				"Africa": "Africa ospita per esempio l'Egitto, non il Regno Unito."
 			}
@@ -326,8 +326,8 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la capitale del Portogallo?",
 			"options": [
-				"Parigi",
-				"Londra",
+				"Madrid",
+				"Berlino",
 				"Vienna",
 				"Lisbona"
 			],
@@ -335,8 +335,8 @@
 			"explanation": "Lisbona è la capitale del Portogallo. Lisbona guarda l'Atlantico ed è costruita su sette colline.",
 			"distractorWhy": {
 				"Vienna": "«Vienna» è la capitale dell'Austria, non del Portogallo.",
-				"Londra": "«Londra» è la capitale del Regno Unito, non del Portogallo.",
-				"Parigi": "«Parigi» è la capitale della Francia, non del Portogallo."
+				"Madrid": "«Madrid» è la capitale della Spagna, non del Portogallo.",
+				"Berlino": "«Berlino» è la capitale della Germania, non del Portogallo."
 			}
 		},
 		{
@@ -348,16 +348,16 @@
 			"prompt": "Di quale Stato è capitale Lisbona?",
 			"options": [
 				"Portogallo",
+				"Paesi Bassi",
 				"Argentina",
-				"Stati Uniti",
 				"Norvegia"
 			],
 			"answer": "Portogallo",
 			"explanation": "Lisbona è la capitale del Portogallo, che è la punta occidentale dell'Europa continentale. Lisbona guarda l'Atlantico ed è costruita su sette colline.",
 			"distractorWhy": {
-				"Argentina": "L'Argentina ha come capitale «Buenos Aires», non «Lisbona».",
 				"Norvegia": "La Norvegia ha come capitale «Oslo», non «Lisbona».",
-				"Stati Uniti": "Gli Stati Uniti ha come capitale «Washington», non «Lisbona»."
+				"Paesi Bassi": "I Paesi Bassi ha come capitale «Amsterdam», non «Lisbona».",
+				"Argentina": "L'Argentina ha come capitale «Buenos Aires», non «Lisbona»."
 			}
 		},
 		{
@@ -368,17 +368,17 @@
 			"format": "multiple_choice",
 			"prompt": "In quale continente si trova il Portogallo?",
 			"options": [
-				"Africa",
+				"Asia",
 				"Europa",
 				"Oceania",
-				"Asia"
+				"Africa"
 			],
 			"answer": "Europa",
 			"explanation": "Il Portogallo si trova in Europa: è la punta occidentale dell'Europa continentale.",
 			"distractorWhy": {
-				"Africa": "Africa ospita per esempio l'Egitto, non il Portogallo.",
 				"Asia": "Asia ospita per esempio il Giappone, non il Portogallo.",
-				"Oceania": "Oceania ospita per esempio l'Australia, non il Portogallo."
+				"Oceania": "Oceania ospita per esempio l'Australia, non il Portogallo.",
+				"Africa": "Africa ospita per esempio l'Egitto, non il Portogallo."
 			}
 		},
 		{
@@ -389,17 +389,17 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la capitale della Grecia?",
 			"options": [
+				"Berlino",
 				"Ottawa",
-				"Madrid",
 				"Atene",
-				"Lisbona"
+				"Mosca"
 			],
 			"answer": "Atene",
 			"explanation": "Atene è la capitale della Grecia. Atene prende il nome dalla dea Atena, ed è la città dove è nata la democrazia.",
 			"distractorWhy": {
 				"Ottawa": "«Ottawa» è la capitale del Canada, non della Grecia.",
-				"Madrid": "«Madrid» è la capitale della Spagna, non della Grecia.",
-				"Lisbona": "«Lisbona» è la capitale del Portogallo, non della Grecia."
+				"Mosca": "«Mosca» è la capitale della Russia, non della Grecia.",
+				"Berlino": "«Berlino» è la capitale della Germania, non della Grecia."
 			}
 		},
 		{
@@ -410,17 +410,17 @@
 			"format": "multiple_choice",
 			"prompt": "Di quale Stato è capitale Atene?",
 			"options": [
-				"Egitto",
 				"Canada",
-				"Messico",
+				"Spagna",
+				"Brasile",
 				"Grecia"
 			],
 			"answer": "Grecia",
 			"explanation": "Atene è la capitale della Grecia, che è fatta di una penisola e di migliaia di isole nel Mediterraneo. Atene prende il nome dalla dea Atena, ed è la città dove è nata la democrazia.",
 			"distractorWhy": {
+				"Brasile": "Il Brasile ha come capitale «Brasília», non «Atene».",
 				"Canada": "Il Canada ha come capitale «Ottawa», non «Atene».",
-				"Messico": "Il Messico ha come capitale «Città del Messico», non «Atene».",
-				"Egitto": "L'Egitto ha come capitale «Il Cairo», non «Atene»."
+				"Spagna": "La Spagna ha come capitale «Madrid», non «Atene»."
 			}
 		},
 		{
@@ -432,15 +432,15 @@
 			"prompt": "In quale continente si trova la Grecia?",
 			"options": [
 				"Europa",
-				"Asia",
 				"Antartide",
-				"Africa"
+				"Africa",
+				"Oceania"
 			],
 			"answer": "Europa",
 			"explanation": "La Grecia si trova in Europa: è fatta di una penisola e di migliaia di isole nel Mediterraneo.",
 			"distractorWhy": {
+				"Oceania": "Oceania ospita per esempio l'Australia, non la Grecia.",
 				"Antartide": "Antartide è un altro continente rispetto a quello della Grecia.",
-				"Asia": "Asia ospita per esempio il Giappone, non la Grecia.",
 				"Africa": "Africa ospita per esempio l'Egitto, non la Grecia."
 			}
 		},
@@ -452,17 +452,17 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la capitale dell'Austria?",
 			"options": [
-				"Madrid",
+				"Londra",
 				"Vienna",
-				"Tokyo",
+				"Ottawa",
 				"Pechino"
 			],
 			"answer": "Vienna",
 			"explanation": "Vienna è la capitale dell'Austria. Vienna sorge sul Danubio ed è la città di Mozart e Beethoven.",
 			"distractorWhy": {
-				"Tokyo": "«Tokyo» è la capitale del Giappone, non dell'Austria.",
+				"Londra": "«Londra» è la capitale del Regno Unito, non dell'Austria.",
 				"Pechino": "«Pechino» è la capitale della Cina, non dell'Austria.",
-				"Madrid": "«Madrid» è la capitale della Spagna, non dell'Austria."
+				"Ottawa": "«Ottawa» è la capitale del Canada, non dell'Austria."
 			}
 		},
 		{
@@ -473,17 +473,17 @@
 			"format": "multiple_choice",
 			"prompt": "Di quale Stato è capitale Vienna?",
 			"options": [
-				"Messico",
-				"Germania",
+				"Brasile",
+				"Giappone",
 				"Austria",
-				"Francia"
+				"Italia"
 			],
 			"answer": "Austria",
 			"explanation": "Vienna è la capitale dell'Austria, che è uno Stato alpino, senza alcuno sbocco sul mare. Vienna sorge sul Danubio ed è la città di Mozart e Beethoven.",
 			"distractorWhy": {
-				"Messico": "Il Messico ha come capitale «Città del Messico», non «Vienna».",
-				"Francia": "La Francia ha come capitale «Parigi», non «Vienna».",
-				"Germania": "La Germania ha come capitale «Berlino», non «Vienna»."
+				"Giappone": "Il Giappone ha come capitale «Tokyo», non «Vienna».",
+				"Italia": "L'Italia ha come capitale «Roma», non «Vienna».",
+				"Brasile": "Il Brasile ha come capitale «Brasília», non «Vienna»."
 			}
 		},
 		{
@@ -496,15 +496,15 @@
 			"options": [
 				"Africa",
 				"Asia",
-				"Antartide",
+				"Oceania",
 				"Europa"
 			],
 			"answer": "Europa",
 			"explanation": "L'Austria si trova in Europa: è uno Stato alpino, senza alcuno sbocco sul mare.",
 			"distractorWhy": {
-				"Asia": "Asia ospita per esempio il Giappone, non l'Austria.",
-				"Antartide": "Antartide è un altro continente rispetto a quello dell'Austria.",
-				"Africa": "Africa ospita per esempio l'Egitto, non l'Austria."
+				"Oceania": "Oceania ospita per esempio l'Australia, non l'Austria.",
+				"Africa": "Africa ospita per esempio l'Egitto, non l'Austria.",
+				"Asia": "Asia ospita per esempio il Giappone, non l'Austria."
 			}
 		},
 		{
@@ -516,16 +516,16 @@
 			"prompt": "Qual è la capitale del Belgio?",
 			"options": [
 				"Bruxelles",
-				"Lisbona",
-				"Varsavia",
-				"Il Cairo"
+				"Stoccolma",
+				"Amsterdam",
+				"Varsavia"
 			],
 			"answer": "Bruxelles",
 			"explanation": "Bruxelles è la capitale del Belgio. A Bruxelles hanno sede le principali istituzioni dell'Unione Europea.",
 			"distractorWhy": {
+				"Stoccolma": "«Stoccolma» è la capitale della Svezia, non del Belgio.",
 				"Varsavia": "«Varsavia» è la capitale della Polonia, non del Belgio.",
-				"Il Cairo": "«Il Cairo» è la capitale dell'Egitto, non del Belgio.",
-				"Lisbona": "«Lisbona» è la capitale del Portogallo, non del Belgio."
+				"Amsterdam": "«Amsterdam» è la capitale dei Paesi Bassi, non del Belgio."
 			}
 		},
 		{
@@ -536,17 +536,17 @@
 			"format": "multiple_choice",
 			"prompt": "Di quale Stato è capitale Bruxelles?",
 			"options": [
-				"Austria",
+				"Russia",
 				"Belgio",
-				"Grecia",
-				"Svezia"
+				"Francia",
+				"Spagna"
 			],
 			"answer": "Belgio",
 			"explanation": "Bruxelles è la capitale del Belgio, che è un piccolo Stato affacciato sul Mare del Nord. A Bruxelles hanno sede le principali istituzioni dell'Unione Europea.",
 			"distractorWhy": {
-				"Austria": "L'Austria ha come capitale «Vienna», non «Bruxelles».",
-				"Svezia": "La Svezia ha come capitale «Stoccolma», non «Bruxelles».",
-				"Grecia": "La Grecia ha come capitale «Atene», non «Bruxelles»."
+				"Spagna": "La Spagna ha come capitale «Madrid», non «Bruxelles».",
+				"Francia": "La Francia ha come capitale «Parigi», non «Bruxelles».",
+				"Russia": "La Russia ha come capitale «Mosca», non «Bruxelles»."
 			}
 		},
 		{
@@ -557,16 +557,16 @@
 			"format": "multiple_choice",
 			"prompt": "In quale continente si trova il Belgio?",
 			"options": [
-				"Oceania",
 				"Africa",
+				"Antartide",
 				"Europa",
-				"Antartide"
+				"Asia"
 			],
 			"answer": "Europa",
 			"explanation": "Il Belgio si trova in Europa: è un piccolo Stato affacciato sul Mare del Nord.",
 			"distractorWhy": {
-				"Oceania": "Oceania ospita per esempio l'Australia, non il Belgio.",
 				"Africa": "Africa ospita per esempio l'Egitto, non il Belgio.",
+				"Asia": "Asia ospita per esempio il Giappone, non il Belgio.",
 				"Antartide": "Antartide è un altro continente rispetto a quello del Belgio."
 			}
 		},
@@ -578,17 +578,17 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la capitale dei Paesi Bassi?",
 			"options": [
+				"Lisbona",
 				"Il Cairo",
-				"Berlino",
-				"Canberra",
+				"Bruxelles",
 				"Amsterdam"
 			],
 			"answer": "Amsterdam",
 			"explanation": "Amsterdam è la capitale dei Paesi Bassi. Amsterdam è attraversata da più di cento canali.",
 			"distractorWhy": {
+				"Bruxelles": "«Bruxelles» è la capitale del Belgio, non dei Paesi Bassi.",
 				"Il Cairo": "«Il Cairo» è la capitale dell'Egitto, non dei Paesi Bassi.",
-				"Canberra": "«Canberra» è la capitale dell'Australia, non dei Paesi Bassi.",
-				"Berlino": "«Berlino» è la capitale della Germania, non dei Paesi Bassi."
+				"Lisbona": "«Lisbona» è la capitale del Portogallo, non dei Paesi Bassi."
 			}
 		},
 		{
@@ -601,15 +601,15 @@
 			"options": [
 				"Paesi Bassi",
 				"Regno Unito",
-				"Giappone",
-				"Australia"
+				"Francia",
+				"Giappone"
 			],
 			"answer": "Paesi Bassi",
 			"explanation": "Amsterdam è la capitale dei Paesi Bassi, che stanno in gran parte sotto il livello del mare, protetti dalle dighe. Amsterdam è attraversata da più di cento canali.",
 			"distractorWhy": {
-				"Regno Unito": "Il Regno Unito ha come capitale «Londra», non «Amsterdam».",
 				"Giappone": "Il Giappone ha come capitale «Tokyo», non «Amsterdam».",
-				"Australia": "L'Australia ha come capitale «Canberra», non «Amsterdam»."
+				"Francia": "La Francia ha come capitale «Parigi», non «Amsterdam».",
+				"Regno Unito": "Il Regno Unito ha come capitale «Londra», non «Amsterdam»."
 			}
 		},
 		{
@@ -620,17 +620,17 @@
 			"format": "multiple_choice",
 			"prompt": "In quale continente si trovano i Paesi Bassi?",
 			"options": [
-				"Asia",
-				"Europa",
 				"Africa",
-				"Oceania"
+				"Europa",
+				"Oceania",
+				"Asia"
 			],
 			"answer": "Europa",
 			"explanation": "I Paesi Bassi si trovano in Europa: stanno in gran parte sotto il livello del mare, protetti dalle dighe.",
 			"distractorWhy": {
 				"Africa": "Africa ospita per esempio l'Egitto, non i Paesi Bassi.",
-				"Asia": "Asia ospita per esempio il Giappone, non i Paesi Bassi.",
-				"Oceania": "Oceania ospita per esempio l'Australia, non i Paesi Bassi."
+				"Oceania": "Oceania ospita per esempio l'Australia, non i Paesi Bassi.",
+				"Asia": "Asia ospita per esempio il Giappone, non i Paesi Bassi."
 			}
 		},
 		{
@@ -641,17 +641,17 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la capitale della Polonia?",
 			"options": [
+				"Il Cairo",
 				"Lisbona",
-				"Canberra",
 				"Varsavia",
-				"Brasília"
+				"Amsterdam"
 			],
 			"answer": "Varsavia",
 			"explanation": "Varsavia è la capitale della Polonia. Varsavia fu ricostruita quasi da zero dopo la seconda guerra mondiale.",
 			"distractorWhy": {
-				"Canberra": "«Canberra» è la capitale dell'Australia, non della Polonia.",
-				"Brasília": "«Brasília» è la capitale del Brasile, non della Polonia.",
-				"Lisbona": "«Lisbona» è la capitale del Portogallo, non della Polonia."
+				"Amsterdam": "«Amsterdam» è la capitale dei Paesi Bassi, non della Polonia.",
+				"Lisbona": "«Lisbona» è la capitale del Portogallo, non della Polonia.",
+				"Il Cairo": "«Il Cairo» è la capitale dell'Egitto, non della Polonia."
 			}
 		},
 		{
@@ -662,17 +662,17 @@
 			"format": "multiple_choice",
 			"prompt": "Di quale Stato è capitale Varsavia?",
 			"options": [
-				"Russia",
+				"Austria",
 				"Grecia",
-				"Germania",
+				"Egitto",
 				"Polonia"
 			],
 			"answer": "Polonia",
 			"explanation": "Varsavia è la capitale della Polonia, che sta nell'Europa centro-orientale, affacciata sul Mar Baltico. Varsavia fu ricostruita quasi da zero dopo la seconda guerra mondiale.",
 			"distractorWhy": {
-				"Grecia": "La Grecia ha come capitale «Atene», non «Varsavia».",
-				"Germania": "La Germania ha come capitale «Berlino», non «Varsavia».",
-				"Russia": "La Russia ha come capitale «Mosca», non «Varsavia»."
+				"Austria": "L'Austria ha come capitale «Vienna», non «Varsavia».",
+				"Egitto": "L'Egitto ha come capitale «Il Cairo», non «Varsavia».",
+				"Grecia": "La Grecia ha come capitale «Atene», non «Varsavia»."
 			}
 		},
 		{
@@ -684,16 +684,16 @@
 			"prompt": "In quale continente si trova la Polonia?",
 			"options": [
 				"Europa",
-				"Antartide",
 				"Africa",
+				"Antartide",
 				"Oceania"
 			],
 			"answer": "Europa",
 			"explanation": "La Polonia si trova in Europa: sta nell'Europa centro-orientale, affacciata sul Mar Baltico.",
 			"distractorWhy": {
-				"Africa": "Africa ospita per esempio l'Egitto, non la Polonia.",
+				"Antartide": "Antartide è un altro continente rispetto a quello della Polonia.",
 				"Oceania": "Oceania ospita per esempio l'Australia, non la Polonia.",
-				"Antartide": "Antartide è un altro continente rispetto a quello della Polonia."
+				"Africa": "Africa ospita per esempio l'Egitto, non la Polonia."
 			}
 		},
 		{
@@ -704,17 +704,17 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la capitale della Svezia?",
 			"options": [
-				"Varsavia",
+				"Amsterdam",
 				"Stoccolma",
 				"Nuova Delhi",
-				"Washington"
+				"Lisbona"
 			],
 			"answer": "Stoccolma",
 			"explanation": "Stoccolma è la capitale della Svezia. Stoccolma è costruita su quattordici isole collegate da ponti.",
 			"distractorWhy": {
 				"Nuova Delhi": "«Nuova Delhi» è la capitale dell'India, non della Svezia.",
-				"Washington": "«Washington» è la capitale degli Stati Uniti, non della Svezia.",
-				"Varsavia": "«Varsavia» è la capitale della Polonia, non della Svezia."
+				"Amsterdam": "«Amsterdam» è la capitale dei Paesi Bassi, non della Svezia.",
+				"Lisbona": "«Lisbona» è la capitale del Portogallo, non della Svezia."
 			}
 		},
 		{
@@ -725,17 +725,17 @@
 			"format": "multiple_choice",
 			"prompt": "Di quale Stato è capitale Stoccolma?",
 			"options": [
-				"Austria",
-				"Egitto",
+				"Russia",
+				"Brasile",
 				"Svezia",
-				"Brasile"
+				"Belgio"
 			],
 			"answer": "Svezia",
 			"explanation": "Stoccolma è la capitale della Svezia, che occupa gran parte della penisola scandinava. Stoccolma è costruita su quattordici isole collegate da ponti.",
 			"distractorWhy": {
 				"Brasile": "Il Brasile ha come capitale «Brasília», non «Stoccolma».",
-				"Egitto": "L'Egitto ha come capitale «Il Cairo», non «Stoccolma».",
-				"Austria": "L'Austria ha come capitale «Vienna», non «Stoccolma»."
+				"Belgio": "Il Belgio ha come capitale «Bruxelles», non «Stoccolma».",
+				"Russia": "La Russia ha come capitale «Mosca», non «Stoccolma»."
 			}
 		},
 		{
@@ -748,15 +748,15 @@
 			"options": [
 				"Asia",
 				"Oceania",
-				"Antartide",
+				"Africa",
 				"Europa"
 			],
 			"answer": "Europa",
 			"explanation": "La Svezia si trova in Europa: occupa gran parte della penisola scandinava.",
 			"distractorWhy": {
-				"Oceania": "Oceania ospita per esempio l'Australia, non la Svezia.",
-				"Antartide": "Antartide è un altro continente rispetto a quello della Svezia.",
-				"Asia": "Asia ospita per esempio il Giappone, non la Svezia."
+				"Asia": "Asia ospita per esempio il Giappone, non la Svezia.",
+				"Africa": "Africa ospita per esempio l'Egitto, non la Svezia.",
+				"Oceania": "Oceania ospita per esempio l'Australia, non la Svezia."
 			}
 		},
 		{
@@ -768,16 +768,16 @@
 			"prompt": "Qual è la capitale della Norvegia?",
 			"options": [
 				"Oslo",
-				"Lisbona",
-				"Mosca",
-				"Londra"
+				"Tokyo",
+				"Parigi",
+				"Roma"
 			],
 			"answer": "Oslo",
 			"explanation": "Oslo è la capitale della Norvegia. Oslo sta in fondo a un lungo fiordo.",
 			"distractorWhy": {
-				"Londra": "«Londra» è la capitale del Regno Unito, non della Norvegia.",
-				"Mosca": "«Mosca» è la capitale della Russia, non della Norvegia.",
-				"Lisbona": "«Lisbona» è la capitale del Portogallo, non della Norvegia."
+				"Parigi": "«Parigi» è la capitale della Francia, non della Norvegia.",
+				"Tokyo": "«Tokyo» è la capitale del Giappone, non della Norvegia.",
+				"Roma": "«Roma» è la capitale dell'Italia, non della Norvegia."
 			}
 		},
 		{
@@ -788,17 +788,17 @@
 			"format": "multiple_choice",
 			"prompt": "Di quale Stato è capitale Oslo?",
 			"options": [
-				"Francia",
+				"Germania",
 				"Norvegia",
-				"Messico",
-				"Australia"
+				"Austria",
+				"Polonia"
 			],
 			"answer": "Norvegia",
 			"explanation": "Oslo è la capitale della Norvegia, che ha una costa frastagliata di fiordi lunga migliaia di chilometri. Oslo sta in fondo a un lungo fiordo.",
 			"distractorWhy": {
-				"Australia": "L'Australia ha come capitale «Canberra», non «Oslo».",
-				"Francia": "La Francia ha come capitale «Parigi», non «Oslo».",
-				"Messico": "Il Messico ha come capitale «Città del Messico», non «Oslo»."
+				"Austria": "L'Austria ha come capitale «Vienna», non «Oslo».",
+				"Germania": "La Germania ha come capitale «Berlino», non «Oslo».",
+				"Polonia": "La Polonia ha come capitale «Varsavia», non «Oslo»."
 			}
 		},
 		{
@@ -809,17 +809,17 @@
 			"format": "multiple_choice",
 			"prompt": "In quale continente si trova la Norvegia?",
 			"options": [
-				"Oceania",
 				"Africa",
+				"Asia",
 				"Europa",
-				"Asia"
+				"Antartide"
 			],
 			"answer": "Europa",
 			"explanation": "La Norvegia si trova in Europa: ha una costa frastagliata di fiordi lunga migliaia di chilometri.",
 			"distractorWhy": {
-				"Asia": "Asia ospita per esempio il Giappone, non la Norvegia.",
 				"Africa": "Africa ospita per esempio l'Egitto, non la Norvegia.",
-				"Oceania": "Oceania ospita per esempio l'Australia, non la Norvegia."
+				"Antartide": "Antartide è un altro continente rispetto a quello della Norvegia.",
+				"Asia": "Asia ospita per esempio il Giappone, non la Norvegia."
 			}
 		},
 		{
@@ -830,17 +830,17 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la capitale della Russia?",
 			"options": [
-				"Londra",
-				"Vienna",
-				"Berlino",
+				"Roma",
+				"Atene",
+				"Madrid",
 				"Mosca"
 			],
 			"answer": "Mosca",
 			"explanation": "Mosca è la capitale della Russia. Mosca è la città più popolosa d'Europa, e la Piazza Rossa ne è il centro.",
 			"distractorWhy": {
-				"Berlino": "«Berlino» è la capitale della Germania, non della Russia.",
-				"Vienna": "«Vienna» è la capitale dell'Austria, non della Russia.",
-				"Londra": "«Londra» è la capitale del Regno Unito, non della Russia."
+				"Roma": "«Roma» è la capitale dell'Italia, non della Russia.",
+				"Atene": "«Atene» è la capitale della Grecia, non della Russia.",
+				"Madrid": "«Madrid» è la capitale della Spagna, non della Russia."
 			}
 		},
 		{
@@ -852,37 +852,16 @@
 			"prompt": "Di quale Stato è capitale Mosca?",
 			"options": [
 				"Russia",
-				"Austria",
 				"Belgio",
-				"Francia"
+				"Svezia",
+				"Polonia"
 			],
 			"answer": "Russia",
 			"explanation": "Mosca è la capitale della Russia, che è lo Stato più esteso del mondo e si allunga fra Europa e Asia. Mosca è la città più popolosa d'Europa, e la Piazza Rossa ne è il centro.",
 			"distractorWhy": {
+				"Polonia": "La Polonia ha come capitale «Varsavia», non «Mosca».",
 				"Belgio": "Il Belgio ha come capitale «Bruxelles», non «Mosca».",
-				"Austria": "L'Austria ha come capitale «Vienna», non «Mosca».",
-				"Francia": "La Francia ha come capitale «Parigi», non «Mosca»."
-			}
-		},
-		{
-			"id": "geografia-cont-Russia",
-			"subject": "geografia",
-			"topic": "continenti",
-			"difficulty": 2,
-			"format": "multiple_choice",
-			"prompt": "In quale continente si trova la Russia?",
-			"options": [
-				"Asia",
-				"Europa",
-				"Antartide",
-				"Oceania"
-			],
-			"answer": "Europa",
-			"explanation": "La Russia si trova in Europa: è lo Stato più esteso del mondo e si allunga fra Europa e Asia.",
-			"distractorWhy": {
-				"Asia": "Asia ospita per esempio il Giappone, non la Russia.",
-				"Antartide": "Antartide è un altro continente rispetto a quello della Russia.",
-				"Oceania": "Oceania ospita per esempio l'Australia, non la Russia."
+				"Svezia": "La Svezia ha come capitale «Stoccolma», non «Mosca»."
 			}
 		},
 		{
@@ -894,16 +873,16 @@
 			"prompt": "Qual è la capitale degli Stati Uniti?",
 			"options": [
 				"Stoccolma",
-				"Amsterdam",
 				"Washington",
-				"Il Cairo"
+				"Varsavia",
+				"Pechino"
 			],
 			"answer": "Washington",
 			"explanation": "Washington è la capitale degli Stati Uniti. Washington non appartiene a nessuno Stato: è un distretto a sé.",
 			"distractorWhy": {
-				"Amsterdam": "«Amsterdam» è la capitale dei Paesi Bassi, non degli Stati Uniti.",
+				"Pechino": "«Pechino» è la capitale della Cina, non degli Stati Uniti.",
 				"Stoccolma": "«Stoccolma» è la capitale della Svezia, non degli Stati Uniti.",
-				"Il Cairo": "«Il Cairo» è la capitale dell'Egitto, non degli Stati Uniti."
+				"Varsavia": "«Varsavia» è la capitale della Polonia, non degli Stati Uniti."
 			}
 		},
 		{
@@ -914,17 +893,17 @@
 			"format": "multiple_choice",
 			"prompt": "Di quale Stato è capitale Washington?",
 			"options": [
+				"Paesi Bassi",
 				"Regno Unito",
-				"Messico",
-				"Portogallo",
-				"Stati Uniti"
+				"Stati Uniti",
+				"Norvegia"
 			],
 			"answer": "Stati Uniti",
 			"explanation": "Washington è la capitale degli Stati Uniti, che si estendono da un oceano all'altro. Washington non appartiene a nessuno Stato: è un distretto a sé.",
 			"distractorWhy": {
-				"Portogallo": "Il Portogallo ha come capitale «Lisbona», non «Washington».",
-				"Messico": "Il Messico ha come capitale «Città del Messico», non «Washington».",
-				"Regno Unito": "Il Regno Unito ha come capitale «Londra», non «Washington»."
+				"Regno Unito": "Il Regno Unito ha come capitale «Londra», non «Washington».",
+				"Norvegia": "La Norvegia ha come capitale «Oslo», non «Washington».",
+				"Paesi Bassi": "I Paesi Bassi ha come capitale «Amsterdam», non «Washington»."
 			}
 		},
 		{
@@ -935,17 +914,17 @@
 			"format": "multiple_choice",
 			"prompt": "In quale continente si trovano gli Stati Uniti?",
 			"options": [
-				"America del Nord",
+				"Oceania",
 				"America del Sud",
-				"Africa",
-				"Oceania"
+				"Europa",
+				"America del Nord"
 			],
 			"answer": "America del Nord",
 			"explanation": "Gli Stati Uniti si trovano in America del Nord: si estendono da un oceano all'altro.",
 			"distractorWhy": {
 				"America del Sud": "America del Sud ospita per esempio il Brasile, non gli Stati Uniti.",
-				"Africa": "Africa ospita per esempio l'Egitto, non gli Stati Uniti.",
-				"Oceania": "Oceania ospita per esempio l'Australia, non gli Stati Uniti."
+				"Oceania": "Oceania ospita per esempio l'Australia, non gli Stati Uniti.",
+				"Europa": "Europa ospita per esempio l'Italia, non gli Stati Uniti."
 			}
 		},
 		{
@@ -956,17 +935,17 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la capitale del Canada?",
 			"options": [
-				"Madrid",
 				"Ottawa",
-				"Mosca",
-				"Varsavia"
+				"Atene",
+				"Londra",
+				"Mosca"
 			],
 			"answer": "Ottawa",
 			"explanation": "Ottawa è la capitale del Canada. Ottawa fu scelta come capitale perché sta a metà strada fra le città di lingua inglese e quelle di lingua francese.",
 			"distractorWhy": {
 				"Mosca": "«Mosca» è la capitale della Russia, non del Canada.",
-				"Varsavia": "«Varsavia» è la capitale della Polonia, non del Canada.",
-				"Madrid": "«Madrid» è la capitale della Spagna, non del Canada."
+				"Londra": "«Londra» è la capitale del Regno Unito, non del Canada.",
+				"Atene": "«Atene» è la capitale della Grecia, non del Canada."
 			}
 		},
 		{
@@ -977,17 +956,17 @@
 			"format": "multiple_choice",
 			"prompt": "Di quale Stato è capitale Ottawa?",
 			"options": [
-				"Messico",
-				"Francia",
+				"Spagna",
 				"Canada",
-				"Egitto"
+				"Belgio",
+				"Polonia"
 			],
 			"answer": "Canada",
 			"explanation": "Ottawa è la capitale del Canada, che è il secondo Stato più esteso del mondo. Ottawa fu scelta come capitale perché sta a metà strada fra le città di lingua inglese e quelle di lingua francese.",
 			"distractorWhy": {
-				"Egitto": "L'Egitto ha come capitale «Il Cairo», non «Ottawa».",
-				"Francia": "La Francia ha come capitale «Parigi», non «Ottawa».",
-				"Messico": "Il Messico ha come capitale «Città del Messico», non «Ottawa»."
+				"Polonia": "La Polonia ha come capitale «Varsavia», non «Ottawa».",
+				"Spagna": "La Spagna ha come capitale «Madrid», non «Ottawa».",
+				"Belgio": "Il Belgio ha come capitale «Bruxelles», non «Ottawa»."
 			}
 		},
 		{
@@ -999,16 +978,16 @@
 			"prompt": "In quale continente si trova il Canada?",
 			"options": [
 				"America del Sud",
-				"Oceania",
-				"Africa",
-				"America del Nord"
+				"Europa",
+				"America del Nord",
+				"Antartide"
 			],
 			"answer": "America del Nord",
 			"explanation": "Il Canada si trova in America del Nord: è il secondo Stato più esteso del mondo.",
 			"distractorWhy": {
-				"Africa": "Africa ospita per esempio l'Egitto, non il Canada.",
-				"Oceania": "Oceania ospita per esempio l'Australia, non il Canada.",
-				"America del Sud": "America del Sud ospita per esempio il Brasile, non il Canada."
+				"Europa": "Europa ospita per esempio l'Italia, non il Canada.",
+				"America del Sud": "America del Sud ospita per esempio il Brasile, non il Canada.",
+				"Antartide": "Antartide è un altro continente rispetto a quello del Canada."
 			}
 		},
 		{
@@ -1019,38 +998,17 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la capitale del Messico?",
 			"options": [
-				"Città del Messico",
-				"Brasília",
-				"Varsavia",
-				"Il Cairo"
+				"Washington",
+				"Berlino",
+				"Buenos Aires",
+				"Città del Messico"
 			],
 			"answer": "Città del Messico",
 			"explanation": "Città del Messico è la capitale del Messico. Città del Messico è costruita sul letto di un lago prosciugato, e per questo sprofonda di qualche centimetro l'anno.",
 			"distractorWhy": {
-				"Varsavia": "«Varsavia» è la capitale della Polonia, non del Messico.",
-				"Il Cairo": "«Il Cairo» è la capitale dell'Egitto, non del Messico.",
-				"Brasília": "«Brasília» è la capitale del Brasile, non del Messico."
-			}
-		},
-		{
-			"id": "geografia-stato-Città del Messico",
-			"subject": "geografia",
-			"topic": "capitali",
-			"difficulty": 4,
-			"format": "multiple_choice",
-			"prompt": "Di quale Stato è capitale Città del Messico?",
-			"options": [
-				"Austria",
-				"Messico",
-				"Francia",
-				"Spagna"
-			],
-			"answer": "Messico",
-			"explanation": "Città del Messico è la capitale del Messico, che fa da ponte fra l'America del Nord e quella centrale. Città del Messico è costruita sul letto di un lago prosciugato, e per questo sprofonda di qualche centimetro l'anno.",
-			"distractorWhy": {
-				"Spagna": "La Spagna ha come capitale «Madrid», non «Città del Messico».",
-				"Francia": "La Francia ha come capitale «Parigi», non «Città del Messico».",
-				"Austria": "L'Austria ha come capitale «Vienna», non «Città del Messico»."
+				"Berlino": "«Berlino» è la capitale della Germania, non del Messico.",
+				"Buenos Aires": "«Buenos Aires» è la capitale dell'Argentina, non del Messico.",
+				"Washington": "«Washington» è la capitale degli Stati Uniti, non del Messico."
 			}
 		},
 		{
@@ -1061,10 +1019,10 @@
 			"format": "multiple_choice",
 			"prompt": "In quale continente si trova il Messico?",
 			"options": [
-				"America del Sud",
-				"Europa",
 				"America del Nord",
-				"Oceania"
+				"America del Sud",
+				"Oceania",
+				"Europa"
 			],
 			"answer": "America del Nord",
 			"explanation": "Il Messico si trova in America del Nord: fa da ponte fra l'America del Nord e quella centrale.",
@@ -1083,16 +1041,16 @@
 			"prompt": "Qual è la capitale del Brasile?",
 			"options": [
 				"Pechino",
-				"Berlino",
-				"Ottawa",
-				"Brasília"
+				"Brasília",
+				"Canberra",
+				"Ottawa"
 			],
 			"answer": "Brasília",
 			"explanation": "Brasília è la capitale del Brasile. Brasília fu costruita dal nulla nel 1960, con la pianta a forma di aeroplano.",
 			"distractorWhy": {
 				"Pechino": "«Pechino» è la capitale della Cina, non del Brasile.",
-				"Berlino": "«Berlino» è la capitale della Germania, non del Brasile.",
-				"Ottawa": "«Ottawa» è la capitale del Canada, non del Brasile."
+				"Ottawa": "«Ottawa» è la capitale del Canada, non del Brasile.",
+				"Canberra": "«Canberra» è la capitale dell'Australia, non del Brasile."
 			}
 		},
 		{
@@ -1103,17 +1061,17 @@
 			"format": "multiple_choice",
 			"prompt": "Di quale Stato è capitale Brasília?",
 			"options": [
+				"Francia",
+				"Svezia",
 				"Brasile",
-				"Austria",
-				"Messico",
-				"Giappone"
+				"Norvegia"
 			],
 			"answer": "Brasile",
 			"explanation": "Brasília è la capitale del Brasile, che è il Paese più grande dell'America del Sud e ospita gran parte dell'Amazzonia. Brasília fu costruita dal nulla nel 1960, con la pianta a forma di aeroplano.",
 			"distractorWhy": {
-				"Austria": "L'Austria ha come capitale «Vienna», non «Brasília».",
-				"Giappone": "Il Giappone ha come capitale «Tokyo», non «Brasília».",
-				"Messico": "Il Messico ha come capitale «Città del Messico», non «Brasília»."
+				"Norvegia": "La Norvegia ha come capitale «Oslo», non «Brasília».",
+				"Svezia": "La Svezia ha come capitale «Stoccolma», non «Brasília».",
+				"Francia": "La Francia ha come capitale «Parigi», non «Brasília»."
 			}
 		},
 		{
@@ -1124,17 +1082,17 @@
 			"format": "multiple_choice",
 			"prompt": "In quale continente si trova il Brasile?",
 			"options": [
+				"Oceania",
 				"America del Nord",
-				"America del Sud",
-				"Antartide",
-				"Europa"
+				"Africa",
+				"America del Sud"
 			],
 			"answer": "America del Sud",
 			"explanation": "Il Brasile si trova in America del Sud: è il Paese più grande dell'America del Sud e ospita gran parte dell'Amazzonia.",
 			"distractorWhy": {
-				"Europa": "Europa ospita per esempio l'Italia, non il Brasile.",
+				"Oceania": "Oceania ospita per esempio l'Australia, non il Brasile.",
 				"America del Nord": "America del Nord ospita per esempio gli Stati Uniti, non il Brasile.",
-				"Antartide": "Antartide è un altro continente rispetto a quello del Brasile."
+				"Africa": "Africa ospita per esempio l'Egitto, non il Brasile."
 			}
 		},
 		{
@@ -1145,17 +1103,17 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la capitale dell'Argentina?",
 			"options": [
-				"Pechino",
-				"Bruxelles",
 				"Buenos Aires",
+				"Stoccolma",
+				"Nuova Delhi",
 				"Canberra"
 			],
 			"answer": "Buenos Aires",
 			"explanation": "Buenos Aires è la capitale dell'Argentina. Buenos Aires si affaccia sul Río de la Plata, il grande estuario che sembra un mare.",
 			"distractorWhy": {
 				"Canberra": "«Canberra» è la capitale dell'Australia, non dell'Argentina.",
-				"Pechino": "«Pechino» è la capitale della Cina, non dell'Argentina.",
-				"Bruxelles": "«Bruxelles» è la capitale del Belgio, non dell'Argentina."
+				"Nuova Delhi": "«Nuova Delhi» è la capitale dell'India, non dell'Argentina.",
+				"Stoccolma": "«Stoccolma» è la capitale della Svezia, non dell'Argentina."
 			}
 		},
 		{
@@ -1166,17 +1124,17 @@
 			"format": "multiple_choice",
 			"prompt": "Di quale Stato è capitale Buenos Aires?",
 			"options": [
-				"Paesi Bassi",
-				"Stati Uniti",
-				"Polonia",
-				"Argentina"
+				"Giappone",
+				"Argentina",
+				"Australia",
+				"Regno Unito"
 			],
 			"answer": "Argentina",
 			"explanation": "Buenos Aires è la capitale dell'Argentina, che si allunga verso sud fin quasi all'Antartide. Buenos Aires si affaccia sul Río de la Plata, il grande estuario che sembra un mare.",
 			"distractorWhy": {
-				"Stati Uniti": "Gli Stati Uniti ha come capitale «Washington», non «Buenos Aires».",
-				"Paesi Bassi": "I Paesi Bassi ha come capitale «Amsterdam», non «Buenos Aires».",
-				"Polonia": "La Polonia ha come capitale «Varsavia», non «Buenos Aires»."
+				"Australia": "L'Australia ha come capitale «Canberra», non «Buenos Aires».",
+				"Giappone": "Il Giappone ha come capitale «Tokyo», non «Buenos Aires».",
+				"Regno Unito": "Il Regno Unito ha come capitale «Londra», non «Buenos Aires»."
 			}
 		},
 		{
@@ -1187,16 +1145,16 @@
 			"format": "multiple_choice",
 			"prompt": "In quale continente si trova l'Argentina?",
 			"options": [
-				"America del Sud",
-				"Oceania",
 				"Antartide",
+				"Oceania",
+				"America del Sud",
 				"America del Nord"
 			],
 			"answer": "America del Sud",
 			"explanation": "L'Argentina si trova in America del Sud: si allunga verso sud fin quasi all'Antartide.",
 			"distractorWhy": {
-				"America del Nord": "America del Nord ospita per esempio gli Stati Uniti, non l'Argentina.",
 				"Antartide": "Antartide è un altro continente rispetto a quello dell'Argentina.",
+				"America del Nord": "America del Nord ospita per esempio gli Stati Uniti, non l'Argentina.",
 				"Oceania": "Oceania ospita per esempio l'Australia, non l'Argentina."
 			}
 		},
@@ -1208,17 +1166,17 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la capitale del Giappone?",
 			"options": [
-				"Roma",
-				"Tokyo",
-				"Atene",
-				"Berlino"
+				"Parigi",
+				"Mosca",
+				"Londra",
+				"Tokyo"
 			],
 			"answer": "Tokyo",
 			"explanation": "Tokyo è la capitale del Giappone. Tokyo è l'area urbana più popolosa del mondo.",
 			"distractorWhy": {
-				"Roma": "«Roma» è la capitale dell'Italia, non del Giappone.",
-				"Berlino": "«Berlino» è la capitale della Germania, non del Giappone.",
-				"Atene": "«Atene» è la capitale della Grecia, non del Giappone."
+				"Mosca": "«Mosca» è la capitale della Russia, non del Giappone.",
+				"Londra": "«Londra» è la capitale del Regno Unito, non del Giappone.",
+				"Parigi": "«Parigi» è la capitale della Francia, non del Giappone."
 			}
 		},
 		{
@@ -1229,17 +1187,17 @@
 			"format": "multiple_choice",
 			"prompt": "Di quale Stato è capitale Tokyo?",
 			"options": [
-				"Brasile",
-				"Spagna",
 				"Giappone",
-				"Australia"
+				"Norvegia",
+				"Germania",
+				"Svezia"
 			],
 			"answer": "Giappone",
 			"explanation": "Tokyo è la capitale del Giappone, che è un arcipelago di isole al largo dell'Asia orientale. Tokyo è l'area urbana più popolosa del mondo.",
 			"distractorWhy": {
-				"Australia": "L'Australia ha come capitale «Canberra», non «Tokyo».",
-				"Brasile": "Il Brasile ha come capitale «Brasília», non «Tokyo».",
-				"Spagna": "La Spagna ha come capitale «Madrid», non «Tokyo»."
+				"Norvegia": "La Norvegia ha come capitale «Oslo», non «Tokyo».",
+				"Svezia": "La Svezia ha come capitale «Stoccolma», non «Tokyo».",
+				"Germania": "La Germania ha come capitale «Berlino», non «Tokyo»."
 			}
 		},
 		{
@@ -1250,17 +1208,17 @@
 			"format": "multiple_choice",
 			"prompt": "In quale continente si trova il Giappone?",
 			"options": [
-				"Oceania",
-				"Antartide",
 				"Africa",
-				"Asia"
+				"Asia",
+				"Antartide",
+				"Europa"
 			],
 			"answer": "Asia",
 			"explanation": "Il Giappone si trova in Asia: è un arcipelago di isole al largo dell'Asia orientale.",
 			"distractorWhy": {
 				"Africa": "Africa ospita per esempio l'Egitto, non il Giappone.",
-				"Oceania": "Oceania ospita per esempio l'Australia, non il Giappone.",
-				"Antartide": "Antartide è un altro continente rispetto a quello del Giappone."
+				"Antartide": "Antartide è un altro continente rispetto a quello del Giappone.",
+				"Europa": "Europa ospita per esempio l'Italia, non il Giappone."
 			}
 		},
 		{
@@ -1271,16 +1229,16 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la capitale della Cina?",
 			"options": [
-				"Pechino",
-				"Madrid",
 				"Brasília",
-				"Ottawa"
+				"Berlino",
+				"Pechino",
+				"Il Cairo"
 			],
 			"answer": "Pechino",
 			"explanation": "Pechino è la capitale della Cina. A Pechino si trova la Città Proibita, il palazzo dove vivevano gli imperatori.",
 			"distractorWhy": {
-				"Ottawa": "«Ottawa» è la capitale del Canada, non della Cina.",
-				"Madrid": "«Madrid» è la capitale della Spagna, non della Cina.",
+				"Il Cairo": "«Il Cairo» è la capitale dell'Egitto, non della Cina.",
+				"Berlino": "«Berlino» è la capitale della Germania, non della Cina.",
 				"Brasília": "«Brasília» è la capitale del Brasile, non della Cina."
 			}
 		},
@@ -1292,17 +1250,17 @@
 			"format": "multiple_choice",
 			"prompt": "Di quale Stato è capitale Pechino?",
 			"options": [
+				"Egitto",
 				"India",
-				"Cina",
 				"Russia",
-				"Canada"
+				"Cina"
 			],
 			"answer": "Cina",
 			"explanation": "Pechino è la capitale della Cina, che occupa gran parte dell'Asia orientale. A Pechino si trova la Città Proibita, il palazzo dove vivevano gli imperatori.",
 			"distractorWhy": {
 				"India": "L'India ha come capitale «Nuova Delhi», non «Pechino».",
 				"Russia": "La Russia ha come capitale «Mosca», non «Pechino».",
-				"Canada": "Il Canada ha come capitale «Ottawa», non «Pechino»."
+				"Egitto": "L'Egitto ha come capitale «Il Cairo», non «Pechino»."
 			}
 		},
 		{
@@ -1313,17 +1271,17 @@
 			"format": "multiple_choice",
 			"prompt": "In quale continente si trova la Cina?",
 			"options": [
-				"Antartide",
-				"Oceania",
 				"Asia",
-				"Africa"
+				"Africa",
+				"Oceania",
+				"Antartide"
 			],
 			"answer": "Asia",
 			"explanation": "La Cina si trova in Asia: occupa gran parte dell'Asia orientale.",
 			"distractorWhy": {
-				"Antartide": "Antartide è un altro continente rispetto a quello della Cina.",
 				"Africa": "Africa ospita per esempio l'Egitto, non la Cina.",
-				"Oceania": "Oceania ospita per esempio l'Australia, non la Cina."
+				"Oceania": "Oceania ospita per esempio l'Australia, non la Cina.",
+				"Antartide": "Antartide è un altro continente rispetto a quello della Cina."
 			}
 		},
 		{
@@ -1334,17 +1292,17 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la capitale dell'India?",
 			"options": [
-				"Stoccolma",
-				"Brasília",
-				"Amsterdam",
-				"Nuova Delhi"
+				"Bruxelles",
+				"Nuova Delhi",
+				"Washington",
+				"Canberra"
 			],
 			"answer": "Nuova Delhi",
 			"explanation": "Nuova Delhi è la capitale dell'India. Nuova Delhi fu costruita accanto all'antica città di Delhi, che esiste ancora.",
 			"distractorWhy": {
-				"Amsterdam": "«Amsterdam» è la capitale dei Paesi Bassi, non dell'India.",
-				"Brasília": "«Brasília» è la capitale del Brasile, non dell'India.",
-				"Stoccolma": "«Stoccolma» è la capitale della Svezia, non dell'India."
+				"Bruxelles": "«Bruxelles» è la capitale del Belgio, non dell'India.",
+				"Canberra": "«Canberra» è la capitale dell'Australia, non dell'India.",
+				"Washington": "«Washington» è la capitale degli Stati Uniti, non dell'India."
 			}
 		},
 		{
@@ -1355,17 +1313,17 @@
 			"format": "multiple_choice",
 			"prompt": "Di quale Stato è capitale Nuova Delhi?",
 			"options": [
+				"Russia",
+				"Austria",
 				"India",
-				"Egitto",
-				"Italia",
 				"Messico"
 			],
 			"answer": "India",
 			"explanation": "Nuova Delhi è la capitale dell'India, che è un grande subcontinente che si spinge nell'Oceano Indiano. Nuova Delhi fu costruita accanto all'antica città di Delhi, che esiste ancora.",
 			"distractorWhy": {
 				"Messico": "Il Messico ha come capitale «Città del Messico», non «Nuova Delhi».",
-				"Egitto": "L'Egitto ha come capitale «Il Cairo», non «Nuova Delhi».",
-				"Italia": "L'Italia ha come capitale «Roma», non «Nuova Delhi»."
+				"Russia": "La Russia ha come capitale «Mosca», non «Nuova Delhi».",
+				"Austria": "L'Austria ha come capitale «Vienna», non «Nuova Delhi»."
 			}
 		},
 		{
@@ -1376,17 +1334,17 @@
 			"format": "multiple_choice",
 			"prompt": "In quale continente si trova l'India?",
 			"options": [
-				"Oceania",
-				"Asia",
 				"Europa",
-				"Antartide"
+				"Oceania",
+				"Africa",
+				"Asia"
 			],
 			"answer": "Asia",
 			"explanation": "L'India si trova in Asia: è un grande subcontinente che si spinge nell'Oceano Indiano.",
 			"distractorWhy": {
-				"Oceania": "Oceania ospita per esempio l'Australia, non l'India.",
-				"Antartide": "Antartide è un altro continente rispetto a quello dell'India.",
-				"Europa": "Europa ospita per esempio l'Italia, non l'India."
+				"Europa": "Europa ospita per esempio l'Italia, non l'India.",
+				"Africa": "Africa ospita per esempio l'Egitto, non l'India.",
+				"Oceania": "Oceania ospita per esempio l'Australia, non l'India."
 			}
 		},
 		{
@@ -1397,17 +1355,17 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la capitale dell'Egitto?",
 			"options": [
-				"Pechino",
-				"Stoccolma",
 				"Il Cairo",
-				"Ottawa"
+				"Stoccolma",
+				"Madrid",
+				"Canberra"
 			],
 			"answer": "Il Cairo",
 			"explanation": "Il Cairo è la capitale dell'Egitto. Il Cairo sorge sul Nilo, a pochi chilometri dalle piramidi di Giza.",
 			"distractorWhy": {
-				"Ottawa": "«Ottawa» è la capitale del Canada, non dell'Egitto.",
-				"Stoccolma": "«Stoccolma» è la capitale della Svezia, non dell'Egitto.",
-				"Pechino": "«Pechino» è la capitale della Cina, non dell'Egitto."
+				"Madrid": "«Madrid» è la capitale della Spagna, non dell'Egitto.",
+				"Canberra": "«Canberra» è la capitale dell'Australia, non dell'Egitto.",
+				"Stoccolma": "«Stoccolma» è la capitale della Svezia, non dell'Egitto."
 			}
 		},
 		{
@@ -1418,17 +1376,17 @@
 			"format": "multiple_choice",
 			"prompt": "Di quale Stato è capitale Il Cairo?",
 			"options": [
-				"Brasile",
-				"Grecia",
-				"Italia",
-				"Egitto"
+				"Svezia",
+				"Egitto",
+				"Francia",
+				"Italia"
 			],
 			"answer": "Egitto",
 			"explanation": "Il Cairo è la capitale dell'Egitto, che sta nell'angolo nord-orientale dell'Africa, a cavallo del Nilo. Il Cairo sorge sul Nilo, a pochi chilometri dalle piramidi di Giza.",
 			"distractorWhy": {
+				"Francia": "La Francia ha come capitale «Parigi», non «Il Cairo».",
 				"Italia": "L'Italia ha come capitale «Roma», non «Il Cairo».",
-				"Grecia": "La Grecia ha come capitale «Atene», non «Il Cairo».",
-				"Brasile": "Il Brasile ha come capitale «Brasília», non «Il Cairo»."
+				"Svezia": "La Svezia ha come capitale «Stoccolma», non «Il Cairo»."
 			}
 		},
 		{
@@ -1439,17 +1397,17 @@
 			"format": "multiple_choice",
 			"prompt": "In quale continente si trova l'Egitto?",
 			"options": [
-				"Africa",
-				"Europa",
+				"Oceania",
 				"Asia",
-				"Oceania"
+				"Africa",
+				"Europa"
 			],
 			"answer": "Africa",
 			"explanation": "L'Egitto si trova in Africa: sta nell'angolo nord-orientale dell'Africa, a cavallo del Nilo.",
 			"distractorWhy": {
-				"Oceania": "Oceania ospita per esempio l'Australia, non l'Egitto.",
+				"Asia": "Asia ospita per esempio il Giappone, non l'Egitto.",
 				"Europa": "Europa ospita per esempio l'Italia, non l'Egitto.",
-				"Asia": "Asia ospita per esempio il Giappone, non l'Egitto."
+				"Oceania": "Oceania ospita per esempio l'Australia, non l'Egitto."
 			}
 		},
 		{
@@ -1460,17 +1418,17 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la capitale dell'Australia?",
 			"options": [
-				"Madrid",
-				"Canberra",
-				"Vienna",
-				"Varsavia"
+				"Bruxelles",
+				"Lisbona",
+				"Brasília",
+				"Canberra"
 			],
 			"answer": "Canberra",
 			"explanation": "Canberra è la capitale dell'Australia. Canberra fu costruita apposta per fare da capitale, perché Sydney e Melbourne se la contendevano.",
 			"distractorWhy": {
-				"Varsavia": "«Varsavia» è la capitale della Polonia, non dell'Australia.",
-				"Vienna": "«Vienna» è la capitale dell'Austria, non dell'Australia.",
-				"Madrid": "«Madrid» è la capitale della Spagna, non dell'Australia."
+				"Lisbona": "«Lisbona» è la capitale del Portogallo, non dell'Australia.",
+				"Brasília": "«Brasília» è la capitale del Brasile, non dell'Australia.",
+				"Bruxelles": "«Bruxelles» è la capitale del Belgio, non dell'Australia."
 			}
 		},
 		{
@@ -1481,17 +1439,17 @@
 			"format": "multiple_choice",
 			"prompt": "Di quale Stato è capitale Canberra?",
 			"options": [
-				"Messico",
-				"Polonia",
 				"Australia",
-				"Germania"
+				"Argentina",
+				"Stati Uniti",
+				"Portogallo"
 			],
 			"answer": "Australia",
 			"explanation": "Canberra è la capitale dell'Australia, che è insieme uno Stato e un continente. Canberra fu costruita apposta per fare da capitale, perché Sydney e Melbourne se la contendevano.",
 			"distractorWhy": {
-				"Polonia": "La Polonia ha come capitale «Varsavia», non «Canberra».",
-				"Messico": "Il Messico ha come capitale «Città del Messico», non «Canberra».",
-				"Germania": "La Germania ha come capitale «Berlino», non «Canberra»."
+				"Argentina": "L'Argentina ha come capitale «Buenos Aires», non «Canberra».",
+				"Portogallo": "Il Portogallo ha come capitale «Lisbona», non «Canberra».",
+				"Stati Uniti": "Gli Stati Uniti ha come capitale «Washington», non «Canberra»."
 			}
 		},
 		{
@@ -1502,31 +1460,31 @@
 			"format": "multiple_choice",
 			"prompt": "In quale continente si trova l'Australia?",
 			"options": [
+				"Africa",
+				"Oceania",
 				"Antartide",
-				"Asia",
-				"Europa",
-				"Oceania"
+				"Europa"
 			],
 			"answer": "Oceania",
 			"explanation": "L'Australia si trova in Oceania: è insieme uno Stato e un continente.",
 			"distractorWhy": {
 				"Antartide": "Antartide è un altro continente rispetto a quello dell'Australia.",
-				"Europa": "Europa ospita per esempio l'Italia, non l'Australia.",
-				"Asia": "Asia ospita per esempio il Giappone, non l'Australia."
+				"Africa": "Africa ospita per esempio l'Egitto, non l'Australia.",
+				"Europa": "Europa ospita per esempio l'Italia, non l'Australia."
 			}
 		},
 		{
-			"id": "geografia-geografia-fisica-72",
+			"id": "geografia-geografia-fisica-70",
 			"subject": "geografia",
 			"topic": "geografia-fisica",
 			"difficulty": 1,
 			"format": "multiple_choice",
 			"prompt": "In quale continente si trova il deserto del Sahara?",
 			"options": [
-				"Africa",
-				"Europa",
+				"Asia",
 				"Oceania",
-				"Asia"
+				"Africa",
+				"Europa"
 			],
 			"answer": "Africa",
 			"explanation": "Il Sahara è il grande deserto caldo dell'Africa settentrionale.",
@@ -1537,49 +1495,49 @@
 			}
 		},
 		{
-			"id": "geografia-geografia-fisica-73",
+			"id": "geografia-geografia-fisica-71",
 			"subject": "geografia",
 			"topic": "geografia-fisica",
 			"difficulty": 1,
 			"format": "multiple_choice",
-			"prompt": "Come si chiama la linea immaginaria che divide la Terra in due metà uguali?",
+			"prompt": "Che cos'è un'isola?",
 			"options": [
-				"Meridiano",
-				"Equatore",
-				"Polo",
-				"Tropico"
+				"Un tratto di costa che rientra verso terra",
+				"Una terra circondata dal mare su tre lati",
+				"Una montagna che spunta in mezzo al mare",
+				"Una terra circondata dal mare da ogni lato"
 			],
-			"answer": "Equatore",
-			"explanation": "L'Equatore divide la Terra in emisfero nord e sud.",
+			"answer": "Una terra circondata dal mare da ogni lato",
+			"explanation": "Se il mare la circonda tutta è un'isola; se un lato resta attaccato alla terraferma è una penisola.",
 			"distractorWhy": {
-				"Meridiano": "Un meridiano va da un polo all'altro, non divide la Terra in due metà uguali.",
-				"Tropico": "I tropici sono due linee parallele all'equatore, spostate a nord e a sud, non la linea di mezzo.",
-				"Polo": "I poli sono due punti, non una linea."
+				"Una terra circondata dal mare su tre lati": "Quella è la penisola: le resta un lato attaccato alla terraferma, come all'Italia.",
+				"Una montagna che spunta in mezzo al mare": "Molte isole sono proprio così, ma non tutte: conta che il mare la circondi, non che sia alta.",
+				"Un tratto di costa che rientra verso terra": "Quello è un golfo, cioè mare che entra nella terra: l'isola è il contrario."
 			}
 		},
 		{
-			"id": "geografia-geografia-fisica-74",
+			"id": "geografia-geografia-fisica-72",
 			"subject": "geografia",
 			"topic": "geografia-fisica",
 			"difficulty": 2,
 			"format": "multiple_choice",
-			"prompt": "Qual è l'oceano più grande della Terra?",
+			"prompt": "Che cos'è un arcipelago?",
 			"options": [
-				"Oceano Indiano",
-				"Oceano Atlantico",
-				"Oceano Pacifico",
-				"Oceano Artico"
+				"Un gruppo di isole vicine fra loro",
+				"Una lunga catena di monti sul mare",
+				"Un'isola molto grande e abitata",
+				"Un mare chiuso fra due continenti"
 			],
-			"answer": "Oceano Pacifico",
-			"explanation": "Il Pacifico è il più esteso e profondo degli oceani.",
+			"answer": "Un gruppo di isole vicine fra loro",
+			"explanation": "Le Eolie, le Canarie, il Giappone: si contano come un insieme perché nascono insieme e si somigliano.",
 			"distractorWhy": {
-				"Oceano Atlantico": "L'Atlantico è il secondo per estensione, non il più grande.",
-				"Oceano Indiano": "L'Oceano Indiano è il terzo per estensione.",
-				"Oceano Artico": "L'Oceano Artico è il più piccolo di tutti."
+				"Un'isola molto grande e abitata": "Una sola isola non fa arcipelago, per grande che sia: ne servono parecchie vicine.",
+				"Un mare chiuso fra due continenti": "Quello è un mare interno, come il Mediterraneo: l'arcipelago è fatto di terre, non d'acqua.",
+				"Una lunga catena di monti sul mare": "Le montagne in fila sulla costa non sono un arcipelago: le isole devono essere separate dall'acqua."
 			}
 		},
 		{
-			"id": "geografia-geografia-fisica-75",
+			"id": "geografia-geografia-fisica-73",
 			"subject": "geografia",
 			"topic": "geografia-fisica",
 			"difficulty": 2,
@@ -1587,9 +1545,9 @@
 			"prompt": "Qual è la montagna più alta della Terra?",
 			"options": [
 				"Kilimangiaro",
-				"Aconcagua",
+				"Everest",
 				"Monte Bianco",
-				"Everest"
+				"Aconcagua"
 			],
 			"answer": "Everest",
 			"explanation": "L'Everest, in Asia, supera gli 8800 metri.",
@@ -1600,7 +1558,7 @@
 			}
 		},
 		{
-			"id": "geografia-geografia-fisica-76",
+			"id": "geografia-geografia-fisica-74",
 			"subject": "geografia",
 			"topic": "geografia-fisica",
 			"difficulty": 2,
@@ -1616,7 +1574,7 @@
 			}
 		},
 		{
-			"id": "geografia-geografia-fisica-77",
+			"id": "geografia-geografia-fisica-75",
 			"subject": "geografia",
 			"topic": "geografia-fisica",
 			"difficulty": 3,
@@ -1624,9 +1582,9 @@
 			"prompt": "In quale continente scorre il Rio delle Amazzoni?",
 			"options": [
 				"Africa",
-				"America del Sud",
+				"Asia",
 				"America del Nord",
-				"Asia"
+				"America del Sud"
 			],
 			"answer": "America del Sud",
 			"explanation": "L'Amazzonia e il suo fiume si trovano in America del Sud.",
@@ -1637,38 +1595,38 @@
 			}
 		},
 		{
-			"id": "geografia-geografia-fisica-78",
+			"id": "geografia-geografia-fisica-76",
 			"subject": "geografia",
 			"topic": "geografia-fisica",
 			"difficulty": 3,
 			"format": "multiple_choice",
-			"prompt": "Come si chiamano le grandi masse di ghiaccio che scivolano lentamente verso valle?",
+			"prompt": "Che cos'è un affluente?",
 			"options": [
-				"Iceberg",
-				"Sorgenti",
-				"Ghiacciai",
-				"Cascate"
+				"Un fiume che si getta dentro un altro fiume",
+				"Il ramo con cui un fiume entra nel mare",
+				"Il tratto di fiume più vicino alla sorgente",
+				"Un corso d'acqua che si asciuga d'estate"
 			],
-			"answer": "Ghiacciai",
-			"explanation": "I ghiacciai sono fiumi di ghiaccio che scendono dai monti; gli iceberg galleggiano nel mare.",
+			"answer": "Un fiume che si getta dentro un altro fiume",
+			"explanation": "Il Po raccoglie decine di affluenti dalle Alpi e dagli Appennini: è così che un fiume diventa grande senza che piova di più.",
 			"distractorWhy": {
-				"Iceberg": "Gli iceberg sono pezzi di ghiaccio staccati da un ghiacciaio che galleggiano in mare: non sono loro a scivolare a valle.",
-				"Cascate": "Le cascate sono acqua che cade, non ghiaccio che scivola.",
-				"Sorgenti": "Le sorgenti sono il punto in cui nasce un corso d'acqua, non masse di ghiaccio."
+				"Il ramo con cui un fiume entra nel mare": "Quelli sono i rami del delta, alla foce: l'affluente arriva molto prima e porta acqua dentro.",
+				"Il tratto di fiume più vicino alla sorgente": "Quello è il corso superiore: l'affluente è un fiume diverso che si unisce al principale.",
+				"Un corso d'acqua che si asciuga d'estate": "Quello è un torrente a regime irregolare: può essere affluente o no, sono due cose diverse."
 			}
 		},
 		{
-			"id": "geografia-geografia-fisica-79",
+			"id": "geografia-geografia-fisica-77",
 			"subject": "geografia",
 			"topic": "geografia-fisica",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Come si chiama il punto più profondo degli oceani, nel Pacifico?",
 			"options": [
-				"Golfo del Bengala",
-				"Mar dei Sargassi",
 				"Fossa di Giava",
-				"Fossa delle Marianne"
+				"Fossa delle Marianne",
+				"Mar dei Sargassi",
+				"Golfo del Bengala"
 			],
 			"answer": "Fossa delle Marianne",
 			"explanation": "La Fossa delle Marianne supera gli 11 000 metri di profondità.",
@@ -1679,16 +1637,16 @@
 			}
 		},
 		{
-			"id": "geografia-geografia-italia-80",
+			"id": "geografia-geografia-italia-78",
 			"subject": "geografia",
 			"topic": "geografia-italia",
 			"difficulty": 1,
 			"format": "multiple_choice",
 			"prompt": "Qual è la capitale d'Italia?",
 			"options": [
-				"Roma",
-				"Napoli",
 				"Milano",
+				"Napoli",
+				"Roma",
 				"Torino"
 			],
 			"answer": "Roma",
@@ -1700,7 +1658,7 @@
 			}
 		},
 		{
-			"id": "geografia-geografia-italia-81",
+			"id": "geografia-geografia-italia-79",
 			"subject": "geografia",
 			"topic": "geografia-italia",
 			"difficulty": 1,
@@ -1708,9 +1666,9 @@
 			"prompt": "Qual è il fiume più lungo d'Italia?",
 			"options": [
 				"Adige",
-				"Po",
 				"Arno",
-				"Tevere"
+				"Tevere",
+				"Po"
 			],
 			"answer": "Po",
 			"explanation": "Il Po, che attraversa la Pianura Padana, è il fiume più lungo d'Italia.",
@@ -1721,17 +1679,17 @@
 			}
 		},
 		{
-			"id": "geografia-geografia-italia-82",
+			"id": "geografia-geografia-italia-80",
 			"subject": "geografia",
 			"topic": "geografia-italia",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Quali sono le due isole più grandi d'Italia?",
 			"options": [
-				"Sardegna e Capri",
-				"Sicilia ed Elba",
 				"Sicilia e Sardegna",
-				"Elba e Ischia"
+				"Sardegna e Capri",
+				"Elba e Ischia",
+				"Sicilia ed Elba"
 			],
 			"answer": "Sicilia e Sardegna",
 			"explanation": "La Sicilia supera la Sardegna di poco. Sono anche le due isole più grandi di tutto il Mediterraneo.",
@@ -1742,17 +1700,17 @@
 			}
 		},
 		{
-			"id": "geografia-geografia-italia-83",
+			"id": "geografia-geografia-italia-81",
 			"subject": "geografia",
 			"topic": "geografia-italia",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Qual è il vulcano attivo più grande d'Europa, in Sicilia?",
 			"options": [
-				"Vulcano",
 				"Stromboli",
-				"Vesuvio",
-				"Etna"
+				"Etna",
+				"Vulcano",
+				"Vesuvio"
 			],
 			"answer": "Etna",
 			"explanation": "Erutta più spesso di quasi ogni altro vulcano al mondo perché sta proprio dove la placca africana spinge contro quella euroasiatica.",
@@ -1763,16 +1721,16 @@
 			}
 		},
 		{
-			"id": "geografia-geografia-italia-84",
+			"id": "geografia-geografia-italia-82",
 			"subject": "geografia",
 			"topic": "geografia-italia",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Qual è il lago più grande d'Italia?",
 			"options": [
-				"Lago di Garda",
 				"Lago di Como",
 				"Lago Trasimeno",
+				"Lago di Garda",
 				"Lago Maggiore"
 			],
 			"answer": "Lago di Garda",
@@ -1784,17 +1742,17 @@
 			}
 		},
 		{
-			"id": "geografia-geografia-italia-85",
+			"id": "geografia-geografia-italia-83",
 			"subject": "geografia",
 			"topic": "geografia-italia",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Quale catena montuosa percorre l'Italia da nord a sud?",
 			"options": [
+				"Pirenei",
 				"Dolomiti",
-				"Appennini",
 				"Alpi",
-				"Pirenei"
+				"Appennini"
 			],
 			"answer": "Appennini",
 			"explanation": "Gli Appennini attraversano la penisola; le Alpi chiudono l'Italia a nord.",
@@ -1805,17 +1763,17 @@
 			}
 		},
 		{
-			"id": "geografia-geografia-italia-86",
+			"id": "geografia-geografia-italia-84",
 			"subject": "geografia",
 			"topic": "geografia-italia",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Quale mare bagna la costa orientale dell'Italia?",
 			"options": [
-				"Mar Ligure",
-				"Mar Ionio",
 				"Mar Adriatico",
-				"Mar Tirreno"
+				"Mar Ionio",
+				"Mar Tirreno",
+				"Mar Ligure"
 			],
 			"answer": "Mar Adriatico",
 			"explanation": "L'Adriatico è a est, tra Italia e penisola balcanica.",
@@ -1826,17 +1784,17 @@
 			}
 		},
 		{
-			"id": "geografia-geografia-italia-87",
+			"id": "geografia-geografia-italia-85",
 			"subject": "geografia",
 			"topic": "geografia-italia",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Quale regione italiana ha la maggiore superficie?",
 			"options": [
-				"Piemonte",
-				"Lombardia",
 				"Sardegna",
-				"Sicilia"
+				"Sicilia",
+				"Lombardia",
+				"Piemonte"
 			],
 			"answer": "Sicilia",
 			"explanation": "La Sicilia è la regione italiana più estesa, seguita dal Piemonte.",
@@ -1847,17 +1805,17 @@
 			}
 		},
 		{
-			"id": "geografia-climi-88",
+			"id": "geografia-climi-86",
 			"subject": "geografia",
 			"topic": "climi",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "In quale zona della Terra fa caldo tutto l'anno?",
 			"options": [
-				"Vicino all'Equatore",
-				"Nelle grotte",
 				"In cima alle montagne",
-				"Vicino ai Poli"
+				"Vicino ai Poli",
+				"Vicino all'Equatore",
+				"Nelle grotte"
 			],
 			"answer": "Vicino all'Equatore",
 			"explanation": "Vicino all'Equatore i raggi del Sole arrivano più diretti e riscaldano di più.",
@@ -1868,17 +1826,17 @@
 			}
 		},
 		{
-			"id": "geografia-climi-89",
+			"id": "geografia-climi-87",
 			"subject": "geografia",
 			"topic": "climi",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Come si chiama il clima con estati calde e secche e inverni miti, tipico dell'Italia?",
 			"options": [
-				"Clima polare",
-				"Clima mediterraneo",
 				"Clima equatoriale",
-				"Clima desertico"
+				"Clima polare",
+				"Clima desertico",
+				"Clima mediterraneo"
 			],
 			"answer": "Clima mediterraneo",
 			"explanation": "Il mare vicino smorza gli sbalzi di temperatura, e d'estate un'alta pressione stabile tiene lontane le piogge: qui, al contrario del resto d'Europa, l'estate è la stagione più secca.",
@@ -1889,59 +1847,59 @@
 			}
 		},
 		{
-			"id": "geografia-climi-90",
+			"id": "geografia-climi-88",
 			"subject": "geografia",
 			"topic": "climi",
 			"difficulty": 3,
 			"format": "multiple_choice",
-			"prompt": "Salendo in montagna, la temperatura di solito…",
+			"prompt": "Che cos'è il vento?",
 			"options": [
-				"Aumenta",
-				"Resta uguale",
-				"Diminuisce",
-				"Raddoppia"
+				"Aria che si sposta dove la pressione è minore",
+				"Aria che scende dalle montagne verso il mare",
+				"Aria messa in movimento dalle onde del mare",
+				"Aria spinta avanti dalla rotazione terrestre"
 			],
-			"answer": "Diminuisce",
-			"explanation": "Più si sale in quota, più l'aria è fredda.",
+			"answer": "Aria che si sposta dove la pressione è minore",
+			"explanation": "L'aria calda sale e lascia meno pressione dietro di sé; l'aria vicina corre a riempire il vuoto. Il vento è quel viaggio.",
 			"distractorWhy": {
-				"Aumenta": "È il contrario: l'aria si raffredda salendo, non si scalda.",
-				"Resta uguale": "La temperatura cambia con la quota: cala di circa mezzo grado ogni cento metri.",
-				"Raddoppia": "La temperatura non raddoppia: scende gradualmente, non si moltiplica."
+				"Aria spinta avanti dalla rotazione terrestre": "La rotazione piega la direzione dei venti, ma non è lei a metterli in moto: è la differenza di pressione.",
+				"Aria che scende dalle montagne verso il mare": "Quello è un vento particolare fra i tanti: la definizione generale non dipende dalle montagne.",
+				"Aria messa in movimento dalle onde del mare": "È il contrario: sono le onde a nascere dal vento, non il vento dalle onde."
 			}
 		},
 		{
-			"id": "geografia-climi-91",
+			"id": "geografia-climi-89",
 			"subject": "geografia",
 			"topic": "climi",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Come si chiama la grande foresta calda e piovosa vicino all'Equatore?",
 			"options": [
-				"Taiga",
-				"Tundra",
+				"Tundra artica",
+				"Foresta pluviale",
 				"Savana",
-				"Foresta pluviale"
+				"Taiga"
 			],
 			"answer": "Foresta pluviale",
 			"explanation": "La foresta pluviale è calda e umida tutto l'anno; la tundra invece è fredda.",
 			"distractorWhy": {
-				"Tundra": "La tundra è la fascia fredda vicino ai poli, non l'opposto.",
+				"Tundra artica": "La tundra è la fascia fredda vicino ai poli, non l'opposto.",
 				"Savana": "La savana ha una stagione secca e una piovosa, non piove tutto l'anno.",
 				"Taiga": "La taiga è la grande foresta di conifere delle zone fredde, non tropicali."
 			}
 		},
 		{
-			"id": "geografia-europa-92",
+			"id": "geografia-europa-90",
 			"subject": "geografia",
 			"topic": "europa",
 			"difficulty": 1,
 			"format": "multiple_choice",
 			"prompt": "In quale continente si trova l'Italia?",
 			"options": [
-				"Europa",
+				"Asia",
 				"America",
-				"Africa",
-				"Asia"
+				"Europa",
+				"Africa"
 			],
 			"answer": "Europa",
 			"explanation": "L'Italia è uno Stato dell'Europa meridionale.",
@@ -1952,17 +1910,17 @@
 			}
 		},
 		{
-			"id": "geografia-europa-93",
+			"id": "geografia-europa-91",
 			"subject": "geografia",
 			"topic": "europa",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Quale fiume attraversa la città di Parigi?",
 			"options": [
-				"Reno",
-				"Senna",
+				"Danubio",
 				"Tamigi",
-				"Danubio"
+				"Reno",
+				"Senna"
 			],
 			"answer": "Senna",
 			"explanation": "La Senna attraversa Parigi; il Tamigi passa per Londra.",
@@ -1973,16 +1931,16 @@
 			}
 		},
 		{
-			"id": "geografia-europa-94",
+			"id": "geografia-europa-92",
 			"subject": "geografia",
 			"topic": "europa",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Quale catena di monti segna il confine tra Europa e Asia?",
 			"options": [
-				"Carpazi",
-				"Alpi",
 				"Monti Urali",
+				"Alpi",
+				"Carpazi",
 				"Pirenei"
 			],
 			"answer": "Monti Urali",
@@ -1994,17 +1952,17 @@
 			}
 		},
 		{
-			"id": "geografia-europa-95",
+			"id": "geografia-europa-93",
 			"subject": "geografia",
 			"topic": "europa",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Come si chiama l'unione economica e politica di molti Stati europei?",
 			"options": [
-				"NATO",
 				"Nazioni Unite",
-				"Commonwealth",
-				"Unione Europea"
+				"Unione Europea",
+				"NATO",
+				"Commonwealth"
 			],
 			"answer": "Unione Europea",
 			"explanation": "L'Unione Europea riunisce numerosi Stati del continente.",
@@ -2012,6 +1970,48 @@
 				"Nazioni Unite": "Le Nazioni Unite riuniscono quasi tutti gli Stati del mondo, non solo quelli europei.",
 				"Commonwealth": "Il Commonwealth riunisce ex colonie britanniche in tutto il mondo, non gli Stati europei.",
 				"NATO": "La NATO è un'alleanza militare, non un'unione economica e politica."
+			}
+		},
+		{
+			"id": "geografia-mondo-94",
+			"subject": "geografia",
+			"topic": "mondo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Su quali due continenti si estende la Russia?",
+			"options": [
+				"Asia e Oceania",
+				"Europa e Africa",
+				"Europa e Asia",
+				"Europa e America del Nord"
+			],
+			"answer": "Europa e Asia",
+			"explanation": "Il confine convenzionale corre sui monti Urali: a ovest c'è la parte europea, dove vivono quasi tutti i russi, a est la parte asiatica, che è di gran lunga la più estesa.",
+			"distractorWhy": {
+				"Europa e Africa": "L'Africa è separata dalla Russia da tutto il Mediterraneo e dal Medio Oriente.",
+				"Asia e Oceania": "La parte asiatica c'è, ma la Russia non tocca l'Oceania: a ovest arriva in Europa.",
+				"Europa e America del Nord": "Fra Siberia e Alaska c'è lo stretto di Bering: vicinissime, ma continenti diversi e territori di Stati diversi."
+			}
+		},
+		{
+			"id": "geografia-capitali-95",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Di quale Stato è capitale Berna?",
+			"options": [
+				"Belgio",
+				"Norvegia",
+				"Austria",
+				"Svizzera"
+			],
+			"answer": "Svizzera",
+			"explanation": "Berna non è la città più grande della Svizzera — lo sono Zurigo e Ginevra — ma è quella dove sta il governo federale.",
+			"distractorWhy": {
+				"Austria": "L'Austria ha come capitale Vienna, non Berna.",
+				"Belgio": "Il Belgio ha come capitale Bruxelles, non Berna.",
+				"Norvegia": "La Norvegia ha come capitale Oslo, non Berna."
 			}
 		},
 		{
@@ -2023,8 +2023,8 @@
 			"prompt": "Qual è il Paese più grande del mondo per superficie?",
 			"options": [
 				"Russia",
-				"Stati Uniti",
 				"Cina",
+				"Stati Uniti",
 				"Canada"
 			],
 			"answer": "Russia",
@@ -2043,10 +2043,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è oggi il Paese più popoloso del mondo?",
 			"options": [
-				"Stati Uniti",
-				"India",
 				"Cina",
-				"Indonesia"
+				"India",
+				"Indonesia",
+				"Stati Uniti"
 			],
 			"answer": "India",
 			"explanation": "L'India ha superato la Cina come Paese con più abitanti.",
@@ -2065,9 +2065,9 @@
 			"prompt": "Attraverso quale canale le navi passano tra Mar Mediterraneo e Mar Rosso?",
 			"options": [
 				"Canale della Manica",
-				"Stretto di Gibilterra",
+				"Canale di Panama",
 				"Canale di Suez",
-				"Canale di Panama"
+				"Stretto di Gibilterra"
 			],
 			"answer": "Canale di Suez",
 			"explanation": "Scavato nell'Ottocento per non dover circumnavigare tutta l'Africa: da allora una nave fra Europa e Asia risparmia settimane di viaggio.",
@@ -2085,8 +2085,8 @@
 			"format": "multiple_choice",
 			"prompt": "Da quale punto cardinale sorge il Sole?",
 			"options": [
-				"Sud",
 				"Ovest",
+				"Sud",
 				"Nord",
 				"Est"
 			],
@@ -2107,14 +2107,14 @@
 			"prompt": "Come si chiama la rappresentazione ridotta della Terra disegnata su un foglio?",
 			"options": [
 				"Carta geografica",
-				"Fotografia",
 				"Diario",
-				"Calendario"
+				"Calendario",
+				"Fotografia aerea"
 			],
 			"answer": "Carta geografica",
 			"explanation": "La carta geografica riduce la realtà mantenendo le proporzioni.",
 			"distractorWhy": {
-				"Fotografia": "Una fotografia riprende la realtà così com'è, non la riduce in scala.",
+				"Fotografia aerea": "Una fotografia riprende la realtà così com'è, non la riduce in scala.",
 				"Calendario": "Un calendario organizza i giorni, non lo spazio.",
 				"Diario": "Un diario racconta il tempo che passa, non rappresenta un luogo."
 			}
@@ -2127,15 +2127,15 @@
 			"format": "multiple_choice",
 			"prompt": "Su una carta geografica, che cosa indica la scala?",
 			"options": [
-				"La temperatura",
+				"Il colore con cui è disegnato il mare",
 				"Di quanto è stata ridotta la realtà",
 				"Il nome delle vie",
-				"Il colore del mare"
+				"La temperatura"
 			],
 			"answer": "Di quanto è stata ridotta la realtà",
 			"explanation": "La scala dice quante volte le distanze reali sono state rimpicciolite.",
 			"distractorWhy": {
-				"Il colore del mare": "Il colore sulla carta è una convenzione grafica, non ha a che fare con la scala.",
+				"Il colore con cui è disegnato il mare": "Il colore sulla carta è una convenzione grafica, non ha a che fare con la scala.",
 				"La temperatura": "La temperatura si legge su un climogramma, non sulla scala di una carta.",
 				"Il nome delle vie": "I nomi delle vie sono un'altra informazione della carta, non quello che indica la scala."
 			}
@@ -2146,10 +2146,10 @@
 			"topic": "mondo",
 			"difficulty": 2,
 			"format": "numeric_input",
-			"prompt": "Quanti sono i continenti abitati?",
+			"prompt": "Dei sette continenti, quanti sono abitati stabilmente?",
 			"options": [],
-			"answer": "5",
-			"explanation": "Europa, Asia, Africa, America e Oceania. L'Antartide non ha popolazione stabile."
+			"answer": "6",
+			"explanation": "Europa, Asia, Africa, America del Nord, America del Sud e Oceania. In Antartide ci sono solo basi scientifiche, con persone che si danno il cambio: nessuno ci abita per sempre."
 		},
 		{
 			"id": "geografia-mondo-1",
@@ -2159,10 +2159,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è l'oceano più esteso del pianeta?",
 			"options": [
+				"Atlantico",
 				"Indiano",
-				"Artico",
 				"Pacifico",
-				"Atlantico"
+				"Artico"
 			],
 			"answer": "Pacifico",
 			"explanation": "Da solo copre circa un terzo della superficie terrestre: più di tutte le terre emerse messe insieme.",
@@ -2180,9 +2180,9 @@
 			"format": "multiple_choice",
 			"prompt": "Che cos'è l'equatore?",
 			"options": [
-				"Il punto più caldo di tutto il pianeta",
 				"La linea lungo cui cambiano i fusi orari",
 				"Il confine naturale fra due continenti",
+				"Il punto più caldo di tutto il pianeta",
 				"La linea che divide la Terra in due emisferi"
 			],
 			"answer": "La linea che divide la Terra in due emisferi",
@@ -2202,9 +2202,9 @@
 			"prompt": "Che cos'è un meridiano?",
 			"options": [
 				"Una linea che va da polo a polo",
-				"Il confine fra due Stati vicini",
 				"Una linea parallela all'equatore",
-				"La linea che segna il livello del mare"
+				"La linea che segna il livello del mare",
+				"Il confine fra due Stati vicini"
 			],
 			"answer": "Una linea che va da polo a polo",
 			"explanation": "I meridiani misurano la longitudine; i paralleli, che girano attorno alla Terra, misurano la latitudine.",
@@ -2222,16 +2222,16 @@
 			"format": "multiple_choice",
 			"prompt": "Perché esistono i fusi orari?",
 			"options": [
-				"Perché le stagioni cambiano da luogo a luogo",
+				"Perché le stagioni cambiano da un luogo all'altro",
 				"Perché la Terra ruota e non è giorno ovunque insieme",
-				"Perché i Paesi hanno leggi diverse",
-				"Perché la Terra non è perfettamente sferica"
+				"Perché la Terra non è perfettamente sferica",
+				"Perché i Paesi hanno leggi diverse"
 			],
 			"answer": "Perché la Terra ruota e non è giorno ovunque insieme",
 			"explanation": "Ruotando, ogni longitudine incontra il Sole in un momento diverso: servono ore diverse per tenere il mezzogiorno a mezzogiorno.",
 			"distractorWhy": {
 				"Perché i Paesi hanno leggi diverse": "Le leggi non c'entrano: i fusi seguono la posizione del Sole, non le norme di un Paese.",
-				"Perché le stagioni cambiano da luogo a luogo": "Le stagioni dipendono dall'inclinazione dell'asse terrestre, non dai fusi orari.",
+				"Perché le stagioni cambiano da un luogo all'altro": "Le stagioni dipendono dall'inclinazione dell'asse terrestre, non dai fusi orari.",
 				"Perché la Terra non è perfettamente sferica": "La Terra è quasi perfettamente sferica: non è questo il motivo dei fusi."
 			}
 		},
@@ -2243,10 +2243,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è il continente più esteso?",
 			"options": [
-				"America",
+				"Africa",
 				"Antartide",
 				"Asia",
-				"Africa"
+				"America"
 			],
 			"answer": "Asia",
 			"explanation": "L'Asia copre circa un terzo delle terre emerse e ospita più della metà della popolazione mondiale.",
@@ -2265,8 +2265,8 @@
 			"prompt": "Che cos'è la latitudine?",
 			"options": [
 				"La distanza in gradi dal meridiano zero",
-				"La distanza dal Polo Nord in chilometri",
 				"L'altezza sul livello del mare",
+				"La distanza dal Polo Nord in chilometri",
 				"La distanza in gradi dall'equatore"
 			],
 			"answer": "La distanza in gradi dall'equatore",
@@ -2286,15 +2286,15 @@
 			"prompt": "Che cos'è la longitudine?",
 			"options": [
 				"La distanza in gradi dal meridiano di Greenwich",
+				"La distanza fra due paralleli",
 				"La distanza in gradi dall'equatore",
-				"La lunghezza di un Paese da nord a sud",
-				"La distanza fra due paralleli"
+				"La lunghezza di un Paese misurata da nord a sud"
 			],
 			"answer": "La distanza in gradi dal meridiano di Greenwich",
 			"explanation": "Il meridiano fondamentale passa per Greenwich, a Londra: da lì si contano i gradi verso est e verso ovest.",
 			"distractorWhy": {
 				"La distanza in gradi dall'equatore": "Quella è la latitudine, non la longitudine.",
-				"La lunghezza di un Paese da nord a sud": "È un'estensione fisica, non un sistema di coordinate.",
+				"La lunghezza di un Paese misurata da nord a sud": "È un'estensione fisica, non un sistema di coordinate.",
 				"La distanza fra due paralleli": "I paralleli misurano la latitudine, non la longitudine."
 			}
 		},
@@ -2306,9 +2306,9 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è il deserto caldo più esteso del mondo?",
 			"options": [
-				"Kalahari",
-				"Sahara",
 				"Gobi",
+				"Sahara",
+				"Kalahari",
 				"Atacama"
 			],
 			"answer": "Sahara",
@@ -2325,19 +2325,19 @@
 			"topic": "mondo",
 			"difficulty": 3,
 			"format": "multiple_choice",
-			"prompt": "Su quale continente si trova la foresta amazzonica?",
+			"prompt": "Perché in Australia è estate quando in Italia è inverno?",
 			"options": [
-				"Asia sudorientale",
-				"Oceania",
-				"America meridionale",
-				"Africa centrale"
+				"Perché è molto più vicina all'Equatore",
+				"Perché è dall'altra parte del mondo come ora",
+				"Perché sta nell'emisfero opposto al nostro",
+				"Perché laggiù l'anno comincia in un altro mese"
 			],
-			"answer": "America meridionale",
-			"explanation": "Attraversa nove Paesi ed è la più grande foresta pluviale del pianeta.",
+			"answer": "Perché sta nell'emisfero opposto al nostro",
+			"explanation": "La Terra è inclinata: quando il Sole batte più diretto sull'emisfero nord è la nostra estate, e nello stesso momento l'emisfero sud riceve i raggi di sbieco. A Natale gli australiani vanno al mare.",
 			"distractorWhy": {
-				"Africa centrale": "L'Africa centrale ha la sua grande foresta pluviale, il bacino del Congo, non l'Amazzonia.",
-				"Asia sudorientale": "L'Asia sudorientale ha le sue foreste pluviali, ma non ospita il Rio delle Amazzoni.",
-				"Oceania": "L'Oceania non ha foreste amazzoniche."
+				"Perché è molto più vicina all'Equatore": "L'Australia non è vicina all'Equatore più dell'Italia: quello che conta è che sta a sud di esso, non quanto dista.",
+				"Perché è dall'altra parte del mondo come ora": "Il fuso orario sposta l'ora del giorno, non la stagione: sono due cose diverse.",
+				"Perché laggiù l'anno comincia in un altro mese": "L'anno comincia il primo gennaio anche in Australia: a cambiare sono le stagioni, non il calendario."
 			}
 		},
 		{
@@ -2371,8 +2371,8 @@
 			"options": [
 				"Bassa",
 				"Media",
-				"Alta",
-				"Non calcolabile"
+				"Non calcolabile",
+				"Alta"
 			],
 			"answer": "Bassa",
 			"explanation": "Un Paese può avere molti abitanti e bassa densità, se è molto esteso: Canada e Bangladesh sono i due estremi.",
@@ -2411,10 +2411,10 @@
 			"format": "multiple_choice",
 			"prompt": "Perché le città nascono spesso vicino a fiumi o coste?",
 			"options": [
-				"Perché il terreno è più pianeggiante",
 				"Perché il clima è più mite là",
+				"Perché ci sono più materiali da costruzione",
 				"Perché acqua e trasporti facilitano gli scambi",
-				"Perché ci sono più materiali da costruzione"
+				"Perché il terreno è più pianeggiante"
 			],
 			"answer": "Perché acqua e trasporti facilitano gli scambi",
 			"explanation": "Acqua da bere, terra fertile e una via di comunicazione: sono le tre cose che una città non può inventarsi.",
@@ -2432,9 +2432,9 @@
 			"format": "multiple_choice",
 			"prompt": "Che cosa si intende per «migrazione»?",
 			"options": [
-				"Lo spostamento stagionale di alcune specie animali",
-				"Un viaggio di vacanza fatto in un altro Paese",
 				"Il trasferimento di merci da uno Stato all'altro",
+				"Lo spostamento stagionale di certe specie di animali",
+				"Un viaggio di vacanza fatto in un altro Paese",
 				"Lo spostamento stabile di persone da un luogo a un altro"
 			],
 			"answer": "Lo spostamento stabile di persone da un luogo a un altro",
@@ -2442,7 +2442,7 @@
 			"distractorWhy": {
 				"Un viaggio di vacanza fatto in un altro Paese": "Una vacanza è temporanea, non uno spostamento stabile per viverci.",
 				"Il trasferimento di merci da uno Stato all'altro": "Quello è commercio, non movimento di persone.",
-				"Lo spostamento stagionale di alcune specie animali": "Quella è la migrazione animale: qui la parola riguarda le persone."
+				"Lo spostamento stagionale di certe specie di animali": "Quella è la migrazione animale: qui la parola riguarda le persone."
 			}
 		},
 		{
@@ -2454,9 +2454,9 @@
 			"prompt": "Che cos'è il settore primario?",
 			"options": [
 				"Le attività che ricavano risorse dalla natura",
-				"Le attività che trasformano le materie prime",
+				"Le attività più importanti di un Paese",
 				"I servizi come scuola e commercio",
-				"Le attività più importanti di un Paese"
+				"Le attività che trasformano le materie prime"
 			],
 			"answer": "Le attività che ricavano risorse dalla natura",
 			"explanation": "Agricoltura, pesca, allevamento, estrazione. Il secondario trasforma, il terziario fornisce servizi.",
@@ -2474,17 +2474,17 @@
 			"format": "multiple_choice",
 			"prompt": "Che cos'è il settore terziario?",
 			"options": [
-				"Il terzo Paese più ricco di tutto il mondo",
+				"L'industria pesante e l'artigianato",
 				"L'insieme dei servizi come scuola, sanità, commercio",
 				"L'agricoltura, la pesca e l'allevamento",
-				"L'industria pesante e l'artigianato"
+				"Il terzo Paese più ricco fra tutti quelli del mondo"
 			],
 			"answer": "L'insieme dei servizi come scuola, sanità, commercio",
 			"explanation": "Nei Paesi più sviluppati occupa la maggioranza dei lavoratori: non produce oggetti, fornisce prestazioni.",
 			"distractorWhy": {
 				"L'agricoltura, la pesca e l'allevamento": "Quello è il settore primario.",
 				"L'industria pesante e l'artigianato": "Quello è il settore secondario.",
-				"Il terzo Paese più ricco di tutto il mondo": "«Terziario» descrive un tipo di attività economica, non una classifica fra Stati."
+				"Il terzo Paese più ricco fra tutti quelli del mondo": "«Terziario» descrive un tipo di attività economica, non una classifica fra Stati."
 			}
 		},
 		{
@@ -2516,9 +2516,9 @@
 			"format": "multiple_choice",
 			"prompt": "Perché la popolazione mondiale non è distribuita uniformemente?",
 			"options": [
-				"Perché i confini fra Stati sono stati tracciati male",
-				"Perché alcuni Paesi lo vietano con apposite leggi",
 				"Perché le persone preferiscono vivere a nord",
+				"Perché alcuni Paesi lo vietano con apposite leggi",
+				"Perché i confini fra Stati sono stati tracciati male",
 				"Perché clima, acqua e risorse cambiano da luogo a luogo"
 			],
 			"answer": "Perché clima, acqua e risorse cambiano da luogo a luogo",
@@ -2538,9 +2538,9 @@
 			"prompt": "Che cos'è un confine?",
 			"options": [
 				"La linea che separa due territori",
-				"La zona più lontana dalla capitale",
+				"La costa di uno Stato sul mare",
 				"Il centro geografico di un Paese",
-				"La costa di uno Stato sul mare"
+				"La zona più lontana dalla capitale"
 			],
 			"answer": "La linea che separa due territori",
 			"explanation": "Può seguire elementi naturali come fiumi e montagne, oppure essere tracciato per accordo: molti confini sono linee dritte disegnate a tavolino.",
@@ -2558,9 +2558,9 @@
 			"format": "multiple_choice",
 			"prompt": "Che cos'è la globalizzazione?",
 			"options": [
-				"L'aumento costante della popolazione mondiale",
+				"La creazione di un unico governo per tutto il pianeta",
 				"La crescente connessione fra economie e culture del mondo",
-				"La creazione di un unico governo per il pianeta",
+				"L'aumento costante della popolazione mondiale",
 				"L'uso di una sola lingua in tutti i Paesi"
 			],
 			"answer": "La crescente connessione fra economie e culture del mondo",
@@ -2568,7 +2568,7 @@
 			"distractorWhy": {
 				"L'aumento costante della popolazione mondiale": "Quella è la crescita demografica, un fenomeno diverso.",
 				"L'uso di una sola lingua in tutti i Paesi": "Il mondo resta multilingue: la connessione non significa uniformità linguistica.",
-				"La creazione di un unico governo per il pianeta": "Non esiste un governo mondiale: gli Stati restano indipendenti anche se più connessi."
+				"La creazione di un unico governo per tutto il pianeta": "Non esiste un governo mondiale: gli Stati restano indipendenti anche se più connessi."
 			}
 		},
 		{
@@ -2579,15 +2579,15 @@
 			"format": "multiple_choice",
 			"prompt": "Che cos'è una capitale?",
 			"options": [
-				"La città più grande di uno Stato",
 				"La città più ricca di uno Stato",
+				"La città più antica di uno Stato",
 				"La città sede del governo di uno Stato",
-				"La città più antica di uno Stato"
+				"La città con più abitanti di uno Stato"
 			],
 			"answer": "La città sede del governo di uno Stato",
 			"explanation": "Non è sempre la più popolosa: Washington, Canberra e Brasilia sono capitali ma non le città maggiori.",
 			"distractorWhy": {
-				"La città più grande di uno Stato": "Non sempre coincide: New York non è capitale degli USA, e alcune capitali sono scelte apposta piccole.",
+				"La città con più abitanti di uno Stato": "Non sempre coincide: New York non è capitale degli USA, e alcune capitali sono scelte apposta piccole.",
 				"La città più antica di uno Stato": "L'anzianità di una città non la rende capitale.",
 				"La città più ricca di uno Stato": "La ricchezza non è ciò che definisce una capitale: è la sede del governo."
 			}
@@ -2600,9 +2600,9 @@
 			"format": "multiple_choice",
 			"prompt": "Quale grande fiume europeo attraversa dieci Paesi diversi?",
 			"options": [
-				"La Senna, in Francia",
 				"Il Reno, in Germania",
 				"Il Volga, in Russia",
+				"La Senna, in Francia",
 				"Danubio"
 			],
 			"answer": "Danubio",
@@ -2622,8 +2622,8 @@
 			"prompt": "Quale catena montuosa separa l'Europa dall'Asia?",
 			"options": [
 				"Urali",
-				"Alpi",
 				"Carpazi",
+				"Alpi",
 				"Pirenei"
 			],
 			"answer": "Urali",
@@ -2644,8 +2644,8 @@
 			"options": [
 				"Ionio",
 				"Adriatico",
-				"Tirreno",
-				"Ligure"
+				"Ligure",
+				"Tirreno"
 			],
 			"answer": "Adriatico",
 			"explanation": "L'Adriatico separa l'Italia dai Balcani; il Tirreno sta a ovest.",
@@ -2663,10 +2663,10 @@
 			"format": "multiple_choice",
 			"prompt": "Che cos'è l'Unione Europea?",
 			"options": [
-				"Un'alleanza militare fra gli Stati membri",
 				"Un accordo che riguarda solo la moneta unica",
+				"L'insieme di tutti i Paesi del continente europeo",
 				"Un'unione politica ed economica di Stati europei",
-				"L'insieme di tutti i Paesi del continente europeo"
+				"Un'alleanza militare fra gli Stati membri"
 			],
 			"answer": "Un'unione politica ed economica di Stati europei",
 			"explanation": "Non tutti gli Stati europei ne fanno parte, e non tutti i membri usano l'euro.",
@@ -2684,9 +2684,9 @@
 			"format": "multiple_choice",
 			"prompt": "Quale penisola europea è bagnata da Mediterraneo e Atlantico?",
 			"options": [
+				"Penisola italiana",
 				"Penisola scandinava",
 				"Penisola balcanica",
-				"Penisola italiana",
 				"Penisola iberica"
 			],
 			"answer": "Penisola iberica",
@@ -2726,9 +2726,9 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è lo Stato più esteso interamente in Europa?",
 			"options": [
-				"Spagna",
-				"Ucraina",
 				"Francia",
+				"Ucraina",
+				"Spagna",
 				"Germania"
 			],
 			"answer": "Ucraina",
@@ -2748,9 +2748,9 @@
 			"prompt": "Quale catena montuosa separa Francia e Spagna?",
 			"options": [
 				"Appennini",
-				"Carpazi",
+				"Alpi",
 				"Pirenei",
-				"Alpi"
+				"Carpazi"
 			],
 			"answer": "Pirenei",
 			"explanation": "Corrono da un mare all'altro e hanno reso storicamente difficile il passaggio fra i due Paesi.",
@@ -2769,8 +2769,8 @@
 			"prompt": "Perché la Scandinavia ha molti fiordi?",
 			"options": [
 				"Perché il mare ha eroso quella costa per secoli",
-				"Perché il terreno si è spaccato durante i terremoti",
 				"Perché i fiumi vi hanno scavato gole profondissime",
+				"Perché il terreno si è aperto durante antichi terremoti violenti",
 				"Perché antichi ghiacciai hanno scavato valli poi invase dal mare"
 			],
 			"answer": "Perché antichi ghiacciai hanno scavato valli poi invase dal mare",
@@ -2778,7 +2778,7 @@
 			"distractorWhy": {
 				"Perché il mare ha eroso quella costa per secoli": "L'erosione marina modella le coste, ma i fiordi hanno la forma a U tipica dei ghiacciai, non delle onde.",
 				"Perché i fiumi vi hanno scavato gole profondissime": "I fiumi scavano gole strette a V, non le ampie valli a U dei fiordi.",
-				"Perché il terreno si è spaccato durante i terremoti": "I fiordi hanno pareti levigate dal ghiaccio, non fratture da terremoto."
+				"Perché il terreno si è aperto durante antichi terremoti violenti": "I fiordi hanno pareti levigate dal ghiaccio, non fratture da terremoto."
 			}
 		},
 		{
@@ -2790,9 +2790,9 @@
 			"prompt": "Quale mare si trova a nord dell'Europa continentale?",
 			"options": [
 				"Mare del Nord",
-				"Mar Caspio",
 				"Mar Mediterraneo",
-				"Mar Nero"
+				"Mar Nero",
+				"Mar Caspio"
 			],
 			"answer": "Mare del Nord",
 			"explanation": "Bagna Regno Unito, Norvegia, Danimarca, Germania e Paesi Bassi.",
@@ -2810,9 +2810,9 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la differenza fra tempo meteorologico e clima?",
 			"options": [
-				"Il tempo si misura solo con il termometro",
-				"Il tempo è di oggi, il clima è la media di molti anni",
 				"Il clima riguarda solo l'estate",
+				"Il tempo è di oggi, il clima è la media di molti anni",
+				"Il tempo meteorologico si misura solo con il termometro",
 				"Sono la stessa cosa detta in due modi"
 			],
 			"answer": "Il tempo è di oggi, il clima è la media di molti anni",
@@ -2820,7 +2820,7 @@
 			"distractorWhy": {
 				"Sono la stessa cosa detta in due modi": "Sono concetti diversi: uno cambia ogni giorno, l'altro descrive tendenze di decenni.",
 				"Il clima riguarda solo l'estate": "Il clima descrive tutte le stagioni, non solo l'estate.",
-				"Il tempo si misura solo con il termometro": "Il tempo meteorologico comprende anche pioggia, vento e pressione, non solo la temperatura."
+				"Il tempo meteorologico si misura solo con il termometro": "Il tempo meteorologico comprende anche pioggia, vento e pressione, non solo la temperatura."
 			}
 		},
 		{
@@ -2831,17 +2831,17 @@
 			"format": "multiple_choice",
 			"prompt": "Che cosa caratterizza il clima mediterraneo?",
 			"options": [
-				"Temperature costanti in ogni stagione",
-				"Inverni molto rigidi e nevosi",
+				"Temperature quasi costanti in ogni stagione",
+				"Piogge abbondanti tutto l'anno",
 				"Estati calde e secche, inverni miti e piovosi",
-				"Piogge abbondanti tutto l'anno"
+				"Inverni molto rigidi e nevosi"
 			],
 			"answer": "Estati calde e secche, inverni miti e piovosi",
 			"explanation": "È tipico delle coste del Mediterraneo, ma si trova anche in California e in Cile centrale.",
 			"distractorWhy": {
 				"Piogge abbondanti tutto l'anno": "Nel clima mediterraneo le piogge si concentrano soprattutto in autunno e inverno, non tutto l'anno.",
 				"Inverni molto rigidi e nevosi": "Gli inverni mediterranei sono miti, non rigidi.",
-				"Temperature costanti in ogni stagione": "Il clima mediterraneo ha stagioni ben distinte, non temperature costanti."
+				"Temperature quasi costanti in ogni stagione": "Il clima mediterraneo ha stagioni ben distinte, non temperature costanti."
 			}
 		},
 		{
@@ -2852,9 +2852,9 @@
 			"format": "multiple_choice",
 			"prompt": "Perché in montagna fa più freddo?",
 			"options": [
-				"Perché in quota si è più lontani dal Sole",
 				"Perché in montagna c'è sempre molto più vento",
 				"Perché la neve sul terreno raffredda l'aria",
+				"Perché in quota si è più lontani dal Sole",
 				"Perché l'aria si raffredda salendo di quota"
 			],
 			"answer": "Perché l'aria si raffredda salendo di quota",
@@ -2875,7 +2875,7 @@
 			"options": [
 				"Un grafico con temperature e piogge mese per mese",
 				"Uno strumento che serve a misurare il clima",
-				"Un elenco degli eventi meteorologici passati",
+				"Un elenco degli eventi meteorologici del passato",
 				"Una mappa che mostra i climi del mondo"
 			],
 			"answer": "Un grafico con temperature e piogge mese per mese",
@@ -2883,7 +2883,7 @@
 			"distractorWhy": {
 				"Una mappa che mostra i climi del mondo": "Quella è una carta climatica: il climogramma è un grafico di un singolo luogo, non una mappa.",
 				"Uno strumento che serve a misurare il clima": "Il climogramma non misura nulla: rappresenta dati già raccolti.",
-				"Un elenco degli eventi meteorologici passati": "Non è un elenco di eventi: è un grafico con due valori precisi, temperatura e pioggia."
+				"Un elenco degli eventi meteorologici del passato": "Non è un elenco di eventi: è un grafico con due valori precisi, temperatura e pioggia."
 			}
 		},
 		{
@@ -2897,14 +2897,14 @@
 				"Perché quelle zone sono più vicine al Sole",
 				"Perché i raggi del Sole arrivano più perpendicolari",
 				"Perché sopra di esse c'è meno atmosfera",
-				"Perché in quelle zone non ci sono mai nuvole"
+				"Perché in quelle zone non ci sono quasi mai nuvole"
 			],
 			"answer": "Perché i raggi del Sole arrivano più perpendicolari",
 			"explanation": "Gli stessi raggi si distribuiscono su una superficie minore: più energia per metro quadrato.",
 			"distractorWhy": {
 				"Perché quelle zone sono più vicine al Sole": "La distanza dal Sole è sostanzialmente la stessa in ogni punto della Terra.",
 				"Perché sopra di esse c'è meno atmosfera": "Lo spessore dell'atmosfera non cambia in modo significativo fra equatore e poli.",
-				"Perché in quelle zone non ci sono mai nuvole": "All'equatore piove moltissimo: le nuvole non mancano affatto."
+				"Perché in quelle zone non ci sono quasi mai nuvole": "All'equatore piove moltissimo: le nuvole non mancano affatto."
 			}
 		},
 		{
@@ -2916,9 +2916,9 @@
 			"prompt": "Che effetto ha il mare sul clima delle coste?",
 			"options": [
 				"Non ha alcun effetto sul clima",
-				"Lo rende più caldo tutto l'anno",
+				"Lo rende più freddo tutto l'anno",
 				"Lo rende più mite, con meno sbalzi",
-				"Lo rende più freddo tutto l'anno"
+				"Lo rende più caldo tutto l'anno"
 			],
 			"answer": "Lo rende più mite, con meno sbalzi",
 			"explanation": "L'acqua si scalda e si raffredda lentamente: fa da volano termico e smorza gli estremi.",
@@ -2936,15 +2936,15 @@
 			"format": "multiple_choice",
 			"prompt": "Perché i deserti si trovano spesso attorno ai tropici?",
 			"options": [
-				"Perché in quelle zone il terreno è già sabbioso",
 				"Perché i venti vi soffiano molto più forte",
-				"Perché ai tropici il Sole è sempre perpendicolare",
+				"Perché in quelle zone il terreno è già sabbioso",
+				"Perché ai tropici il Sole è sempre a picco sulla testa",
 				"Perché lì l'aria scende secca dopo aver perso l'umidità"
 			],
 			"answer": "Perché lì l'aria scende secca dopo aver perso l'umidità",
 			"explanation": "L'aria salita e piovuta all'equatore ridiscende ai tropici ormai asciutta: nasce così la fascia dei grandi deserti.",
 			"distractorWhy": {
-				"Perché ai tropici il Sole è sempre perpendicolare": "Il Sole è perpendicolare all'equatore, non ai tropici: è un'altra la causa dei deserti tropicali.",
+				"Perché ai tropici il Sole è sempre a picco sulla testa": "Il Sole è perpendicolare all'equatore, non ai tropici: è un'altra la causa dei deserti tropicali.",
 				"Perché in quelle zone il terreno è già sabbioso": "Il terreno è diventato sabbioso perché è arido da millenni: non è la causa del deserto, ne è la conseguenza.",
 				"Perché i venti vi soffiano molto più forte": "Non è la forza del vento a creare il deserto, ma la mancanza di umidità nell'aria che scende."
 			}
@@ -2960,12 +2960,12 @@
 				"Un clima con inverni freddi ed estati calde, lontano dal mare",
 				"Il clima tipico delle zone di alta montagna",
 				"Un clima che resta sempre umido e piovoso",
-				"Il clima che si trova in tutti i grandi continenti"
+				"Il clima che si ritrova in tutti i grandi continenti del mondo"
 			],
 			"answer": "Un clima con inverni freddi ed estati calde, lontano dal mare",
 			"explanation": "Senza l'effetto mitigante del mare, la differenza fra inverno ed estate diventa molto ampia.",
 			"distractorWhy": {
-				"Il clima che si trova in tutti i grandi continenti": "Non tutti i continenti hanno clima continentale: dipende dalla distanza dal mare, non dall'essere un continente.",
+				"Il clima che si ritrova in tutti i grandi continenti del mondo": "Non tutti i continenti hanno clima continentale: dipende dalla distanza dal mare, non dall'essere un continente.",
 				"Un clima che resta sempre umido e piovoso": "Il clima continentale ha stagioni secche, non piogge costanti.",
 				"Il clima tipico delle zone di alta montagna": "L'alta montagna ha un clima proprio, diverso da quello continentale delle pianure interne."
 			}
@@ -2978,15 +2978,15 @@
 			"format": "multiple_choice",
 			"prompt": "Perché il cambiamento climatico non si dimostra con una singola estate calda?",
 			"options": [
-				"Perché conta solo l'inverno",
-				"Perché il clima si misura su decenni, non su un anno",
 				"Perché i termometri sbagliano spesso",
-				"Perché le estati sono sempre state calde"
+				"Perché il clima si misura su decenni, non su un anno",
+				"Perché le estati sono sempre state calde anche prima",
+				"Perché conta solo l'inverno"
 			],
 			"answer": "Perché il clima si misura su decenni, non su un anno",
 			"explanation": "Servono serie storiche lunghe: è la tendenza di fondo a dire qualcosa, non il singolo dato.",
 			"distractorWhy": {
-				"Perché le estati sono sempre state calde": "Non è vero che le estati sono state sempre ugualmente calde: è proprio la tendenza nel tempo a dirlo.",
+				"Perché le estati sono sempre state calde anche prima": "Non è vero che le estati sono state sempre ugualmente calde: è proprio la tendenza nel tempo a dirlo.",
 				"Perché i termometri sbagliano spesso": "I termometri moderni sono affidabili: il problema è un altro, i dati di un solo anno non bastano.",
 				"Perché conta solo l'inverno": "Contano tutte le stagioni misurate su tanti anni, non una sola."
 			}
@@ -2999,10 +2999,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale fiume attraversa la pianura padana da ovest a est?",
 			"options": [
-				"Arno",
 				"Tevere",
+				"Adige",
 				"Po",
-				"Adige"
+				"Arno"
 			],
 			"answer": "Po",
 			"explanation": "Attraversa la pianura padana da ovest a est per oltre 650 chilometri.",
@@ -3053,9 +3053,9 @@
 			"prompt": "Quale vulcano si trova in Sicilia?",
 			"options": [
 				"Etna",
-				"Vesuvio",
 				"Stromboli",
-				"Vulture"
+				"Vulture",
+				"Vesuvio"
 			],
 			"answer": "Etna",
 			"explanation": "È il vulcano attivo più alto d'Europa. Lo Stromboli è siciliano ma sta nelle Eolie, il Vesuvio è in Campania.",
@@ -3073,15 +3073,15 @@
 			"format": "multiple_choice",
 			"prompt": "Perché la pianura padana è così fertile?",
 			"options": [
-				"Perché è la zona più calda di tutta l'Italia",
+				"Perché riceve più pioggia di ogni altra zona",
 				"Perché i fiumi vi hanno depositato sedimenti per millenni",
 				"Perché si trova vicina al mare Adriatico",
-				"Perché riceve più pioggia di ogni altra zona"
+				"Perché è la zona più calda e soleggiata di tutta l'Italia"
 			],
 			"answer": "Perché i fiumi vi hanno depositato sedimenti per millenni",
 			"explanation": "Le Alpi e gli Appennini si erodono, i fiumi trasportano il materiale a valle e lo depositano: la pianura è nata così.",
 			"distractorWhy": {
-				"Perché è la zona più calda di tutta l'Italia": "Il calore non rende fertile un terreno: è il sedimento portato dai fiumi a farlo.",
+				"Perché è la zona più calda e soleggiata di tutta l'Italia": "Il calore non rende fertile un terreno: è il sedimento portato dai fiumi a farlo.",
 				"Perché riceve più pioggia di ogni altra zona": "Non è la pianura più piovosa d'Italia: la fertilità viene dai sedimenti, non dalla pioggia.",
 				"Perché si trova vicina al mare Adriatico": "La vicinanza al mare non spiega la fertilità: contano i sedimenti portati dai fiumi nei millenni."
 			}
@@ -3094,8 +3094,8 @@
 			"format": "multiple_choice",
 			"prompt": "Quale catena è chiamata la «spina dorsale» della penisola italiana?",
 			"options": [
-				"Alpi",
 				"Dolomiti",
+				"Alpi",
 				"Appennini",
 				"Pirenei"
 			],
@@ -3115,9 +3115,9 @@
 			"format": "multiple_choice",
 			"prompt": "Che cos'è un delta?",
 			"options": [
-				"Il tratto più stretto del corso di un fiume",
 				"Il lago che si forma lungo il corso di un fiume",
 				"Il punto preciso in cui nasce un fiume",
+				"Il tratto più stretto del corso di un fiume",
 				"L'area dove un fiume si divide sfociando in mare"
 			],
 			"answer": "L'area dove un fiume si divide sfociando in mare",
@@ -3137,9 +3137,9 @@
 			"prompt": "Che cos'è un altopiano?",
 			"options": [
 				"Una zona elevata ma pianeggiante",
-				"Una montagna con la cima piatta",
+				"Una pianura in riva al mare",
 				"Una valle molto larga fra due monti",
-				"Una pianura in riva al mare"
+				"Una montagna con la cima piatta"
 			],
 			"answer": "Una zona elevata ma pianeggiante",
 			"explanation": "Sta in quota come una montagna, ma la superficie è piana: si può coltivare e abitare.",
@@ -3157,16 +3157,16 @@
 			"format": "multiple_choice",
 			"prompt": "Come nascono le catene montuose?",
 			"options": [
-				"Dalla caduta di grandi meteoriti",
-				"Dallo scontro fra placche della crosta terrestre",
 				"Dall'accumulo di sabbia nel tempo",
-				"Dall'erosione delle pianure circostanti"
+				"Dallo scontro fra placche della crosta terrestre",
+				"Dall'erosione lentissima delle pianure circostanti",
+				"Dalla caduta di grandi meteoriti"
 			],
 			"answer": "Dallo scontro fra placche della crosta terrestre",
 			"explanation": "Quando due placche si spingono, la crosta si corruga e si solleva: le Alpi e l'Himalaya nascono così, e crescono ancora.",
 			"distractorWhy": {
 				"Dall'accumulo di sabbia nel tempo": "L'accumulo di sabbia forma dune, non catene montuose alte migliaia di metri.",
-				"Dall'erosione delle pianure circostanti": "L'erosione consuma i rilievi, non li crea.",
+				"Dall'erosione lentissima delle pianure circostanti": "L'erosione consuma i rilievi, non li crea.",
 				"Dalla caduta di grandi meteoriti": "Gli impatti creano crateri isolati, non lunghe catene montuose."
 			}
 		},
@@ -3179,9 +3179,9 @@
 			"prompt": "Che cos'è un ghiacciaio?",
 			"options": [
 				"Una zona che resta sempre coperta di neve",
-				"Un fiume che gela completamente ogni anno",
+				"Un lago che ghiaccia del tutto in inverno",
 				"Una massa di ghiaccio che si muove lentamente",
-				"Un lago che ghiaccia del tutto in inverno"
+				"Un fiume che gela completamente ogni anno"
 			],
 			"answer": "Una massa di ghiaccio che si muove lentamente",
 			"explanation": "Si forma dove la neve non si scioglie mai del tutto: compressa negli anni diventa ghiaccio, e sotto il proprio peso scivola a valle.",
@@ -3199,8 +3199,8 @@
 			"format": "multiple_choice",
 			"prompt": "Perché l'erosione modifica il paesaggio?",
 			"options": [
-				"Perché le radici delle piante spaccano il terreno",
 				"Perché le rocce si sciolgono al calore del Sole",
+				"Perché le radici delle piante spaccano il terreno",
 				"Perché il terreno si consuma lentamente da solo",
 				"Perché acqua, vento e ghiaccio asportano materiale"
 			],
@@ -3460,7 +3460,10 @@
 			"prompt": "Come si chiama il punto in cui un fiume si getta nel mare?",
 			"options": [],
 			"answer": "foce",
-			"accept": [],
+			"accept": [
+				"la foce",
+				"foce del fiume"
+			],
 			"explanation": "Se il fiume deposita molti detriti si forma un delta."
 		},
 		{
@@ -3472,7 +3475,10 @@
 			"prompt": "Come si chiama il punto in cui un fiume nasce?",
 			"options": [],
 			"answer": "sorgente",
-			"accept": [],
+			"accept": [
+				"la sorgente",
+				"una sorgente"
+			],
 			"explanation": "Da lì in poi il fiume raccoglie l'acqua di tutto il bacino."
 		},
 		{
@@ -3484,7 +3490,10 @@
 			"prompt": "Come si chiama una lingua di terra circondata dal mare su tre lati?",
 			"options": [],
 			"answer": "penisola",
-			"accept": [],
+			"accept": [
+				"la penisola",
+				"una penisola"
+			],
 			"explanation": "L'Italia ne è l'esempio più noto."
 		},
 		{
@@ -3493,10 +3502,13 @@
 			"topic": "geografia-fisica",
 			"difficulty": 3,
 			"format": "short_answer",
-			"prompt": "Come si chiama il braccio di mare stretto fra due terre?",
+			"prompt": "Come si chiama il braccio di mare che separa due terre vicine?",
 			"options": [],
 			"answer": "stretto",
-			"accept": [],
+			"accept": [
+				"lo stretto",
+				"uno stretto"
+			],
 			"explanation": "Lo stretto di Messina separa la Sicilia dalla Calabria."
 		},
 		{
@@ -3633,13 +3645,13 @@
 			"topic": "climi",
 			"difficulty": 2,
 			"format": "short_answer",
-			"prompt": "Come si chiama il clima caldo e umido tutto l'anno tipico della fascia equatoriale?",
+			"prompt": "Come si chiama il clima senza stagioni, caldo e piovoso in tutti i mesi?",
 			"options": [],
 			"answer": "equatoriale",
 			"accept": [
 				"clima equatoriale"
 			],
-			"explanation": "Piove quasi ogni giorno e le temperature non cambiano quasi mai."
+			"explanation": "È la fascia attorno all'Equatore: piove quasi ogni giorno e le temperature non cambiano quasi mai."
 		},
 		{
 			"id": "geografia-climi-84",
@@ -3694,7 +3706,11 @@
 			"prompt": "Come si chiama lo spostamento di persone da un paese a un altro per viverci?",
 			"options": [],
 			"answer": "migrazione",
-			"accept": [],
+			"accept": [
+				"la migrazione",
+				"una migrazione",
+				"migrazioni"
+			],
 			"explanation": "Si parla di emigrazione da chi parte e di immigrazione da chi accoglie."
 		},
 		{
@@ -3706,7 +3722,10 @@
 			"prompt": "Come si chiama il passaggio di popolazione dalle campagne alle città?",
 			"options": [],
 			"answer": "urbanizzazione",
-			"accept": [],
+			"accept": [
+				"l'urbanizzazione",
+				"inurbamento"
+			],
 			"explanation": "È il fenomeno che ha fatto crescere le città nell'ultimo secolo."
 		},
 		{
@@ -3715,19 +3734,19 @@
 			"topic": "climi",
 			"difficulty": 4,
 			"format": "multiple_choice",
-			"prompt": "Perché all'equatore fa più caldo che ai poli?",
+			"prompt": "Perché d'estate in città fa più caldo che in campagna?",
 			"options": [
-				"I raggi del Sole arrivano più diritti",
-				"All'equatore non ci sono mai nuvole",
-				"L'equatore è molto più vicino al Sole",
-				"Ai poli soffia sempre il vento"
+				"Asfalto e cemento accumulano calore e lo restituiscono",
+				"In città l'aria contiene molta più umidità",
+				"In città il Sole arriva più diretto sui tetti scuri",
+				"Le città sono quasi sempre più vicine al mare"
 			],
-			"answer": "I raggi del Sole arrivano più diritti",
-			"explanation": "Non è questione di distanza ma di inclinazione: ai poli gli stessi raggi si spalmano su molta più superficie.",
+			"answer": "Asfalto e cemento accumulano calore e lo restituiscono",
+			"explanation": "Le superfici scure si scaldano di giorno e rilasciano il calore anche di notte, quando la campagna si è già raffreddata: si chiama isola di calore, e in una grande città vale qualche grado.",
 			"distractorWhy": {
-				"L'equatore è molto più vicino al Sole": "La distanza dal Sole è sostanzialmente la stessa in ogni punto della Terra.",
-				"Ai poli soffia sempre il vento": "Il vento non c'entra con quanto sono inclinati i raggi solari.",
-				"All'equatore non ci sono mai nuvole": "All'equatore piove moltissimo: le nuvole non mancano affatto."
+				"In città il Sole arriva più diretto sui tetti scuri": "Il Sole è lo stesso: cambia che cosa trova sotto, asfalto invece di prati e alberi.",
+				"Le città sono quasi sempre più vicine al mare": "Non è vero in generale, e comunque il mare mitiga: renderebbe la città più fresca, non più calda.",
+				"In città l'aria contiene molta più umidità": "Al contrario, l'asfalto non evapora: le città sono in genere più secche della campagna."
 			}
 		},
 		{
@@ -3736,19 +3755,19 @@
 			"topic": "climi",
 			"difficulty": 4,
 			"format": "multiple_choice",
-			"prompt": "Che cos'è il clima mediterraneo?",
+			"prompt": "Napoli e New York stanno quasi alla stessa latitudine. Perché a New York l'inverno è molto più rigido?",
 			"options": [
-				"Freddo e secco tutto l'anno",
-				"Estati calde e secche, inverni miti e piovosi",
-				"Estati fresche e piovose, inverni gelidi",
-				"Caldo e pioggia tutto l'anno"
+				"Perché in America l'inverno dura qualche mese in più",
+				"Perché una corrente calda scalda le coste europee",
+				"Perché New York è molto più a nord di Napoli",
+				"Perché New York sta molto più in alto sul mare"
 			],
-			"answer": "Estati calde e secche, inverni miti e piovosi",
-			"explanation": "È il clima delle coste del Mediterraneo, e per questo ci crescono ulivo, vite e agrumi.",
+			"answer": "Perché una corrente calda scalda le coste europee",
+			"explanation": "La corrente del Golfo porta acqua tropicale fino all'Atlantico settentrionale e tiene mite tutta l'Europa occidentale: la latitudine da sola non basta a prevedere il clima.",
 			"distractorWhy": {
-				"Estati fresche e piovose, inverni gelidi": "È il contrario: nel clima mediterraneo le estati sono calde e secche.",
-				"Caldo e pioggia tutto l'anno": "Quello è più simile a un clima equatoriale, non mediterraneo.",
-				"Freddo e secco tutto l'anno": "Il clima mediterraneo ha inverni miti, non freddi tutto l'anno."
+				"Perché New York è molto più a nord di Napoli": "Sono quasi alla stessa latitudine: è proprio questo a rendere la differenza interessante.",
+				"Perché New York sta molto più in alto sul mare": "New York è una città di mare, praticamente al livello dell'oceano come Napoli.",
+				"Perché in America l'inverno dura qualche mese in più": "Le stagioni durano uguale nei due emisferi e alle due sponde: cambia quanto sono rigide."
 			}
 		},
 		{
@@ -3757,19 +3776,19 @@
 			"topic": "geografia-fisica",
 			"difficulty": 4,
 			"format": "multiple_choice",
-			"prompt": "Che cosa sono i meridiani?",
+			"prompt": "Perché i terremoti sono frequenti in certe zone e rarissimi in altre?",
 			"options": [
-				"I cerchi paralleli all'equatore",
-				"I confini fra gli Stati",
-				"Le linee che uniscono i due poli",
-				"Le rotte seguite dalle navi"
+				"Perché in certe zone il terreno è molto più duro",
+				"Perché certe zone hanno più vulcani spenti sotto",
+				"Perché le placche si toccano solo lungo certe linee",
+				"Perché in certe zone si costruisce troppo in altezza"
 			],
-			"answer": "Le linee che uniscono i due poli",
-			"explanation": "I meridiani vanno da polo a polo; i paralleli sono invece i cerchi paralleli all'equatore.",
+			"answer": "Perché le placche si toccano solo lungo certe linee",
+			"explanation": "Le placche si incastrano ai bordi e poi scattano di colpo: le zone sismiche del pianeta disegnano proprio i confini fra una placca e l'altra, gli stessi lungo cui crescono le catene montuose.",
 			"distractorWhy": {
-				"I cerchi paralleli all'equatore": "Quelli sono i paralleli, non i meridiani.",
-				"I confini fra gli Stati": "I confini seguono la politica, non le linee geografiche fisse.",
-				"Le rotte seguite dalle navi": "Le rotte cambiano da viaggio a viaggio: i meridiani sono linee fisse."
+				"Perché in certe zone il terreno è molto più duro": "La durezza del terreno cambia quanto si sentono le scosse, non dove nascono.",
+				"Perché certe zone hanno più vulcani spenti sotto": "Vulcani e terremoti stanno spesso insieme perché hanno la stessa causa, le placche: non è uno a causare l'altro.",
+				"Perché in certe zone si costruisce troppo in altezza": "Le costruzioni decidono quanti danni fa un terremoto, non se avviene."
 			}
 		},
 		{
@@ -3781,14 +3800,14 @@
 			"prompt": "Che cosa distingue un golfo da una penisola?",
 			"options": [
 				"Il golfo è d'acqua dolce",
-				"Sono la stessa cosa vista da lontano",
+				"Il golfo è un mare chiuso fra due Stati, la penisola una terra di confine",
 				"La penisola è sempre un'isola",
 				"Il golfo è mare che entra nella terra, la penisola è terra che entra nel mare"
 			],
 			"answer": "Il golfo è mare che entra nella terra, la penisola è terra che entra nel mare",
 			"explanation": "Sono due forme opposte della stessa costa: uno rientra, l'altra sporge.",
 			"distractorWhy": {
-				"Sono la stessa cosa vista da lontano": "Sono forme opposte: uno è mare che entra nella terra, l'altra è terra che entra nel mare.",
+				"Il golfo è un mare chiuso fra due Stati, la penisola una terra di confine": "Sono forme opposte: uno è mare che entra nella terra, l'altra è terra che entra nel mare.",
 				"Il golfo è d'acqua dolce": "Un golfo è un tratto di mare, quindi acqua salata, non dolce.",
 				"La penisola è sempre un'isola": "Una penisola resta attaccata alla terraferma da un lato: un'isola è circondata dall'acqua su tutti i lati."
 			}
@@ -3802,14 +3821,14 @@
 			"prompt": "Che cos'è la densità di popolazione?",
 			"options": [
 				"Quanti abitanti ci sono per chilometro quadrato",
-				"Quanti abitanti ha in tutto uno Stato",
+				"Quanti abitanti ha in tutto un intero Stato",
 				"Quanto è grande una città",
 				"Quante case ci sono in un quartiere"
 			],
 			"answer": "Quanti abitanti ci sono per chilometro quadrato",
 			"explanation": "Due Paesi con la stessa popolazione hanno densità molto diverse se uno è più esteso dell'altro.",
 			"distractorWhy": {
-				"Quanti abitanti ha in tutto uno Stato": "Quello è il totale della popolazione, non la densità: manca il rapporto con la superficie.",
+				"Quanti abitanti ha in tutto un intero Stato": "Quello è il totale della popolazione, non la densità: manca il rapporto con la superficie.",
 				"Quanto è grande una città": "L'estensione da sola non dice quanto è affollata.",
 				"Quante case ci sono in un quartiere": "Le case non sono la stessa cosa degli abitanti: una casa può contenere più persone."
 			}

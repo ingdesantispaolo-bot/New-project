@@ -9,6 +9,13 @@ const ATLAS_PATHS := {
 	"glyph": "res://assets/identity-glyph-atlas-v1.png", "circuit": "res://assets/identity-circuit-atlas-v1.png",
 	"symbiosis": "res://assets/identity-symbiosis-atlas-v1.png", "final": "res://assets/identity-final-atlas-v1.png",
 }
+## Solo quattro famiglie non riempiono una griglia 4×3. Compattarle evita 25
+## celle trasparenti che il tablet teneva comunque in memoria.
+const ATLAS_GRIDS := {
+	"archive": Vector2i(5, 2), "signal": Vector2i(4, 3), "motion": Vector2i(4, 3),
+	"resonance": Vector2i(4, 3), "glyph": Vector2i(4, 3), "circuit": Vector2i(4, 2),
+	"symbiosis": Vector2i(2, 1), "final": Vector2i(3, 1),
+}
 static var _atlas_cache: Dictionary = {}
 const FAMILIES := {
 	"archive": ["archive_shelf","archive_pillar","archive_scriptorium","number_stone","artifact_table","voice_shelf","echo_lectern","memory_lantern","roman_archive_pod","medieval_archive_pod"],
@@ -25,9 +32,10 @@ static func build(kind: String, variant: float = 0.5) -> Node2D:
 	for family in FAMILIES:
 		var slot := (FAMILIES[family] as Array).find(kind)
 		if slot < 0: continue
+		var grid: Vector2i = ATLAS_GRIDS.get(family, Vector2i(4, 3))
 		var atlas := AtlasTexture.new()
 		atlas.atlas = _atlas_for(str(family))
-		atlas.region = Rect2(float(slot % 4) * 256.0, float(slot / 4) * 256.0, 256.0, 256.0)
+		atlas.region = Rect2(float(slot % grid.x) * 256.0, float(slot / grid.x) * 256.0, 256.0, 256.0)
 		var root := Node2D.new()
 		root.name = "IdentityPropArt_%s" % kind
 		root.set_meta("identity_art_family", family)

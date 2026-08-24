@@ -393,7 +393,6 @@ func runtime_state() -> Dictionary:
 		# Gli effetti dei moduli di spedizione, già risolti in numeri: la scena
 		# disegna e si muove, non guarda che cosa il giocatore ha comprato
 		# (invariante 1). Se un giorno un modulo cambia effetto, cambia qui.
-		"sprintMultiplier": ExpeditionModules.moltiplicatore_scatto(game_save),
 		# Quanto lontano una sacca nota Eli, e quanto la butta indietro uno
 		# spintone. Passano di qui come tutto il resto: la scena si muove e
 		# disegna, non guarda che cosa e' stato comprato (invariante 1).
@@ -401,7 +400,6 @@ func runtime_state() -> Dictionary:
 		"knockbackDistance": ExpeditionModules.spinta_del_morso(game_save),
 		# Quanto lontano porta un balzo. Passa di qui per la stessa ragione di
 		# tutto il resto: la scena si muove, non guarda che cosa è stato comprato.
-		"dashDistance": ExpeditionModules.distanza_scatto(game_save),
 		"ready": bool(progress.get("ready", false)),
 		# Le stanze accese: è questa collezione, non il livello, ad aprire il Cuore.
 		"apparatusRepaired": int(progress.get("apparatusRepaired", 0)),

@@ -36,7 +36,40 @@ extends SceneTree
 ## contenuto didattico mentre la lunghezza di un distrattore non lo è. Sono
 ## scese sotto il caso: la scorciatoia lì adesso **fa perdere**.
 ##
-## Le altre nove restano sopra, e il loro tetto è quello che avevano quel giorno.
+## Il 24 agosto 2026 è toccato a **fisica**, che era la peggiore delle dodici:
+## 39,3% contro il 25% del caso. Ventinove distrattori allungati con lo stesso
+## criterio, e adesso non resta **nessun** quesito in cui la più lunga sia la
+## giusta con un divario visibile. Controllata anche la scorciatoia speculare,
+## «tocca la più corta»: sta al 26,0%, dentro il rumore.
+##
+## Lo stesso giorno **elettronica**, da 38,2 a 21,9. Lì una parte del difetto non
+## stava nelle stringhe ma nella struttura: le funzioni dei componenti sono a
+## turno risposta e distrattore, e quella del ramo parallelo è la più lunga delle
+## undici. Allungare le altre sarebbe stata imbottitura, quindi il sorteggio dei
+## distrattori adesso può **legare il più vicino per lunghezza** (`pickDistractors`,
+## spento di default: nessun'altra materia cambia).
+##
+## E **musica**, da 38,0 a 23,7. Lì il pareggio ha fatto emergere un difetto che
+## non c'entrava con la lunghezza: due dei cinque argomenti dichiaravano la stessa
+## avvertenza sulla croma, una con «Una» e l'altra con «La», e ogni volta che il
+## sorteggio le metteva insieme l'`-attenzione` aveva due risposte giuste.
+##
+## E **geografia**, da 35,2 a 24,7. Qui il difetto era in buona parte nei nomi
+## propri: i continenti vanno da «Asia» (4 caratteri) a «America del Nord» (16),
+## e ogni Paese americano aveva la risposta più lunga di dieci caratteri. Un nome
+## proprio non si allunga, quindi anche lì si lega il più vicino. Resta **un**
+## quesito sopra soglia, «Qual è la capitale del Messico?»: «Città del Messico»
+## batte di cinque caratteri la capitale più lunga rimasta, e l'unico modo di
+## chiuderlo sarebbe aggiungere uno Stato al solo scopo di allungare il pool.
+##
+## E **italiano**, da 33,4 a 24,8: cinquantasei distrattori più tre riscritti voce
+## per voce, perché comparivano in quesiti diversi e allungarli tutti insieme
+## avrebbe sbilanciato gli altri. Anche qui restano **due** quesiti sopra soglia,
+## e sono voci del vocabolario: «interrogazione» e «contraddittorio» sporgono
+## rispetto a tutte le parole della loro classe e area, e il pool da cui pescano
+## i distrattori non ne contiene di più lunghe.
+##
+## Le altre quattro restano sopra, e il loro tetto è quello che avevano quel giorno.
 ## Serve a due cose, e la seconda vale più della prima:
 ##
 ##   1. **non si può peggiorare**: un blocco di quesiti nuovi che sposta una
@@ -62,18 +95,19 @@ const TOLLERANZA := 0.5
 const BANDA := 5.0
 
 ## Il tetto per materia, misurato il 21 agosto 2026. Si abbassa, non si alza.
-## Scienze e storia sono **sotto il caso**: là la scorciatoia fa perdere.
+## Scienze, storia, fisica, elettronica, musica, geografia e italiano sono
+## **sotto il caso**: la scorciatoia lì fa perdere.
 const TETTO := {
 	"coding": 32.7,
-	"elettronica": 38.2,
-	"fisica": 39.3,
-	"geografia": 35.2,
+	"elettronica": 21.9,
+	"fisica": 21.9,
+	"geografia": 24.7,
 	"inglese": 26.5,
-	"italiano": 33.4,
+	"italiano": 24.8,
 	"latino": 31.5,
 	"logica": 25.8,
 	"matematica": 25.9,
-	"musica": 38.0,
+	"musica": 23.7,
 	"scienze": 22.1,
 	"storia": 22.2,
 }

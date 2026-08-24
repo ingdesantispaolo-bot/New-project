@@ -10,8 +10,19 @@ var stage := 0
 var high_contrast := false
 var reduced_motion := false
 
+const SUPPORTED_IDS := [
+	"w01-tobia", "w01-ersilia", "w02-corinna", "w02-bruno", "w03-ruggine", "w03-sesto",
+	"w04-marea", "w04-lino", "w05-gerbo", "w05-tilla", "w06-ambra", "w06-oreste",
+	"w07-livia", "w07-zeno", "w08-ciro", "w08-doria", "w09-alma", "w09-remo",
+	"w10-ortensia", "w10-mirta", "w11-danio", "w11-vesta", "w12-quinto", "w12-isa",
+	"w13-solano", "w13-duna", "w14-elmo", "w14-ottavia", "w15-gru", "w15-pila",
+	"w16-talia", "w16-marco", "w17-nerea", "w17-coral", "w18-silo", "w18-bea",
+	"w19-numa", "w19-fiorina", "w20-sferza", "w20-quieto", "w21-terza", "w21-mino",
+	"w22-vesca", "w22-fondo", "w23-cronia", "w23-ovidio",
+]
+
 static func supports(id: String) -> bool:
-	return id in ["w01-tobia", "w01-ersilia", "w02-corinna", "w02-bruno", "w03-ruggine", "w03-sesto", "w04-marea", "w04-lino", "w05-gerbo", "w05-tilla"]
+	return id in SUPPORTED_IDS
 
 func configure(id: String, value: int, use_high_contrast: bool, use_reduced_motion: bool) -> void:
 	resident_id = id
@@ -49,7 +60,7 @@ func _semantic() -> String:
 			return "balanced-loads" if stage >= 2 else "marked-loads" if stage == 1 else "uneven-loads"
 		"w05-tilla":
 			return "moving-workshop" if stage >= 2 else "ready-lever" if stage == 1 else "stalled-lever"
-	return ""
+	return "%s:%s" % [resident_id, "shared-work" if stage >= 2 else "ordered-work" if stage == 1 else "work-in-progress"]
 
 func _draw() -> void:
 	match resident_id:
@@ -73,6 +84,8 @@ func _draw() -> void:
 			_draw_gerbo()
 		"w05-tilla":
 			_draw_tilla()
+		_:
+			_draw_general_consequence()
 
 func _draw_tobia() -> void:
 	var crystal := Color.WHITE if high_contrast else Color("84e8d4")
@@ -242,6 +255,35 @@ func _draw_tilla() -> void:
 	if stage >= 2:
 		for x in [-34.0, 0.0, 34.0]:
 			draw_circle(Vector2(x, 28), 8.0, accent)
+
+## Dal mondo 6 in poi il gesto e' deliberatamente comune: un banco di lavoro
+## passa da materiale sparso, a materiale ordinato, a lavoro che si puo' usare
+## insieme. Cambiano il colore e il ritmo per abitante, non una regola o un
+## premio. I primi cinque mondi restano autoriali perche' sono quelli che il
+## bambino incontra prima e deve poter riconoscere subito.
+func _draw_general_consequence() -> void:
+	var hue := float(abs(resident_id.hash()) % 360) / 360.0
+	var fill := Color.WHITE if high_contrast else Color.from_hsv(hue, 0.42, 0.92)
+	var edge := Color.BLACK if high_contrast else Color.from_hsv(hue, 0.52, 0.34)
+	var accent := Color.WHITE if high_contrast else Color.from_hsv(fposmod(hue + 0.12, 1.0), 0.55, 1.0)
+	draw_ellipse_shadow(Vector2(0, 24), Vector2(77, 17))
+	var columns := 4
+	for index in 8:
+		var position := Vector2(-51 + float(index % columns) * 34, 9 - float(index / columns) * 24)
+		if stage == 0:
+			position += Vector2(float((index * 13) % 11) - 5.0, float((index * 7) % 9) - 4.0)
+		var tile_size := Vector2(19, 15) if stage < 2 else Vector2(22, 17)
+		draw_rect(Rect2(position, tile_size), fill, true)
+		draw_rect(Rect2(position, tile_size), edge, false, 1.7)
+		if stage >= 1:
+			draw_circle(position + tile_size * 0.5, 2.5, accent)
+	if stage >= 1:
+		draw_line(Vector2(-62, 25), Vector2(62, 25), accent, 2.4)
+	if stage >= 2:
+		for column in range(columns - 1):
+			var x := -41 + float(column) * 34
+			draw_line(Vector2(x, -8), Vector2(x + 34, -8), accent, 2.2)
+		draw_arc(Vector2(0, 1), 76, PI * 1.12, PI * 1.88, 28, accent, 2.8)
 
 func _draw_crystal(center: Vector2, radius: float, fill: Color, edge: Color) -> void:
 	var points := PackedVector2Array([

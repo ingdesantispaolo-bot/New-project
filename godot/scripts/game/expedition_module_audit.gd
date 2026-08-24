@@ -94,16 +94,8 @@ func _esistono_e_si_comprano() -> void:
 ## 6 agosto non rispettavano: promettevano meccaniche e non toccavano niente.
 func _fanno_qualcosa() -> void:
 	var senza := _save_con([])
-	var base_scatto := ExpeditionModules.moltiplicatore_scatto(senza)
-	var base_distanza := ExpeditionModules.distanza_scatto(senza)
-
 	var base_vista := ExpeditionModules.vista_delle_sacche(senza)
 	var base_spinta := ExpeditionModules.spinta_del_morso(senza)
-	var con_passo := _save_con([ExpeditionModules.PASSO])
-	_controlla(ExpeditionModules.moltiplicatore_scatto(con_passo) > base_scatto,
-		"il passo lungo non rende la corsa più veloce")
-	_controlla(ExpeditionModules.distanza_scatto(con_passo) > base_distanza,
-		"il passo lungo non allunga il balzo")
 	var con_felpa := _save_con([ExpeditionModules.FELPA])
 	_controlla(ExpeditionModules.vista_delle_sacche(con_felpa) < base_vista,
 		"l'andatura felpata non accorcia la vista delle sacche")
@@ -141,10 +133,6 @@ func _fanno_qualcosa() -> void:
 	cosmetics["inventory"] = ExpeditionModules.ids()
 	gameplay.game_save.data["cosmetics"] = cosmetics
 	var dopo: Dictionary = gameplay.runtime_state()
-	_controlla(float(dopo.get("sprintMultiplier", 0.0)) > float(prima.get("sprintMultiplier", 0.0)),
-		"la corsa non cambia nel contratto runtime")
-	_controlla(float(dopo.get("dashDistance", 0.0)) > float(prima.get("dashDistance", 0.0)),
-		"il balzo non cambia nel contratto runtime")
 	_controlla(float(dopo.get("enemyNoticeScale", 9.0)) < float(prima.get("enemyNoticeScale", 0.0)),
 		"la vista delle sacche non cambia nel contratto runtime")
 	_controlla(float(dopo.get("knockbackDistance", 9999.0)) < float(prima.get("knockbackDistance", 0.0)),
@@ -179,12 +167,6 @@ func _non_toccano_l_apprendimento() -> void:
 ## troverebbe una mappa più povera invece che uguale.
 func _nessuno_e_necessario() -> void:
 	var senza := _save_con([])
-	_controlla(is_equal_approx(
-		ExpeditionModules.moltiplicatore_scatto(senza), ExpeditionModules.SCATTO_BASE),
-		"senza moduli la corsa non è quella di base")
-	_controlla(is_equal_approx(
-		ExpeditionModules.distanza_scatto(senza), ExpeditionModules.SCATTO_DISTANZA),
-		"senza moduli il balzo non è quello di base")
 	_controlla(is_equal_approx(
 		ExpeditionModules.vista_delle_sacche(senza), ExpeditionModules.VISTA_PIENA),
 		"senza moduli le sacche non hanno la vista piena")

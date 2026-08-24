@@ -130,15 +130,6 @@ func _run() -> void:
 			"Sbiadito senza iscrizione illeggibile")
 		assert(enemy.find_children("BrokenInscription_*", "Line2D", true, false).size() == 3,
 			"iscrizione spezzata non riconoscibile per forma")
-	# **Il comando touch che deve esserci e' la corsa.** (21 agosto 2026)
-	# L'impulso e' stato tolto: `impulso_scatto_probe` ha misurato che dal
-	# mondo 2 in poi nessuna sacca costa energia, quindi non c'era piu' niente
-	# da comprare con una carica. Questo pulsante invece lavora sempre: su
-	# tablet e' l'unica corsa che esista.
-	var corsa := world.find_child("ScattoButton", true, false) as Button
-	assert(corsa != null and corsa.custom_minimum_size.x >= 64.0 and corsa.custom_minimum_size.y >= 64.0, "corsa touch insufficiente")
-	assert(str(corsa.text).begins_with("CORRI"), "il comando touch non dice per primo il verbo che si usa sempre")
-
 	var player: CharacterBody2D = world.get("player")
 	var first: Node2D = enemies[0]
 	first.global_position = player.global_position + Vector2(54, 0)

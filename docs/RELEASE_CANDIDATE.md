@@ -2237,3 +2237,36 @@ bersaglio del dito. C'era da quando esiste lo scatto (19 agosto) e non si vede i
 nessuna cattura. Adesso il riquadro segue la scritta, e
 `accessibility_release_audit` pretende che ogni bersaglio touch sia **contenuto
 nel viewport** — non solo alto 44.
+
+---
+
+## C-ART-10/12/13 e C-G-13 — resa completata (24 agosto 2026)
+
+- **C-ART-10:** le quattro tavole identitarie parziali sono state ricomposte
+  senza celle vuote: archivio 5×2, circuito 4×2, simbiosi 2×1 e sintesi 3×1.
+  I soli otto atlanti passano da 8,09 a **6,19 MiB** (−1,90 MiB); il caricamento
+  resta pigro per famiglia. Ogni prop in scena è al massimo tre nodi e non ha
+  più un alone pulsante o un `_process` decorativo. Verde `tavole_guard_audit`.
+- **C-ART-12:** vento sugli atlanti naturali, foschia, stanza della nave e
+  vignetta HUD sono shader condivisi. La riduzione movimento ferma vento e
+  foschia; non restano stringhe shader nei consumer nave/HUD. Verde
+  `shared_shader_resource_audit` e `atmosphere_shader_audit`.
+- **C-ART-13:** i 46 luoghi proprietari (due nei mondi 1–23) mostrano tre stadi
+  distinti della conseguenza, senza testo, nodo aggiunto o modifica alle regole.
+  I primi cinque mondi restano autoriali; i successivi usano il banco di lavoro
+  comune, colorato per abitante. Verde `resident_consequence_coverage_audit`.
+- **C-G-13:** le stazioni di pratica sono ripetitori dei Primi: pietra, nucleo
+  nel colore della materia e circuito che richiede entrambe le stazioni visitate.
+  Verde `practice_circuit_visual_audit`.
+
+## Decisioni di prodotto — pannelli opachi e scatto rimosso (24 agosto 2026)
+
+- **C-ART-9:** confermati i pannelli del mondo **opachi**. La scelta chiude la
+  coda visiva: nessun `alpha` viene reintrodotto sulle superfici HUD.
+- **G-10:** lo scatto non aveva effetti su trama o gate narrativi. Rimossi il
+  balzo/corsa, l'azione `sprint`, il pulsante touch, la scia, il bypass delle
+  sacche e il modulo di bottega «Passo lungo»; resta la camminata e lo spintone
+  delle pattuglie. Inventari già salvati restano leggibili anche se contengono
+  il vecchio identificativo. Verdi `world_l1_readiness_audit`,
+  `accessibility_release_audit`, `eli_enemy_audit`, `expedition_module_audit`,
+  `shop_presentation_audit` e `performance_budget_audit`.

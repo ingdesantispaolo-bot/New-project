@@ -44,6 +44,7 @@ const PLAYER_ACCENT := Color("6be7d6")
 const NIGHT_TINT := Color(0.46, 0.51, 0.70)
 const DAWN_TINT := Color(1.0, 0.84, 0.72)
 const WORLD_ATMOSPHERE_SHADER: Shader = preload("res://shaders/world_atmosphere.gdshader")
+const HUD_VIGNETTE_SHADER: Shader = preload("res://shaders/hud_vignette.gdshader")
 
 var request: Dictionary
 var result: Dictionary
@@ -90,13 +91,6 @@ var utility_menu_button: Button
 var shop_button: Button
 var manual_button: Button
 var interaction_button: Button
-## Il pulsante dello scatto. Su tablet è anche l'unica corsa che esista: `sprint`
-## era legato al solo Maiusc, e una tastiera lì non c'è.
-var scatto_button: Button
-## Il varco dello scatto si spiega una volta sola, la prima volta che capita. Una
-## riga che torna a ogni attraversamento diventa rumore, e questa è una cosa che
-## si capisce facendola.
-var _scatto_varco_raccontato := false
 ## Il quadro degli obiettivi e il pulsante che lo apre.
 var objective_button: Button
 var objective_panel: ObjectivePanel
@@ -673,11 +667,6 @@ func _apply_resume() -> void:
 
 func _on_runtime_state(state: Dictionary) -> void:
 	runtime = state.duplicate(true)
-	if is_instance_valid(player):
-		player.sprint_multiplier = float(
-			runtime.get("sprintMultiplier", ExpeditionModules.SCATTO_BASE))
-		player.dash_distance = float(
-			runtime.get("dashDistance", ExpeditionModules.SCATTO_DISTANZA))
 	# La vista delle sacche gia' in campo si aggiorna appena il modulo entra
 	# nell'inventario: un acquisto che si vede solo rientrando nel mondo e' un
 	# acquisto che il bambino non collega a quello che ha appena speso.
@@ -883,7 +872,6 @@ func _process(delta: float) -> void:
 		_update_ship_navigation()
 		_update_pending_touch_interaction()
 		_update_interaction_countdown()
-		_update_scatto_button()
 		_assegna_guardiani()
 		if world_life != null:
 			var view_size := get_viewport_rect().size
@@ -1014,24 +1002,13 @@ func _enforce_water_traversal() -> void:
 	if not _water_blocks_position(player.position):
 		last_traversable_position = player.position
 		return
-	# **Lo scatto non guada.** (19 agosto 2026) Il fiume si passa col ponte-enigma
-	# e con nient'altro: è una decisione vincolante del progetto, e un balzo che
-	# la scavalcasse trasformerebbe l'enigma in scenografia. Il balzo si spegne
-	# qui — la ricarica resta consumata, perché un balzo tirato contro una riva è
-	# comunque un balzo tirato.
-	var scattava := player.sta_scattando()
-	if scattava:
-		player.annulla_scatto()
 	player.position = last_traversable_position
 	player.velocity = Vector2.ZERO
 	player.touch_target = Vector2.INF
 	var now := Time.get_ticks_msec()
 	if now - water_block_feedback_msec > 1500:
 		water_block_feedback_msec = now
-		_set_feedback(
-			"Nemmeno di slancio: la corrente è invalicabile · ricostruisci il ponte-enigma dalla riva."
-			if scattava
-			else "La corrente è invalicabile · ricostruisci il ponte-enigma dalla riva.")
+		_set_feedback("La corrente è invalicabile · ricostruisci il ponte-enigma dalla riva.")
 
 func _water_blocks_position(position: Vector2) -> bool:
 	if chunks == null or chunks.composition == null:
@@ -3822,10 +3799,9 @@ const GUARDIA_DISTANZA_MINIMA := 420.0
 ## d'essere che il duello non cancella — girano per il mondo, ti trovano loro, e
 ## adesso quell'incontro finisce in una prova invece che in un morso.
 ##
-## Lo scatto e lo spintone restano e non perdono il mestiere: una pattuglia
-## continua a respingere, e passarle accanto di slancio continua a essere gratis.
-## Quello che sparisce è il **pedaggio d'anello**, cioè il solo punto della mappa
-## in cui si pagava per avvicinarsi a qualcosa.
+## Resta lo spintone: una pattuglia continua a respingere. Quello che sparisce
+## è il **pedaggio d'anello**, cioè il solo punto della mappa in cui si pagava
+## per avvicinarsi a qualcosa.
 
 var _guardia_prossima_msec := 0
 ## Le sacche gia' create, per identificativo: senza, ogni giro ne creerebbe
@@ -4161,21 +4137,6 @@ func enemy_gameplay_active() -> bool:
 func _on_enemy_contact(enemy: Node2D, body: Node) -> void:
 	if body != player or not enemy_gameplay_active():
 		return
-	# **Il varco dello scatto.** (19 agosto 2026) Chi passa di slancio non paga e
-	# non viene respinto: ci si passa attraverso. È l'unico momento del gioco in
-	# cui il tempismo vale quanto il grado, ed è lecito perché dietro una sacca
-	# non c'è mai niente che serva a progredire.
-	#
-	# La sacca ha già consumato la propria finestra di morso (`_on_body_entered`
-	# la segna prima di chiamarci): per il secondo dopo un attraversamento
-	# riuscito quella sacca non morde. È un vantaggio, ed è voluto — è la
-	# ricompensa del tempismo, e dura un secondo.
-	if player.sta_scattando():
-		if not _scatto_varco_raccontato:
-			_scatto_varco_raccontato = true
-			_set_feedback("Ci sei passata attraverso. Di slancio le sacche non ti toccano.")
-		_pet_react("near_faded")
-		return
 	var away := enemy.global_position.direction_to(player.global_position)
 	if away.length_squared() < 0.01:
 		away = Vector2.DOWN
@@ -4202,7 +4163,7 @@ func _on_enemy_contact(enemy: Node2D, body: Node) -> void:
 		game_save.spend_energy(costo)
 		game_save.save()
 		_spawn_gain_popup("−%d" % costo, Color("ff9b8a"))
-		_set_feedback("%s ti respinge. −%d energia: è più forte di te di %d gradi. Allenati, oppure passale accanto di slancio." % [
+		_set_feedback("%s ti respinge. −%d energia: è più forte di te di %d gradi. Allenati, oppure cerca una rotta più sicura." % [
 			str(enemy.get("enemy_name")), costo, scarto])
 	else:
 		_set_feedback("%s ti respinge, ma non ti scalfisce: sei abbastanza forte." % str(enemy.get("enemy_name")))
@@ -4213,71 +4174,6 @@ func _on_enemy_contact(enemy: Node2D, body: Node) -> void:
 		var tween := create_tween()
 		tween.tween_property(player_presentation, "modulate", Color(1.0, 0.46, 0.42), 0.08)
 		tween.tween_property(player_presentation, "modulate", Color.WHITE, 0.22)
-
-## **Lo scatto.** (19 agosto 2026)
-##
-## Il secondo verbo del corpo di Eli, e il primo che non finisce in un pannello.
-## Le regole stanno tutte in [[OutdoorPlayerController]]: qui c'è solo il gesto —
-## chi lo chiede, la scia che lascia, e il pulsante che dice quando torna.
-##
-## Non costa niente e non concede niente. Il balzo è movimento, e l'unica cosa
-## che apre è il passaggio attraverso una sacca — che sta davanti ai frammenti,
-## mai davanti a una prova.
-func _scatto() -> void:
-	if not is_instance_valid(player) or not enemy_gameplay_active():
-		return
-	if not player.scatta():
-		return
-	_spawn_scia_di_scatto()
-	_update_scatto_button()
-
-## Dito giù sul pulsante: parte il balzo **e** comincia la corsa. Sono lo stesso
-## gesto perché sono la stessa idea — parti di slancio e prosegui — e perché un
-## quarto bottone in fondo allo schermo lo si sarebbe pagato in leggibilità.
-func _scatto_premuto() -> void:
-	_scatto()
-	if is_instance_valid(player):
-		player.corsa_richiesta = true
-
-func _scatto_rilasciato() -> void:
-	if is_instance_valid(player):
-		player.corsa_richiesta = false
-
-## La scia: quattro sagome che restano indietro e svaniscono. Serve a far leggere
-## il balzo come un gesto invece che come uno scatto di velocità — senza, a due
-## decimi di secondo, Eli sembra semplicemente teletrasportata di un passo.
-func _spawn_scia_di_scatto() -> void:
-	if reduced_motion or not is_instance_valid(player):
-		return
-	var scia := Node2D.new()
-	scia.name = "EliScattoScia"
-	scia.z_index = 6
-	var verso := player.scatto_direzione()
-	var lunghezza := float(runtime.get("dashDistance", ExpeditionModules.SCATTO_DISTANZA))
-	for indice in range(4):
-		var quanto := lunghezza * (float(indice) + 1.0) / 5.0
-		scia.add_child(OutdoorVisualFactory.make_polygon(
-			OutdoorVisualFactory.ellipse_polygon(13.0, 19.0, 16),
-			Color(0.42, 0.91, 0.84, 0.34 - float(indice) * 0.06),
-			verso * quanto))
-	scia.position = player.global_position
-	world_layer.add_child(scia)
-	var tween := create_tween()
-	tween.tween_property(scia, "modulate:a", 0.0, 0.28)
-	tween.tween_callback(scia.queue_free)
-
-func _update_scatto_button() -> void:
-	if not is_instance_valid(scatto_button) or not is_instance_valid(player):
-		return
-	var attesa := int(player.scatto_attesa_msec())
-	scatto_button.disabled = attesa > 0 or not enemy_gameplay_active()
-	if scatto_button.disabled:
-		# Un pannello aperto mentre il dito era giù lascerebbe Eli a correre da
-		# sola sotto la finestra: il rilascio non arriva mai su un bottone spento.
-		player.corsa_richiesta = false
-	# Il pulsante dice tutte e due le cose, e la corsa per prima: su tablet questa
-	# è anche l'unica corsa che esista.
-	scatto_button.text = "CORRI\n%.1f s" % (float(attesa) / 1000.0) if attesa > 0 else "CORRI\nTOCCA = BALZO"
 
 func _event_visual_kind(subject: String) -> String:
 	if subject in ["matematica", "fisica"]:
@@ -4644,18 +4540,8 @@ func _create_hud() -> void:
 	var vignette := ColorRect.new()
 	vignette.set_anchors_preset(Control.PRESET_FULL_RECT)
 	vignette.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var shader := Shader.new()
-	shader.code = """
-shader_type canvas_item;
-void fragment() {
-	vec2 uv = UV - vec2(0.5);
-	float d = length(uv) * 1.55;
-	float v = smoothstep(0.62, 1.28, d);
-	COLOR = vec4(0.008, 0.02, 0.035, v * 0.42);
-}
-"""
 	var vignette_material := ShaderMaterial.new()
-	vignette_material.shader = shader
+	vignette_material.shader = HUD_VIGNETTE_SHADER
 	vignette.material = vignette_material
 	root.add_child(vignette)
 
@@ -4778,29 +4664,6 @@ void fragment() {
 	interaction_button.add_theme_stylebox_override("disabled", _touch_action_style(Color("426a68"), Color("739b96")))
 	interaction_button.pressed.connect(_interact)
 	root.add_child(interaction_button)
-	scatto_button = Button.new()
-	scatto_button.name = "ScattoButton"
-	# **Prima diceva «SCATTO / TIENI = CORRI».** (21 agosto 2026) Metteva per
-	# primo il verbo che si usa meno: il balzo serve davanti a una sacca, la
-	# corsa serve sempre — e su tablet questo pulsante è l'unica corsa che
-	# esista, perché `sprint` è legato al solo Maiusc. Adesso l'etichetta dice
-	# prima la cosa che si fa cento volte, e poi quella che si fa dieci.
-	scatto_button.text = "CORRI\nTOCCA = BALZO"
-	scatto_button.anchor_left = 1.0
-	scatto_button.anchor_right = 1.0
-	scatto_button.anchor_top = 1.0
-	scatto_button.anchor_bottom = 1.0
-	scatto_button.tooltip_text = "Tienilo premuto per correre · toccalo per un balzo che attraversa le sacche"
-	scatto_button.add_theme_font_size_override("font_size", 13)
-	scatto_button.add_theme_color_override("font_color", Color("06272a"))
-	scatto_button.add_theme_stylebox_override("normal", _touch_action_style(Color("9ad8ff"), Color("e2f4ff")))
-	scatto_button.add_theme_stylebox_override("pressed", _touch_action_style(Color("6be7d6"), Color("d8fff8")))
-	scatto_button.add_theme_stylebox_override("disabled", _touch_action_style(Color("36505e"), Color("6d8794")))
-	# `pressed` scatta al rilascio: per un balzo è tardi, e chi tiene premuto per
-	# correre non vuole un balzo quando alza il dito. `button_down` è il gesto.
-	scatto_button.button_down.connect(_scatto_premuto)
-	scatto_button.button_up.connect(_scatto_rilasciato)
-	root.add_child(scatto_button)
 	shop_button = Button.new()
 	shop_button.name = "OpenShopButton"
 	shop_button.text = "BOTTEGA"
@@ -4975,14 +4838,13 @@ func _persist_touch_controls_settings() -> void:
 	game_save.save()
 
 func _apply_touch_controls_layout() -> void:
-	if not is_instance_valid(interaction_button) or not is_instance_valid(scatto_button):
+	if not is_instance_valid(interaction_button):
 		return
 	var on_left := str(touch_controls_settings.get("side", "right")) == "left"
 	var is_large := str(touch_controls_settings.get("size", "large")) == "large"
 	var margin := 28.0
 	var action_width := 332.0 if is_large else 280.0
 	var action_height := 72.0 if is_large else 64.0
-	var lato_corsa := 92.0 if is_large else 76.0
 	var lower_hud_clearance := 116.0
 	interaction_button.anchor_left = 0.5
 	interaction_button.anchor_right = 0.5
@@ -4996,33 +4858,6 @@ func _apply_touch_controls_layout() -> void:
 	interaction_button.add_theme_font_size_override("font_size", 18 if is_large else 15)
 	var opacity := float(touch_controls_settings.get("opacity", 1.0))
 	interaction_button.modulate.a = opacity
-	# **La corsa prende il posto che era dell'impulso.** (21 agosto 2026) Erano
-	# due pulsanti in colonna sopra AZIONE; l'impulso non c'è più e la corsa
-	# scende al primo posto, che è anche quello più vicino al pollice. Il senso
-	# della preferenza «destra o sinistra» resta lo stesso: tutte le azioni sotto
-	# lo stesso dito.
-	if is_instance_valid(scatto_button):
-		# **Il riquadro segue la scritta.** (21 agosto 2026) Con una larghezza
-		# fissa di 92 il pulsante misurava 127 — la seconda riga non ci stava e
-		# Godot lo faceva crescere da solo, verso i due lati: sette pixel
-		# finivano **fuori dallo schermo**, cioe' fuori dal bersaglio del dito.
-		# Difetto vecchio quanto lo scatto, e visibile solo misurando il rect.
-		var larghezza_corsa := maxf(lato_corsa, _larghezza_del_testo(scatto_button) + 22.0)
-		scatto_button.anchor_left = 0.0 if on_left else 1.0
-		scatto_button.anchor_right = 0.0 if on_left else 1.0
-		scatto_button.anchor_top = 1.0
-		scatto_button.anchor_bottom = 1.0
-		if on_left:
-			scatto_button.offset_left = margin
-			scatto_button.offset_right = margin + larghezza_corsa
-		else:
-			scatto_button.offset_left = -margin - larghezza_corsa
-			scatto_button.offset_right = -margin
-		scatto_button.offset_top = -lower_hud_clearance - action_height - 16.0 - lato_corsa
-		scatto_button.offset_bottom = -lower_hud_clearance - action_height - 16.0
-		scatto_button.custom_minimum_size = Vector2(larghezza_corsa, lato_corsa)
-		scatto_button.add_theme_font_size_override("font_size", 13 if is_large else 10)
-		scatto_button.modulate.a = opacity
 	_refresh_touch_controls_labels()
 
 ## Quanto e' larga la riga piu' lunga di un pulsante, con il suo font e il suo
@@ -5140,15 +4975,6 @@ func _apply_accessibility_settings() -> void:
 			"normal", _touch_action_style(Color("4b746f"), Color("b5d8d3")))
 		interaction_button.add_theme_stylebox_override(
 			"disabled", _touch_action_style(Color("31514f"), Color("789b97")))
-	# Il bordo dei comandi si ispessisce col contrasto elevato (`_touch_action_style`):
-	# senza questo blocco la corsa sarebbe l'unico comando a non accorgersene.
-	if is_instance_valid(scatto_button):
-		scatto_button.add_theme_stylebox_override(
-			"normal", _touch_action_style(Color("9ad8ff"), Color("e2f4ff")))
-		scatto_button.add_theme_stylebox_override(
-			"pressed", _touch_action_style(Color("6be7d6"), Color("d8fff8")))
-		scatto_button.add_theme_stylebox_override(
-			"disabled", _touch_action_style(Color("36505e"), Color("6d8794")))
 	_refresh_touch_controls_labels()
 	_publish_web_accessibility_state()
 
@@ -6684,12 +6510,6 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("interact") and not event.is_echo():
 		_interact()
 		get_viewport().set_input_as_handled()
-	elif event.is_action_pressed("sprint") and not event.is_echo():
-		# **Premere è scattare, tenere è correre.** Un tasto, due verbi: lo spazio
-		# è già `interact` e Ctrl in una pagina Web, insieme a W, chiude la scheda.
-		# La corsa continua a leggersi da sola nel controller, quindi qui non si
-		# consuma l'evento — Maiusc deve restare premuto per chi corre.
-		_scatto()
 	elif event.is_action_pressed("leave_portal") and not event.is_echo():
 		# **Esc ferma il gioco**, come in qualunque altro gioco esista. Prima
 		# evidenziava la rotta verso la nave: una scorciatoia che il pulsante

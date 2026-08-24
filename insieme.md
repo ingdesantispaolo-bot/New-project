@@ -49,18 +49,13 @@ collaudo l'ha già definita faticosa, e rispondere a «è noioso» con «è più
 
 ### L'ordine, e perché questo
 
-L'ordine residuo è per **resa su costo**. Le voci Codex del lotto di agosto sono
-uscite dal piano e stanno nel registro; le **C-ART-7…14** che le sostituiscono
-nascono dalla lettura dell'arte del 20 agosto, più sotto.
+L'ordine residuo è per **resa su costo**. Le voci Codex del lotto di agosto e
+quelle C-ART della lettura del 20 agosto sono uscite dal piano e stanno nel
+registro; restano soltanto decisioni di prodotto o di collaudo.
 
 | | voce | impatto | costo | chi |
 |---|---|---|---|---|
 | **G-4** | Collegare i due moduli alla resa C-G4 | basso | basso | Claude |
-| **C-ART-9** | Coda: i pannelli del mondo hanno perso la trasparenza | basso | basso | tua decisione |
-| **C-ART-10** | Coda: celle vuote, peso in memoria, un bagliore su tutto | medio | basso | Codex |
-| **C-ART-12** | Cinque shader per tutto il gioco (1/5 condiviso) | medio | medio | Codex |
-| **C-ART-13** | Conseguenze dei residenti (6/46) | medio | medio | Codex |
-| **G-10** | Camminare è una scelta | ? | medio | dopo il collaudo |
 
 ---
 
@@ -82,26 +77,6 @@ grado di Eli non azzera.
 Tolte anche le due illustrazioni riservate da `build-reward-assets.mjs`: il
 foglio premi si genera dal solo catalogo, che e' la sola fonte di verita'. Se un
 giorno la resa esistera', il modulo entra allora — con la sua resa, non prima.
-
----
-
-## G-10 · Camminare non è una scelta
-
-**Oggi.** `player_controller.gd` sono settantacinque righe: velocità, uno scatto
-il cui moltiplicatore ora viene dai moduli (1,65× o 1,95×),
-bob. L'unica cosa che il terreno fa è l'acqua che blocca. L'unica prova d'abilità
-di tutto il gioco è il duello dei guardiani.
-
-**La cautela che viene prima della proposta**, ed è del lotto del 6 agosto: *ogni
-cosa che costa energia sulla mappa toglie prove fatte*, e la campagna è già lunga.
-Quindi non pedaggi. Una **scelta**: lo scatto consuma una risorsa che si ricarica
-stando fermi, e apre scorciatoie che non aprono mai niente di obbligatorio.
-
-**Perché è ultimo, dichiarato.** È l'unica voce del piano che si può sbagliare
-senza accorgersene, perché il suo unico giudice è il tatto — e il tatto arriva dal
-tuo collaudo, non da una misura. Farla adesso significherebbe indovinare.
-
-**Chi.** **Decisione tua dopo il collaudo**, poi Codex.
 
 ---
 
@@ -173,23 +148,6 @@ Tre vincoli valgono per tutte, e non si negoziano:
 > E una correzione mia, perché il numero era in questo file: gli oggetti
 > identitari non sono 46 ma **71**. Contavo i `match` a un nome per riga e ce ne
 > sono a tre.
-
----
-
-### C-ART-9 · Coda: i pannelli del mondo hanno perso la trasparenza
-
-Le tre superfici ci sono e le due cose che le rompevano sono chiuse: i due testi
-della pergamena stanno adesso a **5,8:1** sulla carta e 16:1 sul ripiego, e
-l'esame torna a distinguersi dal banco ordinario — non con un bordo, che una
-`StyleBoxTexture` non ha, ma con una velatura del materiale. Le tiene
-`tavole_guard_audit`, che stampa il rapporto di ogni etichetta: la prossima
-correzione si misura invece di guardarla.
-
-**Resta una cosa, ed è una tua decisione, non un difetto.** I sei pannelli del
-mondo erano `alpha 0,72` sopra la mappa e adesso sono opachi, perché nessuna
-delle tre texture ha canale alfa. Il mondo non si intravede più dietro l'HUD.
-Si ripara in una riga — un alfa nel materiale o un `modulate` sul pannello — ma
-è resa: va decisa guardando, non misurata.
 
 ---
 
@@ -567,7 +525,7 @@ punta la bussola alla sua stazione. Il filo risolve il *dove*, il pulsante il
 Trovato per strada: quel quadro usava `✔` (U+2714) per le materie chiuse — un
 altro «2605», stesso font, stesso rettangolo col codice su Web e tablet.
 
-### C-G-13 · La faccia di una stazione — Codex, dopo G-12
+### Perché il filo è coerente con la storia, e la spirale no
 
 Quando il filo esiste, una stazione non è più un disco con una stella: è un
 **ripetitore dei Primi**, e le undici insieme sono il circuito che il nucleo
@@ -578,8 +536,6 @@ questo mondo.
 
 Il colore lo dà già `SubjectPalette` ed è lo stesso della notte di quel mondo e
 della scheda sul ponte: non va reinventato, va letto.
-
-### Perché il filo è coerente con la storia, e la spirale no
 
 I Primi hanno lasciato un **circuito**, e `BuildingCatalog` lo dice già: la
 *first_ruin* di ogni mondo «è un pezzo del circuito, e messe in fila raccontano

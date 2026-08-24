@@ -10,17 +10,11 @@ const root = process.cwd();
 // cinque cosmetici, che nel gioco esistevano senza illustrazione.
 const catalogPath = path.join(root, "godot/scripts/game/reward_catalog.gd");
 const godotSpriteDir = path.join(root, "godot/assets/shop");
-
-// Presentazioni native Godot gia' approvate o in attesa del loro contratto
-// semantico. Non duplicano prezzi o regole: servono solo a riservare nel foglio
-// premi le illustrazioni C-G4. Se una voce entra anche nel catalogo TS, il merge
-// in fondo evita automaticamente il doppione.
-// **Nessuna illustrazione riservata.** (21 agosto 2026) Qui stavano radar e
-// torcia, tenuti in caldo per C-G4. Ritirati: chiedono una resa che non esiste —
-// un segnale sulla cassa e un cono luminoso — ed e' esattamente il difetto del
-// 6 agosto, vendere potenziamenti che non fanno niente. Il foglio premi si
-// genera dal solo catalogo, che e' la sola fonte di verita'.
-const expeditionModuleArt = [];
+// Solo gli slot realmente esposti in bottega ricevono una cella nell'atlante.
+// Gli strumenti di campo sono voci del catalogo perché il salvataggio li legge,
+// ma vengono consegnati nel mondo: tenerne icone nel foglio premi sarebbe arte
+// generata e mai vista.
+const SHOP_SLOTS = new Set(["bot", "avatar", "accessory", "module", "pet", "emblem", "upgrade", "decor"]);
 
 
 const catalogText = fs.readFileSync(catalogPath, "utf8");
@@ -139,34 +133,19 @@ function iconBody(item, accent) {
       ${commonGlyph}`;
   }
   if (item.slot === "module") {
-    if (item.id === "module-tank") {
+    if (item.id === "module-hush") {
       return `
-      <path d="M43 35 H82 L91 48 V91 L82 101 H43 L34 91 V48 Z" fill="#0a2831" stroke="${accent}" stroke-width="4"/>
-      <rect x="49" y="25" width="28" height="13" rx="5" fill="#183f48" stroke="#d9ffff" stroke-width="3"/>
-      <path d="M47 82 V57 Q47 48 56 48 H69 Q79 48 79 57 V82" fill="#133b43" stroke="#f6c85f" stroke-width="3"/>
-      <path d="M63 55 V75 M53 65 H73" stroke="#fff1b8" stroke-width="5" stroke-linecap="round"/>`;
+      <path d="M31 82 C44 78 51 72 57 58 L66 35 L82 40 L74 65 C69 81 57 94 40 98 L26 95 Z" fill="#15343c" stroke="${accent}" stroke-width="4"/>
+      <path d="M72 77 C84 75 95 80 102 90 L111 103 L93 106 L81 94 L62 93 Z" fill="#0b2732" stroke="#fff1b8" stroke-width="4"/>
+      <path d="M45 50 Q57 45 68 51 M37 69 Q48 65 58 70" fill="none" stroke="#f6c85f" stroke-width="3" stroke-linecap="round"/>
+      <path d="M94 48 C101 43 108 43 114 48 M98 58 C105 54 112 55 117 60" fill="none" stroke="${accent}" stroke-width="3" stroke-linecap="round" opacity=".8"/>`;
     }
-    if (item.id === "module-coil") {
+    if (item.id === "module-ballast") {
       return `
-      <circle cx="64" cy="64" r="34" fill="#071b24" stroke="${accent}" stroke-width="5"/>
-      <circle cx="64" cy="64" r="25" fill="none" stroke="#f6c85f" stroke-width="4"/>
-      <circle cx="64" cy="64" r="15" fill="#102f39" stroke="${accent}" stroke-width="4"/>
-      <circle cx="64" cy="64" r="5" fill="#fff1b8"/>
-      <path d="M28 48 H17 V80 H28 M100 48 H111 V80 H100" fill="none" stroke="#d9ffff" stroke-width="5" stroke-linecap="round"/>`;
-    }
-    if (item.id === "module-stride") {
-      return `
-      <path d="M34 39 H59 L63 69 L52 95 H25 L38 75 Z" fill="#15343c" stroke="${accent}" stroke-width="4"/>
-      <path d="M66 32 H91 L95 62 L84 88 H57 L70 68 Z" fill="#0b2732" stroke="#ffd778" stroke-width="4"/>
-      <path d="M29 103 H60 M67 96 H99" stroke="#d9ffff" stroke-width="5" stroke-linecap="round"/>
-      <path d="M18 58 H31 M13 70 H28 M98 45 H113" stroke="${accent}" stroke-width="4" stroke-linecap="round" opacity=".8"/>`;
-    }
-    if (item.id === "module-radar") {
-      return `
-      <path d="M31 82 H92 L86 104 H38 Z" fill="#16343d" stroke="#fff1b8" stroke-width="4"/>
-      <rect x="39" y="68" width="45" height="20" rx="5" fill="#0b2732" stroke="${accent}" stroke-width="4"/>
-      <circle cx="64" cy="70" r="6" fill="#ffd75e"/>
-      <path d="M64 59 V47 M52 52 Q64 39 76 52 M43 43 Q64 20 85 43" fill="none" stroke="${accent}" stroke-width="4" stroke-linecap="round"/>`;
+      <path d="M31 48 H97 L91 86 H37 Z" fill="#18323b" stroke="${accent}" stroke-width="4"/>
+      <path d="M42 48 V39 H86 V48 M47 86 L43 104 H61 L65 86 M82 86 L87 104 H104 L99 80" fill="none" stroke="#fff1b8" stroke-width="5" stroke-linejoin="round"/>
+      <path d="M42 61 H86" stroke="#f6c85f" stroke-width="5" stroke-linecap="round"/>
+      <circle cx="52" cy="75" r="7" fill="${accent}" opacity=".72"/><circle cx="76" cy="75" r="7" fill="${accent}" opacity=".72"/>`;
     }
     return `
       <path d="M30 72 L57 54 L69 70 L41 88 Z" fill="#5a3824" stroke="#fff1b8" stroke-width="4"/>
@@ -268,12 +247,7 @@ async function buildImages(items) {
   fs.writeFileSync(path.join(godotSpriteDir, "reward-items-sheet.json"), atlasJson);
 }
 
-const catalogItems = parseCatalog(catalogText);
-const catalogIds = new Set(catalogItems.map((item) => item.id));
-const items = [
-  ...catalogItems,
-  ...expeditionModuleArt.filter((item) => !catalogIds.has(item.id)),
-];
+const items = parseCatalog(catalogText).filter((item) => SHOP_SLOTS.has(item.slot));
 if (items.length === 0) {
   throw new Error("Il catalogo premi non ha prodotto nessuna voce.");
 }

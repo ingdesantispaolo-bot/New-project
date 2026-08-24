@@ -32,17 +32,17 @@
 			"format": "multiple_choice",
 			"prompt": "250 cm in metri.",
 			"options": [
-				"2 g/cm3",
+				"0,25 m",
 				"2,5 m",
-				"6 m/s",
-				"Nel tratto piatto il corpo è fermo."
+				"25 m",
+				"250 m"
 			],
 			"answer": "2,5 m",
 			"explanation": "da cm a m sono due scalini → 250 / 100 = 2,5.",
 			"distractorWhy": {
-				"2 g/cm3": "È la risposta giusta per «Densità e pressione», non per questo esempio.",
-				"6 m/s": "È la risposta giusta per «Onde e ottica», non per questo esempio.",
-				"Nel tratto piatto il corpo è fermo.": "È la risposta giusta per «Moto e grafici», non per questo esempio."
+				"25 m": "È la divisione per dieci: da centimetri a metri gli scalini sono due, quindi si divide per cento.",
+				"0,25 m": "Si è diviso per mille: mille è il salto dai millimetri, non dai centimetri.",
+				"250 m": "È il numero di partenza lasciato uguale: se cambia l'unità deve cambiare anche il numero."
 			}
 		},
 		{
@@ -53,17 +53,17 @@
 			"format": "multiple_choice",
 			"prompt": "Lavorando su «misure e unità», quale errore bisogna evitare?",
 			"options": [
-				"Peso e massa non sono la stessa grandezza.",
 				"Cambiare due cose insieme rende il risultato inutile.",
+				"Un grafico non è un disegno del percorso.",
 				"Non sommare grandezze con unità diverse.",
-				"Un grafico non è un disegno del percorso."
+				"Frequenza e periodo sono inversi."
 			],
 			"answer": "Non sommare grandezze con unità diverse.",
 			"explanation": "Non sommare grandezze con unità diverse. Anche le altre sono avvertenze giuste, ma riguardano un altro argomento.",
 			"distractorWhy": {
+				"Un grafico non è un disegno del percorso.": "È un errore vero, ma riguarda «Moto, forze ed energia», non «Misure e unità».",
 				"Cambiare due cose insieme rende il risultato inutile.": "È un errore vero, ma riguarda «Esperimento e metodo», non «Misure e unità».",
-				"Peso e massa non sono la stessa grandezza.": "È un errore vero, ma riguarda «Forze ed equilibrio», non «Misure e unità».",
-				"Un grafico non è un disegno del percorso.": "È un errore vero, ma riguarda «Moto, forze ed energia», non «Misure e unità»."
+				"Frequenza e periodo sono inversi.": "È un errore vero, ma riguarda «Onde e ottica», non «Misure e unità»."
 			}
 		},
 		{
@@ -74,17 +74,17 @@
 			"format": "multiple_choice",
 			"prompt": "Una linea posizione-tempo diventa più ripida.",
 			"options": [
-				"È in equilibrio: peso e reazione si bilanciano.",
-				"La potenziale si trasforma in cinetica.",
-				"Nel tratto piatto il corpo è fermo.",
+				"Il corpo si trova sempre più lontano.",
+				"Il corpo sta rallentando fino a fermarsi.",
+				"Il corpo sta salendo lungo una collina.",
 				"Il corpo si muove più velocemente."
 			],
 			"answer": "Il corpo si muove più velocemente.",
 			"explanation": "la pendenza aumenta → la velocità aumenta → il moto è più rapido.",
 			"distractorWhy": {
-				"La potenziale si trasforma in cinetica.": "È la risposta giusta per «Energia e trasformazioni», non per questo esempio.",
-				"È in equilibrio: peso e reazione si bilanciano.": "È la risposta giusta per «Forze ed equilibrio», non per questo esempio.",
-				"Nel tratto piatto il corpo è fermo.": "È la risposta giusta per «Moto e grafici», non per questo esempio."
+				"Il corpo sta salendo lungo una collina.": "Il grafico non disegna il percorso: in verticale c'è la posizione, non la quota del terreno.",
+				"Il corpo si trova sempre più lontano.": "Anche una linea poco ripida allontana il corpo: con la pendenza cambia la velocità, non la distanza.",
+				"Il corpo sta rallentando fino a fermarsi.": "Rallentare appiattisce la linea: qui diventa più ripida, quindi la velocità cresce."
 			}
 		},
 		{
@@ -96,16 +96,16 @@
 			"prompt": "Lavorando su «moto, forze ed energia», quale errore bisogna evitare?",
 			"options": [
 				"Un grafico non è un disegno del percorso.",
+				"Cambiare due cose insieme rende il risultato inutile.",
 				"Non sommare grandezze con unità diverse.",
-				"Frequenza e periodo sono inversi.",
-				"Non confondere densità e pressione: hanno formule diverse."
+				"Frequenza e periodo sono inversi."
 			],
 			"answer": "Un grafico non è un disegno del percorso.",
 			"explanation": "Un grafico non è un disegno del percorso. Anche le altre sono avvertenze giuste, ma riguardano un altro argomento.",
 			"distractorWhy": {
 				"Frequenza e periodo sono inversi.": "È un errore vero, ma riguarda «Onde e ottica», non «Moto, forze ed energia».",
 				"Non sommare grandezze con unità diverse.": "È un errore vero, ma riguarda «Misure e unità», non «Moto, forze ed energia».",
-				"Non confondere densità e pressione: hanno formule diverse.": "È un errore vero, ma riguarda «Densità e pressione», non «Moto, forze ed energia»."
+				"Cambiare due cose insieme rende il risultato inutile.": "È un errore vero, ma riguarda «Esperimento e metodo», non «Moto, forze ed energia»."
 			}
 		},
 		{
@@ -116,17 +116,17 @@
 			"format": "multiple_choice",
 			"prompt": "Quale affermazione descrive correttamente «onde e ottica»?",
 			"options": [
-				"Un grafico posizione-tempo racconta il moto: la pendenza indica la velocità, non il percorso.",
+				"Una misura collega un numero a un'unità; senza unità coerenti il confronto non è affidabile.",
 				"Le onde trasportano energia; in ottica geometrica la luce si rappresenta con raggi e direzioni.",
-				"La temperatura misura quanto è caldo un corpo; il calore è l'energia che passa dal caldo al freddo.",
-				"Una misura collega un numero a un'unità; senza unità coerenti il confronto non è affidabile."
+				"Un esperimento controllato cambia una variabile alla volta per capire cosa influenza cosa.",
+				"La temperatura misura quanto è caldo un corpo; il calore è l'energia che passa dal caldo al freddo."
 			],
 			"answer": "Le onde trasportano energia; in ottica geometrica la luce si rappresenta con raggi e direzioni.",
 			"explanation": "Le onde trasportano energia; in ottica geometrica la luce si rappresenta con raggi e direzioni. Le altre affermazioni sono vere, ma descrivono un altro argomento.",
 			"distractorWhy": {
+				"La temperatura misura quanto è caldo un corpo; il calore è l'energia che passa dal caldo al freddo.": "È vera, ma descrive «Calore e temperatura», non «Onde e ottica».",
 				"Una misura collega un numero a un'unità; senza unità coerenti il confronto non è affidabile.": "È vera, ma descrive «Misure e unità», non «Onde e ottica».",
-				"Un grafico posizione-tempo racconta il moto: la pendenza indica la velocità, non il percorso.": "È vera, ma descrive «Moto e grafici», non «Onde e ottica».",
-				"La temperatura misura quanto è caldo un corpo; il calore è l'energia che passa dal caldo al freddo.": "È vera, ma descrive «Calore e temperatura», non «Onde e ottica»."
+				"Un esperimento controllato cambia una variabile alla volta per capire cosa influenza cosa.": "È vera, ma descrive «Esperimento e metodo», non «Onde e ottica»."
 			}
 		},
 		{
@@ -137,17 +137,17 @@
 			"format": "multiple_choice",
 			"prompt": "Onda con lambda = 2 m e f = 3 Hz.",
 			"options": [
-				"2 g/cm3",
-				"Il corpo si muove più velocemente.",
+				"5 m/s",
+				"1,5 m/s",
 				"6 m/s",
-				"Nel tratto piatto il corpo è fermo."
+				"0,67 m/s"
 			],
 			"answer": "6 m/s",
 			"explanation": "La velocità di un'onda è quanto è lunga ogni oscillazione per quante ne passano ogni secondo. v = lambda x f → 2 x 3 = 6.",
 			"distractorWhy": {
-				"2 g/cm3": "È la risposta giusta per «Densità e pressione», non per questo esempio.",
-				"Il corpo si muove più velocemente.": "È la risposta giusta per «Moto, forze ed energia», non per questo esempio.",
-				"Nel tratto piatto il corpo è fermo.": "È la risposta giusta per «Moto e grafici», non per questo esempio."
+				"5 m/s": "È la somma 2 + 3: la velocità di un'onda è il prodotto delle due grandezze, non la somma.",
+				"1,5 m/s": "È 3 diviso 2: la frequenza va moltiplicata per la lunghezza d'onda, non divisa per lei.",
+				"0,67 m/s": "È 2 diviso 3: dividere le due grandezze fra loro non dà la velocità dell'onda."
 			}
 		},
 		{
@@ -166,8 +166,8 @@
 			"answer": "Frequenza e periodo sono inversi.",
 			"explanation": "Frequenza e periodo sono inversi. Anche le altre sono avvertenze giuste, ma riguardano un altro argomento.",
 			"distractorWhy": {
-				"Cambiare due cose insieme rende il risultato inutile.": "È un errore vero, ma riguarda «Esperimento e metodo», non «Onde e ottica».",
 				"Un grafico non è un disegno del percorso.": "È un errore vero, ma riguarda «Moto, forze ed energia», non «Onde e ottica».",
+				"Cambiare due cose insieme rende il risultato inutile.": "È un errore vero, ma riguarda «Esperimento e metodo», non «Onde e ottica».",
 				"Peso e massa non sono la stessa grandezza.": "È un errore vero, ma riguarda «Forze ed equilibrio», non «Onde e ottica»."
 			}
 		},
@@ -180,16 +180,16 @@
 			"prompt": "Quale affermazione descrive correttamente «moto e grafici»?",
 			"options": [
 				"Un grafico posizione-tempo racconta il moto: la pendenza indica la velocità, non il percorso.",
-				"Le onde trasportano energia; in ottica geometrica la luce si rappresenta con raggi e direzioni.",
-				"Una forza ha intensità e direzione; se le forze si bilanciano, il corpo è in equilibrio.",
-				"Un esperimento controllato cambia una variabile alla volta per capire cosa influenza cosa."
+				"Un esperimento controllato cambia una variabile alla volta per capire cosa influenza cosa.",
+				"Una misura collega un numero a un'unità; senza unità coerenti il confronto non è affidabile.",
+				"Una forza ha intensità e direzione; se le forze si bilanciano, il corpo è in equilibrio."
 			],
 			"answer": "Un grafico posizione-tempo racconta il moto: la pendenza indica la velocità, non il percorso.",
 			"explanation": "Un grafico posizione-tempo racconta il moto: la pendenza indica la velocità, non il percorso. Le altre affermazioni sono vere, ma descrivono un altro argomento.",
 			"distractorWhy": {
 				"Una forza ha intensità e direzione; se le forze si bilanciano, il corpo è in equilibrio.": "È vera, ma descrive «Forze ed equilibrio», non «Moto e grafici».",
-				"Un esperimento controllato cambia una variabile alla volta per capire cosa influenza cosa.": "È vera, ma descrive «Esperimento e metodo», non «Moto e grafici».",
-				"Le onde trasportano energia; in ottica geometrica la luce si rappresenta con raggi e direzioni.": "È vera, ma descrive «Onde e ottica», non «Moto e grafici»."
+				"Una misura collega un numero a un'unità; senza unità coerenti il confronto non è affidabile.": "È vera, ma descrive «Misure e unità», non «Moto e grafici».",
+				"Un esperimento controllato cambia una variabile alla volta per capire cosa influenza cosa.": "È vera, ma descrive «Esperimento e metodo», non «Moto e grafici»."
 			}
 		},
 		{
@@ -200,17 +200,17 @@
 			"format": "multiple_choice",
 			"prompt": "Una linea posizione-tempo è piatta per un tratto.",
 			"options": [
-				"La potenziale si trasforma in cinetica.",
+				"Nel tratto piatto il corpo torna indietro.",
 				"Nel tratto piatto il corpo è fermo.",
-				"Vario solo la luce, tengo fisso il resto.",
-				"È in equilibrio: peso e reazione si bilanciano."
+				"Nel tratto piatto va a velocità costante.",
+				"Nel tratto piatto il terreno è pianeggiante."
 			],
 			"answer": "Nel tratto piatto il corpo è fermo.",
 			"explanation": "pendenza zero → posizione non cambia → il corpo è fermo.",
 			"distractorWhy": {
-				"È in equilibrio: peso e reazione si bilanciano.": "È la risposta giusta per «Forze ed equilibrio», non per questo esempio.",
-				"Vario solo la luce, tengo fisso il resto.": "È la risposta giusta per «Esperimento e metodo», non per questo esempio.",
-				"La potenziale si trasforma in cinetica.": "È la risposta giusta per «Energia e trasformazioni», non per questo esempio."
+				"Nel tratto piatto va a velocità costante.": "Una velocità costante diversa da zero dà una retta inclinata: piatta significa proprio velocità zero.",
+				"Nel tratto piatto il corpo torna indietro.": "Tornare indietro fa scendere la linea: qui resta alla stessa altezza, quindi la posizione non cambia.",
+				"Nel tratto piatto il terreno è pianeggiante.": "Il grafico non è la mappa del percorso: in verticale c'è la posizione, non la quota del terreno."
 			}
 		},
 		{
@@ -224,14 +224,14 @@
 				"Peso e massa non sono la stessa grandezza.",
 				"Cambiare due cose insieme rende il risultato inutile.",
 				"Un grafico posizione-tempo non è la mappa del percorso.",
-				"L'energia non nasce dal nulla: cerca sempre la forma di partenza."
+				"Non confondere densità e pressione: hanno formule diverse."
 			],
 			"answer": "Un grafico posizione-tempo non è la mappa del percorso.",
 			"explanation": "Un grafico posizione-tempo non è la mappa del percorso. Anche le altre sono avvertenze giuste, ma riguardano un altro argomento.",
 			"distractorWhy": {
-				"Peso e massa non sono la stessa grandezza.": "È un errore vero, ma riguarda «Forze ed equilibrio», non «Moto e grafici».",
-				"L'energia non nasce dal nulla: cerca sempre la forma di partenza.": "È un errore vero, ma riguarda «Energia e trasformazioni», non «Moto e grafici».",
-				"Cambiare due cose insieme rende il risultato inutile.": "È un errore vero, ma riguarda «Esperimento e metodo», non «Moto e grafici»."
+				"Non confondere densità e pressione: hanno formule diverse.": "È un errore vero, ma riguarda «Densità e pressione», non «Moto e grafici».",
+				"Cambiare due cose insieme rende il risultato inutile.": "È un errore vero, ma riguarda «Esperimento e metodo», non «Moto e grafici».",
+				"Peso e massa non sono la stessa grandezza.": "È un errore vero, ma riguarda «Forze ed equilibrio», non «Moto e grafici»."
 			}
 		},
 		{
@@ -242,17 +242,17 @@
 			"format": "multiple_choice",
 			"prompt": "Quale affermazione descrive correttamente «forze ed equilibrio»?",
 			"options": [
-				"Le onde trasportano energia; in ottica geometrica la luce si rappresenta con raggi e direzioni.",
-				"Un esperimento controllato cambia una variabile alla volta per capire cosa influenza cosa.",
 				"Una misura collega un numero a un'unità; senza unità coerenti il confronto non è affidabile.",
+				"Un grafico posizione-tempo racconta il moto: la pendenza indica la velocità, non il percorso.",
+				"Le onde trasportano energia; in ottica geometrica la luce si rappresenta con raggi e direzioni.",
 				"Una forza ha intensità e direzione; se le forze si bilanciano, il corpo è in equilibrio."
 			],
 			"answer": "Una forza ha intensità e direzione; se le forze si bilanciano, il corpo è in equilibrio.",
 			"explanation": "Una forza ha intensità e direzione; se le forze si bilanciano, il corpo è in equilibrio. Le altre affermazioni sono vere, ma descrivono un altro argomento.",
 			"distractorWhy": {
-				"Un esperimento controllato cambia una variabile alla volta per capire cosa influenza cosa.": "È vera, ma descrive «Esperimento e metodo», non «Forze ed equilibrio».",
 				"Le onde trasportano energia; in ottica geometrica la luce si rappresenta con raggi e direzioni.": "È vera, ma descrive «Onde e ottica», non «Forze ed equilibrio».",
-				"Una misura collega un numero a un'unità; senza unità coerenti il confronto non è affidabile.": "È vera, ma descrive «Misure e unità», non «Forze ed equilibrio»."
+				"Una misura collega un numero a un'unità; senza unità coerenti il confronto non è affidabile.": "È vera, ma descrive «Misure e unità», non «Forze ed equilibrio».",
+				"Un grafico posizione-tempo racconta il moto: la pendenza indica la velocità, non il percorso.": "È vera, ma descrive «Moto e grafici», non «Forze ed equilibrio»."
 			}
 		},
 		{
@@ -264,16 +264,16 @@
 			"prompt": "Un libro fermo su un tavolo.",
 			"options": [
 				"È in equilibrio: peso e reazione si bilanciano.",
-				"Vario solo la luce, tengo fisso il resto.",
-				"Nel tratto piatto il corpo è fermo.",
-				"Il calore passa dall'acqua al ghiaccio fino all'equilibrio."
+				"Il tavolo spinge più forte del peso del libro.",
+				"Il peso è sparito perché il tavolo lo regge.",
+				"Non c'è nessuna forza: per questo sta fermo."
 			],
 			"answer": "È in equilibrio: peso e reazione si bilanciano.",
 			"explanation": "peso verso il basso → reazione del tavolo verso l'alto → forze uguali: equilibrio.",
 			"distractorWhy": {
-				"Vario solo la luce, tengo fisso il resto.": "È la risposta giusta per «Esperimento e metodo», non per questo esempio.",
-				"Il calore passa dall'acqua al ghiaccio fino all'equilibrio.": "È la risposta giusta per «Calore e temperatura», non per questo esempio.",
-				"Nel tratto piatto il corpo è fermo.": "È la risposta giusta per «Moto e grafici», non per questo esempio."
+				"Non c'è nessuna forza: per questo sta fermo.": "Fermo non vuol dire senza forze: il peso c'è sempre, ed è pareggiato dalla spinta del tavolo.",
+				"Il peso è sparito perché il tavolo lo regge.": "Il peso non sparisce: resta e viene bilanciato, e infatti il tavolo si flette un poco.",
+				"Il tavolo spinge più forte del peso del libro.": "Se una delle due vincesse il libro partirebbe verso l'alto: sono uguali e opposte."
 			}
 		},
 		{
@@ -284,7 +284,7 @@
 			"format": "multiple_choice",
 			"prompt": "Lavorando su «forze ed equilibrio», quale errore bisogna evitare?",
 			"options": [
-				"Non sommare grandezze con unità diverse.",
+				"Frequenza e periodo sono inversi.",
 				"Peso e massa non sono la stessa grandezza.",
 				"Cambiare due cose insieme rende il risultato inutile.",
 				"Un grafico posizione-tempo non è la mappa del percorso."
@@ -292,7 +292,7 @@
 			"answer": "Peso e massa non sono la stessa grandezza.",
 			"explanation": "Peso e massa non sono la stessa grandezza. Anche le altre sono avvertenze giuste, ma riguardano un altro argomento.",
 			"distractorWhy": {
-				"Non sommare grandezze con unità diverse.": "È un errore vero, ma riguarda «Misure e unità», non «Forze ed equilibrio».",
+				"Frequenza e periodo sono inversi.": "È un errore vero, ma riguarda «Onde e ottica», non «Forze ed equilibrio».",
 				"Cambiare due cose insieme rende il risultato inutile.": "È un errore vero, ma riguarda «Esperimento e metodo», non «Forze ed equilibrio».",
 				"Un grafico posizione-tempo non è la mappa del percorso.": "È un errore vero, ma riguarda «Moto e grafici», non «Forze ed equilibrio»."
 			}
@@ -305,7 +305,7 @@
 			"format": "multiple_choice",
 			"prompt": "Quale affermazione descrive correttamente «energia e trasformazioni»?",
 			"options": [
-				"La densità è massa per volume; la pressione è forza per area.",
+				"Una forza ha intensità e direzione; se le forze si bilanciano, il corpo è in equilibrio.",
 				"Un esperimento controllato cambia una variabile alla volta per capire cosa influenza cosa.",
 				"L'energia non si crea né si distrugge: si trasforma da una forma all'altra.",
 				"Una misura collega un numero a un'unità; senza unità coerenti il confronto non è affidabile."
@@ -313,9 +313,9 @@
 			"answer": "L'energia non si crea né si distrugge: si trasforma da una forma all'altra.",
 			"explanation": "L'energia non si crea né si distrugge: si trasforma da una forma all'altra. Le altre affermazioni sono vere, ma descrivono un altro argomento.",
 			"distractorWhy": {
-				"Un esperimento controllato cambia una variabile alla volta per capire cosa influenza cosa.": "È vera, ma descrive «Esperimento e metodo», non «Energia e trasformazioni».",
+				"Una forza ha intensità e direzione; se le forze si bilanciano, il corpo è in equilibrio.": "È vera, ma descrive «Forze ed equilibrio», non «Energia e trasformazioni».",
 				"Una misura collega un numero a un'unità; senza unità coerenti il confronto non è affidabile.": "È vera, ma descrive «Misure e unità», non «Energia e trasformazioni».",
-				"La densità è massa per volume; la pressione è forza per area.": "È vera, ma descrive «Densità e pressione», non «Energia e trasformazioni»."
+				"Un esperimento controllato cambia una variabile alla volta per capire cosa influenza cosa.": "È vera, ma descrive «Esperimento e metodo», non «Energia e trasformazioni»."
 			}
 		},
 		{
@@ -326,17 +326,17 @@
 			"format": "multiple_choice",
 			"prompt": "Una palla cade da un tavolo.",
 			"options": [
-				"È in equilibrio: peso e reazione si bilanciano.",
-				"Il corpo si muove più velocemente.",
-				"Nel tratto piatto il corpo è fermo.",
+				"L'energia resta potenziale fino all'urto.",
+				"La cinetica si trasforma in potenziale.",
+				"L'energia potenziale sparisce nella caduta.",
 				"La potenziale si trasforma in cinetica."
 			],
 			"answer": "La potenziale si trasforma in cinetica.",
 			"explanation": "in alto: energia potenziale → cadendo: diventa cinetica → l'energia si trasforma, non sparisce.",
 			"distractorWhy": {
-				"È in equilibrio: peso e reazione si bilanciano.": "È la risposta giusta per «Forze ed equilibrio», non per questo esempio.",
-				"Il corpo si muove più velocemente.": "È la risposta giusta per «Moto, forze ed energia», non per questo esempio.",
-				"Nel tratto piatto il corpo è fermo.": "È la risposta giusta per «Moto e grafici», non per questo esempio."
+				"L'energia potenziale sparisce nella caduta.": "L'energia non sparisce mai: quella dovuta all'altezza diventa energia di movimento.",
+				"La cinetica si trasforma in potenziale.": "È il verso opposto: scendendo la palla perde altezza e guadagna velocità, non il contrario.",
+				"L'energia resta potenziale fino all'urto.": "La palla accelera già mentre scende: la trasformazione è continua, non tutta all'arrivo."
 			}
 		},
 		{
@@ -347,17 +347,17 @@
 			"format": "multiple_choice",
 			"prompt": "Lavorando su «energia e trasformazioni», quale errore bisogna evitare?",
 			"options": [
-				"L'energia non nasce dal nulla: cerca sempre la forma di partenza.",
-				"Cambiare due cose insieme rende il risultato inutile.",
-				"Temperatura alta non significa più calore totale: conta anche la massa.",
-				"Non confondere densità e pressione: hanno formule diverse."
+				"L'energia non nasce dal nulla: cerca sempre la forma da cui arriva.",
+				"Un grafico posizione-tempo non è la mappa del percorso.",
+				"Non confondere densità e pressione: hanno formule diverse.",
+				"Temperatura alta non significa più calore totale: conta anche la massa."
 			],
-			"answer": "L'energia non nasce dal nulla: cerca sempre la forma di partenza.",
-			"explanation": "L'energia non nasce dal nulla: cerca sempre la forma di partenza. Anche le altre sono avvertenze giuste, ma riguardano un altro argomento.",
+			"answer": "L'energia non nasce dal nulla: cerca sempre la forma da cui arriva.",
+			"explanation": "L'energia non nasce dal nulla: cerca sempre la forma da cui arriva. Anche le altre sono avvertenze giuste, ma riguardano un altro argomento.",
 			"distractorWhy": {
+				"Un grafico posizione-tempo non è la mappa del percorso.": "È un errore vero, ma riguarda «Moto e grafici», non «Energia e trasformazioni».",
 				"Non confondere densità e pressione: hanno formule diverse.": "È un errore vero, ma riguarda «Densità e pressione», non «Energia e trasformazioni».",
-				"Temperatura alta non significa più calore totale: conta anche la massa.": "È un errore vero, ma riguarda «Calore e temperatura», non «Energia e trasformazioni».",
-				"Cambiare due cose insieme rende il risultato inutile.": "È un errore vero, ma riguarda «Esperimento e metodo», non «Energia e trasformazioni»."
+				"Temperatura alta non significa più calore totale: conta anche la massa.": "È un errore vero, ma riguarda «Calore e temperatura», non «Energia e trasformazioni»."
 			}
 		},
 		{
@@ -370,15 +370,15 @@
 			"options": [
 				"Una forza ha intensità e direzione; se le forze si bilanciano, il corpo è in equilibrio.",
 				"Un esperimento controllato cambia una variabile alla volta per capire cosa influenza cosa.",
-				"Una misura collega un numero a un'unità; senza unità coerenti il confronto non è affidabile.",
-				"Le onde trasportano energia; in ottica geometrica la luce si rappresenta con raggi e direzioni."
+				"Un grafico posizione-tempo racconta il moto: la pendenza indica la velocità, non il percorso.",
+				"Una misura collega un numero a un'unità; senza unità coerenti il confronto non è affidabile."
 			],
 			"answer": "Un esperimento controllato cambia una variabile alla volta per capire cosa influenza cosa.",
 			"explanation": "Un esperimento controllato cambia una variabile alla volta per capire cosa influenza cosa. Le altre affermazioni sono vere, ma descrivono un altro argomento.",
 			"distractorWhy": {
 				"Una forza ha intensità e direzione; se le forze si bilanciano, il corpo è in equilibrio.": "È vera, ma descrive «Forze ed equilibrio», non «Esperimento e metodo».",
-				"Una misura collega un numero a un'unità; senza unità coerenti il confronto non è affidabile.": "È vera, ma descrive «Misure e unità», non «Esperimento e metodo».",
-				"Le onde trasportano energia; in ottica geometrica la luce si rappresenta con raggi e direzioni.": "È vera, ma descrive «Onde e ottica», non «Esperimento e metodo»."
+				"Un grafico posizione-tempo racconta il moto: la pendenza indica la velocità, non il percorso.": "È vera, ma descrive «Moto e grafici», non «Esperimento e metodo».",
+				"Una misura collega un numero a un'unità; senza unità coerenti il confronto non è affidabile.": "È vera, ma descrive «Misure e unità», non «Esperimento e metodo»."
 			}
 		},
 		{
@@ -389,17 +389,17 @@
 			"format": "multiple_choice",
 			"prompt": "Vuoi vedere se più luce fa crescere le piante.",
 			"options": [
-				"Il corpo si muove più velocemente.",
-				"La potenziale si trasforma in cinetica.",
+				"Guardo una pianta sola, senza confronto.",
+				"Confronto due specie diverse di pianta.",
 				"Vario solo la luce, tengo fisso il resto.",
-				"Nel tratto piatto il corpo è fermo."
+				"Vario luce e acqua insieme, così faccio prima."
 			],
 			"answer": "Vario solo la luce, tengo fisso il resto.",
 			"explanation": "cambio solo la luce → acqua e terreno restano uguali → confronto la crescita.",
 			"distractorWhy": {
-				"La potenziale si trasforma in cinetica.": "È la risposta giusta per «Energia e trasformazioni», non per questo esempio.",
-				"Nel tratto piatto il corpo è fermo.": "È la risposta giusta per «Moto e grafici», non per questo esempio.",
-				"Il corpo si muove più velocemente.": "È la risposta giusta per «Moto, forze ed energia», non per questo esempio."
+				"Vario luce e acqua insieme, così faccio prima.": "Cambiando due cose insieme non sai più quale delle due ha prodotto la differenza.",
+				"Confronto due specie diverse di pianta.": "Due specie crescono diversamente per conto loro: la luce non sarebbe più l'unica differenza.",
+				"Guardo una pianta sola, senza confronto.": "Senza un secondo vaso non sai se sarebbe cresciuta uguale anche con meno luce."
 			}
 		},
 		{
@@ -412,15 +412,15 @@
 			"options": [
 				"Non confondere densità e pressione: hanno formule diverse.",
 				"Un grafico non è un disegno del percorso.",
-				"Peso e massa non sono la stessa grandezza.",
+				"Un grafico posizione-tempo non è la mappa del percorso.",
 				"Cambiare due cose insieme rende il risultato inutile."
 			],
 			"answer": "Cambiare due cose insieme rende il risultato inutile.",
 			"explanation": "Cambiare due cose insieme rende il risultato inutile. Anche le altre sono avvertenze giuste, ma riguardano un altro argomento.",
 			"distractorWhy": {
-				"Un grafico non è un disegno del percorso.": "È un errore vero, ma riguarda «Moto, forze ed energia», non «Esperimento e metodo».",
 				"Non confondere densità e pressione: hanno formule diverse.": "È un errore vero, ma riguarda «Densità e pressione», non «Esperimento e metodo».",
-				"Peso e massa non sono la stessa grandezza.": "È un errore vero, ma riguarda «Forze ed equilibrio», non «Esperimento e metodo»."
+				"Un grafico posizione-tempo non è la mappa del percorso.": "È un errore vero, ma riguarda «Moto e grafici», non «Esperimento e metodo».",
+				"Un grafico non è un disegno del percorso.": "È un errore vero, ma riguarda «Moto, forze ed energia», non «Esperimento e metodo»."
 			}
 		},
 		{
@@ -434,12 +434,12 @@
 				"La densità è massa per volume; la pressione è forza per area.",
 				"Una misura collega un numero a un'unità; senza unità coerenti il confronto non è affidabile.",
 				"L'energia non si crea né si distrugge: si trasforma da una forma all'altra.",
-				"Una forza ha intensità e direzione; se le forze si bilanciano, il corpo è in equilibrio."
+				"Un esperimento controllato cambia una variabile alla volta per capire cosa influenza cosa."
 			],
 			"answer": "La densità è massa per volume; la pressione è forza per area.",
 			"explanation": "La densità è massa per volume; la pressione è forza per area. Le altre affermazioni sono vere, ma descrivono un altro argomento.",
 			"distractorWhy": {
-				"Una forza ha intensità e direzione; se le forze si bilanciano, il corpo è in equilibrio.": "È vera, ma descrive «Forze ed equilibrio», non «Densità e pressione».",
+				"Un esperimento controllato cambia una variabile alla volta per capire cosa influenza cosa.": "È vera, ma descrive «Esperimento e metodo», non «Densità e pressione».",
 				"L'energia non si crea né si distrugge: si trasforma da una forma all'altra.": "È vera, ma descrive «Energia e trasformazioni», non «Densità e pressione».",
 				"Una misura collega un numero a un'unità; senza unità coerenti il confronto non è affidabile.": "È vera, ma descrive «Misure e unità», non «Densità e pressione»."
 			}
@@ -452,17 +452,17 @@
 			"format": "multiple_choice",
 			"prompt": "Massa 200 g, volume 100 cm3. Trova la densità.",
 			"options": [
-				"Il corpo si muove più velocemente.",
+				"20000 g/cm3",
 				"2 g/cm3",
-				"2,5 m",
-				"6 m/s"
+				"0,5 g/cm3",
+				"300 g/cm3"
 			],
 			"answer": "2 g/cm3",
 			"explanation": "La densità dice quanta materia sta in ogni centimetro cubo, e non cambia se tagli l'oggetto a metà. densità = massa / volume → 200 / 100 → 2 g/cm3.",
 			"distractorWhy": {
-				"6 m/s": "È la risposta giusta per «Onde e ottica», non per questo esempio.",
-				"2,5 m": "È la risposta giusta per «Misure e unità», non per questo esempio.",
-				"Il corpo si muove più velocemente.": "È la risposta giusta per «Moto, forze ed energia», non per questo esempio."
+				"0,5 g/cm3": "È il volume diviso la massa: nella densità è la massa a essere divisa per il volume.",
+				"300 g/cm3": "È la somma 200 + 100: la densità è un rapporto fra le due grandezze, non una somma.",
+				"20000 g/cm3": "È il prodotto 200 × 100: la densità si ottiene dividendo, non moltiplicando."
 			}
 		},
 		{
@@ -473,17 +473,17 @@
 			"format": "multiple_choice",
 			"prompt": "Lavorando su «densità e pressione», quale errore bisogna evitare?",
 			"options": [
-				"Temperatura alta non significa più calore totale: conta anche la massa.",
-				"L'energia non nasce dal nulla: cerca sempre la forma di partenza.",
+				"Un grafico posizione-tempo non è la mappa del percorso.",
+				"L'energia non nasce dal nulla: cerca sempre la forma da cui arriva.",
 				"Non confondere densità e pressione: hanno formule diverse.",
-				"Un grafico posizione-tempo non è la mappa del percorso."
+				"Cambiare due cose insieme rende il risultato inutile."
 			],
 			"answer": "Non confondere densità e pressione: hanno formule diverse.",
 			"explanation": "Non confondere densità e pressione: hanno formule diverse. Anche le altre sono avvertenze giuste, ma riguardano un altro argomento.",
 			"distractorWhy": {
+				"Cambiare due cose insieme rende il risultato inutile.": "È un errore vero, ma riguarda «Esperimento e metodo», non «Densità e pressione».",
 				"Un grafico posizione-tempo non è la mappa del percorso.": "È un errore vero, ma riguarda «Moto e grafici», non «Densità e pressione».",
-				"L'energia non nasce dal nulla: cerca sempre la forma di partenza.": "È un errore vero, ma riguarda «Energia e trasformazioni», non «Densità e pressione».",
-				"Temperatura alta non significa più calore totale: conta anche la massa.": "È un errore vero, ma riguarda «Calore e temperatura», non «Densità e pressione»."
+				"L'energia non nasce dal nulla: cerca sempre la forma da cui arriva.": "È un errore vero, ma riguarda «Energia e trasformazioni», non «Densità e pressione»."
 			}
 		},
 		{
@@ -516,16 +516,16 @@
 			"prompt": "Un cubetto di ghiaccio in acqua tiepida.",
 			"options": [
 				"Il calore passa dall'acqua al ghiaccio fino all'equilibrio.",
-				"La potenziale si trasforma in cinetica.",
-				"È in equilibrio: peso e reazione si bilanciano.",
-				"Nel tratto piatto il corpo è fermo."
+				"Ghiaccio e acqua restano ognuno alla propria temperatura.",
+				"Il calore passa dal ghiaccio all'acqua tiepida.",
+				"Il freddo del ghiaccio si sposta dentro l'acqua."
 			],
 			"answer": "Il calore passa dall'acqua al ghiaccio fino all'equilibrio.",
 			"explanation": "l'acqua è più calda → il calore passa all'acqua verso il ghiaccio → tendono a una temperatura comune.",
 			"distractorWhy": {
-				"È in equilibrio: peso e reazione si bilanciano.": "È la risposta giusta per «Forze ed equilibrio», non per questo esempio.",
-				"La potenziale si trasforma in cinetica.": "È la risposta giusta per «Energia e trasformazioni», non per questo esempio.",
-				"Nel tratto piatto il corpo è fermo.": "È la risposta giusta per «Moto e grafici», non per questo esempio."
+				"Il freddo del ghiaccio si sposta dentro l'acqua.": "Il freddo non è una sostanza che viaggia: a spostarsi è il calore, e va sempre dal caldo al freddo.",
+				"Ghiaccio e acqua restano ognuno alla propria temperatura.": "A contatto lo scambio parte subito: si fermerebbe solo se avessero già la stessa temperatura.",
+				"Il calore passa dal ghiaccio all'acqua tiepida.": "È il verso opposto: da solo il calore passa dal corpo più caldo a quello più freddo."
 			}
 		},
 		{
@@ -536,16 +536,16 @@
 			"format": "multiple_choice",
 			"prompt": "Lavorando su «calore e temperatura», quale errore bisogna evitare?",
 			"options": [
-				"Cambiare due cose insieme rende il risultato inutile.",
+				"L'energia non nasce dal nulla: cerca sempre la forma da cui arriva.",
 				"Temperatura alta non significa più calore totale: conta anche la massa.",
-				"Non confondere densità e pressione: hanno formule diverse.",
-				"L'energia non nasce dal nulla: cerca sempre la forma di partenza."
+				"Peso e massa non sono la stessa grandezza.",
+				"Non confondere densità e pressione: hanno formule diverse."
 			],
 			"answer": "Temperatura alta non significa più calore totale: conta anche la massa.",
 			"explanation": "Temperatura alta non significa più calore totale: conta anche la massa. Anche le altre sono avvertenze giuste, ma riguardano un altro argomento.",
 			"distractorWhy": {
-				"Cambiare due cose insieme rende il risultato inutile.": "È un errore vero, ma riguarda «Esperimento e metodo», non «Calore e temperatura».",
-				"L'energia non nasce dal nulla: cerca sempre la forma di partenza.": "È un errore vero, ma riguarda «Energia e trasformazioni», non «Calore e temperatura».",
+				"L'energia non nasce dal nulla: cerca sempre la forma da cui arriva.": "È un errore vero, ma riguarda «Energia e trasformazioni», non «Calore e temperatura».",
+				"Peso e massa non sono la stessa grandezza.": "È un errore vero, ma riguarda «Forze ed equilibrio», non «Calore e temperatura».",
 				"Non confondere densità e pressione: hanno formule diverse.": "È un errore vero, ma riguarda «Densità e pressione», non «Calore e temperatura»."
 			}
 		},
@@ -591,14 +591,14 @@
 			"options": [
 				"Perché i numeri lunghi sono scomodi",
 				"Perché il righello misura solo interi",
-				"Perché i decimali non si usano in fisica",
+				"Perché in fisica non si scrivono mai tanti decimali",
 				"Perché lo strumento non arriva a quella precisione"
 			],
 			"answer": "Perché lo strumento non arriva a quella precisione",
 			"explanation": "Scrivere più cifre di quelle che lo strumento può garantire non aggiunge precisione: la finge.",
 			"distractorWhy": {
 				"Perché i numeri lunghi sono scomodi": "Non è una questione di comodità: il righello non può garantire quella precisione.",
-				"Perché i decimali non si usano in fisica": "I decimali si usano eccome in fisica: il limite è quanto lo strumento può davvero distinguere.",
+				"Perché in fisica non si scrivono mai tanti decimali": "I decimali si usano eccome in fisica: il limite è quanto lo strumento può davvero distinguere.",
 				"Perché il righello misura solo interi": "Un righello può dare anche un decimale, i millimetri: il limite è oltre quella precisione."
 			}
 		},
@@ -608,7 +608,7 @@
 			"topic": "moto",
 			"difficulty": 3,
 			"format": "numeric_input",
-			"prompt": "Un ciclista percorre 20 km in 1 ora. Qual è la sua velocità media?",
+			"prompt": "Un ciclista percorre 20 km in 1 ora. Qual è la sua velocità media in km/h?",
 			"options": [],
 			"answer": "20",
 			"explanation": "Velocità media = spazio diviso tempo: 20 km in 1 ora fanno 20 km/h."
@@ -748,7 +748,7 @@
 			"prompt": "Due forze uguali e opposte applicate a un corpo fermo…",
 			"options": [
 				"Lo fanno muovere in avanti",
-				"Lo fanno girare su sé stesso",
+				"Lo fanno girare su sé stesso restando fermo",
 				"Si bilanciano e il corpo resta fermo",
 				"Raddoppiano il suo peso"
 			],
@@ -756,7 +756,7 @@
 			"explanation": "La somma delle forze è zero: è quello che succede a un libro appoggiato sul tavolo.",
 			"distractorWhy": {
 				"Lo fanno muovere in avanti": "Forze uguali e opposte si annullano: la somma è zero, non c'è movimento.",
-				"Lo fanno girare su sé stesso": "Senza un braccio di leva diverso, forze opposte allineate si bilanciano, non fanno ruotare.",
+				"Lo fanno girare su sé stesso restando fermo": "Senza un braccio di leva diverso, forze opposte allineate si bilanciano, non fanno ruotare.",
 				"Raddoppiano il suo peso": "Le forze non si sommano al peso: si annullano a vicenda perché sono opposte."
 			}
 		},
@@ -768,7 +768,7 @@
 			"format": "multiple_choice",
 			"prompt": "Che cos'è una grandezza fisica?",
 			"options": [
-				"Qualsiasi proprietà di un oggetto",
+				"Qualsiasi proprietà osservabile di un oggetto",
 				"La dimensione di un corpo solido",
 				"Un fenomeno che si può osservare",
 				"Qualcosa che si può misurare con un numero"
@@ -776,7 +776,7 @@
 			"answer": "Qualcosa che si può misurare con un numero",
 			"explanation": "La bellezza non è una grandezza fisica; la lunghezza sì, perché si può associare a un numero e a un'unità.",
 			"distractorWhy": {
-				"Qualsiasi proprietà di un oggetto": "Non tutte le proprietà si misurano con un numero: la bellezza è una proprietà, ma non è una grandezza fisica.",
+				"Qualsiasi proprietà osservabile di un oggetto": "Non tutte le proprietà si misurano con un numero: la bellezza è una proprietà, ma non è una grandezza fisica.",
 				"La dimensione di un corpo solido": "Le grandezze fisiche non riguardano solo le dimensioni: anche il tempo o la temperatura lo sono.",
 				"Un fenomeno che si può osservare": "Osservare non basta: serve poter associare un numero e un'unità."
 			}
@@ -813,13 +813,13 @@
 				"Perché chi misura è quasi sempre distratto",
 				"Perché nessuno strumento è infinitamente preciso",
 				"Perché i calcoli finali sono approssimati",
-				"Perché le grandezze cambiano valore da sole"
+				"Perché le grandezze cambiano valore per conto loro"
 			],
 			"answer": "Perché nessuno strumento è infinitamente preciso",
 			"explanation": "Anche lo strumento migliore ha una risoluzione: sotto quella soglia non può dire niente.",
 			"distractorWhy": {
 				"Perché chi misura è quasi sempre distratto": "L'incertezza esiste anche con la massima attenzione: è un limite dello strumento, non della persona.",
-				"Perché le grandezze cambiano valore da sole": "La grandezza misurata resta la stessa: è la capacità dello strumento di distinguerla a essere limitata.",
+				"Perché le grandezze cambiano valore per conto loro": "La grandezza misurata resta la stessa: è la capacità dello strumento di distinguerla a essere limitata.",
 				"Perché i calcoli finali sono approssimati": "L'incertezza nasce dalla misura stessa, prima ancora di qualsiasi calcolo."
 			}
 		},
@@ -875,14 +875,14 @@
 			"options": [
 				"Perché tutti misurino con gli stessi riferimenti",
 				"Perché è il sistema di misura più antico",
-				"Perché permette di usare numeri più piccoli",
+				"Perché permette di scrivere numeri più piccoli",
 				"Perché è reso obbligatorio da una legge"
 			],
 			"answer": "Perché tutti misurino con gli stessi riferimenti",
 			"explanation": "Senza unità condivise i risultati non si possono confrontare: una sonda spaziale si è persa proprio per questo.",
 			"distractorWhy": {
 				"Perché è il sistema di misura più antico": "Non è il più antico: si usa perché permette a tutti di confrontare le misure con gli stessi riferimenti.",
-				"Perché permette di usare numeri più piccoli": "I numeri non sono necessariamente più piccoli: il vantaggio è la condivisione universale delle unità.",
+				"Perché permette di scrivere numeri più piccoli": "I numeri non sono necessariamente più piccoli: il vantaggio è la condivisione universale delle unità.",
 				"Perché è reso obbligatorio da una legge": "Non è solo un obbligo legale: è la condivisione a rendere confrontabili i risultati in tutto il mondo."
 			}
 		},
@@ -916,7 +916,7 @@
 			"prompt": "Che cos'è un modello in fisica?",
 			"options": [
 				"Un esperimento riuscito perfettamente",
-				"Un oggetto costruito in scala ridotta",
+				"Una riproduzione in scala ridotta di un oggetto",
 				"Una rappresentazione semplificata della realtà",
 				"Una legge dimostrata definitivamente"
 			],
@@ -924,7 +924,7 @@
 			"explanation": "Si trascurano i dettagli irrilevanti per capire l'essenziale: un modello utile non è un modello completo.",
 			"distractorWhy": {
 				"Un esperimento riuscito perfettamente": "Un esperimento è una prova pratica, non una rappresentazione semplificata della realtà.",
-				"Un oggetto costruito in scala ridotta": "Un modellino fisico è solo un caso particolare: un modello scientifico può anche essere matematico.",
+				"Una riproduzione in scala ridotta di un oggetto": "Un modellino fisico è solo un caso particolare: un modello scientifico può anche essere matematico.",
 				"Una legge dimostrata definitivamente": "Un modello non è una dimostrazione definitiva: è una semplificazione utile per capire."
 			}
 		},
@@ -937,14 +937,14 @@
 			"prompt": "Perché in fisica si dice che una teoria non è mai «dimostrata per sempre»?",
 			"options": [
 				"Perché mancano sempre gli strumenti",
-				"Perché i fisici non sono mai d'accordo",
+				"Perché i fisici non sono mai d'accordo fra loro",
 				"Perché le teorie sono solo opinioni",
 				"Perché un nuovo esperimento potrebbe smentirla"
 			],
 			"answer": "Perché un nuovo esperimento potrebbe smentirla",
 			"explanation": "Le teorie si tengono finché reggono alle prove: la meccanica di Newton funziona benissimo, ma non alle alte velocità.",
 			"distractorWhy": {
-				"Perché i fisici non sono mai d'accordo": "Il disaccordo fra scienziati non è la ragione: un nuovo dato potrebbe sempre smentire anche una teoria condivisa.",
+				"Perché i fisici non sono mai d'accordo fra loro": "Il disaccordo fra scienziati non è la ragione: un nuovo dato potrebbe sempre smentire anche una teoria condivisa.",
 				"Perché le teorie sono solo opinioni": "Le teorie scientifiche sono verificate con prove rigorose: restano comunque aperte a nuove prove.",
 				"Perché mancano sempre gli strumenti": "Non è una questione di strumenti mancanti: nessun numero finito di conferme garantisce che sia vera per sempre."
 			}
@@ -989,7 +989,7 @@
 			"format": "multiple_choice",
 			"prompt": "La luce può viaggiare nel vuoto?",
 			"options": [
-				"Solo se proviene da una stella",
+				"Solo se proviene da una stella vicina",
 				"Sì, non le serve un mezzo materiale",
 				"No, le serve sempre l'aria",
 				"Solo se è molto intensa"
@@ -999,7 +999,7 @@
 			"distractorWhy": {
 				"No, le serve sempre l'aria": "La luce del Sole attraversa lo spazio vuoto per arrivare fino a noi: non ha bisogno di un mezzo materiale.",
 				"Solo se è molto intensa": "L'intensità non c'entra: la luce, essendo un'onda elettromagnetica, viaggia nel vuoto comunque.",
-				"Solo se proviene da una stella": "Qualsiasi luce può viaggiare nel vuoto, non solo quella delle stelle."
+				"Solo se proviene da una stella vicina": "Qualsiasi luce può viaggiare nel vuoto, non solo quella delle stelle."
 			}
 		},
 		{
@@ -1013,12 +1013,12 @@
 				"Perché il bastone si piega davvero nell'acqua",
 				"Perché l'acqua riflette la luce verso l'alto",
 				"Perché la luce cambia direzione passando fra aria e acqua",
-				"Perché l'acqua ingrandisce gli oggetti immersi"
+				"Perché l'acqua ingrandisce gli oggetti che vi immergi"
 			],
 			"answer": "Perché la luce cambia direzione passando fra aria e acqua",
 			"explanation": "È la rifrazione: la luce rallenta entrando nell'acqua e devia, e i nostri occhi la interpretano come una linea spezzata.",
 			"distractorWhy": {
-				"Perché l'acqua ingrandisce gli oggetti immersi": "L'ingrandimento non spiega la spezzatura apparente: è la rifrazione a deviare la luce.",
+				"Perché l'acqua ingrandisce gli oggetti che vi immergi": "L'ingrandimento non spiega la spezzatura apparente: è la rifrazione a deviare la luce.",
 				"Perché il bastone si piega davvero nell'acqua": "Il bastone resta fisicamente dritto: è la luce a cambiare direzione, ingannando l'occhio.",
 				"Perché l'acqua riflette la luce verso l'alto": "Non è un riflesso: è la rifrazione, la deviazione della luce passando da un mezzo all'altro."
 			}
@@ -1033,14 +1033,14 @@
 			"options": [
 				"Un suono che si ripete da solo",
 				"Il rumore prodotto dal vento",
-				"Un suono più acuto dell'originale",
+				"Un suono più acuto di quello di partenza",
 				"Il suono che torna dopo essersi riflesso"
 			],
 			"answer": "Il suono che torna dopo essersi riflesso",
 			"explanation": "Serve una superficie abbastanza lontana: se torna troppo presto il nostro orecchio non lo distingue dal suono diretto.",
 			"distractorWhy": {
 				"Un suono che si ripete da solo": "Il suono non si ripete spontaneamente: torna perché rimbalza su una superficie lontana.",
-				"Un suono più acuto dell'originale": "L'eco non cambia l'altezza del suono: è lo stesso suono che torna indietro.",
+				"Un suono più acuto di quello di partenza": "L'eco non cambia l'altezza del suono: è lo stesso suono che torna indietro.",
 				"Il rumore prodotto dal vento": "Il vento non ha a che fare con l'eco: quello è un fenomeno di riflessione del suono."
 			}
 		},
@@ -1054,7 +1054,7 @@
 			"options": [
 				"Perché riflette il rosso e assorbe gli altri colori",
 				"Perché produce luce rossa per conto proprio",
-				"Perché è fatto di un materiale rosso dentro",
+				"Perché è fatto di un materiale rosso fin dentro",
 				"Perché assorbe il rosso e riflette il resto"
 			],
 			"answer": "Perché riflette il rosso e assorbe gli altri colori",
@@ -1062,7 +1062,7 @@
 			"distractorWhy": {
 				"Perché produce luce rossa per conto proprio": "Un oggetto normale non produce luce propria: riflette parte di quella che riceve.",
 				"Perché assorbe il rosso e riflette il resto": "Se assorbisse il rosso e riflettesse il resto, l'oggetto apparirebbe di un altro colore, non rosso.",
-				"Perché è fatto di un materiale rosso dentro": "Il colore percepito dipende da quali lunghezze d'onda vengono riflesse, non dal materiale interno."
+				"Perché è fatto di un materiale rosso fin dentro": "Il colore percepito dipende da quali lunghezze d'onda vengono riflesse, non dal materiale interno."
 			}
 		},
 		{
@@ -1073,7 +1073,7 @@
 			"format": "multiple_choice",
 			"prompt": "Che cos'è un'ombra?",
 			"options": [
-				"Il riflesso scuro proiettato da un oggetto",
+				"Il riflesso scuro che un oggetto proietta a terra",
 				"La zona dove la luce non arriva perché bloccata",
 				"Una zona in cui l'aria è più fredda",
 				"Una macchia scura disegnata sul terreno"
@@ -1082,7 +1082,7 @@
 			"explanation": "La luce viaggia in linea retta: un corpo opaco le impedisce di raggiungere ciò che sta dietro.",
 			"distractorWhy": {
 				"Una macchia scura disegnata sul terreno": "L'ombra non è disegnata: è l'assenza di luce dove un corpo la blocca.",
-				"Il riflesso scuro proiettato da un oggetto": "Non è un riflesso: è la zona dove la luce, viaggiando in linea retta, viene bloccata.",
+				"Il riflesso scuro che un oggetto proietta a terra": "Non è un riflesso: è la zona dove la luce, viaggiando in linea retta, viene bloccata.",
 				"Una zona in cui l'aria è più fredda": "La temperatura non definisce un'ombra: è un fenomeno di luce, non di calore."
 			}
 		},
@@ -1150,14 +1150,14 @@
 				"L'effetto di una forza che sposta qualcosa",
 				"Il tempo impiegato a fare una cosa",
 				"Lo sforzo compiuto da una persona",
-				"La fatica percepita durante lo sforzo"
+				"La fatica che si percepisce durante lo sforzo"
 			],
 			"answer": "L'effetto di una forza che sposta qualcosa",
 			"explanation": "Se spingi un muro e non si muove, in fisica non hai compiuto lavoro, per quanto tu sia stanco.",
 			"distractorWhy": {
 				"Lo sforzo compiuto da una persona": "Lo sforzo percepito non è il lavoro fisico: se non c'è spostamento, non c'è lavoro anche con grande sforzo.",
 				"Il tempo impiegato a fare una cosa": "Il tempo da solo non definisce il lavoro: serve che una forza sposti qualcosa.",
-				"La fatica percepita durante lo sforzo": "La fatica è soggettiva: il lavoro in fisica dipende da forza e spostamento, non da quanto ci si stanca."
+				"La fatica che si percepisce durante lo sforzo": "La fatica è soggettiva: il lavoro in fisica dipende da forza e spostamento, non da quanto ci si stanca."
 			}
 		},
 		{
@@ -1169,14 +1169,14 @@
 			"prompt": "Che cos'è la potenza?",
 			"options": [
 				"L'energia totale disponibile",
-				"L'energia impiegata in un certo tempo",
-				"La forza applicata a un oggetto",
+				"L'energia impiegata divisa per il tempo trascorso",
+				"La forza che si applica per spostare un oggetto",
 				"La velocità di un corpo in moto"
 			],
-			"answer": "L'energia impiegata in un certo tempo",
+			"answer": "L'energia impiegata divisa per il tempo trascorso",
 			"explanation": "Fare lo stesso lavoro in metà tempo richiede il doppio della potenza.",
 			"distractorWhy": {
-				"La forza applicata a un oggetto": "La forza è un'altra grandezza: la potenza è energia diviso il tempo impiegato.",
+				"La forza che si applica per spostare un oggetto": "La forza è un'altra grandezza: la potenza è energia diviso il tempo impiegato.",
 				"L'energia totale disponibile": "L'energia totale non tiene conto del tempo: la potenza sì.",
 				"La velocità di un corpo in moto": "La velocità è un'altra grandezza: la potenza riguarda quanta energia si trasferisce nel tempo."
 			}
@@ -1255,14 +1255,14 @@
 				"Energia chimica in energia elettrica",
 				"Energia potenziale in cinetica e viceversa",
 				"Energia termica in energia luminosa",
-				"Energia cinetica in energia sonora"
+				"Energia cinetica in calore e poi in suono"
 			],
 			"answer": "Energia potenziale in cinetica e viceversa",
 			"explanation": "In alto è ferma e ha il massimo di potenziale; in basso è velocissima e ha il massimo di cinetica.",
 			"distractorWhy": {
 				"Energia chimica in energia elettrica": "Non c'è una reazione chimica o un generatore elettrico coinvolti: è uno scambio fra altezza e velocità.",
 				"Energia termica in energia luminosa": "Non c'è calore né luce prodotti dall'oscillazione: è energia di posizione che diventa di movimento.",
-				"Energia cinetica in energia sonora": "Il piccolo rumore non è la trasformazione principale: il grosso dello scambio è fra potenziale e cinetica."
+				"Energia cinetica in calore e poi in suono": "Il piccolo rumore non è la trasformazione principale: il grosso dello scambio è fra potenziale e cinetica."
 			}
 		},
 		{
@@ -1358,7 +1358,7 @@
 			"prompt": "Qual è la differenza fra massa e peso?",
 			"options": [
 				"La massa si misura solo con la bilancia",
-				"Il peso non cambia mai da un luogo all'altro",
+				"Il peso resta lo stesso in qualunque luogo dell'universo",
 				"Il peso è la forza con cui la gravità attrae la massa",
 				"Sono sinonimi, cambia solo l'unità"
 			],
@@ -1367,7 +1367,7 @@
 			"distractorWhy": {
 				"Sono sinonimi, cambia solo l'unità": "Non sono la stessa cosa: la massa non cambia da un luogo all'altro, il peso sì.",
 				"La massa si misura solo con la bilancia": "Anche il peso si può misurare, con un dinamometro: non è questo a distinguerli.",
-				"Il peso non cambia mai da un luogo all'altro": "Il peso cambia con la gravità: sulla Luna pesi un sesto."
+				"Il peso resta lo stesso in qualunque luogo dell'universo": "Il peso cambia con la gravità: sulla Luna pesi un sesto."
 			}
 		},
 		{
@@ -1378,7 +1378,7 @@
 			"format": "multiple_choice",
 			"prompt": "Che cos'è la densità?",
 			"options": [
-				"La durezza del materiale",
+				"La durezza del materiale di cui è fatto",
 				"Lo spessore di un corpo solido",
 				"Il peso totale di un oggetto",
 				"La massa contenuta in un certo volume"
@@ -1387,7 +1387,7 @@
 			"explanation": "Il ferro è più denso del legno: a parità di volume contiene più materia, quindi pesa di più.",
 			"distractorWhy": {
 				"Il peso totale di un oggetto": "Il peso non tiene conto del volume: la densità mette in rapporto massa e volume.",
-				"La durezza del materiale": "La durezza è un'altra proprietà, non ha a che fare con quanta massa sta in un volume.",
+				"La durezza del materiale di cui è fatto": "La durezza è un'altra proprietà, non ha a che fare con quanta massa sta in un volume.",
 				"Lo spessore di un corpo solido": "Lo spessore è una misura di lunghezza, non il rapporto fra massa e volume."
 			}
 		},
@@ -1401,7 +1401,7 @@
 			"options": [
 				"Perché la nave contiene molta aria e la sua densità media è bassa",
 				"Perché l'acciaio della nave è di un tipo diverso",
-				"Perché l'acqua del mare è più salata del previsto",
+				"Perché l'acqua salata del mare sostiene molto più peso di quella dolce",
 				"Perché la nave è molto più grande del chiodo"
 			],
 			"answer": "Perché la nave contiene molta aria e la sua densità media è bassa",
@@ -1409,7 +1409,7 @@
 			"distractorWhy": {
 				"Perché la nave è molto più grande del chiodo": "Le dimensioni da sole non decidono: conta la densità media, e la nave è per lo più aria.",
 				"Perché l'acciaio della nave è di un tipo diverso": "L'acciaio è lo stesso materiale denso: è la forma, piena d'aria, a ridurre la densità media.",
-				"Perché l'acqua del mare è più salata del previsto": "La salinità non è la causa principale qui: conta la densità media della nave."
+				"Perché l'acqua salata del mare sostiene molto più peso di quella dolce": "La salinità non è la causa principale qui: conta la densità media della nave."
 			}
 		},
 		{
@@ -1442,14 +1442,14 @@
 			"prompt": "Che cosa succede al volume di un gas se lo comprimi?",
 			"options": [
 				"Si annulla completamente",
-				"Resta uguale, il gas non si comprime",
+				"Resta uguale, perché il gas non si comprime",
 				"Diminuisce, perché le particelle si avvicinano",
 				"Aumenta, perché il gas si scalda"
 			],
 			"answer": "Diminuisce, perché le particelle si avvicinano",
 			"explanation": "Nei gas le particelle sono molto distanti: c'è spazio per avvicinarle. Nei liquidi e nei solidi quasi no.",
 			"distractorWhy": {
-				"Resta uguale, il gas non si comprime": "I gas si comprimono facilmente perché le particelle sono molto distanziate.",
+				"Resta uguale, perché il gas non si comprime": "I gas si comprimono facilmente perché le particelle sono molto distanziate.",
 				"Aumenta, perché il gas si scalda": "Comprimere riduce lo spazio, non lo aumenta: è il contrario.",
 				"Si annulla completamente": "Il volume diminuisce ma non sparisce: resta sempre uno spazio occupato dal gas."
 			}
@@ -1481,10 +1481,10 @@
 			"topic": "materia",
 			"difficulty": 3,
 			"format": "numeric_input",
-			"prompt": "Un litro d'acqua ha una massa di circa…",
+			"prompt": "Un litro d'acqua ha una massa di circa quanti chilogrammi?",
 			"options": [],
 			"answer": "1",
-			"explanation": "Un litro d'acqua pesa circa un chilogrammo: è la definizione da cui nasce l'unità."
+			"explanation": "Un litro d'acqua ha una massa di circa un chilogrammo: è da lì che nasce l'unità."
 		},
 		{
 			"id": "fisica-materia-47",
@@ -1602,13 +1602,13 @@
 				"Perché le bolle spingono l'acqua tutto intorno",
 				"Per convezione: la parte calda sale e quella fredda scende",
 				"Perché l'acqua cerca di uscire dal recipiente",
-				"Perché il fuoco fa vibrare il fondo della pentola"
+				"Perché il fuoco fa vibrare il fondo della pentola e l'acqua"
 			],
 			"answer": "Per convezione: la parte calda sale e quella fredda scende",
 			"explanation": "L'acqua calda è meno densa e sale; quella fredda scende a prendere il suo posto: nasce un movimento circolare.",
 			"distractorWhy": {
 				"Perché le bolle spingono l'acqua tutto intorno": "Le bolle sono un effetto dell'ebollizione, non la causa del movimento circolare, che è la convezione.",
-				"Perché il fuoco fa vibrare il fondo della pentola": "Non è una vibrazione meccanica: è l'acqua calda che sale e quella fredda che scende.",
+				"Perché il fuoco fa vibrare il fondo della pentola e l'acqua": "Non è una vibrazione meccanica: è l'acqua calda che sale e quella fredda che scende.",
 				"Perché l'acqua cerca di uscire dal recipiente": "L'acqua non cerca di scappare: si muove in circolo per convezione."
 			}
 		},
@@ -1639,7 +1639,7 @@
 			"topic": "calore",
 			"difficulty": 3,
 			"format": "numeric_input",
-			"prompt": "A quale temperatura bolle l'acqua a livello del mare?",
+			"prompt": "A quale temperatura, in gradi centigradi, bolle l'acqua a livello del mare?",
 			"options": [],
 			"answer": "100",
 			"explanation": "Cento gradi centigradi. In montagna bolle a temperatura più bassa, perché la pressione è minore."
@@ -1652,7 +1652,7 @@
 			"format": "multiple_choice",
 			"prompt": "Perché in montagna la pasta cuoce peggio?",
 			"options": [
-				"Perché l'acqua evapora più in fretta",
+				"Perché in quota l'acqua evapora più in fretta",
 				"Perché il fuoco scalda di meno",
 				"Perché l'aria è troppo fredda",
 				"Perché l'acqua bolle a temperatura più bassa"
@@ -1661,7 +1661,7 @@
 			"explanation": "Meno pressione significa ebollizione a temperatura minore: l'acqua bolle, ma è meno calda di quella al mare.",
 			"distractorWhy": {
 				"Perché l'aria è troppo fredda": "La temperatura dell'aria esterna non è la causa diretta: conta la pressione più bassa che abbassa il punto di ebollizione.",
-				"Perché l'acqua evapora più in fretta": "L'evaporazione più rapida è una conseguenza: il punto chiave è la temperatura di ebollizione più bassa.",
+				"Perché in quota l'acqua evapora più in fretta": "L'evaporazione più rapida è una conseguenza: il punto chiave è la temperatura di ebollizione più bassa.",
 				"Perché il fuoco scalda di meno": "Il fuoco scalda allo stesso modo: è la pressione più bassa a far bollire l'acqua a temperatura minore."
 			}
 		},
@@ -1733,7 +1733,7 @@
 				"Una bilancia"
 			],
 			"answer": "Una bilancia",
-			"explanation": "La bilancia misura la massa/peso; il termometro la temperatura.",
+			"explanation": "La bilancia misura la massa; il peso è la forza con cui la gravità la attira, e cambia da un pianeta all'altro.",
 			"distractorWhy": {
 				"Un metro": "Il metro misura una lunghezza, non il peso.",
 				"Un termometro": "Il termometro misura la temperatura, non il peso.",
@@ -1874,7 +1874,7 @@
 			"format": "multiple_choice",
 			"prompt": "Massa e peso: quale frase è corretta?",
 			"options": [
-				"Massa e peso sono esattamente la stessa grandezza, con lo stesso nome",
+				"Massa e peso sono esattamente la stessa grandezza, con due nomi diversi",
 				"Il peso resta identico ovunque, anche sulla Luna e su Marte",
 				"La massa è la quantità di materia; il peso è la forza di gravità su di essa",
 				"La massa si misura sempre in newton, esattamente come il peso"
@@ -1882,7 +1882,7 @@
 			"answer": "La massa è la quantità di materia; il peso è la forza di gravità su di essa",
 			"explanation": "La massa non cambia; il peso dipende dalla gravità (sulla Luna pesi meno).",
 			"distractorWhy": {
-				"Massa e peso sono esattamente la stessa grandezza, con lo stesso nome": "Sono grandezze diverse: la massa non cambia, il peso dipende dalla gravità del luogo.",
+				"Massa e peso sono esattamente la stessa grandezza, con due nomi diversi": "Sono grandezze diverse: la massa non cambia, il peso dipende dalla gravità del luogo.",
 				"Il peso resta identico ovunque, anche sulla Luna e su Marte": "Il peso cambia con la gravità: sulla Luna pesi meno che sulla Terra.",
 				"La massa si misura sempre in newton, esattamente come il peso": "La massa si misura in chilogrammi; il newton è l'unità del peso, che è una forza."
 			}
@@ -1935,19 +1935,19 @@
 			"topic": "calore",
 			"difficulty": 2,
 			"format": "multiple_choice",
-			"prompt": "Il calore passa sempre…",
+			"prompt": "Due oggetti a contatto smettono di scambiarsi calore quando…",
 			"options": [
-				"Dal corpo più piccolo a quello più grande",
-				"Dal corpo più caldo a quello più freddo",
-				"Dal corpo più freddo a quello più caldo",
-				"In nessuna direzione precisa"
+				"È passato abbastanza tempo dal contatto",
+				"Hanno raggiunto la stessa temperatura",
+				"Il più caldo ha finito il calore che aveva",
+				"Uno dei due è diventato freddo del tutto"
 			],
-			"answer": "Dal corpo più caldo a quello più freddo",
-			"explanation": "Il calore fluisce dal caldo al freddo finché non si equilibrano.",
+			"answer": "Hanno raggiunto la stessa temperatura",
+			"explanation": "Finché uno è più caldo il calore continua a passare: si ferma all'equilibrio, cioè quando le due temperature coincidono.",
 			"distractorWhy": {
-				"Dal corpo più freddo a quello più caldo": "È il contrario: il calore fluisce sempre dal caldo al freddo.",
-				"Dal corpo più piccolo a quello più grande": "Le dimensioni non decidono la direzione: conta solo la differenza di temperatura.",
-				"In nessuna direzione precisa": "Il calore ha sempre una direzione precisa: dal più caldo al più freddo."
+				"Il più caldo ha finito il calore che aveva": "Il calore non è una scorta che si esaurisce: è energia che passa finché c'è una differenza di temperatura.",
+				"È passato abbastanza tempo dal contatto": "Non è il tempo a decidere: due corpi già alla stessa temperatura non si scambiano calore nemmeno per un istante.",
+				"Uno dei due è diventato freddo del tutto": "Lo scambio finisce molto prima: basta che le due temperature siano uguali, non che una sia bassa."
 			}
 		},
 		{
@@ -1958,7 +1958,7 @@
 			"format": "multiple_choice",
 			"prompt": "Temperatura e calore: quale è vero?",
 			"options": [
-				"Il calore si misura in gradi, esattamente come la temperatura",
+				"Il calore si misura in gradi centigradi, esattamente come la temperatura",
 				"Temperatura e calore sono la stessa identica grandezza fisica",
 				"La temperatura dice quanto è caldo; il calore è l'energia che si trasferisce",
 				"La temperatura è un tipo di energia che passa fra i corpi"
@@ -1967,7 +1967,7 @@
 			"explanation": "Sono grandezze diverse: gradi per la temperatura, energia per il calore.",
 			"distractorWhy": {
 				"Temperatura e calore sono la stessa identica grandezza fisica": "Sono due grandezze diverse: una misura uno stato, l'altra un'energia che si trasferisce.",
-				"Il calore si misura in gradi, esattamente come la temperatura": "Il calore si misura in joule, un'unità di energia, non in gradi.",
+				"Il calore si misura in gradi centigradi, esattamente come la temperatura": "Il calore si misura in joule, un'unità di energia, non in gradi.",
 				"La temperatura è un tipo di energia che passa fra i corpi": "È il calore a essere energia che passa: la temperatura è uno stato, non un flusso."
 			}
 		},
@@ -1998,19 +1998,19 @@
 			"topic": "onde-luce",
 			"difficulty": 3,
 			"format": "multiple_choice",
-			"prompt": "Perché durante un temporale vediamo il lampo prima di sentire il tuono?",
+			"prompt": "Perché di notte vediamo la Luna, se non produce luce propria?",
 			"options": [
-				"La luce è molto più veloce del suono",
-				"Il tuono parte dopo il lampo",
-				"Sono simultanei",
-				"Il suono è più veloce"
+				"Perché rimanda verso di noi la luce del Sole",
+				"Perché di notte l'aria diventa più trasparente",
+				"Perché la sua superficie chiara si illumina da sé",
+				"Perché brilla del calore accumulato di giorno"
 			],
-			"answer": "La luce è molto più veloce del suono",
-			"explanation": "La luce arriva quasi subito; il suono, più lento, arriva dopo.",
+			"answer": "Perché rimanda verso di noi la luce del Sole",
+			"explanation": "La Luna è una palla illuminata dal Sole in una stanza buia: le fasi sono la parte illuminata che di volta in volta ci mostra.",
 			"distractorWhy": {
-				"Il suono è più veloce": "È il contrario: la luce viaggia molto più veloce del suono.",
-				"Sono simultanei": "Se fossero simultanei vedremmo il lampo e sentiremmo il tuono nello stesso istante: non è così.",
-				"Il tuono parte dopo il lampo": "Lampo e tuono nascono nello stesso istante: la differenza è nella velocità con cui viaggiano."
+				"Perché brilla del calore accumulato di giorno": "Un corpo tiepido non emette luce visibile: per brillare da sé dovrebbe essere incandescente come il Sole.",
+				"Perché la sua superficie chiara si illumina da sé": "Nessuna superficie si illumina da sola: chiara o scura, può solo rimandare la luce che riceve.",
+				"Perché di notte l'aria diventa più trasparente": "L'aria non cambia di notte: la Luna si vede anche di giorno, quando c'è."
 			}
 		},
 		{
@@ -2022,7 +2022,9 @@
 			"prompt": "Come si chiama lo strumento con cui si misura la temperatura?",
 			"options": [],
 			"answer": "termometro",
-			"accept": [],
+			"accept": [
+				"il termometro"
+			],
 			"explanation": "Non misura il calore ma la temperatura: sono due grandezze diverse."
 		},
 		{
@@ -2049,7 +2051,9 @@
 			"prompt": "Qual è l'unità di misura del tempo nel Sistema Internazionale?",
 			"options": [],
 			"answer": "secondo",
-			"accept": [],
+			"accept": [
+				"il secondo"
+			],
 			"explanation": "Minuti e ore sono comode, ma l'unità di base resta il secondo."
 		},
 		{
@@ -2075,7 +2079,9 @@
 			"prompt": "Come si chiama la variazione della velocità nel tempo?",
 			"options": [],
 			"answer": "accelerazione",
-			"accept": [],
+			"accept": [
+				"l'accelerazione"
+			],
 			"explanation": "Se la velocità cambia, anche solo di direzione, c'è accelerazione."
 		},
 		{
@@ -2102,7 +2108,9 @@
 			"prompt": "Come si chiama il rimbalzo della luce su uno specchio?",
 			"options": [],
 			"answer": "riflessione",
-			"accept": [],
+			"accept": [
+				"la riflessione"
+			],
 			"explanation": "Il raggio torna indietro con lo stesso angolo con cui è arrivato."
 		},
 		{
@@ -2114,7 +2122,9 @@
 			"prompt": "Come si chiama la deviazione della luce quando passa dall'aria all'acqua?",
 			"options": [],
 			"answer": "rifrazione",
-			"accept": [],
+			"accept": [
+				"la rifrazione"
+			],
 			"explanation": "Cambiando mezzo la luce cambia velocità, e quindi piega: per questo il bastone nell'acqua sembra spezzato."
 		},
 		{
@@ -2126,7 +2136,10 @@
 			"prompt": "Come si chiama la distanza fra due creste successive di un'onda?",
 			"options": [],
 			"answer": "lunghezza d'onda",
-			"accept": [],
+			"accept": [
+				"la lunghezza d'onda",
+				"lunghezza donda"
+			],
 			"explanation": "È la lunghezza di un'oscillazione completa."
 		},
 		{
@@ -2138,7 +2151,10 @@
 			"prompt": "Qual è l'unità di misura della forza nel Sistema Internazionale?",
 			"options": [],
 			"answer": "newton",
-			"accept": [],
+			"accept": [
+				"il newton",
+				"N"
+			],
 			"explanation": "Un newton è la forza che dà a un chilogrammo un'accelerazione di un metro al secondo per secondo."
 		},
 		{
@@ -2150,7 +2166,11 @@
 			"prompt": "Come si chiama la forza che si oppone allo scivolamento fra due superfici a contatto?",
 			"options": [],
 			"answer": "attrito",
-			"accept": [],
+			"accept": [
+				"l'attrito",
+				"forza di attrito",
+				"la forza di attrito"
+			],
 			"explanation": "Senza attrito non si cammina: è lui che dà presa alla scarpa."
 		},
 		{
@@ -2162,7 +2182,9 @@
 			"prompt": "Come si chiama lo strumento che misura una forza allungando una molla?",
 			"options": [],
 			"answer": "dinamometro",
-			"accept": [],
+			"accept": [
+				"il dinamometro"
+			],
 			"explanation": "Più la molla si allunga, più forte è la forza: la scala è già tarata in newton."
 		},
 		{
@@ -2189,7 +2211,10 @@
 			"prompt": "Qual è l'unità di misura dell'energia nel Sistema Internazionale?",
 			"options": [],
 			"answer": "joule",
-			"accept": [],
+			"accept": [
+				"il joule",
+				"J"
+			],
 			"explanation": "La stessa unità vale per il lavoro e per il calore: sono forme della stessa cosa."
 		},
 		{
@@ -2229,7 +2254,10 @@
 			"prompt": "Come si chiama la spiegazione provvisoria che un esperimento deve mettere alla prova?",
 			"options": [],
 			"answer": "ipotesi",
-			"accept": [],
+			"accept": [
+				"l'ipotesi",
+				"un'ipotesi"
+			],
 			"explanation": "Un'ipotesi vale solo se si può immaginare un risultato che la smentisce."
 		},
 		{
@@ -2269,7 +2297,9 @@
 			"prompt": "Come si chiama il passaggio dallo stato solido a quello liquido?",
 			"options": [],
 			"answer": "fusione",
-			"accept": [],
+			"accept": [
+				"la fusione"
+			],
 			"explanation": "Il ghiaccio che diventa acqua sta fondendo, non sciogliendosi in qualcos'altro."
 		},
 		{
@@ -2295,7 +2325,10 @@
 			"prompt": "Qual è l'unità di misura della temperatura nel Sistema Internazionale?",
 			"options": [],
 			"answer": "kelvin",
-			"accept": [],
+			"accept": [
+				"il kelvin",
+				"K"
+			],
 			"explanation": "Parte dallo zero assoluto: sotto non si può scendere."
 		},
 		{
@@ -2307,7 +2340,9 @@
 			"prompt": "Come si chiama il passaggio di calore per contatto diretto fra due corpi?",
 			"options": [],
 			"answer": "conduzione",
-			"accept": [],
+			"accept": [
+				"la conduzione"
+			],
 			"explanation": "Il cucchiaino di metallo nel tè scotta per conduzione."
 		},
 		{
@@ -2344,13 +2379,14 @@
 			"topic": "onde-luce",
 			"difficulty": 1,
 			"format": "short_answer",
-			"prompt": "Come si chiama l'ombra che si forma dietro un oggetto colpito dalla luce?",
+			"prompt": "Come si chiama la zona scura che un corpo opaco lascia dietro di sé quando è illuminato?",
 			"options": [],
 			"answer": "ombra",
 			"accept": [
-				"l'ombra"
+				"l'ombra",
+				"zona d'ombra"
 			],
-			"explanation": "Si forma perché la luce viaggia in linea retta e l'oggetto la ferma."
+			"explanation": "Si forma perché la luce viaggia in linea retta: il corpo la ferma e dietro di lui non ne arriva."
 		},
 		{
 			"id": "fisica-calore-99",
@@ -2361,7 +2397,9 @@
 			"prompt": "Come si chiama il passaggio di calore attraverso il movimento di un liquido o di un gas?",
 			"options": [],
 			"answer": "convezione",
-			"accept": [],
+			"accept": [
+				"la convezione"
+			],
 			"explanation": "L'acqua calda sale, la fredda scende: la pentola si scalda tutta così."
 		},
 		{
@@ -2625,24 +2663,24 @@
 			}
 		},
 		{
-			"id": "fisica-misure-qual-e-l-unita-di-misura-del-tempo",
+			"id": "fisica-misure-in-quale-unita-si-misura-il-liquido-in-una-bottiglia",
 			"subject": "fisica",
 			"topic": "misure",
 			"difficulty": 1,
 			"format": "multiple_choice",
-			"prompt": "Qual è l'unità di misura del tempo?",
+			"prompt": "In quale unità si misura quanto liquido sta in una bottiglia?",
 			"options": [
+				"Il litro",
 				"Il metro",
 				"Il grammo",
-				"Il grado",
-				"Il secondo"
+				"Il grado"
 			],
-			"answer": "Il secondo",
-			"explanation": "Nel sistema internazionale il tempo si misura in secondi.",
+			"answer": "Il litro",
+			"explanation": "Il litro misura il volume, cioè quanto spazio occupa: il metro misura una lunghezza e il grammo una massa.",
 			"distractorWhy": {
-				"Il metro": "Il metro misura una lunghezza, non il tempo.",
-				"Il grammo": "Il grammo misura la massa, non il tempo.",
-				"Il grado": "Il grado misura la temperatura o un angolo, non il tempo."
+				"Il metro": "Il metro misura una lunghezza, non lo spazio occupato da un liquido.",
+				"Il grammo": "Il grammo misura la massa: dice quanto pesa il liquido, non quanto ne sta nella bottiglia.",
+				"Il grado": "Il grado misura la temperatura: dice se il liquido è caldo, non quanto ce n'è."
 			}
 		},
 		{
@@ -2688,45 +2726,45 @@
 			}
 		},
 		{
-			"id": "fisica-forze-che-cosa-fa-cadere-gli-oggetti-verso-il-basso",
+			"id": "fisica-forze-che-cosa-attira-i-chiodi-verso-una-calamita",
 			"subject": "fisica",
 			"topic": "forze",
 			"difficulty": 1,
 			"format": "multiple_choice",
-			"prompt": "Che cosa fa cadere gli oggetti verso il basso?",
+			"prompt": "Che cosa attira i chiodi di ferro verso una calamita?",
 			"options": [
 				"La forza magnetica",
-				"La spinta del vento",
-				"La forza di gravità",
-				"L'attrito dell'aria"
+				"Il peso del chiodo",
+				"La spinta dell'aria",
+				"L'attrito del tavolo"
 			],
-			"answer": "La forza di gravità",
-			"explanation": "La gravità attira ogni corpo verso il centro della Terra.",
+			"answer": "La forza magnetica",
+			"explanation": "La calamita tira il ferro senza toccarlo: è una forza che agisce a distanza, come la gravità.",
 			"distractorWhy": {
-				"La forza magnetica": "Il magnetismo agisce solo su alcuni materiali, non su tutti gli oggetti che cadono.",
-				"La spinta del vento": "Il vento non fa cadere gli oggetti in modo sistematico verso il basso.",
-				"L'attrito dell'aria": "L'attrito dell'aria rallenta la caduta, non la causa."
+				"Il peso del chiodo": "Il peso tira il chiodo verso il basso, non verso la calamita.",
+				"La spinta dell'aria": "L'aria non spinge il chiodo verso il ferro: la calamita funziona anche nel vuoto.",
+				"L'attrito del tavolo": "L'attrito frena il chiodo che scivola, non lo mette in moto verso la calamita."
 			}
 		},
 		{
-			"id": "fisica-forze-che-cosa-rallenta-una-palla-che-rotola-sul-pavim",
+			"id": "fisica-forze-che-cosa-tiene-a-galla-una-barca-sull-acqua",
 			"subject": "fisica",
 			"topic": "forze",
 			"difficulty": 1,
 			"format": "multiple_choice",
-			"prompt": "Che cosa rallenta una palla che rotola sul pavimento?",
+			"prompt": "Che cosa tiene a galla una barca sull'acqua?",
 			"options": [
-				"La gravità",
-				"Il magnetismo",
-				"La luce",
-				"L'attrito"
+				"La spinta dell'acqua verso l'alto",
+				"Il vento che soffia sopra le vele",
+				"La forma appuntita della sua prua",
+				"Il legno che non lascia entrare acqua"
 			],
-			"answer": "L'attrito",
-			"explanation": "L'attrito fra palla e pavimento consuma il movimento.",
+			"answer": "La spinta dell'acqua verso l'alto",
+			"explanation": "L'acqua spinge in su ogni corpo immerso: se quella spinta pareggia il peso, la barca galleggia.",
 			"distractorWhy": {
-				"La gravità": "La gravità agisce verso il basso, non frena il rotolamento orizzontale.",
-				"Il magnetismo": "Una palla comune non è magnetica.",
-				"La luce": "La luce non ha un effetto meccanico sulla palla."
+				"Il vento che soffia sopra le vele": "Il vento fa avanzare la barca, ma una barca senza vele galleggia lo stesso.",
+				"La forma appuntita della sua prua": "La prua affilata aiuta a fendere l'acqua, non a restare a galla: galleggia anche una zattera quadrata.",
+				"Il legno che non lascia entrare acqua": "Anche una nave d'acciaio galleggia: conta la spinta dell'acqua, non il materiale dello scafo."
 			}
 		},
 		{
@@ -2779,7 +2817,7 @@
 			"format": "multiple_choice",
 			"prompt": "Misuri lo stesso oggetto cinque volte e trovi valori un po' diversi. Qual è la cosa più corretta da fare?",
 			"options": [
-				"tenere quella che ti aspettavi",
+				"tenere quella che ti aspettavi di trovare",
 				"calcolare la media delle cinque misure",
 				"tenere la misura più grande",
 				"tenere la prima misura"
@@ -2789,7 +2827,7 @@
 			"distractorWhy": {
 				"tenere la misura più grande": "La più grande non è più affidabile delle altre: anche lei porta un errore casuale.",
 				"tenere la prima misura": "La prima non è speciale: ha lo stesso errore casuale di tutte le altre.",
-				"tenere quella che ti aspettavi": "Scegliere quella che conferma le aspettative non è misurare: è decidere il risultato in anticipo."
+				"tenere quella che ti aspettavi di trovare": "Scegliere quella che conferma le aspettative non è misurare: è decidere il risultato in anticipo."
 			}
 		},
 		{
@@ -2823,7 +2861,7 @@
 			"options": [
 				"luce, acqua e terra insieme",
 				"la specie della pianta",
-				"il momento in cui li osservi",
+				"il momento della giornata in cui li osservi",
 				"solo la luce, tenendo uguale tutto il resto"
 			],
 			"answer": "solo la luce, tenendo uguale tutto il resto",
@@ -2831,7 +2869,7 @@
 			"distractorWhy": {
 				"luce, acqua e terra insieme": "Cambiando tre cose insieme non sai più quale ha causato la differenza.",
 				"la specie della pianta": "Cambiare specie confronta due piante diverse, non l'effetto della luce sulla stessa pianta.",
-				"il momento in cui li osservi": "Osservare in momenti diversi non isola l'effetto della luce."
+				"il momento della giornata in cui li osservi": "Osservare in momenti diversi non isola l'effetto della luce."
 			}
 		},
 		{
@@ -2903,7 +2941,7 @@
 			"topic": "forze",
 			"difficulty": 4,
 			"format": "multiple_choice",
-			"prompt": "Su un'asse con il fulcro al centro devi sollevare un peso. Se ti allontani al doppio della distanza dal fulcro, la forza che ti serve…",
+			"prompt": "Un'asse è appoggiata su un fulcro e il peso da sollevare sta su un capo. Se spingi al doppio della distanza dal fulcro, la forza che ti serve…",
 			"options": [
 				"raddoppia",
 				"diventa quattro volte più grande",
@@ -2949,14 +2987,14 @@
 			"options": [
 				"perché il metallo è più vicino al fuoco",
 				"perché il metallo conduce bene il calore e il legno male",
-				"perché il legno è più freddo di partenza",
+				"perché il legno parte più freddo del manico di metallo",
 				"perché il metallo è più pesante"
 			],
 			"answer": "perché il metallo conduce bene il calore e il legno male",
 			"explanation": "Il calore si sposta facilmente dentro i metalli e fatica ad attraversare il legno: per questo i manici si fanno di legno o di plastica.",
 			"distractorWhy": {
 				"perché il metallo è più pesante": "Il peso non ha a che fare con quanto velocemente si scalda un materiale.",
-				"perché il legno è più freddo di partenza": "Prima di cucinare i due manici sono alla stessa temperatura ambiente.",
+				"perché il legno parte più freddo del manico di metallo": "Prima di cucinare i due manici sono alla stessa temperatura ambiente.",
 				"perché il metallo è più vicino al fuoco": "I due manici sono attaccati alla stessa pentola, alla stessa distanza dal fuoco: cambia solo il materiale."
 			}
 		},
@@ -2969,7 +3007,7 @@
 			"prompt": "Durante un temporale vedi il lampo e solo dopo senti il tuono. Perché?",
 			"options": [
 				"perché il lampo avviene prima del tuono",
-				"perché l'aria ferma il suono e non la luce",
+				"perché l'aria ferma il suono e lascia passare la luce",
 				"perché la luce viaggia molto più veloce del suono",
 				"perché il suono parte da più lontano"
 			],
@@ -2978,7 +3016,7 @@
 			"distractorWhy": {
 				"perché il lampo avviene prima del tuono": "Lampo e tuono nascono nello stesso istante: la differenza sta nella velocità con cui viaggiano, non in quando avvengono.",
 				"perché il suono parte da più lontano": "Lampo e tuono partono dallo stesso punto, il fulmine: non c'è distanza diversa fra le due partenze.",
-				"perché l'aria ferma il suono e non la luce": "L'aria lascia passare anche il suono, solo più lentamente della luce: non lo blocca."
+				"perché l'aria ferma il suono e lascia passare la luce": "L'aria lascia passare anche il suono, solo più lentamente della luce: non lo blocca."
 			}
 		},
 		{

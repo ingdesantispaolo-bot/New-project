@@ -35,7 +35,6 @@ extends RefCounted
 ## già gli acquisti permanenti che non si equipaggiano, e ha i suoi lettori. La
 ## chiave `modules`, dichiarata e mai costruita, resta sepolta dov'è.
 
-const PASSO := "module-stride"
 const FELPA := "module-hush"
 const ZAVORRA := "module-ballast"
 
@@ -72,27 +71,9 @@ const VISTA_FELPATA := 0.72
 const SPINTA_PIENA := 104.0
 const SPINTA_ZAVORRATA := 62.0
 
-## Il moltiplicatore della corsa. Il passo lungo aggiunge circa un quinto: è la
-## differenza fra arrivare e arrivare prima, non fra potere e non potere.
-const SCATTO_BASE := 1.65
-const SCATTO_LUNGO := 1.95
-
-## **Quanto lontano porta uno scatto.** (19 agosto 2026)
-##
-## Dal giorno in cui il tasto della corsa è diventato anche il tasto dello scatto
-## ([[OutdoorPlayerController]]), «Passo lungo» ha smesso di essere un +20% di
-## velocità ed è diventato una **capacità**: allunga il balzo di quaranta unità,
-## cioè quanto basta perché un varco che prima si mancava adesso si prenda.
-##
-## Resta dentro il contratto della decisione vincolante 15 — un modulo può
-## toccare la mappa, mai una prova. Uno scatto più lungo non risponde a nessuna
-## domanda: attraversa una sacca, che è una cosa che sta davanti ai frammenti.
-const SCATTO_DISTANZA := 190.0
-const SCATTO_DISTANZA_LUNGA := 230.0
-
 ## Gli identificativi dei moduli, per gli audit e per la bottega.
 static func ids() -> Array:
-	return [PASSO, FELPA, ZAVORRA]
+	return [FELPA, ZAVORRA]
 
 static func posseduto(save, id: String) -> bool:
 	if save == null:
@@ -108,11 +89,3 @@ static func vista_delle_sacche(save) -> float:
 ## Quanto lontano butta uno spintone.
 static func spinta_del_morso(save) -> float:
 	return SPINTA_ZAVORRATA if posseduto(save, ZAVORRA) else SPINTA_PIENA
-
-## Quanto va più veloce la corsa.
-static func moltiplicatore_scatto(save) -> float:
-	return SCATTO_LUNGO if posseduto(save, PASSO) else SCATTO_BASE
-
-## Quanto lontano porta un balzo.
-static func distanza_scatto(save) -> float:
-	return SCATTO_DISTANZA_LUNGA if posseduto(save, PASSO) else SCATTO_DISTANZA

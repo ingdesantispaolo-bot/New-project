@@ -85,7 +85,6 @@ var _state: Dictionary = {}
 var _slot := "bot"
 var _selected_id := ""
 var _atlas_regions: Dictionary = {}
-var _fallback_textures: Dictionary = {}
 var _items: GridContainer
 var _scroll: ScrollContainer
 var _detail_pane: VBoxContainer
@@ -708,7 +707,7 @@ func _requirement_color(cosmetic: Dictionary) -> Color:
 		return Color("78e2b0")
 	if int(_state.get("level", 1)) < int(cosmetic.get("minLevel", 1)):
 		return Color("a5adb0")
-	if int(_state.get("energy", 0)) < int(cosmetic.get("cost", 0)):
+	if int(_state.get("fragments", 0)) < int(cosmetic.get("cost", 0)):
 		return Color("ef9a87")
 	return Color("ffd56a")
 
@@ -786,60 +785,6 @@ func _item_texture(id: String) -> Texture2D:
 	var texture := AtlasTexture.new()
 	texture.atlas = REWARD_ATLAS
 	texture.region = _atlas_regions[id]
-	return texture
-
-
-func _tool_fallback_texture(id: String) -> Texture2D:
-	if _fallback_textures.has(id):
-		return _fallback_textures[id]
-	var body := ""
-	if id == "tool-torch":
-		body = """
-<path d="M48 76 L74 50 L83 59 L57 85 Z" fill="#5a3824" stroke="#fff1b8" stroke-width="4"/>
-<path d="M75 47 L91 31 L100 40 L84 56 Z" fill="#f6c85f" stroke="#fff1b8" stroke-width="4"/>
-<path d="M88 30 C82 17 96 11 99 20 C105 8 118 18 109 32 C103 40 95 41 88 30 Z" fill="#fff1b8"/>
-"""
-	elif id == "tool-scythe":
-		body = """
-<path d="M48 102 L78 32" stroke="#d8fff8" stroke-width="8" stroke-linecap="round"/>
-<path d="M75 34 C91 12 113 17 116 29 C99 25 88 36 80 51 Z" fill="#91dc72" stroke="#d8fff8" stroke-width="4"/>
-<path d="M42 101 L55 106" stroke="#f6c85f" stroke-width="8" stroke-linecap="round"/>
-"""
-	else:
-		# **Ripiego generico: il glifo dichiarato dalla voce.** (14 agosto 2026)
-		#
-		# Prima di oggi qui c'era `return null`, e valeva per due strumenti
-		# disegnati a mano. Aggiungendo i moduli di spedizione —
-		# `shop_presentation_audit` pretende un'illustrazione per **ogni** voce
-		# del catalogo — la scelta era fra rimandare i moduli finché non esiste
-		# l'arte o dargli una resa onesta subito.
-		#
-		# È la regola che il progetto applica ai lotti di Codex: una cosa deve
-		# essere usabile con forme piene e colori piatti **prima** che esista un
-		# disegno, altrimenti l'arte diventa un prerequisito e il lotto si ferma
-		# ad aspettarla. Il glifo e il colore stanno già nel catalogo; C-G4
-		# sostituirà questo cerchio con l'illustrazione vera.
-		var voce := RewardCatalog.find(id)
-		var glifo := str(voce.get("glyph", "")).strip_edges()
-		if glifo == "":
-			return null
-		var tinta := Color(int(voce.get("color", 0x6be7d6))).to_html(false)
-		body = """
-<circle cx="64" cy="64" r="34" fill="none" stroke="#%s" stroke-width="5" opacity="0.85"/>
-<text x="64" y="80" font-size="46" text-anchor="middle" fill="#%s">%s</text>
-""" % [tinta, tinta, glifo.xml_escape()]
-	var svg := """
-<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
-<defs><radialGradient id="g"><stop stop-color="#16444a"/><stop offset="1" stop-color="#061d24"/></radialGradient></defs>
-<rect x="4" y="4" width="120" height="120" rx="24" fill="url(#g)" stroke="#6be7d6" stroke-width="4"/>
-%s
-</svg>
-""" % body
-	var image := Image.new()
-	if image.load_svg_from_string(svg, 1.0) != OK:
-		return null
-	var texture := ImageTexture.create_from_image(image)
-	_fallback_textures[id] = texture
 	return texture
 
 

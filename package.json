@@ -12,6 +12,7 @@
     "banks:build": "node scripts/build-exercise-banks.mjs",
     "assets:reward": "node scripts/build-reward-assets.mjs",
     "assets:exercise-atlas": "node scripts/build-exercise-atlas.mjs",
+	"assets:identity:compact": "node scripts/compact-identity-atlases.mjs",
     "terrain:noise": "node scripts/build-terrain-noise-texture.mjs",
     "terrain:noise:check": "node scripts/build-terrain-noise-texture.mjs --check",
     "audio:godot": "node scripts/build-godot-audio-assets.mjs",

@@ -683,9 +683,14 @@ const VOCI := {
 		"perche": "Il forte e il piano non sono decorazioni: sono il modo in cui la musica dice che cosa è importante in quel momento.",
 		"come": "Ricorda che i segni sono relativi: un «piano» dopo un «fortissimo» è più forte di un «piano» da solo.",
 	},
+	# Gli accordi vivono sotto questo argomento (banco musica, agosto 2026): un
+	# accordo È un impilamento di intervalli, e il mondo 18 promette «armonia»
+	# senza avere un topic suo — un argomento nuovo da sei voci non reggerebbe
+	# la soglia di `topic_density_audit`. La voce copre quindi tutte e due le
+	# direzioni: quella orizzontale della melodia e quella verticale dell'accordo.
 	"musica:intervalli": {
-		"perche": "L'intervallo è la distanza fra due note, ed è quello che rende una melodia riconoscibile anche cantata più in alto.",
-		"come": "Conta le note comprese, prima e ultima incluse: da do a sol sono cinque note, quindi una quinta.",
+		"perche": "L'intervallo è la distanza fra due note: uno dopo l'altro rende una melodia riconoscibile anche cantata più in alto, tre impilati insieme fanno un accordo.",
+		"come": "Conta le note comprese, prima e ultima incluse: da do a sol sono cinque note, quindi una quinta. Per costruire un accordo sali invece di terza in terza: do, mi, sol.",
 	},
 	"musica:lettura": {
 		"perche": "Il pentagramma serve a scrivere l'altezza: più in alto sul rigo, più acuta la nota. È una mappa, non un codice.",

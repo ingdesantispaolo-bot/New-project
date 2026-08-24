@@ -2,9 +2,9 @@ extends SceneTree
 
 ## **Quanto costa davvero una sacca, mondo per mondo.** (21 agosto 2026)
 ##
-## Nasce da una domanda del committente: l'impulso e lo scatto servono ancora a
-## qualcosa, o vanno tolti? La misura ha risposto per tutti e due, e in modo
-## opposto — l'impulso è stato tolto, lo scatto è rimasto.
+## Nasce da una domanda del committente: quale meccanica resta davvero utile
+## contro le sacche? La misura mostra che il costo in energia si esaurisce quasi
+## subito, mentre lo spintone resta un ostacolo di posizione e tempo.
 ##
 ## La misura che decide è una sola, e non si vede giocando due ore:
 ##
@@ -96,7 +96,5 @@ func _il_verdetto() -> void:
 	print("")
 	# Quello che resta a difendere l'anello, e perche' non si esaurisce: lo
 	# spintone costa posizione e tempo, e quelli il grado non li azzera.
-	print("  quel che resta contro l'anello e' la corsa: costa 0, torna ogni %.1f s,"
-		% (float(OutdoorPlayerController.SCATTO_RICARICA_MSEC) / 1000.0))
-	print("  attraversa una sacca senza morso e senza spintone — e lo spintone")
-	print("  non si azzera col grado, quindi questa strada non satura mai.")
+	print("  quel che resta contro l'anello e' lo spintone: costa posizione e tempo,")
+	print("  e non si azzera col grado, quindi questa strada non satura mai.")

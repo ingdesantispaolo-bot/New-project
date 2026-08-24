@@ -738,9 +738,14 @@
 			"subject": "coding",
 			"topic": "tipi",
 			"difficulty": 4,
-			"format": "numeric_input",
+			"format": "multiple_choice",
 			"prompt": "Cosa stampa: print(3 + 2.0)?",
-			"options": [],
+			"options": [
+				"32.0",
+				"5",
+				"5.0",
+				"errore"
+			],
 			"answer": "5.0",
 			"explanation": "Mescolando int e float Python usa il tipo più «largo»: il risultato è un float.",
 			"distractorWhy": {
@@ -2012,9 +2017,14 @@
 			"subject": "coding",
 			"topic": "operatori",
 			"difficulty": 4,
-			"format": "numeric_input",
+			"format": "multiple_choice",
 			"prompt": "Quanto fa 9 / 2 in Python?",
-			"options": [],
+			"options": [
+				"5",
+				"4,5",
+				"4.5",
+				"4"
+			],
 			"answer": "4.5",
 			"explanation": "/ restituisce sempre un float. Per la divisione intera si usa //.",
 			"distractorWhy": {
@@ -2399,9 +2409,14 @@
 			"subject": "coding",
 			"topic": "output",
 			"difficulty": 3,
-			"format": "numeric_input",
+			"format": "multiple_choice",
 			"prompt": "Cosa stampa: print(10 / 2)?",
-			"options": [],
+			"options": [
+				"5",
+				"5.0",
+				"10/2",
+				"'5'"
+			],
 			"answer": "5.0",
 			"explanation": "In Python la divisione / dà sempre un numero con la virgola, anche quando il risultato è esatto.",
 			"distractorWhy": {

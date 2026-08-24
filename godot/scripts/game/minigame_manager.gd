@@ -1058,15 +1058,22 @@ const CLASSIFICATION := {
 				"antico": "aggettivo", "buio": "aggettivo", "leggero": "aggettivo", "curioso": "aggettivo",
 				"velocemente": "avverbio", "lentamente": "avverbio", "domani": "avverbio", "sempre": "avverbio",
 				"forse": "avverbio", "bene": "avverbio", "quasi": "avverbio", "altrove": "avverbio"}},
-		{"explanation": "Il plurale non si riconosce dalla vocale finale ma dal confronto con il singolare: «città» non cambia mai, e resta l'articolo a dirlo.", "topic": "pensiero-linguaggio", "draw": 6, "prompt": "Smista ogni parola: singolare o plurale?",
+		# I nomi INVARIABILI non possono stare qui da soli. Segnalato giocando:
+		# «crisi è singolare o plurale? entrambi, e lo studente tira a caso».
+		# Era vero, e la spiegazione lo diceva già da sé — «resta l'articolo a
+		# dirlo» — mentre la tessera l'articolo non ce l'aveva. Città, crisi e
+		# specie entrano quindi in coppia e con l'articolo davanti: la prova
+		# resta la stessa, ma la risposta è di nuovo una sola.
+		{"explanation": "Il plurale non si riconosce dalla vocale finale ma dal confronto con il singolare. Le parole invariabili — città, crisi, specie — non cambiano mai forma: da sole non dicono il numero, e a dirlo resta l'articolo. È per questo che qui alcune tessere arrivano con l'articolo davanti.", "topic": "pensiero-linguaggio", "draw": 6, "prompt": "Smista ogni parola: singolare o plurale?",
 			"categories": ["singolare", "plurale"],
 			"assignments": {
-				"libro": "singolare", "fiore": "singolare", "casa": "singolare", "città": "singolare",
+				"libro": "singolare", "fiore": "singolare", "casa": "singolare", "la città": "singolare",
 				"uovo": "singolare", "braccio": "singolare", "amico": "singolare", "problema": "singolare",
-				"crisi": "singolare", "specie": "singolare", "dito": "singolare", "lenzuolo": "singolare",
+				"la crisi": "singolare", "la specie": "singolare", "dito": "singolare", "lenzuolo": "singolare",
 				"libri": "plurale", "fiori": "plurale", "case": "plurale", "uova": "plurale",
 				"braccia": "plurale", "amici": "plurale", "problemi": "plurale", "dita": "plurale",
-				"lenzuola": "plurale", "valigie": "plurale", "camicie": "plurale", "ciliegie": "plurale"}},
+				"lenzuola": "plurale", "le città": "plurale", "le crisi": "plurale", "le specie": "plurale",
+				"valigie": "plurale", "camicie": "plurale", "ciliegie": "plurale"}},
 		{"explanation": "Il tempo si legge nella desinenza, non nel senso della frase: «mangiai» e «avete visto» sono entrambi passati, con forme lontanissime.", "topic": "verbo", "draw": 6, "prompt": "Smista ogni verbo nel suo tempo.",
 			"categories": ["passato", "presente", "futuro"],
 			"assignments": {
@@ -1270,15 +1277,31 @@ const CLASSIFICATION := {
 				"mettere 10 dentro una variabile": "basta un'istruzione",
 				"controllare se un numero è positivo": "basta un'istruzione",
 				"calcolare il doppio di un numero": "basta un'istruzione"}},
-		{"explanation": "Un programma prende dati e ne restituisce: quello che entra viene da fuori, quello che esce va verso chi guarda. Confonderli è l'errore più comune all'inizio.", "topic": "input", "draw": 6, "prompt": "Smista ogni operazione: il dato entra o esce?",
-			"categories": ["entra", "esce"],
+		# Ingresso e uscita sono RELATIVI: senza dire rispetto a che cosa, metà
+		# delle tessere ha due risposte difendibili. Segnalato giocando: «nel
+		# coding i segnali di ingresso e di uscita possono essere fraintesi,
+		# rispetto a cosa si deve considerare?». Aveva ragione: «chiedere il nome
+		# a chi gioca» è un ingresso per il programma e un'uscita per chi legge
+		# la domanda a schermo, e la vecchia tessera non diceva quale dei due
+		# momenti stesse nominando. Adesso il verso è dichiarato nella consegna e
+		# ripetuto nel nome dei bidoni, e ogni tessera nomina UN solo momento.
+		{"explanation": "Ingresso e uscita si contano sempre dal programma, mai da chi lo usa: ENTRA il dato che il programma riceve da fuori (tastiera, sensore, file, rete), ESCE il dato che il programma manda fuori (schermo, altoparlante, file, rete). Lo stesso istante può contenere le due cose insieme — la domanda «Come ti chiami?» esce, il nome digitato entra — e per questo ogni tessera ne nomina una sola.", "topic": "input", "draw": 6, "prompt": "Dal punto di vista del programma: il dato entra nel programma o ne esce?",
+			"categories": ["entra nel programma", "esce dal programma"],
 			"assignments": {
-				"chiedere il nome a chi gioca": "entra", "leggere la temperatura da un sensore": "entra",
-				"ricevere il clic di un pulsante": "entra", "leggere una riga da un file": "entra",
-				"registrare il tasto premuto": "entra", "ricevere un messaggio dalla rete": "entra",
-				"scrivere il risultato a schermo": "esce", "accendere una lampadina": "esce",
-				"salvare i punti in un file": "esce", "far suonare un avviso": "esce",
-				"disegnare una figura": "esce", "mandare un messaggio in rete": "esce"}},
+				"leggere il nome digitato da chi gioca": "entra nel programma",
+				"leggere la temperatura da un sensore": "entra nel programma",
+				"ricevere il clic di un pulsante": "entra nel programma",
+				"leggere una riga da un file": "entra nel programma",
+				"registrare il tasto premuto": "entra nel programma",
+				"ricevere un messaggio dalla rete": "entra nel programma",
+				"leggere la risposta scritta sulla tastiera": "entra nel programma",
+				"scrivere il risultato a schermo": "esce dal programma",
+				"mostrare a schermo la domanda «Come ti chiami?»": "esce dal programma",
+				"accendere una lampadina": "esce dal programma",
+				"salvare i punti in un file": "esce dal programma",
+				"far suonare un avviso": "esce dal programma",
+				"disegnare una figura": "esce dal programma",
+				"mandare un messaggio in rete": "esce dal programma"}},
 	],
 	"storia": [
 		{"topic": "fonti", "draw": 6, "prompt": "Smista ogni traccia del passato: fonte scritta o fonte materiale?",

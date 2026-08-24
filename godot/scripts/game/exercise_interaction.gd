@@ -85,6 +85,26 @@ static func answers_equivalent(a: String, b: String) -> bool:
 ## veloce per far smettere di provare — vale più della comodità di confrontare
 ## una stringa sola.
 static func answer_accepted(given: String, node: Dictionary) -> bool:
+	# La scelta multipla si TOCCA, non si digita: l'opzione arriva identica a
+	# come sta scritta nel banco, quindi qui il confronto dev'essere esatto.
+	# La normalizzazione serve a chi scrive — «12», «12.0» e «12,0» sono la
+	# stessa risposta battuta a tastiera — e su un elenco di opzioni fa danno,
+	# perché rende giusto un distrattore: in `coding-stringhe-123` la domanda è
+	# proprio maiuscole contro minuscole (`.upper()` non assegnato) e «CIAO»,
+	# cioè il distrattore che contiene l'errore da capire, veniva contato
+	# giusto. Lo stesso vale per «5» contro «5.0» sulla divisione di Python.
+	# Segnalato giocando, insieme alle soluzioni doppie di italiano.
+	if is_multiple_choice(node):
+		# `strip_edges` e basta: il contratto (`_validate_multiple_choice`) gia'
+		# confronta le opzioni con la risposta a bordi tagliati, quindi qui la
+		# stessa tolleranza — e nessuna in piu'.
+		var scelta := given.strip_edges()
+		if scelta == str(node.get("answer", "")).strip_edges():
+			return true
+		for alternativa in Array(node.get("accept", [])):
+			if scelta == str(alternativa).strip_edges():
+				return true
+		return false
 	if answers_equivalent(given, str(node.get("answer", ""))):
 		return true
 	for alternativa in Array(node.get("accept", [])):

@@ -69,7 +69,36 @@ extends SceneTree
 ## rispetto a tutte le parole della loro classe e area, e il pool da cui pescano
 ## i distrattori non ne contiene di più lunghe.
 ##
-## Le altre quattro restano sopra, e il loro tetto è quello che avevano quel giorno.
+## E **coding**, da 32,7 a 22,9. Lì il banco era la fusione di tre insiemi che si
+## sovrapponevano — i «principi» curati, la serie numerata e un blocco compatto —
+## e tredici fatti finivano chiesti due volte, spesso a difficoltà diverse.
+##
+## E **latino**, da 31,5 a 23,8, con lo stesso difetto di coding: tre insiemi
+## sovrapposti e diciotto fatti chiesti due volte.
+##
+## E **inglese**, da 26,5 a 25,3, praticamente sul caso. Lì non si scende oltre
+## senza fare danno: le glosse italiane sono doppie («conservare / archiviare»,
+## «guasto / fallimento») perché una parola sola non distinguerebbe il senso, e
+## il pool da cui si pescano i distrattori è fatto delle stesse glosse. Allungare
+## quella di un'altra voce sposta il difetto su di lei. Restano quattro quesiti
+## sopra soglia, dichiarati.
+##
+## E **matematica**, da 25,9 a 24,3. Lì il controllo è stato di altro tipo: le
+## 299 domande di calcolo sono state verificate a macchina una per una (tutte
+## giuste), e il difetto trovato non era la lunghezza ma la direzione — la
+## tabellina si esercitava solo come «a × b», mai come divisione né come fattore
+## mancante, e centootto fatti erano ripetuti identici su bande diverse. Adesso
+## il primo incontro è il prodotto, il secondo il fattore mancante, il terzo la
+## divisione: stesso numero di esercizi, tre direzioni invece di una.
+##
+## E **logica**, l'ultima, da 25,8 a 21,0. Lì il difetto non era solo la
+## lunghezza: le parti astratte erano ottime, ma «sequenze» ed «esclusioni»
+## erano numeri nudi con cinque gruppi ripetuti identici e tredici sequenze su
+## trentuno costruite sulla stessa regola «+n». Le copie sono diventate i tipi
+## che mancavano — periodicità, due serie intrecciate, cicli, orari che
+## scavalcano l'ora — e le esclusioni hanno una formula sola invece di tre.
+##
+## **Il debito è chiuso: tutte e dodici le materie sono al caso o sotto.**
 ## Serve a due cose, e la seconda vale più della prima:
 ##
 ##   1. **non si può peggiorare**: un blocco di quesiti nuovi che sposta una
@@ -95,18 +124,19 @@ const TOLLERANZA := 0.5
 const BANDA := 5.0
 
 ## Il tetto per materia, misurato il 21 agosto 2026. Si abbassa, non si alza.
-## Scienze, storia, fisica, elettronica, musica, geografia e italiano sono
-## **sotto il caso**: la scorciatoia lì fa perdere.
+## **Undici materie su dodici sono sotto il caso**, e la dodicesima (inglese) è
+## esattamente sul caso: la scorciatoia non fa più guadagnare niente da nessuna
+## parte. Il tetto adesso serve solo a impedire che si torni indietro.
 const TETTO := {
-	"coding": 32.7,
+	"coding": 22.9,
 	"elettronica": 21.9,
 	"fisica": 21.9,
 	"geografia": 24.7,
-	"inglese": 26.5,
+	"inglese": 25.3,
 	"italiano": 24.8,
-	"latino": 31.5,
-	"logica": 25.8,
-	"matematica": 25.9,
+	"latino": 23.8,
+	"logica": 21.0,
+	"matematica": 24.3,
 	"musica": 23.7,
 	"scienze": 22.1,
 	"storia": 22.2,

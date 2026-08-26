@@ -16,3 +16,13 @@ Modalità: ImageGen integrato, una chiamata distinta per Custode. Prompt comune:
 La livrea dinamica resta nel bagliore Godot e applica soltanto una tinta leggera
 al dipinto. Se un asset manca, `OutdoorVisualFactory.build_pet()` conserva il
 vecchio fallback procedurale.
+
+## Animazione runtime
+
+Le illustrazioni restano tavole singole: `pet_companion.gd` le anima con
+squash-and-stretch, inclinazioni e piccoli oggetti di scena vettoriali. Tutte le
+16 combinelle hanno una posa distinta (coda, starnuto, ombra, eco, foglia,
+inchino e le altre), con una variante statica dedicata quando e' attiva la
+riduzione del movimento. La copertura catalogo -> posa e' verificata da
+`pet_advanced_audit.gd`; la tavola visiva si rigenera con
+`pet_antics_render_probe.gd`.

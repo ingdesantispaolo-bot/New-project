@@ -393,7 +393,7 @@
 			"topic": "esclusioni",
 			"difficulty": 2,
 			"format": "multiple_choice",
-			"prompt": "Quale parola non appartiene al gruppo: cane, mela, gatto, cavallo?",
+			"prompt": "Quale non appartiene al gruppo: cane, mela, gatto, cavallo?",
 			"options": [
 				"mela",
 				"cavallo",
@@ -414,7 +414,7 @@
 			"topic": "esclusioni",
 			"difficulty": 3,
 			"format": "multiple_choice",
-			"prompt": "Quale parola non appartiene al gruppo: rosa, tulipano, quercia, margherita?",
+			"prompt": "Quale non appartiene al gruppo: rosa, tulipano, quercia, margherita?",
 			"options": [
 				"tulipano",
 				"quercia",
@@ -435,7 +435,7 @@
 			"topic": "esclusioni",
 			"difficulty": 2,
 			"format": "multiple_choice",
-			"prompt": "Quale parola non appartiene al gruppo: rosso, verde, tavolo, blu?",
+			"prompt": "Quale non appartiene al gruppo: rosso, verde, tavolo, blu?",
 			"options": [
 				"blu",
 				"verde",
@@ -456,7 +456,7 @@
 			"topic": "esclusioni",
 			"difficulty": 3,
 			"format": "multiple_choice",
-			"prompt": "Quale parola non appartiene al gruppo: lunedì, marzo, giovedì, domenica?",
+			"prompt": "Quale non appartiene al gruppo: lunedì, marzo, giovedì, domenica?",
 			"options": [
 				"domenica",
 				"lunedì",
@@ -774,14 +774,14 @@
 			"prompt": "L'insieme dei quadrati è contenuto in quello dei rettangoli. Perché?",
 			"options": [
 				"Perché entrambi hanno quattro lati",
-				"Perché ogni rettangolo ha i lati uguali",
+				"Perché ogni rettangolo ha i quattro lati uguali",
 				"Perché ogni quadrato ha quattro angoli retti",
 				"Perché hanno sempre la stessa area"
 			],
 			"answer": "Perché ogni quadrato ha quattro angoli retti",
 			"explanation": "Un rettangolo è un quadrilatero con quattro angoli retti: il quadrato lo è, e in più ha i lati uguali.",
 			"distractorWhy": {
-				"Perché ogni rettangolo ha i lati uguali": "Non è vero: un rettangolo generico ha lati diversi a due a due, solo il quadrato li ha tutti uguali.",
+				"Perché ogni rettangolo ha i quattro lati uguali": "Non è vero: un rettangolo generico ha lati diversi a due a due, solo il quadrato li ha tutti uguali.",
 				"Perché hanno sempre la stessa area": "L'area non è fissa né per i quadrati né per i rettangoli.",
 				"Perché entrambi hanno quattro lati": "Anche altri quadrilateri hanno quattro lati: ciò che conta sono i quattro angoli retti."
 			}
@@ -839,13 +839,13 @@
 				"Un insieme più grande",
 				"Un sottoinsieme",
 				"L'insieme complementare",
-				"Un insieme disgiunto"
+				"Un gruppo a parte"
 			],
 			"answer": "Un sottoinsieme",
 			"explanation": "Ogni arco è uno strumento, ma esistono strumenti che non sono archi: la parte sta dentro il tutto.",
 			"distractorWhy": {
 				"Un insieme più grande": "Gli archi sono una parte degli strumenti musicali, non un gruppo più grande.",
-				"Un insieme disgiunto": "Gli archi sono strumenti musicali: c'è sovrapposizione totale, non assenza di elementi comuni.",
+				"Un gruppo a parte": "Gli archi sono strumenti musicali: c'è sovrapposizione totale, non assenza di elementi comuni.",
 				"L'insieme complementare": "Il complementare sarebbe «tutto ciò che non è strumento musicale»: gli archi sono invece dentro il gruppo."
 			}
 		},
@@ -890,7 +890,7 @@
 			"prompt": "Quale gruppo contiene tutti gli altri: cani, mammiferi, animali, vertebrati?",
 			"options": [
 				"Mammiferi soltanto",
-				"Cani e vertebrati",
+				"Solo i cani",
 				"Vertebrati e mammiferi",
 				"Animali"
 			],
@@ -899,7 +899,7 @@
 			"distractorWhy": {
 				"Vertebrati e mammiferi": "Anche vertebrati e mammiferi sono contenuti in animali, il gruppo più ampio.",
 				"Mammiferi soltanto": "I mammiferi sono un sottoinsieme, non il gruppo che contiene tutti gli altri.",
-				"Cani e vertebrati": "Cani e vertebrati sono entrambi contenuti in animali, il gruppo più ampio di tutti."
+				"Solo i cani": "Cani e vertebrati sono entrambi contenuti in animali, il gruppo più ampio di tutti."
 			}
 		},
 		{
@@ -913,12 +913,12 @@
 				"Tutto ciò che sta fuori da quell'insieme",
 				"La metà mancante dell'insieme",
 				"L'insieme con gli stessi elementi",
-				"L'insieme che gli assomiglia di più"
+				"L'insieme che gli assomiglia di più fra tutti"
 			],
 			"answer": "Tutto ciò che sta fuori da quell'insieme",
 			"explanation": "Dentro un gruppo di riferimento: il complementare dei pari, fra i numeri interi, sono i dispari.",
 			"distractorWhy": {
-				"L'insieme che gli assomiglia di più": "Il complementare non è definito dalla somiglianza: è tutto ciò che sta fuori.",
+				"L'insieme che gli assomiglia di più fra tutti": "Il complementare non è definito dalla somiglianza: è tutto ciò che sta fuori.",
 				"La metà mancante dell'insieme": "Non è necessariamente la metà: è tutto quello che non appartiene all'insieme.",
 				"L'insieme con gli stessi elementi": "Il complementare ha elementi diversi, esattamente quelli che l'insieme originale non ha."
 			}
@@ -1050,12 +1050,12 @@
 				"Non si può concludere niente",
 				"Ho dimenticato l'ombrello",
 				"Non pioveva",
-				"Pioveva comunque"
+				"Pioveva lo stesso"
 			],
 			"answer": "Non pioveva",
 			"explanation": "Se l'effetto manca, manca anche la causa che lo garantiva: è la forma corretta del ragionamento.",
 			"distractorWhy": {
-				"Pioveva comunque": "Se pioveva, secondo la regola avrei preso l'ombrello: non averlo preso esclude che piovesse.",
+				"Pioveva lo stesso": "Se pioveva, secondo la regola avrei preso l'ombrello: non averlo preso esclude che piovesse.",
 				"Ho dimenticato l'ombrello": "La regola garantisce che prendo l'ombrello se piove: se non l'ho preso, non poteva piovere.",
 				"Non si può concludere niente": "Si può concludere: se manca l'effetto garantito, manca anche la causa che lo garantiva."
 			}
@@ -1153,7 +1153,7 @@
 			"prompt": "Un'affermazione e la sua negazione possono essere entrambe vere?",
 			"options": [
 				"Sì, in certi casi particolari",
-				"Dipende da chi le dice",
+				"Dipende dai casi",
 				"Sì, se sono complicate",
 				"No, mai"
 			],
@@ -1162,7 +1162,7 @@
 			"distractorWhy": {
 				"Sì, se sono complicate": "La complessità della frase non cambia il principio di non contraddizione.",
 				"Sì, in certi casi particolari": "Non esistono eccezioni: se una è vera l'altra è sempre falsa.",
-				"Dipende da chi le dice": "La verità logica non dipende da chi parla."
+				"Dipende dai casi": "La verità logica non dipende da chi parla."
 			}
 		},
 		{
@@ -1205,7 +1205,7 @@
 			"format": "multiple_choice",
 			"prompt": "«Ho preso il gelato E la torta» è falsa. Cosa si conclude?",
 			"options": [
-				"Non ho preso nessuna delle due",
+				"Non ho preso proprio nessuna delle due",
 				"Almeno una delle due non l'ho presa",
 				"Ho preso solo il gelato",
 				"Ho preso solo la torta"
@@ -1213,7 +1213,7 @@
 			"answer": "Almeno una delle due non l'ho presa",
 			"explanation": "Per far cadere una E basta che uno dei due pezzi sia falso: non serve che lo siano entrambi.",
 			"distractorWhy": {
-				"Non ho preso nessuna delle due": "Basta che una delle due sia falsa per far cadere la E: non serve che siano false entrambe.",
+				"Non ho preso proprio nessuna delle due": "Basta che una delle due sia falsa per far cadere la E: non serve che siano false entrambe.",
 				"Ho preso solo il gelato": "Questa è solo una delle possibilità compatibili con la frase falsa, non l'unica.",
 				"Ho preso solo la torta": "Questa è solo una delle possibilità compatibili con la frase falsa, non l'unica."
 			}
@@ -1291,7 +1291,7 @@
 			"options": [
 				"Soltanto i cani sanno abbaiare",
 				"Almeno un cane abbaia, se i cani esistono",
-				"Chiunque abbaia dev'essere un cane",
+				"Chiunque abbaia dev'essere per forza un cane",
 				"Alcuni cani non abbaiano affatto"
 			],
 			"answer": "Almeno un cane abbaia, se i cani esistono",
@@ -1299,7 +1299,7 @@
 			"distractorWhy": {
 				"Soltanto i cani sanno abbaiare": "La regola dice che i cani abbaiano, non che solo loro lo sanno fare.",
 				"Alcuni cani non abbaiano affatto": "Se «tutti» i cani abbaiano, non ce n'è nessuno che non lo fa.",
-				"Chiunque abbaia dev'essere un cane": "Non si può girare la frase: altri animali potrebbero abbaiare senza essere cani."
+				"Chiunque abbaia dev'essere per forza un cane": "Non si può girare la frase: altri animali potrebbero abbaiare senza essere cani."
 			}
 		},
 		{
@@ -1416,14 +1416,14 @@
 			"prompt": "Da «alcuni gatti sono neri» si può dedurre «tutti i gatti sono neri»?",
 			"options": [
 				"Dipende da quanti gatti sono neri",
-				"Sì, se i gatti sono pochi",
+				"Sì, se sono pochi",
 				"Sì, se non ci sono controesempi",
 				"No, in nessun caso"
 			],
 			"answer": "No, in nessun caso",
 			"explanation": "Da un caso particolare non si sale a una regola generale: è il salto che rende sbagliati molti ragionamenti.",
 			"distractorWhy": {
-				"Sì, se i gatti sono pochi": "Il numero di gatti non cambia la logica: da «alcuni» non si può mai dedurre «tutti».",
+				"Sì, se sono pochi": "Il numero di gatti non cambia la logica: da «alcuni» non si può mai dedurre «tutti».",
 				"Sì, se non ci sono controesempi": "Anche senza controesempi noti, «alcuni» non garantisce «tutti»: mancano informazioni.",
 				"Dipende da quanti gatti sono neri": "Non dipende dalla quantità: da un caso particolare non si sale mai a una regola generale."
 			}
@@ -1837,49 +1837,44 @@
 			"id": "logica-sequenze-57",
 			"subject": "logica",
 			"topic": "sequenze",
-			"difficulty": 1,
+			"difficulty": 2,
 			"format": "numeric_input",
-			"prompt": "Quale numero continua la serie: 2, 4, 6, 8, ?",
+			"prompt": "Su un braccialetto le perline si ripetono sempre così: rossa, rossa, blu, rossa, rossa, blu… Quante perline blu ci sono nelle prime dodici?",
 			"options": [],
-			"answer": "10",
-			"explanation": "Fra un numero e il successivo ci sono sempre due: la regola è «+2», e vale anche fra 8 e il termine dopo.",
-			"distractorWhy": {
-				"9": "Rompe la regola «+2»: 8+2 fa 10, non 9.",
-				"12": "Salta un passo: sarebbe il numero dopo 10, non il prossimo della serie.",
-				"16": "È il doppio di 8, ma qui la regola è aggiungere 2, non raddoppiare."
-			}
+			"answer": "4",
+			"explanation": "Il disegno si ripete ogni tre perline e in ogni gruppo ce n'è una blu: dodici perline fanno quattro gruppi, quindi quattro blu. Quando una serie si ripete a blocchi non serve contarla tutta: basta contare i blocchi."
 		},
 		{
 			"id": "logica-sequenze-58",
 			"subject": "logica",
 			"topic": "sequenze",
-			"difficulty": 1,
-			"format": "numeric_input",
-			"prompt": "Quale numero continua la serie: 10, 9, 8, 7, ?",
-			"options": [],
-			"answer": "6",
-			"explanation": "Qui la serie scende di uno per volta: le regole possono anche togliere, non solo aggiungere.",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale giorno continua la serie: lunedì, mercoledì, venerdì, ?",
+			"options": [
+				"giovedì",
+				"lunedì",
+				"sabato",
+				"domenica"
+			],
+			"answer": "domenica",
+			"explanation": "Si salta un giorno ogni volta: lunedì, (martedì), mercoledì, (giovedì), venerdì, (sabato), domenica. Una serie può girare in tondo invece di crescere: dopo la domenica si ricomincerebbe dal martedì.",
 			"distractorWhy": {
-				"5": "Scende di due invece che di uno: la regola qui è «−1».",
-				"8": "È un numero già comparso nella serie, non il successivo scendendo di uno.",
-				"11": "Va nella direzione sbagliata: la serie scende, non sale."
+				"sabato": "Il sabato è il giorno saltato: la serie prende uno sì e uno no.",
+				"lunedì": "È il punto di partenza: la serie va avanti, non torna indietro.",
+				"giovedì": "Il giovedì era già stato saltato fra mercoledì e venerdì."
 			}
 		},
 		{
 			"id": "logica-sequenze-59",
 			"subject": "logica",
 			"topic": "sequenze",
-			"difficulty": 2,
+			"difficulty": 4,
 			"format": "numeric_input",
-			"prompt": "Quale numero continua la serie: 1, 2, 4, 8, ?",
+			"prompt": "Quale numero continua la serie: 2, 20, 4, 18, 6, 16, ?",
 			"options": [],
-			"answer": "16",
-			"explanation": "Ogni numero è il doppio del precedente. Quando i salti crescono in fretta conviene provare a moltiplicare, non ad aggiungere.",
-			"distractorWhy": {
-				"9": "È vicino ma non è il doppio di 8.",
-				"10": "Segue la regola «+2» invece di raddoppiare: qui ogni numero è il doppio del precedente.",
-				"12": "Non è il doppio di 8: 8×2 fa 16, non 12."
-			}
+			"answer": "8",
+			"explanation": "Sono due serie intrecciate: al primo, terzo e quinto posto 2, 4, 6 che salgono di due; al secondo, quarto e sesto 20, 18, 16 che scendono di due. Tocca di nuovo a quella che sale, quindi 8. Quando una serie sembra impazzita, conviene provare a leggerla a numeri alterni."
 		},
 		{
 			"id": "logica-sequenze-60",
@@ -1889,10 +1884,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale lettera continua la serie: A, C, E, G, ?",
 			"options": [
-				"F",
-				"L",
 				"I",
-				"H"
+				"H",
+				"L",
+				"F"
 			],
 			"answer": "I",
 			"explanation": "Si salta una lettera ogni volta: A, (B), C, (D), E… Dopo la G si salta la H e si arriva alla I.",
@@ -1906,21 +1901,21 @@
 			"id": "logica-esclusioni-61",
 			"subject": "logica",
 			"topic": "esclusioni",
-			"difficulty": 1,
+			"difficulty": 4,
 			"format": "multiple_choice",
-			"prompt": "Quale non appartiene al gruppo: cane, gatto, cavallo, sedia?",
+			"prompt": "Quale non appartiene al gruppo: arancione, viola, verde, giallo?",
 			"options": [
-				"cane",
-				"cavallo",
-				"gatto",
-				"sedia"
+				"arancione",
+				"giallo",
+				"verde",
+				"viola"
 			],
-			"answer": "sedia",
-			"explanation": "Tre sono animali e uno è un oggetto. Per trovare l'intruso si cerca la proprietà che hanno TUTTI gli altri, non quella che manca a uno solo.",
+			"answer": "giallo",
+			"explanation": "Gli altri tre nascono mescolando due colori: rosso e giallo danno arancione, rosso e blu danno viola, giallo e blu danno verde. Il giallo invece è un colore primario. Qui la proprietà comune non si vede guardando i colori: bisogna sapere da dove vengono.",
 			"distractorWhy": {
-				"cane": "È un animale, come gli altri: non è lui l'intruso.",
-				"gatto": "È un animale, come gli altri: non è lui l'intruso.",
-				"cavallo": "È un animale, come gli altri: non è lui l'intruso."
+				"arancione": "Nasce da rosso più giallo: è un colore secondario come gli altri due.",
+				"viola": "Nasce da rosso più blu: è un colore secondario come gli altri due.",
+				"verde": "Nasce da giallo più blu: è un colore secondario come gli altri due."
 			}
 		},
 		{
@@ -1931,9 +1926,9 @@
 			"format": "multiple_choice",
 			"prompt": "Quale non appartiene al gruppo: lunedì, martedì, gennaio, giovedì?",
 			"options": [
-				"gennaio",
-				"giovedì",
 				"martedì",
+				"giovedì",
+				"gennaio",
 				"lunedì"
 			],
 			"answer": "gennaio",
@@ -1968,10 +1963,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale non appartiene al gruppo: martello, cacciavite, pinza, mela?",
 			"options": [
-				"martello",
-				"pinza",
 				"mela",
-				"cacciavite"
+				"pinza",
+				"cacciavite",
+				"martello"
 			],
 			"answer": "mela",
 			"explanation": "Tre servono a lavorare, la mela si mangia: la categoria è l'uso, non la forma.",
@@ -1989,10 +1984,10 @@
 			"format": "multiple_choice",
 			"prompt": "Caldo sta a freddo come alto sta a…?",
 			"options": [
-				"veloce",
 				"lungo",
-				"grande",
-				"basso"
+				"basso",
+				"veloce",
+				"grande"
 			],
 			"answer": "basso",
 			"explanation": "La relazione è «il contrario di». Trovata la relazione nella prima coppia, si applica identica alla seconda.",
@@ -2010,10 +2005,10 @@
 			"format": "multiple_choice",
 			"prompt": "Uccello sta a volare come pesce sta a…?",
 			"options": [
-				"nuotare",
+				"camminare",
 				"saltare",
-				"correre",
-				"camminare"
+				"nuotare",
+				"correre"
 			],
 			"answer": "nuotare",
 			"explanation": "La relazione è «come si sposta»: ogni animale va con il movimento del suo ambiente.",
@@ -2032,9 +2027,9 @@
 			"prompt": "Libro sta a leggere come cibo sta a…?",
 			"options": [
 				"servire",
-				"mangiare",
+				"comprare",
 				"cucinare",
-				"comprare"
+				"mangiare"
 			],
 			"answer": "mangiare",
 			"explanation": "La relazione è «che cosa se ne fa»: del libro si legge, del cibo si mangia. Cucinare viene prima, non è l'uso finale.",
@@ -2048,21 +2043,21 @@
 			"id": "logica-analogie-68",
 			"subject": "logica",
 			"topic": "analogie",
-			"difficulty": 2,
+			"difficulty": 3,
 			"format": "multiple_choice",
-			"prompt": "Medico sta a ospedale come insegnante sta a…?",
+			"prompt": "Tiepido sta a bollente come fresco sta a…?",
 			"options": [
-				"studente",
-				"lavagna",
-				"scuola",
-				"libro"
+				"gelido",
+				"piacevole",
+				"umido",
+				"caldo"
 			],
-			"answer": "scuola",
-			"explanation": "La relazione è «dove lavora». Lavagna e studente stanno nella scuola, ma non sono il luogo.",
+			"answer": "gelido",
+			"explanation": "La relazione non è di contrario ma di grado: bollente è la versione estrema di tiepido, gelido quella di fresco. Nelle analogie conta il tipo di legame, non il significato delle singole parole.",
 			"distractorWhy": {
-				"libro": "Il libro è uno strumento di lavoro, non il luogo dove si lavora.",
-				"lavagna": "La lavagna è uno strumento in classe, non il luogo di lavoro.",
-				"studente": "Lo studente è una persona con cui si lavora, non il luogo."
+				"caldo": "Va dalla parte opposta: fresco e caldo sono contrari, non lo stesso grado spinto all'estremo.",
+				"umido": "Parla di quanta acqua c'è nell'aria, non di quanto fa freddo.",
+				"piacevole": "È un giudizio, non un grado di temperatura: rompe il tipo di legame."
 			}
 		},
 		{
@@ -2074,9 +2069,9 @@
 			"prompt": "Tutti i quadrati sono rettangoli. Allora un quadrato è anche…",
 			"options": [
 				"nessuna delle due",
+				"un rettangolo",
 				"un triangolo",
-				"un cerchio",
-				"un rettangolo"
+				"un cerchio"
 			],
 			"answer": "un rettangolo",
 			"explanation": "Se un insieme è dentro un altro, tutto ciò che sta nel piccolo sta anche nel grande. Non vale al contrario: non tutti i rettangoli sono quadrati.",
@@ -2094,10 +2089,10 @@
 			"format": "multiple_choice",
 			"prompt": "In una classe tutti giocano a calcio o a pallavolo. Marco non gioca a calcio. Allora…",
 			"options": [
-				"gioca a pallavolo",
-				"non gioca a niente",
+				"non si può sapere",
 				"gioca a entrambi",
-				"non si può sapere"
+				"gioca a pallavolo",
+				"non gioca a niente"
 			],
 			"answer": "gioca a pallavolo",
 			"explanation": "«O l'uno o l'altro» copre tutti: escluso il primo resta per forza il secondo. Funziona solo perché la frase dice TUTTI.",
@@ -2116,9 +2111,9 @@
 			"prompt": "«Tutti i gatti hanno quattro zampe.» Per smentirla basta…",
 			"options": [
 				"guardare anche i cani",
-				"trovare un gatto senza quattro zampe",
+				"contare molti gatti con quattro zampe",
 				"chiedere a un veterinario",
-				"contare molti gatti con quattro zampe"
+				"trovare un gatto senza quattro zampe"
 			],
 			"answer": "trovare un gatto senza quattro zampe",
 			"explanation": "Una frase con «tutti» cade con un solo controesempio. Trovare mille casi favorevoli non la dimostra; trovarne uno contrario la abbatte.",
@@ -2136,9 +2131,9 @@
 			"format": "multiple_choice",
 			"prompt": "«Qualche uccello non vola.» Per dimostrarla basta…",
 			"options": [
+				"trovare un uccello che non vola",
 				"trovare molti uccelli che volano",
 				"dimostrare che nessuno vola",
-				"trovare un uccello che non vola",
 				"contare tutti gli uccelli"
 			],
 			"answer": "trovare un uccello che non vola",
@@ -2153,21 +2148,21 @@
 			"id": "logica-quantificatori-73",
 			"subject": "logica",
 			"topic": "quantificatori",
-			"difficulty": 1,
+			"difficulty": 3,
 			"format": "multiple_choice",
-			"prompt": "Qual è il contrario di «tutti i cani abbaiano»?",
+			"prompt": "«Al massimo due gatti dormono» è vera se ne dormono…",
 			"options": [
-				"qualche cane abbaia",
-				"tutti i cani tacciono",
-				"nessun cane abbaia",
-				"almeno un cane non abbaia"
+				"almeno due",
+				"due, uno o nessuno",
+				"due o più",
+				"esattamente due"
 			],
-			"answer": "almeno un cane non abbaia",
-			"explanation": "Negare «tutti» non dà «nessuno»: dà «almeno uno no». Sono due frasi molto diverse, e scambiarle è l'errore più comune.",
+			"answer": "due, uno o nessuno",
+			"explanation": "«Al massimo» fissa un tetto e lascia libero tutto quello che sta sotto, zero compreso. È l'immagine speculare di «almeno», che fissa invece un pavimento.",
 			"distractorWhy": {
-				"nessun cane abbaia": "È un'affermazione troppo forte: basta un solo cane che non abbaia per negare «tutti».",
-				"tutti i cani tacciono": "Dice il contrario totale: la vera negazione richiede solo un'eccezione, non l'opposto assoluto.",
-				"qualche cane abbaia": "Non nega la frase originale: potrebbe essere vera insieme a «tutti i cani abbaiano»."
+				"esattamente due": "«Al massimo» non obbliga ad arrivarci: anche uno solo, o nessuno, rispetta il tetto.",
+				"due o più": "È il verso opposto: quello sfonda il tetto invece di restarci sotto.",
+				"almeno due": "«Almeno» fissa un minimo, «al massimo» un massimo: le due parole dicono cose contrarie."
 			}
 		},
 		{
@@ -2175,21 +2170,11 @@
 			"subject": "logica",
 			"topic": "quantificatori",
 			"difficulty": 2,
-			"format": "multiple_choice",
-			"prompt": "«Nessuno studente è arrivato in ritardo.» Se ne trovi uno in ritardo, la frase è…",
-			"options": [
-				"falsa",
-				"ancora vera",
-				"non si può dire",
-				"vera a metà"
-			],
-			"answer": "falsa",
-			"explanation": "«Nessuno» non ammette eccezioni: un solo caso contrario la rende falsa, senza vie di mezzo.",
-			"distractorWhy": {
-				"ancora vera": "Un solo controesempio basta a rendere falsa un'affermazione con «nessuno».",
-				"vera a metà": "Le affermazioni logiche non sono «a metà»: o sono vere o sono false, e qui il controesempio la rende falsa.",
-				"non si può dire": "Si può dire con certezza: un controesempio trovato basta a stabilire che è falsa."
-			}
+			"format": "numeric_input",
+			"prompt": "In classe siete in 20 e «la maggior parte» ha portato il libro. Qual è il numero più piccolo che rende vera questa frase?",
+			"options": [],
+			"answer": "11",
+			"explanation": "«La maggior parte» vuol dire più della metà: metà di 20 fa 10, quindi ne servono almeno 11. Con 10 sarebbe esattamente metà, e metà non è la maggior parte."
 		},
 		{
 			"id": "logica-deduzioni-75",
@@ -2199,10 +2184,10 @@
 			"format": "multiple_choice",
 			"prompt": "Tutti i cuochi sanno cucinare. Anna è una cuoca. Quindi Anna…",
 			"options": [
+				"non sa cucinare",
 				"forse sa cucinare",
 				"sa cucinare",
-				"cucina solo dolci",
-				"non sa cucinare"
+				"cucina solo dolci"
 			],
 			"answer": "sa cucinare",
 			"explanation": "Se la regola vale per tutti e Anna sta nel gruppo, la conclusione è obbligata: non è probabile, è certa.",
@@ -2218,7 +2203,7 @@
 			"topic": "esclusioni",
 			"difficulty": 1,
 			"format": "multiple_choice",
-			"prompt": "Quale elemento non appartiene al gruppo: cane, gatto, cavallo, sedia?",
+			"prompt": "Quale non appartiene al gruppo: cane, gatto, cavallo, sedia?",
 			"options": [
 				"Sedia",
 				"Cane",
@@ -2239,19 +2224,19 @@
 			"topic": "esclusioni",
 			"difficulty": 1,
 			"format": "multiple_choice",
-			"prompt": "Quale elemento non appartiene al gruppo: rosso, blu, verde, tavolo?",
+			"prompt": "Quale non appartiene al gruppo: metro, litro, chilo, bilancia?",
 			"options": [
-				"Rosso",
-				"Tavolo",
-				"Blu",
-				"Verde"
+				"Metro",
+				"Bilancia",
+				"Litro",
+				"Chilo"
 			],
-			"answer": "Tavolo",
-			"explanation": "Gli altri tre sono colori, il tavolo è un mobile.",
+			"answer": "Bilancia",
+			"explanation": "Gli altri tre sono unità di misura, cioè quantità con cui si confronta; la bilancia è lo strumento che serve a misurare. È la stessa differenza che c'è fra il chilometro e il contachilometri.",
 			"distractorWhy": {
-				"Rosso": "È un colore, come gli altri: non è lui l'intruso.",
-				"Blu": "È un colore, come gli altri: non è lui l'intruso.",
-				"Verde": "È un colore, come gli altri: non è lui l'intruso."
+				"Metro": "È l'unità con cui si misurano le lunghezze: uno strumento è il righello.",
+				"Litro": "È l'unità con cui si misurano i liquidi: uno strumento è il misurino.",
+				"Chilo": "È l'unità con cui si misurano le masse: lo strumento è proprio la bilancia."
 			}
 		},
 		{
@@ -2260,19 +2245,19 @@
 			"topic": "esclusioni",
 			"difficulty": 1,
 			"format": "multiple_choice",
-			"prompt": "Quale elemento non appartiene al gruppo: mela, pera, banana, martello?",
+			"prompt": "Quale non appartiene al gruppo: Marte, Venere, Luna, Giove?",
 			"options": [
-				"Mela",
-				"Pera",
-				"Martello",
-				"Banana"
+				"Marte",
+				"Luna",
+				"Venere",
+				"Giove"
 			],
-			"answer": "Martello",
-			"explanation": "Gli altri tre sono frutti, il martello è un attrezzo.",
+			"answer": "Luna",
+			"explanation": "Gli altri tre sono pianeti che girano attorno al Sole; la Luna gira attorno alla Terra ed è un satellite. La differenza non è la grandezza, ma attorno a che cosa si gira.",
 			"distractorWhy": {
-				"Mela": "È un frutto, come gli altri: non è lui l'intruso.",
-				"Pera": "È un frutto, come gli altri: non è lui l'intruso.",
-				"Banana": "È un frutto, come gli altri: non è lui l'intruso."
+				"Marte": "È un pianeta: gira attorno al Sole, come Venere e Giove.",
+				"Venere": "È un pianeta: gira attorno al Sole, come Marte e Giove.",
+				"Giove": "È un pianeta, il più grande di tutti: gira attorno al Sole."
 			}
 		},
 		{
@@ -2280,22 +2265,42 @@
 			"subject": "logica",
 			"topic": "sequenze",
 			"difficulty": 1,
-			"format": "numeric_input",
-			"prompt": "Quale numero continua la sequenza: 2, 4, 6, 8, ...?",
-			"options": [],
-			"answer": "10",
-			"explanation": "Ogni termine aumenta di due: dopo l'8 viene il 10."
+			"format": "multiple_choice",
+			"prompt": "Quale lettera continua la serie: Q, P, O, N, ...?",
+			"options": [
+				"L",
+				"M",
+				"I",
+				"R"
+			],
+			"answer": "M",
+			"explanation": "L'alfabeto è una scala come i numeri, e questa serie la scende un gradino per volta: Q, P, O, N, M. Attenzione: nell'alfabeto italiano dopo la M si scende alla L, non alla K.",
+			"distractorWhy": {
+				"L": "La L viene un gradino più giù della M: è il termine dopo il prossimo.",
+				"I": "È troppo in basso: fra la N e la I ci sono la M e la L.",
+				"R": "La R sta prima della Q: la serie scende, quindi va nell'altra direzione."
+			}
 		},
 		{
 			"id": "logica-sequenze-quale-numero-continua-la-sequenza-5-10-15-20",
 			"subject": "logica",
 			"topic": "sequenze",
 			"difficulty": 1,
-			"format": "numeric_input",
-			"prompt": "Quale numero continua la sequenza: 5, 10, 15, 20, ...?",
-			"options": [],
-			"answer": "25",
-			"explanation": "Ogni termine aumenta di cinque: dopo il 20 viene il 25."
+			"format": "multiple_choice",
+			"prompt": "L'autobus passa alle 8:05, 8:20, 8:35, 8:50. A che ora passa il prossimo?",
+			"options": [
+				"8:65",
+				"9:05",
+				"9:00",
+				"8:55"
+			],
+			"answer": "9:05",
+			"explanation": "La regola è «+15 minuti», ma i minuti arrivano a 60 e poi ricominciano: 50 + 15 fa 65, cioè un'ora e 5 minuti. Le 8:50 più un quarto d'ora sono le 9:05.",
+			"distractorWhy": {
+				"8:65": "I minuti non arrivano a 65: dopo il 59 scatta l'ora e si riparte da zero.",
+				"9:00": "Sono solo dieci minuti dopo le 8:50: ne mancano ancora cinque.",
+				"8:55": "Sono cinque minuti dopo le 8:50: il passo di questa serie è di quindici."
+			}
 		},
 		{
 			"id": "logica-sequenze-quale-numero-continua-la-sequenza-10-9-8-7",
@@ -2303,10 +2308,15 @@
 			"topic": "sequenze",
 			"difficulty": 1,
 			"format": "numeric_input",
-			"prompt": "Quale numero continua la sequenza: 10, 9, 8, 7, ...?",
+			"prompt": "Con gli stecchini fai quadrati attaccati in fila: 1 quadrato ne vuole 4, 2 quadrati ne vogliono 7, 3 quadrati ne vogliono 10. Quanti stecchini per 4 quadrati?",
 			"options": [],
-			"answer": "6",
-			"explanation": "Ogni termine diminuisce di uno: dopo il 7 viene il 6."
+			"answer": "13",
+			"explanation": "Il primo quadrato costa 4 stecchini, ma ogni quadrato aggiunto dopo ne costa solo 3: il lato in mezzo è già stato messo e serve a tutti e due. Da 10 si aggiunge 3 e si arriva a 13.",
+			"distractorWhy": {
+				"12": "È 4 × 3: ma i quadrati in fila condividono un lato, quindi costano meno di quattro stecchini ciascuno.",
+				"14": "Sarebbe il passo giusto sbagliando il conto: da 10 si aggiungono 3, non 4.",
+				"16": "È 4 × 4, cioè quattro quadrati staccati: qui invece sono attaccati e si risparmiano stecchini."
+			}
 		},
 		{
 			"id": "logica-analogie-il-cane-sta-alla-cuccia-come-l-uccello-sta-al",
@@ -2359,14 +2369,14 @@
 			"prompt": "Tutti i gatti sono felini. Micio è un gatto. Che cosa segue con certezza?",
 			"options": [
 				"Micio è un felino",
-				"Ogni felino è un gatto",
+				"Ogni felino è gatto",
 				"Micio è un mammifero raro",
 				"Alcuni felini non sono gatti"
 			],
 			"answer": "Micio è un felino",
 			"explanation": "La conclusione deve stare dentro le premesse: gatto implica felino.",
 			"distractorWhy": {
-				"Ogni felino è un gatto": "Gira la regola: non tutti i felini sono gatti, solo tutti i gatti sono felini.",
+				"Ogni felino è gatto": "Gira la regola: non tutti i felini sono gatti, solo tutti i gatti sono felini.",
 				"Micio è un mammifero raro": "Non è detto nel testo: è un'informazione inventata, non dedotta dalle premesse.",
 				"Alcuni felini non sono gatti": "Può essere vero in generale, ma non è ciò che si deduce su Micio dalle premesse date."
 			}
@@ -2434,8 +2444,8 @@
 			"options": [
 				"Esattamente metà dei gatti è nera",
 				"Nessun gatto è nero",
-				"Almeno un gatto non è nero",
-				"Tutti i gatti sono di un altro colore"
+				"Tutti i gatti sono di un altro colore",
+				"Almeno un gatto non è nero"
 			],
 			"answer": "Almeno un gatto non è nero",
 			"explanation": "La negazione di «tutti» non è «nessuno»: basta un solo controesempio per smentire un «tutti».",
@@ -2453,15 +2463,15 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la negazione di «alcuni studenti sono in ritardo»?",
 			"options": [
+				"Nessuno studente è in ritardo",
 				"Non tutti gli studenti sono in ritardo",
-				"Tutti gli studenti sono in ritardo",
-				"Alcuni studenti non sono in ritardo",
-				"Nessuno studente è in ritardo"
+				"Tutti in ritardo",
+				"Alcuni studenti non sono in ritardo"
 			],
 			"answer": "Nessuno studente è in ritardo",
 			"explanation": "«Alcuni» vuol dire almeno uno: negarlo significa dire zero, cioè nessuno.",
 			"distractorWhy": {
-				"Tutti gli studenti sono in ritardo": "È l'opposto esagerato: negare «alcuni» dà zero, non tutti.",
+				"Tutti in ritardo": "È l'opposto esagerato: negare «alcuni» dà zero, non tutti.",
 				"Alcuni studenti non sono in ritardo": "Questa frase può essere vera insieme a quella di partenza: non è la sua negazione.",
 				"Non tutti gli studenti sono in ritardo": "Anche questa può essere vera insieme alla frase di partenza: negare «alcuni» richiede zero casi, non «non tutti»."
 			}
@@ -2474,8 +2484,8 @@
 			"format": "multiple_choice",
 			"prompt": "Ogni quadrato è un rombo e ogni rombo è un parallelogramma. Allora…",
 			"options": [
-				"Ogni quadrato è un parallelogramma",
 				"Ogni parallelogramma è un quadrato",
+				"Ogni quadrato è un parallelogramma",
 				"Nessun rombo è un quadrato",
 				"Rombo e quadrato sono la stessa figura"
 			],
@@ -2496,14 +2506,14 @@
 			"prompt": "«Se studio, passo l'esame.» Ho passato l'esame. Che cosa segue?",
 			"options": [
 				"Non ho studiato",
+				"Ho studiato di sicuro, non c'è dubbio",
 				"Non si può dire se ho studiato",
-				"Ho studiato di sicuro",
 				"L'esame era facile"
 			],
 			"answer": "Non si può dire se ho studiato",
 			"explanation": "Dall'effetto non si risale alla causa: l'esame potrei averlo passato anche senza studiare.",
 			"distractorWhy": {
-				"Ho studiato di sicuro": "Passare l'esame non garantisce che sia stato lo studio a farlo passare: potrebbe essere stata fortuna.",
+				"Ho studiato di sicuro, non c'è dubbio": "Passare l'esame non garantisce che sia stato lo studio a farlo passare: potrebbe essere stata fortuna.",
 				"Non ho studiato": "Non si può concludere il contrario: potresti aver studiato lo stesso.",
 				"L'esame era facile": "La difficoltà dell'esame non è un'informazione data dalla frase originale."
 			}
@@ -2516,15 +2526,15 @@
 			"format": "multiple_choice",
 			"prompt": "«Se studio, passo l'esame.» Non ho passato l'esame. Che cosa segue?",
 			"options": [
-				"Ho studiato lo stesso",
+				"Ho studiato",
 				"Non si può dire niente",
-				"Non ho studiato",
-				"L'esame era troppo difficile"
+				"L'esame era troppo difficile",
+				"Non ho studiato"
 			],
 			"answer": "Non ho studiato",
 			"explanation": "Questa volta il passaggio è valido: se manca l'effetto garantito, manca anche la causa che lo garantiva.",
 			"distractorWhy": {
-				"Ho studiato lo stesso": "Se studiare garantiva di passare e non hai passato, allora non hai studiato: è l'unica conclusione valida.",
+				"Ho studiato": "Se studiare garantiva di passare e non hai passato, allora non hai studiato: è l'unica conclusione valida.",
 				"Non si può dire niente": "Qui invece si può concludere qualcosa: è il passaggio logico valido.",
 				"L'esame era troppo difficile": "La regola dice che studiare garantisce di passare: se non hai passato, la spiegazione valida è che non hai studiato, non la difficoltà."
 			}
@@ -2535,19 +2545,19 @@
 			"topic": "verita",
 			"difficulty": 4,
 			"format": "multiple_choice",
-			"prompt": "Un'affermazione e la sua negazione possono essere vere tutte e due?",
+			"prompt": "«Piove» e «fa freddo» possono essere ciascuna vera o falsa. Quante combinazioni diverse esistono in tutto?",
 			"options": [
-				"Sì, se parlano di cose diverse",
-				"Sì, sempre",
-				"Solo in matematica",
-				"No, mai"
+				"Quattro",
+				"Tre",
+				"Due",
+				"Otto"
 			],
-			"answer": "No, mai",
-			"explanation": "È il principio di non contraddizione: se «piove» è vera, «non piove» è falsa. Non c'è via di mezzo.",
+			"answer": "Quattro",
+			"explanation": "Per ognuna delle due ci sono due possibilità, e si combinano fra loro: piove e fa freddo, piove e non fa freddo, non piove e fa freddo, non piove e non fa freddo. Con tre affermazioni sarebbero otto: ogni volta il numero raddoppia.",
 			"distractorWhy": {
-				"Sì, sempre": "Se fossero sempre vere insieme, dire qualcosa non escluderebbe più niente: la logica perderebbe senso.",
-				"Sì, se parlano di cose diverse": "Se parlano di cose diverse non sono più un'affermazione e la sua negazione: sono due frasi indipendenti.",
-				"Solo in matematica": "Il principio di non contraddizione vale per ogni ragionamento logico, non solo in matematica."
+				"Due": "Due sono le possibilità di UNA sola affermazione: qui ce ne sono due, e ognuna moltiplica le combinazioni.",
+				"Tre": "Non se ne perde nessuna per strada: le combinazioni sono quattro, tutte diverse fra loro.",
+				"Otto": "Otto sarebbero con TRE affermazioni: con due ci si ferma a quattro."
 			}
 		},
 		{
@@ -2558,8 +2568,8 @@
 			"format": "multiple_choice",
 			"prompt": "Orologio sta a tempo come termometro sta a…",
 			"options": [
-				"temperatura",
 				"calore",
+				"temperatura",
 				"altezza",
 				"acqua"
 			],
@@ -2580,16 +2590,16 @@
 			"prompt": "Ape sta ad alveare come formica sta a…",
 			"options": [
 				"nido",
+				"tana sottoterra",
 				"formicaio",
-				"tana",
-				"favo"
+				"favo di cera"
 			],
 			"answer": "formicaio",
 			"explanation": "La relazione è «animale → la sua casa». Il favo sta dentro l'alveare, non è la casa della formica.",
 			"distractorWhy": {
-				"favo": "Il favo è la struttura dentro l'alveare, non la casa dell'ape nel suo insieme.",
+				"favo di cera": "Il favo è la struttura dentro l'alveare, non la casa dell'ape nel suo insieme.",
 				"nido": "Il nido è la casa di molti uccelli, non delle formiche.",
-				"tana": "La tana è la casa di molti mammiferi, non delle formiche."
+				"tana sottoterra": "La tana è la casa di molti mammiferi, non delle formiche."
 			}
 		},
 		{
@@ -2602,8 +2612,8 @@
 			"options": [
 				"trapezio",
 				"rombo",
-				"cerchio",
-				"quadrato"
+				"quadrato",
+				"cerchio"
 			],
 			"answer": "cerchio",
 			"explanation": "Gli altri tre sono poligoni, cioè hanno i lati dritti. Il cerchio non ne ha nessuno.",

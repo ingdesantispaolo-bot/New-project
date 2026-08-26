@@ -26,10 +26,29 @@ var _antics: Node
 var _unlocked_antics: Array = []
 var _antic_id := ""
 var _antic_time := 0.0
+var _antic_duration := 1.0
+var _antic_offset := Vector2.ZERO
+var _antic_scale := Vector2.ONE
+var _antic_rotation := 0.0
+var _antic_alpha := 1.0
 var _expression_pose := "sereno"
 var _expression_time := 0.0
 var _expression_duration := 0.0
 var _expression_mark: Node2D
+var _expression_offset := Vector2.ZERO
+var _expression_scale := 1.0
+var _expression_rotation := 0.0
+
+## Ogni voce del catalogo ha una silhouette animata propria. Tenere la lista
+## qui, accanto al renderer, permette all'audit di impedire che una nuova gag
+## venga aggiunta soltanto come testo.
+const VISUALIZED_ANTICS := [
+	"tail", "pose", "nap", "guard", "sit", "sneeze", "hide", "fountain",
+	"sniff", "dash", "shadow", "echo", "leaf", "stack", "stare", "bow",
+]
+
+static func has_visual_for_antic(antic_id: String) -> bool:
+	return VISUALIZED_ANTICS.has(antic_id)
 
 func setup(
 	kind: String,
@@ -240,9 +259,11 @@ func _process(delta: float) -> void:
 		var desired: Vector2 = target.global_position + Vector2(absf(offset.x) * side, offset.y)
 		global_position = global_position.lerp(desired, minf(1.0, delta * 5.0))
 	if visual != null:
+		_reset_motion_channels()
 		_update_antic_pose(delta)
 		_update_expression_pose(delta)
 		var lift := 0.0 if _reduced_motion else sin(_bob * 3.2) * 3.0 * _amplitude
+		var reaction_scale := 1.0
 		if _reaction_delay > 0.0:
 			_reaction_delay = maxf(0.0, _reaction_delay - delta)
 			if _reaction_delay <= 0.0:
@@ -252,17 +273,20 @@ func _process(delta: float) -> void:
 			if not _reduced_motion:
 				lift -= _react * 11.0 * _amplitude
 				var bounce_scale := 1.0 + sin(_react * PI * 3.0) * 0.08 if _bounce else 1.0
-				visual.scale = Vector2.ONE * (1.0 + _react * 0.28 * _amplitude) * bounce_scale
-		else:
-			visual.scale = Vector2.ONE
-		visual.position.y = -14.0 + lift
+				reaction_scale = (1.0 + _react * 0.28 * _amplitude) * bounce_scale
+		visual.rotation = _antic_rotation + _expression_rotation
+		visual.scale = _antic_scale * (_expression_scale * reaction_scale)
+		visual.self_modulate = Color(1.0, 1.0, 1.0, _antic_alpha)
+		visual.position.y = -14.0 + lift + _antic_offset.y + _expression_offset.y
 		# La sporgenza sta sulla X del corpo e non sulla rotazione apposta: la
 		# rotazione e' gia' contesa da combinelle ed espressioni, e sommarcisi
 		# avrebbe voluto dire togliere e rimettere un pezzo di posa a ogni
 		# fotogramma. La X non la scrive nessun altro, quindi il fiuto convive con
 		# qualunque smorfia il Custode stia facendo — che e' giusto: sentire una
 		# cosa non lo rende meno vivo.
-		visual.position.x = _fiuto_sporgenza
+		visual.position.x = _fiuto_sporgenza + _antic_offset.x + _expression_offset.x
+		if _antic_id != "":
+			queue_redraw()
 
 ## **Il Custode va da solo.** (19 agosto 2026)
 ##
@@ -356,29 +380,148 @@ func set_antics_blocked(value: bool) -> void:
 	if is_instance_valid(_antics):
 		_antics.set_blocked(value)
 
-func _on_antic_started(antic_id: String, _duration: float) -> void:
+func _on_antic_started(antic_id: String, duration: float) -> void:
 	_antic_id = antic_id
 	_antic_time = 0.0
+	_antic_duration = maxf(0.1, duration)
 	antic_started.emit(antic_id)
+	queue_redraw()
 
 func _on_antic_finished(_finished: String) -> void:
 	_antic_id = ""
+	_reset_motion_channels()
 	if is_instance_valid(visual):
 		visual.rotation = 0.0
+		visual.scale = Vector2.ONE
+		visual.self_modulate = Color.WHITE
+	queue_redraw()
+
+func _reset_motion_channels() -> void:
+	_antic_offset = Vector2.ZERO
+	_antic_scale = Vector2.ONE
+	_antic_rotation = 0.0
+	_antic_alpha = 1.0
+	_expression_offset = Vector2.ZERO
+	_expression_scale = 1.0
+	_expression_rotation = 0.0
 
 func _update_antic_pose(delta: float) -> void:
 	if _antic_id == "" or not is_instance_valid(visual):
 		return
 	_antic_time += delta
+	var phase := clampf(_antic_time / _antic_duration, 0.0, 1.0)
+	var pulse := sin(phase * PI)
+	var lively := _amplitude if not _reduced_motion else 0.0
+
+	# Movimento ridotto: ogni gag conserva una posa diversa, senza oscillazioni,
+	# scatti o attraversamenti ampi. Gli oggetti di scena restano leggibili.
+	if _reduced_motion:
+		match _antic_id:
+			"tail": _antic_rotation = -0.12
+			"pose": _antic_rotation = -0.18
+			"nap":
+				_antic_rotation = 0.28
+				_antic_scale = Vector2(1.08, 0.90)
+			"guard": _antic_rotation = 0.07
+			"sit":
+				_antic_scale = Vector2(1.08, 0.82)
+				_antic_offset.y = 6.0
+			"sneeze":
+				_antic_rotation = -0.12
+				_antic_scale = Vector2(1.10, 0.88)
+			"hide":
+				_antic_scale = Vector2.ONE * 0.78
+				_antic_alpha = 0.82
+			"fountain": _antic_rotation = -0.10
+			"sniff":
+				_antic_rotation = 0.14
+				_antic_offset.x = 5.0
+			"dash": _antic_rotation = -0.10
+			"shadow": _antic_rotation = 0.18
+			"echo": _antic_scale = Vector2.ONE * 1.06
+			"leaf": _antic_rotation = -0.14
+			"stack": _antic_rotation = 0.10
+			"stare":
+				_antic_rotation = 0.08
+				_antic_scale = Vector2.ONE * 0.98
+			"bow":
+				_antic_rotation = 0.30
+				_antic_scale = Vector2(1.06, 0.84)
+				_antic_offset.y = 5.0
+		return
+
 	match _antic_id:
 		"tail":
-			visual.rotation = -0.12 if _reduced_motion else sin(_antic_time * 7.0) * 0.22
+			_antic_rotation = sin(_antic_time * 9.0) * 0.25 * lively
+			_antic_scale = Vector2(1.0 + 0.05 * pulse, 1.0 - 0.04 * pulse)
 		"pose":
-			visual.rotation = -0.18
+			_antic_rotation = -0.17 + sin(_antic_time * 4.0) * 0.04
+			_antic_offset.y = -3.0 * pulse
 		"nap":
-			visual.rotation = 0.30
+			_antic_rotation = 0.30 * pulse
+			_antic_scale = Vector2(1.0 + 0.10 * pulse, 1.0 - 0.11 * pulse)
+			_antic_offset.y = 5.0 * pulse
 		"guard":
-			visual.rotation = 0.08
+			_antic_rotation = 0.06 + sin(_antic_time * 2.2) * 0.025
+			_antic_offset.x = -3.0 * pulse
+		"sit":
+			var retry := absf(sin(phase * TAU))
+			_antic_scale = Vector2(1.0 + 0.10 * retry, 1.0 - 0.17 * retry)
+			_antic_offset.y = 8.0 * retry - absf(sin(phase * PI * 4.0)) * 3.0
+			_antic_rotation = sin(phase * TAU) * 0.08
+		"sneeze":
+			var sneeze := pow(sin(phase * PI), 3.0)
+			_antic_rotation = -0.18 * sneeze
+			_antic_scale = Vector2(1.0 + 0.18 * sneeze, 1.0 - 0.20 * sneeze)
+			_antic_offset.x = -8.0 * sneeze
+		"hide":
+			var toward_player := 1.0
+			if is_instance_valid(target):
+				toward_player = -signf(global_position.x - target.global_position.x)
+				if toward_player == 0.0:
+					toward_player = 1.0
+			_antic_offset.x = toward_player * 17.0 * pulse
+			_antic_scale = Vector2.ONE * (1.0 - 0.25 * pulse)
+			_antic_alpha = 1.0 - 0.22 * pulse
+			_antic_rotation = -toward_player * 0.10 * pulse
+		"fountain":
+			_antic_offset.y = -absf(sin(phase * PI * 3.0)) * 8.0 * lively
+			_antic_rotation = sin(phase * TAU * 1.5) * 0.16
+			_antic_scale = Vector2(1.0 - 0.05 * pulse, 1.0 + 0.08 * pulse)
+		"sniff":
+			_antic_offset.x = sin(phase * TAU) * 9.0
+			_antic_rotation = sin(phase * TAU) * 0.16
+			_antic_scale = Vector2(1.0 + 0.08 * pulse, 1.0 - 0.04 * pulse)
+		"dash":
+			_antic_offset.x = sin(phase * TAU) * 24.0 * lively
+			_antic_offset.y = -absf(sin(phase * TAU * 2.0)) * 4.0
+			_antic_rotation = -sin(phase * TAU) * 0.12
+			_antic_scale = Vector2(1.0 + 0.13 * pulse, 1.0 - 0.07 * pulse)
+		"shadow":
+			_antic_offset.x = sin(phase * TAU * 2.0) * 7.0
+			_antic_rotation = sin(phase * TAU * 2.0) * 0.18
+			_antic_offset.y = -absf(sin(phase * TAU * 2.0)) * 5.0
+		"echo":
+			var chirp := absf(sin(phase * PI * 4.0))
+			_antic_scale = Vector2.ONE * (1.0 + chirp * 0.09)
+			_antic_rotation = sin(phase * PI * 4.0) * 0.06
+		"leaf":
+			_antic_offset = Vector2(cos(phase * TAU * 1.5) * 14.0, -absf(sin(phase * TAU * 1.5)) * 9.0)
+			_antic_rotation = phase * TAU * 1.5
+			_antic_scale = Vector2.ONE * (1.0 - 0.07 * pulse)
+		"stack":
+			var wobble := sin(phase * PI * 5.0) * pulse
+			_antic_rotation = wobble * 0.14
+			_antic_offset.x = wobble * 3.0
+			_antic_scale = Vector2(1.0 - 0.04 * pulse, 1.0 + 0.06 * pulse)
+		"stare":
+			_antic_offset.x = 3.0 * pulse
+			_antic_rotation = 0.08 * pulse
+			_antic_scale = Vector2.ONE * (1.0 + 0.025 * pulse)
+		"bow":
+			_antic_rotation = 0.34 * pulse
+			_antic_scale = Vector2(1.0 + 0.08 * pulse, 1.0 - 0.16 * pulse)
+			_antic_offset.y = 6.0 * pulse
 
 func _update_expression_pose(delta: float) -> void:
 	if _expression_duration <= 0.0 or not is_instance_valid(visual):
@@ -393,28 +536,29 @@ func _update_expression_pose(delta: float) -> void:
 		return
 	if _reduced_motion:
 		match _expression_pose:
-			"festa", "orgoglioso": visual.rotation = -0.10
-			"curioso": visual.rotation = 0.14
-			"attento", "concentrato": visual.rotation = -0.04
-			"incoraggiante": visual.rotation = 0.06
+			"festa", "orgoglioso": _expression_rotation = -0.10
+			"curioso": _expression_rotation = 0.14
+			"attento", "concentrato": _expression_rotation = -0.04
+			"incoraggiante": _expression_rotation = 0.06
 		return
 	var pulse := sin(phase * PI)
 	match _expression_pose:
 		"festa":
-			visual.rotation = sin(_expression_time * 8.0) * 0.18 * pulse
+			_expression_rotation = sin(_expression_time * 8.0) * 0.18 * pulse
 		"orgoglioso":
-			visual.rotation = -0.12 * pulse
-			visual.scale *= 1.0 + 0.16 * pulse
+			_expression_rotation = -0.12 * pulse
+			_expression_scale = 1.0 + 0.16 * pulse
 		"curioso":
-			visual.rotation = 0.20 * pulse
+			_expression_rotation = 0.20 * pulse
 		"attento", "concentrato":
-			visual.rotation = sin(_expression_time * 3.0) * 0.035
-			visual.position.y += 3.0 * pulse
+			_expression_rotation = sin(_expression_time * 3.0) * 0.035
+			_expression_offset.y = 3.0 * pulse
 		"incoraggiante":
-			visual.rotation = sin(_expression_time * 4.5) * 0.08 * pulse
+			_expression_rotation = sin(_expression_time * 4.5) * 0.08 * pulse
 
 func _draw() -> void:
 	_disegna_fiuto()
+	_draw_antic_flourish()
 	if _expression_duration <= 0.0 or _expression_pose == "sereno":
 		return
 	var accent := Color("f6c85f")
@@ -429,6 +573,86 @@ func _draw() -> void:
 				draw_circle(Vector2.RIGHT.rotated(angle) * 27 + Vector2(0, -15), 2.5, accent)
 		"incoraggiante":
 			draw_arc(Vector2(0, -16), 30, 0.25, PI - 0.25, 18, Color("8ff6d2"), 2.5, true)
+
+## Piccoli oggetti di scena, tutti vettoriali e senza testo: rendono la gag
+## comprensibile anche quando l'illustrazione e' ridotta a 48 px. Sono
+## decorazione pura e non aggiungono nodi, collisioni o logica di gioco.
+func _draw_antic_flourish() -> void:
+	if _antic_id == "":
+		return
+	var phase := clampf(_antic_time / maxf(0.1, _antic_duration), 0.0, 1.0)
+	var pulse := 1.0 if _reduced_motion else sin(phase * PI)
+	var gold := Color("f6c85f", 0.92)
+	var aqua := Color("7ad7ff", 0.86)
+	match _antic_id:
+		"tail":
+			draw_arc(Vector2(0, -14), 29.0, phase * TAU, phase * TAU + PI * 1.25, 22, gold, 2.2, true)
+			draw_circle(Vector2(0, -14) + Vector2.RIGHT.rotated(phase * TAU) * 29.0, 2.6, gold)
+		"pose":
+			for side in [-1.0, 1.0]:
+				draw_line(Vector2(side * 23.0, -35), Vector2(side * 31.0, -42), gold, 2.2, true)
+				draw_line(Vector2(side * 25.0, -27), Vector2(side * 35.0, -28), gold, 2.2, true)
+		"nap":
+			for i in 3:
+				var p := Vector2(18.0 + i * 7.0, -42.0 - i * 7.0)
+				draw_polyline(PackedVector2Array([p, p + Vector2(6, 0), p + Vector2(0, 6), p + Vector2(6, 6)]), aqua, 1.8, true)
+		"guard":
+			draw_circle(Vector2(24, 2), 5.0, Color("9b8064"))
+			draw_circle(Vector2(22.5, 0.5), 1.3, Color("d9c3a7"))
+			draw_arc(Vector2(24, 1), 12.0, PI, TAU, 14, gold, 2.0, true)
+		"sit":
+			draw_line(Vector2(-12, 4), Vector2(12, 4), Color("c7b8ff", 0.88), 3.0, true)
+			draw_line(Vector2(-8, 4), Vector2(-11, 10), Color("c7b8ff", 0.68), 2.0, true)
+			draw_line(Vector2(8, 4), Vector2(11, 10), Color("c7b8ff", 0.68), 2.0, true)
+		"sneeze":
+			for i in 7:
+				var angle := lerpf(-0.85, 0.85, float(i) / 6.0)
+				var start := Vector2(16, -25) + Vector2.RIGHT.rotated(angle) * 9.0
+				draw_line(start, start + Vector2.RIGHT.rotated(angle) * (7.0 + pulse * 7.0), aqua, 2.0, true)
+		"hide":
+			draw_arc(Vector2(0, -14), 25.0, -0.8, 0.8, 14, Color("c7b8ff", 0.60), 2.0, true)
+			draw_circle(Vector2(23, -18), 2.2, gold)
+		"fountain":
+			for i in 5:
+				var x := -20.0 + i * 10.0
+				var y := -37.0 - absf(sin(phase * TAU + i)) * 12.0
+				draw_circle(Vector2(x, y), 2.4, aqua)
+		"sniff":
+			for i in 3:
+				draw_arc(Vector2(20.0 + i * 7.0, -27), 5.0 + i * 2.0, -1.1, 1.1, 10, Color("8ff6d2", 0.72), 1.7, true)
+		"dash":
+			for i in 3:
+				var y := -31.0 + i * 9.0
+				draw_line(Vector2(-31.0 - i * 4.0, y), Vector2(-18, y), aqua, 2.0, true)
+		"shadow":
+			_draw_antic_ellipse(Vector2(6, 7), Vector2(21, 6), Color(0.03, 0.05, 0.07, 0.36 + pulse * 0.18))
+			draw_circle(Vector2(1, 6), 1.4, Color("d8f3ff", 0.78))
+			draw_circle(Vector2(10, 6), 1.4, Color("d8f3ff", 0.78))
+		"echo":
+			for i in 3:
+				draw_arc(Vector2(17, -25), 8.0 + i * 8.0 + pulse * 3.0, -0.8, 0.8, 12, Color(aqua, 0.82 - i * 0.18), 2.0, true)
+		"leaf":
+			var leaf := Vector2(cos(phase * TAU * 1.5) * 29.0, -29.0 + sin(phase * TAU * 1.5) * 15.0)
+			draw_colored_polygon(PackedVector2Array([leaf + Vector2(-5, 0), leaf + Vector2(0, -4), leaf + Vector2(6, 0), leaf + Vector2(0, 4)]), Color("8fd16a", 0.94))
+			draw_line(leaf - Vector2(5, 0), leaf + Vector2(7, 1), Color("376e4a"), 1.2, true)
+		"stack":
+			for i in 3:
+				var fall := 0.0 if _reduced_motion else maxf(0.0, phase - 0.62) * float(i) * 17.0
+				draw_circle(Vector2(24.0 + fall, 3.0 - i * 7.0 + fall * 0.35), 5.0 - i * 0.7, Color("a68b72"))
+		"stare":
+			draw_circle(Vector2(31, -28), 2.4 + pulse, Color("d8f3ff", 0.78))
+			draw_arc(Vector2(31, -28), 7.0, phase * TAU, phase * TAU + PI * 0.8, 10, Color("c7b8ff", 0.54), 1.5, true)
+		"bow":
+			draw_arc(Vector2(0, 5), 24.0, PI + 0.35, TAU - 0.35, 18, gold, 2.2, true)
+			draw_circle(Vector2(-21, -6), 2.3, gold)
+			draw_circle(Vector2(21, -6), 2.3, gold)
+
+func _draw_antic_ellipse(center: Vector2, radii: Vector2, color: Color) -> void:
+	var points := PackedVector2Array()
+	for i in 24:
+		var angle := TAU * float(i) / 24.0
+		points.append(center + Vector2(cos(angle) * radii.x, sin(angle) * radii.y))
+	draw_colored_polygon(points, color)
 
 ## Il segno del fiuto: due archetti dalla parte in cui il Custode ha sentito.
 ##

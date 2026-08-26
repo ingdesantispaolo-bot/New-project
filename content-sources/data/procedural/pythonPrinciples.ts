@@ -271,14 +271,14 @@ export const pythonPrincipleSeeds: PythonPrincipleSeed[] = [
     codeLines: ["# questo è un commento", "punti = 5", "print(punti)  # stampa 5"],
     question: "Cosa fa Python con le righe che iniziano con #?",
     correct: "le ignora: sono commenti per gli umani",
-    distractors: ["le stampa a schermo come testo", "dà errore e ferma il programma", "le esegue due volte di seguito"],
+    distractors: ["le stampa a schermo come testo", "dà errore e ferma il programma", "le esegue due volte una dopo l'altra"],
     explanation:
       "Tutto ciò che segue # è un commento: Python lo ignora completamente. Serve a spiegare il codice a chi lo legge, non alla macchina.",
     explore: "Approfondisci: i buoni commenti spiegano il PERCHÉ, non il COSA (che si vede già dal codice).",
     distractorWhy: {
       "le stampa a schermo come testo": "I commenti non vengono mai stampati: l'interprete li ignora completamente.",
       "dà errore e ferma il programma": "I commenti sono sintassi valida: non causano nessun errore.",
-      "le esegue due volte di seguito": "I commenti non vengono eseguiti nemmeno una volta: sono completamente ignorati.",
+      "le esegue due volte una dopo l'altra": "I commenti non vengono eseguiti nemmeno una volta: sono completamente ignorati.",
     },
   },
   {

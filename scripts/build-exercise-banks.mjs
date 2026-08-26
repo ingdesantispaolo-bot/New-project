@@ -135,16 +135,43 @@ function timesExplanation(a, b) {
   return `Se non ricordi ${a} × ${b}, ${trick}. E ${b} × ${a} dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.`;
 }
 
-function timesItem(a, b, difficulty, rand) {
-  const answer = a * b;
+// Le tre facce dello stesso fatto. Il prodotto lo si impara, il fattore
+// mancante e la divisione lo mettono alla prova nel verso in cui serve davvero.
+// «il 8» non si scrive: davanti a otto e undici l'articolo si elide.
+const ilNumero = (n) => (n === 8 || n === 11 ? `l'${n}` : `il ${n}`);
+
+const VERSI = {
+  prodotto: (a, b) => ({
+    sigla: "times",
+    prompt: `Quanto fa ${a} × ${b}?`,
+    answer: a * b,
+    coda: "",
+  }),
+  fattore: (a, b) => ({
+    sigla: "factor",
+    prompt: `Quale numero moltiplicato per ${b} dà ${a * b}?`,
+    answer: a,
+    coda: ` Qui la tabellina si legge al contrario: cerchi quante volte ${ilNumero(b)} sta dentro ${a * b}.`,
+  }),
+  divisione: (a, b) => ({
+    sigla: "div",
+    prompt: `Quanto fa ${a * b} ÷ ${b}?`,
+    answer: a,
+    coda: ` Dividere è l'inverso del moltiplicare: se ${a} × ${b} fa ${a * b}, allora ${a * b} ÷ ${b} torna a ${a}.`,
+  }),
+};
+
+function timesItem(a, b, difficulty, rand, verso = "prodotto") {
+  const faccia = VERSI[verso](a, b);
+  const answer = faccia.answer;
   const useNumeric = rand() < 0.25;
-  const explanation = timesExplanation(a, b);
+  const explanation = timesExplanation(a, b) + faccia.coda;
   const base = {
-    id: `math-times-${a}x${b}-d${difficulty}`,
+    id: `math-${faccia.sigla}-${a}x${b}-d${difficulty}`,
     subject: "matematica",
     topic: "tabelline",
     difficulty,
-    prompt: `Quanto fa ${a} × ${b}?`,
+    prompt: faccia.prompt,
     answer: String(answer),
     explanation,
   };
@@ -153,7 +180,14 @@ function timesItem(a, b, difficulty, rand) {
   // stessa formula che lo genera dice perché è sbagliato, quindi la spiegazione
   // non va inventata a parte, va letta dalla formula (13 agosto 2026).
   const gruppi = (n) => (n === 1 ? "1 gruppo" : `${n} gruppi`);
-  const candidates = [
+  const candidates = verso !== "prodotto" ? [
+    { value: a * b, why: `è il prodotto ${a} × ${b}, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato.` },
+    { value: b, why: `è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.` },
+    { value: a + 1, why: `è uno di troppo: ${a + 1} × ${b} farebbe ${(a + 1) * b}, non ${a * b}.` },
+    { value: a - 1, why: `è uno di meno: ${a - 1} × ${b} farebbe ${(a - 1) * b}, non ${a * b}.` },
+    { value: a + b, why: `è la somma ${a} + ${b}: qui l'operazione da rifare al contrario è la moltiplicazione.` },
+    { value: a * 2, why: `è il doppio del numero cercato: ${a * 2} × ${b} farebbe ${a * 2 * b}.` },
+  ] : [
     { value: answer + a, why: `è ${a} in più: sono ${gruppi(b + 1)} da ${a}, non ${b}.` },
     { value: answer - a, why: `mancano ${a}: sono solo ${gruppi(b - 1)} da ${a}, non ${b}.` },
     { value: answer + b, why: `è ${b} in più: sono ${gruppi(a + 1)} da ${b}, non ${a}.` },
@@ -179,11 +213,16 @@ function timesItem(a, b, difficulty, rand) {
 function tabellineBank() {
   const rand = rng(20260720);
   const items = [];
+  const incontri = new Map();
+  const GIRO = ["prodotto", "fattore", "divisione"];
   for (const difficulty of [1, 2, 3, 4]) {
     const [lo, hi] = RANGES[difficulty];
     for (let a = lo; a <= hi; a += 1) {
       for (let b = 2; b <= hi; b += 1) {
-        items.push(timesItem(a, b, difficulty, rand));
+        const chiave = `${a}x${b}`;
+        const quante = incontri.get(chiave) ?? 0;
+        incontri.set(chiave, quante + 1);
+        items.push(timesItem(a, b, difficulty, rand, GIRO[quante % GIRO.length]));
       }
     }
   }
@@ -223,7 +262,7 @@ function vocabularyExplanation(entry, defField, neighbours) {
   return `${base} Stesso gruppo: ${elenco}.`;
 }
 
-function vocabularyBank(subject, entries, { fields, defField, promptFor }) {
+function vocabularyBank(subject, entries, { fields, defField, promptFor, legaIlPiuVicino = false }) {
   // Vicine per (classe grammaticale + area di significato): lo stesso criterio
   // con cui si scelgono i distrattori, perché è lo stesso il campo semantico.
   const neighbours = new Map();
@@ -264,8 +303,13 @@ function vocabularyBank(subject, entries, { fields, defField, promptFor }) {
     distractorWhyByField.set(field, m);
   }
   const items = [];
+  const soloLettere = (v) => String(v).toLocaleLowerCase("it").normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]/g, "");
   entries.forEach((entry, index) => {
     const { prompt, answer, field } = promptFor(entry, index);
+    // La parola chiesta sta fra virgolette nel testo: se coincide con la
+    // risposta, la domanda si vince ricopiando e non va costruita.
+    const chiesta = prompt.match(/"([^"]+)"/);
+    if (chiesta && soloLettere(chiesta[1]) === soloLettere(answer)) return;
     const fieldPools = pools.get(field);
     // Ripiego sulla sola classe grammaticale solo se l'area non ha abbastanza
     // parole: mai distrattori fittizi, mai item senza tre alternative.
@@ -273,7 +317,7 @@ function vocabularyBank(subject, entries, { fields, defField, promptFor }) {
     const pool = new Set(sameTopic.filter((v) => v !== answer)).size >= 3
       ? sameTopic
       : fieldPools.byClass.get(entry.wordClass) ?? [];
-    const distractors = pickDistractors(pool, answer, 3, rand);
+    const distractors = pickDistractors(pool, answer, 3, rand, legaIlPiuVicino);
     if (distractors.length < 3) return; // classe troppo piccola, salta (nessun distrattore fittizio)
     const whyMap = distractorWhyByField.get(field);
     const distractorWhy = {};
@@ -332,6 +376,7 @@ function ingleseBank(entries) {
       index % 2 === 0
         ? { prompt: `Come si dice in inglese: "${entry.meaning}"?`, answer: entry.term, field: "term" }
         : { prompt: `Cosa significa in italiano "${entry.term}"?`, answer: entry.meaning, field: "meaning" },
+    legaIlPiuVicino: true,
   });
 }
 
@@ -395,10 +440,10 @@ const LATINO_EXTRA = [
     distractorWhy: { "domino": "«Domino» è dativo o ablativo singolare, non il genitivo.", "dominum": "«Dominum» è l'accusativo singolare, non il genitivo.", "dominis": "«Dominis» è dativo/ablativo plurale, non il genitivo singolare." } },
   { topic: "declinazioni-base", difficulty: 4, prompt: "Qual è il nominativo plurale di «dominus»?", answer: "domini", distractors: ["dominos","dominorum","dominis"], explanation: "Attenzione: «domini» è sia genitivo singolare sia nominativo plurale. È il verbo a chiarire quale sia.",
     distractorWhy: { "dominos": "«Dominos» è l'accusativo plurale, non il nominativo.", "dominorum": "«Dominorum» è il genitivo plurale, non il nominativo.", "dominis": "«Dominis» è dativo/ablativo plurale, non il nominativo." } },
-  { topic: "declinazioni-base", difficulty: 3, prompt: "Come si riconosce la declinazione di un nome sul vocabolario?", answer: "Dalla desinenza del genitivo singolare", distractors: ["Dalla lettera con cui comincia","Dal genere maschile o femminile","Dalla lunghezza della parola"], explanation: "Il vocabolario riporta sempre due forme: nominativo e genitivo. La seconda dice il gruppo.",
-    distractorWhy: { "Dalla lettera con cui comincia": "La lettera iniziale non ha nessuna relazione con la declinazione di un nome.", "Dal genere maschile o femminile": "Il genere non basta: la prima declinazione ha anche maschili, la seconda anche neutri.", "Dalla lunghezza della parola": "La lunghezza della parola non indica affatto la declinazione." } },
-  { topic: "declinazioni-base", difficulty: 4, prompt: "Che cosa hanno in comune tutti i nomi neutri in latino?", answer: "Nominativo e accusativo sono sempre uguali", distractors: ["Finiscono sempre in -um al singolare","Non hanno mai il plurale","Appartengono solo alla seconda"], explanation: "È una regola che vale per tutte le declinazioni: nei neutri il soggetto e l'oggetto hanno la stessa forma.",
-    distractorWhy: { "Finiscono sempre in -um al singolare": "Vale solo per la seconda declinazione: nella terza i neutri finiscono in modi diversi, come «tempus» o «mare».", "Non hanno mai il plurale": "I neutri hanno il plurale come tutti gli altri nomi, per esempio «templa».", "Appartengono solo alla seconda": "Esistono neutri anche nella terza, quarta e quinta declinazione." } },
+  { topic: "declinazioni-base", difficulty: 3, prompt: "Come si riconosce la declinazione di un nome sul vocabolario?", answer: "Dalla desinenza del genitivo singolare", distractors: ["Dalla lettera con cui comincia","Dal genere, maschile o femminile che sia","Dalla lunghezza della parola"], explanation: "Il vocabolario riporta sempre due forme: nominativo e genitivo. La seconda dice il gruppo.",
+    distractorWhy: { "Dalla lettera con cui comincia": "La lettera iniziale non ha nessuna relazione con la declinazione di un nome.", "Dal genere, maschile o femminile che sia": "Il genere non basta: la prima declinazione ha anche maschili, la seconda anche neutri.", "Dalla lunghezza della parola": "La lunghezza della parola non indica affatto la declinazione." } },
+  { topic: "declinazioni-base", difficulty: 4, prompt: "Che cosa hanno in comune tutti i nomi neutri in latino?", answer: "Nominativo e accusativo sono sempre uguali", distractors: ["Finiscono sempre in -um al nominativo singolare","Non hanno mai il plurale","Appartengono solo alla seconda"], explanation: "È una regola che vale per tutte le declinazioni: nei neutri il soggetto e l'oggetto hanno la stessa forma.",
+    distractorWhy: { "Finiscono sempre in -um al nominativo singolare": "Vale solo per la seconda declinazione: nella terza i neutri finiscono in modi diversi, come «tempus» o «mare».", "Non hanno mai il plurale": "I neutri hanno il plurale come tutti gli altri nomi, per esempio «templa».", "Appartengono solo alla seconda": "Esistono neutri anche nella terza, quarta e quinta declinazione." } },
   { topic: "declinazioni-base", difficulty: 4, prompt: "Nei neutri plurali, in che lettera escono nominativo e accusativo?", answer: "In -a", distractors: ["In -es","In -os","In -is"], explanation: "«Templa», «bella», «maria»: la -a finale dei neutri plurali è entrata anche in italiano, in parole come «le braccia».",
     distractorWhy: { "In -es": "-es è tipico del nominativo plurale maschile/femminile della terza declinazione, non dei neutri.", "In -os": "Questa desinenza non esiste per i neutri plurali latini.", "In -is": "-is è tipico del dativo/ablativo plurale, non del nominativo/accusativo dei neutri." } },
   { topic: "declinazioni-base", difficulty: 2, format: "numeric_input", prompt: "Quanti numeri distingue la declinazione latina?", answer: "2", explanation: "Singolare e plurale. Il duale esisteva in greco, non in latino classico." },
@@ -418,10 +463,10 @@ const LATINO_EXTRA = [
     distractorWhy: { "Egli era": "«Egli era» è l'imperfetto «erat», non il futuro «erit».", "Egli è": "«Egli è» è il presente «est», non il futuro «erit».", "Egli fu": "«Egli fu» è un tempo passato, mentre «erit» è futuro." } },
   { topic: "verbo-sum", difficulty: 3, prompt: "Qual è l'infinito del verbo essere in latino?", answer: "esse", distractors: ["sum","est","erat"], explanation: "Da «esse» vengono essenza ed essere: l'infinito è la forma che dà il nome al verbo.",
     distractorWhy: { "sum": "«Sum» è la prima persona («io sono»), non l'infinito.", "est": "«Est» è la terza persona («egli è»), non l'infinito.", "erat": "«Erat» è l'imperfetto («egli era»), non l'infinito." } },
-  { topic: "verbo-sum", difficulty: 4, prompt: "Perché «sum» si dice verbo irregolare?", answer: "Perché le sue forme non seguono uno schema costante", distractors: ["Perché si usa soltanto al presente","Perché non ha mai un soggetto espresso","Perché non appartiene a nessuna coniugazione"], explanation: "Sum, es, est, sumus, estis, sunt: la radice cambia. Succede in tutte le lingue ai verbi più usati.",
-    distractorWhy: { "Perché si usa soltanto al presente": "«Sum» ha anche l'imperfetto («erat») e il futuro («erit»): non si usa solo al presente.", "Perché non ha mai un soggetto espresso": "Il soggetto può essere sottinteso o espresso, come per ogni altro verbo latino.", "Perché non appartiene a nessuna coniugazione": "Il motivo dell'irregolarità è che la radice cambia da forma a forma, non l'assenza di coniugazione." } },
-  { topic: "verbo-sum", difficulty: 4, prompt: "In «Roma magna est», che funzione ha «est»?", answer: "Copula, collega soggetto e predicato nominale", distractors: ["Predicato verbale che esprime un'azione","Complemento oggetto della frase","Ausiliare di un tempo composto"], explanation: "Non dice un'azione: unisce «Roma» a «magna». Il predicato nominale è la coppia copula più nome o aggettivo.",
-    distractorWhy: { "Predicato verbale che esprime un'azione": "«Est» non esprime un'azione: collega soggetto e aggettivo, quindi è copula.", "Complemento oggetto della frase": "«Est» è un verbo, non un complemento.", "Ausiliare di un tempo composto": "Qui non c'è un participio da affiancare: «est» funge da copula, non da ausiliare." } },
+  { topic: "verbo-sum", difficulty: 4, prompt: "Perché «sum» si dice verbo irregolare?", answer: "Perché le sue forme non seguono uno schema costante", distractors: ["Perché si usa soltanto al presente","Perché non ha mai un soggetto espresso","Perché non appartiene a nessuna delle coniugazioni"], explanation: "Sum, es, est, sumus, estis, sunt: la radice cambia. Succede in tutte le lingue ai verbi più usati.",
+    distractorWhy: { "Perché si usa soltanto al presente": "«Sum» ha anche l'imperfetto («erat») e il futuro («erit»): non si usa solo al presente.", "Perché non ha mai un soggetto espresso": "Il soggetto può essere sottinteso o espresso, come per ogni altro verbo latino.", "Perché non appartiene a nessuna delle coniugazioni": "Il motivo dell'irregolarità è che la radice cambia da forma a forma, non l'assenza di coniugazione." } },
+  { topic: "verbo-sum", difficulty: 4, prompt: "In «Roma magna est», che funzione ha «est»?", answer: "Copula, collega soggetto e predicato nominale", distractors: ["Predicato verbale che esprime una vera azione","Complemento oggetto della frase","Ausiliare di un tempo composto"], explanation: "Non dice un'azione: unisce «Roma» a «magna». Il predicato nominale è la coppia copula più nome o aggettivo.",
+    distractorWhy: { "Predicato verbale che esprime una vera azione": "«Est» non esprime un'azione: collega soggetto e aggettivo, quindi è copula.", "Complemento oggetto della frase": "«Est» è un verbo, non un complemento.", "Ausiliare di un tempo composto": "Qui non c'è un participio da affiancare: «est» funge da copula, non da ausiliare." } },
   { topic: "casi", difficulty: 3, prompt: "Quale caso esprime di solito il possesso?", answer: "Genitivo", distractors: ["Dativo","Accusativo","Ablativo"], explanation: "«Liber Marci» è il libro di Marco: il genitivo risponde a «di chi?».",
     distractorWhy: { "Dativo": "Il dativo risponde a «a chi?», non a «di chi?».", "Accusativo": "L'accusativo indica il complemento oggetto, non il possesso.", "Ablativo": "L'ablativo indica altre relazioni (mezzo, luogo, modo), non il possesso." } },
   { topic: "casi", difficulty: 3, prompt: "Quale caso esprime il complemento di termine?", answer: "Dativo", distractors: ["Genitivo","Accusativo","Vocativo"], explanation: "Risponde a «a chi?»: «Marco do librum», do il libro a Marco.",
@@ -451,10 +496,10 @@ const LATINO_EXTRA = [
     distractorWhy: { "Copioso": "Viene da «copia», non dalla radice corpor- di «corpus».", "Cooperare": "Viene da «co-operari» (lavorare insieme), non da «corpus».", "Coprire": "Viene da «cooperire», non dalla radice corpor- di «corpus»." } },
   { topic: "declinazione-3n", difficulty: 4, prompt: "Da «tempus, temporis» quale parola italiana deriva?", answer: "Temporale", distractors: ["Tempestivo soltanto","Tempio","Tentativo"], explanation: "Dalla radice tempor- vengono temporale, contemporaneo, temporeggiare.",
     distractorWhy: { "Tempestivo soltanto": "Viene da «tempestas» (occasione, stagione), una parola diversa da «tempus».", "Tempio": "Viene da «templum», una parola diversa e non imparentata con «tempus».", "Tentativo": "Viene da «temptare» (tentare), non dalla radice tempor- di «tempus»." } },
-  { topic: "declinazione-4", difficulty: 3, prompt: "Come si riconosce un nome della quarta declinazione?", answer: "Dal genitivo singolare in -us", distractors: ["Dal nominativo in -a","Dal genitivo in -ei","Dal nominativo in -er"], explanation: "Nominativo e genitivo si somigliano molto: «manus, manus». È il contesto a distinguerli.",
-    distractorWhy: { "Dal nominativo in -a": "Il nominativo in -a è tipico della prima declinazione, non della quarta.", "Dal genitivo in -ei": "Il genitivo in -ei è tipico della quinta declinazione, non della quarta.", "Dal nominativo in -er": "Il nominativo in -er è tipico di alcuni nomi della seconda declinazione, non della quarta." } },
-  { topic: "declinazione-4", difficulty: 4, prompt: "Perché «manus, manus» crea confusione ai principianti?", answer: "Perché nominativo e genitivo si scrivono uguali", distractors: ["Perché è un nome neutro irregolare","Perché non ha il plurale","Perché appartiene a due declinazioni"], explanation: "Solo la funzione nella frase, e spesso il verbo, dicono quale dei due casi sia.",
-    distractorWhy: { "Perché è un nome neutro irregolare": "«Manus» è femminile, non neutro: la confusione nasce dalla forma identica di nominativo e genitivo.", "Perché non ha il plurale": "«Manus» ha regolarmente il plurale, come ogni altro nome della quarta.", "Perché appartiene a due declinazioni": "«Manus» appartiene solo alla quarta declinazione: il problema è che due casi coincidono nella forma." } },
+  { topic: "declinazione-4", difficulty: 3, prompt: "Come si riconosce un nome della quarta declinazione?", answer: "Dal genitivo singolare in -us", distractors: ["Dal nominativo in -a","Dal genitivo in -ei","Dal nominativo che esce in -er"], explanation: "Nominativo e genitivo si somigliano molto: «manus, manus». È il contesto a distinguerli.",
+    distractorWhy: { "Dal nominativo in -a": "Il nominativo in -a è tipico della prima declinazione, non della quarta.", "Dal genitivo in -ei": "Il genitivo in -ei è tipico della quinta declinazione, non della quarta.", "Dal nominativo che esce in -er": "Il nominativo in -er è tipico di alcuni nomi della seconda declinazione, non della quarta." } },
+  { topic: "declinazione-4", difficulty: 4, prompt: "Perché «manus, manus» crea confusione ai principianti?", answer: "Perché nominativo e genitivo si scrivono uguali", distractors: ["Perché è un nome neutro irregolare","Perché non ha il plurale","Perché appartiene a due declinazioni insieme"], explanation: "Solo la funzione nella frase, e spesso il verbo, dicono quale dei due casi sia.",
+    distractorWhy: { "Perché è un nome neutro irregolare": "«Manus» è femminile, non neutro: la confusione nasce dalla forma identica di nominativo e genitivo.", "Perché non ha il plurale": "«Manus» ha regolarmente il plurale, come ogni altro nome della quarta.", "Perché appartiene a due declinazioni insieme": "«Manus» appartiene solo alla quarta declinazione: il problema è che due casi coincidono nella forma." } },
   { topic: "declinazione-4", difficulty: 3, prompt: "Che cosa significa «manus»?", answer: "Mano", distractors: ["Monte","Muro","Mondo"], explanation: "Da «manus» vengono manuale, manutenzione, manoscritto, manovra.",
     distractorWhy: { "Monte": "«Monte» in latino è «mons, montis», una parola diversa da «manus».", "Muro": "«Muro» in latino è «murus», una parola diversa da «manus».", "Mondo": "«Mondo» in latino è «mundus», una parola diversa da «manus»." } },
   { topic: "declinazione-4", difficulty: 4, prompt: "Che cosa significa «exercitus»?", answer: "Esercito", distractors: ["Esercizio scolastico","Esperimento","Esperienza"], explanation: "Da «exercere» (esercitare): l'esercito è ciò che viene addestrato. Anche «esercizio» viene dalla stessa radice.",
@@ -492,8 +537,8 @@ const LATINO_EXTRA = [
     distractorWhy: { "Prima persona singolare": "La prima persona singolare finisce in -o, non in -t (es. «canto»).", "Terza persona plurale": "La terza plurale finisce in -nt, non solo -t (es. «cantant»).", "Il tempo passato": "La -t finale indica la persona, non il tempo: si trova anche al presente." } },
   { topic: "etimologia", difficulty: 2, prompt: "Da quale parola latina viene «acqua»?", answer: "aqua", distractors: ["aer","ager","arbor"], explanation: "Da «aqua» vengono anche acquedotto, acquario e acquerello.",
     distractorWhy: { "aer": "«Aer» significa aria, non acqua: dà parole come «aereo».", "ager": "«Ager» significa campo, non acqua: dà parole come «agricoltura».", "arbor": "«Arbor» significa albero, non acqua: dà parole come «arboreo»." } },
-  { topic: "etimologia", difficulty: 2, prompt: "Da quale parola latina viene «terra»?", answer: "terra", distractors: ["tempus","turris","tectum"], explanation: "La stessa radice dà territorio, terrestre, sotterraneo, interrare.",
-    distractorWhy: { "tempus": "«Tempus» significa tempo, non terra: dà parole come «temporale».", "turris": "«Turris» significa torre, non terra: dà parole come «torretta».", "tectum": "«Tectum» significa tetto, non terra: dà parole come «tetto» stesso." } },
+  { topic: "etimologia", difficulty: 2, prompt: "Da quale parola latina viene «sotterraneo»?", answer: "terra", distractors: ["tempus","turris","tectum"], explanation: "«Sub terra», sotto la terra. La stessa radice dà territorio, terrestre, interrare, atterrare.",
+    distractorWhy: {"tempus":"«Tempus» significa tempo, non terra: dà parole come «temporale».","turris":"«Turris» significa torre: dà «torretta», non «sotterraneo».","tectum":"«Tectum» significa tetto: dà «tetto» stesso, non parole che parlano di terra."} },
   { topic: "etimologia", difficulty: 3, prompt: "Da quale verbo latino viene «visione»?", answer: "videre", distractors: ["vincere","venire","vivere"], explanation: "Da «videre» (vedere) nascono visione, evidente, provvedere e perfino televisione.",
     distractorWhy: { "vincere": "«Vincere» significa vincere, non vedere: dà parole come «vittoria».", "venire": "«Venire» significa venire, non vedere: dà parole come «evento».", "vivere": "«Vivere» significa vivere, non vedere: dà parole come «vitale»." } },
   { topic: "etimologia", difficulty: 3, prompt: "Che cosa significa il prefisso latino «trans-»?", answer: "Attraverso, oltre", distractors: ["Sotto, al di sotto","Prima, in anticipo","Contro, in opposizione"], explanation: "Transatlantico attraversa l'Atlantico, trasparente si lascia attraversare dalla luce.",
@@ -508,42 +553,42 @@ const LATINO_EXTRA = [
     distractorWhy: { "Dopo": "«Dopo» si dice con il prefisso «post-», l'opposto di «ante-».", "Contro": "«Contro» si dice con il prefisso «contra-», non «ante-».", "Insieme": "«Insieme» si dice con il prefisso «con-», non «ante-»." } },
   { topic: "etimologia", difficulty: 3, prompt: "Da quale parola latina viene «scrivere»?", answer: "scribere", distractors: ["sedere","sentire","servare"], explanation: "Da «scribere»: scrittura, descrivere, manoscritto, iscrizione.",
     distractorWhy: { "sedere": "«Sedere» significa stare seduti, non scrivere: dà parole come «sedia».", "sentire": "«Sentire» significa sentire/percepire, non scrivere: dà parole come «sensazione».", "servare": "«Servare» significa conservare/custodire, non scrivere: dà parole come «conservare»." } },
-  { topic: "etimologia", difficulty: 4, prompt: "Perché «biblioteca» e «bibliografia» sono parenti?", answer: "Condividono la radice che significa libro", distractors: ["Perché parlano entrambe di scuola","Perché sono parole molto lunghe","Perché finiscono in modo simile"], explanation: "La radice «biblio-» viene dal greco ma è entrata in latino: significa libro.",
-    distractorWhy: { "Perché parlano entrambe di scuola": "Non parlano di scuola in generale: la parentela è nella radice «biblio-» (libro), non nel tema scolastico.", "Perché sono parole molto lunghe": "La lunghezza non crea nessuna parentela: è la radice condivisa a farlo.", "Perché finiscono in modo simile": "Finiscono in modo diverso («-teca» e «-grafia»): la parentela sta all'inizio, nella radice «biblio-»." } },
+  { topic: "etimologia", difficulty: 4, prompt: "Perché «biblioteca» e «bibliografia» sono parenti?", answer: "Condividono la radice che significa libro", distractors: ["Perché parlano entrambe di cose di scuola","Perché sono parole molto lunghe","Perché finiscono in modo simile"], explanation: "La radice «biblio-» viene dal greco ma è entrata in latino: significa libro.",
+    distractorWhy: { "Perché parlano entrambe di cose di scuola": "Non parlano di scuola in generale: la parentela è nella radice «biblio-» (libro), non nel tema scolastico.", "Perché sono parole molto lunghe": "La lunghezza non crea nessuna parentela: è la radice condivisa a farlo.", "Perché finiscono in modo simile": "Finiscono in modo diverso («-teca» e «-grafia»): la parentela sta all'inizio, nella radice «biblio-»." } },
   { topic: "etimologia", difficulty: 3, prompt: "Che cosa significa il prefisso «re-» in «rifare»?", answer: "Di nuovo, indietro", distractors: ["Molto, moltissimo","Insieme, con altri","Male, in modo sbagliato"], explanation: "Rifare, rivedere, ritornare: indica ripetizione o ritorno.",
     distractorWhy: { "Molto, moltissimo": "L'intensità si esprime con altri prefissi o avverbi, non con «re-».", "Insieme, con altri": "«Insieme» si dice con il prefisso «con-», non «re-».", "Male, in modo sbagliato": "«Male» si esprime con altri prefissi (come «mal-»), non con «re-»." } },
   { topic: "etimologia", difficulty: 4, prompt: "Da quale parola latina viene «capitale»?", answer: "caput", distractors: ["campus","carmen","civis"], explanation: "Da «caput» (testa): capitale è la città a capo, capitolo è la testa di un discorso, capitano è chi sta in testa.",
     distractorWhy: { "campus": "«Campus» significa campo, non testa: dà parole come «campestre».", "carmen": "«Carmen» significa canto/poesia, non testa: dà parole come «carme».", "civis": "«Civis» significa cittadino, non testa: dà parole come «civile»." } },
-  { topic: "etimologia", difficulty: 3, prompt: "Perché conoscere il latino aiuta a capire parole italiane nuove?", answer: "Perché molte parole nascono dalle stesse radici", distractors: ["Perché il latino si parla ancora oggi","Perché le parole nuove sono tutte latine","Perché la grammatica è identica"], explanation: "Riconosciuta la radice, il significato di una parola mai vista si intuisce: è un metodo, non una memoria.",
-    distractorWhy: { "Perché il latino si parla ancora oggi": "Il latino non è più parlato come lingua viva: aiuta comunque perché le radici restano nelle parole moderne.", "Perché le parole nuove sono tutte latine": "Non tutte le parole italiane vengono dal latino: alcune vengono dal greco o da altre lingue.", "Perché la grammatica è identica": "La grammatica italiana e quella latina sono molto diverse: ciò che aiuta è la radice delle parole, non la grammatica." } },
+  { topic: "etimologia", difficulty: 3, prompt: "Perché conoscere il latino aiuta a capire parole italiane nuove?", answer: "Perché molte parole nascono dalle stesse radici", distractors: ["Perché il latino si parla ancora oggi","Perché le parole nuove vengono tutte dal latino","Perché la grammatica è identica"], explanation: "Riconosciuta la radice, il significato di una parola mai vista si intuisce: è un metodo, non una memoria.",
+    distractorWhy: { "Perché il latino si parla ancora oggi": "Il latino non è più parlato come lingua viva: aiuta comunque perché le radici restano nelle parole moderne.", "Perché le parole nuove vengono tutte dal latino": "Non tutte le parole italiane vengono dal latino: alcune vengono dal greco o da altre lingue.", "Perché la grammatica è identica": "La grammatica italiana e quella latina sono molto diverse: ciò che aiuta è la radice delle parole, non la grammatica." } },
   { topic: "basi", difficulty: 1, format: "numeric_input", prompt: "Quanti casi ha la declinazione latina?", answer: "6", explanation: "Nominativo, genitivo, dativo, accusativo, vocativo, ablativo." },
-  { topic: "basi", difficulty: 2, prompt: "Che cos'è un caso in latino?", answer: "La forma che indica la funzione di un nome", distractors: ["Il genere maschile o femminile","Il numero singolare o plurale","Il tempo in cui avviene l'azione"], explanation: "Cambiando la desinenza cambia il ruolo nella frase: soggetto, oggetto, complemento.",
-    distractorWhy: { "Il genere maschile o femminile": "Il genere è un'altra caratteristica del nome, indipendente dal caso.", "Il numero singolare o plurale": "Il numero è un'altra caratteristica del nome, indipendente dal caso.", "Il tempo in cui avviene l'azione": "Il tempo riguarda il verbo, non il caso di un nome." } },
+  { topic: "basi", difficulty: 2, prompt: "Che cos'è un caso in latino?", answer: "La forma che indica la funzione di un nome", distractors: ["Il genere maschile o femminile","Il numero singolare o plurale","Il tempo in cui avviene l'azione descritta"], explanation: "Cambiando la desinenza cambia il ruolo nella frase: soggetto, oggetto, complemento.",
+    distractorWhy: { "Il genere maschile o femminile": "Il genere è un'altra caratteristica del nome, indipendente dal caso.", "Il numero singolare o plurale": "Il numero è un'altra caratteristica del nome, indipendente dal caso.", "Il tempo in cui avviene l'azione descritta": "Il tempo riguarda il verbo, non il caso di un nome." } },
   { topic: "basi", difficulty: 2, format: "numeric_input", prompt: "Quante declinazioni ha il latino?", answer: "5", explanation: "Cinque gruppi di nomi, ciascuno con le sue desinenze: si riconoscono dal genitivo singolare." },
   { topic: "basi", difficulty: 3, prompt: "In che lingua è scritta la maggior parte delle iscrizioni romane?", answer: "Latino", distractors: ["Greco antico","Etrusco","Italiano antico"], explanation: "Il latino era la lingua ufficiale dell'impero: le iscrizioni pubbliche lo usavano quasi sempre.",
     distractorWhy: { "Greco antico": "Il greco era diffuso soprattutto a Oriente, ma le iscrizioni ufficiali romane usavano il latino.", "Etrusco": "L'etrusco era parlato prima dei Romani in alcune zone d'Italia, ma non era la lingua delle iscrizioni ufficiali di Roma.", "Italiano antico": "L'italiano non esisteva ancora ai tempi dell'antica Roma: nasce secoli dopo dal latino parlato." } },
-  { topic: "basi", difficulty: 2, prompt: "Che cosa si intende per «lingua flessiva»?", answer: "Una lingua in cui le parole cambiano desinenza", distractors: ["Una lingua che si adatta ai dialetti","Una lingua senza regole fisse","Una lingua che si scrive senza vocali"], explanation: "Latino, greco e tedesco sono flessivi: la fine della parola porta l'informazione grammaticale.",
-    distractorWhy: { "Una lingua che si adatta ai dialetti": "Non ha a che fare con i dialetti: «flessiva» descrive come cambiano le desinenze delle parole.", "Una lingua senza regole fisse": "È vero il contrario: le lingue flessive hanno regole di declinazione molto precise.", "Una lingua che si scrive senza vocali": "Il latino si scrive normalmente con le vocali: questo non c'entra con l'essere flessiva." } },
-  { topic: "basi", difficulty: 3, prompt: "Perché il latino si dice «lingua madre» dell'italiano?", answer: "Perché l'italiano deriva direttamente da esso", distractors: ["Perché si insegna prima dell'italiano","Perché è più antico di tutte le lingue","Perché era parlato dalle madri romane"], explanation: "Italiano, spagnolo, francese, portoghese e rumeno nascono dal latino parlato: sono le lingue romanze.",
-    distractorWhy: { "Perché si insegna prima dell'italiano": "A scuola oggi si impara prima l'italiano: l'ordine di insegnamento non è il motivo della parentela.", "Perché è più antico di tutte le lingue": "Esistono lingue più antiche del latino, come il sumerico o l'egiziano: non è l'anzianità a renderlo «lingua madre» dell'italiano.", "Perché era parlato dalle madri romane": "L'espressione non si riferisce alle madri in famiglia, ma al fatto che l'italiano discende direttamente dal latino." } },
+  { topic: "basi", difficulty: 2, prompt: "Che cosa si intende per «lingua flessiva»?", answer: "Una lingua in cui le parole cambiano desinenza", distractors: ["Una lingua che si adatta ai dialetti","Una lingua senza regole fisse","Una lingua che si scrive senza usare vocali"], explanation: "Latino, greco e tedesco sono flessivi: la fine della parola porta l'informazione grammaticale.",
+    distractorWhy: { "Una lingua che si adatta ai dialetti": "Non ha a che fare con i dialetti: «flessiva» descrive come cambiano le desinenze delle parole.", "Una lingua senza regole fisse": "È vero il contrario: le lingue flessive hanno regole di declinazione molto precise.", "Una lingua che si scrive senza usare vocali": "Il latino si scrive normalmente con le vocali: questo non c'entra con l'essere flessiva." } },
+  { topic: "basi", difficulty: 3, prompt: "Perché il latino si dice «lingua madre» dell'italiano?", answer: "Perché l'italiano deriva direttamente da esso", distractors: ["Perché si insegna prima dell'italiano","Perché è più antico di tutte le altre lingue","Perché era parlato dalle madri romane"], explanation: "Italiano, spagnolo, francese, portoghese e rumeno nascono dal latino parlato: sono le lingue romanze.",
+    distractorWhy: { "Perché si insegna prima dell'italiano": "A scuola oggi si impara prima l'italiano: l'ordine di insegnamento non è il motivo della parentela.", "Perché è più antico di tutte le altre lingue": "Esistono lingue più antiche del latino, come il sumerico o l'egiziano: non è l'anzianità a renderlo «lingua madre» dell'italiano.", "Perché era parlato dalle madri romane": "L'espressione non si riferisce alle madri in famiglia, ma al fatto che l'italiano discende direttamente dal latino." } },
   { topic: "basi", difficulty: 3, prompt: "Quale caso indica normalmente il soggetto?", answer: "Nominativo", distractors: ["Accusativo","Genitivo","Ablativo"], explanation: "Il nominativo «nomina» chi compie l'azione: è la forma che si trova sul vocabolario.",
     distractorWhy: { "Accusativo": "L'accusativo indica il complemento oggetto, non il soggetto.", "Genitivo": "Il genitivo indica il possesso, non il soggetto.", "Ablativo": "L'ablativo indica altre relazioni (mezzo, luogo, modo), non il soggetto." } },
   { topic: "basi", difficulty: 3, prompt: "Quale caso indica normalmente il complemento oggetto?", answer: "Accusativo", distractors: ["Nominativo","Dativo","Vocativo"], explanation: "L'accusativo risponde a «chi? che cosa?» senza preposizione.",
     distractorWhy: { "Nominativo": "Il nominativo indica il soggetto, non il complemento oggetto.", "Dativo": "Il dativo indica il complemento di termine, non l'oggetto diretto.", "Vocativo": "Il vocativo serve solo a chiamare qualcuno, non a indicare l'oggetto." } },
   { topic: "basi", difficulty: 4, prompt: "Quale caso si usa per chiamare qualcuno?", answer: "Vocativo", distractors: ["Dativo","Genitivo","Ablativo"], explanation: "«Brute!» è vocativo: serve solo a rivolgersi direttamente a una persona.",
     distractorWhy: { "Dativo": "Il dativo indica il termine («a chi»), non una chiamata diretta.", "Genitivo": "Il genitivo indica il possesso, non una chiamata diretta.", "Ablativo": "L'ablativo indica altre relazioni (mezzo, luogo, modo), non una chiamata diretta." } },
-  { topic: "basi", difficulty: 3, prompt: "Come si trova a quale declinazione appartiene un nome?", answer: "Guardando la desinenza del genitivo singolare", distractors: ["Guardando la lettera iniziale","Contando le sillabe della parola","Guardando se è maschile o femminile"], explanation: "Rosa, rosae è prima; dominus, domini è seconda. Il vocabolario riporta sempre nominativo e genitivo.",
-    distractorWhy: { "Guardando la lettera iniziale": "La lettera iniziale non ha nessuna relazione con la declinazione di un nome.", "Contando le sillabe della parola": "Il numero di sillabe non indica la declinazione: conta la desinenza del genitivo.", "Guardando se è maschile o femminile": "Il genere non basta: la prima declinazione ha anche maschili, la seconda anche neutri." } },
+  { topic: "basi", difficulty: 3, prompt: "Come si trova a quale declinazione appartiene un nome?", answer: "Guardando la desinenza del genitivo singolare", distractors: ["Guardando la lettera iniziale","Contando le sillabe della parola","Guardando se il nome è maschile o femminile"], explanation: "Rosa, rosae è prima; dominus, domini è seconda. Il vocabolario riporta sempre nominativo e genitivo.",
+    distractorWhy: { "Guardando la lettera iniziale": "La lettera iniziale non ha nessuna relazione con la declinazione di un nome.", "Contando le sillabe della parola": "Il numero di sillabe non indica la declinazione: conta la desinenza del genitivo.", "Guardando se il nome è maschile o femminile": "Il genere non basta: la prima declinazione ha anche maschili, la seconda anche neutri." } },
   { topic: "basi", difficulty: 2, prompt: "In latino esistono gli articoli «il», «la», «un»?", answer: "No, il latino non ha articoli", distractors: ["Sì, sono uguali all'italiano","Sì, ma solo al singolare","Sì, ma si scrivono attaccati"], explanation: "«Rosa» può significare «rosa», «la rosa» o «una rosa»: lo decide il contesto.",
     distractorWhy: { "Sì, sono uguali all'italiano": "Il latino non ha nessun articolo, uguale o diverso da quello italiano.", "Sì, ma solo al singolare": "Il latino non ha articoli né al singolare né al plurale.", "Sì, ma si scrivono attaccati": "Non esiste nessuna forma di articolo in latino, attaccata o separata." } },
-  { topic: "basi", difficulty: 4, prompt: "Perché due nomi latini con la stessa desinenza possono avere funzioni diverse?", answer: "Perché la stessa desinenza appare in casi diversi", distractors: ["Perché il latino ammette gli errori","Perché dipende da chi scrive la frase","Perché le desinenze cambiano ogni secolo"], explanation: "«Rosae» può essere genitivo, dativo o nominativo plurale: solo il contesto e il verbo lo chiariscono.",
-    distractorWhy: { "Perché il latino ammette gli errori": "Non è una questione di errori: è una caratteristica regolare del sistema delle desinenze.", "Perché dipende da chi scrive la frase": "Non dipende da chi scrive: dipende dalla struttura stessa della lingua, uguale per tutti.", "Perché le desinenze cambiano ogni secolo": "Le desinenze latine non cambiavano nel tempo classico: l'ambiguità è strutturale, non storica." } },
+  { topic: "basi", difficulty: 4, prompt: "Perché due nomi latini con la stessa desinenza possono avere funzioni diverse?", answer: "Perché la stessa desinenza appare in casi diversi", distractors: ["Perché il latino ammette gli errori","Perché dipende da chi scrive la frase","Perché le desinenze cambiano di secolo in secolo"], explanation: "«Rosae» può essere genitivo, dativo o nominativo plurale: solo il contesto e il verbo lo chiariscono.",
+    distractorWhy: { "Perché il latino ammette gli errori": "Non è una questione di errori: è una caratteristica regolare del sistema delle desinenze.", "Perché dipende da chi scrive la frase": "Non dipende da chi scrive: dipende dalla struttura stessa della lingua, uguale per tutti.", "Perché le desinenze cambiano di secolo in secolo": "Le desinenze latine non cambiavano nel tempo classico: l'ambiguità è strutturale, non storica." } },
   { topic: "vocabolario", difficulty: 1, prompt: "Che cosa significa «aqua»?", answer: "Acqua", distractors: ["Aria","Terra","Fuoco"], explanation: "Da «aqua» vengono acquedotto e acquario.",
     distractorWhy: { "Aria": "«Aria» in latino è «aer», una parola diversa da «aqua».", "Terra": "«Terra» in latino è «terra» stessa, una parola diversa da «aqua».", "Fuoco": "«Fuoco» in latino è «ignis», una parola diversa da «aqua»." } },
   { topic: "vocabolario", difficulty: 1, prompt: "Che cosa significa «puella»?", answer: "Bambina", distractors: ["Bambino","Donna anziana","Sorella"], explanation: "«Puer» è il bambino, «puella» la bambina: è un nome della prima declinazione.",
     distractorWhy: { "Bambino": "«Bambino» in latino è «puer», la forma maschile di «puella».", "Donna anziana": "«Donna anziana» in latino è un'altra parola, come «anus»: non è «puella».", "Sorella": "«Sorella» in latino è «soror», una parola diversa da «puella»." } },
-  { topic: "vocabolario", difficulty: 2, prompt: "Che cosa significa «liber»?", answer: "Libro", distractors: ["Libero","Lettera","Lingua"], explanation: "Da «liber» vengono libro, libreria, libraio. L'aggettivo «liber» che significa libero si scrive uguale ma ha altra origine.",
-    distractorWhy: { "Libero": "«Libero» si scrive uguale ma è un aggettivo di origine diversa: qui «liber» è il sostantivo «libro».", "Lettera": "«Lettera» in latino è «littera», una parola diversa da «liber».", "Lingua": "«Lingua» in latino è «lingua» stessa, una parola diversa da «liber»." } },
+  { topic: "vocabolario", difficulty: 2, prompt: "Che cosa significa il sostantivo «liber, libri»?", answer: "Libro", distractors: ["Bilancia","Lettera","Lingua"], explanation: "Da «liber, libri» vengono libro, libreria, libraio. Esiste anche un aggettivo «liber, libera, liberum» che significa libero: si scrive uguale al nominativo ma è tutta un'altra parola, e il vocabolario le tiene separate.",
+    distractorWhy: {"Bilancia":"La bilancia è «libra», con la a: da lì viene «libbra», l'unità di peso.","Lettera":"«Lettera» in latino è «littera», una parola diversa da «liber».","Lingua":"«Lingua» in latino è «lingua» stessa, una parola diversa da «liber»."} },
   { topic: "vocabolario", difficulty: 2, prompt: "Che cosa significa «magister»?", answer: "Maestro", distractors: ["Allievo","Padre","Comandante"], explanation: "Da «magister» vengono maestro, magistrale, magistrato.",
     distractorWhy: { "Allievo": "«Allievo» in latino è «discipulus», l'opposto di «magister».", "Padre": "«Padre» in latino è «pater», una parola diversa da «magister».", "Comandante": "«Comandante» si direbbe con altre parole come «dux», diverse da «magister»." } },
   { topic: "vocabolario", difficulty: 2, prompt: "Che cosa significa «amicus»?", answer: "Amico", distractors: ["Nemico","Vicino","Parente"], explanation: "Da «amare» (amare) viene «amicus»: chi si ama, l'amico.",
@@ -558,8 +603,8 @@ const LATINO_EXTRA = [
     distractorWhy: { "Vita": "«Vita» in latino è «vita» stessa, una parola diversa da «via».", "Voce": "«Voce» in latino è «vox», una parola diversa da «via».", "Vino": "«Vino» in latino è «vinum», una parola diversa da «via»." } },
   { topic: "vocabolario", difficulty: 4, prompt: "Che cosa significa «virtus»?", answer: "Valore, coraggio", distractors: ["Virtù religiosa soltanto","Forza fisica soltanto","Ricchezza personale"], explanation: "Da «vir» (uomo): per i Romani era il valore, soprattutto militare. Il senso morale è più tardo.",
     distractorWhy: { "Virtù religiosa soltanto": "Il senso religioso della «virtù» è un'evoluzione successiva: per i Romani «virtus» era anzitutto coraggio militare.", "Forza fisica soltanto": "Non è solo forza fisica: «virtus» indica soprattutto il valore morale e militare, legato a «vir» (uomo).", "Ricchezza personale": "La ricchezza in latino si dice «divitiae», un concetto diverso da «virtus»." } },
-  { topic: "vocabolario", difficulty: 4, prompt: "Che cosa significa «schola»?", answer: "Tempo libero dedicato allo studio", distractors: ["Edificio con molte aule","Gruppo di allievi","Lezione del maestro"], explanation: "Dal greco «scholé», che significava proprio ozio, tempo libero: studiare era ciò che si faceva quando non si lavorava.",
-    distractorWhy: { "Edificio con molte aule": "Il significato originario non è l'edificio, ma il tempo libero dedicato allo studio: l'edificio è un senso successivo.", "Gruppo di allievi": "«Schola» non indica le persone, ma il tempo libero dedicato allo studio.", "Lezione del maestro": "«Schola» non indica una singola lezione, ma il tempo libero dedicato allo studio in generale." } },
+  { topic: "vocabolario", difficulty: 4, prompt: "Il latino «schola» viene dal greco «scholé». Che cosa significava quella parola greca?", answer: "Tempo libero", distractors: ["Fatica quotidiana","Casa del maestro","Prova da superare"], explanation: "Per i Greci «scholé» era l'ozio, il tempo che non si passava a lavorare: studiare era ciò che si faceva quando si era liberi. In latino «schola» prese poi i sensi di lezione, scuola e gruppo di allievi.",
+    distractorWhy: {"Fatica quotidiana":"È quasi il contrario: «scholé» era il tempo sottratto al lavoro, non il lavoro stesso.","Casa del maestro":"L'edificio è un senso arrivato molto dopo, quando la parola era già passata al latino.","Prova da superare":"L'esame non c'entra: «scholé» indicava un tempo disponibile, non una verifica."} },
   { topic: "vocabolario", difficulty: 3, prompt: "Che cosa significa «rex»?", answer: "Re", distractors: ["Regola","Regno","Console"], explanation: "Da «rex, regis» vengono regale, reggia, e anche «regola», perché il re è chi dirige.",
     distractorWhy: { "Regola": "«Regola» in latino è «regula», una parola imparentata ma diversa da «rex».", "Regno": "«Regno» in latino è «regnum», una parola imparentata ma diversa da «rex» (che è la persona, non il territorio).", "Console": "«Console» in latino è «consul», una carica diversa dal re." } },
   // Basi e storia
@@ -576,24 +621,24 @@ const LATINO_EXTRA = [
     distractorWhy: { "Nominativo": "Il nominativo indica il soggetto, non il complemento oggetto.", "Dativo": "Il dativo indica il complemento di termine, non l'oggetto diretto.", "Vocativo": "Il vocativo serve solo a chiamare qualcuno, non a indicare l'oggetto." } },
   { topic: "casi", difficulty: 3, prompt: "Il complemento di specificazione (il 'di chi, di cosa') usa il…", answer: "Genitivo", distractors: ["Dativo", "Ablativo", "Accusativo"], explanation: "Il genitivo indica la specificazione (es. il libro di Marco).",
     distractorWhy: { "Dativo": "Il dativo risponde a «a chi?», non a «di chi?».", "Ablativo": "L'ablativo indica altre relazioni (mezzo, luogo, modo), non la specificazione.", "Accusativo": "L'accusativo indica il complemento oggetto, non la specificazione." } },
-  { topic: "casi", difficulty: 3, prompt: "Il complemento di termine (a chi, per chi) usa il…", answer: "Dativo", distractors: ["Genitivo", "Accusativo", "Nominativo"], explanation: "Il dativo indica il termine (es. dono a Giulia).",
-    distractorWhy: { "Genitivo": "Il genitivo risponde a «di chi?», non a «a chi?».", "Accusativo": "L'accusativo indica il complemento oggetto, non il termine.", "Nominativo": "Il nominativo indica il soggetto, non il termine." } },
-  { topic: "casi", difficulty: 4, prompt: "Quale caso serve per chiamare o invocare qualcuno?", answer: "Vocativo", distractors: ["Nominativo", "Dativo", "Ablativo"], explanation: "Il vocativo si usa per rivolgersi direttamente a qualcuno.",
-    distractorWhy: { "Nominativo": "Il nominativo indica il soggetto di una frase, non una chiamata diretta.", "Dativo": "Il dativo indica il termine, non una chiamata diretta.", "Ablativo": "L'ablativo indica altre relazioni (mezzo, luogo, modo), non una chiamata diretta." } },
+  { topic: "casi", difficulty: 3, prompt: "Quale caso regge la preposizione «cum», come in «cum amico»?", answer: "Ablativo", distractors: ["Genitivo", "Accusativo", "Nominativo"], explanation: "«Cum» vuole sempre l'ablativo: «cum amico», con l'amico. Molte preposizioni ne reggono uno solo, e impararle insieme al caso fa risparmiare metà del lavoro.",
+    distractorWhy: {"Genitivo":"Il genitivo non segue mai «cum»: risponde a «di chi?» e sta da solo.","Accusativo":"L'accusativo lo reggono «ad», «per», «inter»: «cum» no, lui vuole l'ablativo.","Nominativo":"Il nominativo non segue mai una preposizione: è il caso del soggetto."} },
+  { topic: "casi", difficulty: 4, prompt: "Il vocativo è quasi sempre uguale al nominativo. Qual è l'eccezione, per un nome come «Marcus»?", answer: "Marce, con la -e finale", distractors: ["Marcum, come l'accusativo", "Marci, come il genitivo", "Marcus, senza cambiare nulla"], explanation: "Solo la seconda declinazione in -us ha un vocativo suo: «Marce!», «domine!», «amice!». In tutte le altre il vocativo coincide con il nominativo.",
+    distractorWhy: {"Marcum, come l'accusativo":"L'accusativo serve per il complemento oggetto: chiamare qualcuno è un'altra cosa.","Marci, come il genitivo":"«Marci» vuol dire «di Marco»: non serve a rivolgersi a lui.","Marcus, senza cambiare nulla":"È vero per quasi tutti i nomi, ma non per la seconda in -us: lì il vocativo esce in -e."} },
   // Declinazioni
-  { topic: "declinazioni-base", difficulty: 2, prompt: "Quante sono le declinazioni del latino?", answer: "5", distractors: ["3", "4", "6"], explanation: "I nomi latini si dividono in cinque declinazioni.",
-    distractorWhy: { "3": "Sono di più: il latino ne conta cinque, non tre.", "4": "Sono di più: il latino ne conta cinque, non quattro.", "6": "Sono di meno: il latino ne conta cinque, non sei (sei sono invece i casi)." } },
-  { topic: "declinazioni-base", difficulty: 3, prompt: "I nomi come 'rosa, rosae' appartengono alla…", answer: "Prima declinazione", distractors: ["Seconda declinazione", "Terza declinazione", "Quinta declinazione"], explanation: "La prima declinazione ha genitivo singolare in -ae.",
-    distractorWhy: { "Seconda declinazione": "La seconda ha il genitivo in -i, non in -ae come «rosae».", "Terza declinazione": "La terza ha il genitivo in -is, non in -ae come «rosae».", "Quinta declinazione": "La quinta ha il genitivo in -ei, non in -ae come «rosae»." } },
+  { topic: "declinazioni-base", difficulty: 2, prompt: "Quanti generi distingue il latino?", answer: "3", distractors: ["2", "4", "5"], explanation: "Maschile, femminile e neutro. L'italiano ha perso il neutro: le sue tracce restano in plurali come «le braccia» e «le uova».",
+    distractorWhy: {"2":"Due sono i generi dell'italiano: il latino ne ha uno in più, il neutro.","4":"Tre e basta: maschile, femminile, neutro. Non ce n'è un quarto.","5":"Cinque sono le declinazioni, non i generi: i generi sono tre."} },
+  { topic: "declinazioni-base", difficulty: 3, prompt: "I nomi come 'dies, diei' appartengono alla…", answer: "Quinta declinazione", distractors: ["Prima declinazione", "Seconda declinazione", "Quarta declinazione"], explanation: "Il genitivo in -ei è la firma della quinta, la più piccola di tutte: «dies» (giorno) e «res» (cosa) sono quasi gli unici nomi che si incontrano davvero.",
+    distractorWhy: {"Prima declinazione":"La prima ha il genitivo in -ae, come «rosae»: qui è «diei».","Seconda declinazione":"La seconda ha il genitivo in -i, come «domini»: qui è «diei».","Quarta declinazione":"La quarta ha il genitivo in -us, come «manus»: qui è «diei»."} },
   { topic: "declinazioni-base", difficulty: 3, prompt: "I nomi come 'lupus, lupi' appartengono alla…", answer: "Seconda declinazione", distractors: ["Prima declinazione", "Terza declinazione", "Quarta declinazione"], explanation: "La seconda declinazione ha genitivo singolare in -i.",
     distractorWhy: { "Prima declinazione": "La prima ha il genitivo in -ae, non in -i come «lupi».", "Terza declinazione": "La terza ha il genitivo in -is, non in -i come «lupi».", "Quarta declinazione": "La quarta ha il genitivo in -us, non in -i come «lupi»." } },
   // Vocabolario
-  { topic: "vocabolario", difficulty: 1, prompt: "Cosa significa 'aqua' in italiano?", answer: "Acqua", distractors: ["Aria", "Fuoco", "Terra"], explanation: "Prima declinazione. Da questa radice l'italiano ha acquedotto, acquario e acquerello.",
-    distractorWhy: { "Aria": "«Aria» in latino è «aer», una parola diversa da «aqua».", "Fuoco": "«Fuoco» in latino è «ignis», una parola diversa da «aqua».", "Terra": "«Terra» in latino è «terra» stessa, una parola diversa da «aqua»." } },
-  { topic: "vocabolario", difficulty: 1, prompt: "Cosa significa 'puella' in italiano?", answer: "Fanciulla, ragazza", distractors: ["Ragazzo", "Casa", "Cane"], explanation: "Prima declinazione, come rosa e silva: il femminile in -a è il gruppo più regolare del latino.",
-    distractorWhy: { "Ragazzo": "«Ragazzo» in latino è «puer», la forma maschile di «puella».", "Casa": "«Casa» in latino è «domus» o «casa» stessa, una parola diversa da «puella».", "Cane": "«Cane» in latino è «canis», una parola diversa da «puella»." } },
-  { topic: "vocabolario", difficulty: 2, prompt: "Cosa significa 'silva' in italiano?", answer: "Bosco, selva", distractors: ["Città", "Fiume", "Strada"], explanation: "'Silva' è il bosco (da cui 'selva').",
-    distractorWhy: { "Città": "«Città» in latino è «urbs», una parola diversa da «silva».", "Fiume": "«Fiume» in latino è «flumen», una parola diversa da «silva».", "Strada": "«Strada» in latino è «via», una parola diversa da «silva»." } },
+  { topic: "vocabolario", difficulty: 1, prompt: "Cosa significa 'pax' in italiano?", answer: "Pace", distractors: ["Patto", "Paura", "Potere"], explanation: "Pax, pacis: da lì pacifico, pacato, pacificare. La «pax Romana» fu il lungo periodo senza guerre interne all'impero.",
+    distractorWhy: {"Patto":"Il patto è «pactum»: si somiglia perché nasce dalla stessa idea di accordo, ma è un'altra parola.","Paura":"La paura è «timor» o «metus», niente a che vedere con «pax».","Potere":"Il potere è «potestas»: comincia con la p come «pax», ma finisce lì."} },
+  { topic: "vocabolario", difficulty: 1, prompt: "Cosa significa 'ignis' in italiano?", answer: "Fuoco", distractors: ["Ghiaccio", "Fumo", "Ferro"], explanation: "Ignis, ignis: terza declinazione. Da lì vengono «igneo» e «ignifugo», cioè ciò che mette in fuga il fuoco.",
+    distractorWhy: {"Ghiaccio":"Il ghiaccio è «glacies»: comincia in un altro modo e vuol dire il contrario.","Fumo":"Il fumo è «fumus»: accompagna il fuoco ma è un'altra parola.","Ferro":"Il ferro è «ferrum»: si somiglia all'orecchio, ma «ignis» è il fuoco."} },
+  { topic: "vocabolario", difficulty: 2, prompt: "Cosa significa 'silva' in italiano?", answer: "Bosco, selva", distractors: ["Prato aperto", "Corso d'acqua", "Sentiero stretto"], explanation: "«Silva» è il bosco, e da lì viene «selva»: la selva oscura di Dante è la stessa parola.",
+    distractorWhy: {"Prato aperto":"Il prato è «pratum»: il bosco è il contrario, un luogo fitto di alberi.","Corso d'acqua":"Il fiume è «flumen»: un'altra parola e un altro paesaggio.","Sentiero stretto":"Il sentiero è «semita»: passa dentro la selva, ma non è la selva."} },
   // Verbo essere (sum)
   { topic: "verbo-sum", difficulty: 3, prompt: "Come si dice 'io sono' in latino?", answer: "Sum", distractors: ["Est", "Sunt", "Es"], explanation: "'Sum' = io sono; 'es' = tu sei; 'est' = egli è.",
     distractorWhy: { "Est": "«Est» significa «egli/ella è», non «io sono».", "Sunt": "«Sunt» significa «essi sono», non «io sono».", "Es": "«Es» significa «tu sei», non «io sono»." } },
@@ -613,27 +658,27 @@ const LATINO_EXTRA = [
   { topic: "declinazione-3m", difficulty: 3, format: "short_answer", prompt: "Qual è il nominativo plurale di «consul»?", answer: "consules", explanation: "Terza declinazione maschile: il nominativo plurale esce in -es." },
   { topic: "declinazione-3m", difficulty: 3, format: "short_answer", prompt: "Qual è l'accusativo plurale di «consul»?", answer: "consules", explanation: "Nella terza, maschili e femminili hanno nominativo e accusativo plurale uguali." },
   { topic: "declinazione-3n", difficulty: 3, format: "short_answer", prompt: "Qual è il nominativo plurale di «corpus»?", answer: "corpora", explanation: "Nei neutri della terza il plurale esce in -a: qui il tema è corpor-." },
-  { topic: "declinazione-3n", difficulty: 3, format: "short_answer", prompt: "Qual è il genitivo singolare di «corpus»?", answer: "corporis", explanation: "Il genitivo svela il tema vero: corpor-, non corpus-." },
+  { topic: "declinazione-3n", difficulty: 3, format: "short_answer", prompt: "Qual è il dativo e ablativo plurale di «rosa»?", answer: "rosis", explanation: "Nella prima declinazione dativo e ablativo plurale sono la stessa forma, «rosis»: è il contesto a dire quale dei due sia." },
   { topic: "declinazione-4", difficulty: 3, format: "short_answer", prompt: "Qual è il genitivo singolare di «manus»?", answer: "manus", explanation: "Quarta declinazione: nominativo e genitivo singolare si scrivono uguali." },
   { topic: "declinazione-4", difficulty: 3, format: "short_answer", prompt: "Qual è il nominativo plurale di «manus»?", answer: "manus", explanation: "Anche il nominativo plurale è manus: è il contesto a distinguerli." },
   { topic: "verbo-sum", difficulty: 1, format: "short_answer", prompt: "Come si dice in latino «io sono»?", answer: "sum", explanation: "Prima persona singolare del presente indicativo di sum." },
-  { topic: "verbo-sum", difficulty: 2, format: "short_answer", prompt: "Come si dice in latino «noi siamo»?", answer: "sumus", explanation: "La desinenza -mus segna sempre il «noi»: sum diventa sumus, come amo diventa amamus." },
+  { topic: "verbo-sum", difficulty: 2, format: "short_answer", prompt: "Come si dice in latino «essi erano»?", answer: "erant", explanation: "Imperfetto di sum al plurale: eramus, eratis, erant. La -nt finale segna sempre il «essi»." },
   { topic: "verbo-sum", difficulty: 2, format: "short_answer", prompt: "Come si dice in latino «essi sono»?", answer: "sunt", explanation: "La desinenza -nt segna sempre il «essi»: sum diventa sunt, come amo diventa amant." },
   { topic: "verbo-sum", difficulty: 3, format: "short_answer", prompt: "Come si dice in latino «io ero»?", answer: "eram", explanation: "Imperfetto di sum: eram, eras, erat." },
-  { topic: "casi", difficulty: 2, format: "short_answer", prompt: "Quale caso latino si usa per il soggetto della frase?", answer: "nominativo", explanation: "Il nominativo indica chi compie l'azione o di chi si dice qualcosa." },
-  { topic: "casi", difficulty: 2, format: "short_answer", prompt: "Quale caso latino si usa per il complemento oggetto?", answer: "accusativo", explanation: "Risponde a «chi? che cosa?» dopo un verbo transitivo." },
-  { topic: "casi", difficulty: 2, format: "short_answer", prompt: "Quale caso latino si usa per chiamare qualcuno?", answer: "vocativo", explanation: "È il caso del richiamo: quasi sempre uguale al nominativo." },
-  { topic: "casi", difficulty: 3, format: "short_answer", prompt: "Quale caso latino esprime di solito il possesso?", answer: "genitivo", explanation: "«Il libro del maestro»: magistri, genitivo." },
-  { topic: "etimologia", difficulty: 2, format: "short_answer", prompt: "Da quale parola latina viene l'italiano «aqua-» in «acquedotto»?", answer: "aqua", explanation: "Aqua vuol dire acqua; il dotto è il condotto che la porta." },
+  { topic: "casi", difficulty: 2, format: "short_answer", prompt: "Quale caso latino si usa per il soggetto della frase?", answer: "nominativo", accept: ["il nominativo", "caso nominativo"], explanation: "Il nominativo indica chi compie l'azione o di chi si dice qualcosa." },
+  { topic: "casi", difficulty: 2, format: "short_answer", prompt: "Quale caso latino si usa per il complemento oggetto?", answer: "accusativo", accept: ["l'accusativo", "caso accusativo"], explanation: "Risponde a «chi? che cosa?» dopo un verbo transitivo." },
+  { topic: "casi", difficulty: 2, format: "short_answer", prompt: "Quale caso latino si usa per chiamare qualcuno?", answer: "vocativo", accept: ["il vocativo", "caso vocativo"], explanation: "È il caso del richiamo: quasi sempre uguale al nominativo." },
+  { topic: "casi", difficulty: 3, format: "short_answer", prompt: "Come si chiama la parte finale di un nome, quella che cambia da un caso all'altro?", answer: "desinenza", accept: ["la desinenza", "desinenze"], explanation: "Ros-a, ros-ae, ros-am: la parte davanti resta (il tema), la desinenza cambia e porta tutta l'informazione." },
+  { topic: "etimologia", difficulty: 2, format: "short_answer", prompt: "L'abbreviazione italiana «ecc.» sta per due parole latine. La prima è «et»: qual è la seconda?", answer: "cetera", accept: ["et cetera", "cetera (et cetera)"], explanation: "«Et cetera» vuol dire «e le altre cose»: l'italiano l'ha accorciata in «ecc.», l'inglese in «etc.»." },
   { topic: "etimologia", difficulty: 2, format: "short_answer", prompt: "Da quale parola latina viene l'italiano «terrestre»?", answer: "terra", explanation: "Terra dà terrestre, terreno, terrazzo, sotterraneo." },
-  { topic: "etimologia", difficulty: 3, format: "short_answer", prompt: "Da quale parola latina viene l'italiano «manuale»?", answer: "manus", explanation: "Manus è la mano: manuale è ciò che si fa con le mani." },
+  { topic: "etimologia", difficulty: 3, format: "short_answer", prompt: "Da quale parola latina vengono «cordiale», «ricordare» e «coraggio»?", answer: "cor", accept: ["cor, cordis", "cordis"], explanation: "«Cor, cordis» è il cuore: ricordare è riportare al cuore, e il coraggio è ciò che si ha nel cuore." },
   { topic: "etimologia", difficulty: 3, format: "short_answer", prompt: "Da quale parola latina viene l'italiano «vitale»?", answer: "vita", explanation: "Vita dà vitale, vitamina, vitalità." },
   { topic: "vocabolario", difficulty: 1, format: "short_answer", prompt: "Che cosa significa in italiano il latino «puella»?", answer: "ragazza", accept: ["fanciulla", "bambina"], explanation: "Puella, prima declinazione: la ragazza, la fanciulla." },
-  { topic: "vocabolario", difficulty: 1, format: "short_answer", prompt: "Che cosa significa in italiano il latino «liber»?", answer: "libro", explanation: "Liber, seconda declinazione: il libro." },
-  { topic: "vocabolario", difficulty: 2, format: "short_answer", prompt: "Che cosa significa in italiano il latino «rex»?", answer: "re", explanation: "Rex, terza declinazione, genitivo regis: da lì regale e regno." },
-  { topic: "vocabolario", difficulty: 2, format: "short_answer", prompt: "Che cosa significa in italiano il latino «bellum»?", answer: "guerra", accept: ["la guerra"], explanation: "Bellum è la guerra, non il bello: da lì bellicoso." },
-  { topic: "vocabolario", difficulty: 2, format: "short_answer", prompt: "Che cosa significa in italiano il latino «magister»?", answer: "maestro", explanation: "Magister è il maestro; da lì magistrale e magistrato." },
-  { topic: "basi", difficulty: 2, format: "short_answer", prompt: "Come si chiama l'insieme delle terminazioni che un nome latino assume nei vari casi?", answer: "declinazione", explanation: "Cinque declinazioni, riconoscibili dal genitivo singolare." },
+  { topic: "vocabolario", difficulty: 1, format: "short_answer", prompt: "Che cosa significa in italiano il latino «liber»?", answer: "libro", accept: ["il libro", "un libro"], explanation: "Liber, seconda declinazione: il libro." },
+  { topic: "vocabolario", difficulty: 2, format: "short_answer", prompt: "Che cosa significa in italiano il latino «pater»?", answer: "padre", accept: ["il padre"], explanation: "Pater, patris: da lì paterno, patria, patrimonio, patrono." },
+  { topic: "vocabolario", difficulty: 2, format: "short_answer", prompt: "Che cosa significa in italiano il latino «mater»?", answer: "madre", accept: ["la madre"], explanation: "Mater, matris: da lì materno, matrimonio, matrice e perfino «materia»." },
+  { topic: "vocabolario", difficulty: 2, format: "short_answer", prompt: "Che cosa significa in italiano il latino «nauta»?", answer: "marinaio", accept: ["il marinaio", "navigante"], explanation: "«Nauta» finisce in -a come «rosa» ed è di prima declinazione, ma è maschile: come «agricola», il contadino. La desinenza non decide il genere." },
+  { topic: "basi", difficulty: 2, format: "short_answer", prompt: "Come si chiama l'insieme delle terminazioni che un nome latino assume nei vari casi?", answer: "declinazione", accept: ["la declinazione", "declinazioni"], explanation: "Cinque declinazioni, riconoscibili dal genitivo singolare." },
   { topic: "frasi", difficulty: 3, format: "short_answer", prompt: "Come si traduce il latino «Roma caput mundi»?", answer: "Roma capitale del mondo", accept: ["Roma è la capitale del mondo"], explanation: "Caput è la testa, e per estensione la capitale." },
 ];
 
@@ -1057,15 +1102,15 @@ const CODING_EXTRA = [
     distractorWhy: { "Il primo confronta troppo lentamente": "Il problema non è la velocità: = non confronta affatto, assegna, ed è per questo un errore di sintassi in un if.", "Il secondo funziona solo con i numeri": "== funziona con qualsiasi tipo di valore, non solo con i numeri.", "Nessuna differenza, sono uguali": "Sono molto diversi: = assegna, == confronta, e usarli al posto giusto è essenziale." } },
   { topic: "booleani", difficulty: 3, prompt: "Quanto vale not (2 > 5)?", answer: "True", distractors: ["False","2","Errore"], explanation: "2 > 5 è falso; not lo capovolge e restituisce vero.",
     distractorWhy: { "False": "2 > 5 è falso, ma not capovolge il valore: il risultato finale è vero.", "2": "Il risultato di not è un booleano, non uno dei numeri usati nel confronto.", "Errore": "L'espressione è sintatticamente corretta: non genera nessun errore." } },
-  { topic: "funzioni", difficulty: 2, prompt: "A che cosa serve definire una funzione?", answer: "A dare un nome a un pezzo di codice riutilizzabile", distractors: ["A rendere il programma più veloce da eseguire", "A creare nuove variabili senza assegnarle", "A stampare più cose insieme in una riga"], explanation: "Scritta una volta, si richiama quante volte serve: meno codice ripetuto significa meno posti dove sbagliare.",
-    distractorWhy: { "A rendere il programma più veloce da eseguire": "Una funzione non velocizza l'esecuzione: il suo vantaggio è evitare di ripetere codice.", "A creare nuove variabili senza assegnarle": "Le funzioni non creano variabili automaticamente: servono a raggruppare codice riutilizzabile.", "A stampare più cose insieme in una riga": "Quello è compito di print() con più argomenti, non delle funzioni in generale." } },
+  { topic: "funzioni", difficulty: 2, prompt: "A che cosa serve definire una funzione?", answer: "A dare un nome a un pezzo di codice riutilizzabile", distractors: ["A rendere il programma molto più veloce da eseguire", "A creare nuove variabili senza assegnarle", "A stampare più cose insieme in una riga"], explanation: "Scritta una volta, si richiama quante volte serve: meno codice ripetuto significa meno posti dove sbagliare.",
+    distractorWhy: { "A rendere il programma molto più veloce da eseguire": "Una funzione non velocizza l'esecuzione: il suo vantaggio è evitare di ripetere codice.", "A creare nuove variabili senza assegnarle": "Le funzioni non creano variabili automaticamente: servono a raggruppare codice riutilizzabile.", "A stampare più cose insieme in una riga": "Quello è compito di print() con più argomenti, non delle funzioni in generale." } },
   { topic: "funzioni", difficulty: 3, prompt: "def saluta(nome):\n    print('Ciao', nome)\n\nCome si chiama la funzione con il nome Eli?", answer: "saluta('Eli')", distractors: ["saluta Eli","def saluta('Eli')","print(saluta, 'Eli')"], explanation: "Si scrive il nome della funzione e fra parentesi i valori da passarle.",
     distractorWhy: { "saluta Eli": "Manca la sintassi delle parentesi: senza () Python non riconosce una chiamata di funzione.", "def saluta('Eli')": "def serve solo per definire la funzione, non per chiamarla di nuovo.", "print(saluta, 'Eli')": "Questo stamperebbe il riferimento alla funzione e la stringa 'Eli', senza eseguire saluta." } },
   { topic: "funzioni", difficulty: 3, prompt: "In def somma(a, b):, come si chiamano a e b?", answer: "Parametri", distractors: ["Variabili globali","Risultati","Condizioni"], explanation: "I parametri sono i posti vuoti che la funzione riempie con i valori ricevuti a ogni chiamata.",
     distractorWhy: { "Variabili globali": "a e b esistono solo dentro la funzione: non sono variabili globali.", "Risultati": "a e b sono i valori in ingresso, non il risultato che la funzione produce.", "Condizioni": "a e b non sono espressioni booleane: sono i nomi con cui la funzione riceve i dati." } },
   { topic: "funzioni", difficulty: 3, prompt: "Quale parola restituisce un valore al codice che ha chiamato la funzione?", answer: "return", distractors: ["print","def","give"], explanation: "print mostra a schermo; return consegna il valore a chi ha chiamato, che può usarlo o metterlo in una variabile.",
     distractorWhy: { "print": "print mostra un valore a schermo, ma non lo restituisce al codice chiamante.", "def": "def serve a definire la funzione, non a restituire un valore.", "give": "«give» non è una parola chiave di Python." } },
-  { topic: "funzioni", difficulty: 4, format: "numeric_input", prompt: "def doppio(n):\n    return n * 2\nprint(doppio(6))\n\nCosa stampa?", answer: "12", explanation: "La funzione riceve 6, restituisce 12, e print stampa il valore restituito." },
+  { topic: "funzioni", difficulty: 4, format: "numeric_input", prompt: "punti = 10\n\ndef azzera():\n    punti = 0\n\nazzera()\nprint(punti)\n\nCosa stampa?", answer: "10", explanation: "La variabile scritta dentro la funzione è una NUOVA variabile che vive solo lì: si chiama locale. Quella di fuori non viene toccata, e infatti resta 10." },
   { topic: "funzioni", difficulty: 4, prompt: "def doppio(n):\n    print(n * 2)\nx = doppio(4)\nprint(x)\n\nCosa stampa la seconda print?", answer: "None", distractors: ["8","4","Errore"], explanation: "La funzione stampa ma non restituisce niente: senza return, x riceve None.",
     distractorWhy: { "8": "8 viene stampato dalla prima print dentro la funzione, ma x non riceve quel valore: senza return, x è None.", "4": "4 è il parametro n ricevuto, non il valore restituito dalla funzione.", "Errore": "Chiamare una funzione senza return non genera errore: x riceve semplicemente None." } },
   { topic: "funzioni", difficulty: 2, prompt: "Quale parola introduce la definizione di una funzione?", answer: "def", distractors: ["function","fun","define"], explanation: "def sta per «define»: dopo di essa vengono il nome, i parametri fra parentesi e i due punti.",
@@ -1080,25 +1125,25 @@ const CODING_EXTRA = [
     distractorWhy: { "A far andare il programma un po' più veloce": "I commenti vengono ignorati dall'interprete: non influenzano la velocità di esecuzione.", "A nascondere le righe che danno errore": "Un commento non è un modo sano di gestire errori: si dovrebbe correggere il codice, non nasconderlo.", "A dare un nome alle variabili usate sotto": "I nomi delle variabili si scrivono nel codice stesso, non nei commenti." } },
   { topic: "stile", difficulty: 2, prompt: "Con quale simbolo comincia un commento in Python?", answer: "#", distractors: ["//","/*","--"], explanation: "Tutto ciò che segue # sulla stessa riga viene ignorato dall'interprete.",
     distractorWhy: { "//": "// è il simbolo di commento in linguaggi come Java o C++, non in Python.", "/*": "/* è usato per i commenti multi-riga in altri linguaggi, non in Python.", "--": "-- è il simbolo di commento in SQL, non in Python." } },
-  { topic: "stile", difficulty: 3, prompt: "Qual è il commento più utile?", answer: "# arrotondo per difetto: i punti sono sempre interi", distractors: ["# qui metto la variabile x uguale a cinque", "# questa riga dichiara una nuova variabile", "# da qui comincia il programma principale"], explanation: "Un buon commento dice il PERCHÉ, non ripete quello che il codice già dice da solo.",
-    distractorWhy: { "# qui metto la variabile x uguale a cinque": "Ripete quello che il codice già dice da solo, senza aggiungere il perché.", "# questa riga dichiara una nuova variabile": "Ripete quello che il codice già dice da solo, senza aggiungere il perché.", "# da qui comincia il programma principale": "È un'informazione generica che non spiega una scelta specifica del codice." } },
+  { topic: "stile", difficulty: 3, prompt: "Qual è il commento più utile?", answer: "# arrotondo per difetto: i punti sono sempre interi", distractors: ["# qui metto la variabile x uguale a cinque", "# questa riga dichiara una nuova variabile intera", "# da qui comincia il programma principale"], explanation: "Un buon commento dice il PERCHÉ, non ripete quello che il codice già dice da solo.",
+    distractorWhy: { "# qui metto la variabile x uguale a cinque": "Ripete quello che il codice già dice da solo, senza aggiungere il perché.", "# questa riga dichiara una nuova variabile intera": "Ripete quello che il codice già dice da solo, senza aggiungere il perché.", "# da qui comincia il programma principale": "È un'informazione generica che non spiega una scelta specifica del codice." } },
   { topic: "stile", difficulty: 3, prompt: "Perché l'indentazione in Python non è solo questione di ordine?", answer: "Perché decide quali righe stanno dentro un blocco", distractors: ["Perché rende il file da salvare più piccolo", "Perché il rientro serve solo dentro i commenti", "Perché è l'editor di testo a richiederlo"], explanation: "In altri linguaggi si usano le graffe; in Python il rientro È la struttura, e sbagliarlo cambia il programma.",
     distractorWhy: { "Perché rende il file da salvare più piccolo": "L'indentazione non riduce la dimensione del file: anzi, aggiunge spazi.", "Perché il rientro serve solo dentro i commenti": "I commenti non richiedono un'indentazione specifica: il rientro conta per il codice eseguibile.", "Perché è l'editor di testo a richiederlo": "Non è l'editor a imporlo: è la sintassi stessa del linguaggio Python." } },
   { topic: "stile", difficulty: 3, prompt: "Quale nome di variabile è scritto nello stile di Python?", answer: "punti_vita", distractors: ["PuntiVita","puntiVita","PUNTIVITA"], explanation: "In Python le variabili si scrivono minuscole con l'underscore fra le parole: si chiama snake_case.",
     distractorWhy: { "PuntiVita": "Questo stile con maiuscole per ogni parola si chiama PascalCase, usato per le classi, non lo stile Python per le variabili.", "puntiVita": "Questo stile si chiama camelCase, tipico di altri linguaggi come JavaScript, non lo stile Python.", "PUNTIVITA": "Il tutto maiuscolo si usa in Python per le costanti, non per le variabili normali." } },
   { topic: "stile", difficulty: 4, prompt: "Un programma funziona ma nessuno riesce a modificarlo. È un buon programma?", answer: "No: il codice si legge più di quanto si scriva", distractors: ["Sì: l'unica cosa che conta è che funzioni", "Sì, purché venga eseguito abbastanza in fretta", "Dipende solo da quanto è lungo il programma"], explanation: "Un programma vive anni e viene modificato molte volte: se non si capisce, ogni modifica è un rischio.",
     distractorWhy: { "Sì: l'unica cosa che conta è che funzioni": "Funzionare oggi non basta: un codice incomprensibile diventa un rischio a ogni modifica futura.", "Sì, purché venga eseguito abbastanza in fretta": "La velocità non compensa l'illeggibilità: un codice illeggibile resta difficile da mantenere.", "Dipende solo da quanto è lungo il programma": "La lunghezza non è il fattore decisivo: conta la chiarezza, indipendentemente dalla dimensione." } },
-  { topic: "stile", difficulty: 2, prompt: "Che cosa succede se in Python indenti una riga in più per sbaglio?", answer: "Il programma può cambiare comportamento o dare errore", distractors: ["Niente: in Python gli spazi vengono ignorati", "Il codice viene eseguito un po' più in fretta", "Python se ne accorge e corregge da solo"], explanation: "Il rientro determina i blocchi: una riga rientrata di troppo finisce dentro un if o un ciclo a cui non apparteneva.",
-    distractorWhy: { "Niente: in Python gli spazi vengono ignorati": "In Python gli spazi all'inizio riga non sono ignorati: determinano la struttura del programma.", "Il codice viene eseguito un po' più in fretta": "L'indentazione non influisce sulla velocità: influisce sulla struttura logica del programma.", "Python se ne accorge e corregge da solo": "Python non corregge automaticamente l'indentazione: la interpreta letteralmente, anche se sbagliata." } },
+  { topic: "stile", difficulty: 2, prompt: "Che cosa succede se in Python indenti una riga in più per sbaglio?", answer: "Il programma può cambiare comportamento o dare errore", distractors: ["Niente: in Python gli spazi vengono ignorati", "Il codice viene eseguito soltanto un po' più in fretta", "Python se ne accorge e corregge da solo"], explanation: "Il rientro determina i blocchi: una riga rientrata di troppo finisce dentro un if o un ciclo a cui non apparteneva.",
+    distractorWhy: { "Niente: in Python gli spazi vengono ignorati": "In Python gli spazi all'inizio riga non sono ignorati: determinano la struttura del programma.", "Il codice viene eseguito soltanto un po' più in fretta": "L'indentazione non influisce sulla velocità: influisce sulla struttura logica del programma.", "Python se ne accorge e corregge da solo": "Python non corregge automaticamente l'indentazione: la interpreta letteralmente, anche se sbagliata." } },
   { topic: "stile", difficulty: 3, prompt: "Meglio una riga lunghissima o tre righe brevi che fanno lo stesso?", answer: "Tre righe brevi, se si leggono meglio", distractors: ["Sempre la riga lunga, è più efficiente","Sempre la riga lunga, è più elegante","È indifferente"], explanation: "La velocità non cambia; la comprensibilità sì, ed è quella a costare tempo quando qualcosa va storto.",
     distractorWhy: { "Sempre la riga lunga, è più efficiente": "Il numero di righe non cambia la velocità di esecuzione del programma.", "Sempre la riga lunga, è più elegante": "L'eleganza sta nella leggibilità, non nella compattezza a tutti i costi.", "È indifferente": "Non è indifferente: la leggibilità cambia quanto tempo si perde a capire o correggere il codice dopo." } },
-  { topic: "stile", difficulty: 4, prompt: "Hai lo stesso blocco di cinque righe copiato in tre punti. Cosa conviene fare?", answer: "Metterlo in una funzione e chiamarla tre volte", distractors: ["Lasciarlo così, funziona","Copiarlo una quarta volta per sicurezza","Cancellarne due"], explanation: "Codice duplicato significa correzioni duplicate: se scopri un errore devi ricordarti di sistemarlo in tutti e tre i punti.",
-    distractorWhy: { "Lasciarlo così, funziona": "Funzionare oggi non elimina il rischio: un errore trovato dopo va corretto in tre punti separati.", "Copiarlo una quarta volta per sicurezza": "Aumentare la duplicazione peggiora il problema invece di risolverlo.", "Cancellarne due": "Cancellare le copie senza una funzione toglierebbe funzionalità al programma nei punti in cui serviva." } },
+  { topic: "stile", difficulty: 4, prompt: "Hai lo stesso blocco di cinque righe copiato in tre punti. Cosa conviene fare?", answer: "Metterlo in una funzione e chiamarla tre volte", distractors: ["Lasciarlo così, funziona","Copiarlo anche una quarta volta per sicurezza","Cancellarne due"], explanation: "Codice duplicato significa correzioni duplicate: se scopri un errore devi ricordarti di sistemarlo in tutti e tre i punti.",
+    distractorWhy: { "Lasciarlo così, funziona": "Funzionare oggi non elimina il rischio: un errore trovato dopo va corretto in tre punti separati.", "Copiarlo anche una quarta volta per sicurezza": "Aumentare la duplicazione peggiora il problema invece di risolverlo.", "Cancellarne due": "Cancellare le copie senza una funzione toglierebbe funzionalità al programma nei punti in cui serviva." } },
   { topic: "stile", difficulty: 3, prompt: "Perché è utile scrivere righe vuote fra parti diverse del programma?", answer: "Perché separano visivamente i blocchi di ragionamento", distractors: ["Perché Python le richiede fra un blocco e l'altro", "Perché servono a rendere il file più leggibile al computer", "Perché velocizzano l'esecuzione del programma"], explanation: "Come i paragrafi in un testo: aiutano l'occhio a capire dove finisce un'idea e ne comincia un'altra.",
     distractorWhy: { "Perché Python le richiede fra un blocco e l'altro": "Python non obbliga a mettere righe vuote: è una scelta di leggibilità, non una regola sintattica.", "Perché servono a rendere il file più leggibile al computer": "Il computer non ha bisogno di righe vuote per leggere il codice: servono alle persone.", "Perché velocizzano l'esecuzione del programma": "Le righe vuote non influenzano la velocità di esecuzione." } },
   { topic: "stile", difficulty: 4, prompt: "Un nome come x va bene…", answer: "Per un contatore breve dentro un ciclo", distractors: ["Sempre, i nomi corti sono migliori","Mai, va sempre evitato","Solo per le stringhe"], explanation: "Dove la variabile vive due righe e il suo ruolo è ovvio, un nome corto è chiaro. Per un valore che attraversa il programma, no.",
     distractorWhy: { "Sempre, i nomi corti sono migliori": "Non sempre: in un programma lungo un nome corto come x diventa poco chiaro su cosa rappresenti.", "Mai, va sempre evitato": "In un contesto molto locale e ovvio, come un contatore di ciclo, un nome corto è del tutto accettabile.", "Solo per le stringhe": "Non è una questione di tipo di dato: dipende da quanto è locale e chiaro il ruolo della variabile." } },
-  { topic: "cicli", difficulty: 2, format: "numeric_input", prompt: "Quante volte gira: for i in range(5)?", answer: "5", explanation: "range(5) produce 0, 1, 2, 3, 4: cinque valori, cinque giri." },
+  { topic: "cicli", difficulty: 2, format: "numeric_input", prompt: "n = 8\ngiri = 0\nwhile n > 1:\n    n = n // 2\n    giri += 1\nprint(giri)\n\nCosa stampa?", answer: "3", explanation: "8 diventa 4, poi 2, poi 1: tre dimezzamenti e il while si ferma. È lo stesso conto della ricerca binaria." },
   { topic: "cicli", difficulty: 3, format: "numeric_input", prompt: "Qual è il primo valore prodotto da range(4)?", answer: "0", explanation: "range parte da zero se non gli si dice altrimenti: 0, 1, 2, 3." },
   { topic: "cicli", difficulty: 3, format: "numeric_input", prompt: "Quante volte gira: for i in range(2, 6)?", answer: "4", explanation: "Da 2 fino a 6 escluso: 2, 3, 4, 5. L'estremo finale non è mai compreso." },
   { topic: "cicli", difficulty: 3, prompt: "Quando si usa while invece di for?", answer: "Quando non si sa in anticipo quante ripetizioni servono", distractors: ["Quando le ripetizioni da fare sono più di dieci", "Quando si deve lavorare con stringhe invece che numeri", "Quando dentro il ciclo serve chiamare una funzione"], explanation: "for scorre una sequenza nota; while continua finché una condizione resta vera, anche senza sapere per quanto.",
@@ -1117,7 +1162,7 @@ const CODING_EXTRA = [
   { topic: "liste", difficulty: 3, format: "numeric_input", prompt: "numeri = [4, 8, 15]\nprint(len(numeri))\n\nCosa stampa?", answer: "3", explanation: "len() conta gli elementi, non i caratteri: la lista ne contiene tre." },
   { topic: "liste", difficulty: 3, prompt: "Quale metodo aggiunge un elemento in fondo a una lista?", answer: "append()", distractors: ["add()","insert_end()","push()"], explanation: "lista.append(x) mette x come ultimo elemento, allungando la lista di uno.",
     distractorWhy: { "add()": "add() non è un metodo delle liste in Python: si usa invece per gli insiemi (set).", "insert_end()": "Non esiste un metodo insert_end() in Python.", "push()": "push() è il nome usato in altri linguaggi (come JavaScript): in Python le liste usano append()." } },
-  { topic: "liste", difficulty: 4, format: "numeric_input", prompt: "numeri = [1, 2]\nnumeri.append(3)\nprint(len(numeri))\n\nCosa stampa?", answer: "3", explanation: "append aggiunge un elemento: da due si passa a tre." },
+  { topic: "liste", difficulty: 4, format: "numeric_input", prompt: "numeri = [4, 8, 15, 16]\nquanti = 0\nfor n in numeri:\n    if n % 4 == 0:\n        quanti += 1\nprint(quanti)\n\nCosa stampa?", answer: "3", explanation: "Il contatore sale solo quando la condizione è vera: 4, 8 e 16 sono divisibili per 4, 15 no. Tre volte su quattro." },
   { topic: "liste", difficulty: 3, prompt: "Come si prende l'ultimo elemento di una lista senza sapere quanti sono?", answer: "lista[-1]", distractors: ["lista[fine]","lista[len]","lista[ultimo]"], explanation: "Gli indici negativi contano dal fondo: -1 è l'ultimo, -2 il penultimo.",
     distractorWhy: { "lista[fine]": "«fine» non è una parola chiave riconosciuta: darebbe errore, Python cercherebbe una variabile con quel nome.", "lista[len]": "len da solo è una funzione, non un indice: servirebbe len(lista)-1, non semplicemente len.", "lista[ultimo]": "«ultimo» non è una parola chiave riconosciuta: darebbe errore, Python cercherebbe una variabile con quel nome." } },
   { topic: "liste", difficulty: 4, prompt: "Cosa succede con numeri = [1, 2, 3] e poi print(numeri[3])?", answer: "Errore: l'indice è fuori dalla lista", distractors: ["Stampa 3, cioè l'ultimo elemento", "Stampa None perché la posizione è vuota", "Stampa una lista vuota senza errori"], explanation: "Con tre elementi gli indici validi sono 0, 1 e 2: il 3 non esiste.",
@@ -1131,8 +1176,8 @@ const CODING_EXTRA = [
     distractorWhy: { "Il punto e virgola": "Il punto e virgola non è richiesto in Python: l'if si chiude con i due punti.", "Una parentesi graffa": "Le graffe non delimitano blocchi in Python: servono i due punti e l'indentazione.", "Niente": "Senza i due punti Python dà un errore di sintassi: sono obbligatori." } },
   { topic: "condizioni", difficulty: 3, prompt: "Quale parola indica cosa fare quando la condizione è falsa?", answer: "else", distractors: ["otherwise","elif","not"], explanation: "else copre tutti i casi in cui l'if non è verificato; elif serve a porre un'altra domanda.",
     distractorWhy: { "otherwise": "«otherwise» non è una parola chiave di Python.", "elif": "elif serve a porre un'altra condizione, non a coprire semplicemente il caso «falso» senza condizioni.", "not": "not nega un valore booleano, non introduce un blocco alternativo." } },
-  { topic: "condizioni", difficulty: 3, prompt: "A che cosa serve elif?", answer: "A porre una seconda domanda se la prima è falsa", distractors: ["A ripetere il blocco finché è vero", "A chiudere il programma dopo il controllo", "A definire una funzione dentro l'if"], explanation: "elif significa «else if»: si usa quando i casi possibili sono più di due.",
-    distractorWhy: { "A ripetere il blocco finché è vero": "Quello è il comportamento di while, non di elif.", "A chiudere il programma dopo il controllo": "elif non termina il programma: introduce un'altra condizione da controllare.", "A definire una funzione dentro l'if": "elif non definisce funzioni: serve def per quello." } },
+  { topic: "condizioni", difficulty: 3, prompt: "A che cosa serve elif?", answer: "A porre una seconda domanda se la prima è falsa", distractors: ["A ripetere il blocco finché è vero", "A chiudere il programma subito dopo il controllo", "A definire una funzione dentro l'if"], explanation: "elif significa «else if»: si usa quando i casi possibili sono più di due.",
+    distractorWhy: { "A ripetere il blocco finché è vero": "Quello è il comportamento di while, non di elif.", "A chiudere il programma subito dopo il controllo": "elif non termina il programma: introduce un'altra condizione da controllare.", "A definire una funzione dentro l'if": "elif non definisce funzioni: serve def per quello." } },
   { topic: "condizioni", difficulty: 4, prompt: "x = 7\nif x > 10:\n    print('a')\nelif x > 5:\n    print('b')\nelse:\n    print('c')\n\nCosa stampa?", answer: "b", distractors: ["a","c","ab"], explanation: "La prima condizione è falsa, la seconda vera: si esegue quel ramo e si salta tutto il resto.",
     distractorWhy: { "a": "7 > 10 è falso: il primo ramo non si esegue.", "c": "Il ramo else si esegue solo se tutte le condizioni precedenti sono false: qui elif x > 5 è vera, quindi else non si esegue.", "ab": "Solo un ramo della catena if/elif/else viene eseguito, mai due insieme." } },
   { topic: "condizioni", difficulty: 4, format: "numeric_input", prompt: "In una catena if / elif / else, quanti rami vengono eseguiti?", answer: "1", explanation: "Appena una condizione risulta vera si esegue quel ramo e la catena finisce lì." },
@@ -1142,10 +1187,10 @@ const CODING_EXTRA = [
     distractorWhy: { "bravo": "3 > 100 è falso: il blocco dentro l'if non si esegue.", "bravo fine": "«bravo» richiederebbe che 3 > 100 fosse vero, ma è falso: solo 'fine' viene stampato.", "niente": "print('fine') è fuori dal blocco if, quindi viene eseguita comunque, a prescindere dalla condizione." } },
   { topic: "condizioni", difficulty: 2, prompt: "Che cosa valuta un if?", answer: "Una condizione vera o falsa", distractors: ["Un numero qualsiasi","Il nome di una variabile","Una stringa di testo"], explanation: "L'if decide in base a un valore booleano: se è vero esegue il blocco, altrimenti lo salta.",
     distractorWhy: { "Un numero qualsiasi": "Un numero puro non è ciò che if controlla direttamente: valuta un'espressione booleana (anche se i numeri possono essere convertiti in vero/falso).", "Il nome di una variabile": "if valuta il valore della condizione, non il nome della variabile in sé.", "Una stringa di testo": "if non valuta il testo letterale: valuta se l'espressione risulta vera o falsa." } },
-  { topic: "condizioni", difficulty: 4, prompt: "Perché conviene mettere per prima la condizione più restrittiva in una catena if/elif?", answer: "Perché altrimenti un caso più generale la intercetta prima", distractors: ["Perché la catena viene eseguita più in fretta", "Perché Python richiede quest'ordine preciso", "Perché in quest'ordine si usa meno memoria"], explanation: "Se metti prima «x > 5», il caso «x > 10» non verrà mai raggiunto: l'ordine dei rami cambia il risultato.",
-    distractorWhy: { "Perché la catena viene eseguita più in fretta": "La velocità non cambia in modo significativo: il problema è di correttezza logica, non di prestazioni.", "Perché Python richiede quest'ordine preciso": "Python non impone un ordine: sei libero di scrivere i rami come vuoi, ma il risultato può essere sbagliato.", "Perché in quest'ordine si usa meno memoria": "L'ordine dei rami non influisce sulla memoria usata." } },
-  { topic: "operatori", difficulty: 2, format: "numeric_input", prompt: "Quanto fa 7 // 2 in Python?", answer: "3", explanation: "// è la divisione intera: tiene la parte intera e scarta il resto." },
-  { topic: "operatori", difficulty: 3, format: "numeric_input", prompt: "Quanto fa 7 % 2 in Python?", answer: "1", explanation: "% dà il resto: 7 diviso 2 fa 3 con resto 1. Serve spessissimo a capire se un numero è pari." },
+  { topic: "condizioni", difficulty: 4, prompt: "Perché conviene mettere per prima la condizione più restrittiva in una catena if/elif?", answer: "Perché altrimenti un caso più generale la intercetta prima", distractors: ["Perché in quest'ordine la catena viene eseguita più in fretta", "Perché Python richiede quest'ordine preciso", "Perché in quest'ordine si usa meno memoria"], explanation: "Se metti prima «x > 5», il caso «x > 10» non verrà mai raggiunto: l'ordine dei rami cambia il risultato.",
+    distractorWhy: { "Perché in quest'ordine la catena viene eseguita più in fretta": "La velocità non cambia in modo significativo: il problema è di correttezza logica, non di prestazioni.", "Perché Python richiede quest'ordine preciso": "Python non impone un ordine: sei libero di scrivere i rami come vuoi, ma il risultato può essere sbagliato.", "Perché in quest'ordine si usa meno memoria": "L'ordine dei rami non influisce sulla memoria usata." } },
+  { topic: "operatori", difficulty: 2, format: "numeric_input", prompt: "Quanto fa round(7.6) in Python?", answer: "8", explanation: "round() arrotonda al numero intero più vicino: 7.6 sta più vicino a 8. Attenzione a non confonderlo con int(7.6), che taglia i decimali e dà 7." },
+  { topic: "operatori", difficulty: 3, format: "numeric_input", prompt: "Quanto fa abs(-7) in Python?", answer: "7", explanation: "abs() dà il valore assoluto, cioè la distanza da zero senza segno: abs(-7) e abs(7) valgono tutti e due 7." },
   { topic: "operatori", difficulty: 3, prompt: "Come si verifica che un numero n sia pari?", answer: "n % 2 == 0", distractors: ["n / 2 == 0","n // 2 == 0","n * 2 == 0"], explanation: "Un numero è pari quando il resto della divisione per due è zero.",
     distractorWhy: { "n / 2 == 0": "La divisione normale dà un risultato decimale, non il resto: non verifica la parità.", "n // 2 == 0": "La divisione intera dà il quoziente, non il resto: sarebbe vera solo per n uguale a 0 o 1.", "n * 2 == 0": "Moltiplicare per 2 e confrontare con 0 non ha nulla a che fare con la parità." } },
   { topic: "operatori", difficulty: 4, format: "numeric_input", prompt: "Quanto fa 2 + 3 * 4 in Python?", answer: "14", explanation: "La moltiplicazione viene prima della somma, come in matematica: 3×4=12, poi +2." },
@@ -1160,8 +1205,8 @@ const CODING_EXTRA = [
     distractorWhy: { "print()": "print() mostra un messaggio, ma non aspetta né riceve nulla da chi usa il programma.", "ask()": "«ask» non è una funzione integrata di Python.", "read()": "read() si usa per leggere da file, non per chiedere un dato all'utente da tastiera." } },
   { topic: "input", difficulty: 2, prompt: "nome = input('Come ti chiami? ')\n\nDove finisce quello che l'utente scrive?", answer: "Nella variabile nome", distractors: ["Direttamente a schermo","In un file sul disco","Da nessuna parte, va perso"], explanation: "input() restituisce un valore, e l'assegnazione lo mette dentro la variabile a sinistra dell'uguale.",
     distractorWhy: { "Direttamente a schermo": "A schermo appare solo il messaggio della domanda: la risposta scritta finisce nella variabile.", "In un file sul disco": "input() non salva nulla su file: il valore resta in memoria nella variabile.", "Da nessuna parte, va perso": "L'assegnazione con = cattura proprio quel valore: non va perso." } },
-  { topic: "input", difficulty: 2, prompt: "Il testo scritto dentro input('...') a cosa serve?", answer: "A mostrare una domanda prima di leggere", distractors: ["A dare un nome alla variabile","A limitare quanto si può scrivere","A decidere il tipo del dato"], explanation: "È il messaggio che appare all'utente: senza, il programma sembrerebbe bloccato senza motivo.",
-    distractorWhy: { "A dare un nome alla variabile": "Il nome della variabile si sceglie a sinistra dell'uguale, non dentro le parentesi di input().", "A limitare quanto si può scrivere": "Il testo del prompt non limita la lunghezza di ciò che l'utente può scrivere.", "A decidere il tipo del dato": "input() restituisce sempre una stringa, indipendentemente dal testo del messaggio mostrato." } },
+  { topic: "input", difficulty: 2, prompt: "Il testo scritto dentro input('...') a cosa serve?", answer: "A mostrare una domanda prima di leggere", distractors: ["A dare un nome alla variabile","A limitare quanto si può scrivere in risposta","A decidere il tipo del dato"], explanation: "È il messaggio che appare all'utente: senza, il programma sembrerebbe bloccato senza motivo.",
+    distractorWhy: { "A dare un nome alla variabile": "Il nome della variabile si sceglie a sinistra dell'uguale, non dentro le parentesi di input().", "A limitare quanto si può scrivere in risposta": "Il testo del prompt non limita la lunghezza di ciò che l'utente può scrivere.", "A decidere il tipo del dato": "input() restituisce sempre una stringa, indipendentemente dal testo del messaggio mostrato." } },
   { topic: "input", difficulty: 3, prompt: "n = input('Numero: ')\nprint(n + 1)\n\nCosa succede se l'utente scrive 5?", answer: "Un errore: non si somma testo e numero", distractors: ["Stampa 6, cioè cinque più uno", "Stampa 51, mettendo il testo in fila", "Stampa 5, ignorando la somma"], explanation: "input() restituisce sempre una stringa: '5' + 1 mette insieme testo e numero, e Python si ferma.",
     distractorWhy: { "Stampa 6, cioè cinque più uno": "n è una stringa '5', non il numero 5: sommarla a 1 non fa un'addizione aritmetica, causa un errore.", "Stampa 51, mettendo il testo in fila": "La concatenazione '5'+'1' funzionerebbe solo fra due stringhe: qui 1 è un numero, non una stringa, quindi dà errore.", "Stampa 5, ignorando la somma": "Python non ignora l'operazione: la esegue e, non potendo sommare testo e numero, si ferma con un errore." } },
   { topic: "input", difficulty: 3, prompt: "Come si trasforma in numero intero ciò che restituisce input()?", answer: "int(input('...'))", distractors: ["str(input('...'))","num(input('...'))","input(int('...'))"], explanation: "int() converte la stringa in numero intero. Va messo attorno a input(), non dentro.",
@@ -1170,13 +1215,13 @@ const CODING_EXTRA = [
   { topic: "input", difficulty: 2, format: "numeric_input", prompt: "a = input('Primo: ')\nb = input('Secondo: ')\n\nQuante volte il programma si ferma ad aspettare?", answer: "2", explanation: "Ogni input() aspetta una risposta: due input() significano due attese, una dopo l'altra." },
   { topic: "input", difficulty: 4, prompt: "Vuoi leggere un prezzo con la virgola, come 3.50. Quale conversione usi?", answer: "float(input('...'))", distractors: ["int(input('...'))","str(input('...'))","bool(input('...'))"], explanation: "int() accetta solo interi e su '3.50' darebbe errore; float() gestisce i numeri con la parte decimale.",
     distractorWhy: { "int(input('...'))": "int() non accetta numeri con la parte decimale come '3.50': darebbe errore.", "str(input('...'))": "str() lascia il valore come testo: non permette di fare calcoli numerici sul prezzo.", "bool(input('...'))": "bool() convertirebbe il testo in True o False, non nel numero decimale corretto." } },
-  { topic: "input", difficulty: 3, prompt: "eta = input('Età: ')\nif eta > 10:\n    print('grande')\n\nPerché questo programma dà errore?", answer: "Confronta una stringa con un numero", distractors: ["if non si usa con le variabili","Manca la parentesi in print","eta non è un nome valido"], explanation: "eta è testo, 10 è un numero: Python non sa dire se un testo è maggiore di un numero. Serve int().",
-    distractorWhy: { "if non si usa con le variabili": "if funziona benissimo con le variabili: il problema è confrontare tipi incompatibili.", "Manca la parentesi in print": "print('grande') ha le parentesi corrette: non è questo il problema.", "eta non è un nome valido": "«eta» è un nome di variabile perfettamente valido in Python." } },
+  { topic: "input", difficulty: 3, prompt: "eta = input('Età: ')\nif eta > 10:\n    print('grande')\n\nPerché questo programma dà errore?", answer: "Confronta una stringa con un numero", distractors: ["if non si usa con le variabili di testo","Manca la parentesi in print","eta non è un nome valido"], explanation: "eta è testo, 10 è un numero: Python non sa dire se un testo è maggiore di un numero. Serve int().",
+    distractorWhy: { "if non si usa con le variabili di testo": "if funziona benissimo con le variabili: il problema è confrontare tipi incompatibili.", "Manca la parentesi in print": "print('grande') ha le parentesi corrette: non è questo il problema.", "eta non è un nome valido": "«eta» è un nome di variabile perfettamente valido in Python." } },
   { topic: "input", difficulty: 4, format: "numeric_input", prompt: "Un programma chiede tre voti e ne fa la media. Quanti int(input()) servono?", answer: "3", explanation: "Un input per ogni voto, ciascuno convertito in numero: tre letture e poi la media." },
   { topic: "input", difficulty: 2, prompt: "risposta = input('Continuare? ')\n\nSe l'utente preme Invio senza scrivere niente, cosa contiene risposta?", answer: "Una stringa vuota", distractors: ["Il valore None","Uno zero","Un errore"], explanation: "Non aver scritto niente è comunque una risposta: input() restituisce '' (stringa vuota).",
     distractorWhy: { "Il valore None": "input() non restituisce mai None: restituisce sempre una stringa, anche se vuota.", "Uno zero": "input() restituisce sempre testo, mai un numero come 0, anche se non si scrive nulla.", "Un errore": "Premere Invio senza scrivere nulla non causa un errore: produce semplicemente una stringa vuota." } },
-  { topic: "input", difficulty: 3, prompt: "Perché è meglio scrivere input('Nome: ') invece di input()?", answer: "Perché l'utente capisce cosa deve scrivere", distractors: ["Perché altrimenti Python dà errore","Perché il programma è più veloce","Perché la variabile prende un nome"], explanation: "Funzionano entrambi, ma senza messaggio l'utente vede un cursore che lampeggia e non sa cosa fare.",
-    distractorWhy: { "Perché altrimenti Python dà errore": "input() senza argomenti è perfettamente valido: non causa errori.", "Perché il programma è più veloce": "Il messaggio non influisce sulla velocità di esecuzione.", "Perché la variabile prende un nome": "Il nome della variabile si sceglie a sinistra dell'uguale, non dentro input()." } },
+  { topic: "input", difficulty: 3, prompt: "Perché è meglio scrivere input('Nome: ') invece di input()?", answer: "Perché l'utente capisce cosa deve scrivere", distractors: ["Perché altrimenti Python dà errore","Perché il programma è più veloce","Perché così la variabile prende un nome"], explanation: "Funzionano entrambi, ma senza messaggio l'utente vede un cursore che lampeggia e non sa cosa fare.",
+    distractorWhy: { "Perché altrimenti Python dà errore": "input() senza argomenti è perfettamente valido: non causa errori.", "Perché il programma è più veloce": "Il messaggio non influisce sulla velocità di esecuzione.", "Perché così la variabile prende un nome": "Il nome della variabile si sceglie a sinistra dell'uguale, non dentro input()." } },
   { topic: "input", difficulty: 4, format: "numeric_input", prompt: "n = int(input())\nprint(n + n)\n\nL'utente scrive 12. Cosa stampa?", answer: "24", explanation: "int() rende 12 un numero, quindi n + n è una somma: 24. Con le stringhe sarebbe stato '1212'." },
   { topic: "input", difficulty: 2, prompt: "In che ordine avvengono le cose in nome = input('Chi sei? ')?", answer: "Mostra la domanda, aspetta, poi assegna", distractors: ["Assegna, poi mostra la domanda","Mostra la domanda e assegna insieme","Aspetta, poi mostra la domanda"], explanation: "Prima appare il messaggio, poi il programma si ferma; solo quando l'utente ha scritto il valore finisce nella variabile.",
     distractorWhy: { "Assegna, poi mostra la domanda": "Non può assegnare prima di conoscere la risposta: il messaggio va mostrato per primo.", "Mostra la domanda e assegna insieme": "L'assegnazione avviene solo dopo che l'utente ha risposto, non contemporaneamente al messaggio.", "Aspetta, poi mostra la domanda": "Il messaggio appare prima dell'attesa: altrimenti l'utente non saprebbe cosa scrivere." } },
@@ -1222,8 +1267,8 @@ const CODING_EXTRA = [
     distractorWhy: { "cia": "Includerebbe anche il carattere all'indice 0: lo slicing [1:3] parte dall'indice 1, non da 0.", "iao": "Includerebbe anche il carattere all'indice 3: lo slicing [1:3] esclude l'indice finale 3.", "ci": "Prenderebbe solo l'indice 0 e 1: lo slicing [1:3] parte dall'indice 1, non da 0." } },
   { topic: "stringhe", difficulty: 2, prompt: "Quale scrittura è una stringa valida?", answer: "'ciao'", distractors: ["ciao","(ciao)","[ciao]"], explanation: "Serve una coppia di virgolette. Senza, Python cerca una variabile di nome ciao.",
     distractorWhy: { "ciao": "Senza virgolette, Python interpreta «ciao» come il nome di una variabile, non come testo.", "(ciao)": "Le parentesi tonde non creano una stringa: Python cercherebbe ancora una variabile chiamata ciao.", "[ciao]": "Le parentesi quadre creano una lista contenente la variabile ciao, non una stringa." } },
-  { topic: "algoritmi", difficulty: 1, prompt: "Perché una ricetta di cucina somiglia a un algoritmo?", answer: "Perché è una sequenza di passi precisi in ordine", distractors: ["Perché elenca gli ingredienti da usare", "Perché è stata scritta da una persona", "Perché seguendola ci si può sbagliare"], explanation: "Un algoritmo è fatto della stessa sostanza: passi definiti, in un ordine che conta, che portano a un risultato prevedibile.",
-    distractorWhy: { "Perché elenca gli ingredienti da usare": "Gli ingredienti sono dati in ingresso, non la caratteristica che rende la ricetta simile a un algoritmo.", "Perché è stata scritta da una persona": "Anche un algoritmo generato automaticamente resterebbe un algoritmo: non è chi lo scrive a definirlo.", "Perché seguendola ci si può sbagliare": "La possibilità di errore non è ciò che rende una ricetta simile a un algoritmo: conta la sequenza di passi precisi." } },
+  { topic: "algoritmi", difficulty: 1, prompt: "Perché una ricetta di cucina somiglia a un algoritmo?", answer: "Perché è una sequenza di passi precisi in ordine", distractors: ["Perché elenca tutti gli ingredienti da usare", "Perché è stata scritta da una persona", "Perché seguendola ci si può sbagliare"], explanation: "Un algoritmo è fatto della stessa sostanza: passi definiti, in un ordine che conta, che portano a un risultato prevedibile.",
+    distractorWhy: { "Perché elenca tutti gli ingredienti da usare": "Gli ingredienti sono dati in ingresso, non la caratteristica che rende la ricetta simile a un algoritmo.", "Perché è stata scritta da una persona": "Anche un algoritmo generato automaticamente resterebbe un algoritmo: non è chi lo scrive a definirlo.", "Perché seguendola ci si può sbagliare": "La possibilità di errore non è ciò che rende una ricetta simile a un algoritmo: conta la sequenza di passi precisi." } },
   { topic: "algoritmi", difficulty: 2, prompt: "In un algoritmo, cambiare l'ordine dei passi…", answer: "Può cambiare il risultato", distractors: ["Non cambia mai niente","Fa sempre errore","Rende il programma più veloce"], explanation: "Prima si versa il latte o prima i cereali? L'ordine conta: è il primo motivo per cui un programma non funziona.",
     distractorWhy: { "Non cambia mai niente": "L'ordine dei passi conta eccome: cambiarlo può cambiare completamente il risultato finale.", "Fa sempre errore": "Non è detto che dia sempre errore: a volte cambia semplicemente il risultato senza bloccare il programma.", "Rende il programma più veloce": "Cambiare l'ordine non garantisce maggiore velocità: può anzi produrre un risultato sbagliato." } },
   { topic: "algoritmi", difficulty: 3, prompt: "Per trovare il numero più grande in una lista, quale idea funziona?", answer: "Tenere da parte il maggiore visto finora", distractors: ["Prendere sempre l'ultimo della lista", "Sommare tutti i numeri della lista", "Contare quanti numeri ci sono in tutto"], explanation: "Si scorre la lista una volta sola confrontando ogni numero con il record: alla fine il record è il massimo.",
@@ -1233,15 +1278,15 @@ const CODING_EXTRA = [
   { topic: "algoritmi", difficulty: 4, format: "numeric_input", prompt: "Con la ricerca binaria, quante volte si può dimezzare 16 prima di arrivare a 1?", answer: "4", explanation: "16 → 8 → 4 → 2 → 1: quattro dimezzamenti. È per questo che la ricerca binaria è così veloce." },
   { topic: "algoritmi", difficulty: 2, prompt: "Un algoritmo deve avere una fine. Come si chiama un ciclo che non finisce mai?", answer: "Ciclo infinito", distractors: ["Ciclo perfetto","Ciclo annidato","Ciclo vuoto"], explanation: "Se la condizione non diventa mai falsa il programma resta bloccato: è uno degli errori più comuni.",
     distractorWhy: { "Ciclo perfetto": "Non esiste questo termine tecnico: un ciclo senza fine è un problema, non una qualità.", "Ciclo annidato": "Un ciclo annidato è un ciclo dentro un altro ciclo: è un concetto diverso, non legato al non finire mai.", "Ciclo vuoto": "Un ciclo vuoto è uno che non fa nulla al suo interno, non uno che non termina mai." } },
-  { topic: "algoritmi", difficulty: 3, prompt: "Che cosa vuol dire scomporre un problema?", answer: "Dividerlo in problemi più piccoli", distractors: ["Cancellarlo e ricominciare","Renderlo più difficile","Risolverlo a caso"], explanation: "Un problema grande diventa affrontabile quando si spezza in pezzi che si risolvono uno alla volta.",
-    distractorWhy: { "Cancellarlo e ricominciare": "Scomporre non significa eliminare il problema: significa dividerlo in parti gestibili.", "Renderlo più difficile": "Scomporre serve a rendere il problema più semplice da affrontare, non più difficile.", "Risolverlo a caso": "Scomporre è un metodo sistematico, non una scelta casuale." } },
-  { topic: "algoritmi", difficulty: 3, prompt: "Per ordinare 5 carte in mano, l'idea più semplice è…", answer: "Inserire ogni carta al posto giusto fra quelle già ordinate", distractors: ["Mescolarle di nuovo finché non risultano in ordine", "Guardare soltanto la prima e l'ultima della mano", "Contare quante carte si hanno prima di cominciare"], explanation: "È l'ordinamento per inserimento: lo facciamo tutti con le carte senza sapere che ha un nome.",
-    distractorWhy: { "Mescolarle di nuovo finché non risultano in ordine": "Mescolare a caso non garantisce mai l'ordine e può richiedere un tempo enorme.", "Guardare soltanto la prima e l'ultima della mano": "Guardare solo due carte non basta a ordinarle tutte: serve confrontarle tutte fra loro.", "Contare quante carte si hanno prima di cominciare": "Contare le carte non le ordina: serve un metodo di confronto e inserimento." } },
+  { topic: "algoritmi", difficulty: 3, prompt: "Che cosa vuol dire scomporre un problema?", answer: "Dividerlo in problemi più piccoli", distractors: ["Cancellarlo e ricominciare da capo","Renderlo più difficile","Risolverlo a caso"], explanation: "Un problema grande diventa affrontabile quando si spezza in pezzi che si risolvono uno alla volta.",
+    distractorWhy: { "Cancellarlo e ricominciare da capo": "Scomporre non significa eliminare il problema: significa dividerlo in parti gestibili.", "Renderlo più difficile": "Scomporre serve a rendere il problema più semplice da affrontare, non più difficile.", "Risolverlo a caso": "Scomporre è un metodo sistematico, non una scelta casuale." } },
+  { topic: "algoritmi", difficulty: 3, prompt: "Per ordinare 5 carte in mano, l'idea più semplice è…", answer: "Inserire ogni carta al posto giusto fra quelle già ordinate", distractors: ["Mescolarle di nuovo finché per caso non risultano in ordine", "Guardare soltanto la prima e l'ultima della mano", "Contare quante carte si hanno prima di cominciare"], explanation: "È l'ordinamento per inserimento: lo facciamo tutti con le carte senza sapere che ha un nome.",
+    distractorWhy: { "Mescolarle di nuovo finché per caso non risultano in ordine": "Mescolare a caso non garantisce mai l'ordine e può richiedere un tempo enorme.", "Guardare soltanto la prima e l'ultima della mano": "Guardare solo due carte non basta a ordinarle tutte: serve confrontarle tutte fra loro.", "Contare quante carte si hanno prima di cominciare": "Contare le carte non le ordina: serve un metodo di confronto e inserimento." } },
   { topic: "algoritmi", difficulty: 4, format: "numeric_input", prompt: "Un algoritmo scorre una lista di 100 elementi una volta sola. Quanti confronti fa, all'incirca?", answer: "100", explanation: "Una passata sola significa un confronto per elemento: cento. Un algoritmo che confrontasse tutti con tutti ne farebbe diecimila." },
-  { topic: "algoritmi", difficulty: 2, prompt: "Che cos'è lo pseudocodice?", answer: "Un algoritmo scritto in italiano, prima del codice vero", distractors: ["Un linguaggio inventato che nessun computer esegue", "Un programma pieno di errori da correggere", "Il codice scritto in modo disordinato e confuso"], explanation: "Serve a ragionare sui passi senza preoccuparsi della grammatica del linguaggio: si traduce dopo.",
-    distractorWhy: { "Un linguaggio inventato che nessun computer esegue": "Non è un vero linguaggio formale: è un modo informale di descrivere i passi prima di scrivere codice reale.", "Un programma pieno di errori da correggere": "Lo pseudocodice non è un programma con bug: è una descrizione preliminare dei passi, non ancora codice eseguibile.", "Il codice scritto in modo disordinato e confuso": "Lo pseudocodice, al contrario, dovrebbe essere chiaro e ordinato: serve proprio a ragionare bene sui passi." } },
-  { topic: "algoritmi", difficulty: 3, prompt: "Due algoritmi risolvono lo stesso problema. Come si sceglie il migliore?", answer: "Si guarda quanti passi fa al crescere dei dati", distractors: ["Si sceglie quello più corto da scrivere","Si sceglie quello con più variabili","Sono sempre equivalenti"], explanation: "Con dieci dati la differenza non si vede; con un milione uno finisce in un secondo e l'altro non finisce.",
-    distractorWhy: { "Si sceglie quello più corto da scrivere": "La lunghezza del codice scritto non dice nulla su quanto è efficiente al crescere dei dati.", "Si sceglie quello con più variabili": "Il numero di variabili non è un criterio di efficienza: conta il numero di passi eseguiti.", "Sono sempre equivalenti": "Due algoritmi che risolvono lo stesso problema possono avere efficienze molto diverse, specialmente con grandi quantità di dati." } },
+  { topic: "algoritmi", difficulty: 2, prompt: "Che cos'è lo pseudocodice?", answer: "Un algoritmo scritto in italiano, prima del codice vero", distractors: ["Un linguaggio inventato che nessun computer sa eseguire", "Un programma pieno di errori da correggere", "Il codice scritto in modo disordinato e confuso"], explanation: "Serve a ragionare sui passi senza preoccuparsi della grammatica del linguaggio: si traduce dopo.",
+    distractorWhy: { "Un linguaggio inventato che nessun computer sa eseguire": "Non è un vero linguaggio formale: è un modo informale di descrivere i passi prima di scrivere codice reale.", "Un programma pieno di errori da correggere": "Lo pseudocodice non è un programma con bug: è una descrizione preliminare dei passi, non ancora codice eseguibile.", "Il codice scritto in modo disordinato e confuso": "Lo pseudocodice, al contrario, dovrebbe essere chiaro e ordinato: serve proprio a ragionare bene sui passi." } },
+  { topic: "algoritmi", difficulty: 3, prompt: "Due algoritmi risolvono lo stesso problema. Come si sceglie il migliore?", answer: "Si guarda quanti passi fa al crescere dei dati", distractors: ["Si sceglie sempre quello più corto da scrivere","Si sceglie quello con più variabili","Sono sempre equivalenti"], explanation: "Con dieci dati la differenza non si vede; con un milione uno finisce in un secondo e l'altro non finisce.",
+    distractorWhy: { "Si sceglie sempre quello più corto da scrivere": "La lunghezza del codice scritto non dice nulla su quanto è efficiente al crescere dei dati.", "Si sceglie quello con più variabili": "Il numero di variabili non è un criterio di efficienza: conta il numero di passi eseguiti.", "Sono sempre equivalenti": "Due algoritmi che risolvono lo stesso problema possono avere efficienze molto diverse, specialmente con grandi quantità di dati." } },
   { topic: "algoritmi", difficulty: 4, prompt: "Perché un algoritmo deve essere preciso e senza ambiguità?", answer: "Perché il computer non può intuire cosa intendevi", distractors: ["Perché altrimenti viene eseguito più lentamente", "Perché un algoritmo vago occupa più memoria", "Perché è il linguaggio Python a richiederlo"], explanation: "Una persona capisce «aggiungi un po' di sale»; un computer no. Ogni passo deve avere un solo significato possibile.",
     distractorWhy: { "Perché altrimenti viene eseguito più lentamente": "Il problema di un'istruzione ambigua non è la velocità: è che il computer non sa proprio come eseguirla.", "Perché un algoritmo vago occupa più memoria": "L'ambiguità non è legata alla memoria occupata: è legata all'impossibilità di eseguire un passo non definito con precisione.", "Perché è il linguaggio Python a richiederlo": "Non è una regola specifica di Python: vale per qualunque linguaggio di programmazione, perché i computer eseguono solo istruzioni precise." } },
   // Output
@@ -1281,21 +1326,21 @@ const CODING_EXTRA = [
   // Liste
   { topic: "liste", difficulty: 2, prompt: "Come si scrive in Python una lista con tre numeri?", answer: "[1, 2, 3]", distractors: ["(1 2 3)", "{1;2;3}", "<1,2,3>"], explanation: "Le liste si scrivono tra parentesi quadre, con virgole.",
     distractorWhy: { "(1 2 3)": "Le parentesi tonde senza virgole non sono una sintassi valida per una lista.", "{1;2;3}": "Le graffe con punto e virgola non sono la sintassi delle liste in Python: le graffe servono per insiemi o dizionari, con le virgole.", "<1,2,3>": "Le parentesi angolari non sono usate in Python per nessuna struttura dati." } },
-  { topic: "liste", difficulty: 3, prompt: "Data lista = [10, 20, 30], cosa vale lista[0]?", answer: "10", distractors: ["20", "30", "1"], explanation: "Gli indici partono da 0: lista[0] è il primo elemento.",
-    distractorWhy: { "20": "20 è all'indice 1, non 0.", "30": "30 è all'indice 2, l'ultimo elemento, non il primo.", "1": "1 non è un valore della lista: è stato confuso con l'indice." } },
+  { topic: "liste", difficulty: 3, prompt: "Che cosa restituisce 'rosso,verde,blu'.split(',')?", answer: "Una lista di tre stringhe", distractors: ["Una sola stringa senza virgole", "Il numero di virgole trovate", "La prima parola prima della virgola"], explanation: "split() taglia la stringa a ogni separatore e restituisce i pezzi in una lista: ['rosso', 'verde', 'blu'].",
+    distractorWhy: {"Una sola stringa senza virgole":"Quello lo farebbe replace(',', ''): split invece separa e consegna i pezzi.","Il numero di virgole trovate":"Contare è compito di count(','): split restituisce i pezzi, non quanti sono.","La prima parola prima della virgola":"split non sceglie un pezzo solo: li restituisce tutti, in ordine."} },
   // Funzioni
-  { topic: "funzioni", difficulty: 3, prompt: "Quale parola chiave definisce una funzione in Python?", answer: "def", distractors: ["func", "function", "let"], explanation: "def introduce la definizione di una funzione.",
-    distractorWhy: { "func": "«func» non è una parola chiave di Python: si usa def.", "function": "«function» per esteso non è la parola chiave: Python usa l'abbreviazione def.", "let": "«let» è usato in JavaScript per le variabili, non in Python per le funzioni." } },
-  { topic: "funzioni", difficulty: 4, prompt: "A cosa serve soprattutto una funzione?", answer: "A riusare un blocco di codice dandogli un nome", distractors: ["A colorare il testo del programma", "A spegnere il computer da solo", "A creare di proposito errori nel codice"], explanation: "Le funzioni evitano di ripetere lo stesso codice.",
-    distractorWhy: { "A colorare il testo del programma": "Le funzioni non gestiscono la formattazione visiva del codice.", "A spegnere il computer da solo": "Le funzioni non controllano l'hardware del computer.", "A creare di proposito errori nel codice": "Le funzioni servono a organizzare il codice, non a introdurre errori." } },
+  { topic: "funzioni", difficulty: 3, prompt: "nome = 'Eli'\n\nQuale scrittura infila il valore di nome dentro il testo?", answer: "f'Ciao {nome}!'", distractors: ["'Ciao {nome}!'", "'Ciao ' nome '!'", "f'Ciao nome!'"], explanation: "La f davanti alle virgolette accende le parentesi graffe: dentro ci va il nome di una variabile, e Python ci mette il suo valore.",
+    distractorWhy: {"'Ciao {nome}!'":"Senza la f davanti, le graffe restano lettere: stamperebbe proprio «Ciao {nome}!».","'Ciao ' nome '!'":"Due stringhe accostate senza operatore danno errore: per unirle serve il + o una f-string.","f'Ciao nome!'":"Senza le graffe la f non ha niente da sostituire: «nome» resta la parola nome."} },
+  { topic: "funzioni", difficulty: 4, prompt: "def saluta(nome, saluto='Ciao'):\n    print(saluto, nome)\n\nsaluta('Eli')\n\nCosa stampa?", answer: "Ciao Eli", distractors: ["saluto Eli", "Eli", "Un errore: manca un valore"], explanation: "Un parametro può avere un valore predefinito: chi chiama la funzione può ometterlo, e allora vale quello scritto nel def.",
+    distractorWhy: {"saluto Eli":"«saluto» è il nome del parametro, non il suo valore: dentro la funzione vale 'Ciao'.","Eli":"Vengono stampate tutte e due le cose separate dalla virgola, non solo la seconda.","Un errore: manca un valore":"Non manca: il valore predefinito nel def copre proprio il caso in cui non lo si passa."} },
   // Booleani
-  { topic: "booleani", difficulty: 2, prompt: "Quali sono i due valori booleani in Python?", answer: "True e False", distractors: ["1 e 2", "Sì e No", "On e Off"], explanation: "Un booleano può essere solo True (vero) o False (falso).",
-    distractorWhy: { "1 e 2": "1 e 0 sono equivalenti numerici a True e False, ma i veri valori booleani si scrivono True e False, non 1 e 2.", "Sì e No": "«Sì» e «No» non sono parole chiave di Python.", "On e Off": "«On» e «Off» non sono parole chiave di Python." } },
-  { topic: "booleani", difficulty: 3, prompt: "Cosa vale l'espressione 5 > 3 in Python?", answer: "True", distractors: ["False", "5", "errore"], explanation: "5 è maggiore di 3, quindi il confronto è True.",
-    distractorWhy: { "False": "5 è effettivamente maggiore di 3: il confronto è vero, non falso.", "5": "Il risultato di un confronto è un booleano, non uno dei numeri confrontati.", "errore": "Confrontare due numeri con > è un'operazione valida: non genera errore." } },
+  { topic: "booleani", difficulty: 2, prompt: "Quanto vale bool(0) in Python?", answer: "False", distractors: ["True", "0", "Un errore"], explanation: "Per Python lo zero, la stringa vuota e la lista vuota valgono False; tutto il resto vale True. È il motivo per cui «if not lista:» funziona.",
+    distractorWhy: {"0":"bool() non restituisce un numero: restituisce sempre True o False.","True":"Lo zero è l'unico numero che Python considera falso: tutti gli altri, negativi compresi, sono veri.","Un errore":"bool() accetta qualunque valore: dice soltanto se conta come vero o come falso."} },
+  { topic: "booleani", difficulty: 3, prompt: "Quanto vale 3 in [1, 2, 3] in Python?", answer: "True", distractors: ["False", "3", "La posizione di 3 nella lista"], explanation: "L'operatore «in» chiede se un valore si trova dentro una sequenza e risponde True o False. Funziona anche con le stringhe: 'a' in 'ciao' vale True.",
+    distractorWhy: {"3":"«in» non restituisce il valore trovato: restituisce solo se c'è o no.","False":"Il 3 c'è: è l'ultimo elemento della lista.","La posizione di 3 nella lista":"La posizione la dà lista.index(3): «in» risponde soltanto sì o no."} },
   // Pensiero computazionale
-  { topic: "algoritmi", difficulty: 1, prompt: "Che cos'è un algoritmo?", answer: "Una sequenza di passi per risolvere un problema", distractors: ["Un tipo di computer molto potente", "Un linguaggio di programmazione nuovo", "Un errore che blocca il programma"], explanation: "L'algoritmo descrive i passi, come una ricetta.",
-    distractorWhy: { "Un tipo di computer molto potente": "Un algoritmo non è hardware: è una sequenza di passi logici, indipendente dal computer usato.", "Un linguaggio di programmazione nuovo": "Un algoritmo non è un linguaggio: può essere descritto ed eseguito in linguaggi diversi.", "Un errore che blocca il programma": "Un algoritmo non è un errore: è il piano di passi che il programma dovrebbe seguire correttamente." } },
+  { topic: "algoritmi", difficulty: 1, prompt: "Che cos'è un algoritmo?", answer: "Una sequenza di passi per risolvere un problema", distractors: ["Un tipo di computer molto potente", "Un linguaggio di programmazione appena inventato", "Un errore che blocca il programma"], explanation: "L'algoritmo descrive i passi, come una ricetta.",
+    distractorWhy: { "Un tipo di computer molto potente": "Un algoritmo non è hardware: è una sequenza di passi logici, indipendente dal computer usato.", "Un linguaggio di programmazione appena inventato": "Un algoritmo non è un linguaggio: può essere descritto ed eseguito in linguaggi diversi.", "Un errore che blocca il programma": "Un algoritmo non è un errore: è il piano di passi che il programma dovrebbe seguire correttamente." } },
   { topic: "algoritmi", difficulty: 2, prompt: "Cosa significa 'bug' in programmazione?", answer: "Un errore nel programma", distractors: ["Un tipo di dato nuovo", "Un comando molto utile", "Una funzione di sistema"], explanation: "Un bug è un difetto che fa comportare male il programma.",
     distractorWhy: { "Un tipo di dato nuovo": "Un bug non è un tipo di dato: è un difetto nel comportamento del programma.", "Un comando molto utile": "Un bug è un problema da correggere, non uno strumento utile.", "Una funzione di sistema": "Un bug non è una funzionalità: è un errore non intenzionale." } },
 ];
@@ -2997,21 +3042,21 @@ const LOGICA_EXTRA = [
     distractorWhy: { "Solo gli elementi comuni ai due": "Quella è l'intersezione, non l'unione.", "Solo gli elementi del primo insieme": "L'unione include anche gli elementi del secondo insieme.", "Solo gli elementi che stanno in uno solo": "L'unione include anche quelli comuni a entrambi, non li esclude." } },
   { topic: "insiemi", difficulty: 3, prompt: "Che cosa contiene l'intersezione di «numeri pari» e «numeri maggiori di 10»?", answer: "12, 14, 16 e così via", distractors: ["Tutti i numeri pari esistenti","Tutti i numeri maggiori di dieci","Nessun numero, è vuota"], explanation: "Servono entrambe le proprietà insieme: pari E sopra il dieci. Il 12 le ha tutte e due, l'11 no e l'8 nemmeno.",
     distractorWhy: { "Tutti i numeri pari esistenti": "Servono entrambe le condizioni: anche 2, 4, 6 sono pari ma non superano 10.", "Tutti i numeri maggiori di dieci": "Servono entrambe le condizioni: anche 11, 13 superano 10 ma non sono pari.", "Nessun numero, è vuota": "Esistono numeri che soddisfano entrambe le condizioni, come 12." } },
-  { topic: "insiemi", difficulty: 3, prompt: "L'insieme dei quadrati è contenuto in quello dei rettangoli. Perché?", answer: "Perché ogni quadrato ha quattro angoli retti", distractors: ["Perché ogni rettangolo ha i lati uguali","Perché hanno sempre la stessa area","Perché entrambi hanno quattro lati"], explanation: "Un rettangolo è un quadrilatero con quattro angoli retti: il quadrato lo è, e in più ha i lati uguali.",
-    distractorWhy: { "Perché ogni rettangolo ha i lati uguali": "Non è vero: un rettangolo generico ha lati diversi a due a due, solo il quadrato li ha tutti uguali.", "Perché hanno sempre la stessa area": "L'area non è fissa né per i quadrati né per i rettangoli.", "Perché entrambi hanno quattro lati": "Anche altri quadrilateri hanno quattro lati: ciò che conta sono i quattro angoli retti." } },
+  { topic: "insiemi", difficulty: 3, prompt: "L'insieme dei quadrati è contenuto in quello dei rettangoli. Perché?", answer: "Perché ogni quadrato ha quattro angoli retti", distractors: ["Perché ogni rettangolo ha i quattro lati uguali","Perché hanno sempre la stessa area","Perché entrambi hanno quattro lati"], explanation: "Un rettangolo è un quadrilatero con quattro angoli retti: il quadrato lo è, e in più ha i lati uguali.",
+    distractorWhy: { "Perché ogni rettangolo ha i quattro lati uguali": "Non è vero: un rettangolo generico ha lati diversi a due a due, solo il quadrato li ha tutti uguali.", "Perché hanno sempre la stessa area": "L'area non è fissa né per i quadrati né per i rettangoli.", "Perché entrambi hanno quattro lati": "Anche altri quadrilateri hanno quattro lati: ciò che conta sono i quattro angoli retti." } },
   { topic: "insiemi", difficulty: 2, prompt: "Che cos'è un insieme vuoto?", answer: "Un insieme che non contiene alcun elemento", distractors: ["Un insieme con un solo elemento","Un insieme di cui non si sa il contenuto","Un insieme uguale a tutti gli altri"], explanation: "Per esempio «i numeri pari dispari»: la condizione non può essere soddisfatta da nessuno.",
     distractorWhy: { "Un insieme con un solo elemento": "Un elemento solo non è vuoto: è un insieme con un membro.", "Un insieme di cui non si sa il contenuto": "Non sapere il contenuto non lo rende vuoto: potrebbe comunque avere elementi.", "Un insieme uguale a tutti gli altri": "L'insieme vuoto è definito dall'assenza di elementi, non dall'uguaglianza con altri." } },
   { topic: "insiemi", difficulty: 4, prompt: "Due insiemi non hanno nessun elemento in comune. Come si dicono?", answer: "Disgiunti", distractors: ["Coincidenti","Contenuti","Complementari"], explanation: "Insiemi disgiunti hanno intersezione vuota: per esempio i numeri pari e i numeri dispari.",
     distractorWhy: { "Coincidenti": "Coincidenti significa che sono lo stesso insieme, il contrario di non avere nulla in comune.", "Contenuti": "«Contenuti» descrive un insieme dentro l'altro, non l'assenza di elementi comuni.", "Complementari": "I complementari coprono insieme tutto l'insieme di riferimento: qui si parla solo di elementi comuni." } },
-  { topic: "insiemi", difficulty: 3, prompt: "Nel gruppo degli strumenti musicali, quello degli archi è…", answer: "Un sottoinsieme", distractors: ["Un insieme più grande","Un insieme disgiunto","L'insieme complementare"], explanation: "Ogni arco è uno strumento, ma esistono strumenti che non sono archi: la parte sta dentro il tutto.",
-    distractorWhy: { "Un insieme più grande": "Gli archi sono una parte degli strumenti musicali, non un gruppo più grande.", "Un insieme disgiunto": "Gli archi sono strumenti musicali: c'è sovrapposizione totale, non assenza di elementi comuni.", "L'insieme complementare": "Il complementare sarebbe «tutto ciò che non è strumento musicale»: gli archi sono invece dentro il gruppo." } },
+  { topic: "insiemi", difficulty: 3, prompt: "Nel gruppo degli strumenti musicali, quello degli archi è…", answer: "Un sottoinsieme", distractors: ["Un insieme più grande","Un gruppo a parte","L'insieme complementare"], explanation: "Ogni arco è uno strumento, ma esistono strumenti che non sono archi: la parte sta dentro il tutto.",
+    distractorWhy: { "Un insieme più grande": "Gli archi sono una parte degli strumenti musicali, non un gruppo più grande.", "Un gruppo a parte": "Gli archi sono strumenti musicali: c'è sovrapposizione totale, non assenza di elementi comuni.", "L'insieme complementare": "Il complementare sarebbe «tutto ciò che non è strumento musicale»: gli archi sono invece dentro il gruppo." } },
   { topic: "insiemi", difficulty: 4, format: "numeric_input", prompt: "In una classe, 12 fanno nuoto, 8 fanno musica, 3 fanno entrambe. Quanti ragazzi in tutto fanno almeno una delle due?", answer: "17", explanation: "12 + 8 fa 20, ma i 3 che fanno entrambe sono stati contati due volte: 20 − 3 = 17." },
   { topic: "insiemi", difficulty: 3, prompt: "Se A è contenuto in B e B è contenuto in C, allora…", answer: "A è contenuto in C", distractors: ["C è contenuto in A","A e C sono disgiunti","A e C sono lo stesso insieme"], explanation: "L'inclusione si trasmette: se ogni A è un B e ogni B è un C, allora ogni A è un C.",
     distractorWhy: { "C è contenuto in A": "È il contrario: la relazione va da A verso C, non da C verso A.", "A e C sono disgiunti": "Non sono disgiunti: A è dentro B che è dentro C, quindi A è dentro C.", "A e C sono lo stesso insieme": "Non sono necessariamente uguali: C può contenere elementi che non sono in A." } },
-  { topic: "insiemi", difficulty: 2, prompt: "Quale gruppo contiene tutti gli altri: cani, mammiferi, animali, vertebrati?", answer: "Animali", distractors: ["Vertebrati e mammiferi","Mammiferi soltanto","Cani e vertebrati"], explanation: "La scala va dal più ampio al più stretto: animali, vertebrati, mammiferi, cani.",
-    distractorWhy: { "Vertebrati e mammiferi": "Anche vertebrati e mammiferi sono contenuti in animali, il gruppo più ampio.", "Mammiferi soltanto": "I mammiferi sono un sottoinsieme, non il gruppo che contiene tutti gli altri.", "Cani e vertebrati": "Cani e vertebrati sono entrambi contenuti in animali, il gruppo più ampio di tutti." } },
-  { topic: "insiemi", difficulty: 4, prompt: "Che cos'è il complementare di un insieme?", answer: "Tutto ciò che sta fuori da quell'insieme", distractors: ["L'insieme che gli assomiglia di più","La metà mancante dell'insieme","L'insieme con gli stessi elementi"], explanation: "Dentro un gruppo di riferimento: il complementare dei pari, fra i numeri interi, sono i dispari.",
-    distractorWhy: { "L'insieme che gli assomiglia di più": "Il complementare non è definito dalla somiglianza: è tutto ciò che sta fuori.", "La metà mancante dell'insieme": "Non è necessariamente la metà: è tutto quello che non appartiene all'insieme.", "L'insieme con gli stessi elementi": "Il complementare ha elementi diversi, esattamente quelli che l'insieme originale non ha." } },
+  { topic: "insiemi", difficulty: 2, prompt: "Quale gruppo contiene tutti gli altri: cani, mammiferi, animali, vertebrati?", answer: "Animali", distractors: ["Vertebrati e mammiferi","Mammiferi soltanto","Solo i cani"], explanation: "La scala va dal più ampio al più stretto: animali, vertebrati, mammiferi, cani.",
+    distractorWhy: { "Vertebrati e mammiferi": "Anche vertebrati e mammiferi sono contenuti in animali, il gruppo più ampio.", "Mammiferi soltanto": "I mammiferi sono un sottoinsieme, non il gruppo che contiene tutti gli altri.", "Solo i cani": "Cani e vertebrati sono entrambi contenuti in animali, il gruppo più ampio di tutti." } },
+  { topic: "insiemi", difficulty: 4, prompt: "Che cos'è il complementare di un insieme?", answer: "Tutto ciò che sta fuori da quell'insieme", distractors: ["L'insieme che gli assomiglia di più fra tutti","La metà mancante dell'insieme","L'insieme con gli stessi elementi"], explanation: "Dentro un gruppo di riferimento: il complementare dei pari, fra i numeri interi, sono i dispari.",
+    distractorWhy: { "L'insieme che gli assomiglia di più fra tutti": "Il complementare non è definito dalla somiglianza: è tutto ciò che sta fuori.", "La metà mancante dell'insieme": "Non è necessariamente la metà: è tutto quello che non appartiene all'insieme.", "L'insieme con gli stessi elementi": "Il complementare ha elementi diversi, esattamente quelli che l'insieme originale non ha." } },
   { topic: "insiemi", difficulty: 3, prompt: "«Alcuni musicisti sono chitarristi» descrive due insiemi che…", answer: "Si sovrappongono in parte", distractors: ["Sono completamente separati","Coincidono perfettamente","Non hanno alcun elemento"], explanation: "Una parte dei musicisti suona la chitarra, un'altra no: gli insiemi si intersecano senza contenersi.",
     distractorWhy: { "Sono completamente separati": "Se fossero separati, nessun musicista sarebbe chitarrista: invece «alcuni» lo sono.", "Coincidono perfettamente": "Non tutti i musicisti sono chitarristi: gli insiemi si sovrappongono solo in parte.", "Non hanno alcun elemento": "«Alcuni» significa che almeno un elemento è comune ai due insiemi." } },
   { topic: "insiemi", difficulty: 4, format: "numeric_input", prompt: "In un gruppo di 20 persone, 15 hanno il cane. Quante NON hanno il cane?", answer: "5", explanation: "È il complementare dentro il gruppo: 20 − 15 = 5." },
@@ -3023,8 +3068,8 @@ const LOGICA_EXTRA = [
     distractorWhy: { "Nessun gatto dorme": "Basta un solo gatto sveglio per smentire «tutti»: non serve che nessuno dorma.", "Tutti i gatti sono svegli": "Basta un solo controesempio: non è detto che siano tutti svegli.", "Metà dei gatti dorme": "Non c'è nessuna proporzione garantita: basta un solo gatto sveglio." } },
   { topic: "verita", difficulty: 3, prompt: "Qual è la negazione di «nessuno è arrivato»?", answer: "Almeno uno è arrivato", distractors: ["Tutti sono arrivati","Nessuno è partito","Molti sono arrivati"], explanation: "Negare un «nessuno» significa dire che ce n'è almeno uno, non che ci sono tutti.",
     distractorWhy: { "Tutti sono arrivati": "Negare «nessuno» richiede solo un controesempio, non che siano arrivati tutti.", "Nessuno è partito": "La negazione riguarda l'arrivo, non la partenza: sono due cose diverse.", "Molti sono arrivati": "Basta uno solo per negare «nessuno»: non serve che siano molti." } },
-  { topic: "verita", difficulty: 3, prompt: "«Se piove, prendo l'ombrello.» Non ho preso l'ombrello. Cosa si conclude?", answer: "Non pioveva", distractors: ["Pioveva comunque","Ho dimenticato l'ombrello","Non si può concludere niente"], explanation: "Se l'effetto manca, manca anche la causa che lo garantiva: è la forma corretta del ragionamento.",
-    distractorWhy: { "Pioveva comunque": "Se pioveva, secondo la regola avrei preso l'ombrello: non averlo preso esclude che piovesse.", "Ho dimenticato l'ombrello": "La regola garantisce che prendo l'ombrello se piove: se non l'ho preso, non poteva piovere.", "Non si può concludere niente": "Si può concludere: se manca l'effetto garantito, manca anche la causa che lo garantiva." } },
+  { topic: "verita", difficulty: 3, prompt: "«Se piove, prendo l'ombrello.» Non ho preso l'ombrello. Cosa si conclude?", answer: "Non pioveva", distractors: ["Pioveva lo stesso","Ho dimenticato l'ombrello","Non si può concludere niente"], explanation: "Se l'effetto manca, manca anche la causa che lo garantiva: è la forma corretta del ragionamento.",
+    distractorWhy: { "Pioveva lo stesso": "Se pioveva, secondo la regola avrei preso l'ombrello: non averlo preso esclude che piovesse.", "Ho dimenticato l'ombrello": "La regola garantisce che prendo l'ombrello se piove: se non l'ho preso, non poteva piovere.", "Non si può concludere niente": "Si può concludere: se manca l'effetto garantito, manca anche la causa che lo garantiva." } },
   { topic: "verita", difficulty: 4, prompt: "«Se piove, prendo l'ombrello.» Ho preso l'ombrello. Cosa si conclude?", answer: "Niente di certo: poteva esserci un altro motivo", distractors: ["Che sicuramente stava piovendo in quel momento","Che sicuramente non stava piovendo per niente","Che pioverà sicuramente nel corso della giornata"], explanation: "L'ombrello si può prendere anche per il sole o per abitudine: la regola non dice che sia l'unica ragione possibile.",
     distractorWhy: { "Che sicuramente stava piovendo in quel momento": "L'ombrello si può prendere anche per altri motivi: non è la prova certa che piovesse.", "Che sicuramente non stava piovendo per niente": "Non si può escludere che piovesse: prendere l'ombrello è compatibile con entrambe le situazioni.", "Che pioverà sicuramente nel corso della giornata": "La regola riguarda il presente, non fa previsioni sul resto della giornata." } },
   { topic: "verita", difficulty: 3, prompt: "Qual è la negazione di «tutti i cigni sono bianchi»?", answer: "Esiste almeno un cigno non bianco", distractors: ["Nessun cigno è bianco","Tutti i cigni sono neri","Quasi tutti i cigni sono bianchi"], explanation: "Un'affermazione universale cade con un solo caso contrario: basta un cigno nero.",
@@ -3033,21 +3078,21 @@ const LOGICA_EXTRA = [
     distractorWhy: { "Non piove": "È l'opposto: due negazioni si annullano, tornando all'affermazione positiva.", "Forse piove": "Non c'è incertezza: la doppia negazione afferma con certezza che piove.", "Ha smesso di piovere": "La doppia negazione afferma semplicemente che piove ora, non parla di un cambiamento nel tempo." } },
   { topic: "verita", difficulty: 4, prompt: "«Tutti gli abitanti hanno un cane o un gatto.» Marco non ha cani. Cosa si conclude?", answer: "Marco ha un gatto", distractors: ["Marco non ha animali","Marco ha anche un cane","Non si può dire niente"], explanation: "La O richiede almeno una delle due: se una è esclusa, l'altra deve valere.",
     distractorWhy: { "Marco non ha animali": "La regola dice che ognuno ha almeno uno dei due: Marco deve avere il gatto.", "Marco ha anche un cane": "Sappiamo che Marco non ha cani: quindi deve avere il gatto, non entrambi.", "Non si può dire niente": "La regola garantisce almeno uno dei due: escluso il cane, resta il gatto." } },
-  { topic: "verita", difficulty: 3, prompt: "Un'affermazione e la sua negazione possono essere entrambe vere?", answer: "No, mai", distractors: ["Sì, se sono complicate","Sì, in certi casi particolari","Dipende da chi le dice"], explanation: "È il principio di non contraddizione: se una è vera l'altra è falsa, senza eccezioni.",
-    distractorWhy: { "Sì, se sono complicate": "La complessità della frase non cambia il principio di non contraddizione.", "Sì, in certi casi particolari": "Non esistono eccezioni: se una è vera l'altra è sempre falsa.", "Dipende da chi le dice": "La verità logica non dipende da chi parla." } },
+  { topic: "verita", difficulty: 3, prompt: "Un'affermazione e la sua negazione possono essere entrambe vere?", answer: "No, mai", distractors: ["Sì, se sono complicate","Sì, in certi casi particolari","Dipende dai casi"], explanation: "È il principio di non contraddizione: se una è vera l'altra è falsa, senza eccezioni.",
+    distractorWhy: { "Sì, se sono complicate": "La complessità della frase non cambia il principio di non contraddizione.", "Sì, in certi casi particolari": "Non esistono eccezioni: se una è vera l'altra è sempre falsa.", "Dipende dai casi": "La verità logica non dipende da chi parla." } },
   { topic: "verita", difficulty: 4, prompt: "«Se studio, passo l'esame.» Ho studiato ma non ho passato. Che cosa è falso?", answer: "La regola di partenza", distractors: ["Il fatto di aver studiato","Il risultato dell'esame","Nessuna delle due cose"], explanation: "Un solo caso in cui la premessa è vera e la conclusione falsa basta a smentire la regola.",
     distractorWhy: { "Il fatto di aver studiato": "Aver studiato è un fatto dato, non qualcosa che risulta falso in questo ragionamento.", "Il risultato dell'esame": "Il risultato è un fatto osservato, non ciò che risulta falso.", "Nessuna delle due cose": "C'è qualcosa di falso: la regola stessa, visto che premessa vera e conclusione falsa la smentiscono." } },
   { topic: "verita", difficulty: 2, format: "numeric_input", prompt: "Quante possibilità ci sono per il valore di verità di un'affermazione?", answer: "2", explanation: "Vero o falso: in logica classica non esistono vie di mezzo." },
-  { topic: "verita", difficulty: 3, prompt: "«Ho preso il gelato E la torta» è falsa. Cosa si conclude?", answer: "Almeno una delle due non l'ho presa", distractors: ["Non ho preso nessuna delle due","Ho preso solo il gelato","Ho preso solo la torta"], explanation: "Per far cadere una E basta che uno dei due pezzi sia falso: non serve che lo siano entrambi.",
-    distractorWhy: { "Non ho preso nessuna delle due": "Basta che una delle due sia falsa per far cadere la E: non serve che siano false entrambe.", "Ho preso solo il gelato": "Questa è solo una delle possibilità compatibili con la frase falsa, non l'unica.", "Ho preso solo la torta": "Questa è solo una delle possibilità compatibili con la frase falsa, non l'unica." } },
+  { topic: "verita", difficulty: 3, prompt: "«Ho preso il gelato E la torta» è falsa. Cosa si conclude?", answer: "Almeno una delle due non l'ho presa", distractors: ["Non ho preso proprio nessuna delle due","Ho preso solo il gelato","Ho preso solo la torta"], explanation: "Per far cadere una E basta che uno dei due pezzi sia falso: non serve che lo siano entrambi.",
+    distractorWhy: { "Non ho preso proprio nessuna delle due": "Basta che una delle due sia falsa per far cadere la E: non serve che siano false entrambe.", "Ho preso solo il gelato": "Questa è solo una delle possibilità compatibili con la frase falsa, non l'unica.", "Ho preso solo la torta": "Questa è solo una delle possibilità compatibili con la frase falsa, non l'unica." } },
   { topic: "verita", difficulty: 4, prompt: "Perché «questa frase è falsa» crea un problema?", answer: "Perché se è vera è falsa, e viceversa", distractors: ["Perché è scritta in modo scorretto","Perché parla di sé stessa senza dati","Perché manca il soggetto della frase"], explanation: "È il paradosso del mentitore: una frase che parla della propria verità può non avere alcun valore coerente.",
     distractorWhy: { "Perché è scritta in modo scorretto": "Grammaticalmente la frase è corretta: il problema è logico, non di scrittura.", "Perché parla di sé stessa senza dati": "Il problema non è la mancanza di dati: è che qualsiasi valore di verità le si assegni si contraddice.", "Perché manca il soggetto della frase": "Il soggetto c'è: il problema è che si riferisce a sé stessa in modo contraddittorio." } },
   { topic: "quantificatori", difficulty: 2, prompt: "Quale parola indica che vale per ogni singolo caso?", answer: "Tutti", distractors: ["Alcuni","Molti","Quasi tutti"], explanation: "«Tutti» non ammette eccezioni: basta un caso contrario per renderlo falso.",
     distractorWhy: { "Alcuni": "«Alcuni» ammette eccezioni: basta almeno un caso, non ogni caso.", "Molti": "«Molti» indica una gran parte, ma può comunque avere eccezioni.", "Quasi tutti": "«Quasi tutti» ammette esplicitamente alcune eccezioni, «tutti» no." } },
   { topic: "quantificatori", difficulty: 2, prompt: "«Alcuni uccelli non volano» significa che…", answer: "Almeno uno non vola", distractors: ["Nessun uccello vola","La maggior parte non vola","Tutti gli uccelli volano"], explanation: "In logica «alcuni» significa «almeno uno», anche se nel parlare comune suggerisce «parecchi».",
     distractorWhy: { "Nessun uccello vola": "«Alcuni» non significa «nessuno»: dice che almeno uno non vola, non tutti.", "La maggior parte non vola": "«Alcuni» non specifica una proporzione: basta anche un solo uccello che non vola.", "Tutti gli uccelli volano": "È il contrario di quanto afferma la frase." } },
-  { topic: "quantificatori", difficulty: 3, prompt: "Da «tutti i cani abbaiano» si può dedurre che…", answer: "Almeno un cane abbaia, se i cani esistono", distractors: ["Soltanto i cani sanno abbaiare","Alcuni cani non abbaiano affatto","Chiunque abbaia dev'essere un cane"], explanation: "Da un «tutti» si scende ad «alcuni», ma non si può girare la frase: altri animali potrebbero abbaiare.",
-    distractorWhy: { "Soltanto i cani sanno abbaiare": "La regola dice che i cani abbaiano, non che solo loro lo sanno fare.", "Alcuni cani non abbaiano affatto": "Se «tutti» i cani abbaiano, non ce n'è nessuno che non lo fa.", "Chiunque abbaia dev'essere un cane": "Non si può girare la frase: altri animali potrebbero abbaiare senza essere cani." } },
+  { topic: "quantificatori", difficulty: 3, prompt: "Da «tutti i cani abbaiano» si può dedurre che…", answer: "Almeno un cane abbaia, se i cani esistono", distractors: ["Soltanto i cani sanno abbaiare","Alcuni cani non abbaiano affatto","Chiunque abbaia dev'essere per forza un cane"], explanation: "Da un «tutti» si scende ad «alcuni», ma non si può girare la frase: altri animali potrebbero abbaiare.",
+    distractorWhy: { "Soltanto i cani sanno abbaiare": "La regola dice che i cani abbaiano, non che solo loro lo sanno fare.", "Alcuni cani non abbaiano affatto": "Se «tutti» i cani abbaiano, non ce n'è nessuno che non lo fa.", "Chiunque abbaia dev'essere per forza un cane": "Non si può girare la frase: altri animali potrebbero abbaiare senza essere cani." } },
   { topic: "quantificatori", difficulty: 3, prompt: "«Nessuno studente è arrivato in ritardo» è smentita da…", answer: "Un solo studente in ritardo", distractors: ["Metà degli studenti in ritardo","Tutti gli studenti in ritardo","Nessun controesempio possibile"], explanation: "Le affermazioni universali, positive o negative, cadono con un unico controesempio.",
     distractorWhy: { "Metà degli studenti in ritardo": "Non serve metà: basta un solo studente in ritardo per smentire «nessuno».", "Tutti gli studenti in ritardo": "Non serve che siano tutti: basta un solo controesempio.", "Nessun controesempio possibile": "Un controesempio è proprio ciò che serve per smentire l'affermazione." } },
   { topic: "quantificatori", difficulty: 4, prompt: "«Tutti i quadrati sono rettangoli» permette di dire che…", answer: "Alcuni rettangoli sono quadrati", distractors: ["Tutti i rettangoli sono quadrati","Nessun rettangolo è un quadrato","I due gruppi sono separati"], explanation: "Girando un «tutti» si ottiene solo un «alcuni»: l'inclusione vale in una direzione sola.",
@@ -3058,8 +3103,8 @@ const LOGICA_EXTRA = [
     distractorWhy: { "La stessa cosa in due modi": "L'ordine dei quantificatori cambia il senso: nella prima ogni chiave ha la sua porta, nella seconda una porta è aperta da tutte.", "Due cose sempre false": "Non sono necessariamente false: possono essere vere entrambe, ma dicono cose diverse.", "Due cose sempre vere": "Non sono necessariamente vere: dipende dalla situazione." } },
   { topic: "quantificatori", difficulty: 4, prompt: "«Almeno due studenti hanno preso 10» è vera se ne hanno preso 10…", answer: "Due o più studenti", distractors: ["Esattamente due studenti","Meno di due studenti","Tutti gli studenti"], explanation: "«Almeno» fissa un minimo, non un numero esatto: tre, quattro o venti la rendono ugualmente vera.",
     distractorWhy: { "Esattamente due studenti": "«Almeno» fissa un minimo, non un numero esatto: anche tre o più la rendono vera.", "Meno di due studenti": "«Almeno due» richiede un minimo di due: meno di due non basta.", "Tutti gli studenti": "Non serve che siano tutti: basta che siano due o più." } },
-  { topic: "quantificatori", difficulty: 3, prompt: "Da «alcuni gatti sono neri» si può dedurre «tutti i gatti sono neri»?", answer: "No, in nessun caso", distractors: ["Sì, se i gatti sono pochi","Sì, se non ci sono controesempi","Dipende da quanti gatti sono neri"], explanation: "Da un caso particolare non si sale a una regola generale: è il salto che rende sbagliati molti ragionamenti.",
-    distractorWhy: { "Sì, se i gatti sono pochi": "Il numero di gatti non cambia la logica: da «alcuni» non si può mai dedurre «tutti».", "Sì, se non ci sono controesempi": "Anche senza controesempi noti, «alcuni» non garantisce «tutti»: mancano informazioni.", "Dipende da quanti gatti sono neri": "Non dipende dalla quantità: da un caso particolare non si sale mai a una regola generale." } },
+  { topic: "quantificatori", difficulty: 3, prompt: "Da «alcuni gatti sono neri» si può dedurre «tutti i gatti sono neri»?", answer: "No, in nessun caso", distractors: ["Sì, se sono pochi","Sì, se non ci sono controesempi","Dipende da quanti gatti sono neri"], explanation: "Da un caso particolare non si sale a una regola generale: è il salto che rende sbagliati molti ragionamenti.",
+    distractorWhy: { "Sì, se sono pochi": "Il numero di gatti non cambia la logica: da «alcuni» non si può mai dedurre «tutti».", "Sì, se non ci sono controesempi": "Anche senza controesempi noti, «alcuni» non garantisce «tutti»: mancano informazioni.", "Dipende da quanti gatti sono neri": "Non dipende dalla quantità: da un caso particolare non si sale mai a una regola generale." } },
   { topic: "quantificatori", difficulty: 2, prompt: "«Nessun pesce vola» e «tutti i pesci non volano»…", answer: "Dicono la stessa cosa", distractors: ["Dicono cose opposte","La prima è più debole","La seconda è sempre falsa"], explanation: "Sono due modi di esprimere la stessa negazione universale.",
     distractorWhy: { "Dicono cose opposte": "Sono due modi equivalenti di esprimere la stessa negazione universale, non opposti.", "La prima è più debole": "Le due frasi sono logicamente equivalenti: nessuna è più debole dell'altra.", "La seconda è sempre falsa": "La seconda è vera esattamente quando lo è la prima: non è sempre falsa." } },
   { topic: "quantificatori", difficulty: 4, format: "numeric_input", prompt: "Per dimostrare che «tutti i numeri pari sono divisibili per 2», quanti esempi bastano?", answer: "0", explanation: "Nessun numero di esempi dimostra un «tutti»: serve una dimostrazione generale. Gli esempi possono solo smentirlo." },
@@ -3099,16 +3144,14 @@ const LOGICA_EXTRA = [
     distractorWhy: { "Quadrato": "È un poligono con lati dritti, come gli altri: non è lui l'intruso.", "Triangolo": "È un poligono con lati dritti, come gli altri: non è lui l'intruso.", "Rettangolo": "È un poligono con lati dritti, come gli altri: non è lui l'intruso." } },
   { topic: "sequenze", difficulty: 1, prompt: "Quale figura continua la serie: cerchio, quadrato, cerchio, quadrato, ?", answer: "cerchio", distractors: ["quadrato", "triangolo", "nessuna delle due"], explanation: "La serie alterna due figure: dopo il quadrato tocca di nuovo al cerchio. Una regola che si ripete a coppie si scopre guardando due passi, non uno.",
     distractorWhy: { "quadrato": "Il quadrato è appena apparso: nella sequenza a coppie tocca di nuovo al cerchio.", "triangolo": "Il triangolo non fa parte della sequenza: si alternano solo cerchio e quadrato.", "nessuna delle due": "La sequenza continua regolarmente: una delle due figure c'è di sicuro." } },
-  { topic: "sequenze", difficulty: 1, prompt: "Quale numero continua la serie: 2, 4, 6, 8, ?", answer: "10", distractors: ["9", "12", "16"], explanation: "Fra un numero e il successivo ci sono sempre due: la regola è «+2», e vale anche fra 8 e il termine dopo.",
-    distractorWhy: { "9": "Rompe la regola «+2»: 8+2 fa 10, non 9.", "12": "Salta un passo: sarebbe il numero dopo 10, non il prossimo della serie.", "16": "È il doppio di 8, ma qui la regola è aggiungere 2, non raddoppiare." } },
-  { topic: "sequenze", difficulty: 1, prompt: "Quale numero continua la serie: 10, 9, 8, 7, ?", answer: "6", distractors: ["8", "5", "11"], explanation: "Qui la serie scende di uno per volta: le regole possono anche togliere, non solo aggiungere.",
-    distractorWhy: { "8": "È un numero già comparso nella serie, non il successivo scendendo di uno.", "5": "Scende di due invece che di uno: la regola qui è «−1».", "11": "Va nella direzione sbagliata: la serie scende, non sale." } },
-  { topic: "sequenze", difficulty: 2, prompt: "Quale numero continua la serie: 1, 2, 4, 8, ?", answer: "16", distractors: ["10", "12", "9"], explanation: "Ogni numero è il doppio del precedente. Quando i salti crescono in fretta conviene provare a moltiplicare, non ad aggiungere.",
-    distractorWhy: { "10": "Segue la regola «+2» invece di raddoppiare: qui ogni numero è il doppio del precedente.", "12": "Non è il doppio di 8: 8×2 fa 16, non 12.", "9": "È vicino ma non è il doppio di 8." } },
+  { topic: "sequenze", difficulty: 2, format: "numeric_input", prompt: "Su un braccialetto le perline si ripetono sempre così: rossa, rossa, blu, rossa, rossa, blu… Quante perline blu ci sono nelle prime dodici?", answer: "4", explanation: "Il disegno si ripete ogni tre perline e in ogni gruppo ce n'è una blu: dodici perline fanno quattro gruppi, quindi quattro blu. Quando una serie si ripete a blocchi non serve contarla tutta: basta contare i blocchi." },
+  { topic: "sequenze", difficulty: 2, prompt: "Quale giorno continua la serie: lunedì, mercoledì, venerdì, ?", answer: "domenica", distractors: ["sabato", "lunedì", "giovedì"], explanation: "Si salta un giorno ogni volta: lunedì, (martedì), mercoledì, (giovedì), venerdì, (sabato), domenica. Una serie può girare in tondo invece di crescere: dopo la domenica si ricomincerebbe dal martedì.",
+    distractorWhy: {"sabato":"Il sabato è il giorno saltato: la serie prende uno sì e uno no.","lunedì":"È il punto di partenza: la serie va avanti, non torna indietro.","giovedì":"Il giovedì era già stato saltato fra mercoledì e venerdì."} },
+  { topic: "sequenze", difficulty: 4, format: "numeric_input", prompt: "Quale numero continua la serie: 2, 20, 4, 18, 6, 16, ?", answer: "8", explanation: "Sono due serie intrecciate: al primo, terzo e quinto posto 2, 4, 6 che salgono di due; al secondo, quarto e sesto 20, 18, 16 che scendono di due. Tocca di nuovo a quella che sale, quindi 8. Quando una serie sembra impazzita, conviene provare a leggerla a numeri alterni." },
   { topic: "sequenze", difficulty: 2, prompt: "Quale lettera continua la serie: A, C, E, G, ?", answer: "I", distractors: ["H", "F", "L"], explanation: "Si salta una lettera ogni volta: A, (B), C, (D), E… Dopo la G si salta la H e si arriva alla I.",
     distractorWhy: { "H": "È la lettera subito dopo G, ma la regola salta una lettera ogni volta.", "F": "È una lettera già saltata in precedenza, non la prossima da saltare.", "L": "Salta due lettere invece di una: dopo G si salta solo la H." } },
-  { topic: "esclusioni", difficulty: 1, prompt: "Quale non appartiene al gruppo: cane, gatto, cavallo, sedia?", answer: "sedia", distractors: ["cane", "gatto", "cavallo"], explanation: "Tre sono animali e uno è un oggetto. Per trovare l'intruso si cerca la proprietà che hanno TUTTI gli altri, non quella che manca a uno solo.",
-    distractorWhy: { "cane": "È un animale, come gli altri: non è lui l'intruso.", "gatto": "È un animale, come gli altri: non è lui l'intruso.", "cavallo": "È un animale, come gli altri: non è lui l'intruso." } },
+  { topic: "esclusioni", difficulty: 4, prompt: "Quale non appartiene al gruppo: arancione, viola, verde, giallo?", answer: "giallo", distractors: ["arancione", "viola", "verde"], explanation: "Gli altri tre nascono mescolando due colori: rosso e giallo danno arancione, rosso e blu danno viola, giallo e blu danno verde. Il giallo invece è un colore primario. Qui la proprietà comune non si vede guardando i colori: bisogna sapere da dove vengono.",
+    distractorWhy: {"arancione":"Nasce da rosso più giallo: è un colore secondario come gli altri due.","viola":"Nasce da rosso più blu: è un colore secondario come gli altri due.","verde":"Nasce da giallo più blu: è un colore secondario come gli altri due."} },
   { topic: "esclusioni", difficulty: 1, prompt: "Quale non appartiene al gruppo: lunedì, martedì, gennaio, giovedì?", answer: "gennaio", distractors: ["lunedì", "martedì", "giovedì"], explanation: "Tre sono giorni della settimana, gennaio è un mese: appartengono a due scale di tempo diverse.",
     distractorWhy: { "lunedì": "È un giorno della settimana, come gli altri: non è lui l'intruso.", "martedì": "È un giorno della settimana, come gli altri: non è lui l'intruso.", "giovedì": "È un giorno della settimana, come gli altri: non è lui l'intruso." } },
   { topic: "esclusioni", difficulty: 2, prompt: "Quale non appartiene al gruppo: 2, 4, 7, 8?", answer: "7", distractors: ["2", "4", "8"], explanation: "Tre sono pari e il 7 è dispari. Con i numeri l'intruso si cerca fra le proprietà — pari, dispari, primo — non fra le cifre.",
@@ -3121,8 +3164,8 @@ const LOGICA_EXTRA = [
     distractorWhy: { "camminare": "Non è il movimento tipico del pesce, che vive nell'acqua.", "correre": "Non è il movimento tipico del pesce: si muove nell'acqua, non sulla terra.", "saltare": "Non è il movimento tipico del pesce." } },
   { topic: "analogie", difficulty: 2, prompt: "Libro sta a leggere come cibo sta a…?", answer: "mangiare", distractors: ["cucinare", "comprare", "servire"], explanation: "La relazione è «che cosa se ne fa»: del libro si legge, del cibo si mangia. Cucinare viene prima, non è l'uso finale.",
     distractorWhy: { "cucinare": "Si cucina prima di mangiare: non è l'uso finale del cibo, come leggere lo è per il libro.", "comprare": "Si compra prima di usarlo: non è l'azione finale, come leggere lo è per il libro.", "servire": "Servire è un passaggio prima di mangiare, non l'azione finale." } },
-  { topic: "analogie", difficulty: 2, prompt: "Medico sta a ospedale come insegnante sta a…?", answer: "scuola", distractors: ["libro", "lavagna", "studente"], explanation: "La relazione è «dove lavora». Lavagna e studente stanno nella scuola, ma non sono il luogo.",
-    distractorWhy: { "libro": "Il libro è uno strumento di lavoro, non il luogo dove si lavora.", "lavagna": "La lavagna è uno strumento in classe, non il luogo di lavoro.", "studente": "Lo studente è una persona con cui si lavora, non il luogo." } },
+  { topic: "analogie", difficulty: 3, prompt: "Tiepido sta a bollente come fresco sta a…?", answer: "gelido", distractors: ["caldo", "umido", "piacevole"], explanation: "La relazione non è di contrario ma di grado: bollente è la versione estrema di tiepido, gelido quella di fresco. Nelle analogie conta il tipo di legame, non il significato delle singole parole.",
+    distractorWhy: {"caldo":"Va dalla parte opposta: fresco e caldo sono contrari, non lo stesso grado spinto all'estremo.","umido":"Parla di quanta acqua c'è nell'aria, non di quanto fa freddo.","piacevole":"È un giudizio, non un grado di temperatura: rompe il tipo di legame."} },
   { topic: "insiemi", difficulty: 1, prompt: "Tutti i quadrati sono rettangoli. Allora un quadrato è anche…", answer: "un rettangolo", distractors: ["un triangolo", "un cerchio", "nessuna delle due"], explanation: "Se un insieme è dentro un altro, tutto ciò che sta nel piccolo sta anche nel grande. Non vale al contrario: non tutti i rettangoli sono quadrati.",
     distractorWhy: { "un triangolo": "Il quadrato non è mai stato definito come triangolo: sono figure diverse.", "un cerchio": "Il quadrato non è un cerchio: sono figure diverse.", "nessuna delle due": "Il quadrato appartiene proprio all'insieme dei rettangoli, come dice la regola." } },
   { topic: "insiemi", difficulty: 2, prompt: "In una classe tutti giocano a calcio o a pallavolo. Marco non gioca a calcio. Allora…", answer: "gioca a pallavolo", distractors: ["non gioca a niente", "gioca a entrambi", "non si può sapere"], explanation: "«O l'uno o l'altro» copre tutti: escluso il primo resta per forza il secondo. Funziona solo perché la frase dice TUTTI.",
@@ -3131,10 +3174,9 @@ const LOGICA_EXTRA = [
     distractorWhy: { "contare molti gatti con quattro zampe": "Trovare mille casi favorevoli non smentisce un «tutti»: serve un solo caso contrario.", "chiedere a un veterinario": "Un'opinione non è una prova: serve un esempio reale che contraddica la regola.", "guardare anche i cani": "I cani non c'entrano con una regola sui gatti." } },
   { topic: "verita", difficulty: 2, prompt: "«Qualche uccello non vola.» Per dimostrarla basta…", answer: "trovare un uccello che non vola", distractors: ["trovare molti uccelli che volano", "dimostrare che nessuno vola", "contare tutti gli uccelli"], explanation: "«Qualche» chiede un solo caso: il pinguino basta. È il rovescio di «tutti», che invece un solo caso lo distrugge.",
     distractorWhy: { "trovare molti uccelli che volano": "Non serve trovare uccelli che volano: basta un solo caso che non vola, cioè il contrario.", "dimostrare che nessuno vola": "«Qualche» chiede solo un caso, non tutti: questa è un'affermazione più forte e diversa.", "contare tutti gli uccelli": "Non serve contarli tutti: basta trovarne uno solo che non vola." } },
-  { topic: "quantificatori", difficulty: 1, prompt: "Qual è il contrario di «tutti i cani abbaiano»?", answer: "almeno un cane non abbaia", distractors: ["nessun cane abbaia", "tutti i cani tacciono", "qualche cane abbaia"], explanation: "Negare «tutti» non dà «nessuno»: dà «almeno uno no». Sono due frasi molto diverse, e scambiarle è l'errore più comune.",
-    distractorWhy: { "nessun cane abbaia": "È un'affermazione troppo forte: basta un solo cane che non abbaia per negare «tutti».", "tutti i cani tacciono": "Dice il contrario totale: la vera negazione richiede solo un'eccezione, non l'opposto assoluto.", "qualche cane abbaia": "Non nega la frase originale: potrebbe essere vera insieme a «tutti i cani abbaiano»." } },
-  { topic: "quantificatori", difficulty: 2, prompt: "«Nessuno studente è arrivato in ritardo.» Se ne trovi uno in ritardo, la frase è…", answer: "falsa", distractors: ["ancora vera", "vera a metà", "non si può dire"], explanation: "«Nessuno» non ammette eccezioni: un solo caso contrario la rende falsa, senza vie di mezzo.",
-    distractorWhy: { "ancora vera": "Un solo controesempio basta a rendere falsa un'affermazione con «nessuno».", "vera a metà": "Le affermazioni logiche non sono «a metà»: o sono vere o sono false, e qui il controesempio la rende falsa.", "non si può dire": "Si può dire con certezza: un controesempio trovato basta a stabilire che è falsa." } },
+  { topic: "quantificatori", difficulty: 3, prompt: "«Al massimo due gatti dormono» è vera se ne dormono…", answer: "due, uno o nessuno", distractors: ["esattamente due", "due o più", "almeno due"], explanation: "«Al massimo» fissa un tetto e lascia libero tutto quello che sta sotto, zero compreso. È l'immagine speculare di «almeno», che fissa invece un pavimento.",
+    distractorWhy: {"esattamente due":"«Al massimo» non obbliga ad arrivarci: anche uno solo, o nessuno, rispetta il tetto.","due o più":"È il verso opposto: quello sfonda il tetto invece di restarci sotto.","almeno due":"«Almeno» fissa un minimo, «al massimo» un massimo: le due parole dicono cose contrarie."} },
+  { topic: "quantificatori", difficulty: 2, format: "numeric_input", prompt: "In classe siete in 20 e «la maggior parte» ha portato il libro. Qual è il numero più piccolo che rende vera questa frase?", answer: "11", explanation: "«La maggior parte» vuol dire più della metà: metà di 20 fa 10, quindi ne servono almeno 11. Con 10 sarebbe esattamente metà, e metà non è la maggior parte." },
   { topic: "deduzioni", difficulty: 2, prompt: "Tutti i cuochi sanno cucinare. Anna è una cuoca. Quindi Anna…", answer: "sa cucinare", distractors: ["non sa cucinare", "forse sa cucinare", "cucina solo dolci"], explanation: "Se la regola vale per tutti e Anna sta nel gruppo, la conclusione è obbligata: non è probabile, è certa.",
     distractorWhy: { "non sa cucinare": "È il contrario della regola: se tutti i cuochi sanno cucinare e Anna è cuoca, lo sa fare di certo.", "forse sa cucinare": "Non è un forse: la regola vale per tutti i cuochi, quindi la conclusione è certa.", "cucina solo dolci": "La regola non specifica il tipo di piatti: dice solo che sa cucinare." } },
 ];
@@ -3215,7 +3257,7 @@ function logicaBank() {
   for (const q of wordOddOneOut) {
     const distractors = q.set.filter((w) => w !== q.answer);
     const distractorWhy = Object.fromEntries(distractors.map((d) => [d, q.why]));
-    items.push(multipleChoiceItem({ id: `logica-wodd-${q.answer}`, subject: "logica", topic: "esclusioni", difficulty: q.difficulty, prompt: `Quale parola non appartiene al gruppo: ${q.set.join(", ")}?`, answer: q.answer, distractors, explanation: q.explanation, extra: { distractorWhy } }, rand));
+    items.push(multipleChoiceItem({ id: `logica-wodd-${q.answer}`, subject: "logica", topic: "esclusioni", difficulty: q.difficulty, prompt: `Quale non appartiene al gruppo: ${q.set.join(", ")}?`, answer: q.answer, distractors, explanation: q.explanation, extra: { distractorWhy } }, rand));
   }
   // Analogie (relazioni tra coppie): difficoltà 2-4.
   const analogie = [
@@ -3434,16 +3476,16 @@ const CURATED_TAIL = {
       "topic": "funzioni",
       "difficulty": 4,
       "format": "multiple_choice",
-      "prompt": "Una funzione senza «return» esplicito restituisce...",
+      "prompt": "Che cosa succede alle righe scritte dopo un «return» dentro la funzione?",
       "options": [
-        "None",
-        "Zero",
-        "Una stringa vuota",
-        "L'ultimo valore calcolato"
+        "Non vengono eseguite: il return esce subito",
+        "Vengono eseguite prima di restituire",
+        "Vengono eseguite alla chiamata seguente",
+        "Danno errore perché stanno dopo il return"
       ],
-      "answer": "None",
-      "explanation": "In Python una funzione che non ritorna nulla restituisce None.",
-      "distractorWhy": { "Zero": "Python non inventa uno zero di default: senza return restituisce None, non 0.", "Una stringa vuota": "Python non restituisce una stringa vuota di default: senza return restituisce None.", "L'ultimo valore calcolato": "Python non restituisce automaticamente l'ultimo valore calcolato: serve un return esplicito, altrimenti è None." }
+      "answer": "Non vengono eseguite: il return esce subito",
+      "explanation": "return non è solo «consegna il valore»: è anche «esci dalla funzione adesso». Tutto quello che sta sotto viene saltato, ed è il motivo per cui a volte un pezzo di codice sembra non partire mai.",
+      "distractorWhy": {"Vengono eseguite prima di restituire":"L'ordine è quello scritto: il return arriva prima, e da lì la funzione è finita.","Vengono eseguite alla chiamata seguente":"Ogni chiamata riparte dalla prima riga della funzione: non ci sono righe rimaste in sospeso.","Danno errore perché stanno dopo il return":"Scriverle è lecito e non dà nessun errore: semplicemente non vengono mai raggiunte."}
     },
     {
       "id": "coding-booleani-che-valore-ha-not-true-and-false",
@@ -3500,16 +3542,16 @@ const CURATED_TAIL = {
       "topic": "condizioni",
       "difficulty": 4,
       "format": "multiple_choice",
-      "prompt": "In un «if / elif / else», quanti rami vengono eseguiti?",
+      "prompt": "Un «if» senza else, e la condizione è falsa. Che cosa succede?",
       "options": [
-        "Esattamente uno",
-        "Tutti quelli veri",
-        "Sempre almeno due",
-        "Nessuno se manca else"
+        "Non succede niente e il programma va avanti",
+        "Il programma si ferma con un errore",
+        "Il blocco viene eseguito una volta lo stesso",
+        "Python aspetta che la condizione diventi vera"
       ],
-      "answer": "Esattamente uno",
-      "explanation": "La catena si ferma al primo ramo vero: ne esegue uno solo.",
-      "distractorWhy": { "Tutti quelli veri": "La catena si ferma al primo ramo vero e salta il resto, anche se altri sarebbero veri.", "Sempre almeno due": "Anche se ci sono più condizioni, viene eseguito un solo ramo, non almeno due.", "Nessuno se manca else": "Se un elif è vero, quel ramo si esegue comunque, anche senza else finale." }
+      "answer": "Non succede niente e il programma va avanti",
+      "explanation": "L'else non è obbligatorio: senza di lui, quando la condizione è falsa il blocco si salta e basta. Serve solo se c'è qualcosa da fare nell'altro caso.",
+      "distractorWhy": {"Il programma si ferma con un errore":"Un if da solo è codice validissimo: l'else è facoltativo.","Il blocco viene eseguito una volta lo stesso":"Il blocco dipende dalla condizione: se è falsa non viene eseguito nemmeno una volta.","Python aspetta che la condizione diventi vera":"Aspettare è il mestiere del while: l'if guarda una volta sola e prosegue."}
     },
     {
       "id": "coding-variabili-dopo-a-3-e-b-a-e-a-7-quanto-vale-b",
@@ -3550,16 +3592,16 @@ const CURATED_TAIL = {
       "topic": "stile",
       "difficulty": 4,
       "format": "multiple_choice",
-      "prompt": "Perché conviene dare nomi parlanti alle variabili?",
+      "prompt": "Il numero 3 compare in cinque punti del programma e vuol dire «vite iniziali». Che cosa conviene fare?",
       "options": [
-        "Rende il programma più veloce",
-        "Riduce la memoria occupata",
-        "Evita di dover usare i cicli",
-        "Rende il codice comprensibile"
+        "Scrivere VITE_INIZIALI = 3 e usare quel nome",
+        "Lasciare il 3 e aggiungere un commento accanto",
+        "Sostituirlo con un numero più grande e sicuro",
+        "Metterlo dentro una funzione che restituisce 3"
       ],
-      "answer": "Rende il codice comprensibile",
-      "explanation": "Il nome giusto spiega il codice senza bisogno di commenti.",
-      "distractorWhy": { "Rende il programma più veloce": "Il nome delle variabili non influisce sulla velocità di esecuzione.", "Riduce la memoria occupata": "La differenza di memoria per un nome più lungo è trascurabile: il vantaggio è la comprensibilità.", "Evita di dover usare i cicli": "I nomi delle variabili non hanno nessuna relazione con la necessità di usare cicli." }
+      "answer": "Scrivere VITE_INIZIALI = 3 e usare quel nome",
+      "explanation": "Un numero sparso nel codice si chiama numero magico: nessuno sa cosa significhi, e il giorno in cui le vite diventano cinque bisogna trovarlo in tutti e cinque i punti senza sbagliarne uno. Con un nome si cambia in un posto solo.",
+      "distractorWhy": {"Lasciare il 3 e aggiungere un commento accanto":"Cinque commenti da tenere aggiornati sono un problema in più: il nome della costante il commento lo rende inutile.","Sostituirlo con un numero più grande e sicuro":"Il valore va benissimo: il problema è che è ripetuto e senza nome, non quanto vale.","Metterlo dentro una funzione che restituisce 3":"Funzionerebbe, ma è più macchinoso di una costante: per un valore fisso basta un nome."}
     }
   ],
   "elettronica-base": [
@@ -5633,7 +5675,7 @@ const CURATED_TAIL = {
       "topic": "esclusioni",
       "difficulty": 1,
       "format": "multiple_choice",
-      "prompt": "Quale elemento non appartiene al gruppo: cane, gatto, cavallo, sedia?",
+      "prompt": "Quale non appartiene al gruppo: cane, gatto, cavallo, sedia?",
       "options": [
         "Sedia",
         "Cane",
@@ -5650,16 +5692,16 @@ const CURATED_TAIL = {
       "topic": "esclusioni",
       "difficulty": 1,
       "format": "multiple_choice",
-      "prompt": "Quale elemento non appartiene al gruppo: rosso, blu, verde, tavolo?",
+      "prompt": "Quale non appartiene al gruppo: metro, litro, chilo, bilancia?",
       "options": [
-        "Rosso",
-        "Tavolo",
-        "Blu",
-        "Verde"
+        "Metro",
+        "Bilancia",
+        "Litro",
+        "Chilo"
       ],
-      "answer": "Tavolo",
-      "explanation": "Gli altri tre sono colori, il tavolo è un mobile.",
-      "distractorWhy": { "Rosso": "È un colore, come gli altri: non è lui l'intruso.", "Blu": "È un colore, come gli altri: non è lui l'intruso.", "Verde": "È un colore, come gli altri: non è lui l'intruso." }
+      "answer": "Bilancia",
+      "explanation": "Gli altri tre sono unità di misura, cioè quantità con cui si confronta; la bilancia è lo strumento che serve a misurare. È la stessa differenza che c'è fra il chilometro e il contachilometri.",
+      "distractorWhy": {"Metro":"È l'unità con cui si misurano le lunghezze: uno strumento è il righello.","Litro":"È l'unità con cui si misurano i liquidi: uno strumento è il misurino.","Chilo":"È l'unità con cui si misurano le masse: lo strumento è proprio la bilancia."}
     },
     {
       "id": "logica-esclusioni-quale-elemento-non-appartiene-al-gruppo-mela-per",
@@ -5667,16 +5709,16 @@ const CURATED_TAIL = {
       "topic": "esclusioni",
       "difficulty": 1,
       "format": "multiple_choice",
-      "prompt": "Quale elemento non appartiene al gruppo: mela, pera, banana, martello?",
+      "prompt": "Quale non appartiene al gruppo: Marte, Venere, Luna, Giove?",
       "options": [
-        "Mela",
-        "Pera",
-        "Martello",
-        "Banana"
+        "Marte",
+        "Luna",
+        "Venere",
+        "Giove"
       ],
-      "answer": "Martello",
-      "explanation": "Gli altri tre sono frutti, il martello è un attrezzo.",
-      "distractorWhy": { "Mela": "È un frutto, come gli altri: non è lui l'intruso.", "Pera": "È un frutto, come gli altri: non è lui l'intruso.", "Banana": "È un frutto, come gli altri: non è lui l'intruso." }
+      "answer": "Luna",
+      "explanation": "Gli altri tre sono pianeti che girano attorno al Sole; la Luna gira attorno alla Terra ed è un satellite. La differenza non è la grandezza, ma attorno a che cosa si gira.",
+      "distractorWhy": {"Marte":"È un pianeta: gira attorno al Sole, come Venere e Giove.","Venere":"È un pianeta: gira attorno al Sole, come Marte e Giove.","Giove":"È un pianeta, il più grande di tutti: gira attorno al Sole."}
     },
     {
       "id": "logica-sequenze-quale-numero-continua-la-sequenza-2-4-6-8",
@@ -5684,15 +5726,16 @@ const CURATED_TAIL = {
       "topic": "sequenze",
       "difficulty": 1,
       "format": "multiple_choice",
-      "prompt": "Quale numero continua la sequenza: 2, 4, 6, 8, ...?",
+      "prompt": "Quale lettera continua la serie: Q, P, O, N, ...?",
       "options": [
-        "9",
-        "12",
-        "16",
-        "10"
+        "L",
+        "M",
+        "I",
+        "R"
       ],
-      "answer": "10",
-      "explanation": "Ogni termine aumenta di due: dopo l'8 viene il 10."
+      "answer": "M",
+      "explanation": "L'alfabeto è una scala come i numeri, e questa serie la scende un gradino per volta: Q, P, O, N, M. Attenzione: nell'alfabeto italiano dopo la M si scende alla L, non alla K.",
+      "distractorWhy": {"L":"La L viene un gradino più giù della M: è il termine dopo il prossimo.","I":"È troppo in basso: fra la N e la I ci sono la M e la L.","R":"La R sta prima della Q: la serie scende, quindi va nell'altra direzione."}
     },
     {
       "id": "logica-sequenze-quale-numero-continua-la-sequenza-5-10-15-20",
@@ -5700,15 +5743,16 @@ const CURATED_TAIL = {
       "topic": "sequenze",
       "difficulty": 1,
       "format": "multiple_choice",
-      "prompt": "Quale numero continua la sequenza: 5, 10, 15, 20, ...?",
+      "prompt": "L'autobus passa alle 8:05, 8:20, 8:35, 8:50. A che ora passa il prossimo?",
       "options": [
-        "25",
-        "30",
-        "22",
-        "40"
+        "8:65",
+        "9:05",
+        "9:00",
+        "8:55"
       ],
-      "answer": "25",
-      "explanation": "Ogni termine aumenta di cinque: dopo il 20 viene il 25."
+      "answer": "9:05",
+      "explanation": "La regola è «+15 minuti», ma i minuti arrivano a 60 e poi ricominciano: 50 + 15 fa 65, cioè un'ora e 5 minuti. Le 8:50 più un quarto d'ora sono le 9:05.",
+      "distractorWhy": {"8:65":"I minuti non arrivano a 65: dopo il 59 scatta l'ora e si riparte da zero.","9:00":"Sono solo dieci minuti dopo le 8:50: ne mancano ancora cinque.","8:55":"Sono cinque minuti dopo le 8:50: il passo di questa serie è di quindici."}
     },
     {
       "id": "logica-sequenze-quale-numero-continua-la-sequenza-10-9-8-7",
@@ -5716,15 +5760,16 @@ const CURATED_TAIL = {
       "topic": "sequenze",
       "difficulty": 1,
       "format": "multiple_choice",
-      "prompt": "Quale numero continua la sequenza: 10, 9, 8, 7, ...?",
+      "prompt": "Con gli stecchini fai quadrati attaccati in fila: 1 quadrato ne vuole 4, 2 quadrati ne vogliono 7, 3 quadrati ne vogliono 10. Quanti stecchini per 4 quadrati?",
       "options": [
-        "5",
-        "6",
-        "8",
-        "11"
+        "12",
+        "13",
+        "14",
+        "16"
       ],
-      "answer": "6",
-      "explanation": "Ogni termine diminuisce di uno: dopo il 7 viene il 6."
+      "answer": "13",
+      "explanation": "Il primo quadrato costa 4 stecchini, ma ogni quadrato aggiunto dopo ne costa solo 3: il lato in mezzo è già stato messo e serve a tutti e due. Da 10 si aggiunge 3 e si arriva a 13.",
+      "distractorWhy": {"12":"È 4 × 3: ma i quadrati in fila condividono un lato, quindi costano meno di quattro stecchini ciascuno.","14":"Sarebbe il passo giusto sbagliando il conto: da 10 si aggiungono 3, non 4.","16":"È 4 × 4, cioè quattro quadrati staccati: qui invece sono attaccati e si risparmiano stecchini."}
     },
     {
       "id": "logica-analogie-il-cane-sta-alla-cuccia-come-l-uccello-sta-al",
@@ -5769,13 +5814,13 @@ const CURATED_TAIL = {
       "prompt": "Tutti i gatti sono felini. Micio è un gatto. Che cosa segue con certezza?",
       "options": [
         "Micio è un felino",
-        "Ogni felino è un gatto",
+        "Ogni felino è gatto",
         "Micio è un mammifero raro",
         "Alcuni felini non sono gatti"
       ],
       "answer": "Micio è un felino",
       "explanation": "La conclusione deve stare dentro le premesse: gatto implica felino.",
-      "distractorWhy": { "Ogni felino è un gatto": "Gira la regola: non tutti i felini sono gatti, solo tutti i gatti sono felini.", "Micio è un mammifero raro": "Non è detto nel testo: è un'informazione inventata, non dedotta dalle premesse.", "Alcuni felini non sono gatti": "Può essere vero in generale, ma non è ciò che si deduce su Micio dalle premesse date." }
+      "distractorWhy": { "Ogni felino è gatto": "Gira la regola: non tutti i felini sono gatti, solo tutti i gatti sono felini.", "Micio è un mammifero raro": "Non è detto nel testo: è un'informazione inventata, non dedotta dalle premesse.", "Alcuni felini non sono gatti": "Può essere vero in generale, ma non è ciò che si deduce su Micio dalle premesse date." }
     },
     {
       "id": "logica-deduzioni-se-piove-allora-la-strada-e-bagnata-e-la-strada-",
@@ -6922,18 +6967,18 @@ const BAND_EXTRA = {
       distractors: ["Estis", "Sunt", "Es"],
       explanation: "sum, es, est, sumus, estis, sunt.",
       distractorWhy: { "Estis": "«Estis» è «voi siete», seconda persona plurale.", "Sunt": "«Sunt» è «loro sono», terza persona plurale.", "Es": "«Es» è «tu sei», seconda persona singolare." } },
-    { difficulty: 4, topic: "verbo-sum", prompt: "«Estis» significa…", answer: "(voi) siete",
-      distractors: ["(noi) siamo", "(loro) sono", "(tu) sei"],
-      explanation: "«Estis» è la seconda persona plurale di sum.",
-      distractorWhy: { "(noi) siamo": "«Noi siamo» si dice «sumus», non «estis».", "(loro) sono": "«Loro sono» si dice «sunt», non «estis».", "(tu) sei": "«Tu sei» si dice «es», non «estis»." } },
-    { difficulty: 4, topic: "frasi", prompt: "«Magister discipulos laudat» significa…", answer: "Il maestro loda gli allievi",
-      distractors: ["Gli allievi lodano il maestro", "Il maestro chiama gli allievi", "Gli allievi ascoltano il maestro"],
-      explanation: "«Magister» è nominativo (soggetto), «discipulos» accusativo plurale (oggetto): a decidere chi fa l'azione è il caso, non la posizione.",
-      distractorWhy: { "Gli allievi lodano il maestro": "Sarebbe il contrario: qui è «magister» (nominativo) a compiere l'azione, non «discipulos» (accusativo).", "Il maestro chiama gli allievi": "«Laudat» vuol dire loda, non chiama: è un altro verbo.", "Gli allievi ascoltano il maestro": "«Laudat» è lodare, non ascoltare, e il soggetto resta il maestro." } },
+    { difficulty: 4, topic: "verbo-sum", prompt: "«Fuit» a quale tempo appartiene?", answer: "Perfetto: «egli fu»",
+      distractors: ["Imperfetto: «egli era»", "Futuro: «egli sarà»", "Presente: «egli è»"],
+      explanation: "Il perfetto racconta un fatto concluso: «fuit» è «fu». L'imperfetto «erat» descrive invece una situazione che durava.",
+      distractorWhy: {"Imperfetto: «egli era»":"L'imperfetto è «erat»: descrive una condizione che durava, non un fatto chiuso.","Futuro: «egli sarà»":"Il futuro è «erit»: «fuit» guarda al passato, non a quello che verrà.","Presente: «egli è»":"Il presente è «est»: «fuit» è la stessa persona ma al passato."} },
+    { difficulty: 4, topic: "frasi", prompt: "«Discipulus a magistro laudatur» significa…", answer: "L'allievo è lodato dal maestro",
+      distractors: ["L'allievo loda il maestro", "Il maestro è lodato dall'allievo", "L'allievo lodava il maestro"],
+      explanation: "«Laudatur» finisce in -tur: è passivo, quindi il soggetto subisce. Chi compie l'azione si mette in ablativo preceduto da «a» o «ab»: «a magistro», dal maestro.",
+      distractorWhy: {"L'allievo loda il maestro":"Quella sarebbe la forma attiva, «discipulus magistrum laudat»: qui il verbo è passivo.","Il maestro è lodato dall'allievo":"I ruoli sono scambiati: «discipulus» è al nominativo, quindi è lui a essere lodato.","L'allievo lodava il maestro":"«Laudatur» è presente, non imperfetto, ed è passivo: non «lodava» ma «è lodato»."} },
     { difficulty: 4, topic: "casi", prompt: "Perché in latino l'ordine delle parole conta meno che in italiano?", answer: "Perché il caso dice già la funzione di ogni parola",
-      distractors: ["Perché il verbo sta sempre alla fine", "Perché non esistono gli articoli", "Perché le frasi sono più corte"],
+      distractors: ["Perché in latino il verbo sta sempre alla fine", "Perché non esistono gli articoli", "Perché le frasi sono più corte"],
       explanation: "«Rosam puella amat» e «Puella rosam amat» dicono la stessa cosa: in tutte e due -am segna l'oggetto.",
-      distractorWhy: { "Perché il verbo sta sempre alla fine": "Il verbo spesso sta alla fine per stile, ma non è questo a rendere libero l'ordine delle parole.", "Perché non esistono gli articoli": "L'assenza di articoli non ha a che fare con l'ordine delle parole nella frase.", "Perché le frasi sono più corte": "La lunghezza della frase non c'entra: è la desinenza a segnare chi fa che cosa." } },
+      distractorWhy: { "Perché in latino il verbo sta sempre alla fine": "Il verbo spesso sta alla fine per stile, ma non è questo a rendere libero l'ordine delle parole.", "Perché non esistono gli articoli": "L'assenza di articoli non ha a che fare con l'ordine delle parole nella frase.", "Perché le frasi sono più corte": "La lunghezza della frase non c'entra: è la desinenza a segnare chi fa che cosa." } },
     { difficulty: 4, topic: "casi", prompt: "Quale caso useresti per dire «con la spada», cioè il mezzo?", answer: "Ablativo",
       distractors: ["Accusativo", "Dativo", "Genitivo"],
       explanation: "L'ablativo esprime mezzo, causa, modo e stato in luogo: «gladio» vuol dire con la spada.",
@@ -6957,33 +7002,33 @@ const BAND_EXTRA = {
       explanation: "La negazione di «tutti» non è «nessuno»: basta un solo controesempio per smentire un «tutti».",
       distractorWhy: { "Nessun gatto è nero": "È un'affermazione più forte di quella cercata: basta un solo gatto non nero, non che siano tutti non neri.", "Tutti i gatti sono di un altro colore": "Non tutti neri non vuol dire che nessuno sia nero: potrebbero essercene ancora molti.", "Esattamente metà dei gatti è nera": "La frase non dice una proporzione precisa, solo che non vale per tutti." } },
     { difficulty: 4, topic: "quantificatori", prompt: "Qual è la negazione di «alcuni studenti sono in ritardo»?", answer: "Nessuno studente è in ritardo",
-      distractors: ["Tutti gli studenti sono in ritardo", "Alcuni studenti non sono in ritardo", "Non tutti gli studenti sono in ritardo"],
+      distractors: ["Tutti in ritardo", "Alcuni studenti non sono in ritardo", "Non tutti gli studenti sono in ritardo"],
       explanation: "«Alcuni» vuol dire almeno uno: negarlo significa dire zero, cioè nessuno.",
-      distractorWhy: { "Tutti gli studenti sono in ritardo": "È l'opposto esagerato: negare «alcuni» dà zero, non tutti.", "Alcuni studenti non sono in ritardo": "Questa frase può essere vera insieme a quella di partenza: non è la sua negazione.", "Non tutti gli studenti sono in ritardo": "Anche questa può essere vera insieme alla frase di partenza: negare «alcuni» richiede zero casi, non «non tutti»." } },
+      distractorWhy: { "Tutti in ritardo": "È l'opposto esagerato: negare «alcuni» dà zero, non tutti.", "Alcuni studenti non sono in ritardo": "Questa frase può essere vera insieme a quella di partenza: non è la sua negazione.", "Non tutti gli studenti sono in ritardo": "Anche questa può essere vera insieme alla frase di partenza: negare «alcuni» richiede zero casi, non «non tutti»." } },
     { difficulty: 4, topic: "insiemi", prompt: "Ogni quadrato è un rombo e ogni rombo è un parallelogramma. Allora…", answer: "Ogni quadrato è un parallelogramma",
       distractors: ["Ogni parallelogramma è un quadrato", "Nessun rombo è un quadrato", "Rombo e quadrato sono la stessa figura"],
       explanation: "La relazione «è un» si trasmette in avanti lungo la catena, mai all'indietro.",
       distractorWhy: { "Ogni parallelogramma è un quadrato": "La catena va in un solo verso: non tutti i parallelogrammi sono rombi, e non tutti i rombi sono quadrati.", "Nessun rombo è un quadrato": "Il quadrato è un caso particolare di rombo: la catena dice il contrario.", "Rombo e quadrato sono la stessa figura": "Il quadrato ha anche gli angoli retti: è un rombo speciale, non lo stesso identico." } },
     { difficulty: 4, topic: "deduzioni", prompt: "«Se studio, passo l'esame.» Ho passato l'esame. Che cosa segue?", answer: "Non si può dire se ho studiato",
-      distractors: ["Ho studiato di sicuro", "Non ho studiato", "L'esame era facile"],
+      distractors: ["Ho studiato di sicuro, non c'è dubbio", "Non ho studiato", "L'esame era facile"],
       explanation: "Dall'effetto non si risale alla causa: l'esame potrei averlo passato anche senza studiare.",
-      distractorWhy: { "Ho studiato di sicuro": "Passare l'esame non garantisce che sia stato lo studio a farlo passare: potrebbe essere stata fortuna.", "Non ho studiato": "Non si può concludere il contrario: potresti aver studiato lo stesso.", "L'esame era facile": "La difficoltà dell'esame non è un'informazione data dalla frase originale." } },
+      distractorWhy: { "Ho studiato di sicuro, non c'è dubbio": "Passare l'esame non garantisce che sia stato lo studio a farlo passare: potrebbe essere stata fortuna.", "Non ho studiato": "Non si può concludere il contrario: potresti aver studiato lo stesso.", "L'esame era facile": "La difficoltà dell'esame non è un'informazione data dalla frase originale." } },
     { difficulty: 4, topic: "deduzioni", prompt: "«Se studio, passo l'esame.» Non ho passato l'esame. Che cosa segue?", answer: "Non ho studiato",
-      distractors: ["Ho studiato lo stesso", "Non si può dire niente", "L'esame era troppo difficile"],
+      distractors: ["Ho studiato", "Non si può dire niente", "L'esame era troppo difficile"],
       explanation: "Questa volta il passaggio è valido: se manca l'effetto garantito, manca anche la causa che lo garantiva.",
-      distractorWhy: { "Ho studiato lo stesso": "Se studiare garantiva di passare e non hai passato, allora non hai studiato: è l'unica conclusione valida.", "Non si può dire niente": "Qui invece si può concludere qualcosa: è il passaggio logico valido.", "L'esame era troppo difficile": "La regola dice che studiare garantisce di passare: se non hai passato, la spiegazione valida è che non hai studiato, non la difficoltà." } },
-    { difficulty: 4, topic: "verita", prompt: "Un'affermazione e la sua negazione possono essere vere tutte e due?", answer: "No, mai",
-      distractors: ["Sì, sempre", "Sì, se parlano di cose diverse", "Solo in matematica"],
-      explanation: "È il principio di non contraddizione: se «piove» è vera, «non piove» è falsa. Non c'è via di mezzo.",
-      distractorWhy: { "Sì, sempre": "Se fossero sempre vere insieme, dire qualcosa non escluderebbe più niente: la logica perderebbe senso.", "Sì, se parlano di cose diverse": "Se parlano di cose diverse non sono più un'affermazione e la sua negazione: sono due frasi indipendenti.", "Solo in matematica": "Il principio di non contraddizione vale per ogni ragionamento logico, non solo in matematica." } },
+      distractorWhy: { "Ho studiato": "Se studiare garantiva di passare e non hai passato, allora non hai studiato: è l'unica conclusione valida.", "Non si può dire niente": "Qui invece si può concludere qualcosa: è il passaggio logico valido.", "L'esame era troppo difficile": "La regola dice che studiare garantisce di passare: se non hai passato, la spiegazione valida è che non hai studiato, non la difficoltà." } },
+    { difficulty: 4, topic: "verita", prompt: "«Piove» e «fa freddo» possono essere ciascuna vera o falsa. Quante combinazioni diverse esistono in tutto?", answer: "Quattro",
+      distractors: ["Due", "Tre", "Otto"],
+      explanation: "Per ognuna delle due ci sono due possibilità, e si combinano fra loro: piove e fa freddo, piove e non fa freddo, non piove e fa freddo, non piove e non fa freddo. Con tre affermazioni sarebbero otto: ogni volta il numero raddoppia.",
+      distractorWhy: {"Due":"Due sono le possibilità di UNA sola affermazione: qui ce ne sono due, e ognuna moltiplica le combinazioni.","Tre":"Non se ne perde nessuna per strada: le combinazioni sono quattro, tutte diverse fra loro.","Otto":"Otto sarebbero con TRE affermazioni: con due ci si ferma a quattro."} },
     { difficulty: 4, topic: "analogie", prompt: "Orologio sta a tempo come termometro sta a…", answer: "temperatura",
       distractors: ["calore", "acqua", "altezza"],
       explanation: "La relazione è «strumento → grandezza che misura». Il calore e la temperatura non sono la stessa cosa.",
       distractorWhy: { "calore": "Il calore è l'energia che il termometro rileva, ma la grandezza che misura è la temperatura.", "acqua": "L'acqua può essere il liquido dentro un termometro, ma non è ciò che misura.", "altezza": "L'altezza si misura con un metro, non con un termometro." } },
     { difficulty: 4, topic: "analogie", prompt: "Ape sta ad alveare come formica sta a…", answer: "formicaio",
-      distractors: ["favo", "nido", "tana"],
+      distractors: ["favo di cera", "nido", "tana sottoterra"],
       explanation: "La relazione è «animale → la sua casa». Il favo sta dentro l'alveare, non è la casa della formica.",
-      distractorWhy: { "favo": "Il favo è la struttura dentro l'alveare, non la casa dell'ape nel suo insieme.", "nido": "Il nido è la casa di molti uccelli, non delle formiche.", "tana": "La tana è la casa di molti mammiferi, non delle formiche." } },
+      distractorWhy: { "favo di cera": "Il favo è la struttura dentro l'alveare, non la casa dell'ape nel suo insieme.", "nido": "Il nido è la casa di molti uccelli, non delle formiche.", "tana sottoterra": "La tana è la casa di molti mammiferi, non delle formiche." } },
     { difficulty: 4, topic: "esclusioni", prompt: "Quale non appartiene al gruppo: quadrato, rombo, cerchio, trapezio?", answer: "cerchio",
       distractors: ["quadrato", "rombo", "trapezio"],
       explanation: "Gli altri tre sono poligoni, cioè hanno i lati dritti. Il cerchio non ne ha nessuno.",
@@ -7446,26 +7491,26 @@ const BAND_EXTRA = {
     { topic: "natura-ambiente", difficulty: 3, format: "short_answer", prompt: "Come si chiama il taglio massiccio degli alberi di una foresta?", answer: "deforestazione", accept: ["la deforestazione"], explanation: "Toglie insieme ossigeno, suolo e habitat." },
   ],
   "inglese": [
-    { difficulty: 4, topic: "false-friends", prompt: "Che cosa significa «actually»?", answer: "In realtà",
-      distractors: ["Attualmente", "Con attenzione", "In azione"],
-      explanation: "Falso amico classico: «attualmente» si dice currently.",
-      distractorWhy: { "Attualmente": "«Attualmente» in inglese si dice currently, non actually: sono falsi amici.", "Con attenzione": "«Con attenzione» si dice carefully, una parola diversa.", "In azione": "«In azione» si dice in action: non ha a che fare con actually." } },
-    { difficulty: 4, topic: "false-friends", prompt: "Che cosa significa «library»?", answer: "Biblioteca",
-      distractors: ["Libreria, il negozio di libri", "Libretto", "Libertà"],
-      explanation: "La libreria dove si comprano i libri è bookshop.",
-      distractorWhy: { "Libreria, il negozio di libri": "Il negozio dove si comprano i libri si dice bookshop: library è dove si prendono in prestito.", "Libretto": "«Libretto» si dice booklet, una parola diversa.", "Libertà": "«Libertà» si dice freedom o liberty, non library." } },
-    { difficulty: 4, topic: "false-friends", prompt: "Che cosa significa «sensible»?", answer: "Ragionevole, di buon senso",
-      distractors: ["Sensibile ai sentimenti", "Percepibile", "Delicato"],
-      explanation: "«Sensibile» nel senso delle emozioni si dice sensitive.",
-      distractorWhy: { "Sensibile ai sentimenti": "«Sensibile» nel senso emotivo si dice sensitive: sensible vuol dire ragionevole.", "Percepibile": "«Percepibile» si dice perceptible, una parola diversa da sensible.", "Delicato": "«Delicato» si dice delicate, non sensible." } },
+    { difficulty: 4, topic: "false-friends", prompt: "In inglese «mouse» vuol dire anche una cosa che in italiano non c'entra con il computer. Quale?", answer: "Il topo, l'animale",
+      distractors: ["Il tappetino su cui scorre", "Il clic del pulsante", "Il cursore sullo schermo"],
+      explanation: "«Mouse» in inglese è prima di tutto il topo: il dispositivo si chiama così perché gli somiglia, con il filo che pare una coda. Al plurale fa «mice».",
+      distractorWhy: {"Il tappetino su cui scorre":"Il tappetino è il «mouse pad»: una parola composta, non il mouse.","Il clic del pulsante":"Il clic è «click»: è quello che il mouse fa, non quello che la parola significa.","Il cursore sullo schermo":"La freccia sullo schermo è il «cursor» o «pointer», un'altra parola ancora."} },
+    { difficulty: 4, topic: "false-friends", prompt: "In inglese «post» ha un senso che in italiano si è perso. Quale?", answer: "La posta, le lettere che si spediscono",
+      distractors: ["Il posto dove ci si siede", "Il messaggio che si scrive sui social", "Il posto di lavoro fisso"],
+      explanation: "«Post» in inglese britannico è la posta: «I'll post the letter» vuol dire imbuco la lettera. L'italiano ha preso solo il senso dei social, che in inglese c'è ma è più recente.",
+      distractorWhy: {"Il posto dove ci si siede":"Il posto a sedere è «seat»: «post» non ha mai avuto quel senso in inglese.","Il messaggio che si scrive sui social":"Quello è il senso che l'italiano conosce già: la domanda chiede quello in più.","Il posto di lavoro fisso":"Un impiego è «job» o «position»: «post» in quel senso è raro e molto formale."} },
+    { difficulty: 4, topic: "false-friends", prompt: "«Let's chat!» dice un amico inglese. Che cosa ti sta proponendo?", answer: "Di fare due chiacchiere, anche di persona",
+      distractors: ["Di scriversi su un'app di messaggi al volo", "Di scambiarsi le password", "Di guardare un video insieme"],
+      explanation: "In inglese «to chat» è chiacchierare, faccia a faccia o al telefono: esisteva secoli prima di internet. L'italiano ha preso solo il senso digitale.",
+      distractorWhy: {"Di scriversi su un'app di messaggi al volo":"È il senso che l'italiano conosce: in inglese c'è, ma è quello più recente e non il principale.","Di scambiarsi le password":"Niente a che vedere: quella sarebbe una pessima idea in qualunque lingua.","Di guardare un video insieme":"Guardare qualcosa insieme è «watch together»: «chat» riguarda il parlare."} },
     { difficulty: 4, topic: "false-friends", prompt: "Che cosa significa «eventually»?", answer: "Alla fine, prima o poi",
       distractors: ["Eventualmente, forse", "Improvvisamente", "Regolarmente"],
       explanation: "«Eventualmente» si dice possibly: eventually indica che alla fine succede davvero.",
       distractorWhy: { "Eventualmente, forse": "«Eventualmente» si dice possibly o maybe: eventually indica certezza, non possibilità.", "Improvvisamente": "«Improvvisamente» si dice suddenly, una parola diversa.", "Regolarmente": "«Regolarmente» si dice regularly, non eventually." } },
     { difficulty: 4, topic: "connectors", prompt: "Quando si usa «since» al posto di «for»?", answer: "Quando si indica il momento di inizio",
-      distractors: ["Quando si indica quanto è durato", "Quando la frase è negativa", "Quando si parla del futuro"],
+      distractors: ["Quando si indica quanto a lungo è durato", "Quando la frase è negativa", "Quando si parla del futuro"],
       explanation: "for + durata (for three years), since + momento (since 2020).",
-      distractorWhy: { "Quando si indica quanto è durato": "Quella è la funzione di for: since indica invece il punto di partenza nel tempo.", "Quando la frase è negativa": "La scelta fra since e for non dipende dal fatto che la frase sia negativa.", "Quando si parla del futuro": "Since e for si usano soprattutto con passato e presente perfetto, non specificamente per il futuro." } },
+      distractorWhy: { "Quando si indica quanto a lungo è durato": "Quella è la funzione di for: since indica invece il punto di partenza nel tempo.", "Quando la frase è negativa": "La scelta fra since e for non dipende dal fatto che la frase sia negativa.", "Quando si parla del futuro": "Since e for si usano soprattutto con passato e presente perfetto, non specificamente per il futuro." } },
     { difficulty: 4, topic: "connectors", prompt: "Che cosa significa «however»?", answer: "Tuttavia",
       distractors: ["Inoltre", "Perciò", "Comunque vada"],
       explanation: "however introduce un contrasto con quanto appena detto, come «tuttavia».",
@@ -7475,9 +7520,9 @@ const BAND_EXTRA = {
       explanation: "upload è caricare verso la rete, download è scaricare da essa.",
       distractorWhy: { "Caricare": "«Caricare» verso la rete si dice to upload, il contrario di download.", "Cancellare": "«Cancellare» si dice to delete, un'azione diversa.", "Condividere": "«Condividere» si dice to share, non to download." } },
     { difficulty: 4, topic: "school-communication", prompt: "Che cosa significa «deadline»?", answer: "La scadenza entro cui consegnare",
-      distractors: ["La linea di fondo del campo", "Una riga cancellata", "La fine della lezione"],
+      distractors: ["La linea di fondo campo nello sport", "Una riga cancellata", "La fine della lezione"],
       explanation: "Oltre la deadline il lavoro è in ritardo: è il termine ultimo.",
-      distractorWhy: { "La linea di fondo del campo": "Quella si dice goal line o end line: deadline riguarda il tempo, non lo spazio di un campo.", "Una riga cancellata": "Una riga cancellata si direbbe a crossed-out line: non è il senso di deadline.", "La fine della lezione": "La fine della lezione è un orario fisso ogni giorno: la deadline è la scadenza per consegnare un lavoro." } },
+      distractorWhy: { "La linea di fondo campo nello sport": "Quella si dice goal line o end line: deadline riguarda il tempo, non lo spazio di un campo.", "Una riga cancellata": "Una riga cancellata si direbbe a crossed-out line: non è il senso di deadline.", "La fine della lezione": "La fine della lezione è un orario fisso ogni giorno: la deadline è la scadenza per consegnare un lavoro." } },
   ],
 };
 
@@ -7618,9 +7663,9 @@ const MATEMATICA_OLTRE_LE_TABELLINE = [
     explanation: "Prima trovi un quinto dividendo 25 per 5, cioè 5; poi ne prendi tre: 15.",
     distractorWhy: { "5": "È un quinto solo: te ne servono tre.", "20": "20 sono quattro quinti, una parte di troppo.", "75": "Hai moltiplicato per 3 senza dividere per 5." } },
   { difficulty: 3, topic: "frazioni", prompt: "Per sommare 1/2 + 1/3, che cosa serve fare prima?", answer: "renderle parti della stessa misura",
-    distractors: ["sommare i denominatori", "moltiplicare i numeratori", "semplificare i numeratori"],
+    distractors: ["sommare i denominatori", "moltiplicare i numeratori", "semplificare i numeratori fra loro"],
     explanation: "Si possono sommare solo pezzi uguali: metà e terzi vanno riscritti in sesti prima di poterli contare insieme.",
-    distractorWhy: { "sommare i denominatori": "Il denominatore dice quanto è grande la parte: sommarlo cambia la misura invece di uniformarla.", "moltiplicare i numeratori": "La moltiplicazione dei numeratori serve per il prodotto di frazioni, non per la somma.", "semplificare i numeratori": "Semplificare non rende le parti della stessa misura, che è il vero ostacolo." } },
+    distractorWhy: { "sommare i denominatori": "Il denominatore dice quanto è grande la parte: sommarlo cambia la misura invece di uniformarla.", "moltiplicare i numeratori": "La moltiplicazione dei numeratori serve per il prodotto di frazioni, non per la somma.", "semplificare i numeratori fra loro": "Semplificare non rende le parti della stessa misura, che è il vero ostacolo." } },
   { difficulty: 3, topic: "frazioni", prompt: "Quanto fa 1/2 + 1/4?", answer: "3/4",
     distractors: ["2/6", "1/6", "2/4"],
     explanation: "Metà vale due quarti: due quarti più un quarto fanno tre quarti.",
@@ -7746,9 +7791,9 @@ const MATEMATICA_OLTRE_LE_TABELLINE = [
     explanation: "L'area conta i quadretti da un centimetro: sei per ogni riga, per quattro righe.",
     distractorWhy: { "20 cm²": "20 è il perimetro, e per giunta si misura in centimetri.", "10 cm²": "10 è la somma dei due lati, non il loro prodotto.", "24 cm": "Il numero è giusto ma l'unità no: un'area si misura in centimetri quadrati." } },
   { difficulty: 3, topic: "geometria", prompt: "Come si calcola l'area di un triangolo?", answer: "base per altezza diviso due",
-    distractors: ["base per altezza", "base più altezza", "somma dei tre lati"],
+    distractors: ["base per altezza", "base più altezza", "somma della lunghezza dei tre lati"],
     explanation: "Un triangolo è sempre metà del rettangolo che lo contiene con la stessa base e la stessa altezza.",
-    distractorWhy: { "base per altezza": "È l'area del rettangolo intero: il triangolo ne occupa la metà.", "base più altezza": "Sommare due lunghezze dà una lunghezza, non una superficie.", "somma dei tre lati": "Quella è il perimetro." } },
+    distractorWhy: { "base per altezza": "È l'area del rettangolo intero: il triangolo ne occupa la metà.", "base più altezza": "Sommare due lunghezze dà una lunghezza, non una superficie.", "somma della lunghezza dei tre lati": "Quella è il perimetro." } },
   { difficulty: 3, topic: "geometria", prompt: "Un triangolo ha base 10 cm e altezza 6 cm. Qual è la sua area?", answer: "30 cm²",
     distractors: ["60 cm²", "16 cm²", "15 cm²"],
     explanation: "Base per altezza fa 60, e il triangolo è metà del rettangolo: 30.",
@@ -7838,9 +7883,9 @@ const MATEMATICA_OLTRE_LE_TABELLINE = [
     explanation: "L'altezza rappresenta la quantità: più è alta, più grande è il numero che rappresenta.",
     distractorWhy: { "il valore più piccolo": "Il valore più piccolo è la barra più bassa.", "la media di tutti": "La media di solito non coincide con nessuna barra in particolare.", "il totale": "Il totale si ottiene sommando tutte le barre, non guardandone una." } },
   { difficulty: 1, topic: "statistica", prompt: "La moda di un gruppo di numeri è…", answer: "il valore che compare più volte",
-    distractors: ["il valore più grande", "il valore di mezzo", "la somma dei valori"],
+    distractors: ["il valore più grande", "il valore di mezzo", "la somma di tutti quanti i valori"],
     explanation: "Moda vuol dire «quello che va per la maggiore»: si conta quante volte compare ciascun valore.",
-    distractorWhy: { "il valore più grande": "Il più grande può comparire una volta sola e non essere la moda.", "il valore di mezzo": "Quella è la mediana, che si trova ordinando i dati.", "la somma dei valori": "La somma è un totale, non un valore del gruppo." } },
+    distractorWhy: { "il valore più grande": "Il più grande può comparire una volta sola e non essere la moda.", "il valore di mezzo": "Quella è la mediana, che si trova ordinando i dati.", "la somma di tutti quanti i valori": "La somma è un totale, non un valore del gruppo." } },
   { difficulty: 1, topic: "statistica", prompt: "Qual è la moda di 3, 5, 5, 7, 9?", answer: "5",
     distractors: ["9", "7", "29"],
     explanation: "Il 5 compare due volte, tutti gli altri una sola.",
@@ -7854,9 +7899,9 @@ const MATEMATICA_OLTRE_LE_TABELLINE = [
     explanation: "Le barre mettono a confronto quantità diverse a colpo d'occhio, che è esattamente ciò che serve qui.",
     distractorWhy: { "una linea del tempo": "La linea del tempo serve per eventi in ordine cronologico, non per confrontare quantità.", "una piantina": "La piantina mostra dove sono le cose, non quante sono.", "una tabella delle moltiplicazioni": "Serve a calcolare prodotti, non a rappresentare preferenze." } },
   { difficulty: 2, topic: "statistica", prompt: "Come si calcola la media di alcuni numeri?", answer: "si sommano e si divide per quanti sono",
-    distractors: ["si prende il più grande", "si prende quello di mezzo", "si moltiplicano fra loro"],
+    distractors: ["si prende il più grande", "si prende quello che sta proprio in mezzo", "si moltiplicano fra loro"],
     explanation: "La media distribuisce il totale in parti uguali: risponde a «quanto toccherebbe a ciascuno».",
-    distractorWhy: { "si prende il più grande": "Il più grande è il massimo, non la media.", "si prende quello di mezzo": "Quella è la mediana, che si trova ordinando i dati.", "si moltiplicano fra loro": "Il prodotto cresce enormemente e non rappresenta il gruppo." } },
+    distractorWhy: { "si prende il più grande": "Il più grande è il massimo, non la media.", "si prende quello che sta proprio in mezzo": "Quella è la mediana, che si trova ordinando i dati.", "si moltiplicano fra loro": "Il prodotto cresce enormemente e non rappresenta il gruppo." } },
   { difficulty: 2, topic: "statistica", prompt: "Qual è la media di 4, 6 e 8?", answer: "6",
     distractors: ["18", "9", "4"],
     explanation: "La somma fa 18 e i numeri sono tre: 18 diviso 3 fa 6.",
@@ -7870,9 +7915,9 @@ const MATEMATICA_OLTRE_LE_TABELLINE = [
     explanation: "Sommi i due numeri (30) e dividi per due: la media sta esattamente in mezzo.",
     distractorWhy: { "30": "30 è la somma, non la media.", "10": "10 è il più piccolo dei due, non il valore intermedio.", "5": "Hai diviso 10 per due invece di sommare prima i due numeri." } },
   { difficulty: 2, topic: "statistica", prompt: "Come si ottiene il totale rappresentato da un grafico a barre?", answer: "sommando l'altezza di tutte le barre",
-    distractors: ["guardando la barra più alta", "moltiplicando le barre fra loro", "contando quante barre ci sono"],
+    distractors: ["guardando la barra più alta", "moltiplicando fra loro tutte le barre", "contando quante barre ci sono"],
     explanation: "Ogni barra è una parte del totale: il totale è la loro somma.",
-    distractorWhy: { "guardando la barra più alta": "La più alta è solo la parte maggiore, non il totale.", "moltiplicando le barre fra loro": "Il prodotto non ha nessun significato: le quantità si sommano.", "contando quante barre ci sono": "Così conti le categorie, non le quantità." } },
+    distractorWhy: { "guardando la barra più alta": "La più alta è solo la parte maggiore, non il totale.", "moltiplicando fra loro tutte le barre": "Il prodotto non ha nessun significato: le quantità si sommano.", "contando quante barre ci sono": "Così conti le categorie, non le quantità." } },
   { difficulty: 3, topic: "statistica", prompt: "La media di 1, 2 e 100 vale circa 34. Descrive bene il gruppo?", answer: "no, il 100 la tira in alto",
     distractors: ["sì, perfettamente", "no, perché i numeri sono solo tre", "sì, perché sta in mezzo ai valori"],
     explanation: "Un valore molto lontano dagli altri sposta la media, che finisce per non somigliare a nessun dato.",

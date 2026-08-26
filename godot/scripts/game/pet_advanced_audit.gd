@@ -34,6 +34,11 @@ func _init() -> void:
 	for antic_id in PetAntics.CATALOG.keys():
 		if not raggiungibili.has(str(antic_id)):
 			failures.append("«%s» è nel catalogo ma non la sblocca niente" % str(antic_id))
+		if not OutdoorPetCompanion.has_visual_for_antic(str(antic_id)):
+			failures.append("«%s» esiste nel catalogo ma non ha una posa animata" % str(antic_id))
+	for antic_id in OutdoorPetCompanion.VISUALIZED_ANTICS:
+		if not PetAntics.CATALOG.has(str(antic_id)):
+			failures.append("la posa «%s» non corrisponde a nessuna combinella" % str(antic_id))
 
 	# --- 2. Il legame sblocca davvero, e non scende mai ------------------------
 	var save := GameSaveManager.new()

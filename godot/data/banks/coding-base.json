@@ -265,7 +265,7 @@
 			"format": "multiple_choice",
 			"prompt": "# questo è un commento\npunti = 5\nprint(punti)  # stampa 5\n\nCosa fa Python con le righe che iniziano con #?",
 			"options": [
-				"le esegue due volte di seguito",
+				"le esegue due volte una dopo l'altra",
 				"dà errore e ferma il programma",
 				"le ignora: sono commenti per gli umani",
 				"le stampa a schermo come testo"
@@ -275,7 +275,7 @@
 			"distractorWhy": {
 				"le stampa a schermo come testo": "I commenti non vengono mai stampati: l'interprete li ignora completamente.",
 				"dà errore e ferma il programma": "I commenti sono sintassi valida: non causano nessun errore.",
-				"le esegue due volte di seguito": "I commenti non vengono eseguiti nemmeno una volta: sono completamente ignorati."
+				"le esegue due volte una dopo l'altra": "I commenti non vengono eseguiti nemmeno una volta: sono completamente ignorati."
 			}
 		},
 		{
@@ -1015,14 +1015,14 @@
 			"prompt": "A che cosa serve definire una funzione?",
 			"options": [
 				"A creare nuove variabili senza assegnarle",
-				"A rendere il programma più veloce da eseguire",
+				"A rendere il programma molto più veloce da eseguire",
 				"A stampare più cose insieme in una riga",
 				"A dare un nome a un pezzo di codice riutilizzabile"
 			],
 			"answer": "A dare un nome a un pezzo di codice riutilizzabile",
 			"explanation": "Scritta una volta, si richiama quante volte serve: meno codice ripetuto significa meno posti dove sbagliare.",
 			"distractorWhy": {
-				"A rendere il programma più veloce da eseguire": "Una funzione non velocizza l'esecuzione: il suo vantaggio è evitare di ripetere codice.",
+				"A rendere il programma molto più veloce da eseguire": "Una funzione non velocizza l'esecuzione: il suo vantaggio è evitare di ripetere codice.",
 				"A creare nuove variabili senza assegnarle": "Le funzioni non creano variabili automaticamente: servono a raggruppare codice riutilizzabile.",
 				"A stampare più cose insieme in una riga": "Quello è compito di print() con più argomenti, non delle funzioni in generale."
 			}
@@ -1096,10 +1096,10 @@
 			"topic": "funzioni",
 			"difficulty": 4,
 			"format": "numeric_input",
-			"prompt": "def doppio(n):\n    return n * 2\nprint(doppio(6))\n\nCosa stampa?",
+			"prompt": "punti = 10\n\ndef azzera():\n    punti = 0\n\nazzera()\nprint(punti)\n\nCosa stampa?",
 			"options": [],
-			"answer": "12",
-			"explanation": "La funzione riceve 6, restituisce 12, e print stampa il valore restituito."
+			"answer": "10",
+			"explanation": "La variabile scritta dentro la funzione è una NUOVA variabile che vive solo lì: si chiama locale. Quella di fuori non viene toccata, e infatti resta 10."
 		},
 		{
 			"id": "coding-funzioni-38",
@@ -1257,7 +1257,7 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è il commento più utile?",
 			"options": [
-				"# questa riga dichiara una nuova variabile",
+				"# questa riga dichiara una nuova variabile intera",
 				"# arrotondo per difetto: i punti sono sempre interi",
 				"# qui metto la variabile x uguale a cinque",
 				"# da qui comincia il programma principale"
@@ -1266,7 +1266,7 @@
 			"explanation": "Un buon commento dice il PERCHÉ, non ripete quello che il codice già dice da solo.",
 			"distractorWhy": {
 				"# qui metto la variabile x uguale a cinque": "Ripete quello che il codice già dice da solo, senza aggiungere il perché.",
-				"# questa riga dichiara una nuova variabile": "Ripete quello che il codice già dice da solo, senza aggiungere il perché.",
+				"# questa riga dichiara una nuova variabile intera": "Ripete quello che il codice già dice da solo, senza aggiungere il perché.",
 				"# da qui comincia il programma principale": "È un'informazione generica che non spiega una scelta specifica del codice."
 			}
 		},
@@ -1341,7 +1341,7 @@
 			"format": "multiple_choice",
 			"prompt": "Che cosa succede se in Python indenti una riga in più per sbaglio?",
 			"options": [
-				"Il codice viene eseguito un po' più in fretta",
+				"Il codice viene eseguito soltanto un po' più in fretta",
 				"Il programma può cambiare comportamento o dare errore",
 				"Niente: in Python gli spazi vengono ignorati",
 				"Python se ne accorge e corregge da solo"
@@ -1350,7 +1350,7 @@
 			"explanation": "Il rientro determina i blocchi: una riga rientrata di troppo finisce dentro un if o un ciclo a cui non apparteneva.",
 			"distractorWhy": {
 				"Niente: in Python gli spazi vengono ignorati": "In Python gli spazi all'inizio riga non sono ignorati: determinano la struttura del programma.",
-				"Il codice viene eseguito un po' più in fretta": "L'indentazione non influisce sulla velocità: influisce sulla struttura logica del programma.",
+				"Il codice viene eseguito soltanto un po' più in fretta": "L'indentazione non influisce sulla velocità: influisce sulla struttura logica del programma.",
 				"Python se ne accorge e corregge da solo": "Python non corregge automaticamente l'indentazione: la interpreta letteralmente, anche se sbagliata."
 			}
 		},
@@ -1385,14 +1385,14 @@
 			"options": [
 				"Cancellarne due",
 				"Lasciarlo così, funziona",
-				"Copiarlo una quarta volta per sicurezza",
+				"Copiarlo anche una quarta volta per sicurezza",
 				"Metterlo in una funzione e chiamarla tre volte"
 			],
 			"answer": "Metterlo in una funzione e chiamarla tre volte",
 			"explanation": "Codice duplicato significa correzioni duplicate: se scopri un errore devi ricordarti di sistemarlo in tutti e tre i punti.",
 			"distractorWhy": {
 				"Lasciarlo così, funziona": "Funzionare oggi non elimina il rischio: un errore trovato dopo va corretto in tre punti separati.",
-				"Copiarlo una quarta volta per sicurezza": "Aumentare la duplicazione peggiora il problema invece di risolverlo.",
+				"Copiarlo anche una quarta volta per sicurezza": "Aumentare la duplicazione peggiora il problema invece di risolverlo.",
 				"Cancellarne due": "Cancellare le copie senza una funzione toglierebbe funzionalità al programma nei punti in cui serviva."
 			}
 		},
@@ -1444,10 +1444,10 @@
 			"topic": "cicli",
 			"difficulty": 2,
 			"format": "numeric_input",
-			"prompt": "Quante volte gira: for i in range(5)?",
+			"prompt": "n = 8\ngiri = 0\nwhile n > 1:\n    n = n // 2\n    giri += 1\nprint(giri)\n\nCosa stampa?",
 			"options": [],
-			"answer": "5",
-			"explanation": "range(5) produce 0, 1, 2, 3, 4: cinque valori, cinque giri."
+			"answer": "3",
+			"explanation": "8 diventa 4, poi 2, poi 1: tre dimezzamenti e il while si ferma. È lo stesso conto della ricerca binaria."
 		},
 		{
 			"id": "coding-cicli-56",
@@ -1647,10 +1647,10 @@
 			"topic": "liste",
 			"difficulty": 4,
 			"format": "numeric_input",
-			"prompt": "numeri = [1, 2]\nnumeri.append(3)\nprint(len(numeri))\n\nCosa stampa?",
+			"prompt": "numeri = [4, 8, 15, 16]\nquanti = 0\nfor n in numeri:\n    if n % 4 == 0:\n        quanti += 1\nprint(quanti)\n\nCosa stampa?",
 			"options": [],
 			"answer": "3",
-			"explanation": "append aggiunge un elemento: da due si passa a tre."
+			"explanation": "Il contatore sale solo quando la condizione è vera: 4, 8 e 16 sono divisibili per 4, 15 no. Tre volte su quattro."
 		},
 		{
 			"id": "coding-liste-69",
@@ -1800,13 +1800,13 @@
 				"A definire una funzione dentro l'if",
 				"A ripetere il blocco finché è vero",
 				"A porre una seconda domanda se la prima è falsa",
-				"A chiudere il programma dopo il controllo"
+				"A chiudere il programma subito dopo il controllo"
 			],
 			"answer": "A porre una seconda domanda se la prima è falsa",
 			"explanation": "elif significa «else if»: si usa quando i casi possibili sono più di due.",
 			"distractorWhy": {
 				"A ripetere il blocco finché è vero": "Quello è il comportamento di while, non di elif.",
-				"A chiudere il programma dopo il controllo": "elif non termina il programma: introduce un'altra condizione da controllare.",
+				"A chiudere il programma subito dopo il controllo": "elif non termina il programma: introduce un'altra condizione da controllare.",
 				"A definire una funzione dentro l'if": "elif non definisce funzioni: serve def per quello."
 			}
 		},
@@ -1914,14 +1914,14 @@
 			"prompt": "Perché conviene mettere per prima la condizione più restrittiva in una catena if/elif?",
 			"options": [
 				"Perché Python richiede quest'ordine preciso",
-				"Perché la catena viene eseguita più in fretta",
+				"Perché in quest'ordine la catena viene eseguita più in fretta",
 				"Perché in quest'ordine si usa meno memoria",
 				"Perché altrimenti un caso più generale la intercetta prima"
 			],
 			"answer": "Perché altrimenti un caso più generale la intercetta prima",
 			"explanation": "Se metti prima «x > 5», il caso «x > 10» non verrà mai raggiunto: l'ordine dei rami cambia il risultato.",
 			"distractorWhy": {
-				"Perché la catena viene eseguita più in fretta": "La velocità non cambia in modo significativo: il problema è di correttezza logica, non di prestazioni.",
+				"Perché in quest'ordine la catena viene eseguita più in fretta": "La velocità non cambia in modo significativo: il problema è di correttezza logica, non di prestazioni.",
 				"Perché Python richiede quest'ordine preciso": "Python non impone un ordine: sei libero di scrivere i rami come vuoi, ma il risultato può essere sbagliato.",
 				"Perché in quest'ordine si usa meno memoria": "L'ordine dei rami non influisce sulla memoria usata."
 			}
@@ -1932,10 +1932,10 @@
 			"topic": "operatori",
 			"difficulty": 2,
 			"format": "numeric_input",
-			"prompt": "Quanto fa 7 // 2 in Python?",
+			"prompt": "Quanto fa round(7.6) in Python?",
 			"options": [],
-			"answer": "3",
-			"explanation": "// è la divisione intera: tiene la parte intera e scarta il resto."
+			"answer": "8",
+			"explanation": "round() arrotonda al numero intero più vicino: 7.6 sta più vicino a 8. Attenzione a non confonderlo con int(7.6), che taglia i decimali e dà 7."
 		},
 		{
 			"id": "coding-operatori-84",
@@ -1943,10 +1943,10 @@
 			"topic": "operatori",
 			"difficulty": 3,
 			"format": "numeric_input",
-			"prompt": "Quanto fa 7 % 2 in Python?",
+			"prompt": "Quanto fa abs(-7) in Python?",
 			"options": [],
-			"answer": "1",
-			"explanation": "% dà il resto: 7 diviso 2 fa 3 con resto 1. Serve spessissimo a capire se un numero è pari."
+			"answer": "7",
+			"explanation": "abs() dà il valore assoluto, cioè la distanza da zero senza segno: abs(-7) e abs(7) valgono tutti e due 7."
 		},
 		{
 			"id": "coding-operatori-85",
@@ -2096,14 +2096,14 @@
 			"options": [
 				"A decidere il tipo del dato",
 				"A mostrare una domanda prima di leggere",
-				"A limitare quanto si può scrivere",
+				"A limitare quanto si può scrivere in risposta",
 				"A dare un nome alla variabile"
 			],
 			"answer": "A mostrare una domanda prima di leggere",
 			"explanation": "È il messaggio che appare all'utente: senza, il programma sembrerebbe bloccato senza motivo.",
 			"distractorWhy": {
 				"A dare un nome alla variabile": "Il nome della variabile si sceglie a sinistra dell'uguale, non dentro le parentesi di input().",
-				"A limitare quanto si può scrivere": "Il testo del prompt non limita la lunghezza di ciò che l'utente può scrivere.",
+				"A limitare quanto si può scrivere in risposta": "Il testo del prompt non limita la lunghezza di ciò che l'utente può scrivere.",
 				"A decidere il tipo del dato": "input() restituisce sempre una stringa, indipendentemente dal testo del messaggio mostrato."
 			}
 		},
@@ -2202,13 +2202,13 @@
 			"options": [
 				"Manca la parentesi in print",
 				"Confronta una stringa con un numero",
-				"if non si usa con le variabili",
+				"if non si usa con le variabili di testo",
 				"eta non è un nome valido"
 			],
 			"answer": "Confronta una stringa con un numero",
 			"explanation": "eta è testo, 10 è un numero: Python non sa dire se un testo è maggiore di un numero. Serve int().",
 			"distractorWhy": {
-				"if non si usa con le variabili": "if funziona benissimo con le variabili: il problema è confrontare tipi incompatibili.",
+				"if non si usa con le variabili di testo": "if funziona benissimo con le variabili: il problema è confrontare tipi incompatibili.",
 				"Manca la parentesi in print": "print('grande') ha le parentesi corrette: non è questo il problema.",
 				"eta non è un nome valido": "«eta» è un nome di variabile perfettamente valido in Python."
 			}
@@ -2253,7 +2253,7 @@
 			"format": "multiple_choice",
 			"prompt": "Perché è meglio scrivere input('Nome: ') invece di input()?",
 			"options": [
-				"Perché la variabile prende un nome",
+				"Perché così la variabile prende un nome",
 				"Perché il programma è più veloce",
 				"Perché altrimenti Python dà errore",
 				"Perché l'utente capisce cosa deve scrivere"
@@ -2263,7 +2263,7 @@
 			"distractorWhy": {
 				"Perché altrimenti Python dà errore": "input() senza argomenti è perfettamente valido: non causa errori.",
 				"Perché il programma è più veloce": "Il messaggio non influisce sulla velocità di esecuzione.",
-				"Perché la variabile prende un nome": "Il nome della variabile si sceglie a sinistra dell'uguale, non dentro input()."
+				"Perché così la variabile prende un nome": "Il nome della variabile si sceglie a sinistra dell'uguale, non dentro input()."
 			}
 		},
 		{
@@ -2750,7 +2750,7 @@
 			"format": "multiple_choice",
 			"prompt": "Perché una ricetta di cucina somiglia a un algoritmo?",
 			"options": [
-				"Perché elenca gli ingredienti da usare",
+				"Perché elenca tutti gli ingredienti da usare",
 				"Perché è stata scritta da una persona",
 				"Perché seguendola ci si può sbagliare",
 				"Perché è una sequenza di passi precisi in ordine"
@@ -2758,7 +2758,7 @@
 			"answer": "Perché è una sequenza di passi precisi in ordine",
 			"explanation": "Un algoritmo è fatto della stessa sostanza: passi definiti, in un ordine che conta, che portano a un risultato prevedibile.",
 			"distractorWhy": {
-				"Perché elenca gli ingredienti da usare": "Gli ingredienti sono dati in ingresso, non la caratteristica che rende la ricetta simile a un algoritmo.",
+				"Perché elenca tutti gli ingredienti da usare": "Gli ingredienti sono dati in ingresso, non la caratteristica che rende la ricetta simile a un algoritmo.",
 				"Perché è stata scritta da una persona": "Anche un algoritmo generato automaticamente resterebbe un algoritmo: non è chi lo scrive a definirlo.",
 				"Perché seguendola ci si può sbagliare": "La possibilità di errore non è ciò che rende una ricetta simile a un algoritmo: conta la sequenza di passi precisi."
 			}
@@ -2868,13 +2868,13 @@
 			"options": [
 				"Dividerlo in problemi più piccoli",
 				"Renderlo più difficile",
-				"Cancellarlo e ricominciare",
+				"Cancellarlo e ricominciare da capo",
 				"Risolverlo a caso"
 			],
 			"answer": "Dividerlo in problemi più piccoli",
 			"explanation": "Un problema grande diventa affrontabile quando si spezza in pezzi che si risolvono uno alla volta.",
 			"distractorWhy": {
-				"Cancellarlo e ricominciare": "Scomporre non significa eliminare il problema: significa dividerlo in parti gestibili.",
+				"Cancellarlo e ricominciare da capo": "Scomporre non significa eliminare il problema: significa dividerlo in parti gestibili.",
 				"Renderlo più difficile": "Scomporre serve a rendere il problema più semplice da affrontare, non più difficile.",
 				"Risolverlo a caso": "Scomporre è un metodo sistematico, non una scelta casuale."
 			}
@@ -2889,13 +2889,13 @@
 			"options": [
 				"Contare quante carte si hanno prima di cominciare",
 				"Inserire ogni carta al posto giusto fra quelle già ordinate",
-				"Mescolarle di nuovo finché non risultano in ordine",
+				"Mescolarle di nuovo finché per caso non risultano in ordine",
 				"Guardare soltanto la prima e l'ultima della mano"
 			],
 			"answer": "Inserire ogni carta al posto giusto fra quelle già ordinate",
 			"explanation": "È l'ordinamento per inserimento: lo facciamo tutti con le carte senza sapere che ha un nome.",
 			"distractorWhy": {
-				"Mescolarle di nuovo finché non risultano in ordine": "Mescolare a caso non garantisce mai l'ordine e può richiedere un tempo enorme.",
+				"Mescolarle di nuovo finché per caso non risultano in ordine": "Mescolare a caso non garantisce mai l'ordine e può richiedere un tempo enorme.",
 				"Guardare soltanto la prima e l'ultima della mano": "Guardare solo due carte non basta a ordinarle tutte: serve confrontarle tutte fra loro.",
 				"Contare quante carte si hanno prima di cominciare": "Contare le carte non le ordina: serve un metodo di confronto e inserimento."
 			}
@@ -2920,14 +2920,14 @@
 			"prompt": "Che cos'è lo pseudocodice?",
 			"options": [
 				"Un programma pieno di errori da correggere",
-				"Un linguaggio inventato che nessun computer esegue",
+				"Un linguaggio inventato che nessun computer sa eseguire",
 				"Un algoritmo scritto in italiano, prima del codice vero",
 				"Il codice scritto in modo disordinato e confuso"
 			],
 			"answer": "Un algoritmo scritto in italiano, prima del codice vero",
 			"explanation": "Serve a ragionare sui passi senza preoccuparsi della grammatica del linguaggio: si traduce dopo.",
 			"distractorWhy": {
-				"Un linguaggio inventato che nessun computer esegue": "Non è un vero linguaggio formale: è un modo informale di descrivere i passi prima di scrivere codice reale.",
+				"Un linguaggio inventato che nessun computer sa eseguire": "Non è un vero linguaggio formale: è un modo informale di descrivere i passi prima di scrivere codice reale.",
 				"Un programma pieno di errori da correggere": "Lo pseudocodice non è un programma con bug: è una descrizione preliminare dei passi, non ancora codice eseguibile.",
 				"Il codice scritto in modo disordinato e confuso": "Lo pseudocodice, al contrario, dovrebbe essere chiaro e ordinato: serve proprio a ragionare bene sui passi."
 			}
@@ -2942,13 +2942,13 @@
 			"options": [
 				"Sono sempre equivalenti",
 				"Si sceglie quello con più variabili",
-				"Si sceglie quello più corto da scrivere",
+				"Si sceglie sempre quello più corto da scrivere",
 				"Si guarda quanti passi fa al crescere dei dati"
 			],
 			"answer": "Si guarda quanti passi fa al crescere dei dati",
 			"explanation": "Con dieci dati la differenza non si vede; con un milione uno finisce in un secondo e l'altro non finisce.",
 			"distractorWhy": {
-				"Si sceglie quello più corto da scrivere": "La lunghezza del codice scritto non dice nulla su quanto è efficiente al crescere dei dati.",
+				"Si sceglie sempre quello più corto da scrivere": "La lunghezza del codice scritto non dice nulla su quanto è efficiente al crescere dei dati.",
 				"Si sceglie quello con più variabili": "Il numero di variabili non è un criterio di efficienza: conta il numero di passi eseguiti.",
 				"Sono sempre equivalenti": "Due algoritmi che risolvono lo stesso problema possono avere efficienze molto diverse, specialmente con grandi quantità di dati."
 			}
@@ -3274,15 +3274,20 @@
 			"subject": "coding",
 			"topic": "liste",
 			"difficulty": 3,
-			"format": "numeric_input",
-			"prompt": "Data lista = [10, 20, 30], cosa vale lista[0]?",
-			"options": [],
-			"answer": "10",
-			"explanation": "Gli indici partono da 0: lista[0] è il primo elemento.",
+			"format": "multiple_choice",
+			"prompt": "Che cosa restituisce 'rosso,verde,blu'.split(',')?",
+			"options": [
+				"Una lista di tre stringhe",
+				"Una sola stringa senza virgole",
+				"La prima parola prima della virgola",
+				"Il numero di virgole trovate"
+			],
+			"answer": "Una lista di tre stringhe",
+			"explanation": "split() taglia la stringa a ogni separatore e restituisce i pezzi in una lista: ['rosso', 'verde', 'blu'].",
 			"distractorWhy": {
-				"1": "1 non è un valore della lista: è stato confuso con l'indice.",
-				"20": "20 è all'indice 1, non 0.",
-				"30": "30 è all'indice 2, l'ultimo elemento, non il primo."
+				"Una sola stringa senza virgole": "Quello lo farebbe replace(',', ''): split invece separa e consegna i pezzi.",
+				"Il numero di virgole trovate": "Contare è compito di count(','): split restituisce i pezzi, non quanti sono.",
+				"La prima parola prima della virgola": "split non sceglie un pezzo solo: li restituisce tutti, in ordine."
 			}
 		},
 		{
@@ -3291,19 +3296,19 @@
 			"topic": "funzioni",
 			"difficulty": 3,
 			"format": "multiple_choice",
-			"prompt": "Quale parola chiave definisce una funzione in Python?",
+			"prompt": "nome = 'Eli'\n\nQuale scrittura infila il valore di nome dentro il testo?",
 			"options": [
-				"function",
-				"def",
-				"let",
-				"func"
+				"'Ciao ' nome '!'",
+				"f'Ciao {nome}!'",
+				"f'Ciao nome!'",
+				"'Ciao {nome}!'"
 			],
-			"answer": "def",
-			"explanation": "def introduce la definizione di una funzione.",
+			"answer": "f'Ciao {nome}!'",
+			"explanation": "La f davanti alle virgolette accende le parentesi graffe: dentro ci va il nome di una variabile, e Python ci mette il suo valore.",
 			"distractorWhy": {
-				"func": "«func» non è una parola chiave di Python: si usa def.",
-				"function": "«function» per esteso non è la parola chiave: Python usa l'abbreviazione def.",
-				"let": "«let» è usato in JavaScript per le variabili, non in Python per le funzioni."
+				"'Ciao {nome}!'": "Senza la f davanti, le graffe restano lettere: stamperebbe proprio «Ciao {nome}!».",
+				"'Ciao ' nome '!'": "Due stringhe accostate senza operatore danno errore: per unirle serve il + o una f-string.",
+				"f'Ciao nome!'": "Senza le graffe la f non ha niente da sostituire: «nome» resta la parola nome."
 			}
 		},
 		{
@@ -3312,19 +3317,19 @@
 			"topic": "funzioni",
 			"difficulty": 4,
 			"format": "multiple_choice",
-			"prompt": "A cosa serve soprattutto una funzione?",
+			"prompt": "def saluta(nome, saluto='Ciao'):\n    print(saluto, nome)\n\nsaluta('Eli')\n\nCosa stampa?",
 			"options": [
-				"A colorare il testo del programma",
-				"A spegnere il computer da solo",
-				"A riusare un blocco di codice dandogli un nome",
-				"A creare di proposito errori nel codice"
+				"saluto Eli",
+				"Eli",
+				"Ciao Eli",
+				"Un errore: manca un valore"
 			],
-			"answer": "A riusare un blocco di codice dandogli un nome",
-			"explanation": "Le funzioni evitano di ripetere lo stesso codice.",
+			"answer": "Ciao Eli",
+			"explanation": "Un parametro può avere un valore predefinito: chi chiama la funzione può ometterlo, e allora vale quello scritto nel def.",
 			"distractorWhy": {
-				"A colorare il testo del programma": "Le funzioni non gestiscono la formattazione visiva del codice.",
-				"A spegnere il computer da solo": "Le funzioni non controllano l'hardware del computer.",
-				"A creare di proposito errori nel codice": "Le funzioni servono a organizzare il codice, non a introdurre errori."
+				"saluto Eli": "«saluto» è il nome del parametro, non il suo valore: dentro la funzione vale 'Ciao'.",
+				"Eli": "Vengono stampate tutte e due le cose separate dalla virgola, non solo la seconda.",
+				"Un errore: manca un valore": "Non manca: il valore predefinito nel def copre proprio il caso in cui non lo si passa."
 			}
 		},
 		{
@@ -3333,19 +3338,19 @@
 			"topic": "booleani",
 			"difficulty": 2,
 			"format": "multiple_choice",
-			"prompt": "Quali sono i due valori booleani in Python?",
+			"prompt": "Quanto vale bool(0) in Python?",
 			"options": [
-				"1 e 2",
-				"Sì e No",
-				"On e Off",
-				"True e False"
+				"True",
+				"0",
+				"Un errore",
+				"False"
 			],
-			"answer": "True e False",
-			"explanation": "Un booleano può essere solo True (vero) o False (falso).",
+			"answer": "False",
+			"explanation": "Per Python lo zero, la stringa vuota e la lista vuota valgono False; tutto il resto vale True. È il motivo per cui «if not lista:» funziona.",
 			"distractorWhy": {
-				"1 e 2": "1 e 0 sono equivalenti numerici a True e False, ma i veri valori booleani si scrivono True e False, non 1 e 2.",
-				"Sì e No": "«Sì» e «No» non sono parole chiave di Python.",
-				"On e Off": "«On» e «Off» non sono parole chiave di Python."
+				"0": "bool() non restituisce un numero: restituisce sempre True o False.",
+				"True": "Lo zero è l'unico numero che Python considera falso: tutti gli altri, negativi compresi, sono veri.",
+				"Un errore": "bool() accetta qualunque valore: dice soltanto se conta come vero o come falso."
 			}
 		},
 		{
@@ -3354,19 +3359,19 @@
 			"topic": "booleani",
 			"difficulty": 3,
 			"format": "multiple_choice",
-			"prompt": "Cosa vale l'espressione 5 > 3 in Python?",
+			"prompt": "Quanto vale 3 in [1, 2, 3] in Python?",
 			"options": [
 				"True",
-				"errore",
-				"5",
+				"La posizione di 3 nella lista",
+				"3",
 				"False"
 			],
 			"answer": "True",
-			"explanation": "5 è maggiore di 3, quindi il confronto è True.",
+			"explanation": "L'operatore «in» chiede se un valore si trova dentro una sequenza e risponde True o False. Funziona anche con le stringhe: 'a' in 'ciao' vale True.",
 			"distractorWhy": {
-				"5": "Il risultato di un confronto è un booleano, non uno dei numeri confrontati.",
-				"False": "5 è effettivamente maggiore di 3: il confronto è vero, non falso.",
-				"errore": "Confrontare due numeri con > è un'operazione valida: non genera errore."
+				"3": "«in» non restituisce il valore trovato: restituisce solo se c'è o no.",
+				"False": "Il 3 c'è: è l'ultimo elemento della lista.",
+				"La posizione di 3 nella lista": "La posizione la dà lista.index(3): «in» risponde soltanto sì o no."
 			}
 		},
 		{
@@ -3380,13 +3385,13 @@
 				"Un tipo di computer molto potente",
 				"Una sequenza di passi per risolvere un problema",
 				"Un errore che blocca il programma",
-				"Un linguaggio di programmazione nuovo"
+				"Un linguaggio di programmazione appena inventato"
 			],
 			"answer": "Una sequenza di passi per risolvere un problema",
 			"explanation": "L'algoritmo descrive i passi, come una ricetta.",
 			"distractorWhy": {
 				"Un tipo di computer molto potente": "Un algoritmo non è hardware: è una sequenza di passi logici, indipendente dal computer usato.",
-				"Un linguaggio di programmazione nuovo": "Un algoritmo non è un linguaggio: può essere descritto ed eseguito in linguaggi diversi.",
+				"Un linguaggio di programmazione appena inventato": "Un algoritmo non è un linguaggio: può essere descritto ed eseguito in linguaggi diversi.",
 				"Un errore che blocca il programma": "Un algoritmo non è un errore: è il piano di passi che il programma dovrebbe seguire correttamente."
 			}
 		},
@@ -3491,19 +3496,19 @@
 			"topic": "funzioni",
 			"difficulty": 4,
 			"format": "multiple_choice",
-			"prompt": "Una funzione senza «return» esplicito restituisce...",
+			"prompt": "Che cosa succede alle righe scritte dopo un «return» dentro la funzione?",
 			"options": [
-				"None",
-				"Zero",
-				"Una stringa vuota",
-				"L'ultimo valore calcolato"
+				"Non vengono eseguite: il return esce subito",
+				"Vengono eseguite prima di restituire",
+				"Vengono eseguite alla chiamata seguente",
+				"Danno errore perché stanno dopo il return"
 			],
-			"answer": "None",
-			"explanation": "In Python una funzione che non ritorna nulla restituisce None.",
+			"answer": "Non vengono eseguite: il return esce subito",
+			"explanation": "return non è solo «consegna il valore»: è anche «esci dalla funzione adesso». Tutto quello che sta sotto viene saltato, ed è il motivo per cui a volte un pezzo di codice sembra non partire mai.",
 			"distractorWhy": {
-				"Zero": "Python non inventa uno zero di default: senza return restituisce None, non 0.",
-				"Una stringa vuota": "Python non restituisce una stringa vuota di default: senza return restituisce None.",
-				"L'ultimo valore calcolato": "Python non restituisce automaticamente l'ultimo valore calcolato: serve un return esplicito, altrimenti è None."
+				"Vengono eseguite prima di restituire": "L'ordine è quello scritto: il return arriva prima, e da lì la funzione è finita.",
+				"Vengono eseguite alla chiamata seguente": "Ogni chiamata riparte dalla prima riga della funzione: non ci sono righe rimaste in sospeso.",
+				"Danno errore perché stanno dopo il return": "Scriverle è lecito e non dà nessun errore: semplicemente non vengono mai raggiunte."
 			}
 		},
 		{
@@ -3555,19 +3560,19 @@
 			"topic": "condizioni",
 			"difficulty": 4,
 			"format": "multiple_choice",
-			"prompt": "In un «if / elif / else», quanti rami vengono eseguiti?",
+			"prompt": "Un «if» senza else, e la condizione è falsa. Che cosa succede?",
 			"options": [
-				"Esattamente uno",
-				"Tutti quelli veri",
-				"Sempre almeno due",
-				"Nessuno se manca else"
+				"Non succede niente e il programma va avanti",
+				"Il programma si ferma con un errore",
+				"Il blocco viene eseguito una volta lo stesso",
+				"Python aspetta che la condizione diventi vera"
 			],
-			"answer": "Esattamente uno",
-			"explanation": "La catena si ferma al primo ramo vero: ne esegue uno solo.",
+			"answer": "Non succede niente e il programma va avanti",
+			"explanation": "L'else non è obbligatorio: senza di lui, quando la condizione è falsa il blocco si salta e basta. Serve solo se c'è qualcosa da fare nell'altro caso.",
 			"distractorWhy": {
-				"Tutti quelli veri": "La catena si ferma al primo ramo vero e salta il resto, anche se altri sarebbero veri.",
-				"Sempre almeno due": "Anche se ci sono più condizioni, viene eseguito un solo ramo, non almeno due.",
-				"Nessuno se manca else": "Se un elif è vero, quel ramo si esegue comunque, anche senza else finale."
+				"Il programma si ferma con un errore": "Un if da solo è codice validissimo: l'else è facoltativo.",
+				"Il blocco viene eseguito una volta lo stesso": "Il blocco dipende dalla condizione: se è falsa non viene eseguito nemmeno una volta.",
+				"Python aspetta che la condizione diventi vera": "Aspettare è il mestiere del while: l'if guarda una volta sola e prosegue."
 			}
 		},
 		{
@@ -3608,19 +3613,19 @@
 			"topic": "stile",
 			"difficulty": 4,
 			"format": "multiple_choice",
-			"prompt": "Perché conviene dare nomi parlanti alle variabili?",
+			"prompt": "Il numero 3 compare in cinque punti del programma e vuol dire «vite iniziali». Che cosa conviene fare?",
 			"options": [
-				"Rende il programma più veloce",
-				"Riduce la memoria occupata",
-				"Evita di dover usare i cicli",
-				"Rende il codice comprensibile"
+				"Scrivere VITE_INIZIALI = 3 e usare quel nome",
+				"Lasciare il 3 e aggiungere un commento accanto",
+				"Sostituirlo con un numero più grande e sicuro",
+				"Metterlo dentro una funzione che restituisce 3"
 			],
-			"answer": "Rende il codice comprensibile",
-			"explanation": "Il nome giusto spiega il codice senza bisogno di commenti.",
+			"answer": "Scrivere VITE_INIZIALI = 3 e usare quel nome",
+			"explanation": "Un numero sparso nel codice si chiama numero magico: nessuno sa cosa significhi, e il giorno in cui le vite diventano cinque bisogna trovarlo in tutti e cinque i punti senza sbagliarne uno. Con un nome si cambia in un posto solo.",
 			"distractorWhy": {
-				"Rende il programma più veloce": "Il nome delle variabili non influisce sulla velocità di esecuzione.",
-				"Riduce la memoria occupata": "La differenza di memoria per un nome più lungo è trascurabile: il vantaggio è la comprensibilità.",
-				"Evita di dover usare i cicli": "I nomi delle variabili non hanno nessuna relazione con la necessità di usare cicli."
+				"Lasciare il 3 e aggiungere un commento accanto": "Cinque commenti da tenere aggiornati sono un problema in più: il nome della costante il commento lo rende inutile.",
+				"Sostituirlo con un numero più grande e sicuro": "Il valore va benissimo: il problema è che è ripetuto e senza nome, non quanto vale.",
+				"Metterlo dentro una funzione che restituisce 3": "Funzionerebbe, ma è più macchinoso di una costante: per un valore fisso basta un nome."
 			}
 		}
 	]

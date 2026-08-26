@@ -165,7 +165,7 @@ const vocabularyRows = [
   ...rows("safety", [
     ["safe", "sicuro", "adjective", 1],
     ["unsafe", "non sicuro", "adjective", 2],
-    ["careful", "attento / prudente", "adjective", 2],
+    ["careful", "attento / prudente / accorto", "adjective", 2],
     ["danger", "pericolo", "noun", 2],
     ["risk", "rischio", "noun", 2],
     ["damage", "danno", "noun", 2],
@@ -296,7 +296,7 @@ const vocabularyRows = [
     ["either", "uno dei due / o l'uno o l'altro", "adverb", 4],
     ["neither", "nessuno dei due / né", "adverb", 4],
     ["both", "entrambi", "adverb", 4],
-    ["only", "solo / soltanto", "adverb", 2],
+    ["only", "solamente / soltanto", "adverb", 2],
     ["except", "tranne / eccetto", "preposition", 5, "Toglie un elemento da un insieme appena nominato: tutti tranne quello."],
     ["since", "poiché / da quando", "connector", 5],
     ["so that", "in modo che", "connector", 5],
@@ -413,7 +413,7 @@ const everydayVocabularyRows = [
   ]),
   ...topicRows("travel-places", "noun", 7, [
     ["boarding pass", "carta d'imbarco"], ["customs", "dogana"], ["border", "confine"], ["accommodation", "alloggio"], ["destination", "destinazione"],
-    ["return ticket", "biglietto di andata e ritorno"], ["single ticket", "biglietto di sola andata"], ["left luggage", "deposito bagagli"], ["waiting room", "sala d'attesa"], ["lost property", "oggetti smarriti"],
+    ["return ticket", "biglietto di andata e ritorno"], ["single ticket", "biglietto di andata soltanto"], ["left luggage", "deposito bagagli"], ["waiting room", "sala d'attesa"], ["lost property", "oggetti smarriti"],
   ]),
   ...topicRows("travel-places", "verb", 7, [
     ["board", "salire a bordo"], ["check in", "fare il check-in"], ["book", "prenotare"], ["cancel", "annullare"], ["depart", "partire"],
@@ -468,7 +468,7 @@ const everydayVocabularyRows = [
     ["writer", "scrittore"], ["journalist", "giornalista"], ["police officer", "poliziotto"], ["firefighter", "vigile del fuoco"], ["soldier", "soldato"],
     ["office", "ufficio"], ["factory", "fabbrica"], ["farm", "fattoria"], ["company", "azienda"], ["team", "squadra"],
     ["meeting", "riunione"], ["project", "progetto"], ["task", "compito"], ["service", "servizio"], ["community", "comunità"],
-    ["city hall", "municipio"], ["school", "scuola"], ["college", "istituto / college"], ["club", "club"], ["charity", "beneficenza / ente benefico"],
+    ["city hall", "municipio"], ["school", "scuola"], ["college", "istituto superiore americano"], ["club", "club"], ["charity", "beneficenza / ente benefico"],
   ]),
   ...topicRows("jobs-community", "adjective", 4, [
     ["local", "locale"], ["public", "pubblico"], ["private", "privato"], ["professional", "professionale"], ["responsible", "responsabile"],

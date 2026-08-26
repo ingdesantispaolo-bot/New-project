@@ -236,6 +236,33 @@ func add_fragments(amount: int) -> void:
 func set_mastery(subject: String, value: float) -> void:
 	data["mastery"][subject] = clampf(value, 0.0, 1.0)
 
+# --- Evidenza accumulata di una materia (26 agosto 2026) ----------------------
+#
+# Quante risposte sono state date in questa materia e quante erano giuste, con
+# le piu' vecchie che pesano meno. E' la materia prima della padronanza: la
+# padronanza resta il numero autorevole (la scrivono anche il decadimento e i
+# ripristini), questa e' l'osservazione da cui si ricava.
+#
+# Nasce dalla misura del 26 agosto: la padronanza era una media mobile su un
+# campione di TRE nodi per sessione, e una materia riceve una sessione ogni
+# dodici. Una sessione sfortunata costava cinque giri di gioco per essere
+# riassorbita. Vedi `ProgressionManager._padronanza_da_evidenza`.
+func subject_evidence(subject: String) -> Dictionary:
+	var tutte: Dictionary = data.get("subjectEvidence", {})
+	var voce: Dictionary = tutte.get(subject, {})
+	return {
+		"nodi": float(voce.get("nodi", 0.0)),
+		"corretti": float(voce.get("corretti", 0.0)),
+	}
+
+func set_subject_evidence(subject: String, nodi: float, corretti: float) -> void:
+	if not data.has("subjectEvidence"):
+		data["subjectEvidence"] = {}
+	data["subjectEvidence"][subject] = {
+		"nodi": maxf(0.0, nodi),
+		"corretti": clampf(corretti, 0.0, maxf(0.0, nodi)),
+	}
+
 # --- Padronanza per-argomento (adattività fine dentro la materia) -------------
 # Chiave "subject:topic". Un topic mai incontrato torna -1.0 (sconosciuto), così
 # la selezione può distinguere "debole" (basso ma visto) da "nuovo" (mai visto).

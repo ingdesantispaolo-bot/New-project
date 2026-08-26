@@ -11,6 +11,7 @@ const EXERCISE_DRAG_BUTTON := preload("res://scripts/ui/exercise_drag_button.gd"
 const EXERCISE_DROP_BUTTON := preload("res://scripts/ui/exercise_drop_button.gd")
 const EXERCISE_CONNECTION_CANVAS := preload("res://scripts/ui/exercise_connection_canvas.gd")
 const EXERCISE_DIAGRAM := preload("res://scripts/ui/exercise_diagram.gd")
+const NORA_FIGURA = preload("res://scripts/game/nora_figura.gd")
 const MAP_GEOMETRY_CATALOG := preload("res://scripts/visual/map_geometry_catalog.gd")
 const ARTIFACT_ATLAS_CATALOG := preload("res://scripts/visual/artifact_atlas_catalog.gd")
 const FINAL_CONVERGENCE_DISPLAY := preload("res://scripts/ui/final_convergence_display.gd")
@@ -92,6 +93,10 @@ var _topic_correct: Dictionary = {}  # topic -> risposte corrette
 ## per nodo e non per sessione apposta: l'esame di mondo ospita due prove di nucleo
 ## di altre materie e il finale del Cuore ne attraversa dodici.
 var _superate: Dictionary = {}
+## L'alternativa toccata nell'ultimo tentativo sbagliato di QUESTO nodo. Si
+## azzera a ogni nodo nuovo: una correzione che parlasse dell'errore precedente
+## sarebbe peggio di nessuna correzione.
+var _scelta_sbagliata := ""
 ## Errori commessi sul nodo CORRENTE. Serve alla regola «superata = risolta
 ## pulita»: un minigioco che si chiude giusto al terzo tentativo non è una prova
 ## superata, è una prova che conviene rivedere. `_wrong_attempts` non poteva
@@ -109,6 +114,10 @@ var _pre_synthesis_waiting := false
 var _prompt: Label
 var _options: VBoxContainer
 var _feedback: Label
+## La zona 2 del pannello d'esito: la correzione e la regola. Vedi `_mostra_lezione`.
+var _lezione: RichTextLabel
+## Il disegno che spiega, quando l'esercizio ne merita uno. Vedi `NoraFigura`.
+var _figura: Control
 var _status: Label
 var _combo_badge: Label
 var _combo_visual_series := 0
@@ -506,6 +515,38 @@ func _build_ui() -> void:
 	_feedback.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_feedback.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	box.add_child(_feedback)
+
+	# **La zona della lezione.** (26 agosto 2026)
+	#
+	# Segnalazione dello studente: «le spiegazioni servono a poco, molte scritte
+	# inutili e ripetute». Una delle cause era qui, ed era di resa: la
+	# spiegazione finiva dentro `_feedback`, attaccata all'esito con un a capo.
+	# Tre cose di natura diversa — la ricompensa, la correzione dell'errore, la
+	# regola generale — arrivavano con lo stesso peso, lo stesso corpo e lo
+	# stesso colore. Un bambino non aveva nessun segnale su dove guardare, e la
+	# cosa nuova stava in fondo.
+	#
+	# `RichTextLabel` e non `Label`: serve il grassetto sul pezzo che conta, e
+	# serve un contenitore che possa ospitare la figura quando arrivera'.
+	# La figura sta SOPRA il testo della lezione: si guarda prima e spiega la
+	# stessa cosa. Sotto sarebbe una didascalia di quello che si e' gia' letto.
+	_figura = NORA_FIGURA.new()
+	_figura.name = "NoraFigure"
+	_figura.visible = false
+	box.add_child(_figura)
+
+	_lezione = RichTextLabel.new()
+	_lezione.name = "NoraLesson"
+	_lezione.bbcode_enabled = true
+	_lezione.fit_content = true
+	_lezione.scroll_active = false
+	_lezione.visible = false
+	_lezione.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_lezione.add_theme_font_size_override("normal_font_size", 16)
+	_lezione.add_theme_font_size_override("bold_font_size", 16)
+	_lezione.add_theme_constant_override("line_separation", 4)
+	_lezione.add_theme_stylebox_override("normal", _stile_lezione())
+	box.add_child(_lezione)
 
 	_help_button = Button.new()
 	_help_button.name = "ConceptHelpButton"
@@ -961,7 +1002,13 @@ func _show_current() -> void:
 		return
 	_answered = false
 	_errori_nodo = 0
+	_scelta_sbagliata = ""
 	_feedback.text = ""
+	if is_instance_valid(_lezione):
+		_lezione.text = ""
+		_lezione.visible = false
+	if is_instance_valid(_figura):
+		_figura.mostra("", {})
 	_next_button.visible = false
 	if is_instance_valid(_numpad):
 		_numpad.visible = false
@@ -1156,6 +1203,10 @@ func _answer(given: String) -> void:
 	var item: Dictionary = _nodes[_index]
 	var is_correct := ExerciseInteraction.answer_accepted(given, item)
 	if not is_correct:
+		# **Che cosa ha toccato.** E' l'informazione da cui dipende tutta la
+		# correzione di NORA: `distractorWhy` porta la frase giusta per QUESTA
+		# alternativa, e senza sapere quale sia resterebbe nel PCK per sempre.
+		_scelta_sbagliata = given
 		_spend_shield()
 		_register_wrong_attempt(item)
 	_score_current(is_correct, item)
@@ -1755,10 +1806,13 @@ func _score_current(is_correct: bool, item: Dictionary) -> void:
 			"Funziona! +%d energia · serie %s" % [guadagno, Combo.etichetta(_serie)]
 			if Combo.visibile(_serie)
 			else "Funziona! +%d energia" % guadagno)
-		var detto := NoraExplanations.riga(
-			_materia_di(item), topic, str(item.get("explanation", "")), true)
-		if detto.strip_edges() != "":
-			_feedback.text += "\n%s" % detto
+		_mostra_lezione(item, true)
+		# **Anche chi ha indovinato puo' aprire il manuale.** (26 agosto 2026)
+		# `SPIEGA CON NORA` compariva solo dopo un errore: chi ha risposto bene e
+		# vuole capire perche' e' esattamente il bambino da premiare, e il gioco
+		# gli chiudeva la porta. Una spiegazione che non si puo' rileggere vale un
+		# solo istante.
+		_offer_concept_help(item)
 	else:
 		var audio := get_tree().root.get_node_or_null("NativeAudio") if is_inside_tree() else null
 		if audio != null:
@@ -1779,8 +1833,8 @@ func _score_current(is_correct: bool, item: Dictionary) -> void:
 				str(_maestro_voice.get("name", "Maestro")),
 				str(_maestro_voice.get("rilancio", ""))]
 			if not _maestro_voice.is_empty()
-			else "Non ha ancora funzionato. %s" % NoraExplanations.riga(
-				_materia_di(item), topic, str(item.get("explanation", "")), false))
+			else "Non ha ancora funzionato.")
+		_mostra_lezione(item, false)
 		_offer_concept_help(item)
 	# La costruzione avanza di una campata per ogni nodo risolto (built = _correct);
 	# su errore resta ferma, senza mai regredire.
@@ -1804,7 +1858,95 @@ func _score_current(is_correct: bool, item: Dictionary) -> void:
 	# «Avanti».
 	_refresh_status()
 	_next_button.text = "Fine" if _shields <= 0 else "Avanti"
-	_next_button.visible = true
+	_mostra_avanti()
+
+## Lo sfondo della zona della lezione: un riquadro con una barra accesa a
+## sinistra. Non e' decorazione — e' il segnale che dice «qui c'e' altro rispetto
+## alla riga sopra», ed e' l'unica cosa che distingue a colpo d'occhio la lezione
+## dall'esito.
+func _stile_lezione() -> StyleBoxFlat:
+	var stile := StyleBoxFlat.new()
+	stile.bg_color = Color(0.06, 0.16, 0.19, 0.88)
+	stile.border_color = Color(0.42, 0.90, 0.84, 0.75)
+	stile.border_width_left = 4
+	stile.corner_radius_top_right = 8
+	stile.corner_radius_bottom_right = 8
+	stile.content_margin_left = 14
+	stile.content_margin_right = 12
+	stile.content_margin_top = 10
+	stile.content_margin_bottom = 10
+	return stile
+
+## **Che cosa il bambino legge dopo aver risposto**, in tre pezzi con tre pesi.
+##
+##   LA CORREZIONE  perche' l'alternativa che ha toccato non va. E' la cosa nuova,
+##                  ed e' l'unica scritta in grassetto e a corpo pieno.
+##   IL CASO        la spiegazione di questo esercizio.
+##   LA REGOLA      la riga di NORA, quando non e' stata gia' detta di recente.
+##                  Piu' piccola, staccata, firmata: si deve riconoscere che a
+##                  parlare e' NORA e non l'esercizio.
+##
+## Se non c'e' niente da dire la zona **non compare**. Un riquadro vuoto o con
+## dentro una riformulazione della risposta e' peggio del silenzio: insegna che
+## sotto l'esito non c'e' mai niente, ed e' cosi' che si smette di leggere.
+func _mostra_lezione(item: Dictionary, corretto: bool) -> void:
+	if not is_instance_valid(_lezione):
+		return
+	var commento := NoraExplanations.commento(
+		item, _materia_di(item), corretto, _scelta_sbagliata, NoraExplanations.memoria())
+	NoraExplanations.registra(Array(commento.get("impronte", [])))
+	var righe: Array = []
+	var correzione := str(commento.get("correzione", "")).strip_edges()
+	var caso := str(commento.get("caso", "")).strip_edges()
+	var regola := str(commento.get("regola", "")).strip_edges()
+	if correzione != "":
+		righe.append("[b]%s[/b]" % correzione)
+	if caso != "":
+		righe.append(caso)
+	if regola != "":
+		righe.append("[font_size=14][color=#8fb9c4]NORA · %s[/color][/font_size]" % regola)
+	# La figura si sceglie dall'item, non dal testo: e' un'altra strada per dire
+	# la stessa cosa, e vale anche quando NORA non ha righe da aggiungere.
+	if is_instance_valid(_figura):
+		var scelta: Dictionary = NORA_FIGURA.per_item(item, _materia_di(item))
+		_figura.mostra(str(scelta.get("tipo", "")), Dictionary(scelta.get("dati", {})))
+	if righe.is_empty():
+		_lezione.visible = false
+		_lezione.text = ""
+		return
+	_lezione.text = "\n".join(PackedStringArray(righe))
+	_lezione.visible = true
+
+## **Il pulsante per andare avanti non nasce insieme al testo.**
+##
+## Prima compariva nello stesso fotogramma della spiegazione: la strada piu'
+## rapida attraverso il gioco era non leggere, e un bambino che tocca dove sa che
+## comparira' il pulsante non vede mai la correzione.
+##
+## Non e' un timer punitivo e non blocca niente di importante: mezzo secondo, il
+## tempo di accorgersi che sotto e' comparso qualcosa. Chi ha gia' capito aspetta
+## un battito; chi legge non viene interrotto. Se c'e' una lezione da leggere
+## l'attesa e' quella; se non c'e' niente da leggere il pulsante arriva subito,
+## perche' non ci sarebbe niente da aspettare.
+##
+## `reduced_motion` la salta: chi ha chiesto meno movimento ha chiesto meno
+## sorprese, non piu' attesa.
+const RESPIRO_PRIMA_DI_AVANTI := 0.5
+
+func _mostra_avanti() -> void:
+	if not is_instance_valid(_next_button):
+		return
+	var c_e_da_leggere := (
+		(is_instance_valid(_lezione) and _lezione.visible)
+		or (is_instance_valid(_figura) and _figura.visible))
+	if reduced_motion or not c_e_da_leggere or not is_inside_tree():
+		_next_button.visible = true
+		return
+	_next_button.visible = false
+	var respiro := get_tree().create_timer(RESPIRO_PRIMA_DI_AVANTI)
+	respiro.timeout.connect(func():
+		if is_instance_valid(_next_button) and _answered:
+			_next_button.visible = true)
 
 func _lock_interactions() -> void:
 	_input.editable = false

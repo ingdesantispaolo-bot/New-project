@@ -132,7 +132,12 @@ function timesExplanation(a, b) {
   if (a === b) {
     return `${a} × ${a} fa ${a * b}: è il quadrato di ${a}. Se non lo ricordi, ${trick}.`;
   }
-  return `Se non ricordi ${a} × ${b}, ${trick}. E ${b} × ${a} dà lo stesso risultato: cambiare l'ordine non cambia il prodotto.`;
+  // **La coda commutativa è uscita di qui.** (26 agosto 2026) Era vera e valeva
+  // la pena dirla, ma il generatore l'attaccava a OGNI item: 254 volte la stessa
+  // identica frase su 3569 spiegazioni. Una riga ripetuta così non insegna la
+  // proprietà commutativa, insegna a saltare la riga. Adesso è uno dei livelli
+  // del «perché» di NORA per `matematica:tabelline`, che la dice una volta.
+  return `Se non ricordi ${a} × ${b}, ${trick}.`;
 }
 
 // Le tre facce dello stesso fatto. Il prodotto lo si impara, il fattore
@@ -151,13 +156,18 @@ const VERSI = {
     sigla: "factor",
     prompt: `Quale numero moltiplicato per ${b} dà ${a * b}?`,
     answer: a,
-    coda: ` Qui la tabellina si legge al contrario: cerchi quante volte ${ilNumero(b)} sta dentro ${a * b}.`,
+    // Resta il caso concreto — quante volte QUESTO numero sta dentro QUELLO — e
+    // se ne va la regola generale («la tabellina si legge al contrario»), che era
+    // identica su 108 item ed è passata ai livelli di NORA.
+    coda: ` Cerchi quante volte ${ilNumero(b)} sta dentro ${a * b}.`,
   }),
   divisione: (a, b) => ({
     sigla: "div",
     prompt: `Quanto fa ${a * b} ÷ ${b}?`,
     answer: a,
-    coda: ` Dividere è l'inverso del moltiplicare: se ${a} × ${b} fa ${a * b}, allora ${a * b} ÷ ${b} torna a ${a}.`,
+    // Come sopra: il conto svolto resta all'item, la regola («dividere è
+    // l'inverso del moltiplicare», 57 volte identica) passa a NORA.
+    coda: ` Se ${a} × ${b} fa ${a * b}, allora ${a * b} ÷ ${b} torna a ${a}.`,
   }),
 };
 
@@ -242,24 +252,56 @@ function levelToDifficulty(level) {
 // parole italiane (della stessa classe grammaticale), non parole inglesi — altrimenti
 // la risposta è l'unica nella lingua giusta e diventa banale. `promptFor` indica con
 // `field` da quale campo pescare i distrattori; qui costruiamo un pool per campo.
-// Due parole dello stesso gruppo, diverse dalla voce stessa. Deterministiche:
-// dipendono dall'ordine della tabella, non dal generatore casuale, così due
-// bake danno lo stesso banco.
-function vocabularyExplanation(entry, defField, neighbours) {
-  const base = `"${entry.term}": ${entry[defField]}.`;
-  // Le vicine RUOTANO con la posizione della voce nel gruppo. Prendendo sempre
-  // le prime due, in un gruppo di ottanta parole la stessa coda comparirebbe
-  // ottanta volte: dopo la terza smette di essere informazione e diventa
-  // rumore. Ruotando, ogni item mostra una coppia diversa e nell'arco del
-  // gruppo si vede tutto il campo semantico.
+// **La glossa non ripete la risposta.** (26 agosto 2026)
+//
+// Segnalazione dello studente: «le spiegazioni servono a poco, molte scritte
+// inutili e ripetute». Qui stava il blocco più grosso di tutto il gioco: 1159
+// item su 3569 — 833 di inglese e 326 di italiano — avevano tutti questa forma:
+//
+//   Q: Quale parola corrisponde a: "madre o padre rispetto ai figli"?
+//   R: genitore
+//   S: "genitore": madre o padre rispetto ai figli. Stesso gruppo: fratello =
+//      figlio degli stessi genitori, sorella = figlia degli stessi genitori.
+//
+// La prima metà è **la domanda ricopiata con la risposta davanti**. La seconda
+// elencava due «vicine di gruppo» che vicine non erano: erano le due voci
+// successive nella tabella sorgente — stavano lì perché stavano lì. Il bambino
+// leggeva cinquanta parole e non ne imparava nessuna.
+//
+// Adesso la glossa dice **l'unica cosa che l'esercizio sta davvero chiedendo**:
+// da quale parola vicina bisogna distinguerla, e che cosa vuol dire quella. È
+// l'informazione che il bambino non ha ancora, e serve in tutte e due le
+// direzioni della domanda.
+//
+// Dove la voce porta una `note` autorata quella vince e questa non si usa: è il
+// caso dei falsi amici, dove la distinzione è già scritta meglio a mano.
+//
+// La parola da cui distinguere si prende **dalla stessa area di significato**,
+// non fra i distrattori estratti: quelli sono scelti anche per lunghezza e per
+// classe grammaticale, e ne usciva «sorella: da non confondere con tavolo», che
+// è vero e non insegna niente. Ruota con la posizione della voce nel gruppo, così
+// due bake danno lo stesso banco e nell'arco del gruppo si vede tutto il campo.
+function vicinaDiArea(entry, neighbours) {
   const gruppo = neighbours.get(`${entry.wordClass}::${entry.category}`) ?? [];
+  if (gruppo.length < 2) return null;
   const mia = gruppo.findIndex((altra) => altra.id === entry.id);
-  const vicine = gruppo.length < 3
-    ? gruppo.filter((altra) => altra.id !== entry.id).slice(0, 2)
-    : [gruppo[(mia + 1) % gruppo.length], gruppo[(mia + 2) % gruppo.length]];
-  if (vicine.length < 2) return base;
-  const elenco = vicine.map((v) => `${v.term} = ${v[defField]}`).join(", ");
-  return `${base} Stesso gruppo: ${elenco}.`;
+  return gruppo[(mia + 1) % gruppo.length] ?? null;
+}
+
+function vocabularyExplanation(entry, defField, field, neighbours) {
+  const vicina = vicinaDiArea(entry, neighbours);
+  if (!vicina) {
+    // Nessuna parola della stessa area: meglio la coppia nuda che un contrasto
+    // finto. Tre parole oneste battono due righe che girano a vuoto.
+    return `"${entry.term}": ${entry[defField]}.`;
+  }
+  // Il contrasto si scrive **nella stessa lingua della risposta**: se il bambino
+  // ha scelto fra parole inglesi si confronta con una parola inglese, se ha
+  // scelto fra significati italiani si confronta con un significato.
+  if (field === "term") {
+    return `Da non confondere con «${vicina.term}», che vuol dire «${vicina[defField]}».`;
+  }
+  return `Da non confondere con «${vicina[defField]}», che si dice «${vicina.term}».`;
 }
 
 function vocabularyBank(subject, entries, { fields, defField, promptFor, legaIlPiuVicino = false }) {
@@ -347,7 +389,7 @@ function vocabularyBank(subject, entries, { fields, defField, promptFor, legaIlP
           // risposto: 968 item su 1109 non insegnavano niente. Le vicine invece
           // sono informazione nuova, cambiano per ogni item, e il lessico si
           // fissa per campi di significato, non parola per parola isolata.
-          explanation: entry.note ?? vocabularyExplanation(entry, defField, neighbours),
+          explanation: entry.note ?? vocabularyExplanation(entry, defField, field, neighbours),
         },
         rand,
       ),

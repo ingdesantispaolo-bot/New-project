@@ -69,8 +69,36 @@ static func is_core(subject: String) -> bool:
 static func subject_mastery_threshold(subject: String, level: int) -> float:
 	var base := mastery_threshold(level)
 	if is_core(subject):
-		return minf(base + CORE_MASTERY_BONUS, MASTERY_CEILING)
+		return minf(base + core_bonus(level), MASTERY_CEILING)
 	return base
+
+## **Quanto piu' alta sta l'asticella del nucleo A QUESTO livello.** (26 agosto 2026)
+##
+## Il bonus era piatto: 0,08 dal primo mondo all'ultimo. Misurato con
+## `gate_mondo1_audit`, era **la sola cosa che rendeva il mondo 1 impossibile** a
+## chi risponde giusto sette volte su dieci: la stima di padronanza di un bambino
+## cosi' si assesta intorno a 0,767, che sta sopra la soglia base di 0,70 e sotto
+## quella del nucleo di 0,78. Non lento: impossibile, a qualunque quantita' di
+## lavoro, per sempre.
+##
+## Il design dichiara una valvola contro questo: «chi fatica non resta bloccato,
+## perche' la difficolta' adattiva abbassa gli item finche' l'accuratezza risale».
+## Al mondo 1 **quella valvola non esiste**: `target_difficulty(1)` vale 1, che e'
+## gia' il fondo del banco, e `mastery_nudge` non ha nessun gradino sotto cui
+## scendere. La promessa non poteva essere mantenuta.
+##
+## Il rango del nucleo resta — e' una decisione del committente del 6 agosto e non
+## si tocca — ma cresce con la scala invece di essere pieno subito. Al mondo 1,
+## dove tutte e dodici le materie si incontrano per la prima volta e non c'e' un
+## gradino piu' facile, il nucleo chiede quanto le altre; all'ultimo chiede gli
+## otto centesimi interi, dove il bambino ha una storia alle spalle e il
+## contenuto ha spazio per adattarsi.
+##
+## Se un giorno esistesse contenuto sotto la difficolta' 1, questa rampa potrebbe
+## tornare piatta: sarebbe la valvola vera, e questa e' solo la sua supplente.
+static func core_bonus(level: int) -> float:
+	var scala := clampf(float(clampi(level, 1, MAX_LEVEL) - 1) / float(MAX_LEVEL - 1), 0.0, 1.0)
+	return CORE_MASTERY_BONUS * scala
 
 ## Materia che ABITA il mondo del livello: ne determina lezione, landmark,
 ## abitanti e trasformazione ambientale.

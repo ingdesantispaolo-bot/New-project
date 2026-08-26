@@ -159,7 +159,18 @@ func _quello_che_il_bambino_riceve() -> void:
 			var spiegazione := str(item.get("explanation", ""))
 			var noto := "%s %s" % [str(item.get("prompt", "")), str(item.get("answer", ""))]
 			for corretto in [true, false]:
-				var detta := NoraExplanations.riga(subject, topic, spiegazione, bool(corretto))
+				# La memoria si azzera a ogni prova: qui si misura CHE COSA NORA
+				# ha da dire su questo item, non l'ordine in cui lo direbbe in una
+				# partita. Passare la memoria viva farebbe dipendere il verdetto
+				# dall'ordine di lettura del banco, che non significa niente.
+				NoraExplanations.dimentica_tutto()
+				var commento := NoraExplanations.commento(item, subject, bool(corretto), "")
+				var pezzi: Array = []
+				for chiave in ["correzione", "caso", "regola"]:
+					var pezzo := str(commento.get(chiave, "")).strip_edges()
+					if pezzo != "":
+						pezzi.append(pezzo)
+				var detta := "\n".join(PackedStringArray(pezzi))
 				totale += 1
 				quante += 1
 				if detta.strip_edges() == "":

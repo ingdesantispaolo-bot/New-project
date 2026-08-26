@@ -77,11 +77,53 @@ static func passo(runtime: Dictionary, progression) -> Dictionary:
 			"azione": _cosa_manca(stato, true, bool(progression.save.mastery_never_set(materia))),
 			"dove": "le prove di %s, qui nel mondo" % materia,
 		}
+	# **Qui il gioco mandava il bambino da un'altra parte.** (26 agosto 2026)
+	#
+	# Segnalazione: «ho completato tutto il mondo 1 e non riesco ad accedere al
+	# mondo 2». È esattamente questo ramo: la materia del mondo è chiusa, restano
+	# le altre, e la riga diceva «apri il quadro degli obiettivi». Nel momento in
+	# cui il bambino ha più bisogno di sapere **quale materia** e **dove**, l'unica
+	# istruzione era di aprire un altro pannello.
+	#
+	# Adesso la materia si nomina, con la condizione che le manca, e si dice che
+	# si allena qui — le palestre delle altre undici materie stanno in questo
+	# mondo. È la stessa informazione che `_manca_per_salire` dà dopo l'esame:
+	# non c'era ragione di tenerla per dopo.
+	var mancanti: Array = Array(progression.readiness().get("missing", []))
+	if mancanti.is_empty():
+		return {
+			"titolo": "Il mondo è a posto",
+			"azione": "Torna alla nave: il livello successivo si apre.",
+			"dove": "il portale della nave",
+		}
+	var prossima := _piu_vicina(progression, mancanti)
+	var dettaglio: Dictionary = progression.apparatus_readiness(prossima)
+	var coda := ""
+	if mancanti.size() > 1:
+		coda = " Dopo questa ne restano %d." % (mancanti.size() - 1)
 	return {
-		"titolo": "Il mondo è a posto: manca il resto del programma",
-		"azione": "Apri il quadro degli obiettivi per vedere quali materie restano.",
-		"dove": "",
+		"titolo": "Adesso tocca a %s" % prossima,
+		"azione": "%s%s" % [
+			_cosa_manca(dettaglio, false, bool(progression.save.mastery_never_set(prossima))),
+			coda],
+		"dove": "le palestre di %s, qui nel mondo" % prossima,
 	}
+
+## La materia mancante più vicina al traguardo: è quella su cui conviene tornare
+## adesso. Ordinare per avanzamento non è un dettaglio — mandare il bambino sulla
+## più lontana significa fargli fare il lavoro più lungo per vedere il primo
+## risultato.
+static func _piu_vicina(progression, mancanti: Array) -> String:
+	var migliore := str(mancanti[0])
+	var punteggio := -1.0
+	for materia_data in mancanti:
+		var materia := str(materia_data)
+		var stato: Dictionary = progression.apparatus_readiness(materia)
+		var avanzamento := float(stato.get("progress", 0.0))
+		if avanzamento > punteggio:
+			punteggio = avanzamento
+			migliore = materia
+	return migliore
 
 ## **Che cosa manca, in una frase, per UNA materia.**
 ##

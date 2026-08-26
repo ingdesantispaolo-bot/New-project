@@ -36,6 +36,57 @@ func _init(save_manager, content_manager = null) -> void:
 ## serve a smorzare il caso, ed è giusta quando c'è già una storia da smorzare.
 const PRUDENZA_PRIMO_CONTATTO := 0.85
 
+## **La padronanza si misura sulle risposte, non sulle sessioni.** (26 agosto 2026)
+##
+## Segnalazione di gioco: «ho completato tutto il mondo 1 e non riesco ad
+## accedere al mondo 2». La causa non era l'ampiezza del gate — quella era gia'
+## stata guardata il 24 agosto, ed e' la copertura — ma **lo stimatore della
+## padronanza**.
+##
+## Com'era: una media mobile fra sessioni, `lerpf(padronanza, accuratezza, 0.25)`,
+## dove `accuratezza` e' il risultato di **tre nodi**. Tre nodi vogliono dire che
+## l'accuratezza osservata puo' valere solo 0, un terzo, due terzi o uno: un
+## campione cosi' piccolo e' quasi tutto rumore. E ogni materia riceve **una
+## sessione ogni dodici**, perche' le materie sono dodici e il gate le vuole
+## tutte. Quindi la padronanza si muoveva di un passo per giro di gioco.
+##
+## La conseguenza, misurata con `gate_mondo1_audit`: una sola sessione sfortunata
+## al primo incontro portava la materia a 0,567, e da li' servivano **cinque giri
+## interi** — sessanta sessioni sulle altre materie — solo per riassorbirla. A
+## regime il gate si apriva in 16 sessioni rispondendo sempre giusto e in **112**
+## rispondendo giusto all'85%. Il mondo 1 di prove ne offre diciassette.
+##
+## Com'e': si tiene il conto di quante risposte sono state date nella materia e
+## quante erano giuste, con le piu' vecchie che pesano meno, e la padronanza e' la
+## proporzione — corretta da un priore che tiene prudente la stima finche'
+## l'evidenza e' poca. Stessa matematica di una media pesata, ma la finestra e'
+## quattro volte piu' lunga: il rumore scende e una sessione storta non decide
+## piu' un'ora di gioco.
+##
+## Le costanti, e perche' questi numeri:
+##
+##   OBLIO         quanto pesa il passato a ogni nuova sessione della materia.
+##                 0,85 tiene una finestra di circa sette sessioni (venti
+##                 risposte). Il numero non e' scelto a occhio: e' l'unico dei tre
+##                 provati che non lascia nessun blocco. Con 0,9 la stima e' piu'
+##                 stabile ma anche piu' lenta a muoversi, e un bambino al 70% di
+##                 accuratezza restava fermo per sempre su due semi su cinque —
+##                 la memoria lunga si porta dietro gli errori vecchi e non lascia
+##                 mai passare il momento buono. Con 0,8 il blocco resta su un
+##                 seme. A 0,85 spariscono tutti.
+##   PESO_PRIORE   quanto vale l'ipotesi di partenza, misurata in risposte. Tre:
+##                 una sessione. Alla prima sessione l'osservazione e il priore
+##                 pesano uguale, e da li' l'osservazione prende il sopravvento.
+##   il priore     e' `PRUDENZA_PRIMO_CONTATTO`, la stessa costante di prima e con
+##                 lo stesso significato: al primo contatto si assume un filo meno
+##                 di quello che il bambino ha appena mostrato.
+##
+## **Il decadimento resta e continua a valere.** Abbassa la padronanza mentre la
+## materia e' trascurata, e il numero lo dice. Quando il bambino torna e risponde
+## bene, la stima si rialza — ed e' giusto che lo faccia: l'ha appena dimostrato.
+const OBLIO := 0.85
+const PESO_PRIORE := 3.0
+
 # --- Decadimento per trascuratezza (6 agosto 2026) ----------------------------
 #
 # **Il difetto.** La padronanza non scendeva mai per il passare del tempo. Un
@@ -57,16 +108,21 @@ const DECADIMENTO_FRANCHIGIA := 12    # sessioni di tolleranza prima di calare
 const DECADIMENTO_PER_SESSIONE := 0.004
 const DECADIMENTO_PAVIMENTO := 0.5    # frazione del picco sotto cui non si scende
 
-func _padronanza_aggiornata(subject: String, accuracy: float) -> float:
-	if save.mastery_never_set(subject):
-		return clampf(accuracy * PRUDENZA_PRIMO_CONTATTO, 0.0, 1.0)
-	return lerpf(save.mastery_of(subject), accuracy, 0.25)
+func _padronanza_da_evidenza(subject: String, correct: int, total: int) -> float:
+	if total <= 0:
+		return float(save.mastery_of(subject))
+	var evidenza: Dictionary = save.subject_evidence(subject)
+	var nodi := float(evidenza.get("nodi", 0.0)) * OBLIO + float(total)
+	var corretti := float(evidenza.get("corretti", 0.0)) * OBLIO + float(clampi(correct, 0, total))
+	save.set_subject_evidence(subject, nodi, corretti)
+	return clampf(
+		(corretti + PESO_PRIORE * PRUDENZA_PRIMO_CONTATTO) / (nodi + PESO_PRIORE), 0.0, 1.0)
 
 func record_mission(subject: String, correct: int, total: int, energy_gained: int, session_passed: bool = true) -> void:
 	var accuracy := float(correct) / float(maxi(total, 1))
 	if session_passed and accuracy >= 0.5:
 		save.add_mission(subject)
-	save.set_mastery(subject, _padronanza_aggiornata(subject, accuracy))
+	save.set_mastery(subject, _padronanza_da_evidenza(subject, correct, total))
 	if energy_gained > 0:
 		save.add_energy(energy_gained)
 	_dopo_una_sessione(subject)
@@ -76,8 +132,7 @@ func record_mission(subject: String, correct: int, total: int, energy_gained: in
 # non farma i requisiti di riparazione. La mastery per-topic si aggiorna a parte
 # con record_topic_stats, come per le missioni.
 func record_practice(subject: String, correct: int, total: int, energy_gained: int) -> void:
-	var accuracy := float(correct) / float(maxi(total, 1))
-	save.set_mastery(subject, _padronanza_aggiornata(subject, accuracy))
+	save.set_mastery(subject, _padronanza_da_evidenza(subject, correct, total))
 	if energy_gained > 0:
 		save.add_energy(energy_gained)
 	_dopo_una_sessione(subject)

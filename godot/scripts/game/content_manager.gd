@@ -308,7 +308,18 @@ const QUOTA_BANCO_MATEMATICA := 3
 ## **Le tabelline restano fuori** da questa estrazione: il generatore ne produce
 ## già in abbondanza, e pescarle anche dal banco vorrebbe dire spendere il nodo
 ## del banco per ridire la stessa cosa.
-func _innesta_banco_matematica(nodi: Array, level: int, rng: RandomNumberGenerator, mastery: float) -> Array:
+## `da_ripassare` sono gli argomenti di matematica che il calendario vuole
+## rivedere oggi. **Senza questa lista un argomento sbagliato poteva non tornare
+## mai piu'**, ed e' il difetto misurato il 26 agosto 2026 (`gate_mondo1_audit`):
+## `matematica:statistica` sbagliata al giro tredici, mai piu' proposta in
+## cinquanta giri di gioco, e la dimensione RITENZIONE del gate bloccata per
+## sempre — sulla materia che ABITA il mondo 1, cioe' addosso a tutti.
+##
+## La causa e' che la matematica non nasce dal banco come le altre undici
+## materie: nasce dal generatore, e il generatore riceve gia' la sua lista di
+## ripasso. Ma gli argomenti scritti a mano — statistica, divisioni, frazioni —
+## entrano solo da qui, e qui il calendario non arrivava.
+func _innesta_banco_matematica(nodi: Array, level: int, rng: RandomNumberGenerator, mastery: float, da_ripassare: Array = []) -> Array:
 	var quanti := int(round(float(nodi.size()) / float(QUOTA_BANCO_MATEMATICA)))
 	if quanti <= 0 or nodi.is_empty():
 		return nodi
@@ -332,6 +343,16 @@ func _innesta_banco_matematica(nodi: Array, level: int, rng: RandomNumberGenerat
 		candidati = gia_risolti
 	if candidati.is_empty():
 		return nodi
+	# **Il ripasso dovuto viene prima.** Se fra i candidati c'e' un argomento che
+	# il calendario reclama, l'innesto pesca solo fra quelli: e' l'unica strada
+	# che un argomento di banco ha per tornare, e lasciarla al caso significa
+	# lasciarla chiusa.
+	var dovuti: Array = []
+	for voce_candidata in candidati:
+		if da_ripassare.has(str(Dictionary(voce_candidata).get("topic", ""))):
+			dovuti.append(voce_candidata)
+	if not dovuti.is_empty():
+		candidati = dovuti
 	var out := nodi.duplicate()
 	var posizioni_usate: Dictionary = {}
 	for _i in range(quanti):
@@ -418,7 +439,8 @@ func build_mission(subject: String, level: int, node_count: int = 3, review_due:
 		var generated := MathExerciseGenerator.new().build_nodes(
 			math_effective_level(level, mastery), node_count, generator,
 			_recent_math_signatures, review_topics, _superate(subject))
-		return _session(subject, level, _innesta_banco_matematica(generated, level, generator, mastery))
+		return _session(subject, level, _innesta_banco_matematica(
+			generated, level, generator, mastery, review_topics))
 	var items := _era_gated(subject, level, _load_bank(subject))
 	# Difficoltà efficace: livello + mastery, calibrata sul range reale del banco.
 	var target := effective_difficulty(subject, level, mastery)

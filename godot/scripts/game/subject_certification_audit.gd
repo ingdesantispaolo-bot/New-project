@@ -24,10 +24,22 @@ extends SceneTree
 ## altro e si ricomincia — è l'intera ragione per cui la scala ha ventiquattro
 ## mondi e non dodici.
 
-## Sessioni su ALTRE materie dopo la certificazione. Quarantacinque sono la
-## misura che faceva scendere matematica da 0,85 a 0,722: sotto soglia, ma sopra
-## il pavimento del decadimento, cioè il caso vero e non un estremo costruito.
-const SESSIONI_ALTROVE := 45
+## Sessioni su ALTRE materie dopo la certificazione. Devono bastare a portare la
+## padronanza SOTTO la soglia — altrimenti l'audit non prova niente — restando
+## sopra il pavimento del decadimento, cioè il caso vero e non un estremo
+## costruito.
+##
+## Erano quarantacinque, e portavano matematica da 0,85 a 0,722: sotto la soglia
+## del nucleo di allora, 0,78. **Il 26 agosto 2026 quella soglia è cambiata**: il
+## bonus del nucleo cresce con la scala invece di essere pieno dal primo mondo
+## (vedi `ApparatusConfig.core_bonus`), quindi al livello 1 matematica chiede 0,70
+## e 0,722 non ci passa più sotto. L'audit se n'è accorto da solo e si è dichiarato
+## inutile, che è esattamente quello che la sua asserzione serve a fare.
+##
+## Sessanta sessioni portano la padronanza a circa 0,658: sotto 0,70 e ben sopra
+## il pavimento (0,425). La cosa misurata non è cambiata di una virgola — il
+## decadimento non deve disfare una certificazione — è cambiato quanto ci vuole.
+const SESSIONI_ALTROVE := 60
 
 func _init() -> void:
 	call_deferred("_run")

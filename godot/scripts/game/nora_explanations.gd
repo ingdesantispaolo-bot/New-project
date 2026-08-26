@@ -71,9 +71,21 @@ const SEGNI_DI_CAUSA := ["perch", "poich", "siccome", "quindi", "perciò", "infa
 ## Una voce per ogni argomento che il runtime può proporre.
 const VOCI := {
 	# -- matematica -------------------------------------------------------------
+	# Tre livelli, non tre sinonimi: 284 item su questo argomento, e le prime due
+	# righe del «perche» erano attaccate a OGNI item dal generatore — la
+	# commutativa 254 volte, identica. Adesso si dicono una volta e poi si passa
+	# a quella dopo. Vedi `livelli_di` e `build-exercise-banks.mjs`.
 	"matematica:tabelline": {
-		"perche": "Moltiplicare serve a non contare uno per uno: è la scorciatoia per i gruppi uguali.",
-		"come": "Se una tabellina non ti viene, parti da una che sai e aggiungi una riga: 7×6 è 7×5 più altri 7.",
+		"perche": [
+			"Moltiplicare serve a non contare uno per uno: è la scorciatoia per i gruppi uguali.",
+			"Cambiare l'ordine non cambia il prodotto: 7×8 e 8×7 danno lo stesso risultato, quindi le tabelline da imparare sono la metà di quelle che sembrano.",
+			"La tabellina si legge anche al contrario: sapere che 7×8 fa 56 vuol dire sapere che dentro 56 il 7 ci sta 8 volte.",
+		],
+		"come": [
+			"Se una tabellina non ti viene, parti da una che sai e aggiungi una riga: 7×6 è 7×5 più altri 7.",
+			"Dividere è l'inverso del moltiplicare: davanti a 56 ÷ 8 chiediti «per quanto devo moltiplicare 8 per arrivare a 56?».",
+			"Le tabelline difficili sono poche: quelle del 5 e del 10 si fanno a memoria, il 9 è «per 10 meno una volta», il 4 è due raddoppi.",
+		],
 	},
 	"matematica:calcolo": {
 		"perche": "L'ordine delle operazioni non è un capriccio: senza, la stessa scrittura darebbe risultati diversi a persone diverse.",
@@ -1118,29 +1130,145 @@ static func ha_causa(testo: String) -> bool:
 			return true
 	return false
 
-## **Che cosa dice NORA dopo una prova**, indovinata o sbagliata.
+## **Che cosa dice NORA dopo una prova**, con l'errore vero in mano.
 ##
-## L'item porta il caso particolare; NORA aggiunge la ragione generale — e la
-## aggiunge **solo se l'item non ce l'ha già**, altrimenti direbbe due volte la
-## stessa cosa e il bambino imparerebbe a saltarla.
+## `riga()` qui sopra sa tutto tranne la cosa che conta di piu': **quale
+## alternativa il bambino ha toccato.** Misurato il 26 agosto 2026: 3082 item su
+## 3569 (l'86%) portano `distractorWhy`, cioe' la frase che dice perche' proprio
+## quella alternativa e' sbagliata, calcolata al bake sui dati veri dell'item. In
+## tutto Godot compariva in due file — il manuale e un audit — e **nel percorso
+## della prova non entrava mai**. Il pezzo di didattica piu' costoso che il gioco
+## possiede era scritto, esportato nel PCK e mai consegnato.
 ##
-## Sbagliando arriva il `come` invece del `perche`: chi ha appena sbagliato ha
-## bisogno di sapere come rifarlo, non di una ragione generale. È la convinzione
-## di NORA applicata al momento in cui conta — la risposta non si presta, il
-## metodo sì.
-static func riga(subject: String, topic: String, spiegazione: String, corretto: bool) -> String:
-	var testo := spiegazione.strip_edges()
-	var v := voce(subject, topic)
-	if v.is_empty():
-		return testo
-	var aggiunta := str(v.get("perche", "")) if corretto else str(v.get("come", ""))
-	if aggiunta.is_empty():
-		return testo
-	if corretto and ha_causa(testo):
-		return testo
-	if testo.is_empty():
-		return aggiunta
-	return "%s\n%s" % [testo, aggiunta]
+## Adesso l'ordine e' questo, e l'ordine e' la sostanza:
+##
+##   1. **l'errore fatto** — «no, il salvavita scatta quando la corrente torna
+##      indietro da un'altra strada, non quando e' troppa». Parla di quello che il
+##      bambino ha appena toccato, non di errori in generale;
+##   2. **il caso svolto** — la spiegazione dell'item;
+##   3. **la regola** — la riga di NORA, e solo se non e' gia' stata detta di
+##      recente.
+##
+## ### La memoria, e perche' serve
+##
+## La riga di NORA e' **una per argomento**: la stessa frase per tutti i 284 item
+## delle tabelline. E `LESSON_TOPIC_SHARE` riserva due nodi su tre agli argomenti
+## della lezione del mondo, quindi la stessa frase tornava due volte al minuto.
+## Una riga ripetuta non e' neutra: **insegna a saltarla**, e dopo la terza volta
+## il bambino non legge piu' nemmeno le venti spiegazioni buone.
+##
+## `gia_dette` porta le ultime impronte pronunciate (le tiene il salvataggio).
+## Una riga gia' detta di recente non si ripete e non si parafrasa: **si tace**.
+## Il silenzio dice qualcosa di vero — questa la sai.
+##
+## Torna i tre pezzi separati — `correzione`, `caso`, `regola` — e non una stringa
+## sola, perche' **chi disegna deve poterli pesare diversamente**: la correzione e'
+## la cosa nuova e va vista per prima, la regola e' un a parte. Attaccati con un a
+## capo, com'erano prima, arrivavano tutti con lo stesso peso e il bambino non
+## aveva nessun segnale su dove guardare.
+##
+## `impronte` va registrato da chi chiama, cosi' questa funzione resta senza
+## effetti collaterali e l'audit puo' interrogarla mille volte senza sporcare
+## niente.
+static func commento(
+	item: Dictionary, materia: String, corretto: bool, scelta: String, gia_dette: Array = []
+) -> Dictionary:
+	var impronte: Array = []
+	var topic := str(item.get("topic", ""))
+	var spiegazione := str(item.get("explanation", "")).strip_edges()
+
+	# 1. L'errore fatto. Solo sbagliando, e solo se sappiamo che cosa e' stato
+	#    toccato: su una risposta aperta la scelta non esiste e non si inventa.
+	var correzione := ""
+	if not corretto and scelta.strip_edges() != "":
+		var perche_distrattori: Dictionary = item.get("distractorWhy", {})
+		correzione = str(perche_distrattori.get(scelta, "")).strip_edges()
+
+	# 2. Il caso svolto. Non si ripete se la frase sull'errore l'ha gia' detto:
+	#    succede quando il distrattore e' l'inverso esatto della risposta.
+	var caso := spiegazione if spiegazione != correzione else ""
+
+	# 3. La regola generale, se c'e' e se serve.
+	var regola := ""
+	var v := voce(materia, topic)
+	# **Il controllo valeva solo sul ramo giusto, ed era un bug.** Sul `come` non
+	# c'era nessun filtro: si attaccava sempre, anche quando la spiegazione
+	# dell'item aveva gia' detto la stessa cosa.
+	if not (caso != "" and ha_causa(caso)):
+		var livelli := livelli_di(v, corretto)
+		for indice in livelli.size():
+			var impronta := impronta_di(materia, topic, corretto, indice)
+			if gia_dette.has(impronta):
+				continue
+			regola = str(livelli[indice])
+			impronte.append(impronta)
+			break
+
+	return {
+		"correzione": correzione,
+		"caso": caso,
+		"regola": regola,
+		"impronte": impronte,
+	}
+
+## **Le voci a livelli, e perche' non sono sinonimi.**
+##
+## Una voce puo' scrivere `perche` (o `come`) come una stringa sola oppure come un
+## elenco. L'elenco non contiene tre modi di dire la stessa cosa — quella sarebbe
+## la stessa tappezzeria con parole diverse — ma tre cose diverse da dire sullo
+## stesso argomento, in ordine: la prima volta la ragione di fondo, poi il caso che
+## di solito frega, poi il collegamento con un altro argomento.
+##
+## Serve dove un argomento ha molti item: `matematica:tabelline` ne ha 284, e con
+## una riga sola il bambino la rileggeva fino a 284 volte. Quando i livelli sono
+## finiti NORA tace, che e' meglio del quarto giro della prima riga.
+static func livelli_di(v: Dictionary, corretto: bool) -> Array:
+	var grezzo = v.get("perche", "") if corretto else v.get("come", "")
+	var elenco: Array = grezzo if grezzo is Array else [str(grezzo)]
+	var puliti: Array = []
+	for riga_data in elenco:
+		var riga_testo := str(riga_data).strip_edges()
+		if riga_testo != "":
+			puliti.append(riga_testo)
+	return puliti
+
+## L'impronta di una riga di NORA: materia, argomento, quale delle due voci e
+## quale livello. Serve alla memoria di `commento` e sta qui perche' chi registra
+## e chi consulta non possano calcolarla in due modi diversi.
+static func impronta_di(materia: String, topic: String, corretto: bool, livello: int = 0) -> String:
+	return "%s:%s:%s:%d" % [materia, topic, "perche" if corretto else "come", livello]
+
+## Quante impronte tiene la memoria di NORA.
+##
+## Dodici, cioe' circa quattro sessioni. Piu' corta e la riga tornerebbe dentro la
+## stessa sessione, che e' il difetto da cui si parte; molto piu' lunga e una
+## regola utile sparirebbe per un'ora di gioco. Non e' «una volta e mai piu'»: una
+## regola generale merita di tornare, ma non ogni novanta secondi.
+const MEMORIA_RIGHE := 12
+
+## **La memoria vive quanto la partita, non quanto il salvataggio.**
+##
+## Sta qui e non nel save perche' la domanda a cui risponde e' «l'ho appena
+## detto?», e «appena» finisce quando il bambino chiude il gioco. Chi torna il
+## giorno dopo ha diritto di risentire la regola: non l'ha saltata, l'ha
+## dimenticata, ed e' il caso in cui ridirla serve.
+static var _memoria: Array = []
+
+## Le impronte dette di recente. Da passare a `commento`.
+static func memoria() -> Array:
+	return _memoria
+
+## Registra le impronte appena pronunciate, tenendo le ultime dodici.
+static func registra(impronte: Array) -> void:
+	for impronta in impronte:
+		_memoria.erase(str(impronta))
+		_memoria.append(str(impronta))
+	while _memoria.size() > MEMORIA_RIGHE:
+		_memoria.pop_front()
+
+## Azzera la memoria. La usano gli audit, che devono partire da uno stato noto.
+static func dimentica_tutto() -> void:
+	_memoria.clear()
 
 ## Tutti gli argomenti coperti. Serve all'audit della copertura.
 static func argomenti() -> Array:

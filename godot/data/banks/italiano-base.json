@@ -17,7 +17,7 @@
 				"parente"
 			],
 			"answer": "famiglia",
-			"explanation": "\"famiglia\": insieme delle persone legate da parentela o vita comune. Stesso gruppo: genitore = madre o padre rispetto ai figli, fratello = figlio degli stessi genitori.",
+			"explanation": "Da non confondere con «genitore», che vuol dire «madre o padre rispetto ai figli».",
 			"distractorWhy": {
 				"fratello": "«fratello» vuol dire «figlio degli stessi genitori»: un'altra parola, non quella cercata.",
 				"parente": "«parente» vuol dire «persona della stessa famiglia, come uno zio»: un'altra parola, non quella cercata.",
@@ -38,7 +38,7 @@
 				"balcone"
 			],
 			"answer": "genitore",
-			"explanation": "\"genitore\": madre o padre rispetto ai figli. Stesso gruppo: fratello = figlio degli stessi genitori, sorella = figlia degli stessi genitori.",
+			"explanation": "Da non confondere con «fratello», che vuol dire «figlio degli stessi genitori».",
 			"distractorWhy": {
 				"famiglia": "«famiglia» vuol dire «insieme delle persone legate da parentela o vita comune»: un'altra parola, non quella cercata.",
 				"mensola": "«mensola» vuol dire «ripiano fissato alla parete»: un'altra parola, non quella cercata.",
@@ -59,7 +59,7 @@
 				"bolletta"
 			],
 			"answer": "fratello",
-			"explanation": "\"fratello\": figlio degli stessi genitori. Stesso gruppo: sorella = figlia degli stessi genitori, parente = persona della stessa famiglia, come uno zio.",
+			"explanation": "Da non confondere con «sorella», che vuol dire «figlia degli stessi genitori».",
 			"distractorWhy": {
 				"famiglia": "«famiglia» vuol dire «insieme delle persone legate da parentela o vita comune»: un'altra parola, non quella cercata.",
 				"bolletta": "«bolletta» vuol dire «documento con il costo di un servizio domestico»: un'altra parola, non quella cercata.",
@@ -80,7 +80,7 @@
 				"sorella"
 			],
 			"answer": "sorella",
-			"explanation": "\"sorella\": figlia degli stessi genitori. Stesso gruppo: parente = persona della stessa famiglia, come uno zio, vicino = persona che abita nella casa accanto.",
+			"explanation": "Da non confondere con «parente», che vuol dire «persona della stessa famiglia, come uno zio».",
 			"distractorWhy": {
 				"tavolo": "«tavolo» vuol dire «mobile con piano usato per mangiare o lavorare»: un'altra parola, non quella cercata.",
 				"parente": "«parente» vuol dire «persona della stessa famiglia, come uno zio»: un'altra parola, non quella cercata.",
@@ -101,7 +101,7 @@
 				"sorella"
 			],
 			"answer": "parente",
-			"explanation": "\"parente\": persona della stessa famiglia, come uno zio. Stesso gruppo: vicino = persona che abita nella casa accanto, ospite = persona accolta in casa.",
+			"explanation": "Da non confondere con «vicino», che vuol dire «persona che abita nella casa accanto».",
 			"distractorWhy": {
 				"mensola": "«mensola» vuol dire «ripiano fissato alla parete»: un'altra parola, non quella cercata.",
 				"balcone": "«balcone» vuol dire «spazio esterno collegato a una stanza»: un'altra parola, non quella cercata.",
@@ -122,7 +122,7 @@
 				"camera"
 			],
 			"answer": "vicino",
-			"explanation": "\"vicino\": persona che abita nella casa accanto. Stesso gruppo: ospite = persona accolta in casa, cucina = stanza in cui si preparano i pasti.",
+			"explanation": "Da non confondere con «ospite», che vuol dire «persona accolta in casa».",
 			"distractorWhy": {
 				"armadio": "«armadio» vuol dire «mobile in cui si tengono vestiti o oggetti»: un'altra parola, non quella cercata.",
 				"cucina": "«cucina» vuol dire «stanza in cui si preparano i pasti»: un'altra parola, non quella cercata.",
@@ -143,7 +143,7 @@
 				"vicino"
 			],
 			"answer": "ospite",
-			"explanation": "\"ospite\": persona accolta in casa. Stesso gruppo: cucina = stanza in cui si preparano i pasti, soggiorno = stanza della casa usata per stare insieme.",
+			"explanation": "Da non confondere con «cucina», che vuol dire «stanza in cui si preparano i pasti».",
 			"distractorWhy": {
 				"vicino": "«vicino» vuol dire «persona che abita nella casa accanto»: un'altra parola, non quella cercata.",
 				"chiave": "«chiave» vuol dire «oggetto usato per aprire una serratura»: un'altra parola, non quella cercata.",
@@ -164,7 +164,7 @@
 				"cucina"
 			],
 			"answer": "cucina",
-			"explanation": "\"cucina\": stanza in cui si preparano i pasti. Stesso gruppo: soggiorno = stanza della casa usata per stare insieme, camera = stanza in cui si dorme o si studia.",
+			"explanation": "Da non confondere con «soggiorno», che vuol dire «stanza della casa usata per stare insieme».",
 			"distractorWhy": {
 				"camera": "«camera» vuol dire «stanza in cui si dorme o si studia»: un'altra parola, non quella cercata.",
 				"balcone": "«balcone» vuol dire «spazio esterno collegato a una stanza»: un'altra parola, non quella cercata.",
@@ -185,7 +185,7 @@
 				"balcone"
 			],
 			"answer": "soggiorno",
-			"explanation": "\"soggiorno\": stanza della casa usata per stare insieme. Stesso gruppo: camera = stanza in cui si dorme o si studia, bagno = stanza per lavarsi e curare l'igiene.",
+			"explanation": "Da non confondere con «camera», che vuol dire «stanza in cui si dorme o si studia».",
 			"distractorWhy": {
 				"balcone": "«balcone» vuol dire «spazio esterno collegato a una stanza»: un'altra parola, non quella cercata.",
 				"armadio": "«armadio» vuol dire «mobile in cui si tengono vestiti o oggetti»: un'altra parola, non quella cercata.",
@@ -206,7 +206,7 @@
 				"sorella"
 			],
 			"answer": "camera",
-			"explanation": "\"camera\": stanza in cui si dorme o si studia. Stesso gruppo: bagno = stanza per lavarsi e curare l'igiene, balcone = spazio esterno collegato a una stanza.",
+			"explanation": "Da non confondere con «bagno», che vuol dire «stanza per lavarsi e curare l'igiene».",
 			"distractorWhy": {
 				"sorella": "«sorella» vuol dire «figlia degli stessi genitori»: un'altra parola, non quella cercata.",
 				"mensola": "«mensola» vuol dire «ripiano fissato alla parete»: un'altra parola, non quella cercata.",
@@ -227,7 +227,7 @@
 				"camera"
 			],
 			"answer": "bagno",
-			"explanation": "\"bagno\": stanza per lavarsi e curare l'igiene. Stesso gruppo: balcone = spazio esterno collegato a una stanza, tavolo = mobile con piano usato per mangiare o lavorare.",
+			"explanation": "Da non confondere con «balcone», che vuol dire «spazio esterno collegato a una stanza».",
 			"distractorWhy": {
 				"mensola": "«mensola» vuol dire «ripiano fissato alla parete»: un'altra parola, non quella cercata.",
 				"vicino": "«vicino» vuol dire «persona che abita nella casa accanto»: un'altra parola, non quella cercata.",
@@ -248,7 +248,7 @@
 				"balcone"
 			],
 			"answer": "balcone",
-			"explanation": "\"balcone\": spazio esterno collegato a una stanza. Stesso gruppo: tavolo = mobile con piano usato per mangiare o lavorare, sedia = sedile con schienale.",
+			"explanation": "Da non confondere con «tavolo», che vuol dire «mobile con piano usato per mangiare o lavorare».",
 			"distractorWhy": {
 				"camera": "«camera» vuol dire «stanza in cui si dorme o si studia»: un'altra parola, non quella cercata.",
 				"mensola": "«mensola» vuol dire «ripiano fissato alla parete»: un'altra parola, non quella cercata.",
@@ -269,7 +269,7 @@
 				"ospite"
 			],
 			"answer": "tavolo",
-			"explanation": "\"tavolo\": mobile con piano usato per mangiare o lavorare. Stesso gruppo: sedia = sedile con schienale, armadio = mobile in cui si tengono vestiti o oggetti.",
+			"explanation": "Da non confondere con «sedia», che vuol dire «sedile con schienale».",
 			"distractorWhy": {
 				"sorella": "«sorella» vuol dire «figlia degli stessi genitori»: un'altra parola, non quella cercata.",
 				"balcone": "«balcone» vuol dire «spazio esterno collegato a una stanza»: un'altra parola, non quella cercata.",
@@ -290,7 +290,7 @@
 				"sorella"
 			],
 			"answer": "sedia",
-			"explanation": "\"sedia\": sedile con schienale. Stesso gruppo: armadio = mobile in cui si tengono vestiti o oggetti, mensola = ripiano fissato alla parete.",
+			"explanation": "Da non confondere con «armadio», che vuol dire «mobile in cui si tengono vestiti o oggetti».",
 			"distractorWhy": {
 				"sorella": "«sorella» vuol dire «figlia degli stessi genitori»: un'altra parola, non quella cercata.",
 				"ospite": "«ospite» vuol dire «persona accolta in casa»: un'altra parola, non quella cercata.",
@@ -311,7 +311,7 @@
 				"chiave"
 			],
 			"answer": "armadio",
-			"explanation": "\"armadio\": mobile in cui si tengono vestiti o oggetti. Stesso gruppo: mensola = ripiano fissato alla parete, cassetto = vano estraibile di un mobile.",
+			"explanation": "Da non confondere con «mensola», che vuol dire «ripiano fissato alla parete».",
 			"distractorWhy": {
 				"chiave": "«chiave» vuol dire «oggetto usato per aprire una serratura»: un'altra parola, non quella cercata.",
 				"camera": "«camera» vuol dire «stanza in cui si dorme o si studia»: un'altra parola, non quella cercata.",
@@ -332,7 +332,7 @@
 				"mensola"
 			],
 			"answer": "mensola",
-			"explanation": "\"mensola\": ripiano fissato alla parete. Stesso gruppo: cassetto = vano estraibile di un mobile, chiave = oggetto usato per aprire una serratura.",
+			"explanation": "Da non confondere con «cassetto», che vuol dire «vano estraibile di un mobile».",
 			"distractorWhy": {
 				"cucina": "«cucina» vuol dire «stanza in cui si preparano i pasti»: un'altra parola, non quella cercata.",
 				"parente": "«parente» vuol dire «persona della stessa famiglia, come uno zio»: un'altra parola, non quella cercata.",
@@ -353,7 +353,7 @@
 				"bolletta"
 			],
 			"answer": "cassetto",
-			"explanation": "\"cassetto\": vano estraibile di un mobile. Stesso gruppo: chiave = oggetto usato per aprire una serratura, campanello = dispositivo per avvisare chi è in casa.",
+			"explanation": "Da non confondere con «chiave», che vuol dire «oggetto usato per aprire una serratura».",
 			"distractorWhy": {
 				"sorella": "«sorella» vuol dire «figlia degli stessi genitori»: un'altra parola, non quella cercata.",
 				"famiglia": "«famiglia» vuol dire «insieme delle persone legate da parentela o vita comune»: un'altra parola, non quella cercata.",
@@ -374,7 +374,7 @@
 				"cucina"
 			],
 			"answer": "chiave",
-			"explanation": "\"chiave\": oggetto usato per aprire una serratura. Stesso gruppo: campanello = dispositivo per avvisare chi è in casa, bolletta = documento con il costo di un servizio domestico.",
+			"explanation": "Da non confondere con «campanello», che vuol dire «dispositivo per avvisare chi è in casa».",
 			"distractorWhy": {
 				"mensola": "«mensola» vuol dire «ripiano fissato alla parete»: un'altra parola, non quella cercata.",
 				"cucina": "«cucina» vuol dire «stanza in cui si preparano i pasti»: un'altra parola, non quella cercata.",
@@ -395,7 +395,7 @@
 				"famiglia"
 			],
 			"answer": "campanello",
-			"explanation": "\"campanello\": dispositivo per avvisare chi è in casa. Stesso gruppo: bolletta = documento con il costo di un servizio domestico, famiglia = insieme delle persone legate da parentela o vita comune.",
+			"explanation": "Da non confondere con «bolletta», che vuol dire «documento con il costo di un servizio domestico».",
 			"distractorWhy": {
 				"sorella": "«sorella» vuol dire «figlia degli stessi genitori»: un'altra parola, non quella cercata.",
 				"famiglia": "«famiglia» vuol dire «insieme delle persone legate da parentela o vita comune»: un'altra parola, non quella cercata.",
@@ -416,7 +416,7 @@
 				"bolletta"
 			],
 			"answer": "bolletta",
-			"explanation": "\"bolletta\": documento con il costo di un servizio domestico. Stesso gruppo: famiglia = insieme delle persone legate da parentela o vita comune, genitore = madre o padre rispetto ai figli.",
+			"explanation": "Da non confondere con «famiglia», che vuol dire «insieme delle persone legate da parentela o vita comune».",
 			"distractorWhy": {
 				"parente": "«parente» vuol dire «persona della stessa famiglia, come uno zio»: un'altra parola, non quella cercata.",
 				"armadio": "«armadio» vuol dire «mobile in cui si tengono vestiti o oggetti»: un'altra parola, non quella cercata.",
@@ -437,7 +437,7 @@
 				"rumoroso"
 			],
 			"answer": "ordinato",
-			"explanation": "\"ordinato\": messo al posto giusto. Stesso gruppo: disordinato = senza ordine o organizzazione, pulito = privo di sporco.",
+			"explanation": "Da non confondere con «disordinato», che vuol dire «senza ordine o organizzazione».",
 			"distractorWhy": {
 				"comodo": "«comodo» vuol dire «facile o piacevole da usare»: un'altra parola, non quella cercata.",
 				"rumoroso": "«rumoroso» vuol dire «pieno di rumore»: un'altra parola, non quella cercata.",
@@ -458,7 +458,7 @@
 				"ordinato"
 			],
 			"answer": "disordinato",
-			"explanation": "\"disordinato\": senza ordine o organizzazione. Stesso gruppo: pulito = privo di sporco, sporco = non pulito.",
+			"explanation": "Da non confondere con «pulito», che vuol dire «privo di sporco».",
 			"distractorWhy": {
 				"silenzioso": "«silenzioso» vuol dire «con poco o nessun rumore»: un'altra parola, non quella cercata.",
 				"rumoroso": "«rumoroso» vuol dire «pieno di rumore»: un'altra parola, non quella cercata.",
@@ -479,7 +479,7 @@
 				"comodo"
 			],
 			"answer": "pulito",
-			"explanation": "\"pulito\": privo di sporco. Stesso gruppo: sporco = non pulito, accogliente = che fa sentire a proprio agio.",
+			"explanation": "Da non confondere con «sporco», che vuol dire «non pulito».",
 			"distractorWhy": {
 				"sporco": "«sporco» vuol dire «non pulito»: un'altra parola, non quella cercata.",
 				"comodo": "«comodo» vuol dire «facile o piacevole da usare»: un'altra parola, non quella cercata.",
@@ -500,7 +500,7 @@
 				"sporco"
 			],
 			"answer": "sporco",
-			"explanation": "\"sporco\": non pulito. Stesso gruppo: accogliente = che fa sentire a proprio agio, rumoroso = pieno di rumore.",
+			"explanation": "Da non confondere con «accogliente», che vuol dire «che fa sentire a proprio agio».",
 			"distractorWhy": {
 				"pulito": "«pulito» vuol dire «privo di sporco»: un'altra parola, non quella cercata.",
 				"comodo": "«comodo» vuol dire «facile o piacevole da usare»: un'altra parola, non quella cercata.",
@@ -521,7 +521,7 @@
 				"silenzioso"
 			],
 			"answer": "accogliente",
-			"explanation": "\"accogliente\": che fa sentire a proprio agio. Stesso gruppo: rumoroso = pieno di rumore, silenzioso = con poco o nessun rumore.",
+			"explanation": "Da non confondere con «rumoroso», che vuol dire «pieno di rumore».",
 			"distractorWhy": {
 				"ordinato": "«ordinato» vuol dire «messo al posto giusto»: un'altra parola, non quella cercata.",
 				"silenzioso": "«silenzioso» vuol dire «con poco o nessun rumore»: un'altra parola, non quella cercata.",
@@ -542,7 +542,7 @@
 				"pulito"
 			],
 			"answer": "rumoroso",
-			"explanation": "\"rumoroso\": pieno di rumore. Stesso gruppo: silenzioso = con poco o nessun rumore, comodo = facile o piacevole da usare.",
+			"explanation": "Da non confondere con «silenzioso», che vuol dire «con poco o nessun rumore».",
 			"distractorWhy": {
 				"pulito": "«pulito» vuol dire «privo di sporco»: un'altra parola, non quella cercata.",
 				"ordinato": "«ordinato» vuol dire «messo al posto giusto»: un'altra parola, non quella cercata.",
@@ -563,7 +563,7 @@
 				"ordinato"
 			],
 			"answer": "silenzioso",
-			"explanation": "\"silenzioso\": con poco o nessun rumore. Stesso gruppo: comodo = facile o piacevole da usare, ordinato = messo al posto giusto.",
+			"explanation": "Da non confondere con «comodo», che vuol dire «facile o piacevole da usare».",
 			"distractorWhy": {
 				"ordinato": "«ordinato» vuol dire «messo al posto giusto»: un'altra parola, non quella cercata.",
 				"disordinato": "«disordinato» vuol dire «senza ordine o organizzazione»: un'altra parola, non quella cercata.",
@@ -584,7 +584,7 @@
 				"comodo"
 			],
 			"answer": "comodo",
-			"explanation": "\"comodo\": facile o piacevole da usare. Stesso gruppo: ordinato = messo al posto giusto, disordinato = senza ordine o organizzazione.",
+			"explanation": "Da non confondere con «ordinato», che vuol dire «messo al posto giusto».",
 			"distractorWhy": {
 				"pulito": "«pulito» vuol dire «privo di sporco»: un'altra parola, non quella cercata.",
 				"rumoroso": "«rumoroso» vuol dire «pieno di rumore»: un'altra parola, non quella cercata.",
@@ -605,7 +605,7 @@
 				"compito"
 			],
 			"answer": "quaderno",
-			"explanation": "\"quaderno\": fascicolo su cui si scrive a scuola. Stesso gruppo: diario = agenda scolastica per compiti e comunicazioni, zaino = borsa da portare sulle spalle.",
+			"explanation": "Da non confondere con «diario», che vuol dire «agenda scolastica per compiti e comunicazioni».",
 			"distractorWhy": {
 				"compito": "«compito» vuol dire «esercizio da svolgere a scuola o a casa»: un'altra parola, non quella cercata.",
 				"domanda": "«domanda» vuol dire «frase con cui si chiede qualcosa»: un'altra parola, non quella cercata.",
@@ -626,7 +626,7 @@
 				"lezione"
 			],
 			"answer": "diario",
-			"explanation": "\"diario\": agenda scolastica per compiti e comunicazioni. Stesso gruppo: zaino = borsa da portare sulle spalle, astuccio = contenitore per penne e matite.",
+			"explanation": "Da non confondere con «zaino», che vuol dire «borsa da portare sulle spalle».",
 			"distractorWhy": {
 				"lezione": "«lezione» vuol dire «momento in cui si spiega o si impara un argomento»: un'altra parola, non quella cercata.",
 				"domanda": "«domanda» vuol dire «frase con cui si chiede qualcosa»: un'altra parola, non quella cercata.",
@@ -647,7 +647,7 @@
 				"voto"
 			],
 			"answer": "zaino",
-			"explanation": "\"zaino\": borsa da portare sulle spalle. Stesso gruppo: astuccio = contenitore per penne e matite, lavagna = superficie su cui l'insegnante scrive.",
+			"explanation": "Da non confondere con «astuccio», che vuol dire «contenitore per penne e matite».",
 			"distractorWhy": {
 				"mappa": "«mappa» vuol dire «schema che collega concetti»: un'altra parola, non quella cercata.",
 				"domanda": "«domanda» vuol dire «frase con cui si chiede qualcosa»: un'altra parola, non quella cercata.",
@@ -668,7 +668,7 @@
 				"astuccio"
 			],
 			"answer": "astuccio",
-			"explanation": "\"astuccio\": contenitore per penne e matite. Stesso gruppo: lavagna = superficie su cui l'insegnante scrive, lezione = momento in cui si spiega o si impara un argomento.",
+			"explanation": "Da non confondere con «lavagna», che vuol dire «superficie su cui l'insegnante scrive».",
 			"distractorWhy": {
 				"riassunto": "«riassunto» vuol dire «testo breve che conserva le informazioni principali»: un'altra parola, non quella cercata.",
 				"domanda": "«domanda» vuol dire «frase con cui si chiede qualcosa»: un'altra parola, non quella cercata.",
@@ -689,7 +689,7 @@
 				"astuccio"
 			],
 			"answer": "lavagna",
-			"explanation": "\"lavagna\": superficie su cui l'insegnante scrive. Stesso gruppo: lezione = momento in cui si spiega o si impara un argomento, compito = esercizio da svolgere a scuola o a casa.",
+			"explanation": "Da non confondere con «lezione», che vuol dire «momento in cui si spiega o si impara un argomento».",
 			"distractorWhy": {
 				"domanda": "«domanda» vuol dire «frase con cui si chiede qualcosa»: un'altra parola, non quella cercata.",
 				"diario": "«diario» vuol dire «agenda scolastica per compiti e comunicazioni»: un'altra parola, non quella cercata.",
@@ -710,7 +710,7 @@
 				"schema"
 			],
 			"answer": "lezione",
-			"explanation": "\"lezione\": momento in cui si spiega o si impara un argomento. Stesso gruppo: compito = esercizio da svolgere a scuola o a casa, verifica = prova per controllare ciò che si sa.",
+			"explanation": "Da non confondere con «compito», che vuol dire «esercizio da svolgere a scuola o a casa».",
 			"distractorWhy": {
 				"diario": "«diario» vuol dire «agenda scolastica per compiti e comunicazioni»: un'altra parola, non quella cercata.",
 				"schema": "«schema» vuol dire «rappresentazione ordinata di idee o dati»: un'altra parola, non quella cercata.",
@@ -731,7 +731,7 @@
 				"quaderno"
 			],
 			"answer": "compito",
-			"explanation": "\"compito\": esercizio da svolgere a scuola o a casa. Stesso gruppo: verifica = prova per controllare ciò che si sa, interrogazione = prova orale su un argomento.",
+			"explanation": "Da non confondere con «verifica», che vuol dire «prova per controllare ciò che si sa».",
 			"distractorWhy": {
 				"risposta": "«risposta» vuol dire «informazione data a una domanda»: un'altra parola, non quella cercata.",
 				"verifica": "«verifica» vuol dire «prova per controllare ciò che si sa»: un'altra parola, non quella cercata.",
@@ -752,7 +752,7 @@
 				"verifica"
 			],
 			"answer": "verifica",
-			"explanation": "\"verifica\": prova per controllare ciò che si sa. Stesso gruppo: interrogazione = prova orale su un argomento, voto = valutazione espressa con un numero o giudizio.",
+			"explanation": "Da non confondere con «interrogazione», che vuol dire «prova orale su un argomento».",
 			"distractorWhy": {
 				"argomento": "«argomento» vuol dire «ragione usata per sostenere una tesi»: un'altra parola, non quella cercata.",
 				"lavagna": "«lavagna» vuol dire «superficie su cui l'insegnante scrive»: un'altra parola, non quella cercata.",
@@ -773,7 +773,7 @@
 				"quaderno"
 			],
 			"answer": "interrogazione",
-			"explanation": "\"interrogazione\": prova orale su un argomento. Stesso gruppo: voto = valutazione espressa con un numero o giudizio, argomento = tema di cui si parla o si studia.",
+			"explanation": "Da non confondere con «voto», che vuol dire «valutazione espressa con un numero o giudizio».",
 			"distractorWhy": {
 				"lezione": "«lezione» vuol dire «momento in cui si spiega o si impara un argomento»: un'altra parola, non quella cercata.",
 				"argomento": "«argomento» vuol dire «ragione usata per sostenere una tesi»: un'altra parola, non quella cercata.",
@@ -794,7 +794,7 @@
 				"metodo"
 			],
 			"answer": "voto",
-			"explanation": "\"voto\": valutazione espressa con un numero o giudizio. Stesso gruppo: argomento = tema di cui si parla o si studia, paragrafo = parte di un testo separata dalle altre.",
+			"explanation": "Da non confondere con «argomento», che vuol dire «tema di cui si parla o si studia».",
 			"distractorWhy": {
 				"compito": "«compito» vuol dire «esercizio da svolgere a scuola o a casa»: un'altra parola, non quella cercata.",
 				"domanda": "«domanda» vuol dire «frase con cui si chiede qualcosa»: un'altra parola, non quella cercata.",
@@ -815,7 +815,7 @@
 				"paragrafo"
 			],
 			"answer": "argomento",
-			"explanation": "\"argomento\": tema di cui si parla o si studia. Stesso gruppo: paragrafo = parte di un testo separata dalle altre, riassunto = testo breve che conserva le informazioni principali.",
+			"explanation": "Da non confondere con «paragrafo», che vuol dire «parte di un testo separata dalle altre».",
 			"distractorWhy": {
 				"risposta": "«risposta» vuol dire «informazione data a una domanda»: un'altra parola, non quella cercata.",
 				"domanda": "«domanda» vuol dire «frase con cui si chiede qualcosa»: un'altra parola, non quella cercata.",
@@ -836,7 +836,7 @@
 				"paragrafo"
 			],
 			"answer": "paragrafo",
-			"explanation": "\"paragrafo\": parte di un testo separata dalle altre. Stesso gruppo: riassunto = testo breve che conserva le informazioni principali, schema = rappresentazione ordinata di idee o dati.",
+			"explanation": "Da non confondere con «riassunto», che vuol dire «testo breve che conserva le informazioni principali».",
 			"distractorWhy": {
 				"astuccio": "«astuccio» vuol dire «contenitore per penne e matite»: un'altra parola, non quella cercata.",
 				"lezione": "«lezione» vuol dire «momento in cui si spiega o si impara un argomento»: un'altra parola, non quella cercata.",
@@ -857,7 +857,7 @@
 				"compito"
 			],
 			"answer": "riassunto",
-			"explanation": "\"riassunto\": testo breve che conserva le informazioni principali. Stesso gruppo: schema = rappresentazione ordinata di idee o dati, mappa = schema che collega concetti.",
+			"explanation": "Da non confondere con «schema», che vuol dire «rappresentazione ordinata di idee o dati».",
 			"distractorWhy": {
 				"lavagna": "«lavagna» vuol dire «superficie su cui l'insegnante scrive»: un'altra parola, non quella cercata.",
 				"compito": "«compito» vuol dire «esercizio da svolgere a scuola o a casa»: un'altra parola, non quella cercata.",
@@ -878,7 +878,7 @@
 				"zaino"
 			],
 			"answer": "schema",
-			"explanation": "\"schema\": rappresentazione ordinata di idee o dati. Stesso gruppo: mappa = schema che collega concetti, fonte = origine di un'informazione.",
+			"explanation": "Da non confondere con «mappa», che vuol dire «schema che collega concetti».",
 			"distractorWhy": {
 				"lezione": "«lezione» vuol dire «momento in cui si spiega o si impara un argomento»: un'altra parola, non quella cercata.",
 				"zaino": "«zaino» vuol dire «borsa da portare sulle spalle»: un'altra parola, non quella cercata.",
@@ -899,7 +899,7 @@
 				"compito"
 			],
 			"answer": "mappa",
-			"explanation": "\"mappa\": schema che collega concetti. Stesso gruppo: fonte = origine di un'informazione, esempio = caso concreto che chiarisce una regola.",
+			"explanation": "Da non confondere con «fonte», che vuol dire «origine di un'informazione».",
 			"distractorWhy": {
 				"voto": "«voto» vuol dire «valutazione espressa con un numero o giudizio»: un'altra parola, non quella cercata.",
 				"diario": "«diario» vuol dire «agenda scolastica per compiti e comunicazioni»: un'altra parola, non quella cercata.",
@@ -920,7 +920,7 @@
 				"fonte"
 			],
 			"answer": "fonte",
-			"explanation": "\"fonte\": origine di un'informazione. Stesso gruppo: esempio = caso concreto che chiarisce una regola, domanda = frase con cui si chiede qualcosa.",
+			"explanation": "Da non confondere con «esempio», che vuol dire «caso concreto che chiarisce una regola».",
 			"distractorWhy": {
 				"schema": "«schema» vuol dire «rappresentazione ordinata di idee o dati»: un'altra parola, non quella cercata.",
 				"zaino": "«zaino» vuol dire «borsa da portare sulle spalle»: un'altra parola, non quella cercata.",
@@ -941,7 +941,7 @@
 				"domanda"
 			],
 			"answer": "esempio",
-			"explanation": "\"esempio\": caso concreto che chiarisce una regola. Stesso gruppo: domanda = frase con cui si chiede qualcosa, risposta = informazione data a una domanda.",
+			"explanation": "Da non confondere con «domanda», che vuol dire «frase con cui si chiede qualcosa».",
 			"distractorWhy": {
 				"domanda": "«domanda» vuol dire «frase con cui si chiede qualcosa»: un'altra parola, non quella cercata.",
 				"quaderno": "«quaderno» vuol dire «fascicolo su cui si scrive a scuola»: un'altra parola, non quella cercata.",
@@ -962,7 +962,7 @@
 				"lezione"
 			],
 			"answer": "domanda",
-			"explanation": "\"domanda\": frase con cui si chiede qualcosa. Stesso gruppo: risposta = informazione data a una domanda, metodo = modo ordinato di lavorare o studiare.",
+			"explanation": "Da non confondere con «risposta», che vuol dire «informazione data a una domanda».",
 			"distractorWhy": {
 				"lezione": "«lezione» vuol dire «momento in cui si spiega o si impara un argomento»: un'altra parola, non quella cercata.",
 				"compito": "«compito» vuol dire «esercizio da svolgere a scuola o a casa»: un'altra parola, non quella cercata.",
@@ -983,7 +983,7 @@
 				"astuccio"
 			],
 			"answer": "risposta",
-			"explanation": "\"risposta\": informazione data a una domanda. Stesso gruppo: metodo = modo ordinato di lavorare o studiare, quaderno = fascicolo su cui si scrive a scuola.",
+			"explanation": "Da non confondere con «metodo», che vuol dire «modo ordinato di lavorare o studiare».",
 			"distractorWhy": {
 				"astuccio": "«astuccio» vuol dire «contenitore per penne e matite»: un'altra parola, non quella cercata.",
 				"lezione": "«lezione» vuol dire «momento in cui si spiega o si impara un argomento»: un'altra parola, non quella cercata.",
@@ -1004,7 +1004,7 @@
 				"metodo"
 			],
 			"answer": "metodo",
-			"explanation": "\"metodo\": modo ordinato di lavorare o studiare. Stesso gruppo: quaderno = fascicolo su cui si scrive a scuola, diario = agenda scolastica per compiti e comunicazioni.",
+			"explanation": "Da non confondere con «quaderno», che vuol dire «fascicolo su cui si scrive a scuola».",
 			"distractorWhy": {
 				"esempio": "«esempio» vuol dire «caso concreto che chiarisce una regola»: un'altra parola, non quella cercata.",
 				"domanda": "«domanda» vuol dire «frase con cui si chiede qualcosa»: un'altra parola, non quella cercata.",
@@ -1025,7 +1025,7 @@
 				"dimostrare"
 			],
 			"answer": "studiare",
-			"explanation": "\"studiare\": imparare un argomento con attenzione. Stesso gruppo: ripassare = rivedere ciò che si è già studiato, sottolineare = segnare una parte importante del testo.",
+			"explanation": "Da non confondere con «ripassare», che vuol dire «rivedere ciò che si è già studiato».",
 			"distractorWhy": {
 				"correggere": "«correggere» vuol dire «eliminare un errore»: un'altra parola, non quella cercata.",
 				"dimostrare": "«dimostrare» vuol dire «mostrare con prove che una cosa è vera»: un'altra parola, non quella cercata.",
@@ -1046,7 +1046,7 @@
 				"correggere"
 			],
 			"answer": "ripassare",
-			"explanation": "\"ripassare\": rivedere ciò che si è già studiato. Stesso gruppo: sottolineare = segnare una parte importante del testo, riassumere = dire o scrivere solo le idee essenziali.",
+			"explanation": "Da non confondere con «sottolineare», che vuol dire «segnare una parte importante del testo».",
 			"distractorWhy": {
 				"correggere": "«correggere» vuol dire «eliminare un errore»: un'altra parola, non quella cercata.",
 				"verificare": "«verificare» vuol dire «controllare se una cosa è corretta»: un'altra parola, non quella cercata.",
@@ -1067,7 +1067,7 @@
 				"correggere"
 			],
 			"answer": "sottolineare",
-			"explanation": "\"sottolineare\": segnare una parte importante del testo. Stesso gruppo: riassumere = dire o scrivere solo le idee essenziali, spiegare = rendere chiaro un contenuto.",
+			"explanation": "Da non confondere con «riassumere», che vuol dire «dire o scrivere solo le idee essenziali».",
 			"distractorWhy": {
 				"correggere": "«correggere» vuol dire «eliminare un errore»: un'altra parola, non quella cercata.",
 				"verificare": "«verificare» vuol dire «controllare se una cosa è corretta»: un'altra parola, non quella cercata.",
@@ -1088,7 +1088,7 @@
 				"riassumere"
 			],
 			"answer": "riassumere",
-			"explanation": "\"riassumere\": dire o scrivere solo le idee essenziali. Stesso gruppo: spiegare = rendere chiaro un contenuto, confrontare = mettere due elementi a paragone.",
+			"explanation": "Da non confondere con «spiegare», che vuol dire «rendere chiaro un contenuto».",
 			"distractorWhy": {
 				"verificare": "«verificare» vuol dire «controllare se una cosa è corretta»: un'altra parola, non quella cercata.",
 				"confrontare": "«confrontare» vuol dire «mettere due elementi a paragone»: un'altra parola, non quella cercata.",
@@ -1109,7 +1109,7 @@
 				"studiare"
 			],
 			"answer": "spiegare",
-			"explanation": "\"spiegare\": rendere chiaro un contenuto. Stesso gruppo: confrontare = mettere due elementi a paragone, verificare = controllare se una cosa è corretta.",
+			"explanation": "Da non confondere con «confrontare», che vuol dire «mettere due elementi a paragone».",
 			"distractorWhy": {
 				"studiare": "«studiare» vuol dire «imparare un argomento con attenzione»: un'altra parola, non quella cercata.",
 				"ripassare": "«ripassare» vuol dire «rivedere ciò che si è già studiato»: un'altra parola, non quella cercata.",
@@ -1130,7 +1130,7 @@
 				"verificare"
 			],
 			"answer": "confrontare",
-			"explanation": "\"confrontare\": mettere due elementi a paragone. Stesso gruppo: verificare = controllare se una cosa è corretta, correggere = eliminare un errore.",
+			"explanation": "Da non confondere con «verificare», che vuol dire «controllare se una cosa è corretta».",
 			"distractorWhy": {
 				"verificare": "«verificare» vuol dire «controllare se una cosa è corretta»: un'altra parola, non quella cercata.",
 				"riassumere": "«riassumere» vuol dire «dire o scrivere solo le idee essenziali»: un'altra parola, non quella cercata.",
@@ -1151,7 +1151,7 @@
 				"ripassare"
 			],
 			"answer": "verificare",
-			"explanation": "\"verificare\": controllare se una cosa è corretta. Stesso gruppo: correggere = eliminare un errore, dimostrare = mostrare con prove che una cosa è vera.",
+			"explanation": "Da non confondere con «correggere», che vuol dire «eliminare un errore».",
 			"distractorWhy": {
 				"dimostrare": "«dimostrare» vuol dire «mostrare con prove che una cosa è vera»: un'altra parola, non quella cercata.",
 				"riassumere": "«riassumere» vuol dire «dire o scrivere solo le idee essenziali»: un'altra parola, non quella cercata.",
@@ -1172,7 +1172,7 @@
 				"correggere"
 			],
 			"answer": "correggere",
-			"explanation": "\"correggere\": eliminare un errore. Stesso gruppo: dimostrare = mostrare con prove che una cosa è vera, argomentare = sostenere un'idea con ragioni e prove.",
+			"explanation": "Da non confondere con «dimostrare», che vuol dire «mostrare con prove che una cosa è vera».",
 			"distractorWhy": {
 				"confrontare": "«confrontare» vuol dire «mettere due elementi a paragone»: un'altra parola, non quella cercata.",
 				"ripassare": "«ripassare» vuol dire «rivedere ciò che si è già studiato»: un'altra parola, non quella cercata.",
@@ -1193,7 +1193,7 @@
 				"correggere"
 			],
 			"answer": "dimostrare",
-			"explanation": "\"dimostrare\": mostrare con prove che una cosa è vera. Stesso gruppo: argomentare = sostenere un'idea con ragioni e prove, studiare = imparare un argomento con attenzione.",
+			"explanation": "Da non confondere con «argomentare», che vuol dire «sostenere un'idea con ragioni e prove».",
 			"distractorWhy": {
 				"correggere": "«correggere» vuol dire «eliminare un errore»: un'altra parola, non quella cercata.",
 				"riassumere": "«riassumere» vuol dire «dire o scrivere solo le idee essenziali»: un'altra parola, non quella cercata.",
@@ -1214,7 +1214,7 @@
 				"sottolineare"
 			],
 			"answer": "argomentare",
-			"explanation": "\"argomentare\": sostenere un'idea con ragioni e prove. Stesso gruppo: studiare = imparare un argomento con attenzione, ripassare = rivedere ciò che si è già studiato.",
+			"explanation": "Da non confondere con «studiare», che vuol dire «imparare un argomento con attenzione».",
 			"distractorWhy": {
 				"verificare": "«verificare» vuol dire «controllare se una cosa è corretta»: un'altra parola, non quella cercata.",
 				"dimostrare": "«dimostrare» vuol dire «mostrare con prove che una cosa è vera»: un'altra parola, non quella cercata.",
@@ -1235,7 +1235,7 @@
 				"spuntino"
 			],
 			"answer": "colazione",
-			"explanation": "\"colazione\": pasto del mattino. Stesso gruppo: pranzo = pasto principale di metà giornata, cena = pasto della sera.",
+			"explanation": "Da non confondere con «pranzo», che vuol dire «pasto principale di metà giornata».",
 			"distractorWhy": {
 				"verdura": "«verdura» vuol dire «alimento vegetale usato nei pasti»: un'altra parola, non quella cercata.",
 				"ricetta": "«ricetta» vuol dire «istruzioni per preparare un piatto»: un'altra parola, non quella cercata.",
@@ -1256,7 +1256,7 @@
 				"pranzo"
 			],
 			"answer": "pranzo",
-			"explanation": "\"pranzo\": pasto principale di metà giornata. Stesso gruppo: cena = pasto della sera, spuntino = piccolo pasto tra due pasti principali.",
+			"explanation": "Da non confondere con «cena», che vuol dire «pasto della sera».",
 			"distractorWhy": {
 				"pesce": "«pesce» vuol dire «alimento che viene dal mare o dall'acqua dolce»: un'altra parola, non quella cercata.",
 				"offerta": "«offerta» vuol dire «prezzo ridotto per un prodotto»: un'altra parola, non quella cercata.",
@@ -1277,7 +1277,7 @@
 				"pesce"
 			],
 			"answer": "cena",
-			"explanation": "\"cena\": pasto della sera. Stesso gruppo: spuntino = piccolo pasto tra due pasti principali, ricetta = istruzioni per preparare un piatto.",
+			"explanation": "Da non confondere con «spuntino», che vuol dire «piccolo pasto tra due pasti principali».",
 			"distractorWhy": {
 				"resto": "«resto» vuol dire «denaro restituito dopo un pagamento»: un'altra parola, non quella cercata.",
 				"pesce": "«pesce» vuol dire «alimento che viene dal mare o dall'acqua dolce»: un'altra parola, non quella cercata.",
@@ -1298,7 +1298,7 @@
 				"colazione"
 			],
 			"answer": "spuntino",
-			"explanation": "\"spuntino\": piccolo pasto tra due pasti principali. Stesso gruppo: ricetta = istruzioni per preparare un piatto, ingrediente = alimento usato in una ricetta.",
+			"explanation": "Da non confondere con «ricetta», che vuol dire «istruzioni per preparare un piatto».",
 			"distractorWhy": {
 				"verdura": "«verdura» vuol dire «alimento vegetale usato nei pasti»: un'altra parola, non quella cercata.",
 				"pranzo": "«pranzo» vuol dire «pasto principale di metà giornata»: un'altra parola, non quella cercata.",
@@ -1319,7 +1319,7 @@
 				"verdura"
 			],
 			"answer": "ricetta",
-			"explanation": "\"ricetta\": istruzioni per preparare un piatto. Stesso gruppo: ingrediente = alimento usato in una ricetta, pane = alimento base fatto con farina e acqua.",
+			"explanation": "Da non confondere con «ingrediente», che vuol dire «alimento usato in una ricetta».",
 			"distractorWhy": {
 				"prezzo": "«prezzo» vuol dire «quantità di denaro richiesta per comprare qualcosa»: un'altra parola, non quella cercata.",
 				"offerta": "«offerta» vuol dire «prezzo ridotto per un prodotto»: un'altra parola, non quella cercata.",
@@ -1340,7 +1340,7 @@
 				"ingrediente"
 			],
 			"answer": "ingrediente",
-			"explanation": "\"ingrediente\": alimento usato in una ricetta. Stesso gruppo: pane = alimento base fatto con farina e acqua, pasta = alimento tipico formato da farina e acqua.",
+			"explanation": "Da non confondere con «pane», che vuol dire «alimento base fatto con farina e acqua».",
 			"distractorWhy": {
 				"offerta": "«offerta» vuol dire «prezzo ridotto per un prodotto»: un'altra parola, non quella cercata.",
 				"colazione": "«colazione» vuol dire «pasto del mattino»: un'altra parola, non quella cercata.",
@@ -1361,7 +1361,7 @@
 				"prezzo"
 			],
 			"answer": "pane",
-			"explanation": "\"pane\": alimento base fatto con farina e acqua. Stesso gruppo: pasta = alimento tipico formato da farina e acqua, verdura = alimento vegetale usato nei pasti.",
+			"explanation": "Da non confondere con «pasta», che vuol dire «alimento tipico formato da farina e acqua».",
 			"distractorWhy": {
 				"pesce": "«pesce» vuol dire «alimento che viene dal mare o dall'acqua dolce»: un'altra parola, non quella cercata.",
 				"prezzo": "«prezzo» vuol dire «quantità di denaro richiesta per comprare qualcosa»: un'altra parola, non quella cercata.",
@@ -1382,7 +1382,7 @@
 				"frutta"
 			],
 			"answer": "pasta",
-			"explanation": "\"pasta\": alimento tipico formato da farina e acqua. Stesso gruppo: verdura = alimento vegetale usato nei pasti, frutta = alimento dolce prodotto dalle piante.",
+			"explanation": "Da non confondere con «verdura», che vuol dire «alimento vegetale usato nei pasti».",
 			"distractorWhy": {
 				"frutta": "«frutta» vuol dire «alimento dolce prodotto dalle piante»: un'altra parola, non quella cercata.",
 				"pesce": "«pesce» vuol dire «alimento che viene dal mare o dall'acqua dolce»: un'altra parola, non quella cercata.",
@@ -1403,7 +1403,7 @@
 				"prezzo"
 			],
 			"answer": "verdura",
-			"explanation": "\"verdura\": alimento vegetale usato nei pasti. Stesso gruppo: frutta = alimento dolce prodotto dalle piante, formaggio = alimento derivato dal latte.",
+			"explanation": "Da non confondere con «frutta», che vuol dire «alimento dolce prodotto dalle piante».",
 			"distractorWhy": {
 				"prezzo": "«prezzo» vuol dire «quantità di denaro richiesta per comprare qualcosa»: un'altra parola, non quella cercata.",
 				"formaggio": "«formaggio» vuol dire «alimento derivato dal latte»: un'altra parola, non quella cercata.",
@@ -1424,7 +1424,7 @@
 				"frutta"
 			],
 			"answer": "frutta",
-			"explanation": "\"frutta\": alimento dolce prodotto dalle piante. Stesso gruppo: formaggio = alimento derivato dal latte, carne = alimento ricavato da animali allevati.",
+			"explanation": "Da non confondere con «formaggio», che vuol dire «alimento derivato dal latte».",
 			"distractorWhy": {
 				"pesce": "«pesce» vuol dire «alimento che viene dal mare o dall'acqua dolce»: un'altra parola, non quella cercata.",
 				"resto": "«resto» vuol dire «denaro restituito dopo un pagamento»: un'altra parola, non quella cercata.",
@@ -1445,7 +1445,7 @@
 				"colazione"
 			],
 			"answer": "formaggio",
-			"explanation": "\"formaggio\": alimento derivato dal latte. Stesso gruppo: carne = alimento ricavato da animali allevati, pesce = alimento che viene dal mare o dall'acqua dolce.",
+			"explanation": "Da non confondere con «carne», che vuol dire «alimento ricavato da animali allevati».",
 			"distractorWhy": {
 				"frutta": "«frutta» vuol dire «alimento dolce prodotto dalle piante»: un'altra parola, non quella cercata.",
 				"scontrino": "«scontrino» vuol dire «documento che prova un acquisto»: un'altra parola, non quella cercata.",
@@ -1466,7 +1466,7 @@
 				"verdura"
 			],
 			"answer": "carne",
-			"explanation": "\"carne\": alimento ricavato da animali allevati. Stesso gruppo: pesce = alimento che viene dal mare o dall'acqua dolce, prezzo = quantità di denaro richiesta per comprare qualcosa.",
+			"explanation": "Da non confondere con «pesce», che vuol dire «alimento che viene dal mare o dall'acqua dolce».",
 			"distractorWhy": {
 				"verdura": "«verdura» vuol dire «alimento vegetale usato nei pasti»: un'altra parola, non quella cercata.",
 				"resto": "«resto» vuol dire «denaro restituito dopo un pagamento»: un'altra parola, non quella cercata.",
@@ -1487,7 +1487,7 @@
 				"pasta"
 			],
 			"answer": "pesce",
-			"explanation": "\"pesce\": alimento che viene dal mare o dall'acqua dolce. Stesso gruppo: prezzo = quantità di denaro richiesta per comprare qualcosa, scontrino = documento che prova un acquisto.",
+			"explanation": "Da non confondere con «prezzo», che vuol dire «quantità di denaro richiesta per comprare qualcosa».",
 			"distractorWhy": {
 				"carne": "«carne» vuol dire «alimento ricavato da animali allevati»: un'altra parola, non quella cercata.",
 				"pasta": "«pasta» vuol dire «alimento tipico formato da farina e acqua»: un'altra parola, non quella cercata.",
@@ -1508,7 +1508,7 @@
 				"prezzo"
 			],
 			"answer": "prezzo",
-			"explanation": "\"prezzo\": quantità di denaro richiesta per comprare qualcosa. Stesso gruppo: scontrino = documento che prova un acquisto, resto = denaro restituito dopo un pagamento.",
+			"explanation": "Da non confondere con «scontrino», che vuol dire «documento che prova un acquisto».",
 			"distractorWhy": {
 				"frutta": "«frutta» vuol dire «alimento dolce prodotto dalle piante»: un'altra parola, non quella cercata.",
 				"pranzo": "«pranzo» vuol dire «pasto principale di metà giornata»: un'altra parola, non quella cercata.",
@@ -1529,7 +1529,7 @@
 				"frutta"
 			],
 			"answer": "scontrino",
-			"explanation": "\"scontrino\": documento che prova un acquisto. Stesso gruppo: resto = denaro restituito dopo un pagamento, offerta = prezzo ridotto per un prodotto.",
+			"explanation": "Da non confondere con «resto», che vuol dire «denaro restituito dopo un pagamento».",
 			"distractorWhy": {
 				"carrello": "«carrello» vuol dire «contenitore con ruote usato al supermercato»: un'altra parola, non quella cercata.",
 				"colazione": "«colazione» vuol dire «pasto del mattino»: un'altra parola, non quella cercata.",
@@ -1550,7 +1550,7 @@
 				"ricetta"
 			],
 			"answer": "resto",
-			"explanation": "\"resto\": denaro restituito dopo un pagamento. Stesso gruppo: offerta = prezzo ridotto per un prodotto, carrello = contenitore con ruote usato al supermercato.",
+			"explanation": "Da non confondere con «offerta», che vuol dire «prezzo ridotto per un prodotto».",
 			"distractorWhy": {
 				"pesce": "«pesce» vuol dire «alimento che viene dal mare o dall'acqua dolce»: un'altra parola, non quella cercata.",
 				"ricetta": "«ricetta» vuol dire «istruzioni per preparare un piatto»: un'altra parola, non quella cercata.",
@@ -1571,7 +1571,7 @@
 				"carne"
 			],
 			"answer": "offerta",
-			"explanation": "\"offerta\": prezzo ridotto per un prodotto. Stesso gruppo: carrello = contenitore con ruote usato al supermercato, colazione = pasto del mattino.",
+			"explanation": "Da non confondere con «carrello», che vuol dire «contenitore con ruote usato al supermercato».",
 			"distractorWhy": {
 				"spuntino": "«spuntino» vuol dire «piccolo pasto tra due pasti principali»: un'altra parola, non quella cercata.",
 				"carrello": "«carrello» vuol dire «contenitore con ruote usato al supermercato»: un'altra parola, non quella cercata.",
@@ -1592,7 +1592,7 @@
 				"carrello"
 			],
 			"answer": "carrello",
-			"explanation": "\"carrello\": contenitore con ruote usato al supermercato. Stesso gruppo: colazione = pasto del mattino, pranzo = pasto principale di metà giornata.",
+			"explanation": "Da non confondere con «colazione», che vuol dire «pasto del mattino».",
 			"distractorWhy": {
 				"prezzo": "«prezzo» vuol dire «quantità di denaro richiesta per comprare qualcosa»: un'altra parola, non quella cercata.",
 				"scontrino": "«scontrino» vuol dire «documento che prova un acquisto»: un'altra parola, non quella cercata.",
@@ -1613,7 +1613,7 @@
 				"scaduto"
 			],
 			"answer": "fresco",
-			"explanation": "\"fresco\": appena preparato o non rovinato. Stesso gruppo: scaduto = oltre la data entro cui un prodotto va consumato, economico = che costa poco.",
+			"explanation": "Da non confondere con «scaduto», che vuol dire «oltre la data entro cui un prodotto va consumato».",
 			"distractorWhy": {
 				"dolce": "«dolce» vuol dire «con sapore zuccherino»: un'altra parola, non quella cercata.",
 				"costoso": "«costoso» vuol dire «che costa molto»: un'altra parola, non quella cercata.",
@@ -1634,7 +1634,7 @@
 				"fresco"
 			],
 			"answer": "scaduto",
-			"explanation": "\"scaduto\": oltre la data entro cui un prodotto va consumato. Stesso gruppo: economico = che costa poco, costoso = che costa molto.",
+			"explanation": "Da non confondere con «economico», che vuol dire «che costa poco».",
 			"distractorWhy": {
 				"fresco": "«fresco» vuol dire «appena preparato o non rovinato»: un'altra parola, non quella cercata.",
 				"salato": "«salato» vuol dire «con molto sale»: un'altra parola, non quella cercata.",
@@ -1655,7 +1655,7 @@
 				"scaduto"
 			],
 			"answer": "economico",
-			"explanation": "\"economico\": che costa poco. Stesso gruppo: costoso = che costa molto, salato = con molto sale.",
+			"explanation": "Da non confondere con «costoso», che vuol dire «che costa molto».",
 			"distractorWhy": {
 				"costoso": "«costoso» vuol dire «che costa molto»: un'altra parola, non quella cercata.",
 				"nutriente": "«nutriente» vuol dire «che fornisce energia e sostanze utili»: un'altra parola, non quella cercata.",
@@ -1676,7 +1676,7 @@
 				"costoso"
 			],
 			"answer": "costoso",
-			"explanation": "\"costoso\": che costa molto. Stesso gruppo: salato = con molto sale, dolce = con sapore zuccherino.",
+			"explanation": "Da non confondere con «salato», che vuol dire «con molto sale».",
 			"distractorWhy": {
 				"scaduto": "«scaduto» vuol dire «oltre la data entro cui un prodotto va consumato»: un'altra parola, non quella cercata.",
 				"nutriente": "«nutriente» vuol dire «che fornisce energia e sostanze utili»: un'altra parola, non quella cercata.",
@@ -1697,7 +1697,7 @@
 				"dolce"
 			],
 			"answer": "salato",
-			"explanation": "\"salato\": con molto sale. Stesso gruppo: dolce = con sapore zuccherino, amaro = con sapore forte non dolce.",
+			"explanation": "Da non confondere con «dolce», che vuol dire «con sapore zuccherino».",
 			"distractorWhy": {
 				"costoso": "«costoso» vuol dire «che costa molto»: un'altra parola, non quella cercata.",
 				"dolce": "«dolce» vuol dire «con sapore zuccherino»: un'altra parola, non quella cercata.",
@@ -1718,7 +1718,7 @@
 				"costoso"
 			],
 			"answer": "dolce",
-			"explanation": "\"dolce\": con sapore zuccherino. Stesso gruppo: amaro = con sapore forte non dolce, nutriente = che fornisce energia e sostanze utili.",
+			"explanation": "Da non confondere con «amaro», che vuol dire «con sapore forte non dolce».",
 			"distractorWhy": {
 				"salato": "«salato» vuol dire «con molto sale»: un'altra parola, non quella cercata.",
 				"fresco": "«fresco» vuol dire «appena preparato o non rovinato»: un'altra parola, non quella cercata.",
@@ -1739,7 +1739,7 @@
 				"salato"
 			],
 			"answer": "amaro",
-			"explanation": "\"amaro\": con sapore forte non dolce. Stesso gruppo: nutriente = che fornisce energia e sostanze utili, fresco = appena preparato o non rovinato.",
+			"explanation": "Da non confondere con «nutriente», che vuol dire «che fornisce energia e sostanze utili».",
 			"distractorWhy": {
 				"scaduto": "«scaduto» vuol dire «oltre la data entro cui un prodotto va consumato»: un'altra parola, non quella cercata.",
 				"dolce": "«dolce» vuol dire «con sapore zuccherino»: un'altra parola, non quella cercata.",
@@ -1760,7 +1760,7 @@
 				"nutriente"
 			],
 			"answer": "nutriente",
-			"explanation": "\"nutriente\": che fornisce energia e sostanze utili. Stesso gruppo: fresco = appena preparato o non rovinato, scaduto = oltre la data entro cui un prodotto va consumato.",
+			"explanation": "Da non confondere con «fresco», che vuol dire «appena preparato o non rovinato».",
 			"distractorWhy": {
 				"fresco": "«fresco» vuol dire «appena preparato o non rovinato»: un'altra parola, non quella cercata.",
 				"scaduto": "«scaduto» vuol dire «oltre la data entro cui un prodotto va consumato»: un'altra parola, non quella cercata.",
@@ -1781,7 +1781,7 @@
 				"vento"
 			],
 			"answer": "minuto",
-			"explanation": "\"minuto\": unità di tempo pari a sessanta secondi. Stesso gruppo: ora = unità di tempo pari a sessanta minuti, giorno = periodo di ventiquattro ore.",
+			"explanation": "Da non confondere con «ora», che vuol dire «unità di tempo pari a sessanta minuti».",
 			"distractorWhy": {
 				"mese": "«mese» vuol dire «parte dell'anno»: un'altra parola, non quella cercata.",
 				"vento": "«vento» vuol dire «aria in movimento»: un'altra parola, non quella cercata.",
@@ -1802,7 +1802,7 @@
 				"mattina"
 			],
 			"answer": "ora",
-			"explanation": "\"ora\": unità di tempo pari a sessanta minuti. Stesso gruppo: giorno = periodo di ventiquattro ore, settimana = periodo di sette giorni.",
+			"explanation": "Da non confondere con «giorno», che vuol dire «periodo di ventiquattro ore».",
 			"distractorWhy": {
 				"mattina": "«mattina» vuol dire «prima parte del giorno»: un'altra parola, non quella cercata.",
 				"giorno": "«giorno» vuol dire «periodo di ventiquattro ore»: un'altra parola, non quella cercata.",
@@ -1823,7 +1823,7 @@
 				"pioggia"
 			],
 			"answer": "giorno",
-			"explanation": "\"giorno\": periodo di ventiquattro ore. Stesso gruppo: settimana = periodo di sette giorni, mese = parte dell'anno.",
+			"explanation": "Da non confondere con «settimana», che vuol dire «periodo di sette giorni».",
 			"distractorWhy": {
 				"sera": "«sera» vuol dire «parte finale del giorno»: un'altra parola, non quella cercata.",
 				"pioggia": "«pioggia» vuol dire «acqua che cade dalle nuvole»: un'altra parola, non quella cercata.",
@@ -1844,7 +1844,7 @@
 				"settimana"
 			],
 			"answer": "settimana",
-			"explanation": "\"settimana\": periodo di sette giorni. Stesso gruppo: mese = parte dell'anno, stagione = periodo dell'anno con clima simile.",
+			"explanation": "Da non confondere con «mese», che vuol dire «parte dell'anno».",
 			"distractorWhy": {
 				"scadenza": "«scadenza» vuol dire «termine entro cui fare qualcosa»: un'altra parola, non quella cercata.",
 				"pioggia": "«pioggia» vuol dire «acqua che cade dalle nuvole»: un'altra parola, non quella cercata.",
@@ -1865,7 +1865,7 @@
 				"ora"
 			],
 			"answer": "mese",
-			"explanation": "\"mese\": parte dell'anno. Stesso gruppo: stagione = periodo dell'anno con clima simile, mattina = prima parte del giorno.",
+			"explanation": "Da non confondere con «stagione», che vuol dire «periodo dell'anno con clima simile».",
 			"distractorWhy": {
 				"ora": "«ora» vuol dire «unità di tempo pari a sessanta minuti»: un'altra parola, non quella cercata.",
 				"pioggia": "«pioggia» vuol dire «acqua che cade dalle nuvole»: un'altra parola, non quella cercata.",
@@ -1886,7 +1886,7 @@
 				"mattina"
 			],
 			"answer": "stagione",
-			"explanation": "\"stagione\": periodo dell'anno con clima simile. Stesso gruppo: mattina = prima parte del giorno, pomeriggio = parte del giorno dopo il pranzo.",
+			"explanation": "Da non confondere con «mattina», che vuol dire «prima parte del giorno».",
 			"distractorWhy": {
 				"anticipo": "«anticipo» vuol dire «arrivo o azione prima dell'orario previsto»: un'altra parola, non quella cercata.",
 				"mattina": "«mattina» vuol dire «prima parte del giorno»: un'altra parola, non quella cercata.",
@@ -1907,7 +1907,7 @@
 				"anticipo"
 			],
 			"answer": "mattina",
-			"explanation": "\"mattina\": prima parte del giorno. Stesso gruppo: pomeriggio = parte del giorno dopo il pranzo, sera = parte finale del giorno.",
+			"explanation": "Da non confondere con «pomeriggio», che vuol dire «parte del giorno dopo il pranzo».",
 			"distractorWhy": {
 				"anticipo": "«anticipo» vuol dire «arrivo o azione prima dell'orario previsto»: un'altra parola, non quella cercata.",
 				"scadenza": "«scadenza» vuol dire «termine entro cui fare qualcosa»: un'altra parola, non quella cercata.",
@@ -1928,7 +1928,7 @@
 				"pomeriggio"
 			],
 			"answer": "pomeriggio",
-			"explanation": "\"pomeriggio\": parte del giorno dopo il pranzo. Stesso gruppo: sera = parte finale del giorno, scadenza = termine entro cui fare qualcosa.",
+			"explanation": "Da non confondere con «sera», che vuol dire «parte finale del giorno».",
 			"distractorWhy": {
 				"ritardo": "«ritardo» vuol dire «arrivo o azione dopo l'orario previsto»: un'altra parola, non quella cercata.",
 				"pioggia": "«pioggia» vuol dire «acqua che cade dalle nuvole»: un'altra parola, non quella cercata.",
@@ -1949,7 +1949,7 @@
 				"minuto"
 			],
 			"answer": "sera",
-			"explanation": "\"sera\": parte finale del giorno. Stesso gruppo: scadenza = termine entro cui fare qualcosa, ritardo = arrivo o azione dopo l'orario previsto.",
+			"explanation": "Da non confondere con «scadenza», che vuol dire «termine entro cui fare qualcosa».",
 			"distractorWhy": {
 				"pioggia": "«pioggia» vuol dire «acqua che cade dalle nuvole»: un'altra parola, non quella cercata.",
 				"vento": "«vento» vuol dire «aria in movimento»: un'altra parola, non quella cercata.",
@@ -1970,7 +1970,7 @@
 				"ritardo"
 			],
 			"answer": "scadenza",
-			"explanation": "\"scadenza\": termine entro cui fare qualcosa. Stesso gruppo: ritardo = arrivo o azione dopo l'orario previsto, anticipo = arrivo o azione prima dell'orario previsto.",
+			"explanation": "Da non confondere con «ritardo», che vuol dire «arrivo o azione dopo l'orario previsto».",
 			"distractorWhy": {
 				"mattina": "«mattina» vuol dire «prima parte del giorno»: un'altra parola, non quella cercata.",
 				"ritardo": "«ritardo» vuol dire «arrivo o azione dopo l'orario previsto»: un'altra parola, non quella cercata.",
@@ -1991,7 +1991,7 @@
 				"stagione"
 			],
 			"answer": "ritardo",
-			"explanation": "\"ritardo\": arrivo o azione dopo l'orario previsto. Stesso gruppo: anticipo = arrivo o azione prima dell'orario previsto, pioggia = acqua che cade dalle nuvole.",
+			"explanation": "Da non confondere con «anticipo», che vuol dire «arrivo o azione prima dell'orario previsto».",
 			"distractorWhy": {
 				"stagione": "«stagione» vuol dire «periodo dell'anno con clima simile»: un'altra parola, non quella cercata.",
 				"giorno": "«giorno» vuol dire «periodo di ventiquattro ore»: un'altra parola, non quella cercata.",
@@ -2012,7 +2012,7 @@
 				"anticipo"
 			],
 			"answer": "anticipo",
-			"explanation": "\"anticipo\": arrivo o azione prima dell'orario previsto. Stesso gruppo: pioggia = acqua che cade dalle nuvole, vento = aria in movimento.",
+			"explanation": "Da non confondere con «pioggia», che vuol dire «acqua che cade dalle nuvole».",
 			"distractorWhy": {
 				"nebbia": "«nebbia» vuol dire «vapore che riduce la visibilità»: un'altra parola, non quella cercata.",
 				"temporale": "«temporale» vuol dire «pioggia forte con tuoni e lampi»: un'altra parola, non quella cercata.",
@@ -2033,7 +2033,7 @@
 				"nebbia"
 			],
 			"answer": "pioggia",
-			"explanation": "\"pioggia\": acqua che cade dalle nuvole. Stesso gruppo: vento = aria in movimento, nebbia = vapore che riduce la visibilità.",
+			"explanation": "Da non confondere con «vento», che vuol dire «aria in movimento».",
 			"distractorWhy": {
 				"minuto": "«minuto» vuol dire «unità di tempo pari a sessanta secondi»: un'altra parola, non quella cercata.",
 				"nebbia": "«nebbia» vuol dire «vapore che riduce la visibilità»: un'altra parola, non quella cercata.",
@@ -2054,7 +2054,7 @@
 				"nebbia"
 			],
 			"answer": "vento",
-			"explanation": "\"vento\": aria in movimento. Stesso gruppo: nebbia = vapore che riduce la visibilità, temporale = pioggia forte con tuoni e lampi.",
+			"explanation": "Da non confondere con «nebbia», che vuol dire «vapore che riduce la visibilità».",
 			"distractorWhy": {
 				"ritardo": "«ritardo» vuol dire «arrivo o azione dopo l'orario previsto»: un'altra parola, non quella cercata.",
 				"nebbia": "«nebbia» vuol dire «vapore che riduce la visibilità»: un'altra parola, non quella cercata.",
@@ -2075,7 +2075,7 @@
 				"stagione"
 			],
 			"answer": "nebbia",
-			"explanation": "\"nebbia\": vapore che riduce la visibilità. Stesso gruppo: temporale = pioggia forte con tuoni e lampi, minuto = unità di tempo pari a sessanta secondi.",
+			"explanation": "Da non confondere con «temporale», che vuol dire «pioggia forte con tuoni e lampi».",
 			"distractorWhy": {
 				"minuto": "«minuto» vuol dire «unità di tempo pari a sessanta secondi»: un'altra parola, non quella cercata.",
 				"stagione": "«stagione» vuol dire «periodo dell'anno con clima simile»: un'altra parola, non quella cercata.",
@@ -2096,7 +2096,7 @@
 				"temporale"
 			],
 			"answer": "temporale",
-			"explanation": "\"temporale\": pioggia forte con tuoni e lampi. Stesso gruppo: minuto = unità di tempo pari a sessanta secondi, ora = unità di tempo pari a sessanta minuti.",
+			"explanation": "Da non confondere con «minuto», che vuol dire «unità di tempo pari a sessanta secondi».",
 			"distractorWhy": {
 				"ritardo": "«ritardo» vuol dire «arrivo o azione dopo l'orario previsto»: un'altra parola, non quella cercata.",
 				"stagione": "«stagione» vuol dire «periodo dell'anno con clima simile»: un'altra parola, non quella cercata.",
@@ -2117,7 +2117,7 @@
 				"nuvoloso"
 			],
 			"answer": "puntuale",
-			"explanation": "\"puntuale\": che arriva o agisce all'orario previsto. Stesso gruppo: tardivo = che arriva più in là del solito, soleggiato = con molto sole.",
+			"explanation": "Da non confondere con «tardivo», che vuol dire «che arriva più in là del solito».",
 			"distractorWhy": {
 				"ventoso": "«ventoso» vuol dire «con aria che soffia forte»: un'altra parola, non quella cercata.",
 				"nuvoloso": "«nuvoloso» vuol dire «coperto da nuvole»: un'altra parola, non quella cercata.",
@@ -2138,7 +2138,7 @@
 				"puntuale"
 			],
 			"answer": "tardivo",
-			"explanation": "\"tardivo\": che arriva più in là del solito. Stesso gruppo: soleggiato = con molto sole, nuvoloso = coperto da nuvole.",
+			"explanation": "Da non confondere con «soleggiato», che vuol dire «con molto sole».",
 			"distractorWhy": {
 				"puntuale": "«puntuale» vuol dire «che arriva o agisce all'orario previsto»: un'altra parola, non quella cercata.",
 				"ventoso": "«ventoso» vuol dire «con aria che soffia forte»: un'altra parola, non quella cercata.",
@@ -2159,7 +2159,7 @@
 				"nuvoloso"
 			],
 			"answer": "soleggiato",
-			"explanation": "\"soleggiato\": con molto sole. Stesso gruppo: nuvoloso = coperto da nuvole, piovoso = con molta pioggia.",
+			"explanation": "Da non confondere con «nuvoloso», che vuol dire «coperto da nuvole».",
 			"distractorWhy": {
 				"nuvoloso": "«nuvoloso» vuol dire «coperto da nuvole»: un'altra parola, non quella cercata.",
 				"ventoso": "«ventoso» vuol dire «con aria che soffia forte»: un'altra parola, non quella cercata.",
@@ -2180,7 +2180,7 @@
 				"nuvoloso"
 			],
 			"answer": "nuvoloso",
-			"explanation": "\"nuvoloso\": coperto da nuvole. Stesso gruppo: piovoso = con molta pioggia, ventoso = con aria che soffia forte.",
+			"explanation": "Da non confondere con «piovoso», che vuol dire «con molta pioggia».",
 			"distractorWhy": {
 				"piovoso": "«piovoso» vuol dire «con molta pioggia»: un'altra parola, non quella cercata.",
 				"tardivo": "«tardivo» vuol dire «che arriva più in là del solito»: un'altra parola, non quella cercata.",
@@ -2201,7 +2201,7 @@
 				"nuvoloso"
 			],
 			"answer": "piovoso",
-			"explanation": "\"piovoso\": con molta pioggia. Stesso gruppo: ventoso = con aria che soffia forte, freddo = con temperatura bassa.",
+			"explanation": "Da non confondere con «ventoso», che vuol dire «con aria che soffia forte».",
 			"distractorWhy": {
 				"ventoso": "«ventoso» vuol dire «con aria che soffia forte»: un'altra parola, non quella cercata.",
 				"nuvoloso": "«nuvoloso» vuol dire «coperto da nuvole»: un'altra parola, non quella cercata.",
@@ -2222,7 +2222,7 @@
 				"piovoso"
 			],
 			"answer": "ventoso",
-			"explanation": "\"ventoso\": con aria che soffia forte. Stesso gruppo: freddo = con temperatura bassa, caldo = con temperatura alta.",
+			"explanation": "Da non confondere con «freddo», che vuol dire «con temperatura bassa».",
 			"distractorWhy": {
 				"piovoso": "«piovoso» vuol dire «con molta pioggia»: un'altra parola, non quella cercata.",
 				"puntuale": "«puntuale» vuol dire «che arriva o agisce all'orario previsto»: un'altra parola, non quella cercata.",
@@ -2243,7 +2243,7 @@
 				"caldo"
 			],
 			"answer": "freddo",
-			"explanation": "\"freddo\": con temperatura bassa. Stesso gruppo: caldo = con temperatura alta, puntuale = che arriva o agisce all'orario previsto.",
+			"explanation": "Da non confondere con «caldo», che vuol dire «con temperatura alta».",
 			"distractorWhy": {
 				"caldo": "«caldo» vuol dire «con temperatura alta»: un'altra parola, non quella cercata.",
 				"piovoso": "«piovoso» vuol dire «con molta pioggia»: un'altra parola, non quella cercata.",
@@ -2264,7 +2264,7 @@
 				"caldo"
 			],
 			"answer": "caldo",
-			"explanation": "\"caldo\": con temperatura alta. Stesso gruppo: puntuale = che arriva o agisce all'orario previsto, tardivo = che arriva più in là del solito.",
+			"explanation": "Da non confondere con «puntuale», che vuol dire «che arriva o agisce all'orario previsto».",
 			"distractorWhy": {
 				"tardivo": "«tardivo» vuol dire «che arriva più in là del solito»: un'altra parola, non quella cercata.",
 				"ventoso": "«ventoso» vuol dire «con aria che soffia forte»: un'altra parola, non quella cercata.",
@@ -2285,7 +2285,7 @@
 				"semaforo"
 			],
 			"answer": "strada",
-			"explanation": "\"strada\": via per spostarsi a piedi o con mezzi. Stesso gruppo: incrocio = punto in cui si incontrano due strade, marciapiede = parte della strada riservata ai pedoni.",
+			"explanation": "Da non confondere con «incrocio», che vuol dire «punto in cui si incontrano due strade».",
 			"distractorWhy": {
 				"farmacia": "«farmacia» vuol dire «negozio dove si comprano medicine»: un'altra parola, non quella cercata.",
 				"binario": "«binario» vuol dire «linea da cui parte o arriva un treno»: un'altra parola, non quella cercata.",
@@ -2306,7 +2306,7 @@
 				"ospedale"
 			],
 			"answer": "incrocio",
-			"explanation": "\"incrocio\": punto in cui si incontrano due strade. Stesso gruppo: marciapiede = parte della strada riservata ai pedoni, semaforo = segnale luminoso che regola il traffico.",
+			"explanation": "Da non confondere con «marciapiede», che vuol dire «parte della strada riservata ai pedoni».",
 			"distractorWhy": {
 				"farmacia": "«farmacia» vuol dire «negozio dove si comprano medicine»: un'altra parola, non quella cercata.",
 				"ospedale": "«ospedale» vuol dire «luogo dove si curano persone malate»: un'altra parola, non quella cercata.",
@@ -2327,7 +2327,7 @@
 				"municipio"
 			],
 			"answer": "marciapiede",
-			"explanation": "\"marciapiede\": parte della strada riservata ai pedoni. Stesso gruppo: semaforo = segnale luminoso che regola il traffico, fermata = punto in cui si aspetta un mezzo pubblico.",
+			"explanation": "Da non confondere con «semaforo», che vuol dire «segnale luminoso che regola il traffico».",
 			"distractorWhy": {
 				"biblioteca": "«biblioteca» vuol dire «luogo dove si leggono o prendono libri»: un'altra parola, non quella cercata.",
 				"municipio": "«municipio» vuol dire «sede amministrativa di un comune»: un'altra parola, non quella cercata.",
@@ -2348,7 +2348,7 @@
 				"semaforo"
 			],
 			"answer": "semaforo",
-			"explanation": "\"semaforo\": segnale luminoso che regola il traffico. Stesso gruppo: fermata = punto in cui si aspetta un mezzo pubblico, stazione = luogo da cui partono treni o autobus.",
+			"explanation": "Da non confondere con «fermata», che vuol dire «punto in cui si aspetta un mezzo pubblico».",
 			"distractorWhy": {
 				"stazione": "«stazione» vuol dire «luogo da cui partono treni o autobus»: un'altra parola, non quella cercata.",
 				"farmacia": "«farmacia» vuol dire «negozio dove si comprano medicine»: un'altra parola, non quella cercata.",
@@ -2369,7 +2369,7 @@
 				"binario"
 			],
 			"answer": "fermata",
-			"explanation": "\"fermata\": punto in cui si aspetta un mezzo pubblico. Stesso gruppo: stazione = luogo da cui partono treni o autobus, binario = linea da cui parte o arriva un treno.",
+			"explanation": "Da non confondere con «stazione», che vuol dire «luogo da cui partono treni o autobus».",
 			"distractorWhy": {
 				"percorso": "«percorso» vuol dire «strada da seguire per arrivare»: un'altra parola, non quella cercata.",
 				"strada": "«strada» vuol dire «via per spostarsi a piedi o con mezzi»: un'altra parola, non quella cercata.",
@@ -2390,7 +2390,7 @@
 				"farmacia"
 			],
 			"answer": "stazione",
-			"explanation": "\"stazione\": luogo da cui partono treni o autobus. Stesso gruppo: binario = linea da cui parte o arriva un treno, biglietto = documento che permette di viaggiare o entrare.",
+			"explanation": "Da non confondere con «binario», che vuol dire «linea da cui parte o arriva un treno».",
 			"distractorWhy": {
 				"semaforo": "«semaforo» vuol dire «segnale luminoso che regola il traffico»: un'altra parola, non quella cercata.",
 				"municipio": "«municipio» vuol dire «sede amministrativa di un comune»: un'altra parola, non quella cercata.",
@@ -2411,7 +2411,7 @@
 				"ospedale"
 			],
 			"answer": "binario",
-			"explanation": "\"binario\": linea da cui parte o arriva un treno. Stesso gruppo: biglietto = documento che permette di viaggiare o entrare, orario = tabella con tempi di partenza o attività.",
+			"explanation": "Da non confondere con «biglietto», che vuol dire «documento che permette di viaggiare o entrare».",
 			"distractorWhy": {
 				"ospedale": "«ospedale» vuol dire «luogo dove si curano persone malate»: un'altra parola, non quella cercata.",
 				"strada": "«strada» vuol dire «via per spostarsi a piedi o con mezzi»: un'altra parola, non quella cercata.",
@@ -2432,7 +2432,7 @@
 				"biglietto"
 			],
 			"answer": "biglietto",
-			"explanation": "\"biglietto\": documento che permette di viaggiare o entrare. Stesso gruppo: orario = tabella con tempi di partenza o attività, percorso = strada da seguire per arrivare.",
+			"explanation": "Da non confondere con «orario», che vuol dire «tabella con tempi di partenza o attività».",
 			"distractorWhy": {
 				"municipio": "«municipio» vuol dire «sede amministrativa di un comune»: un'altra parola, non quella cercata.",
 				"biblioteca": "«biblioteca» vuol dire «luogo dove si leggono o prendono libri»: un'altra parola, non quella cercata.",
@@ -2453,7 +2453,7 @@
 				"percorso"
 			],
 			"answer": "orario",
-			"explanation": "\"orario\": tabella con tempi di partenza o attività. Stesso gruppo: percorso = strada da seguire per arrivare, indirizzo = informazione che indica dove si trova un luogo.",
+			"explanation": "Da non confondere con «percorso», che vuol dire «strada da seguire per arrivare».",
 			"distractorWhy": {
 				"percorso": "«percorso» vuol dire «strada da seguire per arrivare»: un'altra parola, non quella cercata.",
 				"farmacia": "«farmacia» vuol dire «negozio dove si comprano medicine»: un'altra parola, non quella cercata.",
@@ -2474,7 +2474,7 @@
 				"ospedale"
 			],
 			"answer": "percorso",
-			"explanation": "\"percorso\": strada da seguire per arrivare. Stesso gruppo: indirizzo = informazione che indica dove si trova un luogo, quartiere = zona di una città.",
+			"explanation": "Da non confondere con «indirizzo», che vuol dire «informazione che indica dove si trova un luogo».",
 			"distractorWhy": {
 				"ospedale": "«ospedale» vuol dire «luogo dove si curano persone malate»: un'altra parola, non quella cercata.",
 				"incrocio": "«incrocio» vuol dire «punto in cui si incontrano due strade»: un'altra parola, non quella cercata.",
@@ -2495,7 +2495,7 @@
 				"percorso"
 			],
 			"answer": "indirizzo",
-			"explanation": "\"indirizzo\": informazione che indica dove si trova un luogo. Stesso gruppo: quartiere = zona di una città, biblioteca = luogo dove si leggono o prendono libri.",
+			"explanation": "Da non confondere con «quartiere», che vuol dire «zona di una città».",
 			"distractorWhy": {
 				"percorso": "«percorso» vuol dire «strada da seguire per arrivare»: un'altra parola, non quella cercata.",
 				"biglietto": "«biglietto» vuol dire «documento che permette di viaggiare o entrare»: un'altra parola, non quella cercata.",
@@ -2516,7 +2516,7 @@
 				"quartiere"
 			],
 			"answer": "quartiere",
-			"explanation": "\"quartiere\": zona di una città. Stesso gruppo: biblioteca = luogo dove si leggono o prendono libri, farmacia = negozio dove si comprano medicine.",
+			"explanation": "Da non confondere con «biblioteca», che vuol dire «luogo dove si leggono o prendono libri».",
 			"distractorWhy": {
 				"biblioteca": "«biblioteca» vuol dire «luogo dove si leggono o prendono libri»: un'altra parola, non quella cercata.",
 				"stazione": "«stazione» vuol dire «luogo da cui partono treni o autobus»: un'altra parola, non quella cercata.",
@@ -2537,7 +2537,7 @@
 				"municipio"
 			],
 			"answer": "biblioteca",
-			"explanation": "\"biblioteca\": luogo dove si leggono o prendono libri. Stesso gruppo: farmacia = negozio dove si comprano medicine, ospedale = luogo dove si curano persone malate.",
+			"explanation": "Da non confondere con «farmacia», che vuol dire «negozio dove si comprano medicine».",
 			"distractorWhy": {
 				"semaforo": "«semaforo» vuol dire «segnale luminoso che regola il traffico»: un'altra parola, non quella cercata.",
 				"municipio": "«municipio» vuol dire «sede amministrativa di un comune»: un'altra parola, non quella cercata.",
@@ -2558,7 +2558,7 @@
 				"incrocio"
 			],
 			"answer": "farmacia",
-			"explanation": "\"farmacia\": negozio dove si comprano medicine. Stesso gruppo: ospedale = luogo dove si curano persone malate, municipio = sede amministrativa di un comune.",
+			"explanation": "Da non confondere con «ospedale», che vuol dire «luogo dove si curano persone malate».",
 			"distractorWhy": {
 				"incrocio": "«incrocio» vuol dire «punto in cui si incontrano due strade»: un'altra parola, non quella cercata.",
 				"semaforo": "«semaforo» vuol dire «segnale luminoso che regola il traffico»: un'altra parola, non quella cercata.",
@@ -2579,7 +2579,7 @@
 				"incrocio"
 			],
 			"answer": "ospedale",
-			"explanation": "\"ospedale\": luogo dove si curano persone malate. Stesso gruppo: municipio = sede amministrativa di un comune, strada = via per spostarsi a piedi o con mezzi.",
+			"explanation": "Da non confondere con «municipio», che vuol dire «sede amministrativa di un comune».",
 			"distractorWhy": {
 				"biglietto": "«biglietto» vuol dire «documento che permette di viaggiare o entrare»: un'altra parola, non quella cercata.",
 				"incrocio": "«incrocio» vuol dire «punto in cui si incontrano due strade»: un'altra parola, non quella cercata.",
@@ -2600,7 +2600,7 @@
 				"municipio"
 			],
 			"answer": "municipio",
-			"explanation": "\"municipio\": sede amministrativa di un comune. Stesso gruppo: strada = via per spostarsi a piedi o con mezzi, incrocio = punto in cui si incontrano due strade.",
+			"explanation": "Da non confondere con «strada», che vuol dire «via per spostarsi a piedi o con mezzi».",
 			"distractorWhy": {
 				"biblioteca": "«biblioteca» vuol dire «luogo dove si leggono o prendono libri»: un'altra parola, non quella cercata.",
 				"semaforo": "«semaforo» vuol dire «segnale luminoso che regola il traffico»: un'altra parola, non quella cercata.",
@@ -2621,7 +2621,7 @@
 				"a sinistra"
 			],
 			"answer": "di fronte a",
-			"explanation": "\"di fronte a\": nella posizione opposta rispetto a qualcosa. Stesso gruppo: accanto a = vicino sul lato, dietro a = nella parte posteriore.",
+			"explanation": "Da non confondere con «accanto a», che vuol dire «vicino sul lato».",
 			"distractorWhy": {
 				"a sinistra": "«a sinistra» vuol dire «sul lato sinistro»: un'altra parola, non quella cercata.",
 				"davanti a": "«davanti a» vuol dire «nella parte anteriore»: un'altra parola, non quella cercata.",
@@ -2642,7 +2642,7 @@
 				"davanti a"
 			],
 			"answer": "accanto a",
-			"explanation": "\"accanto a\": vicino sul lato. Stesso gruppo: dietro a = nella parte posteriore, davanti a = nella parte anteriore.",
+			"explanation": "Da non confondere con «dietro a», che vuol dire «nella parte posteriore».",
 			"distractorWhy": {
 				"davanti a": "«davanti a» vuol dire «nella parte anteriore»: un'altra parola, non quella cercata.",
 				"dietro a": "«dietro a» vuol dire «nella parte posteriore»: un'altra parola, non quella cercata.",
@@ -2663,7 +2663,7 @@
 				"in fondo"
 			],
 			"answer": "dietro a",
-			"explanation": "\"dietro a\": nella parte posteriore. Stesso gruppo: davanti a = nella parte anteriore, a destra = sul lato destro.",
+			"explanation": "Da non confondere con «davanti a», che vuol dire «nella parte anteriore».",
 			"distractorWhy": {
 				"a destra": "«a destra» vuol dire «sul lato destro»: un'altra parola, non quella cercata.",
 				"davanti a": "«davanti a» vuol dire «nella parte anteriore»: un'altra parola, non quella cercata.",
@@ -2684,7 +2684,7 @@
 				"davanti a"
 			],
 			"answer": "davanti a",
-			"explanation": "\"davanti a\": nella parte anteriore. Stesso gruppo: a destra = sul lato destro, a sinistra = sul lato sinistro.",
+			"explanation": "Da non confondere con «a destra», che vuol dire «sul lato destro».",
 			"distractorWhy": {
 				"a sinistra": "«a sinistra» vuol dire «sul lato sinistro»: un'altra parola, non quella cercata.",
 				"accanto a": "«accanto a» vuol dire «vicino sul lato»: un'altra parola, non quella cercata.",
@@ -2705,7 +2705,7 @@
 				"dietro a"
 			],
 			"answer": "a destra",
-			"explanation": "\"a destra\": sul lato destro. Stesso gruppo: a sinistra = sul lato sinistro, in fondo = alla fine di uno spazio o percorso.",
+			"explanation": "Da non confondere con «a sinistra», che vuol dire «sul lato sinistro».",
 			"distractorWhy": {
 				"in fondo": "«in fondo» vuol dire «alla fine di uno spazio o percorso»: un'altra parola, non quella cercata.",
 				"dietro a": "«dietro a» vuol dire «nella parte posteriore»: un'altra parola, non quella cercata.",
@@ -2726,7 +2726,7 @@
 				"davanti a"
 			],
 			"answer": "a sinistra",
-			"explanation": "\"a sinistra\": sul lato sinistro. Stesso gruppo: in fondo = alla fine di uno spazio o percorso, all'angolo = nel punto in cui si incontrano due lati o strade.",
+			"explanation": "Da non confondere con «in fondo», che vuol dire «alla fine di uno spazio o percorso».",
 			"distractorWhy": {
 				"di fronte a": "«di fronte a» vuol dire «nella posizione opposta rispetto a qualcosa»: un'altra parola, non quella cercata.",
 				"accanto a": "«accanto a» vuol dire «vicino sul lato»: un'altra parola, non quella cercata.",
@@ -2747,7 +2747,7 @@
 				"davanti a"
 			],
 			"answer": "in fondo",
-			"explanation": "\"in fondo\": alla fine di uno spazio o percorso. Stesso gruppo: all'angolo = nel punto in cui si incontrano due lati o strade, di fronte a = nella posizione opposta rispetto a qualcosa.",
+			"explanation": "Da non confondere con «all'angolo», che vuol dire «nel punto in cui si incontrano due lati o strade».",
 			"distractorWhy": {
 				"dietro a": "«dietro a» vuol dire «nella parte posteriore»: un'altra parola, non quella cercata.",
 				"davanti a": "«davanti a» vuol dire «nella parte anteriore»: un'altra parola, non quella cercata.",
@@ -2768,7 +2768,7 @@
 				"all'angolo"
 			],
 			"answer": "all'angolo",
-			"explanation": "\"all'angolo\": nel punto in cui si incontrano due lati o strade. Stesso gruppo: di fronte a = nella posizione opposta rispetto a qualcosa, accanto a = vicino sul lato.",
+			"explanation": "Da non confondere con «di fronte a», che vuol dire «nella posizione opposta rispetto a qualcosa».",
 			"distractorWhy": {
 				"di fronte a": "«di fronte a» vuol dire «nella posizione opposta rispetto a qualcosa»: un'altra parola, non quella cercata.",
 				"accanto a": "«accanto a» vuol dire «vicino sul lato»: un'altra parola, non quella cercata.",
@@ -2789,7 +2789,7 @@
 				"febbre"
 			],
 			"answer": "testa",
-			"explanation": "\"testa\": parte superiore del corpo. Stesso gruppo: occhio = organo con cui si vede, orecchio = organo con cui si sente.",
+			"explanation": "Da non confondere con «occhio», che vuol dire «organo con cui si vede».",
 			"distractorWhy": {
 				"febbre": "«febbre» vuol dire «aumento della temperatura corporea»: un'altra parola, non quella cercata.",
 				"tosse": "«tosse» vuol dire «colpo d'aria espulso dalla gola»: un'altra parola, non quella cercata.",
@@ -2810,7 +2810,7 @@
 				"cerotto"
 			],
 			"answer": "occhio",
-			"explanation": "\"occhio\": organo con cui si vede. Stesso gruppo: orecchio = organo con cui si sente, bocca = parte del viso usata per parlare e mangiare.",
+			"explanation": "Da non confondere con «orecchio», che vuol dire «organo con cui si sente».",
 			"distractorWhy": {
 				"bocca": "«bocca» vuol dire «parte del viso usata per parlare e mangiare»: un'altra parola, non quella cercata.",
 				"testa": "«testa» vuol dire «parte superiore del corpo»: un'altra parola, non quella cercata.",
@@ -2831,7 +2831,7 @@
 				"medicina"
 			],
 			"answer": "orecchio",
-			"explanation": "\"orecchio\": organo con cui si sente. Stesso gruppo: bocca = parte del viso usata per parlare e mangiare, mano = parte del corpo usata per afferrare.",
+			"explanation": "Da non confondere con «bocca», che vuol dire «parte del viso usata per parlare e mangiare».",
 			"distractorWhy": {
 				"medicina": "«medicina» vuol dire «sostanza usata per curare»: un'altra parola, non quella cercata.",
 				"respiro": "«respiro» vuol dire «atto di prendere e mandare fuori aria»: un'altra parola, non quella cercata.",
@@ -2852,7 +2852,7 @@
 				"bocca"
 			],
 			"answer": "bocca",
-			"explanation": "\"bocca\": parte del viso usata per parlare e mangiare. Stesso gruppo: mano = parte del corpo usata per afferrare, schiena = parte posteriore del busto.",
+			"explanation": "Da non confondere con «mano», che vuol dire «parte del corpo usata per afferrare».",
 			"distractorWhy": {
 				"tosse": "«tosse» vuol dire «colpo d'aria espulso dalla gola»: un'altra parola, non quella cercata.",
 				"ferita": "«ferita» vuol dire «lesione della pelle o del corpo»: un'altra parola, non quella cercata.",
@@ -2873,7 +2873,7 @@
 				"bocca"
 			],
 			"answer": "mano",
-			"explanation": "\"mano\": parte del corpo usata per afferrare. Stesso gruppo: schiena = parte posteriore del busto, ginocchio = articolazione della gamba.",
+			"explanation": "Da non confondere con «schiena», che vuol dire «parte posteriore del busto».",
 			"distractorWhy": {
 				"ferita": "«ferita» vuol dire «lesione della pelle o del corpo»: un'altra parola, non quella cercata.",
 				"testa": "«testa» vuol dire «parte superiore del corpo»: un'altra parola, non quella cercata.",
@@ -2894,7 +2894,7 @@
 				"occhio"
 			],
 			"answer": "schiena",
-			"explanation": "\"schiena\": parte posteriore del busto. Stesso gruppo: ginocchio = articolazione della gamba, respiro = atto di prendere e mandare fuori aria.",
+			"explanation": "Da non confondere con «ginocchio», che vuol dire «articolazione della gamba».",
 			"distractorWhy": {
 				"respiro": "«respiro» vuol dire «atto di prendere e mandare fuori aria»: un'altra parola, non quella cercata.",
 				"occhio": "«occhio» vuol dire «organo con cui si vede»: un'altra parola, non quella cercata.",
@@ -2915,7 +2915,7 @@
 				"medicina"
 			],
 			"answer": "ginocchio",
-			"explanation": "\"ginocchio\": articolazione della gamba. Stesso gruppo: respiro = atto di prendere e mandare fuori aria, febbre = aumento della temperatura corporea.",
+			"explanation": "Da non confondere con «respiro», che vuol dire «atto di prendere e mandare fuori aria».",
 			"distractorWhy": {
 				"visita": "«visita» vuol dire «controllo fatto da un medico»: un'altra parola, non quella cercata.",
 				"raffreddore": "«raffreddore» vuol dire «malessere con naso chiuso o che cola»: un'altra parola, non quella cercata.",
@@ -2936,7 +2936,7 @@
 				"respiro"
 			],
 			"answer": "respiro",
-			"explanation": "\"respiro\": atto di prendere e mandare fuori aria. Stesso gruppo: febbre = aumento della temperatura corporea, tosse = colpo d'aria espulso dalla gola.",
+			"explanation": "Da non confondere con «febbre», che vuol dire «aumento della temperatura corporea».",
 			"distractorWhy": {
 				"ferita": "«ferita» vuol dire «lesione della pelle o del corpo»: un'altra parola, non quella cercata.",
 				"occhio": "«occhio» vuol dire «organo con cui si vede»: un'altra parola, non quella cercata.",
@@ -2957,7 +2957,7 @@
 				"testa"
 			],
 			"answer": "febbre",
-			"explanation": "\"febbre\": aumento della temperatura corporea. Stesso gruppo: tosse = colpo d'aria espulso dalla gola, raffreddore = malessere con naso chiuso o che cola.",
+			"explanation": "Da non confondere con «tosse», che vuol dire «colpo d'aria espulso dalla gola».",
 			"distractorWhy": {
 				"respiro": "«respiro» vuol dire «atto di prendere e mandare fuori aria»: un'altra parola, non quella cercata.",
 				"testa": "«testa» vuol dire «parte superiore del corpo»: un'altra parola, non quella cercata.",
@@ -2978,7 +2978,7 @@
 				"ferita"
 			],
 			"answer": "tosse",
-			"explanation": "\"tosse\": colpo d'aria espulso dalla gola. Stesso gruppo: raffreddore = malessere con naso chiuso o che cola, ferita = lesione della pelle o del corpo.",
+			"explanation": "Da non confondere con «raffreddore», che vuol dire «malessere con naso chiuso o che cola».",
 			"distractorWhy": {
 				"bocca": "«bocca» vuol dire «parte del viso usata per parlare e mangiare»: un'altra parola, non quella cercata.",
 				"ferita": "«ferita» vuol dire «lesione della pelle o del corpo»: un'altra parola, non quella cercata.",
@@ -2999,7 +2999,7 @@
 				"ginocchio"
 			],
 			"answer": "raffreddore",
-			"explanation": "\"raffreddore\": malessere con naso chiuso o che cola. Stesso gruppo: ferita = lesione della pelle o del corpo, cerotto = piccola protezione adesiva per una ferita.",
+			"explanation": "Da non confondere con «ferita», che vuol dire «lesione della pelle o del corpo».",
 			"distractorWhy": {
 				"ginocchio": "«ginocchio» vuol dire «articolazione della gamba»: un'altra parola, non quella cercata.",
 				"cerotto": "«cerotto» vuol dire «piccola protezione adesiva per una ferita»: un'altra parola, non quella cercata.",
@@ -3020,7 +3020,7 @@
 				"ferita"
 			],
 			"answer": "ferita",
-			"explanation": "\"ferita\": lesione della pelle o del corpo. Stesso gruppo: cerotto = piccola protezione adesiva per una ferita, medicina = sostanza usata per curare.",
+			"explanation": "Da non confondere con «cerotto», che vuol dire «piccola protezione adesiva per una ferita».",
 			"distractorWhy": {
 				"cerotto": "«cerotto» vuol dire «piccola protezione adesiva per una ferita»: un'altra parola, non quella cercata.",
 				"respiro": "«respiro» vuol dire «atto di prendere e mandare fuori aria»: un'altra parola, non quella cercata.",
@@ -3041,7 +3041,7 @@
 				"occhio"
 			],
 			"answer": "cerotto",
-			"explanation": "\"cerotto\": piccola protezione adesiva per una ferita. Stesso gruppo: medicina = sostanza usata per curare, visita = controllo fatto da un medico.",
+			"explanation": "Da non confondere con «medicina», che vuol dire «sostanza usata per curare».",
 			"distractorWhy": {
 				"medicina": "«medicina» vuol dire «sostanza usata per curare»: un'altra parola, non quella cercata.",
 				"occhio": "«occhio» vuol dire «organo con cui si vede»: un'altra parola, non quella cercata.",
@@ -3062,7 +3062,7 @@
 				"orecchio"
 			],
 			"answer": "medicina",
-			"explanation": "\"medicina\": sostanza usata per curare. Stesso gruppo: visita = controllo fatto da un medico, appuntamento = incontro fissato a un'ora precisa.",
+			"explanation": "Da non confondere con «visita», che vuol dire «controllo fatto da un medico».",
 			"distractorWhy": {
 				"occhio": "«occhio» vuol dire «organo con cui si vede»: un'altra parola, non quella cercata.",
 				"orecchio": "«orecchio» vuol dire «organo con cui si sente»: un'altra parola, non quella cercata.",
@@ -3083,7 +3083,7 @@
 				"schiena"
 			],
 			"answer": "visita",
-			"explanation": "\"visita\": controllo fatto da un medico. Stesso gruppo: appuntamento = incontro fissato a un'ora precisa, testa = parte superiore del corpo.",
+			"explanation": "Da non confondere con «appuntamento», che vuol dire «incontro fissato a un'ora precisa».",
 			"distractorWhy": {
 				"schiena": "«schiena» vuol dire «parte posteriore del busto»: un'altra parola, non quella cercata.",
 				"cerotto": "«cerotto» vuol dire «piccola protezione adesiva per una ferita»: un'altra parola, non quella cercata.",
@@ -3104,7 +3104,7 @@
 				"appuntamento"
 			],
 			"answer": "appuntamento",
-			"explanation": "\"appuntamento\": incontro fissato a un'ora precisa. Stesso gruppo: testa = parte superiore del corpo, occhio = organo con cui si vede.",
+			"explanation": "Da non confondere con «testa», che vuol dire «parte superiore del corpo».",
 			"distractorWhy": {
 				"ginocchio": "«ginocchio» vuol dire «articolazione della gamba»: un'altra parola, non quella cercata.",
 				"schiena": "«schiena» vuol dire «parte posteriore del busto»: un'altra parola, non quella cercata.",
@@ -3125,7 +3125,7 @@
 				"riposo"
 			],
 			"answer": "stanco",
-			"explanation": "\"stanco\": con poca energia. Stesso gruppo: sano = in buona salute, malato = non in buona salute.",
+			"explanation": "Da non confondere con «sano», che vuol dire «in buona salute».",
 			"distractorWhy": {
 				"riposo": "«riposo» vuol dire «non attivo o in pausa»: un'altra parola, non quella cercata.",
 				"malato": "«malato» vuol dire «non in buona salute»: un'altra parola, non quella cercata.",
@@ -3146,7 +3146,7 @@
 				"idratato"
 			],
 			"answer": "sano",
-			"explanation": "\"sano\": in buona salute. Stesso gruppo: malato = non in buona salute, dolorante = che provoca o sente dolore.",
+			"explanation": "Da non confondere con «malato», che vuol dire «non in buona salute».",
 			"distractorWhy": {
 				"riposo": "«riposo» vuol dire «non attivo o in pausa»: un'altra parola, non quella cercata.",
 				"stanco": "«stanco» vuol dire «con poca energia»: un'altra parola, non quella cercata.",
@@ -3167,7 +3167,7 @@
 				"prudente"
 			],
 			"answer": "malato",
-			"explanation": "\"malato\": non in buona salute. Stesso gruppo: dolorante = che provoca o sente dolore, allergico = sensibile a una sostanza.",
+			"explanation": "Da non confondere con «dolorante», che vuol dire «che provoca o sente dolore».",
 			"distractorWhy": {
 				"idratato": "«idratato» vuol dire «con abbastanza acqua nel corpo»: un'altra parola, non quella cercata.",
 				"prudente": "«prudente» vuol dire «che evita rischi inutili»: un'altra parola, non quella cercata.",
@@ -3188,7 +3188,7 @@
 				"dolorante"
 			],
 			"answer": "dolorante",
-			"explanation": "\"dolorante\": che provoca o sente dolore. Stesso gruppo: allergico = sensibile a una sostanza, prudente = che evita rischi inutili.",
+			"explanation": "Da non confondere con «allergico», che vuol dire «sensibile a una sostanza».",
 			"distractorWhy": {
 				"prudente": "«prudente» vuol dire «che evita rischi inutili»: un'altra parola, non quella cercata.",
 				"idratato": "«idratato» vuol dire «con abbastanza acqua nel corpo»: un'altra parola, non quella cercata.",
@@ -3209,7 +3209,7 @@
 				"dolorante"
 			],
 			"answer": "allergico",
-			"explanation": "\"allergico\": sensibile a una sostanza. Stesso gruppo: prudente = che evita rischi inutili, idratato = con abbastanza acqua nel corpo.",
+			"explanation": "Da non confondere con «prudente», che vuol dire «che evita rischi inutili».",
 			"distractorWhy": {
 				"idratato": "«idratato» vuol dire «con abbastanza acqua nel corpo»: un'altra parola, non quella cercata.",
 				"prudente": "«prudente» vuol dire «che evita rischi inutili»: un'altra parola, non quella cercata.",
@@ -3230,7 +3230,7 @@
 				"stanco"
 			],
 			"answer": "prudente",
-			"explanation": "\"prudente\": che evita rischi inutili. Stesso gruppo: idratato = con abbastanza acqua nel corpo, riposo = non attivo o in pausa.",
+			"explanation": "Da non confondere con «idratato», che vuol dire «con abbastanza acqua nel corpo».",
 			"distractorWhy": {
 				"dolorante": "«dolorante» vuol dire «che provoca o sente dolore»: un'altra parola, non quella cercata.",
 				"stanco": "«stanco» vuol dire «con poca energia»: un'altra parola, non quella cercata.",
@@ -3251,7 +3251,7 @@
 				"malato"
 			],
 			"answer": "idratato",
-			"explanation": "\"idratato\": con abbastanza acqua nel corpo. Stesso gruppo: riposo = non attivo o in pausa, stanco = con poca energia.",
+			"explanation": "Da non confondere con «riposo», che vuol dire «non attivo o in pausa».",
 			"distractorWhy": {
 				"allergico": "«allergico» vuol dire «sensibile a una sostanza»: un'altra parola, non quella cercata.",
 				"malato": "«malato» vuol dire «non in buona salute»: un'altra parola, non quella cercata.",
@@ -3272,7 +3272,7 @@
 				"riposo"
 			],
 			"answer": "riposo",
-			"explanation": "\"riposo\": non attivo o in pausa. Stesso gruppo: stanco = con poca energia, sano = in buona salute.",
+			"explanation": "Da non confondere con «stanco», che vuol dire «con poca energia».",
 			"distractorWhy": {
 				"malato": "«malato» vuol dire «non in buona salute»: un'altra parola, non quella cercata.",
 				"stanco": "«stanco» vuol dire «con poca energia»: un'altra parola, non quella cercata.",
@@ -3293,7 +3293,7 @@
 				"scusa"
 			],
 			"answer": "gioia",
-			"explanation": "\"gioia\": emozione positiva e intensa. Stesso gruppo: tristezza = emozione legata a perdita o delusione, rabbia = emozione di forte irritazione.",
+			"explanation": "Da non confondere con «tristezza», che vuol dire «emozione legata a perdita o delusione».",
 			"distractorWhy": {
 				"rabbia": "«rabbia» vuol dire «emozione di forte irritazione»: un'altra parola, non quella cercata.",
 				"nostalgia": "«nostalgia» vuol dire «rimpianto affettuoso per ciò che è passato»: un'altra parola, non quella cercata.",
@@ -3314,7 +3314,7 @@
 				"fiducia"
 			],
 			"answer": "tristezza",
-			"explanation": "\"tristezza\": emozione legata a perdita o delusione. Stesso gruppo: rabbia = emozione di forte irritazione, paura = emozione davanti a un pericolo.",
+			"explanation": "Da non confondere con «rabbia», che vuol dire «emozione di forte irritazione».",
 			"distractorWhy": {
 				"nostalgia": "«nostalgia» vuol dire «rimpianto affettuoso per ciò che è passato»: un'altra parola, non quella cercata.",
 				"gentilezza": "«gentilezza» vuol dire «modo cortese di trattare qualcuno»: un'altra parola, non quella cercata.",
@@ -3335,7 +3335,7 @@
 				"rimpianto"
 			],
 			"answer": "rabbia",
-			"explanation": "\"rabbia\": emozione di forte irritazione. Stesso gruppo: paura = emozione davanti a un pericolo, sorpresa = reazione a qualcosa di inatteso.",
+			"explanation": "Da non confondere con «paura», che vuol dire «emozione davanti a un pericolo».",
 			"distractorWhy": {
 				"paura": "«paura» vuol dire «emozione davanti a un pericolo»: un'altra parola, non quella cercata.",
 				"rimpianto": "«rimpianto» vuol dire «dispiacere per qualcosa che non si è fatto»: un'altra parola, non quella cercata.",
@@ -3356,7 +3356,7 @@
 				"paura"
 			],
 			"answer": "paura",
-			"explanation": "\"paura\": emozione davanti a un pericolo. Stesso gruppo: sorpresa = reazione a qualcosa di inatteso, fiducia = sicurezza verso qualcuno o qualcosa.",
+			"explanation": "Da non confondere con «sorpresa», che vuol dire «reazione a qualcosa di inatteso».",
 			"distractorWhy": {
 				"fiducia": "«fiducia» vuol dire «sicurezza verso qualcuno o qualcosa»: un'altra parola, non quella cercata.",
 				"empatia": "«empatia» vuol dire «capacità di sentire ciò che prova un altro»: un'altra parola, non quella cercata.",
@@ -3377,7 +3377,7 @@
 				"nostalgia"
 			],
 			"answer": "sorpresa",
-			"explanation": "\"sorpresa\": reazione a qualcosa di inatteso. Stesso gruppo: fiducia = sicurezza verso qualcuno o qualcosa, rispetto = atteggiamento corretto verso gli altri.",
+			"explanation": "Da non confondere con «fiducia», che vuol dire «sicurezza verso qualcuno o qualcosa».",
 			"distractorWhy": {
 				"malinconia": "«malinconia» vuol dire «tristezza dolce e senza una causa precisa»: un'altra parola, non quella cercata.",
 				"gentilezza": "«gentilezza» vuol dire «modo cortese di trattare qualcuno»: un'altra parola, non quella cercata.",
@@ -3398,7 +3398,7 @@
 				"empatia"
 			],
 			"answer": "fiducia",
-			"explanation": "\"fiducia\": sicurezza verso qualcuno o qualcosa. Stesso gruppo: rispetto = atteggiamento corretto verso gli altri, gentilezza = modo cortese di trattare qualcuno.",
+			"explanation": "Da non confondere con «rispetto», che vuol dire «atteggiamento corretto verso gli altri».",
 			"distractorWhy": {
 				"promessa": "«promessa» vuol dire «impegno a fare qualcosa»: un'altra parola, non quella cercata.",
 				"empatia": "«empatia» vuol dire «capacità di sentire ciò che prova un altro»: un'altra parola, non quella cercata.",
@@ -3419,7 +3419,7 @@
 				"fiducia"
 			],
 			"answer": "rispetto",
-			"explanation": "\"rispetto\": atteggiamento corretto verso gli altri. Stesso gruppo: gentilezza = modo cortese di trattare qualcuno, collaborazione = lavoro fatto insieme.",
+			"explanation": "Da non confondere con «gentilezza», che vuol dire «modo cortese di trattare qualcuno».",
 			"distractorWhy": {
 				"rimpianto": "«rimpianto» vuol dire «dispiacere per qualcosa che non si è fatto»: un'altra parola, non quella cercata.",
 				"fiducia": "«fiducia» vuol dire «sicurezza verso qualcuno o qualcosa»: un'altra parola, non quella cercata.",
@@ -3440,7 +3440,7 @@
 				"gentilezza"
 			],
 			"answer": "gentilezza",
-			"explanation": "\"gentilezza\": modo cortese di trattare qualcuno. Stesso gruppo: collaborazione = lavoro fatto insieme, disaccordo = mancanza di accordo.",
+			"explanation": "Da non confondere con «collaborazione», che vuol dire «lavoro fatto insieme».",
 			"distractorWhy": {
 				"nostalgia": "«nostalgia» vuol dire «rimpianto affettuoso per ciò che è passato»: un'altra parola, non quella cercata.",
 				"tristezza": "«tristezza» vuol dire «emozione legata a perdita o delusione»: un'altra parola, non quella cercata.",
@@ -3461,7 +3461,7 @@
 				"malinconia"
 			],
 			"answer": "collaborazione",
-			"explanation": "\"collaborazione\": lavoro fatto insieme. Stesso gruppo: disaccordo = mancanza di accordo, promessa = impegno a fare qualcosa.",
+			"explanation": "Da non confondere con «disaccordo», che vuol dire «mancanza di accordo».",
 			"distractorWhy": {
 				"risentimento": "«risentimento» vuol dire «rancore trattenuto per un torto subito»: un'altra parola, non quella cercata.",
 				"disaccordo": "«disaccordo» vuol dire «mancanza di accordo»: un'altra parola, non quella cercata.",
@@ -3482,7 +3482,7 @@
 				"risentimento"
 			],
 			"answer": "disaccordo",
-			"explanation": "\"disaccordo\": mancanza di accordo. Stesso gruppo: promessa = impegno a fare qualcosa, scusa = parola o gesto per riconoscere un errore.",
+			"explanation": "Da non confondere con «promessa», che vuol dire «impegno a fare qualcosa».",
 			"distractorWhy": {
 				"risentimento": "«risentimento» vuol dire «rancore trattenuto per un torto subito»: un'altra parola, non quella cercata.",
 				"ambivalenza": "«ambivalenza» vuol dire «presenza di sentimenti opposti insieme»: un'altra parola, non quella cercata.",
@@ -3503,7 +3503,7 @@
 				"gentilezza"
 			],
 			"answer": "promessa",
-			"explanation": "\"promessa\": impegno a fare qualcosa. Stesso gruppo: scusa = parola o gesto per riconoscere un errore, empatia = capacità di sentire ciò che prova un altro.",
+			"explanation": "Da non confondere con «scusa», che vuol dire «parola o gesto per riconoscere un errore».",
 			"distractorWhy": {
 				"tristezza": "«tristezza» vuol dire «emozione legata a perdita o delusione»: un'altra parola, non quella cercata.",
 				"nostalgia": "«nostalgia» vuol dire «rimpianto affettuoso per ciò che è passato»: un'altra parola, non quella cercata.",
@@ -3524,7 +3524,7 @@
 				"scusa"
 			],
 			"answer": "scusa",
-			"explanation": "\"scusa\": parola o gesto per riconoscere un errore. Stesso gruppo: empatia = capacità di sentire ciò che prova un altro, nostalgia = rimpianto affettuoso per ciò che è passato.",
+			"explanation": "Da non confondere con «empatia», che vuol dire «capacità di sentire ciò che prova un altro».",
 			"distractorWhy": {
 				"tristezza": "«tristezza» vuol dire «emozione legata a perdita o delusione»: un'altra parola, non quella cercata.",
 				"fiducia": "«fiducia» vuol dire «sicurezza verso qualcuno o qualcosa»: un'altra parola, non quella cercata.",
@@ -3545,7 +3545,7 @@
 				"paziente"
 			],
 			"answer": "felice",
-			"explanation": "\"felice\": che prova gioia. Stesso gruppo: triste = che prova dispiacere o malinconia, preoccupato = che teme un problema.",
+			"explanation": "Da non confondere con «triste», che vuol dire «che prova dispiacere o malinconia».",
 			"distractorWhy": {
 				"paziente": "«paziente» vuol dire «capace di aspettare senza agitarsi»: un'altra parola, non quella cercata.",
 				"triste": "«triste» vuol dire «che prova dispiacere o malinconia»: un'altra parola, non quella cercata.",
@@ -3566,7 +3566,7 @@
 				"paziente"
 			],
 			"answer": "triste",
-			"explanation": "\"triste\": che prova dispiacere o malinconia. Stesso gruppo: preoccupato = che teme un problema, arrabbiato = che prova rabbia.",
+			"explanation": "Da non confondere con «preoccupato», che vuol dire «che teme un problema».",
 			"distractorWhy": {
 				"sereno": "«sereno» vuol dire «calmo e tranquillo»: un'altra parola, non quella cercata.",
 				"paziente": "«paziente» vuol dire «capace di aspettare senza agitarsi»: un'altra parola, non quella cercata.",
@@ -3587,7 +3587,7 @@
 				"timido"
 			],
 			"answer": "preoccupato",
-			"explanation": "\"preoccupato\": che teme un problema. Stesso gruppo: arrabbiato = che prova rabbia, sereno = calmo e tranquillo.",
+			"explanation": "Da non confondere con «arrabbiato», che vuol dire «che prova rabbia».",
 			"distractorWhy": {
 				"impulsivo": "«impulsivo» vuol dire «che agisce senza riflettere abbastanza»: un'altra parola, non quella cercata.",
 				"coraggioso": "«coraggioso» vuol dire «che affronta una difficoltà»: un'altra parola, non quella cercata.",
@@ -3608,7 +3608,7 @@
 				"arrabbiato"
 			],
 			"answer": "arrabbiato",
-			"explanation": "\"arrabbiato\": che prova rabbia. Stesso gruppo: sereno = calmo e tranquillo, timido = che si espone con difficoltà.",
+			"explanation": "Da non confondere con «sereno», che vuol dire «calmo e tranquillo».",
 			"distractorWhy": {
 				"preoccupato": "«preoccupato» vuol dire «che teme un problema»: un'altra parola, non quella cercata.",
 				"timido": "«timido» vuol dire «che si espone con difficoltà»: un'altra parola, non quella cercata.",
@@ -3629,7 +3629,7 @@
 				"timido"
 			],
 			"answer": "sereno",
-			"explanation": "\"sereno\": calmo e tranquillo. Stesso gruppo: timido = che si espone con difficoltà, coraggioso = che affronta una difficoltà.",
+			"explanation": "Da non confondere con «timido», che vuol dire «che si espone con difficoltà».",
 			"distractorWhy": {
 				"leale": "«leale» vuol dire «fedele e corretto verso gli altri»: un'altra parola, non quella cercata.",
 				"timido": "«timido» vuol dire «che si espone con difficoltà»: un'altra parola, non quella cercata.",
@@ -3650,7 +3650,7 @@
 				"felice"
 			],
 			"answer": "timido",
-			"explanation": "\"timido\": che si espone con difficoltà. Stesso gruppo: coraggioso = che affronta una difficoltà, leale = fedele e corretto verso gli altri.",
+			"explanation": "Da non confondere con «coraggioso», che vuol dire «che affronta una difficoltà».",
 			"distractorWhy": {
 				"triste": "«triste» vuol dire «che prova dispiacere o malinconia»: un'altra parola, non quella cercata.",
 				"paziente": "«paziente» vuol dire «capace di aspettare senza agitarsi»: un'altra parola, non quella cercata.",
@@ -3671,7 +3671,7 @@
 				"impulsivo"
 			],
 			"answer": "coraggioso",
-			"explanation": "\"coraggioso\": che affronta una difficoltà. Stesso gruppo: leale = fedele e corretto verso gli altri, paziente = capace di aspettare senza agitarsi.",
+			"explanation": "Da non confondere con «leale», che vuol dire «fedele e corretto verso gli altri».",
 			"distractorWhy": {
 				"preoccupato": "«preoccupato» vuol dire «che teme un problema»: un'altra parola, non quella cercata.",
 				"paziente": "«paziente» vuol dire «capace di aspettare senza agitarsi»: un'altra parola, non quella cercata.",
@@ -3692,7 +3692,7 @@
 				"leale"
 			],
 			"answer": "leale",
-			"explanation": "\"leale\": fedele e corretto verso gli altri. Stesso gruppo: paziente = capace di aspettare senza agitarsi, impulsivo = che agisce senza riflettere abbastanza.",
+			"explanation": "Da non confondere con «paziente», che vuol dire «capace di aspettare senza agitarsi».",
 			"distractorWhy": {
 				"felice": "«felice» vuol dire «che prova gioia»: un'altra parola, non quella cercata.",
 				"sereno": "«sereno» vuol dire «calmo e tranquillo»: un'altra parola, non quella cercata.",
@@ -3713,7 +3713,7 @@
 				"coraggioso"
 			],
 			"answer": "paziente",
-			"explanation": "\"paziente\": capace di aspettare senza agitarsi. Stesso gruppo: impulsivo = che agisce senza riflettere abbastanza, felice = che prova gioia.",
+			"explanation": "Da non confondere con «impulsivo», che vuol dire «che agisce senza riflettere abbastanza».",
 			"distractorWhy": {
 				"felice": "«felice» vuol dire «che prova gioia»: un'altra parola, non quella cercata.",
 				"coraggioso": "«coraggioso» vuol dire «che affronta una difficoltà»: un'altra parola, non quella cercata.",
@@ -3734,7 +3734,7 @@
 				"coraggioso"
 			],
 			"answer": "impulsivo",
-			"explanation": "\"impulsivo\": che agisce senza riflettere abbastanza. Stesso gruppo: felice = che prova gioia, triste = che prova dispiacere o malinconia.",
+			"explanation": "Da non confondere con «felice», che vuol dire «che prova gioia».",
 			"distractorWhy": {
 				"coraggioso": "«coraggioso» vuol dire «che affronta una difficoltà»: un'altra parola, non quella cercata.",
 				"arrabbiato": "«arrabbiato» vuol dire «che prova rabbia»: un'altra parola, non quella cercata.",
@@ -3755,7 +3755,7 @@
 				"ricerca"
 			],
 			"answer": "telefono",
-			"explanation": "\"telefono\": dispositivo per chiamare e comunicare. Stesso gruppo: computer = macchina elettronica per lavorare con dati, tablet = dispositivo portatile con schermo tattile.",
+			"explanation": "Da non confondere con «computer», che vuol dire «macchina elettronica per lavorare con dati».",
 			"distractorWhy": {
 				"notifica": "«notifica» vuol dire «avviso mostrato da un'app»: un'altra parola, non quella cercata.",
 				"ricerca": "«ricerca» vuol dire «azione di cercare informazioni»: un'altra parola, non quella cercata.",
@@ -3776,7 +3776,7 @@
 				"computer"
 			],
 			"answer": "computer",
-			"explanation": "\"computer\": macchina elettronica per lavorare con dati. Stesso gruppo: tablet = dispositivo portatile con schermo tattile, app = programma usato su telefono o tablet.",
+			"explanation": "Da non confondere con «tablet», che vuol dire «dispositivo portatile con schermo tattile».",
 			"distractorWhy": {
 				"notifica": "«notifica» vuol dire «avviso mostrato da un'app»: un'altra parola, non quella cercata.",
 				"cartella": "«cartella» vuol dire «spazio in cui organizzare file»: un'altra parola, non quella cercata.",
@@ -3797,7 +3797,7 @@
 				"privacy"
 			],
 			"answer": "tablet",
-			"explanation": "\"tablet\": dispositivo portatile con schermo tattile. Stesso gruppo: app = programma usato su telefono o tablet, password = parola segreta per accedere.",
+			"explanation": "Da non confondere con «app», che vuol dire «programma usato su telefono o tablet».",
 			"distractorWhy": {
 				"privacy": "«privacy» vuol dire «protezione dei dati personali»: un'altra parola, non quella cercata.",
 				"ricerca": "«ricerca» vuol dire «azione di cercare informazioni»: un'altra parola, non quella cercata.",
@@ -3818,7 +3818,7 @@
 				"tablet"
 			],
 			"answer": "app",
-			"explanation": "\"app\": programma usato su telefono o tablet. Stesso gruppo: password = parola segreta per accedere, profilo = spazio personale in un servizio digitale.",
+			"explanation": "Da non confondere con «password», che vuol dire «parola segreta per accedere».",
 			"distractorWhy": {
 				"tablet": "«tablet» vuol dire «dispositivo portatile con schermo tattile»: un'altra parola, non quella cercata.",
 				"schermo": "«schermo» vuol dire «superficie che mostra immagini o testi»: un'altra parola, non quella cercata.",
@@ -3839,7 +3839,7 @@
 				"profilo"
 			],
 			"answer": "password",
-			"explanation": "\"password\": parola segreta per accedere. Stesso gruppo: profilo = spazio personale in un servizio digitale, messaggio = testo inviato a qualcuno.",
+			"explanation": "Da non confondere con «profilo», che vuol dire «spazio personale in un servizio digitale».",
 			"distractorWhy": {
 				"cartella": "«cartella» vuol dire «spazio in cui organizzare file»: un'altra parola, non quella cercata.",
 				"profilo": "«profilo» vuol dire «spazio personale in un servizio digitale»: un'altra parola, non quella cercata.",
@@ -3860,7 +3860,7 @@
 				"profilo"
 			],
 			"answer": "profilo",
-			"explanation": "\"profilo\": spazio personale in un servizio digitale. Stesso gruppo: messaggio = testo inviato a qualcuno, notifica = avviso mostrato da un'app.",
+			"explanation": "Da non confondere con «messaggio», che vuol dire «testo inviato a qualcuno».",
 			"distractorWhy": {
 				"privacy": "«privacy» vuol dire «protezione dei dati personali»: un'altra parola, non quella cercata.",
 				"cartella": "«cartella» vuol dire «spazio in cui organizzare file»: un'altra parola, non quella cercata.",
@@ -3881,7 +3881,7 @@
 				"cartella"
 			],
 			"answer": "messaggio",
-			"explanation": "\"messaggio\": testo inviato a qualcuno. Stesso gruppo: notifica = avviso mostrato da un'app, allegato = file aggiunto a un messaggio.",
+			"explanation": "Da non confondere con «notifica», che vuol dire «avviso mostrato da un'app».",
 			"distractorWhy": {
 				"schermo": "«schermo» vuol dire «superficie che mostra immagini o testi»: un'altra parola, non quella cercata.",
 				"tastiera": "«tastiera» vuol dire «insieme di tasti per scrivere»: un'altra parola, non quella cercata.",
@@ -3902,7 +3902,7 @@
 				"telefono"
 			],
 			"answer": "notifica",
-			"explanation": "\"notifica\": avviso mostrato da un'app. Stesso gruppo: allegato = file aggiunto a un messaggio, cartella = spazio in cui organizzare file.",
+			"explanation": "Da non confondere con «allegato», che vuol dire «file aggiunto a un messaggio».",
 			"distractorWhy": {
 				"tastiera": "«tastiera» vuol dire «insieme di tasti per scrivere»: un'altra parola, non quella cercata.",
 				"telefono": "«telefono» vuol dire «dispositivo per chiamare e comunicare»: un'altra parola, non quella cercata.",
@@ -3923,7 +3923,7 @@
 				"ricerca"
 			],
 			"answer": "allegato",
-			"explanation": "\"allegato\": file aggiunto a un messaggio. Stesso gruppo: cartella = spazio in cui organizzare file, schermo = superficie che mostra immagini o testi.",
+			"explanation": "Da non confondere con «cartella», che vuol dire «spazio in cui organizzare file».",
 			"distractorWhy": {
 				"ricerca": "«ricerca» vuol dire «azione di cercare informazioni»: un'altra parola, non quella cercata.",
 				"notifica": "«notifica» vuol dire «avviso mostrato da un'app»: un'altra parola, non quella cercata.",
@@ -3944,7 +3944,7 @@
 				"cartella"
 			],
 			"answer": "cartella",
-			"explanation": "\"cartella\": spazio in cui organizzare file. Stesso gruppo: schermo = superficie che mostra immagini o testi, tastiera = insieme di tasti per scrivere.",
+			"explanation": "Da non confondere con «schermo», che vuol dire «superficie che mostra immagini o testi».",
 			"distractorWhy": {
 				"notifica": "«notifica» vuol dire «avviso mostrato da un'app»: un'altra parola, non quella cercata.",
 				"tastiera": "«tastiera» vuol dire «insieme di tasti per scrivere»: un'altra parola, non quella cercata.",
@@ -3965,7 +3965,7 @@
 				"tastiera"
 			],
 			"answer": "schermo",
-			"explanation": "\"schermo\": superficie che mostra immagini o testi. Stesso gruppo: tastiera = insieme di tasti per scrivere, ricerca = azione di cercare informazioni.",
+			"explanation": "Da non confondere con «tastiera», che vuol dire «insieme di tasti per scrivere».",
 			"distractorWhy": {
 				"profilo": "«profilo» vuol dire «spazio personale in un servizio digitale»: un'altra parola, non quella cercata.",
 				"password": "«password» vuol dire «parola segreta per accedere»: un'altra parola, non quella cercata.",
@@ -3986,7 +3986,7 @@
 				"telefono"
 			],
 			"answer": "tastiera",
-			"explanation": "\"tastiera\": insieme di tasti per scrivere. Stesso gruppo: ricerca = azione di cercare informazioni, link = collegamento a una pagina o risorsa.",
+			"explanation": "Da non confondere con «ricerca», che vuol dire «azione di cercare informazioni».",
 			"distractorWhy": {
 				"telefono": "«telefono» vuol dire «dispositivo per chiamare e comunicare»: un'altra parola, non quella cercata.",
 				"allegato": "«allegato» vuol dire «file aggiunto a un messaggio»: un'altra parola, non quella cercata.",
@@ -4007,7 +4007,7 @@
 				"password"
 			],
 			"answer": "ricerca",
-			"explanation": "\"ricerca\": azione di cercare informazioni. Stesso gruppo: link = collegamento a una pagina o risorsa, fonte = origine di una notizia o informazione.",
+			"explanation": "Da non confondere con «link», che vuol dire «collegamento a una pagina o risorsa».",
 			"distractorWhy": {
 				"password": "«password» vuol dire «parola segreta per accedere»: un'altra parola, non quella cercata.",
 				"profilo": "«profilo» vuol dire «spazio personale in un servizio digitale»: un'altra parola, non quella cercata.",
@@ -4028,7 +4028,7 @@
 				"link"
 			],
 			"answer": "link",
-			"explanation": "\"link\": collegamento a una pagina o risorsa. Stesso gruppo: fonte = origine di una notizia o informazione, privacy = protezione dei dati personali.",
+			"explanation": "Da non confondere con «fonte», che vuol dire «origine di una notizia o informazione».",
 			"distractorWhy": {
 				"ricerca": "«ricerca» vuol dire «azione di cercare informazioni»: un'altra parola, non quella cercata.",
 				"privacy": "«privacy» vuol dire «protezione dei dati personali»: un'altra parola, non quella cercata.",
@@ -4049,7 +4049,7 @@
 				"privacy"
 			],
 			"answer": "fonte",
-			"explanation": "\"fonte\": origine di una notizia o informazione. Stesso gruppo: privacy = protezione dei dati personali, telefono = dispositivo per chiamare e comunicare.",
+			"explanation": "Da non confondere con «privacy», che vuol dire «protezione dei dati personali».",
 			"distractorWhy": {
 				"privacy": "«privacy» vuol dire «protezione dei dati personali»: un'altra parola, non quella cercata.",
 				"link": "«link» vuol dire «collegamento a una pagina o risorsa»: un'altra parola, non quella cercata.",
@@ -4070,7 +4070,7 @@
 				"schermo"
 			],
 			"answer": "privacy",
-			"explanation": "\"privacy\": protezione dei dati personali. Stesso gruppo: telefono = dispositivo per chiamare e comunicare, computer = macchina elettronica per lavorare con dati.",
+			"explanation": "Da non confondere con «telefono», che vuol dire «dispositivo per chiamare e comunicare».",
 			"distractorWhy": {
 				"schermo": "«schermo» vuol dire «superficie che mostra immagini o testi»: un'altra parola, non quella cercata.",
 				"ricerca": "«ricerca» vuol dire «azione di cercare informazioni»: un'altra parola, non quella cercata.",
@@ -4091,7 +4091,7 @@
 				"bloccare"
 			],
 			"answer": "salvare",
-			"explanation": "\"salvare\": conservare un file o un dato. Stesso gruppo: caricare = inviare un file online o fornire energia, scaricare = ricevere un file da internet.",
+			"explanation": "Da non confondere con «caricare», che vuol dire «inviare un file online o fornire energia».",
 			"distractorWhy": {
 				"caricare": "«caricare» vuol dire «inviare un file online o fornire energia»: un'altra parola, non quella cercata.",
 				"inoltrare": "«inoltrare» vuol dire «mandare a un'altra persona un messaggio ricevuto»: un'altra parola, non quella cercata.",
@@ -4112,7 +4112,7 @@
 				"caricare"
 			],
 			"answer": "caricare",
-			"explanation": "\"caricare\": inviare un file online o fornire energia. Stesso gruppo: scaricare = ricevere un file da internet, condividere = mettere qualcosa a disposizione di altri.",
+			"explanation": "Da non confondere con «scaricare», che vuol dire «ricevere un file da internet».",
 			"distractorWhy": {
 				"salvare": "«salvare» vuol dire «conservare un file o un dato»: un'altra parola, non quella cercata.",
 				"scaricare": "«scaricare» vuol dire «ricevere un file da internet»: un'altra parola, non quella cercata.",
@@ -4133,7 +4133,7 @@
 				"caricare"
 			],
 			"answer": "scaricare",
-			"explanation": "\"scaricare\": ricevere un file da internet. Stesso gruppo: condividere = mettere qualcosa a disposizione di altri, inoltrare = mandare a un'altra persona un messaggio ricevuto.",
+			"explanation": "Da non confondere con «condividere», che vuol dire «mettere qualcosa a disposizione di altri».",
 			"distractorWhy": {
 				"caricare": "«caricare» vuol dire «inviare un file online o fornire energia»: un'altra parola, non quella cercata.",
 				"aggiornare": "«aggiornare» vuol dire «portare alla versione più recente»: un'altra parola, non quella cercata.",
@@ -4154,7 +4154,7 @@
 				"scaricare"
 			],
 			"answer": "condividere",
-			"explanation": "\"condividere\": mettere qualcosa a disposizione di altri. Stesso gruppo: inoltrare = mandare a un'altra persona un messaggio ricevuto, aggiornare = portare alla versione più recente.",
+			"explanation": "Da non confondere con «inoltrare», che vuol dire «mandare a un'altra persona un messaggio ricevuto».",
 			"distractorWhy": {
 				"aggiornare": "«aggiornare» vuol dire «portare alla versione più recente»: un'altra parola, non quella cercata.",
 				"proteggere": "«proteggere» vuol dire «mettere al sicuro da rischi»: un'altra parola, non quella cercata.",
@@ -4175,7 +4175,7 @@
 				"aggiornare"
 			],
 			"answer": "inoltrare",
-			"explanation": "\"inoltrare\": mandare a un'altra persona un messaggio ricevuto. Stesso gruppo: aggiornare = portare alla versione più recente, bloccare = impedire un accesso o un'azione.",
+			"explanation": "Da non confondere con «aggiornare», che vuol dire «portare alla versione più recente».",
 			"distractorWhy": {
 				"proteggere": "«proteggere» vuol dire «mettere al sicuro da rischi»: un'altra parola, non quella cercata.",
 				"bloccare": "«bloccare» vuol dire «impedire un accesso o un'azione»: un'altra parola, non quella cercata.",
@@ -4196,7 +4196,7 @@
 				"aggiornare"
 			],
 			"answer": "aggiornare",
-			"explanation": "\"aggiornare\": portare alla versione più recente. Stesso gruppo: bloccare = impedire un accesso o un'azione, proteggere = mettere al sicuro da rischi.",
+			"explanation": "Da non confondere con «bloccare», che vuol dire «impedire un accesso o un'azione».",
 			"distractorWhy": {
 				"condividere": "«condividere» vuol dire «mettere qualcosa a disposizione di altri»: un'altra parola, non quella cercata.",
 				"inoltrare": "«inoltrare» vuol dire «mandare a un'altra persona un messaggio ricevuto»: un'altra parola, non quella cercata.",
@@ -4217,7 +4217,7 @@
 				"salvare"
 			],
 			"answer": "bloccare",
-			"explanation": "\"bloccare\": impedire un accesso o un'azione. Stesso gruppo: proteggere = mettere al sicuro da rischi, salvare = conservare un file o un dato.",
+			"explanation": "Da non confondere con «proteggere», che vuol dire «mettere al sicuro da rischi».",
 			"distractorWhy": {
 				"salvare": "«salvare» vuol dire «conservare un file o un dato»: un'altra parola, non quella cercata.",
 				"inoltrare": "«inoltrare» vuol dire «mandare a un'altra persona un messaggio ricevuto»: un'altra parola, non quella cercata.",
@@ -4238,7 +4238,7 @@
 				"scaricare"
 			],
 			"answer": "proteggere",
-			"explanation": "\"proteggere\": mettere al sicuro da rischi. Stesso gruppo: salvare = conservare un file o un dato, caricare = inviare un file online o fornire energia.",
+			"explanation": "Da non confondere con «salvare», che vuol dire «conservare un file o un dato».",
 			"distractorWhy": {
 				"scaricare": "«scaricare» vuol dire «ricevere un file da internet»: un'altra parola, non quella cercata.",
 				"condividere": "«condividere» vuol dire «mettere qualcosa a disposizione di altri»: un'altra parola, non quella cercata.",
@@ -4259,7 +4259,7 @@
 				"comunità"
 			],
 			"answer": "mestiere",
-			"explanation": "\"mestiere\": attività lavorativa abituale. Stesso gruppo: collega = persona con cui si lavora, turno = periodo di lavoro assegnato.",
+			"explanation": "Da non confondere con «collega», che vuol dire «persona con cui si lavora».",
 			"distractorWhy": {
 				"collega": "«collega» vuol dire «persona con cui si lavora»: un'altra parola, non quella cercata.",
 				"comunità": "«comunità» vuol dire «gruppo di persone legate da luogo o scopo»: un'altra parola, non quella cercata.",
@@ -4280,7 +4280,7 @@
 				"collega"
 			],
 			"answer": "collega",
-			"explanation": "\"collega\": persona con cui si lavora. Stesso gruppo: turno = periodo di lavoro assegnato, responsabile = persona che guida o controlla un'attività.",
+			"explanation": "Da non confondere con «turno», che vuol dire «periodo di lavoro assegnato».",
 			"distractorWhy": {
 				"diritto": "«diritto» vuol dire «cosa che una persona può pretendere giustamente»: un'altra parola, non quella cercata.",
 				"negozio": "«negozio» vuol dire «luogo in cui si vendono prodotti»: un'altra parola, non quella cercata.",
@@ -4301,7 +4301,7 @@
 				"ufficio"
 			],
 			"answer": "turno",
-			"explanation": "\"turno\": periodo di lavoro assegnato. Stesso gruppo: responsabile = persona che guida o controlla un'attività, cliente = persona che compra o riceve un servizio.",
+			"explanation": "Da non confondere con «responsabile», che vuol dire «persona che guida o controlla un'attività».",
 			"distractorWhy": {
 				"collega": "«collega» vuol dire «persona con cui si lavora»: un'altra parola, non quella cercata.",
 				"negozio": "«negozio» vuol dire «luogo in cui si vendono prodotti»: un'altra parola, non quella cercata.",
@@ -4322,7 +4322,7 @@
 				"comunità"
 			],
 			"answer": "responsabile",
-			"explanation": "\"responsabile\": persona che guida o controlla un'attività. Stesso gruppo: cliente = persona che compra o riceve un servizio, servizio = attività svolta per aiutare o rispondere a un bisogno.",
+			"explanation": "Da non confondere con «cliente», che vuol dire «persona che compra o riceve un servizio».",
 			"distractorWhy": {
 				"ufficio": "«ufficio» vuol dire «luogo in cui si lavora con documenti o servizi»: un'altra parola, non quella cercata.",
 				"comunità": "«comunità» vuol dire «gruppo di persone legate da luogo o scopo»: un'altra parola, non quella cercata.",
@@ -4343,7 +4343,7 @@
 				"regola"
 			],
 			"answer": "cliente",
-			"explanation": "\"cliente\": persona che compra o riceve un servizio. Stesso gruppo: servizio = attività svolta per aiutare o rispondere a un bisogno, ufficio = luogo in cui si lavora con documenti o servizi.",
+			"explanation": "Da non confondere con «servizio», che vuol dire «attività svolta per aiutare o rispondere a un bisogno».",
 			"distractorWhy": {
 				"comunità": "«comunità» vuol dire «gruppo di persone legate da luogo o scopo»: un'altra parola, non quella cercata.",
 				"regola": "«regola» vuol dire «norma che stabilisce come giocare»: un'altra parola, non quella cercata.",
@@ -4364,7 +4364,7 @@
 				"servizio"
 			],
 			"answer": "servizio",
-			"explanation": "\"servizio\": attività svolta per aiutare o rispondere a un bisogno. Stesso gruppo: ufficio = luogo in cui si lavora con documenti o servizi, negozio = luogo in cui si vendono prodotti.",
+			"explanation": "Da non confondere con «ufficio», che vuol dire «luogo in cui si lavora con documenti o servizi».",
 			"distractorWhy": {
 				"mestiere": "«mestiere» vuol dire «attività lavorativa abituale»: un'altra parola, non quella cercata.",
 				"negozio": "«negozio» vuol dire «luogo in cui si vendono prodotti»: un'altra parola, non quella cercata.",
@@ -4385,7 +4385,7 @@
 				"negozio"
 			],
 			"answer": "ufficio",
-			"explanation": "\"ufficio\": luogo in cui si lavora con documenti o servizi. Stesso gruppo: negozio = luogo in cui si vendono prodotti, posta = servizio per inviare lettere e pacchi.",
+			"explanation": "Da non confondere con «negozio», che vuol dire «luogo in cui si vendono prodotti».",
 			"distractorWhy": {
 				"negozio": "«negozio» vuol dire «luogo in cui si vendono prodotti»: un'altra parola, non quella cercata.",
 				"diritto": "«diritto» vuol dire «cosa che una persona può pretendere giustamente»: un'altra parola, non quella cercata.",
@@ -4406,7 +4406,7 @@
 				"servizio"
 			],
 			"answer": "negozio",
-			"explanation": "\"negozio\": luogo in cui si vendono prodotti. Stesso gruppo: posta = servizio per inviare lettere e pacchi, regola = indicazione da rispettare.",
+			"explanation": "Da non confondere con «posta», che vuol dire «servizio per inviare lettere e pacchi».",
 			"distractorWhy": {
 				"collega": "«collega» vuol dire «persona con cui si lavora»: un'altra parola, non quella cercata.",
 				"diritto": "«diritto» vuol dire «cosa che una persona può pretendere giustamente»: un'altra parola, non quella cercata.",
@@ -4427,7 +4427,7 @@
 				"diritto"
 			],
 			"answer": "posta",
-			"explanation": "\"posta\": servizio per inviare lettere e pacchi. Stesso gruppo: regola = indicazione da rispettare, diritto = cosa che una persona può pretendere giustamente.",
+			"explanation": "Da non confondere con «regola», che vuol dire «indicazione da rispettare».",
 			"distractorWhy": {
 				"dovere": "«dovere» vuol dire «azione che una persona deve compiere»: un'altra parola, non quella cercata.",
 				"diritto": "«diritto» vuol dire «cosa che una persona può pretendere giustamente»: un'altra parola, non quella cercata.",
@@ -4448,7 +4448,7 @@
 				"regola"
 			],
 			"answer": "regola",
-			"explanation": "\"regola\": indicazione da rispettare. Stesso gruppo: diritto = cosa che una persona può pretendere giustamente, dovere = azione che una persona deve compiere.",
+			"explanation": "Da non confondere con «diritto», che vuol dire «cosa che una persona può pretendere giustamente».",
 			"distractorWhy": {
 				"dovere": "«dovere» vuol dire «azione che una persona deve compiere»: un'altra parola, non quella cercata.",
 				"ufficio": "«ufficio» vuol dire «luogo in cui si lavora con documenti o servizi»: un'altra parola, non quella cercata.",
@@ -4469,7 +4469,7 @@
 				"comunità"
 			],
 			"answer": "diritto",
-			"explanation": "\"diritto\": cosa che una persona può pretendere giustamente. Stesso gruppo: dovere = azione che una persona deve compiere, volontario = persona che aiuta senza essere obbligata.",
+			"explanation": "Da non confondere con «dovere», che vuol dire «azione che una persona deve compiere».",
 			"distractorWhy": {
 				"regola": "«regola» vuol dire «norma che stabilisce come giocare»: un'altra parola, non quella cercata.",
 				"ufficio": "«ufficio» vuol dire «luogo in cui si lavora con documenti o servizi»: un'altra parola, non quella cercata.",
@@ -4490,7 +4490,7 @@
 				"posta"
 			],
 			"answer": "dovere",
-			"explanation": "\"dovere\": azione che una persona deve compiere. Stesso gruppo: volontario = persona che aiuta senza essere obbligata, comunità = gruppo di persone legate da luogo o scopo.",
+			"explanation": "Da non confondere con «volontario», che vuol dire «persona che aiuta senza essere obbligata».",
 			"distractorWhy": {
 				"regola": "«regola» vuol dire «norma che stabilisce come giocare»: un'altra parola, non quella cercata.",
 				"cliente": "«cliente» vuol dire «persona che compra o riceve un servizio»: un'altra parola, non quella cercata.",
@@ -4511,7 +4511,7 @@
 				"diritto"
 			],
 			"answer": "volontario",
-			"explanation": "\"volontario\": persona che aiuta senza essere obbligata. Stesso gruppo: comunità = gruppo di persone legate da luogo o scopo, mestiere = attività lavorativa abituale.",
+			"explanation": "Da non confondere con «comunità», che vuol dire «gruppo di persone legate da luogo o scopo».",
 			"distractorWhy": {
 				"diritto": "«diritto» vuol dire «cosa che una persona può pretendere giustamente»: un'altra parola, non quella cercata.",
 				"servizio": "«servizio» vuol dire «attività svolta per aiutare o rispondere a un bisogno»: un'altra parola, non quella cercata.",
@@ -4532,7 +4532,7 @@
 				"comunità"
 			],
 			"answer": "comunità",
-			"explanation": "\"comunità\": gruppo di persone legate da luogo o scopo. Stesso gruppo: mestiere = attività lavorativa abituale, collega = persona con cui si lavora.",
+			"explanation": "Da non confondere con «mestiere», che vuol dire «attività lavorativa abituale».",
 			"distractorWhy": {
 				"cliente": "«cliente» vuol dire «persona che compra o riceve un servizio»: un'altra parola, non quella cercata.",
 				"negozio": "«negozio» vuol dire «luogo in cui si vendono prodotti»: un'altra parola, non quella cercata.",
@@ -4553,7 +4553,7 @@
 				"privato"
 			],
 			"answer": "responsabile",
-			"explanation": "\"responsabile\": che agisce pensando alle conseguenze. Stesso gruppo: affidabile = di cui ci si può fidare, pubblico = aperto o appartenente alla comunità.",
+			"explanation": "Da non confondere con «affidabile», che vuol dire «di cui ci si può fidare».",
 			"distractorWhy": {
 				"affidabile": "«affidabile» vuol dire «di cui ci si può fidare»: un'altra parola, non quella cercata.",
 				"privato": "«privato» vuol dire «personale o non pubblico»: un'altra parola, non quella cercata.",
@@ -4574,7 +4574,7 @@
 				"responsabile"
 			],
 			"answer": "affidabile",
-			"explanation": "\"affidabile\": di cui ci si può fidare. Stesso gruppo: pubblico = aperto o appartenente alla comunità, privato = personale o non pubblico.",
+			"explanation": "Da non confondere con «pubblico», che vuol dire «aperto o appartenente alla comunità».",
 			"distractorWhy": {
 				"urgente": "«urgente» vuol dire «che va fatto presto»: un'altra parola, non quella cercata.",
 				"responsabile": "«responsabile» vuol dire «che agisce pensando alle conseguenze»: un'altra parola, non quella cercata.",
@@ -4595,7 +4595,7 @@
 				"disponibile"
 			],
 			"answer": "pubblico",
-			"explanation": "\"pubblico\": aperto o appartenente alla comunità. Stesso gruppo: privato = personale o non pubblico, urgente = che va fatto presto.",
+			"explanation": "Da non confondere con «privato», che vuol dire «personale o non pubblico».",
 			"distractorWhy": {
 				"disponibile": "«disponibile» vuol dire «pronto ad aiutare o utilizzabile»: un'altra parola, non quella cercata.",
 				"privato": "«privato» vuol dire «personale o non pubblico»: un'altra parola, non quella cercata.",
@@ -4616,7 +4616,7 @@
 				"privato"
 			],
 			"answer": "privato",
-			"explanation": "\"privato\": personale o non pubblico. Stesso gruppo: urgente = che va fatto presto, disponibile = pronto ad aiutare o utilizzabile.",
+			"explanation": "Da non confondere con «urgente», che vuol dire «che va fatto presto».",
 			"distractorWhy": {
 				"urgente": "«urgente» vuol dire «che va fatto presto»: un'altra parola, non quella cercata.",
 				"disponibile": "«disponibile» vuol dire «pronto ad aiutare o utilizzabile»: un'altra parola, non quella cercata.",
@@ -4637,7 +4637,7 @@
 				"privato"
 			],
 			"answer": "urgente",
-			"explanation": "\"urgente\": che va fatto presto. Stesso gruppo: disponibile = pronto ad aiutare o utilizzabile, responsabile = che agisce pensando alle conseguenze.",
+			"explanation": "Da non confondere con «disponibile», che vuol dire «pronto ad aiutare o utilizzabile».",
 			"distractorWhy": {
 				"disponibile": "«disponibile» vuol dire «pronto ad aiutare o utilizzabile»: un'altra parola, non quella cercata.",
 				"privato": "«privato» vuol dire «personale o non pubblico»: un'altra parola, non quella cercata.",
@@ -4658,7 +4658,7 @@
 				"urgente"
 			],
 			"answer": "disponibile",
-			"explanation": "\"disponibile\": pronto ad aiutare o utilizzabile. Stesso gruppo: responsabile = che agisce pensando alle conseguenze, affidabile = di cui ci si può fidare.",
+			"explanation": "Da non confondere con «responsabile», che vuol dire «che agisce pensando alle conseguenze».",
 			"distractorWhy": {
 				"urgente": "«urgente» vuol dire «che va fatto presto»: un'altra parola, non quella cercata.",
 				"pubblico": "«pubblico» vuol dire «aperto o appartenente alla comunità»: un'altra parola, non quella cercata.",
@@ -4679,7 +4679,7 @@
 				"piscina"
 			],
 			"answer": "allenamento",
-			"explanation": "\"allenamento\": esercizio svolto per migliorare. Stesso gruppo: squadra = gruppo che gioca o lavora insieme, partita = gara tra due squadre o persone.",
+			"explanation": "Da non confondere con «squadra», che vuol dire «gruppo che gioca o lavora insieme».",
 			"distractorWhy": {
 				"arbitro": "«arbitro» vuol dire «persona che controlla una gara»: un'altra parola, non quella cercata.",
 				"piscina": "«piscina» vuol dire «luogo in cui si nuota»: un'altra parola, non quella cercata.",
@@ -4700,7 +4700,7 @@
 				"squadra"
 			],
 			"answer": "squadra",
-			"explanation": "\"squadra\": gruppo che gioca o lavora insieme. Stesso gruppo: partita = gara tra due squadre o persone, punteggio = numero di punti ottenuti.",
+			"explanation": "Da non confondere con «partita», che vuol dire «gara tra due squadre o persone».",
 			"distractorWhy": {
 				"arbitro": "«arbitro» vuol dire «persona che controlla una gara»: un'altra parola, non quella cercata.",
 				"regola": "«regola» vuol dire «norma che stabilisce come giocare»: un'altra parola, non quella cercata.",
@@ -4721,7 +4721,7 @@
 				"squadra"
 			],
 			"answer": "partita",
-			"explanation": "\"partita\": gara tra due squadre o persone. Stesso gruppo: punteggio = numero di punti ottenuti, regola = norma che stabilisce come giocare.",
+			"explanation": "Da non confondere con «punteggio», che vuol dire «numero di punti ottenuti».",
 			"distractorWhy": {
 				"arbitro": "«arbitro» vuol dire «persona che controlla una gara»: un'altra parola, non quella cercata.",
 				"squadra": "«squadra» vuol dire «gruppo che gioca o lavora insieme»: un'altra parola, non quella cercata.",
@@ -4742,7 +4742,7 @@
 				"palestra"
 			],
 			"answer": "punteggio",
-			"explanation": "\"punteggio\": numero di punti ottenuti. Stesso gruppo: regola = norma che stabilisce come giocare, arbitro = persona che controlla una gara.",
+			"explanation": "Da non confondere con «regola», che vuol dire «norma che stabilisce come giocare».",
 			"distractorWhy": {
 				"bicicletta": "«bicicletta» vuol dire «mezzo a due ruote mosso pedalando»: un'altra parola, non quella cercata.",
 				"passeggiata": "«passeggiata» vuol dire «camminata fatta per piacere o salute»: un'altra parola, non quella cercata.",
@@ -4763,7 +4763,7 @@
 				"canzone"
 			],
 			"answer": "regola",
-			"explanation": "\"regola\": norma che stabilisce come giocare. Stesso gruppo: arbitro = persona che controlla una gara, palestra = luogo in cui ci si allena.",
+			"explanation": "Da non confondere con «arbitro», che vuol dire «persona che controlla una gara».",
 			"distractorWhy": {
 				"squadra": "«squadra» vuol dire «gruppo che gioca o lavora insieme»: un'altra parola, non quella cercata.",
 				"canzone": "«canzone» vuol dire «brano musicale cantato»: un'altra parola, non quella cercata.",
@@ -4784,7 +4784,7 @@
 				"arbitro"
 			],
 			"answer": "arbitro",
-			"explanation": "\"arbitro\": persona che controlla una gara. Stesso gruppo: palestra = luogo in cui ci si allena, piscina = luogo in cui si nuota.",
+			"explanation": "Da non confondere con «palestra», che vuol dire «luogo in cui ci si allena».",
 			"distractorWhy": {
 				"canzone": "«canzone» vuol dire «brano musicale cantato»: un'altra parola, non quella cercata.",
 				"romanzo": "«romanzo» vuol dire «libro narrativo lungo»: un'altra parola, non quella cercata.",
@@ -4805,7 +4805,7 @@
 				"canzone"
 			],
 			"answer": "palestra",
-			"explanation": "\"palestra\": luogo in cui ci si allena. Stesso gruppo: piscina = luogo in cui si nuota, bicicletta = mezzo a due ruote mosso pedalando.",
+			"explanation": "Da non confondere con «piscina», che vuol dire «luogo in cui si nuota».",
 			"distractorWhy": {
 				"canzone": "«canzone» vuol dire «brano musicale cantato»: un'altra parola, non quella cercata.",
 				"squadra": "«squadra» vuol dire «gruppo che gioca o lavora insieme»: un'altra parola, non quella cercata.",
@@ -4826,7 +4826,7 @@
 				"arbitro"
 			],
 			"answer": "piscina",
-			"explanation": "\"piscina\": luogo in cui si nuota. Stesso gruppo: bicicletta = mezzo a due ruote mosso pedalando, passeggiata = camminata fatta per piacere o salute.",
+			"explanation": "Da non confondere con «bicicletta», che vuol dire «mezzo a due ruote mosso pedalando».",
 			"distractorWhy": {
 				"partita": "«partita» vuol dire «gara tra due squadre o persone»: un'altra parola, non quella cercata.",
 				"arbitro": "«arbitro» vuol dire «persona che controlla una gara»: un'altra parola, non quella cercata.",
@@ -4847,7 +4847,7 @@
 				"passeggiata"
 			],
 			"answer": "bicicletta",
-			"explanation": "\"bicicletta\": mezzo a due ruote mosso pedalando. Stesso gruppo: passeggiata = camminata fatta per piacere o salute, film = opera audiovisiva da guardare.",
+			"explanation": "Da non confondere con «passeggiata», che vuol dire «camminata fatta per piacere o salute».",
 			"distractorWhy": {
 				"passeggiata": "«passeggiata» vuol dire «camminata fatta per piacere o salute»: un'altra parola, non quella cercata.",
 				"arbitro": "«arbitro» vuol dire «persona che controlla una gara»: un'altra parola, non quella cercata.",
@@ -4868,7 +4868,7 @@
 				"passeggiata"
 			],
 			"answer": "passeggiata",
-			"explanation": "\"passeggiata\": camminata fatta per piacere o salute. Stesso gruppo: film = opera audiovisiva da guardare, canzone = brano musicale cantato.",
+			"explanation": "Da non confondere con «film», che vuol dire «opera audiovisiva da guardare».",
 			"distractorWhy": {
 				"canzone": "«canzone» vuol dire «brano musicale cantato»: un'altra parola, non quella cercata.",
 				"palestra": "«palestra» vuol dire «luogo in cui ci si allena»: un'altra parola, non quella cercata.",
@@ -4889,7 +4889,7 @@
 				"canzone"
 			],
 			"answer": "film",
-			"explanation": "\"film\": opera audiovisiva da guardare. Stesso gruppo: canzone = brano musicale cantato, romanzo = libro narrativo lungo.",
+			"explanation": "Da non confondere con «canzone», che vuol dire «brano musicale cantato».",
 			"distractorWhy": {
 				"canzone": "«canzone» vuol dire «brano musicale cantato»: un'altra parola, non quella cercata.",
 				"romanzo": "«romanzo» vuol dire «libro narrativo lungo»: un'altra parola, non quella cercata.",
@@ -4910,7 +4910,7 @@
 				"partita"
 			],
 			"answer": "canzone",
-			"explanation": "\"canzone\": brano musicale cantato. Stesso gruppo: romanzo = libro narrativo lungo, fumetto = storia raccontata con disegni e parole.",
+			"explanation": "Da non confondere con «romanzo», che vuol dire «libro narrativo lungo».",
 			"distractorWhy": {
 				"piscina": "«piscina» vuol dire «luogo in cui si nuota»: un'altra parola, non quella cercata.",
 				"arbitro": "«arbitro» vuol dire «persona che controlla una gara»: un'altra parola, non quella cercata.",
@@ -4931,7 +4931,7 @@
 				"fumetto"
 			],
 			"answer": "romanzo",
-			"explanation": "\"romanzo\": libro narrativo lungo. Stesso gruppo: fumetto = storia raccontata con disegni e parole, allenamento = esercizio svolto per migliorare.",
+			"explanation": "Da non confondere con «fumetto», che vuol dire «storia raccontata con disegni e parole».",
 			"distractorWhy": {
 				"palestra": "«palestra» vuol dire «luogo in cui ci si allena»: un'altra parola, non quella cercata.",
 				"partita": "«partita» vuol dire «gara tra due squadre o persone»: un'altra parola, non quella cercata.",
@@ -4952,7 +4952,7 @@
 				"fumetto"
 			],
 			"answer": "fumetto",
-			"explanation": "\"fumetto\": storia raccontata con disegni e parole. Stesso gruppo: allenamento = esercizio svolto per migliorare, squadra = gruppo che gioca o lavora insieme.",
+			"explanation": "Da non confondere con «allenamento», che vuol dire «esercizio svolto per migliorare».",
 			"distractorWhy": {
 				"palestra": "«palestra» vuol dire «luogo in cui ci si allena»: un'altra parola, non quella cercata.",
 				"romanzo": "«romanzo» vuol dire «libro narrativo lungo»: un'altra parola, non quella cercata.",
@@ -4973,7 +4973,7 @@
 				"correre"
 			],
 			"answer": "allenarsi",
-			"explanation": "\"allenarsi\": fare esercizio per migliorare. Stesso gruppo: giocare = praticare un gioco o uno sport, vincere = ottenere il risultato migliore.",
+			"explanation": "Da non confondere con «giocare», che vuol dire «praticare un gioco o uno sport».",
 			"distractorWhy": {
 				"disegnare": "«disegnare» vuol dire «rappresentare con linee o colori»: un'altra parola, non quella cercata.",
 				"vincere": "«vincere» vuol dire «ottenere il risultato migliore»: un'altra parola, non quella cercata.",
@@ -4994,7 +4994,7 @@
 				"perdere"
 			],
 			"answer": "giocare",
-			"explanation": "\"giocare\": praticare un gioco o uno sport. Stesso gruppo: vincere = ottenere il risultato migliore, perdere = non vincere una gara.",
+			"explanation": "Da non confondere con «vincere», che vuol dire «ottenere il risultato migliore».",
 			"distractorWhy": {
 				"suonare": "«suonare» vuol dire «produrre musica con uno strumento»: un'altra parola, non quella cercata.",
 				"vincere": "«vincere» vuol dire «ottenere il risultato migliore»: un'altra parola, non quella cercata.",
@@ -5015,7 +5015,7 @@
 				"suonare"
 			],
 			"answer": "vincere",
-			"explanation": "\"vincere\": ottenere il risultato migliore. Stesso gruppo: perdere = non vincere una gara, nuotare = muoversi nell'acqua.",
+			"explanation": "Da non confondere con «perdere», che vuol dire «non vincere una gara».",
 			"distractorWhy": {
 				"perdere": "«perdere» vuol dire «non vincere una gara»: un'altra parola, non quella cercata.",
 				"nuotare": "«nuotare» vuol dire «muoversi nell'acqua»: un'altra parola, non quella cercata.",
@@ -5036,7 +5036,7 @@
 				"perdere"
 			],
 			"answer": "perdere",
-			"explanation": "\"perdere\": non vincere una gara. Stesso gruppo: nuotare = muoversi nell'acqua, correre = muoversi velocemente a piedi.",
+			"explanation": "Da non confondere con «nuotare», che vuol dire «muoversi nell'acqua».",
 			"distractorWhy": {
 				"nuotare": "«nuotare» vuol dire «muoversi nell'acqua»: un'altra parola, non quella cercata.",
 				"suonare": "«suonare» vuol dire «produrre musica con uno strumento»: un'altra parola, non quella cercata.",
@@ -5057,7 +5057,7 @@
 				"vincere"
 			],
 			"answer": "nuotare",
-			"explanation": "\"nuotare\": muoversi nell'acqua. Stesso gruppo: correre = muoversi velocemente a piedi, disegnare = rappresentare con linee o colori.",
+			"explanation": "Da non confondere con «correre», che vuol dire «muoversi velocemente a piedi».",
 			"distractorWhy": {
 				"suonare": "«suonare» vuol dire «produrre musica con uno strumento»: un'altra parola, non quella cercata.",
 				"vincere": "«vincere» vuol dire «ottenere il risultato migliore»: un'altra parola, non quella cercata.",
@@ -5078,7 +5078,7 @@
 				"perdere"
 			],
 			"answer": "correre",
-			"explanation": "\"correre\": muoversi velocemente a piedi. Stesso gruppo: disegnare = rappresentare con linee o colori, suonare = produrre musica con uno strumento.",
+			"explanation": "Da non confondere con «disegnare», che vuol dire «rappresentare con linee o colori».",
 			"distractorWhy": {
 				"giocare": "«giocare» vuol dire «praticare un gioco o uno sport»: un'altra parola, non quella cercata.",
 				"perdere": "«perdere» vuol dire «non vincere una gara»: un'altra parola, non quella cercata.",
@@ -5099,7 +5099,7 @@
 				"correre"
 			],
 			"answer": "disegnare",
-			"explanation": "\"disegnare\": rappresentare con linee o colori. Stesso gruppo: suonare = produrre musica con uno strumento, allenarsi = fare esercizio per migliorare.",
+			"explanation": "Da non confondere con «suonare», che vuol dire «produrre musica con uno strumento».",
 			"distractorWhy": {
 				"perdere": "«perdere» vuol dire «non vincere una gara»: un'altra parola, non quella cercata.",
 				"correre": "«correre» vuol dire «muoversi velocemente a piedi»: un'altra parola, non quella cercata.",
@@ -5120,7 +5120,7 @@
 				"suonare"
 			],
 			"answer": "suonare",
-			"explanation": "\"suonare\": produrre musica con uno strumento. Stesso gruppo: allenarsi = fare esercizio per migliorare, giocare = praticare un gioco o uno sport.",
+			"explanation": "Da non confondere con «allenarsi», che vuol dire «fare esercizio per migliorare».",
 			"distractorWhy": {
 				"nuotare": "«nuotare» vuol dire «muoversi nell'acqua»: un'altra parola, non quella cercata.",
 				"giocare": "«giocare» vuol dire «praticare un gioco o uno sport»: un'altra parola, non quella cercata.",
@@ -5141,7 +5141,7 @@
 				"prato"
 			],
 			"answer": "albero",
-			"explanation": "\"albero\": pianta con tronco e rami. Stesso gruppo: fiore = parte colorata di molte piante, foglia = parte verde della pianta.",
+			"explanation": "Da non confondere con «fiore», che vuol dire «parte colorata di molte piante».",
 			"distractorWhy": {
 				"risorsa": "«risorsa» vuol dire «mezzo utile ma non infinito»: un'altra parola, non quella cercata.",
 				"prato": "«prato» vuol dire «terreno coperto d'erba»: un'altra parola, non quella cercata.",
@@ -5162,7 +5162,7 @@
 				"fiume"
 			],
 			"answer": "fiore",
-			"explanation": "\"fiore\": parte colorata di molte piante. Stesso gruppo: foglia = parte verde della pianta, bosco = luogo con molti alberi.",
+			"explanation": "Da non confondere con «foglia», che vuol dire «parte verde della pianta».",
 			"distractorWhy": {
 				"prato": "«prato» vuol dire «terreno coperto d'erba»: un'altra parola, non quella cercata.",
 				"fiume": "«fiume» vuol dire «corso d'acqua naturale»: un'altra parola, non quella cercata.",
@@ -5183,7 +5183,7 @@
 				"albero"
 			],
 			"answer": "foglia",
-			"explanation": "\"foglia\": parte verde della pianta. Stesso gruppo: bosco = luogo con molti alberi, prato = terreno coperto d'erba.",
+			"explanation": "Da non confondere con «bosco», che vuol dire «luogo con molti alberi».",
 			"distractorWhy": {
 				"prato": "«prato» vuol dire «terreno coperto d'erba»: un'altra parola, non quella cercata.",
 				"albero": "«albero» vuol dire «pianta con tronco e rami»: un'altra parola, non quella cercata.",
@@ -5204,7 +5204,7 @@
 				"bosco"
 			],
 			"answer": "bosco",
-			"explanation": "\"bosco\": luogo con molti alberi. Stesso gruppo: prato = terreno coperto d'erba, fiume = corso d'acqua naturale.",
+			"explanation": "Da non confondere con «prato», che vuol dire «terreno coperto d'erba».",
 			"distractorWhy": {
 				"foglia": "«foglia» vuol dire «parte verde della pianta»: un'altra parola, non quella cercata.",
 				"fiume": "«fiume» vuol dire «corso d'acqua naturale»: un'altra parola, non quella cercata.",
@@ -5225,7 +5225,7 @@
 				"energia"
 			],
 			"answer": "prato",
-			"explanation": "\"prato\": terreno coperto d'erba. Stesso gruppo: fiume = corso d'acqua naturale, mare = grande distesa d'acqua salata.",
+			"explanation": "Da non confondere con «fiume», che vuol dire «corso d'acqua naturale».",
 			"distractorWhy": {
 				"energia": "«energia» vuol dire «capacità di produrre movimento, calore o lavoro»: un'altra parola, non quella cercata.",
 				"foglia": "«foglia» vuol dire «parte verde della pianta»: un'altra parola, non quella cercata.",
@@ -5246,7 +5246,7 @@
 				"mare"
 			],
 			"answer": "fiume",
-			"explanation": "\"fiume\": corso d'acqua naturale. Stesso gruppo: mare = grande distesa d'acqua salata, montagna = rilievo alto del terreno.",
+			"explanation": "Da non confondere con «mare», che vuol dire «grande distesa d'acqua salata».",
 			"distractorWhy": {
 				"albero": "«albero» vuol dire «pianta con tronco e rami»: un'altra parola, non quella cercata.",
 				"foglia": "«foglia» vuol dire «parte verde della pianta»: un'altra parola, non quella cercata.",
@@ -5267,7 +5267,7 @@
 				"prato"
 			],
 			"answer": "mare",
-			"explanation": "\"mare\": grande distesa d'acqua salata. Stesso gruppo: montagna = rilievo alto del terreno, spiaggia = zona di sabbia o ciottoli vicino al mare.",
+			"explanation": "Da non confondere con «montagna», che vuol dire «rilievo alto del terreno».",
 			"distractorWhy": {
 				"albero": "«albero» vuol dire «pianta con tronco e rami»: un'altra parola, non quella cercata.",
 				"fiume": "«fiume» vuol dire «corso d'acqua naturale»: un'altra parola, non quella cercata.",
@@ -5288,7 +5288,7 @@
 				"montagna"
 			],
 			"answer": "montagna",
-			"explanation": "\"montagna\": rilievo alto del terreno. Stesso gruppo: spiaggia = zona di sabbia o ciottoli vicino al mare, rifiuto = oggetto da buttare o riciclare.",
+			"explanation": "Da non confondere con «spiaggia», che vuol dire «zona di sabbia o ciottoli vicino al mare».",
 			"distractorWhy": {
 				"ambiente": "«ambiente» vuol dire «insieme dei luoghi e condizioni in cui viviamo»: un'altra parola, non quella cercata.",
 				"spiaggia": "«spiaggia» vuol dire «zona di sabbia o ciottoli vicino al mare»: un'altra parola, non quella cercata.",
@@ -5309,7 +5309,7 @@
 				"risorsa"
 			],
 			"answer": "spiaggia",
-			"explanation": "\"spiaggia\": zona di sabbia o ciottoli vicino al mare. Stesso gruppo: rifiuto = oggetto da buttare o riciclare, raccolta = azione di riunire o separare materiali.",
+			"explanation": "Da non confondere con «rifiuto», che vuol dire «oggetto da buttare o riciclare».",
 			"distractorWhy": {
 				"ambiente": "«ambiente» vuol dire «insieme dei luoghi e condizioni in cui viviamo»: un'altra parola, non quella cercata.",
 				"risorsa": "«risorsa» vuol dire «mezzo utile ma non infinito»: un'altra parola, non quella cercata.",
@@ -5330,7 +5330,7 @@
 				"ambiente"
 			],
 			"answer": "rifiuto",
-			"explanation": "\"rifiuto\": oggetto da buttare o riciclare. Stesso gruppo: raccolta = azione di riunire o separare materiali, energia = capacità di produrre movimento, calore o lavoro.",
+			"explanation": "Da non confondere con «raccolta», che vuol dire «azione di riunire o separare materiali».",
 			"distractorWhy": {
 				"ambiente": "«ambiente» vuol dire «insieme dei luoghi e condizioni in cui viviamo»: un'altra parola, non quella cercata.",
 				"albero": "«albero» vuol dire «pianta con tronco e rami»: un'altra parola, non quella cercata.",
@@ -5351,7 +5351,7 @@
 				"spiaggia"
 			],
 			"answer": "raccolta",
-			"explanation": "\"raccolta\": azione di riunire o separare materiali. Stesso gruppo: energia = capacità di produrre movimento, calore o lavoro, risorsa = mezzo utile ma non infinito.",
+			"explanation": "Da non confondere con «energia», che vuol dire «capacità di produrre movimento, calore o lavoro».",
 			"distractorWhy": {
 				"spiaggia": "«spiaggia» vuol dire «zona di sabbia o ciottoli vicino al mare»: un'altra parola, non quella cercata.",
 				"ambiente": "«ambiente» vuol dire «insieme dei luoghi e condizioni in cui viviamo»: un'altra parola, non quella cercata.",
@@ -5372,7 +5372,7 @@
 				"energia"
 			],
 			"answer": "energia",
-			"explanation": "\"energia\": capacità di produrre movimento, calore o lavoro. Stesso gruppo: risorsa = mezzo utile ma non infinito, ambiente = insieme dei luoghi e condizioni in cui viviamo.",
+			"explanation": "Da non confondere con «risorsa», che vuol dire «mezzo utile ma non infinito».",
 			"distractorWhy": {
 				"albero": "«albero» vuol dire «pianta con tronco e rami»: un'altra parola, non quella cercata.",
 				"montagna": "«montagna» vuol dire «rilievo alto del terreno»: un'altra parola, non quella cercata.",
@@ -5393,7 +5393,7 @@
 				"montagna"
 			],
 			"answer": "risorsa",
-			"explanation": "\"risorsa\": mezzo utile ma non infinito. Stesso gruppo: ambiente = insieme dei luoghi e condizioni in cui viviamo, albero = pianta con tronco e rami.",
+			"explanation": "Da non confondere con «ambiente», che vuol dire «insieme dei luoghi e condizioni in cui viviamo».",
 			"distractorWhy": {
 				"spiaggia": "«spiaggia» vuol dire «zona di sabbia o ciottoli vicino al mare»: un'altra parola, non quella cercata.",
 				"montagna": "«montagna» vuol dire «rilievo alto del terreno»: un'altra parola, non quella cercata.",
@@ -5414,7 +5414,7 @@
 				"rifiuto"
 			],
 			"answer": "ambiente",
-			"explanation": "\"ambiente\": insieme dei luoghi e condizioni in cui viviamo. Stesso gruppo: albero = pianta con tronco e rami, fiore = parte colorata di molte piante.",
+			"explanation": "Da non confondere con «albero», che vuol dire «pianta con tronco e rami».",
 			"distractorWhy": {
 				"spiaggia": "«spiaggia» vuol dire «zona di sabbia o ciottoli vicino al mare»: un'altra parola, non quella cercata.",
 				"albero": "«albero» vuol dire «pianta con tronco e rami»: un'altra parola, non quella cercata.",
@@ -5435,7 +5435,7 @@
 				"riciclabile"
 			],
 			"answer": "naturale",
-			"explanation": "\"naturale\": che non è stato fatto dall'uomo. Stesso gruppo: inquinato = reso sporco o dannoso, riciclabile = che può essere trasformato e riutilizzato.",
+			"explanation": "Da non confondere con «inquinato», che vuol dire «reso sporco o dannoso».",
 			"distractorWhy": {
 				"riciclabile": "«riciclabile» vuol dire «che può essere trasformato e riutilizzato»: un'altra parola, non quella cercata.",
 				"inquinato": "«inquinato» vuol dire «reso sporco o dannoso»: un'altra parola, non quella cercata.",
@@ -5456,7 +5456,7 @@
 				"inquinato"
 			],
 			"answer": "inquinato",
-			"explanation": "\"inquinato\": reso sporco o dannoso. Stesso gruppo: riciclabile = che può essere trasformato e riutilizzato, sostenibile = che rispetta risorse e futuro.",
+			"explanation": "Da non confondere con «riciclabile», che vuol dire «che può essere trasformato e riutilizzato».",
 			"distractorWhy": {
 				"sostenibile": "«sostenibile» vuol dire «che rispetta risorse e futuro»: un'altra parola, non quella cercata.",
 				"riciclabile": "«riciclabile» vuol dire «che può essere trasformato e riutilizzato»: un'altra parola, non quella cercata.",
@@ -5477,7 +5477,7 @@
 				"rinnovabile"
 			],
 			"answer": "riciclabile",
-			"explanation": "\"riciclabile\": che può essere trasformato e riutilizzato. Stesso gruppo: sostenibile = che rispetta risorse e futuro, rinnovabile = che si rigenera o non si esaurisce facilmente.",
+			"explanation": "Da non confondere con «sostenibile», che vuol dire «che rispetta risorse e futuro».",
 			"distractorWhy": {
 				"naturale": "«naturale» vuol dire «che non è stato fatto dall'uomo»: un'altra parola, non quella cercata.",
 				"rinnovabile": "«rinnovabile» vuol dire «che si rigenera o non si esaurisce facilmente»: un'altra parola, non quella cercata.",
@@ -5498,7 +5498,7 @@
 				"inquinato"
 			],
 			"answer": "sostenibile",
-			"explanation": "\"sostenibile\": che rispetta risorse e futuro. Stesso gruppo: rinnovabile = che si rigenera o non si esaurisce facilmente, secco = senza acqua o umidità.",
+			"explanation": "Da non confondere con «rinnovabile», che vuol dire «che si rigenera o non si esaurisce facilmente».",
 			"distractorWhy": {
 				"naturale": "«naturale» vuol dire «che non è stato fatto dall'uomo»: un'altra parola, non quella cercata.",
 				"riciclabile": "«riciclabile» vuol dire «che può essere trasformato e riutilizzato»: un'altra parola, non quella cercata.",
@@ -5519,7 +5519,7 @@
 				"riciclabile"
 			],
 			"answer": "rinnovabile",
-			"explanation": "\"rinnovabile\": che si rigenera o non si esaurisce facilmente. Stesso gruppo: secco = senza acqua o umidità, naturale = che non è stato fatto dall'uomo.",
+			"explanation": "Da non confondere con «secco», che vuol dire «senza acqua o umidità».",
 			"distractorWhy": {
 				"sostenibile": "«sostenibile» vuol dire «che rispetta risorse e futuro»: un'altra parola, non quella cercata.",
 				"riciclabile": "«riciclabile» vuol dire «che può essere trasformato e riutilizzato»: un'altra parola, non quella cercata.",
@@ -5540,7 +5540,7 @@
 				"secco"
 			],
 			"answer": "secco",
-			"explanation": "\"secco\": senza acqua o umidità. Stesso gruppo: naturale = che non è stato fatto dall'uomo, inquinato = reso sporco o dannoso.",
+			"explanation": "Da non confondere con «naturale», che vuol dire «che non è stato fatto dall'uomo».",
 			"distractorWhy": {
 				"inquinato": "«inquinato» vuol dire «reso sporco o dannoso»: un'altra parola, non quella cercata.",
 				"riciclabile": "«riciclabile» vuol dire «che può essere trasformato e riutilizzato»: un'altra parola, non quella cercata.",
@@ -5561,7 +5561,7 @@
 				"causa"
 			],
 			"answer": "fatto",
-			"explanation": "\"fatto\": dato osservabile o verificabile. Stesso gruppo: opinione = giudizio personale, ipotesi = spiegazione possibile da verificare.",
+			"explanation": "Da non confondere con «opinione», che vuol dire «giudizio personale».",
 			"distractorWhy": {
 				"causa": "«causa» vuol dire «motivo per cui accade qualcosa»: un'altra parola, non quella cercata.",
 				"prova": "«prova» vuol dire «dato che sostiene una conclusione»: un'altra parola, non quella cercata.",
@@ -5582,7 +5582,7 @@
 				"coerenza"
 			],
 			"answer": "opinione",
-			"explanation": "\"opinione\": giudizio personale. Stesso gruppo: ipotesi = spiegazione possibile da verificare, prova = dato che sostiene una conclusione.",
+			"explanation": "Da non confondere con «ipotesi», che vuol dire «spiegazione possibile da verificare».",
 			"distractorWhy": {
 				"paradosso": "«paradosso» vuol dire «affermazione che sembra contraddirsi ma ha un senso»: un'altra parola, non quella cercata.",
 				"coerenza": "«coerenza» vuol dire «accordo logico tra le parti di un testo»: un'altra parola, non quella cercata.",
@@ -5603,7 +5603,7 @@
 				"analogia"
 			],
 			"answer": "ipotesi",
-			"explanation": "\"ipotesi\": spiegazione possibile da verificare. Stesso gruppo: prova = dato che sostiene una conclusione, tesi = idea principale da sostenere.",
+			"explanation": "Da non confondere con «prova», che vuol dire «dato che sostiene una conclusione».",
 			"distractorWhy": {
 				"ironia": "«ironia» vuol dire «dire il contrario di ciò che si pensa, per far riflettere»: un'altra parola, non quella cercata.",
 				"analogia": "«analogia» vuol dire «somiglianza usata per spiegare un'idea»: un'altra parola, non quella cercata.",
@@ -5624,7 +5624,7 @@
 				"prova"
 			],
 			"answer": "prova",
-			"explanation": "\"prova\": dato che sostiene una conclusione. Stesso gruppo: tesi = idea principale da sostenere, argomento = ragione usata per sostenere una tesi.",
+			"explanation": "Da non confondere con «tesi», che vuol dire «idea principale da sostenere».",
 			"distractorWhy": {
 				"retorica": "«retorica» vuol dire «arte di usare il linguaggio per convincere»: un'altra parola, non quella cercata.",
 				"causa": "«causa» vuol dire «motivo per cui accade qualcosa»: un'altra parola, non quella cercata.",
@@ -5645,7 +5645,7 @@
 				"causa"
 			],
 			"answer": "tesi",
-			"explanation": "\"tesi\": idea principale da sostenere. Stesso gruppo: argomento = ragione usata per sostenere una tesi, causa = motivo per cui accade qualcosa.",
+			"explanation": "Da non confondere con «argomento», che vuol dire «ragione usata per sostenere una tesi».",
 			"distractorWhy": {
 				"iperbole": "«iperbole» vuol dire «esagerazione voluta per dare enfasi»: un'altra parola, non quella cercata.",
 				"metafora": "«metafora» vuol dire «figura che trasferisce un significato per somiglianza»: un'altra parola, non quella cercata.",
@@ -5666,7 +5666,7 @@
 				"analogia"
 			],
 			"answer": "argomento",
-			"explanation": "\"argomento\": ragione usata per sostenere una tesi. Stesso gruppo: causa = motivo per cui accade qualcosa, effetto = conseguenza osservabile di una causa.",
+			"explanation": "Da non confondere con «causa», che vuol dire «motivo per cui accade qualcosa».",
 			"distractorWhy": {
 				"dettaglio": "«dettaglio» vuol dire «informazione piccola o secondaria»: un'altra parola, non quella cercata.",
 				"reticenza": "«reticenza» vuol dire «il tacere volutamente qualcosa»: un'altra parola, non quella cercata.",
@@ -5687,7 +5687,7 @@
 				"ipotesi"
 			],
 			"answer": "causa",
-			"explanation": "\"causa\": motivo per cui accade qualcosa. Stesso gruppo: effetto = conseguenza osservabile di una causa, conclusione = risultato di un ragionamento.",
+			"explanation": "Da non confondere con «effetto», che vuol dire «conseguenza osservabile di una causa».",
 			"distractorWhy": {
 				"ironia": "«ironia» vuol dire «dire il contrario di ciò che si pensa, per far riflettere»: un'altra parola, non quella cercata.",
 				"registro": "«registro» vuol dire «modo di esprimersi adatto alla situazione»: un'altra parola, non quella cercata.",
@@ -5708,7 +5708,7 @@
 				"effetto"
 			],
 			"answer": "effetto",
-			"explanation": "\"effetto\": conseguenza osservabile di una causa. Stesso gruppo: conclusione = risultato di un ragionamento, contraddizione = presenza di informazioni incompatibili.",
+			"explanation": "Da non confondere con «conclusione», che vuol dire «risultato di un ragionamento».",
 			"distractorWhy": {
 				"opinione": "«opinione» vuol dire «giudizio personale»: un'altra parola, non quella cercata.",
 				"iperbole": "«iperbole» vuol dire «esagerazione voluta per dare enfasi»: un'altra parola, non quella cercata.",
@@ -5729,7 +5729,7 @@
 				"reticenza"
 			],
 			"answer": "conclusione",
-			"explanation": "\"conclusione\": risultato di un ragionamento. Stesso gruppo: contraddizione = presenza di informazioni incompatibili, ambiguità = possibilità di interpretare in più modi.",
+			"explanation": "Da non confondere con «contraddizione», che vuol dire «presenza di informazioni incompatibili».",
 			"distractorWhy": {
 				"reticenza": "«reticenza» vuol dire «il tacere volutamente qualcosa»: un'altra parola, non quella cercata.",
 				"connotazione": "«connotazione» vuol dire «significato affettivo o evocativo di una parola»: un'altra parola, non quella cercata.",
@@ -5750,7 +5750,7 @@
 				"sottotesto"
 			],
 			"answer": "contraddizione",
-			"explanation": "\"contraddizione\": presenza di informazioni incompatibili. Stesso gruppo: ambiguità = possibilità di interpretare in più modi, sintesi = versione breve con le informazioni essenziali.",
+			"explanation": "Da non confondere con «ambiguità», che vuol dire «possibilità di interpretare in più modi».",
 			"distractorWhy": {
 				"verosimiglianza": "«verosimiglianza» vuol dire «apparenza di verità in un racconto»: un'altra parola, non quella cercata.",
 				"sottotesto": "«sottotesto» vuol dire «significato nascosto sotto le parole»: un'altra parola, non quella cercata.",
@@ -5771,7 +5771,7 @@
 				"allegoria"
 			],
 			"answer": "ambiguità",
-			"explanation": "\"ambiguità\": possibilità di interpretare in più modi. Stesso gruppo: sintesi = versione breve con le informazioni essenziali, dettaglio = informazione piccola o secondaria.",
+			"explanation": "Da non confondere con «sintesi», che vuol dire «versione breve con le informazioni essenziali».",
 			"distractorWhy": {
 				"metafora": "«metafora» vuol dire «figura che trasferisce un significato per somiglianza»: un'altra parola, non quella cercata.",
 				"allegoria": "«allegoria» vuol dire «racconto che rappresenta un'idea con immagini»: un'altra parola, non quella cercata.",
@@ -5792,7 +5792,7 @@
 				"sintesi"
 			],
 			"answer": "sintesi",
-			"explanation": "\"sintesi\": versione breve con le informazioni essenziali. Stesso gruppo: dettaglio = informazione piccola o secondaria, contesto = situazione che aiuta a capire una frase.",
+			"explanation": "Da non confondere con «dettaglio», che vuol dire «informazione piccola o secondaria».",
 			"distractorWhy": {
 				"ipotesi": "«ipotesi» vuol dire «spiegazione possibile da verificare»: un'altra parola, non quella cercata.",
 				"coerenza": "«coerenza» vuol dire «accordo logico tra le parti di un testo»: un'altra parola, non quella cercata.",
@@ -5813,7 +5813,7 @@
 				"eufemismo"
 			],
 			"answer": "dettaglio",
-			"explanation": "\"dettaglio\": informazione piccola o secondaria. Stesso gruppo: contesto = situazione che aiuta a capire una frase, registro = modo di esprimersi adatto alla situazione.",
+			"explanation": "Da non confondere con «contesto», che vuol dire «situazione che aiuta a capire una frase».",
 			"distractorWhy": {
 				"ambiguità": "«ambiguità» vuol dire «possibilità di interpretare in più modi»: un'altra parola, non quella cercata.",
 				"iperbole": "«iperbole» vuol dire «esagerazione voluta per dare enfasi»: un'altra parola, non quella cercata.",
@@ -5834,7 +5834,7 @@
 				"premessa"
 			],
 			"answer": "contesto",
-			"explanation": "\"contesto\": situazione che aiuta a capire una frase. Stesso gruppo: registro = modo di esprimersi adatto alla situazione, coerenza = accordo logico tra le parti di un testo.",
+			"explanation": "Da non confondere con «registro», che vuol dire «modo di esprimersi adatto alla situazione».",
 			"distractorWhy": {
 				"premessa": "«premessa» vuol dire «affermazione da cui parte un ragionamento»: un'altra parola, non quella cercata.",
 				"argomento": "«argomento» vuol dire «ragione usata per sostenere una tesi»: un'altra parola, non quella cercata.",
@@ -5855,7 +5855,7 @@
 				"iperbole"
 			],
 			"answer": "registro",
-			"explanation": "\"registro\": modo di esprimersi adatto alla situazione. Stesso gruppo: coerenza = accordo logico tra le parti di un testo, inferenza = conclusione tratta da indizi non detti esplicitamente.",
+			"explanation": "Da non confondere con «coerenza», che vuol dire «accordo logico tra le parti di un testo».",
 			"distractorWhy": {
 				"iperbole": "«iperbole» vuol dire «esagerazione voluta per dare enfasi»: un'altra parola, non quella cercata.",
 				"contesto": "«contesto» vuol dire «situazione che aiuta a capire una frase»: un'altra parola, non quella cercata.",
@@ -5876,7 +5876,7 @@
 				"coerenza"
 			],
 			"answer": "coerenza",
-			"explanation": "\"coerenza\": accordo logico tra le parti di un testo. Stesso gruppo: inferenza = conclusione tratta da indizi non detti esplicitamente, premessa = affermazione da cui parte un ragionamento.",
+			"explanation": "Da non confondere con «inferenza», che vuol dire «conclusione tratta da indizi non detti esplicitamente».",
 			"distractorWhy": {
 				"iperbole": "«iperbole» vuol dire «esagerazione voluta per dare enfasi»: un'altra parola, non quella cercata.",
 				"inferenza": "«inferenza» vuol dire «conclusione tratta da indizi non detti esplicitamente»: un'altra parola, non quella cercata.",
@@ -5897,7 +5897,7 @@
 				"finché"
 			],
 			"answer": "perché",
-			"explanation": "\"perché\": introduce una causa o una spiegazione. Stesso gruppo: quindi = introduce una conseguenza, però = introduce un contrasto.",
+			"explanation": "Da non confondere con «quindi», che vuol dire «introduce una conseguenza».",
 			"distractorWhy": {
 				"infatti": "«infatti» vuol dire «introduce una conferma o spiegazione»: un'altra parola, non quella cercata.",
 				"finché": "«finché» vuol dire «introduce un limite temporale»: un'altra parola, non quella cercata.",
@@ -5918,7 +5918,7 @@
 				"perché"
 			],
 			"answer": "quindi",
-			"explanation": "\"quindi\": introduce una conseguenza. Stesso gruppo: però = introduce un contrasto, tuttavia = introduce un contrasto in registro più formale.",
+			"explanation": "Da non confondere con «però», che vuol dire «introduce un contrasto».",
 			"distractorWhy": {
 				"inoltre": "«inoltre» vuol dire «aggiunge un'informazione»: un'altra parola, non quella cercata.",
 				"perché": "«perché» vuol dire «introduce una causa o una spiegazione»: un'altra parola, non quella cercata.",
@@ -5939,7 +5939,7 @@
 				"perché"
 			],
 			"answer": "però",
-			"explanation": "\"però\": introduce un contrasto. Stesso gruppo: tuttavia = introduce un contrasto in registro più formale, infatti = introduce una conferma o spiegazione.",
+			"explanation": "Da non confondere con «tuttavia», che vuol dire «introduce un contrasto in registro più formale».",
 			"distractorWhy": {
 				"quindi": "«quindi» vuol dire «introduce una conseguenza»: un'altra parola, non quella cercata.",
 				"sebbene": "«sebbene» vuol dire «introduce una concessione»: un'altra parola, non quella cercata.",
@@ -5960,7 +5960,7 @@
 				"tuttavia"
 			],
 			"answer": "tuttavia",
-			"explanation": "\"tuttavia\": introduce un contrasto in registro più formale. Stesso gruppo: infatti = introduce una conferma o spiegazione, inoltre = aggiunge un'informazione.",
+			"explanation": "Da non confondere con «infatti», che vuol dire «introduce una conferma o spiegazione».",
 			"distractorWhy": {
 				"infatti": "«infatti» vuol dire «introduce una conferma o spiegazione»: un'altra parola, non quella cercata.",
 				"affinché": "«affinché» vuol dire «introduce uno scopo»: un'altra parola, non quella cercata.",
@@ -5981,7 +5981,7 @@
 				"inoltre"
 			],
 			"answer": "infatti",
-			"explanation": "\"infatti\": introduce una conferma o spiegazione. Stesso gruppo: inoltre = aggiunge un'informazione, sebbene = introduce una concessione.",
+			"explanation": "Da non confondere con «inoltre», che vuol dire «aggiunge un'informazione».",
 			"distractorWhy": {
 				"finché": "«finché» vuol dire «introduce un limite temporale»: un'altra parola, non quella cercata.",
 				"perché": "«perché» vuol dire «introduce una causa o una spiegazione»: un'altra parola, non quella cercata.",
@@ -6002,7 +6002,7 @@
 				"sebbene"
 			],
 			"answer": "inoltre",
-			"explanation": "\"inoltre\": aggiunge un'informazione. Stesso gruppo: sebbene = introduce una concessione, affinché = introduce uno scopo.",
+			"explanation": "Da non confondere con «sebbene», che vuol dire «introduce una concessione».",
 			"distractorWhy": {
 				"affinché": "«affinché» vuol dire «introduce uno scopo»: un'altra parola, non quella cercata.",
 				"sebbene": "«sebbene» vuol dire «introduce una concessione»: un'altra parola, non quella cercata.",
@@ -6023,7 +6023,7 @@
 				"quindi"
 			],
 			"answer": "sebbene",
-			"explanation": "\"sebbene\": introduce una concessione. Stesso gruppo: affinché = introduce uno scopo, finché = introduce un limite temporale.",
+			"explanation": "Da non confondere con «affinché», che vuol dire «introduce uno scopo».",
 			"distractorWhy": {
 				"quindi": "«quindi» vuol dire «introduce una conseguenza»: un'altra parola, non quella cercata.",
 				"perché": "«perché» vuol dire «introduce una causa o una spiegazione»: un'altra parola, non quella cercata.",
@@ -6044,7 +6044,7 @@
 				"affinché"
 			],
 			"answer": "affinché",
-			"explanation": "\"affinché\": introduce uno scopo. Stesso gruppo: finché = introduce un limite temporale, dunque = introduce una conclusione.",
+			"explanation": "Da non confondere con «finché», che vuol dire «introduce un limite temporale».",
 			"distractorWhy": {
 				"infatti": "«infatti» vuol dire «introduce una conferma o spiegazione»: un'altra parola, non quella cercata.",
 				"dunque": "«dunque» vuol dire «introduce una conclusione»: un'altra parola, non quella cercata.",
@@ -6065,7 +6065,7 @@
 				"quindi"
 			],
 			"answer": "finché",
-			"explanation": "\"finché\": introduce un limite temporale. Stesso gruppo: dunque = introduce una conclusione, perché = introduce una causa o una spiegazione.",
+			"explanation": "Da non confondere con «dunque», che vuol dire «introduce una conclusione».",
 			"distractorWhy": {
 				"quindi": "«quindi» vuol dire «introduce una conseguenza»: un'altra parola, non quella cercata.",
 				"inoltre": "«inoltre» vuol dire «aggiunge un'informazione»: un'altra parola, non quella cercata.",
@@ -6086,7 +6086,7 @@
 				"sebbene"
 			],
 			"answer": "dunque",
-			"explanation": "\"dunque\": introduce una conclusione. Stesso gruppo: perché = introduce una causa o una spiegazione, quindi = introduce una conseguenza.",
+			"explanation": "Da non confondere con «perché», che vuol dire «introduce una causa o una spiegazione».",
 			"distractorWhy": {
 				"finché": "«finché» vuol dire «introduce un limite temporale»: un'altra parola, non quella cercata.",
 				"sebbene": "«sebbene» vuol dire «introduce una concessione»: un'altra parola, non quella cercata.",
@@ -6107,7 +6107,7 @@
 				"dettaglio"
 			],
 			"answer": "inferenza",
-			"explanation": "\"inferenza\": conclusione tratta da indizi non detti esplicitamente. Stesso gruppo: premessa = affermazione da cui parte un ragionamento, sfumatura = differenza sottile di significato.",
+			"explanation": "Da non confondere con «premessa», che vuol dire «affermazione da cui parte un ragionamento».",
 			"distractorWhy": {
 				"eufemismo": "«eufemismo» vuol dire «parola più delicata al posto di una cruda»: un'altra parola, non quella cercata.",
 				"argomento": "«argomento» vuol dire «ragione usata per sostenere una tesi»: un'altra parola, non quella cercata.",
@@ -6128,7 +6128,7 @@
 				"premessa"
 			],
 			"answer": "premessa",
-			"explanation": "\"premessa\": affermazione da cui parte un ragionamento. Stesso gruppo: sfumatura = differenza sottile di significato, paradosso = affermazione che sembra contraddirsi ma ha un senso.",
+			"explanation": "Da non confondere con «sfumatura», che vuol dire «differenza sottile di significato».",
 			"distractorWhy": {
 				"analogia": "«analogia» vuol dire «somiglianza usata per spiegare un'idea»: un'altra parola, non quella cercata.",
 				"opinione": "«opinione» vuol dire «giudizio personale»: un'altra parola, non quella cercata.",
@@ -6149,7 +6149,7 @@
 				"ambiguità"
 			],
 			"answer": "sfumatura",
-			"explanation": "\"sfumatura\": differenza sottile di significato. Stesso gruppo: paradosso = affermazione che sembra contraddirsi ma ha un senso, analogia = somiglianza usata per spiegare un'idea.",
+			"explanation": "Da non confondere con «paradosso», che vuol dire «affermazione che sembra contraddirsi ma ha un senso».",
 			"distractorWhy": {
 				"analogia": "«analogia» vuol dire «somiglianza usata per spiegare un'idea»: un'altra parola, non quella cercata.",
 				"ambiguità": "«ambiguità» vuol dire «possibilità di interpretare in più modi»: un'altra parola, non quella cercata.",
@@ -6170,7 +6170,7 @@
 				"analogia"
 			],
 			"answer": "paradosso",
-			"explanation": "\"paradosso\": affermazione che sembra contraddirsi ma ha un senso. Stesso gruppo: analogia = somiglianza usata per spiegare un'idea, presupposto = ciò che si dà per scontato in un discorso.",
+			"explanation": "Da non confondere con «analogia», che vuol dire «somiglianza usata per spiegare un'idea».",
 			"distractorWhy": {
 				"analogia": "«analogia» vuol dire «somiglianza usata per spiegare un'idea»: un'altra parola, non quella cercata.",
 				"dettaglio": "«dettaglio» vuol dire «informazione piccola o secondaria»: un'altra parola, non quella cercata.",
@@ -6191,7 +6191,7 @@
 				"registro"
 			],
 			"answer": "analogia",
-			"explanation": "\"analogia\": somiglianza usata per spiegare un'idea. Stesso gruppo: presupposto = ciò che si dà per scontato in un discorso, connotazione = significato affettivo o evocativo di una parola.",
+			"explanation": "Da non confondere con «presupposto», che vuol dire «ciò che si dà per scontato in un discorso».",
 			"distractorWhy": {
 				"iperbole": "«iperbole» vuol dire «esagerazione voluta per dare enfasi»: un'altra parola, non quella cercata.",
 				"registro": "«registro» vuol dire «modo di esprimersi adatto alla situazione»: un'altra parola, non quella cercata.",
@@ -6212,7 +6212,7 @@
 				"presupposto"
 			],
 			"answer": "presupposto",
-			"explanation": "\"presupposto\": ciò che si dà per scontato in un discorso. Stesso gruppo: connotazione = significato affettivo o evocativo di una parola, denotazione = significato letterale e oggettivo di una parola.",
+			"explanation": "Da non confondere con «connotazione», che vuol dire «significato affettivo o evocativo di una parola».",
 			"distractorWhy": {
 				"conclusione": "«conclusione» vuol dire «risultato di un ragionamento»: un'altra parola, non quella cercata.",
 				"sottotesto": "«sottotesto» vuol dire «significato nascosto sotto le parole»: un'altra parola, non quella cercata.",
@@ -6233,7 +6233,7 @@
 				"gioia"
 			],
 			"answer": "empatia",
-			"explanation": "\"empatia\": capacità di sentire ciò che prova un altro. Stesso gruppo: nostalgia = rimpianto affettuoso per ciò che è passato, risentimento = rancore trattenuto per un torto subito.",
+			"explanation": "Da non confondere con «nostalgia», che vuol dire «rimpianto affettuoso per ciò che è passato».",
 			"distractorWhy": {
 				"promessa": "«promessa» vuol dire «impegno a fare qualcosa»: un'altra parola, non quella cercata.",
 				"gioia": "«gioia» vuol dire «emozione positiva e intensa»: un'altra parola, non quella cercata.",
@@ -6254,7 +6254,7 @@
 				"rispetto"
 			],
 			"answer": "nostalgia",
-			"explanation": "\"nostalgia\": rimpianto affettuoso per ciò che è passato. Stesso gruppo: risentimento = rancore trattenuto per un torto subito, gratitudine = riconoscenza per un bene ricevuto.",
+			"explanation": "Da non confondere con «risentimento», che vuol dire «rancore trattenuto per un torto subito».",
 			"distractorWhy": {
 				"rispetto": "«rispetto» vuol dire «atteggiamento corretto verso gli altri»: un'altra parola, non quella cercata.",
 				"compassione": "«compassione» vuol dire «partecipazione al dolore di un altro»: un'altra parola, non quella cercata.",
@@ -6275,7 +6275,7 @@
 				"indignazione"
 			],
 			"answer": "risentimento",
-			"explanation": "\"risentimento\": rancore trattenuto per un torto subito. Stesso gruppo: gratitudine = riconoscenza per un bene ricevuto, insofferenza = difficoltà a sopportare qualcosa o qualcuno.",
+			"explanation": "Da non confondere con «gratitudine», che vuol dire «riconoscenza per un bene ricevuto».",
 			"distractorWhy": {
 				"rassegnazione": "«rassegnazione» vuol dire «accettazione passiva di ciò che non si può cambiare»: un'altra parola, non quella cercata.",
 				"tristezza": "«tristezza» vuol dire «emozione legata a perdita o delusione»: un'altra parola, non quella cercata.",
@@ -6296,7 +6296,7 @@
 				"gratitudine"
 			],
 			"answer": "gratitudine",
-			"explanation": "\"gratitudine\": riconoscenza per un bene ricevuto. Stesso gruppo: insofferenza = difficoltà a sopportare qualcosa o qualcuno, tenerezza = affetto delicato e protettivo.",
+			"explanation": "Da non confondere con «insofferenza», che vuol dire «difficoltà a sopportare qualcosa o qualcuno».",
 			"distractorWhy": {
 				"indignazione": "«indignazione» vuol dire «sdegno di fronte a un'ingiustizia»: un'altra parola, non quella cercata.",
 				"malinconia": "«malinconia» vuol dire «tristezza dolce e senza una causa precisa»: un'altra parola, non quella cercata.",
@@ -6317,7 +6317,7 @@
 				"indignazione"
 			],
 			"answer": "insofferenza",
-			"explanation": "\"insofferenza\": difficoltà a sopportare qualcosa o qualcuno. Stesso gruppo: tenerezza = affetto delicato e protettivo, malinconia = tristezza dolce e senza una causa precisa.",
+			"explanation": "Da non confondere con «tenerezza», che vuol dire «affetto delicato e protettivo».",
 			"distractorWhy": {
 				"indignazione": "«indignazione» vuol dire «sdegno di fronte a un'ingiustizia»: un'altra parola, non quella cercata.",
 				"rimpianto": "«rimpianto» vuol dire «dispiacere per qualcosa che non si è fatto»: un'altra parola, non quella cercata.",
@@ -6338,7 +6338,7 @@
 				"disaccordo"
 			],
 			"answer": "tenerezza",
-			"explanation": "\"tenerezza\": affetto delicato e protettivo. Stesso gruppo: malinconia = tristezza dolce e senza una causa precisa, indignazione = sdegno di fronte a un'ingiustizia.",
+			"explanation": "Da non confondere con «malinconia», che vuol dire «tristezza dolce e senza una causa precisa».",
 			"distractorWhy": {
 				"disaccordo": "«disaccordo» vuol dire «mancanza di accordo»: un'altra parola, non quella cercata.",
 				"sorpresa": "«sorpresa» vuol dire «reazione a qualcosa di inatteso»: un'altra parola, non quella cercata.",
@@ -6359,7 +6359,7 @@
 				"plausibile"
 			],
 			"answer": "ambiguo",
-			"explanation": "\"ambiguo\": che si può interpretare in più modi. Stesso gruppo: pertinente = attinente e adatto all'argomento, implicito = sottinteso, non espresso apertamente.",
+			"explanation": "Da non confondere con «pertinente», che vuol dire «attinente e adatto all'argomento».",
 			"distractorWhy": {
 				"plausibile": "«plausibile» vuol dire «credibile, che può essere vero»: un'altra parola, non quella cercata.",
 				"esplicito": "«esplicito» vuol dire «detto in modo chiaro e diretto»: un'altra parola, non quella cercata.",
@@ -6380,7 +6380,7 @@
 				"pertinente"
 			],
 			"answer": "pertinente",
-			"explanation": "\"pertinente\": attinente e adatto all'argomento. Stesso gruppo: implicito = sottinteso, non espresso apertamente, plausibile = credibile, che può essere vero.",
+			"explanation": "Da non confondere con «implicito», che vuol dire «sottinteso, non espresso apertamente».",
 			"distractorWhy": {
 				"ambiguo": "«ambiguo» vuol dire «che si può interpretare in più modi»: un'altra parola, non quella cercata.",
 				"esplicito": "«esplicito» vuol dire «detto in modo chiaro e diretto»: un'altra parola, non quella cercata.",
@@ -6401,7 +6401,7 @@
 				"esplicito"
 			],
 			"answer": "implicito",
-			"explanation": "\"implicito\": sottinteso, non espresso apertamente. Stesso gruppo: plausibile = credibile, che può essere vero, contraddittorio = che afferma cose incompatibili tra loro.",
+			"explanation": "Da non confondere con «plausibile», che vuol dire «credibile, che può essere vero».",
 			"distractorWhy": {
 				"esplicito": "«esplicito» vuol dire «detto in modo chiaro e diretto»: un'altra parola, non quella cercata.",
 				"ambiguo": "«ambiguo» vuol dire «che si può interpretare in più modi»: un'altra parola, non quella cercata.",
@@ -6422,7 +6422,7 @@
 				"implicito"
 			],
 			"answer": "plausibile",
-			"explanation": "\"plausibile\": credibile, che può essere vero. Stesso gruppo: contraddittorio = che afferma cose incompatibili tra loro, esplicito = detto in modo chiaro e diretto.",
+			"explanation": "Da non confondere con «contraddittorio», che vuol dire «che afferma cose incompatibili tra loro».",
 			"distractorWhy": {
 				"pertinente": "«pertinente» vuol dire «attinente e adatto all'argomento»: un'altra parola, non quella cercata.",
 				"esplicito": "«esplicito» vuol dire «detto in modo chiaro e diretto»: un'altra parola, non quella cercata.",
@@ -6443,7 +6443,7 @@
 				"implicito"
 			],
 			"answer": "contraddittorio",
-			"explanation": "\"contraddittorio\": che afferma cose incompatibili tra loro. Stesso gruppo: esplicito = detto in modo chiaro e diretto, ambiguo = che si può interpretare in più modi.",
+			"explanation": "Da non confondere con «esplicito», che vuol dire «detto in modo chiaro e diretto».",
 			"distractorWhy": {
 				"implicito": "«implicito» vuol dire «sottinteso, non espresso apertamente»: un'altra parola, non quella cercata.",
 				"plausibile": "«plausibile» vuol dire «credibile, che può essere vero»: un'altra parola, non quella cercata.",
@@ -6464,7 +6464,7 @@
 				"esplicito"
 			],
 			"answer": "esplicito",
-			"explanation": "\"esplicito\": detto in modo chiaro e diretto. Stesso gruppo: ambiguo = che si può interpretare in più modi, pertinente = attinente e adatto all'argomento.",
+			"explanation": "Da non confondere con «ambiguo», che vuol dire «che si può interpretare in più modi».",
 			"distractorWhy": {
 				"implicito": "«implicito» vuol dire «sottinteso, non espresso apertamente»: un'altra parola, non quella cercata.",
 				"ambiguo": "«ambiguo» vuol dire «che si può interpretare in più modi»: un'altra parola, non quella cercata.",
@@ -6485,7 +6485,7 @@
 				"prospettiva"
 			],
 			"answer": "connotazione",
-			"explanation": "\"connotazione\": significato affettivo o evocativo di una parola. Stesso gruppo: denotazione = significato letterale e oggettivo di una parola, metafora = figura che trasferisce un significato per somiglianza.",
+			"explanation": "Da non confondere con «denotazione», che vuol dire «significato letterale e oggettivo di una parola».",
 			"distractorWhy": {
 				"prospettiva": "«prospettiva» vuol dire «punto di vista da cui si racconta o si giudica»: un'altra parola, non quella cercata.",
 				"eufemismo": "«eufemismo» vuol dire «parola più delicata al posto di una cruda»: un'altra parola, non quella cercata.",
@@ -6506,7 +6506,7 @@
 				"presupposto"
 			],
 			"answer": "denotazione",
-			"explanation": "\"denotazione\": significato letterale e oggettivo di una parola. Stesso gruppo: metafora = figura che trasferisce un significato per somiglianza, ironia = dire il contrario di ciò che si pensa, per far riflettere.",
+			"explanation": "Da non confondere con «metafora», che vuol dire «figura che trasferisce un significato per somiglianza».",
 			"distractorWhy": {
 				"presupposto": "«presupposto» vuol dire «ciò che si dà per scontato in un discorso»: un'altra parola, non quella cercata.",
 				"allegoria": "«allegoria» vuol dire «racconto che rappresenta un'idea con immagini»: un'altra parola, non quella cercata.",
@@ -6527,7 +6527,7 @@
 				"argomento"
 			],
 			"answer": "metafora",
-			"explanation": "\"metafora\": figura che trasferisce un significato per somiglianza. Stesso gruppo: ironia = dire il contrario di ciò che si pensa, per far riflettere, retorica = arte di usare il linguaggio per convincere.",
+			"explanation": "Da non confondere con «ironia», che vuol dire «dire il contrario di ciò che si pensa, per far riflettere».",
 			"distractorWhy": {
 				"argomento": "«argomento» vuol dire «ragione usata per sostenere una tesi»: un'altra parola, non quella cercata.",
 				"contesto": "«contesto» vuol dire «situazione che aiuta a capire una frase»: un'altra parola, non quella cercata.",
@@ -6548,7 +6548,7 @@
 				"ironia"
 			],
 			"answer": "ironia",
-			"explanation": "\"ironia\": dire il contrario di ciò che si pensa, per far riflettere. Stesso gruppo: retorica = arte di usare il linguaggio per convincere, prospettiva = punto di vista da cui si racconta o si giudica.",
+			"explanation": "Da non confondere con «retorica», che vuol dire «arte di usare il linguaggio per convincere».",
 			"distractorWhy": {
 				"registro": "«registro» vuol dire «modo di esprimersi adatto alla situazione»: un'altra parola, non quella cercata.",
 				"coerenza": "«coerenza» vuol dire «accordo logico tra le parti di un testo»: un'altra parola, non quella cercata.",
@@ -6569,7 +6569,7 @@
 				"opinione"
 			],
 			"answer": "retorica",
-			"explanation": "\"retorica\": arte di usare il linguaggio per convincere. Stesso gruppo: prospettiva = punto di vista da cui si racconta o si giudica, sottotesto = significato nascosto sotto le parole.",
+			"explanation": "Da non confondere con «prospettiva», che vuol dire «punto di vista da cui si racconta o si giudica».",
 			"distractorWhy": {
 				"opinione": "«opinione» vuol dire «giudizio personale»: un'altra parola, non quella cercata.",
 				"coerenza": "«coerenza» vuol dire «accordo logico tra le parti di un testo»: un'altra parola, non quella cercata.",
@@ -6590,7 +6590,7 @@
 				"eufemismo"
 			],
 			"answer": "prospettiva",
-			"explanation": "\"prospettiva\": punto di vista da cui si racconta o si giudica. Stesso gruppo: sottotesto = significato nascosto sotto le parole, allegoria = racconto che rappresenta un'idea con immagini.",
+			"explanation": "Da non confondere con «sottotesto», che vuol dire «significato nascosto sotto le parole».",
 			"distractorWhy": {
 				"eufemismo": "«eufemismo» vuol dire «parola più delicata al posto di una cruda»: un'altra parola, non quella cercata.",
 				"sottotesto": "«sottotesto» vuol dire «significato nascosto sotto le parole»: un'altra parola, non quella cercata.",
@@ -6611,7 +6611,7 @@
 				"tristezza"
 			],
 			"answer": "malinconia",
-			"explanation": "\"malinconia\": tristezza dolce e senza una causa precisa. Stesso gruppo: indignazione = sdegno di fronte a un'ingiustizia, rassegnazione = accettazione passiva di ciò che non si può cambiare.",
+			"explanation": "Da non confondere con «indignazione», che vuol dire «sdegno di fronte a un'ingiustizia».",
 			"distractorWhy": {
 				"disaccordo": "«disaccordo» vuol dire «mancanza di accordo»: un'altra parola, non quella cercata.",
 				"sorpresa": "«sorpresa» vuol dire «reazione a qualcosa di inatteso»: un'altra parola, non quella cercata.",
@@ -6632,7 +6632,7 @@
 				"indignazione"
 			],
 			"answer": "indignazione",
-			"explanation": "\"indignazione\": sdegno di fronte a un'ingiustizia. Stesso gruppo: rassegnazione = accettazione passiva di ciò che non si può cambiare, ambivalenza = presenza di sentimenti opposti insieme.",
+			"explanation": "Da non confondere con «rassegnazione», che vuol dire «accettazione passiva di ciò che non si può cambiare».",
 			"distractorWhy": {
 				"ambivalenza": "«ambivalenza» vuol dire «presenza di sentimenti opposti insieme»: un'altra parola, non quella cercata.",
 				"disaccordo": "«disaccordo» vuol dire «mancanza di accordo»: un'altra parola, non quella cercata.",
@@ -6653,7 +6653,7 @@
 				"compassione"
 			],
 			"answer": "rassegnazione",
-			"explanation": "\"rassegnazione\": accettazione passiva di ciò che non si può cambiare. Stesso gruppo: ambivalenza = presenza di sentimenti opposti insieme, rimpianto = dispiacere per qualcosa che non si è fatto.",
+			"explanation": "Da non confondere con «ambivalenza», che vuol dire «presenza di sentimenti opposti insieme».",
 			"distractorWhy": {
 				"tenerezza": "«tenerezza» vuol dire «affetto delicato e protettivo»: un'altra parola, non quella cercata.",
 				"compassione": "«compassione» vuol dire «partecipazione al dolore di un altro»: un'altra parola, non quella cercata.",
@@ -6674,7 +6674,7 @@
 				"disaccordo"
 			],
 			"answer": "ambivalenza",
-			"explanation": "\"ambivalenza\": presenza di sentimenti opposti insieme. Stesso gruppo: rimpianto = dispiacere per qualcosa che non si è fatto, compassione = partecipazione al dolore di un altro.",
+			"explanation": "Da non confondere con «rimpianto», che vuol dire «dispiacere per qualcosa che non si è fatto».",
 			"distractorWhy": {
 				"disaccordo": "«disaccordo» vuol dire «mancanza di accordo»: un'altra parola, non quella cercata.",
 				"gentilezza": "«gentilezza» vuol dire «modo cortese di trattare qualcuno»: un'altra parola, non quella cercata.",
@@ -6695,7 +6695,7 @@
 				"empatia"
 			],
 			"answer": "rimpianto",
-			"explanation": "\"rimpianto\": dispiacere per qualcosa che non si è fatto. Stesso gruppo: compassione = partecipazione al dolore di un altro, gioia = emozione positiva e intensa.",
+			"explanation": "Da non confondere con «compassione», che vuol dire «partecipazione al dolore di un altro».",
 			"distractorWhy": {
 				"disaccordo": "«disaccordo» vuol dire «mancanza di accordo»: un'altra parola, non quella cercata.",
 				"tenerezza": "«tenerezza» vuol dire «affetto delicato e protettivo»: un'altra parola, non quella cercata.",
@@ -6716,7 +6716,7 @@
 				"compassione"
 			],
 			"answer": "compassione",
-			"explanation": "\"compassione\": partecipazione al dolore di un altro. Stesso gruppo: gioia = emozione positiva e intensa, tristezza = emozione legata a perdita o delusione.",
+			"explanation": "Da non confondere con «gioia», che vuol dire «emozione positiva e intensa».",
 			"distractorWhy": {
 				"risentimento": "«risentimento» vuol dire «rancore trattenuto per un torto subito»: un'altra parola, non quella cercata.",
 				"rassegnazione": "«rassegnazione» vuol dire «accettazione passiva di ciò che non si può cambiare»: un'altra parola, non quella cercata.",
@@ -6737,7 +6737,7 @@
 				"reticenza"
 			],
 			"answer": "sottotesto",
-			"explanation": "\"sottotesto\": significato nascosto sotto le parole. Stesso gruppo: allegoria = racconto che rappresenta un'idea con immagini, reticenza = il tacere volutamente qualcosa.",
+			"explanation": "Da non confondere con «allegoria», che vuol dire «racconto che rappresenta un'idea con immagini».",
 			"distractorWhy": {
 				"reticenza": "«reticenza» vuol dire «il tacere volutamente qualcosa»: un'altra parola, non quella cercata.",
 				"paradosso": "«paradosso» vuol dire «affermazione che sembra contraddirsi ma ha un senso»: un'altra parola, non quella cercata.",
@@ -6758,7 +6758,7 @@
 				"eufemismo"
 			],
 			"answer": "allegoria",
-			"explanation": "\"allegoria\": racconto che rappresenta un'idea con immagini. Stesso gruppo: reticenza = il tacere volutamente qualcosa, verosimiglianza = apparenza di verità in un racconto.",
+			"explanation": "Da non confondere con «reticenza», che vuol dire «il tacere volutamente qualcosa».",
 			"distractorWhy": {
 				"eufemismo": "«eufemismo» vuol dire «parola più delicata al posto di una cruda»: un'altra parola, non quella cercata.",
 				"sfumatura": "«sfumatura» vuol dire «differenza sottile di significato»: un'altra parola, non quella cercata.",
@@ -6779,7 +6779,7 @@
 				"dettaglio"
 			],
 			"answer": "reticenza",
-			"explanation": "\"reticenza\": il tacere volutamente qualcosa. Stesso gruppo: verosimiglianza = apparenza di verità in un racconto, eufemismo = parola più delicata al posto di una cruda.",
+			"explanation": "Da non confondere con «verosimiglianza», che vuol dire «apparenza di verità in un racconto».",
 			"distractorWhy": {
 				"registro": "«registro» vuol dire «modo di esprimersi adatto alla situazione»: un'altra parola, non quella cercata.",
 				"dettaglio": "«dettaglio» vuol dire «informazione piccola o secondaria»: un'altra parola, non quella cercata.",
@@ -6800,7 +6800,7 @@
 				"verosimiglianza"
 			],
 			"answer": "verosimiglianza",
-			"explanation": "\"verosimiglianza\": apparenza di verità in un racconto. Stesso gruppo: eufemismo = parola più delicata al posto di una cruda, iperbole = esagerazione voluta per dare enfasi.",
+			"explanation": "Da non confondere con «eufemismo», che vuol dire «parola più delicata al posto di una cruda».",
 			"distractorWhy": {
 				"allegoria": "«allegoria» vuol dire «racconto che rappresenta un'idea con immagini»: un'altra parola, non quella cercata.",
 				"presupposto": "«presupposto» vuol dire «ciò che si dà per scontato in un discorso»: un'altra parola, non quella cercata.",
@@ -6821,7 +6821,7 @@
 				"inferenza"
 			],
 			"answer": "eufemismo",
-			"explanation": "\"eufemismo\": parola più delicata al posto di una cruda. Stesso gruppo: iperbole = esagerazione voluta per dare enfasi, fatto = dato osservabile o verificabile.",
+			"explanation": "Da non confondere con «iperbole», che vuol dire «esagerazione voluta per dare enfasi».",
 			"distractorWhy": {
 				"inferenza": "«inferenza» vuol dire «conclusione tratta da indizi non detti esplicitamente»: un'altra parola, non quella cercata.",
 				"paradosso": "«paradosso» vuol dire «affermazione che sembra contraddirsi ma ha un senso»: un'altra parola, non quella cercata.",
@@ -6842,7 +6842,7 @@
 				"opinione"
 			],
 			"answer": "iperbole",
-			"explanation": "\"iperbole\": esagerazione voluta per dare enfasi. Stesso gruppo: fatto = dato osservabile o verificabile, opinione = giudizio personale.",
+			"explanation": "Da non confondere con «fatto», che vuol dire «dato osservabile o verificabile».",
 			"distractorWhy": {
 				"opinione": "«opinione» vuol dire «giudizio personale»: un'altra parola, non quella cercata.",
 				"reticenza": "«reticenza» vuol dire «il tacere volutamente qualcosa»: un'altra parola, non quella cercata.",

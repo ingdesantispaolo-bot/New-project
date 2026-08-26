@@ -141,7 +141,8 @@ static func evaluate_subject(
 	var soglia := mastery_threshold
 	var nucleo := ApparatusConfig.is_core(subject)
 	if nucleo:
-		soglia = minf(soglia + ApparatusConfig.CORE_MASTERY_BONUS, ApparatusConfig.MASTERY_CEILING)
+		soglia = minf(
+			soglia + ApparatusConfig.core_bonus(int(save.level())), ApparatusConfig.MASTERY_CEILING)
 	var mastery := float(save.mastery_of(subject))
 	# Copertura DI QUESTO LIVELLO, non cumulativa: si contano gli argomenti
 	# visti da quando il livello è cominciato. Prima era il totale di sempre, e
@@ -150,10 +151,16 @@ static func evaluate_subject(
 	var seen := int(save.topics_seen_this_level(subject))
 	var target := coverage_target(total_topics, int(save.level()), nucleo)
 	var overdue := int(SpacedRepetition.subject_overdue_count(save, subject))
+	# **Ripreso, non consolidato.** (26 agosto 2026) La ritenzione chiede che cio'
+	# che e' stato sbagliato sia stato ripreso — e non che il calendario dei
+	# ripassi sia vuoto in questo istante, che e' un bersaglio che si sposta e che
+	# teneva chiuso il gate del mondo 1 all'infinito. Vedi
+	# `SpacedRepetition.da_riprendere_count` e `gate_mondo1_audit`.
+	var da_riprendere := int(SpacedRepetition.da_riprendere_count(save, subject))
 
 	var accuracy_ok := mastery >= soglia
 	var coverage_ok := seen >= target
-	var retention_ok := overdue == 0
+	var retention_ok := da_riprendere == 0
 
 	var reasons: Array = []
 	if not accuracy_ok:
@@ -204,7 +211,12 @@ static func evaluate_subject(
 		"progress": clampf(mastery / maxf(soglia, 0.01), 0.0, 1.0),
 		"topicsSeen": seen,
 		"topicsTarget": target,
+		# Quanti ripassi il calendario propone adesso: e' il numero che serve a
+		# chi presenta «hai dei ripassi da fare», e non e' quello che gata.
 		"topicsOverdue": overdue,
+		# Quanti argomenti sbagliati aspettano ancora di essere ripresi: e' questo
+		# che tiene chiusa la dimensione ritenzione.
+		"topicsDaRiprendere": da_riprendere,
 	}
 
 ## Prontezza del LIVELLO: tutte e tre le dimensioni su ciascuna delle materie del

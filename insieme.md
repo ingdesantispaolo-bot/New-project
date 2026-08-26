@@ -51,11 +51,480 @@ collaudo l'ha già definita faticosa, e rispondere a «è noioso» con «è più
 
 L'ordine residuo è per **resa su costo**. Le voci Codex del lotto di agosto e
 quelle C-ART della lettura del 20 agosto sono uscite dal piano e stanno nel
-registro; restano soltanto decisioni di prodotto o di collaudo.
+registro.
+
+**Il 26 agosto è arrivata una segnalazione che scavalca tutto il resto**: le
+spiegazioni di NORA — il cuore della didattica, cioè la ragione per cui questo
+gioco esiste. Le otto voci **G-N** e **C-N** della lettura di quel giorno stanno
+più sotto e vengono prima di ogni altra cosa in questo file.
 
 | | voce | impatto | costo | chi |
 |---|---|---|---|---|
+| **G-N1…N8 · C-N3, C-N5** | [Le spiegazioni di NORA](#le-spiegazioni-di-nora--la-lettura-del-26-agosto-2026) | il cuore | vario | Claude + Codex |
 | **G-4** | Collegare i due moduli alla resa C-G4 | basso | basso | Claude |
+
+---
+
+## Le spiegazioni di NORA — la lettura del 26 agosto 2026
+
+*Segnalazione dello studente: «le spiegazioni servono a poco, ci sono molte
+scritte inutili e ripetute, poca sostanza e poca chiarezza, non è adatta a un
+bambino di undici anni».*
+
+Stessa lettura del 14 e del 20 agosto, applicata alla didattica: non che cosa il
+gioco **contiene** in fatto di spiegazioni, ma che cosa un bambino **legge**
+dopo aver risposto.
+
+Il gioco ha molte spiegazioni: **3569 item, tutti con la loro `explanation`**,
+zero vuote, più 249 voci di `NoraExplanations` che coprono tutti e 131 gli
+argomenti dei banchi. Sulla carta è completo.
+
+La misura, in una riga: **il gioco sa esattamente che errore ha fatto il
+bambino, ha già scritto la frase che glielo spiega, e non gliela dice mai.** Al
+suo posto gli dice la stessa riga generica che gli ha già detto due nodi fa.
+
+Le sei misure che seguono sono state prese il 26 agosto sui banchi esportati e
+sul percorso di gioco reale (`exercise_player._score_current` →
+`NoraExplanations.riga`).
+
+---
+
+### 1. Il feedback più personale che il gioco possiede non arriva mai
+
+**3082 item su 3569 (86%) portano `distractorWhy`**: per ogni alternativa
+sbagliata, la frase che dice perché *quella* è sbagliata — calcolata al bake sui
+dati veri dell'item, nella lingua della sua materia. È il pezzo di didattica più
+costoso che abbiamo prodotto in due mesi.
+
+In tutto Godot `distractorWhy` compare in **due** file: `knowledge_codex.gd` e
+un audit. **Nel percorso della prova non entra.** `riga()` riceve materia,
+argomento, spiegazione ed esito — non riceve *che cosa il bambino ha toccato*.
+
+E nel manuale, dove pure entra, `_typical_error()` prende **il primo distrattore
+diverso dalla risposta**, non quello scelto: mostra l'errore di qualcun altro.
+
+Un bambino tocca «il salvavita scatta perché la corrente è troppa». La frase
+«scatta quando la corrente torna indietro da un'altra strada, non quando è
+troppa» è già scritta, già collaudata, già dentro il PCK che ha sul tablet. Lui
+legge: *«Non ha ancora funzionato»* e una massima generale sull'elettricità.
+
+### 2. Una riga per argomento, ripetuta per tutta la sessione
+
+`NoraExplanations.VOCI` scrive il perché **una volta per argomento** — scelta
+giusta quando è stata presa, venticinque volte meno lavoro degli item e nessuna
+deriva fra copie. Ma un argomento ha in media 27 item, e `matematica:tabelline`
+ne ha **284**.
+
+Su una risposta giusta NORA aggiunge il `perche` dell'argomento in **3073 item
+su 3569 (86%)** — cioè quasi sempre — e in tutti e 3073 i casi è **letteralmente
+la stessa frase**. Chi fa tabelline legge *«Moltiplicare serve a non contare uno
+per uno: è la scorciatoia per i gruppi uguali»* fino a 284 volte.
+
+E non è diluita nel tempo: `LESSON_TOPIC_SHARE = 0.67` riserva **due nodi su
+tre** agli argomenti promessi dalla lezione del mondo. La stessa riga torna
+nella stessa sessione, a un minuto di distanza.
+
+Sull'errore è peggio, ed è un bug vero: in `riga()` il controllo `ha_causa` è
+applicato **solo nel ramo `corretto`**. Il `come` si attacca sempre, anche
+quando la spiegazione dell'item ha già detto la stessa cosa.
+
+> Una riga ripetuta non è neutra: **insegna a saltarla.** Dopo la terza volta il
+> bambino ha imparato che sotto l'esito non c'è mai niente di nuovo, e da lì in
+> poi non legge più nemmeno le spiegazioni buone.
+
+### 3. Un terzo delle spiegazioni riapre con la risposta appena data
+
+**1159 item su 3569 (32%)** — 833 di inglese e 326 di italiano — hanno tutti la
+stessa forma:
+
+```
+Q:  Come si dice in inglese: "controllare"?
+R:  check
+S:  "check": controllare. Stesso gruppo: press = premere, open = aprire.
+```
+
+La prima metà **ripete la risposta che il bambino ha appena scritto**. La
+seconda elenca due vicini di lista: non sono un campo semantico, sono le due
+voci successive nell'array sorgente — *press* e *open* stanno lì perché stanno
+lì, non perché abbiano a che fare con *check*.
+
+Su mille item di inglese, ottocentotrentatré fanno così. È il blocco singolo più
+grosso di tutto il gioco, ed è il più vicino allo zero didattico: costa una riga
+di lettura e non lascia niente.
+
+### 4. Le code generate
+
+Frasi identiche a meno dei numeri, contate sulle 3569 spiegazioni:
+
+| ripetizioni | frase |
+|---|---|
+| **254** | `cambiare l'ordine non cambia il prodotto.` |
+| **108** | `Qui la tabellina si legge al contrario: …` |
+| **91** | `cerchi quante volte il N sta dentro M.` |
+| **57** | `Dividere è l'inverso del moltiplicare: …` |
+| 14 | `Anche le altre sono avvertenze giuste, ma riguardano un altro argomento.` |
+
+La proprietà commutativa è vera e vale la pena dirla. Detta **254 volte nella
+stessa identica forma** non è didattica, è tappezzeria. La coda commutativa è
+precedente; **le due code da 108 e 57 le ho aggiunte io** nel giro sulle
+tabelline del 25 agosto, ed è debito mio.
+
+### 5. Non è la leggibilità, e va scritto per non inseguirla
+
+Indice **Gulpease** su tutte le 3569 spiegazioni (≥60 = leggibile alla scuola
+media; sotto 40 = difficile anche per un diplomato):
+
+```
+mediana 90  ·  sotto 60: 91 item (3%)  ·  sotto 40: nessuno
+```
+
+Le frasi sono corte e le parole sono comuni. **Semplificare non è la cura** — e
+chi partisse da qui riscriverebbe tremila righe già a posto senza spostare la
+lamentela di una virgola.
+
+Le peggiori dicono qual è il difetto vero, che è un altro:
+
+> *«Nel periodo ipotetico della possibilità la condizione va al congiuntivo
+> imperfetto e la conseguenza al condizionale presente.»* (Gulpease 43)
+
+Non è difficile perché è lunga. È difficile perché è **la voce del libro di
+grammatica**, copiata: nomina quattro categorie e non ne spiega nessuna. Un
+undicenne che sapesse già che cosa sono «periodo ipotetico della possibilità» e
+«congiuntivo imperfetto» non avrebbe sbagliato la domanda.
+
+### 6. Non c'è nessuna grafica: è una `Label`
+
+`exercise_player.gd:505`. Il pannello della spiegazione è una `Label` a testo
+semplice. Niente grassetto, niente struttura, niente figura, un solo colore per
+esito (verde o rosa).
+
+Dentro ci finiscono attaccati con un a capo, **tutti con lo stesso peso
+visivo**:
+
+```
+Funziona! +12 energia · serie ×3
+Se non ricordi 7 × 8, per 8 raddoppi tre volte: 7 → 14 → 28 → 56. E 8 × 7 dà
+lo stesso risultato: cambiare l'ordine non cambia il prodotto.
+Moltiplicare serve a non contare uno per uno: è la scorciatoia per i gruppi
+uguali.
+```
+
+Tre cose di natura diversa — la ricompensa, il caso particolare, la regola
+generale — indistinguibili l'una dall'altra. E il pulsante `CONTINUA` compare
+**nello stesso istante** in cui compare il testo: la strada più rapida
+attraverso il gioco è non leggere.
+
+Una moltiplicazione è una griglia. Una frazione è una torta tagliata. Un
+circuito è un anello che si chiude. Una declinazione è una parola smontata in
+due pezzi. **Il gioco ha 71 oggetti identitari illustrati e otto atlanti di
+scenografia, e zero disegni che spieghino qualcosa.**
+
+---
+
+## Il contratto della spiegazione
+
+Quattro regole. Valgono per ogni riga scritta da qui in avanti — per NORA, per i
+banchi, per il manuale — e non si negoziano.
+
+1. **Non ripetere quello che il bambino ha appena scritto.** La spiegazione
+   comincia dove finisce la risposta. Se la si può leggere senza sapere che cosa
+   è stato risposto e resta vera e utile uguale, è una spiegazione; se ripete la
+   risposta, è un'eco.
+
+2. **Parlare dell'errore fatto, non dell'errore in generale.** Quando il gioco
+   sa quale alternativa è stata toccata, la prima riga è su quella. Il generico
+   viene dopo, o non viene.
+
+3. **Mai due volte la stessa frase nella stessa sessione.** Una riga detta è
+   detta. La seconda volta si tace o si dice la cosa successiva — non si
+   parafrasa: la parafrasi è la stessa tappezzeria con parole diverse.
+
+4. **Concreto prima di astratto.** Prima la cosa che si può vedere o contare,
+   poi il nome che ha. `docs/VOCE_11_ANNI.md` lo dice già per l'interfaccia: qui
+   vale doppio. Nessuna spiegazione può nominare due categorie grammaticali che
+   non ha mostrato.
+
+Una quinta regola per chi scriverà la guardia, e viene da un errore già pagato:
+**nessuna lista di parole può giudicare la qualità di una spiegazione.**
+`ha_causa()` va bene per *scegliere* se aggiungere una riga, dove sbagliare
+costa una riga in più; usata come giudice ha bocciato trenta voci fra le
+migliori. La guardia misura ciò che è misurabile davvero — ripetizioni,
+consegne, coperture — e lascia il giudizio a chi legge.
+
+---
+
+## Le voci
+
+Ordinate per resa su costo. **G-** sono di Claude (contenuto, logica, guardie),
+**C-** di Codex (resa, pannello, figure). Le due colonne non si bloccano a
+vicenda: G-N1 e G-N2 valgono anche sulla `Label` di oggi, C-N3 vale anche sulle
+spiegazioni di oggi.
+
+> **Fatte il 26 agosto 2026, tutte e otto.** Codex non era disponibile, quindi le
+> due voci **C-** le ha prese Claude. Sotto resta la descrizione originale di
+> ognuna; qui il consuntivo, con le misure prima e dopo.
+>
+> | | voce | esito |
+> |---|---|---|
+> | **G-N1** | `distractorWhy` consegnato | **9244 frasi su 9244** arrivano a chi tocca quell'alternativa. Prima: zero |
+> | **G-N2** | NORA non si ripete | memoria di dodici righe + voci a livelli. Venti prove di fila sullo stesso argomento: **zero ripetizioni** |
+> | **C-N3** | Pannello a tre zone | `RichTextLabel`, correzione in grassetto, regola staccata e firmata, `CONTINUA` dopo mezzo secondo |
+> | **G-N4** | Le 1159 glosse | riscritte: **dal 32% al 3,3%** le spiegazioni che riaprono con la risposta |
+> | **C-N5** | Le figure | **quattro** famiglie su dieci, su 369 esercizi. Le altre sei restano da fare |
+> | **G-N6** | Le code generate | la frase più ripetuta scende **da 254 a 91**, e le 91 hanno numeri diversi |
+> | **G-N7** | Il riferimento | «SPIEGA CON NORA» ora c'è anche dopo una risposta giusta |
+> | **G-N8** | La guardia | `nora_spiegazione_utile_audit`, cinque misure, tetto a cricchetto |
+>
+> **Quello che NON è stato fatto, e va detto.** Delle dieci famiglie di figure ne
+> esistono quattro — griglia dei gruppi (290 esercizi), due cerchi (34), torta
+> tagliata (23), anello del circuito (22). Mancano la retta dei numeri, la
+> bilancia, contorno-contro-superficie, la linea del tempo, la mappa muta e la
+> parola smontata: sono le sei che coprono storia, geografia, latino e la
+> geometria, cioè circa altri seicento esercizi.
+>
+> E le glosse: la forma vecchia è sparita, ma quella nuova — «da non confondere
+> con X, che vuol dire Y» — è una sola forma per 1159 item. È molto meglio di
+> prima perché il contenuto cambia a ogni item e non ripete la risposta, ma
+> l'etimologia e i falsi amici che la voce G-N4 prometteva esistono solo per le
+> 29 voci di `false-friends`, che li avevano già.
+
+| | voce | impatto | costo | chi |
+|---|---|---|---|---|
+| **G-N1** | Consegnare il `distractorWhy` che è già scritto | altissimo | basso | ✅ |
+| **G-N2** | Non ripetersi dentro la sessione | alto | basso | ✅ |
+| **C-N3** | Il pannello a tre zone | alto | medio | ✅ |
+| **G-N4** | Le 1159 glosse di inglese e italiano | alto | medio | ✅ parziale |
+| **C-N5** | Le dieci figure che spiegano | alto | alto | ✅ 4 su 10 |
+| **G-N6** | Le code generate | medio | basso | ✅ |
+| **G-N7** | Il riferimento: dove ritrovare la cosa | medio | basso | ✅ |
+| **G-N8** | La guardia | — | medio | ✅ |
+
+---
+
+### G-N1 · Consegnare il `distractorWhy` che è già scritto
+
+Il lavoro è fatto: 3082 item ce l'hanno. Manca il filo.
+
+- `riga()` prende un argomento in più: l'opzione toccata. Se
+  `distractorWhy[scelta]` esiste, **quella è la prima riga dell'errore** — prima
+  della spiegazione dell'item e al posto del `come` generico.
+- `_score_current` e `_retryable_result` conoscono già la scelta e la passano.
+- `_typical_error()` nel manuale smette di prendere il primo distrattore
+  disponibile e prende quello sbagliato davvero, quando lo sa.
+- Dove `distractorWhy` manca (487 item, il 14%) resta il comportamento di oggi.
+
+Da misurare dopo: quanti errori nel gioco reale ricevono una frase specifica
+invece di una generica. L'obiettivo è **oltre l'80%**, ed è già pagato.
+
+### G-N2 · Non ripetersi dentro la sessione
+
+- Un insieme di righe già dette, per sessione. Detta una volta, non torna.
+- `ha_causa` applicato **anche al ramo dell'errore**: è un bug di due righe.
+- La seconda volta che un argomento torna, NORA **non parafrasa**: tace. Il
+  silenzio è informazione — vuol dire *questa la sai*.
+- Le voci che coprono argomenti da cinquanta item in su hanno bisogno di più di
+  un `perche`: non sinonimi dello stesso, ma **livelli** — il primo incontro, il
+  caso che di solito frega, il collegamento con un altro argomento. Nove
+  argomenti stanno sopra i cinquanta item e valgono da soli un migliaio di item.
+
+### C-N3 · Il pannello a tre zone — *Codex*
+
+Oggi: una `Label`, tre contenuti diversi appiattiti in un blocco solo,
+`CONTINUA` acceso subito.
+
+Serve una struttura che si legga **senza leggere**, cioè in cui si capisca a
+colpo d'occhio dove guardare:
+
+1. **L'esito** — riga breve, il colore che c'è già, l'energia. È l'unica parte
+   che oggi funziona.
+2. **La correzione** — *qui sta la cosa nuova.* Sull'errore: che cosa è stato
+   toccato e perché non va (G-N1). Sul giusto: il caso svolto. Deve essere la
+   zona **visivamente dominante** — peso maggiore, contrasto maggiore, spazio
+   maggiore. Oggi ha lo stesso peso della ricompensa.
+3. **La regola** — la riga di NORA, quando c'è. Secondaria, staccata,
+   riconoscibile come «la voce di NORA» e non come altro testo.
+
+Tre cose che servono e che oggi non ci sono:
+
+- **`RichTextLabel` al posto di `Label`**, per dare grassetto al pezzo che conta
+  e per ospitare la figura di C-N5 dentro il testo;
+- **`CONTINUA` non compare nell'istante zero.** Non un timer punitivo: un
+  ritardo breve, o meglio il pulsante che si accende quando la zona 2 ha finito
+  di comparire. Chi ha già capito non deve aspettare, ma non deve nemmeno poter
+  saltare la correzione prima che esista;
+- **lo spazio deve reggere il testo lungo.** Con G-N1 e C-N5 la zona 2 cresce:
+  va verificato su tablet, in verticale, con `reducedMotion` attivo.
+
+Valgono i tre vincoli delle tavole: nessun testo dentro un'immagine, il conto
+dei nodi si fa prima, il peso si dichiara in MB.
+
+### G-N4 · Le 1159 glosse di inglese e italiano
+
+833 di inglese e 326 di italiano, tutte nella forma `"parola": traduzione.
+Stesso gruppo: …`. Sono un terzo delle spiegazioni del gioco.
+
+La forma va rifatta nel generatore, non a mano. Quello che una glossa può dire e
+oggi non dice:
+
+- **da dove viene la parola** — *check* e *scacchi* sono la stessa parola, dallo
+  scacco matto: il re è «controllato». Il latino ce l'ha già e funziona benissimo
+  («da *aqua* vengono acquedotto e acquario»);
+- **il falso amico o la trappola** — *library* non è la libreria, *sensible* non
+  è sensibile. Sono le uniche cose che un bambino si ricorda di una glossa;
+- **la parola dentro un'altra che già conosce** — *open* sta in *open day*,
+  *free* in *wi-fi free*;
+- **quando NON si usa** — *check* non traduce «controllare» nel senso di
+  dominare.
+
+Dove non c'è niente di vero da dire, **la spiegazione resta corta e onesta**:
+meglio tre parole che una coda finta. Il «Stesso gruppo:» va tolto in ogni caso —
+i vicini di array non sono un campo semantico, e dichiararlo è una piccola bugia
+didattica.
+
+Da fare a lotti, per campo semantico, come le materie: è il lotto più grosso ed
+è quello con la resa più alta per riga scritta.
+
+### C-N5 · Le dieci figure che spiegano — *Codex*
+
+Non illustrazioni: **diagrammi**, cioè disegni in cui la posizione delle cose è
+l'informazione. Dieci famiglie coprono la maggior parte del gioco, e ognuna
+serve decine o centinaia di item:
+
+| figura | serve a | item circa |
+|---|---|---|
+| la **griglia dei gruppi** (righe × colonne) | tabelline, divisioni, aree | 364+ |
+| la **retta dei numeri** | ordine, negativi, frazioni, stime | 150+ |
+| la **torta tagliata** | frazioni, percentuali | 120+ |
+| la **bilancia** | equazioni, uguaglianze | 60+ |
+| **contorno contro superficie** | perimetro e area | 80+ |
+| l'**anello del circuito** aperto/chiuso, serie/parallelo | elettronica | 159 |
+| la **linea del tempo** | storia | 167 |
+| la **mappa muta** con un punto acceso | geografia | 199 |
+| la **parola smontata** (radice + desinenza, prefisso) | latino, italiano | 200+ |
+| i **due cerchi** che si incrociano o si contengono | logica, insiemi, quantificatori | 136 |
+
+Come vanno fatte, e questo è il vincolo che le rende possibili:
+
+- **disegnate in Godot, non esportate come immagini.** Una griglia 7×8 è
+  `_draw()` con due cicli: pesa zero MB, si adatta ai numeri dell'item, e non ne
+  serve una versione per ogni moltiplicazione. Vale per tutte e dieci tranne la
+  mappa muta, che è una sagoma sola per continente;
+- **il testo sta nei nodi, non nel disegno** — è la regola già in vigore per le
+  tavole, e qui serve anche perché le etichette cambiano item per item e devono
+  essere leggibili da un lettore di schermo;
+- **una figura sola per spiegazione**, e solo dove aggiunge. Una figura che
+  illustra ciò che il testo ha già detto è la stessa tappezzeria di prima,
+  disegnata;
+- **`reducedMotion` le congela**: nessuna figura che si costruisca con
+  un'animazione obbligatoria da guardare.
+
+Ordine suggerito, per resa: griglia dei gruppi, anello del circuito, retta dei
+numeri. Le prime due da sole coprono cinquecento item e sono le due più facili
+da disegnare.
+
+### G-N6 · Le code generate
+
+- La commutativa: detta **una volta per sessione** (ricade sotto G-N2), non 254.
+- Le due code delle tabelline che ho aggiunto io — «si legge al contrario» e
+  «dividere è l'inverso» — diventano la riga di NORA dell'argomento, che è il
+  posto in cui una regola generale va detta, e spariscono dall'item.
+- L'item torna a fare il suo mestiere: **il caso particolare, svolto**.
+
+### G-N7 · Il riferimento: dove ritrovare la cosa
+
+`SPIEGA CON NORA` esiste ma compare **solo dopo un errore**, ed è nascosto in
+esame. Una spiegazione che non si può rileggere vale un solo istante.
+
+- Il pulsante disponibile anche sulla risposta giusta: chi ha indovinato e vuole
+  capire perché è esattamente il bambino da premiare.
+- La voce del manuale raggiungibile **dopo** la prova, non solo durante.
+- Il collegamento fra argomenti: le divisioni rimandano alle tabelline, le
+  percentuali alle frazioni. `KnowledgeCodex` ha già la struttura per farlo.
+
+### G-N8 · La guardia
+
+`nora_spiegazione_utile_audit.gd`. Misura **solo cose misurabili**, mai la
+qualità:
+
+- nessuna riga di NORA ripetuta due volte in una sessione simulata;
+- ogni item con `distractorWhy` consegna la frase giusta all'opzione giusta;
+- nessuna spiegazione riapre con la risposta dell'item (la regola 1, che è
+  meccanica e verificabile);
+- nessuna frase-scheletro compare più di N volte sull'insieme dei banchi, con N
+  a cricchetto — **si abbassa e mai si alza**, come il tetto delle scorciatoie;
+- ogni figura dichiarata da un argomento esiste ed è raggiungibile.
+
+Il cricchetto è la parte che vale: è l'unica forma che ha funzionato sul debito
+delle scorciatoie, e funziona perché non chiede a nessuno di giudicare.
+
+---
+
+> **Nota sull'ordine.** G-N1 è la prima perché è la sola voce di tutto il piano
+> in cui il contenuto **esiste già** e manca solo la consegna: due giorni di
+> lavoro sui banchi che oggi non arrivano al bambino. Se se ne facesse una sola,
+> è quella.
+
+---
+
+## Il cancello del mondo 2 — 26 agosto 2026
+
+*Segnalazione di gioco: «ho completato tutto il mondo 1 e non riesco ad accedere
+al mondo 2».* È la seconda volta: il 24 agosto era la copertura, resa visibile
+sui cartelli delle palestre. Questa volta è un'altra cosa, e nessuna sonda
+poteva vederla.
+
+**`compiti_bastano_probe` e `progression_1to24_audit` giocano sempre rispondendo
+giusto.** Un bambino che risponde giusto sempre non esiste, e il gate era tarato
+su di lui. Misurato con il nuovo `gate_mondo1_audit`, mediana su sette semi:
+
+| accuratezza | prima | dopo |
+|---|---|---|
+| 100% | 16 sessioni | 16 |
+| 85% | 29 (fino a 36) | **20** (peggiore 25) |
+| 70% | tre semi su sette **non aprivano mai il gate** | **35** (peggiore 46) |
+
+Il mondo 1 di prove ne offre diciassette. Quattro cause distinte, tutte corrette;
+**nessuna era l'ampiezza del gate**, che resta a dodici materie come deciso il 5
+agosto.
+
+1. **La padronanza si misurava su tre nodi.** Era una media mobile fra sessioni,
+   e una sessione sono tre nodi: un campione così piccolo è quasi tutto rumore.
+   Ogni materia riceve una sessione ogni dodici, quindi la stima si muoveva di un
+   passo per giro e una sessione sfortunata al primo incontro costava cinque giri
+   per essere riassorbita. Adesso si stima sulle risposte accumulate, con oblio
+   0,85 — l'unico dei tre valori provati che non lascia nessun blocco.
+2. **Il ripasso chiedeva la coda vuota.** La dimensione RITENZIONE pretendeva
+   zero ripassi in calendario *nell'istante del controllo*; ma ogni sessione ne
+   genera di nuovi e una voce esce dal calendario solo dopo quattro ripassi
+   riusciti di fila. Il conto saliva a sei e non scendeva più. Adesso conta ciò
+   che è stato sbagliato e **non ancora ripreso** — che è quello che la
+   dimensione dichiara di misurare — e l'errore appena fatto ha una sessione di
+   tempo prima di contare.
+3. **Un argomento di matematica poteva non tornare mai.** La matematica non nasce
+   dal banco come le altre undici: nasce dal generatore, e gli argomenti scritti a
+   mano entrano da `_innesta_banco_matematica`, dove il calendario dei ripassi non
+   arrivava. `matematica:statistica` sbagliata una volta restava sbagliata per
+   sempre — sulla materia che **abita il mondo 1**, quindi addosso a chiunque.
+4. **La soglia del nucleo rendeva il mondo 1 impossibile, non difficile.** La
+   padronanza stimata di un bambino al 70% si assesta intorno a 0,767: sopra la
+   soglia base (0,70) e sotto quella del nucleo (0,78). Non lento — *impossibile*,
+   a qualunque quantità di lavoro.
+
+> **Questa quarta è una decisione di prodotto, ed è l'unica che ho preso io.**
+> Il rango del nucleo è una scelta del committente del 6 agosto e non si tocca;
+> quello che ho cambiato è che il bonus **cresce con la scala** invece di essere
+> pieno dal primo mondo. La ragione sta nel design stesso: dichiara una valvola
+> contro il blocco — «la difficoltà adattiva abbassa gli item finché
+> l'accuratezza risale» — e al mondo 1 **quella valvola non esiste**, perché
+> `target_difficulty(1)` vale 1, che è già il fondo del banco. Se un giorno
+> esistesse contenuto sotto la difficoltà 1, la rampa può tornare piatta.
+> Si cambia in una riga: `ApparatusConfig.core_bonus`.
+
+E una cosa che l'audit ha trovato di sé stesso: **non era deterministico.**
+`build_mission(..., null, ...)` si costruisce un generatore e lo `randomize()`,
+quindi ogni esecuzione misurava una partita diversa. Un tetto misurato su una
+partita diversa ogni volta non è un tetto. Trovato facendo girare due volte di
+fila la stessa identica revisione e leggendo due numeri.
 
 ---
 

@@ -87,6 +87,7 @@ static var _add_material: CanvasItemMaterial
 static var _landmark_texture_cache: Dictionary = {}
 static var _natural_atlas_cache: Dictionary = {}
 static var _pet_texture_cache: Dictionary = {}
+static var _pet_reaction_texture_cache: Dictionary = {}
 
 # Le tavole dei Custodi sono quadrate (384 px), ma nel mondo rappresentano un
 # compagno piccolo, non un secondo personaggio. 48 px tengono anche le forme piu'
@@ -101,6 +102,20 @@ static func pet_art_for(kind: String) -> Texture2D:
 	if not _pet_texture_cache.has(path):
 		_pet_texture_cache[path] = ResourceLoader.load(path, "Texture2D")
 	return _pet_texture_cache[path] as Texture2D
+
+## Variante illustrata per una reazione precisa. Le tavole base restano quelle
+## che camminano nel mondo; queste entrano soltanto nei ritratti emotivi, dove a
+## 76 px una bocca realmente diversa vale piu' di un'altra rotazione del corpo.
+static func pet_reaction_art_for(kind: String, face: String) -> Texture2D:
+	var normalized := kind.trim_prefix("pet-")
+	if normalized.is_empty() or face not in ["beato", "stupito"]:
+		return null
+	var path := "res://assets/custodi/%s-%s-v2.png" % [normalized, face]
+	if not ResourceLoader.exists(path, "Texture2D"):
+		return null
+	if not _pet_reaction_texture_cache.has(path):
+		_pet_reaction_texture_cache[path] = ResourceLoader.load(path, "Texture2D")
+	return _pet_reaction_texture_cache[path] as Texture2D
 
 static func _landmark_texture(asset_id: String) -> Texture2D:
 	var path := str(LANDMARK_TEXTURE_PATHS.get(asset_id, ""))

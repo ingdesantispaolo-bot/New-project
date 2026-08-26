@@ -1,6 +1,6 @@
 extends SceneTree
 
-## **Il Custode legge il mondo: curioso su un incontro, attento vicino a uno
+## **Il Custode legge il mondo: curioso su un incontro, coraggioso vicino a uno
 ## Sbiadito.** (5 agosto 2026, docs/CUSTODE_LIVELLO_AVANZATO.md §Asse B, punto 6)
 ##
 ## `near_unexplored`/`near_faded` erano dichiarati in `pet_expression_engine.gd`
@@ -52,8 +52,8 @@ func _run() -> void:
 	# (e non serve) un segnale esplicito di «te ne sei allontanato».
 	assert(PetExpressionEngine.duration_of("curioso") > 0.0,
 		"«curioso» a durata indefinita non si pulirebbe mai da solo")
-	assert(PetExpressionEngine.duration_of("attento") > 0.0,
-		"«attento» a durata indefinita non si pulirebbe mai da solo")
+	assert(PetExpressionEngine.duration_of("coraggioso") > 0.0,
+		"«coraggioso» a durata indefinita non si pulirebbe mai da solo")
 
 	root.size = Vector2i(900, 600)
 	var world := (load(WORLD_SCENE) as PackedScene).instantiate()
@@ -77,7 +77,7 @@ func _run() -> void:
 		"un Custode non concesso ha comunque reagito a un incontro")
 
 	# --- Il Custode concesso -----------------------------------------------
-	# «curioso» sblocca a legame 0.25, «attento» a 0.65: un Custode appena
+	# «curioso» e «coraggioso» si sbloccano col legame: un Custode appena
 	# concesso non le ha ancora, e `react_to()` rifiuta una faccia non
 	# disponibile ripiegando sul volto a riposo. Senza legame pieno qui,
 	# l'audit proverebbe solo che il wiring non rompe niente — non che la
@@ -112,22 +112,24 @@ func _run() -> void:
 		"la faccia curiosa non si è pulita da sola dopo %.1fs" % PetExpressionEngine.duration_of("curioso"))
 
 	# --- Lo Sbiadito ------------------------------------------------------
-	assert(str(pet_face.call("current_face")) != "attento",
-		"il Custode è già attento prima che ci sia uno Sbiadito nel mondo")
+	assert(str(pet_face.call("current_face")) != "coraggioso",
+		"il Custode è già coraggioso prima che ci sia uno Sbiadito nel mondo")
 	var enemy := WorldEnemy.new()
 	enemy.setup(world, player.global_position + Vector2(60, 0), 1, "matematica", Color("ff7b72"), 0)
 	world.get("world_layer").add_child(enemy)
 	world.call("_pet_check_faded_proximity")
-	assert(str(pet_face.call("current_face")) == "attento",
+	assert(str(pet_face.call("current_face")) == "coraggioso",
 		"uno Sbiadito a distanza ravvicinata non ha fatto irrigidire il Custode")
 
 	# Fuori dal raggio: il controllo non deve riattivarlo dopo che si è pulito.
-	enemy.global_position = player.global_position + Vector2(2000, 0)
-	await create_timer(PetExpressionEngine.duration_of("attento") + 0.2).timeout
+	for world_enemy in get_nodes_in_group("world_enemy"):
+		if world_enemy is Node2D:
+			(world_enemy as Node2D).global_position = player.global_position + Vector2(2000, 0)
+	await create_timer(PetExpressionEngine.duration_of("coraggioso") + 0.2).timeout
 	world.call("_pet_check_faded_proximity")
-	assert(str(pet_face.call("current_face")) != "attento",
+	assert(str(pet_face.call("current_face")) != "coraggioso",
 		"lo Sbiadito lontano ha comunque fatto reagire il Custode")
 
 	await _cleanup(world)
-	print("PET WORLD AWARENESS audit OK — curioso e attento partono, si puliscono da soli, non reagiscono a ciò che non conta")
+	print("PET WORLD AWARENESS audit OK — curioso e coraggioso partono, si puliscono da soli, non reagiscono a ciò che non conta")
 	quit(0)

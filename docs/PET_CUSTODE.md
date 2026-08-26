@@ -84,7 +84,15 @@ sopravvive a tutte le schermate: è la costante affettiva del gioco.
 tocco lungo apre la schermata. È la prima cosa che un bambino proverà a fare, e
 deve funzionare.
 
-### 2.2 Le dieci espressioni
+### 2.2 Le quattordici espressioni
+
+*Estensione 26 agosto 2026.* Il ritratto usa sempre la specie realmente
+equipaggiata, anche nell'album. Una carezza sostituisce per pochi secondi la
+tavola neutra con la variante illustrata sorridente della stessa creatura;
+l'indole cambia il gesto attorno al sorriso, non l'affetto. Gli incontri
+narrativi possono avere una sfumatura diversa (una Cometa vivace festeggia,
+un Guardiano serio si illumina con compostezza), mentre errore e fallimento
+restano invariabilmente `incoraggiante`.
 
 Nessuna è negativa. Due sono esplicitamente comiche.
 
@@ -92,12 +100,16 @@ Nessuna è negativa. Due sono esplicitamente comiche.
 |---|---|---|
 | **Sereno** | riposo | Occhi morbidi, respiro lento. È il volto base, scelto da te |
 | **Curioso** | vicino a un POI mai affrontato, una Traccia non trovata, un abitante con qualcosa di nuovo | Orecchie su, testa inclinata verso la direzione giusta |
-| **Attento** | dentro o vicino a una zona sbiadita | Immobile, pelo dritto, luce che si abbassa. Mai spaventato |
+| **Stupito** | rivelazione della storia o scoperta inattesa | Occhi grandi, piccolo “oh”, scintille di meraviglia. Mai paura |
+| **Attento** | incontro delicato o personaggio timido | Immobile, luce raccolta, ascolta senza invadere |
 | **Concentrato** | esercizio in corso, ancora di più se è ripasso | Occhi socchiusi, fermo, guarda dove guardi tu |
+| **Coraggioso** | perseveranza o presenza di uno Sbiadito | Si fa avanti, posa salda e arco protettivo. Non combatte al posto tuo |
 | **Incoraggiante** | **risposta sbagliata** | Si avvicina, sguardo caldo, colpetto. Nessuna tristezza, nessun sospiro |
 | **Orgoglioso** | risposta corretta | Petto in fuori, coda alta, un po' esagerato |
+| **Sollevato** | miglioramento dopo una difficoltà | Spalle morbide, sorriso quieto e tre piccoli respiri luminosi |
 | **Festa** | combo, missione superata, apparato riparato, argomento consolidato | Salta, scintille, l'unica animazione ampia |
 | **Beato** | mentre lo accarezzi | Occhi chiusi, si appoggia al bordo del ritratto, verso soddisfatto |
+| **Assonnato** | silenzio con indole calma o specie contemplativa | Si accoccola, ondeggia piano e compaiono due piccole Z |
 | **Impicciato** | **ha appena fatto una figuraccia** (§3.2) | Sguardo in camera, orecchie basse, l'espressione di chi sa di aver combinato qualcosa |
 | **Offeso (per finta)** | non lo accarezzi da un po' | Gira la testa e ti sbircia. **Si scioglie da solo in pochi secondi** con un sospiro comico: non è un rimprovero, è una gag |
 
@@ -110,7 +122,7 @@ nulla.
 ### 2.3 Le espressioni come guida
 
 *Curioso* punta verso la cosa interessante più vicina non ancora affrontata, con
-un raggio pari a metà dello `streamRadius`. *Attento* segnala che lì attorno
+un raggio pari a metà dello `streamRadius`. *Coraggioso* segnala che lì attorno
 qualcosa ha perso il significato. Entrambe hanno priorità **inferiore** a quelle
 di sessione: durante un esercizio il Custode è concentrato, non curioso.
 
@@ -123,7 +135,7 @@ Un valore 0→1 che **sale e non scende mai**.
   tetto giornaliero, così non diventa un lavoro).
 - Non sale comprando, non scende con l'inattività.
 - **Sblocca espressioni e combinelle**: si parte con 5 espressioni e 4 combinelle,
-  si arriva a 10 e 16. Le ultime arrivano tardi e sembrano un regalo.
+  si arriva a 14 e 16. Le ultime arrivano tardi e sembrano un regalo.
 - **Non sblocca vantaggi di gioco.** Mai.
 
 ---
@@ -267,14 +279,14 @@ Si apre con un tocco lungo sul widget, o dalla Bottega.
 | **Accessorio** | Collare, fiocco, sciarpina, campanello, ciuffo |
 | **Indole** | *Vivace · Calmo · Buffo · Serio* — cambia **come** emote, non cosa fa |
 | **Volto a riposo** | L'espressione che tiene quando non succede niente: la sua personalità a colpo d'occhio |
-| **Album delle facce** | Le 10 espressioni, quelle bloccate in silhouette, con come si sbloccano |
+| **Album delle facce** | Le 14 espressioni, quelle bloccate in silhouette, con come si sbloccano |
 | **Combinelle viste** | Le 16, come figurine. Collezionare gag invece di oggetti |
 | **Cose che ti ha portato** | La collezione dei regali inutili, con data e mondo (§3.3) |
 | **Legame** | Quando l'hai preso, quante sessioni insieme, quanti mondi visti |
 
 ### 4.1 Perché l'indole è la scelta più importante
 
-Quattro indoli × dieci espressioni × sedici combinelle danno una quantità enorme
+Quattro indoli × quattordici espressioni × sedici combinelle danno una quantità enorme
 di comportamento percepito al prezzo di quattro curve di animazione. Due bambine
 con lo stesso Custode dello stesso colore avranno due compagni che si muovono in
 modo diverso.

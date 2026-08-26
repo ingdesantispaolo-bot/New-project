@@ -75,7 +75,7 @@ func _build() -> void:
 	box.add_child(header)
 	_portrait = FACE_WIDGET.new()
 	_portrait.name = "PetScreenPortrait"
-	_portrait.custom_minimum_size = Vector2(94, 94)
+	_portrait.call("set_display_size", 108.0)
 	header.add_child(_portrait)
 	_portrait.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var title := Label.new()
@@ -178,7 +178,9 @@ func _refresh() -> void:
 	_name_field.text = STATE.name_of(_save)
 	var cosmetics: Dictionary = _save.data.get("cosmetics", {})
 	var equipped: Dictionary = cosmetics.get("equipped", {})
-	var pet_id := str(equipped.get("pet", "pet-spark"))
+	var pet_id := str(equipped.get("pet", ""))
+	if pet_id.is_empty():
+		pet_id = "pet-spark"
 	_portrait.configure(
 		STATE.name_of(_save), STATE.livery(_save), STATE.temperament(_save),
 		STATE.resting_face(_save), STATE.bond(_save), STATE.faces(_save),
@@ -200,7 +202,9 @@ func _refresh() -> void:
 			card.custom_minimum_size = Vector2(86, 106)
 			var preview := FACE_WIDGET.new()
 			preview.mouse_filter = Control.MOUSE_FILTER_IGNORE
-			preview.configure("", STATE.livery(_save), STATE.temperament(_save), str(face), STATE.bond(_save), unlocked, true)
+			preview.configure(
+				"", STATE.livery(_save), STATE.temperament(_save), str(face),
+				STATE.bond(_save), unlocked, true, pet_id.trim_prefix("pet-"))
 			preview.set_preview_face(str(face))
 			card.add_child(preview)
 			var caption := Label.new()

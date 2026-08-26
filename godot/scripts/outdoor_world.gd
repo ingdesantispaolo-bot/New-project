@@ -6144,7 +6144,10 @@ func _refresh_pet_face() -> void:
 		return
 	pet_face.visible = PetState.is_granted(game_save)
 	var equipped: Dictionary = runtime.get("cosmeticsEquipped", {})
-	var pet_kind := str(equipped.get("pet", "pet-spark")).trim_prefix("pet-")
+	var pet_id := str(equipped.get("pet", ""))
+	if pet_id.is_empty():
+		pet_id = "pet-spark"
+	var pet_kind := pet_id.trim_prefix("pet-")
 	pet_face.configure(
 		PetState.name_of(game_save),
 		PetState.livery(game_save),

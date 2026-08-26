@@ -190,13 +190,15 @@ func _run() -> void:
 	# --- 6. La faccia scatta una volta sola, il corpo resta girato ------------
 	mondo.set("_pet_fiuto_ultimo", "")
 	mondo.call("_pet_check_secret_proximity")
-	_controlla(str(pet_face.call("current_face")) == "curioso",
+	var expected_secret_face := PetExpressionEngine.face_for_pet(
+		"near_secret", PetState.temperament(save), str(pet_face.call("current_pet_kind")))
+	_controlla(str(pet_face.call("current_face")) == expected_secret_face,
 		"trovata una deviazione, il Custode non ha cambiato faccia")
 	_controlla(absf(float(custode.get("_fiuto_lato")) - 1.0) < 0.01,
 		"il Custode non si e' messo dalla parte della deviazione (a destra di Eli)")
-	await create_timer(PetExpressionEngine.duration_of("curioso") + 0.2).timeout
+	await create_timer(PetExpressionEngine.duration_of(expected_secret_face) + 0.2).timeout
 	mondo.call("_pet_check_secret_proximity")
-	_controlla(str(pet_face.call("current_face")) != "curioso",
+	_controlla(str(pet_face.call("current_face")) != expected_secret_face,
 		"la stessa deviazione fa la stessa smorfia a ogni giro: e' un allarme, non un compagno")
 
 	# Dall'altra parte, il Custode si gira dall'altra parte.

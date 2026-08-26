@@ -17,6 +17,7 @@ func _init() -> void:
 	_test_catalogo_senza_facce_negative()
 	_test_ogni_segnale_ha_una_faccia()
 	_test_errori_mai_negativi()
+	_test_reazioni_per_specie_e_indole()
 	_test_priorita_e_isteresi()
 	_test_legame_monotono()
 	_test_facce_bloccate_non_attive()
@@ -67,6 +68,35 @@ func _test_errori_mai_negativi() -> void:
 	assert(
 		PetExpressionEngine.duration_of("offeso") > 0.0,
 		"'offeso' deve scadere da solo, senza input del giocatore")
+
+func _test_reazioni_per_specie_e_indole() -> void:
+	var kinds := [
+		"dog", "cat", "rabbit", "spark", "comet", "orbit",
+		"satellite", "prisma", "luma", "guardiano", "codex",
+	]
+	for kind in kinds:
+		for illustrated_face in ["beato", "stupito"]:
+			var art_path := "res://assets/custodi/%s-%s-v2.png" % [kind, illustrated_face]
+			assert(ResourceLoader.exists(art_path, "Texture2D"),
+				"manca il ritratto %s del Custode %s" % [illustrated_face, kind])
+		for temperament in PetState.TEMPERAMENTS:
+			assert(PetExpressionEngine.face_for_pet("cuddle", str(temperament), kind) == "beato",
+				"la carezza non rende beato %s/%s" % [kind, temperament])
+			for game_signal in PetExpressionEngine.GAME_SIGNALS:
+				var face := PetExpressionEngine.face_for_pet(str(game_signal), str(temperament), kind)
+				assert(PetExpressionEngine.is_known(face),
+					"reazione sconosciuta per %s/%s/%s: %s" % [kind, temperament, game_signal, face])
+			for game_signal in PetExpressionEngine.FAILURE_SIGNALS:
+				assert(PetExpressionEngine.face_for_pet(str(game_signal), str(temperament), kind) == "incoraggiante",
+					"%s/%s giudica un errore invece di incoraggiare" % [kind, temperament])
+	assert(PetExpressionEngine.face_for("sister_found") == "stupito",
+		"una rivelazione della storia deve sorprendere")
+	assert(PetExpressionEngine.face_for("near_faded") == "coraggioso",
+		"davanti al pericolo il Custode deve farsi coraggio")
+	assert(PetExpressionEngine.face_for("learning:improvement") == "sollevato",
+		"un miglioramento difficile deve portare sollievo")
+	assert(PetExpressionEngine.face_for_pet("idle", "calmo", "cat") == "assonnato",
+		"un Custode calmo nel silenzio deve potersi assopire")
 
 func _test_priorita_e_isteresi() -> void:
 	# Una faccia a priorità più alta passa sempre.

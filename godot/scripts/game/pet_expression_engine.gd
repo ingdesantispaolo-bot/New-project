@@ -30,11 +30,15 @@ const CATALOG := {
 	# sarebbe rimasta incollata alla prima occhiata curiosa per il resto della
 	# sessione. Una durata finita si pulisce da sola.
 	"curioso": {"priority": 20, "duration": 3.0},
+	"assonnato": {"priority": 22, "duration": 3.4},
 	"attento": {"priority": 30, "duration": 2.5},
 	"concentrato": {"priority": 40, "duration": 0.0},
 	"impicciato": {"priority": 50, "duration": 2.0},
+	"stupito": {"priority": 55, "duration": 2.6},
 	"orgoglioso": {"priority": 60, "duration": 2.2},
 	"incoraggiante": {"priority": 60, "duration": 2.2},
+	"sollevato": {"priority": 62, "duration": 2.6},
+	"coraggioso": {"priority": 65, "duration": 2.6},
 	"beato": {"priority": 70, "duration": 2.4},
 	"festa": {"priority": 80, "duration": 3.0},
 }
@@ -53,14 +57,14 @@ const SIGNAL_FACES := {
 	"apparatus_repaired": "festa",
 	"topic_consolidated": "festa",
 	# Segnali di apprendimento di NORA (NoraState)
-	"learning:perseverance": "orgoglioso",
-	"learning:improvement": "orgoglioso",
+	"learning:perseverance": "coraggioso",
+	"learning:improvement": "sollevato",
 	"learning:transfer": "festa",
 	"learning:help_request": "incoraggiante",
 	"learning:recurring_error": "incoraggiante",
 	# Lettura del mondo
 	"near_unexplored": "curioso",
-	"near_faded": "attento",
+	"near_faded": "coraggioso",
 	# Il fiuto (19 agosto 2026): una deviazione non catalogata — un forziere, una
 	# traccia — dalle parti di Eli. Stessa faccia di `near_unexplored`, e non è una
 	# svista: la curiosità è la stessa. Quello che distingue i due segnali non è il
@@ -81,7 +85,7 @@ const SIGNAL_FACES := {
 	# l'unica forma di presenza che la decisione 12 gli consente.
 	"pet_granted": "festa",
 	"power_grade_up": "orgoglioso",
-	"sister_found": "attento",
+	"sister_found": "stupito",
 }
 
 ## Segnali che il gioco può emettere. Serve all'audit per provare che la mappa non
@@ -108,6 +112,55 @@ const MIN_HYSTERESIS_SEC := 1.2
 
 static func face_for(game_signal: String) -> String:
 	return str(SIGNAL_FACES.get(game_signal, "sereno"))
+
+## La storia decide l'emozione di base; specie e indole decidono la sfumatura.
+## I segnali didattici restano invarianti: un errore e' SEMPRE incoraggiante e
+## una carezza e' SEMPRE beata. Le differenze riguardano soltanto incontri e
+## comicita', dove un Guardiano serio non reagisce come una Cometa vivace.
+static func face_for_pet(game_signal: String, temperament: String, pet_kind: String) -> String:
+	var base := face_for(game_signal)
+	var kind := pet_kind.trim_prefix("pet-")
+	match game_signal:
+		"answer_wrong", "session_failed", "learning:help_request", "learning:recurring_error":
+			return "incoraggiante"
+		"cuddle":
+			return "beato"
+		"meet_beloved":
+			if temperament in ["calmo", "serio"] or kind in ["cat", "guardiano", "codex"]:
+				return "beato"
+			return "festa"
+		"meet_shy":
+			if temperament == "serio" or kind in ["guardiano", "codex"]:
+				return "attento"
+			return "impicciato"
+		"near_secret":
+			if temperament in ["vivace", "buffo"] and kind not in ["guardiano", "codex"]:
+				return "stupito"
+			return "curioso"
+		"idle":
+			if temperament == "calmo" or kind in ["cat", "rabbit", "orbit", "luma"]:
+				return "assonnato"
+			return "offeso"
+		_:
+			return base
+
+## Linguaggio affettivo visivo. Non cambia quanto il Custode vuole bene a Eli:
+## cambia come lo mostra nel ritratto durante una carezza.
+static func affection_style(temperament: String, pet_kind: String) -> String:
+	var kind := pet_kind.trim_prefix("pet-")
+	if kind in ["dog", "spark", "comet"]:
+		return "esuberante"
+	if kind in ["rabbit", "prisma", "luma"]:
+		return "dolce"
+	if kind in ["orbit", "satellite", "codex"]:
+		return "luminoso"
+	if kind in ["cat", "guardiano"]:
+		return "composto"
+	match temperament:
+		"calmo": return "dolce"
+		"buffo": return "esuberante"
+		"serio": return "composto"
+		_: return "esuberante"
 
 static func priority_of(face: String) -> int:
 	return int(Dictionary(CATALOG.get(face, {})).get("priority", 0))
@@ -141,7 +194,7 @@ static func should_replace(
 	return hold <= 0.0 or current_elapsed >= hold
 
 ## L'indole non cambia COSA fa il Custode, solo come: ampiezza e ritardo della
-## reazione. Quattro indoli × dieci facce danno molto comportamento percepito al
+## reazione. Quattro indoli × quattordici facce danno molto comportamento percepito al
 ## prezzo di quattro curve.
 const TEMPERAMENTS := {
 	"vivace": {"amplitude": 1.35, "delay": 0.0, "bounce": true},

@@ -10,10 +10,10 @@ func _run() -> void:
 	root.add_child(target)
 	var pet := COMPANION.new()
 	root.add_child(pet)
-	pet.setup("pet-lumen", Color("f6c85f"), target, "vivace", true)
+	pet.setup("spark", Color("f6c85f"), target, "vivace", true)
 	for signal_name in PetExpressionEngine.GAME_SIGNALS:
 		pet.react_to(str(signal_name))
-		assert(str(pet.get_meta("expression_pose", "")) == PetExpressionEngine.face_for(str(signal_name)),
+		assert(str(pet.get_meta("expression_pose", "")) == PetExpressionEngine.face_for_pet(str(signal_name), "vivace", "spark"),
 			"posa non collegata al segnale %s" % signal_name)
 	assert(pet.find_child("PetExpressionPose", true, false) != null,
 		"nodo visuale delle pose assente")

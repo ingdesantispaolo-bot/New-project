@@ -341,7 +341,8 @@ func react() -> void:
 ## Traduce il volto già deciso da PetExpressionEngine in una posa del corpo.
 ## Non decide eventi né utilità: è soltanto la parte visibile di C-G9.
 func react_to(game_signal: String) -> void:
-	_expression_pose = PetExpressionEngine.face_for(game_signal)
+	_expression_pose = PetExpressionEngine.face_for_pet(
+		game_signal, _temperament, _kind_del_custode)
 	_expression_time = 0.0
 	_expression_duration = maxf(1.0, PetExpressionEngine.duration_of(_expression_pose))
 	set_meta("expression_pose", _expression_pose)
@@ -540,6 +541,12 @@ func _update_expression_pose(delta: float) -> void:
 			"curioso": _expression_rotation = 0.14
 			"attento", "concentrato": _expression_rotation = -0.04
 			"incoraggiante": _expression_rotation = 0.06
+			"stupito": _expression_scale = 1.08
+			"coraggioso": _expression_rotation = -0.08
+			"sollevato": _expression_rotation = 0.08
+			"assonnato":
+				_expression_rotation = 0.12
+				_expression_offset.y = 3.0
 		return
 	var pulse := sin(phase * PI)
 	match _expression_pose:
@@ -555,6 +562,19 @@ func _update_expression_pose(delta: float) -> void:
 			_expression_offset.y = 3.0 * pulse
 		"incoraggiante":
 			_expression_rotation = sin(_expression_time * 4.5) * 0.08 * pulse
+		"stupito":
+			_expression_scale = 1.0 + 0.13 * pulse
+			_expression_offset.y = -4.0 * pulse
+		"coraggioso":
+			_expression_rotation = -0.09 * pulse
+			_expression_scale = 1.0 + 0.10 * pulse
+		"sollevato":
+			_expression_rotation = 0.09 * pulse
+			_expression_offset.y = 2.5 * pulse
+		"assonnato":
+			_expression_rotation = 0.13 * pulse
+			_expression_offset.y = 4.0 * pulse
+			_expression_scale = 1.0 - 0.04 * pulse
 
 func _draw() -> void:
 	_disegna_fiuto()
@@ -573,6 +593,24 @@ func _draw() -> void:
 				draw_circle(Vector2.RIGHT.rotated(angle) * 27 + Vector2(0, -15), 2.5, accent)
 		"incoraggiante":
 			draw_arc(Vector2(0, -16), 30, 0.25, PI - 0.25, 18, Color("8ff6d2"), 2.5, true)
+		"stupito":
+			for index in 3:
+				var p := Vector2(-18.0 + index * 18.0, -44.0 - absf(1.0 - index) * 5.0)
+				draw_line(p - Vector2(3, 0), p + Vector2(3, 0), Color("fff1a8"), 2.0, true)
+				draw_line(p - Vector2(0, 3), p + Vector2(0, 3), Color("fff1a8"), 2.0, true)
+		"coraggioso":
+			draw_arc(Vector2(0, -15), 29, -2.85, -0.30, 20, Color("8ff6d2"), 2.5, true)
+		"sollevato":
+			for index in 3:
+				draw_arc(Vector2(0, -4), 13.0 + index * 5.0, 0.25, PI - 0.25, 14, Color("b9e8ff", 0.72 - index * 0.14), 1.8, true)
+		"assonnato":
+			_draw_sleep_z(Vector2(22, -39), 4.0, Color("b9e8ff", 0.82))
+			_draw_sleep_z(Vector2(30, -50), 3.0, Color("d8f3ff", 0.68))
+
+func _draw_sleep_z(center: Vector2, size: float, color: Color) -> void:
+	draw_line(center + Vector2(-size, -size), center + Vector2(size, -size), color, 2.0, true)
+	draw_line(center + Vector2(size, -size), center + Vector2(-size, size), color, 2.0, true)
+	draw_line(center + Vector2(-size, size), center + Vector2(size, size), color, 2.0, true)
 
 ## Piccoli oggetti di scena, tutti vettoriali e senza testo: rendono la gag
 ## comprensibile anche quando l'illustrazione e' ridotta a 48 px. Sono

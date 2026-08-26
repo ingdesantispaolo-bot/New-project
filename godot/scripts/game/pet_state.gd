@@ -35,10 +35,14 @@ const DEFAULT := {
 ## si affeziona. Quelle che si sbloccano col legame sono le "extra": la lettura
 ## del mondo e la comicità, cioè il Custode che impara ad aiutarti.
 const BOND_UNLOCKS := [
-	{"bond": 0.25, "face": "curioso"},
-	{"bond": 0.45, "face": "concentrato"},
-	{"bond": 0.65, "face": "attento"},
-	{"bond": 0.85, "face": "impicciato"},
+	{"bond": 0.18, "face": "curioso"},
+	{"bond": 0.30, "face": "stupito"},
+	{"bond": 0.42, "face": "concentrato"},
+	{"bond": 0.54, "face": "coraggioso"},
+	{"bond": 0.66, "face": "attento"},
+	{"bond": 0.76, "face": "sollevato"},
+	{"bond": 0.86, "face": "impicciato"},
+	{"bond": 0.94, "face": "assonnato"},
 	{"bond": 1.00, "face": "offeso"},
 ]
 

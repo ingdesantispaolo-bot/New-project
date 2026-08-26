@@ -21,6 +21,18 @@ const groups = [
       .map((id) => ({ id, file: path.resolve(`godot/assets/custodi/${id}-v1.png`) })),
   },
   {
+    name: "custodi-beato",
+    columns: 6,
+    files: ["dog", "cat", "rabbit", "spark", "comet", "orbit", "satellite", "prisma", "luma", "guardiano", "codex"]
+      .map((id) => ({ id, file: path.resolve(`godot/assets/custodi/${id}-beato-v2.png`) })),
+  },
+  {
+    name: "custodi-stupito",
+    columns: 6,
+    files: ["dog", "cat", "rabbit", "spark", "comet", "orbit", "satellite", "prisma", "luma", "guardiano", "codex"]
+      .map((id) => ({ id, file: path.resolve(`godot/assets/custodi/${id}-stupito-v2.png`) })),
+  },
+  {
     name: "guardiani",
     columns: 6,
     files: Array.from({ length: 24 }, (_, index) => {

@@ -1,6 +1,6 @@
 extends SceneTree
 
-## Tavola GPU delle dieci espressioni del Custode. Serve a confrontarle tutte
+## Tavola GPU delle quattordici espressioni del Custode. Serve a confrontarle tutte
 ## alla stessa dimensione reale dell'HUD e a evitare differenze affidate al colore.
 
 const FACE_WIDGET := preload("res://scripts/ui/pet_face_widget.gd")
@@ -11,8 +11,8 @@ func _init() -> void:
 
 func _run() -> void:
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path("res://../artifacts/pet"))
-	DisplayServer.window_set_size(Vector2i(900, 300))
-	root.size = Vector2i(900, 300)
+	DisplayServer.window_set_size(Vector2i(900, 420))
+	root.size = Vector2i(900, 420)
 	var backdrop := ColorRect.new()
 	backdrop.color = Color("071b22")
 	backdrop.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -24,7 +24,7 @@ func _run() -> void:
 	title.add_theme_color_override("font_color", Color("ffd75e"))
 	backdrop.add_child(title)
 	var grid := GridContainer.new()
-	grid.columns = 10
+	grid.columns = 7
 	grid.position = Vector2(18, 64)
 	grid.add_theme_constant_override("h_separation", 10)
 	backdrop.add_child(grid)
@@ -33,7 +33,7 @@ func _run() -> void:
 		card.custom_minimum_size = Vector2(76, 126)
 		var preview := FACE_WIDGET.new()
 		preview.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		preview.configure("", PetState.LIVERIES[0], "vivace", str(face), 1.0, PetState.all_faces(), true)
+		preview.configure("", PetState.LIVERIES[0], "vivace", str(face), 1.0, PetState.all_faces(), true, "spark")
 		preview.set_preview_face(str(face))
 		card.add_child(preview)
 		var caption := Label.new()
@@ -53,5 +53,5 @@ func _run() -> void:
 		push_error("PET FACES RENDER probe: salvataggio fallito (%d)" % error)
 		quit(1)
 		return
-	print("PET FACES RENDER probe OK — 10 espressioni a dimensione HUD")
+	print("PET FACES RENDER probe OK — 14 espressioni a dimensione HUD")
 	quit(0)

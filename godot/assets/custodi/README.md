@@ -26,3 +26,17 @@ inchino e le altre), con una variante statica dedicata quando e' attiva la
 riduzione del movimento. La copertura catalogo -> posa e' verificata da
 `pet_advanced_audit.gd`; la tavola visiva si rigenera con
 `pet_antics_render_probe.gd`.
+
+## Ritratti emotivi
+
+Ogni specie ha anche le tavole `*-beato-v2.png` e `*-stupito-v2.png`, generate a
+partire dal proprio asset e usate per carezza e meraviglia narrativa. Non sono
+volti generici: cane, gatto,
+coniglio, creature cristalline e robot con un occhio conservano identita',
+materiali e accessori. Il widget ritaglia il primo piano dalla tavola corretta,
+mentre specie e indole decidono se l'affetto e' esuberante, dolce, luminoso o
+composto. Gli errori scolastici restano sempre incoraggianti.
+
+Le altre espressioni nuove — `coraggioso`, `sollevato` e `assonnato` — mantengono
+la tavola della specie equipaggiata e cambiano posa, ritmo e segni animati. In
+questo modo la storia modifica l'emozione senza sostituire il personaggio.

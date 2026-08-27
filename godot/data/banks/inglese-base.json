@@ -97,7 +97,7 @@
 				"record"
 			],
 			"answer": "insert",
-			"explanation": "Da non confondere con «remove», che vuol dire «rimuovere».",
+			"explanation": "Le prime 5 lettere di «insert» e «inserire» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «remove», che vuol dire «rimuovere».",
 			"distractorWhy": {
 				"prevent": "«prevent» vuol dire «prevenire»: un'altra parola, non quella cercata.",
 				"repair": "«repair» vuol dire «riparare»: un'altra parola, non quella cercata.",
@@ -261,7 +261,7 @@
 			"prompt": "Cosa significa in italiano \"select\"?",
 			"options": [],
 			"answer": "selezionare",
-			"explanation": "Da non confondere con «collegare», che si dice «connect».",
+			"explanation": "Le prime 4 lettere di «select» e «selezionare» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «collegare», che si dice «connect».",
 			"distractorWhy": {
 				"ispezionare": "«ispezionare» vuol dire «inspect»: un'altra parola, non quella cercata.",
 				"scansionare": "«scansionare» vuol dire «scan»: un'altra parola, non quella cercata.",
@@ -414,7 +414,7 @@
 			"prompt": "Cosa significa in italiano \"protect\"?",
 			"options": [],
 			"answer": "proteggere",
-			"explanation": "Da non confondere con «evitare», che si dice «avoid».",
+			"explanation": "Le prime 5 lettere di «protect» e «proteggere» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «evitare», che si dice «avoid».",
 			"distractorWhy": {
 				"registrare": "«registrare» vuol dire «record»: un'altra parola, non quella cercata.",
 				"verificare": "«verificare» vuol dire «verify»: un'altra parola, non quella cercata.",
@@ -546,7 +546,7 @@
 				"observe"
 			],
 			"answer": "confirm",
-			"explanation": "Da non confondere con «warn», che vuol dire «avvisare».",
+			"explanation": "Le prime 4 lettere di «confirm» e «confermare» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «warn», che vuol dire «avvisare».",
 			"distractorWhy": {
 				"measure": "«measure» vuol dire «misurare»: un'altra parola, non quella cercata.",
 				"predict": "«predict» vuol dire «prevedere»: un'altra parola, non quella cercata.",
@@ -697,7 +697,7 @@
 				"turn off"
 			],
 			"answer": "identify",
-			"explanation": "Da non confondere con «explain», che vuol dire «spiegare».",
+			"explanation": "Le prime 7 lettere di «identify» e «identificare» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «explain», che vuol dire «spiegare».",
 			"distractorWhy": {
 				"turn off": "«turn off» vuol dire «spegnere»: un'altra parola, non quella cercata.",
 				"turn on": "«turn on» vuol dire «accendere»: un'altra parola, non quella cercata.",
@@ -734,7 +734,7 @@
 				"measure"
 			],
 			"answer": "describe",
-			"explanation": "Da non confondere con «summarize», che vuol dire «riassumere».",
+			"explanation": "Le prime 6 lettere di «describe» e «descrivere» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «summarize», che vuol dire «riassumere».",
 			"distractorWhy": {
 				"turn off": "«turn off» vuol dire «spegnere»: un'altra parola, non quella cercata.",
 				"identify": "«identify» vuol dire «identificare»: un'altra parola, non quella cercata.",
@@ -830,7 +830,7 @@
 				"installare"
 			],
 			"answer": "installare",
-			"explanation": "Da non confondere con «aggiornare», che si dice «update».",
+			"explanation": "Le prime 7 lettere di «install» e «installare» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «aggiornare», che si dice «update».",
 			"distractorWhy": {
 				"registrare": "«registrare» vuol dire «record»: un'altra parola, non quella cercata.",
 				"controllare": "«controllare» vuol dire «check»: un'altra parola, non quella cercata.",
@@ -886,7 +886,7 @@
 			"prompt": "Come si dice in inglese: \"verificare\"?",
 			"options": [],
 			"answer": "verify",
-			"explanation": "Da non confondere con «detect», che vuol dire «rilevare».",
+			"explanation": "Le prime 5 lettere di «verify» e «verificare» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «detect», che vuol dire «rilevare».",
 			"distractorWhy": {
 				"repair": "«repair» vuol dire «riparare»: un'altra parola, non quella cercata.",
 				"restore": "«restore» vuol dire «ripristinare»: un'altra parola, non quella cercata.",
@@ -926,7 +926,7 @@
 			"prompt": "Come si dice in inglese: \"prevenire\"?",
 			"options": [],
 			"answer": "prevent",
-			"explanation": "Da non confondere con «restore», che vuol dire «ripristinare».",
+			"explanation": "Le prime 6 lettere di «prevent» e «prevenire» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «restore», che vuol dire «ripristinare».",
 			"distractorWhy": {
 				"explain": "«explain» vuol dire «spiegare»: un'altra parola, non quella cercata.",
 				"connect": "«connect» vuol dire «collegare»: un'altra parola, non quella cercata.",
@@ -1164,7 +1164,7 @@
 				"screen"
 			],
 			"answer": "sensor",
-			"explanation": "Da non confondere con «switch», che vuol dire «interruttore».",
+			"explanation": "Le prime 6 lettere di «sensor» e «sensore» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «switch», che vuol dire «interruttore».",
 			"distractorWhy": {
 				"screen": "«screen» vuol dire «schermo»: un'altra parola, non quella cercata.",
 				"source": "«source» vuol dire «fonte»: un'altra parola, non quella cercata.",
@@ -1217,7 +1217,7 @@
 			"prompt": "Cosa significa in italiano \"battery\"?",
 			"options": [],
 			"answer": "batteria",
-			"explanation": "Da non confondere con «strumento», che si dice «tool».",
+			"explanation": "Le prime 6 lettere di «battery» e «batteria» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «strumento», che si dice «tool».",
 			"distractorWhy": {
 				"tabella": "«tabella» vuol dire «table»: un'altra parola, non quella cercata.",
 				"tastiera": "«tastiera» vuol dire «keyboard»: un'altra parola, non quella cercata.",
@@ -1275,7 +1275,7 @@
 				"switch"
 			],
 			"answer": "module",
-			"explanation": "Da non confondere con «valve», che vuol dire «valvola».",
+			"explanation": "Le prime 5 lettere di «module» e «modulo» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «valve», che vuol dire «valvola».",
 			"distractorWhy": {
 				"signal": "«signal» vuol dire «segnale»: un'altra parola, non quella cercata.",
 				"switch": "«switch» vuol dire «interruttore»: un'altra parola, non quella cercata.",
@@ -1291,7 +1291,7 @@
 			"prompt": "Cosa significa in italiano \"valve\"?",
 			"options": [],
 			"answer": "valvola",
-			"explanation": "Da non confondere con «tesserino», che si dice «badge».",
+			"explanation": "Le prime 4 lettere di «valve» e «valvola» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «tesserino», che si dice «badge».",
 			"distractorWhy": {
 				"pulsante": "«pulsante» vuol dire «button»: un'altra parola, non quella cercata.",
 				"avviso": "«avviso» vuol dire «warning»: un'altra parola, non quella cercata.",
@@ -1365,7 +1365,7 @@
 			"prompt": "Cosa significa in italiano \"message\"?",
 			"options": [],
 			"answer": "messaggio",
-			"explanation": "Da non confondere con «segnale», che si dice «signal».",
+			"explanation": "Le prime 6 lettere di «message» e «messaggio» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «segnale», che si dice «signal».",
 			"distractorWhy": {
 				"pulsante": "«pulsante» vuol dire «button»: un'altra parola, non quella cercata.",
 				"percorso": "«percorso» vuol dire «route»: un'altra parola, non quella cercata.",
@@ -1513,7 +1513,7 @@
 			"prompt": "Cosa significa in italiano \"instruction\"?",
 			"options": [],
 			"answer": "istruzione",
-			"explanation": "Da non confondere con «domanda», che si dice «question».",
+			"explanation": "Le parole inglesi che finiscono in -tion in italiano finiscono in -zione: «instruction» → «istruzione». Vale per tantissime altre. Da non confondere con «domanda», che si dice «question».",
 			"distractorWhy": {
 				"superficie": "«superficie» vuol dire «surface»: un'altra parola, non quella cercata.",
 				"strumento": "«strumento» vuol dire «tool»: un'altra parola, non quella cercata.",
@@ -1587,7 +1587,7 @@
 			"prompt": "Cosa significa in italiano \"diagram\"?",
 			"options": [],
 			"answer": "diagramma",
-			"explanation": "Da non confondere con «tabella», che si dice «table».",
+			"explanation": "Le prime 7 lettere di «diagram» e «diagramma» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «tabella», che si dice «table».",
 			"distractorWhy": {
 				"batteria": "«batteria» vuol dire «battery»: un'altra parola, non quella cercata.",
 				"messaggio": "«messaggio» vuol dire «message»: un'altra parola, non quella cercata.",
@@ -2043,7 +2043,7 @@
 			"prompt": "Come si dice in inglese: \"emergenza\"?",
 			"options": [],
 			"answer": "emergency",
-			"explanation": "Da non confondere con «gloves», che vuol dire «guanti».",
+			"explanation": "Le prime 7 lettere di «emergency» e «emergenza» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «gloves», che vuol dire «guanti».",
 			"distractorWhy": {
 				"failure": "«failure» vuol dire «fallimento»: un'altra parola, non quella cercata.",
 				"danger": "«danger» vuol dire «pericolo»: un'altra parola, non quella cercata.",
@@ -2144,7 +2144,7 @@
 			"prompt": "Come si dice in inglese: \"stabile\"?",
 			"options": [],
 			"answer": "stable",
-			"explanation": "Da non confondere con «unstable», che vuol dire «instabile».",
+			"explanation": "Le prime 4 lettere di «stable» e «stabile» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «unstable», che vuol dire «instabile».",
 			"distractorWhy": {
 				"loose": "«loose» vuol dire «allentato»: un'altra parola, non quella cercata.",
 				"broken": "«broken» vuol dire «rotto»: un'altra parola, non quella cercata.",
@@ -2184,7 +2184,7 @@
 			"prompt": "Come si dice in inglese: \"bloccato\"?",
 			"options": [],
 			"answer": "blocked",
-			"explanation": "Da non confondere con «overheated», che vuol dire «surriscaldato».",
+			"explanation": "Le prime 4 lettere di «blocked» e «bloccato» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «overheated», che vuol dire «surriscaldato».",
 			"distractorWhy": {
 				"unsafe": "«unsafe» vuol dire «non sicuro»: un'altra parola, non quella cercata.",
 				"damaged": "«damaged» vuol dire «danneggiato»: un'altra parola, non quella cercata.",
@@ -2224,7 +2224,7 @@
 			"prompt": "Come si dice in inglese: \"protettivo\"?",
 			"options": [],
 			"answer": "protective",
-			"explanation": "Da non confondere con «damaged», che vuol dire «danneggiato».",
+			"explanation": "Le prime 5 lettere di «protective» e «protettivo» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «damaged», che vuol dire «danneggiato».",
 			"distractorWhy": {
 				"required": "«required» vuol dire «obbligatorio / richiesto»: un'altra parola, non quella cercata.",
 				"blocked": "«blocked» vuol dire «bloccato»: un'altra parola, non quella cercata.",
@@ -2466,7 +2466,7 @@
 			"prompt": "Come si dice in inglese: \"totale\"?",
 			"options": [],
 			"answer": "total",
-			"explanation": "Da non confondere con «range», che vuol dire «intervallo».",
+			"explanation": "Le prime 5 lettere di «total» e «totale» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «range», che vuol dire «intervallo».",
 			"distractorWhy": {
 				"range": "«range» vuol dire «intervallo»: un'altra parola, non quella cercata.",
 				"effect": "«effect» vuol dire «effetto»: un'altra parola, non quella cercata.",
@@ -2784,7 +2784,7 @@
 				"similar"
 			],
 			"answer": "similar",
-			"explanation": "Da non confondere con «different», che vuol dire «diverso».",
+			"explanation": "Le prime 5 lettere di «similar» e «simile» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «different», che vuol dire «diverso».",
 			"distractorWhy": {
 				"reliable": "«reliable» vuol dire «affidabile»: un'altra parola, non quella cercata.",
 				"accurate": "«accurate» vuol dire «preciso / accurato»: un'altra parola, non quella cercata.",
@@ -2922,7 +2922,7 @@
 				"campione"
 			],
 			"answer": "temperatura",
-			"explanation": "Da non confondere con «pressione», che si dice «pressure».",
+			"explanation": "Le prime 10 lettere di «temperature» e «temperatura» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «pressione», che si dice «pressure».",
 			"distractorWhy": {
 				"pressione": "«pressione» vuol dire «pressure»: un'altra parola, non quella cercata.",
 				"percentuale": "«percentuale» vuol dire «percentage»: un'altra parola, non quella cercata.",
@@ -2938,7 +2938,7 @@
 			"prompt": "Come si dice in inglese: \"pressione\"?",
 			"options": [],
 			"answer": "pressure",
-			"explanation": "Da non confondere con «threshold», che vuol dire «soglia».",
+			"explanation": "Le prime 5 lettere di «pressure» e «pressione» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «threshold», che vuol dire «soglia».",
 			"distractorWhy": {
 				"percentage": "«percentage» vuol dire «percentuale»: un'altra parola, non quella cercata.",
 				"variable": "«variable» vuol dire «variabile»: un'altra parola, non quella cercata.",
@@ -3002,7 +3002,7 @@
 				"conclusione"
 			],
 			"answer": "percentuale",
-			"explanation": "Da non confondere con «frazione», che si dice «fraction».",
+			"explanation": "Le prime 7 lettere di «percentage» e «percentuale» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «frazione», che si dice «fraction».",
 			"distractorWhy": {
 				"frazione": "«frazione» vuol dire «fraction»: un'altra parola, non quella cercata.",
 				"conclusione": "«conclusione» vuol dire «conclusion»: un'altra parola, non quella cercata.",
@@ -3018,7 +3018,7 @@
 			"prompt": "Come si dice in inglese: \"frazione\"?",
 			"options": [],
 			"answer": "fraction",
-			"explanation": "Da non confondere con «increase», che vuol dire «aumento / aumentare».",
+			"explanation": "Le parole inglesi che finiscono in -tion in italiano finiscono in -zione: «fraction» → «frazione». Vale per tantissime altre. Da non confondere con «increase», che vuol dire «aumento / aumentare».",
 			"distractorWhy": {
 				"evidence": "«evidence» vuol dire «prova / evidenza»: un'altra parola, non quella cercata.",
 				"sample": "«sample» vuol dire «campione»: un'altra parola, non quella cercata.",
@@ -3079,7 +3079,7 @@
 			"prompt": "Cosa significa in italiano \"cause\"?",
 			"options": [],
 			"answer": "causa",
-			"explanation": "Da non confondere con «effetto», che si dice «effect».",
+			"explanation": "Le prime 4 lettere di «cause» e «causa» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «effetto», che si dice «effect».",
 			"distractorWhy": {
 				"effetto": "«effetto» vuol dire «effect»: un'altra parola, non quella cercata.",
 				"media": "«media» vuol dire «average»: un'altra parola, non quella cercata.",
@@ -3100,7 +3100,7 @@
 				"effect"
 			],
 			"answer": "effect",
-			"explanation": "Da non confondere con «evidence», che vuol dire «prova / evidenza».",
+			"explanation": "Le prime 4 lettere di «effect» e «effetto» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «evidence», che vuol dire «prova / evidenza».",
 			"distractorWhy": {
 				"pressure": "«pressure» vuol dire «pressione»: un'altra parola, non quella cercata.",
 				"decrease": "«decrease» vuol dire «diminuzione / diminuire»: un'altra parola, non quella cercata.",
@@ -3161,7 +3161,7 @@
 				"misurazione"
 			],
 			"answer": "conclusione",
-			"explanation": "Da non confondere con «calibrazione», che si dice «calibration».",
+			"explanation": "Le prime 10 lettere di «conclusion» e «conclusione» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «calibrazione», che si dice «calibration».",
 			"distractorWhy": {
 				"misurazione": "«misurazione» vuol dire «measurement»: un'altra parola, non quella cercata.",
 				"intervallo": "«intervallo» vuol dire «range»: un'altra parola, non quella cercata.",
@@ -3177,7 +3177,7 @@
 			"prompt": "Come si dice in inglese: \"calibrazione\"?",
 			"options": [],
 			"answer": "calibration",
-			"explanation": "Da non confondere con «sample», che vuol dire «campione».",
+			"explanation": "Le parole inglesi che finiscono in -tion in italiano finiscono in -zione: «calibration» → «calibrazione». Vale per tantissime altre. Da non confondere con «sample», che vuol dire «campione».",
 			"distractorWhy": {
 				"variable": "«variable» vuol dire «variabile»: un'altra parola, non quella cercata.",
 				"temperature": "«temperature» vuol dire «febbre / temperatura»: un'altra parola, non quella cercata.",
@@ -3222,7 +3222,7 @@
 				"consistent"
 			],
 			"answer": "approximate",
-			"explanation": "Da non confondere con «likely», che vuol dire «probabile».",
+			"explanation": "Le prime 5 lettere di «approximate» e «approssimativo» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «likely», che vuol dire «probabile».",
 			"distractorWhy": {
 				"several": "«several» vuol dire «diversi / parecchi»: un'altra parola, non quella cercata.",
 				"consistent": "«consistent» vuol dire «coerente / costante»: un'altra parola, non quella cercata.",
@@ -3339,7 +3339,7 @@
 			"prompt": "Come si dice in inglese: \"variabile\"?",
 			"options": [],
 			"answer": "variable",
-			"explanation": "Da non confondere con «number», che vuol dire «numero».",
+			"explanation": "Le prime 6 lettere di «variable» e «variabile» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «number», che vuol dire «numero».",
 			"distractorWhy": {
 				"number": "«number» vuol dire «numero»: un'altra parola, non quella cercata.",
 				"decrease": "«decrease» vuol dire «diminuzione / diminuire»: un'altra parola, non quella cercata.",
@@ -3580,7 +3580,7 @@
 			"prompt": "Come si dice in inglese: \"paragrafo\"?",
 			"options": [],
 			"answer": "paragraph",
-			"explanation": "Da non confondere con «summary», che vuol dire «riassunto».",
+			"explanation": "Le prime 7 lettere di «paragraph» e «paragrafo» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «summary», che vuol dire «riassunto».",
 			"distractorWhy": {
 				"classmate": "«classmate» vuol dire «compagno di classe»: un'altra parola, non quella cercata.",
 				"correction": "«correction» vuol dire «correzione»: un'altra parola, non quella cercata.",
@@ -3644,7 +3644,7 @@
 				"lezione"
 			],
 			"answer": "opinione",
-			"explanation": "Da non confondere con «fatto», che si dice «fact».",
+			"explanation": "Le prime 7 lettere di «opinion» e «opinione» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «fatto», che si dice «fact».",
 			"distractorWhy": {
 				"capitolo": "«capitolo» vuol dire «chapter»: un'altra parola, non quella cercata.",
 				"lezione": "«lezione» vuol dire «lesson»: un'altra parola, non quella cercata.",
@@ -3749,7 +3749,7 @@
 				"correction"
 			],
 			"answer": "correction",
-			"explanation": "Da non confondere con «feedback», che vuol dire «riscontro / feedback».",
+			"explanation": "Le parole inglesi che finiscono in -tion in italiano finiscono in -zione: «correction» → «correzione». Vale per tantissime altre. Da non confondere con «feedback», che vuol dire «riscontro / feedback».",
 			"distractorWhy": {
 				"subject": "«subject» vuol dire «argomento / settore»: un'altra parola, non quella cercata.",
 				"assignment": "«assignment» vuol dire «compito assegnato»: un'altra parola, non quella cercata.",
@@ -3854,7 +3854,7 @@
 				"brief"
 			],
 			"answer": "formal",
-			"explanation": "Da non confondere con «informal», che vuol dire «informale».",
+			"explanation": "Le prime 6 lettere di «formal» e «formale» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «informal», che vuol dire «informale».",
 			"distractorWhy": {
 				"polite": "«polite» vuol dire «educato / cortese»: un'altra parola, non quella cercata.",
 				"unclear": "«unclear» vuol dire «poco chiaro»: un'altra parola, non quella cercata.",
@@ -3875,7 +3875,7 @@
 				"pertinente"
 			],
 			"answer": "informale",
-			"explanation": "Da non confondere con «educato / cortese», che si dice «polite».",
+			"explanation": "Le prime 8 lettere di «informal» e «informale» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «educato / cortese», che si dice «polite».",
 			"distractorWhy": {
 				"chiaro": "«chiaro» vuol dire «clear»: un'altra parola, non quella cercata.",
 				"formale": "«formale» vuol dire «formal»: un'altra parola, non quella cercata.",
@@ -5079,7 +5079,7 @@
 			"prompt": "Cosa significa in italiano \"family\"?",
 			"options": [],
 			"answer": "famiglia",
-			"explanation": "Da non confondere con «madre», che si dice «mother».",
+			"explanation": "Le prime 4 lettere di «family» e «famiglia» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «madre», che si dice «mother».",
 			"distractorWhy": {
 				"tappeto": "«tappeto» vuol dire «carpet»: un'altra parola, non quella cercata.",
 				"specchio": "«specchio» vuol dire «mirror»: un'altra parola, non quella cercata.",
@@ -6174,7 +6174,7 @@
 				"bottle"
 			],
 			"answer": "bottle",
-			"explanation": "Da non confondere con «bag», che vuol dire «borsa / zaino».",
+			"explanation": "Le prime 4 lettere di «bottle» e «bottiglia» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «bag», che vuol dire «borsa / zaino».",
 			"distractorWhy": {
 				"mirror": "«mirror» vuol dire «specchio»: un'altra parola, non quella cercata.",
 				"sister": "«sister» vuol dire «sorella»: un'altra parola, non quella cercata.",
@@ -6357,7 +6357,7 @@
 				"vecchio / anziano"
 			],
 			"answer": "single / non sposato",
-			"explanation": "Da non confondere con «pulito», che si dice «clean».",
+			"explanation": "Le prime 6 lettere di «single» e «single / non sposato» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «pulito», che si dice «clean».",
 			"distractorWhy": {
 				"giovane": "«giovane» vuol dire «young»: un'altra parola, non quella cercata.",
 				"vecchio / anziano": "«vecchio / anziano» vuol dire «old»: un'altra parola, non quella cercata.",
@@ -6557,7 +6557,7 @@
 				"rumoroso"
 			],
 			"answer": "privato",
-			"explanation": "Da non confondere con «giovane», che si dice «young».",
+			"explanation": "Le prime 6 lettere di «private» e «privato» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «giovane», che si dice «young».",
 			"distractorWhy": {
 				"giovane": "«giovane» vuol dire «young»: un'altra parola, non quella cercata.",
 				"pulito": "«pulito» vuol dire «clean»: un'altra parola, non quella cercata.",
@@ -7182,7 +7182,7 @@
 				"receipt"
 			],
 			"answer": "ingredient",
-			"explanation": "Da non confondere con «shop», che vuol dire «negozio».",
+			"explanation": "Le prime 10 lettere di «ingredient» e «ingrediente» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «shop», che vuol dire «negozio».",
 			"distractorWhy": {
 				"receipt": "«receipt» vuol dire «scontrino»: un'altra parola, non quella cercata.",
 				"glasses": "«glasses» vuol dire «occhiali»: un'altra parola, non quella cercata.",
@@ -7235,7 +7235,7 @@
 			"prompt": "Cosa significa in italiano \"supermarket\"?",
 			"options": [],
 			"answer": "supermercato",
-			"explanation": "Da non confondere con «cliente», che si dice «customer».",
+			"explanation": "Le prime 6 lettere di «supermarket» e «supermercato» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «cliente», che si dice «customer».",
 			"distractorWhy": {
 				"ingrediente": "«ingrediente» vuol dire «ingredient»: un'altra parola, non quella cercata.",
 				"pomodoro": "«pomodoro» vuol dire «tomato»: un'altra parola, non quella cercata.",
@@ -7465,7 +7465,7 @@
 				"pranzo"
 			],
 			"answer": "colore",
-			"explanation": "Da non confondere con «vestiti», che si dice «clothes».",
+			"explanation": "Le prime 4 lettere di «colour» e «colore» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «vestiti», che si dice «clothes».",
 			"distractorWhy": {
 				"pranzo": "«pranzo» vuol dire «lunch»: un'altra parola, non quella cercata.",
 				"frutta": "«frutta» vuol dire «fruit»: un'altra parola, non quella cercata.",
@@ -7788,7 +7788,7 @@
 				"gratuito / libero"
 			],
 			"answer": "fresco, appena fatto",
-			"explanation": "Da non confondere con «dolce», che si dice «sweet».",
+			"explanation": "Le prime 4 lettere di «fresh» e «fresco, appena fatto» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «dolce», che si dice «sweet».",
 			"distractorWhy": {
 				"assetato": "«assetato» vuol dire «thirsty»: un'altra parola, non quella cercata.",
 				"esaurito": "«esaurito» vuol dire «sold out»: un'altra parola, non quella cercata.",
@@ -7992,7 +7992,7 @@
 				"pioggia"
 			],
 			"answer": "minuto",
-			"explanation": "Da non confondere con «secondo», che si dice «second».",
+			"explanation": "Le prime 5 lettere di «minute» e «minuto» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «secondo», che si dice «second».",
 			"distractorWhy": {
 				"clima": "«clima» vuol dire «climate»: un'altra parola, non quella cercata.",
 				"domani": "«domani» vuol dire «tomorrow»: un'altra parola, non quella cercata.",
@@ -8013,7 +8013,7 @@
 				"degree"
 			],
 			"answer": "second",
-			"explanation": "Da non confondere con «day», che vuol dire «giorno».",
+			"explanation": "Le prime 6 lettere di «second» e «secondo» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «day», che vuol dire «giorno».",
 			"distractorWhy": {
 				"autumn": "«autumn» vuol dire «autunno»: un'altra parola, non quella cercata.",
 				"minute": "«minute» vuol dire «minuto»: un'altra parola, non quella cercata.",
@@ -8370,7 +8370,7 @@
 				"secondo"
 			],
 			"answer": "autunno",
-			"explanation": "Da non confondere con «inverno», che si dice «winter».",
+			"explanation": "Le prime 4 lettere di «autumn» e «autunno» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «inverno», che si dice «winter».",
 			"distractorWhy": {
 				"cielo": "«cielo» vuol dire «sky»: un'altra parola, non quella cercata.",
 				"nuvola": "«nuvola» vuol dire «cloud»: un'altra parola, non quella cercata.",
@@ -8580,7 +8580,7 @@
 				"previsioni"
 			],
 			"answer": "temperatura",
-			"explanation": "Da non confondere con «grado», che si dice «degree».",
+			"explanation": "Le prime 10 lettere di «temperature» e «temperatura» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «grado», che si dice «degree».",
 			"distractorWhy": {
 				"fine settimana": "«fine settimana» vuol dire «weekend»: un'altra parola, non quella cercata.",
 				"tempo / ora": "«tempo / ora» vuol dire «time»: un'altra parola, non quella cercata.",
@@ -8643,7 +8643,7 @@
 				"climate"
 			],
 			"answer": "climate",
-			"explanation": "Da non confondere con «sky», che vuol dire «cielo».",
+			"explanation": "Le prime 5 lettere di «climate» e «clima» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «sky», che vuol dire «cielo».",
 			"distractorWhy": {
 				"weather": "«weather» vuol dire «tempo atmosferico»: un'altra parola, non quella cercata.",
 				"summer": "«summer» vuol dire «estate»: un'altra parola, non quella cercata.",
@@ -9147,7 +9147,7 @@
 				"city"
 			],
 			"answer": "city",
-			"explanation": "Da non confondere con «town», che vuol dire «cittadina».",
+			"explanation": "Le parole inglesi in -ty in italiano finiscono in -tà: «city» → «città». È una regola che funziona quasi sempre. Da non confondere con «town», che vuol dire «cittadina».",
 			"distractorWhy": {
 				"bank": "«bank» vuol dire «banca»: un'altra parola, non quella cercata.",
 				"town": "«town» vuol dire «cittadina»: un'altra parola, non quella cercata.",
@@ -9189,7 +9189,7 @@
 				"traffic"
 			],
 			"answer": "village",
-			"explanation": "Da non confondere con «country», che vuol dire «paese / campagna».",
+			"explanation": "Le prime 6 lettere di «village» e «villaggio / paese» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «country», che vuol dire «paese / campagna».",
 			"distractorWhy": {
 				"library": "«library» vuol dire «biblioteca»: un'altra parola, non quella cercata.",
 				"theatre": "«theatre» vuol dire «teatro»: un'altra parola, non quella cercata.",
@@ -9231,7 +9231,7 @@
 				"station"
 			],
 			"answer": "station",
-			"explanation": "Da non confondere con «bus stop», che vuol dire «fermata dell'autobus».",
+			"explanation": "Le parole inglesi che finiscono in -tion in italiano finiscono in -zione: «station» → «stazione». Vale per tantissime altre. Da non confondere con «bus stop», che vuol dire «fermata dell'autobus».",
 			"distractorWhy": {
 				"journey": "«journey» vuol dire «viaggio»: un'altra parola, non quella cercata.",
 				"theatre": "«theatre» vuol dire «teatro»: un'altra parola, non quella cercata.",
@@ -9441,7 +9441,7 @@
 				"journey"
 			],
 			"answer": "traffic",
-			"explanation": "Da non confondere con «vehicle», che vuol dire «veicolo».",
+			"explanation": "Le prime 7 lettere di «traffic» e «traffico» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «vehicle», che vuol dire «veicolo».",
 			"distractorWhy": {
 				"airport": "«airport» vuol dire «aeroporto»: un'altra parola, non quella cercata.",
 				"village": "«village» vuol dire «villaggio / paese»: un'altra parola, non quella cercata.",
@@ -9693,7 +9693,7 @@
 				"valigia"
 			],
 			"answer": "entrata",
-			"explanation": "Da non confondere con «uscita», che si dice «exit».",
+			"explanation": "Le prime 5 lettere di «entrance» e «entrata» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «uscita», che si dice «exit».",
 			"distractorWhy": {
 				"tariffa": "«tariffa» vuol dire «fare»: un'altra parola, non quella cercata.",
 				"valigia": "«valigia» vuol dire «suitcase»: un'altra parola, non quella cercata.",
@@ -9777,7 +9777,7 @@
 				"parco"
 			],
 			"answer": "museo",
-			"explanation": "Da non confondere con «cinema», che si dice «cinema».",
+			"explanation": "Le prime 4 lettere di «museum» e «museo» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «cinema», che si dice «cinema».",
 			"distractorWhy": {
 				"mappa": "«mappa» vuol dire «map»: un'altra parola, non quella cercata.",
 				"parco": "«parco» vuol dire «park»: un'altra parola, non quella cercata.",
@@ -10281,7 +10281,7 @@
 				"cinema"
 			],
 			"answer": "arrivo",
-			"explanation": "Da non confondere con «ritardo», che si dice «delay».",
+			"explanation": "Le prime 5 lettere di «arrival» e «arrivo» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «ritardo», che si dice «delay».",
 			"distractorWhy": {
 				"città": "«città» vuol dire «city»: un'altra parola, non quella cercata.",
 				"dogana": "«dogana» vuol dire «customs»: un'altra parola, non quella cercata.",
@@ -10365,7 +10365,7 @@
 				"ristorante"
 			],
 			"answer": "itinerario",
-			"explanation": "Da non confondere con «coincidenza», che si dice «connection».",
+			"explanation": "Le prime 8 lettere di «itinerary» e «itinerario» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «coincidenza», che si dice «connection».",
 			"distractorWhy": {
 				"traffico": "«traffico» vuol dire «traffic»: un'altra parola, non quella cercata.",
 				"ristorante": "«ristorante» vuol dire «restaurant»: un'altra parola, non quella cercata.",
@@ -10449,7 +10449,7 @@
 				"itinerario"
 			],
 			"answer": "passeggero",
-			"explanation": "Da non confondere con «carta d'imbarco», che si dice «boarding pass».",
+			"explanation": "Le prime 5 lettere di «passenger» e «passeggero» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «carta d'imbarco», che si dice «boarding pass».",
 			"distractorWhy": {
 				"montagna": "«montagna» vuol dire «mountain»: un'altra parola, non quella cercata.",
 				"ristorante": "«ristorante» vuol dire «restaurant»: un'altra parola, non quella cercata.",
@@ -10554,7 +10554,7 @@
 				"connection"
 			],
 			"answer": "destination",
-			"explanation": "Da non confondere con «return ticket», che vuol dire «biglietto di andata e ritorno».",
+			"explanation": "Le parole inglesi che finiscono in -tion in italiano finiscono in -zione: «destination» → «destinazione». Vale per tantissime altre. Da non confondere con «return ticket», che vuol dire «biglietto di andata e ritorno».",
 			"distractorWhy": {
 				"restaurant": "«restaurant» vuol dire «ristorante»: un'altra parola, non quella cercata.",
 				"connection": "«connection» vuol dire «coincidenza»: un'altra parola, non quella cercata.",
@@ -10785,7 +10785,7 @@
 				"partire"
 			],
 			"answer": "arrivare",
-			"explanation": "Da non confondere con «cambiare treno», che si dice «change trains».",
+			"explanation": "Le prime 5 lettere di «arrive» e «arrivare» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «cambiare treno», che si dice «change trains».",
 			"distractorWhy": {
 				"scendere": "«scendere» vuol dire «get off»: un'altra parola, non quella cercata.",
 				"cambiare treno": "«cambiare treno» vuol dire «change trains»: un'altra parola, non quella cercata.",
@@ -11186,7 +11186,7 @@
 				"doctor"
 			],
 			"answer": "stomach",
-			"explanation": "Da non confondere con «heart», che vuol dire «cuore».",
+			"explanation": "Le prime 6 lettere di «stomach» e «stomaco / pancia» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «heart», che vuol dire «cuore».",
 			"distractorWhy": {
 				"bandage": "«bandage» vuol dire «bendaggio»: un'altra parola, non quella cercata.",
 				"doctor": "«doctor» vuol dire «dottore»: un'altra parola, non quella cercata.",
@@ -11334,7 +11334,7 @@
 				"bandage"
 			],
 			"answer": "medicine",
-			"explanation": "Da non confondere con «pill», che vuol dire «pillola».",
+			"explanation": "Le prime 7 lettere di «medicine» e «medicina» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «pill», che vuol dire «pillola».",
 			"distractorWhy": {
 				"bandage": "«bandage» vuol dire «bendaggio»: un'altra parola, non quella cercata.",
 				"headache": "«headache» vuol dire «mal di testa»: un'altra parola, non quella cercata.",
@@ -11993,7 +11993,7 @@
 				"interessato"
 			],
 			"answer": "interessato",
-			"explanation": "Da non confondere con «emozionato», che si dice «excited».",
+			"explanation": "Le prime 7 lettere di «interested» e «interessato» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «emozionato», che si dice «excited».",
 			"distractorWhy": {
 				"orgoglioso": "«orgoglioso» vuol dire «proud»: un'altra parola, non quella cercata.",
 				"preoccupato": "«preoccupato» vuol dire «worried»: un'altra parola, non quella cercata.",
@@ -12169,7 +12169,7 @@
 			"prompt": "Come si dice in inglese: \"serio\"?",
 			"options": [],
 			"answer": "serious",
-			"explanation": "Da non confondere con «clever», che vuol dire «intelligente».",
+			"explanation": "Le prime 5 lettere di «serious» e «serio» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «clever», che vuol dire «intelligente».",
 			"distractorWhy": {
 				"popular": "«popular» vuol dire «popolare»: un'altra parola, non quella cercata.",
 				"worried": "«worried» vuol dire «preoccupato»: un'altra parola, non quella cercata.",
@@ -12209,7 +12209,7 @@
 			"prompt": "Come si dice in inglese: \"brillante\"?",
 			"options": [],
 			"answer": "brilliant",
-			"explanation": "Da non confondere con «lazy», che vuol dire «pigro».",
+			"explanation": "Le prime 5 lettere di «brilliant» e «brillante» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «lazy», che vuol dire «pigro».",
 			"distractorWhy": {
 				"necessary": "«necessary» vuol dire «necessario»: un'altra parola, non quella cercata.",
 				"surprised": "«surprised» vuol dire «sorpreso»: un'altra parola, non quella cercata.",
@@ -12329,7 +12329,7 @@
 			"prompt": "Come si dice in inglese: \"nervoso\"?",
 			"options": [],
 			"answer": "nervous",
-			"explanation": "Da non confondere con «confident», che vuol dire «sicuro di sé».",
+			"explanation": "Le prime 5 lettere di «nervous» e «nervoso» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «confident», che vuol dire «sicuro di sé».",
 			"distractorWhy": {
 				"honest": "«honest» vuol dire «onesto»: un'altra parola, non quella cercata.",
 				"patient": "«patient» vuol dire «paziente»: un'altra parola, non quella cercata.",
@@ -12475,7 +12475,7 @@
 				"importante"
 			],
 			"answer": "importante",
-			"explanation": "Da non confondere con «necessario», che si dice «necessary».",
+			"explanation": "Le prime 9 lettere di «important» e «importante» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «necessario», che si dice «necessary».",
 			"distractorWhy": {
 				"emozionato": "«emozionato» vuol dire «excited»: un'altra parola, non quella cercata.",
 				"interessato": "«interessato» vuol dire «interested»: un'altra parola, non quella cercata.",
@@ -12491,7 +12491,7 @@
 			"prompt": "Come si dice in inglese: \"necessario\"?",
 			"options": [],
 			"answer": "necessary",
-			"explanation": "Da non confondere con «possible», che vuol dire «possibile».",
+			"explanation": "Le prime 8 lettere di «necessary» e «necessario» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «possible», che vuol dire «possibile».",
 			"distractorWhy": {
 				"brilliant": "«brilliant» vuol dire «brillante»: un'altra parola, non quella cercata.",
 				"surprised": "«surprised» vuol dire «sorpreso»: un'altra parola, non quella cercata.",
@@ -12515,7 +12515,7 @@
 				"annoiato"
 			],
 			"answer": "possibile",
-			"explanation": "Da non confondere con «impossibile», che si dice «impossible».",
+			"explanation": "Le prime 6 lettere di «possible» e «possibile» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «impossibile», che si dice «impossible».",
 			"distractorWhy": {
 				"annoiato": "«annoiato» vuol dire «bored»: un'altra parola, non quella cercata.",
 				"necessario": "«necessario» vuol dire «necessary»: un'altra parola, non quella cercata.",
@@ -12531,7 +12531,7 @@
 			"prompt": "Come si dice in inglese: \"impossibile\"?",
 			"options": [],
 			"answer": "impossible",
-			"explanation": "Da non confondere con «happy», che vuol dire «felice».",
+			"explanation": "Le prime 8 lettere di «impossible» e «impossibile» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «happy», che vuol dire «felice».",
 			"distractorWhy": {
 				"brilliant": "«brilliant» vuol dire «brillante»: un'altra parola, non quella cercata.",
 				"confident": "«confident» vuol dire «sicuro di sé»: un'altra parola, non quella cercata.",
@@ -12576,7 +12576,7 @@
 				"speranza"
 			],
 			"answer": "opinione",
-			"explanation": "Da non confondere con «scelta», che si dice «choice».",
+			"explanation": "Le prime 7 lettere di «opinion» e «opinione» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «scelta», che si dice «choice».",
 			"distractorWhy": {
 				"speranza": "«speranza» vuol dire «hope»: un'altra parola, non quella cercata.",
 				"errore": "«errore» vuol dire «mistake»: un'altra parola, non quella cercata.",
@@ -12632,7 +12632,7 @@
 			"prompt": "Come si dice in inglese: \"problema\"?",
 			"options": [],
 			"answer": "problem",
-			"explanation": "Da non confondere con «solution», che vuol dire «soluzione».",
+			"explanation": "Le prime 7 lettere di «problem» e «problema» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «solution», che vuol dire «soluzione».",
 			"distractorWhy": {
 				"mistake": "«mistake» vuol dire «errore»: un'altra parola, non quella cercata.",
 				"feeling": "«feeling» vuol dire «sensazione / sentimento»: un'altra parola, non quella cercata.",
@@ -12656,7 +12656,7 @@
 				"speranza"
 			],
 			"answer": "soluzione",
-			"explanation": "Da non confondere con «errore», che si dice «mistake».",
+			"explanation": "Le parole inglesi che finiscono in -tion in italiano finiscono in -zione: «solution» → «soluzione». Vale per tantissime altre. Da non confondere con «errore», che si dice «mistake».",
 			"distractorWhy": {
 				"speranza": "«speranza» vuol dire «hope»: un'altra parola, non quella cercata.",
 				"successo": "«successo» vuol dire «success»: un'altra parola, non quella cercata.",
@@ -12776,7 +12776,7 @@
 				"speranza"
 			],
 			"answer": "successo",
-			"explanation": "Da non confondere con «fallimento», che si dice «failure».",
+			"explanation": "Le prime 7 lettere di «success» e «successo» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «fallimento», che si dice «failure».",
 			"distractorWhy": {
 				"speranza": "«speranza» vuol dire «hope»: un'altra parola, non quella cercata.",
 				"soluzione": "«soluzione» vuol dire «solution»: un'altra parola, non quella cercata.",
@@ -13104,7 +13104,7 @@
 			"prompt": "Cosa significa in italiano \"message\"?",
 			"options": [],
 			"answer": "messaggio",
-			"explanation": "Da non confondere con «chat», che si dice «chat».",
+			"explanation": "Le prime 6 lettere di «message» e «messaggio» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «chat», che si dice «chat».",
 			"distractorWhy": {
 				"smartphone": "«smartphone» vuol dire «smartphone»: un'altra parola, non quella cercata.",
 				"tastiera": "«tastiera» vuol dire «keyboard»: un'altra parola, non quella cercata.",
@@ -13125,7 +13125,7 @@
 				"speaker"
 			],
 			"answer": "comment",
-			"explanation": "Da non confondere con «news», che vuol dire «notizia».",
+			"explanation": "Le prime 7 lettere di «comment» e «commento» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «news», che vuol dire «notizia».",
 			"distractorWhy": {
 				"website": "«website» vuol dire «sito web»: un'altra parola, non quella cercata.",
 				"speaker": "«speaker» vuol dire «altoparlante»: un'altra parola, non quella cercata.",
@@ -13162,7 +13162,7 @@
 				"account"
 			],
 			"answer": "article",
-			"explanation": "Da non confondere con «search result», che vuol dire «risultato di ricerca».",
+			"explanation": "Le prime 5 lettere di «article» e «articolo» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «search result», che vuol dire «risultato di ricerca».",
 			"distractorWhy": {
 				"account": "«account» vuol dire «account»: un'altra parola, non quella cercata.",
 				"folder": "«folder» vuol dire «cartella»: un'altra parola, non quella cercata.",
@@ -13299,7 +13299,7 @@
 				"stampare"
 			],
 			"answer": "cliccare",
-			"explanation": "Da non confondere con «digitare», che si dice «type».",
+			"explanation": "Le prime 4 lettere di «click» e «cliccare» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «digitare», che si dice «type».",
 			"distractorWhy": {
 				"spegnere": "«spegnere» vuol dire «switch off»: un'altra parola, non quella cercata.",
 				"incollare": "«incollare» vuol dire «paste»: un'altra parola, non quella cercata.",
@@ -13817,7 +13817,7 @@
 			"prompt": "Cosa significa in italiano \"scientist\"?",
 			"options": [],
 			"answer": "scienziato",
-			"explanation": "Da non confondere con «artista», che si dice «artist».",
+			"explanation": "Le prime 5 lettere di «scientist» e «scienziato» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «artista», che si dice «artist».",
 			"distractorWhy": {
 				"volontario": "«volontario» vuol dire «volunteer»: un'altra parola, non quella cercata.",
 				"musicista": "«musicista» vuol dire «musician»: un'altra parola, non quella cercata.",
@@ -13838,7 +13838,7 @@
 				"company"
 			],
 			"answer": "artist",
-			"explanation": "Da non confondere con «musician», che vuol dire «musicista».",
+			"explanation": "Le prime 6 lettere di «artist» e «artista» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «musician», che vuol dire «musicista».",
 			"distractorWhy": {
 				"company": "«company» vuol dire «azienda»: un'altra parola, non quella cercata.",
 				"school": "«school» vuol dire «scuola»: un'altra parola, non quella cercata.",
@@ -13854,7 +13854,7 @@
 			"prompt": "Cosa significa in italiano \"musician\"?",
 			"options": [],
 			"answer": "musicista",
-			"explanation": "Da non confondere con «attore», che si dice «actor».",
+			"explanation": "Le prime 6 lettere di «musician» e «musicista» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «attore», che si dice «actor».",
 			"distractorWhy": {
 				"fabbrica": "«fabbrica» vuol dire «factory»: un'altra parola, non quella cercata.",
 				"scrittore": "«scrittore» vuol dire «writer»: un'altra parola, non quella cercata.",
@@ -13928,7 +13928,7 @@
 			"prompt": "Cosa significa in italiano \"police officer\"?",
 			"options": [],
 			"answer": "poliziotto",
-			"explanation": "Da non confondere con «vigile del fuoco», che si dice «firefighter».",
+			"explanation": "Le prime 4 lettere di «police officer» e «poliziotto» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «vigile del fuoco», che si dice «firefighter».",
 			"distractorWhy": {
 				"stipendio": "«stipendio» vuol dire «salary»: un'altra parola, non quella cercata.",
 				"scienziato": "«scienziato» vuol dire «scientist»: un'altra parola, non quella cercata.",
@@ -13965,7 +13965,7 @@
 			"prompt": "Cosa significa in italiano \"soldier\"?",
 			"options": [],
 			"answer": "soldato",
-			"explanation": "Da non confondere con «ufficio», che si dice «office».",
+			"explanation": "Le prime 4 lettere di «soldier» e «soldato» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «ufficio», che si dice «office».",
 			"distractorWhy": {
 				"autista": "«autista» vuol dire «driver»: un'altra parola, non quella cercata.",
 				"attore": "«attore» vuol dire «actor»: un'altra parola, non quella cercata.",
@@ -14134,7 +14134,7 @@
 				"company"
 			],
 			"answer": "service",
-			"explanation": "Da non confondere con «community», che vuol dire «comunità».",
+			"explanation": "Le prime 5 lettere di «service» e «servizio» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «community», che vuol dire «comunità».",
 			"distractorWhy": {
 				"factory": "«factory» vuol dire «fabbrica»: un'altra parola, non quella cercata.",
 				"company": "«company» vuol dire «azienda»: un'altra parola, non quella cercata.",
@@ -14150,7 +14150,7 @@
 			"prompt": "Cosa significa in italiano \"community\"?",
 			"options": [],
 			"answer": "comunità",
-			"explanation": "Da non confondere con «municipio», che si dice «city hall».",
+			"explanation": "Le parole inglesi in -ty in italiano finiscono in -tà: «community» → «comunità». È una regola che funziona quasi sempre. Da non confondere con «municipio», che si dice «city hall».",
 			"distractorWhy": {
 				"fattoria": "«fattoria» vuol dire «farm»: un'altra parola, non quella cercata.",
 				"cittadino": "«cittadino» vuol dire «citizen»: un'altra parola, non quella cercata.",
@@ -14248,7 +14248,7 @@
 			"prompt": "Cosa significa in italiano \"local\"?",
 			"options": [],
 			"answer": "locale",
-			"explanation": "Da non confondere con «pubblico», che si dice «public».",
+			"explanation": "Le prime 5 lettere di «local» e «locale» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «pubblico», che si dice «public».",
 			"distractorWhy": {
 				"occupato": "«occupato» vuol dire «busy»: un'altra parola, non quella cercata.",
 				"privato": "«privato» vuol dire «private»: un'altra parola, non quella cercata.",
@@ -14285,7 +14285,7 @@
 			"prompt": "Cosa significa in italiano \"private\"?",
 			"options": [],
 			"answer": "privato",
-			"explanation": "Da non confondere con «professionale», che si dice «professional».",
+			"explanation": "Le prime 6 lettere di «private» e «privato» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «professionale», che si dice «professional».",
 			"distractorWhy": {
 				"pubblico": "«pubblico» vuol dire «audience»: un'altra parola, non quella cercata.",
 				"occupato": "«occupato» vuol dire «busy»: un'altra parola, non quella cercata.",
@@ -14306,7 +14306,7 @@
 				"temporary"
 			],
 			"answer": "professional",
-			"explanation": "Da non confondere con «responsible», che vuol dire «responsabile».",
+			"explanation": "Le prime 12 lettere di «professional» e «professionale» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «responsible», che vuol dire «responsabile».",
 			"distractorWhy": {
 				"available": "«available» vuol dire «disponibile»: un'altra parola, non quella cercata.",
 				"temporary": "«temporary» vuol dire «temporaneo»: un'altra parola, non quella cercata.",
@@ -14322,7 +14322,7 @@
 			"prompt": "Cosa significa in italiano \"responsible\"?",
 			"options": [],
 			"answer": "responsabile",
-			"explanation": "Da non confondere con «temporaneo», che si dice «temporary».",
+			"explanation": "Le prime 7 lettere di «responsible» e «responsabile» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «temporaneo», che si dice «temporary».",
 			"distractorWhy": {
 				"a tempo pieno": "«a tempo pieno» vuol dire «full-time»: un'altra parola, non quella cercata.",
 				"professionale": "«professionale» vuol dire «professional»: un'altra parola, non quella cercata.",
@@ -14343,7 +14343,7 @@
 				"temporary"
 			],
 			"answer": "temporary",
-			"explanation": "Da non confondere con «full-time», che vuol dire «a tempo pieno».",
+			"explanation": "Le prime 7 lettere di «temporary» e «temporaneo» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «full-time», che vuol dire «a tempo pieno».",
 			"distractorWhy": {
 				"part-time": "«part-time» vuol dire «part-time»: un'altra parola, non quella cercata.",
 				"full-time": "«full-time» vuol dire «a tempo pieno»: un'altra parola, non quella cercata.",
@@ -14475,7 +14475,7 @@
 				"community"
 			],
 			"answer": "colleague",
-			"explanation": "Da non confondere con «customer», che vuol dire «cliente».",
+			"explanation": "Le prime 5 lettere di «colleague» e «collega» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «customer», che vuol dire «cliente».",
 			"distractorWhy": {
 				"community": "«community» vuol dire «comunità»: un'altra parola, non quella cercata.",
 				"city hall": "«city hall» vuol dire «municipio»: un'altra parola, non quella cercata.",
@@ -14735,7 +14735,7 @@
 				"servire"
 			],
 			"answer": "servire",
-			"explanation": "Da non confondere con «formare / addestrare», che si dice «train».",
+			"explanation": "Le prime 4 lettere di «serve» e «servire» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «formare / addestrare», che si dice «train».",
 			"distractorWhy": {
 				"assumere": "«assumere» vuol dire «hire»: un'altra parola, non quella cercata.",
 				"gestire": "«gestire» vuol dire «manage»: un'altra parola, non quella cercata.",
@@ -14947,7 +14947,7 @@
 				"story"
 			],
 			"answer": "music",
-			"explanation": "Da non confondere con «song», che vuol dire «canzone».",
+			"explanation": "Le prime 5 lettere di «music» e «musica» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «song», che vuol dire «canzone».",
 			"distractorWhy": {
 				"dance": "«dance» vuol dire «danza»: un'altra parola, non quella cercata.",
 				"score": "«score» vuol dire «punteggio»: un'altra parola, non quella cercata.",
@@ -15000,7 +15000,7 @@
 			"prompt": "Come si dice in inglese: \"cartone animato\"?",
 			"options": [],
 			"answer": "cartoon",
-			"explanation": "Da non confondere con «book», che vuol dire «libro».",
+			"explanation": "Le prime 5 lettere di «cartoon» e «cartone animato» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «book», che vuol dire «libro».",
 			"distractorWhy": {
 				"concert": "«concert» vuol dire «concerto»: un'altra parola, non quella cercata.",
 				"running": "«running» vuol dire «corsa»: un'altra parola, non quella cercata.",
@@ -15040,7 +15040,7 @@
 			"prompt": "Come si dice in inglese: \"storia / racconto\"?",
 			"options": [],
 			"answer": "story",
-			"explanation": "Da non confondere con «magazine», che vuol dire «rivista».",
+			"explanation": "Le prime 4 lettere di «story» e «storia / racconto» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «magazine», che vuol dire «rivista».",
 			"distractorWhy": {
 				"match": "«match» vuol dire «partita»: un'altra parola, non quella cercata.",
 				"score": "«score» vuol dire «punteggio»: un'altra parola, non quella cercata.",
@@ -15316,7 +15316,7 @@
 			"prompt": "Cosa significa in italiano \"concert\"?",
 			"options": [],
 			"answer": "concerto",
-			"explanation": "Da non confondere con «festival», che si dice «festival».",
+			"explanation": "Le prime 7 lettere di «concert» e «concerto» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «festival», che si dice «festival».",
 			"distractorWhy": {
 				"ciclismo": "«ciclismo» vuol dire «cycling»: un'altra parola, non quella cercata.",
 				"squadra": "«squadra» vuol dire «team»: un'altra parola, non quella cercata.",
@@ -15393,7 +15393,7 @@
 			"prompt": "Come si dice in inglese: \"interessante\"?",
 			"options": [],
 			"answer": "interesting",
-			"explanation": "Da non confondere con «boring», che vuol dire «noioso».",
+			"explanation": "Le prime 7 lettere di «interesting» e «interessante» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «boring», che vuol dire «noioso».",
 			"distractorWhy": {
 				"traditional": "«traditional» vuol dire «tradizionale»: un'altra parola, non quella cercata.",
 				"popular": "«popular» vuol dire «popolare»: un'altra parola, non quella cercata.",
@@ -15473,7 +15473,7 @@
 			"prompt": "Come si dice in inglese: \"terribile\"?",
 			"options": [],
 			"answer": "terrible",
-			"explanation": "Da non confondere con «popular», che vuol dire «popolare».",
+			"explanation": "Le prime 6 lettere di «terrible» e «terribile» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «popular», che vuol dire «popolare».",
 			"distractorWhy": {
 				"creative": "«creative» vuol dire «creativo»: un'altra parola, non quella cercata.",
 				"boring": "«boring» vuol dire «noioso»: un'altra parola, non quella cercata.",
@@ -15513,7 +15513,7 @@
 			"prompt": "Come si dice in inglese: \"tradizionale\"?",
 			"options": [],
 			"answer": "traditional",
-			"explanation": "Da non confondere con «modern», che vuol dire «moderno».",
+			"explanation": "Le prime 5 lettere di «traditional» e «tradizionale» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «modern», che vuol dire «moderno».",
 			"distractorWhy": {
 				"popular": "«popular» vuol dire «popolare»: un'altra parola, non quella cercata.",
 				"interesting": "«interesting» vuol dire «interessante»: un'altra parola, non quella cercata.",
@@ -15537,7 +15537,7 @@
 				"popolare"
 			],
 			"answer": "moderno",
-			"explanation": "Da non confondere con «creativo», che si dice «creative».",
+			"explanation": "Le prime 6 lettere di «modern» e «moderno» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «creativo», che si dice «creative».",
 			"distractorWhy": {
 				"popolare": "«popolare» vuol dire «popular»: un'altra parola, non quella cercata.",
 				"noioso": "«noioso» vuol dire «boring»: un'altra parola, non quella cercata.",
@@ -15553,7 +15553,7 @@
 			"prompt": "Come si dice in inglese: \"creativo\"?",
 			"options": [],
 			"answer": "creative",
-			"explanation": "Da non confondere con «famous», che vuol dire «famoso».",
+			"explanation": "Le prime 7 lettere di «creative» e «creativo» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «famous», che vuol dire «famoso».",
 			"distractorWhy": {
 				"amazing": "«amazing» vuol dire «straordinario»: un'altra parola, non quella cercata.",
 				"terrible": "«terrible» vuol dire «terribile»: un'altra parola, non quella cercata.",
@@ -15577,7 +15577,7 @@
 				"terribile"
 			],
 			"answer": "famoso",
-			"explanation": "Da non confondere con «interessante», che si dice «interesting».",
+			"explanation": "Le prime 4 lettere di «famous» e «famoso» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «interessante», che si dice «interesting».",
 			"distractorWhy": {
 				"noioso": "«noioso» vuol dire «boring»: un'altra parola, non quella cercata.",
 				"popolare": "«popolare» vuol dire «popular»: un'altra parola, non quella cercata.",
@@ -15593,7 +15593,7 @@
 			"prompt": "Come si dice in inglese: \"animale\"?",
 			"options": [],
 			"answer": "animal",
-			"explanation": "Da non confondere con «bird», che vuol dire «uccello».",
+			"explanation": "Le prime 6 lettere di «animal» e «animale» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «bird», che vuol dire «uccello».",
 			"distractorWhy": {
 				"earth": "«earth» vuol dire «terra»: un'altra parola, non quella cercata.",
 				"flower": "«flower» vuol dire «fiore»: un'altra parola, non quella cercata.",
@@ -15793,7 +15793,7 @@
 			"prompt": "Come si dice in inglese: \"foresta\"?",
 			"options": [],
 			"answer": "forest",
-			"explanation": "Da non confondere con «wood», che vuol dire «bosco / legno».",
+			"explanation": "Le prime 6 lettere di «forest» e «foresta» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «wood», che vuol dire «bosco / legno».",
 			"distractorWhy": {
 				"beach": "«beach» vuol dire «spiaggia»: un'altra parola, non quella cercata.",
 				"island": "«island» vuol dire «isola»: un'altra parola, non quella cercata.",
@@ -15965,7 +15965,7 @@
 			"prompt": "Cosa significa in italiano \"ocean\"?",
 			"options": [],
 			"answer": "oceano",
-			"explanation": "Da non confondere con «isola», che si dice «island».",
+			"explanation": "Le prime 5 lettere di «ocean» e «oceano» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «isola», che si dice «island».",
 			"distractorWhy": {
 				"collina": "«collina» vuol dire «hill»: un'altra parola, non quella cercata.",
 				"spazio": "«spazio» vuol dire «space»: un'altra parola, non quella cercata.",
@@ -16224,7 +16224,7 @@
 			"prompt": "Cosa significa in italiano \"plastic\"?",
 			"options": [],
 			"answer": "plastica",
-			"explanation": "Da non confondere con «energia», che si dice «energy».",
+			"explanation": "Le prime 7 lettere di «plastic» e «plastica» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «energia», che si dice «energy».",
 			"distractorWhy": {
 				"cavallo": "«cavallo» vuol dire «horse»: un'altra parola, non quella cercata.",
 				"fattoria": "«fattoria» vuol dire «farm»: un'altra parola, non quella cercata.",
@@ -16245,7 +16245,7 @@
 				"field"
 			],
 			"answer": "energy",
-			"explanation": "Da non confondere con «animal», che vuol dire «animale».",
+			"explanation": "Le prime 5 lettere di «energy» e «energia» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «animal», che vuol dire «animale».",
 			"distractorWhy": {
 				"beach": "«beach» vuol dire «spiaggia»: un'altra parola, non quella cercata.",
 				"island": "«island» vuol dire «isola»: un'altra parola, non quella cercata.",
@@ -16261,7 +16261,7 @@
 			"prompt": "Cosa significa in italiano \"natural\"?",
 			"options": [],
 			"answer": "naturale",
-			"explanation": "Da non confondere con «selvatico», che si dice «wild».",
+			"explanation": "Le prime 7 lettere di «natural» e «naturale» sono le stesse: è la stessa parola arrivata per due strade. Da non confondere con «selvatico», che si dice «wild».",
 			"distractorWhy": {
 				"profondo": "«profondo» vuol dire «deep»: un'altra parola, non quella cercata.",
 				"sporco": "«sporco» vuol dire «dirty»: un'altra parola, non quella cercata.",

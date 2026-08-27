@@ -6,14 +6,42 @@ extends SceneTree
 
 const ATLAS_DATA := "res://assets/shop/reward-items-sheet.json"
 
+## Gli scaffali che la bottega espone davvero. **Non sono tutto il catalogo**, e
+## la differenza ha tenuto questo audit rosso.
+##
+## Lo slot `tool` — torcia e falce — non si compra: lo consegna il mondo, e
+## `shop_presentation_audit` **vieta esplicitamente** a quei due di occupare
+## l'atlante («gli strumenti consegnati dal mondo non devono occupare l'atlante
+## della bottega»). Questo audit, che scandiva `RewardCatalog.CATALOG` per intero,
+## pretendeva l'esatto contrario: i due si contraddicevano, e vinceva quello che
+## girava per ultimo.
+##
+## La contraddizione e' emersa il 21 agosto, quando il modulo torcia e' stato
+## ritirato e le sue illustrazioni tolte da `build-reward-assets.mjs`: da allora
+## `glifi_audit` era rosso su `tool-torch` e nessuno dei due audit stava
+## sbagliando sul contenuto — sbagliava questo sulla premessa. La regola vera e'
+## «ogni articolo **esposto in bottega** ha la sua insegna», non «ogni riga del
+## catalogo».
+##
+## Stessa lista di `shop_presentation_audit`: se un giorno si aggiunge uno slot,
+## va aggiunto in tutti e due, e il disaccordo torna a essere visibile subito.
+const SLOT_IN_VETRINA := ["bot", "avatar", "accessory", "module", "pet", "emblem", "upgrade", "decor"]
+
 func _init() -> void:
 	var parsed = JSON.parse_string(FileAccess.get_file_as_string(ATLAS_DATA))
 	assert(typeof(parsed) == TYPE_DICTIONARY, "atlante bottega non leggibile")
 	var frames: Dictionary = (parsed as Dictionary).get("frames", {})
+	var esposti := 0
 	for entry_data in RewardCatalog.CATALOG:
 		var entry: Dictionary = entry_data
+		if not str(entry.get("slot", "")) in SLOT_IN_VETRINA:
+			continue
+		esposti += 1
 		var item_id := str(entry.get("id", ""))
 		assert(frames.has(item_id), "articolo senza insegna illustrata: %s" % item_id)
+	# Se un giorno la lista degli slot si svuotasse per un refuso, l'audit
+	# resterebbe verde senza guardare niente. Meglio che si accorga di se stesso.
+	assert(esposti > 20, "solo %d articoli esposti controllati: la lista degli slot non torna" % esposti)
 	var panel_source := FileAccess.get_file_as_string("res://scripts/ui/outdoor_shop_panel.gd")
 	assert(not panel_source.contains("return _tool_fallback_texture"),
 		"la bottega non deve ricadere sul glifo di sistema")

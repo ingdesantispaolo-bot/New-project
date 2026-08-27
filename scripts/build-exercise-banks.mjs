@@ -288,7 +288,50 @@ function vicinaDiArea(entry, neighbours) {
   return gruppo[(mia + 1) % gruppo.length] ?? null;
 }
 
-function vocabularyExplanation(entry, defField, field, neighbours) {
+// **La parentela fra le due lingue.** (27 agosto 2026)
+//
+// La voce G-N4 del piano prometteva, per le glosse, «da dove viene la parola».
+// Scriverla a mano per mille voci non è un lavoro che si fa in una giornata, ma
+// una parte si **deduce**, ed è la parte che insegna una strategia invece di un
+// vocabolo: quando l'inglese e l'italiano cominciano allo stesso modo, di solito
+// sono la stessa parola arrivata per due strade. Un bambino che se ne accorge
+// smette di studiare mille parole e comincia a riconoscerne una famiglia.
+//
+// Tre corrispondenze, in ordine di sicurezza. Le prime due sono regole vere
+// dell'italiano, applicabili a parole mai viste; la terza è un'osservazione sul
+// caso singolo, e chiede almeno quattro lettere in comune per non chiamare
+// «parenti» due parole che cominciano per «co».
+//
+// **Mai sui falsi amici.** Lì la somiglianza è esattamente la trappola, la voce
+// porta già una `note` scritta a mano e questa funzione non viene nemmeno
+// chiamata: dire «sono parenti» di *library* e «libreria» insegnerebbe l'errore
+// invece di prevenirlo.
+function parentelaFra(term, meaning) {
+  const norm = (v) => String(v).toLocaleLowerCase("it").normalize("NFD")
+    .replace(/[̀-ͯ]/g, "").replace(/[^a-z]/g, "");
+  const a = norm(term);
+  const b = norm(String(meaning).split("/")[0]);
+  if (a.length < 4 || b.length < 4) return "";
+  if (a.endsWith("tion") && b.endsWith("zione")) {
+    return `Le parole inglesi che finiscono in -tion in italiano finiscono in -zione: «${term}» → «${meaning}». Vale per tantissime altre.`;
+  }
+  if (a.endsWith("ty") && b.endsWith("ta")) {
+    return `Le parole inglesi in -ty in italiano finiscono in -tà: «${term}» → «${meaning}». È una regola che funziona quasi sempre.`;
+  }
+  let comuni = 0;
+  while (comuni < Math.min(a.length, b.length) && a[comuni] === b[comuni]) comuni += 1;
+  if (comuni >= 4 && a.length >= 5 && b.length >= 5) {
+    // **Non si apre con la parola cercata.** Scritta come «insert e inserire sono
+    // la stessa parola», la frase comincia con la risposta che il bambino ha
+    // appena dato: è l'eco che questo lotto sta togliendo, reintrodotta da una
+    // porta laterale. Misurata subito dopo averla scritta — l'eco era risalita
+    // dal 3,3% al 4,8% — e riscritta partendo dall'osservazione.
+    return `Le prime ${comuni} lettere di «${term}» e «${meaning}» sono le stesse: è la stessa parola arrivata per due strade.`;
+  }
+  return "";
+}
+
+function vocabularyExplanation(entry, defField, field, neighbours, conParentela = false) {
   const vicina = vicinaDiArea(entry, neighbours);
   if (!vicina) {
     // Nessuna parola della stessa area: meglio la coppia nuda che un contrasto
@@ -298,10 +341,11 @@ function vocabularyExplanation(entry, defField, field, neighbours) {
   // Il contrasto si scrive **nella stessa lingua della risposta**: se il bambino
   // ha scelto fra parole inglesi si confronta con una parola inglese, se ha
   // scelto fra significati italiani si confronta con un significato.
-  if (field === "term") {
-    return `Da non confondere con «${vicina.term}», che vuol dire «${vicina[defField]}».`;
-  }
-  return `Da non confondere con «${vicina[defField]}», che si dice «${vicina.term}».`;
+  const contrasto = field === "term"
+    ? `Da non confondere con «${vicina.term}», che vuol dire «${vicina[defField]}».`
+    : `Da non confondere con «${vicina[defField]}», che si dice «${vicina.term}».`;
+  const parentela = conParentela ? parentelaFra(entry.term, entry[defField]) : "";
+  return parentela === "" ? contrasto : `${parentela} ${contrasto}`;
 }
 
 function vocabularyBank(subject, entries, { fields, defField, promptFor, legaIlPiuVicino = false }) {
@@ -389,7 +433,8 @@ function vocabularyBank(subject, entries, { fields, defField, promptFor, legaIlP
           // risposto: 968 item su 1109 non insegnavano niente. Le vicine invece
           // sono informazione nuova, cambiano per ogni item, e il lessico si
           // fissa per campi di significato, non parola per parola isolata.
-          explanation: entry.note ?? vocabularyExplanation(entry, defField, field, neighbours),
+          explanation: entry.note
+            ?? vocabularyExplanation(entry, defField, field, neighbours, subject === "inglese"),
         },
         rand,
       ),

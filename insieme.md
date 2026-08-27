@@ -270,31 +270,57 @@ spiegazioni di oggi.
 > | **G-N2** | NORA non si ripete | memoria di dodici righe + voci a livelli. Venti prove di fila sullo stesso argomento: **zero ripetizioni** |
 > | **C-N3** | Pannello a tre zone | `RichTextLabel`, correzione in grassetto, regola staccata e firmata, `CONTINUA` dopo mezzo secondo |
 > | **G-N4** | Le 1159 glosse | riscritte: **dal 32% al 3,3%** le spiegazioni che riaprono con la risposta |
-> | **C-N5** | Le figure | **quattro** famiglie su dieci, su 369 esercizi. Le altre sei restano da fare |
+> | **C-N5** | Le figure | **dieci** famiglie, su 656 esercizi |
 > | **G-N6** | Le code generate | la frase più ripetuta scende **da 254 a 91**, e le 91 hanno numeri diversi |
 > | **G-N7** | Il riferimento | «SPIEGA CON NORA» ora c'è anche dopo una risposta giusta |
 > | **G-N8** | La guardia | `nora_spiegazione_utile_audit`, cinque misure, tetto a cricchetto |
 >
-> **Quello che NON è stato fatto, e va detto.** Delle dieci famiglie di figure ne
-> esistono quattro — griglia dei gruppi (290 esercizi), due cerchi (34), torta
-> tagliata (23), anello del circuito (22). Mancano la retta dei numeri, la
-> bilancia, contorno-contro-superficie, la linea del tempo, la mappa muta e la
-> parola smontata: sono le sei che coprono storia, geografia, latino e la
-> geometria, cioè circa altri seicento esercizi.
+> **Completato il 27 agosto.** Le due code dichiarate il giorno prima sono
+> chiuse.
 >
-> E le glosse: la forma vecchia è sparita, ma quella nuova — «da non confondere
-> con X, che vuol dire Y» — è una sola forma per 1159 item. È molto meglio di
-> prima perché il contenuto cambia a ogni item e non ripete la risposta, ma
-> l'etimologia e i falsi amici che la voce G-N4 prometteva esistono solo per le
-> 29 voci di `false-friends`, che li avevano già.
+> **Le figure sono dieci, su 656 esercizi**: griglia dei gruppi 290, linea del
+> tempo 115, carta muta 58, parola smontata 50, retta dei numeri 43, due cerchi
+> 34, torta tagliata 23, anello del circuito 22, i sei casi latini 12, contorno
+> contro superficie 9.
+>
+> Una sostituzione nell'elenco, e va detta: **la bilancia dell'uguale non c'è, e
+> al suo posto ci sono i sei casi latini.** Il piano la contava su «equazioni,
+> uguaglianze, 60+ esercizi», ma quegli esercizi nel banco **non esistono**: la
+> matematica ha `espressioni`, non `equazioni`, e nessun item contiene un'uguaglianza
+> da bilanciare. Una figura che non si accende su niente è codice morto con una
+> bella spiegazione sopra. I dodici item di `latino:casi` invece esistono, e la
+> tabella dei sei casi è la cosa che ogni libro di latino ha in prima pagina e che
+> il gioco non mostrava mai. Quando le equazioni entreranno nel banco, la bilancia
+> è mezz'ora di lavoro.
+>
+> La carta muta non è disegnata a mano: viene da `MapGeometryCatalog`, la stessa
+> geometria Natural Earth che il gioco usa già per le carte mute. Una sola fonte,
+> così due parti del gioco non possono disegnare due Europe diverse.
+>
+> **Le glosse: l'etimologia c'è dove si può dedurre, e non oltre.** 109 item
+> inglesi dicono adesso la parentela fra le due lingue — «le prime 5 lettere di
+> *insert* e *inserire* sono le stesse: è la stessa parola arrivata per due
+> strade», e le due regole vere (-tion → -zione, -ty → -tà) che valgono anche su
+> parole mai viste. Mai sui falsi amici, dove la somiglianza *è* la trappola e le
+> 29 voci portano già la loro nota scritta a mano.
+>
+> Resta fuori quello che si può solo scrivere a mano: «quando NON si usa» e la
+> parola dentro un'altra che il bambino già conosce. Sono circa settecento voci di
+> lessico, ed è lavoro di scrittura, non di codice.
+>
+> **Una cosa che l'audit ha ripreso al volo.** La frase sulla parentela, scritta
+> come «*insert* e *inserire* sono la stessa parola», apriva con la risposta appena
+> data: l'eco era risalita dal 3,3% al 4,8% — il difetto appena chiuso, rientrato
+> da una porta laterale. Riscritta partendo dall'osservazione invece che dalla
+> parola, è tornata al 3,3%.
 
 | | voce | impatto | costo | chi |
 |---|---|---|---|---|
 | **G-N1** | Consegnare il `distractorWhy` che è già scritto | altissimo | basso | ✅ |
 | **G-N2** | Non ripetersi dentro la sessione | alto | basso | ✅ |
 | **C-N3** | Il pannello a tre zone | alto | medio | ✅ |
-| **G-N4** | Le 1159 glosse di inglese e italiano | alto | medio | ✅ parziale |
-| **C-N5** | Le dieci figure che spiegano | alto | alto | ✅ 4 su 10 |
+| **G-N4** | Le 1159 glosse di inglese e italiano | alto | medio | ✅ |
+| **C-N5** | Le dieci figure che spiegano | alto | alto | ✅ 10, su 656 esercizi |
 | **G-N6** | Le code generate | medio | basso | ✅ |
 | **G-N7** | Il riferimento: dove ritrovare la cosa | medio | basso | ✅ |
 | **G-N8** | La guardia | — | medio | ✅ |
@@ -463,6 +489,29 @@ delle scorciatoie, e funziona perché non chiede a nessuno di giudicare.
 > in cui il contenuto **esiste già** e manca solo la consegna: due giorni di
 > lavoro sui banchi che oggi non arrivano al bambino. Se se ne facesse una sola,
 > è quella.
+
+---
+
+## Due audit che si contraddicevano — 27 agosto 2026
+
+`glifi_audit` era rosso su `tool-torch` dal 21 agosto, cioè da quando il modulo
+torcia è stato ritirato e le sue illustrazioni tolte da `build-reward-assets.mjs`.
+Sembrava un'illustrazione mancante. Non lo era.
+
+**I due audit chiedevano l'opposto.** `shop_presentation_audit` asserisce che
+torcia e falce **non devono** stare nell'atlante della bottega — «gli strumenti
+consegnati dal mondo non devono occupare l'atlante» — perché non si comprano: li
+consegna il mondo. `glifi_audit` scandiva `RewardCatalog.CATALOG` per intero e
+pretendeva un'insegna per ogni riga, quei due compresi.
+
+Nessuno dei due sbagliava sul contenuto: **sbagliava questo sulla premessa.** La
+regola vera è «ogni articolo *esposto in bottega* ha la sua insegna», non «ogni
+riga del catalogo». Ora `glifi_audit` filtra sugli stessi otto slot di vetrina, e
+si accorge da solo se quella lista si svuotasse per un refuso.
+
+Vale la pena tenerlo a mente: **due guardie che misurano la stessa cosa con due
+premesse diverse non si annullano, si alternano** — vince quella che gira per
+ultima, e il rosso sembra un difetto del contenuto invece che del metro.
 
 ---
 

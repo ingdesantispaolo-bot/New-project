@@ -37,6 +37,9 @@ extends Control
 ## celle invece di allungare il pannello, perché sotto c'è il pulsante per
 ## proseguire e su un tablet in verticale lo spazio finisce.
 const ALTEZZA := 116.0
+## I casi in colonna e la sagoma di una carta hanno bisogno di piu' spazio in
+## verticale: sei righe non stanno in centosedici pixel senza diventare illeggibili.
+const ALTEZZA_ALTA := 156.0
 
 ## **Quattro famiglie su dieci.** Il piano in `insieme.md` (voce C-N5) ne elenca
 ## dieci; qui ci sono griglia dei gruppi, torta tagliata, anello del circuito e
@@ -45,6 +48,33 @@ const ALTEZZA := 116.0
 ## sono quelle che servono a storia, geografia, latino e geometria, circa altri
 ## seicento esercizi. Aggiungerne una vuol dire una voce in `per_item`, una in
 ## `descrizione` e una in `_draw`.
+
+const MAPPE := preload("res://scripts/visual/map_geometry_catalog.gd")
+
+## I paesi che la carta d'Europa sa indicare, col nome che il bambino legge nella
+## domanda. La geometria e i punti sono gia' in `MapGeometryCatalog` — presi da
+## Natural Earth — e qui c'e' solo il ponte fra l'italiano e le sue chiavi.
+const PAESI_SULLA_CARTA := {
+	"italia": "italy", "francia": "france", "spagna": "spain", "germania": "germany",
+	"polonia": "poland", "grecia": "greece", "regno unito": "united_kingdom",
+	"inghilterra": "united_kingdom", "irlanda": "ireland", "islanda": "iceland",
+	"norvegia": "norway", "svezia": "sweden", "finlandia": "finland",
+	"ucraina": "ukraine",
+}
+
+## Le ere che la linea del tempo mostra, nell'ordine in cui sono accadute. Gli
+## argomenti del banco di storia ne nominano cinque; `cronologia` le riguarda
+## tutte e accende la linea senza puntare a nessuna.
+const ERE := ["preistoria", "egizi", "grecia", "roma", "medioevo"]
+const ERE_ETICHETTE := {
+	"preistoria": "Preistoria", "egizi": "Egizi", "grecia": "Grecia",
+	"roma": "Roma", "medioevo": "Medioevo",
+}
+
+## I sei casi latini nell'ordine in cui si recitano. Vederli in colonna con
+## acceso quello chiesto e' la cosa che una tabella su carta fa da sempre e che
+## il gioco non faceva.
+const CASI := ["nominativo", "genitivo", "dativo", "accusativo", "vocativo", "ablativo"]
 
 const COLORE_PIENO := Color("6be7d6")
 const COLORE_VUOTO := Color(0.42, 0.90, 0.84, 0.22)
@@ -64,7 +94,7 @@ func mostra(nuovo_tipo: String, nuovi_dati: Dictionary) -> void:
 	tipo = nuovo_tipo
 	dati = nuovi_dati
 	visible = tipo != ""
-	custom_minimum_size = Vector2(0, ALTEZZA)
+	custom_minimum_size = Vector2(0, ALTEZZA_ALTA if tipo in ["casi", "mappa"] else ALTEZZA)
 	tooltip_text = descrizione()
 	queue_redraw()
 
@@ -108,7 +138,104 @@ static func per_item(item: Dictionary, materia: String) -> Dictionary:
 	if materia == "logica" and (topic.contains("insiem") or topic.contains("quantific")):
 		return {"tipo": "insiemi", "dati": {}}
 
+	# La retta dei numeri: una serie scritta nel testo si guarda meglio distesa.
+	var serie := _serie_da(prompt)
+	if serie.size() >= 3:
+		return {"tipo": "retta", "dati": {"valori": serie, "risposta": risposta}}
+
+	if materia == "matematica" and _e_di_contorno(prompt, risposta):
+		var basso_geo := (prompt + " " + risposta).to_lower()
+		return {"tipo": "contorno", "dati": {
+			"cosa": "area" if basso_geo.contains("area") or basso_geo.contains("superficie")
+				else "perimetro"}}
+
+	if materia == "latino":
+		var smontata := _parola_smontata(prompt, risposta, topic)
+		if not smontata.is_empty():
+			return {"tipo": "parola", "dati": smontata}
+		if topic == "casi":
+			var quale := ""
+			for caso_dato in CASI:
+				if risposta.to_lower().contains(str(caso_dato)):
+					quale = str(caso_dato)
+					break
+			if quale != "":
+				return {"tipo": "casi", "dati": {"scelto": quale}}
+
+	if materia == "storia":
+		if topic == "cronologia":
+			return {"tipo": "tempo", "dati": {"era": ""}}
+		if ERE.has(topic):
+			return {"tipo": "tempo", "dati": {"era": topic}}
+
+	if materia == "geografia":
+		var bersaglio := _paese_nominato(prompt + " " + risposta)
+		if bersaglio != "":
+			return {"tipo": "mappa", "dati": {"carta": "europe", "bersaglio": bersaglio}}
+
 	return {}
+
+## I numeri di una serie scritta nel testo: «2, 4, 6, 8, ?». Servono almeno tre
+## termini, altrimenti non e' una serie ed e' solo un elenco.
+static func _serie_da(prompt: String) -> Array:
+	var espressione := RegEx.create_from_string("(\\d+)(\\s*,\\s*\\d+){2,}")
+	var trovato := espressione.search(prompt)
+	if trovato == null:
+		return []
+	var valori: Array = []
+	for pezzo in trovato.get_string(0).split(","):
+		valori.append(int(str(pezzo).strip_edges()))
+	# Oltre gli otto termini la retta si affolla e smette di aiutare.
+	return valori if valori.size() <= 8 else []
+
+static func _e_di_contorno(prompt: String, risposta: String) -> bool:
+	var basso := (prompt + " " + risposta).to_lower()
+	return (basso.contains("perimetro") or basso.contains("contorno")
+		or basso.contains("area") or basso.contains("superficie"))
+
+## La parola smontata: quanto e' radice e quanto e' desinenza.
+##
+## Due casi, la stessa figura. Nelle declinazioni il testo porta la forma e la
+## voce di partenza — «"dominorum" (da "dominus")» — e la radice e' il pezzo che
+## hanno in comune: `domin` + `orum`. Nell'etimologia c'e' la parola italiana e
+## quella latina — «acqua» da *aqua* — e il pezzo comune e' la ragione per cui la
+## seconda si riconosce nella prima.
+##
+## Sotto le due lettere in comune non c'e' niente da mostrare: due parole che
+## cominciano per «a» non sono imparentate, e disegnarlo sarebbe insegnare una
+## cosa falsa.
+static func _parola_smontata(prompt: String, risposta: String, topic: String) -> Dictionary:
+	if topic.begins_with("declinazione"):
+		var forma_re := RegEx.create_from_string('"([^"]+)"\\s*\\(da\\s*"([^"]+)"')
+		var trovato := forma_re.search(prompt)
+		if trovato != null:
+			return _spezza(trovato.get_string(1), trovato.get_string(2), "declinazione")
+		return {}
+	if topic == "etimologia":
+		var italiana := RegEx.create_from_string("«([^»]+)»").search(prompt)
+		if italiana != null:
+			return _spezza(str(italiana.get_string(1)), risposta, "etimologia")
+	return {}
+
+static func _spezza(forma: String, radice_madre: String, genere: String) -> Dictionary:
+	var a := forma.to_lower()
+	var b := radice_madre.to_lower()
+	var comuni := 0
+	while comuni < mini(a.length(), b.length()) and a[comuni] == b[comuni]:
+		comuni += 1
+	if comuni < 3 or comuni >= forma.length():
+		return {}
+	return {
+		"forma": forma, "radice": forma.substr(0, comuni),
+		"desinenza": forma.substr(comuni), "madre": radice_madre, "genere": genere,
+	}
+
+static func _paese_nominato(testo: String) -> String:
+	var basso := testo.to_lower()
+	for nome_dato in PAESI_SULLA_CARTA.keys():
+		if basso.contains(str(nome_dato)):
+			return str(PAESI_SULLA_CARTA[nome_dato])
+	return ""
 
 ## Righe e colonne da una moltiplicazione, una divisione o un fattore mancante.
 ##
@@ -191,6 +318,27 @@ func descrizione() -> String:
 			return ""
 		"insiemi":
 			return "Due cerchi che si sovrappongono: nel mezzo ciò che sta in tutti e due."
+		"retta":
+			var valori: Array = dati.get("valori", [])
+			return "I numeri della serie messi in fila su una retta: %s, e poi il posto vuoto." % (
+				", ".join(PackedStringArray(valori.map(func(v): return str(v)))))
+		"contorno":
+			if str(dati.get("cosa", "")) == "area":
+				return "Un rettangolo con dentro tutti i quadretti colorati: l'area è quanto sta dentro."
+			return "Un rettangolo con solo il bordo acceso: il perimetro è la lunghezza del giro."
+		"parola":
+			return "La parola «%s» spezzata in due: la radice «%s» e la desinenza «%s»." % [
+				str(dati.get("forma", "")), str(dati.get("radice", "")), str(dati.get("desinenza", ""))]
+		"casi":
+			return "I sei casi latini in colonna, con «%s» acceso." % str(dati.get("scelto", ""))
+		"tempo":
+			var era := str(dati.get("era", ""))
+			if era == "":
+				return "La linea del tempo: preistoria, egizi, Grecia, Roma, Medioevo."
+			return "La linea del tempo, con «%s» acceso al suo posto." % str(
+				ERE_ETICHETTE.get(era, era))
+		"mappa":
+			return "La sagoma dell'Europa con un punto acceso dove si trova il paese della domanda."
 	return ""
 
 # ---------------------------------------------------------------------------
@@ -212,6 +360,12 @@ func _draw() -> void:
 		"torta": _disegna_torta()
 		"circuito": _disegna_circuito()
 		"insiemi": _disegna_insiemi()
+		"retta": _disegna_retta()
+		"contorno": _disegna_contorno()
+		"parola": _disegna_parola()
+		"casi": _disegna_casi()
+		"tempo": _disegna_tempo()
+		"mappa": _disegna_mappa()
 
 ## **La griglia dei gruppi.** Righe per colonne, e il totale è quanti quadretti
 ## ci sono. È la figura che serve al numero più grande di esercizi del gioco — le
@@ -334,3 +488,191 @@ func _disegna_insiemi() -> void:
 		font, Vector2(destro.x + raggio + 14.0, centro_y),
 		"nel mezzo: quelli che stanno\nin tutti e due i gruppi",
 		HORIZONTAL_ALIGNMENT_LEFT, -1, 13, COLORE_TESTO)
+
+## **La retta dei numeri.** Una serie scritta di fila — «2, 4, 6, 8, ?» — dice il
+## passo solo a chi lo calcola; distesa su una retta il passo si *vede*, perché è
+## la distanza fra un segno e il successivo. È la figura che rende visibile la
+## regola invece del risultato, che è quello che questo gioco cerca di insegnare.
+func _disegna_retta() -> void:
+	var valori: Array = dati.get("valori", [])
+	if valori.size() < 2:
+		return
+	var minimo := int(valori[0])
+	var massimo := int(valori[0])
+	for v in valori:
+		minimo = mini(minimo, int(v))
+		massimo = maxi(massimo, int(v))
+	# Il posto vuoto continua la serie: si tiene spazio per un passo in più.
+	var passo := absi(int(valori[1]) - int(valori[0]))
+	var fine := massimo + maxi(1, passo)
+	var inizio := minimo - maxi(1, passo) / 2
+	var ampiezza := maxf(1.0, float(fine - inizio))
+	var margine := 22.0
+	var y := _altezza() * 0.46
+	var larghezza := size.x - margine * 2.0
+	draw_line(Vector2(margine, y), Vector2(margine + larghezza, y), COLORE_TRATTO, 2.0)
+	var font := get_theme_default_font()
+	for v in valori:
+		var x := margine + larghezza * (float(int(v) - inizio) / ampiezza)
+		draw_circle(Vector2(x, y), 6.0, COLORE_PIENO)
+		if font != null:
+			draw_string(
+				font, Vector2(x - 14.0, y + 24.0), str(v),
+				HORIZONTAL_ALIGNMENT_CENTER, 28, 14, COLORE_TESTO)
+	# Il posto vuoto: un cerchio non pieno, dove la serie andrebbe a finire.
+	var x_vuoto := margine + larghezza * (float(fine - inizio) / ampiezza)
+	draw_arc(Vector2(x_vuoto, y), 7.0, 0.0, TAU, 20, COLORE_ACCENTO, 2.0)
+	if font != null:
+		draw_string(
+			font, Vector2(x_vuoto - 14.0, y + 24.0), "?",
+			HORIZONTAL_ALIGNMENT_CENTER, 28, 15, COLORE_ACCENTO)
+
+## **Il contorno contro la superficie.** Perimetro e area rispondono a due
+## domande diverse — quanto filo per recintare, quanta vernice per dipingere — e
+## sbagliare formula è quasi sempre sbagliare domanda. Nel disegno la differenza
+## non si spiega: si vede quale delle due parti è accesa.
+func _disegna_contorno() -> void:
+	var area := str(dati.get("cosa", "")) == "area"
+	var margine := 16.0
+	var lato_y := _altezza() - margine * 2.0 - 16.0
+	var rect := Rect2(
+		Vector2(margine, margine),
+		Vector2(minf(size.x - margine * 2.0, lato_y * 1.7), lato_y))
+	if area:
+		draw_rect(rect, Color(COLORE_ACCENTO.r, COLORE_ACCENTO.g, COLORE_ACCENTO.b, 0.55), true)
+		draw_rect(rect, COLORE_TRATTO, false, 2.0)
+	else:
+		draw_rect(rect, Color(COLORE_PIENO.r, COLORE_PIENO.g, COLORE_PIENO.b, 0.10), true)
+		draw_rect(rect, COLORE_ACCENTO, false, 5.0)
+	var font := get_theme_default_font()
+	if font == null:
+		return
+	draw_string(
+		font, Vector2(rect.position.x + rect.size.x + 16.0, rect.position.y + rect.size.y * 0.5),
+		"quanto sta dentro" if area else "il giro intorno",
+		HORIZONTAL_ALIGNMENT_LEFT, -1, 14, COLORE_TESTO)
+
+## **La parola smontata.** Una declinazione non è una lista da imparare a memoria:
+## è una parola che tiene ferma la testa e cambia la coda. Mostrare i due pezzi
+## con due colori dice in un colpo solo che cos'è la radice e che cos'è la
+## desinenza — e vale anche per l'etimologia, dove il pezzo comune è la ragione
+## per cui la parola latina si riconosce dentro quella italiana.
+func _disegna_parola() -> void:
+	var font := get_theme_default_font()
+	if font == null:
+		return
+	var radice := str(dati.get("radice", ""))
+	var desinenza := str(dati.get("desinenza", ""))
+	var corpo := 30
+	var largo_radice := font.get_string_size(radice, HORIZONTAL_ALIGNMENT_LEFT, -1, corpo).x
+	var largo_desinenza := font.get_string_size(desinenza, HORIZONTAL_ALIGNMENT_LEFT, -1, corpo).x
+	var x := 18.0
+	var y := _altezza() * 0.46
+	# Due sottolineature spesse: il colore separa i pezzi senza spezzare la parola,
+	# che deve restare leggibile come una parola sola.
+	draw_rect(Rect2(Vector2(x, y + 6.0), Vector2(largo_radice, 4.0)), COLORE_PIENO)
+	draw_rect(Rect2(Vector2(x + largo_radice, y + 6.0), Vector2(largo_desinenza, 4.0)), COLORE_ACCENTO)
+	draw_string(font, Vector2(x, y), radice, HORIZONTAL_ALIGNMENT_LEFT, -1, corpo, COLORE_PIENO)
+	draw_string(
+		font, Vector2(x + largo_radice, y), desinenza,
+		HORIZONTAL_ALIGNMENT_LEFT, -1, corpo, COLORE_ACCENTO)
+	var didascalia := "radice + desinenza"
+	if str(dati.get("genere", "")) == "etimologia":
+		didascalia = "dentro c'è «%s»" % str(dati.get("madre", ""))
+	draw_string(
+		font, Vector2(18.0, _altezza() - 10.0), didascalia,
+		HORIZONTAL_ALIGNMENT_LEFT, -1, 14, COLORE_TESTO)
+
+## **I sei casi in colonna.** La tabella che ogni libro di latino ha in prima
+## pagina, e che il gioco non mostrava mai: sapere che il genitivo è il secondo
+## dei sei è metà del lavoro di ricordarsi che cosa fa.
+func _disegna_casi() -> void:
+	var font := get_theme_default_font()
+	if font == null:
+		return
+	var scelto := str(dati.get("scelto", ""))
+	var passo := (_altezza() - 16.0) / float(CASI.size())
+	for indice in CASI.size():
+		var nome := str(CASI[indice])
+		var acceso := nome == scelto
+		var y := 10.0 + passo * float(indice)
+		if acceso:
+			draw_rect(
+				Rect2(Vector2(12.0, y - 1.0), Vector2(196.0, passo - 3.0)),
+				Color(COLORE_ACCENTO.r, COLORE_ACCENTO.g, COLORE_ACCENTO.b, 0.24), true)
+		draw_string(
+			font, Vector2(22.0, y + passo * 0.72), nome.capitalize(),
+			HORIZONTAL_ALIGNMENT_LEFT, -1, 15,
+			COLORE_ACCENTO if acceso else Color(COLORE_TESTO.r, COLORE_TESTO.g, COLORE_TESTO.b, 0.55))
+
+## **La linea del tempo.** «Prima» e «dopo» sono la sola cosa che la storia chiede
+## davvero a undici anni, e in un elenco di argomenti non si vedono. Qui le cinque
+## ere stanno in fila e quella dell'esercizio è accesa: il bambino sa sempre dove
+## si trova.
+func _disegna_tempo() -> void:
+	var font := get_theme_default_font()
+	var era := str(dati.get("era", ""))
+	var margine := 20.0
+	var y := _altezza() * 0.40
+	var larghezza := size.x - margine * 2.0
+	draw_line(Vector2(margine, y), Vector2(margine + larghezza, y), COLORE_TRATTO, 2.0)
+	# La freccia in fondo: il tempo va da qualche parte, e la linea deve dirlo.
+	draw_line(
+		Vector2(margine + larghezza - 9.0, y - 5.0), Vector2(margine + larghezza, y),
+		COLORE_TRATTO, 2.0)
+	draw_line(
+		Vector2(margine + larghezza - 9.0, y + 5.0), Vector2(margine + larghezza, y),
+		COLORE_TRATTO, 2.0)
+	var passo := larghezza / float(ERE.size())
+	for indice in ERE.size():
+		var nome := str(ERE[indice])
+		var acceso := nome == era
+		var x := margine + passo * (float(indice) + 0.5)
+		draw_circle(Vector2(x, y), 7.0 if acceso else 4.0, COLORE_ACCENTO if acceso else COLORE_PIENO)
+		if font != null:
+			draw_string(
+				font, Vector2(x - passo * 0.5, y + 24.0), str(ERE_ETICHETTE.get(nome, nome)),
+				HORIZONTAL_ALIGNMENT_CENTER, passo, 13,
+				COLORE_ACCENTO if acceso else Color(COLORE_TESTO.r, COLORE_TESTO.g, COLORE_TESTO.b, 0.6))
+
+## **La carta muta.** La sagoma dell'Europa con un punto acceso dove sta il paese
+## della domanda. La geometria non è disegnata a mano: viene da
+## `MapGeometryCatalog`, che la porta da Natural Earth ed è già quella usata dalle
+## carte mute del gioco — una sola fonte, così due parti del gioco non possono
+## disegnare due Europe diverse.
+func _disegna_mappa() -> void:
+	var carta: Dictionary = MAPPE.map_data(str(dati.get("carta", "europe")))
+	if carta.is_empty():
+		return
+	var bounds: Rect2 = carta.get("bounds", Rect2())
+	if bounds.size.x <= 0.0 or bounds.size.y <= 0.0:
+		return
+	var margine := 10.0
+	var utile := Vector2(size.x - margine * 2.0, _altezza() - margine * 2.0)
+	var scala := minf(utile.x / bounds.size.x, utile.y / bounds.size.y)
+	var scarto := Vector2(
+		margine + (utile.x - bounds.size.x * scala) * 0.5,
+		margine + (utile.y - bounds.size.y * scala) * 0.5)
+	for poligono_dato in Array(carta.get("polygons", [])):
+		var poligono: PackedVector2Array = poligono_dato
+		if poligono.size() < 3:
+			continue
+		var proiettato := PackedVector2Array()
+		for punto in poligono:
+			proiettato.append(_su_schermo(punto, bounds, scala, scarto))
+		draw_colored_polygon(proiettato, Color(COLORE_PIENO.r, COLORE_PIENO.g, COLORE_PIENO.b, 0.26))
+		draw_polyline(proiettato, COLORE_TRATTO, 1.0)
+	var bersagli: Dictionary = carta.get("targets", {})
+	var chiave := str(dati.get("bersaglio", ""))
+	if bersagli.has(chiave):
+		var punto := _su_schermo(bersagli[chiave], bounds, scala, scarto)
+		draw_circle(punto, 6.0, COLORE_ACCENTO)
+		draw_arc(punto, 11.0, 0.0, TAU, 24, COLORE_ACCENTO, 2.0)
+
+## Da gradi a pixel. **La latitudine cresce verso nord e lo schermo verso il
+## basso**: senza il capovolgimento l'Europa uscirebbe a testa in giù, ed è il
+## genere di errore che un bambino nota prima di qualunque adulto.
+func _su_schermo(punto: Vector2, bounds: Rect2, scala: float, scarto: Vector2) -> Vector2:
+	return scarto + Vector2(
+		(punto.x - bounds.position.x) * scala,
+		(bounds.position.y + bounds.size.y - punto.y) * scala)

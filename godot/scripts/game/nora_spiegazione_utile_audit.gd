@@ -50,6 +50,31 @@ const TETTO_FRASE := 95
 ## tappezzeria, e' una risposta.
 const FRASE_MINIMA := 25
 
+## **Quanti esercizi almeno consegnano una correzione specifica.** SI ALZA E MAI
+## SI ABBASSA — è il cricchetto al contrario, e vale la stessa regola: una
+## modifica che lo fa scendere è una regressione, non una scelta.
+## Il 27 agosto 2026 sono tutti e 3569.
+const PAVIMENTO_CORREZIONI := 3569
+
+## **Sotto quanti esercizi un argomento può cavarsela con una riga sola.**
+##
+## Sopra questa soglia il bambino incontra l'argomento troppe volte perché una
+## frase basti: la rileggerebbe fino a esaurimento, e una riga ripetuta insegna a
+## saltare la riga. Quaranta è dove passa oggi il confine fra i diciotto argomenti
+## affollati e tutti gli altri; abbassarlo vuol dire scrivere più livelli, mai
+## meno.
+const AFFOLLATO := 40
+
+## **Quante materie hanno almeno una figura.** SI ALZA E MAI SI ABBASSA.
+##
+## Il 27 agosto sono **dieci su dodici**. Restano fuori fisica e scienze: nei loro
+## testi non c'è niente che si possa estrarre con certezza in un diagramma — le
+## conversioni di unità in fisica sono tre esercizi su 157 — e disegnare comunque
+## vorrebbe dire decorare. Una figura che si accende su tre prove è codice morto
+## con una bella spiegazione sopra, ed è lo stesso motivo per cui la bilancia
+## dell'uguale non è stata fatta.
+const MATERIE_CON_FIGURA := 10
+
 const NORA_FIGURA = preload("res://scripts/game/nora_figura.gd")
 const PLAYER := preload("res://scripts/game/exercise_player.gd")
 
@@ -68,6 +93,7 @@ func _run() -> void:
 	_la_ripetizione(cm)
 	_il_silenzio(cm)
 	_le_figure(cm)
+	_i_livelli(cm)
 	await _sullo_schermo()
 	if not errori.is_empty():
 		for messaggio in errori.slice(0, 12):
@@ -84,13 +110,17 @@ func _run() -> void:
 func _la_consegna(cm: ContentManager) -> void:
 	var con_why := 0
 	var consegnati := 0
+	var con_correzione := 0
+	var totale_item := 0
 	for subject_dato in ApparatusConfig.SUBJECT_CYCLE:
 		var subject := str(subject_dato)
 		for entry in cm._load_bank(subject):
 			var item := entry as Dictionary
+			totale_item += 1
 			var perche: Dictionary = item.get("distractorWhy", {})
 			if perche.is_empty():
 				continue
+			con_correzione += 1
 			for scelta_dato in perche.keys():
 				var scelta := str(scelta_dato)
 				con_why += 1
@@ -101,9 +131,13 @@ func _la_consegna(cm: ContentManager) -> void:
 				else:
 					_fallisci("%s · %s: la frase di «%s» non arriva a chi la tocca" % [
 						subject, str(item.get("id", "?")), scelta])
-	print("1. LA CONSEGNA   %d frasi scritte per l'errore, %d consegnate" % [con_why, consegnati])
+	print("1. LA CONSEGNA   %d frasi scritte per l'errore, %d consegnate · %d esercizi su %d ne hanno almeno una" % [
+		con_why, consegnati, con_correzione, totale_item])
 	if con_why > 0 and consegnati < con_why:
 		_fallisci("%d frasi su %d non raggiungono il bambino" % [con_why - consegnati, con_why])
+	if con_correzione < PAVIMENTO_CORREZIONI:
+		_fallisci("solo %d esercizi consegnano una correzione: erano %d, e questo numero non deve scendere" % [
+			con_correzione, PAVIMENTO_CORREZIONI])
 
 ## 2. Una spiegazione che apre ripetendo la risposta appena data non spiega: fa
 ##    rileggere. E' la regola 1 del contratto, ed e' meccanica.
@@ -192,6 +226,7 @@ func _il_silenzio(cm: ContentManager) -> void:
 func _le_figure(cm: ContentManager) -> void:
 	var con_figura := 0
 	var per_tipo: Dictionary = {}
+	var per_materia: Dictionary = {}
 	for subject_dato in ApparatusConfig.SUBJECT_CYCLE:
 		var subject := str(subject_dato)
 		for entry in cm._load_bank(subject):
@@ -202,15 +237,26 @@ func _le_figure(cm: ContentManager) -> void:
 			con_figura += 1
 			var tipo := str(scelta.get("tipo", ""))
 			per_tipo[tipo] = int(per_tipo.get(tipo, 0)) + 1
+			per_materia[subject] = int(per_materia.get(subject, 0)) + 1
 			var figura = NORA_FIGURA.new()
 			figura.mostra(tipo, Dictionary(scelta.get("dati", {})))
 			if figura.descrizione().strip_edges() == "":
 				_fallisci("%s · %s: figura «%s» senza descrizione a parole" % [
 					subject, str(item.get("id", "?")), tipo])
 			figura.free()
-	print("5. LE FIGURE     %d prove hanno un disegno: %s" % [con_figura, str(per_tipo)])
+	var materie_coperte := per_materia.size()
+	var scoperte: Array = []
+	for subject_dato in ApparatusConfig.SUBJECT_CYCLE:
+		if not per_materia.has(str(subject_dato)):
+			scoperte.append(str(subject_dato))
+	print("5. LE FIGURE     %d prove hanno un disegno · %d materie su 12 (senza: %s)" % [
+		con_figura, materie_coperte, ", ".join(PackedStringArray(scoperte))])
+	print("                 %s" % str(per_tipo))
 	if con_figura <= 0:
 		_fallisci("nessun esercizio riceve una figura: il disegno non arriva a nessuno")
+	if materie_coperte < MATERIE_CON_FIGURA:
+		_fallisci("solo %d materie hanno una figura: erano %d, e questo numero non deve scendere" % [
+			materie_coperte, MATERIE_CON_FIGURA])
 
 ## 6. **La correzione arriva sullo schermo, non solo dalla funzione.**
 ##
@@ -268,3 +314,40 @@ func _sullo_schermo() -> void:
 	else:
 		print("                 e vede: %s" % figura.call("descrizione"))
 	player.queue_free()
+
+## 7. **Un argomento affollato non può avere una riga sola.**
+##
+## Il meccanismo dei livelli è nato il 26 agosto e per un giorno l'ha usato un
+## argomento su 249. Diciotto argomenti hanno quaranta o più esercizi e insieme ne
+## coprono 1325: con una riga sola NORA la ripeteva fino a esaurimento della
+## pazienza, e la memoria delle dodici impronte rimanda il problema senza
+## risolverlo.
+##
+## Questa misura non giudica che cosa dicono i livelli — non può — ma che
+## **esistano**: è meccanica, e vale la pena averla perché il difetto che previene
+## si ripresenta ogni volta che si aggiungono esercizi a un argomento esistente.
+func _i_livelli(cm: ContentManager) -> void:
+	var conta: Dictionary = {}
+	for subject_dato in ApparatusConfig.SUBJECT_CYCLE:
+		var subject := str(subject_dato)
+		for entry in cm._load_bank(subject):
+			var chiave := "%s:%s" % [subject, str((entry as Dictionary).get("topic", ""))]
+			conta[chiave] = int(conta.get(chiave, 0)) + 1
+	var affollati := 0
+	var con_livelli := 0
+	var coperti := 0
+	for chiave in conta.keys():
+		if int(conta[chiave]) < AFFOLLATO:
+			continue
+		affollati += 1
+		coperti += int(conta[chiave])
+		var pezzi := str(chiave).split(":")
+		var v := NoraExplanations.voce(str(pezzi[0]), str(pezzi[1]))
+		var quanti := NoraExplanations.livelli_di(v, true).size()
+		if quanti >= 2:
+			con_livelli += 1
+		else:
+			_fallisci("%s ha %d esercizi e una riga sola di NORA: serve almeno un secondo livello" % [
+				str(chiave), int(conta[chiave])])
+	print("7. I LIVELLI     %d argomenti con %d+ esercizi (%d prove in tutto), %d con più livelli" % [
+		affollati, AFFOLLATO, coperti, con_livelli])

@@ -1570,7 +1570,12 @@
 			"distractorWhy": {
 				"5": "È il conteggio se si unisce l'America in un continente solo e non si conta l'Antartide: qui si contano separati.",
 				"6": "È il conteggio se non si conta l'Antartide, che pure è un continente.",
-				"8": "Nessuna suddivisione dei continenti ne conta così tanti."
+				"8": "Nessuna suddivisione dei continenti ne conta così tanti.",
+				"Africa": "«Africa» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trova il deserto del Sahara?».",
+				"Everest": "«Everest» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la montagna più alta della Terra?».",
+				"America del Sud": "«America del Sud» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente scorre il Rio delle Amazzoni?».",
+				"Fossa delle Marianne": "«Fossa delle Marianne» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il punto più profondo degli oceani, nel Pacifico?».",
+				"pianura padana": "«pianura padana» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la pianura più estesa d'Italia?»."
 			}
 		},
 		{
@@ -2149,7 +2154,17 @@
 			"prompt": "Dei sette continenti, quanti sono abitati stabilmente?",
 			"options": [],
 			"answer": "6",
-			"explanation": "Europa, Asia, Africa, America del Nord, America del Sud e Oceania. In Antartide ci sono solo basi scientifiche, con persone che si danno il cambio: nessuno ci abita per sempre."
+			"explanation": "Europa, Asia, Africa, America del Nord, America del Sud e Oceania. In Antartide ci sono solo basi scientifiche, con persone che si danno il cambio: nessuno ci abita per sempre.",
+			"distractorWhy": {
+				"Europa e Asia": "«Europa e Asia» è la risposta giusta a un'altra domanda di questo gruppo: «Su quali due continenti si estende la Russia?».",
+				"Russia": "«Russia» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il Paese più grande del mondo per superficie?».",
+				"India": "«India» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è oggi il Paese più popoloso del mondo?».",
+				"Canale di Suez": "«Canale di Suez» è la risposta giusta a un'altra domanda di questo gruppo: «Attraverso quale canale le navi passano tra Mar Mediterraneo e Mar Rosso?».",
+				"Pacifico": "«Pacifico» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'oceano più esteso del pianeta?».",
+				"Asia": "«Asia» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il continente più esteso?».",
+				"Sahara": "«Sahara» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il deserto caldo più esteso del mondo?».",
+				"Himalaya": "«Himalaya» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la catena montuosa più alta del mondo?»."
+			}
 		},
 		{
 			"id": "geografia-mondo-1",
@@ -3042,7 +3057,17 @@
 			"prompt": "Quante regioni ha l'Italia?",
 			"options": [],
 			"answer": "20",
-			"explanation": "Venti regioni, di cui cinque a statuto speciale: Sicilia, Sardegna, Trentino-Alto Adige, Friuli-Venezia Giulia e Valle d'Aosta."
+			"explanation": "Venti regioni, di cui cinque a statuto speciale: Sicilia, Sardegna, Trentino-Alto Adige, Friuli-Venezia Giulia e Valle d'Aosta.",
+			"distractorWhy": {
+				"Roma": "«Roma» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale d'Italia?».",
+				"Po": "«Po» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il fiume più lungo d'Italia?».",
+				"Sicilia e Sardegna": "«Sicilia e Sardegna» è la risposta giusta a un'altra domanda di questo gruppo: «Quali sono le due isole più grandi d'Italia?».",
+				"Etna": "«Etna» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il vulcano attivo più grande d'Europa, in Sicilia?».",
+				"Lago di Garda": "«Lago di Garda» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il lago più grande d'Italia?».",
+				"Appennini": "«Appennini» è la risposta giusta a un'altra domanda di questo gruppo: «Quale catena montuosa percorre l'Italia da nord a sud?».",
+				"Mar Adriatico": "«Mar Adriatico» è la risposta giusta a un'altra domanda di questo gruppo: «Quale mare bagna la costa orientale dell'Italia?».",
+				"Sicilia": "«Sicilia» è la risposta giusta a un'altra domanda di questo gruppo: «Quale regione italiana ha la maggiore superficie?»."
+			}
 		},
 		{
 			"id": "geografia-geografia-italia-44",
@@ -3224,7 +3249,15 @@
 			"accept": [
 				"l'Asia"
 			],
-			"explanation": "Copre da sola circa un terzo delle terre emerse."
+			"explanation": "Copre da sola circa un terzo delle terre emerse.",
+			"distractorWhy": {
+				"Europa": "«Europa» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trova l'Italia?».",
+				"America del Nord": "«America del Nord» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trovano gli Stati Uniti?».",
+				"America del Sud": "«America del Sud» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trova il Brasile?».",
+				"Africa": "«Africa» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trova l'Egitto?».",
+				"Oceania": "«Oceania» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trova l'Australia?».",
+				"Antartide": "«Antartide» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il continente più freddo?»."
+			}
 		},
 		{
 			"id": "geografia-continenti-53",
@@ -3238,7 +3271,15 @@
 			"accept": [
 				"l'Antartide"
 			],
-			"explanation": "È coperto da una calotta di ghiaccio spessa chilometri."
+			"explanation": "È coperto da una calotta di ghiaccio spessa chilometri.",
+			"distractorWhy": {
+				"Europa": "«Europa» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trova l'Italia?».",
+				"America del Nord": "«America del Nord» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trovano gli Stati Uniti?».",
+				"America del Sud": "«America del Sud» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trova il Brasile?».",
+				"Asia": "«Asia» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trova il Giappone?».",
+				"Africa": "«Africa» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trova l'Egitto?».",
+				"Oceania": "«Oceania» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trova l'Australia?»."
+			}
 		},
 		{
 			"id": "geografia-continenti-54",
@@ -3252,7 +3293,15 @@
 			"accept": [
 				"l'Africa"
 			],
-			"explanation": "Occupa tutta la fascia settentrionale del continente."
+			"explanation": "Occupa tutta la fascia settentrionale del continente.",
+			"distractorWhy": {
+				"Europa": "«Europa» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trova l'Italia?».",
+				"America del Nord": "«America del Nord» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trovano gli Stati Uniti?».",
+				"America del Sud": "«America del Sud» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trova il Brasile?».",
+				"Asia": "«Asia» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trova il Giappone?».",
+				"Oceania": "«Oceania» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trova l'Australia?».",
+				"Antartide": "«Antartide» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il continente più freddo?»."
+			}
 		},
 		{
 			"id": "geografia-continenti-55",
@@ -3266,7 +3315,15 @@
 			"accept": [
 				"l'Europa"
 			],
-			"explanation": "Sporge nel Mediterraneo dalla parte meridionale del continente."
+			"explanation": "Sporge nel Mediterraneo dalla parte meridionale del continente.",
+			"distractorWhy": {
+				"America del Nord": "«America del Nord» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trovano gli Stati Uniti?».",
+				"America del Sud": "«America del Sud» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trova il Brasile?».",
+				"Asia": "«Asia» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trova il Giappone?».",
+				"Africa": "«Africa» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trova l'Egitto?».",
+				"Oceania": "«Oceania» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trova l'Australia?».",
+				"Antartide": "«Antartide» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il continente più freddo?»."
+			}
 		},
 		{
 			"id": "geografia-capitali-56",
@@ -3278,7 +3335,17 @@
 			"options": [],
 			"answer": "Parigi",
 			"accept": [],
-			"explanation": "Sorge sulla Senna."
+			"explanation": "Sorge sulla Senna.",
+			"distractorWhy": {
+				"Roma": "«Roma» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale dell'Italia?».",
+				"Italia": "«Italia» è la risposta giusta a un'altra domanda di questo gruppo: «Di quale Stato è capitale Roma?».",
+				"Francia": "«Francia» è la risposta giusta a un'altra domanda di questo gruppo: «Di quale Stato è capitale Parigi?».",
+				"Madrid": "«Madrid» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale della Spagna?».",
+				"Spagna": "«Spagna» è la risposta giusta a un'altra domanda di questo gruppo: «Di quale Stato è capitale Madrid?».",
+				"Berlino": "«Berlino» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale della Germania?».",
+				"Germania": "«Germania» è la risposta giusta a un'altra domanda di questo gruppo: «Di quale Stato è capitale Berlino?».",
+				"Londra": "«Londra» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale del Regno Unito?»."
+			}
 		},
 		{
 			"id": "geografia-capitali-57",
@@ -3290,7 +3357,17 @@
 			"options": [],
 			"answer": "Madrid",
 			"accept": [],
-			"explanation": "Sta quasi al centro esatto della penisola iberica."
+			"explanation": "Sta quasi al centro esatto della penisola iberica.",
+			"distractorWhy": {
+				"Roma": "«Roma» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale dell'Italia?».",
+				"Italia": "«Italia» è la risposta giusta a un'altra domanda di questo gruppo: «Di quale Stato è capitale Roma?».",
+				"Parigi": "«Parigi» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale della Francia?».",
+				"Francia": "«Francia» è la risposta giusta a un'altra domanda di questo gruppo: «Di quale Stato è capitale Parigi?».",
+				"Spagna": "«Spagna» è la risposta giusta a un'altra domanda di questo gruppo: «Di quale Stato è capitale Madrid?».",
+				"Berlino": "«Berlino» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale della Germania?».",
+				"Germania": "«Germania» è la risposta giusta a un'altra domanda di questo gruppo: «Di quale Stato è capitale Berlino?».",
+				"Londra": "«Londra» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale del Regno Unito?»."
+			}
 		},
 		{
 			"id": "geografia-capitali-58",
@@ -3302,7 +3379,17 @@
 			"options": [],
 			"answer": "Berlino",
 			"accept": [],
-			"explanation": "È stata divisa da un muro fino al 1989."
+			"explanation": "È stata divisa da un muro fino al 1989.",
+			"distractorWhy": {
+				"Roma": "«Roma» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale dell'Italia?».",
+				"Italia": "«Italia» è la risposta giusta a un'altra domanda di questo gruppo: «Di quale Stato è capitale Roma?».",
+				"Parigi": "«Parigi» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale della Francia?».",
+				"Francia": "«Francia» è la risposta giusta a un'altra domanda di questo gruppo: «Di quale Stato è capitale Parigi?».",
+				"Madrid": "«Madrid» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale della Spagna?».",
+				"Spagna": "«Spagna» è la risposta giusta a un'altra domanda di questo gruppo: «Di quale Stato è capitale Madrid?».",
+				"Germania": "«Germania» è la risposta giusta a un'altra domanda di questo gruppo: «Di quale Stato è capitale Berlino?».",
+				"Londra": "«Londra» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale del Regno Unito?»."
+			}
 		},
 		{
 			"id": "geografia-capitali-59",
@@ -3314,7 +3401,17 @@
 			"options": [],
 			"answer": "Lisbona",
 			"accept": [],
-			"explanation": "Si affaccia sull'oceano Atlantico, alla foce del Tago."
+			"explanation": "Si affaccia sull'oceano Atlantico, alla foce del Tago.",
+			"distractorWhy": {
+				"Roma": "«Roma» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale dell'Italia?».",
+				"Italia": "«Italia» è la risposta giusta a un'altra domanda di questo gruppo: «Di quale Stato è capitale Roma?».",
+				"Parigi": "«Parigi» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale della Francia?».",
+				"Francia": "«Francia» è la risposta giusta a un'altra domanda di questo gruppo: «Di quale Stato è capitale Parigi?».",
+				"Madrid": "«Madrid» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale della Spagna?».",
+				"Spagna": "«Spagna» è la risposta giusta a un'altra domanda di questo gruppo: «Di quale Stato è capitale Madrid?».",
+				"Berlino": "«Berlino» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale della Germania?».",
+				"Germania": "«Germania» è la risposta giusta a un'altra domanda di questo gruppo: «Di quale Stato è capitale Berlino?»."
+			}
 		},
 		{
 			"id": "geografia-capitali-60",
@@ -3326,7 +3423,17 @@
 			"options": [],
 			"answer": "Atene",
 			"accept": [],
-			"explanation": "Sull'Acropoli si trova il Partenone."
+			"explanation": "Sull'Acropoli si trova il Partenone.",
+			"distractorWhy": {
+				"Roma": "«Roma» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale dell'Italia?».",
+				"Italia": "«Italia» è la risposta giusta a un'altra domanda di questo gruppo: «Di quale Stato è capitale Roma?».",
+				"Parigi": "«Parigi» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale della Francia?».",
+				"Francia": "«Francia» è la risposta giusta a un'altra domanda di questo gruppo: «Di quale Stato è capitale Parigi?».",
+				"Madrid": "«Madrid» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale della Spagna?».",
+				"Spagna": "«Spagna» è la risposta giusta a un'altra domanda di questo gruppo: «Di quale Stato è capitale Madrid?».",
+				"Berlino": "«Berlino» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale della Germania?».",
+				"Germania": "«Germania» è la risposta giusta a un'altra domanda di questo gruppo: «Di quale Stato è capitale Berlino?»."
+			}
 		},
 		{
 			"id": "geografia-capitali-61",
@@ -3338,7 +3445,17 @@
 			"options": [],
 			"answer": "Vienna",
 			"accept": [],
-			"explanation": "Sta sul Danubio, all'incrocio fra l'Europa occidentale e quella orientale."
+			"explanation": "Sta sul Danubio, all'incrocio fra l'Europa occidentale e quella orientale.",
+			"distractorWhy": {
+				"Roma": "«Roma» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale dell'Italia?».",
+				"Italia": "«Italia» è la risposta giusta a un'altra domanda di questo gruppo: «Di quale Stato è capitale Roma?».",
+				"Parigi": "«Parigi» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale della Francia?».",
+				"Francia": "«Francia» è la risposta giusta a un'altra domanda di questo gruppo: «Di quale Stato è capitale Parigi?».",
+				"Madrid": "«Madrid» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale della Spagna?».",
+				"Spagna": "«Spagna» è la risposta giusta a un'altra domanda di questo gruppo: «Di quale Stato è capitale Madrid?».",
+				"Berlino": "«Berlino» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale della Germania?».",
+				"Germania": "«Germania» è la risposta giusta a un'altra domanda di questo gruppo: «Di quale Stato è capitale Berlino?»."
+			}
 		},
 		{
 			"id": "geografia-capitali-62",
@@ -3350,7 +3467,17 @@
 			"options": [],
 			"answer": "Varsavia",
 			"accept": [],
-			"explanation": "Ricostruita quasi da zero dopo la seconda guerra mondiale."
+			"explanation": "Ricostruita quasi da zero dopo la seconda guerra mondiale.",
+			"distractorWhy": {
+				"Roma": "«Roma» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale dell'Italia?».",
+				"Italia": "«Italia» è la risposta giusta a un'altra domanda di questo gruppo: «Di quale Stato è capitale Roma?».",
+				"Parigi": "«Parigi» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale della Francia?».",
+				"Francia": "«Francia» è la risposta giusta a un'altra domanda di questo gruppo: «Di quale Stato è capitale Parigi?».",
+				"Madrid": "«Madrid» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale della Spagna?».",
+				"Spagna": "«Spagna» è la risposta giusta a un'altra domanda di questo gruppo: «Di quale Stato è capitale Madrid?».",
+				"Berlino": "«Berlino» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale della Germania?».",
+				"Germania": "«Germania» è la risposta giusta a un'altra domanda di questo gruppo: «Di quale Stato è capitale Berlino?»."
+			}
 		},
 		{
 			"id": "geografia-capitali-63",
@@ -3362,7 +3489,17 @@
 			"options": [],
 			"answer": "Berna",
 			"accept": [],
-			"explanation": "Non è la città più grande: Zurigo lo è, ma la capitale è Berna."
+			"explanation": "Non è la città più grande: Zurigo lo è, ma la capitale è Berna.",
+			"distractorWhy": {
+				"Roma": "«Roma» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale dell'Italia?».",
+				"Italia": "«Italia» è la risposta giusta a un'altra domanda di questo gruppo: «Di quale Stato è capitale Roma?».",
+				"Parigi": "«Parigi» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale della Francia?».",
+				"Francia": "«Francia» è la risposta giusta a un'altra domanda di questo gruppo: «Di quale Stato è capitale Parigi?».",
+				"Madrid": "«Madrid» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale della Spagna?».",
+				"Spagna": "«Spagna» è la risposta giusta a un'altra domanda di questo gruppo: «Di quale Stato è capitale Madrid?».",
+				"Berlino": "«Berlino» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale della Germania?».",
+				"Germania": "«Germania» è la risposta giusta a un'altra domanda di questo gruppo: «Di quale Stato è capitale Berlino?»."
+			}
 		},
 		{
 			"id": "geografia-geografia-italia-64",
@@ -3376,7 +3513,17 @@
 			"accept": [
 				"il Po"
 			],
-			"explanation": "Attraversa la pianura padana da ovest a est."
+			"explanation": "Attraversa la pianura padana da ovest a est.",
+			"distractorWhy": {
+				"20": "«20» è la risposta giusta a un'altra domanda di questo gruppo: «Quante regioni ha l'Italia?».",
+				"Roma": "«Roma» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale d'Italia?».",
+				"Sicilia e Sardegna": "«Sicilia e Sardegna» è la risposta giusta a un'altra domanda di questo gruppo: «Quali sono le due isole più grandi d'Italia?».",
+				"Etna": "«Etna» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il vulcano attivo più grande d'Europa, in Sicilia?».",
+				"Lago di Garda": "«Lago di Garda» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il lago più grande d'Italia?».",
+				"Appennini": "«Appennini» è la risposta giusta a un'altra domanda di questo gruppo: «Quale catena montuosa percorre l'Italia da nord a sud?».",
+				"Mar Adriatico": "«Mar Adriatico» è la risposta giusta a un'altra domanda di questo gruppo: «Quale mare bagna la costa orientale dell'Italia?».",
+				"Sicilia": "«Sicilia» è la risposta giusta a un'altra domanda di questo gruppo: «Quale regione italiana ha la maggiore superficie?»."
+			}
 		},
 		{
 			"id": "geografia-geografia-italia-65",
@@ -3391,7 +3538,17 @@
 				"mare Adriatico",
 				"l'Adriatico"
 			],
-			"explanation": "Stretto e poco profondo, chiuso fra l'Italia e la penisola balcanica."
+			"explanation": "Stretto e poco profondo, chiuso fra l'Italia e la penisola balcanica.",
+			"distractorWhy": {
+				"Roma": "«Roma» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale d'Italia?».",
+				"Po": "«Po» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il fiume più lungo d'Italia?».",
+				"Sicilia e Sardegna": "«Sicilia e Sardegna» è la risposta giusta a un'altra domanda di questo gruppo: «Quali sono le due isole più grandi d'Italia?».",
+				"Etna": "«Etna» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il vulcano attivo più grande d'Europa, in Sicilia?».",
+				"Lago di Garda": "«Lago di Garda» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il lago più grande d'Italia?».",
+				"Appennini": "«Appennini» è la risposta giusta a un'altra domanda di questo gruppo: «Quale catena montuosa percorre l'Italia da nord a sud?».",
+				"Mar Adriatico": "«Mar Adriatico» è la risposta giusta a un'altra domanda di questo gruppo: «Quale mare bagna la costa orientale dell'Italia?».",
+				"Sicilia": "«Sicilia» è la risposta giusta a un'altra domanda di questo gruppo: «Quale regione italiana ha la maggiore superficie?»."
+			}
 		},
 		{
 			"id": "geografia-geografia-italia-66",
@@ -3405,7 +3562,17 @@
 			"accept": [
 				"la Sicilia"
 			],
-			"explanation": "Poco più estesa della Sardegna."
+			"explanation": "Poco più estesa della Sardegna.",
+			"distractorWhy": {
+				"20": "«20» è la risposta giusta a un'altra domanda di questo gruppo: «Quante regioni ha l'Italia?».",
+				"Roma": "«Roma» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale d'Italia?».",
+				"Po": "«Po» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il fiume più lungo d'Italia?».",
+				"Sicilia e Sardegna": "«Sicilia e Sardegna» è la risposta giusta a un'altra domanda di questo gruppo: «Quali sono le due isole più grandi d'Italia?».",
+				"Etna": "«Etna» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il vulcano attivo più grande d'Europa, in Sicilia?».",
+				"Lago di Garda": "«Lago di Garda» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il lago più grande d'Italia?».",
+				"Appennini": "«Appennini» è la risposta giusta a un'altra domanda di questo gruppo: «Quale catena montuosa percorre l'Italia da nord a sud?».",
+				"Mar Adriatico": "«Mar Adriatico» è la risposta giusta a un'altra domanda di questo gruppo: «Quale mare bagna la costa orientale dell'Italia?»."
+			}
 		},
 		{
 			"id": "geografia-geografia-italia-67",
@@ -3420,7 +3587,17 @@
 				"gli Appennini",
 				"Appennino"
 			],
-			"explanation": "Fa da spina dorsale alla penisola."
+			"explanation": "Fa da spina dorsale alla penisola.",
+			"distractorWhy": {
+				"20": "«20» è la risposta giusta a un'altra domanda di questo gruppo: «Quante regioni ha l'Italia?».",
+				"Roma": "«Roma» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale d'Italia?».",
+				"Po": "«Po» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il fiume più lungo d'Italia?».",
+				"Sicilia e Sardegna": "«Sicilia e Sardegna» è la risposta giusta a un'altra domanda di questo gruppo: «Quali sono le due isole più grandi d'Italia?».",
+				"Etna": "«Etna» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il vulcano attivo più grande d'Europa, in Sicilia?».",
+				"Lago di Garda": "«Lago di Garda» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il lago più grande d'Italia?».",
+				"Mar Adriatico": "«Mar Adriatico» è la risposta giusta a un'altra domanda di questo gruppo: «Quale mare bagna la costa orientale dell'Italia?».",
+				"Sicilia": "«Sicilia» è la risposta giusta a un'altra domanda di questo gruppo: «Quale regione italiana ha la maggiore superficie?»."
+			}
 		},
 		{
 			"id": "geografia-geografia-italia-68",
@@ -3434,7 +3611,17 @@
 			"accept": [
 				"l'Etna"
 			],
-			"explanation": "È il vulcano attivo più alto d'Europa."
+			"explanation": "È il vulcano attivo più alto d'Europa.",
+			"distractorWhy": {
+				"20": "«20» è la risposta giusta a un'altra domanda di questo gruppo: «Quante regioni ha l'Italia?».",
+				"Roma": "«Roma» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale d'Italia?».",
+				"Po": "«Po» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il fiume più lungo d'Italia?».",
+				"Sicilia e Sardegna": "«Sicilia e Sardegna» è la risposta giusta a un'altra domanda di questo gruppo: «Quali sono le due isole più grandi d'Italia?».",
+				"Lago di Garda": "«Lago di Garda» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il lago più grande d'Italia?».",
+				"Appennini": "«Appennini» è la risposta giusta a un'altra domanda di questo gruppo: «Quale catena montuosa percorre l'Italia da nord a sud?».",
+				"Mar Adriatico": "«Mar Adriatico» è la risposta giusta a un'altra domanda di questo gruppo: «Quale mare bagna la costa orientale dell'Italia?».",
+				"Sicilia": "«Sicilia» è la risposta giusta a un'altra domanda di questo gruppo: «Quale regione italiana ha la maggiore superficie?»."
+			}
 		},
 		{
 			"id": "geografia-geografia-fisica-69",
@@ -3449,7 +3636,17 @@
 				"padana",
 				"Pianura Padana"
 			],
-			"explanation": "La costruisce il Po con i detriti che deposita da millenni."
+			"explanation": "La costruisce il Po con i detriti che deposita da millenni.",
+			"distractorWhy": {
+				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti sono i continenti della Terra?».",
+				"Africa": "«Africa» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trova il deserto del Sahara?».",
+				"Everest": "«Everest» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la montagna più alta della Terra?».",
+				"America del Sud": "«America del Sud» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente scorre il Rio delle Amazzoni?».",
+				"Fossa delle Marianne": "«Fossa delle Marianne» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il punto più profondo degli oceani, nel Pacifico?».",
+				"foce": "«foce» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il punto in cui un fiume si getta nel mare?».",
+				"sorgente": "«sorgente» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il punto in cui un fiume nasce?».",
+				"penisola": "«penisola» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama una lingua di terra circondata dal mare su tre lati?»."
+			}
 		},
 		{
 			"id": "geografia-geografia-fisica-70",
@@ -3464,7 +3661,17 @@
 				"la foce",
 				"foce del fiume"
 			],
-			"explanation": "Se il fiume deposita molti detriti si forma un delta."
+			"explanation": "Se il fiume deposita molti detriti si forma un delta.",
+			"distractorWhy": {
+				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti sono i continenti della Terra?».",
+				"Everest": "«Everest» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la montagna più alta della Terra?».",
+				"America del Sud": "«America del Sud» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente scorre il Rio delle Amazzoni?».",
+				"Fossa delle Marianne": "«Fossa delle Marianne» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il punto più profondo degli oceani, nel Pacifico?».",
+				"pianura padana": "«pianura padana» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la pianura più estesa d'Italia?».",
+				"sorgente": "«sorgente» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il punto in cui un fiume nasce?».",
+				"penisola": "«penisola» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama una lingua di terra circondata dal mare su tre lati?».",
+				"stretto": "«stretto» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il braccio di mare che separa due terre vicine?»."
+			}
 		},
 		{
 			"id": "geografia-geografia-fisica-71",
@@ -3479,7 +3686,17 @@
 				"la sorgente",
 				"una sorgente"
 			],
-			"explanation": "Da lì in poi il fiume raccoglie l'acqua di tutto il bacino."
+			"explanation": "Da lì in poi il fiume raccoglie l'acqua di tutto il bacino.",
+			"distractorWhy": {
+				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti sono i continenti della Terra?».",
+				"Africa": "«Africa» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trova il deserto del Sahara?».",
+				"Everest": "«Everest» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la montagna più alta della Terra?».",
+				"America del Sud": "«America del Sud» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente scorre il Rio delle Amazzoni?».",
+				"Fossa delle Marianne": "«Fossa delle Marianne» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il punto più profondo degli oceani, nel Pacifico?».",
+				"pianura padana": "«pianura padana» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la pianura più estesa d'Italia?».",
+				"foce": "«foce» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il punto in cui un fiume si getta nel mare?».",
+				"penisola": "«penisola» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama una lingua di terra circondata dal mare su tre lati?»."
+			}
 		},
 		{
 			"id": "geografia-geografia-fisica-72",
@@ -3494,7 +3711,17 @@
 				"la penisola",
 				"una penisola"
 			],
-			"explanation": "L'Italia ne è l'esempio più noto."
+			"explanation": "L'Italia ne è l'esempio più noto.",
+			"distractorWhy": {
+				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti sono i continenti della Terra?».",
+				"Africa": "«Africa» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trova il deserto del Sahara?».",
+				"Everest": "«Everest» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la montagna più alta della Terra?».",
+				"America del Sud": "«America del Sud» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente scorre il Rio delle Amazzoni?».",
+				"Fossa delle Marianne": "«Fossa delle Marianne» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il punto più profondo degli oceani, nel Pacifico?».",
+				"pianura padana": "«pianura padana» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la pianura più estesa d'Italia?».",
+				"foce": "«foce» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il punto in cui un fiume si getta nel mare?».",
+				"sorgente": "«sorgente» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il punto in cui un fiume nasce?»."
+			}
 		},
 		{
 			"id": "geografia-geografia-fisica-73",
@@ -3509,7 +3736,17 @@
 				"lo stretto",
 				"uno stretto"
 			],
-			"explanation": "Lo stretto di Messina separa la Sicilia dalla Calabria."
+			"explanation": "Lo stretto di Messina separa la Sicilia dalla Calabria.",
+			"distractorWhy": {
+				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti sono i continenti della Terra?».",
+				"Africa": "«Africa» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trova il deserto del Sahara?».",
+				"America del Sud": "«America del Sud» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente scorre il Rio delle Amazzoni?».",
+				"Fossa delle Marianne": "«Fossa delle Marianne» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il punto più profondo degli oceani, nel Pacifico?».",
+				"pianura padana": "«pianura padana» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la pianura più estesa d'Italia?».",
+				"foce": "«foce» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il punto in cui un fiume si getta nel mare?».",
+				"sorgente": "«sorgente» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il punto in cui un fiume nasce?».",
+				"penisola": "«penisola» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama una lingua di terra circondata dal mare su tre lati?»."
+			}
 		},
 		{
 			"id": "geografia-europa-74",
@@ -3523,7 +3760,17 @@
 			"accept": [
 				"la Senna"
 			],
-			"explanation": "Divide la città in riva destra e riva sinistra."
+			"explanation": "Divide la città in riva destra e riva sinistra.",
+			"distractorWhy": {
+				"Europa": "«Europa» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trova l'Italia?».",
+				"Monti Urali": "«Monti Urali» è la risposta giusta a un'altra domanda di questo gruppo: «Quale catena di monti segna il confine tra Europa e Asia?».",
+				"Unione Europea": "«Unione Europea» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'unione economica e politica di molti Stati europei?».",
+				"Danubio": "«Danubio» è la risposta giusta a un'altra domanda di questo gruppo: «Quale grande fiume europeo attraversa dieci Paesi diversi?».",
+				"Urali": "«Urali» è la risposta giusta a un'altra domanda di questo gruppo: «Quale catena montuosa separa l'Europa dall'Asia?».",
+				"Adriatico": "«Adriatico» è la risposta giusta a un'altra domanda di questo gruppo: «Quale mare bagna l'Italia a est?».",
+				"Penisola iberica": "«Penisola iberica» è la risposta giusta a un'altra domanda di questo gruppo: «Quale penisola europea è bagnata da Mediterraneo e Atlantico?».",
+				"Ucraina": "«Ucraina» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è lo Stato più esteso interamente in Europa?»."
+			}
 		},
 		{
 			"id": "geografia-europa-75",
@@ -3537,7 +3784,17 @@
 			"accept": [
 				"le Alpi"
 			],
-			"explanation": "Fa da confine naturale a nord."
+			"explanation": "Fa da confine naturale a nord.",
+			"distractorWhy": {
+				"Europa": "«Europa» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trova l'Italia?».",
+				"Senna": "«Senna» è la risposta giusta a un'altra domanda di questo gruppo: «Quale fiume attraversa la città di Parigi?».",
+				"Monti Urali": "«Monti Urali» è la risposta giusta a un'altra domanda di questo gruppo: «Quale catena di monti segna il confine tra Europa e Asia?».",
+				"Unione Europea": "«Unione Europea» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'unione economica e politica di molti Stati europei?».",
+				"Danubio": "«Danubio» è la risposta giusta a un'altra domanda di questo gruppo: «Quale grande fiume europeo attraversa dieci Paesi diversi?».",
+				"Urali": "«Urali» è la risposta giusta a un'altra domanda di questo gruppo: «Quale catena montuosa separa l'Europa dall'Asia?».",
+				"Adriatico": "«Adriatico» è la risposta giusta a un'altra domanda di questo gruppo: «Quale mare bagna l'Italia a est?».",
+				"Penisola iberica": "«Penisola iberica» è la risposta giusta a un'altra domanda di questo gruppo: «Quale penisola europea è bagnata da Mediterraneo e Atlantico?»."
+			}
 		},
 		{
 			"id": "geografia-europa-76",
@@ -3551,7 +3808,17 @@
 			"accept": [
 				"iberica"
 			],
-			"explanation": "Separata dal resto d'Europa dai Pirenei."
+			"explanation": "Separata dal resto d'Europa dai Pirenei.",
+			"distractorWhy": {
+				"Europa": "«Europa» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trova l'Italia?».",
+				"Senna": "«Senna» è la risposta giusta a un'altra domanda di questo gruppo: «Quale fiume attraversa la città di Parigi?».",
+				"Monti Urali": "«Monti Urali» è la risposta giusta a un'altra domanda di questo gruppo: «Quale catena di monti segna il confine tra Europa e Asia?».",
+				"Unione Europea": "«Unione Europea» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'unione economica e politica di molti Stati europei?».",
+				"Danubio": "«Danubio» è la risposta giusta a un'altra domanda di questo gruppo: «Quale grande fiume europeo attraversa dieci Paesi diversi?».",
+				"Urali": "«Urali» è la risposta giusta a un'altra domanda di questo gruppo: «Quale catena montuosa separa l'Europa dall'Asia?».",
+				"Adriatico": "«Adriatico» è la risposta giusta a un'altra domanda di questo gruppo: «Quale mare bagna l'Italia a est?».",
+				"Ucraina": "«Ucraina» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è lo Stato più esteso interamente in Europa?»."
+			}
 		},
 		{
 			"id": "geografia-europa-77",
@@ -3565,7 +3832,17 @@
 			"accept": [
 				"il Danubio"
 			],
-			"explanation": "Nasce in Germania e sfocia nel mar Nero dopo aver toccato dieci Paesi."
+			"explanation": "Nasce in Germania e sfocia nel mar Nero dopo aver toccato dieci Paesi.",
+			"distractorWhy": {
+				"Europa": "«Europa» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trova l'Italia?».",
+				"Senna": "«Senna» è la risposta giusta a un'altra domanda di questo gruppo: «Quale fiume attraversa la città di Parigi?».",
+				"Monti Urali": "«Monti Urali» è la risposta giusta a un'altra domanda di questo gruppo: «Quale catena di monti segna il confine tra Europa e Asia?».",
+				"Unione Europea": "«Unione Europea» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'unione economica e politica di molti Stati europei?».",
+				"Urali": "«Urali» è la risposta giusta a un'altra domanda di questo gruppo: «Quale catena montuosa separa l'Europa dall'Asia?».",
+				"Adriatico": "«Adriatico» è la risposta giusta a un'altra domanda di questo gruppo: «Quale mare bagna l'Italia a est?».",
+				"Penisola iberica": "«Penisola iberica» è la risposta giusta a un'altra domanda di questo gruppo: «Quale penisola europea è bagnata da Mediterraneo e Atlantico?».",
+				"Ucraina": "«Ucraina» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è lo Stato più esteso interamente in Europa?»."
+			}
 		},
 		{
 			"id": "geografia-mondo-78",
@@ -3580,7 +3857,17 @@
 				"oceano Pacifico",
 				"il Pacifico"
 			],
-			"explanation": "Da solo copre circa un terzo della superficie del pianeta."
+			"explanation": "Da solo copre circa un terzo della superficie del pianeta.",
+			"distractorWhy": {
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Dei sette continenti, quanti sono abitati stabilmente?».",
+				"Europa e Asia": "«Europa e Asia» è la risposta giusta a un'altra domanda di questo gruppo: «Su quali due continenti si estende la Russia?».",
+				"Russia": "«Russia» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il Paese più grande del mondo per superficie?».",
+				"India": "«India» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è oggi il Paese più popoloso del mondo?».",
+				"Canale di Suez": "«Canale di Suez» è la risposta giusta a un'altra domanda di questo gruppo: «Attraverso quale canale le navi passano tra Mar Mediterraneo e Mar Rosso?».",
+				"Asia": "«Asia» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il continente più esteso?».",
+				"Sahara": "«Sahara» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il deserto caldo più esteso del mondo?».",
+				"Himalaya": "«Himalaya» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la catena montuosa più alta del mondo?»."
+			}
 		},
 		{
 			"id": "geografia-mondo-79",
@@ -3595,7 +3882,17 @@
 				"Monte Everest",
 				"l'Everest"
 			],
-			"explanation": "Ottomilaottocentoquarantanove metri, sulla catena dell'Himalaya."
+			"explanation": "Ottomilaottocentoquarantanove metri, sulla catena dell'Himalaya.",
+			"distractorWhy": {
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Dei sette continenti, quanti sono abitati stabilmente?».",
+				"Europa e Asia": "«Europa e Asia» è la risposta giusta a un'altra domanda di questo gruppo: «Su quali due continenti si estende la Russia?».",
+				"Russia": "«Russia» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il Paese più grande del mondo per superficie?».",
+				"India": "«India» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è oggi il Paese più popoloso del mondo?».",
+				"Canale di Suez": "«Canale di Suez» è la risposta giusta a un'altra domanda di questo gruppo: «Attraverso quale canale le navi passano tra Mar Mediterraneo e Mar Rosso?».",
+				"Pacifico": "«Pacifico» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'oceano più esteso del pianeta?».",
+				"Asia": "«Asia» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il continente più esteso?».",
+				"Sahara": "«Sahara» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il deserto caldo più esteso del mondo?»."
+			}
 		},
 		{
 			"id": "geografia-mondo-80",
@@ -3609,7 +3906,17 @@
 			"accept": [
 				"il Nilo"
 			],
-			"explanation": "Scorre da sud a nord e sfocia nel Mediterraneo."
+			"explanation": "Scorre da sud a nord e sfocia nel Mediterraneo.",
+			"distractorWhy": {
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Dei sette continenti, quanti sono abitati stabilmente?».",
+				"Europa e Asia": "«Europa e Asia» è la risposta giusta a un'altra domanda di questo gruppo: «Su quali due continenti si estende la Russia?».",
+				"Russia": "«Russia» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il Paese più grande del mondo per superficie?».",
+				"India": "«India» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è oggi il Paese più popoloso del mondo?».",
+				"Canale di Suez": "«Canale di Suez» è la risposta giusta a un'altra domanda di questo gruppo: «Attraverso quale canale le navi passano tra Mar Mediterraneo e Mar Rosso?».",
+				"Pacifico": "«Pacifico» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'oceano più esteso del pianeta?».",
+				"Asia": "«Asia» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il continente più esteso?».",
+				"Sahara": "«Sahara» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il deserto caldo più esteso del mondo?»."
+			}
 		},
 		{
 			"id": "geografia-mondo-81",
@@ -3623,7 +3930,17 @@
 			"accept": [
 				"l'equatore"
 			],
-			"explanation": "È il parallelo di latitudine zero."
+			"explanation": "È il parallelo di latitudine zero.",
+			"distractorWhy": {
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Dei sette continenti, quanti sono abitati stabilmente?».",
+				"Europa e Asia": "«Europa e Asia» è la risposta giusta a un'altra domanda di questo gruppo: «Su quali due continenti si estende la Russia?».",
+				"Russia": "«Russia» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il Paese più grande del mondo per superficie?».",
+				"India": "«India» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è oggi il Paese più popoloso del mondo?».",
+				"Canale di Suez": "«Canale di Suez» è la risposta giusta a un'altra domanda di questo gruppo: «Attraverso quale canale le navi passano tra Mar Mediterraneo e Mar Rosso?».",
+				"Pacifico": "«Pacifico» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'oceano più esteso del pianeta?».",
+				"Asia": "«Asia» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il continente più esteso?».",
+				"Sahara": "«Sahara» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il deserto caldo più esteso del mondo?»."
+			}
 		},
 		{
 			"id": "geografia-climi-82",
@@ -3637,7 +3954,14 @@
 			"accept": [
 				"clima mediterraneo"
 			],
-			"explanation": "Lo rendono possibile il mare e la latitudine."
+			"explanation": "Lo rendono possibile il mare e la latitudine.",
+			"distractorWhy": {
+				"Vicino all'Equatore": "«Vicino all'Equatore» è la risposta giusta a un'altra domanda di questo gruppo: «In quale zona della Terra fa caldo tutto l'anno?».",
+				"Foresta pluviale": "«Foresta pluviale» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la grande foresta calda e piovosa vicino all'Equatore?».",
+				"equatoriale": "«equatoriale» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il clima senza stagioni, caldo e piovoso in tutti i mesi?».",
+				"polare": "«polare» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la fascia di clima freddissimo attorno ai poli?».",
+				"monsone": "«monsone» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il vento stagionale che porta grandi piogge nel sud-est asiatico?»."
+			}
 		},
 		{
 			"id": "geografia-climi-83",
@@ -3651,7 +3975,15 @@
 			"accept": [
 				"clima equatoriale"
 			],
-			"explanation": "È la fascia attorno all'Equatore: piove quasi ogni giorno e le temperature non cambiano quasi mai."
+			"explanation": "È la fascia attorno all'Equatore: piove quasi ogni giorno e le temperature non cambiano quasi mai.",
+			"distractorWhy": {
+				"Vicino all'Equatore": "«Vicino all'Equatore» è la risposta giusta a un'altra domanda di questo gruppo: «In quale zona della Terra fa caldo tutto l'anno?».",
+				"Clima mediterraneo": "«Clima mediterraneo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il clima con estati calde e secche e inverni miti, tipico dell'Italia?».",
+				"Foresta pluviale": "«Foresta pluviale» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la grande foresta calda e piovosa vicino all'Equatore?».",
+				"mediterraneo": "«mediterraneo» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"polare": "«polare» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la fascia di clima freddissimo attorno ai poli?».",
+				"monsone": "«monsone» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il vento stagionale che porta grandi piogge nel sud-est asiatico?»."
+			}
 		},
 		{
 			"id": "geografia-climi-84",
@@ -3665,7 +3997,15 @@
 			"accept": [
 				"clima polare"
 			],
-			"explanation": "Le temperature restano sotto zero per gran parte dell'anno."
+			"explanation": "Le temperature restano sotto zero per gran parte dell'anno.",
+			"distractorWhy": {
+				"Vicino all'Equatore": "«Vicino all'Equatore» è la risposta giusta a un'altra domanda di questo gruppo: «In quale zona della Terra fa caldo tutto l'anno?».",
+				"Clima mediterraneo": "«Clima mediterraneo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il clima con estati calde e secche e inverni miti, tipico dell'Italia?».",
+				"Foresta pluviale": "«Foresta pluviale» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la grande foresta calda e piovosa vicino all'Equatore?».",
+				"mediterraneo": "«mediterraneo» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"equatoriale": "«equatoriale» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il clima senza stagioni, caldo e piovoso in tutti i mesi?».",
+				"monsone": "«monsone» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il vento stagionale che porta grandi piogge nel sud-est asiatico?»."
+			}
 		},
 		{
 			"id": "geografia-climi-85",
@@ -3680,7 +4020,15 @@
 				"il monsone",
 				"monsoni"
 			],
-			"explanation": "Cambia direzione fra estate e inverno."
+			"explanation": "Cambia direzione fra estate e inverno.",
+			"distractorWhy": {
+				"Vicino all'Equatore": "«Vicino all'Equatore» è la risposta giusta a un'altra domanda di questo gruppo: «In quale zona della Terra fa caldo tutto l'anno?».",
+				"Clima mediterraneo": "«Clima mediterraneo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il clima con estati calde e secche e inverni miti, tipico dell'Italia?».",
+				"Foresta pluviale": "«Foresta pluviale» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la grande foresta calda e piovosa vicino all'Equatore?».",
+				"mediterraneo": "«mediterraneo» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"equatoriale": "«equatoriale» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il clima senza stagioni, caldo e piovoso in tutti i mesi?».",
+				"polare": "«polare» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la fascia di clima freddissimo attorno ai poli?»."
+			}
 		},
 		{
 			"id": "geografia-geografia-umana-86",
@@ -3695,7 +4043,14 @@
 				"densita di popolazione",
 				"densità"
 			],
-			"explanation": "Dice quanto è affollato un territorio, non quanto è grande."
+			"explanation": "Dice quanto è affollato un territorio, non quanto è grande.",
+			"distractorWhy": {
+				"Est": "«Est» è la risposta giusta a un'altra domanda di questo gruppo: «Da quale punto cardinale sorge il Sole?».",
+				"Carta geografica": "«Carta geografica» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la rappresentazione ridotta della Terra disegnata su un foglio?».",
+				"Bassa": "«Bassa» è la risposta giusta a un'altra domanda di questo gruppo: «Un Paese enorme con pochi abitanti ha densità di popolazione…».",
+				"migrazione": "«migrazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo spostamento di persone da un paese a un altro per viverci?».",
+				"urbanizzazione": "«urbanizzazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il passaggio di popolazione dalle campagne alle città?»."
+			}
 		},
 		{
 			"id": "geografia-geografia-umana-87",
@@ -3711,7 +4066,14 @@
 				"una migrazione",
 				"migrazioni"
 			],
-			"explanation": "Si parla di emigrazione da chi parte e di immigrazione da chi accoglie."
+			"explanation": "Si parla di emigrazione da chi parte e di immigrazione da chi accoglie.",
+			"distractorWhy": {
+				"Est": "«Est» è la risposta giusta a un'altra domanda di questo gruppo: «Da quale punto cardinale sorge il Sole?».",
+				"Carta geografica": "«Carta geografica» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la rappresentazione ridotta della Terra disegnata su un foglio?».",
+				"Bassa": "«Bassa» è la risposta giusta a un'altra domanda di questo gruppo: «Un Paese enorme con pochi abitanti ha densità di popolazione…».",
+				"densità di popolazione": "«densità di popolazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il numero di abitanti per chilometro quadrato?».",
+				"urbanizzazione": "«urbanizzazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il passaggio di popolazione dalle campagne alle città?»."
+			}
 		},
 		{
 			"id": "geografia-geografia-umana-88",
@@ -3726,7 +4088,14 @@
 				"l'urbanizzazione",
 				"inurbamento"
 			],
-			"explanation": "È il fenomeno che ha fatto crescere le città nell'ultimo secolo."
+			"explanation": "È il fenomeno che ha fatto crescere le città nell'ultimo secolo.",
+			"distractorWhy": {
+				"Est": "«Est» è la risposta giusta a un'altra domanda di questo gruppo: «Da quale punto cardinale sorge il Sole?».",
+				"Carta geografica": "«Carta geografica» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la rappresentazione ridotta della Terra disegnata su un foglio?».",
+				"Bassa": "«Bassa» è la risposta giusta a un'altra domanda di questo gruppo: «Un Paese enorme con pochi abitanti ha densità di popolazione…».",
+				"densità di popolazione": "«densità di popolazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il numero di abitanti per chilometro quadrato?».",
+				"migrazione": "«migrazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo spostamento di persone da un paese a un altro per viverci?»."
+			}
 		},
 		{
 			"id": "geografia-banda-climi-0",

@@ -1251,7 +1251,17 @@
 			"prompt": "Quanti anni passano fra il 50 a.C. e il 50 d.C.?",
 			"options": [],
 			"answer": "100",
-			"explanation": "Cinquanta prima e cinquanta dopo, senza anno zero fra i due sistemi: un secolo esatto."
+			"explanation": "Cinquanta prima e cinquanta dopo, senza anno zero fra i due sistemi: un secolo esatto.",
+			"distractorWhy": {
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti secoli ci sono in un millennio?».",
+				"XVIII secolo": "«XVIII secolo» è la risposta giusta a un'altra domanda di questo gruppo: «A quale secolo appartiene l'anno 1789?».",
+				"300 a.C.": "«300 a.C.» è la risposta giusta a un'altra domanda di questo gruppo: «Quale anno viene prima: 300 a.C. o 100 a.C.?».",
+				"XIX secolo": "«XIX secolo» è la risposta giusta a un'altra domanda di questo gruppo: «In quale secolo si colloca l'anno 1900?».",
+				"Cento": "«Cento» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni dura un secolo?».",
+				"a.C.": "«a.C.» è la risposta giusta a un'altra domanda di questo gruppo: «Come si indicano gli anni prima della nascita di Cristo?».",
+				"XV secolo": "«XV secolo» è la risposta giusta a un'altra domanda di questo gruppo: «A quale secolo appartiene l'anno 1492?».",
+				"secolo": "«secolo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un periodo di cento anni?»."
+			}
 		},
 		{
 			"id": "storia-cronologia-60",
@@ -1262,7 +1272,17 @@
 			"prompt": "Quanti secoli ci sono in un millennio?",
 			"options": [],
 			"answer": "10",
-			"explanation": "Mille anni divisi in secoli da cento: dieci secoli fanno un millennio."
+			"explanation": "Mille anni divisi in secoli da cento: dieci secoli fanno un millennio.",
+			"distractorWhy": {
+				"100": "«100» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni passano fra il 50 a.C. e il 50 d.C.?».",
+				"XVIII secolo": "«XVIII secolo» è la risposta giusta a un'altra domanda di questo gruppo: «A quale secolo appartiene l'anno 1789?».",
+				"300 a.C.": "«300 a.C.» è la risposta giusta a un'altra domanda di questo gruppo: «Quale anno viene prima: 300 a.C. o 100 a.C.?».",
+				"XIX secolo": "«XIX secolo» è la risposta giusta a un'altra domanda di questo gruppo: «In quale secolo si colloca l'anno 1900?».",
+				"Cento": "«Cento» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni dura un secolo?».",
+				"a.C.": "«a.C.» è la risposta giusta a un'altra domanda di questo gruppo: «Come si indicano gli anni prima della nascita di Cristo?».",
+				"XV secolo": "«XV secolo» è la risposta giusta a un'altra domanda di questo gruppo: «A quale secolo appartiene l'anno 1492?».",
+				"secolo": "«secolo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un periodo di cento anni?»."
+			}
 		},
 		{
 			"id": "storia-cronologia-61",
@@ -2156,7 +2176,17 @@
 			"options": [],
 			"answer": "paleolitico",
 			"accept": [],
-			"explanation": "Paleo vuol dire antico: pietra antica."
+			"explanation": "Paleo vuol dire antico: pietra antica.",
+			"distractorWhy": {
+				"Il fuoco": "«Il fuoco» è la risposta giusta a un'altra domanda di questo gruppo: «Quale scoperta permise all'uomo preistorico di cuocere e riscaldarsi?».",
+				"L'assenza della scrittura": "«L'assenza della scrittura» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa distingue la Preistoria dalla Storia?».",
+				"Caccia e raccolta": "«Caccia e raccolta» è la risposta giusta a un'altra domanda di questo gruppo: «Di che cosa viveva soprattutto l'uomo del Paleolitico?».",
+				"L'agricoltura": "«L'agricoltura» è la risposta giusta a un'altra domanda di questo gruppo: «Quale grande scoperta segnò il passaggio al Neolitico?».",
+				"Dal bronzo": "«Dal bronzo» è la risposta giusta a un'altra domanda di questo gruppo: «Da quale metallo prende il nome l'Età del Bronzo?».",
+				"neolitico": "«neolitico» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il periodo della preistoria in cui la pietra veniva levigata?».",
+				"fuoco": "«fuoco» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la scoperta che permise all'uomo di cuocere il cibo e scaldarsi?».",
+				"agricoltura": "«agricoltura» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'attività con cui l'uomo iniziò a coltivare la terra?»."
+			}
 		},
 		{
 			"id": "storia-preistoria-104",
@@ -2168,7 +2198,17 @@
 			"options": [],
 			"answer": "neolitico",
 			"accept": [],
-			"explanation": "Nello stesso periodo nascono agricoltura e allevamento."
+			"explanation": "Nello stesso periodo nascono agricoltura e allevamento.",
+			"distractorWhy": {
+				"Il fuoco": "«Il fuoco» è la risposta giusta a un'altra domanda di questo gruppo: «Quale scoperta permise all'uomo preistorico di cuocere e riscaldarsi?».",
+				"L'assenza della scrittura": "«L'assenza della scrittura» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa distingue la Preistoria dalla Storia?».",
+				"Caccia e raccolta": "«Caccia e raccolta» è la risposta giusta a un'altra domanda di questo gruppo: «Di che cosa viveva soprattutto l'uomo del Paleolitico?».",
+				"L'agricoltura": "«L'agricoltura» è la risposta giusta a un'altra domanda di questo gruppo: «Quale grande scoperta segnò il passaggio al Neolitico?».",
+				"Dal bronzo": "«Dal bronzo» è la risposta giusta a un'altra domanda di questo gruppo: «Da quale metallo prende il nome l'Età del Bronzo?».",
+				"paleolitico": "«paleolitico» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il periodo della preistoria in cui la pietra veniva solo scheggiata?».",
+				"fuoco": "«fuoco» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la scoperta che permise all'uomo di cuocere il cibo e scaldarsi?».",
+				"agricoltura": "«agricoltura» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'attività con cui l'uomo iniziò a coltivare la terra?»."
+			}
 		},
 		{
 			"id": "storia-preistoria-105",
@@ -2182,7 +2222,17 @@
 			"accept": [
 				"il fuoco"
 			],
-			"explanation": "Cambiò alimentazione, difesa e vita notturna insieme."
+			"explanation": "Cambiò alimentazione, difesa e vita notturna insieme.",
+			"distractorWhy": {
+				"L'assenza della scrittura": "«L'assenza della scrittura» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa distingue la Preistoria dalla Storia?».",
+				"Caccia e raccolta": "«Caccia e raccolta» è la risposta giusta a un'altra domanda di questo gruppo: «Di che cosa viveva soprattutto l'uomo del Paleolitico?».",
+				"L'agricoltura": "«L'agricoltura» è la risposta giusta a un'altra domanda di questo gruppo: «Quale grande scoperta segnò il passaggio al Neolitico?».",
+				"Dal bronzo": "«Dal bronzo» è la risposta giusta a un'altra domanda di questo gruppo: «Da quale metallo prende il nome l'Età del Bronzo?».",
+				"paleolitico": "«paleolitico» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il periodo della preistoria in cui la pietra veniva solo scheggiata?».",
+				"neolitico": "«neolitico» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il periodo della preistoria in cui la pietra veniva levigata?».",
+				"agricoltura": "«agricoltura» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'attività con cui l'uomo iniziò a coltivare la terra?».",
+				"la scrittura": "«la scrittura» è la risposta giusta a un'altra domanda di questo gruppo: «Nella preistoria gli uomini non conoscevano ancora...»."
+			}
 		},
 		{
 			"id": "storia-preistoria-106",
@@ -2196,7 +2246,17 @@
 			"accept": [
 				"l'agricoltura"
 			],
-			"explanation": "Da nomade l'uomo diventa stanziale: nascono i villaggi."
+			"explanation": "Da nomade l'uomo diventa stanziale: nascono i villaggi.",
+			"distractorWhy": {
+				"Il fuoco": "«Il fuoco» è la risposta giusta a un'altra domanda di questo gruppo: «Quale scoperta permise all'uomo preistorico di cuocere e riscaldarsi?».",
+				"L'assenza della scrittura": "«L'assenza della scrittura» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa distingue la Preistoria dalla Storia?».",
+				"Caccia e raccolta": "«Caccia e raccolta» è la risposta giusta a un'altra domanda di questo gruppo: «Di che cosa viveva soprattutto l'uomo del Paleolitico?».",
+				"Dal bronzo": "«Dal bronzo» è la risposta giusta a un'altra domanda di questo gruppo: «Da quale metallo prende il nome l'Età del Bronzo?».",
+				"paleolitico": "«paleolitico» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il periodo della preistoria in cui la pietra veniva solo scheggiata?».",
+				"neolitico": "«neolitico» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il periodo della preistoria in cui la pietra veniva levigata?».",
+				"fuoco": "«fuoco» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la scoperta che permise all'uomo di cuocere il cibo e scaldarsi?».",
+				"la scrittura": "«la scrittura» è la risposta giusta a un'altra domanda di questo gruppo: «Nella preistoria gli uomini non conoscevano ancora...»."
+			}
 		},
 		{
 			"id": "storia-fonti-107",
@@ -2210,7 +2270,16 @@
 			"accept": [
 				"materiali"
 			],
-			"explanation": "Non raccontano a parole: vanno interpretate."
+			"explanation": "Non raccontano a parole: vanno interpretate.",
+			"distractorWhy": {
+				"Materiale": "«Materiale» è la risposta giusta a un'altra domanda di questo gruppo: «Un vaso trovato in uno scavo è una fonte…».",
+				"Scritta": "«Scritta» è la risposta giusta a un'altra domanda di questo gruppo: «Il diario di un soldato è una fonte…».",
+				"Secondaria": "«Secondaria» è la risposta giusta a un'altra domanda di questo gruppo: «Il manuale che usi a scuola è una fonte…».",
+				"Orale": "«Orale» è la risposta giusta a un'altra domanda di questo gruppo: «Un'intervista a chi ha vissuto un evento è una fonte…».",
+				"Iconografica": "«Iconografica» è la risposta giusta a un'altra domanda di questo gruppo: «Un affresco che mostra una scena di caccia è una fonte…».",
+				"fonti scritte": "«fonti scritte» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano le fonti costituite da testi e documenti?».",
+				"archeologia": "«archeologia» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la scienza che studia il passato scavando nel terreno?»."
+			}
 		},
 		{
 			"id": "storia-fonti-108",
@@ -2224,7 +2293,16 @@
 			"accept": [
 				"scritte"
 			],
-			"explanation": "Sono le più esplicite, ma anche le più facili da falsificare."
+			"explanation": "Sono le più esplicite, ma anche le più facili da falsificare.",
+			"distractorWhy": {
+				"Materiale": "«Materiale» è la risposta giusta a un'altra domanda di questo gruppo: «Un vaso trovato in uno scavo è una fonte…».",
+				"Scritta": "«Scritta» è la risposta giusta a un'altra domanda di questo gruppo: «Il diario di un soldato è una fonte…».",
+				"Secondaria": "«Secondaria» è la risposta giusta a un'altra domanda di questo gruppo: «Il manuale che usi a scuola è una fonte…».",
+				"Orale": "«Orale» è la risposta giusta a un'altra domanda di questo gruppo: «Un'intervista a chi ha vissuto un evento è una fonte…».",
+				"Iconografica": "«Iconografica» è la risposta giusta a un'altra domanda di questo gruppo: «Un affresco che mostra una scena di caccia è una fonte…».",
+				"fonti materiali": "«fonti materiali» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano le fonti costituite da oggetti, edifici e resti?».",
+				"archeologia": "«archeologia» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la scienza che studia il passato scavando nel terreno?»."
+			}
 		},
 		{
 			"id": "storia-fonti-109",
@@ -2238,7 +2316,16 @@
 			"accept": [
 				"l'archeologia"
 			],
-			"explanation": "Scava per strati: sotto sta sempre il più antico."
+			"explanation": "Scava per strati: sotto sta sempre il più antico.",
+			"distractorWhy": {
+				"Materiale": "«Materiale» è la risposta giusta a un'altra domanda di questo gruppo: «Un vaso trovato in uno scavo è una fonte…».",
+				"Scritta": "«Scritta» è la risposta giusta a un'altra domanda di questo gruppo: «Il diario di un soldato è una fonte…».",
+				"Secondaria": "«Secondaria» è la risposta giusta a un'altra domanda di questo gruppo: «Il manuale che usi a scuola è una fonte…».",
+				"Orale": "«Orale» è la risposta giusta a un'altra domanda di questo gruppo: «Un'intervista a chi ha vissuto un evento è una fonte…».",
+				"Iconografica": "«Iconografica» è la risposta giusta a un'altra domanda di questo gruppo: «Un affresco che mostra una scena di caccia è una fonte…».",
+				"fonti materiali": "«fonti materiali» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano le fonti costituite da oggetti, edifici e resti?».",
+				"fonti scritte": "«fonti scritte» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano le fonti costituite da testi e documenti?»."
+			}
 		},
 		{
 			"id": "storia-cronologia-110",
@@ -2250,7 +2337,17 @@
 			"options": [],
 			"answer": "secolo",
 			"accept": [],
-			"explanation": "Il Novecento è il ventesimo secolo."
+			"explanation": "Il Novecento è il ventesimo secolo.",
+			"distractorWhy": {
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti secoli ci sono in un millennio?».",
+				"100": "«100» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni passano fra il 50 a.C. e il 50 d.C.?».",
+				"XVIII secolo": "«XVIII secolo» è la risposta giusta a un'altra domanda di questo gruppo: «A quale secolo appartiene l'anno 1789?».",
+				"300 a.C.": "«300 a.C.» è la risposta giusta a un'altra domanda di questo gruppo: «Quale anno viene prima: 300 a.C. o 100 a.C.?».",
+				"XIX secolo": "«XIX secolo» è la risposta giusta a un'altra domanda di questo gruppo: «In quale secolo si colloca l'anno 1900?».",
+				"Cento": "«Cento» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni dura un secolo?».",
+				"a.C.": "«a.C.» è la risposta giusta a un'altra domanda di questo gruppo: «Come si indicano gli anni prima della nascita di Cristo?».",
+				"XV secolo": "«XV secolo» è la risposta giusta a un'altra domanda di questo gruppo: «A quale secolo appartiene l'anno 1492?»."
+			}
 		},
 		{
 			"id": "storia-cronologia-111",
@@ -2262,7 +2359,17 @@
 			"options": [],
 			"answer": "millennio",
 			"accept": [],
-			"explanation": "Mille anni: la storia scritta ne conta poco più di cinque."
+			"explanation": "Mille anni: la storia scritta ne conta poco più di cinque.",
+			"distractorWhy": {
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti secoli ci sono in un millennio?».",
+				"100": "«100» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni passano fra il 50 a.C. e il 50 d.C.?».",
+				"XVIII secolo": "«XVIII secolo» è la risposta giusta a un'altra domanda di questo gruppo: «A quale secolo appartiene l'anno 1789?».",
+				"300 a.C.": "«300 a.C.» è la risposta giusta a un'altra domanda di questo gruppo: «Quale anno viene prima: 300 a.C. o 100 a.C.?».",
+				"XIX secolo": "«XIX secolo» è la risposta giusta a un'altra domanda di questo gruppo: «In quale secolo si colloca l'anno 1900?».",
+				"Cento": "«Cento» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni dura un secolo?».",
+				"a.C.": "«a.C.» è la risposta giusta a un'altra domanda di questo gruppo: «Come si indicano gli anni prima della nascita di Cristo?».",
+				"XV secolo": "«XV secolo» è la risposta giusta a un'altra domanda di questo gruppo: «A quale secolo appartiene l'anno 1492?»."
+			}
 		},
 		{
 			"id": "storia-cronologia-112",
@@ -2274,7 +2381,17 @@
 			"options": [],
 			"answer": "decennio",
 			"accept": [],
-			"explanation": "Dieci anni: l'unità con cui si raccontano i cambiamenti recenti."
+			"explanation": "Dieci anni: l'unità con cui si raccontano i cambiamenti recenti.",
+			"distractorWhy": {
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti secoli ci sono in un millennio?».",
+				"100": "«100» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni passano fra il 50 a.C. e il 50 d.C.?».",
+				"XVIII secolo": "«XVIII secolo» è la risposta giusta a un'altra domanda di questo gruppo: «A quale secolo appartiene l'anno 1789?».",
+				"300 a.C.": "«300 a.C.» è la risposta giusta a un'altra domanda di questo gruppo: «Quale anno viene prima: 300 a.C. o 100 a.C.?».",
+				"XIX secolo": "«XIX secolo» è la risposta giusta a un'altra domanda di questo gruppo: «In quale secolo si colloca l'anno 1900?».",
+				"Cento": "«Cento» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni dura un secolo?».",
+				"a.C.": "«a.C.» è la risposta giusta a un'altra domanda di questo gruppo: «Come si indicano gli anni prima della nascita di Cristo?».",
+				"XV secolo": "«XV secolo» è la risposta giusta a un'altra domanda di questo gruppo: «A quale secolo appartiene l'anno 1492?»."
+			}
 		},
 		{
 			"id": "storia-civilta-113",
@@ -2288,7 +2405,12 @@
 			"accept": [
 				"la Mesopotamia"
 			],
-			"explanation": "Il nome greco vuol dire proprio «terra fra i fiumi»."
+			"explanation": "Il nome greco vuol dire proprio «terra fra i fiumi».",
+			"distractorWhy": {
+				"La scrittura": "«La scrittura» è la risposta giusta a un'altra domanda di questo gruppo: «Quale invenzione segna il passaggio dalla preistoria alla storia?».",
+				"cuneiforme": "«cuneiforme» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la scrittura a segni triangolari incisi sull'argilla dai Sumeri?».",
+				"Fenici": "«Fenici» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il popolo che diffuse l'alfabeto nel Mediterraneo con i suoi commerci?»."
+			}
 		},
 		{
 			"id": "storia-civilta-114",
@@ -2302,7 +2424,12 @@
 			"accept": [
 				"scrittura cuneiforme"
 			],
-			"explanation": "I segni si facevano con un calamo a punta triangolare, il cuneo."
+			"explanation": "I segni si facevano con un calamo a punta triangolare, il cuneo.",
+			"distractorWhy": {
+				"La scrittura": "«La scrittura» è la risposta giusta a un'altra domanda di questo gruppo: «Quale invenzione segna il passaggio dalla preistoria alla storia?».",
+				"Mesopotamia": "«Mesopotamia» è la risposta giusta a un'altra domanda di questo gruppo: «In quale zona nacquero Sumeri e Babilonesi?».",
+				"Fenici": "«Fenici» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il popolo che diffuse l'alfabeto nel Mediterraneo con i suoi commerci?»."
+			}
 		},
 		{
 			"id": "storia-civilta-115",
@@ -2316,7 +2443,12 @@
 			"accept": [
 				"i Fenici"
 			],
-			"explanation": "Un alfabeto di poche lettere, molto più facile da imparare."
+			"explanation": "Un alfabeto di poche lettere, molto più facile da imparare.",
+			"distractorWhy": {
+				"La scrittura": "«La scrittura» è la risposta giusta a un'altra domanda di questo gruppo: «Quale invenzione segna il passaggio dalla preistoria alla storia?».",
+				"Mesopotamia": "«Mesopotamia» è la risposta giusta a un'altra domanda di questo gruppo: «In quale zona nacquero Sumeri e Babilonesi?».",
+				"cuneiforme": "«cuneiforme» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la scrittura a segni triangolari incisi sull'argilla dai Sumeri?»."
+			}
 		},
 		{
 			"id": "storia-egizi-116",
@@ -2330,7 +2462,17 @@
 			"accept": [
 				"lo scriba"
 			],
-			"explanation": "Saper scrivere era un mestiere raro: dava potere e lo esentava dai lavori pesanti."
+			"explanation": "Saper scrivere era un mestiere raro: dava potere e lo esentava dai lavori pesanti.",
+			"distractorWhy": {
+				"Geroglifica": "«Geroglifica» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava la scrittura sacra degli Egizi?».",
+				"Papiro": "«Papiro» è la risposta giusta a un'altra domanda di questo gruppo: «Su quale materiale scrivevano principalmente gli Egizi?».",
+				"Faraone": "«Faraone» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava il re dell'antico Egitto?».",
+				"Il Nilo": "«Il Nilo» è la risposta giusta a un'altra domanda di questo gruppo: «Lungo quale fiume nacque la civiltà egizia?».",
+				"Geroglifici": "«Geroglifici» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava la scrittura degli antichi Egizi?».",
+				"Nilo": "«Nilo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale fiume rendeva fertile l'Egitto con le sue piene?».",
+				"geroglifici": "«geroglifici» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la scrittura a immagini degli antichi Egizi?».",
+				"piramidi": "«piramidi» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano le tombe monumentali a base quadrata dei faraoni?»."
+			}
 		},
 		{
 			"id": "storia-egizi-117",
@@ -2344,7 +2486,17 @@
 			"accept": [
 				"il Nilo"
 			],
-			"explanation": "Senza le piene l'Egitto sarebbe stato solo deserto."
+			"explanation": "Senza le piene l'Egitto sarebbe stato solo deserto.",
+			"distractorWhy": {
+				"Geroglifica": "«Geroglifica» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava la scrittura sacra degli Egizi?».",
+				"Papiro": "«Papiro» è la risposta giusta a un'altra domanda di questo gruppo: «Su quale materiale scrivevano principalmente gli Egizi?».",
+				"Faraone": "«Faraone» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava il re dell'antico Egitto?».",
+				"Geroglifici": "«Geroglifici» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava la scrittura degli antichi Egizi?».",
+				"scriba": "«scriba» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava il funzionario egizio che sapeva leggere e scrivere e teneva i conti?».",
+				"geroglifici": "«geroglifici» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la scrittura a immagini degli antichi Egizi?».",
+				"piramidi": "«piramidi» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano le tombe monumentali a base quadrata dei faraoni?».",
+				"papiro": "«papiro» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la pianta con cui gli Egizi fabbricavano fogli su cui scrivere?»."
+			}
 		},
 		{
 			"id": "storia-egizi-118",
@@ -2359,7 +2511,17 @@
 				"geroglifico",
 				"scrittura geroglifica"
 			],
-			"explanation": "Si decifrarono grazie alla stele di Rosetta."
+			"explanation": "Si decifrarono grazie alla stele di Rosetta.",
+			"distractorWhy": {
+				"Geroglifica": "«Geroglifica» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava la scrittura sacra degli Egizi?».",
+				"Papiro": "«Papiro» è la risposta giusta a un'altra domanda di questo gruppo: «Su quale materiale scrivevano principalmente gli Egizi?».",
+				"Faraone": "«Faraone» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava il re dell'antico Egitto?».",
+				"Il Nilo": "«Il Nilo» è la risposta giusta a un'altra domanda di questo gruppo: «Lungo quale fiume nacque la civiltà egizia?».",
+				"scriba": "«scriba» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava il funzionario egizio che sapeva leggere e scrivere e teneva i conti?».",
+				"Nilo": "«Nilo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale fiume rendeva fertile l'Egitto con le sue piene?».",
+				"piramidi": "«piramidi» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano le tombe monumentali a base quadrata dei faraoni?».",
+				"papiro": "«papiro» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la pianta con cui gli Egizi fabbricavano fogli su cui scrivere?»."
+			}
 		},
 		{
 			"id": "storia-egizi-119",
@@ -2373,7 +2535,17 @@
 			"accept": [
 				"piramide"
 			],
-			"explanation": "La più grande è quella di Cheope, a Giza."
+			"explanation": "La più grande è quella di Cheope, a Giza.",
+			"distractorWhy": {
+				"Geroglifica": "«Geroglifica» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava la scrittura sacra degli Egizi?».",
+				"Papiro": "«Papiro» è la risposta giusta a un'altra domanda di questo gruppo: «Su quale materiale scrivevano principalmente gli Egizi?».",
+				"Faraone": "«Faraone» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava il re dell'antico Egitto?».",
+				"Il Nilo": "«Il Nilo» è la risposta giusta a un'altra domanda di questo gruppo: «Lungo quale fiume nacque la civiltà egizia?».",
+				"Geroglifici": "«Geroglifici» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava la scrittura degli antichi Egizi?».",
+				"scriba": "«scriba» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava il funzionario egizio che sapeva leggere e scrivere e teneva i conti?».",
+				"Nilo": "«Nilo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale fiume rendeva fertile l'Egitto con le sue piene?».",
+				"geroglifici": "«geroglifici» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la scrittura a immagini degli antichi Egizi?»."
+			}
 		},
 		{
 			"id": "storia-egizi-120",
@@ -2387,7 +2559,17 @@
 			"accept": [
 				"il papiro"
 			],
-			"explanation": "Cresceva sulle rive del Nilo: da lì la parola «carta» in molte lingue."
+			"explanation": "Cresceva sulle rive del Nilo: da lì la parola «carta» in molte lingue.",
+			"distractorWhy": {
+				"Geroglifica": "«Geroglifica» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava la scrittura sacra degli Egizi?».",
+				"Faraone": "«Faraone» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava il re dell'antico Egitto?».",
+				"Il Nilo": "«Il Nilo» è la risposta giusta a un'altra domanda di questo gruppo: «Lungo quale fiume nacque la civiltà egizia?».",
+				"Geroglifici": "«Geroglifici» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava la scrittura degli antichi Egizi?».",
+				"scriba": "«scriba» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava il funzionario egizio che sapeva leggere e scrivere e teneva i conti?».",
+				"Nilo": "«Nilo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale fiume rendeva fertile l'Egitto con le sue piene?».",
+				"geroglifici": "«geroglifici» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la scrittura a immagini degli antichi Egizi?».",
+				"piramidi": "«piramidi» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano le tombe monumentali a base quadrata dei faraoni?»."
+			}
 		},
 		{
 			"id": "storia-grecia-121",
@@ -2402,7 +2584,17 @@
 				"agora",
 				"l'agorà"
 			],
-			"explanation": "Mercato e assemblea nello stesso luogo: a Roma sarà il foro."
+			"explanation": "Mercato e assemblea nello stesso luogo: a Roma sarà il foro.",
+			"distractorWhy": {
+				"Una città-stato indipendente": "«Una città-stato indipendente» è la risposta giusta a un'altra domanda di questo gruppo: «Che cos'era una polis greca?».",
+				"Atene": "«Atene» è la risposta giusta a un'altra domanda di questo gruppo: «In quale città nacque la democrazia antica?».",
+				"Governo del popolo": "«Governo del popolo» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa la parola «democrazia»?».",
+				"Sparta": "«Sparta» è la risposta giusta a un'altra domanda di questo gruppo: «Quale città greca era famosa per i suoi guerrieri e la disciplina?».",
+				"Pòleis": "«Pòleis» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano le città-stato indipendenti della Grecia antica?».",
+				"A Olimpia": "«A Olimpia» è la risposta giusta a un'altra domanda di questo gruppo: «In quale luogo si tenevano gli antichi Giochi Olimpici?».",
+				"olimpiadi": "«olimpiadi» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano i giochi che si tenevano ogni quattro anni in onore di Zeus?».",
+				"Una città-stato": "«Una città-stato» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa era la polis nel mondo greco?»."
+			}
 		},
 		{
 			"id": "storia-grecia-122",
@@ -2414,7 +2606,17 @@
 			"options": [],
 			"answer": "Sparta",
 			"accept": [],
-			"explanation": "L'educazione del cittadino era soprattutto militare."
+			"explanation": "L'educazione del cittadino era soprattutto militare.",
+			"distractorWhy": {
+				"Una città-stato indipendente": "«Una città-stato indipendente» è la risposta giusta a un'altra domanda di questo gruppo: «Che cos'era una polis greca?».",
+				"Atene": "«Atene» è la risposta giusta a un'altra domanda di questo gruppo: «In quale città nacque la democrazia antica?».",
+				"Governo del popolo": "«Governo del popolo» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa la parola «democrazia»?».",
+				"Pòleis": "«Pòleis» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano le città-stato indipendenti della Grecia antica?».",
+				"A Olimpia": "«A Olimpia» è la risposta giusta a un'altra domanda di questo gruppo: «In quale luogo si tenevano gli antichi Giochi Olimpici?».",
+				"agorà": "«agorà» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"olimpiadi": "«olimpiadi» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano i giochi che si tenevano ogni quattro anni in onore di Zeus?».",
+				"Una città-stato": "«Una città-stato» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa era la polis nel mondo greco?»."
+			}
 		},
 		{
 			"id": "storia-grecia-123",
@@ -2426,7 +2628,17 @@
 			"options": [],
 			"answer": "Atene",
 			"accept": [],
-			"explanation": "Decidevano insieme i cittadini maschi adulti: non tutti gli abitanti."
+			"explanation": "Decidevano insieme i cittadini maschi adulti: non tutti gli abitanti.",
+			"distractorWhy": {
+				"Una città-stato indipendente": "«Una città-stato indipendente» è la risposta giusta a un'altra domanda di questo gruppo: «Che cos'era una polis greca?».",
+				"Governo del popolo": "«Governo del popolo» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa la parola «democrazia»?».",
+				"Sparta": "«Sparta» è la risposta giusta a un'altra domanda di questo gruppo: «Quale città greca era famosa per i suoi guerrieri e la disciplina?».",
+				"Pòleis": "«Pòleis» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano le città-stato indipendenti della Grecia antica?».",
+				"A Olimpia": "«A Olimpia» è la risposta giusta a un'altra domanda di questo gruppo: «In quale luogo si tenevano gli antichi Giochi Olimpici?».",
+				"agorà": "«agorà» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"olimpiadi": "«olimpiadi» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano i giochi che si tenevano ogni quattro anni in onore di Zeus?».",
+				"Una città-stato": "«Una città-stato» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa era la polis nel mondo greco?»."
+			}
 		},
 		{
 			"id": "storia-grecia-124",
@@ -2441,7 +2653,17 @@
 				"giochi olimpici",
 				"le olimpiadi"
 			],
-			"explanation": "Durante i giochi le guerre si sospendevano."
+			"explanation": "Durante i giochi le guerre si sospendevano.",
+			"distractorWhy": {
+				"Una città-stato indipendente": "«Una città-stato indipendente» è la risposta giusta a un'altra domanda di questo gruppo: «Che cos'era una polis greca?».",
+				"Atene": "«Atene» è la risposta giusta a un'altra domanda di questo gruppo: «In quale città nacque la democrazia antica?».",
+				"Governo del popolo": "«Governo del popolo» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa la parola «democrazia»?».",
+				"Sparta": "«Sparta» è la risposta giusta a un'altra domanda di questo gruppo: «Quale città greca era famosa per i suoi guerrieri e la disciplina?».",
+				"Pòleis": "«Pòleis» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano le città-stato indipendenti della Grecia antica?».",
+				"A Olimpia": "«A Olimpia» è la risposta giusta a un'altra domanda di questo gruppo: «In quale luogo si tenevano gli antichi Giochi Olimpici?».",
+				"agorà": "«agorà» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"Una città-stato": "«Una città-stato» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa era la polis nel mondo greco?»."
+			}
 		},
 		{
 			"id": "storia-roma-125",
@@ -2455,7 +2677,17 @@
 			"accept": [
 				"il Tevere"
 			],
-			"explanation": "Un guado sul Tevere: da lì è nata la città."
+			"explanation": "Un guado sul Tevere: da lì è nata la città.",
+			"distractorWhy": {
+				"Il latino": "«Il latino» è la risposta giusta a un'altra domanda di questo gruppo: «Quale lingua parlavano gli antichi Romani?».",
+				"Romolo": "«Romolo» è la risposta giusta a un'altra domanda di questo gruppo: «Secondo la leggenda, chi fondò Roma?».",
+				"753 a.C.": "«753 a.C.» è la risposta giusta a un'altra domanda di questo gruppo: «In quale anno la tradizione colloca la fondazione di Roma?».",
+				"La repubblica": "«La repubblica» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo la monarchia, quale forma di governo ebbe Roma?».",
+				"Il Senato": "«Il Senato» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava l'assemblea dei senatori a Roma?».",
+				"L'imperatore": "«L'imperatore» è la risposta giusta a un'altra domanda di questo gruppo: «Chi guidava l'Impero Romano?».",
+				"senato": "«senato» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava l'assemblea dei capifamiglia più autorevoli della Roma repubblicana?».",
+				"consoli": "«consoli» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano i due magistrati eletti ogni anno a capo della repubblica romana?»."
+			}
 		},
 		{
 			"id": "storia-roma-126",
@@ -2469,7 +2701,17 @@
 			"accept": [
 				"il senato"
 			],
-			"explanation": "Consigliava i magistrati e di fatto guidava la politica."
+			"explanation": "Consigliava i magistrati e di fatto guidava la politica.",
+			"distractorWhy": {
+				"Il latino": "«Il latino» è la risposta giusta a un'altra domanda di questo gruppo: «Quale lingua parlavano gli antichi Romani?».",
+				"Romolo": "«Romolo» è la risposta giusta a un'altra domanda di questo gruppo: «Secondo la leggenda, chi fondò Roma?».",
+				"753 a.C.": "«753 a.C.» è la risposta giusta a un'altra domanda di questo gruppo: «In quale anno la tradizione colloca la fondazione di Roma?».",
+				"La repubblica": "«La repubblica» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo la monarchia, quale forma di governo ebbe Roma?».",
+				"L'imperatore": "«L'imperatore» è la risposta giusta a un'altra domanda di questo gruppo: «Chi guidava l'Impero Romano?».",
+				"Tevere": "«Tevere» è la risposta giusta a un'altra domanda di questo gruppo: «Su quale fiume sorge Roma?».",
+				"consoli": "«consoli» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano i due magistrati eletti ogni anno a capo della repubblica romana?».",
+				"Augusto": "«Augusto» è la risposta giusta a un'altra domanda di questo gruppo: «Chi fu il primo imperatore di Roma?»."
+			}
 		},
 		{
 			"id": "storia-roma-127",
@@ -2484,7 +2726,17 @@
 				"console",
 				"i consoli"
 			],
-			"explanation": "Erano due, e duravano un anno solo: due freni contro il potere personale."
+			"explanation": "Erano due, e duravano un anno solo: due freni contro il potere personale.",
+			"distractorWhy": {
+				"Il latino": "«Il latino» è la risposta giusta a un'altra domanda di questo gruppo: «Quale lingua parlavano gli antichi Romani?».",
+				"Romolo": "«Romolo» è la risposta giusta a un'altra domanda di questo gruppo: «Secondo la leggenda, chi fondò Roma?».",
+				"753 a.C.": "«753 a.C.» è la risposta giusta a un'altra domanda di questo gruppo: «In quale anno la tradizione colloca la fondazione di Roma?».",
+				"La repubblica": "«La repubblica» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo la monarchia, quale forma di governo ebbe Roma?».",
+				"Il Senato": "«Il Senato» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava l'assemblea dei senatori a Roma?».",
+				"L'imperatore": "«L'imperatore» è la risposta giusta a un'altra domanda di questo gruppo: «Chi guidava l'Impero Romano?».",
+				"Tevere": "«Tevere» è la risposta giusta a un'altra domanda di questo gruppo: «Su quale fiume sorge Roma?».",
+				"senato": "«senato» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava l'assemblea dei capifamiglia più autorevoli della Roma repubblicana?»."
+			}
 		},
 		{
 			"id": "storia-roma-128",
@@ -2499,7 +2751,17 @@
 				"Ottaviano",
 				"Ottaviano Augusto"
 			],
-			"explanation": "Ottaviano prese il titolo di Augusto nel 27 avanti Cristo."
+			"explanation": "Ottaviano prese il titolo di Augusto nel 27 avanti Cristo.",
+			"distractorWhy": {
+				"Il latino": "«Il latino» è la risposta giusta a un'altra domanda di questo gruppo: «Quale lingua parlavano gli antichi Romani?».",
+				"Romolo": "«Romolo» è la risposta giusta a un'altra domanda di questo gruppo: «Secondo la leggenda, chi fondò Roma?».",
+				"753 a.C.": "«753 a.C.» è la risposta giusta a un'altra domanda di questo gruppo: «In quale anno la tradizione colloca la fondazione di Roma?».",
+				"La repubblica": "«La repubblica» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo la monarchia, quale forma di governo ebbe Roma?».",
+				"Il Senato": "«Il Senato» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava l'assemblea dei senatori a Roma?».",
+				"L'imperatore": "«L'imperatore» è la risposta giusta a un'altra domanda di questo gruppo: «Chi guidava l'Impero Romano?».",
+				"Tevere": "«Tevere» è la risposta giusta a un'altra domanda di questo gruppo: «Su quale fiume sorge Roma?».",
+				"senato": "«senato» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava l'assemblea dei capifamiglia più autorevoli della Roma repubblicana?»."
+			}
 		},
 		{
 			"id": "storia-roma-129",
@@ -2514,7 +2776,17 @@
 				"consolari",
 				"vie consolari"
 			],
-			"explanation": "Servivano prima all'esercito, poi ai commerci."
+			"explanation": "Servivano prima all'esercito, poi ai commerci.",
+			"distractorWhy": {
+				"Il latino": "«Il latino» è la risposta giusta a un'altra domanda di questo gruppo: «Quale lingua parlavano gli antichi Romani?».",
+				"Romolo": "«Romolo» è la risposta giusta a un'altra domanda di questo gruppo: «Secondo la leggenda, chi fondò Roma?».",
+				"753 a.C.": "«753 a.C.» è la risposta giusta a un'altra domanda di questo gruppo: «In quale anno la tradizione colloca la fondazione di Roma?».",
+				"La repubblica": "«La repubblica» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo la monarchia, quale forma di governo ebbe Roma?».",
+				"Il Senato": "«Il Senato» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava l'assemblea dei senatori a Roma?».",
+				"L'imperatore": "«L'imperatore» è la risposta giusta a un'altra domanda di questo gruppo: «Chi guidava l'Impero Romano?».",
+				"Tevere": "«Tevere» è la risposta giusta a un'altra domanda di questo gruppo: «Su quale fiume sorge Roma?».",
+				"senato": "«senato» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava l'assemblea dei capifamiglia più autorevoli della Roma repubblicana?»."
+			}
 		},
 		{
 			"id": "storia-medioevo-130",
@@ -2528,7 +2800,17 @@
 			"accept": [
 				"sistema feudale"
 			],
-			"explanation": "La terra si dava in feudo: da lì il nome."
+			"explanation": "La terra si dava in feudo: da lì il nome.",
+			"distractorWhy": {
+				"A difendersi dagli attacchi": "«A difendersi dagli attacchi» è la risposta giusta a un'altra domanda di questo gruppo: «A che cosa serviva soprattutto un castello medievale?».",
+				"I monaci amanuensi": "«I monaci amanuensi» è la risposta giusta a un'altra domanda di questo gruppo: «Chi copiava a mano i libri nei monasteri medievali?».",
+				"Cavalieri": "«Cavalieri» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano i guerrieri a cavallo al servizio di un signore?».",
+				"Nei monasteri": "«Nei monasteri» è la risposta giusta a un'altra domanda di questo gruppo: «Dove si conservava e si copiava il sapere nell'Alto Medioevo?».",
+				"scriptorium": "«scriptorium» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano i monasteri in cui i monaci copiavano a mano i libri antichi?».",
+				"comuni": "«comuni» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano le città italiane che nel Medioevo si diedero un governo autonomo?».",
+				"peste nera": "«peste nera» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la peste che nel Trecento uccise circa un terzo degli europei?».",
+				"una terra da amministrare": "«una terra da amministrare» è la risposta giusta a un'altra domanda di questo gruppo: «Nel sistema feudale il signore concedeva al vassallo...»."
+			}
 		},
 		{
 			"id": "storia-medioevo-131",
@@ -2543,7 +2825,17 @@
 				"scriptoria",
 				"lo scriptorium"
 			],
-			"explanation": "Senza quelle copie molti testi antichi sarebbero andati perduti."
+			"explanation": "Senza quelle copie molti testi antichi sarebbero andati perduti.",
+			"distractorWhy": {
+				"Feudalesimo": "«Feudalesimo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava il sistema in cui il signore dava terre in cambio di fedeltà?».",
+				"A difendersi dagli attacchi": "«A difendersi dagli attacchi» è la risposta giusta a un'altra domanda di questo gruppo: «A che cosa serviva soprattutto un castello medievale?».",
+				"I monaci amanuensi": "«I monaci amanuensi» è la risposta giusta a un'altra domanda di questo gruppo: «Chi copiava a mano i libri nei monasteri medievali?».",
+				"Cavalieri": "«Cavalieri» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano i guerrieri a cavallo al servizio di un signore?».",
+				"Nei monasteri": "«Nei monasteri» è la risposta giusta a un'altra domanda di questo gruppo: «Dove si conservava e si copiava il sapere nell'Alto Medioevo?».",
+				"feudalesimo": "«feudalesimo» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"comuni": "«comuni» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano le città italiane che nel Medioevo si diedero un governo autonomo?».",
+				"peste nera": "«peste nera» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la peste che nel Trecento uccise circa un terzo degli europei?»."
+			}
 		},
 		{
 			"id": "storia-medioevo-132",
@@ -2558,7 +2850,17 @@
 				"comune",
 				"i comuni"
 			],
-			"explanation": "Si reggevano da sé, spesso contro l'imperatore."
+			"explanation": "Si reggevano da sé, spesso contro l'imperatore.",
+			"distractorWhy": {
+				"Feudalesimo": "«Feudalesimo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava il sistema in cui il signore dava terre in cambio di fedeltà?».",
+				"A difendersi dagli attacchi": "«A difendersi dagli attacchi» è la risposta giusta a un'altra domanda di questo gruppo: «A che cosa serviva soprattutto un castello medievale?».",
+				"I monaci amanuensi": "«I monaci amanuensi» è la risposta giusta a un'altra domanda di questo gruppo: «Chi copiava a mano i libri nei monasteri medievali?».",
+				"Cavalieri": "«Cavalieri» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano i guerrieri a cavallo al servizio di un signore?».",
+				"Nei monasteri": "«Nei monasteri» è la risposta giusta a un'altra domanda di questo gruppo: «Dove si conservava e si copiava il sapere nell'Alto Medioevo?».",
+				"feudalesimo": "«feudalesimo» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"scriptorium": "«scriptorium» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano i monasteri in cui i monaci copiavano a mano i libri antichi?».",
+				"peste nera": "«peste nera» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la peste che nel Trecento uccise circa un terzo degli europei?»."
+			}
 		},
 		{
 			"id": "storia-medioevo-133",
@@ -2573,7 +2875,17 @@
 				"la peste nera",
 				"morte nera"
 			],
-			"explanation": "Arrivò dal mar Nero sulle navi mercantili."
+			"explanation": "Arrivò dal mar Nero sulle navi mercantili.",
+			"distractorWhy": {
+				"Feudalesimo": "«Feudalesimo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava il sistema in cui il signore dava terre in cambio di fedeltà?».",
+				"A difendersi dagli attacchi": "«A difendersi dagli attacchi» è la risposta giusta a un'altra domanda di questo gruppo: «A che cosa serviva soprattutto un castello medievale?».",
+				"I monaci amanuensi": "«I monaci amanuensi» è la risposta giusta a un'altra domanda di questo gruppo: «Chi copiava a mano i libri nei monasteri medievali?».",
+				"Cavalieri": "«Cavalieri» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano i guerrieri a cavallo al servizio di un signore?».",
+				"Nei monasteri": "«Nei monasteri» è la risposta giusta a un'altra domanda di questo gruppo: «Dove si conservava e si copiava il sapere nell'Alto Medioevo?».",
+				"feudalesimo": "«feudalesimo» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"scriptorium": "«scriptorium» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano i monasteri in cui i monaci copiavano a mano i libri antichi?».",
+				"comuni": "«comuni» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano le città italiane che nel Medioevo si diedero un governo autonomo?»."
+			}
 		},
 		{
 			"id": "storia-metodo-134",
@@ -2588,7 +2900,13 @@
 				"incrociare le fonti",
 				"confronto delle fonti"
 			],
-			"explanation": "Una fonte sola non basta mai: potrebbe avere interesse a raccontarla così."
+			"explanation": "Una fonte sola non basta mai: potrebbe avere interesse a raccontarla così.",
+			"distractorWhy": {
+				"Lo storico": "«Lo storico» è la risposta giusta a un'altra domanda di questo gruppo: «Chi studia il passato usando le tracce che ci ha lasciato?».",
+				"materiale": "«materiale» è la risposta giusta a un'altra domanda di questo gruppo: «Una piramide egizia è un esempio di fonte…».",
+				"I fatti del passato": "«I fatti del passato» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa studia la storia?».",
+				"Archeologo": "«Archeologo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama chi studia i resti sepolti nel terreno?»."
+			}
 		},
 		{
 			"id": "storia-metodo-che-cosa-studia-la-storia",

@@ -17,7 +17,12 @@
 			"distractorWhy": {
 				"2": "mancano 2: sono solo 1 gruppo da 2, non 2.",
 				"5": "è il risultato giusto più uno: un errore di un'unità nel conto finale.",
-				"6": "è 2 in più: sono 3 gruppi da 2, non 2."
+				"6": "è 2 in più: sono 3 gruppi da 2, non 2.",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?»."
 			}
 		},
 		{
@@ -92,7 +97,17 @@
 			"answer": "6",
 			"explanation": "Se non ricordi 3 × 2, per 2 basta il doppio: 3 + 3 fa 6.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"3": "mancano 3: sono solo 1 gruppo da 3, non 2.",
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"8": "è 2 in più: sono 4 gruppi da 2, non 3.",
+				"9": "è 3 in più: sono 3 gruppi da 3, non 2.",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?».",
+				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 4 × 4?»."
+			}
 		},
 		{
 			"id": "math-times-3x3-d1",
@@ -103,7 +118,17 @@
 			"answer": "9",
 			"explanation": "3 × 3 fa 9: è il quadrato di 3. Se non lo ricordi, per 3 fai il doppio più il numero: 6 + 3 fa 9.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "mancano 3: sono solo 2 gruppi da 3, non 3.",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"10": "è il risultato giusto più uno: un errore di un'unità nel conto finale.",
+				"12": "è 3 in più: sono 4 gruppi da 3, non 3.",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?».",
+				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 4 × 4?».",
+				"20": "«20» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 4 × 5?»."
+			}
 		},
 		{
 			"id": "math-times-3x4-d1",
@@ -114,7 +139,17 @@
 			"answer": "12",
 			"explanation": "Se non ricordi 3 × 4, per 4 raddoppi due volte: 3 → 6 → 12.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "mancano 3: sono solo 3 gruppi da 3, non 4.",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"15": "è 3 in più: sono 5 gruppi da 3, non 4.",
+				"16": "è 4 in più: sono 4 gruppi da 4, non 3.",
+				"20": "«20» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 4 × 5?»."
+			}
 		},
 		{
 			"id": "math-times-3x5-d1",
@@ -188,7 +223,17 @@
 			"answer": "16",
 			"explanation": "4 × 4 fa 16: è il quadrato di 4. Se non lo ricordi, per 4 raddoppi due volte: 4 → 8 → 16.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"12": "mancano 4: sono solo 3 gruppi da 4, non 4.",
+				"17": "è il risultato giusto più uno: un errore di un'unità nel conto finale.",
+				"20": "è 4 in più: sono 5 gruppi da 4, non 4."
+			}
 		},
 		{
 			"id": "math-times-4x5-d1",
@@ -220,7 +265,17 @@
 			"answer": "10",
 			"explanation": "Se non ricordi 5 × 2, per 5 fai la metà di 2 × 10, cioè la metà di 20: fa 10.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"5": "mancano 5: sono solo 1 gruppo da 5, non 2.",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"12": "è 2 in più: sono 6 gruppi da 2, non 5.",
+				"15": "è 5 in più: sono 3 gruppi da 5, non 2.",
+				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 4 × 4?»."
+			}
 		},
 		{
 			"id": "math-times-5x3-d1",
@@ -378,7 +433,17 @@
 			"answer": "12",
 			"explanation": "Se non ricordi 2 × 6, per 2 basta il doppio: 6 + 6 fa 12.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "mancano 2: sono solo 5 gruppi da 2, non 6.",
+				"14": "è 2 in più: sono 7 gruppi da 2, non 6.",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?».",
+				"18": "è 6 in più: sono 3 gruppi da 6, non 2."
+			}
 		},
 		{
 			"id": "math-times-2x7-d2",
@@ -477,7 +542,12 @@
 			"distractorWhy": {
 				"2": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
 				"4": "è uno di troppo: 4 × 2 farebbe 8, non 6.",
-				"6": "è il prodotto 3 × 2, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
+				"6": "è il prodotto 3 × 2, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato.",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?»."
 			}
 		},
 		{
@@ -510,7 +580,17 @@
 			"answer": "3",
 			"explanation": "Se non ricordi 3 × 4, per 4 raddoppi due volte: 3 → 6 → 12. Cerchi quante volte il 4 sta dentro 12.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"2": "è uno di meno: 2 × 4 farebbe 8, non 12.",
+				"4": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"12": "è il prodotto 3 × 4, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato.",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?»."
+			}
 		},
 		{
 			"id": "math-factor-3x5-d2",
@@ -563,7 +643,17 @@
 			"answer": "21",
 			"explanation": "Se non ricordi 3 × 7, per 3 fai il doppio più il numero: 14 + 7 fa 21.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"18": "mancano 3: sono solo 6 gruppi da 3, non 7.",
+				"24": "è 3 in più: sono 8 gruppi da 3, non 7.",
+				"28": "è 7 in più: sono 4 gruppi da 7, non 3."
+			}
 		},
 		{
 			"id": "math-times-3x8-d2",
@@ -618,6 +708,11 @@
 			"format": "numeric_input",
 			"options": [],
 			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
 				"27": "mancano 3: sono solo 9 gruppi da 3, non 10.",
 				"33": "è 3 in più: sono 11 gruppi da 3, non 10.",
 				"40": "è 10 in più: sono 4 gruppi da 10, non 3."
@@ -653,7 +748,17 @@
 			"answer": "4",
 			"explanation": "Se non ricordi 4 × 3, per 4 raddoppi due volte: 3 → 6 → 12. Cerchi quante volte il 3 sta dentro 12.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"3": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"5": "è uno di troppo: 5 × 3 farebbe 15, non 12.",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"12": "è il prodotto 4 × 3, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato.",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?»."
+			}
 		},
 		{
 			"id": "math-factor-4x4-d2",
@@ -664,7 +769,17 @@
 			"answer": "4",
 			"explanation": "4 × 4 fa 16: è il quadrato di 4. Se non lo ricordi, per 4 raddoppi due volte: 4 → 8 → 16. Cerchi quante volte il 4 sta dentro 16.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"3": "è uno di meno: 3 × 4 farebbe 12, non 16.",
+				"5": "è uno di troppo: 5 × 4 farebbe 20, non 16.",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"16": "è il prodotto 4 × 4, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
+			}
 		},
 		{
 			"id": "math-factor-4x5-d2",
@@ -696,7 +811,17 @@
 			"answer": "24",
 			"explanation": "Se non ricordi 4 × 6, per 4 raddoppi due volte: 6 → 12 → 24.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"20": "mancano 4: sono solo 5 gruppi da 4, non 6.",
+				"28": "è 4 in più: sono 7 gruppi da 4, non 6.",
+				"30": "è 6 in più: sono 5 gruppi da 6, non 4."
+			}
 		},
 		{
 			"id": "math-times-4x7-d2",
@@ -707,7 +832,17 @@
 			"answer": "28",
 			"explanation": "Se non ricordi 4 × 7, per 4 raddoppi due volte: 7 → 14 → 28.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"24": "mancano 4: sono solo 6 gruppi da 4, non 7.",
+				"32": "è 4 in più: sono 8 gruppi da 4, non 7.",
+				"35": "è 7 in più: sono 5 gruppi da 7, non 4."
+			}
 		},
 		{
 			"id": "math-times-4x8-d2",
@@ -718,7 +853,17 @@
 			"answer": "32",
 			"explanation": "Se non ricordi 4 × 8, per 4 raddoppi due volte: 8 → 16 → 32.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"28": "mancano 4: sono solo 7 gruppi da 4, non 8.",
+				"36": "è 4 in più: sono 9 gruppi da 4, non 8.",
+				"40": "è 8 in più: sono 5 gruppi da 8, non 4."
+			}
 		},
 		{
 			"id": "math-times-4x9-d2",
@@ -750,7 +895,17 @@
 			"answer": "40",
 			"explanation": "Se non ricordi 4 × 10, per 10 basta aggiungere uno zero: 4 diventa 40.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"36": "mancano 4: sono solo 9 gruppi da 4, non 10.",
+				"44": "è 4 in più: sono 11 gruppi da 4, non 10.",
+				"50": "è 10 in più: sono 5 gruppi da 10, non 4."
+			}
 		},
 		{
 			"id": "math-factor-5x2-d2",
@@ -761,7 +916,17 @@
 			"answer": "5",
 			"explanation": "Se non ricordi 5 × 2, per 5 fai la metà di 2 × 10, cioè la metà di 20: fa 10. Cerchi quante volte il 2 sta dentro 10.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"2": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "è uno di troppo: 6 × 2 farebbe 12, non 10.",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "è il prodotto 5 × 2, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato.",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?»."
+			}
 		},
 		{
 			"id": "math-factor-5x3-d2",
@@ -772,7 +937,17 @@
 			"answer": "5",
 			"explanation": "Se non ricordi 5 × 3, per 5 fai la metà di 3 × 10, cioè la metà di 30: fa 15. Cerchi quante volte il 3 sta dentro 15.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"3": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "è uno di troppo: 6 × 3 farebbe 18, non 15.",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"15": "è il prodotto 5 × 3, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
+			}
 		},
 		{
 			"id": "math-factor-5x4-d2",
@@ -888,7 +1063,17 @@
 			"answer": "45",
 			"explanation": "Se non ricordi 5 × 9, per 5 fai la metà di 9 × 10, cioè la metà di 90: fa 45.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"40": "mancano 5: sono solo 8 gruppi da 5, non 9.",
+				"50": "è 5 in più: sono 10 gruppi da 5, non 9.",
+				"54": "è 9 in più: sono 6 gruppi da 9, non 5."
+			}
 		},
 		{
 			"id": "math-times-5x10-d2",
@@ -962,7 +1147,17 @@
 			"answer": "24",
 			"explanation": "Se non ricordi 6 × 4, per 4 raddoppi due volte: 6 → 12 → 24.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"18": "mancano 6: sono solo 3 gruppi da 6, non 4.",
+				"28": "è 4 in più: sono 7 gruppi da 4, non 6.",
+				"30": "è 6 in più: sono 5 gruppi da 6, non 4."
+			}
 		},
 		{
 			"id": "math-times-6x5-d2",
@@ -994,7 +1189,17 @@
 			"answer": "36",
 			"explanation": "6 × 6 fa 36: è il quadrato di 6. Se non lo ricordi, per 6 fai 6 × 5 più 6: 30 + 6 fa 36.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"30": "mancano 6: sono solo 5 gruppi da 6, non 6.",
+				"37": "è il risultato giusto più uno: un errore di un'unità nel conto finale.",
+				"42": "è 6 in più: sono 7 gruppi da 6, non 6."
+			}
 		},
 		{
 			"id": "math-times-6x7-d2",
@@ -1070,6 +1275,11 @@
 			"format": "numeric_input",
 			"options": [],
 			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
 				"54": "mancano 6: sono solo 9 gruppi da 6, non 10.",
 				"66": "è 6 in più: sono 11 gruppi da 6, non 10.",
 				"70": "è 10 in più: sono 7 gruppi da 10, non 6."
@@ -1126,7 +1336,17 @@
 			"answer": "28",
 			"explanation": "Se non ricordi 7 × 4, per 4 raddoppi due volte: 7 → 14 → 28.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"21": "mancano 7: sono solo 3 gruppi da 7, non 4.",
+				"32": "è 4 in più: sono 8 gruppi da 4, non 7.",
+				"35": "è 7 in più: sono 5 gruppi da 7, non 4."
+			}
 		},
 		{
 			"id": "math-times-7x5-d2",
@@ -1137,7 +1357,17 @@
 			"answer": "35",
 			"explanation": "Se non ricordi 7 × 5, per 5 fai la metà di 7 × 10, cioè la metà di 70: fa 35.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"28": "mancano 7: sono solo 4 gruppi da 7, non 5.",
+				"40": "è 5 in più: sono 8 gruppi da 5, non 7.",
+				"42": "è 7 in più: sono 6 gruppi da 7, non 5."
+			}
 		},
 		{
 			"id": "math-times-7x6-d2",
@@ -1192,6 +1422,11 @@
 			"format": "numeric_input",
 			"options": [],
 			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
 				"49": "mancano 7: sono solo 7 gruppi da 7, non 8.",
 				"63": "è 7 in più: sono 9 gruppi da 7, non 8.",
 				"64": "è 8 in più: sono 8 gruppi da 8, non 7."
@@ -1229,6 +1464,11 @@
 			"format": "numeric_input",
 			"options": [],
 			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
 				"63": "mancano 7: sono solo 9 gruppi da 7, non 10.",
 				"77": "è 7 in più: sono 11 gruppi da 7, non 10.",
 				"80": "è 10 in più: sono 8 gruppi da 10, non 7."
@@ -1306,7 +1546,17 @@
 			"answer": "40",
 			"explanation": "Se non ricordi 8 × 5, per 5 fai la metà di 8 × 10, cioè la metà di 80: fa 40.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"32": "mancano 8: sono solo 4 gruppi da 8, non 5.",
+				"45": "è 5 in più: sono 9 gruppi da 5, non 8.",
+				"48": "è 8 in più: sono 6 gruppi da 8, non 5."
+			}
 		},
 		{
 			"id": "math-times-8x6-d2",
@@ -1380,7 +1630,17 @@
 			"answer": "72",
 			"explanation": "Se non ricordi 8 × 9, per 9 fai 8 × 10 meno 8: 80 − 8 fa 72.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"64": "mancano 8: sono solo 8 gruppi da 8, non 9.",
+				"80": "è 8 in più: sono 10 gruppi da 8, non 9.",
+				"81": "è 9 in più: sono 9 gruppi da 9, non 8."
+			}
 		},
 		{
 			"id": "math-times-8x10-d2",
@@ -1496,7 +1756,17 @@
 			"answer": "54",
 			"explanation": "Se non ricordi 9 × 6, per 9 fai 6 × 10 meno 6: 60 − 6 fa 54.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"45": "mancano 9: sono solo 5 gruppi da 9, non 6.",
+				"60": "è 6 in più: sono 10 gruppi da 6, non 9.",
+				"63": "è 9 in più: sono 7 gruppi da 9, non 6."
+			}
 		},
 		{
 			"id": "math-times-9x7-d2",
@@ -1570,7 +1840,17 @@
 			"answer": "90",
 			"explanation": "Se non ricordi 9 × 10, per 10 basta aggiungere uno zero: 9 diventa 90.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"81": "mancano 9: sono solo 9 gruppi da 9, non 10.",
+				"99": "è 9 in più: sono 11 gruppi da 9, non 10.",
+				"100": "è 10 in più: sono 10 gruppi da 10, non 9."
+			}
 		},
 		{
 			"id": "math-times-10x2-d2",
@@ -1581,7 +1861,17 @@
 			"answer": "20",
 			"explanation": "Se non ricordi 10 × 2, per 10 basta aggiungere uno zero: 2 diventa 20.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "mancano 10: sono solo 1 gruppo da 10, non 2.",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"22": "è 2 in più: sono 11 gruppi da 2, non 10.",
+				"30": "è 10 in più: sono 3 gruppi da 10, non 2."
+			}
 		},
 		{
 			"id": "math-times-10x3-d2",
@@ -1655,7 +1945,17 @@
 			"answer": "60",
 			"explanation": "Se non ricordi 10 × 6, per 10 basta aggiungere uno zero: 6 diventa 60.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"50": "mancano 10: sono solo 5 gruppi da 10, non 6.",
+				"66": "è 6 in più: sono 11 gruppi da 6, non 10.",
+				"70": "è 10 in più: sono 7 gruppi da 10, non 6."
+			}
 		},
 		{
 			"id": "math-times-10x7-d2",
@@ -1668,6 +1968,11 @@
 			"format": "numeric_input",
 			"options": [],
 			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
 				"60": "mancano 10: sono solo 6 gruppi da 10, non 7.",
 				"77": "è 7 in più: sono 11 gruppi da 7, non 10.",
 				"80": "è 10 in più: sono 8 gruppi da 10, non 7."
@@ -1770,7 +2075,12 @@
 			"distractorWhy": {
 				"2": "è uno di meno: 2 × 3 farebbe 6, non 9.",
 				"4": "è uno di troppo: 4 × 3 farebbe 12, non 9.",
-				"9": "è il prodotto 3 × 3, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "è il prodotto 3 × 3, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato.",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?»."
 			}
 		},
 		{
@@ -1824,7 +2134,17 @@
 			"answer": "3",
 			"explanation": "Se non ricordi 3 × 6, per 3 fai il doppio più il numero: 12 + 6 fa 18. Cerchi quante volte il 6 sta dentro 18.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "è uno di troppo: 4 × 6 farebbe 24, non 18.",
+				"6": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?».",
+				"18": "è il prodotto 3 × 6, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
+			}
 		},
 		{
 			"id": "math-factor-3x7-d3",
@@ -1856,7 +2176,17 @@
 			"answer": "3",
 			"explanation": "Se non ricordi 3 × 8, per 3 fai il doppio più il numero: 16 + 8 fa 24. Cerchi quante volte l'8 sta dentro 24.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "è uno di troppo: 4 × 8 farebbe 32, non 24.",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?».",
+				"24": "è il prodotto 3 × 8, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
+			}
 		},
 		{
 			"id": "math-factor-3x9-d3",
@@ -2039,6 +2369,11 @@
 			"distractorWhy": {
 				"5": "è uno di troppo: 5 × 6 farebbe 30, non 24.",
 				"6": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?».",
 				"24": "è il prodotto 4 × 6, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
 			}
 		},
@@ -2072,7 +2407,17 @@
 			"answer": "4",
 			"explanation": "Se non ricordi 4 × 8, per 4 raddoppi due volte: 8 → 16 → 32. Cerchi quante volte l'8 sta dentro 32.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"5": "è uno di troppo: 5 × 8 farebbe 40, non 32.",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?».",
+				"32": "è il prodotto 4 × 8, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
+			}
 		},
 		{
 			"id": "math-factor-4x9-d3",
@@ -2104,7 +2449,17 @@
 			"answer": "4",
 			"explanation": "Se non ricordi 4 × 10, per 10 basta aggiungere uno zero: 4 diventa 40. Cerchi quante volte il 10 sta dentro 40.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"5": "è uno di troppo: 5 × 10 farebbe 50, non 40.",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?».",
+				"40": "è il prodotto 4 × 10, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
+			}
 		},
 		{
 			"id": "math-times-4x11-d3",
@@ -2117,6 +2472,11 @@
 			"format": "numeric_input",
 			"options": [],
 			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
 				"40": "mancano 4: sono solo 10 gruppi da 4, non 11.",
 				"48": "è 4 in più: sono 12 gruppi da 4, non 11.",
 				"55": "è 11 in più: sono 5 gruppi da 11, non 4."
@@ -2155,8 +2515,13 @@
 			"options": [],
 			"distractorWhy": {
 				"2": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
 				"6": "è uno di troppo: 6 × 2 farebbe 12, non 10.",
-				"10": "è il prodotto 5 × 2, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "è il prodotto 5 × 2, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato.",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?»."
 			}
 		},
 		{
@@ -2168,7 +2533,17 @@
 			"answer": "5",
 			"explanation": "Se non ricordi 5 × 3, per 5 fai la metà di 3 × 10, cioè la metà di 30: fa 15. Se 5 × 3 fa 15, allora 15 ÷ 3 torna a 5.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"3": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "è uno di troppo: 6 × 3 farebbe 18, non 15.",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"15": "è il prodotto 5 × 3, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
+			}
 		},
 		{
 			"id": "math-div-5x4-d3",
@@ -2200,7 +2575,17 @@
 			"answer": "5",
 			"explanation": "5 × 5 fa 25: è il quadrato di 5. Se non lo ricordi, per 5 fai la metà di 5 × 10, cioè la metà di 50: fa 25. Se 5 × 5 fa 25, allora 25 ÷ 5 torna a 5.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "è uno di meno: 4 × 5 farebbe 20, non 25.",
+				"6": "è uno di troppo: 6 × 5 farebbe 30, non 25.",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?».",
+				"25": "è il prodotto 5 × 5, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
+			}
 		},
 		{
 			"id": "math-factor-5x6-d3",
@@ -2232,7 +2617,17 @@
 			"answer": "5",
 			"explanation": "Se non ricordi 5 × 7, per 5 fai la metà di 7 × 10, cioè la metà di 70: fa 35. Cerchi quante volte il 7 sta dentro 35.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "è uno di troppo: 6 × 7 farebbe 42, non 35.",
+				"7": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"35": "è il prodotto 5 × 7, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
+			}
 		},
 		{
 			"id": "math-factor-5x8-d3",
@@ -2245,8 +2640,13 @@
 			"format": "numeric_input",
 			"options": [],
 			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
 				"6": "è uno di troppo: 6 × 8 farebbe 48, non 40.",
 				"8": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?».",
 				"40": "è il prodotto 5 × 8, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
 			}
 		},
@@ -2303,6 +2703,11 @@
 			"format": "numeric_input",
 			"options": [],
 			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
 				"50": "mancano 5: sono solo 10 gruppi da 5, non 11.",
 				"60": "è 5 in più: sono 12 gruppi da 5, non 11.",
 				"66": "è 11 in più: sono 6 gruppi da 11, non 5."
@@ -2317,7 +2722,17 @@
 			"answer": "60",
 			"explanation": "Se non ricordi 5 × 12, per 5 fai la metà di 12 × 10, cioè la metà di 120: fa 60.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"55": "mancano 5: sono solo 11 gruppi da 5, non 12.",
+				"65": "è 5 in più: sono 13 gruppi da 5, non 12.",
+				"72": "è 12 in più: sono 6 gruppi da 12, non 5."
+			}
 		},
 		{
 			"id": "math-factor-6x2-d3",
@@ -2328,7 +2743,17 @@
 			"answer": "6",
 			"explanation": "Se non ricordi 6 × 2, per 2 basta il doppio: 6 + 6 fa 12. Cerchi quante volte il 2 sta dentro 12.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"2": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"7": "è uno di troppo: 7 × 2 farebbe 14, non 12.",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"12": "è il prodotto 6 × 2, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato.",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?»."
+			}
 		},
 		{
 			"id": "math-factor-6x3-d3",
@@ -2381,7 +2806,17 @@
 			"answer": "6",
 			"explanation": "Se non ricordi 6 × 5, per 5 fai la metà di 6 × 10, cioè la metà di 60: fa 30. Cerchi quante volte il 5 sta dentro 30.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"5": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"7": "è uno di troppo: 7 × 5 farebbe 35, non 30.",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"30": "è il prodotto 6 × 5, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
+			}
 		},
 		{
 			"id": "math-factor-6x6-d3",
@@ -2413,7 +2848,17 @@
 			"answer": "6",
 			"explanation": "Se non ricordi 6 × 7, per 6 fai 7 × 5 più 7: 35 + 7 fa 42. Cerchi quante volte il 7 sta dentro 42.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"5": "è uno di meno: 5 × 7 farebbe 35, non 42.",
+				"7": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"42": "è il prodotto 6 × 7, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
+			}
 		},
 		{
 			"id": "math-factor-6x8-d3",
@@ -2426,8 +2871,13 @@
 			"format": "numeric_input",
 			"options": [],
 			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
 				"7": "è uno di troppo: 7 × 8 farebbe 56, non 48.",
 				"8": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?».",
 				"48": "è il prodotto 6 × 8, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
 			}
 		},
@@ -2482,7 +2932,17 @@
 			"answer": "66",
 			"explanation": "Se non ricordi 6 × 11, per 11 con una cifra sola basta ripeterla: 6 diventa 66.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"60": "mancano 6: sono solo 10 gruppi da 6, non 11.",
+				"72": "è 6 in più: sono 12 gruppi da 6, non 11.",
+				"77": "è 11 in più: sono 7 gruppi da 11, non 6."
+			}
 		},
 		{
 			"id": "math-times-6x12-d3",
@@ -2493,7 +2953,17 @@
 			"answer": "72",
 			"explanation": "Se non ricordi 6 × 12, per 12 fai 6 × 10 più 6 × 2: 60 + 12 fa 72.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"66": "mancano 6: sono solo 11 gruppi da 6, non 12.",
+				"78": "è 6 in più: sono 13 gruppi da 6, non 12.",
+				"84": "è 12 in più: sono 7 gruppi da 12, non 6."
+			}
 		},
 		{
 			"id": "math-factor-7x2-d3",
@@ -2525,7 +2995,17 @@
 			"answer": "7",
 			"explanation": "Se non ricordi 7 × 3, per 3 fai il doppio più il numero: 14 + 7 fa 21. Cerchi quante volte il 3 sta dentro 21.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"3": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "è uno di troppo: 8 × 3 farebbe 24, non 21.",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"21": "è il prodotto 7 × 3, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
+			}
 		},
 		{
 			"id": "math-factor-7x4-d3",
@@ -2557,7 +3037,17 @@
 			"answer": "7",
 			"explanation": "Se non ricordi 7 × 5, per 5 fai la metà di 7 × 10, cioè la metà di 70: fa 35. Cerchi quante volte il 5 sta dentro 35.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"5": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "è uno di troppo: 8 × 5 farebbe 40, non 35.",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"35": "è il prodotto 7 × 5, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
+			}
 		},
 		{
 			"id": "math-factor-7x6-d3",
@@ -2570,8 +3060,13 @@
 			"format": "numeric_input",
 			"options": [],
 			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
 				"6": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
 				"8": "è uno di troppo: 8 × 6 farebbe 48, non 42.",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?».",
 				"42": "è il prodotto 7 × 6, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
 			}
 		},
@@ -2626,7 +3121,17 @@
 			"answer": "7",
 			"explanation": "Se non ricordi 7 × 9, per 9 fai 7 × 10 meno 7: 70 − 7 fa 63. Cerchi quante volte il 9 sta dentro 63.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "è uno di troppo: 8 × 9 farebbe 72, non 63.",
+				"9": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?».",
+				"63": "è il prodotto 7 × 9, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
+			}
 		},
 		{
 			"id": "math-factor-7x10-d3",
@@ -2745,7 +3250,12 @@
 			"options": [],
 			"distractorWhy": {
 				"4": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
 				"9": "è uno di troppo: 9 × 4 farebbe 36, non 32.",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?».",
+				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 4 × 4?».",
 				"32": "è il prodotto 8 × 4, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
 			}
 		},
@@ -2863,7 +3373,17 @@
 			"answer": "8",
 			"explanation": "Se non ricordi 8 × 10, per 10 basta aggiungere uno zero: 8 diventa 80. Cerchi quante volte il 10 sta dentro 80.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"9": "è uno di troppo: 9 × 10 farebbe 90, non 80.",
+				"10": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?».",
+				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 4 × 4?».",
+				"80": "è il prodotto 8 × 10, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
+			}
 		},
 		{
 			"id": "math-times-8x11-d3",
@@ -2874,7 +3394,17 @@
 			"answer": "88",
 			"explanation": "Se non ricordi 8 × 11, per 11 con una cifra sola basta ripeterla: 8 diventa 88.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"80": "mancano 8: sono solo 10 gruppi da 8, non 11.",
+				"96": "è 8 in più: sono 12 gruppi da 8, non 11.",
+				"99": "è 11 in più: sono 9 gruppi da 11, non 8."
+			}
 		},
 		{
 			"id": "math-times-8x12-d3",
@@ -2906,7 +3436,17 @@
 			"answer": "9",
 			"explanation": "Se non ricordi 9 × 2, per 2 basta il doppio: 9 + 9 fa 18. Cerchi quante volte il 2 sta dentro 18.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"2": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"10": "è uno di troppo: 10 × 2 farebbe 20, non 18.",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?».",
+				"18": "è il prodotto 9 × 2, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
+			}
 		},
 		{
 			"id": "math-factor-9x3-d3",
@@ -3045,8 +3585,13 @@
 			"format": "numeric_input",
 			"options": [],
 			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
 				"8": "è uno di meno: 8 × 9 farebbe 72, non 81.",
 				"10": "è uno di troppo: 10 × 9 farebbe 90, non 81.",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?».",
+				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 4 × 4?».",
 				"81": "è il prodotto 9 × 9, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
 			}
 		},
@@ -3059,7 +3604,17 @@
 			"answer": "9",
 			"explanation": "Se non ricordi 9 × 10, per 10 basta aggiungere uno zero: 9 diventa 90. Cerchi quante volte il 10 sta dentro 90.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "è uno di meno: 8 × 10 farebbe 80, non 90.",
+				"10": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?».",
+				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 4 × 4?».",
+				"90": "è il prodotto 9 × 10, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
+			}
 		},
 		{
 			"id": "math-times-9x11-d3",
@@ -3240,8 +3795,13 @@
 			"format": "numeric_input",
 			"options": [],
 			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
 				"8": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
 				"11": "è uno di troppo: 11 × 8 farebbe 88, non 80.",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?».",
 				"80": "è il prodotto 10 × 8, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
 			}
 		},
@@ -3275,7 +3835,17 @@
 			"answer": "10",
 			"explanation": "10 × 10 fa 100: è il quadrato di 10. Se non lo ricordi, per 10 basta aggiungere uno zero: 10 diventa 100. Cerchi quante volte il 10 sta dentro 100.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "è uno di meno: 9 × 10 farebbe 90, non 100.",
+				"11": "è uno di troppo: 11 × 10 farebbe 110, non 100.",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?».",
+				"100": "è il prodotto 10 × 10, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
+			}
 		},
 		{
 			"id": "math-times-10x11-d3",
@@ -3328,7 +3898,17 @@
 			"answer": "22",
 			"explanation": "Se non ricordi 11 × 2, per 2 basta il doppio: 11 + 11 fa 22.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"11": "mancano 11: sono solo 1 gruppo da 11, non 2.",
+				"24": "è 2 in più: sono 12 gruppi da 2, non 11.",
+				"33": "è 11 in più: sono 3 gruppi da 11, non 2."
+			}
 		},
 		{
 			"id": "math-times-11x3-d3",
@@ -3362,6 +3942,11 @@
 			"format": "numeric_input",
 			"options": [],
 			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
 				"33": "mancano 11: sono solo 3 gruppi da 11, non 4.",
 				"48": "è 4 in più: sono 12 gruppi da 4, non 11.",
 				"55": "è 11 in più: sono 5 gruppi da 11, non 4."
@@ -3439,7 +4024,17 @@
 			"answer": "88",
 			"explanation": "Se non ricordi 11 × 8, per 11 con una cifra sola basta ripeterla: 8 diventa 88.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"77": "mancano 11: sono solo 7 gruppi da 11, non 8.",
+				"96": "è 8 in più: sono 12 gruppi da 8, non 11.",
+				"99": "è 11 in più: sono 9 gruppi da 11, non 8."
+			}
 		},
 		{
 			"id": "math-times-11x9-d3",
@@ -3534,7 +4129,17 @@
 			"answer": "24",
 			"explanation": "Se non ricordi 12 × 2, per 2 basta il doppio: 12 + 12 fa 24.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"12": "mancano 12: sono solo 1 gruppo da 12, non 2.",
+				"26": "è 2 in più: sono 13 gruppi da 2, non 12.",
+				"36": "è 12 in più: sono 3 gruppi da 12, non 2."
+			}
 		},
 		{
 			"id": "math-times-12x3-d3",
@@ -3547,6 +4152,11 @@
 			"format": "numeric_input",
 			"options": [],
 			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
 				"24": "mancano 12: sono solo 2 gruppi da 12, non 3.",
 				"39": "è 3 in più: sono 13 gruppi da 3, non 12.",
 				"48": "è 12 in più: sono 4 gruppi da 12, non 3."
@@ -3666,7 +4276,17 @@
 			"answer": "108",
 			"explanation": "Se non ricordi 12 × 9, per 9 fai 12 × 10 meno 12: 120 − 12 fa 108.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"96": "mancano 12: sono solo 8 gruppi da 12, non 9.",
+				"117": "è 9 in più: sono 13 gruppi da 9, non 12.",
+				"120": "è 12 in più: sono 10 gruppi da 12, non 9."
+			}
 		},
 		{
 			"id": "math-times-12x10-d3",
@@ -3698,7 +4318,17 @@
 			"answer": "132",
 			"explanation": "Se non ricordi 12 × 11, per 11 fai 12 × 10 più 12: 120 + 12 fa 132.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"120": "mancano 12: sono solo 10 gruppi da 12, non 11.",
+				"143": "è 11 in più: sono 13 gruppi da 11, non 12.",
+				"144": "è 12 in più: sono 12 gruppi da 12, non 11."
+			}
 		},
 		{
 			"id": "math-times-12x12-d3",
@@ -3793,7 +4423,17 @@
 			"answer": "6",
 			"explanation": "Se non ricordi 6 × 5, per 5 fai la metà di 6 × 10, cioè la metà di 60: fa 30. Se 6 × 5 fa 30, allora 30 ÷ 5 torna a 6.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"5": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"7": "è uno di troppo: 7 × 5 farebbe 35, non 30.",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"30": "è il prodotto 6 × 5, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
+			}
 		},
 		{
 			"id": "math-div-6x6-d4",
@@ -3804,7 +4444,17 @@
 			"answer": "6",
 			"explanation": "6 × 6 fa 36: è il quadrato di 6. Se non lo ricordi, per 6 fai 6 × 5 più 6: 30 + 6 fa 36. Se 6 × 6 fa 36, allora 36 ÷ 6 torna a 6.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"5": "è uno di meno: 5 × 6 farebbe 30, non 36.",
+				"7": "è uno di troppo: 7 × 6 farebbe 42, non 36.",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"36": "è il prodotto 6 × 6, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
+			}
 		},
 		{
 			"id": "math-div-6x7-d4",
@@ -3836,7 +4486,17 @@
 			"answer": "6",
 			"explanation": "Se non ricordi 6 × 8, per 6 fai 8 × 5 più 8: 40 + 8 fa 48. Se 6 × 8 fa 48, allora 48 ÷ 8 torna a 6.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"7": "è uno di troppo: 7 × 8 farebbe 56, non 48.",
+				"8": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?».",
+				"48": "è il prodotto 6 × 8, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
+			}
 		},
 		{
 			"id": "math-div-6x9-d4",
@@ -3849,8 +4509,13 @@
 			"format": "numeric_input",
 			"options": [],
 			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
 				"7": "è uno di troppo: 7 × 9 farebbe 63, non 54.",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
 				"9": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?».",
 				"54": "è il prodotto 6 × 9, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
 			}
 		},
@@ -3884,7 +4549,17 @@
 			"answer": "6",
 			"explanation": "Se non ricordi 6 × 11, per 11 con una cifra sola basta ripeterla: 6 diventa 66. Cerchi quante volte l'11 sta dentro 66.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"7": "è uno di troppo: 7 × 11 farebbe 77, non 66.",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"11": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"66": "è il prodotto 6 × 11, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
+			}
 		},
 		{
 			"id": "math-factor-6x12-d4",
@@ -4021,7 +4696,17 @@
 			"answer": "7",
 			"explanation": "7 × 7 fa 49: è il quadrato di 7. Se non lo ricordi, per 7 fai 7 × 5 più 7 × 2: 35 + 14 fa 49. Se 7 × 7 fa 49, allora 49 ÷ 7 torna a 7.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "è uno di meno: 6 × 7 farebbe 42, non 49.",
+				"8": "è uno di troppo: 8 × 7 farebbe 56, non 49.",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?».",
+				"49": "è il prodotto 7 × 7, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
+			}
 		},
 		{
 			"id": "math-div-7x8-d4",
@@ -4032,7 +4717,17 @@
 			"answer": "7",
 			"explanation": "Se non ricordi 7 × 8, per 8 raddoppi tre volte: 7 → 14 → 28 → 56. Se 7 × 8 fa 56, allora 56 ÷ 8 torna a 7.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "è uno di meno: 6 × 8 farebbe 48, non 56.",
+				"8": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?».",
+				"56": "è il prodotto 7 × 8, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
+			}
 		},
 		{
 			"id": "math-div-7x9-d4",
@@ -4045,8 +4740,13 @@
 			"format": "numeric_input",
 			"options": [],
 			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
 				"8": "è uno di troppo: 8 × 9 farebbe 72, non 63.",
 				"9": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?».",
 				"63": "è il prodotto 7 × 9, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
 			}
 		},
@@ -4122,7 +4822,17 @@
 			"answer": "8",
 			"explanation": "Se non ricordi 8 × 2, per 2 basta il doppio: 8 + 8 fa 16. Se 8 × 2 fa 16, allora 16 ÷ 2 torna a 8.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"2": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"9": "è uno di troppo: 9 × 2 farebbe 18, non 16.",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?».",
+				"16": "è il prodotto 8 × 2, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
+			}
 		},
 		{
 			"id": "math-div-8x3-d4",
@@ -4175,7 +4885,17 @@
 			"answer": "8",
 			"explanation": "Se non ricordi 8 × 5, per 5 fai la metà di 8 × 10, cioè la metà di 80: fa 40. Se 8 × 5 fa 40, allora 40 ÷ 5 torna a 8.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"5": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"9": "è uno di troppo: 9 × 5 farebbe 45, non 40.",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?».",
+				"40": "è il prodotto 8 × 5, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
+			}
 		},
 		{
 			"id": "math-div-8x6-d4",
@@ -4228,7 +4948,17 @@
 			"answer": "8",
 			"explanation": "8 × 8 fa 64: è il quadrato di 8. Se non lo ricordi, per 8 raddoppi tre volte: 8 → 16 → 32 → 64. Se 8 × 8 fa 64, allora 64 ÷ 8 torna a 8.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"7": "è uno di meno: 7 × 8 farebbe 56, non 64.",
+				"9": "è uno di troppo: 9 × 8 farebbe 72, non 64.",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?».",
+				"64": "è il prodotto 8 × 8, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
+			}
 		},
 		{
 			"id": "math-div-8x9-d4",
@@ -4407,7 +5137,17 @@
 			"answer": "9",
 			"explanation": "Se non ricordi 9 × 6, per 9 fai 6 × 10 meno 6: 60 − 6 fa 54. Se 9 × 6 fa 54, allora 54 ÷ 6 torna a 9.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"10": "è uno di troppo: 10 × 6 farebbe 60, non 54.",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?».",
+				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 4 × 4?».",
+				"54": "è il prodotto 9 × 6, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
+			}
 		},
 		{
 			"id": "math-div-9x7-d4",
@@ -4460,7 +5200,17 @@
 			"answer": "9",
 			"explanation": "9 × 9 fa 81: è il quadrato di 9. Se non lo ricordi, per 9 fai 9 × 10 meno 9: 90 − 9 fa 81. Se 9 × 9 fa 81, allora 81 ÷ 9 torna a 9.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "è uno di meno: 8 × 9 farebbe 72, non 81.",
+				"10": "è uno di troppo: 10 × 9 farebbe 90, non 81.",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?».",
+				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 4 × 4?».",
+				"81": "è il prodotto 9 × 9, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
+			}
 		},
 		{
 			"id": "math-div-9x10-d4",
@@ -4473,8 +5223,13 @@
 			"format": "numeric_input",
 			"options": [],
 			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
 				"8": "è uno di meno: 8 × 10 farebbe 80, non 90.",
 				"10": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?».",
+				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 4 × 4?».",
 				"90": "è il prodotto 9 × 10, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
 			}
 		},
@@ -4510,8 +5265,13 @@
 			"format": "numeric_input",
 			"options": [],
 			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
 				"10": "è uno di troppo: 10 × 12 farebbe 120, non 108.",
 				"12": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?».",
+				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 4 × 4?».",
 				"108": "è il prodotto 9 × 12, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
 			}
 		},
@@ -4524,7 +5284,17 @@
 			"answer": "10",
 			"explanation": "Se non ricordi 10 × 2, per 10 basta aggiungere uno zero: 2 diventa 20. Se 10 × 2 fa 20, allora 20 ÷ 2 torna a 10.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"2": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"11": "è uno di troppo: 11 × 2 farebbe 22, non 20.",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"20": "è il prodotto 10 × 2, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
+			}
 		},
 		{
 			"id": "math-div-10x3-d4",
@@ -4538,7 +5308,12 @@
 			"options": [],
 			"distractorWhy": {
 				"3": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
 				"11": "è uno di troppo: 11 × 3 farebbe 33, non 30.",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
 				"30": "è il prodotto 10 × 3, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
 			}
 		},
@@ -4614,7 +5389,17 @@
 			"answer": "10",
 			"explanation": "Se non ricordi 10 × 7, per 10 basta aggiungere uno zero: 7 diventa 70. Se 10 × 7 fa 70, allora 70 ÷ 7 torna a 10.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"7": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"11": "è uno di troppo: 11 × 7 farebbe 77, non 70.",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"70": "è il prodotto 10 × 7, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
+			}
 		},
 		{
 			"id": "math-div-10x8-d4",
@@ -4667,7 +5452,17 @@
 			"answer": "10",
 			"explanation": "10 × 10 fa 100: è il quadrato di 10. Se non lo ricordi, per 10 basta aggiungere uno zero: 10 diventa 100. Se 10 × 10 fa 100, allora 100 ÷ 10 torna a 10.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "è uno di meno: 9 × 10 farebbe 90, non 100.",
+				"11": "è uno di troppo: 11 × 10 farebbe 110, non 100.",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?».",
+				"100": "è il prodotto 10 × 10, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
+			}
 		},
 		{
 			"id": "math-factor-10x11-d4",
@@ -4678,7 +5473,17 @@
 			"answer": "10",
 			"explanation": "Se non ricordi 10 × 11, per 10 basta aggiungere uno zero: 11 diventa 110. Cerchi quante volte l'11 sta dentro 110.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "è uno di meno: 9 × 11 farebbe 99, non 110.",
+				"11": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 4?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?».",
+				"110": "è il prodotto 10 × 11, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
+			}
 		},
 		{
 			"id": "math-factor-10x12-d4",
@@ -4691,8 +5496,13 @@
 			"format": "numeric_input",
 			"options": [],
 			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
 				"11": "è uno di troppo: 11 × 12 farebbe 132, non 120.",
 				"12": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?».",
 				"120": "è il prodotto 10 × 12, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
 			}
 		},
@@ -4705,7 +5515,17 @@
 			"answer": "11",
 			"explanation": "Se non ricordi 11 × 2, per 2 basta il doppio: 11 + 11 fa 22. Cerchi quante volte il 2 sta dentro 22.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"2": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"12": "è uno di troppo: 12 × 2 farebbe 24, non 22.",
+				"22": "è il prodotto 11 × 2, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
+			}
 		},
 		{
 			"id": "math-factor-11x3-d4",
@@ -4758,7 +5578,17 @@
 			"answer": "11",
 			"explanation": "Se non ricordi 11 × 5, per 5 fai la metà di 11 × 10, cioè la metà di 110: fa 55. Cerchi quante volte il 5 sta dentro 55.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"5": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"12": "è uno di troppo: 12 × 5 farebbe 60, non 55.",
+				"55": "è il prodotto 11 × 5, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
+			}
 		},
 		{
 			"id": "math-factor-11x6-d4",
@@ -4769,7 +5599,17 @@
 			"answer": "11",
 			"explanation": "Se non ricordi 11 × 6, per 11 con una cifra sola basta ripeterla: 6 diventa 66. Cerchi quante volte il 6 sta dentro 66.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"12": "è uno di troppo: 12 × 6 farebbe 72, non 66.",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?».",
+				"66": "è il prodotto 11 × 6, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
+			}
 		},
 		{
 			"id": "math-factor-11x7-d4",
@@ -4782,7 +5622,12 @@
 			"format": "numeric_input",
 			"options": [],
 			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
 				"7": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
 				"12": "è uno di troppo: 12 × 7 farebbe 84, non 77.",
 				"77": "è il prodotto 11 × 7, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
 			}
@@ -4922,7 +5767,17 @@
 			"answer": "12",
 			"explanation": "Se non ricordi 12 × 3, per 3 fai il doppio più il numero: 24 + 12 fa 36. Cerchi quante volte il 3 sta dentro 36.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"3": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"13": "è uno di troppo: 13 × 3 farebbe 39, non 36.",
+				"36": "è il prodotto 12 × 3, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
+			}
 		},
 		{
 			"id": "math-factor-12x4-d4",
@@ -4933,7 +5788,17 @@
 			"answer": "12",
 			"explanation": "Se non ricordi 12 × 4, per 4 raddoppi due volte: 12 → 24 → 48. Cerchi quante volte il 4 sta dentro 48.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"13": "è uno di troppo: 13 × 4 farebbe 52, non 48.",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?».",
+				"48": "è il prodotto 12 × 4, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
+			}
 		},
 		{
 			"id": "math-factor-12x5-d4",
@@ -4988,7 +5853,12 @@
 			"format": "numeric_input",
 			"options": [],
 			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
 				"7": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
 				"13": "è uno di troppo: 13 × 7 farebbe 91, non 84.",
 				"84": "è il prodotto 12 × 7, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
 			}
@@ -5023,7 +5893,17 @@
 			"answer": "12",
 			"explanation": "Se non ricordi 12 × 9, per 9 fai 12 × 10 meno 12: 120 − 12 fa 108. Cerchi quante volte il 9 sta dentro 108.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"13": "è uno di troppo: 13 × 9 farebbe 117, non 108.",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?».",
+				"108": "è il prodotto 12 × 9, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
+			}
 		},
 		{
 			"id": "math-factor-12x10-d4",
@@ -5034,7 +5914,17 @@
 			"answer": "12",
 			"explanation": "Se non ricordi 12 × 10, per 10 basta aggiungere uno zero: 12 diventa 120. Cerchi quante volte il 10 sta dentro 120.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"13": "è uno di troppo: 13 × 10 farebbe 130, non 120.",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 5?».",
+				"120": "è il prodotto 12 × 10, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
+			}
 		},
 		{
 			"id": "math-factor-12x11-d4",
@@ -5045,7 +5935,17 @@
 			"answer": "12",
 			"explanation": "Se non ricordi 12 × 11, per 11 fai 12 × 10 più 12: 120 + 12 fa 132. Cerchi quante volte l'11 sta dentro 132.",
 			"format": "numeric_input",
-			"options": []
+			"options": [],
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 2?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 3?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 4?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 3 × 3?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 × 5?».",
+				"11": "è l'altro fattore, quello già scritto nella domanda: il numero cercato è quello che manca.",
+				"13": "è uno di troppo: 13 × 11 farebbe 143, non 132.",
+				"132": "è il prodotto 12 × 11, cioè il numero da cui si parte: qui si chiede il fattore, non il risultato."
+			}
 		},
 		{
 			"id": "math-factor-12x12-d4",
@@ -5395,8 +6295,13 @@
 			"explanation": "Un ottavo di 24 fa 3; tre ottavi sono tre volte tanto, cioè 9.",
 			"distractorWhy": {
 				"3": "È un ottavo soltanto: te ne servono tre.",
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti quarti servono per formare un intero?».",
 				"8": "È il denominatore, non una quantità di uova.",
-				"15": "15 sono le uova rimaste nel cartone, cioè cinque ottavi."
+				"15": "15 sono le uova rimaste nel cartone, cioè cinque ottavi.",
+				"1/2": "«1/2» è la risposta giusta a un'altra domanda di questo gruppo: «Quale frazione rappresenta metà di una torta?».",
+				"il 4": "«il 4» è la risposta giusta a un'altra domanda di questo gruppo: «In 3/4, quale numero dice in quante parti uguali è stato diviso l'intero?».",
+				"3/8": "«3/8» è la risposta giusta a un'altra domanda di questo gruppo: «Una pizza è divisa in 8 fette uguali e ne mangi 3. Quale frazione hai mangiato?».",
+				"5/5": "«5/5» è la risposta giusta a un'altra domanda di questo gruppo: «Quale di queste frazioni vale esattamente un intero?»."
 			}
 		},
 		{
@@ -5453,8 +6358,13 @@
 			"explanation": "Il 50% è la metà: 80 diviso 2 fa 40.",
 			"distractorWhy": {
 				"8": "8 è un decimo di 80, cioè il 10%.",
+				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa il 10% di 250?».",
+				"30": "«30» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa il 100% di 30?».",
 				"50": "Il 50 è la percentuale richiesta, non il risultato.",
-				"60": "60 sarebbe il 75% di 80, non la metà."
+				"60": "60 sarebbe il 75% di 80, non la metà.",
+				"la metà": "«la metà» è la risposta giusta a un'altra domanda di questo gruppo: «Il 50% di una quantità corrisponde a…».",
+				"ogni cento parti": "«ogni cento parti» è la risposta giusta a un'altra domanda di questo gruppo: «Nella parola «percento», il «cento» dice che si conta…».",
+				"1/4": "«1/4» è la risposta giusta a un'altra domanda di questo gruppo: «A quale frazione corrisponde il 25%?»."
 			}
 		},
 		{
@@ -6098,9 +7008,14 @@
 			"answer": "11",
 			"explanation": "Prima 4 × 2 che fa 8, poi si aggiunge 3.",
 			"distractorWhy": {
+				"2": "«2» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto vale 12 ÷ (2 + 4)?».",
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto vale 10 − 2 × 3?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto vale 20 ÷ 4 + 1?».",
 				"9": "Hai sommato tutti e tre i numeri ignorando il segno per.",
 				"14": "Hai sommato prima: è il risultato di (3 + 4) × 2.",
-				"24": "Hai moltiplicato tutto per 2 dopo aver sommato male."
+				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto vale 2 × (5 + 3)?».",
+				"24": "Hai moltiplicato tutto per 2 dopo aver sommato male.",
+				"la moltiplicazione": "«la moltiplicazione» è la risposta giusta a un'altra domanda di questo gruppo: «In 3 + 4 × 2, quale operazione si esegue per prima?»."
 			}
 		},
 		{
@@ -6282,9 +7197,14 @@
 			"answer": "15",
 			"explanation": "Prima la parentesi (5), poi la moltiplicazione (10), infine l'addizione.",
 			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto vale 10 − 2 × 3?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto vale 20 ÷ 4 + 1?».",
+				"11": "«11» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto vale 3 + 4 × 2?».",
 				"13": "Hai sommato invece di moltiplicare il 2 per la parentesi.",
+				"14": "«14» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto vale (3 + 4) × 2?».",
 				"25": "Hai moltiplicato l'intera espressione per 5.",
-				"35": "Hai sommato 5 + 2 prima di moltiplicare per la parentesi."
+				"35": "Hai sommato 5 + 2 prima di moltiplicare per la parentesi.",
+				"la moltiplicazione": "«la moltiplicazione» è la risposta giusta a un'altra domanda di questo gruppo: «In 3 + 4 × 2, quale operazione si esegue per prima?»."
 			}
 		},
 		{
@@ -6530,8 +7450,13 @@
 			"explanation": "La somma fa 18 e i numeri sono tre: 18 diviso 3 fa 6.",
 			"distractorWhy": {
 				"4": "4 è il numero più piccolo, non la media.",
+				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la moda di 3, 5, 5, 7, 9?».",
 				"9": "Hai diviso per due invece che per tre.",
-				"18": "18 è la somma: manca la divisione per quanti sono i numeri."
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «La media fra 10 e 20 è…».",
+				"18": "18 è la somma: manca la divisione per quanti sono i numeri.",
+				"35": "«35» è la risposta giusta a un'altra domanda di questo gruppo: «La media di cinque voti è 7. Quanto vale la loro somma?».",
+				"il valore più grande": "«il valore più grande» è la risposta giusta a un'altra domanda di questo gruppo: «In un grafico a barre, la barra più alta indica…».",
+				"un grafico a barre": "«un grafico a barre» è la risposta giusta a un'altra domanda di questo gruppo: «Per mostrare quanti alunni preferiscono ciascuno sport, quale rappresentazione conviene?»."
 			}
 		},
 		{

@@ -558,7 +558,17 @@
 			"prompt": "Quanti millimetri sono 3 centimetri?",
 			"options": [],
 			"answer": "30",
-			"explanation": "Un centimetro vale dieci millimetri: 3 × 10 fa 30."
+			"explanation": "Un centimetro vale dieci millimetri: 3 × 10 fa 30.",
+			"distractorWhy": {
+				"100": "«100» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti centimetri sono 1 metro?».",
+				"2,5 m": "«2,5 m» è la risposta giusta a un'altra domanda di questo gruppo: «250 cm in metri.».",
+				"Il cronometro": "«Il cronometro» è la risposta giusta a un'altra domanda di questo gruppo: «Con quale strumento si misura un intervallo di tempo breve?».",
+				"Il metro (righello)": "«Il metro (righello)» è la risposta giusta a un'altra domanda di questo gruppo: «Con quale strumento misuri la lunghezza di un banco?».",
+				"Una bilancia": "«Una bilancia» è la risposta giusta a un'altra domanda di questo gruppo: «Per misurare quanto pesi useresti…».",
+				"termometro": "«termometro» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo strumento con cui si misura la temperatura?».",
+				"chilogrammo": "«chilogrammo» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della massa nel Sistema Internazionale?».",
+				"secondo": "«secondo» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura del tempo nel Sistema Internazionale?»."
+			}
 		},
 		{
 			"id": "fisica-misure-1",
@@ -611,7 +621,17 @@
 			"prompt": "Un ciclista percorre 20 km in 1 ora. Qual è la sua velocità media in km/h?",
 			"options": [],
 			"answer": "20",
-			"explanation": "Velocità media = spazio diviso tempo: 20 km in 1 ora fanno 20 km/h."
+			"explanation": "Velocità media = spazio diviso tempo: 20 km in 1 ora fanno 20 km/h.",
+			"distractorWhy": {
+				"Sì, perché cambia direzione": "«Sì, perché cambia direzione» è la risposta giusta a un'altra domanda di questo gruppo: «Un'auto che curva a velocità costante sta accelerando?».",
+				"Fermo": "«Fermo» è la risposta giusta a un'altra domanda di questo gruppo: «Un oggetto che non cambia posizione è…».",
+				"Più veloce": "«Più veloce» è la risposta giusta a un'altra domanda di questo gruppo: «Se un'auto percorre più strada nello stesso tempo, è…».",
+				"Una velocità maggiore": "«Una velocità maggiore» è la risposta giusta a un'altra domanda di questo gruppo: «In un grafico spazio-tempo, una linea più ripida indica…».",
+				"velocità": "«velocità» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il rapporto fra lo spazio percorso e il tempo impiegato?».",
+				"accelerazione": "«accelerazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la variazione della velocità nel tempo?».",
+				"metri al secondo": "«metri al secondo» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della velocità nel Sistema Internazionale?».",
+				"traiettoria": "«traiettoria» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il percorso seguito da un corpo che si muove?»."
+			}
 		},
 		{
 			"id": "fisica-moto-4",
@@ -958,7 +978,12 @@
 			"prompt": "Misuri un tavolo tre volte: 120,1 · 120,3 · 120,2 cm. Qual è la stima migliore?",
 			"options": [],
 			"answer": "120,2",
-			"explanation": "La media delle tre misure: (120,1 + 120,3 + 120,2) diviso 3 fa 120,2 cm."
+			"explanation": "La media delle tre misure: (120,1 + 120,3 + 120,2) diviso 3 fa 120,2 cm.",
+			"distractorWhy": {
+				"Il metro": "«Il metro» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della lunghezza nel Sistema Internazionale?».",
+				"ipotesi": "«ipotesi» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la spiegazione provvisoria che un esperimento deve mettere alla prova?».",
+				"variabile indipendente": "«variabile indipendente» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la grandezza che lo sperimentatore cambia di proposito?»."
+			}
 		},
 		{
 			"id": "fisica-onde-luce-21",
@@ -1137,7 +1162,16 @@
 			"prompt": "Un lampo si vede subito e il tuono arriva dopo 3 secondi. Quanti chilometri circa?",
 			"options": [],
 			"answer": "1",
-			"explanation": "Il suono percorre circa 340 metri al secondo: in 3 secondi fa poco più di un chilometro."
+			"explanation": "Il suono percorre circa 340 metri al secondo: in 3 secondi fa poco più di un chilometro.",
+			"distractorWhy": {
+				"6 m/s": "«6 m/s» è la risposta giusta a un'altra domanda di questo gruppo: «Onda con lambda = 2 m e f = 3 Hz.».",
+				"La frequenza della vibrazione": "«La frequenza della vibrazione» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa determina se un suono è acuto o grave?».",
+				"In linea retta": "«In linea retta» è la risposta giusta a un'altra domanda di questo gruppo: «In aria limpida, la luce viaggia…».",
+				"riflessione": "«riflessione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il rimbalzo della luce su uno specchio?».",
+				"rifrazione": "«rifrazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la deviazione della luce quando passa dall'aria all'acqua?».",
+				"lunghezza d'onda": "«lunghezza d'onda» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la distanza fra due creste successive di un'onda?».",
+				"ombra": "«ombra» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la zona scura che un corpo opaco lascia dietro di sé quando è illuminato?»."
+			}
 		},
 		{
 			"id": "fisica-energia-30",
@@ -1484,7 +1518,16 @@
 			"prompt": "Un litro d'acqua ha una massa di circa quanti chilogrammi?",
 			"options": [],
 			"answer": "1",
-			"explanation": "Un litro d'acqua ha una massa di circa un chilogrammo: è da lì che nasce l'unità."
+			"explanation": "Un litro d'acqua ha una massa di circa un chilogrammo: è da lì che nasce l'unità.",
+			"distractorWhy": {
+				"2 g/cm3": "«2 g/cm3» è la risposta giusta a un'altra domanda di questo gruppo: «Massa 200 g, volume 100 cm3. Trova la densità.».",
+				"Lo spazio che occupa": "«Lo spazio che occupa» è la risposta giusta a un'altra domanda di questo gruppo: «Che cos'è il volume di un corpo?».",
+				"evaporazione": "«evaporazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il passaggio dallo stato liquido a quello gassoso?».",
+				"fusione": "«fusione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il passaggio dallo stato solido a quello liquido?».",
+				"densità": "«densità» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il rapporto fra la massa di un corpo e il suo volume?».",
+				"liquido": "«liquido» è la risposta giusta a un'altra domanda di questo gruppo: «L'acqua a temperatura ambiente si trova allo stato...».",
+				"solido": "«solido» è la risposta giusta a un'altra domanda di questo gruppo: «Il ghiaccio è acqua allo stato...»."
+			}
 		},
 		{
 			"id": "fisica-materia-47",
@@ -1642,7 +1685,15 @@
 			"prompt": "A quale temperatura, in gradi centigradi, bolle l'acqua a livello del mare?",
 			"options": [],
 			"answer": "100",
-			"explanation": "Cento gradi centigradi. In montagna bolle a temperatura più bassa, perché la pressione è minore."
+			"explanation": "Cento gradi centigradi. In montagna bolle a temperatura più bassa, perché la pressione è minore.",
+			"distractorWhy": {
+				"Conduzione": "«Conduzione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il passaggio di calore attraverso un corpo solido?».",
+				"Per irraggiamento": "«Per irraggiamento» è la risposta giusta a un'altra domanda di questo gruppo: «Come arriva il calore del Sole fino a noi?».",
+				"kelvin": "«kelvin» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della temperatura nel Sistema Internazionale?».",
+				"conduzione": "«conduzione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il passaggio di calore per contatto diretto fra due corpi?».",
+				"convezione": "«convezione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il passaggio di calore attraverso il movimento di un liquido o di un gas?».",
+				"isolante": "«isolante» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il materiale che lascia passare poco calore, come il polistirolo?»."
+			}
 		},
 		{
 			"id": "fisica-calore-55",
@@ -1717,7 +1768,16 @@
 			"options": [],
 			"answer": "100",
 			"explanation": "Il prefisso «centi-» vale un centesimo: vale per tutte le unità, non solo per il metro.",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"30": "«30» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti millimetri sono 3 centimetri?».",
+				"2,5 m": "«2,5 m» è la risposta giusta a un'altra domanda di questo gruppo: «250 cm in metri.».",
+				"Il cronometro": "«Il cronometro» è la risposta giusta a un'altra domanda di questo gruppo: «Con quale strumento si misura un intervallo di tempo breve?».",
+				"Il metro (righello)": "«Il metro (righello)» è la risposta giusta a un'altra domanda di questo gruppo: «Con quale strumento misuri la lunghezza di un banco?».",
+				"Una bilancia": "«Una bilancia» è la risposta giusta a un'altra domanda di questo gruppo: «Per misurare quanto pesi useresti…».",
+				"termometro": "«termometro» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo strumento con cui si misura la temperatura?».",
+				"chilogrammo": "«chilogrammo» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della massa nel Sistema Internazionale?».",
+				"secondo": "«secondo» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura del tempo nel Sistema Internazionale?»."
+			}
 		},
 		{
 			"id": "fisica-misure-59",
@@ -2025,7 +2085,17 @@
 			"accept": [
 				"il termometro"
 			],
-			"explanation": "Non misura il calore ma la temperatura: sono due grandezze diverse."
+			"explanation": "Non misura il calore ma la temperatura: sono due grandezze diverse.",
+			"distractorWhy": {
+				"30": "«30» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti millimetri sono 3 centimetri?».",
+				"100": "«100» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti centimetri sono 1 metro?».",
+				"2,5 m": "«2,5 m» è la risposta giusta a un'altra domanda di questo gruppo: «250 cm in metri.».",
+				"Il cronometro": "«Il cronometro» è la risposta giusta a un'altra domanda di questo gruppo: «Con quale strumento si misura un intervallo di tempo breve?».",
+				"Il metro (righello)": "«Il metro (righello)» è la risposta giusta a un'altra domanda di questo gruppo: «Con quale strumento misuri la lunghezza di un banco?».",
+				"Una bilancia": "«Una bilancia» è la risposta giusta a un'altra domanda di questo gruppo: «Per misurare quanto pesi useresti…».",
+				"chilogrammo": "«chilogrammo» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della massa nel Sistema Internazionale?».",
+				"secondo": "«secondo» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura del tempo nel Sistema Internazionale?»."
+			}
 		},
 		{
 			"id": "fisica-misure-74",
@@ -2040,7 +2110,17 @@
 				"kilogrammo",
 				"kg"
 			],
-			"explanation": "È l'unica unità di base il cui nome contiene già un prefisso."
+			"explanation": "È l'unica unità di base il cui nome contiene già un prefisso.",
+			"distractorWhy": {
+				"30": "«30» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti millimetri sono 3 centimetri?».",
+				"100": "«100» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti centimetri sono 1 metro?».",
+				"2,5 m": "«2,5 m» è la risposta giusta a un'altra domanda di questo gruppo: «250 cm in metri.».",
+				"Il cronometro": "«Il cronometro» è la risposta giusta a un'altra domanda di questo gruppo: «Con quale strumento si misura un intervallo di tempo breve?».",
+				"Il metro (righello)": "«Il metro (righello)» è la risposta giusta a un'altra domanda di questo gruppo: «Con quale strumento misuri la lunghezza di un banco?».",
+				"Una bilancia": "«Una bilancia» è la risposta giusta a un'altra domanda di questo gruppo: «Per misurare quanto pesi useresti…».",
+				"termometro": "«termometro» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo strumento con cui si misura la temperatura?».",
+				"secondo": "«secondo» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura del tempo nel Sistema Internazionale?»."
+			}
 		},
 		{
 			"id": "fisica-misure-75",
@@ -2054,7 +2134,17 @@
 			"accept": [
 				"il secondo"
 			],
-			"explanation": "Minuti e ore sono comode, ma l'unità di base resta il secondo."
+			"explanation": "Minuti e ore sono comode, ma l'unità di base resta il secondo.",
+			"distractorWhy": {
+				"30": "«30» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti millimetri sono 3 centimetri?».",
+				"100": "«100» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti centimetri sono 1 metro?».",
+				"2,5 m": "«2,5 m» è la risposta giusta a un'altra domanda di questo gruppo: «250 cm in metri.».",
+				"Il cronometro": "«Il cronometro» è la risposta giusta a un'altra domanda di questo gruppo: «Con quale strumento si misura un intervallo di tempo breve?».",
+				"Il metro (righello)": "«Il metro (righello)» è la risposta giusta a un'altra domanda di questo gruppo: «Con quale strumento misuri la lunghezza di un banco?».",
+				"Una bilancia": "«Una bilancia» è la risposta giusta a un'altra domanda di questo gruppo: «Per misurare quanto pesi useresti…».",
+				"termometro": "«termometro» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo strumento con cui si misura la temperatura?».",
+				"chilogrammo": "«chilogrammo» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della massa nel Sistema Internazionale?»."
+			}
 		},
 		{
 			"id": "fisica-moto-76",
@@ -2068,7 +2158,17 @@
 			"accept": [
 				"velocita"
 			],
-			"explanation": "Stessa strada in metà tempo significa velocità doppia."
+			"explanation": "Stessa strada in metà tempo significa velocità doppia.",
+			"distractorWhy": {
+				"20": "«20» è la risposta giusta a un'altra domanda di questo gruppo: «Un ciclista percorre 20 km in 1 ora. Qual è la sua velocità media in km/h?».",
+				"Sì, perché cambia direzione": "«Sì, perché cambia direzione» è la risposta giusta a un'altra domanda di questo gruppo: «Un'auto che curva a velocità costante sta accelerando?».",
+				"Fermo": "«Fermo» è la risposta giusta a un'altra domanda di questo gruppo: «Un oggetto che non cambia posizione è…».",
+				"Più veloce": "«Più veloce» è la risposta giusta a un'altra domanda di questo gruppo: «Se un'auto percorre più strada nello stesso tempo, è…».",
+				"Una velocità maggiore": "«Una velocità maggiore» è la risposta giusta a un'altra domanda di questo gruppo: «In un grafico spazio-tempo, una linea più ripida indica…».",
+				"accelerazione": "«accelerazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la variazione della velocità nel tempo?».",
+				"metri al secondo": "«metri al secondo» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della velocità nel Sistema Internazionale?».",
+				"traiettoria": "«traiettoria» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il percorso seguito da un corpo che si muove?»."
+			}
 		},
 		{
 			"id": "fisica-moto-77",
@@ -2082,7 +2182,17 @@
 			"accept": [
 				"l'accelerazione"
 			],
-			"explanation": "Se la velocità cambia, anche solo di direzione, c'è accelerazione."
+			"explanation": "Se la velocità cambia, anche solo di direzione, c'è accelerazione.",
+			"distractorWhy": {
+				"20": "«20» è la risposta giusta a un'altra domanda di questo gruppo: «Un ciclista percorre 20 km in 1 ora. Qual è la sua velocità media in km/h?».",
+				"Sì, perché cambia direzione": "«Sì, perché cambia direzione» è la risposta giusta a un'altra domanda di questo gruppo: «Un'auto che curva a velocità costante sta accelerando?».",
+				"Fermo": "«Fermo» è la risposta giusta a un'altra domanda di questo gruppo: «Un oggetto che non cambia posizione è…».",
+				"Più veloce": "«Più veloce» è la risposta giusta a un'altra domanda di questo gruppo: «Se un'auto percorre più strada nello stesso tempo, è…».",
+				"Una velocità maggiore": "«Una velocità maggiore» è la risposta giusta a un'altra domanda di questo gruppo: «In un grafico spazio-tempo, una linea più ripida indica…».",
+				"velocità": "«velocità» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il rapporto fra lo spazio percorso e il tempo impiegato?».",
+				"metri al secondo": "«metri al secondo» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della velocità nel Sistema Internazionale?».",
+				"traiettoria": "«traiettoria» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il percorso seguito da un corpo che si muove?»."
+			}
 		},
 		{
 			"id": "fisica-moto-78",
@@ -2097,7 +2207,17 @@
 				"m/s",
 				"metro al secondo"
 			],
-			"explanation": "Si ottiene dividendo l'unità di lunghezza per quella di tempo."
+			"explanation": "Si ottiene dividendo l'unità di lunghezza per quella di tempo.",
+			"distractorWhy": {
+				"20": "«20» è la risposta giusta a un'altra domanda di questo gruppo: «Un ciclista percorre 20 km in 1 ora. Qual è la sua velocità media in km/h?».",
+				"Sì, perché cambia direzione": "«Sì, perché cambia direzione» è la risposta giusta a un'altra domanda di questo gruppo: «Un'auto che curva a velocità costante sta accelerando?».",
+				"Fermo": "«Fermo» è la risposta giusta a un'altra domanda di questo gruppo: «Un oggetto che non cambia posizione è…».",
+				"Più veloce": "«Più veloce» è la risposta giusta a un'altra domanda di questo gruppo: «Se un'auto percorre più strada nello stesso tempo, è…».",
+				"Una velocità maggiore": "«Una velocità maggiore» è la risposta giusta a un'altra domanda di questo gruppo: «In un grafico spazio-tempo, una linea più ripida indica…».",
+				"velocità": "«velocità» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il rapporto fra lo spazio percorso e il tempo impiegato?».",
+				"accelerazione": "«accelerazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la variazione della velocità nel tempo?».",
+				"traiettoria": "«traiettoria» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il percorso seguito da un corpo che si muove?»."
+			}
 		},
 		{
 			"id": "fisica-onde-luce-79",
@@ -2111,7 +2231,16 @@
 			"accept": [
 				"la riflessione"
 			],
-			"explanation": "Il raggio torna indietro con lo stesso angolo con cui è arrivato."
+			"explanation": "Il raggio torna indietro con lo stesso angolo con cui è arrivato.",
+			"distractorWhy": {
+				"1": "«1» è la risposta giusta a un'altra domanda di questo gruppo: «Un lampo si vede subito e il tuono arriva dopo 3 secondi. Quanti chilometri circa?».",
+				"6 m/s": "«6 m/s» è la risposta giusta a un'altra domanda di questo gruppo: «Onda con lambda = 2 m e f = 3 Hz.».",
+				"La frequenza della vibrazione": "«La frequenza della vibrazione» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa determina se un suono è acuto o grave?».",
+				"In linea retta": "«In linea retta» è la risposta giusta a un'altra domanda di questo gruppo: «In aria limpida, la luce viaggia…».",
+				"rifrazione": "«rifrazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la deviazione della luce quando passa dall'aria all'acqua?».",
+				"lunghezza d'onda": "«lunghezza d'onda» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la distanza fra due creste successive di un'onda?».",
+				"ombra": "«ombra» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la zona scura che un corpo opaco lascia dietro di sé quando è illuminato?»."
+			}
 		},
 		{
 			"id": "fisica-onde-luce-80",
@@ -2125,7 +2254,16 @@
 			"accept": [
 				"la rifrazione"
 			],
-			"explanation": "Cambiando mezzo la luce cambia velocità, e quindi piega: per questo il bastone nell'acqua sembra spezzato."
+			"explanation": "Cambiando mezzo la luce cambia velocità, e quindi piega: per questo il bastone nell'acqua sembra spezzato.",
+			"distractorWhy": {
+				"1": "«1» è la risposta giusta a un'altra domanda di questo gruppo: «Un lampo si vede subito e il tuono arriva dopo 3 secondi. Quanti chilometri circa?».",
+				"6 m/s": "«6 m/s» è la risposta giusta a un'altra domanda di questo gruppo: «Onda con lambda = 2 m e f = 3 Hz.».",
+				"La frequenza della vibrazione": "«La frequenza della vibrazione» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa determina se un suono è acuto o grave?».",
+				"In linea retta": "«In linea retta» è la risposta giusta a un'altra domanda di questo gruppo: «In aria limpida, la luce viaggia…».",
+				"riflessione": "«riflessione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il rimbalzo della luce su uno specchio?».",
+				"lunghezza d'onda": "«lunghezza d'onda» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la distanza fra due creste successive di un'onda?».",
+				"ombra": "«ombra» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la zona scura che un corpo opaco lascia dietro di sé quando è illuminato?»."
+			}
 		},
 		{
 			"id": "fisica-onde-luce-81",
@@ -2140,7 +2278,16 @@
 				"la lunghezza d'onda",
 				"lunghezza donda"
 			],
-			"explanation": "È la lunghezza di un'oscillazione completa."
+			"explanation": "È la lunghezza di un'oscillazione completa.",
+			"distractorWhy": {
+				"1": "«1» è la risposta giusta a un'altra domanda di questo gruppo: «Un lampo si vede subito e il tuono arriva dopo 3 secondi. Quanti chilometri circa?».",
+				"6 m/s": "«6 m/s» è la risposta giusta a un'altra domanda di questo gruppo: «Onda con lambda = 2 m e f = 3 Hz.».",
+				"La frequenza della vibrazione": "«La frequenza della vibrazione» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa determina se un suono è acuto o grave?».",
+				"In linea retta": "«In linea retta» è la risposta giusta a un'altra domanda di questo gruppo: «In aria limpida, la luce viaggia…».",
+				"riflessione": "«riflessione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il rimbalzo della luce su uno specchio?».",
+				"rifrazione": "«rifrazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la deviazione della luce quando passa dall'aria all'acqua?».",
+				"ombra": "«ombra» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la zona scura che un corpo opaco lascia dietro di sé quando è illuminato?»."
+			}
 		},
 		{
 			"id": "fisica-forze-82",
@@ -2155,7 +2302,17 @@
 				"il newton",
 				"N"
 			],
-			"explanation": "Un newton è la forza che dà a un chilogrammo un'accelerazione di un metro al secondo per secondo."
+			"explanation": "Un newton è la forza che dà a un chilogrammo un'accelerazione di un metro al secondo per secondo.",
+			"distractorWhy": {
+				"La forza di gravità": "«La forza di gravità» è la risposta giusta a un'altra domanda di questo gruppo: «Quale forza fa cadere gli oggetti verso il basso?».",
+				"L'attrito": "«L'attrito» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa rallenta una palla che rotola sul pavimento?».",
+				"Si bilanciano": "«Si bilanciano» è la risposta giusta a un'altra domanda di questo gruppo: «Su un libro fermo sul tavolo, le forze…».",
+				"attrito": "«attrito» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la forza che si oppone allo scivolamento fra due superfici a contatto?».",
+				"dinamometro": "«dinamometro» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo strumento che misura una forza allungando una molla?».",
+				"spinta di Archimede": "«spinta di Archimede» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la spinta verso l'alto che riceve un corpo immerso in un liquido?».",
+				"La forza magnetica": "«La forza magnetica» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa attira i chiodi di ferro verso una calamita?».",
+				"si dimezza": "«si dimezza» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
+			}
 		},
 		{
 			"id": "fisica-forze-83",
@@ -2171,7 +2328,17 @@
 				"forza di attrito",
 				"la forza di attrito"
 			],
-			"explanation": "Senza attrito non si cammina: è lui che dà presa alla scarpa."
+			"explanation": "Senza attrito non si cammina: è lui che dà presa alla scarpa.",
+			"distractorWhy": {
+				"Newton": "«Newton» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura una forza?».",
+				"La forza di gravità": "«La forza di gravità» è la risposta giusta a un'altra domanda di questo gruppo: «Quale forza fa cadere gli oggetti verso il basso?».",
+				"Si bilanciano": "«Si bilanciano» è la risposta giusta a un'altra domanda di questo gruppo: «Su un libro fermo sul tavolo, le forze…».",
+				"newton": "«newton» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della forza nel Sistema Internazionale?».",
+				"dinamometro": "«dinamometro» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo strumento che misura una forza allungando una molla?».",
+				"spinta di Archimede": "«spinta di Archimede» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la spinta verso l'alto che riceve un corpo immerso in un liquido?».",
+				"La forza magnetica": "«La forza magnetica» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa attira i chiodi di ferro verso una calamita?».",
+				"si dimezza": "«si dimezza» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
+			}
 		},
 		{
 			"id": "fisica-forze-84",
@@ -2185,7 +2352,17 @@
 			"accept": [
 				"il dinamometro"
 			],
-			"explanation": "Più la molla si allunga, più forte è la forza: la scala è già tarata in newton."
+			"explanation": "Più la molla si allunga, più forte è la forza: la scala è già tarata in newton.",
+			"distractorWhy": {
+				"Newton": "«Newton» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura una forza?».",
+				"La forza di gravità": "«La forza di gravità» è la risposta giusta a un'altra domanda di questo gruppo: «Quale forza fa cadere gli oggetti verso il basso?».",
+				"L'attrito": "«L'attrito» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa rallenta una palla che rotola sul pavimento?».",
+				"Si bilanciano": "«Si bilanciano» è la risposta giusta a un'altra domanda di questo gruppo: «Su un libro fermo sul tavolo, le forze…».",
+				"newton": "«newton» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della forza nel Sistema Internazionale?».",
+				"attrito": "«attrito» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la forza che si oppone allo scivolamento fra due superfici a contatto?».",
+				"spinta di Archimede": "«spinta di Archimede» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la spinta verso l'alto che riceve un corpo immerso in un liquido?».",
+				"La forza magnetica": "«La forza magnetica» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa attira i chiodi di ferro verso una calamita?»."
+			}
 		},
 		{
 			"id": "fisica-forze-85",
@@ -2200,7 +2377,17 @@
 				"Archimede",
 				"spinta idrostatica"
 			],
-			"explanation": "Vale quanto il peso del liquido spostato: per questo una nave d'acciaio galleggia."
+			"explanation": "Vale quanto il peso del liquido spostato: per questo una nave d'acciaio galleggia.",
+			"distractorWhy": {
+				"Newton": "«Newton» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura una forza?».",
+				"La forza di gravità": "«La forza di gravità» è la risposta giusta a un'altra domanda di questo gruppo: «Quale forza fa cadere gli oggetti verso il basso?».",
+				"L'attrito": "«L'attrito» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa rallenta una palla che rotola sul pavimento?».",
+				"Si bilanciano": "«Si bilanciano» è la risposta giusta a un'altra domanda di questo gruppo: «Su un libro fermo sul tavolo, le forze…».",
+				"newton": "«newton» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della forza nel Sistema Internazionale?».",
+				"attrito": "«attrito» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la forza che si oppone allo scivolamento fra due superfici a contatto?».",
+				"dinamometro": "«dinamometro» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo strumento che misura una forza allungando una molla?».",
+				"La forza magnetica": "«La forza magnetica» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa attira i chiodi di ferro verso una calamita?»."
+			}
 		},
 		{
 			"id": "fisica-energia-86",
@@ -2215,7 +2402,15 @@
 				"il joule",
 				"J"
 			],
-			"explanation": "La stessa unità vale per il lavoro e per il calore: sono forme della stessa cosa."
+			"explanation": "La stessa unità vale per il lavoro e per il calore: sono forme della stessa cosa.",
+			"distractorWhy": {
+				"Raddoppia": "«Raddoppia» è la risposta giusta a un'altra domanda di questo gruppo: «Un corpo di 2 kg sollevato a 5 metri: se raddoppi l'altezza, l'energia potenziale…».",
+				"Potenziale": "«Potenziale» è la risposta giusta a un'altra domanda di questo gruppo: «Una palla ferma in cima a uno scivolo ha soprattutto energia…».",
+				"cinetica": "«cinetica» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'energia che un corpo possiede perché è in movimento?».",
+				"potenziale": "«potenziale» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'energia che un corpo possiede per il fatto di trovarsi in alto?».",
+				"dinamo": "«dinamo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la macchina che trasforma il movimento in energia elettrica?».",
+				"diventa energia di movimento": "«diventa energia di movimento» è la risposta giusta a un'altra domanda di questo gruppo: «Una palla cade da un tavolo. Mentre scende, l'energia che aveva per la sua altezza…»."
+			}
 		},
 		{
 			"id": "fisica-energia-87",
@@ -2229,7 +2424,16 @@
 			"accept": [
 				"energia cinetica"
 			],
-			"explanation": "Dipende dalla massa e dalla velocità: raddoppiando la velocità diventa quattro volte tanto."
+			"explanation": "Dipende dalla massa e dalla velocità: raddoppiando la velocità diventa quattro volte tanto.",
+			"distractorWhy": {
+				"Joule": "«Joule» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura l'energia?».",
+				"Raddoppia": "«Raddoppia» è la risposta giusta a un'altra domanda di questo gruppo: «Un corpo di 2 kg sollevato a 5 metri: se raddoppi l'altezza, l'energia potenziale…».",
+				"Potenziale": "«Potenziale» è la risposta giusta a un'altra domanda di questo gruppo: «Una palla ferma in cima a uno scivolo ha soprattutto energia…».",
+				"joule": "«joule» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura dell'energia nel Sistema Internazionale?».",
+				"potenziale": "«potenziale» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'energia che un corpo possiede per il fatto di trovarsi in alto?».",
+				"dinamo": "«dinamo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la macchina che trasforma il movimento in energia elettrica?».",
+				"diventa energia di movimento": "«diventa energia di movimento» è la risposta giusta a un'altra domanda di questo gruppo: «Una palla cade da un tavolo. Mentre scende, l'energia che aveva per la sua altezza…»."
+			}
 		},
 		{
 			"id": "fisica-energia-88",
@@ -2243,7 +2447,15 @@
 			"accept": [
 				"energia potenziale"
 			],
-			"explanation": "È l'energia messa da parte alzando il corpo: torna disponibile quando scende."
+			"explanation": "È l'energia messa da parte alzando il corpo: torna disponibile quando scende.",
+			"distractorWhy": {
+				"Joule": "«Joule» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura l'energia?».",
+				"Raddoppia": "«Raddoppia» è la risposta giusta a un'altra domanda di questo gruppo: «Un corpo di 2 kg sollevato a 5 metri: se raddoppi l'altezza, l'energia potenziale…».",
+				"joule": "«joule» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura dell'energia nel Sistema Internazionale?».",
+				"cinetica": "«cinetica» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'energia che un corpo possiede perché è in movimento?».",
+				"dinamo": "«dinamo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la macchina che trasforma il movimento in energia elettrica?».",
+				"diventa energia di movimento": "«diventa energia di movimento» è la risposta giusta a un'altra domanda di questo gruppo: «Una palla cade da un tavolo. Mentre scende, l'energia che aveva per la sua altezza…»."
+			}
 		},
 		{
 			"id": "fisica-metodo-89",
@@ -2258,7 +2470,12 @@
 				"l'ipotesi",
 				"un'ipotesi"
 			],
-			"explanation": "Un'ipotesi vale solo se si può immaginare un risultato che la smentisce."
+			"explanation": "Un'ipotesi vale solo se si può immaginare un risultato che la smentisce.",
+			"distractorWhy": {
+				"Il metro": "«Il metro» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della lunghezza nel Sistema Internazionale?».",
+				"120,2": "«120,2» è la risposta giusta a un'altra domanda di questo gruppo: «Misuri un tavolo tre volte: 120,1 · 120,3 · 120,2 cm. Qual è la stima migliore?».",
+				"variabile indipendente": "«variabile indipendente» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la grandezza che lo sperimentatore cambia di proposito?»."
+			}
 		},
 		{
 			"id": "fisica-metodo-90",
@@ -2272,7 +2489,12 @@
 			"accept": [
 				"indipendente"
 			],
-			"explanation": "Si cambia una cosa sola per volta, altrimenti non si sa a chi attribuire l'effetto."
+			"explanation": "Si cambia una cosa sola per volta, altrimenti non si sa a chi attribuire l'effetto.",
+			"distractorWhy": {
+				"Il metro": "«Il metro» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della lunghezza nel Sistema Internazionale?».",
+				"120,2": "«120,2» è la risposta giusta a un'altra domanda di questo gruppo: «Misuri un tavolo tre volte: 120,1 · 120,3 · 120,2 cm. Qual è la stima migliore?».",
+				"ipotesi": "«ipotesi» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la spiegazione provvisoria che un esperimento deve mettere alla prova?»."
+			}
 		},
 		{
 			"id": "fisica-materia-91",
@@ -2286,7 +2508,16 @@
 			"accept": [
 				"vaporizzazione"
 			],
-			"explanation": "Avviene anche sotto la temperatura di ebollizione, solo più lentamente."
+			"explanation": "Avviene anche sotto la temperatura di ebollizione, solo più lentamente.",
+			"distractorWhy": {
+				"1": "«1» è la risposta giusta a un'altra domanda di questo gruppo: «Un litro d'acqua ha una massa di circa quanti chilogrammi?».",
+				"2 g/cm3": "«2 g/cm3» è la risposta giusta a un'altra domanda di questo gruppo: «Massa 200 g, volume 100 cm3. Trova la densità.».",
+				"Lo spazio che occupa": "«Lo spazio che occupa» è la risposta giusta a un'altra domanda di questo gruppo: «Che cos'è il volume di un corpo?».",
+				"fusione": "«fusione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il passaggio dallo stato solido a quello liquido?».",
+				"densità": "«densità» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il rapporto fra la massa di un corpo e il suo volume?».",
+				"liquido": "«liquido» è la risposta giusta a un'altra domanda di questo gruppo: «L'acqua a temperatura ambiente si trova allo stato...».",
+				"solido": "«solido» è la risposta giusta a un'altra domanda di questo gruppo: «Il ghiaccio è acqua allo stato...»."
+			}
 		},
 		{
 			"id": "fisica-materia-92",
@@ -2300,7 +2531,16 @@
 			"accept": [
 				"la fusione"
 			],
-			"explanation": "Il ghiaccio che diventa acqua sta fondendo, non sciogliendosi in qualcos'altro."
+			"explanation": "Il ghiaccio che diventa acqua sta fondendo, non sciogliendosi in qualcos'altro.",
+			"distractorWhy": {
+				"1": "«1» è la risposta giusta a un'altra domanda di questo gruppo: «Un litro d'acqua ha una massa di circa quanti chilogrammi?».",
+				"2 g/cm3": "«2 g/cm3» è la risposta giusta a un'altra domanda di questo gruppo: «Massa 200 g, volume 100 cm3. Trova la densità.».",
+				"Lo spazio che occupa": "«Lo spazio che occupa» è la risposta giusta a un'altra domanda di questo gruppo: «Che cos'è il volume di un corpo?».",
+				"evaporazione": "«evaporazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il passaggio dallo stato liquido a quello gassoso?».",
+				"densità": "«densità» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il rapporto fra la massa di un corpo e il suo volume?».",
+				"liquido": "«liquido» è la risposta giusta a un'altra domanda di questo gruppo: «L'acqua a temperatura ambiente si trova allo stato...».",
+				"solido": "«solido» è la risposta giusta a un'altra domanda di questo gruppo: «Il ghiaccio è acqua allo stato...»."
+			}
 		},
 		{
 			"id": "fisica-materia-93",
@@ -2314,7 +2554,16 @@
 			"accept": [
 				"densita"
 			],
-			"explanation": "È la ragione per cui un chilo di piombo occupa molto meno spazio di un chilo di piume."
+			"explanation": "È la ragione per cui un chilo di piombo occupa molto meno spazio di un chilo di piume.",
+			"distractorWhy": {
+				"1": "«1» è la risposta giusta a un'altra domanda di questo gruppo: «Un litro d'acqua ha una massa di circa quanti chilogrammi?».",
+				"2 g/cm3": "«2 g/cm3» è la risposta giusta a un'altra domanda di questo gruppo: «Massa 200 g, volume 100 cm3. Trova la densità.».",
+				"Lo spazio che occupa": "«Lo spazio che occupa» è la risposta giusta a un'altra domanda di questo gruppo: «Che cos'è il volume di un corpo?».",
+				"evaporazione": "«evaporazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il passaggio dallo stato liquido a quello gassoso?».",
+				"fusione": "«fusione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il passaggio dallo stato solido a quello liquido?».",
+				"liquido": "«liquido» è la risposta giusta a un'altra domanda di questo gruppo: «L'acqua a temperatura ambiente si trova allo stato...».",
+				"solido": "«solido» è la risposta giusta a un'altra domanda di questo gruppo: «Il ghiaccio è acqua allo stato...»."
+			}
 		},
 		{
 			"id": "fisica-calore-94",
@@ -2329,7 +2578,15 @@
 				"il kelvin",
 				"K"
 			],
-			"explanation": "Parte dallo zero assoluto: sotto non si può scendere."
+			"explanation": "Parte dallo zero assoluto: sotto non si può scendere.",
+			"distractorWhy": {
+				"100": "«100» è la risposta giusta a un'altra domanda di questo gruppo: «A quale temperatura, in gradi centigradi, bolle l'acqua a livello del mare?».",
+				"Conduzione": "«Conduzione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il passaggio di calore attraverso un corpo solido?».",
+				"Per irraggiamento": "«Per irraggiamento» è la risposta giusta a un'altra domanda di questo gruppo: «Come arriva il calore del Sole fino a noi?».",
+				"conduzione": "«conduzione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il passaggio di calore per contatto diretto fra due corpi?».",
+				"convezione": "«convezione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il passaggio di calore attraverso il movimento di un liquido o di un gas?».",
+				"isolante": "«isolante» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il materiale che lascia passare poco calore, come il polistirolo?»."
+			}
 		},
 		{
 			"id": "fisica-calore-95",
@@ -2343,7 +2600,14 @@
 			"accept": [
 				"la conduzione"
 			],
-			"explanation": "Il cucchiaino di metallo nel tè scotta per conduzione."
+			"explanation": "Il cucchiaino di metallo nel tè scotta per conduzione.",
+			"distractorWhy": {
+				"100": "«100» è la risposta giusta a un'altra domanda di questo gruppo: «A quale temperatura, in gradi centigradi, bolle l'acqua a livello del mare?».",
+				"Per irraggiamento": "«Per irraggiamento» è la risposta giusta a un'altra domanda di questo gruppo: «Come arriva il calore del Sole fino a noi?».",
+				"kelvin": "«kelvin» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della temperatura nel Sistema Internazionale?».",
+				"convezione": "«convezione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il passaggio di calore attraverso il movimento di un liquido o di un gas?».",
+				"isolante": "«isolante» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il materiale che lascia passare poco calore, come il polistirolo?»."
+			}
 		},
 		{
 			"id": "fisica-misure-96",
@@ -2357,7 +2621,17 @@
 			"accept": [
 				"la bilancia"
 			],
-			"explanation": "Misura la massa confrontandola con masse note."
+			"explanation": "Misura la massa confrontandola con masse note.",
+			"distractorWhy": {
+				"30": "«30» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti millimetri sono 3 centimetri?».",
+				"100": "«100» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti centimetri sono 1 metro?».",
+				"2,5 m": "«2,5 m» è la risposta giusta a un'altra domanda di questo gruppo: «250 cm in metri.».",
+				"Il cronometro": "«Il cronometro» è la risposta giusta a un'altra domanda di questo gruppo: «Con quale strumento si misura un intervallo di tempo breve?».",
+				"Il metro (righello)": "«Il metro (righello)» è la risposta giusta a un'altra domanda di questo gruppo: «Con quale strumento misuri la lunghezza di un banco?».",
+				"Una bilancia": "«Una bilancia» è la risposta giusta a un'altra domanda di questo gruppo: «Per misurare quanto pesi useresti…».",
+				"termometro": "«termometro» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo strumento con cui si misura la temperatura?».",
+				"chilogrammo": "«chilogrammo» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della massa nel Sistema Internazionale?»."
+			}
 		},
 		{
 			"id": "fisica-moto-97",
@@ -2371,7 +2645,17 @@
 			"accept": [
 				"la traiettoria"
 			],
-			"explanation": "Rettilinea, curva, circolare: dipende dalle forze in gioco."
+			"explanation": "Rettilinea, curva, circolare: dipende dalle forze in gioco.",
+			"distractorWhy": {
+				"20": "«20» è la risposta giusta a un'altra domanda di questo gruppo: «Un ciclista percorre 20 km in 1 ora. Qual è la sua velocità media in km/h?».",
+				"Sì, perché cambia direzione": "«Sì, perché cambia direzione» è la risposta giusta a un'altra domanda di questo gruppo: «Un'auto che curva a velocità costante sta accelerando?».",
+				"Fermo": "«Fermo» è la risposta giusta a un'altra domanda di questo gruppo: «Un oggetto che non cambia posizione è…».",
+				"Più veloce": "«Più veloce» è la risposta giusta a un'altra domanda di questo gruppo: «Se un'auto percorre più strada nello stesso tempo, è…».",
+				"Una velocità maggiore": "«Una velocità maggiore» è la risposta giusta a un'altra domanda di questo gruppo: «In un grafico spazio-tempo, una linea più ripida indica…».",
+				"velocità": "«velocità» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il rapporto fra lo spazio percorso e il tempo impiegato?».",
+				"accelerazione": "«accelerazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la variazione della velocità nel tempo?».",
+				"metri al secondo": "«metri al secondo» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della velocità nel Sistema Internazionale?»."
+			}
 		},
 		{
 			"id": "fisica-onde-luce-98",
@@ -2386,7 +2670,16 @@
 				"l'ombra",
 				"zona d'ombra"
 			],
-			"explanation": "Si forma perché la luce viaggia in linea retta: il corpo la ferma e dietro di lui non ne arriva."
+			"explanation": "Si forma perché la luce viaggia in linea retta: il corpo la ferma e dietro di lui non ne arriva.",
+			"distractorWhy": {
+				"1": "«1» è la risposta giusta a un'altra domanda di questo gruppo: «Un lampo si vede subito e il tuono arriva dopo 3 secondi. Quanti chilometri circa?».",
+				"6 m/s": "«6 m/s» è la risposta giusta a un'altra domanda di questo gruppo: «Onda con lambda = 2 m e f = 3 Hz.».",
+				"La frequenza della vibrazione": "«La frequenza della vibrazione» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa determina se un suono è acuto o grave?».",
+				"In linea retta": "«In linea retta» è la risposta giusta a un'altra domanda di questo gruppo: «In aria limpida, la luce viaggia…».",
+				"riflessione": "«riflessione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il rimbalzo della luce su uno specchio?».",
+				"rifrazione": "«rifrazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la deviazione della luce quando passa dall'aria all'acqua?».",
+				"lunghezza d'onda": "«lunghezza d'onda» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la distanza fra due creste successive di un'onda?»."
+			}
 		},
 		{
 			"id": "fisica-calore-99",
@@ -2400,7 +2693,15 @@
 			"accept": [
 				"la convezione"
 			],
-			"explanation": "L'acqua calda sale, la fredda scende: la pentola si scalda tutta così."
+			"explanation": "L'acqua calda sale, la fredda scende: la pentola si scalda tutta così.",
+			"distractorWhy": {
+				"100": "«100» è la risposta giusta a un'altra domanda di questo gruppo: «A quale temperatura, in gradi centigradi, bolle l'acqua a livello del mare?».",
+				"Conduzione": "«Conduzione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il passaggio di calore attraverso un corpo solido?».",
+				"Per irraggiamento": "«Per irraggiamento» è la risposta giusta a un'altra domanda di questo gruppo: «Come arriva il calore del Sole fino a noi?».",
+				"kelvin": "«kelvin» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della temperatura nel Sistema Internazionale?».",
+				"conduzione": "«conduzione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il passaggio di calore per contatto diretto fra due corpi?».",
+				"isolante": "«isolante» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il materiale che lascia passare poco calore, come il polistirolo?»."
+			}
 		},
 		{
 			"id": "fisica-misure-100",
@@ -2540,7 +2841,15 @@
 			"accept": [
 				"isolante termico"
 			],
-			"explanation": "Tiene il caldo dentro o fuori: per questo si usa nelle borse frigo."
+			"explanation": "Tiene il caldo dentro o fuori: per questo si usa nelle borse frigo.",
+			"distractorWhy": {
+				"100": "«100» è la risposta giusta a un'altra domanda di questo gruppo: «A quale temperatura, in gradi centigradi, bolle l'acqua a livello del mare?».",
+				"Conduzione": "«Conduzione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il passaggio di calore attraverso un corpo solido?».",
+				"Per irraggiamento": "«Per irraggiamento» è la risposta giusta a un'altra domanda di questo gruppo: «Come arriva il calore del Sole fino a noi?».",
+				"kelvin": "«kelvin» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della temperatura nel Sistema Internazionale?».",
+				"conduzione": "«conduzione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il passaggio di calore per contatto diretto fra due corpi?».",
+				"convezione": "«convezione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il passaggio di calore attraverso il movimento di un liquido o di un gas?»."
+			}
 		},
 		{
 			"id": "fisica-energia-107",
@@ -2555,7 +2864,16 @@
 				"la dinamo",
 				"generatore"
 			],
-			"explanation": "Quella della bicicletta accende il fanale finché la ruota gira."
+			"explanation": "Quella della bicicletta accende il fanale finché la ruota gira.",
+			"distractorWhy": {
+				"Joule": "«Joule» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura l'energia?».",
+				"Raddoppia": "«Raddoppia» è la risposta giusta a un'altra domanda di questo gruppo: «Un corpo di 2 kg sollevato a 5 metri: se raddoppi l'altezza, l'energia potenziale…».",
+				"Potenziale": "«Potenziale» è la risposta giusta a un'altra domanda di questo gruppo: «Una palla ferma in cima a uno scivolo ha soprattutto energia…».",
+				"joule": "«joule» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura dell'energia nel Sistema Internazionale?».",
+				"cinetica": "«cinetica» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'energia che un corpo possiede perché è in movimento?».",
+				"potenziale": "«potenziale» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'energia che un corpo possiede per il fatto di trovarsi in alto?».",
+				"diventa energia di movimento": "«diventa energia di movimento» è la risposta giusta a un'altra domanda di questo gruppo: «Una palla cade da un tavolo. Mentre scende, l'energia che aveva per la sua altezza…»."
+			}
 		},
 		{
 			"id": "fisica-materia-108",

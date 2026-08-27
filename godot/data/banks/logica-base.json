@@ -16,7 +16,12 @@
 			"distractorWhy": {
 				"9": "Non segue la regola «+2»: 8 + 2 fa 10, non 9.",
 				"11": "Non segue la regola «+2»: 8 + 2 fa 10, non 11.",
-				"12": "Non segue la regola «+2»: 8 + 2 fa 10, non 12."
+				"12": "Non segue la regola «+2»: 8 + 2 fa 10, non 12.",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
+				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 4, 7, 10, 13, ?».",
+				"23": "«23» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 7, 11, 15, 19, ?».",
+				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
+				"50": "«50» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 10, 20, 30, 40, ?»."
 			}
 		},
 		{
@@ -32,7 +37,12 @@
 			"distractorWhy": {
 				"8": "Non segue la regola «+2»: 7 + 2 fa 9, non 8.",
 				"10": "Non segue la regola «+2»: 7 + 2 fa 9, non 10.",
-				"11": "Non segue la regola «+2»: 7 + 2 fa 9, non 11."
+				"11": "Non segue la regola «+2»: 7 + 2 fa 9, non 11.",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
+				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 4, 7, 10, 13, ?».",
+				"23": "«23» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 7, 11, 15, 19, ?».",
+				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
+				"50": "«50» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 10, 20, 30, 40, ?»."
 			}
 		},
 		{
@@ -46,9 +56,14 @@
 			"answer": "15",
 			"explanation": "Si aggiunge 3 ogni volta: 12 + 3 = 15.",
 			"distractorWhy": {
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 1, 3, 5, 7, ?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 2, 4, 6, 8, ?».",
 				"14": "Non segue la regola «+3»: 12 + 3 fa 15, non 14.",
 				"16": "Non segue la regola «+3»: 12 + 3 fa 15, non 16.",
-				"17": "Non segue la regola «+3»: 12 + 3 fa 15, non 17."
+				"17": "Non segue la regola «+3»: 12 + 3 fa 15, non 17.",
+				"23": "«23» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 7, 11, 15, 19, ?».",
+				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
+				"50": "«50» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 10, 20, 30, 40, ?»."
 			}
 		},
 		{
@@ -62,6 +77,11 @@
 			"answer": "25",
 			"explanation": "Si aggiunge 5 ogni volta: 20 + 5 = 25.",
 			"distractorWhy": {
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 1, 3, 5, 7, ?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 2, 4, 6, 8, ?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
+				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 4, 7, 10, 13, ?».",
+				"23": "«23» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 7, 11, 15, 19, ?».",
 				"24": "Non segue la regola «+5»: 20 + 5 fa 25, non 24.",
 				"26": "Non segue la regola «+5»: 20 + 5 fa 25, non 26.",
 				"27": "Non segue la regola «+5»: 20 + 5 fa 25, non 27."
@@ -78,9 +98,14 @@
 			"answer": "16",
 			"explanation": "Si aggiunge 3 ogni volta: 13 + 3 = 16.",
 			"distractorWhy": {
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 1, 3, 5, 7, ?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 2, 4, 6, 8, ?».",
 				"15": "Non segue la regola «+3»: 13 + 3 fa 16, non 15.",
 				"17": "Non segue la regola «+3»: 13 + 3 fa 16, non 17.",
-				"18": "Non segue la regola «+3»: 13 + 3 fa 16, non 18."
+				"18": "Non segue la regola «+3»: 13 + 3 fa 16, non 18.",
+				"23": "«23» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 7, 11, 15, 19, ?».",
+				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
+				"50": "«50» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 10, 20, 30, 40, ?»."
 			}
 		},
 		{
@@ -94,9 +119,14 @@
 			"answer": "23",
 			"explanation": "Si aggiunge 4 ogni volta: 19 + 4 = 23.",
 			"distractorWhy": {
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 1, 3, 5, 7, ?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 2, 4, 6, 8, ?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
+				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 4, 7, 10, 13, ?».",
 				"22": "Non segue la regola «+4»: 19 + 4 fa 23, non 22.",
 				"24": "Non segue la regola «+4»: 19 + 4 fa 23, non 24.",
-				"25": "Non segue la regola «+4»: 19 + 4 fa 23, non 25."
+				"25": "Non segue la regola «+4»: 19 + 4 fa 23, non 25.",
+				"50": "«50» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 10, 20, 30, 40, ?»."
 			}
 		},
 		{
@@ -110,6 +140,11 @@
 			"answer": "50",
 			"explanation": "Si aggiunge 10 ogni volta: 40 + 10 = 50.",
 			"distractorWhy": {
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 1, 3, 5, 7, ?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 2, 4, 6, 8, ?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
+				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 4, 7, 10, 13, ?».",
+				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
 				"49": "Non segue la regola «+10»: 40 + 10 fa 50, non 49.",
 				"51": "Non segue la regola «+10»: 40 + 10 fa 50, non 51.",
 				"52": "Non segue la regola «+10»: 40 + 10 fa 50, non 52."
@@ -126,6 +161,11 @@
 			"answer": "30",
 			"explanation": "Si aggiunge 6 ogni volta: 24 + 6 = 30.",
 			"distractorWhy": {
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 1, 3, 5, 7, ?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 2, 4, 6, 8, ?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
+				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 4, 7, 10, 13, ?».",
+				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
 				"29": "Non segue la regola «+6»: 24 + 6 fa 30, non 29.",
 				"31": "Non segue la regola «+6»: 24 + 6 fa 30, non 31.",
 				"32": "Non segue la regola «+6»: 24 + 6 fa 30, non 32."
@@ -142,9 +182,14 @@
 			"answer": "18",
 			"explanation": "Si aggiunge 4 ogni volta: 14 + 4 = 18.",
 			"distractorWhy": {
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 1, 3, 5, 7, ?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 2, 4, 6, 8, ?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
+				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 4, 7, 10, 13, ?».",
 				"17": "Non segue la regola «+4»: 14 + 4 fa 18, non 17.",
 				"19": "Non segue la regola «+4»: 14 + 4 fa 18, non 19.",
-				"20": "Non segue la regola «+4»: 14 + 4 fa 18, non 20."
+				"20": "Non segue la regola «+4»: 14 + 4 fa 18, non 20.",
+				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?»."
 			}
 		},
 		{
@@ -158,9 +203,14 @@
 			"answer": "21",
 			"explanation": "Si aggiunge 3 ogni volta: 18 + 3 = 21.",
 			"distractorWhy": {
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 1, 3, 5, 7, ?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 2, 4, 6, 8, ?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
+				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 4, 7, 10, 13, ?».",
 				"20": "Non segue la regola «+3»: 18 + 3 fa 21, non 20.",
 				"22": "Non segue la regola «+3»: 18 + 3 fa 21, non 22.",
-				"23": "Non segue la regola «+3»: 18 + 3 fa 21, non 23."
+				"23": "Non segue la regola «+3»: 18 + 3 fa 21, non 23.",
+				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?»."
 			}
 		},
 		{
@@ -174,9 +224,14 @@
 			"answer": "16",
 			"explanation": "Si moltiplica per 2 ogni volta: 8 × 2 = 16.",
 			"distractorWhy": {
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 1, 3, 5, 7, ?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 2, 4, 6, 8, ?».",
 				"15": "Non segue la regola «×2»: 8 × 2 fa 16, non 15.",
 				"17": "Non segue la regola «×2»: 8 × 2 fa 16, non 17.",
-				"18": "Non segue la regola «×2»: 8 × 2 fa 16, non 18."
+				"18": "Non segue la regola «×2»: 8 × 2 fa 16, non 18.",
+				"23": "«23» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 7, 11, 15, 19, ?».",
+				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
+				"50": "«50» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 10, 20, 30, 40, ?»."
 			}
 		},
 		{
@@ -190,6 +245,11 @@
 			"answer": "81",
 			"explanation": "Si moltiplica per 3 ogni volta: 27 × 3 = 81.",
 			"distractorWhy": {
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 1, 3, 5, 7, ?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 2, 4, 6, 8, ?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
+				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 4, 7, 10, 13, ?».",
+				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
 				"80": "Non segue la regola «×3»: 27 × 3 fa 81, non 80.",
 				"82": "Non segue la regola «×3»: 27 × 3 fa 81, non 82.",
 				"83": "Non segue la regola «×3»: 27 × 3 fa 81, non 83."
@@ -206,6 +266,11 @@
 			"answer": "32",
 			"explanation": "Si moltiplica per 2 ogni volta: 16 × 2 = 32.",
 			"distractorWhy": {
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 1, 3, 5, 7, ?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 2, 4, 6, 8, ?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
+				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 4, 7, 10, 13, ?».",
+				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
 				"31": "Non segue la regola «×2»: 16 × 2 fa 32, non 31.",
 				"33": "Non segue la regola «×2»: 16 × 2 fa 32, non 33.",
 				"34": "Non segue la regola «×2»: 16 × 2 fa 32, non 34."
@@ -222,6 +287,11 @@
 			"answer": "48",
 			"explanation": "Si moltiplica per 2 ogni volta: 24 × 2 = 48.",
 			"distractorWhy": {
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 1, 3, 5, 7, ?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 2, 4, 6, 8, ?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
+				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 4, 7, 10, 13, ?».",
+				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
 				"47": "Non segue la regola «×2»: 24 × 2 fa 48, non 47.",
 				"49": "Non segue la regola «×2»: 24 × 2 fa 48, non 49.",
 				"50": "Non segue la regola «×2»: 24 × 2 fa 48, non 50."
@@ -238,6 +308,11 @@
 			"answer": "256",
 			"explanation": "Si moltiplica per 4 ogni volta: 64 × 4 = 256.",
 			"distractorWhy": {
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 1, 3, 5, 7, ?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 2, 4, 6, 8, ?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
+				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 4, 7, 10, 13, ?».",
+				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
 				"255": "Non segue la regola «×4»: 64 × 4 fa 256, non 255.",
 				"257": "Non segue la regola «×4»: 64 × 4 fa 256, non 257.",
 				"258": "Non segue la regola «×4»: 64 × 4 fa 256, non 258."
@@ -254,6 +329,11 @@
 			"answer": "25",
 			"explanation": "Sono i quadrati: 1, 4, 9, 16, 25 (5×5).",
 			"distractorWhy": {
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 1, 3, 5, 7, ?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 2, 4, 6, 8, ?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
+				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 4, 7, 10, 13, ?».",
+				"23": "«23» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 7, 11, 15, 19, ?».",
 				"24": "Non è un quadrato perfetto della serie: dopo 16 (4×4) viene 25 (5×5), non 24.",
 				"26": "Non è un quadrato perfetto della serie: dopo 16 (4×4) viene 25 (5×5), non 26.",
 				"27": "Non è un quadrato perfetto della serie: dopo 16 (4×4) viene 25 (5×5), non 27."
@@ -270,9 +350,14 @@
 			"answer": "12",
 			"explanation": "La serie alterna +2 e +3: 9 + 3 = 12.",
 			"distractorWhy": {
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 1, 3, 5, 7, ?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 2, 4, 6, 8, ?».",
 				"11": "Non segue l'alternanza +2/+3: dopo 9 tocca +3, che dà 12, non 11.",
 				"13": "Non segue l'alternanza +2/+3: dopo 9 tocca +3, che dà 12, non 13.",
-				"14": "Non segue l'alternanza +2/+3: dopo 9 tocca +3, che dà 12, non 14."
+				"14": "Non segue l'alternanza +2/+3: dopo 9 tocca +3, che dà 12, non 14.",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
+				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 4, 7, 10, 13, ?».",
+				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?»."
 			}
 		},
 		{
@@ -288,7 +373,12 @@
 			"distractorWhy": {
 				"8": "Non segue l'alternanza +3/+1: dopo 8 tocca +1, che dà 9, non 8.",
 				"10": "Non segue l'alternanza +3/+1: dopo 8 tocca +1, che dà 9, non 10.",
-				"11": "Non segue l'alternanza +3/+1: dopo 8 tocca +1, che dà 9, non 11."
+				"11": "Non segue l'alternanza +3/+1: dopo 8 tocca +1, che dà 9, non 11.",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
+				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 4, 7, 10, 13, ?».",
+				"23": "«23» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 7, 11, 15, 19, ?».",
+				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
+				"50": "«50» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 10, 20, 30, 40, ?»."
 			}
 		},
 		{
@@ -302,9 +392,14 @@
 			"answer": "15",
 			"explanation": "La serie alterna +1 e +4: 11 + 4 = 15.",
 			"distractorWhy": {
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 1, 3, 5, 7, ?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 2, 4, 6, 8, ?».",
 				"14": "Non segue l'alternanza +1/+4: dopo 11 tocca +4, che dà 15, non 14.",
 				"16": "Non segue l'alternanza +1/+4: dopo 11 tocca +4, che dà 15, non 16.",
-				"17": "Non segue l'alternanza +1/+4: dopo 11 tocca +4, che dà 15, non 17."
+				"17": "Non segue l'alternanza +1/+4: dopo 11 tocca +4, che dà 15, non 17.",
+				"23": "«23» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 7, 11, 15, 19, ?».",
+				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
+				"50": "«50» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 10, 20, 30, 40, ?»."
 			}
 		},
 		{
@@ -320,7 +415,12 @@
 			"distractorWhy": {
 				"2": "È un numero pari, come gli altri: non è lui l'intruso.",
 				"4": "È un numero pari, come gli altri: non è lui l'intruso.",
-				"6": "È un numero pari, come gli altri: non è lui l'intruso."
+				"6": "È un numero pari, come gli altri: non è lui l'intruso.",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero non appartiene al gruppo: 3, 5, 9, 7?».",
+				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero non appartiene al gruppo: 10, 20, 25, 30?».",
+				"mela": "«mela» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: cane, mela, gatto, cavallo?».",
+				"quercia": "«quercia» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: rosa, tulipano, quercia, margherita?».",
+				"tavolo": "«tavolo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: rosso, verde, tavolo, blu?»."
 			}
 		},
 		{
@@ -336,7 +436,12 @@
 			"distractorWhy": {
 				"3": "È un numero primo, come gli altri: non è lui l'intruso.",
 				"5": "È un numero primo, come gli altri: non è lui l'intruso.",
-				"7": "È un numero primo, come gli altri: non è lui l'intruso."
+				"7": "È un numero primo, come gli altri: non è lui l'intruso.",
+				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero non appartiene al gruppo: 10, 20, 25, 30?».",
+				"mela": "«mela» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: cane, mela, gatto, cavallo?».",
+				"quercia": "«quercia» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: rosa, tulipano, quercia, margherita?».",
+				"tavolo": "«tavolo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: rosso, verde, tavolo, blu?».",
+				"marzo": "«marzo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: lunedì, marzo, giovedì, domenica?»."
 			}
 		},
 		{
@@ -350,9 +455,14 @@
 			"answer": "25",
 			"explanation": "25 non è un multiplo di 10; gli altri sì.",
 			"distractorWhy": {
+				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero non appartiene al gruppo: 2, 4, 6, 7?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero non appartiene al gruppo: 3, 5, 9, 7?».",
 				"10": "È un multiplo di 10, come gli altri: non è lui l'intruso.",
 				"20": "È un multiplo di 10, come gli altri: non è lui l'intruso.",
-				"30": "È un multiplo di 10, come gli altri: non è lui l'intruso."
+				"30": "È un multiplo di 10, come gli altri: non è lui l'intruso.",
+				"mela": "«mela» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: cane, mela, gatto, cavallo?».",
+				"quercia": "«quercia» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: rosa, tulipano, quercia, margherita?».",
+				"tavolo": "«tavolo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: rosso, verde, tavolo, blu?»."
 			}
 		},
 		{
@@ -368,7 +478,12 @@
 			"distractorWhy": {
 				"7": "Non segue la regola «−3»: 11 − 3 fa 8, non 7.",
 				"9": "Non segue la regola «−3»: 11 − 3 fa 8, non 9.",
-				"10": "Non segue la regola «−3»: 11 − 3 fa 8, non 10."
+				"10": "Non segue la regola «−3»: 11 − 3 fa 8, non 10.",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
+				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 4, 7, 10, 13, ?».",
+				"23": "«23» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 7, 11, 15, 19, ?».",
+				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
+				"50": "«50» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 10, 20, 30, 40, ?»."
 			}
 		},
 		{
@@ -384,7 +499,12 @@
 			"distractorWhy": {
 				"4": "Non è la somma dei due precedenti: 2 + 3 fa 5, non 4.",
 				"6": "Non è la somma dei due precedenti: 2 + 3 fa 5, non 6.",
-				"7": "Non è la somma dei due precedenti: 2 + 3 fa 5, non 7."
+				"7": "Non è la somma dei due precedenti: 2 + 3 fa 5, non 7.",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 1, 3, 5, 7, ?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 2, 4, 6, 8, ?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
+				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 4, 7, 10, 13, ?».",
+				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?»."
 			}
 		},
 		{
@@ -858,7 +978,17 @@
 			"prompt": "In una classe, 12 fanno nuoto, 8 fanno musica, 3 fanno entrambe. Quanti ragazzi in tutto fanno almeno una delle due?",
 			"options": [],
 			"answer": "17",
-			"explanation": "12 + 8 fa 20, ma i 3 che fanno entrambe sono stati contati due volte: 20 − 3 = 17."
+			"explanation": "12 + 8 fa 20, ma i 3 che fanno entrambe sono stati contati due volte: 20 − 3 = 17.",
+			"distractorWhy": {
+				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «In un gruppo di 20 persone, 15 hanno il cane. Quante NON hanno il cane?».",
+				"Gli uccelli che volano": "«Gli uccelli che volano» è la risposta giusta a un'altra domanda di questo gruppo: «Quali animali stanno sia nell'insieme «vola» sia in «ha le piume»?».",
+				"Disgiunti": "«Disgiunti» è la risposta giusta a un'altra domanda di questo gruppo: «Due insiemi non hanno nessun elemento in comune. Come si dicono?».",
+				"Un sottoinsieme": "«Un sottoinsieme» è la risposta giusta a un'altra domanda di questo gruppo: «Nel gruppo degli strumenti musicali, quello degli archi è…».",
+				"Animali": "«Animali» è la risposta giusta a un'altra domanda di questo gruppo: «Quale gruppo contiene tutti gli altri: cani, mammiferi, animali, vertebrati?».",
+				"Si sovrappongono in parte": "«Si sovrappongono in parte» è la risposta giusta a un'altra domanda di questo gruppo: ««Alcuni musicisti sono chitarristi» descrive due insiemi che…».",
+				"un rettangolo": "«un rettangolo» è la risposta giusta a un'altra domanda di questo gruppo: «Tutti i quadrati sono rettangoli. Allora un quadrato è anche…».",
+				"gioca a pallavolo": "«gioca a pallavolo» è la risposta giusta a un'altra domanda di questo gruppo: «In una classe tutti giocano a calcio o a pallavolo. Marco non gioca a calcio. Allora…»."
+			}
 		},
 		{
 			"id": "logica-insiemi-9",
@@ -953,7 +1083,17 @@
 			"prompt": "In un gruppo di 20 persone, 15 hanno il cane. Quante NON hanno il cane?",
 			"options": [],
 			"answer": "5",
-			"explanation": "È il complementare dentro il gruppo: 20 − 15 = 5."
+			"explanation": "È il complementare dentro il gruppo: 20 − 15 = 5.",
+			"distractorWhy": {
+				"17": "«17» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"Gli uccelli che volano": "«Gli uccelli che volano» è la risposta giusta a un'altra domanda di questo gruppo: «Quali animali stanno sia nell'insieme «vola» sia in «ha le piume»?».",
+				"Disgiunti": "«Disgiunti» è la risposta giusta a un'altra domanda di questo gruppo: «Due insiemi non hanno nessun elemento in comune. Come si dicono?».",
+				"Un sottoinsieme": "«Un sottoinsieme» è la risposta giusta a un'altra domanda di questo gruppo: «Nel gruppo degli strumenti musicali, quello degli archi è…».",
+				"Animali": "«Animali» è la risposta giusta a un'altra domanda di questo gruppo: «Quale gruppo contiene tutti gli altri: cani, mammiferi, animali, vertebrati?».",
+				"Si sovrappongono in parte": "«Si sovrappongono in parte» è la risposta giusta a un'altra domanda di questo gruppo: ««Alcuni musicisti sono chitarristi» descrive due insiemi che…».",
+				"un rettangolo": "«un rettangolo» è la risposta giusta a un'altra domanda di questo gruppo: «Tutti i quadrati sono rettangoli. Allora un quadrato è anche…».",
+				"gioca a pallavolo": "«gioca a pallavolo» è la risposta giusta a un'altra domanda di questo gruppo: «In una classe tutti giocano a calcio o a pallavolo. Marco non gioca a calcio. Allora…»."
+			}
 		},
 		{
 			"id": "logica-verita-14",
@@ -1195,7 +1335,16 @@
 			"prompt": "Quante possibilità ci sono per il valore di verità di un'affermazione?",
 			"options": [],
 			"answer": "2",
-			"explanation": "Vero o falso: in logica classica non esistono vie di mezzo."
+			"explanation": "Vero o falso: in logica classica non esistono vie di mezzo.",
+			"distractorWhy": {
+				"Almeno uno è arrivato": "«Almeno uno è arrivato» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la negazione di «nessuno è arrivato»?».",
+				"Non pioveva": "«Non pioveva» è la risposta giusta a un'altra domanda di questo gruppo: ««Se piove, prendo l'ombrello.» Non ho preso l'ombrello. Cosa si conclude?».",
+				"Piove": "«Piove» è la risposta giusta a un'altra domanda di questo gruppo: ««Non è vero che non piove» significa…».",
+				"Marco ha un gatto": "«Marco ha un gatto» è la risposta giusta a un'altra domanda di questo gruppo: ««Tutti gli abitanti hanno un cane o un gatto.» Marco non ha cani. Cosa si conclude?».",
+				"No, mai": "«No, mai» è la risposta giusta a un'altra domanda di questo gruppo: «Un'affermazione e la sua negazione possono essere entrambe vere?».",
+				"La regola di partenza": "«La regola di partenza» è la risposta giusta a un'altra domanda di questo gruppo: ««Se studio, passo l'esame.» Ho studiato ma non ho passato. Che cosa è falso?».",
+				"Quattro": "«Quattro» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
+			}
 		},
 		{
 			"id": "logica-verita-26",
@@ -1458,7 +1607,17 @@
 			"prompt": "Per dimostrare che «tutti i numeri pari sono divisibili per 2», quanti esempi bastano?",
 			"options": [],
 			"answer": "0",
-			"explanation": "Nessun numero di esempi dimostra un «tutti»: serve una dimostrazione generale. Gli esempi possono solo smentirlo."
+			"explanation": "Nessun numero di esempi dimostra un «tutti»: serve una dimostrazione generale. Gli esempi possono solo smentirlo.",
+			"distractorWhy": {
+				"Tutti": "«Tutti» è la risposta giusta a un'altra domanda di questo gruppo: «Quale parola indica che vale per ogni singolo caso?».",
+				"Almeno uno non vola": "«Almeno uno non vola» è la risposta giusta a un'altra domanda di questo gruppo: ««Alcuni uccelli non volano» significa che…».",
+				"Non tutti": "«Non tutti» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il contrario di «tutti»?».",
+				"Due cose diverse": "«Due cose diverse» è la risposta giusta a un'altra domanda di questo gruppo: ««Ogni chiave apre una porta» e «una porta è aperta da ogni chiave» dicono…».",
+				"Due o più studenti": "«Due o più studenti» è la risposta giusta a un'altra domanda di questo gruppo: ««Almeno due studenti hanno preso 10» è vera se ne hanno preso 10…».",
+				"No, in nessun caso": "«No, in nessun caso» è la risposta giusta a un'altra domanda di questo gruppo: «Da «alcuni gatti sono neri» si può dedurre «tutti i gatti sono neri»?».",
+				"Dicono la stessa cosa": "«Dicono la stessa cosa» è la risposta giusta a un'altra domanda di questo gruppo: ««Nessun pesce vola» e «tutti i pesci non volano»…».",
+				"due, uno o nessuno": "«due, uno o nessuno» è la risposta giusta a un'altra domanda di questo gruppo: ««Al massimo due gatti dormono» è vera se ne dormono…»."
+			}
 		},
 		{
 			"id": "logica-quantificatori-39",
@@ -1788,7 +1947,12 @@
 			"distractorWhy": {
 				"2": "È un numero primo, come gli altri: non è lui l'intruso.",
 				"3": "È un numero primo, come gli altri: non è lui l'intruso.",
-				"5": "È un numero primo, come gli altri: non è lui l'intruso."
+				"5": "È un numero primo, come gli altri: non è lui l'intruso.",
+				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero non appartiene al gruppo: 2, 4, 6, 7?».",
+				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero non appartiene al gruppo: 10, 20, 25, 30?».",
+				"mela": "«mela» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: cane, mela, gatto, cavallo?».",
+				"quercia": "«quercia» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: rosa, tulipano, quercia, margherita?».",
+				"tavolo": "«tavolo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: rosso, verde, tavolo, blu?»."
 			}
 		},
 		{
@@ -1842,7 +2006,17 @@
 			"prompt": "Su un braccialetto le perline si ripetono sempre così: rossa, rossa, blu, rossa, rossa, blu… Quante perline blu ci sono nelle prime dodici?",
 			"options": [],
 			"answer": "4",
-			"explanation": "Il disegno si ripete ogni tre perline e in ogni gruppo ce n'è una blu: dodici perline fanno quattro gruppi, quindi quattro blu. Quando una serie si ripete a blocchi non serve contarla tutta: basta contare i blocchi."
+			"explanation": "Il disegno si ripete ogni tre perline e in ogni gruppo ce n'è una blu: dodici perline fanno quattro gruppi, quindi quattro blu. Quando una serie si ripete a blocchi non serve contarla tutta: basta contare i blocchi.",
+			"distractorWhy": {
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 1, 3, 5, 7, ?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 2, 4, 6, 8, ?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
+				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 4, 7, 10, 13, ?».",
+				"23": "«23» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 7, 11, 15, 19, ?».",
+				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
+				"30": "«30» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 6, 12, 18, 24, ?».",
+				"50": "«50» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 10, 20, 30, 40, ?»."
+			}
 		},
 		{
 			"id": "logica-sequenze-58",
@@ -1874,7 +2048,17 @@
 			"prompt": "Quale numero continua la serie: 2, 20, 4, 18, 6, 16, ?",
 			"options": [],
 			"answer": "8",
-			"explanation": "Sono due serie intrecciate: al primo, terzo e quinto posto 2, 4, 6 che salgono di due; al secondo, quarto e sesto 20, 18, 16 che scendono di due. Tocca di nuovo a quella che sale, quindi 8. Quando una serie sembra impazzita, conviene provare a leggerla a numeri alterni."
+			"explanation": "Sono due serie intrecciate: al primo, terzo e quinto posto 2, 4, 6 che salgono di due; al secondo, quarto e sesto 20, 18, 16 che scendono di due. Tocca di nuovo a quella che sale, quindi 8. Quando una serie sembra impazzita, conviene provare a leggerla a numeri alterni.",
+			"distractorWhy": {
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 1, 3, 5, 7, ?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 2, 4, 6, 8, ?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
+				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 4, 7, 10, 13, ?».",
+				"23": "«23» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 7, 11, 15, 19, ?».",
+				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
+				"30": "«30» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 6, 12, 18, 24, ?».",
+				"50": "«50» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 10, 20, 30, 40, ?»."
+			}
 		},
 		{
 			"id": "logica-sequenze-60",
@@ -1952,7 +2136,12 @@
 			"distractorWhy": {
 				"2": "È un numero pari, come gli altri: non è lui l'intruso.",
 				"4": "È un numero pari, come gli altri: non è lui l'intruso.",
-				"8": "È un numero pari, come gli altri: non è lui l'intruso."
+				"8": "È un numero pari, come gli altri: non è lui l'intruso.",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero non appartiene al gruppo: 3, 5, 9, 7?».",
+				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero non appartiene al gruppo: 10, 20, 25, 30?».",
+				"mela": "«mela» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: cane, mela, gatto, cavallo?».",
+				"quercia": "«quercia» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: rosa, tulipano, quercia, margherita?».",
+				"tavolo": "«tavolo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: rosso, verde, tavolo, blu?»."
 			}
 		},
 		{
@@ -2174,7 +2363,17 @@
 			"prompt": "In classe siete in 20 e «la maggior parte» ha portato il libro. Qual è il numero più piccolo che rende vera questa frase?",
 			"options": [],
 			"answer": "11",
-			"explanation": "«La maggior parte» vuol dire più della metà: metà di 20 fa 10, quindi ne servono almeno 11. Con 10 sarebbe esattamente metà, e metà non è la maggior parte."
+			"explanation": "«La maggior parte» vuol dire più della metà: metà di 20 fa 10, quindi ne servono almeno 11. Con 10 sarebbe esattamente metà, e metà non è la maggior parte.",
+			"distractorWhy": {
+				"0": "«0» è la risposta giusta a un'altra domanda di questo gruppo: «Per dimostrare che «tutti i numeri pari sono divisibili per 2», quanti esempi bastano?».",
+				"Tutti": "«Tutti» è la risposta giusta a un'altra domanda di questo gruppo: «Quale parola indica che vale per ogni singolo caso?».",
+				"Almeno uno non vola": "«Almeno uno non vola» è la risposta giusta a un'altra domanda di questo gruppo: ««Alcuni uccelli non volano» significa che…».",
+				"Non tutti": "«Non tutti» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il contrario di «tutti»?».",
+				"Due cose diverse": "«Due cose diverse» è la risposta giusta a un'altra domanda di questo gruppo: ««Ogni chiave apre una porta» e «una porta è aperta da ogni chiave» dicono…».",
+				"Due o più studenti": "«Due o più studenti» è la risposta giusta a un'altra domanda di questo gruppo: ««Almeno due studenti hanno preso 10» è vera se ne hanno preso 10…».",
+				"No, in nessun caso": "«No, in nessun caso» è la risposta giusta a un'altra domanda di questo gruppo: «Da «alcuni gatti sono neri» si può dedurre «tutti i gatti sono neri»?».",
+				"Dicono la stessa cosa": "«Dicono la stessa cosa» è la risposta giusta a un'altra domanda di questo gruppo: ««Nessun pesce vola» e «tutti i pesci non volano»…»."
+			}
 		},
 		{
 			"id": "logica-deduzioni-75",
@@ -2313,9 +2512,14 @@
 			"answer": "13",
 			"explanation": "Il primo quadrato costa 4 stecchini, ma ogni quadrato aggiunto dopo ne costa solo 3: il lato in mezzo è già stato messo e serve a tutti e due. Da 10 si aggiunge 3 e si arriva a 13.",
 			"distractorWhy": {
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 1, 3, 5, 7, ?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 2, 4, 6, 8, ?».",
 				"12": "È 4 × 3: ma i quadrati in fila condividono un lato, quindi costano meno di quattro stecchini ciascuno.",
 				"14": "Sarebbe il passo giusto sbagliando il conto: da 10 si aggiungono 3, non 4.",
-				"16": "È 4 × 4, cioè quattro quadrati staccati: qui invece sono attaccati e si risparmiano stecchini."
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
+				"16": "È 4 × 4, cioè quattro quadrati staccati: qui invece sono attaccati e si risparmiano stecchini.",
+				"23": "«23» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 7, 11, 15, 19, ?».",
+				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?»."
 			}
 		},
 		{
@@ -2432,7 +2636,17 @@
 			"prompt": "Quale numero continua la sequenza: 3, 6, 5, 10, 9, ...?",
 			"options": [],
 			"answer": "18",
-			"explanation": "La regola alterna: si raddoppia, poi si toglie uno, poi si raddoppia."
+			"explanation": "La regola alterna: si raddoppia, poi si toglie uno, poi si raddoppia.",
+			"distractorWhy": {
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 1, 3, 5, 7, ?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 2, 4, 6, 8, ?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
+				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 4, 7, 10, 13, ?».",
+				"23": "«23» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 7, 11, 15, 19, ?».",
+				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
+				"30": "«30» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 6, 12, 18, 24, ?».",
+				"50": "«50» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 10, 20, 30, 40, ?»."
+			}
 		},
 		{
 			"id": "logica-banda-quantificatori-0",
@@ -2634,6 +2848,11 @@
 			"answer": "42",
 			"explanation": "Le differenze crescono di due in due: +4, +6, +8, +10 e poi +12, quindi 30 + 12 = 42.",
 			"distractorWhy": {
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 1, 3, 5, 7, ?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 2, 4, 6, 8, ?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
+				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 4, 7, 10, 13, ?».",
+				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
 				"36": "Sommerebbe solo +6 invece di +12: la differenza dopo 30 deve continuare a crescere di due in due.",
 				"40": "Sommerebbe +10 invece di +12: la crescita delle differenze non si ferma prima.",
 				"44": "Sommerebbe +14 invece di +12: la crescita delle differenze è di due in due, non di quattro in quattro."

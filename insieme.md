@@ -492,6 +492,133 @@ delle scorciatoie, e funziona perché non chiede a nessuno di giudicare.
 
 ---
 
+## Le spiegazioni, il secondo giro — 27 agosto 2026
+
+Il punto della situazione dopo il lotto del 26 dice che la struttura tiene —
+9244 correzioni consegnate su 9244, eco dal 32% al 3,3%, 656 esercizi con un
+disegno — e lascia scoperti quattro buchi misurati. Questo lotto li chiude.
+
+L'ordine è per resa su costo, come sempre.
+
+| | voce | che cosa copre | esito |
+|---|---|---|---|
+| **N-9** | I livelli per gli argomenti affollati | 1325 esercizi su 18 argomenti | ✅ 18 su 18 |
+| **N-10** | Le 487 correzioni mancanti | 161 numeriche + 326 a risposta aperta | ✅ **zero scoperti** |
+| **N-11** | Le figure per le materie scoperte | musica, coding, italiano, inglese | ✅ 4 materie su 5 |
+| **N-12** | La guardia si alza | tre misure nuove a cricchetto | ✅ |
+
+> **Chiuse tutte e quattro il 27 agosto.** I numeri, prima e dopo:
+>
+> | | prima | dopo |
+> |---|---|---|
+> | esercizi che consegnano una correzione | 3082 su 3569 | **3569 su 3569** |
+> | frasi di correzione scritte | 9244 | **15015** |
+> | argomenti affollati con più di una riga di NORA | 1 su 18 | **18 su 18** |
+> | esercizi con una figura | 656 | **810** |
+> | materie con almeno una figura | 6 su 12 | **10 su 12** |
+>
+> **Quello che non è stato fatto, e perché.** Fisica e scienze restano senza
+> figure: nei loro testi non c'è niente che si estragga con certezza in un
+> diagramma — le conversioni di unità in fisica sono **tre esercizi su 157** — e
+> disegnare comunque vorrebbe dire decorare. È la stessa ragione per cui non
+> esiste la bilancia dell'uguale, e vale la pena ripeterla: *una figura che si
+> accende su tre prove è codice morto con una bella spiegazione sopra*.
+>
+> Restano anche le glosse scritte a mano — «quando NON si usa», la parola dentro
+> un'altra già nota — su circa settecento voci di lessico. Nessuna regola
+> meccanica le produce.
+>
+> **Due difetti che gli audit hanno preso mentre li scrivevo**, e sono i due che
+> valgono più della correzione stessa:
+>
+> - `risposta_unica_audit` ha trovato **trentotto esercizi in cui NORA stava per
+>   dire «sbagliato» a una risposta che il gioco accetta come giusta**:
+>   «Imperfetto» e «imperfetto» sono due voci diverse del banco e la stessa
+>   risposta. Il confronto va fatto con lo stesso metro del runtime — minuscole,
+>   virgola come punto — e guardando la lista `accept`;
+> - una **lista Python** `[10, 20, 30]` veniva disegnata come **retta dei
+>   numeri**, perché a un'espressione regolare somiglia a una serie. Per un
+>   bambino una figura sbagliata pesa più di una frase sbagliata: a quello che
+>   vede si crede.
+
+### N-9 · I livelli per gli argomenti affollati
+
+Il meccanismo dei livelli esiste dal 26 agosto e **lo usa un argomento solo su
+249**: `matematica:tabelline`. Ma diciotto argomenti hanno quaranta o più
+esercizi e insieme ne coprono **1325**, ognuno servito da una riga sola:
+`inglese:everyday-phrases` ne ha 160, `travel-places` 87, `home-family` 78.
+
+La memoria di dodici impronte impedisce che la riga torni *subito*; su una
+sessione lunga rientra. Due livelli in più per ciascuno — trentasei righe di
+`perche` e diciotto di `come` — e il problema sparisce per un terzo del gioco.
+
+**Livelli, non sinonimi.** Il primo è la ragione di fondo, il secondo il caso che
+di solito frega, il terzo il collegamento con un altro argomento. Se le tre righe
+si possono scambiare di posto senza che cambi niente, sono sinonimi e vanno
+riscritte.
+
+### N-10 · Le 487 correzioni mancanti
+
+Sono tutte risposte aperte. Si dividono in due classi che si trattano in modo
+diverso, e questa è la ragione per cui vanno separate:
+
+**161 numeriche.** Qui l'errore tipico si *calcola*: chi sbaglia `3 × 2` scrive
+quasi sempre 5 (ha sommato) o 8 (ha raddoppiato due volte). Il generatore delle
+tabelline queste alternative le costruisce già, con il loro perché — le usa per
+la scelta multipla e le **butta via** quando l'item è numerico. Vanno tenute: la
+risposta aperta le sa già riconoscere, perché il confronto è sulla stringa
+digitata ed è stato verificato che funziona.
+
+**326 a risposta aperta con una parola.** Qui l'errore non si calcola, ma per gli
+argomenti a insieme chiuso — le capitali, i componenti elettronici, le parti del
+discorso — la parola sbagliata plausibile è un'altra voce dello stesso insieme, e
+il suo perché si scrive una volta per insieme. Dove l'insieme non è chiuso non si
+inventa niente e la voce resta scoperta: **è meglio dichiararle che riempirle**.
+
+### N-11 · Le figure per le materie scoperte
+
+Cinque materie su dodici non hanno nessun disegno, e fra queste ci sono i due
+banchi più grossi. Cinque figure nuove, scelte dove il disegno dice qualcosa che
+il testo non dice:
+
+| figura | materia | prove |
+|---|---|---|
+| **la battuta divisa** — le caselle di una misura, col primo movimento acceso | musica | 11 |
+| **la scala delle sette note** — i gradini che salgono, e il do che ricomincia | musica | 17 |
+| **la lista con gli indici** — le caselle numerate **da zero** | coding | 17 |
+| **la frase col pezzo acceso** — dove guardare dentro la frase | italiano | 22 |
+| **le parole imparentate** — le lettere in comune accese | inglese | 147 (col latino) |
+
+Due scelte di disegno vanno spiegate, perché in tutte e due il caso ho preferito
+mostrare **meno** di quello che il piano prometteva.
+
+**La frase non si smonta in soggetto e complemento.** Il piano diceva «soggetto,
+verbo, complemento», ma etichettarli vorrebbe dire rispondere al posto del
+bambino: è esattamente ciò che l'esercizio gli sta chiedendo. La figura accende
+solo il pezzo di cui la domanda parla — «in *Luca legge un libro*, che cos'è *un
+libro*?» — perché nell'analisi logica metà della fatica è capire di quale pezzo si
+sta parlando, e quella metà si può dare senza regalare l'altra.
+
+**Il coding non traccia la variabile.** Per farlo davvero bisognerebbe eseguire il
+codice, e un'esecuzione sbagliata insegnerebbe una cosa falsa. La lista con gli
+indici invece si legge dal testo senza interpretare niente, e colpisce l'errore
+più comune di chi comincia: credere che il primo elemento sia il numero uno.
+
+Restano senza **fisica e scienze**: nei loro testi non c'è niente che si estragga
+con certezza in un diagramma — le conversioni di unità in fisica sono tre
+esercizi su 157 — e disegnare comunque vorrebbe dire decorare.
+
+### N-12 · La guardia si alza
+
+Tre misure nuove in `nora_spiegazione_utile_audit`, tutte a cricchetto:
+
+- ogni argomento con quaranta o più esercizi ha **almeno due livelli**;
+- la quota di esercizi che consegnano una correzione **non scende mai**;
+- **nessuna materia resta a zero figure**, e il numero di materie coperte non
+  cala.
+
+---
+
 ## Due audit che si contraddicevano — 27 agosto 2026
 
 `glifi_audit` era rosso su `tool-torch` dal 21 agosto, cioè da quando il modulo

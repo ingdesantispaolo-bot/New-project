@@ -663,7 +663,17 @@
 			"prompt": "In una catena erba → cavalletta → rana → serpente, quanti passaggi di energia ci sono?",
 			"options": [],
 			"answer": "3",
-			"explanation": "Ogni freccia è un passaggio: erba-cavalletta, cavalletta-rana, rana-serpente. A ogni passaggio si perde energia."
+			"explanation": "Ogni freccia è un passaggio: erba-cavalletta, cavalletta-rana, rana-serpente. A ogni passaggio si perde energia.",
+			"distractorWhy": {
+				"Erbivoro": "«Erbivoro» è la risposta giusta a un'altra domanda di questo gruppo: «Un animale che mangia solo piante si chiama…».",
+				"I carnivori": "«I carnivori» è la risposta giusta a un'altra domanda di questo gruppo: «In una catena alimentare, chi mangia gli erbivori?».",
+				"Le piante (produttori)": "«Le piante (produttori)» è la risposta giusta a un'altra domanda di questo gruppo: «In una catena alimentare, chi produce il proprio nutrimento?».",
+				"Decompositori": "«Decompositori» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano gli organismi (funghi, batteri) che decompongono i resti dei viventi?».",
+				"ecosistema": "«ecosistema» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"consumatori": "«consumatori» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano gli organismi che si nutrono di altri esseri viventi?».",
+				"decompositori": "«decompositori» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano gli organismi che trasformano i resti in sostanze minerali?».",
+				"catena alimentare": "«catena alimentare» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la catena che collega chi mangia e chi è mangiato?»."
+			}
 		},
 		{
 			"id": "scienze-energia-32",
@@ -863,7 +873,17 @@
 			"prompt": "Quante trasformazioni di energia ci sono in «pila → lampadina accesa»?",
 			"options": [],
 			"answer": "2",
-			"explanation": "Chimica in elettrica dentro la pila, elettrica in luce e calore nella lampadina: due passaggi."
+			"explanation": "Chimica in elettrica dentro la pila, elettrica in luce e calore nella lampadina: due passaggi.",
+			"distractorWhy": {
+				"Luce e calore": "«Luce e calore» è la risposta giusta a un'altra domanda di questo gruppo: «Quando accendi una lampadina, l'energia elettrica diventa…».",
+				"Energia chimica": "«Energia chimica» è la risposta giusta a un'altra domanda di questo gruppo: «Che tipo di energia contiene il cibo che mangi?».",
+				"Dal Sole": "«Dal Sole» è la risposta giusta a un'altra domanda di questo gruppo: «Da dove arriva quasi tutta l'energia che riscalda la Terra?».",
+				"Energia eolica": "«Energia eolica» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'energia prodotta dal vento che fa girare le pale?».",
+				"Energia idroelettrica": "«Energia idroelettrica» è la risposta giusta a un'altra domanda di questo gruppo: «L'energia dell'acqua che scorre e fa girare le turbine si chiama…».",
+				"rinnovabile": "«rinnovabile» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama una fonte di energia che non si esaurisce, come il vento o il sole?».",
+				"fotosintesi": "«fotosintesi» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il processo con cui le piante usano la luce per fabbricare zuccheri?».",
+				"potenziale": "«potenziale» è la risposta giusta a un'altra domanda di questo gruppo: «Una palla ferma in cima a una rampa possiede energia...»."
+			}
 		},
 		{
 			"id": "scienze-terra-universo-42",
@@ -874,7 +894,17 @@
 			"prompt": "Quanto tempo impiega la Terra a girare su sé stessa?",
 			"options": [],
 			"answer": "24",
-			"explanation": "Ventiquattro ore: è la rotazione, e produce il giorno e la notte."
+			"explanation": "Ventiquattro ore: è la rotazione, e produce il giorno e la notte.",
+			"distractorWhy": {
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti pianeti ci sono nel Sistema Solare?».",
+				"Mercurio": "«Mercurio» è la risposta giusta a un'altra domanda di questo gruppo: «Quale pianeta è il più vicino al Sole?».",
+				"Il Sole": "«Il Sole» è la risposta giusta a un'altra domanda di questo gruppo: «Attorno a cosa gira la Terra?».",
+				"La Luna": "«La Luna» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il satellite naturale della Terra?».",
+				"rotazione": "«rotazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il movimento della Terra attorno al proprio asse?».",
+				"rivoluzione": "«rivoluzione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il movimento della Terra attorno al Sole?».",
+				"Sole": "«Sole» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la stella attorno a cui gira la Terra?».",
+				"atmosfera": "«atmosfera» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo strato di aria che avvolge la Terra?»."
+			}
 		},
 		{
 			"id": "scienze-terra-universo-43",
@@ -1032,7 +1062,17 @@
 			"prompt": "Quanti pianeti ci sono nel Sistema Solare?",
 			"options": [],
 			"answer": "8",
-			"explanation": "Otto: Mercurio, Venere, Terra, Marte, Giove, Saturno, Urano, Nettuno. Plutone dal 2006 è un pianeta nano."
+			"explanation": "Otto: Mercurio, Venere, Terra, Marte, Giove, Saturno, Urano, Nettuno. Plutone dal 2006 è un pianeta nano.",
+			"distractorWhy": {
+				"24": "«24» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto tempo impiega la Terra a girare su sé stessa?».",
+				"Mercurio": "«Mercurio» è la risposta giusta a un'altra domanda di questo gruppo: «Quale pianeta è il più vicino al Sole?».",
+				"Il Sole": "«Il Sole» è la risposta giusta a un'altra domanda di questo gruppo: «Attorno a cosa gira la Terra?».",
+				"La Luna": "«La Luna» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il satellite naturale della Terra?».",
+				"rotazione": "«rotazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il movimento della Terra attorno al proprio asse?».",
+				"rivoluzione": "«rivoluzione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il movimento della Terra attorno al Sole?».",
+				"Sole": "«Sole» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la stella attorno a cui gira la Terra?».",
+				"atmosfera": "«atmosfera» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo strato di aria che avvolge la Terra?»."
+			}
 		},
 		{
 			"id": "scienze-materia-51",
@@ -2243,7 +2283,14 @@
 			"accept": [
 				"riciclaggio"
 			],
-			"explanation": "Ridurre viene prima di riciclare: quello che non si produce non va nemmeno trattato."
+			"explanation": "Ridurre viene prima di riciclare: quello che non si produce non va nemmeno trattato.",
+			"distractorWhy": {
+				"Il vento": "«Il vento» è la risposta giusta a un'altra domanda di questo gruppo: «Quale di queste è una fonte di energia rinnovabile?».",
+				"Fare la raccolta differenziata": "«Fare la raccolta differenziata» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa dovremmo fare con carta, plastica e vetro per aiutare l'ambiente?».",
+				"Riscaldamento globale": "«Riscaldamento globale» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"inquinante": "«inquinante» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama una sostanza che sporca e danneggia aria, acqua o suolo?».",
+				"carta": "«carta» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il contenitore in cui si buttano carta e cartone separati dal resto?»."
+			}
 		},
 		{
 			"id": "scienze-ambiente-109",
@@ -2255,7 +2302,14 @@
 			"options": [],
 			"answer": "inquinante",
 			"accept": [],
-			"explanation": "Molti inquinanti non si vedono: si misurano."
+			"explanation": "Molti inquinanti non si vedono: si misurano.",
+			"distractorWhy": {
+				"Il vento": "«Il vento» è la risposta giusta a un'altra domanda di questo gruppo: «Quale di queste è una fonte di energia rinnovabile?».",
+				"Fare la raccolta differenziata": "«Fare la raccolta differenziata» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa dovremmo fare con carta, plastica e vetro per aiutare l'ambiente?».",
+				"Riscaldamento globale": "«Riscaldamento globale» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"riciclo": "«riciclo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la trasformazione dei rifiuti in materiali di nuovo utilizzabili?».",
+				"carta": "«carta» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il contenitore in cui si buttano carta e cartone separati dal resto?»."
+			}
 		},
 		{
 			"id": "scienze-ecosistema-110",
@@ -2267,7 +2321,17 @@
 			"options": [],
 			"answer": "ecosistema",
 			"accept": [],
-			"explanation": "Le due parti non si studiano separate: cambiando l'ambiente cambiano i viventi, e viceversa."
+			"explanation": "Le due parti non si studiano separate: cambiando l'ambiente cambiano i viventi, e viceversa.",
+			"distractorWhy": {
+				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «In una catena erba → cavalletta → rana → serpente, quanti passaggi di energia ci sono?».",
+				"Erbivoro": "«Erbivoro» è la risposta giusta a un'altra domanda di questo gruppo: «Un animale che mangia solo piante si chiama…».",
+				"I carnivori": "«I carnivori» è la risposta giusta a un'altra domanda di questo gruppo: «In una catena alimentare, chi mangia gli erbivori?».",
+				"Le piante (produttori)": "«Le piante (produttori)» è la risposta giusta a un'altra domanda di questo gruppo: «In una catena alimentare, chi produce il proprio nutrimento?».",
+				"Decompositori": "«Decompositori» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano gli organismi (funghi, batteri) che decompongono i resti dei viventi?».",
+				"consumatori": "«consumatori» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano gli organismi che si nutrono di altri esseri viventi?».",
+				"decompositori": "«decompositori» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano gli organismi che trasformano i resti in sostanze minerali?».",
+				"catena alimentare": "«catena alimentare» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la catena che collega chi mangia e chi è mangiato?»."
+			}
 		},
 		{
 			"id": "scienze-ecosistema-111",
@@ -2279,7 +2343,17 @@
 			"options": [],
 			"answer": "consumatori",
 			"accept": [],
-			"explanation": "Non producono il proprio cibo: lo prendono da chi lo ha fabbricato o da chi lo ha già mangiato."
+			"explanation": "Non producono il proprio cibo: lo prendono da chi lo ha fabbricato o da chi lo ha già mangiato.",
+			"distractorWhy": {
+				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «In una catena erba → cavalletta → rana → serpente, quanti passaggi di energia ci sono?».",
+				"Erbivoro": "«Erbivoro» è la risposta giusta a un'altra domanda di questo gruppo: «Un animale che mangia solo piante si chiama…».",
+				"I carnivori": "«I carnivori» è la risposta giusta a un'altra domanda di questo gruppo: «In una catena alimentare, chi mangia gli erbivori?».",
+				"Le piante (produttori)": "«Le piante (produttori)» è la risposta giusta a un'altra domanda di questo gruppo: «In una catena alimentare, chi produce il proprio nutrimento?».",
+				"Decompositori": "«Decompositori» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano gli organismi (funghi, batteri) che decompongono i resti dei viventi?».",
+				"ecosistema": "«ecosistema» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"decompositori": "«decompositori» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano gli organismi che trasformano i resti in sostanze minerali?».",
+				"catena alimentare": "«catena alimentare» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la catena che collega chi mangia e chi è mangiato?»."
+			}
 		},
 		{
 			"id": "scienze-ecosistema-112",
@@ -2291,7 +2365,16 @@
 			"options": [],
 			"answer": "decompositori",
 			"accept": [],
-			"explanation": "Senza di loro le sostanze resterebbero bloccate nei resti e il ciclo si fermerebbe."
+			"explanation": "Senza di loro le sostanze resterebbero bloccate nei resti e il ciclo si fermerebbe.",
+			"distractorWhy": {
+				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «In una catena erba → cavalletta → rana → serpente, quanti passaggi di energia ci sono?».",
+				"Erbivoro": "«Erbivoro» è la risposta giusta a un'altra domanda di questo gruppo: «Un animale che mangia solo piante si chiama…».",
+				"I carnivori": "«I carnivori» è la risposta giusta a un'altra domanda di questo gruppo: «In una catena alimentare, chi mangia gli erbivori?».",
+				"Le piante (produttori)": "«Le piante (produttori)» è la risposta giusta a un'altra domanda di questo gruppo: «In una catena alimentare, chi produce il proprio nutrimento?».",
+				"ecosistema": "«ecosistema» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"consumatori": "«consumatori» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano gli organismi che si nutrono di altri esseri viventi?».",
+				"catena alimentare": "«catena alimentare» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la catena che collega chi mangia e chi è mangiato?»."
+			}
 		},
 		{
 			"id": "scienze-ecosistema-113",
@@ -2305,7 +2388,17 @@
 			"accept": [
 				"catena trofica"
 			],
-			"explanation": "Ogni anello passa al successivo solo una parte dell'energia ricevuta."
+			"explanation": "Ogni anello passa al successivo solo una parte dell'energia ricevuta.",
+			"distractorWhy": {
+				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «In una catena erba → cavalletta → rana → serpente, quanti passaggi di energia ci sono?».",
+				"Erbivoro": "«Erbivoro» è la risposta giusta a un'altra domanda di questo gruppo: «Un animale che mangia solo piante si chiama…».",
+				"I carnivori": "«I carnivori» è la risposta giusta a un'altra domanda di questo gruppo: «In una catena alimentare, chi mangia gli erbivori?».",
+				"Le piante (produttori)": "«Le piante (produttori)» è la risposta giusta a un'altra domanda di questo gruppo: «In una catena alimentare, chi produce il proprio nutrimento?».",
+				"Decompositori": "«Decompositori» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano gli organismi (funghi, batteri) che decompongono i resti dei viventi?».",
+				"ecosistema": "«ecosistema» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"consumatori": "«consumatori» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano gli organismi che si nutrono di altri esseri viventi?».",
+				"decompositori": "«decompositori» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano gli organismi che trasformano i resti in sostanze minerali?»."
+			}
 		},
 		{
 			"id": "scienze-metodo-114",
@@ -2317,7 +2410,13 @@
 			"options": [],
 			"answer": "ipotesi",
 			"accept": [],
-			"explanation": "Si formula prima di guardare i risultati, altrimenti si finisce per confermarsi da soli."
+			"explanation": "Si formula prima di guardare i risultati, altrimenti si finisce per confermarsi da soli.",
+			"distractorWhy": {
+				"Una sola": "«Una sola» è la risposta giusta a un'altra domanda di questo gruppo: «In un esperimento controllato, quante variabili cambi per volta?».",
+				"controllo": "«controllo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la prova di confronto in cui non si cambia niente?».",
+				"microscopio": "«microscopio» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo strumento che ingrandisce ciò che l'occhio non riesce a vedere?».",
+				"Farsi una domanda": "«Farsi una domanda» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il primo passo del metodo scientifico?»."
+			}
 		},
 		{
 			"id": "scienze-metodo-115",
@@ -2331,7 +2430,13 @@
 			"accept": [
 				"gruppo di controllo"
 			],
-			"explanation": "Senza il confronto non si sa se l'effetto viene dalla causa studiata o sarebbe successo comunque."
+			"explanation": "Senza il confronto non si sa se l'effetto viene dalla causa studiata o sarebbe successo comunque.",
+			"distractorWhy": {
+				"Una sola": "«Una sola» è la risposta giusta a un'altra domanda di questo gruppo: «In un esperimento controllato, quante variabili cambi per volta?».",
+				"ipotesi": "«ipotesi» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la supposizione che l'esperimento deve verificare?».",
+				"microscopio": "«microscopio» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo strumento che ingrandisce ciò che l'occhio non riesce a vedere?».",
+				"Farsi una domanda": "«Farsi una domanda» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il primo passo del metodo scientifico?»."
+			}
 		},
 		{
 			"id": "scienze-metodo-116",
@@ -2343,7 +2448,13 @@
 			"options": [],
 			"answer": "microscopio",
 			"accept": [],
-			"explanation": "Ha aperto un mondo intero: le cellule si sono scoperte così."
+			"explanation": "Ha aperto un mondo intero: le cellule si sono scoperte così.",
+			"distractorWhy": {
+				"Una sola": "«Una sola» è la risposta giusta a un'altra domanda di questo gruppo: «In un esperimento controllato, quante variabili cambi per volta?».",
+				"ipotesi": "«ipotesi» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la supposizione che l'esperimento deve verificare?».",
+				"controllo": "«controllo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la prova di confronto in cui non si cambia niente?».",
+				"Farsi una domanda": "«Farsi una domanda» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il primo passo del metodo scientifico?»."
+			}
 		},
 		{
 			"id": "scienze-energia-117",
@@ -2357,7 +2468,17 @@
 			"accept": [
 				"fonte rinnovabile"
 			],
-			"explanation": "Rinnovabile non vuol dire senza impatto: vuol dire che la fonte si ricostituisce."
+			"explanation": "Rinnovabile non vuol dire senza impatto: vuol dire che la fonte si ricostituisce.",
+			"distractorWhy": {
+				"2": "«2» è la risposta giusta a un'altra domanda di questo gruppo: «Quante trasformazioni di energia ci sono in «pila → lampadina accesa»?».",
+				"Luce e calore": "«Luce e calore» è la risposta giusta a un'altra domanda di questo gruppo: «Quando accendi una lampadina, l'energia elettrica diventa…».",
+				"Energia chimica": "«Energia chimica» è la risposta giusta a un'altra domanda di questo gruppo: «Che tipo di energia contiene il cibo che mangi?».",
+				"Dal Sole": "«Dal Sole» è la risposta giusta a un'altra domanda di questo gruppo: «Da dove arriva quasi tutta l'energia che riscalda la Terra?».",
+				"Energia eolica": "«Energia eolica» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'energia prodotta dal vento che fa girare le pale?».",
+				"Energia idroelettrica": "«Energia idroelettrica» è la risposta giusta a un'altra domanda di questo gruppo: «L'energia dell'acqua che scorre e fa girare le turbine si chiama…».",
+				"fotosintesi": "«fotosintesi» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il processo con cui le piante usano la luce per fabbricare zuccheri?».",
+				"potenziale": "«potenziale» è la risposta giusta a un'altra domanda di questo gruppo: «Una palla ferma in cima a una rampa possiede energia...»."
+			}
 		},
 		{
 			"id": "scienze-energia-118",
@@ -2371,7 +2492,17 @@
 			"accept": [
 				"fotosintesi clorofilliana"
 			],
-			"explanation": "Prendono anidride carbonica e acqua e restituiscono ossigeno: è l'inizio di quasi tutte le catene alimentari."
+			"explanation": "Prendono anidride carbonica e acqua e restituiscono ossigeno: è l'inizio di quasi tutte le catene alimentari.",
+			"distractorWhy": {
+				"2": "«2» è la risposta giusta a un'altra domanda di questo gruppo: «Quante trasformazioni di energia ci sono in «pila → lampadina accesa»?».",
+				"Luce e calore": "«Luce e calore» è la risposta giusta a un'altra domanda di questo gruppo: «Quando accendi una lampadina, l'energia elettrica diventa…».",
+				"Energia chimica": "«Energia chimica» è la risposta giusta a un'altra domanda di questo gruppo: «Che tipo di energia contiene il cibo che mangi?».",
+				"Dal Sole": "«Dal Sole» è la risposta giusta a un'altra domanda di questo gruppo: «Da dove arriva quasi tutta l'energia che riscalda la Terra?».",
+				"Energia eolica": "«Energia eolica» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'energia prodotta dal vento che fa girare le pale?».",
+				"Energia idroelettrica": "«Energia idroelettrica» è la risposta giusta a un'altra domanda di questo gruppo: «L'energia dell'acqua che scorre e fa girare le turbine si chiama…».",
+				"rinnovabile": "«rinnovabile» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama una fonte di energia che non si esaurisce, come il vento o il sole?».",
+				"potenziale": "«potenziale» è la risposta giusta a un'altra domanda di questo gruppo: «Una palla ferma in cima a una rampa possiede energia...»."
+			}
 		},
 		{
 			"id": "scienze-terra-universo-119",
@@ -2383,7 +2514,17 @@
 			"options": [],
 			"answer": "rotazione",
 			"accept": [],
-			"explanation": "Dura ventiquattro ore e produce il giorno e la notte."
+			"explanation": "Dura ventiquattro ore e produce il giorno e la notte.",
+			"distractorWhy": {
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti pianeti ci sono nel Sistema Solare?».",
+				"24": "«24» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto tempo impiega la Terra a girare su sé stessa?».",
+				"Mercurio": "«Mercurio» è la risposta giusta a un'altra domanda di questo gruppo: «Quale pianeta è il più vicino al Sole?».",
+				"Il Sole": "«Il Sole» è la risposta giusta a un'altra domanda di questo gruppo: «Attorno a cosa gira la Terra?».",
+				"La Luna": "«La Luna» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il satellite naturale della Terra?».",
+				"rivoluzione": "«rivoluzione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il movimento della Terra attorno al Sole?».",
+				"Sole": "«Sole» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la stella attorno a cui gira la Terra?».",
+				"atmosfera": "«atmosfera» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo strato di aria che avvolge la Terra?»."
+			}
 		},
 		{
 			"id": "scienze-terra-universo-120",
@@ -2395,7 +2536,17 @@
 			"options": [],
 			"answer": "rivoluzione",
 			"accept": [],
-			"explanation": "Dura un anno; insieme all'inclinazione dell'asse produce le stagioni."
+			"explanation": "Dura un anno; insieme all'inclinazione dell'asse produce le stagioni.",
+			"distractorWhy": {
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti pianeti ci sono nel Sistema Solare?».",
+				"24": "«24» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto tempo impiega la Terra a girare su sé stessa?».",
+				"Mercurio": "«Mercurio» è la risposta giusta a un'altra domanda di questo gruppo: «Quale pianeta è il più vicino al Sole?».",
+				"Il Sole": "«Il Sole» è la risposta giusta a un'altra domanda di questo gruppo: «Attorno a cosa gira la Terra?».",
+				"La Luna": "«La Luna» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il satellite naturale della Terra?».",
+				"rotazione": "«rotazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il movimento della Terra attorno al proprio asse?».",
+				"Sole": "«Sole» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la stella attorno a cui gira la Terra?».",
+				"atmosfera": "«atmosfera» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo strato di aria che avvolge la Terra?»."
+			}
 		},
 		{
 			"id": "scienze-terra-universo-121",
@@ -2407,7 +2558,17 @@
 			"options": [],
 			"answer": "Sole",
 			"accept": [],
-			"explanation": "È una stella come tante altre: ci sembra enorme solo perché è vicinissima."
+			"explanation": "È una stella come tante altre: ci sembra enorme solo perché è vicinissima.",
+			"distractorWhy": {
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti pianeti ci sono nel Sistema Solare?».",
+				"24": "«24» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto tempo impiega la Terra a girare su sé stessa?».",
+				"Mercurio": "«Mercurio» è la risposta giusta a un'altra domanda di questo gruppo: «Quale pianeta è il più vicino al Sole?».",
+				"Il Sole": "«Il Sole» è la risposta giusta a un'altra domanda di questo gruppo: «Attorno a cosa gira la Terra?».",
+				"La Luna": "«La Luna» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il satellite naturale della Terra?».",
+				"rotazione": "«rotazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il movimento della Terra attorno al proprio asse?».",
+				"rivoluzione": "«rivoluzione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il movimento della Terra attorno al Sole?».",
+				"atmosfera": "«atmosfera» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo strato di aria che avvolge la Terra?»."
+			}
 		},
 		{
 			"id": "scienze-terra-universo-122",
@@ -2419,7 +2580,17 @@
 			"options": [],
 			"answer": "atmosfera",
 			"accept": [],
-			"explanation": "Trattiene calore e ferma gran parte delle radiazioni: senza, la vita in superficie non ci sarebbe."
+			"explanation": "Trattiene calore e ferma gran parte delle radiazioni: senza, la vita in superficie non ci sarebbe.",
+			"distractorWhy": {
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti pianeti ci sono nel Sistema Solare?».",
+				"24": "«24» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto tempo impiega la Terra a girare su sé stessa?».",
+				"Mercurio": "«Mercurio» è la risposta giusta a un'altra domanda di questo gruppo: «Quale pianeta è il più vicino al Sole?».",
+				"Il Sole": "«Il Sole» è la risposta giusta a un'altra domanda di questo gruppo: «Attorno a cosa gira la Terra?».",
+				"La Luna": "«La Luna» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il satellite naturale della Terra?».",
+				"rotazione": "«rotazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il movimento della Terra attorno al proprio asse?».",
+				"rivoluzione": "«rivoluzione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il movimento della Terra attorno al Sole?».",
+				"Sole": "«Sole» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la stella attorno a cui gira la Terra?»."
+			}
 		},
 		{
 			"id": "scienze-materia-123",
@@ -2431,7 +2602,17 @@
 			"options": [],
 			"answer": "condensazione",
 			"accept": [],
-			"explanation": "Le gocce sul vetro freddo si formano così: il vapore dell'aria si raffredda e condensa."
+			"explanation": "Le gocce sul vetro freddo si formano così: il vapore dell'aria si raffredda e condensa.",
+			"distractorWhy": {
+				"Solido": "«Solido» è la risposta giusta a un'altra domanda di questo gruppo: «In quale stato la materia ha forma e volume propri?».",
+				"Evaporazione": "«Evaporazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il passaggio da liquido a gassoso?».",
+				"Facendo evaporare l'acqua": "«Facendo evaporare l'acqua» è la risposta giusta a un'altra domanda di questo gruppo: «Come si può separare il sale dall'acqua salata?».",
+				"Gassoso": "«Gassoso» è la risposta giusta a un'altra domanda di questo gruppo: «In quale stato le particelle sono più libere di muoversi?».",
+				"Solido, liquido, gassoso": "«Solido, liquido, gassoso» è la risposta giusta a un'altra domanda di questo gruppo: «Quali sono i tre stati principali della materia?».",
+				"Ghiaccio": "«Ghiaccio» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'acqua allo stato solido?».",
+				"Fusione": "«Fusione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il passaggio da solido a liquido?».",
+				"Sublimazione": "«Sublimazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il passaggio diretto da solido a gas, senza passare per il liquido?»."
+			}
 		},
 		{
 			"id": "scienze-materia-124",
@@ -2443,7 +2624,17 @@
 			"options": [],
 			"answer": "soluzione",
 			"accept": [],
-			"explanation": "Se dopo aver mescolato non distingui più le parti, è una soluzione."
+			"explanation": "Se dopo aver mescolato non distingui più le parti, è una soluzione.",
+			"distractorWhy": {
+				"Solido": "«Solido» è la risposta giusta a un'altra domanda di questo gruppo: «In quale stato la materia ha forma e volume propri?».",
+				"Evaporazione": "«Evaporazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il passaggio da liquido a gassoso?».",
+				"Facendo evaporare l'acqua": "«Facendo evaporare l'acqua» è la risposta giusta a un'altra domanda di questo gruppo: «Come si può separare il sale dall'acqua salata?».",
+				"Gassoso": "«Gassoso» è la risposta giusta a un'altra domanda di questo gruppo: «In quale stato le particelle sono più libere di muoversi?».",
+				"Solido, liquido, gassoso": "«Solido, liquido, gassoso» è la risposta giusta a un'altra domanda di questo gruppo: «Quali sono i tre stati principali della materia?».",
+				"Ghiaccio": "«Ghiaccio» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'acqua allo stato solido?».",
+				"Condensazione": "«Condensazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il passaggio da gas (vapore) a liquido?».",
+				"Fusione": "«Fusione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il passaggio da solido a liquido?»."
+			}
 		},
 		{
 			"id": "scienze-materia-125",
@@ -2455,7 +2646,17 @@
 			"options": [],
 			"answer": "molecola",
 			"accept": [],
-			"explanation": "Spezzando ancora si ottengono atomi, ma la sostanza non è più quella."
+			"explanation": "Spezzando ancora si ottengono atomi, ma la sostanza non è più quella.",
+			"distractorWhy": {
+				"Solido": "«Solido» è la risposta giusta a un'altra domanda di questo gruppo: «In quale stato la materia ha forma e volume propri?».",
+				"Evaporazione": "«Evaporazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il passaggio da liquido a gassoso?».",
+				"Facendo evaporare l'acqua": "«Facendo evaporare l'acqua» è la risposta giusta a un'altra domanda di questo gruppo: «Come si può separare il sale dall'acqua salata?».",
+				"Gassoso": "«Gassoso» è la risposta giusta a un'altra domanda di questo gruppo: «In quale stato le particelle sono più libere di muoversi?».",
+				"Solido, liquido, gassoso": "«Solido, liquido, gassoso» è la risposta giusta a un'altra domanda di questo gruppo: «Quali sono i tre stati principali della materia?».",
+				"Ghiaccio": "«Ghiaccio» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'acqua allo stato solido?».",
+				"Condensazione": "«Condensazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il passaggio da gas (vapore) a liquido?».",
+				"Fusione": "«Fusione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il passaggio da solido a liquido?»."
+			}
 		},
 		{
 			"id": "scienze-corpo-126",
@@ -2467,7 +2668,17 @@
 			"options": [],
 			"answer": "cuore",
 			"accept": [],
-			"explanation": "Batte senza che tu debba pensarci, circa centomila volte al giorno."
+			"explanation": "Batte senza che tu debba pensarci, circa centomila volte al giorno.",
+			"distractorWhy": {
+				"Il sangue": "«Il sangue» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa trasporta l'ossigeno dai polmoni al resto del corpo?».",
+				"Il cervello": "«Il cervello» è la risposta giusta a un'altra domanda di questo gruppo: «Quale organo ci permette di pensare e comandare il corpo?».",
+				"Il cuore": "«Il cuore» è la risposta giusta a un'altra domanda di questo gruppo: «Quale organo pompa il sangue nel corpo?».",
+				"I polmoni": "«I polmoni» è la risposta giusta a un'altra domanda di questo gruppo: «In quale organo avviene lo scambio di ossigeno con il sangue?».",
+				"L'intestino": "«L'intestino» è la risposta giusta a un'altra domanda di questo gruppo: «In quale organo il cibo digerito viene assorbito nel sangue?».",
+				"polmoni": "«polmoni» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano gli organi in cui il sangue prende ossigeno dall'aria?».",
+				"cervello": "«cervello» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'organo che comanda i movimenti e il pensiero?».",
+				"scheletro": "«scheletro» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'insieme delle ossa che sostiene il corpo?»."
+			}
 		},
 		{
 			"id": "scienze-corpo-127",
@@ -2479,7 +2690,17 @@
 			"options": [],
 			"answer": "polmoni",
 			"accept": [],
-			"explanation": "Lo scambio avviene negli alveoli, minuscole sacche con una superficie enorme."
+			"explanation": "Lo scambio avviene negli alveoli, minuscole sacche con una superficie enorme.",
+			"distractorWhy": {
+				"Il sangue": "«Il sangue» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa trasporta l'ossigeno dai polmoni al resto del corpo?».",
+				"Il cervello": "«Il cervello» è la risposta giusta a un'altra domanda di questo gruppo: «Quale organo ci permette di pensare e comandare il corpo?».",
+				"Il cuore": "«Il cuore» è la risposta giusta a un'altra domanda di questo gruppo: «Quale organo pompa il sangue nel corpo?».",
+				"I polmoni": "«I polmoni» è la risposta giusta a un'altra domanda di questo gruppo: «In quale organo avviene lo scambio di ossigeno con il sangue?».",
+				"L'intestino": "«L'intestino» è la risposta giusta a un'altra domanda di questo gruppo: «In quale organo il cibo digerito viene assorbito nel sangue?».",
+				"cuore": "«cuore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'organo che pompa il sangue in tutto il corpo?».",
+				"cervello": "«cervello» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'organo che comanda i movimenti e il pensiero?».",
+				"scheletro": "«scheletro» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'insieme delle ossa che sostiene il corpo?»."
+			}
 		},
 		{
 			"id": "scienze-corpo-128",
@@ -2491,7 +2712,17 @@
 			"options": [],
 			"answer": "cervello",
 			"accept": [],
-			"explanation": "Riceve informazioni dai sensi e manda ordini ai muscoli, in continuo."
+			"explanation": "Riceve informazioni dai sensi e manda ordini ai muscoli, in continuo.",
+			"distractorWhy": {
+				"Il sangue": "«Il sangue» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa trasporta l'ossigeno dai polmoni al resto del corpo?».",
+				"Il cervello": "«Il cervello» è la risposta giusta a un'altra domanda di questo gruppo: «Quale organo ci permette di pensare e comandare il corpo?».",
+				"Il cuore": "«Il cuore» è la risposta giusta a un'altra domanda di questo gruppo: «Quale organo pompa il sangue nel corpo?».",
+				"I polmoni": "«I polmoni» è la risposta giusta a un'altra domanda di questo gruppo: «In quale organo avviene lo scambio di ossigeno con il sangue?».",
+				"L'intestino": "«L'intestino» è la risposta giusta a un'altra domanda di questo gruppo: «In quale organo il cibo digerito viene assorbito nel sangue?».",
+				"cuore": "«cuore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'organo che pompa il sangue in tutto il corpo?».",
+				"polmoni": "«polmoni» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano gli organi in cui il sangue prende ossigeno dall'aria?».",
+				"scheletro": "«scheletro» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'insieme delle ossa che sostiene il corpo?»."
+			}
 		},
 		{
 			"id": "scienze-corpo-129",
@@ -2503,7 +2734,17 @@
 			"options": [],
 			"answer": "scheletro",
 			"accept": [],
-			"explanation": "Sostiene, protegge gli organi e dà ai muscoli un punto su cui fare forza."
+			"explanation": "Sostiene, protegge gli organi e dà ai muscoli un punto su cui fare forza.",
+			"distractorWhy": {
+				"Il sangue": "«Il sangue» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa trasporta l'ossigeno dai polmoni al resto del corpo?».",
+				"Il cervello": "«Il cervello» è la risposta giusta a un'altra domanda di questo gruppo: «Quale organo ci permette di pensare e comandare il corpo?».",
+				"Il cuore": "«Il cuore» è la risposta giusta a un'altra domanda di questo gruppo: «Quale organo pompa il sangue nel corpo?».",
+				"I polmoni": "«I polmoni» è la risposta giusta a un'altra domanda di questo gruppo: «In quale organo avviene lo scambio di ossigeno con il sangue?».",
+				"L'intestino": "«L'intestino» è la risposta giusta a un'altra domanda di questo gruppo: «In quale organo il cibo digerito viene assorbito nel sangue?».",
+				"cuore": "«cuore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'organo che pompa il sangue in tutto il corpo?».",
+				"polmoni": "«polmoni» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano gli organi in cui il sangue prende ossigeno dall'aria?».",
+				"cervello": "«cervello» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'organo che comanda i movimenti e il pensiero?»."
+			}
 		},
 		{
 			"id": "scienze-viventi-130",
@@ -2517,7 +2758,17 @@
 			"accept": [
 				"radici"
 			],
-			"explanation": "Assorbe e insieme ancora la pianta al suolo."
+			"explanation": "Assorbe e insieme ancora la pianta al suolo.",
+			"distractorWhy": {
+				"La cellula": "«La cellula» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di base di tutti gli esseri viventi?».",
+				"Le radici": "«Le radici» è la risposta giusta a un'altra domanda di questo gruppo: «Quale parte della pianta assorbe l'acqua dal terreno?».",
+				"Ossigeno": "«Ossigeno» è la risposta giusta a un'altra domanda di questo gruppo: «Quale gas rilasciano le piante durante la fotosintesi?».",
+				"Erbivori": "«Erbivori» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano gli animali che si nutrono solo di piante?».",
+				"Onnivori": "«Onnivori» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano gli animali che mangiano sia piante sia altri animali?».",
+				"Respirazione cellulare": "«Respirazione cellulare» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il processo con cui gli esseri viventi ricavano energia usando l'ossigeno?».",
+				"cellula": "«cellula» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'unità più piccola di cui sono fatti tutti gli esseri viventi?».",
+				"mammiferi": "«mammiferi» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano gli animali che allattano i propri piccoli?»."
+			}
 		},
 		{
 			"id": "scienze-viventi-131",
@@ -2529,7 +2780,17 @@
 			"options": [],
 			"answer": "cellula",
 			"accept": [],
-			"explanation": "Alcuni esseri viventi ne hanno una sola; noi qualche decina di migliaia di miliardi."
+			"explanation": "Alcuni esseri viventi ne hanno una sola; noi qualche decina di migliaia di miliardi.",
+			"distractorWhy": {
+				"La cellula": "«La cellula» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di base di tutti gli esseri viventi?».",
+				"Le radici": "«Le radici» è la risposta giusta a un'altra domanda di questo gruppo: «Quale parte della pianta assorbe l'acqua dal terreno?».",
+				"Ossigeno": "«Ossigeno» è la risposta giusta a un'altra domanda di questo gruppo: «Quale gas rilasciano le piante durante la fotosintesi?».",
+				"Erbivori": "«Erbivori» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano gli animali che si nutrono solo di piante?».",
+				"Onnivori": "«Onnivori» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano gli animali che mangiano sia piante sia altri animali?».",
+				"Respirazione cellulare": "«Respirazione cellulare» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il processo con cui gli esseri viventi ricavano energia usando l'ossigeno?».",
+				"radice": "«radice» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la parte della pianta che assorbe acqua dal terreno?».",
+				"mammiferi": "«mammiferi» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano gli animali che allattano i propri piccoli?»."
+			}
 		},
 		{
 			"id": "scienze-viventi-132",
@@ -2541,7 +2802,17 @@
 			"options": [],
 			"answer": "mammiferi",
 			"accept": [],
-			"explanation": "Allattano, hanno peli e temperatura costante: anche la balena è un mammifero."
+			"explanation": "Allattano, hanno peli e temperatura costante: anche la balena è un mammifero.",
+			"distractorWhy": {
+				"La cellula": "«La cellula» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di base di tutti gli esseri viventi?».",
+				"Le radici": "«Le radici» è la risposta giusta a un'altra domanda di questo gruppo: «Quale parte della pianta assorbe l'acqua dal terreno?».",
+				"Ossigeno": "«Ossigeno» è la risposta giusta a un'altra domanda di questo gruppo: «Quale gas rilasciano le piante durante la fotosintesi?».",
+				"Erbivori": "«Erbivori» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano gli animali che si nutrono solo di piante?».",
+				"Onnivori": "«Onnivori» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano gli animali che mangiano sia piante sia altri animali?».",
+				"Respirazione cellulare": "«Respirazione cellulare» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il processo con cui gli esseri viventi ricavano energia usando l'ossigeno?».",
+				"radice": "«radice» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la parte della pianta che assorbe acqua dal terreno?».",
+				"cellula": "«cellula» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'unità più piccola di cui sono fatti tutti gli esseri viventi?»."
+			}
 		},
 		{
 			"id": "scienze-ambiente-133",
@@ -2556,7 +2827,14 @@
 				"bidone della carta",
 				"contenitore della carta"
 			],
-			"explanation": "Ogni materiale ha il suo contenitore: mescolarli manda tutto in discarica."
+			"explanation": "Ogni materiale ha il suo contenitore: mescolarli manda tutto in discarica.",
+			"distractorWhy": {
+				"Il vento": "«Il vento» è la risposta giusta a un'altra domanda di questo gruppo: «Quale di queste è una fonte di energia rinnovabile?».",
+				"Fare la raccolta differenziata": "«Fare la raccolta differenziata» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa dovremmo fare con carta, plastica e vetro per aiutare l'ambiente?».",
+				"Riscaldamento globale": "«Riscaldamento globale» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"riciclo": "«riciclo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la trasformazione dei rifiuti in materiali di nuovo utilizzabili?».",
+				"inquinante": "«inquinante» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama una sostanza che sporca e danneggia aria, acqua o suolo?»."
+			}
 		},
 		{
 			"id": "scienze-viventi-134",
@@ -2571,7 +2849,17 @@
 				"petali",
 				"i petali"
 			],
-			"explanation": "Colore e profumo servono a farsi trovare da chi trasporta il polline."
+			"explanation": "Colore e profumo servono a farsi trovare da chi trasporta il polline.",
+			"distractorWhy": {
+				"La cellula": "«La cellula» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di base di tutti gli esseri viventi?».",
+				"Le radici": "«Le radici» è la risposta giusta a un'altra domanda di questo gruppo: «Quale parte della pianta assorbe l'acqua dal terreno?».",
+				"Ossigeno": "«Ossigeno» è la risposta giusta a un'altra domanda di questo gruppo: «Quale gas rilasciano le piante durante la fotosintesi?».",
+				"Erbivori": "«Erbivori» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano gli animali che si nutrono solo di piante?».",
+				"Onnivori": "«Onnivori» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano gli animali che mangiano sia piante sia altri animali?».",
+				"Respirazione cellulare": "«Respirazione cellulare» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il processo con cui gli esseri viventi ricavano energia usando l'ossigeno?».",
+				"radice": "«radice» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la parte della pianta che assorbe acqua dal terreno?».",
+				"cellula": "«cellula» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'unità più piccola di cui sono fatti tutti gli esseri viventi?»."
+			}
 		},
 		{
 			"id": "scienze-corpo-135",
@@ -2586,7 +2874,17 @@
 				"orecchie",
 				"l'orecchio"
 			],
-			"explanation": "Raccoglie le vibrazioni dell'aria e le trasforma in segnali per il cervello."
+			"explanation": "Raccoglie le vibrazioni dell'aria e le trasforma in segnali per il cervello.",
+			"distractorWhy": {
+				"Il sangue": "«Il sangue» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa trasporta l'ossigeno dai polmoni al resto del corpo?».",
+				"Il cervello": "«Il cervello» è la risposta giusta a un'altra domanda di questo gruppo: «Quale organo ci permette di pensare e comandare il corpo?».",
+				"Il cuore": "«Il cuore» è la risposta giusta a un'altra domanda di questo gruppo: «Quale organo pompa il sangue nel corpo?».",
+				"I polmoni": "«I polmoni» è la risposta giusta a un'altra domanda di questo gruppo: «In quale organo avviene lo scambio di ossigeno con il sangue?».",
+				"L'intestino": "«L'intestino» è la risposta giusta a un'altra domanda di questo gruppo: «In quale organo il cibo digerito viene assorbito nel sangue?».",
+				"cuore": "«cuore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'organo che pompa il sangue in tutto il corpo?».",
+				"polmoni": "«polmoni» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano gli organi in cui il sangue prende ossigeno dall'aria?».",
+				"cervello": "«cervello» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'organo che comanda i movimenti e il pensiero?»."
+			}
 		},
 		{
 			"id": "scienze-terra-universo-136",
@@ -2601,7 +2899,17 @@
 				"pianeta",
 				"i pianeti"
 			],
-			"explanation": "Non brillano di luce propria: riflettono quella del Sole."
+			"explanation": "Non brillano di luce propria: riflettono quella del Sole.",
+			"distractorWhy": {
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti pianeti ci sono nel Sistema Solare?».",
+				"24": "«24» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto tempo impiega la Terra a girare su sé stessa?».",
+				"Mercurio": "«Mercurio» è la risposta giusta a un'altra domanda di questo gruppo: «Quale pianeta è il più vicino al Sole?».",
+				"Il Sole": "«Il Sole» è la risposta giusta a un'altra domanda di questo gruppo: «Attorno a cosa gira la Terra?».",
+				"La Luna": "«La Luna» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il satellite naturale della Terra?».",
+				"rotazione": "«rotazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il movimento della Terra attorno al proprio asse?».",
+				"rivoluzione": "«rivoluzione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il movimento della Terra attorno al Sole?».",
+				"Sole": "«Sole» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la stella attorno a cui gira la Terra?»."
+			}
 		},
 		{
 			"id": "scienze-ambiente-137",

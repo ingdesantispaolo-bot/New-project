@@ -209,10 +209,21 @@ const VOCI := {
 		"perche": "Sono parole giovani, spesso prese dall'inglese: capire da dove vengono aiuta a non confonderle.",
 		"come": "Chiediti se la parola descrive uno strumento, un'azione o un luogo: quasi tutte ricadono in queste tre.",
 	},
+	# Tre livelli, non tre sinonimi: 40 esercizi su questo argomento, e con una riga
+	# sola il bambino la rileggeva fino a 40 volte. Il secondo livello è il caso
+	# che di solito frega, il terzo il collegamento con qualcos'altro.
 	"italiano:emozioni-relazioni": {
-		"perche": "Avere una parola precisa per un'emozione serve a distinguerla dalle altre: chi ha più parole sente in modo più preciso.",
-		"come": "Chiediti se l'emozione è più forte o più debole di quella vicina: le sfumature stanno quasi sempre nell'intensità.",
+		"perche": [
+			"Avere una parola precisa per un'emozione serve a distinguerla dalle altre: chi ha più parole sente in modo più preciso.",
+			"Molte parole delle emozioni dicono un movimento del corpo: «commosso» vuol dire mosso insieme, «sconvolto» vuol dire rivoltato.",
+			"Le emozioni si distinguono anche per quanto durano: la rabbia è un lampo, il rancore resta. Due parole vicine separano spesso un momento da uno stato.",
+		],
+		"come": [
+			"Chiediti se l'emozione è più forte o più debole di quella vicina: le sfumature stanno quasi sempre nell'intensità.",
+			"Se due parole ti sembrano uguali, prova a usarle in una frase vera: quella sbagliata suonerà strana anche prima di sapere perché.",
+		],
 	},
+
 	"italiano:figure-retoriche": {
 		"perche": "Servono a dire una cosa in modo che si veda, non a decorare: la metafora fa vedere, il paragone fa confrontare.",
 		"come": "Se c'è «come» è una similitudine; se la cosa viene chiamata direttamente con un altro nome è una metafora.",
@@ -233,10 +244,21 @@ const VOCI := {
 		"perche": "Le regole di ortografia servono a far leggere a tutti lo stesso suono: senza, la stessa parola si leggerebbe in dieci modi.",
 		"come": "Quando dubiti, cerca una parola della stessa famiglia dove il suono si sente meglio.",
 	},
+	# Tre livelli, non tre sinonimi: 59 esercizi su questo argomento, e con una riga
+	# sola il bambino la rileggeva fino a 59 volte. Il secondo livello è il caso
+	# che di solito frega, il terzo il collegamento con qualcos'altro.
 	"italiano:pensiero-linguaggio": {
-		"perche": "Nominare bene una cosa serve a poterci ragionare sopra: senza la parola giusta il pensiero resta approssimativo.",
-		"come": "Prima chiediti chi fa che cosa, poi scegli la parola: l'ordine inverso porta a frasi belle che non dicono niente.",
+		"perche": [
+			"Nominare bene una cosa serve a poterci ragionare sopra: senza la parola giusta il pensiero resta approssimativo.",
+			"Molte parole del pensiero vengono dal greco e portano dentro un'immagine: «analisi» vuol dire sciogliere, «sintesi» vuol dire mettere insieme.",
+			"Le parole astratte si capiscono meglio a coppie — tema e argomento, ipotesi e conclusione, causa e conseguenza: da sole restano vaghe, in coppia si definiscono a vicenda.",
+		],
+		"come": [
+			"Prima chiediti chi fa che cosa, poi scegli la parola: l'ordine inverso porta a frasi belle che non dicono niente.",
+			"Quando una parola astratta non ti è chiara, prova a farne un esempio concreto: se non ci riesci, non l'hai ancora capita.",
+		],
 	},
+
 	"italiano:punteggiatura": {
 		"perche": "La punteggiatura serve a far sentire le pause al posto della voce, e cambia il senso: «andiamo a mangiare, nonna» non è «andiamo a mangiare nonna».",
 		"come": "Rileggi ad alta voce: dove ti fermi a prendere fiato, quasi sempre ci va un segno.",
@@ -325,62 +347,194 @@ const VOCI := {
 	},
 
 	# -- inglese ----------------------------------------------------------------
+	# Tre livelli, non tre sinonimi: 50 esercizi su questo argomento, e con una riga
+	# sola il bambino la rileggeva fino a 50 volte. Il secondo livello è il caso
+	# che di solito frega, il terzo il collegamento con qualcos'altro.
 	"inglese:actions": {
-		"perche": "I verbi d'azione inglesi sono corti e cambiano senso con la preposizione che segue: è lì che sta il significato.",
-		"come": "Impara il verbo insieme alla sua preposizione, mai da solo: «look» da solo non vuol dire quasi niente.",
+		"perche": [
+			"I verbi d'azione inglesi sono corti e cambiano senso con la preposizione che segue: è lì che sta il significato.",
+			"Il pezzo piccolo comanda il senso: «give up» non è «dare su», vuol dire arrendersi, e cambia tutto rispetto a «give».",
+			"Al passato quasi tutti i verbi aggiungono «-ed», ma i più usati sono irregolari — e sono irregolari proprio perché si usano tanto.",
+		],
+		"come": [
+			"Impara il verbo insieme alla sua preposizione, mai da solo: «look» da solo non vuol dire quasi niente.",
+			"Se non ricordi il verbo, prova con «do», «make», «get» o «take»: quattro verbi coprono un'enormità di azioni di tutti i giorni.",
+		],
 	},
+
+	# Tre livelli, non tre sinonimi: 50 esercizi su questo argomento, e con una riga
+	# sola il bambino la rileggeva fino a 50 volte. Il secondo livello è il caso
+	# che di solito frega, il terzo il collegamento con qualcos'altro.
 	"inglese:body-health": {
-		"perche": "Molte parole del corpo inglesi vengono dalle stesse radici delle nostre, ma quelle di uso quotidiano no: sono germaniche e vanno imparate a parte.",
-		"come": "Se la parola somiglia all'italiano è quasi sempre quella medica; se è corta e strana è quella di tutti i giorni.",
+		"perche": [
+			"Molte parole del corpo inglesi vengono dalle stesse radici delle nostre, ma quelle di uso quotidiano no: sono germaniche e vanno imparate a parte.",
+			"Per dire come stai l'inglese usa «have» dove l'italiano usa «essere»: si dice «I have a headache», non «io sono mal di testa».",
+			"Alcune parti del corpo cambiano al plurale in modo tutto loro: un dente è «tooth» e due sono «teeth», un piede è «foot» e due sono «feet».",
+		],
+		"come": [
+			"Se la parola somiglia all'italiano è quasi sempre quella medica; se è corta e strana è quella di tutti i giorni.",
+			"Quando parli di un dolore di' prima dove e poi che tipo: «my arm hurts» funziona sempre, anche senza la parola precisa.",
+		],
 	},
+
 	"inglese:connectors": {
 		"perche": "I connettivi dicono che rapporto c'è fra due frasi: cambiarli cambia il ragionamento, non lo stile.",
 		"come": "Chiediti se le due frasi si sommano, si oppongono o una spiega l'altra: il connettivo esce da lì.",
 	},
+	# Tre livelli, non tre sinonimi: 50 esercizi su questo argomento, e con una riga
+	# sola il bambino la rileggeva fino a 50 volte. Il secondo livello è il caso
+	# che di solito frega, il terzo il collegamento con qualcos'altro.
 	"inglese:data-science": {
-		"perche": "È il lessico che si trova nei grafici e nei testi scientifici, e ricompare uguale in ogni materia.",
-		"come": "Molte di queste parole sono latine passate dall'inglese: se somiglia all'italiano, fidati.",
+		"perche": [
+			"È il lessico che si trova nei grafici e nei testi scientifici, e ricompare uguale in ogni materia.",
+			"Nei grafici tornano sempre le stesse poche parole: «increase», «decrease», «average», «trend». Impararle apre qualunque grafico, in qualunque materia.",
+			"Attenzione ai numeri: l'inglese usa il punto dove noi usiamo la virgola, quindi «1.5» è uno e mezzo, non millecinquecento.",
+		],
+		"come": [
+			"Molte di queste parole sono latine passate dall'inglese: se somiglia all'italiano, fidati.",
+			"Davanti a un grafico chiediti prima che cosa c'è sui due assi: senza quello nessuna parola del testo ti aiuta.",
+		],
 	},
+
+	# Tre livelli, non tre sinonimi: 40 esercizi su questo argomento, e con una riga
+	# sola il bambino la rileggeva fino a 40 volte. Il secondo livello è il caso
+	# che di solito frega, il terzo il collegamento con qualcos'altro.
 	"inglese:digital-media": {
-		"perche": "Sono parole che usi già in italiano senza tradurle, quindi qui il lavoro è ricordarne il senso originale.",
-		"come": "Chiediti che cosa vuol dire la parola in inglese normale: «stream» è un ruscello, e spiega perché si chiama così.",
+		"perche": [
+			"Sono parole che usi già in italiano senza tradurle, quindi qui il lavoro è ricordarne il senso originale.",
+			"Le parole digitali sono quasi tutte metafore: «mouse» vuol dire topo, e il nome viene dalla forma con la coda.",
+			"L'inglese trasforma un nome in verbo senza cambiarlo: «to google», «to text», «to stream» sono nati così, e in italiano li usiamo uguali.",
+		],
+		"come": [
+			"Chiediti che cosa vuol dire la parola in inglese normale: «stream» è un ruscello, e spiega perché si chiama così.",
+			"Quando incontri una parola tecnica cerca il suo senso comune: quasi sempre è una metafora, e la metafora te la fa ricordare.",
+		],
 	},
+
+	# Tre livelli, non tre sinonimi: 160 esercizi su questo argomento, e con una riga
+	# sola il bambino la rileggeva fino a 160 volte. Il secondo livello è il caso
+	# che di solito frega, il terzo il collegamento con qualcos'altro.
 	"inglese:everyday-phrases": {
-		"perche": "Le frasi fatte non si costruiscono parola per parola: «take a photo» non si traduce con «prendere».",
-		"come": "Impara il blocco intero, verbo compreso. Se provi a costruirlo dall'italiano sbagli il verbo quasi sempre.",
+		"perche": [
+			"Le frasi fatte non si costruiscono parola per parola: «take a photo» non si traduce con «prendere».",
+			"Molte frasi di tutti i giorni sono più corte in inglese che in italiano: «Here you are» dice quello che noi diciamo con «ecco, prego, tieni».",
+			"Le frasi fatte cambiano con la persona che hai davanti: «What's up?» fra amici e «How do you do?» con un adulto dicono la stessa cosa in due mondi diversi.",
+		],
+		"come": [
+			"Impara il blocco intero, verbo compreso. Se provi a costruirlo dall'italiano sbagli il verbo quasi sempre.",
+			"Quando la frase non ti viene, di' la cosa più semplice che sai dire: in inglese una frase corta e giusta vale più di una lunga tradotta a pezzi.",
+		],
 	},
+
 	"inglese:false-friends": {
 		"perche": "Sono parole che somigliano alle nostre e vogliono dire altro, e proprio la somiglianza le rende pericolose.",
 		"come": "Se una parola inglese sembra troppo facile, fermati: i falsi amici si travestono da parole che sai già.",
 	},
+	# Tre livelli, non tre sinonimi: 49 esercizi su questo argomento, e con una riga
+	# sola il bambino la rileggeva fino a 49 volte. Il secondo livello è il caso
+	# che di solito frega, il terzo il collegamento con qualcos'altro.
 	"inglese:feelings-opinions": {
-		"perche": "Per dire un'opinione l'inglese usa formule fisse, e sbagliarle suona brusco anche quando le parole sono giuste.",
-		"come": "Ricorda che l'inglese ammorbidisce con «I think» e «maybe» dove noi cambieremmo solo il tono.",
+		"perche": [
+			"Per dire un'opinione l'inglese usa formule fisse, e sbagliarle suona brusco anche quando le parole sono giuste.",
+			"Gli aggettivi in «-ed» dicono come stai tu, quelli in «-ing» come è la cosa: «I am bored» è annoiato, «it is boring» è noioso.",
+			"Per non essere brusco l'inglese aggiunge parole invece di cambiare tono: «I'm afraid», «actually», «a bit» ammorbidiscono una frase dura.",
+		],
+		"come": [
+			"Ricorda che l'inglese ammorbidisce con «I think» e «maybe» dove noi cambieremmo solo il tono.",
+			"Prima di dire un'opinione forte mettici davanti «I think»: trasforma una sentenza in un parere, ed è quello che l'inglese si aspetta.",
+		],
 	},
+
+	# Tre livelli, non tre sinonimi: 71 esercizi su questo argomento, e con una riga
+	# sola il bambino la rileggeva fino a 71 volte. Il secondo livello è il caso
+	# che di solito frega, il terzo il collegamento con qualcos'altro.
 	"inglese:food-shopping": {
-		"perche": "Con il cibo l'inglese distingue quello che si conta da quello che non si conta, e cambia la parola davanti.",
-		"come": "Chiediti se puoi dire «due»: se sì è «many», se no è «much». È la stessa regola per tutto.",
+		"perche": [
+			"Con il cibo l'inglese distingue quello che si conta da quello che non si conta, e cambia la parola davanti.",
+			"In un negozio inglese si chiede con una domanda, non con un ordine: «Can I have…?» dove noi diciamo «mi dia».",
+			"Molti animali cambiano nome una volta cotti: il maiale è «pig», la sua carne è «pork»; la mucca è «cow», la sua carne è «beef».",
+		],
+		"come": [
+			"Chiediti se puoi dire «due»: se sì è «many», se no è «much». È la stessa regola per tutto.",
+			"Prima di scegliere «much» o «many», immagina la cosa sul tavolo: se puoi contarla a pezzi è «many», se devi pesarla è «much».",
+		],
 	},
+
+	# Tre livelli, non tre sinonimi: 78 esercizi su questo argomento, e con una riga
+	# sola il bambino la rileggeva fino a 78 volte. Il secondo livello è il caso
+	# che di solito frega, il terzo il collegamento con qualcos'altro.
 	"inglese:home-family": {
-		"perche": "L'inglese ha meno parole di parentela dell'italiano e le specifica con un aggettivo.",
-		"come": "Quando manca la parola precisa, l'inglese la costruisce: «grand-», «step-», «-in-law» funzionano come pezzi.",
+		"perche": [
+			"L'inglese ha meno parole di parentela dell'italiano e le specifica con un aggettivo.",
+			"In inglese non c'è una parola per «cugino» e una per «cugina»: «cousin» vale per tutti e due, e chi parla non lo specifica se non serve.",
+			"Molte parole di casa sono due pezzi che conosci già incollati insieme: «bedroom» è la stanza del letto, «bathroom» quella del bagno.",
+		],
+		"come": [
+			"Quando manca la parola precisa, l'inglese la costruisce: «grand-», «step-», «-in-law» funzionano come pezzi.",
+			"Davanti a un nome di parentela metti sempre il possessivo: in inglese si dice «my mother», e senza «my» la frase resta incompleta.",
+		],
 	},
+
+	# Tre livelli, non tre sinonimi: 63 esercizi su questo argomento, e con una riga
+	# sola il bambino la rileggeva fino a 63 volte. Il secondo livello è il caso
+	# che di solito frega, il terzo il collegamento con qualcos'altro.
 	"inglese:jobs-community": {
-		"perche": "Quasi tutti i nomi di mestiere inglesi sono il verbo più «-er»: è una regola, non un elenco.",
-		"come": "Trova il verbo dentro il nome: «teacher» è chi fa «teach», e vale per la maggior parte degli altri.",
+		"perche": [
+			"Quasi tutti i nomi di mestiere inglesi sono il verbo più «-er»: è una regola, non un elenco.",
+			"La regola del «-er» ha le sue eccezioni, e sono i mestieri più antichi: «doctor», «nurse» e «chef» vengono da altre lingue e non la seguono.",
+			"In inglese il mestiere vuole l'articolo: si dice «She is a teacher», mai «She is teacher». È una delle differenze che si sentono di più.",
+		],
+		"come": [
+			"Trova il verbo dentro il nome: «teacher» è chi fa «teach», e vale per la maggior parte degli altri.",
+			"Se non conosci il nome del mestiere, dillo con quello che la persona fa: «the person who fixes cars» si capisce benissimo.",
+		],
 	},
+
+	# Tre livelli, non tre sinonimi: 40 esercizi su questo argomento, e con una riga
+	# sola il bambino la rileggeva fino a 40 volte. Il secondo livello è il caso
+	# che di solito frega, il terzo il collegamento con qualcos'altro.
 	"inglese:leisure-culture": {
-		"perche": "Sono le parole con cui si parla di quello che piace fare, e servono più di molte altre in una conversazione vera.",
-		"come": "Legale al verbo che le regge: «play» per gli sport con la palla, «go» per quelli che finiscono in -ing.",
+		"perche": [
+			"Sono le parole con cui si parla di quello che piace fare, e servono più di molte altre in una conversazione vera.",
+			"«Play» vale per gli sport e per gli strumenti, ma con lo strumento vuole l'articolo: «play football» e «play the guitar».",
+			"Per le attività del tempo libero l'inglese usa «go» più il verbo in «-ing»: «go swimming», «go shopping». Una formula sola per decine di attività.",
+		],
+		"come": [
+			"Legale al verbo che le regge: «play» per gli sport con la palla, «go» per quelli che finiscono in -ing.",
+			"Se non ricordi il verbo giusto, guarda come finisce l'attività: se finisce in «-ing» è quasi sempre «go».",
+		],
 	},
+
+	# Tre livelli, non tre sinonimi: 45 esercizi su questo argomento, e con una riga
+	# sola il bambino la rileggeva fino a 45 volte. Il secondo livello è il caso
+	# che di solito frega, il terzo il collegamento con qualcos'altro.
 	"inglese:nature-environment": {
-		"perche": "Il lessico ambientale è quasi tutto internazionale, e riconoscerlo apre anche i testi scientifici.",
-		"come": "Se la parola compare uguale in italiano, è quasi sempre vera anche in inglese: sono termini presi dal latino.",
+		"perche": [
+			"Il lessico ambientale è quasi tutto internazionale, e riconoscerlo apre anche i testi scientifici.",
+			"Nello stesso testo convivono due famiglie di parole: quelle corte e antiche — «tree», «leaf», «wood» — e quelle lunghe e latine della scienza.",
+			"L'inglese separa il tempo di oggi dal clima di sempre con due parole diverse: «weather» è che tempo fa adesso, «climate» è com'è di solito.",
+		],
+		"come": [
+			"Se la parola compare uguale in italiano, è quasi sempre vera anche in inglese: sono termini presi dal latino.",
+			"Se una parola dell'ambiente ti somiglia, provala: in questo campo la somiglianza funziona quasi sempre, perché il termine viene dal latino come il nostro.",
+		],
 	},
+
+	# Tre livelli, non tre sinonimi: 50 esercizi su questo argomento, e con una riga
+	# sola il bambino la rileggeva fino a 50 volte. Il secondo livello è il caso
+	# che di solito frega, il terzo il collegamento con qualcos'altro.
 	"inglese:objects": {
-		"perche": "I nomi degli oggetti sono corti e antichi, e per questo somigliano poco all'italiano.",
-		"come": "Legali a una stanza: ricordare «gli oggetti della cucina» funziona meglio di un elenco alfabetico.",
+		"perche": [
+			"I nomi degli oggetti sono corti e antichi, e per questo somigliano poco all'italiano.",
+			"Molti oggetti si chiamano con il loro mestiere: uno «screwdriver» è «chi gira le viti», un «hairdryer» è «chi asciuga i capelli».",
+			"Alcuni oggetti di tutti i giorni in inglese sono già plurali — «trousers», «scissors», «glasses» — perché sono fatti di due pezzi uguali.",
+		],
+		"come": [
+			"Legali a una stanza: ricordare «gli oggetti della cucina» funziona meglio di un elenco alfabetico.",
+			"Se non sai il nome, descrivi la forma o l'uso: «the thing you cut paper with» porta all'oggetto giusto quasi sempre.",
+		],
 	},
+
 	"inglese:safety": {
 		"perche": "Sono le parole dei cartelli e delle istruzioni: si leggono di fretta e devono essere capite al primo colpo.",
 		"come": "Impara prima i verbi all'imperativo: sui cartelli l'inglese usa quasi solo quelli.",
@@ -389,14 +543,36 @@ const VOCI := {
 		"perche": "Sono le formule per chiedere aiuto e chiarimenti, cioè le più utili quando non capisci il resto.",
 		"come": "Tieni pronte tre frasi: chiedere di ripetere, chiedere di rallentare, chiedere che cosa vuol dire una parola.",
 	},
+	# Tre livelli, non tre sinonimi: 53 esercizi su questo argomento, e con una riga
+	# sola il bambino la rileggeva fino a 53 volte. Il secondo livello è il caso
+	# che di solito frega, il terzo il collegamento con qualcos'altro.
 	"inglese:time-weather": {
-		"perche": "L'inglese usa «it» come soggetto vuoto per il tempo atmosferico: «it rains» non ha un «esso» che piove.",
-		"come": "Ricorda che le frasi sul tempo cominciano quasi sempre con «it is»: manca il soggetto e l'inglese lo inventa.",
+		"perche": [
+			"L'inglese usa «it» come soggetto vuoto per il tempo atmosferico: «it rains» non ha un «esso» che piove.",
+			"L'inglese conta le ore in due metà da dodici: senza «a.m.» o «p.m.» le sette del mattino e le sette di sera si scrivono nello stesso modo.",
+			"Giorni e mesi in inglese vogliono sempre la maiuscola — «Monday», «July» — mentre in italiano no: è l'errore più facile da fare per chi scrive.",
+		],
+		"come": [
+			"Ricorda che le frasi sul tempo cominciano quasi sempre con «it is»: manca il soggetto e l'inglese lo inventa.",
+			"Per l'orario parti dai minuti e non dall'ora: «half past» e «quarter to» dicono prima quanto manca o quanto è passato.",
+		],
 	},
+
+	# Tre livelli, non tre sinonimi: 87 esercizi su questo argomento, e con una riga
+	# sola il bambino la rileggeva fino a 87 volte. Il secondo livello è il caso
+	# che di solito frega, il terzo il collegamento con qualcos'altro.
 	"inglese:travel-places": {
-		"perche": "Le preposizioni di luogo inglesi non corrispondono alle nostre: «in» e «at» dividono spazi che l'italiano non divide.",
-		"come": "«At» è un punto, «in» è dentro qualcosa, «on» è sopra una superficie. Chiediti quale delle tre è il posto.",
+		"perche": [
+			"Le preposizioni di luogo inglesi non corrispondono alle nostre: «in» e «at» dividono spazi che l'italiano non divide.",
+			"I nomi dei luoghi inglesi dicono spesso a che cosa servono: un «bookshop» è il negozio dei libri, una «bus stop» è dove l'autobus si ferma.",
+			"Chiedere la strada in inglese è una formula fissa: «Excuse me, where is…?» apre quasi tutte le domande, e cambia solo il posto alla fine.",
+		],
+		"come": [
+			"«At» è un punto, «in» è dentro qualcosa, «on» è sopra una superficie. Chiediti quale delle tre è il posto.",
+			"Se sbagli fra «in», «at» e «on», prova a disegnare il posto: dentro una scatola è «in», sopra un tavolo è «on», un punto sulla mappa è «at».",
+		],
 	},
+
 	"inglese:nouns": {
 		"perche": "I nomi inglesi distinguono se una cosa si può contare o no, e questo cambia l'articolo e il plurale che puoi usare.",
 		"come": "Chiediti se puoi dire «due» davanti a quella parola: se sì è numerabile e ha un plurale, se no resta sempre al singolare.",
@@ -870,10 +1046,21 @@ const VOCI := {
 	},
 
 	# -- geografia --------------------------------------------------------------
+	# Tre livelli, non tre sinonimi: 56 esercizi su questo argomento, e con una riga
+	# sola il bambino la rileggeva fino a 56 volte. Il secondo livello è il caso
+	# che di solito frega, il terzo il collegamento con qualcos'altro.
 	"geografia:capitali": {
-		"perche": "Le capitali quasi mai sono al centro geografico: stanno dove passavano i commerci, i fiumi o il potere.",
-		"come": "Lega la capitale a un fiume o a una costa: quasi tutte sono nate lì, e il nome resta attaccato al posto.",
+		"perche": [
+			"Le capitali quasi mai sono al centro geografico: stanno dove passavano i commerci, i fiumi o il potere.",
+			"Una capitale non è per forza la città più grande: negli Stati Uniti comanda Washington ma la più grande è New York, e in Turchia comanda Ankara ma la più grande è Istanbul.",
+			"Alcune capitali sono state costruite apposta, in mezzo al paese, per non dare il potere a una città già ricca: Brasilia e Canberra sono nate così.",
+		],
+		"come": [
+			"Lega la capitale a un fiume o a una costa: quasi tutte sono nate lì, e il nome resta attaccato al posto.",
+			"Se due capitali ti si confondono, aggancia ognuna a una cosa sola del suo paese — un fiume, un monumento, un mare — e non si scambiano più.",
+		],
 	},
+
 	"geografia:climi": {
 		"perche": "Il clima dipende da quanta luce solare arriva e da quanto è vicino il mare: sono due cause, e spiegano quasi tutte le fasce.",
 		"come": "Guarda la latitudine e poi la distanza dal mare. Con quelle due il clima si indovina quasi sempre.",

@@ -1314,7 +1314,17 @@
 			"prompt": "Con 12 volt e una resistenza di 4 ohm, quanti ampere passano?",
 			"options": [],
 			"answer": "3",
-			"explanation": "Corrente = tensione diviso resistenza: 12 diviso 4 fa 3 ampere."
+			"explanation": "Corrente = tensione diviso resistenza: 12 diviso 4 fa 3 ampere.",
+			"distractorWhy": {
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti volt servono per far passare 2 ampere in una resistenza di 5 ohm?».",
+				"20": "«20» è la risposta giusta a un'altra domanda di questo gruppo: «Un apparecchio a 10 volt che assorbe 2 ampere, quanti watt consuma?».",
+				"Ampere": "«Ampere» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la corrente elettrica?».",
+				"Volt": "«Volt» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la tensione?».",
+				"Ohm": "«Ohm» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la resistenza?».",
+				"Watt": "«Watt» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la potenza elettrica?».",
+				"L'energia consumata nel tempo": "«L'energia consumata nel tempo» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa misura il contatore di casa?».",
+				"Un quarto di ampere": "«Un quarto di ampere» è la risposta giusta a un'altra domanda di questo gruppo: «Su un multimetro leggi «250 mA». Quanta corrente è?»."
+			}
 		},
 		{
 			"id": "elettronica-misure-elettriche-29",
@@ -1325,7 +1335,17 @@
 			"prompt": "Quanti volt servono per far passare 2 ampere in una resistenza di 5 ohm?",
 			"options": [],
 			"answer": "10",
-			"explanation": "La legge di Ohm girata dall'altra parte: tensione = resistenza per corrente, 5 × 2 fa 10 volt."
+			"explanation": "La legge di Ohm girata dall'altra parte: tensione = resistenza per corrente, 5 × 2 fa 10 volt.",
+			"distractorWhy": {
+				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «Con 12 volt e una resistenza di 4 ohm, quanti ampere passano?».",
+				"20": "«20» è la risposta giusta a un'altra domanda di questo gruppo: «Un apparecchio a 10 volt che assorbe 2 ampere, quanti watt consuma?».",
+				"Ampere": "«Ampere» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la corrente elettrica?».",
+				"Volt": "«Volt» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la tensione?».",
+				"Ohm": "«Ohm» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la resistenza?».",
+				"Watt": "«Watt» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la potenza elettrica?».",
+				"L'energia consumata nel tempo": "«L'energia consumata nel tempo» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa misura il contatore di casa?».",
+				"Un quarto di ampere": "«Un quarto di ampere» è la risposta giusta a un'altra domanda di questo gruppo: «Su un multimetro leggi «250 mA». Quanta corrente è?»."
+			}
 		},
 		{
 			"id": "elettronica-misure-elettriche-30",
@@ -1378,7 +1398,17 @@
 			"prompt": "Un apparecchio a 10 volt che assorbe 2 ampere, quanti watt consuma?",
 			"options": [],
 			"answer": "20",
-			"explanation": "Potenza = tensione × corrente: 10 × 2 fa 20 watt."
+			"explanation": "Potenza = tensione × corrente: 10 × 2 fa 20 watt.",
+			"distractorWhy": {
+				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «Con 12 volt e una resistenza di 4 ohm, quanti ampere passano?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti volt servono per far passare 2 ampere in una resistenza di 5 ohm?».",
+				"Ampere": "«Ampere» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la corrente elettrica?».",
+				"Volt": "«Volt» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la tensione?».",
+				"Ohm": "«Ohm» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la resistenza?».",
+				"Watt": "«Watt» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la potenza elettrica?».",
+				"L'energia consumata nel tempo": "«L'energia consumata nel tempo» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa misura il contatore di casa?».",
+				"Un quarto di ampere": "«Un quarto di ampere» è la risposta giusta a un'altra domanda di questo gruppo: «Su un multimetro leggi «250 mA». Quanta corrente è?»."
+			}
 		},
 		{
 			"id": "elettronica-misure-elettriche-33",
@@ -2338,7 +2368,17 @@
 				"il volt",
 				"V"
 			],
-			"explanation": "Si misura fra due punti, mai in un punto solo."
+			"explanation": "Si misura fra due punti, mai in un punto solo.",
+			"distractorWhy": {
+				"Lo scalda": "«Lo scalda» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa fa la corrente attraversando un filo sottile?».",
+				"Resta uguale": "«Resta uguale» è la risposta giusta a un'altra domanda di questo gruppo: «Se raddoppi la resistenza e raddoppi la tensione, la corrente…».",
+				"La corrente elettrica": "«La corrente elettrica» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa fa accendere una lampadina in un circuito?».",
+				"Corrente elettrica": "«Corrente elettrica» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il flusso di cariche elettriche in un filo?».",
+				"Tensione (voltaggio)": "«Tensione (voltaggio)» è la risposta giusta a un'altra domanda di questo gruppo: «La 'spinta' che mette in movimento la corrente si chiama…».",
+				"ampere": "«ampere» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della corrente elettrica?».",
+				"ohm": "«ohm» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della resistenza elettrica?».",
+				"watt": "«watt» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della potenza elettrica?»."
+			}
 		},
 		{
 			"id": "elettronica-elettricita-base-79",
@@ -2354,7 +2394,17 @@
 				"A",
 				"amper"
 			],
-			"explanation": "Dice quanta carica passa in un secondo."
+			"explanation": "Dice quanta carica passa in un secondo.",
+			"distractorWhy": {
+				"Lo scalda": "«Lo scalda» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa fa la corrente attraversando un filo sottile?».",
+				"Resta uguale": "«Resta uguale» è la risposta giusta a un'altra domanda di questo gruppo: «Se raddoppi la resistenza e raddoppi la tensione, la corrente…».",
+				"La corrente elettrica": "«La corrente elettrica» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa fa accendere una lampadina in un circuito?».",
+				"Corrente elettrica": "«Corrente elettrica» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il flusso di cariche elettriche in un filo?».",
+				"Tensione (voltaggio)": "«Tensione (voltaggio)» è la risposta giusta a un'altra domanda di questo gruppo: «La 'spinta' che mette in movimento la corrente si chiama…».",
+				"volt": "«volt» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della tensione elettrica?».",
+				"ohm": "«ohm» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della resistenza elettrica?».",
+				"watt": "«watt» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della potenza elettrica?»."
+			}
 		},
 		{
 			"id": "elettronica-elettricita-base-80",
@@ -2369,7 +2419,17 @@
 				"l'ohm",
 				"gli ohm"
 			],
-			"explanation": "Il simbolo è la lettera greca omega."
+			"explanation": "Il simbolo è la lettera greca omega.",
+			"distractorWhy": {
+				"Lo scalda": "«Lo scalda» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa fa la corrente attraversando un filo sottile?».",
+				"Resta uguale": "«Resta uguale» è la risposta giusta a un'altra domanda di questo gruppo: «Se raddoppi la resistenza e raddoppi la tensione, la corrente…».",
+				"La corrente elettrica": "«La corrente elettrica» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa fa accendere una lampadina in un circuito?».",
+				"Corrente elettrica": "«Corrente elettrica» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il flusso di cariche elettriche in un filo?».",
+				"Tensione (voltaggio)": "«Tensione (voltaggio)» è la risposta giusta a un'altra domanda di questo gruppo: «La 'spinta' che mette in movimento la corrente si chiama…».",
+				"volt": "«volt» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della tensione elettrica?».",
+				"ampere": "«ampere» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della corrente elettrica?».",
+				"watt": "«watt» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della potenza elettrica?»."
+			}
 		},
 		{
 			"id": "elettronica-elettricita-base-81",
@@ -2384,7 +2444,17 @@
 				"il watt",
 				"W"
 			],
-			"explanation": "Tensione per corrente: dice quanta energia si consuma ogni secondo."
+			"explanation": "Tensione per corrente: dice quanta energia si consuma ogni secondo.",
+			"distractorWhy": {
+				"Lo scalda": "«Lo scalda» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa fa la corrente attraversando un filo sottile?».",
+				"Resta uguale": "«Resta uguale» è la risposta giusta a un'altra domanda di questo gruppo: «Se raddoppi la resistenza e raddoppi la tensione, la corrente…».",
+				"La corrente elettrica": "«La corrente elettrica» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa fa accendere una lampadina in un circuito?».",
+				"Corrente elettrica": "«Corrente elettrica» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il flusso di cariche elettriche in un filo?».",
+				"Tensione (voltaggio)": "«Tensione (voltaggio)» è la risposta giusta a un'altra domanda di questo gruppo: «La 'spinta' che mette in movimento la corrente si chiama…».",
+				"volt": "«volt» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della tensione elettrica?».",
+				"ampere": "«ampere» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della corrente elettrica?».",
+				"ohm": "«ohm» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della resistenza elettrica?»."
+			}
 		},
 		{
 			"id": "elettronica-componenti-82",
@@ -2398,7 +2468,15 @@
 			"accept": [
 				"resistenza"
 			],
-			"explanation": "Il valore si legge dalle fasce colorate."
+			"explanation": "Il valore si legge dalle fasce colorate.",
+			"distractorWhy": {
+				"A limitare la corrente": "«A limitare la corrente» è la risposta giusta a un'altra domanda di questo gruppo: «A cosa serve un resistore in un circuito?».",
+				"condensatore": "«condensatore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che accumula carica fra due armature?».",
+				"diodo": "«diodo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che lascia passare la corrente in un verso solo?».",
+				"LED": "«LED» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il diodo che emette luce quando è attraversato dalla corrente?».",
+				"transistor": "«transistor» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente a tre terminali che amplifica o commuta un segnale?».",
+				"interruttore": "«interruttore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che apre e chiude un circuito a comando?»."
+			}
 		},
 		{
 			"id": "elettronica-componenti-83",
@@ -2413,7 +2491,15 @@
 				"il condensatore",
 				"un condensatore"
 			],
-			"explanation": "Si carica e si scarica: per questo serve nei filtri e nei temporizzatori."
+			"explanation": "Si carica e si scarica: per questo serve nei filtri e nei temporizzatori.",
+			"distractorWhy": {
+				"A limitare la corrente": "«A limitare la corrente» è la risposta giusta a un'altra domanda di questo gruppo: «A cosa serve un resistore in un circuito?».",
+				"resistore": "«resistore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che si oppone al passaggio della corrente?».",
+				"diodo": "«diodo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che lascia passare la corrente in un verso solo?».",
+				"LED": "«LED» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il diodo che emette luce quando è attraversato dalla corrente?».",
+				"transistor": "«transistor» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente a tre terminali che amplifica o commuta un segnale?».",
+				"interruttore": "«interruttore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che apre e chiude un circuito a comando?»."
+			}
 		},
 		{
 			"id": "elettronica-componenti-84",
@@ -2428,7 +2514,15 @@
 				"il diodo",
 				"un diodo"
 			],
-			"explanation": "Montato al contrario blocca tutto: il verso è indicato da una fascetta."
+			"explanation": "Montato al contrario blocca tutto: il verso è indicato da una fascetta.",
+			"distractorWhy": {
+				"A limitare la corrente": "«A limitare la corrente» è la risposta giusta a un'altra domanda di questo gruppo: «A cosa serve un resistore in un circuito?».",
+				"resistore": "«resistore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che si oppone al passaggio della corrente?».",
+				"condensatore": "«condensatore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che accumula carica fra due armature?».",
+				"LED": "«LED» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il diodo che emette luce quando è attraversato dalla corrente?».",
+				"transistor": "«transistor» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente a tre terminali che amplifica o commuta un segnale?».",
+				"interruttore": "«interruttore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che apre e chiude un circuito a comando?»."
+			}
 		},
 		{
 			"id": "elettronica-componenti-85",
@@ -2443,7 +2537,15 @@
 				"led",
 				"diodo led"
 			],
-			"explanation": "Va sempre alimentato con una resistenza in serie, altrimenti si brucia."
+			"explanation": "Va sempre alimentato con una resistenza in serie, altrimenti si brucia.",
+			"distractorWhy": {
+				"A limitare la corrente": "«A limitare la corrente» è la risposta giusta a un'altra domanda di questo gruppo: «A cosa serve un resistore in un circuito?».",
+				"resistore": "«resistore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che si oppone al passaggio della corrente?».",
+				"condensatore": "«condensatore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che accumula carica fra due armature?».",
+				"diodo": "«diodo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che lascia passare la corrente in un verso solo?».",
+				"transistor": "«transistor» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente a tre terminali che amplifica o commuta un segnale?».",
+				"interruttore": "«interruttore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che apre e chiude un circuito a comando?»."
+			}
 		},
 		{
 			"id": "elettronica-componenti-86",
@@ -2457,7 +2559,15 @@
 			"accept": [
 				"transistore"
 			],
-			"explanation": "Con una corrente piccola comanda una corrente grande: è la base dell'elettronica digitale."
+			"explanation": "Con una corrente piccola comanda una corrente grande: è la base dell'elettronica digitale.",
+			"distractorWhy": {
+				"A limitare la corrente": "«A limitare la corrente» è la risposta giusta a un'altra domanda di questo gruppo: «A cosa serve un resistore in un circuito?».",
+				"resistore": "«resistore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che si oppone al passaggio della corrente?».",
+				"condensatore": "«condensatore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che accumula carica fra due armature?».",
+				"diodo": "«diodo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che lascia passare la corrente in un verso solo?».",
+				"LED": "«LED» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il diodo che emette luce quando è attraversato dalla corrente?».",
+				"interruttore": "«interruttore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che apre e chiude un circuito a comando?»."
+			}
 		},
 		{
 			"id": "elettronica-componenti-87",
@@ -2472,7 +2582,15 @@
 				"l'interruttore",
 				"un interruttore"
 			],
-			"explanation": "Aperto interrompe il giro: senza giro chiuso non passa corrente."
+			"explanation": "Aperto interrompe il giro: senza giro chiuso non passa corrente.",
+			"distractorWhy": {
+				"A limitare la corrente": "«A limitare la corrente» è la risposta giusta a un'altra domanda di questo gruppo: «A cosa serve un resistore in un circuito?».",
+				"resistore": "«resistore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che si oppone al passaggio della corrente?».",
+				"condensatore": "«condensatore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che accumula carica fra due armature?».",
+				"diodo": "«diodo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che lascia passare la corrente in un verso solo?».",
+				"LED": "«LED» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il diodo che emette luce quando è attraversato dalla corrente?».",
+				"transistor": "«transistor» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente a tre terminali che amplifica o commuta un segnale?»."
+			}
 		},
 		{
 			"id": "elettronica-circuito-88",
@@ -2487,7 +2605,14 @@
 				"il circuito",
 				"circuito chiuso"
 			],
-			"explanation": "Se il percorso si interrompe in un punto solo, tutto si ferma."
+			"explanation": "Se il percorso si interrompe in un punto solo, tutto si ferma.",
+			"distractorWhy": {
+				"Chiuso": "«Chiuso» è la risposta giusta a un'altra domanda di questo gruppo: «Perché una lampadina si accenda, il circuito deve essere…».",
+				"La pila (batteria)": "«La pila (batteria)» è la risposta giusta a un'altra domanda di questo gruppo: «In una torcia, cosa fornisce l'energia elettrica?».",
+				"cortocircuito": "«cortocircuito» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"generatore": "«generatore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che fornisce energia al circuito?».",
+				"si spegne anche lei": "«si spegne anche lei» è la risposta giusta a un'altra domanda di questo gruppo: «Due lampadine uguali sono in serie e una si fulmina. L'altra che cosa fa?»."
+			}
 		},
 		{
 			"id": "elettronica-circuito-89",
@@ -2503,7 +2628,14 @@
 				"corto circuito",
 				"corto"
 			],
-			"explanation": "La corrente sceglie la via senza resistenza: scalda e brucia."
+			"explanation": "La corrente sceglie la via senza resistenza: scalda e brucia.",
+			"distractorWhy": {
+				"Chiuso": "«Chiuso» è la risposta giusta a un'altra domanda di questo gruppo: «Perché una lampadina si accenda, il circuito deve essere…».",
+				"La pila (batteria)": "«La pila (batteria)» è la risposta giusta a un'altra domanda di questo gruppo: «In una torcia, cosa fornisce l'energia elettrica?».",
+				"circuito": "«circuito» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il percorso chiuso in cui scorre la corrente?».",
+				"generatore": "«generatore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che fornisce energia al circuito?».",
+				"si spegne anche lei": "«si spegne anche lei» è la risposta giusta a un'altra domanda di questo gruppo: «Due lampadine uguali sono in serie e una si fulmina. L'altra che cosa fa?»."
+			}
 		},
 		{
 			"id": "elettronica-circuito-90",
@@ -2518,7 +2650,14 @@
 				"pila",
 				"batteria"
 			],
-			"explanation": "Pila, alimentatore, dinamo: cambia la forma, non il ruolo."
+			"explanation": "Pila, alimentatore, dinamo: cambia la forma, non il ruolo.",
+			"distractorWhy": {
+				"Chiuso": "«Chiuso» è la risposta giusta a un'altra domanda di questo gruppo: «Perché una lampadina si accenda, il circuito deve essere…».",
+				"La pila (batteria)": "«La pila (batteria)» è la risposta giusta a un'altra domanda di questo gruppo: «In una torcia, cosa fornisce l'energia elettrica?».",
+				"circuito": "«circuito» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il percorso chiuso in cui scorre la corrente?».",
+				"cortocircuito": "«cortocircuito» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"si spegne anche lei": "«si spegne anche lei» è la risposta giusta a un'altra domanda di questo gruppo: «Due lampadine uguali sono in serie e una si fulmina. L'altra che cosa fa?»."
+			}
 		},
 		{
 			"id": "elettronica-serie-parallelo-91",
@@ -2533,7 +2672,17 @@
 				"in serie",
 				"collegamento in serie"
 			],
-			"explanation": "Un componente che si guasta apre il circuito e spegne tutti gli altri."
+			"explanation": "Un componente che si guasta apre il circuito e spegne tutti gli altri.",
+			"distractorWhy": {
+				"La stessa in tutti": "«La stessa in tutti» è la risposta giusta a un'altra domanda di questo gruppo: «In un circuito in serie, la corrente che passa in ogni componente è…».",
+				"Doppia di una sola": "«Doppia di una sola» è la risposta giusta a un'altra domanda di questo gruppo: «Due resistenze uguali in serie danno una resistenza totale…».",
+				"Meno": "«Meno» è la risposta giusta a un'altra domanda di questo gruppo: «Tre lampadine identiche in serie brillano rispetto a una sola…».",
+				"Aumenta": "«Aumenta» è la risposta giusta a un'altra domanda di questo gruppo: «Aggiungendo un ramo in parallelo, la corrente totale erogata dalla pila…».",
+				"Si spengono": "«Si spengono» è la risposta giusta a un'altra domanda di questo gruppo: «In un collegamento in SERIE, se una lampadina si brucia, le altre…».",
+				"Restano accese": "«Restano accese» è la risposta giusta a un'altra domanda di questo gruppo: «In un collegamento in PARALLELO, se una lampadina si brucia, le altre…».",
+				"parallelo": "«parallelo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il collegamento in cui ogni componente ha la stessa tensione ai capi?».",
+				"raddoppia": "«raddoppia» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
+			}
 		},
 		{
 			"id": "elettronica-serie-parallelo-92",
@@ -2548,7 +2697,17 @@
 				"in parallelo",
 				"collegamento in parallelo"
 			],
-			"explanation": "Le lampadine di casa sono in parallelo: se una si fulmina, le altre restano accese."
+			"explanation": "Le lampadine di casa sono in parallelo: se una si fulmina, le altre restano accese.",
+			"distractorWhy": {
+				"La stessa in tutti": "«La stessa in tutti» è la risposta giusta a un'altra domanda di questo gruppo: «In un circuito in serie, la corrente che passa in ogni componente è…».",
+				"Doppia di una sola": "«Doppia di una sola» è la risposta giusta a un'altra domanda di questo gruppo: «Due resistenze uguali in serie danno una resistenza totale…».",
+				"Meno": "«Meno» è la risposta giusta a un'altra domanda di questo gruppo: «Tre lampadine identiche in serie brillano rispetto a una sola…».",
+				"Aumenta": "«Aumenta» è la risposta giusta a un'altra domanda di questo gruppo: «Aggiungendo un ramo in parallelo, la corrente totale erogata dalla pila…».",
+				"Si spengono": "«Si spengono» è la risposta giusta a un'altra domanda di questo gruppo: «In un collegamento in SERIE, se una lampadina si brucia, le altre…».",
+				"Restano accese": "«Restano accese» è la risposta giusta a un'altra domanda di questo gruppo: «In un collegamento in PARALLELO, se una lampadina si brucia, le altre…».",
+				"serie": "«serie» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il collegamento in cui la corrente ha un solo percorso possibile?».",
+				"raddoppia": "«raddoppia» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
+			}
 		},
 		{
 			"id": "elettronica-misure-elettriche-93",
@@ -2563,7 +2722,17 @@
 				"il voltmetro",
 				"un voltmetro"
 			],
-			"explanation": "Si collega in parallelo, ai capi del componente da misurare."
+			"explanation": "Si collega in parallelo, ai capi del componente da misurare.",
+			"distractorWhy": {
+				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «Con 12 volt e una resistenza di 4 ohm, quanti ampere passano?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti volt servono per far passare 2 ampere in una resistenza di 5 ohm?».",
+				"20": "«20» è la risposta giusta a un'altra domanda di questo gruppo: «Un apparecchio a 10 volt che assorbe 2 ampere, quanti watt consuma?».",
+				"Ampere": "«Ampere» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la corrente elettrica?».",
+				"Volt": "«Volt» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la tensione?».",
+				"Ohm": "«Ohm» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la resistenza?».",
+				"Watt": "«Watt» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la potenza elettrica?».",
+				"L'energia consumata nel tempo": "«L'energia consumata nel tempo» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa misura il contatore di casa?»."
+			}
 		},
 		{
 			"id": "elettronica-misure-elettriche-94",
@@ -2578,7 +2747,17 @@
 				"l'amperometro",
 				"un amperometro"
 			],
-			"explanation": "Si collega in serie: la corrente deve attraversarlo."
+			"explanation": "Si collega in serie: la corrente deve attraversarlo.",
+			"distractorWhy": {
+				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «Con 12 volt e una resistenza di 4 ohm, quanti ampere passano?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti volt servono per far passare 2 ampere in una resistenza di 5 ohm?».",
+				"20": "«20» è la risposta giusta a un'altra domanda di questo gruppo: «Un apparecchio a 10 volt che assorbe 2 ampere, quanti watt consuma?».",
+				"Ampere": "«Ampere» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la corrente elettrica?».",
+				"Volt": "«Volt» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la tensione?».",
+				"Ohm": "«Ohm» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la resistenza?».",
+				"Watt": "«Watt» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la potenza elettrica?».",
+				"L'energia consumata nel tempo": "«L'energia consumata nel tempo» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa misura il contatore di casa?»."
+			}
 		},
 		{
 			"id": "elettronica-misure-elettriche-95",
@@ -2593,7 +2772,17 @@
 				"il multimetro",
 				"tester"
 			],
-			"explanation": "Una manopola sceglie la grandezza: sbagliare portata è l'errore più comune."
+			"explanation": "Una manopola sceglie la grandezza: sbagliare portata è l'errore più comune.",
+			"distractorWhy": {
+				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «Con 12 volt e una resistenza di 4 ohm, quanti ampere passano?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti volt servono per far passare 2 ampere in una resistenza di 5 ohm?».",
+				"20": "«20» è la risposta giusta a un'altra domanda di questo gruppo: «Un apparecchio a 10 volt che assorbe 2 ampere, quanti watt consuma?».",
+				"Ampere": "«Ampere» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la corrente elettrica?».",
+				"Volt": "«Volt» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la tensione?».",
+				"Ohm": "«Ohm» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la resistenza?».",
+				"Watt": "«Watt» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la potenza elettrica?».",
+				"L'energia consumata nel tempo": "«L'energia consumata nel tempo» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa misura il contatore di casa?»."
+			}
 		},
 		{
 			"id": "elettronica-misure-elettriche-96",
@@ -2608,7 +2797,17 @@
 				"Ohm",
 				"legge di ohm"
 			],
-			"explanation": "V uguale R per I: da lì si ricava qualunque delle tre."
+			"explanation": "V uguale R per I: da lì si ricava qualunque delle tre.",
+			"distractorWhy": {
+				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «Con 12 volt e una resistenza di 4 ohm, quanti ampere passano?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti volt servono per far passare 2 ampere in una resistenza di 5 ohm?».",
+				"20": "«20» è la risposta giusta a un'altra domanda di questo gruppo: «Un apparecchio a 10 volt che assorbe 2 ampere, quanti watt consuma?».",
+				"Ampere": "«Ampere» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la corrente elettrica?».",
+				"Volt": "«Volt» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la tensione?».",
+				"Watt": "«Watt» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la potenza elettrica?».",
+				"L'energia consumata nel tempo": "«L'energia consumata nel tempo» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa misura il contatore di casa?».",
+				"Un quarto di ampere": "«Un quarto di ampere» è la risposta giusta a un'altra domanda di questo gruppo: «Su un multimetro leggi «250 mA». Quanta corrente è?»."
+			}
 		},
 		{
 			"id": "elettronica-conduttori-97",
@@ -2623,7 +2822,17 @@
 				"il conduttore",
 				"un conduttore"
 			],
-			"explanation": "I metalli conducono perché hanno elettroni liberi di muoversi."
+			"explanation": "I metalli conducono perché hanno elettroni liberi di muoversi.",
+			"distractorWhy": {
+				"Rame": "«Rame» è la risposta giusta a un'altra domanda di questo gruppo: «Quale materiale conduce meglio la corrente?».",
+				"Minore": "«Minore» è la risposta giusta a un'altra domanda di questo gruppo: «Un filo più grosso, a parità di lunghezza, ha una resistenza…».",
+				"No, quasi per niente": "«No, quasi per niente» è la risposta giusta a un'altra domanda di questo gruppo: «L'acqua pura conduce bene la corrente?».",
+				"isolante": "«isolante» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un materiale che non lascia passare la corrente?».",
+				"rame": "«rame» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il metallo più usato per i fili elettrici nelle case?».",
+				"semiconduttore": "«semiconduttore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un materiale che conduce solo in certe condizioni, come il silicio?».",
+				"Il rame": "«Il rame» è la risposta giusta a un'altra domanda di questo gruppo: «Quale di questi materiali conduce la corrente?».",
+				"La gomma": "«La gomma» è la risposta giusta a un'altra domanda di questo gruppo: «Quale di questi materiali NON conduce la corrente?»."
+			}
 		},
 		{
 			"id": "elettronica-conduttori-98",
@@ -2638,7 +2847,17 @@
 				"l'isolante",
 				"un isolante"
 			],
-			"explanation": "La plastica intorno ai fili è isolante: serve a tenere la corrente dentro il rame."
+			"explanation": "La plastica intorno ai fili è isolante: serve a tenere la corrente dentro il rame.",
+			"distractorWhy": {
+				"Rame": "«Rame» è la risposta giusta a un'altra domanda di questo gruppo: «Quale materiale conduce meglio la corrente?».",
+				"Minore": "«Minore» è la risposta giusta a un'altra domanda di questo gruppo: «Un filo più grosso, a parità di lunghezza, ha una resistenza…».",
+				"No, quasi per niente": "«No, quasi per niente» è la risposta giusta a un'altra domanda di questo gruppo: «L'acqua pura conduce bene la corrente?».",
+				"conduttore": "«conduttore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un materiale che lascia passare bene la corrente?».",
+				"rame": "«rame» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il metallo più usato per i fili elettrici nelle case?».",
+				"semiconduttore": "«semiconduttore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un materiale che conduce solo in certe condizioni, come il silicio?».",
+				"Il rame": "«Il rame» è la risposta giusta a un'altra domanda di questo gruppo: «Quale di questi materiali conduce la corrente?».",
+				"La gomma": "«La gomma» è la risposta giusta a un'altra domanda di questo gruppo: «Quale di questi materiali NON conduce la corrente?»."
+			}
 		},
 		{
 			"id": "elettronica-conduttori-99",
@@ -2652,7 +2871,16 @@
 			"accept": [
 				"il rame"
 			],
-			"explanation": "Conduce bene, si piega senza rompersi e costa meno dell'argento."
+			"explanation": "Conduce bene, si piega senza rompersi e costa meno dell'argento.",
+			"distractorWhy": {
+				"Minore": "«Minore» è la risposta giusta a un'altra domanda di questo gruppo: «Un filo più grosso, a parità di lunghezza, ha una resistenza…».",
+				"No, quasi per niente": "«No, quasi per niente» è la risposta giusta a un'altra domanda di questo gruppo: «L'acqua pura conduce bene la corrente?».",
+				"conduttore": "«conduttore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un materiale che lascia passare bene la corrente?».",
+				"isolante": "«isolante» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un materiale che non lascia passare la corrente?».",
+				"semiconduttore": "«semiconduttore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un materiale che conduce solo in certe condizioni, come il silicio?».",
+				"La gomma": "«La gomma» è la risposta giusta a un'altra domanda di questo gruppo: «Quale di questi materiali NON conduce la corrente?».",
+				"doppia": "«doppia» è la risposta giusta a un'altra domanda di questo gruppo: «Un filo di rame lungo il doppio, con lo stesso spessore, ha una resistenza…»."
+			}
 		},
 		{
 			"id": "elettronica-conduttori-100",
@@ -2667,7 +2895,17 @@
 				"il semiconduttore",
 				"un semiconduttore"
 			],
-			"explanation": "Su questa proprietà si costruiscono diodi e transistor."
+			"explanation": "Su questa proprietà si costruiscono diodi e transistor.",
+			"distractorWhy": {
+				"Rame": "«Rame» è la risposta giusta a un'altra domanda di questo gruppo: «Quale materiale conduce meglio la corrente?».",
+				"Minore": "«Minore» è la risposta giusta a un'altra domanda di questo gruppo: «Un filo più grosso, a parità di lunghezza, ha una resistenza…».",
+				"No, quasi per niente": "«No, quasi per niente» è la risposta giusta a un'altra domanda di questo gruppo: «L'acqua pura conduce bene la corrente?».",
+				"conduttore": "«conduttore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un materiale che lascia passare bene la corrente?».",
+				"isolante": "«isolante» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un materiale che non lascia passare la corrente?».",
+				"rame": "«rame» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il metallo più usato per i fili elettrici nelle case?».",
+				"Il rame": "«Il rame» è la risposta giusta a un'altra domanda di questo gruppo: «Quale di questi materiali conduce la corrente?».",
+				"La gomma": "«La gomma» è la risposta giusta a un'altra domanda di questo gruppo: «Quale di questi materiali NON conduce la corrente?»."
+			}
 		},
 		{
 			"id": "elettronica-sicurezza-elettrica-101",
@@ -2681,7 +2919,13 @@
 			"accept": [
 				"terra"
 			],
-			"explanation": "Offre alla corrente una strada che non passa per le persone."
+			"explanation": "Offre alla corrente una strada che non passa per le persone.",
+			"distractorWhy": {
+				"Pericolo di scossa elettrica": "«Pericolo di scossa elettrica» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa indica il simbolo di un fulmine su un quadro elettrico?».",
+				"interruttore magnetotermico": "«interruttore magnetotermico» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il dispositivo che si apre da solo quando passa troppa corrente?».",
+				"fusibile": "«fusibile» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"acqua": "«acqua» è la risposta giusta a un'altra domanda di questo gruppo: «Quale liquido rende molto più pericoloso il contatto con la corrente?»."
+			}
 		},
 		{
 			"id": "elettronica-sicurezza-elettrica-102",
@@ -2697,7 +2941,13 @@
 				"interruttore automatico",
 				"automatico"
 			],
-			"explanation": "Protegge i fili dal surriscaldamento. Non è il salvavita: quello scatta sulla corrente che si disperde, non su quella di troppo."
+			"explanation": "Protegge i fili dal surriscaldamento. Non è il salvavita: quello scatta sulla corrente che si disperde, non su quella di troppo.",
+			"distractorWhy": {
+				"Pericolo di scossa elettrica": "«Pericolo di scossa elettrica» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa indica il simbolo di un fulmine su un quadro elettrico?».",
+				"messa a terra": "«messa a terra» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il collegamento che porta a terra le correnti pericolose?».",
+				"fusibile": "«fusibile» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"acqua": "«acqua» è la risposta giusta a un'altra domanda di questo gruppo: «Quale liquido rende molto più pericoloso il contatto con la corrente?»."
+			}
 		},
 		{
 			"id": "elettronica-sicurezza-elettrica-103",
@@ -2712,7 +2962,13 @@
 				"il fusibile",
 				"un fusibile"
 			],
-			"explanation": "Si sacrifica lui al posto dell'impianto: va sostituito con uno dello stesso valore."
+			"explanation": "Si sacrifica lui al posto dell'impianto: va sostituito con uno dello stesso valore.",
+			"distractorWhy": {
+				"Pericolo di scossa elettrica": "«Pericolo di scossa elettrica» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa indica il simbolo di un fulmine su un quadro elettrico?».",
+				"messa a terra": "«messa a terra» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il collegamento che porta a terra le correnti pericolose?».",
+				"interruttore magnetotermico": "«interruttore magnetotermico» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il dispositivo che si apre da solo quando passa troppa corrente?».",
+				"acqua": "«acqua» è la risposta giusta a un'altra domanda di questo gruppo: «Quale liquido rende molto più pericoloso il contatto con la corrente?»."
+			}
 		},
 		{
 			"id": "elettronica-sicurezza-elettrica-104",
@@ -2726,7 +2982,13 @@
 			"accept": [
 				"l'acqua"
 			],
-			"explanation": "Con la pelle bagnata la resistenza del corpo crolla e passa più corrente."
+			"explanation": "Con la pelle bagnata la resistenza del corpo crolla e passa più corrente.",
+			"distractorWhy": {
+				"Pericolo di scossa elettrica": "«Pericolo di scossa elettrica» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa indica il simbolo di un fulmine su un quadro elettrico?».",
+				"messa a terra": "«messa a terra» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il collegamento che porta a terra le correnti pericolose?».",
+				"interruttore magnetotermico": "«interruttore magnetotermico» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il dispositivo che si apre da solo quando passa troppa corrente?».",
+				"fusibile": "«fusibile» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
+			}
 		},
 		{
 			"id": "elettronica-guasti-105",
@@ -2740,7 +3002,17 @@
 			"accept": [
 				"interruzione"
 			],
-			"explanation": "Un filo staccato basta: la corrente non salta il vuoto."
+			"explanation": "Un filo staccato basta: la corrente non salta il vuoto.",
+			"distractorWhy": {
+				"Filo mancante": "«Filo mancante» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"Interruttore aperto": "«Interruttore aperto» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"Resistenza assente": "«Resistenza assente» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"LED girato al contrario": "«LED girato al contrario» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"Resistenza sbagliata": "«Resistenza sbagliata» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"Componente scollegato": "«Componente scollegato» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"Sensore senza energia": "«Sensore senza energia» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"Ramo parallelo aperto": "«Ramo parallelo aperto» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
+			}
 		},
 		{
 			"id": "elettronica-guasti-106",
@@ -2756,7 +3028,17 @@
 				"l'alimentazione",
 				"alimentazione"
 			],
-			"explanation": "Prima di smontare tutto si verifica l'alimentazione: è il guasto più frequente."
+			"explanation": "Prima di smontare tutto si verifica l'alimentazione: è il guasto più frequente.",
+			"distractorWhy": {
+				"Filo mancante": "«Filo mancante» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"Interruttore aperto": "«Interruttore aperto» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"Resistenza assente": "«Resistenza assente» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"LED girato al contrario": "«LED girato al contrario» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"Resistenza sbagliata": "«Resistenza sbagliata» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"Componente scollegato": "«Componente scollegato» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"Sensore senza energia": "«Sensore senza energia» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"Ramo parallelo aperto": "«Ramo parallelo aperto» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
+			}
 		},
 		{
 			"id": "elettronica-elettricita-base-che-cosa-fornisce-l-energia-in-un-circuito-con-l",

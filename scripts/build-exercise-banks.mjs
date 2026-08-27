@@ -185,7 +185,6 @@ function timesItem(a, b, difficulty, rand, verso = "prodotto") {
     answer: String(answer),
     explanation,
   };
-  if (useNumeric) return { ...base, format: "numeric_input", options: [] };
   // Ogni candidato è un errore aritmetico preciso, non un numero a caso: la
   // stessa formula che lo genera dice perché è sbagliato, quindi la spiegazione
   // non va inventata a parte, va letta dalla formula (13 agosto 2026).
@@ -216,6 +215,16 @@ function timesItem(a, b, difficulty, rand, verso = "prodotto") {
     }
     if (distractors.length >= 3) break;
   }
+  // **La risposta aperta tiene i perché, non solo la scelta multipla.** (27
+  // agosto 2026) Prima l'item numerico usciva subito, tre righe più su, e questi
+  // candidati venivano buttati: settantasei esercizi di tabelline su cui il
+  // bambino poteva sbagliare senza ricevere una parola sul proprio errore.
+  //
+  // Eppure l'errore numerico è il più prevedibile che ci sia — chi sbaglia 3 × 2
+  // scrive 5 perché ha sommato — e il confronto funziona identico: NORA cerca
+  // quello che il bambino ha DIGITATO fra le chiavi, e una chiave «5» la trova
+  // come troverebbe un'opzione toccata. Verificato in scena, non solo in teoria.
+  if (useNumeric) return { ...base, format: "numeric_input", options: [], distractorWhy };
   const options = shuffle([answer, ...distractors], rand).map(String);
   return { ...base, format: "multiple_choice", options, distractorWhy };
 }
@@ -8161,6 +8170,76 @@ for (const [name, bank] of Object.entries(BANKS)) {
     mancanti--;
   }
 }
+
+// ---------------------------------------------------------------------------
+// LA CORREZIONE SULLE RISPOSTE APERTE (27 agosto 2026)
+// ---------------------------------------------------------------------------
+//
+// Su una scelta multipla il bambino tocca una delle quattro alternative e NORA
+// sa esattamente che cosa dirgli. Su una risposta aperta scrive quello che
+// vuole, e per 411 esercizi su 3569 non c'era nessuna correzione da dargli.
+//
+// Un errore però è prevedibile anche lì, ed è il più frequente di tutti in un
+// gioco che propone esercizi vicini uno dopo l'altro: **rispondere alla domanda
+// accanto.** Chi legge «Qual è la capitale della Francia?» e scrive «Madrid» non
+// ha sbagliato a caso: ha risposto a un'altra domanda dello stesso gruppo.
+//
+// Questa passata attacca a ogni risposta aperta le risposte giuste delle ALTRE
+// domande del suo argomento, ognuna con la domanda a cui appartiene davvero. È
+// informazione vera, presa dal banco, e non ne inventa nemmeno una parola.
+//
+// **Non copre ogni errore possibile, e non lo pretende.** Chi scrive «Berlino»
+// dove nessun esercizio del gruppo chiede Berlino resta senza correzione
+// specifica e riceve la spiegazione dell'esercizio, come prima. Coprire quel
+// caso vorrebbe dire inventare, ed è esattamente ciò che questa passata evita.
+function correzioniFraDomandeVicine(bank) {
+  const perTopic = new Map();
+  for (const item of bank.items) {
+    const chiave = String(item.topic ?? "");
+    perTopic.set(chiave, [...(perTopic.get(chiave) ?? []), item]);
+  }
+  for (const item of bank.items) {
+    if (item.format === "multiple_choice") continue;
+    const vicine = perTopic.get(String(item.topic ?? "")) ?? [];
+    if (vicine.length < 2) continue;
+    const why = { ...(item.distractorWhy ?? {}) };
+    for (const altra of vicine) {
+      if (altra.id === item.id) continue;
+      const sbagliata = String(altra.answer ?? "").trim();
+      if (!sbagliata) continue;
+      // **Mai dire «sbagliato» a una risposta che il gioco accetta.**
+      //
+      // Trovato da `risposta_unica_audit` su trentotto item appena scritta questa
+      // passata, ed era il difetto peggiore possibile: «Imperfetto» e
+      // «imperfetto» sono due voci diverse del banco ma la stessa risposta, e
+      // NORA avrebbe spiegato a un bambino che ha risposto GIUSTO perché la sua
+      // risposta è sbagliata. Il confronto va fatto con lo stesso metro del
+      // runtime — minuscole, virgola come punto — e tenendo conto della lista
+      // `accept`, che è fatta apposta per dire quali forme valgono.
+      const comeIlRuntime = (v) => String(v).toLocaleLowerCase("it").replace(/,/g, ".").trim();
+      const accettate = new Set(
+        [item.answer, ...(item.accept ?? [])].map(comeIlRuntime));
+      if (accettate.has(comeIlRuntime(sbagliata))) continue;
+      if (sbagliata in why) continue;
+      // **Solo quello che un bambino digiterebbe davvero.** Fra le risposte
+      // vicine ce ne sono di lunghe una riga — arrivano dalle scelte multiple,
+      // dove la risposta può essere un'affermazione intera. Nessuno le scrive a
+      // mano in un campo di testo: attaccarle gonfia il banco e conta come
+      // copertura una cosa che non coprirà mai niente.
+      if (sbagliata.length > 30 || sbagliata.split(/\s+/).length > 4) continue;
+      if (Object.keys(why).length >= 8) break;
+      // Una domanda su più righe (il codice Python di `coding`) non entra in una
+      // frase: si nomina il gruppo invece di ricopiare il listato.
+      const domanda = String(altra.prompt ?? "").replace(/\s+/g, " ").trim();
+      why[sbagliata] = domanda.length <= 90
+        ? `«${sbagliata}» è la risposta giusta a un'altra domanda di questo gruppo: «${domanda}».`
+        : `«${sbagliata}» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.`;
+    }
+    if (Object.keys(why).length > 0) item.distractorWhy = why;
+  }
+}
+
+for (const bank of Object.values(BANKS)) correzioniFraDomandeVicine(bank);
 
 await mkdir(outDir, { recursive: true });
 for (const [name, bank] of Object.entries(BANKS)) {

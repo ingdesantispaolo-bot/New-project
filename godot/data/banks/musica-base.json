@@ -390,7 +390,17 @@
 			"prompt": "In un tempo di 4/4, quanti movimenti ci sono in una battuta?",
 			"options": [],
 			"answer": "4",
-			"explanation": "Il numero in alto dice quanti movimenti stanno in ogni battuta: quattro."
+			"explanation": "Il numero in alto dice quanti movimenti stanno in ogni battuta: quattro.",
+			"distractorWhy": {
+				"1": "«1» è la risposta giusta a un'altra domanda di questo gruppo: «Nel tempo di 4/4, su quale movimento cade di solito l'accento più forte?».",
+				"2": "«2» è la risposta giusta a un'altra domanda di questo gruppo: «In 4/4, quante minime riempiono una battuta?».",
+				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «In un tempo di 3/4, quanti movimenti ci sono in una battuta?».",
+				"Il doppio più veloce": "«Il doppio più veloce» è la risposta giusta a un'altra domanda di questo gruppo: «Un brano a 120 battiti al minuto rispetto a uno a 60 è…».",
+				"Veloce e vivace": "«Veloce e vivace» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «allegro»?».",
+				"metronomo": "«metronomo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo strumento che batte il tempo regolare per esercitarsi?».",
+				"Un'andatura lenta e distesa": "«Un'andatura lenta e distesa» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «adagio» su uno spartito?».",
+				"Esattamente un secondo": "«Esattamente un secondo» è la risposta giusta a un'altra domanda di questo gruppo: «Uno spartito segna 60 battiti al minuto. Quanto dura un movimento?»."
+			}
 		},
 		{
 			"id": "musica-tempo-4",
@@ -401,7 +411,17 @@
 			"prompt": "In un tempo di 3/4, quanti movimenti ci sono in una battuta?",
 			"options": [],
 			"answer": "3",
-			"explanation": "Tre movimenti per battuta: è il tempo del valzer, un-due-tre, un-due-tre."
+			"explanation": "Tre movimenti per battuta: è il tempo del valzer, un-due-tre, un-due-tre.",
+			"distractorWhy": {
+				"1": "«1» è la risposta giusta a un'altra domanda di questo gruppo: «Nel tempo di 4/4, su quale movimento cade di solito l'accento più forte?».",
+				"2": "«2» è la risposta giusta a un'altra domanda di questo gruppo: «In 4/4, quante minime riempiono una battuta?».",
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «In un tempo di 4/4, quanti movimenti ci sono in una battuta?».",
+				"Il doppio più veloce": "«Il doppio più veloce» è la risposta giusta a un'altra domanda di questo gruppo: «Un brano a 120 battiti al minuto rispetto a uno a 60 è…».",
+				"Veloce e vivace": "«Veloce e vivace» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «allegro»?».",
+				"metronomo": "«metronomo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo strumento che batte il tempo regolare per esercitarsi?».",
+				"Un'andatura lenta e distesa": "«Un'andatura lenta e distesa» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «adagio» su uno spartito?».",
+				"Esattamente un secondo": "«Esattamente un secondo» è la risposta giusta a un'altra domanda di questo gruppo: «Uno spartito segna 60 battiti al minuto. Quanto dura un movimento?»."
+			}
 		},
 		{
 			"id": "musica-tempo-5",
@@ -538,7 +558,17 @@
 			"prompt": "In 4/4, quante minime riempiono una battuta?",
 			"options": [],
 			"answer": "2",
-			"explanation": "La minima vale due movimenti: due minime fanno quattro movimenti, cioè una battuta piena."
+			"explanation": "La minima vale due movimenti: due minime fanno quattro movimenti, cioè una battuta piena.",
+			"distractorWhy": {
+				"1": "«1» è la risposta giusta a un'altra domanda di questo gruppo: «Nel tempo di 4/4, su quale movimento cade di solito l'accento più forte?».",
+				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «In un tempo di 3/4, quanti movimenti ci sono in una battuta?».",
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «In un tempo di 4/4, quanti movimenti ci sono in una battuta?».",
+				"Il doppio più veloce": "«Il doppio più veloce» è la risposta giusta a un'altra domanda di questo gruppo: «Un brano a 120 battiti al minuto rispetto a uno a 60 è…».",
+				"Veloce e vivace": "«Veloce e vivace» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «allegro»?».",
+				"metronomo": "«metronomo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo strumento che batte il tempo regolare per esercitarsi?».",
+				"Un'andatura lenta e distesa": "«Un'andatura lenta e distesa» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «adagio» su uno spartito?».",
+				"Esattamente un secondo": "«Esattamente un secondo» è la risposta giusta a un'altra domanda di questo gruppo: «Uno spartito segna 60 battiti al minuto. Quanto dura un movimento?»."
+			}
 		},
 		{
 			"id": "musica-tempo-12",
@@ -591,7 +621,17 @@
 			"prompt": "Nel tempo di 4/4, su quale movimento cade di solito l'accento più forte?",
 			"options": [],
 			"answer": "1",
-			"explanation": "Il primo movimento della battuta è il tempo forte: è quello che ti fa capire dove sei nella musica."
+			"explanation": "Il primo movimento della battuta è il tempo forte: è quello che ti fa capire dove sei nella musica.",
+			"distractorWhy": {
+				"2": "«2» è la risposta giusta a un'altra domanda di questo gruppo: «In 4/4, quante minime riempiono una battuta?».",
+				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «In un tempo di 3/4, quanti movimenti ci sono in una battuta?».",
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «In un tempo di 4/4, quanti movimenti ci sono in una battuta?».",
+				"Il doppio più veloce": "«Il doppio più veloce» è la risposta giusta a un'altra domanda di questo gruppo: «Un brano a 120 battiti al minuto rispetto a uno a 60 è…».",
+				"Veloce e vivace": "«Veloce e vivace» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «allegro»?».",
+				"metronomo": "«metronomo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo strumento che batte il tempo regolare per esercitarsi?».",
+				"Un'andatura lenta e distesa": "«Un'andatura lenta e distesa» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «adagio» su uno spartito?».",
+				"Esattamente un secondo": "«Esattamente un secondo» è la risposta giusta a un'altra domanda di questo gruppo: «Uno spartito segna 60 battiti al minuto. Quanto dura un movimento?»."
+			}
 		},
 		{
 			"id": "musica-timbro-15",
@@ -1232,7 +1272,17 @@
 			"prompt": "Quanti gradi ci sono nell'intervallo da do a sol?",
 			"options": [],
 			"answer": "5",
-			"explanation": "Do, re, mi, fa, sol: si contano tutte e cinque le note, compresa quella di partenza. È una quinta."
+			"explanation": "Do, re, mi, fa, sol: si contano tutte e cinque le note, compresa quella di partenza. È una quinta.",
+			"distractorWhy": {
+				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti gradi ci sono nell'intervallo da do a mi?».",
+				"Quinta.": "«Quinta.» è la risposta giusta a un'altra domanda di questo gruppo: «Intervallo da Do a Sol.».",
+				"Ottava": "«Ottava» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'intervallo fra do e do successivo?».",
+				"terza": "«terza» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'intervallo fra il do e il mi?».",
+				"accordo": "«accordo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un gruppo di tre o più note suonate tutte insieme?».",
+				"minore": "«minore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un accordo che ha la terza abbassata di un semitono?».",
+				"Do, Mi, Sol": "«Do, Mi, Sol» è la risposta giusta a un'altra domanda di questo gruppo: «Da quali tre note è formato l'accordo di DO maggiore?».",
+				"quarta": "«quarta» è la risposta giusta a un'altra domanda di questo gruppo: «L'intervallo fra DO e FA, contando le note comprese, è una...»."
+			}
 		},
 		{
 			"id": "musica-intervalli-46",
@@ -1264,7 +1314,17 @@
 			"prompt": "Quanti gradi ci sono nell'intervallo da do a mi?",
 			"options": [],
 			"answer": "3",
-			"explanation": "Do, re, mi: tre gradi. È una terza, l'intervallo che dà il carattere maggiore o minore a un accordo."
+			"explanation": "Do, re, mi: tre gradi. È una terza, l'intervallo che dà il carattere maggiore o minore a un accordo.",
+			"distractorWhy": {
+				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti gradi ci sono nell'intervallo da do a sol?».",
+				"Quinta.": "«Quinta.» è la risposta giusta a un'altra domanda di questo gruppo: «Intervallo da Do a Sol.».",
+				"Ottava": "«Ottava» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'intervallo fra do e do successivo?».",
+				"terza": "«terza» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'intervallo fra il do e il mi?».",
+				"accordo": "«accordo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un gruppo di tre o più note suonate tutte insieme?».",
+				"minore": "«minore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un accordo che ha la terza abbassata di un semitono?».",
+				"Do, Mi, Sol": "«Do, Mi, Sol» è la risposta giusta a un'altra domanda di questo gruppo: «Da quali tre note è formato l'accordo di DO maggiore?».",
+				"quarta": "«quarta» è la risposta giusta a un'altra domanda di questo gruppo: «L'intervallo fra DO e FA, contando le note comprese, è una...»."
+			}
 		},
 		{
 			"id": "musica-intervalli-48",
@@ -1317,7 +1377,17 @@
 			"prompt": "Quante sono le note musicali di base?",
 			"options": [],
 			"answer": "7",
-			"explanation": "Do, re, mi, fa, sol, la, si: sette, e poi si ricomincia un'ottava sopra."
+			"explanation": "Do, re, mi, fa, sol, la, si: sette, e poi si ricomincia un'ottava sopra.",
+			"distractorWhy": {
+				"2": "«2» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti semitoni ci sono in un tono intero?».",
+				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti tasti neri ci sono in un'ottava di pianoforte?».",
+				"La": "«La» è la risposta giusta a un'altra domanda di questo gruppo: «Quale nota viene subito dopo il sol?».",
+				"Re": "«Re» è la risposta giusta a un'altra domanda di questo gruppo: «Quale nota viene subito dopo il Do?».",
+				"ottava": "«ottava» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la distanza fra un do e il do successivo, più acuto?».",
+				"Fa": "«Fa» è la risposta giusta a un'altra domanda di questo gruppo: «Quale nota viene subito dopo il MI?».",
+				"Si": "«Si» è la risposta giusta a un'altra domanda di questo gruppo: «Quale nota viene subito prima del DO?».",
+				"un semitono": "«un semitono» è la risposta giusta a un'altra domanda di questo gruppo: «Un'alterazione «diesis» davanti a una nota la fa salire di...»."
+			}
 		},
 		{
 			"id": "musica-note-51",
@@ -1437,7 +1507,12 @@
 			"distractorWhy": {
 				"4": "Sono di meno: il pentagramma ne ha una in più.",
 				"6": "Sono di più: il pentagramma ne ha una in meno.",
-				"7": "Il numero sette è quello delle note musicali, non delle righe del pentagramma."
+				"7": "Il numero sette è quello delle note musicali, non delle righe del pentagramma.",
+				"La.": "«La.» è la risposta giusta a un'altra domanda di questo gruppo: «Nota nel secondo spazio in chiave di violino.».",
+				"La (ottava alta).": "«La (ottava alta).» è la risposta giusta a un'altra domanda di questo gruppo: «Nota sulla prima linea aggiunta sopra il pentagramma, in chiave di violino.».",
+				"pentagramma": "«pentagramma» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il gruppo di cinque righe su cui si scrive la musica?».",
+				"chiave": "«chiave» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il segno messo all'inizio del pentagramma che fissa l'altezza delle note?».",
+				"Diventa più acuto": "«Diventa più acuto» è la risposta giusta a un'altra domanda di questo gruppo: «Salendo con le note sul pentagramma, che cosa succede al suono?»."
 			}
 		},
 		{
@@ -1470,7 +1545,17 @@
 			"prompt": "Quante crome servono per riempire una semibreve?",
 			"options": [],
 			"answer": "8",
-			"explanation": "Ogni figura vale il doppio della successiva: una semibreve fa due minime, quattro semiminime, otto crome."
+			"explanation": "Ogni figura vale il doppio della successiva: una semibreve fa due minime, quattro semiminime, otto crome.",
+			"distractorWhy": {
+				"Non manca nessun battito.": "«Non manca nessun battito.» è la risposta giusta a un'altra domanda di questo gruppo: «In 4/4 ci sono due semiminime e una minima.».",
+				"Manca una semiminima.": "«Manca una semiminima.» è la risposta giusta a un'altra domanda di questo gruppo: «In 4/4 ci sono una minima e una semiminima. Cosa manca?».",
+				"La semibreve": "«La semibreve» è la risposta giusta a un'altra domanda di questo gruppo: «Quale figura musicale dura di più?».",
+				"Il doppio": "«Il doppio» è la risposta giusta a un'altra domanda di questo gruppo: «Una minima dura, rispetto a una semiminima…».",
+				"stanghetta": "«stanghetta» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la linea verticale che divide il pentagramma in battute?».",
+				"pausa": "«pausa» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il segno che indica un silenzio nella musica?».",
+				"La durata dei suoni": "«La durata dei suoni» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa indica il ritmo di un brano?».",
+				"un silenzio": "«un silenzio» è la risposta giusta a un'altra domanda di questo gruppo: «Una pausa in musica serve a indicare...»."
+			}
 		},
 		{
 			"id": "musica-ritmo-59",
@@ -1529,7 +1614,17 @@
 				"rigo musicale",
 				"il rigo musicale"
 			],
-			"explanation": "Cinque righe e quattro spazi: penta vuol dire cinque."
+			"explanation": "Cinque righe e quattro spazi: penta vuol dire cinque.",
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti spazi ci sono fra le cinque righe del pentagramma?».",
+				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «Quante righe ha il pentagramma?».",
+				"La.": "«La.» è la risposta giusta a un'altra domanda di questo gruppo: «Nota nel secondo spazio in chiave di violino.».",
+				"La (ottava alta).": "«La (ottava alta).» è la risposta giusta a un'altra domanda di questo gruppo: «Nota sulla prima linea aggiunta sopra il pentagramma, in chiave di violino.».",
+				"chiave": "«chiave» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il segno messo all'inizio del pentagramma che fissa l'altezza delle note?».",
+				"Diventa più acuto": "«Diventa più acuto» è la risposta giusta a un'altra domanda di questo gruppo: «Salendo con le note sul pentagramma, che cosa succede al suono?».",
+				"diesis": "«diesis» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il segno che alza una nota di un semitono?».",
+				"seconda riga": "«seconda riga» è la risposta giusta a un'altra domanda di questo gruppo: «La chiave di violino fissa il SOL sulla...»."
+			}
 		},
 		{
 			"id": "musica-lettura-62",
@@ -1547,7 +1642,17 @@
 				"chiave di violino",
 				"la chiave di violino"
 			],
-			"explanation": "Senza la chiave le stesse righe direbbero note diverse: è lei a dare il punto di riferimento."
+			"explanation": "Senza la chiave le stesse righe direbbero note diverse: è lei a dare il punto di riferimento.",
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti spazi ci sono fra le cinque righe del pentagramma?».",
+				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «Quante righe ha il pentagramma?».",
+				"La.": "«La.» è la risposta giusta a un'altra domanda di questo gruppo: «Nota nel secondo spazio in chiave di violino.».",
+				"La (ottava alta).": "«La (ottava alta).» è la risposta giusta a un'altra domanda di questo gruppo: «Nota sulla prima linea aggiunta sopra il pentagramma, in chiave di violino.».",
+				"pentagramma": "«pentagramma» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il gruppo di cinque righe su cui si scrive la musica?».",
+				"Diventa più acuto": "«Diventa più acuto» è la risposta giusta a un'altra domanda di questo gruppo: «Salendo con le note sul pentagramma, che cosa succede al suono?».",
+				"diesis": "«diesis» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il segno che alza una nota di un semitono?».",
+				"seconda riga": "«seconda riga» è la risposta giusta a un'altra domanda di questo gruppo: «La chiave di violino fissa il SOL sulla...»."
+			}
 		},
 		{
 			"id": "musica-note-63",
@@ -1564,7 +1669,17 @@
 				"intervallo di ottava",
 				"un intervallo di ottava"
 			],
-			"explanation": "Si contano i gradi da un do all'altro e vengono otto: do re mi fa sol la si do."
+			"explanation": "Si contano i gradi da un do all'altro e vengono otto: do re mi fa sol la si do.",
+			"distractorWhy": {
+				"2": "«2» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti semitoni ci sono in un tono intero?».",
+				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti tasti neri ci sono in un'ottava di pianoforte?».",
+				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «Quante sono le note musicali di base?».",
+				"La": "«La» è la risposta giusta a un'altra domanda di questo gruppo: «Quale nota viene subito dopo il sol?».",
+				"Re": "«Re» è la risposta giusta a un'altra domanda di questo gruppo: «Quale nota viene subito dopo il Do?».",
+				"Fa": "«Fa» è la risposta giusta a un'altra domanda di questo gruppo: «Quale nota viene subito dopo il MI?».",
+				"Si": "«Si» è la risposta giusta a un'altra domanda di questo gruppo: «Quale nota viene subito prima del DO?».",
+				"un semitono": "«un semitono» è la risposta giusta a un'altra domanda di questo gruppo: «Un'alterazione «diesis» davanti a una nota la fa salire di...»."
+			}
 		},
 		{
 			"id": "musica-ritmo-64",
@@ -1584,7 +1699,17 @@
 				"barra di battuta",
 				"linea di battuta"
 			],
-			"explanation": "Ogni stanghetta chiude una battuta: è il modo di scrivere che il tempo torna a contare da uno."
+			"explanation": "Ogni stanghetta chiude una battuta: è il modo di scrivere che il tempo torna a contare da uno.",
+			"distractorWhy": {
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quante crome servono per riempire una semibreve?».",
+				"Non manca nessun battito.": "«Non manca nessun battito.» è la risposta giusta a un'altra domanda di questo gruppo: «In 4/4 ci sono due semiminime e una minima.».",
+				"Manca una semiminima.": "«Manca una semiminima.» è la risposta giusta a un'altra domanda di questo gruppo: «In 4/4 ci sono una minima e una semiminima. Cosa manca?».",
+				"La semibreve": "«La semibreve» è la risposta giusta a un'altra domanda di questo gruppo: «Quale figura musicale dura di più?».",
+				"Il doppio": "«Il doppio» è la risposta giusta a un'altra domanda di questo gruppo: «Una minima dura, rispetto a una semiminima…».",
+				"pausa": "«pausa» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il segno che indica un silenzio nella musica?».",
+				"La durata dei suoni": "«La durata dei suoni» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa indica il ritmo di un brano?».",
+				"un silenzio": "«un silenzio» è la risposta giusta a un'altra domanda di questo gruppo: «Una pausa in musica serve a indicare...»."
+			}
 		},
 		{
 			"id": "musica-ritmo-65",
@@ -1601,7 +1726,17 @@
 				"pausa musicale",
 				"il segno di pausa"
 			],
-			"explanation": "Il silenzio si scrive come una nota: ha una durata precisa e va contato."
+			"explanation": "Il silenzio si scrive come una nota: ha una durata precisa e va contato.",
+			"distractorWhy": {
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quante crome servono per riempire una semibreve?».",
+				"Non manca nessun battito.": "«Non manca nessun battito.» è la risposta giusta a un'altra domanda di questo gruppo: «In 4/4 ci sono due semiminime e una minima.».",
+				"Manca una semiminima.": "«Manca una semiminima.» è la risposta giusta a un'altra domanda di questo gruppo: «In 4/4 ci sono una minima e una semiminima. Cosa manca?».",
+				"La semibreve": "«La semibreve» è la risposta giusta a un'altra domanda di questo gruppo: «Quale figura musicale dura di più?».",
+				"Il doppio": "«Il doppio» è la risposta giusta a un'altra domanda di questo gruppo: «Una minima dura, rispetto a una semiminima…».",
+				"stanghetta": "«stanghetta» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la linea verticale che divide il pentagramma in battute?».",
+				"La durata dei suoni": "«La durata dei suoni» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa indica il ritmo di un brano?».",
+				"un silenzio": "«un silenzio» è la risposta giusta a un'altra domanda di questo gruppo: «Una pausa in musica serve a indicare...»."
+			}
 		},
 		{
 			"id": "musica-intervalli-66",
@@ -1618,7 +1753,17 @@
 				"terza maggiore",
 				"intervallo di terza"
 			],
-			"explanation": "Do re mi: tre gradi, quindi terza."
+			"explanation": "Do re mi: tre gradi, quindi terza.",
+			"distractorWhy": {
+				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti gradi ci sono nell'intervallo da do a mi?».",
+				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti gradi ci sono nell'intervallo da do a sol?».",
+				"Quinta.": "«Quinta.» è la risposta giusta a un'altra domanda di questo gruppo: «Intervallo da Do a Sol.».",
+				"Ottava": "«Ottava» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'intervallo fra do e do successivo?».",
+				"accordo": "«accordo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un gruppo di tre o più note suonate tutte insieme?».",
+				"minore": "«minore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un accordo che ha la terza abbassata di un semitono?».",
+				"Do, Mi, Sol": "«Do, Mi, Sol» è la risposta giusta a un'altra domanda di questo gruppo: «Da quali tre note è formato l'accordo di DO maggiore?».",
+				"quarta": "«quarta» è la risposta giusta a un'altra domanda di questo gruppo: «L'intervallo fra DO e FA, contando le note comprese, è una...»."
+			}
 		},
 		{
 			"id": "musica-dinamica-67",
@@ -1634,7 +1779,14 @@
 				"forte (f)",
 				"suonare forte"
 			],
-			"explanation": "La f sta per forte, la p per piano: la dinamica si scrive con le iniziali delle parole italiane."
+			"explanation": "La f sta per forte, la p per piano: la dinamica si scrive con le iniziali delle parole italiane.",
+			"distractorWhy": {
+				"Piano, cioè debole": "«Piano, cioè debole» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa il segno «p» su uno spartito?».",
+				"pp": "«pp» è la risposta giusta a un'altra domanda di questo gruppo: «Fra «pp» e «p», quale è più debole?».",
+				"L'altezza delle note": "«L'altezza delle note» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa NON cambia durante un crescendo?».",
+				"a volume alto": "«a volume alto» è la risposta giusta a un'altra domanda di questo gruppo: «Il segno «forte» (f) chiede di suonare...».",
+				"Molto forte": "«Molto forte» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa indica il segno «ff» su uno spartito?»."
+			}
 		},
 		{
 			"id": "musica-timbro-68",
@@ -1652,7 +1804,11 @@
 				"colore del suono",
 				"il colore del suono"
 			],
-			"explanation": "Stessa altezza, stessa intensità: quello che resta a distinguerli è il timbro."
+			"explanation": "Stessa altezza, stessa intensità: quello che resta a distinguerli è il timbro.",
+			"distractorWhy": {
+				"Violino e viola": "«Violino e viola» è la risposta giusta a un'altra domanda di questo gruppo: «Quale coppia di strumenti ha il timbro più simile?».",
+				"L'altezza della nota": "«L'altezza della nota» è la risposta giusta a un'altra domanda di questo gruppo: «Suoni la stessa identica nota prima al flauto e poi al violino. Che cosa NON cambia?»."
+			}
 		},
 		{
 			"id": "musica-strumenti-69",
@@ -1670,7 +1826,17 @@
 				"maestro",
 				"il maestro"
 			],
-			"explanation": "Non suona: tiene insieme il tempo e l'equilibrio fra le sezioni."
+			"explanation": "Non suona: tiene insieme il tempo e l'equilibrio fra le sezioni.",
+			"distractorWhy": {
+				"Archi": "«Archi» è la risposta giusta a un'altra domanda di questo gruppo: «A quale famiglia appartiene il violoncello?».",
+				"Fiati": "«Fiati» è la risposta giusta a un'altra domanda di questo gruppo: «A quale famiglia appartiene il clarinetto?».",
+				"Il tamburo": "«Il tamburo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale strumento produce il suono percuotendo una pelle tesa?».",
+				"Tromba": "«Tromba» è la risposta giusta a un'altra domanda di questo gruppo: «Quale strumento non appartiene alla famiglia degli archi?».",
+				"a corda": "«a corda» è la risposta giusta a un'altra domanda di questo gruppo: «La chitarra fa parte della famiglia degli strumenti...».",
+				"a percussione": "«a percussione» è la risposta giusta a un'altra domanda di questo gruppo: «Il tamburo fa parte della famiglia degli strumenti...».",
+				"a fiato": "«a fiato» è la risposta giusta a un'altra domanda di questo gruppo: «Il flauto fa parte della famiglia degli strumenti...».",
+				"Pizzicando le corde": "«Pizzicando le corde» è la risposta giusta a un'altra domanda di questo gruppo: «Come si produce il suono in una chitarra?»."
+			}
 		},
 		{
 			"id": "musica-tempo-70",
@@ -1685,7 +1851,17 @@
 				"il metronomo",
 				"un metronomo"
 			],
-			"explanation": "Batte una pulsazione uguale a se stessa: serve a non accelerare nei punti facili."
+			"explanation": "Batte una pulsazione uguale a se stessa: serve a non accelerare nei punti facili.",
+			"distractorWhy": {
+				"1": "«1» è la risposta giusta a un'altra domanda di questo gruppo: «Nel tempo di 4/4, su quale movimento cade di solito l'accento più forte?».",
+				"2": "«2» è la risposta giusta a un'altra domanda di questo gruppo: «In 4/4, quante minime riempiono una battuta?».",
+				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «In un tempo di 3/4, quanti movimenti ci sono in una battuta?».",
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «In un tempo di 4/4, quanti movimenti ci sono in una battuta?».",
+				"Il doppio più veloce": "«Il doppio più veloce» è la risposta giusta a un'altra domanda di questo gruppo: «Un brano a 120 battiti al minuto rispetto a uno a 60 è…».",
+				"Veloce e vivace": "«Veloce e vivace» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «allegro»?».",
+				"Un'andatura lenta e distesa": "«Un'andatura lenta e distesa» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «adagio» su uno spartito?».",
+				"Esattamente un secondo": "«Esattamente un secondo» è la risposta giusta a un'altra domanda di questo gruppo: «Uno spartito segna 60 battiti al minuto. Quanto dura un movimento?»."
+			}
 		},
 		{
 			"id": "musica-intervalli-71",
@@ -1787,7 +1963,17 @@
 				"una triade",
 				"la triade"
 			],
-			"explanation": "Tre note sovrapposte sono un accordo: quando sono esattamente tre si chiama anche triade."
+			"explanation": "Tre note sovrapposte sono un accordo: quando sono esattamente tre si chiama anche triade.",
+			"distractorWhy": {
+				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti gradi ci sono nell'intervallo da do a mi?».",
+				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti gradi ci sono nell'intervallo da do a sol?».",
+				"Quinta.": "«Quinta.» è la risposta giusta a un'altra domanda di questo gruppo: «Intervallo da Do a Sol.».",
+				"Ottava": "«Ottava» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'intervallo fra do e do successivo?».",
+				"terza": "«terza» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'intervallo fra il do e il mi?».",
+				"minore": "«minore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un accordo che ha la terza abbassata di un semitono?».",
+				"Do, Mi, Sol": "«Do, Mi, Sol» è la risposta giusta a un'altra domanda di questo gruppo: «Da quali tre note è formato l'accordo di DO maggiore?».",
+				"quarta": "«quarta» è la risposta giusta a un'altra domanda di questo gruppo: «L'intervallo fra DO e FA, contando le note comprese, è una...»."
+			}
 		},
 		{
 			"id": "musica-intervalli-76",
@@ -1798,7 +1984,17 @@
 			"prompt": "Di quante note è fatta una triade?",
 			"options": [],
 			"answer": "3",
-			"explanation": "Tri- vuol dire tre: fondamentale, terza e quinta, cioè un intervallo di terza impilato sopra un altro."
+			"explanation": "Tri- vuol dire tre: fondamentale, terza e quinta, cioè un intervallo di terza impilato sopra un altro.",
+			"distractorWhy": {
+				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti gradi ci sono nell'intervallo da do a sol?».",
+				"Quinta.": "«Quinta.» è la risposta giusta a un'altra domanda di questo gruppo: «Intervallo da Do a Sol.».",
+				"Ottava": "«Ottava» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'intervallo fra do e do successivo?».",
+				"terza": "«terza» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'intervallo fra il do e il mi?».",
+				"accordo": "«accordo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un gruppo di tre o più note suonate tutte insieme?».",
+				"minore": "«minore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un accordo che ha la terza abbassata di un semitono?».",
+				"Do, Mi, Sol": "«Do, Mi, Sol» è la risposta giusta a un'altra domanda di questo gruppo: «Da quali tre note è formato l'accordo di DO maggiore?».",
+				"quarta": "«quarta» è la risposta giusta a un'altra domanda di questo gruppo: «L'intervallo fra DO e FA, contando le note comprese, è una...»."
+			}
 		},
 		{
 			"id": "musica-note-77",
@@ -1851,7 +2047,17 @@
 			"prompt": "Quanti tasti neri ci sono in un'ottava di pianoforte?",
 			"options": [],
 			"answer": "5",
-			"explanation": "Cinque neri e sette bianchi fanno i dodici semitoni dell'ottava: i neri stanno a gruppi di due e di tre."
+			"explanation": "Cinque neri e sette bianchi fanno i dodici semitoni dell'ottava: i neri stanno a gruppi di due e di tre.",
+			"distractorWhy": {
+				"2": "«2» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti semitoni ci sono in un tono intero?».",
+				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «Quante sono le note musicali di base?».",
+				"La": "«La» è la risposta giusta a un'altra domanda di questo gruppo: «Quale nota viene subito dopo il sol?».",
+				"Re": "«Re» è la risposta giusta a un'altra domanda di questo gruppo: «Quale nota viene subito dopo il Do?».",
+				"ottava": "«ottava» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la distanza fra un do e il do successivo, più acuto?».",
+				"Fa": "«Fa» è la risposta giusta a un'altra domanda di questo gruppo: «Quale nota viene subito dopo il MI?».",
+				"Si": "«Si» è la risposta giusta a un'altra domanda di questo gruppo: «Quale nota viene subito prima del DO?».",
+				"un semitono": "«un semitono» è la risposta giusta a un'altra domanda di questo gruppo: «Un'alterazione «diesis» davanti a una nota la fa salire di...»."
+			}
 		},
 		{
 			"id": "musica-lettura-80",
@@ -1883,7 +2089,17 @@
 			"prompt": "Quanti spazi ci sono fra le cinque righe del pentagramma?",
 			"options": [],
 			"answer": "4",
-			"explanation": "Cinque righe lasciano quattro spazi in mezzo, e anche gli spazi portano note: righe e spazi si alternano."
+			"explanation": "Cinque righe lasciano quattro spazi in mezzo, e anche gli spazi portano note: righe e spazi si alternano.",
+			"distractorWhy": {
+				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «Quante righe ha il pentagramma?».",
+				"La.": "«La.» è la risposta giusta a un'altra domanda di questo gruppo: «Nota nel secondo spazio in chiave di violino.».",
+				"La (ottava alta).": "«La (ottava alta).» è la risposta giusta a un'altra domanda di questo gruppo: «Nota sulla prima linea aggiunta sopra il pentagramma, in chiave di violino.».",
+				"pentagramma": "«pentagramma» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il gruppo di cinque righe su cui si scrive la musica?».",
+				"chiave": "«chiave» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il segno messo all'inizio del pentagramma che fissa l'altezza delle note?».",
+				"Diventa più acuto": "«Diventa più acuto» è la risposta giusta a un'altra domanda di questo gruppo: «Salendo con le note sul pentagramma, che cosa succede al suono?».",
+				"diesis": "«diesis» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il segno che alza una nota di un semitono?».",
+				"seconda riga": "«seconda riga» è la risposta giusta a un'altra domanda di questo gruppo: «La chiave di violino fissa il SOL sulla...»."
+			}
 		},
 		{
 			"id": "musica-lettura-82",
@@ -2174,7 +2390,17 @@
 				"modo minore",
 				"in minore"
 			],
-			"explanation": "Do-mi-sol è maggiore; abbassando il mi di un semitono diventa do-mi bemolle-sol, cioè minore: si dice che ha un colore più scuro."
+			"explanation": "Do-mi-sol è maggiore; abbassando il mi di un semitono diventa do-mi bemolle-sol, cioè minore: si dice che ha un colore più scuro.",
+			"distractorWhy": {
+				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti gradi ci sono nell'intervallo da do a mi?».",
+				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti gradi ci sono nell'intervallo da do a sol?».",
+				"Quinta.": "«Quinta.» è la risposta giusta a un'altra domanda di questo gruppo: «Intervallo da Do a Sol.».",
+				"Ottava": "«Ottava» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'intervallo fra do e do successivo?».",
+				"terza": "«terza» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'intervallo fra il do e il mi?».",
+				"accordo": "«accordo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un gruppo di tre o più note suonate tutte insieme?».",
+				"Do, Mi, Sol": "«Do, Mi, Sol» è la risposta giusta a un'altra domanda di questo gruppo: «Da quali tre note è formato l'accordo di DO maggiore?».",
+				"quarta": "«quarta» è la risposta giusta a un'altra domanda di questo gruppo: «L'intervallo fra DO e FA, contando le note comprese, è una...»."
+			}
 		},
 		{
 			"id": "musica-note-96",
@@ -2185,7 +2411,17 @@
 			"prompt": "Quanti semitoni ci sono in un tono intero?",
 			"options": [],
 			"answer": "2",
-			"explanation": "Il tono è il passo grande, il semitono quello piccolo: due semitoni fanno un tono, ed è per questo che l'ottava ha sette note ma dodici semitoni."
+			"explanation": "Il tono è il passo grande, il semitono quello piccolo: due semitoni fanno un tono, ed è per questo che l'ottava ha sette note ma dodici semitoni.",
+			"distractorWhy": {
+				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti tasti neri ci sono in un'ottava di pianoforte?».",
+				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «Quante sono le note musicali di base?».",
+				"La": "«La» è la risposta giusta a un'altra domanda di questo gruppo: «Quale nota viene subito dopo il sol?».",
+				"Re": "«Re» è la risposta giusta a un'altra domanda di questo gruppo: «Quale nota viene subito dopo il Do?».",
+				"ottava": "«ottava» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la distanza fra un do e il do successivo, più acuto?».",
+				"Fa": "«Fa» è la risposta giusta a un'altra domanda di questo gruppo: «Quale nota viene subito dopo il MI?».",
+				"Si": "«Si» è la risposta giusta a un'altra domanda di questo gruppo: «Quale nota viene subito prima del DO?».",
+				"un semitono": "«un semitono» è la risposta giusta a un'altra domanda di questo gruppo: «Un'alterazione «diesis» davanti a una nota la fa salire di...»."
+			}
 		},
 		{
 			"id": "musica-lettura-97",
@@ -2201,7 +2437,17 @@
 				"un diesis",
 				"diesis (#)"
 			],
-			"explanation": "Il diesis alza, il bemolle abbassa, il bequadro annulla tutti e due: sono le tre alterazioni che si scrivono davanti alla nota."
+			"explanation": "Il diesis alza, il bemolle abbassa, il bequadro annulla tutti e due: sono le tre alterazioni che si scrivono davanti alla nota.",
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti spazi ci sono fra le cinque righe del pentagramma?».",
+				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «Quante righe ha il pentagramma?».",
+				"La.": "«La.» è la risposta giusta a un'altra domanda di questo gruppo: «Nota nel secondo spazio in chiave di violino.».",
+				"La (ottava alta).": "«La (ottava alta).» è la risposta giusta a un'altra domanda di questo gruppo: «Nota sulla prima linea aggiunta sopra il pentagramma, in chiave di violino.».",
+				"pentagramma": "«pentagramma» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il gruppo di cinque righe su cui si scrive la musica?».",
+				"chiave": "«chiave» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il segno messo all'inizio del pentagramma che fissa l'altezza delle note?».",
+				"Diventa più acuto": "«Diventa più acuto» è la risposta giusta a un'altra domanda di questo gruppo: «Salendo con le note sul pentagramma, che cosa succede al suono?».",
+				"seconda riga": "«seconda riga» è la risposta giusta a un'altra domanda di questo gruppo: «La chiave di violino fissa il SOL sulla...»."
+			}
 		},
 		{
 			"id": "musica-note-quante-note-ha-la-scala-musicale-di-base",
@@ -2634,9 +2880,14 @@
 			"answer": "7",
 			"explanation": "Do–Sol è una quinta giusta: contando i semitoni sono sette.",
 			"distractorWhy": {
+				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti gradi ci sono nell'intervallo da do a mi?».",
 				"5": "Cinque semitoni è una quarta giusta, non una quinta.",
 				"6": "Sei semitoni è il tritono, a metà strada fra quarta e quinta.",
-				"8": "Otto semitoni è una sesta minore, più larga della quinta."
+				"8": "Otto semitoni è una sesta minore, più larga della quinta.",
+				"Quinta.": "«Quinta.» è la risposta giusta a un'altra domanda di questo gruppo: «Intervallo da Do a Sol.».",
+				"Ottava": "«Ottava» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'intervallo fra do e do successivo?».",
+				"terza": "«terza» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'intervallo fra il do e il mi?».",
+				"accordo": "«accordo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un gruppo di tre o più note suonate tutte insieme?»."
 			}
 		},
 		{
@@ -2671,9 +2922,14 @@
 			"answer": "12",
 			"explanation": "Sette note ma dodici semitoni: fra Mi–Fa e fra Si–Do c'è un semitono e non un tono.",
 			"distractorWhy": {
+				"2": "«2» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti semitoni ci sono in un tono intero?».",
+				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti tasti neri ci sono in un'ottava di pianoforte?».",
 				"7": "Sette sono le note dell'ottava, ma i semitoni sono di più.",
 				"8": "Otto è vicino ma manca ancora: nell'ottava ci sono cinque toni interi e due semitoni, dodici semitoni in tutto.",
-				"10": "Mancano ancora due semitoni per arrivare all'ottava completa."
+				"10": "Mancano ancora due semitoni per arrivare all'ottava completa.",
+				"La": "«La» è la risposta giusta a un'altra domanda di questo gruppo: «Quale nota viene subito dopo il sol?».",
+				"Re": "«Re» è la risposta giusta a un'altra domanda di questo gruppo: «Quale nota viene subito dopo il Do?».",
+				"ottava": "«ottava» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la distanza fra un do e il do successivo, più acuto?»."
 			}
 		},
 		{
@@ -2731,7 +2987,12 @@
 			"distractorWhy": {
 				"3": "Tre è il numero di movimenti di un 3/4, non le crome di un 6/8.",
 				"4": "Quattro sarebbe la risposta per un 4/4 contato in semiminime, non per un 6/8 contato in crome.",
-				"8": "L'otto sta sotto e dice quale figura è l'unità (la croma), non quante ne stanno in una battuta."
+				"8": "L'otto sta sotto e dice quale figura è l'unità (la croma), non quante ne stanno in una battuta.",
+				"Non manca nessun battito.": "«Non manca nessun battito.» è la risposta giusta a un'altra domanda di questo gruppo: «In 4/4 ci sono due semiminime e una minima.».",
+				"Manca una semiminima.": "«Manca una semiminima.» è la risposta giusta a un'altra domanda di questo gruppo: «In 4/4 ci sono una minima e una semiminima. Cosa manca?».",
+				"La semibreve": "«La semibreve» è la risposta giusta a un'altra domanda di questo gruppo: «Quale figura musicale dura di più?».",
+				"Il doppio": "«Il doppio» è la risposta giusta a un'altra domanda di questo gruppo: «Una minima dura, rispetto a una semiminima…».",
+				"stanghetta": "«stanghetta» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la linea verticale che divide il pentagramma in battute?»."
 			}
 		},
 		{
@@ -2747,7 +3008,12 @@
 			"distractorWhy": {
 				"1": "Un battito è il valore di una semiminima, molto meno di una minima puntata.",
 				"2": "Due battiti è il valore della minima senza il punto.",
-				"4": "Quattro battiti è il valore di un'intera, non di una minima puntata."
+				"4": "Quattro battiti è il valore di un'intera, non di una minima puntata.",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quante crome servono per riempire una semibreve?».",
+				"Non manca nessun battito.": "«Non manca nessun battito.» è la risposta giusta a un'altra domanda di questo gruppo: «In 4/4 ci sono due semiminime e una minima.».",
+				"Manca una semiminima.": "«Manca una semiminima.» è la risposta giusta a un'altra domanda di questo gruppo: «In 4/4 ci sono una minima e una semiminima. Cosa manca?».",
+				"La semibreve": "«La semibreve» è la risposta giusta a un'altra domanda di questo gruppo: «Quale figura musicale dura di più?».",
+				"Il doppio": "«Il doppio» è la risposta giusta a un'altra domanda di questo gruppo: «Una minima dura, rispetto a una semiminima…»."
 			}
 		},
 		{

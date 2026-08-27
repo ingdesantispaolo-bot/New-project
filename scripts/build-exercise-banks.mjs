@@ -8192,6 +8192,95 @@ for (const [name, bank] of Object.entries(BANKS)) {
 // dove nessun esercizio del gruppo chiede Berlino resta senza correzione
 // specifica e riceve la spiegazione dell'esercizio, come prima. Coprire quel
 // caso vorrebbe dire inventare, ed è esattamente ciò che questa passata evita.
+// **I quindici che nessuna regola poteva coprire.** (27 agosto 2026)
+//
+// Sono numerici, e nel loro argomento non c'è nessun altro esercizio numerico:
+// la passata sulle domande vicine non ha niente da offrire loro, ed è giusto che
+// non inventi. Ma l'errore tipico di una domanda numerica si sa quasi sempre, e
+// per quindici esercizi si scrive a mano in mezz'ora.
+//
+// Diversi di questi puntano alla confusione classica dell'argomento: contare gli
+// organismi invece delle frecce in una catena alimentare, scambiare i sei casi
+// con le cinque declinazioni, dare al tuono i secondi invece dei chilometri.
+// Sono le correzioni migliori del banco, e nessun generatore le avrebbe trovate.
+const CORREZIONI_A_MANO = {
+  "In una catena if / elif / else, quanti rami vengono eseguiti?": {
+    "2": "Solo uno: appena una condizione è vera il programma esce dalla catena e non guarda le altre.",
+    "3": "Sono tre i rami scritti, ma non tre quelli eseguiti: la catena si ferma al primo che va bene.",
+    "0": "Almeno uno viene sempre eseguito se c'è un «else»: è il ramo che raccoglie tutti i casi rimasti.",
+  },
+  "Un ciclista percorre 20 km in 1 ora. Qual è la sua velocità media in km/h?": {
+    "1": "È il tempo, non la velocità: l'ora è quanto ci ha messo, non quanto va forte.",
+    "21": "Sembra una somma di spazio e tempo: la velocità è una divisione, spazio diviso tempo.",
+    "2": "Qui non c'è niente da dividere per dieci: 20 km in 1 ora fanno esattamente 20 km ogni ora.",
+  },
+  "Misuri un tavolo tre volte: 120,1 · 120,3 · 120,2 cm. Qual è la stima migliore?": {
+    "120,1": "È solo la prima misura: prendendone una sola butti via le altre due, che valgono quanto lei.",
+    "120,3": "È la più grande delle tre, non la migliore: la più grande non ha nessuna ragione di essere la più giusta.",
+    "360,6": "È la somma delle tre: per avere la media va ancora divisa per quante misure sono.",
+  },
+  "Un lampo si vede subito e il tuono arriva dopo 3 secondi. Quanti chilometri circa?": {
+    "3": "Sono i secondi, non i chilometri: in un secondo il suono fa circa un terzo di chilometro.",
+    "9": "Hai moltiplicato per tre invece di dividere: il suono è lento, quindi in pochi secondi fa poca strada.",
+    "340": "Sono i metri che il suono percorre in UN secondo: la domanda chiede i chilometri dopo tre.",
+  },
+  "Un litro d'acqua ha una massa di circa quanti chilogrammi?": {
+    "1000": "Sono i grammi, non i chilogrammi: mille grammi fanno un chilo.",
+    "100": "Sono i centilitri di un litro, non la sua massa.",
+    "10": "È dieci volte troppo: una bottiglia da un litro non pesa quanto un bambino.",
+  },
+  "A quale temperatura, in gradi centigradi, bolle l'acqua a livello del mare?": {
+    "0": "È la temperatura a cui l'acqua ghiaccia, cioè l'altro estremo della scala.",
+    "37": "È la temperatura del corpo umano: comoda da ricordare, ma un'altra cosa.",
+    "212": "Sono i gradi Fahrenheit: la stessa ebollizione, misurata con un'altra scala.",
+  },
+  "Dei sette continenti, quanti sono abitati stabilmente?": {
+    "7": "Sono sette in tutto, ma in Antartide nessuno vive stabilmente: ci sono solo basi scientifiche a turno.",
+    "5": "Cinque sono gli anelli olimpici, non i continenti abitati.",
+    "8": "I continenti sono sette, non otto: non ce n'è uno in più da abitare.",
+  },
+  "Quante regioni ha l'Italia?": {
+    "21": "Ventuno sono le province autonome contate a parte: Trento e Bolzano stanno dentro una regione sola.",
+    "15": "Sono le regioni a statuto ordinario: ne mancano cinque, quelle a statuto speciale.",
+    "19": "Ne manca una: sono venti tonde, e cinque di queste hanno uno statuto speciale.",
+  },
+  "Quante forme ha l'articolo determinativo italiano, contando anche l'elisione «l'»?": {
+    "6": "Ne manca una: il, lo, la, i, gli, le e l' apostrofato fanno sette.",
+    "4": "Sono i quattro più comuni (il, la, i, le): restano fuori lo, gli e l'.",
+    "8": "Sono sette: l'apostrofato si conta una volta sola, anche se vale per maschile e femminile.",
+  },
+  "Quanti predicati ha la frase «Marco corre e Anna legge»?": {
+    "1": "I verbi sono due, «corre» e «legge»: la «e» unisce due frasi, non due parole.",
+    "3": "I verbi sono due soltanto: «Marco» e «Anna» sono i soggetti, non predicati.",
+    "4": "Le parole sono quattro, i predicati due: si contano i verbi, non le parole.",
+  },
+  "Quanti casi ha una declinazione latina completa?": {
+    "5": "Cinque sono le declinazioni, non i casi: sono due conti diversi che si scambiano facilmente.",
+    "4": "Ne mancano due: oltre a nominativo, genitivo, dativo e accusativo ci sono vocativo e ablativo.",
+    "12": "Sono sei casi per due numeri: dodici sono le forme, non i casi.",
+  },
+  "Quante declinazioni bisogna conoscere per leggere un testo latino?": {
+    "6": "Sei sono i casi, non le declinazioni: le declinazioni sono cinque.",
+    "4": "Ne manca una: la quinta è piccola ma contiene parole comuni come «res» e «dies».",
+    "3": "Sono cinque: fermarsi a tre lascia fuori la quarta e la quinta, che si incontrano di continuo.",
+  },
+  "Quante possibilità ci sono per il valore di verità di un'affermazione?": {
+    "3": "Non esiste un «forse»: in logica un'affermazione o è vera o è falsa, anche quando noi non sappiamo quale delle due.",
+    "1": "Sono due: se ce ne fosse una sola non ci sarebbe niente da decidere.",
+    "4": "Due: vero e falso. Quattro sono le combinazioni di DUE affermazioni messe insieme.",
+  },
+  "In una catena erba → cavalletta → rana → serpente, quanti passaggi di energia ci sono?": {
+    "4": "Quattro sono gli esseri viventi; i passaggi sono le frecce fra loro, e le frecce sono tre.",
+    "2": "Le frecce sono tre: erba→cavalletta, cavalletta→rana, rana→serpente.",
+    "1": "L'energia passa tre volte, una per ogni freccia della catena.",
+  },
+  "Quante trasformazioni di energia ci sono in «pila → lampadina accesa»?": {
+    "1": "Sono due: prima la chimica della pila diventa elettrica, poi l'elettrica diventa luce e calore.",
+    "3": "Due: la pila fa il primo passaggio, la lampadina il secondo.",
+    "0": "Ce n'è almeno una ogni volta che qualcosa si accende: l'energia non compare dal nulla.",
+  },
+};
+
 function correzioniFraDomandeVicine(bank) {
   const perTopic = new Map();
   for (const item of bank.items) {
@@ -8200,6 +8289,11 @@ function correzioniFraDomandeVicine(bank) {
   }
   for (const item of bank.items) {
     if (item.format === "multiple_choice") continue;
+    const aMano = CORREZIONI_A_MANO[String(item.prompt ?? "").trim()];
+    if (aMano) {
+      item.distractorWhy = { ...aMano, ...(item.distractorWhy ?? {}) };
+      continue;
+    }
     const vicine = perTopic.get(String(item.topic ?? "")) ?? [];
     if (vicine.length < 2) continue;
     const why = { ...(item.distractorWhy ?? {}) };
@@ -8227,6 +8321,14 @@ function correzioniFraDomandeVicine(bank) {
       // mano in un campo di testo: attaccarle gonfia il banco e conta come
       // copertura una cosa che non coprirà mai niente.
       if (sbagliata.length > 30 || sbagliata.split(/\s+/).length > 4) continue;
+      // **Numeri con numeri, parole con parole.** A «qual è il nominativo
+      // plurale di rosa?» veniva attaccato il perché di «2», che è la risposta a
+      // «quanti numeri distingue la declinazione latina?»: vera, e assurda —
+      // nessun bambino scrive «2» a una domanda su una parola. Le coincidenze fra
+      // domande di tipo diverso non sono copertura, sono rumore che gonfia un
+      // numero.
+      const numerica = (v) => /^[-+]?\d+([.,]\d+)?$/.test(String(v).trim());
+      if (numerica(sbagliata) !== numerica(item.answer)) continue;
       if (Object.keys(why).length >= 8) break;
       // Una domanda su più righe (il codice Python di `coding`) non entra in una
       // frase: si nomina il gruppo invece di ricopiare il listato.

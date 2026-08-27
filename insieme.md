@@ -492,6 +492,118 @@ delle scorciatoie, e funziona perché non chiede a nessuno di giudicare.
 
 ---
 
+## La rilettura delle 249 voci — 27 agosto 2026
+
+Fin qui le spiegazioni sono state **misurate**: consegne, echi, ripetizioni,
+figure. Nessuna di quelle misure dice se una spiegazione è *chiara*, e la
+segnalazione dello studente diceva anche quello. L'unico modo di saperlo è
+leggerle, quindi le ho lette tutte e 249, una per una.
+
+**Il verdetto è che il corpus regge.** La grande maggioranza è concreta, corta e
+dice un perché invece di un cosa: «L'uguale è una bilancia in equilibrio», «Roma
+è durata tanto perché ha assorbito i popoli che conquistava invece di
+cancellarli», «Si chiama preistoria perché mancano le scritture». Non c'era da
+riscrivere in blocco, e riscrivere in blocco sarebbe stato il danno.
+
+Tredici righe però andavano toccate, e si dividono in tre classi.
+
+### Un errore di contenuto
+
+`fisica:temperatura` diceva: *«un ago rovente e una vasca tiepida possono avere
+la stessa energia totale»*. La cosa da imparare è l'opposto ed è molto più
+sorprendente: **la vasca tiepida ne contiene molta di più**, perché di particelle
+ne ha molte di più. Detta come stava, la frase toglieva alla differenza fra
+temperatura ed energia proprio il fatto che la rende memorabile.
+
+### Voci che non parlavano della propria materia
+
+`fisica:onde-luce` — venti esercizi, argomento vivo — ripeteva quasi parola per
+parola `fisica:onde` e **non diceva una sola cosa sulla luce**, che è metà del suo
+nome. Adesso ha due livelli, e il secondo è quello che serviva: *luce e suono sono
+tutte e due onde, ma la luce non ha bisogno di niente in cui viaggiare — è per
+questo che dal Sole ci arriva la luce e non il rumore*.
+
+E tre voci vive di italiano — `verbo`, `modi-indefiniti`,
+`imperativo-infinito-participio-gerundio` — insegnavano tutte lo stesso trucco,
+«prova a metterci davanti io», con quasi le stesse parole. Sono argomenti
+diversi, quindi impronte diverse, quindi **la memoria di NORA non le sopprimeva**:
+il bambino le leggeva tutte e tre.
+
+### Consigli che si contraddicono, o che usano strumenti inesistenti
+
+- `inglese:data-science` e `inglese:nature-environment` dicevano «se somiglia
+  all'italiano, **fidati**» — mentre `inglese:false-friends` insegna che i falsi
+  amici si travestono da parole che sai già. Ora dicono *quando* fidarsi: nel
+  lessico scientifico la somiglianza è affidabile perché le due lingue hanno
+  preso le parole dallo stesso latino;
+- `elettronica:legge-ohm` diceva «copri con un dito la grandezza che cerchi **nel
+  triangolo V-I-R**», e quel triangolo il gioco non lo disegna da nessuna parte.
+  Un metodo che usa uno strumento che non esiste non è un metodo;
+- `inglese:comparatives` dava la regola senza il caso «-y», che è quello che
+  produce «more happy»; `inglese:past-tense` diceva «una sola forma per ogni
+  persona» senza nominare *was/were*, cioè il primo verbo che si impara.
+
+Più tre righe riscritte perché erano in italiano da adulto: «quanto è plausibile
+un evento fra tutti quelli possibili», «una relazione fra grandezze reali, non
+un'equazione a sé stante», e una che diceva tre volte «si muovono» in una riga.
+
+> **Una nota su che cosa è vivo.** Le voci sono 249 ma gli argomenti che i banchi
+> propongono davvero sono **131**: 118 voci aspettano contenuti che non esistono
+> ancora. Cinque delle tredici righe toccate stanno su argomenti vivi; le altre
+> otto erano errori che dormivano. Li ho corretti lo stesso — un errore di fisica
+> che aspetta di essere pubblicato è comunque un errore di fisica.
+
+### E le correzioni: un cricchetto che proteggeva il rumore
+
+Rileggendo anche le correzioni generate il giorno prima è saltata fuori una cosa
+che la misura non poteva vedere, perché la misura le contava tutte uguali.
+
+A «qual è il nominativo plurale di *rosa*?» era attaccato il perché di **«2»** —
+vero, perché «2» è la risposta a *«quanti numeri distingue la declinazione
+latina?»* — e assurdo: nessun bambino scrive «2» a una domanda su una parola. La
+passata sulle domande vicine accostava numeri a parole ogni volta che capitavano
+nello stesso argomento.
+
+Adesso una correzione si attacca solo fra risposte **dello stesso tipo**: numeri
+con numeri, parole con parole. Sono uscite **523 correzioni-rumore**, e quindici
+esercizi sono rimasti scoperti — tutti numerici il cui argomento non ha nessun
+altro numerico, quindi senza niente di vero da dire.
+
+Quei quindici li ho scritti a mano, ed è il pezzo di questa giornata che vale di
+più, perché nessun generatore ci sarebbe arrivato. Puntano alla confusione
+classica dell'argomento:
+
+> *«In una catena erba → cavalletta → rana → serpente, quanti passaggi?»* — chi
+> scrive **4** legge: «quattro sono gli esseri viventi; i passaggi sono le frecce
+> fra loro, e le frecce sono tre».
+>
+> *«Quanti casi ha una declinazione?»* — chi scrive **5** legge: «cinque sono le
+> declinazioni, non i casi: sono due conti diversi che si scambiano facilmente».
+>
+> *«Il tuono arriva dopo 3 secondi, quanti chilometri?»* — chi scrive **340**
+> legge: «sono i metri che il suono percorre in UN secondo».
+
+> **Il cricchetto è stato ritarato, e va detto perché.** Le frasi di correzione
+> erano 15015 e sono scese a **14537 migliorando**. Un pavimento su un numero che
+> conta anche il rumore **protegge il rumore**: quando si scopre che lo faceva, il
+> numero si ritara e si scrive la ragione accanto. È l'unica eccezione onesta alla
+> regola del «mai in giù», e si usa solo con la misura in mano.
+
+### La guardia che ne è nata
+
+`nora_spiegazione_utile_audit` ha una misura in più: **due argomenti vivi non
+possono dire quasi la stessa cosa con le stesse parole**. Confronta l'ossatura
+delle righe (via le parole corte) e si arrossa sopra il 60% di parole condivise.
+
+Non giudica la qualità — non potrebbe, ed è la regola che vale da sempre qui — fa
+la domanda che si farebbe un lettore: *questa non l'ho già letta?*
+
+**Provata prima di fidarsene**: eseguita sul file com'era prima della rilettura è
+**rossa** sulle voci gemelle di italiano, e verde dopo. Una guardia verde alla
+nascita non prova niente.
+
+---
+
 ## Le spiegazioni, il secondo giro — 27 agosto 2026
 
 Il punto della situazione dopo il lotto del 26 dice che la struttura tiene —

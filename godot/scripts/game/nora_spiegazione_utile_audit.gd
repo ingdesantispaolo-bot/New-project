@@ -56,6 +56,22 @@ const FRASE_MINIMA := 25
 ## Il 27 agosto 2026 sono tutti e 3569.
 const PAVIMENTO_CORREZIONI := 3569
 
+## **Quante frasi di correzione ci sono in tutto.** Anche questo si alza e mai si
+## abbassa — con un'eccezione dichiarata, ed è successa lo stesso giorno in cui il
+## numero è nato.
+##
+## Erano 15015, e sono scese a 14537 **migliorando**: la passata sulle domande
+## vicine attaccava a una domanda su «rosae» il perché di «2», che è la risposta a
+## «quanti numeri distingue la declinazione latina». Vera, e assurda — nessun
+## bambino scrive «2» a una domanda su una parola. Cinquecentoventitré correzioni
+## così sono uscite, e al loro posto ne sono entrate quarantacinque scritte a mano
+## per i quindici esercizi che restavano scoperti.
+##
+## **Un cricchetto su un numero che conta anche il rumore protegge il rumore.**
+## Quando si scopre che lo faceva, il numero si ritara e si scrive perché: è
+## l'unica eccezione onesta alla regola, e va usata solo con la misura in mano.
+const PAVIMENTO_FRASI := 14537
+
 ## **Sotto quanti esercizi un argomento può cavarsela con una riga sola.**
 ##
 ## Sopra questa soglia il bambino incontra l'argomento troppe volte perché una
@@ -94,6 +110,7 @@ func _run() -> void:
 	_il_silenzio(cm)
 	_le_figure(cm)
 	_i_livelli(cm)
+	_due_voci_non_dicono_lo_stesso(cm)
 	await _sullo_schermo()
 	if not errori.is_empty():
 		for messaggio in errori.slice(0, 12):
@@ -135,6 +152,9 @@ func _la_consegna(cm: ContentManager) -> void:
 		con_why, consegnati, con_correzione, totale_item])
 	if con_why > 0 and consegnati < con_why:
 		_fallisci("%d frasi su %d non raggiungono il bambino" % [con_why - consegnati, con_why])
+	if con_why < PAVIMENTO_FRASI:
+		_fallisci("le frasi di correzione sono %d: erano %d, e questo numero non deve scendere" % [
+			con_why, PAVIMENTO_FRASI])
 	if con_correzione < PAVIMENTO_CORREZIONI:
 		_fallisci("solo %d esercizi consegnano una correzione: erano %d, e questo numero non deve scendere" % [
 			con_correzione, PAVIMENTO_CORREZIONI])
@@ -351,3 +371,68 @@ func _i_livelli(cm: ContentManager) -> void:
 				str(chiave), int(conta[chiave])])
 	print("7. I LIVELLI     %d argomenti con %d+ esercizi (%d prove in tutto), %d con più livelli" % [
 		affollati, AFFOLLATO, coperti, con_livelli])
+
+## 8. **Due argomenti vivi non possono insegnare la stessa cosa con le stesse
+##    parole.**
+##
+## Le voci sono 249 e nessuno le legge tutte insieme: e' cosi' che
+## `fisica:onde-luce` era finita a ripetere `fisica:onde` parola per parola senza
+## dire niente sulla luce, e che tre voci di italiano insegnavano tutte a
+## «metterci davanti io». La memoria delle dodici impronte non aiuta: sono
+## argomenti diversi, quindi impronte diverse, e il bambino le sente tutt'e due.
+##
+## Si confrontano solo gli argomenti **vivi** — quelli che i banchi propongono
+## davvero — perche' le altre 118 voci aspettano contenuti che non esistono
+## ancora, e un rosso su quelle direbbe una cosa che non riguarda nessuno.
+##
+## Il confronto e' sullo scheletro: via la punteggiatura e le parole corte, e si
+## guarda quante parole lunghe hanno in comune. Non e' un giudizio di qualita' —
+## non lo sarebbe mai — e' la stessa domanda che si farebbe un lettore: «questa
+## non l'ho gia' letta?».
+const SOMIGLIANZA_MASSIMA := 0.6
+
+func _ossatura(riga: String) -> Dictionary:
+	var fuori: Dictionary = {}
+	for parola in riga.to_lower().replace(",", " ").replace(".", " ").replace(":", " ").split(" ", false):
+		var pulita := str(parola).strip_edges()
+		if pulita.length() >= 5:
+			fuori[pulita] = true
+	return fuori
+
+func _due_voci_non_dicono_lo_stesso(cm: ContentManager) -> void:
+	var vivi: Array = []
+	for subject_dato in ApparatusConfig.SUBJECT_CYCLE:
+		var subject := str(subject_dato)
+		var visti: Dictionary = {}
+		for entry in cm._load_bank(subject):
+			visti[str((entry as Dictionary).get("topic", ""))] = true
+		for topic in visti.keys():
+			vivi.append([subject, str(topic)])
+	var righe: Array = []
+	for coppia in vivi:
+		var v := NoraExplanations.voce(str(coppia[0]), str(coppia[1]))
+		for corretto in [true, false]:
+			for riga in NoraExplanations.livelli_di(v, bool(corretto)):
+				righe.append({"chi": "%s:%s" % [coppia[0], coppia[1]], "testo": str(riga),
+					"ossa": _ossatura(str(riga))})
+	var gemelle := 0
+	for a in range(righe.size()):
+		for b in range(a + 1, righe.size()):
+			var ua: Dictionary = righe[a]["ossa"]
+			var ub: Dictionary = righe[b]["ossa"]
+			if ua.size() < 4 or ub.size() < 4:
+				continue
+			if str(righe[a]["chi"]) == str(righe[b]["chi"]):
+				continue
+			var comuni := 0
+			for parola in ua.keys():
+				if ub.has(parola):
+					comuni += 1
+			var quota := float(comuni) / float(mini(ua.size(), ub.size()))
+			if quota > SOMIGLIANZA_MASSIMA:
+				gemelle += 1
+				_fallisci("%s e %s dicono quasi la stessa cosa (%.0f%%): «%s»" % [
+					str(righe[a]["chi"]), str(righe[b]["chi"]), quota * 100.0,
+					str(righe[a]["testo"]).substr(0, 60)])
+	print("8. NIENTE GEMELLE %d righe di NORA su argomenti vivi, %d coppie troppo simili" % [
+		righe.size(), gemelle])

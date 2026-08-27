@@ -9748,14 +9748,9 @@
 			"answer": "7",
 			"explanation": "il, lo, la, i, gli, le, l' — sette forme fra singolari e plurali, maschili e femminili.",
 			"distractorWhy": {
-				"Aggettivo qualificativo": "«Aggettivo qualificativo» è la risposta giusta a un'altra domanda di questo gruppo: «Che parte del discorso è «bello»?».",
-				"Avverbi": "«Avverbi» è la risposta giusta a un'altra domanda di questo gruppo: «Che parte del discorso sono le parole che finiscono in -mente, come «lentamente»?».",
-				"Preposizione (o avverbio)": "«Preposizione (o avverbio)» è la risposta giusta a un'altra domanda di questo gruppo: «Che parte del discorso è «sopra»?».",
-				"Aggettivo possessivo": "«Aggettivo possessivo» è la risposta giusta a un'altra domanda di questo gruppo: «In «il mio libro», che cos'è «mio»?».",
-				"Pronome dimostrativo": "«Pronome dimostrativo» è la risposta giusta a un'altra domanda di questo gruppo: «In «questo è mio», che cos'è «questo»?».",
-				"Congiunzione": "«Congiunzione» è la risposta giusta a un'altra domanda di questo gruppo: «Che parte del discorso è «e» in «pane e latte»?».",
-				"Nome astratto": "«Nome astratto» è la risposta giusta a un'altra domanda di questo gruppo: «Che tipo di nome è «coraggio»?».",
-				"Nome collettivo": "«Nome collettivo» è la risposta giusta a un'altra domanda di questo gruppo: «Che tipo di nome è «gregge»?»."
+				"4": "Sono i quattro più comuni (il, la, i, le): restano fuori lo, gli e l'.",
+				"6": "Ne manca una: il, lo, la, i, gli, le e l' apostrofato fanno sette.",
+				"8": "Sono sette: l'apostrofato si conta una volta sola, anche se vale per maschile e femminile."
 			}
 		},
 		{
@@ -10441,14 +10436,9 @@
 			"answer": "2",
 			"explanation": "Corre e legge: due predicati, quindi due proposizioni coordinate.",
 			"distractorWhy": {
-				"Sono coordinate": "«Sono coordinate» è la risposta giusta a un'altra domanda di questo gruppo: «In «Mangio e bevo», che rapporto c'è fra le due frasi?».",
-				"Oggettiva": "«Oggettiva» è la risposta giusta a un'altra domanda di questo gruppo: «In «Spero che tu venga», che tipo di subordinata è?».",
-				"Relativa": "«Relativa» è la risposta giusta a un'altra domanda di questo gruppo: «In «Il libro che ho letto è bello», che tipo di subordinata è «che ho letto»?».",
-				"Subordinata temporale": "«Subordinata temporale» è la risposta giusta a un'altra domanda di questo gruppo: «In «Quando arrivi, chiamami», che cos'è «quando arrivi»?».",
-				"Subordinata finale": "«Subordinata finale» è la risposta giusta a un'altra domanda di questo gruppo: «In «Studio per passare l'esame», che cos'è «per passare l'esame»?».",
-				"Subordinata consecutiva": "«Subordinata consecutiva» è la risposta giusta a un'altra domanda di questo gruppo: «In «Era così stanco che si addormentò», che cos'è la seconda frase?».",
-				"Ipotetico": "«Ipotetico» è la risposta giusta a un'altra domanda di questo gruppo: «In «Se studi, passerai», che tipo di periodo è?».",
-				"principale": "«principale» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la proposizione che regge da sola e non dipende da nessun'altra?»."
+				"1": "I verbi sono due, «corre» e «legge»: la «e» unisce due frasi, non due parole.",
+				"3": "I verbi sono due soltanto: «Marco» e «Anna» sono i soggetti, non predicati.",
+				"4": "Le parole sono quattro, i predicati due: si contano i verbi, non le parole."
 			}
 		},
 		{
@@ -12021,14 +12011,14 @@
 			],
 			"explanation": "È il cuore della frase: senza verbo non c'è frase.",
 			"distractorWhy": {
-				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «Quante forme ha l'articolo determinativo italiano, contando anche l'elisione «l'»?».",
 				"Aggettivo qualificativo": "«Aggettivo qualificativo» è la risposta giusta a un'altra domanda di questo gruppo: «Che parte del discorso è «bello»?».",
 				"Avverbi": "«Avverbi» è la risposta giusta a un'altra domanda di questo gruppo: «Che parte del discorso sono le parole che finiscono in -mente, come «lentamente»?».",
 				"Preposizione (o avverbio)": "«Preposizione (o avverbio)» è la risposta giusta a un'altra domanda di questo gruppo: «Che parte del discorso è «sopra»?».",
 				"Aggettivo possessivo": "«Aggettivo possessivo» è la risposta giusta a un'altra domanda di questo gruppo: «In «il mio libro», che cos'è «mio»?».",
 				"Pronome dimostrativo": "«Pronome dimostrativo» è la risposta giusta a un'altra domanda di questo gruppo: «In «questo è mio», che cos'è «questo»?».",
 				"Congiunzione": "«Congiunzione» è la risposta giusta a un'altra domanda di questo gruppo: «Che parte del discorso è «e» in «pane e latte»?».",
-				"Nome astratto": "«Nome astratto» è la risposta giusta a un'altra domanda di questo gruppo: «Che tipo di nome è «coraggio»?»."
+				"Nome astratto": "«Nome astratto» è la risposta giusta a un'altra domanda di questo gruppo: «Che tipo di nome è «coraggio»?».",
+				"Nome collettivo": "«Nome collettivo» è la risposta giusta a un'altra domanda di questo gruppo: «Che tipo di nome è «gregge»?»."
 			}
 		},
 		{
@@ -12045,14 +12035,14 @@
 			],
 			"explanation": "Si accorda con il nome in genere e numero.",
 			"distractorWhy": {
-				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «Quante forme ha l'articolo determinativo italiano, contando anche l'elisione «l'»?».",
 				"Aggettivo qualificativo": "«Aggettivo qualificativo» è la risposta giusta a un'altra domanda di questo gruppo: «Che parte del discorso è «bello»?».",
 				"Avverbi": "«Avverbi» è la risposta giusta a un'altra domanda di questo gruppo: «Che parte del discorso sono le parole che finiscono in -mente, come «lentamente»?».",
 				"Preposizione (o avverbio)": "«Preposizione (o avverbio)» è la risposta giusta a un'altra domanda di questo gruppo: «Che parte del discorso è «sopra»?».",
 				"Aggettivo possessivo": "«Aggettivo possessivo» è la risposta giusta a un'altra domanda di questo gruppo: «In «il mio libro», che cos'è «mio»?».",
 				"Pronome dimostrativo": "«Pronome dimostrativo» è la risposta giusta a un'altra domanda di questo gruppo: «In «questo è mio», che cos'è «questo»?».",
 				"Congiunzione": "«Congiunzione» è la risposta giusta a un'altra domanda di questo gruppo: «Che parte del discorso è «e» in «pane e latte»?».",
-				"Nome astratto": "«Nome astratto» è la risposta giusta a un'altra domanda di questo gruppo: «Che tipo di nome è «coraggio»?»."
+				"Nome astratto": "«Nome astratto» è la risposta giusta a un'altra domanda di questo gruppo: «Che tipo di nome è «coraggio»?».",
+				"Nome collettivo": "«Nome collettivo» è la risposta giusta a un'altra domanda di questo gruppo: «Che tipo di nome è «gregge»?»."
 			}
 		},
 		{
@@ -12069,14 +12059,14 @@
 			],
 			"explanation": "Pro-nome: al posto del nome.",
 			"distractorWhy": {
-				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «Quante forme ha l'articolo determinativo italiano, contando anche l'elisione «l'»?».",
 				"Aggettivo qualificativo": "«Aggettivo qualificativo» è la risposta giusta a un'altra domanda di questo gruppo: «Che parte del discorso è «bello»?».",
 				"Avverbi": "«Avverbi» è la risposta giusta a un'altra domanda di questo gruppo: «Che parte del discorso sono le parole che finiscono in -mente, come «lentamente»?».",
 				"Preposizione (o avverbio)": "«Preposizione (o avverbio)» è la risposta giusta a un'altra domanda di questo gruppo: «Che parte del discorso è «sopra»?».",
 				"Aggettivo possessivo": "«Aggettivo possessivo» è la risposta giusta a un'altra domanda di questo gruppo: «In «il mio libro», che cos'è «mio»?».",
 				"Pronome dimostrativo": "«Pronome dimostrativo» è la risposta giusta a un'altra domanda di questo gruppo: «In «questo è mio», che cos'è «questo»?».",
 				"Congiunzione": "«Congiunzione» è la risposta giusta a un'altra domanda di questo gruppo: «Che parte del discorso è «e» in «pane e latte»?».",
-				"Nome astratto": "«Nome astratto» è la risposta giusta a un'altra domanda di questo gruppo: «Che tipo di nome è «coraggio»?»."
+				"Nome astratto": "«Nome astratto» è la risposta giusta a un'altra domanda di questo gruppo: «Che tipo di nome è «coraggio»?».",
+				"Nome collettivo": "«Nome collettivo» è la risposta giusta a un'altra domanda di questo gruppo: «Che tipo di nome è «gregge»?»."
 			}
 		},
 		{
@@ -12093,14 +12083,14 @@
 			],
 			"explanation": "Precisa come, quando, quanto, dove.",
 			"distractorWhy": {
-				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «Quante forme ha l'articolo determinativo italiano, contando anche l'elisione «l'»?».",
 				"Aggettivo qualificativo": "«Aggettivo qualificativo» è la risposta giusta a un'altra domanda di questo gruppo: «Che parte del discorso è «bello»?».",
 				"Avverbi": "«Avverbi» è la risposta giusta a un'altra domanda di questo gruppo: «Che parte del discorso sono le parole che finiscono in -mente, come «lentamente»?».",
 				"Preposizione (o avverbio)": "«Preposizione (o avverbio)» è la risposta giusta a un'altra domanda di questo gruppo: «Che parte del discorso è «sopra»?».",
 				"Aggettivo possessivo": "«Aggettivo possessivo» è la risposta giusta a un'altra domanda di questo gruppo: «In «il mio libro», che cos'è «mio»?».",
 				"Pronome dimostrativo": "«Pronome dimostrativo» è la risposta giusta a un'altra domanda di questo gruppo: «In «questo è mio», che cos'è «questo»?».",
 				"Congiunzione": "«Congiunzione» è la risposta giusta a un'altra domanda di questo gruppo: «Che parte del discorso è «e» in «pane e latte»?».",
-				"Nome astratto": "«Nome astratto» è la risposta giusta a un'altra domanda di questo gruppo: «Che tipo di nome è «coraggio»?»."
+				"Nome astratto": "«Nome astratto» è la risposta giusta a un'altra domanda di questo gruppo: «Che tipo di nome è «coraggio»?».",
+				"Nome collettivo": "«Nome collettivo» è la risposta giusta a un'altra domanda di questo gruppo: «Che tipo di nome è «gregge»?»."
 			}
 		},
 		{
@@ -12117,14 +12107,14 @@
 			],
 			"explanation": "Unisce parole o intere proposizioni.",
 			"distractorWhy": {
-				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «Quante forme ha l'articolo determinativo italiano, contando anche l'elisione «l'»?».",
 				"Aggettivo qualificativo": "«Aggettivo qualificativo» è la risposta giusta a un'altra domanda di questo gruppo: «Che parte del discorso è «bello»?».",
 				"Avverbi": "«Avverbi» è la risposta giusta a un'altra domanda di questo gruppo: «Che parte del discorso sono le parole che finiscono in -mente, come «lentamente»?».",
 				"Preposizione (o avverbio)": "«Preposizione (o avverbio)» è la risposta giusta a un'altra domanda di questo gruppo: «Che parte del discorso è «sopra»?».",
 				"Aggettivo possessivo": "«Aggettivo possessivo» è la risposta giusta a un'altra domanda di questo gruppo: «In «il mio libro», che cos'è «mio»?».",
 				"Pronome dimostrativo": "«Pronome dimostrativo» è la risposta giusta a un'altra domanda di questo gruppo: «In «questo è mio», che cos'è «questo»?».",
 				"Nome astratto": "«Nome astratto» è la risposta giusta a un'altra domanda di questo gruppo: «Che tipo di nome è «coraggio»?».",
-				"Nome collettivo": "«Nome collettivo» è la risposta giusta a un'altra domanda di questo gruppo: «Che tipo di nome è «gregge»?»."
+				"Nome collettivo": "«Nome collettivo» è la risposta giusta a un'altra domanda di questo gruppo: «Che tipo di nome è «gregge»?».",
+				"Pronome personale complemento": "«Pronome personale complemento» è la risposta giusta a un'altra domanda di questo gruppo: «In «gli parlo domani», che cos'è «gli»?»."
 			}
 		},
 		{
@@ -12141,14 +12131,14 @@
 			],
 			"explanation": "Da sola non dice niente: serve a legare.",
 			"distractorWhy": {
-				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «Quante forme ha l'articolo determinativo italiano, contando anche l'elisione «l'»?».",
 				"Aggettivo qualificativo": "«Aggettivo qualificativo» è la risposta giusta a un'altra domanda di questo gruppo: «Che parte del discorso è «bello»?».",
 				"Avverbi": "«Avverbi» è la risposta giusta a un'altra domanda di questo gruppo: «Che parte del discorso sono le parole che finiscono in -mente, come «lentamente»?».",
 				"Preposizione (o avverbio)": "«Preposizione (o avverbio)» è la risposta giusta a un'altra domanda di questo gruppo: «Che parte del discorso è «sopra»?».",
 				"Aggettivo possessivo": "«Aggettivo possessivo» è la risposta giusta a un'altra domanda di questo gruppo: «In «il mio libro», che cos'è «mio»?».",
 				"Pronome dimostrativo": "«Pronome dimostrativo» è la risposta giusta a un'altra domanda di questo gruppo: «In «questo è mio», che cos'è «questo»?».",
 				"Congiunzione": "«Congiunzione» è la risposta giusta a un'altra domanda di questo gruppo: «Che parte del discorso è «e» in «pane e latte»?».",
-				"Nome astratto": "«Nome astratto» è la risposta giusta a un'altra domanda di questo gruppo: «Che tipo di nome è «coraggio»?»."
+				"Nome astratto": "«Nome astratto» è la risposta giusta a un'altra domanda di questo gruppo: «Che tipo di nome è «coraggio»?».",
+				"Nome collettivo": "«Nome collettivo» è la risposta giusta a un'altra domanda di questo gruppo: «Che tipo di nome è «gregge»?»."
 			}
 		},
 		{
@@ -12165,14 +12155,14 @@
 			],
 			"explanation": "Determinativo se la cosa è nota, indeterminativo se è generica.",
 			"distractorWhy": {
-				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «Quante forme ha l'articolo determinativo italiano, contando anche l'elisione «l'»?».",
 				"Aggettivo qualificativo": "«Aggettivo qualificativo» è la risposta giusta a un'altra domanda di questo gruppo: «Che parte del discorso è «bello»?».",
 				"Avverbi": "«Avverbi» è la risposta giusta a un'altra domanda di questo gruppo: «Che parte del discorso sono le parole che finiscono in -mente, come «lentamente»?».",
 				"Preposizione (o avverbio)": "«Preposizione (o avverbio)» è la risposta giusta a un'altra domanda di questo gruppo: «Che parte del discorso è «sopra»?».",
 				"Aggettivo possessivo": "«Aggettivo possessivo» è la risposta giusta a un'altra domanda di questo gruppo: «In «il mio libro», che cos'è «mio»?».",
 				"Pronome dimostrativo": "«Pronome dimostrativo» è la risposta giusta a un'altra domanda di questo gruppo: «In «questo è mio», che cos'è «questo»?».",
 				"Congiunzione": "«Congiunzione» è la risposta giusta a un'altra domanda di questo gruppo: «Che parte del discorso è «e» in «pane e latte»?».",
-				"Nome astratto": "«Nome astratto» è la risposta giusta a un'altra domanda di questo gruppo: «Che tipo di nome è «coraggio»?»."
+				"Nome astratto": "«Nome astratto» è la risposta giusta a un'altra domanda di questo gruppo: «Che tipo di nome è «coraggio»?».",
+				"Nome collettivo": "«Nome collettivo» è la risposta giusta a un'altra domanda di questo gruppo: «Che tipo di nome è «gregge»?»."
 			}
 		},
 		{
@@ -12335,14 +12325,14 @@
 			],
 			"explanation": "Sta in piedi anche se togli tutto il resto.",
 			"distractorWhy": {
-				"2": "«2» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti predicati ha la frase «Marco corre e Anna legge»?».",
 				"Sono coordinate": "«Sono coordinate» è la risposta giusta a un'altra domanda di questo gruppo: «In «Mangio e bevo», che rapporto c'è fra le due frasi?».",
 				"Oggettiva": "«Oggettiva» è la risposta giusta a un'altra domanda di questo gruppo: «In «Spero che tu venga», che tipo di subordinata è?».",
 				"Relativa": "«Relativa» è la risposta giusta a un'altra domanda di questo gruppo: «In «Il libro che ho letto è bello», che tipo di subordinata è «che ho letto»?».",
 				"Subordinata temporale": "«Subordinata temporale» è la risposta giusta a un'altra domanda di questo gruppo: «In «Quando arrivi, chiamami», che cos'è «quando arrivi»?».",
 				"Subordinata finale": "«Subordinata finale» è la risposta giusta a un'altra domanda di questo gruppo: «In «Studio per passare l'esame», che cos'è «per passare l'esame»?».",
 				"Subordinata consecutiva": "«Subordinata consecutiva» è la risposta giusta a un'altra domanda di questo gruppo: «In «Era così stanco che si addormentò», che cos'è la seconda frase?».",
-				"Ipotetico": "«Ipotetico» è la risposta giusta a un'altra domanda di questo gruppo: «In «Se studi, passerai», che tipo di periodo è?»."
+				"Ipotetico": "«Ipotetico» è la risposta giusta a un'altra domanda di questo gruppo: «In «Se studi, passerai», che tipo di periodo è?».",
+				"subordinata": "«subordinata» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la proposizione che dipende da un'altra?»."
 			}
 		},
 		{
@@ -12359,14 +12349,14 @@
 			],
 			"explanation": "Da sola non ha senso compiuto.",
 			"distractorWhy": {
-				"2": "«2» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti predicati ha la frase «Marco corre e Anna legge»?».",
 				"Sono coordinate": "«Sono coordinate» è la risposta giusta a un'altra domanda di questo gruppo: «In «Mangio e bevo», che rapporto c'è fra le due frasi?».",
 				"Oggettiva": "«Oggettiva» è la risposta giusta a un'altra domanda di questo gruppo: «In «Spero che tu venga», che tipo di subordinata è?».",
 				"Relativa": "«Relativa» è la risposta giusta a un'altra domanda di questo gruppo: «In «Il libro che ho letto è bello», che tipo di subordinata è «che ho letto»?».",
 				"Subordinata temporale": "«Subordinata temporale» è la risposta giusta a un'altra domanda di questo gruppo: «In «Quando arrivi, chiamami», che cos'è «quando arrivi»?».",
 				"Subordinata finale": "«Subordinata finale» è la risposta giusta a un'altra domanda di questo gruppo: «In «Studio per passare l'esame», che cos'è «per passare l'esame»?».",
 				"Subordinata consecutiva": "«Subordinata consecutiva» è la risposta giusta a un'altra domanda di questo gruppo: «In «Era così stanco che si addormentò», che cos'è la seconda frase?».",
-				"Ipotetico": "«Ipotetico» è la risposta giusta a un'altra domanda di questo gruppo: «In «Se studi, passerai», che tipo di periodo è?»."
+				"Ipotetico": "«Ipotetico» è la risposta giusta a un'altra domanda di questo gruppo: «In «Se studi, passerai», che tipo di periodo è?».",
+				"principale": "«principale» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la proposizione che regge da sola e non dipende da nessun'altra?»."
 			}
 		},
 		{
@@ -12383,14 +12373,14 @@
 			],
 			"explanation": "Nessuna delle due dipende dall'altra.",
 			"distractorWhy": {
-				"2": "«2» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti predicati ha la frase «Marco corre e Anna legge»?».",
 				"Sono coordinate": "«Sono coordinate» è la risposta giusta a un'altra domanda di questo gruppo: «In «Mangio e bevo», che rapporto c'è fra le due frasi?».",
 				"Oggettiva": "«Oggettiva» è la risposta giusta a un'altra domanda di questo gruppo: «In «Spero che tu venga», che tipo di subordinata è?».",
 				"Relativa": "«Relativa» è la risposta giusta a un'altra domanda di questo gruppo: «In «Il libro che ho letto è bello», che tipo di subordinata è «che ho letto»?».",
 				"Subordinata temporale": "«Subordinata temporale» è la risposta giusta a un'altra domanda di questo gruppo: «In «Quando arrivi, chiamami», che cos'è «quando arrivi»?».",
 				"Subordinata finale": "«Subordinata finale» è la risposta giusta a un'altra domanda di questo gruppo: «In «Studio per passare l'esame», che cos'è «per passare l'esame»?».",
 				"Subordinata consecutiva": "«Subordinata consecutiva» è la risposta giusta a un'altra domanda di questo gruppo: «In «Era così stanco che si addormentò», che cos'è la seconda frase?».",
-				"Ipotetico": "«Ipotetico» è la risposta giusta a un'altra domanda di questo gruppo: «In «Se studi, passerai», che tipo di periodo è?»."
+				"Ipotetico": "«Ipotetico» è la risposta giusta a un'altra domanda di questo gruppo: «In «Se studi, passerai», che tipo di periodo è?».",
+				"principale": "«principale» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la proposizione che regge da sola e non dipende da nessun'altra?»."
 			}
 		},
 		{
@@ -12407,14 +12397,14 @@
 			],
 			"explanation": "Dice perché avviene quello che dice la principale.",
 			"distractorWhy": {
-				"2": "«2» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti predicati ha la frase «Marco corre e Anna legge»?».",
 				"Sono coordinate": "«Sono coordinate» è la risposta giusta a un'altra domanda di questo gruppo: «In «Mangio e bevo», che rapporto c'è fra le due frasi?».",
 				"Oggettiva": "«Oggettiva» è la risposta giusta a un'altra domanda di questo gruppo: «In «Spero che tu venga», che tipo di subordinata è?».",
 				"Relativa": "«Relativa» è la risposta giusta a un'altra domanda di questo gruppo: «In «Il libro che ho letto è bello», che tipo di subordinata è «che ho letto»?».",
 				"Subordinata temporale": "«Subordinata temporale» è la risposta giusta a un'altra domanda di questo gruppo: «In «Quando arrivi, chiamami», che cos'è «quando arrivi»?».",
 				"Subordinata finale": "«Subordinata finale» è la risposta giusta a un'altra domanda di questo gruppo: «In «Studio per passare l'esame», che cos'è «per passare l'esame»?».",
 				"Subordinata consecutiva": "«Subordinata consecutiva» è la risposta giusta a un'altra domanda di questo gruppo: «In «Era così stanco che si addormentò», che cos'è la seconda frase?».",
-				"Ipotetico": "«Ipotetico» è la risposta giusta a un'altra domanda di questo gruppo: «In «Se studi, passerai», che tipo di periodo è?»."
+				"Ipotetico": "«Ipotetico» è la risposta giusta a un'altra domanda di questo gruppo: «In «Se studi, passerai», che tipo di periodo è?».",
+				"principale": "«principale» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la proposizione che regge da sola e non dipende da nessun'altra?»."
 			}
 		},
 		{
@@ -12431,14 +12421,14 @@
 			],
 			"explanation": "Pone una condizione: se succede questo, allora quello.",
 			"distractorWhy": {
-				"2": "«2» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti predicati ha la frase «Marco corre e Anna legge»?».",
 				"Sono coordinate": "«Sono coordinate» è la risposta giusta a un'altra domanda di questo gruppo: «In «Mangio e bevo», che rapporto c'è fra le due frasi?».",
 				"Oggettiva": "«Oggettiva» è la risposta giusta a un'altra domanda di questo gruppo: «In «Spero che tu venga», che tipo di subordinata è?».",
 				"Relativa": "«Relativa» è la risposta giusta a un'altra domanda di questo gruppo: «In «Il libro che ho letto è bello», che tipo di subordinata è «che ho letto»?».",
 				"Subordinata temporale": "«Subordinata temporale» è la risposta giusta a un'altra domanda di questo gruppo: «In «Quando arrivi, chiamami», che cos'è «quando arrivi»?».",
 				"Subordinata finale": "«Subordinata finale» è la risposta giusta a un'altra domanda di questo gruppo: «In «Studio per passare l'esame», che cos'è «per passare l'esame»?».",
 				"Subordinata consecutiva": "«Subordinata consecutiva» è la risposta giusta a un'altra domanda di questo gruppo: «In «Era così stanco che si addormentò», che cos'è la seconda frase?».",
-				"Ipotetico": "«Ipotetico» è la risposta giusta a un'altra domanda di questo gruppo: «In «Se studi, passerai», che tipo di periodo è?»."
+				"Ipotetico": "«Ipotetico» è la risposta giusta a un'altra domanda di questo gruppo: «In «Se studi, passerai», che tipo di periodo è?».",
+				"principale": "«principale» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la proposizione che regge da sola e non dipende da nessun'altra?»."
 			}
 		},
 		{

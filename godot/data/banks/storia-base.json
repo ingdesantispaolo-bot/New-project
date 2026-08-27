@@ -1253,14 +1253,7 @@
 			"answer": "100",
 			"explanation": "Cinquanta prima e cinquanta dopo, senza anno zero fra i due sistemi: un secolo esatto.",
 			"distractorWhy": {
-				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti secoli ci sono in un millennio?».",
-				"XVIII secolo": "«XVIII secolo» è la risposta giusta a un'altra domanda di questo gruppo: «A quale secolo appartiene l'anno 1789?».",
-				"300 a.C.": "«300 a.C.» è la risposta giusta a un'altra domanda di questo gruppo: «Quale anno viene prima: 300 a.C. o 100 a.C.?».",
-				"XIX secolo": "«XIX secolo» è la risposta giusta a un'altra domanda di questo gruppo: «In quale secolo si colloca l'anno 1900?».",
-				"Cento": "«Cento» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni dura un secolo?».",
-				"a.C.": "«a.C.» è la risposta giusta a un'altra domanda di questo gruppo: «Come si indicano gli anni prima della nascita di Cristo?».",
-				"XV secolo": "«XV secolo» è la risposta giusta a un'altra domanda di questo gruppo: «A quale secolo appartiene l'anno 1492?».",
-				"secolo": "«secolo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un periodo di cento anni?»."
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti secoli ci sono in un millennio?»."
 			}
 		},
 		{
@@ -1274,14 +1267,7 @@
 			"answer": "10",
 			"explanation": "Mille anni divisi in secoli da cento: dieci secoli fanno un millennio.",
 			"distractorWhy": {
-				"100": "«100» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni passano fra il 50 a.C. e il 50 d.C.?».",
-				"XVIII secolo": "«XVIII secolo» è la risposta giusta a un'altra domanda di questo gruppo: «A quale secolo appartiene l'anno 1789?».",
-				"300 a.C.": "«300 a.C.» è la risposta giusta a un'altra domanda di questo gruppo: «Quale anno viene prima: 300 a.C. o 100 a.C.?».",
-				"XIX secolo": "«XIX secolo» è la risposta giusta a un'altra domanda di questo gruppo: «In quale secolo si colloca l'anno 1900?».",
-				"Cento": "«Cento» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni dura un secolo?».",
-				"a.C.": "«a.C.» è la risposta giusta a un'altra domanda di questo gruppo: «Come si indicano gli anni prima della nascita di Cristo?».",
-				"XV secolo": "«XV secolo» è la risposta giusta a un'altra domanda di questo gruppo: «A quale secolo appartiene l'anno 1492?».",
-				"secolo": "«secolo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un periodo di cento anni?»."
+				"100": "«100» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni passano fra il 50 a.C. e il 50 d.C.?»."
 			}
 		},
 		{
@@ -2339,14 +2325,14 @@
 			"accept": [],
 			"explanation": "Il Novecento è il ventesimo secolo.",
 			"distractorWhy": {
-				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti secoli ci sono in un millennio?».",
-				"100": "«100» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni passano fra il 50 a.C. e il 50 d.C.?».",
 				"XVIII secolo": "«XVIII secolo» è la risposta giusta a un'altra domanda di questo gruppo: «A quale secolo appartiene l'anno 1789?».",
 				"300 a.C.": "«300 a.C.» è la risposta giusta a un'altra domanda di questo gruppo: «Quale anno viene prima: 300 a.C. o 100 a.C.?».",
 				"XIX secolo": "«XIX secolo» è la risposta giusta a un'altra domanda di questo gruppo: «In quale secolo si colloca l'anno 1900?».",
 				"Cento": "«Cento» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni dura un secolo?».",
 				"a.C.": "«a.C.» è la risposta giusta a un'altra domanda di questo gruppo: «Come si indicano gli anni prima della nascita di Cristo?».",
-				"XV secolo": "«XV secolo» è la risposta giusta a un'altra domanda di questo gruppo: «A quale secolo appartiene l'anno 1492?»."
+				"XV secolo": "«XV secolo» è la risposta giusta a un'altra domanda di questo gruppo: «A quale secolo appartiene l'anno 1492?».",
+				"millennio": "«millennio» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un periodo di mille anni?».",
+				"decennio": "«decennio» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un periodo di dieci anni?»."
 			}
 		},
 		{
@@ -2361,14 +2347,14 @@
 			"accept": [],
 			"explanation": "Mille anni: la storia scritta ne conta poco più di cinque.",
 			"distractorWhy": {
-				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti secoli ci sono in un millennio?».",
-				"100": "«100» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni passano fra il 50 a.C. e il 50 d.C.?».",
 				"XVIII secolo": "«XVIII secolo» è la risposta giusta a un'altra domanda di questo gruppo: «A quale secolo appartiene l'anno 1789?».",
 				"300 a.C.": "«300 a.C.» è la risposta giusta a un'altra domanda di questo gruppo: «Quale anno viene prima: 300 a.C. o 100 a.C.?».",
 				"XIX secolo": "«XIX secolo» è la risposta giusta a un'altra domanda di questo gruppo: «In quale secolo si colloca l'anno 1900?».",
 				"Cento": "«Cento» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni dura un secolo?».",
 				"a.C.": "«a.C.» è la risposta giusta a un'altra domanda di questo gruppo: «Come si indicano gli anni prima della nascita di Cristo?».",
-				"XV secolo": "«XV secolo» è la risposta giusta a un'altra domanda di questo gruppo: «A quale secolo appartiene l'anno 1492?»."
+				"XV secolo": "«XV secolo» è la risposta giusta a un'altra domanda di questo gruppo: «A quale secolo appartiene l'anno 1492?».",
+				"secolo": "«secolo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un periodo di cento anni?».",
+				"decennio": "«decennio» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un periodo di dieci anni?»."
 			}
 		},
 		{
@@ -2383,14 +2369,14 @@
 			"accept": [],
 			"explanation": "Dieci anni: l'unità con cui si raccontano i cambiamenti recenti.",
 			"distractorWhy": {
-				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti secoli ci sono in un millennio?».",
-				"100": "«100» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni passano fra il 50 a.C. e il 50 d.C.?».",
 				"XVIII secolo": "«XVIII secolo» è la risposta giusta a un'altra domanda di questo gruppo: «A quale secolo appartiene l'anno 1789?».",
 				"300 a.C.": "«300 a.C.» è la risposta giusta a un'altra domanda di questo gruppo: «Quale anno viene prima: 300 a.C. o 100 a.C.?».",
 				"XIX secolo": "«XIX secolo» è la risposta giusta a un'altra domanda di questo gruppo: «In quale secolo si colloca l'anno 1900?».",
 				"Cento": "«Cento» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni dura un secolo?».",
 				"a.C.": "«a.C.» è la risposta giusta a un'altra domanda di questo gruppo: «Come si indicano gli anni prima della nascita di Cristo?».",
-				"XV secolo": "«XV secolo» è la risposta giusta a un'altra domanda di questo gruppo: «A quale secolo appartiene l'anno 1492?»."
+				"XV secolo": "«XV secolo» è la risposta giusta a un'altra domanda di questo gruppo: «A quale secolo appartiene l'anno 1492?».",
+				"secolo": "«secolo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un periodo di cento anni?».",
+				"millennio": "«millennio» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un periodo di mille anni?»."
 			}
 		},
 		{

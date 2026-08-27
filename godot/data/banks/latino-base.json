@@ -1358,14 +1358,14 @@
 			"answer": "rosae",
 			"explanation": "Nella prima declinazione il nominativo plurale esce in -ae, come il genitivo singolare: solo il contesto li distingue.",
 			"distractorWhy": {
-				"2": "«2» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti numeri distingue la declinazione latina?».",
 				"rosas": "«Rosas» è l'accusativo plurale, non il nominativo.",
 				"rosis": "«Rosis» è dativo/ablativo plurale, non il nominativo.",
 				"rosam": "«Rosam» è l'accusativo singolare, non il nominativo plurale.",
 				"Prima": "«Prima» è la risposta giusta a un'altra domanda di questo gruppo: «A quale declinazione appartiene «rosa, rosae»?».",
 				"Seconda": "«Seconda» è la risposta giusta a un'altra domanda di questo gruppo: «A quale declinazione appartiene «dominus, domini»?».",
 				"domini": "«domini» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il genitivo singolare di «dominus»?».",
-				"In -a": "«In -a» è la risposta giusta a un'altra domanda di questo gruppo: «Nei neutri plurali, in che lettera escono nominativo e accusativo?»."
+				"In -a": "«In -a» è la risposta giusta a un'altra domanda di questo gruppo: «Nei neutri plurali, in che lettera escono nominativo e accusativo?».",
+				"Quinta declinazione": "«Quinta declinazione» è la risposta giusta a un'altra domanda di questo gruppo: «I nomi come 'dies, diei' appartengono alla…»."
 			}
 		},
 		{
@@ -1379,14 +1379,14 @@
 			"answer": "rosam",
 			"explanation": "La -m finale è il segno tipico dell'accusativo singolare in quasi tutte le declinazioni.",
 			"distractorWhy": {
-				"2": "«2» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti numeri distingue la declinazione latina?».",
 				"rosae": "«Rosae» è genitivo singolare o nominativo plurale, non l'accusativo singolare.",
 				"rosa": "«Rosa» è il nominativo (o l'ablativo) singolare, senza la -m dell'accusativo.",
 				"rosas": "«Rosas» è l'accusativo plurale, non singolare.",
 				"Prima": "«Prima» è la risposta giusta a un'altra domanda di questo gruppo: «A quale declinazione appartiene «rosa, rosae»?».",
 				"Seconda": "«Seconda» è la risposta giusta a un'altra domanda di questo gruppo: «A quale declinazione appartiene «dominus, domini»?».",
 				"domini": "«domini» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il genitivo singolare di «dominus»?».",
-				"In -a": "«In -a» è la risposta giusta a un'altra domanda di questo gruppo: «Nei neutri plurali, in che lettera escono nominativo e accusativo?»."
+				"In -a": "«In -a» è la risposta giusta a un'altra domanda di questo gruppo: «Nei neutri plurali, in che lettera escono nominativo e accusativo?».",
+				"Quinta declinazione": "«Quinta declinazione» è la risposta giusta a un'altra domanda di questo gruppo: «I nomi come 'dies, diei' appartengono alla…»."
 			}
 		},
 		{
@@ -1526,14 +1526,7 @@
 			"answer": "2",
 			"explanation": "Singolare e plurale. Il duale esisteva in greco, non in latino classico.",
 			"distractorWhy": {
-				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti generi distingue il latino?».",
-				"Prima": "«Prima» è la risposta giusta a un'altra domanda di questo gruppo: «A quale declinazione appartiene «rosa, rosae»?».",
-				"Seconda": "«Seconda» è la risposta giusta a un'altra domanda di questo gruppo: «A quale declinazione appartiene «dominus, domini»?».",
-				"rosae": "«rosae» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il nominativo plurale di «rosa»?».",
-				"rosam": "«rosam» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'accusativo singolare di «rosa»?».",
-				"rosas": "«rosas» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'accusativo plurale di «rosa»?».",
-				"domini": "«domini» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il genitivo singolare di «dominus»?».",
-				"In -a": "«In -a» è la risposta giusta a un'altra domanda di questo gruppo: «Nei neutri plurali, in che lettera escono nominativo e accusativo?»."
+				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti generi distingue il latino?»."
 			}
 		},
 		{
@@ -1883,14 +1876,9 @@
 			"answer": "6",
 			"explanation": "Nominativo, genitivo, dativo, accusativo, vocativo e ablativo, al singolare e al plurale.",
 			"distractorWhy": {
-				"Genitivo": "«Genitivo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso esprime di solito il possesso?».",
-				"Dativo": "«Dativo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso esprime il complemento di termine?».",
-				"Ablativo": "«Ablativo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso si usa con molte preposizioni di stato in luogo?».",
-				"Vocativo": "«Vocativo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso useresti per tradurre «o Marco!»?».",
-				"Nominativo": "«Nominativo» è la risposta giusta a un'altra domanda di questo gruppo: «In latino, il caso del soggetto è il…».",
-				"Accusativo": "«Accusativo» è la risposta giusta a un'altra domanda di questo gruppo: «Il complemento oggetto in latino si esprime con l'…».",
-				"nominativo": "«nominativo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso latino si usa per il soggetto della frase?».",
-				"accusativo": "«accusativo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso latino si usa per il complemento oggetto?»."
+				"4": "Ne mancano due: oltre a nominativo, genitivo, dativo e accusativo ci sono vocativo e ablativo.",
+				"5": "Cinque sono le declinazioni, non i casi: sono due conti diversi che si scambiano facilmente.",
+				"12": "Sono sei casi per due numeri: dodici sono le forme, non i casi."
 			}
 		},
 		{
@@ -2198,14 +2186,9 @@
 			"answer": "5",
 			"explanation": "Cinque, ma le prime tre coprono la stragrande maggioranza dei nomi che si incontrano.",
 			"distractorWhy": {
-				"dativo singolare": "«dativo singolare» è la risposta giusta a un'altra domanda di questo gruppo: «Che caso e numero ha \"manui\" (da \"manus\", la mano)?».",
-				"accusativo singolare": "«accusativo singolare» è la risposta giusta a un'altra domanda di questo gruppo: «Che caso e numero ha \"manum\" (da \"manus\", la mano)?».",
-				"ablativo singolare": "«ablativo singolare» è la risposta giusta a un'altra domanda di questo gruppo: «Che caso e numero ha \"manu\" (da \"manus\", la mano)?».",
-				"genitivo plurale": "«genitivo plurale» è la risposta giusta a un'altra domanda di questo gruppo: «Che caso e numero ha \"manuum\" (da \"manus\", la mano)?».",
-				"Mano": "«Mano» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «manus»?».",
-				"Esercito": "«Esercito» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «exercitus»?».",
-				"Senato": "«Senato» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «senatus»?».",
-				"Maschile": "«Maschile» è la risposta giusta a un'altra domanda di questo gruppo: «Quale genere hanno la maggior parte dei nomi della quarta declinazione?»."
+				"3": "Sono cinque: fermarsi a tre lascia fuori la quarta e la quinta, che si incontrano di continuo.",
+				"4": "Ne manca una: la quinta è piccola ma contiene parole comuni come «res» e «dies».",
+				"6": "Sei sono i casi, non le declinazioni: le declinazioni sono cinque."
 			}
 		},
 		{
@@ -2765,14 +2748,7 @@
 			"answer": "6",
 			"explanation": "Nominativo, genitivo, dativo, accusativo, vocativo, ablativo.",
 			"distractorWhy": {
-				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «Quante declinazioni ha il latino?».",
-				"Latino": "«Latino» è la risposta giusta a un'altra domanda di questo gruppo: «In che lingua è scritta la maggior parte delle iscrizioni romane?».",
-				"Nominativo": "«Nominativo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso indica normalmente il soggetto?».",
-				"Accusativo": "«Accusativo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso indica normalmente il complemento oggetto?».",
-				"Vocativo": "«Vocativo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso si usa per chiamare qualcuno?».",
-				"I Romani": "«I Romani» è la risposta giusta a un'altra domanda di questo gruppo: «Il latino era la lingua di quale antico popolo?».",
-				"Il latino": "«Il latino» è la risposta giusta a un'altra domanda di questo gruppo: «Da quale lingua derivano soprattutto l'italiano, lo spagnolo e il francese?».",
-				"Cogli l'attimo": "«Cogli l'attimo» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa significa l'espressione latina 'Carpe diem'?»."
+				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «Quante declinazioni ha il latino?»."
 			}
 		},
 		{
@@ -2807,14 +2783,7 @@
 			"answer": "5",
 			"explanation": "Cinque gruppi di nomi, ciascuno con le sue desinenze: si riconoscono dal genitivo singolare.",
 			"distractorWhy": {
-				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti casi ha la declinazione latina?».",
-				"Latino": "«Latino» è la risposta giusta a un'altra domanda di questo gruppo: «In che lingua è scritta la maggior parte delle iscrizioni romane?».",
-				"Nominativo": "«Nominativo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso indica normalmente il soggetto?».",
-				"Accusativo": "«Accusativo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso indica normalmente il complemento oggetto?».",
-				"Vocativo": "«Vocativo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso si usa per chiamare qualcuno?».",
-				"I Romani": "«I Romani» è la risposta giusta a un'altra domanda di questo gruppo: «Il latino era la lingua di quale antico popolo?».",
-				"Il latino": "«Il latino» è la risposta giusta a un'altra domanda di questo gruppo: «Da quale lingua derivano soprattutto l'italiano, lo spagnolo e il francese?».",
-				"Cogli l'attimo": "«Cogli l'attimo» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa significa l'espressione latina 'Carpe diem'?»."
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti casi ha la declinazione latina?»."
 			}
 		},
 		{
@@ -3439,12 +3408,7 @@
 			"distractorWhy": {
 				"2": "Due sono i generi dell'italiano: il latino ne ha uno in più, il neutro.",
 				"4": "Tre e basta: maschile, femminile, neutro. Non ce n'è un quarto.",
-				"5": "Cinque sono le declinazioni, non i generi: i generi sono tre.",
-				"Prima": "«Prima» è la risposta giusta a un'altra domanda di questo gruppo: «A quale declinazione appartiene «rosa, rosae»?».",
-				"Seconda": "«Seconda» è la risposta giusta a un'altra domanda di questo gruppo: «A quale declinazione appartiene «dominus, domini»?».",
-				"rosae": "«rosae» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il nominativo plurale di «rosa»?».",
-				"rosam": "«rosam» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'accusativo singolare di «rosa»?».",
-				"rosas": "«rosas» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'accusativo plurale di «rosa»?»."
+				"5": "Cinque sono le declinazioni, non i generi: i generi sono tre."
 			}
 		},
 		{
@@ -3648,14 +3612,14 @@
 			"accept": [],
 			"explanation": "Prima declinazione: il nominativo singolare esce in -a.",
 			"distractorWhy": {
-				"2": "«2» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti numeri distingue la declinazione latina?».",
 				"Prima": "«Prima» è la risposta giusta a un'altra domanda di questo gruppo: «A quale declinazione appartiene «rosa, rosae»?».",
 				"Seconda": "«Seconda» è la risposta giusta a un'altra domanda di questo gruppo: «A quale declinazione appartiene «dominus, domini»?».",
 				"rosae": "«rosae» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il nominativo plurale di «rosa»?».",
 				"rosam": "«rosam» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'accusativo singolare di «rosa»?».",
 				"rosas": "«rosas» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'accusativo plurale di «rosa»?».",
 				"domini": "«domini» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il genitivo singolare di «dominus»?».",
-				"In -a": "«In -a» è la risposta giusta a un'altra domanda di questo gruppo: «Nei neutri plurali, in che lettera escono nominativo e accusativo?»."
+				"In -a": "«In -a» è la risposta giusta a un'altra domanda di questo gruppo: «Nei neutri plurali, in che lettera escono nominativo e accusativo?».",
+				"Quinta declinazione": "«Quinta declinazione» è la risposta giusta a un'altra domanda di questo gruppo: «I nomi come 'dies, diei' appartengono alla…»."
 			}
 		},
 		{
@@ -3670,14 +3634,14 @@
 			"accept": [],
 			"explanation": "Il genitivo in -ae è la firma della prima declinazione.",
 			"distractorWhy": {
-				"2": "«2» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti numeri distingue la declinazione latina?».",
-				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti generi distingue il latino?».",
 				"Prima": "«Prima» è la risposta giusta a un'altra domanda di questo gruppo: «A quale declinazione appartiene «rosa, rosae»?».",
 				"Seconda": "«Seconda» è la risposta giusta a un'altra domanda di questo gruppo: «A quale declinazione appartiene «dominus, domini»?».",
 				"rosam": "«rosam» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'accusativo singolare di «rosa»?».",
 				"rosas": "«rosas» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'accusativo plurale di «rosa»?».",
 				"domini": "«domini» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il genitivo singolare di «dominus»?».",
-				"In -a": "«In -a» è la risposta giusta a un'altra domanda di questo gruppo: «Nei neutri plurali, in che lettera escono nominativo e accusativo?»."
+				"In -a": "«In -a» è la risposta giusta a un'altra domanda di questo gruppo: «Nei neutri plurali, in che lettera escono nominativo e accusativo?».",
+				"Quinta declinazione": "«Quinta declinazione» è la risposta giusta a un'altra domanda di questo gruppo: «I nomi come 'dies, diei' appartengono alla…».",
+				"Seconda declinazione": "«Seconda declinazione» è la risposta giusta a un'altra domanda di questo gruppo: «I nomi come 'lupus, lupi' appartengono alla…»."
 			}
 		},
 		{
@@ -3994,14 +3958,14 @@
 			],
 			"explanation": "Il nominativo indica chi compie l'azione o di chi si dice qualcosa.",
 			"distractorWhy": {
-				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti casi ha una declinazione latina completa?».",
 				"Genitivo": "«Genitivo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso esprime di solito il possesso?».",
 				"Dativo": "«Dativo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso esprime il complemento di termine?».",
 				"Ablativo": "«Ablativo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso si usa con molte preposizioni di stato in luogo?».",
 				"Vocativo": "«Vocativo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso useresti per tradurre «o Marco!»?».",
 				"Accusativo": "«Accusativo» è la risposta giusta a un'altra domanda di questo gruppo: «Il complemento oggetto in latino si esprime con l'…».",
 				"accusativo": "«accusativo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso latino si usa per il complemento oggetto?».",
-				"vocativo": "«vocativo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso latino si usa per chiamare qualcuno?»."
+				"vocativo": "«vocativo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso latino si usa per chiamare qualcuno?».",
+				"desinenza": "«desinenza» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la parte finale di un nome, quella che cambia da un caso all'altro?»."
 			}
 		},
 		{
@@ -4019,14 +3983,14 @@
 			],
 			"explanation": "Risponde a «chi? che cosa?» dopo un verbo transitivo.",
 			"distractorWhy": {
-				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti casi ha una declinazione latina completa?».",
 				"Genitivo": "«Genitivo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso esprime di solito il possesso?».",
 				"Dativo": "«Dativo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso esprime il complemento di termine?».",
 				"Ablativo": "«Ablativo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso si usa con molte preposizioni di stato in luogo?».",
 				"Vocativo": "«Vocativo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso useresti per tradurre «o Marco!»?».",
 				"Nominativo": "«Nominativo» è la risposta giusta a un'altra domanda di questo gruppo: «In latino, il caso del soggetto è il…».",
 				"nominativo": "«nominativo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso latino si usa per il soggetto della frase?».",
-				"vocativo": "«vocativo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso latino si usa per chiamare qualcuno?»."
+				"vocativo": "«vocativo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso latino si usa per chiamare qualcuno?».",
+				"desinenza": "«desinenza» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la parte finale di un nome, quella che cambia da un caso all'altro?»."
 			}
 		},
 		{
@@ -4044,14 +4008,14 @@
 			],
 			"explanation": "È il caso del richiamo: quasi sempre uguale al nominativo.",
 			"distractorWhy": {
-				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti casi ha una declinazione latina completa?».",
 				"Genitivo": "«Genitivo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso esprime di solito il possesso?».",
 				"Dativo": "«Dativo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso esprime il complemento di termine?».",
 				"Ablativo": "«Ablativo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso si usa con molte preposizioni di stato in luogo?».",
 				"Nominativo": "«Nominativo» è la risposta giusta a un'altra domanda di questo gruppo: «In latino, il caso del soggetto è il…».",
 				"Accusativo": "«Accusativo» è la risposta giusta a un'altra domanda di questo gruppo: «Il complemento oggetto in latino si esprime con l'…».",
 				"nominativo": "«nominativo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso latino si usa per il soggetto della frase?».",
-				"accusativo": "«accusativo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso latino si usa per il complemento oggetto?»."
+				"accusativo": "«accusativo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso latino si usa per il complemento oggetto?».",
+				"desinenza": "«desinenza» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la parte finale di un nome, quella che cambia da un caso all'altro?»."
 			}
 		},
 		{
@@ -4069,14 +4033,14 @@
 			],
 			"explanation": "Ros-a, ros-ae, ros-am: la parte davanti resta (il tema), la desinenza cambia e porta tutta l'informazione.",
 			"distractorWhy": {
-				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti casi ha una declinazione latina completa?».",
 				"Genitivo": "«Genitivo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso esprime di solito il possesso?».",
 				"Dativo": "«Dativo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso esprime il complemento di termine?».",
 				"Ablativo": "«Ablativo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso si usa con molte preposizioni di stato in luogo?».",
 				"Vocativo": "«Vocativo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso useresti per tradurre «o Marco!»?».",
 				"Nominativo": "«Nominativo» è la risposta giusta a un'altra domanda di questo gruppo: «In latino, il caso del soggetto è il…».",
 				"Accusativo": "«Accusativo» è la risposta giusta a un'altra domanda di questo gruppo: «Il complemento oggetto in latino si esprime con l'…».",
-				"nominativo": "«nominativo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso latino si usa per il soggetto della frase?»."
+				"nominativo": "«nominativo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso latino si usa per il soggetto della frase?».",
+				"accusativo": "«accusativo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso latino si usa per il complemento oggetto?»."
 			}
 		},
 		{
@@ -4311,14 +4275,13 @@
 			],
 			"explanation": "Cinque declinazioni, riconoscibili dal genitivo singolare.",
 			"distractorWhy": {
-				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «Quante declinazioni ha il latino?».",
-				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti casi ha la declinazione latina?».",
 				"Latino": "«Latino» è la risposta giusta a un'altra domanda di questo gruppo: «In che lingua è scritta la maggior parte delle iscrizioni romane?».",
 				"Nominativo": "«Nominativo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso indica normalmente il soggetto?».",
 				"Accusativo": "«Accusativo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso indica normalmente il complemento oggetto?».",
 				"Vocativo": "«Vocativo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso si usa per chiamare qualcuno?».",
 				"I Romani": "«I Romani» è la risposta giusta a un'altra domanda di questo gruppo: «Il latino era la lingua di quale antico popolo?».",
-				"Il latino": "«Il latino» è la risposta giusta a un'altra domanda di questo gruppo: «Da quale lingua derivano soprattutto l'italiano, lo spagnolo e il francese?»."
+				"Il latino": "«Il latino» è la risposta giusta a un'altra domanda di questo gruppo: «Da quale lingua derivano soprattutto l'italiano, lo spagnolo e il francese?».",
+				"Cogli l'attimo": "«Cogli l'attimo» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa significa l'espressione latina 'Carpe diem'?»."
 			}
 		},
 		{

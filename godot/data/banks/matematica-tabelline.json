@@ -6296,12 +6296,9 @@
 			"distractorWhy": {
 				"3": "È un ottavo soltanto: te ne servono tre.",
 				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti quarti servono per formare un intero?».",
+				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 1/4 di 20?».",
 				"8": "È il denominatore, non una quantità di uova.",
-				"15": "15 sono le uova rimaste nel cartone, cioè cinque ottavi.",
-				"1/2": "«1/2» è la risposta giusta a un'altra domanda di questo gruppo: «Quale frazione rappresenta metà di una torta?».",
-				"il 4": "«il 4» è la risposta giusta a un'altra domanda di questo gruppo: «In 3/4, quale numero dice in quante parti uguali è stato diviso l'intero?».",
-				"3/8": "«3/8» è la risposta giusta a un'altra domanda di questo gruppo: «Una pizza è divisa in 8 fette uguali e ne mangi 3. Quale frazione hai mangiato?».",
-				"5/5": "«5/5» è la risposta giusta a un'altra domanda di questo gruppo: «Quale di queste frazioni vale esattamente un intero?»."
+				"15": "15 sono le uova rimaste nel cartone, cioè cinque ottavi."
 			}
 		},
 		{
@@ -6358,13 +6355,12 @@
 			"explanation": "Il 50% è la metà: 80 diviso 2 fa 40.",
 			"distractorWhy": {
 				"8": "8 è un decimo di 80, cioè il 10%.",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «In una classe di 20 alunni, il 50% porta gli occhiali. Quanti sono?».",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa il 20% di 60?».",
 				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa il 10% di 250?».",
 				"30": "«30» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa il 100% di 30?».",
 				"50": "Il 50 è la percentuale richiesta, non il risultato.",
-				"60": "60 sarebbe il 75% di 80, non la metà.",
-				"la metà": "«la metà» è la risposta giusta a un'altra domanda di questo gruppo: «Il 50% di una quantità corrisponde a…».",
-				"ogni cento parti": "«ogni cento parti» è la risposta giusta a un'altra domanda di questo gruppo: «Nella parola «percento», il «cento» dice che si conta…».",
-				"1/4": "«1/4» è la risposta giusta a un'altra domanda di questo gruppo: «A quale frazione corrisponde il 25%?»."
+				"60": "60 sarebbe il 75% di 80, non la metà."
 			}
 		},
 		{
@@ -7011,11 +7007,11 @@
 				"2": "«2» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto vale 12 ÷ (2 + 4)?».",
 				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto vale 10 − 2 × 3?».",
 				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto vale 20 ÷ 4 + 1?».",
+				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto vale 8 − 3 + 2?».",
 				"9": "Hai sommato tutti e tre i numeri ignorando il segno per.",
 				"14": "Hai sommato prima: è il risultato di (3 + 4) × 2.",
 				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto vale 2 × (5 + 3)?».",
-				"24": "Hai moltiplicato tutto per 2 dopo aver sommato male.",
-				"la moltiplicazione": "«la moltiplicazione» è la risposta giusta a un'altra domanda di questo gruppo: «In 3 + 4 × 2, quale operazione si esegue per prima?»."
+				"24": "Hai moltiplicato tutto per 2 dopo aver sommato male."
 			}
 		},
 		{
@@ -7202,9 +7198,9 @@
 				"11": "«11» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto vale 3 + 4 × 2?».",
 				"13": "Hai sommato invece di moltiplicare il 2 per la parentesi.",
 				"14": "«14» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto vale (3 + 4) × 2?».",
+				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto vale 2 × (5 + 3)?».",
 				"25": "Hai moltiplicato l'intera espressione per 5.",
-				"35": "Hai sommato 5 + 2 prima di moltiplicare per la parentesi.",
-				"la moltiplicazione": "«la moltiplicazione» è la risposta giusta a un'altra domanda di questo gruppo: «In 3 + 4 × 2, quale operazione si esegue per prima?»."
+				"35": "Hai sommato 5 + 2 prima di moltiplicare per la parentesi."
 			}
 		},
 		{
@@ -7451,12 +7447,12 @@
 			"distractorWhy": {
 				"4": "4 è il numero più piccolo, non la media.",
 				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la moda di 3, 5, 5, 7, 9?».",
+				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la mediana di 3, 7 e 9?».",
 				"9": "Hai diviso per due invece che per tre.",
 				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «La media fra 10 e 20 è…».",
 				"18": "18 è la somma: manca la divisione per quanti sono i numeri.",
 				"35": "«35» è la risposta giusta a un'altra domanda di questo gruppo: «La media di cinque voti è 7. Quanto vale la loro somma?».",
-				"il valore più grande": "«il valore più grande» è la risposta giusta a un'altra domanda di questo gruppo: «In un grafico a barre, la barra più alta indica…».",
-				"un grafico a barre": "«un grafico a barre» è la risposta giusta a un'altra domanda di questo gruppo: «Per mostrare quanti alunni preferiscono ciascuno sport, quale rappresentazione conviene?»."
+				"6,8": "«6,8» è la risposta giusta a un'altra domanda di questo gruppo: «Quattro alunni prendono 6 e un quinto alunno prende 10. Qual è la media della classe?»."
 			}
 		},
 		{

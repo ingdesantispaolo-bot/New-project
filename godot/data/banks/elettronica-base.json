@@ -1317,13 +1317,7 @@
 			"explanation": "Corrente = tensione diviso resistenza: 12 diviso 4 fa 3 ampere.",
 			"distractorWhy": {
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti volt servono per far passare 2 ampere in una resistenza di 5 ohm?».",
-				"20": "«20» è la risposta giusta a un'altra domanda di questo gruppo: «Un apparecchio a 10 volt che assorbe 2 ampere, quanti watt consuma?».",
-				"Ampere": "«Ampere» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la corrente elettrica?».",
-				"Volt": "«Volt» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la tensione?».",
-				"Ohm": "«Ohm» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la resistenza?».",
-				"Watt": "«Watt» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la potenza elettrica?».",
-				"L'energia consumata nel tempo": "«L'energia consumata nel tempo» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa misura il contatore di casa?».",
-				"Un quarto di ampere": "«Un quarto di ampere» è la risposta giusta a un'altra domanda di questo gruppo: «Su un multimetro leggi «250 mA». Quanta corrente è?»."
+				"20": "«20» è la risposta giusta a un'altra domanda di questo gruppo: «Un apparecchio a 10 volt che assorbe 2 ampere, quanti watt consuma?»."
 			}
 		},
 		{
@@ -1338,13 +1332,7 @@
 			"explanation": "La legge di Ohm girata dall'altra parte: tensione = resistenza per corrente, 5 × 2 fa 10 volt.",
 			"distractorWhy": {
 				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «Con 12 volt e una resistenza di 4 ohm, quanti ampere passano?».",
-				"20": "«20» è la risposta giusta a un'altra domanda di questo gruppo: «Un apparecchio a 10 volt che assorbe 2 ampere, quanti watt consuma?».",
-				"Ampere": "«Ampere» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la corrente elettrica?».",
-				"Volt": "«Volt» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la tensione?».",
-				"Ohm": "«Ohm» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la resistenza?».",
-				"Watt": "«Watt» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la potenza elettrica?».",
-				"L'energia consumata nel tempo": "«L'energia consumata nel tempo» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa misura il contatore di casa?».",
-				"Un quarto di ampere": "«Un quarto di ampere» è la risposta giusta a un'altra domanda di questo gruppo: «Su un multimetro leggi «250 mA». Quanta corrente è?»."
+				"20": "«20» è la risposta giusta a un'altra domanda di questo gruppo: «Un apparecchio a 10 volt che assorbe 2 ampere, quanti watt consuma?»."
 			}
 		},
 		{
@@ -1401,13 +1389,7 @@
 			"explanation": "Potenza = tensione × corrente: 10 × 2 fa 20 watt.",
 			"distractorWhy": {
 				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «Con 12 volt e una resistenza di 4 ohm, quanti ampere passano?».",
-				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti volt servono per far passare 2 ampere in una resistenza di 5 ohm?».",
-				"Ampere": "«Ampere» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la corrente elettrica?».",
-				"Volt": "«Volt» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la tensione?».",
-				"Ohm": "«Ohm» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la resistenza?».",
-				"Watt": "«Watt» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la potenza elettrica?».",
-				"L'energia consumata nel tempo": "«L'energia consumata nel tempo» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa misura il contatore di casa?».",
-				"Un quarto di ampere": "«Un quarto di ampere» è la risposta giusta a un'altra domanda di questo gruppo: «Su un multimetro leggi «250 mA». Quanta corrente è?»."
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti volt servono per far passare 2 ampere in una resistenza di 5 ohm?»."
 			}
 		},
 		{
@@ -2724,14 +2706,14 @@
 			],
 			"explanation": "Si collega in parallelo, ai capi del componente da misurare.",
 			"distractorWhy": {
-				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «Con 12 volt e una resistenza di 4 ohm, quanti ampere passano?».",
-				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti volt servono per far passare 2 ampere in una resistenza di 5 ohm?».",
-				"20": "«20» è la risposta giusta a un'altra domanda di questo gruppo: «Un apparecchio a 10 volt che assorbe 2 ampere, quanti watt consuma?».",
 				"Ampere": "«Ampere» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la corrente elettrica?».",
 				"Volt": "«Volt» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la tensione?».",
 				"Ohm": "«Ohm» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la resistenza?».",
 				"Watt": "«Watt» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la potenza elettrica?».",
-				"L'energia consumata nel tempo": "«L'energia consumata nel tempo» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa misura il contatore di casa?»."
+				"L'energia consumata nel tempo": "«L'energia consumata nel tempo» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa misura il contatore di casa?».",
+				"Un quarto di ampere": "«Un quarto di ampere» è la risposta giusta a un'altra domanda di questo gruppo: «Su un multimetro leggi «250 mA». Quanta corrente è?».",
+				"amperometro": "«amperometro» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo strumento che misura la corrente?».",
+				"multimetro": "«multimetro» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo strumento che misura tensione, corrente e resistenza?»."
 			}
 		},
 		{
@@ -2749,14 +2731,14 @@
 			],
 			"explanation": "Si collega in serie: la corrente deve attraversarlo.",
 			"distractorWhy": {
-				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «Con 12 volt e una resistenza di 4 ohm, quanti ampere passano?».",
-				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti volt servono per far passare 2 ampere in una resistenza di 5 ohm?».",
-				"20": "«20» è la risposta giusta a un'altra domanda di questo gruppo: «Un apparecchio a 10 volt che assorbe 2 ampere, quanti watt consuma?».",
 				"Ampere": "«Ampere» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la corrente elettrica?».",
 				"Volt": "«Volt» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la tensione?».",
 				"Ohm": "«Ohm» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la resistenza?».",
 				"Watt": "«Watt» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la potenza elettrica?».",
-				"L'energia consumata nel tempo": "«L'energia consumata nel tempo» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa misura il contatore di casa?»."
+				"L'energia consumata nel tempo": "«L'energia consumata nel tempo» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa misura il contatore di casa?».",
+				"Un quarto di ampere": "«Un quarto di ampere» è la risposta giusta a un'altra domanda di questo gruppo: «Su un multimetro leggi «250 mA». Quanta corrente è?».",
+				"voltmetro": "«voltmetro» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo strumento che misura la tensione?».",
+				"multimetro": "«multimetro» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo strumento che misura tensione, corrente e resistenza?»."
 			}
 		},
 		{
@@ -2774,14 +2756,14 @@
 			],
 			"explanation": "Una manopola sceglie la grandezza: sbagliare portata è l'errore più comune.",
 			"distractorWhy": {
-				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «Con 12 volt e una resistenza di 4 ohm, quanti ampere passano?».",
-				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti volt servono per far passare 2 ampere in una resistenza di 5 ohm?».",
-				"20": "«20» è la risposta giusta a un'altra domanda di questo gruppo: «Un apparecchio a 10 volt che assorbe 2 ampere, quanti watt consuma?».",
 				"Ampere": "«Ampere» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la corrente elettrica?».",
 				"Volt": "«Volt» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la tensione?».",
 				"Ohm": "«Ohm» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la resistenza?».",
 				"Watt": "«Watt» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la potenza elettrica?».",
-				"L'energia consumata nel tempo": "«L'energia consumata nel tempo» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa misura il contatore di casa?»."
+				"L'energia consumata nel tempo": "«L'energia consumata nel tempo» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa misura il contatore di casa?».",
+				"Un quarto di ampere": "«Un quarto di ampere» è la risposta giusta a un'altra domanda di questo gruppo: «Su un multimetro leggi «250 mA». Quanta corrente è?».",
+				"voltmetro": "«voltmetro» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo strumento che misura la tensione?».",
+				"amperometro": "«amperometro» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo strumento che misura la corrente?»."
 			}
 		},
 		{
@@ -2799,14 +2781,14 @@
 			],
 			"explanation": "V uguale R per I: da lì si ricava qualunque delle tre.",
 			"distractorWhy": {
-				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «Con 12 volt e una resistenza di 4 ohm, quanti ampere passano?».",
-				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti volt servono per far passare 2 ampere in una resistenza di 5 ohm?».",
-				"20": "«20» è la risposta giusta a un'altra domanda di questo gruppo: «Un apparecchio a 10 volt che assorbe 2 ampere, quanti watt consuma?».",
 				"Ampere": "«Ampere» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la corrente elettrica?».",
 				"Volt": "«Volt» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la tensione?».",
 				"Watt": "«Watt» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la potenza elettrica?».",
 				"L'energia consumata nel tempo": "«L'energia consumata nel tempo» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa misura il contatore di casa?».",
-				"Un quarto di ampere": "«Un quarto di ampere» è la risposta giusta a un'altra domanda di questo gruppo: «Su un multimetro leggi «250 mA». Quanta corrente è?»."
+				"Un quarto di ampere": "«Un quarto di ampere» è la risposta giusta a un'altra domanda di questo gruppo: «Su un multimetro leggi «250 mA». Quanta corrente è?».",
+				"voltmetro": "«voltmetro» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo strumento che misura la tensione?».",
+				"amperometro": "«amperometro» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo strumento che misura la corrente?».",
+				"multimetro": "«multimetro» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo strumento che misura tensione, corrente e resistenza?»."
 			}
 		},
 		{

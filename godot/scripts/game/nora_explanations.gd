@@ -180,7 +180,7 @@ const VOCI := {
 		"come": "Prova la funzione su un numero facile prima di ragionarci in astratto: vedere un caso concreto chiarisce la regola generale.",
 	},
 	"matematica:probabilita": {
-		"perche": "La probabilità misura quanto è plausibile un evento fra tutti quelli possibili: non dice che cosa succederà, dice quanto spesso succederebbe ripetendo la prova molte volte.",
+		"perche": "La probabilità dice quanto spesso una cosa succederebbe provando tante volte, non che cosa succederà adesso: con una moneta testa esce una volta su due, ma il prossimo lancio non lo sa nessuno.",
 		"come": "Conta i casi favorevoli e dividili per tutti i casi possibili: quel rapporto è la probabilità, sempre fra zero e uno.",
 	},
 
@@ -285,7 +285,7 @@ const VOCI := {
 	},
 	"italiano:verbo": {
 		"perche": "Il verbo porta il tempo e la persona: è l'unica parola della frase che dice quando è successo e chi lo ha fatto.",
-		"come": "Per riconoscere il modo, prova a metterci davanti «io»: se non regge, non è un indicativo.",
+		"come": "Per trovare il verbo in una frase, prova a raccontarla al passato: la parola che cambia è il verbo, e cambia sempre solo lei.",
 	},
 	"italiano:viaggi-luoghi": {
 		"perche": "I nomi dei luoghi conservano la loro storia: molti dicono che cosa c'era lì prima.",
@@ -339,7 +339,7 @@ const VOCI := {
 	},
 	"italiano:imperativo-infinito-participio-gerundio": {
 		"perche": "Sono le forme che non dicono chi: l'imperativo perché si rivolge a te, gli altri tre perché valgono per chiunque. È per questo che stanno nei proverbi e nelle istruzioni.",
-		"come": "Prova a metterci davanti «io»: se non regge, sei davanti a un modo indefinito e devi cercare altrove chi compie l'azione.",
+		"come": "Guarda a chi si rivolge la frase: se dà un ordine a qualcuno che ascolta è imperativo; se vale per chiunque, è uno dei tre modi indefiniti e chi agisce va cercato altrove.",
 	},
 	"italiano:concordanza-tempi-verbali": {
 		"perche": "Accordare i tempi è ciò che fa capire l'ordine dei fatti: senza, chi ascolta non sa più che cosa è successo prima.",
@@ -391,7 +391,7 @@ const VOCI := {
 			"Attenzione ai numeri: l'inglese usa il punto dove noi usiamo la virgola, quindi «1.5» è uno e mezzo, non millecinquecento.",
 		],
 		"come": [
-			"Molte di queste parole sono latine passate dall'inglese: se somiglia all'italiano, fidati.",
+			"Nel lessico scientifico la somiglianza con l'italiano è affidabile davvero: le due lingue hanno preso le stesse parole dal latino, e qui i falsi amici sono rari.",
 			"Davanti a un grafico chiediti prima che cosa c'è sui due assi: senza quello nessuna parola del testo ti aiuta.",
 		],
 	},
@@ -515,7 +515,7 @@ const VOCI := {
 			"L'inglese separa il tempo di oggi dal clima di sempre con due parole diverse: «weather» è che tempo fa adesso, «climate» è com'è di solito.",
 		],
 		"come": [
-			"Se la parola compare uguale in italiano, è quasi sempre vera anche in inglese: sono termini presi dal latino.",
+			"Se la parola scientifica somiglia all'italiano, di solito è proprio lei: viene dal latino in tutte e due le lingue. Le parole corte e antiche — «tree», «leaf» — invece non somigliano a niente e vanno imparate una per una.",
 			"Se una parola dell'ambiente ti somiglia, provala: in questo campo la somiglianza funziona quasi sempre, perché il termine viene dal latino come il nostro.",
 		],
 	},
@@ -614,7 +614,7 @@ const VOCI := {
 		"come": "Costruisci sempre nell'ordine soggetto-verbo-complemento: se lo cambi, la frase inglese spesso perde senso o ne cambia uno.",
 	},
 	"inglese:past-tense": {
-		"perche": "Il passato inglese ha una sola forma per ogni persona, a differenza dell'italiano che le coniuga tutte diverse: è più semplice, ma bisogna ricordare che non cambia.",
+		"perche": "Il passato inglese ha la stessa forma per tutte le persone — «I played», «he played» — mentre l'italiano le coniuga tutte diverse. L'unica eccezione è «to be», che fa «was» e «were»: ed è proprio il verbo che si incontra per primo.",
 		"come": "Aggiungi «-ed» al verbo regolare per tutte le persone: «I played, you played, he played» sono identici.",
 	},
 	"inglese:irregular-past": {
@@ -623,7 +623,7 @@ const VOCI := {
 	},
 	"inglese:comparatives": {
 		"perche": "L'inglese confronta in due modi diversi a seconda di quanto è lunga la parola: aggiungere «-er» o mettere «more» davanti non sono intercambiabili a caso.",
-		"come": "Se l'aggettivo è corto (una sillaba) aggiungi «-er»; se è lungo metti «more» davanti. È la lunghezza a decidere, non il significato.",
+		"come": "Aggiungi «-er» agli aggettivi di una sillaba e a quelli di due che finiscono in «-y»: da «happy» viene «happier». A tutti gli altri metti «more» davanti: è la lunghezza a decidere, non il significato.",
 	},
 	"inglese:contractions": {
 		"perche": "Le forme contratte («don't», «it's») sono quelle che si usano davvero parlando: l'inglese scritto formale le scioglie, quello vivo le tiene unite.",
@@ -806,9 +806,16 @@ const VOCI := {
 		"come": "A parità di strada, meno tempo vuol dire più veloce. Se cambiano tutt'e due, fai il rapporto.",
 	},
 	"fisica:onde-luce": {
-		"perche": "Un'onda trasporta energia senza trasportare materia: il tappo sull'acqua sale e scende, non arriva a riva.",
-		"come": "Guarda che cosa si sposta davvero. Se la cosa torna dov'era, si è mossa l'onda e non la materia.",
+		"perche": [
+			"Un'onda porta energia da un punto all'altro senza portarsi dietro la materia: il tappo sull'acqua sale e scende, non arriva a riva.",
+			"Luce e suono sono tutte e due onde, ma la luce non ha bisogno di niente in cui viaggiare: è per questo che dal Sole ci arriva la luce e non il rumore.",
+		],
+		"come": [
+			"Guarda che cosa si sposta davvero. Se la cosa torna dov'era, si è mossa l'onda e non la materia.",
+			"Se il fenomeno funziona anche nel vuoto stai guardando la luce; se ha bisogno di aria, acqua o di un solido per arrivare, è il suono.",
+		],
 	},
+
 	"fisica:onde": {
 		"perche": "Un'onda trasporta energia da un punto all'altro senza spostare la materia con sé: la boa sale e scende, non viaggia fino a riva.",
 		"come": "Chiediti che cosa si sposta davvero da un capo all'altro: se torna dov'era dopo il passaggio, si è mossa l'onda, non la materia.",
@@ -830,7 +837,7 @@ const VOCI := {
 		"come": "Ricorda che il peso non è la massa: la massa resta la stessa ovunque, il peso cambia con la gravità del posto in cui ti trovi.",
 	},
 	"fisica:dinamica": {
-		"perche": "La dinamica studia perché le cose si muovono come si muovono, non solo come si muovono: la causa è sempre una forza.",
+		"perche": "La dinamica non descrive il movimento: ne cerca la causa. Dietro ogni cambiamento di velocità o di direzione c'è sempre una forza che l'ha prodotto.",
 		"come": "Per ogni cambiamento di moto che osservi, chiediti quale forza l'ha causato: un cambiamento senza causa non esiste in fisica.",
 	},
 	"fisica:leve": {
@@ -846,7 +853,7 @@ const VOCI := {
 		"come": "Chiediti se sta cambiando la forza o la superficie su cui agisce: la pressione dipende da entrambe, non solo dalla forza.",
 	},
 	"fisica:temperatura": {
-		"perche": "La temperatura misura quanto si agitano le particelle di una sostanza, non quanta energia totale contiene: un ago rovente e una vasca tiepida possono avere la stessa energia totale.",
+		"perche": "La temperatura dice quanto si agitano le particelle, non quanta energia c'è in tutto: una vasca d'acqua tiepida ne contiene molta più di un ago rovente, perché di particelle ne ha molte di più.",
 		"come": "Non confondere temperatura e calore: la temperatura è quanto è agitato qualcosa, il calore è l'energia che passa da un corpo caldo a uno freddo.",
 	},
 	"fisica:passaggi-stato": {
@@ -862,7 +869,7 @@ const VOCI := {
 		"come": "Guarda sempre la tacca più piccola sulla scala: è quella la precisione reale dello strumento, non quello che vorresti leggere.",
 	},
 	"fisica:formule": {
-		"perche": "Una formula fisica riassume una relazione fra grandezze reali, non è un'equazione da ricordare a sé stante: dietro c'è sempre un motivo per cui quelle grandezze si combinano così.",
+		"perche": "Una formula non è una frase da imparare a memoria: dice come due o tre grandezze si tengono fra loro. Se una raddoppia, la formula dice già che cosa succede alle altre — ed è così che si controlla se te la ricordi giusta.",
 		"come": "Prima di usare una formula, chiediti che cosa succede alla grandezza che cerchi se una delle altre aumenta: se la formula non lo conferma, l'hai ricordata male.",
 	},
 
@@ -998,7 +1005,7 @@ const VOCI := {
 	},
 	"elettronica:legge-ohm": {
 		"perche": "La legge di Ohm lega le tre grandezze del circuito con un'unica regola: conoscendone due, la terza è sempre calcolabile.",
-		"come": "Copri con un dito la grandezza che cerchi nel triangolo V-I-R: quello che resta scoperto ti dice l'operazione giusta.",
+		"come": "Tieni a mente una riga sola: V = I × R. Se cerchi la tensione moltiplichi; se cerchi la corrente o la resistenza, dividi la tensione per l'altra.",
 	},
 	"elettronica:potenza": {
 		"perche": "La potenza dice quanta energia un componente consuma o produce ogni secondo: è per questo che una lampadina da 100 W scalda più di una da 5 W nello stesso tempo.",

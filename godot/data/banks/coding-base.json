@@ -17,11 +17,9 @@
 				"3": "Quello era il valore prima di sommare 4: la seconda riga lo aggiorna a 7.",
 				"4": "4 è solo il numero aggiunto, non il risultato finale della somma.",
 				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «a = 2 b = 5 a, b = b, a print(a) Cosa stampa?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo x = 5 e poi x = x + 1, quanto vale x?».",
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «punti = 0 punti = punti + 5 punti = punti + 5 print(punti) Cosa stampa?».",
-				"34": "+ fra numeri somma, non concatena come farebbe con il testo: 3+4 fa 7, non 34.",
-				"punti_totali": "«punti_totali» è la risposta giusta a un'altra domanda di questo gruppo: «Quale di questi è un nome di variabile valido in Python?».",
-				"punti += 1": "«punti += 1» è la risposta giusta a un'altra domanda di questo gruppo: «Quale scrittura è più breve per punti = punti + 1?».",
-				"Due variabili diverse": "«Due variabili diverse» è la risposta giusta a un'altra domanda di questo gruppo: «In Python, PUNTI e punti sono…»."
+				"34": "+ fra numeri somma, non concatena come farebbe con il testo: 3+4 fa 7, non 34."
 			}
 		},
 		{
@@ -58,12 +56,8 @@
 			"distractorWhy": {
 				"4": "«robot» ha cinque lettere (r-o-b-o-t), non quattro.",
 				"6": "«robot» ha cinque lettere, non sei.",
-				"robot": "len() restituisce un numero che conta i caratteri, non la parola stessa.",
-				"Ciao Eli": "«Ciao Eli» è la risposta giusta a un'altra domanda di questo gruppo: «nome = \"Eli\" saluto = \"Ciao \" + nome print(saluto) Cosa stampa il programma?».",
-				"len()": "«len()» è la risposta giusta a un'altra domanda di questo gruppo: «Quale funzione dice quanto è lunga una stringa?».",
-				"p": "«p» è la risposta giusta a un'altra domanda di questo gruppo: «s = 'python' print(s[0]) Cosa stampa?».",
-				"s[-1]": "«s[-1]» è la risposta giusta a un'altra domanda di questo gruppo: «s = 'ciao' Con quale indice si prende l'ultima lettera?».",
-				"ababab": "«ababab» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print('ab' * 3)?»."
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print(len('Eli Quest'))?».",
+				"robot": "len() restituisce un numero che conta i caratteri, non la parola stessa."
 			}
 		},
 		{
@@ -103,9 +97,8 @@
 				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «numeri = [4, 8, 15] print(numeri[0]) Cosa stampa?».",
 				"12": "«12» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"20": "20 è all'indice 1, non 0.",
-				"30": "30 è all'indice 2, non 0.",
-				"append()": "«append()» è la risposta giusta a un'altra domanda di questo gruppo: «Quale metodo aggiunge un elemento in fondo a una lista?».",
-				"lista[-1]": "«lista[-1]» è la risposta giusta a un'altra domanda di questo gruppo: «Come si prende l'ultimo elemento di una lista senza sapere quanti sono?»."
+				"21": "«21» è la risposta giusta a un'altra domanda di questo gruppo: «voti = [6, 7, 8] print(sum(voti)) Cosa stampa?».",
+				"30": "30 è all'indice 2, non 0."
 			}
 		},
 		{
@@ -125,8 +118,7 @@
 				"6": "append() aggiunge un solo elemento alla volta: la lista passa da 2 a 3, non salta a 6.",
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «numeri = [10, 20, 30] print(numeri[0]) Cosa stampa numeri[0]?».",
 				"12": "«12» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
-				"append()": "«append()» è la risposta giusta a un'altra domanda di questo gruppo: «Quale metodo aggiunge un elemento in fondo a una lista?».",
-				"lista[-1]": "«lista[-1]» è la risposta giusta a un'altra domanda di questo gruppo: «Come si prende l'ultimo elemento di una lista senza sapere quanti sono?»."
+				"21": "«21» è la risposta giusta a un'altra domanda di questo gruppo: «voti = [6, 7, 8] print(sum(voti)) Cosa stampa?»."
 			}
 		},
 		{
@@ -266,14 +258,12 @@
 			"answer": "12",
 			"explanation": "def crea una funzione: doppio(6) esegue return 6*2 e restituisce 12, che print mostra. Le funzioni evitano di ripetere il codice.",
 			"distractorWhy": {
+				"0": "«0» è la risposta giusta a un'altra domanda di questo gruppo: «Quante volte viene eseguito il corpo di una funzione che nessuno chiama?».",
 				"6": "6 è il parametro n ricevuto, ma la funzione lo raddoppia prima di restituirlo: 6×2=12.",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «def somma(a, b): return a + b print(somma(3, 4) + somma(1, 1)) Cosa stampa?».",
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «punti = 10 def azzera(): punti = 0 azzera() print(punti) Cosa stampa?».",
 				"26": "Non c'è nessuna concatenazione di cifre: n * 2 è una moltiplicazione, il risultato è 12.",
-				"62": "Non c'è nessuna concatenazione di cifre: n * 2 è una moltiplicazione, il risultato è 12.",
-				"saluta('Eli')": "«saluta('Eli')» è la risposta giusta a un'altra domanda di questo gruppo: «def saluta(nome): print('Ciao', nome) Come si chiama la funzione con il nome Eli?».",
-				"Parametri": "«Parametri» è la risposta giusta a un'altra domanda di questo gruppo: «In def somma(a, b):, come si chiamano a e b?».",
-				"return": "«return» è la risposta giusta a un'altra domanda di questo gruppo: «Quale parola restituisce un valore al codice che ha chiamato la funzione?».",
-				"None": "«None» è la risposta giusta a un'altra domanda di questo gruppo: «def doppio(n): print(n * 2) x = doppio(4) print(x) Cosa stampa la seconda print?»."
+				"62": "Non c'è nessuna concatenazione di cifre: n * 2 è una moltiplicazione, il risultato è 12."
 			}
 		},
 		{
@@ -376,9 +366,7 @@
 				"6": "6 è solo l'ultimo elemento della lista, non la somma di tutti e tre.",
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «numeri = [10, 20, 30] print(numeri[0]) Cosa stampa numeri[0]?».",
 				"21": "«21» è la risposta giusta a un'altra domanda di questo gruppo: «voti = [6, 7, 8] print(sum(voti)) Cosa stampa?».",
-				"246": "+ fra numeri somma, non concatena le cifre come farebbe con il testo: il risultato è 12.",
-				"append()": "«append()» è la risposta giusta a un'altra domanda di questo gruppo: «Quale metodo aggiunge un elemento in fondo a una lista?».",
-				"lista[-1]": "«lista[-1]» è la risposta giusta a un'altra domanda di questo gruppo: «Come si prende l'ultimo elemento di una lista senza sapere quanti sono?»."
+				"246": "+ fra numeri somma, non concatena le cifre come farebbe con il testo: il risultato è 12."
 			}
 		},
 		{
@@ -417,10 +405,7 @@
 				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «n = 8 giri = 0 while n > 1: n = n // 2 giri += 1 print(giri) Cosa stampa?».",
 				"4": "range(5) genera cinque valori (0,1,2,3,4): il ciclo gira 5 volte, non 4.",
 				"6": "range(5) genera esattamente cinque valori, non sei.",
-				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «totale = 0 for i in range(1, 5): totale += i print(totale) Cosa stampa?».",
-				"0 1 2": "«0 1 2» è la risposta giusta a un'altra domanda di questo gruppo: «for i in range(3): print(i) Quali numeri stampa, in ordine?».",
-				"break": "«break» è la risposta giusta a un'altra domanda di questo gruppo: «Quale parola interrompe subito un ciclo?».",
-				"continue": "«continue» è la risposta giusta a un'altra domanda di questo gruppo: «Quale parola salta al giro successivo senza eseguire il resto del corpo?»."
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «totale = 0 for i in range(1, 5): totale += i print(totale) Cosa stampa?»."
 			}
 		},
 		{
@@ -458,11 +443,7 @@
 				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «a = 2 b = 5 a, b = b, a print(a) Cosa stampa?».",
 				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo x = 5 e poi x = x + 1, quanto vale x?».",
 				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «punti = 3 punti = punti + 4 print(punti) Che numero stampa questo programma Python?».",
-				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «punti = 0 punti = punti + 5 punti = punti + 5 print(punti) Cosa stampa?».",
-				"punti_totali": "«punti_totali» è la risposta giusta a un'altra domanda di questo gruppo: «Quale di questi è un nome di variabile valido in Python?».",
-				"punti += 1": "«punti += 1» è la risposta giusta a un'altra domanda di questo gruppo: «Quale scrittura è più breve per punti = punti + 1?».",
-				"Due variabili diverse": "«Due variabili diverse» è la risposta giusta a un'altra domanda di questo gruppo: «In Python, PUNTI e punti sono…».",
-				"La stringa Eli": "«La stringa Eli» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa contiene una variabile subito dopo nome = 'Eli'?»."
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «punti = 0 punti = punti + 5 punti = punti + 5 print(punti) Cosa stampa?»."
 			}
 		},
 		{
@@ -500,11 +481,7 @@
 				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «a = 3 b = a a = 10 print(b) Cosa stampa?».",
 				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «a = 2 b = 5 a, b = b, a print(a) Cosa stampa?».",
 				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo x = 5 e poi x = x + 1, quanto vale x?».",
-				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «punti = 3 punti = punti + 4 print(punti) Che numero stampa questo programma Python?».",
-				"punti_totali": "«punti_totali» è la risposta giusta a un'altra domanda di questo gruppo: «Quale di questi è un nome di variabile valido in Python?».",
-				"punti += 1": "«punti += 1» è la risposta giusta a un'altra domanda di questo gruppo: «Quale scrittura è più breve per punti = punti + 1?».",
-				"Due variabili diverse": "«Due variabili diverse» è la risposta giusta a un'altra domanda di questo gruppo: «In Python, PUNTI e punti sono…».",
-				"La stringa Eli": "«La stringa Eli» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa contiene una variabile subito dopo nome = 'Eli'?»."
+				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «punti = 3 punti = punti + 4 print(punti) Che numero stampa questo programma Python?»."
 			}
 		},
 		{
@@ -584,11 +561,7 @@
 				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «a = 3 b = a a = 10 print(b) Cosa stampa?».",
 				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo x = 5 e poi x = x + 1, quanto vale x?».",
 				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «punti = 3 punti = punti + 4 print(punti) Che numero stampa questo programma Python?».",
-				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «punti = 0 punti = punti + 5 punti = punti + 5 print(punti) Cosa stampa?».",
-				"punti_totali": "«punti_totali» è la risposta giusta a un'altra domanda di questo gruppo: «Quale di questi è un nome di variabile valido in Python?».",
-				"punti += 1": "«punti += 1» è la risposta giusta a un'altra domanda di questo gruppo: «Quale scrittura è più breve per punti = punti + 1?».",
-				"Due variabili diverse": "«Due variabili diverse» è la risposta giusta a un'altra domanda di questo gruppo: «In Python, PUNTI e punti sono…».",
-				"La stringa Eli": "«La stringa Eli» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa contiene una variabile subito dopo nome = 'Eli'?»."
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «punti = 0 punti = punti + 5 punti = punti + 5 print(punti) Cosa stampa?»."
 			}
 		},
 		{
@@ -647,11 +620,7 @@
 				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «a = 3 b = a a = 10 print(b) Cosa stampa?».",
 				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «a = 2 b = 5 a, b = b, a print(a) Cosa stampa?».",
 				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo x = 5 e poi x = x + 1, quanto vale x?».",
-				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «punti = 3 punti = punti + 4 print(punti) Che numero stampa questo programma Python?».",
-				"punti_totali": "«punti_totali» è la risposta giusta a un'altra domanda di questo gruppo: «Quale di questi è un nome di variabile valido in Python?».",
-				"punti += 1": "«punti += 1» è la risposta giusta a un'altra domanda di questo gruppo: «Quale scrittura è più breve per punti = punti + 1?».",
-				"Due variabili diverse": "«Due variabili diverse» è la risposta giusta a un'altra domanda di questo gruppo: «In Python, PUNTI e punti sono…».",
-				"La stringa Eli": "«La stringa Eli» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa contiene una variabile subito dopo nome = 'Eli'?»."
+				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «punti = 3 punti = punti + 4 print(punti) Che numero stampa questo programma Python?»."
 			}
 		},
 		{
@@ -729,13 +698,7 @@
 			"explanation": "int() converte una stringa che contiene cifre nel numero corrispondente.",
 			"distractorWhy": {
 				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa restituisce int(7.9)?».",
-				"str": "«str» è la risposta giusta a un'altra domanda di questo gruppo: «x = 7 y = \"7\" print(type(y).__name__) Che tipo è y, che vale \"7\" tra virgolette?».",
-				"Booleano": "«Booleano» è la risposta giusta a un'altra domanda di questo gruppo: «Di che tipo è il valore True?».",
-				"type()": "«type()» è la risposta giusta a un'altra domanda di questo gruppo: «Quale funzione dice di che tipo è un valore?».",
-				"La stringa '9'": "«La stringa '9'» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa restituisce str(9)?».",
-				"Lista": "«Lista» è la risposta giusta a un'altra domanda di questo gruppo: «Di che tipo è [1, 2, 3]?».",
-				"5.0": "«5.0» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print(3 + 2.0)?».",
-				"Stringa (testo)": "«Stringa (testo)» è la risposta giusta a un'altra domanda di questo gruppo: «Di che tipo è il valore 'ciao'?»."
+				"5.0": "«5.0» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print(3 + 2.0)?»."
 			}
 		},
 		{
@@ -813,13 +776,7 @@
 			"explanation": "int() taglia la parte decimale, non arrotonda: 7.9 diventa 7. Per arrotondare serve round().",
 			"distractorWhy": {
 				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa restituisce int('12')?».",
-				"str": "«str» è la risposta giusta a un'altra domanda di questo gruppo: «x = 7 y = \"7\" print(type(y).__name__) Che tipo è y, che vale \"7\" tra virgolette?».",
-				"Booleano": "«Booleano» è la risposta giusta a un'altra domanda di questo gruppo: «Di che tipo è il valore True?».",
-				"type()": "«type()» è la risposta giusta a un'altra domanda di questo gruppo: «Quale funzione dice di che tipo è un valore?».",
-				"La stringa '9'": "«La stringa '9'» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa restituisce str(9)?».",
-				"Lista": "«Lista» è la risposta giusta a un'altra domanda di questo gruppo: «Di che tipo è [1, 2, 3]?».",
-				"5.0": "«5.0» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print(3 + 2.0)?».",
-				"Stringa (testo)": "«Stringa (testo)» è la risposta giusta a un'altra domanda di questo gruppo: «Di che tipo è il valore 'ciao'?»."
+				"5.0": "«5.0» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print(3 + 2.0)?»."
 			}
 		},
 		{
@@ -1213,12 +1170,7 @@
 			"distractorWhy": {
 				"0": "«0» è la risposta giusta a un'altra domanda di questo gruppo: «Quante volte viene eseguito il corpo di una funzione che nessuno chiama?».",
 				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «def somma(a, b): return a + b print(somma(3, 4) + somma(1, 1)) Cosa stampa?».",
-				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «def doppio(n): return n * 2 print(doppio(6)) Cosa stampa print(doppio(6))?».",
-				"saluta('Eli')": "«saluta('Eli')» è la risposta giusta a un'altra domanda di questo gruppo: «def saluta(nome): print('Ciao', nome) Come si chiama la funzione con il nome Eli?».",
-				"Parametri": "«Parametri» è la risposta giusta a un'altra domanda di questo gruppo: «In def somma(a, b):, come si chiamano a e b?».",
-				"return": "«return» è la risposta giusta a un'altra domanda di questo gruppo: «Quale parola restituisce un valore al codice che ha chiamato la funzione?».",
-				"None": "«None» è la risposta giusta a un'altra domanda di questo gruppo: «def doppio(n): print(n * 2) x = doppio(4) print(x) Cosa stampa la seconda print?».",
-				"def": "«def» è la risposta giusta a un'altra domanda di questo gruppo: «Quale parola introduce la definizione di una funzione?»."
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «def doppio(n): return n * 2 print(doppio(6)) Cosa stampa print(doppio(6))?»."
 			}
 		},
 		{
@@ -1297,12 +1249,7 @@
 			"distractorWhy": {
 				"0": "«0» è la risposta giusta a un'altra domanda di questo gruppo: «Quante volte viene eseguito il corpo di una funzione che nessuno chiama?».",
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «punti = 10 def azzera(): punti = 0 azzera() print(punti) Cosa stampa?».",
-				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «def doppio(n): return n * 2 print(doppio(6)) Cosa stampa print(doppio(6))?».",
-				"saluta('Eli')": "«saluta('Eli')» è la risposta giusta a un'altra domanda di questo gruppo: «def saluta(nome): print('Ciao', nome) Come si chiama la funzione con il nome Eli?».",
-				"Parametri": "«Parametri» è la risposta giusta a un'altra domanda di questo gruppo: «In def somma(a, b):, come si chiamano a e b?».",
-				"return": "«return» è la risposta giusta a un'altra domanda di questo gruppo: «Quale parola restituisce un valore al codice che ha chiamato la funzione?».",
-				"None": "«None» è la risposta giusta a un'altra domanda di questo gruppo: «def doppio(n): print(n * 2) x = doppio(4) print(x) Cosa stampa la seconda print?».",
-				"def": "«def» è la risposta giusta a un'altra domanda di questo gruppo: «Quale parola introduce la definizione di una funzione?»."
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «def doppio(n): return n * 2 print(doppio(6)) Cosa stampa print(doppio(6))?»."
 			}
 		},
 		{
@@ -1339,12 +1286,7 @@
 			"distractorWhy": {
 				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «def somma(a, b): return a + b print(somma(3, 4) + somma(1, 1)) Cosa stampa?».",
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «punti = 10 def azzera(): punti = 0 azzera() print(punti) Cosa stampa?».",
-				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «def doppio(n): return n * 2 print(doppio(6)) Cosa stampa print(doppio(6))?».",
-				"saluta('Eli')": "«saluta('Eli')» è la risposta giusta a un'altra domanda di questo gruppo: «def saluta(nome): print('Ciao', nome) Come si chiama la funzione con il nome Eli?».",
-				"Parametri": "«Parametri» è la risposta giusta a un'altra domanda di questo gruppo: «In def somma(a, b):, come si chiamano a e b?».",
-				"return": "«return» è la risposta giusta a un'altra domanda di questo gruppo: «Quale parola restituisce un valore al codice che ha chiamato la funzione?».",
-				"None": "«None» è la risposta giusta a un'altra domanda di questo gruppo: «def doppio(n): print(n * 2) x = doppio(4) print(x) Cosa stampa la seconda print?».",
-				"def": "«def» è la risposta giusta a un'altra domanda di questo gruppo: «Quale parola introduce la definizione di una funzione?»."
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «def doppio(n): return n * 2 print(doppio(6)) Cosa stampa print(doppio(6))?»."
 			}
 		},
 		{
@@ -1593,10 +1535,7 @@
 				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quante volte gira: for i in range(2, 6)?».",
 				"5": "«5» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «for i in range(3): for j in range(2): print('x') Quante x stampa?».",
-				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «totale = 0 for i in range(1, 5): totale += i print(totale) Cosa stampa?».",
-				"0 1 2": "«0 1 2» è la risposta giusta a un'altra domanda di questo gruppo: «for i in range(3): print(i) Quali numeri stampa, in ordine?».",
-				"break": "«break» è la risposta giusta a un'altra domanda di questo gruppo: «Quale parola interrompe subito un ciclo?».",
-				"continue": "«continue» è la risposta giusta a un'altra domanda di questo gruppo: «Quale parola salta al giro successivo senza eseguire il resto del corpo?»."
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «totale = 0 for i in range(1, 5): totale += i print(totale) Cosa stampa?»."
 			}
 		},
 		{
@@ -1614,10 +1553,7 @@
 				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quante volte gira: for i in range(2, 6)?».",
 				"5": "«5» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «for i in range(3): for j in range(2): print('x') Quante x stampa?».",
-				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «totale = 0 for i in range(1, 5): totale += i print(totale) Cosa stampa?».",
-				"0 1 2": "«0 1 2» è la risposta giusta a un'altra domanda di questo gruppo: «for i in range(3): print(i) Quali numeri stampa, in ordine?».",
-				"break": "«break» è la risposta giusta a un'altra domanda di questo gruppo: «Quale parola interrompe subito un ciclo?».",
-				"continue": "«continue» è la risposta giusta a un'altra domanda di questo gruppo: «Quale parola salta al giro successivo senza eseguire il resto del corpo?»."
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «totale = 0 for i in range(1, 5): totale += i print(totale) Cosa stampa?»."
 			}
 		},
 		{
@@ -1635,10 +1571,7 @@
 				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «n = 8 giri = 0 while n > 1: n = n // 2 giri += 1 print(giri) Cosa stampa?».",
 				"5": "«5» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «for i in range(3): for j in range(2): print('x') Quante x stampa?».",
-				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «totale = 0 for i in range(1, 5): totale += i print(totale) Cosa stampa?».",
-				"0 1 2": "«0 1 2» è la risposta giusta a un'altra domanda di questo gruppo: «for i in range(3): print(i) Quali numeri stampa, in ordine?».",
-				"break": "«break» è la risposta giusta a un'altra domanda di questo gruppo: «Quale parola interrompe subito un ciclo?».",
-				"continue": "«continue» è la risposta giusta a un'altra domanda di questo gruppo: «Quale parola salta al giro successivo senza eseguire il resto del corpo?»."
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «totale = 0 for i in range(1, 5): totale += i print(totale) Cosa stampa?»."
 			}
 		},
 		{
@@ -1677,10 +1610,7 @@
 				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «n = 8 giri = 0 while n > 1: n = n // 2 giri += 1 print(giri) Cosa stampa?».",
 				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quante volte gira: for i in range(2, 6)?».",
 				"5": "«5» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
-				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «for i in range(3): for j in range(2): print('x') Quante x stampa?».",
-				"0 1 2": "«0 1 2» è la risposta giusta a un'altra domanda di questo gruppo: «for i in range(3): print(i) Quali numeri stampa, in ordine?».",
-				"break": "«break» è la risposta giusta a un'altra domanda di questo gruppo: «Quale parola interrompe subito un ciclo?».",
-				"continue": "«continue» è la risposta giusta a un'altra domanda di questo gruppo: «Quale parola salta al giro successivo senza eseguire il resto del corpo?»."
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «for i in range(3): for j in range(2): print('x') Quante x stampa?»."
 			}
 		},
 		{
@@ -1761,10 +1691,7 @@
 				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «n = 8 giri = 0 while n > 1: n = n // 2 giri += 1 print(giri) Cosa stampa?».",
 				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quante volte gira: for i in range(2, 6)?».",
 				"5": "«5» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
-				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «totale = 0 for i in range(1, 5): totale += i print(totale) Cosa stampa?».",
-				"0 1 2": "«0 1 2» è la risposta giusta a un'altra domanda di questo gruppo: «for i in range(3): print(i) Quali numeri stampa, in ordine?».",
-				"break": "«break» è la risposta giusta a un'altra domanda di questo gruppo: «Quale parola interrompe subito un ciclo?».",
-				"continue": "«continue» è la risposta giusta a un'altra domanda di questo gruppo: «Quale parola salta al giro successivo senza eseguire il resto del corpo?»."
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «totale = 0 for i in range(1, 5): totale += i print(totale) Cosa stampa?»."
 			}
 		},
 		{
@@ -1802,11 +1729,7 @@
 				"3": "«3» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «numeri = [10, 20, 30] print(numeri[0]) Cosa stampa numeri[0]?».",
 				"12": "«12» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
-				"21": "«21» è la risposta giusta a un'altra domanda di questo gruppo: «voti = [6, 7, 8] print(sum(voti)) Cosa stampa?».",
-				"append()": "«append()» è la risposta giusta a un'altra domanda di questo gruppo: «Quale metodo aggiunge un elemento in fondo a una lista?».",
-				"lista[-1]": "«lista[-1]» è la risposta giusta a un'altra domanda di questo gruppo: «Come si prende l'ultimo elemento di una lista senza sapere quanti sono?».",
-				"for elemento in lista:": "«for elemento in lista:» è la risposta giusta a un'altra domanda di questo gruppo: «Come si scorre una lista senza usare gli indici?».",
-				"[1, 2, 3]": "«[1, 2, 3]» è la risposta giusta a un'altra domanda di questo gruppo: «Come si scrive in Python una lista con tre numeri?»."
+				"21": "«21» è la risposta giusta a un'altra domanda di questo gruppo: «voti = [6, 7, 8] print(sum(voti)) Cosa stampa?»."
 			}
 		},
 		{
@@ -1823,11 +1746,7 @@
 				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «numeri = [4, 8, 15] print(numeri[0]) Cosa stampa?».",
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «numeri = [10, 20, 30] print(numeri[0]) Cosa stampa numeri[0]?».",
 				"12": "«12» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
-				"21": "«21» è la risposta giusta a un'altra domanda di questo gruppo: «voti = [6, 7, 8] print(sum(voti)) Cosa stampa?».",
-				"append()": "«append()» è la risposta giusta a un'altra domanda di questo gruppo: «Quale metodo aggiunge un elemento in fondo a una lista?».",
-				"lista[-1]": "«lista[-1]» è la risposta giusta a un'altra domanda di questo gruppo: «Come si prende l'ultimo elemento di una lista senza sapere quanti sono?».",
-				"for elemento in lista:": "«for elemento in lista:» è la risposta giusta a un'altra domanda di questo gruppo: «Come si scorre una lista senza usare gli indici?».",
-				"[1, 2, 3]": "«[1, 2, 3]» è la risposta giusta a un'altra domanda di questo gruppo: «Come si scrive in Python una lista con tre numeri?»."
+				"21": "«21» è la risposta giusta a un'altra domanda di questo gruppo: «voti = [6, 7, 8] print(sum(voti)) Cosa stampa?»."
 			}
 		},
 		{
@@ -1865,11 +1784,7 @@
 				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «numeri = [4, 8, 15] print(numeri[0]) Cosa stampa?».",
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «numeri = [10, 20, 30] print(numeri[0]) Cosa stampa numeri[0]?».",
 				"12": "«12» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
-				"21": "«21» è la risposta giusta a un'altra domanda di questo gruppo: «voti = [6, 7, 8] print(sum(voti)) Cosa stampa?».",
-				"append()": "«append()» è la risposta giusta a un'altra domanda di questo gruppo: «Quale metodo aggiunge un elemento in fondo a una lista?».",
-				"lista[-1]": "«lista[-1]» è la risposta giusta a un'altra domanda di questo gruppo: «Come si prende l'ultimo elemento di una lista senza sapere quanti sono?».",
-				"for elemento in lista:": "«for elemento in lista:» è la risposta giusta a un'altra domanda di questo gruppo: «Come si scorre una lista senza usare gli indici?».",
-				"[1, 2, 3]": "«[1, 2, 3]» è la risposta giusta a un'altra domanda di questo gruppo: «Come si scrive in Python una lista con tre numeri?»."
+				"21": "«21» è la risposta giusta a un'altra domanda di questo gruppo: «voti = [6, 7, 8] print(sum(voti)) Cosa stampa?»."
 			}
 		},
 		{
@@ -1949,11 +1864,7 @@
 				"3": "«3» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «numeri = [4, 8, 15] print(numeri[0]) Cosa stampa?».",
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «numeri = [10, 20, 30] print(numeri[0]) Cosa stampa numeri[0]?».",
-				"12": "«12» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
-				"append()": "«append()» è la risposta giusta a un'altra domanda di questo gruppo: «Quale metodo aggiunge un elemento in fondo a una lista?».",
-				"lista[-1]": "«lista[-1]» è la risposta giusta a un'altra domanda di questo gruppo: «Come si prende l'ultimo elemento di una lista senza sapere quanti sono?».",
-				"for elemento in lista:": "«for elemento in lista:» è la risposta giusta a un'altra domanda di questo gruppo: «Come si scorre una lista senza usare gli indici?».",
-				"[1, 2, 3]": "«[1, 2, 3]» è la risposta giusta a un'altra domanda di questo gruppo: «Come si scrive in Python una lista con tre numeri?»."
+				"12": "«12» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
 			}
 		},
 		{
@@ -2072,14 +1983,9 @@
 			"answer": "1",
 			"explanation": "Appena una condizione risulta vera si esegue quel ramo e la catena finisce lì.",
 			"distractorWhy": {
-				"BASSA": "«BASSA» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
-				"True": "«True» è la risposta giusta a un'altra domanda di questo gruppo: «x = 5 print(x == 5) Cosa stampa print(x == 5) quando x vale 5?».",
-				"I due punti": "«I due punti» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa deve esserci alla fine della riga di un if?».",
-				"else": "«else» è la risposta giusta a un'altra domanda di questo gruppo: «Quale parola indica cosa fare quando la condizione è falsa?».",
-				"b": "«b» è la risposta giusta a un'altra domanda di questo gruppo: «x = 7 if x > 10: print('a') elif x > 5: print('b') else: print('c') Cosa stampa?».",
-				"fine": "«fine» è la risposta giusta a un'altra domanda di questo gruppo: «if punti > 100: print('bravo') print('fine') Con punti = 3, cosa stampa?».",
-				"if": "«if» è la risposta giusta a un'altra domanda di questo gruppo: «Quale parola introduce una condizione in Python?».",
-				"grande": "«grande» è la risposta giusta a un'altra domanda di questo gruppo: «Con x = 4, cosa stampa: if x > 3: print('grande')?»."
+				"0": "Almeno uno viene sempre eseguito se c'è un «else»: è il ramo che raccoglie tutti i casi rimasti.",
+				"2": "Solo uno: appena una condizione è vera il programma esce dalla catena e non guarda le altre.",
+				"3": "Sono tre i rami scritti, ma non tre quelli eseguiti: la catena si ferma al primo che va bene."
 			}
 		},
 		{
@@ -2178,12 +2084,12 @@
 			"explanation": "round() arrotonda al numero intero più vicino: 7.6 sta più vicino a 8. Attenzione a non confonderlo con int(7.6), che taglia i decimali e dà 7.",
 			"distractorWhy": {
 				"1": "«1» è la risposta giusta a un'altra domanda di questo gruppo: «numero = 7 resto = numero % 2 print(resto) Quanto vale 7 % 2 (il resto della divisione)?».",
+				"2": "«2» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa restituisce «17 % 5»?».",
 				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «print(7 // 2) Cosa stampa 7 // 2 in Python?».",
 				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa abs(-7) in Python?».",
 				"14": "«14» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 + 3 * 4 in Python?».",
 				"20": "«20» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa (2 + 3) * 4?».",
 				"32": "«32» è la risposta giusta a un'altra domanda di questo gruppo: «print(2 ** 5) Cosa stampa 2 ** 5 in Python?».",
-				"+": "«+» è la risposta giusta a un'altra domanda di questo gruppo: «Quale operatore unisce due stringhe?».",
 				"4.5": "«4.5» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 9 / 2 in Python?»."
 			}
 		},
@@ -2199,12 +2105,12 @@
 			"explanation": "abs() dà il valore assoluto, cioè la distanza da zero senza segno: abs(-7) e abs(7) valgono tutti e due 7.",
 			"distractorWhy": {
 				"1": "«1» è la risposta giusta a un'altra domanda di questo gruppo: «numero = 7 resto = numero % 2 print(resto) Quanto vale 7 % 2 (il resto della divisione)?».",
+				"2": "«2» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa restituisce «17 % 5»?».",
 				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «print(7 // 2) Cosa stampa 7 // 2 in Python?».",
 				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa round(7.6) in Python?».",
 				"14": "«14» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 + 3 * 4 in Python?».",
 				"20": "«20» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa (2 + 3) * 4?».",
 				"32": "«32» è la risposta giusta a un'altra domanda di questo gruppo: «print(2 ** 5) Cosa stampa 2 ** 5 in Python?».",
-				"+": "«+» è la risposta giusta a un'altra domanda di questo gruppo: «Quale operatore unisce due stringhe?».",
 				"4.5": "«4.5» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 9 / 2 in Python?»."
 			}
 		},
@@ -2241,12 +2147,12 @@
 			"explanation": "La moltiplicazione viene prima della somma, come in matematica: 3×4=12, poi +2.",
 			"distractorWhy": {
 				"1": "«1» è la risposta giusta a un'altra domanda di questo gruppo: «numero = 7 resto = numero % 2 print(resto) Quanto vale 7 % 2 (il resto della divisione)?».",
+				"2": "«2» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa restituisce «17 % 5»?».",
 				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «print(7 // 2) Cosa stampa 7 // 2 in Python?».",
 				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa abs(-7) in Python?».",
 				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa round(7.6) in Python?».",
 				"20": "«20» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa (2 + 3) * 4?».",
 				"32": "«32» è la risposta giusta a un'altra domanda di questo gruppo: «print(2 ** 5) Cosa stampa 2 ** 5 in Python?».",
-				"+": "«+» è la risposta giusta a un'altra domanda di questo gruppo: «Quale operatore unisce due stringhe?».",
 				"4.5": "«4.5» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 9 / 2 in Python?»."
 			}
 		},
@@ -2262,12 +2168,12 @@
 			"explanation": "Le parentesi cambiano l'ordine: prima la somma, poi la moltiplicazione.",
 			"distractorWhy": {
 				"1": "«1» è la risposta giusta a un'altra domanda di questo gruppo: «numero = 7 resto = numero % 2 print(resto) Quanto vale 7 % 2 (il resto della divisione)?».",
+				"2": "«2» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa restituisce «17 % 5»?».",
 				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «print(7 // 2) Cosa stampa 7 // 2 in Python?».",
 				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa abs(-7) in Python?».",
 				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa round(7.6) in Python?».",
 				"14": "«14» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 + 3 * 4 in Python?».",
 				"32": "«32» è la risposta giusta a un'altra domanda di questo gruppo: «print(2 ** 5) Cosa stampa 2 ** 5 in Python?».",
-				"+": "«+» è la risposta giusta a un'altra domanda di questo gruppo: «Quale operatore unisce due stringhe?».",
 				"4.5": "«4.5» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 9 / 2 in Python?»."
 			}
 		},
@@ -2325,12 +2231,12 @@
 			"explanation": "-= toglie al valore esistente, come += aggiunge: 10 − 3 = 7.",
 			"distractorWhy": {
 				"1": "«1» è la risposta giusta a un'altra domanda di questo gruppo: «numero = 7 resto = numero % 2 print(resto) Quanto vale 7 % 2 (il resto della divisione)?».",
+				"2": "«2» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa restituisce «17 % 5»?».",
 				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «print(7 // 2) Cosa stampa 7 // 2 in Python?».",
 				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa round(7.6) in Python?».",
 				"14": "«14» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 + 3 * 4 in Python?».",
 				"20": "«20» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa (2 + 3) * 4?».",
 				"32": "«32» è la risposta giusta a un'altra domanda di questo gruppo: «print(2 ** 5) Cosa stampa 2 ** 5 in Python?».",
-				"+": "«+» è la risposta giusta a un'altra domanda di questo gruppo: «Quale operatore unisce due stringhe?».",
 				"4.5": "«4.5» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 9 / 2 in Python?»."
 			}
 		},
@@ -2452,12 +2358,7 @@
 			"distractorWhy": {
 				"2": "«2» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «Un programma chiede tre voti e ne fa la media. Quanti int(input()) servono?».",
-				"str": "«str» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
-				"input()": "«input()» è la risposta giusta a un'altra domanda di questo gruppo: «Quale istruzione chiede un dato a chi usa il programma?».",
-				"Nella variabile nome": "«Nella variabile nome» è la risposta giusta a un'altra domanda di questo gruppo: «nome = input('Come ti chiami? ') Dove finisce quello che l'utente scrive?».",
-				"int(input('...'))": "«int(input('...'))» è la risposta giusta a un'altra domanda di questo gruppo: «Come si trasforma in numero intero ciò che restituisce input()?».",
-				"float(input('...'))": "«float(input('...'))» è la risposta giusta a un'altra domanda di questo gruppo: «Vuoi leggere un prezzo con la virgola, come 3.50. Quale conversione usi?».",
-				"Una stringa vuota": "«Una stringa vuota» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
+				"24": "«24» è la risposta giusta a un'altra domanda di questo gruppo: «n = int(input()) print(n + n) L'utente scrive 12. Cosa stampa?»."
 			}
 		},
 		{
@@ -2473,12 +2374,7 @@
 			"distractorWhy": {
 				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «Un programma chiede tre voti e ne fa la media. Quanti int(input()) servono?».",
 				"14": "«14» è la risposta giusta a un'altra domanda di questo gruppo: «n = int(input('Numero: ')) print(n * 2) Se l'utente scrive 7, cosa stampa?».",
-				"str": "«str» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
-				"input()": "«input()» è la risposta giusta a un'altra domanda di questo gruppo: «Quale istruzione chiede un dato a chi usa il programma?».",
-				"Nella variabile nome": "«Nella variabile nome» è la risposta giusta a un'altra domanda di questo gruppo: «nome = input('Come ti chiami? ') Dove finisce quello che l'utente scrive?».",
-				"int(input('...'))": "«int(input('...'))» è la risposta giusta a un'altra domanda di questo gruppo: «Come si trasforma in numero intero ciò che restituisce input()?».",
-				"float(input('...'))": "«float(input('...'))» è la risposta giusta a un'altra domanda di questo gruppo: «Vuoi leggere un prezzo con la virgola, come 3.50. Quale conversione usi?».",
-				"Una stringa vuota": "«Una stringa vuota» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
+				"24": "«24» è la risposta giusta a un'altra domanda di questo gruppo: «n = int(input()) print(n + n) L'utente scrive 12. Cosa stampa?»."
 			}
 		},
 		{
@@ -2536,12 +2432,7 @@
 			"distractorWhy": {
 				"2": "«2» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"14": "«14» è la risposta giusta a un'altra domanda di questo gruppo: «n = int(input('Numero: ')) print(n * 2) Se l'utente scrive 7, cosa stampa?».",
-				"str": "«str» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
-				"input()": "«input()» è la risposta giusta a un'altra domanda di questo gruppo: «Quale istruzione chiede un dato a chi usa il programma?».",
-				"Nella variabile nome": "«Nella variabile nome» è la risposta giusta a un'altra domanda di questo gruppo: «nome = input('Come ti chiami? ') Dove finisce quello che l'utente scrive?».",
-				"int(input('...'))": "«int(input('...'))» è la risposta giusta a un'altra domanda di questo gruppo: «Come si trasforma in numero intero ciò che restituisce input()?».",
-				"float(input('...'))": "«float(input('...'))» è la risposta giusta a un'altra domanda di questo gruppo: «Vuoi leggere un prezzo con la virgola, come 3.50. Quale conversione usi?».",
-				"Una stringa vuota": "«Una stringa vuota» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
+				"24": "«24» è la risposta giusta a un'altra domanda di questo gruppo: «n = int(input()) print(n + n) L'utente scrive 12. Cosa stampa?»."
 			}
 		},
 		{
@@ -2599,12 +2490,7 @@
 			"distractorWhy": {
 				"2": "«2» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «Un programma chiede tre voti e ne fa la media. Quanti int(input()) servono?».",
-				"14": "«14» è la risposta giusta a un'altra domanda di questo gruppo: «n = int(input('Numero: ')) print(n * 2) Se l'utente scrive 7, cosa stampa?».",
-				"str": "«str» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
-				"input()": "«input()» è la risposta giusta a un'altra domanda di questo gruppo: «Quale istruzione chiede un dato a chi usa il programma?».",
-				"Nella variabile nome": "«Nella variabile nome» è la risposta giusta a un'altra domanda di questo gruppo: «nome = input('Come ti chiami? ') Dove finisce quello che l'utente scrive?».",
-				"int(input('...'))": "«int(input('...'))» è la risposta giusta a un'altra domanda di questo gruppo: «Come si trasforma in numero intero ciò che restituisce input()?».",
-				"float(input('...'))": "«float(input('...'))» è la risposta giusta a un'altra domanda di questo gruppo: «Vuoi leggere un prezzo con la virgola, come 3.50. Quale conversione usi?»."
+				"14": "«14» è la risposta giusta a un'altra domanda di questo gruppo: «n = int(input('Numero: ')) print(n * 2) Se l'utente scrive 7, cosa stampa?»."
 			}
 		},
 		{
@@ -2641,12 +2527,9 @@
 			"distractorWhy": {
 				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print(10 // 3)?».",
 				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print(2 * 3)?».",
-				"ciao mondo": "«ciao mondo» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print('ciao', 'mondo')?».",
-				"2 * 3": "«2 * 3» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print('2 * 3')?».",
-				"x": "«x» è la risposta giusta a un'altra domanda di questo gruppo: «x = 4 print('x') Cosa stampa?».",
-				"Ho 11 anni": "«Ho 11 anni» è la risposta giusta a un'altra domanda di questo gruppo: «eta = 11 print('Ho', eta, 'anni') Cosa stampa?».",
-				"5.0": "«5.0» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print(10 / 2)?».",
-				"Le virgolette": "«Le virgolette» è la risposta giusta a un'altra domanda di questo gruppo: «Quale simbolo racchiude il testo da stampare?»."
+				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print(3 + 4)?».",
+				"34": "«34» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print('3' + '4')?».",
+				"5.0": "«5.0» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print(10 / 2)?»."
 			}
 		},
 		{
@@ -2683,12 +2566,9 @@
 			"distractorWhy": {
 				"2": "«2» è la risposta giusta a un'altra domanda di questo gruppo: «print('ciao') print('mondo') Su quante righe appare il risultato?».",
 				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print(10 // 3)?».",
-				"ciao mondo": "«ciao mondo» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print('ciao', 'mondo')?».",
-				"2 * 3": "«2 * 3» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print('2 * 3')?».",
-				"x": "«x» è la risposta giusta a un'altra domanda di questo gruppo: «x = 4 print('x') Cosa stampa?».",
-				"Ho 11 anni": "«Ho 11 anni» è la risposta giusta a un'altra domanda di questo gruppo: «eta = 11 print('Ho', eta, 'anni') Cosa stampa?».",
-				"5.0": "«5.0» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print(10 / 2)?».",
-				"Le virgolette": "«Le virgolette» è la risposta giusta a un'altra domanda di questo gruppo: «Quale simbolo racchiude il testo da stampare?»."
+				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print(3 + 4)?».",
+				"34": "«34» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print('3' + '4')?».",
+				"5.0": "«5.0» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print(10 / 2)?»."
 			}
 		},
 		{
@@ -2788,12 +2668,9 @@
 			"distractorWhy": {
 				"2": "«2» è la risposta giusta a un'altra domanda di questo gruppo: «print('ciao') print('mondo') Su quante righe appare il risultato?».",
 				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print(2 * 3)?».",
-				"ciao mondo": "«ciao mondo» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print('ciao', 'mondo')?».",
-				"2 * 3": "«2 * 3» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print('2 * 3')?».",
-				"x": "«x» è la risposta giusta a un'altra domanda di questo gruppo: «x = 4 print('x') Cosa stampa?».",
-				"Ho 11 anni": "«Ho 11 anni» è la risposta giusta a un'altra domanda di questo gruppo: «eta = 11 print('Ho', eta, 'anni') Cosa stampa?».",
-				"5.0": "«5.0» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print(10 / 2)?».",
-				"Le virgolette": "«Le virgolette» è la risposta giusta a un'altra domanda di questo gruppo: «Quale simbolo racchiude il testo da stampare?»."
+				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print(3 + 4)?».",
+				"34": "«34» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print('3' + '4')?».",
+				"5.0": "«5.0» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print(10 / 2)?»."
 			}
 		},
 		{
@@ -2851,12 +2728,9 @@
 			"distractorWhy": {
 				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print(10 // 3)?».",
 				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print(2 * 3)?».",
-				"ciao mondo": "«ciao mondo» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print('ciao', 'mondo')?».",
-				"2 * 3": "«2 * 3» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print('2 * 3')?».",
-				"x": "«x» è la risposta giusta a un'altra domanda di questo gruppo: «x = 4 print('x') Cosa stampa?».",
-				"Ho 11 anni": "«Ho 11 anni» è la risposta giusta a un'altra domanda di questo gruppo: «eta = 11 print('Ho', eta, 'anni') Cosa stampa?».",
-				"5.0": "«5.0» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print(10 / 2)?».",
-				"Le virgolette": "«Le virgolette» è la risposta giusta a un'altra domanda di questo gruppo: «Quale simbolo racchiude il testo da stampare?»."
+				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print(3 + 4)?».",
+				"34": "«34» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print('3' + '4')?».",
+				"5.0": "«5.0» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print(10 / 2)?»."
 			}
 		},
 		{
@@ -2892,13 +2766,7 @@
 			"explanation": "len('ciao') vale 4: si contano tutte le lettere, spazi compresi quando ci sono.",
 			"distractorWhy": {
 				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «parola = \"robot\" n = len(parola) print(n) Quale valore stampa len(parola)?».",
-				"Ciao Eli": "«Ciao Eli» è la risposta giusta a un'altra domanda di questo gruppo: «nome = \"Eli\" saluto = \"Ciao \" + nome print(saluto) Cosa stampa il programma?».",
-				"len()": "«len()» è la risposta giusta a un'altra domanda di questo gruppo: «Quale funzione dice quanto è lunga una stringa?».",
-				"p": "«p» è la risposta giusta a un'altra domanda di questo gruppo: «s = 'python' print(s[0]) Cosa stampa?».",
-				"s[-1]": "«s[-1]» è la risposta giusta a un'altra domanda di questo gruppo: «s = 'ciao' Con quale indice si prende l'ultima lettera?».",
-				"ababab": "«ababab» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print('ab' * 3)?».",
-				"La rende tutta maiuscola": "«La rende tutta maiuscola» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa fa .upper() su una stringa?».",
-				"ciao": "«ciao» è la risposta giusta a un'altra domanda di questo gruppo: «s = 'ciao' s.upper() print(s) Cosa stampa?»."
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print(len('Eli Quest'))?»."
 			}
 		},
 		{
@@ -3060,13 +2928,7 @@
 			"explanation": "Si contano anche gli spazi: 3 + 1 + 5 fa 9 caratteri.",
 			"distractorWhy": {
 				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti caratteri ha la stringa 'ciao'?».",
-				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «parola = \"robot\" n = len(parola) print(n) Quale valore stampa len(parola)?».",
-				"Ciao Eli": "«Ciao Eli» è la risposta giusta a un'altra domanda di questo gruppo: «nome = \"Eli\" saluto = \"Ciao \" + nome print(saluto) Cosa stampa il programma?».",
-				"len()": "«len()» è la risposta giusta a un'altra domanda di questo gruppo: «Quale funzione dice quanto è lunga una stringa?».",
-				"p": "«p» è la risposta giusta a un'altra domanda di questo gruppo: «s = 'python' print(s[0]) Cosa stampa?».",
-				"s[-1]": "«s[-1]» è la risposta giusta a un'altra domanda di questo gruppo: «s = 'ciao' Con quale indice si prende l'ultima lettera?».",
-				"ababab": "«ababab» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print('ab' * 3)?».",
-				"La rende tutta maiuscola": "«La rende tutta maiuscola» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa fa .upper() su una stringa?»."
+				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «parola = \"robot\" n = len(parola) print(n) Quale valore stampa len(parola)?»."
 			}
 		},
 		{
@@ -3227,11 +3089,7 @@
 			"answer": "4",
 			"explanation": "16 → 8 → 4 → 2 → 1: quattro dimezzamenti. È per questo che la ricerca binaria è così veloce.",
 			"distractorWhy": {
-				"100": "«100» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
-				"Può cambiare il risultato": "«Può cambiare il risultato» è la risposta giusta a un'altra domanda di questo gruppo: «In un algoritmo, cambiare l'ordine dei passi…».",
-				"Ricerca binaria": "«Ricerca binaria» è la risposta giusta a un'altra domanda di questo gruppo: «Cercare una parola in un dizionario di carta aprendo a metà è un esempio di…».",
-				"Ciclo infinito": "«Ciclo infinito» è la risposta giusta a un'altra domanda di questo gruppo: «Un algoritmo deve avere una fine. Come si chiama un ciclo che non finisce mai?».",
-				"Un errore nel programma": "«Un errore nel programma» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa significa 'bug' in programmazione?»."
+				"100": "«100» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
 			}
 		},
 		{
@@ -3308,11 +3166,7 @@
 			"answer": "100",
 			"explanation": "Una passata sola significa un confronto per elemento: cento. Un algoritmo che confrontasse tutti con tutti ne farebbe diecimila.",
 			"distractorWhy": {
-				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Con la ricerca binaria, quante volte si può dimezzare 16 prima di arrivare a 1?».",
-				"Può cambiare il risultato": "«Può cambiare il risultato» è la risposta giusta a un'altra domanda di questo gruppo: «In un algoritmo, cambiare l'ordine dei passi…».",
-				"Ricerca binaria": "«Ricerca binaria» è la risposta giusta a un'altra domanda di questo gruppo: «Cercare una parola in un dizionario di carta aprendo a metà è un esempio di…».",
-				"Ciclo infinito": "«Ciclo infinito» è la risposta giusta a un'altra domanda di questo gruppo: «Un algoritmo deve avere una fine. Come si chiama un ciclo che non finisce mai?».",
-				"Un errore nel programma": "«Un errore nel programma» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa significa 'bug' in programmazione?»."
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Con la ricerca binaria, quante volte si può dimezzare 16 prima di arrivare a 1?»."
 			}
 		},
 		{
@@ -3411,13 +3265,12 @@
 			"explanation": "Con i numeri, + è la somma: 3 + 4 = 7.",
 			"distractorWhy": {
 				"2": "«2» è la risposta giusta a un'altra domanda di questo gruppo: «print('ciao') print('mondo') Su quante righe appare il risultato?».",
+				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print(10 // 3)?».",
 				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print(2 * 3)?».",
 				"34": "Sono numeri, non stringhe: + li somma invece di concatenarli.",
 				"3 + 4": "print() calcola l'espressione prima di stamparla: non mostra i simboli originali.",
 				"'7'": "Il risultato è il numero 7, non la stringa di testo '7' fra virgolette.",
-				"ciao mondo": "«ciao mondo» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print('ciao', 'mondo')?».",
-				"2 * 3": "«2 * 3» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print('2 * 3')?».",
-				"x": "«x» è la risposta giusta a un'altra domanda di questo gruppo: «x = 4 print('x') Cosa stampa?»."
+				"5.0": "«5.0» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print(10 / 2)?»."
 			}
 		},
 		{
@@ -3432,13 +3285,12 @@
 			"explanation": "Con le stringhe, + le unisce (concatenazione): '3'+'4' = '34'.",
 			"distractorWhy": {
 				"2": "«2» è la risposta giusta a un'altra domanda di questo gruppo: «print('ciao') print('mondo') Su quante righe appare il risultato?».",
+				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print(10 // 3)?».",
 				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print(2 * 3)?».",
 				"7": "Sono stringhe fra virgolette, non numeri: + le concatena invece di sommarle.",
 				"'34'": "print() rimuove le virgolette quando stampa: mostra 34, non '34' con le virgolette.",
 				"errore": "Concatenare due stringhe con + è un'operazione valida: non genera errore.",
-				"ciao mondo": "«ciao mondo» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print('ciao', 'mondo')?».",
-				"2 * 3": "«2 * 3» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print('2 * 3')?».",
-				"x": "«x» è la risposta giusta a un'altra domanda di questo gruppo: «x = 4 print('x') Cosa stampa?»."
+				"5.0": "«5.0» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print(10 / 2)?»."
 			}
 		},
 		{
@@ -3478,9 +3330,7 @@
 				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «punti = 3 punti = punti + 4 print(punti) Che numero stampa questo programma Python?».",
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «punti = 0 punti = punti + 5 punti = punti + 5 print(punti) Cosa stampa?».",
 				"51": "+ fra numeri somma, non concatena come farebbe con le stringhe: il risultato è 6, non 51.",
-				"errore": "x = x + 1 è un'operazione valida: rilegge il valore attuale di x e ne scrive uno nuovo.",
-				"punti_totali": "«punti_totali» è la risposta giusta a un'altra domanda di questo gruppo: «Quale di questi è un nome di variabile valido in Python?».",
-				"punti += 1": "«punti += 1» è la risposta giusta a un'altra domanda di questo gruppo: «Quale scrittura è più breve per punti = punti + 1?»."
+				"errore": "x = x + 1 è un'operazione valida: rilegge il valore attuale di x e ne scrive uno nuovo."
 			}
 		},
 		{
@@ -3896,11 +3746,7 @@
 				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «numeri = [4, 8, 15] print(numeri[0]) Cosa stampa?».",
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «numeri = [10, 20, 30] print(numeri[0]) Cosa stampa numeri[0]?».",
 				"12": "«12» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
-				"21": "«21» è la risposta giusta a un'altra domanda di questo gruppo: «voti = [6, 7, 8] print(sum(voti)) Cosa stampa?».",
-				"append()": "«append()» è la risposta giusta a un'altra domanda di questo gruppo: «Quale metodo aggiunge un elemento in fondo a una lista?».",
-				"lista[-1]": "«lista[-1]» è la risposta giusta a un'altra domanda di questo gruppo: «Come si prende l'ultimo elemento di una lista senza sapere quanti sono?».",
-				"for elemento in lista:": "«for elemento in lista:» è la risposta giusta a un'altra domanda di questo gruppo: «Come si scorre una lista senza usare gli indici?».",
-				"[1, 2, 3]": "«[1, 2, 3]» è la risposta giusta a un'altra domanda di questo gruppo: «Come si scrive in Python una lista con tre numeri?»."
+				"21": "«21» è la risposta giusta a un'altra domanda di questo gruppo: «voti = [6, 7, 8] print(sum(voti)) Cosa stampa?»."
 			}
 		},
 		{
@@ -3984,7 +3830,7 @@
 				"14": "«14» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 + 3 * 4 in Python?».",
 				"20": "«20» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa (2 + 3) * 4?».",
 				"32": "«32» è la risposta giusta a un'altra domanda di questo gruppo: «print(2 ** 5) Cosa stampa 2 ** 5 in Python?».",
-				"+": "«+» è la risposta giusta a un'altra domanda di questo gruppo: «Quale operatore unisce due stringhe?»."
+				"4.5": "«4.5» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 9 / 2 in Python?»."
 			}
 		},
 		{
@@ -3999,12 +3845,12 @@
 			"explanation": "La doppia barra dà il quoziente intero, scartando il resto.",
 			"distractorWhy": {
 				"1": "«1» è la risposta giusta a un'altra domanda di questo gruppo: «numero = 7 resto = numero % 2 print(resto) Quanto vale 7 % 2 (il resto della divisione)?».",
+				"2": "«2» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa restituisce «17 % 5»?».",
 				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa abs(-7) in Python?».",
 				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa round(7.6) in Python?».",
 				"14": "«14» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 + 3 * 4 in Python?».",
 				"20": "«20» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa (2 + 3) * 4?».",
 				"32": "«32» è la risposta giusta a un'altra domanda di questo gruppo: «print(2 ** 5) Cosa stampa 2 ** 5 in Python?».",
-				"+": "«+» è la risposta giusta a un'altra domanda di questo gruppo: «Quale operatore unisce due stringhe?».",
 				"4.5": "«4.5» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 9 / 2 in Python?»."
 			}
 		},
@@ -4043,11 +3889,7 @@
 				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «a = 2 b = 5 a, b = b, a print(a) Cosa stampa?».",
 				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo x = 5 e poi x = x + 1, quanto vale x?».",
 				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «punti = 3 punti = punti + 4 print(punti) Che numero stampa questo programma Python?».",
-				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «punti = 0 punti = punti + 5 punti = punti + 5 print(punti) Cosa stampa?».",
-				"punti_totali": "«punti_totali» è la risposta giusta a un'altra domanda di questo gruppo: «Quale di questi è un nome di variabile valido in Python?».",
-				"punti += 1": "«punti += 1» è la risposta giusta a un'altra domanda di questo gruppo: «Quale scrittura è più breve per punti = punti + 1?».",
-				"Due variabili diverse": "«Due variabili diverse» è la risposta giusta a un'altra domanda di questo gruppo: «In Python, PUNTI e punti sono…».",
-				"La stringa Eli": "«La stringa Eli» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa contiene una variabile subito dopo nome = 'Eli'?»."
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «punti = 0 punti = punti + 5 punti = punti + 5 print(punti) Cosa stampa?»."
 			}
 		},
 		{

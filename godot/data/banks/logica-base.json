@@ -417,10 +417,7 @@
 				"4": "È un numero pari, come gli altri: non è lui l'intruso.",
 				"6": "È un numero pari, come gli altri: non è lui l'intruso.",
 				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero non appartiene al gruppo: 3, 5, 9, 7?».",
-				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero non appartiene al gruppo: 10, 20, 25, 30?».",
-				"mela": "«mela» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: cane, mela, gatto, cavallo?».",
-				"quercia": "«quercia» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: rosa, tulipano, quercia, margherita?».",
-				"tavolo": "«tavolo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: rosso, verde, tavolo, blu?»."
+				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero non appartiene al gruppo: 10, 20, 25, 30?»."
 			}
 		},
 		{
@@ -437,11 +434,7 @@
 				"3": "È un numero primo, come gli altri: non è lui l'intruso.",
 				"5": "È un numero primo, come gli altri: non è lui l'intruso.",
 				"7": "È un numero primo, come gli altri: non è lui l'intruso.",
-				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero non appartiene al gruppo: 10, 20, 25, 30?».",
-				"mela": "«mela» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: cane, mela, gatto, cavallo?».",
-				"quercia": "«quercia» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: rosa, tulipano, quercia, margherita?».",
-				"tavolo": "«tavolo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: rosso, verde, tavolo, blu?».",
-				"marzo": "«marzo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: lunedì, marzo, giovedì, domenica?»."
+				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero non appartiene al gruppo: 10, 20, 25, 30?»."
 			}
 		},
 		{
@@ -459,10 +452,7 @@
 				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero non appartiene al gruppo: 3, 5, 9, 7?».",
 				"10": "È un multiplo di 10, come gli altri: non è lui l'intruso.",
 				"20": "È un multiplo di 10, come gli altri: non è lui l'intruso.",
-				"30": "È un multiplo di 10, come gli altri: non è lui l'intruso.",
-				"mela": "«mela» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: cane, mela, gatto, cavallo?».",
-				"quercia": "«quercia» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: rosa, tulipano, quercia, margherita?».",
-				"tavolo": "«tavolo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: rosso, verde, tavolo, blu?»."
+				"30": "È un multiplo di 10, come gli altri: non è lui l'intruso."
 			}
 		},
 		{
@@ -980,14 +970,7 @@
 			"answer": "17",
 			"explanation": "12 + 8 fa 20, ma i 3 che fanno entrambe sono stati contati due volte: 20 − 3 = 17.",
 			"distractorWhy": {
-				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «In un gruppo di 20 persone, 15 hanno il cane. Quante NON hanno il cane?».",
-				"Gli uccelli che volano": "«Gli uccelli che volano» è la risposta giusta a un'altra domanda di questo gruppo: «Quali animali stanno sia nell'insieme «vola» sia in «ha le piume»?».",
-				"Disgiunti": "«Disgiunti» è la risposta giusta a un'altra domanda di questo gruppo: «Due insiemi non hanno nessun elemento in comune. Come si dicono?».",
-				"Un sottoinsieme": "«Un sottoinsieme» è la risposta giusta a un'altra domanda di questo gruppo: «Nel gruppo degli strumenti musicali, quello degli archi è…».",
-				"Animali": "«Animali» è la risposta giusta a un'altra domanda di questo gruppo: «Quale gruppo contiene tutti gli altri: cani, mammiferi, animali, vertebrati?».",
-				"Si sovrappongono in parte": "«Si sovrappongono in parte» è la risposta giusta a un'altra domanda di questo gruppo: ««Alcuni musicisti sono chitarristi» descrive due insiemi che…».",
-				"un rettangolo": "«un rettangolo» è la risposta giusta a un'altra domanda di questo gruppo: «Tutti i quadrati sono rettangoli. Allora un quadrato è anche…».",
-				"gioca a pallavolo": "«gioca a pallavolo» è la risposta giusta a un'altra domanda di questo gruppo: «In una classe tutti giocano a calcio o a pallavolo. Marco non gioca a calcio. Allora…»."
+				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «In un gruppo di 20 persone, 15 hanno il cane. Quante NON hanno il cane?»."
 			}
 		},
 		{
@@ -1085,14 +1068,7 @@
 			"answer": "5",
 			"explanation": "È il complementare dentro il gruppo: 20 − 15 = 5.",
 			"distractorWhy": {
-				"17": "«17» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
-				"Gli uccelli che volano": "«Gli uccelli che volano» è la risposta giusta a un'altra domanda di questo gruppo: «Quali animali stanno sia nell'insieme «vola» sia in «ha le piume»?».",
-				"Disgiunti": "«Disgiunti» è la risposta giusta a un'altra domanda di questo gruppo: «Due insiemi non hanno nessun elemento in comune. Come si dicono?».",
-				"Un sottoinsieme": "«Un sottoinsieme» è la risposta giusta a un'altra domanda di questo gruppo: «Nel gruppo degli strumenti musicali, quello degli archi è…».",
-				"Animali": "«Animali» è la risposta giusta a un'altra domanda di questo gruppo: «Quale gruppo contiene tutti gli altri: cani, mammiferi, animali, vertebrati?».",
-				"Si sovrappongono in parte": "«Si sovrappongono in parte» è la risposta giusta a un'altra domanda di questo gruppo: ««Alcuni musicisti sono chitarristi» descrive due insiemi che…».",
-				"un rettangolo": "«un rettangolo» è la risposta giusta a un'altra domanda di questo gruppo: «Tutti i quadrati sono rettangoli. Allora un quadrato è anche…».",
-				"gioca a pallavolo": "«gioca a pallavolo» è la risposta giusta a un'altra domanda di questo gruppo: «In una classe tutti giocano a calcio o a pallavolo. Marco non gioca a calcio. Allora…»."
+				"17": "«17» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
 			}
 		},
 		{
@@ -1337,13 +1313,9 @@
 			"answer": "2",
 			"explanation": "Vero o falso: in logica classica non esistono vie di mezzo.",
 			"distractorWhy": {
-				"Almeno uno è arrivato": "«Almeno uno è arrivato» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la negazione di «nessuno è arrivato»?».",
-				"Non pioveva": "«Non pioveva» è la risposta giusta a un'altra domanda di questo gruppo: ««Se piove, prendo l'ombrello.» Non ho preso l'ombrello. Cosa si conclude?».",
-				"Piove": "«Piove» è la risposta giusta a un'altra domanda di questo gruppo: ««Non è vero che non piove» significa…».",
-				"Marco ha un gatto": "«Marco ha un gatto» è la risposta giusta a un'altra domanda di questo gruppo: ««Tutti gli abitanti hanno un cane o un gatto.» Marco non ha cani. Cosa si conclude?».",
-				"No, mai": "«No, mai» è la risposta giusta a un'altra domanda di questo gruppo: «Un'affermazione e la sua negazione possono essere entrambe vere?».",
-				"La regola di partenza": "«La regola di partenza» è la risposta giusta a un'altra domanda di questo gruppo: ««Se studio, passo l'esame.» Ho studiato ma non ho passato. Che cosa è falso?».",
-				"Quattro": "«Quattro» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
+				"1": "Sono due: se ce ne fosse una sola non ci sarebbe niente da decidere.",
+				"3": "Non esiste un «forse»: in logica un'affermazione o è vera o è falsa, anche quando noi non sappiamo quale delle due.",
+				"4": "Due: vero e falso. Quattro sono le combinazioni di DUE affermazioni messe insieme."
 			}
 		},
 		{
@@ -1609,14 +1581,7 @@
 			"answer": "0",
 			"explanation": "Nessun numero di esempi dimostra un «tutti»: serve una dimostrazione generale. Gli esempi possono solo smentirlo.",
 			"distractorWhy": {
-				"Tutti": "«Tutti» è la risposta giusta a un'altra domanda di questo gruppo: «Quale parola indica che vale per ogni singolo caso?».",
-				"Almeno uno non vola": "«Almeno uno non vola» è la risposta giusta a un'altra domanda di questo gruppo: ««Alcuni uccelli non volano» significa che…».",
-				"Non tutti": "«Non tutti» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il contrario di «tutti»?».",
-				"Due cose diverse": "«Due cose diverse» è la risposta giusta a un'altra domanda di questo gruppo: ««Ogni chiave apre una porta» e «una porta è aperta da ogni chiave» dicono…».",
-				"Due o più studenti": "«Due o più studenti» è la risposta giusta a un'altra domanda di questo gruppo: ««Almeno due studenti hanno preso 10» è vera se ne hanno preso 10…».",
-				"No, in nessun caso": "«No, in nessun caso» è la risposta giusta a un'altra domanda di questo gruppo: «Da «alcuni gatti sono neri» si può dedurre «tutti i gatti sono neri»?».",
-				"Dicono la stessa cosa": "«Dicono la stessa cosa» è la risposta giusta a un'altra domanda di questo gruppo: ««Nessun pesce vola» e «tutti i pesci non volano»…».",
-				"due, uno o nessuno": "«due, uno o nessuno» è la risposta giusta a un'altra domanda di questo gruppo: ««Al massimo due gatti dormono» è vera se ne dormono…»."
+				"11": "«11» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
 			}
 		},
 		{
@@ -1949,10 +1914,7 @@
 				"3": "È un numero primo, come gli altri: non è lui l'intruso.",
 				"5": "È un numero primo, come gli altri: non è lui l'intruso.",
 				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero non appartiene al gruppo: 2, 4, 6, 7?».",
-				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero non appartiene al gruppo: 10, 20, 25, 30?».",
-				"mela": "«mela» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: cane, mela, gatto, cavallo?».",
-				"quercia": "«quercia» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: rosa, tulipano, quercia, margherita?».",
-				"tavolo": "«tavolo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: rosso, verde, tavolo, blu?»."
+				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero non appartiene al gruppo: 10, 20, 25, 30?»."
 			}
 		},
 		{
@@ -2138,10 +2100,7 @@
 				"4": "È un numero pari, come gli altri: non è lui l'intruso.",
 				"8": "È un numero pari, come gli altri: non è lui l'intruso.",
 				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero non appartiene al gruppo: 3, 5, 9, 7?».",
-				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero non appartiene al gruppo: 10, 20, 25, 30?».",
-				"mela": "«mela» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: cane, mela, gatto, cavallo?».",
-				"quercia": "«quercia» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: rosa, tulipano, quercia, margherita?».",
-				"tavolo": "«tavolo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: rosso, verde, tavolo, blu?»."
+				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero non appartiene al gruppo: 10, 20, 25, 30?»."
 			}
 		},
 		{
@@ -2365,14 +2324,7 @@
 			"answer": "11",
 			"explanation": "«La maggior parte» vuol dire più della metà: metà di 20 fa 10, quindi ne servono almeno 11. Con 10 sarebbe esattamente metà, e metà non è la maggior parte.",
 			"distractorWhy": {
-				"0": "«0» è la risposta giusta a un'altra domanda di questo gruppo: «Per dimostrare che «tutti i numeri pari sono divisibili per 2», quanti esempi bastano?».",
-				"Tutti": "«Tutti» è la risposta giusta a un'altra domanda di questo gruppo: «Quale parola indica che vale per ogni singolo caso?».",
-				"Almeno uno non vola": "«Almeno uno non vola» è la risposta giusta a un'altra domanda di questo gruppo: ««Alcuni uccelli non volano» significa che…».",
-				"Non tutti": "«Non tutti» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il contrario di «tutti»?».",
-				"Due cose diverse": "«Due cose diverse» è la risposta giusta a un'altra domanda di questo gruppo: ««Ogni chiave apre una porta» e «una porta è aperta da ogni chiave» dicono…».",
-				"Due o più studenti": "«Due o più studenti» è la risposta giusta a un'altra domanda di questo gruppo: ««Almeno due studenti hanno preso 10» è vera se ne hanno preso 10…».",
-				"No, in nessun caso": "«No, in nessun caso» è la risposta giusta a un'altra domanda di questo gruppo: «Da «alcuni gatti sono neri» si può dedurre «tutti i gatti sono neri»?».",
-				"Dicono la stessa cosa": "«Dicono la stessa cosa» è la risposta giusta a un'altra domanda di questo gruppo: ««Nessun pesce vola» e «tutti i pesci non volano»…»."
+				"0": "«0» è la risposta giusta a un'altra domanda di questo gruppo: «Per dimostrare che «tutti i numeri pari sono divisibili per 2», quanti esempi bastano?»."
 			}
 		},
 		{

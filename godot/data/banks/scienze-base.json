@@ -665,14 +665,9 @@
 			"answer": "3",
 			"explanation": "Ogni freccia è un passaggio: erba-cavalletta, cavalletta-rana, rana-serpente. A ogni passaggio si perde energia.",
 			"distractorWhy": {
-				"Erbivoro": "«Erbivoro» è la risposta giusta a un'altra domanda di questo gruppo: «Un animale che mangia solo piante si chiama…».",
-				"I carnivori": "«I carnivori» è la risposta giusta a un'altra domanda di questo gruppo: «In una catena alimentare, chi mangia gli erbivori?».",
-				"Le piante (produttori)": "«Le piante (produttori)» è la risposta giusta a un'altra domanda di questo gruppo: «In una catena alimentare, chi produce il proprio nutrimento?».",
-				"Decompositori": "«Decompositori» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano gli organismi (funghi, batteri) che decompongono i resti dei viventi?».",
-				"ecosistema": "«ecosistema» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
-				"consumatori": "«consumatori» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano gli organismi che si nutrono di altri esseri viventi?».",
-				"decompositori": "«decompositori» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano gli organismi che trasformano i resti in sostanze minerali?».",
-				"catena alimentare": "«catena alimentare» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la catena che collega chi mangia e chi è mangiato?»."
+				"1": "L'energia passa tre volte, una per ogni freccia della catena.",
+				"2": "Le frecce sono tre: erba→cavalletta, cavalletta→rana, rana→serpente.",
+				"4": "Quattro sono gli esseri viventi; i passaggi sono le frecce fra loro, e le frecce sono tre."
 			}
 		},
 		{
@@ -875,14 +870,9 @@
 			"answer": "2",
 			"explanation": "Chimica in elettrica dentro la pila, elettrica in luce e calore nella lampadina: due passaggi.",
 			"distractorWhy": {
-				"Luce e calore": "«Luce e calore» è la risposta giusta a un'altra domanda di questo gruppo: «Quando accendi una lampadina, l'energia elettrica diventa…».",
-				"Energia chimica": "«Energia chimica» è la risposta giusta a un'altra domanda di questo gruppo: «Che tipo di energia contiene il cibo che mangi?».",
-				"Dal Sole": "«Dal Sole» è la risposta giusta a un'altra domanda di questo gruppo: «Da dove arriva quasi tutta l'energia che riscalda la Terra?».",
-				"Energia eolica": "«Energia eolica» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'energia prodotta dal vento che fa girare le pale?».",
-				"Energia idroelettrica": "«Energia idroelettrica» è la risposta giusta a un'altra domanda di questo gruppo: «L'energia dell'acqua che scorre e fa girare le turbine si chiama…».",
-				"rinnovabile": "«rinnovabile» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama una fonte di energia che non si esaurisce, come il vento o il sole?».",
-				"fotosintesi": "«fotosintesi» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il processo con cui le piante usano la luce per fabbricare zuccheri?».",
-				"potenziale": "«potenziale» è la risposta giusta a un'altra domanda di questo gruppo: «Una palla ferma in cima a una rampa possiede energia...»."
+				"0": "Ce n'è almeno una ogni volta che qualcosa si accende: l'energia non compare dal nulla.",
+				"1": "Sono due: prima la chimica della pila diventa elettrica, poi l'elettrica diventa luce e calore.",
+				"3": "Due: la pila fa il primo passaggio, la lampadina il secondo."
 			}
 		},
 		{
@@ -896,14 +886,7 @@
 			"answer": "24",
 			"explanation": "Ventiquattro ore: è la rotazione, e produce il giorno e la notte.",
 			"distractorWhy": {
-				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti pianeti ci sono nel Sistema Solare?».",
-				"Mercurio": "«Mercurio» è la risposta giusta a un'altra domanda di questo gruppo: «Quale pianeta è il più vicino al Sole?».",
-				"Il Sole": "«Il Sole» è la risposta giusta a un'altra domanda di questo gruppo: «Attorno a cosa gira la Terra?».",
-				"La Luna": "«La Luna» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il satellite naturale della Terra?».",
-				"rotazione": "«rotazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il movimento della Terra attorno al proprio asse?».",
-				"rivoluzione": "«rivoluzione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il movimento della Terra attorno al Sole?».",
-				"Sole": "«Sole» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la stella attorno a cui gira la Terra?».",
-				"atmosfera": "«atmosfera» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo strato di aria che avvolge la Terra?»."
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti pianeti ci sono nel Sistema Solare?»."
 			}
 		},
 		{
@@ -1064,14 +1047,7 @@
 			"answer": "8",
 			"explanation": "Otto: Mercurio, Venere, Terra, Marte, Giove, Saturno, Urano, Nettuno. Plutone dal 2006 è un pianeta nano.",
 			"distractorWhy": {
-				"24": "«24» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto tempo impiega la Terra a girare su sé stessa?».",
-				"Mercurio": "«Mercurio» è la risposta giusta a un'altra domanda di questo gruppo: «Quale pianeta è il più vicino al Sole?».",
-				"Il Sole": "«Il Sole» è la risposta giusta a un'altra domanda di questo gruppo: «Attorno a cosa gira la Terra?».",
-				"La Luna": "«La Luna» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il satellite naturale della Terra?».",
-				"rotazione": "«rotazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il movimento della Terra attorno al proprio asse?».",
-				"rivoluzione": "«rivoluzione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il movimento della Terra attorno al Sole?».",
-				"Sole": "«Sole» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la stella attorno a cui gira la Terra?».",
-				"atmosfera": "«atmosfera» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo strato di aria che avvolge la Terra?»."
+				"24": "«24» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto tempo impiega la Terra a girare su sé stessa?»."
 			}
 		},
 		{
@@ -2323,7 +2299,6 @@
 			"accept": [],
 			"explanation": "Le due parti non si studiano separate: cambiando l'ambiente cambiano i viventi, e viceversa.",
 			"distractorWhy": {
-				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «In una catena erba → cavalletta → rana → serpente, quanti passaggi di energia ci sono?».",
 				"Erbivoro": "«Erbivoro» è la risposta giusta a un'altra domanda di questo gruppo: «Un animale che mangia solo piante si chiama…».",
 				"I carnivori": "«I carnivori» è la risposta giusta a un'altra domanda di questo gruppo: «In una catena alimentare, chi mangia gli erbivori?».",
 				"Le piante (produttori)": "«Le piante (produttori)» è la risposta giusta a un'altra domanda di questo gruppo: «In una catena alimentare, chi produce il proprio nutrimento?».",
@@ -2345,7 +2320,6 @@
 			"accept": [],
 			"explanation": "Non producono il proprio cibo: lo prendono da chi lo ha fabbricato o da chi lo ha già mangiato.",
 			"distractorWhy": {
-				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «In una catena erba → cavalletta → rana → serpente, quanti passaggi di energia ci sono?».",
 				"Erbivoro": "«Erbivoro» è la risposta giusta a un'altra domanda di questo gruppo: «Un animale che mangia solo piante si chiama…».",
 				"I carnivori": "«I carnivori» è la risposta giusta a un'altra domanda di questo gruppo: «In una catena alimentare, chi mangia gli erbivori?».",
 				"Le piante (produttori)": "«Le piante (produttori)» è la risposta giusta a un'altra domanda di questo gruppo: «In una catena alimentare, chi produce il proprio nutrimento?».",
@@ -2367,7 +2341,6 @@
 			"accept": [],
 			"explanation": "Senza di loro le sostanze resterebbero bloccate nei resti e il ciclo si fermerebbe.",
 			"distractorWhy": {
-				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «In una catena erba → cavalletta → rana → serpente, quanti passaggi di energia ci sono?».",
 				"Erbivoro": "«Erbivoro» è la risposta giusta a un'altra domanda di questo gruppo: «Un animale che mangia solo piante si chiama…».",
 				"I carnivori": "«I carnivori» è la risposta giusta a un'altra domanda di questo gruppo: «In una catena alimentare, chi mangia gli erbivori?».",
 				"Le piante (produttori)": "«Le piante (produttori)» è la risposta giusta a un'altra domanda di questo gruppo: «In una catena alimentare, chi produce il proprio nutrimento?».",
@@ -2390,7 +2363,6 @@
 			],
 			"explanation": "Ogni anello passa al successivo solo una parte dell'energia ricevuta.",
 			"distractorWhy": {
-				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «In una catena erba → cavalletta → rana → serpente, quanti passaggi di energia ci sono?».",
 				"Erbivoro": "«Erbivoro» è la risposta giusta a un'altra domanda di questo gruppo: «Un animale che mangia solo piante si chiama…».",
 				"I carnivori": "«I carnivori» è la risposta giusta a un'altra domanda di questo gruppo: «In una catena alimentare, chi mangia gli erbivori?».",
 				"Le piante (produttori)": "«Le piante (produttori)» è la risposta giusta a un'altra domanda di questo gruppo: «In una catena alimentare, chi produce il proprio nutrimento?».",
@@ -2470,7 +2442,6 @@
 			],
 			"explanation": "Rinnovabile non vuol dire senza impatto: vuol dire che la fonte si ricostituisce.",
 			"distractorWhy": {
-				"2": "«2» è la risposta giusta a un'altra domanda di questo gruppo: «Quante trasformazioni di energia ci sono in «pila → lampadina accesa»?».",
 				"Luce e calore": "«Luce e calore» è la risposta giusta a un'altra domanda di questo gruppo: «Quando accendi una lampadina, l'energia elettrica diventa…».",
 				"Energia chimica": "«Energia chimica» è la risposta giusta a un'altra domanda di questo gruppo: «Che tipo di energia contiene il cibo che mangi?».",
 				"Dal Sole": "«Dal Sole» è la risposta giusta a un'altra domanda di questo gruppo: «Da dove arriva quasi tutta l'energia che riscalda la Terra?».",
@@ -2494,7 +2465,6 @@
 			],
 			"explanation": "Prendono anidride carbonica e acqua e restituiscono ossigeno: è l'inizio di quasi tutte le catene alimentari.",
 			"distractorWhy": {
-				"2": "«2» è la risposta giusta a un'altra domanda di questo gruppo: «Quante trasformazioni di energia ci sono in «pila → lampadina accesa»?».",
 				"Luce e calore": "«Luce e calore» è la risposta giusta a un'altra domanda di questo gruppo: «Quando accendi una lampadina, l'energia elettrica diventa…».",
 				"Energia chimica": "«Energia chimica» è la risposta giusta a un'altra domanda di questo gruppo: «Che tipo di energia contiene il cibo che mangi?».",
 				"Dal Sole": "«Dal Sole» è la risposta giusta a un'altra domanda di questo gruppo: «Da dove arriva quasi tutta l'energia che riscalda la Terra?».",
@@ -2516,14 +2486,14 @@
 			"accept": [],
 			"explanation": "Dura ventiquattro ore e produce il giorno e la notte.",
 			"distractorWhy": {
-				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti pianeti ci sono nel Sistema Solare?».",
-				"24": "«24» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto tempo impiega la Terra a girare su sé stessa?».",
 				"Mercurio": "«Mercurio» è la risposta giusta a un'altra domanda di questo gruppo: «Quale pianeta è il più vicino al Sole?».",
 				"Il Sole": "«Il Sole» è la risposta giusta a un'altra domanda di questo gruppo: «Attorno a cosa gira la Terra?».",
 				"La Luna": "«La Luna» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il satellite naturale della Terra?».",
 				"rivoluzione": "«rivoluzione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il movimento della Terra attorno al Sole?».",
 				"Sole": "«Sole» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la stella attorno a cui gira la Terra?».",
-				"atmosfera": "«atmosfera» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo strato di aria che avvolge la Terra?»."
+				"atmosfera": "«atmosfera» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo strato di aria che avvolge la Terra?».",
+				"pianeti": "«pianeti» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano i corpi celesti che girano attorno al Sole, come la Terra?».",
+				"L'asse terrestre è inclinato": "«L'asse terrestre è inclinato» è la risposta giusta a un'altra domanda di questo gruppo: «Perché sulla Terra si alternano le stagioni?»."
 			}
 		},
 		{
@@ -2538,14 +2508,14 @@
 			"accept": [],
 			"explanation": "Dura un anno; insieme all'inclinazione dell'asse produce le stagioni.",
 			"distractorWhy": {
-				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti pianeti ci sono nel Sistema Solare?».",
-				"24": "«24» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto tempo impiega la Terra a girare su sé stessa?».",
 				"Mercurio": "«Mercurio» è la risposta giusta a un'altra domanda di questo gruppo: «Quale pianeta è il più vicino al Sole?».",
 				"Il Sole": "«Il Sole» è la risposta giusta a un'altra domanda di questo gruppo: «Attorno a cosa gira la Terra?».",
 				"La Luna": "«La Luna» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il satellite naturale della Terra?».",
 				"rotazione": "«rotazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il movimento della Terra attorno al proprio asse?».",
 				"Sole": "«Sole» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la stella attorno a cui gira la Terra?».",
-				"atmosfera": "«atmosfera» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo strato di aria che avvolge la Terra?»."
+				"atmosfera": "«atmosfera» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo strato di aria che avvolge la Terra?».",
+				"pianeti": "«pianeti» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano i corpi celesti che girano attorno al Sole, come la Terra?».",
+				"L'asse terrestre è inclinato": "«L'asse terrestre è inclinato» è la risposta giusta a un'altra domanda di questo gruppo: «Perché sulla Terra si alternano le stagioni?»."
 			}
 		},
 		{
@@ -2560,14 +2530,14 @@
 			"accept": [],
 			"explanation": "È una stella come tante altre: ci sembra enorme solo perché è vicinissima.",
 			"distractorWhy": {
-				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti pianeti ci sono nel Sistema Solare?».",
-				"24": "«24» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto tempo impiega la Terra a girare su sé stessa?».",
 				"Mercurio": "«Mercurio» è la risposta giusta a un'altra domanda di questo gruppo: «Quale pianeta è il più vicino al Sole?».",
 				"Il Sole": "«Il Sole» è la risposta giusta a un'altra domanda di questo gruppo: «Attorno a cosa gira la Terra?».",
 				"La Luna": "«La Luna» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il satellite naturale della Terra?».",
 				"rotazione": "«rotazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il movimento della Terra attorno al proprio asse?».",
 				"rivoluzione": "«rivoluzione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il movimento della Terra attorno al Sole?».",
-				"atmosfera": "«atmosfera» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo strato di aria che avvolge la Terra?»."
+				"atmosfera": "«atmosfera» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo strato di aria che avvolge la Terra?».",
+				"pianeti": "«pianeti» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano i corpi celesti che girano attorno al Sole, come la Terra?».",
+				"L'asse terrestre è inclinato": "«L'asse terrestre è inclinato» è la risposta giusta a un'altra domanda di questo gruppo: «Perché sulla Terra si alternano le stagioni?»."
 			}
 		},
 		{
@@ -2582,14 +2552,14 @@
 			"accept": [],
 			"explanation": "Trattiene calore e ferma gran parte delle radiazioni: senza, la vita in superficie non ci sarebbe.",
 			"distractorWhy": {
-				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti pianeti ci sono nel Sistema Solare?».",
-				"24": "«24» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto tempo impiega la Terra a girare su sé stessa?».",
 				"Mercurio": "«Mercurio» è la risposta giusta a un'altra domanda di questo gruppo: «Quale pianeta è il più vicino al Sole?».",
 				"Il Sole": "«Il Sole» è la risposta giusta a un'altra domanda di questo gruppo: «Attorno a cosa gira la Terra?».",
 				"La Luna": "«La Luna» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il satellite naturale della Terra?».",
 				"rotazione": "«rotazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il movimento della Terra attorno al proprio asse?».",
 				"rivoluzione": "«rivoluzione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il movimento della Terra attorno al Sole?».",
-				"Sole": "«Sole» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la stella attorno a cui gira la Terra?»."
+				"Sole": "«Sole» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la stella attorno a cui gira la Terra?».",
+				"pianeti": "«pianeti» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano i corpi celesti che girano attorno al Sole, come la Terra?».",
+				"L'asse terrestre è inclinato": "«L'asse terrestre è inclinato» è la risposta giusta a un'altra domanda di questo gruppo: «Perché sulla Terra si alternano le stagioni?»."
 			}
 		},
 		{
@@ -2901,14 +2871,14 @@
 			],
 			"explanation": "Non brillano di luce propria: riflettono quella del Sole.",
 			"distractorWhy": {
-				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti pianeti ci sono nel Sistema Solare?».",
-				"24": "«24» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto tempo impiega la Terra a girare su sé stessa?».",
 				"Mercurio": "«Mercurio» è la risposta giusta a un'altra domanda di questo gruppo: «Quale pianeta è il più vicino al Sole?».",
 				"Il Sole": "«Il Sole» è la risposta giusta a un'altra domanda di questo gruppo: «Attorno a cosa gira la Terra?».",
 				"La Luna": "«La Luna» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il satellite naturale della Terra?».",
 				"rotazione": "«rotazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il movimento della Terra attorno al proprio asse?».",
 				"rivoluzione": "«rivoluzione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il movimento della Terra attorno al Sole?».",
-				"Sole": "«Sole» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la stella attorno a cui gira la Terra?»."
+				"Sole": "«Sole» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la stella attorno a cui gira la Terra?».",
+				"atmosfera": "«atmosfera» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo strato di aria che avvolge la Terra?».",
+				"L'asse terrestre è inclinato": "«L'asse terrestre è inclinato» è la risposta giusta a un'altra domanda di questo gruppo: «Perché sulla Terra si alternano le stagioni?»."
 			}
 		},
 		{

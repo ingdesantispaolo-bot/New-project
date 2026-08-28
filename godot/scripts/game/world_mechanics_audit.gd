@@ -23,6 +23,11 @@ const MONDI_CON_GUADO_MIN := 6
 func _init() -> void:
 	var con_guado := 0
 	var hazard_scarsi: Array = []
+	# Quali sbarramenti la generazione mette DAVVERO in gioco, su tutti i mondi.
+	# Vedi la guardia in fondo: raccoglierli qui costa una riga, e l'assenza di
+	# uno dei tre non si vede giocando un mondo alla volta.
+	var sbarramenti_visti := {}
+	var mondi_con_due_sbarramenti := 0
 	for livello in range(1, ApparatusConfig.MAX_LEVEL + 1):
 		var profilo := WorldProfileCatalog.profile(livello)
 		var comp := WorldCompositionGenerator.generate("seed-%d" % livello, profilo)
@@ -46,6 +51,7 @@ func _init() -> void:
 				terra += 1
 				assert(str(Dictionary(voce).get("label", "")).strip_edges() != "",
 					"sbarramento senza nome nel mondo %d" % livello)
+				sbarramenti_visti[str(Dictionary(voce).get("label", ""))] = true
 			else:
 				acqua += 1
 		# I due tipi non convivono: dove c'e' l'acqua comanda l'acqua, altrimenti
@@ -54,6 +60,14 @@ func _init() -> void:
 			"il mondo %d mescola guadi d'acqua e sbarramenti di terra" % livello)
 		if acqua > 0:
 			con_guado += 1
+		else:
+			# **Nessun mondo di terra ne perde uno per strada.** Il mondo 1 ne
+			# aveva UNO invece di due, perche' l'altro gli cadeva nel laghetto e
+			# il piazzamento rinunciava al primo tentativo.
+			assert(terra == WorldCompositionGenerator.SBARRAMENTI_SLOT.size(),
+				"il mondo %d ha %d sbarramenti invece di %d: ne ha perso uno nel piazzamento" % [
+					livello, terra, WorldCompositionGenerator.SBARRAMENTI_SLOT.size()])
+			mondi_con_due_sbarramenti += 1
 
 		# --- hazard: tre piazzabili ovunque, con i dodici tentativi
 		var rng := RandomNumberGenerator.new()
@@ -94,6 +108,19 @@ func _init() -> void:
 		"solo %d mondi hanno un guado, erano %d: la generazione dell'acqua è cambiata" % [
 			con_guado, MONDI_CON_GUADO_MIN])
 
-	print("WORLD MECHANICS audit OK — 24 mondi: un passaggio da aprire ovunque (%d d'acqua, %d di terra), 3 hazard, 3 edifici" % [
-		con_guado, ApparatusConfig.MAX_LEVEL - con_guado])
+	# **Uno sbarramento autorato che non compare mai non esiste.** (28 agosto 2026)
+	#
+	# Misurato prima della correzione: «il cancello dei Primi» stava in ZERO
+	# mondi su ventiquattro. La sua posizione cadeva sul corridoio protetto
+	# spawn->nave, il ciclo rinunciava, e un terzo della varietà scritta a mano
+	# era codice morto. Nessuna prova se ne accorgeva: tutte guardavano un mondo
+	# alla volta, e un mondo alla volta due sbarramenti su tre sembrano una
+	# scelta. Questa guarda tutti e ventiquattro insieme, che è l'unico posto da
+	# cui quel difetto si vede.
+	for nome in ["la frana", "il cancello dei Primi", "la parete incisa"]:
+		assert(sbarramenti_visti.has(nome),
+			"lo sbarramento «%s» non compare in nessuno dei 24 mondi: è autorato e mai giocato" % nome)
+
+	print("WORLD MECHANICS audit OK — 24 mondi: un passaggio da aprire ovunque (%d d'acqua, %d di terra con due sbarramenti ciascuno), tutte e tre le facce dello sbarramento in gioco, 3 hazard, 3 edifici" % [
+		con_guado, mondi_con_due_sbarramenti])
 	quit(0)

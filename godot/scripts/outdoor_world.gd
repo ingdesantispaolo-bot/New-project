@@ -382,10 +382,13 @@ func _configure_world_profile() -> void:
 	environment_transform = WORLD_LESSON_CATALOG.environment_transform(world_level)
 	world_seed = "%s::%s" % [str(request.get("worldSeed", "outdoor-dev-1")), str(world_profile.get("id", "world-01-radura"))]
 	mission_events = _planned_world_events()
-	_align_enigma_to_water_crossing()
+	_align_enigma_to_crossing()
 	_configure_profile_palette()
 
-func _align_enigma_to_water_crossing() -> void:
+## Aggancia il primo enigma al varco del mondo: d'acqua dove l'acqua c'è, di
+## terra negli altri diciotto. Si chiamava `..._to_water_crossing`, e il nome
+## era la prima riga di un equivoco che arrivava fino al cartello sul posto.
+func _align_enigma_to_crossing() -> void:
 	var preview := WorldCompositionGenerator.generate(world_seed, world_profile)
 	if preview == null or preview.crossings.is_empty():
 		return
@@ -404,6 +407,11 @@ func _align_enigma_to_water_crossing() -> void:
 		event["crossingId"] = str(crossing.get("id", ""))
 		event["bridgeCenter"] = crossing.get("position", event["position"])
 		event["bridgeNormal"] = crossing.get("normal", Vector2.RIGHT)
+		# Che cosa sbarra la strada, per chi lo deve dire al bambino. Senza questi
+		# due campi la scena sa solo che c'e' un varco, e l'unico vocabolario che
+		# aveva era quello dell'acqua — anche sui diciotto mondi che non ne hanno.
+		event["crossingKind"] = str(crossing.get("kind", "acqua"))
+		event["crossingLabel"] = str(crossing.get("label", ""))
 		mission_events[index] = event
 		return
 
@@ -1816,19 +1824,31 @@ func _create_profile_event(event: Dictionary) -> void:
 	elif director_kind == "enigma":
 		var visual := ENIGMA_STRUCTURE.new()
 		visual.name = "EnigmaStructureVisual"
+		# **Il ponte soltanto sull'acqua.** (28 agosto 2026)
+		#
+		# Su uno sbarramento di terra qui si disegnava comunque un ponte: sopra
+		# una frana, col cartello «costruisci il ponte» accanto, e sotto il muro
+		# marrone che dice «LA FRANA». Tre vocabolari per lo stesso oggetto, su
+		# diciotto mondi. Sulla terra vale il tema della materia — quello che gli
+		# enigmi che non aprono varchi usano già.
+		var su_terra := str(event.get("crossingKind", "")) == "barrier"
 		# La struttura antepone già "ENIGMA": il titolo deve contenere solo
 		# la materia, altrimenti appare "ENIGMA · ENIGMA DI …".
 		visual.setup(
-			"ponte" if event.has("bridgeCenter") else ContentManager.enigma_theme(str(payload["subject"])),
+			"ponte" if event.has("bridgeCenter") and not su_terra
+				else ContentManager.enigma_theme(str(payload["subject"])),
 			str(payload["subject"]).capitalize())
 		if event.has("bridgeCenter"):
 			var bridge_center: Vector2 = event.get("bridgeCenter", area.position)
 			var bridge_normal: Vector2 = event.get("bridgeNormal", Vector2.RIGHT)
 			visual.position = bridge_center - area.position
-			visual.rotation = bridge_normal.angle()
-			var water_gate_sign := _make_water_gate_sign(completed)
-			water_gate_sign.name = "WaterGateObjective"
-			area.add_child(water_gate_sign)
+			# Solo la tavola del ponte è disegnata per stare CORICATA attraverso
+			# il varco: ruotare una porta o un circuito li mette di traverso.
+			if not su_terra:
+				visual.rotation = bridge_normal.angle()
+			var gate_sign := _make_gate_sign(completed, su_terra)
+			gate_sign.name = "WaterGateObjective"
+			area.add_child(gate_sign)
 		visual.set_stage(4 if completed else 0, 4)
 		area.add_child(visual)
 	elif director_kind == "practice":
@@ -4215,16 +4235,27 @@ func _make_landmark_caption(label_text: String, completed: int, total: int) -> L
 	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	return label
 
-func _make_water_gate_sign(completed: bool) -> Label:
+## Il cartello del varco. Su terra non si costruisce nessun ponte: si libera il
+## sentiero. Il nome dello sbarramento non entra qui — lo porta già la targhetta
+## sul muro (`BarrierLabel`) — e tenerlo fuori evita di dover accordare al
+## genere «la frana» con «il cancello dei Primi» in una frase sola.
+func _make_gate_sign(completed: bool, su_terra: bool) -> Label:
 	var label := Label.new()
 	label.position = Vector2(-150, -142)
 	label.custom_minimum_size = Vector2(300, 58)
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	label.text = (
-		"PASSAGGIO APERTO · PONTE COSTRUITO"
-		if completed
-		else "PASSAGGIO BLOCCATO\nRISOLVI L'ENIGMA PER COSTRUIRE IL PONTE"
-	)
+	if su_terra:
+		label.text = (
+			"PASSAGGIO APERTO · SENTIERO LIBERO"
+			if completed
+			else "PASSAGGIO BLOCCATO\nRISOLVI L'ENIGMA PER LIBERARE IL SENTIERO"
+		)
+	else:
+		label.text = (
+			"PASSAGGIO APERTO · PONTE COSTRUITO"
+			if completed
+			else "PASSAGGIO BLOCCATO\nRISOLVI L'ENIGMA PER COSTRUIRE IL PONTE"
+		)
 	label.add_theme_font_size_override("font_size", 12)
 	label.add_theme_constant_override("outline_size", 7)
 	label.add_theme_color_override("font_color", Color("6be7d6") if completed else Color("f6c85f"))
@@ -7776,5 +7807,15 @@ func _update_objective() -> void:
 			event.has("crossingId")
 			and not Array(result.get("completedEncounterIds", [])).has(str(event.get("id", "")))
 		):
-			objective_label.text = "PASSAGGIO D'ACQUA BLOCCATO\nTrova il ponte-enigma: risolvilo per attraversare\n%s" % objective_label.text
+			# **Il testo segue il passaggio vero.** (28 agosto 2026) — Misurato:
+			# diciotto mondi su ventiquattro non hanno una goccia d'acqua, e
+			# leggevano comunque «passaggio d'acqua bloccato, trova il ponte».
+			# Il mondo 1 mandava a cercare un ponte per superare una parete.
+			if str(event.get("crossingKind", "")) == "barrier":
+				var sbarramento := str(event.get("crossingLabel", "")).strip_edges()
+				objective_label.text = "PASSAGGIO BLOCCATO · %s\nRisolvi l'enigma per aprirti la strada\n%s" % [
+					(sbarramento if sbarramento != "" else "uno sbarramento").to_upper(),
+					objective_label.text]
+			else:
+				objective_label.text = "PASSAGGIO D'ACQUA BLOCCATO\nTrova il ponte-enigma: risolvilo per attraversare\n%s" % objective_label.text
 			break

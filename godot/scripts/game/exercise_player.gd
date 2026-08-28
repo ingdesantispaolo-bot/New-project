@@ -914,7 +914,17 @@ func _show_teaching_overlay() -> void:
 	# stesso fotogramma in cui le etichette vengono create. Se il contenuto è
 	# comunque più alto del tetto (lezione con fatti + esempio + avviso tutti
 	# presenti), il pannello resta come prima: pieno e scorrevole.
+	#
+	# **Aspettare un fotogramma richiede un albero.** (28 agosto 2026) Le prove
+	# che costruiscono l'ExercisePlayer fuori scena — `exercise_autoplay`, e
+	# quindi `enigma_audit` — lo tengono fuori dall'albero: lì `get_tree()` è
+	# null e queste due righe erano un errore a ogni sessione. Fuori dall'albero
+	# il pannello non è nemmeno visibile, e non c'è niente da stringere.
+	if not is_inside_tree():
+		return
 	await get_tree().process_frame
+	if not is_inside_tree():
+		return
 	await get_tree().process_frame
 	if not is_instance_valid(panel) or not is_instance_valid(box):
 		return

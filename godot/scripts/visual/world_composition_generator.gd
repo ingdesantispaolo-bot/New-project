@@ -1228,7 +1228,7 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 		{"id": "spawn", "position": spawn, "radius": 180.0},
 		{"id": "hero-landmark", "position": _profile_hero_position(ship, level), "radius": 210.0},
 	]
-	_author_passages(data, spawn, ship)
+	_author_passages(data, spawn, ship, level)
 	_author_activity_sockets(data, profile, spawn, ship)
 	# Mantiene il seed semanticamente visibile negli strumenti di debug senza
 	# usarlo per prendere decisioni didattiche.
@@ -1442,7 +1442,38 @@ static func _author_stream_crossing(data: WorldCompositionData, spawn: Vector2, 
 ## prima di un bambino.
 const SBARRAMENTO_META_LARGHEZZA := 150.0
 
-static func _author_land_barriers(data: WorldCompositionData, spawn: Vector2, ship: Vector2) -> void:
+## **Uno sbarramento scartato non e' uno sbarramento spostato.** (28 agosto 2026)
+##
+## Misurato sui ventiquattro mondi: la terza posizione — quella a rotazione
+## zero — cadeva sempre sul corridoio protetto spawn->nave, `is_protected` la
+## respingeva e il ciclo rinunciava. Il codice ne dichiarava tre e ne
+## consegnava due, sempre le stesse due, e «il cancello dei Primi» non si
+## vedeva in NESSUNO dei ventiquattro mondi: un terzo della varieta' autorata
+## era codice morto. Il mondo 1 stava anche peggio, con UN solo sbarramento,
+## perche' l'altro gli cadeva dentro il laghetto.
+##
+## E' lo stesso difetto che gli hazard avevano gia' pagato (vedi
+## `world_mechanics_audit`): provare UNA posizione e rinunciare fa dipendere il
+## contenuto del mondo dal primo dado. Il rimedio e' identico — si riprova.
+const SBARRAMENTO_TENTATIVI := 12
+
+## **Due per mondo, e restano nei due posti di sempre.**
+##
+## La tentazione, riparando il difetto sopra, era di consegnarne finalmente
+## tre. Provato e misurato giocando: con tre muri il percorso verso la missione
+## del mondo 2 non si chiude piu' nei tempi in cui si chiudeva, perche' ogni
+## muro allunga la strada. **Due e' la densita' su cui il gioco e' stato
+## giocato**, e queste sono esattamente le due posizioni storiche (le vecchie
+## rotazioni -34 e +34): nessun mondo cambia forma. Cio' che si ripara e' che i
+## due non siano sempre gli stessi due, e che non se ne perda uno per strada.
+const SBARRAMENTI_SLOT := [
+	{"gradi": -34.0, "raggio": 760.0},
+	{"gradi": 34.0, "raggio": 1420.0},
+]
+
+static func _author_land_barriers(
+	data: WorldCompositionData, spawn: Vector2, ship: Vector2, level: int
+) -> void:
 	if not data.crossings.is_empty():
 		return   # dove c'e' l'acqua comanda l'acqua
 	var verso := (ship - spawn)
@@ -1450,33 +1481,60 @@ static func _author_land_barriers(data: WorldCompositionData, spawn: Vector2, sh
 		verso = Vector2.UP
 	verso = verso.normalized()
 	var etichette := ["la frana", "il cancello dei Primi", "la parete incisa"]
-	for indice in range(GUADI_MAX):
-		# Distribuiti lungo la rotta spawn->nave, a distanze diverse e con una
-		# rotazione: tre muri in fila sullo stesso raggio sarebbero un corridoio.
-		var direzione := verso.rotated(deg_to_rad(-34.0 + 34.0 * float(indice)))
-		var centro := spawn + direzione * (760.0 + 330.0 * float(indice))
-		if data.is_protected(centro, 90.0):
+	for indice in range(SBARRAMENTI_SLOT.size()):
+		var posa := _posa_sbarramento(data, spawn, verso, indice)
+		if posa.is_empty():
 			continue
-		if data.raw_water_weight(centro) >= 0.4:
-			continue
-		var tangente := Vector2(-direzione.y, direzione.x)
+		var direzione: Vector2 = posa["direzione"]
+		var centro: Vector2 = posa["centro"]
 		data.crossings.append({
 			"id": "barrier-%d" % indice,
 			"kind": "barrier",
-			"label": str(etichette[indice % etichette.size()]),
+			# **I due di questo mondo non sono sempre gli stessi due.** La terna
+			# scorre col livello: cosi' tutte e tre le facce dello sbarramento si
+			# incontrano giocando, invece di vederne due per ventiquattro mondi.
+			"label": str(etichette[(level + indice) % etichette.size()]),
 			"waterId": "",
 			"position": centro,
 			"approach": centro - direzione * 130.0,
-			"tangent": tangente,
+			"tangent": Vector2(-direzione.y, direzione.x),
 			"normal": direzione,
 			"halfWidth": SBARRAMENTO_META_LARGHEZZA,
 			"eventId": "",
 		})
 
+## Cerca terra libera per uno sbarramento, partendo dalla sua posizione storica.
+##
+## Distribuiti lungo la rotta spawn->nave, a distanze diverse e con una
+## rotazione: due muri sullo stesso raggio sarebbero un corridoio.
+static func _posa_sbarramento(
+	data: WorldCompositionData, spawn: Vector2, verso: Vector2, indice: int
+) -> Dictionary:
+	var slot: Dictionary = SBARRAMENTI_SLOT[indice]
+	var gradi_base := float(slot["gradi"])
+	var raggio_base := float(slot["raggio"])
+	for tentativo in range(SBARRAMENTO_TENTATIVI):
+		# **Il tentativo zero e' la posizione di sempre**: i mondi che gia'
+		# funzionano non cambiano forma. Dal primo scarto in poi si apre a
+		# ventaglio, alternando i due lati e allontanandosi un poco, finche' non
+		# si trova terra fuori dal corridoio e fuori dall'acqua.
+		var passo := float((tentativo + 1) / 2)
+		var lato := 1.0 if tentativo % 2 == 1 else -1.0
+		var direzione := verso.rotated(deg_to_rad(gradi_base + 21.0 * passo * lato))
+		var centro := spawn + direzione * (raggio_base + 90.0 * passo)
+		if data.is_protected(centro, 90.0):
+			continue
+		if data.raw_water_weight(centro) >= 0.4:
+			continue
+		return {"centro": centro, "direzione": direzione}
+	return {}
+
 ## Chiama gli sbarramenti dopo i guadi: se l'acqua c'e', vince l'acqua.
-static func _author_passages(data: WorldCompositionData, spawn: Vector2, ship: Vector2) -> void:
+static func _author_passages(
+	data: WorldCompositionData, spawn: Vector2, ship: Vector2, level: int
+) -> void:
 	_author_stream_crossing(data, spawn, ship)
-	_author_land_barriers(data, spawn, ship)
+	_author_land_barriers(data, spawn, ship, level)
 
 static func _author_single_crossing(
 	data: WorldCompositionData, spawn: Vector2, selected: Dictionary, indice: int

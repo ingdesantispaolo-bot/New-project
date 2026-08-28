@@ -4645,6 +4645,22 @@ func _create_hud() -> void:
 	utility_menu_button.pressed.connect(_toggle_utility_menu)
 	root.add_child(utility_menu_button)
 
+	# **I tre pulsanti di utilità entrano con un attimo di ritardo.** (28 agosto
+	# 2026) — Trovato giocando: al primo ingresso in un mondo il pannello
+	# missione, la battuta di NORA, il contatore dell'obelisco e questi tre
+	# pulsanti comparivano tutti insieme, a piena luminosità, nello stesso
+	# istante. Nessuno dei tre serve nel primissimo secondo (Eli non si è ancora
+	# mossa): una breve dissolvenza li fa comparire un attimo dopo, così il primo
+	# sguardo cade sul pannello missione e su NORA, non su tre pulsanti in più.
+	# Restano toccabili durante la dissolvenza: modulate:a non cambia il
+	# mouse_filter. Rispetta reduced_motion com'è consuetudine in questo file.
+	if not reduced_motion:
+		for pulsante_utilita in [guide_button, pause_button, utility_menu_button]:
+			pulsante_utilita.modulate.a = 0.0
+			var comparsa := create_tween()
+			comparsa.tween_interval(0.45)
+			comparsa.tween_property(pulsante_utilita, "modulate:a", 1.0, 0.35)
+
 	# Azione primaria persistente: su tablet è sempre riconoscibile e si abilita
 	# vicino a un POI. Tastiera e gamepad restano scorciatoie non essenziali.
 	interaction_button = Button.new()

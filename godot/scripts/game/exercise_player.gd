@@ -905,6 +905,27 @@ func _show_teaching_overlay() -> void:
 	box.add_child(begin)
 	begin.call_deferred("grab_focus")
 
+	# **Il pannello si stringe se il contenuto è corto, non resta sempre al 92%.**
+	# (28 agosto 2026) — Trovato giocando: una lezione breve (solo intro + metodo,
+	# senza fatti/esempio/avviso) lasciava un vuoto nero enorme sotto il pulsante,
+	# dentro lo stesso pannello bordato. Le due attese servono perché i testi qui
+	# sopra vanno a capo (AUTOWRAP_WORD_SMART): l'altezza vera si conosce solo
+	# dopo che il contenitore ha ricevuto la sua larghezza definitiva, non nello
+	# stesso fotogramma in cui le etichette vengono create. Se il contenuto è
+	# comunque più alto del tetto (lezione con fatti + esempio + avviso tutti
+	# presenti), il pannello resta come prima: pieno e scorrevole.
+	await get_tree().process_frame
+	await get_tree().process_frame
+	if not is_instance_valid(panel) or not is_instance_valid(box):
+		return
+	var tetto := get_viewport_rect().size.y * 0.92
+	var naturale := box.get_combined_minimum_size().y + 48.0
+	if naturale < tetto:
+		panel.anchor_top = 0.5
+		panel.anchor_bottom = 0.5
+		panel.offset_top = -naturale * 0.5
+		panel.offset_bottom = naturale * 0.5
+
 ## **La barra si misura e lo scorrimento le fa posto.** (15 agosto 2026)
 ##
 ## Chiamata quando la barra cambia contenuto o visibilità: calcola l'altezza che

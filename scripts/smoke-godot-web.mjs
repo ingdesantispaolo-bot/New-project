@@ -395,20 +395,18 @@ try {
   // e' un guasto vero, non un ritardo.
   const audioAtWorld = await waitForAudio(cdp, sessionId, 60_000);
 
-  // Nel runtime live Esc imposta una rotta fisica verso la nave: non cambia
-  // scena e attraversa quindi davvero corridoio sicuro, collisioni e streaming.
-  await cdp.call("Input.dispatchKeyEvent", {
-    type: "rawKeyDown",
-    key: "Escape",
-    code: "Escape",
-    windowsVirtualKeyCode: 27,
+  // Esc ora mette in pausa (28 agosto 2026, vedi outdoor_world.gd ~6517): non è
+  // più la scorciatoia verso la nave. Quella scorciatoia vive nel pulsante
+  // missione in alto a destra, che diventa "RAGGIUNGI LA NAVE" da solo quando
+  // l'esame è pronto e imposta la stessa rotta fisica di prima — attraversa
+  // quindi davvero corridoio sicuro, collisioni e streaming, non cambia scena.
+  const shipGuideX = canvas.left + canvas.width * 0.92;
+  const shipGuideY = canvas.top + canvas.height * 0.055;
+  await cdp.call("Input.dispatchTouchEvent", {
+    type: "touchStart",
+    touchPoints: [{ x: shipGuideX, y: shipGuideY, radiusX: 2, radiusY: 2, force: 1 }],
   }, sessionId);
-  await cdp.call("Input.dispatchKeyEvent", {
-    type: "keyUp",
-    key: "Escape",
-    code: "Escape",
-    windowsVirtualKeyCode: 27,
-  }, sessionId);
+  await cdp.call("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] }, sessionId);
   await delay(6_000);
 
   const actionX = canvas.left + canvas.width * 0.5;

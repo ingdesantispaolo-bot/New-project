@@ -89,9 +89,20 @@ func configure(kind: String, id: String, payload: Dictionary, high_contrast: boo
 	label.name = "ArtifactLabel"
 	label.text = "TRACCIA" if kind == "trace" else "SEME · %s" % str(payload.get("dove", "dettaglio")).to_upper()
 	if high_contrast:
-		label.text = "TRACCIA · %s" % display_label.to_upper() if kind == "trace" else "SEME · %s" % display_label.to_upper()
+		# **Il nome tronca in stringa, non nel box.** (28 agosto 2026) — Trovato
+		# giocando: con un oggetto dal nome lungo ("Bastone da conteggio dei
+		# Primi") il testo usciva dal bordo destro dello schermo. `size`,
+		# `clip_text` e `autowrap_mode` sul Label non hanno effetto qui — non è
+		# dentro un Container, e verificato con una prova a schermo che nessuno
+		# dei tre cambiava un pixel del render. Troncare la stringa PRIMA di
+		# assegnarla a `label.text` funziona sempre, perché non dipende dal
+		# layout: 22 caratteri sono già più del doppio del nome più lungo visto
+		# finora senza alto contrasto ("Bastone da conteggio").
+		var nome_esteso := display_label.to_upper()
+		if nome_esteso.length() > 22:
+			nome_esteso = "%s…" % nome_esteso.substr(0, 21)
+		label.text = "TRACCIA · %s" % nome_esteso if kind == "trace" else "SEME · %s" % nome_esteso
 	label.position = Vector2(-92, 43)
-	label.size = Vector2(184, 28)
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label.add_theme_font_size_override("font_size", 12)
 	label.add_theme_color_override("font_color", accent)

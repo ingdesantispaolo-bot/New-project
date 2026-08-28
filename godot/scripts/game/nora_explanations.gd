@@ -292,11 +292,11 @@ const VOCI := {
 		"come": "Cerca nel nome un pezzo che riconosci — un santo, un fiume, una forma del terreno: quasi sempre c'è.",
 	},
 	"italiano:categorie": {
-		"perche": "Raggruppare le parole per categoria aiuta a organizzare il vocabolario nella mente, invece di tenerlo come un elenco confuso.",
-		"come": "Quando impari una parola nuova, chiediti a quale gruppo appartiene e collegala ad altre due parole già note dello stesso gruppo.",
+		"perche": "In italiano le categorie si vedono anche dalla forma: le parole di uno stesso gruppo spesso condividono un suffisso — «-aio» per i mestieri, «-eto» per i luoghi piantati.",
+		"come": "Metti la parola nuova dentro una frase insieme a una che già sai: il gruppo si costruisce usandolo, non elencandolo.",
 	},
 	"italiano:contrari": {
-		"perche": "Conoscere il contrario di una parola aiuta a definirla meglio: dire che cosa una cosa NON è chiarisce spesso più che dire che cosa è.",
+		"perche": "In italiano molti contrari si fanno con un prefisso — in-, s-, dis-, a- — ma non tutti: il contrario di «caldo» non è «incaldo». Dove il prefisso non funziona, la lingua tiene una parola tutta sua, e quelle sono le più antiche.",
 		"come": "Se non ricordi il contrario di una parola, prova ad aggiungere «non-» o «in-» davanti: in italiano funziona più spesso di quanto sembri.",
 	},
 	"italiano:sinonimi": {
@@ -541,7 +541,7 @@ const VOCI := {
 	},
 	"inglese:school-communication": {
 		"perche": "Sono le formule per chiedere aiuto e chiarimenti, cioè le più utili quando non capisci il resto.",
-		"come": "Tieni pronte tre frasi: chiedere di ripetere, chiedere di rallentare, chiedere che cosa vuol dire una parola.",
+		"come": "Impara a dire che cosa NON hai capito, non solo che non hai capito: «which word?», «the last part», «too fast» cambiano la risposta che ricevi.",
 	},
 	# Tre livelli, non tre sinonimi: 53 esercizi su questo argomento, e con una riga
 	# sola il bambino la rileggeva fino a 53 volte. Il secondo livello è il caso
@@ -647,7 +647,7 @@ const VOCI := {
 	},
 	"inglese:opposites": {
 		"perche": "Conoscere il contrario di una parola spesso aiuta a ricordare la parola stessa: le due si fissano insieme nella memoria meglio che da sole.",
-		"come": "Quando impari una parola nuova, chiediti subito il suo contrario: se non lo sai, cercalo insieme, non dopo.",
+		"come": "In inglese il contrario si costruisce spesso con un pezzo davanti o dietro: «un-», «dis-», «-less». Prima di cercare una parola nuova, prova ad aggiungerne uno a quella che sai.",
 	},
 	"inglese:vocabolario": {
 		"perche": "Le parole si ricordano meglio quando sono legate a un uso reale, non a un elenco isolato: un vocabolo dentro una frase resta più a lungo di uno da solo.",
@@ -790,7 +790,7 @@ const VOCI := {
 		"come": "Disegna le frecce di tutte le forze. Se si annullano, la velocità resta com'è — anche se è zero.",
 	},
 	"fisica:materia": {
-		"perche": "Gli stati della materia dipendono da quanto sono legate le particelle, non da che cosa sono fatte.",
+		"perche": "Lo stesso materiale può stare in tutti e tre gli stati senza diventare un'altra cosa: il ferro fonde a 1538 gradi e resta ferro, l'aria diventa liquida a −190 e resta aria.",
 		"come": "Chiediti se le particelle possono scorrere e se possono allontanarsi: due domande, tre stati.",
 	},
 	"fisica:metodo": {
@@ -807,11 +807,11 @@ const VOCI := {
 	},
 	"fisica:onde-luce": {
 		"perche": [
-			"Un'onda porta energia da un punto all'altro senza portarsi dietro la materia: il tappo sull'acqua sale e scende, non arriva a riva.",
+			"La luce è un'onda che non ha bisogno di niente in cui viaggiare, e questo la separa da tutte le altre: il suono ha bisogno d'aria, le onde del mare hanno bisogno d'acqua, la luce attraversa il vuoto.",
 			"Luce e suono sono tutte e due onde, ma la luce non ha bisogno di niente in cui viaggiare: è per questo che dal Sole ci arriva la luce e non il rumore.",
 		],
 		"come": [
-			"Guarda che cosa si sposta davvero. Se la cosa torna dov'era, si è mossa l'onda e non la materia.",
+			"Chiediti se il fenomeno arriverebbe anche dalla Luna: la luce sì, il suono no. È la prova più veloce per sapere di quale delle due si sta parlando.",
 			"Se il fenomeno funziona anche nel vuoto stai guardando la luce; se ha bisogno di aria, acqua o di un solido per arrivare, è il suono.",
 		],
 	},
@@ -857,8 +857,8 @@ const VOCI := {
 		"come": "Non confondere temperatura e calore: la temperatura è quanto è agitato qualcosa, il calore è l'energia che passa da un corpo caldo a uno freddo.",
 	},
 	"fisica:passaggi-stato": {
-		"perche": "Un passaggio di stato cambia quanto sono legate le particelle della materia, non cambia la sostanza: l'acqua resta acqua da ghiaccio a vapore.",
-		"come": "Chiediti se stai dando calore (fonde, evapora) o togliendolo (solidifica, condensa): la direzione del calore dice sempre il verso del passaggio.",
+		"perche": "Durante un passaggio di stato la temperatura non sale, anche se continui a scaldare: tutto il calore che dài serve a slegare le particelle, e riprende a salire solo quando ha finito.",
+		"come": "Se la temperatura sta ferma mentre il fornello è acceso, sei dentro un passaggio di stato: è il segno che il calore sta lavorando sui legami invece che sulla temperatura.",
 	},
 	"fisica:elettricita": {
 		"perche": "L'elettricità è un flusso di cariche che si muove per una differenza di potenziale: la stessa idea dell'acqua che scorre per un dislivello.",

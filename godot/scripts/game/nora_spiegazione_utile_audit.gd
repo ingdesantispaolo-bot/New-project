@@ -53,8 +53,8 @@ const FRASE_MINIMA := 25
 ## **Quanti esercizi almeno consegnano una correzione specifica.** SI ALZA E MAI
 ## SI ABBASSA — è il cricchetto al contrario, e vale la stessa regola: una
 ## modifica che lo fa scendere è una regressione, non una scelta.
-## Il 27 agosto 2026 sono tutti e 3569.
-const PAVIMENTO_CORREZIONI := 3569
+## Il 28 agosto 2026 sono tutti e 3584 (erano 3569 prima dei quindici sulle radici).
+const PAVIMENTO_CORREZIONI := 3584
 
 ## **Quante frasi di correzione ci sono in tutto.** Anche questo si alza e mai si
 ## abbassa — con un'eccezione dichiarata, ed è successa lo stesso giorno in cui il
@@ -70,7 +70,7 @@ const PAVIMENTO_CORREZIONI := 3569
 ## **Un cricchetto su un numero che conta anche il rumore protegge il rumore.**
 ## Quando si scopre che lo faceva, il numero si ritara e si scrive perché: è
 ## l'unica eccezione onesta alla regola, e va usata solo con la misura in mano.
-const PAVIMENTO_FRASI := 14537
+const PAVIMENTO_FRASI := 14600
 
 ## **Sotto quanti esercizi un argomento può cavarsela con una riga sola.**
 ##
@@ -111,6 +111,7 @@ func _run() -> void:
 	_le_figure(cm)
 	_i_livelli(cm)
 	_due_voci_non_dicono_lo_stesso(cm)
+	_ogni_voce_ha_il_suo_contenuto(cm)
 	await _sullo_schermo()
 	if not errori.is_empty():
 		for messaggio in errori.slice(0, 12):
@@ -399,15 +400,33 @@ func _ossatura(riga: String) -> Dictionary:
 			fuori[pulita] = true
 	return fuori
 
-func _due_voci_non_dicono_lo_stesso(cm: ContentManager) -> void:
+## **Vivo vuol dire «il gioco lo sa servire», e i banchi sono solo meta' della
+## risposta.**
+##
+## Scritta il 27 agosto, questa guardia guardava solo i banchi e confrontava 131
+## argomenti su 248. L'errore veniva da una convinzione sbagliata — «le voci senza
+## un banco aspettano contenuti che non esistono» — smentita dalla misura il 28:
+## `MinigameManager.topics_for()` ne serve **206**, di cui 117 in nessun banco, e
+## sono contenuto reale che una lezione puo' promettere e il mondo consegna.
+##
+## Delle 249 voci di NORA ne resta scoperta **una sola**. Chi cambia questa
+## funzione tenga le due fonti insieme: guardarne una sola e' esattamente il modo
+## in cui questa guardia e' nata mezza cieca.
+static func _argomenti_vivi(cm: ContentManager) -> Array:
 	var vivi: Array = []
 	for subject_dato in ApparatusConfig.SUBJECT_CYCLE:
 		var subject := str(subject_dato)
 		var visti: Dictionary = {}
 		for entry in cm._load_bank(subject):
 			visti[str((entry as Dictionary).get("topic", ""))] = true
+		for topic in MinigameManager.topics_for(subject):
+			visti[str(topic)] = true
 		for topic in visti.keys():
 			vivi.append([subject, str(topic)])
+	return vivi
+
+func _due_voci_non_dicono_lo_stesso(cm: ContentManager) -> void:
+	var vivi: Array = _argomenti_vivi(cm)
 	var righe: Array = []
 	for coppia in vivi:
 		var v := NoraExplanations.voce(str(coppia[0]), str(coppia[1]))
@@ -436,3 +455,43 @@ func _due_voci_non_dicono_lo_stesso(cm: ContentManager) -> void:
 					str(righe[a]["testo"]).substr(0, 60)])
 	print("8. NIENTE GEMELLE %d righe di NORA su argomenti vivi, %d coppie troppo simili" % [
 		righe.size(), gemelle])
+
+## 9. **Nessuna voce di NORA senza contenuto, e nessun contenuto senza voce.**
+##
+## Nasce da un errore mio, del 27 agosto: avevo dichiarato che «118 voci aspettano
+## contenuti che non esistono ancora», guardando i banchi e basta. La misura del
+## giorno dopo dice un'altra cosa — `MinigameManager.topics_for()` serve 206
+## argomenti, di cui **117 in nessun banco** — e di voci scoperte ce n'era una
+## sola, `matematica:radici`, adesso chiusa con otto esercizi.
+##
+## Il conto va nelle due direzioni, perche' i due difetti sono diversi e tutti e
+## due reali:
+##
+##   una VOCE SENZA CONTENUTO   e' una spiegazione scritta che nessuno leggera'
+##                              mai: lavoro fatto e sepolto;
+##   un CONTENUTO SENZA VOCE    e' un argomento su cui NORA non ha niente da
+##                              dire, e il bambino resta con la sola
+##                              riformulazione dell'esercizio.
+##
+## Zero e zero il 28 agosto 2026. Se un giorno si aggiunge un argomento a un banco
+## o a un minigioco, questa misura chiede la sua voce prima che il contenuto
+## arrivi in mano a qualcuno.
+func _ogni_voce_ha_il_suo_contenuto(cm: ContentManager) -> void:
+	var serviti: Dictionary = {}
+	for coppia in _argomenti_vivi(cm):
+		serviti["%s:%s" % [str(coppia[0]), str(coppia[1])]] = true
+	var voci: Array = NoraExplanations.argomenti()
+	var senza_contenuto: Array = []
+	for v in voci:
+		if not serviti.has(str(v)):
+			senza_contenuto.append(str(v))
+	var senza_voce: Array = []
+	for k in serviti.keys():
+		if not voci.has(str(k)):
+			senza_voce.append(str(k))
+	print("9. NIENTE ORFANI %d voci, %d argomenti serviti · voci senza contenuto %d, contenuti senza voce %d" % [
+		voci.size(), serviti.size(), senza_contenuto.size(), senza_voce.size()])
+	for v in senza_contenuto:
+		_fallisci("la voce «%s» e' scritta ma nessun banco e nessun minigioco serve quell'argomento" % str(v))
+	for k in senza_voce:
+		_fallisci("l'argomento «%s» e' giocabile ma NORA non ha niente da dirne" % str(k))

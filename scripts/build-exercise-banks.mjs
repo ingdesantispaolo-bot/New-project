@@ -7709,6 +7709,81 @@ for (const [subject, extra] of Object.entries(BAND_EXTRA)) {
 // stare nella forbice 20-30%. Scriverli già liberi toglierebbe i `distractorWhy`,
 // che sono il modo in cui il gioco spiega perché l'opzione scelta era sbagliata.
 const MATEMATICA_OLTRE_LE_TABELLINE = [
+  // --- radici --------------------------------------------------------------
+  //
+  // **L'unica voce di NORA che non aveva niente dietro.** (28 agosto 2026)
+  //
+  // Misurato mettendo insieme banchi e minigiochi: delle 249 voci ne restava
+  // scoperta una sola, `matematica:radici`. La voce c'era da sempre — «la radice
+  // torna indietro dalla potenza, come la sottrazione torna indietro
+  // dall'addizione» — e non c'era un solo esercizio che la facesse comparire.
+  //
+  // Undici anni sono l'età giusta per la radice quadrata **come domanda**, non
+  // come algoritmo: «quale numero moltiplicato per sé stesso fa 49?» si risolve
+  // con la tabellina che il bambino ha già, e non chiede niente di nuovo. Per
+  // questo tutti i radicandi sono quadrati perfetti dentro la tavola pitagorica,
+  // e i distrattori sono i due errori veri: la metà (confondere la radice con la
+  // divisione per due) e il quadrato del numero cercato.
+  { difficulty: 2, topic: "radici", prompt: "Quale numero moltiplicato per sé stesso dà 49?", answer: "7",
+    distractors: ["24,5", "9", "14"],
+    explanation: "Sette per sette fa quarantanove: è la stessa tabellina, letta al contrario.",
+    distractorWhy: { "24,5": "È la metà di 49: la radice non è una divisione per due, è il numero che moltiplicato per sé stesso torna a 49.", "9": "9 × 9 fa 81, non 49.", "14": "È il doppio di 7: 14 × 14 fa 196." } },
+  { difficulty: 2, topic: "radici", prompt: "Quanto vale la radice quadrata di 36?", answer: "6",
+    distractors: ["18", "9", "1296"],
+    explanation: "Cerchi il numero che moltiplicato per sé stesso fa 36: è il 6, perché 6 × 6 fa 36.",
+    distractorWhy: { "18": "È la metà di 36: la radice non dimezza, cerca il numero che si moltiplica per sé stesso.", "9": "9 × 9 fa 81: troppo.", "1296": "È 36 × 36, cioè il quadrato invece della radice: hai fatto il percorso al contrario." } },
+  { difficulty: 2, topic: "radici", prompt: "Quanto vale la radice quadrata di 81?", answer: "9",
+    distractors: ["8", "40,5", "18"],
+    explanation: "Nove per nove fa ottantuno. Se non lo ricordi, prova con l'8: 8 × 8 fa 64, quindi serve un numero più grande.",
+    distractorWhy: { "8": "8 × 8 fa 64, che è meno di 81: serve un numero appena più grande.", "40,5": "È la metà di 81: la radice non è una divisione.", "18": "È il doppio di 9: 18 × 18 fa 324." } },
+  { difficulty: 2, topic: "radici", prompt: "Un quadrato ha area 64 cm². Quanto misura il suo lato, in cm?", answer: "8",
+    distractors: ["16", "32", "4"],
+    explanation: "L'area di un quadrato è lato per lato: per tornare al lato serve il numero che moltiplicato per sé stesso fa 64, cioè 8.",
+    distractorWhy: { "16": "È il doppio del lato giusto: un quadrato di lato 16 avrebbe area 256, quattro volte tanto.", "32": "È la metà di 64: la radice non dimezza.", "4": "4 × 4 fa 16: quel quadrato sarebbe molto più piccolo." } },
+  { difficulty: 3, topic: "radici", prompt: "Fra quali due numeri interi sta la radice quadrata di 50?", answer: "fra 7 e 8",
+    distractors: ["fra 6 e 7", "fra 8 e 9", "fra 24 e 25"],
+    explanation: "49 è 7 × 7 e 64 è 8 × 8: 50 sta appena sopra il primo, quindi la sua radice sta appena sopra il 7.",
+    distractorWhy: { "fra 6 e 7": "6 × 6 fa 36 e 7 × 7 fa 49: 50 è già oltre.", "fra 8 e 9": "8 × 8 fa 64, che è molto più di 50.", "fra 24 e 25": "Sono circa la metà di 50: la radice è un numero molto più piccolo." } },
+  { difficulty: 2, topic: "radici", prompt: "Quanto vale la radice quadrata di 100?", answer: "10",
+    distractors: ["50", "1000", "20"],
+    explanation: "Dieci per dieci fa cento, ed è la radice più facile da ricordare di tutte.",
+    distractorWhy: { "50": "È la metà di 100: la radice cerca il numero che moltiplicato per sé stesso torna a 100.", "1000": "È cento per dieci, non il numero che moltiplicato per sé stesso fa cento.", "20": "20 × 20 fa 400." } },
+  { difficulty: 3, topic: "radici", prompt: "Quanto vale la radice quadrata di 144?", answer: "12",
+    distractors: ["72", "11", "14"],
+    explanation: "Dodici per dodici fa centoquarantaquattro: è l'ultima casella della tavola pitagorica.",
+    distractorWhy: { "72": "È la metà di 144, non la sua radice.", "11": "11 × 11 fa 121: manca ancora qualcosa.", "14": "14 × 14 fa 196: troppo." } },
+  { difficulty: 3, topic: "radici", prompt: "Se 5² fa 25, quanto vale la radice quadrata di 25?", answer: "5",
+    distractors: ["25", "12,5", "625"],
+    explanation: "Elevare al quadrato e fare la radice sono due strade opposte: la seconda riporta esattamente da dove eri partito.",
+    distractorWhy: { "25": "È il punto di arrivo del quadrato: la radice riporta indietro, al 5.", "12,5": "È la metà di 25: la radice non è una divisione per due.", "625": "È 25 × 25, cioè un altro quadrato: stai andando avanti invece che indietro." } },
+  { difficulty: 1, topic: "radici", prompt: "Quale numero moltiplicato per sé stesso dà 9?", answer: "3",
+    distractors: ["4,5", "4", "81"],
+    explanation: "Tre per tre fa nove. È la radice più piccola che vale la pena ricordare a memoria.",
+    distractorWhy: { "4,5": "È la metà di 9: la radice cerca il numero che si moltiplica per sé stesso, non la divisione per due.", "4": "4 × 4 fa 16, che è più di 9.", "81": "È 9 × 9: hai fatto il quadrato invece della radice." } },
+  { difficulty: 1, topic: "radici", prompt: "Quanto vale la radice quadrata di 16?", answer: "4",
+    distractors: ["8", "2", "256"],
+    explanation: "Quattro per quattro fa sedici. Attenzione a non confonderla con la metà, che sarebbe otto.",
+    distractorWhy: { "8": "È la metà di 16: ma 8 × 8 fa 64, non 16.", "2": "2 × 2 fa 4: serve un numero più grande.", "256": "È 16 × 16, cioè il quadrato: la radice va nella direzione opposta." } },
+  { difficulty: 2, topic: "radici", prompt: "Quale di questi numeri è un quadrato perfetto?", answer: "25",
+    distractors: ["26", "30", "40"],
+    explanation: "Un quadrato perfetto è un numero che si ottiene moltiplicando un intero per sé stesso: 25 è 5 × 5. Gli altri tre non escono da nessuna tabellina in quel modo.",
+    distractorWhy: { "26": "Nessun numero intero moltiplicato per sé stesso dà 26: sta fra 25 (5×5) e 36 (6×6).", "30": "Sta fra 25 e 36, ma non è né l'uno né l'altro.", "40": "Sta fra 36 (6×6) e 49 (7×7): nessun intero al quadrato lo raggiunge." } },
+  { difficulty: 2, topic: "radici", prompt: "Un pavimento quadrato è fatto di 36 piastrelle. Quante piastrelle ci sono per lato?", answer: "6",
+    distractors: ["9", "18", "12"],
+    explanation: "Le piastrelle formano un quadrato: righe per colonne fa 36, e le righe sono quante le colonne. Sei per sei fa trentasei.",
+    distractorWhy: { "9": "9 × 9 farebbe 81 piastrelle, più del doppio.", "18": "È la metà di 36: due file da diciotto non fanno un quadrato.", "12": "12 × 12 farebbe 144 piastrelle." } },
+  { difficulty: 3, topic: "radici", prompt: "Quale numero ha per radice quadrata 8?", answer: "64",
+    distractors: ["16", "4", "8"],
+    explanation: "La domanda è girata: non si cerca la radice, si cerca il numero di partenza. Se la radice è 8, il numero è 8 × 8, cioè 64.",
+    distractorWhy: { "16": "È il doppio di 8, non il suo quadrato: la radice di 16 è 4.", "4": "È la radice di 16, e la metà di 8: qui bisogna moltiplicare, non dividere.", "8": "Un numero non è la radice di sé stesso, tranne 1 e 0." } },
+  { difficulty: 3, topic: "radici", prompt: "Quanto vale la radice quadrata di 1?", answer: "1",
+    distractors: ["0", "0,5", "2"],
+    explanation: "Uno moltiplicato per sé stesso fa uno: è l'unico numero, oltre allo zero, che resta uguale a sé stesso quando lo si moltiplica per sé.",
+    distractorWhy: { "0": "0 × 0 fa 0, non 1.", "0,5": "Mezzo per mezzo fa un quarto, cioè ancora meno di uno.", "2": "2 × 2 fa 4." } },
+  { difficulty: 4, topic: "radici", prompt: "Fra quali due numeri interi sta la radice quadrata di 30?", answer: "fra 5 e 6",
+    distractors: ["fra 4 e 5", "fra 6 e 7", "fra 14 e 15"],
+    explanation: "25 è 5 × 5 e 36 è 6 × 6: trenta sta in mezzo ai due, quindi anche la sua radice sta in mezzo al 5 e al 6.",
+    distractorWhy: { "fra 4 e 5": "4 × 4 fa 16 e 5 × 5 fa 25: trenta è già oltre il 25.", "fra 6 e 7": "6 × 6 fa già 36, che supera il 30.", "fra 14 e 15": "Sono circa la metà di 30: la radice è molto più piccola del numero." } },
   // --- frazioni ------------------------------------------------------------
   { difficulty: 1, topic: "frazioni", prompt: "Quale frazione rappresenta metà di una torta?", answer: "1/2",
     distractors: ["1/3", "1/4", "2/3"],

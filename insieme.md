@@ -492,6 +492,83 @@ delle scorciatoie, e funziona perché non chiede a nessuno di giudicare.
 
 ---
 
+## Le voci scoperte erano una, non centodiciotto — 28 agosto 2026
+
+*«Riempiamo di contenuti le 118 voci.»* La richiesta nasceva da una cosa che
+avevo scritto io, e che era sbagliata.
+
+Avevo misurato le voci vive contando **solo i banchi**: 131 su 249, quindi 118
+scoperte. Ma un argomento è vivo anche quando lo serve un minigioco, e
+`MinigameManager.topics_for()` — che il codice stesso documenta come «contenuto
+reale a tutti gli effetti» — ne serve **206**, di cui 117 in nessun banco.
+
+```
+voci di NORA                        249
+  vive (banco o minigioco)          248
+  senza nessun contenuto              1   ← matematica:radici
+argomenti giocabili senza voce        0
+```
+
+Non c'erano 118 voci da riempire: ce n'era una. Ma la misura giusta ha scoperto
+due cose vere, e sono il lavoro di oggi.
+
+### La guardia delle gemelle era mezza cieca
+
+`nora_spiegazione_utile_audit`, scritta il giorno prima, confrontava «gli
+argomenti vivi» — e per «vivi» intendeva la stessa lista sbagliata: **131 su
+248**. Corretta la definizione, ha trovato subito **nove coppie** che dicono
+quasi la stessa cosa, tutte su argomenti che il bambino incontra:
+
+| | |
+|---|---|
+| `fisica:onde-luce` ↔ `fisica:onde` | 70% e 88% — **create da me** il giorno prima |
+| `fisica:passaggi-stato` ↔ `scienze:passaggi-stato` | 85% e 92% |
+| `italiano:categorie` ↔ `inglese:categorie` | 85% |
+| `italiano:contrari` ↔ `inglese:opposites` | 75% |
+| `inglese:school-communication` ↔ `inglese:conversation` | 71% |
+| `inglese:opposites` ↔ `inglese:categorie` | 67% |
+| `fisica:materia` ↔ `fisica:passaggi-stato` | 63% |
+
+Dieci righe riscritte, e la cura non è mai stata accorciarne una: è chiedersi che
+cosa ha di suo l'argomento che la riga non stava dicendo. `fisica:onde-luce` ora
+dice la cosa che distingue la luce da ogni altra onda — *non ha bisogno di niente
+in cui viaggiare* — e il suo metodo è diventato «chiediti se il fenomeno
+arriverebbe anche dalla Luna: la luce sì, il suono no». `fisica:passaggi-stato`
+dice il fatto che appartiene alla fisica e sorprende chiunque: *durante un
+passaggio la temperatura non sale, anche se continui a scaldare*.
+
+Dopo: **zero coppie su 555 righe**.
+
+### L'unica voce davvero scoperta
+
+`matematica:radici` esisteva da sempre — «la radice torna indietro dalla potenza,
+come la sottrazione torna indietro dall'addizione» — e non c'era **un solo
+esercizio** che la facesse comparire. Quindici esercizi nuovi, tutti su quadrati
+perfetti dentro la tavola pitagorica: a undici anni la radice quadrata è una
+*domanda* («quale numero moltiplicato per sé stesso fa 49?»), non un algoritmo, e
+si risolve con la tabellina che il bambino ha già.
+
+I distrattori sono i due errori veri: **la metà** (24,5 per 49 — confondere la
+radice con una divisione per due) e **il quadrato** (1296 per 36 — fare il
+percorso al contrario).
+
+> **Ne avevo scritti otto, e un audit vecchio mi ha fermato.** `topic_density`
+> impone da agosto **almeno quindici esercizi per argomento**, e la ragione è
+> scritta lì dentro: il gioco dichiara un argomento *consolidato* dopo tre
+> risposte corrette in sessioni distinte, e sotto i quindici item il bambino
+> rivede tre volte la stessa schermata — «non è ritenzione, è memoria di una
+> schermata». Con otto esercizi avrei creato esattamente il difetto contro cui
+> quello standard è stato scritto. Adesso sono quindici.
+
+### La guardia che ne è nata
+
+Misura nove: **nessuna voce senza contenuto, e nessun contenuto senza voce.** Il
+conto va nelle due direzioni perché i difetti sono diversi e tutti e due reali —
+una voce senza contenuto è lavoro fatto e sepolto, un contenuto senza voce lascia
+il bambino con la sola riformulazione dell'esercizio. Zero e zero.
+
+---
+
 ## La rilettura delle 249 voci — 27 agosto 2026
 
 Fin qui le spiegazioni sono state **misurate**: consegne, echi, ripetizioni,
@@ -547,11 +624,14 @@ Più tre righe riscritte perché erano in italiano da adulto: «quanto è plausi
 un evento fra tutti quelli possibili», «una relazione fra grandezze reali, non
 un'equazione a sé stante», e una che diceva tre volte «si muovono» in una riga.
 
-> **Una nota su che cosa è vivo.** Le voci sono 249 ma gli argomenti che i banchi
-> propongono davvero sono **131**: 118 voci aspettano contenuti che non esistono
-> ancora. Cinque delle tredici righe toccate stanno su argomenti vivi; le altre
-> otto erano errori che dormivano. Li ho corretti lo stesso — un errore di fisica
-> che aspetta di essere pubblicato è comunque un errore di fisica.
+> **Una nota su che cosa è vivo — e una correzione, il 28 agosto.** Qui avevo
+> scritto che «gli argomenti che i banchi propongono sono 131, quindi 118 voci
+> aspettano contenuti che non esistono ancora». **Era falso**, e l'errore stava
+> nel guardare solo i banchi: `MinigameManager.topics_for()` serve **206**
+> argomenti, di cui 117 in nessun banco, e sono contenuto reale che una lezione
+> promette e il mondo consegna.
+>
+> Delle 249 voci ne era scoperta **una sola**. Vedi la sezione qui sotto.
 
 ### E le correzioni: un cricchetto che proteggeva il rumore
 

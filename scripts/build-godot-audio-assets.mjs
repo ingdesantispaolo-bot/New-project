@@ -619,10 +619,45 @@ function audit() {
   for (const [subject, key] of Object.entries(manifest.subjects)) {
     if (!manifest.assets[key]) issues.push(`${subject}: cue materia sconosciuto ${key}`);
   }
-  for (const [event, key] of Object.entries(manifest.events)) {
-    if (!manifest.assets[key]) issues.push(`${event}: cue evento sconosciuto ${key}`);
-  }
-  if (issues.length > 0) throw new Error(`Audio audit fallito:\n- ${issues.join("\n- ")}`);
+	for (const [event, key] of Object.entries(manifest.events)) {
+		if (!manifest.assets[key]) issues.push(`${event}: cue evento sconosciuto ${key}`);
+	}
+
+	// Le chiavi scritte nel runtime devono esistere davvero. Prima questo audit
+	// controllava soltanto che il manifest fosse coerente con se stesso: una
+	// chiamata a `panel.close` poteva quindi restare muta pur con tutti gli audit
+	// verdi. Le chiamate dinamiche passano dagli eventi/soggetti gia' verificati;
+	// qui si presidiano i letterali diretti.
+	const scriptRoot = path.join(root, "godot", "scripts");
+	const gdFiles = [];
+	const collectScripts = (directory) => {
+		for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
+			const full = path.join(directory, entry.name);
+			if (entry.isDirectory()) collectScripts(full);
+			else if (entry.name.endsWith(".gd")) gdFiles.push(full);
+		}
+	};
+	collectScripts(scriptRoot);
+	const runtimeSource = gdFiles.map((file) => fs.readFileSync(file, "utf8")).join("\n");
+	const directKeys = new Set();
+	for (const line of runtimeSource.split(/\r?\n/)) {
+		if (!line.includes('.call("play",')) continue;
+		const direct = line.match(/\.call\("play",\s*"([^"]+)"/);
+		if (direct) directKeys.add(direct[1]);
+		const alternate = line.match(/\belse\s+"([^"]+)"/);
+		if (alternate) directKeys.add(alternate[1]);
+	}
+	for (const key of directKeys) {
+		if (!manifest.assets[key]) issues.push(`runtime: chiave audio inesistente ${key}`);
+	}
+	for (const key of ["shop.open", "shop.purchase", "shop.equip", "shop.locked", "pet.equip", "scan", "footstep"]) {
+		if (!directKeys.has(key)) issues.push(`runtime: asset prodotto ma non collegato ${key}`);
+	}
+	if (!runtimeSource.includes('"noraSpoke"')) issues.push("runtime: cue NORA non collegato");
+	if (!(Number(manifest.adaptive.crossfadeSeconds) > 0) || !runtimeSource.includes("_transition_loop")) {
+		issues.push("runtime: dissolvenza adattiva non implementata");
+	}
+	if (issues.length > 0) throw new Error(`Audio audit fallito:\n- ${issues.join("\n- ")}`);
   console.log(`GODOT AUDIO audit OK - ${Object.keys(manifest.assets).length} asset, ${soundscapeDesigns.length} soundscape da ${soundscapeSeconds}s`);
 }
 

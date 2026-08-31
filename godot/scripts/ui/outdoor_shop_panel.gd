@@ -119,7 +119,7 @@ func open_panel() -> void:
 	visible = true
 	var audio := get_node_or_null("/root/NativeAudio")
 	if audio != null:
-		audio.call("play", "panel.open")
+		audio.call("play", "shop.open")
 	_refresh()
 	_apply_responsive_layout()
 
@@ -128,7 +128,7 @@ func close_panel() -> void:
 	visible = false
 	var audio := get_node_or_null("/root/NativeAudio")
 	if audio != null:
-		audio.call("play", "panel.close")
+		audio.call("play", "ui.cancel")
 	closed.emit()
 
 
@@ -811,17 +811,18 @@ func _purchase(id: String) -> void:
 	var purchased := gameplay.try_purchase_cosmetic(id)
 	var audio := get_node_or_null("/root/NativeAudio")
 	if audio != null:
-		audio.call("play", "reward.unlocked" if purchased else "ui.locked")
+		audio.call("play", "shop.purchase" if purchased else "shop.locked")
 	_selected_id = id
 	_refresh()
 
 
 func _equip(id: String) -> void:
 	if gameplay.equip_cosmetic(id):
-		_status.text = "Equipaggiato: %s" % str(RewardCatalog.find(id).get("name", id))
+		var item := RewardCatalog.find(id)
+		_status.text = "Equipaggiato: %s" % str(item.get("name", id))
 		var audio := get_node_or_null("/root/NativeAudio")
 		if audio != null:
-			audio.call("play", "ui.confirm")
+			audio.call("play", "pet.equip" if str(item.get("slot", "")) == "pet" else "shop.equip")
 	_selected_id = id
 	_refresh()
 

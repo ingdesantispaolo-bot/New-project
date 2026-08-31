@@ -103,7 +103,7 @@ func close_panel() -> void:
 	panel_closed.emit()
 	var audio := get_node_or_null("/root/NativeAudio")
 	if audio != null:
-		audio.call("play", "panel.close")
+		audio.call("play", "ui.cancel")
 
 func _build_ui() -> void:
 	for child in get_children():

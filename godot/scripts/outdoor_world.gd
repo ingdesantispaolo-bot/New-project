@@ -6978,6 +6978,9 @@ func _interact() -> void:
 	if target == null:
 		_set_feedback("Avvicinati a un tesoro, a un incontro o al portale.")
 		return
+	var audio := get_node_or_null("/root/NativeAudio")
+	if audio != null:
+		audio.call("play", "scan")
 	var kind := str(target.get_meta("kind"))
 	var id := str(target.get_meta("id"))
 	var completed: Array = result["completedEncounterIds"]

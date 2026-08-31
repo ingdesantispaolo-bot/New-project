@@ -9,9 +9,34 @@ const Autoplay = preload("res://scripts/game/exercise_autoplay.gd")
 ## l'incontro. Su fallimento (tutte sbagliate) nulla si completa: penalità morbida.
 ## Uso: godot --headless --path godot --script res://scripts/game/enigma_audit.gd
 
+## **Un `assert` fallito ferma la funzione, non il programma.** (28 agosto 2026)
+##
+## Queste due prove vivono in funzioni separate, e quando un controllo cadeva
+## GDScript interrompeva soltanto quella: `_init` proseguiva e stampava «OK»,
+## uscendo 0. Il runner lo contava verde. Misurato: lanciando l'audit due volte
+## di fila la seconda falliva «enigma avviabile» e diceva OK lo stesso.
+##
+## Ogni prova segna quindi la propria conclusione, e `_init` esce 1 se una delle
+## due si è fermata per strada. Il dettaglio resta nelle righe «Assertion
+## failed» stampate da GDScript.
+var _successo_concluso := false
+var _fallimento_concluso := false
+
 func _init() -> void:
 	_test_success()
 	_test_failure()
+	var interrotte: Array = []
+	if not _successo_concluso:
+		interrotte.append("percorso riuscito — avvio, progresso live, completamento, ricompense")
+	if not _fallimento_concluso:
+		interrotte.append("percorso fallito — nessuna costruzione, nessun incontro, penalità morbida")
+	if not interrotte.is_empty():
+		printerr("ENIGMA AUDIT ROSSO — %d prova/e interrotta/e da un controllo fallito:" % interrotte.size())
+		for interrotta in interrotte:
+			printerr("  - %s" % interrotta)
+		printerr("  Il controllo caduto è nelle righe «Assertion failed» qui sopra.")
+		quit(1)
+		return
 	print("Enigma audit OK — progresso live, completamento e penalità morbida verificati")
 	quit(0)
 
@@ -30,7 +55,15 @@ func _new_gameplay() -> OutdoorGameplay:
 		"schemaVersion": 1, "energyEarned": 0, "energySpent": 0, "fragmentsEarned": 0,
 		"completedEncounterIds": [], "collectedTreasureIds": [],
 	}
-	gameplay.setup(request, result)
+	# **Il terzo argomento è la differenza fra una prova e un oroscopo.**
+	# (28 agosto 2026) — `setup` carica di default il salvataggio locale, e
+	# `apply_launch_state` sostituisce i dati con la fixture SOLO se il livello
+	# della fixture è >= a quello già in memoria. Con un save di sviluppo a
+	# livello 24 la riga `"level": 1` qui sopra veniva ignorata in silenzio: la
+	# prova girava su materia, energia e cooldown di quel save, non sui propri.
+	# Da lì l'intermittenza — il cooldown scritto dalla prova di fallimento
+	# faceva cadere «enigma avviabile» al lancio successivo.
+	gameplay.setup(request, result, false)
 	gameplay.set_meta("result", result)
 	return gameplay
 
@@ -72,6 +105,7 @@ func _test_success() -> void:
 	assert(Array(result["completedEncounterIds"]).has("enigma-1"), "incontro completato")
 	assert(int(result["fragmentsEarned"]) >= 3, "frammenti dell'enigma")
 	gameplay.queue_free()
+	_successo_concluso = true
 
 func _test_failure() -> void:
 	var gameplay := _new_gameplay()
@@ -100,6 +134,7 @@ func _test_failure() -> void:
 	assert(int(gameplay.runtime_state()["missionsDone"]) == missions_before, "fallire non conta come missione")
 	assert(int(gameplay.runtime_state()["level"]) == level_before, "nessuna regressione di livello")
 	gameplay.queue_free()
+	_fallimento_concluso = true
 
 # Gioca la sessione con l'ExercisePlayer reale, cablando il progresso come la scena.
 # Le campate dell'enigma sono a formati VARI (non solo scelta multipla): ogni

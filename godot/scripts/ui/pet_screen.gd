@@ -271,6 +271,9 @@ func _choose_resting(index: int) -> void:
 
 func _commit() -> void:
 	_save.save()
+	var audio := get_node_or_null("/root/NativeAudio")
+	if audio != null:
+		audio.call("play", "pet.equip")
 	_refresh()
 	customization_changed.emit()
 

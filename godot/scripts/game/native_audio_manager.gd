@@ -5,23 +5,34 @@ extends Node
 ## ambiente, UI e SFX senza dipendere da Howler o dalla shell Web.
 
 const MANIFEST_PATH := "res://assets/audio/audio-manifest.json"
+const SETTINGS_PATH := "user://eli-audio-settings.cfg"
+const MASTER_VOLUME_STEPS := [1.0, 0.75, 0.5, 0.25]
 
 var manifest: Dictionary = {}
 var assets: Dictionary = {}
 var _stream_cache: Dictionary = {}
 var _music: AudioStreamPlayer
+var _music_secondary: AudioStreamPlayer
 var _ambience: AudioStreamPlayer
+var _ambience_secondary: AudioStreamPlayer
 var _focus: AudioStreamPlayer
+var _music_tween: Tween
+var _ambience_tween: Tween
 var _environment := ""
 var _world_soundscape := ""
 var _last_played_ms: Dictionary = {}
 var _play_count := 0
+var _master_volume := 1.0
+var _muted := false
 
 func _ready() -> void:
 	_load_manifest()
 	_configure_buses()
+	_load_settings()
 	_music = _make_persistent_player("MusicBase", "Music")
+	_music_secondary = _make_persistent_player("MusicCrossfade", "Music")
 	_ambience = _make_persistent_player("AmbienceBase", "Ambience")
+	_ambience_secondary = _make_persistent_player("AmbienceCrossfade", "Ambience")
 	_focus = _make_persistent_player("MusicFocus", "Music")
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_publish_web_state()
@@ -57,8 +68,6 @@ func play_environment(phase: String) -> void:
 	if normalized == _environment:
 		return
 	_environment = normalized
-	_play_loop(_music, "music.%s" % normalized)
-	_play_loop(_ambience, "ambience.%s" % normalized)
 	_apply_world_soundscape_mix()
 	call_deferred("_publish_web_state")
 
@@ -70,8 +79,6 @@ func play_environment(phase: String) -> void:
 func refresh_after_content_load() -> void:
 	if _environment == "":
 		return
-	_play_loop(_music, "music.%s" % _environment)
-	_play_loop(_ambience, "ambience.%s" % _environment)
 	_apply_world_soundscape_mix()
 	call_deferred("_publish_web_state")
 
@@ -189,11 +196,64 @@ func _apply_world_soundscape_mix() -> void:
 			music_pitch = 1.12
 			ambience_pitch = 0.88
 			ambience_offset_db = 0.4
-	_music.pitch_scale = music_pitch
-	_ambience.pitch_scale = ambience_pitch
 	if _environment != "":
-		var ambience_spec: Dictionary = assets.get(ambience_key, {})
-		_ambience.volume_db = float(ambience_spec.get("volumeDb", 0.0)) + ambience_offset_db
+		_transition_loop("music", "music.%s" % _environment, 0.0, music_pitch)
+		_transition_loop("ambience", ambience_key, ambience_offset_db, ambience_pitch)
+
+## Volume dispositivo, condiviso fra i profili. I bus di categoria conservano
+## il mix autorato; qui si regola soltanto Master, quindi nessun rapporto fra
+## musica, ambiente, interfaccia ed effetti viene perso.
+func master_volume_percent() -> int:
+	return roundi(_master_volume * 100.0)
+
+func is_muted() -> bool:
+	return _muted
+
+func cycle_master_volume() -> void:
+	var closest := 0
+	var distance := INF
+	for index in range(MASTER_VOLUME_STEPS.size()):
+		var candidate := float(MASTER_VOLUME_STEPS[index])
+		if absf(candidate - _master_volume) < distance:
+			distance = absf(candidate - _master_volume)
+			closest = index
+	set_master_volume(float(MASTER_VOLUME_STEPS[(closest + 1) % MASTER_VOLUME_STEPS.size()]))
+
+func set_master_volume(value: float) -> void:
+	_master_volume = clampf(value, 0.0, 1.0)
+	_apply_settings()
+	_save_settings()
+
+func toggle_mute() -> void:
+	set_muted(not _muted)
+
+func set_muted(value: bool) -> void:
+	_muted = value
+	_apply_settings()
+	_save_settings()
+
+func _load_settings() -> void:
+	var config := ConfigFile.new()
+	if config.load(SETTINGS_PATH) == OK:
+		_master_volume = clampf(float(config.get_value("audio", "master_volume", 1.0)), 0.0, 1.0)
+		_muted = bool(config.get_value("audio", "muted", false))
+	_apply_settings()
+
+func _save_settings() -> void:
+	var config := ConfigFile.new()
+	config.set_value("audio", "master_volume", _master_volume)
+	config.set_value("audio", "muted", _muted)
+	var error := config.save(SETTINGS_PATH)
+	if error != OK:
+		push_warning("Impostazioni audio non salvate: %d" % error)
+
+func _apply_settings() -> void:
+	var master := AudioServer.get_bus_index("Master")
+	if master < 0:
+		return
+	AudioServer.set_bus_volume_db(master, linear_to_db(maxf(_master_volume, 0.0001)))
+	AudioServer.set_bus_mute(master, _muted)
+	call_deferred("_publish_web_state")
 
 func set_focus(active: bool) -> void:
 	if active:
@@ -246,6 +306,7 @@ func _publish_web_state() -> void:
 		"ambiencePlaying": is_instance_valid(_ambience) and _ambience.playing,
 		"focusPlaying": is_instance_valid(_focus) and _focus.playing,
 		"muted": master >= 0 and AudioServer.is_bus_mute(master),
+		"masterVolumePercent": master_volume_percent(),
 		"playCount": _play_count,
 	}
 	JavaScriptBridge.eval("window.__eliAudioState = %s;" % JSON.stringify(snapshot))
@@ -271,6 +332,54 @@ func _play_loop(player: AudioStreamPlayer, key: String) -> void:
 	player.bus = str(spec.get("bus", player.bus))
 	player.volume_db = float(spec.get("volumeDb", 0.0))
 	player.play()
+
+## Due player per canale permettono una vera dissolvenza incrociata: il nuovo
+## paesaggio entra mentre il precedente esce. Il valore autorato nel manifest
+## non e' piu' soltanto documentazione.
+func _transition_loop(channel: String, key: String, volume_offset_db: float,
+		pitch_scale: float) -> void:
+	var spec: Dictionary = assets.get(key, {})
+	if spec.is_empty():
+		return
+	var stream := _stream_for(key)
+	if stream == null:
+		return
+	var active := _music if channel == "music" else _ambience
+	var standby := _music_secondary if channel == "music" else _ambience_secondary
+	var target_volume := float(spec.get("volumeDb", 0.0)) + volume_offset_db
+	if active.playing and active.stream == stream:
+		active.bus = str(spec.get("bus", active.bus))
+		active.volume_db = target_volume
+		active.pitch_scale = pitch_scale
+		return
+	var current_tween := _music_tween if channel == "music" else _ambience_tween
+	if is_instance_valid(current_tween):
+		current_tween.kill()
+	standby.stop()
+	standby.stream = stream
+	standby.bus = str(spec.get("bus", standby.bus))
+	standby.pitch_scale = pitch_scale
+	if not active.playing:
+		standby.volume_db = target_volume
+		standby.play()
+	else:
+		standby.volume_db = -60.0
+		standby.play()
+		var seconds := maxf(0.05, float(manifest.get("adaptive", {}).get("crossfadeSeconds", 2.2)))
+		var tween := create_tween().set_parallel(true)
+		tween.tween_property(active, "volume_db", -60.0, seconds)
+		tween.tween_property(standby, "volume_db", target_volume, seconds)
+		tween.chain().tween_callback(func(): active.stop())
+		if channel == "music":
+			_music_tween = tween
+		else:
+			_ambience_tween = tween
+	if channel == "music":
+		_music = standby
+		_music_secondary = active
+	else:
+		_ambience = standby
+		_ambience_secondary = active
 
 func _stream_for(key: String) -> AudioStream:
 	if _stream_cache.has(key):

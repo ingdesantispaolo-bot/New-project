@@ -118,7 +118,7 @@ func _la_pausa_del_mondo() -> void:
 		"aprire la pausa non ha salvato la partita")
 
 	for nome in [
-		"PauseResumeButton", "PauseRestartButton",
+		"PauseResumeButton", "PauseVolumeButton", "PauseMuteButton", "PauseRestartButton",
 		"PauseSwitchPlayerButton", "PauseMainMenuButton",
 	]:
 		var bottone: Button = null
@@ -205,7 +205,7 @@ func _la_pausa_della_nave() -> void:
 	# **Gli stessi comandi, nello stesso ordine.** E' il motivo per cui il
 	# pannello e' uno solo: chi impara a uscire da una scena esce anche dall'altra.
 	for nome in [
-		"PauseResumeButton", "PauseRestartButton",
+		"PauseResumeButton", "PauseVolumeButton", "PauseMuteButton", "PauseRestartButton",
 		"PauseSwitchPlayerButton", "PauseMainMenuButton",
 	]:
 		_controlla(pausa != null and pausa.find_child(nome, true, false) != null,

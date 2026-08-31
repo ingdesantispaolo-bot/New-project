@@ -11,6 +11,7 @@ var visual: Node2D
 var reduced_motion := false
 var _walk_time := 0.0
 var _facing_row := 0
+var _footstep_clock := 0.0
 
 const FACING_DOWN_ROW := 0
 const FACING_UP_ROW := 1
@@ -31,7 +32,21 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity = Vector2.ZERO
 	move_and_slide()
+	_update_footsteps(delta)
 	_animate(delta)
+
+func _update_footsteps(delta: float) -> void:
+	if velocity.length() <= 8.0:
+		_footstep_clock = 0.0
+		return
+	_footstep_clock += delta
+	if _footstep_clock < 0.34:
+		return
+	_footstep_clock = fmod(_footstep_clock, 0.34)
+	var audio := get_node_or_null("/root/NativeAudio")
+	if audio != null:
+		var alternation := 0.96 if posmod(floori(_walk_time), 2) == 0 else 1.04
+		audio.call("play", "footstep", alternation)
 
 func set_touch_target(target: Vector2) -> void:
 	touch_target = target

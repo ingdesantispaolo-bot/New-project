@@ -167,6 +167,11 @@ func _disegna() -> void:
 		return
 
 	_colonna.add_child(_pulsante("PauseResumeButton", "RIPRENDI", 20, FREDDO, chiudi))
+	_colonna.add_child(_pulsante(
+		"PauseVolumeButton", "VOLUME: %d%%" % _volume_percentuale(), 15, TESTO, _cambia_volume))
+	_colonna.add_child(_pulsante(
+		"PauseMuteButton", "SUONO: %s" % ("DISATTIVATO" if _audio_muto() else "ATTIVO"),
+		15, TESTO, _cambia_muto))
 	if _puo_riavviare:
 		_colonna.add_child(_pulsante(
 			"PauseRestartButton", _titolo_riavvio, 16, ORO, _chiedi_conferma))
@@ -199,6 +204,31 @@ func _conferma_riavvio() -> void:
 
 func _chiedi_menu() -> void:
 	menu_chiesto.emit()
+
+# ---------------------------------------------------------------- audio
+
+func _audio_manager() -> Node:
+	return get_node_or_null("/root/NativeAudio")
+
+func _volume_percentuale() -> int:
+	var audio := _audio_manager()
+	return int(audio.call("master_volume_percent")) if audio != null else 100
+
+func _audio_muto() -> bool:
+	var audio := _audio_manager()
+	return bool(audio.call("is_muted")) if audio != null else false
+
+func _cambia_volume() -> void:
+	var audio := _audio_manager()
+	if audio != null:
+		audio.call("cycle_master_volume")
+	_disegna()
+
+func _cambia_muto() -> void:
+	var audio := _audio_manager()
+	if audio != null:
+		audio.call("toggle_mute")
+	_disegna()
 
 # ---------------------------------------------------------------- i profili
 

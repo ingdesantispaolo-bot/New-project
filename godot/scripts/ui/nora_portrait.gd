@@ -76,6 +76,9 @@ func stadio_id() -> String:
 
 func speak(message: String) -> void:
 	_speech = 1.0
+	var audio := get_node_or_null("/root/NativeAudio")
+	if audio != null:
+		audio.call("play_event", "noraSpoke")
 	var lowered := message.to_lower()
 	if "non " in lowered or "insufficiente" in lowered or "riprova" in lowered:
 		_accent = Color("ff8fa0")

@@ -685,6 +685,12 @@ try {
     exerciseFormat,
     accessibility,
     audioAtWorld,
+    // Lo stato dell'audio a FINE giro, non solo all'ingresso nel mondo. Serve a
+    // vedere il difetto che l'ingresso non puo' mostrare: una musica che parte e
+    // poi muore a meta' sessione. In headless non si puo' misurare — il driver
+    // dummy spegne qualunque player dopo un secondo, anche uno costruito a mano
+    // fuori dal manager — quindi questo e' l'unico posto che lo direbbe.
+    audioAfterPlay,
     persistedSaveMarker,
     resources: timings,
     runtimeProfiles,

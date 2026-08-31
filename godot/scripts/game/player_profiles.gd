@@ -261,6 +261,26 @@ static func generate_code(rng: RandomNumberGenerator = null) -> String:
 static func code_of(id: String) -> String:
 	return str(find(id).get("code", ""))
 
+## Stacca il codice da una casella **senza toccare quello che c'e' in cloud**.
+##
+## Serve a «ricomincia da capo»: la partita nuova non deve ereditare il codice
+## della precedente, o al primo salvataggio ci scriverebbe sopra — e la copia di
+## sicurezza del bambino di prima sparirebbe proprio mentre qualcun altro inizia.
+## Staccandolo, quel salvataggio resta in cloud sotto il suo codice e chi lo ha
+## scritto su un foglio puo' ancora riprenderselo.
+static func clear_code(id: String) -> bool:
+	var d := _read()
+	var profili: Array = Array(d.get("profiles", []))
+	for i in range(profili.size()):
+		var p: Dictionary = profili[i]
+		if str(p.get("id", "")) == id:
+			p["code"] = ""
+			profili[i] = p
+			d["profiles"] = profili
+			_write(d)
+			return true
+	return false
+
 # ---------------------------------------------------------------- gruppo
 
 ## Il codice del GRUPPO (registro dei giocatori) è più corto di quello di

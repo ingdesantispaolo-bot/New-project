@@ -18,6 +18,7 @@ signal chosen(id: String)
 const VISTA_ELENCO := "elenco"
 const VISTA_NOME := "nome"
 const VISTA_CODICE := "codice"
+const VISTA_RICOMINCIA := "ricomincia"
 
 const ALTEZZA_TOCCO := 48   # bersaglio minimo per un dito su tablet
 
@@ -35,6 +36,9 @@ var _messaggio_testo := ""
 var _id_in_lavorazione := ""
 ## Vero se la schermata NOME sta creando invece di rinominare.
 var _sto_creando := false
+## A che punto siamo delle DUE conferme per ricominciare da capo. Zero è la
+## domanda, uno è la seconda domanda, e solo da lì si cancella.
+var _passo_ricomincia := 0
 ## Salvataggio scaricato in attesa di conferma: finché è qui, non ha toccato
 ## niente. È la forma tecnica della regola «niente si perde senza che qualcuno
 ## l'abbia chiesto».
@@ -84,6 +88,8 @@ func _disegna() -> void:
 			_disegna_nome()
 		VISTA_CODICE:
 			_disegna_codice()
+		VISTA_RICOMINCIA:
+			_disegna_ricomincia()
 		_:
 			_disegna_elenco()
 
@@ -133,8 +139,10 @@ func _disegna_elenco() -> void:
 		_colonna.add_child(nuovo)
 	else:
 		# Onesto sul perché non si può aggiungere, invece di un pulsante spento.
+		# E adesso dice anche come si libera davvero una casella: prima il testo
+		# offriva solo il cambio nome, che lascia dentro la partita di chi c'era.
 		_colonna.add_child(_nota(
-			"Le caselle sono %d, tutte piene. Per riusarne una, cambiale nome con Aa: la partita che c'è dentro resta." % PlayerProfiles.MAX_PROFILES))
+			"Le caselle sono %d, tutte piene. Per riusarne una tocca Aa: lì puoi cambiarle nome — la partita resta — oppure ricominciare da capo, che la cancella." % PlayerProfiles.MAX_PROFILES))
 
 	_colonna.add_child(_chiudi("GIOCA"))
 
@@ -158,7 +166,78 @@ func _disegna_nome() -> void:
 	conferma.custom_minimum_size = Vector2(0, ALTEZZA_TOCCO)
 	conferma.pressed.connect(_conferma_nome)
 	_colonna.add_child(conferma)
+
+	# **Riusare una casella per un altro bambino.** (31 agosto 2026)
+	#
+	# Le caselle sono sei e non si cancellano — buttare via venti ore con un
+	# tocco resta fuori discussione. Mancava pero' la via di mezzo: rinominare
+	# lascia dentro la partita del bambino di prima, e il settimo che arriva
+	# ereditava il livello 24 di qualcun altro. Sta qui, sotto il cambio nome,
+	# perche' e' lo stesso gesto: questa casella adesso e' di un'altra persona.
+	if not _sto_creando:
+		_colonna.add_child(_separatore())
+		var ricomincia := Button.new()
+		ricomincia.name = "RestartProfileButton"
+		ricomincia.text = "RICOMINCIA DA CAPO"
+		ricomincia.custom_minimum_size = Vector2(0, ALTEZZA_TOCCO)
+		ricomincia.add_theme_color_override("font_color", Color("ffb3a8"))
+		ricomincia.pressed.connect(_apri_ricomincia)
+		_colonna.add_child(ricomincia)
+
 	_colonna.add_child(_indietro())
+
+## **Due domande, e non la stessa due volte.** (31 agosto 2026)
+##
+## Un «sei sicuro?» ripetuto identico si tocca due volte di riflesso, e a quel
+## punto la seconda conferma non protegge piu' niente: e' solo un dito che
+## ripete un gesto. Qui la prima domanda dice **che cosa si perde** — nome e
+## livello, in cifre — e la seconda chiede una cosa diversa: il pulsante porta
+## scritto il nome del bambino che si sta cancellando. Chi ha aperto la casella
+## sbagliata lo legge proprio nell'istante in cui sta per confermare.
+func _disegna_ricomincia() -> void:
+	var profilo := PlayerProfiles.find(_id_in_lavorazione)
+	var nome := str(profilo.get("name", ""))
+	var livello := _livello_di(_id_in_lavorazione)
+	var codice := PlayerProfiles.code_of(_id_in_lavorazione)
+
+	if _passo_ricomincia == 0:
+		_colonna.add_child(_titolo("RICOMINCIARE DA CAPO?"))
+		_colonna.add_child(_avviso(
+			"La partita di %s, arrivata al livello %d, viene cancellata da questo tablet.\nRestano il nome della casella e le altre partite." % [nome, livello]))
+		if not codice.is_empty():
+			_colonna.add_child(_nota(
+				"La copia in cloud NON viene toccata: resta sotto il codice %s, e con quel codice si può ancora riprendere. La casella però lo lascia andare, così la partita nuova non ci scrive sopra." % codice))
+		var avanti := Button.new()
+		avanti.name = "RestartFirstConfirmButton"
+		avanti.text = "SÌ, VOGLIO RICOMINCIARE"
+		avanti.custom_minimum_size = Vector2(0, ALTEZZA_TOCCO)
+		avanti.add_theme_color_override("font_color", Color("ffb3a8"))
+		avanti.pressed.connect(func():
+			_passo_ricomincia = 1
+			_disegna())
+		_colonna.add_child(avanti)
+	else:
+		_colonna.add_child(_titolo("ANCORA UNA VOLTA"))
+		_colonna.add_child(_avviso(
+			"Dopo questo tocco il livello %d di %s non è più su questo tablet.\nNon si torna indietro." % [livello, nome]))
+		var cancella := Button.new()
+		cancella.name = "RestartSecondConfirmButton"
+		# Il nome sul pulsante: e' la differenza fra confermare e ripetere.
+		cancella.text = "CANCELLA LA PARTITA DI %s" % nome.to_upper()
+		cancella.custom_minimum_size = Vector2(0, ALTEZZA_TOCCO)
+		cancella.add_theme_color_override("font_color", Color("ffb3a8"))
+		cancella.pressed.connect(_esegui_ricomincia)
+		_colonna.add_child(cancella)
+
+	var annulla := Button.new()
+	annulla.name = "RestartCancelButton"
+	annulla.text = "NO, LASCIA COM'È"
+	annulla.custom_minimum_size = Vector2(0, ALTEZZA_TOCCO)
+	annulla.pressed.connect(func():
+		_passo_ricomincia = 0
+		_vista = VISTA_ELENCO
+		_disegna())
+	_colonna.add_child(annulla)
 
 func _disegna_codice() -> void:
 	_colonna.add_child(_titolo("CODICE DI RIPRISTINO"))
@@ -275,6 +354,33 @@ func _apri_nome(id: String, creando: bool) -> void:
 	_id_in_lavorazione = id
 	_sto_creando = creando
 	_vista = VISTA_NOME
+	_disegna()
+
+func _apri_ricomincia() -> void:
+	_passo_ricomincia = 0
+	_vista = VISTA_RICOMINCIA
+	_disegna()
+
+## Azzera il salvataggio di QUESTA casella e stacca il codice cloud.
+##
+## Il file resta lo stesso — la casella non cambia identita', cambia contenuto —
+## e nessun'altra partita viene sfiorata. Il codice si stacca invece di essere
+## riusato: vedi `PlayerProfiles.clear_code`, altrimenti la partita nuova
+## sovrascriverebbe in cloud quella del bambino di prima.
+func _esegui_ricomincia() -> void:
+	var id := _id_in_lavorazione
+	if PlayerProfiles.find(id).is_empty():
+		_passo_ricomincia = 0
+		_vista = VISTA_ELENCO
+		_disegna()
+		return
+	var save := GameSaveManager.new(PlayerProfiles.save_path_of(id))
+	save.data = GameSaveManager._default_data()
+	save.save()
+	PlayerProfiles.clear_code(id)
+	_passo_ricomincia = 0
+	_vista = VISTA_ELENCO
+	_messaggio_testo = ""
 	_disegna()
 
 func _apri_codice(id: String) -> void:
@@ -402,6 +508,23 @@ func _nota(testo: String) -> Label:
 	l.add_theme_font_size_override("font_size", 13)
 	l.add_theme_color_override("font_color", Color("9fb7bb"))
 	return l
+
+## Come `_nota`, ma di un colore che si legge come un allarme: la usa solo il
+## momento in cui una partita sta per sparire. Stesso rosa dell'avviso che il
+## cloud mostra prima di sostituire un salvataggio — nel gioco un pericolo ha
+## sempre lo stesso colore, o smette di essere riconoscibile.
+func _avviso(testo: String) -> Label:
+	var l := Label.new()
+	l.text = testo
+	l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	l.add_theme_font_size_override("font_size", 14)
+	l.add_theme_color_override("font_color", Color("ffb3a8"))
+	return l
+
+func _separatore() -> HSeparator:
+	var s := HSeparator.new()
+	s.custom_minimum_size = Vector2(0, 6)
+	return s
 
 func _indietro() -> Button:
 	var b := Button.new()

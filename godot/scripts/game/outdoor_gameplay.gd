@@ -446,6 +446,8 @@ func try_start_mission(payload: Dictionary, encounter_id: String) -> bool:
 	if Array(session.get("nodes", [])).is_empty():
 		_present_feedback("Banco esercizi non disponibile per %s." % subject, "system")
 		return false
+	if not _energia_sufficiente_per_entrare():
+		return false
 	session = _decorate_teaching_session(session, subject)
 	_charge_exercise_entry()
 	active_session_context = {
@@ -480,6 +482,8 @@ func try_start_enigma(payload: Dictionary, encounter_id: String) -> bool:
 	var session := content_manager.build_enigma(subject, _learning_level(), 4, _due(), null, game_save.mastery_of(subject), game_save.topic_masteries(subject))
 	if Array(session.get("nodes", [])).is_empty():
 		_present_feedback("Banco esercizi non disponibile per %s." % subject, "system")
+		return false
+	if not _energia_sufficiente_per_entrare():
 		return false
 	session = _decorate_teaching_session(session, subject)
 	_charge_exercise_entry()
@@ -534,6 +538,8 @@ func try_start_minimission(payload: Dictionary, encounter_id: String) -> bool:
 	var grado := WorldLight.grado(game_save)
 	var richiesto := int(payload.get("gradoRichiesto", 0))
 	var impreparata := grado < richiesto
+	if not _energia_sufficiente_per_entrare(1.5 if impreparata else 1.0):
+		return false
 	_charge_exercise_entry(1.5 if impreparata else 1.0)
 	active_session_context = {
 		"kind": "minimission",
@@ -975,6 +981,8 @@ func try_start_minigame(payload: Dictionary, encounter_id: String, sconto: bool 
 	if Array(session.get("nodes", [])).is_empty():
 		_present_feedback("Minigioco non disponibile per %s." % subject, "system")
 		return false
+	if not _energia_sufficiente_per_entrare(0.5 if sconto else 1.0):
+		return false
 	_charge_exercise_entry(0.5 if sconto else 1.0)
 	# I testi dei quesiti viaggiano nel contesto: alla chiusura finiscono nella
 	# memoria della pratica, così la prossima palestra non li ripropone. Il
@@ -1027,6 +1035,8 @@ func try_start_final_exam() -> bool:
 	if Array(session.get("nodes", [])).is_empty():
 		_present_feedback("Esame non disponibile.", "system")
 		return false
+	if not _energia_sufficiente_per_entrare():
+		return false
 	_charge_exercise_entry()
 	active_session_context = {
 		"kind": "final_exam",
@@ -1047,8 +1057,54 @@ func try_start_final_exam() -> bool:
 ## `fattore` scala il costo d'ingresso: 1.0 ovunque, 0.5 nella casa del
 ## mestiere. Il minimo resta 1 quando il fattore non e' zero — un ingresso
 ## gratuito non e' uno sconto, e' un'altra cosa.
+## Quanto costa entrare in una prova, dato il fattore del suo tipo (la casa del
+## mestiere sconta, una riparazione fuori grado costa una volta e mezzo).
+func _costo_ingresso(fattore: float) -> int:
+	return maxi(1, int(round(float(EXERCISE_ENERGY_COST) * fattore))) if fattore > 0.0 else 0
+
+## **Un costo che non si puo' pagare, ma che non ferma nessuno, non e' un costo.**
+## (31 agosto 2026)
+##
+## `_charge_exercise_entry` restituisce 0 quando l'energia non basta, e tutti e
+## cinque i chiamanti ne ignoravano il valore: la prova partiva **gratis**.
+## Misurato: con 200 di energia si scalava 3, con 3 si scalava 3, con 0 si
+## entrava lo stesso senza pagare — cioe' a zero energia il gioco diventava
+## illimitato, che e' l'opposto del motivo per cui l'ingresso costa (scoraggiare
+## i tentativi a caso).
+##
+## **Non e' un vicolo cieco**, ed e' il motivo per cui si puo' sbarrare: sotto
+## due ingressi di energia il Ritrovo offre da solo il lavoretto, che non costa
+## nulla e paga (vedi `_entra_nell_edificio` in `outdoor_world.gd`). Quel ramo
+## era gia' scritto dando per buono che senza energia «praticare non si puo'».
+##
+## ## L'eccezione che non si tocca: il primo passo
+##
+## Un profilo appena creato parte con **energia zero** — e' la fixture che
+## `c16_audit` chiama «profilo nuovo» — e deve poter cominciare. Sbarrare anche
+## lui manderebbe un bambino al suo primo minuto a cercare la bottega prima di
+## poter fare qualunque cosa, che e' il vicolo cieco vero.
+##
+## Il segnale che distingue i due casi sono le **missioni gia' superate**
+## (`missionsBySubject`, cumulativo e mai azzerato dal gioco): chi ne ha almeno
+## una ha gia' incassato energia, e allora il costo e' una scelta; chi non ne ha
+## nessuna sta ancora facendo il primo passo, e passa. La padronanza non
+## servirebbe allo scopo — `set_mastery(materia, 0.0)` la riempie senza che
+## nessuno abbia guadagnato niente, ed e' quello che fa `boot_navigation_audit`.
+func _energia_sufficiente_per_entrare(fattore: float = 1.0) -> bool:
+	var costo := _costo_ingresso(fattore)
+	if costo <= 0:
+		return true
+	if game_save.energy() >= costo:
+		return true
+	if Dictionary(game_save.data.get("missionsBySubject", {})).is_empty():
+		return true   # primo passo di un profilo nuovo: si entra, e non si paga
+	_present_feedback(
+		"Energia troppo bassa per questa prova · fai un turno al Ritrovo: non costa e paga.",
+		"warning")
+	return false
+
 func _charge_exercise_entry(fattore: float = 1.0) -> int:
-	var costo := maxi(1, int(round(float(EXERCISE_ENERGY_COST) * fattore))) if fattore > 0.0 else 0
+	var costo := _costo_ingresso(fattore)
 	if costo <= 0:
 		return 0
 	if game_save.energy() < costo:

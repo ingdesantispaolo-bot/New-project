@@ -1,8 +1,8 @@
 {
-  "buildId": "2026.08.31-web-loader-2",
-  "cacheVersion": "v175-web-loader",
-  "commit": "2cffabc",
-  "pckBytes": 66663648,
+  "buildId": "2026.08.31-web-loader-3",
+  "cacheVersion": "v176-web-loader",
+  "commit": "7dcbb32",
+  "pckBytes": 66669376,
   "wasmBytes": 39513091,
-  "contentPckBytes": 15313340
+  "contentPckBytes": 15313660
 }

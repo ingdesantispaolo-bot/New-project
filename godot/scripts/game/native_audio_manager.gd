@@ -256,6 +256,7 @@ func _apply_settings() -> void:
 	call_deferred("_publish_web_state")
 
 func set_focus(active: bool) -> void:
+	_assicura_player_persistenti()
 	if active:
 		if not _focus.playing:
 			_play_loop(_focus, str(manifest.get("adaptive", {}).get("focusLayer", "music.focus")))
@@ -318,6 +319,30 @@ func _make_persistent_player(node_name: String, bus_name: String) -> AudioStream
 	add_child(player)
 	return player
 
+## **I player persistenti si ricreano se qualcuno li porta via.** (31 agosto 2026)
+##
+## Diciannove audit ripuliscono l'audio fra una scena e l'altra liberando ogni
+## AudioStreamPlayer tranne tre nomi in lista bianca (`MusicBase`,
+## `AmbienceBase`, `MusicFocus`). I due player della dissolvenza incrociata sono
+## nati dopo quella lista, quindi venivano liberati — e la coda del crossfade
+## chiamava `stop()` su un'istanza che non c'era piu'.
+##
+## Aggiornare la lista in diciannove file avrebbe rimesso lo stesso rastrello
+## per terra: il prossimo player persistente ricadrebbe nella stessa buca. Qui
+## il manager si ricostruisce da solo cio' che gli manca, e non gli importa piu'
+## di chi glielo toglie.
+func _assicura_player_persistenti() -> void:
+	if not is_instance_valid(_music):
+		_music = _make_persistent_player("MusicBase", "Music")
+	if not is_instance_valid(_music_secondary):
+		_music_secondary = _make_persistent_player("MusicCrossfade", "Music")
+	if not is_instance_valid(_ambience):
+		_ambience = _make_persistent_player("AmbienceBase", "Ambience")
+	if not is_instance_valid(_ambience_secondary):
+		_ambience_secondary = _make_persistent_player("AmbienceCrossfade", "Ambience")
+	if not is_instance_valid(_focus):
+		_focus = _make_persistent_player("MusicFocus", "Music")
+
 func _play_loop(player: AudioStreamPlayer, key: String) -> void:
 	var spec: Dictionary = assets.get(key, {})
 	if spec.is_empty():
@@ -344,6 +369,7 @@ func _transition_loop(channel: String, key: String, volume_offset_db: float,
 	var stream := _stream_for(key)
 	if stream == null:
 		return
+	_assicura_player_persistenti()
 	var active := _music if channel == "music" else _ambience
 	var standby := _music_secondary if channel == "music" else _ambience_secondary
 	var target_volume := float(spec.get("volumeDb", 0.0)) + volume_offset_db
@@ -369,7 +395,14 @@ func _transition_loop(channel: String, key: String, volume_offset_db: float,
 		var tween := create_tween().set_parallel(true)
 		tween.tween_property(active, "volume_db", -60.0, seconds)
 		tween.tween_property(standby, "volume_db", target_volume, seconds)
-		tween.chain().tween_callback(func(): active.stop())
+		# Il player va spento solo se esiste ancora: la dissolvenza dura un paio di
+		# secondi e una scena puo' chiudersi nel mezzo, liberandolo. Senza questa
+		# guardia la coda del crossfade chiama `stop()` su un'istanza gia' liberata
+		# — e' il difetto che `c_art_world_staging_audit` ha segnalato tre volte di
+		# fila cambiando mondo.
+		tween.chain().tween_callback(func():
+			if is_instance_valid(active):
+				active.stop())
 		if channel == "music":
 			_music_tween = tween
 		else:

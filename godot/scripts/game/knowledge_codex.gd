@@ -390,6 +390,8 @@ static func teach_line(moment: String) -> String:
 			return "Questo ti è già sfuggito una volta: rivediamolo insieme, poi riprovi con un metodo in più."
 		"new_facts":
 			return "Alcuni di questi non li hai mai visti: guardiamoli insieme prima di ordinarli."
+		"new_fact_recall":
+			return "Questo pezzo non te l'ho ancora insegnato: prima te lo dico, poi te lo chiedo."
 		_:
 			return ""
 
@@ -455,6 +457,60 @@ static func _fatto_leggibile(subject: String, topic: String, entry: Dictionary) 
 	if label.containsn(leggibile):
 		return label
 	return "%s — %s" % [label, leggibile]
+
+## Quante parole puo' avere una risposta perche' la domanda sia di puro NOME.
+##
+## «Neolitico», «Cavalieri», «Fonti materiali», «Dal bronzo»: sono etichette da
+## sapere, non da dedurre. «L'acqua permetteva di coltivare e di spostarsi» —
+## sette parole — e' invece la conclusione di un ragionamento, e anticiparla
+## rovinerebbe proprio la domanda che vale la pena fare. Tre parole separano le
+## due famiglie meglio di qualunque analisi del testo della domanda.
+const RICHIAMO_MAX_PAROLE := 3
+
+## **Il fatto che questa domanda pretende, se la domanda chiede un nome.**
+## (31 agosto 2026)
+##
+## Segnalazione di uno studente: «gli esercizi di storia o si sanno o non si
+## sanno, e NORA non aiuta perche' non spiega». Misurato: un argomento di storia
+## porta una ventina di domande, ciascuna su un fatto diverso, e
+## `teaching_moment()` insegna **una volta sola** — alla prima. Dalla seconda in
+## poi il bambino veniva interrogato su nomi che nessuno gli aveva mai detto.
+##
+## L'insegnamento per fatto esisteva gia' (`unknown_facts`/`fact_lesson`) ma
+## valeva **solo per gli ordinamenti a insieme**, cioe' mai per le domande a
+## scelta multipla e a risposta breve, che sono la maggioranza.
+##
+## Restituisce {} quando la domanda non e' di richiamo: una domanda che chiede
+## PERCHE' si risponde ragionando, e la sua risposta non va anticipata.
+static func recall_fact(nodo: Dictionary) -> Dictionary:
+	var risposta := str(nodo.get("answer", "")).strip_edges()
+	if risposta == "" or str(nodo.get("explanation", "")).strip_edges() == "":
+		return {}
+	if risposta.split(" ", false).size() > RICHIAMO_MAX_PAROLE:
+		return {}
+	return {"label": risposta, "value": 0.0}
+
+## La scheda per un nome mai visto: lo dice, e dice perche' e' quello.
+##
+## Sorella di `fact_lesson`, con la stessa forma — `ExercisePlayer` le rende
+## entrambe senza un secondo layout — ma un'altra apertura: qui non si sta per
+## ordinare niente, si sta per rispondere.
+static func recall_lesson(subject: String, topic: String, spiegazione: String, nuovi: Array) -> Dictionary:
+	if nuovi.is_empty():
+		return {}
+	var righe := PackedStringArray()
+	for entry in nuovi:
+		righe.append("• %s" % str((entry as Dictionary).get("label", "")))
+	return {
+		"subject": subject,
+		"topic": topic,
+		"intro": "Questo nome non te l'ha ancora detto nessuno: te lo dico prima di chiedertelo.",
+		"explanation": spiegazione,
+		"facts": "\n".join(righe),
+		"workedExample": {},
+		"strategy": NoraContextEngine.subject_method(subject),
+		"watchOut": {},
+	}
 
 ## Mini-lezione per i fatti nuovi di un ordinamento a insieme, nella stessa
 ## forma di `mini_lesson()` così `ExercisePlayer._show_teaching_overlay()` la

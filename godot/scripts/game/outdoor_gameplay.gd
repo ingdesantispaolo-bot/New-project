@@ -684,9 +684,28 @@ func _decorate_teaching_session(source: Dictionary, subject: String) -> Dictiona
 		# la prima versione di questa riparazione, misurato da
 		# `fact_level_teaching_audit.gd`.
 		var nuovi_fatti: Array = []
+		# **Anche una domanda che chiede un nome pretende un fatto.**
+		# (31 agosto 2026, segnalazione di uno studente: «storia o si sa o non si
+		# sa, e NORA non aiuta perche' non spiega»)
+		#
+		# Un argomento di storia porta una ventina di domande su fatti diversi, e
+		# `teaching_moment` insegna una volta sola: dalla seconda in poi il
+		# bambino veniva interrogato su nomi mai detti. L'insegnamento per fatto
+		# c'era gia' ma serviva **solo gli ordinamenti**, cioe' non le due forme
+		# piu' frequenti — scelta multipla e risposta breve.
+		#
+		# `recall_fact` restituisce {} quando la domanda chiede di ragionare
+		# invece che di ricordare: quella risposta non va anticipata, o si toglie
+		# proprio la domanda che vale la pena fare.
+		var da_richiamo := false
 		if str(nodo.get("format", "")) == "ordering":
 			nuovi_fatti = KnowledgeCodex.unknown_facts(
 				game_save, subject, topic, Array(nodo.get("correctOrderDetail", [])))
+		else:
+			var richiamo := KnowledgeCodex.recall_fact(nodo)
+			if not richiamo.is_empty():
+				nuovi_fatti = KnowledgeCodex.unknown_facts(game_save, subject, topic, [richiamo])
+				da_richiamo = not nuovi_fatti.is_empty()
 		var moment := ""
 		var lesson := {}
 		if not gia_insegnati.has(topic):
@@ -694,9 +713,14 @@ func _decorate_teaching_session(source: Dictionary, subject: String) -> Dictiona
 			if moment != "none":
 				lesson = codex.mini_lesson(subject, topic)
 		if lesson.is_empty() and not nuovi_fatti.is_empty():
-			moment = "new_facts"
-			lesson = KnowledgeCodex.fact_lesson(
-				subject, topic, str(nodo.get("explanation", "")), nuovi_fatti)
+			if da_richiamo:
+				moment = "new_fact_recall"
+				lesson = KnowledgeCodex.recall_lesson(
+					subject, topic, str(nodo.get("explanation", "")), nuovi_fatti)
+			else:
+				moment = "new_facts"
+				lesson = KnowledgeCodex.fact_lesson(
+					subject, topic, str(nodo.get("explanation", "")), nuovi_fatti)
 		if lesson.is_empty():
 			continue
 		gia_insegnati[topic] = true
@@ -704,7 +728,9 @@ func _decorate_teaching_session(source: Dictionary, subject: String) -> Dictiona
 		nodo["teachingLesson"] = lesson
 		nodo["teachingLine"] = KnowledgeCodex.teach_line(moment)
 		nodi[indice] = nodo
-		if moment != "new_facts":
+		# Insegnare UN fatto non significa aver presentato l'argomento: lo stato
+		# del topic resta indietro, o la mini-lezione generale non arriverebbe mai.
+		if moment != "new_facts" and moment != "new_fact_recall":
 			KnowledgeCodex.advance_state(game_save, subject, topic, "seen")
 		if not nuovi_fatti.is_empty():
 			var labels: Array = []

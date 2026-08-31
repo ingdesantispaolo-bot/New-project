@@ -606,7 +606,7 @@
 			"id": "logica-analogia-gattino",
 			"subject": "logica",
 			"topic": "analogie",
-			"difficulty": 2,
+			"difficulty": 1,
 			"format": "multiple_choice",
 			"prompt": "Cane sta a cucciolo come gatto sta a…?",
 			"options": [
@@ -627,7 +627,7 @@
 			"id": "logica-analogia-scarpa",
 			"subject": "logica",
 			"topic": "analogie",
-			"difficulty": 3,
+			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Mano sta a guanto come piede sta a…?",
 			"options": [
@@ -648,7 +648,7 @@
 			"id": "logica-analogia-Luna",
 			"subject": "logica",
 			"topic": "analogie",
-			"difficulty": 3,
+			"difficulty": 1,
 			"format": "multiple_choice",
 			"prompt": "Giorno sta a Sole come notte sta a…?",
 			"options": [
@@ -669,7 +669,7 @@
 			"id": "logica-analogia-ascoltare",
 			"subject": "logica",
 			"topic": "analogie",
-			"difficulty": 4,
+			"difficulty": 1,
 			"format": "multiple_choice",
 			"prompt": "Libro sta a leggere come musica sta a…?",
 			"options": [
@@ -690,7 +690,7 @@
 			"id": "logica-deduzione-58-ha la coda",
 			"subject": "logica",
 			"topic": "deduzioni",
-			"difficulty": 3,
+			"difficulty": 1,
 			"format": "multiple_choice",
 			"prompt": "Tutti i gatti hanno la coda. Fufi è un gatto. Allora Fufi…",
 			"options": [
@@ -711,7 +711,7 @@
 			"id": "logica-deduzione-48-non vola",
 			"subject": "logica",
 			"topic": "deduzioni",
-			"difficulty": 3,
+			"difficulty": 1,
 			"format": "multiple_choice",
 			"prompt": "Nessun pesce vola. Nemo è un pesce. Quindi Nemo…",
 			"options": [
@@ -1947,7 +1947,7 @@
 			"prompt": "Quale figura continua la serie: cerchio, quadrato, cerchio, quadrato, ?",
 			"options": [
 				"triangolo",
-				"nessuna delle due",
+				"rombo",
 				"cerchio",
 				"quadrato"
 			],
@@ -1956,7 +1956,7 @@
 			"distractorWhy": {
 				"quadrato": "Il quadrato è appena apparso: nella sequenza a coppie tocca di nuovo al cerchio.",
 				"triangolo": "Il triangolo non fa parte della sequenza: si alternano solo cerchio e quadrato.",
-				"nessuna delle due": "La sequenza continua regolarmente: una delle due figure c'è di sicuro."
+				"rombo": "Il rombo non compare mai nella serie: si alternano soltanto cerchio e quadrato."
 			}
 		},
 		{
@@ -2226,7 +2226,7 @@
 			"distractorWhy": {
 				"un triangolo": "Il quadrato non è mai stato definito come triangolo: sono figure diverse.",
 				"un cerchio": "Il quadrato non è un cerchio: sono figure diverse.",
-				"nessuna delle due": "Il quadrato appartiene proprio all'insieme dei rettangoli, come dice la regola."
+				"nessuna delle due": "Una risposta c'è: la regola dice che ogni quadrato sta nell'insieme dei rettangoli."
 			}
 		},
 		{
@@ -2346,6 +2346,153 @@
 				"non sa cucinare": "È il contrario della regola: se tutti i cuochi sanno cucinare e Anna è cuoca, lo sa fare di certo.",
 				"forse sa cucinare": "Non è un forse: la regola vale per tutti i cuochi, quindi la conclusione è certa.",
 				"cucina solo dolci": "La regola non specifica il tipo di piatti: dice solo che sa cucinare."
+			}
+		},
+		{
+			"id": "logica-deduzioni-76",
+			"subject": "logica",
+			"topic": "deduzioni",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "«Tutti i cani sono mammiferi.» Fido è un mammifero. Fido è un cane?",
+			"options": [
+				"Sì, se ha quattro zampe",
+				"No, di sicuro",
+				"Sì, di sicuro",
+				"Non si può stabilire"
+			],
+			"answer": "Non si può stabilire",
+			"explanation": "La regola dice dove stanno i cani, non chi sono tutti i mammiferi: fra i mammiferi ci sono anche gatti e balene. Sapere che Fido sta nel gruppo grande non dice in quale angolo si trovi.",
+			"distractorWhy": {
+				"Sì, di sicuro": "Questa è la regola letta al contrario: «tutti i cani sono mammiferi» non significa «tutti i mammiferi sono cani».",
+				"No, di sicuro": "Nemmeno escluderlo si può: Fido potrebbe benissimo essere un cane, semplicemente non lo sappiamo.",
+				"Sì, se ha quattro zampe": "Le zampe non compaiono nella regola, e comunque anche i gatti ne hanno quattro."
+			}
+		},
+		{
+			"id": "logica-deduzioni-77",
+			"subject": "logica",
+			"topic": "deduzioni",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "«Se studio, prendo un bel voto.» Ho preso un bel voto. Allora…",
+			"options": [
+				"Non è detto che abbia studiato",
+				"Vuol dire che ho studiato di sicuro",
+				"Vuol dire che la regola è sbagliata",
+				"Vuol dire che non ho studiato affatto"
+			],
+			"answer": "Non è detto che abbia studiato",
+			"explanation": "La regola promette il voto a chi studia, ma non promette che sia l'unica strada: si può prendere un bel voto anche per un argomento che già si sapeva. Dall'effetto non si risale alla causa.",
+			"distractorWhy": {
+				"Vuol dire che ho studiato di sicuro": "È la regola percorsa a rovescio: dice che studiare porta al voto, non che il voto possa venire solo da lì.",
+				"Vuol dire che non ho studiato affatto": "Non c'è nessun motivo per escluderlo: probabilmente ho studiato, semplicemente non è dimostrato.",
+				"Vuol dire che la regola è sbagliata": "La regola regge benissimo: un bel voto è esattamente quello che prometteva."
+			}
+		},
+		{
+			"id": "logica-quantificatori-78",
+			"subject": "logica",
+			"topic": "quantificatori",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "«Non è vero che tutti i bambini dormono.» Che cosa si sa di sicuro?",
+			"options": [
+				"La maggior parte non dorme",
+				"Almeno un bambino non dorme",
+				"Tutti i bambini sono ben svegli",
+				"Nessun bambino dorme"
+			],
+			"answer": "Almeno un bambino non dorme",
+			"explanation": "Negare un «tutti» non produce un «nessuno»: basta una sola eccezione per far cadere la frase. Il contrario di «tutti» è «almeno uno no», non «nessuno».",
+			"distractorWhy": {
+				"Nessun bambino dorme": "Sarebbe la negazione più forte possibile: per smentire «tutti» basta invece un bambino sveglio soltanto.",
+				"La maggior parte non dorme": "Il numero non si sa: potrebbe essere uno solo su cento.",
+				"Tutti i bambini sono ben svegli": "È la stessa cosa che «nessuno dorme», e serve molto di più di quanto la frase affermi."
+			}
+		},
+		{
+			"id": "logica-verita-79",
+			"subject": "logica",
+			"topic": "verita",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "«Tutti i draghi di questa stanza sono verdi.» Nella stanza non c'è nessun drago. La frase è…",
+			"options": [
+				"Falsa, perché i draghi non esistono",
+				"Né vera né falsa, manca il soggetto",
+				"Vera: nessun drago la smentisce",
+				"Impossibile da giudicare senza draghi"
+			],
+			"answer": "Vera: nessun drago la smentisce",
+			"explanation": "Un «tutti» cade solo se qualcuno lo smentisce. Senza draghi non c'è nessun drago non verde, quindi non c'è niente che la faccia cadere: in logica una frase così si dice vera a vuoto.",
+			"distractorWhy": {
+				"Falsa, perché i draghi non esistono": "L'esistenza non c'entra: la frase parla soltanto di quelli che ci fossero, e non ce ne sono.",
+				"Né vera né falsa, manca il soggetto": "In logica classica ogni affermazione ha uno dei due valori: non esiste una terza casella.",
+				"Impossibile da giudicare senza draghi": "Si giudica benissimo: basta cercare un controesempio, e qui non può essercene nessuno."
+			}
+		},
+		{
+			"id": "logica-deduzioni-80",
+			"subject": "logica",
+			"topic": "deduzioni",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Anna è più veloce di Bea. Carlo è più lento di Bea. Che cosa NON si può concludere?",
+			"options": [
+				"Che Bea è più veloce di Carlo",
+				"Che Anna è più veloce di Carlo",
+				"Che Carlo è il più lento dei tre",
+				"Che Bea è la più veloce"
+			],
+			"answer": "Che Bea è la più veloce",
+			"explanation": "La catena mette in fila Anna, Bea, Carlo: le altre tre conclusioni si leggono lì dentro. Bea sta in mezzo, e chi sta in mezzo non è mai il primo.",
+			"distractorWhy": {
+				"Che Anna è più veloce di Carlo": "Questa segue: Anna supera Bea, che a sua volta supera Carlo.",
+				"Che Carlo è il più lento dei tre": "Questa segue: è l'ultimo della catena.",
+				"Che Bea è più veloce di Carlo": "Questa segue: è scritto proprio nella seconda frase, al contrario."
+			}
+		},
+		{
+			"id": "logica-insiemi-81",
+			"subject": "logica",
+			"topic": "insiemi",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Nessun quadro della sala è antico. Tutti i quadri antichi hanno la cornice d'oro. Che cosa si sa dei quadri della sala?",
+			"options": [
+				"Niente sulla loro cornice",
+				"Sono tutti moderni e senza cornice",
+				"Nessuno ha la cornice d'oro",
+				"Tutti hanno la cornice d'oro"
+			],
+			"answer": "Niente sulla loro cornice",
+			"explanation": "La seconda regola parla solo dei quadri antichi, e nella sala non ce n'è: non li tocca. Un quadro moderno con la cornice d'oro non violerebbe niente.",
+			"distractorWhy": {
+				"Nessuno ha la cornice d'oro": "La regola dice che gli antichi ce l'hanno, non che siano gli unici: un moderno può averla lo stesso.",
+				"Tutti hanno la cornice d'oro": "La regola non si applica ai quadri della sala, che antichi non sono.",
+				"Sono tutti moderni e senza cornice": "Che non siano antichi è vero; sulla cornice non si sa nulla."
+			}
+		},
+		{
+			"id": "logica-esclusioni-82",
+			"subject": "logica",
+			"topic": "esclusioni",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Tre scatole: una con solo mele, una con solo pere, una mista. Le etichette sono TUTTE sbagliate. Peschi un frutto dalla scatola etichettata «mista» ed è una mela. Che cos'è quella scatola?",
+			"options": [
+				"La scatola mista",
+				"La scatola delle sole mele",
+				"Non si può ancora dire",
+				"La scatola con le sole pere"
+			],
+			"answer": "La scatola delle sole mele",
+			"explanation": "L'etichetta «mista» è sbagliata come le altre, quindi quella scatola non è mista: o è tutta mele o è tutta pere. Il frutto pescato decide quale delle due.",
+			"distractorWhy": {
+				"La scatola mista": "Le etichette sono tutte sbagliate: quella è l'unica cosa che quella scatola non può essere.",
+				"La scatola con le sole pere": "Ne è appena uscita una mela: le pere sole sono escluse.",
+				"Non si può ancora dire": "Si può: una pescata basta, proprio perché l'etichetta sbagliata ha già eliminato la terza possibilità."
 			}
 		},
 		{
@@ -2610,8 +2757,8 @@
 			"options": [
 				"Esattamente metà dei gatti è nera",
 				"Nessun gatto è nero",
-				"Tutti i gatti sono di un altro colore",
-				"Almeno un gatto non è nero"
+				"Almeno un gatto non è nero",
+				"Tutti i gatti sono di un altro colore"
 			],
 			"answer": "Almeno un gatto non è nero",
 			"explanation": "La negazione di «tutti» non è «nessuno»: basta un solo controesempio per smentire un «tutti».",
@@ -2629,10 +2776,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la negazione di «alcuni studenti sono in ritardo»?",
 			"options": [
-				"Nessuno studente è in ritardo",
 				"Non tutti gli studenti sono in ritardo",
 				"Tutti in ritardo",
-				"Alcuni studenti non sono in ritardo"
+				"Alcuni studenti non sono in ritardo",
+				"Nessuno studente è in ritardo"
 			],
 			"answer": "Nessuno studente è in ritardo",
 			"explanation": "«Alcuni» vuol dire almeno uno: negarlo significa dire zero, cioè nessuno.",
@@ -2650,8 +2797,8 @@
 			"format": "multiple_choice",
 			"prompt": "Ogni quadrato è un rombo e ogni rombo è un parallelogramma. Allora…",
 			"options": [
-				"Ogni parallelogramma è un quadrato",
 				"Ogni quadrato è un parallelogramma",
+				"Ogni parallelogramma è un quadrato",
 				"Nessun rombo è un quadrato",
 				"Rombo e quadrato sono la stessa figura"
 			],
@@ -2672,8 +2819,8 @@
 			"prompt": "«Se studio, passo l'esame.» Ho passato l'esame. Che cosa segue?",
 			"options": [
 				"Non ho studiato",
-				"Ho studiato di sicuro, non c'è dubbio",
 				"Non si può dire se ho studiato",
+				"Ho studiato di sicuro, non c'è dubbio",
 				"L'esame era facile"
 			],
 			"answer": "Non si può dire se ho studiato",
@@ -2694,8 +2841,8 @@
 			"options": [
 				"Ho studiato",
 				"Non si può dire niente",
-				"L'esame era troppo difficile",
-				"Non ho studiato"
+				"Non ho studiato",
+				"L'esame era troppo difficile"
 			],
 			"answer": "Non ho studiato",
 			"explanation": "Questa volta il passaggio è valido: se manca l'effetto garantito, manca anche la causa che lo garantiva.",
@@ -2713,10 +2860,10 @@
 			"format": "multiple_choice",
 			"prompt": "«Piove» e «fa freddo» possono essere ciascuna vera o falsa. Quante combinazioni diverse esistono in tutto?",
 			"options": [
-				"Quattro",
 				"Tre",
 				"Due",
-				"Otto"
+				"Otto",
+				"Quattro"
 			],
 			"answer": "Quattro",
 			"explanation": "Per ognuna delle due ci sono due possibilità, e si combinano fra loro: piove e fa freddo, piove e non fa freddo, non piove e fa freddo, non piove e non fa freddo. Con tre affermazioni sarebbero otto: ogni volta il numero raddoppia.",
@@ -2734,8 +2881,8 @@
 			"format": "multiple_choice",
 			"prompt": "Orologio sta a tempo come termometro sta a…",
 			"options": [
-				"calore",
 				"temperatura",
+				"calore",
 				"altezza",
 				"acqua"
 			],
@@ -2756,8 +2903,8 @@
 			"prompt": "Ape sta ad alveare come formica sta a…",
 			"options": [
 				"nido",
-				"tana sottoterra",
 				"formicaio",
+				"tana sottoterra",
 				"favo di cera"
 			],
 			"answer": "formicaio",
@@ -2778,8 +2925,8 @@
 			"options": [
 				"trapezio",
 				"rombo",
-				"quadrato",
-				"cerchio"
+				"cerchio",
+				"quadrato"
 			],
 			"answer": "cerchio",
 			"explanation": "Gli altri tre sono poligoni, cioè hanno i lati dritti. Il cerchio non ne ha nessuno.",

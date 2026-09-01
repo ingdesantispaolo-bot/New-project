@@ -285,6 +285,69 @@ const MATCHING := {
 			["Accelerando", "andando via via più veloce"], ["Rallentando", "andando via via più lento"]]},
 	],
 	"italiano": [
+		# **Le analogie che erano lessico, tornate a casa.** (1 settembre 2026)
+		#
+		# Questi sei insiemi stavano in logica e valevano, da soli, un quinto dei
+		# nodi giocati di un mondo di logica. Sono contenuto ottimo — «il piccolo
+		# di», «dove abita», «a che cosa serve», «una parte di», «il contrario
+		# di», «che cosa lo contiene» sono le sei relazioni con cui si costruisce
+		# il vocabolario di un bambino — ma non chiedono nessun passo di
+		# inferenza: chi sa che il puledro è il piccolo del cavallo lo abbina, chi
+		# non lo sa non lo deduce da niente.
+		#
+		# Qui sono al loro posto. In logica resta la relazione da RICONOSCERE
+		# (`CLASSIFICATION`, argomento «analogie»), che è la parte che ragiona.
+
+		# Una relazione sola per insieme, come deciso nella Fase 3: mescolarne due
+		# renderebbe l'abbinamento indovinabile per associazione invece che per
+		# ragionamento. Qui la relazione è «il piccolo → l'adulto».
+		{"explanation": "L'analogia si risolve trovando la relazione: qui è «il piccolo di». Trovata quella, la coppia si completa da sé.", "topic": "lessico", "kind": "pool", "pool": [
+			["cucciolo", "cane"], ["puledro", "cavallo"], ["gattino", "gatto"],
+			["agnello", "pecora"], ["pulcino", "gallina"], ["vitello", "mucca"],
+			["cerbiatto", "cervo"], ["anatroccolo", "anatra"], ["leprotto", "lepre"],
+			["capretto", "capra"], ["porcellino", "maiale"], ["girino", "rana"]]},
+		# Ogni insieme è UNA relazione sola, dichiarata nel commento: è questo che lo
+		# rende un esercizio di logica invece che di vocabolario. Mescolare relazioni
+		# diverse nello stesso insieme renderebbe l'abbinamento indovinabile per
+		# associazione, che è il contrario di quello che la materia allena.
+		# Relazione: «chi ci abita».
+		# **Cinque coppie su venti si risolvevano dal nome.** (1 settembre 2026)
+		#
+		# Formica → formicaio, coniglio → conigliera, termite → termitaio, aquila →
+		# nido d'aquila, ragno → ragnatela: la casa portava scritto dentro il nome
+		# dell'inquilino. Erano punti regalati a chi non aveva mai pensato alla
+		# relazione, ed è la scorciatoia che `scorciatoie_minigiochi_audit` ora
+		# misura. Sostituite con cinque coppie in cui il nome della casa non dice
+		# niente dell'animale: lì la relazione bisogna cercarla davvero.
+		{"explanation": "La relazione è «dove abita». In un'analogia conta il legame fra le due parole, non la somiglianza fra loro.", "topic": "lessico", "pairs": [
+			["Cane", "Cuccia"], ["Uccello", "Nido"], ["Ape", "Alveare"], ["Pesce", "Acquario"],
+			["Cavallo", "Stalla"], ["Topo", "Tana"], ["Scoiattolo", "Cavità del tronco"], ["Falco", "Rupe"],
+			["Cicogna", "Comignolo"], ["Maiale", "Porcile"], ["Riccio", "Cumulo di foglie"], ["Castoro", "Diga"],
+			["Volpe", "Tana scavata"], ["Gallina", "Pollaio"], ["Pecora", "Ovile"], ["Orso", "Caverna"],
+			["Talpa", "Galleria"], ["Lumaca", "Guscio"], ["Vipera", "Fessura tra le rocce"], ["Marmotta", "Cunicolo"]]},
+		# Relazione: «a che cosa serve».
+		{"explanation": "La relazione è «a che cosa serve»: ogni oggetto va con la sua funzione.", "topic": "lessico", "minLevel": 3, "pairs": [
+			["Penna", "Scrivere"], ["Forbici", "Tagliare"], ["Martello", "Battere"], ["Chiave", "Aprire"],
+			["Scopa", "Spazzare"], ["Ago", "Cucire"], ["Pettine", "Pettinare"], ["Termometro", "Misurare la febbre"],
+			["Bussola", "Orientarsi"], ["Ombrello", "Ripararsi dalla pioggia"], ["Bilancia", "Pesare"], ["Telescopio", "Osservare lontano"],
+			["Lente", "Ingrandire"], ["Remo", "Spingere la barca"], ["Sega", "Segare"], ["Freno", "Fermare"],
+			["Setaccio", "Separare"], ["Imbuto", "Travasare"], ["Livella", "Verificare l'orizzontale"], ["Pinza", "Afferrare"]]},
+		{"explanation": "Ogni elemento va con la categoria che lo contiene: la rosa è un fiore, e «fiore» è più ampio di «rosa».", "topic": "categorie", "minLevel": 4, "pairs": [["Rosa", "Fiore"], ["Cane", "Animale"], ["Mela", "Frutto"], ["Tavolo", "Mobile"]]},
+		# Relazione: «parte di».
+		{"explanation": "La relazione è «parte di»: la ruota fa parte dell'automobile come la pagina fa parte del libro.", "topic": "lessico", "minLevel": 4, "pairs": [
+			["Ruota", "Automobile"], ["Foglia", "Albero"], ["Pagina", "Libro"], ["Dito", "Mano"],
+			["Tasto", "Pianoforte"], ["Petalo", "Fiore"], ["Corda", "Chitarra"], ["Gradino", "Scala"],
+			["Ala", "Uccello"], ["Radice", "Pianta"], ["Nota", "Melodia"], ["Mattone", "Muro"],
+			["Stanza", "Casa"], ["Capitolo", "Romanzo"], ["Isola", "Arcipelago"], ["Vagone", "Treno"],
+			["Lettera", "Parola"], ["Cellula", "Tessuto"], ["Fotogramma", "Film"], ["Stella", "Costellazione"]]},
+		# Relazione: «il contrario di».
+		{"explanation": "Gli opposti stanno sulla stessa scala, ai due estremi: giorno e notte sono i due capi della stessa giornata.", "topic": "contrari", "minLevel": 5, "pairs": [
+			["Giorno", "Notte"], ["Salita", "Discesa"], ["Pieno", "Vuoto"], ["Inizio", "Fine"],
+			["Vittoria", "Sconfitta"], ["Silenzio", "Rumore"], ["Ordine", "Disordine"], ["Verità", "Menzogna"],
+			["Domanda", "Risposta"], ["Entrata", "Uscita"], ["Ricordo", "Oblio"], ["Guerra", "Pace"],
+			["Partenza", "Arrivo"], ["Luce", "Buio"], ["Coraggio", "Paura"], ["Successo", "Fallimento"],
+			["Presenza", "Assenza"], ["Movimento", "Quiete"], ["Nascita", "Morte"], ["Certezza", "Dubbio"]]},
+		# --- Mondo 1: ricette in più (tappa 4, 6 agosto 2026) -----------------
 		# --- Insiemi profondi (Fase 1) ---------------------------------------------
 		# L'abbinamento regge un insieme profondo solo quando OGNI voce ha una
 		# risposta sua: contrari, sinonimi, definizioni, modi di dire. I contenuti
@@ -557,55 +620,89 @@ const MATCHING := {
 			["1000, 100, 10, 1", "si divide per 10"], ["9, 18, 27, 36", "si aggiunge 9"]]},
 	],
 	"logica": [
-		# Una relazione sola per insieme, come deciso nella Fase 3: mescolarne due
-		# renderebbe l'abbinamento indovinabile per associazione invece che per
-		# ragionamento. Qui la relazione è «il piccolo → l'adulto».
-		{"explanation": "L'analogia si risolve trovando la relazione: qui è «il piccolo di». Trovata quella, la coppia si completa da sé.", "topic": "analogie", "kind": "pool", "pool": [
-			["cucciolo", "cane"], ["puledro", "cavallo"], ["gattino", "gatto"],
-			["agnello", "pecora"], ["pulcino", "gallina"], ["vitello", "mucca"],
-			["cerbiatto", "cervo"], ["anatroccolo", "anatra"], ["leprotto", "lepre"],
-			["capretto", "capra"], ["porcellino", "maiale"], ["girino", "rana"]]},
-		# Ogni insieme è UNA relazione sola, dichiarata nel commento: è questo che lo
-		# rende un esercizio di logica invece che di vocabolario. Mescolare relazioni
-		# diverse nello stesso insieme renderebbe l'abbinamento indovinabile per
-		# associazione, che è il contrario di quello che la materia allena.
-		# Relazione: «chi ci abita».
-		{"explanation": "La relazione è «dove abita». In un'analogia conta il legame fra le due parole, non la somiglianza fra loro.", "topic": "analogie", "pairs": [
-			["Cane", "Cuccia"], ["Uccello", "Nido"], ["Ape", "Alveare"], ["Pesce", "Acquario"],
-			["Cavallo", "Stalla"], ["Topo", "Tana"], ["Formica", "Formicaio"], ["Ragno", "Ragnatela"],
-			["Coniglio", "Conigliera"], ["Maiale", "Porcile"], ["Aquila", "Nido d'aquila"], ["Castoro", "Diga"],
-			["Volpe", "Tana scavata"], ["Gallina", "Pollaio"], ["Pecora", "Ovile"], ["Orso", "Caverna"],
-			["Talpa", "Galleria"], ["Lumaca", "Guscio"], ["Termite", "Termitaio"], ["Marmotta", "Cunicolo"]]},
-		# Relazione: «a che cosa serve».
-		{"explanation": "La relazione è «a che cosa serve»: ogni oggetto va con la sua funzione.", "topic": "analogie", "minLevel": 3, "pairs": [
-			["Penna", "Scrivere"], ["Forbici", "Tagliare"], ["Martello", "Battere"], ["Chiave", "Aprire"],
-			["Scopa", "Spazzare"], ["Ago", "Cucire"], ["Pettine", "Pettinare"], ["Termometro", "Misurare la febbre"],
-			["Bussola", "Orientarsi"], ["Ombrello", "Ripararsi dalla pioggia"], ["Bilancia", "Pesare"], ["Telescopio", "Osservare lontano"],
-			["Lente", "Ingrandire"], ["Remo", "Spingere la barca"], ["Sega", "Segare"], ["Freno", "Fermare"],
-			["Setaccio", "Separare"], ["Imbuto", "Travasare"], ["Livella", "Verificare l'orizzontale"], ["Pinza", "Afferrare"]]},
-		{"explanation": "Ogni elemento va con la categoria che lo contiene: la rosa è un fiore, e «fiore» è più ampio di «rosa».", "topic": "categorie", "minLevel": 4, "pairs": [["Rosa", "Fiore"], ["Cane", "Animale"], ["Mela", "Frutto"], ["Tavolo", "Mobile"]]},
-		# Relazione: «parte di».
-		{"explanation": "La relazione è «parte di»: la ruota fa parte dell'automobile come la pagina fa parte del libro.", "topic": "analogie", "minLevel": 4, "pairs": [
-			["Ruota", "Automobile"], ["Foglia", "Albero"], ["Pagina", "Libro"], ["Dito", "Mano"],
-			["Tasto", "Pianoforte"], ["Petalo", "Fiore"], ["Corda", "Chitarra"], ["Gradino", "Scala"],
-			["Ala", "Uccello"], ["Radice", "Pianta"], ["Nota", "Melodia"], ["Mattone", "Muro"],
-			["Stanza", "Casa"], ["Capitolo", "Romanzo"], ["Isola", "Arcipelago"], ["Vagone", "Treno"],
-			["Lettera", "Parola"], ["Cellula", "Tessuto"], ["Fotogramma", "Film"], ["Stella", "Costellazione"]]},
-		# Relazione: «il contrario di».
-		{"explanation": "Gli opposti stanno sulla stessa scala, ai due estremi: giorno e notte sono i due capi della stessa giornata.", "topic": "opposti", "minLevel": 5, "pairs": [
-			["Giorno", "Notte"], ["Salita", "Discesa"], ["Pieno", "Vuoto"], ["Inizio", "Fine"],
-			["Vittoria", "Sconfitta"], ["Silenzio", "Rumore"], ["Ordine", "Disordine"], ["Verità", "Menzogna"],
-			["Domanda", "Risposta"], ["Entrata", "Uscita"], ["Ricordo", "Oblio"], ["Guerra", "Pace"],
-			["Partenza", "Arrivo"], ["Luce", "Buio"], ["Coraggio", "Paura"], ["Successo", "Fallimento"],
-			["Presenza", "Assenza"], ["Movimento", "Quiete"], ["Nascita", "Morte"], ["Certezza", "Dubbio"]]},
-		# --- Mondo 1: ricette in più (tappa 4, 6 agosto 2026) -----------------
-		{"explanation": "Una deduzione è valida quando la conclusione è già dentro le premesse: non aggiunge niente di nuovo, tira fuori quello che c'era. Per questo è sicura.", "topic": "deduzioni", "pairs": [
-			["Tutti i gatti sono felini. Micio è un gatto.", "Micio è un felino."],
-			["Se piove la strada si bagna. Piove.", "La strada si bagna."],
-			["Nessun pesce vola. Il tonno è un pesce.", "Il tonno non vola."],
-			["Tutti i quadrati hanno quattro lati. Questa figura è un quadrato.", "Questa figura ha quattro lati."],
-			["Se studio passo l'esame. Ho studiato.", "Ho passato l'esame."],
-			["Tutti i numeri pari finiscono con una cifra pari. 38 è pari.", "38 finisce con una cifra pari."]]},
+		# **Due abbinamenti che non si possono sapere a memoria.** (1 settembre 2026)
+		#
+		# Tolte le sei liste di vocabolario, alla logica restava un solo insieme
+		# di abbinamento — e un formato con una specifica sola è un formato che si
+		# impara a memoria alla seconda visita. Questi due portano dentro
+		# l'abbinamento le due operazioni che la materia insegna davvero.
+		#
+		# **Perché qui non c'è la negazione dei quantificatori.** Ci ho provato:
+		# «Tutti i gatti dormono» a sinistra, «Almeno un gatto non dorme» a
+		# destra. Misurato con `scorciatoie_minigiochi_audit`: quarantasette punti
+		# sopra il caso, la peggiore specifica del gioco. La ragione è strutturale
+		# e non si aggira scrivendo meglio — negare conserva il predicato, quindi
+		# «dorme» sta da tutte e due le parti e basta cercare quella parola per
+		# accoppiare senza aver capito niente del quantificatore, che è invece
+		# tutta la competenza. La negazione si insegna nello smistamento
+		# («Ognuna di queste frasi è FALSA…»), dove il bidone è il quantificatore
+		# della negazione e cercare la parola porta di proposito nel posto sbagliato.
+		# SMENTIRE: una regola generale cade per UN caso solo, e trovare quel caso
+		# è l'unica dimostrazione che serve. Qui la coppia è regola → il caso che
+		# la fa cadere, e sapere il caso senza aver capito la regola non aiuta:
+		# tutti i controesempi sono cose comuni, è il legame a non essere ovvio.
+		{"explanation": "Per far cadere un «tutti» basta un caso solo: non serve dimostrare il contrario, serve trovare l'eccezione. È il motivo per cui smentire una regola generale costa pochissimo e dimostrarla costa moltissimo — un controesempio si mostra, mentre «tutti» andrebbe controllato uno per uno.", "topic": "verita", "pairs": [
+			["Tutti gli uccelli volano", "il pinguino"],
+			["Tutti i mammiferi vivono sulla terraferma", "la balena"],
+			["Tutti i numeri primi sono dispari", "il 2"],
+			["Tutti i rettangoli sono quadrati", "un foglio A4"],
+			["Tutti i frutti crescono sugli alberi", "la fragola"],
+			["Tutti i metalli sono attirati dalla calamita", "il rame"],
+			["Tutti i mesi hanno trentun giorni", "febbraio"],
+			["Tutte le figure a tre lati hanno un angolo retto", "un triangolo equilatero"],
+			["Tutti i pianeti hanno gli anelli", "Marte"],
+			["Tutti i numeri pari sono divisibili per quattro", "il 6"],
+			["Tutte le piante sono verdi", "un fungo che marcisce"],
+			["Tutti gli animali che volano sono uccelli", "il pipistrello"],
+			["Tutte le parole italiane finiscono per vocale", "«per»"],
+			["Tutti i quadrilateri hanno i lati uguali", "un trapezio"]]},
+		# **Le stesse sei forme, un'altra storia.** (1 settembre 2026)
+		#
+		# Questo insieme è il gemello di quello qui sotto, e la somiglianza è il
+		# punto: le sei forme del ragionamento sono sempre quelle, e riconoscerle
+		# sotto vestiti diversi È la competenza — chi ha capito «tutti i gatti
+		# hanno la coda» deve cavarsela identico con «tutti i corvi hanno le penne»,
+		# altrimenti aveva imparato i gatti, non la forma.
+		#
+		# Stessa regola di scrittura: due proprietà sole (penne e squame), di UNA
+		# parola ciascuna —
+		# ciascuna presente in più carte da tutte e due le parti, così nessuna
+		# coppia si azzecca cercando la parola condivisa.
+		{"explanation": "La forma del ragionamento non cambia col cambiare delle parole: da una regola su TUTTI si scende sempre sul caso singolo, e si risale solo negando. Chi non porta il mantello non è del Nord; chi lo porta può essere di qualunque posto, perché la regola non dice che il mantello lo portino soltanto loro.", "topic": "deduzioni", "pairs": [
+			["Tutti i corvi hanno le penne. Kira è un corvo.", "Kira ha le penne."],
+			["Nessun corvo ha le squame. Kira è un corvo.", "Kira non ha le squame."],
+			["Tutti i corvi hanno le penne. Kira non ha le penne.", "Kira non è un corvo."],
+			["Tutti i corvi hanno le penne. Kira ha le penne.", "Non si può dire se Kira è un corvo."],
+			["Tutti i corvi hanno le penne. Kira non è un corvo.", "Non si può dire se Kira ha le penne."],
+			["Nessun corvo ha le squame. Kira non è un corvo.", "Non si può dire se Kira ha le squame."]]},
+		# **L'abbinamento che si risolveva senza logica.** (1 settembre 2026)
+		#
+		# La versione precedente aveva sei premesse su sei argomenti diversi —
+		# Micio, la strada, il tonno, il quadrato, l'esame, il 38 — e ogni
+		# conclusione ripeteva la parola della sua premessa. Misurato: **sei
+		# coppie su sei** si azzeccavano cercando la parola condivisa, senza
+		# leggere un solo quantificatore. Era l'unico insieme di abbinamento con
+		# logica vera dentro, ed era quello in cui la logica non serviva.
+		#
+		# Ora tutte e sei le premesse parlano di Micio, dei gatti e della coda:
+		# la parola non distingue più niente e a decidere resta soltanto la FORMA
+		# del ragionamento. Le sei forme sono le sei che contano — modus ponens,
+		# negazione universale, modus tollens, affermazione del conseguente,
+		# negazione dell'antecedente, quantificatore esistenziale — e le ultime
+		# tre sono proprio quelle in cui non segue niente.
+		#
+		# Le proprietà in gioco sono DUE — la coda e le piume — e ciascuna compare
+		# in almeno due carte da tutte e due le parti. Non è un dettaglio: con una
+		# proprietà nominata una volta sola, la carta che la contiene si accoppia
+		# per quella parola e basta. `scorciatoie_minigiochi_audit` misura proprio
+		# questo, e con sei proprietà diverse l'insieme non passava.
+		{"explanation": "Una deduzione è sicura solo quando la conclusione è già dentro le premesse. Da «tutti i gatti hanno la coda» si scende su un gatto, e si risale solo per negazione: chi NON ha la coda non è un gatto. Chi ce l'ha, invece, può essere qualunque cosa — e da «alcuni» non si conclude mai su un singolo.", "topic": "deduzioni", "pairs": [
+			["Tutti i gatti hanno la coda. Micio è un gatto.", "Micio ha la coda."],
+			["Nessun gatto ha le piume. Micio è un gatto.", "Micio non ha le piume."],
+			["Tutti i gatti hanno la coda. Micio non ha la coda.", "Micio non è un gatto."],
+			["Tutti i gatti hanno la coda. Micio ha la coda.", "Non si può dire se Micio è un gatto."],
+			["Tutti i gatti hanno la coda. Micio non è un gatto.", "Non si può dire se Micio ha la coda."],
+			["Nessun gatto ha le piume. Micio non è un gatto.", "Non si può dire se Micio ha le piume."]]},
 	],
 }
 
@@ -1002,6 +1099,20 @@ const ORDERING := {
 		{"explanation": "Si applica la regola un passo per volta, sempre nello stesso ordine: cambiarlo dà una successione diversa anche partendo dallo stesso numero.", "topic": "sequenze", "minLevel": 18, "prompt": "La regola è: ×2, poi −1, poi ×2, poi −1. Rimetti i termini nell'ordine giusto partendo da 3.", "correctOrder": ["3", "6", "5", "10", "9"]},
 		{"explanation": "In un indovinello a eliminazione si scartano prima i casi impossibili: quello che resta è la risposta, anche se non si è mai dimostrato direttamente.", "topic": "deduzioni", "minLevel": 20, "prompt": "Ordina i passi per risolvere un indovinello a eliminazione.", "correctOrder": ["Elenca tutti i casi possibili", "Applica il primo indizio e scarta", "Applica il secondo indizio e scarta", "Controlla che resti un solo caso", "Scrivi la conclusione"]},
 		{"explanation": "Le relazioni si ordinano per ampiezza: ogni insieme contiene il precedente, dal più specifico al più generale.", "topic": "analogie", "minLevel": 20, "prompt": "Ordina le relazioni dalla più stretta alla più ampia.", "correctOrder": ["Cucciolo : cane", "Cane : mammifero", "Mammifero : animale", "Animale : vivente"]},
+		# **La transitività come ordinamento.** (1 settembre 2026)
+		#
+		# Il banco chiedeva già tre volte «Marco è più alto di Sara, Sara di Ugo:
+		# chi è il più basso?» — a scelta multipla, dove si azzecca guardando
+		# quale nome non compare nella domanda. Incatenare i confronti È
+		# l'ordinamento: qui la stessa competenza si fa con le mani.
+		#
+		# Due accorgimenti che tolgono le scorciatoie: i nomi non sono in ordine
+		# alfabetico né di lunghezza, e nella seconda la consegna chiede l'ordine
+		# INVERSO rispetto a come i confronti compaiono nel testo — chi tiene
+		# l'ordine di lettura sbaglia tutto.
+		{"explanation": "Due confronti si incatenano quando hanno un nome in comune: da «Sara più alta di Nina» e «Nina più alta di Ivo» esce anche «Sara più alta di Ivo», che nessuno aveva detto. È la transitività, e vale per l'altezza come per l'età, il prezzo o la velocità.", "topic": "deduzioni", "minLevel": 3, "prompt": "Sara è più alta di Nina. Nina è più alta di Ivo. Ivo è più alto di Tobia. Ordina dal più alto al più basso.", "correctOrder": ["Sara", "Nina", "Ivo", "Tobia"]},
+		{"explanation": "La catena si costruisce sempre allo stesso modo, ma la consegna può chiederla dall'altro capo: prima si mette in fila, poi si guarda da che parte va letta. Chi risponde nell'ordine in cui i confronti sono scritti sbaglia proprio qui.", "topic": "deduzioni", "minLevel": 5, "prompt": "Marta è più giovane di Luca. Luca è più giovane di Sara. Sara è più giovane di Ugo. Ordina dal più VECCHIO al più giovane.", "correctOrder": ["Ugo", "Sara", "Luca", "Marta"]},
+		{"explanation": "Gli insiemi si ordinano per ampiezza, non per quanto è comune la parola: ogni quadrato è un rettangolo, ogni rettangolo è un quadrilatero, ogni quadrilatero è un poligono. Salendo si comprende sempre di più, e non si torna mai indietro.", "topic": "deduzioni", "minLevel": 4, "prompt": "Ordina dal gruppo più piccolo a quello che li contiene tutti.", "correctOrder": ["I quadrati", "I rettangoli", "I quadrilateri", "I poligoni"]},
 	],
 }
 
@@ -1973,15 +2084,87 @@ const CLASSIFICATION := {
 		# lungo. Deve venire da più REGOLE — quantificatori diversi, negazioni,
 		# affermazioni vere per ragioni diverse. Perciò qui gli insiemi sono grandi
 		# ma le voci sono scelte perché ciascuna chiede un passo di ragionamento suo.
-		{"explanation": "Si smista per categoria di appartenenza, non per somiglianza d'aspetto: un fungo non è una pianta, anche se sta fermo nel terreno.", "topic": "esclusioni", "draw": 6, "prompt": "Smista ogni elemento nel suo insieme.",
-			"categories": ["animale", "pianta"],
+		# **Il tavolo delle conclusioni.** (1 settembre 2026)
+		#
+		# Qui c'era «animale / pianta»: ventiquattro tessere di scienze dentro la
+		# materia sbagliata. Era contenuto corretto e richiamo puro — Cane va con
+		# animale, Rosa con pianta — mentre le domande di deduzione, le migliori
+		# che la logica possiede, restavano tutte a scelta multipla. Il gesto
+		# buono serviva il contenuto peggiore: qui l'accoppiamento si raddrizza.
+		#
+		# La regola di scrittura che lo rende non banale: **ogni forma valida sta
+		# in tavola insieme alla sua fallacia, con le stesse parole.** «Piove → la
+		# strada è bagnata» accanto a «la strada è bagnata → piove». Con la
+		# coppia davanti, nessuna parola chiave decide il bidone: decide solo la
+		# forma del ragionamento, che è esattamente la competenza.
+		#
+		# Il bidone di mezzo è quello che costa: «non si può dire» non è una
+		# rinuncia, è una conclusione — ed è la più difficile da accettare.
+		{"explanation": "Da una regola generale si scende sempre sul caso singolo, e si risale solo per negazione: se la strada è asciutta non piove di sicuro, ma se è bagnata può essere passata l'autobotte. «Non si può dire» non vuol dire «non lo so»: vuol dire che le premesse lasciano aperte tutte e due le strade.", "topic": "deduzioni", "draw": 6, "prompt": "Ogni carta propone una conclusione. Smistala: segue di sicuro, non si può dire, oppure è esclusa?",
+			"categories": ["segue di sicuro", "non si può dire", "è escluso"],
 			"assignments": {
-				"Cane": "animale", "Aquila": "animale", "Gatto": "animale", "Lombrico": "animale",
-				"Ape": "animale", "Delfino": "animale", "Ragno": "animale", "Corallo": "animale",
-				"Spugna di mare": "animale", "Medusa": "animale", "Pipistrello": "animale", "Formica": "animale",
-				"Rosa": "pianta", "Quercia": "pianta", "Tulipano": "pianta", "Felce": "pianta",
-				"Muschio": "pianta", "Cactus": "pianta", "Girasole": "pianta", "Trifoglio": "pianta",
-				"Bambù": "pianta", "Edera": "pianta", "Grano": "pianta", "Pino": "pianta"}},
+				"Tutti i cani abbaiano. Fido è un cane. Quindi Fido abbaia": "segue di sicuro",
+				"Nessun pesce vola. Nemo è un pesce. Quindi Nemo non vola": "segue di sicuro",
+				"Se piove la strada si bagna. Piove. Quindi la strada è bagnata": "segue di sicuro",
+				"Se piove la strada si bagna. La strada è asciutta. Quindi non sta piovendo": "segue di sicuro",
+				"Ada è più alta di Bea, Bea è più alta di Cleo. Quindi Ada è più alta di Cleo": "segue di sicuro",
+				"Nella scatola ci sono solo biglie rosse e blu. Questa non è rossa. Quindi è blu": "segue di sicuro",
+				"Tutti i quadrati sono rettangoli. Questa figura non è un rettangolo. Quindi non è un quadrato": "segue di sicuro",
+				"Alcuni gatti sono neri. Quindi esiste almeno un gatto nero": "segue di sicuro",
+				"Se piove la strada si bagna. La strada è bagnata. Quindi sta piovendo": "non si può dire",
+				"Se piove la strada si bagna. Non piove. Quindi la strada è asciutta": "non si può dire",
+				"Tutti i cani abbaiano. Questo animale abbaia. Quindi è un cane": "non si può dire",
+				"Alcuni gatti sono neri. Micio è un gatto. Quindi Micio è nero": "non si può dire",
+				"Ada è più alta di Bea, Ada è più alta di Cleo. Quindi Bea è più alta di Cleo": "non si può dire",
+				"Tutti i quadrati sono rettangoli. Questa figura è un rettangolo. Quindi è un quadrato": "non si può dire",
+				"Se studio passo l'esame. Ho passato l'esame. Quindi ho studiato": "non si può dire",
+				"Tutti i cani abbaiano. Questo animale non è un cane. Quindi non abbaia": "non si può dire",
+				"Tutti i cani abbaiano. Fido è un cane. Quindi Fido non abbaia": "è escluso",
+				"Nessun pesce vola. Nemo è un pesce. Quindi Nemo vola": "è escluso",
+				"Ada è più alta di Bea. Quindi Bea è più alta di Ada": "è escluso",
+				"Se piove la strada si bagna. Piove. Quindi la strada resta asciutta": "è escluso",
+				"Tutti i quadrati hanno quattro lati. Questa figura è un quadrato. Quindi ha tre lati": "è escluso",
+				"Nella scatola ci sono solo biglie rosse e blu. Questa non è rossa. Quindi è verde": "è escluso",
+				"Nessun numero pari è dispari. 8 è pari. Quindi 8 è dispari": "è escluso",
+				"Alcuni gatti sono neri. Quindi nessun gatto è nero": "è escluso"}},
+		# **L'analogia che ragiona.** (1 settembre 2026)
+		#
+		# Le sei liste di analogie della logica sono andate a italiano, dove sono
+		# vocabolario e servono. Qui resta la parte che è logica: non completare
+		# la coppia — quello lo fa chi conosce le parole — ma RICONOSCERE quale
+		# legame tiene insieme le due, che è il primo passo di ogni analogia e
+		# l'unico che si può sbagliare ragionando.
+		#
+		# Nessun bidone si trova cercandone il nome dentro la tessera: «il piccolo
+		# di» non compare in «Cucciolo : cane», e «serve per» non compare in
+		# «Forbici : tagliare». Bisogna guardare il legame.
+		{"explanation": "Un'analogia si risolve in due tempi: prima si dice a parole che cosa lega la prima coppia, poi si cerca lo stesso legame nella seconda. Saltare il primo tempo vuol dire indovinare, e infatti chi sbaglia un'analogia quasi sempre ha trovato una parola che «ci sta bene» invece della relazione.", "topic": "analogie", "draw": 6, "prompt": "Che legame tiene insieme le due parole? Smista ogni coppia.",
+			"categories": ["il piccolo di", "una parte di", "il contrario di", "serve per"],
+			"assignments": {
+				"Cucciolo : cane": "il piccolo di",
+				"Puledro : cavallo": "il piccolo di",
+				"Agnello : pecora": "il piccolo di",
+				"Girino : rana": "il piccolo di",
+				"Vitello : mucca": "il piccolo di",
+				"Pulcino : gallina": "il piccolo di",
+				"Ruota : automobile": "una parte di",
+				"Pagina : libro": "una parte di",
+				"Petalo : fiore": "una parte di",
+				"Tasto : pianoforte": "una parte di",
+				"Gradino : scala": "una parte di",
+				"Mattone : muro": "una parte di",
+				"Giorno : notte": "il contrario di",
+				"Salita : discesa": "il contrario di",
+				"Pieno : vuoto": "il contrario di",
+				"Guerra : pace": "il contrario di",
+				"Luce : buio": "il contrario di",
+				"Partenza : arrivo": "il contrario di",
+				"Forbici : tagliare": "serve per",
+				"Martello : battere": "serve per",
+				"Bussola : orientarsi": "serve per",
+				"Bilancia : pesare": "serve per",
+				"Setaccio : separare": "serve per",
+				"Ombrello : ripararsi": "serve per"}},
 		{"explanation": "Si verifica il fatto, non l'impressione: una frase è vera se corrisponde a come stanno le cose, anche quando suona strana.", "topic": "verita", "minLevel": 4, "draw": 6, "prompt": "Ogni affermazione: è vera o falsa?",
 			"categories": ["vera", "falsa"],
 			"assignments": {
@@ -2013,28 +2196,82 @@ const CLASSIFICATION := {
 				"Un triangolo ha due angoli retti": "mai", "La somma di due numeri pari è dispari": "mai",
 				"Un quadrato ha cinque lati": "mai", "Un numero è maggiore di sé stesso": "mai",
 				"Il ghiaccio è più caldo del vapore": "mai", "Un pesce vive fuori dall'acqua per sempre": "mai"}},
-		{"explanation": "Ogni elemento va nell'insieme che lo contiene per proprietà, non per come è scritto: il blu è un colore anche se la parola è corta.", "topic": "insiemi", "minLevel": 3, "draw": 6, "prompt": "Smista ogni elemento nel suo insieme.",
-			"categories": ["colori", "forme", "numeri"],
+		# **Gli insiemi, non gli elementi.** (1 settembre 2026)
+		#
+		# Qui c'era «colori / forme / numeri»: Rosso nel bidone dei colori, Cerchio
+		# in quello delle forme. Ventiquattro tessere di richiamo, zero passi di
+		# ragionamento, in un argomento — «insiemi» — che ha invece una cosa sola
+		# da insegnare e non la chiedeva mai: come stanno DUE insiemi l'uno
+		# rispetto all'altro.
+		#
+		# Adesso la tessera è una coppia e il bidone è la relazione. Non si può
+		# indovinare per parola: bisogna cercare un elemento comune (ce n'è?) e
+		# poi un elemento del primo fuori dal secondo (ce n'è?). Due domande, e
+		# la risposta esce da sola — è il diagramma di Venn prima del disegno.
+		{"explanation": "Due insiemi possono stare in tre modi soli. Per decidere bastano due domande: c'è qualcosa in comune? E c'è qualcosa del primo che sta fuori dal secondo? Se non c'è niente in comune sono separati; se c'è tutto in comune uno sta dentro l'altro; se ce n'è un po' si sovrappongono. Il 2 basta a far sovrapporre pari e primi.", "topic": "insiemi", "minLevel": 3, "draw": 6, "prompt": "Come stanno fra loro i due insiemi? Smista ogni coppia.",
+			"categories": ["uno dentro l'altro", "si sovrappongono in parte", "separati"],
 			"assignments": {
-				"Rosso": "colori", "Blu": "colori", "Verde": "colori", "Giallo": "colori",
-				"Viola": "colori", "Arancione": "colori", "Turchese": "colori", "Magenta": "colori",
-				"Cerchio": "forme", "Quadrato": "forme", "Triangolo": "forme", "Rombo": "forme",
-				"Trapezio": "forme", "Esagono": "forme", "Pentagono": "forme", "Ellisse": "forme",
-				"Uno": "numeri", "Due": "numeri", "Sette": "numeri", "Dodici": "numeri",
-				"Venti": "numeri", "Cento": "numeri", "Tre quarti": "numeri", "Zero": "numeri"}},
+				"Quadrati e rettangoli": "uno dentro l'altro",
+				"Cani e mammiferi": "uno dentro l'altro",
+				"Numeri pari e multipli di 4": "uno dentro l'altro",
+				"Chitarristi e musicisti": "uno dentro l'altro",
+				"Rose e fiori": "uno dentro l'altro",
+				"Numeri primi e numeri interi": "uno dentro l'altro",
+				"Città italiane e città europee": "uno dentro l'altro",
+				"Violini e strumenti a corda": "uno dentro l'altro",
+				"Numeri pari e numeri primi": "si sovrappongono in parte",
+				"Uccelli e animali che volano": "si sovrappongono in parte",
+				"Medici e italiani": "si sovrappongono in parte",
+				"Numeri pari e multipli di 3": "si sovrappongono in parte",
+				"Numeri pari e numeri maggiori di dieci": "si sovrappongono in parte",
+				"Numeri dispari e multipli di 3": "si sovrappongono in parte",
+				"Insegnanti e genitori": "si sovrappongono in parte",
+				"Numeri pari e numeri di due cifre": "si sovrappongono in parte",
+				"Numeri pari e numeri dispari": "separati",
+				"Cani e gatti": "separati",
+				"Triangoli e quadrilateri": "separati",
+				"Vocali e consonanti": "separati",
+				"Mammiferi e uccelli": "separati",
+				"Numeri primi e multipli di 4": "separati",
+				"Rettili e uccelli": "separati",
+				"Vertebrati e insetti": "separati"}},
 		# --- Mondo 1: ricette in più (tappa 4, 6 agosto 2026) -----------------
-		{"explanation": "«Tutti», «qualcuno» e «nessuno» dicono QUANTI, e cambiare quello cambia tutto: negare «tutti» non dà «nessuno», dà «qualcuno no».", "topic": "quantificatori", "draw": 6, "prompt": "Smista ogni frase: parla di tutti, di qualcuno o di nessuno?",
-			"categories": ["tutti", "qualcuno", "nessuno"],
+		# **Lo smistamento che premiava la prima parola.** (1 settembre 2026)
+		#
+		# Prima le tessere erano «Ogni quadrato…», «Qualche uccello…», «Nessun
+		# triangolo…» e i bidoni si chiamavano «tutti», «qualcuno», «nessuno»:
+		# nove tessere su nove decise dalla prima parola. Chi aveva imparato tre
+		# vocaboli e non aveva capito niente prendeva nove su nove.
+		#
+		# Adesso i bidoni non sono il quantificatore della frase ma quello della
+		# sua NEGAZIONE — e le due cose non coincidono mai. Negare «tutti» non dà
+		# «nessuno», dà «almeno uno no»; negare «nessuno» dà «almeno uno sì». Chi
+		# cerca la parola del bidone dentro la tessera («nessun» in «Nessun
+		# uccello vola») finisce nel bidone sbagliato di proposito.
+		{"explanation": "Negare un «tutti» non dà un «nessuno»: basta UN caso contrario, e la frase cade. Negare un «qualcuno» invece costa molto di più — bisogna che non ce ne sia nemmeno uno — e negare un «nessuno» richiede di trovarne uno solo. Il quantificatore della negazione è sempre l'altro rispetto a quello di partenza.", "topic": "quantificatori", "draw": 6, "prompt": "Ognuna di queste frasi è FALSA. Smista che cosa questo fa sapere di sicuro.",
+			"categories": ["almeno uno NON lo è", "nessuno lo è", "almeno uno LO è"],
 			"assignments": {
-				"Ogni quadrato ha quattro lati": "tutti",
-				"Tutti i cani sono animali": "tutti",
-				"Ciascun numero pari è divisibile per due": "tutti",
-				"Qualche uccello non vola": "qualcuno",
-				"Alcuni numeri pari sono anche primi": "qualcuno",
-				"C'è almeno un pianeta con gli anelli": "qualcuno",
-				"Nessun triangolo ha quattro lati": "nessuno",
-				"Nessun mammifero ha le piume": "nessuno",
-				"Non esiste un numero pari dispari": "nessuno"}},
+				"Tutti i numeri primi sono dispari": "almeno uno NON lo è",
+				"Ogni numero pari è divisibile per tre": "almeno uno NON lo è",
+				"Ogni pianta è verde": "almeno uno NON lo è",
+				"Tutti i pianeti hanno gli anelli": "almeno uno NON lo è",
+				"Ciascun mese ha trentun giorni": "almeno uno NON lo è",
+				"Tutti i mammiferi vivono sulla terraferma": "almeno uno NON lo è",
+				"Ogni parola italiana finisce per vocale": "almeno uno NON lo è",
+				"Qualche gatto vola": "nessuno lo è",
+				"Alcuni triangoli hanno quattro lati": "nessuno lo è",
+				"C'è almeno un mese con quaranta giorni": "nessuno lo è",
+				"Qualche numero è più grande di sé stesso": "nessuno lo è",
+				"Almeno un quadrato ha tre lati": "nessuno lo è",
+				"Alcuni numeri pari sono dispari": "nessuno lo è",
+				"C'è almeno un triangolo con due angoli retti": "nessuno lo è",
+				"Nessun uccello vola": "almeno uno LO è",
+				"Nessun numero pari è divisibile per due": "almeno uno LO è",
+				"Non esiste un mammifero che vive nell'acqua": "almeno uno LO è",
+				"Nessun rettangolo è un quadrato": "almeno uno LO è",
+				"Non c'è nemmeno un gatto nero": "almeno uno LO è",
+				"Nessun numero è divisibile per sé stesso": "almeno uno LO è",
+				"Non esiste un mese con ventotto giorni": "almeno uno LO è"}},
 		{"explanation": "Per dire che una frase con «tutti» è falsa basta UN caso contrario; per dire che una con «qualcuno» è falsa bisogna controllarli tutti. Non costano la stessa fatica.", "topic": "verita", "draw": 6, "prompt": "Smista ogni affermazione: vera o falsa?",
 			"categories": ["vera", "falsa"],
 			"assignments": {
@@ -3538,6 +3775,10 @@ const TEMPLATE_FORMAT_TOPICS := {
 		"imperativo-infinito-participio-gerundio",
 		"concordanza-tempi-verbali",
 	],
+	# La griglia degli incroci deduce, le porte decidono quando una condizione è
+	# vera: nessuno dei due sta a tabella, quindi i loro argomenti vanno
+	# dichiarati qui o restano fuori dal registro della materia.
+	"logica": ["deduzioni", "verita"],
 }
 
 # Argomenti che la materia sa servire con i minigiochi (oltre al banco statico).
@@ -3921,12 +4162,26 @@ const CLUE := {
 			"answer": "b",
 			"explanation": "Il terzo indizio è quello che conta: «library» somiglia a «libreria» e invece è la biblioteca. È il falso amico che fa sbagliare più spesso, ed è per questo che qui si arriva scartando, non ricordando."},
 	],
+	# Anche l'indiziario della logica girava su una specifica sola: chi ha vinto la
+	# gara era sempre Dino. Dal 1 settembre 2026 sono tre, con tre risposte in tre
+	# posizioni diverse — un indiziario che si ricorda a memoria non è un
+	# indiziario, è un aneddoto.
 	"logica": [
 		{"topic": "deduzioni", "minLevel": 8, "prompt": "Chi ha vinto la gara? Scopri solo gli indizi che ti servono.",
 			"clues": [{"text": "I concorrenti erano quattro: Ada, Bruno, Carla e Dino."}, {"text": "Bruno si è ritirato prima della partenza, quindi non può aver vinto."}, {"text": "Il vincitore ha tagliato il traguardo pochi secondi prima di Carla."}, {"text": "Ada è arrivata subito dopo il vincitore, ma prima di Carla."}],
 			"targets": [{"id": "a", "label": "Ada"}, {"id": "b", "label": "Bruno"}, {"id": "c", "label": "Carla"}, {"id": "d", "label": "Dino"}],
 			"answer": "d",
 			"explanation": "Ogni indizio toglie esattamente un nome: il secondo Bruno, il terzo Carla (che arriva dopo il vincitore), il quarto Ada (che arriva dopo anche lei). Resta Dino. In un'eliminazione non serve mai una prova diretta del vincitore: basta chiudere tutte le altre porte."},
+		{"topic": "deduzioni", "minLevel": 8, "prompt": "Quale carta tengo in mano? Scopri solo gli indizi che ti servono.",
+			"clues": [{"text": "È una delle quattro carte che vedi scoperte sul tavolo."}, {"text": "Non è una figura: sulla mia carta c'è scritto un numero."}, {"text": "Il numero della mia carta è pari."}, {"text": "Il numero della mia carta non si divide per quattro."}],
+			"targets": [{"id": "a", "label": "Il 7 di cuori"}, {"id": "b", "label": "La donna di picche"}, {"id": "c", "label": "Il 6 di fiori"}, {"id": "d", "label": "L'8 di quadri"}],
+			"answer": "c",
+			"explanation": "Il primo indizio non toglie niente e serve solo a partire. Il secondo elimina la donna, il terzo il 7, il quarto l'8 — che è pari ma è anche 4 × 2. Resta il 6. Chi sapeva già che due condizioni insieme (pari e non multiplo di quattro) lasciano un solo numero poteva fermarsi al terzo indizio."},
+		{"topic": "deduzioni", "minLevel": 10, "prompt": "Chi ha spento la radio? Scopri solo gli indizi che ti servono.",
+			"clues": [{"text": "In casa quel pomeriggio c'erano solo Nina, Ivo, Sara e Tobia."}, {"text": "La radio è stata spenta in salotto, e in salotto ci si stava da soli."}, {"text": "Nina e Ivo hanno passato tutto il pomeriggio insieme, in giardino."}, {"text": "Tobia era già uscito di casa quando la radio suonava ancora."}],
+			"targets": [{"id": "a", "label": "Nina"}, {"id": "b", "label": "Ivo"}, {"id": "c", "label": "Sara"}, {"id": "d", "label": "Tobia"}],
+			"answer": "c",
+			"explanation": "Il terzo indizio toglie due nomi in un colpo solo, ed è quello che conta: se Nina e Ivo erano insieme, nessuno dei due era da solo in salotto. Il quarto chiude Tobia e resta Sara, di cui nessun indizio parla mai. In un'eliminazione il nome che non compare non è il meno sospetto: spesso è la risposta."},
 	],
 }
 
@@ -3955,6 +4210,39 @@ const TIMELINE := {
 			"targets": [{"id": "a", "label": "Stampa a caratteri mobili (1455)", "value": 1455.0}, {"id": "b", "label": "Rivoluzione francese (1789)", "value": 1789.0}, {"id": "c", "label": "Prima guerra mondiale (1914)", "value": 1914.0}],
 			"answer": "b",
 			"explanation": "Il 1789 sta quasi a metà fra il 1455 e il 1914. Guardare le distanze invece dell'ordine cambia il senso: fra stampa e rivoluzione passano più di tre secoli, fra rivoluzione e guerra poco più di uno."},
+		# **Le tavole diventano prove.** (1 settembre 2026) Le date qui sotto sono
+		# le stesse di `TavoleRiferimento` — sezioni Roma, Grecia e medioevo. È il
+		# motivo per cui una linea del tempo funziona meglio di una crocetta su
+		# questi contenuti: la scheda che NORA mostra prima della domanda è una
+		# linea, e la domanda è la stessa linea con un segnaposto da trovare.
+		{"topic": "roma", "minLevel": 6, "prompt": "Quale evento apre l'età dell'impero?",
+			"min": -800.0, "max": 600.0,
+			"labels": [{"value": -753.0, "text": "753 a.C."}, {"value": 0.0, "text": "0"}, {"value": 476.0, "text": "476"}],
+			"targets": [{"id": "a", "label": "Fondazione di Roma (753 a.C.)", "value": -753.0}, {"id": "b", "label": "Nasce la repubblica (509 a.C.)", "value": -509.0}, {"id": "c", "label": "Augusto primo imperatore (27 a.C.)", "value": -27.0}, {"id": "d", "label": "Caduta dell'Impero d'Occidente (476)", "value": 476.0}],
+			"answer": "c",
+			"explanation": "Con Augusto, nel 27 a.C., finisce la repubblica e comincia l'impero. Sulla linea si vede anche il resto: la repubblica è durata quasi cinque secoli, l'impero d'Occidente cinque.",
+			"domande": [
+				{"prompt": "Quale evento chiude l'età antica?", "answer": "d", "explanation": "La caduta dell'Impero d'Occidente, nel 476: è la data con cui gli storici aprono il medioevo."},
+				{"prompt": "Quale evento è il più antico dei quattro?", "answer": "a", "explanation": "753 a.C., la fondazione leggendaria. Prima di Cristo il numero più grande è l'anno più lontano."},
+			]},
+		{"topic": "grecia", "minLevel": 10, "prompt": "Quale di questi eventi greci è il più recente?",
+			"min": -900.0, "max": -300.0,
+			"labels": [{"value": -800.0, "text": "800 a.C."}, {"value": -500.0, "text": "500 a.C."}, {"value": -300.0, "text": "300 a.C."}],
+			"targets": [{"id": "a", "label": "Nascono le pòleis (800 a.C.)", "value": -800.0}, {"id": "b", "label": "Primi Giochi olimpici (776 a.C.)", "value": -776.0}, {"id": "c", "label": "Democrazia ad Atene (508 a.C.)", "value": -508.0}],
+			"answer": "c",
+			"explanation": "La democrazia ateniese arriva quasi trecento anni dopo la nascita delle città-stato: prima ci sono volute le pòleis, poi dentro una di esse è nato quel modo di decidere.",
+			"domande": [
+				{"prompt": "Quale evento viene per primo, cioè è il più antico?", "answer": "a", "explanation": "Le pòleis nascono intorno all'800 a.C.: tutto il resto della storia greca succede dentro di esse."},
+			]},
+		{"topic": "medioevo", "minLevel": 12, "prompt": "Fra questi, quale evento è il più vicino nel tempo alla caduta di Roma?",
+			"min": 300.0, "max": 1600.0,
+			"labels": [{"value": 476.0, "text": "476"}, {"value": 1000.0, "text": "1000"}, {"value": 1492.0, "text": "1492"}],
+			"targets": [{"id": "a", "label": "Carlo Magno incoronato (800)", "value": 800.0}, {"id": "b", "label": "Peste nera (1347)", "value": 1347.0}, {"id": "c", "label": "Scoperta dell'America (1492)", "value": 1492.0}],
+			"answer": "a",
+			"explanation": "Fra la caduta di Roma e Carlo Magno passano poco più di trecento anni; fra Carlo Magno e la peste nera più di cinquecento. Il medioevo dura mille anni, e in fila non si vede.",
+			"domande": [
+				{"prompt": "Quale evento chiude convenzionalmente il medioevo?", "answer": "c", "explanation": "Il 1492, la scoperta dell'America: è la data che gli storici usano per aprire l'età moderna."},
+			]},
 	],
 	"musica": [
 		{"topic": "compositori", "minLevel": 16, "prompt": "Quale compositore è vissuto più lontano nel tempo dagli altri due?",
@@ -4074,12 +4362,26 @@ const TRACE := {
 			"answer": "b",
 			"explanation": "Il Po scorre da ovest a est e sfocia nell'Adriatico. Seguire l'acqua passo per passo è anche il modo in cui si legge un bacino idrografico su una carta."},
 	],
+	# Fino al 1 settembre 2026 la logica aveva UNA traccia sola, e valeva il 3,3%
+	# dei nodi di un mondo: la stessa identica prova, per sempre. Adesso sono tre
+	# e chiedono tre esiti diversi — nessuno resta, restano in due, resta uno —
+	# perché è proprio l'esito a non dover essere prevedibile.
 	"logica": [
 		{"topic": "deduzioni", "minLevel": 7, "prompt": "Applica le eliminazioni in ordine: chi resta?",
 			"steps": [{"label": "in gara: Ada, Bruno, Carla, Dino", "state": "4 rimasti"}, {"label": "non è un maschio", "state": "Ada, Carla"}, {"label": "il nome non finisce per -a", "state": ""}],
 			"targets": [{"id": "a", "label": "Ada"}, {"id": "b", "label": "Carla"}, {"id": "c", "label": "nessuno"}],
 			"answer": "c",
 			"explanation": "Dopo la prima eliminazione restano due nomi che finiscono entrambi per -a: la seconda condizione li toglie tutti. Un indovinello può non avere soluzione, e accorgersene è parte del ragionamento."},
+		{"topic": "deduzioni", "minLevel": 7, "prompt": "Applica i filtri in ordine: quali carte restano?",
+			"steps": [{"label": "sul tavolo: 2, 5, 8, 9, 12", "state": "5 carte"}, {"label": "togli le dispari", "state": "2, 8, 12"}, {"label": "togli quelle minori di 5", "state": ""}],
+			"targets": [{"id": "a", "label": "solo la 12"}, {"id": "b", "label": "8 e 12"}, {"id": "c", "label": "2, 8 e 12"}],
+			"answer": "b",
+			"explanation": "Ogni filtro lavora su ciò che il precedente ha lasciato, non sul mazzo di partenza: dopo il primo restano 2, 8 e 12, e il secondo toglie solo il 2. Chi riparte ogni volta dalle cinque carte iniziali ottiene un risultato diverso — ed è l'errore che si fa più spesso."},
+		{"topic": "insiemi", "minLevel": 9, "prompt": "Applica le condizioni in ordine: quali numeri restano?",
+			"steps": [{"label": "i numeri da 1 a 10", "state": "10 numeri"}, {"label": "tieni solo i pari", "state": "2, 4, 6, 8, 10"}, {"label": "tieni solo i multipli di 3", "state": ""}],
+			"targets": [{"id": "a", "label": "solo il 6"}, {"id": "b", "label": "6 e 9"}, {"id": "c", "label": "3, 6 e 9"}],
+			"answer": "a",
+			"explanation": "Due condizioni una dopo l'altra danno l'intersezione: sopravvive solo chi le soddisfa entrambe. Il 9 è multiplo di 3 ma è già stato tolto dal filtro dei pari, e nella traccia ciò che è uscito non rientra: resta il 6, l'unico numero fino a dieci che è pari e multiplo di 3 insieme."},
 	],
 }
 
@@ -4161,14 +4463,38 @@ const BALANCE := {
 			"answer": "b",
 			"explanation": "Il punto aggiunge la metà: la semiminima puntata vale 1,5 movimenti. Con la croma si arriva a 2, e per chiudere il 3/4 manca una semiminima intera."},
 	],
+	# **La bilancia della logica era una sottrazione.** (1 settembre 2026)
+	#
+	# C'era una specifica sola — «a sinistra 7 elementi, a destra 4, quanti ne
+	# mancano?» — e valeva il 2,5% dei nodi di un mondo di logica. Sempre la
+	# stessa, e per giunta era 7 − 4: aritmetica di prima elementare con
+	# l'etichetta della logica sopra.
+	#
+	# Adesso sono tre, e in tutte e tre il numero non è dato: va ricavato da come
+	# stanno gli insiemi. È la stessa competenza di «uno dentro l'altro / si
+	# sovrappongono / separati», con i numeri al posto delle parole.
 	"logica": [
-		{"topic": "insiemi", "minLevel": 7, "prompt": "I due gruppi devono avere lo stesso numero di elementi. Quanti ne mancano a destra?",
-			"left": [{"label": "7 elementi", "value": 7.0}],
-			"right": [{"label": "4 elementi", "value": 4.0}],
+		{"topic": "insiemi", "minLevel": 7, "prompt": "In classe: 12 fanno nuoto, 8 fanno musica, e 17 ne fanno almeno una delle due. Quanti sono stati contati due volte?",
+			"left": [{"label": "nuoto: 12", "value": 12.0}, {"label": "musica: 8", "value": 8.0}],
+			"right": [{"label": "almeno una delle due: 17", "value": 17.0}],
 			"gapSide": "right",
-			"targets": [{"id": "a", "label": "1 elemento", "value": 1.0}, {"id": "b", "label": "3 elementi", "value": 3.0}, {"id": "c", "label": "5 elementi", "value": 5.0}],
+			"targets": [{"id": "a", "label": "2 ragazzi", "value": 2.0}, {"id": "b", "label": "3 ragazzi", "value": 3.0}, {"id": "c", "label": "5 ragazzi", "value": 5.0}],
 			"answer": "b",
-			"explanation": "Confrontare due insiemi non richiede di contarli entrambi da capo: basta la differenza. È lo stesso ragionamento che permette di dire «ce ne sono di più» senza sapere quanti."},
+			"explanation": "Sommando i due gruppi, chi fa tutte e due le cose viene contato una volta di troppo. Per questo 12 + 8 fa 20 mentre le persone sono 17: i 3 di differenza non sono spariti, sono stati contati due volte. Chi somma due insiemi che si sovrappongono deve sempre togliere l'intersezione."},
+		{"topic": "insiemi", "minLevel": 7, "prompt": "Nel gruppo ci sono 20 persone e 15 hanno il cane. Quante NON ce l'hanno?",
+			"left": [{"label": "tutto il gruppo: 20", "value": 20.0}],
+			"right": [{"label": "chi ha il cane: 15", "value": 15.0}],
+			"gapSide": "right",
+			"targets": [{"id": "a", "label": "3 persone", "value": 3.0}, {"id": "b", "label": "5 persone", "value": 5.0}, {"id": "c", "label": "8 persone", "value": 8.0}],
+			"answer": "b",
+			"explanation": "Chi non ha il cane è il complementare: tutto ciò che sta dentro il gruppo e fuori dall'insieme. Non serve andarli a cercare uno per uno — il gruppo intero meno la parte nota lascia esattamente il resto, e l'insieme e il suo complementare insieme rifanno sempre il tutto."},
+		{"topic": "insiemi", "minLevel": 9, "prompt": "Da 1 a 20: quanti ne mancano a sinistra perché i due gruppi siano pari?",
+			"left": [{"label": "i multipli di 3 da 1 a 20", "value": 6.0}],
+			"right": [{"label": "i numeri primi da 1 a 20", "value": 8.0}],
+			"gapSide": "left",
+			"targets": [{"id": "a", "label": "1 numero", "value": 1.0}, {"id": "b", "label": "2 numeri", "value": 2.0}, {"id": "c", "label": "4 numeri", "value": 4.0}],
+			"answer": "b",
+			"explanation": "Qui i due numeri non sono scritti da nessuna parte: vanno costruiti. I multipli di 3 fino a 20 sono 3, 6, 9, 12, 15, 18 — sei. I primi sono 2, 3, 5, 7, 11, 13, 17, 19 — otto, e il 2 ci sta dentro anche se è pari, perché primo vuol dire divisibile solo per uno e per sé stesso. Otto meno sei fa due."},
 	],
 }
 
@@ -4410,6 +4736,106 @@ const MAP_READING := {
 				{"id": "sardinia", "label": "Segnaposto C"}],
 			"answer": "sardinia",
 			"explanation": "La Sardegna è l'isola a ovest della penisola, in mezzo al Mar Tirreno: è la seconda isola del Mediterraneo dopo la Sicilia."},
+
+		# --- La carta d'Europa, che nessuna prova usava (1 settembre 2026) -----
+		#
+		# `MapGeometryCatalog` possiede la sagoma dell'Europa e quindici ancore
+		# di Paese dal 21 agosto, e in tutta la campagna non c'era una sola prova
+		# che le usasse: le capitali si chiedevano soltanto a parole.
+		#
+		# «Qual è la capitale della Norvegia?» è una domanda che si sa o non si
+		# sa. «Quale segnaposto indica il Paese la cui capitale è Oslo?» è la
+		# stessa conoscenza chiesta dove abita — su una carta — ed è la forma in
+		# cui l'atlante di NORA (`TavoleRiferimento`, tavola delle capitali) può
+		# davvero servire da riferimento: la scheda mostra il posto, la prova
+		# chiede il posto.
+		#
+		# Ogni Paese nominato qui sta su quella tavola. È il vincolo che tiene
+		# insieme le due cose, ed è quello che va rispettato aggiungendone altre.
+		{"topic": "capitali", "minLevel": 1, "mapId": "europe",
+			"prompt": "Sulla carta d'Europa, quale segnaposto indica il Paese la cui capitale è Parigi?",
+			"targets": [
+				{"id": "france", "label": "Segnaposto A"},
+				{"id": "spain", "label": "Segnaposto B"},
+				{"id": "germany", "label": "Segnaposto C"}],
+			"answer": "france",
+			"explanation": "Parigi è la capitale della Francia, che sta al centro-ovest del continente, fra l'Atlantico e le Alpi.",
+			"domande": [
+				{"prompt": "Quale segnaposto indica il Paese la cui capitale è Madrid?", "answer": "spain",
+					"explanation": "Madrid è la capitale della Spagna, e sta al centro esatto della penisola iberica, la più a sud-ovest d'Europa."},
+				{"prompt": "Quale segnaposto indica il Paese la cui capitale è Berlino?", "answer": "germany",
+					"explanation": "Berlino è la capitale della Germania, nel cuore dell'Europa centrale, a nord-est rispetto a Francia e Spagna."},
+			]},
+		{"topic": "capitali", "minLevel": 2, "mapId": "europe",
+			"prompt": "Quale segnaposto indica il Paese la cui capitale è Oslo?",
+			"targets": [
+				{"id": "norway", "label": "Segnaposto A"},
+				{"id": "sweden", "label": "Segnaposto B"},
+				{"id": "finland", "label": "Segnaposto C"}],
+			"answer": "norway",
+			"explanation": "Oslo è la capitale della Norvegia, il Paese affacciato sull'Atlantico, sul lato occidentale della penisola scandinava.",
+			"domande": [
+				{"prompt": "Quale segnaposto indica il Paese la cui capitale è Stoccolma?", "answer": "sweden",
+					"explanation": "Stoccolma è la capitale della Svezia, sul lato orientale della Scandinavia, affacciato sul Mar Baltico."},
+				{"prompt": "Quale segnaposto indica il Paese la cui capitale è Helsinki?", "answer": "finland",
+					"explanation": "Helsinki è la capitale della Finlandia, il più orientale dei tre Paesi nordici, oltre il golfo che porta il suo nome."},
+			]},
+		{"topic": "capitali", "minLevel": 5, "mapId": "europe",
+			"prompt": "Quale segnaposto indica il Paese la cui capitale è Londra?",
+			"targets": [
+				{"id": "united_kingdom", "label": "Segnaposto A"},
+				{"id": "ireland", "label": "Segnaposto B"},
+				{"id": "italy", "label": "Segnaposto C"}],
+			"answer": "united_kingdom",
+			"explanation": "Londra è la capitale del Regno Unito, sull'isola grande a nord-ovest del continente.",
+			"domande": [
+				{"prompt": "Quale segnaposto indica il Paese la cui capitale è Dublino?", "answer": "ireland",
+					"explanation": "Dublino è la capitale dell'Irlanda, l'isola più a ovest, oltre la Gran Bretagna."},
+				{"prompt": "Quale segnaposto indica il Paese la cui capitale è Roma?", "answer": "italy",
+					"explanation": "Roma è la capitale dell'Italia, la penisola che entra nel Mediterraneo dal centro del continente."},
+			]},
+		{"topic": "capitali", "minLevel": 8, "mapId": "europe",
+			"prompt": "Quale segnaposto indica il Paese la cui capitale è Atene?",
+			"targets": [
+				{"id": "greece", "label": "Segnaposto A"},
+				{"id": "poland", "label": "Segnaposto B"},
+				{"id": "spain", "label": "Segnaposto C"}],
+			"answer": "greece",
+			"explanation": "Atene è la capitale della Grecia, all'estremità sud-orientale del continente, in mezzo al Mediterraneo.",
+			"domande": [
+				{"prompt": "Quale segnaposto indica il Paese la cui capitale è Varsavia?", "answer": "poland",
+					"explanation": "Varsavia è la capitale della Polonia, nell'Europa centro-orientale, fra Germania e Ucraina."},
+				{"prompt": "Quale dei tre segnaposto indica un Paese che NON è bagnato dal Mediterraneo?", "answer": "poland",
+					"explanation": "La Polonia si affaccia sul Baltico, a nord. Grecia e Spagna hanno entrambe coste sul Mediterraneo."},
+			]},
+		{"topic": "europa", "minLevel": 3, "mapId": "europe",
+			"prompt": "Sulla carta d'Europa, quale segnaposto indica la penisola iberica?",
+			"targets": [
+				{"id": "spain", "label": "Segnaposto A"},
+				{"id": "italy", "label": "Segnaposto B"},
+				{"id": "greece", "label": "Segnaposto C"}],
+			"answer": "spain",
+			"explanation": "La penisola iberica è quella a sud-ovest, dove stanno Spagna e Portogallo: è bagnata dal Mediterraneo a est e dall'Atlantico a ovest.",
+			"domande": [
+				{"prompt": "Quale segnaposto indica la penisola bagnata a est dal mare Adriatico?", "answer": "italy",
+					"explanation": "È l'Italia: l'Adriatico la separa dalla penisola balcanica, che le sta di fronte."},
+				{"prompt": "Quale segnaposto indica il Paese più a est fra i tre, sul mare Egeo?", "answer": "greece",
+					"explanation": "La Grecia chiude il Mediterraneo a est, con le sue centinaia di isole nell'Egeo."},
+			]},
+		{"topic": "europa", "minLevel": 6, "mapId": "europe",
+			"prompt": "Quale segnaposto indica lo Stato più esteso che sta interamente in Europa?",
+			"targets": [
+				{"id": "ukraine", "label": "Segnaposto A"},
+				{"id": "norway", "label": "Segnaposto B"},
+				{"id": "mediterranean", "label": "Segnaposto C"}],
+			"answer": "ukraine",
+			"explanation": "L'Ucraina: la Russia è più grande, ma per la maggior parte sta in Asia, oltre gli Urali.",
+			"domande": [
+				{"prompt": "Quale segnaposto NON indica una terra?", "answer": "mediterranean",
+					"explanation": "Il Mediterraneo è il mare che chiude l'Europa a sud: gli altri due segnaposto indicano Paesi."},
+				{"prompt": "Quale segnaposto indica il Paese dei fiordi, affacciato sull'Atlantico a nord?", "answer": "norway",
+					"explanation": "La Norvegia: la sua costa è tutta valli invase dal mare, e le città stanno in fondo a quelle insenature."},
+			]},
 	],
 }
 
@@ -4475,7 +4901,7 @@ const FORMATS := [
 	"matching", "ordering", "classification", "graph", "circuit", "cycle",
 	"notation", "map", "hotspot", "code_debug", "number_line", "balance",
 	"timeline", "compose", "trace", "clue", "swipe", "machine_path", "mystery_sample",
-	"verb_decoder",
+	"verb_decoder", "griglia", "porte",
 ]
 
 static func table_for(fmt: String) -> Dictionary:
@@ -4548,6 +4974,9 @@ static func runtime_formats_for(subject: String, level: int) -> Array:
 		out.append("mystery_sample")
 	if subject == "italiano":
 		out.append("verb_decoder")
+	if subject == "logica":
+		out.append("griglia")
+		out.append("porte")
 	return out
 
 ## GRADIENTE DI DIFFICOLTÀ dentro la sessione.
@@ -4699,6 +5128,10 @@ static func question_of(spec: Dictionary, idx: int) -> Dictionary:
 	}
 
 static func format_depth(subject: String, fmt: String, level: int) -> int:
+	if fmt == "griglia":
+		return griglia_depth(subject, level)
+	if fmt == "porte":
+		return porte_depth(subject, level)
 	if fmt == "machine_path":
 		# Generato a ogni comparsa: partenza, valori e ordine delle macchine
 		# cambiano. La stima è prudente e conta solo la matematica.
@@ -4794,6 +5227,8 @@ func _build_node_for_format(fmt: String, subject: String, level: int, step: int,
 		"machine_path": return _machine_path_node(subject, level, step, rng, idx)
 		"mystery_sample": return _mystery_sample_node(subject, level, step, rng, idx)
 		"verb_decoder": return _verb_decoder_node(subject, level, step, rng, idx)
+		"griglia": return _griglia_node(subject, level, step, rng, idx)
+		"porte": return _porte_node(subject, level, step, rng, idx)
 	return {}
 
 func build_minigame(subject: String, level: int, rng: RandomNumberGenerator = null) -> Dictionary:
@@ -4842,6 +5277,14 @@ func build_minigame(subject: String, level: int, rng: RandomNumberGenerator = nu
 		# Un messaggio da ricostruire con tre regolazioni: quando accade,
 		# con quale intenzione viene detto e quale forma verbale lo completa.
 		base.append("verb_decoder")
+	if subject == "logica":
+		# I due formati in cui la logica si FA invece di riconoscerla: la griglia
+		# degli incroci (si deduce chiudendo le caselle impossibili) e le porte
+		# (la tavola di verità come lampada che si accende). Stanno fra i formati
+		# di base, non fra gli specialisti, perché sono il cuore della materia e
+		# non un contorno visivo.
+		base.append("griglia")
+		base.append("porte")
 	var giro := posmod(hash(subject) + level, maxi(1, base.size()))
 	for i in base.size():
 		plan.append(base[(giro + i) % base.size()])
@@ -5970,3 +6413,375 @@ func _shuffle(values: Array, rng: RandomNumberGenerator) -> void:
 		var tmp = values[i]
 		values[i] = values[j]
 		values[j] = tmp
+
+
+# ---------------------------------------------------------------------------
+# LA GRIGLIA DEGLI INCROCI (1 settembre 2026)
+# ---------------------------------------------------------------------------
+#
+# È il minigioco di logica per definizione, e mancava. Quattro nomi, quattro
+# oggetti, una manciata di indizi: si segnano le caselle — «no» dove l'indizio
+# lo esclude, «sì» dove non resta altro — finché sopravvive una sola
+# assegnazione. Il gesto È la deduzione: la griglia mostra il ragionamento
+# mentre lo si fa, e non serve nessuna risposta da confrontare perché la
+# coerenza si vede da sé.
+#
+# **Perché serviva.** La logica aveva l'indiziario e il tracciatore con UNA
+# specifica ciascuno: chi ha vinto la gara era sempre Dino. Un indovinello che
+# si ricorda a memoria non è un indovinello. Questa invece si GENERA: quattro
+# scenari per le permutazioni dei loro elementi, con gli indizi sorteggiati ogni
+# volta, e due partite non incontrano la stessa griglia.
+#
+# **Come nascono gli indizi.** Si parte dalla soluzione, si riempie un sacco di
+# indizi veri (negazioni e alternative), se ne aggiungono a caso finché le
+# permutazioni compatibili scendono a una sola, poi si TOLGONO quelli che non
+# servono più. La potatura è la parte importante: senza, la griglia arriva con
+# dieci indizi di cui sei ridondanti, e leggerli tutti è fatica, non pensiero.
+const GRIGLIA_SCENARI := [
+	{
+		"titolo": "Chi indossa quale cappello?",
+		"verbo": "indossa",
+		"soggetti": ["Ada", "Bruno", "Carla", "Dino"],
+		"attributi": ["il cappello rosso", "il cappello verde", "il cappello blu", "il cappello giallo"],
+	},
+	{
+		"titolo": "Chi suona quale strumento?",
+		"verbo": "suona",
+		"soggetti": ["Nina", "Ivo", "Sara", "Tobia"],
+		"attributi": ["il flauto", "la chitarra", "il violino", "il tamburo"],
+	},
+	{
+		"titolo": "Chi ha portato quale frutto?",
+		"verbo": "ha portato",
+		"soggetti": ["Lea", "Marco", "Ugo", "Vera"],
+		"attributi": ["la mela", "la pera", "la banana", "l'arancia"],
+	},
+	{
+		"titolo": "Chi sta esplorando quale settore?",
+		"verbo": "sta esplorando",
+		"soggetti": ["Eli", "BIT", "NORA", "il Custode"],
+		"attributi": ["il settore nord", "il settore sud", "il settore est", "il settore ovest"],
+	},
+]
+
+## **Tre modi di spiegare la stessa griglia, non uno.**
+##
+## `explanation_coverage_audit` rifiuta una frase che copra più di un quarto dei
+## nodi di un formato, e ha ragione per una ragione che non è statistica: una
+## spiegazione che torna identica ogni volta smette di essere letta alla seconda.
+## Le tre qui sotto dicono tre parti diverse del metodo — che cosa si toglie, che
+## cosa vale un «sì», da quale indizio conviene partire — così chi rigioca trova
+## un appiglio nuovo invece di riconoscere una formula.
+const GRIGLIA_SPIEGAZIONI := [
+	"In una griglia non si cerca la risposta: si tolgono le impossibili. Ogni «no» restringe la sua riga e la sua colonna, e quando in una riga resta una casella sola quella è un «sì» — anche se nessun indizio l'ha mai detto. È lo stesso ragionamento del «non si può dire»: si chiudono le porte finché ne resta aperta una.",
+	"Un «sì» vale doppio: chiude la sua riga e anche la sua colonna, perché ogni cosa appartiene a uno solo e ogni cosa è di qualcuno. È questo vincolo a rendere la griglia risolvibile — senza, gli stessi indizi non basterebbero, e infatti da soli non dicono mai tutto.",
+	"Gli indizi non vanno letti nell'ordine in cui stanno scritti: conviene partire da quello che toglie di più, di solito l'alternativa fra due nomi. Poi si torna sugli altri con la griglia già più stretta, e un indizio che prima sembrava inutile all'improvviso decide.",
+	"Una griglia non si risolve indovinando e poi controllando: si risolve al contrario. Ogni casella che spegni è una possibilità in meno, e quando le possibilità di una riga scendono a una sola quella è la risposta — trovata senza averla mai cercata.",
+	"Un indizio che dice «è questo oppure quello» sembra dire poco e invece dice moltissimo: esclude tutti gli altri in un colpo solo. Qui le informazioni negative valgono più di quelle positive, perché tolgono a molte righe insieme.",
+]
+
+## Quanti indizi al massimo restano a schermo. Sei: oltre, la colonna non ci sta
+## su un tablet e la lettura diventa il problema al posto della deduzione.
+const GRIGLIA_MAX_INDIZI := 6
+
+## Lato della griglia per difficoltà. Tre righe sono sei permutazioni e si
+## chiudono con due indizi; quattro sono ventiquattro e ne vogliono tre o quattro.
+static func griglia_lato(difficulty: int) -> int:
+	return 3 if difficulty <= 2 else 4
+
+## Quante griglie distinte il formato può produrre a questo livello. Scenari per
+## permutazioni: gli indizi cambiano ancora dentro ognuna, quindi è una stima
+## per difetto — che è il verso giusto per un pavimento.
+static func griglia_depth(subject: String, level: int) -> int:
+	if subject != "logica":
+		return 0
+	var lato := griglia_lato(ContentManager.target_difficulty(level))
+	var permutazioni := 1
+	for i in range(2, lato + 1):
+		permutazioni *= i
+	return GRIGLIA_SCENARI.size() * permutazioni
+
+func _griglia_node(subject: String, level: int, step: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:
+	var difficulty := difficulty_of(level, step)
+	var lato := griglia_lato(difficulty)
+	var scenario_indice := rng.randi_range(0, GRIGLIA_SCENARI.size() - 1)
+	var scenario: Dictionary = GRIGLIA_SCENARI[scenario_indice]
+	var soggetti: Array = Array(scenario["soggetti"]).slice(0, lato)
+	var attributi: Array = Array(scenario["attributi"]).duplicate()
+	_shuffle(attributi, rng)
+	attributi = attributi.slice(0, lato)
+	var verbo := str(scenario["verbo"])
+
+	# La soluzione: una permutazione, cioè un attributo per soggetto e nessuno
+	# ripetuto. È il vincolo che rende la griglia risolvibile per esclusione.
+	var perm: Array = []
+	for i in lato:
+		perm.append(i)
+	_shuffle(perm, rng)
+
+	var candidati := _griglia_indizi_possibili(soggetti, attributi, perm, verbo, rng)
+	var scelti: Array = []
+	for candidato in candidati:
+		if _griglia_soluzioni(perm.size(), scelti) <= 1:
+			break
+		scelti.append(candidato)
+	# Potatura: un indizio che non toglie più niente è rumore da leggere.
+	var potati: Array = scelti.duplicate()
+	for candidato in scelti:
+		var prova: Array = potati.duplicate()
+		prova.erase(candidato)
+		if _griglia_soluzioni(perm.size(), prova) == 1:
+			potati = prova
+	if potati.size() > GRIGLIA_MAX_INDIZI:
+		potati = potati.slice(0, GRIGLIA_MAX_INDIZI)
+
+	var indizi: Array = []
+	for candidato in potati:
+		indizi.append({"text": str((candidato as Dictionary)["text"])})
+	var soluzione: Dictionary = {}
+	for i in soggetti.size():
+		soluzione[str(soggetti[i])] = str(attributi[int(perm[i])])
+
+	return {
+		"id": "minigame-griglia-%s-%d" % [subject, idx],
+		"subject": subject,
+		"topic": "deduzioni",
+		"difficulty": difficulty,
+		"format": "griglia",
+		"prompt": "%s Segna «no» dove un indizio lo esclude e «sì» quando non resta altro." % str(scenario["titolo"]),
+		"soggetti": soggetti,
+		"attributi": attributi,
+		"indizi": indizi,
+		"soluzione": soluzione,
+		"explanation": GRIGLIA_SPIEGAZIONI[_griglia_spiegazione(scenario_indice, perm)],
+	}
+
+## Quale delle cinque spiegazioni accompagna questa griglia. Non a sorte: legata
+## alla griglia stessa, così le cinque si distribuiscono in modo regolare invece
+## di raggrupparsi — `explanation_coverage_audit` misura la QUOTA di ciascuna, e
+## un sorteggio su un campione piccolo la fa ballare di dieci punti.
+func _griglia_spiegazione(scenario_indice: int, perm: Array) -> int:
+	var mescola := scenario_indice * 3 + int(perm[0]) * 2 + int(perm[perm.size() - 1])
+	return posmod(mescola, GRIGLIA_SPIEGAZIONI.size())
+
+## Tutti gli indizi VERI che si possono dire su questa soluzione, mescolati.
+## Due tipi soltanto, ed è voluto: la negazione toglie una casella, l'alternativa
+## ne accende due lasciando il dubbio. Un indizio che dichiara direttamente una
+## coppia risolverebbe una riga senza farla ragionare, e non entra mai.
+func _griglia_indizi_possibili(
+		soggetti: Array, attributi: Array, perm: Array, verbo: String,
+		rng: RandomNumberGenerator) -> Array:
+	var out: Array = []
+	for i in soggetti.size():
+		for j in attributi.size():
+			if int(perm[i]) == j:
+				continue
+			out.append({
+				"tipo": "no",
+				"soggetto": i,
+				"attributo": j,
+				"text": "%s non %s %s." % [str(soggetti[i]), verbo, str(attributi[j])],
+			})
+	for j in attributi.size():
+		var proprietario := -1
+		for i in soggetti.size():
+			if int(perm[i]) == j:
+				proprietario = i
+		var altri: Array = []
+		for i in soggetti.size():
+			if i != proprietario:
+				altri.append(i)
+		if altri.is_empty():
+			continue
+		var compagno := int(altri[rng.randi_range(0, altri.size() - 1)])
+		var primo := mini(proprietario, compagno)
+		var secondo := maxi(proprietario, compagno)
+		out.append({
+			"tipo": "oppure",
+			"attributo": j,
+			"soggetti": [primo, secondo],
+			"text": "Chi %s %s è %s oppure %s." % [
+				verbo, str(attributi[j]), str(soggetti[primo]), str(soggetti[secondo])],
+		})
+	_shuffle(out, rng)
+	return out
+
+## Quante permutazioni sopravvivono a questi indizi. Con quattro righe sono
+## ventiquattro casi da provare: si conta per forza bruta, ed è l'unico modo di
+## garantire che la griglia abbia una soluzione sola davvero.
+func _griglia_soluzioni(lato: int, indizi: Array) -> int:
+	var valide := 0
+	for candidata in _permutazioni(lato):
+		var ok := true
+		for indizio_data in indizi:
+			var indizio: Dictionary = indizio_data
+			if str(indizio["tipo"]) == "no":
+				if int(candidata[int(indizio["soggetto"])]) == int(indizio["attributo"]):
+					ok = false
+					break
+			else:
+				var trovato := false
+				for i in Array(indizio["soggetti"]):
+					if int(candidata[int(i)]) == int(indizio["attributo"]):
+						trovato = true
+				if not trovato:
+					ok = false
+					break
+		if ok:
+			valide += 1
+	return valide
+
+func _permutazioni(n: int) -> Array:
+	if n <= 0:
+		return [[]]
+	if n == 1:
+		return [[0]]
+	var out: Array = []
+	for coda in _permutazioni(n - 1):
+		for posto in range(n):
+			var nuova: Array = Array(coda).duplicate()
+			nuova.insert(posto, n - 1)
+			out.append(nuova)
+	return out
+
+
+# ---------------------------------------------------------------------------
+# LE PORTE (1 settembre 2026)
+# ---------------------------------------------------------------------------
+#
+# «Piove E fa freddo» smette di essere una frase e diventa una lampadina.
+#
+# Il banco chiedeva già, a scelta multipla, quando è vera una congiunzione e
+# quante combinazioni esistono con due affermazioni. Sono le domande giuste nel
+# formato sbagliato: la tavola di verità non si impara leggendola, si impara
+# accendendo e spegnendo. Qui i quattro casi sono quattro righe da decidere una
+# per una, e la lampada si accende mentre si decide.
+#
+# Nessun cronometro, come per ogni cosa che chiede di ragionare.
+const PORTE_INGRESSI := [
+	["Piove", "Fa freddo"],
+	["La porta è aperta", "La luce è accesa"],
+	["Il numero è pari", "Il numero è maggiore di dieci"],
+	["Eli ha la chiave", "Il ponte è abbassato"],
+	["Il campanello suona", "Il cane abbaia"],
+]
+
+## Le cinque porte, in ordine di quanto costano. Le prime due si capiscono a
+## parole; «solo uno dei due» è quella che il linguaggio comune sbaglia sempre,
+## perché nel parlato «o» spesso vuol dire proprio quella.
+const PORTE_REGOLE := [
+	{"id": "e", "tier": 1, "modello": "%s E %s"},
+	{"id": "o", "tier": 1, "modello": "%s OPPURE %s (anche tutti e due)"},
+	{"id": "solo_uno", "tier": 3, "modello": "%s oppure %s, ma non tutti e due"},
+	{"id": "nessuno", "tier": 3, "modello": "né %s né %s"},
+	{"id": "ma_non", "tier": 4, "modello": "%s, ma NON %s"},
+]
+
+## Quali porte può incontrare questa difficoltà. Il minimo è due, altrimenti a
+## difficoltà 1 la sessione riproporrebbe sempre la stessa.
+static func porte_regole_per(difficulty: int) -> Array:
+	var out: Array = []
+	for regola in PORTE_REGOLE:
+		if int((regola as Dictionary).get("tier", 1)) <= maxi(difficulty, 2):
+			out.append(regola)
+	return out
+
+static func porte_depth(subject: String, level: int) -> int:
+	if subject != "logica":
+		return 0
+	return porte_regole_per(ContentManager.target_difficulty(level)).size() * PORTE_INGRESSI.size()
+
+static func _porta_accende(regola: String, a: bool, b: bool) -> bool:
+	match regola:
+		"e": return a and b
+		"o": return a or b
+		"solo_uno": return a != b
+		"nessuno": return (not a) and (not b)
+		"ma_non": return a and not b
+	return false
+
+func _porte_node(subject: String, level: int, step: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:
+	var difficulty := difficulty_of(level, step)
+	var ammesse := porte_regole_per(difficulty)
+	var regola: Dictionary = ammesse[rng.randi_range(0, ammesse.size() - 1)]
+	var ingressi_indice := rng.randi_range(0, PORTE_INGRESSI.size() - 1)
+	var ingressi: Array = Array(PORTE_INGRESSI[ingressi_indice]).duplicate()
+	var id_regola := str(regola["id"])
+	var condizione := str(regola["modello"]) % [str(ingressi[0]).to_lower(), str(ingressi[1]).to_lower()]
+	condizione = condizione.substr(0, 1).to_upper() + condizione.substr(1)
+
+	var combinazioni := [[false, false], [false, true], [true, false], [true, true]]
+	_shuffle(combinazioni, rng)
+	var righe: Array = []
+	var soluzione: Dictionary = {}
+	for i in combinazioni.size():
+		var a := bool(combinazioni[i][0])
+		var b := bool(combinazioni[i][1])
+		var chiave := "r%d" % i
+		righe.append({
+			"id": chiave,
+			"a": a,
+			"b": b,
+			"label": "%s: %s   ·   %s: %s" % [
+				str(ingressi[0]), "sì" if a else "no",
+				str(ingressi[1]), "sì" if b else "no"],
+		})
+		soluzione[chiave] = _porta_accende(id_regola, a, b)
+
+	return {
+		"id": "minigame-porte-%s-%d" % [subject, idx],
+		"subject": subject,
+		"topic": "verita",
+		"difficulty": difficulty,
+		"format": "porte",
+		"prompt": "La lampada deve accendersi quando: %s. Decidi caso per caso." % condizione,
+		"condizione": condizione,
+		"ingressi": ingressi,
+		"righe": righe,
+		"soluzione": soluzione,
+		"explanation": _porte_spiegazione(id_regola, ingressi_indice),
+	}
+
+## **Tre spiegazioni per porta, non una.**
+##
+## Con due sole porte ammesse ai primi livelli, una frase per porta copriva metà
+## dei nodi del formato — e `explanation_coverage_audit` la rifiuta, a ragione:
+## una frase che torna identica smette di essere letta. Le tre di ogni porta
+## dicono cose diverse — quando accende, che cosa se ne conclude, dove sbaglia
+## di solito chi la incontra — e si scelgono dalla coppia di ingressi, non a
+## sorte, così restano distribuite anche su un campione piccolo.
+const PORTE_SPIEGAZIONI := {
+	"e": [
+		"Una «E» è severa: chiede tutte e due le cose insieme, e basta che una manchi perché la lampada resti spenta. Dei quattro casi ne accende uno solo — ed è per questo che aggiungere una condizione con «E» non allarga mai, restringe sempre.",
+		"Con la «E» il caso buono è uno su quattro, e i tre spenti non sono tutti uguali: in due manca una cosa sola, nell'ultimo mancano tutte e due. Sapere QUALE manca è quasi sempre più utile che sapere soltanto che la lampada è spenta.",
+		"Se una «E» accende, allora sono vere anche le due condizioni prese da sole: da «piove e fa freddo» si può sempre concludere «piove». Al contrario non funziona, ed è l'errore che si fa più spesso.",
+	],
+	"o": [
+		"In logica «oppure» non esclude niente: accende quando c'è la prima, quando c'è la seconda e anche quando ci sono tutte e due. Dei quattro casi ne spegne uno solo, quello in cui non c'è nessuna delle due. Nel parlare di tutti i giorni «o» suona spesso come «uno solo dei due», e proprio lì nasce l'errore.",
+		"L'«oppure» della logica è generoso: gli basta una delle due. Per spegnerlo bisogna smentirle tutte e due insieme, ed è il motivo per cui negare un «o» costa molta più fatica che negare una «e».",
+		"Tre casi accesi su quattro: con due ingressi non esiste condizione più facile da soddisfare. Quando in un problema compare un «oppure», la parte che richiede attenzione è quasi sempre l'unico caso che lo spegne.",
+	],
+	"solo_uno": [
+		"Questa è la «o» del linguaggio comune — «o vieni tu o vengo io» — e in logica ha un nome diverso perché si comporta diversamente: si accende quando le due cose sono DIVERSE fra loro e si spegne quando sono uguali, sia se ci sono tutte e due sia se non c'è nessuna.",
+		"Non serve guardare quale delle due condizioni c'è: basta chiedersi se sono diverse fra loro. Se lo sono accende, se sono uguali resta spenta. È l'unica delle cinque porte che non guarda il contenuto ma il confronto.",
+		"Due casi accesi e due spenti, come l'«oppure» — ma non gli stessi due. Questa spegne anche quando ci sono tutte e due le cose, e proprio in quel caso si vede chi ha capito la differenza fra le due «o» e chi le sta confondendo.",
+	],
+	"nessuno": [
+		"«Né… né…» accende solo nel caso in cui non c'è proprio niente: è la negazione dell'«oppure», e infatti accende esattamente dove quello spegneva. Negare un «o» non dà un altro «o»: dà una «E» di negazioni.",
+		"È la «E» delle negazioni: «né questo né quello» vuol dire «non questo E non quello». Riscriverla così è la regola più utile di tutte, perché trasforma una frase che sembra strana in due condizioni semplici messe insieme.",
+		"Basta che una qualsiasi delle due condizioni si avveri e la lampada resta spenta: il «né… né…» è la più fragile delle cinque porte, e accende in un caso solo su quattro.",
+	],
+	"ma_non": [
+		"Qui la seconda condizione lavora al contrario: serve che la prima ci sia e che la seconda NON ci sia. È la forma di ogni eccezione — «tutti i giorni tranne la domenica» — e si accende in un caso solo su quattro, come la «E», ma non nello stesso.",
+		"Le due condizioni non contano allo stesso modo: la prima deve esserci, la seconda deve mancare. La porta è asimmetrica, e scambiare le due condizioni dà una porta diversa che accende in un caso completamente diverso.",
+		"«Tutti i pari tranne quelli divisibili per quattro», «aperto tutti i giorni tranne il lunedì»: ogni eccezione ha questa forma. Riconoscerla vuol dire accorgersi che una delle due condizioni va negata prima di metterla insieme all'altra.",
+	],
+}
+
+## Quale delle tre varianti accompagna questa porta: legata alla coppia di
+## ingressi, non sorteggiata, così le tre restano distribuite.
+func _porte_spiegazione(id_regola: String, ingressi_indice: int) -> String:
+	var varianti: Array = Array(PORTE_SPIEGAZIONI.get(id_regola, []))
+	if varianti.is_empty():
+		return "Ogni porta decide in modo diverso quando la lampada si accende: si controllano i quattro casi uno per uno, senza indovinare."
+	return str(varianti[posmod(ingressi_indice, varianti.size())])

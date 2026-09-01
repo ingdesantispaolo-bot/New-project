@@ -29,6 +29,13 @@ func _init() -> void:
 		quit(2)
 		return
 
+	shop.call("_select_slot", "conquest")
+	shop.call("_select_item", "memento-24-prisma-sintesi")
+	await _settle()
+	if await _capture("bottega-ricordi-wide.png") != OK:
+		quit(2)
+		return
+
 	shop.call("_select_slot", "decor")
 	shop.call("_select_item", "decor-biblioteca-classica")
 	await _settle()
@@ -44,6 +51,11 @@ func _init() -> void:
 	await _settle()
 	print("SHOP RENDER compact sizes root=%s shop=%s panel=%s" % [root.size, shop.size, shop.find_child("ShopWindow", true, false).size])
 	if await _capture("bottega-compagni-compact.png") != OK:
+		quit(2)
+		return
+	shop.call("_select_slot", "conquest")
+	await _settle()
+	if await _capture("bottega-ricordi-compact.png") != OK:
 		quit(2)
 		return
 	print("SHOP RENDER probe OK - artifacts/shop")

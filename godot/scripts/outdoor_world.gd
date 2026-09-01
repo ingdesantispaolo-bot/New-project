@@ -38,6 +38,9 @@ const MYSTERY_ARTIFACT_SCRIPT := preload("res://scripts/game/mystery_artifact.gd
 const DIALOGUE_BOX_SCRIPT := preload("res://scripts/ui/dialogue_box.gd")
 const TEACHING_CHOICE_PANEL_SCRIPT := preload("res://scripts/ui/teaching_choice_panel.gd")
 const EXPEDITION_MODULE_PRESENTATION_SCRIPT := preload("res://scripts/visual/expedition_module_presentation.gd")
+const WORLD_HAZARD_SCRIPT := preload("res://scripts/game/world_hazard.gd")
+const WORLD_CHALLENGE_HAZARD_CATALOG := preload("res://scripts/game/world_challenge_hazard_catalog.gd")
+const WORLD_STABILITY_MARKER_SCRIPT := preload("res://scripts/game/world_stability_marker.gd")
 const SURFACE_STYLES := preload("res://scripts/ui/surface_styles.gd")
 
 const PLAYER_ACCENT := Color("6be7d6")
@@ -186,6 +189,16 @@ var stance_echo_after_dialogue: Dictionary = {}
 var ersilia_count_pending := false
 var finale_convergence_wave := 0
 var finale_wave_heard: Array[String] = []
+## Un picco ambientale raro abita la prima tasca della spedizione. Non chiude
+## una rotta e non altera la progressione: premia soltanto chi resta a leggerne
+## il ritmo invece di scappare al primo impulso.
+var _expedition_surge_anchor := Vector2.INF
+var _expedition_surge_hazard: Area2D
+var _expedition_surge_started := false
+var _expedition_surge_finished := false
+var _expedition_surge_elapsed := 0.0
+var _expedition_surge_presence := 0.0
+var _hazard_challenge_feedback := ""
 
 ## Libera le texture per-mondo tenute dalle cache statiche.
 ##
@@ -227,6 +240,7 @@ delete document.documentElement.dataset.eliExam;
 	gameplay.feedback_presented.connect(_present_feedback)
 	gameplay.enigma_progress.connect(_on_enigma_progress)
 	gameplay.minimission_completed.connect(_on_minimission_completed)
+	gameplay.progress_recognized.connect(_on_progress_recognized)
 	gameplay.topic_consolidated.connect(
 		func(_subject: String, _topic: String): _pet_react("topic_consolidated"))
 	gameplay.setup(request, result, bool(request.get("loadLocalSave", true)))
@@ -381,6 +395,7 @@ func _configure_world_profile() -> void:
 	world_profile = _profile_in_scene_coordinates(raw_profile)
 	environment_transform = WORLD_LESSON_CATALOG.environment_transform(world_level)
 	world_seed = "%s::%s" % [str(request.get("worldSeed", "outdoor-dev-1")), str(world_profile.get("id", "world-01-radura"))]
+	world_profile = WorldExpeditionLayout.apply(world_profile, world_seed)
 	mission_events = _planned_world_events()
 	_align_enigma_to_crossing()
 	_configure_profile_palette()
@@ -880,6 +895,7 @@ func _process(delta: float) -> void:
 		_update_ship_navigation()
 		_update_pending_touch_interaction()
 		_update_interaction_countdown()
+		_update_expedition_surge(delta)
 		_assegna_guardiani()
 		if world_life != null:
 			var view_size := get_viewport_rect().size
@@ -2324,6 +2340,8 @@ func _open_mystery_artifact(target: Area2D) -> void:
 		if world_level == 23 and str(payload.get("sorella", "")) == "Squadra" \
 				and StanceChoices.dovuta(game_save.data, "squadra-quaderno"):
 			stance_choice_after_dialogue[id] = "squadra-quaderno"
+	if is_instance_valid(gameplay):
+		gameplay.recognize_progress("mystery", id, {"label": role})
 	if pages.is_empty() or str(pages[0]).strip_edges() == "":
 		return
 	if is_instance_valid(player):
@@ -3493,6 +3511,9 @@ func _chiudi_minigioco_personaggio(npc_id: String, vinto: bool, presi: int, tota
 			raccolti.append(gioco_id)
 			result["collectedTreasureIds"] = raccolti
 		gameplay.collect_treasure({"rewardFragments": premio}, gioco_id)
+		gameplay.recognize_progress("resident", gioco_id, {
+			"label": "Hai aiutato %s" % str(scheda.get("nome", npc_id)),
+		})
 		_refresh_economy()
 		_spawn_gain_popup("+%d frammenti" % premio, Color("c7b8ff"))
 		_set_feedback(str(scheda.get("vittoria", "Fatto.")))
@@ -3988,6 +4009,7 @@ func _chiudi_duello(sacca: Node2D, vinto: bool, netto := false) -> void:
 			game_save.mark_enemy_defeated(str(world_level), guardia_id)
 		var premio := DuelRules.premio_frammenti(tier)
 		gameplay.collect_treasure({"rewardFragments": premio}, "duello-%s" % guardia_id)
+		gameplay.recognize_progress("enemy", guardia_id)
 		sacca.call("elimina")
 		game_save.save()
 		_set_feedback("%s Il forziere è libero, e restano %d frammenti sul campo." % [
@@ -4590,6 +4612,18 @@ func _create_hud() -> void:
 	world_title_label.add_theme_color_override("font_color", Color("e7fff8"))
 	world_title_label.add_theme_font_size_override("font_size", 17)
 	info.add_child(world_title_label)
+	var layout: Dictionary = world_profile.get("expeditionLayout", {})
+	if not layout.is_empty():
+		var expedition_label := Label.new()
+		expedition_label.name = "ExpeditionLayout"
+		expedition_label.text = "SPEDIZIONE %s  ·  %s  ·  %d LUOGHI DA SCOPRIRE" % [
+			str(layout.get("size", "ampia")).to_upper(),
+			str(layout.get("shape", "territorio")).to_upper(),
+			int(layout.get("pocketCount", 3)),
+		]
+		expedition_label.add_theme_color_override("font_color", Color("9fc4bb"))
+		expedition_label.add_theme_font_size_override("font_size", 11)
+		info.add_child(expedition_label)
 	biome_label = Label.new()
 	biome_label.text = ""
 	biome_label.add_theme_font_size_override("font_size", 14)
@@ -5693,6 +5727,7 @@ func _sciogli_camera() -> void:
 		nodo.queue_free()
 	if is_instance_valid(gameplay):
 		gameplay.collect_treasure({"rewardFragments": FragmentEconomy.PREMIO_CAMERA}, "camera-%d" % world_level)
+		gameplay.recognize_progress("parchment", "pergamena-%d" % world_level)
 	game_save.save()
 	_mostra_pergamena()
 
@@ -5805,22 +5840,35 @@ func _apri_sbarramento(event_id: String) -> void:
 ## «hazard» compariva in tutto l'albero degli script **una volta sola**: li'.
 ## Nessuno li creava, nessuno li leggeva — quarto campo di questa specie.
 ##
-## Un hazard e' un tratto che costa energia ad attraversare, e si «pulisce» una
-## volta sola: pagato il pedaggio, quella strada resta aperta per sempre. Non
-## blocca mai — si attraversa anche a zero energia — perche' vale la regola di
-## tutta la mappa: **niente che sta qui puo' fermare la progressione**.
+## Un hazard e' un tratto che pulsa: sicuro, preavviso, impulso. Si puo' leggere
+## e attraversare nel momento giusto, rischiare pagando energia e spinta, oppure
+## stabilizzare una volta per tutte. Non ha mai un corpo fisico: **il pericolo
+## crea una decisione, non un inciampo nel camminare**.
 const HAZARD_COSTO := 2
 const HAZARD_PER_MONDO := 3
+const HAZARD_SEPARAZIONE := 300.0
+const SURGE_DURATION := 16.0
+const SURGE_REWARD_PRESENCE := 8.0
+const SURGE_REWARD_FRAGMENTS := 35
 
 func _crea_hazard() -> void:
-	if not is_instance_valid(game_save) or not is_instance_valid(chunks):
+	if not is_instance_valid(game_save) or not is_instance_valid(chunks) or chunks.composition == null:
 		return
 	var puliti: Array = Array(
 		game_save.world_progress(str(world_level)).get("clearedHazardIds", []))
 	var rng := RandomNumberGenerator.new()
-	rng.seed = hash("hazard-%d" % world_level)
+	# Il mondo cambia con la spedizione, quindi cambiano anche i suoi rischi. Gli
+	# id contengono lo stesso seme: rientrare nella medesima spedizione conserva
+	# una stabilizzazione, una nuova spedizione non nasce gia' ripulita.
+	rng.seed = hash("%s:hazards" % world_seed)
+	var expedition_tag := "%06d" % posmod(hash(world_seed), 1000000)
+	var piazzati: Array[Vector2] = []
+	var profile := _hazard_profile()
+	# Il quarto pericolo e' specifico del mondo e non si compra con energia: si
+	# scioglie con una prova trasversale di italiano o matematica.
+	_crea_pericolo_specifico_del_mondo(puliti, rng, piazzati)
 	for indice in range(HAZARD_PER_MONDO):
-		var id := "hazard-%d-%d" % [world_level, indice]
+		var id := "hazard-%d-%s-%d" % [world_level, expedition_tag, indice]
 		if puliti.has(id):
 			continue
 		# **Si RIPROVA invece di arrendersi.** Misurato su tutti e ventiquattro i
@@ -5828,37 +5876,210 @@ func _crea_hazard() -> void:
 		# due ne ricevevano uno. Il numero di pericoli dipendeva da dove cadeva
 		# il primo dado, cioe' da niente. E' lo stesso schema che il
 		# piazzamento dei nemici usa gia' da tempo, dieci righe piu' su.
-		var posizione := Vector2.ZERO
-		var trovata := false
-		for tentativo in range(12):
-			var angolo := rng.randf() * TAU
-			var raggio := rng.randf_range(600.0, 1500.0)
-			posizione = chunks.clamp_to_world(
-				WorldProfileCatalog.SPAWN + Vector2.RIGHT.rotated(angolo) * raggio)
-			if chunks.composition.is_protected(posizione, 60.0):
-				continue
-			if chunks.composition.raw_water_weight(posizione) >= 0.4:
-				continue
-			trovata = true
-			break
-		if not trovata:
+		var posizione := _random_hazard_position(rng, piazzati)
+		if posizione == Vector2.INF:
 			continue
-		var area := Area2D.new()
-		area.name = "Hazard_%d" % indice
-		area.position = posizione
-		area.set_meta("kind", "hazard")
-		area.set_meta("id", id)
-		area.set_meta("payload", {"cost": HAZARD_COSTO})
-		var forma := CollisionShape2D.new()
-		var cerchio := CircleShape2D.new()
-		cerchio.radius = INTERACTION_DISTANCE
-		forma.shape = cerchio
-		area.add_child(forma)
-		area.add_to_group("world_interactable")
-		area.add_child(_make_hazard_marker())
-		world_layer.add_child(area)
-		area.body_entered.connect(func(body): on_interactable_entered(area, body))
-		area.body_exited.connect(func(body): on_interactable_exited(area, body))
+		piazzati.append(posizione)
+		_spawn_hazard_area(id, posizione, str(profile["label"]), profile["color"], rng)
+
+func _crea_pericolo_specifico_del_mondo(
+	puliti: Array, rng: RandomNumberGenerator, piazzati: Array[Vector2]
+) -> void:
+	var challenge: Dictionary = WORLD_CHALLENGE_HAZARD_CATALOG.challenge(world_level)
+	var id := str(challenge["id"])
+	var risolto := puliti.has(id) or Array(result.get("completedEncounterIds", [])).has(id)
+	var posizione := _first_expedition_hazard_position()
+	if not _hazard_position_is_valid(posizione, piazzati):
+		posizione = _random_hazard_position(rng, piazzati)
+	if posizione == Vector2.INF:
+		return
+	piazzati.append(posizione)
+	if risolto:
+		_spawn_stability_marker(posizione, str(challenge["name"]),
+			str(challenge["sigilName"]), challenge["color"])
+		return
+	var area := _spawn_hazard_area(
+		id, posizione, str(challenge["name"]), challenge["color"], rng)
+	var payload: Dictionary = area.get_meta("payload", {}).duplicate(true)
+	payload.merge({
+		"challenge": true,
+		"subject": str(challenge["subject"]),
+		"format": str(challenge["format"]),
+		"challengeLevel": int(challenge["challengeLevel"]),
+		"threatTier": int(challenge["threatTier"]),
+		"cost": int(challenge["contactCost"]),
+		"failureCost": int(challenge["failureCost"]),
+		"failureSurgeSeconds": float(challenge["failureSurgeSeconds"]),
+		"rewardFragments": int(challenge["rewardFragments"]),
+		"sigilId": str(challenge["sigilId"]),
+		"sigilName": str(challenge["sigilName"]),
+		"conquestRewardId": str(challenge.get("conquestRewardId", "")),
+		"conquestRewardName": str(challenge.get("conquestRewardName", "")),
+		"color": challenge["color"],
+		"description": str(challenge["description"]),
+		"action": str(challenge["action"]),
+	}, true)
+	area.set_meta("payload", payload)
+	area.call("mark_as_challenge", str(challenge["subject"]),
+		int(challenge["challengeLevel"]), int(challenge["threatTier"]))
+	_expedition_surge_hazard = area
+	_expedition_surge_anchor = posizione
+
+func _spawn_stability_marker(
+		posizione: Vector2, label: String, sigil: String, color: Color) -> Node2D:
+	var marker := WORLD_STABILITY_MARKER_SCRIPT.new() as Node2D
+	marker.position = posizione
+	marker.call("configure", label, sigil, color, reduced_motion)
+	world_layer.add_child(marker)
+	return marker
+
+func _spawn_hazard_area(
+	id: String, posizione: Vector2, label: String, color: Color,
+	rng: RandomNumberGenerator
+) -> Area2D:
+	var area := WORLD_HAZARD_SCRIPT.new() as Area2D
+	area.position = posizione
+	area.call("configure", id, label, color, HAZARD_COSTO,
+		rng.randf_range(0.0, 4.2), reduced_motion)
+	world_layer.add_child(area)
+	area.body_entered.connect(func(body): on_interactable_entered(area, body))
+	area.body_exited.connect(func(body): on_interactable_exited(area, body))
+	area.connect("exposed", Callable(self, "_on_hazard_exposed"))
+	area.connect("phase_changed", Callable(self, "_on_hazard_phase_changed"))
+	return area
+
+func _random_hazard_position(rng: RandomNumberGenerator, piazzati: Array[Vector2]) -> Vector2:
+	for _tentativo in range(32):
+		var angolo := rng.randf() * TAU
+		var raggio_massimo := minf(
+			1850.0, float(world_profile.get("worldHalfExtent", 2100.0)) * 0.78)
+		var raggio := rng.randf_range(680.0, maxf(900.0, raggio_massimo))
+		var posizione := chunks.clamp_to_world(
+			(world_profile.get("spawn", WorldProfileCatalog.SPAWN) as Vector2)
+			+ Vector2.RIGHT.rotated(angolo) * raggio)
+		if _hazard_position_is_valid(posizione, piazzati):
+			return posizione
+	return Vector2.INF
+
+func _hazard_position_is_valid(posizione: Vector2, piazzati: Array[Vector2]) -> bool:
+	if posizione == Vector2.INF:
+		return false
+	if chunks.composition.is_protected(posizione, 60.0):
+		return false
+	if chunks.composition.raw_water_weight(posizione) >= 0.4:
+		return false
+	for precedente in piazzati:
+		if posizione.distance_to(precedente) < HAZARD_SEPARAZIONE:
+			return false
+	return true
+
+func _first_expedition_hazard_position() -> Vector2:
+	for path_data in chunks.composition.paths:
+		var path: Dictionary = path_data
+		if not str(path.get("id", "")).begins_with("expedition-trail-"):
+			continue
+		var points: PackedVector2Array = path.get("points", PackedVector2Array())
+		if points.size() >= 3:
+			# Sul margine della tasca, non sopra il suo elemento identitario.
+			return chunks.clamp_to_world(points[2].lerp(points[1], 0.38))
+	return Vector2.INF
+
+func _hazard_profile() -> Dictionary:
+	var theme := str(chunks.composition.visual_theme)
+	if theme in ["deep_biosphere", "symbiosis_greenhouse", "first_heart"]:
+		return {"label": "spore irritanti", "color": Color("84df8f")}
+	if theme in ["circuit_delta", "machine_city", "electromagnetic_storm", "signal_bay"]:
+		return {"label": "scarica instabile", "color": Color("78dff4")}
+	if theme in ["sound_cathedral", "resonance_garden", "voices_library"]:
+		return {"label": "onda di risonanza", "color": Color("d59aff")}
+	if theme in ["force_ocean", "charted_archipelago"]:
+		return {"label": "corrente di pressione", "color": Color("73bfff")}
+	if theme in ["orbital_desert", "root_necropolis", "glyph_ruins", "hall_of_eras"]:
+		return {"label": "suolo cedevole", "color": Color("f0ad62")}
+	return {"label": "campo instabile", "color": Color("ffb35c")}
+
+func _on_hazard_exposed(hazard: Area2D, body: Node) -> void:
+	if body != player or not enemy_gameplay_active() or not is_instance_valid(hazard):
+		return
+	var payload: Dictionary = hazard.get_meta("payload", {})
+	var costo := mini(int(payload.get("cost", HAZARD_COSTO)), game_save.energy())
+	if costo > 0:
+		game_save.spend_energy(costo)
+		game_save.save()
+		_spawn_gain_popup("−%d" % costo, Color("ff806f"))
+		if is_instance_valid(gameplay):
+			_on_runtime_state(gameplay.runtime_state())
+	var away := hazard.global_position.direction_to(player.global_position)
+	if away.length_squared() < 0.01:
+		away = Vector2.DOWN
+	var threat_tier := int(payload.get("threatTier", 1)) if bool(payload.get("challenge", false)) else 1
+	var knockback := 112.0 + float(threat_tier - 1) * 20.0
+	var target := chunks.clamp_to_world(player.global_position + away * knockback)
+	if _water_blocks_position(target):
+		target = last_traversable_position
+	player.global_position = target
+	player.velocity = Vector2.ZERO
+	player.touch_target = Vector2.INF
+	last_traversable_position = target
+	var label := str(payload.get("label", "Il campo instabile")).capitalize()
+	var uscita := (
+		"Aspetta il verde o supera la prova di %s." % str(payload.get("subject", "italiano"))
+		if bool(payload.get("challenge", false))
+		else "Aspetta il verde o stabilizzalo."
+	)
+	_set_warning_feedback("%s ti investe e ti respinge%s. %s" % [
+		label, " · −%d energia" % costo if costo > 0 else "", uscita])
+	if is_instance_valid(player_presentation) and not reduced_motion:
+		var tween := create_tween()
+		tween.tween_property(player_presentation, "modulate", Color(1.0, 0.42, 0.34), 0.08)
+		tween.tween_property(player_presentation, "modulate", Color.WHITE, 0.24)
+
+func _on_hazard_phase_changed(hazard: Area2D, _phase: String) -> void:
+	# Il cartiglio non deve continuare a dire «verde» quando, restando fermi
+	# dentro il sensore, il campo e' gia' passato al preavviso o all'impulso.
+	if nearby.has(hazard):
+		_refresh_prompt()
+
+func _update_expedition_surge(delta: float) -> void:
+	if _expedition_surge_finished or not is_instance_valid(_expedition_surge_hazard):
+		return
+	if not _expedition_surge_started:
+		if not enemy_gameplay_active() or player.global_position.distance_to(_expedition_surge_anchor) > 300.0:
+			return
+		var moment_id := "expedition-surge-%d-%06d" % [
+			world_level, posmod(hash(world_seed), 1000000)]
+		if not game_save.claim_set_piece(moment_id):
+			# Gia' incontrato rientrando nella stessa spedizione: il campo normale
+			# resta, ma la sorpresa d'insieme non si mette a recitare da capo.
+			_expedition_surge_finished = true
+			return
+		game_save.save()
+		_expedition_surge_started = true
+		_expedition_surge_hazard.call("set_surging", true)
+		_set_nora_feedback("Il terreno sta caricando un picco. Guarda il ritmo: il verde è la finestra sicura.")
+		_pet_react("near_unexplored")
+		return
+	# Il tempo del pericolo si ferma mentre si legge o si svolge la prova: una
+	# schermata modale non puo' valere come «restare nel campo» senza rischiare.
+	if not enemy_gameplay_active():
+		return
+	_expedition_surge_elapsed += maxf(delta, 0.0)
+	if player.global_position.distance_to(_expedition_surge_anchor) <= 340.0:
+		_expedition_surge_presence += maxf(delta, 0.0)
+	if _expedition_surge_elapsed < SURGE_DURATION:
+		return
+	_expedition_surge_finished = true
+	_expedition_surge_hazard.call("set_surging", false)
+	if _expedition_surge_presence >= SURGE_REWARD_PRESENCE and is_instance_valid(gameplay):
+		var reward_id := "picco-%d-%06d" % [world_level, posmod(hash(world_seed), 1000000)]
+		var gia_preso := Array(game_save.world_progress(str(world_level)).get(
+			"collectedTreasureIds", [])).has(reward_id)
+		if not gia_preso:
+			gameplay.collect_treasure({"rewardFragments": SURGE_REWARD_FRAGMENTS}, reward_id)
+			_spawn_gain_popup("+%d frammenti" % SURGE_REWARD_FRAGMENTS, Color("c7b8ff"))
+			_set_feedback("Il picco si placa. Sei rimasta nel campo e hai raccolto %d frammenti di stabilità." % SURGE_REWARD_FRAGMENTS)
+			return
+	_set_feedback("Il picco si placa. La zona torna al suo ritmo normale.")
 
 ## **LE TANE.** (19 agosto 2026, [[PetErrand]])
 ##
@@ -5983,6 +6204,8 @@ func _manda_il_custode(target: Area2D) -> void:
 ## È la stessa linea che rende lecito il duello davanti a un forziere.
 func _risolvi_tana(target: Area2D, id: String) -> void:
 	game_save.mark_tana_svuotata(str(world_level), id)
+	if is_instance_valid(gameplay):
+		gameplay.recognize_progress("den", id)
 	match PetErrand.esito_di(id):
 		"frammenti":
 			gameplay.collect_treasure({"rewardFragments": PetErrand.FRAMMENTI}, "tana-%s" % id)
@@ -6021,28 +6244,103 @@ func _risolvi_tana(target: Area2D, id: String) -> void:
 ## spedizioni insieme spezzerebbero la scena e il Custode è uno solo.
 var _tana_in_corso := ""
 
-func _make_hazard_marker() -> Node2D:
-	var nodo := Node2D.new()
-	nodo.name = "HazardMarker"
-	var glifo := Label.new()
-	glifo.text = "!"
-	glifo.add_theme_font_size_override("font_size", 30)
-	glifo.add_theme_color_override("font_color", Color("ffb35c"))
-	glifo.position = Vector2(-10, -34)
-	nodo.add_child(glifo)
-	return nodo
+func _avvia_prova_del_pericolo(target: Area2D) -> void:
+	if not is_instance_valid(gameplay):
+		return
+	var payload: Dictionary = target.get_meta("payload", {}).duplicate(true)
+	var id := str(target.get_meta("id", ""))
+	if gameplay.try_start_minigame({
+		"subject": str(payload.get("subject", "italiano")),
+		"format": str(payload.get("format", "")),
+		"challengeLevel": int(payload.get("challengeLevel", world_level)),
+		"label": str(payload.get("label", "pericolo del mondo")),
+	}, id):
+		_set_nora_feedback("%s %s Premio: %s e %d frammenti; il ricordo %s entrerà in bottega." % [
+			str(payload.get("action", "Trova il ritmo corretto.")),
+			"Se la superi, questo pericolo non tornerà.",
+			str(payload.get("sigilName", "Sigillo del mondo")),
+			int(payload.get("rewardFragments", 0)),
+			str(payload.get("conquestRewardName", "di conquista"))])
 
-## Sgombrare un hazard: si paga una volta e la strada resta aperta.
+func _risolvi_prova_del_pericolo(id: String) -> void:
+	var nome := "Il pericolo del mondo"
+	var premio := 0
+	var sigillo := "Sigillo del mondo"
+	var ricordo := ""
+	var posizione := Vector2.INF
+	var colore := Color("8ff6d2")
+	for node in get_tree().get_nodes_in_group("world_challenge_hazard"):
+		if not (node is Area2D) or str(node.get_meta("id", "")) != id:
+			continue
+		var area := node as Area2D
+		var payload: Dictionary = area.get_meta("payload", {})
+		nome = str(payload.get("label", nome)).capitalize()
+		premio = int(payload.get("rewardFragments", 0))
+		sigillo = str(payload.get("sigilName", sigillo))
+		ricordo = str(payload.get("conquestRewardName", ""))
+		posizione = area.position
+		colore = payload.get("color", colore)
+		nearby.erase(area)
+		area.hide()
+		area.set_process(false)
+		area.set_physics_process(false)
+		area.queue_free()
+		break
+	if posizione != Vector2.INF:
+		_spawn_stability_marker(posizione, nome, sigillo, colore)
+	game_save.mark_hazard_cleared(str(world_level), id)
+	if is_instance_valid(gameplay):
+		# Prima il Sigillo, poi il pagamento: e' la vittoria ad accendere la via,
+		# non la riga contabile che la accompagna.
+		gameplay.recognize_progress("hazard", id, {"label": sigillo})
+		if premio > 0:
+			gameplay.collect_treasure({"rewardFragments": premio}, "premio-%s" % id)
+			_spawn_gain_popup("+%d frammenti" % premio, Color("c7b8ff"))
+	game_save.save()
+	_hazard_challenge_feedback = "%s superato. %s ottenuto · +%d frammenti. %s ora ti aspetta nella bottega." % [
+		nome, sigillo, premio, ricordo if not ricordo.is_empty() else "Il ricordo di conquista"]
+	if is_instance_valid(pet_companion):
+		_pet_react("mission_complete")
+
+func _penalizza_prova_del_pericolo(id: String) -> void:
+	var nome := "Il pericolo del mondo"
+	var costo_previsto := HAZARD_COSTO
+	var durata := 10.0
+	for node in get_tree().get_nodes_in_group("world_challenge_hazard"):
+		if not (node is Area2D) or str(node.get_meta("id", "")) != id:
+			continue
+		var area := node as Area2D
+		var payload: Dictionary = area.get_meta("payload", {})
+		nome = str(payload.get("label", nome)).capitalize()
+		costo_previsto = int(payload.get("failureCost", HAZARD_COSTO))
+		durata = float(payload.get("failureSurgeSeconds", 10.0))
+		area.call("punish_failure", durata)
+		break
+	var pagato := mini(costo_previsto, game_save.energy())
+	if pagato > 0:
+		game_save.spend_energy(pagato)
+		game_save.save()
+		_spawn_gain_popup("−%d" % pagato, Color("ff695f"))
+		if is_instance_valid(gameplay):
+			_on_runtime_state(gameplay.runtime_state())
+	_hazard_challenge_feedback = "%s resiste: −%d energia e impulsi accelerati per %d secondi. Puoi riprovare o aspettare il verde." % [
+		nome, pagato, ceili(durata)]
+
+## Stabilizzare un hazard: serve il costo intero e la strada resta aperta. A
+## energia insufficiente resta sempre l'alternativa gratuita — aspettare il
+## verde — percio' la difficolta' non puo' diventare un blocco di progressione.
 func _sgombra_hazard(target: Area2D) -> void:
 	var id := str(target.get_meta("id", ""))
 	var costo := int(Dictionary(target.get_meta("payload", {})).get("cost", HAZARD_COSTO))
-	var pagato := mini(costo, game_save.energy())
-	if pagato > 0:
-		game_save.spend_energy(pagato)
+	if game_save.energy() < costo:
+		_set_warning_feedback("Servono %d energie per stabilizzarlo. Aspetta il verde e attraversa senza pagare." % costo)
+		return
+	game_save.spend_energy(costo)
 	game_save.mark_hazard_cleared(str(world_level), id)
 	game_save.save()
-	_set_feedback("Passaggio sgombrato%s. Da qui si passa, e non costerà di nuovo." % (
-		" (−%d energia)" % pagato if pagato > 0 else ""))
+	if is_instance_valid(gameplay):
+		_on_runtime_state(gameplay.runtime_state())
+	_set_feedback("Campo stabilizzato (−%d energia). Questa spedizione qui resta sicura." % costo)
 	target.queue_free()
 
 ## Entrare in un edificio. Tre ruoli, tre cose diverse.
@@ -6487,6 +6785,19 @@ func _refresh_economy() -> void:
 		var remaining := maxi(0, reward_cost - frammenti)
 		reward_remaining_label.text = ("Ti mancano %d frammenti" % remaining) if remaining > 0 else "Puoi comprarlo!"
 
+## La celebrazione breve delle Quattro Vie. Gli eventi successivi della stessa
+## via restano nel diario ma non aggiungono rumore all'HUD: il momento visibile
+## e' quando una faccia del mondo si accende o nasce un titolo nuovo.
+func _on_progress_recognized(entry: Dictionary) -> void:
+	var color := Color(str(entry.get("color", "ffffff")))
+	var milestones: Array = Array(entry.get("milestones", []))
+	if not milestones.is_empty():
+		var latest: Dictionary = milestones[-1]
+		_spawn_gain_popup("TITOLO · %s" % str(latest.get("title", "Nuovo titolo")), color)
+		return
+	if bool(entry.get("newFacet", false)):
+		_spawn_gain_popup("VIA ACCESA · %s" % str(entry.get("pathName", "Progresso")), color)
+
 func _spawn_gain_popup(text: String, color: Color) -> void:
 	if not is_instance_valid(player):
 		return
@@ -6806,7 +7117,40 @@ func _refresh_prompt() -> void:
 			_set_feedback("%s · incontra chi vive e lavora qui" % building_label)
 		else:
 			_set_feedback("%s · cerca le tracce lasciate dai Primi" % building_label)
-
+	elif kind == "hazard":
+		var hazard_payload: Dictionary = target.get_meta("payload", {})
+		var hazard_label := str(hazard_payload.get("label", "campo instabile")).capitalize()
+		var hazard_phase := str(target.call("phase_name")) if target.has_method("phase_name") else "warning"
+		if bool(hazard_payload.get("challenge", false)):
+			var subject := str(hazard_payload.get("subject", "italiano")).capitalize()
+			var challenge_level := int(hazard_payload.get("challengeLevel", world_level))
+			var threat_tier := int(hazard_payload.get("threatTier", 1))
+			var contact_cost := int(hazard_payload.get("cost", HAZARD_COSTO))
+			var failure_cost := int(hazard_payload.get("failureCost", HAZARD_COSTO))
+			var phase_hint := (
+				"VERDE: puoi avvicinarti ora."
+				if hazard_phase == "safe"
+				else "IMPULSO ATTIVO: resta fuori dal centro."
+				if hazard_phase == "active"
+				else "PREAVVISO: l'impulso sta arrivando."
+			)
+			var message := "PERICOLO DEL MONDO · %s · livello %d · rischio %d/5 · prova di %s. Premio: %s +%d frammenti, poi %s in bottega. Contatto −%d, fallimento −%d energia. %s %s" % [
+				hazard_label, challenge_level, threat_tier, subject,
+				str(hazard_payload.get("sigilName", "Sigillo")),
+				int(hazard_payload.get("rewardFragments", 0)),
+				str(hazard_payload.get("conquestRewardName", "ricordo")),
+				contact_cost, failure_cost, str(hazard_payload.get("description", "")), phase_hint]
+			if hazard_phase == "safe":
+				_set_feedback(message)
+			else:
+				_set_warning_feedback(message)
+		elif hazard_phase == "safe":
+			_set_feedback("%s · VERDE: attraversa ora, oppure stabilizza (−%d energia)." % [
+				hazard_label, int(hazard_payload.get("cost", HAZARD_COSTO))])
+		elif hazard_phase == "active":
+			_set_warning_feedback("%s · IMPULSO ATTIVO: resta fuori dal centro o stabilizza." % hazard_label)
+		else:
+			_set_warning_feedback("%s · PREAVVISO: l'impulso sta arrivando." % hazard_label)
 	elif kind == "tana":
 		var tana_payload: Dictionary = target.get_meta("payload", {})
 		_set_feedback("%s Tu non ci passi." % str(tana_payload.get("descrizione", "Una tana.")))
@@ -6897,6 +7241,11 @@ func _interaction_action_text(target: Area2D) -> String:
 			if building_role == "ritrovo":
 				return "ENTRA NEL RITROVO"
 			return "ESPLORA LA ROVINA"
+		"hazard":
+			var hazard_payload: Dictionary = target.get_meta("payload", {})
+			if bool(hazard_payload.get("challenge", false)):
+				return "AFFRONTA %s" % str(hazard_payload.get("subject", "italiano")).to_upper()
+			return "STABILIZZA"
 		"tana":
 			return "MANDA IL CUSTODE"
 		"mystery_trace":
@@ -6911,6 +7260,8 @@ func _interaction_is_completed(target: Area2D) -> bool:
 	if kind == "treasure":
 		return Array(result.get("collectedTreasureIds", [])).has(id)
 	if kind == "encounter" or kind == "enigma" or kind == "minimission":
+		return Array(result.get("completedEncounterIds", [])).has(id)
+	if kind == "hazard" and bool(Dictionary(target.get_meta("payload", {})).get("challenge", false)):
 		return Array(result.get("completedEncounterIds", [])).has(id)
 	return false
 
@@ -7000,7 +7351,10 @@ func _interact() -> void:
 		_entra_nell_edificio(target)
 		return
 	if kind == "hazard":
-		_sgombra_hazard(target)
+		if bool(Dictionary(target.get_meta("payload", {})).get("challenge", false)):
+			_avvia_prova_del_pericolo(target)
+		else:
+			_sgombra_hazard(target)
 		return
 	if kind == "tana":
 		_manda_il_custode(target)
@@ -7085,13 +7439,25 @@ func _on_exercise_finished(exercise_result: Dictionary) -> void:
 		player.set_physics_process(true)
 	var session_passed := bool(exercise_result.get("passed", false))
 	var context: Dictionary = {}
+	var is_hazard_challenge := false
+	_hazard_challenge_feedback = ""
 	if is_instance_valid(gameplay):
 		context = gameplay.active_session_context.duplicate(true)
+		is_hazard_challenge = (
+			str(context.get("kind", "")) == "minigame"
+			and str(context.get("encounterId", "")).begins_with("world-danger-"))
 		gameplay.resolve_session(exercise_result)
 		if str(context.get("kind", "")) == "minigame" and session_passed \
 				and str(context.get("encounterId", "")).begins_with("serratura-"):
 			_sciogli_camera()
-		if str(context.get("kind", "")) == "minigame" and session_passed:
+		if is_hazard_challenge:
+			if session_passed:
+				_risolvi_prova_del_pericolo(str(context.get("encounterId", "")))
+			elif not bool(exercise_result.get("abandoned", false)):
+				_penalizza_prova_del_pericolo(str(context.get("encounterId", "")))
+			else:
+				_hazard_challenge_feedback = "Prova interrotta: il pericolo resta attivo. Osserva il verde oppure riprova."
+		elif str(context.get("kind", "")) == "minigame" and session_passed:
 			# La palestra superata sparisce dalla mappa all'istante, non al
 			# rientro: il punto della segnalazione era proprio che si poteva
 			# rifarla lì per lì. Non passa dal registro di proprietà — la
@@ -7156,7 +7522,12 @@ func _on_exercise_finished(exercise_result: Dictionary) -> void:
 	# significava scriverla e vedersela cancellare nello stesso fotogramma. È il
 	# genere di difetto che non si vede leggendo, perché le due chiamate stanno a
 	# sessanta righe di distanza.
-	if str(context.get("kind", "")) == "minigame" and session_passed:
+	if is_hazard_challenge:
+		if session_passed:
+			_set_feedback(_hazard_challenge_feedback)
+		else:
+			_set_warning_feedback(_hazard_challenge_feedback)
+	elif str(context.get("kind", "")) == "minigame" and session_passed:
 		_annuncia_quota(str(context.get("subject", "")))
 
 ## Ogni tanto, a fine sessione, il Custode ha portato qualcosa.
@@ -7503,7 +7874,12 @@ func _torna_al_menu() -> void:
 func _stage_rientro_nel_mondo(seme: String) -> void:
 	if not is_instance_valid(game_save):
 		return
-	var richiesta := NativeWorldState.default_request(seme)
+	var expedition_seed := (
+		game_save.begin_world_expedition(str(world_level))
+		if seme.begins_with("riavvio-")
+		else game_save.world_expedition_seed(str(world_level)))
+	game_save.save()
+	var richiesta := NativeWorldState.default_request(expedition_seed)
 	richiesta["loadLocalSave"] = false
 	richiesta["initialSave"] = game_save.data.duplicate(true)
 	richiesta["worldLevel"] = world_level

@@ -173,8 +173,9 @@ func _run() -> void:
 	await _dispose_world(world_two)
 
 	# Viaggio reale dalla mappa della nave: il save lasciato dal mondo 2 ha
-	# entrambi i mondi sbloccati; scegliendo il mondo 1 devono tornare profilo,
-	# stato e posizione propri di quella destinazione.
+	# entrambi i mondi sbloccati. Scegliere il mondo 1 apre una nuova spedizione:
+	# profilo e progressi tornano, ma posizione e macro-layout ripartono, perche'
+	# le vecchie coordinate potrebbero cadere fuori dalla nuova costa.
 	# Le due scene sopra usano fixture non persistenti: materializziamo qui lo
 	# stesso stato nel save locale dell'audit, invece di dipendere da esecuzioni
 	# precedenti o parallele.
@@ -200,8 +201,11 @@ func _run() -> void:
 		"la selezione dalla mappa deve aprire la WorldScene unica")
 	assert(int(current_scene.get("world_profile").get("level", 0)) == 1,
 		"la mappa non ha caricato il profilo selezionato")
-	assert((current_scene.get("player") as CharacterBody2D).global_position.distance_to(Vector2(520, 1400)) < 0.01,
-		"il viaggio non ha ripristinato la posizione del mondo 1")
+	var travelled_profile: Dictionary = current_scene.get("world_profile")
+	assert((current_scene.get("player") as CharacterBody2D).global_position.distance_to(travelled_profile["spawn"]) < 0.01,
+		"una nuova spedizione dalla mappa deve partire dallo spawn")
+	assert(not Dictionary(travelled_profile.get("expeditionLayout", {})).is_empty(),
+		"il viaggio dalla mappa non ha generato il macro-layout della spedizione")
 
 	print("WORLD SCENE PROFILE audit OK — due profili, Director, nave sicura, mappa e stato/posizione separati")
 	quit(0)

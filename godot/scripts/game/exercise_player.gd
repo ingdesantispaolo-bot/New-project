@@ -173,6 +173,13 @@ var _matching_canvas: Control
 var _classification_state: Dictionary = {}
 var _classification_buttons: Dictionary = {}
 var _classification_selected := ""
+# Griglia degli incroci: ogni casella ha tre stati — vuota, «no», «sì».
+var _griglia_state: Dictionary = {}     # "soggetto|attributo" -> "" | "no" | "si"
+var _griglia_buttons: Dictionary = {}
+# Porte: per ogni caso della tavola, la lampada si accende o resta spenta.
+var _porte_state: Dictionary = {}       # id riga -> true/false
+var _porte_buttons: Dictionary = {}
+var _porte_lamps: Dictionary = {}
 var _machine_state: Array = []
 var _machine_slots: Array = []
 var _machine_buttons: Dictionary = {}
@@ -719,6 +726,11 @@ func _apply_format_layout(format: String) -> void:
 		# tagliato dal suo stesso ScrollContainer. Il pannello esterno resta
 		# scorrevole: aiuti e uscita rimangono raggiungibili sotto la plancia.
 		_options_scroll.custom_minimum_size.y = 320.0
+	elif format in ["griglia", "porte"]:
+		# La griglia e la tavola delle porte SONO il gioco: a 180 px la griglia
+		# 4x4 con la colonna degli indizi sopra resta tagliata a meta, e il
+		# bambino scorre invece di ragionare.
+		_options_scroll.custom_minimum_size.y = 360.0
 	else:
 		_options_scroll.custom_minimum_size.y = 180.0
 
@@ -870,7 +882,13 @@ func _show_teaching_overlay() -> void:
 	# Sezione a parte, non dentro l'esempio svolto: quella porta l'etichetta
 	# «Perché:», corretta per un procedimento e fuori posto per un elenco di
 	# fatti.
-	_add_teaching_section(box, "FATTI NUOVI IN QUESTA PROVA", str(lesson.get("facts", "")))
+	# Il titolo della sezione lo decide la lezione quando ne ha uno suo: un
+	# estratto di tavola non e' un elenco di «fatti nuovi in questa prova» ma un
+	# pezzo di linea del tempo o di carta, e chiamarlo con il nome sbagliato
+	# nasconde proprio la cosa che il bambino deve imparare a consultare.
+	_add_teaching_section(box,
+		str(lesson.get("factsTitle", "FATTI NUOVI IN QUESTA PROVA")),
+		str(lesson.get("facts", "")))
 
 	# **Un esempio senza domanda non è un esempio.** Prima la sezione si costruiva
 	# anche con il solo «Perché», e sotto il titolo ESEMPIO SVOLTO compariva una
@@ -1070,6 +1088,11 @@ func _show_current() -> void:
 	_classification_state = {}
 	_classification_buttons = {}
 	_classification_selected = ""
+	_griglia_state = {}
+	_griglia_buttons = {}
+	_porte_state = {}
+	_porte_buttons = {}
+	_porte_lamps = {}
 	_machine_state = []
 	_machine_slots = []
 	_machine_buttons = {}
@@ -1133,6 +1156,12 @@ func _show_current() -> void:
 		"classification":
 			_input.visible = false
 			_build_classification(item)
+		"griglia":
+			_input.visible = false
+			_build_griglia(item)
+		"porte":
+			_input.visible = false
+			_build_porte(item)
 		"hotspot", "graph", "circuit", "notation", "map", "number_line", "balance", "timeline", "compose", "trace", "clue":
 			_input.visible = false
 			_build_visual_selection(item, fmt)
@@ -2340,6 +2369,227 @@ func _classification_submit(item: Dictionary) -> void:
 			correct = false
 			break
 	_retryable_result(correct, item, "Alcune tessere sono nella categoria sbagliata: puoi spostarle e riprovare.")
+
+# --- GRIGLIA DEGLI INCROCI ---------------------------------------------------
+#
+# La tavola È il ragionamento: ogni casella si tocca per farle dire «no» (questa
+# è impossibile), «sì» (è questa) o niente (non lo so ancora). Quando si mette un
+# «sì», tutta la riga e tutta la colonna diventano «no» da sole — non è un aiuto,
+# è la regola del gioco resa visibile: ogni cosa appartiene a uno solo.
+func _build_griglia(item: Dictionary) -> void:
+	var soggetti: Array = item.get("soggetti", [])
+	var attributi: Array = item.get("attributi", [])
+
+	var indizi_box := VBoxContainer.new()
+	indizi_box.name = "GrigliaIndizi"
+	indizi_box.add_theme_constant_override("separation", 4)
+	_options.add_child(indizi_box)
+	var titolo := Label.new()
+	titolo.text = "Gli indizi"
+	titolo.add_theme_color_override("font_color", Color("8ff6d2"))
+	titolo.add_theme_font_size_override("font_size", 15)
+	indizi_box.add_child(titolo)
+	for indizio in item.get("indizi", []):
+		var riga := Label.new()
+		riga.text = "·  %s" % str((indizio as Dictionary).get("text", ""))
+		riga.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		riga.add_theme_color_override("font_color", Color("d6ecef"))
+		riga.add_theme_font_size_override("font_size", 15)
+		indizi_box.add_child(riga)
+
+	var griglia := GridContainer.new()
+	griglia.name = "GrigliaTavola"
+	griglia.columns = attributi.size() + 1
+	griglia.add_theme_constant_override("h_separation", 4)
+	griglia.add_theme_constant_override("v_separation", 4)
+	_options.add_child(griglia)
+
+	var angolo := Label.new()
+	angolo.text = ""
+	angolo.custom_minimum_size = Vector2(120, 40)
+	griglia.add_child(angolo)
+	for attributo in attributi:
+		var testa := Label.new()
+		testa.text = str(attributo)
+		testa.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		testa.custom_minimum_size = Vector2(96, 40)
+		testa.add_theme_color_override("font_color", Color("8ff6d2"))
+		testa.add_theme_font_size_override("font_size", 13)
+		griglia.add_child(testa)
+
+	for soggetto in soggetti:
+		var nome := Label.new()
+		nome.text = str(soggetto)
+		nome.custom_minimum_size = Vector2(120, 44)
+		nome.add_theme_color_override("font_color", Color("8ff6d2"))
+		nome.add_theme_font_size_override("font_size", 14)
+		griglia.add_child(nome)
+		for attributo in attributi:
+			var chiave := "%s|%s" % [str(soggetto), str(attributo)]
+			var cella := Button.new()
+			cella.name = "GrigliaCella_%s" % chiave.validate_node_name()
+			cella.text = ""
+			cella.custom_minimum_size = Vector2(96, 44)
+			cella.focus_mode = Control.FOCUS_ALL
+			cella.add_theme_font_size_override("font_size", 15)
+			cella.tooltip_text = "%s / %s: tocca per no, ancora per sì" % [str(soggetto), str(attributo)]
+			cella.add_theme_stylebox_override("normal", _exercise_button_style(Color(0.06, 0.18, 0.20, 0.96), Color("527980")))
+			cella.pressed.connect(_griglia_tocca.bind(str(soggetto), str(attributo), item))
+			griglia.add_child(cella)
+			_griglia_buttons[chiave] = cella
+			_griglia_state[chiave] = ""
+
+	_add_interaction_actions(_griglia_pulisci, _griglia_submit.bind(item))
+
+func _griglia_tocca(soggetto: String, attributo: String, item: Dictionary) -> void:
+	if _answered:
+		return
+	var chiave := "%s|%s" % [soggetto, attributo]
+	var stato := str(_griglia_state.get(chiave, ""))
+	var prossimo := "no" if stato == "" else ("si" if stato == "no" else "")
+	_griglia_state[chiave] = prossimo
+	if prossimo == "si":
+		# Un «sì» chiude la sua riga e la sua colonna: è la regola della griglia,
+		# e vederla applicata è metà di quello che c'è da imparare.
+		for altro in item.get("attributi", []):
+			if str(altro) != attributo:
+				_griglia_state["%s|%s" % [soggetto, str(altro)]] = "no"
+		for altro in item.get("soggetti", []):
+			if str(altro) != soggetto:
+				_griglia_state["%s|%s" % [str(altro), attributo]] = "no"
+	_griglia_ridisegna()
+	_causal_feedback("snap" if prossimo == "si" else "select", _griglia_buttons.get(chiave), 1.0)
+
+func _griglia_ridisegna() -> void:
+	for chiave in _griglia_buttons.keys():
+		var bottone := _griglia_buttons[chiave] as Button
+		var stato := str(_griglia_state.get(chiave, ""))
+		match stato:
+			"si":
+				bottone.text = "sì"
+				bottone.modulate = Color(0.72, 1.0, 0.84)
+			"no":
+				bottone.text = "no"
+				bottone.modulate = Color(0.62, 0.68, 0.72)
+			_:
+				bottone.text = ""
+				bottone.modulate = Color.WHITE
+
+func _griglia_pulisci() -> void:
+	if _answered:
+		return
+	for chiave in _griglia_state.keys():
+		_griglia_state[chiave] = ""
+	_griglia_ridisegna()
+	_flash_feedback("Griglia ripulita: puoi ricominciare a segnare.")
+
+func _griglia_submit(item: Dictionary) -> void:
+	var soluzione: Dictionary = item.get("soluzione", {})
+	var scelte: Dictionary = {}
+	for chiave in _griglia_state.keys():
+		if str(_griglia_state[chiave]) != "si":
+			continue
+		var parti := str(chiave).split("|")
+		if parti.size() != 2:
+			continue
+		if scelte.has(parti[0]):
+			_flash_feedback("«%s» ha due sì: ogni riga ne vuole uno solo." % parti[0])
+			return
+		scelte[parti[0]] = parti[1]
+	if scelte.size() < soluzione.size():
+		_flash_feedback("Manca ancora qualche sì: la griglia si chiude quando ogni riga ne ha uno.")
+		return
+	var corretta := true
+	for chiave in soluzione.keys():
+		if str(scelte.get(str(chiave), "")) != str(soluzione[chiave]):
+			corretta = false
+			break
+	_retryable_result(corretta, item, "Qualche sì contraddice un indizio: rileggili e ricontrolla le caselle.")
+
+# --- LE PORTE ----------------------------------------------------------------
+#
+# Quattro casi, una lampada per ciascuno. Si tocca il caso e la lampada si
+# accende o si spegne: la tavola di verità non si legge, si costruisce.
+func _build_porte(item: Dictionary) -> void:
+	var condizione := Label.new()
+	condizione.text = "La lampada deve accendersi quando:  %s" % str(item.get("condizione", ""))
+	condizione.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	condizione.add_theme_color_override("font_color", Color("8ff6d2"))
+	condizione.add_theme_font_size_override("font_size", 16)
+	_options.add_child(condizione)
+
+	var aiuto := Label.new()
+	aiuto.text = "Tocca ogni caso per accendere o spegnere la sua lampada."
+	aiuto.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	aiuto.add_theme_color_override("font_color", Color("b8d7dc"))
+	_options.add_child(aiuto)
+
+	for riga_data in item.get("righe", []):
+		var riga: Dictionary = riga_data
+		var chiave := str(riga.get("id", ""))
+		var fila := HBoxContainer.new()
+		fila.name = "PortaRiga_%s" % chiave.validate_node_name()
+		fila.add_theme_constant_override("separation", 10)
+		_options.add_child(fila)
+
+		var caso := Button.new()
+		caso.name = "PortaCaso_%s" % chiave.validate_node_name()
+		caso.text = str(riga.get("label", ""))
+		caso.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		caso.custom_minimum_size = Vector2(0, 52)
+		caso.focus_mode = Control.FOCUS_ALL
+		caso.add_theme_font_size_override("font_size", 15)
+		caso.add_theme_stylebox_override("normal", _exercise_button_style(Color(0.07, 0.20, 0.22, 0.96), Color("527980")))
+		caso.pressed.connect(_porte_tocca.bind(chiave))
+		fila.add_child(caso)
+		_porte_buttons[chiave] = caso
+
+		var lampada := Label.new()
+		lampada.name = "PortaLampada_%s" % chiave.validate_node_name()
+		lampada.text = "spenta"
+		lampada.custom_minimum_size = Vector2(120, 52)
+		lampada.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		lampada.add_theme_font_size_override("font_size", 15)
+		lampada.add_theme_color_override("font_color", Color("6d7f83"))
+		fila.add_child(lampada)
+		_porte_lamps[chiave] = lampada
+		_porte_state[chiave] = false
+
+	_add_interaction_actions(_porte_spegni, _porte_submit.bind(item))
+
+func _porte_tocca(chiave: String) -> void:
+	if _answered:
+		return
+	var acceso := not bool(_porte_state.get(chiave, false))
+	_porte_state[chiave] = acceso
+	_porte_ridisegna()
+	_causal_feedback("snap" if acceso else "cancel", _porte_buttons.get(chiave), 1.04 if acceso else 0.94)
+
+func _porte_ridisegna() -> void:
+	for chiave in _porte_lamps.keys():
+		var lampada := _porte_lamps[chiave] as Label
+		var acceso := bool(_porte_state.get(chiave, false))
+		lampada.text = "ACCESA" if acceso else "spenta"
+		lampada.add_theme_color_override("font_color", Color("f6c85f") if acceso else Color("6d7f83"))
+		var bottone := _porte_buttons[chiave] as Button
+		bottone.modulate = Color(1.0, 0.98, 0.86) if acceso else Color.WHITE
+
+func _porte_spegni() -> void:
+	if _answered:
+		return
+	for chiave in _porte_state.keys():
+		_porte_state[chiave] = false
+	_porte_ridisegna()
+	_flash_feedback("Tutte spente: puoi ricominciare dal primo caso.")
+
+func _porte_submit(item: Dictionary) -> void:
+	var soluzione: Dictionary = item.get("soluzione", {})
+	var corretta := true
+	for chiave in soluzione.keys():
+		if bool(_porte_state.get(str(chiave), false)) != bool(soluzione[chiave]):
+			corretta = false
+			break
+	_retryable_result(corretta, item, "Almeno un caso non rispetta la condizione: riguardali uno per uno.")
 
 # --- HOTSPOT / GRAFICO / CIRCUITO / NOTAZIONE / MAPPA (superficie diegetica) --
 func _build_visual_selection(item: Dictionary, fmt: String) -> void:

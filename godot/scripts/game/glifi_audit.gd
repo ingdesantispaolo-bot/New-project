@@ -25,7 +25,7 @@ const ATLAS_DATA := "res://assets/shop/reward-items-sheet.json"
 ##
 ## Stessa lista di `shop_presentation_audit`: se un giorno si aggiunge uno slot,
 ## va aggiunto in tutti e due, e il disaccordo torna a essere visibile subito.
-const SLOT_IN_VETRINA := ["bot", "avatar", "accessory", "module", "pet", "emblem", "upgrade", "decor"]
+const SLOT_IN_VETRINA := ["bot", "avatar", "accessory", "memento", "module", "pet", "emblem", "upgrade", "decor"]
 
 func _init() -> void:
 	var parsed = JSON.parse_string(FileAccess.get_file_as_string(ATLAS_DATA))

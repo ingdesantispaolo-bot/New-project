@@ -46,6 +46,7 @@ func _run() -> void:
 	_la_consegna_e_gratuita()
 	_l_ancoraggio_e_un_invito()
 	_l_ancoraggio_non_tocca_la_progressione()
+	_la_conquista_apre_un_ricordo()
 	_nessuna_categoria_si_scusa()
 	if errori.is_empty():
 		print("SHOP WORLD LINK audit VERDE — chiavi dal mondo, catalogo ancorato, nessuna promessa vuota")
@@ -168,6 +169,50 @@ func _l_ancoraggio_non_tocca_la_progressione() -> void:
 		if a.incontrato(id) != b.incontrato(id):
 			errori.append("la voce «%s» dipende dalla padronanza: è un gate didattico travestito" % id)
 			break
+
+func _la_conquista_apre_un_ricordo() -> void:
+	var save := _nuovo_save(1, [1])
+	var manager := RewardManager.new(save)
+	var id := "accessory-scarf"
+	_controlla(manager.incontrato(id), "la Sciarpa non compare arrivando nella Radura")
+	_controlla(not manager.conquistato(id), "la Sciarpa nasce gia' conquistata")
+	_controlla(not manager.can_unlock(id), "il ricordo si compra senza superare il Pericolo")
+	_controlla(manager.unavailable_reason(id).to_lower().contains("pericolo"),
+		"il blocco del ricordo non dice quale impresa manca")
+	save.mark_hazard_cleared("1", "world-danger-01")
+	_controlla(manager.conquistato(id), "il Sigillo non apre il ricordo locale")
+	_controlla(manager.can_unlock(id), "dopo il Pericolo la Sciarpa resta bloccata")
+
+	# La vertical slice e' diventata una collezione completa: esattamente una
+	# voce per mondo, sempre visibile arrivando e acquistabile soltanto dopo il
+	# relativo Pericolo.
+	var mondi: Array = []
+	for world in range(1, WorldProfileCatalog.MAX_LEVEL + 1):
+		mondi.append(world)
+	var campagna := _nuovo_save(24, mondi)
+	var catalogo := RewardCatalog.conquest_items()
+	_controlla(catalogo.size() == 24, "i Ricordi di conquista non sono 24")
+	var mondi_coperti := {}
+	for voce_data in catalogo:
+		var voce: Dictionary = voce_data
+		var world := int(voce.get("requiresHazardWorld", 0))
+		var reward_id := str(voce.get("id", ""))
+		_controlla(world in range(1, 25) and not mondi_coperti.has(world),
+			"mondo duplicato o invalido nella collezione: %d" % world)
+		mondi_coperti[world] = true
+		var reward_manager := RewardManager.new(campagna)
+		_controlla(reward_manager.incontrato(reward_id),
+			"il Ricordo %d non compare dopo l'arrivo nel mondo" % world)
+		_controlla(not reward_manager.conquistato(reward_id),
+			"il Ricordo %d nasce gia' conquistato" % world)
+		campagna.mark_hazard_cleared(str(world), "world-danger-%02d" % world)
+		_controlla(reward_manager.conquistato(reward_id) and reward_manager.can_unlock(reward_id),
+			"il Pericolo %d non apre il proprio Ricordo" % world)
+		_controlla(reward_manager.unlock_and_equip(reward_id) and reward_manager.owned(reward_id),
+			"il Ricordo %d non resta nella collezione dopo l'acquisto" % world)
+		if str(voce.get("slot", "")) == "memento":
+			_controlla(reward_manager.equipped_id("memento").is_empty(),
+				"il Ricordo %d occupa uno slot invisibile invece di restare in collezione" % world)
 
 func _nessuna_categoria_si_scusa() -> void:
 	var pannello := load("res://scripts/ui/outdoor_shop_panel.gd")

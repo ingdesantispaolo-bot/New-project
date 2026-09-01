@@ -111,6 +111,26 @@ func _refresh() -> void:
 	var minuti := int(r.get("minuti", 0))
 	_riga("Tempo sulle prove", _durata(minuti))
 
+	# --- Le Quattro Vie ------------------------------------------------------
+	# Non e' un voto totale: quattro righe separate impediscono che esplorare,
+	# capire e aiutare qualcuno diventino intercambiabili.
+	var riconoscimenti: Dictionary = r.get("riconoscimenti", {})
+	if int(riconoscimenti.get("facets", 0)) > 0:
+		_sezione("LE QUATTRO VIE")
+		_riga("Titolo del viaggio", str(riconoscimenti.get("title", "In Cammino")))
+		for path_data in Array(riconoscimenti.get("paths", [])):
+			var path: Dictionary = path_data
+			_riga(str(path.get("name", "Via")), "%d mondi" % int(path.get("count", 0)))
+		_nota("Una via si accende una volta per mondo. Le attivita' successive restano nel diario, ma non si possono farmare.")
+		var recenti: Array = Array(riconoscimenti.get("recent", []))
+		if not recenti.is_empty():
+			var ultimi: Array[String] = []
+			for index in range(mini(3, recenti.size())):
+				var entry: Dictionary = recenti[index]
+				ultimi.append("Mondo %d · %s" % [
+					int(entry.get("world", 1)), str(entry.get("label", "Progresso"))])
+			_nota("Ultimi segni: %s." % "; ".join(ultimi))
+
 	# --- Le prove -------------------------------------------------------------
 	_sezione("LE PROVE")
 	_riga("Superate", "%d" % int(r.get("proveSuperate", 0)))

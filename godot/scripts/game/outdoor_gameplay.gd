@@ -2,6 +2,7 @@ class_name OutdoorGameplay
 extends Node
 
 const ENIGMA_RETRY_COOLDOWN_SECONDS := 20
+const ProgressRecognition = preload("res://scripts/game/progress_recognition.gd")
 
 ## Logica gameplay del mondo esterno, estratta da outdoor_world.gd (C-02):
 ## possiede save/contenuti/progressione, il ciclo delle sessioni (missione,
@@ -82,6 +83,9 @@ signal minimission_completed(forma: String, encounter_id: String, esito: String)
 ## del 14 agosto non lo sapeva nessuno fuori di qui, tanto che il segnale
 ## `topic_consolidated` del Custode era dichiarato e non veniva mai emesso.
 signal topic_consolidated(subject: String, topic: String)
+## Una forma di progresso e' stata riconosciuta nel ritratto delle Quattro Vie.
+## La scena decide come celebrarla; il runtime salva e basta.
+signal progress_recognized(entry: Dictionary)
 
 var game_save: GameSaveManager
 var content_manager: ContentManager
@@ -421,6 +425,9 @@ func runtime_state() -> Dictionary:
 		"cosmeticsUnlocked": Array(game_save.data.get("cosmetics", {}).get("unlocked", [])).duplicate(),
 		"cosmeticsInventory": Array(game_save.data.get("cosmetics", {}).get("inventory", [])).duplicate(),
 		"cosmeticsEquipped": Dictionary(game_save.data.get("cosmetics", {}).get("equipped", {})).duplicate(),
+		# Ritratto non competitivo delle quattro forme di progresso. La UI non
+		# deve ricontare eventi o interpretare id del salvataggio.
+		"recognition": ProgressRecognition.summary(game_save),
 	}
 
 func update_phase(phase: String) -> void:
@@ -721,6 +728,17 @@ func _decorate_teaching_session(source: Dictionary, subject: String) -> Dictiona
 				moment = "new_facts"
 				lesson = KnowledgeCodex.fact_lesson(
 					subject, topic, str(nodo.get("explanation", "")), nuovi_fatti)
+		elif not nuovi_fatti.is_empty():
+			# **La lezione generale c'e', il fatto chiesto e' nuovo lo stesso.**
+			# (1 settembre 2026) E' il primo incontro con l'argomento: il ramo qui
+			# sopra non scatta perche' una lezione c'e' gia', e quella lezione
+			# spiega perche' le capitali stanno dove stanno senza dire quale sia
+			# la capitale della Norvegia. La tavola di riferimento innesta il
+			# pezzo mancante nella stessa scheda invece di aprirne una seconda.
+			var etichette_nuove: Array = []
+			for entry_e in nuovi_fatti:
+				etichette_nuove.append(str((entry_e as Dictionary).get("label", "")))
+			lesson = TavoleRiferimento.arricchisci(lesson, subject, topic, etichette_nuove)
 		if lesson.is_empty():
 			continue
 		gia_insegnati[topic] = true
@@ -886,8 +904,18 @@ func _inject_due_reviews(session: Dictionary, subject: String, level: int, due_t
 	out["nodes"] = nodes
 	return out
 
-func _build_practice_session(subject: String, topic_hint: String = "", format_hint: String = "") -> Dictionary:
-	var livello := _learning_level()
+func _build_practice_session(
+	subject: String, topic_hint: String = "", format_hint: String = "",
+	level_override: int = -1
+) -> Dictionary:
+	# I pericoli specifici appartengono al MONDO, non al livello corrente del
+	# giocatore: tornando nel mondo 4 la loro prova resta di livello 4. Tutte le
+	# pratiche normali continuano invece a usare `_learning_level()`.
+	var livello := (
+		clampi(level_override, 1, ApparatusConfig.MAX_LEVEL)
+		if level_override > 0
+		else _learning_level()
+	)
 	var due_topics := _due_topics_for(subject)
 	# Un hint scritto quando il mondo e' stato generato puo' essere precedente
 	# all'ultimo errore. Il recupero corrente ha sempre precedenza.
@@ -1003,7 +1031,8 @@ func try_start_minigame(payload: Dictionary, encounter_id: String, sconto: bool 
 	var subject := _subject_for_payload(payload)
 	var topic_hint := str(payload.get("topicHint", ""))
 	var format_hint := str(payload.get("format", ""))
-	var session := _build_practice_session(subject, topic_hint, format_hint)
+	var challenge_level := int(payload.get("challengeLevel", -1))
+	var session := _build_practice_session(subject, topic_hint, format_hint, challenge_level)
 	if Array(session.get("nodes", [])).is_empty():
 		_present_feedback("Minigioco non disponibile per %s." % subject, "system")
 		return false
@@ -1020,6 +1049,7 @@ func try_start_minigame(payload: Dictionary, encounter_id: String, sconto: bool 
 	active_session_context = {
 		"kind": "minigame", "encounterId": encounter_id, "subject": subject,
 		"topicHint": topic_hint, "formatHint": format_hint, "impronte": impronte,
+		"challengeLevel": challenge_level,
 	}
 	_present_feedback(NoraContextEngine.open_line(subject, false, _learning_level()), "nora")
 	# Il prezzo dell'uscita lo decide qui la semantica, non il player: così
@@ -1193,6 +1223,9 @@ func resolve_session(exercise_result: Dictionary) -> void:
 			game_save.add_energy(paga)
 			result["energyEarned"] = int(result.get("energyEarned", 0)) + paga
 			game_save.remember_practice_prints(subject, Array(context.get("impronte", [])))
+			_recognize_progress("work", str(context.get("encounterId", "ritrovo")), {
+				"subject": subject,
+			})
 			_present_feedback("Turno finito. +%d energia, e il banco è in ordine." % paga, "system")
 		else:
 			_present_feedback("Turno saltato: niente paga, ma niente danni.", "system")
@@ -1212,7 +1245,12 @@ func resolve_session(exercise_result: Dictionary) -> void:
 	for avanzato in codex_advanced:
 		var voce: Dictionary = avanzato
 		if str(voce.get("a", "")) == KnowledgeCodex.STATE_CONSOLIDATED:
-			topic_consolidated.emit(subject, str(voce.get("topic", "")))
+			var topic := str(voce.get("topic", ""))
+			topic_consolidated.emit(subject, topic)
+			_recognize_progress("topic", "%s:%s" % [subject, topic], {
+				"subject": subject,
+				"label": "Argomento consolidato: %s" % topic.replace("-", " "),
+			})
 	progress_report.record(game_save.level(), subject, game_save.mastery_of(subject), 1 if passed else 0, float(exercise_result.get("seconds", 0.0)))
 	if passed:
 		PlayDiary.register_passed_today(game_save)
@@ -1223,6 +1261,11 @@ func resolve_session(exercise_result: Dictionary) -> void:
 		var luce := WorldLight.accendi(game_save, _world_id())
 		var salito_grado := WorldLight.avanza_potenza(game_save)
 		world_light_changed.emit(luce, WorldLight.grado(game_save), salito_grado)
+		var recognition_kind := "practice" if kind == "minigame" else kind
+		var recognition_id := str(context.get("encounterId", ""))
+		if recognition_id.is_empty():
+			recognition_id = "%s:%s:%d" % [kind, subject, _learning_level()]
+		_recognize_progress(recognition_kind, recognition_id, {"subject": subject})
 	_update_spaced_repetition(subject, exercise_result)
 	# Dopo TUTTE le registrazioni della sessione, e prima di ogni ramo che
 	# presenta un esito: da qui in poi il gioco può dire «questa materia è
@@ -1309,6 +1352,10 @@ func resolve_session(exercise_result: Dictionary) -> void:
 			var livello_prima := game_save.level()
 			progression_manager.repair_and_advance(true)
 			salito_di_livello = game_save.level() > livello_prima
+			_recognize_progress("apparatus", "%s:%d" % [
+				str(context.get("apparatus", subject)), livello_prima], {
+				"subject": subject,
+			})
 			var apparatus_bonus := maxi(0, game_save.energy() - energy_before - gained)
 			result["energyEarned"] = int(result.get("energyEarned", 0)) + apparatus_bonus
 			_award_fragments(FragmentEconomy.PREMIO_RIPARAZIONE)
@@ -1323,6 +1370,37 @@ func resolve_session(exercise_result: Dictionary) -> void:
 	# raro — non consuma il piano gratuito come farebbe una copia a ogni prova.
 	_persist(salito_di_livello)
 	_emit_state()
+
+# ---------------------------------------------------------------------------
+# Le Quattro Vie: riconoscimento permanente, senza nuova economia.
+# ---------------------------------------------------------------------------
+
+## Porta pubblica usata dalla scena per progressi che non passano da una
+## sessione didattica (tracce, forzieri, abitanti, pericoli). Il salvataggio e'
+## immediato perche' una scoperta raccolta camminando non ha un altro commit
+## garantito dopo di lei.
+func recognize_progress(
+		kind: String, event_id: String, details: Dictionary = {}) -> Dictionary:
+	var entry := _recognize_progress(kind, event_id, details)
+	if entry.is_empty():
+		return {}
+	_persist()
+	_emit_state()
+	return entry
+
+## Variante interna: `resolve_session` la usa prima del proprio commit finale,
+## evitando due scritture per la stessa prova.
+func _recognize_progress(
+		kind: String, event_id: String, details: Dictionary = {}) -> Dictionary:
+	var entry := ProgressRecognition.record(
+		game_save, kind, event_id, int(game_save.current_world()), details)
+	if entry.is_empty():
+		return {}
+	var earned: Array = Array(result.get("recognitionsEarned", [])).duplicate(true)
+	earned.append(entry.duplicate(true))
+	result["recognitionsEarned"] = earned
+	progress_recognized.emit(entry.duplicate(true))
+	return entry
 
 # ---------------------------------------------------------------------------
 # Bottega (C-14): acquisto/equip cosmetici. La spesa passa da spend_fragments() E
@@ -1372,6 +1450,8 @@ func collect_treasure(payload: Dictionary, treasure_id: String = "") -> void:
 	if id != "" and not game_save.mark_treasure_collected(_world_id(), id):
 		return  # già raccolto in questo mondo: nessuna doppia ricompensa
 	_award_fragments(int(payload.get("rewardFragments", 0)))
+	if not id.is_empty():
+		_recognize_progress("treasure", id)
 	_persist()
 	_emit_state()
 

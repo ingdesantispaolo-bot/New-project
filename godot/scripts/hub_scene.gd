@@ -1417,7 +1417,13 @@ func _return_to_world() -> void:
 	get_tree().change_scene_to_file("res://scenes/outdoor_world.tscn")
 
 func _stage_world_launch(seed: String) -> void:
-	var request := NativeWorldState.default_request(seed)
+	var world_id := str(save.current_world())
+	var expedition_seed := (
+		save.begin_world_expedition(world_id)
+		if seed in ["ship-map", "riavvio-nave"]
+		else save.world_expedition_seed(world_id))
+	save.save()
+	var request := NativeWorldState.default_request(expedition_seed)
 	request["loadLocalSave"] = false
 	request["initialSave"] = save.data.duplicate(true)
 	request["worldLevel"] = save.current_world()

@@ -47,6 +47,11 @@ func _test_costruzione_tutte_materie() -> void:
 				# lo dichiarava «sequenza troppo corta».
 				"number_line", "balance", "timeline", "compose", "trace", "clue", "swipe",
 				"machine_path", "mystery_sample", "verb_decoder",
+				# I due formati della logica (1 settembre 2026): la griglia degli
+				# incroci e le porte. Anche loro hanno un contratto proprio — una
+				# soluzione sola per la griglia, quattro casi distinti per la
+				# tavola — e non un `correctOrder`.
+				"griglia", "porte",
 			]:
 				# Formati specialisti: valida col contratto comune.
 				var res := ExerciseInteraction.validate(node)

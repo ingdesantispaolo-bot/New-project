@@ -1229,11 +1229,102 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 		{"id": "hero-landmark", "position": _profile_hero_position(ship, level), "radius": 210.0},
 	]
 	_author_passages(data, spawn, ship, level)
+	_author_expedition_pockets(data, profile, rng, spawn, ship)
 	_author_activity_sockets(data, profile, spawn, ship)
 	# Mantiene il seed semanticamente visibile negli strumenti di debug senza
 	# usarlo per prendere decisioni didattiche.
 	data.seed = "%s::%s" % [seed, profile_id]
 	return data
+
+## Aggiunge pochi luoghi secondari diversi a ogni spedizione. Non introduce un
+## nuovo art kit: clona la grammatica di regioni e strumenti gia' scelta dal
+## profilo, la porta in una zona periferica e la collega alla rete dei sentieri.
+## Sono quindi sorprese di disposizione, non oggetti estranei al mondo.
+static func _author_expedition_pockets(
+	data: WorldCompositionData, profile: Dictionary, rng: RandomNumberGenerator,
+	spawn: Vector2, ship: Vector2
+) -> void:
+	var layout: Dictionary = profile.get("expeditionLayout", {})
+	var wanted := int(layout.get("pocketCount", 0))
+	var shape: PackedVector2Array = profile.get("worldShape", PackedVector2Array())
+	if wanted <= 0 or shape.is_empty() or data.identity_regions.is_empty() or data.identity_props.is_empty():
+		return
+	var extents: Vector2 = profile.get("worldExtents", Vector2.ONE * 2600.0)
+	var center: Vector2 = profile.get("worldCenter", ship)
+	var created: Array[Vector2] = []
+	var phase := rng.randf_range(-PI, PI)
+	for pocket_index in range(wanted):
+		var position := Vector2.INF
+		for attempt in range(18):
+			var angle := phase + TAU * (float(pocket_index) + float(attempt) * 0.19) / float(wanted)
+			var reach := rng.randf_range(0.60, 0.76)
+			var candidate := center + Vector2(
+				cos(angle) * extents.x * reach,
+				sin(angle) * extents.y * reach)
+			if not Geometry2D.is_point_in_polygon(candidate, shape):
+				continue
+			if candidate.distance_to(ship) < 1050.0 or candidate.distance_to(spawn) < 720.0:
+				continue
+			if data.raw_water_weight(candidate) > 0.22:
+				continue
+			var separated := true
+			for previous in created:
+				if candidate.distance_to(previous) < 760.0:
+					separated = false
+					break
+			if separated:
+				position = candidate
+				break
+		if position == Vector2.INF:
+			continue
+		created.append(position)
+
+		var source_region: Dictionary = Dictionary(data.identity_regions[
+			rng.randi_range(0, data.identity_regions.size() - 1)]).duplicate(true)
+		source_region["id"] = "expedition-pocket-%d" % pocket_index
+		source_region["position"] = position
+		source_region["radii"] = Vector2(rng.randf_range(260.0, 390.0), rng.randf_range(190.0, 300.0))
+		source_region["rotation"] = rng.randf_range(-0.22, 0.22)
+		data.identity_regions.append(source_region)
+
+		var source_prop: Dictionary = Dictionary(data.identity_props[
+			rng.randi_range(0, data.identity_props.size() - 1)]).duplicate(true)
+		source_prop["position"] = position + Vector2(
+			rng.randf_range(-90.0, 90.0), rng.randf_range(-55.0, 55.0))
+		source_prop["variant"] = rng.randf()
+		source_prop["expeditionPocket"] = pocket_index
+		data.identity_props.append(source_prop)
+
+		var trail_start := _nearest_path_point(data.paths, position)
+		var direction := position - trail_start
+		var normal := Vector2(-direction.y, direction.x).normalized()
+		data.paths.append({
+			"id": "expedition-trail-%d" % pocket_index,
+			"width": rng.randf_range(42.0, 56.0),
+			"points": PackedVector2Array([
+				trail_start,
+				trail_start.lerp(position, 0.48) + normal * rng.randf_range(-120.0, 120.0),
+				position,
+			]),
+		})
+		data.hero_pockets.append({
+			"id": "expedition-pocket-%d" % pocket_index,
+			"position": position,
+			"radius": 230.0,
+		})
+
+static func _nearest_path_point(paths: Array, target: Vector2) -> Vector2:
+	var best := target
+	var best_distance := INF
+	for path_data in paths:
+		var points: PackedVector2Array = Dictionary(path_data).get("points", PackedVector2Array())
+		for index in range(maxi(0, points.size() - 1)):
+			var candidate := Geometry2D.get_closest_point_to_segment(target, points[index], points[index + 1])
+			var distance := target.distance_squared_to(candidate)
+			if distance < best_distance:
+				best_distance = distance
+				best = candidate
+	return best
 
 ## Costruisce una grammatica di LUOGHI sopra la composizione gia' autorata.
 ##

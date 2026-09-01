@@ -520,10 +520,470 @@
         "h": 128
       }
     },
-    "pet-dog": {
+    "memento-02-foglia-sintassi": {
       "frame": {
         "x": 256,
         "y": 384,
+        "w": 128,
+        "h": 128
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 128,
+        "h": 128
+      },
+      "sourceSize": {
+        "w": 128,
+        "h": 128
+      }
+    },
+    "memento-03-gradino-ritorno": {
+      "frame": {
+        "x": 384,
+        "y": 384,
+        "w": 128,
+        "h": 128
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 128,
+        "h": 128
+      },
+      "sourceSize": {
+        "w": 128,
+        "h": 128
+      }
+    },
+    "memento-04-boa-dei-tempi": {
+      "frame": {
+        "x": 512,
+        "y": 384,
+        "w": 128,
+        "h": 128
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 128,
+        "h": 128
+      },
+      "sourceSize": {
+        "w": 128,
+        "h": 128
+      }
+    },
+    "memento-05-giunto-misura": {
+      "frame": {
+        "x": 640,
+        "y": 384,
+        "w": 128,
+        "h": 128
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 128,
+        "h": 128
+      },
+      "sourceSize": {
+        "w": 128,
+        "h": 128
+      }
+    },
+    "memento-06-seme-risonante": {
+      "frame": {
+        "x": 768,
+        "y": 384,
+        "w": 128,
+        "h": 128
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 128,
+        "h": 128
+      },
+      "sourceSize": {
+        "w": 128,
+        "h": 128
+      }
+    },
+    "memento-07-tessera-indivisa": {
+      "frame": {
+        "x": 896,
+        "y": 384,
+        "w": 128,
+        "h": 128
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 128,
+        "h": 128
+      },
+      "sourceSize": {
+        "w": 128,
+        "h": 128
+      }
+    },
+    "memento-08-bobina-periodo": {
+      "frame": {
+        "x": 0,
+        "y": 512,
+        "w": 128,
+        "h": 128
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 128,
+        "h": 128
+      },
+      "sourceSize": {
+        "w": 128,
+        "h": 128
+      }
+    },
+    "memento-09-ago-cartografico": {
+      "frame": {
+        "x": 128,
+        "y": 512,
+        "w": 128,
+        "h": 128
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 128,
+        "h": 128
+      },
+      "sourceSize": {
+        "w": 128,
+        "h": 128
+      }
+    },
+    "memento-10-ampolla-accento": {
+      "frame": {
+        "x": 256,
+        "y": 512,
+        "w": 128,
+        "h": 128
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 128,
+        "h": 128
+      },
+      "sourceSize": {
+        "w": 128,
+        "h": 128
+      }
+    },
+    "memento-11-sabbia-ordine": {
+      "frame": {
+        "x": 384,
+        "y": 512,
+        "w": 128,
+        "h": 128
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 128,
+        "h": 128
+      },
+      "sourceSize": {
+        "w": 128,
+        "h": 128
+      }
+    },
+    "memento-12-chiave-regola": {
+      "frame": {
+        "x": 512,
+        "y": 512,
+        "w": 128,
+        "h": 128
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 128,
+        "h": 128
+      },
+      "sourceSize": {
+        "w": 128,
+        "h": 128
+      }
+    },
+    "memento-13-anello-rapporto": {
+      "frame": {
+        "x": 640,
+        "y": 512,
+        "w": 128,
+        "h": 128
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 128,
+        "h": 128
+      },
+      "sourceSize": {
+        "w": 128,
+        "h": 128
+      }
+    },
+    "memento-14-conchiglia-legami": {
+      "frame": {
+        "x": 768,
+        "y": 512,
+        "w": 128,
+        "h": 128
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 128,
+        "h": 128
+      },
+      "sourceSize": {
+        "w": 128,
+        "h": 128
+      }
+    },
+    "memento-15-nodo-quieto": {
+      "frame": {
+        "x": 896,
+        "y": 512,
+        "w": 128,
+        "h": 128
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 128,
+        "h": 128
+      },
+      "sourceSize": {
+        "w": 128,
+        "h": 128
+      }
+    },
+    "memento-16-placca-varco": {
+      "frame": {
+        "x": 0,
+        "y": 640,
+        "w": 128,
+        "h": 128
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 128,
+        "h": 128
+      },
+      "sourceSize": {
+        "w": 128,
+        "h": 128
+      }
+    },
+    "memento-17-ampolla-equilibrio": {
+      "frame": {
+        "x": 128,
+        "y": 640,
+        "w": 128,
+        "h": 128
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 128,
+        "h": 128
+      },
+      "sourceSize": {
+        "w": 128,
+        "h": 128
+      }
+    },
+    "memento-18-diapason-riverbero": {
+      "frame": {
+        "x": 256,
+        "y": 640,
+        "w": 128,
+        "h": 128
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 128,
+        "h": 128
+      },
+      "sourceSize": {
+        "w": 128,
+        "h": 128
+      }
+    },
+    "memento-19-medaglione-radici": {
+      "frame": {
+        "x": 384,
+        "y": 640,
+        "w": 128,
+        "h": 128
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 128,
+        "h": 128
+      },
+      "sourceSize": {
+        "w": 128,
+        "h": 128
+      }
+    },
+    "memento-20-fibbia-concordanza": {
+      "frame": {
+        "x": 512,
+        "y": 640,
+        "w": 128,
+        "h": 128
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 128,
+        "h": 128
+      },
+      "sourceSize": {
+        "w": 128,
+        "h": 128
+      }
+    },
+    "memento-21-scheggia-scala": {
+      "frame": {
+        "x": 640,
+        "y": 640,
+        "w": 128,
+        "h": 128
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 128,
+        "h": 128
+      },
+      "sourceSize": {
+        "w": 128,
+        "h": 128
+      }
+    },
+    "memento-22-capsula-periodo": {
+      "frame": {
+        "x": 768,
+        "y": 640,
+        "w": 128,
+        "h": 128
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 128,
+        "h": 128
+      },
+      "sourceSize": {
+        "w": 128,
+        "h": 128
+      }
+    },
+    "memento-23-quadrante-ere": {
+      "frame": {
+        "x": 896,
+        "y": 640,
+        "w": 128,
+        "h": 128
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 128,
+        "h": 128
+      },
+      "sourceSize": {
+        "w": 128,
+        "h": 128
+      }
+    },
+    "memento-24-prisma-sintesi": {
+      "frame": {
+        "x": 0,
+        "y": 768,
+        "w": 128,
+        "h": 128
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 128,
+        "h": 128
+      },
+      "sourceSize": {
+        "w": 128,
+        "h": 128
+      }
+    },
+    "pet-dog": {
+      "frame": {
+        "x": 128,
+        "y": 768,
         "w": 128,
         "h": 128
       },
@@ -542,8 +1002,8 @@
     },
     "pet-cat": {
       "frame": {
-        "x": 384,
-        "y": 384,
+        "x": 256,
+        "y": 768,
         "w": 128,
         "h": 128
       },
@@ -562,8 +1022,8 @@
     },
     "pet-rabbit": {
       "frame": {
-        "x": 512,
-        "y": 384,
+        "x": 384,
+        "y": 768,
         "w": 128,
         "h": 128
       },
@@ -582,8 +1042,8 @@
     },
     "pet-spark": {
       "frame": {
-        "x": 640,
-        "y": 384,
+        "x": 512,
+        "y": 768,
         "w": 128,
         "h": 128
       },
@@ -602,8 +1062,8 @@
     },
     "pet-comet": {
       "frame": {
-        "x": 768,
-        "y": 384,
+        "x": 640,
+        "y": 768,
         "w": 128,
         "h": 128
       },
@@ -622,8 +1082,8 @@
     },
     "pet-orbit": {
       "frame": {
-        "x": 896,
-        "y": 384,
+        "x": 768,
+        "y": 768,
         "w": 128,
         "h": 128
       },
@@ -642,8 +1102,8 @@
     },
     "pet-satellite": {
       "frame": {
-        "x": 0,
-        "y": 512,
+        "x": 896,
+        "y": 768,
         "w": 128,
         "h": 128
       },
@@ -662,8 +1122,8 @@
     },
     "pet-prisma": {
       "frame": {
-        "x": 128,
-        "y": 512,
+        "x": 0,
+        "y": 896,
         "w": 128,
         "h": 128
       },
@@ -682,8 +1142,8 @@
     },
     "pet-luma": {
       "frame": {
-        "x": 256,
-        "y": 512,
+        "x": 128,
+        "y": 896,
         "w": 128,
         "h": 128
       },
@@ -702,8 +1162,8 @@
     },
     "pet-guardiano": {
       "frame": {
-        "x": 384,
-        "y": 512,
+        "x": 256,
+        "y": 896,
         "w": 128,
         "h": 128
       },
@@ -722,8 +1182,8 @@
     },
     "pet-codex": {
       "frame": {
-        "x": 512,
-        "y": 512,
+        "x": 384,
+        "y": 896,
         "w": 128,
         "h": 128
       },
@@ -742,8 +1202,8 @@
     },
     "emblem-star": {
       "frame": {
-        "x": 640,
-        "y": 512,
+        "x": 512,
+        "y": 896,
         "w": 128,
         "h": 128
       },
@@ -762,8 +1222,8 @@
     },
     "emblem-bolt": {
       "frame": {
-        "x": 768,
-        "y": 512,
+        "x": 640,
+        "y": 896,
         "w": 128,
         "h": 128
       },
@@ -782,8 +1242,8 @@
     },
     "emblem-crown": {
       "frame": {
-        "x": 896,
-        "y": 512,
+        "x": 768,
+        "y": 896,
         "w": 128,
         "h": 128
       },
@@ -802,8 +1262,8 @@
     },
     "emblem-atom": {
       "frame": {
-        "x": 0,
-        "y": 640,
+        "x": 896,
+        "y": 896,
         "w": 128,
         "h": 128
       },
@@ -822,8 +1282,8 @@
     },
     "emblem-scroll": {
       "frame": {
-        "x": 128,
-        "y": 640,
+        "x": 0,
+        "y": 1024,
         "w": 128,
         "h": 128
       },
@@ -842,8 +1302,8 @@
     },
     "module-hush": {
       "frame": {
-        "x": 256,
-        "y": 640,
+        "x": 128,
+        "y": 1024,
         "w": 128,
         "h": 128
       },
@@ -862,8 +1322,8 @@
     },
     "module-ballast": {
       "frame": {
-        "x": 384,
-        "y": 640,
+        "x": 256,
+        "y": 1024,
         "w": 128,
         "h": 128
       },
@@ -882,8 +1342,8 @@
     },
     "nora-lens": {
       "frame": {
-        "x": 512,
-        "y": 640,
+        "x": 384,
+        "y": 1024,
         "w": 128,
         "h": 128
       },
@@ -902,8 +1362,8 @@
     },
     "nora-reserve": {
       "frame": {
-        "x": 640,
-        "y": 640,
+        "x": 512,
+        "y": 1024,
         "w": 128,
         "h": 128
       },
@@ -922,8 +1382,8 @@
     },
     "nora-shield": {
       "frame": {
-        "x": 768,
-        "y": 640,
+        "x": 640,
+        "y": 1024,
         "w": 128,
         "h": 128
       },
@@ -942,8 +1402,8 @@
     },
     "nora-prismatic-core": {
       "frame": {
-        "x": 896,
-        "y": 640,
+        "x": 768,
+        "y": 1024,
         "w": 128,
         "h": 128
       },
@@ -962,8 +1422,8 @@
     },
     "decor-laboratorio": {
       "frame": {
-        "x": 0,
-        "y": 768,
+        "x": 896,
+        "y": 1024,
         "w": 128,
         "h": 128
       },
@@ -982,8 +1442,8 @@
     },
     "decor-serra": {
       "frame": {
-        "x": 128,
-        "y": 768,
+        "x": 0,
+        "y": 1152,
         "w": 128,
         "h": 128
       },
@@ -1002,8 +1462,8 @@
     },
     "decor-circuiti": {
       "frame": {
-        "x": 256,
-        "y": 768,
+        "x": 128,
+        "y": 1152,
         "w": 128,
         "h": 128
       },
@@ -1022,8 +1482,8 @@
     },
     "decor-osservatorio": {
       "frame": {
-        "x": 384,
-        "y": 768,
+        "x": 256,
+        "y": 1152,
         "w": 128,
         "h": 128
       },
@@ -1042,8 +1502,8 @@
     },
     "decor-musica": {
       "frame": {
-        "x": 512,
-        "y": 768,
+        "x": 384,
+        "y": 1152,
         "w": 128,
         "h": 128
       },
@@ -1062,8 +1522,8 @@
     },
     "decor-archivio": {
       "frame": {
-        "x": 640,
-        "y": 768,
+        "x": 512,
+        "y": 1152,
         "w": 128,
         "h": 128
       },
@@ -1082,8 +1542,8 @@
     },
     "decor-biblioteca-classica": {
       "frame": {
-        "x": 768,
-        "y": 768,
+        "x": 640,
+        "y": 1152,
         "w": 128,
         "h": 128
       },
@@ -1107,7 +1567,7 @@
     "format": "RGBA8888",
     "size": {
       "w": 1024,
-      "h": 896
+      "h": 1280
     },
     "scale": "1"
   }

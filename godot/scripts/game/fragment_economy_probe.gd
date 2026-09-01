@@ -24,9 +24,6 @@ extends SceneTree
 ## Uso: godot --headless --path godot --script res://scripts/game/fragment_economy_probe.gd
 
 const CHUNK_SIZE := 896
-const CATALOGO_COSMETICI := 72600   # somma dei costi in RewardCatalog (economy_probe)
-const CATALOGO_MODULI := 950        # i tre moduli di spedizione
-
 ## Quanta parte dei forzieri disponibili viene aperta in una campagna. Non è
 ## misurato: è l'assunzione centrale della sonda. Metà è già generoso per un
 ## mondo che si attraversa avendo un obiettivo altrove.
@@ -41,6 +38,7 @@ const RIPARAZIONI := 24
 const CAMERE := 24
 const VARCHI_STIMATI := 48          # due guardiani di forziere per mondo
 const TIER_VARCO_MEDIO := 4
+const PERICOLI_DEL_MONDO := 24      # uno unico per mondo
 
 func _init() -> void:
 	var generator := OutdoorGenerator.new()
@@ -96,15 +94,37 @@ func _init() -> void:
 		totale_forzieri += forzieri
 		totale_frammenti_forzieri += frammenti
 
+	var premio_pericoli := 0
+	for level in range(1, PERICOLI_DEL_MONDO + 1):
+		var tier := clampi(1 + int(floor(float(level - 1) / 5.0)), 1, 5)
+		premio_pericoli += FragmentEconomy.premio_pericolo(tier)
 	var fissi := (
 		INCONTRI_CAMPAGNA * FragmentEconomy.PREMIO_INCONTRO
 		+ RIPARAZIONI * FragmentEconomy.PREMIO_RIPARAZIONE
 		+ CAMERE * FragmentEconomy.PREMIO_CAMERA
 		+ VARCHI_STIMATI * FragmentEconomy.premio_varco(TIER_VARCO_MEDIO)
+		+ premio_pericoli
 	)
 	var raccolti := int(round(float(totale_frammenti_forzieri) * TASSO_RACCOLTA))
 	var offerta := raccolti + fissi
-	var catalogo := CATALOGO_COSMETICI + CATALOGO_MODULI
+	# Il catalogo si misura dalla fonte autorevole: i Ricordi di conquista lo
+	# fanno crescere durante l'autoring e un totale copiato a mano mentirebbe alla
+	# prima nuova voce. Gli strumenti restano esclusi perché non sono in vendita.
+	var catalogo_cosmetici := 0
+	var catalogo_moduli := 0
+	var catalogo_ricordi := 0
+	for voce_data in RewardCatalog.CATALOG:
+		var voce: Dictionary = voce_data
+		var slot := str(voce.get("slot", ""))
+		if int(voce.get("requiresHazardWorld", 0)) > 0:
+			catalogo_ricordi += int(voce.get("cost", 0))
+		if slot == "tool":
+			continue
+		if slot == "module":
+			catalogo_moduli += int(voce.get("cost", 0))
+		else:
+			catalogo_cosmetici += int(voce.get("cost", 0))
+	var catalogo := catalogo_cosmetici + catalogo_moduli
 
 	for riga in righe:
 		print(riga)
@@ -113,8 +133,10 @@ func _init() -> void:
 	print("frammenti nei forzieri (offerta)   : %d" % totale_frammenti_forzieri)
 	print("  di cui raccolti al %d%%            : %d" % [int(TASSO_RACCOLTA * 100.0), raccolti])
 	print("frammenti da fonti fisse           : %d" % fissi)
+	print("  di cui Pericoli del Mondo         : %d" % premio_pericoli)
 	print("TOTALE campagna                    : %d" % offerta)
 	print("catalogo bottega + moduli          : %d" % catalogo)
+	print("  di cui Ricordi di conquista       : %d" % catalogo_ricordi)
 	print("rapporto catalogo/offerta          : %.1f×" % (float(catalogo) / maxf(float(offerta), 1.0)))
 	print("quota del catalogo comprabile      : %d%%" % int(round(float(offerta) / float(catalogo) * 100.0)))
 	print("")

@@ -6850,6 +6850,405 @@
 			}
 		},
 		{
+			"id": "italiano-lessico-0",
+			"subject": "italiano",
+			"topic": "lessico",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Penna sta a scrivere come forbici sta a…",
+			"options": [
+				"Cucire",
+				"Incollare",
+				"Tagliare",
+				"Misurare"
+			],
+			"answer": "Tagliare",
+			"explanation": "La relazione è «strumento → azione che compie»: si cerca la stessa relazione, non una parola simile.",
+			"distractorWhy": {
+				"Cucire": "Si cuce con ago e filo, non con le forbici.",
+				"Incollare": "Si incolla con la colla, non con le forbici.",
+				"Misurare": "Si misura con il righello, non con le forbici."
+			}
+		},
+		{
+			"id": "italiano-lessico-1",
+			"subject": "italiano",
+			"topic": "lessico",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Medico sta a ospedale come insegnante sta a…",
+			"options": [
+				"Lezione",
+				"Libro",
+				"Studente",
+				"Scuola"
+			],
+			"answer": "Scuola",
+			"explanation": "La relazione è «chi lavora → luogo di lavoro»: lo studente è una persona, la lezione un'attività.",
+			"distractorWhy": {
+				"Libro": "Il libro è uno strumento di lavoro, non il luogo dove si lavora.",
+				"Studente": "Lo studente è una persona con cui si lavora, non il luogo di lavoro.",
+				"Lezione": "La lezione è l'attività svolta, non il luogo dove avviene."
+			}
+		},
+		{
+			"id": "italiano-lessico-2",
+			"subject": "italiano",
+			"topic": "lessico",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Freddo sta a caldo come buio sta a…",
+			"options": [
+				"Luce",
+				"Paura",
+				"Nero",
+				"Notte"
+			],
+			"answer": "Luce",
+			"explanation": "La relazione è di opposizione. «Notte» è associata al buio ma non è il suo contrario.",
+			"distractorWhy": {
+				"Notte": "La notte è associata al buio, ma non è il suo contrario: quello è la luce.",
+				"Nero": "Il nero è un colore associato al buio, non il suo opposto.",
+				"Paura": "La paura è un'emozione che il buio può causare, non il suo contrario."
+			}
+		},
+		{
+			"id": "italiano-lessico-3",
+			"subject": "italiano",
+			"topic": "lessico",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Chilometro sta a distanza come chilogrammo sta a…",
+			"options": [
+				"Peso di una persona",
+				"Massa",
+				"Grandezza",
+				"Bilancia"
+			],
+			"answer": "Massa",
+			"explanation": "La relazione è «unità → grandezza misurata». La bilancia è lo strumento, non la grandezza.",
+			"distractorWhy": {
+				"Bilancia": "La bilancia è lo strumento che misura, non la grandezza misurata.",
+				"Peso di una persona": "È un esempio specifico di massa misurata, non il nome della grandezza.",
+				"Grandezza": "È troppo generico: serve il nome specifico della grandezza, come per «distanza»."
+			}
+		},
+		{
+			"id": "italiano-lessico-4",
+			"subject": "italiano",
+			"topic": "lessico",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Cucciolo sta a cane come puledro sta a…",
+			"options": [
+				"Corsa",
+				"Fieno",
+				"Cavallo",
+				"Stalla"
+			],
+			"answer": "Cavallo",
+			"explanation": "La relazione è «piccolo → animale adulto della stessa specie».",
+			"distractorWhy": {
+				"Stalla": "La stalla è il luogo dove vive il cavallo, non l'animale adulto.",
+				"Corsa": "La corsa è un'attività del cavallo, non l'animale adulto.",
+				"Fieno": "Il fieno è il cibo del cavallo, non l'animale adulto."
+			}
+		},
+		{
+			"id": "italiano-lessico-5",
+			"subject": "italiano",
+			"topic": "lessico",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Pagina sta a libro come fotogramma sta a…",
+			"options": [
+				"Cinema",
+				"Attore",
+				"Macchina fotografica",
+				"Film"
+			],
+			"answer": "Film",
+			"explanation": "La relazione è «parte → intero di cui fa parte». Il cinema è il luogo, non l'opera.",
+			"distractorWhy": {
+				"Cinema": "Il cinema è il luogo dove si guarda, non l'opera di cui il fotogramma è parte.",
+				"Macchina fotografica": "È lo strumento che scatta le foto, non l'opera composta da fotogrammi.",
+				"Attore": "L'attore recita nel film, ma non è l'opera di cui il fotogramma è parte."
+			}
+		},
+		{
+			"id": "italiano-lessico-6",
+			"subject": "italiano",
+			"topic": "lessico",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Caldo sta a freddo come alto sta a…?",
+			"options": [
+				"basso",
+				"veloce",
+				"grande",
+				"lungo"
+			],
+			"answer": "basso",
+			"explanation": "La relazione è «il contrario di». Trovata la relazione nella prima coppia, si applica identica alla seconda.",
+			"distractorWhy": {
+				"grande": "Non è il contrario di «alto»: riguarda la dimensione generale, non l'altezza.",
+				"lungo": "Non è il contrario di «alto»: riguarda la lunghezza, non l'altezza.",
+				"veloce": "Non è affatto un contrario di «alto»: riguarda la velocità, un'altra caratteristica."
+			}
+		},
+		{
+			"id": "italiano-lessico-7",
+			"subject": "italiano",
+			"topic": "lessico",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Uccello sta a volare come pesce sta a…?",
+			"options": [
+				"camminare",
+				"nuotare",
+				"saltare",
+				"correre"
+			],
+			"answer": "nuotare",
+			"explanation": "La relazione è «come si sposta»: ogni animale va con il movimento del suo ambiente.",
+			"distractorWhy": {
+				"camminare": "Non è il movimento tipico del pesce, che vive nell'acqua.",
+				"correre": "Non è il movimento tipico del pesce: si muove nell'acqua, non sulla terra.",
+				"saltare": "Non è il movimento tipico del pesce."
+			}
+		},
+		{
+			"id": "italiano-lessico-8",
+			"subject": "italiano",
+			"topic": "lessico",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Libro sta a leggere come cibo sta a…?",
+			"options": [
+				"comprare",
+				"cucinare",
+				"mangiare",
+				"servire"
+			],
+			"answer": "mangiare",
+			"explanation": "La relazione è «che cosa se ne fa»: del libro si legge, del cibo si mangia. Cucinare viene prima, non è l'uso finale.",
+			"distractorWhy": {
+				"cucinare": "Si cucina prima di mangiare: non è l'uso finale del cibo, come leggere lo è per il libro.",
+				"comprare": "Si compra prima di usarlo: non è l'azione finale, come leggere lo è per il libro.",
+				"servire": "Servire è un passaggio prima di mangiare, non l'azione finale."
+			}
+		},
+		{
+			"id": "italiano-lessico-9",
+			"subject": "italiano",
+			"topic": "lessico",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Tiepido sta a bollente come fresco sta a…?",
+			"options": [
+				"caldo",
+				"umido",
+				"piacevole",
+				"gelido"
+			],
+			"answer": "gelido",
+			"explanation": "La relazione non è di contrario ma di grado: bollente è la versione estrema di tiepido, gelido quella di fresco. Nelle analogie conta il tipo di legame, non il significato delle singole parole.",
+			"distractorWhy": {
+				"caldo": "Va dalla parte opposta: fresco e caldo sono contrari, non lo stesso grado spinto all'estremo.",
+				"umido": "Parla di quanta acqua c'è nell'aria, non di quanto fa freddo.",
+				"piacevole": "È un giudizio, non un grado di temperatura: rompe il tipo di legame."
+			}
+		},
+		{
+			"id": "italiano-lessico-10",
+			"subject": "italiano",
+			"topic": "lessico",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Orologio sta a tempo come termometro sta a…",
+			"options": [
+				"temperatura",
+				"calore",
+				"acqua",
+				"altezza"
+			],
+			"answer": "temperatura",
+			"explanation": "La relazione è «strumento → grandezza che misura». Il calore e la temperatura non sono la stessa cosa.",
+			"distractorWhy": {
+				"calore": "Il calore è l'energia che il termometro rileva, ma la grandezza che misura è la temperatura.",
+				"acqua": "L'acqua può essere il liquido dentro un termometro, ma non è ciò che misura.",
+				"altezza": "L'altezza si misura con un metro, non con un termometro."
+			}
+		},
+		{
+			"id": "italiano-lessico-11",
+			"subject": "italiano",
+			"topic": "lessico",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Ape sta ad alveare come formica sta a…",
+			"options": [
+				"favo di cera",
+				"formicaio",
+				"nido",
+				"tana sottoterra"
+			],
+			"answer": "formicaio",
+			"explanation": "La relazione è «animale → la sua casa». Il favo sta dentro l'alveare, non è la casa della formica.",
+			"distractorWhy": {
+				"favo di cera": "Il favo è la struttura dentro l'alveare, non la casa dell'ape nel suo insieme.",
+				"nido": "Il nido è la casa di molti uccelli, non delle formiche.",
+				"tana sottoterra": "La tana è la casa di molti mammiferi, non delle formiche."
+			}
+		},
+		{
+			"id": "italiano-lessico-12",
+			"subject": "italiano",
+			"topic": "lessico",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Grande sta a piccolo come alto sta a…?",
+			"options": [
+				"veloce",
+				"largo",
+				"basso",
+				"lungo"
+			],
+			"answer": "basso",
+			"explanation": "Sono coppie di contrari: grande/piccolo, alto/basso.",
+			"distractorWhy": {
+				"lungo": "Non è il contrario di «alto»: riguarda la lunghezza, non l'altezza.",
+				"largo": "Non è il contrario di «alto»: riguarda la larghezza, non l'altezza.",
+				"veloce": "Non è un contrario di «alto»: riguarda la velocità."
+			}
+		},
+		{
+			"id": "italiano-lessico-13",
+			"subject": "italiano",
+			"topic": "lessico",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Cane sta a cucciolo come gatto sta a…?",
+			"options": [
+				"cavallo",
+				"agnello",
+				"pulcino",
+				"gattino"
+			],
+			"answer": "gattino",
+			"explanation": "Il piccolo del gatto è il gattino.",
+			"distractorWhy": {
+				"cavallo": "Non è il piccolo del gatto: è un altro animale adulto.",
+				"pulcino": "È il piccolo della gallina, non del gatto.",
+				"agnello": "È il piccolo della pecora, non del gatto."
+			}
+		},
+		{
+			"id": "italiano-lessico-14",
+			"subject": "italiano",
+			"topic": "lessico",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Mano sta a guanto come piede sta a…?",
+			"options": [
+				"scarpa",
+				"sciarpa",
+				"cintura",
+				"cappello"
+			],
+			"answer": "scarpa",
+			"explanation": "Il guanto veste la mano, la scarpa il piede.",
+			"distractorWhy": {
+				"cappello": "Il cappello veste la testa, non il piede.",
+				"sciarpa": "La sciarpa veste il collo, non il piede.",
+				"cintura": "La cintura veste la vita, non il piede."
+			}
+		},
+		{
+			"id": "italiano-lessico-15",
+			"subject": "italiano",
+			"topic": "lessico",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Giorno sta a Sole come notte sta a…?",
+			"options": [
+				"buio totale",
+				"Luna",
+				"lampada",
+				"stella cadente"
+			],
+			"answer": "Luna",
+			"explanation": "Di giorno splende il Sole, di notte la Luna.",
+			"distractorWhy": {
+				"lampada": "La lampada è una luce artificiale, non l'astro che illumina la notte.",
+				"buio totale": "Di notte c'è comunque la luce della Luna: non è buio totale.",
+				"stella cadente": "È un evento raro, non l'astro che illumina regolarmente la notte."
+			}
+		},
+		{
+			"id": "italiano-lessico-16",
+			"subject": "italiano",
+			"topic": "lessico",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Libro sta a leggere come musica sta a…?",
+			"options": [
+				"scrivere",
+				"guardare",
+				"ascoltare",
+				"annusare"
+			],
+			"answer": "ascoltare",
+			"explanation": "Un libro si legge, la musica si ascolta.",
+			"distractorWhy": {
+				"guardare": "La musica si ascolta, non si guarda.",
+				"scrivere": "Scrivere è comporre la musica, non l'azione di goderne come leggere per il libro.",
+				"annusare": "Non è affatto un'azione legata alla musica."
+			}
+		},
+		{
+			"id": "italiano-lessico-il-cane-sta-alla-cuccia-come-l-uccello-sta-al",
+			"subject": "italiano",
+			"topic": "lessico",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Il cane sta alla cuccia come l'uccello sta al...",
+			"options": [
+				"cielo",
+				"becco",
+				"nido",
+				"volo"
+			],
+			"answer": "nido",
+			"explanation": "In entrambi i casi si tratta del posto in cui l'animale abita.",
+			"distractorWhy": {
+				"cielo": "Il cielo è dove vola, non la sua casa: la cuccia è la casa del cane, il nido quella dell'uccello.",
+				"becco": "Il becco è una parte del corpo dell'uccello, non il suo posto per abitare.",
+				"volo": "Il volo è un'azione, non un luogo dove abitare."
+			}
+		},
+		{
+			"id": "italiano-lessico-la-penna-sta-allo-scrivere-come-le-forbici-stann",
+			"subject": "italiano",
+			"topic": "lessico",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "La penna sta allo scrivere come le forbici stanno al...",
+			"options": [
+				"cucire",
+				"misurare",
+				"disegnare",
+				"tagliare"
+			],
+			"answer": "tagliare",
+			"explanation": "In entrambi i casi si tratta di ciò per cui l'oggetto serve.",
+			"distractorWhy": {
+				"cucire": "Si cuce con ago e filo, non con le forbici.",
+				"misurare": "Si misura con il righello, non con le forbici.",
+				"disegnare": "Si disegna con la matita, non con le forbici."
+			}
+		},
+		{
 			"id": "italiano-tempi-indicativo-ieri-marta-al-parco-quale-forma-completa-la-fr-0",
 			"subject": "italiano",
 			"topic": "tempi-indicativo",
@@ -8760,8 +9159,8 @@
 			"options": [
 				"una amica",
 				"un amica",
-				"un'amica",
-				"un'amico"
+				"un'amico",
+				"un'amica"
 			],
 			"answer": "un'amica",
 			"explanation": "L'apostrofo serve davanti a parola femminile che comincia per vocale: «una amica» diventa «un'amica». Al maschile si scrive «un amico», senza apostrofo.",
@@ -8779,10 +9178,10 @@
 			"format": "multiple_choice",
 			"prompt": "Si scrive «qual è» o «qual'è»?",
 			"options": [
+				"qual è",
 				"qualè",
 				"qual'è",
-				"quale è",
-				"qual è"
+				"quale è"
 			],
 			"answer": "qual è",
 			"explanation": "«Qual» è una forma tronca, non elisa: non vuole l'apostrofo. È una delle regole più tradite in assoluto.",
@@ -8844,8 +9243,8 @@
 			"options": [
 				"o fatto",
 				"hò fatto",
-				"ho fatto",
-				"ó fatto"
+				"ó fatto",
+				"ho fatto"
 			],
 			"answer": "ho fatto",
 			"explanation": "«Ho» è voce del verbo avere e vuole l'acca; «o» senza acca è la congiunzione: «pane o pasta».",
@@ -8863,10 +9262,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale frase è scritta correttamente?",
 			"options": [
+				"Non so se ne ha parlato",
 				"Non sò se ne ha parlato",
 				"Non so se n'è parlato lui",
-				"Non so se nè ha parlato",
-				"Non so se ne ha parlato"
+				"Non so se nè ha parlato"
 			],
 			"answer": "Non so se ne ha parlato",
 			"explanation": "«So» non vuole accento; «ne» pronome non vuole accento; «né» con accento significa «e non».",
@@ -8884,8 +9283,8 @@
 			"format": "multiple_choice",
 			"prompt": "Si scrive «un po'» o «un pò»?",
 			"options": [
-				"un po'",
 				"un pò",
+				"un po'",
 				"un po",
 				"un pó"
 			],
@@ -8906,8 +9305,8 @@
 			"prompt": "Quale coppia è scritta correttamente?",
 			"options": [
 				"dà (verbo) e dà (preposizione)",
-				"dà (verbo) e da (preposizione)",
 				"da (verbo) e da (preposizione)",
+				"dà (verbo) e da (preposizione)",
 				"da (verbo) e dà (preposizione)"
 			],
 			"answer": "dà (verbo) e da (preposizione)",
@@ -8928,8 +9327,8 @@
 			"options": [
 				"loh visto",
 				"l'o visto",
-				"l'ho visto",
-				"lo visto"
+				"lo visto",
+				"l'ho visto"
 			],
 			"answer": "l'ho visto",
 			"explanation": "«L'ho» è «lo» + «ho»: il pronome si elide e il verbo tiene l'acca.",
@@ -8947,10 +9346,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale di queste parole in -ente è scritta correttamente?",
 			"options": [
+				"efficiente",
 				"efficente",
 				"efficente e sufficente",
-				"eficiente",
-				"efficiente"
+				"eficiente"
 			],
 			"answer": "efficiente",
 			"explanation": "Si scrive con la i: efficiente, sufficiente, deficiente. Segue la regola dei participi in -ente da verbi in -ire.",
@@ -8968,8 +9367,8 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola è scritta correttamente?",
 			"options": [
-				"coscienza",
 				"coscenza",
+				"coscienza",
 				"cosciensa",
 				"conoscienza"
 			],
@@ -9012,8 +9411,8 @@
 			"options": [
 				"se",
 				"sè",
-				"sé",
-				"s'è"
+				"s'è",
+				"sé"
 			],
 			"answer": "sé",
 			"explanation": "Il pronome vuole l'accento acuto: «sé». Senza accento «se» è la congiunzione dell'ipotesi, «se piove». Davanti a «stesso» oggi si tollera anche «se stesso», ma con l'accento è sempre corretto.",
@@ -9031,10 +9430,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale frase contiene un errore?",
 			"options": [
+				"Qual'è il tuo nome?",
 				"Che cosa hai fatto?",
 				"Non lo so ancora",
-				"Qual è il tuo nome?",
-				"Qual'è il tuo nome?"
+				"Qual è il tuo nome?"
 			],
 			"answer": "Qual'è il tuo nome?",
 			"explanation": "«Qual è» non vuole apostrofo: è l'errore ortografico più diffuso in italiano.",
@@ -9052,8 +9451,8 @@
 			"format": "multiple_choice",
 			"prompt": "Quale segno chiude una domanda?",
 			"options": [
-				"Il punto interrogativo",
 				"I due punti",
+				"Il punto interrogativo",
 				"Il punto esclamativo",
 				"Il punto e virgola"
 			],
@@ -9074,8 +9473,8 @@
 			"prompt": "In «Ho comprato tutto: pane, latte e uova», che cosa annunciano i due punti?",
 			"options": [
 				"Una pausa più lunga della virgola",
-				"Un elenco che spiega quel «tutto»",
 				"Un cambio di argomento nel testo",
+				"Un elenco che spiega quel «tutto»",
 				"La chiusura di un discorso diretto"
 			],
 			"answer": "Un elenco che spiega quel «tutto»",
@@ -9096,8 +9495,8 @@
 			"options": [
 				"Marco vieni, qui un momento.",
 				"Marco, vieni, qui un momento.",
-				"Marco, vieni qui un momento.",
-				"Marco vieni qui, un momento."
+				"Marco vieni qui, un momento.",
+				"Marco, vieni qui un momento."
 			],
 			"answer": "Marco, vieni qui un momento.",
 			"explanation": "La virgola isola il vocativo, cioè la persona a cui ci si rivolge. Separare il verbo dal suo oggetto è invece un errore.",
@@ -9115,10 +9514,10 @@
 			"format": "multiple_choice",
 			"prompt": "Perché non si mette mai la virgola fra soggetto e verbo?",
 			"options": [
+				"Perché spezza il legame fondamentale della frase",
 				"Perché la virgola serve soltanto agli elenchi",
 				"Perché il verbo non ammette pause vicine",
-				"Perché il soggetto va sempre per ultimo",
-				"Perché spezza il legame fondamentale della frase"
+				"Perché il soggetto va sempre per ultimo"
 			],
 			"answer": "Perché spezza il legame fondamentale della frase",
 			"explanation": "«Il cane, abbaia» è sbagliato: soggetto e verbo formano il nucleo della frase e non vanno separati.",
@@ -9136,8 +9535,8 @@
 			"format": "multiple_choice",
 			"prompt": "Quale segno introduce di solito il discorso diretto?",
 			"options": [
-				"I due punti seguiti dalle virgolette",
 				"La virgola seguita dal trattino",
+				"I due punti seguiti dalle virgolette",
 				"Il punto e virgola con la parentesi",
 				"Il punto esclamativo con le virgolette"
 			],
@@ -9158,8 +9557,8 @@
 			"prompt": "A che cosa serve il punto e virgola?",
 			"options": [
 				"A chiudere in modo definitivo un periodo",
-				"A separare parti collegate ma abbastanza autonome",
 				"A segnalare che nella frase manca qualche parola",
+				"A separare parti collegate ma abbastanza autonome",
 				"A introdurre sempre e solo un elenco puntato"
 			],
 			"answer": "A separare parti collegate ma abbastanza autonome",
@@ -9180,8 +9579,8 @@
 			"options": [
 				"Se, piove resto a casa.",
 				"Se piove, resto, a casa.",
-				"Se piove, resto a casa.",
-				"Se piove resto, a casa."
+				"Se piove resto, a casa.",
+				"Se piove, resto a casa."
 			],
 			"answer": "Se piove, resto a casa.",
 			"explanation": "La virgola separa la subordinata anticipata dalla principale: quando la condizione viene prima, la virgola aiuta a leggere.",
@@ -9199,10 +9598,10 @@
 			"format": "multiple_choice",
 			"prompt": "Che cosa segnalano i puntini di sospensione?",
 			"options": [
+				"Una frase lasciata in sospeso",
 				"La fine definitiva del testo",
 				"Un errore di battitura",
-				"Un elenco che continua a lungo",
-				"Una frase lasciata in sospeso"
+				"Un elenco che continua a lungo"
 			],
 			"answer": "Una frase lasciata in sospeso",
 			"explanation": "Sono sempre tre e indicano un pensiero interrotto o una reticenza: «Non so se…».",
@@ -9220,8 +9619,8 @@
 			"format": "multiple_choice",
 			"prompt": "A che cosa servono le parentesi?",
 			"options": [
-				"A inserire un'informazione accessoria",
 				"A chiudere un elenco lungo",
+				"A inserire un'informazione accessoria",
 				"A introdurre sempre un discorso diretto",
 				"A segnalare un errore nel testo"
 			],
@@ -9242,8 +9641,8 @@
 			"prompt": "«Non lo faccio, però ci penso» — che rapporto segnala la virgola?",
 			"options": [
 				"Una causa con il suo effetto",
-				"Un'opposizione fra le due parti",
 				"Una successione nel tempo",
+				"Un'opposizione fra le due parti",
 				"Un elenco di due azioni"
 			],
 			"answer": "Un'opposizione fra le due parti",
@@ -9264,8 +9663,8 @@
 			"options": [
 				"Non lo so proprio!?",
 				"Dove sei andato!",
-				"Che bella giornata!",
-				"Forse verrò domani!"
+				"Forse verrò domani!",
+				"Che bella giornata!"
 			],
 			"answer": "Che bella giornata!",
 			"explanation": "Segnala sorpresa, gioia o comando. Una domanda vuole il punto interrogativo, anche se detta con enfasi.",
@@ -9283,10 +9682,10 @@
 			"format": "multiple_choice",
 			"prompt": "In un elenco «pane, latte e uova», perché prima di «e» non c'è la virgola?",
 			"options": [
+				"Perché la congiunzione sostituisce la virgola",
 				"Perché l'elenco ha solo tre voci",
 				"Perché le uova sono un plurale",
-				"Perché l'ultimo elemento dell'elenco è corto",
-				"Perché la congiunzione sostituisce la virgola"
+				"Perché l'ultimo elemento dell'elenco è corto"
 			],
 			"answer": "Perché la congiunzione sostituisce la virgola",
 			"explanation": "In italiano la virgola prima della «e» conclusiva di solito non si mette: la congiunzione fa già il lavoro.",
@@ -9304,8 +9703,8 @@
 			"format": "multiple_choice",
 			"prompt": "Che cosa chiude un periodo?",
 			"options": [
-				"Il punto fermo",
 				"Il trattino",
+				"Il punto fermo",
 				"La virgola",
 				"I due punti"
 			],
@@ -9326,8 +9725,8 @@
 			"prompt": "«Luca, che è mio cugino, arriva domani» — che cosa isolano le virgole?",
 			"options": [
 				"Il complemento oggetto",
-				"Un inciso che si può togliere",
 				"Il soggetto di tutta la frase",
+				"Un inciso che si può togliere",
 				"Il verbo principale"
 			],
 			"answer": "Un inciso che si può togliere",
@@ -9348,8 +9747,8 @@
 			"options": [
 				"vado",
 				"faccio",
-				"sono",
-				"hanno"
+				"hanno",
+				"sono"
 			],
 			"answer": "sono",
 			"explanation": "Essere e avere sono i due verbi ausiliari: «sono» è la prima persona del presente di essere.",
@@ -9367,10 +9766,10 @@
 			"format": "multiple_choice",
 			"prompt": "«Mangiavo» a quale tempo è coniugato?",
 			"options": [
+				"Imperfetto",
 				"Passato remoto",
 				"Presente",
-				"Futuro semplice",
-				"Imperfetto"
+				"Futuro semplice"
 			],
 			"answer": "Imperfetto",
 			"explanation": "L'imperfetto descrive un'azione che durava nel passato: «mentre mangiavo, suonò il telefono».",
@@ -9388,8 +9787,8 @@
 			"format": "multiple_choice",
 			"prompt": "«Andrò» a quale tempo è coniugato?",
 			"options": [
-				"Futuro semplice",
 				"Presente",
+				"Futuro semplice",
 				"Condizionale",
 				"Passato prossimo"
 			],
@@ -9410,8 +9809,8 @@
 			"prompt": "Qual è il participio passato di «vedere»?",
 			"options": [
 				"vedeva",
-				"visto",
 				"vedere",
+				"visto",
 				"vedendo"
 			],
 			"answer": "visto",
@@ -9432,8 +9831,8 @@
 			"options": [
 				"mangiato",
 				"nessuno dei due",
-				"ho",
-				"ho mangiato"
+				"ho mangiato",
+				"ho"
 			],
 			"answer": "ho",
 			"explanation": "L'ausiliare è il verbo che aiuta a formare il tempo composto; il participio porta il significato.",
@@ -9451,10 +9850,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale frase usa correttamente il congiuntivo?",
 			"options": [
+				"Penso che sia giusto",
 				"Penso che sarà giusto",
 				"Penso che era giusto",
-				"Penso che è giusto",
-				"Penso che sia giusto"
+				"Penso che è giusto"
 			],
 			"answer": "Penso che sia giusto",
 			"explanation": "I verbi di opinione reggono il congiuntivo: penso, credo, ritengo vogliono «che sia», non «che è».",
@@ -9472,8 +9871,8 @@
 			"format": "multiple_choice",
 			"prompt": "«Se avessi tempo, verrei» — che modo è «verrei»?",
 			"options": [
-				"Condizionale",
 				"Congiuntivo",
+				"Condizionale",
 				"Imperativo",
 				"Indicativo"
 			],
@@ -9494,8 +9893,8 @@
 			"prompt": "Quale forma è all'imperativo?",
 			"options": [
 				"Sei venuto qui",
-				"Vieni qui!",
 				"Vieni domani?",
+				"Vieni qui!",
 				"Verresti qui?"
 			],
 			"answer": "Vieni qui!",
@@ -9516,8 +9915,8 @@
 			"options": [
 				"L'intransitivo non ha mai un soggetto",
 				"Il transitivo si usa solo al passato",
-				"Il transitivo può reggere un complemento oggetto",
-				"L'intransitivo si coniuga in un modo diverso"
+				"L'intransitivo si coniuga in un modo diverso",
+				"Il transitivo può reggere un complemento oggetto"
 			],
 			"answer": "Il transitivo può reggere un complemento oggetto",
 			"explanation": "«Mangio la mela» è transitivo; «vado a casa» è intransitivo, perché «a casa» non è un oggetto diretto.",
@@ -9535,10 +9934,10 @@
 			"format": "multiple_choice",
 			"prompt": "«La mela è mangiata da Luca» — in quale forma è il verbo?",
 			"options": [
+				"Passiva",
 				"Impersonale",
 				"Riflessiva",
-				"Attiva",
-				"Passiva"
+				"Attiva"
 			],
 			"answer": "Passiva",
 			"explanation": "Nella passiva il soggetto subisce l'azione; chi la compie diventa complemento d'agente, «da Luca».",
@@ -9556,8 +9955,8 @@
 			"format": "multiple_choice",
 			"prompt": "«Mi lavo le mani» — che tipo di verbo è «lavarsi»?",
 			"options": [
-				"Riflessivo",
 				"Servile",
+				"Riflessivo",
 				"Impersonale",
 				"Passivo"
 			],
@@ -9578,8 +9977,8 @@
 			"prompt": "Quali sono le tre coniugazioni dei verbi italiani?",
 			"options": [
 				"-are, -ire, -ure",
-				"-are, -ere, -ire",
 				"-ere, -ire, -ore",
+				"-are, -ere, -ire",
 				"-are, -ere, -ore"
 			],
 			"answer": "-are, -ere, -ire",
@@ -9600,8 +9999,8 @@
 			"options": [
 				"Parlerò",
 				"Parlavo",
-				"Ho parlato",
-				"Parlerei"
+				"Parlerei",
+				"Ho parlato"
 			],
 			"answer": "Ho parlato",
 			"explanation": "Il passato prossimo è composto: ausiliare al presente più participio passato.",
@@ -9619,10 +10018,10 @@
 			"format": "multiple_choice",
 			"prompt": "«Bisogna partire presto» — che tipo di costruzione è?",
 			"options": [
+				"Impersonale",
 				"Interrogativa",
 				"Passiva",
-				"Riflessiva",
-				"Impersonale"
+				"Riflessiva"
 			],
 			"answer": "Impersonale",
 			"explanation": "Non c'è un soggetto determinato: nessuno in particolare compie l'azione. Come «piove» o «si dice».",
@@ -9640,8 +10039,8 @@
 			"format": "multiple_choice",
 			"prompt": "Che parte del discorso è «bello»?",
 			"options": [
-				"Aggettivo qualificativo",
 				"Nome comune di cosa",
+				"Aggettivo qualificativo",
 				"Avverbio di modo",
 				"Verbo transitivo"
 			],
@@ -9662,8 +10061,8 @@
 			"prompt": "Che parte del discorso sono le parole che finiscono in -mente, come «lentamente»?",
 			"options": [
 				"Preposizioni",
-				"Avverbi",
 				"Aggettivi",
+				"Avverbi",
 				"Nomi astratti"
 			],
 			"answer": "Avverbi",
@@ -9684,8 +10083,8 @@
 			"options": [
 				"Congiunzione coordinante",
 				"Aggettivo qualificativo",
-				"Preposizione (o avverbio)",
-				"Pronome dimostrativo"
+				"Pronome dimostrativo",
+				"Preposizione (o avverbio)"
 			],
 			"answer": "Preposizione (o avverbio)",
 			"explanation": "Introduce un complemento: «sopra il tavolo». Usata da sola («sta sopra») funziona da avverbio.",
@@ -9703,10 +10102,10 @@
 			"format": "multiple_choice",
 			"prompt": "In «il mio libro», che cos'è «mio»?",
 			"options": [
+				"Aggettivo possessivo",
 				"Articolo determinativo",
 				"Pronome possessivo",
-				"Aggettivo dimostrativo",
-				"Aggettivo possessivo"
+				"Aggettivo dimostrativo"
 			],
 			"answer": "Aggettivo possessivo",
 			"explanation": "Accompagna il nome, quindi è aggettivo. Sarebbe pronome in «il mio è rosso», dove sostituisce il nome.",
@@ -9724,8 +10123,8 @@
 			"format": "multiple_choice",
 			"prompt": "In «questo è mio», che cos'è «questo»?",
 			"options": [
-				"Pronome dimostrativo",
 				"Aggettivo dimostrativo",
+				"Pronome dimostrativo",
 				"Articolo indeterminativo",
 				"Congiunzione"
 			],
@@ -9762,8 +10161,8 @@
 			"prompt": "Che parte del discorso è «e» in «pane e latte»?",
 			"options": [
 				"Interiezione",
-				"Congiunzione",
 				"Preposizione",
+				"Congiunzione",
 				"Avverbio"
 			],
 			"answer": "Congiunzione",
@@ -9784,8 +10183,8 @@
 			"options": [
 				"Nome collettivo",
 				"Nome proprio",
-				"Nome astratto",
-				"Nome concreto"
+				"Nome concreto",
+				"Nome astratto"
 			],
 			"answer": "Nome astratto",
 			"explanation": "Indica qualcosa che non si tocca né si vede: si oppone ai nomi concreti come «tavolo».",
@@ -9803,10 +10202,10 @@
 			"format": "multiple_choice",
 			"prompt": "Che tipo di nome è «gregge»?",
 			"options": [
+				"Nome collettivo",
 				"Nome proprio",
 				"Nome astratto",
-				"Nome alterato",
-				"Nome collettivo"
+				"Nome alterato"
 			],
 			"answer": "Nome collettivo",
 			"explanation": "È singolare ma indica un insieme di individui: come «folla», «sciame», «squadra».",
@@ -9824,8 +10223,8 @@
 			"format": "multiple_choice",
 			"prompt": "In «gli parlo domani», che cos'è «gli»?",
 			"options": [
-				"Pronome personale complemento",
 				"Aggettivo possessivo",
+				"Pronome personale complemento",
 				"Preposizione articolata",
 				"Articolo determinativo plurale"
 			],
@@ -9846,8 +10245,8 @@
 			"prompt": "Che cos'è «nella» in «nella scatola»?",
 			"options": [
 				"Preposizione semplice",
-				"Preposizione articolata",
 				"Articolo determinativo",
+				"Preposizione articolata",
 				"Avverbio di luogo"
 			],
 			"answer": "Preposizione articolata",
@@ -9868,8 +10267,8 @@
 			"options": [
 				"Avverbio di quantità",
 				"Articolo partitivo",
-				"Aggettivo numerale",
-				"Nome comune"
+				"Nome comune",
+				"Aggettivo numerale"
 			],
 			"answer": "Aggettivo numerale",
 			"explanation": "I numerali cardinali accompagnano il nome indicandone la quantità esatta.",
@@ -9887,10 +10286,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola è un'interiezione?",
 			"options": [
+				"Ahi!",
 				"Poiché",
 				"Anche",
-				"Presto",
-				"Ahi!"
+				"Presto"
 			],
 			"answer": "Ahi!",
 			"explanation": "Le interiezioni esprimono un'emozione improvvisa e stanno da sole: ahi, oh, ehi.",
@@ -9908,8 +10307,8 @@
 			"format": "multiple_choice",
 			"prompt": "In «un po' di pane», che cos'è «di»?",
 			"options": [
-				"Preposizione semplice",
 				"Congiunzione",
+				"Preposizione semplice",
 				"Avverbio di quantità",
 				"Articolo partitivo"
 			],
@@ -9930,8 +10329,8 @@
 			"prompt": "In «Luca legge un libro», qual è il soggetto?",
 			"options": [
 				"legge un libro",
-				"Luca",
 				"legge",
+				"Luca",
 				"un libro"
 			],
 			"answer": "Luca",
@@ -9952,8 +10351,8 @@
 			"options": [
 				"Soggetto",
 				"Predicato nominale",
-				"Complemento oggetto",
-				"Complemento di termine"
+				"Complemento di termine",
+				"Complemento oggetto"
 			],
 			"answer": "Complemento oggetto",
 			"explanation": "Risponde a «che cosa?» senza preposizione: è l'oggetto diretto dell'azione.",
@@ -9971,10 +10370,10 @@
 			"format": "multiple_choice",
 			"prompt": "In «Do il libro a Marco», che cos'è «a Marco»?",
 			"options": [
+				"Complemento di termine",
 				"Complemento d'agente",
 				"Complemento di luogo",
-				"Complemento oggetto",
-				"Complemento di termine"
+				"Complemento oggetto"
 			],
 			"answer": "Complemento di termine",
 			"explanation": "Risponde a «a chi?»: indica il destinatario dell'azione, e si riconosce dalla preposizione «a».",
@@ -9992,8 +10391,8 @@
 			"format": "multiple_choice",
 			"prompt": "In «Il quadro è dipinto da Sara», che cos'è «da Sara»?",
 			"options": [
-				"Complemento d'agente",
 				"Complemento di causa",
+				"Complemento d'agente",
 				"Complemento di luogo",
 				"Complemento di mezzo"
 			],
@@ -10014,8 +10413,8 @@
 			"prompt": "In «Scrivo con la penna», che cos'è «con la penna»?",
 			"options": [
 				"Complemento di modo",
-				"Complemento di mezzo",
 				"Complemento di compagnia",
+				"Complemento di mezzo",
 				"Complemento di causa"
 			],
 			"answer": "Complemento di mezzo",
@@ -10036,8 +10435,8 @@
 			"options": [
 				"Complemento di luogo",
 				"Complemento di tempo",
-				"Complemento di modo",
-				"Complemento di mezzo"
+				"Complemento di mezzo",
+				"Complemento di modo"
 			],
 			"answer": "Complemento di modo",
 			"explanation": "Risponde a «come?»: descrive il modo in cui si svolge l'azione.",
@@ -10055,10 +10454,10 @@
 			"format": "multiple_choice",
 			"prompt": "Che cos'è il predicato verbale?",
 			"options": [
+				"Il verbo che esprime l'azione del soggetto",
 				"La parte che completa il nome",
 				"L'aggettivo riferito al soggetto",
-				"Il nome che accompagna sempre il soggetto",
-				"Il verbo che esprime l'azione del soggetto"
+				"Il nome che accompagna sempre il soggetto"
 			],
 			"answer": "Il verbo che esprime l'azione del soggetto",
 			"explanation": "«Marco corre»: corre è predicato verbale. Con essere più un nome o aggettivo si ha il predicato nominale.",
@@ -10076,8 +10475,8 @@
 			"format": "multiple_choice",
 			"prompt": "In «Marco è simpatico», che cos'è «è simpatico»?",
 			"options": [
-				"Predicato nominale",
 				"Complemento oggetto",
+				"Predicato nominale",
 				"Apposizione",
 				"Predicato verbale"
 			],
@@ -10098,8 +10497,8 @@
 			"prompt": "In «Torno a settembre», che cos'è «a settembre»?",
 			"options": [
 				"Complemento di termine",
-				"Complemento di tempo",
 				"Complemento di luogo",
+				"Complemento di tempo",
 				"Complemento di fine"
 			],
 			"answer": "Complemento di tempo",
@@ -10120,8 +10519,8 @@
 			"options": [
 				"Complemento di mezzo",
 				"Complemento di termine",
-				"Complemento di fine o scopo",
-				"Complemento di causa efficiente"
+				"Complemento di causa efficiente",
+				"Complemento di fine o scopo"
 			],
 			"answer": "Complemento di fine o scopo",
 			"explanation": "Risponde a «per quale scopo?». Sarebbe di causa se rispondesse a «perché?»: «tremo per il freddo».",
@@ -10139,10 +10538,10 @@
 			"format": "multiple_choice",
 			"prompt": "In «Vengo da Roma», che cos'è «da Roma»?",
 			"options": [
+				"Complemento di moto da luogo",
 				"Complemento di moto a luogo",
 				"Complemento di stato in luogo",
-				"Complemento d'agente",
-				"Complemento di moto da luogo"
+				"Complemento d'agente"
 			],
 			"answer": "Complemento di moto da luogo",
 			"explanation": "Indica il punto di partenza. «Vado a Roma» sarebbe moto a luogo, «sto a Roma» stato in luogo.",
@@ -10160,8 +10559,8 @@
 			"format": "multiple_choice",
 			"prompt": "In «Giulia, la mia amica, arriva oggi», che cos'è «la mia amica»?",
 			"options": [
-				"Apposizione",
 				"Complemento oggetto",
+				"Apposizione",
 				"Attributo",
 				"Predicato nominale"
 			],
@@ -10182,8 +10581,8 @@
 			"prompt": "Come si trova il soggetto di una frase?",
 			"options": [
 				"Prendendo sempre la prima parola",
-				"Chiedendo «chi compie l'azione?»",
 				"Guardando quale nome è al plurale",
+				"Chiedendo «chi compie l'azione?»",
 				"Cercando la parola più lunga"
 			],
 			"answer": "Chiedendo «chi compie l'azione?»",
@@ -10204,8 +10603,8 @@
 			"options": [
 				"Solo con i verbi al passato",
 				"Solo nelle frasi interrogative",
-				"Sì, quando si capisce dal verbo",
-				"No, il soggetto è sempre scritto"
+				"No, il soggetto è sempre scritto",
+				"Sì, quando si capisce dal verbo"
 			],
 			"answer": "Sì, quando si capisce dal verbo",
 			"explanation": "«Mangio una mela»: il soggetto «io» non è scritto ma la desinenza del verbo lo dice già.",
@@ -10223,10 +10622,10 @@
 			"format": "multiple_choice",
 			"prompt": "Che cos'è una proposizione principale?",
 			"options": [
+				"Una frase che sta in piedi da sola",
 				"La frase che contiene il soggetto",
 				"La prima frase di ogni periodo",
-				"La frase più lunga del periodo",
-				"Una frase che sta in piedi da sola"
+				"La frase più lunga del periodo"
 			],
 			"answer": "Una frase che sta in piedi da sola",
 			"explanation": "Non dipende da nessun'altra: «Esco» è principale anche se seguita da «perché piove».",
@@ -10244,8 +10643,8 @@
 			"format": "multiple_choice",
 			"prompt": "In «Esco perché piove», che cos'è «perché piove»?",
 			"options": [
-				"Proposizione subordinata causale",
 				"Proposizione subordinata finale",
+				"Proposizione subordinata causale",
 				"Proposizione principale autonoma",
 				"Proposizione coordinata alla prima"
 			],
@@ -10266,8 +10665,8 @@
 			"prompt": "In «Mangio e bevo», che rapporto c'è fra le due frasi?",
 			"options": [
 				"La prima è subordinata",
-				"Sono coordinate",
 				"Non c'è alcun rapporto",
+				"Sono coordinate",
 				"La seconda è subordinata"
 			],
 			"answer": "Sono coordinate",
@@ -10288,8 +10687,8 @@
 			"options": [
 				"Un paragrafo intero di un testo lungo",
 				"Una frase che contiene un solo verbo",
-				"Un insieme di frasi legate fino al punto fermo",
-				"Una frase priva di proposizioni subordinate"
+				"Una frase priva di proposizioni subordinate",
+				"Un insieme di frasi legate fino al punto fermo"
 			],
 			"answer": "Un insieme di frasi legate fino al punto fermo",
 			"explanation": "Il periodo può contenere una sola proposizione o dieci: si chiude con il punto.",
@@ -10307,10 +10706,10 @@
 			"format": "multiple_choice",
 			"prompt": "In «Spero che tu venga», che tipo di subordinata è?",
 			"options": [
+				"Oggettiva",
 				"Soggettiva",
 				"Temporale",
-				"Causale",
-				"Oggettiva"
+				"Causale"
 			],
 			"answer": "Oggettiva",
 			"explanation": "Fa da complemento oggetto della principale: spero che cosa? Che tu venga.",
@@ -10328,8 +10727,8 @@
 			"format": "multiple_choice",
 			"prompt": "In «Il libro che ho letto è bello», che tipo di subordinata è «che ho letto»?",
 			"options": [
-				"Relativa",
 				"Causale",
+				"Relativa",
 				"Oggettiva",
 				"Consecutiva"
 			],
@@ -10350,8 +10749,8 @@
 			"prompt": "In «Quando arrivi, chiamami», che cos'è «quando arrivi»?",
 			"options": [
 				"Subordinata causale",
-				"Subordinata temporale",
 				"Proposizione principale",
+				"Subordinata temporale",
 				"Subordinata finale"
 			],
 			"answer": "Subordinata temporale",
@@ -10372,8 +10771,8 @@
 			"options": [
 				"Subordinata consecutiva",
 				"Subordinata causale",
-				"Subordinata finale",
-				"Subordinata temporale"
+				"Subordinata temporale",
+				"Subordinata finale"
 			],
 			"answer": "Subordinata finale",
 			"explanation": "Indica lo scopo dell'azione principale: risponde a «per fare che cosa?».",
@@ -10391,10 +10790,10 @@
 			"format": "multiple_choice",
 			"prompt": "In «Era così stanco che si addormentò», che cos'è la seconda frase?",
 			"options": [
+				"Subordinata consecutiva",
 				"Proposizione coordinata",
 				"Subordinata causale",
-				"Subordinata finale",
-				"Subordinata consecutiva"
+				"Subordinata finale"
 			],
 			"answer": "Subordinata consecutiva",
 			"explanation": "Esprime la conseguenza di quanto detto prima: «così… che» è la coppia tipica.",
@@ -10412,8 +10811,8 @@
 			"format": "multiple_choice",
 			"prompt": "Che cosa distingue una frase semplice da un periodo?",
 			"options": [
-				"La frase semplice ha un solo predicato",
 				"Il periodo non ha mai il soggetto",
+				"La frase semplice ha un solo predicato",
 				"La frase semplice non ha complementi",
 				"La frase semplice è sempre più corta"
 			],
@@ -10450,8 +10849,8 @@
 			"prompt": "In «Se studi, passerai», che tipo di periodo è?",
 			"options": [
 				"Comparativo",
-				"Ipotetico",
 				"Interrogativo",
+				"Ipotetico",
 				"Esclamativo"
 			],
 			"answer": "Ipotetico",
@@ -10472,8 +10871,8 @@
 			"options": [
 				"La prima subordinata che si incontra",
 				"La subordinata più importante di tutto il periodo",
-				"Una frase che dipende direttamente dalla principale",
-				"Una subordinata con un solo verbo"
+				"Una subordinata con un solo verbo",
+				"Una frase che dipende direttamente dalla principale"
 			],
 			"answer": "Una frase che dipende direttamente dalla principale",
 			"explanation": "Se una subordinata dipende a sua volta da un'altra subordinata, è di secondo grado.",
@@ -10491,10 +10890,10 @@
 			"format": "multiple_choice",
 			"prompt": "Perché l'ordine delle parole conta in italiano?",
 			"options": [
+				"Perché può cambiare il significato o l'enfasi",
 				"Perché altrimenti la frase diventa più lunga",
 				"Perché la grammatica lo impone sempre",
-				"Perché i verbi vanno sempre in fondo",
-				"Perché può cambiare il significato o l'enfasi"
+				"Perché i verbi vanno sempre in fondo"
 			],
 			"answer": "Perché può cambiare il significato o l'enfasi",
 			"explanation": "«Solo io l'ho detto» e «io l'ho detto solo» dicono cose diverse: la posizione sposta il fuoco.",
@@ -10512,8 +10911,8 @@
 			"format": "multiple_choice",
 			"prompt": "«Sei veloce come il vento» è una…",
 			"options": [
-				"Similitudine",
 				"Metafora",
+				"Similitudine",
 				"Personificazione",
 				"Iperbole"
 			],
@@ -10534,8 +10933,8 @@
 			"prompt": "«Quel ragazzo è un leone» è una…",
 			"options": [
 				"Onomatopea",
-				"Metafora",
 				"Anafora",
+				"Metafora",
 				"Similitudine"
 			],
 			"answer": "Metafora",
@@ -10556,8 +10955,8 @@
 			"options": [
 				"Similitudine",
 				"Metafora",
-				"Iperbole",
-				"Litote"
+				"Litote",
+				"Iperbole"
 			],
 			"answer": "Iperbole",
 			"explanation": "L'iperbole esagera di proposito per dare forza: nessuno conta davvero un milione di volte.",
@@ -10575,10 +10974,10 @@
 			"format": "multiple_choice",
 			"prompt": "«Din don dan» è un esempio di…",
 			"options": [
+				"Onomatopea",
 				"Anafora",
 				"Metafora",
-				"Allitterazione",
-				"Onomatopea"
+				"Allitterazione"
 			],
 			"answer": "Onomatopea",
 			"explanation": "L'onomatopea imita un suono reale con le parole: tic tac, bum, fruscio.",
@@ -10596,8 +10995,8 @@
 			"format": "multiple_choice",
 			"prompt": "«Non è male» detto di una cosa ottima è una…",
 			"options": [
-				"Litote",
 				"Ossimoro",
+				"Litote",
 				"Iperbole",
 				"Metafora"
 			],
@@ -10618,8 +11017,8 @@
 			"prompt": "«Ghiaccio bollente» è un…",
 			"options": [
 				"Climax",
-				"Ossimoro",
 				"Onomatopea",
+				"Ossimoro",
 				"Iperbole"
 			],
 			"answer": "Ossimoro",
@@ -10640,8 +11039,8 @@
 			"options": [
 				"Le parole sono state tradotte male",
 				"È un errore di scrittura sfuggito all'autore",
-				"Le parole sono spostate per effetto poetico",
-				"È un dialetto antico ormai scomparso"
+				"È un dialetto antico ormai scomparso",
+				"Le parole sono spostate per effetto poetico"
 			],
 			"answer": "Le parole sono spostate per effetto poetico",
 			"explanation": "Si chiama anastrofe o iperbato: cambiare l'ordine consueto crea ritmo e mette in rilievo certe parole.",
@@ -10659,10 +11058,10 @@
 			"format": "multiple_choice",
 			"prompt": "Ripetere la stessa parola all'inizio di più versi si chiama…",
 			"options": [
+				"Anafora",
 				"Similitudine",
 				"Allitterazione",
-				"Onomatopea",
-				"Anafora"
+				"Onomatopea"
 			],
 			"answer": "Anafora",
 			"explanation": "L'anafora martella un concetto ripetendolo in apertura: crea insistenza e ritmo.",
@@ -10680,8 +11079,8 @@
 			"format": "multiple_choice",
 			"prompt": "«Fresche le mie parole ne la sera» — la ripetizione dei suoni si chiama…",
 			"options": [
-				"Allitterazione",
 				"Assonanza finale",
+				"Allitterazione",
 				"Onomatopea",
 				"Anafora"
 			],
@@ -10702,8 +11101,8 @@
 			"prompt": "«Il vento urla fra i rami» attribuisce al vento…",
 			"options": [
 				"Un colore vivace",
-				"Una qualità umana",
 				"Una posizione precisa",
+				"Una qualità umana",
 				"Un suono più forte"
 			],
 			"answer": "Una qualità umana",
@@ -10724,8 +11123,8 @@
 			"options": [
 				"Per allungare il testo di più",
 				"Per rendere il testo più difficile",
-				"Per rendere più vivo ed efficace il messaggio",
-				"Per rispettare le regole della grammatica"
+				"Per rispettare le regole della grammatica",
+				"Per rendere più vivo ed efficace il messaggio"
 			],
 			"answer": "Per rendere più vivo ed efficace il messaggio",
 			"explanation": "Non sono ornamenti: una metafora giusta fa capire in tre parole ciò che richiederebbe un paragrafo.",
@@ -10743,10 +11142,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale frase contiene una similitudine?",
 			"options": [
+				"Dorme come un ghiro",
 				"È un vero ghiro",
 				"Ghiro dormiglione!",
-				"Dorme moltissimo",
-				"Dorme come un ghiro"
+				"Dorme moltissimo"
 			],
 			"answer": "Dorme come un ghiro",
 			"explanation": "La presenza di «come» segnala il paragone esplicito. Senza «come» sarebbe una metafora.",
@@ -10764,8 +11163,8 @@
 			"format": "multiple_choice",
 			"prompt": "Una serie di termini di intensità crescente si chiama…",
 			"options": [
-				"Climax",
 				"Ossimoro",
+				"Climax",
 				"Anafora",
 				"Litote"
 			],
@@ -10786,8 +11185,8 @@
 			"prompt": "«La città dorme» è una…",
 			"options": [
 				"Similitudine",
-				"Personificazione",
 				"Onomatopea",
+				"Personificazione",
 				"Allitterazione"
 			],
 			"answer": "Personificazione",
@@ -10808,8 +11207,8 @@
 			"options": [
 				"Il messaggio dell'autore",
 				"Il luogo in cui si svolge tutto",
-				"La successione dei fatti narrati",
-				"L'insieme dei personaggi"
+				"L'insieme dei personaggi",
+				"La successione dei fatti narrati"
 			],
 			"answer": "La successione dei fatti narrati",
 			"explanation": "La trama è cosa succede; l'ambientazione è dove, e i personaggi sono chi.",
@@ -10827,10 +11226,10 @@
 			"format": "multiple_choice",
 			"prompt": "Chi è il protagonista di un racconto?",
 			"options": [
+				"Il personaggio principale della vicenda",
 				"Il primo personaggio che appare nel testo",
 				"Il personaggio più simpatico",
-				"Chi racconta la storia",
-				"Il personaggio principale della vicenda"
+				"Chi racconta la storia"
 			],
 			"answer": "Il personaggio principale della vicenda",
 			"explanation": "Chi racconta è il narratore, che può anche non essere un personaggio della storia.",
@@ -10848,8 +11247,8 @@
 			"format": "multiple_choice",
 			"prompt": "Che cos'è l'antagonista?",
 			"options": [
-				"Il personaggio che si oppone al protagonista",
 				"Il personaggio sempre cattivo per definizione",
+				"Il personaggio che si oppone al protagonista",
 				"Il personaggio che appare per ultimo",
 				"Il narratore che giudica i fatti"
 			],
@@ -10870,8 +11269,8 @@
 			"prompt": "Un narratore che dice «io» e partecipa ai fatti si chiama…",
 			"options": [
 				"Narratore assente",
-				"Narratore interno",
 				"Narratore onnisciente",
+				"Narratore interno",
 				"Narratore esterno"
 			],
 			"answer": "Narratore interno",
@@ -10892,8 +11291,8 @@
 			"options": [
 				"Un narratore che appare come personaggio",
 				"Un narratore che non prende posizione",
-				"Un narratore che conosce pensieri e futuro di tutti",
-				"Un narratore che racconta soltanto quello che si dice"
+				"Un narratore che racconta soltanto quello che si dice",
+				"Un narratore che conosce pensieri e futuro di tutti"
 			],
 			"answer": "Un narratore che conosce pensieri e futuro di tutti",
 			"explanation": "Sa più dei personaggi: può dire cosa pensano tutti e anticipare quello che accadrà.",
@@ -10911,10 +11310,10 @@
 			"format": "multiple_choice",
 			"prompt": "Che cos'è un flashback?",
 			"options": [
+				"Un salto indietro nel tempo del racconto",
 				"Un salto in avanti nel futuro",
 				"Un sogno di un personaggio",
-				"La fine della storia raccontata prima",
-				"Un salto indietro nel tempo del racconto"
+				"La fine della storia raccontata prima"
 			],
 			"answer": "Un salto indietro nel tempo del racconto",
 			"explanation": "Interrompe l'ordine cronologico per mostrare un fatto passato che spiega il presente.",
@@ -10932,8 +11331,8 @@
 			"format": "multiple_choice",
 			"prompt": "Che cos'è l'ambientazione?",
 			"options": [
-				"Il tempo e il luogo in cui si svolge la storia",
 				"La descrizione dell'aspetto dei personaggi",
+				"Il tempo e il luogo in cui si svolge la storia",
 				"L'atmosfera emotiva che pervade il racconto",
 				"La parte iniziale di un testo narrativo"
 			],
@@ -10954,8 +11353,8 @@
 			"prompt": "In quale parte del racconto si scioglie la tensione?",
 			"options": [
 				"Nel momento di massima tensione",
-				"Nello scioglimento, dopo il culmine",
 				"Nella descrizione dei luoghi",
+				"Nello scioglimento, dopo il culmine",
 				"Nell'esposizione iniziale"
 			],
 			"answer": "Nello scioglimento, dopo il culmine",
@@ -10976,8 +11375,8 @@
 			"options": [
 				"Esposizione",
 				"Epilogo",
-				"Climax",
-				"Scioglimento"
+				"Scioglimento",
+				"Climax"
 			],
 			"answer": "Climax",
 			"explanation": "È il punto in cui il conflitto arriva al massimo e qualcosa deve cambiare.",
@@ -10995,10 +11394,10 @@
 			"format": "multiple_choice",
 			"prompt": "Perché la stessa storia raccontata da due personaggi cambia?",
 			"options": [
+				"Perché ognuno sa e sente cose diverse",
 				"Perché uno dei due ricorda male",
 				"Perché uno racconta più in fretta",
-				"Perché cambiano i fatti accaduti",
-				"Perché ognuno sa e sente cose diverse"
+				"Perché cambiano i fatti accaduti"
 			],
 			"answer": "Perché ognuno sa e sente cose diverse",
 			"explanation": "I fatti restano, cambia il punto di vista: cosa sa chi racconta, e cosa gli importa.",
@@ -11016,8 +11415,8 @@
 			"format": "multiple_choice",
 			"prompt": "Che cos'è il discorso diretto?",
 			"options": [
-				"Le parole del personaggio riportate esattamente",
 				"Il riassunto di quello che ha detto",
+				"Le parole del personaggio riportate esattamente",
 				"La descrizione del tono con cui parla",
 				"Il pensiero che non viene mai espresso a voce"
 			],
@@ -11038,8 +11437,8 @@
 			"prompt": "Che cos'è un personaggio secondario?",
 			"options": [
 				"Un personaggio che appare una sola volta",
-				"Un personaggio che ha un ruolo minore nella vicenda",
 				"Un personaggio senza nome proprio",
+				"Un personaggio che ha un ruolo minore nella vicenda",
 				"Un personaggio inventato dal protagonista stesso"
 			],
 			"answer": "Un personaggio che ha un ruolo minore nella vicenda",
@@ -11060,8 +11459,8 @@
 			"options": [
 				"Un litigio acceso fra due personaggi",
 				"Il disaccordo fra l'autore e il lettore",
-				"L'ostacolo fra il protagonista e ciò che vuole",
-				"La parte più violenta di tutto il racconto"
+				"La parte più violenta di tutto il racconto",
+				"L'ostacolo fra il protagonista e ciò che vuole"
 			],
 			"answer": "L'ostacolo fra il protagonista e ciò che vuole",
 			"explanation": "Senza conflitto non c'è storia: può essere una persona, una circostanza o un dubbio interiore.",
@@ -11079,10 +11478,10 @@
 			"format": "multiple_choice",
 			"prompt": "Come si chiama la parte iniziale che presenta la situazione?",
 			"options": [
+				"Esposizione",
 				"Scioglimento",
 				"Conflitto",
-				"Climax",
-				"Esposizione"
+				"Climax"
 			],
 			"answer": "Esposizione",
 			"explanation": "Presenta con calma personaggi e luogo, prima che i problemi comincino.",
@@ -11100,8 +11499,8 @@
 			"format": "multiple_choice",
 			"prompt": "Che cosa sono i sinonimi?",
 			"options": [
-				"Parole di significato simile",
 				"Parole della stessa famiglia",
+				"Parole di significato simile",
 				"Parole di significato opposto",
 				"Parole che si scrivono uguali"
 			],
@@ -11122,8 +11521,8 @@
 			"prompt": "Che cosa sono i contrari?",
 			"options": [
 				"Parole di origine straniera",
-				"Parole di significato opposto",
 				"Parole di significato simile",
+				"Parole di significato opposto",
 				"Parole che suonano uguali"
 			],
 			"answer": "Parole di significato opposto",
@@ -11144,8 +11543,8 @@
 			"options": [
 				"Parole di origine latina",
 				"Parole simili con lo stesso senso",
-				"Parole uguali con significati diversi",
-				"Parole della stessa famiglia"
+				"Parole della stessa famiglia",
+				"Parole uguali con significati diversi"
 			],
 			"answer": "Parole uguali con significati diversi",
 			"explanation": "«Riso» può essere il cereale o l'atto di ridere: stessa forma, due significati senza parentela.",
@@ -11163,10 +11562,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è il contrario di «generoso»?",
 			"options": [
+				"Avaro",
 				"Sincero",
 				"Prudente",
-				"Gentile",
-				"Avaro"
+				"Gentile"
 			],
 			"answer": "Avaro",
 			"explanation": "Il contrario si oppone sulla stessa dimensione: qui il dare o il trattenere.",
@@ -11184,8 +11583,8 @@
 			"format": "multiple_choice",
 			"prompt": "Che cos'è un prefisso?",
 			"options": [
-				"Una parte che si aggiunge prima della radice",
 				"Un segno che indica il plurale",
+				"Una parte che si aggiunge prima della radice",
 				"Una parte che si aggiunge alla fine della parola",
 				"La parte centrale di una parola"
 			],
@@ -11206,8 +11605,8 @@
 			"prompt": "In «giardiniere», qual è il suffisso?",
 			"options": [
 				"giardin-",
-				"-iere",
 				"-ino",
+				"-iere",
 				"-are"
 			],
 			"answer": "-iere",
@@ -11228,8 +11627,8 @@
 			"options": [
 				"Le parole che si scrivono uguali",
 				"L'insieme di tutte le parole di una lingua",
-				"L'insieme di parole legate a uno stesso tema",
-				"Le parole con la stessa radice"
+				"Le parole con la stessa radice",
+				"L'insieme di parole legate a uno stesso tema"
 			],
 			"answer": "L'insieme di parole legate a uno stesso tema",
 			"explanation": "Mare, onda, barca, scoglio appartengono allo stesso campo: non sono parenti, parlano della stessa cosa.",
@@ -11247,10 +11646,10 @@
 			"format": "multiple_choice",
 			"prompt": "Che cos'è una famiglia di parole?",
 			"options": [
+				"Parole che condividono la stessa radice",
 				"Parole con la stessa lunghezza",
 				"Parole che parlano dello stesso tema",
-				"Parole di significato simile",
-				"Parole che condividono la stessa radice"
+				"Parole di significato simile"
 			],
 			"answer": "Parole che condividono la stessa radice",
 			"explanation": "Fiore, fioraio, fiorire, infiorata: la radice è la stessa, ed è una parentela di forma prima che di senso.",
@@ -11268,8 +11667,8 @@
 			"format": "multiple_choice",
 			"prompt": "Che cos'è un diminutivo?",
 			"options": [
-				"Una forma alterata che indica piccolezza",
 				"Una parola più corta di quella normale",
+				"Una forma alterata che indica piccolezza",
 				"Un contrario attenuato",
 				"Un sinonimo poco usato"
 			],
@@ -11290,8 +11689,8 @@
 			"prompt": "Che differenza c'è fra significato letterale e figurato?",
 			"options": [
 				"Il significato letterale si usa soltanto in poesia",
-				"Il figurato usa la parola oltre il suo senso proprio",
 				"Il senso figurato è sempre più antico",
+				"Il figurato usa la parola oltre il suo senso proprio",
 				"Il senso figurato vale solo per i verbi"
 			],
 			"answer": "Il figurato usa la parola oltre il suo senso proprio",
@@ -11312,8 +11711,8 @@
 			"options": [
 				"Lento",
 				"Pesante",
-				"Rapido",
-				"Silenzioso"
+				"Silenzioso",
+				"Rapido"
 			],
 			"answer": "Rapido",
 			"explanation": "Sinonimo significa vicino di significato: rapido e veloce si sostituiscono quasi sempre.",
@@ -11331,10 +11730,10 @@
 			"format": "multiple_choice",
 			"prompt": "Che cos'è un termine specialistico?",
 			"options": [
+				"Una parola usata soprattutto in un certo ambito",
 				"Una parola che ormai non si usa più",
 				"Una parola difficile da pronunciare e da scrivere",
-				"Una parola presa da una lingua straniera",
-				"Una parola usata soprattutto in un certo ambito"
+				"Una parola presa da una lingua straniera"
 			],
 			"answer": "Una parola usata soprattutto in un certo ambito",
 			"explanation": "«Battuta» in musica significa una cosa precisa: fuori da lì significa altro. Ogni disciplina ha il suo lessico.",
@@ -11352,8 +11751,8 @@
 			"format": "multiple_choice",
 			"prompt": "Perché conoscere più sinonimi aiuta a scrivere?",
 			"options": [
-				"Perché si evitano ripetizioni e si sceglie la sfumatura giusta",
 				"Perché il testo che si scrive diventa molto più lungo",
+				"Perché si evitano ripetizioni e si sceglie la sfumatura giusta",
 				"Perché la grammatica italiana lo richiede espressamente",
 				"Perché si possono usare parole ancora più difficili e ricercate"
 			],
@@ -11374,8 +11773,8 @@
 			"prompt": "Nella frase «Il gatto dorme sul divano», «sul divano» è complemento di…",
 			"options": [
 				"tempo",
-				"luogo",
 				"modo",
+				"luogo",
 				"mezzo"
 			],
 			"answer": "luogo",
@@ -11396,8 +11795,8 @@
 			"options": [
 				"Aggettivo, perché finisce in -e",
 				"Nome, perché indica la velocità",
-				"Avverbio, perché precisa il verbo",
-				"Aggettivo, perché descrive una qualità"
+				"Aggettivo, perché descrive una qualità",
+				"Avverbio, perché precisa il verbo"
 			],
 			"answer": "Avverbio, perché precisa il verbo",
 			"explanation": "La stessa parola è aggettivo in «una macchina veloce», dove accompagna il nome, e avverbio in «corre veloce», dove dice come corre. Non tutti gli avverbi finiscono in -mente.",
@@ -11415,10 +11814,10 @@
 			"format": "multiple_choice",
 			"prompt": "In «Se avessi studiato, avrei passato l'esame», che modo è «avessi studiato»?",
 			"options": [
+				"Congiuntivo",
 				"Imperativo",
 				"Condizionale",
-				"Indicativo",
-				"Congiuntivo"
+				"Indicativo"
 			],
 			"answer": "Congiuntivo",
 			"explanation": "Il congiuntivo regge l'ipotesi; «avrei passato» è invece il condizionale, che regge la conseguenza.",
@@ -11436,8 +11835,8 @@
 			"format": "multiple_choice",
 			"prompt": "Che cos'è una proposizione subordinata?",
 			"options": [
-				"Una frase che dipende da un'altra",
 				"Una frase che sta in piedi da sola",
+				"Una frase che dipende da un'altra",
 				"Una frase senza verbo",
 				"Una frase scritta fra virgolette"
 			],
@@ -11458,8 +11857,8 @@
 			"prompt": "«Il vento urla fra i rami» è una…",
 			"options": [
 				"similitudine",
-				"personificazione",
 				"iperbole",
+				"personificazione",
 				"metonimia"
 			],
 			"answer": "personificazione",
@@ -11480,8 +11879,8 @@
 			"options": [
 				"Che si ripete spesso",
 				"Che costa molto",
-				"Che dura pochissimo",
-				"Che è difficile da capire"
+				"Che è difficile da capire",
+				"Che dura pochissimo"
 			],
 			"answer": "Che dura pochissimo",
 			"explanation": "Un successo effimero passa in fretta: il contrario è duraturo.",
@@ -11499,10 +11898,10 @@
 			"format": "multiple_choice",
 			"prompt": "Che cosa vuol dire «tacito»?",
 			"options": [
+				"Non detto, sottinteso",
 				"Ripetuto due volte",
 				"Detto ad alta voce",
-				"Scritto a mano",
-				"Non detto, sottinteso"
+				"Scritto a mano"
 			],
 			"answer": "Non detto, sottinteso",
 			"explanation": "Un accordo tacito non è né scritto né pronunciato: si dà per inteso.",
@@ -11520,8 +11919,8 @@
 			"format": "multiple_choice",
 			"prompt": "Quale forma è corretta davanti a «uovo»?",
 			"options": [
-				"Un uovo, senza apostrofo",
 				"Un'uovo, con l'apostrofo",
+				"Un uovo, senza apostrofo",
 				"Un' uovo, con lo spazio",
 				"Uno uovo, per la vocale"
 			],
@@ -11542,8 +11941,8 @@
 			"prompt": "Perché il narratore di una storia non va confuso con l'autore?",
 			"options": [
 				"Perché l'autore scrive e il narratore corregge",
-				"Perché il narratore è una voce che l'autore inventa",
 				"Perché il narratore parla sempre in terza persona",
+				"Perché il narratore è una voce che l'autore inventa",
 				"Perché l'autore non compare mai nei suoi libri"
 			],
 			"answer": "Perché il narratore è una voce che l'autore inventa",
@@ -11564,8 +11963,8 @@
 			"options": [
 				"A indicare una domanda",
 				"A separare due frasi senza alcun legame",
-				"Ad annunciare una spiegazione o un elenco",
-				"A chiudere il discorso diretto"
+				"A chiudere il discorso diretto",
+				"Ad annunciare una spiegazione o un elenco"
 			],
 			"answer": "Ad annunciare una spiegazione o un elenco",
 			"explanation": "I due punti aprono qualcosa: una spiegazione, un elenco o le parole di qualcuno.",
@@ -12739,14 +13138,14 @@
 			],
 			"explanation": "Casa e abitazione dicono quasi la stessa cosa, con toni diversi.",
 			"distractorWhy": {
-				"Parole di significato simile": "«Parole di significato simile» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa sono i sinonimi?».",
-				"Parole di significato opposto": "«Parole di significato opposto» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa sono i contrari?».",
-				"Avaro": "«Avaro» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il contrario di «generoso»?».",
-				"-iere": "«-iere» è la risposta giusta a un'altra domanda di questo gruppo: «In «giardiniere», qual è il suffisso?».",
-				"Rapido": "«Rapido» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è un sinonimo di «veloce»?».",
-				"Che dura pochissimo": "«Che dura pochissimo» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa vuol dire «effimero»?».",
-				"Non detto, sottinteso": "«Non detto, sottinteso» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa vuol dire «tacito»?».",
-				"contrario": "«contrario» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama una parola di significato opposto a un'altra?»."
+				"Tagliare": "«Tagliare» è la risposta giusta a un'altra domanda di questo gruppo: «Penna sta a scrivere come forbici sta a…».",
+				"Scuola": "«Scuola» è la risposta giusta a un'altra domanda di questo gruppo: «Medico sta a ospedale come insegnante sta a…».",
+				"Luce": "«Luce» è la risposta giusta a un'altra domanda di questo gruppo: «Freddo sta a caldo come buio sta a…».",
+				"Massa": "«Massa» è la risposta giusta a un'altra domanda di questo gruppo: «Chilometro sta a distanza come chilogrammo sta a…».",
+				"Cavallo": "«Cavallo» è la risposta giusta a un'altra domanda di questo gruppo: «Cucciolo sta a cane come puledro sta a…».",
+				"Film": "«Film» è la risposta giusta a un'altra domanda di questo gruppo: «Pagina sta a libro come fotogramma sta a…».",
+				"basso": "«basso» è la risposta giusta a un'altra domanda di questo gruppo: «Caldo sta a freddo come alto sta a…?».",
+				"nuotare": "«nuotare» è la risposta giusta a un'altra domanda di questo gruppo: «Uccello sta a volare come pesce sta a…?»."
 			}
 		},
 		{
@@ -12763,14 +13162,14 @@
 			],
 			"explanation": "Alto e basso, chiaro e scuro.",
 			"distractorWhy": {
-				"Parole di significato simile": "«Parole di significato simile» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa sono i sinonimi?».",
-				"Parole di significato opposto": "«Parole di significato opposto» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa sono i contrari?».",
-				"Avaro": "«Avaro» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il contrario di «generoso»?».",
-				"-iere": "«-iere» è la risposta giusta a un'altra domanda di questo gruppo: «In «giardiniere», qual è il suffisso?».",
-				"Rapido": "«Rapido» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è un sinonimo di «veloce»?».",
-				"Che dura pochissimo": "«Che dura pochissimo» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa vuol dire «effimero»?».",
-				"Non detto, sottinteso": "«Non detto, sottinteso» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa vuol dire «tacito»?».",
-				"sinonimo": "«sinonimo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama una parola che ha lo stesso significato di un'altra?»."
+				"Tagliare": "«Tagliare» è la risposta giusta a un'altra domanda di questo gruppo: «Penna sta a scrivere come forbici sta a…».",
+				"Scuola": "«Scuola» è la risposta giusta a un'altra domanda di questo gruppo: «Medico sta a ospedale come insegnante sta a…».",
+				"Luce": "«Luce» è la risposta giusta a un'altra domanda di questo gruppo: «Freddo sta a caldo come buio sta a…».",
+				"Massa": "«Massa» è la risposta giusta a un'altra domanda di questo gruppo: «Chilometro sta a distanza come chilogrammo sta a…».",
+				"Cavallo": "«Cavallo» è la risposta giusta a un'altra domanda di questo gruppo: «Cucciolo sta a cane come puledro sta a…».",
+				"Film": "«Film» è la risposta giusta a un'altra domanda di questo gruppo: «Pagina sta a libro come fotogramma sta a…».",
+				"basso": "«basso» è la risposta giusta a un'altra domanda di questo gruppo: «Caldo sta a freddo come alto sta a…?».",
+				"nuotare": "«nuotare» è la risposta giusta a un'altra domanda di questo gruppo: «Uccello sta a volare come pesce sta a…?»."
 			}
 		},
 		{
@@ -12787,14 +13186,14 @@
 			],
 			"explanation": "«Riso» è un cereale e anche una risata.",
 			"distractorWhy": {
-				"Parole di significato simile": "«Parole di significato simile» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa sono i sinonimi?».",
-				"Parole di significato opposto": "«Parole di significato opposto» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa sono i contrari?».",
-				"Avaro": "«Avaro» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il contrario di «generoso»?».",
-				"-iere": "«-iere» è la risposta giusta a un'altra domanda di questo gruppo: «In «giardiniere», qual è il suffisso?».",
-				"Rapido": "«Rapido» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è un sinonimo di «veloce»?».",
-				"Che dura pochissimo": "«Che dura pochissimo» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa vuol dire «effimero»?».",
-				"Non detto, sottinteso": "«Non detto, sottinteso» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa vuol dire «tacito»?».",
-				"sinonimo": "«sinonimo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama una parola che ha lo stesso significato di un'altra?»."
+				"Tagliare": "«Tagliare» è la risposta giusta a un'altra domanda di questo gruppo: «Penna sta a scrivere come forbici sta a…».",
+				"Scuola": "«Scuola» è la risposta giusta a un'altra domanda di questo gruppo: «Medico sta a ospedale come insegnante sta a…».",
+				"Luce": "«Luce» è la risposta giusta a un'altra domanda di questo gruppo: «Freddo sta a caldo come buio sta a…».",
+				"Massa": "«Massa» è la risposta giusta a un'altra domanda di questo gruppo: «Chilometro sta a distanza come chilogrammo sta a…».",
+				"Cavallo": "«Cavallo» è la risposta giusta a un'altra domanda di questo gruppo: «Cucciolo sta a cane come puledro sta a…».",
+				"Film": "«Film» è la risposta giusta a un'altra domanda di questo gruppo: «Pagina sta a libro come fotogramma sta a…».",
+				"basso": "«basso» è la risposta giusta a un'altra domanda di questo gruppo: «Caldo sta a freddo come alto sta a…?».",
+				"nuotare": "«nuotare» è la risposta giusta a un'altra domanda di questo gruppo: «Uccello sta a volare come pesce sta a…?»."
 			}
 		},
 		{
@@ -12812,14 +13211,14 @@
 			],
 			"explanation": "In-, s-, ri-: piccole aggiunte che ribaltano il significato.",
 			"distractorWhy": {
-				"Parole di significato simile": "«Parole di significato simile» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa sono i sinonimi?».",
-				"Parole di significato opposto": "«Parole di significato opposto» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa sono i contrari?».",
-				"Avaro": "«Avaro» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il contrario di «generoso»?».",
-				"-iere": "«-iere» è la risposta giusta a un'altra domanda di questo gruppo: «In «giardiniere», qual è il suffisso?».",
-				"Rapido": "«Rapido» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è un sinonimo di «veloce»?».",
-				"Che dura pochissimo": "«Che dura pochissimo» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa vuol dire «effimero»?».",
-				"Non detto, sottinteso": "«Non detto, sottinteso» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa vuol dire «tacito»?».",
-				"sinonimo": "«sinonimo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama una parola che ha lo stesso significato di un'altra?»."
+				"Tagliare": "«Tagliare» è la risposta giusta a un'altra domanda di questo gruppo: «Penna sta a scrivere come forbici sta a…».",
+				"Scuola": "«Scuola» è la risposta giusta a un'altra domanda di questo gruppo: «Medico sta a ospedale come insegnante sta a…».",
+				"Luce": "«Luce» è la risposta giusta a un'altra domanda di questo gruppo: «Freddo sta a caldo come buio sta a…».",
+				"Massa": "«Massa» è la risposta giusta a un'altra domanda di questo gruppo: «Chilometro sta a distanza come chilogrammo sta a…».",
+				"Cavallo": "«Cavallo» è la risposta giusta a un'altra domanda di questo gruppo: «Cucciolo sta a cane come puledro sta a…».",
+				"Film": "«Film» è la risposta giusta a un'altra domanda di questo gruppo: «Pagina sta a libro come fotogramma sta a…».",
+				"basso": "«basso» è la risposta giusta a un'altra domanda di questo gruppo: «Caldo sta a freddo come alto sta a…?».",
+				"nuotare": "«nuotare» è la risposta giusta a un'altra domanda di questo gruppo: «Uccello sta a volare come pesce sta a…?»."
 			}
 		},
 		{
@@ -12837,14 +13236,14 @@
 			],
 			"explanation": "Da libro a libreria, da fiore a fiorista.",
 			"distractorWhy": {
-				"Parole di significato simile": "«Parole di significato simile» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa sono i sinonimi?».",
-				"Parole di significato opposto": "«Parole di significato opposto» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa sono i contrari?».",
-				"Avaro": "«Avaro» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il contrario di «generoso»?».",
-				"-iere": "«-iere» è la risposta giusta a un'altra domanda di questo gruppo: «In «giardiniere», qual è il suffisso?».",
-				"Rapido": "«Rapido» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è un sinonimo di «veloce»?».",
-				"Che dura pochissimo": "«Che dura pochissimo» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa vuol dire «effimero»?».",
-				"Non detto, sottinteso": "«Non detto, sottinteso» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa vuol dire «tacito»?».",
-				"sinonimo": "«sinonimo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama una parola che ha lo stesso significato di un'altra?»."
+				"Tagliare": "«Tagliare» è la risposta giusta a un'altra domanda di questo gruppo: «Penna sta a scrivere come forbici sta a…».",
+				"Scuola": "«Scuola» è la risposta giusta a un'altra domanda di questo gruppo: «Medico sta a ospedale come insegnante sta a…».",
+				"Luce": "«Luce» è la risposta giusta a un'altra domanda di questo gruppo: «Freddo sta a caldo come buio sta a…».",
+				"Massa": "«Massa» è la risposta giusta a un'altra domanda di questo gruppo: «Chilometro sta a distanza come chilogrammo sta a…».",
+				"Cavallo": "«Cavallo» è la risposta giusta a un'altra domanda di questo gruppo: «Cucciolo sta a cane come puledro sta a…».",
+				"Film": "«Film» è la risposta giusta a un'altra domanda di questo gruppo: «Pagina sta a libro come fotogramma sta a…».",
+				"basso": "«basso» è la risposta giusta a un'altra domanda di questo gruppo: «Caldo sta a freddo come alto sta a…?».",
+				"nuotare": "«nuotare» è la risposta giusta a un'altra domanda di questo gruppo: «Uccello sta a volare come pesce sta a…?»."
 			}
 		},
 		{
@@ -12862,14 +13261,14 @@
 			],
 			"explanation": "Le mani non sono bucate davvero: si spende troppo.",
 			"distractorWhy": {
-				"Parole di significato simile": "«Parole di significato simile» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa sono i sinonimi?».",
-				"Parole di significato opposto": "«Parole di significato opposto» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa sono i contrari?».",
-				"Avaro": "«Avaro» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il contrario di «generoso»?».",
-				"-iere": "«-iere» è la risposta giusta a un'altra domanda di questo gruppo: «In «giardiniere», qual è il suffisso?».",
-				"Rapido": "«Rapido» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è un sinonimo di «veloce»?».",
-				"Che dura pochissimo": "«Che dura pochissimo» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa vuol dire «effimero»?».",
-				"Non detto, sottinteso": "«Non detto, sottinteso» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa vuol dire «tacito»?».",
-				"sinonimo": "«sinonimo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama una parola che ha lo stesso significato di un'altra?»."
+				"Tagliare": "«Tagliare» è la risposta giusta a un'altra domanda di questo gruppo: «Penna sta a scrivere come forbici sta a…».",
+				"Scuola": "«Scuola» è la risposta giusta a un'altra domanda di questo gruppo: «Medico sta a ospedale come insegnante sta a…».",
+				"Luce": "«Luce» è la risposta giusta a un'altra domanda di questo gruppo: «Freddo sta a caldo come buio sta a…».",
+				"Massa": "«Massa» è la risposta giusta a un'altra domanda di questo gruppo: «Chilometro sta a distanza come chilogrammo sta a…».",
+				"Cavallo": "«Cavallo» è la risposta giusta a un'altra domanda di questo gruppo: «Cucciolo sta a cane come puledro sta a…».",
+				"Film": "«Film» è la risposta giusta a un'altra domanda di questo gruppo: «Pagina sta a libro come fotogramma sta a…».",
+				"basso": "«basso» è la risposta giusta a un'altra domanda di questo gruppo: «Caldo sta a freddo come alto sta a…?».",
+				"nuotare": "«nuotare» è la risposta giusta a un'altra domanda di questo gruppo: «Uccello sta a volare come pesce sta a…?»."
 			}
 		},
 		{

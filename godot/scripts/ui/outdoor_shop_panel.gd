@@ -14,6 +14,7 @@ const SLOT_LABELS := {
 	"bot": "BIT",
 	"avatar": "OUTFIT",
 	"accessory": "ACCESSORI",
+	"conquest": "RICORDI",
 	"tool": "STRUMENTI",
 	"pet": "COMPAGNI",
 	"emblem": "EMBLEMI",
@@ -26,7 +27,7 @@ const SLOT_LABELS := {
 # Lo slot "tool" non compare più: gli strumenti di campo non si comprano, li
 # consegna il mondo dopo una riparazione ([[FieldTools]]). Restano nel catalogo
 # perché il resto del gioco li cerca per id.
-const SLOT_ORDER := ["bot", "avatar", "accessory", "module", "pet", "emblem", "upgrade", "decor"]
+const SLOT_ORDER := ["bot", "avatar", "accessory", "conquest", "module", "pet", "emblem", "upgrade", "decor"]
 const SLOT_META := {
 	"bot": {
 		"title": "Livree di Bit",
@@ -42,6 +43,11 @@ const SLOT_META := {
 		"title": "Moduli e accessori",
 		"intro": "Dettagli tecnici, segni di metodo e strumenti per personalizzare l'equipaggio.",
 		"impact": "Puoi indossare un accessorio alla volta e sostituirlo senza altri costi.",
+	},
+	"conquest": {
+		"title": "Ricordi di conquista",
+		"intro": "Ventiquattro oggetti nati quando i Pericoli dei mondi hanno smesso di deformare ciò che li circondava.",
+		"impact": "Restano nella collezione come memoria del luogo stabilizzato. Non rendono più facile nessuna prova.",
 	},
 	# Lo slot "tool" resta descritto qui ma non compare piu' in vetrina: gli
 	# strumenti li consegna il mondo dopo una riparazione ([[FieldTools]]).
@@ -462,7 +468,7 @@ func _refresh() -> void:
 	_category_heading.text = str(meta["title"])
 	_category_intro.text = str(meta["intro"])
 
-	var cosmetics := RewardCatalog.by_slot(_slot)
+	var cosmetics := _items_for_slot(_slot)
 	if _selected_id.is_empty() or not _contains_id(cosmetics, _selected_id):
 		_selected_id = _preferred_item_id(_slot)
 	for child in _items.get_children():
@@ -475,7 +481,7 @@ func _refresh() -> void:
 func _update_category_navigation() -> void:
 	for slot_name in SLOT_ORDER:
 		var button := _category_buttons[slot_name] as Button
-		var total := RewardCatalog.by_slot(slot_name).size()
+		var total := _items_for_slot(slot_name).size()
 		button.text = "%s  %d/%d" % [SLOT_LABELS[slot_name], _owned_count(slot_name), total]
 		button.button_pressed = slot_name == _slot
 		_style_category_button(button, slot_name == _slot)
@@ -577,7 +583,7 @@ func _refresh_detail(cosmetic: Dictionary) -> void:
 	var cost := int(cosmetic.get("cost", 0))
 	var level := int(_state.get("level", 1))
 	_detail_category.text = str(SLOT_LABELS[_slot])
-	_detail_collection.text = "COLLEZIONE  %d/%d" % [_owned_count(_slot), RewardCatalog.by_slot(_slot).size()]
+	_detail_collection.text = "COLLEZIONE  %d/%d" % [_owned_count(_slot), _items_for_slot(_slot).size()]
 	_detail_image.texture = _item_texture(id)
 	_detail_image.modulate = Color(0.6, 0.65, 0.65, 0.9) if level < min_level and not owned else Color.WHITE
 	_detail_rarity.text = str(rarity["label"])
@@ -614,7 +620,7 @@ func _configure_action(button: Button, cosmetic: Dictionary, detailed: bool) -> 
 	var cost := int(cosmetic.get("cost", 0))
 	var rarity_color: Color = _rarity(cosmetic)["color"]
 	button.disabled = false
-	if active and slot_name not in ["upgrade", "decor"]:
+	if active and slot_name not in ["upgrade", "decor", "memento"]:
 		button.text = "RIMUOVI"
 		button.pressed.connect(_unequip.bind(slot_name))
 	elif active:
@@ -627,6 +633,9 @@ func _configure_action(button: Button, cosmetic: Dictionary, detailed: bool) -> 
 		# Non è un rifiuto: è un indirizzo. La voce esiste, sta in un posto, e il
 		# posto ha un nome che si può raggiungere.
 		button.text = ("VAI A %s" % _luogo_da_incontrare(id).to_upper()) if detailed else "DA TROVARE"
+		button.disabled = true
+	elif _richiede_conquista(id):
+		button.text = "SUPERA IL PERICOLO" if detailed else "DA CONQUISTARE"
 		button.disabled = true
 	elif level < min_level:
 		button.text = ("RAGGIUNGI LIVELLO %d" if detailed else "LIVELLO %d") % min_level
@@ -650,6 +659,8 @@ func _card_price_text(cost: int, min_level: int, owned: bool, active: bool, id :
 	var luogo := _luogo_da_incontrare(id)
 	if luogo != "":
 		return "DA TROVARE · %s" % luogo.to_upper()
+	if _richiede_conquista(id):
+		return "RICORDO DI CONQUISTA"
 	if int(_state.get("level", 1)) < min_level:
 		return "RICHIEDE LV %d" % min_level
 	return "◊ %d" % cost
@@ -663,6 +674,12 @@ func _luogo_da_incontrare(id: String) -> String:
 		return ""
 	return RewardCatalog.luogo_di(id)
 
+func _richiede_conquista(id: String) -> bool:
+	if id == "" or gameplay == null or gameplay.reward_manager == null:
+		return false
+	return gameplay.reward_manager.incontrato(id) \
+		and not gameplay.reward_manager.conquistato(id)
+
 
 func _detail_requirement_text(cost: int, min_level: int, owned: bool, active: bool, id := "") -> String:
 	if active:
@@ -672,6 +689,8 @@ func _detail_requirement_text(cost: int, min_level: int, owned: bool, active: bo
 	var luogo := _luogo_da_incontrare(id)
 	if luogo != "":
 		return "VIENE DA: %s" % luogo.to_upper()
+	if _richiede_conquista(id):
+		return "SBLOCCO: SUPERA IL PERICOLO DEL MONDO  ·  COSTO: ◊ %d" % cost
 	if int(_state.get("level", 1)) < min_level:
 		return "SBLOCCO: LIVELLO %d  ·  COSTO: ◊ %d" % [min_level, cost]
 	return "COSTO: ◊ %d  ·  LIVELLO RICHIESTO: %d" % [cost, min_level]
@@ -687,12 +706,16 @@ func _detail_state_text(cosmetic: Dictionary) -> String:
 			return "Recuperato. L'anello di luce e' addosso a Eli da adesso in poi."
 		if slot_name == "decor":
 			return "Restaurato. Il ponte resta acceso: lo vedi salendo a bordo."
+		if slot_name == "memento":
+			return "Custodito. Questo ricordo resta nella collezione del viaggio."
 		return "Questa ricompensa e gia applicata al Relitto."
 	if _is_owned(id):
 		return "Acquistata. Puoi equipaggiarla ora senza spendere altri frammenti."
 	var luogo := _luogo_da_incontrare(id)
 	if luogo != "":
 		return "Viene da %s, e finché non ci arrivi resta lì. Non serve finire niente: basta che la rotta sia aperta." % luogo
+	if _richiede_conquista(id):
+		return "Hai trovato il luogo. Ora supera il suo Pericolo: il Sigillo sarà tuo e questo ricordo entrerà in vendita."
 	if int(_state.get("level", 1)) < min_level:
 		return "Continua le missioni per raggiungere il livello necessario."
 	var missing := maxi(0, cost - int(_state.get("fragments", 0)))
@@ -705,6 +728,8 @@ func _requirement_color(cosmetic: Dictionary) -> Color:
 	var id := str(cosmetic.get("id", ""))
 	if _is_owned(id):
 		return Color("78e2b0")
+	if _richiede_conquista(id):
+		return Color("c7b8ff")
 	if int(_state.get("level", 1)) < int(cosmetic.get("minLevel", 1)):
 		return Color("a5adb0")
 	if int(_state.get("fragments", 0)) < int(cosmetic.get("cost", 0)):
@@ -734,12 +759,12 @@ func _is_active(cosmetic: Dictionary) -> bool:
 	var id := str(cosmetic.get("id", ""))
 	var slot_name := str(cosmetic.get("slot", ""))
 	var equipped: Dictionary = _state.get("cosmeticsEquipped", {})
-	return str(equipped.get(slot_name, "")) == id or (_is_owned(id) and slot_name in ["upgrade", "decor"])
+	return str(equipped.get(slot_name, "")) == id or (_is_owned(id) and slot_name in ["upgrade", "decor", "memento"])
 
 
 func _owned_count(slot_name: String) -> int:
 	var total := 0
-	for cosmetic in RewardCatalog.by_slot(slot_name):
+	for cosmetic in _items_for_slot(slot_name):
 		if _is_owned(str(cosmetic.get("id", ""))):
 			total += 1
 	return total
@@ -750,8 +775,16 @@ func _preferred_item_id(slot_name: String) -> String:
 	var equipped_id := str(equipped.get(slot_name, ""))
 	if not equipped_id.is_empty():
 		return equipped_id
-	var cosmetics := RewardCatalog.by_slot(slot_name)
+	var cosmetics := _items_for_slot(slot_name)
 	return str(cosmetics[0].get("id", "")) if not cosmetics.is_empty() else ""
+
+
+## `conquest` e' una lente sul catalogo, non uno slot equipaggiabile: raccoglie
+## la Sciarpa del primo mondo e i ventitre ricordi permanenti senza duplicarli.
+func _items_for_slot(slot_name: String) -> Array:
+	if slot_name == "conquest":
+		return RewardCatalog.conquest_items()
+	return RewardCatalog.by_slot(slot_name)
 
 
 func _contains_id(cosmetics: Array, id: String) -> bool:

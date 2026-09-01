@@ -133,6 +133,13 @@ static func _default_data() -> Dictionary:
 		"worlds": {"unlocked": [1], "current": 1},
 		"worldProgress": {},        # "level" -> {completedEncounterIds, collectedTreasureIds, clearedHazardIds, enigmaCooldowns}
 		"cosmetics": {"unlocked": [], "equipped": {}, "inventory": []},
+		# Quattro vie di riconoscimento (Comprendere, Costruire, Esplorare,
+		# Legami). Non e' una valuta e non apre gate: rende permanente e leggibile
+		# la varieta' del percorso. Vedi `progress_recognition.gd`.
+		"recognition": {
+			"claimed": {}, "byKind": {}, "byWorld": {},
+			"milestones": [], "recent": [],
+		},
 		# **Le porte viste e non aperte** (19 agosto 2026, [[FieldTools]]):
 		# "mondo" -> "strumento" -> [id dei varchi]. È il registro che trasforma
 		# ventiquattro mondi in fila in un arcipelago: quando arriva una chiave
@@ -371,6 +378,26 @@ func current_world() -> int:
 
 func set_current_world(world_level: int) -> void:
 	_worlds()["current"] = world_level
+
+## Il seed appartiene alla SPEDIZIONE, non al livello. Una nuova partenza dalla
+## mappa lo rinnova; i passaggi mondo -> nave -> mondo lo conservano, cosi' il
+## terreno non cambia sotto i piedi del giocatore.
+func begin_world_expedition(world_id: String) -> String:
+	var rng := RandomNumberGenerator.new()
+	rng.randomize()
+	var seed := "expedition-%s-%d-%d" % [
+		world_id, Time.get_ticks_usec(), rng.randi()]
+	var bucket := _world_bucket(world_id)
+	bucket["expeditionSeed"] = seed
+	bucket["resume"] = {}
+	return seed
+
+func world_expedition_seed(world_id: String) -> String:
+	var bucket := _world_bucket(world_id)
+	var seed := str(bucket.get("expeditionSeed", ""))
+	if seed.is_empty():
+		seed = begin_world_expedition(world_id)
+	return seed
 
 # --- Stato persistente dei mondi (O-P0.4) -------------------------------------
 # Ogni mondo (per livello) ricorda incontri completati, tesori raccolti e hazard

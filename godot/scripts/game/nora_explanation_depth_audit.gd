@@ -65,26 +65,44 @@ func _init() -> void:
 			failures.append("chiave malformata in NoraExplanations: «%s»" % chiave)
 			continue
 		var voce := NoraExplanations.voce(parti[0], parti[1])
-		var perche := str(voce.get("perche", "")).strip_edges()
-		var come := str(voce.get("come", "")).strip_edges()
-		if perche.length() < MIN_LUNGHEZZA_PERCHE:
-			failures.append("%s: «perche» troppo corto per dare contesto (%d caratteri) — «%s»" % [
-				chiave, perche.length(), perche])
-		if come.length() < MIN_LUNGHEZZA_COME:
-			failures.append("%s: «come» troppo corto per essere un metodo utilizzabile (%d caratteri) — «%s»" % [
-				chiave, come.length(), come])
-		if perche.to_lower() == come.to_lower():
-			failures.append("%s: «perche» e «come» sono la stessa frase" % chiave)
-		if visti_perche.has(perche):
-			failures.append("%s: stesso «perche» di %s — non è più il contesto di QUESTO argomento" % [
-				chiave, str(visti_perche[perche])])
-		else:
-			visti_perche[perche] = chiave
-		if visti_come.has(come):
-			failures.append("%s: stesso «come» di %s — non è più il metodo di QUESTO argomento" % [
-				chiave, str(visti_come[come])])
-		else:
-			visti_come[come] = chiave
+		# **Si misura livello per livello, non l'Array stampato.** (1 settembre
+		# 2026) Venti voci su 135 hanno il perché e il come a più livelli. Letti
+		# con `str()` diventano una lista fra parentesi quadre, e quella lista
+		# passava tutti i controlli qui sotto: lunga di sicuro, e unica di sicuro.
+		# È lo stesso `str()` che finiva dentro la scheda del bambino da
+		# `KnowledgeCodex.entry_for` — misurare il testo vero è ciò che impedisce
+		# a quel difetto di tornare in silenzio.
+		var perche_livelli := NoraExplanations.livelli_di(voce, true)
+		var come_livelli := NoraExplanations.livelli_di(voce, false)
+		if perche_livelli.is_empty():
+			failures.append("%s: nessun «perche» da mostrare" % chiave)
+		if come_livelli.is_empty():
+			failures.append("%s: nessun «come» da mostrare" % chiave)
+		for indice in range(perche_livelli.size()):
+			var perche := str(perche_livelli[indice]).strip_edges()
+			var dove: String = str(chiave) if perche_livelli.size() == 1 else "%s (livello %d)" % [chiave, indice + 1]
+			if perche.length() < MIN_LUNGHEZZA_PERCHE:
+				failures.append("%s: «perche» troppo corto per dare contesto (%d caratteri) — «%s»" % [
+					dove, perche.length(), perche])
+			if visti_perche.has(perche):
+				failures.append("%s: stesso «perche» di %s — non è più il contesto di QUESTO argomento" % [
+					dove, str(visti_perche[perche])])
+			else:
+				visti_perche[perche] = dove
+		for indice_c in range(come_livelli.size()):
+			var come := str(come_livelli[indice_c]).strip_edges()
+			var dove_c: String = str(chiave) if come_livelli.size() == 1 else "%s (livello %d)" % [chiave, indice_c + 1]
+			if come.length() < MIN_LUNGHEZZA_COME:
+				failures.append("%s: «come» troppo corto per essere un metodo utilizzabile (%d caratteri) — «%s»" % [
+					dove_c, come.length(), come])
+			if visti_come.has(come):
+				failures.append("%s: stesso «come» di %s — non è più il metodo di QUESTO argomento" % [
+					dove_c, str(visti_come[come])])
+			else:
+				visti_come[come] = dove_c
+		if not perche_livelli.is_empty() and not come_livelli.is_empty():
+			if str(perche_livelli[0]).strip_edges().to_lower() == str(come_livelli[0]).strip_edges().to_lower():
+				failures.append("%s: «perche» e «come» sono la stessa frase" % chiave)
 
 	# 3) Il collegamento reale: `KnowledgeCodex.entry_for()` deve arrivare a
 	# produrre UNA spiegazione non vuota per ogni argomento coperto — altrimenti

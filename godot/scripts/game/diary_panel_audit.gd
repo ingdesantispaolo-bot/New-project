@@ -1,5 +1,7 @@
 extends SceneTree
 
+const ProgressRecognition = preload("res://scripts/game/progress_recognition.gd")
+
 ## Il diario dentro il mondo: il bottone c'è, il pannello si apre, i numeri
 ## mostrati sono quelli veri, e il mondo si ferma mentre lo leggi.
 ##
@@ -77,6 +79,10 @@ func _run() -> void:
 		{"level": 1, "subject": "matematica", "mastery": 0.6, "missions": 0, "seconds": 90.0},
 		{"level": 1, "subject": "storia", "mastery": 0.4, "missions": 1, "seconds": 60.0},
 	]}
+	ProgressRecognition.record(save, "mission", "audit-mission", 1)
+	ProgressRecognition.record(save, "enigma", "audit-enigma", 1)
+	ProgressRecognition.record(save, "hazard", "audit-hazard", 1)
+	ProgressRecognition.record(save, "resident", "audit-resident", 1)
 
 	bottone.pressed.emit()
 	await process_frame
@@ -98,6 +104,10 @@ func _run() -> void:
 	assert(testo.contains("Matematica") and testo.contains("Storia"),
 		"il diario non mostra le materie giocate")
 	assert(testo.contains("2026-08-01"), "il diario non dice da quando giochi")
+	assert(testo.contains("LE QUATTRO VIE") and testo.contains("Primo Segno"),
+		"il diario non rende visibile il ritratto complessivo:\n%s" % testo)
+	for via in ["Comprendere", "Costruire", "Esplorare", "Creare legami"]:
+		assert(testo.contains(via), "il diario non mostra la via %s" % via)
 	# Il tono: nessuna percentuale di errore, nessun obiettivo da raggiungere.
 	for vietato in ["fallit", "sbagliat", "obiettivo", "% di errore"]:
 		assert(not testo.to_lower().contains(vietato),

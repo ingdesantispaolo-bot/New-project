@@ -8,8 +8,8 @@ extends SceneTree
 ##   1. **Gli hazard dipendevano dal primo dado.** Il piazzamento provava UNA
 ##      posizione e, se cadeva in acqua o in zona protetta, rinunciava: otto
 ##      mondi ne ricevevano meno di tre, due ne ricevevano uno. Il numero di
-##      pericoli variava per niente. Ora si riprova dodici volte, come già
-##      faceva il piazzamento dei nemici dieci righe più su.
+##      pericoli variava per niente. Ora si riprova dentro la sagoma casuale e
+##      la prima zona viene legata a un luogo secondario della spedizione.
 ##   2. **Diciotto mondi su ventiquattro non hanno nessun guado**, perché non
 ##      hanno torrenti. Non è un difetto del codice — un guado senza acqua non
 ##      esiste — ma è un limite da dichiarare: la meccanica che apre fisicamente
@@ -30,7 +30,9 @@ func _init() -> void:
 	var mondi_con_due_sbarramenti := 0
 	for livello in range(1, ApparatusConfig.MAX_LEVEL + 1):
 		var profilo := WorldProfileCatalog.profile(livello)
-		var comp := WorldCompositionGenerator.generate("seed-%d" % livello, profilo)
+		var world_seed := "seed-%d::%s" % [livello, str(profilo.get("id", "world"))]
+		profilo = WorldExpeditionLayout.apply(profilo, world_seed)
+		var comp := WorldCompositionGenerator.generate(world_seed, profilo)
 
 		# --- guadi: mai più del tetto, e stabili
 		assert(comp.crossings.size() <= WorldCompositionGenerator.GUADI_MAX,
@@ -69,19 +71,60 @@ func _init() -> void:
 					livello, terra, WorldCompositionGenerator.SBARRAMENTI_SLOT.size()])
 			mondi_con_due_sbarramenti += 1
 
-		# --- hazard: tre piazzabili ovunque, con i dodici tentativi
+		# --- hazard: tre piazzabili nella sagoma casuale di ogni spedizione
 		var rng := RandomNumberGenerator.new()
-		rng.seed = hash("hazard-%d" % livello)
+		rng.seed = hash("%s:hazards" % world_seed)
+		var hazard_positions: Array[Vector2] = []
+		# Il pericolo specifico occupa il margine della prima tasca e viene creato
+		# prima dei tre ambientali, esattamente come nella scena reale.
+		for path_data in comp.paths:
+			var path: Dictionary = path_data
+			if not str(path.get("id", "")).begins_with("expedition-trail-"):
+				continue
+			var points: PackedVector2Array = path.get("points", PackedVector2Array())
+			if points.size() >= 3:
+				var challenge_position := points[2].lerp(points[1], 0.38)
+				if not comp.is_protected(challenge_position, 60.0) \
+						and comp.raw_water_weight(challenge_position) < 0.4:
+					hazard_positions.append(challenge_position)
+				break
+		if hazard_positions.is_empty():
+			for _fallback in range(32):
+				var fallback_angle := rng.randf() * TAU
+				var fallback_radius_max := minf(
+					1850.0, float(profilo.get("worldHalfExtent", 2100.0)) * 0.78)
+				var fallback_radius := rng.randf_range(680.0, maxf(900.0, fallback_radius_max))
+				var fallback: Vector2 = (profilo.get("spawn", WorldProfileCatalog.SPAWN) as Vector2) \
+					+ Vector2.RIGHT.rotated(fallback_angle) * fallback_radius
+				if comp.is_protected(fallback, 60.0) or comp.raw_water_weight(fallback) >= 0.4:
+					continue
+				hazard_positions.append(fallback)
+				break
+		assert(hazard_positions.size() == 1,
+			"il pericolo specifico non e' piazzabile al mondo %d" % livello)
+		# Fase casuale consumata dalla costruzione del pericolo specifico.
+		rng.randf_range(0.0, 4.2)
 		var piazzati := 0
 		for _indice in range(3):
-			for _tentativo in range(12):
+			for _tentativo in range(32):
 				var angolo := rng.randf() * TAU
-				var raggio := rng.randf_range(600.0, 1500.0)
-				var pos := WorldProfileCatalog.SPAWN + Vector2.RIGHT.rotated(angolo) * raggio
+				var raggio_massimo := minf(
+					1850.0, float(profilo.get("worldHalfExtent", 2100.0)) * 0.78)
+				var raggio := rng.randf_range(680.0, maxf(900.0, raggio_massimo))
+				var pos: Vector2 = (profilo.get("spawn", WorldProfileCatalog.SPAWN) as Vector2) \
+					+ Vector2.RIGHT.rotated(angolo) * raggio
 				if comp.is_protected(pos, 60.0):
 					continue
 				if comp.raw_water_weight(pos) >= 0.4:
 					continue
+				var separata := true
+				for precedente in hazard_positions:
+					if pos.distance_to(precedente) < 300.0:
+						separata = false
+						break
+				if not separata:
+					continue
+				hazard_positions.append(pos)
 				piazzati += 1
 				break
 		if piazzati < 3:
@@ -121,6 +164,6 @@ func _init() -> void:
 		assert(sbarramenti_visti.has(nome),
 			"lo sbarramento «%s» non compare in nessuno dei 24 mondi: è autorato e mai giocato" % nome)
 
-	print("WORLD MECHANICS audit OK — 24 mondi: un passaggio da aprire ovunque (%d d'acqua, %d di terra con due sbarramenti ciascuno), tutte e tre le facce dello sbarramento in gioco, 3 hazard, 3 edifici" % [
+	print("WORLD MECHANICS audit OK — 24 mondi: un passaggio da aprire ovunque (%d d'acqua, %d di terra con due sbarramenti ciascuno), tutte e tre le facce dello sbarramento in gioco, 3 hazard + 1 pericolo specifico, 3 edifici" % [
 		con_guado, mondi_con_due_sbarramenti])
 	quit(0)

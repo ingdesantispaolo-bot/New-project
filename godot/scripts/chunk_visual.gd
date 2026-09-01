@@ -84,6 +84,14 @@ func _build_identity_props() -> void:
 			"system_pylon", "convergence_relay", "synthesis_anchor",
 		]:
 			var body := StaticBody2D.new()
+			# I prop identitari sono scenografia e segnali di orientamento, non
+			# muri. Conserviamo temporaneamente l'impronta descrittiva qui sotto
+			# per chi calibra l'arte, ma la escludiamo completamente dalla fisica:
+			# passare dietro una mensola o accanto a un pilone non deve incastrare
+			# Eli contro un rettangolo invisibile.
+			body.name = "PassThroughDecoration"
+			body.collision_layer = 0
+			body.collision_mask = 0
 			var shape := CollisionShape2D.new()
 			var rectangle := RectangleShape2D.new()
 			var collision_sizes := {
@@ -158,6 +166,7 @@ func _build_identity_props() -> void:
 			}
 			rectangle.size = collision_sizes.get(kind, Vector2(52, 38))
 			shape.shape = rectangle
+			shape.disabled = true
 			shape.position = Vector2(0, -3)
 			body.add_child(shape)
 			node.add_child(body)
@@ -363,8 +372,9 @@ func _build_obstacles(decor) -> void:
 		var node := OutdoorVisualFactory.build_obstacle(
 			visual_kind, radius, int(obstacle["color"]), decor.next_float(), render_biome)
 		node.position = _local(obstacle["x"], obstacle["y"])
-		# Gameplay obstacles keep a single collision anchor, while their visuals
-		# receive a small planted skirt to eliminate the scattered-sticker look.
+		# Alberi, rocce e cespugli procedurali sono quinte grafiche attraversabili.
+		# Il pericolo deve essere dichiarato da un hazard, un nemico o un cancello,
+		# mai da un cerchio invisibile attorno a una decorazione casuale.
 		for index in range(2 if visual_lod == 0 else 1):
 			var angle: float = decor.next_float() * TAU
 			var offset: Vector2 = Vector2(cos(angle), sin(angle) * 0.55) * (radius + 18.0 + decor.next_float() * 18.0)
@@ -374,14 +384,6 @@ func _build_obstacles(decor) -> void:
 			skirt.scale = Vector2.ONE * 0.72
 			node.add_child(skirt)
 		add_child(node)
-
-		var body := StaticBody2D.new()
-		var shape := CollisionShape2D.new()
-		var circle := CircleShape2D.new()
-		circle.radius = radius + 8.0
-		shape.shape = circle
-		body.add_child(shape)
-		node.add_child(body)
 
 func _build_props(decor) -> void:
 	for prop in chunk.get("props", []):

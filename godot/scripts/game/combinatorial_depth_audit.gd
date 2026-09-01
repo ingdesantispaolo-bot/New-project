@@ -64,10 +64,17 @@ const DEPTH_FLOOR := {
 	"musica": 243781,
 	"scienze": 221334,
 	"elettronica": 213555,
-	"logica": 133892,
+	"logica": 158454,
 	"storia": 133313,
 	# Musica sale a 243.781 nella Fase 4: al primo mondo aveva otto abbinamenti
 	# possibili in tutto, ed era l'ultima materia sopra la soglia di ripetizione.
+	#
+	# Logica sale a 158.454 il 1 settembre 2026. Non per un insieme allungato: la
+	# materia aveva TRE formati che giravano su una specifica sola — indiziario,
+	# tracciatore, bilancia — e insieme valevano l'8,6% dei nodi giocati di un
+	# mondo. Tre prove, sempre le stesse, per un dodicesimo dell'esperienza. Ora
+	# sono tre ciascuno, e due insiemi di smistamento che non insegnavano logica
+	# (animale/pianta, colori/forme/numeri) sono diventati contenuto della materia.
 }
 
 func _init() -> void:

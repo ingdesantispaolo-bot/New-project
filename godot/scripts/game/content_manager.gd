@@ -38,6 +38,22 @@ const EXAM_NODES := 5
 ## Per passare: tre quarti. Su quattro nodi significa un errore concesso; un
 ## esame che non perdona nulla misura la tensione, non la competenza.
 const EXAM_PASS_RATIO := 0.75
+## Quanti nodi dell'esame vengono portati fuori dalla scelta multipla. Vedi la
+## nota estesa in `build_final_exam`.
+const EXAM_NON_MC_RATIO := 0.7
+
+## **Elettronica fa eccezione, e l'aveva già dichiarato.** (1 settembre 2026)
+##
+## È l'unica materia che ha portato la scelta multipla a zero in TUTTO il resto:
+## l'esame è il solo posto in cui misura, e `elettronica_hands_on_audit` pretende
+## che almeno metà delle sue prove restino domande dirette. Con la quota generale
+## scendevano al 44% e l'audit — a ragione — lo chiamava «non misura più».
+const EXAM_NON_MC_PER_MATERIA := {
+	"elettronica": 0.3,
+}
+
+static func exam_non_mc_ratio(subject: String) -> float:
+	return float(EXAM_NON_MC_PER_MATERIA.get(subject, EXAM_NON_MC_RATIO))
 
 static func subject_pace(subject: String) -> String:
 	return str(SUBJECT_PACE.get(subject, PACE_REASONING))
@@ -639,8 +655,37 @@ func build_final_exam(subject: String, level: int, node_count: int = 3, rng: Ran
 	# lo vieta a ragione. Dove la materia è ricca l'esame resta lungo.
 	var nodi_esame := clampi(reachable_topic_count(subject, level), node_count, EXAM_NODES)
 	var exam := build_mission(subject, level, nodi_esame, {}, generator, mastery, topic_mastery)
-	# Diversifica: garantisci almeno un formato oltre la scelta multipla.
-	exam["nodes"] = inject_non_mc(exam.get("nodes", []), subject, level, 1, generator)
+	# **L'esame non è un compito in classe.** (1 settembre 2026)
+	#
+	# Qui c'era un `1` fisso: «garantisci almeno un formato oltre la scelta
+	# multipla». Misurato su logica (1168 nodi giocati), quel numero produceva un
+	# esame fatto per il 61,3% di «tocca una fra N» e per il 20% di risposte
+	# digitate: manipolazione al 15%. Il mondo si apre con la pratica al 75% di
+	# manipolazione e si chiude con la meccanica peggiore che possiede — e
+	# l'ultima cosa giocata è quella che resta.
+	#
+	# Resta vero che misurare è un'altra attività dall'imparare, ed è la ragione
+	# per cui l'esame non diventa una sessione di soli minigiochi: la metà dei
+	# nodi, non tutti. Ma la competenza va misurata con lo stesso gesto con cui è
+	# stata insegnata, altrimenti si misura un'altra cosa.
+	var non_mc_esame := int(ceil(float(Array(exam.get("nodes", [])).size()) * exam_non_mc_ratio(subject)))
+	# I nodi che entrano non sono «un formato qualsiasi purché non a crocette»:
+	# sono quelli in cui si fa la cosa con le mani. Senza questa preferenza
+	# l'iniezione pescava spesso un grafico o un circuito — che sono a loro volta
+	# «tocca una fra N», e l'esame restava un quiz illustrato.
+	exam["nodes"] = inject_non_mc(
+		exam.get("nodes", []), subject, level, non_mc_esame, generator, FORMATI_MANIPOLATIVI,
+		["multiple_choice"])
+	# **E se restasse lo stesso argomento due volte.** (1 settembre 2026)
+	#
+	# La sostituzione qui sopra tocca solo la scelta multipla, così le domande da
+	# digitare sopravvivono. Ma in logica il banco ha sei argomenti e l'esame ha
+	# sette campate: in due sessioni su mille finivano due `numeric_input` sullo
+	# stesso argomento — la stessa competenza chiesta due volte nello stesso modo,
+	# che `format_mix_audit` vieta e che a giocarla sembra un errore del gioco.
+	# Quando succede, e solo allora, si sostituisce anche una domanda da digitare.
+	exam["nodes"] = _sciogli_doppioni(
+		Array(exam.get("nodes", [])), subject, level, generator)
 	# La PROVA DI NUCLEO. (6 agosto 2026)
 	#
 	# L'esame era solo della materia che abita il mondo: in ventuno mondi su
@@ -660,6 +705,21 @@ func build_final_exam(subject: String, level: int, node_count: int = 3, rng: Ran
 	exam["minimumCorrect"] = int(ceil(float(Array(exam.get("nodes", [])).size()) * EXAM_PASS_RATIO))
 	exam["rewards"] = {"energyPerCorrect": 12, "onComplete": {"energy": 40, "fragments": 4}}
 	return exam
+
+## Quante campate dell'esame ripetono un (formato, argomento) già visto, e le
+## rimpiazza con un minigioco. Zero doppioni è la regola, non un obiettivo.
+func _sciogli_doppioni(nodes: Array, subject: String, level: int, rng: RandomNumberGenerator) -> Array:
+	var viste: Dictionary = {}
+	var doppioni := 0
+	for node_data in nodes:
+		var n: Dictionary = node_data
+		var chiave := "%s|%s" % [str(n.get("format", "")), str(n.get("topic", ""))]
+		if viste.has(chiave):
+			doppioni += 1
+		viste[chiave] = true
+	if doppioni <= 0:
+		return nodes
+	return inject_non_mc(nodes, subject, level, doppioni, rng, FORMATI_MANIPOLATIVI)
 
 ## I nodi di nucleo da aggiungere a un esame di mondo.
 ##
@@ -793,8 +853,24 @@ const MC_TARGET_RATIO := 0.20
 ##
 ## L'esame resta a scelta multipla apposta: li' si misura, e misurare e' un'altra
 ## attivita' dall'imparare. Vedi `build_final_exam`, che non passa di qui.
+##
+## **La seconda materia: logica.** (1 settembre 2026)
+##
+## La direttiva diceva «prima di estenderla alle altre undici», e la logica è
+## quella che la chiedeva più forte. Misurato sull'esperienza giocata dei mondi
+## 12 e 24 (1168 nodi): il ragionamento vero della materia — deduzioni, verità,
+## quantificatori, cioè le domande migliori che il banco possiede — stava tutto
+## a scelta multipla, mentre i formati manipolativi ricevevano il vocabolario
+## (cuccioli e cani, penne e scrivere, animale contro pianta). Il gesto buono
+## serviva il contenuto peggiore.
+##
+## Spostato quel contenuto dentro lo smistamento (il «tavolo delle conclusioni»
+## in `MinigameManager.CLASSIFICATION`), la scelta multipla qui non ha più un
+## compito che qualcun altro non faccia meglio. Resta all'esame, come in
+## elettronica e per la stessa ragione: misurare è un'altra attività dall'imparare.
 const MC_TARGET_PER_MATERIA := {
 	"elettronica": 0.0,
+	"logica": 0.0,
 }
 
 static func mc_target_for(subject: String) -> float:
@@ -813,8 +889,24 @@ static func mc_target_for(subject: String) -> float:
 ## Vale solo per elettronica. In italiano e in inglese una risposta aperta e'
 ## esattamente la prova giusta — si scrive la parola perche' l'obiettivo E'
 ## saperla scrivere — e toglierla li' sarebbe un danno.
+##
+## **E in logica anche i numeri da digitare.** (1 settembre 2026)
+##
+## Stessa direttiva, seconda materia. Portata a zero la scelta multipla, il posto
+## se l'è preso l'inserimento numerico: misurato, il 13% dei nodi — e sono quasi
+## tutti serie aritmetiche, «quale numero continua», che è il pezzo di logica che
+## lo studio ha trovato più debole. Peggio: con il banco ridotto ai soli argomenti
+## di ragionamento, due campate della stessa sessione finivano tutte e due su
+## `numeric_input|sequenze`, e `format_mix_audit` lo vieta a ragione — la stessa
+## competenza chiesta due volte nello stesso modo a un minuto di distanza.
+##
+## Le sequenze restano, e restano in tre direzioni (il termine dopo, il decimo,
+## la posizione di un numero): si incontrano all'esame, dove si misura. Fuori si
+## trova l'ordinamento «scopri la regola di una sequenza», che chiede la stessa
+## cosa facendola.
 const FORMATI_DA_SOSTITUIRE := {
 	"elettronica": ["multiple_choice", "short_answer"],
+	"logica": ["multiple_choice", "numeric_input"],
 }
 
 static func formati_da_sostituire(subject: String) -> Array:
@@ -841,7 +933,20 @@ func build_varied_mission(subject: String, level: int, node_count: int = 3, revi
 		if str(Dictionary(n).get("format", "")) in da_sostituire:
 			mc_count += 1
 	var to_replace := maxi(0, mc_count - target_mc)
-	session["nodes"] = inject_non_mc(nodes, subject, level, to_replace, generator)
+	# **Chi ha detto «minigiochi che insegnano» li vuole davvero.** (1 settembre 2026)
+	#
+	# Una materia con la scelta multipla a zero fuori dall'esame ha preso una
+	# decisione precisa: qui si impara facendo. Ma `inject_non_mc` sostituisce con
+	# un formato non-MC qualsiasi, e metà di quelli — grafico, circuito, caccia
+	# all'errore, tracciatore, indiziario, bilancia — sono a loro volta «tocca una
+	# fra N» con un disegno sopra. Misurato in logica: portando fuori anche i
+	# numeri da digitare, la quota di «sceglie» SALIVA invece di scendere, perché
+	# il posto lasciato libero se lo prendevano loro.
+	#
+	# Dove la materia ha dichiarato quella scelta, la sostituzione preferisce i
+	# formati in cui il gesto è la competenza. Le altre dieci non cambiano.
+	var preferiti: Array = FORMATI_MANIPOLATIVI if mc_target_for(subject) <= 0.0 else []
+	session["nodes"] = inject_non_mc(nodes, subject, level, to_replace, generator, preferiti)
 	return session
 
 # Arrotonda a intero mantenendo la media: la parte frazionaria diventa la
@@ -861,6 +966,14 @@ func _stochastic_round(x: float, rng: RandomNumberGenerator) -> int:
 # poche campate restano varie e nessun formato torna a dominare.
 const NONMC_FORMAT_WEIGHTS := {
 	"matching": 20, "ordering": 15, "classification": 13,
+	# **La linea del tempo pesa come un abbinamento.** (1 settembre 2026)
+	# Un formato senza una riga qui dentro prende il peso di ripiego, 10: meno
+	# della metà del grafico e del circuito, che sono «tocca una fra N» con un
+	# disegno sopra. È il punto 1 del debito dichiarato in `gesto_audit` — i pesi
+	# favorivano proprio i formati in cui il gesto non è la competenza. Collocare
+	# un evento su una linea del tempo è un gesto di posizione, ed è la forma in
+	# cui la cronologia si impara davvero quando la tavola sta davanti.
+	"timeline": 20,
 	"graph": 25, "circuit": 25, "cycle": 18, "code_debug": 25, "hotspot": 18,
 	# La matematica diventa un oggetto da far funzionare, non una risposta da
 	# riconoscere. Il peso alto rende il vertical slice visibile nel percorso live.
@@ -871,13 +984,41 @@ const NONMC_FORMAT_WEIGHTS := {
 	# Italiano come indagine: tre regolazioni separate rendono visibili tempo,
 	# modo e forma prima che il messaggio del Relitto possa essere aperto.
 	"verb_decoder": 34,
+	# La logica smette di essere un elenco di alternative: la griglia si deduce
+	# chiudendo le caselle impossibili, le porte si accendono una alla volta.
+	# Stesso peso degli altri formati-firma di materia.
+	"griglia": 34,
+	"porte": 34,
 }
 
 # Quante costruzioni di minigioco attingere per la tavolozza: con più prove per
 # formato una campata non ripete mai la prova della campata precedente.
 const PALETTE_DRAWS := 3
 
-func inject_non_mc(nodes: Array, subject: String, level: int, count: int, rng: RandomNumberGenerator) -> Array:
+## **I formati in cui il gesto È la competenza.** (1 settembre 2026)
+##
+## Non tutti i formati «non a scelta multipla» chiedono la stessa cosa. Grafico,
+## circuito, caccia all'errore, tracciatore, indiziario e bilancia restano «tocca
+## una fra N» con un disegno sopra: sostituire una scelta multipla con uno di
+## loro cambia il vestito, non il gesto. Questi invece si trascinano, si ordinano,
+## si montano, si provano — ed è la lista che `gesto_audit` chiama MANIPOLA.
+##
+## Serve all'esame, che finora riceveva il primo formato non-MC che capitava e
+## chiudeva il mondo con la meccanica peggiore che possedeva.
+const FORMATI_MANIPOLATIVI := [
+	"matching", "ordering", "classification", "timeline", "swipe",
+	"machine_path", "mystery_sample", "verb_decoder", "griglia", "porte",
+]
+
+## Quanto pesa di più un formato preferito nel sorteggio. Tre volte: abbastanza
+## perché domini quando c'è, non tanto da escludere gli altri — un esame di soli
+## trascinamenti sarebbe monotono quanto uno di sole crocette.
+const PESO_PREFERITO := 3.0
+
+## `sostituibili` permette di restringere QUALI nodi possono essere sostituiti.
+## Serve all'esame: lì una materia come la logica vuole ancora le sue domande da
+## digitare — è il posto in cui si misura — anche se fuori le ha portate via.
+func inject_non_mc(nodes: Array, subject: String, level: int, count: int, rng: RandomNumberGenerator, preferiti: Array = [], sostituibili: Array = []) -> Array:
 	if count <= 0:
 		return nodes
 	# Tavolozza: per ciascun formato non-MC una CODA di prove distinte. Con una sola
@@ -938,7 +1079,8 @@ func inject_non_mc(nodes: Array, subject: String, level: int, count: int, rng: R
 	if palette.is_empty():
 		return nodes
 	var out := nodes.duplicate()
-	var sostituibili := formati_da_sostituire(subject)
+	if sostituibili.is_empty():
+		sostituibili = formati_da_sostituire(subject)
 	var used: Dictionary = {}
 	var injected := 0
 	for i in range(out.size() - 1, -1, -1):
@@ -974,7 +1116,7 @@ func inject_non_mc(nodes: Array, subject: String, level: int, count: int, rng: R
 		# Meglio un abbinamento nuovo che il quinto identico grafico.
 		if not fresh.is_empty():
 			available = fresh
-		var fmt := _pick_weighted_format(available, used, rng)
+		var fmt := _pick_weighted_format(available, used, rng, preferiti)
 		var queue: Array = palette[fmt]
 		var chosen_node: Dictionary = (queue.pop_front() as Dictionary).duplicate(true)
 		out[i] = chosen_node
@@ -1008,11 +1150,13 @@ func _remember_node(signature: String) -> void:
 # Sceglie un formato tra quelli disponibili con probabilità proporzionale al peso,
 # smorzando i formati già usati in questa missione (varietà dentro la singola
 # missione oltre che nell'insieme).
-func _pick_weighted_format(formats: Array, used: Dictionary, rng: RandomNumberGenerator) -> String:
+func _pick_weighted_format(formats: Array, used: Dictionary, rng: RandomNumberGenerator, preferiti: Array = []) -> String:
 	var weighted: Array = []
 	var total := 0.0
 	for f in formats:
 		var w := float(NONMC_FORMAT_WEIGHTS.get(f, 10))
+		if preferiti.has(f):
+			w *= PESO_PREFERITO
 		w /= float(1 + int(used.get(f, 0)) * 3)
 		weighted.append([str(f), w])
 		total += w

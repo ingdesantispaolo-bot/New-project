@@ -3208,18 +3208,6 @@ const LOGICA_EXTRA = [
     distractorWhy: { "Il treno è sempre in ritardo": "«Qualche volta» non dice «sempre»: nega solo la puntualità costante.", "Il treno non è mai puntuale": "«Qualche volta» in ritardo lascia aperta la possibilità che sia puntuale altre volte.", "Il treno è quasi sempre in ritardo": "«Qualche volta» non specifica una frequenza alta." } },
   { topic: "quantificatori", difficulty: 4, prompt: "In una scatola ci sono solo palline rosse. È vero che «tutte le palline blu nella scatola sono grandi»?", answer: "Sì, perché non ce ne sono", distractors: ["No, perché non ce ne sono","Non si può stabilire","Solo se sono davvero grandi"], explanation: "Un'affermazione su un insieme vuoto non ha controesempi possibili, quindi è considerata vera. Si dice vera «a vuoto».",
     distractorWhy: { "No, perché non ce ne sono": "Un'affermazione su un insieme vuoto non ha controesempi possibili, quindi è considerata vera, non falsa.", "Non si può stabilire": "Si può stabilire: un'affermazione su un insieme senza elementi è vera «a vuoto», per convenzione logica.", "Solo se sono davvero grandi": "Non ci sono palline blu da controllare: la frase è vera a prescindere." } },
-  { topic: "analogie", difficulty: 2, prompt: "Penna sta a scrivere come forbici sta a…", answer: "Tagliare", distractors: ["Cucire","Incollare","Misurare"], explanation: "La relazione è «strumento → azione che compie»: si cerca la stessa relazione, non una parola simile.",
-    distractorWhy: { "Cucire": "Si cuce con ago e filo, non con le forbici.", "Incollare": "Si incolla con la colla, non con le forbici.", "Misurare": "Si misura con il righello, non con le forbici." } },
-  { topic: "analogie", difficulty: 3, prompt: "Medico sta a ospedale come insegnante sta a…", answer: "Scuola", distractors: ["Libro","Studente","Lezione"], explanation: "La relazione è «chi lavora → luogo di lavoro»: lo studente è una persona, la lezione un'attività.",
-    distractorWhy: { "Libro": "Il libro è uno strumento di lavoro, non il luogo dove si lavora.", "Studente": "Lo studente è una persona con cui si lavora, non il luogo di lavoro.", "Lezione": "La lezione è l'attività svolta, non il luogo dove avviene." } },
-  { topic: "analogie", difficulty: 3, prompt: "Freddo sta a caldo come buio sta a…", answer: "Luce", distractors: ["Notte","Nero","Paura"], explanation: "La relazione è di opposizione. «Notte» è associata al buio ma non è il suo contrario.",
-    distractorWhy: { "Notte": "La notte è associata al buio, ma non è il suo contrario: quello è la luce.", "Nero": "Il nero è un colore associato al buio, non il suo opposto.", "Paura": "La paura è un'emozione che il buio può causare, non il suo contrario." } },
-  { topic: "analogie", difficulty: 4, prompt: "Chilometro sta a distanza come chilogrammo sta a…", answer: "Massa", distractors: ["Bilancia","Peso di una persona","Grandezza"], explanation: "La relazione è «unità → grandezza misurata». La bilancia è lo strumento, non la grandezza.",
-    distractorWhy: { "Bilancia": "La bilancia è lo strumento che misura, non la grandezza misurata.", "Peso di una persona": "È un esempio specifico di massa misurata, non il nome della grandezza.", "Grandezza": "È troppo generico: serve il nome specifico della grandezza, come per «distanza»." } },
-  { topic: "analogie", difficulty: 3, prompt: "Cucciolo sta a cane come puledro sta a…", answer: "Cavallo", distractors: ["Stalla","Corsa","Fieno"], explanation: "La relazione è «piccolo → animale adulto della stessa specie».",
-    distractorWhy: { "Stalla": "La stalla è il luogo dove vive il cavallo, non l'animale adulto.", "Corsa": "La corsa è un'attività del cavallo, non l'animale adulto.", "Fieno": "Il fieno è il cibo del cavallo, non l'animale adulto." } },
-  { topic: "analogie", difficulty: 4, prompt: "Pagina sta a libro come fotogramma sta a…", answer: "Film", distractors: ["Cinema","Macchina fotografica","Attore"], explanation: "La relazione è «parte → intero di cui fa parte». Il cinema è il luogo, non l'opera.",
-    distractorWhy: { "Cinema": "Il cinema è il luogo dove si guarda, non l'opera di cui il fotogramma è parte.", "Macchina fotografica": "È lo strumento che scatta le foto, non l'opera composta da fotogrammi.", "Attore": "L'attore recita nel film, ma non è l'opera di cui il fotogramma è parte." } },
   { topic: "deduzioni", difficulty: 3, prompt: "Tutti i musicisti leggono le note. Sara legge le note. Sara è musicista?", answer: "Non necessariamente", distractors: ["Sì, sicuramente","No, di certo non lo è","Solo se suona uno strumento"], explanation: "La regola dice che i musicisti leggono le note, non che solo loro lo fanno: girarla è un errore classico.",
     distractorWhy: { "Sì, sicuramente": "Leggere le note non basta: la regola dice che i musicisti leggono le note, non che solo loro lo fanno.", "No, di certo non lo è": "Non si può escludere: Sara potrebbe comunque essere musicista, solo non lo sappiamo con certezza.", "Solo se suona uno strumento": "Suonare uno strumento non è l'informazione data: la regola parla solo di leggere le note." } },
   { topic: "deduzioni", difficulty: 3, prompt: "Nessun rettile ha le piume. Kiwi ha le piume. Kiwi è un rettile?", answer: "No, di sicuro", distractors: ["Sì, potrebbe esserlo","Non si può stabilire","Solo se non vola"], explanation: "Se nessun rettile ha piume e Kiwi le ha, Kiwi sta fuori dall'insieme dei rettili.",
@@ -3254,14 +3242,6 @@ const LOGICA_EXTRA = [
     distractorWhy: { "2": "È un numero pari, come gli altri: non è lui l'intruso.", "4": "È un numero pari, come gli altri: non è lui l'intruso.", "8": "È un numero pari, come gli altri: non è lui l'intruso." } },
   { topic: "esclusioni", difficulty: 2, prompt: "Quale non appartiene al gruppo: martello, cacciavite, pinza, mela?", answer: "mela", distractors: ["martello", "cacciavite", "pinza"], explanation: "Tre servono a lavorare, la mela si mangia: la categoria è l'uso, non la forma.",
     distractorWhy: { "martello": "È un attrezzo da lavoro, come gli altri: non è lui l'intruso.", "cacciavite": "È un attrezzo da lavoro, come gli altri: non è lui l'intruso.", "pinza": "È un attrezzo da lavoro, come gli altri: non è lui l'intruso." } },
-  { topic: "analogie", difficulty: 1, prompt: "Caldo sta a freddo come alto sta a…?", answer: "basso", distractors: ["grande", "lungo", "veloce"], explanation: "La relazione è «il contrario di». Trovata la relazione nella prima coppia, si applica identica alla seconda.",
-    distractorWhy: { "grande": "Non è il contrario di «alto»: riguarda la dimensione generale, non l'altezza.", "lungo": "Non è il contrario di «alto»: riguarda la lunghezza, non l'altezza.", "veloce": "Non è affatto un contrario di «alto»: riguarda la velocità, un'altra caratteristica." } },
-  { topic: "analogie", difficulty: 1, prompt: "Uccello sta a volare come pesce sta a…?", answer: "nuotare", distractors: ["camminare", "correre", "saltare"], explanation: "La relazione è «come si sposta»: ogni animale va con il movimento del suo ambiente.",
-    distractorWhy: { "camminare": "Non è il movimento tipico del pesce, che vive nell'acqua.", "correre": "Non è il movimento tipico del pesce: si muove nell'acqua, non sulla terra.", "saltare": "Non è il movimento tipico del pesce." } },
-  { topic: "analogie", difficulty: 2, prompt: "Libro sta a leggere come cibo sta a…?", answer: "mangiare", distractors: ["cucinare", "comprare", "servire"], explanation: "La relazione è «che cosa se ne fa»: del libro si legge, del cibo si mangia. Cucinare viene prima, non è l'uso finale.",
-    distractorWhy: { "cucinare": "Si cucina prima di mangiare: non è l'uso finale del cibo, come leggere lo è per il libro.", "comprare": "Si compra prima di usarlo: non è l'azione finale, come leggere lo è per il libro.", "servire": "Servire è un passaggio prima di mangiare, non l'azione finale." } },
-  { topic: "analogie", difficulty: 3, prompt: "Tiepido sta a bollente come fresco sta a…?", answer: "gelido", distractors: ["caldo", "umido", "piacevole"], explanation: "La relazione non è di contrario ma di grado: bollente è la versione estrema di tiepido, gelido quella di fresco. Nelle analogie conta il tipo di legame, non il significato delle singole parole.",
-    distractorWhy: {"caldo":"Va dalla parte opposta: fresco e caldo sono contrari, non lo stesso grado spinto all'estremo.","umido":"Parla di quanta acqua c'è nell'aria, non di quanto fa freddo.","piacevole":"È un giudizio, non un grado di temperatura: rompe il tipo di legame."} },
   { topic: "insiemi", difficulty: 1, prompt: "Tutti i quadrati sono rettangoli. Allora un quadrato è anche…", answer: "un rettangolo", distractors: ["un triangolo", "un cerchio", "nessuna delle due"], explanation: "Se un insieme è dentro un altro, tutto ciò che sta nel piccolo sta anche nel grande. Non vale al contrario: non tutti i rettangoli sono quadrati.",
     distractorWhy: { "un triangolo": "Il quadrato non è mai stato definito come triangolo: sono figure diverse.", "un cerchio": "Il quadrato non è un cerchio: sono figure diverse.", "nessuna delle due": "Una risposta c'è: la regola dice che ogni quadrato sta nell'insieme dei rettangoli." } },
   { topic: "insiemi", difficulty: 2, prompt: "In una classe tutti giocano a calcio o a pallavolo. Marco non gioca a calcio. Allora…", answer: "gioca a pallavolo", distractors: ["non gioca a niente", "gioca a entrambi", "non si può sapere"], explanation: "«O l'uno o l'altro» copre tutti: escluso il primo resta per forza il secondo. Funziona solo perché la frase dice TUTTI.",
@@ -3293,8 +3273,8 @@ const LOGICA_EXTRA = [
   // il diritto di essere convincente.
   { topic: "deduzioni", difficulty: 4, prompt: "«Tutti i cani sono mammiferi.» Fido è un mammifero. Fido è un cane?", answer: "Non si può stabilire", distractors: ["Sì, di sicuro","No, di sicuro","Sì, se ha quattro zampe e la coda"], explanation: "La regola dice dove stanno i cani, non chi sono tutti i mammiferi: fra i mammiferi ci sono anche gatti e balene. Sapere che Fido sta nel gruppo grande non dice in quale angolo si trovi.",
     distractorWhy: { "Sì, di sicuro": "Questa è la regola letta al contrario: «tutti i cani sono mammiferi» non significa «tutti i mammiferi sono cani».", "No, di sicuro": "Nemmeno escluderlo si può: Fido potrebbe benissimo essere un cane, semplicemente non lo sappiamo.", "Sì, se ha quattro zampe e la coda": "Le zampe non compaiono nella regola, e comunque anche i gatti ne hanno quattro." } },
-  { topic: "deduzioni", difficulty: 4, prompt: "«Se studio, prendo un bel voto.» Ho preso un bel voto. Allora…", answer: "Non è detto che abbia studiato", distractors: ["Vuol dire che ho studiato di sicuro","Vuol dire che di sicuro non ho studiato affatto","Vuol dire che la regola è sbagliata"], explanation: "La regola promette il voto a chi studia, ma non promette che sia l'unica strada: si può prendere un bel voto anche per un argomento che già si sapeva. Dall'effetto non si risale alla causa.",
-    distractorWhy: { "Vuol dire che ho studiato di sicuro": "È la regola percorsa a rovescio: dice che studiare porta al voto, non che il voto possa venire solo da lì.", "Vuol dire che di sicuro non ho studiato affatto": "Non c'è nessun motivo per escluderlo: probabilmente ho studiato, semplicemente non è dimostrato.", "Vuol dire che la regola è sbagliata": "La regola regge benissimo: un bel voto è esattamente quello che prometteva." } },
+  { topic: "deduzioni", difficulty: 4, prompt: "«Se studio, prendo un bel voto.» Ho preso un bel voto. Allora…", answer: "Non è detto che abbia studiato", distractors: ["Vuol dire che ho studiato di sicuro","Vuol dire che non ho aperto un libro","Vuol dire che la regola è sbagliata"], explanation: "La regola promette il voto a chi studia, ma non promette che sia l'unica strada: si può prendere un bel voto anche per un argomento che già si sapeva. Dall'effetto non si risale alla causa.",
+    distractorWhy: { "Vuol dire che ho studiato di sicuro": "È la regola percorsa a rovescio: dice che studiare porta al voto, non che il voto possa venire solo da lì.", "Vuol dire che non ho aperto un libro": "Non c'è nessun motivo per escluderlo: probabilmente ho studiato, semplicemente non è dimostrato.", "Vuol dire che la regola è sbagliata": "La regola regge benissimo: un bel voto è esattamente quello che prometteva." } },
   { topic: "quantificatori", difficulty: 4, prompt: "«Non è vero che tutti i bambini dormono.» Che cosa si sa di sicuro?", answer: "Almeno un bambino non dorme", distractors: ["Nessun bambino dorme","La maggior parte non dorme","Tutti i bambini sono ben svegli adesso"], explanation: "Negare un «tutti» non produce un «nessuno»: basta una sola eccezione per far cadere la frase. Il contrario di «tutti» è «almeno uno no», non «nessuno».",
     distractorWhy: { "Nessun bambino dorme": "Sarebbe la negazione più forte possibile: per smentire «tutti» basta invece un bambino sveglio soltanto.", "La maggior parte non dorme": "Il numero non si sa: potrebbe essere uno solo su cento.", "Tutti i bambini sono ben svegli adesso": "È la stessa cosa che «nessuno dorme», e serve molto di più di quanto la frase affermi." } },
   { topic: "verita", difficulty: 4, prompt: "«Tutti i draghi di questa stanza sono verdi.» Nella stanza non c'è nessun drago. La frase è…", answer: "Vera: nessun drago la smentisce", distractors: ["Falsa, perché i draghi non esistono","Né vera né falsa, manca il soggetto","Impossibile da giudicare senza vedere i draghi"], explanation: "Un «tutti» cade solo se qualcuno lo smentisce. Senza draghi non c'è nessun drago non verde, quindi non c'è niente che la faccia cadere: in logica una frase così si dice vera a vuoto.",
@@ -3307,23 +3287,147 @@ const LOGICA_EXTRA = [
     distractorWhy: { "La scatola mista": "Le etichette sono tutte sbagliate: quella è l'unica cosa che quella scatola non può essere.", "La scatola che contiene solo le pere": "Ne è appena uscita una mela: le pere sole sono escluse.", "Non si può ancora dire": "Si può: una pescata basta, proprio perché l'etichetta sbagliata ha già eliminato la terza possibilità." } },
 ];
 
+// ---------------------------------------------------------------------------
+// Analogie lessicali: erano in logica, sono di italiano. (1 settembre 2026)
+// ---------------------------------------------------------------------------
+//
+// «Cane sta a cucciolo come gatto sta a…» non chiede nessun passo di inferenza:
+// chi sa che il gattino è il piccolo del gatto risponde, chi non lo sa non lo
+// deduce da niente. È vocabolario, ed è vocabolario BUONO — le sei relazioni
+// (il piccolo di, dove abita, a che serve, una parte di, il contrario di, che
+// cosa lo contiene) sono quelle con cui si costruisce il lessico di un bambino.
+//
+// Misurato nello studio sui contenuti di logica: analogie e opposti valevano
+// insieme il 23,6% dei nodi giocati di un mondo di logica, e non chiedevano mai
+// di ragionare. In logica resta la parte che ragiona — riconoscere QUALE legame
+// tiene insieme una coppia — e sta nello smistamento.
+const ANALOGIE_LESSICALI = [
+  { topic: "lessico", difficulty: 2, prompt: "Penna sta a scrivere come forbici sta a…", answer: "Tagliare", distractors: ["Cucire","Incollare","Misurare"], explanation: "La relazione è «strumento → azione che compie»: si cerca la stessa relazione, non una parola simile.",
+      distractorWhy: { "Cucire": "Si cuce con ago e filo, non con le forbici.", "Incollare": "Si incolla con la colla, non con le forbici.", "Misurare": "Si misura con il righello, non con le forbici." } },
+  { topic: "lessico", difficulty: 3, prompt: "Medico sta a ospedale come insegnante sta a…", answer: "Scuola", distractors: ["Libro","Studente","Lezione"], explanation: "La relazione è «chi lavora → luogo di lavoro»: lo studente è una persona, la lezione un'attività.",
+      distractorWhy: { "Libro": "Il libro è uno strumento di lavoro, non il luogo dove si lavora.", "Studente": "Lo studente è una persona con cui si lavora, non il luogo di lavoro.", "Lezione": "La lezione è l'attività svolta, non il luogo dove avviene." } },
+  { topic: "lessico", difficulty: 3, prompt: "Freddo sta a caldo come buio sta a…", answer: "Luce", distractors: ["Notte","Nero","Paura"], explanation: "La relazione è di opposizione. «Notte» è associata al buio ma non è il suo contrario.",
+      distractorWhy: { "Notte": "La notte è associata al buio, ma non è il suo contrario: quello è la luce.", "Nero": "Il nero è un colore associato al buio, non il suo opposto.", "Paura": "La paura è un'emozione che il buio può causare, non il suo contrario." } },
+  { topic: "lessico", difficulty: 4, prompt: "Chilometro sta a distanza come chilogrammo sta a…", answer: "Massa", distractors: ["Bilancia","Peso di una persona","Grandezza"], explanation: "La relazione è «unità → grandezza misurata». La bilancia è lo strumento, non la grandezza.",
+      distractorWhy: { "Bilancia": "La bilancia è lo strumento che misura, non la grandezza misurata.", "Peso di una persona": "È un esempio specifico di massa misurata, non il nome della grandezza.", "Grandezza": "È troppo generico: serve il nome specifico della grandezza, come per «distanza»." } },
+  { topic: "lessico", difficulty: 3, prompt: "Cucciolo sta a cane come puledro sta a…", answer: "Cavallo", distractors: ["Stalla","Corsa","Fieno"], explanation: "La relazione è «piccolo → animale adulto della stessa specie».",
+      distractorWhy: { "Stalla": "La stalla è il luogo dove vive il cavallo, non l'animale adulto.", "Corsa": "La corsa è un'attività del cavallo, non l'animale adulto.", "Fieno": "Il fieno è il cibo del cavallo, non l'animale adulto." } },
+  { topic: "lessico", difficulty: 4, prompt: "Pagina sta a libro come fotogramma sta a…", answer: "Film", distractors: ["Cinema","Macchina fotografica","Attore"], explanation: "La relazione è «parte → intero di cui fa parte». Il cinema è il luogo, non l'opera.",
+      distractorWhy: { "Cinema": "Il cinema è il luogo dove si guarda, non l'opera di cui il fotogramma è parte.", "Macchina fotografica": "È lo strumento che scatta le foto, non l'opera composta da fotogrammi.", "Attore": "L'attore recita nel film, ma non è l'opera di cui il fotogramma è parte." } },
+  { topic: "lessico", difficulty: 1, prompt: "Caldo sta a freddo come alto sta a…?", answer: "basso", distractors: ["grande", "lungo", "veloce"], explanation: "La relazione è «il contrario di». Trovata la relazione nella prima coppia, si applica identica alla seconda.",
+      distractorWhy: { "grande": "Non è il contrario di «alto»: riguarda la dimensione generale, non l'altezza.", "lungo": "Non è il contrario di «alto»: riguarda la lunghezza, non l'altezza.", "veloce": "Non è affatto un contrario di «alto»: riguarda la velocità, un'altra caratteristica." } },
+  { topic: "lessico", difficulty: 1, prompt: "Uccello sta a volare come pesce sta a…?", answer: "nuotare", distractors: ["camminare", "correre", "saltare"], explanation: "La relazione è «come si sposta»: ogni animale va con il movimento del suo ambiente.",
+      distractorWhy: { "camminare": "Non è il movimento tipico del pesce, che vive nell'acqua.", "correre": "Non è il movimento tipico del pesce: si muove nell'acqua, non sulla terra.", "saltare": "Non è il movimento tipico del pesce." } },
+  { topic: "lessico", difficulty: 2, prompt: "Libro sta a leggere come cibo sta a…?", answer: "mangiare", distractors: ["cucinare", "comprare", "servire"], explanation: "La relazione è «che cosa se ne fa»: del libro si legge, del cibo si mangia. Cucinare viene prima, non è l'uso finale.",
+      distractorWhy: { "cucinare": "Si cucina prima di mangiare: non è l'uso finale del cibo, come leggere lo è per il libro.", "comprare": "Si compra prima di usarlo: non è l'azione finale, come leggere lo è per il libro.", "servire": "Servire è un passaggio prima di mangiare, non l'azione finale." } },
+  { topic: "lessico", difficulty: 3, prompt: "Tiepido sta a bollente come fresco sta a…?", answer: "gelido", distractors: ["caldo", "umido", "piacevole"], explanation: "La relazione non è di contrario ma di grado: bollente è la versione estrema di tiepido, gelido quella di fresco. Nelle analogie conta il tipo di legame, non il significato delle singole parole.",
+      distractorWhy: {"caldo":"Va dalla parte opposta: fresco e caldo sono contrari, non lo stesso grado spinto all'estremo.","umido":"Parla di quanta acqua c'è nell'aria, non di quanto fa freddo.","piacevole":"È un giudizio, non un grado di temperatura: rompe il tipo di legame."} },
+  { difficulty: 4, topic: "lessico", prompt: "Orologio sta a tempo come termometro sta a…", answer: "temperatura",
+        distractors: ["calore", "acqua", "altezza"],
+        explanation: "La relazione è «strumento → grandezza che misura». Il calore e la temperatura non sono la stessa cosa.",
+        distractorWhy: { "calore": "Il calore è l'energia che il termometro rileva, ma la grandezza che misura è la temperatura.", "acqua": "L'acqua può essere il liquido dentro un termometro, ma non è ciò che misura.", "altezza": "L'altezza si misura con un metro, non con un termometro." } },
+  { difficulty: 4, topic: "lessico", prompt: "Ape sta ad alveare come formica sta a…", answer: "formicaio",
+        distractors: ["favo di cera", "nido", "tana sottoterra"],
+        explanation: "La relazione è «animale → la sua casa». Il favo sta dentro l'alveare, non è la casa della formica.",
+        distractorWhy: { "favo di cera": "Il favo è la struttura dentro l'alveare, non la casa dell'ape nel suo insieme.", "nido": "Il nido è la casa di molti uccelli, non delle formiche.", "tana sottoterra": "La tana è la casa di molti mammiferi, non delle formiche." } },
+  { difficulty: 2, topic: "lessico", prompt: "Grande sta a piccolo come alto sta a…?", answer: "basso", distractors: ["lungo", "largo", "veloce"],
+        explanation: "Sono coppie di contrari: grande/piccolo, alto/basso.",
+        distractorWhy: { "lungo": "Non è il contrario di «alto»: riguarda la lunghezza, non l'altezza.", "largo": "Non è il contrario di «alto»: riguarda la larghezza, non l'altezza.", "veloce": "Non è un contrario di «alto»: riguarda la velocità." } },
+  { difficulty: 1, topic: "lessico", prompt: "Cane sta a cucciolo come gatto sta a…?", answer: "gattino", distractors: ["cavallo", "pulcino", "agnello"],
+        explanation: "Il piccolo del gatto è il gattino.",
+        distractorWhy: { "cavallo": "Non è il piccolo del gatto: è un altro animale adulto.", "pulcino": "È il piccolo della gallina, non del gatto.", "agnello": "È il piccolo della pecora, non del gatto." } },
+  { difficulty: 2, topic: "lessico", prompt: "Mano sta a guanto come piede sta a…?", answer: "scarpa", distractors: ["cappello", "sciarpa", "cintura"],
+        explanation: "Il guanto veste la mano, la scarpa il piede.",
+        distractorWhy: { "cappello": "Il cappello veste la testa, non il piede.", "sciarpa": "La sciarpa veste il collo, non il piede.", "cintura": "La cintura veste la vita, non il piede." } },
+  { difficulty: 1, topic: "lessico", prompt: "Giorno sta a Sole come notte sta a…?", answer: "Luna", distractors: ["lampada", "buio totale", "stella cadente"],
+        explanation: "Di giorno splende il Sole, di notte la Luna.",
+        distractorWhy: { "lampada": "La lampada è una luce artificiale, non l'astro che illumina la notte.", "buio totale": "Di notte c'è comunque la luce della Luna: non è buio totale.", "stella cadente": "È un evento raro, non l'astro che illumina regolarmente la notte." } },
+  { difficulty: 1, topic: "lessico", prompt: "Libro sta a leggere come musica sta a…?", answer: "ascoltare", distractors: ["guardare", "scrivere", "annusare"],
+        explanation: "Un libro si legge, la musica si ascolta.",
+        distractorWhy: { "guardare": "La musica si ascolta, non si guarda.", "scrivere": "Scrivere è comporre la musica, non l'azione di goderne come leggere per il libro.", "annusare": "Non è affatto un'azione legata alla musica." } },
+];
+
 function logicaBank() {
   const rand = rng(20260731);
   const items = [];
-  // Sequenze aritmetiche (+k): difficoltà 1-2.
+  // Sequenze aritmetiche (+k): tre domande diverse sulla stessa regola.
+  //
+  // **La scorciatoia che le rendeva aritmetica.** (1 settembre 2026)
+  //
+  // Erano dieci volte la stessa domanda — «quale numero continua» — e si
+  // rispondeva senza mai formulare una regola: guardo la differenza fra i primi
+  // due numeri e la sommo all'ultimo. Misurato nello studio sui contenuti di
+  // logica: ventuno dei trentun quesiti sulle sequenze erano serie nude, e
+  // valevano il grosso del 10,8% di nodi da digitare di un mondo di logica.
+  //
+  // «Sequenza» non vuol dire «fai il conto»: vuol dire trova la regola che
+  // genera i termini. Le tre forme qui sotto chiedono la stessa regola in tre
+  // direzioni, e solo la prima si supera col passo successivo:
+  //
+  //   CONTINUA    il termine dopo. Resta, come riscaldamento;
+  //   DECIMO      il decimo termine, che non si raggiunge un passo per volta:
+  //               bisogna dire «primo più nove passi» — cioè la regola;
+  //   POSIZIONE   a che posto sta un numero dato. È la regola girata al
+  //               contrario, ed è il passo che serve poi per le equazioni.
   const arithmetic = [
-    { start: 2, step: 2, difficulty: 1 }, { start: 1, step: 2, difficulty: 1 },
-    { start: 3, step: 3, difficulty: 1 }, { start: 5, step: 5, difficulty: 1 },
-    { start: 4, step: 3, difficulty: 2 }, { start: 7, step: 4, difficulty: 2 },
-    { start: 10, step: 10, difficulty: 1 }, { start: 6, step: 6, difficulty: 2 },
-    { start: 2, step: 4, difficulty: 2 }, { start: 9, step: 3, difficulty: 2 },
+    { start: 2, step: 2, difficulty: 1, shape: "continua" },
+    { start: 1, step: 2, difficulty: 1, shape: "continua" },
+    { start: 3, step: 3, difficulty: 1, shape: "continua" },
+    { start: 5, step: 5, difficulty: 1, shape: "continua" },
+    { start: 4, step: 3, difficulty: 2, shape: "decimo" },
+    { start: 7, step: 4, difficulty: 3, shape: "decimo" },
+    { start: 10, step: 10, difficulty: 2, shape: "decimo" },
+    { start: 6, step: 6, difficulty: 3, shape: "posizione", target: 42 },
+    { start: 2, step: 4, difficulty: 3, shape: "posizione", target: 26 },
+    { start: 9, step: 3, difficulty: 4, shape: "posizione", target: 36 },
   ];
-  for (const { start, step, difficulty } of arithmetic) {
+  for (const { start, step, difficulty, shape, target } of arithmetic) {
     const seq = [start, start + step, start + 2 * step, start + 3 * step];
-    const answer = start + 4 * step;
-    const distractors = numericDistractors(answer, rand);
-    const distractorWhy = Object.fromEntries(distractors.map((d) => [d, `Non segue la regola «+${step}»: ${seq[3]} + ${step} fa ${answer}, non ${d}.`]));
-    items.push(multipleChoiceItem({ id: `logica-arit-${start}-${step}`, subject: "logica", topic: "sequenze", difficulty, prompt: `Quale numero continua la serie: ${seq.join(", ")}, ?`, answer: String(answer), distractors, explanation: `Si aggiunge ${step} ogni volta: ${seq[3]} + ${step} = ${answer}.`, extra: { distractorWhy } }, rand));
+    const serie = seq.join(", ");
+    let id, prompt, answer, explanation, candidati;
+    if (shape === "continua") {
+      answer = start + 4 * step;
+      id = `logica-arit-${start}-${step}`;
+      prompt = `Quale numero continua la serie: ${serie}, ?`;
+      explanation = `Si aggiunge ${step} ogni volta: ${seq[3]} + ${step} = ${answer}.`;
+      candidati = numericDistractors(answer, rand).map((d) => ({
+        value: Number(d),
+        why: `Non segue la regola «+${step}»: ${seq[3]} + ${step} fa ${answer}, non ${d}.`,
+      }));
+    } else if (shape === "decimo") {
+      answer = start + 9 * step;
+      id = `logica-arit-decimo-${start}-${step}`;
+      prompt = `La serie va avanti sempre così: ${serie}, e così via. Quale numero sta al decimo posto?`;
+      explanation = `Dal primo al decimo posto ci sono nove passi, non dieci: ${start} + 9 × ${step} = ${answer}. Contare un passo per volta fino al decimo dà lo stesso risultato, ma con una serie lunga non si può fare — la regola serve proprio a saltare.`;
+      candidati = [
+        { value: start + 8 * step, why: `È il NONO termine: dal primo al decimo i passi sono nove, quindi si arriva a ${answer}.` },
+        { value: start + 10 * step, why: `È l'undicesimo: chi conta dieci passi invece di nove finisce un posto più in là di ${answer}.` },
+        { value: start * 10, why: `È il primo termine moltiplicato per dieci: ma la serie cresce a passi di ${step}, non si decuplica.` },
+        { value: answer + 1, why: `Vicino ma non giusto: ${start} + 9 × ${step} fa esattamente ${answer}.` },
+      ];
+    } else {
+      answer = (target - start) / step + 1;
+      id = `logica-arit-posto-${start}-${step}`;
+      prompt = `La serie va avanti sempre così: ${serie}, e così via. A che posto si trova il numero ${target}?`;
+      explanation = `Qui la regola va girata al contrario. Da ${start} a ${target} ci sono ${target - start}, e ogni passo vale ${step}: sono ${(target - start) / step} passi. Il posto è un passo in più, perché il primo termine sta già al primo posto: ${answer}.`;
+      candidati = [
+        { value: answer - 1, why: `È il numero dei passi, non il posto: il primo termine occupa già il primo posto, quindi va aggiunto uno.` },
+        { value: answer + 1, why: `È un posto troppo avanti: (${target} − ${start}) : ${step} dà ${(target - start) / step} passi, e il posto è ${answer}.` },
+        { value: step, why: `È il passo della serie, non il posto del numero ${target}.` },
+        { value: answer + 2, why: `Il posto di ${target} è ${answer}: contarne due in più porta oltre la fine del conto.` },
+      ];
+    }
+    const distractorWhy = {};
+    const distractors = [];
+    for (const c of candidati) {
+      const chiave = String(c.value);
+      if (c.value > 0 && c.value !== answer && !(chiave in distractorWhy)) {
+        distractorWhy[chiave] = c.why;
+        distractors.push(chiave);
+      }
+      if (distractors.length >= 3) break;
+    }
+    items.push(multipleChoiceItem({ id, subject: "logica", topic: "sequenze", difficulty, prompt, answer: String(answer), distractors, explanation, extra: { distractorWhy } }, rand));
   }
   // Sequenze geometriche (×k): difficoltà 3.
   const geometric = [
@@ -3385,22 +3489,11 @@ function logicaBank() {
     const distractorWhy = Object.fromEntries(distractors.map((d) => [d, q.why]));
     items.push(multipleChoiceItem({ id: `logica-wodd-${q.answer}`, subject: "logica", topic: "esclusioni", difficulty: q.difficulty, prompt: `Quale non appartiene al gruppo: ${q.set.join(", ")}?`, answer: q.answer, distractors, explanation: q.explanation, extra: { distractorWhy } }, rand));
   }
-  // Analogie (relazioni tra coppie): difficoltà 2-4.
-  const analogie = [
-    { difficulty: 2, prompt: "Grande sta a piccolo come alto sta a…?", answer: "basso", distractors: ["lungo", "largo", "veloce"], explanation: "Sono coppie di contrari: grande/piccolo, alto/basso.",
-      distractorWhy: { "lungo": "Non è il contrario di «alto»: riguarda la lunghezza, non l'altezza.", "largo": "Non è il contrario di «alto»: riguarda la larghezza, non l'altezza.", "veloce": "Non è un contrario di «alto»: riguarda la velocità." } },
-    { difficulty: 1, prompt: "Cane sta a cucciolo come gatto sta a…?", answer: "gattino", distractors: ["cavallo", "pulcino", "agnello"], explanation: "Il piccolo del gatto è il gattino.",
-      distractorWhy: { "cavallo": "Non è il piccolo del gatto: è un altro animale adulto.", "pulcino": "È il piccolo della gallina, non del gatto.", "agnello": "È il piccolo della pecora, non del gatto." } },
-    { difficulty: 2, prompt: "Mano sta a guanto come piede sta a…?", answer: "scarpa", distractors: ["cappello", "sciarpa", "cintura"], explanation: "Il guanto veste la mano, la scarpa il piede.",
-      distractorWhy: { "cappello": "Il cappello veste la testa, non il piede.", "sciarpa": "La sciarpa veste il collo, non il piede.", "cintura": "La cintura veste la vita, non il piede." } },
-    { difficulty: 1, prompt: "Giorno sta a Sole come notte sta a…?", answer: "Luna", distractors: ["lampada", "buio totale", "stella cadente"], explanation: "Di giorno splende il Sole, di notte la Luna.",
-      distractorWhy: { "lampada": "La lampada è una luce artificiale, non l'astro che illumina la notte.", "buio totale": "Di notte c'è comunque la luce della Luna: non è buio totale.", "stella cadente": "È un evento raro, non l'astro che illumina regolarmente la notte." } },
-    { difficulty: 1, prompt: "Libro sta a leggere come musica sta a…?", answer: "ascoltare", distractors: ["guardare", "scrivere", "annusare"], explanation: "Un libro si legge, la musica si ascolta.",
-      distractorWhy: { "guardare": "La musica si ascolta, non si guarda.", "scrivere": "Scrivere è comporre la musica, non l'azione di goderne come leggere per il libro.", "annusare": "Non è affatto un'azione legata alla musica." } },
-  ];
-  for (const q of analogie) {
-    items.push(multipleChoiceItem({ id: `logica-analogia-${q.answer}`, subject: "logica", topic: "analogie", difficulty: q.difficulty, prompt: q.prompt, answer: q.answer, distractors: q.distractors, explanation: q.explanation, extra: { distractorWhy: q.distractorWhy } }, rand));
-  }
+  // Le analogie sono andate a italiano il 1 settembre 2026: vedi
+  // ANALOGIE_LESSICALI. Erano cinque coppie di vocabolario — «cane sta a
+  // cucciolo come gatto sta a…» — e si rispondeva sapendo le parole, non
+  // trovando la relazione. In logica resta il riconoscimento della relazione,
+  // che si fa smistando (MinigameManager.CLASSIFICATION, argomento "analogie").
   // Deduzioni (inferenze semplici, sempre dimostrabili): difficoltà 3-4.
   const deduzioni = [
     { difficulty: 1, prompt: "Tutti i gatti hanno la coda. Fufi è un gatto. Allora Fufi…", answer: "ha la coda", distractors: ["non ha la coda", "forse ha la coda", "è un cane"], explanation: "Se vale per tutti i gatti e Fufi è un gatto, vale anche per Fufi.",
@@ -3509,6 +3602,12 @@ const BANKS = {
   "storia-base": storiaBank(),
   "logica-base": logicaBank(),
 };
+
+// Le analogie lessicali entrano nel banco di italiano, dove sono contenuto
+// giusto: stesso helper degli altri item autorati, stesso contratto.
+BANKS["italiano-base"].items.push(
+  ...authoredMcItems("italiano", ANALOGIE_LESSICALI, rng(20260901)),
+);
 
 // ---------------------------------------------------------------------------
 // Item curati, appesi in coda al banco generato
@@ -4002,6 +4101,40 @@ const CURATED_TAIL = {
   // quando serve il congiuntivo non è sapere coniugare l'indicativo:
   // verb_decoder_audit lo pretende, e ha ragione.
   "italiano-base": [
+    {
+          "id": "italiano-lessico-il-cane-sta-alla-cuccia-come-l-uccello-sta-al",
+          "subject": "italiano",
+          "topic": "lessico",
+          "difficulty": 1,
+          "format": "multiple_choice",
+          "prompt": "Il cane sta alla cuccia come l'uccello sta al...",
+          "options": [
+            "cielo",
+            "becco",
+            "nido",
+            "volo"
+          ],
+          "answer": "nido",
+          "explanation": "In entrambi i casi si tratta del posto in cui l'animale abita.",
+          "distractorWhy": { "cielo": "Il cielo è dove vola, non la sua casa: la cuccia è la casa del cane, il nido quella dell'uccello.", "becco": "Il becco è una parte del corpo dell'uccello, non il suo posto per abitare.", "volo": "Il volo è un'azione, non un luogo dove abitare." }
+        },
+    {
+          "id": "italiano-lessico-la-penna-sta-allo-scrivere-come-le-forbici-stann",
+          "subject": "italiano",
+          "topic": "lessico",
+          "difficulty": 1,
+          "format": "multiple_choice",
+          "prompt": "La penna sta allo scrivere come le forbici stanno al...",
+          "options": [
+            "cucire",
+            "misurare",
+            "disegnare",
+            "tagliare"
+          ],
+          "answer": "tagliare",
+          "explanation": "In entrambi i casi si tratta di ciò per cui l'oggetto serve.",
+          "distractorWhy": { "cucire": "Si cuce con ago e filo, non con le forbici.", "misurare": "Si misura con il righello, non con le forbici.", "disegnare": "Si disegna con la matita, non con le forbici." }
+        },
     {
       "id": "italiano-tempi-indicativo-ieri-marta-al-parco-quale-forma-completa-la-fr-0",
       "subject": "italiano",
@@ -5898,40 +6031,6 @@ const CURATED_TAIL = {
       "distractorWhy": {"12":"È 4 × 3: ma i quadrati in fila condividono un lato, quindi costano meno di quattro stecchini ciascuno.","14":"Sarebbe il passo giusto sbagliando il conto: da 10 si aggiungono 3, non 4.","16":"È 4 × 4, cioè quattro quadrati staccati: qui invece sono attaccati e si risparmiano stecchini."}
     },
     {
-      "id": "logica-analogie-il-cane-sta-alla-cuccia-come-l-uccello-sta-al",
-      "subject": "logica",
-      "topic": "analogie",
-      "difficulty": 1,
-      "format": "multiple_choice",
-      "prompt": "Il cane sta alla cuccia come l'uccello sta al...",
-      "options": [
-        "cielo",
-        "becco",
-        "nido",
-        "volo"
-      ],
-      "answer": "nido",
-      "explanation": "In entrambi i casi si tratta del posto in cui l'animale abita.",
-      "distractorWhy": { "cielo": "Il cielo è dove vola, non la sua casa: la cuccia è la casa del cane, il nido quella dell'uccello.", "becco": "Il becco è una parte del corpo dell'uccello, non il suo posto per abitare.", "volo": "Il volo è un'azione, non un luogo dove abitare." }
-    },
-    {
-      "id": "logica-analogie-la-penna-sta-allo-scrivere-come-le-forbici-stann",
-      "subject": "logica",
-      "topic": "analogie",
-      "difficulty": 1,
-      "format": "multiple_choice",
-      "prompt": "La penna sta allo scrivere come le forbici stanno al...",
-      "options": [
-        "cucire",
-        "misurare",
-        "disegnare",
-        "tagliare"
-      ],
-      "answer": "tagliare",
-      "explanation": "In entrambi i casi si tratta di ciò per cui l'oggetto serve.",
-      "distractorWhy": { "cucire": "Si cuce con ago e filo, non con le forbici.", "misurare": "Si misura con il righello, non con le forbici.", "disegnare": "Si disegna con la matita, non con le forbici." }
-    },
-    {
       "id": "logica-deduzioni-tutti-i-gatti-sono-felini-micio-e-un-gatto-che-c",
       "subject": "logica",
       "topic": "deduzioni",
@@ -7147,14 +7246,6 @@ const BAND_EXTRA = {
       distractors: ["Due", "Tre", "Otto"],
       explanation: "Per ognuna delle due ci sono due possibilità, e si combinano fra loro: piove e fa freddo, piove e non fa freddo, non piove e fa freddo, non piove e non fa freddo. Con tre affermazioni sarebbero otto: ogni volta il numero raddoppia.",
       distractorWhy: {"Due":"Due sono le possibilità di UNA sola affermazione: qui ce ne sono due, e ognuna moltiplica le combinazioni.","Tre":"Non se ne perde nessuna per strada: le combinazioni sono quattro, tutte diverse fra loro.","Otto":"Otto sarebbero con TRE affermazioni: con due ci si ferma a quattro."} },
-    { difficulty: 4, topic: "analogie", prompt: "Orologio sta a tempo come termometro sta a…", answer: "temperatura",
-      distractors: ["calore", "acqua", "altezza"],
-      explanation: "La relazione è «strumento → grandezza che misura». Il calore e la temperatura non sono la stessa cosa.",
-      distractorWhy: { "calore": "Il calore è l'energia che il termometro rileva, ma la grandezza che misura è la temperatura.", "acqua": "L'acqua può essere il liquido dentro un termometro, ma non è ciò che misura.", "altezza": "L'altezza si misura con un metro, non con un termometro." } },
-    { difficulty: 4, topic: "analogie", prompt: "Ape sta ad alveare come formica sta a…", answer: "formicaio",
-      distractors: ["favo di cera", "nido", "tana sottoterra"],
-      explanation: "La relazione è «animale → la sua casa». Il favo sta dentro l'alveare, non è la casa della formica.",
-      distractorWhy: { "favo di cera": "Il favo è la struttura dentro l'alveare, non la casa dell'ape nel suo insieme.", "nido": "Il nido è la casa di molti uccelli, non delle formiche.", "tana sottoterra": "La tana è la casa di molti mammiferi, non delle formiche." } },
     { difficulty: 4, topic: "esclusioni", prompt: "Quale non appartiene al gruppo: quadrato, rombo, cerchio, trapezio?", answer: "cerchio",
       distractors: ["quadrato", "rombo", "trapezio"],
       explanation: "Gli altri tre sono poligoni, cioè hanno i lati dritti. Il cerchio non ne ha nessuno.",

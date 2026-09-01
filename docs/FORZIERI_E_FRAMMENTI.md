@@ -176,12 +176,12 @@ futura, e il registro ricorda e dimentica al momento giusto.
 
 ### 5.2 Il catalogo si scrive giocando
 
-Tutte e 58 le voci avevano già un campo `origine` che le lega a un posto o a una
+Tutte e 83 le voci hanno un campo `origine` che le lega a un posto o a una
 persona — *«Pigmento delle Rovine dei Glifi, l'unico colore che il tempo non ha
 sbiadito»* — e nessuno lo faceva valere: si comprava il pigmento delle Rovine
 senza aver mai visto le Rovine.
 
-Ora **30 voci su 58** portano un campo `mondo`, e compaiono in vetrina quando
+Ora **56 voci su 83** portano un campo `mondo`, e compaiono in vetrina quando
 quella destinazione è aperta. Le altre 28 restano sempre disponibili e non è una
 svista: sono la roba della nave e dei Dodici, quella degli itineranti che girano
 tutti i mondi, e i moduli — che toccano il gameplay e non possono dipendere da

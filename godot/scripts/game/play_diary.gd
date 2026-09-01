@@ -1,6 +1,8 @@
 class_name PlayDiary
 extends RefCounted
 
+const ProgressRecognition = preload("res://scripts/game/progress_recognition.gd")
+
 ## Il diario: quanto hai giocato, quante prove hai superato, cosa sai adesso.
 ##
 ## **Perché esiste.** Fino al 5 agosto 2026 il gioco misurava moltissimo — dodici
@@ -186,6 +188,9 @@ static func summary(save) -> Dictionary:
 		"materie": materie,
 		"argomenti": _conteggio_argomenti(save),
 		"custode": _riepilogo_custode(save),
+		# Le Quattro Vie raccontano COME si e' progredito, senza trasformare il
+		# diario in una pagella o in un totale da confrontare.
+		"riconoscimenti": ProgressRecognition.summary(save),
 	}
 
 ## Quanti argomenti in ciascuno stato del manuale di NORA. È la statistica che

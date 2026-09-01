@@ -323,6 +323,15 @@ func _render_detail(entry: Dictionary) -> void:
 		explanation += ("\n\n" if explanation != "" else "") + "Come procedere: %s" % strategy
 	_add_section("SPIEGAZIONE DI NORA", explanation, "CodexExplanation")
 
+	# **L'atlante contiene le tavole.** (1 settembre 2026) Storia e geografia
+	# hanno un riferimento che le altre materie non hanno — la linea del tempo e
+	# le carte — e una tavola che si può consultare solo nel mezzo secondo prima
+	# di una domanda non è un riferimento: è un suggerimento. Qui sta per intero,
+	# e ci si torna quando serve.
+	for pagina_data in TavoleRiferimento.pagine_per(subject, topic):
+		var pagina: Dictionary = pagina_data
+		_add_section("TAVOLA · %s" % str(pagina["titolo"]).to_upper(), str(pagina["testo"]))
+
 	var example: Dictionary = entry.get("example", {})
 	var prompt := str(example.get("prompt", "")).strip_edges()
 	var answer := str(example.get("answer", "")).strip_edges()

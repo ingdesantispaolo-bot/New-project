@@ -54,3 +54,11 @@ const PREMIO_MINIGIOCO := 45
 ## cassa, non il duello.
 static func premio_varco(tier: int) -> int:
 	return clampi((3 + tier) * 11, 45, 125)
+
+## Il Pericolo del Mondo e' unico, visibile e richiede una prova completa. Paga
+## meno di un lascito ricco perche' la ricompensa principale e' il Sigillo nel
+## ritratto delle Quattro Vie, ma abbastanza da avvicinare davvero un acquisto.
+## Ventiquattro vittorie aggiungono 3.320 frammenti alla campagna: una fonte
+## misurabile, non un rubinetto infinito.
+static func premio_pericolo(threat_tier: int) -> int:
+	return 80 + clampi(threat_tier, 1, 5) * 20

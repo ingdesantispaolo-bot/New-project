@@ -160,3 +160,119 @@ Nell'Archivio delle Parole, comprensione, grammatica, lessico, inglese bilingue,
 La missione non usa timer, voti o penalita. Gli errori sono presentati come osservazioni: il circuito non si chiude, il robot urta, il terminale restituisce un indizio.
 
 Le modalita di padronanza possono usare tempo e vite, ma solo come scelta esplicita. Il caricamento, le schermate introduttive, la rotazione del tablet e il passaggio temporaneo ad altre app non consumano tempo.
+
+## Le Tavole Di Riferimento (Storia E Geografia)
+
+Richiesta del committente, 1 settembre 2026: «prepariamo delle slide per NORA a
+cui fare riferimento per cronologia e mappe. Dobbiamo evitare che lo studente si
+trovi a rispondere a domande che non puo conoscere senza avere riferimenti
+didattici dove apprendere. Apprendere e lo scopo.»
+
+### La misura da cui nasce
+
+Contando le domande la cui risposta e un NOME — tre parole o meno, la stessa
+soglia con cui il runtime riconosce una domanda di richiamo:
+
+| materia | domande di nome | su totale |
+| --- | --- | --- |
+| storia | 94 | 167 (56%) |
+| geografia | 155 | 199 (78%) |
+
+Su `capitali` e `continenti`, 83 item, e il 100%: «qual e la capitale della
+Norvegia?» non si ragiona, si sa o non si sa.
+
+Il gioco aveva gia due strati, e nessuno dei due bastava. `NoraExplanations`
+spiega l'ARGOMENTO — «le capitali stanno dove passavano i commerci» — ed e vero,
+utile, e non dice a nessuno che Oslo e la capitale della Norvegia.
+`KnowledgeCodex.recall_lesson` (31 agosto) metteva il NOME davanti alla domanda,
+«• Oslo», che e meglio del silenzio ed e comunque un regalo: arriva un secondo
+prima e non lascia niente dietro di se.
+
+**Il pezzo che mancava e il posto.** Un fatto isolato si dimentica; un fatto con
+una coordinata — un punto sulla linea del tempo, un punto sulla carta — si
+ritrova da soli.
+
+### Che cos'e una tavola
+
+`godot/scripts/game/tavole_riferimento.gd`. Una lavagna d'aula: titolo, «come si
+legge», e voci ognuna con la sua coordinata e la sua nota. Tre famiglie, e il
+nome del campo della coordinata dice a quale famiglia appartiene la tavola:
+
+- `linea` — la cronologia: ogni voce ha un `quando`, e dove la data e precisa
+  anche un `anno` che permette di ordinarla e di generarci sopra una prova;
+- `carta` — le mappe: ogni voce ha un `dove`, e dove la carta muta del runtime
+  possiede l'ancora (`MapGeometryCatalog`) anche un `target`;
+- `scheda` — quello che non sta ne su una linea ne su una carta (i tipi di fonte,
+  il vocabolario della carta geografica): ogni voce ha un `in_breve`.
+
+Le sette tavole di storia sono **una linea sola letta a pezzi**: la prima insegna
+a leggerla (secolo, millennio, a.C./d.C., come si passa da un anno al suo
+secolo), le altre sei sono tratti di quella stessa linea e dichiarano `da` e `a`.
+
+### Il patto con il banco
+
+Ogni voce dichiara in `risposte` le stringhe esatte che il banco accetta e che
+quella voce rende apprendibili. Non e ridondanza: e il legame verificabile fra
+cio che si insegna e cio che si chiede, e il solo modo di far fallire una build
+in cui qualcuno aggiunge una domanda su un fatto che nessuna tavola contiene.
+
+Quando la risposta non e un fatto ma il risultato di una **regola** — «a quale
+secolo appartiene il 1789?» ha infinite risposte e una regola sola — la voce
+dichiara `regola`, un'espressione regolare, e insegna la regola invece di
+elencare i casi.
+
+### Dove arriva al bambino
+
+1. **Prima della domanda.** `_decorate_teaching_session` mette la scheda davanti
+   al nodo. Se una lezione generale dell'argomento c'e gia (primo incontro), la
+   tavola non ne apre una seconda: `TavoleRiferimento.arricchisci` innesta il suo
+   estratto in quella. Due schede di fila non le legge nessuno.
+2. **L'estratto, non il nome.** La voce cercata arriva con la sua coordinata,
+   la sua nota e due voci vicine — su una linea del tempo sono cio che e successo
+   prima e dopo, su una carta cio che sta li accanto.
+3. **Nell'atlante, per intero.** `KnowledgeCodexPanel` mostra la tavola completa
+   nella voce del suo argomento: una tavola consultabile solo nel mezzo secondo
+   prima di una domanda non e un riferimento, e un suggerimento.
+
+### Le prove nate dalle tavole
+
+Dove la tavola esiste, la domanda cambia forma. «Qual e la capitale della
+Norvegia?» si sa o non si sa; «quale segnaposto indica il Paese la cui capitale
+e Oslo?» chiede la stessa conoscenza dove abita, su una carta — la stessa che la
+scheda ha appena mostrato.
+
+- **carta d'Europa** (`MinigameManager.MAP_READING`): sei prove nuove. La sagoma
+  e le quindici ancore di Paese esistevano dal 21 agosto e non le usava nessuno.
+- **linea del tempo** (`TIMELINE`): tre prove nuove su Roma, Grecia e medioevo,
+  con le stesse date delle tavole. `timeline` e un formato manipolativo
+  (`FORMATI_MANIPOLATIVI`), quindi cresce anche la quota di gesto in storia.
+
+Ogni Paese e ogni data nominati li dentro stanno su una tavola: e il vincolo da
+rispettare aggiungendone altre.
+
+### La guardia
+
+`godot/scripts/game/tavole_riferimento_audit.gd` controlla quattro cose: che ogni
+risposta-nome dei due banchi stia su una tavola e che ogni argomento ne abbia
+una; che le tavole tengano (coordinata per famiglia, nota che spiega, etichette
+non ripetute, ancore di carta esistenti, linee del tempo in ordine); che la
+scheda mostrata abbia sostanza; e che giocando davvero un nodo che chiede un nome
+mai visto arrivi con l'estratto davanti. Oggi: 94/94 e 155/155 di copertura,
+70/70 sul percorso giocato.
+
+Una quinta cosa, fuori dai banchi: le **capitali degli abbinamenti**. Gli insiemi
+di `MinigameManager.MATCHING` arrivano a 48 coppie Paese-capitale, ventitre delle
+quali nessun banco nomina — e l'atlante le contiene tutte, 96 etichette su 96. Si
+controlla questa famiglia e non tutti gli abbinamenti perche le capitali sono il
+richiamo puro allo stato piu concentrato: il 100% delle domande del loro
+argomento.
+
+### Il debito dichiarato
+
+Le tavole coprono le domande dei BANCHI. I minigiochi hanno un contenuto proprio
+— insiemi di abbinamento, ordinamento e smistamento — e li la copertura oggi e
+molto piu bassa: circa 490 etichette scoperte in tutto — popoli e invenzioni,
+monumenti, catene montuose, ordinamenti a insieme. Una parte e
+meno grave di quanto sembri (un abbinamento mostra tutte e due le colonne e si
+lavora anche per esclusione), ma non tutta: e il prossimo tratto da pagare, e si
+paga allargando le tavole, non togliendo contenuto.

@@ -21,7 +21,7 @@ const IMPLEMENTED := [
 	"multiple_choice", "numeric_input", "short_answer", "ordering", "matching",
 	"classification", "hotspot", "graph", "circuit", "notation", "map", "cycle", "code_debug",
 	"number_line", "balance", "timeline", "compose", "trace", "clue", "swipe", "machine_path",
-	"mystery_sample", "verb_decoder",
+	"mystery_sample", "verb_decoder", "griglia", "porte",
 ]
 # La simulazione usa la stessa futura API visuale, ma non entra nelle missioni
 # finché non possiede un modello disciplinare validato.
@@ -197,6 +197,10 @@ static func validate(node: Dictionary) -> Dictionary:
 			_validate_swipe(node, errors)
 		"code_debug":
 			_validate_code_debug(node, errors)
+		"griglia":
+			_validate_griglia(node, errors)
+		"porte":
+			_validate_porte(node, errors)
 		_:
 			# Formato pianificato (renderer non ancora consegnato): il contratto
 			# di dettaglio verrà validato quando i contenuti saranno prodotti.
@@ -622,6 +626,150 @@ static func _validate_swipe(node: Dictionary, errors: Array) -> void:
 		errors.append("soglia di precisione fuori scala (%s): sotto 0,6 passa il caso" % soglia)
 	if float(node.get("seconds", 0.0)) < 20.0:
 		errors.append("meno di 20 secondi: non è fluenza, è fretta")
+
+## **La griglia degli incroci.** Il contratto verifica la cosa che non si vede
+## guardando lo schermo: che gli indizi lascino in piedi UNA sola assegnazione.
+##
+## Una griglia con due soluzioni non è più difficile, è rotta — il bambino
+## ragiona bene e la verifica gli dice che ha sbagliato. E una con zero soluzioni
+## è peggio ancora. Qui si contano per forza bruta: con quattro righe sono
+## ventiquattro casi, e costano meno di un difetto trovato giocando.
+static func _validate_griglia(node: Dictionary, errors: Array) -> void:
+	var soggetti: Array = node.get("soggetti", [])
+	var attributi: Array = node.get("attributi", [])
+	var indizi: Array = node.get("indizi", [])
+	var soluzione: Dictionary = node.get("soluzione", {})
+	if soggetti.size() < 3:
+		errors.append("griglia con %d righe: sotto le tre non c'è niente da incrociare" % soggetti.size())
+	if attributi.size() != soggetti.size():
+		errors.append("griglia non quadrata: %d righe e %d colonne" % [soggetti.size(), attributi.size()])
+	if indizi.size() < 2:
+		errors.append("griglia con %d indizi: sotto i due non si deduce, si indovina" % indizi.size())
+	if indizi.size() > 6:
+		errors.append("griglia con %d indizi: la colonna non ci sta a schermo" % indizi.size())
+	for i in indizi.size():
+		if str((indizi[i] as Dictionary).get("text", "")).strip_edges().length() < 12:
+			errors.append("indizio %d troppo corto per dire qualcosa" % (i + 1))
+	# La soluzione deve essere una corrispondenza uno a uno: ogni soggetto ha un
+	# attributo, e nessun attributo è di due soggetti.
+	var usati: Dictionary = {}
+	for soggetto in soggetti:
+		var chiave := str(soggetto)
+		if not soluzione.has(chiave):
+			errors.append("griglia senza soluzione per «%s»" % chiave)
+			continue
+		var valore := str(soluzione[chiave])
+		if not attributi.has(valore):
+			errors.append("griglia: «%s» assegnato a «%s», che non è una colonna" % [chiave, valore])
+		if usati.has(valore):
+			errors.append("griglia: «%s» assegnato a due righe" % valore)
+		usati[valore] = true
+	if not errors.is_empty():
+		return
+	var quante := _griglia_compatibili(node)
+	if quante == 0:
+		errors.append("griglia senza soluzione: gli indizi si contraddicono")
+	elif quante > 1:
+		errors.append("griglia con %d soluzioni: gli indizi non bastano a chiuderne una sola" % quante)
+
+## Quante assegnazioni sono compatibili con gli indizi. Gli indizi si rileggono
+## dal loro TESTO, che è l'unica cosa che il bambino vede: se una frase dice una
+## cosa e la struttura ne dice un'altra, è la frase ad avere ragione.
+static func _griglia_compatibili(node: Dictionary) -> int:
+	var soggetti: Array = node.get("soggetti", [])
+	var attributi: Array = node.get("attributi", [])
+	var frasi: Array = []
+	for indizio in node.get("indizi", []):
+		frasi.append(str((indizio as Dictionary).get("text", "")))
+	var valide := 0
+	for candidata in _permutazioni_di(soggetti.size()):
+		var assegnazione: Dictionary = {}
+		for i in soggetti.size():
+			assegnazione[str(soggetti[i])] = str(attributi[int(candidata[i])])
+		var ok := true
+		for frase in frasi:
+			if not _griglia_frase_regge(str(frase), assegnazione, soggetti, attributi):
+				ok = false
+				break
+		if ok:
+			valide += 1
+	return valide
+
+## Un indizio regge se il testo è coerente con l'assegnazione. Due forme sole,
+## le stesse che il generatore produce: «X non <verbo> Y» e «Chi <verbo> Y è X
+## oppure Z». Una terza forma qui non verrebbe capita, ed è il motivo per cui il
+## generatore non ne inventa altre senza passare da qui.
+static func _griglia_frase_regge(
+		frase: String, assegnazione: Dictionary, soggetti: Array, attributi: Array) -> bool:
+	var nominati: Array = []
+	for soggetto in soggetti:
+		if frase.contains(str(soggetto)):
+			nominati.append(str(soggetto))
+	var colonna := ""
+	for attributo in attributi:
+		if frase.contains(str(attributo)):
+			colonna = str(attributo)
+	if colonna == "" or nominati.is_empty():
+		return true   # frase che non parla di questa griglia: non vincola nulla
+	if frase.contains(" non "):
+		for nome in nominati:
+			if str(assegnazione.get(nome, "")) == colonna:
+				return false
+		return true
+	for nome in nominati:
+		if str(assegnazione.get(nome, "")) == colonna:
+			return true
+	return false
+
+static func _permutazioni_di(n: int) -> Array:
+	if n <= 0:
+		return [[]]
+	if n == 1:
+		return [[0]]
+	var out: Array = []
+	for coda in _permutazioni_di(n - 1):
+		for posto in range(n):
+			var nuova: Array = Array(coda).duplicate()
+			nuova.insert(posto, n - 1)
+			out.append(nuova)
+	return out
+
+## **Le porte.** Quattro righe, una per combinazione, e nessuna ripetuta: se una
+## combinazione manca o compare due volte la tavola di verità è incompleta, e
+## una tavola incompleta insegna la regola sbagliata.
+##
+## Si controlla anche che la porta non sia degenere — tutte accese o tutte
+## spente — perché lì si passa toccando quattro volte lo stesso pulsante.
+static func _validate_porte(node: Dictionary, errors: Array) -> void:
+	var righe: Array = node.get("righe", [])
+	var soluzione: Dictionary = node.get("soluzione", {})
+	var ingressi: Array = node.get("ingressi", [])
+	if ingressi.size() != 2:
+		errors.append("porta con %d ingressi: la tavola qui ne vuole due" % ingressi.size())
+	if str(node.get("condizione", "")).strip_edges() == "":
+		errors.append("porta senza condizione dichiarata: non si sa quando deve accendersi")
+	if righe.size() != 4:
+		errors.append("porta con %d casi invece di quattro: la tavola è incompleta" % righe.size())
+	var viste: Dictionary = {}
+	var accese := 0
+	for riga_data in righe:
+		var riga: Dictionary = riga_data
+		var chiave := str(riga.get("id", ""))
+		if chiave == "" or viste.has(chiave):
+			errors.append("porta: riga con id vuoto o duplicato «%s»" % chiave)
+		viste[chiave] = true
+		var combinazione := "%s%s" % [str(bool(riga.get("a", false))), str(bool(riga.get("b", false)))]
+		if viste.has(combinazione):
+			errors.append("porta: la combinazione %s compare due volte" % combinazione)
+		viste[combinazione] = true
+		if str(riga.get("label", "")).strip_edges() == "":
+			errors.append("porta: riga «%s» senza etichetta leggibile" % chiave)
+		if not soluzione.has(chiave):
+			errors.append("porta: nessun verdetto per la riga «%s»" % chiave)
+		elif bool(soluzione[chiave]):
+			accese += 1
+	if righe.size() == 4 and (accese == 0 or accese == 4):
+		errors.append("porta degenere: %d casi accesi su quattro, si passa rispondendo sempre uguale" % accese)
 
 static func _validate_clue(node: Dictionary, errors: Array) -> void:
 	var clues: Array = node.get("clues", [])

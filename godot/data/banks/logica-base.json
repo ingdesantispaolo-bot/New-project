@@ -18,10 +18,10 @@
 				"11": "Non segue la regola «+2»: 8 + 2 fa 10, non 11.",
 				"12": "Non segue la regola «+2»: 8 + 2 fa 10, non 12.",
 				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
-				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 4, 7, 10, 13, ?».",
-				"23": "«23» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 7, 11, 15, 19, ?».",
 				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
-				"50": "«50» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 10, 20, 30, 40, ?»."
+				"31": "«31» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"43": "«43» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"100": "«100» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
 			}
 		},
 		{
@@ -39,10 +39,10 @@
 				"10": "Non segue la regola «+2»: 7 + 2 fa 9, non 10.",
 				"11": "Non segue la regola «+2»: 7 + 2 fa 9, non 11.",
 				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
-				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 4, 7, 10, 13, ?».",
-				"23": "«23» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 7, 11, 15, 19, ?».",
 				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
-				"50": "«50» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 10, 20, 30, 40, ?»."
+				"31": "«31» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"43": "«43» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"100": "«100» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
 			}
 		},
 		{
@@ -61,9 +61,9 @@
 				"14": "Non segue la regola «+3»: 12 + 3 fa 15, non 14.",
 				"16": "Non segue la regola «+3»: 12 + 3 fa 15, non 16.",
 				"17": "Non segue la regola «+3»: 12 + 3 fa 15, non 17.",
-				"23": "«23» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 7, 11, 15, 19, ?».",
 				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
-				"50": "«50» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 10, 20, 30, 40, ?»."
+				"31": "«31» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"43": "«43» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
 			}
 		},
 		{
@@ -80,137 +80,137 @@
 				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 1, 3, 5, 7, ?».",
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 2, 4, 6, 8, ?».",
 				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
-				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 4, 7, 10, 13, ?».",
-				"23": "«23» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 7, 11, 15, 19, ?».",
 				"24": "Non segue la regola «+5»: 20 + 5 fa 25, non 24.",
 				"26": "Non segue la regola «+5»: 20 + 5 fa 25, non 26.",
-				"27": "Non segue la regola «+5»: 20 + 5 fa 25, non 27."
+				"27": "Non segue la regola «+5»: 20 + 5 fa 25, non 27.",
+				"31": "«31» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"43": "«43» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
 			}
 		},
 		{
-			"id": "logica-arit-4-3",
+			"id": "logica-arit-decimo-4-3",
 			"subject": "logica",
 			"topic": "sequenze",
 			"difficulty": 2,
 			"format": "numeric_input",
-			"prompt": "Quale numero continua la serie: 4, 7, 10, 13, ?",
+			"prompt": "La serie va avanti sempre così: 4, 7, 10, 13, e così via. Quale numero sta al decimo posto?",
 			"options": [],
-			"answer": "16",
-			"explanation": "Si aggiunge 3 ogni volta: 13 + 3 = 16.",
+			"answer": "31",
+			"explanation": "Dal primo al decimo posto ci sono nove passi, non dieci: 4 + 9 × 3 = 31. Contare un passo per volta fino al decimo dà lo stesso risultato, ma con una serie lunga non si può fare — la regola serve proprio a saltare.",
 			"distractorWhy": {
 				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 1, 3, 5, 7, ?».",
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 2, 4, 6, 8, ?».",
-				"15": "Non segue la regola «+3»: 13 + 3 fa 16, non 15.",
-				"17": "Non segue la regola «+3»: 13 + 3 fa 16, non 17.",
-				"18": "Non segue la regola «+3»: 13 + 3 fa 16, non 18.",
-				"23": "«23» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 7, 11, 15, 19, ?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
 				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
-				"50": "«50» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 10, 20, 30, 40, ?»."
+				"28": "È il NONO termine: dal primo al decimo i passi sono nove, quindi si arriva a 31.",
+				"34": "È l'undicesimo: chi conta dieci passi invece di nove finisce un posto più in là di 31.",
+				"40": "È il primo termine moltiplicato per dieci: ma la serie cresce a passi di 3, non si decuplica.",
+				"43": "«43» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
 			}
 		},
 		{
-			"id": "logica-arit-7-4",
+			"id": "logica-arit-decimo-7-4",
 			"subject": "logica",
 			"topic": "sequenze",
-			"difficulty": 2,
+			"difficulty": 3,
 			"format": "numeric_input",
-			"prompt": "Quale numero continua la serie: 7, 11, 15, 19, ?",
+			"prompt": "La serie va avanti sempre così: 7, 11, 15, 19, e così via. Quale numero sta al decimo posto?",
 			"options": [],
-			"answer": "23",
-			"explanation": "Si aggiunge 4 ogni volta: 19 + 4 = 23.",
+			"answer": "43",
+			"explanation": "Dal primo al decimo posto ci sono nove passi, non dieci: 7 + 9 × 4 = 43. Contare un passo per volta fino al decimo dà lo stesso risultato, ma con una serie lunga non si può fare — la regola serve proprio a saltare.",
 			"distractorWhy": {
 				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 1, 3, 5, 7, ?».",
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 2, 4, 6, 8, ?».",
 				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
-				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 4, 7, 10, 13, ?».",
-				"22": "Non segue la regola «+4»: 19 + 4 fa 23, non 22.",
-				"24": "Non segue la regola «+4»: 19 + 4 fa 23, non 24.",
-				"25": "Non segue la regola «+4»: 19 + 4 fa 23, non 25.",
-				"50": "«50» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 10, 20, 30, 40, ?»."
-			}
-		},
-		{
-			"id": "logica-arit-10-10",
-			"subject": "logica",
-			"topic": "sequenze",
-			"difficulty": 1,
-			"format": "numeric_input",
-			"prompt": "Quale numero continua la serie: 10, 20, 30, 40, ?",
-			"options": [],
-			"answer": "50",
-			"explanation": "Si aggiunge 10 ogni volta: 40 + 10 = 50.",
-			"distractorWhy": {
-				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 1, 3, 5, 7, ?».",
-				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 2, 4, 6, 8, ?».",
-				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
-				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 4, 7, 10, 13, ?».",
 				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
-				"49": "Non segue la regola «+10»: 40 + 10 fa 50, non 49.",
-				"51": "Non segue la regola «+10»: 40 + 10 fa 50, non 51.",
-				"52": "Non segue la regola «+10»: 40 + 10 fa 50, non 52."
+				"31": "«31» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"39": "È il NONO termine: dal primo al decimo i passi sono nove, quindi si arriva a 43.",
+				"47": "È l'undicesimo: chi conta dieci passi invece di nove finisce un posto più in là di 43.",
+				"70": "È il primo termine moltiplicato per dieci: ma la serie cresce a passi di 4, non si decuplica."
 			}
 		},
 		{
-			"id": "logica-arit-6-6",
+			"id": "logica-arit-decimo-10-10",
 			"subject": "logica",
 			"topic": "sequenze",
 			"difficulty": 2,
 			"format": "numeric_input",
-			"prompt": "Quale numero continua la serie: 6, 12, 18, 24, ?",
+			"prompt": "La serie va avanti sempre così: 10, 20, 30, 40, e così via. Quale numero sta al decimo posto?",
 			"options": [],
-			"answer": "30",
-			"explanation": "Si aggiunge 6 ogni volta: 24 + 6 = 30.",
+			"answer": "100",
+			"explanation": "Dal primo al decimo posto ci sono nove passi, non dieci: 10 + 9 × 10 = 100. Contare un passo per volta fino al decimo dà lo stesso risultato, ma con una serie lunga non si può fare — la regola serve proprio a saltare.",
 			"distractorWhy": {
 				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 1, 3, 5, 7, ?».",
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 2, 4, 6, 8, ?».",
 				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
-				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 4, 7, 10, 13, ?».",
 				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
-				"29": "Non segue la regola «+6»: 24 + 6 fa 30, non 29.",
-				"31": "Non segue la regola «+6»: 24 + 6 fa 30, non 31.",
-				"32": "Non segue la regola «+6»: 24 + 6 fa 30, non 32."
+				"31": "«31» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"90": "È il NONO termine: dal primo al decimo i passi sono nove, quindi si arriva a 100.",
+				"101": "Vicino ma non giusto: 10 + 9 × 10 fa esattamente 100.",
+				"110": "È l'undicesimo: chi conta dieci passi invece di nove finisce un posto più in là di 100."
 			}
 		},
 		{
-			"id": "logica-arit-2-4",
+			"id": "logica-arit-posto-6-6",
 			"subject": "logica",
 			"topic": "sequenze",
-			"difficulty": 2,
+			"difficulty": 3,
 			"format": "numeric_input",
-			"prompt": "Quale numero continua la serie: 2, 6, 10, 14, ?",
+			"prompt": "La serie va avanti sempre così: 6, 12, 18, 24, e così via. A che posto si trova il numero 42?",
 			"options": [],
-			"answer": "18",
-			"explanation": "Si aggiunge 4 ogni volta: 14 + 4 = 18.",
+			"answer": "7",
+			"explanation": "Qui la regola va girata al contrario. Da 6 a 42 ci sono 36, e ogni passo vale 6: sono 6 passi. Il posto è un passo in più, perché il primo termine sta già al primo posto: 7.",
 			"distractorWhy": {
-				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 1, 3, 5, 7, ?».",
+				"6": "È il numero dei passi, non il posto: il primo termine occupa già il primo posto, quindi va aggiunto uno.",
+				"8": "È un posto troppo avanti: (42 − 6) : 6 dà 6 passi, e il posto è 7.",
+				"9": "Il posto di 42 è 7: contarne due in più porta oltre la fine del conto.",
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 2, 4, 6, 8, ?».",
 				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
-				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 4, 7, 10, 13, ?».",
-				"17": "Non segue la regola «+4»: 14 + 4 fa 18, non 17.",
-				"19": "Non segue la regola «+4»: 14 + 4 fa 18, non 19.",
-				"20": "Non segue la regola «+4»: 14 + 4 fa 18, non 20.",
-				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?»."
+				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
+				"31": "«31» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"43": "«43» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
 			}
 		},
 		{
-			"id": "logica-arit-9-3",
+			"id": "logica-arit-posto-2-4",
 			"subject": "logica",
 			"topic": "sequenze",
-			"difficulty": 2,
+			"difficulty": 3,
 			"format": "numeric_input",
-			"prompt": "Quale numero continua la serie: 9, 12, 15, 18, ?",
+			"prompt": "La serie va avanti sempre così: 2, 6, 10, 14, e così via. A che posto si trova il numero 26?",
 			"options": [],
-			"answer": "21",
-			"explanation": "Si aggiunge 3 ogni volta: 18 + 3 = 21.",
+			"answer": "7",
+			"explanation": "Qui la regola va girata al contrario. Da 2 a 26 ci sono 24, e ogni passo vale 4: sono 6 passi. Il posto è un passo in più, perché il primo termine sta già al primo posto: 7.",
 			"distractorWhy": {
+				"4": "È il passo della serie, non il posto del numero 26.",
+				"6": "È il numero dei passi, non il posto: il primo termine occupa già il primo posto, quindi va aggiunto uno.",
+				"8": "È un posto troppo avanti: (26 − 2) : 4 dà 6 passi, e il posto è 7.",
 				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 1, 3, 5, 7, ?».",
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 2, 4, 6, 8, ?».",
 				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
-				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 4, 7, 10, 13, ?».",
-				"20": "Non segue la regola «+3»: 18 + 3 fa 21, non 20.",
-				"22": "Non segue la regola «+3»: 18 + 3 fa 21, non 22.",
-				"23": "Non segue la regola «+3»: 18 + 3 fa 21, non 23.",
-				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?»."
+				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
+				"31": "«31» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
+			}
+		},
+		{
+			"id": "logica-arit-posto-9-3",
+			"subject": "logica",
+			"topic": "sequenze",
+			"difficulty": 4,
+			"format": "numeric_input",
+			"prompt": "La serie va avanti sempre così: 9, 12, 15, 18, e così via. A che posto si trova il numero 36?",
+			"options": [],
+			"answer": "10",
+			"explanation": "Qui la regola va girata al contrario. Da 9 a 36 ci sono 27, e ogni passo vale 3: sono 9 passi. Il posto è un passo in più, perché il primo termine sta già al primo posto: 10.",
+			"distractorWhy": {
+				"3": "È il passo della serie, non il posto del numero 36.",
+				"9": "È il numero dei passi, non il posto: il primo termine occupa già il primo posto, quindi va aggiunto uno.",
+				"11": "È un posto troppo avanti: (36 − 9) : 3 dà 9 passi, e il posto è 10.",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
+				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
+				"31": "«31» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"43": "«43» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"100": "«100» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
 			}
 		},
 		{
@@ -229,9 +229,9 @@
 				"15": "Non segue la regola «×2»: 8 × 2 fa 16, non 15.",
 				"17": "Non segue la regola «×2»: 8 × 2 fa 16, non 17.",
 				"18": "Non segue la regola «×2»: 8 × 2 fa 16, non 18.",
-				"23": "«23» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 7, 11, 15, 19, ?».",
 				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
-				"50": "«50» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 10, 20, 30, 40, ?»."
+				"31": "«31» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"43": "«43» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
 			}
 		},
 		{
@@ -248,8 +248,8 @@
 				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 1, 3, 5, 7, ?».",
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 2, 4, 6, 8, ?».",
 				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
-				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 4, 7, 10, 13, ?».",
 				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
+				"31": "«31» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"80": "Non segue la regola «×3»: 27 × 3 fa 81, non 80.",
 				"82": "Non segue la regola «×3»: 27 × 3 fa 81, non 82.",
 				"83": "Non segue la regola «×3»: 27 × 3 fa 81, non 83."
@@ -269,11 +269,11 @@
 				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 1, 3, 5, 7, ?».",
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 2, 4, 6, 8, ?».",
 				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
-				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 4, 7, 10, 13, ?».",
 				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
 				"31": "Non segue la regola «×2»: 16 × 2 fa 32, non 31.",
 				"33": "Non segue la regola «×2»: 16 × 2 fa 32, non 33.",
-				"34": "Non segue la regola «×2»: 16 × 2 fa 32, non 34."
+				"34": "Non segue la regola «×2»: 16 × 2 fa 32, non 34.",
+				"43": "«43» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
 			}
 		},
 		{
@@ -290,8 +290,8 @@
 				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 1, 3, 5, 7, ?».",
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 2, 4, 6, 8, ?».",
 				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
-				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 4, 7, 10, 13, ?».",
 				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
+				"31": "«31» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"47": "Non segue la regola «×2»: 24 × 2 fa 48, non 47.",
 				"49": "Non segue la regola «×2»: 24 × 2 fa 48, non 49.",
 				"50": "Non segue la regola «×2»: 24 × 2 fa 48, non 50."
@@ -311,8 +311,8 @@
 				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 1, 3, 5, 7, ?».",
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 2, 4, 6, 8, ?».",
 				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
-				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 4, 7, 10, 13, ?».",
 				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
+				"31": "«31» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"255": "Non segue la regola «×4»: 64 × 4 fa 256, non 255.",
 				"257": "Non segue la regola «×4»: 64 × 4 fa 256, non 257.",
 				"258": "Non segue la regola «×4»: 64 × 4 fa 256, non 258."
@@ -332,11 +332,11 @@
 				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 1, 3, 5, 7, ?».",
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 2, 4, 6, 8, ?».",
 				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
-				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 4, 7, 10, 13, ?».",
-				"23": "«23» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 7, 11, 15, 19, ?».",
 				"24": "Non è un quadrato perfetto della serie: dopo 16 (4×4) viene 25 (5×5), non 24.",
 				"26": "Non è un quadrato perfetto della serie: dopo 16 (4×4) viene 25 (5×5), non 26.",
-				"27": "Non è un quadrato perfetto della serie: dopo 16 (4×4) viene 25 (5×5), non 27."
+				"27": "Non è un quadrato perfetto della serie: dopo 16 (4×4) viene 25 (5×5), non 27.",
+				"31": "«31» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"43": "«43» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
 			}
 		},
 		{
@@ -356,8 +356,8 @@
 				"13": "Non segue l'alternanza +2/+3: dopo 9 tocca +3, che dà 12, non 13.",
 				"14": "Non segue l'alternanza +2/+3: dopo 9 tocca +3, che dà 12, non 14.",
 				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
-				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 4, 7, 10, 13, ?».",
-				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?»."
+				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
+				"31": "«31» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
 			}
 		},
 		{
@@ -375,10 +375,10 @@
 				"10": "Non segue l'alternanza +3/+1: dopo 8 tocca +1, che dà 9, non 10.",
 				"11": "Non segue l'alternanza +3/+1: dopo 8 tocca +1, che dà 9, non 11.",
 				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
-				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 4, 7, 10, 13, ?».",
-				"23": "«23» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 7, 11, 15, 19, ?».",
 				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
-				"50": "«50» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 10, 20, 30, 40, ?»."
+				"31": "«31» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"43": "«43» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"100": "«100» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
 			}
 		},
 		{
@@ -397,9 +397,9 @@
 				"14": "Non segue l'alternanza +1/+4: dopo 11 tocca +4, che dà 15, non 14.",
 				"16": "Non segue l'alternanza +1/+4: dopo 11 tocca +4, che dà 15, non 16.",
 				"17": "Non segue l'alternanza +1/+4: dopo 11 tocca +4, che dà 15, non 17.",
-				"23": "«23» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 7, 11, 15, 19, ?».",
 				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
-				"50": "«50» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 10, 20, 30, 40, ?»."
+				"31": "«31» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"43": "«43» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
 			}
 		},
 		{
@@ -470,10 +470,10 @@
 				"9": "Non segue la regola «−3»: 11 − 3 fa 8, non 9.",
 				"10": "Non segue la regola «−3»: 11 − 3 fa 8, non 10.",
 				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
-				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 4, 7, 10, 13, ?».",
-				"23": "«23» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 7, 11, 15, 19, ?».",
 				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
-				"50": "«50» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 10, 20, 30, 40, ?»."
+				"31": "«31» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"43": "«43» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"100": "«100» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
 			}
 		},
 		{
@@ -493,8 +493,8 @@
 				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 1, 3, 5, 7, ?».",
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 2, 4, 6, 8, ?».",
 				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
-				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 4, 7, 10, 13, ?».",
-				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?»."
+				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
+				"31": "«31» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
 			}
 		},
 		{
@@ -506,9 +506,9 @@
 			"prompt": "Quale non appartiene al gruppo: cane, mela, gatto, cavallo?",
 			"options": [
 				"mela",
-				"cavallo",
+				"cane",
 				"gatto",
-				"cane"
+				"cavallo"
 			],
 			"answer": "mela",
 			"explanation": "La mela è un frutto; gli altri sono animali.",
@@ -526,10 +526,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale non appartiene al gruppo: rosa, tulipano, quercia, margherita?",
 			"options": [
-				"tulipano",
-				"quercia",
 				"rosa",
-				"margherita"
+				"quercia",
+				"margherita",
+				"tulipano"
 			],
 			"answer": "quercia",
 			"explanation": "La quercia è un albero; gli altri sono fiori.",
@@ -547,10 +547,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale non appartiene al gruppo: rosso, verde, tavolo, blu?",
 			"options": [
+				"rosso",
 				"blu",
-				"verde",
 				"tavolo",
-				"rosso"
+				"verde"
 			],
 			"answer": "tavolo",
 			"explanation": "Il tavolo non è un colore.",
@@ -582,111 +582,6 @@
 			}
 		},
 		{
-			"id": "logica-analogia-basso",
-			"subject": "logica",
-			"topic": "analogie",
-			"difficulty": 2,
-			"format": "multiple_choice",
-			"prompt": "Grande sta a piccolo come alto sta a…?",
-			"options": [
-				"basso",
-				"veloce",
-				"largo",
-				"lungo"
-			],
-			"answer": "basso",
-			"explanation": "Sono coppie di contrari: grande/piccolo, alto/basso.",
-			"distractorWhy": {
-				"lungo": "Non è il contrario di «alto»: riguarda la lunghezza, non l'altezza.",
-				"largo": "Non è il contrario di «alto»: riguarda la larghezza, non l'altezza.",
-				"veloce": "Non è un contrario di «alto»: riguarda la velocità."
-			}
-		},
-		{
-			"id": "logica-analogia-gattino",
-			"subject": "logica",
-			"topic": "analogie",
-			"difficulty": 1,
-			"format": "multiple_choice",
-			"prompt": "Cane sta a cucciolo come gatto sta a…?",
-			"options": [
-				"cavallo",
-				"gattino",
-				"agnello",
-				"pulcino"
-			],
-			"answer": "gattino",
-			"explanation": "Il piccolo del gatto è il gattino.",
-			"distractorWhy": {
-				"cavallo": "Non è il piccolo del gatto: è un altro animale adulto.",
-				"pulcino": "È il piccolo della gallina, non del gatto.",
-				"agnello": "È il piccolo della pecora, non del gatto."
-			}
-		},
-		{
-			"id": "logica-analogia-scarpa",
-			"subject": "logica",
-			"topic": "analogie",
-			"difficulty": 2,
-			"format": "multiple_choice",
-			"prompt": "Mano sta a guanto come piede sta a…?",
-			"options": [
-				"cappello",
-				"cintura",
-				"scarpa",
-				"sciarpa"
-			],
-			"answer": "scarpa",
-			"explanation": "Il guanto veste la mano, la scarpa il piede.",
-			"distractorWhy": {
-				"cappello": "Il cappello veste la testa, non il piede.",
-				"sciarpa": "La sciarpa veste il collo, non il piede.",
-				"cintura": "La cintura veste la vita, non il piede."
-			}
-		},
-		{
-			"id": "logica-analogia-Luna",
-			"subject": "logica",
-			"topic": "analogie",
-			"difficulty": 1,
-			"format": "multiple_choice",
-			"prompt": "Giorno sta a Sole come notte sta a…?",
-			"options": [
-				"stella cadente",
-				"buio totale",
-				"lampada",
-				"Luna"
-			],
-			"answer": "Luna",
-			"explanation": "Di giorno splende il Sole, di notte la Luna.",
-			"distractorWhy": {
-				"lampada": "La lampada è una luce artificiale, non l'astro che illumina la notte.",
-				"buio totale": "Di notte c'è comunque la luce della Luna: non è buio totale.",
-				"stella cadente": "È un evento raro, non l'astro che illumina regolarmente la notte."
-			}
-		},
-		{
-			"id": "logica-analogia-ascoltare",
-			"subject": "logica",
-			"topic": "analogie",
-			"difficulty": 1,
-			"format": "multiple_choice",
-			"prompt": "Libro sta a leggere come musica sta a…?",
-			"options": [
-				"ascoltare",
-				"guardare",
-				"scrivere",
-				"annusare"
-			],
-			"answer": "ascoltare",
-			"explanation": "Un libro si legge, la musica si ascolta.",
-			"distractorWhy": {
-				"guardare": "La musica si ascolta, non si guarda.",
-				"scrivere": "Scrivere è comporre la musica, non l'azione di goderne come leggere per il libro.",
-				"annusare": "Non è affatto un'azione legata alla musica."
-			}
-		},
-		{
 			"id": "logica-deduzione-58-ha la coda",
 			"subject": "logica",
 			"topic": "deduzioni",
@@ -694,8 +589,8 @@
 			"format": "multiple_choice",
 			"prompt": "Tutti i gatti hanno la coda. Fufi è un gatto. Allora Fufi…",
 			"options": [
-				"è un cane",
 				"ha la coda",
+				"è un cane",
 				"non ha la coda",
 				"forse ha la coda"
 			],
@@ -715,9 +610,9 @@
 			"format": "multiple_choice",
 			"prompt": "Nessun pesce vola. Nemo è un pesce. Quindi Nemo…",
 			"options": [
-				"è un uccello",
 				"forse vola",
 				"non vola",
+				"è un uccello",
 				"vola"
 			],
 			"answer": "non vola",
@@ -736,10 +631,10 @@
 			"format": "multiple_choice",
 			"prompt": "Se piove, Lea prende l'ombrello. Oggi Lea NON ha l'ombrello. Allora…",
 			"options": [
-				"ha perso l'ombrello",
 				"fa molto caldo",
-				"sta piovendo",
-				"non sta piovendo"
+				"ha perso l'ombrello",
+				"non sta piovendo",
+				"sta piovendo"
 			],
 			"answer": "non sta piovendo",
 			"explanation": "Se piovesse avrebbe l'ombrello; non ce l'ha, quindi non piove.",
@@ -757,10 +652,10 @@
 			"format": "multiple_choice",
 			"prompt": "Marco è più alto di Sara. Sara è più alta di Ugo. Chi è il più basso?",
 			"options": [
-				"Ugo",
 				"Sara",
 				"Marco",
-				"Sono uguali"
+				"Sono uguali",
+				"Ugo"
 			],
 			"answer": "Ugo",
 			"explanation": "Due confronti si incatenano quando hanno un termine in comune: qui è Sara. Messa in fila la catena, il più basso sta all'ultimo posto.",
@@ -778,8 +673,8 @@
 			"format": "multiple_choice",
 			"prompt": "Nella scatola ci sono solo palline rosse e blu. Ne peschi una e NON è rossa. Allora è…",
 			"options": [
-				"non si può sapere",
 				"blu",
+				"non si può sapere",
 				"verde",
 				"rossa"
 			],
@@ -800,9 +695,9 @@
 			"prompt": "Tutti i cani sono mammiferi. Allora l'insieme dei cani…",
 			"options": [
 				"Coincide con quello dei mammiferi",
-				"Non ha punti in comune con esso",
 				"È contenuto in quello dei mammiferi",
-				"Contiene quello dei mammiferi"
+				"Contiene quello dei mammiferi",
+				"Non ha punti in comune con esso"
 			],
 			"answer": "È contenuto in quello dei mammiferi",
 			"explanation": "Ogni cane è un mammifero, ma non ogni mammifero è un cane: il gruppo più piccolo sta dentro quello più grande.",
@@ -821,9 +716,9 @@
 			"prompt": "Quali animali stanno sia nell'insieme «vola» sia in «ha le piume»?",
 			"options": [
 				"I pinguini e gli struzzi",
-				"I pipistrelli e le farfalle",
 				"Tutti gli animali con le ali",
-				"Gli uccelli che volano"
+				"Gli uccelli che volano",
+				"I pipistrelli e le farfalle"
 			],
 			"answer": "Gli uccelli che volano",
 			"explanation": "L'intersezione contiene solo ciò che soddisfa entrambe le condizioni: i pipistrelli volano ma non hanno piume.",
@@ -841,10 +736,10 @@
 			"format": "multiple_choice",
 			"prompt": "Che cosa contiene l'unione di due insiemi?",
 			"options": [
-				"Tutti gli elementi dell'uno e dell'altro",
+				"Solo gli elementi comuni ai due",
 				"Solo gli elementi che stanno in uno solo",
 				"Solo gli elementi del primo insieme",
-				"Solo gli elementi comuni ai due"
+				"Tutti gli elementi dell'uno e dell'altro"
 			],
 			"answer": "Tutti gli elementi dell'uno e dell'altro",
 			"explanation": "L'unione mette insieme tutto; l'intersezione tiene solo quello che appartiene a entrambi.",
@@ -862,8 +757,8 @@
 			"format": "multiple_choice",
 			"prompt": "Che cosa contiene l'intersezione di «numeri pari» e «numeri maggiori di 10»?",
 			"options": [
-				"Tutti i numeri pari esistenti",
 				"12, 14, 16 e così via",
+				"Tutti i numeri pari esistenti",
 				"Nessun numero, è vuota",
 				"Tutti i numeri maggiori di dieci"
 			],
@@ -884,9 +779,9 @@
 			"prompt": "L'insieme dei quadrati è contenuto in quello dei rettangoli. Perché?",
 			"options": [
 				"Perché entrambi hanno quattro lati",
-				"Perché ogni rettangolo ha i quattro lati uguali",
 				"Perché ogni quadrato ha quattro angoli retti",
-				"Perché hanno sempre la stessa area"
+				"Perché hanno sempre la stessa area",
+				"Perché ogni rettangolo ha i quattro lati uguali"
 			],
 			"answer": "Perché ogni quadrato ha quattro angoli retti",
 			"explanation": "Un rettangolo è un quadrilatero con quattro angoli retti: il quadrato lo è, e in più ha i lati uguali.",
@@ -906,8 +801,8 @@
 			"options": [
 				"Un insieme con un solo elemento",
 				"Un insieme di cui non si sa il contenuto",
-				"Un insieme uguale a tutti gli altri",
-				"Un insieme che non contiene alcun elemento"
+				"Un insieme che non contiene alcun elemento",
+				"Un insieme uguale a tutti gli altri"
 			],
 			"answer": "Un insieme che non contiene alcun elemento",
 			"explanation": "Per esempio «i numeri pari dispari»: la condizione non può essere soddisfatta da nessuno.",
@@ -925,10 +820,10 @@
 			"format": "multiple_choice",
 			"prompt": "Due insiemi non hanno nessun elemento in comune. Come si dicono?",
 			"options": [
-				"Disgiunti",
-				"Coincidenti",
 				"Complementari",
-				"Contenuti"
+				"Coincidenti",
+				"Contenuti",
+				"Disgiunti"
 			],
 			"answer": "Disgiunti",
 			"explanation": "Insiemi disgiunti hanno intersezione vuota: per esempio i numeri pari e i numeri dispari.",
@@ -946,10 +841,10 @@
 			"format": "multiple_choice",
 			"prompt": "Nel gruppo degli strumenti musicali, quello degli archi è…",
 			"options": [
-				"Un insieme più grande",
 				"Un sottoinsieme",
 				"L'insieme complementare",
-				"Un gruppo a parte"
+				"Un gruppo a parte",
+				"Un insieme più grande"
 			],
 			"answer": "Un sottoinsieme",
 			"explanation": "Ogni arco è uno strumento, ma esistono strumenti che non sono archi: la parte sta dentro il tutto.",
@@ -981,10 +876,10 @@
 			"format": "multiple_choice",
 			"prompt": "Se A è contenuto in B e B è contenuto in C, allora…",
 			"options": [
-				"C è contenuto in A",
 				"A e C sono disgiunti",
 				"A è contenuto in C",
-				"A e C sono lo stesso insieme"
+				"A e C sono lo stesso insieme",
+				"C è contenuto in A"
 			],
 			"answer": "A è contenuto in C",
 			"explanation": "L'inclusione si trasmette: se ogni A è un B e ogni B è un C, allora ogni A è un C.",
@@ -1003,9 +898,9 @@
 			"prompt": "Quale gruppo contiene tutti gli altri: cani, mammiferi, animali, vertebrati?",
 			"options": [
 				"Mammiferi soltanto",
-				"Solo i cani",
 				"Vertebrati e mammiferi",
-				"Animali"
+				"Animali",
+				"Solo i cani"
 			],
 			"answer": "Animali",
 			"explanation": "La scala va dal più ampio al più stretto: animali, vertebrati, mammiferi, cani.",
@@ -1023,10 +918,10 @@
 			"format": "multiple_choice",
 			"prompt": "Che cos'è il complementare di un insieme?",
 			"options": [
-				"Tutto ciò che sta fuori da quell'insieme",
-				"La metà mancante dell'insieme",
 				"L'insieme con gli stessi elementi",
-				"L'insieme che gli assomiglia di più fra tutti"
+				"La metà mancante dell'insieme",
+				"L'insieme che gli assomiglia di più fra tutti",
+				"Tutto ciò che sta fuori da quell'insieme"
 			],
 			"answer": "Tutto ciò che sta fuori da quell'insieme",
 			"explanation": "Dentro un gruppo di riferimento: il complementare dei pari, fra i numeri interi, sono i dispari.",
@@ -1044,10 +939,10 @@
 			"format": "multiple_choice",
 			"prompt": "«Alcuni musicisti sono chitarristi» descrive due insiemi che…",
 			"options": [
-				"Sono completamente separati",
 				"Si sovrappongono in parte",
+				"Non hanno alcun elemento",
 				"Coincidono perfettamente",
-				"Non hanno alcun elemento"
+				"Sono completamente separati"
 			],
 			"answer": "Si sovrappongono in parte",
 			"explanation": "Una parte dei musicisti suona la chitarra, un'altra no: gli insiemi si intersecano senza contenersi.",
@@ -1079,10 +974,10 @@
 			"format": "multiple_choice",
 			"prompt": "«Piove E fa freddo» è vera quando…",
 			"options": [
-				"Fa freddo, anche se non piove",
 				"Almeno una delle due è vera",
 				"Piove e fa freddo insieme",
-				"Piove, anche se non fa freddo"
+				"Piove, anche se non fa freddo",
+				"Fa freddo, anche se non piove"
 			],
 			"answer": "Piove e fa freddo insieme",
 			"explanation": "La E richiede entrambe: basta che una sia falsa e tutta l'affermazione è falsa.",
@@ -1100,10 +995,10 @@
 			"format": "multiple_choice",
 			"prompt": "«Piove O fa freddo» è falsa quando…",
 			"options": [
-				"Fa freddo ma non piove",
-				"Piove ma non fa freddo",
 				"Piove e fa freddo insieme",
-				"Non piove e non fa freddo"
+				"Fa freddo ma non piove",
+				"Non piove e non fa freddo",
+				"Piove ma non fa freddo"
 			],
 			"answer": "Non piove e non fa freddo",
 			"explanation": "La O si accontenta di una: perché sia falsa devono essere false tutte e due.",
@@ -1121,10 +1016,10 @@
 			"format": "multiple_choice",
 			"prompt": "Se «tutti i gatti dormono» è falsa, che cosa è sicuramente vero?",
 			"options": [
-				"Almeno un gatto non dorme",
 				"Nessun gatto dorme",
+				"Metà dei gatti dorme",
 				"Tutti i gatti sono svegli",
-				"Metà dei gatti dorme"
+				"Almeno un gatto non dorme"
 			],
 			"answer": "Almeno un gatto non dorme",
 			"explanation": "Per smentire un «tutti» basta un solo controesempio: non serve che sia vero il contrario di tutti.",
@@ -1142,10 +1037,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la negazione di «nessuno è arrivato»?",
 			"options": [
-				"Tutti sono arrivati",
 				"Almeno uno è arrivato",
-				"Nessuno è partito",
-				"Molti sono arrivati"
+				"Molti sono arrivati",
+				"Tutti sono arrivati",
+				"Nessuno è partito"
 			],
 			"answer": "Almeno uno è arrivato",
 			"explanation": "Negare un «nessuno» significa dire che ce n'è almeno uno, non che ci sono tutti.",
@@ -1163,10 +1058,10 @@
 			"format": "multiple_choice",
 			"prompt": "«Se piove, prendo l'ombrello.» Non ho preso l'ombrello. Cosa si conclude?",
 			"options": [
-				"Non si può concludere niente",
-				"Ho dimenticato l'ombrello",
+				"Pioveva lo stesso",
 				"Non pioveva",
-				"Pioveva lo stesso"
+				"Ho dimenticato l'ombrello",
+				"Non si può concludere niente"
 			],
 			"answer": "Non pioveva",
 			"explanation": "Se l'effetto manca, manca anche la causa che lo garantiva: è la forma corretta del ragionamento.",
@@ -1184,10 +1079,10 @@
 			"format": "multiple_choice",
 			"prompt": "«Se piove, prendo l'ombrello.» Ho preso l'ombrello. Cosa si conclude?",
 			"options": [
-				"Che sicuramente non stava piovendo per niente",
-				"Che pioverà sicuramente nel corso della giornata",
 				"Che sicuramente stava piovendo in quel momento",
-				"Niente di certo: poteva esserci un altro motivo"
+				"Che pioverà sicuramente nel corso della giornata",
+				"Niente di certo: poteva esserci un altro motivo",
+				"Che sicuramente non stava piovendo per niente"
 			],
 			"answer": "Niente di certo: poteva esserci un altro motivo",
 			"explanation": "L'ombrello si può prendere anche per il sole o per abitudine: la regola non dice che sia l'unica ragione possibile.",
@@ -1205,10 +1100,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la negazione di «tutti i cigni sono bianchi»?",
 			"options": [
-				"Esiste almeno un cigno non bianco",
 				"Nessun cigno è bianco",
+				"Quasi tutti i cigni sono bianchi",
 				"Tutti i cigni sono neri",
-				"Quasi tutti i cigni sono bianchi"
+				"Esiste almeno un cigno non bianco"
 			],
 			"answer": "Esiste almeno un cigno non bianco",
 			"explanation": "Un'affermazione universale cade con un solo caso contrario: basta un cigno nero.",
@@ -1226,10 +1121,10 @@
 			"format": "multiple_choice",
 			"prompt": "«Non è vero che non piove» significa…",
 			"options": [
-				"Ha smesso di piovere",
 				"Piove",
+				"Non piove",
 				"Forse piove",
-				"Non piove"
+				"Ha smesso di piovere"
 			],
 			"answer": "Piove",
 			"explanation": "Due negazioni si annullano: negare la negazione riporta all'affermazione di partenza.",
@@ -1247,10 +1142,10 @@
 			"format": "multiple_choice",
 			"prompt": "«Tutti gli abitanti hanno un cane o un gatto.» Marco non ha cani. Cosa si conclude?",
 			"options": [
-				"Non si può dire niente",
-				"Marco non ha animali",
+				"Marco ha anche un cane",
 				"Marco ha un gatto",
-				"Marco ha anche un cane"
+				"Non si può dire niente",
+				"Marco non ha animali"
 			],
 			"answer": "Marco ha un gatto",
 			"explanation": "La O richiede almeno una delle due: se una è esclusa, l'altra deve valere.",
@@ -1270,8 +1165,8 @@
 			"options": [
 				"Sì, in certi casi particolari",
 				"Dipende dai casi",
-				"Sì, se sono complicate",
-				"No, mai"
+				"No, mai",
+				"Sì, se sono complicate"
 			],
 			"answer": "No, mai",
 			"explanation": "È il principio di non contraddizione: se una è vera l'altra è falsa, senza eccezioni.",
@@ -1289,10 +1184,10 @@
 			"format": "multiple_choice",
 			"prompt": "«Se studio, passo l'esame.» Ho studiato ma non ho passato. Che cosa è falso?",
 			"options": [
-				"La regola di partenza",
-				"Nessuna delle due cose",
+				"Il fatto di aver studiato",
 				"Il risultato dell'esame",
-				"Il fatto di aver studiato"
+				"Nessuna delle due cose",
+				"La regola di partenza"
 			],
 			"answer": "La regola di partenza",
 			"explanation": "Un solo caso in cui la premessa è vera e la conclusione falsa basta a smentire la regola.",
@@ -1326,10 +1221,10 @@
 			"format": "multiple_choice",
 			"prompt": "«Ho preso il gelato E la torta» è falsa. Cosa si conclude?",
 			"options": [
-				"Non ho preso proprio nessuna delle due",
 				"Almeno una delle due non l'ho presa",
 				"Ho preso solo il gelato",
-				"Ho preso solo la torta"
+				"Ho preso solo la torta",
+				"Non ho preso proprio nessuna delle due"
 			],
 			"answer": "Almeno una delle due non l'ho presa",
 			"explanation": "Per far cadere una E basta che uno dei due pezzi sia falso: non serve che lo siano entrambi.",
@@ -1348,8 +1243,8 @@
 			"prompt": "Perché «questa frase è falsa» crea un problema?",
 			"options": [
 				"Perché parla di sé stessa senza dati",
-				"Perché è scritta in modo scorretto",
 				"Perché se è vera è falsa, e viceversa",
+				"Perché è scritta in modo scorretto",
 				"Perché manca il soggetto della frase"
 			],
 			"answer": "Perché se è vera è falsa, e viceversa",
@@ -1368,10 +1263,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quale parola indica che vale per ogni singolo caso?",
 			"options": [
-				"Molti",
-				"Quasi tutti",
 				"Alcuni",
-				"Tutti"
+				"Molti",
+				"Tutti",
+				"Quasi tutti"
 			],
 			"answer": "Tutti",
 			"explanation": "«Tutti» non ammette eccezioni: basta un caso contrario per renderlo falso.",
@@ -1389,10 +1284,10 @@
 			"format": "multiple_choice",
 			"prompt": "«Alcuni uccelli non volano» significa che…",
 			"options": [
-				"Almeno uno non vola",
 				"Nessun uccello vola",
 				"La maggior parte non vola",
-				"Tutti gli uccelli volano"
+				"Tutti gli uccelli volano",
+				"Almeno uno non vola"
 			],
 			"answer": "Almeno uno non vola",
 			"explanation": "In logica «alcuni» significa «almeno uno», anche se nel parlare comune suggerisce «parecchi».",
@@ -1410,10 +1305,10 @@
 			"format": "multiple_choice",
 			"prompt": "Da «tutti i cani abbaiano» si può dedurre che…",
 			"options": [
-				"Soltanto i cani sanno abbaiare",
 				"Almeno un cane abbaia, se i cani esistono",
 				"Chiunque abbaia dev'essere per forza un cane",
-				"Alcuni cani non abbaiano affatto"
+				"Alcuni cani non abbaiano affatto",
+				"Soltanto i cani sanno abbaiare"
 			],
 			"answer": "Almeno un cane abbaia, se i cani esistono",
 			"explanation": "Da un «tutti» si scende ad «alcuni», ma non si può girare la frase: altri animali potrebbero abbaiare.",
@@ -1432,8 +1327,8 @@
 			"prompt": "«Nessuno studente è arrivato in ritardo» è smentita da…",
 			"options": [
 				"Tutti gli studenti in ritardo",
-				"Nessun controesempio possibile",
 				"Un solo studente in ritardo",
+				"Nessun controesempio possibile",
 				"Metà degli studenti in ritardo"
 			],
 			"answer": "Un solo studente in ritardo",
@@ -1454,8 +1349,8 @@
 			"options": [
 				"Tutti i rettangoli sono quadrati",
 				"Nessun rettangolo è un quadrato",
-				"I due gruppi sono separati",
-				"Alcuni rettangoli sono quadrati"
+				"Alcuni rettangoli sono quadrati",
+				"I due gruppi sono separati"
 			],
 			"answer": "Alcuni rettangoli sono quadrati",
 			"explanation": "Girando un «tutti» si ottiene solo un «alcuni»: l'inclusione vale in una direzione sola.",
@@ -1473,10 +1368,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è il contrario di «tutti»?",
 			"options": [
-				"Non tutti",
 				"Quasi nessuno",
 				"Pochi",
-				"Nessuno"
+				"Nessuno",
+				"Non tutti"
 			],
 			"answer": "Non tutti",
 			"explanation": "«Nessuno» è molto più forte: negare «tutti» richiede solo che ce ne sia uno fuori.",
@@ -1494,9 +1389,9 @@
 			"format": "multiple_choice",
 			"prompt": "«Ogni chiave apre una porta» e «una porta è aperta da ogni chiave» dicono…",
 			"options": [
-				"La stessa cosa in due modi",
 				"Due cose diverse",
 				"Due cose sempre vere",
+				"La stessa cosa in due modi",
 				"Due cose sempre false"
 			],
 			"answer": "Due cose diverse",
@@ -1516,9 +1411,9 @@
 			"prompt": "«Almeno due studenti hanno preso 10» è vera se ne hanno preso 10…",
 			"options": [
 				"Meno di due studenti",
-				"Esattamente due studenti",
 				"Due o più studenti",
-				"Tutti gli studenti"
+				"Tutti gli studenti",
+				"Esattamente due studenti"
 			],
 			"answer": "Due o più studenti",
 			"explanation": "«Almeno» fissa un minimo, non un numero esatto: tre, quattro o venti la rendono ugualmente vera.",
@@ -1537,9 +1432,9 @@
 			"prompt": "Da «alcuni gatti sono neri» si può dedurre «tutti i gatti sono neri»?",
 			"options": [
 				"Dipende da quanti gatti sono neri",
-				"Sì, se sono pochi",
 				"Sì, se non ci sono controesempi",
-				"No, in nessun caso"
+				"No, in nessun caso",
+				"Sì, se sono pochi"
 			],
 			"answer": "No, in nessun caso",
 			"explanation": "Da un caso particolare non si sale a una regola generale: è il salto che rende sbagliati molti ragionamenti.",
@@ -1557,10 +1452,10 @@
 			"format": "multiple_choice",
 			"prompt": "«Nessun pesce vola» e «tutti i pesci non volano»…",
 			"options": [
-				"Dicono la stessa cosa",
-				"La prima è più debole",
 				"Dicono cose opposte",
-				"La seconda è sempre falsa"
+				"La prima è più debole",
+				"La seconda è sempre falsa",
+				"Dicono la stessa cosa"
 			],
 			"answer": "Dicono la stessa cosa",
 			"explanation": "Sono due modi di esprimere la stessa negazione universale.",
@@ -1592,9 +1487,9 @@
 			"format": "multiple_choice",
 			"prompt": "«Qualche volta il treno è in ritardo» equivale a…",
 			"options": [
-				"Il treno è sempre in ritardo",
 				"Non sempre il treno è puntuale",
 				"Il treno non è mai puntuale",
+				"Il treno è sempre in ritardo",
 				"Il treno è quasi sempre in ritardo"
 			],
 			"answer": "Non sempre il treno è puntuale",
@@ -1613,9 +1508,9 @@
 			"format": "multiple_choice",
 			"prompt": "In una scatola ci sono solo palline rosse. È vero che «tutte le palline blu nella scatola sono grandi»?",
 			"options": [
-				"Solo se sono davvero grandi",
 				"Non si può stabilire",
 				"Sì, perché non ce ne sono",
+				"Solo se sono davvero grandi",
 				"No, perché non ce ne sono"
 			],
 			"answer": "Sì, perché non ce ne sono",
@@ -1627,133 +1522,7 @@
 			}
 		},
 		{
-			"id": "logica-analogie-41",
-			"subject": "logica",
-			"topic": "analogie",
-			"difficulty": 2,
-			"format": "multiple_choice",
-			"prompt": "Penna sta a scrivere come forbici sta a…",
-			"options": [
-				"Cucire",
-				"Misurare",
-				"Incollare",
-				"Tagliare"
-			],
-			"answer": "Tagliare",
-			"explanation": "La relazione è «strumento → azione che compie»: si cerca la stessa relazione, non una parola simile.",
-			"distractorWhy": {
-				"Cucire": "Si cuce con ago e filo, non con le forbici.",
-				"Incollare": "Si incolla con la colla, non con le forbici.",
-				"Misurare": "Si misura con il righello, non con le forbici."
-			}
-		},
-		{
-			"id": "logica-analogie-42",
-			"subject": "logica",
-			"topic": "analogie",
-			"difficulty": 3,
-			"format": "multiple_choice",
-			"prompt": "Medico sta a ospedale come insegnante sta a…",
-			"options": [
-				"Scuola",
-				"Studente",
-				"Lezione",
-				"Libro"
-			],
-			"answer": "Scuola",
-			"explanation": "La relazione è «chi lavora → luogo di lavoro»: lo studente è una persona, la lezione un'attività.",
-			"distractorWhy": {
-				"Libro": "Il libro è uno strumento di lavoro, non il luogo dove si lavora.",
-				"Studente": "Lo studente è una persona con cui si lavora, non il luogo di lavoro.",
-				"Lezione": "La lezione è l'attività svolta, non il luogo dove avviene."
-			}
-		},
-		{
-			"id": "logica-analogie-43",
-			"subject": "logica",
-			"topic": "analogie",
-			"difficulty": 3,
-			"format": "multiple_choice",
-			"prompt": "Freddo sta a caldo come buio sta a…",
-			"options": [
-				"Notte",
-				"Luce",
-				"Nero",
-				"Paura"
-			],
-			"answer": "Luce",
-			"explanation": "La relazione è di opposizione. «Notte» è associata al buio ma non è il suo contrario.",
-			"distractorWhy": {
-				"Notte": "La notte è associata al buio, ma non è il suo contrario: quello è la luce.",
-				"Nero": "Il nero è un colore associato al buio, non il suo opposto.",
-				"Paura": "La paura è un'emozione che il buio può causare, non il suo contrario."
-			}
-		},
-		{
-			"id": "logica-analogie-44",
-			"subject": "logica",
-			"topic": "analogie",
-			"difficulty": 4,
-			"format": "multiple_choice",
-			"prompt": "Chilometro sta a distanza come chilogrammo sta a…",
-			"options": [
-				"Grandezza",
-				"Peso di una persona",
-				"Massa",
-				"Bilancia"
-			],
-			"answer": "Massa",
-			"explanation": "La relazione è «unità → grandezza misurata». La bilancia è lo strumento, non la grandezza.",
-			"distractorWhy": {
-				"Bilancia": "La bilancia è lo strumento che misura, non la grandezza misurata.",
-				"Peso di una persona": "È un esempio specifico di massa misurata, non il nome della grandezza.",
-				"Grandezza": "È troppo generico: serve il nome specifico della grandezza, come per «distanza»."
-			}
-		},
-		{
-			"id": "logica-analogie-45",
-			"subject": "logica",
-			"topic": "analogie",
-			"difficulty": 3,
-			"format": "multiple_choice",
-			"prompt": "Cucciolo sta a cane come puledro sta a…",
-			"options": [
-				"Fieno",
-				"Stalla",
-				"Corsa",
-				"Cavallo"
-			],
-			"answer": "Cavallo",
-			"explanation": "La relazione è «piccolo → animale adulto della stessa specie».",
-			"distractorWhy": {
-				"Stalla": "La stalla è il luogo dove vive il cavallo, non l'animale adulto.",
-				"Corsa": "La corsa è un'attività del cavallo, non l'animale adulto.",
-				"Fieno": "Il fieno è il cibo del cavallo, non l'animale adulto."
-			}
-		},
-		{
-			"id": "logica-analogie-46",
-			"subject": "logica",
-			"topic": "analogie",
-			"difficulty": 4,
-			"format": "multiple_choice",
-			"prompt": "Pagina sta a libro come fotogramma sta a…",
-			"options": [
-				"Film",
-				"Cinema",
-				"Macchina fotografica",
-				"Attore"
-			],
-			"answer": "Film",
-			"explanation": "La relazione è «parte → intero di cui fa parte». Il cinema è il luogo, non l'opera.",
-			"distractorWhy": {
-				"Cinema": "Il cinema è il luogo dove si guarda, non l'opera di cui il fotogramma è parte.",
-				"Macchina fotografica": "È lo strumento che scatta le foto, non l'opera composta da fotogrammi.",
-				"Attore": "L'attore recita nel film, ma non è l'opera di cui il fotogramma è parte."
-			}
-		},
-		{
-			"id": "logica-deduzioni-47",
+			"id": "logica-deduzioni-41",
 			"subject": "logica",
 			"topic": "deduzioni",
 			"difficulty": 3,
@@ -1761,8 +1530,8 @@
 			"prompt": "Tutti i musicisti leggono le note. Sara legge le note. Sara è musicista?",
 			"options": [
 				"Sì, sicuramente",
-				"Non necessariamente",
 				"No, di certo non lo è",
+				"Non necessariamente",
 				"Solo se suona uno strumento"
 			],
 			"answer": "Non necessariamente",
@@ -1774,17 +1543,17 @@
 			}
 		},
 		{
-			"id": "logica-deduzioni-48",
+			"id": "logica-deduzioni-42",
 			"subject": "logica",
 			"topic": "deduzioni",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Nessun rettile ha le piume. Kiwi ha le piume. Kiwi è un rettile?",
 			"options": [
+				"Sì, potrebbe esserlo",
 				"Solo se non vola",
 				"Non si può stabilire",
-				"No, di sicuro",
-				"Sì, potrebbe esserlo"
+				"No, di sicuro"
 			],
 			"answer": "No, di sicuro",
 			"explanation": "Se nessun rettile ha piume e Kiwi le ha, Kiwi sta fuori dall'insieme dei rettili.",
@@ -1795,17 +1564,17 @@
 			}
 		},
 		{
-			"id": "logica-deduzioni-49",
+			"id": "logica-deduzioni-43",
 			"subject": "logica",
 			"topic": "deduzioni",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Se A è più alto di B e B è più alto di C, allora…",
 			"options": [
-				"Non si può stabilire",
+				"A è più alto di C",
 				"A e C sono uguali",
-				"C è più alto di A",
-				"A è più alto di C"
+				"Non si può stabilire",
+				"C è più alto di A"
 			],
 			"answer": "A è più alto di C",
 			"explanation": "«Più alto di» è una relazione transitiva: si trasmette lungo la catena.",
@@ -1816,16 +1585,16 @@
 			}
 		},
 		{
-			"id": "logica-deduzioni-50",
+			"id": "logica-deduzioni-44",
 			"subject": "logica",
 			"topic": "deduzioni",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Marta è più giovane di Luca. Luca è più giovane di Sara. Chi è il più vecchio?",
 			"options": [
+				"Luca",
 				"Sara",
 				"Marta",
-				"Luca",
 				"Non si può dire"
 			],
 			"answer": "Sara",
@@ -1837,17 +1606,17 @@
 			}
 		},
 		{
-			"id": "logica-deduzioni-51",
+			"id": "logica-deduzioni-45",
 			"subject": "logica",
 			"topic": "deduzioni",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "«Se il semaforo è verde, si passa.» Il semaforo è rosso. Si passa?",
 			"options": [
+				"Solo se non arrivano altre auto",
 				"Sì, la regola lo permette comunque",
 				"La regola non dice niente su questo caso",
-				"No, la regola lo vieta esplicitamente",
-				"Solo se non arrivano altre auto"
+				"No, la regola lo vieta esplicitamente"
 			],
 			"answer": "La regola non dice niente su questo caso",
 			"explanation": "La regola copre il caso «verde»: sul rosso non si pronuncia. Serve un'altra regola per saperlo.",
@@ -1858,17 +1627,17 @@
 			}
 		},
 		{
-			"id": "logica-esclusioni-52",
+			"id": "logica-esclusioni-46",
 			"subject": "logica",
 			"topic": "esclusioni",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Quale non appartiene al gruppo: violino, viola, violoncello, flauto?",
 			"options": [
+				"Violino",
 				"Violoncello",
 				"Viola",
-				"Flauto",
-				"Violino"
+				"Flauto"
 			],
 			"answer": "Flauto",
 			"explanation": "Gli altri tre sono strumenti ad arco; il flauto è a fiato. Non conta la somiglianza del nome.",
@@ -1879,17 +1648,17 @@
 			}
 		},
 		{
-			"id": "logica-esclusioni-53",
+			"id": "logica-esclusioni-47",
 			"subject": "logica",
 			"topic": "esclusioni",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Quale non appartiene al gruppo: Roma, Parigi, Berlino, Sicilia?",
 			"options": [
+				"Sicilia",
 				"Parigi",
-				"Berlino",
 				"Roma",
-				"Sicilia"
+				"Berlino"
 			],
 			"answer": "Sicilia",
 			"explanation": "Le altre tre sono capitali; la Sicilia è un'isola, non una città.",
@@ -1900,7 +1669,7 @@
 			}
 		},
 		{
-			"id": "logica-esclusioni-54",
+			"id": "logica-esclusioni-48",
 			"subject": "logica",
 			"topic": "esclusioni",
 			"difficulty": 4,
@@ -1918,17 +1687,17 @@
 			}
 		},
 		{
-			"id": "logica-esclusioni-55",
+			"id": "logica-esclusioni-49",
 			"subject": "logica",
 			"topic": "esclusioni",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Quale non appartiene al gruppo: quadrato, cerchio, triangolo, rettangolo?",
 			"options": [
-				"Rettangolo",
-				"Cerchio",
 				"Triangolo",
-				"Quadrato"
+				"Quadrato",
+				"Cerchio",
+				"Rettangolo"
 			],
 			"answer": "Cerchio",
 			"explanation": "Gli altri sono poligoni, cioè figure con i lati dritti; il cerchio è delimitato da una curva.",
@@ -1939,17 +1708,17 @@
 			}
 		},
 		{
-			"id": "logica-sequenze-56",
+			"id": "logica-sequenze-50",
 			"subject": "logica",
 			"topic": "sequenze",
 			"difficulty": 1,
 			"format": "multiple_choice",
 			"prompt": "Quale figura continua la serie: cerchio, quadrato, cerchio, quadrato, ?",
 			"options": [
+				"quadrato",
 				"triangolo",
 				"rombo",
-				"cerchio",
-				"quadrato"
+				"cerchio"
 			],
 			"answer": "cerchio",
 			"explanation": "La serie alterna due figure: dopo il quadrato tocca di nuovo al cerchio. Una regola che si ripete a coppie si scopre guardando due passi, non uno.",
@@ -1960,7 +1729,7 @@
 			}
 		},
 		{
-			"id": "logica-sequenze-57",
+			"id": "logica-sequenze-51",
 			"subject": "logica",
 			"topic": "sequenze",
 			"difficulty": 2,
@@ -1970,28 +1739,28 @@
 			"answer": "4",
 			"explanation": "Il disegno si ripete ogni tre perline e in ogni gruppo ce n'è una blu: dodici perline fanno quattro gruppi, quindi quattro blu. Quando una serie si ripete a blocchi non serve contarla tutta: basta contare i blocchi.",
 			"distractorWhy": {
+				"7": "«7» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 1, 3, 5, 7, ?».",
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 2, 4, 6, 8, ?».",
 				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
-				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 4, 7, 10, 13, ?».",
-				"23": "«23» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 7, 11, 15, 19, ?».",
 				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
-				"30": "«30» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 6, 12, 18, 24, ?».",
-				"50": "«50» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 10, 20, 30, 40, ?»."
+				"31": "«31» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"43": "«43» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"100": "«100» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
 			}
 		},
 		{
-			"id": "logica-sequenze-58",
+			"id": "logica-sequenze-52",
 			"subject": "logica",
 			"topic": "sequenze",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Quale giorno continua la serie: lunedì, mercoledì, venerdì, ?",
 			"options": [
+				"domenica",
 				"giovedì",
 				"lunedì",
-				"sabato",
-				"domenica"
+				"sabato"
 			],
 			"answer": "domenica",
 			"explanation": "Si salta un giorno ogni volta: lunedì, (martedì), mercoledì, (giovedì), venerdì, (sabato), domenica. Una serie può girare in tondo invece di crescere: dopo la domenica si ricomincerebbe dal martedì.",
@@ -2002,7 +1771,7 @@
 			}
 		},
 		{
-			"id": "logica-sequenze-59",
+			"id": "logica-sequenze-53",
 			"subject": "logica",
 			"topic": "sequenze",
 			"difficulty": 4,
@@ -2012,26 +1781,26 @@
 			"answer": "8",
 			"explanation": "Sono due serie intrecciate: al primo, terzo e quinto posto 2, 4, 6 che salgono di due; al secondo, quarto e sesto 20, 18, 16 che scendono di due. Tocca di nuovo a quella che sale, quindi 8. Quando una serie sembra impazzita, conviene provare a leggerla a numeri alterni.",
 			"distractorWhy": {
+				"7": "«7» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 1, 3, 5, 7, ?».",
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 2, 4, 6, 8, ?».",
 				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
-				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 4, 7, 10, 13, ?».",
-				"23": "«23» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 7, 11, 15, 19, ?».",
 				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
-				"30": "«30» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 6, 12, 18, 24, ?».",
-				"50": "«50» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 10, 20, 30, 40, ?»."
+				"31": "«31» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"43": "«43» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"100": "«100» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
 			}
 		},
 		{
-			"id": "logica-sequenze-60",
+			"id": "logica-sequenze-54",
 			"subject": "logica",
 			"topic": "sequenze",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Quale lettera continua la serie: A, C, E, G, ?",
 			"options": [
-				"I",
 				"H",
+				"I",
 				"L",
 				"F"
 			],
@@ -2044,17 +1813,17 @@
 			}
 		},
 		{
-			"id": "logica-esclusioni-61",
+			"id": "logica-esclusioni-55",
 			"subject": "logica",
 			"topic": "esclusioni",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Quale non appartiene al gruppo: arancione, viola, verde, giallo?",
 			"options": [
-				"arancione",
-				"giallo",
+				"viola",
 				"verde",
-				"viola"
+				"giallo",
+				"arancione"
 			],
 			"answer": "giallo",
 			"explanation": "Gli altri tre nascono mescolando due colori: rosso e giallo danno arancione, rosso e blu danno viola, giallo e blu danno verde. Il giallo invece è un colore primario. Qui la proprietà comune non si vede guardando i colori: bisogna sapere da dove vengono.",
@@ -2065,17 +1834,17 @@
 			}
 		},
 		{
-			"id": "logica-esclusioni-62",
+			"id": "logica-esclusioni-56",
 			"subject": "logica",
 			"topic": "esclusioni",
 			"difficulty": 1,
 			"format": "multiple_choice",
 			"prompt": "Quale non appartiene al gruppo: lunedì, martedì, gennaio, giovedì?",
 			"options": [
+				"lunedì",
 				"martedì",
 				"giovedì",
-				"gennaio",
-				"lunedì"
+				"gennaio"
 			],
 			"answer": "gennaio",
 			"explanation": "Tre sono giorni della settimana, gennaio è un mese: appartengono a due scale di tempo diverse.",
@@ -2086,7 +1855,7 @@
 			}
 		},
 		{
-			"id": "logica-esclusioni-63",
+			"id": "logica-esclusioni-57",
 			"subject": "logica",
 			"topic": "esclusioni",
 			"difficulty": 2,
@@ -2104,17 +1873,17 @@
 			}
 		},
 		{
-			"id": "logica-esclusioni-64",
+			"id": "logica-esclusioni-58",
 			"subject": "logica",
 			"topic": "esclusioni",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Quale non appartiene al gruppo: martello, cacciavite, pinza, mela?",
 			"options": [
-				"mela",
 				"pinza",
-				"cacciavite",
-				"martello"
+				"mela",
+				"martello",
+				"cacciavite"
 			],
 			"answer": "mela",
 			"explanation": "Tre servono a lavorare, la mela si mangia: la categoria è l'uso, non la forma.",
@@ -2125,101 +1894,17 @@
 			}
 		},
 		{
-			"id": "logica-analogie-65",
-			"subject": "logica",
-			"topic": "analogie",
-			"difficulty": 1,
-			"format": "multiple_choice",
-			"prompt": "Caldo sta a freddo come alto sta a…?",
-			"options": [
-				"lungo",
-				"basso",
-				"veloce",
-				"grande"
-			],
-			"answer": "basso",
-			"explanation": "La relazione è «il contrario di». Trovata la relazione nella prima coppia, si applica identica alla seconda.",
-			"distractorWhy": {
-				"grande": "Non è il contrario di «alto»: riguarda la dimensione generale, non l'altezza.",
-				"lungo": "Non è il contrario di «alto»: riguarda la lunghezza, non l'altezza.",
-				"veloce": "Non è affatto un contrario di «alto»: riguarda la velocità, un'altra caratteristica."
-			}
-		},
-		{
-			"id": "logica-analogie-66",
-			"subject": "logica",
-			"topic": "analogie",
-			"difficulty": 1,
-			"format": "multiple_choice",
-			"prompt": "Uccello sta a volare come pesce sta a…?",
-			"options": [
-				"camminare",
-				"saltare",
-				"nuotare",
-				"correre"
-			],
-			"answer": "nuotare",
-			"explanation": "La relazione è «come si sposta»: ogni animale va con il movimento del suo ambiente.",
-			"distractorWhy": {
-				"camminare": "Non è il movimento tipico del pesce, che vive nell'acqua.",
-				"correre": "Non è il movimento tipico del pesce: si muove nell'acqua, non sulla terra.",
-				"saltare": "Non è il movimento tipico del pesce."
-			}
-		},
-		{
-			"id": "logica-analogie-67",
-			"subject": "logica",
-			"topic": "analogie",
-			"difficulty": 2,
-			"format": "multiple_choice",
-			"prompt": "Libro sta a leggere come cibo sta a…?",
-			"options": [
-				"servire",
-				"comprare",
-				"cucinare",
-				"mangiare"
-			],
-			"answer": "mangiare",
-			"explanation": "La relazione è «che cosa se ne fa»: del libro si legge, del cibo si mangia. Cucinare viene prima, non è l'uso finale.",
-			"distractorWhy": {
-				"cucinare": "Si cucina prima di mangiare: non è l'uso finale del cibo, come leggere lo è per il libro.",
-				"comprare": "Si compra prima di usarlo: non è l'azione finale, come leggere lo è per il libro.",
-				"servire": "Servire è un passaggio prima di mangiare, non l'azione finale."
-			}
-		},
-		{
-			"id": "logica-analogie-68",
-			"subject": "logica",
-			"topic": "analogie",
-			"difficulty": 3,
-			"format": "multiple_choice",
-			"prompt": "Tiepido sta a bollente come fresco sta a…?",
-			"options": [
-				"gelido",
-				"piacevole",
-				"umido",
-				"caldo"
-			],
-			"answer": "gelido",
-			"explanation": "La relazione non è di contrario ma di grado: bollente è la versione estrema di tiepido, gelido quella di fresco. Nelle analogie conta il tipo di legame, non il significato delle singole parole.",
-			"distractorWhy": {
-				"caldo": "Va dalla parte opposta: fresco e caldo sono contrari, non lo stesso grado spinto all'estremo.",
-				"umido": "Parla di quanta acqua c'è nell'aria, non di quanto fa freddo.",
-				"piacevole": "È un giudizio, non un grado di temperatura: rompe il tipo di legame."
-			}
-		},
-		{
-			"id": "logica-insiemi-69",
+			"id": "logica-insiemi-59",
 			"subject": "logica",
 			"topic": "insiemi",
 			"difficulty": 1,
 			"format": "multiple_choice",
 			"prompt": "Tutti i quadrati sono rettangoli. Allora un quadrato è anche…",
 			"options": [
-				"nessuna delle due",
-				"un rettangolo",
 				"un triangolo",
-				"un cerchio"
+				"un cerchio",
+				"un rettangolo",
+				"nessuna delle due"
 			],
 			"answer": "un rettangolo",
 			"explanation": "Se un insieme è dentro un altro, tutto ciò che sta nel piccolo sta anche nel grande. Non vale al contrario: non tutti i rettangoli sono quadrati.",
@@ -2230,17 +1915,17 @@
 			}
 		},
 		{
-			"id": "logica-insiemi-70",
+			"id": "logica-insiemi-60",
 			"subject": "logica",
 			"topic": "insiemi",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "In una classe tutti giocano a calcio o a pallavolo. Marco non gioca a calcio. Allora…",
 			"options": [
-				"non si può sapere",
+				"non gioca a niente",
 				"gioca a entrambi",
-				"gioca a pallavolo",
-				"non gioca a niente"
+				"non si può sapere",
+				"gioca a pallavolo"
 			],
 			"answer": "gioca a pallavolo",
 			"explanation": "«O l'uno o l'altro» copre tutti: escluso il primo resta per forza il secondo. Funziona solo perché la frase dice TUTTI.",
@@ -2251,17 +1936,17 @@
 			}
 		},
 		{
-			"id": "logica-verita-71",
+			"id": "logica-verita-61",
 			"subject": "logica",
 			"topic": "verita",
 			"difficulty": 1,
 			"format": "multiple_choice",
 			"prompt": "«Tutti i gatti hanno quattro zampe.» Per smentirla basta…",
 			"options": [
+				"trovare un gatto senza quattro zampe",
 				"guardare anche i cani",
-				"contare molti gatti con quattro zampe",
 				"chiedere a un veterinario",
-				"trovare un gatto senza quattro zampe"
+				"contare molti gatti con quattro zampe"
 			],
 			"answer": "trovare un gatto senza quattro zampe",
 			"explanation": "Una frase con «tutti» cade con un solo controesempio. Trovare mille casi favorevoli non la dimostra; trovarne uno contrario la abbatte.",
@@ -2272,17 +1957,17 @@
 			}
 		},
 		{
-			"id": "logica-verita-72",
+			"id": "logica-verita-62",
 			"subject": "logica",
 			"topic": "verita",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "«Qualche uccello non vola.» Per dimostrarla basta…",
 			"options": [
+				"contare tutti gli uccelli",
 				"trovare un uccello che non vola",
-				"trovare molti uccelli che volano",
 				"dimostrare che nessuno vola",
-				"contare tutti gli uccelli"
+				"trovare molti uccelli che volano"
 			],
 			"answer": "trovare un uccello che non vola",
 			"explanation": "«Qualche» chiede un solo caso: il pinguino basta. È il rovescio di «tutti», che invece un solo caso lo distrugge.",
@@ -2293,17 +1978,17 @@
 			}
 		},
 		{
-			"id": "logica-quantificatori-73",
+			"id": "logica-quantificatori-63",
 			"subject": "logica",
 			"topic": "quantificatori",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "«Al massimo due gatti dormono» è vera se ne dormono…",
 			"options": [
-				"almeno due",
-				"due, uno o nessuno",
 				"due o più",
-				"esattamente due"
+				"esattamente due",
+				"due, uno o nessuno",
+				"almeno due"
 			],
 			"answer": "due, uno o nessuno",
 			"explanation": "«Al massimo» fissa un tetto e lascia libero tutto quello che sta sotto, zero compreso. È l'immagine speculare di «almeno», che fissa invece un pavimento.",
@@ -2314,7 +1999,7 @@
 			}
 		},
 		{
-			"id": "logica-quantificatori-74",
+			"id": "logica-quantificatori-64",
 			"subject": "logica",
 			"topic": "quantificatori",
 			"difficulty": 2,
@@ -2328,17 +2013,17 @@
 			}
 		},
 		{
-			"id": "logica-deduzioni-75",
+			"id": "logica-deduzioni-65",
 			"subject": "logica",
 			"topic": "deduzioni",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Tutti i cuochi sanno cucinare. Anna è una cuoca. Quindi Anna…",
 			"options": [
-				"non sa cucinare",
 				"forse sa cucinare",
-				"sa cucinare",
-				"cucina solo dolci"
+				"non sa cucinare",
+				"cucina solo dolci",
+				"sa cucinare"
 			],
 			"answer": "sa cucinare",
 			"explanation": "Se la regola vale per tutti e Anna sta nel gruppo, la conclusione è obbligata: non è probabile, è certa.",
@@ -2349,49 +2034,49 @@
 			}
 		},
 		{
-			"id": "logica-deduzioni-76",
+			"id": "logica-deduzioni-66",
 			"subject": "logica",
 			"topic": "deduzioni",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "«Tutti i cani sono mammiferi.» Fido è un mammifero. Fido è un cane?",
 			"options": [
-				"Sì, se ha quattro zampe",
+				"Non si può stabilire",
+				"Sì, se ha quattro zampe e la coda",
 				"No, di sicuro",
-				"Sì, di sicuro",
-				"Non si può stabilire"
+				"Sì, di sicuro"
 			],
 			"answer": "Non si può stabilire",
 			"explanation": "La regola dice dove stanno i cani, non chi sono tutti i mammiferi: fra i mammiferi ci sono anche gatti e balene. Sapere che Fido sta nel gruppo grande non dice in quale angolo si trovi.",
 			"distractorWhy": {
 				"Sì, di sicuro": "Questa è la regola letta al contrario: «tutti i cani sono mammiferi» non significa «tutti i mammiferi sono cani».",
 				"No, di sicuro": "Nemmeno escluderlo si può: Fido potrebbe benissimo essere un cane, semplicemente non lo sappiamo.",
-				"Sì, se ha quattro zampe": "Le zampe non compaiono nella regola, e comunque anche i gatti ne hanno quattro."
+				"Sì, se ha quattro zampe e la coda": "Le zampe non compaiono nella regola, e comunque anche i gatti ne hanno quattro."
 			}
 		},
 		{
-			"id": "logica-deduzioni-77",
+			"id": "logica-deduzioni-67",
 			"subject": "logica",
 			"topic": "deduzioni",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "«Se studio, prendo un bel voto.» Ho preso un bel voto. Allora…",
 			"options": [
+				"Vuol dire che non ho aperto un libro",
 				"Non è detto che abbia studiato",
-				"Vuol dire che ho studiato di sicuro",
 				"Vuol dire che la regola è sbagliata",
-				"Vuol dire che non ho studiato affatto"
+				"Vuol dire che ho studiato di sicuro"
 			],
 			"answer": "Non è detto che abbia studiato",
 			"explanation": "La regola promette il voto a chi studia, ma non promette che sia l'unica strada: si può prendere un bel voto anche per un argomento che già si sapeva. Dall'effetto non si risale alla causa.",
 			"distractorWhy": {
 				"Vuol dire che ho studiato di sicuro": "È la regola percorsa a rovescio: dice che studiare porta al voto, non che il voto possa venire solo da lì.",
-				"Vuol dire che non ho studiato affatto": "Non c'è nessun motivo per escluderlo: probabilmente ho studiato, semplicemente non è dimostrato.",
+				"Vuol dire che non ho aperto un libro": "Non c'è nessun motivo per escluderlo: probabilmente ho studiato, semplicemente non è dimostrato.",
 				"Vuol dire che la regola è sbagliata": "La regola regge benissimo: un bel voto è esattamente quello che prometteva."
 			}
 		},
 		{
-			"id": "logica-quantificatori-78",
+			"id": "logica-quantificatori-68",
 			"subject": "logica",
 			"topic": "quantificatori",
 			"difficulty": 4,
@@ -2399,72 +2084,72 @@
 			"prompt": "«Non è vero che tutti i bambini dormono.» Che cosa si sa di sicuro?",
 			"options": [
 				"La maggior parte non dorme",
+				"Nessun bambino dorme",
 				"Almeno un bambino non dorme",
-				"Tutti i bambini sono ben svegli",
-				"Nessun bambino dorme"
+				"Tutti i bambini sono ben svegli adesso"
 			],
 			"answer": "Almeno un bambino non dorme",
 			"explanation": "Negare un «tutti» non produce un «nessuno»: basta una sola eccezione per far cadere la frase. Il contrario di «tutti» è «almeno uno no», non «nessuno».",
 			"distractorWhy": {
 				"Nessun bambino dorme": "Sarebbe la negazione più forte possibile: per smentire «tutti» basta invece un bambino sveglio soltanto.",
 				"La maggior parte non dorme": "Il numero non si sa: potrebbe essere uno solo su cento.",
-				"Tutti i bambini sono ben svegli": "È la stessa cosa che «nessuno dorme», e serve molto di più di quanto la frase affermi."
+				"Tutti i bambini sono ben svegli adesso": "È la stessa cosa che «nessuno dorme», e serve molto di più di quanto la frase affermi."
 			}
 		},
 		{
-			"id": "logica-verita-79",
+			"id": "logica-verita-69",
 			"subject": "logica",
 			"topic": "verita",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "«Tutti i draghi di questa stanza sono verdi.» Nella stanza non c'è nessun drago. La frase è…",
 			"options": [
-				"Falsa, perché i draghi non esistono",
+				"Impossibile da giudicare senza vedere i draghi",
 				"Né vera né falsa, manca il soggetto",
-				"Vera: nessun drago la smentisce",
-				"Impossibile da giudicare senza draghi"
+				"Falsa, perché i draghi non esistono",
+				"Vera: nessun drago la smentisce"
 			],
 			"answer": "Vera: nessun drago la smentisce",
 			"explanation": "Un «tutti» cade solo se qualcuno lo smentisce. Senza draghi non c'è nessun drago non verde, quindi non c'è niente che la faccia cadere: in logica una frase così si dice vera a vuoto.",
 			"distractorWhy": {
 				"Falsa, perché i draghi non esistono": "L'esistenza non c'entra: la frase parla soltanto di quelli che ci fossero, e non ce ne sono.",
 				"Né vera né falsa, manca il soggetto": "In logica classica ogni affermazione ha uno dei due valori: non esiste una terza casella.",
-				"Impossibile da giudicare senza draghi": "Si giudica benissimo: basta cercare un controesempio, e qui non può essercene nessuno."
+				"Impossibile da giudicare senza vedere i draghi": "Si giudica benissimo: basta cercare un controesempio, e qui non può essercene nessuno."
 			}
 		},
 		{
-			"id": "logica-deduzioni-80",
+			"id": "logica-deduzioni-70",
 			"subject": "logica",
 			"topic": "deduzioni",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Anna è più veloce di Bea. Carlo è più lento di Bea. Che cosa NON si può concludere?",
 			"options": [
+				"Che Bea è la più veloce",
+				"Che Carlo è senza dubbio il più lento dei tre",
 				"Che Bea è più veloce di Carlo",
-				"Che Anna è più veloce di Carlo",
-				"Che Carlo è il più lento dei tre",
-				"Che Bea è la più veloce"
+				"Che Anna è più veloce di Carlo"
 			],
 			"answer": "Che Bea è la più veloce",
 			"explanation": "La catena mette in fila Anna, Bea, Carlo: le altre tre conclusioni si leggono lì dentro. Bea sta in mezzo, e chi sta in mezzo non è mai il primo.",
 			"distractorWhy": {
 				"Che Anna è più veloce di Carlo": "Questa segue: Anna supera Bea, che a sua volta supera Carlo.",
-				"Che Carlo è il più lento dei tre": "Questa segue: è l'ultimo della catena.",
+				"Che Carlo è senza dubbio il più lento dei tre": "Questa segue: è l'ultimo della catena.",
 				"Che Bea è più veloce di Carlo": "Questa segue: è scritto proprio nella seconda frase, al contrario."
 			}
 		},
 		{
-			"id": "logica-insiemi-81",
+			"id": "logica-insiemi-71",
 			"subject": "logica",
 			"topic": "insiemi",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Nessun quadro della sala è antico. Tutti i quadri antichi hanno la cornice d'oro. Che cosa si sa dei quadri della sala?",
 			"options": [
-				"Niente sulla loro cornice",
 				"Sono tutti moderni e senza cornice",
-				"Nessuno ha la cornice d'oro",
-				"Tutti hanno la cornice d'oro"
+				"Niente sulla loro cornice",
+				"Tutti hanno la cornice d'oro",
+				"Nessuno ha la cornice d'oro"
 			],
 			"answer": "Niente sulla loro cornice",
 			"explanation": "La seconda regola parla solo dei quadri antichi, e nella sala non ce n'è: non li tocca. Un quadro moderno con la cornice d'oro non violerebbe niente.",
@@ -2475,7 +2160,7 @@
 			}
 		},
 		{
-			"id": "logica-esclusioni-82",
+			"id": "logica-esclusioni-72",
 			"subject": "logica",
 			"topic": "esclusioni",
 			"difficulty": 4,
@@ -2483,15 +2168,15 @@
 			"prompt": "Tre scatole: una con solo mele, una con solo pere, una mista. Le etichette sono TUTTE sbagliate. Peschi un frutto dalla scatola etichettata «mista» ed è una mela. Che cos'è quella scatola?",
 			"options": [
 				"La scatola mista",
-				"La scatola delle sole mele",
 				"Non si può ancora dire",
-				"La scatola con le sole pere"
+				"La scatola delle sole mele",
+				"La scatola che contiene solo le pere"
 			],
 			"answer": "La scatola delle sole mele",
 			"explanation": "L'etichetta «mista» è sbagliata come le altre, quindi quella scatola non è mista: o è tutta mele o è tutta pere. Il frutto pescato decide quale delle due.",
 			"distractorWhy": {
 				"La scatola mista": "Le etichette sono tutte sbagliate: quella è l'unica cosa che quella scatola non può essere.",
-				"La scatola con le sole pere": "Ne è appena uscita una mela: le pere sole sono escluse.",
+				"La scatola che contiene solo le pere": "Ne è appena uscita una mela: le pere sole sono escluse.",
 				"Non si può ancora dire": "Si può: una pescata basta, proprio perché l'etichetta sbagliata ha già eliminato la terza possibilità."
 			}
 		},
@@ -2617,50 +2302,8 @@
 				"14": "Sarebbe il passo giusto sbagliando il conto: da 10 si aggiungono 3, non 4.",
 				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
 				"16": "È 4 × 4, cioè quattro quadrati staccati: qui invece sono attaccati e si risparmiano stecchini.",
-				"23": "«23» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 7, 11, 15, 19, ?».",
-				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?»."
-			}
-		},
-		{
-			"id": "logica-analogie-il-cane-sta-alla-cuccia-come-l-uccello-sta-al",
-			"subject": "logica",
-			"topic": "analogie",
-			"difficulty": 1,
-			"format": "multiple_choice",
-			"prompt": "Il cane sta alla cuccia come l'uccello sta al...",
-			"options": [
-				"cielo",
-				"becco",
-				"nido",
-				"volo"
-			],
-			"answer": "nido",
-			"explanation": "In entrambi i casi si tratta del posto in cui l'animale abita.",
-			"distractorWhy": {
-				"cielo": "Il cielo è dove vola, non la sua casa: la cuccia è la casa del cane, il nido quella dell'uccello.",
-				"becco": "Il becco è una parte del corpo dell'uccello, non il suo posto per abitare.",
-				"volo": "Il volo è un'azione, non un luogo dove abitare."
-			}
-		},
-		{
-			"id": "logica-analogie-la-penna-sta-allo-scrivere-come-le-forbici-stann",
-			"subject": "logica",
-			"topic": "analogie",
-			"difficulty": 1,
-			"format": "multiple_choice",
-			"prompt": "La penna sta allo scrivere come le forbici stanno al...",
-			"options": [
-				"cucire",
-				"misurare",
-				"disegnare",
-				"tagliare"
-			],
-			"answer": "tagliare",
-			"explanation": "In entrambi i casi si tratta di ciò per cui l'oggetto serve.",
-			"distractorWhy": {
-				"cucire": "Si cuce con ago e filo, non con le forbici.",
-				"misurare": "Si misura con il righello, non con le forbici.",
-				"disegnare": "Si disegna con la matita, non con le forbici."
+				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
+				"31": "«31» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
 			}
 		},
 		{
@@ -2737,14 +2380,14 @@
 			"answer": "18",
 			"explanation": "La regola alterna: si raddoppia, poi si toglie uno, poi si raddoppia.",
 			"distractorWhy": {
+				"7": "«7» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 1, 3, 5, 7, ?».",
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 2, 4, 6, 8, ?».",
 				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
-				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 4, 7, 10, 13, ?».",
-				"23": "«23» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 7, 11, 15, 19, ?».",
 				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
-				"30": "«30» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 6, 12, 18, 24, ?».",
-				"50": "«50» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 10, 20, 30, 40, ?»."
+				"31": "«31» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"43": "«43» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"100": "«100» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
 			}
 		},
 		{
@@ -2757,8 +2400,8 @@
 			"options": [
 				"Esattamente metà dei gatti è nera",
 				"Nessun gatto è nero",
-				"Almeno un gatto non è nero",
-				"Tutti i gatti sono di un altro colore"
+				"Tutti i gatti sono di un altro colore",
+				"Almeno un gatto non è nero"
 			],
 			"answer": "Almeno un gatto non è nero",
 			"explanation": "La negazione di «tutti» non è «nessuno»: basta un solo controesempio per smentire un «tutti».",
@@ -2776,10 +2419,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la negazione di «alcuni studenti sono in ritardo»?",
 			"options": [
+				"Nessuno studente è in ritardo",
 				"Non tutti gli studenti sono in ritardo",
 				"Tutti in ritardo",
-				"Alcuni studenti non sono in ritardo",
-				"Nessuno studente è in ritardo"
+				"Alcuni studenti non sono in ritardo"
 			],
 			"answer": "Nessuno studente è in ritardo",
 			"explanation": "«Alcuni» vuol dire almeno uno: negarlo significa dire zero, cioè nessuno.",
@@ -2797,8 +2440,8 @@
 			"format": "multiple_choice",
 			"prompt": "Ogni quadrato è un rombo e ogni rombo è un parallelogramma. Allora…",
 			"options": [
-				"Ogni quadrato è un parallelogramma",
 				"Ogni parallelogramma è un quadrato",
+				"Ogni quadrato è un parallelogramma",
 				"Nessun rombo è un quadrato",
 				"Rombo e quadrato sono la stessa figura"
 			],
@@ -2819,8 +2462,8 @@
 			"prompt": "«Se studio, passo l'esame.» Ho passato l'esame. Che cosa segue?",
 			"options": [
 				"Non ho studiato",
-				"Non si può dire se ho studiato",
 				"Ho studiato di sicuro, non c'è dubbio",
+				"Non si può dire se ho studiato",
 				"L'esame era facile"
 			],
 			"answer": "Non si può dire se ho studiato",
@@ -2841,8 +2484,8 @@
 			"options": [
 				"Ho studiato",
 				"Non si può dire niente",
-				"Non ho studiato",
-				"L'esame era troppo difficile"
+				"L'esame era troppo difficile",
+				"Non ho studiato"
 			],
 			"answer": "Non ho studiato",
 			"explanation": "Questa volta il passaggio è valido: se manca l'effetto garantito, manca anche la causa che lo garantiva.",
@@ -2860,10 +2503,10 @@
 			"format": "multiple_choice",
 			"prompt": "«Piove» e «fa freddo» possono essere ciascuna vera o falsa. Quante combinazioni diverse esistono in tutto?",
 			"options": [
+				"Quattro",
 				"Tre",
 				"Due",
-				"Otto",
-				"Quattro"
+				"Otto"
 			],
 			"answer": "Quattro",
 			"explanation": "Per ognuna delle due ci sono due possibilità, e si combinano fra loro: piove e fa freddo, piove e non fa freddo, non piove e fa freddo, non piove e non fa freddo. Con tre affermazioni sarebbero otto: ogni volta il numero raddoppia.",
@@ -2874,59 +2517,17 @@
 			}
 		},
 		{
-			"id": "logica-banda-analogie-6",
-			"subject": "logica",
-			"topic": "analogie",
-			"difficulty": 4,
-			"format": "multiple_choice",
-			"prompt": "Orologio sta a tempo come termometro sta a…",
-			"options": [
-				"temperatura",
-				"calore",
-				"altezza",
-				"acqua"
-			],
-			"answer": "temperatura",
-			"explanation": "La relazione è «strumento → grandezza che misura». Il calore e la temperatura non sono la stessa cosa.",
-			"distractorWhy": {
-				"calore": "Il calore è l'energia che il termometro rileva, ma la grandezza che misura è la temperatura.",
-				"acqua": "L'acqua può essere il liquido dentro un termometro, ma non è ciò che misura.",
-				"altezza": "L'altezza si misura con un metro, non con un termometro."
-			}
-		},
-		{
-			"id": "logica-banda-analogie-7",
-			"subject": "logica",
-			"topic": "analogie",
-			"difficulty": 4,
-			"format": "multiple_choice",
-			"prompt": "Ape sta ad alveare come formica sta a…",
-			"options": [
-				"nido",
-				"formicaio",
-				"tana sottoterra",
-				"favo di cera"
-			],
-			"answer": "formicaio",
-			"explanation": "La relazione è «animale → la sua casa». Il favo sta dentro l'alveare, non è la casa della formica.",
-			"distractorWhy": {
-				"favo di cera": "Il favo è la struttura dentro l'alveare, non la casa dell'ape nel suo insieme.",
-				"nido": "Il nido è la casa di molti uccelli, non delle formiche.",
-				"tana sottoterra": "La tana è la casa di molti mammiferi, non delle formiche."
-			}
-		},
-		{
-			"id": "logica-banda-esclusioni-8",
+			"id": "logica-banda-esclusioni-6",
 			"subject": "logica",
 			"topic": "esclusioni",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Quale non appartiene al gruppo: quadrato, rombo, cerchio, trapezio?",
 			"options": [
-				"trapezio",
-				"rombo",
+				"quadrato",
 				"cerchio",
-				"quadrato"
+				"trapezio",
+				"rombo"
 			],
 			"answer": "cerchio",
 			"explanation": "Gli altri tre sono poligoni, cioè hanno i lati dritti. Il cerchio non ne ha nessuno.",
@@ -2937,7 +2538,7 @@
 			}
 		},
 		{
-			"id": "logica-banda-sequenze-9",
+			"id": "logica-banda-sequenze-7",
 			"subject": "logica",
 			"topic": "sequenze",
 			"difficulty": 4,
@@ -2950,8 +2551,8 @@
 				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 1, 3, 5, 7, ?».",
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 2, 4, 6, 8, ?».",
 				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
-				"16": "«16» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 4, 7, 10, 13, ?».",
 				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
+				"31": "«31» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"36": "Sommerebbe solo +6 invece di +12: la differenza dopo 30 deve continuare a crescere di due in due.",
 				"40": "Sommerebbe +10 invece di +12: la crescita delle differenze non si ferma prima.",
 				"44": "Sommerebbe +14 invece di +12: la crescita delle differenze è di due in due, non di quattro in quattro."

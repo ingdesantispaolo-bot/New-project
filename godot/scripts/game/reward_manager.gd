@@ -27,7 +27,7 @@ func _cosmetics() -> Dictionary:
 ## esattamente questo, con i suoi lettori. Una chiave in meno da tenere viva.
 static func _is_unslotted(cosmetic: Dictionary) -> bool:
 	var slot := str(cosmetic.get("slot", ""))
-	return slot == "upgrade" or slot == "decor" or slot == "module"
+	return slot == "upgrade" or slot == "decor" or slot == "module" or slot == "memento"
 
 func owned(id: String) -> bool:
 	var cosmetic := RewardCatalog.find(id)
@@ -48,7 +48,23 @@ func can_unlock(id: String) -> bool:
 		return false
 	if not incontrato(id):
 		return false
+	if not conquistato(id):
+		return false
 	return save.level() >= int(cosmetic.get("minLevel", 1))
+
+## Alcuni ricordi prestigiosi non entrano in vendita arrivando in un luogo: si
+## vedono subito in anteprima, ma diventano acquistabili quando il Pericolo di
+## quel mondo e' stato davvero superato. La vittoria regala gia' il Sigillo;
+## questa e' la scelta estetica che si apre dopo.
+func conquistato(id: String) -> bool:
+	var cosmetic := RewardCatalog.find(id)
+	if cosmetic.is_empty():
+		return false
+	var world := int(cosmetic.get("requiresHazardWorld", 0))
+	if world <= 0:
+		return true
+	return Array(save.world_progress(str(world)).get("clearedHazardIds", [])).has(
+		"world-danger-%02d" % world)
 
 ## **Hai visto il posto da cui viene?** (14 agosto 2026)
 ##
@@ -87,6 +103,8 @@ func unavailable_reason(id: String) -> String:
 		return FieldTools.motivo_non_in_vendita()
 	if not incontrato(id):
 		return "Si trova a %s: passa di lì e comparirà qui." % RewardCatalog.luogo_di(id)
+	if not conquistato(id):
+		return "Supera il Pericolo di %s: il ricordo resterà qui ad aspettarti." % RewardCatalog.luogo_di(id)
 	var min_level := int(cosmetic.get("minLevel", 1))
 	if save.level() < min_level:
 		return "Richiede livello %d" % min_level
@@ -124,7 +142,7 @@ func equip(id: String) -> bool:
 	return true
 
 func unequip(slot: String) -> void:
-	if slot == "upgrade" or slot == "decor":
+	if slot == "upgrade" or slot == "decor" or slot == "memento":
 		return
 	_equip(slot, "")
 

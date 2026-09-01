@@ -3,7 +3,7 @@ extends SceneTree
 ## Audit mirato della Bottega del Relitto: verifica atlante, catalogo, dettaglio,
 ## filtri e fallback compatto senza dipendere dal resto della scena outdoor.
 
-const SHOP_SLOTS := ["bot", "avatar", "accessory", "module", "pet", "emblem", "upgrade", "decor"]
+const SHOP_SLOTS := ["bot", "avatar", "accessory", "memento", "module", "pet", "emblem", "upgrade", "decor"]
 
 func _shop_items() -> Array:
 	var items: Array = []
@@ -66,6 +66,15 @@ func _init() -> void:
 	shop.set("_state", state_with_no_fragments)
 	assert(shop.call("_requirement_color", RewardCatalog.find("bot-lime")) == Color("ef9a87"),
 		"la bottega deve colorare il costo in base ai frammenti, non all'energia")
+
+	shop.call("_select_slot", "conquest")
+	await process_frame
+	assert(get_nodes_in_group("shop_item_card").size() == 24,
+		"la collezione non mostra un Ricordo per ciascun mondo")
+	shop.call("_select_item", "memento-24-prisma-sintesi")
+	await process_frame
+	assert(str(shop.get("_selected_id")) == "memento-24-prisma-sintesi",
+		"l'ultimo Ricordo non e' selezionabile")
 
 	shop.call("_select_slot", "pet")
 	await process_frame

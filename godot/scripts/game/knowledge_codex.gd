@@ -177,9 +177,12 @@ func entry_for(subject: String, topic: String) -> Dictionary:
 		if authored.has("short"):
 			short_text = str(authored["short"])
 		elif not causale.is_empty():
-			short_text = str(causale.get("perche", short_text))
+			# `primo()` e non `get()`: venti voci hanno il perché a più livelli, e
+			# str() su un Array stampa la lista intera fra parentesi quadre dentro
+			# la scheda del bambino. Vedi `NoraExplanations.primo`.
+			short_text = NoraExplanations.primo(causale, true)
 		if not causale.is_empty() and not authored.has("strategy"):
-			strategy = str(causale.get("come", strategy))
+			strategy = NoraExplanations.primo(causale, false)
 		var example := {"prompt": str(item.get("prompt", "")), "answer": str(item.get("answer", "")), "explanation": str(item.get("explanation", ""))}
 		var typical := _typical_error(item)
 		return _entry(subject, topic, int(item.get("difficulty", 1)), short_text, example, typical, strategy)
@@ -191,9 +194,9 @@ func entry_for(subject: String, topic: String) -> Dictionary:
 	# «ESEMPIO SVOLTO» compariva solo un «Perché:» che rigirava il titolo.
 	var short_fb: String = str(authored.get("short", ""))
 	if not authored.has("short") and not causale.is_empty():
-		short_fb = str(causale.get("perche", short_fb))
+		short_fb = NoraExplanations.primo(causale, true)
 	if not causale.is_empty() and not authored.has("strategy"):
-		strategy = str(causale.get("come", strategy))
+		strategy = NoraExplanations.primo(causale, false)
 	# **Prima di arrendersi: la spiegazione può stare nel minigioco.** (15 agosto
 	# 2026) Gli argomenti serviti dai minigiochi non stanno nei banchi, quindi
 	# `_sample_item` non li trova — ma le loro spec portano spesso una
@@ -498,6 +501,20 @@ static func recall_fact(nodo: Dictionary) -> Dictionary:
 static func recall_lesson(subject: String, topic: String, spiegazione: String, nuovi: Array) -> Dictionary:
 	if nuovi.is_empty():
 		return {}
+	# **Il nome, se c'e', si da' insieme al suo posto.** (1 settembre 2026)
+	#
+	# Questa scheda nella sua prima versione diceva «• Oslo» e passava la parola.
+	# Meglio del silenzio, e comunque un regalo: il nome arriva un secondo prima
+	# della domanda e non lascia niente dietro di se'. Dove esiste una tavola di
+	# riferimento — la linea del tempo di storia, le carte di geografia — il nome
+	# arriva con la sua coordinata e con le voci vicine, cioe' con un posto in cui
+	# stare. Vedi `TavoleRiferimento`.
+	var etichette: Array = []
+	for entry in nuovi:
+		etichette.append(str((entry as Dictionary).get("label", "")))
+	var dalla_tavola := TavoleRiferimento.lezione(subject, topic, etichette, spiegazione)
+	if not dalla_tavola.is_empty():
+		return dalla_tavola
 	var righe := PackedStringArray()
 	for entry in nuovi:
 		righe.append("• %s" % str((entry as Dictionary).get("label", "")))
@@ -522,6 +539,19 @@ static func recall_lesson(subject: String, topic: String, spiegazione: String, n
 static func fact_lesson(subject: String, topic: String, criterio: String, nuovi: Array) -> Dictionary:
 	if nuovi.is_empty():
 		return {}
+	# **Tutti o nessuno.** (1 settembre 2026) La tavola di riferimento sostituisce
+	# l'elenco solo se contiene OGNI fatto pescato: un estratto che ne spiega tre
+	# su quattro lascerebbe il quarto senza niente, ed e' peggio dell'elenco nudo
+	# che almeno li dice tutti. Gli ordinamenti a insieme pescano da banchi piu'
+	# larghi delle tavole, quindi il ripiego qui sotto resta la strada normale.
+	var etichette: Array = []
+	for entry in nuovi:
+		etichette.append(str((entry as Dictionary).get("label", "")))
+	if TavoleRiferimento.copre_tutte(subject, topic, etichette):
+		var dalla_tavola := TavoleRiferimento.lezione(subject, topic, etichette, criterio)
+		if not dalla_tavola.is_empty():
+			dalla_tavola["intro"] = "Prima di ordinare, guardiamoli sulla tavola: la loro posizione e' gia' la risposta."
+			return dalla_tavola
 	var righe := PackedStringArray()
 	for entry in nuovi:
 		righe.append("• %s" % _fatto_leggibile(subject, topic, entry))

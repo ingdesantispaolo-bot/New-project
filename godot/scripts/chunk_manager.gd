@@ -24,6 +24,7 @@ var composition: WorldCompositionData
 var world_profile: Dictionary = {}
 var reserved_event_positions: Array = []
 var profile_bounds := Rect2()
+var profile_shape := PackedVector2Array()
 var active_radius := ACTIVE_RADIUS
 ## Le chiavi che possono chiudere un forziere in questo mondo ([[FieldTools]]).
 ## Si calcolano una volta in `configure`: dipendono dal solo livello, e ricavarle
@@ -39,8 +40,12 @@ func configure(seed: String, world_ref: Node = null, profile: Dictionary = {}, e
 	_varchi_del_mondo = FieldTools.varchi_del_mondo(int(world_profile.get("level", 1)))
 	if not world_profile.is_empty():
 		var ship: Vector2 = world_profile.get("shipEntrance", {}).get("position", Vector2.ZERO)
-		var half_extent := float(world_profile.get("worldHalfExtent", 2200.0))
-		profile_bounds = Rect2(ship - Vector2.ONE * half_extent, Vector2.ONE * half_extent * 2.0)
+		profile_shape = world_profile.get("worldShape", PackedVector2Array())
+		if not profile_shape.is_empty():
+			profile_bounds = WorldExpeditionLayout.bounds_of(profile_shape)
+		else:
+			var half_extent := float(world_profile.get("worldHalfExtent", 2200.0))
+			profile_bounds = Rect2(ship - Vector2.ONE * half_extent, Vector2.ONE * half_extent * 2.0)
 		var budget: Dictionary = _performance_budget(world_profile)
 		active_radius = clampi(int(floor(float(budget.get("streamRadius", 1400)) / float(CHUNK_SIZE))), 1, 2)
 	composition = WorldCompositionGenerator.generate(seed, world_profile)
@@ -75,10 +80,39 @@ func world_bounds() -> Rect2:
 	return Rect2(minimum, Vector2.ONE * span)
 
 func clamp_to_world(position: Vector2, margin: float = BOUNDARY_MARGIN) -> Vector2:
+	if not profile_shape.is_empty():
+		if contains_world_point(position, margin):
+			return position
+		var closest := profile_shape[0]
+		var best_distance := INF
+		for index in range(profile_shape.size()):
+			var a := profile_shape[index]
+			var b := profile_shape[(index + 1) % profile_shape.size()]
+			var point := Geometry2D.get_closest_point_to_segment(position, a, b)
+			var distance := position.distance_squared_to(point)
+			if distance < best_distance:
+				best_distance = distance
+				closest = point
+		var center: Vector2 = world_profile.get("worldCenter", profile_bounds.get_center())
+		return closest.move_toward(center, margin + 8.0)
 	var bounds := world_bounds()
 	return Vector2(
 		clampf(position.x, bounds.position.x + margin, bounds.end.x - margin),
 		clampf(position.y, bounds.position.y + margin, bounds.end.y - margin))
+
+func contains_world_point(position: Vector2, margin: float = 0.0) -> bool:
+	if profile_shape.is_empty():
+		return profile_bounds.grow(-margin).has_point(position) if profile_bounds.has_area() else world_bounds().grow(-margin).has_point(position)
+	if not Geometry2D.is_point_in_polygon(position, profile_shape):
+		return false
+	if margin <= 0.0:
+		return true
+	for index in range(profile_shape.size()):
+		var nearest := Geometry2D.get_closest_point_to_segment(
+			position, profile_shape[index], profile_shape[(index + 1) % profile_shape.size()])
+		if position.distance_to(nearest) < margin:
+			return false
+	return true
 
 func update_stream(position: Vector2) -> void:
 	player_position = position
@@ -87,9 +121,12 @@ func update_stream(position: Vector2) -> void:
 	var required := {}
 	for y in range(center_y - active_radius, center_y + active_radius + 1):
 		for x in range(center_x - active_radius, center_x + active_radius + 1):
-			if x < WORLD_MIN or x > WORLD_MAX or y < WORLD_MIN or y > WORLD_MAX:
+			# Le costanti 8x8 restano il fallback delle fixture storiche. Un
+			# profilo di spedizione puo' avere promontori oltre quella griglia: lo
+			# streaming resta locale e carica soltanto i chunk che toccano la sagoma.
+			if world_profile.is_empty() and (x < WORLD_MIN or x > WORLD_MAX or y < WORLD_MIN or y > WORLD_MAX):
 				continue
-			if not world_profile.is_empty() and not _chunk_rect(x, y).intersects(profile_bounds):
+			if not world_profile.is_empty() and not _chunk_intersects_playfield(_chunk_rect(x, y)):
 				continue
 			var id := "chunk-%d_%d" % [x, y]
 			required[id] = true
@@ -115,6 +152,26 @@ func _load_chunk(chunk: Dictionary, visual_lod: int = 0) -> void:
 func _chunk_rect(chunk_x: int, chunk_y: int) -> Rect2:
 	return Rect2(Vector2(chunk_x * CHUNK_SIZE, chunk_y * CHUNK_SIZE), Vector2.ONE * CHUNK_SIZE)
 
+func _chunk_intersects_playfield(rect: Rect2) -> bool:
+	if profile_shape.is_empty():
+		return rect.intersects(profile_bounds)
+	if not rect.intersects(profile_bounds):
+		return false
+	for point in profile_shape:
+		if rect.has_point(point):
+			return true
+	var corners := [rect.position, Vector2(rect.end.x, rect.position.y), rect.end, Vector2(rect.position.x, rect.end.y)]
+	for corner in corners:
+		if Geometry2D.is_point_in_polygon(corner, profile_shape):
+			return true
+	for index in range(profile_shape.size()):
+		var a := profile_shape[index]
+		var b := profile_shape[(index + 1) % profile_shape.size()]
+		for edge_index in range(4):
+			if Geometry2D.segment_intersects_segment(a, b, corners[edge_index], corners[(edge_index + 1) % 4]) != null:
+				return true
+	return false
+
 func _profile_filtered_chunk(source: Dictionary) -> Dictionary:
 	if world_profile.is_empty():
 		return source
@@ -131,7 +188,7 @@ func _profile_filtered_chunk(source: Dictionary) -> Dictionary:
 		for item in chunk.get(field, []):
 			var position := Vector2(float(item.get("x", 0.0)), float(item.get("y", 0.0)))
 			var margin := float(item.get("r", 28.0)) + (42.0 if field == "obstacles" else 56.0)
-			if not profile_bounds.grow(-18.0).has_point(position):
+			if not contains_world_point(position, margin + 18.0):
 				continue
 			if composition != null and composition.is_protected(position, margin):
 				continue
@@ -255,16 +312,19 @@ func _build_world_boundaries() -> void:
 	_add_boundary_fill(backdrop, Rect2(Vector2(bounds.position.x - BOUNDARY_DEPTH, bounds.position.y), Vector2(BOUNDARY_DEPTH, bounds.size.y)), boundary_colors[2])
 	_add_boundary_fill(backdrop, Rect2(Vector2(bounds.end.x, bounds.position.y), Vector2(BOUNDARY_DEPTH, bounds.size.y)), boundary_colors[3])
 
-	# Collisioni rettangolari continue: nessun varco tra i singoli alberi/sassi.
-	_add_boundary_collider(root, Vector2(bounds.position.x + 22.0, bounds.position.y + bounds.size.y * 0.5), Vector2(88, bounds.size.y + 180))
-	_add_boundary_collider(root, Vector2(bounds.end.x - 22.0, bounds.position.y + bounds.size.y * 0.5), Vector2(88, bounds.size.y + 180))
-	_add_boundary_collider(root, Vector2(bounds.position.x + bounds.size.x * 0.5, bounds.position.y + 22.0), Vector2(bounds.size.x + 180, 88))
-	_add_boundary_collider(root, Vector2(bounds.position.x + bounds.size.x * 0.5, bounds.end.y - 22.0), Vector2(bounds.size.x + 180, 88))
-
 	var canopy := Node2D.new()
 	canopy.name = "NaturalBoundaryCanopy"
 	canopy.y_sort_enabled = true
 	root.add_child(canopy)
+	if not profile_shape.is_empty():
+		_build_organic_boundary(root, canopy)
+		return
+
+	# Fallback storico per fixture e scene che non usano un WorldProfile.
+	_add_boundary_collider(root, Vector2(bounds.position.x + 22.0, bounds.position.y + bounds.size.y * 0.5), Vector2(88, bounds.size.y + 180))
+	_add_boundary_collider(root, Vector2(bounds.end.x - 22.0, bounds.position.y + bounds.size.y * 0.5), Vector2(88, bounds.size.y + 180))
+	_add_boundary_collider(root, Vector2(bounds.position.x + bounds.size.x * 0.5, bounds.position.y + 22.0), Vector2(bounds.size.x + 180, 88))
+	_add_boundary_collider(root, Vector2(bounds.position.x + bounds.size.x * 0.5, bounds.end.y - 22.0), Vector2(bounds.size.x + 180, 88))
 	var step := 148.0
 	var horizontal_count := ceili(bounds.size.x / step)
 	for index in range(horizontal_count + 1):
@@ -276,6 +336,33 @@ func _build_world_boundaries() -> void:
 		var y := bounds.position.y + float(index) * step
 		_add_boundary_motif(canopy, Vector2(bounds.position.x + 58.0, y), index, 2)
 		_add_boundary_motif(canopy, Vector2(bounds.end.x - 58.0, y), index, 3)
+
+func _build_organic_boundary(root: Node2D, canopy: Node2D) -> void:
+	var body := StaticBody2D.new()
+	body.name = "OrganicCoastCollision"
+	root.add_child(body)
+	var center: Vector2 = world_profile.get("worldCenter", profile_bounds.get_center())
+	var motif_index := 0
+	for index in range(profile_shape.size()):
+		var a := profile_shape[index]
+		var b := profile_shape[(index + 1) % profile_shape.size()]
+		var collision := CollisionShape2D.new()
+		var segment := SegmentShape2D.new()
+		segment.a = a
+		segment.b = b
+		collision.shape = segment
+		body.add_child(collision)
+
+		var length := a.distance_to(b)
+		var count := maxi(1, ceili(length / 148.0))
+		for step_index in range(count):
+			var amount := (float(step_index) + 0.5) / float(count)
+			var coast_point := a.lerp(b, amount)
+			# La fila sta appena dentro la collisione: nasconde il bordo tecnico e
+			# rende promontori e rientranze leggibili dalla camera.
+			var position := coast_point.move_toward(center, 54.0)
+			_add_boundary_motif(canopy, position, motif_index, index % 4)
+			motif_index += 1
 
 func _boundary_palette() -> Array[Color]:
 	match composition.visual_theme:

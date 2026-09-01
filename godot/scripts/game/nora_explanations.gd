@@ -232,9 +232,18 @@ const VOCI := {
 		"perche": "I nomi dei mestieri raccontano che cosa si fa: quasi tutti nascono dal verbo dell'azione.",
 		"come": "Togli il suffisso e cerca il verbo: «panettiere» sta al pane come «giardiniere» al giardino.",
 	},
+	# Due livelli dal 1 settembre 2026: l'argomento è passato da una manciata di
+	# voci a quaranta, perché le analogie lessicali sono arrivate qui dalla logica.
+	# Con un esercizio su quaranta la stessa riga tornerebbe troppe volte.
 	"italiano:lessico": {
-		"perche": "Le parole non stanno da sole: sinonimi, contrari e famiglie sono la mappa che permette di sceglierne una precisa.",
-		"come": "Quando cerchi una parola, prova prima il contrario di quella che non ti viene: spesso arriva più in fretta.",
+		"perche": [
+			"Le parole non stanno da sole: sinonimi, contrari e famiglie sono la mappa che permette di sceglierne una precisa.",
+			"Fra due parole c'è quasi sempre un legame preciso — il piccolo di, una parte di, il contrario di, a che cosa serve — e riconoscere QUALE legame le tiene insieme vale più che sapere le due parole: lo stesso legame torna su parole che non hai mai visto.",
+		],
+		"come": [
+			"Quando cerchi una parola, prova prima il contrario di quella che non ti viene: spesso arriva più in fretta.",
+			"Di' a voce alta come sono legate le prime due parole, con una frase intera: «il cucciolo è il piccolo del cane». Poi ripeti la stessa frase sulla seconda coppia e vedi quale parola la completa.",
+		],
 	},
 	"italiano:natura-ambiente": {
 		"perche": "Molti nomi della natura descrivono una caratteristica, non sono etichette scelte a caso.",
@@ -1294,14 +1303,10 @@ const VOCI := {
 		"perche": "Un albero delle decisioni scompone una scelta complicata in tante domande semplici sì/no, una alla volta: è più facile rispondere a dieci domande piccole che a una grande.",
 		"come": "Segui un ramo alla volta rispondendo solo alla domanda di quel nodo: non saltare avanti a immaginare la risposta finale.",
 	},
-	"logica:categorie": {
-		"perche": "Mettere le cose in categorie serve a ragionarci sopra in gruppo invece che una per una: è la base di ogni classificazione logica.",
-		"come": "Chiediti quale caratteristica condividono tutte le cose di un gruppo, e verifica che nessuna delle altre categorie la condivida.",
-	},
-	"logica:opposti": {
-		"perche": "Riconoscere due concetti opposti aiuta a capire i confini di entrambi: sapere dove finisce «caldo» dice anche dove comincia «freddo».",
-		"come": "Quando un concetto ti sembra vago, cerca il suo opposto: il confine fra i due lo definisce meglio di qualunque descrizione diretta.",
-	},
+	# «logica:categorie» e «logica:opposti» sono state tolte il 1 settembre 2026:
+	# quelle liste erano vocabolario e sono andate a italiano, dove le voci
+	# corrispondenti — «italiano:categorie» e «italiano:contrari» — esistono già.
+	# Una spiegazione senza contenuto che la serva è una scheda che non si apre.
 	"logica:schemi": {
 		"perche": "Uno schema logico si ripete: riconoscerlo in un caso nuovo è più veloce che risolvere il problema da zero ogni volta.",
 		"come": "Chiediti se hai già visto questo tipo di problema in una forma diversa: la struttura conta più dei numeri o delle parole usate.",
@@ -1425,6 +1430,23 @@ static func livelli_di(v: Dictionary, corretto: bool) -> Array:
 		if riga_testo != "":
 			puliti.append(riga_testo)
 	return puliti
+
+## **Il primo livello di una voce, come stringa.** (1 settembre 2026)
+##
+## Venti voci su 135 hanno `perche` e `come` a più livelli (un Array), e chi le
+## legge con `str()` invece che con `livelli_di()` ottiene la lista intera
+## stampata fra parentesi quadre. Non è un'ipotesi: `KnowledgeCodex.entry_for`
+## lo faceva, e la scheda del primo incontro di «geografia · capitali» — 56 item,
+## la famiglia di richiamo più numerosa del gioco — apriva così:
+##
+##     Prima di provare, guardiamo insieme: ["Le capitali quasi mai sono al
+##     centro geografico...", "Una capitale non è per forza...", "Alcune..."]
+##
+## Il primo livello è quello dell'introduzione, ed è quello che va davanti a chi
+## incontra l'argomento adesso. Gli altri arrivano dopo, con `commento`.
+static func primo(v: Dictionary, corretto: bool) -> String:
+	var livelli := livelli_di(v, corretto)
+	return str(livelli[0]) if not livelli.is_empty() else ""
 
 ## L'impronta di una riga di NORA: materia, argomento, quale delle due voci e
 ## quale livello. Serve alla memoria di `commento` e sta qui perche' chi registra

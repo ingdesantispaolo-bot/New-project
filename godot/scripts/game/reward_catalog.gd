@@ -32,7 +32,7 @@ const CATALOG := [
 	{"id": "avatar-astral", "slot": "avatar", "name": "Veste Astrale", "description": "Abito leggendario con alone e stelle sul petto.", "origine": "Veste della cattedra vuota. Era apparecchiata anche lei, e ha aspettato.", "cost": 4400, "color": 0xffd75e, "minLevel": 9},
 	# --- Accessori equipaggiabili --------------------------------------------
 	{"id": "accessory-visor", "mondo": 15, "slot": "accessory", "name": "Visore tattico", "description": "Una lente luminosa sopra il casco dell'avatar.", "origine": "Lente da diagnosi, dalla Città Macchina.", "cost": 180, "glyph": "•", "color": 0x9ff5e9},
-	{"id": "accessory-scarf", "mondo": 1, "slot": "accessory", "name": "Sciarpa fotonica", "description": "Un dettaglio caldo che segue il movimento.", "origine": "Sciarpa di Ersilia. La dà a chi finisce la conta senza sbagliare.", "cost": 280, "glyph": "=", "color": 0xf6c85f},
+	{"id": "accessory-scarf", "mondo": 1, "requiresHazardWorld": 1, "slot": "accessory", "name": "Sciarpa fotonica", "description": "Un nastro caldo che segue il movimento e conserva il ritmo regolare delle pietre stabilizzate.", "origine": "Ersilia l'ha tessuta con i fili rimasti fra le pietre del Cerchio delle quantità. La consegna soltanto a chi le ha fatte tornare a contare insieme.", "cost": 100, "glyph": "=", "color": 0xf6c85f},
 	{"id": "accessory-compass", "slot": "accessory", "name": "Bussola stellare", "description": "Piccolo segno da navigatore del Relitto.", "origine": "Bussola di Nima, che disegna mappe di posti da inventare.", "cost": 420, "glyph": "*", "color": 0x9f8cff},
 	{"id": "accessory-pack", "slot": "accessory", "name": "Zaino dati", "description": "Modulo compatto per missioni lunghe.", "origine": "Zaino da missione lunga, con dentro ancora gli appunti di qualcuno.", "cost": 540, "glyph": "◊", "color": 0x7ad7ff},
 	{"id": "accessory-crown", "slot": "accessory", "name": "Corona del metodo", "description": "Accessoria rara per chi ama spiegare ogni passo.", "origine": "Non incorona nessuno: segnala chi spiega ogni passaggio anche quando non serve.", "cost": 980, "glyph": "◊", "color": 0xffd75e},
@@ -40,6 +40,35 @@ const CATALOG := [
 	{"id": "accessory-wings", "mondo": 9, "slot": "accessory", "name": "Ali stabilizzatrici", "description": "Pannelli laterali traslucidi per il movimento.", "origine": "Pannelli dell’Arcipelago, per stare in equilibrio sulle chiuse.", "cost": 1300, "glyph": "◊", "color": 0x74f0c5, "minLevel": 6},
 	{"id": "accessory-jetpack", "mondo": 3, "slot": "accessory", "name": "Jetpack didattico", "description": "Doppio modulo dorsale con scie luminose.", "origine": "Prototipo del Cratere Logico. Funziona; nessuno sa ancora perché.", "cost": 1700, "glyph": "^", "color": 0xffb85c, "minLevel": 7},
 	{"id": "accessory-halo", "mondo": 24, "slot": "accessory", "name": "Aureola prismatica", "description": "Anello raro sospeso sopra l'avatar.", "origine": "Anello prismatico del Cuore. Si accende quando dodici sistemi sono in linea.", "cost": 2600, "glyph": "o", "color": 0xffd75e, "minLevel": 8},
+	# --- Ricordi dei Pericoli del Mondo ---------------------------------------
+	# La Sciarpa fotonica qui sopra e' il Ricordo del mondo 1 e resta indossabile.
+	# Gli altri ventitre sono oggetti da collezione permanenti: la bottega li
+	# riunisce nella sezione RICORDI, ma non promettono un effetto che il mondo non
+	# rende. Il costo coincide col premio del Pericolo del relativo tier: vincere
+	# rende possibile scegliere subito il ricordo, senza consegnarlo d'ufficio.
+	{"id": "memento-02-foglia-sintassi", "mondo": 2, "requiresHazardWorld": 2, "slot": "memento", "motif": "vine_book", "name": "Foglia di sintassi", "description": "Un segnalibro vivo: le nervature tengono separate le parti della frase.", "origine": "Si è staccata dalla Frase rampicante quando le parole hanno smesso di stringersi fra loro.", "cost": 100, "glyph": "V", "color": 0x9bd58b},
+	{"id": "memento-03-gradino-ritorno", "mondo": 3, "requiresHazardWorld": 3, "slot": "memento", "motif": "step_stone", "name": "Gradino di ritorno", "description": "Una pietra a tre livelli che ritrova sempre la propria sequenza.", "origine": "Era sul bordo della Frana dei passi. Dopo la stabilizzazione ha smesso di cadere e si è incastrata così.", "cost": 100, "glyph": "3", "color": 0xff9f5a},
+	{"id": "memento-04-boa-dei-tempi", "mondo": 4, "requiresHazardWorld": 4, "slot": "memento", "motif": "signal_buoy", "name": "Boa dei tempi", "description": "Una piccola boa con tre luci: prima, adesso e dopo.", "origine": "Galleggiava nella Nebbia dei verbi. Ora lampeggia in ordine e il faro riesce a leggerla.", "cost": 100, "glyph": "T", "color": 0x62d8ff},
+	{"id": "memento-05-giunto-misura", "mondo": 5, "requiresHazardWorld": 5, "slot": "memento", "motif": "rail_caliper", "name": "Giunto di misura", "description": "Due ganasce di rotaia che conservano la distanza corretta.", "origine": "Ruggine lo ha tolto dal Binario delle misure dopo l'ultimo allineamento: non scivola più di un millimetro.", "cost": 100, "glyph": "=", "color": 0xe8b45d},
+	{"id": "memento-06-seme-risonante", "mondo": 6, "requiresHazardWorld": 6, "slot": "memento", "motif": "resonant_seed", "name": "Seme risonante", "description": "Un seme di cristallo che vibra soltanto quando il ritmo si chiude.", "origine": "È rimasto a terra dopo che l'Eco delle frasi ha pronunciato per la prima volta un periodo intero.", "cost": 120, "glyph": "~", "color": 0xe09cff},
+	{"id": "memento-07-tessera-indivisa", "mondo": 7, "requiresHazardWorld": 7, "slot": "memento", "motif": "mosaic_tile", "name": "Tessera indivisa", "description": "Una losanga ricomposta: ogni parte porta ancora la propria linea.", "origine": "Proviene dal Mosaico delle frazioni. I bordi combaciano solo nella posizione trovata durante la prova.", "cost": 120, "glyph": "+", "color": 0xd9b36c},
+	{"id": "memento-08-bobina-periodo", "mondo": 8, "requiresHazardWorld": 8, "slot": "memento", "motif": "circuit_coil", "name": "Bobina del periodo", "description": "Tre spire collegate come soggetto, verbo e completamento.", "origine": "Il Delta la espelleva a ogni scarica. Stabilizzato il circuito, la bobina ha tenuto il periodo senza spezzarlo.", "cost": 120, "glyph": "S", "color": 0x58e5d2},
+	{"id": "memento-09-ago-cartografico", "mondo": 9, "requiresHazardWorld": 9, "slot": "memento", "motif": "map_needle", "name": "Ago cartografico", "description": "Una bussola a due assi che conserva scala e punto d'origine.", "origine": "Era l'unico ago rimasto fermo nella Rotta delle coordinate mentre la corrente cancellava i riferimenti.", "cost": 120, "glyph": "+", "color": 0x7fb8ff},
+	{"id": "memento-10-ampolla-accento", "mondo": 10, "requiresHazardWorld": 10, "slot": "memento", "motif": "pollen_vial", "name": "Ampolla d'accento", "description": "Polline luminoso che si posa sempre sulla sillaba giusta.", "origine": "Raccolto nella Serra dopo che le Spore degli accenti hanno smesso di spostare il suono delle parole.", "cost": 120, "glyph": "'", "color": 0x8ee66f},
+	{"id": "memento-11-sabbia-ordine", "mondo": 11, "requiresHazardWorld": 11, "slot": "memento", "motif": "order_hourglass", "name": "Sabbia d'ordine", "description": "Una clessidra in cui ogni granello aspetta il passaggio precedente.", "origine": "Gli strati della Soglia l'hanno lasciata emergere quando la Clessidra delle operazioni è tornata a scorrere in ordine.", "cost": 140, "glyph": "X", "color": 0xe7c27a},
+	{"id": "memento-12-chiave-regola", "mondo": 12, "requiresHazardWorld": 12, "slot": "memento", "motif": "rule_key", "name": "Chiave della regola", "description": "Una chiave a denti mobili che conserva una sola configurazione coerente.", "origine": "Il Labirinto l'ha formata quando la Regola spezzata è diventata una frase completa e verificabile.", "cost": 140, "glyph": "K", "color": 0xa9b8ff},
+	{"id": "memento-13-anello-rapporto", "mondo": 13, "requiresHazardWorld": 13, "slot": "memento", "motif": "orbit_ring", "name": "Anello di rapporto", "description": "Due orbite solidali: allargando una, l'altra mantiene la proporzione.", "origine": "Recuperato dalla duna centrale dopo che l'Orbita delle proporzioni ha smesso di deviare le traiettorie.", "cost": 140, "glyph": "o", "color": 0xffc65c},
+	{"id": "memento-14-conchiglia-legami", "mondo": 14, "requiresHazardWorld": 14, "slot": "memento", "motif": "chorus_shell", "name": "Conchiglia dei legami", "description": "Una conchiglia d'archivio: avvicinandola si sentono voci diverse senza che si coprano.", "origine": "È comparsa nella Biblioteca quando il Coro dei connettivi ha ricominciato a collegare le voci invece di confonderle.", "cost": 140, "glyph": "C", "color": 0xf0a6d8},
+	{"id": "memento-15-nodo-quieto", "mondo": 15, "requiresHazardWorld": 15, "slot": "memento", "motif": "network_node", "name": "Nodo quieto", "description": "Un nucleo a quattro porte che non riaccende più gli errori già risolti.", "origine": "La Città Macchina lo ha espulso dalla Rete dei calcoli alla prima esecuzione completata senza riavvii.", "cost": 140, "glyph": "+", "color": 0x63e6ff},
+	{"id": "memento-16-placca-varco", "mondo": 16, "requiresHazardWorld": 16, "slot": "memento", "motif": "verb_gate", "name": "Placca del varco", "description": "Una targhetta girevole le cui tre finestre ora mostrano lo stesso tempo.", "origine": "Era fissata sopra il Varco dei verbi. I mercanti l'hanno smontata quando le insegne hanno smesso di cambiare da sole.", "cost": 160, "glyph": "V", "color": 0xffad72},
+	{"id": "memento-17-ampolla-equilibrio", "mondo": 17, "requiresHazardWorld": 17, "slot": "memento", "motif": "pressure_ampoule", "name": "Ampolla d'equilibrio", "description": "Due camere d'acqua restano alla stessa pressione pur avendo forme diverse.", "origine": "Risalita dall'Oceano quando la Corrente delle frazioni ha riconosciuto parti equivalenti.", "cost": 160, "glyph": "=", "color": 0x69c8ff},
+	{"id": "memento-18-diapason-riverbero", "mondo": 18, "requiresHazardWorld": 18, "slot": "memento", "motif": "echo_fork", "name": "Diapason del riverbero", "description": "Le due branche rispondono con una frase e la sua eco, nello stesso ordine.", "origine": "Una canna della Cattedrale lo ha lasciato cadere quando il Riverbero delle frasi ha smesso di rimandare parole fuori posto.", "cost": 160, "glyph": "Y", "color": 0xd8a6ff},
+	{"id": "memento-19-medaglione-radici", "mondo": 19, "requiresHazardWorld": 19, "slot": "memento", "motif": "root_medallion", "name": "Medaglione delle radici", "description": "Un disco inciso da cui parole diverse tornano a una stessa radice.", "origine": "Le radici della Necropoli lo hanno liberato allentando il Sigillo dei rapporti attorno alle quantità confrontate.", "cost": 160, "glyph": "R", "color": 0xb9a06b},
+	{"id": "memento-20-fibbia-concordanza", "mondo": 20, "requiresHazardWorld": 20, "slot": "memento", "motif": "storm_clasp", "name": "Fibbia di concordanza", "description": "Due metà di metallo temporalesco si chiudono soltanto quando forma e numero concordano.", "origine": "Si è saldata nel Campo delle concordanze durante l'ultima scarica della Tempesta.", "cost": 160, "glyph": "=", "color": 0x8de8ff},
+	{"id": "memento-21-scheggia-scala", "mondo": 21, "requiresHazardWorld": 21, "slot": "memento", "motif": "scale_shard", "name": "Scheggia di scala", "description": "Un frammento di atlante con due misure diverse della stessa distanza.", "origine": "Proviene dalla Faglia delle scale. Le due incisioni coincidono soltanto dopo aver applicato la conversione corretta.", "cost": 180, "glyph": "/", "color": 0xe59c6c},
+	{"id": "memento-22-capsula-periodo", "mondo": 22, "requiresHazardWorld": 22, "slot": "memento", "motif": "spore_capsule", "name": "Capsula del periodo", "description": "Una membrana bioluminescente custodisce una frase completa senza assorbirla.", "origine": "La Biosfera l'ha espulsa quando il Polline dei periodi non ha più trovato frasi interrotte di cui nutrirsi.", "cost": 180, "glyph": "O", "color": 0x76efb2},
+	{"id": "memento-23-quadrante-ere", "mondo": 23, "requiresHazardWorld": 23, "slot": "memento", "motif": "era_dial", "name": "Quadrante delle ere", "description": "Quattro lancette segnano durate diverse senza sovrapporre gli avvenimenti.", "origine": "I copisti della Sala lo hanno fermato quando il Cronometro dei rapporti ha restituito a ogni evento il proprio tempo.", "cost": 180, "glyph": "T", "color": 0xf0c879},
+	{"id": "memento-24-prisma-sintesi", "mondo": 24, "requiresHazardWorld": 24, "slot": "memento", "motif": "synthesis_prism", "name": "Prisma della sintesi", "description": "Ventiquattro facce raccolgono gesti diversi e restituiscono una sola luce leggibile.", "origine": "Il Cuore dei Primi lo ha lasciato nella camera quando l'Eco della sintesi ha separato di nuovo azioni e significati.", "cost": 180, "glyph": "*", "color": 0xffd75e},
 	# --- Strumenti da esplorazione -------------------------------------------
 	# Cambiano leggibilità/percorribilità di POI opzionali, senza alterare
 	# mastery, gate o ricompense didattiche.
@@ -128,7 +157,9 @@ const CATALOG := [
 ## chiede di aver finito niente, basta che la rotta sia aperta — ed è per questo
 ## che può esistere in un gioco dove niente di opzionale può bloccare niente.
 ##
-## **Trenta voci su cinquantotto.** Le altre restano sempre disponibili, e non è
+## Le voci di provenienza ordinaria entrano arrivando nel mondo; i 24 Ricordi
+## dei Pericoli si vedono in anteprima ma chiedono anche la stabilizzazione del
+## luogo. Le altre restano sempre disponibili, e non è
 ## una svista: sono la roba della nave e dei Dodici (le tute di parata, il
 ## mantello di chi comanda, la sonda di servizio), quella degli itineranti che
 ## girano tutti i mondi, e i moduli — che toccano il gameplay e non possono
@@ -160,3 +191,20 @@ static func by_slot(slot: String) -> Array:
 		if str(cosmetic.get("slot", "")) == slot:
 			items.append(cosmetic)
 	return items
+
+## La collezione trasversale dei Pericoli: comprende anche la Sciarpa fotonica,
+## che resta un accessorio equipaggiabile, senza duplicare la voce nel catalogo.
+static func conquest_items() -> Array:
+	var items: Array = []
+	for cosmetic in CATALOG:
+		if int(cosmetic.get("requiresHazardWorld", 0)) > 0:
+			items.append(cosmetic)
+	items.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
+		return int(a.get("requiresHazardWorld", 0)) < int(b.get("requiresHazardWorld", 0)))
+	return items
+
+static func conquest_for_world(world: int) -> Dictionary:
+	for cosmetic in CATALOG:
+		if int(cosmetic.get("requiresHazardWorld", 0)) == world:
+			return cosmetic
+	return {}

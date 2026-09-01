@@ -135,7 +135,12 @@ const TETTO := {
 	"inglese": 25.3,
 	"italiano": 24.8,
 	"latino": 23.8,
-	"logica": 21.0,
+	# Scesa a 20,1 il 1 settembre 2026 riscrivendo le sequenze aritmetiche: dieci
+	# volte «quale numero continua» sono diventate quattro «continua», tre «quale
+	# sta al decimo posto» e tre «a che posto sta questo numero». Erano aritmetica
+	# con l'etichetta della logica: si rispondeva sommando la differenza all'ultimo
+	# termine, senza mai formulare una regola.
+	"logica": 20.1,
 	"matematica": 24.3,
 	"musica": 23.7,
 	"scienze": 22.1,

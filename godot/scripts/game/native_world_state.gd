@@ -57,6 +57,9 @@ static func empty_result() -> Dictionary:
 		"collectedTreasureIds": [],
 		"guardianWins": 0,
 		"unlockedRewards": [],
+		# Riconoscimenti ottenuti in questa uscita. Sono testimonianze del
+		# percorso, non valuta e non progressione didattica.
+		"recognitionsEarned": [],
 	}
 
 static func result_for(request: Dictionary) -> Dictionary:

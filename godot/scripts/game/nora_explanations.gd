@@ -892,8 +892,14 @@ const VOCI := {
 
 	# -- musica -----------------------------------------------------------------
 	"musica:dinamica": {
-		"perche": "Il forte e il piano non sono decorazioni: sono il modo in cui la musica dice che cosa è importante in quel momento.",
-		"come": "Ricorda che i segni sono relativi: un «piano» dopo un «fortissimo» è più forte di un «piano» da solo.",
+		"perche": [
+			"La dinamica indica quanto intenso deve essere un suono. Piano significa delicato, forte significa energico: non cambiano né la nota né la velocità.",
+			"Una dinamica può restare uguale oppure cambiare poco a poco: crescendo vuol dire sempre più forte, diminuendo sempre più piano.",
+		],
+		"come": [
+			"Prima separa le tre domande: quanto è alto il suono, quanto dura e quanto è forte. La dinamica risponde soltanto all'ultima.",
+			"Leggi i segni come una scala di intensità: pp, p, mp, mf, f, ff. Più lettere f vedi, più energia serve; più p, più delicatezza.",
+		],
 	},
 	# Gli accordi vivono sotto questo argomento (banco musica, agosto 2026): un
 	# accordo È un impilamento di intervalli, e il mondo 18 promette «armonia»
@@ -901,20 +907,50 @@ const VOCI := {
 	# la soglia di `topic_density_audit`. La voce copre quindi tutte e due le
 	# direzioni: quella orizzontale della melodia e quella verticale dell'accordo.
 	"musica:intervalli": {
-		"perche": "L'intervallo è la distanza fra due note: uno dopo l'altro rende una melodia riconoscibile anche cantata più in alto, tre impilati insieme fanno un accordo.",
-		"come": "Conta le note comprese, prima e ultima incluse: da do a sol sono cinque note, quindi una quinta. Per costruire un accordo sali invece di terza in terza: do, mi, sol.",
+		"perche": [
+			"Un intervallo è semplicemente la distanza fra due note. Come fra due gradini, può essere piccolo o grande; per ora gli diamo un nome contando i gradini musicali.",
+			"Gli intervalli sono la forma della melodia: se tutte le note vengono spostate più in alto ma le distanze restano uguali, riconosci ancora la stessa canzone.",
+			"Quando note diverse suonano insieme nasce l'armonia. Una triade è un accordo di tre note costruito sovrapponendo due intervalli di terza, per esempio do–mi–sol.",
+		],
+		"come": [
+			"Pronuncia tutti i nomi dalla prima nota alla seconda e conta anche gli estremi: do–re–mi contiene tre nomi, quindi è una terza.",
+			"Prima conta il nome dell'intervallo; soltanto dopo, quando serve, guarda i tasti del pianoforte e conta i semitoni.",
+			"Per un accordo leggi le note in verticale, tutte nello stesso istante; per una melodia leggile in orizzontale, una dopo l'altra.",
+		],
 	},
 	"musica:lettura": {
-		"perche": "Il pentagramma serve a scrivere l'altezza: più in alto sul rigo, più acuta la nota. È una mappa, non un codice.",
-		"come": "Trova prima la chiave: dice quale nota sta su quale riga, e senza quella tutto il resto non si può leggere.",
+		"perche": [
+			"Il pentagramma è una scala disegnata con cinque righe: una nota più in alto produce un suono più acuto, una più in basso un suono più grave. Anche gli spazi sono gradini.",
+			"La chiave di violino è il cartello che fissa il Sol sulla seconda riga. Da quel punto puoi ricavare tutte le altre note salendo o scendendo un gradino alla volta.",
+		],
+		"come": [
+			"Individua prima se la nota tocca una riga o sta in uno spazio; poi conta dal basso senza mescolare righe e spazi.",
+			"Usa il Sol della seconda riga come ancora: salendo trovi La nello spazio, Si sulla riga, Do nello spazio; scendendo trovi Fa nello spazio e Mi sulla riga.",
+		],
 	},
 	"musica:note": {
-		"perche": "I nomi delle note vengono dalle prime sillabe di un inno latino: non sono simboli inventati a caso.",
-		"come": "Le note si ripetono ogni sette: quando arrivi a si, ricominci da do più in alto.",
+		"perche": [
+			"Un suono può essere grave come un tuono o acuto come un fischio. Le note sono nomi dati a sette gradini di altezza: Do, Re, Mi, Fa, Sol, La, Si.",
+			"Dopo il Si i nomi ricominciano da Do, ma più in alto: è come salire al piano successivo di una scala con gli stessi sette cartelli.",
+			"Fra alcuni gradini c'è un passo più piccolo, il semitono. Sul pianoforte lo riconosci perché fra Mi–Fa e Si–Do non c'è un tasto nero.",
+		],
+		"come": [
+			"Prima decidi soltanto la direzione: il suono sale verso l'acuto o scende verso il grave? Poi recita i nomi nell'ordine.",
+			"Se superi il Si, non fermarti: riparti da Do. Se scendi sotto il Do, torna al Si dell'ottava precedente.",
+			"Usa la tastiera come una mappa: ogni tasto vicino è un semitono, bianco o nero che sia.",
+		],
 	},
 	"musica:ritmo": {
-		"perche": "Il ritmo è la durata, non l'altezza: due brani con le stesse note ma ritmi diversi sono due brani diversi.",
-		"come": "Somma le durate della battuta e controlla che facciano quello che dice il numero in alto: se non torna, manca qualcosa.",
+		"perche": [
+			"La pulsazione è il passo regolare che puoi battere con la mano. Il ritmo decide che cosa accade su quei passi: un suono, un suono tenuto oppure un silenzio.",
+			"Le figure sono durate: la semiminima vale un battito, la minima due, la semibreve quattro e la croma mezzo. La posizione sul pentagramma non cambia quanto durano.",
+			"Una battuta raccoglie un numero preciso di battiti. In 4/4 deve fare quattro: anche le pause contano, perché il silenzio ha una durata.",
+		],
+		"come": [
+			"Batti una pulsazione regolare e pronuncia «TA» quando c'è un suono, restando zitto ma continuando a battere quando c'è una pausa.",
+			"Trasforma ogni figura in un numero di battiti e somma: minima 2 più due semiminime da 1 fa 4.",
+			"Se la somma non coincide con il numero sopra del tempo, cerca una figura o una pausa mancante; non cambiare il valore delle altre.",
+		],
 	},
 	"musica:strumenti": {
 		"perche": "Gli strumenti si raggruppano per come producono il suono, non per come sono fatti: è la vibrazione che li classifica.",
@@ -925,8 +961,14 @@ const VOCI := {
 		"come": "Il numero sopra conta i battiti, quello sotto dice quale nota ne vale uno. Sono due informazioni, non una frazione.",
 	},
 	"musica:timbro": {
-		"perche": "Il timbro è quello che ti fa riconoscere chi sta suonando anche quando la nota è identica.",
-		"come": "Se due suoni hanno la stessa altezza ma li distingui lo stesso, quello che stai sentendo è il timbro.",
+		"perche": [
+			"Il timbro è il colore del suono: ti fa riconoscere un flauto e un violino anche quando eseguono la stessa nota, alla stessa intensità e per la stessa durata.",
+			"Il timbro cambia perché non vibra la stessa cosa: nel violino vibra una corda, nel flauto una colonna d'aria, nel tamburo una pelle. Ogni vibrazione aggiunge al suono sfumature diverse.",
+		],
+		"come": [
+			"Confronta due suoni tenendo ferme altezza e intensità. Se riconosci ancora due strumenti o due voci diverse, la differenza rimasta è il timbro.",
+			"Cerca l'attacco e la materia del suono: è secco o morbido, brillante o scuro, continuo o percosso? Questi indizi portano alla famiglia dello strumento.",
+		],
 	},
 	"musica:compositori": {
 		"perche": "Ogni compositore scrive dentro lo stile della sua epoca, e riconoscerlo aiuta a capire perché un brano suona in un certo modo e non in un altro.",

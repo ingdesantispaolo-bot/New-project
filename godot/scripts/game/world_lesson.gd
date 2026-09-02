@@ -126,9 +126,9 @@ const LESSONS := {
 	},
 	6: {
 		"subject": "musica",
-		"objectives": ["Riconoscere le note e la loro altezza.", "Leggere e riprodurre un ritmo semplice.", "Distinguere gli intervalli tra due note."],
-		"prerequisites": ["Distinguere suoni acuti e gravi.", "Battere un tempo regolare."],
-		"topics": ["note", "ritmo", "intervalli"],
+		"objectives": ["Distinguere suono grave e acuto e riconoscere l'ordine delle note.", "Leggere le note di base sul pentagramma in chiave di violino.", "Costruire una battuta semplice contando suoni e silenzi.", "Misurare un intervallo semplice contando le note comprese."],
+		"prerequisites": ["Nessuna conoscenza di note o spartiti.", "Saper ascoltare un suono e battere le mani: grave/acuto e pulsazione vengono insegnati qui."],
+		"topics": ["note", "lettura", "ritmo", "intervalli"],
 		"conceptActions": [
 			{"concept": "altezza delle note", "worldAction": "accorda i cristalli disponendoli dal grave all'acuto"},
 			{"concept": "ritmo", "worldAction": "batti la sequenza ritmica giusta per far vibrare l'albero risonante"},
@@ -136,8 +136,8 @@ const LESSONS := {
 		],
 		"transferTest": {"description": "Una melodia o un ritmo nuovo: riconosci la nota o la durata mancante.", "formats": ["matching", "ordering", "graph", "multiple_choice"], "novelContext": true},
 		"nora": {
-			"briefing": "Il Giardino della Risonanza suona se lo accordi. Oggi impari note, ritmo e intervalli: la musica come struttura. Ogni accordo giusto riaccende un mio circuito sonoro.",
-			"onError": "Aggancia la nota guida, poi conta posizione e intervallo.",
+			"briefing": "Non serve conoscere già la musica: partiamo da ciò che puoi sentire e battere con le mani. Prima distingui grave e acuto, poi diamo un nome alle note; dopo leggiamo il pentagramma, contiamo le durate e soltanto alla fine misuriamo piccoli intervalli. Ogni prova arriva dopo la sua spiegazione.",
+			"onError": "Fermati alla sola cosa che stai leggendo: altezza, durata o distanza. Poi usa l'esempio appena visto.",
 			"onStreak": "Senti la struttura sotto la melodia: continua.",
 			"debrief": "Il giardino canta con te. Non pensavo di poter tornare a sentire la musica.",
 		},
@@ -379,8 +379,8 @@ const LESSONS := {
 		],
 		"transferTest": {"description": "Un brano nuovo: riconosci armonia, dinamica o timbro richiesti.", "formats": ["matching", "ordering", "graph", "multiple_choice"], "novelContext": true},
 		"nora": {
-			"briefing": "La Cattedrale del Suono vive di armonia e riverbero. Oggi impari accordi, dinamica e timbri: la musica come insieme. Ogni armonia giusta ricompone un mio ricordo in frammenti.",
-			"onError": "Aggancia la nota guida, poi ascolta l'insieme.",
+			"briefing": "Riprendiamo le basi del Giardino: altezza, durata e intervallo. Ora aggiungiamo una cosa per volta: più note insieme formano l'armonia; piano e forte cambiano l'intensità; il timbro rivela chi sta suonando. Prima ascolti e osservi un esempio, poi ricostruisci tu il suono della Cattedrale.",
+			"onError": "Chiediti che cosa è cambiato: le note insieme, l'intensità oppure il colore dello strumento. Una sola di queste tre cose decide la risposta.",
 			"onStreak": "Senti l'insieme, non solo la nota: continua.",
 			"debrief": "In questo riverbero sento intero un ricordo che era in pezzi.",
 		},

@@ -127,6 +127,14 @@ const PHYSICS_CURRICULUM_TOPICS := [
 	"pressione", "galleggiamento", "correnti",
 ]
 
+## Materie in cui i due mondi sono un corso, non una semplice vetrina del banco.
+##
+## In musica il catalogo contiene anche chiavi, alterazioni, compositori, tempi e
+## armonia avanzata. Sono contenuti validi, ma non sono prerequisiti impliciti di
+## un bambino al primo incontro: una missione può chiedere soltanto i topic che
+## la lezione del mondo dichiara e che NORA presenta prima del relativo nodo.
+const STRICT_LESSON_SUBJECTS := ["fisica", "musica"]
+
 var _cache: Dictionary = {}  # subject -> Array item
 var _difficulty_ranges: Dictionary = {}  # subject -> Vector2i(min,max) difficoltà nel banco
 var _topic_counts: Dictionary = {}  # subject -> int argomenti distinti (cache copertura)
@@ -554,13 +562,20 @@ func build_mission(subject: String, level: int, node_count: int = 3, review_due:
 	var lesson_weak_pool: Array = [] # argomenti del mondo, ancora deboli
 	var lesson_near_pool: Array = [] # argomenti del mondo
 	var done_pool: Array = []        # prove già superate: ultima risorsa
+	var eligible_items: Array = []  # stesso perimetro didattico, anche nei fallback
 	for item in items:
 		var topic := str(item.get("topic", ""))
 		# Nei due mondi di fisica il perimetro è stretto: una domanda fuori
 		# lezione entra soltanto se è un ripasso già dovuto.
-		if subject == "fisica" and not lesson.is_empty() and not lesson.has(topic) \
+		if subject in STRICT_LESSON_SUBJECTS and not lesson.is_empty() and not lesson.has(topic) \
 				and int(review_due.get("%s:%s" % [subject, topic], 0)) <= 0:
 			continue
+		# Il primo mondo di musica costruisce l'alfabeto sonoro. La banda 3
+		# contiene già alterazioni, triadi e metri composti: non sono una versione
+		# più difficile delle basi, sono concetti successivi e restano al mondo 18.
+		if subject == "musica" and level == 6 and int(item.get("difficulty", 1)) > 2:
+			continue
+		eligible_items.append(item)
 		var done := _e_superata(superate, item)
 		if int(review_due.get("%s:%s" % [subject, topic], 0)) > 0:
 			if done:
@@ -585,7 +600,7 @@ func build_mission(subject: String, level: int, node_count: int = 3, review_due:
 	if review_pool.is_empty() and weak_near_pool.is_empty() and near_pool.is_empty() \
 			and lesson_weak_pool.is_empty() and lesson_near_pool.is_empty() \
 			and review_done_pool.is_empty() and done_pool.is_empty():
-		near_pool = items.duplicate()
+		near_pool = eligible_items.duplicate()
 	var chosen: Array = []
 	# Priorità: ripasso spaziato → argomenti del mondo (quota morbida) → argomenti
 	# deboli → resto vicino → di nuovo argomenti del mondo → riempimento.
@@ -605,8 +620,8 @@ func build_mission(subject: String, level: int, node_count: int = 3, review_due:
 	# da chiedere in questa materia. Prima del riempimento casuale, che pescherebbe
 	# anche fuori dalla difficoltà giusta.
 	_drain_into(chosen, done_pool, node_count, generator, false)
-	while chosen.size() < node_count and not items.is_empty():
-		chosen.append(items[generator.randi_range(0, items.size() - 1)].duplicate())
+	while chosen.size() < node_count and not eligible_items.is_empty():
+		chosen.append(eligible_items[generator.randi_range(0, eligible_items.size() - 1)].duplicate())
 	return _session(subject, level, chosen)
 
 ## Quota dei nodi riservata agli argomenti che la LEZIONE del mondo promette.
@@ -997,6 +1012,11 @@ static func mc_target_for(subject: String) -> float:
 const FORMATI_DA_SOSTITUIRE := {
 	"elettronica": ["multiple_choice", "short_answer"],
 	"logica": ["multiple_choice", "numeric_input"],
+	# Nei corsi a perimetro stretto le campate sono più numerose dei topic e un
+	# duplicato può cadere anche su risposta breve o numerica. La seconda prova
+	# viene trasformata in un gesto diverso, senza introdurre un altro argomento.
+	"fisica": ["multiple_choice", "short_answer", "numeric_input"],
+	"musica": ["multiple_choice", "short_answer", "numeric_input"],
 }
 
 static func formati_da_sostituire(subject: String) -> Array:
@@ -1036,7 +1056,10 @@ func build_varied_mission(subject: String, level: int, node_count: int = 3, revi
 	# Dove la materia ha dichiarato quella scelta, la sostituzione preferisce i
 	# formati in cui il gesto è la competenza. Le altre dieci non cambiano.
 	var preferiti: Array = FORMATI_MANIPOLATIVI if mc_target_for(subject) <= 0.0 else []
-	session["nodes"] = inject_non_mc(nodes, subject, level, to_replace, generator, preferiti)
+	var vari: Array = inject_non_mc(nodes, subject, level, to_replace, generator, preferiti)
+	# Dopo il mix, nessun bambino deve ricevere due volte lo stesso argomento con
+	# lo stesso gesto nella stessa missione: sarebbe ripetizione, non rinforzo.
+	session["nodes"] = _sciogli_doppioni(vari, subject, level, generator)
 	return session
 
 # Arrotonda a intero mantenendo la media: la parte frazionaria diventa la
@@ -1128,7 +1151,8 @@ func inject_non_mc(nodes: Array, subject: String, level: int, count: int, rng: R
 			if ExerciseInteraction.is_multiple_choice(n):
 				continue
 			# Un formato più visuale non può cambiare di nascosto la competenza.
-			if subject == "fisica" and not topic_consentiti.has(str(n.get("topic", ""))):
+			if subject in STRICT_LESSON_SUBJECTS and not topic_consentiti.is_empty() \
+					and not topic_consentiti.has(str(n.get("topic", ""))):
 				continue
 			# DUE chiavi, per due scopi diversi — e questa volta la distinzione è
 			# deliberata e dichiarata, non un incidente come lo era prima della Fase 0.

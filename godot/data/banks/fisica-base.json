@@ -550,7 +550,1016 @@
 			}
 		},
 		{
-			"id": "fisica-misure-0",
+			"id": "fisica-leve-0",
+			"subject": "fisica",
+			"topic": "leve",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Nelle forbici, qual è il fulcro?",
+			"options": [
+				"Le lame",
+				"I manici",
+				"La vite centrale",
+				"La mano"
+			],
+			"answer": "La vite centrale",
+			"explanation": "Le due parti ruotano attorno alla vite centrale: quello è il fulcro.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-leve-1",
+			"subject": "fisica",
+			"topic": "leve",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "In un'altalena a bilico, che cosa succede se due bambini uguali siedono alla stessa distanza dal centro?",
+			"options": [
+				"Scende sempre quello a sinistra",
+				"L'altalena gira",
+				"Scendono entrambi",
+				"Restano in equilibrio"
+			],
+			"answer": "Restano in equilibrio",
+			"explanation": "Pesi e distanze uguali producono lo stesso effetto sui due lati.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-leve-2",
+			"subject": "fisica",
+			"topic": "leve",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale oggetto funziona come una leva?",
+			"options": [
+				"Un apribottiglie",
+				"Un bicchiere",
+				"Un cuscino",
+				"Una palla"
+			],
+			"answer": "Un apribottiglie",
+			"explanation": "L'apribottiglie ruota su un punto d'appoggio e solleva il tappo.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-leve-3",
+			"subject": "fisica",
+			"topic": "leve",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Con una carriola, dove si trova il fulcro?",
+			"options": [
+				"Nei manici",
+				"Nell'asse della ruota",
+				"Nelle mani",
+				"Al centro del carico"
+			],
+			"answer": "Nell'asse della ruota",
+			"explanation": "La carriola ruota attorno all'asse della ruota, mentre le mani sollevano dai manici.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-leve-4",
+			"subject": "fisica",
+			"topic": "leve",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Una porta è dura da aprire. Dove conviene spingere?",
+			"options": [
+				"Vicino ai cardini",
+				"Esattamente sui cardini",
+				"Vicino alla maniglia",
+				"La posizione non conta"
+			],
+			"answer": "Vicino alla maniglia",
+			"explanation": "La maniglia è lontana dai cardini, che fanno da fulcro: così serve meno forza.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-leve-5",
+			"subject": "fisica",
+			"topic": "leve",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Sposti il fulcro più vicino al masso. Che cosa cambia?",
+			"options": [
+				"Il masso diventa più leggero",
+				"Non cambia nulla",
+				"Serve più forza",
+				"Serve meno forza per sollevarlo"
+			],
+			"answer": "Serve meno forza per sollevarlo",
+			"explanation": "Avvicinare il peso al fulcro accorcia il suo braccio e dà vantaggio alla mano.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-leve-6",
+			"subject": "fisica",
+			"topic": "leve",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Perché il manico di una chiave inglese è lungo?",
+			"options": [
+				"Per ottenere più effetto con la stessa forza",
+				"Per eliminare il fulcro",
+				"Per misurare la vite",
+				"Per aumentare il peso del dado"
+			],
+			"answer": "Per ottenere più effetto con la stessa forza",
+			"explanation": "La distanza dal punto di rotazione moltiplica l'effetto della spinta.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-leve-7",
+			"subject": "fisica",
+			"topic": "leve",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Due pesi uguali sono ai lati del fulcro. Quello di destra viene avvicinato al centro: quale lato scende?",
+			"options": [
+				"Scendono entrambi",
+				"Il lato sinistro",
+				"Il lato destro",
+				"Restano in equilibrio"
+			],
+			"answer": "Il lato sinistro",
+			"explanation": "A sinistra resta la distanza maggiore: con lo stesso peso produce un effetto maggiore.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-leve-8",
+			"subject": "fisica",
+			"topic": "leve",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Un bambino pesante siede vicino al fulcro. Come può equilibrarlo un bambino più leggero?",
+			"options": [
+				"Sedendosi ancora più vicino",
+				"Stando sul fulcro",
+				"Sedendosi più lontano dal fulcro",
+				"Alzando i piedi"
+			],
+			"answer": "Sedendosi più lontano dal fulcro",
+			"explanation": "Il peso minore può compensare con una distanza maggiore.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-leve-9",
+			"subject": "fisica",
+			"topic": "leve",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Allunghi soltanto il braccio su cui spinge la mano. Che cosa guadagni?",
+			"options": [
+				"Energia dal nulla",
+				"Forza e strada insieme",
+				"Un peso minore dell'oggetto",
+				"Forza, ma la mano percorre più strada"
+			],
+			"answer": "Forza, ma la mano percorre più strada",
+			"explanation": "La leva scambia forza con distanza: non crea energia.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-leve-10",
+			"subject": "fisica",
+			"topic": "leve",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Un peso di 4 kg è a 1 m dal fulcro. Quale sistemazione può equilibrarlo?",
+			"options": [
+				"2 kg a 2 m",
+				"2 kg a 1 m",
+				"1 kg a 1 m",
+				"4 kg a 2 m"
+			],
+			"answer": "2 kg a 2 m",
+			"explanation": "Conta peso per distanza: 4×1 e 2×2 valgono entrambi 4.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-pressione-11",
+			"subject": "fisica",
+			"topic": "pressione",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Perché uno sci largo affonda meno nella neve di una scarpa?",
+			"options": [
+				"Pesa sempre meno",
+				"Distribuisce il peso su più superficie",
+				"Elimina la gravità",
+				"Rende la neve più fredda"
+			],
+			"answer": "Distribuisce il peso su più superficie",
+			"explanation": "La stessa forza su un'area più grande produce meno pressione.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-pressione-12",
+			"subject": "fisica",
+			"topic": "pressione",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale lato di una gomma da cancellare preme di più sul pongo, a parità di spinta?",
+			"options": [
+				"Il lato più grande",
+				"Il lato più chiaro",
+				"Il lato più piccolo",
+				"Premono uguale"
+			],
+			"answer": "Il lato più piccolo",
+			"explanation": "Concentrando la stessa forza su meno area, la pressione aumenta.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-pressione-13",
+			"subject": "fisica",
+			"topic": "pressione",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Dove senti più pressione dell'acqua: con la mano appena immersa o sul fondo della piscina?",
+			"options": [
+				"Appena immersa",
+				"È sempre uguale",
+				"Fuori dall'acqua",
+				"Sul fondo"
+			],
+			"answer": "Sul fondo",
+			"explanation": "Più scendi, più acqua hai sopra di te e maggiore è la pressione.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-pressione-14",
+			"subject": "fisica",
+			"topic": "pressione",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Una persona si sdraia su un materassino invece di stare in piedi. Come cambia la pressione sul materassino?",
+			"options": [
+				"Diminuisce",
+				"Aumenta",
+				"Raddoppia sempre",
+				"Diventa zero"
+			],
+			"answer": "Diminuisce",
+			"explanation": "Il peso è quasi lo stesso, ma viene distribuito su una superficie maggiore.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-pressione-15",
+			"subject": "fisica",
+			"topic": "pressione",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Perché un coltello affilato taglia meglio?",
+			"options": [
+				"Ha meno massa",
+				"Concentra la forza su un bordo molto piccolo",
+				"Raffredda il cibo",
+				"Toglie l'attrito"
+			],
+			"answer": "Concentra la forza su un bordo molto piccolo",
+			"explanation": "Meno superficie a contatto significa più pressione con la stessa forza.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-pressione-16",
+			"subject": "fisica",
+			"topic": "pressione",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Fai due fori, uno in alto e uno in basso, in una bottiglia piena. Da quale esce il getto più forte?",
+			"options": [
+				"Dal foro in alto",
+				"Sono identici",
+				"Dal foro in basso",
+				"Non esce acqua"
+			],
+			"answer": "Dal foro in basso",
+			"explanation": "In basso la pressione è maggiore perché sopra c'è più acqua.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-pressione-17",
+			"subject": "fisica",
+			"topic": "pressione",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "A parità di superficie, raddoppi la forza. Che cosa succede alla pressione?",
+			"options": [
+				"Diventa zero",
+				"Si dimezza",
+				"Non cambia",
+				"Raddoppia"
+			],
+			"answer": "Raddoppia",
+			"explanation": "Con la stessa area, una forza doppia produce una pressione doppia.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-pressione-18",
+			"subject": "fisica",
+			"topic": "pressione",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "A parità di forza, raddoppi la superficie di appoggio. Come cambia la pressione?",
+			"options": [
+				"Si dimezza",
+				"Raddoppia",
+				"Non cambia",
+				"Quadruplica"
+			],
+			"answer": "Si dimezza",
+			"explanation": "La stessa forza viene divisa su un'area doppia.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-pressione-19",
+			"subject": "fisica",
+			"topic": "pressione",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Perché una diga è costruita più spessa in basso?",
+			"options": [
+				"Perché la gravità sparisce in alto",
+				"Perché la pressione dell'acqua cresce con la profondità",
+				"Perché in basso l'acqua pesa meno",
+				"Per decorazione"
+			],
+			"answer": "Perché la pressione dell'acqua cresce con la profondità",
+			"explanation": "La parte bassa deve reggere la pressione maggiore.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-pressione-20",
+			"subject": "fisica",
+			"topic": "pressione",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Due sub sono nello stesso mare, uno a 3 m e uno a 12 m. Chi subisce più pressione?",
+			"options": [
+				"Subiscono la stessa pressione",
+				"Dipende dal colore della muta",
+				"Quello a 12 m",
+				"Quello a 3 m"
+			],
+			"answer": "Quello a 12 m",
+			"explanation": "La maggiore profondità significa una colonna d'acqua più alta sopra il sub.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-pressione-21",
+			"subject": "fisica",
+			"topic": "pressione",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Stessa forza: una base misura 2 cm², l'altra 8 cm². Quale produce quattro volte la pressione?",
+			"options": [
+				"La base da 8 cm²",
+				"Nessuna",
+				"Entrambe",
+				"La base da 2 cm²"
+			],
+			"answer": "La base da 2 cm²",
+			"explanation": "Un'area quattro volte più piccola concentra la forza quattro volte di più.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-pressione-22",
+			"subject": "fisica",
+			"topic": "pressione",
+			"difficulty": 4,
+			"format": "numeric_input",
+			"prompt": "Un oggetto preme con 20 N su 4 cm². Qual è la pressione in N/cm²?",
+			"options": [],
+			"answer": "5",
+			"explanation": "Pressione significa forza divisa per area: 20÷4 = 5 N/cm².",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-galleggiamento-23",
+			"subject": "fisica",
+			"topic": "galleggiamento",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quali due forze confronti per capire se un oggetto sale o affonda?",
+			"options": [
+				"Velocità e tempo",
+				"Peso e spinta dell'acqua",
+				"Massa e colore",
+				"Calore e luce"
+			],
+			"answer": "Peso e spinta dell'acqua",
+			"explanation": "Il peso tira in basso; l'acqua esercita una spinta verso l'alto.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-galleggiamento-24",
+			"subject": "fisica",
+			"topic": "galleggiamento",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Lasci un pallone sott'acqua. Che cosa fa?",
+			"options": [
+				"Affonda",
+				"Resta sempre fermo",
+				"Sale verso la superficie",
+				"Va soltanto di lato"
+			],
+			"answer": "Sale verso la superficie",
+			"explanation": "Sul pallone pieno d'aria la spinta dell'acqua supera il peso.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-galleggiamento-25",
+			"subject": "fisica",
+			"topic": "galleggiamento",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Una pietra affonda. Quale forza è maggiore?",
+			"options": [
+				"Nessuna delle due",
+				"Sono uguali",
+				"La spinta dell'acqua",
+				"Il peso"
+			],
+			"answer": "Il peso",
+			"explanation": "Se il movimento è verso il basso, il peso ha vinto sulla spinta verso l'alto.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-galleggiamento-26",
+			"subject": "fisica",
+			"topic": "galleggiamento",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Un pezzo di legno galleggia fermo. Quale frase è corretta?",
+			"options": [
+				"La spinta dell'acqua bilancia il peso",
+				"L'acqua non lo spinge",
+				"Non ha peso",
+				"La gravità è spenta"
+			],
+			"answer": "La spinta dell'acqua bilancia il peso",
+			"explanation": "Fermo non significa senza forze: significa che le due forze si bilanciano.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-galleggiamento-27",
+			"subject": "fisica",
+			"topic": "galleggiamento",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Appoggi un piccolo peso su una barchetta. Che cosa fa la barchetta?",
+			"options": [
+				"Perde tutta la spinta",
+				"Scende un po' e sposta più acqua",
+				"Sale",
+				"Resta identica"
+			],
+			"answer": "Scende un po' e sposta più acqua",
+			"explanation": "Scendendo sposta più acqua, finché la spinta maggiore bilancia il nuovo peso.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-galleggiamento-28",
+			"subject": "fisica",
+			"topic": "galleggiamento",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Perché un giubbotto salvagente aiuta a restare a galla?",
+			"options": [
+				"Toglie la gravità",
+				"Spinge con un motore",
+				"Aumenta il volume e l'acqua spostata senza aggiungere molto peso",
+				"Rende l'acqua solida"
+			],
+			"answer": "Aumenta il volume e l'acqua spostata senza aggiungere molto peso",
+			"explanation": "Più acqua spostata significa una spinta verso l'alto maggiore.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-galleggiamento-29",
+			"subject": "fisica",
+			"topic": "galleggiamento",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Schiacci una pallina di plastilina che affonda e le dai forma di barchetta. Perché può galleggiare?",
+			"options": [
+				"La plastilina perde massa",
+				"L'acqua diventa più densa",
+				"Diventa legno",
+				"La forma cava fa spostare più acqua"
+			],
+			"answer": "La forma cava fa spostare più acqua",
+			"explanation": "La massa resta la stessa, ma aumenta il volume immerso e quindi la spinta.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-galleggiamento-30",
+			"subject": "fisica",
+			"topic": "galleggiamento",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Un sommergibile riempie d'acqua le casse di zavorra. Che cosa tende a fare?",
+			"options": [
+				"Affondare",
+				"Uscire dall'acqua di colpo",
+				"Salire",
+				"Restare sempre uguale"
+			],
+			"answer": "Affondare",
+			"explanation": "Entra acqua, aumenta il peso e la spinta non basta più a bilanciarlo.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-galleggiamento-31",
+			"subject": "fisica",
+			"topic": "galleggiamento",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Il sommergibile soffia aria nelle casse e manda fuori l'acqua. Che cosa tende a fare?",
+			"options": [
+				"Affondare",
+				"Salire",
+				"Girare su sé stesso",
+				"Fermare la corrente"
+			],
+			"answer": "Salire",
+			"explanation": "Il peso diminuisce mentre il volume resta simile: la spinta verso l'alto prevale.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-galleggiamento-32",
+			"subject": "fisica",
+			"topic": "galleggiamento",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Un oggetto ha la stessa densità dell'acqua. Che comportamento può avere?",
+			"options": [
+				"Saltare fuori",
+				"Affondare sempre",
+				"Restare sospeso",
+				"Sciogliersi"
+			],
+			"answer": "Restare sospeso",
+			"explanation": "A pari densità, peso e spinta possono bilanciarsi completamente.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-galleggiamento-33",
+			"subject": "fisica",
+			"topic": "galleggiamento",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Una nave carica entra dal mare in un fiume, dove l'acqua è meno densa. Come cambia?",
+			"options": [
+				"Sale più in alto",
+				"Perde peso",
+				"Non cambia mai",
+				"Affonda un po' di più nell'acqua"
+			],
+			"answer": "Affonda un po' di più nell'acqua",
+			"explanation": "Nell'acqua meno densa deve spostare più volume per ottenere la stessa spinta.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-galleggiamento-34",
+			"subject": "fisica",
+			"topic": "galleggiamento",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Due oggetti hanno uguale volume immerso, ma uno pesa di più. Quale riceve più spinta dall'acqua?",
+			"options": [
+				"Ricevono la stessa spinta",
+				"Quello più leggero",
+				"Quello più pesante",
+				"Nessuno"
+			],
+			"answer": "Ricevono la stessa spinta",
+			"explanation": "La spinta dipende dall'acqua spostata: a uguale volume immerso è uguale.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-correnti-35",
+			"subject": "fisica",
+			"topic": "correnti",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è una corrente d'acqua?",
+			"options": [
+				"Una misura di profondità",
+				"Acqua che si muove in una direzione",
+				"Un aumento di temperatura",
+				"Acqua sempre ferma"
+			],
+			"answer": "Acqua che si muove in una direzione",
+			"explanation": "La corrente è il movimento ordinato dell'acqua, come un nastro trasportatore.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-correnti-36",
+			"subject": "fisica",
+			"topic": "correnti",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Una paperella galleggia senza motore in un fiume. Che cosa determina soprattutto il suo percorso?",
+			"options": [
+				"La temperatura dell'aria",
+				"La forma delle nuvole",
+				"La corrente",
+				"Il suo colore"
+			],
+			"answer": "La corrente",
+			"explanation": "Un oggetto libero viene trasportato insieme all'acqua che scorre.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-correnti-37",
+			"subject": "fisica",
+			"topic": "correnti",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Nuoti nello stesso verso della corrente. La corrente ti…",
+			"options": [
+				"Ferma sempre",
+				"Spinge sott'acqua",
+				"Rallenta",
+				"Aiuta"
+			],
+			"answer": "Aiuta",
+			"explanation": "I due movimenti hanno lo stesso verso e si sommano.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-correnti-38",
+			"subject": "fisica",
+			"topic": "correnti",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Nuoti controcorrente. La corrente ti…",
+			"options": [
+				"Rallenta",
+				"Fa andare più veloce",
+				"Toglie peso",
+				"Aiuta"
+			],
+			"answer": "Rallenta",
+			"explanation": "I movimenti sono opposti: parte della tua velocità serve a vincere la corrente.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-correnti-39",
+			"subject": "fisica",
+			"topic": "correnti",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Vuoi attraversare un fiume ma la corrente va verso destra. Se punti dritto, dove arrivi?",
+			"options": [
+				"Al punto di partenza",
+				"Più a destra del punto di fronte",
+				"Esattamente di fronte",
+				"Più a sinistra"
+			],
+			"answer": "Più a destra del punto di fronte",
+			"explanation": "Mentre attraversi, l'acqua ti trasporta anche verso destra.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-correnti-40",
+			"subject": "fisica",
+			"topic": "correnti",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Per arrivare esattamente di fronte con una corrente verso destra, dove conviene puntare?",
+			"options": [
+				"Verso il fondo",
+				"Ancora più a destra",
+				"Un po' verso sinistra",
+				"Dritto senza correggere"
+			],
+			"answer": "Un po' verso sinistra",
+			"explanation": "La direzione a sinistra compensa lo spostamento prodotto dalla corrente.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-correnti-41",
+			"subject": "fisica",
+			"topic": "correnti",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Una barca spegne il motore in un canale con corrente. Rispetto alla riva che cosa fa?",
+			"options": [
+				"Va controcorrente",
+				"Resta ferma",
+				"Affonda per forza",
+				"Si muove con la corrente"
+			],
+			"answer": "Si muove con la corrente",
+			"explanation": "Senza una spinta propria, la barca viene trasportata dall'acqua.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-correnti-42",
+			"subject": "fisica",
+			"topic": "correnti",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Due foglie sono nella stessa corrente, una grande e una piccola. In prima approssimazione dove vanno?",
+			"options": [
+				"Nello stesso verso della corrente",
+				"Restano ferme",
+				"In versi opposti",
+				"Sempre verso nord"
+			],
+			"answer": "Nello stesso verso della corrente",
+			"explanation": "La corrente trasporta entrambe nella direzione in cui scorre l'acqua.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-correnti-43",
+			"subject": "fisica",
+			"topic": "correnti",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "La barca fa 6 km/h nell'acqua e la corrente, nello stesso verso, fa 2 km/h. Quanto va rispetto alla riva?",
+			"options": [
+				"4 km/h",
+				"8 km/h",
+				"6 km/h",
+				"12 km/h"
+			],
+			"answer": "8 km/h",
+			"explanation": "Nello stesso verso le velocità si sommano: 6+2 = 8.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-correnti-44",
+			"subject": "fisica",
+			"topic": "correnti",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "La barca fa 6 km/h nell'acqua e risale una corrente di 2 km/h. Quanto va rispetto alla riva?",
+			"options": [
+				"8 km/h",
+				"3 km/h",
+				"4 km/h",
+				"6 km/h"
+			],
+			"answer": "4 km/h",
+			"explanation": "Controcorrente le velocità si sottraggono: 6−2 = 4.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-correnti-45",
+			"subject": "fisica",
+			"topic": "correnti",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Una corrente laterale diventa più forte mentre il motore resta uguale. Come cambia la deviazione?",
+			"options": [
+				"Cambia soltanto il peso",
+				"Diminuisce",
+				"Scompare",
+				"Aumenta"
+			],
+			"answer": "Aumenta",
+			"explanation": "Una spinta laterale maggiore trasporta la barca più lontano di lato.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-correnti-46",
+			"subject": "fisica",
+			"topic": "correnti",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Una barca fa 3 km/h contro una corrente di 3 km/h. Rispetto alla riva che cosa accade?",
+			"options": [
+				"Resta ferma",
+				"Devia sempre a nord",
+				"Arretra a 3 km/h",
+				"Avanza a 6 km/h"
+			],
+			"answer": "Resta ferma",
+			"explanation": "Le due velocità uguali e opposte si annullano rispetto alla riva.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-leve-47",
+			"subject": "fisica",
+			"topic": "leve",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Sull'altalena a bilico, come si chiama il punto fermo attorno a cui gira l'asse?",
+			"options": [
+				"Peso",
+				"Fulcro",
+				"Rampa",
+				"Spinta"
+			],
+			"answer": "Fulcro",
+			"explanation": "Il fulcro è il punto di appoggio della leva: l'asse gira attorno a lui.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-leve-48",
+			"subject": "fisica",
+			"topic": "leve",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Vuoi sollevare un sasso con un bastone appoggiato su un fulcro. Dove conviene spingere?",
+			"options": [
+				"Vicino al fulcro",
+				"La distanza non cambia nulla",
+				"Lontano dal fulcro",
+				"Proprio sopra il fulcro"
+			],
+			"answer": "Lontano dal fulcro",
+			"explanation": "Più spingi lontano dal fulcro, più il tuo braccio di leva è lungo e meno forza ti serve.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-leve-49",
+			"subject": "fisica",
+			"topic": "leve",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "A sinistra del fulcro c'è un peso di 2 kg a 1 metro. Dove metti un peso uguale per stare in equilibrio?",
+			"options": [
+				"A sinistra, a 1 metro",
+				"Sul fulcro",
+				"A destra, a 2 metri",
+				"A destra, a 1 metro"
+			],
+			"answer": "A destra, a 1 metro",
+			"explanation": "Con pesi uguali, l'equilibrio richiede distanze uguali sui due lati del fulcro.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-leve-50",
+			"subject": "fisica",
+			"topic": "leve",
+			"difficulty": 4,
+			"format": "numeric_input",
+			"prompt": "Una leva è in equilibrio: 2 kg sono a 3 m dal fulcro. A quanti metri metti 3 kg dall'altro lato?",
+			"options": [],
+			"answer": "2",
+			"explanation": "Per l'equilibrio conta peso × distanza: 2 × 3 = 6, quindi 3 × 2 = 6."
+		},
+		{
+			"id": "fisica-pressione-51",
+			"subject": "fisica",
+			"topic": "pressione",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Perché una puntina entra nel cartone più facilmente dalla punta?",
+			"options": [
+				"La stessa forza è concentrata su una superficie più piccola",
+				"La punta pesa più del resto",
+				"Il cartone attira il metallo",
+				"La punta elimina l'attrito"
+			],
+			"answer": "La stessa forza è concentrata su una superficie più piccola",
+			"explanation": "A parità di forza, una superficie più piccola produce una pressione maggiore.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-pressione-52",
+			"subject": "fisica",
+			"topic": "pressione",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Un sub scende più in profondità. Che cosa succede alla pressione dell'acqua?",
+			"options": [
+				"Resta sempre uguale",
+				"Aumenta",
+				"Diventa zero",
+				"Diminuisce"
+			],
+			"answer": "Aumenta",
+			"explanation": "Più in basso c'è una colonna d'acqua più alta sopra il sub: il suo peso fa aumentare la pressione.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-pressione-53",
+			"subject": "fisica",
+			"topic": "pressione",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Due mattoni uguali sono sulla sabbia: uno sul lato largo, uno sul lato stretto. Quale affonda di più?",
+			"options": [
+				"Quello più vicino all'acqua",
+				"Quello sul lato largo",
+				"Quello sul lato stretto",
+				"Affondano sempre uguali"
+			],
+			"answer": "Quello sul lato stretto",
+			"explanation": "Il peso è uguale, ma sul lato stretto è distribuito su meno superficie: la pressione è maggiore.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-galleggiamento-54",
+			"subject": "fisica",
+			"topic": "galleggiamento",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Su un oggetto immerso, in quale direzione spinge l'acqua?",
+			"options": [
+				"Solo in avanti",
+				"Solo verso il basso",
+				"L'acqua non esercita spinte",
+				"Verso l'alto"
+			],
+			"answer": "Verso l'alto",
+			"explanation": "La spinta dell'acqua risultante è diretta verso l'alto e si oppone al peso.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-galleggiamento-55",
+			"subject": "fisica",
+			"topic": "galleggiamento",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Un oggetto galleggia fermo. Come sono il peso e la spinta dell'acqua?",
+			"options": [
+				"Si bilanciano",
+				"La spinta è maggiore",
+				"Sono entrambi zero",
+				"Il peso è maggiore"
+			],
+			"answer": "Si bilanciano",
+			"explanation": "Se resta fermo alla stessa altezza, la forza verso il basso e quella verso l'alto sono uguali.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-galleggiamento-56",
+			"subject": "fisica",
+			"topic": "galleggiamento",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché una nave d'acciaio può galleggiare mentre una biglia d'acciaio affonda?",
+			"options": [
+				"L'acciaio della nave è senza peso",
+				"La nave cava sposta molta più acqua rispetto al suo peso",
+				"Il motore spinge sempre verso l'alto",
+				"L'acqua sotto una nave è più densa"
+			],
+			"answer": "La nave cava sposta molta più acqua rispetto al suo peso",
+			"explanation": "La forma cava fa spostare un grande volume d'acqua: così la spinta verso l'alto può bilanciare il peso.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-correnti-57",
+			"subject": "fisica",
+			"topic": "correnti",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Una corrente va verso est e una foglia galleggia libera. Verso dove viene trasportata?",
+			"options": [
+				"Sempre verso nord",
+				"Verso ovest",
+				"Verso est",
+				"Resta ferma"
+			],
+			"answer": "Verso est",
+			"explanation": "La foglia viene trascinata nella direzione in cui si muove l'acqua.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-correnti-58",
+			"subject": "fisica",
+			"topic": "correnti",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Una barca procede verso nord mentre la corrente spinge verso est. Che cosa accade?",
+			"options": [
+				"Va soltanto verso nord",
+				"Torna verso sud",
+				"Si ferma per forza",
+				"La barca devia verso nord-est"
+			],
+			"answer": "La barca devia verso nord-est",
+			"explanation": "I due movimenti si combinano: avanti verso nord e di lato verso est.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-correnti-59",
+			"subject": "fisica",
+			"topic": "correnti",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Due barche hanno lo stesso motore. Una segue la corrente, l'altra va controcorrente. Quale arriva prima?",
+			"options": [
+				"Quella che segue la corrente",
+				"Dipende soltanto dal loro peso",
+				"Quella controcorrente",
+				"Arrivano sempre insieme"
+			],
+			"answer": "Quella che segue la corrente",
+			"explanation": "La corrente aggiunge velocità alla prima barca e ne sottrae alla seconda.",
+			"distractorWhy": {}
+		},
+		{
+			"id": "fisica-misure-60",
 			"subject": "fisica",
 			"topic": "misure",
 			"difficulty": 3,
@@ -564,17 +1573,17 @@
 			}
 		},
 		{
-			"id": "fisica-misure-1",
+			"id": "fisica-misure-61",
 			"subject": "fisica",
 			"topic": "misure",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Con quale strumento si misura un intervallo di tempo breve?",
 			"options": [
-				"Il termometro da parete",
 				"La bilancia da cucina",
 				"Il cronometro",
-				"Il metro a nastro"
+				"Il metro a nastro",
+				"Il termometro da parete"
 			],
 			"answer": "Il cronometro",
 			"explanation": "Il cronometro misura durate; l'orologio dice che ora è, che è una cosa diversa.",
@@ -585,7 +1594,7 @@
 			}
 		},
 		{
-			"id": "fisica-misure-2",
+			"id": "fisica-misure-62",
 			"subject": "fisica",
 			"topic": "misure",
 			"difficulty": 4,
@@ -593,9 +1602,9 @@
 			"prompt": "Perché si scrive «12,4 cm» e non «12,4372 cm» con un righello?",
 			"options": [
 				"Perché i numeri lunghi sono scomodi",
-				"Perché il righello misura solo interi",
 				"Perché in fisica non si scrivono mai tanti decimali",
-				"Perché lo strumento non arriva a quella precisione"
+				"Perché lo strumento non arriva a quella precisione",
+				"Perché il righello misura solo interi"
 			],
 			"answer": "Perché lo strumento non arriva a quella precisione",
 			"explanation": "Scrivere più cifre di quelle che lo strumento può garantire non aggiunge precisione: la finge.",
@@ -606,7 +1615,7 @@
 			}
 		},
 		{
-			"id": "fisica-moto-3",
+			"id": "fisica-moto-63",
 			"subject": "fisica",
 			"topic": "moto",
 			"difficulty": 3,
@@ -622,17 +1631,17 @@
 			}
 		},
 		{
-			"id": "fisica-moto-4",
+			"id": "fisica-moto-64",
 			"subject": "fisica",
 			"topic": "moto",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Che cosa significa che un corpo accelera?",
 			"options": [
-				"Che la sua velocità sta cambiando",
-				"Che percorre una lunga distanza",
 				"Che si muove sempre in avanti",
-				"Che si muove molto velocemente"
+				"Che si muove molto velocemente",
+				"Che percorre una lunga distanza",
+				"Che la sua velocità sta cambiando"
 			],
 			"answer": "Che la sua velocità sta cambiando",
 			"explanation": "Anche frenare è accelerare, in fisica: l'accelerazione è qualsiasi variazione di velocità, in più o in meno.",
@@ -643,17 +1652,17 @@
 			}
 		},
 		{
-			"id": "fisica-moto-5",
+			"id": "fisica-moto-65",
 			"subject": "fisica",
 			"topic": "moto",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Un'auto che curva a velocità costante sta accelerando?",
 			"options": [
-				"No, perché la velocità non cambia",
 				"Sì, perché cambia direzione",
 				"Sì, ma solo se aumenta il motore",
-				"No, perché non preme sul gas"
+				"No, perché non preme sul gas",
+				"No, perché la velocità non cambia"
 			],
 			"answer": "Sì, perché cambia direzione",
 			"explanation": "La velocità in fisica ha un valore e una direzione: cambiarne una sola basta a parlare di accelerazione.",
@@ -664,16 +1673,16 @@
 			}
 		},
 		{
-			"id": "fisica-forze-6",
+			"id": "fisica-forze-66",
 			"subject": "fisica",
 			"topic": "forze",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "In quale unità si misura una forza?",
 			"options": [
-				"Joule",
 				"Watt",
 				"Newton",
+				"Joule",
 				"Pascal"
 			],
 			"answer": "Newton",
@@ -685,7 +1694,7 @@
 			}
 		},
 		{
-			"id": "fisica-forze-7",
+			"id": "fisica-forze-67",
 			"subject": "fisica",
 			"topic": "forze",
 			"difficulty": 4,
@@ -693,9 +1702,9 @@
 			"prompt": "Che cosa succede a un corpo su cui non agisce nessuna forza?",
 			"options": [
 				"Comincia lentamente a cadere verso il basso",
-				"Cambia direzione da solo senza motivo",
 				"Si ferma sempre dopo un poco di tempo",
-				"Resta fermo o continua a muoversi uguale"
+				"Resta fermo o continua a muoversi uguale",
+				"Cambia direzione da solo senza motivo"
 			],
 			"answer": "Resta fermo o continua a muoversi uguale",
 			"explanation": "È il principio d'inerzia: senza forze non c'è motivo di cambiare. Sulla Terra però l'attrito c'è quasi sempre.",
@@ -706,17 +1715,17 @@
 			}
 		},
 		{
-			"id": "fisica-forze-8",
+			"id": "fisica-forze-68",
 			"subject": "fisica",
 			"topic": "forze",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Che cos'è la pressione?",
 			"options": [
-				"La forza distribuita su una superficie",
-				"Il peso di un oggetto molto pesante",
+				"La forza totale applicata a un corpo",
 				"La spinta esercitata da un liquido",
-				"La forza totale applicata a un corpo"
+				"Il peso di un oggetto molto pesante",
+				"La forza distribuita su una superficie"
 			],
 			"answer": "La forza distribuita su una superficie",
 			"explanation": "La stessa forza su una punta o su un palmo dà pressioni diversissime: per questo un ago buca e un dito no.",
@@ -727,17 +1736,17 @@
 			}
 		},
 		{
-			"id": "fisica-forze-9",
+			"id": "fisica-forze-69",
 			"subject": "fisica",
 			"topic": "forze",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Perché camminando sulla neve con le racchette non si sprofonda?",
 			"options": [
-				"Perché con le racchette si cammina più lentamente",
 				"Perché il peso si distribuisce su più superficie",
-				"Perché le racchette pesano meno degli scarponi",
-				"Perché la neve si indurisce sotto le racchette"
+				"Perché con le racchette si cammina più lentamente",
+				"Perché la neve si indurisce sotto le racchette",
+				"Perché le racchette pesano meno degli scarponi"
 			],
 			"answer": "Perché il peso si distribuisce su più superficie",
 			"explanation": "Il peso resta lo stesso, ma la pressione cala: forza uguale distribuita su un'area maggiore.",
@@ -748,17 +1757,17 @@
 			}
 		},
 		{
-			"id": "fisica-forze-10",
+			"id": "fisica-forze-70",
 			"subject": "fisica",
 			"topic": "forze",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Due forze uguali e opposte applicate a un corpo fermo…",
 			"options": [
-				"Lo fanno muovere in avanti",
-				"Lo fanno girare su sé stesso restando fermo",
+				"Raddoppiano il suo peso",
 				"Si bilanciano e il corpo resta fermo",
-				"Raddoppiano il suo peso"
+				"Lo fanno girare su sé stesso restando fermo",
+				"Lo fanno muovere in avanti"
 			],
 			"answer": "Si bilanciano e il corpo resta fermo",
 			"explanation": "La somma delle forze è zero: è quello che succede a un libro appoggiato sul tavolo.",
@@ -769,7 +1778,7 @@
 			}
 		},
 		{
-			"id": "fisica-metodo-11",
+			"id": "fisica-metodo-71",
 			"subject": "fisica",
 			"topic": "metodo",
 			"difficulty": 2,
@@ -777,9 +1786,9 @@
 			"prompt": "Che cos'è una grandezza fisica?",
 			"options": [
 				"Qualsiasi proprietà osservabile di un oggetto",
-				"La dimensione di un corpo solido",
 				"Un fenomeno che si può osservare",
-				"Qualcosa che si può misurare con un numero"
+				"Qualcosa che si può misurare con un numero",
+				"La dimensione di un corpo solido"
 			],
 			"answer": "Qualcosa che si può misurare con un numero",
 			"explanation": "La bellezza non è una grandezza fisica; la lunghezza sì, perché si può associare a un numero e a un'unità.",
@@ -790,17 +1799,17 @@
 			}
 		},
 		{
-			"id": "fisica-metodo-12",
+			"id": "fisica-metodo-72",
 			"subject": "fisica",
 			"topic": "metodo",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Che cos'è un'unità di misura?",
 			"options": [
-				"Una quantità di riferimento con cui si confronta",
+				"Il numero che esce dalla misurazione fatta",
 				"Lo strumento con cui si esegue la misura",
 				"La precisione dello strumento che si è usato",
-				"Il numero che esce dalla misurazione fatta"
+				"Una quantità di riferimento con cui si confronta"
 			],
 			"answer": "Una quantità di riferimento con cui si confronta",
 			"explanation": "Dire «lungo 3» non significa niente: serve dire 3 di che cosa, cioè rispetto a quale campione.",
@@ -811,17 +1820,17 @@
 			}
 		},
 		{
-			"id": "fisica-metodo-13",
+			"id": "fisica-metodo-73",
 			"subject": "fisica",
 			"topic": "metodo",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Perché una misura ha sempre un'incertezza?",
 			"options": [
-				"Perché chi misura è quasi sempre distratto",
 				"Perché nessuno strumento è infinitamente preciso",
 				"Perché i calcoli finali sono approssimati",
-				"Perché le grandezze cambiano valore per conto loro"
+				"Perché le grandezze cambiano valore per conto loro",
+				"Perché chi misura è quasi sempre distratto"
 			],
 			"answer": "Perché nessuno strumento è infinitamente preciso",
 			"explanation": "Anche lo strumento migliore ha una risoluzione: sotto quella soglia non può dire niente.",
@@ -832,17 +1841,17 @@
 			}
 		},
 		{
-			"id": "fisica-metodo-14",
+			"id": "fisica-metodo-74",
 			"subject": "fisica",
 			"topic": "metodo",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Che cos'è la sensibilità di uno strumento?",
 			"options": [
-				"Il valore massimo che lo strumento può misurare",
-				"La cura con cui lo strumento va maneggiato",
+				"La velocità con cui restituisce il risultato",
 				"La più piccola variazione che riesce a rilevare",
-				"La velocità con cui restituisce il risultato"
+				"Il valore massimo che lo strumento può misurare",
+				"La cura con cui lo strumento va maneggiato"
 			],
 			"answer": "La più piccola variazione che riesce a rilevare",
 			"explanation": "Un righello con tacche al millimetro non può distinguere due lunghezze che differiscono di un decimo.",
@@ -853,17 +1862,17 @@
 			}
 		},
 		{
-			"id": "fisica-metodo-15",
+			"id": "fisica-metodo-75",
 			"subject": "fisica",
 			"topic": "metodo",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Che differenza c'è fra errore casuale e errore sistematico?",
 			"options": [
-				"L'errore casuale è sempre più grande di quello sistematico",
-				"L'errore sistematico si corregge ripetendo più volte la misura",
 				"L'errore casuale dipende soltanto dallo strumento usato",
-				"Il casuale varia, il sistematico è sempre nello stesso verso"
+				"L'errore casuale è sempre più grande di quello sistematico",
+				"Il casuale varia, il sistematico è sempre nello stesso verso",
+				"L'errore sistematico si corregge ripetendo più volte la misura"
 			],
 			"answer": "Il casuale varia, il sistematico è sempre nello stesso verso",
 			"explanation": "Ripetere le misure riduce gli errori casuali ma non tocca quelli sistematici: una bilancia tarata male sbaglia sempre uguale.",
@@ -874,17 +1883,17 @@
 			}
 		},
 		{
-			"id": "fisica-metodo-16",
+			"id": "fisica-metodo-76",
 			"subject": "fisica",
 			"topic": "metodo",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Perché in fisica si usa il Sistema Internazionale?",
 			"options": [
-				"Perché tutti misurino con gli stessi riferimenti",
-				"Perché è il sistema di misura più antico",
 				"Perché permette di scrivere numeri più piccoli",
-				"Perché è reso obbligatorio da una legge"
+				"Perché è il sistema di misura più antico",
+				"Perché è reso obbligatorio da una legge",
+				"Perché tutti misurino con gli stessi riferimenti"
 			],
 			"answer": "Perché tutti misurino con gli stessi riferimenti",
 			"explanation": "Senza unità condivise i risultati non si possono confrontare: una sonda spaziale si è persa proprio per questo.",
@@ -895,15 +1904,15 @@
 			}
 		},
 		{
-			"id": "fisica-metodo-17",
+			"id": "fisica-metodo-77",
 			"subject": "fisica",
 			"topic": "metodo",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Qual è l'unità di misura della lunghezza nel Sistema Internazionale?",
 			"options": [
-				"Il centimetro",
 				"Il metro",
+				"Il centimetro",
 				"Il pollice",
 				"Il chilometro"
 			],
@@ -916,17 +1925,17 @@
 			}
 		},
 		{
-			"id": "fisica-metodo-18",
+			"id": "fisica-metodo-78",
 			"subject": "fisica",
 			"topic": "metodo",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Che cos'è un modello in fisica?",
 			"options": [
-				"Un esperimento riuscito perfettamente",
-				"Una riproduzione in scala ridotta di un oggetto",
+				"Una legge dimostrata definitivamente",
 				"Una rappresentazione semplificata della realtà",
-				"Una legge dimostrata definitivamente"
+				"Una riproduzione in scala ridotta di un oggetto",
+				"Un esperimento riuscito perfettamente"
 			],
 			"answer": "Una rappresentazione semplificata della realtà",
 			"explanation": "Si trascurano i dettagli irrilevanti per capire l'essenziale: un modello utile non è un modello completo.",
@@ -937,17 +1946,17 @@
 			}
 		},
 		{
-			"id": "fisica-metodo-19",
+			"id": "fisica-metodo-79",
 			"subject": "fisica",
 			"topic": "metodo",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Perché in fisica si dice che una teoria non è mai «dimostrata per sempre»?",
 			"options": [
-				"Perché mancano sempre gli strumenti",
 				"Perché i fisici non sono mai d'accordo fra loro",
-				"Perché le teorie sono solo opinioni",
-				"Perché un nuovo esperimento potrebbe smentirla"
+				"Perché mancano sempre gli strumenti",
+				"Perché un nuovo esperimento potrebbe smentirla",
+				"Perché le teorie sono solo opinioni"
 			],
 			"answer": "Perché un nuovo esperimento potrebbe smentirla",
 			"explanation": "Le teorie si tengono finché reggono alle prove: la meccanica di Newton funziona benissimo, ma non alle alte velocità.",
@@ -958,7 +1967,7 @@
 			}
 		},
 		{
-			"id": "fisica-metodo-20",
+			"id": "fisica-metodo-80",
 			"subject": "fisica",
 			"topic": "metodo",
 			"difficulty": 4,
@@ -974,17 +1983,17 @@
 			}
 		},
 		{
-			"id": "fisica-onde-luce-21",
+			"id": "fisica-onde-luce-81",
 			"subject": "fisica",
 			"topic": "onde-luce",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Che cosa serve al suono per propagarsi?",
 			"options": [
-				"Un mezzo materiale come l'aria",
 				"Soltanto una fonte abbastanza forte",
 				"Il vuoto assoluto senza ostacoli",
-				"Una superficie che rifletta bene"
+				"Una superficie che rifletta bene",
+				"Un mezzo materiale come l'aria"
 			],
 			"answer": "Un mezzo materiale come l'aria",
 			"explanation": "Nel vuoto il suono non viaggia: servono particelle che si urtino trasmettendo la vibrazione.",
@@ -995,17 +2004,17 @@
 			}
 		},
 		{
-			"id": "fisica-onde-luce-22",
+			"id": "fisica-onde-luce-82",
 			"subject": "fisica",
 			"topic": "onde-luce",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "La luce può viaggiare nel vuoto?",
 			"options": [
-				"Solo se proviene da una stella vicina",
 				"Sì, non le serve un mezzo materiale",
-				"No, le serve sempre l'aria",
-				"Solo se è molto intensa"
+				"Solo se è molto intensa",
+				"Solo se proviene da una stella vicina",
+				"No, le serve sempre l'aria"
 			],
 			"answer": "Sì, non le serve un mezzo materiale",
 			"explanation": "È un'onda elettromagnetica: per questo la luce del Sole arriva fin qui attraversando lo spazio vuoto.",
@@ -1016,17 +2025,17 @@
 			}
 		},
 		{
-			"id": "fisica-onde-luce-23",
+			"id": "fisica-onde-luce-83",
 			"subject": "fisica",
 			"topic": "onde-luce",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Perché un bastone immerso nell'acqua sembra spezzato?",
 			"options": [
-				"Perché il bastone si piega davvero nell'acqua",
-				"Perché l'acqua riflette la luce verso l'alto",
+				"Perché l'acqua ingrandisce gli oggetti che vi immergi",
 				"Perché la luce cambia direzione passando fra aria e acqua",
-				"Perché l'acqua ingrandisce gli oggetti che vi immergi"
+				"Perché il bastone si piega davvero nell'acqua",
+				"Perché l'acqua riflette la luce verso l'alto"
 			],
 			"answer": "Perché la luce cambia direzione passando fra aria e acqua",
 			"explanation": "È la rifrazione: la luce rallenta entrando nell'acqua e devia, e i nostri occhi la interpretano come una linea spezzata.",
@@ -1037,7 +2046,7 @@
 			}
 		},
 		{
-			"id": "fisica-onde-luce-24",
+			"id": "fisica-onde-luce-84",
 			"subject": "fisica",
 			"topic": "onde-luce",
 			"difficulty": 3,
@@ -1045,9 +2054,9 @@
 			"prompt": "Che cos'è l'eco?",
 			"options": [
 				"Un suono che si ripete da solo",
-				"Il rumore prodotto dal vento",
 				"Un suono più acuto di quello di partenza",
-				"Il suono che torna dopo essersi riflesso"
+				"Il suono che torna dopo essersi riflesso",
+				"Il rumore prodotto dal vento"
 			],
 			"answer": "Il suono che torna dopo essersi riflesso",
 			"explanation": "Serve una superficie abbastanza lontana: se torna troppo presto il nostro orecchio non lo distingue dal suono diretto.",
@@ -1058,17 +2067,17 @@
 			}
 		},
 		{
-			"id": "fisica-onde-luce-25",
+			"id": "fisica-onde-luce-85",
 			"subject": "fisica",
 			"topic": "onde-luce",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Perché vediamo un oggetto rosso?",
 			"options": [
-				"Perché riflette il rosso e assorbe gli altri colori",
-				"Perché produce luce rossa per conto proprio",
+				"Perché assorbe il rosso e riflette il resto",
 				"Perché è fatto di un materiale rosso fin dentro",
-				"Perché assorbe il rosso e riflette il resto"
+				"Perché produce luce rossa per conto proprio",
+				"Perché riflette il rosso e assorbe gli altri colori"
 			],
 			"answer": "Perché riflette il rosso e assorbe gli altri colori",
 			"explanation": "Il colore non sta nell'oggetto: sta in quali lunghezze d'onda rimanda ai nostri occhi.",
@@ -1079,16 +2088,16 @@
 			}
 		},
 		{
-			"id": "fisica-onde-luce-26",
+			"id": "fisica-onde-luce-86",
 			"subject": "fisica",
 			"topic": "onde-luce",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Che cos'è un'ombra?",
 			"options": [
-				"Il riflesso scuro che un oggetto proietta a terra",
 				"La zona dove la luce non arriva perché bloccata",
 				"Una zona in cui l'aria è più fredda",
+				"Il riflesso scuro che un oggetto proietta a terra",
 				"Una macchia scura disegnata sul terreno"
 			],
 			"answer": "La zona dove la luce non arriva perché bloccata",
@@ -1100,7 +2109,7 @@
 			}
 		},
 		{
-			"id": "fisica-onde-luce-27",
+			"id": "fisica-onde-luce-87",
 			"subject": "fisica",
 			"topic": "onde-luce",
 			"difficulty": 4,
@@ -1108,9 +2117,9 @@
 			"prompt": "Perché un prisma scompone la luce bianca nei colori?",
 			"options": [
 				"Perché il vetro aggiunge dei colori alla luce",
-				"Perché la luce si scalda mentre attraversa il vetro",
 				"Perché ogni colore devia in modo un po' diverso",
-				"Perché il prisma riflette la luce molte volte"
+				"Perché il prisma riflette la luce molte volte",
+				"Perché la luce si scalda mentre attraversa il vetro"
 			],
 			"answer": "Perché ogni colore devia in modo un po' diverso",
 			"explanation": "La luce bianca è la somma di tutti i colori, e ciascuno viene rifratto con un angolo leggermente diverso.",
@@ -1121,17 +2130,17 @@
 			}
 		},
 		{
-			"id": "fisica-onde-luce-28",
+			"id": "fisica-onde-luce-88",
 			"subject": "fisica",
 			"topic": "onde-luce",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Che cosa determina se un suono è acuto o grave?",
 			"options": [
-				"Il materiale che vibra",
-				"La distanza dalla sorgente",
 				"L'intensità della vibrazione",
-				"La frequenza della vibrazione"
+				"Il materiale che vibra",
+				"La frequenza della vibrazione",
+				"La distanza dalla sorgente"
 			],
 			"answer": "La frequenza della vibrazione",
 			"explanation": "Più vibrazioni al secondo, più il suono è acuto. L'intensità decide invece se è forte o debole.",
@@ -1142,7 +2151,7 @@
 			}
 		},
 		{
-			"id": "fisica-onde-luce-29",
+			"id": "fisica-onde-luce-89",
 			"subject": "fisica",
 			"topic": "onde-luce",
 			"difficulty": 4,
@@ -1158,17 +2167,17 @@
 			}
 		},
 		{
-			"id": "fisica-energia-30",
+			"id": "fisica-energia-90",
 			"subject": "fisica",
 			"topic": "energia",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Che cos'è il lavoro in fisica?",
 			"options": [
-				"L'effetto di una forza che sposta qualcosa",
+				"La fatica che si percepisce durante lo sforzo",
 				"Il tempo impiegato a fare una cosa",
 				"Lo sforzo compiuto da una persona",
-				"La fatica che si percepisce durante lo sforzo"
+				"L'effetto di una forza che sposta qualcosa"
 			],
 			"answer": "L'effetto di una forza che sposta qualcosa",
 			"explanation": "Se spingi un muro e non si muove, in fisica non hai compiuto lavoro, per quanto tu sia stanco.",
@@ -1179,17 +2188,17 @@
 			}
 		},
 		{
-			"id": "fisica-energia-31",
+			"id": "fisica-energia-91",
 			"subject": "fisica",
 			"topic": "energia",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Che cos'è la potenza?",
 			"options": [
-				"L'energia totale disponibile",
 				"L'energia impiegata divisa per il tempo trascorso",
 				"La forza che si applica per spostare un oggetto",
-				"La velocità di un corpo in moto"
+				"La velocità di un corpo in moto",
+				"L'energia totale disponibile"
 			],
 			"answer": "L'energia impiegata divisa per il tempo trascorso",
 			"explanation": "Fare lo stesso lavoro in metà tempo richiede il doppio della potenza.",
@@ -1200,17 +2209,17 @@
 			}
 		},
 		{
-			"id": "fisica-energia-32",
+			"id": "fisica-energia-92",
 			"subject": "fisica",
 			"topic": "energia",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Da che cosa dipende l'energia potenziale di un corpo sollevato?",
 			"options": [
-				"Dalla sua velocità e dalla forma",
-				"Dal tempo che resta sollevato",
+				"Dal materiale di cui è fatto",
 				"Dalla sua massa e dall'altezza",
-				"Dal materiale di cui è fatto"
+				"Dalla sua velocità e dalla forma",
+				"Dal tempo che resta sollevato"
 			],
 			"answer": "Dalla sua massa e dall'altezza",
 			"explanation": "Più è pesante e più è in alto, più energia restituirà cadendo.",
@@ -1221,17 +2230,17 @@
 			}
 		},
 		{
-			"id": "fisica-energia-33",
+			"id": "fisica-energia-93",
 			"subject": "fisica",
 			"topic": "energia",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Perché una macchina a moto perpetuo è impossibile?",
 			"options": [
-				"Perché nessuno l'ha ancora costruita",
 				"Perché la gravità la fermerebbe",
-				"Perché servirebbero materiali troppo cari",
-				"Perché parte dell'energia si disperde sempre"
+				"Perché nessuno l'ha ancora costruita",
+				"Perché parte dell'energia si disperde sempre",
+				"Perché servirebbero materiali troppo cari"
 			],
 			"answer": "Perché parte dell'energia si disperde sempre",
 			"explanation": "Attriti e resistenze trasformano energia utile in calore disperso: la macchina rallenta e si ferma.",
@@ -1242,17 +2251,17 @@
 			}
 		},
 		{
-			"id": "fisica-energia-34",
+			"id": "fisica-energia-94",
 			"subject": "fisica",
 			"topic": "energia",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "In quale unità si misura l'energia?",
 			"options": [
-				"Joule",
 				"Pascal",
+				"Watt",
 				"Newton",
-				"Watt"
+				"Joule"
 			],
 			"answer": "Joule",
 			"explanation": "Il newton misura le forze, il watt la potenza, il pascal la pressione.",
@@ -1263,17 +2272,17 @@
 			}
 		},
 		{
-			"id": "fisica-energia-35",
+			"id": "fisica-energia-95",
 			"subject": "fisica",
 			"topic": "energia",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Un'altalena che oscilla trasforma continuamente…",
 			"options": [
-				"Energia chimica in energia elettrica",
 				"Energia potenziale in cinetica e viceversa",
 				"Energia termica in energia luminosa",
-				"Energia cinetica in calore e poi in suono"
+				"Energia cinetica in calore e poi in suono",
+				"Energia chimica in energia elettrica"
 			],
 			"answer": "Energia potenziale in cinetica e viceversa",
 			"explanation": "In alto è ferma e ha il massimo di potenziale; in basso è velocissima e ha il massimo di cinetica.",
@@ -1284,7 +2293,7 @@
 			}
 		},
 		{
-			"id": "fisica-energia-36",
+			"id": "fisica-energia-96",
 			"subject": "fisica",
 			"topic": "energia",
 			"difficulty": 3,
@@ -1292,8 +2301,8 @@
 			"prompt": "Perché serve energia per far muovere un'auto a velocità costante?",
 			"options": [
 				"Perché l'auto deve accelerare di continuo",
-				"Perché la velocità costante consuma di più",
 				"Per vincere attriti e resistenza dell'aria",
+				"Perché la velocità costante consuma di più",
 				"Perché la gravità la rallenta sempre"
 			],
 			"answer": "Per vincere attriti e resistenza dell'aria",
@@ -1305,7 +2314,7 @@
 			}
 		},
 		{
-			"id": "fisica-energia-37",
+			"id": "fisica-energia-97",
 			"subject": "fisica",
 			"topic": "energia",
 			"difficulty": 4,
@@ -1314,8 +2323,8 @@
 			"options": [
 				"L'energia non si consuma mai",
 				"La fonte non costa niente",
-				"L'energia si può riutilizzare due volte",
-				"La fonte si rigenera in tempi brevi"
+				"La fonte si rigenera in tempi brevi",
+				"L'energia si può riutilizzare due volte"
 			],
 			"answer": "La fonte si rigenera in tempi brevi",
 			"explanation": "Non è l'energia a rinnovarsi — quella si degrada comunque — ma la fonte da cui si preleva.",
@@ -1326,17 +2335,17 @@
 			}
 		},
 		{
-			"id": "fisica-energia-38",
+			"id": "fisica-energia-98",
 			"subject": "fisica",
 			"topic": "energia",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Un corpo di 2 kg sollevato a 5 metri: se raddoppi l'altezza, l'energia potenziale…",
 			"options": [
-				"Raddoppia",
+				"Diventa quattro volte",
 				"Si dimezza",
 				"Resta uguale",
-				"Diventa quattro volte"
+				"Raddoppia"
 			],
 			"answer": "Raddoppia",
 			"explanation": "L'energia potenziale è proporzionale all'altezza: raddoppiando una, raddoppia l'altra.",
@@ -1347,17 +2356,17 @@
 			}
 		},
 		{
-			"id": "fisica-materia-39",
+			"id": "fisica-materia-99",
 			"subject": "fisica",
 			"topic": "materia",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Che cos'è la massa di un corpo?",
 			"options": [
-				"Il suo peso sulla Terra",
 				"La quantità di materia che contiene",
 				"Lo spazio che occupa",
-				"La forza con cui viene attratto"
+				"La forza con cui viene attratto",
+				"Il suo peso sulla Terra"
 			],
 			"answer": "La quantità di materia che contiene",
 			"explanation": "La massa non cambia spostandosi sulla Luna; il peso sì, perché dipende dalla gravità del luogo.",
@@ -1368,17 +2377,17 @@
 			}
 		},
 		{
-			"id": "fisica-materia-40",
+			"id": "fisica-materia-100",
 			"subject": "fisica",
 			"topic": "materia",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Qual è la differenza fra massa e peso?",
 			"options": [
-				"La massa si misura solo con la bilancia",
-				"Il peso resta lo stesso in qualunque luogo dell'universo",
+				"Sono sinonimi, cambia solo l'unità",
 				"Il peso è la forza con cui la gravità attrae la massa",
-				"Sono sinonimi, cambia solo l'unità"
+				"La massa si misura solo con la bilancia",
+				"Il peso resta lo stesso in qualunque luogo dell'universo"
 			],
 			"answer": "Il peso è la forza con cui la gravità attrae la massa",
 			"explanation": "La massa si misura in chilogrammi, il peso in newton: sulla Luna la massa resta, il peso diventa un sesto.",
@@ -1389,17 +2398,17 @@
 			}
 		},
 		{
-			"id": "fisica-materia-41",
+			"id": "fisica-materia-101",
 			"subject": "fisica",
 			"topic": "materia",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Che cos'è la densità?",
 			"options": [
-				"La durezza del materiale di cui è fatto",
 				"Lo spessore di un corpo solido",
 				"Il peso totale di un oggetto",
-				"La massa contenuta in un certo volume"
+				"La massa contenuta in un certo volume",
+				"La durezza del materiale di cui è fatto"
 			],
 			"answer": "La massa contenuta in un certo volume",
 			"explanation": "Il ferro è più denso del legno: a parità di volume contiene più materia, quindi pesa di più.",
@@ -1410,17 +2419,17 @@
 			}
 		},
 		{
-			"id": "fisica-materia-42",
+			"id": "fisica-materia-102",
 			"subject": "fisica",
 			"topic": "materia",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Perché una nave d'acciaio galleggia mentre un chiodo affonda?",
 			"options": [
-				"Perché la nave contiene molta aria e la sua densità media è bassa",
+				"Perché la nave è molto più grande del chiodo",
 				"Perché l'acciaio della nave è di un tipo diverso",
 				"Perché l'acqua salata del mare sostiene molto più peso di quella dolce",
-				"Perché la nave è molto più grande del chiodo"
+				"Perché la nave contiene molta aria e la sua densità media è bassa"
 			],
 			"answer": "Perché la nave contiene molta aria e la sua densità media è bassa",
 			"explanation": "Conta la densità media del corpo intero, non del materiale: una nave è per lo più aria.",
@@ -1431,15 +2440,15 @@
 			}
 		},
 		{
-			"id": "fisica-materia-43",
+			"id": "fisica-materia-103",
 			"subject": "fisica",
 			"topic": "materia",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Che cos'è il volume di un corpo?",
 			"options": [
-				"La sua altezza massima",
 				"Lo spazio che occupa",
+				"La sua altezza massima",
 				"Il suo peso in chilogrammi",
 				"La quantità di materia che contiene"
 			],
@@ -1452,17 +2461,17 @@
 			}
 		},
 		{
-			"id": "fisica-materia-44",
+			"id": "fisica-materia-104",
 			"subject": "fisica",
 			"topic": "materia",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Che cosa succede al volume di un gas se lo comprimi?",
 			"options": [
-				"Si annulla completamente",
-				"Resta uguale, perché il gas non si comprime",
+				"Aumenta, perché il gas si scalda",
 				"Diminuisce, perché le particelle si avvicinano",
-				"Aumenta, perché il gas si scalda"
+				"Si annulla completamente",
+				"Resta uguale, perché il gas non si comprime"
 			],
 			"answer": "Diminuisce, perché le particelle si avvicinano",
 			"explanation": "Nei gas le particelle sono molto distanti: c'è spazio per avvicinarle. Nei liquidi e nei solidi quasi no.",
@@ -1473,17 +2482,17 @@
 			}
 		},
 		{
-			"id": "fisica-materia-45",
+			"id": "fisica-materia-105",
 			"subject": "fisica",
 			"topic": "materia",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Perché l'olio galleggia sull'acqua?",
 			"options": [
-				"Perché non si mescola con l'acqua",
-				"Perché è più leggero in assoluto",
 				"Perché è più caldo dell'acqua",
-				"Perché è meno denso dell'acqua"
+				"Perché non si mescola con l'acqua",
+				"Perché è meno denso dell'acqua",
+				"Perché è più leggero in assoluto"
 			],
 			"answer": "Perché è meno denso dell'acqua",
 			"explanation": "Il non mescolarsi spiega perché restano separati, ma è la densità minore a decidere chi sta sopra.",
@@ -1494,7 +2503,7 @@
 			}
 		},
 		{
-			"id": "fisica-materia-46",
+			"id": "fisica-materia-106",
 			"subject": "fisica",
 			"topic": "materia",
 			"difficulty": 3,
@@ -1510,17 +2519,17 @@
 			}
 		},
 		{
-			"id": "fisica-materia-47",
+			"id": "fisica-materia-107",
 			"subject": "fisica",
 			"topic": "materia",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Che cos'è una sostanza pura?",
 			"options": [
-				"Una sostanza formata da un solo tipo di materia",
-				"Una sostanza naturale che non è stata lavorata",
+				"Una sostanza completamente trasparente alla luce",
 				"Una sostanza priva di qualsiasi sporcizia",
-				"Una sostanza completamente trasparente alla luce"
+				"Una sostanza naturale che non è stata lavorata",
+				"Una sostanza formata da un solo tipo di materia"
 			],
 			"answer": "Una sostanza formata da un solo tipo di materia",
 			"explanation": "L'acqua distillata è pura; l'acqua di mare è un miscuglio di acqua e sali.",
@@ -1531,17 +2540,17 @@
 			}
 		},
 		{
-			"id": "fisica-calore-48",
+			"id": "fisica-calore-108",
 			"subject": "fisica",
 			"topic": "calore",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Qual è la differenza fra calore e temperatura?",
 			"options": [
-				"Sono esattamente la stessa cosa con due nomi diversi",
 				"Il calore è energia che passa, la temperatura è uno stato",
-				"Il calore si misura in gradi centigradi come la temperatura",
-				"La temperatura si trasferisce da un corpo all'altro"
+				"Sono esattamente la stessa cosa con due nomi diversi",
+				"La temperatura si trasferisce da un corpo all'altro",
+				"Il calore si misura in gradi centigradi come la temperatura"
 			],
 			"answer": "Il calore è energia che passa, la temperatura è uno stato",
 			"explanation": "Una tazza e una piscina possono avere la stessa temperatura, ma la piscina contiene molta più energia termica.",
@@ -1552,16 +2561,16 @@
 			}
 		},
 		{
-			"id": "fisica-calore-49",
+			"id": "fisica-calore-109",
 			"subject": "fisica",
 			"topic": "calore",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "In quale verso passa spontaneamente il calore?",
 			"options": [
-				"Dal corpo più freddo a quello più caldo",
 				"Sempre verso il corpo più grande",
 				"Dal corpo più caldo a quello più freddo",
+				"Dal corpo più freddo a quello più caldo",
 				"Sempre verso il basso"
 			],
 			"answer": "Dal corpo più caldo a quello più freddo",
@@ -1573,17 +2582,17 @@
 			}
 		},
 		{
-			"id": "fisica-calore-50",
+			"id": "fisica-calore-110",
 			"subject": "fisica",
 			"topic": "calore",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Come si chiama il passaggio di calore attraverso un corpo solido?",
 			"options": [
-				"Evaporazione",
 				"Convezione",
 				"Irraggiamento",
-				"Conduzione"
+				"Conduzione",
+				"Evaporazione"
 			],
 			"answer": "Conduzione",
 			"explanation": "Il manico del cucchiaio si scalda per conduzione: le vibrazioni si trasmettono da un atomo al vicino.",
@@ -1594,17 +2603,17 @@
 			}
 		},
 		{
-			"id": "fisica-calore-51",
+			"id": "fisica-calore-111",
 			"subject": "fisica",
 			"topic": "calore",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Come arriva il calore del Sole fino a noi?",
 			"options": [
-				"Per irraggiamento",
-				"Per contatto diretto",
 				"Per convezione delle correnti",
-				"Per conduzione attraverso l'aria"
+				"Per conduzione attraverso l'aria",
+				"Per contatto diretto",
+				"Per irraggiamento"
 			],
 			"answer": "Per irraggiamento",
 			"explanation": "Fra Sole e Terra c'è il vuoto: solo l'irraggiamento può attraversarlo, perché non ha bisogno di materia.",
@@ -1615,17 +2624,17 @@
 			}
 		},
 		{
-			"id": "fisica-calore-52",
+			"id": "fisica-calore-112",
 			"subject": "fisica",
 			"topic": "calore",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Perché l'acqua che bolle in pentola si muove?",
 			"options": [
-				"Perché le bolle spingono l'acqua tutto intorno",
 				"Per convezione: la parte calda sale e quella fredda scende",
-				"Perché l'acqua cerca di uscire dal recipiente",
-				"Perché il fuoco fa vibrare il fondo della pentola e l'acqua"
+				"Perché le bolle spingono l'acqua tutto intorno",
+				"Perché il fuoco fa vibrare il fondo della pentola e l'acqua",
+				"Perché l'acqua cerca di uscire dal recipiente"
 			],
 			"answer": "Per convezione: la parte calda sale e quella fredda scende",
 			"explanation": "L'acqua calda è meno densa e sale; quella fredda scende a prendere il suo posto: nasce un movimento circolare.",
@@ -1636,17 +2645,17 @@
 			}
 		},
 		{
-			"id": "fisica-calore-53",
+			"id": "fisica-calore-113",
 			"subject": "fisica",
 			"topic": "calore",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Perché un cucchiaio di legno nella minestra non scotta?",
 			"options": [
-				"Perché il legno resta sempre freddo",
-				"Perché il legno è più leggero",
+				"Perché il legno assorbe la minestra",
 				"Perché il legno conduce male il calore",
-				"Perché il legno assorbe la minestra"
+				"Perché il legno è più leggero",
+				"Perché il legno resta sempre freddo"
 			],
 			"answer": "Perché il legno conduce male il calore",
 			"explanation": "Il calore fatica ad attraversarlo: si ferma vicino alla punta invece di arrivare alla mano.",
@@ -1657,7 +2666,7 @@
 			}
 		},
 		{
-			"id": "fisica-calore-54",
+			"id": "fisica-calore-114",
 			"subject": "fisica",
 			"topic": "calore",
 			"difficulty": 3,
@@ -1673,17 +2682,17 @@
 			}
 		},
 		{
-			"id": "fisica-calore-55",
+			"id": "fisica-calore-115",
 			"subject": "fisica",
 			"topic": "calore",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Perché in montagna la pasta cuoce peggio?",
 			"options": [
-				"Perché in quota l'acqua evapora più in fretta",
-				"Perché il fuoco scalda di meno",
 				"Perché l'aria è troppo fredda",
-				"Perché l'acqua bolle a temperatura più bassa"
+				"Perché il fuoco scalda di meno",
+				"Perché l'acqua bolle a temperatura più bassa",
+				"Perché in quota l'acqua evapora più in fretta"
 			],
 			"answer": "Perché l'acqua bolle a temperatura più bassa",
 			"explanation": "Meno pressione significa ebollizione a temperatura minore: l'acqua bolle, ma è meno calda di quella al mare.",
@@ -1694,17 +2703,17 @@
 			}
 		},
 		{
-			"id": "fisica-calore-56",
+			"id": "fisica-calore-116",
 			"subject": "fisica",
 			"topic": "calore",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Che cosa succede a un metallo quando si scalda?",
 			"options": [
-				"Si dilata, cioè aumenta di volume",
 				"Si contrae, cioè si restringe",
 				"Cambia colore in modo permanente",
-				"Diventa più leggero"
+				"Diventa più leggero",
+				"Si dilata, cioè aumenta di volume"
 			],
 			"answer": "Si dilata, cioè aumenta di volume",
 			"explanation": "Per questo i binari e i ponti hanno giunti di dilatazione: senza, d'estate si deformerebbero.",
@@ -1715,17 +2724,17 @@
 			}
 		},
 		{
-			"id": "fisica-misure-57",
+			"id": "fisica-misure-117",
 			"subject": "fisica",
 			"topic": "misure",
 			"difficulty": 1,
 			"format": "multiple_choice",
 			"prompt": "Con quale strumento misuri la lunghezza di un banco?",
 			"options": [
-				"Il termometro",
 				"Il metro (righello)",
-				"L'orologio da polso",
-				"La bilancia da cucina"
+				"Il termometro",
+				"La bilancia da cucina",
+				"L'orologio da polso"
 			],
 			"answer": "Il metro (righello)",
 			"explanation": "Il metro misura le lunghezze; la bilancia le masse.",
@@ -1736,7 +2745,7 @@
 			}
 		},
 		{
-			"id": "fisica-misure-58",
+			"id": "fisica-misure-118",
 			"subject": "fisica",
 			"topic": "misure",
 			"difficulty": 2,
@@ -1750,17 +2759,17 @@
 			}
 		},
 		{
-			"id": "fisica-misure-59",
+			"id": "fisica-misure-119",
 			"subject": "fisica",
 			"topic": "misure",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Per misurare quanto pesi useresti…",
 			"options": [
-				"Un termometro",
 				"Un metro",
-				"Un cronometro",
-				"Una bilancia"
+				"Un termometro",
+				"Una bilancia",
+				"Un cronometro"
 			],
 			"answer": "Una bilancia",
 			"explanation": "La bilancia misura la massa; il peso è la forza con cui la gravità la attira, e cambia da un pianeta all'altro.",
@@ -1771,17 +2780,17 @@
 			}
 		},
 		{
-			"id": "fisica-moto-60",
+			"id": "fisica-moto-120",
 			"subject": "fisica",
 			"topic": "moto",
 			"difficulty": 1,
 			"format": "multiple_choice",
 			"prompt": "Un oggetto che non cambia posizione è…",
 			"options": [
-				"Fermo",
+				"Veloce",
 				"Lento",
 				"In caduta",
-				"Veloce"
+				"Fermo"
 			],
 			"answer": "Fermo",
 			"explanation": "Fermo rispetto a che cosa, però: chi siede in treno è fermo rispetto al vagone e in corsa rispetto alla banchina.",
@@ -1792,17 +2801,17 @@
 			}
 		},
 		{
-			"id": "fisica-moto-61",
+			"id": "fisica-moto-121",
 			"subject": "fisica",
 			"topic": "moto",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Se un'auto percorre più strada nello stesso tempo, è…",
 			"options": [
-				"Più lenta",
 				"Più veloce",
+				"Più pesante",
 				"Ferma",
-				"Più pesante"
+				"Più lenta"
 			],
 			"answer": "Più veloce",
 			"explanation": "Più spazio nello stesso tempo significa maggiore velocità.",
@@ -1813,7 +2822,7 @@
 			}
 		},
 		{
-			"id": "fisica-moto-62",
+			"id": "fisica-moto-122",
 			"subject": "fisica",
 			"topic": "moto",
 			"difficulty": 3,
@@ -1821,8 +2830,8 @@
 			"prompt": "In un grafico spazio-tempo, una linea più ripida indica…",
 			"options": [
 				"Una salita reale in collina",
-				"Un oggetto fermo",
 				"Una velocità maggiore",
+				"Un oggetto fermo",
 				"Un peso maggiore"
 			],
 			"answer": "Una velocità maggiore",
@@ -1834,7 +2843,7 @@
 			}
 		},
 		{
-			"id": "fisica-forze-63",
+			"id": "fisica-forze-123",
 			"subject": "fisica",
 			"topic": "forze",
 			"difficulty": 1,
@@ -1843,8 +2852,8 @@
 			"options": [
 				"Il vento leggero",
 				"La luce del Sole",
-				"Il suono forte",
-				"La forza di gravità"
+				"La forza di gravità",
+				"Il suono forte"
 			],
 			"answer": "La forza di gravità",
 			"explanation": "La gravità attira gli oggetti verso il centro della Terra.",
@@ -1855,17 +2864,17 @@
 			}
 		},
 		{
-			"id": "fisica-forze-64",
+			"id": "fisica-forze-124",
 			"subject": "fisica",
 			"topic": "forze",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Cosa rallenta una palla che rotola sul pavimento?",
 			"options": [
-				"L'attrito",
+				"La luce",
 				"Il colore della palla",
 				"La gravità verso l'alto",
-				"La luce"
+				"L'attrito"
 			],
 			"answer": "L'attrito",
 			"explanation": "L'attrito tra palla e pavimento la frena a poco a poco.",
@@ -1876,17 +2885,17 @@
 			}
 		},
 		{
-			"id": "fisica-forze-65",
+			"id": "fisica-forze-125",
 			"subject": "fisica",
 			"topic": "forze",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Su un libro fermo sul tavolo, le forze…",
 			"options": [
-				"Spingono solo in alto",
 				"Si bilanciano",
 				"Non esistono",
-				"Spingono solo in basso"
+				"Spingono solo in basso",
+				"Spingono solo in alto"
 			],
 			"answer": "Si bilanciano",
 			"explanation": "Il peso verso il basso e la spinta del tavolo verso l'alto si equilibrano.",
@@ -1897,17 +2906,17 @@
 			}
 		},
 		{
-			"id": "fisica-forze-66",
+			"id": "fisica-forze-126",
 			"subject": "fisica",
 			"topic": "forze",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Massa e peso: quale frase è corretta?",
 			"options": [
-				"Massa e peso sono esattamente la stessa grandezza, con due nomi diversi",
 				"Il peso resta identico ovunque, anche sulla Luna e su Marte",
 				"La massa è la quantità di materia; il peso è la forza di gravità su di essa",
-				"La massa si misura sempre in newton, esattamente come il peso"
+				"La massa si misura sempre in newton, esattamente come il peso",
+				"Massa e peso sono esattamente la stessa grandezza, con due nomi diversi"
 			],
 			"answer": "La massa è la quantità di materia; il peso è la forza di gravità su di essa",
 			"explanation": "La massa non cambia; il peso dipende dalla gravità (sulla Luna pesi meno).",
@@ -1918,7 +2927,7 @@
 			}
 		},
 		{
-			"id": "fisica-energia-67",
+			"id": "fisica-energia-127",
 			"subject": "fisica",
 			"topic": "energia",
 			"difficulty": 2,
@@ -1926,9 +2935,9 @@
 			"prompt": "Una palla ferma in cima a uno scivolo ha soprattutto energia…",
 			"options": [
 				"Luminosa",
-				"Cinetica",
 				"Sonora",
-				"Potenziale"
+				"Potenziale",
+				"Cinetica"
 			],
 			"answer": "Potenziale",
 			"explanation": "In alto e ferma ha energia potenziale (di posizione).",
@@ -1939,17 +2948,17 @@
 			}
 		},
 		{
-			"id": "fisica-energia-68",
+			"id": "fisica-energia-128",
 			"subject": "fisica",
 			"topic": "energia",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Mentre la palla scende lungo lo scivolo, l'energia potenziale si trasforma in…",
 			"options": [
-				"Energia cinetica (di movimento)",
+				"Ancora più energia potenziale",
 				"Nulla: l'energia sparisce",
 				"Energia sonora (rumore)",
-				"Ancora più energia potenziale"
+				"Energia cinetica (di movimento)"
 			],
 			"answer": "Energia cinetica (di movimento)",
 			"explanation": "Scendendo, l'energia di posizione diventa energia di movimento.",
@@ -1960,17 +2969,17 @@
 			}
 		},
 		{
-			"id": "fisica-calore-69",
+			"id": "fisica-calore-129",
 			"subject": "fisica",
 			"topic": "calore",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Due oggetti a contatto smettono di scambiarsi calore quando…",
 			"options": [
-				"È passato abbastanza tempo dal contatto",
 				"Hanno raggiunto la stessa temperatura",
-				"Il più caldo ha finito il calore che aveva",
-				"Uno dei due è diventato freddo del tutto"
+				"È passato abbastanza tempo dal contatto",
+				"Uno dei due è diventato freddo del tutto",
+				"Il più caldo ha finito il calore che aveva"
 			],
 			"answer": "Hanno raggiunto la stessa temperatura",
 			"explanation": "Finché uno è più caldo il calore continua a passare: si ferma all'equilibrio, cioè quando le due temperature coincidono.",
@@ -1981,16 +2990,16 @@
 			}
 		},
 		{
-			"id": "fisica-calore-70",
+			"id": "fisica-calore-130",
 			"subject": "fisica",
 			"topic": "calore",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Temperatura e calore: quale è vero?",
 			"options": [
-				"Il calore si misura in gradi centigradi, esattamente come la temperatura",
 				"Temperatura e calore sono la stessa identica grandezza fisica",
 				"La temperatura dice quanto è caldo; il calore è l'energia che si trasferisce",
+				"Il calore si misura in gradi centigradi, esattamente come la temperatura",
 				"La temperatura è un tipo di energia che passa fra i corpi"
 			],
 			"answer": "La temperatura dice quanto è caldo; il calore è l'energia che si trasferisce",
@@ -2002,17 +3011,17 @@
 			}
 		},
 		{
-			"id": "fisica-onde-luce-71",
+			"id": "fisica-onde-luce-131",
 			"subject": "fisica",
 			"topic": "onde-luce",
 			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "In aria limpida, la luce viaggia…",
 			"options": [
-				"A zig-zag sempre",
-				"Più lenta del suono",
 				"Solo di notte",
-				"In linea retta"
+				"Più lenta del suono",
+				"In linea retta",
+				"A zig-zag sempre"
 			],
 			"answer": "In linea retta",
 			"explanation": "La luce si propaga in linea retta finché non incontra ostacoli.",
@@ -2023,17 +3032,17 @@
 			}
 		},
 		{
-			"id": "fisica-onde-luce-72",
+			"id": "fisica-onde-luce-132",
 			"subject": "fisica",
 			"topic": "onde-luce",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Perché di notte vediamo la Luna, se non produce luce propria?",
 			"options": [
-				"Perché rimanda verso di noi la luce del Sole",
 				"Perché di notte l'aria diventa più trasparente",
+				"Perché brilla del calore accumulato di giorno",
 				"Perché la sua superficie chiara si illumina da sé",
-				"Perché brilla del calore accumulato di giorno"
+				"Perché rimanda verso di noi la luce del Sole"
 			],
 			"answer": "Perché rimanda verso di noi la luce del Sole",
 			"explanation": "La Luna è una palla illuminata dal Sole in una stanza buia: le fasi sono la parte illuminata che di volta in volta ci mostra.",
@@ -2044,7 +3053,7 @@
 			}
 		},
 		{
-			"id": "fisica-misure-73",
+			"id": "fisica-misure-133",
 			"subject": "fisica",
 			"topic": "misure",
 			"difficulty": 1,
@@ -2068,7 +3077,7 @@
 			}
 		},
 		{
-			"id": "fisica-misure-74",
+			"id": "fisica-misure-134",
 			"subject": "fisica",
 			"topic": "misure",
 			"difficulty": 1,
@@ -2093,7 +3102,7 @@
 			}
 		},
 		{
-			"id": "fisica-misure-75",
+			"id": "fisica-misure-135",
 			"subject": "fisica",
 			"topic": "misure",
 			"difficulty": 1,
@@ -2117,7 +3126,7 @@
 			}
 		},
 		{
-			"id": "fisica-moto-76",
+			"id": "fisica-moto-136",
 			"subject": "fisica",
 			"topic": "moto",
 			"difficulty": 2,
@@ -2141,7 +3150,7 @@
 			}
 		},
 		{
-			"id": "fisica-moto-77",
+			"id": "fisica-moto-137",
 			"subject": "fisica",
 			"topic": "moto",
 			"difficulty": 3,
@@ -2165,7 +3174,7 @@
 			}
 		},
 		{
-			"id": "fisica-moto-78",
+			"id": "fisica-moto-138",
 			"subject": "fisica",
 			"topic": "moto",
 			"difficulty": 2,
@@ -2190,7 +3199,7 @@
 			}
 		},
 		{
-			"id": "fisica-onde-luce-79",
+			"id": "fisica-onde-luce-139",
 			"subject": "fisica",
 			"topic": "onde-luce",
 			"difficulty": 2,
@@ -2212,7 +3221,7 @@
 			}
 		},
 		{
-			"id": "fisica-onde-luce-80",
+			"id": "fisica-onde-luce-140",
 			"subject": "fisica",
 			"topic": "onde-luce",
 			"difficulty": 3,
@@ -2234,7 +3243,7 @@
 			}
 		},
 		{
-			"id": "fisica-onde-luce-81",
+			"id": "fisica-onde-luce-141",
 			"subject": "fisica",
 			"topic": "onde-luce",
 			"difficulty": 3,
@@ -2257,7 +3266,7 @@
 			}
 		},
 		{
-			"id": "fisica-forze-82",
+			"id": "fisica-forze-142",
 			"subject": "fisica",
 			"topic": "forze",
 			"difficulty": 1,
@@ -2282,7 +3291,7 @@
 			}
 		},
 		{
-			"id": "fisica-forze-83",
+			"id": "fisica-forze-143",
 			"subject": "fisica",
 			"topic": "forze",
 			"difficulty": 2,
@@ -2308,7 +3317,7 @@
 			}
 		},
 		{
-			"id": "fisica-forze-84",
+			"id": "fisica-forze-144",
 			"subject": "fisica",
 			"topic": "forze",
 			"difficulty": 2,
@@ -2332,7 +3341,7 @@
 			}
 		},
 		{
-			"id": "fisica-forze-85",
+			"id": "fisica-forze-145",
 			"subject": "fisica",
 			"topic": "forze",
 			"difficulty": 3,
@@ -2357,7 +3366,7 @@
 			}
 		},
 		{
-			"id": "fisica-energia-86",
+			"id": "fisica-energia-146",
 			"subject": "fisica",
 			"topic": "energia",
 			"difficulty": 1,
@@ -2380,7 +3389,7 @@
 			}
 		},
 		{
-			"id": "fisica-energia-87",
+			"id": "fisica-energia-147",
 			"subject": "fisica",
 			"topic": "energia",
 			"difficulty": 2,
@@ -2403,7 +3412,7 @@
 			}
 		},
 		{
-			"id": "fisica-energia-88",
+			"id": "fisica-energia-148",
 			"subject": "fisica",
 			"topic": "energia",
 			"difficulty": 2,
@@ -2425,7 +3434,7 @@
 			}
 		},
 		{
-			"id": "fisica-metodo-89",
+			"id": "fisica-metodo-149",
 			"subject": "fisica",
 			"topic": "metodo",
 			"difficulty": 2,
@@ -2444,7 +3453,7 @@
 			}
 		},
 		{
-			"id": "fisica-metodo-90",
+			"id": "fisica-metodo-150",
 			"subject": "fisica",
 			"topic": "metodo",
 			"difficulty": 3,
@@ -2462,7 +3471,7 @@
 			}
 		},
 		{
-			"id": "fisica-materia-91",
+			"id": "fisica-materia-151",
 			"subject": "fisica",
 			"topic": "materia",
 			"difficulty": 2,
@@ -2484,7 +3493,7 @@
 			}
 		},
 		{
-			"id": "fisica-materia-92",
+			"id": "fisica-materia-152",
 			"subject": "fisica",
 			"topic": "materia",
 			"difficulty": 1,
@@ -2506,7 +3515,7 @@
 			}
 		},
 		{
-			"id": "fisica-materia-93",
+			"id": "fisica-materia-153",
 			"subject": "fisica",
 			"topic": "materia",
 			"difficulty": 3,
@@ -2528,7 +3537,7 @@
 			}
 		},
 		{
-			"id": "fisica-calore-94",
+			"id": "fisica-calore-154",
 			"subject": "fisica",
 			"topic": "calore",
 			"difficulty": 2,
@@ -2550,7 +3559,7 @@
 			}
 		},
 		{
-			"id": "fisica-calore-95",
+			"id": "fisica-calore-155",
 			"subject": "fisica",
 			"topic": "calore",
 			"difficulty": 3,
@@ -2570,7 +3579,7 @@
 			}
 		},
 		{
-			"id": "fisica-misure-96",
+			"id": "fisica-misure-156",
 			"subject": "fisica",
 			"topic": "misure",
 			"difficulty": 1,
@@ -2594,7 +3603,7 @@
 			}
 		},
 		{
-			"id": "fisica-moto-97",
+			"id": "fisica-moto-157",
 			"subject": "fisica",
 			"topic": "moto",
 			"difficulty": 1,
@@ -2618,7 +3627,7 @@
 			}
 		},
 		{
-			"id": "fisica-onde-luce-98",
+			"id": "fisica-onde-luce-158",
 			"subject": "fisica",
 			"topic": "onde-luce",
 			"difficulty": 1,
@@ -2641,7 +3650,7 @@
 			}
 		},
 		{
-			"id": "fisica-calore-99",
+			"id": "fisica-calore-159",
 			"subject": "fisica",
 			"topic": "calore",
 			"difficulty": 1,
@@ -2662,17 +3671,17 @@
 			}
 		},
 		{
-			"id": "fisica-misure-100",
+			"id": "fisica-misure-160",
 			"subject": "fisica",
 			"topic": "misure",
 			"difficulty": 1,
 			"format": "multiple_choice",
 			"prompt": "Perché in fisica una misura si scrive sempre con l'unità accanto al numero?",
 			"options": [
-				"Perché così si riconosce subito chi ha svolto la misurazione",
 				"Perché senza unità il numero non dice quanto vale la grandezza",
 				"Perché il numero da solo risulterebbe troppo corto da leggere",
-				"Perché è una regola di scrittura senza vere conseguenze pratiche"
+				"Perché è una regola di scrittura senza vere conseguenze pratiche",
+				"Perché così si riconosce subito chi ha svolto la misurazione"
 			],
 			"answer": "Perché senza unità il numero non dice quanto vale la grandezza",
 			"explanation": "«3» non vuol dire niente: tre metri, tre secondi e tre chili sono cose diversissime.",
@@ -2683,17 +3692,17 @@
 			}
 		},
 		{
-			"id": "fisica-moto-101",
+			"id": "fisica-moto-161",
 			"subject": "fisica",
 			"topic": "moto",
 			"difficulty": 1,
 			"format": "multiple_choice",
 			"prompt": "Un corpo fermo rispetto alla strada può essere in movimento rispetto a che cosa?",
 			"options": [
-				"Rispetto a se stesso in un istante successivo del moto",
 				"Rispetto al proprio peso, che cambia continuamente",
 				"Rispetto a un altro corpo che si sta muovendo",
-				"Rispetto alla strada, se la si osserva con più attenzione"
+				"Rispetto alla strada, se la si osserva con più attenzione",
+				"Rispetto a se stesso in un istante successivo del moto"
 			],
 			"answer": "Rispetto a un altro corpo che si sta muovendo",
 			"explanation": "Il moto è sempre relativo: chi è fermo in treno si muove rispetto alla banchina.",
@@ -2704,17 +3713,17 @@
 			}
 		},
 		{
-			"id": "fisica-energia-102",
+			"id": "fisica-energia-162",
 			"subject": "fisica",
 			"topic": "energia",
 			"difficulty": 1,
 			"format": "multiple_choice",
 			"prompt": "Che cosa succede all'energia quando una palla che rotola si ferma per l'attrito?",
 			"options": [
-				"Torna dentro la palla e resta lì immagazzinata per sempre",
-				"Sparisce del tutto nel momento esatto in cui la palla si ferma",
 				"Viene assorbita dall'aria e poi restituita alla palla dopo",
-				"Si trasforma in calore, non sparisce"
+				"Sparisce del tutto nel momento esatto in cui la palla si ferma",
+				"Si trasforma in calore, non sparisce",
+				"Torna dentro la palla e resta lì immagazzinata per sempre"
 			],
 			"answer": "Si trasforma in calore, non sparisce",
 			"explanation": "L'energia non si crea e non si distrugge: cambia forma. La strada e la palla si scaldano un po'.",
@@ -2725,17 +3734,17 @@
 			}
 		},
 		{
-			"id": "fisica-materia-103",
+			"id": "fisica-materia-163",
 			"subject": "fisica",
 			"topic": "materia",
 			"difficulty": 1,
 			"format": "multiple_choice",
 			"prompt": "Perché un palloncino gonfio schiacciato cambia forma ma torna com'era?",
 			"options": [
-				"Perché il gas dentro si comprime e poi si riespande",
+				"Perché la gomma ricorda la forma che aveva prima di essere gonfiata",
 				"Perché il gas dentro si trasforma per un attimo in liquido",
 				"Perché l'aria fuori dal palloncino lo spinge sempre verso l'alto",
-				"Perché la gomma ricorda la forma che aveva prima di essere gonfiata"
+				"Perché il gas dentro si comprime e poi si riespande"
 			],
 			"answer": "Perché il gas dentro si comprime e poi si riespande",
 			"explanation": "I gas si comprimono facilmente: è quello che rende un palloncino elastico.",
@@ -2746,17 +3755,17 @@
 			}
 		},
 		{
-			"id": "fisica-forze-104",
+			"id": "fisica-forze-164",
 			"subject": "fisica",
 			"topic": "forze",
 			"difficulty": 1,
 			"format": "multiple_choice",
 			"prompt": "Perché una cassa pesante è più difficile da spingere di una leggera?",
 			"options": [
-				"Perché la cassa leggera contiene più aria e quindi scivola meglio",
 				"Perché serve più forza per cambiare la velocità di una massa maggiore",
+				"Perché il pavimento sotto una cassa pesante diventa più ruvido",
 				"Perché una cassa pesante è quasi sempre anche più grande da afferrare",
-				"Perché il pavimento sotto una cassa pesante diventa più ruvido"
+				"Perché la cassa leggera contiene più aria e quindi scivola meglio"
 			],
 			"answer": "Perché serve più forza per cambiare la velocità di una massa maggiore",
 			"explanation": "Più massa, più inerzia: più resistenza a mettersi in moto.",
@@ -2767,17 +3776,17 @@
 			}
 		},
 		{
-			"id": "fisica-metodo-105",
+			"id": "fisica-metodo-165",
 			"subject": "fisica",
 			"topic": "metodo",
 			"difficulty": 1,
 			"format": "multiple_choice",
 			"prompt": "Perché un esperimento va ripetuto più volte prima di trarre conclusioni?",
 			"options": [
-				"Perché le regole della scuola chiedono almeno tre prove scritte",
-				"Perché la prima misura di uno strumento è sempre sbagliata di principio",
+				"Perché ripetere serve soprattutto a fare pratica con lo strumento",
 				"Perché una volta sola può andare bene o male per caso",
-				"Perché ripetere serve soprattutto a fare pratica con lo strumento"
+				"Perché la prima misura di uno strumento è sempre sbagliata di principio",
+				"Perché le regole della scuola chiedono almeno tre prove scritte"
 			],
 			"answer": "Perché una volta sola può andare bene o male per caso",
 			"explanation": "Ripetere serve a distinguere l'effetto vero dal caso.",
@@ -2788,7 +3797,7 @@
 			}
 		},
 		{
-			"id": "fisica-calore-106",
+			"id": "fisica-calore-166",
 			"subject": "fisica",
 			"topic": "calore",
 			"difficulty": 1,
@@ -2809,7 +3818,7 @@
 			}
 		},
 		{
-			"id": "fisica-energia-107",
+			"id": "fisica-energia-167",
 			"subject": "fisica",
 			"topic": "energia",
 			"difficulty": 1,
@@ -2833,17 +3842,17 @@
 			}
 		},
 		{
-			"id": "fisica-materia-108",
+			"id": "fisica-materia-168",
 			"subject": "fisica",
 			"topic": "materia",
 			"difficulty": 1,
 			"format": "multiple_choice",
 			"prompt": "Perché l'acqua versata prende la forma del bicchiere?",
 			"options": [
-				"Perché l'acqua si trasforma in un solido appena tocca il vetro",
 				"Perché il vetro attira il liquido contro le sue pareti interne",
-				"Perché l'aria dentro il bicchiere spinge il liquido verso i bordi",
-				"Perché un liquido non ha forma propria ma ha volume proprio"
+				"Perché l'acqua si trasforma in un solido appena tocca il vetro",
+				"Perché un liquido non ha forma propria ma ha volume proprio",
+				"Perché l'aria dentro il bicchiere spinge il liquido verso i bordi"
 			],
 			"answer": "Perché un liquido non ha forma propria ma ha volume proprio",
 			"explanation": "Il volume resta lo stesso: mezzo litro resta mezzo litro in qualunque recipiente.",
@@ -2854,17 +3863,17 @@
 			}
 		},
 		{
-			"id": "fisica-onde-luce-109",
+			"id": "fisica-onde-luce-169",
 			"subject": "fisica",
 			"topic": "onde-luce",
 			"difficulty": 1,
 			"format": "multiple_choice",
 			"prompt": "Perché di notte in una stanza chiusa non si vede niente?",
 			"options": [
-				"Perché senza luce che arriva agli occhi non c'è visione",
-				"Perché gli occhi di notte smettono di funzionare del tutto",
 				"Perché gli oggetti al buio perdono per qualche ora il loro colore",
-				"Perché il buio è una sostanza che copre gli oggetti nella stanza"
+				"Perché il buio è una sostanza che copre gli oggetti nella stanza",
+				"Perché gli occhi di notte smettono di funzionare del tutto",
+				"Perché senza luce che arriva agli occhi non c'è visione"
 			],
 			"answer": "Perché senza luce che arriva agli occhi non c'è visione",
 			"explanation": "Vediamo la luce che gli oggetti rimandano: senza sorgente non c'è niente da rimandare.",
@@ -3092,8 +4101,8 @@
 			"format": "multiple_choice",
 			"prompt": "Misuri lo stesso oggetto cinque volte e trovi valori un po' diversi. Qual è la cosa più corretta da fare?",
 			"options": [
-				"tenere quella che ti aspettavi di trovare",
 				"calcolare la media delle cinque misure",
+				"tenere quella che ti aspettavi di trovare",
 				"tenere la misura più grande",
 				"tenere la prima misura"
 			],
@@ -3114,8 +4123,8 @@
 			"prompt": "Un righello ha le tacche ogni millimetro. Come ha senso scrivere una lunghezza misurata con quel righello?",
 			"options": [
 				"con tutte le cifre che dà la calcolatrice",
-				"al centesimo di millimetro",
 				"al millimetro, per esempio 12,4 cm",
+				"al centesimo di millimetro",
 				"sempre in numeri interi di centimetri"
 			],
 			"answer": "al millimetro, per esempio 12,4 cm",
@@ -3136,8 +4145,8 @@
 			"options": [
 				"luce, acqua e terra insieme",
 				"la specie della pianta",
-				"il momento della giornata in cui li osservi",
-				"solo la luce, tenendo uguale tutto il resto"
+				"solo la luce, tenendo uguale tutto il resto",
+				"il momento della giornata in cui li osservi"
 			],
 			"answer": "solo la luce, tenendo uguale tutto il resto",
 			"explanation": "Se cambi più cose insieme e qualcosa succede, non sai quale l'ha causato. Una variabile per volta.",
@@ -3155,10 +4164,10 @@
 			"format": "multiple_choice",
 			"prompt": "L'esperimento dà un risultato che non conferma la tua ipotesi. Che cosa fai?",
 			"options": [
-				"annoti il risultato e cambi l'ipotesi",
 				"butti via la misura sbagliata",
 				"ripeti finché non viene quello che pensavi",
-				"cambi la domanda di partenza"
+				"cambi la domanda di partenza",
+				"annoti il risultato e cambi l'ipotesi"
 			],
 			"answer": "annoti il risultato e cambi l'ipotesi",
 			"explanation": "Un risultato che smentisce è un risultato utile: dice qualcosa di vero sul mondo. Tenere solo le prove che ti danno ragione non è più un esperimento.",
@@ -3176,8 +4185,8 @@
 			"format": "multiple_choice",
 			"prompt": "Un'auto percorre 90 km in un'ora e mezza. Qual è la sua velocità media?",
 			"options": [
-				"90 km/h",
 				"60 km/h",
+				"90 km/h",
 				"45 km/h",
 				"135 km/h"
 			],
@@ -3198,8 +4207,8 @@
 			"prompt": "Sei seduto su un treno che viaggia liscio a velocità costante. Rispetto al vagone, tu…",
 			"options": [
 				"ti muovi all'indietro",
-				"ti muovi a 100 km/h",
 				"sei fermo",
+				"ti muovi a 100 km/h",
 				"acceleri di continuo"
 			],
 			"answer": "sei fermo",
@@ -3220,8 +4229,8 @@
 			"options": [
 				"raddoppia",
 				"diventa quattro volte più grande",
-				"resta la stessa",
-				"si dimezza"
+				"si dimezza",
+				"resta la stessa"
 			],
 			"answer": "si dimezza",
 			"explanation": "Su una leva conta forza per distanza dal fulcro: raddoppiando la distanza basta metà forza per fare lo stesso effetto.",
@@ -3239,10 +4248,10 @@
 			"format": "multiple_choice",
 			"prompt": "Una palla cade da un tavolo. Mentre scende, l'energia che aveva per la sua altezza…",
 			"options": [
-				"diventa energia di movimento",
 				"si trasforma tutta in calore",
 				"aumenta insieme all'altezza",
-				"sparisce"
+				"sparisce",
+				"diventa energia di movimento"
 			],
 			"answer": "diventa energia di movimento",
 			"explanation": "L'energia non sparisce, cambia forma: quella dovuta all'altezza diventa energia di movimento, e la palla arriva in basso veloce.",
@@ -3260,8 +4269,8 @@
 			"format": "multiple_choice",
 			"prompt": "Perché il manico di metallo di una pentola scotta e quello di legno no?",
 			"options": [
-				"perché il metallo è più vicino al fuoco",
 				"perché il metallo conduce bene il calore e il legno male",
+				"perché il metallo è più vicino al fuoco",
 				"perché il legno parte più freddo del manico di metallo",
 				"perché il metallo è più pesante"
 			],
@@ -3282,8 +4291,8 @@
 			"prompt": "Durante un temporale vedi il lampo e solo dopo senti il tuono. Perché?",
 			"options": [
 				"perché il lampo avviene prima del tuono",
-				"perché l'aria ferma il suono e lascia passare la luce",
 				"perché la luce viaggia molto più veloce del suono",
+				"perché l'aria ferma il suono e lascia passare la luce",
 				"perché il suono parte da più lontano"
 			],
 			"answer": "perché la luce viaggia molto più veloce del suono",
@@ -3304,8 +4313,8 @@
 			"options": [
 				"perché è più freddo dell'acqua",
 				"perché contiene aria al suo interno",
-				"perché il ghiaccio è più leggero di qualsiasi cosa",
-				"perché il ghiaccio è meno denso dell'acqua liquida"
+				"perché il ghiaccio è meno denso dell'acqua liquida",
+				"perché il ghiaccio è più leggero di qualsiasi cosa"
 			],
 			"answer": "perché il ghiaccio è meno denso dell'acqua liquida",
 			"explanation": "Congelandosi l'acqua occupa più spazio a parità di materia: il ghiaccio pesa meno dell'acqua che sposta, e galleggia. È un caso raro in natura.",

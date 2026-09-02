@@ -795,8 +795,8 @@ const VOCI := {
 		"come": "Quando qualcosa si muove o si scalda, chiediti che cosa si è svuotato: da lì viene l'energia.",
 	},
 	"fisica:forze": {
-		"perche": "Una forza non serve a tenere in moto una cosa, ma a cambiarne il moto: senza attrito un oggetto lanciato non si fermerebbe mai.",
-		"come": "Disegna le frecce di tutte le forze. Se si annullano, la velocità resta com'è — anche se è zero.",
+		"perche": "Una forza è una spinta o un tiro. Può far partire un oggetto, fermarlo, farlo andare più veloce o fargli cambiare direzione. Una palla che rallenta non si ferma da sola: è l'attrito con il terreno a frenarla.",
+		"come": "Prima guarda che cosa cambia: parte, rallenta o curva? Poi cerca la spinta o il tiro responsabile. Solo dopo, se serve, disegna una freccia nella sua direzione.",
 	},
 	"fisica:materia": {
 		"perche": "Lo stesso materiale può stare in tutti e tre gli stati senza diventare un'altra cosa: il ferro fonde a 1538 gradi e resta ferro, l'aria diventa liquida a −190 e resta aria.",
@@ -811,8 +811,8 @@ const VOCI := {
 		"come": "Controlla che le unità dei due lati tornino: se moltiplichi metri per metri non puoi ottenere metri.",
 	},
 	"fisica:moto": {
-		"perche": "La velocità mette insieme spazio e tempo, e serve proprio perché nessuno dei due da solo dice quanto vai forte.",
-		"come": "A parità di strada, meno tempo vuol dire più veloce. Se cambiano tutt'e due, fai il rapporto.",
+		"perche": "Per sapere chi va più veloce servono due informazioni: quanta strada percorre e quanto tempo impiega. Fare molta strada non basta, se ci vuole anche molto tempo.",
+		"come": "Confronta prima lo stesso tempo: in un'ora, chi percorre più strada è più veloce. Quando i tempi sono diversi, dividi la strada per il tempo.",
 	},
 	"fisica:onde-luce": {
 		"perche": [
@@ -850,16 +850,24 @@ const VOCI := {
 		"come": "Per ogni cambiamento di moto che osservi, chiediti quale forza l'ha causato: un cambiamento senza causa non esiste in fisica.",
 	},
 	"fisica:leve": {
-		"perche": "Una leva non crea forza dal nulla: scambia forza con distanza, così una piccola spinta lontana dal fulcro può muovere un grande peso vicino.",
-		"come": "Misura le due distanze dal fulcro: quella più lunga è dove serve meno forza. Se le distanze sono uguali, non guadagni niente.",
+		"perche": "Pensa a un'altalena: il fulcro è il punto fermo in mezzo. Se spingi lontano dal fulcro, la stessa spinta riesce a sollevare un peso maggiore vicino al fulcro. La leva non crea forza: ti fa usare una strada più lunga per fare meno fatica.",
+		"come": "Trova prima il fulcro. Poi confronta quanto sono lontani la mano e il peso: più la mano è lontana dal fulcro, meno forza serve.",
 	},
 	"fisica:macchine": {
 		"perche": "Una macchina semplice — leva, carrucola, piano inclinato — non risparmia lavoro, lo distribuisce: quello che guadagni in forza lo paghi in distanza percorsa.",
 		"come": "Chiediti sempre se guadagni forza o comodità di percorso: raramente si ottengono entrambe le cose insieme.",
 	},
 	"fisica:pressione": {
-		"perche": "La pressione è una forza spalmata su una superficie: la stessa forza su una superficie più piccola preme molto di più, ed è per questo che un chiodo appuntito entra e un martello piatto no.",
-		"come": "Chiediti se sta cambiando la forza o la superficie su cui agisce: la pressione dipende da entrambe, non solo dalla forza.",
+		"perche": "La pressione dice quanto una forza è concentrata. Il tuo peso non cambia, ma con le racchette da neve si distribuisce su una superficie più grande e affondi meno. Nell'acqua, più scendi e più acqua hai sopra: perciò la pressione aumenta.",
+		"come": "Fai due domande: la forza è la stessa? La superficie è più grande o più piccola? In profondità chiediti invece quanta acqua c'è sopra.",
+	},
+	"fisica:galleggiamento": {
+		"perche": "L'acqua spinge verso l'alto gli oggetti immersi. Un oggetto galleggia quando questa spinta riesce a bilanciare il suo peso; affonda quando il peso vince. Conta anche quanta acqua l'oggetto sposta, non soltanto il materiale di cui è fatto.",
+		"come": "Immagina due frecce: il peso verso il basso e la spinta dell'acqua verso l'alto. Se sono uguali l'oggetto resta alla stessa altezza; se una è maggiore, si muove da quella parte.",
+	},
+	"fisica:correnti": {
+		"perche": "Una corrente è acqua che si muove tutta nella stessa direzione. Porta con sé ciò che galleggia: una barca può quindi avanzare, rallentare o deviare anche senza cambiare la forza del motore.",
+		"come": "Disegna due frecce: una per il moto della barca e una per la corrente. Se puntano insieme si aiutano; se sono opposte si contrastano; se sono di lato la barca devia.",
 	},
 	"fisica:temperatura": {
 		"perche": "La temperatura dice quanto si agitano le particelle, non quanta energia c'è in tutto: una vasca d'acqua tiepida ne contiene molta più di un ago rovente, perché di particelle ne ha molte di più.",

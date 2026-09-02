@@ -105,11 +105,14 @@ const LESSONS := {
 		"subject": "fisica",
 		"objectives": ["Distinguere le grandezze del moto: spazio, tempo, velocità.", "Riconoscere come una forza cambia il movimento.", "Collegare leva e rampa al vantaggio meccanico."],
 		"prerequisites": ["Misurare lunghezze e tempi.", "Leggere un semplice grafico."],
-		"topics": ["forze", "moto", "energia"],
+		# I topic devono nominare esattamente ciò che il mondo insegna. Prima
+		# «energia» prendeva il posto delle leve: la selezione poteva quindi
+		# interrogare su joule e trasformazioni dopo aver promesso fulcro e rampa.
+		"topics": ["moto", "forze", "leve"],
 		"conceptActions": [
 			{"concept": "forza e moto", "worldAction": "spingi il carrello sulla rampa con la forza giusta per raggiungere il ripiano"},
 			{"concept": "leva", "worldAction": "posiziona il fulcro per sollevare il masso con meno sforzo"},
-			{"concept": "energia", "worldAction": "carica la molla e libera l'energia per avviare il ponte comando"},
+			{"concept": "velocità", "worldAction": "confronta spazio e tempo per scegliere il carrello che raggiunge il ponte per primo"},
 		],
 		"transferTest": {"description": "Una situazione nuova di moto o leva: prevedi l'effetto della forza.", "formats": ["graph", "multiple_choice", "ordering", "circuit"], "novelContext": true},
 		"nora": {
@@ -345,7 +348,10 @@ const LESSONS := {
 		"subject": "fisica",
 		"objectives": ["Collegare pressione e profondità.", "Spiegare galleggiamento e spinta.", "Riconoscere il ruolo delle correnti."],
 		"prerequisites": ["Forze e moto (L5).", "Leggere misure e unità."],
-		"topics": ["forze", "materia", "energia"],
+		# Non contenitori generici: sono le tre competenze effettivamente spiegate
+		# e praticate nell'oceano. In questo modo la quota didattica non pesca una
+		# domanda qualsiasi su materia o energia.
+		"topics": ["pressione", "galleggiamento", "correnti"],
 		"conceptActions": [
 			{"concept": "pressione", "worldAction": "regola la profondità in base alla pressione per non schiacciare il sommergibile"},
 			{"concept": "galleggiamento", "worldAction": "bilancia la spinta per far galleggiare il modulo"},

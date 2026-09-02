@@ -115,6 +115,18 @@ const BANKS := {
 	"logica": "res://data/banks/logica-base.json",
 }
 
+## Il corso di fisica non coincide con tutto ciò che esiste nel banco.
+##
+## Un bambino di dieci anni non deve incontrare per caso rifrazione, incertezza
+## sperimentale o passaggi di stato dentro un mondo che ha appena insegnato moto
+## e leve. Questi sono i sei nuclei effettivamente introdotti nei mondi 5 e
+## 17; ogni domanda ordinaria e l'esame finale di fisica restano entro questo
+## perimetro. Gli altri contenuti rimangono nel Manuale per futuri mondi.
+const PHYSICS_CURRICULUM_TOPICS := [
+	"moto", "forze", "leve",
+	"pressione", "galleggiamento", "correnti",
+]
+
 var _cache: Dictionary = {}  # subject -> Array item
 var _difficulty_ranges: Dictionary = {}  # subject -> Vector2i(min,max) difficoltà nel banco
 var _topic_counts: Dictionary = {}  # subject -> int argomenti distinti (cache copertura)
@@ -519,6 +531,18 @@ func build_mission(subject: String, level: int, node_count: int = 3, review_due:
 		return _session(subject, level, _innesta_banco_matematica(
 			generated, level, generator, mastery, review_topics))
 	var items := _era_gated(subject, level, _load_bank(subject))
+	# I soli livelli in cui una missione di fisica viene davvero servita sono i
+	# suoi due mondi e il finale trasversale. Gli strumenti di authoring possono
+	# continuare a esplorare il catalogo futuro sugli altri livelli.
+	if subject == "fisica" and level in [5, 17, ApparatusConfig.MAX_LEVEL]:
+		var nel_percorso: Array = []
+		for raw_item in items:
+			if PHYSICS_CURRICULUM_TOPICS.has(str((raw_item as Dictionary).get("topic", ""))):
+				nel_percorso.append(raw_item)
+		# Il banco viene validato al bake, ma questo ripiego evita una missione
+		# vuota durante lo sviluppo se il JSON non è ancora stato rigenerato.
+		if not nel_percorso.is_empty():
+			items = nel_percorso
 	# Difficoltà efficace: livello + mastery, calibrata sul range reale del banco.
 	var target := effective_difficulty(subject, level, mastery)
 	var lesson := lesson_topic_set(subject, level)
@@ -532,6 +556,11 @@ func build_mission(subject: String, level: int, node_count: int = 3, review_due:
 	var done_pool: Array = []        # prove già superate: ultima risorsa
 	for item in items:
 		var topic := str(item.get("topic", ""))
+		# Nei due mondi di fisica il perimetro è stretto: una domanda fuori
+		# lezione entra soltanto se è un ripasso già dovuto.
+		if subject == "fisica" and not lesson.is_empty() and not lesson.has(topic) \
+				and int(review_due.get("%s:%s" % [subject, topic], 0)) <= 0:
+			continue
 		var done := _e_superata(superate, item)
 		if int(review_due.get("%s:%s" % [subject, topic], 0)) > 0:
 			if done:
@@ -1090,9 +1119,16 @@ func inject_non_mc(nodes: Array, subject: String, level: int, count: int, rng: R
 	var stale: Dictionary = {}     # format -> prove già viste di recente
 	var risolte: Dictionary = {}   # format -> prove GIÀ SUPERATE (in fondo a tutto)
 	var superate := _superate(subject)
+	var topic_consentiti := lesson_topic_set(subject, level)
+	if subject == "fisica" and topic_consentiti.is_empty():
+		for topic in PHYSICS_CURRICULUM_TOPICS:
+			topic_consentiti[str(topic)] = true
 	for draw in range(PALETTE_DRAWS):
 		for n in minigame_manager.build_minigame(subject, level, rng).get("nodes", []):
 			if ExerciseInteraction.is_multiple_choice(n):
+				continue
+			# Un formato più visuale non può cambiare di nascosto la competenza.
+			if subject == "fisica" and not topic_consentiti.has(str(n.get("topic", ""))):
 				continue
 			# DUE chiavi, per due scopi diversi — e questa volta la distinzione è
 			# deliberata e dichiarata, non un incidente come lo era prima della Fase 0.

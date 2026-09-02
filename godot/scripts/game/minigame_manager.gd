@@ -512,19 +512,18 @@ const MATCHING := {
 			["==", "chiede se due valori sono uguali"], ["#", "scrive una nota per chi legge"]]},
 	],
 	"elettronica": [
-		{"explanation": "Ogni componente ha un ruolo solo: chi fornisce energia, chi lascia passare la corrente o la interrompe, chi la limita.", "topic": "componenti", "pairs": [["Pila", "Fornisce energia"], ["Interruttore", "Apre e chiude"], ["Resistore", "Limita la corrente"], ["LED", "Emette luce"]]},
-		{"explanation": "Ogni grandezza ha la sua unità e il suo strumento. Confonderle significa collegare lo strumento nel modo sbagliato.", "topic": "misure-elettriche", "pairs": [["Tensione", "Volt"], ["Corrente", "Ampere"], ["Resistenza", "Ohm"]]},
-		{"explanation": "Le unità portano il nome di chi le ha studiate: Watt, Joule e Hertz erano persone.", "topic": "grandezze", "minLevel": 3, "pairs": [["Potenza", "Watt"], ["Energia", "Joule"], ["Frequenza", "Hertz"]]},
+		{"explanation": "In un circuito LED ci sono quattro lavori diversi. La pila dà la spinta, l'interruttore apre o chiude la strada, il resistore frena la corrente per proteggere il LED e il LED trasforma l'energia in luce.", "topic": "componenti-base", "pairs": [["Pila", "Dà la spinta elettrica"], ["Interruttore", "Apre e chiude la strada"], ["Resistore", "Protegge il LED limitando la corrente"], ["LED", "Trasforma energia in luce"]]},
+		{"explanation": "Le tre parole rispondono a tre domande diverse. La tensione è la spinta e si misura in volt; la corrente è quanta carica passa e si misura in ampere; la resistenza è quanto un componente ostacola il passaggio e si misura in ohm.", "topic": "misure-elettriche", "pairs": [["Tensione: la spinta", "Volt (V)"], ["Corrente: quanto passa", "Ampere (A)"], ["Resistenza: quanto frena", "Ohm (Ω)"]]},
+		{"explanation": "Potenza, energia e frequenza sono grandezze diverse e arrivano solo dopo le tre misure di base: watt dice quanta energia si usa ogni secondo, joule quanta energia in tutto, hertz quante volte un evento si ripete in un secondo.", "topic": "grandezze", "minLevel": 20, "pairs": [["Potenza", "Watt"], ["Energia", "Joule"], ["Frequenza", "Hertz"]]},
 		# Scuola media — legge di Ohm e prefissi delle unità.
-		{"explanation": "Dalla legge di Ohm si ricavano tutte e tre le formule: conoscendo due grandezze si trova sempre la terza.", "topic": "legge-ohm", "minLevel": 6, "pairs": [["Tensione (V)", "R × I"], ["Corrente (I)", "V / R"], ["Resistenza (R)", "V / I"]]},
-		{"explanation": "I prefissi valgono mille per volta: k moltiplica per mille, m divide per mille.", "topic": "prefissi", "minLevel": 7, "pairs": [["1000 Ω", "1 kΩ"], ["1000 mA", "1 A"], ["1000 mV", "1 V"]]},
+		{"explanation": "La legge di Ohm descrive il legame fra spinta, passaggio e ostacolo: V = I × R. Si usa soltanto dopo aver imparato che cosa significano tensione, corrente e resistenza.", "topic": "legge-ohm", "minLevel": 20, "pairs": [["Tensione (V)", "R × I"], ["Corrente (I)", "V / R"], ["Resistenza (R)", "V / I"]]},
+		{"explanation": "I prefissi cambiano la grandezza di mille volte: chilo significa mille volte, milli significa la millesima parte. Prima si riconosce l'unità, poi si converte.", "topic": "prefissi", "minLevel": 20, "pairs": [["1000 Ω", "1 kΩ"], ["1000 mA", "1 A"], ["1000 mV", "1 V"]]},
 		# --- Mondo 1: ricette in più (tappa 3, 6 agosto 2026) -----------------
-		{"explanation": "L'elettricità si capisce meglio pensando all'acqua nei tubi: è un paragone, non la verità, ma regge abbastanza da farci ragionare sui circuiti.", "topic": "elettricita-base", "pairs": [
+		{"explanation": "Immagina un circuito come un giro di tubi. La pila fa da pompa, il filo da tubo, la tensione è la spinta, la corrente è ciò che scorre e l'interruttore è un rubinetto. È solo un modello, ma aiuta a distinguere le idee.", "topic": "elettricita-base", "pairs": [
 			["la pila", "la pompa che spinge"], ["la tensione", "la pressione dell'acqua"],
 			["la corrente", "quanta acqua passa al secondo"], ["la resistenza", "il tubo stretto"],
-			["l'interruttore", "il rubinetto"], ["il filo", "il tubo"],
-			["il condensatore", "il serbatoio che si riempie"]]},
-		{"explanation": "Un guasto si trova ragionando, non provando a caso: ogni sintomo restringe il campo, e il primo controllo è sempre se il circuito è chiuso.", "topic": "guasti", "pairs": [
+			["l'interruttore", "il rubinetto"], ["il filo", "il tubo"]]},
+		{"explanation": "La diagnosi arriva dopo il circuito semplice: si parte dal sintomo, si controlla prima se il giro è chiuso e poi si prova un tratto per volta, senza cambiare tutti i pezzi insieme.", "topic": "guasti", "minLevel": 20, "pairs": [
 			["la lampadina non si accende", "il circuito è interrotto"],
 			["i fili scaldano troppo", "passa più corrente del dovuto"],
 			["la pila si scarica in pochi minuti", "c'è un cortocircuito"],
@@ -1066,7 +1065,7 @@ const ORDERING := {
 		# Tensioni reali, dalla pila a bottone alla linea ad alta tensione: qui il
 		# valore da ordinare è scritto sull'etichetta, quindi l'esercizio allena a
 		# leggere gli ordini di grandezza (mV, V, kV) invece di ricordare una lista.
-		{"explanation": "Si porta tutto alla stessa unità prima di confrontare: 300 mV sono 0,3 V, quindi meno di 1,2 V.", "topic": "misure-elettriche", "kind": "pool", "draw": 4, "prompt": "Ordina le tensioni dalla più piccola alla più grande.", "pool": [
+		{"explanation": "Prima si traduce ogni valore nella stessa unità: 300 mV sono 0,3 V, quindi meno di 1,2 V. Questa conversione arriva dopo aver imparato volt e prefissi.", "topic": "prefissi", "minLevel": 20, "kind": "pool", "draw": 4, "prompt": "Ordina le tensioni dalla più piccola alla più grande.", "pool": [
 			{"label": "50 mV", "value": 0.05}, {"label": "300 mV", "value": 0.3},
 			{"label": "1,2 V", "value": 1.2}, {"label": "1,5 V", "value": 1.5},
 			{"label": "3 V", "value": 3.0}, {"label": "3,7 V", "value": 3.7},
@@ -1080,10 +1079,10 @@ const ORDERING := {
 			{"label": "18 V", "value": 18.0}, {"label": "36 V", "value": 36.0}]},
 		{"explanation": "La corrente percorre un anello chiuso: parte dal polo positivo, attraversa i componenti in fila e torna al negativo. In serie l'ordine è obbligato.", "topic": "circuito", "prompt": "Partendo dal polo positivo, ordina i componenti attraversati dalla corrente in questo circuito in serie.",
 			"correctOrder": ["Polo positivo della pila", "Interruttore chiuso", "Resistore", "LED", "Polo negativo della pila"]},
-		{"explanation": "Si monta il circuito prima di dargli corrente: collegare l'alimentazione per ultima è ciò che evita di bruciare il LED.", "topic": "montaggio", "minLevel": 3, "prompt": "Ordina i passi per costruire un circuito che accende un LED.", "correctOrder": ["Prendi la pila", "Collega il filo al polo +", "Aggiungi l'interruttore", "Collega il LED", "Chiudi il circuito al polo -"]},
-		{"explanation": "Si confrontano i valori nella stessa unità: l'ordine delle fasce colorate dice il numero, non la grandezza.", "topic": "misure-elettriche", "minLevel": 5, "prompt": "Ordina le resistenze dalla più piccola.", "correctOrder": ["10 Ω", "100 Ω", "1 kΩ", "10 kΩ"]},
+		{"explanation": "Un LED ha un verso e ha bisogno di un resistore che limiti la corrente. Si controllano i collegamenti con la pila staccata e si collega la pila solo alla fine: così un errore si può correggere prima che passi corrente.", "topic": "montaggio-led", "prompt": "Monta in sicurezza il circuito LED: ordina i passi, lasciando l'alimentazione per ultima.", "correctOrder": ["Tieni la pila scollegata", "Controlla il verso del LED", "Collega interruttore e resistore", "Collega il LED e il filo di ritorno", "Controlla che il giro sia chiuso", "Collega la pila per ultima"]},
+		{"explanation": "Per confrontare ohm e kilo-ohm bisogna prima portarli alla stessa unità: 1 kΩ significa 1000 Ω.", "topic": "prefissi", "minLevel": 20, "prompt": "Ordina le resistenze dalla più piccola.", "correctOrder": ["10 Ω", "100 Ω", "1 kΩ", "10 kΩ"]},
 		# --- Terzo ordinamento al mondo 1 (7 agosto 2026) ----------------------
-		{"explanation": "Si lavora sempre dal generatore verso l'utilizzatore: seguire la corrente nel suo verso e' il modo per non perdersi in un circuito grande.", "topic": "circuito", "prompt": "Ordina i passi per costruire un circuito che accende una lampadina.", "correctOrder": ["Prendi la pila", "Collega il primo filo al polo positivo", "Collega la lampadina", "Chiudi il circuito sul polo negativo"]},
+		{"explanation": "Un circuito funziona soltanto se esiste un giro completo dai due poli della pila. Si prepara il percorso con la pila staccata, si controlla che non ci siano buchi e si alimenta soltanto alla fine.", "topic": "montaggio-lampada", "prompt": "Costruisci un circuito semplice senza alimentarlo mentre lavori: ordina i passi.", "correctOrder": ["Tieni la pila scollegata", "Collega il filo alla lampadina", "Collega il ritorno all'altro lato della lampadina", "Controlla che il percorso non abbia buchi", "Collega i due poli della pila per ultimi"]},
 	],
 	# Logica (mondi 12 e 24). Prima di queste specifiche la logica riceveva
 	# l'ordinamento procedurale di numeri nudi, che dichiarava `topic: "sequenze"`
@@ -1812,28 +1811,35 @@ const CLASSIFICATION := {
 				"contrafagotto": "grave", "gong": "grave"}},
 	],
 	"elettronica": [
-		{"explanation": "I conduttori hanno elettroni liberi di muoversi — quasi tutti i metalli; gli isolanti no, e per questo si usano per rivestire.", "topic": "conduttori", "draw": 6, "prompt": "Smista ogni materiale: conduttore o isolante?",
+		{"explanation": "Un conduttore lascia passare facilmente la corrente; un isolante la ostacola e protegge dal contatto. Nei primi circuiti la regola utile è semplice: il metallo interno porta la corrente, plastica e gomma all'esterno ci proteggono.", "topic": "conduttori", "draw": 6, "prompt": "Smista i materiali comuni: lasciano passare la corrente o proteggono dal passaggio?",
 			"categories": ["conduttore", "isolante"],
 			"assignments": {
-				"Rame": "conduttore", "Ferro": "conduttore", "Alluminio": "conduttore", "Argento": "conduttore",
-				"Oro": "conduttore", "Acciaio": "conduttore", "Ottone": "conduttore", "Grafite": "conduttore",
-				"Acqua salata": "conduttore", "Stagno": "conduttore", "Nichel": "conduttore", "Zinco": "conduttore",
+				"Rame": "conduttore", "Ferro": "conduttore", "Alluminio": "conduttore", "Acciaio": "conduttore",
+				"Moneta metallica": "conduttore", "Graffetta metallica": "conduttore",
 				"Plastica": "isolante", "Legno secco": "isolante", "Gomma": "isolante", "Vetro": "isolante",
-				"Ceramica": "isolante", "Carta": "isolante", "Aria secca": "isolante", "Porcellana": "isolante",
-				"Silicone": "isolante", "Stoffa": "isolante", "Sughero": "isolante", "Acqua distillata": "isolante"}},
-		{"explanation": "Si guarda il verso dell'energia: la pila e la cella solare la mettono nel circuito, la lampadina e il motore la prelevano per fare qualcosa.", "topic": "componenti", "draw": 6, "prompt": "Smista ogni componente: dà energia o la usa?",
+				"Ceramica": "isolante", "Sughero": "isolante"}},
+		{"explanation": "Segui l'energia: una sorgente la mette nel circuito; un utilizzatore la trasforma in luce, suono o movimento. La pila è una sorgente, mentre LED, lampadina e motorino sono utilizzatori.", "topic": "energia-nei-componenti", "draw": 6, "prompt": "Smista i componenti: chi dà energia al circuito e chi la trasforma?",
 			"categories": ["fornisce energia", "usa energia"],
 			"assignments": {
 				"Pila": "fornisce energia", "Batteria": "fornisce energia", "Cella solare": "fornisce energia",
-				"Dinamo": "fornisce energia", "Alternatore": "fornisce energia", "Generatore a manovella": "fornisce energia",
-				"Accumulatore carico": "fornisce energia", "Pila a bottone": "fornisce energia",
-				"Powerbank": "fornisce energia", "Turbina eolica": "fornisce energia",
+				"Powerbank": "fornisce energia", "Pila a bottone": "fornisce energia",
 				"LED": "usa energia", "Motorino": "usa energia", "Lampadina": "usa energia",
-				"Cicalino": "usa energia", "Ventola": "usa energia", "Resistore": "usa energia",
-				"Altoparlante": "usa energia", "Display": "usa energia", "Elettrocalamita": "usa energia",
-				"Riscaldatore": "usa energia", "Pompa elettrica": "usa energia", "Schermo LCD": "usa energia"}},
+				"Cicalino": "usa energia", "Ventola": "usa energia"}},
+		{"explanation": "Prima regola: nei circuiti didattici si usano pile a bassa tensione; prese e cavi di casa non sono materiale da esperimento. Seconda: si monta a pila scollegata. Terza: se qualcosa scalda, odora o ha un filo scoperto, si stacca e si chiama un adulto.", "topic": "sicurezza-elettrica", "draw": 6, "prompt": "Porta ogni situazione nel contenitore giusto: posso continuare o devo fermarmi?",
+			"categories": ["posso continuare", "stop e chiamo un adulto"],
+			"assignments": {
+				"Monto un circuito con la pila scollegata": "posso continuare",
+				"Uso una pila da laboratorio e fili integri": "posso continuare",
+				"Controllo due volte prima di collegare la pila": "posso continuare",
+				"Il circuito è spento e il banco è asciutto": "posso continuare",
+				"Voglio aprire una presa di casa": "stop e chiamo un adulto",
+				"Un filo ha il rame scoperto": "stop e chiamo un adulto",
+				"Sento odore di bruciato": "stop e chiamo un adulto",
+				"La pila o un componente diventano caldi": "stop e chiamo un adulto",
+				"Ho le mani bagnate": "stop e chiamo un adulto",
+				"Vorrei usare la corrente della presa per provare": "stop e chiamo un adulto"}},
 		# Ruolo nel circuito: sorgente, conduttore, isolante o carico.
-		{"explanation": "Ogni elemento del circuito ha un ruolo solo: chi fornisce energia, chi la trasporta, chi la ferma, chi la consuma facendo un lavoro.", "topic": "ruoli", "minLevel": 4, "draw": 8, "prompt": "Smista ogni elemento per il suo ruolo nel circuito.",
+		{"explanation": "In uno schema avanzato gli elementi si distinguono per ruolo: sorgente, conduttore, isolante o carico. Prima si riconosce che cosa entra e che cosa esce in termini di energia.", "topic": "ruoli", "minLevel": 20, "draw": 8, "prompt": "Smista ogni elemento per il suo ruolo nel circuito.",
 			"categories": ["sorgente", "conduttore", "isolante", "carico"],
 			"assignments": {
 				"Pila": "sorgente", "Batteria": "sorgente", "Cella solare": "sorgente",
@@ -1845,7 +1851,7 @@ const CLASSIFICATION := {
 				"LED": "carico", "Lampadina": "carico", "Motorino": "carico",
 				"Cicalino": "carico", "Ventola": "carico", "Resistore di potenza": "carico"}},
 		# --- Mondo 1: ricette in più (tappa 3, 6 agosto 2026) -----------------
-		{"explanation": "In serie la corrente ha una strada sola, quindi se si interrompe si spegne tutto. In parallelo ognuno ha la sua strada, ed è il motivo per cui in casa è cablato così.", "topic": "serie-parallelo", "draw": 6, "prompt": "Smista ogni descrizione: serie o parallelo?",
+		{"explanation": "In serie la corrente ha una strada sola, quindi se si interrompe si spegne tutto. In parallelo ogni ramo ha la sua strada. Questa distinzione arriva dopo aver imparato a seguire un circuito semplice.", "topic": "serie-parallelo", "minLevel": 20, "draw": 6, "prompt": "Smista ogni descrizione: serie o parallelo?",
 			"categories": ["serie", "parallelo"],
 			"assignments": {
 				"se una lampadina si brucia si spengono tutte": "serie",
@@ -1860,21 +1866,21 @@ const CLASSIFICATION := {
 				"ognuna riceve la stessa tensione": "parallelo",
 				"si può spegnere una luce sola": "parallelo",
 				"la corrente si divide fra i rami": "parallelo"}},
-		{"explanation": "La corrente cerca sempre la strada più facile per tornare indietro, e il corpo umano è una strada. Le regole di sicurezza servono tutte a non diventarlo.", "topic": "sicurezza-elettrica", "draw": 6, "prompt": "Smista ogni comportamento: prudente o pericoloso?",
+		{"explanation": "La corrente può attraversare il corpo se questo completa un percorso fra due punti a tensione diversa. Per un bambino la regola non è «riparare con cautela»: è usare solo kit a pile, tenere tutto asciutto e chiamare un adulto davanti a prese, fili rotti, calore o odore di bruciato.", "topic": "sicurezza-elettrica", "draw": 6, "prompt": "Smista ogni comportamento: prudente o pericoloso?",
 			"categories": ["prudente", "pericoloso"],
 			"assignments": {
-				"staccare la spina prima di aprire un apparecchio": "prudente",
-				"usare cacciaviti con il manico isolato": "prudente",
-				"asciugarsi le mani prima di toccare una presa": "prudente",
-				"far riparare un filo scoperto da un adulto": "prudente",
-				"spegnere l'interruttore generale prima di lavorare": "prudente",
-				"usare una pila da 4,5 volt per un esperimento": "prudente",
+				"usare soltanto un kit didattico alimentato a pile": "prudente",
+				"montare il circuito con la pila scollegata": "prudente",
+				"tenere asciutti mani e banco di lavoro": "prudente",
+				"mostrare un filo scoperto a un adulto senza toccarlo": "prudente",
+				"fermarsi se una pila diventa calda": "prudente",
+				"controllare i collegamenti prima di inserire la pila": "prudente",
 				"toccare una presa con le mani bagnate": "pericoloso",
 				"infilare oggetti di metallo in una presa": "pericoloso",
 				"usare un filo con la guaina rotta": "pericoloso",
 				"collegare i due poli della pila con un filo nudo": "pericoloso",
 				"attaccare troppe spine alla stessa presa": "pericoloso",
-				"aprire un apparecchio ancora collegato": "pericoloso"}},
+				"aprire da soli un apparecchio elettrico": "pericoloso"}},
 	],
 	"inglese": [
 		{"explanation": "Ogni parola va nel campo di significato a cui appartiene: è il modo in cui il cervello archivia il lessico, per gruppi e non alla rinfusa.", "topic": "categorie", "draw": 8, "prompt": "Sort each word into its category.",
@@ -2292,7 +2298,7 @@ const CLASSIFICATION := {
 # richiesto. Nessun asset immagine. `points` in coordinate normalizzate 0..1.
 const GRAPH := {
 	"elettronica": [
-		{"topic": "misure-elettriche", "xLabel": "pile in serie", "yLabel": "tensione", "answer": "D",
+		{"topic": "serie-parallelo", "minLevel": 20, "xLabel": "pile in serie", "yLabel": "tensione", "answer": "D",
 			"prompt": "Aggiungendo pile uguali in serie, in quale punto la tensione totale è maggiore?",
 			"domande": [
 				{"prompt": "In quale punto tensione scende al minimo?", "answer": "A", "explanation": "Il punto più basso è A: conta l'altezza, non quanto sta a destra. Poca tensione vuol dire poca spinta: il circuito riceve meno energia per far muovere le cariche."},
@@ -2300,7 +2306,7 @@ const GRAPH := {
 			],
 			"points": [{"id": "A", "x": 0.12, "y": 0.20, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.43, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.67, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.91, "label": "D"}],
 			"explanation": "In serie le tensioni delle pile si sommano: con più pile la tensione totale cresce, fino al punto D."},
-		{"topic": "sicurezza", "xLabel": "resistenza", "yLabel": "corrente", "answer": "D",
+		{"topic": "legge-ohm", "minLevel": 20, "xLabel": "resistenza", "yLabel": "corrente", "answer": "D",
 			"prompt": "A tensione costante, la corrente diminuisce quando la resistenza aumenta. In quale punto la corrente è minore?",
 			"domande": [
 				{"prompt": "Guardando il grafico, dove corrente tocca il valore più alto?", "answer": "A", "explanation": "Il punto più alto è A: conta l'altezza, non quanto sta a destra. Molta corrente vuol dire molta carica che passa ogni secondo — ed è anche quando i fili scaldano di più."},
@@ -2308,7 +2314,7 @@ const GRAPH := {
 			],
 			"points": [{"id": "A", "x": 0.12, "y": 0.91, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.65, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.40, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.18, "label": "D"}],
 			"explanation": "Con la stessa tensione, una resistenza maggiore lascia passare meno corrente: il minimo è D."},
-		{"topic": "legge-ohm", "minLevel": 6, "xLabel": "tensione", "yLabel": "corrente", "answer": "D",
+		{"topic": "legge-ohm", "minLevel": 20, "xLabel": "tensione", "yLabel": "corrente", "answer": "D",
 			"prompt": "Il grafico mostra la corrente al crescere della tensione (legge di Ohm): in quale punto la corrente è massima?",
 			"domande": [
 				{"prompt": "Quale punto ha il valore di corrente più basso di tutti?", "answer": "A", "explanation": "Il punto più basso è A: conta l'altezza, non quanto sta a destra. Poca corrente vuol dire poca carica che passa ogni secondo: il LED illumina meno."},
@@ -2316,7 +2322,7 @@ const GRAPH := {
 			],
 			"points": [{"id": "A", "x": 0.12, "y": 0.15, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.42, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.68, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.94, "label": "D"}],
 			"explanation": "La corrente cresce in modo proporzionale alla tensione: è massima all'ultimo punto, D."},
-		{"topic": "misure-elettriche", "minLevel": 5, "xLabel": "tempo", "yLabel": "carica", "answer": "D",
+		{"topic": "batteria", "minLevel": 20, "xLabel": "tempo", "yLabel": "carica", "answer": "D",
 			"prompt": "Il grafico mostra la carica di una batteria mentre si scarica usandola: in quale punto è più scarica?",
 			"domande": [
 				{"prompt": "In quale punto carica arriva al massimo?", "answer": "A", "explanation": "Il punto più alto è A: conta l'altezza, non quanto sta a destra. Carica al massimo: la batteria è piena e il circuito ha tutta l'energia che gli serve."},
@@ -2324,7 +2330,7 @@ const GRAPH := {
 			],
 			"points": [{"id": "A", "x": 0.10, "y": 0.92, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.66, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.38, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.12, "label": "D"}],
 			"explanation": "Usandola la carica cala nel tempo: la batteria è più scarica alla fine, nel punto D."},
-		{"topic": "legge-ohm", "minLevel": 12, "xLabel": "tensione", "yLabel": "corrente", "answer": "B",
+		{"topic": "legge-ohm", "minLevel": 20, "xLabel": "tensione", "yLabel": "corrente", "answer": "B",
 			"prompt": "Ogni punto è una misura diversa. Poiché R = V / I, quale punto indica la resistenza maggiore (tensione alta ma corrente bassa)?",
 			"domande": [
 				{"prompt": "Guardando il grafico, dove corrente tocca il valore più basso?", "answer": "B", "explanation": "Il punto più basso è B: conta l'altezza, non quanto sta a destra. Poca corrente vuol dire poca carica che passa ogni secondo: il LED illumina meno."},
@@ -2743,7 +2749,7 @@ const GRAPH := {
 # richiesto. `components` in coordinate 0..1, `connections` come coppie di id.
 const CIRCUIT := {
 	"elettronica": [
-		{"topic": "circuito", "answer": "interruttore",
+		{"topic": "componenti-base", "answer": "interruttore",
 			"prompt": "Quale componente apre e chiude il passaggio della corrente?",
 			"domande": [
 				{"prompt": "Quale componente fornisce l'energia che fa muovere la corrente?", "answer": "pila", "explanation": "La pila è la sorgente: spinge la corrente lungo l'anello. Senza di lei nel circuito non si muove niente."},
@@ -2752,7 +2758,7 @@ const CIRCUIT := {
 			"components": [{"id": "pila", "x": 0.20, "y": 0.50, "label": "Pila"}, {"id": "interruttore", "x": 0.50, "y": 0.22, "label": "Interruttore"}, {"id": "resistore", "x": 0.80, "y": 0.50, "label": "Resistore"}, {"id": "led", "x": 0.50, "y": 0.78, "label": "LED"}],
 			"connections": [["pila", "interruttore"], ["interruttore", "resistore"], ["resistore", "led"], ["led", "pila"]],
 			"explanation": "L'interruttore apre e chiude il circuito: accende o spegne il LED."},
-		{"topic": "componenti", "answer": "led",
+		{"topic": "componenti-base", "answer": "led",
 			"prompt": "Quale componente emette luce quando la corrente lo attraversa?",
 			"domande": [
 				{"prompt": "Quale elemento serve soltanto a collegare, senza trasformare niente?", "answer": "filo", "explanation": "Il filo è la strada: porta la corrente da un componente all'altro senza cambiarla."},
@@ -3564,7 +3570,7 @@ const CODE_DEBUG := {
 	# ELETTRONICA — "Caccia all'errore": si scova l'affermazione falsa sul circuito
 	# o il passaggio sbagliato nel calcolo elettrico. Il ragionamento come sfida.
 	"elettronica": [
-		{"topic": "circuito", "answerLine": 3, "shuffleLines": true,
+		{"topic": "conduttori", "answerLine": 3, "shuffleLines": true,
 			"prompt": "Una sola affermazione sul circuito è falsa. Quale riga?",
 			"codeLines": ["La pila fornisce energia.", "Il LED emette luce.", "Il filo di rame blocca la corrente.", "# quale affermazione è falsa?"],
 			"explanation": "Riga 3: il rame è un conduttore, quindi il filo LASCIA passare la corrente, non la blocca."},
@@ -3572,7 +3578,7 @@ const CODE_DEBUG := {
 			"prompt": "Il LED dovrebbe accendersi: quale passaggio descrive un collegamento sbagliato?",
 			"codeLines": ["Collego il polo + della pila al resistore", "Lascio un'interruzione tra resistore e LED", "Collego il LED al polo − della pila", "# la corrente ha bisogno di un percorso chiuso"],
 			"explanation": "Riga 2: l'interruzione apre il circuito, quindi non scorre corrente. Serve un collegamento continuo tra resistore e LED."},
-		{"topic": "serie-parallelo", "minLevel": 8, "answerLine": 3,
+		{"topic": "serie-parallelo", "minLevel": 20, "answerLine": 3,
 			"prompt": "Due lampadine sono in serie: quale conclusione sul percorso della corrente è sbagliata?",
 			"codeLines": ["La corrente attraversa la prima lampadina", "Poi attraversa la seconda lampadina", "Può saltare la seconda scegliendo un altro ramo", "# in serie esiste un solo percorso"],
 			"explanation": "Riga 3: in un circuito in serie non ci sono rami alternativi; la stessa corrente attraversa entrambe le lampadine."},
@@ -3584,7 +3590,7 @@ const CODE_DEBUG := {
 			"prompt": "Segui la carica di un condensatore: quale passaggio è sbagliato?",
 			"codeLines": ["Appena collegato è già alla tensione massima", "All'inizio entra corrente e la tensione cresce", "Avvicinandosi al massimo la crescita rallenta", "# la carica richiede un intervallo di tempo"],
 			"explanation": "Riga 1: un condensatore non si carica istantaneamente; la sua tensione cresce nel tempo fino ad avvicinarsi a quella della sorgente."},
-		{"topic": "legge-ohm", "minLevel": 6, "answerLine": 2, "shuffleLines": true,
+		{"topic": "legge-ohm", "minLevel": 20, "answerLine": 2, "shuffleLines": true,
 			"prompt": "Corrente con V = 10 V e R = 2 Ω: quale riga sbaglia?",
 			"codeLines": ["V = 10 V, R = 2 Ω", "I = V × R", "I = 20 A", "# come si calcola la corrente?"],
 			"explanation": "Riga 2: la legge di Ohm è I = V / R (10 / 2 = 5 A), non V × R (che darebbe 20)."},
@@ -4439,7 +4445,7 @@ const BALANCE := {
 			"explanation": "Su una leva non conta il peso ma il momento: peso per distanza. Due chili a tre metri fanno sei, e per pareggiare a un solo metro servono sei chili. È il motivo per cui un bambino può sollevare un adulto stando più lontano dal fulcro."},
 	],
 	"elettronica": [
-		{"topic": "serie-parallelo", "minLevel": 10, "prompt": "Le due serie devono avere la stessa resistenza totale. Quale resistore manca?",
+		{"topic": "serie-parallelo", "minLevel": 20, "prompt": "Le due serie devono avere la stessa resistenza totale. Quale resistore manca?",
 			"left": [{"label": "100 Ω", "value": 100.0}, {"label": "220 Ω", "value": 220.0}],
 			"right": [{"label": "150 Ω", "value": 150.0}],
 			"gapSide": "right",

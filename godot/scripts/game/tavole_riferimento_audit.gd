@@ -27,7 +27,12 @@ extends SceneTree
 ## Uso: godot --headless --path godot --script res://scripts/game/tavole_riferimento_audit.gd
 
 const VERDE := "TAVOLE RIFERIMENTO audit VERDE"
-const MATERIE := ["storia", "geografia"]
+## **Il latino è entrato il 2 settembre 2026.** Storia e geografia avevano il
+## difetto della domanda di NOME; il latino ha quello della domanda di FORMA —
+## «che caso è *dominorum*?» — e una forma si può soltanto aver visto: non si
+## deduce da niente. Le tavole `paradigma` sono la tabella che ogni libro di
+## latino stampa nella prima pagina e che questo gioco non aveva mai mostrato.
+const MATERIE := ["storia", "geografia", "latino"]
 
 ## Una nota che sta sotto questa soglia non spiega: ripete il titolo della voce.
 const NOTA_MINIMA := 60

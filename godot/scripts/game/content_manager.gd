@@ -299,6 +299,63 @@ const ERA_GATED_TOPICS := {
 	"storia": {"roma": 18, "medioevo": 18},
 }
 
+## **Il primo esame di elettronica verifica soltanto ciò che il mondo 8 ha
+## insegnato.** (2 settembre 2026)
+##
+## La sola difficoltà numerica non basta: nel banco «condensatore», «relè»,
+## messa a terra e strumenti di misura avevano difficoltà 1–2 come pila e LED.
+## Un bambino poteva quindi fare un intero percorso su circuito chiuso e quattro
+## componenti base, poi essere bocciato su un nome mai incontrato. Questa lista
+## è volutamente esplicita: ogni voce deve poter indicare l'attività del mondo 8
+## che la prepara. Dal mondo 20 torna disponibile l'intero banco avanzato.
+const ELECTRONICS_BEGINNER_EXAM_IDS := {
+	"elettronica-funzione-battery": true,
+	"elettronica-attenzione-battery": true,
+	"elettronica-funzione-switch": true,
+	"elettronica-attenzione-switch": true,
+	"elettronica-funzione-resistor": true,
+	"elettronica-attenzione-resistor": true,
+	"elettronica-funzione-led": true,
+	"elettronica-attenzione-led": true,
+	"elettronica-funzione-return": true,
+	"elettronica-attenzione-return": true,
+	"elettronica-sicurezza-elettrica-0": true,
+	"elettronica-sicurezza-elettrica-6": true,
+	"elettronica-sicurezza-elettrica-10": true,
+	"elettronica-sicurezza-elettrica-72": true,
+	"elettronica-misure-elettriche-23": true,
+	"elettronica-misure-elettriche-24": true,
+	"elettronica-misure-elettriche-25": true,
+	"elettronica-circuito-34": true,
+	"elettronica-circuito-39": true,
+	"elettronica-circuito-65": true,
+	"elettronica-circuito-66": true,
+	"elettronica-circuito-67": true,
+	"elettronica-circuito-88": true,
+	"elettronica-conduttori-43": true,
+	"elettronica-conduttori-44": true,
+	"elettronica-conduttori-68": true,
+	"elettronica-conduttori-97": true,
+	"elettronica-conduttori-98": true,
+	"elettronica-conduttori-99": true,
+	"elettronica-elettricita-base-52": true,
+	"elettronica-elettricita-base-62": true,
+	"elettronica-elettricita-base-63": true,
+	"elettronica-elettricita-base-78": true,
+	"elettronica-elettricita-base-79": true,
+	"elettronica-elettricita-base-80": true,
+	"elettronica-componenti-74": true,
+	"elettronica-componenti-75": true,
+	"elettronica-componenti-82": true,
+	"elettronica-componenti-85": true,
+	"elettronica-componenti-87": true,
+	"elettronica-elettricita-base-che-cosa-fornisce-l-energia-in-un-circuito-con-l": true,
+	"elettronica-elettricita-base-a-che-cosa-serve-l-interruttore-in-un-circuito": true,
+	"elettronica-conduttori-quale-di-questi-materiali-conduce-la-corrente": true,
+	"elettronica-conduttori-quale-di-questi-materiali-non-conduce-la-corrent": true,
+	"elettronica-circuito-perche-una-lampadina-non-si-accende-se-il-circui": true,
+}
+
 # Toglie dal banco gli item la cui era non è ancora sbloccata a questo livello.
 # Fallback prudente: se il filtro svuotasse il banco, restituisce l'originale.
 ## Ogni quanti nodi di una sessione di matematica uno viene dal banco.
@@ -425,11 +482,15 @@ func _innesta_banco_matematica(nodi: Array, level: int, rng: RandomNumberGenerat
 	return out
 
 func _era_gated(subject: String, level: int, items: Array) -> Array:
-	if not ERA_GATED_TOPICS.has(subject):
+	var beginner_electronics := subject == "elettronica" and level < 20
+	if not ERA_GATED_TOPICS.has(subject) and not beginner_electronics:
 		return items
-	var gate: Dictionary = ERA_GATED_TOPICS[subject]
+	var gate: Dictionary = ERA_GATED_TOPICS.get(subject, {})
 	var out: Array = []
 	for it in items:
+		if beginner_electronics \
+				and not ELECTRONICS_BEGINNER_EXAM_IDS.has(str((it as Dictionary).get("id", ""))):
+			continue
 		var topic := str((it as Dictionary).get("topic", ""))
 		if gate.has(topic) and level < int(gate[topic]):
 			continue

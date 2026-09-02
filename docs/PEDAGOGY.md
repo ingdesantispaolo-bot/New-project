@@ -267,12 +267,158 @@ controlla questa famiglia e non tutti gli abbinamenti perche le capitali sono il
 richiamo puro allo stato piu concentrato: il 100% delle domande del loro
 argomento.
 
-### Il debito dichiarato
+### Chiuso anche il debito dei minigiochi (1 settembre 2026, stesso giorno)
 
-Le tavole coprono le domande dei BANCHI. I minigiochi hanno un contenuto proprio
-— insiemi di abbinamento, ordinamento e smistamento — e li la copertura oggi e
-molto piu bassa: circa 490 etichette scoperte in tutto — popoli e invenzioni,
-monumenti, catene montuose, ordinamenti a insieme. Una parte e
-meno grave di quanto sembri (un abbinamento mostra tutte e due le colonne e si
-lavora anche per esclusione), ma non tutta: e il prossimo tratto da pagare, e si
-paga allargando le tavole, non togliendo contenuto.
+Le tavole coprivano solo le domande dei BANCHI. I minigiochi hanno un contenuto
+proprio — insiemi di abbinamento, ordinamento e smistamento — e li la copertura
+era molto piu bassa: circa 490 etichette scoperte in tutto (popoli e invenzioni,
+personaggi storici, monumenti, capitali del mondo, montagne e fiumi, regioni
+italiane, monete, vocabolario amministrativo).
+
+Richiesta del committente, la sera stessa: «allarga le tavole.» Sette tavole di
+storia si sono aggiunte alle sette esistenti — popoli antichi, invenzioni
+antiche, personaggi (linea del tempo di 24 nomi da Tutankhamon a Garibaldi), le
+cinque grandi eta, l'eta moderna e contemporanea (Rivoluzione francese →
+Unione Europea), le invenzioni tecnologiche (stampa → web) — e sei di geografia:
+le venti regioni italiane con i capoluoghi, le vette e i fiumi d'Italia in
+ordine di altezza e lunghezza, montagne e fiumi del mondo, i monumenti del
+mondo, le monete principali, il vocabolario amministrativo (comune → stato,
+via → continente).
+
+Misurato di nuovo con lo stesso metodo: **storia 216/216 nell'abbinamento e
+94/94 nell'ordinamento; geografia 258/258 e 76/76.** Copertura totale, sui due
+banchi e su tutti i minigiochi di abbinamento, ordinamento e classificazione
+delle due materie. `tavole_riferimento.gd` e passato da 15 a 26 tavole e da 176
+a 386 voci; `gesto_audit` e `nora_explanation_depth_audit` restano verdi — le
+tavole aggiunte sono contenuto didattico, non nodi di gioco, e non spostano la
+miscela di gesti misurata li.
+
+## Il Latino (2 settembre 2026)
+
+Segnalazione del committente: «dobbiamo spiegare prima di chiedere, e dobbiamo
+spiegare bene. Un bambino di 10-11 anni non ha mai visto il latino. Gli esercizi
+sono poco adatti ed anche molto noiosi.»
+
+### La misura da cui nasce
+
+Il banco di latino aveva 212 item. **Ottantasei erano la stessa domanda**, «che
+caso e numero ha *dominorum*?», ripetuta con una parola diversa: il 41% della
+materia, una forma sola. E **diciassette di quegli 86 stavano a difficolta 1**,
+cioe nei mondi 1-5, cioe al primo incontro in assoluto con la lingua. La prima
+domanda di latino che un bambino incontrava nel gioco era:
+
+> Che caso e numero ha «dominus»?
+> nominativo singolare · accusativo singolare · accusativo plurale · genitivo plurale
+
+Nessuno gli aveva mai detto che cos'e un caso. Non e una domanda difficile: e una
+domanda che non si puo capire, e le quattro opzioni sono quattro parole nuove.
+
+Un secondo difetto, silenzioso: `distinctiveCases` scarta le forme ambigue di un
+nome, e il generatore chiedeva almeno tre distrattori. La **prima declinazione**
+ne produce tre in tutto, quindi ogni suo nome veniva scartato in blocco. Rosa,
+puella, aqua, terra, patria e silva non producevano **un solo esercizio** — e
+nemmeno i neutri della seconda (bellum, templum, donum) ne la quinta (res, dies).
+Il banco di latino non conteneva la declinazione con cui ogni libro comincia.
+
+Terzo: di `latinCurriculum.ts` il generatore usava **un settimo**. Le sei frasi da
+tradurre con i loro distrattori, i cinque paradigmi verbali completi, le funzioni
+dei casi, il lessico: tutto scritto, tutto inerte. Il banco non conteneva una sola
+traduzione di frase, cioe la cosa per cui si studia una lingua.
+
+### La scala, e perche i nomi dei casi stanno al terzo gradino
+
+`build-exercise-banks.mjs` (`latinoBank`, generatore `latin-ladder-v3`) costruisce
+quattro famiglie invece di una, e la difficolta segue l'ordine in cui si impara
+una lingua a casi:
+
+1. **la coda cambia il senso** (difficolta 1-2). «Dominus servum vocat» e «Servus
+   dominum vocat» hanno le stesse parole nello stesso ordine e dicono il
+   contrario. Si chiede quale parola subisce l'azione, e poi che cosa significa la
+   frase scambiata. Nessun termine tecnico: uno dei tre distrattori e la stessa
+   parola con l'altra coda (`servus` accanto a `servum`), perche sbagliarlo vuol
+   dire esattamente non aver guardato la fine della parola. Dove la risposta e un
+   neutro (donum, bellum) quel distrattore non esiste — le due code sono la
+   stessa — e la spiegazione lo dice invece di nasconderlo;
+2. **dalla domanda alla forma** (difficolta 2-3). «Da *rosa*: quale forma useresti
+   per dire *della rosa*?» E la direzione che serve per tradurre, e mancava del
+   tutto: il banco chiedeva solo di riconoscere, mai di produrre;
+3. **il nome del caso** (difficolta 3-4). Quello che prima era tutto il banco:
+   resta, ridotto a due forme per nome e spostato in alto, dove i casi hanno gia
+   un nome perche qualcuno gliel'ha detto;
+4. **la frase intera** (difficolta 3-4). Le sei frasi di `latinSentences`, con i
+   loro distrattori e una ragione scritta per ciascuno: «*La rosa ama la
+   fanciulla*: sarebbe *Rosa puellam amat*, qui la coda -am sta su *rosam*».
+
+Piu una famiglia nuova sul **verbo** (argomento `verbi`): la coda dice chi (-o io,
+-s tu, -t lui/lei, -mus noi, -tis voi, -nt loro) e il pezzetto in mezzo dice
+quando (-ba- passato). E il punto in cui il latino somiglia di piu all'italiano —
+amabat/amava, stesso segno nello stesso posto — ed e la parentela vista a occhio
+nudo.
+
+Risultato: **291 item** (erano 212), otto forme di domanda invece di una, e a
+difficolta 1 non compare piu nessun nome di caso. La seconda forma chiesta a ogni
+nome si **digita** invece di toccarsi: a tastiera non esiste la scorciatoia della
+risposta piu lunga, e produrre una forma scrivendola e un gesto molto piu vicino
+al tradurre. La risposta libera del latino passa dal 21% al 26%, e la scorciatoia
+della lunghezza dal 24,4% al 23,3% — sotto il caso, e il tetto di
+`bank_scorciatoie_audit` scende da 23,8 a 23,3.
+
+Tre onesta dichiarate nel generatore, perche una regola vera a meta insegnata come
+se valesse sempre e peggio di una regola in meno:
+
+- **l'ablativo non si chiede in produzione**: la sua glossa italiana sarebbe «con
+  la ...», giusta con uno strumento e falsa con quasi tutto il resto («con la
+  guerra», «con il giorno»). Si impara sulla tavola e si esercita al riconoscimento;
+- **il futuro col -bi- si dichiara solo dove esiste**: alla terza e alla quarta
+  coniugazione (reget, audiet) non c'e, e la spiegazione lo dice;
+- **`sum` sta fuori dalla famiglia dei tempi**: il suo imperfetto e «erat» e non
+  contiene nessun -ba-.
+
+### Le tavole dei paradigmi: la famiglia `paradigma`
+
+Storia e geografia avevano il difetto della domanda di NOME. Il latino ha quello
+della domanda di FORMA, ed e piu grave: un nome almeno si puo aver sentito, una
+forma no — sta su una tabella, e o quella tabella qualcuno te l'ha mostrata o la
+domanda e un sorteggio. Ogni libro di latino del mondo stampa quella tabella nella
+prima pagina; questo gioco la chiedeva senza averla mai stampata.
+
+`TavoleRiferimento` guadagna quindi la sua terza famiglia. Una linea ha per
+coordinata un anno, una carta un luogo, un **paradigma** ha per coordinata la
+**forma**: la parola come si scrive quando fa quel mestiere. Le voci non sono i
+nomi latini ma le **caselle** della tabella — «genitivo singolare», «accusativo
+plurale» — e ciascuna vale per tutte le parole del suo gruppo insieme. Per questo
+molte dichiarano `regola` invece di `risposte`: l'espressione regolare e l'elenco
+delle radici del gruppo piu la desinenza della casella, cioe esattamente cio che la
+casella insegna, e resta vera quando al gruppo si aggiunge una parola.
+
+Quattordici tavole nuove: i sei casi con la domanda a cui ciascuno risponde, da
+dove viene il latino, i cinque gruppi e come si riconoscono, i cinque paradigmi
+nominali (prima; seconda con maschili e neutri affiancati; terza con maschili e
+neutri; quarta; quinta), il verbo, il verbo essere, le parole piu frequenti, le
+radici e i prefissi vivi nell'italiano, come si legge una frase, i numeri romani.
+
+### La guardia
+
+`tavole_riferimento_audit.gd` copre ora anche il latino, con lo stesso patto delle
+altre due materie. Misurato:
+
+    storia    · domande di nome coperte da una tavola: 94/94 (100,0%)
+    geografia · domande di nome coperte da una tavola: 155/155 (100,0%)
+    latino    · domande di nome coperte da una tavola: 239/239 (100,0%)
+    percorso giocato · nomi nuovi presentati con la loro tavola: 116/116 (100,0%)
+
+**Un debito dichiarato, perche non resti invisibile.** Il banco e cresciuto da 212
+a 291 item e la parte cresciuta e in maggioranza a scelta multipla, quindi la
+quota di «sceglie» del mondo di latino misurata da `gesto_audit` sale da 24,9% a
+25,7%: dentro la tolleranza di un punto, quindi verde, ma nella direzione
+sbagliata. Si paga convertendo altre forme da produrre in risposta libera, e la
+strada e stretta: la risposta libera del latino e gia al 26% e
+`free_answer_audit` la vuole sotto il 30%. Il modo giusto e portare fuori dal
+banco una parte del riconoscimento, verso un minigioco manipolativo — la tabella
+di declinazione da riempire trascinando le desinenze, che oggi non esiste.
+
+E `nora_explanation_depth_audit` pretende una voce di contesto per ogni argomento
+del runtime: i quattro argomenti nuovi (`declinazione-1`, `declinazione-2n`,
+`declinazione-5`, `verbi`) ce l'hanno, e le undici voci di latino gia esistenti
+sono state riscritte a livelli — il primo livello non nomina niente che non sia
+stato mostrato prima.

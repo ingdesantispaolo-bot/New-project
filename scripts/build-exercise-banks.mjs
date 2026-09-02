@@ -492,11 +492,34 @@ const CASE_LABEL = {
   vocativo: "vocativo (invocazione)",
 };
 
+// **Tutti e sette i tipi, non i quattro che il generatore vecchio raggiungeva.**
+// Prima declinazione, neutri della seconda e quinta mancavano da questa tabella
+// perche' mancavano dal banco: `distinctiveCases` non ne produceva abbastanza
+// combinazioni distinte e `latinoBank` scartava il nome intero. Adesso quei nomi
+// producono item di PRODUZIONE (dalla domanda alla forma), che non hanno bisogno
+// di forme non ambigue, e i loro nomi servono di nuovo.
 const DECL_NAME = {
+  "1": "prima declinazione",
   "2m": "seconda declinazione",
+  "2n": "seconda declinazione (neutri)",
   "3m": "terza declinazione",
   "3n": "terza declinazione (neutri)",
   "4": "quarta declinazione",
+  "5": "quinta declinazione",
+};
+
+// L'argomento del banco per ogni tipo di declinazione. I neutri della seconda
+// stanno in un argomento loro e non insieme ai maschili: la regola che li governa
+// (nominativo e accusativo sempre uguali) e' diversa, e un argomento e' l'unita'
+// con cui NORA spiega.
+const DECL_TOPIC = {
+  "1": "declinazione-1",
+  "2m": "declinazione-2m",
+  "2n": "declinazione-2n",
+  "3m": "declinazione-3m",
+  "3n": "declinazione-3n",
+  "4": "declinazione-4",
+  "5": "declinazione-5",
 };
 
 // Nominativo e vocativo singolare della terza non hanno una desinenza fissa
@@ -604,7 +627,7 @@ const LATINO_EXTRA = [
     distractorWhy: { "Sentenza": "Viene da «sentire», una radice diversa da «senex» a cui appartiene «senatus».", "Sentimento": "Viene da «sentire», non da «senex».", "Sentiero": "Viene da «semita», una parola non imparentata con «senex»." } },
   { topic: "declinazione-4", difficulty: 3, prompt: "Quale genere hanno la maggior parte dei nomi della quarta declinazione?", answer: "Maschile", distractors: ["Femminile","Neutro","Non hanno genere"], explanation: "Ci sono eccezioni importanti come «manus», che è femminile pur finendo in -us.",
     distractorWhy: { "Femminile": "Il femminile è l'eccezione (come «manus»), non la maggioranza dei nomi della quarta.", "Neutro": "I neutri della quarta sono pochissimi (come «cornu»), non la maggioranza.", "Non hanno genere": "In latino ogni nome ha un genere: la quarta declinazione non fa eccezione." } },
-  { topic: "declinazione-4", difficulty: 4, format: "numeric_input", prompt: "Quante declinazioni bisogna conoscere per leggere un testo latino?", answer: "5", explanation: "Cinque, ma le prime tre coprono la stragrande maggioranza dei nomi che si incontrano." },
+  { topic: "declinazioni-base", difficulty: 4, format: "numeric_input", prompt: "Quante declinazioni bisogna conoscere per leggere un testo latino?", answer: "5", explanation: "Cinque, ma le prime tre coprono la stragrande maggioranza dei nomi che si incontrano." },
   { topic: "frasi", difficulty: 2, prompt: "Come si traduce «Puella cantat»?", answer: "La bambina canta", distractors: ["Le bambine cantano","La bambina cantava","La bambina non canta"], explanation: "«Puella» è nominativo singolare (soggetto) e «cantat» è terza persona singolare del presente.",
     distractorWhy: { "Le bambine cantano": "«Puella» è singolare, non plurale: sarebbe «puellae» per il plurale.", "La bambina cantava": "«Cantat» è presente, non imperfetto (che sarebbe «cantabat»).", "La bambina non canta": "Non c'è nessuna negazione nella frase latina." } },
   { topic: "frasi", difficulty: 2, prompt: "Come si traduce «Rosa pulchra est»?", answer: "La rosa è bella", distractors: ["Le rose sono belle","La rosa era bella","La bella rosa"], explanation: "«Est» è la terza persona singolare di «sum»: «pulchra» è il predicato nominale riferito a «rosa».",
@@ -657,7 +680,7 @@ const LATINO_EXTRA = [
     distractorWhy: { "campus": "«Campus» significa campo, non testa: dà parole come «campestre».", "carmen": "«Carmen» significa canto/poesia, non testa: dà parole come «carme».", "civis": "«Civis» significa cittadino, non testa: dà parole come «civile»." } },
   { topic: "etimologia", difficulty: 3, prompt: "Perché conoscere il latino aiuta a capire parole italiane nuove?", answer: "Perché molte parole nascono dalle stesse radici", distractors: ["Perché il latino si parla ancora oggi","Perché le parole nuove vengono tutte dal latino","Perché la grammatica è identica"], explanation: "Riconosciuta la radice, il significato di una parola mai vista si intuisce: è un metodo, non una memoria.",
     distractorWhy: { "Perché il latino si parla ancora oggi": "Il latino non è più parlato come lingua viva: aiuta comunque perché le radici restano nelle parole moderne.", "Perché le parole nuove vengono tutte dal latino": "Non tutte le parole italiane vengono dal latino: alcune vengono dal greco o da altre lingue.", "Perché la grammatica è identica": "La grammatica italiana e quella latina sono molto diverse: ciò che aiuta è la radice delle parole, non la grammatica." } },
-  { topic: "basi", difficulty: 1, format: "numeric_input", prompt: "Quanti casi ha la declinazione latina?", answer: "6", explanation: "Nominativo, genitivo, dativo, accusativo, vocativo, ablativo." },
+  { topic: "basi", difficulty: 2, format: "numeric_input", prompt: "Quanti casi ha la declinazione latina?", answer: "6", explanation: "Nominativo, genitivo, dativo, accusativo, vocativo, ablativo." },
   { topic: "basi", difficulty: 2, prompt: "Che cos'è un caso in latino?", answer: "La forma che indica la funzione di un nome", distractors: ["Il genere maschile o femminile","Il numero singolare o plurale","Il tempo in cui avviene l'azione descritta"], explanation: "Cambiando la desinenza cambia il ruolo nella frase: soggetto, oggetto, complemento.",
     distractorWhy: { "Il genere maschile o femminile": "Il genere è un'altra caratteristica del nome, indipendente dal caso.", "Il numero singolare o plurale": "Il numero è un'altra caratteristica del nome, indipendente dal caso.", "Il tempo in cui avviene l'azione descritta": "Il tempo riguarda il verbo, non il caso di un nome." } },
   { topic: "basi", difficulty: 2, format: "numeric_input", prompt: "Quante declinazioni ha il latino?", answer: "5", explanation: "Cinque gruppi di nomi, ciascuno con le sue desinenze: si riconoscono dal genitivo singolare." },
@@ -745,7 +768,7 @@ const LATINO_EXTRA = [
   // Frasi
   { topic: "frasi", difficulty: 4, prompt: "'Puella rosam amat' significa…", answer: "La fanciulla ama la rosa", distractors: ["La rosa ama la fanciulla", "Le fanciulle amano le rose", "La fanciulla guarda la rosa"], explanation: "'Rosam' è accusativo (oggetto): la fanciulla (soggetto) ama la rosa (oggetto).",
     distractorWhy: { "La rosa ama la fanciulla": "Scambia soggetto e oggetto: «puella» è nominativo (soggetto), «rosam» è accusativo (oggetto).", "Le fanciulle amano le rose": "«Puella» e «rosam» sono entrambi singolari, non plurali.", "La fanciulla guarda la rosa": "Il verbo «amat» significa «ama», non «guarda»." } },
-  { topic: "declinazioni-base", difficulty: 1, format: "short_answer", prompt: "Come si dice in latino «la rosa», al nominativo singolare?", answer: "rosa", explanation: "Prima declinazione: il nominativo singolare esce in -a." },
+  { topic: "declinazioni-base", difficulty: 2, format: "short_answer", prompt: "Come si dice in latino «la rosa», al nominativo singolare?", answer: "rosa", explanation: "Prima declinazione: il nominativo singolare esce in -a." },
   { topic: "declinazioni-base", difficulty: 2, format: "short_answer", prompt: "Qual è il genitivo singolare di «rosa»?", answer: "rosae", explanation: "Il genitivo in -ae è la firma della prima declinazione." },
   { topic: "declinazione-2m", difficulty: 2, format: "short_answer", prompt: "Qual è il nominativo plurale di «dominus»?", answer: "domini", explanation: "Seconda declinazione maschile: -us al singolare, -i al plurale." },
   { topic: "declinazione-2m", difficulty: 2, format: "short_answer", prompt: "Qual è l'accusativo singolare di «dominus»?", answer: "dominum", explanation: "L'accusativo singolare della seconda esce in -um." },
@@ -754,7 +777,7 @@ const LATINO_EXTRA = [
   { topic: "declinazione-3m", difficulty: 3, format: "short_answer", prompt: "Qual è il nominativo plurale di «consul»?", answer: "consules", explanation: "Terza declinazione maschile: il nominativo plurale esce in -es." },
   { topic: "declinazione-3m", difficulty: 3, format: "short_answer", prompt: "Qual è l'accusativo plurale di «consul»?", answer: "consules", explanation: "Nella terza, maschili e femminili hanno nominativo e accusativo plurale uguali." },
   { topic: "declinazione-3n", difficulty: 3, format: "short_answer", prompt: "Qual è il nominativo plurale di «corpus»?", answer: "corpora", explanation: "Nei neutri della terza il plurale esce in -a: qui il tema è corpor-." },
-  { topic: "declinazione-3n", difficulty: 3, format: "short_answer", prompt: "Qual è il dativo e ablativo plurale di «rosa»?", answer: "rosis", explanation: "Nella prima declinazione dativo e ablativo plurale sono la stessa forma, «rosis»: è il contesto a dire quale dei due sia." },
+  { topic: "declinazione-1", difficulty: 3, format: "short_answer", prompt: "Qual è il dativo e ablativo plurale di «rosa»?", answer: "rosis", explanation: "Nella prima declinazione dativo e ablativo plurale sono la stessa forma, «rosis»: è il contesto a dire quale dei due sia." },
   { topic: "declinazione-4", difficulty: 3, format: "short_answer", prompt: "Qual è il genitivo singolare di «manus»?", answer: "manus", explanation: "Quarta declinazione: nominativo e genitivo singolare si scrivono uguali." },
   { topic: "declinazione-4", difficulty: 3, format: "short_answer", prompt: "Qual è il nominativo plurale di «manus»?", answer: "manus", explanation: "Anche il nominativo plurale è manus: è il contesto a distinguerli." },
   { topic: "verbo-sum", difficulty: 1, format: "short_answer", prompt: "Come si dice in latino «io sono»?", answer: "sum", explanation: "Prima persona singolare del presente indicativo di sum." },
@@ -776,21 +799,491 @@ const LATINO_EXTRA = [
   { topic: "vocabolario", difficulty: 2, format: "short_answer", prompt: "Che cosa significa in italiano il latino «nauta»?", answer: "marinaio", accept: ["il marinaio", "navigante"], explanation: "«Nauta» finisce in -a come «rosa» ed è di prima declinazione, ma è maschile: come «agricola», il contadino. La desinenza non decide il genere." },
   { topic: "basi", difficulty: 2, format: "short_answer", prompt: "Come si chiama l'insieme delle terminazioni che un nome latino assume nei vari casi?", answer: "declinazione", accept: ["la declinazione", "declinazioni"], explanation: "Cinque declinazioni, riconoscibili dal genitivo singolare." },
   { topic: "frasi", difficulty: 3, format: "short_answer", prompt: "Come si traduce il latino «Roma caput mundi»?", answer: "Roma capitale del mondo", accept: ["Roma è la capitale del mondo"], explanation: "Caput è la testa, e per estensione la capitale." },
+  // --- Prima declinazione: le trappole e le forme che si ripetono ------------
+  { topic: "declinazione-1", difficulty: 3, prompt: "Perché «nauta», «poeta» e «agricola» sono trappole della prima declinazione?", answer: "Finiscono in -a ma sono maschili", distractors: ["Non si declinano come «rosa»","Non hanno il plurale","Appartengono alla seconda declinazione"], explanation: "La coda dice a quale gruppo appartiene la parola, non che genere ha: il marinaio, il poeta e il contadino erano mestieri da uomini, e la parola è rimasta maschile pur stando in un gruppo quasi tutto femminile.",
+    distractorWhy: { "Non si declinano come «rosa»": "Si declinano esattamente come «rosa»: è proprio questo a renderle trappole, perché sembrano femminili in tutto.", "Non hanno il plurale": "Hanno il plurale regolare: nautae, poetae, agricolae.", "Appartengono alla seconda declinazione": "Stanno nella prima, insieme a «rosa»: è il genere a essere diverso, non il gruppo." } },
+  { topic: "declinazione-1", difficulty: 3, format: "short_answer", prompt: "Qual è il genitivo plurale di «puella»?", answer: "puellarum", explanation: "La coda -arum vuol dire «di» al plurale, e nessun'altra casella del latino finisce così: quando la vedi hai già finito di ragionare." },
+  { topic: "declinazione-1", difficulty: 2, format: "short_answer", prompt: "Qual è l'accusativo singolare di «silva» (il bosco)?", answer: "silvam", explanation: "La coda -am segna chi subisce l'azione: «silvam videt» vuol dire «vede il bosco», non «il bosco vede»." },
+  { topic: "declinazione-1", difficulty: 4, prompt: "Qual è la forma più ambigua della prima declinazione?", answer: "rosae", distractors: ["rosam","rosarum","rosas"], explanation: "«Rosae» vale per tre caselle diverse: genitivo singolare, dativo singolare e nominativo plurale. A scegliere fra le tre è solo il resto della frase — soprattutto il verbo, che dice se il soggetto è uno o più di uno.",
+    distractorWhy: { "rosam": "«Rosam» è solo accusativo singolare: è una delle forme meno ambigue della declinazione.", "rosarum": "«Rosarum» è solo genitivo plurale, e non si confonde con nient'altro in tutto il latino.", "rosas": "«Rosas» è solo accusativo plurale: una casella sola, nessuna ambiguità." } },
+  // --- Seconda declinazione, i neutri ---------------------------------------
+  { topic: "declinazione-2n", difficulty: 2, prompt: "Che cosa hanno di speciale i nomi neutri latini?", answer: "Chi agisce e chi subisce si scrivono uguali", distractors: ["Non hanno il plurale in nessuna declinazione","Hanno il genitivo uguale al nominativo","Si usano soltanto al singolare, mai al plurale"], explanation: "Un neutro indica una cosa, e una cosa non compie azioni: il latino non ha mai avuto bisogno di distinguere il neutro che agisce da quello che subisce, e infatti «templum» resta «templum» in tutti e due i casi.",
+    distractorWhy: { "Non hanno il plurale in nessuna declinazione": "Il plurale ce l'hanno, e finisce sempre in -a: templa, bella, dona, corpora.", "Hanno il genitivo uguale al nominativo": "Il genitivo è diverso e uguale a quello dei maschili: templum fa templi, come dominus fa domini.", "Si usano soltanto al singolare, mai al plurale": "Si usano ai due numeri come ogni altro nome latino: «dona» sono i doni." } },
+  { topic: "declinazione-2n", difficulty: 3, format: "short_answer", prompt: "Qual è il nominativo plurale di «templum»?", answer: "templa", explanation: "Tutti i neutri latini, di qualunque declinazione, fanno il plurale in -a: templa, bella, dona, corpora, tempora." },
+  { topic: "declinazione-2n", difficulty: 3, format: "short_answer", prompt: "Qual è il genitivo plurale di «donum»?", answer: "donorum", explanation: "I neutri usano le stesse code dei maschili in tutte le caselle tranne quelle di chi agisce e chi subisce: -orum vale per dominorum come per donorum." },
+  { topic: "declinazione-2n", difficulty: 3, format: "short_answer", prompt: "Come si dice «i doni» quando sono loro a essere dati, cioè al plurale come oggetto?", answer: "dona", explanation: "Nei neutri la casella di chi subisce si scrive come quella di chi agisce, anche al plurale: «dona» vale per tutti e due, e a distinguerli è il verbo." },
+  { topic: "declinazione-2n", difficulty: 3, prompt: "Quale plurale italiano conserva ancora la -a dei neutri latini?", answer: "Le uova", distractors: ["Le case","Le mani","I libri"], explanation: "«Uovo» fa «le uova» e non «gli uovi» perché in latino era un neutro, «ovum, ova». Stessa storia per «le braccia», «le dita» e «le ginocchia»: sono neutri latini sopravvissuti dentro l'italiano.",
+    distractorWhy: { "Le case": "«Casa» era femminile anche in latino, e il suo plurale è del tutto regolare.", "Le mani": "«Mano» viene da «manus», un femminile della quarta declinazione: niente a che vedere con i neutri.", "I libri": "«Liber» era maschile, e «i libri» è un plurale maschile regolare." } },
+  { topic: "declinazione-2n", difficulty: 2, prompt: "Che cosa significa «bellum»?", answer: "Guerra", distractors: ["Bello","Campo","Città"], explanation: "È il falso amico più famoso del latino: sembra «bello» e significa il contrario. Da «bellum» vengono «bellico» e «belligerante»; «bello» viene invece da «bellus», che è un'altra parola.",
+    distractorWhy: { "Bello": "È esattamente la trappola: «bellus» significa bello, «bellum» significa guerra.", "Campo": "«Campo» in latino è «campus», una parola diversa.", "Città": "«Città» in latino è «urbs», una parola diversa." } },
+  { topic: "declinazione-2n", difficulty: 3, prompt: "Da «donum» vengono le parole italiane…", answer: "Donare e donazione", distractors: ["Domare e domanda","Dormire e dormitorio","Dovere e dovuto"], explanation: "«Donum» è il dono, e la sua radice è la stessa di «dare»: donare vuol dire alla lettera «fare un dono». Da lì donazione, donatore e perfino «perdonare», che è dare via del tutto.",
+    distractorWhy: { "Domare e domanda": "Vengono da «domare» e da «demandare», radici diverse da «donum».", "Dormire e dormitorio": "Vengono da «dormire», che non ha niente a che fare con il dono.", "Dovere e dovuto": "Vengono da «debere», cioè avere un debito: quasi il contrario di donare." } },
+  { topic: "declinazione-2n", difficulty: 4, prompt: "In «Templum magnum est», come fai a sapere che «templum» è il soggetto?", answer: "Perché «est» non regge un oggetto", distractors: ["Perché sta per primo","Perché finisce in -um","Perché «magnum» è un aggettivo"], explanation: "Con i neutri la forma non basta mai, e bisogna guardare il verbo: «est» è il verbo essere e non ha un oggetto da reggere, quindi «templum» può essere solo chi agisce. È il metodo da usare ogni volta che si incontra un neutro.",
+    distractorWhy: { "Perché sta per primo": "In latino la posizione non decide niente: «Magnum templum est» direbbe la stessa cosa.", "Perché finisce in -um": "La coda -um nei neutri vale sia per chi agisce sia per chi subisce: da sola non decide.", "Perché «magnum» è un aggettivo": "L'aggettivo concorda con il nome ma non dice se il nome agisce o subisce." } },
+  { topic: "declinazione-2n", difficulty: 2, format: "short_answer", prompt: "Che cosa significa in italiano il latino «templum»?", answer: "tempio", accept: ["il tempio"], explanation: "Da «templum» viene «tempio», e in origine indicava lo spazio di cielo che l'augure ritagliava con lo sguardo per osservare il volo degli uccelli." },
+  { topic: "declinazione-2n", difficulty: 4, prompt: "Perché il plurale neutro in -a somiglia al singolare femminile in -a?", answer: "È una somiglianza casuale, non una parentela", distractors: ["Perché i neutri sono femminili al plurale","Perché la -a indica sempre il plurale","Perché la prima declinazione nasce dai neutri"], explanation: "Due code identiche possono venire da storie diverse: «rosa» è una parola sola al femminile, «templa» sono più cose al neutro. È il caso in cui fidarsi della somiglianza porta fuori strada, e bisogna guardare da quale parola si parte.",
+    distractorWhy: { "Perché i neutri sono femminili al plurale": "Il genere di un nome latino non cambia passando al plurale: un neutro resta neutro.", "Perché la -a indica sempre il plurale": "In «rosa» la -a indica il singolare: la stessa lettera fa due lavori diversi in due gruppi diversi.", "Perché la prima declinazione nasce dai neutri": "I due gruppi hanno origini distinte: la somiglianza è solo nella scrittura." } },
+  // --- Quinta declinazione: piccola, e dentro c'è la repubblica --------------
+  { topic: "declinazione-5", difficulty: 2, prompt: "Che cosa significa «res»?", answer: "La cosa", distractors: ["Il re","La rete","La radice"], explanation: "«Res» è la parola più generica del latino: una cosa, un fatto, una faccenda, un affare. Proprio perché non significa niente di preciso serve a dire tutto, e infatti entra in decine di espressioni.",
+    distractorWhy: { "Il re": "Il re è «rex, regis»: si somigliano nella prima lettera e basta.", "La rete": "La rete in latino è «rete», parola diversa e di un altro gruppo.", "La radice": "La radice è «radix», da cui l'italiano «radice» e «radicale»." } },
+  { topic: "declinazione-5", difficulty: 3, prompt: "«Res publica» significa alla lettera…", answer: "La cosa pubblica", distractors: ["Il re del popolo","La legge del popolo","L'assemblea dei cittadini"], explanation: "«Res» è la cosa, «publica» è di tutti: la repubblica è alla lettera la cosa che appartiene a tutti, e non a un padrone. La parola italiana «repubblica» è quella espressione latina saldata in una parola sola.",
+    distractorWhy: { "Il re del popolo": "«Rex» non c'entra: la repubblica romana nasce proprio cacciando il re.", "La legge del popolo": "La legge è «lex»: sarebbe «lex publica», un'altra espressione.", "L'assemblea dei cittadini": "L'assemblea era il «comitium»: la «res publica» è la cosa comune, non la riunione." } },
+  { topic: "declinazione-5", difficulty: 3, format: "short_answer", prompt: "Qual è il genitivo plurale di «res»?", answer: "rerum", explanation: "«Rerum» vuol dire «delle cose», e si legge ancora sul titolo del poema di Lucrezio, «De rerum natura»: sulla natura delle cose." },
+  { topic: "declinazione-5", difficulty: 3, format: "short_answer", prompt: "Qual è l'accusativo singolare di «dies»?", answer: "diem", explanation: "È la parola che sta dentro «carpe diem»: il giorno è ciò che viene colto, quindi subisce l'azione e prende la coda -m." },
+  { topic: "declinazione-5", difficulty: 3, prompt: "In «carpe diem», che ruolo ha «diem»?", answer: "È la cosa che viene colta", distractors: ["È chi coglie","È il modo in cui si coglie","È il momento in cui si coglie"], explanation: "«Carpe» è un ordine — cogli! — e «diem» porta la coda -m di chi subisce: il giorno è ciò che si deve cogliere. Bastano due parole a fare una frase latina completa.",
+    distractorWhy: { "È chi coglie": "Chi coglie è la persona a cui si dà l'ordine, e non è scritta: sta dentro la coda di «carpe».", "È il modo in cui si coglie": "Il modo si direbbe con l'ablativo, che per «dies» sarebbe «die», senza la -m.", "È il momento in cui si coglie": "Il momento vorrebbe un'altra costruzione: qui il giorno non è quando si coglie, è che cosa si coglie." } },
+  { topic: "declinazione-5", difficulty: 3, prompt: "Da «dies» viene la parola italiana…", answer: "Diario", distractors: ["Dado","Dito","Dieta"], explanation: "Il diario è il quaderno dei giorni. Dalla stessa parola vengono «meridiana» (da «medius dies», mezzogiorno) e «quotidiano», ciò che succede ogni giorno.",
+    distractorWhy: { "Dado": "«Dado» viene da «datum», ciò che è dato: la radice è quella di «dare».", "Dito": "«Dito» viene da «digitus», parola diversa e senza parentela con il giorno.", "Dieta": "«Dieta» viene dal greco «diaita», il modo di vivere: la somiglianza con «dies» è casuale." } },
+  { topic: "declinazione-5", difficulty: 3, prompt: "Come si riconosce un nome della quinta declinazione?", answer: "Dal genitivo singolare in -ei", distractors: ["Dal nominativo singolare in -es","Dal nominativo plurale in -a","Dall'ablativo singolare in -e"], explanation: "La coda -ei non appartiene a nessun altro gruppo, e per questo basta da sola. Il nominativo in -es invece lo hanno anche i plurali della terza, e l'ablativo in -e pure: sono indizi, non prove.",
+    distractorWhy: { "Dal nominativo singolare in -es": "Anche «milites» e «reges» finiscono in -es, e sono terza declinazione al plurale.", "Dal nominativo plurale in -a": "Il plurale in -a è dei neutri, e nella quinta non ce ne sono.", "Dall'ablativo singolare in -e": "L'ablativo in -e ce l'ha anche tutta la terza declinazione: non distingue niente." } },
+  { topic: "declinazione-5", difficulty: 4, prompt: "Perché «res» e «dies» si imparano anche se la quinta declinazione è piccolissima?", answer: "Perché sono fra le parole più usate", distractors: ["Perché sono le uniche irregolari","Perché servono a riconoscere le altre declinazioni","Perché non hanno il plurale"], explanation: "La grandezza di un gruppo non dice quanto lo incontrerai: la quinta ha poche decine di parole, ma «la cosa» e «il giorno» tornano in quasi ogni pagina. È lo stesso motivo per cui si impara «essere» prima di verbi più regolari.",
+    distractorWhy: { "Perché sono le uniche irregolari": "Sono regolarissime: seguono lo schema della quinta senza eccezioni.", "Perché servono a riconoscere le altre declinazioni": "Ogni gruppo si riconosce dal proprio genitivo: la quinta non aiuta a riconoscere gli altri.", "Perché non hanno il plurale": "Il plurale ce l'hanno: res, rerum, rebus." } },
+  { topic: "declinazione-5", difficulty: 4, format: "short_answer", prompt: "Come si dice «dei giorni» in latino, al genitivo plurale?", answer: "dierum", explanation: "Stessa coda -erum di «rerum»: la quinta declinazione la usa per tutte le sue parole, e non la usa nessun altro gruppo." },
+  { topic: "declinazione-5", difficulty: 2, prompt: "Che cosa significa «dies»?", answer: "Il giorno", distractors: ["La dea","Il dito","Il dado"], explanation: "«Dies» è il giorno inteso come luce e come data. In italiano è sopravvissuto dentro «meridiana», «diario» e «quotidiano», e nel nome dei giorni della settimana in altre lingue romanze.",
+    distractorWhy: { "La dea": "La dea è «dea», dal maschile «deus»: parola diversa, gruppo diverso.", "Il dito": "Il dito è «digitus», parola senza parentela con «dies».", "Il dado": "Il dado è «datum» o «alea»: nessuna delle due c'entra con il giorno." } },
+  { topic: "declinazione-5", difficulty: 4, prompt: "«De rerum natura» significa…", answer: "Sulla natura delle cose", distractors: ["Sulla natura del re","Sulle cose della natura","Sulla nascita delle cose"], explanation: "È il titolo del poema di Lucrezio, che spiegava il mondo senza ricorrere agli dèi. «Rerum» è genitivo plurale — «delle cose» — e regge «natura»: la natura di che cosa? Delle cose.",
+    distractorWhy: { "Sulla natura del re": "«Del re» sarebbe «regis»: «rerum» è il plurale di «res», la cosa.", "Sulle cose della natura": "È il contrario: a essere al genitivo è «rerum», quindi è la natura ad appartenere alle cose.", "Sulla nascita delle cose": "La nascita sarebbe «ortus» o «origo»: «natura» è la natura, cioè come le cose sono fatte." } },
 ];
 
-function latinoBank(latinNouns, latinNounForm, distinctiveCases) {
+// --- Il latino PRIMA dei nomi dei casi ---------------------------------------
+//
+// **Il difetto che questo blocco ripara.** (2 settembre 2026, segnalazione del
+// committente: «un bambino di 10-11 anni non ha mai visto il latino; gli
+// esercizi sono poco adatti e anche molto noiosi».)
+//
+// Misurato sul banco cotto prima di oggi: **86 item su 212 erano la stessa
+// domanda**, «che caso e numero ha "dominorum"?», ripetuta con una parola
+// diversa. E **17 di quegli 86 stavano a difficoltà 1**, cioè nei mondi 1-5,
+// cioè al primo incontro in assoluto con la lingua: si chiedeva di NOMINARE una
+// categoria grammaticale prima di aver mostrato che la categoria esiste. È
+// l'ordine rovesciato — il nome del caso è l'ultimo passo dell'apprendimento,
+// non il primo.
+//
+// C'era anche un secondo difetto, silenzioso: `distinctiveCases` scarta le forme
+// ambigue, e la PRIMA declinazione ne ha talmente tante che ne restavano tre
+// sole — meno dei tre distrattori richiesti, quindi `latinoBank` scartava il
+// nome intero. **Rosa, puella, aqua, terra, patria e silva non producevano un
+// solo esercizio**, e lo stesso valeva per i neutri della seconda (bellum,
+// templum, donum) e per la quinta (res, dies). Il banco di latino non conteneva
+// la prima declinazione: quella con cui ogni libro comincia.
+//
+// ### L'ordine in cui si impara una lingua a casi
+//
+// Quattro gradini, e i nomi dei casi arrivano al terzo:
+//
+//   1. **la coda cambia il senso** (difficoltà 1) — «Dominus servum vocat» e
+//      «Servus dominum vocat» hanno le stesse parole nello stesso ordine e
+//      dicono il contrario. Nessun termine tecnico: si guarda la fine della
+//      parola perché è lì che sta l'informazione;
+//   2. **dalla domanda alla forma** (difficoltà 2-3) — «quale forma useresti
+//      per dire *della rosa*?». È la direzione che serve davvero a tradurre, ed
+//      era completamente assente: il banco chiedeva solo di riconoscere;
+//   3. **il nome del caso** (difficoltà 3-4) — riconoscere caso e numero da una
+//      forma. Resta, ridotto e spostato in alto, dove è utile;
+//   4. **la frase intera** (difficoltà 3-4) — tradurre, che è il punto di tutto.
+//
+// Tutto ciò che si chiede sta su una tavola di `TavoleRiferimento` (paradigmi,
+// funzioni dei casi, verbi, radici): è il patto «nessuna domanda senza un posto
+// dove impararla», esteso al latino da `tavole_riferimento_audit.gd`.
+
+// L'articolo che il curriculum porta già dentro `it` («la rosa», «lo schiavo»,
+// «l'acqua») dice come si costruiscono le preposizioni articolate italiane.
+// Nessuna euristica sulle lettere: l'articolo è il dato.
+const LATINO_ARTICOLI = [
+  { art: "l'", gen: "dell'", dat: "all'", abl: "con l'" },
+  { art: "lo ", gen: "dello ", dat: "allo ", abl: "con lo " },
+  { art: "la ", gen: "della ", dat: "alla ", abl: "con la " },
+  { art: "il ", gen: "del ", dat: "al ", abl: "con il " },
+];
+
+// La domanda italiana a cui quel caso risponde. Stesse etichette di
+// `latinCaseFunctions` nel curriculum: non è una seconda verità scritta qui.
+const LATINO_DOMANDA_CASO = {
+  genitivo: "di chi? di che cosa?",
+  dativo: "a chi? a che cosa?",
+  accusativo: "chi? che cosa?",
+};
+
+// Come si dice in italiano quel caso al singolare, per questo nome. `null`
+// quando la coppia non si può chiedere onestamente (persona + ablativo).
+function glossaCaso(noun, kase) {
+  // «il signore/padrone» è una glossa doppia: nella domanda ne va una sola, o il
+  // bambino legge una barra invece di un significato.
+  const it = String(noun.it).split("/")[0].trim();
+  const voce = LATINO_ARTICOLI.find((v) => it.startsWith(v.art));
+  if (!voce) return null;
+  const nudo = it.slice(voce.art.length);
+  if (kase === "genitivo") return { frase: `${voce.gen}${nudo}`, chiede: `per dire «${voce.gen}${nudo}»` };
+  if (kase === "dativo") return { frase: `${voce.dat}${nudo}`, chiede: `per dire «${voce.dat}${nudo}»` };
+  // L'accusativo in italiano non ha nessuna paroletta davanti: «la rosa» soggetto
+  // e «la rosa» oggetto si scrivono uguali, ed è proprio questa la ragione per
+  // cui il latino ha bisogno di una coda diversa. La domanda quindi non può
+  // citare una forma italiana: deve citare il RUOLO.
+  if (kase === "accusativo") return { frase: it, chiede: `se è ${it} a SUBIRE l'azione` };
+  return null;
+}
+
+// L'ordine in cui si prova a chiedere i casi di un nome. Genitivo per primo
+// perché è quello che il vocabolario mette accanto al nominativo, ed è la chiave
+// che apre tutta la declinazione.
+//
+// **L'ablativo non c'è, ed è una scelta.** La sua glossa italiana sarebbe «con
+// la ...»: con uno strumento («con la mano») è giusta, con quasi tutto il resto
+// del curriculum no — «con la guerra», «con il giorno», «con il tempio» non sono
+// italiano, e con una persona vorrebbero comunque «cum» davanti. Una domanda che
+// si capisce a metà non insegna: l'ablativo si impara sulla tavola dei paradigmi
+// e si esercita al gradino del riconoscimento.
+const LATINO_CASI_PRODUZIONE = ["genitivo", "dativo", "accusativo"];
+
+// Quante forme si chiede di PRODURRE per ogni nome. Due: con una sola il nome
+// resta un caso isolato, con quattro il banco torna a essere lo stesso esercizio
+// ripetuto — che è il difetto da cui è nato tutto questo blocco.
+const LATINO_PRODUZIONI_PER_NOME = 2;
+
+// Quante forme si chiede di RICONOSCERE ("che caso e numero è?") per ogni nome.
+// Era illimitato, e da lì venivano gli 86 item uguali.
+const LATINO_RICONOSCIMENTI_PER_NOME = 2;
+
+// --- Gradino 1: la coda cambia il senso --------------------------------------
+//
+// Frasi minime di tre parole, con lo scambio. `scambio` è vuoto quando invertire
+// darebbe una frase senza senso (nessuno viene portato dall'acqua): lì si usa
+// solo la prima domanda, quella su chi subisce.
+//
+// Le forme sono controllate una per una contro il paradigma: `servum` (2ª,
+// acc. sg. in -um), `militem`/`regem`/`legem` (3ª, acc. sg. in -em),
+// `poetam`/`puellam` (1ª, acc. sg. in -am).
+const LATINO_SCENE = [
+  {
+    la: "Dominus servum vocat.", it: "Il padrone chiama lo schiavo.",
+    agente: "dominus", agenteIt: "il padrone", paziente: "servum", pazienteIt: "lo schiavo",
+    verbo: "vocat", azione: "chiama", agenteAlt: "servus", pazienteAlt: "dominum",
+    reciproco: "si chiamano a vicenda",
+    scambio: "Servus dominum vocat.", scambioIt: "Lo schiavo chiama il padrone.",
+  },
+  {
+    la: "Puella poetam amat.", it: "La fanciulla ama il poeta.",
+    agente: "puella", agenteIt: "la fanciulla", paziente: "poetam", pazienteIt: "il poeta",
+    verbo: "amat", azione: "ama", agenteAlt: "poeta", pazienteAlt: "puellam",
+    reciproco: "si amano a vicenda",
+    scambio: "Poeta puellam amat.", scambioIt: "Il poeta ama la fanciulla.",
+  },
+  {
+    la: "Miles regem videt.", it: "Il soldato vede il re.",
+    agente: "miles", agenteIt: "il soldato", paziente: "regem", pazienteIt: "il re",
+    verbo: "videt", azione: "vede", agenteAlt: "rex", pazienteAlt: "militem",
+    reciproco: "si vedono a vicenda",
+    scambio: "Rex militem videt.", scambioIt: "Il re vede il soldato.",
+  },
+  {
+    la: "Amicus puerum laudat.", it: "L'amico loda il ragazzo.",
+    agente: "amicus", agenteIt: "l'amico", paziente: "puerum", pazienteIt: "il ragazzo",
+    verbo: "laudat", azione: "loda", agenteAlt: "puer", pazienteAlt: "amicum",
+    reciproco: "si lodano a vicenda",
+    scambio: "Puer amicum laudat.", scambioIt: "Il ragazzo loda l'amico.",
+  },
+  {
+    la: "Consul legem scribit.", it: "Il console scrive la legge.",
+    agente: "consul", agenteIt: "il console", paziente: "legem", pazienteIt: "la legge",
+    verbo: "scribit", azione: "scrive", agenteAlt: "lex", pazienteAlt: "consulem",
+    scambio: "", scambioIt: "",
+  },
+  {
+    la: "Agricola aquam portat.", it: "Il contadino porta l'acqua.",
+    agente: "agricola", agenteIt: "il contadino", paziente: "aquam", pazienteIt: "l'acqua",
+    verbo: "portat", azione: "porta", agenteAlt: "aqua", pazienteAlt: "agricolam",
+    scambio: "", scambioIt: "",
+  },
+  {
+    la: "Regina donum dat.", it: "La regina dà il dono.",
+    agente: "regina", agenteIt: "la regina", paziente: "donum", pazienteIt: "il dono",
+    verbo: "dat", azione: "dà", agenteAlt: "", pazienteAlt: "reginam",
+    scambio: "", scambioIt: "",
+  },
+  {
+    la: "Poeta bellum narrat.", it: "Il poeta racconta la guerra.",
+    agente: "poeta", agenteIt: "il poeta", paziente: "bellum", pazienteIt: "la guerra",
+    verbo: "narrat", azione: "racconta", agenteAlt: "", pazienteAlt: "poetam",
+    scambio: "", scambioIt: "",
+  },
+  {
+    la: "Magister discipulum monet.", it: "Il maestro avvisa l'allievo.",
+    agente: "magister", agenteIt: "il maestro", paziente: "discipulum", pazienteIt: "l'allievo",
+    verbo: "monet", azione: "avvisa", agenteAlt: "discipulus", pazienteAlt: "magistrum",
+    reciproco: "si avvisano a vicenda",
+    scambio: "Discipulus magistrum monet.", scambioIt: "L'allievo avvisa il maestro.",
+  },
+  {
+    la: "Lupus agnum videt.", it: "Il lupo vede l'agnello.",
+    agente: "lupus", agenteIt: "il lupo", paziente: "agnum", pazienteIt: "l'agnello",
+    verbo: "videt", azione: "vede", agenteAlt: "agnus", pazienteAlt: "lupum",
+    reciproco: "si vedono a vicenda",
+    scambio: "Agnus lupum videt.", scambioIt: "L'agnello vede il lupo.",
+  },
+  {
+    la: "Nauta stellam spectat.", it: "Il marinaio guarda la stella.",
+    agente: "nauta", agenteIt: "il marinaio", paziente: "stellam", pazienteIt: "la stella",
+    verbo: "spectat", azione: "guarda", agenteAlt: "stella", pazienteAlt: "nautam",
+    scambio: "", scambioIt: "",
+  },
+  {
+    la: "Femina librum legit.", it: "La donna legge il libro.",
+    agente: "femina", agenteIt: "la donna", paziente: "librum", pazienteIt: "il libro",
+    verbo: "legit", azione: "legge", agenteAlt: "liber", pazienteAlt: "feminam",
+    scambio: "", scambioIt: "",
+  },
+];
+
+// --- Gradino 4: la frase intera ----------------------------------------------
+//
+// Le frasi con i loro distrattori stanno già in `latinCurriculum.ts`
+// (`latinSentences`) e non erano MAI state usate dal generatore: il banco cotto
+// non conteneva una sola traduzione di frase — cioè non conteneva la cosa per
+// cui si studia una lingua.
+
+// Perché ciascun distrattore di una traduzione è sbagliato. Scritto a mano e non
+// generato: le frasi sono sei, e la ragione cambia ogni volta — il caso
+// scambiato, il numero, il verbo. È la differenza fra «hai sbagliato» e «hai
+// guardato l'ordine invece della coda».
+const LATINO_TRADUZIONE_WHY = {
+  "La rosa ama la fanciulla.": "Sarebbe «Rosa puellam amat»: la coda -am dovrebbe stare su «puellam», e invece qui sta su «rosam». È la rosa a essere amata.",
+  "La fanciulla vede la rosa.": "«Amat» viene da «amare», non da «vedere»: vedere sarebbe «videt».",
+  "Le fanciulle amano le rose.": "Al plurale sarebbe «Puellae rosas amant»: qui il verbo finisce in -t, quindi chi ama è una sola.",
+  "Gli schiavi chiamano il padrone.": "Sarebbe «Servi dominum vocant»: qui «servos» porta la coda -os di chi subisce, quindi gli schiavi sono chiamati.",
+  "Il padrone chiama lo schiavo.": "Uno schiavo solo sarebbe «servum»; «servos» finisce in -os ed è plurale.",
+  "Il padrone loda gli schiavi.": "«Vocat» è «chiama»; lodare sarebbe «laudat».",
+  "Il soldato difende la patria.": "Un soldato solo sarebbe «miles ... defendit»: «milites» con -es e «defendunt» con -nt sono tutti e due plurali.",
+  "La patria difende i soldati.": "Sarebbe «Patria milites defendit»: qui «patriam» porta la coda -am di chi subisce.",
+  "I soldati amano la patria.": "«Defendunt» è «difendono»; amare sarebbe «amant».",
+  "La guerra racconta il poeta.": "Sarebbe «Bellum poetam narrat»: qui «poeta» non ha nessuna coda da oggetto, quindi è lui a raccontare.",
+  "Il poeta ascolta la guerra.": "«Narrat» è «racconta»; ascoltare sarebbe «audit».",
+  "I poeti raccontano le guerre.": "Al plurale sarebbe «Poetae bella narrant»: qui il verbo finisce in -t, quindi il poeta è uno solo.",
+  "La legge governa i Romani.": "Sarebbe «Lex Romanos servat»: qui la coda da oggetto plurale sta su «leges», non sui Romani.",
+  "I Romani scrivono le leggi.": "«Servant» è «osservano, rispettano»; scrivere sarebbe «scribunt».",
+  "Il Romano osserva la legge.": "«Romani» e «leges» sono tutti e due plurali, e «servant» finisce in -nt: sono in tanti.",
+  "Il console governa la città.": "«Regebat» ha il -ba- in mezzo, ed è il segno del passato. Il presente sarebbe «regit».",
+  "La città governava il console.": "Sarebbe «Urbs consulem regebat»: qui «urbem» porta la coda -em di chi subisce.",
+  "I consoli governavano le città.": "Al plurale sarebbe «Consules urbes regebant»: qui il verbo finisce in -t, quindi il console è uno solo.",
+};
+
+// --- Il verbo: chi, e quando -------------------------------------------------
+//
+// `latinVerbs` porta cinque paradigmi completi e non era mai stato usato: del
+// verbo latino il banco conteneva soltanto «sum», scritto a mano. Eppure è metà
+// del lavoro di ogni frase, ed è la parte in cui il latino somiglia di più
+// all'italiano — «amabat» e «amava» hanno il segno del passato nello stesso
+// posto, in mezzo alla parola.
+
+// Chi compie l'azione, persona per persona, e la coda che lo dice.
+const LATINO_PERSONE_VERBO = [
+  { chi: "Io", coda: "-o (o -m)", indice: 0 },
+  { chi: "Tu", coda: "-s", indice: 1 },
+  // «Lui/lei» e non «Lui o lei»: con la forma lunga la risposta giusta sporgeva
+  // di cinque caratteri sul distrattore più lungo, e `bank_scorciatoie_audit`
+  // misurava che si vinceva toccando la più lunga. Sette caratteri contro i
+  // quattro di «Loro» stanno sotto il margine visibile.
+  { chi: "Lui/lei", coda: "-t", indice: 2 },
+  { chi: "Noi", coda: "-mus", indice: 3 },
+  { chi: "Voi", coda: "-tis", indice: 4 },
+  { chi: "Loro", coda: "-nt", indice: 5 },
+];
+
+// I tempi che si chiedono, con il segno che li riconosce. Il futuro si chiede
+// solo alla 1ª e 2ª coniugazione: alla 3ª e 4ª non ha il -bi- (reget, audiet), e
+// una regola vera a metà, insegnata come se valesse sempre, è peggio di una
+// regola in meno. La differenza sta scritta sulla tavola dei verbi.
+const LATINO_TEMPI = [
+  { tempo: "presente", quando: "Adesso" },
+  { tempo: "imperfetto", quando: "Nel passato" },
+  { tempo: "futuro", quando: "Nel futuro" },
+];
+const LATINO_TEMPI_QUANDO = ["Adesso", "Nel passato", "Nel futuro"];
+
+// Il segno che riconosce il tempo, **per questo verbo**. Non è una costante:
+// l'imperfetto ha il -ba- in tutte e quattro le coniugazioni, ma il futuro ce
+// l'ha solo alla prima e alla seconda (amabit, monebit) e non alla terza né alla
+// quarta (reget, audiet). Scriverlo come se valesse sempre vorrebbe dire
+// insegnare una regola falsa nella metà dei casi.
+function segnoDelTempo(verbo, tempo) {
+  if (tempo === "presente") return "non c'è nessun pezzetto in mezzo: la coda si attacca diretta al tema del verbo";
+  if (tempo === "imperfetto") return "c'è il pezzetto «-ba-» infilato prima della coda";
+  return [1, 2].includes(verbo.conjugation)
+    ? "c'è il pezzetto «-bi-» (o «-bo», «-bu-») prima della coda"
+    : "cambia la vocale prima della coda e il -bi- non compare: alla terza e alla quarta coniugazione il futuro si riconosce da quella vocale";
+}
+
+function latinoBank(latin) {
+  const { latinNouns, latinNounForm, distinctiveCases, latinVerbs, latinSentences } = latin;
   const rand = rng(20260723);
   const items = [];
+
+  // -- Gradino 1: chi agisce e chi subisce, senza nominare nessun caso --------
+  LATINO_SCENE.forEach((scena, indice) => {
+    // **Il terzo distrattore è quello che insegna.** Dove esiste, è il NOME
+    // STESSO della risposta con l'altra coda — «servus» accanto a «servum» —
+    // perché sbagliarlo vuol dire esattamente non aver guardato la fine della
+    // parola. Dove non esiste è perché la risposta è un NEUTRO (donum, bellum),
+    // e nei neutri le due code sono la stessa: lì il distrattore diventa chi
+    // agisce messo nella coda di chi subisce, che è la stessa lezione girata.
+    const trappola = scena.agenteAlt !== "" ? scena.agenteAlt : scena.pazienteAlt;
+    const perche_trappola = scena.agenteAlt !== ""
+      ? `«${scena.agenteAlt}» è la stessa parola della risposta, ma con la coda di chi AGISCE: qui ${scena.pazienteIt} subisce, e la coda cambia.`
+      : `«${scena.pazienteAlt}» è ${scena.agenteIt} con la coda di chi subisce: qui però ${scena.agenteIt} ${scena.azione}, e infatti la frase scrive «${scena.agente}».`;
+    const neutro = scena.agenteAlt === ""
+      ? ` Attenzione: «${scena.paziente}» è un neutro, e nei neutri chi agisce e chi subisce si scrivono uguali — a dirlo è l'altra parola della frase, non la coda.`
+      : "";
+    items.push(
+      multipleChoiceItem(
+        {
+          id: `latino-scena-${indice}-subisce`,
+          subject: "latino",
+          topic: "casi",
+          difficulty: 1,
+          prompt: `«${scena.la}» vuol dire «${scena.it}». Quale parola indica chi SUBISCE l'azione, cioè ${scena.pazienteIt} che ${scena.agenteIt} ${scena.azione}?`,
+          answer: scena.paziente,
+          distractors: [scena.agente, scena.verbo, trappola],
+          explanation: `«${scena.paziente}» porta la coda di chi subisce l'azione. In latino non è il posto nella frase a dirlo: è la fine della parola, e cambiando la coda cambia chi fa che cosa.${neutro}`,
+          extra: {
+            distractorWhy: {
+              [scena.agente]: `«${scena.agente}» è ${scena.agenteIt}, cioè chi ${scena.azione}: la sua coda è quella di chi agisce.`,
+              [scena.verbo]: `«${scena.verbo}» è il verbo, l'azione stessa (${scena.azione}): non è né chi la fa né chi la riceve.`,
+              [trappola]: perche_trappola,
+            },
+          },
+        },
+        rand,
+      ),
+    );
+  });
+
+  // -- Gradino 1 bis: la coppia minima, l'idea intera della lingua ------------
+  LATINO_SCENE.filter((s) => s.scambio !== "").forEach((scena, indice) => {
+    const maiuscola = (t) => `${t.charAt(0).toUpperCase()}${t.slice(1)}`;
+    items.push(
+      multipleChoiceItem(
+        {
+          id: `latino-scambio-${indice}`,
+          subject: "latino",
+          topic: "casi",
+          difficulty: 2,
+          prompt: `«${scena.la}» vuol dire «${scena.it}». Che cosa vuol dire «${scena.scambio}»?`,
+          answer: scena.scambioIt,
+          distractors: [
+            scena.it,
+            `${maiuscola(scena.agenteIt)} non ${scena.azione} ${scena.pazienteIt}.`,
+            `${maiuscola(scena.agenteIt)} e ${scena.pazienteIt} ${scena.reciproco}.`,
+          ],
+          explanation: `Le parole sono le stesse e anche l'ordine: sono cambiate le code. Adesso la coda di chi agisce sta su «${scena.agenteAlt}» e quella di chi subisce su «${scena.pazienteAlt}». In italiano a dirlo è la posizione, in latino la fine della parola — ed è per questo che un latino poteva scrivere le parole quasi in qualunque ordine.`,
+          extra: {
+            distractorWhy: {
+              [scena.it]: "È la frase di partenza: se cambiare le code non cambiasse il senso, le code non servirebbero a niente.",
+              [`${maiuscola(scena.agenteIt)} non ${scena.azione} ${scena.pazienteIt}.`]: "Non c'è nessuna negazione: «non» in latino si scrive «non» ed è una parola in più, che qui non compare.",
+              [`${maiuscola(scena.agenteIt)} e ${scena.pazienteIt} ${scena.reciproco}.`]: "Sarebbe un'azione reciproca, e il latino la segnala con una parola in più («inter se»). Qui una parola porta la coda di chi agisce e l'altra quella di chi subisce: l'azione va in una direzione sola.",
+            },
+          },
+        },
+        rand,
+      ),
+    );
+  });
+
+  // -- Gradino 2: dalla domanda italiana alla forma latina (produzione) -------
+  //
+  // La direzione che serve per tradurre, e che il banco non aveva mai avuto: si
+  // sa che cosa si vuole dire e si cerca la coda giusta.
   latinNouns.forEach((noun, nounIndex) => {
+    const tutteLeForme = [];
+    for (const numero of ["singolare", "plurale"]) {
+      for (const kase of ["nominativo", "genitivo", "dativo", "accusativo", "ablativo"]) {
+        tutteLeForme.push(latinNounForm(noun, kase, numero));
+      }
+    }
+    const candidati = LATINO_CASI_PRODUZIONE
+      .map((kase) => ({ kase, glossa: glossaCaso(noun, kase) }))
+      // La forma chiesta non deve coincidere con il lemma stampato nella
+      // domanda. «Da *manus*: quale forma useresti per dire *della mano*?» ha per
+      // risposta «manus», e si azzecca copiando invece che ragionando. Il
+      // genitivo uguale al nominativo della quarta è un fatto vero, e va detto
+      // sulla tavola: non trasformato in un indovinello che si vince guardando
+      // la domanda.
+      .filter((c) => c.glossa !== null && latinNounForm(noun, c.kase, "singolare") !== noun.nomSg);
+    if (candidati.length === 0) return;
+    for (let n = 0; n < LATINO_PRODUZIONI_PER_NOME; n += 1) {
+      const { kase, glossa } = candidati[(nounIndex + n) % candidati.length];
+      const forma = latinNounForm(noun, kase, "singolare");
+      const distractors = pickDistractors(tutteLeForme, forma, 3, rand);
+      if (distractors.length < 3) continue;
+      const desinenza = forma.startsWith(noun.stem) ? forma.slice(noun.stem.length) : "";
+      const codaDetta = desinenza === ""
+        ? `la forma di partenza, quella che sta sul vocabolario,`
+        : `la coda «-${desinenza}»`;
+      const topic = DECL_TOPIC[noun.type] ?? `declinazione-${noun.type}`;
+      const difficulty = noun.tier === 1 ? 2 : 3;
+      const prompt = `Da «${noun.nomSg}» (${noun.it}): quale forma useresti ${glossa.chiede}?`;
+      const explanation = `Nella ${DECL_NAME[noun.type] ?? noun.type} ${codaDetta} risponde alla domanda «${LATINO_DOMANDA_CASO[kase]}»: è il ${kase} singolare. La stessa coda tornerà uguale su ogni altra parola dello stesso gruppo, e questo è il motivo per cui si impara uno schema invece di un elenco.`;
+      // **La seconda forma chiesta a ogni nome si DIGITA, non si tocca.** Due
+      // ragioni che valgono tutte e due: a tastiera non esiste la scorciatoia
+      // della risposta più lunga (`bank_scorciatoie_audit`), e produrre una
+      // forma scrivendola è un gesto molto più vicino al tradurre che non
+      // sceglierla fra quattro già stampate.
+      if (n === 1) {
+        items.push({
+          id: `latino-${noun.nomSg}-produzione-${kase}`,
+          subject: "latino",
+          topic,
+          difficulty,
+          format: "short_answer",
+          prompt,
+          options: [],
+          answer: forma,
+          accept: [],
+          explanation,
+        });
+        continue;
+      }
+      const distractorWhy = {};
+      for (const sbagliata of distractors) {
+        distractorWhy[sbagliata] = `«${sbagliata}» è un'altra forma vera di «${noun.nomSg}», ma risponde a un'altra domanda: qui serve quella che dice «${glossa.frase}».`;
+      }
+      items.push(
+        multipleChoiceItem(
+          {
+            id: `latino-${noun.nomSg}-produzione-${kase}`,
+            subject: "latino",
+            topic,
+            difficulty,
+            prompt,
+            answer: forma,
+            distractors,
+            explanation,
+            extra: { distractorWhy },
+          },
+          rand,
+        ),
+      );
+    }
+  });
+
+  // -- Gradino 3: il nome del caso -------------------------------------------
+  //
+  // Quello che prima era tutto il banco adesso è un gradino su quattro, e sta in
+  // alto: difficoltà 3 e 4, cioè quando i casi hanno già un nome perché qualcuno
+  // gliel'ha detto.
+  latinNouns.forEach((noun) => {
     const combos = distinctiveCases(noun); // [{kase, number}], già senza collisioni
     const labels = combos.map((c) => `${c.kase} ${c.number}`);
     const comboByLabel = new Map(combos.map((c) => [`${c.kase} ${c.number}`, c]));
-    combos.forEach((combo, comboIndex) => {
+    // I plurali per primi: sono le forme che si riconoscono soltanto dalla coda,
+    // cioè quelle su cui la domanda «che caso è?» ha davvero qualcosa da chiedere.
+    const scelti = combos
+      .slice()
+      .sort((a, b) => (a.number === b.number ? 0 : a.number === "plurale" ? -1 : 1))
+      .slice(0, LATINO_RICONOSCIMENTI_PER_NOME);
+    scelti.forEach((combo) => {
       const form = latinNounForm(noun, combo.kase, combo.number);
       const answer = `${combo.kase} ${combo.number}`;
       const distractors = pickDistractors(labels, answer, 3, rand);
       if (distractors.length < 3) return;
-      const difficulty = noun.tier === 1 ? (comboIndex % 2 === 0 ? 1 : 2) : (comboIndex % 2 === 0 ? 3 : 4);
       // Perché il distrattore è sbagliato: quella coppia caso/numero esiste
       // davvero per questo nome, ma darebbe un'ALTRA forma. Calcolato, non
       // inventato: la stessa `latinNounForm` che genera l'item.
@@ -805,8 +1298,8 @@ function latinoBank(latinNouns, latinNounForm, distinctiveCases) {
           {
             id: `latino-${noun.nomSg}-${combo.kase}-${combo.number}`,
             subject: "latino",
-            topic: `declinazione-${noun.type}`,
-            difficulty,
+            topic: DECL_TOPIC[noun.type] ?? `declinazione-${noun.type}`,
+            difficulty: noun.tier === 1 ? 3 : 4,
             prompt: `Che caso e numero ha "${form}" (da "${noun.nomSg}", ${noun.it})?`,
             answer,
             distractors,
@@ -818,8 +1311,110 @@ function latinoBank(latinNouns, latinNounForm, distinctiveCases) {
       );
     });
   });
+
+  // -- Il verbo: chi compie l'azione ----------------------------------------
+  latinVerbs.forEach((verbo, verboIndex) => {
+    const forme = verbo.forms.presente;
+    if (!forme) return;
+    // Due persone per verbo, sfalsate: con cinque verbi passano così tutte e sei
+    // le persone invece di ripetere sempre le stesse.
+    for (let n = 0; n < 2; n += 1) {
+      const persona = LATINO_PERSONE_VERBO[(verboIndex * 2 + n) % LATINO_PERSONE_VERBO.length];
+      const forma = forme[persona.indice];
+      const distractors = pickDistractors(
+        LATINO_PERSONE_VERBO.map((p) => p.chi), persona.chi, 3, rand,
+      );
+      if (distractors.length < 3) continue;
+      const distractorWhy = {};
+      for (const sbagliata of distractors) {
+        const altra = LATINO_PERSONE_VERBO.find((p) => p.chi === sbagliata);
+        distractorWhy[sbagliata] = `«${sbagliata}» vorrebbe la coda ${altra.coda}, cioè «${forme[altra.indice]}».`;
+      }
+      items.push(
+        multipleChoiceItem(
+          {
+            id: `latino-verbo-${verbo.lemma}-persona-${persona.indice}`,
+            subject: "latino",
+            topic: "verbi",
+            difficulty: verbo.conjugation === 0 ? 3 : 2,
+            prompt: `Nel verbo latino che significa «${verbo.it}»: in «${forma}», chi compie l'azione?`,
+            answer: persona.chi,
+            distractors,
+            explanation: `La coda ${persona.coda} dice «${persona.chi.toLowerCase()}» su qualunque verbo latino, sempre. Per questo il latino può fare a meno del pronome: «${forma}» da solo dice già chi agisce, mentre in italiano dobbiamo spesso aggiungere «io», «tu», «loro».`,
+            extra: { distractorWhy },
+          },
+          rand,
+        ),
+      );
+    }
+  });
+
+  // -- Il verbo: quando succede ---------------------------------------------
+  latinVerbs.forEach((verbo) => {
+    // «Sum» è irregolare anche qui: il suo imperfetto è «erat» e non contiene
+    // nessun -ba-. Sta fuori da questa famiglia, e ha già un argomento tutto suo.
+    if (verbo.conjugation === 0) return;
+    for (const tempoSpec of LATINO_TEMPI) {
+      // Il presente è il termine di paragone della domanda, non la domanda.
+      if (tempoSpec.tempo === "presente") continue;
+      const forme = verbo.forms[tempoSpec.tempo];
+      const presente = verbo.forms.presente;
+      if (!forme || !presente) continue;
+      const forma = forme[2]; // «lui o lei»: la persona che l'italiano rende senza pronome
+      const distractors = LATINO_TEMPI_QUANDO.filter((q) => q !== tempoSpec.quando);
+      const distractorWhy = {};
+      for (const q of distractors) {
+        const altro = LATINO_TEMPI.find((t) => t.quando === q);
+        const altraForma = verbo.forms[altro.tempo];
+        distractorWhy[q] = altraForma
+          ? `«${q}» sarebbe «${altraForma[2]}»: lì ${segnoDelTempo(verbo, altro.tempo)}.`
+          : `«${q}» questo verbo lo costruisce in un altro modo ancora: il pezzetto in mezzo non è questo.`;
+      }
+      items.push(
+        multipleChoiceItem(
+          {
+            id: `latino-verbo-${verbo.lemma}-tempo-${tempoSpec.tempo}`,
+            subject: "latino",
+            topic: "verbi",
+            difficulty: 3,
+            prompt: `«${presente[2]}» dice che l'azione di «${verbo.it}» succede adesso. E «${forma}»: quando succede?`,
+            answer: tempoSpec.quando,
+            distractors,
+            explanation: `Quello che cambia sta in mezzo alla parola, non in fondo: ${segnoDelTempo(verbo, tempoSpec.tempo)}. L'italiano fa la stessa cosa nello stesso posto — «amava», «amerà» — perché la nostra lingua è nata da questa: il pezzetto centrale porta il tempo, la coda finale porta la persona.`,
+            extra: { distractorWhy },
+          },
+          rand,
+        ),
+      );
+    }
+  });
+
+  // -- Gradino 4: la frase intera -------------------------------------------
+  latinSentences.forEach((frase, indice) => {
+    const distractorWhy = {};
+    for (const sbagliata of frase.distrattori) {
+      if (LATINO_TRADUZIONE_WHY[sbagliata]) distractorWhy[sbagliata] = LATINO_TRADUZIONE_WHY[sbagliata];
+    }
+    items.push(
+      multipleChoiceItem(
+        {
+          id: `latino-traduzione-${indice}`,
+          subject: "latino",
+          topic: "frasi",
+          difficulty: frase.tier === 1 ? 3 : 4,
+          prompt: `Che cosa significa «${frase.la}»?`,
+          answer: frase.it,
+          distractors: frase.distrattori,
+          explanation: "Si traduce guardando le code prima dell'ordine: una coda dice chi agisce, un'altra chi subisce, e la fine del verbo dice quanti sono e quando succede. Le altre risposte non sono inventate: sono traduzioni di frasi latine vere, che differiscono da questa per una coda sola.",
+          extra: { distractorWhy },
+        },
+        rand,
+      ),
+    );
+  });
+
   items.push(...authoredMcItems("latino", LATINO_EXTRA, rand));
-  return { schemaVersion: 1, subject: "latino", generator: "latin-declension-v2", items };
+  return { schemaVersion: 1, subject: "latino", generator: "latin-ladder-v3", items };
 }
 
 // ---------------------------------------------------------------------------
@@ -3591,7 +4186,7 @@ const BANKS = {
   "matematica-tabelline": tabellineBank(),
   "italiano-base": italianoBank(italianMod.italianVocabularyEntries),
   "inglese-base": ingleseBank(englishMod.englishVocabularyEntries),
-  "latino-base": latinoBank(latinMod.latinNouns, latinMod.latinNounForm, latinMod.distinctiveCases),
+  "latino-base": latinoBank(latinMod),
   "elettronica-base": elettronicaBank(circuitMod.circuitComponentGuide, circuitMod.circuitFaultTemplates),
   "coding-base": codingBank(pythonMod.pythonPrincipleSeeds),
   "fisica-base": fisicaBank(rng(20260732)),

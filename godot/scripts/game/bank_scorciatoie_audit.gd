@@ -134,7 +134,11 @@ const TETTO := {
 	"geografia": 24.7,
 	"inglese": 25.3,
 	"italiano": 24.8,
-	"latino": 23.8,
+	# Sceso a 23,3 il 2 settembre 2026 con la riscrittura del banco: ventiquattro
+	# forme da produrre si digitano invece di toccarsi (a tastiera la scorciatoia
+	# della lunghezza non esiste), e quattro quesiti avevano la risposta giusta
+	# piu' lunga di cinque caratteri del distrattore piu' lungo.
+	"latino": 23.3,
 	# Scesa a 20,1 il 1 settembre 2026 riscrivendo le sequenze aritmetiche: dieci
 	# volte «quale numero continua» sono diventate quattro «continua», tre «quale
 	# sta al decimo posto» e tre «a che posto sta questo numero». Erano aritmetica

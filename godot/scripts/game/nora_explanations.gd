@@ -926,49 +926,115 @@ const VOCI := {
 	},
 
 	# -- latino -----------------------------------------------------------------
+	#
+	# **Riscritte il 2 settembre 2026**, insieme al banco e alle tavole dei
+	# paradigmi. Le voci di prima erano vere e scritte bene, ma parlavano a
+	# qualcuno che sapesse già che cosa sia una desinenza: «la terza è la più
+	# irregolare perché è la più antica» è una frase che si capisce dopo, non
+	# prima. Il lettore di questo gioco ha dieci o undici anni e non ha MAI visto
+	# il latino, quindi il primo livello di ogni voce non nomina niente che non
+	# sia stato mostrato — e i livelli successivi salgono, come in
+	# `matematica:tabelline`.
 	"latino:basi": {
-		"perche": "Il latino non serve solo a leggere i romani: metà delle parole italiane ne viene, e capirlo spiega l'italiano.",
-		"come": "Quando incontri una parola latina, cerca l'italiana che le somiglia: quasi sempre esiste ed è imparentata.",
+		"perche": [
+			"Il latino non è una lingua lontana: è la lingua da cui è nato l'italiano, e metà delle parole che dici ogni giorno vengono da lì.",
+			"Non è morto tutto insieme: è cambiato lentamente, di bocca in bocca, finché a un certo punto quello che si parlava non era più latino ma italiano — e la stessa cosa è successa in Francia, in Spagna, in Portogallo e in Romania.",
+			"Serve ancora perché è la lingua in cui sono scritte le leggi, la medicina e i nomi delle piante e degli animali: chi la riconosce legge parole che non ha mai studiato.",
+		],
+		"come": [
+			"Quando incontri una parola latina, cerca l'italiana che le somiglia: quasi sempre esiste ed è sua parente.",
+			"Se la parola non somiglia a niente, guarda se somiglia a una parola difficile invece che a una facile: «acqua» viene da *aqua*, ma anche «acquedotto», e la seconda si riconosce meglio.",
+		],
 	},
 	"latino:casi": {
-		"perche": "In latino è la desinenza a dire il ruolo nella frase, non la posizione: per questo l'ordine delle parole può cambiare senza cambiare il senso.",
-		"come": "Guarda la fine della parola prima del suo posto nella frase. È lì che il latino scrive chi fa e chi subisce.",
+		"perche": [
+			"In italiano capisci chi fa e chi subisce dal POSTO delle parole: «il cane morde il gatto» e «il gatto morde il cane» hanno le stesse parole e dicono il contrario. In latino invece lo dice la fine della parola.",
+			"Per questo un latino poteva scrivere le parole quasi in qualunque ordine senza essere frainteso: l'informazione non stava nella posizione, viaggiava attaccata a ogni parola.",
+			"I casi sono sei, e ciascuno risponde a una domanda: chi? di chi? a chi? chi/che cosa (subisce)? con che cosa? e la chiamata per nome. Riconosciuta la domanda, hai riconosciuto il caso.",
+		],
+		"come": [
+			"Guarda la fine della parola prima del suo posto nella frase: è lì che il latino scrive chi fa e chi subisce.",
+			"Prova a farti la domanda in italiano — «di chi?», «a chi?» — e poi cerca la coda che le corrisponde sulla tavola: si va dalla domanda alla forma, non al contrario.",
+		],
+	},
+	"latino:declinazione-1": {
+		"perche": "I nomi in -a sono un gruppo solo e si comportano tutti allo stesso modo: imparato lo schema di «rosa», sai già declinare puella, aqua, terra, silva e altre centinaia di parole che non hai ancora incontrato.",
+		"come": "La coda -am è sempre chi subisce, la coda -arum è sempre «di» al plurale. Non contano quante parole conosci: conta che le code sono sempre le stesse sei.",
 	},
 	"latino:declinazione-2m": {
-		"perche": "La seconda declinazione raccoglie i nomi maschili in -us: sono tantissimi, e riconoscerne lo schema ne apre centinaia insieme.",
-		"come": "Se il nominativo finisce in -us e il genitivo in -i, tutto il resto dello schema segue senza sorprese.",
+		"perche": "La seconda raccoglie i nomi in -us, e sono tantissimi: dominus, servus, amicus, populus. È il gruppo da cui viene la maggior parte dei nomi italiani in -o.",
+		"come": "Se la parola del vocabolario finisce in -us e la seconda in -i, tutto il resto dello schema segue senza sorprese: -o, -um, -o al singolare.",
+	},
+	"latino:declinazione-2n": {
+		"perche": "Nei neutri chi agisce e chi subisce si scrivono uguali (bellum e bellum), e non è un difetto: sono cose, e una cosa non compie azioni, quindi il latino non ha mai avuto bisogno di distinguerli.",
+		"come": "Quando trovi due volte la stessa forma, guarda il verbo e l'altra parola: se l'altra parola porta la coda di chi agisce, il neutro è quello che subisce.",
 	},
 	"latino:declinazione-3m": {
-		"perche": "La terza è la più irregolare perché è la più antica: i nomi ci sono arrivati consumati dall'uso.",
-		"come": "Non fidarti del nominativo: nella terza è il genitivo a mostrare la vera radice della parola.",
+		"perche": [
+			"La terza è la più disordinata perché è la più antica: queste parole sono state usate così tanto che si sono consumate, come uno scalino calpestato per secoli.",
+			"Il nominativo non si può prevedere — rex, consul, miles non si somigliano — ma da lì in poi tutto torna regolare: il disordine è solo nella prima forma.",
+		],
+		"come": "Non fidarti della prima forma: nella terza è la seconda, quella con -is, a mostrare la vera radice della parola. Da «rex, regis» si vede che la radice è «reg-», e tutto il resto si costruisce da lì.",
 	},
 	"latino:declinazione-3n": {
-		"perche": "I neutri hanno nominativo e accusativo uguali, e questo dice una cosa vera: chi non agisce, in latino, non si distingue da chi subisce.",
-		"come": "Se trovi la stessa forma per soggetto e oggetto, è un neutro: il contesto ti dirà quale dei due.",
+		"perche": "Anche qui chi agisce e chi subisce si scrivono uguali (corpus, corpus), e al plurale escono tutti in -a: «corpora», «tempora». Da quel plurale in -a vengono i plurali italiani strani come «le braccia» e «le uova».",
+		"come": "Se trovi la stessa forma per chi agisce e per chi subisce, è un neutro: a dirti quale dei due è, sarà il resto della frase.",
 	},
 	"latino:declinazione-4": {
-		"perche": "La quarta è piccola ma contiene parole d'uso costante come «manus» e «domus»: si incontra più di quanto la sua grandezza faccia pensare.",
-		"come": "Il genitivo in -us la distingue dalla seconda, che ha la stessa uscita al nominativo.",
+		"perche": "La quarta è piccola ma contiene parole che tornano di continuo, come «manus» (la mano) e «domus» (la casa): si incontra molto più spesso di quanto il suo numero di parole faccia pensare.",
+		"come": "Attenzione a non confonderla con la seconda: finiscono tutte e due in -us alla prima forma, ma la seconda fa «-i» e la quarta fa «-us» anche alla seconda forma.",
+	},
+	"latino:declinazione-5": {
+		"perche": "La quinta è la più piccola di tutte — poche parole, ma fra loro «res» (la cosa) e «dies» (il giorno), che si usano in continuazione. Da «res» viene «reale», da «dies» vengono «diario» e «meridiana».",
+		"come": "Si riconosce dalla coda -ei della seconda forma: «res, rei», «dies, diei». È l'unico gruppo che la usa, quindi non si sbaglia.",
 	},
 	"latino:declinazioni-base": {
-		"perche": "Le declinazioni sono cinque schemi, non cinque elenchi: imparato lo schema, ogni parola nuova ci si incastra dentro.",
-		"come": "Del nome impara sempre due forme, nominativo e genitivo: da quelle due si ricava tutto il resto.",
+		"perche": [
+			"Le declinazioni sono cinque schemi, non cinque elenchi da mandare a memoria: imparato lo schema, ogni parola nuova ci si incastra dentro senza che nessuno te la debba insegnare.",
+			"A dire a quale gruppo appartiene una parola non è la prima forma ma la seconda, quella con «di»: -ae, -i, -is, -us, -ei. È l'unica coda che non si ripete fra gruppi diversi, ed è per questo che il vocabolario la stampa sempre accanto.",
+		],
+		"come": "Del nome impara sempre due forme insieme, «rosa, rosae»: la prima serve a riconoscerlo, la seconda dice a quale gruppo appartiene, e da quelle due si ricava tutto il resto.",
+	},
+	"latino:verbi": {
+		"perche": [
+			"Il verbo latino dice tre cose in una parola sola: che azione è, chi la compie e quando succede. Per questo «amant» non ha bisogno di nessun «loro» davanti.",
+			"La coda finale porta la persona (-o io, -s tu, -t lui, -mus noi, -tis voi, -nt loro) e il pezzetto in mezzo porta il tempo: «amabat» ha il -ba- del passato, esattamente dove l'italiano mette il -va- di «amava».",
+		],
+		"come": [
+			"Leggi il verbo dalla fine: la coda ti dice chi, e solo dopo guarda in mezzo per sapere quando.",
+			"Se in mezzo trovi -ba-, l'azione è già successa. Se trovi -bi- (o -bo, -bu-) e il verbo è di quelli in -are o -ere lungo, deve ancora succedere.",
+		],
 	},
 	"latino:etimologia": {
-		"perche": "Sapere da dove viene una parola serve a ricordarla e a capirne di nuove: la radice torna in decine di parole diverse.",
-		"come": "Quando trovi una parola italiana difficile, cerca la radice latina dentro: spesso la spiega tutta.",
+		"perche": [
+			"Sapere da dove viene una parola serve a capirne altre che non hai mai visto: la stessa radice torna in decine di parole diverse, e ognuna ne porta un pezzo di significato.",
+			"È una scorciatoia che vale per tutta la vita: «trans-» vuol dire attraverso, e da lì capisci transatlantico, trasparente, trasferire e transito senza che nessuno te le spieghi.",
+		],
+		"come": "Davanti a una parola italiana difficile, coprine l'inizio e la fine e guarda che cosa resta in mezzo: quel pezzo è quasi sempre la radice latina, e spesso spiega tutta la parola.",
 	},
 	"latino:frasi": {
-		"perche": "Le frasi latine famose sono sopravvissute perché dicono in tre parole quello che a noi ne servono venti.",
-		"come": "Traduci parola per parola e poi rileggi: quasi sempre il senso è più largo della somma delle parole.",
+		"perche": [
+			"Tradurre è il punto di tutto il resto: le code, i gruppi e i verbi servono a questo, e da soli non servono a niente.",
+			"Le frasi latine che si citano ancora oggi sono sopravvissute perché dicono in tre parole quello che a noi ne costa venti: «carpe diem», «alea iacta est», «verba volant».",
+		],
+		"come": [
+			"Trova prima il verbo — di solito sta in fondo — e chiediti chi lo compie: la parola con la coda di chi agisce è il tuo punto di partenza.",
+			"Poi cerca chi subisce, e solo alla fine rileggi tutto in italiano: il senso della frase è quasi sempre più largo della somma delle parole.",
+		],
 	},
 	"latino:verbo-sum": {
-		"perche": "«Sum» è irregolare perché è il verbo più usato di tutti: le parole usate ogni giorno si consumano e perdono la regolarità.",
-		"come": "Vale la pena impararlo a memoria: essendo irregolare non ci sono regole da applicare, e torna continuamente.",
+		"perche": [
+			"«Sum» è irregolare per lo stesso motivo per cui in italiano lo è «essere» (sono, sei, è, fui): sono i verbi usati ogni giorno a consumarsi, mentre quelli rari restano regolari.",
+			"Cambia perfino la radice — sum, es, est, ma eram, ero, fui — e questo succede perché la parola è talmente antica che dentro ci sono i resti di due verbi diversi.",
+		],
+		"come": "Questo si impara a memoria, e conviene: non essendoci nessuna regola non c'è niente da applicare, e in cambio torna in quasi ogni frase latina che leggerai.",
 	},
 	"latino:vocabolario": {
-		"perche": "Ogni parola latina che impari è anche una chiave per parole italiane che non hai ancora incontrato.",
-		"come": "Impara la parola insieme a un derivato italiano: si fissa in due punti invece che in uno.",
+		"perche": [
+			"Ogni parola latina che impari è anche una chiave per parole italiane che non hai ancora incontrato: da «aqua» non viene solo acqua, ma acquario, acquedotto e acquerello.",
+			"Attento ai falsi amici: «bellum» non è «bello», è la guerra. Sono pochi, ma sono esattamente quelli su cui si sbaglia, perché sembrano già capiti.",
+		],
+		"come": "Impara la parola latina insieme a una parola italiana che ne viene: si fissa in due punti invece che in uno, e la seconda ti riporta alla prima quando la dimentichi.",
 	},
 	"latino:numeri": {
 		"perche": "I numeri romani si scrivono per addizione e sottrazione di pochi simboli: un simbolo minore prima di uno maggiore si sottrae, dopo si somma.",
@@ -977,44 +1043,84 @@ const VOCI := {
 
 	# -- elettronica ------------------------------------------------------------
 	"elettronica:circuito": {
-		"perche": "La corrente ha bisogno di un percorso chiuso: se il giro si interrompe in un punto qualsiasi, non passa da nessuna parte.",
-		"come": "Segui il filo col dito dalla pila e torna alla pila. Se non ci riesci, il circuito è aperto.",
+		"perche": [
+			"Un circuito è un giro completo. La pila dà una spinta alle cariche; i fili offrono una strada; lampadina o LED trasformano l'energia. Se la strada ha un buco, il giro non parte.",
+			"La corrente non viene consumata pezzo dopo pezzo: deve poter attraversare tutto il percorso e tornare alla pila. Per questo un'interruzione spegne anche i componenti che sembrano collegati prima del buco.",
+			"Un cortocircuito è il problema opposto: il giro c'è, ma è una scorciatoia quasi senza ostacoli. Può far passare troppa corrente e scaldare rapidamente fili e pila.",
+		],
+		"come": [
+			"Parti da un polo della pila e segui ogni filo con il dito. Devi attraversare l'utilizzatore e arrivare all'altro polo senza saltare né incontrare buchi.",
+			"Quando qualcosa non funziona, non cambiare pezzi a caso: dividi il giro in tratti e controlla un collegamento per volta.",
+			"Prima di alimentare, cerca anche scorciatoie che uniscono direttamente i due poli. Se ne vedi una, non collegare la pila.",
+		],
+	},
+	"elettronica:componenti-base": {
+		"perche": "Nel primo circuito LED bastano quattro lavori: la pila dà la spinta, l'interruttore apre o chiude la strada, il resistore limita la corrente e il LED trasforma energia in luce. Il filo collega tutto in un giro.",
+		"come": "Non imparare solo i nomi. Per ogni pezzo chiedi: dà energia, comanda il passaggio, protegge oppure mostra un effetto? Così ritrovi il componente anche in uno schema nuovo.",
 	},
 	"elettronica:componenti": {
-		"perche": "Ogni componente fa una cosa sola: sapere che cosa fa conta più di sapere come si chiama.",
-		"come": "Chiediti che cosa succede alla corrente quando ci passa: se la frena, la blocca, la accumula o la trasforma.",
+		"perche": [
+			"Un componente non è una parola da ricordare: è un pezzo con un lavoro. Pila, interruttore, resistore e LED fanno rispettivamente da sorgente, comando, protezione e luce.",
+			"I componenti più avanzati si capiscono partendo dall'effetto: un motore produce movimento, un sensore raccoglie un'informazione, un condensatore conserva per poco una piccola quantità di carica.",
+		],
+		"come": [
+			"Copri il nome e descrivi il lavoro del pezzo. Se sai dire che cosa entra e che cosa esce, hai capito il componente.",
+			"In uno schema nuovo segui il percorso e domanda a ogni blocco: fornisce, comanda, protegge, misura oppure trasforma energia?",
+		],
 	},
 	"elettronica:conduttori": {
-		"perche": "Conducono i materiali che hanno elettroni liberi di muoversi: per questo i metalli sì e la plastica no.",
-		"come": "Se un materiale conduce anche il calore, quasi sempre conduce anche la corrente: è la stessa libertà di movimento.",
+		"perche": "Un conduttore lascia muovere facilmente le cariche; un isolante le ostacola. Nei cavi il rame interno porta la corrente, mentre la plastica esterna impedisce che arrivi alle mani.",
+		"come": "Per iniziare usa la regola dei materiali comuni: i metalli conducono; plastica, gomma, vetro e legno secco isolano. Le eccezioni si studiano soltanto dopo questa base.",
 	},
 	"elettronica:elettricita-base": {
-		"perche": "Tensione e corrente sono cose diverse: la tensione è la spinta, la corrente è quanto passa. Una può esserci senza l'altra.",
-		"come": "Pensa all'acqua: la tensione è il dislivello, la corrente è quanta acqua scorre. Il dislivello c'è anche a rubinetto chiuso.",
+		"perche": "Tensione e corrente non sono la stessa cosa. La tensione è la spinta disponibile; la corrente è il passaggio reale di cariche. Con l'interruttore aperto la pila ha ancora tensione, ma la corrente non può fare il giro.",
+		"come": "Usa il modello dell'acqua senza prenderlo alla lettera: pila-pompa, filo-tubo, interruttore-rubinetto. Prima cerca la spinta, poi controlla se esiste una strada chiusa in cui qualcosa possa scorrere.",
 	},
 	"elettronica:guasti": {
 		"perche": "Un guasto si trova dividendo il circuito a metà, non guardandolo tutto insieme: così ogni prova dimezza il lavoro.",
 		"come": "Misura a metà strada. Se lì il segnale c'è, il difetto è dopo; se non c'è, è prima.",
 	},
 	"elettronica:misure-elettriche": {
-		"perche": "Lo strumento va inserito in modo diverso a seconda di che cosa misuri, e sbagliarlo può romperlo.",
-		"come": "La tensione si misura fra due punti, la corrente si misura facendola passare dentro. È la differenza fra affiancare e interrompere.",
+		"perche": [
+			"Tre grandezze raccontano tre aspetti diversi: tensione = spinta, corrente = quanto passa, resistenza = quanto il passaggio viene ostacolato. Le unità sono volt (V), ampere (A) e ohm (Ω).",
+			"Il multimetro cambia mestiere quando cambi misura. La tensione si confronta fra due punti; per la corrente lo strumento deve entrare nel percorso. Un collegamento sbagliato può danneggiarlo.",
+		],
+		"come": [
+			"Prima leggi la parola, poi scegli l'unità: spinta→volt, passaggio→ampere, ostacolo→ohm. Non partire dalla lettera da indovinare.",
+			"Prima di collegare un multimetro reale, scegli funzione e portata con un adulto. Nel gioco domanda: sto confrontando due punti o misurando ciò che attraversa il filo?",
+		],
 	},
 	"elettronica:serie-parallelo": {
-		"perche": "In serie la corrente ha una strada sola, quindi se salta una lampadina si spengono tutte; in parallelo ogni ramo è indipendente.",
-		"come": "Conta le strade che la corrente può prendere. Una sola è serie, più di una è parallelo.",
+		"perche": "In serie c'è una sola strada e tutti i componenti dipendono dallo stesso giro. In parallelo la strada si divide in rami collegati agli stessi due punti: un ramo può interrompersi mentre gli altri restano attivi.",
+		"come": "Disegna il percorso con il dito. Se non incontri mai un bivio è serie; se puoi scegliere due strade che poi si ricongiungono è parallelo. Solo dopo ragiona su che cosa si spegne.",
 	},
 	"elettronica:sicurezza-elettrica": {
-		"perche": "È la corrente che attraversa il corpo a fare male, non la tensione da sola: per questo l'acqua e i piedi scalzi cambiano tutto.",
-		"come": "Prima di toccare, chiediti se il corpo potrebbe chiudere un giro verso terra. Se sì, non toccare.",
+		"perche": "Per imparare si usano soltanto pile a bassa tensione e componenti integri. Prese e impianti di casa possono spingere corrente attraverso il corpo; acqua, fili scoperti, calore e odore di bruciato sono segnali per fermarsi.",
+		"come": "Monta con la pila scollegata. Prima di alimentare controlla fili e collegamenti. Se qualcosa scalda, puzza, è bagnato o riguarda una presa di casa: non toccare, stacca se puoi farlo in sicurezza e chiama un adulto.",
+	},
+	"elettronica:energia-nei-componenti": {
+		"perche": "L'energia entra nel circuito da una sorgente e viene trasformata dagli utilizzatori: la pila la fornisce, il LED fa luce, il cicalino fa suono e il motorino fa movimento.",
+		"come": "Domanda che cosa vedresti senza quel pezzo. Se niente potrebbe partire, è una sorgente; se compare luce, suono, calore o movimento, è un utilizzatore.",
+	},
+	"elettronica:batteria": {
+		"perche": "Una batteria immagazzina energia chimica e mantiene una spinta elettrica fra i suoi due poli. Mentre alimenta il circuito, la riserva diminuisce e la tensione può calare.",
+		"come": "Su un grafico della scarica guarda prima gli assi: il tempo va avanti in orizzontale, la carica rimasta si legge in altezza. Più il punto è basso, meno riserva resta.",
+	},
+	"elettronica:montaggio-led": {
+		"perche": "Il LED lascia passare corrente soprattutto in un verso e può danneggiarsi se ne passa troppa. Perciò si orienta correttamente, si mette un resistore in serie e si collega la pila soltanto dopo aver chiuso e controllato il giro.",
+		"come": "Pila staccata; controlla + e − del LED; inserisci il resistore; completa il ritorno; cerca buchi e scorciatoie; collega la pila per ultima. È una lista di sicurezza, non una gara di velocità.",
+	},
+	"elettronica:montaggio-lampada": {
+		"perche": "Una lampadina si accende quando i suoi due contatti sono collegati ai due poli della pila formando un giro completo. Un filo che termina nel vuoto non porta corrente attraverso la lampadina.",
+		"come": "Costruisci tutto con la pila staccata, segui il giro da un contatto della lampadina all'altro e alimenta solo dopo il controllo finale.",
 	},
 	"elettronica:grandezze": {
 		"perche": "Tensione, corrente, resistenza e potenza misurano cose diverse del circuito: confonderle è come confondere quanto è ripida una strada con quanta gente ci cammina.",
 		"come": "Chiediti che cosa stai davvero misurando: una spinta (tensione), un flusso (corrente), un ostacolo (resistenza) o un consumo (potenza).",
 	},
 	"elettronica:legge-ohm": {
-		"perche": "La legge di Ohm lega le tre grandezze del circuito con un'unica regola: conoscendone due, la terza è sempre calcolabile.",
-		"come": "Tieni a mente una riga sola: V = I × R. Se cerchi la tensione moltiplichi; se cerchi la corrente o la resistenza, dividi la tensione per l'altra.",
+		"perche": "Dopo aver capito le tre grandezze, la legge di Ohm le collega: con la stessa resistenza, più tensione produce più corrente; con la stessa tensione, più resistenza produce meno corrente.",
+		"come": "Parti sempre dalla relazione V = I × R e scrivi accanto a ogni numero la sua unità. Se cerchi I fai V ÷ R; se cerchi R fai V ÷ I. Prima prevedi se il risultato dovrebbe salire o scendere.",
 	},
 	"elettronica:potenza": {
 		"perche": "La potenza dice quanta energia un componente consuma o produce ogni secondo: è per questo che una lampadina da 100 W scalda più di una da 5 W nello stesso tempo.",

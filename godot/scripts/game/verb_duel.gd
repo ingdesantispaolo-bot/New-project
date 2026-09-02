@@ -73,7 +73,7 @@ extends RefCounted
 ## `bersaglio` è la scelta più importante della progressione:
 ##
 ##   - `descrizione` il sigillo dice **a che cosa serve** la casella: «quello
-##                  che durava, o si ripeteva · 2ª plur.». Si impara che cosa
+##                  che durava, o si ripeteva · 2ª persona plurale». Si impara che cosa
 ##                  significa un tempo, che è quello che a scuola si chiede.
 ##                  Fino al 20 agosto qui c'era `etichetta`, che scriveva
 ##                  «INDICATIVO IMPERFETTO · voi» — le stesse parole delle
@@ -88,7 +88,7 @@ extends RefCounted
 ## più rapido per far smettere di giocare.
 const FASCE := [
 	{
-		"mondi": [1, 4], "nome": "prima voce",
+		"mondi": [1, 4], "nome": "trasforma il verbo",
 		"modi": ["indicativo"],
 		"tempi": ["presente", "imperfetto", "futuro semplice"],
 		# **Cinque rune e non quattro** (21 agosto 2026): con due passi e quattro
@@ -99,21 +99,21 @@ const FASCE := [
 		"bersaglio": "descrizione",
 	},
 	{
-		"mondi": [5, 9], "nome": "voce doppia",
+		"mondi": [5, 9], "nome": "trasforma il verbo · II",
 		"modi": ["indicativo"],
 		"tempi": ["presente", "imperfetto", "passato remoto", "futuro semplice", "passato prossimo"],
 		"verbi": "regolari", "passi": 2, "mano": 5, "secondi": 12.0,
 		"bersaglio": "descrizione",
 	},
 	{
-		"mondi": [10, 14], "nome": "voce del congiuntivo",
+		"mondi": [10, 14], "nome": "trasforma il verbo · III",
 		"modi": ["indicativo", "congiuntivo"],
 		"tempi": ["presente", "imperfetto", "passato remoto", "futuro semplice", "passato prossimo"],
 		"verbi": "tutti", "passi": 3, "mano": 5, "secondi": 12.0,
 		"bersaglio": "campione",
 	},
 	{
-		"mondi": [15, 19], "nome": "voce intrecciata",
+		"mondi": [15, 19], "nome": "trasforma il verbo · IV",
 		"modi": ["indicativo", "congiuntivo", "condizionale"],
 		"tempi": [
 			"presente", "imperfetto", "passato remoto", "futuro semplice",
@@ -123,7 +123,7 @@ const FASCE := [
 		"bersaglio": "campione",
 	},
 	{
-		"mondi": [20, 24], "nome": "voce del Cuore",
+		"mondi": [20, 24], "nome": "trasforma il verbo · V",
 		"modi": ["indicativo", "congiuntivo", "condizionale"],
 		"tempi": [
 			"presente", "imperfetto", "passato remoto", "futuro semplice",
@@ -433,7 +433,7 @@ static func _sigillo(rng: RandomNumberGenerator, fascia: Dictionary, verbo: Dict
 		return {
 			"tipo": "descrizione",
 			"testo": VerbConjugator.descrizione(modo, tempo),
-			"sotto": "persona: %s" % VerbConjugator.persona_grammaticale(persona),
+			"sotto": "CHI: %s" % VerbConjugator.persona_grammaticale(persona),
 		}
 	var candidati: Array = []
 	for scheda in verbi:
@@ -452,7 +452,7 @@ static func _sigillo(rng: RandomNumberGenerator, fascia: Dictionary, verbo: Dict
 		return {
 			"tipo": "campione",
 			"testo": forma,
-			"sotto": "verbo del guardiano: %s" % str(campione.get("infinito", "")),
+			"sotto": "stessa forma grammaticale · verbo: %s" % str(campione.get("infinito", "")),
 			"campione": str(campione.get("infinito", "")),
 		}
 	return {}
@@ -552,7 +552,7 @@ static func _scambio_di_ripiego(rng: RandomNumberGenerator, regole_duello: Dicti
 		"sigillo": {
 			"tipo": "descrizione",
 			"testo": VerbConjugator.descrizione("indicativo", "imperfetto"),
-			"sotto": "persona: %s" % VerbConjugator.persona_grammaticale(4),
+			"sotto": "CHI: %s" % VerbConjugator.persona_grammaticale(4),
 		},
 	}
 

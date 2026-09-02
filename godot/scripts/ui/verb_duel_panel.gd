@@ -114,12 +114,12 @@ func _nuovo_scambio() -> void:
 		# piccola, o esce dalla cornice d'oro.
 		_sigillo_label.add_theme_font_size_override("font_size", 17)
 		_sigillo_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		_sigillo_label.text = str(sigillo.get("testo", ""))
+		_sigillo_label.text = "OBIETTIVO: %s" % str(sigillo.get("testo", ""))
 		_sigillo_sotto.text = str(sigillo.get("sotto", ""))
 	else:
 		_sigillo_label.add_theme_font_size_override("font_size", 30)
 		_sigillo_label.autowrap_mode = TextServer.AUTOWRAP_OFF
-		_sigillo_label.text = str(sigillo.get("testo", ""))
+		_sigillo_label.text = "MODELLO: %s" % str(sigillo.get("testo", ""))
 		_sigillo_sotto.text = str(sigillo.get("sotto", ""))
 	_costruisci_rune()
 	_aggiorna_testi()
@@ -201,7 +201,7 @@ func _aggiorna_testi() -> void:
 		return
 	_voce_label.text = VerbDuel.voce_di(_scambio, _cella)
 	if is_instance_valid(_infinito_label):
-		_infinito_label.text = "il tuo verbo: %s" % str(_scambio.get("infinito", ""))
+		_infinito_label.text = "FORMA ATTUALE · verbo: %s" % str(_scambio.get("infinito", ""))
 	_catena_label.text = _riga_catena()
 	aggiorna_stato()
 
@@ -211,11 +211,14 @@ func _aggiorna_testi() -> void:
 ## questo minigioco ha bisogno di dare.
 func _riga_catena() -> String:
 	if _catena.size() <= 1:
-		return "porta il verbo sulla casella del sigillo, un asse alla volta"
+		var sigillo: Dictionary = _scambio.get("sigillo", {})
+		if str(sigillo.get("tipo", "")) == "campione":
+			return "TOCCA LE PIETRE: usa la stessa forma grammaticale del modello"
+		return "TOCCA LE PIETRE: cambia tempo, modo o persona"
 	var pezzi: Array = _catena.duplicate()
 	while pezzi.size() > 7:
 		pezzi.remove_at(0)
-	return " » ".join(PackedStringArray(pezzi))
+	return "MOSSE: %s" % " » ".join(PackedStringArray(pezzi))
 
 func _posiziona_campo() -> void:
 	_voce_label.size = Vector2(_arena.size.x - 40.0, 42)

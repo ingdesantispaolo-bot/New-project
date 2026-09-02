@@ -32,7 +32,10 @@ extends RefCounted
 
 ## Le sei persone, come le dice un bambino e come le chiama la grammatica.
 const PERSONE := ["io", "tu", "lui/lei", "noi", "voi", "loro"]
-const PERSONE_GRAMMATICA := ["1ª sing.", "2ª sing.", "3ª sing.", "1ª plur.", "2ª plur.", "3ª plur."]
+const PERSONE_GRAMMATICA := [
+	"1ª persona singolare", "2ª persona singolare", "3ª persona singolare",
+	"1ª persona plurale", "2ª persona plurale", "3ª persona plurale",
+]
 
 const MODI := ["indicativo", "congiuntivo", "condizionale"]
 
@@ -401,7 +404,7 @@ static func caselle_che_danno(verbo: Dictionary, forma: String) -> int:
 ## alcun valore didattico», e aveva ragione.
 ##
 ## Adesso il sigillo dice **che cosa fa** quella casella, e la persona la dice
-## come la dice la scuola (`2ª plur.`, non `voi`). Nessuna parola del sigillo
+## come la dice la scuola (`2ª persona plurale`, non `voi`). Nessuna parola del sigillo
 ## compare più su una runa: per trovare la casella bisogna sapere che l'azione
 ## che durava è l'imperfetto, e che «voi» è la seconda plurale. `verb_duel_audit`
 ## lo tiene: nessun sigillo può contenere il valore di una runa.
@@ -411,19 +414,19 @@ static func caselle_che_danno(verbo: Dictionary, forma: String) -> int:
 ## niente. Sono descrizioni scolastiche standard, brevi perché devono stare in un
 ## cartiglio, e nessuna di esse prova a essere spiritosa.
 const DESCRIZIONI := {
-	"indicativo|presente": "quello che succede adesso",
-	"indicativo|imperfetto": "quello che durava, o si ripeteva",
-	"indicativo|passato remoto": "quello che finì, e finì molto tempo fa",
-	"indicativo|futuro semplice": "quello che deve ancora succedere",
-	"indicativo|passato prossimo": "quello che è successo da poco",
-	"indicativo|trapassato prossimo": "quello che era già finito prima",
-	"indicativo|futuro anteriore": "quello che sarà finito prima di un'altra cosa",
-	"congiuntivo|presente": "quello che si spera o si teme, adesso",
-	"congiuntivo|imperfetto": "quello che si sperava, o che non è vero",
-	"congiuntivo|passato": "quello che si spera sia già successo",
-	"congiuntivo|trapassato": "quello che si temeva fosse già successo",
-	"condizionale|presente": "quello che si farebbe, a una condizione",
-	"condizionale|passato": "quello che si sarebbe fatto, e non si è fatto",
+	"indicativo|presente": "un'azione che avviene adesso",
+	"indicativo|imperfetto": "un'azione che durava o si ripeteva",
+	"indicativo|passato remoto": "un'azione conclusa molto tempo fa",
+	"indicativo|futuro semplice": "un'azione che deve ancora avvenire",
+	"indicativo|passato prossimo": "un'azione conclusa da poco",
+	"indicativo|trapassato prossimo": "un'azione già conclusa prima di un'altra",
+	"indicativo|futuro anteriore": "un'azione che sarà conclusa prima di un'altra",
+	"congiuntivo|presente": "un'azione sperata o temuta adesso",
+	"congiuntivo|imperfetto": "un'azione sperata nel passato o non reale",
+	"congiuntivo|passato": "un'azione che si spera sia già avvenuta",
+	"congiuntivo|trapassato": "un'azione che si temeva fosse già avvenuta",
+	"condizionale|presente": "un'azione possibile a una condizione",
+	"condizionale|passato": "un'azione che sarebbe avvenuta, ma non è avvenuta",
 }
 
 ## Il sigillo dei mondi bassi: la casella descritta per quello che fa.

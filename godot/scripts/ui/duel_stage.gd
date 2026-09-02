@@ -118,7 +118,17 @@ func avvia(regole_duello: Dictionary, nome: String, seme: int,
 	_tremore = 0.0
 	visible = true
 	_arte = GUARDIAN_VISUALS.texture_for(int(regole.get("mondo", 1)))
-	_titolo.text = "%s · %s" % [nome_guardiano.to_upper(), str(regole.get("nome", "sigillo"))]
+	var materia := ""
+	match str(regole.get("materia", "")):
+		DuelRules.VOCI:
+			materia = "ITALIANO"
+		DuelRules.CIFRE:
+			materia = "MATEMATICA"
+	var parti := PackedStringArray([nome_guardiano.to_upper()])
+	if not materia.is_empty():
+		parti.append(materia)
+	parti.append(str(regole.get("nome", "sfida")))
+	_titolo.text = " · ".join(parti)
 	_nuovo_scambio()
 	_entrata()
 

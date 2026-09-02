@@ -56,7 +56,7 @@ func _nuovo_scambio() -> void:
 	_colpi_dati = 0
 	_tempo_massimo = DuelRules.secondi_del_sigillo(regole, _sigilli_rotti)
 	_tempo = _tempo_massimo
-	_sigillo_label.text = str(int(_scambio.get("bersaglio", 0)))
+	_sigillo_label.text = "OBIETTIVO: %d" % int(_scambio.get("bersaglio", 0))
 	_sigillo_sotto.text = ""
 	_costruisci_rune()
 	_aggiorna_testi()
@@ -140,11 +140,11 @@ func _aggiorna_testi() -> void:
 ## sparisce da sé appena serve meno.
 func _riga_catena() -> String:
 	if _catena.size() <= 1:
-		return "porta l'impulso esatto sul sigillo, un colpo alla volta"
+		return "TOCCA LE PIETRE: porta il numero azzurro all'obiettivo"
 	var pezzi: Array = _catena.duplicate()
 	while pezzi.size() > 9:
 		pezzi.remove_at(0)
-	return " » ".join(PackedStringArray(pezzi))
+	return "MOSSE: %s" % " » ".join(PackedStringArray(pezzi))
 
 func _posiziona_campo() -> void:
 	# L'ago porta con sé il proprio numero: il valore dell'impulso sta sopra il

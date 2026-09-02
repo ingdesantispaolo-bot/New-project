@@ -82,27 +82,27 @@ extends RefCounted
 ## arriva a ×12 quando le tabelline devono essere in dito.
 const FASCE := [
 	{
-		"mondi": [1, 4], "nome": "primo sigillo",
+		"mondi": [1, 4], "nome": "raggiungi il numero",
 		"massimo": 30, "operazioni": ["+", "*"], "fattore": [2, 3],
 		"passi": 2, "mano": 4, "secondi": 12.0,
 	},
 	{
-		"mondi": [5, 9], "nome": "sigillo doppio",
+		"mondi": [5, 9], "nome": "raggiungi il numero · II",
 		"massimo": 60, "operazioni": ["+", "-", "*"], "fattore": [2, 5],
 		"passi": 2, "mano": 5, "secondi": 11.0,
 	},
 	{
-		"mondi": [10, 14], "nome": "sigillo dei Primi",
+		"mondi": [10, 14], "nome": "raggiungi il numero · III",
 		"massimo": 100, "operazioni": ["+", "-", "*", "/"], "fattore": [2, 9],
 		"passi": 3, "mano": 5, "secondi": 11.0,
 	},
 	{
-		"mondi": [15, 19], "nome": "sigillo intrecciato",
+		"mondi": [15, 19], "nome": "raggiungi il numero · IV",
 		"massimo": 150, "operazioni": ["+", "-", "*", "/"], "fattore": [2, 12],
 		"passi": 3, "mano": 6, "secondi": 10.0,
 	},
 	{
-		"mondi": [20, 24], "nome": "sigillo del Cuore",
+		"mondi": [20, 24], "nome": "raggiungi il numero · V",
 		"massimo": 240, "operazioni": ["+", "-", "*", "/"], "fattore": [2, 12],
 		"passi": 3, "mano": 6, "secondi": 9.0,
 	},

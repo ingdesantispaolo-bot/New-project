@@ -556,15 +556,27 @@ const MATCHING := {
 			["Acqua bassa vicino a riva", "Sopra c'è poca acqua e la spinta è debole"],
 			["Fondo profondo del lago", "Sopra c'è molta acqua e la spinta è forte"],
 			["Diga più spessa in basso", "Regge una spinta che cresce scendendo"],
-			["Tacco a spillo sul pavimento", "Lascia il segno perché preme su un punto"]]},
+			["Tacco a spillo sul pavimento", "Lascia il segno perché preme su un punto"],
+			["Zaino con le cinghie strette", "Fa male alle spalle più di uno morbido"],
+			["Sub a venti metri di profondità", "Sente le orecchie premere"]]},
 		{"explanation": "Il peso spinge in basso e l'acqua spinge in alto: dal confronto fra le due forze dipende il movimento verticale.", "topic": "galleggiamento", "minLevel": 13, "pairs": [
 			["Il peso vince sulla spinta", "Va a fondo"],
 			["La spinta vince sul peso", "Risale verso la superficie"],
 			["Peso e spinta si equivalgono", "Resta ferma a mezz'acqua"],
 			["Scafo vuoto dentro", "Sposta molta acqua e galleggia"],
 			["Biglia piena di acciaio", "Sposta poca acqua e affonda"],
-			["Giubbotto salvagente", "Aggiunge volume leggero al corpo"]]},
-		{"explanation": "La corrente è il movimento dell'acqua: può aiutare, frenare o deviare ciò che viaggia al suo interno.", "topic": "correnti", "minLevel": 13, "pairs": [["Corrente nello stesso verso", "Aiuta ad avanzare"], ["Corrente opposta", "Rallenta"], ["Corrente laterale", "Fa deviare"], ["Oggetto libero", "Segue l'acqua"]]},
+			["Giubbotto salvagente", "Aggiunge volume leggero al corpo"],
+			["Tronco di legno secco", "Resta a galla da solo"],
+			["Palla da spiaggia tenuta sotto", "Torna su appena la lasci"]]},
+		{"explanation": "La corrente è il movimento dell'acqua: può aiutare, frenare o deviare ciò che viaggia al suo interno.", "topic": "correnti", "minLevel": 13, "pairs": [
+			["Corrente nello stesso verso", "Aiuta ad avanzare"],
+			["Corrente opposta", "Rallenta"],
+			["Corrente laterale", "Fa deviare"],
+			["Oggetto libero", "Segue l'acqua"],
+			["Barca a motore spento", "Va dove la porta il fiume"],
+			["Prua puntata un po' a monte", "Compensa lo scivolamento"],
+			["Nuotatore che punta dritto", "Tocca riva più a valle"],
+			["Due foglie diverse nello stesso tratto", "Viaggiano appaiate"]]},
 		# Scuola media — macchine semplici e formule.
 		{"explanation": "Le macchine semplici non riducono il lavoro: lo rendono più comodo, distribuendolo su più spazio o cambiandone la direzione.", "topic": "macchine", "minLevel": 6, "pairs": [["Leva", "Solleva con meno forza"], ["Carrucola", "Cambia direzione alla forza"], ["Piano inclinato", "Riduce lo sforzo in salita"], ["Ruota", "Riduce l'attrito"]]},
 		{"explanation": "Ogni formula è una divisione o una moltiplicazione fra grandezze: leggerla dice già che cosa dipende da che cosa.", "topic": "formule", "minLevel": 7, "pairs": [["Velocità", "spazio / tempo"], ["Densità", "massa / volume"], ["Forza peso", "massa × gravità"]]},
@@ -827,7 +839,17 @@ const ORDERING := {
 		{"explanation": "Ogni figura vale la metà della precedente: il rapporto fra le durate è sempre di due, mai di uno.", "topic": "ritmo", "prompt": "Ordina dalla durata più breve alla più lunga", "correctOrder": ["Croma", "Semiminima", "Minima", "Semibreve"]},
 		{"explanation": "La scala procede per gradi vicini, senza salti: è questo che la rende una scala e non un arpeggio.", "topic": "note", "minLevel": 3, "prompt": "Ordina la scala musicale completa, dal Do.", "correctOrder": ["Do", "Re", "Mi", "Fa", "Sol", "La", "Si"]},
 		# Scuola media — dinamiche dal più piano al più forte, tempi dal più lento.
-		{"explanation": "La dinamica cresce per gradi con nomi propri: dal pianissimo al fortissimo si passa sempre per i valori intermedi.", "topic": "dinamica", "minLevel": 5, "prompt": "Ordina le dinamiche dal più piano al più forte.", "correctOrder": ["pianissimo", "piano", "mezzoforte", "forte", "fortissimo"]},
+		{"explanation": "La dinamica cresce per gradi con nomi propri, e i gradi sono più di cinque: fra il piano e il forte ci sono il mezzopiano e il mezzoforte, e agli estremi si arriva a tre lettere. Ordinare vuol dire sapere dove sta ognuno, non ricordare un elenco.", "topic": "dinamica", "minLevel": 5, "kind": "pool", "draw": 4, "prompt": "Ordina le dinamiche dalla più piano alla più forte.", "pool": [
+			{"label": "pianississimo (ppp)", "value": 1.0}, {"label": "pianissimo (pp)", "value": 2.0},
+			{"label": "piano (p)", "value": 3.0}, {"label": "mezzopiano (mp)", "value": 4.0},
+			{"label": "mezzoforte (mf)", "value": 5.0}, {"label": "forte (f)", "value": 6.0},
+			{"label": "fortissimo (ff)", "value": 7.0}, {"label": "fortississimo (fff)", "value": 8.0}]},
+		{"explanation": "Ogni figura vale il doppio di quella dopo: la semibreve vale due minime, la minima due semiminime, e così via. Ordinare le durate è leggere quel dimezzamento, non ricordare i nomi.", "topic": "ritmo", "kind": "pool", "draw": 4, "prompt": "Ordina le figure dalla durata più breve alla più lunga.", "pool": [
+			{"label": "semibiscroma", "value": 0.125}, {"label": "biscroma", "value": 0.25},
+			{"label": "semicroma", "value": 0.5}, {"label": "croma", "value": 1.0},
+			{"label": "semiminima", "value": 2.0}, {"label": "semiminima puntata", "value": 3.0},
+			{"label": "minima", "value": 4.0}, {"label": "minima puntata", "value": 6.0},
+			{"label": "semibreve", "value": 8.0}]},
 		# I termini italiani di tempo hanno un valore vero: i battiti al minuto. Sono
 		# la stessa scala che il metronomo mostra, quindi ordinarli è leggere una
 		# grandezza, non ricordare un elenco.
@@ -3137,6 +3159,14 @@ const CIRCUIT := {
 	# FISICA — il renderer nodi+collegamenti diventa la CATENA DI TRASFORMAZIONI
 	# dell'energia: si segue come l'energia cambia forma e si sceglie quella giusta.
 	"fisica": [
+		{"topic": "correnti", "minLevel": 13, "answer": "deriva",
+			"prompt": "La barca punta dritta verso l'altra riva mentre il fiume scorre di lato. Quale passaggio mostra dove arriva davvero?",
+			"domande": [
+				{"prompt": "Quale passaggio è la spinta che la barca si dà da sola?", "answer": "remata", "explanation": "La remata è l'unica spinta che decide la barca: punta dove vuole andare."},
+				{"prompt": "Quale passaggio è la spinta che la barca non decide?", "answer": "fiume", "explanation": "La corrente del fiume spinge di lato comunque, che tu remi o no: è la parte del movimento che non hai scelto."},
+			],
+			"components": [{"id": "remata", "x": 0.18, "y": 0.50, "label": "Remata verso la riva"}, {"id": "fiume", "x": 0.48, "y": 0.24, "label": "Corrente del fiume"}, {"id": "deriva", "x": 0.80, "y": 0.50, "label": "Punto d'arrivo spostato"}],
+			"explanation": "I due movimenti si sommano: quello che decidi tu e quello che decide l'acqua. Il punto d'arrivo è più a valle di quello a cui puntavi."},
 		{"topic": "forze", "answer": "movimento",
 			"prompt": "Una mano spinge una scatola ferma. Quale passaggio mostra l'effetto della forza?",
 			"domande": [
@@ -3839,7 +3869,7 @@ const CODE_DEBUG := {
 			"prompt": "Una sola affermazione su frequenza e periodo è falsa. Quale riga?",
 			"codeLines": ["La frequenza conta le oscillazioni ogni secondo.", "A frequenza maggiore corrisponde un periodo più breve.", "Raddoppiando la frequenza raddoppia anche il periodo.", "# frequenza e periodo sono inversamente proporzionali"],
 			"explanation": "Riga 3: periodo e frequenza sono inversi. Se la frequenza raddoppia, il periodo si dimezza."},
-		{"topic": "pressione", "minLevel": 19, "answerLine": 2,
+		{"topic": "pressione", "minLevel": 13, "answerLine": 2,
 			"prompt": "La stessa forza agisce prima su un'area grande e poi su una piccola. Quale passaggio sbaglia?",
 			"codeLines": ["pressione = forza / area", "Riducendo l'area, la pressione diminuisce", "A parità di forza, un'area minore dà più pressione", "# il denominatore diventa più piccolo"],
 			"explanation": "Riga 2: dividendo la stessa forza per un'area più piccola si ottiene una pressione maggiore, non minore."},
@@ -4621,6 +4651,13 @@ const BALANCE := {
 			"explanation": "Due mezzi fanno un intero. Sulla bilancia si vede che 1/2 + 1/2 pesa quanto 1, senza dover ridurre allo stesso denominatore."},
 	],
 	"fisica": [
+		{"topic": "galleggiamento", "minLevel": 13, "prompt": "Il pezzo di legno resta fermo a mezz'acqua: peso e spinta si pareggiano. Quanto vale la spinta dell'acqua?",
+			"left": [{"label": "Peso: 6 N", "value": 6.0}],
+			"right": [],
+			"gapSide": "right",
+			"targets": [{"id": "a", "label": "3 N", "value": 3.0}, {"id": "b", "label": "6 N", "value": 6.0}, {"id": "c", "label": "12 N", "value": 12.0}],
+			"answer": "b",
+			"explanation": "Fermo vuol dire pareggiato: se il peso tira giù con 6 newton, l'acqua deve spingere su con 6 newton esatti. Con meno andrebbe a fondo, con più risalirebbe."},
 		{"topic": "forze", "minLevel": 8, "prompt": "La leva è in equilibrio. Quale peso manca a destra, a 1 metro dal fulcro?",
 			"left": [{"label": "2 kg a 3 m", "value": 6.0}],
 			"right": [],
@@ -5386,17 +5423,21 @@ static func _fraction_depth(index: int, remaining: int) -> int:
 func _build_node_for_format(fmt: String, subject: String, level: int, step: int, rng: RandomNumberGenerator, idx: int, forced_spec: Dictionary = {}) -> Dictionary:
 	var difficulty := difficulty_of(level, step)
 	var spec := forced_spec
+	# Il perimetro del corso (vedi `perimetro_di`) filtra le specifiche prima del
+	# sorteggio: e' l'unico imbuto da cui passano tutti e quindici i formati a
+	# tabella, quindi si applica qui una volta invece che in ogni costruttore.
+	var perimetro := perimetro_di(subject, level)
 	if spec.is_empty() and fmt != "ordering":
 		var table := table_for(fmt)
 		if table.has(subject):
-			spec = _pick(Array(table[subject]), rng, level)
+			spec = _pick(_dentro_il_perimetro(Array(table[subject]), perimetro), rng, level)
 	match fmt:
 		"matching": return _matching_node(subject, spec, level, step, rng, idx)
 		"ordering":
 			if NUMERIC_ORDERING_SUBJECTS.has(subject):
 				return _numeric_ordering_node(subject, level, step, rng, idx)
 			if spec.is_empty() and ORDERING.has(subject):
-				spec = _pick(Array(ORDERING[subject]), rng, level)
+				spec = _pick(_dentro_il_perimetro(Array(ORDERING[subject]), perimetro), rng, level)
 			return _ordering_node(subject, spec, level, step, rng, idx)
 		"classification": return _classification_node(subject, spec, level, step, rng, idx)
 		"graph": return _graph_node(subject, spec, difficulty, rng, idx)
@@ -5431,6 +5472,9 @@ func build_minigame(subject: String, level: int, rng: RandomNumberGenerator = nu
 	var has_order := ORDERING.has(subject)
 	var has_classify := CLASSIFICATION.has(subject)
 	var numeric := NUMERIC_ORDERING_SUBJECTS.has(subject)
+	# Il perimetro del corso (vedi `perimetro_di`): vuoto per dieci materie su
+	# dodici e per i mondi che non sono i loro, cioe' quasi sempre.
+	var perimetro := perimetro_di(subject, level)
 	# Si decide PRIMA quali formati comporranno la sessione, poi si costruisce.
 	# Serve per il gradiente di difficoltà: la difficoltà di una campata dipende da
 	# quante ce ne sono in tutto, e un builder che non sa di essere l'ultimo non può
@@ -5462,7 +5506,7 @@ func build_minigame(subject: String, level: int, rng: RandomNumberGenerator = nu
 		base.append("ordering")
 	if has_classify:
 		base.append("classification")
-	if subject in ["scienze", "fisica"]:
+	if subject in ["scienze", "fisica"] and (perimetro.is_empty() or perimetro.has("materia")):
 		base.append("mystery_sample")
 	if subject == "italiano":
 		# Un messaggio da ricostruire con tre regolazioni: quando accade,
@@ -5487,33 +5531,33 @@ func build_minigame(subject: String, level: int, rng: RandomNumberGenerator = nu
 	# idoneo a questo livello: così un formato tutto "da scuola media" (es. il
 	# diagramma di flusso del coding) non trapela nei primi mondi via fallback.
 	var specialists: Array = []
-	if GRAPH.has(subject) and _has_eligible(GRAPH[subject], level):
+	if GRAPH.has(subject) and _has_eligible_dentro(GRAPH[subject], level, perimetro):
 		specialists.append("graph")
-	if CIRCUIT.has(subject) and _has_eligible(CIRCUIT[subject], level):
+	if CIRCUIT.has(subject) and _has_eligible_dentro(CIRCUIT[subject], level, perimetro):
 		specialists.append("circuit")
-	if CYCLE.has(subject) and _has_eligible(CYCLE[subject], level):
+	if CYCLE.has(subject) and _has_eligible_dentro(CYCLE[subject], level, perimetro):
 		specialists.append("cycle")
 	if NOTATION.has(subject) and format_available(subject, "notation", level):
 		specialists.append("notation")
-	if BALANCE.has(subject) and _has_eligible(BALANCE[subject], level):
+	if BALANCE.has(subject) and _has_eligible_dentro(BALANCE[subject], level, perimetro):
 		specialists.append("balance")
-	if TIMELINE.has(subject) and _has_eligible(TIMELINE[subject], level):
+	if TIMELINE.has(subject) and _has_eligible_dentro(TIMELINE[subject], level, perimetro):
 		specialists.append("timeline")
-	if CLUE.has(subject) and _has_eligible(CLUE[subject], level):
+	if CLUE.has(subject) and _has_eligible_dentro(CLUE[subject], level, perimetro):
 		specialists.append("clue")
-	if SWIPE.has(subject) and _has_eligible(SWIPE[subject], level):
+	if SWIPE.has(subject) and _has_eligible_dentro(SWIPE[subject], level, perimetro):
 		specialists.append("swipe")
-	if COMPOSE.has(subject) and _has_eligible(COMPOSE[subject], level):
+	if COMPOSE.has(subject) and _has_eligible_dentro(COMPOSE[subject], level, perimetro):
 		specialists.append("compose")
-	if TRACE.has(subject) and _has_eligible(TRACE[subject], level):
+	if TRACE.has(subject) and _has_eligible_dentro(TRACE[subject], level, perimetro):
 		specialists.append("trace")
-	if NUMBER_LINE.has(subject) and _has_eligible(NUMBER_LINE[subject], level):
+	if NUMBER_LINE.has(subject) and _has_eligible_dentro(NUMBER_LINE[subject], level, perimetro):
 		specialists.append("number_line")
 	if MAP_READING.has(subject) and format_available(subject, "map", level):
 		specialists.append("map")
 	if HOTSPOT.has(subject) and format_available(subject, "hotspot", level):
 		specialists.append("hotspot")
-	if CODE_DEBUG.has(subject) and _has_eligible(CODE_DEBUG[subject], level):
+	if CODE_DEBUG.has(subject) and _has_eligible_dentro(CODE_DEBUG[subject], level, perimetro):
 		specialists.append("code_debug")
 	if not specialists.is_empty():
 		var scelto := str(specialists[generator.randi_range(0, specialists.size() - 1)])
@@ -5607,6 +5651,42 @@ func build_guided_minigame(subject: String, topic: String, format_hint: String, 
 func build_topic_minigame(subject: String, topic: String, level: int, rng: RandomNumberGenerator = null) -> Dictionary:
 	return build_guided_minigame(subject, topic, "", level, rng)
 
+## **Il perimetro didattico di un corso vale anche per la pratica.**
+## (3 settembre 2026)
+##
+## Fisica e musica sono corsi, non vetrine del banco: al mondo 5 si insegnano
+## moto, forze e leve, e solo quelli si possono chiedere. La regola era applicata
+## in due punti su tre — `build_mission` e `inject_non_mc` — e non nel terzo,
+## che è **l'evento pratica**: il minigioco che si trova camminando, e che da
+## solo vale due terzi dei nodi di un mondo.
+##
+## Misurato prima di collegarlo: il 71% dei nodi di pratica di fisica e il 63%
+## di quelli di musica stavano fuori dalla lezione del loro mondo. Il bambino
+## riceveva la densità dei materiali al mondo che gli aveva appena spiegato che
+## cos'è una leva.
+##
+## Vuoto quando la materia non è un corso, o quando il mondo non è il suo: fuori
+## dai propri due mondi una materia non ha lezione, e lì la pratica resta libera
+## come per tutte le altre dieci.
+static func perimetro_di(subject: String, level: int) -> Dictionary:
+	if not ContentManager.STRICT_LESSON_SUBJECTS.has(subject):
+		return {}
+	return ContentManager.lesson_topic_set(subject, level)
+
+## Le specifiche di un formato che stanno dentro il perimetro. Se nessuna ci
+## sta, restituisce la lista intera: meglio una prova fuori perimetro che una
+## materia senza minigioco — ma è una condizione che `pratica_perimetro_audit`
+## non lascia esistere, perché vorrebbe dire che quel mondo insegna qualcosa che
+## non si può esercitare.
+static func _dentro_il_perimetro(list: Array, perimetro: Dictionary) -> Array:
+	if perimetro.is_empty():
+		return list
+	var dentro: Array = []
+	for spec in list:
+		if perimetro.has(str((spec as Dictionary).get("topic", ""))):
+			dentro.append(spec)
+	return dentro if not dentro.is_empty() else list
+
 func _pick(list: Array, rng: RandomNumberGenerator, level: int = -1) -> Dictionary:
 	# Con `level` >= 0 si scartano gli spec con "minLevel" oltre il livello: così i
 	# contenuti da scuola media (analisi grammaticale/logica, modi e tempi) arrivano
@@ -5620,6 +5700,18 @@ func _pick(list: Array, rng: RandomNumberGenerator, level: int = -1) -> Dictiona
 		if not eligible.is_empty():
 			return eligible[rng.randi_range(0, eligible.size() - 1)]
 	return list[rng.randi_range(0, list.size() - 1)]
+
+## Come `_has_eligible`, ma dentro il perimetro del corso: serve alla scaletta
+## della pratica, che deve scartare un formato specialista quando quel mondo non
+## ha niente da fargli dire.
+func _has_eligible_dentro(list: Array, level: int, perimetro: Dictionary) -> bool:
+	for spec in list:
+		var s: Dictionary = spec
+		if int(s.get("minLevel", 0)) > level:
+			continue
+		if perimetro.is_empty() or perimetro.has(str(s.get("topic", ""))):
+			return true
+	return false
 
 func _has_eligible(list: Array, level: int) -> bool:
 	for spec in list:

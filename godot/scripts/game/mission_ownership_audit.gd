@@ -8,6 +8,7 @@ func _init() -> void:
 
 func _run() -> void:
 	_test_contract()
+	_test_tool_delivery_priority()
 	await _test_world_fixture()
 	print("Mission ownership audit OK — richiesta, bussola, prova e ritorno senza toccare il gate")
 	quit(0)
@@ -47,6 +48,34 @@ func _test_contract() -> void:
 	fallback.setup(24, [{"id": "free", "kind": "mission"}], [])
 	assert(fallback.owner_of("free") == "" and fallback.can_start("free"),
 		"mondo senza cast non degrada al flusso diretto")
+
+func _test_tool_delivery_priority() -> void:
+	var events := [
+		{"id": "regular", "kind": "mission"},
+		{"id": "tool-job", "kind": "minimission"},
+		{"id": "later-mini", "kind": "minimission"},
+	]
+	var flow = FLOW.new()
+	flow.setup(2, events, [], "tool-job")
+	var owner := flow.owner_of("tool-job")
+	var route: Dictionary = flow.navigation()
+	assert(route.get("id") == "tool-job",
+		"la bussola non privilegia l'incarico che consegna lo strumento")
+	if owner != "":
+		assert(route.get("eventId") == "tool-job",
+			"la rotta verso il referente perde l'incarico strumento")
+		assert(flow.assignment_for(owner).get("id") == "tool-job",
+			"il referente assegna un altro lavoro prima dello strumento")
+		assert(flow.accept_request(owner).get("id") == "tool-job",
+			"l'incarico strumento non viene accettato")
+		assert(flow.navigation().get("id") == "tool-job",
+			"dopo il dialogo la bussola non punta all'incarico strumento")
+	# Una volta chiusa la priorità, anche le minimissioni normali devono entrare
+	# nella sequenza guidata invece di restare affidate all'esplorazione casuale.
+	var remaining = FLOW.new()
+	remaining.setup(2, [{"id": "only-mini", "kind": "minimission"}], [])
+	assert(not remaining.navigation().is_empty(),
+		"una minimissione senza strumento resta invisibile alla bussola")
 
 func _test_world_fixture() -> void:
 	var initial := GameSaveManager._default_data()

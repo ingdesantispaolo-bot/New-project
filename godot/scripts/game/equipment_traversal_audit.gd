@@ -18,9 +18,8 @@ func _run() -> void:
 	var initial := GameSaveManager._default_data()
 	initial["level"] = 2
 	initial["energy"] = 1000
-	# Gli strumenti si comprano in bottega, e la bottega si paga in frammenti dal
-	# 14 agosto 2026 ([[FragmentEconomy]]): senza questi, l'acquisto della torcia
-	# fallirebbe per un motivo che non c'entra niente con la traversata.
+	# I frammenti restano nella fixture per provare che uno strumento non diventa
+	# acquistabile neppure quando si avrebbe abbastanza per pagarlo.
 	initial["fragments"] = 1000
 	initial["worlds"] = {"unlocked": [1, 2], "current": 2}
 	var request := NativeWorldState.default_request("equipment-audit")
@@ -72,9 +71,11 @@ func _run() -> void:
 	# dell'altro.
 	var altro := ""
 	for tool_id in FieldTools.ids():
-		if str(tool_id) != required:
+		if str(tool_id) != required \
+				and not world.get("gameplay").reward_manager.owned(str(tool_id)):
 			altro = str(tool_id)
 			break
+	assert(altro != "", "manca un secondo strumento non ancora posseduto per la prova")
 	assert(world.get("gameplay").reward_manager.deliver_field_tool(altro),
 		"consegna del secondo strumento fallita")
 	world.get("gameplay").reward_manager.equip(altro)

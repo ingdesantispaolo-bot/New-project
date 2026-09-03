@@ -12,14 +12,16 @@ var _completed: Array = []
 var _requested: Dictionary = {}
 var _active_event := ""
 var _pending_return: Dictionary = {}
+var _preferred_event := ""
 
-func setup(world_level: int, events: Array, completed_ids: Array) -> void:
+func setup(world_level: int, events: Array, completed_ids: Array, preferred_event: String = "") -> void:
 	world = world_level
 	_events = events.duplicate(true)
 	_completed = completed_ids.duplicate()
 	_requested.clear()
 	_active_event = ""
 	_pending_return.clear()
+	_preferred_event = preferred_event if not _completed.has(preferred_event) else ""
 
 func owner_of(event_id: String) -> String:
 	var event := event_data(event_id)
@@ -50,6 +52,15 @@ func assignment_for(npc_id: String) -> Dictionary:
 		var outstanding_id := str(outstanding.get("id", ""))
 		if bool(_requested.get(outstanding_id, false)) and not _completed.has(outstanding_id):
 			return {}
+	# Nei mondi che consegnano uno strumento, il suo incarico viene prima degli
+	# altri lavori dello stesso abitante. Altrimenti la bussola porta dal referente
+	# giusto, ma il dialogo assegna una missione diversa e lo studente continua a
+	# non sapere dove ottenere l'attrezzo.
+	if _preferred_event != "":
+		var preferred := event_data(_preferred_event)
+		if not preferred.is_empty() and owner_of(_preferred_event) == npc_id \
+				and not bool(_requested.get(_preferred_event, false)):
+			return preferred
 	for raw_event in _events:
 		var event: Dictionary = raw_event
 		var event_id := str(event.get("id", ""))
@@ -100,9 +111,17 @@ func navigation() -> Dictionary:
 		var requested_id := str(requested_event.get("id", ""))
 		if bool(_requested.get(requested_id, false)) and not _completed.has(requested_id):
 			return {"kind": "event", "id": requested_id, "phase": "mission"}
+	if _preferred_event != "" and not _completed.has(_preferred_event):
+		var preferred_owner := owner_of(_preferred_event)
+		if preferred_owner != "":
+			return {
+				"kind": "npc", "id": preferred_owner, "phase": "request",
+				"eventId": _preferred_event,
+			}
+		return {"kind": "event", "id": _preferred_event, "phase": "mission"}
 	# La rotta principale presenta prima la missione dello specialista; l'enigma
 	# del testimone resta disponibile e conserva il proprio proprietario.
-	for preferred_kind in ["mission", "enigma"]:
+	for preferred_kind in ["mission", "enigma", "minimission"]:
 		for raw_event in _events:
 			var event: Dictionary = raw_event
 			if str(event.get("kind", "")) != preferred_kind:
@@ -113,4 +132,6 @@ func navigation() -> Dictionary:
 			var owner := owner_of(event_id)
 			if owner != "":
 				return {"kind": "npc", "id": owner, "phase": "request", "eventId": event_id}
+			if preferred_kind == "minimission":
+				return {"kind": "event", "id": event_id, "phase": "mission"}
 	return {}

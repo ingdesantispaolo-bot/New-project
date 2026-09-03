@@ -139,6 +139,14 @@ func _assert_live_finale() -> void:
 	assert(
 		controller.progression.can_repair_apparatus(ApparatusConfig.world_subject(24)),
 		"gate 24 non pronto nella fixture live")
+	# La prova finale deve dipendere dai dodici apparati, mai da una chiave da
+	# campo. La fixture nasce senza strumenti: se il Cuore o il pulsante d'esame
+	# richiedessero torcia, falce, leva, lente o soffietto, l'apertura sotto
+	# fallirebbe e renderebbe visibile il ciclo impossibile.
+	var rewards: RewardManager = hub.get("rewards")
+	for tool_id in FieldTools.ids():
+		assert(not rewards.owned(str(tool_id)),
+			"la fixture finale possiede già %s e non prova l'indipendenza dagli strumenti" % tool_id)
 	hub.call("_start_exam")
 	var player: ExercisePlayer = hub.get("exercise_player")
 	assert(player.visible and bool(player.session.get("transversal", false)))

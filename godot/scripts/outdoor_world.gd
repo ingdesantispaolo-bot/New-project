@@ -260,8 +260,10 @@ delete document.documentElement.dataset.eliExam;
 	content_manager = gameplay.content_manager
 	_configure_world_profile()
 	mission_ownership_flow = MISSION_OWNERSHIP_FLOW_SCRIPT.new()
+	var incarico_strumento := _evento_che_consegna_lo_strumento()
 	mission_ownership_flow.setup(
-		world_level, mission_events, Array(result.get("completedEncounterIds", [])))
+		world_level, mission_events, Array(result.get("completedEncounterIds", [])),
+		str(incarico_strumento.get("id", "")))
 	world_layer = Node2D.new()
 	world_layer.name = "WorldLayer"
 	world_layer.y_sort_enabled = true
@@ -417,6 +419,26 @@ func _recupera_strumenti_mancanti() -> void:
 	strumenti_recuperati_ingresso = recuperati.duplicate()
 	game_save.save()
 	gameplay.call("_emit_state")
+
+## L'unico incarico del mondo che consegna uno strumento ancora mancante.
+## Restituire l'evento, non soltanto l'id, permette a bussola, dialoghi e POI di
+## condividere la stessa scelta senza ricostruirla in tre modi diversi.
+func _evento_che_consegna_lo_strumento() -> Dictionary:
+	if not is_instance_valid(gameplay) or gameplay.reward_manager == null:
+		return {}
+	var strumento := FieldTools.del_mondo(world_level)
+	if strumento == "" or gameplay.reward_manager.owned(strumento):
+		return {}
+	for event_data in mission_events:
+		var event: Dictionary = event_data
+		if str(event.get("kind", "")) == "minimission":
+			return event
+	return {}
+
+func _strumento_consegnato_da(event_id: String) -> String:
+	var event := _evento_che_consegna_lo_strumento()
+	return FieldTools.del_mondo(world_level) \
+		if event_id != "" and str(event.get("id", "")) == event_id else ""
 
 func _configure_world_profile() -> void:
 	var frontier := clampi(game_save.level(), 1, WorldProfileCatalog.MAX_LEVEL)
@@ -1886,6 +1908,9 @@ func _create_profile_event(event: Dictionary) -> void:
 		for chiave in ["forma", "titolo", "apertura", "esito", "verbo", "glifo", "colore", "gradoRichiesto"]:
 			payload[chiave] = incarico.get(chiave, "")
 		payload["campate"] = int(event.get("campate", incarico.get("campate", 4)))
+		var reward_tool := FieldTools.del_mondo(world_level)
+		if reward_tool != "" and not gameplay.reward_manager.owned(reward_tool):
+			payload["rewardTool"] = reward_tool
 	if director_kind == "practice" and world_level >= 2:
 		# Solo deviazioni opzionali: nessuno strumento può bloccare il gate.
 		#
@@ -2083,6 +2108,17 @@ func _disegna_incarico(area: Area2D, payload: Dictionary, completed: bool) -> vo
 	titolo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	titolo.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	guasto.add_child(titolo)
+	var reward_tool := str(payload.get("rewardTool", ""))
+	if reward_tool != "":
+		var ricompensa := Label.new()
+		ricompensa.name = "ToolRewardLabel"
+		ricompensa.text = "RICOMPENSA · %s" % FieldTools.nome(reward_tool).to_upper()
+		ricompensa.add_theme_font_size_override("font_size", 12)
+		ricompensa.add_theme_color_override("font_color", Color("fff2a8"))
+		ricompensa.position = Vector2(-96, -96)
+		ricompensa.custom_minimum_size = Vector2(192, 0)
+		ricompensa.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		guasto.add_child(ricompensa)
 	area.add_child(guasto)
 	if not reduced_motion:
 		var tween := create_tween().set_loops()
@@ -7456,6 +7492,16 @@ func _equipment_requirement_message(target: Area2D) -> String:
 	return "%s · %s NON si compra: completa la prima riparazione del mondo %d per ricevere lo strumento." % [
 		ostacolo, arnese, mondo_strumento]
 
+## Se la porta chiede proprio lo strumento consegnato da questo mondo, un tocco
+## non si limita a spiegare il blocco: imposta anche la rotta verso l'incarico.
+## Le chiavi future restano invece un appuntamento, perché il loro mondo non è
+## ancora raggiungibile e una freccia locale sarebbe falsa.
+func _guide_to_current_tool(target: Area2D) -> void:
+	var required := _required_tool(target)
+	if required != "" and required == FieldTools.del_mondo(world_level) \
+			and not _strumenti_posseduti().has(required):
+		_guide_to_objective()
+
 func _interact() -> void:
 	var target := _nearest()
 	if target == null:
@@ -7528,6 +7574,7 @@ func _interact() -> void:
 	if kind == "minigame":
 		if not _equipment_requirement_met(target):
 			_set_feedback(_equipment_requirement_message(target))
+			_guide_to_current_tool(target)
 			return
 		# Pratica ripetibile sulla materia dominante del bioma (nessun lock).
 		gameplay.try_start_minigame(target.get_meta("payload"), id)
@@ -7535,6 +7582,7 @@ func _interact() -> void:
 	if kind == "treasure":
 		if not _equipment_requirement_met(target):
 			_set_feedback(_equipment_requirement_message(target))
+			_guide_to_current_tool(target)
 			return
 		# **Il forziere e' sorvegliato.** Richiesta del committente: gli Sbiaditi
 		# proteggono i bauli. Finche' la guardiana e' viva la cassa non si apre —
@@ -8094,7 +8142,14 @@ func _update_ship_navigation() -> void:
 		Color("f6c85f") if bool(runtime.get("ready", false)) or bool(runtime.get("complete", false)) else PLAYER_ACCENT
 	)
 	if is_instance_valid(guide_button):
-		guide_button.text = "RAGGIUNGI LA NAVE" if bool(runtime.get("ready", false)) or bool(runtime.get("complete", false)) else "SEGUI LA MISSIONE"
+		var strumento := FieldTools.del_mondo(world_level)
+		var strumento_mancante := strumento != "" and not gameplay.reward_manager.owned(strumento)
+		guide_button.text = (
+			"RAGGIUNGI LA NAVE"
+			if bool(runtime.get("ready", false)) or bool(runtime.get("complete", false))
+			else "OTTIENI %s" % FieldTools.nome(strumento).to_upper()
+			if strumento_mancante
+			else "SEGUI LA MISSIONE")
 
 func _ownership_navigation_target() -> Dictionary:
 	if mission_ownership_flow == null:
@@ -8110,6 +8165,14 @@ func _ownership_navigation_target() -> Dictionary:
 			return {}
 		var data := NPC_CATALOG.resident(npc_id)
 		var npc_name := str(data.get("nome", npc_id))
+		var reward_tool := _strumento_consegnato_da(str(route.get("eventId", "")))
+		if reward_tool != "":
+			return {
+				"node": actor,
+				"prefix": "OTTIENI %s" % FieldTools.nome(reward_tool).to_upper(),
+				"message": "Parla con %s: il suo incarico consegna %s." % [
+					npc_name, FieldTools.nome(reward_tool)],
+			}
 		return {
 			"node": actor,
 			"prefix": "RITORNA DA %s" % npc_name.to_upper() if phase == "return" else "PARLA CON %s" % npc_name.to_upper(),
@@ -8119,6 +8182,14 @@ func _ownership_navigation_target() -> Dictionary:
 	if event_area == null:
 		return {}
 	var payload := _mission_payload_for(event_area)
+	var reward_tool := _strumento_consegnato_da(str(route.get("id", "")))
+	if reward_tool != "":
+		return {
+			"node": event_area,
+			"prefix": "OTTIENI %s" % FieldTools.nome(reward_tool).to_upper(),
+			"message": "Raggiungi %s e completalo per ricevere %s." % [
+				str(payload.get("label", "l'incarico")), FieldTools.nome(reward_tool)],
+		}
 	return {
 		"node": event_area,
 		"prefix": "MISSIONE %s" % str(payload.get("subject", _world_subject())).to_upper(),

@@ -278,6 +278,25 @@ func _prova_nel_mondo(livello: int) -> void:
 		_controlla(incarico.visible and incarico.monitoring,
 			"mondo %d: la minimissione che consegna %s è nascosta" % [
 				livello, strumento_corrente])
+		var payload: Dictionary = incarico.get_meta("payload", {})
+		_controlla(str(payload.get("rewardTool", "")) == strumento_corrente,
+			"mondo %d: l'incarico non dichiara la ricompensa %s" % [
+				livello, strumento_corrente])
+		var reward_label := incarico.find_child("ToolRewardLabel", true, false) as Label
+		_controlla(reward_label != null and reward_label.text.contains(
+			FieldTools.nome(strumento_corrente).to_upper()),
+			"mondo %d: la ricompensa %s non e' leggibile sul luogo" % [
+				livello, strumento_corrente])
+		var route: Dictionary = mondo.get("mission_ownership_flow").navigation()
+		_controlla(str(route.get("id", "")) == incarico_id \
+				or str(route.get("eventId", "")) == incarico_id,
+			"mondo %d: la bussola non conduce all'incarico di %s" % [
+				livello, strumento_corrente])
+		var navigation_target: Dictionary = mondo.call("_ownership_navigation_target")
+		_controlla(not navigation_target.is_empty() \
+				and str(navigation_target.get("prefix", "")).contains(
+					FieldTools.nome(strumento_corrente).to_upper()),
+			"mondo %d: la guida non nomina %s" % [livello, strumento_corrente])
 		mondo.call("_consegna_strumento_se_dovuto", incarico_id)
 		_controlla(manager.owned(strumento_corrente),
 			"mondo %d: la riparazione non consegna %s nella stessa sessione" % [

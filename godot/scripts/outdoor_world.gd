@@ -60,6 +60,7 @@ var launch_request_override: Dictionary = {}
 var launch_stream_radius_override := -1
 var world_profile: Dictionary = {}
 var world_level := 1
+var strumenti_recuperati_ingresso: Array = []
 var world_seed := ""
 var mission_events: Array = []
 var chunks: OutdoorChunkManager
@@ -377,7 +378,11 @@ func _mostra_soglia_del_mondo(forza: bool = false) -> void:
 	var pannello := WorldIntroPanel.new()
 	pannello.name = "WorldIntroPanel"
 	pannello.livello = world_level
-	pannello.strumento_dovuto = FieldTools.dovuto(gameplay.reward_manager, world_level)
+	var strumento_del_mondo := FieldTools.del_mondo(world_level)
+	pannello.strumento_dovuto = strumento_del_mondo \
+		if strumento_del_mondo != "" and not gameplay.reward_manager.owned(strumento_del_mondo) \
+		else ""
+	pannello.strumenti_recuperati = strumenti_recuperati_ingresso.duplicate()
 	pannello.chiusa.connect(func():
 		if is_instance_valid(pannello):
 			pannello.queue_free()
@@ -389,21 +394,27 @@ func _mostra_soglia_del_mondo(forza: bool = false) -> void:
 	if is_instance_valid(player):
 		player.set_physics_process(false)
 
-## Ripara i salvataggi creati prima del calendario degli strumenti: se la
-## riparazione del mondo risulta già conclusa, la relativa chiave è già stata
-## guadagnata e non può dipendere dal fatto che il segnale live sia esistito.
+## Ripara sia i salvataggi vecchi sia una riparazione saltata.
+##
+## Se la minimissione risulta conclusa, la chiave è stata guadagnata. Se invece
+## il rango ha già superato il mondo che la consegna, la chiave non può restare
+## indietro: viene recuperata entrando nel mondo successivo. Così il mondo 2
+## comincia sempre con la torcia e la sua riparazione può consegnare la falce.
 func _recupera_strumenti_mancanti() -> void:
 	if not is_instance_valid(game_save) or not is_instance_valid(gameplay) \
 			or gameplay.reward_manager == null:
 		return
 	var recuperati: Array = []
+	var frontiera := int(game_save.level())
 	for id_data in FieldTools.ids():
 		var id := str(id_data)
 		var mondo := FieldTools.mondo_di(id)
-		if game_save.has_minimission(mondo) and gameplay.reward_manager.deliver_field_tool(id):
+		var guadagnato := game_save.has_minimission(mondo) or mondo < frontiera
+		if guadagnato and gameplay.reward_manager.deliver_field_tool(id):
 			recuperati.append(id)
 	if recuperati.is_empty():
 		return
+	strumenti_recuperati_ingresso = recuperati.duplicate()
 	game_save.save()
 	gameplay.call("_emit_state")
 
@@ -1971,7 +1982,10 @@ func _create_profile_event(event: Dictionary) -> void:
 		caption.name = "EventCaption"
 		area.add_child(caption)
 	world_layer.add_child(area)
-	if director_kind == "minimission" and not completed \
+	var strumento_in_arrivo := FieldTools.del_mondo(world_level)
+	var porta_uno_strumento := strumento_in_arrivo != "" \
+		and not gameplay.reward_manager.owned(strumento_in_arrivo)
+	if director_kind == "minimission" and not completed and not porta_uno_strumento \
 			and WorldLight.prove_nel_mondo(game_save, _world_id_scena()) <= 0 \
 			and Array(result.get("completedEncounterIds", [])).is_empty():
 		# Al primo ingresso l'incarico non è già piantato sulla mappa: si accende
@@ -2209,11 +2223,10 @@ func _on_minimission_completed(forma: String, encounter_id: String, _esito: Stri
 func _consegna_strumento_se_dovuto(encounter_id: String) -> void:
 	if not is_instance_valid(gameplay) or gameplay.reward_manager == null:
 		return
-	# **Il calendario, dal 19 agosto 2026.** Si consegna il primo strumento dovuto
-	# a questo mondo o a uno precedente: chi arriva al 7 senza aver finito una
-	# riparazione al 5 riceve prima la leva e la lente al mondo dopo. Gli arretrati
-	# non si perdono e non si accavallano — uno per riparazione, in ordine.
-	var dovuto := FieldTools.dovuto(gameplay.reward_manager, world_level)
+	# La riparazione consegna lo strumento DEL PROPRIO MONDO. Gli arretrati sono
+	# già stati recuperati all'ingresso da `_recupera_strumenti_mancanti`: qui
+	# usare il primo `dovuto` farebbe slittare torcia, falce e tutte le successive.
+	var dovuto := FieldTools.del_mondo(world_level)
 	if dovuto == "":
 		return
 	if not gameplay.reward_manager.deliver_field_tool(dovuto):

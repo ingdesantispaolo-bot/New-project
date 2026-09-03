@@ -145,6 +145,16 @@ static func voce(id: String) -> Dictionary:
 static func mondo_di(id: String) -> int:
 	return int(voce(id).get("mondo", 0))
 
+## Lo strumento che appartiene ESATTAMENTE a questo mondo, o stringa vuota.
+## `dovuto` elenca invece gli arretrati: separare le due domande impedisce che
+## la riparazione del mondo 2 consegni la torcia al posto della falce.
+static func del_mondo(livello: int) -> String:
+	for strumento in STRUMENTI:
+		var scheda: Dictionary = strumento
+		if int(scheda.get("mondo", 0)) == livello:
+			return str(scheda.get("id", ""))
+	return ""
+
 ## Vero se l'ostacolo di questo strumento ferma il passo invece di limitarsi a
 ## nascondere. Torcia e lente rivelano; falce, leva e soffietto bloccano.
 static func blocca(id: String) -> bool:

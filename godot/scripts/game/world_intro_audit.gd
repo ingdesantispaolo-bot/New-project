@@ -25,24 +25,32 @@ func _run() -> void:
 	_prova_niente_riciclato()
 	_prova_una_volta_sola()
 	await _prova_spiegazione_mondo_due()
-	print("WORLD INTRO audit OK — 24 soglie distinte, guida rileggibile e falce spiegata")
+	print("WORLD INTRO audit OK — 24 soglie distinte, guida rileggibile e cinque strumenti spiegati")
 	quit(0)
 
 func _prova_spiegazione_mondo_due() -> void:
-	var pannello := WorldIntroPanel.new()
-	pannello.livello = 2
-	pannello.strumento_dovuto = FieldTools.FALCE
-	root.add_child(pannello)
-	await process_frame
-	var testo := ""
-	for nodo in pannello.find_children("*", "Label", true, false):
-		testo += "\n%s" % str((nodo as Label).text)
-	assert(testo.contains("COME FUNZIONANO I LAVORI"),
-		"il mondo 2 non spiega la sequenza dei lavori")
-	assert(testo.contains(FieldTools.nome(FieldTools.FALCE)) and testo.contains("Non cercarla nella bottega"),
-		"la soglia del mondo 2 non spiega dove arriva la falce")
-	pannello.queue_free()
-	await process_frame
+	for id_data in FieldTools.ids():
+		var tool_id := str(id_data)
+		var pannello := WorldIntroPanel.new()
+		pannello.livello = FieldTools.mondo_di(tool_id)
+		pannello.strumento_dovuto = tool_id
+		if tool_id == FieldTools.FALCE:
+			pannello.strumenti_recuperati = [FieldTools.TORCIA]
+		root.add_child(pannello)
+		await process_frame
+		var testo := ""
+		for nodo in pannello.find_children("*", "Label", true, false):
+			testo += "\n%s" % str((nodo as Label).text)
+		assert(testo.contains("COME FUNZIONANO I LAVORI"),
+			"il mondo %d non spiega la sequenza dei lavori" % pannello.livello)
+		assert(testo.contains(FieldTools.nome(tool_id)) and testo.contains("Non cercarla nella bottega"),
+			"la soglia del mondo %d non spiega dove arriva %s" % [
+				pannello.livello, tool_id])
+		if tool_id == FieldTools.FALCE:
+			assert(testo.contains("STRUMENTI RECUPERATI") and testo.contains(FieldTools.nome(FieldTools.TORCIA)),
+				"il mondo 2 non spiega che la torcia arretrata è già nell'inventario")
+		pannello.queue_free()
+		await process_frame
 	var obiettivi := ObjectivePanel.new()
 	root.add_child(obiettivi)
 	await process_frame

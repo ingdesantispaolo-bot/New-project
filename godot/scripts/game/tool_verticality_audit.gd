@@ -25,8 +25,6 @@ extends SceneTree
 ##      campionati, nessun evento che conta per il gate porta `requiredTool`.
 
 const WORLD_SCENE := "res://scenes/outdoor_world.tscn"
-const MONDI_CAMPIONE := [2, 4, 7, 13, 21]
-
 var _rossi: Array = []
 
 func _init() -> void:
@@ -46,6 +44,8 @@ func _prova_calendario() -> void:
 	for id in ids:
 		var mondo := FieldTools.mondo_di(str(id))
 		_controlla(mondo >= 1, "«%s» non dichiara il mondo in cui viene consegnato" % id)
+		_controlla(FieldTools.del_mondo(mondo) == str(id),
+			"il mondo %d non consegna esattamente «%s»" % [mondo, id])
 		_controlla(mondo >= precedente,
 			"«%s» arriva al mondo %d, prima di quello che lo precede nell'ordine" % [id, mondo])
 		precedente = mondo
@@ -190,6 +190,18 @@ func _prova_nel_mondo(livello: int) -> void:
 	current_scene = mondo
 	await process_frame
 	await process_frame
+	var manager: RewardManager = mondo.get("gameplay").reward_manager
+	var strumento_corrente := FieldTools.del_mondo(livello)
+	for id_data in FieldTools.ids():
+		var tool_id := str(id_data)
+		var dovrebbe_esserci := FieldTools.mondo_di(tool_id) < livello
+		_controlla(manager.owned(tool_id) == dovrebbe_esserci,
+			"mondo %d: possesso iniziale incoerente per %s (atteso %s)" % [
+				livello, tool_id, "sì" if dovrebbe_esserci else "no"])
+	var dovuto_qui := FieldTools.dovuto(manager, livello)
+	_controlla(dovuto_qui == strumento_corrente,
+		"mondo %d: lo strumento dovuto è %s invece di %s" % [
+			livello, dovuto_qui, strumento_corrente])
 
 	var chiusi := 0
 	var chiavi_viste: Dictionary = {}
@@ -248,6 +260,29 @@ func _prova_nel_mondo(livello: int) -> void:
 		_controlla(totale >= chiusi,
 			"al mondo %d il registro ha annotato %d porte su %d viste chiuse" % [livello, totale, chiusi])
 
+	# Nei cinque mondi che portano una chiave la minimissione deve essere visibile
+	# subito e la scena vera deve consegnare esattamente quella chiave, senza
+	# aspettare un rientro o consumare al suo posto un arretrato.
+	var incarico: Area2D = null
+	var incarico_id := ""
+	for evento_data in Array(mondo.get("mission_events")):
+		var evento: Dictionary = evento_data
+		if str(evento.get("kind", "")) != "minimission":
+			continue
+		incarico_id = str(evento.get("id", ""))
+		incarico = mondo.find_child(
+			"MissionEvent_%s" % incarico_id.replace("-", "_"), true, false) as Area2D
+		break
+	_controlla(incarico != null, "mondo %d: minimissione assente dalla scena" % livello)
+	if strumento_corrente != "" and incarico != null:
+		_controlla(incarico.visible and incarico.monitoring,
+			"mondo %d: la minimissione che consegna %s è nascosta" % [
+				livello, strumento_corrente])
+		mondo.call("_consegna_strumento_se_dovuto", incarico_id)
+		_controlla(manager.owned(strumento_corrente),
+			"mondo %d: la riparazione non consegna %s nella stessa sessione" % [
+				livello, strumento_corrente])
+
 	root.remove_child(mondo)
 	mondo.queue_free()
 	await process_frame
@@ -282,12 +317,12 @@ func _run() -> void:
 	_prova_arretrati()
 	_prova_registro()
 	root.size = Vector2i(900, 600)
-	for livello in MONDI_CAMPIONE:
+	for livello in range(1, ApparatusConfig.MAX_LEVEL + 1):
 		await _prova_nel_mondo(int(livello))
 	await _prova_recupero_salvataggio_vecchio()
 	current_scene = null
 	if _rossi.is_empty():
-		print("TOOL VERTICALITY audit OK — cinque chiavi sull'arco, ogni mondo lascia una porta, il registro ricorda dove")
+		print("TOOL VERTICALITY audit OK — 24 mondi, cinque consegne live in ordine, arretrati recuperati e porte coerenti")
 		quit(0)
 		return
 	for riga in _rossi:

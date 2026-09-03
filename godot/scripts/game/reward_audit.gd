@@ -70,7 +70,38 @@ func _init() -> void:
 	gameplay.unequip_cosmetic("bot")
 	assert(str(gameplay.reward_manager.equipped_id("bot")) == "", "slot liberato")
 
-	print("Reward audit OK — acquisto in frammenti, gating livello, energia intatta, upgrade/decor e unequip verificati")
+	# 9) Tutto il catalogo, a ogni mondo. Non basta provare due acquisti: una
+	# provenienza spostata o un livello impossibile al mondo 17 resterebbero
+	# invisibili fino a quando li incontra uno studente. La fixture considera
+	# superati i Pericoli già raggiunti, così isola mondo, livello e categoria.
+	for world in range(1, ApparatusConfig.MAX_LEVEL + 1):
+		var save := GameSaveManager.new()
+		save.data = GameSaveManager._default_data()
+		save.set_level(world)
+		save.add_fragments(1_000_000)
+		save.data["worlds"] = {"unlocked": range(1, world + 1), "current": world}
+		for cleared_world in range(1, world + 1):
+			save.mark_hazard_cleared(
+				str(cleared_world), "world-danger-%02d" % cleared_world)
+		var manager := RewardManager.new(save)
+		for cosmetic_data in RewardCatalog.CATALOG:
+			var cosmetic: Dictionary = cosmetic_data
+			var id := str(cosmetic.get("id", ""))
+			var source_world := int(cosmetic.get("mondo", 0))
+			var encountered := source_world <= 0 or source_world <= world
+			assert(manager.incontrato(id) == encountered,
+				"mondo %d: disponibilità geografica errata per %s" % [world, id])
+			var hazard_world := int(cosmetic.get("requiresHazardWorld", 0))
+			var conquered := hazard_world <= 0 or hazard_world <= world
+			assert(manager.conquistato(id) == conquered,
+				"mondo %d: requisito Pericolo errato per %s" % [world, id])
+			var expected_unlock := not FieldTools.is_field_tool(id) \
+				and encountered and conquered \
+				and world >= int(cosmetic.get("minLevel", 1))
+			assert(manager.can_unlock(id) == expected_unlock,
+				"mondo %d: stato di acquisto errato per %s" % [world, id])
+
+	print("Reward audit OK — 24 mondi e tutto il catalogo: provenienza, livello, Pericoli, acquisto ed equip verificati")
 	quit(0)
 
 ## `energy` è anche la dotazione di frammenti della fixture: i due valori erano

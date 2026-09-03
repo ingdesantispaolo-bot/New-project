@@ -40,6 +40,7 @@ const CHAPTER_ART := preload("res://scripts/visual/chapter_art.gd")
 
 var livello := 1
 var strumento_dovuto := ""
+var strumenti_recuperati: Array = []
 var _colonna: VBoxContainer
 
 func _ready() -> void:
@@ -135,6 +136,13 @@ func _disegna() -> void:
 	_colonna.add_child(_paragrafo(
 		"1. Scegli una missione indicata sulla mappa.  2. Completa le prove del luogo.  3. Riapri «CHE COSA DEVO FARE?» per vedere il prossimo passo e quante prove restano. I lavori già conclusi restano salvati.",
 		Color("e7f2f0"), 14))
+	if not strumenti_recuperati.is_empty():
+		var nomi: Array = []
+		for id_data in strumenti_recuperati:
+			nomi.append(FieldTools.nome(str(id_data)))
+		_colonna.add_child(_riquadro(
+			"NORA ha recuperato gli strumenti rimasti nei mondi precedenti: %s. Sono già nel tuo inventario." % ", ".join(PackedStringArray(nomi)),
+			Color("bff8ec"), 14, "STRUMENTI RECUPERATI"))
 	if not strumento_dovuto.is_empty():
 		_colonna.add_child(_riquadro(
 			"In questo mondo riceverai %s completando la prima riparazione. Non cercarla nella bottega: lì trovi soltanto la scheda che indica dove ottenerla." % FieldTools.nome(strumento_dovuto),

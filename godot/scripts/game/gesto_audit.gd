@@ -104,18 +104,18 @@ const TETTO_MONDO := {
 	# spostati fino a 1,3 punti. Non è cambiato il contenuto — misurati con e
 	# senza le prove nuove di storia e geografia, i dodici valori sono gli stessi
 	# tranne storia, che scende di un decimo.
-	"matematica": 23.8,
-	"italiano": 22.8,
-	"coding": 30.9,
+	"matematica": 23.2,
+	"italiano": 22.4,
+	"coding": 30.1,
 	"inglese": 25.8,
-	"fisica": 25.5,
-	"musica": 28.3,
+	"fisica": 23.1,
+	"musica": 27.3,
 	"latino": 24.9,
-	"elettronica": 27.9,
-	"geografia": 29.0,
-	"scienze": 28.5,
-	"storia": 29.0,
-	"logica": 18.6,
+	"elettronica": 25.6,
+	"geografia": 28.3,
+	"scienze": 27.4,
+	"storia": 28.6,
+	"logica": 17.4,
 	# La logica è scesa da 30,8 a 18,6 fra il 1 e il 2 settembre 2026: scelta
 	# multipla e inserimento numerico fuori da tutto ciò che non è l'esame, le sei
 	# liste di analogie tornate a italiano, e due formati nuovi in cui il gesto è
@@ -157,26 +157,26 @@ const TETTO_ESAME := {
 	# 45,0 a 40,8, latino da 45,0 a 41,2 — e altri salgono, elettronica da 56,3 a
 	# 69,2. Non è un allentamento del cricchetto: è la prima misura che regge una
 	# seconda esecuzione. Da qui in giù, e solo in giù.
-	"matematica": 31.1,
-	"italiano": 40.4,
-	"coding": 44.7,
-	"inglese": 40.2,
-	"fisica": 42.6,
-	"musica": 41.9,
-	"latino": 41.2,
+	"matematica": 23.5,
+	"italiano": 28.9,
+	"coding": 35.9,
+	"inglese": 30.4,
+	"fisica": 33.5,
+	"musica": 38.6,
+	"latino": 31.6,
 	# Elettronica sta alta apposta, e non è questo audit a decidere: la materia ha
 	# portato la scelta multipla a zero in TUTTO il resto, quindi l'esame è il solo
 	# posto in cui misura, e `elettronica_hands_on_audit` pretende che almeno metà
 	# delle sue prove restino domande dirette. Fra i due vincoli vince il suo — ed
 	# è anche la materia in cui il campione piccolo ingannava di più.
-	"elettronica": 69.2,
-	"geografia": 43.3,
-	"scienze": 44.0,
+	"elettronica": 64.0,
+	"geografia": 33.3,
+	"scienze": 34.1,
 	# Storia scende di sette decimi (43,8 → 43,1) con le tre linee del tempo nate
 	# dalle tavole di riferimento: Roma, Grecia, medioevo. È il verso giusto, ed è
 	# la ragione per cui vale la pena misurare bene invece che misurare spesso.
-	"storia": 43.1,
-	"logica": 40.8,
+	"storia": 32.1,
+	"logica": 30.3,
 }
 
 var _fallimenti: Array = []

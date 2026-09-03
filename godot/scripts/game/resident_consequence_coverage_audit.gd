@@ -1,7 +1,8 @@
 extends SceneTree
 
 ## C-ART-13: ogni residente proprietario di un luogo deve avere una conseguenza
-## leggibile nei tre stadi, senza aggiungere nodi, input o stato di gioco.
+## leggibile nei tre stadi, con un solo sprite decorativo e nessun input o stato
+## di gioco aggiuntivo.
 
 const EXPECTED_OWNERS := 46
 
@@ -23,11 +24,15 @@ func _init() -> void:
 				building.configure(spec, stage, false, true)
 				var visual := building.get("resident_consequence") as ResidentConsequenceVisual
 				assert(visual != null, "%s non arriva nel proprio luogo" % owner)
-				assert(visual.get_child_count() == 0, "%s aggiunge nodi" % owner)
+				var outcome := visual.get_node_or_null("GeneratedResidentOutcome") as Sprite2D
+				assert(visual.get_child_count() == 1 and outcome != null,
+					"%s deve avere un solo esito illustrato" % owner)
+				assert(outcome.visible == (stage == 2),
+					"%s mostra l'esito illustrato allo stadio sbagliato" % owner)
 				semantics.append(str(visual.get_meta("visual_semantic", "")))
 				building.free()
 			assert(semantics.size() == 3 and semantics[0] != semantics[1] and semantics[1] != semantics[2],
 				"%s non rende leggibili i tre stadi" % owner)
 	assert(seen.size() == EXPECTED_OWNERS, "copertura C-ART-13: %d/%d residenti" % [seen.size(), EXPECTED_OWNERS])
-	print("RESIDENT CONSEQUENCE COVERAGE audit OK — 46 luoghi proprietari, tre stadi e zero nodi aggiunti")
+	print("RESIDENT CONSEQUENCE COVERAGE audit OK — 46 luoghi, tre stadi e 46 esiti illustrati")
 	quit(0)

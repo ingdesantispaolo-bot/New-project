@@ -166,7 +166,7 @@ static func gifts(save) -> Array:
 ## data non servono al gioco — servono a chi la rilegge a fine campagna, perché
 ## «un sasso, mondo 7» è un ricordo e «un sasso» non lo è.
 static func register_gift(save, gift_id: String, world_id: int) -> Dictionary:
-	if not PetGifts.CATALOG.has(gift_id):
+	if not PetGifts.esiste(gift_id):
 		return {}
 	var pet := _pet(save)
 	var lista: Array = Array(pet.get("gifts", []))

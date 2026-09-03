@@ -18,7 +18,10 @@ func _init(save_manager) -> void:
 
 func _cosmetics() -> Dictionary:
 	if not save.data.has("cosmetics"):
-		save.data["cosmetics"] = {"unlocked": [], "equipped": {}, "inventory": []}
+		save.data["cosmetics"] = {
+			"unlocked": [], "equipped": {}, "inventory": [],
+			"loadout": [], "mementoDisplayed": "",
+		}
 	return save.data["cosmetics"]
 
 ## Acquisti PERMANENTI: non si equipaggiano, non si sostituiscono, restano.
@@ -114,6 +117,35 @@ func unavailable_reason(id: String) -> String:
 
 func equipped_id(slot: String) -> String:
 	return str(_cosmetics().get("equipped", {}).get(slot, ""))
+
+## **Il Ricordo esposto.** (2 settembre 2026)
+##
+## I ventiquattro Ricordi di conquista sono più di un quarto del catalogo, e
+## fino a oggi si compravano per **non vederli mai**: restavano in collezione,
+## e la collezione era una griglia dentro la bottega. Comprare qualcosa che non
+## compare da nessuna parte è la stessa promessa vuota dei quattro upgrade del
+## 6 agosto, scritta con parole più gentili.
+##
+## Restano quello che erano — permanenti, in `inventory`, non uno slot da
+## sostituire e da perdere ([[RewardCatalog]]) — e in più se ne può **appendere
+## uno addosso**. È una chiave separata proprio per questo: `equipped` significa
+## «uno solo, e sostituendolo si molla il precedente», che di un trofeo non è
+## vero. Qui il possesso non si tocca mai; si sceglie soltanto quale mostrare.
+const RICORDO_ESPOSTO := "mementoDisplayed"
+
+func memento_esposto() -> String:
+	var id := str(_cosmetics().get(RICORDO_ESPOSTO, ""))
+	return id if owned(id) else ""
+
+func esponi_memento(id: String) -> bool:
+	var cosmetic := RewardCatalog.find(id)
+	if cosmetic.is_empty() or str(cosmetic.get("slot", "")) != "memento" or not owned(id):
+		return false
+	_cosmetics()[RICORDO_ESPOSTO] = id
+	return true
+
+func nascondi_memento() -> void:
+	_cosmetics()[RICORDO_ESPOSTO] = ""
 
 func is_equipped(id: String) -> bool:
 	var cosmetic := RewardCatalog.find(id)

@@ -132,7 +132,16 @@ static func _default_data() -> Dictionary:
 		# si rivisita. Lo stato persistente per mondo vive in `worldProgress`.
 		"worlds": {"unlocked": [1], "current": 1},
 		"worldProgress": {},        # "level" -> {completedEncounterIds, collectedTreasureIds, clearedHazardIds, enigmaCooldowns}
-		"cosmetics": {"unlocked": [], "equipped": {}, "inventory": []},
+		# `unlocked` sono gli acquisti a slot, `inventory` quelli permanenti che
+		# non si equipaggiano. `loadout` è la **bardatura** ([[ExpeditionModules]]):
+		# quali dei moduli posseduti si portano fuori, sempre meno di quanti se ne
+		# possiedano — è l'unica cosa qui dentro che cambia senza spendere niente.
+		# `mementoDisplayed` è il Ricordo appeso addosso: un trofeo, non uno slot,
+		# quindi sceglierne un altro non fa perdere il precedente.
+		"cosmetics": {
+			"unlocked": [], "equipped": {}, "inventory": [],
+			"loadout": [], "mementoDisplayed": "",
+		},
 		# Quattro vie di riconoscimento (Comprendere, Costruire, Esplorare,
 		# Legami). Non e' una valuta e non apre gate: rende permanente e leggibile
 		# la varieta' del percorso. Vedi `progress_recognition.gd`.

@@ -94,8 +94,12 @@ func _scandaglia(percorso: String, font: Font, fuori: Array[String]) -> void:
 func _leggi_file(pieno: String, nome: String, font: Font, fuori: Array[String]) -> void:
 	var testo := FileAccess.get_file_as_string(pieno)
 	var numero := 0
-	for riga in testo.split("
-"):
+	# L'«a capo» va scritto come sequenza di escape. Scritto come riga a capo
+	# vera dentro le virgolette il separatore non e' quello che sembra: il file
+	# tornava indietro in un pezzo solo, il numero di riga era sempre 1 e il
+	# salto dei commenti — che questo audit dichiara due righe piu' su — non
+	# scattava mai. Da li' la stella segnalata dentro un commento.
+	for riga in testo.split("\n"):
 		numero += 1
 		if riga.strip_edges().begins_with("#"):
 			continue

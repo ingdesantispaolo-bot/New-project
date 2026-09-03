@@ -172,6 +172,25 @@ func _refresh() -> void:
 		_riga("Legame", "%d%%" % roundi(float(custode.get("legame", 0.0)) * 100.0))
 		_riga("Cose che ti ha portato", "%d" % int(custode.get("regali", 0)))
 
+	# --- Il taccuino ----------------------------------------------------------
+	# **L'unica sezione in cui non ci sono numeri, ed è voluto.** Tutto il resto
+	# del diario dice quanto hai fatto; qui c'è quello che Eli ha pensato mentre
+	# lo faceva. Le sue righe esistevano già in ottantatré punti del gioco e
+	# duravano tre secondi l'una ([[EliNotebook]]): questo è il posto in cui
+	# tornano, dall'ultima alla prima, che è come si rilegge un quaderno vero.
+	var taccuino := EliNotebook.ultime(game_save, 8)
+	if not taccuino.is_empty():
+		_sezione("IL TACCUINO DI ELI")
+		for voce_data in taccuino:
+			var voce: Dictionary = voce_data
+			var mondo := int(voce.get("world", 0))
+			_nota("«%s»%s" % [
+				str(voce.get("testo", "")),
+				"" if mondo <= 0 else "   — mondo %d" % mondo])
+		var totale := EliNotebook.conta(game_save)
+		if totale > taccuino.size():
+			_nota("E altre %d pagine più indietro." % (totale - taccuino.size()))
+
 	if giorni <= 1 and int(r.get("proveAffrontate", 0)) == 0:
 		_nota("Il diario si riempie giocando. Torna a guardarlo fra qualche giorno.")
 

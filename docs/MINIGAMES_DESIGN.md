@@ -70,7 +70,7 @@ Per ciascuno: meccanica, competenza, materie, **contratto dati (Opus)** e
   scienze (parte del corpo/cellula), musica (nota sul pentagramma), latino
   (elemento dell'iscrizione).
 - **Dati:** `hotspots: [{id, x, y, label?}]`, `answer` (id corretto), immagine di
-  sfondo. *(renderer pronto; serve l'ASSET immagine → Codex)*
+  sfondo. *(implementato per storia con l'atlante illustrato dei reperti romani)*
 - **Resa & feel (Codex):** immagine diegetica del livello; il tocco lascia un
   bersaglio; hotspot giusto → cerchio luminoso ed etichetta; sbagliato → ping
   breve. Serve un set di immagini per materia (mappa, corpo, pentagramma…).
@@ -169,8 +169,10 @@ I renderer esistono. Per portare i minigiochi "avvincenti" nel percorso live:
 
 1. **Feel & juice** su ogni renderer (snap, luce, suono, particelle, board che si
    anima a completamento), tematizzati per materia come sopra.
-2. **Asset immagine** per i formati visivi (`hotspot`, `graph`, `circuit`): mappa,
-   corpo/cellula, pentagramma, schema di circuito — uno per contesto d'uso.
+2. **Asset immagine:** il primo `hotspot` illustrato è attivo per storia; grafici,
+   circuiti, mappe e pentagrammi sono resi proceduralmente perché coordinate,
+   note e collegamenti cambiano a ogni esercizio. Nuovi atlanti servono soltanto
+   quando entra un nuovo contratto hotspot con coordinate fisse.
 3. ~~**Attivare `build_varied_mission`** come default del percorso live~~ — fatto:
    missioni **ed enigmi** usano il mix vario. Misura sull'esperienza giocata dei
    24 mondi (`format_mix_audit`): scelta multipla al 17%, nessun formato oltre il

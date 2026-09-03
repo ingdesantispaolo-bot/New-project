@@ -49,7 +49,7 @@ const CATALOG := [
 	{"id": "memento-02-foglia-sintassi", "mondo": 2, "requiresHazardWorld": 2, "slot": "memento", "motif": "vine_book", "name": "Foglia di sintassi", "description": "Un segnalibro vivo: le nervature tengono separate le parti della frase.", "origine": "Si è staccata dalla Frase rampicante quando le parole hanno smesso di stringersi fra loro.", "cost": 100, "glyph": "V", "color": 0x9bd58b},
 	{"id": "memento-03-gradino-ritorno", "mondo": 3, "requiresHazardWorld": 3, "slot": "memento", "motif": "step_stone", "name": "Gradino di ritorno", "description": "Una pietra a tre livelli che ritrova sempre la propria sequenza.", "origine": "Era sul bordo della Frana dei passi. Dopo la stabilizzazione ha smesso di cadere e si è incastrata così.", "cost": 100, "glyph": "3", "color": 0xff9f5a},
 	{"id": "memento-04-boa-dei-tempi", "mondo": 4, "requiresHazardWorld": 4, "slot": "memento", "motif": "signal_buoy", "name": "Boa dei tempi", "description": "Una piccola boa con tre luci: prima, adesso e dopo.", "origine": "Galleggiava nella Nebbia dei verbi. Ora lampeggia in ordine e il faro riesce a leggerla.", "cost": 100, "glyph": "T", "color": 0x62d8ff},
-	{"id": "memento-05-giunto-misura", "mondo": 5, "requiresHazardWorld": 5, "slot": "memento", "motif": "rail_caliper", "name": "Giunto di misura", "description": "Due ganasce di rotaia che conservano la distanza corretta.", "origine": "Ruggine lo ha tolto dal Binario delle misure dopo l'ultimo allineamento: non scivola più di un millimetro.", "cost": 100, "glyph": "=", "color": 0xe8b45d},
+	{"id": "memento-05-giunto-misura", "mondo": 5, "requiresHazardWorld": 5, "slot": "memento", "motif": "rail_caliper", "name": "Giunto di misura", "description": "Due ganasce di rotaia che conservano la distanza corretta.", "origine": "Gerbo lo ha tolto dal Binario delle misure dopo l'ultimo allineamento, e per la prima volta senza forzare: non scivola più di un millimetro.", "cost": 100, "glyph": "=", "color": 0xe8b45d},
 	{"id": "memento-06-seme-risonante", "mondo": 6, "requiresHazardWorld": 6, "slot": "memento", "motif": "resonant_seed", "name": "Seme risonante", "description": "Un seme di cristallo che vibra soltanto quando il ritmo si chiude.", "origine": "È rimasto a terra dopo che l'Eco delle frasi ha pronunciato per la prima volta un periodo intero.", "cost": 120, "glyph": "~", "color": 0xe09cff},
 	{"id": "memento-07-tessera-indivisa", "mondo": 7, "requiresHazardWorld": 7, "slot": "memento", "motif": "mosaic_tile", "name": "Tessera indivisa", "description": "Una losanga ricomposta: ogni parte porta ancora la propria linea.", "origine": "Proviene dal Mosaico delle frazioni. I bordi combaciano solo nella posizione trovata durante la prova.", "cost": 120, "glyph": "+", "color": 0xd9b36c},
 	{"id": "memento-08-bobina-periodo", "mondo": 8, "requiresHazardWorld": 8, "slot": "memento", "motif": "circuit_coil", "name": "Bobina del periodo", "description": "Tre spire collegate come soggetto, verbo e completamento.", "origine": "Il Delta la espelleva a ogni scarica. Stabilizzato il circuito, la bobina ha tenuto il periodo senza spezzarlo.", "cost": 120, "glyph": "S", "color": 0x58e5d2},
@@ -80,7 +80,7 @@ const CATALOG := [
 	{"id": "tool-scythe", "slot": "tool", "name": "Falce da campo", "description": "Taglia l'erba alta che protegge deviazioni e tesori opzionali.", "origine": "Falce da sterpaglia della Serra. Apre passaggi, non prove.", "cost": 180, "glyph": "~", "color": 0x91dc72, "minLevel": 2},
 	{"id": "tool-lever", "mondo": 5, "slot": "tool", "name": "Leva dei Primi", "description": "Solleva le lastre sigillate che i Primi lasciavano sopra ciò che non voleva essere trovato.", "origine": "Barra di ferro nero delle Officine del Moto. Non era forza: era sapere dove spingere.", "cost": 260, "glyph": "~", "color": 0xc0c6d0, "minLevel": 5},
 	{"id": "tool-lens", "mondo": 7, "slot": "tool", "name": "Lente dei Primi", "description": "Rende leggibili le iscrizioni sbiadite: le scritte ci sono ancora, è l'occhio che non arriva.", "origine": "Disco di vetro della Sala dei Glifi, con il bordo consumato dalle dita.", "cost": 300, "glyph": "o", "color": 0x9ad8ff, "minLevel": 7},
-	{"id": "tool-bellows", "mondo": 11, "slot": "tool", "name": "Soffietto", "description": "Disperde i banchi di Silenzio denso. Il Silenzio si posa come la polvere, e come la polvere si soffia via.", "origine": "Soffietto da forgia della Sala delle Ere, col cuoio rappezzato tre volte.", "cost": 360, "glyph": "~", "color": 0xd9c7a4, "minLevel": 11},
+	{"id": "tool-bellows", "mondo": 11, "slot": "tool", "name": "Soffietto", "description": "Disperde i banchi di Silenzio denso. Il Silenzio si posa come la polvere, e come la polvere si soffia via.", "origine": "Soffietto da forgia della Soglia del Tempo, col cuoio rappezzato tre volte.", "cost": 360, "glyph": "~", "color": 0xd9c7a4, "minLevel": 11},
 	# --- Le forme del Custode: obiettivi costosi di lungo periodo -------------
 	#
 	# Non sono creature in piu'. Il Custode e' UNO — quello consegnato dalla nave,
@@ -109,39 +109,51 @@ const CATALOG := [
 	# --- Strumenti NORA (vantaggi leggeri nelle run) -------------------------
 	# --- Moduli di spedizione (14 agosto 2026) -------------------------------
 	#
-	# L'unica cosa che la bottega vende oltre alla bellezza, e sono tre perché
-	# tre sono quelle che **funzionano davvero**: un oggetto che promette una
-	# meccanica inesistente è già stato il difetto del 6 agosto, e `endings_audit`
-	# lo vieta. Il radar dei forzieri e il raggio della torcia stanno nel piano
-	# come C-G4 e entreranno quando la resa esisterà, non prima.
+	# L'unica cosa che la bottega vende oltre alla bellezza. Ogni voce è appesa a
+	# un numero che **esisteva già nel codice**: un oggetto che promette una
+	# meccanica inesistente è stato il difetto del 6 agosto, e `endings_audit` lo
+	# vieta.
 	#
 	# Agiscono **sulla mappa e mai su una prova**: è la decisione vincolante 15,
 	# ed è ciò che rende lecito vendere potere in un gioco che si studia.
+	#
+	# **Erano due fino al 2 settembre 2026**, e su settanta voci di catalogo erano
+	# le uniche due che cambiassero qualcosa: la bottega vendeva il 97% di colore.
+	# Adesso sono sei e **se ne portano da due a quattro** ([[ExpeditionModules]]
+	# — la bardatura): comprare non basta più, bisogna anche scegliere che cosa
+	# portarsi dietro, ed è lì che sta la gestione delle risorse.
+	#
+	# Il radar dei forzieri e il cono della torcia — rinviati «a quando la resa
+	# esisterà» — entrano adesso perché la resa **era già stata scritta e stava
+	# spenta**: `ExpeditionModulePresentation` leggeva due numeri che nessuno
+	# pubblicava.
 	#
 	# **Erano altri tre fino al 21 agosto 2026.** «Serbatoio ampliato» e «Bobina
 	# larga» potenziavano l'impulso, che è stato tolto: `costo_delle_sacche_probe`
 	# ha misurato che dal mondo 2 in poi nessuna sacca costa energia, quindi
 	# quelle due voci vendevano un potenziamento a una meccanica senza lavoro.
-	# Al loro posto due numeri che il grado di Eli non azzera: quanto lontano una
-	# sacca la nota, e quanto la butta indietro uno spintone.
 	#
 	# Chi tocca questo elenco deve rigenerare il foglio premi
 	# (`npm run assets:reward`): senza, la bottega resta senza illustrazione e
 	# `shop_presentation_audit` diventa rosso.
 	{"id": "module-hush", "slot": "module", "name": "Andatura felpata", "description": "Le sacche di Silenzio ti notano solo da vicino.", "origine": "Suole di feltro dei turni di notte: i Dodici le mettevano per non svegliare chi dormiva, e hanno scoperto che non svegliavano nemmeno il Silenzio.", "cost": 340, "glyph": "o", "color": 0x8ff6d2, "minLevel": 3},
-	{"id": "module-ballast", "slot": "module", "name": "Zavorra da campo", "description": "Uno spintone ti sposta molto meno.", "origine": "Piombo cucito nell'orlo della tuta. Ruggine dice che il trucco è antico quanto il vento: chi pesa di più resta dov'era.", "cost": 380, "glyph": "=", "color": 0x9fd8ff, "minLevel": 3},
+	{"id": "module-ballast", "slot": "module", "name": "Zavorra da campo", "description": "Uno spintone ti sposta molto meno.", "origine": "Piombo cucito nell'orlo della tuta, con il punto largo di chi lavorava al buio. Il trucco è antico quanto il vento: chi pesa di più resta dov'era.", "cost": 380, "glyph": "=", "color": 0x9fd8ff, "minLevel": 3},
+	{"id": "module-stride", "slot": "module", "name": "Passo da spedizione", "description": "Cammini più svelta: un mondo che si attraversa in fretta è un mondo che si esplora di più.", "origine": "Fasce da polpaccio dei portalettere dei Dodici, che facevano il giro della nave due volte a turno e sostenevano che il segreto fosse nelle caviglie.", "cost": 520, "glyph": "^", "color": 0xffd08a, "minLevel": 4},
+	{"id": "module-lantern", "slot": "module", "name": "Riflettore da ricognizione", "description": "Concentra la torcia in un cono davanti a te. Senza torcia non illumina niente: è un riflettore, non una lampada.", "origine": "Specchio parabolico smontato da un faro di prua. Nima lo usava per leggere di notte puntandolo al soffitto.", "cost": 620, "glyph": "*", "color": 0xffc76b, "minLevel": 5},
+	{"id": "module-divining", "slot": "module", "name": "Rabdomante dei Primi", "description": "I forzieri ancora chiusi alzano un segnale quando ci passi vicino.", "origine": "Forcella di metallo dei Primi. Non trova l'oro: trova le cose che qualcuno ha deciso di lasciare indietro, che è un'altra faccenda.", "cost": 760, "glyph": "~", "color": 0x8ff6d2, "minLevel": 7},
+	{"id": "module-ledger", "slot": "module", "name": "Taccuino del cambio", "description": "Quello che trovi nei forzieri rende di più. Non tocca il premio delle prove: quello non è merce.", "origine": "Registro dei baratti dei Dodici, con i prezzi di quattro secoli fa cancellati e riscritti sopra tre volte.", "cost": 900, "glyph": "◊", "color": 0xc7b8ff, "minLevel": 6},
 	{"id": "nora-lens", "slot": "upgrade", "name": "Lente causale", "description": "La lente con cui NORA guardava i guasti quando aveva ancora gli occhi della nave.", "origine": "Ritrovata nel primo apparato riparato. Non serve a vedere meglio: serve a ricordarsi di guardare.", "cost": 360, "glyph": "◊"},
 	{"id": "nora-reserve", "slot": "upgrade", "name": "Riserva di bordo", "description": "Una cella di scorta che si illumina piano nella sala macchine.", "origine": "I Dodici ne tenevano una per ciascuno. Undici sono ancora cariche.", "cost": 760, "glyph": "◊"},
 	{"id": "nora-shield", "slot": "upgrade", "name": "Paratia rinforzata", "description": "La lastra che ha tenuto il ponte quando tutto il resto ha ceduto.", "origine": "Ha una crepa che nessuno ha mai riparato. NORA dice di lasciarla dov’è.", "cost": 980, "glyph": "◊"},
 	{"id": "nora-prismatic-core", "slot": "upgrade", "name": "Nucleo prismatico", "description": "Il cuore della nave, che scompone la luce in dodici colori: uno per sistema.", "origine": "Si accende del colore delle materie che hai portato più avanti. È un ritratto, non una macchina.", "cost": 1600, "glyph": "*"},
 	# --- Restauri d'area ------------------------------------------------------
 	{"id": "decor-laboratorio", "slot": "decor", "name": "Luci laboratorio", "description": "Riaccende il nucleo visivo dell'area laboratorio.", "origine": "Banco della prima stanza riaccesa.", "cost": 300, "glyph": "*"},
-	{"id": "decor-serra", "slot": "decor", "name": "Serra rigogliosa", "description": "Aggiunge bagliori verdi e vita alla serra-bio.", "origine": "Talee della Serra, del diario lungo quarant’anni di chi la custodisce.", "cost": 340, "glyph": "◊"},
-	{"id": "decor-circuiti", "slot": "decor", "name": "Tracce circuiti", "description": "Rende più evidenti piste e nodi del cantiere-circuiti.", "origine": "Quadro di manutenzione della Città Macchina, con il registro dei guasti appeso.", "cost": 360, "glyph": "◊"},
-	{"id": "decor-osservatorio", "slot": "decor", "name": "Cupola stellare", "description": "Accende una luce morbida nell'osservatorio.", "origine": "Carte del cielo del Deserto delle Orbite, aggiornate a quattro secoli fa.", "cost": 360, "glyph": "*"},
-	{"id": "decor-musica", "slot": "decor", "name": "Sala accordata", "description": "Illumina il palco della sala-musica.", "origine": "Leggio del Giardino della Risonanza: il liutaio sordo legge con le mani.", "cost": 320, "glyph": "*"},
-	{"id": "decor-archivio", "slot": "decor", "name": "Archivio vivo", "description": "Riscalda scaffali e postazioni della biblioteca.", "origine": "Scaffale dell’Archivio delle Parole, dove un bambino inventa nomi.", "cost": 320, "glyph": "◊"},
-	{"id": "decor-biblioteca-classica", "slot": "decor", "name": "Scriptorium ambra", "description": "Riaccende lucerne e oro della biblioteca classica.", "origine": "Volumi delle Rovine. Metà sono commenti sbagliati fatti da qualcuno, con passione.", "cost": 380, "glyph": "◊"},
+	{"id": "decor-serra", "mondo": 10, "slot": "decor", "name": "Serra rigogliosa", "description": "Aggiunge bagliori verdi e vita alla serra-bio.", "origine": "Talee della Serra, del diario lungo quarant’anni di chi la custodisce.", "cost": 340, "glyph": "◊"},
+	{"id": "decor-circuiti", "mondo": 15, "slot": "decor", "name": "Tracce circuiti", "description": "Rende più evidenti piste e nodi del cantiere-circuiti.", "origine": "Quadro di manutenzione della Città Macchina, con il registro dei guasti appeso.", "cost": 360, "glyph": "◊"},
+	{"id": "decor-osservatorio", "mondo": 13, "slot": "decor", "name": "Cupola stellare", "description": "Accende una luce morbida nell'osservatorio.", "origine": "Carte del cielo del Deserto delle Orbite, aggiornate a quattro secoli fa.", "cost": 360, "glyph": "*"},
+	{"id": "decor-musica", "mondo": 6, "slot": "decor", "name": "Sala accordata", "description": "Illumina il palco della sala-musica.", "origine": "Leggio del Giardino della Risonanza: il liutaio sordo legge con le mani.", "cost": 320, "glyph": "*"},
+	{"id": "decor-archivio", "mondo": 2, "slot": "decor", "name": "Archivio vivo", "description": "Riscalda scaffali e postazioni della biblioteca.", "origine": "Scaffale dell’Archivio delle Parole, dove un bambino inventa nomi.", "cost": 320, "glyph": "◊"},
+	{"id": "decor-biblioteca-classica", "mondo": 7, "slot": "decor", "name": "Scriptorium ambra", "description": "Riaccende lucerne e oro della biblioteca classica.", "origine": "Volumi delle Rovine. Metà sono commenti sbagliati fatti da qualcuno, con passione.", "cost": 380, "glyph": "◊"},
 ]
 
 ## **Il catalogo si scrive giocando.** (14 agosto 2026)

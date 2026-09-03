@@ -36,6 +36,7 @@ extends Control
 signal chiusa
 
 const ALTEZZA_TOCCO := 52
+const CHAPTER_ART := preload("res://scripts/visual/chapter_art.gd")
 
 var livello := 1
 var _colonna: VBoxContainer
@@ -86,6 +87,20 @@ func _disegna() -> void:
 	titolo.add_theme_font_size_override("font_size", 34)
 	titolo.add_theme_color_override("font_color", Color("f7fbff"))
 	_colonna.add_child(titolo)
+
+	# Sei tavole, una per arco di quattro mondi. Sono soltanto atmosfera: titolo,
+	# contenuto e accessibilita' restano testo reale sotto l'immagine.
+	var chapter_texture := CHAPTER_ART.texture_for_world(lvl)
+	if chapter_texture != null:
+		var tavola := TextureRect.new()
+		tavola.name = "ChapterArt"
+		tavola.texture = chapter_texture
+		tavola.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		tavola.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+		tavola.custom_minimum_size = Vector2(0, 220)
+		tavola.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		tavola.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_colonna.add_child(tavola)
 
 	# Il beat di trama: NORA parla del punto in cui è l'indagine, non della
 	# lezione. È la parte che immerge, e viene per prima di proposito — un

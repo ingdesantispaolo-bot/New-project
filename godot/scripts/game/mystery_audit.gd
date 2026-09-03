@@ -247,6 +247,66 @@ func _check_sorelle() -> Array:
 	print("\nsorelle: %d, mondi %s, una materia ciascuna" % [
 		sorelle.size(),
 		", ".join(PackedStringArray(SistersThread.mondi().map(func(w): return str(w))))])
+	out.append_array(_check_prima_meta(sorelle))
+	return out
+
+## **La prima metà ha una sorella anche lei.** (2 settembre 2026)
+##
+## `SistersThread` copre i mondi 13-23 e chiude benissimo la seconda metà. Nei
+## mondi 1-11 restavano quattro semi che *provano* l'esistenza delle undici — un
+## bollo di collaudo, una targhetta, una frase di Mirta — e le prove non fanno
+## compagnia: per undici mondi la cosa più importante della vita di Eli era un
+## indizio d'archivio, e lei non aveva una riga.
+##
+## Adesso la prima metà segue **l'undicesima**, quella immediatamente prima di
+## Eli, il cui fascicolo al mondo 23 ha «l'inchiostro di poche settimane fa»:
+## stessa strada, appena percorsa. Questo controllo tiene insieme le due metà —
+## il nome dei segni deve essere quello dell'ultima sorella, non un personaggio
+## nuovo — e pretende che Eli abbia una voce anche prima del colpo 3.
+func _check_prima_meta(sorelle: Array) -> Array:
+	var out: Array = []
+	if sorelle.is_empty():
+		return out
+	var ultima: Dictionary = sorelle[sorelle.size() - 1]
+	var nome := str(ultima.get("nome", ""))
+	var mondi_toccati: Array = []
+	var con_voce := 0
+	var nomina_l_ultima := false
+	for seme_data in MysteryCatalog.seeds_of("dodici-schede"):
+		var seme: Dictionary = seme_data
+		var world := int(seme.get("world", 0))
+		if world <= 0 or world > 11:
+			continue
+		if not mondi_toccati.has(world):
+			mondi_toccati.append(world)
+		if str(seme.get("eli", "")).strip_edges() != "":
+			con_voce += 1
+		if nome != "" and str(seme.get("cosa", "")).contains(nome):
+			nomina_l_ultima = true
+	mondi_toccati.sort()
+	if mondi_toccati.size() < 5:
+		out.append("prima metà: solo %d mondi su 11 portano un segno di chi è passata prima di Eli" % mondi_toccati.size())
+	if con_voce < 5:
+		out.append("prima metà: solo %d di quei semi hanno una riga di Eli — prima del colpo 3 resterebbe muta" % con_voce)
+	if not nomina_l_ultima:
+		out.append("prima metà: nessun segno porta il nome dell'ultima sorella (%s): il filo non si chiude al mondo 23" % nome)
+	# E il nome non può essere inventato: dev'essere una delle undici, altrimenti
+	# la prima metà racconterebbe una dodicesima persona che non esiste.
+	var nomi: Array = []
+	for s in sorelle:
+		nomi.append(str((s as Dictionary).get("nome", "")))
+	for seme_data in MysteryCatalog.seeds_of("dodici-schede"):
+		var seme: Dictionary = seme_data
+		if int(seme.get("world", 0)) > 11:
+			continue
+		for parola in str(seme.get("cosa", "")).split(" "):
+			var pulita := str(parola).strip_edges().trim_prefix("«").trim_suffix("»").trim_suffix(".").trim_suffix(",")
+			if pulita.length() > 3 and pulita[0] == pulita[0].to_upper() and nomi.has(pulita) and pulita != nome:
+				out.append("prima metà: un segno nomina %s, che non è l'ultima sorella" % pulita)
+	print("prima metà: %d segni in %d mondi, %d con la voce di Eli, il nome è %s" % [
+		MysteryCatalog.seeds_of("dodici-schede").filter(
+			func(s): return int((s as Dictionary).get("world", 0)) <= 11).size(),
+		mondi_toccati.size(), con_voce, nome])
 	return out
 
 ## Il confronto del mondo 24. Le due cose che lo rendono quella scena e non un

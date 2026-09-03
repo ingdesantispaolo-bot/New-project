@@ -78,13 +78,28 @@ const RIPASSO_PER_ATTO := {
 ## NoraContextEngine.ts, qui derivato dal flag `review` già in ContentManager).
 ## `level` è opzionale (default il primo atto) per i chiamanti che non hanno
 ## ancora un livello — un'unica sessione senza narrativa non deve rompersi.
-static func open_line(subject: String, is_review: bool, level: int = 1) -> String:
+## **`voce` è il Maestro sveglio di questa materia**, o un dizionario vuoto.
+##
+## È la regia annunciata da [[MaestriCatalog]] e mai scritta: quando l'apparato
+## di una materia è riparato, l'apertura della sessione non è più la formula di
+## NORA ma la battuta di chi quella materia la insegnava. La frase del metodo
+## resta attaccata in coda — è la parte che serve al bambino, e non si perde
+## perché la voce è cambiata.
+##
+## Il ripasso non prende la voce del Maestro: quel momento parla di **te** e di
+## un inciampo tuo, e a dirlo dev'essere la persona che ti accompagna, non la
+## materia. Vedi `docs/TRAMA_E_MISTERO.md` §6.1.4 e §7.
+static func open_line(subject: String, is_review: bool, level: int = 1, voce: Dictionary = {}) -> String:
 	var feminine := _is_feminine(subject)
 	var atto := NoraVoice.atto_di(level)
 	if is_review:
 		var demonstrative := "Questa" if feminine else "Questo"
 		var chiusura := str(RIPASSO_PER_ATTO.get(atto, RIPASSO_PER_ATTO["atto1"]))
 		return "%s %s ti ha già fatto inciampare. %s: %s." % [demonstrative, subject_label(subject), chiusura, subject_method(subject)]
+	var aperture: Array = Array(voce.get("apertura", []))
+	if not aperture.is_empty():
+		var indice := posmod(level + subject.hash(), aperture.size())
+		return "%s %s" % [str(aperture[indice]), subject_method(subject).capitalize() + "."]
 	var article := "la" if feminine else "il"
 	var apertura := str(APERTURA_PER_ATTO.get(atto, APERTURA_PER_ATTO["atto1"]))
 	return "Apro %s %s. %s: %s." % [article, subject_label(subject), apertura, subject_method(subject)]

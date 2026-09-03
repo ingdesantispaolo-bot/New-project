@@ -189,6 +189,23 @@ Periodicamente il Custode **porta qualcosa**. È sempre orgogliosissimo.
 - **Molto raramente** è davvero un frammento. Serve a farti guardare sempre.
 - Nessun regalo è mai richiesto, nessuno scade, nessuno si può perdere.
 
+> **Il diario diceva soltanto il numero del mondo.** (2 settembre 2026) Per un
+> mese i regali sono stati **sedici, identici in tutti e ventiquattro i mondi**:
+> `PetGifts.pick()` non sapeva nemmeno dove si trovasse. La riga qui sopra
+> prometteva un diario del viaggio, e il diario diceva *«Un sasso — mondo 7»*:
+> del mondo 7 c'era solo il numero, scritto dalla schermata e non dal regalo. Il
+> compagno che accompagna tutta la partita era l'unico sistema affettivo che non
+> sapeva niente dei ventiquattro luoghi che attraversa.
+>
+> Adesso i regali sono **40**: i sedici di sempre — il sasso e il bottone sono la
+> battuta, e sono il motivo per cui un regalo non vale niente — più **uno per
+> mondo**, che si trova solo lì. Un regalo su due viene dal posto: una scaglia
+> dell'obelisco con mezza tacca sopra, un ingranaggio a cui manca il terzo dente,
+> un grumo di sabbia fusa da un fulmine, un timbro dei copisti con l'inchiostro
+> finito. Il guard-rail non si muove: i ventiquattro sono inutili quanto i
+> sedici, nessuno vale più di un altro, nessuno si può chiedere. Cambia soltanto
+> che adesso dicono dove eravate. Lo tiene `pet_advanced_audit`.
+
 ### 3.4 Il Custode ha opinioni sugli abitanti
 
 Reazione fissa e coerente per ogni personaggio ricorrente: è il modo più

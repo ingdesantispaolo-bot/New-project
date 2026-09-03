@@ -1340,7 +1340,7 @@
         "h": 128
       }
     },
-    "nora-lens": {
+    "module-stride": {
       "frame": {
         "x": 384,
         "y": 1024,
@@ -1360,7 +1360,7 @@
         "h": 128
       }
     },
-    "nora-reserve": {
+    "module-lantern": {
       "frame": {
         "x": 512,
         "y": 1024,
@@ -1380,7 +1380,7 @@
         "h": 128
       }
     },
-    "nora-shield": {
+    "module-divining": {
       "frame": {
         "x": 640,
         "y": 1024,
@@ -1400,7 +1400,7 @@
         "h": 128
       }
     },
-    "nora-prismatic-core": {
+    "module-ledger": {
       "frame": {
         "x": 768,
         "y": 1024,
@@ -1420,7 +1420,7 @@
         "h": 128
       }
     },
-    "decor-laboratorio": {
+    "nora-lens": {
       "frame": {
         "x": 896,
         "y": 1024,
@@ -1440,7 +1440,7 @@
         "h": 128
       }
     },
-    "decor-serra": {
+    "nora-reserve": {
       "frame": {
         "x": 0,
         "y": 1152,
@@ -1460,7 +1460,7 @@
         "h": 128
       }
     },
-    "decor-circuiti": {
+    "nora-shield": {
       "frame": {
         "x": 128,
         "y": 1152,
@@ -1480,7 +1480,7 @@
         "h": 128
       }
     },
-    "decor-osservatorio": {
+    "nora-prismatic-core": {
       "frame": {
         "x": 256,
         "y": 1152,
@@ -1500,7 +1500,7 @@
         "h": 128
       }
     },
-    "decor-musica": {
+    "decor-laboratorio": {
       "frame": {
         "x": 384,
         "y": 1152,
@@ -1520,7 +1520,7 @@
         "h": 128
       }
     },
-    "decor-archivio": {
+    "decor-serra": {
       "frame": {
         "x": 512,
         "y": 1152,
@@ -1540,10 +1540,90 @@
         "h": 128
       }
     },
-    "decor-biblioteca-classica": {
+    "decor-circuiti": {
       "frame": {
         "x": 640,
         "y": 1152,
+        "w": 128,
+        "h": 128
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 128,
+        "h": 128
+      },
+      "sourceSize": {
+        "w": 128,
+        "h": 128
+      }
+    },
+    "decor-osservatorio": {
+      "frame": {
+        "x": 768,
+        "y": 1152,
+        "w": 128,
+        "h": 128
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 128,
+        "h": 128
+      },
+      "sourceSize": {
+        "w": 128,
+        "h": 128
+      }
+    },
+    "decor-musica": {
+      "frame": {
+        "x": 896,
+        "y": 1152,
+        "w": 128,
+        "h": 128
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 128,
+        "h": 128
+      },
+      "sourceSize": {
+        "w": 128,
+        "h": 128
+      }
+    },
+    "decor-archivio": {
+      "frame": {
+        "x": 0,
+        "y": 1280,
+        "w": 128,
+        "h": 128
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 128,
+        "h": 128
+      },
+      "sourceSize": {
+        "w": 128,
+        "h": 128
+      }
+    },
+    "decor-biblioteca-classica": {
+      "frame": {
+        "x": 128,
+        "y": 1280,
         "w": 128,
         "h": 128
       },
@@ -1567,7 +1647,7 @@
     "format": "RGBA8888",
     "size": {
       "w": 1024,
-      "h": 1280
+      "h": 1408
     },
     "scale": "1"
   }

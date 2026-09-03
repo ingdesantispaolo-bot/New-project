@@ -31,8 +31,24 @@ func _run() -> void:
 		var marker := world.find_child("MissionEvent_%s" % str(event.get("id", "")).replace("-", "_"), true, false)
 		assert(marker != null, "stazione pratica non costruita")
 		var repeater := marker.find_child("PracticeRepeater", true, false) as Node2D
-		assert(repeater != null and repeater.find_child("FirstRepeaterStone", true, false) != null,
+		# **La pietra ha cambiato mestiere.** (3 settembre 2026)
+		#
+		# Fino a ieri l'insegna della palestra era una pietra disegnata a mano
+		# con dei poligoni, e si chiamava `FirstRepeaterStone`. Adesso e' una
+		# regione dell'atlante pittorico delle dodici materie
+		# ([[SubjectStationArt]]), e il nome del nodo e' un altro.
+		#
+		# Cambia la sorgente del disegno, non la regola: quello che questo audit
+		# difende e' che l'insegna sia **disegnata**, non un carattere di sistema
+		# che nel Web diventa un rettangolo — la segnalazione da cui nasce tutta
+		# la riscrittura. Quindi si continua a pretendere un'immagine vera, e si
+		# accettano tutte e due le forme finche' una delle due esiste.
+		var pietra := repeater.find_child("FirstRepeaterStone", true, false)
+		var insegna := repeater.find_child("SubjectStationArt", true, false) as Sprite2D
+		assert(repeater != null and (pietra != null or insegna != null),
 			"stazione senza pietra del ripetitore")
+		assert(insegna == null or insegna.texture is AtlasTexture,
+			"l'insegna della palestra non viene dall'atlante illustrato")
 		assert(repeater.find_child("PracticeStar", true, false) == null,
 			"la stazione conserva il disco/stella precedente")
 		assert(repeater.find_children("*", "Label", true, false).is_empty(), "la stazione contiene testo disegnato")

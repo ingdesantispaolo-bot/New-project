@@ -63,7 +63,12 @@ const DEPTH_FLOOR := {
 	"fisica": 248264,
 	"musica": 243781,
 	"scienze": 221334,
-	"elettronica": 213555,
+	# Sale a 243.932 il 3 settembre 2026. Il 2 settembre era CROLLATA a 2.293: la
+	# materia era stata resa introduttiva tagliando i sacchetti da ventiquattro a
+	# dodici tessere, cioe' stringendo il perimetro senza rifornirlo. Riaperti con
+	# oggetti di casa — graffetta, chiave, guanto di gomma — piu' un ordinamento
+	# che pesca fra le pile in volt.
+	"elettronica": 243932,
 	"logica": 158454,
 	"storia": 133313,
 	# Musica sale a 243.781 nella Fase 4: al primo mondo aveva otto abbinamenti

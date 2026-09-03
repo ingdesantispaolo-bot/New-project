@@ -176,12 +176,12 @@ futura, e il registro ricorda e dimentica al momento giusto.
 
 ### 5.2 Il catalogo si scrive giocando
 
-Tutte e 83 le voci hanno un campo `origine` che le lega a un posto o a una
+Tutte e 87 le voci hanno un campo `origine` che le lega a un posto o a una
 persona — *«Pigmento delle Rovine dei Glifi, l'unico colore che il tempo non ha
 sbiadito»* — e nessuno lo faceva valere: si comprava il pigmento delle Rovine
 senza aver mai visto le Rovine.
 
-Ora **56 voci su 83** portano un campo `mondo`, e compaiono in vetrina quando
+Ora **56 voci su 87** portano un campo `mondo`, e compaiono in vetrina quando
 quella destinazione è aperta. Le altre 28 restano sempre disponibili e non è una
 svista: sono la roba della nave e dei Dodici, quella degli itineranti che girano
 tutti i mondi, e i moduli — che toccano il gameplay e non possono dipendere da
@@ -193,7 +193,7 @@ aperta (`shop_world_link_audit` lo verifica confrontando due partite identiche,
 una che sa tutto e una che non sa niente). E il rifiuto non è un rifiuto: al
 posto del prezzo la scheda mostra il nome del posto — *DA TROVARE · ROVINE DEI
 GLIFI* —, che è un indirizzo, non una porta chiusa. Al mondo 1 restano comunque
-20 voci comprabili.
+19 voci comprabili.
 
 ### 5.3 Niente si scusa più
 
@@ -224,6 +224,94 @@ Con un difetto vero trovato per strada: il colore comprato **non si vedeva mai**
 perché la livrea di serie vinceva sempre. Ora l'ordine è quello del significato —
 una livrea scelta a mano dal bambino batte tutto, ma sopra il default silenzioso
 vince l'aspetto comprato.
+
+### 5.5 La bardatura: sei moduli, da due a quattro posti
+
+*Lotto del 2 settembre 2026, da una richiesta sul ruolo della bottega: gli
+oggetti devono avere un valore vero, e lo studente deve **saper gestire risorse e
+oggetti**.*
+
+**Il difetto misurato.** Su 83 voci di catalogo, **due** cambiavano qualcosa —
+l'Andatura felpata e la Zavorra da campo. Il 97,6% del negozio era colore. E le
+due che facevano qualcosa erano permanenti, sempre attive e mai in conflitto fra
+loro: comprarle non era una decisione, era una formalità rimandata. In un negozio
+in cui la risposta giusta è sempre *«sì, prima o poi»* non c'è niente da gestire.
+
+La correzione ha due metà, e nessuna funziona da sola.
+
+**Più cose che fanno.** Sei moduli invece di due, e ognuno appeso a un numero che
+*esisteva già nel codice*. È il vincolo che distingue questo lotto dai quattro
+upgrade bugiardi del 6 agosto: nessuno promette una meccanica da scrivere dopo.
+
+| modulo | costo | Lv | che cosa cambia | il numero, e dove viveva già |
+|---|---:|---:|---|---|
+| Andatura felpata | 340 | 3 | le sacche ti notano da vicino | `world_enemy`: 190 + grado × 12, ora × 0,72 |
+| Zavorra da campo | 380 | 3 | lo spintone ti sposta meno | `outdoor_world`: 104 → 62 unità |
+| Passo da spedizione | 520 | 4 | cammini più svelta | `player_controller.speed`: 260 → 296 |
+| Riflettore | 620 | 5 | la torcia diventa un cono direzionale | `ExpeditionModulePresentation.torchRadius` |
+| Rabdomante dei Primi | 760 | 7 | i forzieri chiusi si segnalano a 300 unità | `ExpeditionModulePresentation.treasureRadarRadius` |
+| Taccuino del cambio | 900 | 6 | i forzieri rendono +18% | `_svuota_forziere` |
+
+Le ultime due righe non erano un progetto: **il disegno esisteva già ed era
+spento.** `ExpeditionModulePresentation` costruisce da settimane il cono
+direzionale della torcia e il segnale a diamante sopra i forzieri, leggendo due
+numeri — `torchRadius`, `treasureRadarRadius` — che **nessuno pubblicava**. Erano
+i due moduli rinviati «a quando la resa esisterà»: la resa era arrivata prima
+della semantica, e il gioco ha avuto per settimane due strumenti costruiti e mai
+accesi. Adesso `outdoor_gameplay.runtime_state()` li pubblica, insieme a
+`playerSpeed`, `treasureYield`, `moduleLoadout` e `moduleSlots`.
+
+**Meno posti di quanti se ne possiedano.** Si comprano tutti, se ne **portano
+pochi**: due all'inizio, tre dal mondo 9, quattro dal 17 — mai sei. È la
+*bardatura*, e trasforma l'acquisto in una scelta due volte: una quando si spende,
+una ogni volta che si parte. Chi entra in un mondo buio porta il riflettore; chi
+attraversa un presidio porta felpata e zavorra; chi vuole il Custode di cristallo
+porta il taccuino e rinuncia alla comodità. Nessuna configurazione è la migliore,
+ed è tutto il punto.
+
+**La bardatura si cambia in bottega, e non costa niente.** Non per attrito: perché
+è lì che si prepara una spedizione, e dà al luogo una ragione di esistere anche
+quando non si sta comprando. Una bottega in cui si entra una volta per slot è un
+menu; una in cui si torna a decidere è un posto. Un modulo comprato entra subito
+in bardatura se c'è posto — chi spende 900 frammenti e non vede succedere niente
+impara che comprare non serve — e quando i posti sono pieni la bottega lo dice
+invece di scavalcare la scelta di chi ha pagato.
+
+**Tre guard-rail, invariati.** I moduli agiscono sulla mappa e **mai** su una
+prova (decisione vincolante 15); nessuno è necessario, e i due raggi partono
+spenti perché un forziere trovabile solo col radar sarebbe contenuto a pagamento;
+insieme costano 3.520 su 80.080, cioè il **4,4%** del catalogo — il sink estetico
+resta il sink principale.
+
+**Il Taccuino è la scelta che si misura.** `fragment_economy_probe` conta una
+campagna a 46.620 frammenti contro un catalogo di 78.840: il **59%**, cioè il
+pavimento della fascia dichiarata. Portando il Taccuino per tutta la campagna il
+raccolto dai forzieri sale del 18% — 31.654 → 37.352 — e la quota comprabile
+arriva al **66%**. Novecento frammenti e un posto di bardatura per tutta la
+partita valgono circa 5.700 frammenti in più: è la sola voce del negozio che
+chieda di rinunciare a una comodità adesso per comprare qualcosa di più grosso
+dopo, e la sua convenienza è vera, calcolabile e non obbligatoria.
+
+`expedition_module_audit` verifica tutto sul comportamento: che ogni modulo abbia
+una misura dichiarata (aggiungerne uno senza aggiungere la sua riga rende rosso
+l'audit), che nessuno saturi col grado di Eli, che i posti restino meno dei
+moduli a qualunque mondo, che una bardatura scritta a mano nel salvataggio non
+regali effetti mai comprati, e soprattutto che **un modulo lasciato a bordo non
+faccia niente pur essendo posseduto** — la riga che distingue una collezione da
+una decisione.
+
+### 5.6 I Ricordi si appendono addosso
+
+I 24 Ricordi di conquista sono più di un quarto del catalogo, e si compravano per
+**non vederli mai**: restavano in collezione, e la collezione era una griglia
+dentro la bottega. Comprare qualcosa che non compare da nessuna parte è la stessa
+promessa vuota dei quattro upgrade del 6 agosto, scritta con parole più gentili.
+
+Adesso se ne appende **uno addosso a Eli**, dal lato opposto all'emblema: uno dice
+come lavori, l'altro dove sei stata, e si leggono insieme. Il possesso non si
+tocca — restano in `cosmetics.inventory`, permanenti, e la scelta di quale
+mostrare vive in una chiave separata (`mementoDisplayed`), perché di un trofeo non
+è vero che sostituirlo significhi mollarlo.
 
 ## 6. Il chiavistello: come si apre un forziere
 

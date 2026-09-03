@@ -181,6 +181,34 @@ function iconBody(item, accent) {
       <path d="M42 61 H86" stroke="#f6c85f" stroke-width="5" stroke-linecap="round"/>
       <circle cx="52" cy="75" r="7" fill="${accent}" opacity=".72"/><circle cx="76" cy="75" r="7" fill="${accent}" opacity=".72"/>`;
     }
+    if (item.id === "module-stride") {
+      return `
+      <path d="M40 46 L64 40 L70 74 L86 82 L88 96 L44 96 L36 74 Z" fill="#3a2a17" stroke="${accent}" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M40 58 H68 M42 68 H70 M43 78 H74" stroke="#fff1b8" stroke-width="4" stroke-linecap="round"/>
+      <path d="M96 44 H120 M92 60 H116 M98 76 H118" stroke="${accent}" stroke-width="4" stroke-linecap="round" opacity=".82"/>
+      <circle cx="52" cy="42" r="6" fill="#ffd75e"/>`;
+    }
+    if (item.id === "module-lantern") {
+      return `
+      <path d="M30 40 Q18 64 30 88 L46 78 Q40 64 46 50 Z" fill="#2b2210" stroke="${accent}" stroke-width="4" stroke-linejoin="round"/>
+      <circle cx="46" cy="64" r="11" fill="#fff4c2" stroke="#ffd75e" stroke-width="3"/>
+      <path d="M56 64 L120 30 L120 98 Z" fill="${accent}" opacity=".34"/>
+      <path d="M58 64 L116 42 M58 64 L116 86" stroke="#fff4c2" stroke-width="3" stroke-linecap="round" opacity=".85"/>`;
+    }
+    if (item.id === "module-divining") {
+      return `
+      <path d="M62 104 L62 68 M62 68 L36 34 M62 68 L88 34" fill="none" stroke="#7d6242" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M62 104 L62 68 M62 68 L36 34 M62 68 L88 34" fill="none" stroke="${accent}" stroke-width="3" stroke-linecap="round"/>
+      <path d="M96 44 L112 58 L96 72 L80 58 Z" fill="#102f39" stroke="#fff1b8" stroke-width="3"/>
+      <path d="M104 30 Q118 44 118 58 M108 84 Q120 72 120 60" fill="none" stroke="${accent}" stroke-width="3" stroke-linecap="round" opacity=".8"/>`;
+    }
+    if (item.id === "module-ledger") {
+      return `
+      <path d="M22 42 Q46 34 62 44 L62 96 Q46 86 22 94 Z" fill="#1a1730" stroke="${accent}" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M102 42 Q78 34 62 44 L62 96 Q78 86 102 94 Z" fill="#241f3d" stroke="${accent}" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M30 54 H52 M30 64 H50 M74 54 H94 M74 64 H92 M74 74 H88" stroke="#fff1b8" stroke-width="3" stroke-linecap="round" opacity=".8"/>
+      <path d="M104 84 L114 92 L104 100 L94 92 Z" fill="#ffd75e" stroke="#fff4c2" stroke-width="3"/>`;
+    }
     return `
       <path d="M30 72 L57 54 L69 70 L41 88 Z" fill="#5a3824" stroke="#fff1b8" stroke-width="4"/>
       <path d="M58 52 L72 43 L82 57 L68 68 Z" fill="#ffd75e" stroke="#fff1b8" stroke-width="3"/>

@@ -990,6 +990,12 @@ func _on_exam_finished(exam_result: Dictionary) -> void:
 			nora_line.text = str(narrative.reveal_level(save.level()).get("text", "NORA: Apparato riparato. Una nuova rotta è disponibile."))
 			_pet_react("apparatus_repaired")
 			await _play_reactivation_sequence(repaired_room, activation_before, activation_after)
+			# **La lettura di uscita.** Il mondo si è appena chiuso: qui si racconta
+			# in chiaro che cosa è cambiato, che cosa Eli sa fare adesso e che cosa
+			# ha scoperto della storia. È la metà mancante della schermata di soglia
+			# ([[WorldOutroPanel]]), e il livello da leggere è quello APPENA finito,
+			# non quello che si apre adesso.
+			_mostra_lettura_di_uscita(int(repaired_gate.get("level", save.level() - 1)))
 			if controller.progression.is_complete():
 				NoraState.sync_from_progress(save)
 				completed_finale = bool(exam_result.get("synthesisResolved", false))
@@ -1015,6 +1021,12 @@ func _start_finale_epilogue() -> void:
 		return
 	finale_sequence.clear()
 	finale_sequence.append_array(Array((FINALE_CATALOG.CATTEDRA as Dictionary).get("scena", [])).duplicate(true))
+	# **Il riconoscimento.** Assegnato il posto, NORA dice che cosa ha visto fare
+	# a Eli in ventiquattro mondi: conteggi veri, presi dal taccuino, mai un voto
+	# e mai una mancanza. Non apre rami — sono due battute in mezzo alla stessa
+	# scena — ed è la richiesta «il finale deve accorgersi di come hai giocato».
+	finale_sequence.append_array(
+		FINALE_CATALOG.riconoscimento(EliNotebook.ritratto(save)))
 	# La Cattedra ha appena assegnato il posto: prima che il nome torni, la nave
 	# restituisce le due posizioni prese nei mondi 22 e 23. Sono righe vere della
 	# sequenza, non una notifica laterale, e ciascuna porta con sé il marcatore
@@ -1162,6 +1174,29 @@ func _on_finale_choice(option_id: String) -> void:
 	var pages := Array(selected.get("dice", [])).duplicate()
 	pages.append(str(selected.get("conseguenza", "")))
 	finale_dialogue_box.show_dialogue("tredicesimo", "tredicesimo".capitalize(), "", pages)
+
+## **La pagina di uscita da un mondo.** Si apre quando l'apparato torna in linea,
+## cioè quando quel mondo è finito davvero.
+##
+## **Non aspetta che venga chiusa, ed è una correzione.** La prima stesura faceva
+## `await pannello.chiusa` dentro il flusso di fine esame: elegante da leggere e
+## sbagliato, perché mette un'attesa su un gesto umano in mezzo a una funzione di
+## stato. `roundtrip_audit` — che chiama `_on_exam_finished` e ne aspetta la fine
+## — non ha più restituito il controllo, ed è finito in timeout. Il difetto non
+## era degli audit: qualunque cosa concluda un esame senza una persona davanti
+## allo schermo sarebbe rimasta appesa.
+##
+## Adesso il pannello si apre sopra e si libera da solo quando lo si chiude.
+## Niente dopo questa riga dipende dalla lettura, ed è giusto così: una pagina di
+## narrazione non deve poter fermare il gioco (§10.2).
+func _mostra_lettura_di_uscita(livello_finito: int) -> void:
+	if not WorldReadings.ha(livello_finito):
+		return
+	var pannello := WorldOutroPanel.new()
+	pannello.name = "WorldOutroPanel"
+	pannello.livello = livello_finito
+	pannello.chiusa.connect(func(): pannello.queue_free())
+	add_child(pannello)
 
 func _play_reactivation_sequence(room_id: String, before: Dictionary, after: Dictionary) -> void:
 	if not is_instance_valid(celebration_root) or not is_instance_valid(background_material):

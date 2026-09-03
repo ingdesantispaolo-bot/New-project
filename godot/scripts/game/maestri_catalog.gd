@@ -308,3 +308,66 @@ static func shared_apparatuses() -> Dictionary:
 static func lines_of(maestro_id: String, pool: String) -> Array:
 	var entry := MAESTRI.get(maestro_id, {}) as Dictionary
 	return Array(entry.get(pool, [])).duplicate(true)
+
+## **Chi parla adesso.** (2 settembre 2026)
+##
+## Questo file esisteva da settimane con novantasei battute scritte e
+## `MaestriCatalog` era citato **da un solo file: il proprio audit**. La regia
+## che la sua intestazione annuncia — «la regia è di `nora_context_engine.gd`» —
+## non era mai stata scritta, quindi la regola vincolante di
+## [TRAMA_E_MISTERO](../../docs/TRAMA_E_MISTERO.md) §6.1.4, *«NORA cambia voce
+## mentre guarisce»*, era vera nei documenti e falsa nel gioco: dopo aver
+## riparato dodici apparati NORA parlava esattamente come al primo minuto.
+##
+## Queste tre funzioni sono la regia mancante. Prendono il salvataggio e
+## rispondono a una domanda sola: **per questa materia, adesso, c'è un Maestro
+## sveglio?** Se sì, la sua voce colora l'apertura della sessione, il rilancio
+## dopo un errore e la chiusura dopo una vittoria; se no, parla NORA con le sue.
+##
+## I due cancelli restano quelli già scritti in `voices_for`, che nessuno
+## chiamava: **l'apparato riparato** libera la voce, **la materia incontrata** la
+## chiama (un `ponte-comando` riparato per la fisica al mondo 5 non deve svegliare
+## la cartografa che il giocatore incontra al mondo 9). E la logica tace finché
+## il nome non torna: è il buco che si deve sentire per ventitré mondi.
+
+## Le materie che il giocatore ha già incontrato, cioè quelle ospiti dei mondi
+## fino a dove è arrivato. Non è padronanza e non è un gate: è «ho visto qualcuno
+## fare questo mestiere».
+static func _materie_incontrate(save) -> Array:
+	var out: Array = []
+	if save == null:
+		return out
+	var arrivo := maxi(int(save.level()), int(save.current_world()))
+	for livello in range(1, clampi(arrivo, 1, ApparatusConfig.MAX_LEVEL) + 1):
+		var materia := ApparatusConfig.world_subject(livello)
+		if not out.has(materia):
+			out.append(materia)
+	return out
+
+## Gli apparati che hanno di nuovo la luce.
+static func _apparati_riparati(save) -> Array:
+	var out: Array = []
+	if save == null:
+		return out
+	for materia in ApparatusConfig.SUBJECT_CYCLE:
+		var apparato := str(ApparatusConfig.SUBJECT_APPARATUS.get(str(materia), ""))
+		if apparato == "" or out.has(apparato):
+			continue
+		if save.apparatus_repaired_level(apparato) > 0:
+			out.append(apparato)
+	return out
+
+## Il Maestro che parla per questa materia, o un dizionario vuoto. `nome_restituito`
+## apre l'unica voce silente, quella della logica.
+static func voce_attiva(save, materia: String, nome_restituito := false) -> Dictionary:
+	if save == null or materia == "":
+		return {}
+	var svegli := voices_for(
+		_apparati_riparati(save), nome_restituito, _materie_incontrate(save))
+	for id in svegli:
+		var entry := MAESTRI.get(str(id), {}) as Dictionary
+		if str(entry.get("materia", "")) == materia:
+			var out := entry.duplicate(true)
+			out["id"] = str(id)
+			return out
+	return {}

@@ -963,7 +963,7 @@ const VOCI := {
 	"musica:timbro": {
 		"perche": [
 			"Il timbro è il colore del suono: ti fa riconoscere un flauto e un violino anche quando eseguono la stessa nota, alla stessa intensità e per la stessa durata.",
-			"Il timbro cambia perché non vibra la stessa cosa: nel violino vibra una corda, nel flauto una colonna d'aria, nel tamburo una pelle. Ogni vibrazione aggiunge al suono sfumature diverse.",
+			"Insieme alla nota che senti, ogni sorgente produce altri suoni più acuti, molto più deboli, in dosi diverse: è quel miscuglio a fare il colore. Conta anche come comincia il suono — un pizzico secco, un soffio che sale, una botta — e le prime frazioni di secondo bastano già a riconoscere lo strumento.",
 		],
 		"come": [
 			"Confronta due suoni tenendo ferme altezza e intensità. Se riconosci ancora due strumenti o due voci diverse, la differenza rimasta è il timbro.",
@@ -1136,7 +1136,7 @@ const VOCI := {
 			"Il multimetro cambia mestiere quando cambi misura. La tensione si confronta fra due punti; per la corrente lo strumento deve entrare nel percorso. Un collegamento sbagliato può danneggiarlo.",
 		],
 		"come": [
-			"Prima leggi la parola, poi scegli l'unità: spinta→volt, passaggio→ampere, ostacolo→ohm. Non partire dalla lettera da indovinare.",
+			"Prima leggi la parola, poi scegli l'unità: la spinta si misura in volt, il passaggio in ampere, l'ostacolo in ohm. Non partire dalla lettera da indovinare.",
 			"Prima di collegare un multimetro reale, scegli funzione e portata con un adulto. Nel gioco domanda: sto confrontando due punti o misurando ciò che attraversa il filo?",
 		],
 	},
@@ -1207,14 +1207,6 @@ const VOCI := {
 	"elettronica:protezione": {
 		"perche": "Un componente di protezione — fusibile, resistore limitatore — è pensato per rompersi o limitare lui, così da non far rompere qualcos'altro di più prezioso.",
 		"come": "Chiediti che cosa succederebbe senza quel componente se qualcosa andasse storto: la risposta è di solito il motivo per cui c'è.",
-	},
-	"elettronica:sicurezza": {
-		"perche": "Le regole di sicurezza esistono perché è la corrente che attraversa il corpo a fare male, e alcune condizioni — acqua, mani bagnate — la rendono molto più facile.",
-		"come": "Prima di intervenire su un circuito, chiediti se è scollegato dall'alimentazione: se non lo è, non toccarlo.",
-	},
-	"elettronica:montaggio": {
-		"perche": "L'ordine in cui si monta un circuito non è indifferente: collegare l'alimentazione per ultima evita di bruciare un componente per un errore ancora rimediabile.",
-		"come": "Monta sempre dal componente più delicato a quello più robusto, e collega la pila come ultimo passo, mai come primo.",
 	},
 
 	# -- geografia --------------------------------------------------------------

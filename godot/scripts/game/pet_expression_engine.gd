@@ -86,6 +86,17 @@ const SIGNAL_FACES := {
 	"pet_granted": "festa",
 	"power_grade_up": "orgoglioso",
 	"sister_found": "stupito",
+	# **Quando la storia si ribalta.** (2 settembre 2026) La ricognizione dei
+	# contenuti aveva segnato il Custode come «narrativamente muto»: diciotto
+	# segnali, un'indole, una collezione — e non compariva in nessuno dei
+	# ventiquattro beat né in nessuno dei sette colpi di scena. Il compagno
+	# costante del giocatore era l'unica presenza che, quando NORA diceva la cosa
+	# più grossa della partita, non faceva niente.
+	#
+	# Non gli si fa dire una battuta: non parla, ed è giusto così. Alza la testa.
+	# È «attento» e non «stupito» perché il Custode legge il Silenzio, non le
+	# notizie: quello che sente non è la sorpresa, è che qualcosa è cambiato.
+	"story_reveal": "attento",
 }
 
 ## Segnali che il gioco può emettere. Serve all'audit per provare che la mappa non
@@ -98,7 +109,7 @@ const GAME_SIGNALS := [
 	"near_unexplored", "near_faded", "near_secret",
 	"meet_beloved", "meet_shy", "meet_fond",
 	"cuddle", "antic", "idle",
-	"pet_granted", "power_grade_up", "sister_found",
+	"pet_granted", "power_grade_up", "sister_found", "story_reveal",
 ]
 
 ## Segnali che rappresentano un esito negativo per il giocatore. Nessuno di questi

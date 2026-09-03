@@ -229,6 +229,33 @@ var _last_index: Dictionary = {}   # pozzo -> ultimo indice, anti-ripetizione
 var _da_ultimo_ricordo := 0
 var _da_ultimo_indirizzo := 0
 
+## **Il Maestro sveglio della materia in corso.** (2 settembre 2026)
+##
+## Vuoto finché l'apparato di quella materia non è riparato; da lì in poi lo
+## imposta `OutdoorGameplay` all'apertura di ogni sessione, leggendolo da
+## [[MaestriCatalog]]. È il pezzo che mancava perché la regola vincolante
+## «NORA cambia voce mentre guarisce» smettesse di essere solo scritta: dopo
+## dodici apparati, dodici inflessioni invece di una.
+var voce: Dictionary = {}
+
+## **Il rilancio è la ragione per cui questa integrazione esiste.**
+##
+## La regola §6.1.1 dice che NORA non dà mai la risposta — e una regola senza
+## battute diventa silenzio imbarazzato, o peggio quattro frasi di consolazione
+## uguali per tutte le materie. Il rilancio del Maestro è quello che dice **al
+## posto** della risposta, ed è diverso per materia perché non si rilancia in
+## matematica come si rilancia in storia: Abaco fa rileggere la domanda ad alta
+## voce, Clessidra chiede da quale fonte lo sai.
+##
+## Non prende tutto: si alterna con le battute di NORA. Chi guarisce non diventa
+## qualcun altro, prende un'inflessione — e una voce che copre completamente la
+## sua cancellerebbe il personaggio invece di arricchirlo.
+const RILANCIO_UNO_SU := 2
+const CHIUSURA_UNO_SU := 3
+
+var _da_ultimo_rilancio := 0
+var _da_ultima_chiusura := 0
+
 ## Il pool di indirizzi per l'atto corrente, con «sorella» aggiunto solo a
 ## ridosso della confessione: appartiene al livello, non solo all'atto, quindi
 ## non può stare nella tabella statica sopra.
@@ -256,6 +283,12 @@ func line(beat: String, rng: RandomNumberGenerator = null) -> String:
 	if generator == null:
 		generator = RandomNumberGenerator.new()
 		generator.randomize()
+	# La voce del Maestro, quando quell'apparato ha di nuovo la luce. Prima del
+	# pool di NORA perché è una sostituzione, non un'aggiunta: due frasi sullo
+	# stesso momento sono una di troppo.
+	var dal_maestro := _voce_del_maestro(beat, generator)
+	if dal_maestro != "":
+		return dal_maestro
 	var frase := _estrai(pool, "%s:%s" % [atto, beat], generator)
 	# Il ricordo si aggancia solo a «risolto»: è il momento in cui c'è spazio,
 	# perché la prova è andata bene e nessuno sta aspettando un chiarimento.
@@ -275,6 +308,38 @@ func line(beat: String, rng: RandomNumberGenerator = null) -> String:
 			_da_ultimo_indirizzo = 0
 			return "%s %s" % [frase, _estrai(_indirizzi(atto), "indirizzo:%s:%d" % [atto, int(level >= SORELLA_DAL_LIVELLO)], generator)]
 	return frase
+
+## La battuta del Maestro per questo momento, o stringa vuota se non c'è una
+## voce sveglia o se tocca a NORA.
+##
+##   defeat  → `rilancio`: quello che si dice invece della risposta;
+##   solve   → `chiusura`: il commento di chi quella materia la insegnava.
+##
+## `victory` resta di NORA, sempre: è il momento in cui un apparato torna in
+## linea, cioè quello in cui un Maestro **si sveglia**. Farglielo commentare
+## sarebbe farlo parlare del proprio risveglio un istante prima di averlo avuto.
+func _voce_del_maestro(beat: String, generator: RandomNumberGenerator) -> String:
+	if voce.is_empty():
+		return ""
+	var pool_name := ""
+	if beat == "defeat":
+		_da_ultimo_rilancio += 1
+		if _da_ultimo_rilancio < RILANCIO_UNO_SU:
+			return ""
+		_da_ultimo_rilancio = 0
+		pool_name = "rilancio"
+	elif beat == "solve":
+		_da_ultima_chiusura += 1
+		if _da_ultima_chiusura < CHIUSURA_UNO_SU:
+			return ""
+		_da_ultima_chiusura = 0
+		pool_name = "chiusura"
+	else:
+		return ""
+	var battute: Array = Array(voce.get(pool_name, []))
+	if battute.is_empty():
+		return ""
+	return _estrai(battute, "maestro:%s:%s" % [str(voce.get("id", "?")), pool_name], generator)
 
 func _estrai(pool: Array, chiave: String, generator: RandomNumberGenerator) -> String:
 	if pool.size() == 1:

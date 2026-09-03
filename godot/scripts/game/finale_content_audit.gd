@@ -158,7 +158,61 @@ func _check_cattedra() -> Array:
 	# §4.4: la domanda resta aperta.
 	if str((FinaleCatalog.CATTEDRA as Dictionary).get("resta_aperta", "")).strip_edges() == "":
 		out.append("il finale non dichiara cosa resta aperto: chiuderebbe una domanda che il gioco tiene aperta di proposito")
+	out.append_array(_check_riconoscimento())
 	print("\ncattedra: %d battute, assegnata dopo il nodo di sintesi, domanda aperta" % scena.size())
+	return out
+
+## **Il finale si accorge di come hai giocato, e non ti dà un voto.**
+## (2 settembre 2026)
+##
+## Il riconoscimento legge il taccuino di Eli e nomina cose fatte. È l'unico
+## punto del gioco in cui la scena finale guarda indietro alla partita, quindi è
+## anche l'unico in cui potrebbe scivolare in una pagella senza che nessuno se ne
+## accorga. Le quattro regole, verificate sul testo generato e non sulle
+## intenzioni:
+##
+## 1. **Funziona con il taccuino bianco**, e la riga che dice è calda: chi ha
+##    attraversato senza fermarsi non ha sbagliato niente;
+## 2. **non nomina mai una mancanza** (riusa la lista dei rimproveri già vietati
+##    in tutto il finale);
+## 3. **niente frazioni, percentuali o confronti**: un conteggio è un fatto, «su
+##    quante» è un voto;
+## 4. **non cresce oltre il tetto di schermate** che vale per tutte le battute.
+func _check_riconoscimento() -> Array:
+	var out: Array = []
+	var casi := {
+		"taccuino bianco": {},
+		"chi si è fermato": {
+			"voci": 40, "mondi": 20, "lasciti": 31,
+			"semi": 6, "sorelleTrovate": 11, "posizioni": 3,
+		},
+		"solo qualche sorella": {"voci": 2, "mondi": 2, "lasciti": 0, "semi": 0,
+			"sorelleTrovate": 2, "posizioni": 0},
+	}
+	for nome in casi.keys():
+		var blocchi: Array = FinaleCatalog.riconoscimento(casi[nome])
+		if blocchi.is_empty():
+			out.append("riconoscimento (%s): il finale non dice niente" % str(nome))
+			continue
+		var joined := ""
+		for entry in blocchi:
+			var screens: Array = (entry as Dictionary).get("dice", [])
+			if screens.size() > 3:
+				out.append("riconoscimento (%s): battuta di %d schermate, ammesse 1-3" % [
+					str(nome), screens.size()])
+			joined += " ".join(PackedStringArray(screens)) + " "
+		out.append_array(_check_testo("riconoscimento (%s)" % str(nome), joined))
+		var lower := joined.to_lower()
+		for voto in ["%", " su ", "punteggio", "media", "record", "meglio di", "peggio di",
+				"soltanto ", "solo %d", "avresti", "non hai"]:
+			if lower.contains(str(voto)):
+				out.append("riconoscimento (%s): «%s» trasforma il ritratto in un voto" % [
+					str(nome), str(voto)])
+	# Il caso vuoto deve dire qualcosa di suo, non la stessa riga degli altri.
+	var vuoto := str(FinaleCatalog.riconoscimento({})[0].get("dice", [])[-1])
+	var pieno := str(FinaleCatalog.riconoscimento(casi["chi si è fermato"])[0].get("dice", [])[-1])
+	if vuoto == pieno:
+		out.append("il riconoscimento dice la stessa cosa a chi si è fermato ovunque e a chi non si è fermato mai")
 	return out
 
 func _check_testo(where: String, text: String) -> Array:

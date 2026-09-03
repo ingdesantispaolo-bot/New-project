@@ -36,13 +36,31 @@ func _run() -> void:
 
 	hub.call("_start_finale_epilogue")
 	var sequence: Array = hub.get("finale_sequence")
+	# **Si cerca per contenuto, non per posizione.** (2 settembre 2026) Gli indici
+	# erano calcolati da `CATTEDRA.scena.size()`, quindi qualunque battuta
+	# aggiunta fra la Cattedra e le eco rendeva rosso l'audit senza che l'ordine
+	# fosse cambiato — è successo con il riconoscimento del taccuino. Quello che
+	# conta è la sequenza, e adesso è quella che si verifica.
 	var cattedra_size := Array((FinaleCatalog.CATTEDRA as Dictionary).get("scena", [])).size()
-	assert(str((sequence[cattedra_size] as Dictionary).get("stance_echo", "")) == "meridiana-riga",
-		"Meridiana non torna subito dopo l'assegnazione della Cattedra")
-	assert(str((sequence[cattedra_size + 1] as Dictionary).get("stance_echo", "")) == "tredicesimo-domanda",
-		"la domanda del Tredicesimo non torna prima del suo nome")
-	assert(int(hub.get("finale_cattedra_entries")) == cattedra_size + 2,
+	var indice_meridiana := -1
+	var indice_tredicesimo := -1
+	for i in range(sequence.size()):
+		match str((sequence[i] as Dictionary).get("stance_echo", "")):
+			"meridiana-riga":
+				indice_meridiana = i
+			"tredicesimo-domanda":
+				indice_tredicesimo = i
+	assert(indice_meridiana >= cattedra_size,
+		"Meridiana torna prima che la Cattedra abbia finito di assegnare il posto")
+	assert(indice_tredicesimo > indice_meridiana,
+		"la domanda del Tredicesimo non torna dopo Meridiana e prima del suo nome")
+	assert(int(hub.get("finale_cattedra_entries")) == indice_tredicesimo + 1,
 		"la restituzione del nome parte prima delle due eco")
+	# E il riconoscimento sta in mezzo: dopo il posto assegnato, prima delle eco.
+	var riconoscimento := FinaleCatalog.riconoscimento(EliNotebook.ritratto(save))
+	assert(not riconoscimento.is_empty(), "il finale non dice niente di come hai giocato")
+	assert(indice_meridiana >= cattedra_size + riconoscimento.size(),
+		"il riconoscimento non entra nella sequenza fra la Cattedra e le eco")
 	var dialogue: DialogueBox = hub.get("finale_dialogue_box")
 	var safety := 0
 	while dialogue.visible and safety < 32:

@@ -27,6 +27,7 @@ func _init() -> void:
 	_forme_distribuite()
 	_gradi_coerenti()
 	_testi_distinti()
+	_ogni_riparazione_ha_un_padrone()
 	_sostituisce_non_aggiunge()
 	if errori.is_empty():
 		print(OK)
@@ -96,6 +97,47 @@ func _testi_distinti() -> void:
 		if aperture.has(apertura):
 			_fallisci("apertura ripetuta fra i mondi %d e %d" % [aperture[apertura], level])
 		aperture[apertura] = level
+
+## **Ogni riparazione è di qualcuno, e quel qualcuno ha un nome.**
+## (2 settembre 2026)
+##
+## Il file dichiara dal primo giorno che «ogni riparazione è una cosa che uno dei
+## Dodici stava facendo quando è arrivato il Silenzio». Misurato: i mondi 1-12
+## nominavano il proprietario con un **ordinale** — «La Prima», «L'Ottavo» — che
+## non compare in nessun altro punto del gioco, e i mondi **13-24 non nominavano
+## nessuno**. Metà del filo non esisteva, e l'altra metà era anonima: gli stessi
+## dodici Maestri che NORA ha in bocca ([[MaestriCatalog]]) e che il giocatore
+## risveglia uno per uno erano estranei proprio nelle cose che hanno lasciato a
+## metà.
+##
+## Adesso l'incarico di un mondo porta il nome del Maestro di quella materia — lo
+## stesso alla prima e alla seconda visita, perché è la stessa persona che ha
+## lasciato indietro due cose.
+##
+## **Le eccezioni sono due, e sono la trama.** I mondi 12 e 24 sono della logica,
+## il cui Maestro è il Tredicesimo: il suo nome è stato raschiato da ogni
+## registro, e scriverlo qui brucerebbe la restituzione del nome che regge il
+## finale. Il mondo 12 lo dice — è l'unica riparazione per cui non c'è nessuno da
+## chiamare — e il 24 parla dei Dodici insieme, perché è la loro ultima stanza.
+func _ogni_riparazione_ha_un_padrone() -> void:
+	var senza_nome := ApparatusConfig.world_subject(12)
+	for level in range(1, WorldProfileCatalog.MAX_LEVEL + 1):
+		var materia := ApparatusConfig.world_subject(level)
+		var apertura := str(MinimissionCatalog.incarico(level).get("apertura", ""))
+		var maestro := MaestriCatalog.maestro_of(materia)
+		var nome := str(maestro.get("nome", ""))
+		if materia == senza_nome:
+			# La materia del Tredicesimo: il nome NON deve comparire.
+			if nome != "" and apertura.contains(nome):
+				_fallisci("mondo %d: l'incarico pronuncia «%s», il nome che il finale deve restituire"
+					% [level, nome])
+			continue
+		if nome == "":
+			_fallisci("mondo %d: la materia «%s» non ha un Maestro" % [level, materia])
+			continue
+		if not apertura.contains(nome):
+			_fallisci("mondo %d: la riparazione non dice di chi era — manca %s (%s)"
+				% [level, nome, materia])
 
 ## **Il controllo che conta.** Si pianifica ogni mondo e si verifica che
 ## l'incarico abbia preso il posto di un evento invece di essersi aggiunto.

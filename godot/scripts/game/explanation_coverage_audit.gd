@@ -53,8 +53,24 @@ func _init() -> void:
 				rng2.seed = seme * 104729 + livello * 17
 				_raccogli(per_formato, totali, mancanti,
 					Array(mg.build_minigame(subject, livello, rng2).get("nodes", [])))
+			# **L'esame va estratto con un seme dichiarato.** (2 settembre 2026)
+			#
+			# Era l'unica chiamata dell'audit senza `rng`, e `build_final_exam`
+			# senza rng fa `randomize()`: il campione cambiava a ogni esecuzione.
+			# Misurato: cinque corse identiche, tre verdi e due rosse, con
+			# «verb_decoder» che ballava intorno al tetto del 25% (26% quando
+			# rosso). Un audit che dà due risposte diverse alla stessa domanda non
+			# misura il gioco, misura il caso — e costa più di quanto valga,
+			# perché ogni rosso va poi indagato a mano.
+			#
+			# Il seme è dello stesso stampo degli altri due, così l'esame resta
+			# diverso da mondo a mondo e da materia a materia ma è lo stesso a
+			# ogni esecuzione. Se un giorno questo audit torna rosso, adesso è
+			# perché il contenuto è cambiato.
+			var rng_esame := RandomNumberGenerator.new()
+			rng_esame.seed = livello * 65537 + subject.hash()
 			_raccogli(per_formato, totali, mancanti,
-				Array(content.build_final_exam(subject, livello, 3).get("nodes", [])))
+				Array(content.build_final_exam(subject, livello, 3, rng_esame).get("nodes", [])))
 
 	# Il messaggio si compone PRIMA: in GDScript l'argomento di `assert` viene
 	# valutato comunque, anche quando la condizione è vera, e leggere

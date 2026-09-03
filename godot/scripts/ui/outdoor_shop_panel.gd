@@ -47,7 +47,7 @@ const SLOT_META := {
 	"conquest": {
 		"title": "Ricordi di conquista",
 		"intro": "Ventiquattro oggetti nati quando i Pericoli dei mondi hanno smesso di deformare ciò che li circondava.",
-		"impact": "Restano nella collezione come memoria del luogo stabilizzato. Non rendono più facile nessuna prova.",
+		"impact": "Restano nella collezione come memoria del luogo stabilizzato, e se ne appende uno addosso a Eli. Non rendono più facile nessuna prova.",
 	},
 	# Lo slot "tool" resta descritto qui ma non compare piu' in vetrina: gli
 	# strumenti li consegna il mondo dopo una riparazione ([[FieldTools]]).
@@ -69,7 +69,7 @@ const SLOT_META := {
 	"module": {
 		"title": "Moduli di spedizione",
 		"intro": "Attrezzatura che serve la fuori, contro il Silenzio: non tocca mai una prova.",
-		"impact": "Acquisto permanente e sempre attivo: l'effetto si vede sulla mappa, non nelle domande.",
+		"impact": "L'acquisto e' per sempre, ma se ne portano pochi: scegli la bardatura prima di uscire. L'effetto si vede sulla mappa, non nelle domande.",
 	},
 	# I due testi qui sotto dicevano «non ancora attivi in questa build» e «arriverà
 	# con le scene native»: era vero quando furono scritti e ha smesso di esserlo.
@@ -466,6 +466,12 @@ func _refresh() -> void:
 	_update_category_navigation()
 	var meta: Dictionary = SLOT_META[_slot]
 	_category_heading.text = str(meta["title"])
+	# Nella sezione dei moduli il titolo porta anche i posti: quanti se ne
+	# possono portare e' l'informazione che governa la scelta, e nasconderla in
+	# fondo a una scheda vorrebbe dire farla scoprire sbagliando.
+	if _slot == "module" and _posti_bardatura() > 0:
+		_category_heading.text = "%s  ·  bardatura %d/%d" % [
+			str(meta["title"]), _bardatura().size(), _posti_bardatura()]
 	_category_intro.text = str(meta["intro"])
 
 	var cosmetics := _items_for_slot(_slot)
@@ -620,6 +626,33 @@ func _configure_action(button: Button, cosmetic: Dictionary, detailed: bool) -> 
 	var cost := int(cosmetic.get("cost", 0))
 	var rarity_color: Color = _rarity(cosmetic)["color"]
 	button.disabled = false
+	if slot_name == "memento" and owned:
+		# Un trofeo che non si vede da nessuna parte e' un trofeo che non esiste:
+		# se ne appende uno addosso, e il possesso non si tocca mai.
+		if _memento_esposto() == id:
+			button.text = "RIPONI" if detailed else "ESPOSTO"
+			button.pressed.connect(_hide_memento)
+		else:
+			button.text = "APPENDI ADDOSSO" if detailed else "ESPONI"
+			button.pressed.connect(_display_memento.bind(id))
+		_style_button(button, rarity_color, true)
+		return
+	if slot_name == "module" and owned:
+		# Comprato una volta, scelto tutte le volte: e' qui che la bardatura
+		# diventa una decisione invece di un elenco.
+		if _in_bardatura(id):
+			button.text = "LASCIA A BORDO" if detailed else "IN BARDATURA"
+			button.pressed.connect(_stow_module.bind(id))
+		elif _posti_liberi() > 0:
+			button.text = ("PORTA IN SPEDIZIONE  %d/%d" % [
+				_bardatura().size(), _posti_bardatura()]) if detailed else "PORTA"
+			button.pressed.connect(_carry_module.bind(id))
+		else:
+			button.text = ("BARDATURA PIENA  %d/%d" % [
+				_bardatura().size(), _posti_bardatura()]) if detailed else "PIENA"
+			button.disabled = true
+		_style_button(button, rarity_color, not button.disabled)
+		return
 	if active and slot_name not in ["upgrade", "decor", "memento"]:
 		button.text = "RIMUOVI"
 		button.pressed.connect(_unequip.bind(slot_name))
@@ -652,6 +685,10 @@ func _configure_action(button: Button, cosmetic: Dictionary, detailed: bool) -> 
 ## `id` serve a sapere se la voce è già stata incontrata: una cosa che viene da
 ## un posto dove non sei ancora stata non mostra un prezzo, mostra il posto.
 func _card_price_text(cost: int, min_level: int, owned: bool, active: bool, id := "") -> String:
+	if owned and RewardCatalog.find(id).get("slot", "") == "module":
+		return "IN BARDATURA" if _in_bardatura(id) else "A BORDO"
+	if owned and RewardCatalog.find(id).get("slot", "") == "memento":
+		return "ESPOSTO" if _memento_esposto() == id else "IN COLLEZIONE"
 	if active:
 		return "IN USO"
 	if owned:
@@ -701,13 +738,23 @@ func _detail_state_text(cosmetic: Dictionary) -> String:
 	var slot_name := str(cosmetic.get("slot", ""))
 	var min_level := int(cosmetic.get("minLevel", 1))
 	var cost := int(cosmetic.get("cost", 0))
+	if slot_name == "module" and _is_owned(id):
+		if _in_bardatura(id):
+			return "In bardatura: lo porti fuori adesso. Posti usati %d su %d." % [
+				_bardatura().size(), _posti_bardatura()]
+		if _posti_liberi() > 0:
+			return "Tuo per sempre, ma resta a bordo. Hai %d posti liberi su %d: portalo se serve dove stai andando." % [
+				_posti_liberi(), _posti_bardatura()]
+		return "Tuo per sempre, ma la bardatura e' piena (%d posti). Lascia a bordo qualcos'altro per fare spazio." % _posti_bardatura()
 	if _is_active(cosmetic):
 		if slot_name == "upgrade":
 			return "Recuperato. L'anello di luce e' addosso a Eli da adesso in poi."
 		if slot_name == "decor":
 			return "Restaurato. Il ponte resta acceso: lo vedi salendo a bordo."
 		if slot_name == "memento":
-			return "Custodito. Questo ricordo resta nella collezione del viaggio."
+			if _memento_esposto() == id:
+				return "Appeso addosso a Eli: si vede nel mondo. Resta tuo anche riponendolo."
+			return "Custodito nella collezione del viaggio. Puoi appenderlo addosso: se ne porta uno alla volta."
 		return "Questa ricompensa e gia applicata al Relitto."
 	if _is_owned(id):
 		return "Acquistata. Puoi equipaggiarla ora senza spendere altri frammenti."
@@ -758,8 +805,33 @@ func _is_owned(id: String) -> bool:
 func _is_active(cosmetic: Dictionary) -> bool:
 	var id := str(cosmetic.get("id", ""))
 	var slot_name := str(cosmetic.get("slot", ""))
+	# Un modulo posseduto non e' un modulo attivo: lo diventa quando lo si porta.
+	# E' l'unica categoria in cui comprare e usare sono due decisioni distinte
+	# ([[ExpeditionModules]] — la bardatura).
+	if slot_name == "module":
+		return _in_bardatura(id)
 	var equipped: Dictionary = _state.get("cosmeticsEquipped", {})
 	return str(equipped.get(slot_name, "")) == id or (_is_owned(id) and slot_name in ["upgrade", "decor", "memento"])
+
+
+## --- La bardatura ----------------------------------------------------------
+## Tre letture del contratto runtime, mai un ricalcolo: la bottega disegna quello
+## che il dominio ha gia' deciso.
+
+func _bardatura() -> Array:
+	return Array(_state.get("moduleLoadout", []))
+
+func _in_bardatura(id: String) -> bool:
+	return _bardatura().has(id)
+
+func _posti_bardatura() -> int:
+	return int(_state.get("moduleSlots", 0))
+
+func _posti_liberi() -> int:
+	return maxi(0, _posti_bardatura() - _bardatura().size())
+
+func _memento_esposto() -> String:
+	return str(_state.get("mementoDisplayed", ""))
 
 
 func _owned_count(slot_name: String) -> int:
@@ -856,6 +928,41 @@ func _equip(id: String) -> void:
 		var audio := get_node_or_null("/root/NativeAudio")
 		if audio != null:
 			audio.call("play", "pet.equip" if str(item.get("slot", "")) == "pet" else "shop.equip")
+	_selected_id = id
+	_refresh()
+
+
+func _display_memento(id: String) -> void:
+	gameplay.display_memento(id)
+	var audio := get_node_or_null("/root/NativeAudio")
+	if audio != null:
+		audio.call("play", "shop.equip")
+	_selected_id = id
+	_refresh()
+
+
+func _hide_memento() -> void:
+	gameplay.hide_memento()
+	var audio := get_node_or_null("/root/NativeAudio")
+	if audio != null:
+		audio.call("play", "ui.select")
+	_refresh()
+
+
+func _carry_module(id: String) -> void:
+	var portato := gameplay.carry_module(id)
+	var audio := get_node_or_null("/root/NativeAudio")
+	if audio != null:
+		audio.call("play", "shop.equip" if portato else "shop.locked")
+	_selected_id = id
+	_refresh()
+
+
+func _stow_module(id: String) -> void:
+	gameplay.stow_module(id)
+	var audio := get_node_or_null("/root/NativeAudio")
+	if audio != null:
+		audio.call("play", "ui.select")
 	_selected_id = id
 	_refresh()
 

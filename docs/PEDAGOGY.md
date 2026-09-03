@@ -422,3 +422,145 @@ del runtime: i quattro argomenti nuovi (`declinazione-1`, `declinazione-2n`,
 `declinazione-5`, `verbi`) ce l'hanno, e le undici voci di latino gia esistenti
 sono state riscritte a livelli — il primo livello non nomina niente che non sia
 stato mostrato prima.
+
+## I Quindici Rossi (3 settembre 2026)
+
+Quindici audit su 240 erano rossi da giorni e venivano riportati ogni volta come
+«preesistenti», cioè come sfondo. Non erano sfondo: erano **due difetti
+strutturali e sei regressioni di contenuto**, e questa sezione li racconta perché
+la stessa forma di errore non torni.
+
+### Da dove venivano
+
+Undici dei quindici nascono da tre commit del 2 settembre — l'elettronica resa
+introduttiva, la fisica vincolata alle competenze, la musica resa progressiva.
+Sono tre buone decisioni didattiche, e nessuna è stata disfatta. Ma tutte e tre
+hanno fatto la stessa cosa: **hanno stretto il perimetro senza rifornirlo**.
+
+    elettronica  contenuto spostato a minLevel 20 e sacchetti tagliati da 24 a
+                 12 tessere: profondità da 213.555 a 2.293 prove distinte,
+                 nessun grafico prima del mondo 20, nessun ordinamento che
+                 peschi al mondo 1
+    fisica       banco riscritto in 217 item quasi tutti a quattro opzioni:
+                 risposta libera al 17%, la scorciatoia della lunghezza al 30,9%
+    musica       due voci di NORA che dicevano la stessa cosa al 71%
+
+Gli altri quattro erano indipendenti: una freccia e una stella che il font
+imbarcato non ha, un audit che leggeva il file in una riga sola, la prova di
+nucleo dell'esame, e cinque «tasche della spedizione» che il mondo 24 non aveva
+quando il suo audit è stato scritto.
+
+### Il primo difetto strutturale: la prova di nucleo era un quiz
+
+`build_final_exam` chiude ogni mondo con due domande delle materie del nucleo —
+italiano, matematica, inglese — perché il bambino impara che cosa conta da dove
+viene interrogato. Sono **due nodi su cinque: il quaranta per cento dell'ultima
+cosa che si gioca in un mondo.** Uscivano da `build_mission` grezza, cioè quasi
+sempre a crocette: misurato, fra l'86% e il 94% di «tocca una fra N».
+
+Tutto il resto dell'esame passa da `inject_non_mc`; la prova di nucleo no. Era
+una dimenticanza, e da sola valeva 31-37 punti dei tetti di `gesto_audit` in ogni
+materia. Tre materie li hanno sfondati appena il loro contenuto si è spostato di
+qualche punto, perché partivano già con quel peso addosso.
+
+Adesso **la prima prova di nucleo si fa, la seconda si chiede**: la prima passa
+da `build_varied_mission` della sua materia — un minigioco di italiano, non di
+questo mondo — e la seconda resta una domanda diretta, perché misurare non è
+insegnare. Gli esami di tutte e dodici le materie sono scesi insieme:
+
+    matematica 31,1 → 23,5      geografia   43,3 → 33,3
+    italiano   40,4 → 28,9      scienze     44,0 → 34,1
+    coding     44,7 → 35,9      storia      43,1 → 32,1
+    inglese    40,2 → 30,4      logica      40,8 → 30,3
+    fisica     42,6 → 33,5      latino      41,2 → 31,6
+    musica     41,9 → 38,6      elettronica 69,2 → 64,0
+
+### Il secondo: chi toglie le domande dirette vuole le mani, non i disegni
+
+`inject_non_mc` sostituisce le crocette con un formato non-MC — ma metà dei
+formati non-MC (grafico, circuito, bilancia, caccia all'errore, tracciatore,
+indiziario) sono a loro volta «tocca una fra N» con un disegno sopra. Per questo
+esiste `preferiti`, che pesa i formati manipolativi nel sorteggio.
+
+La condizione che lo attivava era `mc_target_for(subject) <= 0.0`, cioè le due
+materie che hanno azzerato la scelta multipla. Ma il 2 settembre fisica e musica
+sono entrate in `FORMATI_DA_SOSTITUIRE` con **tre** formati invece di uno: portano
+fuori dalla missione anche le risposte brevi e i numeri. Sostituiscono quindi
+molti più nodi, e senza preferenza ognuno aveva una probabilità su due di finire
+su un quiz illustrato — il posto lasciato libero dalle crocette se lo prendevano
+loro, esattamente come era successo alla logica il 1 settembre.
+
+La regola giusta non è «la materia ha azzerato la scelta multipla»: è **la materia
+toglie dal giro anche le domande dirette**. E il peso della preferenza è salito da
+tre a quattro, perché fisica ha cinque formati «sceglie» contro quattro
+manipolativi e con tre non bastava.
+
+### Il mondo 17 insegnava tre cose che non si potevano fare con le mani
+
+Il difetto di contenuto più istruttivo. Pressione, galleggiamento e correnti sono
+la lezione del mondo 17, e il perimetro stretto vuole che le prove restino lì
+dentro. Ma di **ordinamenti** su quei tre argomenti non ne esisteva nessuno, e di
+smistamenti solo due: la tavolozza da cui `inject_non_mc` pesca restava mezza
+vuota, le crocette non trovavano con che cosa essere sostituite e restavano.
+
+Misurato: **il mondo 17 di fisica giocava al 52% di scelta multipla, il mondo 5
+all'8%.** Stessa materia, stesso codice, stessa settimana. La competenza c'era, il
+gesto per esercitarla no.
+
+Sono nati tre ordinamenti e uno smistamento su quei nuclei — la densità in
+colonna con l'acqua a 1, la profondità che decide la pressione, la prua da puntare
+un po' più a monte, e i sedici casi in cui la stessa forza lascia il segno oppure
+no. Il mondo 17 è sceso dal 52% al livello del mondo 5, e la fisica intera dal
+29,2% al 23,1% di «sceglie».
+
+### Le altre riparazioni di contenuto
+
+**Fisica, 26 quesiti pareggiati.** In ventitré la risposta giusta si toccava
+guardando quale opzione fosse più lunga (30,9% contro il 25% del caso, tetto
+21,9); in tre — le leve e il galleggiamento — bastava collegare le due colonne
+cercando la parola ripetuta, e «Corpo **più** cavo → Sposta **più** acqua»
+regalava 18,8 punti sopra il caso. Nessuna risposta giusta è stata accorciata: la
+sua precisione è contenuto didattico. **E dodici prove a risposta libera nuove**,
+perché il banco era sceso al 17% e una domanda a quattro opzioni si risolve per
+esclusione.
+
+**Elettronica, i sacchetti riaperti.** Da 12 a 26 tessere sui conduttori, da 10 a
+16 su energia e sicurezza — tutte cose di casa, come vuole l'impostazione
+introduttiva: graffetta, chiave, guanto di gomma. Più un ordinamento che pesca
+(le pile in volt, senza millivolt né kilovolt, che sono la conversione già
+rimandata al mondo 20), tre grafici che non chiedono nessuna formula e due cacce
+all'errore. Profondità da 2.293 a 243.932 prove distinte.
+
+**Un abbinamento che non poteva funzionare.** `_matching_node` pesca le coppie
+con lati destri tutti distinti, perché due destre uguali darebbero due soluzioni
+giuste. Ne segue una cosa che non si vede leggendo la specifica: **conta il numero
+di destre diverse, non di coppie.** La pressione di fisica aveva quattro coppie e
+due sole destre, quindi non riusciva a fare tre coppie a nessun livello. Il
+difetto era lì da sempre e si è manifestato solo quando il direttore ha pescato
+proprio quella specifica, al mondo 16 e a nessun altro. Ora c'è una guardia che le
+guarda tutte, senza dipendere dal seme.
+
+### E due audit che misuravano male
+
+`glifi_audit` scriveva `testo.split("` con l'a-capo vero dentro le virgolette
+invece della sequenza di escape: il file tornava indietro in un pezzo solo, il
+numero di riga era sempre 1 e il salto dei commenti — che l'audit dichiara due
+righe più su — non scattava mai. Segnalava una stella dentro un commento che
+racconta il difetto della stella.
+
+`world_wave_e2_audit` pretendeva tredici regioni al mondo 24. Ce ne sono
+diciotto, e le cinque in più sono le «tasche della spedizione» che il generatore
+dà a ogni mondo copiando una regione a caso — sorvegliate dal loro audit, nate
+dopo questo. Ora si contano le regioni che il Cuore si è dato, e le tasche restano
+affare di chi le ha fatte.
+
+### E i cricchetti sono stati riportati sul valore raggiunto
+
+Ultimo passo, e non e' una formalita': i tetti di `gesto_audit` e il pavimento di
+`combinatorial_depth_audit` sono stati riscritti sui numeri misurati oggi. Senza
+questo passo il guadagno non sarebbe protetto — la prossima regressione avrebbe
+fino a **diciassette punti** di margine prima di accendere un rosso, che e'
+esattamente il modo in cui i quindici rossi sono nati. Due tetti restano dov'erano
+(inglese 25,8 e latino 24,9, misurati oggi a 26,0 e 25,3): sono dentro la
+tolleranza di un punto, ma il cricchetto scende e mai sale, e ricongelarli piu' in
+alto vorrebbe dire archiviare un peggioramento.

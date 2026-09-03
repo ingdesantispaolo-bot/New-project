@@ -292,6 +292,24 @@ func _world_id() -> String:
 ##
 ## L'ESAME dell'apparato NON usa questo livello: è la prova del gate corrente e
 ## resta al rango del giocatore, così il ripasso non offre una scorciatoia.
+## **Accende la voce del Maestro di questa materia**, se il suo apparato ha di
+## nuovo la luce, e la lascia a `NoraVoice` per tutta la sessione.
+##
+## È il punto in cui la trama e il loop si toccano: la stanza che il bambino ha
+## riacceso nel mondo 5 cambia il modo in cui NORA gli parla di fisica nel mondo
+## 17. Fino al 2 settembre 2026 non succedeva — [[MaestriCatalog]] aveva
+## novantasei battute e nessun lettore fuori dal proprio audit.
+##
+## La voce della logica resta muta finché la campagna non è completa: è quando
+## il Tredicesimo riavrà il suo nome, e per ventitré mondi quel silenzio è
+## contenuto, non una dimenticanza (`docs/TRAMA_E_MISTERO.md` §7).
+func _accendi_la_voce(subject: String) -> Dictionary:
+	var nome_restituito := progression_manager != null \
+		and bool(progression_manager.campaign_progress().get("complete", false))
+	var voce := MaestriCatalog.voce_attiva(game_save, subject, nome_restituito)
+	nora_voice.voce = voce
+	return voce
+
 func _learning_level() -> int:
 	var world := int(game_save.current_world())
 	var rank := int(game_save.level())
@@ -402,6 +420,18 @@ func runtime_state() -> Dictionary:
 		# disegna, non guarda che cosa e' stato comprato (invariante 1).
 		"enemyNoticeScale": ExpeditionModules.vista_delle_sacche(game_save),
 		"knockbackDistance": ExpeditionModules.spinta_del_morso(game_save),
+		# Quanto veloce cammina Eli, quanto lontano arriva il cono della torcia,
+		# entro che raggio un forziere chiuso si segnala, e quanto rende una
+		# cassa. Gli ultimi due erano già letti da `ExpeditionModulePresentation`
+		# e non li pubblicava nessuno: il disegno esisteva, la semantica no.
+		"playerSpeed": ExpeditionModules.passo(game_save),
+		"torchRadius": ExpeditionModules.raggio_torcia(game_save),
+		"treasureRadarRadius": ExpeditionModules.raggio_radar(game_save),
+		"treasureYield": ExpeditionModules.resa_dei_forzieri(game_save),
+		# La bardatura: che cosa si porta, quanti posti ci sono. Serve alla
+		# bottega per far scegliere e all'HUD per dirlo.
+		"moduleLoadout": ExpeditionModules.bardatura(game_save),
+		"moduleSlots": ExpeditionModules.posti(game_save),
 		# Quanto lontano porta un balzo. Passa di qui per la stessa ragione di
 		# tutto il resto: la scena si muove, non guarda che cosa è stato comprato.
 		"ready": bool(progress.get("ready", false)),
@@ -425,6 +455,9 @@ func runtime_state() -> Dictionary:
 		"cosmeticsUnlocked": Array(game_save.data.get("cosmetics", {}).get("unlocked", [])).duplicate(),
 		"cosmeticsInventory": Array(game_save.data.get("cosmetics", {}).get("inventory", [])).duplicate(),
 		"cosmeticsEquipped": Dictionary(game_save.data.get("cosmetics", {}).get("equipped", {})).duplicate(),
+		# Il Ricordo che Eli porta addosso. Sta fuori da `equipped` perché il
+		# possesso di un trofeo non si perde cambiando quale si mostra.
+		"mementoDisplayed": reward_manager.memento_esposto(),
 		# Ritratto non competitivo delle quattro forme di progresso. La UI non
 		# deve ricontare eventi o interpretare id del salvataggio.
 		"recognition": ProgressRecognition.summary(game_save),
@@ -461,7 +494,7 @@ func try_start_mission(payload: Dictionary, encounter_id: String) -> bool:
 		"kind": "mission", "encounterId": encounter_id,
 		"subject": subject, "theme": subject,
 	}
-	var nora_line := str(session.get("teachingLine", NoraContextEngine.open_line(subject, _has_review_node(session), _learning_level())))
+	var nora_line := str(session.get("teachingLine", NoraContextEngine.open_line(subject, _has_review_node(session), _learning_level(), _accendi_la_voce(subject))))
 	_present_feedback(nora_line, "nora")
 	# Il prezzo dell'uscita lo decide qui la semantica, non il player: così
 	# la cifra mostrata al bambino e quella addebitata sono la stessa.
@@ -496,7 +529,7 @@ func try_start_enigma(payload: Dictionary, encounter_id: String) -> bool:
 	_charge_exercise_entry()
 	var theme := str(session.get("theme", "ponte"))
 	active_session_context = {"kind": "enigma", "encounterId": encounter_id, "subject": subject, "theme": theme}
-	var nora_line := str(session.get("teachingLine", NoraContextEngine.open_line(subject, _has_review_node(session), _learning_level())))
+	var nora_line := str(session.get("teachingLine", NoraContextEngine.open_line(subject, _has_review_node(session), _learning_level(), _accendi_la_voce(subject))))
 	_present_feedback(nora_line, "nora")
 	# Il prezzo dell'uscita lo decide qui la semantica, non il player: così
 	# la cifra mostrata al bambino e quella addebitata sono la stessa.
@@ -1051,7 +1084,7 @@ func try_start_minigame(payload: Dictionary, encounter_id: String, sconto: bool 
 		"topicHint": topic_hint, "formatHint": format_hint, "impronte": impronte,
 		"challengeLevel": challenge_level,
 	}
-	_present_feedback(NoraContextEngine.open_line(subject, false, _learning_level()), "nora")
+	_present_feedback(NoraContextEngine.open_line(subject, false, _learning_level(), _accendi_la_voce(subject)), "nora")
 	# Il prezzo dell'uscita lo decide qui la semantica, non il player: così
 	# la cifra mostrata al bambino e quella addebitata sono la stessa.
 	session["abandonCost"] = EXERCISE_ABANDON_COST
@@ -1425,10 +1458,71 @@ func try_purchase_cosmetic(id: String) -> bool:
 		return false
 	result["fragmentsSpent"] = int(result.get("fragmentsSpent", 0)) + cost
 	reward_manager.unlock_and_equip(id)
+	# Un modulo comprato entra subito in bardatura se c'è posto: chi spende e non
+	# vede succedere niente impara che comprare non serve. Se i posti sono pieni
+	# non si scavalca niente — lo si dice, e la scelta resta a chi ha pagato.
+	var portato := ExpeditionModules.porta_se_c_e_posto(game_save, id)
 	_persist()
-	_present_feedback("Acquistato: %s" % str(cosmetic.get("name", id)), "system")
+	if ExpeditionModules.ids().has(id) and not portato:
+		_present_feedback(
+			"Acquistato: %s. La bardatura è piena (%d posti): scegli che cosa lasciare a bordo."
+			% [str(cosmetic.get("name", id)), ExpeditionModules.posti(game_save)], "system")
+	else:
+		_present_feedback("Acquistato: %s" % str(cosmetic.get("name", id)), "system")
 	_emit_state()
 	return true
+
+## **La bardatura si cambia in bottega, e non costa niente.** (2 settembre 2026)
+##
+## È il secondo momento in cui un modulo si sceglie, e l'unico che si ripete: si
+## compra una volta, si decide che cosa portare tutte le volte che si parte.
+## Nessuno dei due tocca una prova ([[ExpeditionModules]]).
+func carry_module(id: String) -> bool:
+	if not ExpeditionModules.porta(game_save, id):
+		var voce := RewardCatalog.find(id)
+		if not ExpeditionModules.posseduto(game_save, id):
+			_present_feedback("«%s» non è ancora tuo." % str(voce.get("name", id)), "system")
+		elif not ExpeditionModules.in_bardatura(game_save, id):
+			_present_feedback(
+				"Bardatura piena: %d posti. Lascia qualcosa a bordo per portare «%s»."
+				% [ExpeditionModules.posti(game_save), str(voce.get("name", id))], "system")
+		return false
+	_persist()
+	_present_feedback(
+		"In bardatura: %s (%d/%d posti)" % [
+			str(RewardCatalog.find(id).get("name", id)),
+			ExpeditionModules.bardatura(game_save).size(),
+			ExpeditionModules.posti(game_save)], "system")
+	_emit_state()
+	return true
+
+func stow_module(id: String) -> bool:
+	if not ExpeditionModules.lascia(game_save, id):
+		return false
+	_persist()
+	_present_feedback(
+		"Lasciato a bordo: %s (%d/%d posti)" % [
+			str(RewardCatalog.find(id).get("name", id)),
+			ExpeditionModules.bardatura(game_save).size(),
+			ExpeditionModules.posti(game_save)], "system")
+	_emit_state()
+	return true
+
+## Appendersi addosso un Ricordo di conquista, o riporlo. Non costa niente e non
+## toglie niente: il trofeo resta in collezione comunque.
+func display_memento(id: String) -> bool:
+	if not reward_manager.esponi_memento(id):
+		return false
+	_persist()
+	_present_feedback("Esposto: %s" % str(RewardCatalog.find(id).get("name", id)), "system")
+	_emit_state()
+	return true
+
+func hide_memento() -> void:
+	reward_manager.nascondi_memento()
+	_persist()
+	_present_feedback("Ricordo riposto. Resta nella collezione del viaggio.", "system")
+	_emit_state()
 
 func equip_cosmetic(id: String) -> bool:
 	if not reward_manager.equip(id):

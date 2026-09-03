@@ -99,5 +99,5 @@ func _init() -> void:
 	presentation.call("_update_torch_direction")
 	assert(is_equal_approx(cone.rotation, PI), "cono non orientato con lo sguardo di Eli")
 
-	print("EXPEDITION MODULE PRESENTATION audit VERDE - radar, cono e 5 illustrazioni runtime-only")
+	print("EXPEDITION MODULE PRESENTATION audit VERDE - radar, cono e illustrazioni runtime-only")
 	quit(0)

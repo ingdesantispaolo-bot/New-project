@@ -71,6 +71,7 @@ func _lo_scarico_della_valuta() -> void:
 	var manager := RewardManager.new(save)
 	var economico := _cosmetico_piu_economico()
 	var costo := int(economico.get("cost", 0))
+	_arriva_sul_posto(save, economico)
 	save.add_fragments(costo)          # ora bastano
 	save.add_energy(1000)
 	var energia_prima := save.energy()
@@ -107,6 +108,7 @@ func _comprare_non_tocca_lo_studio() -> void:
 	var economico := _cosmetico_piu_economico()
 	var id := str(economico.get("id", ""))
 	var costo := int(economico.get("cost", 0))
+	_arriva_sul_posto(save, economico)
 	_controlla(save.spend_fragments(costo), "l'acquisto con frammenti sufficienti è stato rifiutato")
 	manager.unlock_and_equip(id)
 
@@ -206,6 +208,30 @@ func _la_densita_dichiarata() -> void:
 	var atteso := float(TreasureCatalog.DENSITA_PERCENTUALE)
 	_controlla(absf(percentuale - atteso) <= 6.0,
 		"la densità misurata è %.1f%% contro il %.0f%% dichiarato" % [percentuale, atteso])
+
+## **Portare la giocatrice dove la voce sta.** (3 settembre 2026)
+##
+## Questi due controlli parlano di VALUTA: che i frammenti bastino, che il
+## rifiuto dica «frammenti» e non «energia», che comprare non sposti niente
+## dello studio. Ma il catalogo nel frattempo ha imparato una cosa in piu': una
+## voce puo' essere **ancorata a un mondo**, e allora la vetrina non chiede il
+## prezzo — chiede di esserci stata e di aver superato il Pericolo di quel
+## posto ([[RewardManager]] · `incontrato`, `conquistato`).
+##
+## Quando l'articolo piu' economico e' diventato un Ricordo ancorato, questi
+## controlli hanno cominciato a leggere «Supera il Pericolo di Radura
+## Accademia» e a chiamarlo un difetto della valuta. Non lo era: era la sonda
+## che si fermava sulla soglia. Qui la soglia si attraversa — mondo aperto,
+## Pericolo sgombrato — e da li' in poi l'unica cosa che resta a decidere sono
+## i frammenti, che e' esattamente cio' che questi due controlli misurano.
+func _arriva_sul_posto(save: GameSaveManager, scheda: Dictionary) -> void:
+	var mondo := int(scheda.get("mondo", 0))
+	if mondo > 0:
+		save.unlock_world(mondo)
+	var pericolo := int(scheda.get("requiresHazardWorld", 0))
+	if pericolo > 0:
+		save.unlock_world(pericolo)
+		save.mark_hazard_cleared(str(pericolo), "world-danger-%02d" % pericolo)
 
 func _cosmetico_piu_economico() -> Dictionary:
 	var migliore: Dictionary = {}

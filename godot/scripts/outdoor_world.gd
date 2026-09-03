@@ -12,6 +12,7 @@ const ENIGMA_STRUCTURE := preload("res://scripts/visual/enigma_structure.gd")
 const CHUNK_GROUND_SCRIPT := preload("res://scripts/chunk_ground.gd")
 const LEARNING_REACTION_SCRIPT := preload("res://scripts/visual/world_learning_reaction.gd")
 const WORLD1_ACTIVITY_SITE_SCRIPT := preload("res://scripts/visual/world1_activity_site.gd")
+const SUBJECT_STATION_ART := preload("res://scripts/visual/subject_station_art.gd")
 const SHOP_PANEL_SCRIPT := preload("res://scripts/ui/outdoor_shop_panel.gd")
 const NORA_PORTRAIT_SCRIPT := preload("res://scripts/ui/nora_portrait.gd")
 const WORLD_LESSON_CATALOG := preload("res://scripts/game/world_lesson.gd")
@@ -303,6 +304,11 @@ delete document.documentElement.dataset.eliExam;
 	chunks.update_stream(player.position)
 	var lesson_briefing := WORLD_LESSON_CATALOG.briefing(world_level)
 	_set_nora_feedback(lesson_briefing if lesson_briefing != "" else str(gameplay.runtime_state().get("narrative", "")))
+	# Nei mondi in cui la storia si ribalta il Custode alza la testa. Non dice
+	# niente — non parla, ed e' giusto cosi' — ma smette di essere l'unica
+	# presenza che non si accorge di quello che NORA ha appena detto.
+	if NarrativeManager.porta_un_colpo(world_level):
+		_pet_react("story_reveal")
 	_create_thirteenth_presence()
 	_stage_stance_world_beat()
 	var audio := get_node_or_null("/root/NativeAudio")
@@ -697,6 +703,10 @@ func _on_runtime_state(state: Dictionary) -> void:
 	for sacca in get_tree().get_nodes_in_group("world_enemy"):
 		if sacca is Node2D:
 			sacca.set("vista_scala", vista)
+	# Il passo, per la stessa ragione: si cambia bardatura in bottega e si esce
+	# camminando diversamente, senza dover rientrare nel mondo.
+	if is_instance_valid(player):
+		player.speed = float(runtime.get("playerSpeed", ExpeditionModules.PASSO_BASE))
 	if is_instance_valid(expedition_module_presentation):
 		expedition_module_presentation.apply_runtime(
 			runtime, equipped_field_tool(), Array(result.get("collectedTreasureIds", [])))
@@ -1114,6 +1124,10 @@ func _update_biome_hud() -> void:
 func _create_player() -> void:
 	player = OutdoorPlayerController.new()
 	player.name = "Eli"
+	# Il passo lo decide il contratto runtime, non la scena: chi porta il Passo da
+	# spedizione deve entrare nel mondo gia' camminando piu' svelto, non dal primo
+	# aggiornamento di stato in poi.
+	player.speed = float(runtime.get("playerSpeed", ExpeditionModules.PASSO_BASE))
 	player.position = world_profile.get("spawn", PORTAL_POSITION + Vector2(0, 1180))
 	player.add_to_group("player")
 	var shape := CollisionShape2D.new()
@@ -1131,6 +1145,7 @@ func _create_player() -> void:
 	player.reduced_motion = reduced_motion
 	_apply_accessory(player.visual, visual_data)
 	_apply_emblem(player.visual, visual_data)
+	_apply_memento(player.visual, visual_data)
 	_apply_upgrade_marks(player.visual)
 	_add_player_night_light()
 	fireflies = OutdoorVisualFactory.make_sparkles(Color(1.0, 0.93, 0.62, 0.85), 560.0, 24)
@@ -1182,12 +1197,23 @@ func _resolved_avatar_visual() -> Dictionary:
 			"glyph": str(emblem_item.get("glyph", "◊")),
 			"color": int(emblem_item.get("color", 0xf6c85f)),
 		}
+	# Il Ricordo appeso: sta fuori da `cosmeticsEquipped` perche' non e' uno slot
+	# da sostituire ma un trofeo da mostrare ([[RewardManager]]).
+	var memento_id := str(runtime.get("mementoDisplayed", ""))
+	var memento_item := RewardCatalog.find(memento_id)
+	if not memento_item.is_empty():
+		visual_data["memento"] = {
+			"id": memento_id,
+			"glyph": str(memento_item.get("glyph", "*")),
+			"color": int(memento_item.get("color", 0xc7b8ff)),
+		}
 	return visual_data
 
 func _cosmetic_signature() -> String:
 	return JSON.stringify({
 		"equipped": runtime.get("cosmeticsEquipped", {}),
 		"inventory": runtime.get("cosmeticsInventory", []),
+		"memento": runtime.get("mementoDisplayed", ""),
 	})
 
 func _apply_cosmetic_presentation() -> void:
@@ -1209,6 +1235,7 @@ func _apply_cosmetic_presentation() -> void:
 	player.visual = player_presentation.get_node("Visual")
 	_apply_accessory(player.visual, visual_data)
 	_apply_emblem(player.visual, visual_data)
+	_apply_memento(player.visual, visual_data)
 	_apply_upgrade_marks(player.visual)
 	_applica_grado_al_personaggio(power_grade)
 	_aggiorna_stato_energia(game_save.energy(), false)
@@ -1304,6 +1331,23 @@ func _apply_emblem(visual_node: Node2D, visual_data: Dictionary) -> void:
 	badge.add_theme_font_size_override("font_size", 17)
 	badge.add_theme_constant_override("outline_size", 5)
 	badge.add_theme_color_override("font_color", OutdoorVisualFactory.hex_color(int(emblem.get("color", 0xf6c85f))))
+	badge.add_theme_color_override("font_outline_color", Color(0.01, 0.04, 0.06, 0.92))
+	badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	visual_node.add_child(badge)
+
+## Il Ricordo appeso, dal lato opposto all'emblema: uno dice come lavori, l'altro
+## dove sei stata. Non si sovrappongono e si leggono insieme.
+func _apply_memento(visual_node: Node2D, visual_data: Dictionary) -> void:
+	var memento = visual_data.get("memento", null)
+	if typeof(memento) != TYPE_DICTIONARY:
+		return
+	var badge := Label.new()
+	badge.name = "DisplayedMemento"
+	badge.text = str(memento.get("glyph", "*"))
+	badge.position = Vector2(-34, -61)
+	badge.add_theme_font_size_override("font_size", 17)
+	badge.add_theme_constant_override("outline_size", 5)
+	badge.add_theme_color_override("font_color", OutdoorVisualFactory.hex_color(int(memento.get("color", 0xc7b8ff))))
 	badge.add_theme_color_override("font_outline_color", Color(0.01, 0.04, 0.06, 0.92))
 	badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	visual_node.add_child(badge)
@@ -2324,6 +2368,13 @@ func _open_mystery_artifact(target: Area2D) -> void:
 		if eli_line != "":
 			pages.append("Eli: %s" % eli_line)
 		var sister := str(payload.get("sorella", "")).strip_edges()
+		# Il pensiero non si perde piu' quando la schermata si chiude: finisce nel
+		# taccuino, che e' l'unico posto in cui Eli si rilegge ([[EliNotebook]]).
+		if eli_line != "" and is_instance_valid(game_save):
+			EliNotebook.registra(
+				game_save, "seme:%s" % id,
+				EliNotebook.FONTE_SORELLA if sister != "" else EliNotebook.FONTE_SEME,
+				world_level, eli_line)
 		if sister != "":
 			# **L'unico che sente dove il significato è svanito** (PET_CUSTODE §1).
 			# Una traccia di sorella è esattamente quello, e il Custode non dice
@@ -2425,7 +2476,13 @@ func _chiudi_chiavistello(target: Area2D, id: String, vinto: bool, pulito: bool)
 func _svuota_forziere(target: Area2D, id: String, pulito := true) -> void:
 	var custode_disponibile := is_instance_valid(game_save) and PetState.is_granted(game_save)
 	var contenuto := TreasureCatalog.contenuto(world_level, id, custode_disponibile)
-	var premio := int(contenuto.get("frammenti", 0))
+	# **La resa del taccuino si applica qui e in nessun altro posto.** Questa è la
+	# sola funzione che apre un forziere; gli altri sette usi di `collect_treasure`
+	# pagano prove, duelli e Pericoli, e il premio di una prova non è merce
+	# ([[ExpeditionModules]]). Il numero arriva dal contratto runtime: la scena
+	# moltiplica, non guarda che cosa è stato comprato.
+	var resa := float(runtime.get("treasureYield", ExpeditionModules.RESA_PIENA))
+	var premio := int(round(float(contenuto.get("frammenti", 0)) * resa))
 
 	gameplay.collect_treasure({"rewardFragments": premio}, id)
 	_update_objective()
@@ -2470,6 +2527,10 @@ func _racconta_lascito(id: String, contenuto: Dictionary, premio: int) -> void:
 		# Stesso contratto dei semi del mistero: prima la cosa, poi cosa ne pensa
 		# lei. È l'ordine in cui la guarderebbe davvero.
 		pages.append("Eli: %s" % riga_eli)
+		if is_instance_valid(game_save):
+			EliNotebook.registra(
+				game_save, "lascito:%d:%s" % [world_level, id],
+				EliNotebook.FONTE_LASCITO, world_level, riga_eli)
 	if pages.is_empty() or str(pages[0]).strip_edges() == "":
 		_set_feedback("Forziere aperto: +%d frammenti." % premio)
 		return
@@ -2495,7 +2556,7 @@ func _regalo_dal_forziere(id: String, contenuto: Dictionary, premio: int) -> voi
 	# diverse trovano la stessa cosa nella stessa cassa.
 	var rng := RandomNumberGenerator.new()
 	rng.seed = hash("%s:regalo" % id)
-	var gift_id := PetGifts.pick(rng)
+	var gift_id := PetGifts.pick(rng, world_level)
 	var voce := PetState.register_gift(game_save, gift_id, world_level)
 	if voce.is_empty():
 		_set_feedback("%s +%d frammenti." % [str(contenuto.get("cosa", "Una cassa di roba.")), premio])
@@ -3094,6 +3155,31 @@ func _stage_stance_world_beat() -> void:
 				break
 		_schedule_stance_dialogue(
 			"tredicesimo-domanda", "Il Tredicesimo", "Una voce che si ritira", pages, 2.4)
+	elif world_level == 18 and StanceChoices.eco_pendente(game_save.data, "eli-tace") != "":
+		# **La ricucitura.** Qualunque cosa Eli abbia risposto al mondo 16, NORA ci
+		# torna qui, dove il Tredicesimo parla e conosce il suo nome vecchio.
+		# Arriva sempre e non chiede niente in cambio: una reazione emotiva non
+		# puo' avere conseguenze (§10.6).
+		var eco := StanceChoices.eco_pendente(game_save.data, "eli-tace")
+		StanceChoices.segna_eco_vista(game_save.data, "eli-tace")
+		_persist_save()
+		get_tree().create_timer(2.4).timeout.connect(func():
+			if is_inside_tree() and not _blocking_panel_visible():
+				_present_feedback(eco.trim_prefix("NORA:").strip_edges(), "nora")
+		)
+	elif world_level == 16 and StanceChoices.dovuta(game_save.data, "eli-tace"):
+		# Il momento in cui NORA ammette di aver taciuto per sedici mondi. Qui Eli
+		# puo' chiudersi, e nessuna delle tre reazioni le costa niente: la
+		# ricucitura arriva comunque al mondo 18 ([[StanceChoices]] «eli-tace»).
+		_schedule_stance_dialogue(
+			"eli-tace",
+			"NORA",
+			"La stanza che non c'e' sulla mappa",
+			[
+				"La stanza esiste, Eli. E ti ho girata attorno per sedici mondi senza dirtelo.",
+				"Non per bugia: quando provo a guardarla, penso ad altro. Qualcuno mi ha fatto cosi'.",
+			],
+			2.4)
 	elif world_level == 23 and StanceChoices.dovuta(game_save.data, "meridiana-riga"):
 		_schedule_stance_dialogue(
 			"meridiana-riga",
@@ -3685,6 +3771,11 @@ func _open_stance_choice(choice_id: String) -> void:
 
 func _on_stance_choice_made(choice_id: String, option_id: String) -> void:
 	StanceChoices.registra_risposta(game_save.data, choice_id, option_id)
+	# Una posizione presa e' una cosa che Eli ha DETTO, e finisce nel taccuino
+	# insieme ai suoi pensieri: al mondo 24 il ritratto legge di li'.
+	EliNotebook.registra(
+		game_save, "posizione:%s" % choice_id, EliNotebook.FONTE_POSIZIONE,
+		world_level, StanceChoices.testo_opzione(choice_id, option_id))
 	_persist_save()
 	var line := StanceChoices.testo_opzione(choice_id, option_id)
 	if line == "":
@@ -4420,7 +4511,8 @@ func _create_profile_weather() -> void:
 ## **L'insegna di una palestra.** (21 agosto 2026)
 ##
 ## Era un disco verde-azzurro uguale per tutte le undici materie, con una
-## stella disegnata **come carattere di testo**: `"★"`, cioe' U+2605.
+## stella disegnata **come carattere di testo**: il carattere U+2605 messo
+## dentro una stringa.
 ##
 ## Due difetti in una riga sola, e il secondo e' quello che si vede giocando:
 ##
@@ -4444,12 +4536,8 @@ func _make_practice_repeater(subject: String, completed: bool) -> Node2D:
 	var marker := Node2D.new()
 	marker.name = "PracticeRepeater"
 	var tint := SubjectPalette.colore(subject)
-	marker.add_child(OutdoorVisualFactory.make_shadow(28, 8, 0.30, 8))
-	var stone := Polygon2D.new()
-	stone.name = "FirstRepeaterStone"
-	stone.polygon = PackedVector2Array([Vector2(-22, 6), Vector2(-15, -42), Vector2(0, -56), Vector2(15, -42), Vector2(22, 6)])
-	stone.color = Color.WHITE if high_contrast else Color("4a515c")
-	marker.add_child(stone)
+	marker.add_child(OutdoorVisualFactory.make_shadow(52, 13, 0.30, 8))
+	marker.add_child(SUBJECT_STATION_ART.build(subject, completed))
 	var core := OutdoorVisualFactory.make_ring(15.0, tint if completed else Color("8a929a"), 2.2, 16)
 	core.name = "RepeaterCore"
 	core.position = Vector2(0, -25)
@@ -6220,7 +6308,7 @@ func _risolvi_tana(target: Area2D, id: String) -> void:
 			# da una spedizione porta qualcosa, e quel qualcosa è un sasso.
 			var rng := RandomNumberGenerator.new()
 			rng.seed = hash("%s:regalo" % id)
-			var gift_id := PetGifts.pick(rng)
+			var gift_id := PetGifts.pick(rng, world_level)
 			var voce := PetState.register_gift(game_save, gift_id, world_level)
 			_pet_react("antic")
 			if voce.is_empty():
@@ -6360,7 +6448,15 @@ func _entra_nell_edificio(target: Area2D) -> void:
 				if gameplay.try_start_lavoretto(_world_subject(), "lavoretto-%d" % world_level):
 					_set_feedback("%s: c'e' un turno da fare, e si viene pagati." % nome)
 					return
-			_set_feedback("%s: qui si scambia e si chiacchiera." % nome)
+			# La bardatura si nomina entrando, non si scopre sbagliando: e' il
+			# momento in cui la si puo' cambiare, ed e' quindi il momento in cui
+			# vale la pena sapere quanti posti si stanno usando.
+			var posti := int(runtime.get("moduleSlots", 0))
+			var portati := Array(runtime.get("moduleLoadout", [])).size()
+			var riga := "%s: qui si scambia e si chiacchiera." % nome
+			if posti > 0 and is_instance_valid(game_save) and not ExpeditionModules.posseduti(game_save).is_empty():
+				riga += " Bardatura %d/%d: si cambia qui, e non costa niente." % [portati, posti]
+			_set_feedback(riga)
 			_open_shop()
 		"work_home":
 			_allenati_in_casa(nome)
@@ -7546,7 +7642,7 @@ func _maybe_pet_gift() -> void:
 		_pet_gift_rng.randomize()
 	if not PetGifts.rolls_gift(_pet_gift_rng):
 		return
-	var gift_id := PetGifts.pick(_pet_gift_rng)
+	var gift_id := PetGifts.pick(_pet_gift_rng, world_level)
 	var voce := PetState.register_gift(game_save, gift_id, world_level)
 	if voce.is_empty():
 		return

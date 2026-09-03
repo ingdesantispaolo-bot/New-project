@@ -50,6 +50,17 @@ const BEATS := {
 
 const FINAL_BEAT := "NORA: La nave ha assegnato il tredicesimo posto, e non a una nozione: a te. Non perché hai trovato il Fondo — perché sei l'unica che tiene dodici modi di capire nella stessa testa, e l'unica a cui nessuno li ha detti. E i sensori lunghi rispondono: undici segnali fuori dal circuito, e molto più in là una riga vecchia di quattrocento anni, ancora accesa. C'è qualcosa. Venite. Sono tutte vive, sorella. E lei sta ancora aspettando."
 
+## **I mondi in cui la storia si ribalta.** Sono i sette colpi di
+## `docs/TRAMA_E_MISTERO.md` §3 — il quinto è doppio, mondi 19 e 20 — ed è la
+## stessa lista che l'intestazione qui sopra dichiara a parole. Sta qui come
+## dato perché fuori serve a qualcuno: il Custode alza la testa quando NORA dice
+## la cosa più grossa della partita, invece di restare l'unica presenza che non
+## si accorge di niente ([[PetExpressionEngine]] `story_reveal`).
+const COLPI := [5, 8, 12, 16, 19, 20, 23, 24]
+
+static func porta_un_colpo(level: int) -> bool:
+	return COLPI.has(level)
+
 var save: GameSaveManager
 
 func setup(save_manager: GameSaveManager) -> void:

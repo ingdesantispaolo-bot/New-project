@@ -407,6 +407,14 @@ colpo 5. Poco, ma lo lega.
 > mondo 8 è il primo momento in cui la sua presenza cambia che cosa si vede
 > ([PET_CUSTODE §3.5](PET_CUSTODE.md)). Resta da fare la parte narrativa vera:
 > un beat in cui NORA lo nomina.
+>
+> **Ancora, 2 settembre 2026.** Il Custode **c'è quando la storia si ribalta**:
+> nei mondi 5, 8, 12, 16, 19, 20, 23 e 24 — i sette colpi di scena — alza la
+> testa mentre NORA parla (segnale `story_reveal`, faccia «attento»). Non dice
+> niente, perché non parla; smette però di essere l'unica presenza che non si
+> accorge della cosa più grossa della partita. E la sua collezione adesso sa
+> dove siete stati (§5.3). **Resta ancora da fare** il beat in cui NORA lo
+> nomina: quello tocca il testo autoritativo di TRAMA §8 e va deciso lì.
 
 ---
 
@@ -426,3 +434,277 @@ colpo 5. Poco, ma lo lega.
 **Nessuno di questi è un blocco per cablare i mondi 1–6.** Il numero 1 conviene
 farlo prima del collaudo, perché altrimenti si collauda una curva di difficoltà
 che sappiamo già sbagliata dal mondo 9 in poi.
+
+---
+
+## 5. Il lotto del 2 settembre 2026 — contenuto scritto e mai collegato
+
+*Richiesta: «analizza storia, missioni e mondi; aumentiamo l'integrazione fra
+tutte le parti usando come guida la trama; aumentiamo profondità e accuratezza
+della storia, degli oggetti di bottega, di NORA e del Pet».*
+
+L'analisi ha trovato un difetto che si ripete in quattro punti diversi del
+progetto, sempre nella stessa forma: **contenuto scritto per intero, verificato
+da un audit, e mai letto dal gioco.** Non è mancanza di materiale — è
+mancanza del filo che lo porta al giocatore.
+
+### 5.1 I Dodici Maestri erano scritti e non li sentiva nessuno
+
+`MaestriCatalog` contiene **96 battute** — 36 aperture, 36 rilanci, 24 chiusure,
+una per ciascuno dei dodici Maestri — e fino al 2 settembre era citato **da un
+solo file in tutto il progetto: il proprio audit**. `maestri_audit` verificava
+che i dati fossero completi e coerenti, e lo erano; nessuno verificava che
+qualcuno li leggesse. La sua stessa intestazione annunciava una regia («la regia
+è di `nora_context_engine.gd`») che non era mai stata scritta.
+
+Conseguenza: la regola vincolante di [TRAMA §6.1.4](TRAMA_E_MISTERO.md) — *«NORA
+cambia voce mentre guarisce»* — era vera nei documenti e **falsa nel gioco**.
+Dopo aver riparato dodici apparati NORA parlava esattamente come al primo minuto.
+
+**Adesso l'apparato riparato cambia come NORA parla di quella materia.** Tre
+punti di innesto, uno per momento:
+
+| momento | prima | adesso, con l'apparato acceso |
+|---|---|---|
+| apertura sessione | formula unica per atto | l'apertura del Maestro + la frase di metodo |
+| errore | 4 battute di consolazione per atto | il **rilancio** del Maestro: quello che dice al posto della risposta |
+| prova risolta | battuta di NORA | ogni tre volte, la chiusura del Maestro |
+| apparato riparato | battuta di NORA | **resta di NORA**: è il momento in cui un Maestro si sveglia |
+
+Due cancelli, già scritti in `voices_for` e mai chiamati: **l'apparato riparato
+libera la voce, la materia incontrata la chiama** (`data-core` tiene Stilo e
+Faro; ripararlo al mondo 2 per l'italiano non deve svegliare l'inglese, che il
+giocatore incontra al mondo 4). E la logica tace per ventitré mondi, perché il
+suo Maestro è fuori: torna solo con il nome restituito.
+
+Il rilancio non copre NORA — si alterna con le sue battute. Chi guarisce prende
+un'inflessione, non diventa qualcun altro.
+
+Lo tiene `maestri_voce_viva_audit`, che verifica il **comportamento** e non i
+dati: che una partita nuova non abbia voci, che un apparato riparato si senta,
+che la materia chiami, che la logica taccia, che NORA non sparisca — e che il
+collegamento esista nel codice di gioco, perché è esattamente la riga che
+mancava.
+
+### 5.2 Le riparazioni dei Dodici non dicevano di chi erano
+
+`MinimissionCatalog` dichiara che «ogni riparazione è una cosa che uno dei Dodici
+stava facendo quando è arrivato il Silenzio». Misurato: i mondi **1–12**
+nominavano il proprietario con un **ordinale** («La Prima», «L'Ottavo») che non
+compare in nessun altro punto del gioco, e i mondi **13–24 non nominavano
+nessuno**. Metà del filo non esisteva; l'altra metà era anonima.
+
+Adesso ogni incarico porta il nome del Maestro della sua materia — **lo stesso
+alla prima e alla seconda visita**, perché è la stessa persona che ha lasciato
+indietro due cose — e la frase che lo nomina dice anche *come lavorava*: Rame
+seguiva il percorso fino in fondo, Seme cambiava una cosa per volta, Clessidra
+accendeva una fonte solo quando qualcuno la interrogava. Chi ripara il mulino del
+mondo 15 sta finendo il ciclo di Telaio, e Telaio è la voce che gli parla di
+coding da quando ha riacceso il Cratere: le due metà di questo lotto si tengono.
+
+Due eccezioni, e sono la trama: i mondi 12 e 24 sono della logica, il cui Maestro
+è il Tredicesimo. Il mondo 12 adesso lo **dice** — è l'unica riparazione per cui
+non c'è nessuno da chiamare, e il nome sui registri è stato raschiato con una
+lama — trasformando un ordinale muto in un seme del colpo 2. Verificato da
+`minimission_audit._ogni_riparazione_ha_un_padrone`, che pretende il nome ovunque
+e lo **vieta** nei due mondi della logica.
+
+### 5.3 Il diario del Custode non diceva dove sei stata
+
+`PetGifts` aveva **16 regali, identici in tutti e ventiquattro i mondi**:
+`pick()` non sapeva nemmeno dove si trovasse. Il file prometteva «dopo
+ventiquattro mondi quella lista è il diario del viaggio», e il diario diceva *«Un
+sasso — mondo 7»*: del mondo 7 c'era solo il numero, scritto dalla schermata e
+non dal regalo. Il compagno che accompagna tutta la partita era l'unico sistema
+affettivo che non sapeva niente dei luoghi che attraversa.
+
+Adesso i regali sono **40**: i sedici di sempre — il sasso e il bottone sono la
+battuta, e sono il motivo per cui un regalo non vale niente — più **uno per
+mondo**, che si trova solo lì. Un regalo su due viene dal posto: una scaglia
+dell'obelisco, un ingranaggio a cui manca il terzo dente, un grumo di sabbia fusa
+da un fulmine. Il guard-rail non si muove di un millimetro: i ventiquattro sono
+inutili quanto i sedici, e nessuno vale più di un altro.
+
+### 5.4 La bottega sbagliava i posti
+
+Il campo `origine` è l'unica superficie con cui la bottega tocca la storia, e dal
+14 agosto il campo `mondo` lo rende una regola. Nessuno però confrontava il testo
+con la regola. **Otto voci su ottantatré** non tornavano:
+
+- il **Soffietto** si consegna alla Soglia del Tempo (mondo 11) e citava la Sala
+  delle Ere, che è il mondo 23;
+- il **Ricordo del mondo 5** lo faceva togliere dal binario a Ruggine, che vive
+  nel mondo 3 e non si sposta mai;
+- la **Zavorra**, un modulo comprabile ovunque, citava anche lei Ruggine;
+- **sei restauri** nominavano il materiale di un mondo preciso senza chiedere di
+  esserci mai stati.
+
+Corretti i testi e aggiunte le sei ancore mancanti. `bottega_coerenza_audit` ora
+verifica che nessuna voce nomini un luogo o una persona di un altro mondo, e
+tiene un cricchetto sulla quota di voci ancorate che raccontano davvero il
+proprio posto: **25 su 62**, e da qui si sale soltanto.
+
+### 5.5 Il Custode non si accorgeva dei colpi di scena
+
+Il punto (f) di §3 lo aveva già segnato: il compagno costante del giocatore non
+compare in nessuno dei ventiquattro beat né in nessuno dei sette colpi. Il
+rimedio prescritto era «una reazione del Custode al colpo 5».
+
+Adesso c'è, e per tutti e sette: nei mondi **5, 8, 12, 16, 19, 20, 23 e 24** il
+Custode alza la testa mentre NORA parla (`story_reveal`, faccia «attento»). Non
+gli si fa dire una battuta — non parla, ed è giusto così — ma smette di essere
+l'unica presenza in scena che non si accorge della cosa più grossa della partita.
+La lista dei colpi vive in `NarrativeManager.COLPI`, dove l'intestazione del file
+la dichiarava già a parole senza che nessuno potesse leggerla.
+
+Resta aperto il beat in cui NORA lo nomina: quello tocca il testo autoritativo di
+[TRAMA §8](TRAMA_E_MISTERO.md) e va deciso lì, non qui.
+
+---
+
+## 6. Il lotto del 2 settembre, seconda parte — Eli
+
+*Richiesta: «cerchiamo una trama adatta a una ragazza di 11-15 anni».*
+
+### 6.1 Quello che l'analisi ha sbagliato, e la correzione
+
+La prima diagnosi diceva che **Eli non esiste**: nessun passato, nessun
+desiderio, nessuna paura, nessuno che l'aspetta — una mano competente che ripara
+cose. È vero **solo per la prima metà del gioco**. Dal mondo 12 in poi Eli esiste
+eccome: `SistersThread` le dà una voce sopra ognuna delle undici sorelle, e al
+mondo 24 una scena in cui è arrabbiata, non chiede scuse e chiede a NORA una
+regola nuova. L'intestazione di quel file dice esattamente la cosa giusta sul
+lettore — *«a dieci anni passa; a tredici no»*.
+
+Il buco vero erano i **mondi 1–11**, e il taccuino: i pensieri che aveva già
+duravano tre secondi l'uno.
+
+### 6.2 La prima metà segue Squadra
+
+Nei mondi 1–11 c'erano quattro semi che *provano* l'esistenza delle undici — un
+bollo di collaudo, una targhetta, una frase di Mirta — e le prove non fanno
+compagnia. Adesso la prima metà segue **l'undicesima**, quella immediatamente
+prima di Eli, il cui fascicolo al mondo 23 ha «l'inchiostro di poche settimane
+fa»: stessa strada, appena percorsa. Cinque segni nei mondi 1, 3, 4, 7 e 8, tutti
+con la voce di Eli sopra, e tutti segni **di lavoro** — non spirali, che sono di
+Meridiana. Dettagli in [TRAMA §3](TRAMA_E_MISTERO.md), colpo 3.
+
+Misurato dopo il lotto: la prima metà porta 9 segni in 9 mondi, 7 con un pensiero
+di Eli. Prima erano 4 segni e 2 pensieri.
+
+### 6.3 Il taccuino, e il finale che legge da lì
+
+Le 83 righe di Eli sparse nel gioco adesso si accumulano in un taccuino che si
+apre dal diario e si rilegge dall'ultima pagina. Da lì il finale del mondo 24
+nomina due cose vere che ha fatto — conteggi, mai voti, mai una mancanza — e chi
+non si è fermato mai riceve una riga sua, calda. Nessun ramo: cambiano due
+battute dentro la stessa scena.
+
+### 6.4 Cosa resta aperto di questa richiesta
+
+- **I momenti duri che si riparano.** La risposta era «Eli può chiudersi,
+  rispondere male, non voler parlare per una scena, purché si ricuca». Oggi
+  esiste in un punto solo — l'incrinatura con Vera — ed è dell'altra, non di Eli.
+- **Le battute in scena.** Il taccuino è fatto; Eli che *risponde ad alta voce* a
+  NORA fuori dal mondo 24 non ancora.
+- **Meridiana al mondo 1.** Il suo primo seme è al mondo 2. È già «da subito» in
+  pratica, ma non alla lettera.
+
+---
+
+## 7. Le pagine di soglia, e la storia detta in chiaro (2 settembre 2026)
+
+*Richiesta: «pagine con una piccola lettura di introduzione e di uscita da ogni
+mondo, per guidare e immergere lo studente»; e «i dialoghi e le parti che
+spiegano la storia non devono essere criptiche o oscure, ma adatte a un ragazzo
+di undici anni».*
+
+### 7.1 Ho misurato prima di riscrivere, e la misura ha cambiato il lavoro
+
+| testo | parole per frase | frasi oltre 20 parole | parole da scuola |
+|---|---:|---:|---:|
+| beat di NORA (24) | 7,9 | 1 su 87 | 0 |
+| briefing d'ingresso (24) | 9,9 | 2 su 72 | 1 |
+| debrief d'uscita (24) | 6,6 | 0 su 48 | 2 |
+| minimissioni · apertura | 13,9 | 5 su 58 | 0 |
+| semi del mistero | 13,7 | 12 su 62 | 0 |
+
+**I testi non sono lunghi.** Se il problema fosse stato la lunghezza, la
+correzione sarebbe stata accorciare — e non avrebbe aiutato nessuno. Il problema
+è che la storia è raccontata **per allusioni**: *«Il sigillo ha tredici posti e
+undici nomi. Uno raschiato con una lama, dall'interno.»* Sono nove parole, ed è
+un enigma dentro un enigma.
+
+La scelta è stata **non appiattire i beat** — l'allusione è ciò che rende la
+storia bella — ma affiancargli una versione detta in chiaro, una volta per mondo,
+quando il mondo si chiude.
+
+### 7.2 La pagina di uscita
+
+L'ingresso esisteva già (`WorldIntroPanel`). L'uscita no, e `WorldLessonCatalog`
+dichiarava per iscritto che il suo `debrief` **restava senza lettore**: il difetto
+ricorrente di questo progetto, per la quinta volta.
+
+Adesso, appena l'apparato torna in linea, si apre una pagina con quattro parti —
+le quattro domande che un ragazzino si fa uscendo da un posto, nell'ordine in cui
+se le fa:
+
+| parte | che cosa dice |
+|---|---|
+| QUI È CAMBIATO QUESTO | una cosa del mondo che era ferma e adesso funziona |
+| ADESSO SAI FARE | la competenza con parole di azione, mai di scuola |
+| **LA STORIA, IN CHIARO** | **quello che il beat ha detto per accenni, detto piano** |
+| DOVE SI VA | il prossimo mondo, e perché ha senso andarci |
+
+`world_readings_audit` tiene sei regole: ci sono tutte e ventiquattro con tutte e
+quattro le parti; nessuna parola da pagella; **nessuna anticipa** un colpo di
+scena successivo; nessuno muore; nessuna rimprovera chi ha appena finito il
+mondo; e ogni lettura ha la sua tavola dipinta, che esiste come file.
+
+Ogni pagina è illustrata con l'`underpaint` del proprio mondo — le ventitré
+pitture che `ChunkGround` stende sotto il terreno e che finora si vedevano solo
+di sbieco, sfocate sotto l'erba. Qui hanno una pagina intera, e non è servita
+arte nuova.
+
+### 7.2-bis Il tetto sulla lunghezza delle frasi era sbagliato, e l'ho tolto
+
+La prima stesura dell'audit bocciava le frasi oltre le 18 parole. **Era un errore
+che i miei stessi numeri smentivano**: la tabella qui sopra dimostra che i testi
+non erano lunghi — 7,9 parole per frase nei beat — e che il difetto era
+l'allusività. Ho messo un cricchetto proprio sulla cosa che avevo appena
+scagionato, e per rispettarlo ho spezzato diciassette frasi, diverse delle quali
+stavano meglio intere:
+
+> *«Uno è stato raschiato via con una lama, da dentro la nave, dopo che si era
+> chiusa: qualcuno voleva che quella persona sparisse.»*
+
+Ventitré parole, ed è una frase buona; tagliata in due diventa scattosa. Un
+ragazzo di undici anni legge romanzi con frasi il doppio più lunghe: quello che
+non regge non è la frase lunga, è la frase oscura.
+
+Le diciassette frasi sono state ricucite, e resta un solo controllo sulla misura
+— **la guardia contro l'incidente**, a quaranta parole: non è una regola di
+stile, prende il caso in cui due pensieri finiscono uniti per sbaglio. La media
+si stampa come informazione e non fa fallire niente: dopo la ricucitura e
+l'allungamento delle sei letture dei colpi di scena sta a **13,0**.
+
+> Restano vere le altre tre correzioni della stessa giornata, che erano regole
+> mie scritte male: «tredicesimo» vietato prima del mondo 19 bocciava il mondo 8,
+> dove il *tredicesimo posto* è proprio la scoperta; «distanza» faceva scattare
+> «istanza»; e «non è morta» — la frase con cui il documento stesso enuncia il
+> guard-rail — veniva letta come una morte.
+
+### 7.3 Le tre cose che restavano aperte
+
+- **Meridiana al mondo 1**: fatto. Sotto la spirale fresca ce n'è un'altra quasi
+  sparita, stessa forma, solco consumato. È il seme del colpo 6 e insieme la
+  prima crepa nel colpo 1: la spirale fresca smette di poter essere di una
+  persona sola.
+- **Un momento duro di Eli che si ricuce**: fatto, al mondo 16, dove NORA ammette
+  di averla girata attorno alla stanza senza porta per sedici mondi. Tre
+  reazioni, nessuna giusta e nessuna punita: chiudersi, pretendere tutto, o
+  perdonare e segnarselo. La ricucitura arriva al mondo 18 e **arriva comunque**,
+  perché una reazione emotiva non può avere conseguenze (§10.6).
+- **Le battute in scena di Eli fuori dal mondo 24**: parzialmente. Al mondo 16
+  adesso parla, e nel taccuino si legge quello che pensa. Resta da darle voce nei
+  dialoghi ordinari con gli abitanti.

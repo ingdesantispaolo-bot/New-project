@@ -851,9 +851,29 @@ func _aggiungi_prova_di_nucleo(
 	var out := nodes.duplicate()
 	# Una materia per nodo, a rotazione: due nodi di italiano di fila
 	# somiglierebbero a un esame di italiano appiccicato in fondo.
+	#
+	# **Una si chiede, l'altra si fa.** (3 settembre 2026)
+	#
+	# I nodi di nucleo sono due su cinque — il quaranta per cento dell'ultima cosa
+	# che si gioca in un mondo — e uscivano da `build_mission` grezza, cioè quasi
+	# sempre a crocette. Misurato: fra l'86% e il 94% di «tocca una fra N», e da
+	# soli valevano 31-37 punti dei tetti di `gesto_audit`. Tre materie li hanno
+	# sfondati appena il loro contenuto si è spostato di qualche punto, perché
+	# partivano già con quel peso addosso.
+	#
+	# Il resto dell'esame passa da `inject_non_mc` e la prova di nucleo no: era una
+	# dimenticanza, non una scelta. Ma nemmeno il contrario va bene — «misurare non
+	# è insegnare» vale anche qui, e due minigiochi di altre materie in fondo
+	# all'esame lo trasformerebbero in un intermezzo.
+	#
+	# Quindi: la prima prova di nucleo si fa con il gesto della SUA materia
+	# (`build_varied_mission`, che sostituisce con minigiochi di quella materia,
+	# non di questo mondo), la seconda resta una domanda diretta.
 	for i in range(CORE_EXAM_NODES):
 		var core := str(candidate[i % candidate.size()])
-		var pezzo := build_mission(core, level, 1, {}, rng, -1.0, topic_mastery)
+		var pezzo := (
+			build_varied_mission(core, level, 1, {}, rng, -1.0, topic_mastery) if i == 0
+			else build_mission(core, level, 1, {}, rng, -1.0, topic_mastery))
 		for n in Array(pezzo.get("nodes", [])):
 			var nodo: Dictionary = n
 			# Marcato, perché la resa possa dirlo: il bambino deve capire perché
@@ -1055,7 +1075,25 @@ func build_varied_mission(subject: String, level: int, node_count: int = 3, revi
 	#
 	# Dove la materia ha dichiarato quella scelta, la sostituzione preferisce i
 	# formati in cui il gesto è la competenza. Le altre dieci non cambiano.
-	var preferiti: Array = FORMATI_MANIPOLATIVI if mc_target_for(subject) <= 0.0 else []
+	#
+	# **La condizione era troppo stretta.** (3 settembre 2026)
+	#
+	# Guardava soltanto `mc_target_for(subject) <= 0.0`, cioè elettronica e
+	# logica. Ma il 2 settembre fisica e musica sono entrate in
+	# `FORMATI_DA_SOSTITUIRE` con tre formati invece di uno: portano fuori dalla
+	# missione anche le risposte brevi e i numeri da digitare. Sostituiscono
+	# quindi molti più nodi — e senza preferenza ognuno di quei nodi aveva una
+	# probabilità su due di finire su un grafico o una bilancia, che sono «tocca
+	# una fra N» con un disegno sopra. Misurato: fisica al 29,2% di «sceglie» nel
+	# mondo contro il 25,5% del suo tetto, musica al 29,8 contro 28,3. Il posto
+	# lasciato libero dalle crocette se l'erano preso i quiz illustrati, esattamente
+	# come era successo alla logica.
+	#
+	# La regola giusta non è «la materia ha azzerato la scelta multipla», è **la
+	# materia toglie dal giro anche le domande dirette**: chi lo fa ha deciso che
+	# lì si impara facendo, e la sostituzione deve rispettarlo.
+	var preferisce_le_mani := mc_target_for(subject) <= 0.0 or formati_da_sostituire(subject).size() > 1
+	var preferiti: Array = FORMATI_MANIPOLATIVI if preferisce_le_mani else []
 	var vari: Array = inject_non_mc(nodes, subject, level, to_replace, generator, preferiti)
 	# Dopo il mix, nessun bambino deve ricevere due volte lo stesso argomento con
 	# lo stesso gesto nella stessa missione: sarebbe ripetizione, non rinforzo.
@@ -1126,7 +1164,18 @@ const FORMATI_MANIPOLATIVI := [
 ## Quanto pesa di più un formato preferito nel sorteggio. Tre volte: abbastanza
 ## perché domini quando c'è, non tanto da escludere gli altri — un esame di soli
 ## trascinamenti sarebbe monotono quanto uno di sole crocette.
-const PESO_PREFERITO := 3.0
+##
+## **Quattro dal 3 settembre 2026.** Il tre era stato tarato su logica ed
+## elettronica, che di formati «tocca una fra N» ne hanno pochi. Fisica ne ha
+## cinque contro quattro manipolativi al mondo 1 — grafico, circuito, ciclo,
+## bilancia, caccia all'errore — e con peso tre più di un terzo delle
+## sostituzioni finiva ancora su un quiz illustrato. E i suoi cinque sono anche i
+## più sottili del progetto (ciclo e bilancia hanno UNA ricetta al mondo 1),
+## quindi ogni volta che uscivano tendevano a ripetersi: `variety_audit` li vedeva
+## tre volte in dieci missioni. Quattro sposta l'ago senza escludere nessuno — nel
+## mondo di fisica il grafico continua a comparire, semplicemente non tre volte
+## di fila.
+const PESO_PREFERITO := 4.0
 
 ## `sostituibili` permette di restringere QUALI nodi possono essere sostituiti.
 ## Serve all'esame: lì una materia come la logica vuole ancora le sue domande da

@@ -108,6 +108,57 @@ const SCELTE := {
 			},
 		],
 	},
+	# **Il momento in cui Eli si chiude.** (2 settembre 2026)
+	#
+	# Richiesta esplicita: Eli deve poter stare male per conto suo — *«può
+	# chiudersi, rispondere male, non voler parlare per una scena, purché ci sia
+	# sempre un modo di ricucire e nessuno gliela faccia pagare»*.
+	#
+	# Il posto giusto è uno solo, e la trama ce l'aveva già: il mondo 16, dove
+	# NORA ammette di averla fatta girare attorno a una stanza **per sedici
+	# mondi**. Non è un tradimento — non riesce a guardarla, gliel'hanno fatta
+	# così — ma per chi gioca è la prima volta che la persona di cui si fida
+	# ammette di aver taciuto a lungo. A tredici anni quello è il momento in cui
+	# si smette di parlare, e un personaggio che lì reagisce con un cenno del capo
+	# non è più uno con cui ci si identifica.
+	#
+	# **Nessuna delle tre è la reazione giusta**, come sempre qui: una si chiude,
+	# una pretende tutto e subito, una perdona e se lo segna. Sono tre modi veri
+	# di prenderla, e il gioco non ne premia nessuno.
+	#
+	# **La ricucitura è nell'eco, ed è incondizionata.** Al mondo 18 il Tredicesimo
+	# parla e conosce il nome vecchio di NORA: è lì che lei torna sull'argomento,
+	# qualunque cosa Eli abbia detto. Non chiede scusa in ginocchio e non si
+	# giustifica — risponde alla frase precisa che ha ricevuto. Chi si è chiusa
+	# viene ripresa; chi ha preteso ottiene; chi si è segnata la cosa se la sente
+	# restituire. Il rapporto si ricuce sempre, perché §10.6 vieta che una
+	# reazione emotiva abbia conseguenze.
+	"eli-tace": {
+		"titolo": "ELI · SEDICI MONDI",
+		"dove": "Mondo 16, appena NORA ammette di averti girata attorno alla stanza senza porta.",
+		"dove_eco": "Mondo 18, quando il Tredicesimo parla e conosce il nome vecchio di NORA.",
+		"domanda": "NORA ha appena finito di parlare e sta aspettando.",
+		"opzioni": [
+			{
+				"id": "non-adesso",
+				"dice": "Adesso non mi va di parlare. Cammino, e basta.",
+				"eco": "NORA: L'altra volta non ti andava di parlare, e ho aspettato. Adesso però ho una cosa da dirti, e vorrei che la sentissi da me.",
+				"punita": false,
+			},
+			{
+				"id": "dimmi-tutto",
+				"dice": "Allora dimmi adesso tutto quello che non mi hai detto. Anche quello che ti fa paura.",
+				"eco": "NORA: Mi avevi chiesto tutto quello che non ti avevo detto. Comincio dalla cosa che mi fa più paura: quella voce sa come mi chiamavo.",
+				"punita": false,
+			},
+			{
+				"id": "me-lo-segno",
+				"dice": "Ti credo. Però questa me la segno, e se ricapita te lo dico.",
+				"eco": "NORA: Te l'eri segnata, e avevi ragione a segnartela. Questa te la dico prima che me la chieda tu: quella voce conosce il mio nome vecchio.",
+				"punita": false,
+			},
+		],
+	},
 	"squadra-quaderno": {
 		"titolo": "SQUADRA · IL FASCICOLO",
 		"dove": "Mondo 23, alla traccia di Squadra — l'undicesima sorella, inchiostro di poche settimane fa.",

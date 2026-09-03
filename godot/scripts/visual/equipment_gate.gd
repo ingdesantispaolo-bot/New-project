@@ -1,6 +1,8 @@
 class_name EquipmentGate
 extends Node2D
 
+const FIELD_GATE_ART := preload("res://scripts/visual/field_gate_art.gd")
+
 ## Segnaletica e barriera fisica per deviazioni opzionali legate agli strumenti.
 ##
 ## **Una chiave che hai è una chiave che hai.** (19 agosto 2026)
@@ -26,6 +28,7 @@ var required_tool := ""
 var strumenti: Array = []
 var blocker: StaticBody2D
 var label: Label
+var art: Sprite2D
 ## La tinta dell'ostacolo, decisa una volta sola in `configure`.
 ##
 ## Nasceva da `RewardCatalog.find()` a ogni chiamata — cioè una scansione lineare
@@ -42,6 +45,8 @@ func configure(required: String, posseduti = []) -> void:
 	add_to_group("equipment_gate")
 	if FieldTools.blocca(required_tool):
 		_build_blocker()
+	art = FIELD_GATE_ART.build(required_tool, is_open())
+	add_child(art)
 	_build_label()
 	_apply_state()
 	queue_redraw()
@@ -117,6 +122,8 @@ func _apply_state() -> void:
 		# strumenti indovinare è un lavoro.
 		label.text = "PASSAGGIO APERTO" if open else "SERVE %s" % _parola_chiave()
 		label.modulate.a = 0.58 if open else 1.0
+	if is_instance_valid(art):
+		FIELD_GATE_ART.apply(art, required_tool, open)
 
 func _parola_chiave() -> String:
 	match required_tool:
@@ -128,6 +135,10 @@ func _parola_chiave() -> String:
 	return "UNO STRUMENTO"
 
 func _draw() -> void:
+	# La tavola generativa fornisce la materia pittorica; queste primitive restano
+	# il ripiego se l'import dell'atlante non e' disponibile.
+	if is_instance_valid(art) and art.texture != null:
+		return
 	var open := is_open()
 	var tinta := _tinta
 	match required_tool:

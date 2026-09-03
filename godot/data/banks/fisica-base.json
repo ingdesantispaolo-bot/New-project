@@ -557,7 +557,7 @@
 			"format": "multiple_choice",
 			"prompt": "Nelle forbici, qual è il fulcro?",
 			"options": [
-				"Le lame",
+				"Le lame affilate",
 				"I manici",
 				"La vite centrale",
 				"La mano"
@@ -592,9 +592,9 @@
 			"prompt": "Quale oggetto funziona come una leva?",
 			"options": [
 				"Un apribottiglie",
-				"Un bicchiere",
-				"Un cuscino",
-				"Una palla"
+				"Un bicchiere di vetro",
+				"Un cuscino morbido",
+				"Una palla da tennis"
 			],
 			"answer": "Un apribottiglie",
 			"explanation": "L'apribottiglie ruota su un punto d'appoggio e solleva il tappo.",
@@ -660,9 +660,9 @@
 			"prompt": "Perché il manico di una chiave inglese è lungo?",
 			"options": [
 				"Per ottenere più effetto con la stessa forza",
-				"Per eliminare il fulcro",
-				"Per misurare la vite",
-				"Per aumentare il peso del dado"
+				"Per eliminare il fulcro della rotazione",
+				"Per misurare la larghezza della vite",
+				"Per aumentare il peso del dado da stringere"
 			],
 			"answer": "Per ottenere più effetto con la stessa forza",
 			"explanation": "La distanza dal punto di rotazione moltiplica l'effetto della spinta.",
@@ -693,10 +693,10 @@
 			"format": "multiple_choice",
 			"prompt": "Un bambino pesante siede vicino al fulcro. Come può equilibrarlo un bambino più leggero?",
 			"options": [
-				"Sedendosi ancora più vicino",
-				"Stando sul fulcro",
+				"Avvicinandosi ancora al fulcro",
+				"Stando in piedi sul fulcro",
 				"Sedendosi più lontano dal fulcro",
-				"Alzando i piedi"
+				"Alzando i piedi da terra"
 			],
 			"answer": "Sedendosi più lontano dal fulcro",
 			"explanation": "Il peso minore può compensare con una distanza maggiore.",
@@ -710,9 +710,9 @@
 			"format": "multiple_choice",
 			"prompt": "Allunghi soltanto il braccio su cui spinge la mano. Che cosa guadagni?",
 			"options": [
-				"Energia dal nulla",
-				"Forza e strada insieme",
-				"Un peso minore dell'oggetto",
+				"Energia che arriva dal nulla",
+				"Forza e strada guadagnate insieme",
+				"Un peso minore dell'oggetto sollevato",
 				"Forza, ma la mano percorre più strada"
 			],
 			"answer": "Forza, ma la mano percorre più strada",
@@ -744,10 +744,10 @@
 			"format": "multiple_choice",
 			"prompt": "Perché uno sci largo affonda meno nella neve di una scarpa?",
 			"options": [
-				"Pesa sempre meno",
+				"Pesa sempre meno della scarpa",
 				"Distribuisce il peso su più superficie",
-				"Elimina la gravità",
-				"Rende la neve più fredda"
+				"Rende la neve più fredda e più dura",
+				"Elimina la forza di gravità"
 			],
 			"answer": "Distribuisce il peso su più superficie",
 			"explanation": "La stessa forza su un'area più grande produce meno pressione.",
@@ -812,10 +812,10 @@
 			"format": "multiple_choice",
 			"prompt": "Perché un coltello affilato taglia meglio?",
 			"options": [
-				"Ha meno massa",
+				"Ha una lama con meno massa",
 				"Concentra la forza su un bordo molto piccolo",
-				"Raffredda il cibo",
-				"Toglie l'attrito"
+				"Toglie del tutto l'attrito fra lama e cibo",
+				"Raffredda il cibo mentre lo taglia"
 			],
 			"answer": "Concentra la forza su un bordo molto piccolo",
 			"explanation": "Meno superficie a contatto significa più pressione con la stessa forza.",
@@ -880,10 +880,10 @@
 			"format": "multiple_choice",
 			"prompt": "Perché una diga è costruita più spessa in basso?",
 			"options": [
-				"Perché la gravità sparisce in alto",
+				"Per una semplice ragione di decorazione",
 				"Perché la pressione dell'acqua cresce con la profondità",
-				"Perché in basso l'acqua pesa meno",
-				"Per decorazione"
+				"Perché in alto la forza di gravità sparisce del tutto",
+				"Perché in basso l'acqua pesa molto meno che in alto"
 			],
 			"answer": "Perché la pressione dell'acqua cresce con la profondità",
 			"explanation": "La parte bassa deve reggere la pressione maggiore.",
@@ -933,7 +933,10 @@
 			"options": [],
 			"answer": "5",
 			"explanation": "Pressione significa forza divisa per area: 20÷4 = 5 N/cm².",
-			"distractorWhy": {}
+			"distractorWhy": {
+				"3": "«3» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"6": "«6» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
+			}
 		},
 		{
 			"id": "fisica-galleggiamento-23",
@@ -943,10 +946,10 @@
 			"format": "multiple_choice",
 			"prompt": "Quali due forze confronti per capire se un oggetto sale o affonda?",
 			"options": [
-				"Velocità e tempo",
+				"Massa e colore dell'oggetto",
 				"Peso e spinta dell'acqua",
-				"Massa e colore",
-				"Calore e luce"
+				"Calore e luce dell'acqua",
+				"Velocità e tempo di caduta"
 			],
 			"answer": "Peso e spinta dell'acqua",
 			"explanation": "Il peso tira in basso; l'acqua esercita una spinta verso l'alto.",
@@ -960,7 +963,7 @@
 			"format": "multiple_choice",
 			"prompt": "Lasci un pallone sott'acqua. Che cosa fa?",
 			"options": [
-				"Affonda",
+				"Affonda fino al fondo",
 				"Resta sempre fermo",
 				"Sale verso la superficie",
 				"Va soltanto di lato"
@@ -995,9 +998,9 @@
 			"prompt": "Un pezzo di legno galleggia fermo. Quale frase è corretta?",
 			"options": [
 				"La spinta dell'acqua bilancia il peso",
-				"L'acqua non lo spinge",
-				"Non ha peso",
-				"La gravità è spenta"
+				"Il legno non ha nessun peso",
+				"L'acqua non lo spinge in nessun modo",
+				"La gravità e spenta dentro l'acqua"
 			],
 			"answer": "La spinta dell'acqua bilancia il peso",
 			"explanation": "Fermo non significa senza forze: significa che le due forze si bilanciano.",
@@ -1011,10 +1014,10 @@
 			"format": "multiple_choice",
 			"prompt": "Appoggi un piccolo peso su una barchetta. Che cosa fa la barchetta?",
 			"options": [
-				"Perde tutta la spinta",
+				"Sale e sposta meno acqua",
 				"Scende un po' e sposta più acqua",
-				"Sale",
-				"Resta identica"
+				"Perde tutta la spinta dell'acqua",
+				"Resta identica a com'era prima"
 			],
 			"answer": "Scende un po' e sposta più acqua",
 			"explanation": "Scendendo sposta più acqua, finché la spinta maggiore bilancia il nuovo peso.",
@@ -1028,10 +1031,10 @@
 			"format": "multiple_choice",
 			"prompt": "Perché un giubbotto salvagente aiuta a restare a galla?",
 			"options": [
-				"Toglie la gravità",
-				"Spinge con un motore",
+				"Toglie la forza di gravità a chi lo indossa",
+				"Rende l'acqua più densa proprio sotto chi la sta usando",
 				"Aumenta il volume e l'acqua spostata senza aggiungere molto peso",
-				"Rende l'acqua solida"
+				"Spinge verso l'alto grazie a un piccolo motore nascosto"
 			],
 			"answer": "Aumenta il volume e l'acqua spostata senza aggiungere molto peso",
 			"explanation": "Più acqua spostata significa una spinta verso l'alto maggiore.",
@@ -1045,9 +1048,9 @@
 			"format": "multiple_choice",
 			"prompt": "Schiacci una pallina di plastilina che affonda e le dai forma di barchetta. Perché può galleggiare?",
 			"options": [
-				"La plastilina perde massa",
-				"L'acqua diventa più densa",
-				"Diventa legno",
+				"La plastilina perde una parte della massa",
+				"La plastilina diventa leggera come il legno",
+				"L'acqua sotto la barchetta diventa più densa",
 				"La forma cava fa spostare più acqua"
 			],
 			"answer": "La forma cava fa spostare più acqua",
@@ -1113,9 +1116,9 @@
 			"format": "multiple_choice",
 			"prompt": "Una nave carica entra dal mare in un fiume, dove l'acqua è meno densa. Come cambia?",
 			"options": [
-				"Sale più in alto",
-				"Perde peso",
-				"Non cambia mai",
+				"Sale un po' più in alto nell'acqua",
+				"Non cambia in nessun modo",
+				"Perde una parte del suo peso",
 				"Affonda un po' di più nell'acqua"
 			],
 			"answer": "Affonda un po' di più nell'acqua",
@@ -1131,9 +1134,9 @@
 			"prompt": "Due oggetti hanno uguale volume immerso, ma uno pesa di più. Quale riceve più spinta dall'acqua?",
 			"options": [
 				"Ricevono la stessa spinta",
-				"Quello più leggero",
-				"Quello più pesante",
-				"Nessuno"
+				"Quello più pesante dei due",
+				"Quello più leggero dei due",
+				"Nessuno dei due riceve spinta"
 			],
 			"answer": "Ricevono la stessa spinta",
 			"explanation": "La spinta dipende dall'acqua spostata: a uguale volume immerso è uguale.",
@@ -1147,10 +1150,10 @@
 			"format": "multiple_choice",
 			"prompt": "Che cos'è una corrente d'acqua?",
 			"options": [
-				"Una misura di profondità",
+				"Acqua che resta sempre ferma",
 				"Acqua che si muove in una direzione",
-				"Un aumento di temperatura",
-				"Acqua sempre ferma"
+				"Un aumento della temperatura dell'acqua",
+				"Una misura della profondità del fondale"
 			],
 			"answer": "Acqua che si muove in una direzione",
 			"explanation": "La corrente è il movimento ordinato dell'acqua, come un nastro trasportatore.",
@@ -1215,10 +1218,10 @@
 			"format": "multiple_choice",
 			"prompt": "Vuoi attraversare un fiume ma la corrente va verso destra. Se punti dritto, dove arrivi?",
 			"options": [
-				"Al punto di partenza",
+				"Più a sinistra del punto di fronte",
 				"Più a destra del punto di fronte",
-				"Esattamente di fronte",
-				"Più a sinistra"
+				"Esattamente nel punto di fronte",
+				"Di nuovo al punto di partenza"
 			],
 			"answer": "Più a destra del punto di fronte",
 			"explanation": "Mentre attraversi, l'acqua ti trasporta anche verso destra.",
@@ -1249,9 +1252,9 @@
 			"format": "multiple_choice",
 			"prompt": "Una barca spegne il motore in un canale con corrente. Rispetto alla riva che cosa fa?",
 			"options": [
-				"Va controcorrente",
-				"Resta ferma",
-				"Affonda per forza",
+				"Resta ferma dov'è",
+				"Va contro la corrente",
+				"Affonda per forza di cose",
 				"Si muove con la corrente"
 			],
 			"answer": "Si muove con la corrente",
@@ -1267,9 +1270,9 @@
 			"prompt": "Due foglie sono nella stessa corrente, una grande e una piccola. In prima approssimazione dove vanno?",
 			"options": [
 				"Nello stesso verso della corrente",
-				"Restano ferme",
-				"In versi opposti",
-				"Sempre verso nord"
+				"Sempre verso nord, comunque vada",
+				"Restano ferme dove sono",
+				"In due versi opposti fra loro"
 			],
 			"answer": "Nello stesso verso della corrente",
 			"explanation": "La corrente trasporta entrambe nella direzione in cui scorre l'acqua.",
@@ -1348,6 +1351,239 @@
 			"subject": "fisica",
 			"topic": "leve",
 			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Come si chiama il punto fermo attorno a cui gira una leva?",
+			"options": [],
+			"answer": "fulcro",
+			"accept": [
+				"il fulcro"
+			],
+			"explanation": "Il fulcro è il punto d'appoggio: la leva gira intorno a lui e tutto il resto si misura da lì.",
+			"distractorWhy": {
+				"La vite centrale": "«La vite centrale» è la risposta giusta a un'altra domanda di questo gruppo: «Nelle forbici, qual è il fulcro?».",
+				"Restano in equilibrio": "«Restano in equilibrio» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"Un apribottiglie": "«Un apribottiglie» è la risposta giusta a un'altra domanda di questo gruppo: «Quale oggetto funziona come una leva?».",
+				"Nell'asse della ruota": "«Nell'asse della ruota» è la risposta giusta a un'altra domanda di questo gruppo: «Con una carriola, dove si trova il fulcro?».",
+				"Vicino alla maniglia": "«Vicino alla maniglia» è la risposta giusta a un'altra domanda di questo gruppo: «Una porta è dura da aprire. Dove conviene spingere?».",
+				"Il lato sinistro": "«Il lato sinistro» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"braccio": "«braccio» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la distanza fra il fulcro e il punto in cui spingi?».",
+				"Lontano dal fulcro": "«Lontano dal fulcro» è la risposta giusta a un'altra domanda di questo gruppo: «Vuoi sollevare un sasso con un bastone appoggiato su un fulcro. Dove conviene spingere?»."
+			}
+		},
+		{
+			"id": "fisica-leve-48",
+			"subject": "fisica",
+			"topic": "leve",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama la distanza fra il fulcro e il punto in cui spingi?",
+			"options": [],
+			"answer": "braccio",
+			"accept": [
+				"il braccio",
+				"braccio della leva",
+				"braccio della forza"
+			],
+			"explanation": "È il braccio della leva. Allungarlo è il motivo per cui si spinge lontano dai cardini di una porta dura.",
+			"distractorWhy": {
+				"La vite centrale": "«La vite centrale» è la risposta giusta a un'altra domanda di questo gruppo: «Nelle forbici, qual è il fulcro?».",
+				"Restano in equilibrio": "«Restano in equilibrio» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"Un apribottiglie": "«Un apribottiglie» è la risposta giusta a un'altra domanda di questo gruppo: «Quale oggetto funziona come una leva?».",
+				"Nell'asse della ruota": "«Nell'asse della ruota» è la risposta giusta a un'altra domanda di questo gruppo: «Con una carriola, dove si trova il fulcro?».",
+				"Vicino alla maniglia": "«Vicino alla maniglia» è la risposta giusta a un'altra domanda di questo gruppo: «Una porta è dura da aprire. Dove conviene spingere?».",
+				"Il lato sinistro": "«Il lato sinistro» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"fulcro": "«fulcro» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il punto fermo attorno a cui gira una leva?».",
+				"Fulcro": "«Fulcro» è la risposta giusta a un'altra domanda di questo gruppo: «Sull'altalena a bilico, come si chiama il punto fermo attorno a cui gira l'asse?»."
+			}
+		},
+		{
+			"id": "fisica-leve-49",
+			"subject": "fisica",
+			"topic": "leve",
+			"difficulty": 3,
+			"format": "numeric_input",
+			"prompt": "Una leva è in equilibrio: 6 kg stanno a 1 m dal fulcro. A quanti metri dal fulcro va messo un peso di 3 kg?",
+			"options": [],
+			"answer": "2",
+			"explanation": "Conta peso per distanza: 6 x 1 = 6, quindi 3 x 2 = 6. Meta' del peso vuole il doppio della distanza."
+		},
+		{
+			"id": "fisica-pressione-50",
+			"subject": "fisica",
+			"topic": "pressione",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama la grandezza che dice quanta forza preme su ogni pezzetto di superficie?",
+			"options": [],
+			"answer": "pressione",
+			"accept": [
+				"la pressione"
+			],
+			"explanation": "La pressione mette insieme due cose: quanta forza spingi e su quanta superficie la spalmi.",
+			"distractorWhy": {
+				"Il lato più piccolo": "«Il lato più piccolo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale lato di una gomma da cancellare preme di più sul pongo, a parità di spinta?».",
+				"Sul fondo": "«Sul fondo» è la risposta giusta a un'altra domanda di questo gruppo: «Dove senti più pressione dell'acqua: con la mano appena immersa o sul fondo della piscina?».",
+				"Diminuisce": "«Diminuisce» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"Dal foro in basso": "«Dal foro in basso» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"Raddoppia": "«Raddoppia» è la risposta giusta a un'altra domanda di questo gruppo: «A parità di superficie, raddoppi la forza. Che cosa succede alla pressione?».",
+				"Si dimezza": "«Si dimezza» è la risposta giusta a un'altra domanda di questo gruppo: «A parità di forza, raddoppi la superficie di appoggio. Come cambia la pressione?».",
+				"Quello a 12 m": "«Quello a 12 m» è la risposta giusta a un'altra domanda di questo gruppo: «Due sub sono nello stesso mare, uno a 3 m e uno a 12 m. Chi subisce più pressione?».",
+				"Aumenta": "«Aumenta» è la risposta giusta a un'altra domanda di questo gruppo: «Un sub scende più in profondità. Che cosa succede alla pressione dell'acqua?»."
+			}
+		},
+		{
+			"id": "fisica-pressione-51",
+			"subject": "fisica",
+			"topic": "pressione",
+			"difficulty": 3,
+			"format": "numeric_input",
+			"prompt": "Una forza di 12 newton preme su 4 centimetri quadrati. Quanti newton premono su ogni centimetro quadrato?",
+			"options": [],
+			"answer": "3",
+			"explanation": "Si divide la forza per la superficie: 12 diviso 4 fa 3. La stessa forza su meno superficie preme di più.",
+			"distractorWhy": {
+				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «Un oggetto preme con 20 N su 4 cm². Qual è la pressione in N/cm²?».",
+				"6": "«6» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
+			}
+		},
+		{
+			"id": "fisica-pressione-52",
+			"subject": "fisica",
+			"topic": "pressione",
+			"difficulty": 3,
+			"format": "numeric_input",
+			"prompt": "La stessa forza di 12 newton preme adesso su 2 centimetri quadrati. Quanti newton per centimetro quadrato?",
+			"options": [],
+			"answer": "6",
+			"explanation": "12 diviso 2 fa 6: dimezzando la superficie la pressione raddoppia, ed è per questo che una punta buca e una base larga no.",
+			"distractorWhy": {
+				"3": "«3» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «Un oggetto preme con 20 N su 4 cm². Qual è la pressione in N/cm²?»."
+			}
+		},
+		{
+			"id": "fisica-galleggiamento-53",
+			"subject": "fisica",
+			"topic": "galleggiamento",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama la forza con cui l'acqua spinge verso l'alto un oggetto immerso?",
+			"options": [],
+			"answer": "spinta",
+			"accept": [
+				"la spinta",
+				"spinta di Archimede",
+				"spinta verso l'alto",
+				"spinta dell'acqua"
+			],
+			"explanation": "È la spinta di Archimede. Vale quanto pesa l'acqua che l'oggetto ha spostato: più acqua sposta, più viene spinto su.",
+			"distractorWhy": {
+				"Peso e spinta dell'acqua": "«Peso e spinta dell'acqua» è la risposta giusta a un'altra domanda di questo gruppo: «Quali due forze confronti per capire se un oggetto sale o affonda?».",
+				"Sale verso la superficie": "«Sale verso la superficie» è la risposta giusta a un'altra domanda di questo gruppo: «Lasci un pallone sott'acqua. Che cosa fa?».",
+				"Il peso": "«Il peso» è la risposta giusta a un'altra domanda di questo gruppo: «Una pietra affonda. Quale forza è maggiore?».",
+				"Affondare": "«Affondare» è la risposta giusta a un'altra domanda di questo gruppo: «Un sommergibile riempie d'acqua le casse di zavorra. Che cosa tende a fare?».",
+				"Salire": "«Salire» è la risposta giusta a un'altra domanda di questo gruppo: «Il sommergibile soffia aria nelle casse e manda fuori l'acqua. Che cosa tende a fare?».",
+				"Restare sospeso": "«Restare sospeso» è la risposta giusta a un'altra domanda di questo gruppo: «Un oggetto ha la stessa densità dell'acqua. Che comportamento può avere?».",
+				"Ricevono la stessa spinta": "«Ricevono la stessa spinta» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"equilibrio": "«equilibrio» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
+			}
+		},
+		{
+			"id": "fisica-galleggiamento-54",
+			"subject": "fisica",
+			"topic": "galleggiamento",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Un legno galleggia fermo: peso e spinta dell'acqua sono uguali. Come si chiama questa situazione?",
+			"options": [],
+			"answer": "equilibrio",
+			"accept": [
+				"l'equilibrio",
+				"è in equilibrio",
+				"in equilibrio"
+			],
+			"explanation": "Due forze uguali e opposte si pareggiano: il legno non sale e non scende, ed è fermo perchè è in equilibrio, non perchè non ci sono forze.",
+			"distractorWhy": {
+				"Peso e spinta dell'acqua": "«Peso e spinta dell'acqua» è la risposta giusta a un'altra domanda di questo gruppo: «Quali due forze confronti per capire se un oggetto sale o affonda?».",
+				"Sale verso la superficie": "«Sale verso la superficie» è la risposta giusta a un'altra domanda di questo gruppo: «Lasci un pallone sott'acqua. Che cosa fa?».",
+				"Il peso": "«Il peso» è la risposta giusta a un'altra domanda di questo gruppo: «Una pietra affonda. Quale forza è maggiore?».",
+				"Affondare": "«Affondare» è la risposta giusta a un'altra domanda di questo gruppo: «Un sommergibile riempie d'acqua le casse di zavorra. Che cosa tende a fare?».",
+				"Salire": "«Salire» è la risposta giusta a un'altra domanda di questo gruppo: «Il sommergibile soffia aria nelle casse e manda fuori l'acqua. Che cosa tende a fare?».",
+				"Restare sospeso": "«Restare sospeso» è la risposta giusta a un'altra domanda di questo gruppo: «Un oggetto ha la stessa densità dell'acqua. Che comportamento può avere?».",
+				"Ricevono la stessa spinta": "«Ricevono la stessa spinta» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"spinta": "«spinta» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la forza con cui l'acqua spinge verso l'alto un oggetto immerso?»."
+			}
+		},
+		{
+			"id": "fisica-galleggiamento-55",
+			"subject": "fisica",
+			"topic": "galleggiamento",
+			"difficulty": 3,
+			"format": "numeric_input",
+			"prompt": "Una barchetta sposta 5 litri d'acqua e ogni litro d'acqua pesa 1 kg. Quanti chili in tutto può reggere senza affondare?",
+			"options": [],
+			"answer": "5",
+			"explanation": "La spinta vale quanto pesa l'acqua spostata: 5 litri fanno 5 kg di spinta, e oltre quel peso la barchetta va sotto."
+		},
+		{
+			"id": "fisica-correnti-56",
+			"subject": "fisica",
+			"topic": "correnti",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Una foglia lasciata libera in un fiume si muove nello stesso verso di che cosa?",
+			"options": [],
+			"answer": "corrente",
+			"accept": [
+				"la corrente",
+				"della corrente",
+				"corrente del fiume"
+			],
+			"explanation": "Senza motore e senza remi resta solo l'acqua a spingerla: la foglia fa la strada della corrente.",
+			"distractorWhy": {
+				"Aiuta": "«Aiuta» è la risposta giusta a un'altra domanda di questo gruppo: «Nuoti nello stesso verso della corrente. La corrente ti…».",
+				"Rallenta": "«Rallenta» è la risposta giusta a un'altra domanda di questo gruppo: «Nuoti controcorrente. La corrente ti…».",
+				"Un po' verso sinistra": "«Un po' verso sinistra» è la risposta giusta a un'altra domanda di questo gruppo: «Per arrivare esattamente di fronte con una corrente verso destra, dove conviene puntare?».",
+				"8 km/h": "«8 km/h» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"4 km/h": "«4 km/h» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"Aumenta": "«Aumenta» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"Resta ferma": "«Resta ferma» è la risposta giusta a un'altra domanda di questo gruppo: «Una barca fa 3 km/h contro una corrente di 3 km/h. Rispetto alla riva che cosa accade?».",
+				"Verso est": "«Verso est» è la risposta giusta a un'altra domanda di questo gruppo: «Una corrente va verso est e una foglia galleggia libera. Verso dove viene trasportata?»."
+			}
+		},
+		{
+			"id": "fisica-correnti-57",
+			"subject": "fisica",
+			"topic": "correnti",
+			"difficulty": 2,
+			"format": "numeric_input",
+			"prompt": "Una barca fa 6 km/h e la corrente la spinge nello stesso verso a 2 km/h. A quanti km/h va rispetto alla riva?",
+			"options": [],
+			"answer": "8",
+			"explanation": "Stesso verso: le due velocità si sommano, 6 più 2 fa 8.",
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
+			}
+		},
+		{
+			"id": "fisica-correnti-58",
+			"subject": "fisica",
+			"topic": "correnti",
+			"difficulty": 3,
+			"format": "numeric_input",
+			"prompt": "Una barca fa 7 km/h contro una corrente di 3 km/h. A quanti km/h avanza rispetto alla riva?",
+			"options": [],
+			"answer": "4",
+			"explanation": "Versi opposti: le due velocità si sottraggono, 7 meno 3 fa 4.",
+			"distractorWhy": {
+				"8": "«8» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
+			}
+		},
+		{
+			"id": "fisica-leve-59",
+			"subject": "fisica",
+			"topic": "leve",
+			"difficulty": 1,
 			"format": "multiple_choice",
 			"prompt": "Sull'altalena a bilico, come si chiama il punto fermo attorno a cui gira l'asse?",
 			"options": [
@@ -1361,7 +1597,7 @@
 			"distractorWhy": {}
 		},
 		{
-			"id": "fisica-leve-48",
+			"id": "fisica-leve-60",
 			"subject": "fisica",
 			"topic": "leve",
 			"difficulty": 2,
@@ -1378,7 +1614,7 @@
 			"distractorWhy": {}
 		},
 		{
-			"id": "fisica-leve-49",
+			"id": "fisica-leve-61",
 			"subject": "fisica",
 			"topic": "leve",
 			"difficulty": 3,
@@ -1395,7 +1631,7 @@
 			"distractorWhy": {}
 		},
 		{
-			"id": "fisica-leve-50",
+			"id": "fisica-leve-62",
 			"subject": "fisica",
 			"topic": "leve",
 			"difficulty": 4,
@@ -1406,7 +1642,7 @@
 			"explanation": "Per l'equilibrio conta peso × distanza: 2 × 3 = 6, quindi 3 × 2 = 6."
 		},
 		{
-			"id": "fisica-pressione-51",
+			"id": "fisica-pressione-63",
 			"subject": "fisica",
 			"topic": "pressione",
 			"difficulty": 2,
@@ -1414,16 +1650,16 @@
 			"prompt": "Perché una puntina entra nel cartone più facilmente dalla punta?",
 			"options": [
 				"La stessa forza è concentrata su una superficie più piccola",
-				"La punta pesa più del resto",
-				"Il cartone attira il metallo",
-				"La punta elimina l'attrito"
+				"La punta della puntina pesa più di tutto il resto dell'oggetto",
+				"Il cartone attira il metallo e se lo tira dentro da solo",
+				"La punta elimina del tutto l'attrito con il cartone"
 			],
 			"answer": "La stessa forza è concentrata su una superficie più piccola",
 			"explanation": "A parità di forza, una superficie più piccola produce una pressione maggiore.",
 			"distractorWhy": {}
 		},
 		{
-			"id": "fisica-pressione-52",
+			"id": "fisica-pressione-64",
 			"subject": "fisica",
 			"topic": "pressione",
 			"difficulty": 3,
@@ -1440,7 +1676,7 @@
 			"distractorWhy": {}
 		},
 		{
-			"id": "fisica-pressione-53",
+			"id": "fisica-pressione-65",
 			"subject": "fisica",
 			"topic": "pressione",
 			"difficulty": 4,
@@ -1457,7 +1693,7 @@
 			"distractorWhy": {}
 		},
 		{
-			"id": "fisica-galleggiamento-54",
+			"id": "fisica-galleggiamento-66",
 			"subject": "fisica",
 			"topic": "galleggiamento",
 			"difficulty": 2,
@@ -1474,7 +1710,7 @@
 			"distractorWhy": {}
 		},
 		{
-			"id": "fisica-galleggiamento-55",
+			"id": "fisica-galleggiamento-67",
 			"subject": "fisica",
 			"topic": "galleggiamento",
 			"difficulty": 3,
@@ -1491,24 +1727,24 @@
 			"distractorWhy": {}
 		},
 		{
-			"id": "fisica-galleggiamento-56",
+			"id": "fisica-galleggiamento-68",
 			"subject": "fisica",
 			"topic": "galleggiamento",
 			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Perché una nave d'acciaio può galleggiare mentre una biglia d'acciaio affonda?",
 			"options": [
-				"L'acciaio della nave è senza peso",
+				"L'acciaio con cui è fatta la nave non ha nessun peso",
 				"La nave cava sposta molta più acqua rispetto al suo peso",
-				"Il motore spinge sempre verso l'alto",
-				"L'acqua sotto una nave è più densa"
+				"Il motore della nave spinge sempre verso l'alto mentre naviga",
+				"L'acqua sotto lo scafo di una nave è molto più densa"
 			],
 			"answer": "La nave cava sposta molta più acqua rispetto al suo peso",
 			"explanation": "La forma cava fa spostare un grande volume d'acqua: così la spinta verso l'alto può bilanciare il peso.",
 			"distractorWhy": {}
 		},
 		{
-			"id": "fisica-correnti-57",
+			"id": "fisica-correnti-69",
 			"subject": "fisica",
 			"topic": "correnti",
 			"difficulty": 2,
@@ -1525,16 +1761,16 @@
 			"distractorWhy": {}
 		},
 		{
-			"id": "fisica-correnti-58",
+			"id": "fisica-correnti-70",
 			"subject": "fisica",
 			"topic": "correnti",
 			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Una barca procede verso nord mentre la corrente spinge verso est. Che cosa accade?",
 			"options": [
-				"Va soltanto verso nord",
-				"Torna verso sud",
-				"Si ferma per forza",
+				"Va comunque soltanto verso nord",
+				"Torna indietro verso sud",
+				"Si ferma in mezzo al fiume",
 				"La barca devia verso nord-est"
 			],
 			"answer": "La barca devia verso nord-est",
@@ -1542,7 +1778,7 @@
 			"distractorWhy": {}
 		},
 		{
-			"id": "fisica-correnti-59",
+			"id": "fisica-correnti-71",
 			"subject": "fisica",
 			"topic": "correnti",
 			"difficulty": 4,
@@ -1559,7 +1795,7 @@
 			"distractorWhy": {}
 		},
 		{
-			"id": "fisica-misure-60",
+			"id": "fisica-misure-72",
 			"subject": "fisica",
 			"topic": "misure",
 			"difficulty": 3,
@@ -1573,7 +1809,7 @@
 			}
 		},
 		{
-			"id": "fisica-misure-61",
+			"id": "fisica-misure-73",
 			"subject": "fisica",
 			"topic": "misure",
 			"difficulty": 3,
@@ -1594,7 +1830,7 @@
 			}
 		},
 		{
-			"id": "fisica-misure-62",
+			"id": "fisica-misure-74",
 			"subject": "fisica",
 			"topic": "misure",
 			"difficulty": 4,
@@ -1615,7 +1851,7 @@
 			}
 		},
 		{
-			"id": "fisica-moto-63",
+			"id": "fisica-moto-75",
 			"subject": "fisica",
 			"topic": "moto",
 			"difficulty": 3,
@@ -1631,7 +1867,7 @@
 			}
 		},
 		{
-			"id": "fisica-moto-64",
+			"id": "fisica-moto-76",
 			"subject": "fisica",
 			"topic": "moto",
 			"difficulty": 4,
@@ -1652,7 +1888,7 @@
 			}
 		},
 		{
-			"id": "fisica-moto-65",
+			"id": "fisica-moto-77",
 			"subject": "fisica",
 			"topic": "moto",
 			"difficulty": 4,
@@ -1673,7 +1909,7 @@
 			}
 		},
 		{
-			"id": "fisica-forze-66",
+			"id": "fisica-forze-78",
 			"subject": "fisica",
 			"topic": "forze",
 			"difficulty": 3,
@@ -1694,7 +1930,7 @@
 			}
 		},
 		{
-			"id": "fisica-forze-67",
+			"id": "fisica-forze-79",
 			"subject": "fisica",
 			"topic": "forze",
 			"difficulty": 4,
@@ -1715,7 +1951,7 @@
 			}
 		},
 		{
-			"id": "fisica-forze-68",
+			"id": "fisica-forze-80",
 			"subject": "fisica",
 			"topic": "forze",
 			"difficulty": 3,
@@ -1736,7 +1972,7 @@
 			}
 		},
 		{
-			"id": "fisica-forze-69",
+			"id": "fisica-forze-81",
 			"subject": "fisica",
 			"topic": "forze",
 			"difficulty": 4,
@@ -1757,7 +1993,7 @@
 			}
 		},
 		{
-			"id": "fisica-forze-70",
+			"id": "fisica-forze-82",
 			"subject": "fisica",
 			"topic": "forze",
 			"difficulty": 3,
@@ -1778,7 +2014,7 @@
 			}
 		},
 		{
-			"id": "fisica-metodo-71",
+			"id": "fisica-metodo-83",
 			"subject": "fisica",
 			"topic": "metodo",
 			"difficulty": 2,
@@ -1799,7 +2035,7 @@
 			}
 		},
 		{
-			"id": "fisica-metodo-72",
+			"id": "fisica-metodo-84",
 			"subject": "fisica",
 			"topic": "metodo",
 			"difficulty": 3,
@@ -1820,7 +2056,7 @@
 			}
 		},
 		{
-			"id": "fisica-metodo-73",
+			"id": "fisica-metodo-85",
 			"subject": "fisica",
 			"topic": "metodo",
 			"difficulty": 3,
@@ -1841,7 +2077,7 @@
 			}
 		},
 		{
-			"id": "fisica-metodo-74",
+			"id": "fisica-metodo-86",
 			"subject": "fisica",
 			"topic": "metodo",
 			"difficulty": 3,
@@ -1862,7 +2098,7 @@
 			}
 		},
 		{
-			"id": "fisica-metodo-75",
+			"id": "fisica-metodo-87",
 			"subject": "fisica",
 			"topic": "metodo",
 			"difficulty": 4,
@@ -1883,7 +2119,7 @@
 			}
 		},
 		{
-			"id": "fisica-metodo-76",
+			"id": "fisica-metodo-88",
 			"subject": "fisica",
 			"topic": "metodo",
 			"difficulty": 3,
@@ -1904,7 +2140,7 @@
 			}
 		},
 		{
-			"id": "fisica-metodo-77",
+			"id": "fisica-metodo-89",
 			"subject": "fisica",
 			"topic": "metodo",
 			"difficulty": 2,
@@ -1925,7 +2161,7 @@
 			}
 		},
 		{
-			"id": "fisica-metodo-78",
+			"id": "fisica-metodo-90",
 			"subject": "fisica",
 			"topic": "metodo",
 			"difficulty": 3,
@@ -1946,7 +2182,7 @@
 			}
 		},
 		{
-			"id": "fisica-metodo-79",
+			"id": "fisica-metodo-91",
 			"subject": "fisica",
 			"topic": "metodo",
 			"difficulty": 4,
@@ -1967,7 +2203,7 @@
 			}
 		},
 		{
-			"id": "fisica-metodo-80",
+			"id": "fisica-metodo-92",
 			"subject": "fisica",
 			"topic": "metodo",
 			"difficulty": 4,
@@ -1983,7 +2219,7 @@
 			}
 		},
 		{
-			"id": "fisica-onde-luce-81",
+			"id": "fisica-onde-luce-93",
 			"subject": "fisica",
 			"topic": "onde-luce",
 			"difficulty": 2,
@@ -2004,7 +2240,7 @@
 			}
 		},
 		{
-			"id": "fisica-onde-luce-82",
+			"id": "fisica-onde-luce-94",
 			"subject": "fisica",
 			"topic": "onde-luce",
 			"difficulty": 3,
@@ -2025,7 +2261,7 @@
 			}
 		},
 		{
-			"id": "fisica-onde-luce-83",
+			"id": "fisica-onde-luce-95",
 			"subject": "fisica",
 			"topic": "onde-luce",
 			"difficulty": 3,
@@ -2046,7 +2282,7 @@
 			}
 		},
 		{
-			"id": "fisica-onde-luce-84",
+			"id": "fisica-onde-luce-96",
 			"subject": "fisica",
 			"topic": "onde-luce",
 			"difficulty": 3,
@@ -2067,7 +2303,7 @@
 			}
 		},
 		{
-			"id": "fisica-onde-luce-85",
+			"id": "fisica-onde-luce-97",
 			"subject": "fisica",
 			"topic": "onde-luce",
 			"difficulty": 4,
@@ -2088,7 +2324,7 @@
 			}
 		},
 		{
-			"id": "fisica-onde-luce-86",
+			"id": "fisica-onde-luce-98",
 			"subject": "fisica",
 			"topic": "onde-luce",
 			"difficulty": 3,
@@ -2109,7 +2345,7 @@
 			}
 		},
 		{
-			"id": "fisica-onde-luce-87",
+			"id": "fisica-onde-luce-99",
 			"subject": "fisica",
 			"topic": "onde-luce",
 			"difficulty": 4,
@@ -2130,7 +2366,7 @@
 			}
 		},
 		{
-			"id": "fisica-onde-luce-88",
+			"id": "fisica-onde-luce-100",
 			"subject": "fisica",
 			"topic": "onde-luce",
 			"difficulty": 3,
@@ -2151,7 +2387,7 @@
 			}
 		},
 		{
-			"id": "fisica-onde-luce-89",
+			"id": "fisica-onde-luce-101",
 			"subject": "fisica",
 			"topic": "onde-luce",
 			"difficulty": 4,
@@ -2167,7 +2403,7 @@
 			}
 		},
 		{
-			"id": "fisica-energia-90",
+			"id": "fisica-energia-102",
 			"subject": "fisica",
 			"topic": "energia",
 			"difficulty": 3,
@@ -2188,7 +2424,7 @@
 			}
 		},
 		{
-			"id": "fisica-energia-91",
+			"id": "fisica-energia-103",
 			"subject": "fisica",
 			"topic": "energia",
 			"difficulty": 3,
@@ -2209,7 +2445,7 @@
 			}
 		},
 		{
-			"id": "fisica-energia-92",
+			"id": "fisica-energia-104",
 			"subject": "fisica",
 			"topic": "energia",
 			"difficulty": 3,
@@ -2230,7 +2466,7 @@
 			}
 		},
 		{
-			"id": "fisica-energia-93",
+			"id": "fisica-energia-105",
 			"subject": "fisica",
 			"topic": "energia",
 			"difficulty": 4,
@@ -2251,7 +2487,7 @@
 			}
 		},
 		{
-			"id": "fisica-energia-94",
+			"id": "fisica-energia-106",
 			"subject": "fisica",
 			"topic": "energia",
 			"difficulty": 3,
@@ -2272,7 +2508,7 @@
 			}
 		},
 		{
-			"id": "fisica-energia-95",
+			"id": "fisica-energia-107",
 			"subject": "fisica",
 			"topic": "energia",
 			"difficulty": 4,
@@ -2293,7 +2529,7 @@
 			}
 		},
 		{
-			"id": "fisica-energia-96",
+			"id": "fisica-energia-108",
 			"subject": "fisica",
 			"topic": "energia",
 			"difficulty": 3,
@@ -2314,7 +2550,7 @@
 			}
 		},
 		{
-			"id": "fisica-energia-97",
+			"id": "fisica-energia-109",
 			"subject": "fisica",
 			"topic": "energia",
 			"difficulty": 4,
@@ -2335,7 +2571,7 @@
 			}
 		},
 		{
-			"id": "fisica-energia-98",
+			"id": "fisica-energia-110",
 			"subject": "fisica",
 			"topic": "energia",
 			"difficulty": 4,
@@ -2356,7 +2592,7 @@
 			}
 		},
 		{
-			"id": "fisica-materia-99",
+			"id": "fisica-materia-111",
 			"subject": "fisica",
 			"topic": "materia",
 			"difficulty": 3,
@@ -2377,7 +2613,7 @@
 			}
 		},
 		{
-			"id": "fisica-materia-100",
+			"id": "fisica-materia-112",
 			"subject": "fisica",
 			"topic": "materia",
 			"difficulty": 3,
@@ -2398,7 +2634,7 @@
 			}
 		},
 		{
-			"id": "fisica-materia-101",
+			"id": "fisica-materia-113",
 			"subject": "fisica",
 			"topic": "materia",
 			"difficulty": 3,
@@ -2419,7 +2655,7 @@
 			}
 		},
 		{
-			"id": "fisica-materia-102",
+			"id": "fisica-materia-114",
 			"subject": "fisica",
 			"topic": "materia",
 			"difficulty": 4,
@@ -2440,7 +2676,7 @@
 			}
 		},
 		{
-			"id": "fisica-materia-103",
+			"id": "fisica-materia-115",
 			"subject": "fisica",
 			"topic": "materia",
 			"difficulty": 3,
@@ -2461,7 +2697,7 @@
 			}
 		},
 		{
-			"id": "fisica-materia-104",
+			"id": "fisica-materia-116",
 			"subject": "fisica",
 			"topic": "materia",
 			"difficulty": 4,
@@ -2482,7 +2718,7 @@
 			}
 		},
 		{
-			"id": "fisica-materia-105",
+			"id": "fisica-materia-117",
 			"subject": "fisica",
 			"topic": "materia",
 			"difficulty": 4,
@@ -2503,7 +2739,7 @@
 			}
 		},
 		{
-			"id": "fisica-materia-106",
+			"id": "fisica-materia-118",
 			"subject": "fisica",
 			"topic": "materia",
 			"difficulty": 3,
@@ -2519,7 +2755,7 @@
 			}
 		},
 		{
-			"id": "fisica-materia-107",
+			"id": "fisica-materia-119",
 			"subject": "fisica",
 			"topic": "materia",
 			"difficulty": 3,
@@ -2540,7 +2776,7 @@
 			}
 		},
 		{
-			"id": "fisica-calore-108",
+			"id": "fisica-calore-120",
 			"subject": "fisica",
 			"topic": "calore",
 			"difficulty": 3,
@@ -2561,7 +2797,7 @@
 			}
 		},
 		{
-			"id": "fisica-calore-109",
+			"id": "fisica-calore-121",
 			"subject": "fisica",
 			"topic": "calore",
 			"difficulty": 3,
@@ -2582,7 +2818,7 @@
 			}
 		},
 		{
-			"id": "fisica-calore-110",
+			"id": "fisica-calore-122",
 			"subject": "fisica",
 			"topic": "calore",
 			"difficulty": 3,
@@ -2603,7 +2839,7 @@
 			}
 		},
 		{
-			"id": "fisica-calore-111",
+			"id": "fisica-calore-123",
 			"subject": "fisica",
 			"topic": "calore",
 			"difficulty": 4,
@@ -2624,7 +2860,7 @@
 			}
 		},
 		{
-			"id": "fisica-calore-112",
+			"id": "fisica-calore-124",
 			"subject": "fisica",
 			"topic": "calore",
 			"difficulty": 3,
@@ -2645,7 +2881,7 @@
 			}
 		},
 		{
-			"id": "fisica-calore-113",
+			"id": "fisica-calore-125",
 			"subject": "fisica",
 			"topic": "calore",
 			"difficulty": 4,
@@ -2666,7 +2902,7 @@
 			}
 		},
 		{
-			"id": "fisica-calore-114",
+			"id": "fisica-calore-126",
 			"subject": "fisica",
 			"topic": "calore",
 			"difficulty": 3,
@@ -2682,7 +2918,7 @@
 			}
 		},
 		{
-			"id": "fisica-calore-115",
+			"id": "fisica-calore-127",
 			"subject": "fisica",
 			"topic": "calore",
 			"difficulty": 4,
@@ -2703,7 +2939,7 @@
 			}
 		},
 		{
-			"id": "fisica-calore-116",
+			"id": "fisica-calore-128",
 			"subject": "fisica",
 			"topic": "calore",
 			"difficulty": 3,
@@ -2724,7 +2960,7 @@
 			}
 		},
 		{
-			"id": "fisica-misure-117",
+			"id": "fisica-misure-129",
 			"subject": "fisica",
 			"topic": "misure",
 			"difficulty": 1,
@@ -2745,7 +2981,7 @@
 			}
 		},
 		{
-			"id": "fisica-misure-118",
+			"id": "fisica-misure-130",
 			"subject": "fisica",
 			"topic": "misure",
 			"difficulty": 2,
@@ -2759,7 +2995,7 @@
 			}
 		},
 		{
-			"id": "fisica-misure-119",
+			"id": "fisica-misure-131",
 			"subject": "fisica",
 			"topic": "misure",
 			"difficulty": 3,
@@ -2780,7 +3016,7 @@
 			}
 		},
 		{
-			"id": "fisica-moto-120",
+			"id": "fisica-moto-132",
 			"subject": "fisica",
 			"topic": "moto",
 			"difficulty": 1,
@@ -2801,7 +3037,7 @@
 			}
 		},
 		{
-			"id": "fisica-moto-121",
+			"id": "fisica-moto-133",
 			"subject": "fisica",
 			"topic": "moto",
 			"difficulty": 2,
@@ -2822,7 +3058,7 @@
 			}
 		},
 		{
-			"id": "fisica-moto-122",
+			"id": "fisica-moto-134",
 			"subject": "fisica",
 			"topic": "moto",
 			"difficulty": 3,
@@ -2843,7 +3079,7 @@
 			}
 		},
 		{
-			"id": "fisica-forze-123",
+			"id": "fisica-forze-135",
 			"subject": "fisica",
 			"topic": "forze",
 			"difficulty": 1,
@@ -2864,7 +3100,7 @@
 			}
 		},
 		{
-			"id": "fisica-forze-124",
+			"id": "fisica-forze-136",
 			"subject": "fisica",
 			"topic": "forze",
 			"difficulty": 2,
@@ -2885,7 +3121,7 @@
 			}
 		},
 		{
-			"id": "fisica-forze-125",
+			"id": "fisica-forze-137",
 			"subject": "fisica",
 			"topic": "forze",
 			"difficulty": 3,
@@ -2906,7 +3142,7 @@
 			}
 		},
 		{
-			"id": "fisica-forze-126",
+			"id": "fisica-forze-138",
 			"subject": "fisica",
 			"topic": "forze",
 			"difficulty": 4,
@@ -2927,7 +3163,7 @@
 			}
 		},
 		{
-			"id": "fisica-energia-127",
+			"id": "fisica-energia-139",
 			"subject": "fisica",
 			"topic": "energia",
 			"difficulty": 2,
@@ -2948,7 +3184,7 @@
 			}
 		},
 		{
-			"id": "fisica-energia-128",
+			"id": "fisica-energia-140",
 			"subject": "fisica",
 			"topic": "energia",
 			"difficulty": 3,
@@ -2969,7 +3205,7 @@
 			}
 		},
 		{
-			"id": "fisica-calore-129",
+			"id": "fisica-calore-141",
 			"subject": "fisica",
 			"topic": "calore",
 			"difficulty": 2,
@@ -2990,7 +3226,7 @@
 			}
 		},
 		{
-			"id": "fisica-calore-130",
+			"id": "fisica-calore-142",
 			"subject": "fisica",
 			"topic": "calore",
 			"difficulty": 3,
@@ -3011,7 +3247,7 @@
 			}
 		},
 		{
-			"id": "fisica-onde-luce-131",
+			"id": "fisica-onde-luce-143",
 			"subject": "fisica",
 			"topic": "onde-luce",
 			"difficulty": 2,
@@ -3032,7 +3268,7 @@
 			}
 		},
 		{
-			"id": "fisica-onde-luce-132",
+			"id": "fisica-onde-luce-144",
 			"subject": "fisica",
 			"topic": "onde-luce",
 			"difficulty": 3,
@@ -3053,7 +3289,7 @@
 			}
 		},
 		{
-			"id": "fisica-misure-133",
+			"id": "fisica-misure-145",
 			"subject": "fisica",
 			"topic": "misure",
 			"difficulty": 1,
@@ -3077,7 +3313,7 @@
 			}
 		},
 		{
-			"id": "fisica-misure-134",
+			"id": "fisica-misure-146",
 			"subject": "fisica",
 			"topic": "misure",
 			"difficulty": 1,
@@ -3102,7 +3338,7 @@
 			}
 		},
 		{
-			"id": "fisica-misure-135",
+			"id": "fisica-misure-147",
 			"subject": "fisica",
 			"topic": "misure",
 			"difficulty": 1,
@@ -3126,7 +3362,7 @@
 			}
 		},
 		{
-			"id": "fisica-moto-136",
+			"id": "fisica-moto-148",
 			"subject": "fisica",
 			"topic": "moto",
 			"difficulty": 2,
@@ -3150,7 +3386,7 @@
 			}
 		},
 		{
-			"id": "fisica-moto-137",
+			"id": "fisica-moto-149",
 			"subject": "fisica",
 			"topic": "moto",
 			"difficulty": 3,
@@ -3174,7 +3410,7 @@
 			}
 		},
 		{
-			"id": "fisica-moto-138",
+			"id": "fisica-moto-150",
 			"subject": "fisica",
 			"topic": "moto",
 			"difficulty": 2,
@@ -3199,7 +3435,7 @@
 			}
 		},
 		{
-			"id": "fisica-onde-luce-139",
+			"id": "fisica-onde-luce-151",
 			"subject": "fisica",
 			"topic": "onde-luce",
 			"difficulty": 2,
@@ -3221,7 +3457,7 @@
 			}
 		},
 		{
-			"id": "fisica-onde-luce-140",
+			"id": "fisica-onde-luce-152",
 			"subject": "fisica",
 			"topic": "onde-luce",
 			"difficulty": 3,
@@ -3243,7 +3479,7 @@
 			}
 		},
 		{
-			"id": "fisica-onde-luce-141",
+			"id": "fisica-onde-luce-153",
 			"subject": "fisica",
 			"topic": "onde-luce",
 			"difficulty": 3,
@@ -3266,7 +3502,7 @@
 			}
 		},
 		{
-			"id": "fisica-forze-142",
+			"id": "fisica-forze-154",
 			"subject": "fisica",
 			"topic": "forze",
 			"difficulty": 1,
@@ -3291,7 +3527,7 @@
 			}
 		},
 		{
-			"id": "fisica-forze-143",
+			"id": "fisica-forze-155",
 			"subject": "fisica",
 			"topic": "forze",
 			"difficulty": 2,
@@ -3317,7 +3553,7 @@
 			}
 		},
 		{
-			"id": "fisica-forze-144",
+			"id": "fisica-forze-156",
 			"subject": "fisica",
 			"topic": "forze",
 			"difficulty": 2,
@@ -3341,7 +3577,7 @@
 			}
 		},
 		{
-			"id": "fisica-forze-145",
+			"id": "fisica-forze-157",
 			"subject": "fisica",
 			"topic": "forze",
 			"difficulty": 3,
@@ -3366,7 +3602,7 @@
 			}
 		},
 		{
-			"id": "fisica-energia-146",
+			"id": "fisica-energia-158",
 			"subject": "fisica",
 			"topic": "energia",
 			"difficulty": 1,
@@ -3389,7 +3625,7 @@
 			}
 		},
 		{
-			"id": "fisica-energia-147",
+			"id": "fisica-energia-159",
 			"subject": "fisica",
 			"topic": "energia",
 			"difficulty": 2,
@@ -3412,7 +3648,7 @@
 			}
 		},
 		{
-			"id": "fisica-energia-148",
+			"id": "fisica-energia-160",
 			"subject": "fisica",
 			"topic": "energia",
 			"difficulty": 2,
@@ -3434,7 +3670,7 @@
 			}
 		},
 		{
-			"id": "fisica-metodo-149",
+			"id": "fisica-metodo-161",
 			"subject": "fisica",
 			"topic": "metodo",
 			"difficulty": 2,
@@ -3453,7 +3689,7 @@
 			}
 		},
 		{
-			"id": "fisica-metodo-150",
+			"id": "fisica-metodo-162",
 			"subject": "fisica",
 			"topic": "metodo",
 			"difficulty": 3,
@@ -3471,7 +3707,7 @@
 			}
 		},
 		{
-			"id": "fisica-materia-151",
+			"id": "fisica-materia-163",
 			"subject": "fisica",
 			"topic": "materia",
 			"difficulty": 2,
@@ -3493,7 +3729,7 @@
 			}
 		},
 		{
-			"id": "fisica-materia-152",
+			"id": "fisica-materia-164",
 			"subject": "fisica",
 			"topic": "materia",
 			"difficulty": 1,
@@ -3515,7 +3751,7 @@
 			}
 		},
 		{
-			"id": "fisica-materia-153",
+			"id": "fisica-materia-165",
 			"subject": "fisica",
 			"topic": "materia",
 			"difficulty": 3,
@@ -3537,7 +3773,7 @@
 			}
 		},
 		{
-			"id": "fisica-calore-154",
+			"id": "fisica-calore-166",
 			"subject": "fisica",
 			"topic": "calore",
 			"difficulty": 2,
@@ -3559,7 +3795,7 @@
 			}
 		},
 		{
-			"id": "fisica-calore-155",
+			"id": "fisica-calore-167",
 			"subject": "fisica",
 			"topic": "calore",
 			"difficulty": 3,
@@ -3579,7 +3815,7 @@
 			}
 		},
 		{
-			"id": "fisica-misure-156",
+			"id": "fisica-misure-168",
 			"subject": "fisica",
 			"topic": "misure",
 			"difficulty": 1,
@@ -3603,7 +3839,7 @@
 			}
 		},
 		{
-			"id": "fisica-moto-157",
+			"id": "fisica-moto-169",
 			"subject": "fisica",
 			"topic": "moto",
 			"difficulty": 1,
@@ -3627,7 +3863,7 @@
 			}
 		},
 		{
-			"id": "fisica-onde-luce-158",
+			"id": "fisica-onde-luce-170",
 			"subject": "fisica",
 			"topic": "onde-luce",
 			"difficulty": 1,
@@ -3650,7 +3886,7 @@
 			}
 		},
 		{
-			"id": "fisica-calore-159",
+			"id": "fisica-calore-171",
 			"subject": "fisica",
 			"topic": "calore",
 			"difficulty": 1,
@@ -3671,7 +3907,7 @@
 			}
 		},
 		{
-			"id": "fisica-misure-160",
+			"id": "fisica-misure-172",
 			"subject": "fisica",
 			"topic": "misure",
 			"difficulty": 1,
@@ -3692,7 +3928,7 @@
 			}
 		},
 		{
-			"id": "fisica-moto-161",
+			"id": "fisica-moto-173",
 			"subject": "fisica",
 			"topic": "moto",
 			"difficulty": 1,
@@ -3713,7 +3949,7 @@
 			}
 		},
 		{
-			"id": "fisica-energia-162",
+			"id": "fisica-energia-174",
 			"subject": "fisica",
 			"topic": "energia",
 			"difficulty": 1,
@@ -3734,7 +3970,7 @@
 			}
 		},
 		{
-			"id": "fisica-materia-163",
+			"id": "fisica-materia-175",
 			"subject": "fisica",
 			"topic": "materia",
 			"difficulty": 1,
@@ -3755,7 +3991,7 @@
 			}
 		},
 		{
-			"id": "fisica-forze-164",
+			"id": "fisica-forze-176",
 			"subject": "fisica",
 			"topic": "forze",
 			"difficulty": 1,
@@ -3776,7 +4012,7 @@
 			}
 		},
 		{
-			"id": "fisica-metodo-165",
+			"id": "fisica-metodo-177",
 			"subject": "fisica",
 			"topic": "metodo",
 			"difficulty": 1,
@@ -3797,7 +4033,7 @@
 			}
 		},
 		{
-			"id": "fisica-calore-166",
+			"id": "fisica-calore-178",
 			"subject": "fisica",
 			"topic": "calore",
 			"difficulty": 1,
@@ -3818,7 +4054,7 @@
 			}
 		},
 		{
-			"id": "fisica-energia-167",
+			"id": "fisica-energia-179",
 			"subject": "fisica",
 			"topic": "energia",
 			"difficulty": 1,
@@ -3842,7 +4078,7 @@
 			}
 		},
 		{
-			"id": "fisica-materia-168",
+			"id": "fisica-materia-180",
 			"subject": "fisica",
 			"topic": "materia",
 			"difficulty": 1,
@@ -3863,7 +4099,7 @@
 			}
 		},
 		{
-			"id": "fisica-onde-luce-169",
+			"id": "fisica-onde-luce-181",
 			"subject": "fisica",
 			"topic": "onde-luce",
 			"difficulty": 1,

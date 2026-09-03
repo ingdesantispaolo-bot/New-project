@@ -112,6 +112,74 @@ const CATTEDRA := {
 	"resta_aperta": "Meridiana ha avuto quattrocento anni per pensarci e potrebbe non essere d'accordo. Il Secondo Viaggio va a chiederglielo.",
 }
 
+## **Il riconoscimento: la nave assegna il posto, NORA dice perché.**
+## (2 settembre 2026)
+##
+## Richiesta esplicita del committente: *il finale deve accorgersi di come hai
+## giocato — senza rami*. Fino a oggi la Cattedra diceva le stesse quattro
+## battute a chiunque: chi si era fermato davanti a ogni cosa lasciata da
+## qualcuno e chi aveva attraversato ventiquattro mondi guardando avanti
+## ricevevano parola per parola lo stesso finale.
+##
+## **Le regole che lo tengono un ritratto e non una pagella**, e sono vincolanti:
+##
+## - **nomina solo cose successe.** Non esiste una riga che dica che cosa NON hai
+##   fatto: sarebbe un rimprovero all'ultima scena del gioco, e i guard-rail
+##   §10.6 vietano che l'errore abbia conseguenze narrative;
+## - **nessuna soglia e nessun confronto.** I numeri che compaiono sono conteggi
+##   — «trentun volte» — mai percentuali, mai «su quante», mai «più di». Un
+##   conteggio è un fatto; una frazione è un voto;
+## - **il taccuino vuoto ha la sua riga**, ed è calda. Chi non si è fermato mai
+##   non ha sbagliato niente: ha attraversato i mondi in un altro modo, e il
+##   gioco glielo dice così;
+## - **non apre rami.** La scena resta la stessa, nello stesso posto, con lo
+##   stesso esito: cambiano due battute in mezzo.
+##
+## Legge da [[EliNotebook]] `ritratto()`, che restituisce conteggi e nient'altro.
+const RICONOSCIMENTO_INTRO := "Prima che te lo dica la nave: quello che ho visto lo dico io."
+
+## Le osservazioni possibili, in ordine di quanto pesano. Se ne prendono al
+## massimo due: tre righe su una schermata sono il tetto (§10.2), e due cose
+## dette bene si ricordano meglio di quattro elencate.
+const RICONOSCIMENTO_MAX := 2
+
+static func _osservazioni(ritratto: Dictionary) -> Array:
+	var out: Array = []
+	var sorelle := int(ritratto.get("sorelleTrovate", 0))
+	var lasciti := int(ritratto.get("lasciti", 0))
+	var posizioni := int(ritratto.get("posizioni", 0))
+	var semi := int(ritratto.get("semi", 0))
+	if sorelle > 0:
+		out.append("Ne hai trovate %d, delle mie. Le hai lette invece di passare oltre." % sorelle)
+	if lasciti > 0:
+		out.append("E %d volte ti sei fermata davanti alla roba di qualcuno che non c'era più. Non te lo aveva chiesto nessuno." % lasciti)
+	if posizioni > 0:
+		out.append("%d volte hai detto quello che pensavi a qualcuno che non se lo aspettava. Anche a me." % posizioni)
+	if semi > 0:
+		out.append("E hai guardato %d cose che non tornavano, invece di lasciarle stare." % semi)
+	return out
+
+## I blocchi da inserire nella sequenza del finale, nello stesso formato della
+## scena della Cattedra (`chi` + `dice`). Mai vuoto: anche un taccuino bianco ha
+## la sua riga.
+static func riconoscimento(ritratto: Dictionary) -> Array:
+	var osservazioni := _osservazioni(ritratto)
+	var prima: Array = [RICONOSCIMENTO_INTRO]
+	if osservazioni.is_empty():
+		# **Il taccuino bianco.** Chi ha attraversato senza fermarsi non ha
+		# sbagliato niente, e questa riga non deve nemmeno sfiorare il rimprovero.
+		prima.append("Hai attraversato ventiquattro mondi tenendo gli occhi sulla strada, e sei arrivata.")
+	else:
+		for i in range(mini(RICONOSCIMENTO_MAX, osservazioni.size())):
+			prima.append(str(osservazioni[i]))
+	return [
+		{"chi": "nora", "dice": prima},
+		{"chi": "nora", "dice": [
+			"Per ventiquattro mondi non ti ho detto niente.",
+			"Quindi quello che sai adesso non te l'ha dato nessuno. È tuo, e non si può togliere.",
+		]},
+	]
+
 ## --- API -------------------------------------------------------------------
 
 ## Chi è al Cuore, in scena, a rotazione. `stage2` sono gli id dei residenti

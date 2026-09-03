@@ -174,6 +174,35 @@ chi erano.»*
 > *Metà esatta della campagna: il gioco smette di essere una restaurazione e
 > diventa un'indagine.*
 
+**Il filo di Squadra — la prima metà** *(2 settembre 2026)*
+
+`SistersThread` dà alle undici una traccia per mondo **dal 13 al 23**, e chiude
+bene la seconda metà. La prima restava scoperta: nei mondi 1–11 c'erano quattro
+semi che *provano* l'esistenza delle undici — un bollo di collaudo, una
+targhetta, una frase di Mirta — e le prove non fanno compagnia. Per undici mondi
+la cosa più importante della vita di Eli era un indizio d'archivio, e lei non
+aveva una riga.
+
+Adesso la prima metà segue **una persona sola**, e non una nuova: è **Squadra**,
+l'undicesima, quella immediatamente prima di Eli. Il suo fascicolo al mondo 23 ha
+«l'inchiostro di poche settimane fa» — stessa strada, appena percorsa — quindi i
+suoi segni sono ovunque, e Eli la segue dal mondo 1 senza saperlo.
+
+Non lascia spirali: quelle sono di Meridiana e dei quattrocento, e sono un gesto
+di insegnamento. Squadra lascia **segni di lavoro**, e sono i segni di una che
+mette le cose in squadra — una cassa richiusa col gancio a posto (mondo 1), un
+pezzo allineato al vuoto da cui viene (3), una riga sul registro del faro (4), un
+elenco di controllo nell'ordine giusto (7), un nome a gesso su un quadro rimesso
+a posto (8). Sono le cose che farebbe Eli: **la si riconosce dal metodo prima che
+dal nome**, ed è il motivo per cui fa impressione.
+
+Il nome compare al mondo 8 e non spiega niente — «Squadra» sembra una del posto.
+Al 12 diventa una di dodici schede numerate, al 23 l'undicesima che scrive *«se
+leggi questo, non chiedere: guarda»*, e i cinque segni si riscrivono all'indietro
+tutti insieme. Verificato da `mystery_audit._check_prima_meta`, che pretende
+almeno cinque mondi con un segno, cinque righe di Eli prima del colpo 3, e che il
+nome sia quello dell'ultima sorella e non di un personaggio inventato.
+
 > ### ⟡ Colpo 4 — mondo 16 · «C'è una stanza in più»
 > Le sezioni della nave, sommate, non tornano. C'è un **volume senza porta** che
 > non compare su nessuna mappa e che assorbe energia da quattrocento anni.
@@ -280,6 +309,29 @@ tredicesimo posto**. Non a una nozione. A lei.
 Questo è quanto il gioco si sente di affermare, e lo afferma **mostrandolo**: il
 giocatore ha appena fatto da solo la cosa che la civiltà dei Primi non era
 riuscita a fare in secoli, e l'ha fatta perché nessuno gliel'ha detta.
+
+### 4.3-bis Il riconoscimento: la nave assegna il posto, NORA dice perché
+
+*Lotto del 2 settembre 2026.*
+
+La Cattedra diceva le stesse quattro battute a chiunque: chi si era fermato
+davanti a ogni cosa lasciata da qualcuno e chi aveva attraversato ventiquattro
+mondi guardando avanti ricevevano parola per parola lo stesso finale. Adesso, fra
+l'assegnazione del posto e il ritorno delle due posizioni prese, NORA dice **che
+cosa ha visto fare a Eli** — leggendo il taccuino (§6.4).
+
+Quattro regole lo tengono un ritratto e non una pagella, e sono verificate da
+`finale_content_audit._check_riconoscimento` sul testo generato:
+
+1. **nomina solo cose successe.** Non esiste una riga che dica che cosa *non* hai
+   fatto: sarebbe un rimprovero all'ultima scena del gioco (§10.6);
+2. **nessuna soglia e nessun confronto.** Compaiono conteggi — «trentun volte» —
+   mai percentuali, mai «su quante», mai «più di». Un conteggio è un fatto, una
+   frazione è un voto;
+3. **il taccuino bianco ha la sua riga, ed è calda.** Chi non si è fermato mai non
+   ha sbagliato niente: ha attraversato in un altro modo, e il gioco glielo dice;
+4. **non apre rami.** Stessa scena, stesso posto, stesso esito: cambiano due
+   battute in mezzo.
 
 ### 4.4 Ciò che resta aperto (di proposito)
 
@@ -405,6 +457,32 @@ Legato a `NoraState.integrity`, già calcolato e salvato.
 | **Che confessa** | 0.85 → 1.0 | Voce piena, dodici inflessioni, e finalmente la verità | «sorella» |
 
 ---
+
+### 6.4 Il taccuino di Eli
+
+*Lotto del 2 settembre 2026.*
+
+Eli ha una voce in **ottantatré punti** del gioco: una riga sopra ogni forziere
+di qualcuno (`TreasureCatalog`), una sopra i semi che la riguardano
+(`MysteryCatalog`), una sopra ognuna delle undici sorelle (`SistersThread`). Sono
+i soli pensieri della protagonista in ventiquattro mondi, e fino a oggi **ognuno
+compariva per tre secondi e spariva per sempre**: il gioco non ne conservava
+nessuno.
+
+Il taccuino è dove finiscono. Non è un collezionabile e non è un inventario: è il
+posto in cui una ragazzina rilegge quello che ha pensato mesi prima e si accorge
+di essere cambiata. Si apre dal diario, e si legge dall'ultima pagina alla prima.
+
+Guard-rail: nessuna voce apre, chiude o modifica qualcosa — non tocca gate,
+energia, padronanza, frammenti; non esiste un taccuino incompleto, e chi non si è
+fermato a guardare niente ha un quaderno corto a cui il finale parla lo stesso e
+senza rimproveri; non c'è una voce «giusta» da trovare, quindi non c'è niente da
+farmare. Tenuto da `eli_notebook_audit`, che verifica anche che **il gioco lo
+riempia davvero** — un catalogo scritto e mai collegato è il difetto ricorrente di
+questo progetto.
+
+Serve una seconda volta alla fine: è da qui che il finale legge per accorgersi di
+come hai giocato (§4.3-bis).
 
 ## 7. I Dodici Maestri
 
@@ -544,7 +622,7 @@ Specifica completa in [SECONDO_VIAGGIO.md](SECONDO_VIAGGIO.md).
 | 24 beat + beat finale | §8 | Modifica `narrative_manager.gd` |
 | Semi dei colpi di scena (dialoghi, oggetti, dettagli) | §3, §6.2 | Contenuti diffusi |
 | La Cattedra Vuota: posto apparecchiato nella nave, assegnazione al finale | §4 | Nuovo: `ship_room_catalog.gd` + regia del finale |
-| Voci dei Maestri come inflessione di NORA | §7 | Nuovo: tabella in `nora_context_engine.gd` |
+| Voci dei Maestri come inflessione di NORA | §7 | **Fatto (2 set 2026)**: dati in `maestri_catalog.gd`, regia in `nora_context_engine.open_line` + `nora_voice.line`, innesco in `outdoor_gameplay._accendi_la_voce`. Tenuto da `maestri_voce_viva_audit` |
 | Stadi e registro di NORA | §6.3 | Modifica `nora_state.gd` |
 | Il Tredicesimo: presenza, azioni, dialoghi, restituzione del nome | §5 | Nuovo: `thirteenth.gd` + eventi narrativi |
 | La stanza senza porta | §3 colpo 4 | Nuovo: stanza in `ship_room_catalog.gd` |

@@ -41,13 +41,31 @@ func _assert_world_24(world: Node) -> void:
 	assert(composition.paths.size() >= 5, "servono ingresso e tre firme convergenti")
 	assert(composition.waters.is_empty(), "il Cuore è un santuario asciutto")
 	assert(composition.protected_corridors.size() == 1, "corridoio nave non protetto")
-	assert(composition.identity_regions.size() == 13, "nucleo + dodici settori richiesti")
+	# **Le tasche della spedizione non sono settori del Cuore.** (3 settembre 2026)
+	#
+	# Ogni mondo riceve da tre a cinque «tasche» sparse ai bordi, e il generatore
+	# le costruisce COPIANDO una regione a caso di quel mondo ([[WorldComposition
+	# Generator]] · `expedition-pocket-N`, sorvegliate da
+	# `world_expedition_layout_audit`). Al mondo 24 le copie sono cinque, e
+	# quattro sono finite a copiare un `system_sector`.
+	#
+	# Contarle qui faceva dire a questo audit «diciotto regioni, sedici settori»
+	# e chiamarlo un difetto del Cuore. Non lo era: i dodici sistemi ci sono
+	# tutti. Si contano quindi le regioni CHE IL CUORE SI E' DATO — quelle il cui
+	# id comincia per `heart-` — e le tasche restano affare del loro audit.
+	var proprie := 0
 	var sector_count := 0
 	var pylon_count := 0
 	for region in composition.identity_regions:
+		if not str(region.get("id", "")).begins_with("heart-"):
+			continue
+		proprie += 1
 		if str(region.get("kind", "")) == "system_sector":
 			sector_count += 1
+	assert(proprie == 13, "nucleo + dodici settori richiesti, trovate %d regioni del Cuore" % proprie)
 	for prop in composition.identity_props:
+		if prop.has("expeditionPocket"):
+			continue
 		if str(prop.get("kind", "")) == "system_pylon":
 			pylon_count += 1
 	assert(sector_count == 12 and pylon_count == 12, "i dodici sistemi non sono visibili nella mappa")

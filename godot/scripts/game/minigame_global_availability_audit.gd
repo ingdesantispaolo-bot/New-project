@@ -28,6 +28,33 @@ func _init() -> void:
 				failures.append("%s/%s: contenuto presente ma formato mai estratto" % [subject, fmt])
 		print("%-13s %s" % [subject, "  ".join(PackedStringArray(rows))])
 
+	# **Tre lati destri diversi, o l'abbinamento non si puo' costruire.**
+	# (3 settembre 2026)
+	#
+	# `_matching_node` pesca le coppie con `MATCHING_UNIQUE`, perche' due destre
+	# uguali darebbero due soluzioni giuste alla stessa prova. Ne segue una cosa
+	# che non si vede leggendo la specifica: **il numero di coppie non conta, conta
+	# il numero di destre diverse**. La pressione di fisica aveva quattro coppie e
+	# due sole destre — «Pressione maggiore» e «Pressione minore», ognuna per due
+	# sinistre — quindi non riusciva a fare tre coppie a nessun livello.
+	#
+	# Il difetto era li' da sempre e nessuno lo vedeva, perche' si manifesta solo
+	# quando il direttore pesca proprio quella specifica: e' uscito al mondo 16 e
+	# a nessun altro. Qui si guardano tutte, senza dipendere dal seme.
+	for subject_data in ApparatusConfig.SUBJECT_CYCLE:
+		var subject := str(subject_data)
+		for spec_data in Array(MinigameManager.MATCHING.get(subject, [])):
+			var spec: Dictionary = spec_data
+			var coppie := Array(spec.get("pairs", []))
+			if coppie.is_empty():
+				continue   # specifica a insieme: le coppie nascono altrove
+			var destre: Dictionary = {}
+			for coppia_data in coppie:
+				destre[str(Array(coppia_data)[1])] = true
+			if destre.size() < 3:
+				failures.append("%s/abbinamento «%s»: %d coppie ma %d destre distinte, non fa mai tre coppie" % [
+					subject, str(spec.get("topic", "?")), coppie.size(), destre.size()])
+
 	# In ogni livello tutte le meccaniche devono essere raggiungibili attraverso
 	# almeno una delle dodici materie presenti nel mondo. Il generatore guidato
 	# deve poi rispettare davvero il formato scelto dal direttore.

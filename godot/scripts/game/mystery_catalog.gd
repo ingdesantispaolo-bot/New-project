@@ -136,6 +136,54 @@ const SEMI := [
 		"cosa": "Fra i falsi di Danio c'è una targhetta autentica e senza valore: «unità mobile 07 — collaudo».",
 		"eli": "Zero-sette. Io non ce l'ho, un numero sulla schiena: ho controllato. Ma ho controllato."},
 
+	# --- il filo di Squadra · la prima metà della campagna (2 settembre 2026) --
+	#
+	# **Il difetto che chiudono.** [[SistersThread]] dà alle undici una traccia
+	# per mondo **dal 13 al 23**, con la voce di Eli sopra ognuna, e chiude
+	# benissimo la seconda metà. La prima resta scoperta: nei mondi 1-11 i quattro
+	# semi qui sopra provano che ce n'erano altre — un bollo di collaudo, una
+	# targhetta, una frase di Mirta — ma sono **prove**, e le prove non fanno
+	# compagnia. Per undici mondi la cosa più importante della vita di Eli è un
+	# indizio d'archivio, e lei non ha una riga.
+	#
+	# Questi cinque semi danno alla prima metà **una persona sola**, e non una
+	# nuova: è **Squadra**, l'undicesima, quella immediatamente prima di Eli. Il
+	# suo fascicolo al mondo 23 ha «l'inchiostro di poche settimane fa» — quindi
+	# la sua strada è la stessa, appena percorsa, e i suoi segni sono ovunque. Eli
+	# la segue da sempre senza saperlo; al 23 trova dove si è fermata.
+	#
+	# **Non lascia spirali.** Quelle sono di Meridiana e dei quattrocento, e sono
+	# un gesto di insegnamento. Squadra lascia **segni di lavoro**, e sono i segni
+	# di una che mette in squadra le cose: una cassa richiusa col gancio a posto,
+	# un pezzo allineato al suo vuoto, un elenco nell'ordine giusto. Sono le cose
+	# che farebbe Eli — la si riconosce dal metodo prima che dal nome, ed è il
+	# motivo per cui fa impressione.
+	#
+	# Il nome compare al mondo 8 e non spiega niente: «Squadra» sembra una del
+	# posto. Al mondo 12 diventa una di dodici schede numerate, al 23 l'undicesima
+	# che scrive «se leggi questo, non chiedere: guarda» — e i cinque segni si
+	# riscrivono all'indietro tutti insieme. È il guard-rail §10.7 usato bene:
+	# seminare senza anticipare.
+	#
+	# E non è morta — non lo è nessuno (§10.1). È **trattenuta**, ed è la ragione
+	# per cui il beat finale dice «sono tutte vive, sorella» e il Secondo Viaggio
+	# esiste per andarle a prendere.
+	{"colpo": "dodici-schede", "world": 1, "dove": "oggetto",
+		"cosa": "Ai piedi dell'obelisco una cassa è già stata aperta, svuotata e richiusa, con il gancio rimesso a posto. Sul bordo, una tacca sola, fatta apposta.",
+		"eli": "Chi apre e non richiude ha fretta. Questa è stata richiusa. E la tacca sul bordo la faccio anch'io, per sapere dove sono già passata."},
+	{"colpo": "dodici-schede", "world": 3, "dove": "dettaglio",
+		"cosa": "Nella macchina a cicli un pezzo è stato smontato, pulito e appoggiato di fianco, allineato al vuoto da cui viene. Non è caduto: l'ha messo lì qualcuno che pensava di tornare.",
+		"eli": "È il modo in cui lo farei io. Prima si toglie, si pulisce, si mette in fila. Poi si finisce. Solo che qui nessuno ha finito."},
+	{"colpo": "dodici-schede", "world": 4, "dove": "oggetto",
+		"cosa": "Sul registro del faro, molte pagine dopo la riga dell'allieva di quattrocento anni fa, ce n'è una recente e con l'inchiostro ancora nero: «passata un'altra. Non ha detto il nome. Ha chiesto se qualcuno è mai tornato indietro».",
+		"eli": "Ha chiesto se qualcuno è mai tornato indietro. Io non l'ho chiesto a nessuno, e adesso mi accorgo che è la prima cosa che avrei voluto sapere."},
+	{"colpo": "dodici-schede", "world": 7, "dove": "dettaglio",
+		"cosa": "In un angolo della sala qualcuno ha lasciato un elenco di controllo inciso su un coccio: guardare, provare, cambiare una cosa sola, riprovare. Nell'ordine, e con l'ultima riga sottolineata due volte.",
+		"eli": "È l'ordine giusto. È il mio ordine. Non me l'ha insegnato nessuno: credevo di essermelo fatto da sola."},
+	{"colpo": "dodici-schede", "world": 8, "dove": "oggetto",
+		"cosa": "Un quadro di manovra è stato rimesso a posto e chiuso, con i cavi raddrizzati uno per uno. Sullo sportello, a gesso, un nome: «Squadra».",
+		"eli": "Squadra. Un nome da attrezzo, di quelli che si dicono in fretta quando si ha da fare. Non so perché me lo sono ripetuto per tutto il ponte."},
+
 	# --- colpo 4 · la stanza in più (mondo 16) --------------------------------
 	{"colpo": "stanza-in-piu", "world": 9, "dove": "oggetto",
 		"cosa": "La rotta ricostruita non è un giro qualunque: gira sempre attorno allo stesso punto, e quel punto non è un mondo."},
@@ -163,6 +211,18 @@ const SEMI := [
 	# semi e tre stavano oltre il mondo 20. Chi finiva il gioco la incontrava come
 	# una notizia, non come una persona. Adesso ha lasciato tracce da subito, e
 	# sono tutte del tipo che al primo giro non si capisce e al secondo è ovvio.
+	#
+	# **E adesso comincia al mondo 1.** (2 settembre 2026) Partiva dal 2, che in
+	# pratica è subito, ma il primo mondo è quello in cui il giocatore impara a
+	# guardare: lasciarlo senza il filo di Meridiana vuol dire che la prima cosa
+	# che guarda non ne fa parte. Questo seme non ripete l'altezza della bambina
+	# (mondo 2) né la grafia (7): mostra **due mani a quattrocento anni di
+	# distanza sullo stesso muro**, e quindi che qualcuno ha copiato qualcun altro.
+	# È il seme del colpo 6 e insieme la prima crepa nel colpo 1 — la spirale
+	# fresca smette di poter essere di una persona sola.
+	{"colpo": "meridiana", "world": 1, "dove": "oggetto",
+		"cosa": "Sotto la spirale fresca, sulla stessa pietra, ce n'è un'altra quasi sparita. Stessa forma, stesso verso, ma il solco è consumato: è molto più vecchia.",
+		"eli": "Due segni uguali, uno sopra l'altro. Chi ha inciso quello nuovo aveva davanti quello vecchio, e l'ha rifatto uguale."},
 	{"colpo": "meridiana", "world": 2, "dove": "dettaglio",
 		"cosa": "Nell'Archivio la spirale più vecchia è incisa in basso, all'altezza di una bambina in piedi.",
 		"eli": "Mi ci sono messa accanto senza pensarci. È esattamente alla mia altezza. Sono rimasta lì un po' più del necessario."},

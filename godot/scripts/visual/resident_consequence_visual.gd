@@ -1,14 +1,17 @@
 class_name ResidentConsequenceVisual
 extends Node2D
 
-## Conseguenze visibili degli archi dei residenti: puro disegno procedurale,
-## nessun input e nessun vantaggio di gioco. Il pilot copre il mondo 1; gli
-## altri mondi entrano solo dopo aver misurato nodi e tempo di avvio.
+const RESIDENT_OUTCOME_ART := preload("res://scripts/visual/resident_outcome_art.gd")
+
+## Conseguenze visibili degli archi dei residenti: i primi due stadi restano un
+## disegno procedurale leggibile, mentre il completamento rivela un esito
+## illustrato. Nessun input e nessun vantaggio di gioco.
 
 var resident_id := ""
 var stage := 0
 var high_contrast := false
 var reduced_motion := false
+var outcome_art: Sprite2D
 
 const SUPPORTED_IDS := [
 	"w01-tobia", "w01-ersilia", "w02-corinna", "w02-bruno", "w03-ruggine", "w03-sesto",
@@ -30,12 +33,15 @@ func configure(id: String, value: int, use_high_contrast: bool, use_reduced_moti
 	reduced_motion = use_reduced_motion
 	name = "Consequence_%s" % id.replace("-", "_")
 	set_meta("resident_id", resident_id)
+	outcome_art = RESIDENT_OUTCOME_ART.build(resident_id)
+	add_child(outcome_art)
 	set_stage(value)
 
 func set_stage(value: int) -> void:
 	stage = clampi(value, 0, 2)
 	set_meta("resident_stage", stage)
 	set_meta("visual_semantic", _semantic())
+	RESIDENT_OUTCOME_ART.apply(outcome_art, stage >= 2, high_contrast)
 	queue_redraw()
 
 func _semantic() -> String:
@@ -63,6 +69,11 @@ func _semantic() -> String:
 	return "%s:%s" % [resident_id, "shared-work" if stage >= 2 else "ordered-work" if stage == 1 else "work-in-progress"]
 
 func _draw() -> void:
+	# L'illustrazione e' il premio dello stato concluso. I primi due stati restano
+	# procedurali: la trasformazione continua cosi' a essere leggibile, mentre il
+	# contrasto elevato conserva la sua resa geometrica netta.
+	if stage >= 2 and not high_contrast and is_instance_valid(outcome_art):
+		return
 	match resident_id:
 		"w01-tobia":
 			_draw_tobia()

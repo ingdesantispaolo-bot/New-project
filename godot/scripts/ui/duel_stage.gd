@@ -29,6 +29,7 @@ extends Control
 signal risolto(vinto: bool, netto: bool)
 
 const GUARDIAN_VISUALS := preload("res://scripts/game/guardian_visual_catalog.gd")
+const CHAPTER_ART := preload("res://scripts/visual/chapter_art.gd")
 
 const DURATA_COLPO := 0.42
 const DURATA_ROTTURA := 0.78
@@ -78,6 +79,8 @@ var _tremore := 0.0
 var _onda := 0.0
 
 var _arte: Texture2D
+var _chapter_backdrop: TextureRect
+var _veil: ColorRect
 var _attesa: Tween
 var _arena: Control
 var _rune_zona: Control
@@ -118,6 +121,9 @@ func avvia(regole_duello: Dictionary, nome: String, seme: int,
 	_tremore = 0.0
 	visible = true
 	_arte = GUARDIAN_VISUALS.texture_for(int(regole.get("mondo", 1)))
+	_chapter_backdrop.texture = CHAPTER_ART.texture_for_world(int(regole.get("mondo", 1)))
+	_chapter_backdrop.visible = not high_contrast
+	_veil.color = Color(0.015, 0.04, 0.065, 0.97 if high_contrast else 0.78)
 	var materia := ""
 	match str(regole.get("materia", "")):
 		DuelRules.VOCI:
@@ -145,11 +151,19 @@ func _entrata() -> void:
 # --- Costruzione --------------------------------------------------------------
 
 func _costruisci() -> void:
-	var velo := ColorRect.new()
-	velo.name = "DuelVeil"
-	velo.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	velo.color = Color(0.015, 0.04, 0.065, 0.92)
-	add_child(velo)
+	_chapter_backdrop = TextureRect.new()
+	_chapter_backdrop.name = "DuelChapterBackdrop"
+	_chapter_backdrop.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_chapter_backdrop.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_chapter_backdrop.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	_chapter_backdrop.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_chapter_backdrop)
+
+	_veil = ColorRect.new()
+	_veil.name = "DuelVeil"
+	_veil.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_veil.color = Color(0.015, 0.04, 0.065, 0.78)
+	add_child(_veil)
 
 	var centro := CenterContainer.new()
 	centro.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)

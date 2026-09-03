@@ -113,8 +113,11 @@ func _test_world_one() -> void:
 				"luogo del mondo 1 senza proprietario residente: %s" % role)
 			var consequence := actor.get("resident_consequence") as Node2D
 			assert(consequence != null, "%s non ha una conseguenza visibile nel proprio luogo" % resident_owner)
-			assert(consequence.get_child_count() == 0,
-				"la conseguenza di %s deve restare un solo nodo procedurale" % resident_owner)
+			var outcome := consequence.get_node_or_null("GeneratedResidentOutcome") as Sprite2D
+			assert(outcome != null,
+				"la conseguenza di %s non contiene l'esito illustrato" % resident_owner)
+			assert(not outcome.visible,
+				"l'esito illustrato di %s e' visibile prima del completamento" % resident_owner)
 			assert(int(consequence.get_meta("resident_stage", -1)) == 0,
 				"%s parte già cambiato senza che Eli abbia fatto niente" % resident_owner)
 			per_residente[resident_owner] = consequence

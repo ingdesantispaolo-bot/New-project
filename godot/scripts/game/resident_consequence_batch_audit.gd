@@ -26,7 +26,11 @@ func _init() -> void:
 				var visual := building.get("resident_consequence") as ResidentConsequenceVisual
 				assert(visual != null, "%s non arriva nel proprio luogo" % owner)
 				seen.append(str(visual.get_meta("visual_semantic", "")))
-				assert(visual.get_child_count() == 0, "%s aggiunge nodi al lotto" % owner)
+				var outcome := visual.get_node_or_null("GeneratedResidentOutcome") as Sprite2D
+				assert(visual.get_child_count() == 1 and outcome != null,
+					"%s non espone l'esito illustrato" % owner)
+				assert(outcome.visible == (stage == 2),
+					"%s mostra l'esito allo stadio sbagliato" % owner)
 				building.free()
 			assert(seen.size() == 3 and seen[0] != seen[1] and seen[1] != seen[2],
 				"%s non rende leggibili i tre stadi" % owner)

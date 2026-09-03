@@ -69,6 +69,43 @@ func _init() -> void:
 	if PetGifts.total_count() < 12:
 		failures.append("troppi pochi regali diversi (%d): la collezione si ripete subito" % PetGifts.total_count())
 
+	# **Il diario deve dire dove sei stata.** (2 settembre 2026) Per un mese i
+	# regali sono stati sedici, identici in tutti e ventiquattro i mondi: `pick()`
+	# non sapeva nemmeno dove si trovasse, e la lista che il file chiama «il diario
+	# del viaggio» diceva «Un sasso — mondo 7», dove del mondo 7 c'era solo il
+	# numero, scritto da `pet_screen` e non dal regalo.
+	for level in range(1, WorldProfileCatalog.MAX_LEVEL + 1):
+		var del_luogo := PetGifts.regalo_del_mondo(level)
+		if del_luogo == "":
+			failures.append("il mondo %d non ha una cosa che si possa raccogliere solo lì" % level)
+			continue
+		if not PetGifts.esiste(del_luogo):
+			failures.append("il regalo del mondo %d non è registrabile nel salvataggio" % level)
+		if PetState.register_gift(save, del_luogo, level).is_empty():
+			failures.append("il regalo del mondo %d viene rifiutato dal salvataggio" % level)
+		if PetGifts.label_of(del_luogo) == "Qualcosa":
+			failures.append("il regalo del mondo %d non ha un'etichetta leggibile" % level)
+	# E il posto si sente davvero pescando: su cento regali del mondo 1 ne deve
+	# uscire una quota che non sia zero né tutto — i sassi sono la battuta e non
+	# possono sparire.
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 4242
+	var dal_luogo := 0
+	for _i in range(100):
+		if PetGifts.pick(rng, 1) == PetGifts.regalo_del_mondo(1):
+			dal_luogo += 1
+	if dal_luogo == 0:
+		failures.append("in cento regali il mondo non compare mai: il diario è tornato anonimo")
+	if dal_luogo > 80:
+		failures.append("il regalo del luogo copre tutto (%d su 100): i sassi sono spariti" % dal_luogo)
+	# Senza mondo si continua a pescare fra i sedici di sempre: i chiamanti che
+	# non sanno dove si trovano non devono rompersi.
+	rng.seed = 77
+	for _i in range(20):
+		if not PetGifts.CATALOG.has(PetGifts.pick(rng, 0)):
+			failures.append("senza un mondo il Custode porta qualcosa che non è dei sedici")
+			break
+
 	# --- 4. Le opinioni sugli abitanti ----------------------------------------
 	for npc_id in PetAntics.OPINIONI.keys():
 		var opinione := PetAntics.opinion_for(str(npc_id))

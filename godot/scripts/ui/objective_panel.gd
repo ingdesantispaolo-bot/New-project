@@ -32,6 +32,7 @@ signal chiuso
 ## La materia che il bambino ha scelto di allenare adesso. La scena la
 ## trasforma in una rotta verso la sua stazione del filo.
 signal portami(materia: String)
+signal guida_richiesta
 
 const VERDE := Color("8ff6d2")
 const ORO := Color("f4cf69")
@@ -87,6 +88,14 @@ func _costruisci(passo: Dictionary, percorso: Dictionary) -> void:
 	for riga_dati in Array(percorso.get("righe", [])):
 		var riga: Dictionary = riga_dati
 		_materia(riga)
+
+	var guida := Button.new()
+	guida.name = "ObjectiveWorldGuideButton"
+	guida.text = "RIVEDI COME FUNZIONA QUESTO MONDO"
+	guida.custom_minimum_size = Vector2(0, 50)
+	guida.add_theme_font_size_override("font_size", 15)
+	guida.pressed.connect(func(): guida_richiesta.emit())
+	_colonna.add_child(guida)
 
 	var chiudi := Button.new()
 	chiudi.name = "ObjectiveCloseButton"

@@ -60,6 +60,19 @@ func _init() -> void:
 	var action := shop.find_child("ShopDetailAction", true, false) as Button
 	assert(preview != null and preview.texture != null, "anteprima selezionata assente")
 	assert(action != null and not action.text.is_empty(), "azione di dettaglio assente")
+	shop.call("_select_slot", "tool")
+	await process_frame
+	assert(get_nodes_in_group("shop_item_card").size() == FieldTools.ids().size(),
+		"la scheda strumenti non mostra tutti e cinque gli attrezzi")
+	for tool_data in FieldTools.ids():
+		var tool_id := str(tool_data)
+		assert(shop.call("_item_texture", tool_id) != null,
+			"lo strumento non ha un'illustrazione informativa: %s" % tool_id)
+		assert(FieldTools.come_si_ottiene(tool_id).contains("mondo %d" % FieldTools.mondo_di(tool_id)),
+			"la scheda non indica dove ottenere %s" % tool_id)
+	var tool_action := shop.find_child("ShopDetailAction", true, false) as Button
+	assert(tool_action != null and tool_action.disabled and tool_action.text.contains("MONDO"),
+		"la bottega presenta ancora lo strumento come acquisto o non ne indica la provenienza")
 	var state_with_no_fragments: Dictionary = gameplay.runtime_state()
 	state_with_no_fragments["fragments"] = 0
 	state_with_no_fragments["energy"] = 999999
@@ -94,5 +107,5 @@ func _init() -> void:
 	var panel := shop.find_child("ShopWindow", true, false) as Control
 	assert(panel.size.x <= shop.size.x and panel.size.y <= shop.size.y, "finestra bottega oltre i limiti del viewport compatto")
 
-	print("SHOP PRESENTATION audit OK - atlante %d premi esposti, dettaglio e layout compatto" % shop_items.size())
+	print("SHOP PRESENTATION audit OK - atlante %d premi, 5 strumenti informativi, dettaglio e layout compatto" % shop_items.size())
 	quit(0)

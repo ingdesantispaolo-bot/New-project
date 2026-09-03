@@ -70,6 +70,8 @@ func _le_chiavi_non_si_comprano() -> void:
 	var manager := RewardManager.new(save)
 	for id in FieldTools.ids():
 		var tool_id := str(id)
+		_controlla(RewardCatalog.mondo_di(tool_id) == FieldTools.mondo_di(tool_id),
+			"catalogo e calendario dissentono sul mondo di «%s»" % tool_id)
 		_controlla(not manager.can_unlock(tool_id),
 			"lo strumento «%s» risulta sbloccabile in bottega" % tool_id)
 		_controlla(not manager.can_afford(tool_id),

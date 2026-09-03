@@ -219,4 +219,15 @@ static func riga_di_consegna(tool_id: String, chi: String) -> String:
 ## Non dice «non disponibile»: dice dove si prende, perché un rifiuto che non
 ## indirizza è solo una porta chiusa.
 static func motivo_non_in_vendita() -> String:
-	return "Non è in vendita: te lo dà chi lo usa, quando gli finisci una riparazione."
+	return "Non è in vendita: te lo dà chi lo usa, quando completi la prima riparazione del suo mondo."
+
+## Indicazione completa e uniforme per bottega, varchi e guida del mondo.
+## Se ogni schermata inventasse la propria frase, la falce finirebbe di nuovo
+## per sembrare un acquisto mancante invece di una chiave guadagnata sul campo.
+static func come_si_ottiene(id: String) -> String:
+	var mondo := mondo_di(id)
+	if mondo <= 0:
+		return motivo_non_in_vendita()
+	var titolo := str(WorldProfileCatalog.profile(mondo).get("title", "mondo %d" % mondo))
+	return "NON SI COMPRA · Si riceve completando la prima riparazione del mondo %d, %s." % [
+		mondo, titolo]

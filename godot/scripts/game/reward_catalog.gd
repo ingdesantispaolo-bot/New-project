@@ -76,8 +76,8 @@ const CATALOG := [
 	# strumenti non sono in vendita ([[FieldTools]]), e `can_unlock` li rifiuta
 	# prima di guardare il prezzo. Toglierlo vorrebbe dire trattare la vetrina in
 	# modo speciale per cinque voci su settanta; lasciarlo costa una riga morta.
-	{"id": "tool-torch", "slot": "tool", "name": "Torcia da ricognizione", "description": "Illumina la notte profonda e rivela tesori schermati dall'oscurità.", "origine": "Torcia delle caverne. Serve davvero: senza, certe deviazioni restano chiuse.", "cost": 140, "glyph": "*", "color": 0xffc76b},
-	{"id": "tool-scythe", "slot": "tool", "name": "Falce da campo", "description": "Taglia l'erba alta che protegge deviazioni e tesori opzionali.", "origine": "Falce da sterpaglia della Serra. Apre passaggi, non prove.", "cost": 180, "glyph": "~", "color": 0x91dc72, "minLevel": 2},
+	{"id": "tool-torch", "mondo": 1, "slot": "tool", "name": "Torcia da ricognizione", "description": "Illumina la notte profonda e rivela tesori schermati dall'oscurità.", "origine": "Torcia delle caverne. Serve davvero: senza, certe deviazioni restano chiuse.", "cost": 140, "glyph": "*", "color": 0xffc76b},
+	{"id": "tool-scythe", "mondo": 2, "slot": "tool", "name": "Falce da campo", "description": "Taglia l'erba alta che protegge deviazioni e tesori opzionali.", "origine": "Falce da sterpaglia della Serra. Apre passaggi, non prove.", "cost": 180, "glyph": "~", "color": 0x91dc72, "minLevel": 2},
 	{"id": "tool-lever", "mondo": 5, "slot": "tool", "name": "Leva dei Primi", "description": "Solleva le lastre sigillate che i Primi lasciavano sopra ciò che non voleva essere trovato.", "origine": "Barra di ferro nero delle Officine del Moto. Non era forza: era sapere dove spingere.", "cost": 260, "glyph": "~", "color": 0xc0c6d0, "minLevel": 5},
 	{"id": "tool-lens", "mondo": 7, "slot": "tool", "name": "Lente dei Primi", "description": "Rende leggibili le iscrizioni sbiadite: le scritte ci sono ancora, è l'occhio che non arriva.", "origine": "Disco di vetro della Sala dei Glifi, con il bordo consumato dalle dita.", "cost": 300, "glyph": "o", "color": 0x9ad8ff, "minLevel": 7},
 	{"id": "tool-bellows", "mondo": 11, "slot": "tool", "name": "Soffietto", "description": "Disperde i banchi di Silenzio denso. Il Silenzio si posa come la polvere, e come la polvere si soffia via.", "origine": "Soffietto da forgia della Soglia del Tempo, col cuoio rappezzato tre volte.", "cost": 360, "glyph": "~", "color": 0xd9c7a4, "minLevel": 11},
@@ -175,8 +175,8 @@ const CATALOG := [
 ## una svista: sono la roba della nave e dei Dodici (le tute di parata, il
 ## mantello di chi comanda, la sonda di servizio), quella degli itineranti che
 ## girano tutti i mondi, e i moduli — che toccano il gameplay e non possono
-## dipendere da dove sei arrivata. Gli strumenti di campo non sono qui perché non
-## si comprano affatto ([[FieldTools]]).
+## dipendere da dove sei arrivata. Gli strumenti di campo compaiono invece come
+## schede informative: si vedono in bottega, ma non si comprano ([[FieldTools]]).
 ##
 ## Ritorna 0 per «nessun mondo richiesto».
 static func mondo_di(id: String) -> int:

@@ -9,6 +9,7 @@ signal closed
 const SHOP_BACKGROUND: Texture2D = preload("res://assets/shop/reward-shop-bg.webp")
 const REWARD_ATLAS: Texture2D = preload("res://assets/shop/reward-items-sheet.png")
 const REWARD_ATLAS_DATA := "res://assets/shop/reward-items-sheet.json"
+const FIELD_GATE_ART := preload("res://scripts/visual/field_gate_art.gd")
 
 const SLOT_LABELS := {
 	"bot": "BIT",
@@ -24,10 +25,9 @@ const SLOT_LABELS := {
 }
 ## I moduli stanno subito dopo gli strumenti, che sono la cosa a cui somigliano di
 ## più: entrambi servono là fuori e non toccano una prova.
-# Lo slot "tool" non compare più: gli strumenti di campo non si comprano, li
-# consegna il mondo dopo una riparazione ([[FieldTools]]). Restano nel catalogo
-# perché il resto del gioco li cerca per id.
-const SLOT_ORDER := ["bot", "avatar", "accessory", "conquest", "module", "pet", "emblem", "upgrade", "decor"]
+# Gli strumenti tornano in vetrina come MAPPA, non come merce: nasconderli
+# faceva sembrare la falce richiesta al mondo 2 un articolo mancante.
+const SLOT_ORDER := ["bot", "avatar", "accessory", "conquest", "tool", "module", "pet", "emblem", "upgrade", "decor"]
 const SLOT_META := {
 	"bot": {
 		"title": "Livree di Bit",
@@ -49,12 +49,12 @@ const SLOT_META := {
 		"intro": "Ventiquattro oggetti nati quando i Pericoli dei mondi hanno smesso di deformare ciò che li circondava.",
 		"impact": "Restano nella collezione come memoria del luogo stabilizzato, e se ne appende uno addosso a Eli. Non rendono più facile nessuna prova.",
 	},
-	# Lo slot "tool" resta descritto qui ma non compare piu' in vetrina: gli
+	# Lo slot "tool" è una mappa di provenienza, non una corsia di acquisto: gli
 	# strumenti li consegna il mondo dopo una riparazione ([[FieldTools]]).
 	"tool": {
 		"title": "Strumenti da esplorazione",
-		"intro": "Torcia e falce aprono deviazioni opzionali del mondo esterno.",
-		"impact": "Non sono in vendita: te li da' chi li usa, quando gli finisci una riparazione.",
+		"intro": "Qui vedi tutti gli strumenti e dove ottenerli. Non sono articoli in vendita.",
+		"impact": "Ogni strumento arriva dalla prima riparazione del mondo indicato e apre soltanto deviazioni opzionali.",
 	},
 	"pet": {
 		"title": "Le forme del Custode",
@@ -662,6 +662,9 @@ func _configure_action(button: Button, cosmetic: Dictionary, detailed: bool) -> 
 	elif owned:
 		button.text = "EQUIPAGGIA"
 		button.pressed.connect(_equip.bind(id))
+	elif FieldTools.is_field_tool(id):
+		button.text = ("MONDO %d · PRIMA RIPARAZIONE" % FieldTools.mondo_di(id)) if detailed else "DAL MONDO %d" % FieldTools.mondo_di(id)
+		button.disabled = true
 	elif _luogo_da_incontrare(id) != "":
 		# Non è un rifiuto: è un indirizzo. La voce esiste, sta in un posto, e il
 		# posto ha un nome che si può raggiungere.
@@ -693,6 +696,8 @@ func _card_price_text(cost: int, min_level: int, owned: bool, active: bool, id :
 		return "IN USO"
 	if owned:
 		return "POSSEDUTO"
+	if FieldTools.is_field_tool(id):
+		return "NON IN VENDITA · MONDO %d" % FieldTools.mondo_di(id)
 	var luogo := _luogo_da_incontrare(id)
 	if luogo != "":
 		return "DA TROVARE · %s" % luogo.to_upper()
@@ -723,6 +728,8 @@ func _detail_requirement_text(cost: int, min_level: int, owned: bool, active: bo
 		return "CONFIGURAZIONE ATTIVA"
 	if owned:
 		return "NELLA TUA COLLEZIONE"
+	if FieldTools.is_field_tool(id):
+		return FieldTools.come_si_ottiene(id)
 	var luogo := _luogo_da_incontrare(id)
 	if luogo != "":
 		return "VIENE DA: %s" % luogo.to_upper()
@@ -738,6 +745,10 @@ func _detail_state_text(cosmetic: Dictionary) -> String:
 	var slot_name := str(cosmetic.get("slot", ""))
 	var min_level := int(cosmetic.get("minLevel", 1))
 	var cost := int(cosmetic.get("cost", 0))
+	if FieldTools.is_field_tool(id):
+		if _is_owned(id):
+			return "Strumento ottenuto sul campo. Basta possederlo: i passaggi compatibili si aprono senza doverlo equipaggiare."
+		return FieldTools.come_si_ottiene(id)
 	if slot_name == "module" and _is_owned(id):
 		if _in_bardatura(id):
 			return "In bardatura: lo porti fuori adesso. Posti usati %d su %d." % [
@@ -775,6 +786,8 @@ func _requirement_color(cosmetic: Dictionary) -> Color:
 	var id := str(cosmetic.get("id", ""))
 	if _is_owned(id):
 		return Color("78e2b0")
+	if FieldTools.is_field_tool(id):
+		return Color("6be7d6")
 	if _richiede_conquista(id):
 		return Color("c7b8ff")
 	if int(_state.get("level", 1)) < int(cosmetic.get("minLevel", 1)):
@@ -885,6 +898,8 @@ func _load_atlas_regions() -> void:
 
 
 func _item_texture(id: String) -> Texture2D:
+	if FieldTools.is_field_tool(id):
+		return FIELD_GATE_ART.texture_for(id, false)
 	if not _atlas_regions.has(id):
 		return null
 	var texture := AtlasTexture.new()

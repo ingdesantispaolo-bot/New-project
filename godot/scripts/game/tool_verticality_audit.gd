@@ -252,6 +252,30 @@ func _prova_nel_mondo(livello: int) -> void:
 	mondo.queue_free()
 	await process_frame
 
+func _prova_recupero_salvataggio_vecchio() -> void:
+	var initial := GameSaveManager._default_data()
+	initial["level"] = 2
+	initial["worlds"] = {"unlocked": [1, 2], "current": 2}
+	initial["minimissions"] = [1, 2]
+	var request := NativeWorldState.default_request("tool-recovery-audit")
+	request["loadLocalSave"] = false
+	request["initialSave"] = initial
+	request["worldLevel"] = 2
+	var mondo := (load(WORLD_SCENE) as PackedScene).instantiate()
+	mondo.set("launch_request_override", request)
+	mondo.set("launch_stream_radius_override", 0)
+	root.add_child(mondo)
+	await process_frame
+	await process_frame
+	var manager = mondo.get("gameplay").reward_manager
+	_controlla(manager.owned(FieldTools.TORCIA),
+		"salvataggio con riparazione del mondo 1 non recupera la torcia")
+	_controlla(manager.owned(FieldTools.FALCE),
+		"salvataggio con riparazione del mondo 2 non recupera la falce")
+	root.remove_child(mondo)
+	mondo.queue_free()
+	await process_frame
+
 func _run() -> void:
 	_prova_calendario()
 	_prova_porte_chiuse()
@@ -260,6 +284,7 @@ func _run() -> void:
 	root.size = Vector2i(900, 600)
 	for livello in MONDI_CAMPIONE:
 		await _prova_nel_mondo(int(livello))
+	await _prova_recupero_salvataggio_vecchio()
 	current_scene = null
 	if _rossi.is_empty():
 		print("TOOL VERTICALITY audit OK — cinque chiavi sull'arco, ogni mondo lascia una porta, il registro ricorda dove")

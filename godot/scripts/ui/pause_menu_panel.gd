@@ -90,19 +90,40 @@ func _ready() -> void:
 
 	_cornice = PanelContainer.new()
 	_cornice.name = "PauseCard"
-	_cornice.custom_minimum_size = Vector2(380, 0)
 	_cornice.add_theme_stylebox_override("panel", _stile_cornice())
 	centro.add_child(_cornice)
+	_adatta_al_viewport()
+
+	var scorri := ScrollContainer.new()
+	scorri.name = "PauseScroll"
+	scorri.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	scorri.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scorri.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_cornice.add_child(scorri)
 
 	var margine := MarginContainer.new()
+	margine.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	for lato in ["left", "top", "right", "bottom"]:
 		margine.add_theme_constant_override("margin_%s" % lato, 24)
-	_cornice.add_child(margine)
+	scorri.add_child(margine)
 
 	_colonna = VBoxContainer.new()
 	_colonna.name = "PauseColumn"
+	_colonna.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_colonna.add_theme_constant_override("separation", 10)
 	margine.add_child(_colonna)
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_RESIZED and is_node_ready():
+		_adatta_al_viewport()
+
+func _adatta_al_viewport() -> void:
+	if not is_instance_valid(_cornice):
+		return
+	var vista := size if size.x > 0.0 and size.y > 0.0 else get_viewport_rect().size
+	var spazio := vista - Vector2(24, 24)
+	_cornice.custom_minimum_size = Vector2(minf(380.0, spazio.x), minf(560.0, spazio.y))
+	_cornice.reset_size()
 
 ## **Apre la pausa.** La scena passa quello che solo lei sa: chi gioca, dove si
 ## trova, e come si chiama qui il riavvio.
@@ -112,6 +133,7 @@ func _ready() -> void:
 ## quella riga, viene letto come «perdi tutto» e non lo tocca nessuno.
 func apri(nome_giocatore: String, luogo: String, titolo_riavvio: String,
 		nota_riavvio: String, puo_riavviare: bool, alto_contrasto := false) -> void:
+	_adatta_al_viewport()
 	_nome_giocatore = nome_giocatore
 	_luogo = luogo
 	_titolo_riavvio = titolo_riavvio

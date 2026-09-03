@@ -36,6 +36,13 @@ func _init() -> void:
 		quit(2)
 		return
 
+	shop.call("_select_slot", "tool")
+	shop.call("_select_item", FieldTools.FALCE)
+	await _settle()
+	if await _capture("bottega-strumenti-wide.png") != OK:
+		quit(2)
+		return
+
 	shop.call("_select_slot", "decor")
 	shop.call("_select_item", "decor-biblioteca-classica")
 	await _settle()

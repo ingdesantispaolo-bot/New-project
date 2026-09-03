@@ -1331,8 +1331,8 @@ func _apri_pausa() -> void:
 	pause_menu.apri(
 		_nome_del_giocatore(),
 		"Nave · %s" % str(ShipRoomCatalog.room(current_room_id).get("label", "ponte")),
-		"RIAVVIA IL MONDO",
-		"Rientri nel mondo %d (%s) dal portale, all'ora in cui comincia. Prove superate, tesori e frammenti restano tuoi." % [
+		"RIPARTI DAL PORTALE",
+		"Rientri nel mondo %d (%s) dall'ingresso, con una nuova mappa. I lavori conclusi, ciò che hai imparato, tesori e frammenti restano salvati." % [
 			mondo, str(profilo.get("title", ""))],
 		true,
 		bool(Dictionary(save.data.get("accessibility", {})).get("highContrast", false)))
@@ -1349,6 +1349,7 @@ func _nome_del_giocatore() -> String:
 func _riavvia_mondo() -> void:
 	if is_instance_valid(save):
 		save.clear_world_resume(str(save.current_world()))
+		save.forget_world_intro(save.current_world())
 		save.save()
 	if is_instance_valid(pause_menu):
 		pause_menu.congeda()

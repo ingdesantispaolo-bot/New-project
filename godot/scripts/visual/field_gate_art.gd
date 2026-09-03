@@ -19,13 +19,17 @@ static func build(tool_id: String, open: bool) -> Sprite2D:
 	apply(sprite, tool_id, open)
 	return sprite
 
-static func apply(sprite: Sprite2D, tool_id: String, open: bool) -> void:
+static func texture_for(tool_id: String, open: bool = false) -> AtlasTexture:
 	var column := int(COLONNE.get(tool_id, 0))
 	var cell_size := ATLAS.get_size() / Vector2(5.0, 2.0)
 	var region := AtlasTexture.new()
 	region.atlas = ATLAS
 	region.region = Rect2(Vector2(column, 1 if open else 0) * cell_size, cell_size)
-	sprite.texture = region
+	return region
+
+static func apply(sprite: Sprite2D, tool_id: String, open: bool) -> void:
+	var cell_size := ATLAS.get_size() / Vector2(5.0, 2.0)
+	sprite.texture = texture_for(tool_id, open)
 	sprite.position = Vector2(0, -13)
 	var scale_factor := minf(142.0 / cell_size.x, 118.0 / cell_size.y)
 	sprite.scale = Vector2.ONE * scale_factor

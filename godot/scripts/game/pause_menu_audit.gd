@@ -56,12 +56,16 @@ func _il_riavvio_non_restituisce_niente() -> void:
 	salva.set_mastery("italiano", 0.72)
 	salva.data["fragments"] = 140
 	salva.set_world_resume("3", Vector2(512.0, 900.0), 0.42)
+	salva.claim_world_intro(3)
 
 	_controlla(not salva.world_resume("3").is_empty(),
 		"il salvataggio non registra dov'era rimasto")
 	salva.clear_world_resume("3")
+	salva.forget_world_intro(3)
 	_controlla(salva.world_resume("3").is_empty(),
 		"riavviare non dimentica dov'era rimasto: si rientrerebbe dove si era")
+	_controlla(not salva.world_intro_seen(3),
+		"ripartendo dal portale la guida iniziale non ricompare")
 
 	var bucket := salva.world_progress("3")
 	_controlla(Array(bucket.get("completedEncounterIds", [])).has("evt-3-gate-1"),
@@ -172,6 +176,26 @@ func _la_pausa_del_mondo() -> void:
 	_controlla(paused, "la pausa non si riapre dopo essere stata chiusa")
 	pausa.congeda()
 	_controlla(not paused, "congedare la pausa lascia l'albero in pausa")
+
+	# Su uno schermo basso la scheda deve restare nel viewport e scorrere:
+	# altrimenti il comando esiste nel codice ma per lo studente non esiste.
+	root.size = Vector2i(640, 360)
+	await process_frame
+	pausa.size = Vector2(640, 360)
+	pausa.call("_adatta_al_viewport")
+	pausa.apri("Eli", "Mondo 3", "RIPARTI DAL PORTALE", "I progressi restano.", true)
+	await process_frame
+	var scheda := pausa.find_child("PauseCard", true, false) as Control
+	var scorri := pausa.find_child("PauseScroll", true, false) as ScrollContainer
+	_controlla(scheda != null and scheda.size.y <= 336.0,
+		"la pausa compatta esce dal viewport: il riavvio non e' raggiungibile")
+	_controlla(scorri != null and scorri.size.y > 0.0,
+		"la pausa compatta non scorre")
+	_controlla(pausa.find_child("PauseRestartButton", true, false) != null,
+		"il comando di ripartenza sparisce sullo schermo compatto")
+	pausa.congeda()
+	root.size = Vector2i(900, 600)
+	await process_frame
 
 	# Il riavvio prepara il rientro nello stesso mondo, con lo stesso salvataggio.
 	mondo.call("_stage_rientro_nel_mondo", "audit-riavvio")

@@ -246,6 +246,7 @@ delete document.documentElement.dataset.eliExam;
 		func(_subject: String, _topic: String): _pet_react("topic_consolidated"))
 	gameplay.setup(request, result, bool(request.get("loadLocalSave", true)))
 	game_save = gameplay.game_save
+	_recupera_strumenti_mancanti()
 	# Entrare in un mondo È aver giocato oggi. Idempotente entro la giornata:
 	# rientrare dieci volte in un pomeriggio conta un giorno solo.
 	if bool(request.get("loadLocalSave", true)) and PlayDiary.register_day(game_save):
@@ -354,7 +355,7 @@ func _ricorda_cosa_hai_lasciato_qui() -> void:
 ##
 ## Se il pannello non si potesse costruire non succede niente: una schermata di
 ## benvenuto non deve poter impedire di entrare in un mondo.
-func _mostra_soglia_del_mondo() -> void:
+func _mostra_soglia_del_mondo(forza: bool = false) -> void:
 	if not is_instance_valid(game_save) or not is_instance_valid(ui_layer):
 		return
 	# Non quando il mondo è pilotato da qualcun altro.
@@ -367,13 +368,16 @@ func _mostra_soglia_del_mondo() -> void:
 	#
 	# Il contenuto della soglia resta verificato da `world_intro_audit`, che lo
 	# controlla per tutti e ventiquattro i mondi senza costruire la scena.
-	if not launch_request_override.is_empty():
+	if not forza and not launch_request_override.is_empty():
 		return
-	if not game_save.claim_world_intro(world_level):
+	if not forza and not game_save.claim_world_intro(world_level):
 		return
+	if not forza:
+		game_save.save()
 	var pannello := WorldIntroPanel.new()
 	pannello.name = "WorldIntroPanel"
 	pannello.livello = world_level
+	pannello.strumento_dovuto = FieldTools.dovuto(gameplay.reward_manager, world_level)
 	pannello.chiusa.connect(func():
 		if is_instance_valid(pannello):
 			pannello.queue_free()
@@ -384,6 +388,24 @@ func _mostra_soglia_del_mondo() -> void:
 	# schermo la fa finire chissà dove mentre il bambino legge.
 	if is_instance_valid(player):
 		player.set_physics_process(false)
+
+## Ripara i salvataggi creati prima del calendario degli strumenti: se la
+## riparazione del mondo risulta già conclusa, la relativa chiave è già stata
+## guadagnata e non può dipendere dal fatto che il segnale live sia esistito.
+func _recupera_strumenti_mancanti() -> void:
+	if not is_instance_valid(game_save) or not is_instance_valid(gameplay) \
+			or gameplay.reward_manager == null:
+		return
+	var recuperati: Array = []
+	for id_data in FieldTools.ids():
+		var id := str(id_data)
+		var mondo := FieldTools.mondo_di(id)
+		if game_save.has_minimission(mondo) and gameplay.reward_manager.deliver_field_tool(id):
+			recuperati.append(id)
+	if recuperati.is_empty():
+		return
+	game_save.save()
+	gameplay.call("_emit_state")
 
 func _configure_world_profile() -> void:
 	var frontier := clampi(game_save.level(), 1, WorldProfileCatalog.MAX_LEVEL)
@@ -7416,9 +7438,10 @@ func _equipment_requirement_message(target: Area2D) -> String:
 	var arnese := FieldTools.nome(richiesto)
 	var mondo_strumento := FieldTools.mondo_di(richiesto)
 	if is_instance_valid(game_save) and mondo_strumento > int(game_save.level()):
-		return "%s · %s te la dara' chi lavora al mondo %d. Torna qui quando ce l'hai." % [
+		return "%s · %s NON si compra: riceverai lo strumento al mondo %d dopo la prima riparazione. Torna qui quando ce l'hai." % [
 			ostacolo, arnese, mondo_strumento]
-	return "%s · %s ce l'ha chi lavora qui: finiscigli una riparazione." % [ostacolo, arnese]
+	return "%s · %s NON si compra: completa la prima riparazione del mondo %d per ricevere lo strumento." % [
+		ostacolo, arnese, mondo_strumento]
 
 func _interact() -> void:
 	var target := _nearest()
@@ -7893,8 +7916,8 @@ func _apri_pausa() -> void:
 	pause_menu.apri(
 		_nome_del_giocatore(),
 		"Mondo %d · %s" % [world_level, str(world_profile.get("title", ""))],
-		"RIAVVIA IL MONDO",
-		"Torni al portale, all'ora in cui questo mondo comincia. Prove superate, tesori e frammenti restano tuoi.",
+		"RIPARTI DAL PORTALE",
+		"Ricomincia il percorso dall'ingresso e rigenera la mappa. I lavori conclusi, ciò che hai imparato, tesori e frammenti restano salvati.",
 		true,
 		high_contrast)
 	var audio := get_node_or_null("/root/NativeAudio")
@@ -7935,6 +7958,7 @@ func _salva_posizione_e_partita() -> void:
 func _riavvia_mondo() -> void:
 	if is_instance_valid(game_save):
 		game_save.clear_world_resume(str(world_level))
+		game_save.forget_world_intro(world_level)
 		game_save.save()
 	if is_instance_valid(pause_menu):
 		pause_menu.congeda()
@@ -8194,12 +8218,17 @@ func _apri_obiettivi() -> void:
 	objective_panel.name = "ObjectivePanel"
 	objective_panel.chiuso.connect(_chiudi_obiettivi)
 	objective_panel.portami.connect(_portami_alla_palestra)
+	objective_panel.guida_richiesta.connect(_rivedi_soglia_del_mondo)
 	ui_layer.add_child(objective_panel)
 	objective_panel.apri(
 		ObjectiveBriefing.passo(runtime, gameplay.progression_manager),
 		ObjectiveBriefing.percorso(gameplay.progression_manager))
 	if is_instance_valid(player):
 		player.set_physics_process(false)
+
+func _rivedi_soglia_del_mondo() -> void:
+	_chiudi_obiettivi()
+	_mostra_soglia_del_mondo(true)
 
 ## **PORTAMI.** (21 agosto 2026) Il quadro degli obiettivi dice che cosa manca;
 ## questo porta dove si recupera. Punta la stazione di quella materia e chiude

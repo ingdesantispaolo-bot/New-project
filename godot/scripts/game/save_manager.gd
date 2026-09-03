@@ -928,6 +928,14 @@ func claim_world_intro(level: int) -> bool:
 func world_intro_seen(level: int) -> bool:
 	return Array(data.get("worldIntroSeen", [])).has(level)
 
+## Permette al comando «Riparti dal portale» di restituire anche la spiegazione
+## iniziale. Non tocca nessun progresso: dimentica soltanto che quella pagina è
+## già stata mostrata.
+func forget_world_intro(level: int) -> void:
+	var visti: Array = Array(data.get("worldIntroSeen", []))
+	visti.erase(level)
+	data["worldIntroSeen"] = visti
+
 ## **Un momento d'autore si vede una volta sola.** (19 agosto 2026)
 ##
 ## Chiede e segna in un colpo: due chiamate separate — «l'ho già visto?» e poi

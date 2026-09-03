@@ -39,6 +39,7 @@ const ALTEZZA_TOCCO := 52
 const CHAPTER_ART := preload("res://scripts/visual/chapter_art.gd")
 
 var livello := 1
+var strumento_dovuto := ""
 var _colonna: VBoxContainer
 
 func _ready() -> void:
@@ -126,6 +127,18 @@ func _disegna() -> void:
 		# sbagliato, che è il modo peggiore di scoprirlo.
 		_colonna.add_child(_nota("Ti servirà già: %s" % ", ".join(
 			PackedStringArray(prerequisiti.slice(0, 2)))))
+
+	# --- Come funzionano i lavori -------------------------------------------
+	# Al mondo 2 il numero delle cose visibili cresce e, senza questa cerniera,
+	# sembra che il gioco abbia cambiato regole durante il viaggio.
+	_colonna.add_child(_sezione("COME FUNZIONANO I LAVORI"))
+	_colonna.add_child(_paragrafo(
+		"1. Scegli una missione indicata sulla mappa.  2. Completa le prove del luogo.  3. Riapri «CHE COSA DEVO FARE?» per vedere il prossimo passo e quante prove restano. I lavori già conclusi restano salvati.",
+		Color("e7f2f0"), 14))
+	if not strumento_dovuto.is_empty():
+		_colonna.add_child(_riquadro(
+			"In questo mondo riceverai %s completando la prima riparazione. Non cercarla nella bottega: lì trovi soltanto la scheda che indica dove ottenerla." % FieldTools.nome(strumento_dovuto),
+			Color("ffe6a3"), 14, "STRUMENTO"))
 
 	# --- Cosa mi apre --------------------------------------------------------
 	_colonna.add_child(_sezione("COSA APRE LA STRADA"))

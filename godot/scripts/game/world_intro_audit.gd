@@ -18,11 +18,41 @@ extends SceneTree
 ##      schermata che ricompare si impara a chiudere senza leggerla.
 
 func _init() -> void:
+	call_deferred("_run")
+
+func _run() -> void:
 	_prova_contenuto()
 	_prova_niente_riciclato()
 	_prova_una_volta_sola()
-	print("WORLD INTRO audit OK — 24 soglie distinte, mostrate una volta sola")
+	await _prova_spiegazione_mondo_due()
+	print("WORLD INTRO audit OK — 24 soglie distinte, guida rileggibile e falce spiegata")
 	quit(0)
+
+func _prova_spiegazione_mondo_due() -> void:
+	var pannello := WorldIntroPanel.new()
+	pannello.livello = 2
+	pannello.strumento_dovuto = FieldTools.FALCE
+	root.add_child(pannello)
+	await process_frame
+	var testo := ""
+	for nodo in pannello.find_children("*", "Label", true, false):
+		testo += "\n%s" % str((nodo as Label).text)
+	assert(testo.contains("COME FUNZIONANO I LAVORI"),
+		"il mondo 2 non spiega la sequenza dei lavori")
+	assert(testo.contains(FieldTools.nome(FieldTools.FALCE)) and testo.contains("Non cercarla nella bottega"),
+		"la soglia del mondo 2 non spiega dove arriva la falce")
+	pannello.queue_free()
+	await process_frame
+	var obiettivi := ObjectivePanel.new()
+	root.add_child(obiettivi)
+	await process_frame
+	obiettivi.apri(
+		{"titolo": "Passo", "azione": "Azione", "dove": "Qui"},
+		{"righe": [], "fatte": 0, "totali": 12, "pronto": false, "dove": "Nel mondo"})
+	assert(obiettivi.find_child("ObjectiveWorldGuideButton", true, false) != null,
+		"il quadro obiettivi non permette di rileggere la guida del mondo")
+	obiettivi.queue_free()
+	await process_frame
 
 func _prova_contenuto() -> void:
 	for livello in range(1, ApparatusConfig.MAX_LEVEL + 1):

@@ -1911,24 +1911,32 @@ func _create_profile_event(event: Dictionary) -> void:
 		var reward_tool := FieldTools.del_mondo(world_level)
 		if reward_tool != "" and not gameplay.reward_manager.owned(reward_tool):
 			payload["rewardTool"] = reward_tool
-	if director_kind == "practice" and world_level >= 2:
-		# Solo deviazioni opzionali: nessuno strumento può bloccare il gate.
-		#
-		# **E nessuna chiave futura su una palestra.** (19 agosto 2026) La prima
-		# stesura di questo lotto pescava dai varchi del mondo — quelli già
-		# consegnabili *più il prossimo* — e sarebbe stato un errore serio: le
-		# undici palestre sono una per materia, e chiuderne una fino a tre mondi
-		# dopo vuol dire togliere a un bambino l'unico posto in cui allena quella
-		# materia in questo mondo. La progressione non si sarebbe fermata (le
-		# palestre non contano per il gate) ma l'apprendimento sì, che è peggio.
-		#
-		# Le palestre usano quindi solo le chiavi che il mondo ha **già**
-		# consegnato: al più restano chiuse fino alla riparazione di questo mondo,
-		# che è la scena che le consegna. Le porte che guardano avanti stanno sui
-		# forzieri ([[ChunkManager]]), cioè davanti ai frammenti, cioè davanti ai
-		# cosmetici — l'unico posto in cui questo gioco ammette di chiudere.
-		var chiavi := FieldTools.consegnati_entro(world_level)
-		payload["requiredTool"] = str(chiavi[posmod(hash(event_id), chiavi.size())])
+	# **Nessun varco sulle palestre.** (4 settembre 2026)
+	#
+	# Qui, dal 19 agosto, ogni palestra dal mondo 2 in poi riceveva un
+	# `requiredTool` pescato fra le chiavi «già consegnabili» nel mondo. Il
+	# commento di allora escludeva con cura le chiavi **future**, e la ragione era
+	# giusta: *le undici palestre sono una per materia, e chiuderne una vuol dire
+	# togliere l'unico posto in cui quella materia si allena*. Ma si fermava un
+	# passo prima della conclusione.
+	#
+	# Segnalazione di gioco: «al livello 2 non riesco a recuperare la falcetta per
+	# completare il livello». Misurato aprendo il mondo con gli attrezzi
+	# dell'arrivo: **7 materie su 12** allenabili al mondo 2, e le cinque chiuse
+	# — coding, elettronica, matematica, musica, storia — lo erano dalla falce,
+	# che il mondo 2 deve ancora consegnare. Il gate ne chiede dodici. Stessa
+	# forma al mondo 5 (7/12), al 7 (9/12) e all'11 (11/12).
+	#
+	# «Chiave già consegnabile» non vuol dire «chiave che hai»: quella del mondo
+	# corrente è in elenco mentre sta ancora nelle mani di chi la consegna.
+	#
+	# E la conclusione, misurata: in ogni mondo la materia in focus ha sette nodi
+	# e **le altre undici ne hanno uno solo, la loro palestra**. Non esiste quindi
+	# una palestra che si possa chiudere senza chiudere la sua materia — né con
+	# una chiave futura né con quella di adesso. Le porte restano dove il progetto
+	# ha sempre detto che stanno: sui forzieri ([[ChunkManager]]), cioè davanti ai
+	# frammenti, cioè davanti ai cosmetici — l'unico posto in cui questo gioco
+	# ammette di chiudere. Tenuto da `materie_raggiungibili_audit`.
 	area.set_meta("payload", payload)
 	var shape := CollisionShape2D.new()
 	shape.name = "EventCollision"

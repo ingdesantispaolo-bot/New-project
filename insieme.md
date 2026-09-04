@@ -46,12 +46,13 @@ Cinque regole, e sono tutte state pagate almeno una volta.
 
 | | valore | dove si rimisura |
 |---|---|---|
-| audit Godot | **243 verdi su 244** in 572 s — rosso: `gesto_audit`, storia | `npm run audit:godot` |
+| audit Godot | **244 verdi su 245** — unico rosso: `gesto_audit`, storia | `npm run audit:godot` |
 | item nei dodici banchi | **3742** | `godot/data/banks/*.json` |
 | voci di NORA | **256** | `nora_explanations.gd` |
 | campagna | **21,3 ore** · mondo più corto 30,1 min, più lungo 69,4 min | `time_cost_probe` |
 | mondo 1: nodi | **2511 / 3500** (era 2789: i nodi sono stati restituiti) | `performance_budget_audit` |
-| mondo 1: avvio | **466 / 500 ms** — il 93% del budget, ed è il numero stretto | idem |
+| mondo 1: avvio | **457 / 500 ms** — il 91% del budget, ed è il numero stretto | idem |
+| materie allenabili all'arrivo | **12/12 in tutti e 24 i mondi** | `materie_raggiungibili_audit` |
 | PCK esportato | **79,10 MiB** (`index.pck`) + 14,60 MiB differito | `public/godot/outdoor/` |
 | pacchetto completo su disco | **~132 MB** | idem |
 | «tocca una fra N» nel mondo | 18,0%–32,0% per materia, tutte sotto il tetto | `gesto_audit` |
@@ -69,16 +70,52 @@ Cinque regole, e sono tutte state pagate almeno una volta.
 
 ## Rosso adesso — prima di ogni altra cosa
 
-> **Stato alla sera del 4 settembre 2026.** R-1 e R-3 sono chiuse; R-2 è chiusa
-> per la parte del metro e resta aperta su **una materia sola**
-> (`storia / esame`), confluita in **G-C2**. **R-4 è nuova ed è la più grave: un
-> blocco vero, segnalato giocando.**
+> **Stato alla sera del 4 settembre 2026.** R-1, R-3 e R-4 sono chiuse. R-2 è
+> chiusa per la parte del metro e resta aperta su **una materia sola**
+> (`storia / esame`), confluita in **G-C2** — l'unico rosso che resta.
+>
+> R-4 era un blocco vero, trovato giocando: valeva da sola più di tutto il resto
+> di questa giornata, e nessuna delle 244 guardie l'aveva visto.
 >
 > La suite è passata da 242/244 a **243/244**, e da 738 a **572 secondi**: i
 > quattro minuti risparmiati sono l'audit che non resta più appeso a un `assert`
 > fallito (vedi *Rischi noti*, 6).
 
-### R-4 · Cinque materie su dodici sono chiuse dalla falce, al mondo 2
+### R-4 · Cinque materie su dodici chiuse dalla falce, al mondo 2 — chiusa
+
+> **Chiusa il 4 settembre 2026.** Le palestre non portano più varchi. La misura
+> che l'ha trovata è diventata una guardia, `materie_raggiungibili_audit`, e su
+> **tutti e ventiquattro i mondi** dà adesso 12/12 — nessun blocco simile altrove.
+>
+> | mondo | prima | dopo |
+> |---:|---:|---:|
+> | 2 | 7/12 | **12/12** |
+> | 5 | 7/12 | **12/12** |
+> | 7 | 9/12 | **12/12** |
+> | 11 | 11/12 | **12/12** |
+> | gli altri venti | 12/12 | 12/12 |
+>
+> **La misura che ha deciso la forma della correzione.** Contando i nodi per
+> materia: in ogni mondo la materia in focus ne ha **sette** (missioni, enigmi,
+> minimissione) e **le altre undici ne hanno uno solo, la loro palestra**. Non
+> esiste quindi una palestra che si possa chiudere senza chiudere la sua materia,
+> né con una chiave futura né con quella del mondo corrente. La prima versione
+> della correzione — «chiudi solo le palestre la cui materia ha un altro nodo» —
+> non chiudeva più niente, ed è stata la prova che la regola giusta è più
+> semplice: **niente varchi sulle palestre.** Le porte restano sui forzieri, che
+> è dove il progetto ha sempre detto che stanno.
+>
+> **Una guardia che presumeva il difetto.** `equipment_traversal_audit`
+> *pretendeva* che al mondo 2 esistesse una palestra chiusa da uno strumento — la
+> meccanica giusta provata sul nodo sbagliato. Ora gira su un forziere, e ha una
+> riga in più che prima mancava: nessun varco su una palestra.
+>
+> Provata prima di fidarsene: eseguita sul codice di ieri,
+> `materie_raggiungibili_audit` è **rossa sui quattro mondi giusti**, con i nomi
+> esatti delle materie murate.
+
+<details>
+<summary>La diagnosi</summary>
 
 *Segnalazione di gioco: «al livello 2 non riesco a recuperare la falcetta per
 completare il livello».* **Ha ragione, ed è un blocco vero.**
@@ -120,16 +157,14 @@ materie non passa da `countsForGate` — si calcola sulle materie allenate — e
 falce al mondo 2 non è una chiave futura. Il buco ha esattamente la forma della
 segnalazione.
 
-**La correzione non è di una riga, e per questo non l'ho fatta.**
-`equipment_traversal_audit` pretende che al mondo 2 esista una palestra chiusa da
-uno strumento (*«manca una deviazione opzionale legata all'equipaggiamento»*),
-quindi togliere il varco dalle palestre lo fa arrossire. Le due proprietà stanno
-insieme solo così: **una palestra può restare chiusa purché la sua materia abbia
-un altro nodo aperto nel mondo.** In pratica una passata dopo la costruzione
-degli eventi che toglie il varco alle palestre la cui materia resterebbe senza
-niente, più la guardia che lo tiene: *con gli attrezzi dell'arrivo, tutte e
-dodici le materie devono essere allenabili in ogni mondo.* Quella misura oggi
-non esiste — la sonda che l'ha trovata era usa e getta.
+**Il vincolo che rendeva la correzione non ovvia.**
+`equipment_traversal_audit` pretendeva che al mondo 2 esistesse una palestra
+chiusa da uno strumento (*«manca una deviazione opzionale legata
+all'equipaggiamento»*), quindi togliere il varco dalle palestre lo faceva
+arrossire — una guardia che presumeva il difetto. Risolto spostando quella prova
+sui forzieri, che è dove le porte stanno per progetto.
+
+</details>
 
 ### R-1 · La build spedita porta la versione sbagliata — chiusa
 
@@ -747,6 +782,12 @@ Una proposta che le contraddice va discussa, non implementata.
    un rosso su una soglia, rieseguire cambiando solo il seme: se il numero si
    muove più della tolleranza, il difetto è nel metro. `gesto_audit` ci ha messo
    tre giorni a mostrarlo.
+
+   Misurato lo stesso giorno: lo stesso mondo 1, stesso commit, **457 ms a
+   macchina scarica e 512 ms con altri Godot in giro**. Cinquantacinque
+   millisecondi di differenza su un budget da 500 — cioè l'11% — che non hanno
+   niente a che vedere col gioco. Il conto dei nodi invece non si muove di uno:
+   **quando il tempo si arrossa e i nodi sono identici, è la macchina.**
 5. **La suite non si esegue mentre l'altro lavora.** Non è una raccomandazione, è
    una misura: con quattro processi Godot in contemporanea la suite è passata da
    105 a 1295 secondi e sei audit sono arrossiti per contesa, nessuno dei quali

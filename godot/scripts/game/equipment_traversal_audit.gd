@@ -28,24 +28,43 @@ func _run() -> void:
 	request["worldLevel"] = 2
 	var world := WORLD_SCENE.instantiate()
 	world.set("launch_request_override", request)
-	world.set("launch_stream_radius_override", 0)
+	# Raggio 2 e non 0: i forzieri arrivano dallo streaming dei chunk, e con raggio
+	# zero non ne esiste nessuno da provare. Prima bastava zero perché il varco si
+	# cercava fra gli eventi del Director, che nascono con la scena.
+	world.set("launch_stream_radius_override", 2)
 	root.add_child(world)
-	await process_frame
-	await process_frame
+	for _giro in range(30):
+		await process_frame
 
-	# Le sole aree strumentali del Director sono pratiche opzionali.
+	# **Dove sta un varco, e dove non sta.** (riscritto il 4 settembre 2026)
+	#
+	# Fino a oggi questa prova cercava una PALESTRA chiusa da uno strumento, e
+	# pretendeva che ce ne fosse una. Era la meccanica giusta provata sul nodo
+	# sbagliato: le palestre sono una per materia, quindi una palestra chiusa è
+	# una materia chiusa, e il gate le chiede tutte e dodici. Chi arrivava al
+	# mondo 2 senza la falce ne allenava sette — vedi
+	# `materie_raggiungibili_audit`, nato da quella segnalazione.
+	#
+	# Le porte adesso stanno solo dove il progetto ha sempre detto: sui forzieri,
+	# davanti ai frammenti. La prova qui sotto non cambia di sostanza — un POI
+	# chiuso che si apre quando lo strumento arriva — cambia su che cosa gira, e
+	# aggiunge la riga che prima mancava: **niente varchi sulle palestre**.
 	var tool_area: Area2D
-	for event in world.get("mission_events"):
-		var id := str(event.get("id", ""))
-		var area := world.find_child("MissionEvent_%s" % id.replace("-", "_"), true, false) as Area2D
-		if area == null:
+	for nodo in world.get_tree().get_nodes_in_group("world_interactable"):
+		if not (nodo is Area2D) or not world.is_ancestor_of(nodo):
 			continue
+		var area := nodo as Area2D
 		var payload: Dictionary = area.get_meta("payload", {})
-		if str(payload.get("requiredTool", "")) != "":
-			assert(str(event.get("kind", "")) == "practice", "uno strumento non deve bloccare eventi del gate")
+		if str(payload.get("requiredTool", "")) == "":
+			continue
+		assert(not bool(payload.get("countsForGate", false)),
+			"uno strumento non deve bloccare eventi del gate")
+		assert(str(area.get_meta("kind", "")) != "minigame",
+			"una palestra è dietro uno strumento: è una per materia, quindi è la materia a essere chiusa")
+		if not bool(world.call("_equipment_requirement_met", area)):
 			tool_area = area
 			break
-	assert(tool_area != null, "manca una deviazione opzionale legata all'equipaggiamento")
+	assert(tool_area != null, "manca una deviazione opzionale chiusa da uno strumento")
 	assert(not bool(world.call("_equipment_requirement_met", tool_area)), "il POI deve essere chiuso senza strumento")
 	var required := str(Dictionary(tool_area.get_meta("payload", {})).get("requiredTool", ""))
 	# Gli strumenti non si comprano più (14 agosto 2026): li consegna il mondo

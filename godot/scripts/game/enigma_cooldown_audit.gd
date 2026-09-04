@@ -73,12 +73,30 @@ func _run() -> void:
 		# Nel mondo 1 la conta di Ersilia ha precedenza narrativa sul primo
 		# incontro. La richiesta arriva al dialogo successivo, senza rendere
 		# l'enigma obbligatorio né saltare la chiave del finale.
-		var route: Dictionary = world.get("mission_ownership_flow").navigation()
-		if str(route.get("phase", "")) != "mission":
+		#
+		# **Perché non si guarda più la fase della rotta.** (4 settembre 2026)
+		#
+		# Qui c'era `if route.phase != "mission"`, e reggeva finché la bussola
+		# parlava solo dell'evento in prova. Da quando i mondi consegnano il loro
+		# strumento, `navigation()` preferisce l'incarico che lo consegna e
+		# risponde «mission» per QUELL'evento: la condizione diventava falsa, il
+		# secondo dialogo non avveniva, e l'enigma restava senza la sua richiesta —
+		# quindi non partiva mai e questo audit falliva su una prova che non era
+		# nemmeno cominciata.
+		#
+		# La domanda giusta non è dove punta la bussola, è se **questo** enigma ha
+		# ancora bisogno della sua richiesta. Si chiede finché serve, con un tetto
+		# perché un ciclo senza fondo appenderebbe la suite invece di fallirla.
+		var flow = world.get("mission_ownership_flow")
+		var tentativi := 0
+		while flow.requires_request(encounter_id) and tentativi < 4:
+			tentativi += 1
 			world.call("_open_npc_dialogue", owner_id)
 			assert(request_box.visible, "richiesta del testimone non mostrata dopo la conta")
 			request_box.call("close_dialogue")
 			await process_frame
+		assert(not flow.requires_request(encounter_id),
+			"dopo %d dialoghi con %s l'enigma chiede ancora la sua richiesta" % [tentativi, owner_id])
 
 	player.global_position = area.global_position
 	world.call("on_interactable_entered", area, player)

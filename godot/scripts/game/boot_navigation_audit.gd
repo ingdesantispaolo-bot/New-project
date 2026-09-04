@@ -54,11 +54,54 @@ func _run() -> void:
 	assert(not current_scene.has_method("start_final_exam"),
 		"la scena mondo non deve esporre una scorciatoia all'esame finale")
 	var guide_button := current_scene.find_child("GuideToShipButton", true, false) as Button
-	assert(guide_button != null and guide_button.text == "SEGUI LA MISSIONE",
-		"prima del gate l'HUD deve esporre la rotta della missione")
+	assert(guide_button != null, "il mondo deve esporre il bottone della bussola")
+	# **Prima lo strumento del mondo, poi la missione.** (4 settembre 2026)
+	#
+	# Ogni mondo consegna il suo strumento con un incarico, e finché quello
+	# strumento non è in mano la bussola porta lì: altrimenti la rotta manda dal
+	# referente giusto, il dialogo assegna un altro lavoro, e lo studente continua
+	# a non sapere dove si prende l'attrezzo.
+	#
+	# Questo audit descriveva la regola precedente e pretendeva «SEGUI LA MISSIONE»
+	# da subito. Adesso guarda **tutte e due le fasi**, che è più copertura di
+	# prima: senza strumento la bussola lo nomina e porta all'incarico che lo
+	# consegna; con lo strumento in mano torna la rotta della missione, ed è su
+	# quello stato che prosegue il resto — quello per cui era stato scritto.
+	var strumento_del_mondo := FieldTools.del_mondo(1)
+	if strumento_del_mondo != "" and not gameplay.reward_manager.owned(strumento_del_mondo):
+		assert(guide_button.text == "OTTIENI %s" % FieldTools.nome(strumento_del_mondo).to_upper(),
+			"finché lo strumento del mondo manca, la bussola deve nominarlo: invece dice «%s»" % guide_button.text)
+		# Si LEGGE la rotta, non si preme: premere consuma la richiesta e il resto
+		# di questo audit ha bisogno dello stato intatto, quello in cui la bussola
+		# indica ancora il proprietario.
+		var rotta_strumento: Dictionary = current_scene.call("_ownership_navigation_target")
+		var meta_strumento := rotta_strumento.get("node") as Area2D
+		assert(meta_strumento != null and str(meta_strumento.get_meta("kind", "")) == "minimission",
+			"la bussola dello strumento deve portare all'incarico che lo consegna")
+		assert(FieldTools.nome(strumento_del_mondo).to_lower() in str(rotta_strumento.get("message", "")).to_lower(),
+			"la rotta non dice quale strumento si va a prendere: «%s»" % str(rotta_strumento.get("message", "")))
+		gameplay.reward_manager.deliver_field_tool(strumento_del_mondo)
+		gameplay.call("_emit_state")
+		await process_frame
+	assert(guide_button.text == "SEGUI LA MISSIONE",
+		"con lo strumento in mano l'HUD deve tornare alla rotta della missione")
+	# La bussola deve NOMINARE il prossimo passo, sempre. Quale sia il passo
+	# dipende dalla fase: finché l'incarico dello strumento non è chiuso, il
+	# prossimo passo è quello — e in quel caso l'incarico del mondo 1 non ha un
+	# proprietario, quindi la bussola punta all'evento invece che a un abitante.
+	# Quando il prossimo passo è invece una missione di qualcun altro, la bussola
+	# torna a dire di chi è.
 	var ship_navigation := current_scene.find_child("ShipNavigation", true, false) as Label
-	assert(ship_navigation != null and "PARLA CON" in ship_navigation.text,
-		"prima della richiesta la bussola deve indicare il proprietario")
+	assert(ship_navigation != null and ship_navigation.text.strip_edges() != "",
+		"la bussola non nomina nessun passo successivo")
+	var rotta_corrente: Dictionary = current_scene.call("_ownership_navigation_target")
+	if str(rotta_corrente.get("phase", "")) == "request":
+		assert("PARLA CON" in ship_navigation.text,
+			"quando il passo è una richiesta, la bussola deve indicare il proprietario: dice «%s»" % ship_navigation.text)
+	else:
+		var nodo_rotta := rotta_corrente.get("node") as Area2D
+		assert(nodo_rotta != null,
+			"la bussola dice «%s» ma non punta a niente di raggiungibile" % ship_navigation.text)
 	var mission_nodes := get_nodes_in_group("mission_poi")
 	var max_required := 0
 	for level in range(1, ApparatusConfig.MAX_LEVEL + 1):
@@ -75,15 +118,35 @@ func _run() -> void:
 	assert(outdoor_player != null, "il mondo deve contenere Eli")
 	var context_button := current_scene.find_child("ContextInteractButton", true, false) as Button
 	assert(context_button != null, "il mondo deve esporre il comando touch contestuale")
+	# **Si segue il passo che la bussola nomina, non un nome scritto qui.**
+	# (4 settembre 2026)
+	#
+	# Qui c'era «deve portare prima da Tobia», e valeva finché il primo passo del
+	# mondo 1 era la sua missione. Da quando ogni mondo consegna il suo strumento
+	# con un incarico, il primo passo è quell'incarico — che nel mondo 1 non ha un
+	# proprietario, quindi la bussola punta direttamente all'evento.
+	#
+	# Fissare il nome rendeva questo audit una fotografia del mondo 1 invece che
+	# una regola. La regola è: **il bottone porta dove la bussola dice, camminando**
+	# — il bersaglio del tocco si sposta, la posizione di Eli no. E se il passo è
+	# una richiesta, il dialogo del proprietario viene prima della prova; di chi
+	# sia quella richiesta lo sorveglia `mission_ownership_audit`.
 	guide_button.pressed.emit()
-	var owner := current_scene.call("_npc_actor_by_id", "w01-tobia") as Area2D
-	assert(owner != null and outdoor_player.get("touch_target").distance_to(owner.global_position) < 0.01,
-		"SEGUI LA MISSIONE deve portare prima da Tobia, senza teleport")
-	current_scene.call("_open_npc_dialogue", "w01-tobia")
-	var request_box := current_scene.get("dialogue_box") as Control
-	assert(request_box.visible, "la richiesta di Tobia deve precedere la missione")
-	request_box.call("close_dialogue")
-	await process_frame
+	var rotta_premuta: Dictionary = current_scene.call("_ownership_navigation_target")
+	var meta_premuta := rotta_premuta.get("node") as Area2D
+	var eli_dov_era: Vector2 = outdoor_player.global_position
+	assert(meta_premuta != null,
+		"il bottone della bussola non porta da nessuna parte")
+	assert(outdoor_player.get("touch_target").distance_to(meta_premuta.global_position) < 0.01,
+		"il bottone deve impostare la rotta verso il passo nominato dalla bussola")
+	assert(outdoor_player.global_position.distance_to(eli_dov_era) < 0.01,
+		"la bussola deve far camminare Eli, non teletrasportarla")
+	if str(rotta_premuta.get("phase", "")) == "request":
+		current_scene.call("_open_npc_dialogue", str(rotta_premuta.get("id", "")))
+		var request_box := current_scene.get("dialogue_box") as Control
+		assert(request_box.visible, "la richiesta del proprietario deve precedere la missione")
+		request_box.call("close_dialogue")
+		await process_frame
 	# Tablet: un tap sul POI deve impostare l'avvicinamento e avviare la stessa
 	# interazione del tasto E quando Eli entra nel raggio.
 	var assigned_route: Dictionary = current_scene.call("_ownership_navigation_target")

@@ -6,7 +6,7 @@ const ExerciseInteraction = preload("res://scripts/game/exercise_interaction.gd"
 ## Costruisce sessioni-MINIGIOCO risolte con le competenze delle materie. Due
 ## formati interattivi (resi da ExercisePlayer): "matching" (abbina le coppie) e
 ## "ordering" (metti in ordine). Riusa il contratto di sessione di ContentManager
-## (nodi con topic/difficoltà) così mastery per-topic, energia e adattività
+## (nodi con topic/difficoltà) così mastery per-topic, energia e ripasso mirato
 ## restano identici. I contenuti sono curati per correttezza; l'ordinamento
 ## numerico è generato e tarato sul livello.
 
@@ -4468,6 +4468,10 @@ const TIMELINE := {
 	],
 	"musica": [
 		{"topic": "compositori", "minLevel": 16, "prompt": "Quale compositore è vissuto più lontano nel tempo dagli altri due?",
+			"domande": [
+				{"prompt": "Quale compositore è il più vicino a noi nel tempo?", "answer": "c", "explanation": "Debussy nasce nel 1862, un secolo dopo Beethoven e quasi due dopo Vivaldi. Sulla linea del tempo «vicino a noi» vuol dire più a destra, e basta leggere l'anno."},
+				{"prompt": "Quale compositore sta nel mezzo fra gli altri due?", "answer": "b", "explanation": "Beethoven (1770) sta fra Vivaldi (1678) e Debussy (1862). «Nel mezzo» non è il più famoso né quello scritto al centro dell'elenco: è quello con l'anno in mezzo agli altri."},
+			],
 			"min": 1650.0, "max": 1950.0,
 			"labels": [{"value": 1650.0, "text": "1650"}, {"value": 1800.0, "text": "1800"}, {"value": 1950.0, "text": "1950"}],
 			"targets": [{"id": "a", "label": "Vivaldi (1678)", "value": 1678.0}, {"id": "b", "label": "Beethoven (1770)", "value": 1770.0}, {"id": "c", "label": "Debussy (1862)", "value": 1862.0}],
@@ -4476,6 +4480,10 @@ const TIMELINE := {
 	],
 	"italiano": [
 		{"topic": "testo-narrativo", "minLevel": 10, "prompt": "Quale opera è la più antica?",
+			"domande": [
+				{"prompt": "Quale opera è la più recente?", "answer": "c", "explanation": "I promessi sposi escono nel 1827, cinquecento anni dopo la Divina Commedia. È il romanzo con cui l'italiano moderno prende la forma che leggiamo oggi."},
+				{"prompt": "Quale opera sta nel mezzo fra le altre due?", "answer": "b", "explanation": "L'Orlando furioso (1532) sta fra Dante e Manzoni. Duecento anni dopo la Commedia e trecento prima dei Promessi sposi: la lingua che ci senti dentro è a metà strada fra le due."},
+			],
 			"min": 1250.0, "max": 1900.0,
 			"labels": [{"value": 1300.0, "text": "1300"}, {"value": 1600.0, "text": "1600"}, {"value": 1900.0, "text": "1900"}],
 			"targets": [{"id": "a", "label": "Divina Commedia (1321)", "value": 1321.0}, {"id": "b", "label": "Orlando furioso (1532)", "value": 1532.0}, {"id": "c", "label": "I promessi sposi (1827)", "value": 1827.0}],
@@ -4505,6 +4513,9 @@ const COMPOSE := {
 	],
 	"latino": [
 		{"topic": "declinazioni-base", "minLevel": 5, "prompt": "Completa la forma: accusativo singolare di «rosa».",
+			"domande": [
+				{"prompt": "Completa la forma: genitivo singolare di «rosa».", "answer": "b", "explanation": "Il genitivo singolare della prima declinazione esce in -ae, ed è la desinenza da cui si riconosce la declinazione stessa. La stessa forma vale anche come nominativo plurale: è il contesto a dire quale delle due sia."},
+			],
 			"slots": [{"text": "ros"}, {"text": ""}],
 			"targets": [{"id": "a", "label": "-am"}, {"id": "b", "label": "-ae"}, {"id": "c", "label": "-is"}],
 			"answer": "a",
@@ -4512,6 +4523,9 @@ const COMPOSE := {
 	],
 	"inglese": [
 		{"topic": "question", "minLevel": 7, "prompt": "Completa la domanda mettendo l'ausiliare al posto giusto.",
+			"domande": [
+				{"prompt": "Quale ausiliare qui non può stare, perché va soltanto con «he», «she» o «it»?", "answer": "c", "explanation": "«Does» è la forma della terza persona singolare: con «you» si usa «do». Riconoscere dove NON va una forma è il modo più rapido per smettere di confonderle."},
+			],
 			"slots": [{"text": "Where"}, {"text": ""}, {"text": "you live?"}],
 			"targets": [{"id": "a", "label": "do"}, {"id": "b", "label": "are"}, {"id": "c", "label": "does"}],
 			"answer": "a",
@@ -4519,6 +4533,9 @@ const COMPOSE := {
 	],
 	"coding": [
 		{"topic": "sequenza", "minLevel": 4, "prompt": "Completa la riga perché il ciclo sia sintatticamente valido.",
+			"domande": [
+				{"prompt": "Quale segno chiuderebbe la riga in un linguaggio come C o Java, ma qui è di troppo?", "answer": "b", "explanation": "Il punto e virgola chiude l'istruzione in molti linguaggi, e chi arriva da lì lo scrive per abitudine. In Python non serve: la riga finisce dove finisce."},
+			],
 			"slots": [{"text": "for i in range(5)"}, {"text": ""}],
 			"targets": [{"id": "a", "label": ":"}, {"id": "b", "label": ";"}, {"id": "c", "label": "niente"}],
 			"answer": "a",
@@ -4526,6 +4543,9 @@ const COMPOSE := {
 	],
 	"musica": [
 		{"topic": "intervalli", "minLevel": 12, "prompt": "Completa l'accordo di Do maggiore.",
+			"domande": [
+				{"prompt": "Quale di queste note è a un solo grado da Do, cioè troppo vicina per far parte dell'accordo?", "answer": "c", "explanation": "Re è la nota subito dopo Do: fra le due c'è una seconda, e l'accordo maggiore è fatto di terze. Sentire che Re «stona» dentro Do-Sol è il modo in cui si impara la distanza prima del nome."},
+			],
 			"slots": [{"text": "Do"}, {"text": ""}, {"text": "Sol"}],
 			"targets": [{"id": "a", "label": "Mi"}, {"id": "b", "label": "Fa"}, {"id": "c", "label": "Re"}],
 			"answer": "a",
@@ -4533,6 +4553,10 @@ const COMPOSE := {
 	],
 	"matematica": [
 		{"topic": "calcolo", "minLevel": 6, "prompt": "Completa l'espressione perché il risultato sia 20.",
+			"domande": [
+				{"prompt": "Completa l'espressione perché il risultato sia 9.", "answer": "b", "explanation": "Quattro più cinque fa nove. Partire dal risultato e cercare l'operazione è il gesto che serve nei problemi: lì il numero d'arrivo è dato e la strada no."},
+				{"prompt": "Completa l'espressione perché il risultato sia −1.", "answer": "c", "explanation": "Quattro meno cinque fa meno uno. Il segno negativo dice che si è tolto più di quanto c'era: è il primo incontro con i numeri sotto lo zero, e qui si vede da dove nascono."},
+			],
 			"slots": [{"text": "4"}, {"text": ""}, {"text": "5"}],
 			"targets": [{"id": "a", "label": "×"}, {"id": "b", "label": "+"}, {"id": "c", "label": "−"}],
 			"answer": "a",

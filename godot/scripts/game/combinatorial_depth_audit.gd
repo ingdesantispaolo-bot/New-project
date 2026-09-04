@@ -54,23 +54,23 @@ const LAST_LEVEL := 24
 ## resto invece di autorare a mano. Oggi la più povera è elettronica con 213.551:
 ## millecinquecento volte il fabbisogno di una partita.
 const DEPTH_FLOOR := {
-	"italiano": 8074778,
-	"geografia": 7791351,
-	"inglese": 7785076,
-	"coding": 7666570,
-	"matematica": 407513,
-	"latino": 297163,
-	"fisica": 248264,
-	"musica": 243781,
-	"scienze": 221334,
+	"italiano": 8233479,
+	"geografia": 7801947,
+	"inglese": 7795775,
+	"coding": 7671645,
+	"matematica": 464587,
+	"latino": 300963,
+	"fisica": 270295,
+	"musica": 318722,
+	"scienze": 226504,
 	# Sale a 243.932 il 3 settembre 2026. Il 2 settembre era CROLLATA a 2.293: la
 	# materia era stata resa introduttiva tagliando i sacchetti da ventiquattro a
 	# dodici tessere, cioe' stringendo il perimetro senza rifornirlo. Riaperti con
 	# oggetti di casa — graffetta, chiave, guanto di gomma — piu' un ordinamento
 	# che pesca fra le pile in volt.
 	"elettronica": 243932,
-	"logica": 158454,
-	"storia": 133313,
+	"logica": 223392,
+	"storia": 144675,
 	# Musica sale a 243.781 nella Fase 4: al primo mondo aveva otto abbinamenti
 	# possibili in tutto, ed era l'ultima materia sopra la soglia di ripetizione.
 	#

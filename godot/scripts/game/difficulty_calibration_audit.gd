@@ -2,9 +2,8 @@ extends SceneTree
 
 ## Audit di CALIBRAZIONE della difficoltà (playthrough #10: la qualità delle
 ## domande deve salire di livello). Verifica gli invarianti di scala e SEGNALA le
-## materie il cui banco è "tappato" sotto la difficoltà 4: alle loro ricomparse ai
-## livelli alti (13–24) la difficoltà effettiva non può crescere, e servono item
-## più difficili. È una diagnosi didattica, non un fallimento del motore.
+## materie il cui banco non raggiunge la banda richiesta dal proprio mondo di
+## approfondimento. È una diagnosi didattica, non un fallimento del motore.
 ## Uso: godot --headless --path godot --script res://scripts/game/difficulty_calibration_audit.gd
 
 func _init() -> void:
@@ -22,8 +21,9 @@ func _init() -> void:
 	assert(ContentManager.math_effective_level(16, 0.9) > ContentManager.math_effective_level(4, 0.2),
 		"la matematica deve diventare più complessa ai livelli alti")
 
-	# 2) Diagnosi per materia: banco capace di salire fino a 4? La materia ricompare
-	# a (indice) e a (indice+12): la seconda ricomparsa punta a difficoltà 4.
+	# 2) Diagnosi per materia: il banco raggiunge la banda richiesta? La materia
+	# ricompare a (indice) e a (indice+12), ma non tutte le seconde comparse
+	# appartengono alla banda 4.
 	var gaps: Array = []
 	var subjects: Array = ApparatusConfig.SUBJECT_CYCLE
 	print("Calibrazione difficoltà per materia (banda banco → difficoltà effettiva ai due focus):")
@@ -37,12 +37,13 @@ func _init() -> void:
 		var high_level := i + 13
 		var eff_low := content.effective_difficulty(subject, low_level, 0.5)
 		var eff_high := content.effective_difficulty(subject, high_level, 0.9)
-		var capped := span.y < 4
+		var required := ContentManager.target_difficulty(high_level)
+		var capped := span.y < required
 		print("  %-13s banco d%d–d%d · focus L%d→d%d, L%d→d%d%s" % [
 			subject, span.x, span.y, low_level, eff_low, high_level, eff_high,
 			("  ⚠ TETTO < 4" if capped else "")])
 		if capped:
-			gaps.append({"subject": subject, "maxDifficulty": span.y})
+			gaps.append({"subject": subject, "maxDifficulty": span.y, "required": required})
 
 	# Report finale: elenco delle materie da arricchire per i livelli alti.
 	if gaps.is_empty():
@@ -50,6 +51,6 @@ func _init() -> void:
 	else:
 		var names: Array = []
 		for g in gaps:
-			names.append("%s(≤d%d)" % [str(g["subject"]), int(g["maxDifficulty"])])
+			names.append("%s(d%d<d%d)" % [str(g["subject"]), int(g["maxDifficulty"]), int(g["required"])])
 		print("Difficulty calibration — DIAGNOSI: banchi da arricchire con item difficili per i livelli alti: %s" % ", ".join(PackedStringArray(names)))
 	quit(0)

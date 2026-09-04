@@ -20,7 +20,7 @@ func _init() -> void:
 	quit(0)
 
 # Nel mondo rivisitato la prova nasce dal livello di QUEL mondo e ne serve gli
-# argomenti; la difficoltà resta dentro la banda del mondo (± il nudge di mastery).
+# argomenti; la difficoltà resta dentro la banda del mondo, senza nudge mastery.
 func _test_ripasso_sul_mondo_visitato() -> void:
 	var gameplay := _new_gameplay(PLAYER_RANK, REVISITED)
 	var state := gameplay.runtime_state()

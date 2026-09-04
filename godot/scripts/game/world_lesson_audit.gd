@@ -74,16 +74,15 @@ func _init() -> void:
 			for t in topics:
 				assert(servable.has(str(t)), "L%d: topic %s non servito da %s (né banco né minigiochi)" % [level, str(t), subject])
 
-		assert(str(lesson["difficultyDriver"]) == "subjectMastery", "L%d: la difficoltà deve dipendere dalla competenza" % level)
+		assert(str(lesson["difficultyDriver"]) == "worldLevel", "L%d: la difficoltà deve dipendere dal mondo" % level)
 
-	# La difficoltà dipende dalla COMPETENZA (non solo dal rango): a livello FISSO,
-	# alzare la mastery alza la difficoltà effettiva.
+	# Il mondo definisce la prova: a livello fisso la mastery non può cambiarla.
 	var it_low := content.effective_difficulty("italiano", 2, 0.2)
 	var it_high := content.effective_difficulty("italiano", 2, 0.9)
-	assert(it_high > it_low, "italiano: la difficoltà a pari livello deve crescere con la competenza (%d→%d)" % [it_low, it_high])
+	assert(it_high == it_low, "italiano: la mastery cambia la difficoltà a pari livello (%d→%d)" % [it_low, it_high])
 	var ma_low := ContentManager.math_effective_level(1, 0.2)
 	var ma_high := ContentManager.math_effective_level(1, 0.9)
-	assert(ma_high > ma_low, "matematica: il livello efficace a pari rango deve crescere con la competenza (%d→%d)" % [ma_low, ma_high])
+	assert(ma_high == ma_low, "matematica: la mastery cambia il livello a pari mondo (%d→%d)" % [ma_low, ma_high])
 
-	print("WorldLesson audit OK — 24 mondi: obiettivi, topic reali, trasferimento, NORA, trasformazione ambientale e difficoltà per competenza")
+	print("WorldLesson audit OK — 24 mondi: obiettivi, topic reali, trasferimento, NORA, trasformazione ambientale e difficoltà per mondo")
 	quit(0)

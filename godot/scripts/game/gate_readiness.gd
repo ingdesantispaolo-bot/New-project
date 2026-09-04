@@ -16,9 +16,9 @@ extends RefCounted
 ## c'è, non quando si sono fatti abbastanza giri.
 ##
 ## Copertura e ritenzione non sono un contorno: **senza il conteggio sono loro a
-## impedire che una serie fortunata apra il gate.** E chi fatica non resta
-## bloccato, perché la difficoltà adattiva abbassa gli item finché l'accuratezza
-## risale — lo sforzo porta comunque da qualche parte.
+## impedire che una serie fortunata apra il gate.** La difficoltà non viene
+## abbassata per chi fatica: il livello corrente va padroneggiato; indizi,
+## spiegazioni e ripasso sostengono il percorso senza sostituire il requisito.
 ##
 ## `total_topics` è il numero di argomenti che la materia PUÒ proporre (dal banco).
 ## Se ignoto (≤ 0), la copertura ripiega su un minimo assoluto di argomenti visti,

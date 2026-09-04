@@ -184,32 +184,33 @@ func _load_bank(subject: String) -> Array:
 	_cache[subject] = items
 	return items
 
-# Difficoltà target in base al SOLO livello del giocatore (banda 1-4). È la base;
-# la difficoltà effettiva la corregge con la mastery e la calibra sul banco reale.
-#
-# La scala segue le DUE COMPARSE di ogni materia, non solo il numero del mondo.
-# Prima passata (mondi 1-12): il mondo di INTRODUZIONE della materia, difficoltà
-# da 1 a 3. Seconda passata (13-24): la stessa materia torna per APPROFONDIRE,
-# da 3 a 4. Con la vecchia rampa (1 + (livello-1)/3) la difficoltà saturava a 4
-# già dal livello 10: le ultime materie del ciclo (scienze, storia, logica)
-# nascevano al massimo — nessuna introduzione — e la loro seconda comparsa non
-# poteva più crescere (misurato: 3.90 → 3.91 di difficoltà media giocata).
+# Difficoltà target in base al SOLO livello del mondo (banda 1-4). Le bande
+# seguono le quattro fasi cognitive: 1-4 riconoscere/abbinare, 5-10 mettere in
+# processo, 11-17 leggere rappresentazioni, 18-24 manipolare sotto vincoli.
+# Mastery ed esperienza non correggono questo bersaglio.
 static func target_difficulty(level: int) -> int:
-	if level <= 12:
-		return clampi(1 + (level - 1) / 5, 1, 3)
-	return clampi(3 + (level - 13) / 6, 3, 4)
-
-# Correzione di difficoltà secondo la padronanza (mastery 0..1): chi fatica scende
-# di un gradino, chi padroneggia sale. `mastery < 0` = sconosciuta → nessun nudge
-# (fallback solo-livello, retro-compatibile con chiamanti/audit che non la passano).
-static func mastery_nudge(mastery: float) -> int:
-	if mastery < 0.0:
-		return 0
-	if mastery >= 0.85:
+	var lvl := clampi(level, 1, ApparatusConfig.MAX_LEVEL)
+	if lvl <= 4:
 		return 1
-	if mastery < 0.5:
-		return -1
-	return 0
+	if lvl <= 10:
+		return 2
+	if lvl <= 17:
+		return 3
+	return 4
+
+## Scala FINE della campagna. `difficulty` resta una banda 1..4 perche' e' il
+## vocabolario con cui sono autorati i banchi; il livello di sfida, invece, ha
+## ventiquattro gradini reali. Le quattro bande seguono il gesto prevalente:
+## riconoscere/abbinare, mettere in processo, leggere rappresentazioni,
+## manipolare sotto vincoli.
+static func challenge_level(level: int) -> int:
+	return clampi(level, 1, ApparatusConfig.MAX_LEVEL)
+
+## Livello dei FORMATI e dei generatori. Coincide sempre con quello del mondo:
+## padronanza ed esperienza restano parametri compatibili con i chiamanti, ma
+## non modificano più la prova. Per avanzare va padroneggiato il grado corrente.
+func effective_exercise_level(_subject: String, level: int, _mastery: float = -1.0, _experience: int = -1) -> int:
+	return challenge_level(level)
 
 # Range di difficoltà REALMENTE presente nel banco della materia (cache). Serve a
 # calibrare la selezione per materia: senza, un target 4 su una materia il cui
@@ -288,61 +289,26 @@ func bank_topics(subject: String) -> Array:
 	_topic_counts[subject] = topics.keys()
 	return Array(_topic_counts[subject]).duplicate()
 
-# Difficoltà EFFETTIVA per materia: banda di livello + nudge di mastery, poi
-# calibrata (clamp) sul range che il banco può davvero servire. Così la selezione
-# resta significativa su ogni materia, anche con banchi di ampiezza diversa.
-## **Quanto sei avanti IN QUESTA MATERIA.** (3 settembre 2026)
+# Difficoltà EFFETTIVA per materia: banda del mondo calibrata sul range che il
+# banco può davvero servire. Mastery ed esperienza alimentano il gate, non
+# abbassano o alzano gli esercizi richiesti.
+## **Il mondo è il requisito, non soltanto il tetto.** (4 settembre 2026)
 ##
-## Fino a oggi la difficolta' dipendeva dal numero del mondo, corretta di un
-## gradino solo dalla padronanza. `target_difficulty` satura a 4 dal mondo 13:
-## al mondo 20 un bambino a cui la fisica e' sfuggita al mondo 5 riceveva 3, e
-## non riceveva mai piu' 1 o 2. La difficolta' seguiva quanto aveva CAMMINATO,
-## non quanto sapeva — ed e' il difetto che il piano chiamava «l'unico che puo'
-## far perdere un bambino su una materia intera».
-##
-## L'esperienza e' il numero di sessioni di quella materia gia' SUPERATE
-## (`GameSaveManager.missions_of`, che si incrementa solo sopra la meta' di
-## risposte giuste): chi non ha ancora capito non accumula, e resta ai gradini
-## bassi finche' non capisce.
-##
-## Quattro soglie, non una curva: sotto le quattro sessioni si sta al primo
-## gradino, e il quarto arriva dopo venti. Sono i gradini che il banco possiede
-## davvero (`subject_difficulty_range`), non una scala inventata.
-static func experience_difficulty(experience: int) -> int:
-	if experience < 4:
-		return 1
-	if experience < 10:
-		return 2
-	if experience < 20:
-		return 3
-	return 4
-
-## **Il mondo resta il tetto, non il motore.**
-##
-## L'esperienza decide a che gradino della scala sei; il mondo decide quanto e'
-## alta la scala. Serve a due cose insieme: chi macina una materia non riceve al
-## mondo 1 prove che il mondo 1 non ha ancora spiegato, e chi arriva al mondo 20
-## con una materia indietro riceve finalmente le prove facili che gli servono.
-##
-## `experience < 0` = sconosciuta: si ricade sul solo livello, esattamente come
-## fa `mastery < 0`. E' cio' che tiene validi i chiamanti e gli audit che non la
-## passano, e per questo esiste `difficolta_per_materia_audit`, che verifica che
-## il percorso VIVO la passi davvero.
-func effective_difficulty(subject: String, level: int, mastery: float = -1.0, experience: int = -1) -> int:
+## Una prova del mondo 20 resta di livello 20 anche per chi ha poca esperienza
+## nella materia. La padronanza decide se il gate si apre; non modifica la prova
+## con cui quella padronanza viene dimostrata. Gli aiuti restano indizi, assenza
+## di cronometro, ripasso mirato e spiegazioni: nessuno abbassa il curricolo.
+func effective_difficulty(subject: String, level: int, _mastery: float = -1.0, _experience: int = -1) -> int:
 	var span := subject_difficulty_range(subject)
-	var base := target_difficulty(level)
-	if experience >= 0:
-		base = mini(experience_difficulty(experience), base)
-	return clampi(base + mastery_nudge(mastery), span.x, span.y)
+	return clampi(target_difficulty(level), span.x, span.y)
 
-# Livello efficace per il generatore matematico: la mastery sposta il livello di
-# ±3 (≈ ±1 gradino di complessità), così anche la matematica generata è adattiva.
-static func math_effective_level(level: int, mastery: float = -1.0) -> int:
-	return maxi(1, level + mastery_nudge(mastery) * 3)
+# Anche il generatore matematico usa esattamente il livello del mondo.
+static func math_effective_level(level: int, _mastery: float = -1.0) -> int:
+	return challenge_level(level)
 
 # Costruisce una sessione-missione: alcuni item della materia vicini alla
 # difficoltà del livello. `rng` opzionale per selezione deterministica nei test.
-# Selezione adattiva: prima i topic in ripasso spaziato (`review_due` = mappa
+# Selezione mirata: prima i topic in ripasso spaziato (`review_due` = mappa
 # "subject:topic" -> conteggio, dagli errori passati), poi item vicini alla
 # difficoltà del livello. Gli item di ripasso sono marcati `review:true`.
 # `topic_mastery` = {topic: float 0..1} degli argomenti già incontrati: la
@@ -350,8 +316,8 @@ static func math_effective_level(level: int, mastery: float = -1.0) -> int:
 # bambino esercita dentro la materia proprio ciò che padroneggia meno.
 const WEAK_TOPIC_THRESHOLD := 0.6
 
-# Progressione per ERA della storia. I due mondi storia (livelli 11 e 23) hanno la
-# stessa difficoltà bersaglio (target_difficulty satura a 4 dal livello 10), quindi
+# Progressione per ERA della storia. I due mondi storia (livelli 11 e 23) hanno
+# bande alte vicine, quindi
 # la difficoltà non li distingue. Le ere "tarde" restano riservate al mondo
 # avanzato: così il mondo 11 "Soglia del Tempo" resta sulle prime civiltà e il 23
 # "Sala delle Ere" è l'unico a trattare Roma e Medioevo. Mappa topic -> livello min.
@@ -569,12 +535,13 @@ func build_mission(subject: String, level: int, node_count: int = 3, review_due:
 			var prefix := "matematica:"
 			if str(key).begins_with(prefix) and int(review_due[key]) > 0:
 				review_topics.append(str(key).trim_prefix(prefix))
-		# La mastery sposta il livello efficace: matematica generata adattiva.
+		# La matematica generata usa il livello del mondo; mastery ed esperienza
+		# non ne spostano più la complessità.
 		# Le prove già superate viaggiano fin dentro il generatore: qui non si può
 		# filtrare a valle come per un banco — scartare un nodo generato lascerebbe
 		# la sessione corta — e l'unico posto che può riprovare è chi lo costruisce.
 		var generated := MathExerciseGenerator.new().build_nodes(
-			math_effective_level(level, mastery), node_count, generator,
+			effective_exercise_level(subject, level, mastery, experience), node_count, generator,
 			_recent_math_signatures, review_topics, _superate(subject))
 		return _session(subject, level, _innesta_banco_matematica(
 			generated, level, generator, mastery, review_topics, experience))
@@ -591,7 +558,7 @@ func build_mission(subject: String, level: int, node_count: int = 3, review_due:
 		# vuota durante lo sviluppo se il JSON non è ancora stato rigenerato.
 		if not nel_percorso.is_empty():
 			items = nel_percorso
-	# Difficoltà efficace: livello + mastery, calibrata sul range reale del banco.
+	# Banda del mondo, calibrata sul range reale del banco.
 	var target := effective_difficulty(subject, level, mastery, experience)
 	var lesson := lesson_topic_set(subject, level)
 	var superate := _superate(subject)
@@ -758,7 +725,7 @@ static func enigma_theme(subject: String) -> String:
 
 ## Enigma ambientale: una missione la cui risposta corretta costruisce, campata
 ## per campata, un elemento del mondo (il ponte, la porta…). Riusa la selezione
-## adattiva di `build_mission`; ogni esercizio corrisponde a una "campata"
+## mirata di `build_mission`; ogni esercizio corrisponde a una "campata"
 ## (`stages` = node_count), così il progresso misura QUANTI hai capito, non la
 ## grandezza dei numeri. Contratto in più rispetto alla missione: `theme` e
 ## `stages` per la resa (vedi OutdoorGameplay.enigma_progress, gate I-01).
@@ -933,8 +900,8 @@ func _aggiungi_prova_di_nucleo(
 ## canonico (la "sequenza dei dodici sistemi"): ogni nodo risolto accende il proprio
 ## sistema (`system`). Chiude un nodo di SINTESI interattivo marcato `transfer`:
 ## non una materia, ma tutte insieme applicate a un caso nuovo. È l'unica prova di
-## trasferimento a scala d'avventura. `mastery_by_subject` (opzionale) rende ogni
-## sistema adattivo alla competenza reale della materia.
+## trasferimento a scala d'avventura. `mastery_by_subject` resta accettato per
+## compatibilità, ma non abbassa la difficoltà dei sistemi.
 func build_final_transversal_exam(level: int = ApparatusConfig.MAX_LEVEL, rng: RandomNumberGenerator = null, mastery_by_subject: Dictionary = {}) -> Dictionary:
 	var generator := rng
 	if generator == null:
@@ -1003,6 +970,14 @@ func build_final_transversal_exam(level: int = ApparatusConfig.MAX_LEVEL, rng: R
 ## Frazione bersaglio di scelta multipla nell'esperienza giocata (~20%).
 const MC_TARGET_RATIO := 0.20
 
+## La media sui 24 mondi resta 20%, ma non e' piatta: all'inizio una quota un
+## po' maggiore di riconoscimento contiene il carico di lavoro; verso il finale
+## piu' risposte vengono costruite o manipolate. I due estremi restano dentro il
+## tetto didattico del 33% e la variazione e' continua, quindi ogni mondo ha una
+## pressione appena diversa dal precedente.
+const MC_TARGET_EARLY := 0.28
+const MC_TARGET_LATE := 0.12
+
 ## **Elettronica: nessuna scelta multipla fuori dall'esame.** (7 agosto 2026)
 ##
 ## Direttiva del committente: «dobbiamo creare minigiochi che insegnino i
@@ -1038,8 +1013,42 @@ const MC_TARGET_PER_MATERIA := {
 	"logica": 0.0,
 }
 
-static func mc_target_for(subject: String) -> float:
-	return float(MC_TARGET_PER_MATERIA.get(subject, MC_TARGET_RATIO))
+static func mc_target_for(subject: String, level: int = -1) -> float:
+	if MC_TARGET_PER_MATERIA.has(subject):
+		return float(MC_TARGET_PER_MATERIA[subject])
+	if level < 1:
+		return MC_TARGET_RATIO
+	var progress := float(challenge_level(level) - 1) / float(ApparatusConfig.MAX_LEVEL - 1)
+	return lerpf(MC_TARGET_EARLY, MC_TARGET_LATE, progress)
+
+## Carico cognitivo del GESTO, separato dalla difficolta' del contenuto. Un
+## grafico semplice puo' avere banda 1 e un abbinamento difficile banda 4: le
+## due misure non si sostituiscono, si sommano.
+const FORMAT_STAGE := {
+	"multiple_choice": 1, "matching": 1, "classification": 1,
+	"short_answer": 2, "numeric_input": 2, "ordering": 2, "cycle": 2,
+	"timeline": 2,
+	"graph": 3, "map": 3, "hotspot": 3, "clue": 3, "circuit": 3,
+	"notation": 3, "number_line": 3, "trace": 3,
+	"balance": 4, "compose": 4, "code_debug": 4, "swipe": 4,
+	"machine_path": 4, "mystery_sample": 4, "verb_decoder": 4,
+	"griglia": 4, "porte": 4,
+}
+
+static func format_stage(format: String) -> int:
+	return int(FORMAT_STAGE.get(format, 1))
+
+static func target_format_stage(level: int) -> float:
+	var progress := float(challenge_level(level) - 1) / float(ApparatusConfig.MAX_LEVEL - 1)
+	return lerpf(1.0, 4.0, progress)
+
+## Peso progressivo per la tavolozza dei formati. Non chiude mai una corsia:
+## conserva varieta' e ripasso, ma sposta con continuita' la probabilita' dalle
+## forme di riconoscimento verso i gesti con rappresentazioni e vincoli.
+static func format_progression_weight(format: String, level: int) -> float:
+	var centered_target := target_format_stage(level) - 2.5
+	var centered_format := float(format_stage(format)) - 2.5
+	return clampf(1.0 + centered_target * centered_format * 0.28, 0.40, 1.70)
 
 ## **Anche le risposte aperte, in elettronica.** (7 agosto 2026)
 ##
@@ -1096,7 +1105,7 @@ func build_varied_mission(subject: String, level: int, node_count: int = 3, revi
 	# classifica, grafico, circuito, caccia-all'errore). Con poche campate per
 	# missione l'arrotondamento è stocastico per centrare la media sull'insieme.
 	var nodes: Array = session.get("nodes", [])
-	var target_mc := _stochastic_round(mc_target_for(subject) * float(nodes.size()), generator)
+	var target_mc := _stochastic_round(mc_target_for(subject, level) * float(nodes.size()), generator)
 	var da_sostituire := formati_da_sostituire(subject)
 	var mc_count := 0
 	for n in nodes:
@@ -1132,12 +1141,13 @@ func build_varied_mission(subject: String, level: int, node_count: int = 3, revi
 	# La regola giusta non è «la materia ha azzerato la scelta multipla», è **la
 	# materia toglie dal giro anche le domande dirette**: chi lo fa ha deciso che
 	# lì si impara facendo, e la sostituzione deve rispettarlo.
-	var preferisce_le_mani := mc_target_for(subject) <= 0.0 or formati_da_sostituire(subject).size() > 1
+	var preferisce_le_mani := mc_target_for(subject, level) <= 0.0 or formati_da_sostituire(subject).size() > 1
 	var preferiti: Array = FORMATI_MANIPOLATIVI if preferisce_le_mani else []
-	var vari: Array = inject_non_mc(nodes, subject, level, to_replace, generator, preferiti)
+	var exercise_level := effective_exercise_level(subject, level, mastery, experience)
+	var vari: Array = inject_non_mc(nodes, subject, exercise_level, to_replace, generator, preferiti)
 	# Dopo il mix, nessun bambino deve ricevere due volte lo stesso argomento con
 	# lo stesso gesto nella stessa missione: sarebbe ripetizione, non rinforzo.
-	session["nodes"] = _sciogli_doppioni(vari, subject, level, generator)
+	session["nodes"] = _sciogli_doppioni(vari, subject, exercise_level, generator)
 	return session
 
 # Arrotonda a intero mantenendo la media: la parte frazionaria diventa la
@@ -1326,7 +1336,7 @@ func inject_non_mc(nodes: Array, subject: String, level: int, count: int, rng: R
 		# Meglio un abbinamento nuovo che il quinto identico grafico.
 		if not fresh.is_empty():
 			available = fresh
-		var fmt := _pick_weighted_format(available, used, rng, preferiti)
+		var fmt := _pick_weighted_format(available, used, rng, preferiti, level)
 		var queue: Array = palette[fmt]
 		var chosen_node: Dictionary = (queue.pop_front() as Dictionary).duplicate(true)
 		out[i] = chosen_node
@@ -1360,11 +1370,12 @@ func _remember_node(signature: String) -> void:
 # Sceglie un formato tra quelli disponibili con probabilità proporzionale al peso,
 # smorzando i formati già usati in questa missione (varietà dentro la singola
 # missione oltre che nell'insieme).
-func _pick_weighted_format(formats: Array, used: Dictionary, rng: RandomNumberGenerator, preferiti: Array = []) -> String:
+func _pick_weighted_format(formats: Array, used: Dictionary, rng: RandomNumberGenerator, preferiti: Array = [], level: int = 1) -> String:
 	var weighted: Array = []
 	var total := 0.0
 	for f in formats:
 		var w := float(NONMC_FORMAT_WEIGHTS.get(f, 10))
+		w *= format_progression_weight(str(f), level)
 		if preferiti.has(f):
 			w *= PESO_PREFERITO
 		w /= float(1 + int(used.get(f, 0)) * 3)

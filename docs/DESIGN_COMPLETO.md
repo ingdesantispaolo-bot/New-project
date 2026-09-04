@@ -118,8 +118,9 @@ quando la competenza c'è, non quando si sono fatti abbastanza giri:
 3. **Ritenzione**: nessun argomento arretrato nel ripasso spaziato.
 
 Le dimensioni 2 e 3 non sono un contorno: **senza il conteggio sono loro a
-impedire che una serie fortunata apra il gate.** Chi fatica non resta bloccato,
-perché la difficoltà adattiva abbassa gli item finché l'accuratezza risale.
+impedire che una serie fortunata apra il gate.** Gli esercizi non vengono
+abbassati in base allo studente: per salire va padroneggiato il livello del
+mondo. Indizi, spiegazioni e ripasso aiutano a raggiungerlo senza sostituirlo.
 
 ### Requisiti per riparare l'apparato della materia S
 
@@ -378,7 +379,7 @@ non si perde il livello raggiunto né l'energia già guadagnata. Posta in gioco
 reale, ma nessun muro che demotiva.
 
 **Missione vs esercizio finale**
-- **Missione** (fuori): allenamento, 1–4 esercizi, tarata su L, adattiva.
+- **Missione** (fuori): allenamento, 1–4 esercizi, tarata sul livello del mondo.
 - **Esercizio finale** (nave): esame del livello per la materia, cumulativo e più
   severo; è il gate che ripara l'apparato. Richiede padronanza reale (mai
   fortuna, mai solo energia).

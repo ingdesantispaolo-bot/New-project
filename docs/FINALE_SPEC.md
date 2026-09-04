@@ -24,7 +24,8 @@ Contratto Opus **già disponibile**: `ContentManager.build_final_transversal_exa
 - 1 nodo di **sintesi** finale (`system = "sintesi"`, `transfer = true`), formato
   interattivo (non scelta multipla): applica i metodi a un caso nuovo.
 - Multi-formato, mai solo scelta multipla, **senza limite di tempo** (`reasoning`).
-- Ogni sistema è adattivo alla competenza reale della materia (`mastery_by_subject`).
+- Ogni sistema usa il livello del mondo; `mastery_by_subject` decide l'accesso e
+  il riconoscimento finale, non abbassa la prova.
 - Verificato da `finale_transversal_audit.gd` (deterministico a parità di seed).
 
 **Resa Codex:** ogni nodo risolto accende visibilmente il settore/sistema

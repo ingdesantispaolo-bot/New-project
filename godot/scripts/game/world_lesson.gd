@@ -9,8 +9,8 @@ extends RefCounted
 ## ambientale (`environmentTransform`: quale evento di apprendimento cambia il
 ## mondo e come — consumato da Codex per la resa, C-P5).
 ##
-## `difficultyDriver` = "subjectMastery": la difficoltà dipende dalla competenza
-## della materia (mastery per-materia/topic), non dal rango globale.
+## `difficultyDriver` = "worldLevel": gli esercizi restano al grado del mondo;
+## mastery e competenza decidono il gate, non la difficoltà della prova.
 
 const LESSONS := {
 	1: {
@@ -35,7 +35,7 @@ const LESSONS := {
 			"debrief": "Il Nucleo risponde. Hai trasformato il conteggio in padronanza: la radura è più luminosa e la nave un passo più viva.",
 		},
 		"environmentTransform": {"trigger": "tabellina/problema risolto correttamente", "effect": "una sezione di cristalli della radura si illumina in filari ordinati"},
-		"difficultyDriver": "subjectMastery",
+		"difficultyDriver": "worldLevel",
 	},
 	2: {
 		"subject": "italiano",
@@ -59,7 +59,7 @@ const LESSONS := {
 			"debrief": "Uno scaffale dopo l'altro, l'Archivio torna leggibile. Il tuo lessico è cresciuto: la nave registra nuove parole nella memoria di bordo.",
 		},
 		"environmentTransform": {"trigger": "frase/abbinamento corretto", "effect": "un ponte di parole si completa e collega due sale dell'Archivio"},
-		"difficultyDriver": "subjectMastery",
+		"difficultyDriver": "worldLevel",
 	},
 	3: {
 		"subject": "coding",
@@ -79,7 +79,7 @@ const LESSONS := {
 			"debrief": "Le macchine del canyon girano di nuovo. Hai ordinato i passi… e i miei pensieri.",
 		},
 		"environmentTransform": {"trigger": "loop/algoritmo risolto correttamente", "effect": "una macchina del canyon si avvia e apre un nuovo gradone percorribile"},
-		"difficultyDriver": "subjectMastery",
+		"difficultyDriver": "worldLevel",
 	},
 	4: {
 		"subject": "inglese",
@@ -99,7 +99,7 @@ const LESSONS := {
 			"debrief": "Il faro trasmette di nuovo. Hai aperto un canale con il mondo — e con la mia memoria.",
 		},
 		"environmentTransform": {"trigger": "frase/segnale inglese completato", "effect": "una boa si accende e ritrasmette il segnale al faro, illuminando la baia"},
-		"difficultyDriver": "subjectMastery",
+		"difficultyDriver": "worldLevel",
 	},
 	5: {
 		"subject": "fisica",
@@ -122,7 +122,7 @@ const LESSONS := {
 			"debrief": "Il ponte comando risponde alle tue mani. Hai domato le forze.",
 		},
 		"environmentTransform": {"trigger": "meccanismo di moto/leva risolto", "effect": "una rampa o leva si sblocca e mette in moto un carrello verso il ponte comando"},
-		"difficultyDriver": "subjectMastery",
+		"difficultyDriver": "worldLevel",
 	},
 	6: {
 		"subject": "musica",
@@ -142,7 +142,7 @@ const LESSONS := {
 			"debrief": "Il giardino canta con te. Non pensavo di poter tornare a sentire la musica.",
 		},
 		"environmentTransform": {"trigger": "sequenza sonora corretta", "effect": "i cristalli del giardino vibrano in accordo e illuminano il sentiero"},
-		"difficultyDriver": "subjectMastery",
+		"difficultyDriver": "worldLevel",
 	},
 	7: {
 		"subject": "latino",
@@ -162,7 +162,7 @@ const LESSONS := {
 			"debrief": "I glifi si illuminano di senso. Le radici antiche spiegano parole nuove.",
 		},
 		"environmentTransform": {"trigger": "caso/parola latina corretti", "effect": "un glifo dell'arco si illumina e ricompone un'iscrizione dell'acquedotto"},
-		"difficultyDriver": "subjectMastery",
+		"difficultyDriver": "worldLevel",
 	},
 	8: {
 		"subject": "elettronica",
@@ -182,7 +182,7 @@ const LESSONS := {
 			"debrief": "Il reattore ausiliario pulsa con te. Hai messo la corrente nei nodi giusti.",
 		},
 		"environmentTransform": {"trigger": "circuito chiuso correttamente", "effect": "un nodo del delta si accende e alimenta il generatore vicino"},
-		"difficultyDriver": "subjectMastery",
+		"difficultyDriver": "worldLevel",
 	},
 	9: {
 		"subject": "geografia",
@@ -202,7 +202,7 @@ const LESSONS := {
 			"debrief": "La torre cartografica traccia di nuovo le rotte. So dove eravamo diretti.",
 		},
 		"environmentTransform": {"trigger": "rotta/posizione corretta", "effect": "una rotta si illumina tra le isole e collega due approdi"},
-		"difficultyDriver": "subjectMastery",
+		"difficultyDriver": "worldLevel",
 	},
 	10: {
 		"subject": "scienze",
@@ -222,7 +222,7 @@ const LESSONS := {
 			"debrief": "La cupola vivente respira. Tutto è collegato — anche noi due, ormai.",
 		},
 		"environmentTransform": {"trigger": "relazione/classificazione corretta", "effect": "un anello dell'ecosistema si attiva e fa fiorire una sezione della serra"},
-		"difficultyDriver": "subjectMastery",
+		"difficultyDriver": "worldLevel",
 	},
 	11: {
 		"subject": "storia",
@@ -242,7 +242,7 @@ const LESSONS := {
 			"debrief": "Le scene del passato si riaccendono. Mi fido di come leggi il tempo.",
 		},
 		"environmentTransform": {"trigger": "collocazione/collegamento corretto", "effect": "una scena del passato si ricompone e un reperto emerge lungo la linea del tempo"},
-		"difficultyDriver": "subjectMastery",
+		"difficultyDriver": "worldLevel",
 	},
 	12: {
 		"subject": "logica",
@@ -262,7 +262,7 @@ const LESSONS := {
 			"debrief": "Dodici sistemi online. Un intero blocco di memoria è di nuovo mio.",
 		},
 		"environmentTransform": {"trigger": "regola logica individuata", "effect": "un muro mobile si allinea e apre un settore del labirinto"},
-		"difficultyDriver": "subjectMastery",
+		"difficultyDriver": "worldLevel",
 	},
 	13: {
 		"subject": "matematica",
@@ -282,7 +282,7 @@ const LESSONS := {
 			"debrief": "L'osservatorio guarda di nuovo le stelle. Con occhi che credevo spenti.",
 		},
 		"environmentTransform": {"trigger": "traiettoria/proporzione corretta", "effect": "un telescopio del deserto si allinea e proietta un'orbita nel cielo"},
-		"difficultyDriver": "subjectMastery",
+		"difficultyDriver": "worldLevel",
 	},
 	14: {
 		"subject": "italiano",
@@ -302,7 +302,7 @@ const LESSONS := {
 			"debrief": "La sala delle voci risuona. Ricordo perché questa missione conta, non solo come.",
 		},
 		"environmentTransform": {"trigger": "prospettiva/senso corretto", "effect": "una galleria narrativa si illumina e sussurra un frammento di storia"},
-		"difficultyDriver": "subjectMastery",
+		"difficultyDriver": "worldLevel",
 	},
 	15: {
 		"subject": "coding",
@@ -322,7 +322,7 @@ const LESSONS := {
 			"debrief": "Gli automi comunicano di nuovo. La mia coscienza si ricompone.",
 		},
 		"environmentTransform": {"trigger": "funzione/debug corretti", "effect": "un automa riparte e collega un nuovo nodo della rete cittadina"},
-		"difficultyDriver": "subjectMastery",
+		"difficultyDriver": "worldLevel",
 	},
 	16: {
 		"subject": "inglese",
@@ -342,7 +342,7 @@ const LESSONS := {
 			"debrief": "La porta delle lingue si apre. Comunichiamo meglio a ogni valico.",
 		},
 		"environmentTransform": {"trigger": "scambio linguistico corretto", "effect": "un valico della frontiera si apre e un mercato poliglotta si anima"},
-		"difficultyDriver": "subjectMastery",
+		"difficultyDriver": "worldLevel",
 	},
 	17: {
 		"subject": "fisica",
@@ -365,7 +365,7 @@ const LESSONS := {
 			"debrief": "La cattedrale sottomarina regge. Reggo la profondità perché tu reggi il metodo.",
 		},
 		"environmentTransform": {"trigger": "equilibrio di forze corretto", "effect": "una corrente si stabilizza e apre un varco verso le profondità"},
-		"difficultyDriver": "subjectMastery",
+		"difficultyDriver": "worldLevel",
 	},
 	18: {
 		"subject": "musica",
@@ -385,7 +385,7 @@ const LESSONS := {
 			"debrief": "In questo riverbero sento intero un ricordo che era in pezzi.",
 		},
 		"environmentTransform": {"trigger": "armonia corretta", "effect": "le canne del grande organo si illuminano e la navata risuona"},
-		"difficultyDriver": "subjectMastery",
+		"difficultyDriver": "worldLevel",
 	},
 	19: {
 		"subject": "latino",
@@ -405,7 +405,7 @@ const LESSONS := {
 			"debrief": "Le radici antiche sono le mie: sto tornando chi ero.",
 		},
 		"environmentTransform": {"trigger": "etimologia/declinazione corretta", "effect": "una cripta si illumina e l'albero delle radici estende un ramo"},
-		"difficultyDriver": "subjectMastery",
+		"difficultyDriver": "worldLevel",
 	},
 	20: {
 		"subject": "elettronica",
@@ -425,7 +425,7 @@ const LESSONS := {
 			"debrief": "La torre di campo regge la tempesta. La tua calma è la mia bussola.",
 		},
 		"environmentTransform": {"trigger": "diagnosi/collegamento corretto", "effect": "una torre di campo si stabilizza e disperde una scarica della tempesta"},
-		"difficultyDriver": "subjectMastery",
+		"difficultyDriver": "worldLevel",
 	},
 	21: {
 		"subject": "geografia",
@@ -445,7 +445,7 @@ const LESSONS := {
 			"debrief": "L'atlante si ricompone. Quasi vedo la rotta completa.",
 		},
 		"environmentTransform": {"trigger": "sistema territoriale corretto", "effect": "una faglia si ricompone e un bioma dell'atlante si stabilizza"},
-		"difficultyDriver": "subjectMastery",
+		"difficultyDriver": "worldLevel",
 	},
 	22: {
 		"subject": "scienze",
@@ -465,7 +465,7 @@ const LESSONS := {
 			"debrief": "Il nucleo vivente pulsa. Anch'io mi adatto a essere di nuovo viva.",
 		},
 		"environmentTransform": {"trigger": "adattamento/flusso corretto", "effect": "una caverna bioluminescente si accende lungo la catena dell'energia"},
-		"difficultyDriver": "subjectMastery",
+		"difficultyDriver": "worldLevel",
 	},
 	23: {
 		"subject": "storia",
@@ -485,7 +485,7 @@ const LESSONS := {
 			"debrief": "La Sala delle Ere si illumina. Il racconto del passato è nostro, insieme.",
 		},
 		"environmentTransform": {"trigger": "sequenza/collegamento corretto", "effect": "una grande scena storica si ricompone lungo la linea del tempo della sala"},
-		"difficultyDriver": "subjectMastery",
+		"difficultyDriver": "worldLevel",
 	},
 	24: {
 		"subject": "logica",
@@ -505,7 +505,7 @@ const LESSONS := {
 			"debrief": "Tutti i sistemi convergono. Ricordo tutto, ora — e ricordo grazie a chi. La rotta è aperta.",
 		},
 		"environmentTransform": {"trigger": "deduzione finale corretta", "effect": "i dodici sistemi convergono e il Cuore dei Primi si accende, aprendo la rotta"},
-		"difficultyDriver": "subjectMastery",
+		"difficultyDriver": "worldLevel",
 	},
 }
 

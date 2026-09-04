@@ -81,11 +81,10 @@ static func subject_mastery_threshold(subject: String, level: int) -> float:
 ## quella del nucleo di 0,78. Non lento: impossibile, a qualunque quantita' di
 ## lavoro, per sempre.
 ##
-## Il design dichiara una valvola contro questo: «chi fatica non resta bloccato,
-## perche' la difficolta' adattiva abbassa gli item finche' l'accuratezza risale».
-## Al mondo 1 **quella valvola non esiste**: `target_difficulty(1)` vale 1, che e'
-## gia' il fondo del banco, e `mastery_nudge` non ha nessun gradino sotto cui
-## scendere. La promessa non poteva essere mantenuta.
+## Il bonus pieno al mondo 1 rendeva però la soglia irraggiungibile per un
+## bambino al 70%: gli esercizi non vengono abbassati in base allo studente e
+## `target_difficulty(1)` è già il fondo del banco. La soglia iniziale deve
+## quindi essere raggiungibile senza cambiare il livello della prova.
 ##
 ## Il rango del nucleo resta — e' una decisione del committente del 6 agosto e non
 ## si tocca — ma cresce con la scala invece di essere pieno subito. Al mondo 1,
@@ -94,8 +93,7 @@ static func subject_mastery_threshold(subject: String, level: int) -> float:
 ## otto centesimi interi, dove il bambino ha una storia alle spalle e il
 ## contenuto ha spazio per adattarsi.
 ##
-## Se un giorno esistesse contenuto sotto la difficolta' 1, questa rampa potrebbe
-## tornare piatta: sarebbe la valvola vera, e questa e' solo la sua supplente.
+## La rampa resta la valvola del gate; non interviene mai sugli esercizi.
 static func core_bonus(level: int) -> float:
 	var scala := clampf(float(clampi(level, 1, MAX_LEVEL) - 1) / float(MAX_LEVEL - 1), 0.0, 1.0)
 	return CORE_MASTERY_BONUS * scala

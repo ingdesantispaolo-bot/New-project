@@ -82,7 +82,8 @@ produce **grandi banchi di esercizi in JSON**, per materia e per livello di
 difficoltà, già verificati e con spiegazioni.
 
 - Godot li carica **on-demand** (fetch del solo banco necessario, non tutto nel
-  `.pck`) e li seleziona con logica adattiva (mastery, ripasso spaziato).
+  `.pck`) e li seleziona con ripasso spaziato e priorità agli argomenti deboli;
+  la difficoltà resta quella del mondo.
 - Vantaggio: nessun porting dei generatori per partire; qualità garantita dai
   validatori esistenti; contenuto enorme (decine di migliaia di item) ma finito.
 - Aggiornabile a ogni build. Il seed/anti-ripetizione vive in Godot.
@@ -123,7 +124,7 @@ Autoload (singleton):
 | `EconomyManager` | energia, frammenti, fonti/sink, combo, moltiplicatori |
 | `MasteryManager` | padronanza per materia, materia più debole, ripasso spaziato |
 | `ProgressionManager` | livello 1→20+, avanzamento per **riparazione apparati**, gate (mastery + conteggio missioni per materia), slot moduli |
-| `ContentManager` | carica banchi on-demand + generatori GDScript; seleziona item adattivi |
+| `ContentManager` | carica banchi on-demand + generatori GDScript; seleziona item al livello del mondo e priorità di ripasso |
 | `NarrativeManager` | capitoli, beat, dialoghi NORA, frammenti, side-quest |
 | `AudioManager` | musica/effetti (sostituisce howler) |
 | `SettingsManager` | accessibilità, effetti ridotti, lingua |
@@ -221,9 +222,9 @@ criteri d'uscita non sono verdi.
 - **Uscita**: giro completo *missioni fuori → gate → ripara apparato → sali di
   livello*, in Godot, per una materia bakata.
 
-### Fase 2 — Tutte le materie + adattività + scala 20+
+### Fase 2 — Tutte le materie + ripasso mirato + scala 20+
 - Bake dei banchi per **tutte** le materie; apparati e scala di 20+ livelli
-  (tabella dati); taratura sul livello; selezione adattiva su mastery + ripasso
+  (tabella dati); taratura sul livello del mondo; selezione su ripasso e topic
   spaziato.
 - **Uscita**: la scala completa è percorribile in Godot; Phaser non serve più per
   giocare gli esercizi *bakati*.

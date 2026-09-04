@@ -1,10 +1,11 @@
 # Eli Quest — Piano di lavoro
 
-Aggiornato al 20 agosto 2026.
+Aggiornato al 4 settembre 2026.
 
-**Questo file contiene solo lavoro da fare.** Niente resoconti: quelli stanno nel
-*Registro dei lavori* di [docs/RELEASE_CANDIDATE.md](docs/RELEASE_CANDIDATE.md).
-Se una cosa è finita e verde, esce da qui.
+**L'indice operativo sotto contiene solo lavoro da fare.** Nel resto del file
+rimangono ancora alcune analisi storiche e descrizioni di lotti già chiusi: sono
+contesto, non coda di lavoro. I resoconti autoritativi stanno nel *Registro dei
+lavori* di [docs/RELEASE_CANDIDATE.md](docs/RELEASE_CANDIDATE.md).
 
 Documenti autoritativi: [Visione](docs/VISIONE_DI_GIOCO.md) ·
 [Design](docs/DESIGN_COMPLETO.md) · [Trama](docs/TRAMA_E_MISTERO.md) ·
@@ -14,9 +15,10 @@ Documenti autoritativi: [Visione](docs/VISIONE_DI_GIOCO.md) ·
 [Custode avanzato](docs/CUSTODE_LIVELLO_AVANZATO.md) ·
 [Minigiochi personaggi](docs/MINIGIOCHI_PERSONAGGI.md)
 
-> **Snellito il 13 agosto 2026, ripulito il 14.** I lotti chiusi escono da qui e
-> stanno nel registro del file di rilascio, con le loro misure e i loro audit.
-> Qui resta solo ciò che non è fatto.
+> **Nota storica del 14 agosto 2026.** Il criterio era spostare ogni lotto chiuso
+> nel registro del file di rilascio. La pulizia non è rimasta allineata: oggi le
+> sezioni concluse sono ancora presenti e solo l'indice operativo qui sotto va
+> letto come coda di lavoro.
 
 ---
 
@@ -47,21 +49,36 @@ campagna resta a 21,1 ore misurate. È un vincolo del piano, non una speranza: i
 collaudo l'ha già definita faticosa, e rispondere a «è noioso» con «è più lungo»
 è l'errore che ha prodotto quel verdetto.
 
-### L'ordine, e perché questo
+### L'ordine residuo — revisione del 4 settembre 2026
 
-L'ordine residuo è per **resa su costo**. Le voci Codex del lotto di agosto e
-quelle C-ART della lettura del 20 agosto sono uscite dal piano e stanno nel
-registro.
+La rilettura ha trovato punti davvero sospesi e due riferimenti obsoleti: le
+voci NORA **G-N1…N8, C-N3 e C-N5 sono chiuse**, mentre **G-4 è stata ritirata il
+21 agosto**. Non fanno più parte dell'ordine residuo. Finché le sezioni storiche
+non saranno spostate nel registro, questa è la fonte operativa per ciò che resta.
 
-**Il 26 agosto è arrivata una segnalazione che scavalca tutto il resto**: le
-spiegazioni di NORA — il cuore della didattica, cioè la ragione per cui questo
-gioco esiste. Le otto voci **G-N** e **C-N** della lettura di quel giorno stanno
-più sotto e vengono prima di ogni altra cosa in questo file.
+| stato | voce | che cosa manca o che cosa la sblocca |
+|---|---|---|
+| **aperte** | Residui di contenuti e didattica | spiegazioni da riscrivere, matematica da riequilibrare, vocabolari da allineare, tavolozze delle materie, minigioco dei componenti, leve del nucleo, maestri nella pratica ed epiloghi |
+| **da decidere** | G-14 · `mucchio` e `prova` | decidere se e come stringerli, poi rieseguire la sonda |
+| **da decidere o fornire** | Secondo foglio di reperti, accessibilità visuale, lingua della radio | richiedono un asset o una decisione di prodotto |
+| **in attesa del collaudo** | Ricette e asset dei quindici minigiochi | il collaudo deve dire se e dove intervenire prima di produrre altro contenuto |
+| **da collaudare** | Campagna e hardware reale | primo giro senza salti, tablet e hardware scolastico; restano anche i controlli narrativi e di ritmo elencati più sotto |
 
-| | voce | impatto | costo | chi |
-|---|---|---|---|---|
-| **G-N1…N8 · C-N3, C-N5** | [Le spiegazioni di NORA](#le-spiegazioni-di-nora--la-lettura-del-26-agosto-2026) | il cuore | vario | Claude + Codex |
-| **G-4** | Collegare i due moduli alla resa C-G4 | basso | basso | Claude |
+Il confronto col registro e con gli audit correnti ha tolto dalla coda
+**C-ART-10, C-ART-12, C-ART-13, C-G-13 e G-13**: sono chiuse, anche se le loro
+analisi storiche restano più sotto. Sono chiuse anche la **carta d'Europa**, già
+usata dagli esercizi, e **C-16 passo 3**, con Phaser rimosso dal runtime e dalla
+build. Non sono punti sospesi neppure le figure di fisica e scienze, escluse
+intenzionalmente perché i dati non permettono diagrammi affidabili, né le glosse
+manuali del lessico finché non vengono trasformate in un lotto esplicito.
+
+È chiusa anche la **decisione 16**: la curva usa ventiquattro target distinti,
+quattro fasi cognitive (1–4, 5–10, 11–17, 18–24), una quota di riconoscimento
+che cala con continuità e pesi dei formati che si spostano verso processo,
+rappresentazioni e vincoli. `world_difficulty_curve_audit` misura i nodi reali
+di tutti i mondi e ammette al massimo 0,35 punti di inversione locale. Per
+decisione del committente, mastery ed esperienza **non abbassano la prova**: il
+livello del mondo va padroneggiato per accedere al successivo.
 
 ---
 
@@ -881,11 +898,10 @@ agosto.
 > **Questa quarta è una decisione di prodotto, ed è l'unica che ho preso io.**
 > Il rango del nucleo è una scelta del committente del 6 agosto e non si tocca;
 > quello che ho cambiato è che il bonus **cresce con la scala** invece di essere
-> pieno dal primo mondo. La ragione sta nel design stesso: dichiara una valvola
-> contro il blocco — «la difficoltà adattiva abbassa gli item finché
-> l'accuratezza risale» — e al mondo 1 **quella valvola non esiste**, perché
-> `target_difficulty(1)` vale 1, che è già il fondo del banco. Se un giorno
-> esistesse contenuto sotto la difficoltà 1, la rampa può tornare piatta.
+> pieno dal primo mondo. La motivazione originaria invocava una difficoltà
+> adattiva; la decisione 16 del 4 settembre l'ha superata: oggi gli esercizi
+> restano al livello del mondo e il blocco si evita con una soglia iniziale
+> raggiungibile, indizi, spiegazioni e ripasso, non abbassando il curricolo.
 > Si cambia in una riga: `ApparatusConfig.core_bonus`.
 
 E una cosa che l'audit ha trovato di sé stesso: **non era deterministico.**
@@ -988,11 +1004,16 @@ Tre vincoli valgono per tutte, e non si negoziano:
 
 ---
 
-### C-ART-10 · La coda (chiusa nel registro, non nel gioco)
+### C-ART-10 · La coda — chiusa anche nel gioco il 24 agosto 2026
 
 Il lotto sta nel registro e le tavole sono buone: 71 kind su otto atlanti 4×3,
 mappatura verificata a campione — la libreria è una libreria, il leggio è un
-leggio, la caravana è una caravana. Restano quattro cose piccole.
+leggio, la caravana è una caravana. Al 20 agosto restavano quattro cose piccole,
+elencate qui sotto.
+
+> **Chiusura verificata nel registro.** Le tavole parziali sono state ricomposte,
+> gli atlanti sono scesi da 8,09 a 6,19 MiB e si caricano per famiglia; ogni prop
+> usa al massimo tre nodi e non ha più aloni o `_process` decorativi.
 
 - **La misura non è stata scritta, e intanto si è mossa.**
   `performance_budget_audit` è verde, ma il numero non è più quello:
@@ -1023,18 +1044,24 @@ leggio, la caravana è una caravana. Restano quattro cose piccole.
 
 ---
 
-### C-ART-12 · Cinque shader per tutto il gioco
+### C-ART-12 · Cinque shader per tutto il gioco — chiusa il 24 agosto 2026
 
-**Oggi.** Due file — `painterly_ground` e `painterly_water` — e tre stringhe
+> **Chiusura verificata nel registro.** Vento, foschia, stanza della nave e
+> vignetta HUD usano risorse condivise; movimento ridotto ferma vento e foschia e
+> non restano stringhe shader nei consumer nave/HUD.
+
+**Situazione al 20 agosto.** Due file — `painterly_ground` e `painterly_water` — e tre stringhe
 inline: la stanza della nave, l'atmosfera, la vignetta. Tutto il resto
 dell'atmosfera è CPU: `OutdoorAtmosphere` è un `ColorRect` più due
 `CPUParticles2D`, e ogni chioma che ondeggia porta un nodo `OutdoorAmbientAnim`
 che gira in `_process` a ogni fotogramma — 91 punti di aggancio nel codice.
 
-**Progresso (20 agosto).** La foschia del mondo è uscita dalla stringa inline:
-`world_atmosphere.gdshader` è una risorsa condivisa, con tinta per bioma e
-movimento congelato da `reducedMotion`. Restano il vento vertex sugli atlanti,
-la migrazione delle altre due stringhe e il cono della torcia.
+**Progresso al 20 agosto, poi superato dalla chiusura.** La foschia del mondo è
+uscita dalla stringa inline: `world_atmosphere.gdshader` è una risorsa condivisa,
+con tinta per bioma e movimento congelato da `reducedMotion`. Restavano il vento
+vertex sugli atlanti e la migrazione delle altre due stringhe, poi completati. Il
+cono della torcia è fuori dal lotto: G-4 è stata ritirata e rientrerà solo insieme
+al modulo che dovrebbe servirlo.
 
 **Perché adesso.** Il tempo ha ricominciato a passare il 20 agosto. La luce
 cambia e **non cambia nient'altro**: niente vento che cala la sera, niente
@@ -1047,10 +1074,8 @@ muove solo un `CanvasModulate` si legge come un filtro, non come un'ora.
   quelli di `OutdoorAmbientAnim` insieme al loro `_process`.
 - **La foschia per bioma**, oggi un velo di colore uniforme sull'intera
   schermata.
-- **Il cono di luce della torcia.** G-4 lo dichiara già come consumer dormiente
-  a valore zero — «scala il cono luminoso orientato con Eli» — e le
-  illustrazioni sono riservate nel `reward-items-sheet`. È la metà Codex di una
-  voce già aperta, non una voce nuova.
+- **Fuori dal lotto: il cono di luce della torcia.** Non si realizza finché G-4
+  resta ritirata; se il modulo tornerà, resa e regola rientreranno insieme.
 
 **Il vincolo.** Movimento ridotto spegne il vento e la foschia mobile; il
 pavimento di leggibilità di `WorldSky` (0,20) non si tocca da nessuna direzione.
@@ -1059,19 +1084,24 @@ una misura isolata di `performance_budget_audit`.
 
 ---
 
-### C-ART-13 · Le conseguenze dei residenti sono due su quarantasei
+### C-ART-13 · Le conseguenze dei residenti — chiusa il 24 agosto 2026
 
-**Oggi.** `ResidentConsequenceVisual.supports()` risponde vero per `w01-tobia` e
+> **Chiusura verificata nel registro.** Tutti i 46 luoghi proprietari mostrano i
+> tre stadi; i primi cinque mondi hanno una resa autoriale e i successivi usano il
+> banco comune colorato per abitante.
+
+**Situazione al 20 agosto.** `ResidentConsequenceVisual.supports()` risponde vero per `w01-tobia` e
 `w01-ersilia`, e basta. Il commento lo dichiara: pilot del mondo 1, gli altri
 «solo dopo aver misurato nodi e tempo di avvio». Nel frattempo
 `resident_portrait_stage_audit` verifica 46 × 3 pose **nel ritratto**: la persona
 cambia quando ci parli, il posto in cui vive no.
 
-**Progresso (20 agosto).** Il primo lotto ha portato la copertura a **6/46**:
-Corinna, Bruno, Ruggine e Sesto hanno tre conseguenze leggibili nei loro luoghi
-dei mondi 2–3, sempre come un solo nodo procedurale. `resident_consequence_batch_audit`
-verifica il montaggio nel `BuildingActor`, i tre stadi e il budget di nodi.
-Restano quaranta residenti, da estendere a lotti misurati.
+**Progresso al 20 agosto, poi superato dalla chiusura.** Il primo lotto ha portato
+la copertura a **6/46**: Corinna, Bruno, Ruggine e Sesto hanno tre conseguenze
+leggibili nei loro luoghi dei mondi 2–3, sempre come un solo nodo procedurale.
+`resident_consequence_batch_audit` verifica il montaggio nel `BuildingActor`, i
+tre stadi e il budget di nodi. Restavano quaranta residenti, completati il 24
+agosto.
 
 **Perché.** È l'unica cosa in tutto il gioco che dice, senza una parola e senza
 un numero, che quello che il bambino ha imparato è arrivato a qualcuno. Due
@@ -1127,36 +1157,32 @@ perdano.
   gli argomenti nuovi hanno il minimo sindacale di sedici item ciascuno. Il
   prossimo giro li porta al livello delle altre materie — venti-trenta per
   argomento — e aggiunge i due che mancano per la fascia alta: proporzioni ed
-  equazioni, che NORA sa già spiegare e il banco non chiede mai.
-- **Il pavimento della matematica ai mondi 1–3.** Chi fatica non ha un gradino
-  sotto il nominale, perché il livello efficace non scende sotto 1 e lì il
-  nominale *è* il pavimento. Si ripara solo portando l'adattività della
-  matematica dal canale «livello» a quello «complessità», che oggi sono due
-  meccanismi sovrapposti (`effective_difficulty` per il banco,
-  `math_effective_level` per il generatore). Vale la pena farlo se il collaudo
-  segnala il difetto opposto — qualcuno che al mondo 1 fatica.
+  equazioni. Il generatore già le propone e NORA sa spiegarle; è il banco statico
+  a non chiederle mai.
 - **I vocabolari di banco e minigiochi non coincidono.** La copertura del gate
   conta gli argomenti toccati e il bersaglio si calcola sul **banco**, ma la
-  pratica marca anche i 104 argomenti che vivono solo nel catalogo interattivo. In
+  pratica marcava 104 argomenti che vivevano solo nel catalogo interattivo; il
+  cricchetto corrente è sceso a **102**, quindi il debito resta quasi intero. In
   inglese, coding, scienze, fisica ed elettronica un bambino può soddisfare la
   copertura toccando argomenti che l'esame non verificherà mai. Delle due
-  riparazioni, quella giusta è **allineare i vocabolari**: se un argomento vale per
-  la copertura, deve poter comparire in un esame.
-- **La scala dei formati per livello.** I singoli esercizi sono graduati
-  (`minLevel`), i formati no. La scala proposta segue la difficoltà cognitiva:
-  1–4 riconoscere e appaiare · 5–10 mettere in processo · 11–17 leggere una
-  rappresentazione · 18–24 manipolare rispettando vincoli.
-- **Elettronica alle altre undici.** La scelta multipla a zero fuori dall'esame
-  regge in elettronica perché lì la tavolozza dei minigiochi è profonda (ventuno
-  argomenti, sette formati). Dove è più magra lascerebbe buchi: si estende materia
-  per materia, misurando la tavolozza prima.
+  riparazioni, quella giusta è **allineare i vocabolari**: se un argomento vale
+  per la copertura, deve poter comparire in un esame.
+- **Elettronica e logica alle altre dieci.** La scelta multipla a zero fuori
+  dall'esame regge oggi in queste due materie perché la loro tavolozza di
+  minigiochi è abbastanza profonda. Dove è più magra lascerebbe buchi: si estende
+  materia per materia, misurando la tavolozza prima.
 - **I ventidue quesiti sui componenti elettronici** (relè, condensatore): il
-  problema non è la forma della domanda ma il fatto che un decenne non ha mai visto
-  l'oggetto. La risposta giusta è un minigioco che glielo faccia montare.
+  problema non è la forma della domanda ma il fatto che un decenne non ha mai
+  visto l'oggetto. Le domande dirette sono già fuori dalla pratica e restano
+  nell'esame; manca ancora un minigioco che faccia montare davvero i componenti
+  prima di verificarne il nome.
 - **Le leve del nucleo studiate e non attivate**: due luoghi invece di uno per le
   tre materie quando non sono ospiti (tocca il direttore degli eventi e va
   rimisurato il tempo per mondo); ripasso più stretto sui loro argomenti; il
   registro che mostra il nucleo a parte.
+- **I maestri nella pratica.** `TeachingCatalog` e i maestri esistono, ma le
+  stazioni di pratica non li usano ancora: il residente dovrebbe allenare ciò che
+  sa fare, nel luogo in cui vive o si ritrova.
 - **Gli epiloghi non nominano le minimissioni**: oggi le contano soltanto.
 
 **Minigiochi dei personaggi**
@@ -1290,7 +1316,8 @@ nel font imbarcato, e nella bottega **0 articoli su 44** si disegnano interi.
 Chiuso oggi: l'insegna delle palestre è **disegnata** — nessun glifo, nessun
 ripiego possibile — e porta il **colore della materia** da `SubjectPalette`, che
 da oggi è una tabella sola per il mondo, la nave e le palestre (prima erano due
-copie divergenti). Resta aperta la bottega, qui sotto.
+copie divergenti). La bottega, che allora restava aperta, è stata chiusa nella
+voce qui sotto.
 
 ### C-G-12 · Le insegne della bottega — chiusa il 21 agosto 2026
 
@@ -1312,8 +1339,8 @@ posto da cui il difetto e' arrivato.
 
 Nota per chi tocca il catalogo: aggiungere o togliere una voce **richiede
 `npm run assets:reward`**. Il 21 agosto due moduli nuovi hanno fatto diventare
-rosso `shop_presentation_audit` proprio per questo, e le illustrazioni riservate
-ai moduli ritirati vanno tolte anche da `build-reward-assets.mjs`.
+rosso `shop_presentation_audit` proprio per questo; le illustrazioni riservate ai
+moduli poi ritirati sono state tolte anche da `build-reward-assets.mjs`.
 
 ### G-12 · Il quartiere degli allenamenti — chiusa il 21 agosto 2026
 
@@ -1364,10 +1391,14 @@ altro «2605», stesso font, stesso rettangolo col codice su Web e tablet.
 
 ### Perché il filo è coerente con la storia, e la spirale no
 
+> **Resa chiusa il 24 agosto come C-G-13.** Le stazioni sono ripetitori dei
+> Primi: pietra, nucleo nel colore della materia e circuito acceso solo dopo la
+> visita di entrambe le stazioni. La tiene `practice_circuit_visual_audit`.
+
 Quando il filo esiste, una stazione non è più un disco con una stella: è un
 **ripetitore dei Primi**, e le undici insieme sono il circuito che il nucleo
-prismatico della nave rimette in fila. Serve la resa: la pietra, il filo che
-collega una stazione alla successiva quando le hai visitate tutte e due, e la
+prismatico della nave rimette in fila. La resa richiesta era la pietra, il filo
+che collega una stazione alla successiva quando le hai visitate tutte e due, e la
 luce che si accende del colore della materia quando la stazione è stata usata in
 questo mondo.
 
@@ -1394,7 +1425,7 @@ esiste già e non è mai stato usato per la pratica.
 
 ---
 
-## G-13 · La risposta più lunga — pagata su scienze e storia, 21 agosto 2026
+## G-13 · La risposta più lunga — debito chiuso il 24 agosto 2026
 
 *Domanda del committente: «possono esserci casi simili in altre materie?». Sì.*
 
@@ -1420,27 +1451,32 @@ didattico, la lunghezza di un distrattore no. Ogni sostituzione tiene il
 distrattore sbagliato e plausibile — una precisazione che un bambino potrebbe
 credere, mai una parola di riempimento.
 
-| materia | prima | dopo | |
-|---|---|---|---|
-| **scienze** | 45,4% | **22,1%** | sotto il caso: la scorciatoia fa perdere |
-| **storia** | 42,5% | **22,2%** | sotto il caso |
-| fisica | 39,3% | — | debito |
-| elettronica · musica | 38% | — | debito |
-| geografia | 35,2% | — | debito |
-| italiano · coding | 33% | — | debito |
-| latino | 31,5% | — | debito |
-| inglese · matematica · logica | 25-26% | — | in banda |
+| materia | prima | oggi |
+|---|---:|---:|
+| scienze | 45,4% | **22,1%** |
+| storia | 42,5% | **22,2%** |
+| fisica | 39,3% | **21,9%** |
+| elettronica | 38,2% | **21,9%** |
+| musica | 38,0% | **23,7%** |
+| geografia | 35,2% | **24,7%** |
+| italiano | 33,4% | **24,8%** |
+| coding | 32,7% | **22,9%** |
+| latino | 31,5% | **23,3%** |
+| inglese | 26,5% | **25,3%** |
+| matematica | 25,9% | **24,3%** |
+| logica | 25,8% | **20,1%** |
 
-### Il debito che resta, e il guardiano
+### Il debito chiuso, e il guardiano
 
 `bank_scorciatoie_audit` misura le tre scorciatoie — lunghezza, posizione, eco —
-e ogni materia ha il **tetto che aveva il 21 agosto**. Serve a due cose, e la
+e ogni materia ha un **tetto che può solo scendere**. Serve a due cose, e la
 seconda vale più della prima: non si può peggiorare, e il debito è visibile e si
 accorcia. Un debito che non sta scritto da nessuna parte non viene mai pagato.
 
-Le nove materie sopra il caso si pagano nello stesso modo: si guardano i quesiti
-in cui la giusta supera la seconda di cinque caratteri e si allunga un
-distrattore. Sono fra i venti e i quaranta per materia.
+Le materie che erano sopra il caso sono state corrette guardando i quesiti in cui
+la giusta superava la seconda di cinque caratteri e allungando un distrattore,
+oppure legando i distrattori per lunghezza quando un nome proprio non poteva
+essere riscritto. L'audit corrente dichiara chiuso il debito in tutte e dodici.
 
 **Due cose invece sane, e vale la pena saperlo:** la posizione della risposta
 giusta è uniforme, e l'eco della domanda non aiuta — la risposta giusta ripete le
@@ -1470,6 +1506,12 @@ sessanta partite per archetipo, e conta.
 | altalena | 3,3% | 54 | |
 | traccia | 1,7% | 14 | |
 | ciclo · radio · circuito · ritmo | **0,0%** | | *sani* |
+
+> **Revisione del 4 settembre.** La tabella sopra fotografa il 21 agosto. Il
+> mucchio è stato ritarato e ora richiede in media 15 tocchi, ma la sonda cieca
+> continua a vincerlo nel 100% dei casi e, al ritmo umano stimato, resta dentro il
+> cronometro (circa 8 secondi su 13). La decisione resta quindi aperta; `prova` va
+> rimisurato nello stesso giro prima della taratura finale.
 
 **I due da guardare.**
 
@@ -1505,7 +1547,7 @@ misura di nuovo dopo ogni taratura.
 | **Arte generativa, scena e resa visiva** (voci **C-**) | | ✅ | |
 | **Giudizio su bellezza, ritmo, divertimento** | | | ✅ |
 | **Prova su tablet reale e hardware scolastico** | | | ✅ |
-| Decisioni di prodotto (G-4, G-8, G-10, C-MG-3) | | | ✅ |
+| Decisioni di prodotto aperte (G-14, C-MG-3, accessibilità visuale) | | | ✅ |
 
 Le voci **G-** sono di Claude tranne dove è nominata una **C-G**: quella riga è di
 Codex, ed è sempre la parte che si vede — mai la regola.
@@ -1530,15 +1572,14 @@ Nessuna si scrive: vogliono un **asset** o una **tua decisione**.
 - **Secondo foglio di reperti** — serve un'immagine nuova: gli atlanti dei
   reperti sono `.webp` (`artifact_atlas_catalog.gd`), e senza un disegno il
   formato non si estende.
-- **Carta d'Europa** — **non serve un disegno.** La carta d'Italia è geometria
-  vettoriale derivata da Natural Earth, dominio pubblico
-  (`map_geometry_catalog.gd`), non un'immagine. Per l'Europa servono le coordinate
-  dei poligoni dallo stesso dataset — un lavoro di dati, non d'arte, e quindi
-  qualcosa che posso fare io se mi dai il via.
 - **Accessibilità dei formati visuali** — le etichette identificano senza
   descrivere («Segnaposto A»), che è l'unica scelta che non regala la risposta.
   Ma chi usa un lettore di schermo **non può rispondere a una carta muta**. Vale
   già per grafici e circuiti. Va deciso, non subìto.
+
+La **carta d'Europa non è più aperta**: `MapGeometryCatalog` contiene la sagoma e
+le ancore, e dal 1° settembre `MinigameManager` le usa in prove su capitali ed
+Europa.
 
 ---
 
@@ -1549,7 +1590,7 @@ niente**. Non serve arrivare in fondo al primo giro: quello che cambia il lavoro
 si vede nei primi sei mondi, e le ultime due domande si possono rimandare.
 
 È anche l'unico modo per giudicare le voci di questo piano che una misura non
-raggiunge — G-10 per prima, e il ritmo di tutte le altre.
+raggiunge — il ritmo dei dialoghi per primo, e poi la resa narrativa delle altre.
 
 In ordine di quanto cambiano il lavoro dopo:
 
@@ -1599,11 +1640,12 @@ Una proposta che le contraddice va discussa, non implementata.
 
 1. **Fascia 10–13 anni.**
 2. **Dodici materie obbligatorie**: 24 mondi = 12 materie × 2.
-3. **Si sale di livello con tre materie** (italiano, matematica, inglese), **si
-   finisce il gioco con dodici**. Il gate è sulla padronanza, non sul conteggio
-   delle missioni.
-4. **Un mondo è un LIVELLO, non una materia**: ogni mondo ha missioni di tutte le
-   materie già incontrate.
+3. **Si sale di livello con tutte e dodici le materie, e si finisce il gioco con
+   dodici.** Italiano, matematica e inglese restano il nucleo e hanno una soglia
+   di padronanza più alta; non sono però l'unico gate. Il passaggio di livello si
+   basa su padronanza, copertura e ritenzione, non sul conteggio delle missioni.
+4. **Un mondo è un LIVELLO, non una materia**: ogni mondo ha una materia in focus
+   e missioni di tutte e dodici le materie.
 5. **Rivisitazioni = ripasso mirato.** Consolidato = 3 corrette in sessioni
    distinte, con ≥ 3 giorni fra la prima e l'ultima.
 6. **Scelta multipla: tetto 33%, target ~20%** (oggi 17%).
@@ -1684,6 +1726,20 @@ Una proposta che le contraddice va discussa, non implementata.
    l'energia dentro il calcolo della padronanza lo troverebbe rosso lo stesso
    giorno.
 
+16. **Ogni mondo ha il proprio livello di difficoltà** (4 settembre 2026). Gli
+    esercizi devono scalare in modo progressivo e adeguato lungo tutti i 24
+    livelli, sia nei contenuti sia nei formati richiesti. È ammesso un piccolo
+    margine di scostamento fra mondi vicini, dovuto alla materia, al formato o al
+    ripasso mirato; non sono ammesse inversioni marcate o salti prolungati che
+    rompano la curva complessiva. **Chiusa:** `ContentManager.challenge_level`
+    espone 24 gradini distinti; le bande seguono 1–4, 5–10, 11–17 e 18–24; quota
+    di riconoscimento e pesi dei formati cambiano a ogni mondo.
+    `world_difficulty_curve_audit` campiona gli esercizi realmente serviti,
+    combina banda e gesto, pretende contenuto nuovo a ogni livello e tollera una
+    sola inversione locale fino a 0,35 punti. Mastery ed esperienza non adattano
+    più la difficoltà: lo studente deve padroneggiare il livello del mondo per
+    accedere al successivo.
+
 ### Guard-rail narrativi (i tre che si rompono per primi)
 
 - **Non muore nessuno. Mai.** Né in scena, né fuori campo, né nel passato. Chi
@@ -1732,9 +1788,6 @@ Una proposta che le contraddice va discussa, non implementata.
    prima. Chi vede la suite andare oltre i ~150 secondi la ferma. Un audit
    singolo (`node scripts/run-godot-audits.mjs <nome>`) si può sempre eseguire —
    è il giro completo che va serializzato.
-6. **C-16 passo 3 (rimozione di Phaser) resta sospeso.** Va fatto quando
-   nient'altro è in volo, altrimenti una regressione somiglierà a un bug del
-   mondo abitato.
 
 ---
 

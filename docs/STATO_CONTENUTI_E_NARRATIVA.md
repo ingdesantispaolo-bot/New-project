@@ -133,11 +133,11 @@ sono combinatori. Il totale per materia (centinaia di migliaia) è vero, ma è
 > `MissionEventDirector.other_subjects()`, che restituisce l'intero ciclo.
 >
 > Quindi la storia si incontra al **mondo 1**, non al mondo 11, e a quel punto
-> `target_difficulty(1)` vale **1**. La curva reale per la storia è: banda 1 ai
-> mondi 1–5, banda 2 ai 6–10, banda 3 dall'11. È una progressione corretta.
+> `target_difficulty(1)` vale **1**. Dal 4 settembre la curva è: banda 1 ai
+> mondi 1–4, banda 2 ai 5–10, banda 3 agli 11–17, banda 4 dal 18.
 >
-> In più il correttivo di padronanza funziona: con mastery 0.3 il mondo 11 scende
-> a banda 2 e il mondo 19 a banda 3.
+> Il correttivo di padronanza citato nella stesura originale è stato rimosso per
+> decisione del committente: mastery ed esperienza non abbassano più la prova.
 >
 > **Lascio la sezione con l'errore visibile invece di cancellarla**, perché il
 > modo in cui l'ho preso è istruttivo: un audit misurava una cosa, io ho letto
@@ -146,7 +146,7 @@ sono combinatori. Il totale per materia (centinaia di migliaia) è vero, ma è
 
 Quello che **resta** vero, e va guardato, sta in 2.1-bis.
 
-### 2.1-bis ⚠ La pratica è dove sta l'apprendimento, e non conta per niente
+### 2.1-bis — Nota storica: adattamento proposto e poi ritirato
 
 Gli undici eventi di pratica hanno `countsForGate: false`. Non aprono l'apparato,
 non fanno salire di livello, non sbloccano niente. Alimentano padronanza e
@@ -154,17 +154,19 @@ ripasso spaziato — che è la cosa giusta dal punto di vista didattico — ma d
 punto di vista di un bambino con un obiettivo, **si possono ignorare tutti**.
 
 Chi li ignora arriva al mondo 11 senza aver mai fatto storia e trova la lezione
-ospite a banda 3. Lo scenario che avevo descritto **esiste**: non è il caso
-normale, è il caso di chi gioca puntando al traguardo. E il correttivo di
-padronanza lo protegge di una banda sola.
+ospite a banda 3. La soluzione definitiva non è abbassare quella prova: il gate
+richiede tutte le materie e i compiti dichiarano la pratica necessaria per
+arrivarci preparati.
 
-Due rimedi possibili, non alternativi:
+La prima ipotesi seguente è **ritirata**; la seconda resta una scelta di
+riconoscimento, non una scorciatoia sul gate:
 
-1. **Legare la difficoltà all'esperienza nella materia.** Il dato esiste già nel
+1. ~~**Legare la difficoltà all'esperienza nella materia.**~~ Il dato esiste nel
    save: `missionsBySubject`, «subject → int cumulativo, mai azzerato». Il
    livello resta il tetto, l'esperienza diventa il pavimento:
    `min(target_per_livello, 1 + sessioni_materia / 4)`. Chi ha praticato arriva
-   preparato; chi ha saltato riparte da dove è davvero.
+   preparato; chi ha saltato riparte da dove è davvero. **Non si applica:** lo
+   studente deve padroneggiare il livello del mondo prima di avanzare.
 2. **Dare alla pratica una ricompensa che non sia il gate.** Non energia — sarebbe
    una miniera. Il Codex di NORA e gli stadi di relazione degli abitanti sono già
    lì: una pratica fatta è un argomento che avanza nel Codex, ed è la moneta
@@ -205,8 +207,8 @@ Un bambino che arriva al mondo 11 ha imparato tanto — ma non ha imparato
 salito. È esattamente il modo in cui si perde uno studente su una materia
 intera, ed è didatticamente indifendibile.
 
-**Rimedio proposto**: far dipendere il target dall'**esperienza nella materia**,
-non dall'indice del mondo.
+**Rimedio proposto nella stesura originaria, poi ritirato**: far dipendere il
+target dall'**esperienza nella materia**, non dall'indice del mondo.
 
 ```
 target = min( target_per_livello(level), 1 + sessioni_fatte_in_quella_materia / k )
@@ -214,7 +216,8 @@ target = min( target_per_livello(level), 1 + sessioni_fatte_in_quella_materia / 
 
 Al primo contatto si parte sempre da 1–2, qualunque sia il mondo; chi arriva al
 mondo 11 avendo già fatto storia nelle missioni di varietà ci arriva più in
-alto. Il tetto per livello resta come massimo, non come minimo.
+alto. Questa ipotesi non si applica più: il livello del mondo è il requisito
+comune che va padroneggiato.
 
 **Attenzione**: tocca `content_manager.gd` e cambia l'equilibrio di tutta la
 campagna. Va misurato prima e dopo su entrambi gli estremi (mondo 1 e mondo 24) e
@@ -422,7 +425,7 @@ colpo 5. Poco, ma lo lega.
 
 | # | Cosa | Perché prima | Chi |
 |---|---|---|---|
-| 1 | **Difficoltà legata all'esperienza nella materia**, non al numero del mondo | È l'unico difetto che può far perdere un bambino su una materia intera | Claude + misura |
+| 1 | ~~Difficoltà legata all'esperienza nella materia~~ **RITIRATA il 4 settembre** | Il livello del mondo va padroneggiato senza adattamento della prova | — |
 | 2 | Uscita dall'esercizio (decisione di design) | Un blocco non deve poter esistere | tu decidi, Codex fa |
 | 3 | Le 9 coppie (materia, formato) sotto 100 prove | Poche specifiche, resa immediata | Claude |
 | 4 | `numeric_input` e risposta breve nei banchi non linguistici | Toglie la dipendenza strutturale dalla scelta multipla | Claude |

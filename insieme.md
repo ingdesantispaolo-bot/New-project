@@ -69,16 +69,69 @@ Cinque regole, e sono tutte state pagate almeno una volta.
 
 ## Rosso adesso — prima di ogni altra cosa
 
-> **Stato alla sera del 4 settembre 2026.** R-3 è chiusa, R-2 è chiusa per la
-> parte del metro e resta aperta su **una materia sola** (`storia / esame`), che
-> è confluita in **G-C2**. Resta **R-1**, che va fatta subito prima del collaudo
-> e non prima — altrimenti si riesporta due volte.
+> **Stato alla sera del 4 settembre 2026.** R-1 e R-3 sono chiuse; R-2 è chiusa
+> per la parte del metro e resta aperta su **una materia sola**
+> (`storia / esame`), confluita in **G-C2**. **R-4 è nuova ed è la più grave: un
+> blocco vero, segnalato giocando.**
 >
 > La suite è passata da 242/244 a **243/244**, e da 738 a **572 secondi**: i
 > quattro minuti risparmiati sono l'audit che non resta più appeso a un `assert`
 > fallito (vedi *Rischi noti*, 6).
 
-### R-1 · La build spedita porta la versione sbagliata
+### R-4 · Cinque materie su dodici sono chiuse dalla falce, al mondo 2
+
+*Segnalazione di gioco: «al livello 2 non riesco a recuperare la falcetta per
+completare il livello».* **Ha ragione, ed è un blocco vero.**
+
+Misurato aprendo il mondo con gli attrezzi che uno studente ha davvero
+all'arrivo — la sola torcia:
+
+| mondo | chiave | materie allenabili prima della chiave | materie chiuse dalla chiave |
+|---:|---|---:|---|
+| **2** | Falce | **7/12** | coding, elettronica, matematica, musica, storia |
+| **5** | Leva | **7/12** | coding, geografia, italiano, scienze, storia |
+| 7 | Lente | 9/12 | fisica, inglese, logica |
+| 11 | Soffietto | 11/12 | inglese |
+
+Il gate chiede **tutte e dodici** le materie. Quindi finché la falce non arriva,
+il mondo 2 non si chiude — non è una deviazione, è il livello.
+
+**La buona notizia:** non è un vicolo cieco. L'incarico che consegna la chiave è
+presente e **raggiungibile senza la chiave** in tutti e quattro i mondi, la
+bussola ci porta e il cartello del varco dice già dove si prende. Chi fa la
+riparazione per prima cosa non si accorge di niente. Chi gira il mondo prima
+trova cinque materie murate e un quadro obiettivi che ne chiede dodici.
+
+**Dove nasce.** [outdoor_world.gd:1914](godot/scripts/outdoor_world.gd#L1914):
+dal mondo 2 in poi **ogni** palestra riceve un `requiredTool`, pescato per hash
+fra le chiavi già consegnabili nel mondo. Al mondo 2 quelle chiavi sono torcia e
+falce, quindi circa metà delle palestre nasce chiusa. Il commento lì accanto
+dichiara l'intenzione opposta — *«Solo deviazioni opzionali: nessuno strumento
+può bloccare il gate»* — e più sotto spiega di aver escluso le chiavi **future**
+per non togliere «l'unico posto in cui allena quella materia in questo mondo».
+È il ragionamento giusto applicato a metà: le palestre sono una per materia,
+quindi anche la chiave **di questo mondo** toglie quell'unico posto, finché non
+arriva.
+
+**Perché nessuna guardia l'ha preso.** `tool_verticality_audit` controlla due
+cose diverse: che nessun evento con `countsForGate` sia dietro una chiave, e che
+nessuna palestra sia dietro una chiave **futura**. La copertura delle dodici
+materie non passa da `countsForGate` — si calcola sulle materie allenate — e la
+falce al mondo 2 non è una chiave futura. Il buco ha esattamente la forma della
+segnalazione.
+
+**La correzione non è di una riga, e per questo non l'ho fatta.**
+`equipment_traversal_audit` pretende che al mondo 2 esista una palestra chiusa da
+uno strumento (*«manca una deviazione opzionale legata all'equipaggiamento»*),
+quindi togliere il varco dalle palestre lo fa arrossire. Le due proprietà stanno
+insieme solo così: **una palestra può restare chiusa purché la sua materia abbia
+un altro nodo aperto nel mondo.** In pratica una passata dopo la costruzione
+degli eventi che toglie il varco alle palestre la cui materia resterebbe senza
+niente, più la guardia che lo tiene: *con gli attrezzi dell'arrivo, tutte e
+dodici le materie devono essere allenabili in ogni mondo.* Quella misura oggi
+non esiste — la sonda che l'ha trovata era usa e getta.
+
+### R-1 · La build spedita porta la versione sbagliata — chiusa
 
 `npm run audit:web` **esce 1**:
 
@@ -87,7 +140,13 @@ la versione mostrata (461516e) non e' quella del codice: da allora sono cambiati
 10 file, fra cui godot/scripts/game/adaptive_audit.gd
 ```
 
-`BuildVersion.COMMIT` dice `461516e`, ma HEAD è `3096ace`, e fra i dieci file
+> **Chiusa il 4 settembre 2026.** Il rituale a due commit ha funzionato al primo
+> colpo: `1e94cfd` porta il codice, `7c06252` porta la build, e `audit:web` è
+> verde — *«2026.09.04-web-loader-2, PCK 79.10 MiB, WASM 37.68 MiB»*, cache a
+> `v189-web-loader`. La diagnosi resta qui sotto perché spiega perché l'ordine
+> dei due commit non è una formalità.
+
+`BuildVersion.COMMIT` diceva `461516e`, ma HEAD era `3096ace`, e fra i dieci file
 cambiati dopo lo stamp ci sono `content_manager.gd`, `world_lesson.gd` e
 `world_difficulty_curve_audit.gd` — cioè proprio la decisione 16.
 

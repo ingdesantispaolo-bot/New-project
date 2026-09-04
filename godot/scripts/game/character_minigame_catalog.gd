@@ -1045,12 +1045,27 @@ static func parametri(archetipo: String, world: int) -> Dictionary:
 			# **Il mucchio parte già grande.** Con trenta pezzi e tredici secondi
 			# — la prima taratura — contare uno per uno costava 13,5 s contro 13,4
 			# concessi: un bambino svelto ce la faceva **col metodo vecchio**, e la
-			# convinzione di Tobia sarebbe uscita confermata. Il margine adesso è
-			# del 47%, e `character_minigame_audit` non lo lascia scendere.
-			var pezzi := 36 + livello * 6
+			# convinzione di Tobia sarebbe uscita confermata.
+			#
+			# **Ritarato il 4 settembre 2026, e stavolta contro tre giocatori.**
+			# Le tarature precedenti guardavano due strategie — uno per uno e a
+			# gruppi — e ne mancava una terza che è quella che vinceva davvero:
+			# **chi tocca a caso.** `minigiochi_cieco_probe` lo dava al 100% con
+			# quindici tocchi, esattamente quanti ne faceva chi aveva capito.
+			#
+			# Adesso i tre numeri stanno separati, misurati al ritmo umano di due
+			# tocchi al secondo:
+			#
+			#   uno per uno   63 tocchi   ~28 s   perde di larghezza
+			#   a caso        ~23 tocchi  ~10,5 s perde
+			#   a gruppi      12 tocchi   ~5,4 s  vince con oltre 3 s di margine
+			#
+			# Il tempo cresce meno della quantità (×1,98 contro ×2,10 dal mondo 1
+			# al 24), così la strategia vecchia diventa sempre meno sufficiente.
+			var pezzi := 60 + livello * 3
 			return {
 				"pezzi": pezzi,
-				"secondi": 12.0 + float(livello) * 0.9,
+				"secondi": 8.235 + float(livello) * 0.365,
 				# Quanti pezzi entrano in un gruppo. Dieci sempre: è la base del
 				# sistema numerico, e cambiarla da un mondo all'altro insegnerebbe
 				# che è una convenzione arbitraria del gioco.

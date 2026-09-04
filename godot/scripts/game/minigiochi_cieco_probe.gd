@@ -78,23 +78,43 @@ func _run() -> void:
 				vinti += 1
 			tocchi_totali += int(risultato.get("tocchi", 0))
 		var quota := 100.0 * float(vinti) / float(PARTITE)
-		if quota > peggiore:
-			peggiore = quota
-			peggiore_nome = str(archetipo)
 		var tocchi_medi := float(tocchi_totali) / float(PARTITE)
 		var secondi := float(Dictionary(CharacterMinigameCatalog.scheda(npc)
 			.get("parametri", {})).get("secondi", 0.0))
 		var verdetto := "niente cronometro"
+		# **La quota a ritmo umano.** (4 settembre 2026)
+		#
+		# Il CIECO tocca un pulsante per fotogramma, sessanta volte al secondo:
+		# dove c'è un cronometro il tempo non gli finisce mai, e la sua percentuale
+		# è un tetto che nessun bambino raggiunge. Il mucchio l'ha mostrato nel
+		# modo più netto — 100% con il cronometro che a ritmo umano lo taglia
+		# fuori di tre secondi. Leggere solo la prima colonna avrebbe detto che la
+		# ritaratura non era servita a niente, mentre aveva funzionato.
+		#
+		# Quindi la colonna che decide è questa: **con un dito umano, quel
+		# giocatore a caso ce la farebbe?** Dove non c'è cronometro le due quote
+		# coincidono, ed è giusto che coincidano: lì niente lo ferma.
+		var quota_umana := quota
 		if secondi > 0.0:
 			var servono := tocchi_medi / RITMO_UMANO
 			verdetto = "%s (%.0f s su %.0f)" % [
 				"sì" if servono <= secondi else "NO", servono, secondi]
+			if servono > secondi:
+				quota_umana = 0.0
+		if quota_umana > peggiore:
+			peggiore = quota_umana
+			peggiore_nome = str(archetipo)
 		print("%-14s %-16s %10.1f%%  %6.1f   %s" % [
-			archetipo, npc, quota, tocchi_medi, verdetto])
+			archetipo, npc, quota_umana, tocchi_medi, verdetto])
 	print("")
-	print("Il piu' vincibile a caso: %s, %.1f%%" % [peggiore_nome, peggiore])
+	print("Il piu' vincibile a caso, a ritmo umano: %s, %.1f%%" % [peggiore_nome, peggiore])
 	print("")
 	print("COME SI LEGGE")
+	print("  La colonna «vinti a caso» e' gia' corretta per il ritmo umano: dove")
+	print("  il cronometro taglia fuori chi tocca a caso, vale zero. Il tetto")
+	print("  grezzo della sonda — che tocca sessanta volte al secondo — resta")
+	print("  leggibile nella colonna dei tocchi e nel verdetto sul tempo.")
+	print("")
 	print("  Alto = quel minigioco si supera senza capirlo. Non e' sempre un")
 	print("  difetto — nei giochi di velocita' sbagliare costa tempo, non la")
 	print("  partita — ma e' il numero da guardare prima di dire «funziona».")

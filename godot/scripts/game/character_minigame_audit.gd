@@ -221,7 +221,7 @@ func _la_strategia_vecchia_fallisce() -> void:
 		var pezzi := int(p["pezzi"])
 		var gruppo := int(p["gruppo"])
 		var secondi := float(p["secondi"])
-		var uno_per_uno := float(pezzi) * SECONDI_PER_TOCCO
+		var uno_per_uno := float(PileMinigamePanel.tocchi_uno_per_uno(pezzi, gruppo)) * SECONDI_PER_TOCCO
 		# **Non basta che il metodo vecchio perda: deve perdere con margine.**
 		# Alla prima taratura mancava il 4 per mille — 13,5 s contro 13,4 — e con
 		# uno scarto così un bambino veloce vince contando uno per uno, cioè la
@@ -230,12 +230,34 @@ func _la_strategia_vecchia_fallisce() -> void:
 		if uno_per_uno <= secondi * 1.3:
 			_fallisci("mondo %d: contare uno per uno quasi basta (%.1f s su %.1f) — la convinzione non cade" % [
 				world, uno_per_uno, secondi])
-		# Con i gruppi servono tanti tocchi quante sono le file piene, più i resti.
-		var tocchi := int(floor(float(pezzi) / float(gruppo))) + posmod(pezzi, gruppo)
-		var a_gruppi := float(tocchi) * SECONDI_PER_TOCCO
+
+		# **I tocchi si CHIEDONO al pannello, non si immaginano.** (4 settembre 2026)
+		#
+		# Qui c'era `floor(pezzi/gruppo) + pezzi%gruppo`: per quarantadue pezzi
+		# faceva sei tocchi, mentre `_disponi()` ne costruiva quindici — quattro
+		# quinti in file piene e un quinto sparso. L'audit misurava un mucchio che
+		# il gioco non ha mai disegnato, ed è per questo che è rimasto verde su un
+		# minigioco vinto dalla sonda cieca cento volte su cento. È la forma della
+		# decisione 14: una guardia che verifica la dichiarazione invece della cosa.
+		var a_gruppi := float(PileMinigamePanel.tocchi_ottimali(pezzi, gruppo)) * SECONDI_PER_TOCCO
 		if a_gruppi > secondi * 0.7:
 			_fallisci("mondo %d: anche a gruppi si arriva al pelo (%.1f s su %.1f) — vince la fretta, non l'idea" % [
 				world, a_gruppi, secondi])
+
+		# **E il terzo giocatore: chi tocca a caso deve perdere.** (4 settembre 2026)
+		#
+		# È quello che mancava, ed è quello che vinceva. Le due prove qui sopra
+		# guardano due strategie *intenzionali* — contare e raggruppare — e nessuna
+		# delle due descrive un bambino che tocca dove capita finché il tavolo è
+		# vuoto. Finché un tocco su una fila intera ne prendeva dieci ovunque
+		# cadesse, quel bambino faceva gli stessi tocchi di chi aveva capito e il
+		# cronometro non poteva distinguerli.
+		#
+		# Il conto viene dal pannello, che sa quanto costa svuotare una fila a caso.
+		var a_caso := PileMinigamePanel.tocchi_a_caso(pezzi, gruppo) * SECONDI_PER_TOCCO
+		if a_caso <= secondi * 1.1:
+			_fallisci("mondo %d: toccando a caso si finisce in tempo (%.1f s su %.1f) — il gioco si vince senza capirlo" % [
+				world, a_caso, secondi])
 
 ## **Velocità E riflessione, non una sola.**
 ##

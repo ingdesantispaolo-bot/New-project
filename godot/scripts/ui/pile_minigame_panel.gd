@@ -71,35 +71,88 @@ func avvia(scheda: Dictionary, reduced_motion: bool) -> void:
 	_attivo = true
 	set_process(true)
 
-## **Il mucchio misto.** (21 agosto 2026)
+## **Quanti pezzi nascono in file piene.** Una funzione sola, perché il conto
+## serve anche a chi tara il cronometro.
+##
+## `character_minigame_audit` calcolava per conto suo «file piene più il resto»,
+## cioè `floor(pezzi/gruppo) + pezzi%gruppo`: per quarantadue pezzi faceva sei
+## tocchi, mentre il pannello ne costruiva quindici. **Un audit che si immagina
+## la disposizione invece di chiederla è verde su un gioco rotto**, ed è
+## esattamente quello che è successo per due settimane. Adesso la chiede qui.
+## Gli sparsi restano **una manciata**, non un quinto che cresce col mondo: se
+## crescessero in proporzione, salendo di livello aumenterebbe soprattutto il
+## lavoro che nessuna strategia può abbreviare, e il gioco diventerebbe più lungo
+## invece che più esigente.
+const SPARSI_MASSIMI := 15
+
+static func in_fila_per(totale: int, gruppo: int) -> int:
+	if gruppo <= 0:
+		return 0
+	var sparsi := mini(totale / 5, SPARSI_MASSIMI)
+	var in_fila := (totale - sparsi) / gruppo * gruppo
+	return mini(maxi(gruppo, in_fila), totale)
+
+## **I tocchi di chi ha capito.** Uno per ogni fila piena — presa dalla testa —
+## più uno per ogni corsa di sparsi. Gli sparsi nascono a due o tre per fila,
+## quindi il caso peggiore per chi gioca bene è due per fila.
+static func tocchi_ottimali(totale: int, gruppo: int) -> int:
+	var in_fila := in_fila_per(totale, gruppo)
+	var sparsi := maxi(0, totale - in_fila)
+	return int(in_fila / gruppo) + int(ceil(float(sparsi) / 2.0))
+
+## **I tocchi di chi conta uno per uno**, cioè la strategia che Tobia difende.
+static func tocchi_uno_per_uno(totale: int, _gruppo: int) -> int:
+	return totale
+
+## **I tocchi di chi tocca a caso**, che è il terzo giocatore da battere e per due
+## settimane non lo guardava nessuno.
+##
+## Con la regola «da dove tocchi fino in fondo», svuotare una fila di `n` pezzi
+## toccando a caso costa in media l'`n`-esimo numero armonico: il primo tocco
+## cade uniformemente e lascia dietro di sé una fila più corta, e la ricorsione
+## `T(n) = 1 + (1/n)·Σ T(j)` ha per soluzione esattamente `H(n)`. Per una fila da
+## dieci sono 2,93 tocchi contro l'unico che serve a chi la prende dalla testa:
+## **è quel rapporto a rendere il cronometro un giudice invece che un contorno.**
+static func tocchi_a_caso(totale: int, gruppo: int) -> float:
+	var in_fila := in_fila_per(totale, gruppo)
+	var sparsi := maxi(0, totale - in_fila)
+	var file := int(in_fila / maxi(1, gruppo))
+	# Gli sparsi nascono a due o tre per fila: la media dei due casi armonici.
+	var file_sparse := float(sparsi) / 2.5
+	return float(file) * _armonico(gruppo) + file_sparse * ((_armonico(2) + _armonico(3)) * 0.5)
+
+static func _armonico(n: int) -> float:
+	var somma := 0.0
+	for i in range(1, maxi(1, n) + 1):
+		somma += 1.0 / float(i)
+	return somma
+
+## **Il mucchio misto.** (21 agosto 2026, rivisto il 4 settembre)
 ##
 ## Fino al 20 agosto i cristalli nascevano tutti in file da dieci, e la
 ## conseguenza era che **ogni tocco ne prendeva dieci**: la scoperta non si
-## poteva mancare perche' non esisteva un'altra mossa. `minigiochi_cieco_probe`
-## lo ha misurato — cento partite su cento vinte toccando a caso, in sei tocchi.
+## poteva mancare perche' non esisteva un'altra mossa.
 ##
 ## Adesso una parte del mucchio sta in file piene e il resto e' **sparso**: due
-## o tre pezzi per fila, che si prendono uno per volta. Il bambino sente sulla
-## mano la differenza fra le due cose — la decina che sparisce insieme e il
-## granello che va preso da solo — e quella differenza e' la lezione.
+## o tre pezzi per fila. Il bambino sente sulla mano la differenza fra le due
+## cose — la fila che sparisce insieme e il granello che va preso da solo — e
+## quella differenza e' la lezione.
 ##
-## La regola non cambia di una virgola: si prende il gruppo dove il gruppo c'e'.
-## Cambia che adesso non c'e' dappertutto.
+## Il mucchio misto da solo non bastava, ed e' misurato: con la vecchia regola
+## del tocco chi giocava a caso faceva **quindici tocchi contro i quindici** di
+## chi aveva capito. Quello che ha creato la differenza e' la regola di `_tocca`
+## — si prende da dove si tocca fino in fondo alla fila — non la disposizione.
 func _disponi() -> void:
 	_posti.clear()
 	var rng := RandomNumberGenerator.new()
 	# Deterministico sul personaggio: lo stesso mucchio, ogni volta che si torna.
 	rng.seed = int(hash("mucchio::%s::%d" % [str(_scheda.get("npc", "")), _totale]))
 	var gruppo := int(Dictionary(_scheda.get("parametri", {})).get("gruppo", PER_FILA))
-	# **Quattro quinti in file piene, un quinto sparso.** Misurato: a due terzi
-	# il mucchio del mondo 1 chiedeva ventiquattro tocchi, cioe' dodici secondi
-	# a ritmo umano contro tredici concessi — una corsa al fotofinish per
-	# chiunque, non una prova di metodo. A quattro quinti il lavoro resta due
-	# volte e mezzo quello di prima e il tempo torna a bastare a chi gioca.
-	#
-	# E almeno una fila piena ci deve essere, o la scoperta non ha dove avvenire.
-	var in_fila := maxi(gruppo, (_totale * 4 / 5) / gruppo * gruppo)
-	in_fila = mini(in_fila, _totale)
+	# **La disposizione la decide `in_fila_per`, e la decide per tutti.** Prima il
+	# conto stava scritto qui e una seconda copia — diversa — viveva dentro
+	# `character_minigame_audit`. Una funzione sola perché il cronometro si tara
+	# su questa disposizione, non su un'idea di questa disposizione.
+	var in_fila := in_fila_per(_totale, gruppo)
 	var fila := 0
 	var indice := 0
 	while indice < in_fila:
@@ -288,26 +341,40 @@ func _stile_pannello(sfondo: Color, bordo: Color, raggio: int, spessore: int) ->
 	return stile
 
 
-## **Il gesto che cambia tutto.**
+## **Il gesto che cambia tutto: si prende da dove si tocca fino in fondo.**
+## (4 settembre 2026)
 ##
-## Toccare un cristallo isolato ne toglie uno. Toccarne uno che ha ancora nove
-## compagni nella sua fila li toglie **tutti e dieci**: la fila è un gruppo, e il
-## gruppo si prende in un colpo solo.
+## Toccare un cristallo porta via **lui e tutti quelli che lo seguono nella sua
+## fila**. Toccare il primo di una fila piena la prende tutta in un colpo;
+## toccarne uno a metà ne prende solo la coda, e quello che resta a sinistra va
+## ripreso pezzo per pezzo.
 ##
-## Non c'è nessun pulsante «raggruppa» e nessuna spiegazione: il gesto è lo
-## stesso, cambia solo dove lo si fa. È questa la differenza fra scoprire una
-## strategia e riceverne l'istruzione.
+## Non c'è nessun pulsante «raggruppa» e nessuna spiegazione: **il gesto è lo
+## stesso, cambia solo dove lo si fa** — che è la regola dichiarata di questo
+## minigioco fin dal primo giorno. Quello che cambia dal 4 settembre è che adesso
+## *dove* lo si fa conta davvero.
+##
+## **Perché è stato necessario cambiarla.** Fino a ieri un tocco su una fila
+## ancora intera prendeva tutti e dieci **ovunque cadesse**. Conseguenza: non
+## esisteva una mossa sbagliata, quindi chi toccava a caso faceva esattamente i
+## tocchi di chi aveva capito — misurati, quindici contro quindici — e
+## `minigiochi_cieco_probe` vinceva cento partite su cento. Nessuna taratura del
+## cronometro poteva separarli, perché non c'era niente da separare: la scoperta
+## non era una scoperta, era il comportamento predefinito.
+##
+## Adesso la differenza fra sapere e non sapere è il numero di tocchi, ed è per
+## quel numero che il cronometro è tarato.
 func _tocca(indice: int) -> void:
 	if not _attivo or not _restanti.has(indice):
 		return
-	var fila := int(Vector2i(_posti.get(indice, Vector2i(indice / PER_FILA, 0))).x)
-	var compagni: Array = []
+	var posto_tocco: Vector2i = _posti.get(indice, Vector2i(indice / PER_FILA, 0))
+	var fila := int(posto_tocco.x)
+	var da_colonna := int(posto_tocco.y)
+	var presi: Array = []
 	for altro in _restanti:
 		var posto: Vector2i = _posti.get(int(altro), Vector2i(int(altro) / PER_FILA, 0))
-		if int(posto.x) == fila:
-			compagni.append(int(altro))
-	var gruppo := int(Dictionary(_scheda.get("parametri", {})).get("gruppo", PER_FILA))
-	var presi: Array = compagni if compagni.size() >= gruppo else [indice]
+		if int(posto.x) == fila and int(posto.y) >= da_colonna:
+			presi.append(int(altro))
 	for preso in presi:
 		_restanti.erase(preso)
 		_raccolti += 1

@@ -258,6 +258,37 @@ func _la_strategia_vecchia_fallisce() -> void:
 		if a_caso <= secondi * 1.1:
 			_fallisci("mondo %d: toccando a caso si finisce in tempo (%.1f s su %.1f) — il gioco si vince senza capirlo" % [
 				world, a_caso, secondi])
+	_lo_scaffale_non_e_un_testa_o_croce()
+
+## **Nessuno smistamento a due scaffali.** (4 settembre 2026)
+##
+## Con due scaffali ogni parola è una moneta lanciata: su sei parole e quattro
+## errori concessi, chi tocca a caso arriva in fondo il 43% delle volte, e
+## `minigiochi_cieco_probe` lo misurava proprio così. Con tre la stessa fortuna
+## vale il 7%.
+##
+## Non è una soglia di comodo: un archetipo che dice «l'ordine che si vede non è
+## quello che conta» deve chiedere una **classificazione**, e due categorie sono
+## una domanda sì/no travestita. Tre delle quattro carte ne avevano già tre; la
+## quarta era quella del mondo 2, cioè la prima che un bambino incontra.
+func _lo_scaffale_non_e_un_testa_o_croce() -> void:
+	for npc_id in CharacterMinigameCatalog.GIOCHI.keys():
+		var scheda: Dictionary = CharacterMinigameCatalog.GIOCHI[npc_id]
+		if str(scheda.get("archetipo", "")) != CharacterMinigameCatalog.ARCHETIPO_SCAFFALE:
+			continue
+		var scaffali: Array = Array(scheda.get("scaffali", []))
+		if scaffali.size() < 3:
+			_fallisci("%s: lo smistamento ha %d scaffali — con due si vince tirando a indovinare" % [
+				npc_id, scaffali.size()])
+		# E ogni scaffale dev'essere davvero raggiungibile: uno dichiarato e mai
+		# usato riporta il gioco al numero di categorie di prima, in silenzio.
+		var usati: Dictionary = {}
+		for voce in Array(scheda.get("parole", [])):
+			usati[int(Array(voce)[1])] = true
+		for indice in range(scaffali.size()):
+			if not usati.has(indice):
+				_fallisci("%s: lo scaffale «%s» non ha nemmeno una parola" % [
+					npc_id, str(scaffali[indice])])
 
 ## **Velocità E riflessione, non una sola.**
 ##

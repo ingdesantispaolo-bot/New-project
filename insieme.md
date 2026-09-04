@@ -473,42 +473,58 @@ restano nel giro, illustrarle tutte e quindici è lavoro su un'ipotesi.
 
 ### Decisioni tue
 
-**D-1 · G-14 · `mucchio`, `prova` e `scaffale`: si stringono?**
+**G-14 · Gli archetipi che si vincevano senza capirli — chiusa il 4 settembre 2026**
 
-**Rimisurato il 4 settembre 2026** — sessanta partite per archetipo, tocchi a
-caso. La colonna nuova è quella che decide: al ritmo umano di due tocchi al
-secondo, i tocchi del cieco stanno dentro il cronometro?
+> **Nessun archetipo supera più il 25%**, che è il caso su quattro opzioni. Prima
+> ce n'era uno al 100% e tre sopra il 40%.
+>
+> | archetipo | 21 ago | prima | **dopo** | che cosa è cambiato |
+> |---|---:|---:|---:|---|
+> | **mucchio** · Tobia, mondo 1 | 100,0% | 100,0% | **0,0%** | regola del tocco + cronometro |
+> | **scaffale** · Corinna, mondo 2 | 43,3% | 43,3% | **8,3%** | tre scaffali invece di due |
+> | **vibrazione** · Oreste | 36,7% | 36,7% | **11,7%** | errori sotto il costo di indovinare |
+> | **prova** · Ortensia | 68,3% | 46,7% | **23,3%** | si nomina solo ciò che si è isolato |
+> | mercato · Lino | 25,0% | 25,0% | 25,0% | — |
+> | glifi · Bruno | 21,7% | 21,7% | 21,7% | — |
+> | parentela · Zeno | 20,0% | 20,0% | 20,0% | — |
+> | leva, stima | 35,0%, 8,3% | 0,0% | 0,0% | erano già sani: lo diceva il cronometro |
+> | altalena, traccia | 3,3%, 1,7% | idem | idem | — |
+> | ciclo · radio · circuito · ritmo | 0,0% | 0,0% | **0,0%** | *sani da sempre* |
+>
+> **La lettura era sbagliata prima ancora dei numeri.** Il CIECO tocca sessanta
+> volte al secondo: dove c'è un cronometro il tempo non gli finisce mai, e la sua
+> percentuale è un tetto che nessun bambino raggiunge. La sonda lo correggeva in
+> una colonna e non nel titolo. Ora la prima colonna è già a ritmo umano — ed è
+> per questo che leva e stima risultano a zero: **lo erano sempre state.**
+>
+> **Il mucchio non era una taratura.** Con la vecchia regola un tocco su una fila
+> intera ne prendeva dieci *ovunque cadesse*: non esisteva una mossa sbagliata,
+> quindi chi toccava a caso faceva gli stessi tocchi di chi aveva capito —
+> misurati, quindici contro quindici. Nessun cronometro poteva separarli. Adesso
+> si prende **da dove si tocca fino in fondo alla fila**: chi prende una fila
+> dalla testa la porta via in un tocco, chi la punge a metà ne prende la coda.
+> Svuotarla a caso costa in media H(10) = 2,93 tocchi contro uno.
+>
+> **E la guardia contava un mucchio che non esisteva.** `character_minigame_audit`
+> calcolava `floor(pezzi/gruppo) + pezzi%gruppo` = sei tocchi, mentre `_disponi()`
+> ne costruiva quindici. Adesso la disposizione la calcola **una funzione sola**
+> che usano pannello e audit, e c'è la misura che mancava del tutto: *chi tocca a
+> caso deve perdere*.
+>
+> Le altre tre correzioni seguono lo stesso principio — **rendere impossibile il
+> gesto cieco invece di punirlo**: nella prova un nome si può dire solo se quella
+> manopola si è mossa da sola fra due esperimenti (il pulsante resta spento, e lo
+> dice senza scriverlo); nello scaffale la terza categoria fa cadere il testa o
+> croce; nella vibrazione gli errori concessi scendono sotto il costo medio di
+> indovinare.
 
-| archetipo | 21 ago | **oggi** | tocchi | il cronometro lo ferma? |
-|---|---:|---:|---:|---|
-| **mucchio** · Tobia, mondo 1 | 100,0% | **100,0%** | 15,0 | **no** — 8 s su 13 |
-| **prova** · Ortensia | 68,3% | **46,7%** | 4,0 | non ce n'è |
-| **scaffale** · Corinna | 43,3% | **43,3%** | 8,3 | non ce n'è |
-| vibrazione · Oreste | 36,7% | 36,7% | 62,4 | non ce n'è |
-| leva · Gerbo | 35,0% | 35,0% | 77,2 | sì — 39 s su 23 |
-| mercato · Lino | 25,0% | 25,0% | 4,9 | non ce n'è |
-| glifi · Bruno | 21,7% | 21,7% | 7,3 | no — 4 s su 7 |
-| parentela · Zeno | 20,0% | 20,0% | 78,2 | non ce n'è |
-| stima · Alma | 8,3% | 8,3% | 87,0 | sì — 43 s su 41 |
-| altalena · Tilla | 3,3% | 3,3% | 54,3 | non ce n'è |
-| traccia · Sesto | 1,7% | 1,7% | 14,1 | non ce n'è |
-| **ciclo · radio · circuito · ritmo** | 0,0% | **0,0%** | | *sani* |
+**D-1 · I quattro rimasti fra il 20% e il 25%: si stringono ancora?**
 
-**Una si è mossa, e nel verso giusto: `prova` è scesa da 68,3% a 46,7%.** Le
-altre sono ferme al decimo, il che conferma che la sonda è deterministica e che
-nessuno le ha toccate.
-
-**Il `mucchio` resta il caso peggiore, e adesso si sa perché.** La ritaratura da
-sei a quindici tocchi non l'ha spostato di un decimo, perché il cronometro non lo
-ferma: quindici tocchi a ritmo umano sono **8 secondi su 13 disponibili**. Chi
-tocca a caso finisce comodamente dentro il tempo. È il primo minigioco che un
-bambino incontra, al mondo 1, e la sua lezione dichiarata — «raggruppare batte
-contare» — non serve a vincerlo.
-
-**Le tre da guardare insieme sono `mucchio`, `prova` e `scaffale`**: sono le
-uniche sopra il 40%, e nessuna delle tre ha un cronometro che stringa. Le
-quattro a zero — ciclo, radio, circuito, ritmo — dicono che la forma funziona
-quando la meccanica *è* la competenza.
+`mercato` (25,0%), `prova` (23,3%), `glifi` (21,7%) e `parentela` (20,0%). Sono
+tutti attorno al caso di una scelta fra quattro, che è il riferimento dichiarato
+di questa misura, e nessuno di loro ha una scorciatoia strutturale come quelle
+appena chiuse. Scendere ancora vuol dire togliere tentativi, e da qui in poi il
+confine fra «esigente» e «punitivo» **lo vedi tu giocando, non lo vede la sonda.**
 
 **D-2 · C-MG-3 · La lingua della radio.**
 Marea sta al mondo 4, la cui materia è inglese, e i suoi nove messaggi sono in

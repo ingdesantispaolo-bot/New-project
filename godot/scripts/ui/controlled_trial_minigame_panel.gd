@@ -32,6 +32,13 @@ var _fattori: Array = []           # [{nome, valori: [basso, alto]}]
 var _causa := 0
 var _configurazione: Array[int] = []
 var _ultima_provata: Array[int] = []
+## I fattori che si sono mossi **da soli** fra due prove: gli unici che si
+## possono nominare. Vedi `_accusa`.
+var _isolati: Dictionary = {}
+## Tutte le configurazioni già osservate, la partenza compresa. Servono perché
+## isolare non vuol dire «differire dall'ultima prova» ma «differire di una sola
+## manopola da una prova qualsiasi già fatta».
+var _provate: Array = []
 var _prove_usate := 0
 var _prove_totali := 4
 var _errori := 0
@@ -59,7 +66,15 @@ func avvia(scheda: Dictionary, _reduced_motion: bool) -> void:
 	_configurazione = []
 	for i in _fattori.size():
 		_configurazione.append(0)
-	_ultima_provata = []
+	# **La partenza è già un termine di paragone.** Tutte le manopole al primo
+	# scatto è una configurazione dichiarata — il pannello lo dice in apertura —
+	# quindi la prima prova con una sola manopola girata la isola davvero, e non
+	# va trattata come un esperimento senza confronto. Senza questa riga, chi
+	# gira una manopola e prova subito non poteva nominarla: il vincolo di
+	# `_accusa` diventava più severo del metodo che insegna.
+	_ultima_provata = _configurazione.duplicate()
+	_provate = [_configurazione.duplicate()]
+	_isolati = {}
 	_prove_usate = 0
 	_errori = 0
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -212,11 +227,37 @@ func _prova() -> void:
 		_aggiorna("Le prove sono finite. Resta da dire quale.")
 		return
 	_prove_usate += 1
-	var cambiate: Array[String] = []
-	if not _ultima_provata.is_empty():
+	# **Il confronto si fa con la prova più vicina, non con l'ultima.**
+	# (4 settembre 2026)
+	#
+	# «Una cosa per volta» non obbliga a procedere per aggiunte: girare una
+	# manopola, provare, **rimetterla a posto** e passare alla successiva è lo
+	# stesso metodo, ed è anzi quello che si insegna a scuola. Rispetto alla prova
+	# precedente però quel gesto cambia due cose, e confrontare solo con l'ultima
+	# lo avrebbe bocciato — cioè avrebbe bocciato il protocollo corretto.
+	#
+	# Quindi si cerca, fra tutte le configurazioni già osservate (la partenza
+	# compresa), quella che differisce di meno: se differisce di una sola
+	# manopola, quell'esito parla di lei.
+	var riferimento: Array = []
+	var minime := -1
+	for provata_data in _provate:
+		var provata: Array = provata_data
+		var diverse := 0
 		for i in _configurazione.size():
-			if int(_configurazione[i]) != int(_ultima_provata[i]):
-				cambiate.append(str(Dictionary(_fattori[i]).get("nome", "?")))
+			if int(_configurazione[i]) != int(provata[i]):
+				diverse += 1
+		if minime < 0 or diverse < minime:
+			minime = diverse
+			riferimento = provata
+	var cambiate: Array[String] = []
+	var indici_cambiati: Array[int] = []
+	for i in _configurazione.size():
+		if not riferimento.is_empty() and int(_configurazione[i]) != int(riferimento[i]):
+			cambiate.append(str(Dictionary(_fattori[i]).get("nome", "?")))
+			indici_cambiati.append(i)
+	var confronto_con_ultima := riferimento == _ultima_provata
+	_provate.append(_configurazione.duplicate())
 	var riuscita := int(_configurazione[_causa]) == 1
 	var testa := str(_scheda.get("successo", "Funziona.")) if riuscita else str(
 		_scheda.get("fallimento", "Non funziona."))
@@ -225,14 +266,42 @@ func _prova() -> void:
 		_esito.text = "%s\nMa fra una prova e l'altra sono cambiate %d cose (%s): questo esito non dice quale." % [
 			testa, cambiate.size(), ", ".join(cambiate)]
 	elif cambiate.size() == 1:
-		_esito.text = "%s\nDall'ultima prova è cambiata solo «%s»." % [testa, cambiate[0]]
+		# **Isolata.** Rispetto a una prova già fatta si è mossa lei sola: adesso
+		# l'esito parla di lei, e solo adesso si può nominarla.
+		for i in indici_cambiati:
+			_isolati[i] = true
+		_esito.text = "%s\n%s è cambiata solo «%s»." % [
+			testa,
+			"Dall'ultima prova" if confronto_con_ultima else "Rispetto a una prova che hai già fatto",
+			cambiate[0]]
 	else:
 		_esito.text = testa
 	_ultima_provata = _configurazione.duplicate()
 	_aggiorna("")
 
+## **Si può nominare solo ciò che si è isolato.** (4 settembre 2026)
+##
+## Non è una punizione e non è una regola in più: è la frase che dà il nome
+## all'archetipo — *una causa si isola, non si indovina*. Finché una manopola non
+## si è mossa da sola fra due prove, nessun esito parla di lei, e accusarla
+## sarebbe tirare a indovinare.
+##
+## **Perché è servito.** Con tre fattori e due tentativi di nome,
+## `minigiochi_cieco_probe` vinceva il 46,7% delle partite toccando a caso, senza
+## fare un esperimento. Il 21 agosto un nome sbagliato aveva già cominciato a
+## costare una prova; non bastava, perché il costo arriva **dopo** che si è
+## indovinato. Qui il tentativo cieco non è punito: **non è proprio disponibile**,
+## e il pulsante spento lo dice senza una riga di testo.
+##
+## Chi ha isolato può ancora sbagliare nome e ricredersi: `errori` resta a uno.
 func _accusa(fattore: int) -> void:
 	if not _attivo:
+		return
+	if not _isolati.has(fattore):
+		# Non consuma niente: rifiutare un'accusa senza prove è indicare il
+		# metodo, non far pagare un errore.
+		_aggiorna("«%s» non l'hai ancora isolata: falla cambiare da sola fra una prova e l'altra." % str(
+			Dictionary(_fattori[fattore]).get("nome", "?")))
 		return
 	if fattore == _causa:
 		if is_instance_valid(_glifo):
@@ -270,6 +339,12 @@ func _aggiorna(messaggio: String = "") -> void:
 		_manopole[i].text = "%s:   %s" % [
 			str(fattore.get("nome", "?")),
 			str(valori[scatto]) if scatto < valori.size() else str(scatto)]
+	# **I nomi si accendono quando l'esperimento li ha isolati.** La forma dice la
+	# regola senza scriverla: chi cambia tre manopole insieme vede che nessun nome
+	# si accende, e la frase «questo esito non dice quale» smette di essere una
+	# spiegazione e diventa una cosa che si vede.
+	for i in _accuse.size():
+		_accuse[i].disabled = not _isolati.has(i)
 	if is_instance_valid(_stato):
 		_stato.text = "%s   ·   prove %d/%d   ·   errori %d/%d" % [
 			_messaggio, _prove_usate, _prove_totali, _errori, _errori_max]

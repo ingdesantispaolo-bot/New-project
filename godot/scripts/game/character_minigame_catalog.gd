@@ -106,13 +106,29 @@ const GIOCHI := {
 		# **Le parole arrivano ordinate per LUNGHEZZA**, che è l'ordine di
 		# Corinna: è l'esca. Chi la segue sbaglia, perché la lunghezza non dice
 		# niente sulla funzione — ed è esattamente la cosa da capire.
-		"scaffali": ["COSE", "AZIONI"],
-		"correzione": "Non è il suo scaffale. Guarda che cosa FA la parola, non quanto è lunga.",
+		# **Tre scaffali, non due.** (4 settembre 2026) Con due, il gioco era un
+		# testa o croce: `minigiochi_cieco_probe` lo vinceva nel 43,3% delle
+		# partite toccando a caso, perché su sei parole e quattro errori concessi
+		# bastava essere fortunati. Con tre scaffali la stessa fortuna vale il 7%,
+		# e la differenza non è una taratura: è che «cosa, azione, com'è» è la
+		# tripartizione vera dell'italiano, mentre «cose e azioni» ne era metà.
+		#
+		# Era anche l'unica carta dell'archetipo ferma a due — le altre due ne
+		# hanno tre da sempre — ed è la prima che un bambino incontra.
+		"scaffali": ["COSE", "AZIONI", "COM'È"],
+		"correzione": "Non è il suo scaffale. Chiediti se è una cosa, un'azione o com'è qualcosa — non quanto è lunga.",
+		# «porta» è uscita: con due scaffali era una cosa e basta, con tre un
+		# bambino può leggerla come «lui porta» e avrebbe ragione. Un quesito
+		# ambiguo non misura la regola, misura chi indovina l'intenzione.
 		"parole": [
-			["re", 0], ["va", 1], ["sole", 0], ["corre", 1], ["porta", 0],
-			["salta", 1], ["nave", 0], ["scrive", 1], ["albero", 0], ["dormire", 1],
-			["finestra", 0], ["cantare", 1], ["montagna", 0], ["ascoltare", 1],
-			["biblioteca", 0], ["costruire", 1],
+			["re", 0], ["va", 1], ["blu", 2],
+			["sole", 0], ["esce", 1], ["alto", 2], ["nave", 0],
+			["corre", 1], ["sasso", 0], ["salta", 1], ["lento", 2],
+			["albero", 0], ["scrive", 1], ["veloce", 2],
+			["cantare", 1], ["dormire", 1], ["curioso", 2],
+			["finestra", 0], ["montagna", 0], ["luminoso", 2],
+			["ascoltare", 1], ["costruire", 1],
+			["biblioteca", 0], ["coraggioso", 2],
 		],
 	},
 	"w02-bruno": {
@@ -1161,10 +1177,19 @@ static func parametri(archetipo: String, world: int) -> Dictionary:
 			# ritmo deve premiare l'osservazione, non la velocità. Salendo di mondo
 			# crescono le alternative e i confronti, mai la fretta o la precisione
 			# richiesta al dito.
+			#
+			# **Gli errori concessi stavano sopra il costo di indovinare.**
+			# (4 settembre 2026) Con tre corde una scelta a caso ne azzecca una su
+			# tre, quindi ogni turno costa in media due errori a chi tira a
+			# indovinare: sei per tre turni. Concederne **cinque** rendeva la
+			# fortuna una strategia praticabile, e la sonda cieca vinceva il 36,7%
+			# delle partite. Adesso sono uno meno dei turni: chi confronta davvero
+			# non ne spende nessuno, chi indovina non arriva in fondo.
+			var prove := clampi(3 + int(floor(float(livello - 1) / 8.0)), 3, 5)
 			return {
-				"prove": clampi(3 + int(floor(float(livello - 1) / 8.0)), 3, 5),
+				"prove": prove,
 				"corde": clampi(3 + int(floor(float(livello - 1) / 12.0)), 3, 4),
-				"errori": 5,
+				"errori": maxi(1, prove - 1),
 				"secondi": 0.0,
 			}
 		ARCHETIPO_GLIFI:

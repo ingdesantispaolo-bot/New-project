@@ -930,7 +930,7 @@ func _start_exam() -> void:
 			mastery_by_subject[str(system_subject)] = save.mastery_of(str(system_subject))
 		session = content.build_final_transversal_exam(save.level(), null, mastery_by_subject)
 	else:
-		session = content.build_final_exam(subject, save.level(), 3, null, save.mastery_of(subject), save.topic_masteries(subject))
+		session = content.build_final_exam(subject, save.level(), 3, null, save.mastery_of(subject), save.topic_masteries(subject), save.missions_of(subject))
 	if Array(session.get("nodes", [])).is_empty():
 		nora_line.text = "NORA: La sfida di %s non è ancora pronta." % subject
 		return

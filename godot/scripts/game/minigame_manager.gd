@@ -3166,6 +3166,7 @@ const CIRCUIT := {
 				{"prompt": "Quale passaggio è la spinta che la barca non decide?", "answer": "fiume", "explanation": "La corrente del fiume spinge di lato comunque, che tu remi o no: è la parte del movimento che non hai scelto."},
 			],
 			"components": [{"id": "remata", "x": 0.18, "y": 0.50, "label": "Remata verso la riva"}, {"id": "fiume", "x": 0.48, "y": 0.24, "label": "Corrente del fiume"}, {"id": "deriva", "x": 0.80, "y": 0.50, "label": "Punto d'arrivo spostato"}],
+			"connections": [["remata", "fiume"], ["fiume", "deriva"]],
 			"explanation": "I due movimenti si sommano: quello che decidi tu e quello che decide l'acqua. Il punto d'arrivo è più a valle di quello a cui puntavi."},
 		{"topic": "forze", "answer": "movimento",
 			"prompt": "Una mano spinge una scatola ferma. Quale passaggio mostra l'effetto della forza?",
@@ -5506,8 +5507,14 @@ func build_minigame(subject: String, level: int, rng: RandomNumberGenerator = nu
 		base.append("ordering")
 	if has_classify:
 		base.append("classification")
-	if subject in ["scienze", "fisica"] and (perimetro.is_empty() or perimetro.has("materia")):
-		base.append("mystery_sample")
+	# Il campione senza nome porta argomenti diversi secondo la materia (vedi
+	# `_mystery_sample_node`): «materia» per scienze, «galleggiamento» per fisica.
+	# La scaletta deve chiedere il permesso al perimetro con l'argomento giusto,
+	# altrimenti lo esclude da un mondo che lo accetterebbe.
+	if subject in ["scienze", "fisica"]:
+		var argomento_campione := "galleggiamento" if subject == "fisica" else "materia"
+		if perimetro.is_empty() or perimetro.has(argomento_campione):
+			base.append("mystery_sample")
 	if subject == "italiano":
 		# Un messaggio da ricostruire con tre regolazioni: quando accade,
 		# con quale intenzione viene detto e quale forma verbale lo completa.
@@ -5538,7 +5545,8 @@ func build_minigame(subject: String, level: int, rng: RandomNumberGenerator = nu
 	if CYCLE.has(subject) and _has_eligible_dentro(CYCLE[subject], level, perimetro):
 		specialists.append("cycle")
 	if NOTATION.has(subject) and format_available(subject, "notation", level):
-		specialists.append("notation")
+		if _quante_dentro(Array(NOTATION[subject]), level, perimetro) >= 2:
+			specialists.append("notation")
 	if BALANCE.has(subject) and _has_eligible_dentro(BALANCE[subject], level, perimetro):
 		specialists.append("balance")
 	if TIMELINE.has(subject) and _has_eligible_dentro(TIMELINE[subject], level, perimetro):
@@ -5554,9 +5562,11 @@ func build_minigame(subject: String, level: int, rng: RandomNumberGenerator = nu
 	if NUMBER_LINE.has(subject) and _has_eligible_dentro(NUMBER_LINE[subject], level, perimetro):
 		specialists.append("number_line")
 	if MAP_READING.has(subject) and format_available(subject, "map", level):
-		specialists.append("map")
+		if _quante_dentro(Array(MAP_READING[subject]), level, perimetro) >= 2:
+			specialists.append("map")
 	if HOTSPOT.has(subject) and format_available(subject, "hotspot", level):
-		specialists.append("hotspot")
+		if _quante_dentro(Array(HOTSPOT[subject]), level, perimetro) >= 2:
+			specialists.append("hotspot")
 	if CODE_DEBUG.has(subject) and _has_eligible_dentro(CODE_DEBUG[subject], level, perimetro):
 		specialists.append("code_debug")
 	if not specialists.is_empty():
@@ -5712,6 +5722,17 @@ func _has_eligible_dentro(list: Array, level: int, perimetro: Dictionary) -> boo
 		if perimetro.is_empty() or perimetro.has(str(s.get("topic", ""))):
 			return true
 	return false
+
+## Quante specifiche sono insieme idonee al livello e dentro il perimetro.
+func _quante_dentro(list: Array, level: int, perimetro: Dictionary) -> int:
+	var quante := 0
+	for spec in list:
+		var s: Dictionary = spec
+		if int(s.get("minLevel", 0)) > level:
+			continue
+		if perimetro.is_empty() or perimetro.has(str(s.get("topic", ""))):
+			quante += 1
+	return quante
 
 func _has_eligible(list: Array, level: int) -> bool:
 	for spec in list:
@@ -6342,7 +6363,20 @@ func _mystery_sample_node(subject: String, level: int, step: int, rng: RandomNum
 	return {
 		"id": "minigame-mystery-sample-%s-%d-%d" % [subject, level, idx],
 		"subject": subject,
-		"topic": "materia",
+		# **L'argomento dipende da chi lo gioca.** (3 settembre 2026)
+		#
+		# Le quattro prove sono calamita, circuito, luce e acqua, e chiedono di
+		# riconoscere un materiale: per SCIENZE e' «materia», e lo e' sempre stato.
+		# Ma fisica e' un corso a perimetro stretto, e «materia» non e' fra i suoi
+		# sei nuclei: il campione senza nome — il suo minigioco piu' bello — non
+		# poteva comparire in nessuno dei suoi due mondi.
+		#
+		# Non e' un'etichetta messa per farlo passare: la prova che decide e' quella
+		# dell'acqua, e le spiegazioni lo dicono gia' («il sughero galleggia perche'
+		# e' meno denso dell'acqua», «la biglia d'acciaio va a fondo»). Per fisica
+		# quel gesto e' galleggiamento, che e' esattamente cio' che il mondo 17
+		# insegna.
+		"topic": "galleggiamento" if subject == "fisica" else "materia",
 		"difficulty": difficulty,
 		"format": "mystery_sample",
 		"title": "Il campione senza nome",

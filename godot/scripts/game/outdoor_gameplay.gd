@@ -482,7 +482,7 @@ func try_start_mission(payload: Dictionary, encounter_id: String) -> bool:
 	# C-P3: il percorso live usa il mix validato da O-P3. I renderer emettono
 	# soltanto l'esito del contratto comune; scoring/mastery restano qui e
 	# nell'ExercisePlayer.
-	var session := content_manager.build_varied_mission(subject, _learning_level(), 3, _due(), null, game_save.mastery_of(subject), game_save.topic_masteries(subject))
+	var session := content_manager.build_varied_mission(subject, _learning_level(), 3, _due(), null, game_save.mastery_of(subject), game_save.topic_masteries(subject), game_save.missions_of(subject))
 	if Array(session.get("nodes", [])).is_empty():
 		_present_feedback("Banco esercizi non disponibile per %s." % subject, "system")
 		return false
@@ -519,7 +519,7 @@ func try_start_enigma(payload: Dictionary, encounter_id: String) -> bool:
 			"warning")
 		return false
 	var subject := _subject_for_payload(payload)
-	var session := content_manager.build_enigma(subject, _learning_level(), 4, _due(), null, game_save.mastery_of(subject), game_save.topic_masteries(subject))
+	var session := content_manager.build_enigma(subject, _learning_level(), 4, _due(), null, game_save.mastery_of(subject), game_save.topic_masteries(subject), game_save.missions_of(subject))
 	if Array(session.get("nodes", [])).is_empty():
 		_present_feedback("Banco esercizi non disponibile per %s." % subject, "system")
 		return false
@@ -567,7 +567,8 @@ func try_start_minimission(payload: Dictionary, encounter_id: String) -> bool:
 	var campate := clampi(int(payload.get("campate", 4)), 2, 6)
 	var session := content_manager.build_enigma(
 		subject, _learning_level(), campate, _due(), null,
-		game_save.mastery_of(subject), game_save.topic_masteries(subject))
+		game_save.mastery_of(subject), game_save.topic_masteries(subject),
+		game_save.missions_of(subject))
 	if Array(session.get("nodes", [])).is_empty():
 		_present_feedback("Banco esercizi non disponibile per %s." % subject, "system")
 		return false
@@ -912,7 +913,8 @@ func _inject_due_reviews(session: Dictionary, subject: String, level: int, due_t
 			var one_due := {"%s:%s" % [subject, topic]: 1}
 			var recovery := content_manager.build_mission(
 				subject, level, 1, one_due, null,
-				game_save.mastery_of(subject), game_save.topic_masteries(subject))
+				game_save.mastery_of(subject), game_save.topic_masteries(subject),
+				game_save.missions_of(subject))
 			for candidate_data in Array(recovery.get("nodes", [])):
 				var candidate: Dictionary = candidate_data
 				if str(candidate.get("topic", "")) == topic:
@@ -997,7 +999,8 @@ func _build_practice_session(
 		var mancano := voluti - tenuti.size()
 		var missione := content_manager.build_mission(
 			subject, livello, mancano * 3, _due(),
-			null, game_save.mastery_of(subject), game_save.topic_masteries(subject))
+			null, game_save.mastery_of(subject), game_save.topic_masteries(subject),
+			game_save.missions_of(subject))
 		raccogli.call(Array(missione.get("nodes", [])))
 
 	# Se i banchi non sono bastati si torna al catalogo senza tetto: meglio un
@@ -1120,7 +1123,7 @@ func try_start_final_exam() -> bool:
 	if not progression_manager.can_repair_apparatus(subject):
 		_emit_state()
 		return false
-	var session := content_manager.build_final_exam(subject, game_save.level(), 3, null, game_save.mastery_of(subject), game_save.topic_masteries(subject))
+	var session := content_manager.build_final_exam(subject, game_save.level(), 3, null, game_save.mastery_of(subject), game_save.topic_masteries(subject), game_save.missions_of(subject))
 	if Array(session.get("nodes", [])).is_empty():
 		_present_feedback("Esame non disponibile.", "system")
 		return false

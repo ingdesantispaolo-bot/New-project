@@ -291,9 +291,49 @@ func bank_topics(subject: String) -> Array:
 # Difficoltà EFFETTIVA per materia: banda di livello + nudge di mastery, poi
 # calibrata (clamp) sul range che il banco può davvero servire. Così la selezione
 # resta significativa su ogni materia, anche con banchi di ampiezza diversa.
-func effective_difficulty(subject: String, level: int, mastery: float = -1.0) -> int:
+## **Quanto sei avanti IN QUESTA MATERIA.** (3 settembre 2026)
+##
+## Fino a oggi la difficolta' dipendeva dal numero del mondo, corretta di un
+## gradino solo dalla padronanza. `target_difficulty` satura a 4 dal mondo 13:
+## al mondo 20 un bambino a cui la fisica e' sfuggita al mondo 5 riceveva 3, e
+## non riceveva mai piu' 1 o 2. La difficolta' seguiva quanto aveva CAMMINATO,
+## non quanto sapeva — ed e' il difetto che il piano chiamava «l'unico che puo'
+## far perdere un bambino su una materia intera».
+##
+## L'esperienza e' il numero di sessioni di quella materia gia' SUPERATE
+## (`GameSaveManager.missions_of`, che si incrementa solo sopra la meta' di
+## risposte giuste): chi non ha ancora capito non accumula, e resta ai gradini
+## bassi finche' non capisce.
+##
+## Quattro soglie, non una curva: sotto le quattro sessioni si sta al primo
+## gradino, e il quarto arriva dopo venti. Sono i gradini che il banco possiede
+## davvero (`subject_difficulty_range`), non una scala inventata.
+static func experience_difficulty(experience: int) -> int:
+	if experience < 4:
+		return 1
+	if experience < 10:
+		return 2
+	if experience < 20:
+		return 3
+	return 4
+
+## **Il mondo resta il tetto, non il motore.**
+##
+## L'esperienza decide a che gradino della scala sei; il mondo decide quanto e'
+## alta la scala. Serve a due cose insieme: chi macina una materia non riceve al
+## mondo 1 prove che il mondo 1 non ha ancora spiegato, e chi arriva al mondo 20
+## con una materia indietro riceve finalmente le prove facili che gli servono.
+##
+## `experience < 0` = sconosciuta: si ricade sul solo livello, esattamente come
+## fa `mastery < 0`. E' cio' che tiene validi i chiamanti e gli audit che non la
+## passano, e per questo esiste `difficolta_per_materia_audit`, che verifica che
+## il percorso VIVO la passi davvero.
+func effective_difficulty(subject: String, level: int, mastery: float = -1.0, experience: int = -1) -> int:
 	var span := subject_difficulty_range(subject)
-	return clampi(target_difficulty(level) + mastery_nudge(mastery), span.x, span.y)
+	var base := target_difficulty(level)
+	if experience >= 0:
+		base = mini(experience_difficulty(experience), base)
+	return clampi(base + mastery_nudge(mastery), span.x, span.y)
 
 # Livello efficace per il generatore matematico: la mastery sposta il livello di
 # ±3 (≈ ±1 gradino di complessità), così anche la matematica generata è adattiva.
@@ -412,11 +452,11 @@ const QUOTA_BANCO_MATEMATICA := 3
 ## materie: nasce dal generatore, e il generatore riceve gia' la sua lista di
 ## ripasso. Ma gli argomenti scritti a mano — statistica, divisioni, frazioni —
 ## entrano solo da qui, e qui il calendario non arrivava.
-func _innesta_banco_matematica(nodi: Array, level: int, rng: RandomNumberGenerator, mastery: float, da_ripassare: Array = []) -> Array:
+func _innesta_banco_matematica(nodi: Array, level: int, rng: RandomNumberGenerator, mastery: float, da_ripassare: Array = [], experience: int = -1) -> Array:
 	var quanti := int(round(float(nodi.size()) / float(QUOTA_BANCO_MATEMATICA)))
 	if quanti <= 0 or nodi.is_empty():
 		return nodi
-	var target := effective_difficulty("matematica", level, mastery)
+	var target := effective_difficulty("matematica", level, mastery, experience)
 	var superate := _superate("matematica")
 	var candidati: Array = []
 	var gia_risolti: Array = []
@@ -517,7 +557,7 @@ func _era_gated(subject: String, level: int, items: Array) -> Array:
 		out.append(it)
 	return out if not out.is_empty() else items
 
-func build_mission(subject: String, level: int, node_count: int = 3, review_due: Dictionary = {}, rng: RandomNumberGenerator = null, mastery: float = -1.0, topic_mastery: Dictionary = {}) -> Dictionary:
+func build_mission(subject: String, level: int, node_count: int = 3, review_due: Dictionary = {}, rng: RandomNumberGenerator = null, mastery: float = -1.0, topic_mastery: Dictionary = {}, experience: int = -1) -> Dictionary:
 	var generator := rng
 	if generator == null:
 		generator = RandomNumberGenerator.new()
@@ -537,7 +577,7 @@ func build_mission(subject: String, level: int, node_count: int = 3, review_due:
 			math_effective_level(level, mastery), node_count, generator,
 			_recent_math_signatures, review_topics, _superate(subject))
 		return _session(subject, level, _innesta_banco_matematica(
-			generated, level, generator, mastery, review_topics))
+			generated, level, generator, mastery, review_topics, experience))
 	var items := _era_gated(subject, level, _load_bank(subject))
 	# I soli livelli in cui una missione di fisica viene davvero servita sono i
 	# suoi due mondi e il finale trasversale. Gli strumenti di authoring possono
@@ -552,7 +592,7 @@ func build_mission(subject: String, level: int, node_count: int = 3, review_due:
 		if not nel_percorso.is_empty():
 			items = nel_percorso
 	# Difficoltà efficace: livello + mastery, calibrata sul range reale del banco.
-	var target := effective_difficulty(subject, level, mastery)
+	var target := effective_difficulty(subject, level, mastery, experience)
 	var lesson := lesson_topic_set(subject, level)
 	var superate := _superate(subject)
 	var review_pool: Array = []
@@ -722,12 +762,12 @@ static func enigma_theme(subject: String) -> String:
 ## (`stages` = node_count), così il progresso misura QUANTI hai capito, non la
 ## grandezza dei numeri. Contratto in più rispetto alla missione: `theme` e
 ## `stages` per la resa (vedi OutdoorGameplay.enigma_progress, gate I-01).
-func build_enigma(subject: String, level: int, node_count: int = 4, review_due: Dictionary = {}, rng: RandomNumberGenerator = null, mastery: float = -1.0, topic_mastery: Dictionary = {}) -> Dictionary:
+func build_enigma(subject: String, level: int, node_count: int = 4, review_due: Dictionary = {}, rng: RandomNumberGenerator = null, mastery: float = -1.0, topic_mastery: Dictionary = {}, experience: int = -1) -> Dictionary:
 	# Campate a formati VARI come le missioni: l'enigma è la prova più lunga del
 	# mondo (4 campate) e, se restasse a sola scelta multipla, riporterebbe la
 	# scelta multipla a dominare l'esperienza giocata (misurato: 41% nei mondi con
 	# due enigmi). Ogni campata resta un esercizio del contratto comune.
-	var session := build_varied_mission(subject, level, node_count, review_due, rng, mastery, topic_mastery)
+	var session := build_varied_mission(subject, level, node_count, review_due, rng, mastery, topic_mastery, experience)
 	session["sessionId"] = "enigma-%s-lvl%d" % [subject, level]
 	session["kind"] = "enigma"
 	session["theme"] = enigma_theme(subject)
@@ -740,7 +780,7 @@ func build_enigma(subject: String, level: int, node_count: int = 4, review_due: 
 ## composto soltanto da scelta multipla — include almeno un nodo non-MC
 ## (abbina/ordina) e marca un nodo di TRASFERIMENTO (applicazione in un contesto
 ## diverso), così l'esame verifica applicazione e trasferimento, non solo memoria.
-func build_final_exam(subject: String, level: int, node_count: int = 3, rng: RandomNumberGenerator = null, mastery: float = -1.0, topic_mastery: Dictionary = {}) -> Dictionary:
+func build_final_exam(subject: String, level: int, node_count: int = 3, rng: RandomNumberGenerator = null, mastery: float = -1.0, topic_mastery: Dictionary = {}, experience: int = -1) -> Dictionary:
 	var generator := rng
 	if generator == null:
 		generator = RandomNumberGenerator.new()
@@ -759,7 +799,7 @@ func build_final_exam(subject: String, level: int, node_count: int = 3, rng: Ran
 	# argomento nello stesso formato — 89 sessioni su 3648, e `format_mix_audit`
 	# lo vieta a ragione. Dove la materia è ricca l'esame resta lungo.
 	var nodi_esame := clampi(reachable_topic_count(subject, level), node_count, EXAM_NODES)
-	var exam := build_mission(subject, level, nodi_esame, {}, generator, mastery, topic_mastery)
+	var exam := build_mission(subject, level, nodi_esame, {}, generator, mastery, topic_mastery, experience)
 	# **L'esame non è un compito in classe.** (1 settembre 2026)
 	#
 	# Qui c'era un `1` fisso: «garantisci almeno un formato oltre la scelta
@@ -1045,12 +1085,12 @@ static func formati_da_sostituire(subject: String) -> Array:
 ## build_mission ma con la scelta multipla portata al ~20% dei nodi iniettando
 ## nodi non-MC (abbina/ordina/classifica + specialisti) della materia. Dal gate
 ## C-P3 questa è la variante usata dal percorso live delle missioni esterne.
-func build_varied_mission(subject: String, level: int, node_count: int = 3, review_due: Dictionary = {}, rng: RandomNumberGenerator = null, mastery: float = -1.0, topic_mastery: Dictionary = {}) -> Dictionary:
+func build_varied_mission(subject: String, level: int, node_count: int = 3, review_due: Dictionary = {}, rng: RandomNumberGenerator = null, mastery: float = -1.0, topic_mastery: Dictionary = {}, experience: int = -1) -> Dictionary:
 	var generator := rng
 	if generator == null:
 		generator = RandomNumberGenerator.new()
 		generator.randomize()
-	var session := build_mission(subject, level, node_count, review_due, generator, mastery, topic_mastery)
+	var session := build_mission(subject, level, node_count, review_due, generator, mastery, topic_mastery, experience)
 	# Mix target dell'esperienza giocata: la scelta multipla è un formato tra tanti,
 	# non il dominante. Obiettivo ~20% MC, ~20% abbina, ~60% al resto (ordina,
 	# classifica, grafico, circuito, caccia-all'errore). Con poche campate per

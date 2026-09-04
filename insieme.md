@@ -473,16 +473,42 @@ restano nel giro, illustrarle tutte e quindici è lavoro su un'ipotesi.
 
 ### Decisioni tue
 
-**D-1 · G-14 · `mucchio` e `prova`: si stringono?**
-`minigiochi_cieco_probe` gioca ogni pannello con tocchi casuali, sessanta partite
-per archetipo. Il **mucchio** è il minigioco di Tobia, il primo che un bambino
-incontra al mondo 1, e la sonda lo vince nel **100% dei casi**; la sua lezione
-dichiarata è «raggruppare batte contare», e raggruppare non serve. È già stato
-ritarato una volta — da sei tocchi a ventiquattro — e al ritmo umano di due
-tocchi al secondo resta dentro il cronometro. La **prova** dice di sé «una causa
-si isola, non si indovina», e si indovinava due volte su tre.
-*Da fare comunque prima di decidere: rieseguire la sonda, perché la tabella in
-giro è del 21 agosto e il mucchio è cambiato dopo.*
+**D-1 · G-14 · `mucchio`, `prova` e `scaffale`: si stringono?**
+
+**Rimisurato il 4 settembre 2026** — sessanta partite per archetipo, tocchi a
+caso. La colonna nuova è quella che decide: al ritmo umano di due tocchi al
+secondo, i tocchi del cieco stanno dentro il cronometro?
+
+| archetipo | 21 ago | **oggi** | tocchi | il cronometro lo ferma? |
+|---|---:|---:|---:|---|
+| **mucchio** · Tobia, mondo 1 | 100,0% | **100,0%** | 15,0 | **no** — 8 s su 13 |
+| **prova** · Ortensia | 68,3% | **46,7%** | 4,0 | non ce n'è |
+| **scaffale** · Corinna | 43,3% | **43,3%** | 8,3 | non ce n'è |
+| vibrazione · Oreste | 36,7% | 36,7% | 62,4 | non ce n'è |
+| leva · Gerbo | 35,0% | 35,0% | 77,2 | sì — 39 s su 23 |
+| mercato · Lino | 25,0% | 25,0% | 4,9 | non ce n'è |
+| glifi · Bruno | 21,7% | 21,7% | 7,3 | no — 4 s su 7 |
+| parentela · Zeno | 20,0% | 20,0% | 78,2 | non ce n'è |
+| stima · Alma | 8,3% | 8,3% | 87,0 | sì — 43 s su 41 |
+| altalena · Tilla | 3,3% | 3,3% | 54,3 | non ce n'è |
+| traccia · Sesto | 1,7% | 1,7% | 14,1 | non ce n'è |
+| **ciclo · radio · circuito · ritmo** | 0,0% | **0,0%** | | *sani* |
+
+**Una si è mossa, e nel verso giusto: `prova` è scesa da 68,3% a 46,7%.** Le
+altre sono ferme al decimo, il che conferma che la sonda è deterministica e che
+nessuno le ha toccate.
+
+**Il `mucchio` resta il caso peggiore, e adesso si sa perché.** La ritaratura da
+sei a quindici tocchi non l'ha spostato di un decimo, perché il cronometro non lo
+ferma: quindici tocchi a ritmo umano sono **8 secondi su 13 disponibili**. Chi
+tocca a caso finisce comodamente dentro il tempo. È il primo minigioco che un
+bambino incontra, al mondo 1, e la sua lezione dichiarata — «raggruppare batte
+contare» — non serve a vincerlo.
+
+**Le tre da guardare insieme sono `mucchio`, `prova` e `scaffale`**: sono le
+uniche sopra il 40%, e nessuna delle tre ha un cronometro che stringa. Le
+quattro a zero — ciclo, radio, circuito, ritmo — dicono che la forma funziona
+quando la meccanica *è* la competenza.
 
 **D-2 · C-MG-3 · La lingua della radio.**
 Marea sta al mondo 4, la cui materia è inglese, e i suoi nove messaggi sono in

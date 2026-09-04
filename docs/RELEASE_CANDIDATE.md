@@ -12,9 +12,12 @@ il lavoro ancora aperto resta in `insieme.md`.
 
 ## Verifiche automatiche
 
-- 68 audit Godot su 68 verdi, eseguiti con save locali isolati (l'isolamento non
-  è un dettaglio: `roundtrip_audit` legge il save reale e un salvataggio lasciato
-  da una prova precedente può far fallire il gate);
+- audit Godot eseguiti con save locali isolati (l'isolamento non è un dettaglio:
+  `roundtrip_audit` legge il save reale e un salvataggio lasciato da una prova
+  precedente può far fallire il gate). La rilevazione del 29 luglio contava 68
+  audit su 68 verdi; **l'ultima esecuzione completa, il 4 settembre 2026, è 242
+  verdi su 244** in 738 secondi, con `gesto_audit` e
+  `explanation_coverage_audit` rossi — vedi la coda aperta in `insieme.md`;
 - nota di metodo: un `assert` fallito in uno script Godot headless stampa
   `SCRIPT ERROR` ma **non** cambia l'exit code — un audit va considerato verde
   solo se l'output non contiene asserzioni fallite;
@@ -2270,3 +2273,237 @@ nel viewport** — non solo alto 44.
   il vecchio identificativo. Verdi `world_l1_readiness_audit`,
   `accessibility_release_audit`, `eli_enemy_audit`, `expedition_module_audit`,
   `shop_presentation_audit` e `performance_budget_audit`.
+
+## Le spiegazioni di NORA — lotto G-N1…G-N8 (26 agosto 2026)
+
+Segnalazione dello studente: «le spiegazioni servono a poco, ci sono molte
+scritte inutili e ripetute, poca sostanza e poca chiarezza». La misura, in una
+riga: il gioco sapeva quale errore era stato fatto, aveva già scritto la frase
+che lo spiegava, e non la diceva mai. Otto voci, tutte chiuse in giornata; le
+due **C-** le ha prese Claude perché Codex non era disponibile.
+
+| | voce | esito |
+|---|---|---|
+| **G-N1** | `distractorWhy` consegnato | **9244 frasi su 9244** arrivano a chi tocca quell'alternativa. Prima: zero |
+| **G-N2** | NORA non si ripete | memoria di dodici righe più voci a livelli; venti prove di fila sullo stesso argomento, **zero ripetizioni** |
+| **C-N3** | Pannello a tre zone | `RichTextLabel`, correzione in grassetto, regola staccata e firmata, `CONTINUA` dopo mezzo secondo |
+| **G-N4** | Le 1159 glosse | riscritte: **dal 32% al 3,3%** le spiegazioni che riaprono con la risposta |
+| **C-N5** | Le figure | **dieci** famiglie, su 656 esercizi |
+| **G-N6** | Le code generate | la frase più ripetuta scende **da 254 a 91**, e le 91 hanno numeri diversi |
+| **G-N7** | Il riferimento | «SPIEGA CON NORA» anche dopo una risposta giusta |
+| **G-N8** | La guardia | `nora_spiegazione_utile_audit`, cinque misure, tetto a cricchetto |
+
+Le dieci figure sono diagrammi disegnati in Godot, non immagini: griglia dei
+gruppi 290, linea del tempo 115, carta muta 58, parola smontata 50, retta dei
+numeri 43, due cerchi 34, torta tagliata 23, anello del circuito 22, i sei casi
+latini 12, contorno contro superficie 9. La carta muta viene da
+`MapGeometryCatalog`, la stessa geometria delle carte del gioco.
+
+**Una sostituzione da dichiarare:** la bilancia dell'uguale non esiste, e al suo
+posto ci sono i sei casi latini. Il piano la contava su «equazioni, uguaglianze,
+60+ esercizi», ma quegli esercizi nel banco non c'erano: la matematica ha
+`espressioni`, non `equazioni`. Una figura che non si accende su niente è codice
+morto con una bella spiegazione sopra. Quando le equazioni entreranno nel banco,
+la bilancia è mezz'ora di lavoro.
+
+**L'etimologia c'è dove si può dedurre, e non oltre.** 109 item inglesi dicono
+la parentela fra le due lingue, più le due regole vere (-tion → -zione, -ty →
+-tà) che valgono anche su parole mai viste. Mai sui falsi amici, dove la
+somiglianza *è* la trappola. Un difetto preso al volo dall'audit: la frase sulla
+parentela, scritta come «*insert* e *inserire* sono la stessa parola», riapriva
+con la risposta appena data e aveva risalito l'eco dal 3,3% al 4,8% — il difetto
+appena chiuso, rientrato da una porta laterale. Riscritta partendo
+dall'osservazione, è tornata al 3,3%.
+
+## Il cancello del mondo 2 — il gate era tarato su chi non sbaglia mai (26 agosto 2026)
+
+Segnalazione di gioco: «ho completato tutto il mondo 1 e non riesco ad accedere
+al mondo 2». `compiti_bastano_probe` e `progression_1to24_audit` giocavano
+sempre rispondendo giusto, e il gate era tarato su un bambino che non esiste.
+Misurato da `gate_mondo1_audit`, mediana su sette semi:
+
+| accuratezza | prima | dopo |
+|---|---|---|
+| 100% | 16 sessioni | 16 |
+| 85% | 29 (fino a 36) | **20** (peggiore 25) |
+| 70% | tre semi su sette **non aprivano mai il gate** | **35** (peggiore 46) |
+
+Quattro cause distinte, e **nessuna era l'ampiezza del gate**, che resta a dodici
+materie:
+
+1. **la padronanza si misurava su tre nodi** — media mobile fra sessioni, quasi
+   tutto rumore; adesso si stima sulle risposte accumulate, con oblio 0,85;
+2. **il ripasso chiedeva la coda vuota** nell'istante del controllo, mentre ogni
+   sessione ne genera di nuovi; adesso conta ciò che è stato sbagliato e non
+   ancora ripreso;
+3. **un argomento di matematica poteva non tornare mai**: gli argomenti scritti a
+   mano entrano da `_innesta_banco_matematica`, dove il calendario dei ripassi non
+   arrivava — sulla materia che abita il mondo 1;
+4. **la soglia del nucleo rendeva il mondo 1 impossibile, non difficile**: un
+   bambino al 70% si assesta a 0,767, sopra la soglia base (0,70) e sotto quella
+   del nucleo (0,78). Il rango del nucleo non si tocca; è il bonus che adesso
+   cresce con la scala invece di essere pieno dal primo mondo
+   (`ApparatusConfig.core_bonus`).
+
+E un difetto dell'audit stesso: `build_mission(..., null, ...)` si costruiva un
+generatore e lo `randomize()`, quindi ogni esecuzione misurava una partita
+diversa. Un tetto misurato su una partita diversa ogni volta non è un tetto.
+
+## Le spiegazioni, il secondo giro — N-9…N-12 (27 agosto 2026)
+
+| | prima | dopo |
+|---|---|---|
+| esercizi che consegnano una correzione | 3082 su 3569 | **3569 su 3569** |
+| frasi di correzione scritte | 9244 | **15015** |
+| argomenti affollati con più di una riga di NORA | 1 su 18 | **18 su 18** |
+| esercizi con una figura | 656 | **810** |
+| materie con almeno una figura | 6 su 12 | **10 su 12** |
+
+Cinque figure nuove per le materie scoperte: la battuta divisa e la scala delle
+sette note (musica), la lista con gli indici numerati da zero (coding), la frase
+col pezzo acceso (italiano), le parole imparentate (inglese). Due scelte di
+disegno mostrano **meno** di quello che il piano prometteva, di proposito: la
+frase non si smonta in soggetto e complemento — etichettarli vorrebbe dire
+rispondere al posto del bambino — e il coding non traccia la variabile, perché
+per farlo davvero bisognerebbe eseguire il codice.
+
+**Fisica e scienze restano senza figure**, ed è una scelta: nei loro testi non
+c'è niente che si estragga con certezza in un diagramma — le conversioni di
+unità in fisica sono tre esercizi su 157 — e disegnare comunque vorrebbe dire
+decorare.
+
+Due difetti presi dagli audit mentre il lotto si scriveva, e valgono più della
+correzione stessa:
+
+- `risposta_unica_audit` ha trovato **trentotto esercizi in cui NORA stava per
+  dire «sbagliato» a una risposta che il gioco accetta come giusta**:
+  «Imperfetto» e «imperfetto» sono due voci diverse del banco e la stessa
+  risposta. Il confronto va fatto con lo stesso metro del runtime;
+- una **lista Python** `[10, 20, 30]` veniva disegnata come **retta dei numeri**,
+  perché a un'espressione regolare somiglia a una serie. Per un bambino una
+  figura sbagliata pesa più di una frase sbagliata: a quello che vede si crede.
+
+## La rilettura delle 249 voci di NORA (27 agosto 2026)
+
+Le spiegazioni erano state misurate, mai lette. Lette tutte e 249, una per una:
+**il corpus regge**, e riscrivere in blocco sarebbe stato il danno. Tredici righe
+andavano toccate, in tre classi.
+
+- **Un errore di contenuto.** `fisica:temperatura` diceva che «un ago rovente e
+  una vasca tiepida possono avere la stessa energia totale». La cosa da imparare
+  è l'opposto ed è molto più sorprendente: la vasca tiepida ne contiene molta di
+  più, perché di particelle ne ha molte di più.
+- **Voci che non parlavano della propria materia.** `fisica:onde-luce` ripeteva
+  `fisica:onde` e non diceva una sola cosa sulla luce. Tre voci di italiano
+  insegnavano tutte lo stesso trucco con quasi le stesse parole, e siccome sono
+  argomenti diversi la memoria di NORA non le sopprimeva.
+- **Consigli che si contraddicono o usano strumenti inesistenti.**
+  `elettronica:legge-ohm` diceva «copri con un dito la grandezza che cerchi nel
+  triangolo V-I-R», e quel triangolo il gioco non lo disegna da nessuna parte.
+  Due voci di inglese dicevano «se somiglia all'italiano, fidati» mentre
+  `false-friends` insegna il contrario: ora dicono *quando* fidarsi.
+
+**E le correzioni: un cricchetto che proteggeva il rumore.** A «qual è il
+nominativo plurale di *rosa*?» era attaccato il perché di «2». La passata sulle
+domande vicine accostava numeri a parole ogni volta che capitavano nello stesso
+argomento. Adesso una correzione si attacca solo fra risposte dello stesso tipo:
+sono uscite **523 correzioni-rumore** e le frasi sono scese da 15015 a **14537
+migliorando**. Un pavimento su un numero che conta anche il rumore protegge il
+rumore: è l'unica eccezione onesta alla regola del «mai in giù», e si usa solo
+con la misura in mano. I quindici esercizi rimasti scoperti sono stati scritti a
+mano, e puntano alla confusione classica dell'argomento — «quattro sono gli
+esseri viventi; i passaggi sono le frecce fra loro, e le frecce sono tre».
+
+Nuova misura in `nora_spiegazione_utile_audit`: **due argomenti vivi non possono
+dire quasi la stessa cosa con le stesse parole.** Provata sul file com'era prima
+della rilettura è rossa, e verde dopo — una guardia verde alla nascita non prova
+niente.
+
+## Due audit che si contraddicevano (27 agosto 2026)
+
+`glifi_audit` era rosso su `tool-torch` da quando il modulo torcia è stato
+ritirato. Non era un'illustrazione mancante: `shop_presentation_audit` asserisce
+che torcia e falce **non devono** stare nell'atlante della bottega, perché non si
+comprano, mentre `glifi_audit` scandiva `RewardCatalog.CATALOG` per intero e
+pretendeva un'insegna per ogni riga. La regola vera è «ogni articolo *esposto in
+bottega* ha la sua insegna». **Due guardie che misurano la stessa cosa con due
+premesse diverse non si annullano, si alternano** — vince quella che gira per
+ultima, e il rosso sembra un difetto del contenuto invece che del metro.
+
+## Le voci scoperte erano una, non centodiciotto (28 agosto 2026)
+
+Le voci vive erano state contate **solo sui banchi**: 131 su 249, quindi 118
+scoperte. Ma un argomento è vivo anche quando lo serve un minigioco, e
+`MinigameManager.topics_for()` ne serve **206**, di cui 117 in nessun banco.
+
+```
+voci di NORA                        249
+  vive (banco o minigioco)          248
+  senza nessun contenuto              1   <- matematica:radici
+argomenti giocabili senza voce        0
+```
+
+La misura giusta ha scoperto due cose vere. La prima: la guardia delle gemelle
+usava la stessa lista sbagliata, e corretta ha trovato subito **nove coppie** che
+dicevano quasi la stessa cosa su argomenti che il bambino incontra —
+`fisica:onde-luce` e `fisica:onde` al 70% e 88%, `fisica:passaggi-stato` e
+`scienze:passaggi-stato` all'85% e 92%. Dieci righe riscritte, e la cura non è
+mai stata accorciarne una: è chiedersi che cosa ha di suo l'argomento che la riga
+non stava dicendo. Dopo: **zero coppie su 555 righe**.
+
+La seconda: `matematica:radici` esisteva da sempre e non c'era **un solo
+esercizio** che la facesse comparire. Quindici esercizi nuovi su quadrati
+perfetti dentro la tavola pitagorica; i distrattori sono i due errori veri, la
+metà (24,5 per 49) e il quadrato (1296 per 36). Ne erano stati scritti otto, e
+`topic_density_audit` ha fermato il lotto: sotto i quindici item il bambino
+rivede tre volte la stessa schermata, e il gioco dichiara consolidato ciò che è
+solo memoria di una schermata.
+
+Misura nove della guardia: **nessuna voce senza contenuto, e nessun contenuto
+senza voce**, contato nelle due direzioni. Zero e zero.
+
+## Difetti trovati giocando e materie rese progressive (28 agosto – 3 settembre 2026)
+
+- **Tre difetti di playtest** (28 agosto): sovraccarico al primo ingresso, un
+  nome che usciva dallo schermo, un vuoto sotto la lezione di NORA.
+- **Il cancello dei Primi non stava in nessuno dei 24 mondi**, e diciotto mappe
+  senz'acqua mandavano a cercare un ponte (28 agosto).
+- **Il costo d'ingresso diventa un cancello** (31 agosto): si sbarra solo chi ha
+  già fatto missioni, un profilo nuovo parte a energia 0 e deve poter entrare.
+- **«Ricomincia da capo» con due conferme diverse** (31 agosto): la seconda porta
+  il nome del bambino; azzera la partita e stacca il codice cloud.
+- **NORA insegna per fatto, non solo per argomento** (31 agosto): gli ordinamenti
+  a insieme (storia, elettronica) insegnano i fatti pescati mai visti prima di
+  interrogare. La banalità della logica è scesa al grado 1.
+- **Logica, elettronica, fisica e musica rese progressive** (1–3 settembre): la
+  scelta multipla è a zero fuori dall'esame in elettronica e logica
+  (`MC_TARGET_PER_MATERIA`), le sei liste di analogie sono tornate a italiano, e
+  due formati nuovi portano la deduzione nel gesto — la griglia degli incroci e
+  le porte.
+- **Il perimetro del corso vale sulla pratica** (3–4 settembre), e gli strumenti
+  sono garantiti nei mondi corretti.
+
+> **La lezione più cara del blocco, e va tenuta in vista.** Il 2 settembre la
+> profondità combinatoria di **elettronica è crollata da ~244.000 a 2.293**: la
+> materia era stata resa introduttiva tagliando i sacchetti da ventiquattro a
+> dodici tessere, cioè **stringendo il perimetro senza rifornirlo**. Riaperta il
+> giorno dopo a 243.932 con oggetti di casa e un ordinamento che pesca fra le
+> pile in volt. Rendere una materia progressiva senza minigiochi dentro il nuovo
+> perimetro fa risalire le crocette: è lo stesso meccanismo che il 4 settembre
+> ha lasciato `gesto_audit` rosso su quattro materie.
+
+## La curva di difficoltà: ventiquattro livelli, uno per mondo (4 settembre 2026)
+
+Decisione 16. `ContentManager.challenge_level` espone **24 gradini distinti**; le
+bande cognitive seguono 1–4, 5–10, 11–17 e 18–24; la quota di riconoscimento cala
+con continuità e i pesi dei formati si spostano verso processo, rappresentazioni
+e vincoli. `world_difficulty_curve_audit` campiona gli esercizi realmente
+serviti, combina banda e gesto, pretende contenuto nuovo a ogni livello e tollera
+una sola inversione locale fino a 0,35 punti.
+
+**Per decisione del committente, mastery ed esperienza non abbassano più la
+prova**: il livello del mondo va padroneggiato per accedere al successivo. La
+motivazione che invocava una difficoltà adattiva — usata a suo tempo per il bonus
+del nucleo — è superata da qui in avanti: il blocco si evita con una soglia
+iniziale raggiungibile, indizi, spiegazioni e ripasso, non abbassando il
+curricolo.

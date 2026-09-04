@@ -41,13 +41,20 @@ const ALTEZZA := 116.0
 ## verticale: sei righe non stanno in centosedici pixel senza diventare illeggibili.
 const ALTEZZA_ALTA := 156.0
 
-## **Quattro famiglie su dieci.** Il piano in `insieme.md` (voce C-N5) ne elenca
-## dieci; qui ci sono griglia dei gruppi, torta tagliata, anello del circuito e
-## due cerchi. Mancano la retta dei numeri, la bilancia dell'uguale, il contorno
-## contro la superficie, la linea del tempo, la mappa muta e la parola smontata:
-## sono quelle che servono a storia, geografia, latino e geometria, circa altri
-## seicento esercizi. Aggiungerne una vuol dire una voce in `per_item`, una in
-## `descrizione` e una in `_draw`.
+## **Quattordici famiglie**, dispacciate da `_draw`: griglia dei gruppi, torta
+## tagliata, anello del circuito, due cerchi, retta dei numeri, contorno contro
+## superficie, parola smontata, i sei casi latini, linea del tempo, carta muta,
+## battuta divisa, scala delle sette note, lista con gli indici e frase col pezzo
+## acceso. Il consuntivo dei due lotti che le hanno prodotte sta nel *Registro
+## dei lavori* di `docs/RELEASE_CANDIDATE.md` (26 e 27 agosto 2026).
+##
+## **La bilancia dell'uguale non c'è, e non è una dimenticanza**: nel banco non
+## esiste un solo item con un'uguaglianza da bilanciare — la matematica ha
+## `espressioni`, non `equazioni` — e una figura che non si accende su niente è
+## codice morto. Rientra il giorno in cui le equazioni entrano nel banco.
+##
+## Aggiungerne una vuol dire una voce in `per_item`, una in `descrizione` e una
+## in `_draw`.
 
 const MAPPE := preload("res://scripts/visual/map_geometry_catalog.gd")
 

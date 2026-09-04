@@ -39,7 +39,27 @@ const OK := "GESTO audit VERDE"
 
 ## Ripetizioni per mondo: la selezione è stocastica e una sola passata darebbe
 ## numeri che ballano di qualche punto. Otto, come in `format_mix_audit`.
-const REPEATS := 8
+## **Ripetizioni per mondo.** Portate da 8 a 32 il 4 settembre 2026, e la ragione
+## è la stessa che il 1 settembre aveva fatto allargare il campione dell'esame.
+##
+## Con otto ripetizioni la misura del mondo stava su ~1200 nodi per materia, e
+## rieseguendo con un solo seme diverso (`7100` → `7777`, nessuna riga di
+## contenuto toccata) i numeri si spostavano fino a **2,3 punti** — storia da
+## 29,2 a 26,9, geografia da 27,9 a 29,5, inglese da 27,3 a 25,7. La tolleranza
+## del cricchetto è 1,0 punto: **il rumore era più largo della tolleranza**, e
+## quattro materie risultavano rosse o verdi a seconda del seme.
+##
+## Un cricchetto che risponde al seme non è un cricchetto: è un termometro del
+## rumore, costa un'indagine a mano a ogni rosso e insegna a ignorare l'audit —
+## che è il modo peggiore di perdere una guardia. Con 32 ripetizioni il campione
+## quadruplica e le due basi di seme concordano entro 0,8 punti (vedi TETTO_MONDO).
+const REPEATS := 32
+
+## Base del seme per la misura del mondo. Esiste come costante perché il modo di
+## verificare che un tetto sia reale è **rieseguire con un'altra base e
+## confrontare**: se i due numeri non concordano, il tetto sta descrivendo il
+## seme. Le basi provate sono 7100 e 7777.
+const SEME_MONDO := 7100
 
 ## Formati in cui si tocca una alternativa fra quelle offerte. Alcuni hanno un
 ## disegno sopra (il grafico, il circuito, la bilancia): il disegno cambia che
@@ -94,33 +114,52 @@ const CAMPIONI_ESAME := 15
 
 ## **Quota massima di «sceglie» nel mondo intero, materia per materia.**
 ##
-## Misurato il 1 settembre 2026, dopo che la logica ha portato la scelta multipla
-## a zero fuori dall'esame (`MC_TARGET_PER_MATERIA`) e ha spostato le sue domande
-## di deduzione dentro lo smistamento. Nessuna materia arriva a un terzo: il
-## quadro è sano, e questi numeri servono a tenerlo tale.
+## **Ritarati il 4 settembre 2026 su uno strumento diverso, e va spiegato
+## perché non è un allentamento.**
+##
+## I valori del 1 settembre venivano da otto ripetizioni, cioè ~1200 nodi per
+## materia. Su quel campione due basi di seme diverse davano numeri che si
+## spostavano fino a **2,3 punti**, contro una tolleranza di 1,0: quattro materie
+## risultavano rosse o verdi a seconda del seme, e il cricchetto stava misurando
+## il seme quanto il contenuto. Portate le ripetizioni a 32 (~4600–6100 nodi per
+## materia), le stesse due basi concordano entro **0,5 punti**.
+##
+## Quindi i numeri qui sotto **non sono confrontabili con quelli di prima**: sono
+## la stessa quantità misurata con uno strumento quattro volte più fine. Ritarare
+## un tetto quando si scopre che descriveva il rumore è la stessa eccezione onesta
+## già usata il 27 agosto sulle correzioni di NORA — si fa con la misura in mano e
+## si scrive la ragione accanto. Da qui in giù, e solo in giù.
+##
+## Ogni valore è il **peggiore delle due basi**, non la media: un tetto va tenuto
+## dal caso sfavorevole.
+##
+## Quello che il ritaraggio NON cancella: **coding sta al 32,0%**, ed è la sola
+## materia vicina al tetto di progetto del 33%. Non è rumore — con entrambe le
+## basi e con entrambi i campioni resta la più alta del gioco. È il caso da
+## guardare per primo quando si torna sul contenuto.
 const TETTO_MONDO := {
-	# Rimisurati il 1 settembre 2026 insieme a quelli dell'esame: l'esame fa parte
-	# del mondo, e dandogli un flusso di casualità suo questi numeri si sono
-	# spostati fino a 1,3 punti. Non è cambiato il contenuto — misurati con e
-	# senza le prove nuove di storia e geografia, i dodici valori sono gli stessi
-	# tranne storia, che scende di un decimo.
-	"matematica": 23.2,
-	"italiano": 22.4,
-	"coding": 30.1,
-	"inglese": 25.8,
-	"fisica": 23.1,
-	"musica": 27.3,
-	"latino": 24.9,
-	"elettronica": 25.6,
-	"geografia": 28.3,
-	"scienze": 27.4,
-	"storia": 28.6,
-	"logica": 17.4,
-	# La logica è scesa da 30,8 a 18,6 fra il 1 e il 2 settembre 2026: scelta
+	#                    base 7100   base 7777
+	"matematica": 23.5,  #   23.5       23.0
+	"italiano": 22.3,    #   22.3       22.0
+	"coding": 32.0,      #   32.0       31.8   ← la più alta: da abbassare
+	"inglese": 26.6,     #   26.6       26.3
+	"fisica": 23.5,      #   23.5       23.4
+	"musica": 24.3,      #   24.3       24.3
+	"latino": 24.4,      #   24.3       24.4
+	"elettronica": 26.9, #   26.9       26.7
+	"geografia": 28.5,   #   28.0       28.5
+	"scienze": 27.7,     #   27.7       27.4
+	"storia": 28.4,      #   28.3       28.4
+	"logica": 18.0,      #   18.0       18.0
+	# La logica resta la materia con più manipolazione del gioco (80,6%): scelta
 	# multipla e inserimento numerico fuori da tutto ciò che non è l'esame, le sei
 	# liste di analogie tornate a italiano, e due formati nuovi in cui il gesto è
-	# la deduzione — la griglia degli incroci e le porte. È la materia con più
-	# manipolazione del gioco: 80,1%.
+	# la deduzione — la griglia degli incroci e le porte.
+	#
+	# Musica scende da 27,3 a 24,3 e latino da 24,9 a 24,4 senza che nessuno
+	# abbia tolto una crocetta: sono le ricette `compose` aggiunte il 4 settembre
+	# (undici, per chiudere `explanation_coverage_audit`) che hanno spostato la
+	# scelta dello specialista. Anche inglese scende di sette decimi.
 }
 
 ## **Quota massima di «sceglie» nel solo esame di fine mondo.**
@@ -157,26 +196,60 @@ const TETTO_ESAME := {
 	# 45,0 a 40,8, latino da 45,0 a 41,2 — e altri salgono, elettronica da 56,3 a
 	# 69,2. Non è un allentamento del cricchetto: è la prima misura che regge una
 	# seconda esecuzione. Da qui in giù, e solo in giù.
-	"matematica": 23.5,
-	"italiano": 28.9,
-	"coding": 35.9,
+	#
+	# ## Ristretti il 4 settembre 2026 — e otto su dodici scendono
+	#
+	# Portando `REPEATS` da 8 a 32 anche l'esame è passato da 1200 a 4800 nodi per
+	# materia, e le due basi di seme ora concordano entro **0,6 punti** invece di
+	# 1,8. Con uno strumento più fine i tetti si stringono.
+	#
+	# **La regola applicata, e il motivo per cui non è arbitraria.** Dove la nuova
+	# misura è più BASSA, il tetto scende: è il cricchetto che fa il suo lavoro.
+	# Dove è più alta ma entro l'incertezza dichiarata del vecchio strumento
+	# (±1,8), il tetto si adegua: quel movimento lo spiega lo strumento. Dove è
+	# più alta OLTRE quell'incertezza, **il tetto non si muove** — lì non è il
+	# metro che è cambiato, è il contenuto, e alzare il tetto sarebbe lavare una
+	# regressione. Sono tre: geografia (+1,9), scienze (+2,5) e storia (+3,7).
+	#
+	# Con la tolleranza di 3,0 punti geografia e scienze restano dentro; **storia
+	# no, ed è il solo rosso dichiarato**: 35,8% contro 32,1. La causa probabile è
+	# il lavoro sulla curva di difficoltà del 4 settembre, che ha spostato i pesi
+	# dei formati — la tavolozza di storia non è sottile (sei linee del tempo,
+	# tre indiziari, due cicli). Va indagata, non tarata.
+	"matematica": 23.7,
+	"italiano": 28.7,
+	"coding": 34.8,
 	"inglese": 30.4,
-	"fisica": 33.5,
-	"musica": 38.6,
-	"latino": 31.6,
+	"fisica": 31.2,
+	"musica": 30.8,
+	"latino": 32.3,
 	# Elettronica sta alta apposta, e non è questo audit a decidere: la materia ha
 	# portato la scelta multipla a zero in TUTTO il resto, quindi l'esame è il solo
 	# posto in cui misura, e `elettronica_hands_on_audit` pretende che almeno metà
 	# delle sue prove restino domande dirette. Fra i due vincoli vince il suo — ed
 	# è anche la materia in cui il campione piccolo ingannava di più.
-	"elettronica": 64.0,
+	"elettronica": 63.0,
+	# Geografia e scienze NON si muovono: la nuova misura le dà a 35,2 e 36,6,
+	# cioè +1,9 e +2,5 oltre il tetto — più dell'incertezza del vecchio strumento.
+	# Restano dentro solo grazie alla tolleranza di 3,0 punti, e sono le due da
+	# guardare subito dopo storia.
 	"geografia": 33.3,
 	"scienze": 34.1,
-	# Storia scende di sette decimi (43,8 → 43,1) con le tre linee del tempo nate
-	# dalle tavole di riferimento: Roma, Grecia, medioevo. È il verso giusto, ed è
-	# la ragione per cui vale la pena misurare bene invece che misurare spesso.
+	# **Storia è il rosso dichiarato del 4 settembre 2026.** Il tetto resta a 32,1
+	# — quello misurato il 1 settembre — mentre la misura di oggi dà **35,8%**.
+	# Non si alza, e non perché sia una questione di principio: +3,7 punti è il
+	# doppio dell'incertezza che il vecchio strumento dichiarava, quindi è
+	# contenuto, non metro.
+	#
+	# Provato e scartato: aggiungere specialisti non serve, perché `cycle` e
+	# `clue` sono a loro volta «sceglie» — le due ricette di ciclo e l'indiziario
+	# aggiunti oggi a storia hanno alzato il numero di quattro decimi invece di
+	# abbassarlo. Restano contenuto buono (chiudono due coppie sottili in
+	# `format_depth_audit`), ma su questa misura vanno nella direzione opposta.
+	# Serve un formato MANIPOLATIVO in più nell'esame di storia, o un peso diverso
+	# in `NONMC_FORMAT_WEIGHTS`.
 	"storia": 32.1,
-	"logica": 30.3,
+	"logica": 31.4,
 }
 
 var _fallimenti: Array = []
@@ -193,7 +266,7 @@ func _init() -> void:
 		var events := MissionEventDirector.plan(profile, {}, "audit-gesto-%d" % level)
 		for repeat in range(REPEATS):
 			var rng := RandomNumberGenerator.new()
-			rng.seed = 7100 + level * 131 + repeat
+			rng.seed = SEME_MONDO + level * 131 + repeat
 			for event in events:
 				var kind := str((event as Dictionary).get("kind", "mission"))
 				var session: Dictionary = {}

@@ -31,8 +31,16 @@ const TASSO_RACCOLTA := 0.5
 
 ## Le fonti fisse. Le tariffe vengono da [[FragmentEconomy]] — la sonda non ne
 ## tiene una copia, altrimenti misurerebbe un gioco diverso da quello giocato.
-## I conteggi vengono dai traguardi del Lascito (META_INCONTRI = 90) e dalla
-## struttura della campagna (24 mondi).
+## I conteggi vengono dalla struttura della campagna (24 mondi).
+##
+## **Novanta è il numero di incontri che PAGANO, non il traguardo del Lascito.**
+## (5 settembre 2026) Prima questa riga si appoggiava a `META_INCONTRI`, che il 5
+## settembre è passato da 90 a 560 per tutt'altra ragione — quella meta si
+## riempiva al mondo 5 e non distingueva più nessuno. I due numeri non avevano
+## niente in comune se non il valore: qui serve una stima di quanti incontri un
+## bambino chiude davvero pagati a tariffa, là serve la soglia oltre la quale una
+## dimensione del finale si considera piena. Restano novanta, adesso per conto
+## proprio.
 const INCONTRI_CAMPAGNA := 90
 const RIPARAZIONI := 24
 const CAMERE := 24

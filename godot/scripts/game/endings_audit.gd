@@ -18,6 +18,11 @@ extends SceneTree
 ## meccaniche inesistenti nel loop Godot — aiuti, impulsi, vite — ereditate dal
 ## prototipo Phaser. Costavano fino a 1600 frammenti e non facevano niente.
 
+## Quanti punti d'interesse pianifica un mondo. È il numero che
+## `MissionEventDirector` produce davvero, misurato su mondi 1, 5, 12 e 20: da
+## qui si costruisce il profilo di chi ha fatto tutto.
+const EVENTI_PER_MONDO := 18
+
 func _init() -> void:
 	_prova_dimensioni()
 	_prova_non_si_compra()
@@ -83,14 +88,28 @@ func _pieno() -> GameSaveManager:
 	for i in range(LegacyScore.META_CONSOLIDATI):
 		codex["materia:arg%d" % i] = KnowledgeCodex.STATE_CONSOLIDATED
 	save.data["codex"] = codex
+	# **Il profilo pieno è quello di chi fa tutto, non un numero inventato.**
+	# (5 settembre 2026) Prima si dividevano gli incontri della meta per
+	# ventiquattro; da quando la meta è 560 quel conto chiederebbe 24 eventi per
+	# mondo, e i mondi ne pianificano diciotto. Un profilo «perfetto» impossibile
+	# non prova che il finale pieno sia raggiungibile: prova il contrario.
+	#
+	# Adesso si costruisce quello che il gioco offre davvero — diciotto eventi, la
+	# riparazione e le pattuglie di quel mondo — e si pretende che BASTI.
 	var mondi: Dictionary = {}
-	var per_mondo := int(ceil(float(LegacyScore.META_INCONTRI) / 24.0))
 	for w in range(1, 25):
 		var ids: Array = []
-		for k in range(per_mondo):
+		for k in range(EVENTI_PER_MONDO):
 			ids.append("evt-%d-%d" % [w, k])
-		mondi[str(w)] = {"completedEncounterIds": ids}
+		var nemici: Array = []
+		for k in range(clampi(1 + int(floor(float(w - 1) / 6.0)), 1, 4)):
+			nemici.append("guard-%d-%d" % [w, k])
+		mondi[str(w)] = {"completedEncounterIds": ids, "defeatedEnemyIds": nemici}
 	save.data["worldProgress"] = mondi
+	var riparazioni: Array = []
+	for w in range(1, 25):
+		riparazioni.append("rip-%d" % w)
+	save.data["minimissions"] = riparazioni
 	var aperti: Array = []
 	for w in range(1, 25):
 		aperti.append(w)

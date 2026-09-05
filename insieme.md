@@ -166,6 +166,54 @@ sui forzieri, che è dove le porte stanno per progetto.
 
 </details>
 
+### R-8 · Vincere un duello non contava niente — chiusa il 5 settembre 2026
+
+*Segnalazione: «vincere un combattimento deve dare vantaggi adeguati, altrimenti
+lo studente li evita».* Aveva ragione, e la causa era più profonda del premio.
+
+**Prima ho provato la strada sbagliata, e va scritto.** L'idea era far pagare il
+duello in `indagine`, la dimensione narrativa del Lascito. Ma `indagine` conta i
+**beat di livello** — uno per mondo, rivelato quando ci arrivi: non è una cosa
+che si trova, è una cosa che ti succede. Il secondo aggancio, `mondo`, era anche
+peggio.
+
+**La misura che ha cambiato tutto:**
+
+```
+ogni mondo pianifica 18 eventi · la campagna ne produce 432
+META_INCONTRI era 90
+→ «mondo» si riempiva al MONDO 5, e da lì valeva 0,20 pieni qualunque cosa facessi
+```
+
+Con `rotta` (mondi aperti) e `indagine` (beat per livello) automatiche per
+costruzione, **il 45% del Lascito era deciso dal solo fatto di giocare**. Non
+esisteva un posto in cui mettere il premio di un duello — ed è la ragione
+strutturale per cui saltarlo era la mossa razionale.
+
+**La correzione.** `META_INCONTRI` da 90 a **560**, ricavata dai totali veri:
+432 eventi + 72 (le 24 riparazioni, che valgono tre) + 60 pattuglie = 564 se si
+fa tutto. E `mondo` adesso conta anche **le pattuglie sciolte** — una guardiana
+battuta non rinasce, quindi lascia un posto diverso, che è esattamente il
+criterio dichiarato di quella dimensione.
+
+Misurato su tre modi di giocare, a parità di didattica:
+
+| | mondo | totale | finale a padronanza 0,62 |
+|---|---:|---:|---|
+| solo ciò che il gate chiede | 0,64 | 0,815 | **registro** |
+| tutti gli eventi, pattuglie evitate | 0,90 | 0,866 | **fondo** |
+| tutto, pattuglie comprese | 1,00 | 0,886 | **fondo** |
+
+Sette punti di punteggio finale fra il primo e l'ultimo, **e una fascia di
+differenza**. Prima erano tutti e tre a 1,00.
+
+Nessuna regola violata: la decisione 15 resta intatta perché qui non si compra
+niente — si conta ciò che si è fatto. E `endings_audit` ora costruisce il profilo
+pieno con quello che il gioco offre davvero (18 eventi, la riparazione e le
+pattuglie di quel mondo) invece di dividere la meta per ventiquattro, che con 560
+avrebbe chiesto 24 eventi in mondi che ne hanno diciotto: **un profilo perfetto
+impossibile non prova che il finale pieno sia raggiungibile, prova il contrario.**
+
 ### R-7 · La difficoltà di minigiochi e duelli — chiusa il 5 settembre 2026
 
 *Richiesta: «controlla che anche i minigiochi siano a difficoltà crescente su 24

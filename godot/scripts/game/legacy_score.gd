@@ -47,7 +47,34 @@ const PESO_NUCLEO := 2.0
 ## renderebbe l'ultimo finale irraggiungibile, e un finale irraggiungibile non
 ## esiste per il giocatore.
 const META_CONSOLIDATI := 60      # argomenti consolidati nel Codex
-const META_INCONTRI := 90         # incontri risolti nei mondi
+## **Ritarata da 90 a 560 il 5 settembre 2026, e va spiegato perché.**
+##
+## Novanta era una meta che il gioco superava **al mondo 5**. Misurato: ogni
+## mondo pianifica diciotto eventi, la campagna ne produce **432** — quasi cinque
+## volte la meta — quindi da metà del quinto mondo in poi questa dimensione
+## valeva 0,20 pieni qualunque cosa il bambino facesse. Insieme a `rotta` e
+## `indagine`, che sono automatiche per costruzione, faceva **il 45% del Lascito
+## deciso dal solo fatto di giocare**.
+##
+## Una dimensione che non distingue non è una dimensione: è una costante con un
+## nome. E questa doveva dire *«i luoghi che hai effettivamente cambiato»*, cioè
+## proprio la cosa che l'esplorazione fa e che il resto del punteggio non vede.
+##
+## Il numero viene dai totali veri della campagna, non da un'idea:
+##
+##   432   eventi pianificati (18 × 24 mondi)
+##   +72   le ventiquattro riparazioni, che valgono tre l'una
+##   +60   le pattuglie: 1 nei primi sei mondi, 4 negli ultimi sei
+##   ————
+##   564   se si fa tutto
+##
+## A 560 chi chiude solo ciò che il gate chiede — circa dodici eventi per mondo
+## più la riparazione — sta intorno al **66%**; chi fa ogni evento e ogni
+## riparazione ma gira alla larga dalle pattuglie arriva al **90%**; chi le
+## scioglie tutte chiude la dimensione. Fra il primo e l'ultimo ballano sette
+## punti di punteggio finale: abbastanza da spostare una fascia, che è quanto
+## serve perché una scelta sia una scelta.
+const META_INCONTRI := 560        # incontri risolti nei mondi
 const META_BEAT := 24             # beat di trama
 
 static func _clamp01(v: float) -> float:
@@ -89,7 +116,23 @@ static func mondo(save) -> float:
 	# e nient'altro non riempie comunque la dimensione. Chiudere ventiquattro
 	# riparazioni deve contare molto; non deve bastare.
 	var riparazioni := Array(save.data.get("minimissions", [])).size()
-	return _clamp01(float(risolti + riparazioni * 3) / float(META_INCONTRI))
+	# **E le pattuglie sciolte.** (5 settembre 2026)
+	#
+	# Una guardiana battuta **non rinasce**: il posto che sorvegliava resta
+	# aperto per tutta la campagna. È esattamente il criterio di questa
+	# dimensione — *«i luoghi che hai effettivamente cambiato»* — e fino a oggi
+	# era l'unica cosa che lo soddisfaceva senza essere contata.
+	#
+	# È anche la ragione per cui uno studente saltava i duelli: vincerne uno dava
+	# frammenti, che comprano ornamenti, e **niente che pesasse sul finale**. Il
+	# guadagno adesso c'è, e non tocca nessuna domanda — la decisione vincolante
+	# 15 resta intatta, perché qui non si compra niente: si conta ciò che si è
+	# fatto.
+	var pattuglie := 0
+	for progresso in Dictionary(save.data.get("worldProgress", {})).values():
+		pattuglie += Array(Dictionary(progresso).get("defeatedEnemyIds", [])).size()
+	return _clamp01(
+		float(risolti + riparazioni * 3 + pattuglie) / float(META_INCONTRI))
 
 static func rotta(save) -> float:
 	var aperti := Array(Dictionary(save.data.get("worlds", {})).get("unlocked", [])).size()

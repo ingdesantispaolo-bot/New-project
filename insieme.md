@@ -166,6 +166,44 @@ sui forzieri, che è dove le porte stanno per progetto.
 
 </details>
 
+### R-5 · Due schermate una sull'altra dopo la prima prova — chiusa il 5 settembre 2026
+
+*Segnalazione di gioco: «clicca il tasto per procurarsi la falcetta, procede alla
+prova, e dopo alcune domande corrette il programma si blocca».*
+
+**La riparazione non era rotta.** Giocata dall'inizio alla fine — tre campate,
+tutte corrette — finisce, consegna la falce e restituisce il passo. Rotto era il
+**contorno**, e il momento coincide perché il Custode si concede alla *prima
+sessione conclusa*: la richiesta del suo nome si apriva esattamente lì.
+
+Due difetti distinti, tutti e due misurati:
+
+1. **Il campo del nome prendeva il fuoco della tastiera.** `grab_focus()` su una
+   `LineEdit`: su tablet e su Web apre la tastiera di sistema, che copre la scena
+   e si prende i tasti. Il gioco **sembra fermo mentre non lo è** — ed è la
+   descrizione esatta della segnalazione. Ora il nome si scrive toccando il
+   campo, come un bambino farebbe comunque.
+2. **Si camminava sotto un pannello aperto.** `_on_dialogue_closed` restituiva il
+   passo in cima, *prima* di decidere se aprire il minigioco del personaggio; se
+   un pannello era già aperto, `_apri_minigioco_personaggio` usciva subito e il
+   giocatore restava libero **sotto una schermata modale**. Da fuori è
+   indistinguibile da un blocco: si tocca la scena e risponde qualcos'altro.
+
+E la sovrapposizione vera e propria: la richiesta del nome e il minigioco di
+Corinna stavano aperti **insieme**. Ora la richiesta del nome non si apre sopra
+un'altra schermata e si ritira quando ne arriva una; `needs_name` resta vero e
+la domanda torna alla sessione successiva, perché per contratto è rimandabile.
+
+**Nessuno giocava questa strada.** `minimission_audit` guarda solo i dati e non
+entra in scena; `roundtrip_audit` scavalca chiamando `_on_exercise_finished`. Il
+ciclo domanda-per-domanda di una riparazione — e soprattutto quello che succede
+**dopo** — non lo percorreva nessun audit. Adesso lo fa
+`pannelli_modali_audit`, che tiene un'invariante in due righe: **mai due
+schermate insieme, e il passo di Eli è spento se e solo se ce n'è una aperta.**
+Le due metà sbagliate di quella riga sono i due modi in cui un bambino dice «si
+è bloccato». Provata prima di fidarsene: disattivando la correzione è rossa su
+entrambi i casi, con i nomi dei pannelli.
+
 ### R-1 · La build spedita porta la versione sbagliata — chiusa
 
 `npm run audit:web` **esce 1**:

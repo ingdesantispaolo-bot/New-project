@@ -3602,6 +3602,14 @@ func _apri_minigioco_personaggio(npc_id: String) -> void:
 		return
 	if not is_instance_valid(ui_layer):
 		return
+	# **La richiesta del nome si ritira davanti a una schermata vera.**
+	# (5 settembre 2026) Il Custode si concede a fine sessione e chiede il nome
+	# lì; se subito dopo si chiude un dialogo, il minigioco del personaggio si
+	# apriva **sopra** quel pannello, e restavano due schermate una sull'altra.
+	# Il nome è rimandabile per contratto — `needs_name` resta vero e la
+	# richiesta torna alla sessione successiva — quindi qui cede il posto.
+	if is_instance_valid(pet_naming_panel):
+		_close_pet_naming()
 	# Un pannello per archetipo: la meccanica cambia, il contorno no. Il
 	# catalogo dice quale, e la scena non conosce nessuna regola di gioco.
 	var scheda_gioco := CharacterMinigameCatalog.scheda(npc_id)
@@ -3694,7 +3702,16 @@ func _minigioco_personaggio_superato(npc_id: String) -> bool:
 	return Array(result.get("collectedTreasureIds", [])).has("gioco-%s" % npc_id)
 
 func _on_dialogue_closed(npc_id: String) -> void:
-	if is_instance_valid(player):
+	# **Il passo torna solo se non resta niente aperto.** (5 settembre 2026)
+	#
+	# Questa riga era incondizionata e stava in cima, prima di tutte le
+	# diramazioni che possono aprire un'altra schermata. Conseguenza misurata:
+	# chiudendo un dialogo mentre un minigioco di personaggio era gia' sullo
+	# schermo, `_apri_minigioco_personaggio` usciva subito — c'e' gia' un
+	# pannello — e il giocatore restava libero di camminare **sotto un pannello
+	# modale aperto**. Da fuori e' indistinguibile da un blocco: si tocca la
+	# scena e risponde qualcos'altro.
+	if is_instance_valid(player) and not _pannello_gia_aperto():
 		player.set_physics_process(true)
 	if stance_echo_after_dialogue.has(npc_id):
 		var echo_id := str(stance_echo_after_dialogue.get(npc_id, ""))
@@ -6763,14 +6780,19 @@ func _blocking_panel_visible() -> bool:
 ## energia guardando un buco. La cornice narrativa (Lucilla che lo affida) arriva
 ## con gli itineranti: qui c'è la meccanica, non la scena.
 func _grant_pet_if_needed() -> void:
-	if not is_instance_valid(game_save) or PetState.is_granted(game_save):
+	if not is_instance_valid(game_save):
 		return
-	if not PetState.grant(game_save, world_level):
-		return
-	game_save.save()
-	_refresh_pet_face()
-	_respawn_pet_companion()
-	_pet_react("pet_granted")
+	if not PetState.is_granted(game_save):
+		if not PetState.grant(game_save, world_level):
+			return
+		game_save.save()
+		_refresh_pet_face()
+		_respawn_pet_companion()
+		_pet_react("pet_granted")
+	# **La richiesta del nome riprova a ogni sessione finché non è stata data o
+	# rimandata per davvero.** Da quando `_open_pet_naming` non si apre sopra un
+	# altro pannello, il primo tentativo può cadere: senza questo, il Custode
+	# resterebbe senza nome per sempre perché nessuno lo richiede più.
 	if PetState.needs_name(game_save):
 		_open_pet_naming()
 
@@ -6778,8 +6800,22 @@ func _grant_pet_if_needed() -> void:
 ## dare un nome nei primi minuti è ciò che trasforma un compagno in *il proprio*
 ## compagno. Si può rimandare — il pannello si chiude e il nome resta vuoto —
 ## perché nessuna richiesta del gioco deve bloccare il gioco.
+## Vero se sullo schermo c'è già qualcosa che chiede un gesto. Serve a impedire
+## che due pannelli modali si aprano uno sopra l'altro: due schermate insieme non
+## sono due cose da fare, sono una cosa che sembra rotta.
+func _pannello_gia_aperto() -> bool:
+	return is_instance_valid(minigame_panel) or is_instance_valid(objective_panel) \
+		or (is_instance_valid(exercise_player) and exercise_player.visible) \
+		or (is_instance_valid(dialogue_box) and dialogue_box.visible)
+
 func _open_pet_naming() -> void:
 	if is_instance_valid(pet_naming_panel):
+		return
+	# **Non sopra un'altra schermata.** Il Custode può arrivare mentre è ancora
+	# aperto un minigioco o un dialogo: in quel caso la richiesta del nome
+	# aspetta. `needs_name` resta vero, quindi torna da sola alla sessione dopo —
+	# e nel frattempo il gioco non mostra due pannelli sovrapposti.
+	if _pannello_gia_aperto():
 		return
 	pet_naming_panel = PanelContainer.new()
 	pet_naming_panel.name = "PetNamingPanel"
@@ -6841,7 +6877,18 @@ func _open_pet_naming() -> void:
 	row.add_child(confirm)
 
 	ui_layer.add_child(pet_naming_panel)
-	field.grab_focus()
+	# **Il campo del nome NON prende il fuoco da solo.** (5 settembre 2026)
+	#
+	# Segnalazione di gioco: «dopo alcune domande corrette il programma si
+	# blocca». Il Custode si concede alla PRIMA sessione conclusa, quindi questo
+	# pannello si apre esattamente lì, e con `grab_focus()` su una `LineEdit` su
+	# tablet e su Web si apre la tastiera di sistema: copre la scena, si prende i
+	# tasti, e il gioco sembra fermo mentre non lo è.
+	#
+	# Il nome si scrive toccando il campo, che è il gesto che un bambino fa
+	# comunque. Nessuna richiesta del gioco deve prendersi la tastiera prima di
+	# essere stata accettata — vale la stessa regola del pannello: si può
+	# rimandare.
 
 func _confirm_pet_name(field: LineEdit) -> void:
 	if not is_instance_valid(field) or not is_instance_valid(game_save):

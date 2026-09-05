@@ -1,5 +1,5 @@
-const BUILD_ID = "2026.09.05-web-loader-7";
-const CACHE_VERSION = "v197-web-loader";
+const BUILD_ID = "2026.09.05-web-loader-8";
+const CACHE_VERSION = "v198-web-loader";
 const STATIC_CACHE = `eli-quest-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `eli-quest-runtime-${CACHE_VERSION}`;
 const APP_SHELL = ["./manifest.webmanifest", "./eli-quest-icon.svg"];

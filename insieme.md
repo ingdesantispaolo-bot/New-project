@@ -166,6 +166,55 @@ sui forzieri, che è dove le porte stanno per progetto.
 
 </details>
 
+### R-11 · L'esplorazione non insegnava niente — chiusa il 5 settembre 2026
+
+*Richiesta: dare più valore alla mappa, «la tavola trovata in una rovina, il
+paradigma latino in un archivio», su tutti e 24 i mondi.*
+
+**Non serviva costruire niente di nuovo — esisteva già, in due pezzi tenuti
+separati.** Ogni mondo ha già un grande landmark illustrato, sempre visibile,
+con un'interazione già cablata (`HeroLandmarkInteraction`). E il gioco sa già
+disegnare quattordici famiglie di tavole a costo zero — `NoraFigura`, righe di
+`_draw()`, zero megabyte — finora usate solo dentro le prove. Bastava smettere
+di tenerle separate: la stessa tavola che spiega un esercizio la si trova prima,
+esplorando.
+
+**Rispettata la regola già scritta il 27 agosto**: dove non c'è niente da
+estrarre con certezza non si disegna. Fisica e scienze restano senza figura ai
+loro quattro landmark (mondi 5, 10, 17, 22) — non una dimenticanza, la stessa
+scelta già presa per le prove.
+
+Ventiquattro voci, una per mondo, ciascuna con: che cosa si vede avvicinandosi
+(due frasi, concrete, come i lasciti dei forzieri) e una riga sola che fa notare
+un dettaglio, mai una spiegazione. Qualche esempio:
+
+> *Mondo 1, l'Obelisco dei Numeri* — «La pietra è incisa a tacche. Le prime file
+> sono fitte, una tacca alla volta; poi qualcuno ha ricominciato, raggruppandole
+> a dieci a dieci.» → **la griglia dei gruppi**, la stessa che accompagna ogni
+> tabellina da lì in avanti.
+>
+> *Mondo 19, l'Albero delle Radici* — «"Verbum" e "verbo" condividono le prime
+> quattro lettere: la radice non si è mai mossa in duemila anni.» → **la parola
+> smontata**, radice ed etimologia.
+>
+> *Mondo 24, il Cuore dei Primi* — «Il cuore proietta dodici cerchi di luce, uno
+> per sistema, e ognuno tocca gli altri due vicini.» → **i due cerchi**, qui
+> piegati a dire la convergenza finale invece di un ragionamento logico.
+
+**Una volta sola, e mancarla non costa nulla** — la stessa regola dei forzieri e
+delle Tracce. `landmarkTavoleSeen` nel salvataggio tiene il conto; un pannello
+dedicato (`LandmarkTavolaPanel`) mostra la tavola senza ripetere gli errori già
+pagati oggi altrove: `Panel` ancorato, non `PanelContainer` che cresce col
+contenuto, pulsante fisso fuori dallo scorrimento.
+
+**Due guardie.** `landmark_tavola_audit` chiama `mostra()` per davvero su tutte e
+24 le figure — non basta che le chiavi ci siano, il disegno deve riuscire — e
+pretende una descrizione per chi non vede, nessuna riga ripetuta, nessuna
+scoperta lunga più di una frase. Provata rompendo apposta una chiave: rossa sul
+mondo esatto, poi verde di nuovo. `pannelli_modali_audit`, già scritto oggi per
+un altro difetto, copre gratis anche questo pannello: non si apre sopra
+un'altra schermata, e il passo di Eli lo segue.
+
 ### R-10 · La bottega diceva sempre la stessa frase — chiusa il 5 settembre 2026
 
 *Richiesta: rendere bottega, oggetti e mondi un'esperienza più interessante e

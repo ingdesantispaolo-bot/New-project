@@ -37,6 +37,8 @@ const THIRTEENTH_DIRECTOR_SCRIPT := preload("res://scripts/game/thirteenth.gd")
 const MYSTERY_CATALOG := preload("res://scripts/game/mystery_catalog.gd")
 const MYSTERY_ARTIFACT_SCRIPT := preload("res://scripts/game/mystery_artifact.gd")
 const DIALOGUE_BOX_SCRIPT := preload("res://scripts/ui/dialogue_box.gd")
+const LANDMARK_TAVOLA_CATALOG := preload("res://scripts/game/landmark_tavola_catalog.gd")
+const LANDMARK_TAVOLA_PANEL_SCRIPT := preload("res://scripts/ui/landmark_tavola_panel.gd")
 const TEACHING_CHOICE_PANEL_SCRIPT := preload("res://scripts/ui/teaching_choice_panel.gd")
 const EXPEDITION_MODULE_PRESENTATION_SCRIPT := preload("res://scripts/visual/expedition_module_presentation.gd")
 const WORLD_HAZARD_SCRIPT := preload("res://scripts/game/world_hazard.gd")
@@ -101,6 +103,12 @@ var objective_button: Button
 var objective_panel: ObjectivePanel
 ## Il minigioco del personaggio che si sta affrontando, se ce n'e' uno aperto.
 var minigame_panel: Control
+## La tavola trovata avvicinandosi al grande landmark, se ce n'e' una aperta.
+## Vedi [[LandmarkTavolaCatalog]]. Tipizzato largo come `minigame_panel`: il
+## nome della classe risolve solo dopo che il progetto e' stato riscansionato
+## (un export, o l'apertura in editor), e un audit headless lanciato prima non
+## deve rompersi per questo.
+var landmark_tavola_panel: Control
 var touch_controls_button: Button
 var touch_controls_panel: PanelContainer
 var touch_side_button: Button
@@ -3605,6 +3613,51 @@ func _npc_story_stage() -> int:
 		return 1
 	return 0
 
+## **La tavola del grande landmark.** (5 settembre 2026)
+##
+## Torna `true` se ha aperto qualcosa — in quel caso il chiamante non deve fare
+## nient'altro con questa interazione. Torna `false` per ogni ragione onesta di
+## non aprire: la tavola di questo mondo non esiste ([[LandmarkTavolaCatalog]]
+## non copre fisica e scienze, dove non c'è niente da disegnare con certezza),
+## è già stata vista, o un altro pannello è già aperto — mai due schermate
+## insieme, vedi `_pannello_gia_aperto()`.
+##
+## **Una volta sola, e la mancanza non costa nulla.** Stessa regola dei forzieri
+## e delle Tracce: chi non si ferma qui non perde niente di didattico, perché
+## quello che c'è da vedere non è mai richiesto da una prova — è un incontro con
+## qualcosa che poi, in una prova, si riconosce.
+func _apri_tavola_del_landmark() -> bool:
+	if _pannello_gia_aperto() or not is_instance_valid(game_save) or not is_instance_valid(ui_layer):
+		return false
+	var chiave := str(world_level)
+	if Array(game_save.data.get("landmarkTavoleSeen", [])).has(chiave):
+		return false
+	var voce := LANDMARK_TAVOLA_CATALOG.voce(world_level)
+	if voce.is_empty():
+		return false
+	landmark_tavola_panel = LANDMARK_TAVOLA_PANEL_SCRIPT.new()
+	landmark_tavola_panel.name = "LandmarkTavolaPanel"
+	landmark_tavola_panel.chiusa.connect(_chiudi_tavola_del_landmark)
+	ui_layer.add_child(landmark_tavola_panel)
+	landmark_tavola_panel.call(
+		"apri", str(voce.get("cosa", "")), str(voce.get("scoperta", "")),
+		str(voce.get("tipo", "")), Dictionary(voce.get("dati", {})))
+	if is_instance_valid(player):
+		player.set_physics_process(false)
+	var visti: Array = Array(game_save.data.get("landmarkTavoleSeen", [])).duplicate()
+	visti.append(chiave)
+	game_save.data["landmarkTavoleSeen"] = visti
+	game_save.save()
+	return true
+
+func _chiudi_tavola_del_landmark() -> void:
+	if is_instance_valid(landmark_tavola_panel):
+		landmark_tavola_panel.queue_free()
+	landmark_tavola_panel = null
+	if is_instance_valid(player) and not _pannello_gia_aperto():
+		player.set_physics_process(true)
+	_refresh_prompt()
+
 ## **Il minigioco del personaggio.** (9 agosto 2026)
 ##
 ## Si apre chiudendo il dialogo di chi ne ha uno: e' il momento giusto, perche'
@@ -6822,6 +6875,7 @@ func _grant_pet_if_needed() -> void:
 ## sono due cose da fare, sono una cosa che sembra rotta.
 func _pannello_gia_aperto() -> bool:
 	return is_instance_valid(minigame_panel) or is_instance_valid(objective_panel) \
+		or is_instance_valid(landmark_tavola_panel) \
 		or (is_instance_valid(exercise_player) and exercise_player.visible) \
 		or (is_instance_valid(dialogue_box) and dialogue_box.visible)
 
@@ -7618,6 +7672,8 @@ func _interact() -> void:
 		_apri_camera()
 		return
 	if kind == "landmark":
+		if _apri_tavola_del_landmark():
+			return
 		var landmark_payload: Dictionary = target.get_meta("payload", {})
 		_set_feedback("%s: %s. Completa le tappe indicate sulla mappa per trasformarlo." % [
 			str(landmark_payload.get("label", "Punto chiave")).capitalize(),

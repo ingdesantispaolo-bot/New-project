@@ -109,6 +109,11 @@ static func _default_data() -> Dictionary:
 		# parte perche' il Lascito le pesa piu' di un incontro qualsiasi: sono i
 		# posti che il giocatore ha davvero cambiato.
 		"minimissions": [],         # [livelli]
+		# Le tavole trovate esplorando, una per mondo al massimo: il grande
+		# landmark le mostra una sola volta ([[LandmarkTavolaCatalog]]). Letta è
+		# letta — non si ripete, come un mistero già scoperto — ma resta un
+		# ricordo, non un traguardo: mancarla non costa nulla.
+		"landmarkTavoleSeen": [], # [livelli]
 		# La luce riconquistata in ogni mondo e la potenza cumulativa di Eli.
 		# Nascono dal collaudo del 7 agosto 2026: il ciclo di ricompensa durava
 		# mezz'ora, e queste due misure lo riportano a una prova. Vedi

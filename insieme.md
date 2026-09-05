@@ -166,6 +166,32 @@ sui forzieri, che è dove le porte stanno per progetto.
 
 </details>
 
+### R-10 · La bottega diceva sempre la stessa frase — chiusa il 5 settembre 2026
+
+*Richiesta: rendere bottega, oggetti e mondi un'esperienza più interessante e
+interattiva, con parole curate per un bambino di dieci anni.*
+
+**Non un mercante nuovo.** Un personaggio che tratta i prezzi è un'aggiunta
+vera — nuova UI, nuovo contratto, una decisione di prodotto che spetta al
+committente. Quello che si poteva fare subito, senza inventare niente, era far
+parlare **chi già parla ovunque nel gioco**: NORA guarda quello che è già scritto
+nel salvataggio — forzieri aperti, pattuglie sciolte, mondi visitati — e lo dice
+aprendo la bottega. Zero dati nuovi, zero rischio.
+
+Prima, sempre la stessa riga: *«Trasforma i frammenti raccolti nei mondi in
+identità, alleati e nuovi spazi da vivere»*. Adesso otto soglie, dalla più
+esigente alla più permissiva:
+
+> *«Ho segnato una sacca che non c'è più. Quello che custodiva adesso è tuo, e
+> resta tuo.»* — dopo la prima pattuglia sciolta
+>
+> *«Cinque cose trovate, cinque persone di cui adesso sai un pezzetto senza
+> averle mai incontrate. Continua a guardare per terra.»* — dopo cinque forzieri
+
+`nora_bottega_voce_audit` tiene due proprietà: nessuna riga vuota o troppo lunga
+per un sottotitolo, e **chi ha esplorato di più non torna mai a sentire la frase
+di chi non ha fatto niente** — attraversare le soglie va in una direzione sola.
+
 ### R-9 · La notte era un filtro, non un'ora — chiusa il 5 settembre 2026
 
 *Richiesta: dare valore alla mappa e aggiungere tensione.*

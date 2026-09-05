@@ -10,6 +10,7 @@ const SHOP_BACKGROUND: Texture2D = preload("res://assets/shop/reward-shop-bg.web
 const REWARD_ATLAS: Texture2D = preload("res://assets/shop/reward-items-sheet.png")
 const REWARD_ATLAS_DATA := "res://assets/shop/reward-items-sheet.json"
 const FIELD_GATE_ART := preload("res://scripts/visual/field_gate_art.gd")
+const NORA_BOTTEGA_VOCE := preload("res://scripts/game/nora_bottega_voce.gd")
 
 const SLOT_LABELS := {
 	"bot": "BIT",
@@ -126,6 +127,11 @@ func open_panel() -> void:
 	var audio := get_node_or_null("/root/NativeAudio")
 	if audio != null:
 		audio.call("play", "shop.open")
+	# **NORA nota quello che hai fatto, ogni volta che entri.** (5 settembre 2026)
+	# Vedi [[NoraBottegaVoce]]: la stessa frase per tutta la campagna era un
+	# negozio che non guardava mai chi aveva davanti.
+	if is_instance_valid(_subtitle) and gameplay != null:
+		_subtitle.text = NORA_BOTTEGA_VOCE.riga(gameplay.game_save)
 	_refresh()
 	_apply_responsive_layout()
 

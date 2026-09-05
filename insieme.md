@@ -166,6 +166,46 @@ sui forzieri, che è dove le porte stanno per progetto.
 
 </details>
 
+### R-6 · «Preme AVANTI e non succede niente» — chiusa il 5 settembre 2026
+
+*Segnalazione di gioco: «lo studente risponde, preme avanti, e si blocca. La
+domanda è ancora visibile, AVANTI è visibile, ma non sembra succedere niente».*
+
+**È la terza volta su questo punto**, e le prime due sono citate dentro
+`exercise_player.gd`: *«rispondendo correttamente la prova si blocca»* (8 agosto,
+il contenuto non scorreva) e *«VERIFICA tagliato dal bordo»* (15 agosto, i
+comandi scorrevano via col contenuto). Le due correzioni hanno riparato **il
+riquadro della domanda**. Nessuna ha toccato **la scheda di NORA**, quella che si
+apre sopra la prova quando un nodo porta un concetto nuovo — ed è lì che il
+difetto è rimasto.
+
+Quella scheda è un `Control` a tutto schermo con `MOUSE_FILTER_STOP`: finché non
+si chiude **si mangia ogni tocco**. Chi gioca preme AVANTI, che sta sotto, e non
+succede niente. Due difetti la tenevano aperta:
+
+1. **Il pulsante che la chiude finiva sotto il bordo.** Era l'ultimo elemento di
+   una colonna scorrevole dentro un `PanelContainer`, che si adatta al contenuto
+   e quindi **cresceva oltre i propri ancoraggi**. Misurato: «HO CAPITO» a
+   **y 854 su uno schermo alto 720** — centotrenta pixel fuori. Ora il riquadro è
+   un `Panel` ancorato, il testo scorre dentro, e il pulsante è fissato in fondo
+   fuori dallo scorrimento: la stessa forma della correzione del 15 agosto.
+2. **Due schede si aprivano una sull'altra.** Niente controllava se ce ne fosse
+   già una: chiuderne una lasciava l'altra a fermare i tocchi, e il pulsante
+   sembrava rispondere una volta e poi smettere. Ora la scheda nuova sostituisce
+   la vecchia.
+
+**La guardia: `nodo_senza_uscita_audit`.** Gioca sessioni vere prese dal mondo —
+missioni, enigmi e riparazioni dei mondi 1, 2, 5 e 9 — su tre schermi, e a ogni
+scheda chiede due cose: il pulsante che la chiude sta dentro lo schermo senza
+scorrere, e non ce n'è più di una aperta. **279 nodi, 136 schede.** Sul codice di
+ieri è rossa su entrambi i difetti, con le coordinate esatte.
+
+> **Una nota di metodo che vale più della correzione.** La prima stesura di
+> questa guardia costruiva le sessioni a mano con `ContentManager`: apriva
+> **zero** schede su 168 nodi e sarebbe stata verde su un difetto vivo. La scheda
+> la attacca il percorso di gioco, non il costruttore della sessione. Una guardia
+> che non vede mai la cosa che deve sorvegliare è peggio di nessuna guardia.
+
 ### R-5 · Due schermate una sull'altra dopo la prima prova — chiusa il 5 settembre 2026
 
 *Segnalazione di gioco: «clicca il tasto per procurarsi la falcetta, procede alla

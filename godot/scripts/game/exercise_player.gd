@@ -7,6 +7,11 @@ const ExerciseInteraction = preload("res://scripts/game/exercise_interaction.gd"
 ## vuota: il margine che impedisce all'ultima riga di contenuto di incollarsi ai
 ## pulsanti.
 const MARGINE_BARRA_AZIONI := 12.0
+## L'altezza del pulsante che chiude la scheda di NORA. Sta qui perché due punti
+## la usano — lo spazio che lo scorrimento gli lascia e il suo ancoraggio — e se
+## i due numeri divergessero il pulsante tornerebbe a coprire l'ultima riga o a
+## sporgere dal riquadro.
+const ALTEZZA_CHIUSURA_SCHEDA := 56.0
 const EXERCISE_DRAG_BUTTON := preload("res://scripts/ui/exercise_drag_button.gd")
 const EXERCISE_DROP_BUTTON := preload("res://scripts/ui/exercise_drop_button.gd")
 const EXERCISE_CONNECTION_CANVAS := preload("res://scripts/ui/exercise_connection_canvas.gd")
@@ -840,6 +845,20 @@ func _show_teaching_overlay() -> void:
 	if _lezioni_mostrate.has(chiave_scheda):
 		return
 	_lezioni_mostrate[chiave_scheda] = true
+	# **Mai due schede una sull'altra.** (5 settembre 2026)
+	#
+	# Niente qui dentro guardava se una scheda fosse già aperta, e ne bastano due
+	# per riprodurre la segnalazione: sono `Control` a tutto schermo che fermano
+	# il tocco, quindi chiuderne una lascia l'altra a mangiarsi i tocchi — e chi
+	# gioca vede il pulsante rispondere una volta e poi «non succede niente».
+	# Misurato su 279 nodi: capitava a ogni sessione che ne apriva una nuova
+	# mentre la precedente era ancora lì.
+	#
+	# La scheda nuova sostituisce la vecchia: parla del nodo che si sta per
+	# giocare, quindi è quella giusta da tenere.
+	for figlio in get_children():
+		if figlio is Control and figlio.find_child("TeachingStartButton", true, false) != null:
+			figlio.queue_free()
 	var overlay := Control.new()
 	overlay.name = "TeachingOverlay"
 	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -852,16 +871,47 @@ func _show_teaching_overlay() -> void:
 	scrim.mouse_filter = Control.MOUSE_FILTER_STOP
 	overlay.add_child(scrim)
 
-	var panel := PanelContainer.new()
+	# **Un `Panel`, non un `PanelContainer`.** (5 settembre 2026)
+	#
+	# Il `PanelContainer` si adatta al contenuto: con una lezione lunga cresceva
+	# **oltre i propri ancoraggi** e si portava dietro il pulsante. Misurato:
+	# «HO CAPITO» a y 854 su uno schermo alto 720, cioè centotrenta pixel sotto il
+	# bordo. Un `Panel` ancorato invece è alto quanto lo schermo gli concede, e il
+	# contenuto scorre dentro — che è esattamente la struttura del riquadro della
+	# domanda dal 15 agosto.
+	var panel := Panel.new()
+	panel.name = "TeachingCard"
 	panel.anchor_left = 0.07
 	panel.anchor_top = 0.04
 	panel.anchor_right = 0.93
 	panel.anchor_bottom = 0.96
 	panel.add_theme_stylebox_override("panel", _exercise_panel_style(false))
 	overlay.add_child(panel)
+	# **Il pulsante che chiude la scheda non scorre via.** (5 settembre 2026)
+	#
+	# Terza volta sullo stesso difetto, e la prima su questa schermata. L'8 agosto
+	# si era reso scorrevole il contenuto della domanda; il 15 agosto si erano
+	# tolti i suoi comandi dallo scorrimento, ancorandoli in fondo al riquadro.
+	# La scheda di NORA non ha mai ricevuto né l'una né l'altra: «HO CAPITO»
+	# stava in fondo alla colonna scorrevole, quindi con una lezione lunga o uno
+	# schermo basso finiva **sotto il bordo**.
+	#
+	# E questa schermata è a tutto schermo con `MOUSE_FILTER_STOP`: finché non si
+	# chiude **si mangia ogni tocco**. Chi gioca preme AVANTI, che sta sotto, e
+	# non succede niente — che è la segnalazione, parola per parola.
+	#
+	# Stessa forma della correzione del 15 agosto: una colonna con lo scorrimento
+	# che si espande e il pulsante fisso sotto, fuori da esso.
 	var scroll := ScrollContainer.new()
+	scroll.name = "TeachingScroll"
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	panel.add_child(scroll)
+	scroll.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	scroll.offset_left = 18.0
+	scroll.offset_right = -18.0
+	scroll.offset_top = 16.0
+	# Il fondo resta al pulsante, che sta fuori dallo scorrimento.
+	scroll.offset_bottom = -(ALTEZZA_CHIUSURA_SCHEDA + 24.0)
 	var box := VBoxContainer.new()
 	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	box.add_theme_constant_override("separation", 14)
@@ -920,7 +970,18 @@ func _show_teaching_overlay() -> void:
 	begin.add_theme_font_size_override("font_size", 17)
 	begin.add_theme_stylebox_override("normal", _exercise_button_style(Color("147d75"), Color("a7fff2")))
 	begin.pressed.connect(_dismiss_teaching_overlay.bind(overlay))
-	box.add_child(begin)
+	# **Ancorato al fondo del riquadro, fuori da ogni scorrimento.** Comunque
+	# cresca la lezione, il pulsante che chiude la scheda resta dov'è.
+	panel.add_child(begin)
+	begin.anchor_left = 0.0
+	begin.anchor_right = 1.0
+	begin.anchor_top = 1.0
+	begin.anchor_bottom = 1.0
+	begin.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	begin.offset_left = 18.0
+	begin.offset_right = -18.0
+	begin.offset_top = -(ALTEZZA_CHIUSURA_SCHEDA + 12.0)
+	begin.offset_bottom = -12.0
 	begin.call_deferred("grab_focus")
 
 	# **Il pannello si stringe se il contenuto è corto, non resta sempre al 92%.**
@@ -947,7 +1008,12 @@ func _show_teaching_overlay() -> void:
 	if not is_instance_valid(panel) or not is_instance_valid(box):
 		return
 	var tetto := get_viewport_rect().size.y * 0.92
-	var naturale := box.get_combined_minimum_size().y + 48.0
+	# Il conto include il pulsante e i suoi margini: da quando sta fuori dallo
+	# scorrimento non fa più parte dell'altezza di `box`, e dimenticarlo qui
+	# stringerebbe il riquadro fino a tagliarlo — lo stesso difetto di prima con
+	# un'altra causa.
+	var naturale := box.get_combined_minimum_size().y + 48.0 \
+		+ ALTEZZA_CHIUSURA_SCHEDA + 36.0
 	if naturale < tetto:
 		panel.anchor_top = 0.5
 		panel.anchor_bottom = 0.5

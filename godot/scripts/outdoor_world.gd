@@ -596,7 +596,17 @@ func _profile_performance_budget() -> Dictionary:
 ## Quanto lontano le sacche notano Eli adesso. Sta nel contratto runtime
 ## perche' dipende da un acquisto, e la scena non deve sapere quale.
 func _vista_delle_sacche() -> float:
-	return float(runtime.get("enemyNoticeScale", ExpeditionModules.VISTA_PIENA))
+	return ExpeditionModules.vista_all_ora(
+		float(runtime.get("enemyNoticeScale", ExpeditionModules.VISTA_PIENA)),
+		_luce_del_cielo_adesso())
+
+## La luce del cielo in questo istante: 1 pieno giorno, 0 mezzanotte. Dove il
+## tempo non passa — archivi, abissi — l'ora non è un'informazione e la luce
+## resta quella d'autore: lì la notte non arriva mai, e le sacche non cambiano.
+func _luce_del_cielo_adesso() -> float:
+	if not _il_cielo_cammina:
+		return 1.0
+	return WorldSky.luce_del_cielo(_lighting_del_mondo, day_clock / WorldSky.DURATA)
 
 func _world_subject() -> String:
 	return str(world_profile.get("learningFocus", {}).get("subject", "matematica"))
@@ -930,6 +940,13 @@ func _process(delta: float) -> void:
 				fase_estesa.capitalize() if _il_cielo_cammina
 					else _lighting_del_mondo.replace("-", " ").capitalize(),
 				str(world_profile.get("weather", "sereno")).replace("-", " ").capitalize()]
+	# **Le sacche seguono l'ora.** (5 settembre 2026) La loro vista si impostava
+	# una volta sola, alla nascita: chi entrava di giorno e restava fino a notte
+	# fonda girava con la vista del mattino. Sono una manciata per mondo — da una
+	# a quattro — quindi il ciclo costa quanto la riga che lo scrive.
+	for sacca in get_tree().get_nodes_in_group("world_enemy"):
+		if is_instance_valid(sacca):
+			sacca.set("vista_scala", _vista_delle_sacche())
 	if is_instance_valid(gameplay):
 		gameplay.update_phase(phase_id)
 	if current_audio_phase != phase_id:

@@ -166,6 +166,45 @@ sui forzieri, che è dove le porte stanno per progetto.
 
 </details>
 
+### R-9 · La notte era un filtro, non un'ora — chiusa il 5 settembre 2026
+
+*Richiesta: dare valore alla mappa e aggiungere tensione.*
+
+Il ciclo giorno/notte esisteva e muoveva **un solo `CanvasModulate`**: oltre al
+colore non cambiava niente, e il piano lo chiamava già «un filtro, non un'ora».
+
+**Il buio non poteva essere la leva, e va detto perché.** `WorldSky.PAVIMENTO`
+garantisce una luminanza minima di 0,20 su tutto ciò che finisce sullo schermo:
+è una promessa di accessibilità, e non si tocca da nessuna direzione — nemmeno
+per fare atmosfera. Quindi la notte doveva cambiare **che cosa succede**, non
+**quanto si vede**.
+
+Succede che **le sacche notano Eli da più lontano**: ×1,34 a mezzanotte piena,
+con la curva che sale senza salti dal tramonto in poi. E le sacche adesso
+**seguono l'ora** invece di tenere la vista che avevano alla nascita — chi entrava
+di giorno e restava fino a notte fonda girava con la vista del mattino.
+
+**Costa zero nodi e zero millisecondi.** È un moltiplicatore, non una luce: con
+il mondo 1 a 457 ms su 500 non era un dettaglio da poco, ed è la ragione per cui
+questa leva è stata scelta fra le tre possibili.
+
+| | vista delle sacche |
+|---|---:|
+| giorno | 1,00 |
+| notte | **1,34** |
+| notte, con Andatura felpata | **0,96** |
+
+**Ed è qui che l'Andatura felpata guadagna i suoi 340 frammenti.** Prima era uno
+sconto su un pericolo che non stringeva mai; adesso è la risposta a una domanda
+che il mondo pone — e la notte torna percorribile come il giorno per chi l'ha
+comprata. È il primo modulo della bottega che ha un momento in cui *serve*.
+
+`notte_audit` tiene quattro proprietà: la notte stringe davvero; non stringe
+tanto da chiudere una strada (il guard-rail «niente blocca il loop» vale anche
+per l'ora del giorno); l'Andatura felpata la riporta al giorno **senza
+cancellarla**; e dove il tempo non passa — archivi, abissi — non cambia niente,
+perché lì mezzanotte non esiste.
+
 ### R-8 · Vincere un duello non contava niente — chiusa il 5 settembre 2026
 
 *Segnalazione: «vincere un combattimento deve dare vantaggi adeguati, altrimenti

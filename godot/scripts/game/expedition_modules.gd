@@ -119,6 +119,39 @@ const LIVELLO_QUARTO_POSTO := 17
 const VISTA_PIENA := 1.0
 const VISTA_FELPATA := 0.72
 
+## **Di notte le sacche notano da più lontano.** (5 settembre 2026)
+##
+## Richiesta del committente: dare valore alla mappa e aggiungere tensione. Il
+## ciclo giorno/notte esisteva già e muoveva un solo `CanvasModulate` — il piano
+## lo chiamava *«un filtro, non un'ora»* — perché **niente cambiava oltre il
+## colore**.
+##
+## Il buio non può essere la leva: `WorldSky.PAVIMENTO` garantisce una luminanza
+## minima di 0,20 sullo schermo, ed è una promessa di accessibilità che non si
+## tocca da nessuna direzione. Quindi la notte deve cambiare *che cosa succede*,
+## non *quanto si vede*.
+##
+## Questa è la cosa che succede, ed è l'unica di tutto il lotto che **costa zero
+## nodi e zero millisecondi**: è un moltiplicatore, non una luce. Con il mondo 1
+## a 457 ms su 500 non era un dettaglio da poco.
+##
+## **Il numero.** A mezzanotte piena una sacca nota Eli da un terzo più lontano.
+## Non abbastanza da rendere la notte invalicabile — nessuna ora del giorno può
+## chiudere una strada, è il guard-rail «niente blocca il loop» — ma abbastanza
+## da far scegliere fra aspettare l'alba, costeggiare, o affrontarla.
+##
+## **Ed è qui che l'Andatura felpata guadagna i suoi 340 frammenti.** 0,72 × 1,34
+## fa 0,96: chi l'ha comprata attraversa la notte come chiunque attraversa il
+## giorno. Prima quel modulo era uno sconto su un pericolo che non stringeva mai;
+## adesso è la risposta a una domanda che il mondo pone.
+const VISTA_NOTTE := 1.34
+
+## Quanto lontano nota una sacca a quest'ora, dato quello che il giocatore ha
+## comprato. `luce` è la luce del cielo: 1 pieno giorno, 0 mezzanotte.
+static func vista_all_ora(vista_acquistata: float, luce: float) -> float:
+	var notte := clampf(1.0 - luce, 0.0, 1.0)
+	return vista_acquistata * lerpf(1.0, VISTA_NOTTE, notte)
+
 ## Quanto lontano ti butta uno spintone, con e senza zavorra. Non si azzera: una
 ## sacca deve continuare a spostarti, o l'anello del presidio smette di essere un
 ## ostacolo e resta un disegno.

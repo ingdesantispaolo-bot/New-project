@@ -78,6 +78,27 @@ func _le_fasce_coprono_i_ventiquattro_mondi() -> void:
 		"i numeri finali non sono sensibilmente più grandi")
 	_controlla(Array(ultima["operazioni"]).size() > Array(prima["operazioni"]).size(),
 		"le operazioni finali non sono più di quelle iniziali")
+	# **Ogni fascia deve cambiare qualcosa OLTRE la taglia.** (5 settembre 2026)
+	#
+	# Fino a oggi la quarta e la quinta differivano solo per `massimo` e
+	# `secondi`: bersagli più grandi e meno tempo, cioè le due cose che il gioco
+	# rifiuta come difficoltà negli altri minigiochi. Per dieci mondi il duello
+	# era la stessa prova scritta più grande.
+	#
+	# Struttura è quanto si deve pensare prima di colpire: la lunghezza della
+	# strada, quante rune ci sono da scartare, quali operazioni entrano, quanto
+	# largo è l'intervallo dei fattori. Almeno una di queste deve muoversi.
+	for indice in range(1, GuardianDuel.FASCE.size()):
+		var prec: Dictionary = GuardianDuel.FASCE[indice - 1]
+		var succ: Dictionary = GuardianDuel.FASCE[indice]
+		var struttura_cambiata: bool = (
+			int(prec["passi"]) != int(succ["passi"])
+			or int(prec["mano"]) != int(succ["mano"])
+			or Array(prec["operazioni"]).size() != Array(succ["operazioni"]).size()
+			or Array(prec["fattore"])[1] != Array(succ["fattore"])[1])
+		_controlla(struttura_cambiata,
+			"fra la fascia %d e la %d cambiano solo la taglia dei numeri e il tempo: è la stessa prova scritta più grande" % [
+				indice, indice + 1])
 
 ## **I due bordi.** Nessuna combinazione di mondo e gradi deve produrre un duello
 ## che non si può vincere, né uno che si vince senza guardare.

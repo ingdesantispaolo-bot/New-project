@@ -1094,6 +1094,17 @@ static func parametri(archetipo: String, world: int) -> Dictionary:
 			# Gli errori concessi calano salendo di mondo, ma non scendono mai a
 			# zero: una prova in cui il primo tocco decide tutto non si gioca, si
 			# subisce.
+			# **Il tetto resta sedici, ed è il contenuto a deciderlo.**
+			# (5 settembre 2026) Lo scaffale del mondo 17 e quello del 23 chiedono
+			# lo stesso numero di parole, e alzare il tetto a diciassette lo
+			# avrebbe separato — ma la lista di Ovidio ne ha sedici, e
+			# `character_minigame_audit` lo ha detto subito. Alzare una soglia
+			# prima di aver scritto il contenuto obbliga a scrivere contenuto per
+			# far passare un test, ed è vietato qui dentro.
+			#
+			# Fra i due la richiesta resta piatta e va bene: sono due personaggi
+			# diversi con due liste diverse, e la curva complessiva sale comunque
+			# — sei parole e quattro errori al mondo 2, sedici e due al 23.
 			return {
 				"parole": clampi(6 + int(floor(float(livello) / 3.0)) * 2, 6, 16),
 				"errori": clampi(4 - int(floor(float(livello) / 8.0)), 2, 4),
@@ -1129,9 +1140,17 @@ static func parametri(archetipo: String, world: int) -> Dictionary:
 				"errori": 2,
 			}
 		ARCHETIPO_MERCATO:
+			# **Gli errori calano di mondo in mondo.** (5 settembre 2026) Il
+			# mercato compare ai mondi 4, 11, 14 e 16 e `richieste` è fermo a
+			# quattro in tre di quelli — il repertorio di ogni banco ne ha quattro,
+			# quindi chiederne di più non produce niente. La difficoltà cresce
+			# dove può crescere davvero: quante volte si può sbagliare.
 			return {
 				"richieste": clampi(3 + int(floor(float(livello - 1) / 8.0)), 3, 5),
-				"errori": 3,
+				# Si parte da TRE, non da quattro: quattro era piu' generoso di
+				# prima e la sonda cieca risaliva dal 25% al 36,7%. Una curva che
+				# sale deve partire da dove stava, non un gradino piu' su.
+				"errori": clampi(3 - int(floor(float(livello - 1) / 8.0)), 2, 3),
 				"secondi": 0.0,
 			}
 		ARCHETIPO_CIRCUITO:
@@ -1185,11 +1204,19 @@ static func parametri(archetipo: String, world: int) -> Dictionary:
 			# fortuna una strategia praticabile, e la sonda cieca vinceva il 36,7%
 			# delle partite. Adesso sono uno meno dei turni: chi confronta davvero
 			# non ne spende nessuno, chi indovina non arriva in fondo.
+			# **Il budget di errori è fisso, e per questo si stringe da solo.**
+			# (5 settembre 2026) Legarlo ai turni — `prove - 1` — sembrava
+			# prudente e faceva l'opposto: al mondo 18 concedeva **quattro**
+			# errori contro i due del mondo 6, cioè la vibrazione diventava più
+			# facile salendo. Indovinare costa gia' due errori per turno, quindi
+			# un budget fermo a due e' sotto il costo di un solo turno tirato a
+			# caso e diventa sempre piu' stretto man mano che i turni crescono:
+			# la strategia vecchia perde terreno senza che nessun numero cali.
 			var prove := clampi(3 + int(floor(float(livello - 1) / 8.0)), 3, 5)
 			return {
 				"prove": prove,
 				"corde": clampi(3 + int(floor(float(livello - 1) / 12.0)), 3, 4),
-				"errori": maxi(1, prove - 1),
+				"errori": 2,
 				"secondi": 0.0,
 			}
 		ARCHETIPO_GLIFI:
@@ -1216,7 +1243,12 @@ static func parametri(archetipo: String, world: int) -> Dictionary:
 			# cosa per volta**, più una. Non è avarizia: è l'unico modo perché il
 			# metodo si veda. Con prove abbondanti anche il disordine arriva in
 			# fondo, e allora il gioco non direbbe niente su come ci si arriva.
-			var fattori := clampi(3 + int(floor(float(livello - 1) / 8.0)), 3, 5)
+			# **La cadenza scende da otto a sei.** (5 settembre 2026) La prova
+			# controllata compare ai mondi 10, 15, 20 e 21: con il passo da otto,
+			# il 10 e il 15 chiedevano lo stesso numero di fattori pur essendo
+			# cinque mondi lontani. Con sei, la seconda volta è più dura della
+			# prima — che è la cosa che un bambino deve sentire.
+			var fattori := clampi(3 + int(floor(float(livello - 1) / 6.0)), 3, 5)
 			# **Un errore, non due.** (21 agosto 2026) Con tre fattori e due errori
 			# concessi i tentativi di nome erano tre: si nominavano **tutti**, e la
 			# prova controllata si vinceva senza fare un esperimento.

@@ -101,10 +101,27 @@ const FASCE := [
 		"massimo": 150, "operazioni": ["+", "-", "*", "/"], "fattore": [2, 12],
 		"passi": 3, "mano": 6, "secondi": 10.0,
 	},
+	# **La quinta fascia allunga la catena, non i numeri.** (5 settembre 2026)
+	#
+	# Misurato: dal mondo 15 al 24 cambiavano soltanto `massimo` (150 → 240) e
+	# `secondi` (10 → 9). Cioè bersagli più grandi e meno tempo — esattamente le
+	# due cose che `character_minigame_audit` vieta agli altri minigiochi con le
+	# parole *«quello che aumenta deve rendere la strategia vecchia sempre meno
+	# sufficiente, non i bersagli più piccoli»*. Per dieci mondi il duello era la
+	# stessa prova scritta più grande.
+	#
+	# Il salto vero di questo duello è dichiarato qui sopra: da due a tre colpi si
+	# smette di andare a tentativi. Il quarto colpo è il gradino successivo, e la
+	# mano cresce con lui — quattro della strada giusta più tre esche.
+	#
+	# **E i secondi RISALGONO a dodici.** Un anello in più è più cosa da pensare,
+	# non meno tempo per pensarla: tre secondi a colpo invece dei tre scarsi di
+	# prima. La difficoltà sta nella catena, e togliere tempo l'avrebbe spostata
+	# nel dito.
 	{
 		"mondi": [20, 24], "nome": "raggiungi il numero · V",
 		"massimo": 240, "operazioni": ["+", "-", "*", "/"], "fattore": [2, 12],
-		"passi": 3, "mano": 6, "secondi": 9.0,
+		"passi": 4, "mano": 7, "secondi": 12.0,
 	},
 ]
 

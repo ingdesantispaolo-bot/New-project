@@ -166,6 +166,68 @@ sui forzieri, che è dove le porte stanno per progetto.
 
 </details>
 
+### R-7 · La difficoltà di minigiochi e duelli — chiusa il 5 settembre 2026
+
+*Richiesta: «controlla che anche i minigiochi siano a difficoltà crescente su 24
+livelli, e lo stesso nei combattimenti».*
+
+**La prima misura poneva la domanda sbagliata, e va detto.** Contando i gradini
+distinti fra il mondo 1 e il 24, la media era 12,5 su 24 con cinque archetipi
+fermi a tre. Ma **un bambino non incontra un archetipo ventiquattro volte**: il
+mucchio lo incontra una volta sola, la prova quattro. Ventiquattro gradini per
+una prova giocata una volta sono un numero che non tocca nessuno.
+
+La domanda giusta — *nei mondi in cui quell'archetipo compare davvero, la
+richiesta cresce?* — è la stessa che `guardian_duel_audit` applica alle fasce del
+duello. Con quel metro, tre archetipi erano piatti fra un incontro e l'altro:
+
+| archetipo | mondi | difetto | correzione |
+|---|---|---|---|
+| **mercato** | 4, 11, 14, 16 | `richieste` fermo a quattro: i banchi ne hanno quattro, chiederne di più non produce niente | gli errori concessi scendono da 3 a 2 |
+| **prova** | 10, 15, 20, 21 | cadenza da otto: il 10 e il 15 chiedevano gli stessi fattori a cinque mondi di distanza | cadenza da sei |
+| **vibrazione** | 6, 18 | **diventava più facile salendo**: gli errori erano `prove − 1`, quindi quattro al mondo 18 contro due al 6 | budget fisso a due |
+
+La vibrazione era il caso peggiore ed è colpa di ieri: legare gli errori ai turni
+sembrava prudente e faceva l'opposto. Indovinare costa già due errori per turno,
+quindi **un budget fermo si stringe da solo** man mano che i turni crescono.
+
+**E la sonda cieca ha ripreso al volo una ritaratura sbagliata.** La prima
+versione degli errori del mercato partiva da quattro invece che da tre — un
+gradino più generoso di prima — e il gioco risaliva dal 25,0% al 36,7%. *Una
+curva che sale deve partire da dove stava.* Rimessa a tre: **23,3%**, il valore
+più basso mai misurato per quell'archetipo.
+
+**I duelli erano messi peggio.** Cinque fasce su 24 mondi, e fra il mondo 15 e il
+24 cambiavano **soltanto** `massimo` (150 → 240) e `secondi` (10 → 9): bersagli
+più grandi e meno tempo, cioè le due cose che il gioco rifiuta come difficoltà in
+ogni altro minigioco. Per dieci mondi il duello era la stessa prova scritta più
+grande.
+
+La quinta fascia adesso allunga **la catena**: quattro colpi invece di tre, mano
+da sette rune, e i secondi **risalgono** a dodici — un anello in più è più cosa da
+pensare, non meno tempo per pensarla. Il salto da due a tre colpi era già
+dichiarato come *il* salto del duello; il quarto è il gradino successivo.
+
+**Due guardie nuove.** `minigiochi_scala_audit` misura, per ogni archetipo, che la
+richiesta non cali mai fra un incontro e il successivo e sia più alta all'ultimo
+che al primo — ignorando gli archetipi che si incontrano una volta sola, che una
+curva non ce l'hanno. E `guardian_duel_audit` ha una riga in più: **fra due fasce
+deve cambiare qualcosa oltre la taglia** — la lunghezza della strada, le rune da
+scartare, le operazioni o l'intervallo dei fattori.
+
+> **Una cosa che NON era un difetto, e che avevo scambiato per tale.** Le prime
+> tre righe di misura dicevano che scaffale, mercato e prova «rigiocano una prova
+> identica». Falso: il materiale è del **personaggio**, non dell'archetipo, quindi
+> Corinna e Coral propongono parole diverse anche a parità di parametri. Quello
+> che era piatto era *quanto il gioco chiede*, non *che cosa mostra*.
+>
+> Su quella diagnosi sbagliata avevo scritto una rotazione della finestra di
+> selezione, per far uscire anche la coda delle liste. **Tolta**: ogni
+> personaggio compare una volta sola, quindi non toglieva nessuna ripetizione, e
+> ha fatto arrossire `market_minigame_audit`, che è legato al contenuto dei primi
+> turni. Una correzione che non corregge niente e rompe una guardia è solo
+> rischio.
+
 ### R-6 · «Preme AVANTI e non succede niente» — chiusa il 5 settembre 2026
 
 *Segnalazione di gioco: «lo studente risponde, preme avanti, e si blocca. La

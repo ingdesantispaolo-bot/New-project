@@ -1260,6 +1260,13 @@ func _show_current() -> void:
 			_input.text = ""
 			_input.editable = true
 			_input_submit.visible = true
+			# **E riacceso.** (6 settembre 2026) `_lock_interactions()` lo spegne
+			# quando il nodo si chiude, e qui non veniva mai riacceso: dalla
+			# SECONDA risposta libera in avanti CONFERMA era visibile e morto.
+			# Chi scriveva il numero e premeva CONFERMA non otteneva niente — e
+			# l'unico modo di consegnare restava l'OK del tastierino, che nessuno
+			# ha detto al bambino essere la stessa cosa.
+			_input_submit.disabled = false
 			_hint_level = 0
 			if is_instance_valid(_hint_button):
 				# In esame no: lì la prova deve misurare quello che si sa.
@@ -2076,11 +2083,64 @@ func _mostra_avanti() -> void:
 		if is_instance_valid(_next_button) and _answered:
 			_next_button.visible = true)
 
+## **Quello che è servito a rispondere sparisce quando la risposta è data.**
+## (6 settembre 2026)
+##
+## Segnalazione con schermata: *«ho risposto 5, premuto conferma e avanti, e il
+## programma si blocca»*. Nella schermata si vede esattamente che cosa vedeva il
+## bambino, ed è la spiegazione di tutto:
+##
+##   - il **tastierino è ancora lì**, con il 5 ancora scritto nel campo;
+##   - **CONFERMA è ancora lì**, solo un po' più grigio: disattivato;
+##   - **non c'è nessun segno che la risposta sia stata accettata** — l'esito di
+##     NORA sta più in basso nella colonna, sotto il tastierino e sotto INDIZIO,
+##     cioè **fuori dallo schermo** finché non si scorre;
+##   - AVANTI c'è, in fondo alla barra, ma è una riga come le altre.
+##
+## Il dito torna dov'era un attimo prima — su CONFERMA — e non succede niente,
+## perché quel pulsante è disattivato. Poi torna sul tastierino, e non succede
+## niente. Per chi gioca è un blocco, e non ha torto: **il gioco non gli ha
+## detto in nessun modo visibile che la sua risposta era arrivata.**
+##
+## Da qui in poi: chiuso il nodo, il tastierino e CONFERMA **spariscono** invece
+## di restare spenti, e la colonna si porta da sola sull'esito. Quello che resta
+## sullo schermo è la risposta data, la correzione di NORA e AVANTI.
 func _lock_interactions() -> void:
 	_input.editable = false
 	if is_instance_valid(_input_submit):
 		_input_submit.disabled = true
+		_input_submit.visible = false
+	# Il tastierino ha finito il suo lavoro: lasciarlo acceso invita a premerlo,
+	# e ogni pressione a vuoto conferma al bambino l'idea che il gioco sia fermo.
+	if is_instance_valid(_numpad):
+		_numpad.visible = false
+	# L'indizio serviva PRIMA di rispondere. Dopo, al suo posto parla NORA.
+	if is_instance_valid(_hint_button):
+		_hint_button.visible = false
 	_disable_buttons(_options)
+	_mostra_esito_nella_colonna()
+
+## Porta la colonna sull'esito appena scritto. Senza questo, su uno schermo di
+## telefono la correzione di NORA nasce sotto il bordo: c'è, ed è come se non ci
+## fosse — il difetto della segnalazione del 6 settembre.
+func _mostra_esito_nella_colonna() -> void:
+	if not is_inside_tree() or not is_instance_valid(_content_scroll):
+		return
+	# Un fotogramma di attesa: le etichette vanno a capo, e la loro altezza vera
+	# si conosce solo dopo che il contenitore ha ricevuto la sua larghezza.
+	call_deferred("_scorri_all_esito")
+
+func _scorri_all_esito() -> void:
+	if not is_instance_valid(_content_scroll):
+		return
+	var bersaglio: Control = null
+	if is_instance_valid(_lezione) and _lezione.visible:
+		bersaglio = _lezione
+	elif is_instance_valid(_feedback) and str(_feedback.text).strip_edges() != "":
+		bersaglio = _feedback
+	if bersaglio == null:
+		return
+	_content_scroll.ensure_control_visible(bersaglio)
 
 ## La materia di un item. Nelle prove trasversali del Cuore i nodi vengono da
 ## materie diverse e se la portano scritta addosso; nelle sessioni normali la

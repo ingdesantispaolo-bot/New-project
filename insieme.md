@@ -72,7 +72,7 @@ Cinque regole, e sono tutte state pagate almeno una volta.
 ## Rosso adesso — prima di ogni altra cosa
 
 > **Stato al 6 settembre 2026: la suite è verde su 251 audit, per la prima
-> volta.** Tutte le voci R-1…R-12 sono chiuse.
+> volta.** Tutte le voci R-1…R-13 sono chiuse.
 >
 > L'ultimo rosso — `storia / esame` al 35,8% — non è stato pagato: **la soglia è
 > stata allentata a 36,0 per decisione del committente**, che ha scelto di
@@ -89,6 +89,41 @@ Cinque regole, e sono tutte state pagate almeno una volta.
 > La suite è passata da 242/244 a **243/244**, e da 738 a **572 secondi**: i
 > quattro minuti risparmiati sono l'audit che non resta più appeso a un `assert`
 > fallito (vedi *Rischi noti*, 6).
+
+### R-13 · CONFERMA era visibile e morto — chiusa il 6 settembre 2026
+
+*Segnalazione, con schermata: «ho risposto 5, premuto conferma e avanti, e il
+programma si blocca». Nella schermata: Tappa 3/3, il 5 scritto nel campo, il
+tastierino ancora acceso, CONFERMA grigio.*
+
+**Non era il riquadro, non era la scheda di NORA, e non era il ritentativo di
+R-12.** `_lock_interactions()` spegne CONFERMA quando un nodo si chiude — giusto
+— e `_show_current()` lo rimetteva visibile **senza riaccenderlo**. Dalla
+**seconda risposta libera in avanti** il pulsante c'era, si vedeva, e non faceva
+niente. L'unica consegna rimasta era l'OK del tastierino: è lo stesso gesto, ma
+nessuno lo ha mai detto al bambino.
+
+Una riga sola, `_input_submit.disabled = false`, mancante da sempre.
+
+**E la schermata mostrava anche perché sembrava un blocco e non un pulsante
+rotto.** Dopo aver risposto:
+
+- il tastierino restava acceso, con il numero ancora scritto;
+- CONFERMA restava lì, solo un po' più grigio;
+- **l'esito di NORA nasceva sotto il tastierino e sotto INDIZIO**, cioè fuori
+  dallo schermo finché non si scorreva.
+
+Il bambino non aveva **nessun segno visibile** che la sua risposta fosse
+arrivata: il dito tornava dov'era un attimo prima, su CONFERMA, e non succedeva
+niente. Adesso, chiuso il nodo, tastierino, CONFERMA e INDIZIO **spariscono**
+invece di restare spenti, e la colonna si porta da sola sull'esito.
+
+**La guardia c'era e guardava la schermata iniziale.**
+`exercise_reachability_audit` verificava che CONFERMA fosse nella barra fissa,
+non che funzionasse al secondo nodo: guardava la prova, non la giocava. Ora
+gioca il primo nodo per davvero e controlla il secondo. Provata togliendo la
+riga: *«al secondo nodo CONFERMA è visibile=true e spento=true — si scrive la
+risposta e non si consegna»*; rimessa: verde.
 
 ### R-12 · «Rispondo e si blocca, vedo ancora la domanda, 3/3» — chiusa il 6 settembre 2026
 

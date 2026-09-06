@@ -147,6 +147,44 @@ func _run() -> void:
 			if uscita != null and not scorrevole.is_ancestor_of(uscita):
 				_fallisci("%s: la porta d'uscita non è nella colonna scorrevole" % formato)
 
+		# **1-ter · CONFERMA deve funzionare anche al secondo nodo.**
+		# (6 settembre 2026)
+		#
+		# Segnalazione con schermata: *«ho risposto 5, premuto conferma e avanti,
+		# e il programma si blocca»* — Tappa 3/3, il numero scritto nel campo, il
+		# tastierino ancora acceso e CONFERMA grigio.
+		#
+		# Non era il riquadro e non era la scheda di NORA: `_lock_interactions()`
+		# spegne CONFERMA quando il nodo si chiude, e `_show_current()` lo
+		# rimetteva visibile **senza riaccenderlo**. Dalla seconda risposta libera
+		# in avanti il pulsante c'era, si vedeva, e non faceva niente. L'unica
+		# consegna rimasta era l'OK del tastierino — che è lo stesso gesto, ma
+		# nessuno lo ha mai detto al bambino.
+		#
+		# Qui si gioca il primo nodo per davvero e si controlla il secondo: è la
+		# differenza fra guardare la schermata iniziale e giocare la prova.
+		if formato in FUORI_DALLE_OPZIONI:
+			var conferma := player.find_child("TextAnswerSubmit", true, false) as Button
+			var tastierino := player.find_child("NumericPad", true, false) as Control
+			if conferma != null:
+				if not conferma.visible or conferma.disabled:
+					_fallisci("%s: al primo nodo CONFERMA non è utilizzabile (visibile=%s, spento=%s)" % [
+						formato, str(conferma.visible), str(conferma.disabled)])
+				# Risposta data: quello che è servito a rispondere deve sparire,
+				# non restare acceso a raccogliere pressioni a vuoto.
+				player.call("_answer", str(_nodo(formato).get("answer", "")))
+				await process_frame
+				if conferma.visible:
+					_fallisci("%s: dopo la risposta CONFERMA resta sullo schermo, spento" % formato)
+				if tastierino != null and tastierino.visible:
+					_fallisci("%s: dopo la risposta il tastierino resta acceso" % formato)
+				player.call("_advance")
+				await process_frame
+				await process_frame
+				if not conferma.visible or conferma.disabled:
+					_fallisci("%s: al secondo nodo CONFERMA è visibile=%s e spento=%s — si scrive la risposta e non si consegna" % [
+						formato, str(conferma.visible), str(conferma.disabled)])
+
 		# **1-bis · il riquadro deve stare dentro lo schermo, sbagliando.**
 		#
 		# Questa regola mancava, e la sua assenza e' costata una seconda

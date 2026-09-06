@@ -46,17 +46,17 @@ Cinque regole, e sono tutte state pagate almeno una volta.
 
 | | valore | dove si rimisura |
 |---|---|---|
-| audit Godot | **244 verdi su 245** — unico rosso: `gesto_audit`, storia | `npm run audit:godot` |
+| audit Godot | **251 verdi su 251** in 509 s — nessun rosso | `npm run audit:godot` |
 | item nei dodici banchi | **3742** | `godot/data/banks/*.json` |
 | voci di NORA | **256** | `nora_explanations.gd` |
 | campagna | **21,3 ore** · mondo più corto 30,1 min, più lungo 69,4 min | `time_cost_probe` |
 | mondo 1: nodi | **2511 / 3500** (era 2789: i nodi sono stati restituiti) | `performance_budget_audit` |
-| mondo 1: avvio | **457 / 500 ms** — il 91% del budget, ed è il numero stretto | idem |
+| mondo 1: avvio | **392 / 500 ms** — il 78% del budget | idem |
 | materie allenabili all'arrivo | **12/12 in tutti e 24 i mondi** | `materie_raggiungibili_audit` |
 | PCK esportato | **79,10 MiB** (`index.pck`) + 14,60 MiB differito | `public/godot/outdoor/` |
 | pacchetto completo su disco | **~132 MB** | idem |
 | «tocca una fra N» nel mondo | 18,0%–32,0% per materia, tutte sotto il tetto | `gesto_audit` |
-| «tocca una fra N» nell'esame | media **34,4%**, elettronica **63,0%**, storia fuori tetto | idem |
+| «tocca una fra N» nell'esame | media **34,4%**, elettronica **63,0%**, storia **35,8%** (soglia allentata a 36) | idem |
 | ricette `compose` | **18** su sei materie (erano 7) | `format_depth_audit` |
 | coppie (specialista, materia) sotto le tre ricette | **22**, a cricchetto | idem |
 
@@ -70,12 +70,20 @@ Cinque regole, e sono tutte state pagate almeno una volta.
 
 ## Rosso adesso — prima di ogni altra cosa
 
-> **Stato alla sera del 4 settembre 2026.** R-1, R-3 e R-4 sono chiuse. R-2 è
-> chiusa per la parte del metro e resta aperta su **una materia sola**
-> (`storia / esame`), confluita in **G-C2** — l'unico rosso che resta.
+> **Stato al 6 settembre 2026: la suite è verde su 251 audit, per la prima
+> volta.** Tutte le voci R-1…R-11 sono chiuse.
 >
-> R-4 era un blocco vero, trovato giocando: valeva da sola più di tutto il resto
-> di questa giornata, e nessuna delle 244 guardie l'aveva visto.
+> L'ultimo rosso — `storia / esame` al 35,8% — non è stato pagato: **la soglia è
+> stata allentata a 36,0 per decisione del committente**, che ha scelto di
+> spostare il lavoro altrove. È un allentamento di cricchetto, e resta scritto
+> come tale in `gesto_audit`: il debito non è chiuso, è **sospeso**, e la causa
+> è la stessa di G-C2.
+>
+> Attenzione a un dettaglio del metro: con `TOLLERANZA_ESAME` a 3,0 punti, una
+> soglia di 36,0 fa scattare l'allarme solo a **39,0**. Il rumore misurato
+> dell'esame è 0,6 punti, quindi quella tolleranza è oggi cinque volte più larga
+> del necessario — se 36 deve essere il limite vero, è la tolleranza il numero
+> da stringere, non il tetto.
 >
 > La suite è passata da 242/244 a **243/244**, e da 738 a **572 secondi**: i
 > quattro minuti risparmiati sono l'audit che non resta più appeso a un `assert`

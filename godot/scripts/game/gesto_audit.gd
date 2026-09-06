@@ -235,20 +235,34 @@ const TETTO_ESAME := {
 	# guardare subito dopo storia.
 	"geografia": 33.3,
 	"scienze": 34.1,
-	# **Storia è il rosso dichiarato del 4 settembre 2026.** Il tetto resta a 32,1
-	# — quello misurato il 1 settembre — mentre la misura di oggi dà **35,8%**.
-	# Non si alza, e non perché sia una questione di principio: +3,7 punti è il
-	# doppio dell'incertezza che il vecchio strumento dichiarava, quindi è
-	# contenuto, non metro.
+	# **Storia: soglia allentata a 36,0 per decisione del committente.**
+	# (6 settembre 2026)
 	#
-	# Provato e scartato: aggiungere specialisti non serve, perché `cycle` e
-	# `clue` sono a loro volta «sceglie» — le due ricette di ciclo e l'indiziario
-	# aggiunti oggi a storia hanno alzato il numero di quattro decimi invece di
-	# abbassarlo. Restano contenuto buono (chiudono due coppie sottili in
+	# Va detto per quello che è: **questo è un allentamento di cricchetto**, e la
+	# regola di casa dice che un cricchetto non si allenta mai. L'eccezione onesta
+	# documentata — quella del 27 agosto sulle correzioni di NORA — vale quando si
+	# scopre che la soglia proteggeva del rumore. **Non è questo il caso**: i 35,8%
+	# sono contenuto vero, misurati e riproducibili su due semi. Qui la soglia si
+	# alza perché il committente ha deciso di **smettere di pagare questo debito
+	# adesso** e spostare il lavoro altrove, che è una scelta di priorità e gli
+	# spetta.
+	#
+	# Quello che resta vero e non va dimenticato: l'esame di storia chiede la
+	# competenza con un gesto diverso da quello con cui l'ha insegnata, e le due
+	# cause sono ancora quelle scritte sopra — i pesi di `NONMC_FORMAT_WEIGHTS`,
+	# che favoriscono formati a loro volta «sceglie», e la sostituzione che porta
+	# fuori solo la scelta multipla lasciando dentro i nodi da digitare.
+	#
+	# Provato e scartato il 4 settembre: aggiungere specialisti non serve, perché
+	# `cycle` e `clue` sono a loro volta «sceglie» — le due ricette di ciclo e
+	# l'indiziario aggiunti a storia hanno alzato il numero di quattro decimi
+	# invece di abbassarlo. Restano contenuto buono (chiudono due coppie sottili in
 	# `format_depth_audit`), ma su questa misura vanno nella direzione opposta.
-	# Serve un formato MANIPOLATIVO in più nell'esame di storia, o un peso diverso
-	# in `NONMC_FORMAT_WEIGHTS`.
-	"storia": 32.1,
+	#
+	# **Da qui in giù, e solo in giù**: 36,0 è un tetto come gli altri, e il giorno
+	# in cui un formato manipolativo entra nell'esame di storia va riportato dove
+	# la misura lo mette.
+	"storia": 36.0,
 	"logica": 31.4,
 }
 

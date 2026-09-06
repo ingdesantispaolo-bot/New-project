@@ -72,7 +72,7 @@ Cinque regole, e sono tutte state pagate almeno una volta.
 ## Rosso adesso — prima di ogni altra cosa
 
 > **Stato al 6 settembre 2026: la suite è verde su 251 audit, per la prima
-> volta.** Tutte le voci R-1…R-14 sono chiuse.
+> volta.** Tutte le voci R-1…R-15 sono chiuse.
 >
 > L'ultimo rosso — `storia / esame` al 35,8% — non è stato pagato: **la soglia è
 > stata allentata a 36,0 per decisione del committente**, che ha scelto di
@@ -89,6 +89,55 @@ Cinque regole, e sono tutte state pagate almeno una volta.
 > La suite è passata da 242/244 a **243/244**, e da 738 a **572 secondi**: i
 > quattro minuti risparmiati sono l'audit che non resta più appeso a un `assert`
 > fallito (vedi *Rischi noti*, 6).
+
+### R-15 · La consegna rinviata poteva perdersi — chiusa il 6 settembre 2026
+
+*Quarta segnalazione sullo stesso gesto: «ho riprovato ancora ma ho ancora blocco
+dopo aver premuto avanti dopo risposta corretta». La schermata questa volta non
+lascia scampo.*
+
+Nodo risolto, «Funziona! +15 energia · serie ×1,5», la spiegazione di NORA
+scritta sotto, il tastierino e CONFERMA spariti **come devono** — le correzioni
+di R-13 e R-14 hanno preso — e AVANTI in fondo alla barra. Premendolo non
+succede niente.
+
+Con quella schermata la strada si restringe a una sola: **la chiusura era già
+stata chiesta e non è arrivata.** Nella build Web la chiusura è rinviata di un
+fotogramma (`call_deferred`, per lasciare che il browser concluda il gesto prima
+di salvataggio e segnali), e fino a oggi `_advance()` tornava indietro in
+silenzio quando una chiusura era in coda:
+
+```gdscript
+if _completion_queued or _session_closed:
+    return
+```
+
+Se quel fotogramma non arriva, **ogni pressione successiva di AVANTI è un
+no-op**, e per di più il pulsante veniva spento subito: nessun secondo tocco era
+nemmeno possibile. In headless non si riproduce — lì la chiusura è immediata — ed
+è esattamente per questo che tre giri di verifica non l'hanno vista.
+
+**Tre correzioni, ognuna sufficiente da sola.**
+
+1. **Il secondo tocco non vale meno del primo.** Se la chiusura è in coda e non è
+   ancora arrivata, AVANTI la esegue **subito, sul posto**. `_finish()` si protegge
+   da sé: si esegue una volta sola comunque.
+2. **AVANTI non si spegne più** dopo la richiesta: restava spento in attesa di una
+   consegna che poteva non arrivare, cioè morto.
+3. **Una rete di sicurezza a mezzo secondo**: se la consegna rinviata non è
+   arrivata, la chiusura si fa comunque. Quando tutto va bene trova la sessione
+   già chiusa e non fa niente.
+
+**E niente sta più fra il tocco e la chiusura.** In `_finish()` il segnale di
+fine veniva emesso **dopo** il nodo audio nativo e una `JavaScriptBridge.eval`:
+due cose che possono fallire fuori dal nostro controllo, e che se si fossero
+fermate avrebbero lasciato `_session_closed` acceso e la prova aperta per sempre.
+Ora si consegna prima; suono e pulizia del DOM sono conseguenze e vengono dopo.
+
+**La guardia** simula il caso esatto — chiusura in coda, sessione ancora aperta —
+e pretende che il secondo AVANTI chiuda. Provata togliendo la correzione:
+*«chiusura in coda e mai arrivata, il secondo AVANTI non chiude la prova»*;
+rimessa: verde.
 
 ### R-14 · PROVA restava acceso, e la scheda regalava la risposta — chiusa il 6 settembre 2026
 

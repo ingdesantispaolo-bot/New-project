@@ -3478,7 +3478,28 @@ func session_cursor() -> Dictionary:
 	}
 
 func _advance() -> void:
-	if _completion_queued or _session_closed:
+	if _session_closed:
+		return
+	# **Se la chiusura era già stata chiesta e non è arrivata, si chiude adesso.**
+	# (6 settembre 2026)
+	#
+	# Quarta segnalazione sullo stesso gesto, e questa volta la schermata non
+	# lascia scampo: nodo risolto, «Funziona! +15 energia», il tastierino e
+	# CONFERMA spariti come devono, AVANTI in fondo alla barra — e premendolo non
+	# succede niente.
+	#
+	# Fin qui questo ramo tornava indietro in silenzio. Vuol dire che se per un
+	# qualunque motivo la consegna rinviata (`call_deferred`, solo nella build
+	# Web) non arriva, **ogni pressione successiva di AVANTI è un no-op**: il
+	# pulsante c'è, si preme, e la prova resta aperta per sempre. Non si è mai
+	# riprodotto in headless — dove la chiusura è immediata — e su quattro
+	# segnalazioni è l'unica strada che spiega il sintomo esatto.
+	#
+	# La regola nuova è quella che il guard-rail chiede da sempre: **il secondo
+	# tocco non può valere meno del primo.** Se la chiusura è in coda e non si è
+	# ancora conclusa, la si esegue subito, sul posto.
+	if _completion_queued:
+		_finish()
 		return
 	if _shields <= 0:
 		_request_finish()
@@ -3505,14 +3526,30 @@ func _advance() -> void:
 	if _index < _nodes.size():
 		_show_teaching_overlay()
 
+## Quanto si aspetta la consegna rinviata prima di farla comunque. Mezzo secondo
+## è già un'eternità per un fotogramma rinviato, e resta invisibile a chi gioca.
+const SECONDI_RETE_DI_SICUREZZA := 0.5
+
 func _request_finish() -> void:
 	if _completion_queued or _session_closed:
 		return
 	_completion_queued = true
-	if is_instance_valid(_next_button):
-		_next_button.disabled = true
+	# **AVANTI non si spegne più.** (6 settembre 2026) Restava spento in attesa
+	# della consegna rinviata: se quella non arrivava, il pulsante era lì, morto,
+	# e non c'era un secondo tocco possibile. Adesso resta premibile, e il secondo
+	# tocco chiude la prova sul posto — `_finish()` si esegue una volta sola
+	# comunque, se la protegge da sé con `_session_closed`.
 	if OS.has_feature("web"):
 		call_deferred("_finish")
+		# **La rete di sicurezza.** È l'unica spiegazione rimasta per una
+		# segnalazione che in headless non si riproduce mai: se la consegna
+		# rinviata non arriva, questa la esegue comunque mezzo secondo dopo.
+		# Quando tutto va bene trova la sessione già chiusa e non fa niente.
+		if is_inside_tree():
+			var rete := get_tree().create_timer(SECONDI_RETE_DI_SICUREZZA)
+			rete.timeout.connect(func():
+				if not _session_closed:
+					_finish())
 	else:
 		_finish()
 
@@ -3608,14 +3645,19 @@ func _finish() -> void:
 	# potrebbe completare la campagna sbagliando proprio l'ultimo nodo.
 	if bool(session.get("transversal", false)):
 		passed = passed and is_instance_valid(_convergence_display) and _convergence_display.synthesis_resolved
-	var audio := get_tree().root.get_node_or_null("NativeAudio") if is_inside_tree() else null
-	if audio != null:
-		audio.call("set_focus", false)
-		audio.call("play_event", "enigmaCompleted" if passed else "sessionDefeated")
 	if passed:
 		_energy += int(session.get("rewards", {}).get("onComplete", {}).get("energy", 0))
-	if OS.has_feature("web"):
-		JavaScriptBridge.eval("delete document.documentElement.dataset.eliExercise;")
+	# **Prima si consegna, poi si suona.** (6 settembre 2026)
+	#
+	# Qui, prima di questa riga, stavano tre cose che possono fallire fuori dal
+	# nostro controllo — il nodo audio nativo e una `JavaScriptBridge.eval` — e
+	# stavano **davanti** all'emissione. Se una di quelle si fosse fermata, la
+	# prova non si sarebbe mai chiusa, `_session_closed` sarebbe rimasto acceso, e
+	# ogni AVANTI successivo sarebbe tornato indietro in silenzio: il pannello lì,
+	# la domanda risolta, e nessun modo di uscire.
+	#
+	# Niente può stare fra il tocco del bambino e la chiusura della prova. Il
+	# suono e la pulizia del DOM sono conseguenze: vengono dopo.
 	session_finished.emit({
 		"sessionId": str(session.get("sessionId", "")),
 		"kind": str(session.get("kind", "mission")),
@@ -3642,6 +3684,14 @@ func _finish() -> void:
 		# chiamante le porta nel save e la selezione non le ripropone più.
 		"solved": _superate.duplicate(true),
 	})
+	# Le conseguenze, dopo. Se una di queste si ferma, la prova è già chiusa e
+	# chi gioca è già tornato nel mondo.
+	var audio := get_tree().root.get_node_or_null("NativeAudio") if is_inside_tree() else null
+	if audio != null:
+		audio.call("set_focus", false)
+		audio.call("play_event", "enigmaCompleted" if passed else "sessionDefeated")
+	if OS.has_feature("web"):
+		JavaScriptBridge.eval("delete document.documentElement.dataset.eliExercise;")
 
 func _build_topic_stats() -> Dictionary:
 	var stats: Dictionary = {}

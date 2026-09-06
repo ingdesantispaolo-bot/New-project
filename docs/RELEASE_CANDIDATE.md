@@ -2704,3 +2704,41 @@ togliendo la correzione e vedendole diventare rosse.
 che serviva a rispondere deve sparire quando la risposta è data.* Un comando che
 resta acceso e non fa più niente è indistinguibile, per chi gioca, da un gioco
 bloccato — e il bambino torna sempre a premere dov'era un attimo prima.
+
+## La consegna rinviata poteva perdersi (6 settembre 2026)
+
+Quarta segnalazione sullo stesso gesto: *«ho riprovato ancora ma ho ancora blocco
+dopo aver premuto avanti dopo risposta corretta»*. La schermata questa volta
+restringe la strada a una sola.
+
+Nodo risolto, «Funziona! +15 energia · serie ×1,5», la spiegazione di NORA
+scritta sotto, **tastierino e CONFERMA spariti come devono** — le due correzioni
+precedenti hanno preso — e AVANTI in fondo alla barra. Premendolo non succede
+niente. Se AVANTI è visibile e il nodo è chiuso, l'unico stato che produce quel
+sintomo è: **la chiusura era già stata chiesta e non è arrivata.**
+
+Nella build Web la chiusura è rinviata di un fotogramma (`call_deferred`), per
+lasciare che il browser concluda il gesto prima di salvataggio e segnali. Fino a
+oggi `_advance()` tornava indietro in silenzio quando una chiusura era in coda —
+`if _completion_queued or _session_closed: return` — e il pulsante veniva spento
+subito. Se quel fotogramma non arriva, ogni pressione successiva è un no-op e non
+esiste nemmeno un secondo tocco possibile. **In headless non si riproduce**: lì
+la chiusura è immediata, ed è per questo che tre giri di verifica non l'hanno
+vista.
+
+**Tre correzioni, ognuna sufficiente da sola.**
+
+1. Se la chiusura è in coda e non è arrivata, AVANTI la esegue subito, sul posto.
+   `_finish()` resta idempotente: si esegue una volta sola comunque.
+2. AVANTI non si spegne più dopo la richiesta.
+3. Una rete di sicurezza a mezzo secondo esegue la chiusura se il fotogramma
+   rinviato non l'ha fatta.
+
+**E niente sta più fra il tocco e la chiusura.** In `_finish()` il segnale veniva
+emesso dopo il nodo audio nativo e una `JavaScriptBridge.eval`: se una delle due
+si fosse fermata, `_session_closed` sarebbe rimasto acceso e la prova aperta per
+sempre. Ora si consegna prima; suono e pulizia del DOM vengono dopo.
+
+**La guardia** simula il caso esatto — chiusura in coda, sessione ancora aperta —
+e pretende che il secondo AVANTI chiuda. Verificata togliendo la correzione e
+rimettendola.

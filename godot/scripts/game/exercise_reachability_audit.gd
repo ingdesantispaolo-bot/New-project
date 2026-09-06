@@ -106,6 +106,7 @@ func _sessione(formato: String) -> Dictionary:
 	}
 
 func _run() -> void:
+	await _la_consegna_in_coda_si_recupera()
 	root.get_window().size = FINESTRA
 	for formato in ["multiple_choice", "numeric_input", "short_answer"]:
 		var player := ExercisePlayer.new()
@@ -356,3 +357,40 @@ func _run() -> void:
 		for e in errori:
 			printerr("  - %s" % e)
 	quit(0 if errori.is_empty() else 1)
+
+## **La consegna rinviata non può perdersi.** (6 settembre 2026)
+##
+## Quarta segnalazione sullo stesso gesto, con la schermata che non lascia
+## scampo: nodo risolto, «Funziona! +15 energia», tastierino e CONFERMA spariti
+## come devono, AVANTI in fondo alla barra — e premendolo non succede niente.
+##
+## Nella build Web la chiusura è rinviata di un fotogramma (`call_deferred`), e
+## fino a oggi `_advance()` tornava indietro in silenzio quando una chiusura era
+## già in coda: se quella consegna non arrivava, **ogni pressione successiva di
+## AVANTI era un no-op** e la prova restava aperta per sempre. In headless non si
+## riproduce — lì la chiusura è immediata — ed è esattamente per questo che tre
+## giri di verifica non l'hanno vista.
+##
+## Qui si simula il caso: chiusura in coda, sessione ancora aperta. Il secondo
+## tocco deve chiudere la prova sul posto.
+func _la_consegna_in_coda_si_recupera() -> void:
+	for formato in ["numeric_input", "multiple_choice"]:
+		var player := ExercisePlayer.new()
+		player.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		root.add_child(player)
+		player.start_session(_sessione(formato))
+		await process_frame
+		var consegnata := [false]
+		player.session_finished.connect(func(_esito): consegnata[0] = true)
+		# Una chiusura chiesta e mai arrivata: è lo stato in cui resta la build
+		# Web se il fotogramma rinviato si perde.
+		player.set("_completion_queued", true)
+		var avanti := player.find_child("ExerciseNextButton", true, false) as Button
+		if avanti != null and avanti.disabled:
+			_fallisci("%s: con la chiusura in coda AVANTI resta spento — nessun secondo tocco possibile" % formato)
+		player.call("_advance")
+		await process_frame
+		if not consegnata[0]:
+			_fallisci("%s: chiusura in coda e mai arrivata, il secondo AVANTI non chiude la prova" % formato)
+		player.queue_free()
+		await process_frame

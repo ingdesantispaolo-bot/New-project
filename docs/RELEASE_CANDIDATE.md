@@ -2618,3 +2618,42 @@ cioè sul percorso di chi non sa rispondere. Ora alterna giusto e sbagliato e
 pretende che dopo ogni tentativo esista una via d'uscita visibile che chiuda
 davvero il nodo. Verificata togliendo la correzione (rossa) e rimettendola
 (verde).
+
+## CONFERMA visibile e morto dal secondo nodo (6 settembre 2026)
+
+Segnalazione con schermata: *«ho risposto 5, premuto conferma e avanti, e il
+programma si blocca»*. Nella schermata: **Tappa 3/3**, il 5 scritto nel campo, il
+tastierino ancora acceso, **CONFERMA grigio** — mentre SPIEGA CON NORA, che ha lo
+stesso identico stile (`#6be7d6` con testo `#06272a`), è verde acqua. È da lì che
+si legge lo stato vero del gioco: il pulsante non era spento dal caso, era
+disattivato.
+
+**La causa, una riga mancante da sempre.** `_lock_interactions()` spegne CONFERMA
+quando un nodo si chiude — ed è giusto, la risposta è consegnata —
+e `_show_current()` lo rimetteva `visible = true` **senza rimetterlo
+`disabled = false`**. Dalla seconda risposta libera in avanti il pulsante era
+visibile e inerte. L'unica consegna rimasta era l'**OK del tastierino**: è lo
+stesso gesto, ma il gioco non lo ha mai detto.
+
+**E perché sembrava un blocco invece di un pulsante rotto.** Dopo aver risposto
+restavano sullo schermo il tastierino con il numero scritto e CONFERMA spento,
+mentre l'esito di NORA nasceva più in basso nella colonna — sotto il tastierino e
+sotto INDIZIO — cioè **fuori dallo schermo finché non si scorreva**. Nessun segno
+visibile che la risposta fosse arrivata: il dito torna dov'era un attimo prima e
+non succede niente.
+
+**Correzione, due parti.**
+
+1. `_input_submit.disabled = false` a ogni nodo.
+2. Chiuso il nodo, **tastierino, CONFERMA e INDIZIO spariscono** invece di
+   restare spenti, e la colonna si porta da sola sull'esito
+   (`ensure_control_visible`). Quello che resta è la risposta data, la
+   correzione di NORA e AVANTI.
+
+**Nota di metodo.** `exercise_reachability_audit` esisteva dall'8 agosto proprio
+per questa famiglia di segnalazioni ed era verde: verificava che CONFERMA fosse
+nella barra fissa e dentro la viewport **sulla schermata appena aperta**.
+Guardava la prova, non la giocava. Ora gioca il primo nodo per davvero e
+controlla il secondo. Verificata togliendo la riga — *«al secondo nodo CONFERMA è
+visibile=true e spento=true — si scrive la risposta e non si consegna»* — e
+rimettendola.

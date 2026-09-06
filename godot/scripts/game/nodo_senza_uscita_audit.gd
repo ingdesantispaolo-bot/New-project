@@ -126,8 +126,20 @@ func _run() -> void:
 					if indice < 0 or indice >= player._nodes.size():
 						break
 					_nodi += 1
-					Autoplay.solve(player, player._nodes[indice], true)
+					# **Un nodo su due si sbaglia apposta.** (6 settembre 2026)
+					#
+					# La prima stesura rispondeva sempre bene, e per questo non ha
+					# visto la segnalazione della torcia e della falce: nove
+					# formati su venti, quando li sbagli, NON chiudono il nodo —
+					# aspettano un altro tentativo, e finché non arriva AVANTI non
+					# esiste. Chi non sa rispondere resta lì, e per lui è un
+					# blocco. Rispondere sempre bene è il modo più facile di non
+					# accorgersene: qui si alterna, e si pretende che una via
+					# d'uscita visibile ci sia comunque.
+					var giusto := (indice % 2) == 0
+					Autoplay.solve(player, player._nodes[indice], giusto)
 					await process_frame
+					_controlla_uscita(player, schermo, livello, indice)
 					player._advance()
 					await process_frame
 					await process_frame
@@ -145,6 +157,27 @@ func _run() -> void:
 	for riga in _rossi:
 		printerr("NODO SENZA USCITA audit FALLITO — %s" % riga)
 	quit(1)
+
+## **Da ogni nodo si esce, anche sbagliando.**
+##
+## Dopo il tentativo, o il nodo è chiuso (`_answered`: allora AVANTI arriva da
+## solo, dopo il mezzo secondo di respiro) oppure deve esserci un comando
+## visibile che lo chiude. Non si guarda la visibilità di AVANTI perché lì il
+## respiro è un timer a orologio, e un audit headless conta fotogrammi, non
+## secondi: si guarda la sostanza, cioè che una via d'uscita esista e funzioni.
+func _controlla_uscita(player: Node, schermo: Vector2i, livello: int, indice: int) -> void:
+	if bool(player._answered):
+		return
+	var formato := str((player._nodes[indice] as Dictionary).get("format", "?"))
+	var uscita := player.find_child("InteractionGiveUp", true, false) as Button
+	if uscita == null or not uscita.visible or uscita.disabled:
+		_fallisci("mondo %d · %dx%d · nodo %d (%s): risposta sbagliata e nessuna via d'uscita — niente AVANTI e nessun comando che chiuda la prova" % [
+			livello, schermo.x, schermo.y, indice + 1, formato])
+		return
+	uscita.pressed.emit()
+	if not bool(player._answered):
+		_fallisci("mondo %d · %dx%d · nodo %d (%s): la via d'uscita è visibile ma non chiude il nodo" % [
+			livello, schermo.x, schermo.y, indice + 1, formato])
 
 func _controlla_schede(player: Node, schermo: Vector2i, livello: int) -> void:
 	var schede: Array = []

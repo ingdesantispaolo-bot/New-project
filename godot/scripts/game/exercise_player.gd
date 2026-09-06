@@ -1064,7 +1064,9 @@ func _svuota_azioni_interazione() -> void:
 	if not is_instance_valid(_action_bar):
 		return
 	for figlio in _action_bar.get_children():
-		if str(figlio.name) == "InteractionActions":
+		# `InteractionGiveUp` finisce qui solo se il formato non aveva una barra
+		# di interazione: dentro `InteractionActions` sparisce già con lei.
+		if str(figlio.name) in ["InteractionActions", NOME_USCITA_RITENTATIVO]:
 			_action_bar.remove_child(figlio)
 			figlio.queue_free()
 	_riallinea_barra_azioni()
@@ -2980,6 +2982,41 @@ func _add_interaction_actions(
 	# segnalazione del 15 agosto, che con un diagramma alto finiva sotto il bordo.
 	_action_bar.add_child(actions)
 
+## **Sbagliare un minigioco non deve poter chiudere la strada.** (6 settembre 2026)
+##
+## Segnalazione, la quarta della famiglia e la prima con la causa vera:
+##
+##   *«sia per la torcia in una partita nuova sia per la falce nella partita
+##   vecchia, dopo aver risposto alle domande il programma si blocca: si vede
+##   ancora la domanda, vedo 3/3».*
+##
+## Le tre correzioni precedenti riguardavano il riquadro e la scheda di NORA — il
+## contenuto che non scorreva, i comandi che scorrevano via, la scheda che si
+## mangiava i tocchi. **Nessuna di quelle era questa.** Riprodotta giocando
+## davvero le minimissioni della torcia e della falce su sette schermi: basta
+## **una risposta sbagliata** su uno dei nove formati che si possono ritentare
+## (ordinamento, smistamento, grafico, percorso della macchina, ciclo, griglia,
+## porte, decodifica, debug) e il nodo resta lì:
+##
+##   - AVANTI non compare, perché il nodo non è chiuso;
+##   - l'unico modo di uscire è **azzeccarlo**, o sbagliarlo tante volte quanti
+##     sono gli scudi rimasti.
+##
+## Per chi gioca è indistinguibile da un blocco: la domanda è ancora sullo
+## schermo, il contatore dice ancora 3/3, e nessun comando porta avanti. La riga
+## «puoi spostarle e riprovare» è scritta, ma è una riga di testo in mezzo a una
+## schermata piena, e chi non l'ha letta non ha nessun altro appiglio.
+##
+## **E contraddice un guard-rail scritto**: nel gioco *niente blocca il ciclo*.
+## Uno stato in cui l'unica uscita è la risposta giusta è esattamente quello che
+## quel guard-rail vieta — e colpisce più duramente proprio il bambino che non
+## sa rispondere, cioè quello per cui il guard-rail esiste.
+##
+## La cura non toglie il ritentativo, che è la parte didattica buona: **aggiunge
+## la seconda porta e la rende visibile.** «NON CI RIESCO» chiude il nodo come
+## sbagliato, NORA spiega, e la prova continua. Costa esattamente quanto
+## sbagliare — uno scudo è già stato speso — quindi non è una scorciatoia: è
+## dire ad alta voce quello che stava succedendo comunque.
 func _retryable_result(correct: bool, item: Dictionary, retry_message: String) -> void:
 	if correct:
 		_score_current(true, item)
@@ -2988,10 +3025,39 @@ func _retryable_result(correct: bool, item: Dictionary, retry_message: String) -
 	_spend_shield()
 	_register_wrong_attempt(item)
 	_refresh_status()
-	_flash_feedback(retry_message)
 	_offer_concept_help(item)
 	if _shields <= 0:
+		_flash_feedback(retry_message)
 		_score_current(false, item)
+		return
+	_flash_feedback("%s Oppure tocca NON CI RIESCO e te lo spiego io." % retry_message)
+	_mostra_uscita_dal_ritentativo(item)
+
+## Il pulsante che chiude un nodo ritentabile senza azzeccarlo. Vive dentro
+## `InteractionActions`, quindi sparisce da solo al nodo successivo insieme ad
+## ANNULLA e VERIFICA (vedi `_svuota_azioni_interazione`).
+const NOME_USCITA_RITENTATIVO := "InteractionGiveUp"
+
+func _mostra_uscita_dal_ritentativo(item: Dictionary) -> void:
+	if not is_instance_valid(_action_bar):
+		return
+	var azioni := _action_bar.find_child("InteractionActions", false, false)
+	var casa: Node = azioni if azioni != null else _action_bar
+	if casa.find_child(NOME_USCITA_RITENTATIVO, false, false) != null:
+		return
+	var uscita := Button.new()
+	uscita.name = NOME_USCITA_RITENTATIVO
+	uscita.text = "NON CI RIESCO"
+	uscita.custom_minimum_size = Vector2(170, 48)
+	uscita.focus_mode = Control.FOCUS_ALL
+	uscita.tooltip_text = "Chiude questa prova e fa spiegare la risposta a NORA."
+	uscita.add_theme_stylebox_override(
+		"normal", _exercise_button_style(Color(0.20, 0.14, 0.06, 0.96), Color("f6c85f")))
+	uscita.pressed.connect(func():
+		if not _answered:
+			_score_current(false, item))
+	casa.add_child(uscita)
+	_riallinea_barra_azioni()
 
 func _spend_shield() -> void:
 	_shields -= 1

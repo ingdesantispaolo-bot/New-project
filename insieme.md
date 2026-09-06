@@ -72,7 +72,7 @@ Cinque regole, e sono tutte state pagate almeno una volta.
 ## Rosso adesso — prima di ogni altra cosa
 
 > **Stato al 6 settembre 2026: la suite è verde su 251 audit, per la prima
-> volta.** Tutte le voci R-1…R-11 sono chiuse.
+> volta.** Tutte le voci R-1…R-12 sono chiuse.
 >
 > L'ultimo rosso — `storia / esame` al 35,8% — non è stato pagato: **la soglia è
 > stata allentata a 36,0 per decisione del committente**, che ha scelto di
@@ -89,6 +89,50 @@ Cinque regole, e sono tutte state pagate almeno una volta.
 > La suite è passata da 242/244 a **243/244**, e da 738 a **572 secondi**: i
 > quattro minuti risparmiati sono l'audit che non resta più appeso a un `assert`
 > fallito (vedi *Rischi noti*, 6).
+
+### R-12 · «Rispondo e si blocca, vedo ancora la domanda, 3/3» — chiusa il 6 settembre 2026
+
+*Segnalazione: «sia per la torcia in una partita nuova sia per la falce nella
+partita vecchia, dopo aver risposto alle domande il programma si blocca, si vede
+ancora domanda, vedo 3/3».*
+
+**Quarta segnalazione della stessa famiglia, e la prima con questa causa.** Le
+tre precedenti riguardavano il riquadro e la scheda di NORA — il contenuto che
+non scorreva (8 agosto), i comandi che scorrevano via (15 agosto), la scheda che
+si mangiava i tocchi (5 settembre). Nessuna delle tre era questa, ed è il motivo
+per cui il difetto è sopravvissuto a tutte e tre.
+
+**La causa, riprodotta giocando davvero le minimissioni della torcia e della
+falce su sette schermi.** Basta **una risposta sbagliata** su uno dei nove
+formati che si possono ritentare — ordinamento, smistamento, grafico, percorso
+della macchina, ciclo, griglia, porte, decodifica, debug — e il nodo resta
+aperto:
+
+- AVANTI non compare, perché il nodo non è chiuso;
+- l'unica uscita è **azzeccarlo**, o sbagliarlo tante volte quanti sono gli
+  scudi rimasti.
+
+Per chi gioca è indistinguibile da un blocco: la domanda è ancora lì, il
+contatore dice ancora 3/3, nessun comando porta avanti. La riga «puoi spostarle e
+riprovare» c'era, ma è testo in mezzo a una schermata piena.
+
+**E contraddiceva un guard-rail scritto**: *niente blocca il ciclo*. Uno stato la
+cui unica uscita è la risposta giusta è esattamente ciò che quel guard-rail
+vieta, e colpisce più duramente proprio il bambino che non sa rispondere — cioè
+quello per cui il guard-rail esiste.
+
+**La cura non toglie il ritentativo**, che è la parte didattica buona: aggiunge
+la seconda porta e la rende visibile. Dopo un errore compare **«NON CI RIESCO»**
+accanto ad ANNULLA e VERIFICA: chiude il nodo come sbagliato, NORA spiega, la
+prova continua. Costa quanto sbagliare — lo scudo è già stato speso — quindi non
+è una scorciatoia: dice ad alta voce quello che stava succedendo comunque.
+
+**La guardia esisteva e non guardava.** `nodo_senza_uscita_audit`, scritto il 5
+settembre proprio per questa famiglia, **rispondeva sempre correttamente**: il
+modo più facile di non vedere un difetto che si manifesta solo sbagliando. Ora
+alterna giusto e sbagliato e pretende che dopo ogni tentativo esista una via
+d'uscita visibile che chiuda davvero il nodo. Provata togliendo la correzione:
+rossa; rimessa: verde.
 
 ### R-4 · Cinque materie su dodici chiuse dalla falce, al mondo 2 — chiusa
 

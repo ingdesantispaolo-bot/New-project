@@ -183,6 +183,31 @@ const VOCI := {
 		"perche": "La probabilità dice quanto spesso una cosa succederebbe provando tante volte, non che cosa succederà adesso: con una moneta testa esce una volta su due, ma il prossimo lancio non lo sa nessuno.",
 		"come": "Conta i casi favorevoli e dividili per tutti i casi possibili: quel rapporto è la probabilità, sempre fra zero e uno.",
 	},
+	# I cinque argomenti aperti il 6 settembre 2026 con il programma di medie e
+	# biennio (`scripts/banks/matematica-programma.mjs`). Nessun contenuto entra
+	# nel banco senza la sua voce qui: `nora_explanation_depth_audit` lo impedisce,
+	# ed è la garanzia che su ogni argomento esista qualcosa di più largo della
+	# singola domanda.
+	"matematica:solidi": {
+		"perche": "Un solido si misura in due modi diversi e non intercambiabili: la superficie dice quanta carta serve per incartarlo, il volume quanta acqua ci sta dentro.",
+		"come": "Guarda l'unità di misura prima del numero: i cm dicono una lunghezza, i cm² una superficie, i cm³ uno spazio pieno. Se l'unità non torna, il conto è sbagliato di sicuro.",
+	},
+	"matematica:calcolo-letterale": {
+		"perche": "Una lettera è un numero che non conosci ancora o che può cambiare: scrivere la regola con le lettere permette di dirla una volta sola invece che per ogni numero.",
+		"come": "Somma solo i termini che hanno la stessa parte letterale, come faresti con mele e pere; e ricorda che nel quadrato di un binomio i termini sono tre, non due.",
+	},
+	"matematica:sistemi": {
+		"perche": "Due condizioni che valgono insieme restringono le infinite risposte di una sola equazione a una coppia sola: nel piano è il punto in cui le due rette si incrociano.",
+		"come": "Scegli il metodo guardando le equazioni: se una lettera è già isolata conviene sostituire, se i coefficienti sono opposti conviene sommare le due righe.",
+	},
+	"matematica:disequazioni": {
+		"perche": "Molte domande vere non chiedono quanto vale una cosa ma da che punto in poi: quanto devo vendere per non perderci, sotto quale peso il ponte regge. La risposta è una zona, non un numero.",
+		"come": "Si risolve come un'equazione, con una sola eccezione da non dimenticare mai: se moltiplichi o dividi per un numero negativo, il verso del segno si rovescia.",
+	},
+	"matematica:similitudine": {
+		"perche": "Due figure simili hanno la stessa forma e misure diverse: è il motivo per cui una carta geografica funziona, e per cui dall'ombra di un bastone si ricava l'altezza di un albero.",
+		"come": "Ricorda come crescono le cose: se i lati raddoppiano il perimetro raddoppia, l'area diventa quattro volte e il volume otto volte.",
+	},
 
 	# -- italiano ---------------------------------------------------------------
 	"italiano:analisi-grammaticale": {

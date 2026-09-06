@@ -24,6 +24,10 @@
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { dirname, join } from "node:path";
 import { mkdir, writeFile } from "node:fs/promises";
+// Il programma di matematica di medie e biennio: sta in un file suo perché sono
+// trecento item e ventiquattro argomenti, e perché è materiale che si continuerà
+// ad ampliare — qui dentro sarebbe una vena di mille righe in mezzo alle altre.
+import { MATEMATICA_PROGRAMMA } from "./banks/matematica-programma.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, "..");
@@ -8951,6 +8955,31 @@ for (const [index, q] of MATEMATICA_OLTRE_LE_TABELLINE.entries()) {
         extra: { distractorWhy: q.distractorWhy },
       },
       rng(20260814),
+    ),
+  );
+}
+
+// Il programma vero e proprio — medie e biennio del liceo scientifico — entra
+// nello stesso banco con la stessa forma. L'indice riparte da dove finisce il
+// primo blocco: gli id sono `matematica-<argomento>-<n>` e due n uguali sullo
+// stesso argomento sarebbero due item con lo stesso identificativo, cioè un
+// esercizio che ne cancella un altro nelle mappe che indicizzano per id.
+const SCARTO_ID_PROGRAMMA = MATEMATICA_OLTRE_LE_TABELLINE.length;
+for (const [index, q] of MATEMATICA_PROGRAMMA.entries()) {
+  BANKS["matematica-tabelline"].items.push(
+    multipleChoiceItem(
+      {
+        id: `matematica-${q.topic}-${index + SCARTO_ID_PROGRAMMA}`,
+        subject: "matematica",
+        topic: q.topic,
+        difficulty: q.difficulty,
+        prompt: q.prompt,
+        answer: q.answer,
+        distractors: q.distractors,
+        explanation: q.explanation,
+        extra: { distractorWhy: q.distractorWhy },
+      },
+      rng(20260906),
     ),
   );
 }

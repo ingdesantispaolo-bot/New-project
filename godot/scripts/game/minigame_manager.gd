@@ -658,6 +658,30 @@ const MATCHING := {
 			["7, 14, 21, 28", "si aggiunge 7"], ["64, 32, 16, 8", "si dimezza"],
 			["1, 4, 9, 16", "i quadrati"], ["11, 22, 33, 44", "si aggiunge 11"],
 			["1000, 100, 10, 1", "si divide per 10"], ["9, 18, 27, 36", "si aggiunge 9"]]},
+		# **I due argomenti del programma che non avevano nessun gesto.** (6
+		# settembre 2026) Con il banco di medie e biennio il registro degli
+		# argomenti di matematica passa da diciassette a venticinque, e sei di
+		# quelli nuovi vivevano solo dentro una domanda a scelta multipla.
+		# `radici` e `similitudine` sono i due che si abbinano davvero: la radice
+		# è una tabellina letta al contrario, e i nomi della geometria euclidea
+		# hanno ciascuno una definizione sola.
+		{"explanation": "La radice quadrata cerca il numero che moltiplicato per sé stesso dà quello sotto il segno: è la tabellina letta al contrario, non una divisione per due.", "topic": "radici", "minLevel": 6, "pairs": [
+			["√4", "2"], ["√9", "3"], ["√16", "4"], ["√25", "5"],
+			["√36", "6"], ["√49", "7"], ["√64", "8"], ["√81", "9"],
+			["√100", "10"], ["√121", "11"], ["√144", "12"], ["√169", "13"]]},
+		{"explanation": "Nella geometria del triangolo rettangolo ogni nome indica una cosa sola e precisa: confondere il cateto con l'ipotenusa, o la similitudine con la congruenza, fa sbagliare la formula prima ancora del conto.", "topic": "similitudine", "minLevel": 16, "pairs": [
+			["ipotenusa", "il lato più lungo del triangolo rettangolo"],
+			["cateto", "uno dei due lati che formano l'angolo retto"],
+			["figure congruenti", "si sovrappongono perfettamente"],
+			["figure simili", "stessa forma, misure diverse"],
+			["teorema di Pitagora", "collega i quadrati dei tre lati"],
+			["teorema di Talete", "segmenti staccati fra rette parallele"],
+			["primo teorema di Euclide", "un cateto e la sua proiezione"],
+			["rapporto di similitudine", "quante volte una figura è ingrandita"],
+			["scala di una mappa", "il legame fra carta e terreno"],
+			["lati raddoppiati", "area quattro volte più grande"],
+			["angoli corrispondenti", "restano uguali nell'ingrandimento"],
+			["altezza del triangolo", "distanza fra un vertice e il lato opposto"]]},
 	],
 	"logica": [
 		# **Due abbinamenti che non si possono sapere a memoria.** (1 settembre 2026)
@@ -1759,6 +1783,67 @@ const CLASSIFICATION := {
 				"5": "sotto mille", "480": "sotto mille", "913": "sotto mille", "268": "sotto mille",
 				"1000": "mille o più", "1204": "mille o più", "3560": "mille o più", "10000": "mille o più",
 				"1001": "mille o più", "2450": "mille o più", "7890": "mille o più", "12500": "mille o più"}},
+		# --- Il programma di medie e biennio prende le mani (6 settembre 2026) ---
+		#
+		# Quattro argomenti nuovi del banco che si smistano meglio di quanto si
+		# rispondano. Il primo è il più utile di tutti: **l'unità di misura non è
+		# una decorazione in fondo al numero**, e chi non distingue cm da cm³ non
+		# può accorgersi che un risultato è assurdo. Gli altri tre portano dentro
+		# un gesto la parte del biennio che altrimenti resterebbe solo scritta.
+		#
+		# Nessun nome di contenitore compare dentro le tessere: è la scorciatoia
+		# del «bidone» misurata da `scorciatoie_minigiochi_audit`, e chi smista
+		# leggendo l'etichetta invece di ragionare qui non arriva da nessuna parte.
+		{"explanation": "L'unità dice quante dimensioni sono in gioco: i cm misurano una linea, i cm² una superficie piatta, i cm³ uno spazio pieno. Sbagliare unità vuol dire aver risposto a un'altra domanda.", "topic": "solidi", "minLevel": 11, "draw": 6, "prompt": "Smista ogni cosa secondo che cosa misura.",
+			"categories": ["lunghezza", "superficie", "volume"],
+			"assignments": {
+				"cm": "lunghezza", "m": "lunghezza", "km": "lunghezza",
+				"il perimetro di un quadrato": "lunghezza", "lo spigolo di un cubo": "lunghezza",
+				"il raggio di un cerchio": "lunghezza", "quanto filo per recintare": "lunghezza",
+				"il diametro di una ruota": "lunghezza",
+				"cm²": "superficie", "m²": "superficie", "ettaro": "superficie",
+				"quanta vernice per dipingere": "superficie", "l'area di un rettangolo": "superficie",
+				"quanta carta per incartare": "superficie", "il pavimento di una stanza": "superficie",
+				"l'etichetta intorno a un barattolo": "superficie",
+				"cm³": "volume", "dm³": "volume", "m³": "volume", "litri": "volume",
+				"millilitri": "volume", "quanta acqua ci sta dentro": "volume",
+				"lo spazio pieno di una scatola": "volume", "quanti cubetti riempiono una scatola": "volume"}},
+		{"explanation": "I termini si contano dai segni di più e di meno che li separano: uno solo è un monomio, due un binomio, tre un trinomio. Le potenze e le moltiplicazioni non spezzano niente.", "topic": "calcolo-letterale", "minLevel": 17, "draw": 6, "prompt": "Smista ogni espressione per quanti termini ha.",
+			"categories": ["monomio", "binomio", "trinomio"],
+			"assignments": {
+				"3x": "monomio", "−5a": "monomio", "x²": "monomio", "7": "monomio",
+				"2ab": "monomio", "x³y": "monomio", "−a": "monomio", "12xy": "monomio",
+				"3x + 5": "binomio", "a − b": "binomio", "x² + 1": "binomio", "2a + 3b": "binomio",
+				"x − 7": "binomio", "4y + y²": "binomio", "5 − x": "binomio", "ab + 2": "binomio",
+				"x² + 2x + 1": "trinomio", "a + b + c": "trinomio", "3x − 2y + 5": "trinomio",
+				"x² − x − 6": "trinomio", "2a + 3b − c": "trinomio", "x³ + x + 1": "trinomio",
+				"4 + x + x²": "trinomio", "a² + 2ab + b²": "trinomio"}},
+		{"explanation": "Ogni equazione è una retta: se le rette si incrociano c'è una risposta sola, se sono parallele non ce n'è nessuna, se sono la stessa retta ce ne sono infinite. Si guarda la pendenza prima di calcolare.", "topic": "sistemi", "minLevel": 18, "draw": 6, "prompt": "Smista ogni coppia di rette per quante risposte dà.",
+			"categories": ["un punto solo", "nessun punto", "tutta la retta"],
+			"assignments": {
+				"due rette che si incrociano": "un punto solo", "x + y = 5 e x − y = 1": "un punto solo",
+				"y = 2x e y = x + 1": "un punto solo", "pendenze diverse": "un punto solo",
+				"y = 3x + 1 e y = −x": "un punto solo", "x = 2 e y = 5": "un punto solo",
+				"y = x e y = 4 − x": "un punto solo", "inclinazioni diverse": "un punto solo",
+				"due rette parallele distinte": "nessun punto", "y = 2x + 1 e y = 2x + 5": "nessun punto",
+				"stessa pendenza, quote diverse": "nessun punto", "x + y = 3 e x + y = 7": "nessun punto",
+				"2x + 2y = 4 e x + y = 9": "nessun punto", "y = x + 1 e y = x + 6": "nessun punto",
+				"3x − y = 1 e 3x − y = 8": "nessun punto", "rette che non si toccano mai": "nessun punto",
+				"due rette sovrapposte": "tutta la retta", "y = 2x e 2y = 4x": "tutta la retta",
+				"x + y = 4 e 2x + 2y = 8": "tutta la retta", "la seconda è la prima raddoppiata": "tutta la retta",
+				"y = x + 3 e 2y = 2x + 6": "tutta la retta", "le due rette coincidono": "tutta la retta",
+				"5x + 5y = 10 e x + y = 2": "tutta la retta", "la seconda non aggiunge niente": "tutta la retta"}},
+		{"explanation": "Per controllare se un numero risolve una disequazione lo si sostituisce e si guarda se la scrittura resta vera. Attenzione al confine: con > il valore uguale è fuori, con ≥ è dentro.", "topic": "disequazioni", "minLevel": 18, "draw": 6, "prompt": "Ogni affermazione è vera o falsa?",
+			"categories": ["vera", "falsa"],
+			"assignments": {
+				"7 > 5": "vera", "x > 5 con x = 9": "vera", "3 ≤ 3": "vera",
+				"x ≥ 2 con x = 2": "vera", "−1 < 0": "vera", "x < 10 con x = 4": "vera",
+				"−5 < −2": "vera", "x ≤ 6 con x = 6": "vera", "0 > −3": "vera",
+				"2x < 10 con x = 3": "vera", "x + 1 > 4 con x = 5": "vera", "−x > 0 con x = −2": "vera",
+				"5 > 7": "falsa", "x > 5 con x = 5": "falsa", "4 ≤ 3": "falsa",
+				"x ≥ 2 con x = 1": "falsa", "0 < −1": "falsa", "x < 10 con x = 12": "falsa",
+				"−2 < −5": "falsa", "x ≤ 6 con x = 8": "falsa", "−3 > 0": "falsa",
+				"2x < 10 con x = 6": "falsa", "x + 1 > 4 con x = 2": "falsa", "−x > 0 con x = 3": "falsa"}},
 	],
 	"fisica": [
 		{"explanation": "L'energia potenziale è immagazzinata dalla posizione, la cinetica è quella del movimento in corso: cadendo la prima diventa la seconda.", "topic": "energia", "draw": 6, "prompt": "Smista ogni situazione per l'energia prevalente.",

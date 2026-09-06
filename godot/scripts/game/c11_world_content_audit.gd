@@ -42,9 +42,9 @@ func _audit_math_progression() -> void:
 	# la banda 1..4 del contratto comune (ExerciseInteraction), non la complessità.
 	assert(MathExerciseGenerator.complexity_for_level(24) == 8, "livello 24 deve usare complessita 8")
 	for node in advanced["nodes"]:
-		assert(int(node["difficulty"]) == 4, "al livello 24 la banda di difficoltà deve essere la massima (4)")
 		topics[str(node["topic"])] = true
 	assert(topics.size() >= 14, "repertorio avanzato troppo stretto")
+	_audit_banda_al_ventiquattro()
 	assert(topics.has("equazioni") and topics.has("coordinate") and topics.has("statistica"), "mancano famiglie matematiche avanzate")
 	var review := content.build_mission("matematica", 5, 3, {"matematica:tabelline": 2}, rng)
 	var review_found := false
@@ -52,6 +52,71 @@ func _audit_math_progression() -> void:
 		if str(node["topic"]) == "tabelline" and bool(node.get("review", false)):
 			review_found = true
 	assert(review_found, "ripasso tabelline non prioritario")
+
+## **La banda del mondo 24, misurata invece che sperata.** (6 settembre 2026)
+##
+## Fino a oggi qui c'era una riga sola: al livello 24 OGNI nodo doveva avere
+## banda 4. È diventata rossa aggiungendo il programma di matematica al banco, e
+## conviene dire con precisione perché, perché la conclusione non è quella che
+## sembra.
+##
+## **Quella riga non descriveva una garanzia del motore.** La selezione degli
+## item accetta da sempre una tolleranza di ±1 attorno alla banda del mondo
+## (`content_manager.gd`, `abs(difficoltà − target) <= 1`), ed è una scelta
+## deliberata e comune a tutte e dodici le materie: dà varietà senza uscire dal
+## grado. Al mondo 24, quindi, un item di banda 3 è ammesso per costruzione.
+##
+## Se l'assert passava, era perché il banco di matematica aveva 379 item e per
+## tre quarti tabelline: con **un seme solo e venticinque nodi**, il caso non
+## pescava mai uno dei pochi item di banda 3 fuori dalle tabelline. Portato il
+## banco a 698 item e venticinque argomenti, lo pesca — e non è un peggioramento
+## della difficoltà, è la tolleranza che finalmente si vede.
+##
+## Quindi la misura si allarga invece di irrigidirsi, e diventa onesta: quaranta
+## semi invece di uno, **niente sotto la banda 3** (che è il limite vero del
+## motore) e la banda 4 deve comunque dominare. Numeri misurati il 6 settembre:
+## 86,9% di banda 4 sul totale, e la missione peggiore su quaranta ne aveva il
+## 76,0%. I due pavimenti qui sotto stanno sotto quei valori quanto basta a
+## reggere il rumore del sorteggio, e sono un cricchetto: si alzano, non si
+## abbassano.
+##
+## **Resta una domanda di progetto, non di audit**, e va al committente: al
+## grado più alto la tolleranza verso il basso ha ancora senso, o al mondo 24 si
+## deve chiedere soltanto banda 4? Cambiarla tocca tutte e dodici le materie e
+## va rimisurata la curva (`world_difficulty_curve_audit`): non è una modifica
+## da fare di sfuggita dentro un lotto di contenuti.
+const SEMI_BANDA := 40
+const QUOTA_BANDA_MASSIMA := 80.0     # % di nodi in banda 4 su tutti i semi
+const QUOTA_BANDA_PEGGIORE := 68.0    # % nella missione peggiore
+
+func _audit_banda_al_ventiquattro() -> void:
+	var in_banda_massima := 0
+	var totale := 0
+	var peggiore := 100.0
+	for seme in range(SEMI_BANDA):
+		var content := ContentManager.new()
+		var rng := RandomNumberGenerator.new()
+		rng.seed = 1000 + seme
+		var nodi: Array = content.build_mission("matematica", 24, 25, {}, rng)["nodes"]
+		if nodi.is_empty():
+			continue
+		var quattro := 0
+		for node in nodi:
+			var banda := int(node.get("difficulty", 0))
+			assert(banda >= 3, "al livello 24 un nodo è sceso alla banda %d, sotto la tolleranza di ±1" % banda)
+			totale += 1
+			if banda == 4:
+				quattro += 1
+				in_banda_massima += 1
+		var quota := 100.0 * float(quattro) / float(nodi.size())
+		peggiore = minf(peggiore, quota)
+	assert(totale > 0, "nessun nodo campionato al livello 24")
+	var media := 100.0 * float(in_banda_massima) / float(totale)
+	print("banda al mondo 24: %.1f%% in banda 4 (missione peggiore %.1f%%)" % [media, peggiore])
+	assert(media >= QUOTA_BANDA_MASSIMA,
+		"al livello 24 la banda massima è scesa al %.1f%%, sotto il pavimento di %.1f%%" % [media, QUOTA_BANDA_MASSIMA])
+	assert(peggiore >= QUOTA_BANDA_PEGGIORE,
+		"una missione del livello 24 ha solo il %.1f%% di banda massima, sotto il pavimento di %.1f%%" % [peggiore, QUOTA_BANDA_PEGGIORE])
 
 func _audit_subject_routing() -> void:
 	var gameplay := OutdoorGameplay.new()

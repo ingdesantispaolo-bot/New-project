@@ -2507,3 +2507,79 @@ motivazione che invocava una difficoltà adattiva — usata a suo tempo per il b
 del nucleo — è superata da qui in avanti: il blocco si evita con una soglia
 iniziale raggiungibile, indizi, spiegazioni e ripasso, non abbassando il
 curricolo.
+
+## Il programma di matematica: medie e biennio (6 settembre 2026)
+
+Richiesta del committente: coprire tutti gli argomenti del programma di scuola
+media e del biennio del liceo scientifico, su tutti e ventiquattro i mondi,
+spiegati con attenzione e usando minigiochi dove possibile.
+
+**Il punto di partenza, misurato.** Il banco di matematica aveva **379 item e
+sette argomenti**, e 284 erano tabelline: il **75%**. Gli altri sei —
+espressioni, frazioni, geometria, percentuali, radici, statistica — stavano
+tutti a quindici o sedici, cioè esattamente al minimo di `topic_density_audit`.
+Il resto del programma non era assente dal *gioco* (il generatore nativo produce
+già proporzioni, equazioni, potenze, coordinate, relativi; NORA aveva già
+venticinque voci di matematica): mancava dal **banco**, cioè dalla parte scritta
+a mano, quella con i distrattori ragionati e il perché di ogni errore. Un
+argomento che vive solo nel generatore si incontra a caso e non ha mai una
+domanda pensata da una persona.
+
+**Dopo.** 698 item, venticinque argomenti, tabelline al **40,7%**.
+
+| | prima | dopo |
+|---|---|---|
+| item nel banco di matematica | 379 | **698** |
+| argomenti | 7 | **25** |
+| quota tabelline | 75,0% | **40,7%** |
+| risposta non a scelta multipla | 29,8% | **29,9%** (forbice 20–30) |
+| item nei dodici banchi | 3742 | **4061** |
+| voci di NORA | 256 | **261** |
+| argomenti di matematica con un minigioco | 24 su 25 mancanti sei | **25 su 25** |
+
+**Dove stanno gli argomenti.** La banda del banco la sceglie il mondo
+(`ContentManager.target_difficulty`: 1 nei mondi 1–4, 2 nei 5–10, 3 nei 11–17, 4
+nei 18–24), quindi «coprire tutti i mondi» ha un significato misurabile: ogni
+argomento nasce nella banda in cui la scuola lo introduce e i suoi item più duri
+stanno nella banda dei mondi finali. Prima media in banda 1 (numeri, operazioni,
+multipli, primi); seconda in banda 2 (potenze, radici, proporzioni,
+probabilità); terza in banda 3 (interi, coordinate, solidi, funzioni, sequenze);
+il biennio per intero in banda 4 — insiemi numerici fino agli irrazionali,
+calcolo letterale con i due prodotti notevoli e la scomposizione, sistemi
+lineari con i tre casi letti sul grafico, disequazioni, radicali, Talete e il
+primo teorema di Euclide.
+
+**I sei minigiochi nuovi.** Sei argomenti del banco restavano senza un gesto.
+Abbinamento per `radici` (√n → numero, cioè la tabellina letta al contrario) e
+`similitudine` (i nomi del triangolo rettangolo, ciascuno con una definizione
+sola); smistamento per `solidi`, `calcolo-letterale`, `sistemi` e
+`disequazioni`. Il più utile dei quattro è quello dei solidi: smista **cm, cm² e
+cm³**, e l'unità di misura non è una decorazione in fondo al numero — chi non
+distingue le tre non può accorgersi che un risultato è assurdo.
+
+**Le regole di scrittura, dichiarate nel file e verificate prima del bake.**
+
+1. La risposta giusta non è mai più lunga di quattro caratteri del distrattore
+   più lungo: è la scorciatoia della lunghezza, e il tetto di matematica in
+   `bank_scorciatoie_audit` (24,3) può solo scendere.
+2. Mai il punto come separatore delle migliaia in una risposta: per il
+   correttore di Godot `2.500` vale due virgola cinque, e un item così,
+   convertito a risposta libera, diventerebbe incorreggibile.
+3. Tutti scritti a scelta multipla di proposito: la conversione al 30% di
+   risposta libera è automatica nel bake, e scriverli già liberi butterebbe via
+   i `distractorWhy`.
+4. Ogni distrattore è un errore vero, con scritto perché lo si fa; la
+   spiegazione dice un come o un perché, mai la risposta riscritta con l'uguale.
+5. Nessun argomento entra nel banco senza la sua voce in `NoraExplanations`
+   (`nora_explanation_depth_audit`) e la sua lezione nel Manuale
+   (`codex_teaching_audit`).
+6. Nessun nome di contenitore dentro le tessere che deve smistare
+   (`scorciatoie_minigiochi_audit`, scorciatoia del «bidone»).
+
+Un controllo a parte verifica le prime quattro su tutti e 319 gli item nuovi
+prima ancora del bake; le ultime due sono audit della suite.
+
+**Il file è nuovo e sta a parte**: `scripts/banks/matematica-programma.mjs`.
+Trecentodiciannove item e ventiquattro argomenti dentro `build-exercise-banks.mjs`
+sarebbero stati una vena di millecinquecento righe in mezzo alle altre undici
+materie, ed è materiale che si continuerà ad ampliare.

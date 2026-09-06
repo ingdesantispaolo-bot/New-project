@@ -46,9 +46,10 @@ Cinque regole, e sono tutte state pagate almeno una volta.
 
 | | valore | dove si rimisura |
 |---|---|---|
-| audit Godot | **251 verdi su 251** in 509 s — nessun rosso | `npm run audit:godot` |
-| item nei dodici banchi | **3742** | `godot/data/banks/*.json` |
-| voci di NORA | **256** | `nora_explanations.gd` |
+| audit Godot | **251 verdi su 251** in 488 s — nessun rosso | `npm run audit:godot` |
+| item nei dodici banchi | **4061** (di cui matematica 698, era 379) | `godot/data/banks/*.json` |
+| argomenti di matematica nel banco | **25** (erano 7); tabelline al **40,7%**, erano il 75% | `topic_density_audit` |
+| voci di NORA | **261** | `nora_explanations.gd` |
 | campagna | **21,3 ore** · mondo più corto 30,1 min, più lungo 69,4 min | `time_cost_probe` |
 | mondo 1: nodi | **2511 / 3500** (era 2789: i nodi sono stati restituiti) | `performance_budget_audit` |
 | mondo 1: avvio | **392 / 500 ms** — il 78% del budget | idem |
@@ -676,16 +677,62 @@ stessa cecità che quell'audit fu scritto per chiudere, spostata di un gradino.
 
 ### Contenuti e didattica — Claude
 
-**G-C1 · Il banco di matematica è al 75% tabelline.**
-285 item su 380. Gli altri sei argomenti — statistica, percentuali, geometria,
-frazioni, espressioni, radici — stanno tutti a 15 o 16, cioè al minimo che
-`topic_density_audit` impone. Vanno portati al livello delle altre materie,
-venti-trenta per argomento, e mancano ancora i due della fascia alta:
-**proporzioni ed equazioni**. Il generatore già le propone e NORA sa spiegarle; è
-il banco statico a non chiederle mai. Chiuderla sblocca anche la **bilancia
-dell'uguale**: la figura non esiste perché non c'è un solo item con
-un'uguaglianza da bilanciare, ed è mezz'ora di lavoro il giorno in cui ce ne sarà
-uno.
+**G-C1 · Il banco di matematica — chiusa il 6 settembre 2026.**
+*Richiesta: «occupati di matematica per tutti i mondi, in modo da esplorare tutti
+gli argomenti del programma medie e biennio liceo scientifico, spiegati con
+attenzione e dettaglio, usando mini giochi quando possibile».*
+
+Il banco aveva **379 item e sette argomenti**, di cui 284 tabelline: il 75%. Gli
+altri sei stavano tutti a 15 o 16, cioè al minimo che `topic_density_audit`
+impone — esistevano per non far arrossire una guardia. Adesso sono **698 item e
+venticinque argomenti**, e le tabelline sono il **40,7%**.
+
+**Trecentodiciannove item nuovi**, in `scripts/banks/matematica-programma.mjs` —
+un file suo, perché è materiale che si continuerà ad ampliare e in mezzo al bake
+sarebbe una vena di millecinquecento righe. Diciotto argomenti nuovi, ognuno
+almeno a quindici item, distribuiti sulle bande in cui la scuola li introduce:
+
+| banda (mondi) | argomenti nuovi |
+|---|---|
+| 1 (1-4) | numeri, operazioni, multipli, primi |
+| 2 (5-10) | potenze, interi, proporzioni, probabilità |
+| 3 (11-17) | coordinate, solidi, sequenze, funzioni, problemi |
+| 4 (18-24) | calcolo letterale, sistemi, disequazioni, similitudine, equazioni |
+
+Il biennio del liceo entra per intero nella banda 4: insiemi numerici (N ⊂ Z ⊂ Q
+⊂ R e il primo irrazionale), monomi e polinomi, i due prodotti notevoli,
+raccoglimento e scomposizione, sistemi lineari con i tre casi letti sul grafico,
+disequazioni con la trappola del verso che si rovescia, radicali, Talete e il
+primo teorema di Euclide.
+
+**Cinque voci di NORA nuove** (`solidi`, `calcolo-letterale`, `sistemi`,
+`disequazioni`, `similitudine`) e **tredici schede scritte a mano nel Manuale**:
+per gli argomenti nuovi il Manuale avrebbe costruito la lezione da solo pescando
+un item a caso, e una scheda automatica non sa dire qual è l'errore tipico né
+perché si fa — che sono le due righe che valgono di più.
+
+**Sei minigiochi nuovi**, per i sei argomenti che restavano senza gesto:
+abbinamento per `radici` (√ → numero) e `similitudine` (i nomi del triangolo
+rettangolo); smistamento per `solidi` (**cm, cm², cm³**: chi non distingue le tre
+unità non può accorgersi che un risultato è assurdo), `calcolo-letterale`
+(monomio/binomio/trinomio), `sistemi` (un punto, nessun punto, tutta la retta) e
+`disequazioni` (il numero risolve o no, con il confine incluso o escluso).
+Nessun nome di contenitore compare dentro le sue tessere: è la scorciatoia del
+«bidone», e `scorciatoie_minigiochi_audit` resta verde.
+
+**Le regole di scrittura, dichiarate nel file.** La risposta giusta non è mai più
+lunga di quattro caratteri del distrattore più lungo (il tetto di matematica in
+`bank_scorciatoie_audit` scende, non sale); nessun punto delle migliaia in una
+risposta, perché `2.500` e `2500` per il correttore di Godot sono due numeri
+diversi e l'item diventerebbe incorreggibile una volta convertito a risposta
+libera; tutti scritti a scelta multipla di proposito, perché la conversione al
+30% di risposta libera è automatica e scriverli già liberi butterebbe via i
+`distractorWhy`. Un controllo a parte verifica tutte e sei le regole su tutti e
+319 gli item prima del bake.
+
+Resta aperta la **bilancia dell'uguale**: la figura non esiste ancora, ma adesso
+c'è di che disegnarla — `uguaglianze` ha il suo smistamento e `equazioni`
+diciotto item.
 
 **G-C2 · La scelta multipla dell'esame.** ← *la prima da riprendere: ha già un
 rosso attaccato*
@@ -782,6 +829,31 @@ restano nel giro, illustrarle tutte e quindici è lavoro su un'ipotesi.
 > ritirato: resa e regola tornano insieme o non tornano.
 
 ### Decisioni tue
+
+**G-16 · Al mondo 24 la tolleranza verso il basso ha ancora senso? — aperta il 6
+settembre 2026**
+
+La selezione degli item accetta da sempre una tolleranza di **±1 attorno alla
+banda del mondo** (`content_manager.gd`): dà varietà senza uscire dal grado, e
+vale per tutte e dodici le materie. Al mondo 24, quindi, un item di banda 3 è
+ammesso **per costruzione**.
+
+Nessuno se n'era accorto perché `c11_world_content_audit` chiedeva banda 4 su
+ogni nodo, con **un seme solo e venticinque nodi**, e con un banco di matematica
+per tre quarti di tabelline il caso non pescava mai un banda 3. Il banco ricco lo
+pesca: misurato su quaranta semi, al mondo 24 si gioca **86,9% in banda 4** e la
+missione peggiore ne ha il 76,0%. La misura è stata allargata e resa onesta —
+niente sotto la banda 3, e due pavimenti a cricchetto — ma la domanda di progetto
+resta tua:
+
+- **così com'è**: al grado più alto un esercizio su otto è del grado precedente,
+  e serve da respiro fra i vincoli;
+- **solo banda 4 al mondo 24**: più coerente con la Decisione 16 («si padroneggia
+  il livello del mondo»), ma tocca tutte e dodici le materie e obbliga a
+  rimisurare `world_difficulty_curve_audit`.
+
+Non l'ho cambiata di sfuggita dentro un lotto di contenuti: è la curva, ed è la
+tua.
 
 **G-14 · Gli archetipi che si vincevano senza capirli — chiusa il 4 settembre 2026**
 

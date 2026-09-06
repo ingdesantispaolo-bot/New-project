@@ -2583,3 +2583,38 @@ prima ancora del bake; le ultime due sono audit della suite.
 Trecentodiciannove item e ventiquattro argomenti dentro `build-exercise-banks.mjs`
 sarebbero stati una vena di millecinquecento righe in mezzo alle altre undici
 materie, ed è materiale che si continuerà ad ampliare.
+
+## «Rispondo e si blocca, vedo ancora la domanda, 3/3» (6 settembre 2026)
+
+Quarta segnalazione della stessa famiglia — *«rispondendo correttamente la prova
+si blocca»* (8 agosto, il contenuto non scorreva), *«VERIFICA tagliato dal
+bordo»* (15 agosto, i comandi scorrevano via), *«preme AVANTI e non succede
+niente»* (5 settembre, la scheda di NORA si mangiava i tocchi) — e la prima con
+**questa** causa, che è il motivo per cui è sopravvissuta a tutte e tre le
+correzioni precedenti.
+
+**Riprodotta** giocando davvero le minimissioni della torcia (mondo 1, partita
+nuova) e della falce (mondo 2, partita vecchia) su sette schermi, in orizzontale
+e in verticale. Il blocco esce **solo se si sbaglia**: nove formati su venti si
+possono ritentare — ordinamento, smistamento, grafico, percorso della macchina,
+ciclo, griglia, porte, decodifica, debug — e su risposta sbagliata
+`_retryable_result` spende uno scudo e aspetta un altro tentativo senza chiudere
+il nodo. Finché il nodo è aperto AVANTI non compare, quindi l'unica uscita era
+azzeccare la risposta o esaurire gli scudi.
+
+Contraddiceva il guard-rail *niente blocca il ciclo*, e colpiva più duramente
+proprio chi non sa rispondere.
+
+**Correzione:** dopo un errore compare **NON CI RIESCO** accanto ad ANNULLA e
+VERIFICA. Chiude il nodo come sbagliato, NORA spiega, la prova continua. Costa
+quanto sbagliare — lo scudo è già stato speso — quindi non è una scorciatoia: è
+la seconda porta resa visibile.
+
+**Nota di metodo, la più importante del lotto.** `nodo_senza_uscita_audit` era
+stato scritto il 5 settembre proprio per questa famiglia di segnalazioni, ed era
+verde: **rispondeva sempre correttamente**. Una sonda che esercita solo il
+percorso felice è verde per costruzione su tutto ciò che riguarda il fallimento,
+cioè sul percorso di chi non sa rispondere. Ora alterna giusto e sbagliato e
+pretende che dopo ogni tentativo esista una via d'uscita visibile che chiuda
+davvero il nodo. Verificata togliendo la correzione (rossa) e rimettendola
+(verde).

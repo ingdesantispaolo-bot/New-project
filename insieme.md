@@ -72,7 +72,7 @@ Cinque regole, e sono tutte state pagate almeno una volta.
 ## Rosso adesso — prima di ogni altra cosa
 
 > **Stato al 6 settembre 2026: la suite è verde su 251 audit, per la prima
-> volta.** Tutte le voci R-1…R-13 sono chiuse.
+> volta.** Tutte le voci R-1…R-14 sono chiuse.
 >
 > L'ultimo rosso — `storia / esame` al 35,8% — non è stato pagato: **la soglia è
 > stata allentata a 36,0 per decisione del committente**, che ha scelto di
@@ -89,6 +89,54 @@ Cinque regole, e sono tutte state pagate almeno una volta.
 > La suite è passata da 242/244 a **243/244**, e da 738 a **572 secondi**: i
 > quattro minuti risparmiati sono l'audit che non resta più appeso a un `assert`
 > fallito (vedi *Rischi noti*, 6).
+
+### R-14 · PROVA restava acceso, e la scheda regalava la risposta — chiusa il 6 settembre 2026
+
+*Segnalazione con tre schermate: «rispondendo correttamente alla terza tappa per
+recuperare la torcia, premendo invio si blocca».*
+
+Le schermate mostrano tre difetti diversi, e il primo è il blocco.
+
+**1 · ANNULLA e PROVA restavano accesi dopo la risposta.** È il gemello esatto di
+R-13, con un altro pulsante. Su un minigioco — grafico, ordinamento, smistamento
+— i due comandi vivono nella **barra**, non dentro `_options`, quindi
+`_disable_buttons(_options)` non li toccava. Nella terza schermata si vede tutto:
+nodo risolto, «Funziona! +13 energia · serie ×1,25» scritto sotto, e **PROVA
+ancora verde e grande sopra un AVANTI scuro e discreto**. Il dito va sul pulsante
+che sembra il principale; quello rientra in `_score_current`, che esce subito
+perché il nodo è già chiuso, e non succede niente.
+
+Adesso, chiuso il nodo, la riga ANNULLA/PROVA se ne va con il tastierino e con
+CONFERMA. Restano SPIEGA CON NORA e AVANTI. In più il campo di testo rilascia il
+fuoco: se il browser aveva aperto la tastiera di sistema, quella copriva proprio
+la zona di AVANTI.
+
+**2 · Mille pixel di nero fra la domanda e i comandi.** Nella seconda schermata —
+telefono in verticale — il riquadro andava dal 4% al 96% dello schermo mentre il
+contenuto ne occupava un quarto: fra l'ultima riga e i pulsanti c'era il vuoto, e
+AVANTI finiva a un palmo di distanza da dove il bambino stava guardando. Le
+risposte libere ora usano la forma **compatta**, come la scelta multipla: il
+riquadro si ferma al 74%.
+
+**3 · La scheda di NORA regalava la risposta.** Davanti a *«Quale numero completa
+6 × ? = 36?»* si apriva la scheda con scritto, sotto **FATTI NUOVI IN QUESTA
+PROVA**, «• 6». La risposta, un secondo prima della domanda, e niente da
+imparare.
+
+L'intenzione era già scritta dentro `recall_fact` — *«restituisce {} quando la
+domanda chiede di ragionare invece che di ricordare: quella risposta non va
+anticipata»* — ma l'unico controllo era il numero di parole, e **un numero è
+sempre una parola sola**: passava sempre. La regola che distingue davvero le due
+cose è un'altra: un nome da ricordare ha delle **lettere** (Oslo, accusativo,
+conduttore), il risultato di un conto no (6, 42, 0,25, 3/4). I nomi veri
+continuano ad arrivare prima della domanda — è il regalo del 31 agosto, e la
+guardia verifica anche quello.
+
+**Tre guardie nuove**, tutte provate togliendo la correzione e vedendole
+diventare rosse: `exercise_reachability_audit` ora gioca il nodo e pretende che
+ANNULLA/PROVA e CONFERMA spariscano quando è chiuso;
+`fact_level_teaching_audit` pretende che sei risposte da calcolare non vengano
+anticipate e che quattro nomi veri lo restino.
 
 ### R-13 · CONFERMA era visibile e morto — chiusa il 6 settembre 2026
 

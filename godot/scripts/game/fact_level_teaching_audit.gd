@@ -28,6 +28,7 @@ func _init() -> void:
 	_registro_fatti_regge()
 	_ordinamenti_a_insieme_insegnano_i_fatti_nuovi()
 	_fatti_gia_noti_non_si_reinsegnano()
+	_una_risposta_da_calcolare_non_si_anticipa()
 	if errori.is_empty():
 		print(OK)
 	else:
@@ -133,3 +134,41 @@ func _fatti_gia_noti_non_si_reinsegnano() -> void:
 	var solo_nuovo := KnowledgeCodex.unknown_facts(save, "storia", "cronologia", misto)
 	if solo_nuovo.size() != 1 or str(solo_nuovo[0].get("label", "")) != "Trattati di Roma":
 		_fallisci("pescato misto: attesa solo «Trattati di Roma» come fatto nuovo, trovato %s" % str(solo_nuovo))
+
+## **La scheda di NORA non regala la risposta.** (6 settembre 2026)
+##
+## Segnalazione con schermata: davanti a *«Quale numero completa 6 × ? = 36?»*
+## si apriva la scheda con scritto, sotto FATTI NUOVI IN QUESTA PROVA, «• 6».
+## La risposta, un secondo prima della domanda, e niente da imparare.
+##
+## `recall_fact` doveva già escludere le domande da ragionare — sta scritto nel
+## suo commento — ma controllava solo il numero di parole, e un numero è sempre
+## una parola sola. Qui si verifica la regola che distingue davvero le due cose:
+## un nome da ricordare ha delle lettere, il risultato di un conto no.
+func _una_risposta_da_calcolare_non_si_anticipa() -> void:
+	var da_calcolare := [
+		{"answer": "6", "explanation": "Sei per sei fa trentasei."},
+		{"answer": "42", "explanation": "Sei gruppi da sette."},
+		{"answer": "0,25", "explanation": "Uno diviso quattro."},
+		{"answer": "3/4", "explanation": "Tre parti su quattro."},
+		{"answer": "−8", "explanation": "Due segni meno danno più."},
+		{"answer": "2⁷", "explanation": "Le ripetizioni si sommano."},
+	]
+	for nodo_data in da_calcolare:
+		var nodo: Dictionary = nodo_data
+		var richiamo := KnowledgeCodex.recall_fact(nodo)
+		if not richiamo.is_empty():
+			_fallisci("la scheda anticiperebbe «%s», che è la risposta da calcolare, non un nome da ricordare" % [
+				str(nodo["answer"])])
+	# E il contrario: i nomi veri devono continuare ad arrivare prima della
+	# domanda. È il regalo del 31 agosto, e questa guardia non deve toglierlo.
+	var da_ricordare := [
+		{"answer": "Oslo", "explanation": "Capitale della Norvegia."},
+		{"answer": "accusativo", "explanation": "Il caso del complemento oggetto."},
+		{"answer": "conduttore", "explanation": "Lascia passare la corrente."},
+		{"answer": "Città del Messico", "explanation": "Capitale del Messico."},
+	]
+	for nodo_data in da_ricordare:
+		var nodo: Dictionary = nodo_data
+		if KnowledgeCodex.recall_fact(nodo).is_empty():
+			_fallisci("«%s» è un nome da ricordare e la scheda non lo direbbe più" % str(nodo["answer"]))

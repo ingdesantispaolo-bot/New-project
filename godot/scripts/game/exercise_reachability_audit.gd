@@ -281,6 +281,28 @@ func _run() -> void:
 				formato, giu, altezza])
 		if verifica.get_global_rect().position.y < 0.0:
 			_fallisci("%s: VERIFICA finisce sopra il bordo alto della viewport" % formato)
+
+		# **4-bis · risposto il nodo, VERIFICA se ne va.** (6 settembre 2026)
+		#
+		# Seconda schermata della segnalazione: nodo risolto — «Funziona! +13
+		# energia» scritto sotto — e **PROVA ancora acceso, verde e grande**,
+		# sopra un AVANTI scuro. Il dito va sul pulsante che sembra il
+		# principale, e quello rientra in `_score_current`, che esce subito
+		# perché il nodo è già chiuso: non succede niente. È lo stesso blocco di
+		# CONFERMA, con un altro pulsante.
+		#
+		# `_disable_buttons(_options)` non poteva vederli: ANNULLA e PROVA
+		# vivono nella BARRA, non fra le opzioni.
+		player.call("_score_current", true, _nodo_interattivo(formato))
+		await process_frame
+		await process_frame
+		var rimasti := player.find_child("InteractionActions", true, false)
+		if rimasti != null and (rimasti as Control).visible:
+			_fallisci("%s: risposto il nodo, ANNULLA/PROVA restano accesi sopra AVANTI" % formato)
+		var conferma_rimasta := player.find_child("TextAnswerSubmit", true, false) as Button
+		if conferma_rimasta != null and conferma_rimasta.visible:
+			_fallisci("%s: risposto il nodo, CONFERMA resta sullo schermo" % formato)
+
 		player.queue_free()
 		await process_frame
 

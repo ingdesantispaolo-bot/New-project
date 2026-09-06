@@ -2657,3 +2657,50 @@ Guardava la prova, non la giocava. Ora gioca il primo nodo per davvero e
 controlla il secondo. Verificata togliendo la riga — *«al secondo nodo CONFERMA è
 visibile=true e spento=true — si scrive la risposta e non si consegna»* — e
 rimettendola.
+
+## Tre difetti in tre schermate (6 settembre 2026)
+
+Segnalazione: *«rispondendo correttamente alla terza tappa per recuperare la
+torcia, premendo invio si blocca»*, con tre schermate da telefono.
+
+**1 · Il blocco: ANNULLA e PROVA restavano accesi dopo la risposta.** Gemello
+esatto del difetto di CONFERMA chiuso poche ore prima, con un altro pulsante. Su
+un minigioco — grafico, ordinamento, smistamento — i due comandi vivono nella
+**barra delle azioni**, non dentro `_options`, quindi `_disable_buttons(_options)`
+non li vedeva. Nella terza schermata: nodo risolto, «Funziona! +13 energia ·
+serie ×1,25» scritto sotto, e **PROVA ancora verde e grande sopra un AVANTI
+scuro**. Il dito va sul pulsante che sembra il principale; quello rientra in
+`_score_current`, che esce subito perché il nodo è già chiuso, e non succede
+niente.
+
+`_lock_interactions()` ora svuota anche la riga di interazione e rilascia il
+fuoco del campo di testo: se il browser aveva aperto la tastiera di sistema,
+quella copriva proprio la zona di AVANTI — ed è il caso letterale di «premendo
+invio».
+
+**2 · Il vuoto fra la domanda e i comandi.** Seconda schermata, telefono in
+verticale: il riquadro andava dal 4% al 96% dello schermo mentre il contenuto —
+domanda, campo, tastierino — ne occupava un quarto. Fra l'ultima riga e i
+pulsanti restavano circa mille pixel di nero. `numeric_input` e `short_answer`
+usano ora la forma **compatta** (riquadro fino al 74%), come la scelta multipla.
+
+**3 · La scheda di NORA regalava la risposta.** Davanti a *«Quale numero completa
+6 × ? = 36?»* la scheda diceva, sotto FATTI NUOVI IN QUESTA PROVA, «• 6».
+
+`KnowledgeCodex.recall_fact()` doveva già escludere le domande da ragionare — sta
+scritto nel suo commento dal 31 agosto — ma l'unico controllo era il numero di
+parole, e **un numero è sempre una parola sola**: passava sempre, per ogni
+materia con risposta numerica. La regola che distingue davvero le due cose è
+un'altra: un nome da ricordare ha delle **lettere** (Oslo, accusativo,
+conduttore), il risultato di un conto no (6, 42, 0,25, 3/4).
+
+**Le guardie.** `exercise_reachability_audit` gioca il nodo e pretende che
+ANNULLA/PROVA e CONFERMA spariscano quando è chiuso;
+`fact_level_teaching_audit` pretende che sei risposte da calcolare non vengano
+anticipate e che quattro nomi veri continuino ad arrivare. Entrambe provate
+togliendo la correzione e vedendole diventare rosse.
+
+**La lezione che accomuna R-13 e R-14**, e vale oltre questo lotto: *tutto ciò
+che serviva a rispondere deve sparire quando la risposta è data.* Un comando che
+resta acceso e non fa più niente è indistinguibile, per chi gioca, da un gioco
+bloccato — e il bambino torna sempre a premere dov'era un attimo prima.

@@ -504,13 +504,47 @@ const RICHIAMO_MAX_PAROLE := 3
 ##
 ## Restituisce {} quando la domanda non e' di richiamo: una domanda che chiede
 ## PERCHE' si risponde ragionando, e la sua risposta non va anticipata.
+## **Un numero non è un nome, ed è la risposta.** (6 settembre 2026)
+##
+## Segnalazione con schermata: davanti alla domanda *«Quale numero completa
+## 6 × ? = 36?»* si apriva la scheda di NORA con scritto, sotto il titolo FATTI
+## NUOVI IN QUESTA PROVA, **«• 6»**. Cioè: la risposta, regalata un secondo
+## prima della domanda, e nessun insegnamento.
+##
+## L'intenzione era già scritta qui sopra — *«restituisce {} quando la domanda
+## chiede di ragionare invece che di ricordare: quella risposta non va
+## anticipata, o si toglie proprio la domanda che vale la pena fare»* — ma
+## l'unico controllo era il numero di parole, e **un numero è sempre una parola
+## sola**: passava sempre.
+##
+## La regola giusta è quella che distingue le due cose davvero: un nome da
+## ricordare ha delle **lettere** (Oslo, accusativo, conduttore); il risultato di
+## un ragionamento no (6, 42, 0,25, 3/4). Sotto le due lettere consecutive non
+## c'è niente da ricordare, c'è solo la soluzione.
 static func recall_fact(nodo: Dictionary) -> Dictionary:
 	var risposta := str(nodo.get("answer", "")).strip_edges()
 	if risposta == "" or str(nodo.get("explanation", "")).strip_edges() == "":
 		return {}
 	if risposta.split(" ", false).size() > RICHIAMO_MAX_PAROLE:
 		return {}
+	if not e_un_nome(risposta):
+		return {}
 	return {"label": risposta, "value": 0.0}
+
+## Vero se la stringa è un nome da ricordare e non il risultato di un conto.
+## Due lettere di fila: basta a tenere fuori numeri, frazioni e simboli, e a
+## tenere dentro ogni parola di ogni materia.
+static func e_un_nome(valore: String) -> bool:
+	var lettere_di_fila := 0
+	for i in valore.length():
+		var c := valore[i]
+		if (c >= "a" and c <= "z") or (c >= "A" and c <= "Z") or c.to_lower() != c.to_upper():
+			lettere_di_fila += 1
+			if lettere_di_fila >= 2:
+				return true
+		else:
+			lettere_di_fila = 0
+	return false
 
 ## La scheda per un nome mai visto: lo dice, e dice perche' e' quello.
 ##

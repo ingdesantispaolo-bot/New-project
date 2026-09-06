@@ -683,7 +683,15 @@ func _subject_accent() -> Color:
 func _apply_format_layout(format: String) -> void:
 	if not is_instance_valid(_exercise_panel) or not is_instance_valid(_options_scroll):
 		return
-	var compact := format in ["multiple_choice", "matching", "classification"]
+	# **Anche le risposte libere sono corte.** (6 settembre 2026) Nella schermata
+	# della segnalazione, su un telefono in verticale, il riquadro andava dal 4%
+	# al 96% dello schermo mentre il contenuto — domanda, campo e tastierino —
+	# ne occupava un quarto: fra l'ultima riga e i pulsanti restavano **mille
+	# pixel di nero**, e AVANTI finiva a un palmo di distanza da dove il bambino
+	# stava guardando. Con la forma compatta il riquadro si ferma al 74%, come
+	# per la scelta multipla, e i comandi tornano vicini alla domanda.
+	var compact := format in [
+		"multiple_choice", "matching", "classification", "numeric_input", "short_answer"]
 	if bool(session.get("transversal", false)):
 		compact = false
 	# Lo scorrimento occupa tutto: è un minigioco di reazione, e un riquadro
@@ -2118,6 +2126,22 @@ func _lock_interactions() -> void:
 	if is_instance_valid(_hint_button):
 		_hint_button.visible = false
 	_disable_buttons(_options)
+	# **E anche ANNULLA/PROVA, che non stanno fra le opzioni.** (6 settembre 2026)
+	#
+	# Seconda schermata della stessa segnalazione, ed è la gemella esatta di
+	# CONFERMA: su un minigioco — grafico, ordinamento, smistamento — i due
+	# comandi vivono nella BARRA, non dentro `_options`, quindi `_disable_buttons`
+	# non li toccava. Risposto e corretto («Funziona! +13 energia»), **PROVA
+	# restava acceso, verde e grande**, sopra un AVANTI scuro e discreto.
+	#
+	# Il dito va sul pulsante che sembra il principale, e PROVA rientra in
+	# `_score_current`, che esce subito perché il nodo è già chiuso: **non
+	# succede niente**. È il blocco della segnalazione, con un altro pulsante.
+	_svuota_azioni_interazione()
+	# La tastiera di sistema, se il browser l'ha aperta per il campo, resta sopra
+	# la barra finché il campo tiene il fuoco: e sotto quella tastiera c'è AVANTI.
+	if is_instance_valid(_input) and _input.has_focus():
+		_input.release_focus()
 	_mostra_esito_nella_colonna()
 
 ## Porta la colonna sull'esito appena scritto. Senza questo, su uno schermo di

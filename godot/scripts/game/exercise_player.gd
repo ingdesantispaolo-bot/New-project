@@ -3529,9 +3529,7 @@ func _advance() -> void:
 	if _shields <= 0:
 		_request_finish()
 		return
-	# L'ultimo Avanti chiude direttamente la prova. Nella build Web la chiusura
-	# viene rinviata al frame successivo: il browser conclude il gesto prima di
-	# salvataggio, segnali e aggiornamenti del mondo. _session_closed impedisce
+	# L'ultimo Avanti chiude direttamente la prova. `_session_closed` impedisce
 	# che touch e click sintetico consegnino due esiti.
 	if _index + 1 >= _nodes.size():
 		_index = _nodes.size()
@@ -3551,30 +3549,16 @@ func _advance() -> void:
 	if _index < _nodes.size():
 		_show_teaching_overlay()
 
-## Quanto si aspetta la consegna rinviata prima di farla comunque. Mezzo secondo
-## è già un'eternità per un fotogramma rinviato, e resta invisibile a chi gioca.
-const SECONDI_RETE_DI_SICUREZZA := 0.5
-
 func _request_finish() -> void:
 	if _completion_queued or _session_closed:
 		return
 	_completion_queued = true
-	# **AVANTI non si spegne più.** (6 settembre 2026) Restava spento in attesa
-	# della consegna rinviata: se quella non arrivava, il pulsante era lì, morto,
-	# e non c'era un secondo tocco possibile. Adesso resta premibile, e il secondo
-	# tocco chiude la prova sul posto — `_finish()` si esegue una volta sola
-	# comunque, se la protegge da sé con `_session_closed`.
-	if OS.has_feature("web"):
-		call_deferred("_finish")
-		# Ripiego idempotente per una chiusura ancora in coda. Non può recuperare
-		# un gesto che non ha raggiunto il pulsante.
-		if is_inside_tree():
-			var rete := get_tree().create_timer(SECONDI_RETE_DI_SICUREZZA)
-			rete.timeout.connect(func():
-				if not _session_closed:
-					_finish())
-	else:
-		_finish()
+	# La consegna deve avvenire nello stesso giro di input. Il vecchio ramo Web
+	# usava `call_deferred`: nella minimissione della torcia il nodo arrivava a
+	# 3/3, ma il callback differito poteva non partire e lasciava il pannello
+	# aperto per sempre. Nascondere il player non elimina nodi durante il segnale,
+	# quindi non c'è alcuna ragione tecnica per rimandare la chiusura.
+	_finish()
 
 func _should_pause_before_synthesis() -> bool:
 	if _pre_synthesis_shown or not bool(session.get("transversal", false)):

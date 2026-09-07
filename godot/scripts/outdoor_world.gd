@@ -2154,7 +2154,11 @@ func _disegna_incarico(area: Area2D, payload: Dictionary, completed: bool) -> vo
 		guasto.add_child(ricompensa)
 	area.add_child(guasto)
 	if not reduced_motion:
-		var tween := create_tween().set_loops()
+		# Il ciclo appartiene al glifo, non al mondo. Quando la minimissione
+		# termina il guasto viene rimosso: un tween del mondo restava vivo senza
+		# più target e sul Web segnalava `Infinite loop detected` proprio dopo
+		# l'ultimo Avanti.
+		var tween := glifo.create_tween().set_loops()
 		tween.tween_property(glifo, "modulate:a", 0.45, 0.8).set_trans(Tween.TRANS_SINE)
 		tween.tween_property(glifo, "modulate:a", 1.0, 0.8).set_trans(Tween.TRANS_SINE)
 	var visual := ENIGMA_STRUCTURE.new()

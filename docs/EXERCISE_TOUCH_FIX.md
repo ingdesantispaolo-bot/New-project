@@ -26,12 +26,25 @@ il gesto nato dentro il pulsante anche se il dito termina appena fuori; un
 eventuale doppio evento touch/click non può saltare la domanda successiva.
 L'area scorrevole continua a lasciare spazio alla barra.
 
+### Minimissione «Recupera torcia»
+
+La fixture numerica non copriva la coda specifica della minimissione:
+trasformazione del POI, salvataggio e consegna della torcia. Il test Web ora
+avvia la vera minimissione `riaccendere` del mondo 1, risolve i tre nodi e preme
+i tre Avanti nel browser.
+
+La chiusura dell'ultimo nodo non viene più rinviata con `call_deferred`: esito e
+ritorno al mondo avvengono nello stesso giro di input. Inoltre il tween ciclico
+del glifo guasto è legato al glifo stesso, così viene eliminato insieme al POI e
+non produce più `Infinite loop detected` durante la trasformazione finale.
+
 ## Verifiche
 
 - `node scripts/run-godot-audits.mjs exercise_`: 8/8 verdi.
 - `npm run test:web:exercise-touch`: verde. Tocchi browser, risposta corretta,
   rilascio oltre il bordo di Avanti, tre avanzamenti, un solo esito, 73 energia,
-  ritorno al mondo; viewport verticale, densità 3 e rotazione orizzontale.
+  ritorno al mondo; poi vera minimissione della torcia, 3/3, pannello chiuso,
+  riparazione registrata e torcia consegnata, senza errori runtime.
 - Controllo visivo degli screenshot prima e dopo la modifica.
 
 Il test Web usa Chrome con emulazione touch, **non Safari su un iPhone reale**.

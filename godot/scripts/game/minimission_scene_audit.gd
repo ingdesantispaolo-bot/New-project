@@ -17,6 +17,7 @@ extends SceneTree
 ## I tre scelti hanno tre forme diverse apposta.
 
 const WORLD_SCENE := "res://scenes/outdoor_world.tscn"
+const Autoplay = preload("res://scripts/game/exercise_autoplay.gd")
 ## Mondo 1 riaccendere, mondo 4 spegnere, mondo 10 liberare. La forma «riparare»
 ## è coperta dalla stessa strada (è l'unica che non tocca né la luce né l'energia).
 const MONDI := [1, 4, 10]
@@ -87,17 +88,27 @@ func _run() -> void:
 		assert(str(sessione.get("theme", "")) == str(atteso["forma"]),
 			"mondo %d: la resa userebbe il tema di un enigma" % level)
 
-		# Superata: il mondo deve cambiare.
-		var nodi := 3
-		world.call("_on_exercise_finished", {
-			"kind": "minimission",
-			"subject": str(payload.get("subject", "matematica")),
-			"correct": nodi,
-			"total": nodi,
-			"passed": true,
-			"energyGained": 10,
-			"topicStats": {},
-		})
+		# Superata attraverso il player vero: risposta, pulsante Avanti, segnale di
+		# fine, risoluzione della minimissione e conseguenze nel mondo. Chiamare
+		# `_on_exercise_finished` a mano saltava proprio il tratto del blocco visto
+		# nella missione della torcia.
+		var exercise := world.get("exercise_player") as ExercisePlayer
+		assert(exercise != null and exercise.visible,
+			"mondo %d: il player della riparazione non è visibile" % level)
+		var nodi := exercise._nodes.size()
+		for indice in range(nodi):
+			Autoplay.solve(exercise, exercise._nodes[exercise._index], true)
+			await create_timer(ExercisePlayer.RESPIRO_PRIMA_DI_AVANTI + 0.05).timeout
+			var avanti := exercise.find_child("ExerciseNextButton", true, false) as Button
+			assert(avanti != null and avanti.is_visible_in_tree(),
+				"mondo %d nodo %d: Avanti non è raggiungibile" % [level, indice + 1])
+			avanti.button_up.emit()
+			await process_frame
+			if indice < nodi - 1:
+				assert(exercise._index == indice + 1,
+					"mondo %d: Avanti non passa al nodo %d" % [level, indice + 2])
+		assert(not exercise.visible,
+			"mondo %d: l'ultimo Avanti lascia aperta la riparazione" % level)
 		await process_frame
 		await process_frame
 		var save = gameplay.game_save
@@ -110,6 +121,8 @@ func _run() -> void:
 		if str(atteso["forma"]) == MinimissionCatalog.FORMA_RIACCENDERE:
 			assert(WorldLight.prove_nel_mondo(save, str(level)) >= 4,
 				"mondo %d: riaccendere non ha scoperto niente" % level)
+			assert(gameplay.reward_manager.owned(FieldTools.TORCIA),
+				"mondo 1: l'ultimo Avanti non ha consegnato la torcia")
 
 		# **Resta cambiato.** Si riapre il mondo con quel salvataggio: l'esito
 		# deve essere già lì, e il guasto no.

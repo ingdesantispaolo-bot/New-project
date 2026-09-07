@@ -281,6 +281,8 @@ try {
       throw new Error(`${name} is not reachable: ${JSON.stringify({state:s,canvas,x,y})}`);
     }
     if (name !== "Numpad_6" && button.height * canvas.h / s.viewport[1] < 47.5) throw new Error(`${name} is smaller than 48 CSS pixels`);
+    await cdp.call("Input.dispatchMouseEvent", {type:"mouseMoved",x,y},sessionId);
+    await delay(100);
     await cdp.call("Input.dispatchTouchEvent", {type:"touchStart",touchPoints:[{x,y,radiusX:2,radiusY:2,force:1}]},sessionId);
     await delay(60);
     if(name === "ExerciseNextButton") {
@@ -291,6 +293,17 @@ try {
       await cdp.call("Input.dispatchTouchEvent", {type:"touchMove",touchPoints:[{x,y:y+buttonCssHeight/2+9,radiusX:2,radiusY:2,force:1}]},sessionId);
       await delay(60);
     }
+    await cdp.call("Input.dispatchTouchEvent", {type:"touchEnd",touchPoints:[]},sessionId);
+    await delay(800);
+  }
+  async function tapCenter(name) {
+    const s = await state();
+    const canvas = await evaluate(cdp,sessionId,`(() => {const r=document.querySelector('#canvas').getBoundingClientRect();return {x:r.x,y:r.y,w:r.width,h:r.height}})()`);
+    const button = s.buttons[name];
+    const x = canvas.x + button.x * canvas.w / s.viewport[0];
+    const y = canvas.y + button.y * canvas.h / s.viewport[1];
+    await cdp.call("Input.dispatchTouchEvent", {type:"touchStart",touchPoints:[{x,y,radiusX:2,radiusY:2,force:1}]},sessionId);
+    await delay(60);
     await cdp.call("Input.dispatchTouchEvent", {type:"touchEnd",touchPoints:[]},sessionId);
     await delay(800);
   }
@@ -310,10 +323,39 @@ try {
     console.log(`Node ${i + 1}/3 advanced with release beyond the button edge`);
   }
   await capture(cdp,sessionId,path.join(outputRoot,"input-finished.png"));
-  if((await state()).visible) throw new Error("Exercise remains open");
-  const results = (await state()).results;
+  const numericState = await state();
+  const results = numericState.results;
   if (results.length !== 1 || results[0].correct !== 3 || !results[0].passed || results[0].energyGained !== 73) throw new Error("Incorrect or duplicate completion");
-  if (messages.some(line => /SCRIPT ERROR|EXCEPTION|RuntimeError/.test(line))) throw new Error("Browser runtime errors");
+  if(numericState.phase === "numeric" || numericState.phase === "numeric_done" && numericState.visible) throw new Error("Numeric exercise remains open");
+
+  // Riproduzione della segnalazione reale: mondo 1, minimissione Riaccendere,
+  // tre risposte corrette e ultimo Avanti che deve chiudere il pannello e
+  // consegnare la torcia. Torniamo alla viewport verticale già verificata
+  // all'avvio; le risposte le esegue l'autoplay Godot, i tre Avanti restano
+  // input reali del browser.
+  await cdp.call("Emulation.setDeviceMetricsOverride", {width:390,height:684,deviceScaleFactor:1,mobile:true},sessionId);
+  await delay(800);
+  for(let n=0;n<50 && (await state()).phase!=="torch";n++) await delay(100);
+  if((await state()).phase!=="torch") throw new Error(`Torch minimission did not start: ${JSON.stringify(await state())}`);
+  for(let i=0;i<3;i++) {
+    for(let n=0;n<20;n++) {
+      const current = await state();
+      if(current.answered && current.buttons.ExerciseNextButton.visible) break;
+      await delay(100);
+    }
+    const before = await state();
+    if(!before.answered || !before.buttons.ExerciseNextButton.visible) throw new Error(`Torch step ${i + 1} was not solved: ${JSON.stringify(before)}`);
+    await tapCenter("ExerciseNextButton");
+    const current = await state();
+    if(current.index!==i+1) throw new Error(`Torch step ${i + 1} did not advance: ${JSON.stringify(current)}`);
+    console.log(`Torch minimission ${i + 1}/3 advanced`);
+  }
+  await capture(cdp,sessionId,path.join(outputRoot,"torch-finished.png"));
+  const finalState = await state();
+  if(finalState.visible || finalState.results.length!==2 || !finalState.torchOwned || !finalState.torchMissionCompleted) {
+    throw new Error(`Torch minimission did not close and deliver the tool: ${JSON.stringify(finalState)}`);
+  }
+  if (messages.some(line => /SCRIPT ERROR|ERROR:|EXCEPTION|RuntimeError/.test(line))) throw new Error("Browser runtime errors");
   await writeFile(path.join(outputRoot, "result.json"), JSON.stringify(await state(), null, 2));
   console.log("WEB INPUT PASS");
 } finally {

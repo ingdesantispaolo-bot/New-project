@@ -12,15 +12,16 @@ extends SceneTree
 ## mondo, il lotto avrebbe perso il suo unico motivo di esistere e nessun altro
 ## audit se ne accorgerebbe.
 ##
-## Tre mondi e non ventiquattro: costruire una scena di mondo costa, il catalogo
-## è già coperto altrove, e qui interessa il percorso — che è lo stesso ovunque.
-## I tre scelti hanno tre forme diverse apposta.
+## **Tutti i ventiquattro mondi.** (7 settembre 2026)
+##
+## Il blocco dell'ultimo «Avanti» si manifestava nel percorso concreto di una
+## missione, non nel catalogo. Campionare una sola missione per forma non basta:
+## ogni mondo porta un payload, una conseguenza visiva e una ricompensa propri.
+## Per questo l'audit gioca davvero tutte le minimissioni, compreso il rientro.
 
 const WORLD_SCENE := "res://scenes/outdoor_world.tscn"
 const Autoplay = preload("res://scripts/game/exercise_autoplay.gd")
-## Mondo 1 riaccendere, mondo 4 spegnere, mondo 10 liberare. La forma «riparare»
-## è coperta dalla stessa strada (è l'unica che non tocca né la luce né l'energia).
-const MONDI := [1, 4, 10]
+const MONDI := 24
 
 func _init() -> void:
 	call_deferred("_run")
@@ -61,7 +62,7 @@ func _incarico(world: Node) -> Area2D:
 	return null
 
 func _run() -> void:
-	for level in MONDI:
+	for level in range(1, MONDI + 1):
 		var world := await _open_world(level)
 		var poi := _incarico(world)
 		assert(poi != null, "mondo %d senza incarico sulla mappa" % level)
@@ -121,8 +122,11 @@ func _run() -> void:
 		if str(atteso["forma"]) == MinimissionCatalog.FORMA_RIACCENDERE:
 			assert(WorldLight.prove_nel_mondo(save, str(level)) >= 4,
 				"mondo %d: riaccendere non ha scoperto niente" % level)
-			assert(gameplay.reward_manager.owned(FieldTools.TORCIA),
-				"mondo 1: l'ultimo Avanti non ha consegnato la torcia")
+		var strumento_atteso := FieldTools.del_mondo(level)
+		if strumento_atteso != "":
+			assert(gameplay.reward_manager.owned(strumento_atteso),
+				"mondo %d: l'ultimo Avanti non ha consegnato %s" % [
+					level, FieldTools.nome(strumento_atteso)])
 
 		# **Resta cambiato.** Si riapre il mondo con quel salvataggio: l'esito
 		# deve essere già lì, e il guasto no.
@@ -139,5 +143,5 @@ func _run() -> void:
 		ritorno.queue_free()
 		await process_frame
 
-	print("MINIMISSION SCENE audit VERDE")
+	print("MINIMISSION SCENE audit VERDE: 24/24 mondi")
 	quit(0)

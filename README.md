@@ -72,11 +72,18 @@ npm run audit:godot          # tutti gli audit headless (lunghi)
 npm run audit:godot mystery  # solo quelli che combaciano col nome
 npm run audit:web            # coerenza del manifest di release
 npm run smoke:web:godot      # smoke test dell'export Web
+npm run test:web:exercise-touch # tocchi reali, dimensioni CSS e rotazione dei comandi
 ```
 
 Gli audit sono la rete di sicurezza principale: girano headless, con un save
 isolato e un verde onesto — un `assert` fallito in Godot non cambia l'exit code,
 ed è esattamente per questo che esiste `scripts/run-godot-audits.mjs`.
+
+Il test touch richiede Godot e Chrome/Edge (override `GODOT_BIN` e `ELI_CHROME`).
+Esporta una scena diagnostica temporanea, ripristina la scena iniziale e salva
+schermate e log in `artifacts/exercise-touch-web/`. Non eseguirlo insieme a un
+altro export. Verifica anche un tocco con 9 px di movimento: un clic al centro
+non rileva un pulsante troppo piccolo sul telefono.
 
 Se un audit fallisce con «Identifier ... not declared», la cache delle classi è
 vecchia: `godot --headless --path godot --import` e si riparte.

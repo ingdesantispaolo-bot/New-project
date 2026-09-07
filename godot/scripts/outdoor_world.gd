@@ -4938,9 +4938,17 @@ func _create_hud() -> void:
 	# il gioco — la bottega, il manuale, il diario. Smettere, ricominciare e
 	# passare il tablet a un altro bambino sono cose che si fanno *al* gioco, e
 	# chi le cerca non sa che si chiamano «opzioni»: cerca il tasto per fermare.
+	# **E dal 6 settembre dice anche DOVE porta.** Segnalazione del committente:
+	# «non vedo il tasto per tornare al menu principale dove cambiare personaggio
+	# o riavviare il livello». Il tasto c'era, ed era questo: dietro ci sono da
+	# tre settimane RIPARTI DAL PORTALE, CAMBIA GIOCATORE e MENU PRINCIPALE. Ma
+	# «PAUSA» racconta solo il gesto — fermarsi — e non la destinazione, e chi
+	# cerca il menu principale cerca la parola «menu». Se non l'ha trovato chi il
+	# gioco l'ha commissionato, un bambino non lo trova di sicuro.
 	pause_button = Button.new()
 	pause_button.name = "OpenPauseMenuButton"
-	pause_button.text = "PAUSA"
+	pause_button.text = "PAUSA · MENU"
+	pause_button.tooltip_text = "Riparti dal portale, cambia giocatore, torna al menu principale"
 	pause_button.anchor_left = 1.0
 	pause_button.anchor_right = 1.0
 	pause_button.offset_left = -148.0

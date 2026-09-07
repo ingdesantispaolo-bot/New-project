@@ -104,6 +104,10 @@ func _la_pausa_del_mondo() -> void:
 	var apri := mondo.find_child("OpenPauseMenuButton", true, false) as Button
 	_controlla(apri != null and apri.visible and apri.custom_minimum_size.y >= 44.0,
 		"il mondo non espone un PAUSA visibile e toccabile")
+	# Stessa regola della nave: il pulsante deve nominare anche dove porta.
+	_controlla(apri != null and apri.text.contains("PAUSA") and apri.text.contains("MENU"),
+		"il mondo non nomina il menu sul pulsante che ci porta (testo: %s)" % [
+			"assente" if apri == null else apri.text])
 	# La colonna in alto a destra non deve accavallarsi: PAUSA sopra, OPZIONI sotto.
 	var opzioni := mondo.find_child("OpenUtilityMenuButton", true, false) as Button
 	_controlla(apri != null and opzioni != null and apri.offset_bottom <= opzioni.offset_top,
@@ -218,8 +222,14 @@ func _la_pausa_della_nave() -> void:
 	await process_frame
 
 	var apri := nave.find_child("MainMenuButton", true, false) as Button
-	_controlla(apri != null and apri.text == "PAUSA",
-		"la nave non espone la pausa dove c'era il ritorno al menu")
+	# **Il nome dice il gesto E la destinazione.** (6 settembre 2026)
+	# Segnalazione del committente: «non vedo il tasto per tornare al menu
+	# principale dove cambiare personaggio o riavviare il livello». Il tasto
+	# c'era ed era questo: «PAUSA» raccontava solo il fermarsi. Chi cerca il menu
+	# principale cerca la parola «menu», e ora c'e'.
+	_controlla(apri != null and apri.text.contains("PAUSA") and apri.text.contains("MENU"),
+		"la nave non nomina il menu sul pulsante che ci porta (testo: %s)" % [
+			"assente" if apri == null else apri.text])
 	if apri != null:
 		apri.pressed.emit()
 	await process_frame

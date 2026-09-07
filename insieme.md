@@ -72,7 +72,7 @@ Cinque regole, e sono tutte state pagate almeno una volta.
 ## Rosso adesso — prima di ogni altra cosa
 
 > **Stato al 6 settembre 2026: la suite è verde su 251 audit, per la prima
-> volta.** Tutte le voci R-1…R-15 sono chiuse.
+> volta.** Tutte le voci R-1…R-16 sono chiuse.
 >
 > L'ultimo rosso — `storia / esame` al 35,8% — non è stato pagato: **la soglia è
 > stata allentata a 36,0 per decisione del committente**, che ha scelto di
@@ -89,6 +89,33 @@ Cinque regole, e sono tutte state pagate almeno una volta.
 > La suite è passata da 242/244 a **243/244**, e da 738 a **572 secondi**: i
 > quattro minuti risparmiati sono l'audit che non resta più appeso a un `assert`
 > fallito (vedi *Rischi noti*, 6).
+
+### R-16 · Il tasto per il menu principale c'era e non si trovava — chiusa il 6 settembre 2026
+
+*Segnalazione: «non vedo il tasto per tornare al menu principale dove cambiare
+personaggio o riavviare il livello».*
+
+**Il tasto c'era, ed era PAUSA.** Misurato aprendo il mondo e stampando la
+colonna in alto a destra: sette pulsanti, tutti visibili e a piena opacità, e
+dietro PAUSA ci sono da tre settimane esattamente le tre cose cercate —
+**RIPARTI DAL PORTALE · CAMBIA GIOCATORE · MENU PRINCIPALE** — più RIPRENDI,
+VOLUME e SUONO.
+
+Quindi non è un difetto di codice: è un difetto di **nome**. «PAUSA» racconta il
+gesto — fermarsi — e non la destinazione. Chi cerca il menu principale cerca la
+parola «menu», e quella parola non compariva da nessuna parte sullo schermo.
+
+La cosa è più seria di come suona, per due motivi. Il primo: il 21 agosto il
+pulsante della nave che diceva **MENU PRINCIPALE** è stato sostituito da PAUSA,
+perché dietro sono state messe tre azioni invece di una — un miglioramento vero,
+che però ha tolto proprio la parola che la gente cercava. Il secondo, e vale più
+del primo: **se non l'ha trovato chi il gioco l'ha commissionato, un bambino non
+lo trova di sicuro.**
+
+Adesso, nel mondo e sulla nave, il pulsante dice **PAUSA · MENU**: il gesto e la
+destinazione. `pause_menu_audit` non controlla più il testo esatto ma la
+sostanza — il pulsante che porta al menu deve nominare il menu — in entrambe le
+scene.
 
 ### R-15 · La consegna rinviata poteva perdersi — chiusa il 6 settembre 2026
 

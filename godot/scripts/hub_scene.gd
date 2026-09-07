@@ -264,9 +264,12 @@ func _build_header(parent: VBoxContainer) -> void:
 	# trovano nel mondo aperto, nello stesso ordine.
 	var menu_button := Button.new()
 	menu_button.name = "MainMenuButton"
-	menu_button.text = "PAUSA"
+	# La stessa parola del mondo, per la stessa ragione (6 settembre 2026): il
+	# gesto e la destinazione vanno detti tutti e due, e il tooltip non esiste
+	# su un tablet.
+	menu_button.text = "PAUSA · MENU"
 	menu_button.tooltip_text = "Riavvia il mondo, cambia giocatore, torna al menu"
-	menu_button.custom_minimum_size = Vector2(92, 48)
+	menu_button.custom_minimum_size = Vector2(112, 48)
 	menu_button.add_theme_font_size_override("font_size", 12)
 	menu_button.pressed.connect(_apri_pausa)
 	row.add_child(menu_button)

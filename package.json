@@ -21,6 +21,7 @@
     "web:sync": "node scripts/sync-web-build.mjs",
     "web:sync:check": "node scripts/sync-web-build.mjs --check",
     "smoke:web:godot": "node scripts/smoke-godot-web.mjs public/godot/outdoor artifacts/web-smoke-current",
+    "test:web:exercise-touch": "node scripts/test-exercise-touch-web.mjs",
     "profile:web:godot": "node scripts/smoke-godot-web.mjs public/godot/outdoor artifacts/web-profile-current --school-profile",
     "preview": "vite preview --config vite.config.mjs --configLoader native --host 127.0.0.1",
     "preview:lan": "vite preview --config vite.config.mjs --configLoader native --host 0.0.0.0",

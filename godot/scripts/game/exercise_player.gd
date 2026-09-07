@@ -85,6 +85,9 @@ var _answered := false
 ## insieme al click sintetico del browser: l'esito deve partire una volta sola.
 var _completion_queued := false
 var _session_closed := false
+# Le dimensioni Godot sono logiche: su un telefono i 48 px del pulsante
+# diventano circa 15 px CSS. Conserviamo un bersaglio di 48 px sul display.
+var _action_touch_scale := 1.0
 var _missed: Array = []       # topic sbagliati → ripasso spaziato
 var _reviewed_ok: Array = []  # topic di ripasso risolti correttamente
 var _topic_seen: Dictionary = {}     # topic -> item incontrati (per mastery per-topic)
@@ -588,6 +591,10 @@ func _build_ui() -> void:
 	_action_bar.add_child(_next_button)
 
 	_build_exit_row(box)
+	if is_inside_tree():
+		if not get_viewport().size_changed.is_connected(_refresh_action_touch_scale):
+			get_viewport().size_changed.connect(_refresh_action_touch_scale)
+		_refresh_action_touch_scale()
 
 ## L'uscita dalla prova.
 ##
@@ -1038,11 +1045,36 @@ func _show_teaching_overlay() -> void:
 func _riallinea_barra_azioni() -> void:
 	if not is_instance_valid(_action_bar):
 		return
+	_size_action_buttons(_action_bar)
 	var altezza := _action_bar.get_combined_minimum_size().y
 	_action_bar.offset_top = -(altezza + MARGINE_BARRA_AZIONI)
 	if is_instance_valid(_content_scroll):
 		_content_scroll.offset_bottom = -(altezza + MARGINE_BARRA_AZIONI * 2.0)
 		_adatta_altezza_contenuto()
+
+func _refresh_action_touch_scale() -> void:
+	_action_touch_scale = 1.0
+	if OS.has_feature("web"):
+		var css_height := float(JavaScriptBridge.eval(
+			"document.getElementById('canvas').getBoundingClientRect().height"))
+		if css_height > 0.0:
+			_action_touch_scale = maxf(1.0, get_viewport_rect().size.y / css_height)
+	_riallinea_barra_azioni()
+
+func _size_action_buttons(node: Node) -> void:
+	for child in node.get_children():
+		if child is Button:
+			var button := child as Button
+			if not button.has_meta("action_base_height"):
+				button.set_meta("action_base_height", button.custom_minimum_size.y)
+				button.set_meta("action_base_font", button.get_theme_font_size("font_size"))
+			var height := maxf(float(button.get_meta("action_base_height")), 48.0 * _action_touch_scale)
+			var font_size := maxi(int(button.get_meta("action_base_font")), ceili(16.0 * _action_touch_scale))
+			if not is_equal_approx(button.custom_minimum_size.y, height):
+				button.custom_minimum_size.y = height
+			if button.get_theme_font_size("font_size") != font_size:
+				button.add_theme_font_size_override("font_size", font_size)
+		_size_action_buttons(child)
 
 ## **Se c'è spazio, non si scorre.** (15 agosto 2026)
 ##
@@ -3480,24 +3512,9 @@ func session_cursor() -> Dictionary:
 func _advance() -> void:
 	if _session_closed:
 		return
-	# **Se la chiusura era già stata chiesta e non è arrivata, si chiude adesso.**
-	# (6 settembre 2026)
-	#
-	# Quarta segnalazione sullo stesso gesto, e questa volta la schermata non
-	# lascia scampo: nodo risolto, «Funziona! +15 energia», il tastierino e
-	# CONFERMA spariti come devono, AVANTI in fondo alla barra — e premendolo non
-	# succede niente.
-	#
-	# Fin qui questo ramo tornava indietro in silenzio. Vuol dire che se per un
-	# qualunque motivo la consegna rinviata (`call_deferred`, solo nella build
-	# Web) non arriva, **ogni pressione successiva di AVANTI è un no-op**: il
-	# pulsante c'è, si preme, e la prova resta aperta per sempre. Non si è mai
-	# riprodotto in headless — dove la chiusura è immediata — e su quattro
-	# segnalazioni è l'unica strada che spiega il sintomo esatto.
-	#
-	# La regola nuova è quella che il guard-rail chiede da sempre: **il secondo
-	# tocco non può valere meno del primo.** Se la chiusura è in coda e non si è
-	# ancora conclusa, la si esegue subito, sul posto.
+	# Recupera una chiusura già richiesta. La sola schermata con Avanti visibile
+	# non prova però che questo ramo sia stato raggiunto: anche un bersaglio touch
+	# troppo piccolo perde il gesto prima di _advance (EXERCISE_TOUCH_FIX.md).
 	if _completion_queued:
 		_finish()
 		return
@@ -3506,8 +3523,8 @@ func _advance() -> void:
 		return
 	# L'ultimo Avanti chiude direttamente la prova. Nella build Web la chiusura
 	# viene rinviata al frame successivo: il browser conclude il gesto prima di
-	# salvataggio, segnali e aggiornamenti del mondo. Il tasto viene disabilitato
-	# subito, cosi touch e click sintetico non possono consegnare due esiti.
+	# salvataggio, segnali e aggiornamenti del mondo. _session_closed impedisce
+	# che touch e click sintetico consegnino due esiti.
 	if _index + 1 >= _nodes.size():
 		_index = _nodes.size()
 		_request_finish()
@@ -3541,10 +3558,8 @@ func _request_finish() -> void:
 	# comunque, se la protegge da sé con `_session_closed`.
 	if OS.has_feature("web"):
 		call_deferred("_finish")
-		# **La rete di sicurezza.** È l'unica spiegazione rimasta per una
-		# segnalazione che in headless non si riproduce mai: se la consegna
-		# rinviata non arriva, questa la esegue comunque mezzo secondo dopo.
-		# Quando tutto va bene trova la sessione già chiusa e non fa niente.
+		# Ripiego idempotente per una chiusura ancora in coda. Non può recuperare
+		# un gesto che non ha raggiunto il pulsante.
 		if is_inside_tree():
 			var rete := get_tree().create_timer(SECONDI_RETE_DI_SICUREZZA)
 			rete.timeout.connect(func():

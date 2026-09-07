@@ -208,6 +208,47 @@ const VOCI := {
 		"perche": "Due figure simili hanno la stessa forma e misure diverse: è il motivo per cui una carta geografica funziona, e per cui dall'ombra di un bastone si ricava l'altezza di un albero.",
 		"come": "Ricorda come crescono le cose: se i lati raddoppiano il perimetro raddoppia, l'area diventa quattro volte e il volume otto volte.",
 	},
+	# I cinque argomenti aperti il 7 settembre 2026, misurando che cosa del
+	# programma delle medie il banco non chiedeva mai: le equivalenze, i decimali
+	# come numeri su cui si opera, i nomi e le proprietà delle figure, il cerchio
+	# con il suo π, e le trasformazioni — di cui non esisteva nemmeno
+	# un'occorrenza in tutto il progetto.
+	"matematica:misure": {
+		"perche": "Le unità servono a parlarsi: un numero senza unità non dice niente, e due misure con unità diverse non si possono nemmeno sommare. Per questo l'equivalenza viene prima del conto, non dopo.",
+		"come": "Guarda quante dimensioni ha la grandezza: le lunghezze salgono di dieci in dieci, le superfici di cento in cento, i volumi di mille in mille. E il tempo non è decimale: l'ora vale sessanta minuti, non cento.",
+	},
+	"matematica:decimali": {
+		"perche": "Il numero decimale e la frazione sono la stessa quantità scritta in due modi: la virgola è comoda per confrontare e misurare, la frazione per calcolare esatto. Saper passare dall'una all'altra è saper scegliere lo strumento.",
+		"come": "Nelle somme incolonna la virgola sotto la virgola; nei prodotti conta quante cifre decimali hanno i due fattori, perché tante ne avrà il risultato. Per moltiplicare o dividere per dieci non serve nessun conto: basta spostare la virgola.",
+	},
+	"matematica:figure": {
+		"perche": "I nomi delle figure non sono etichette da memorizzare: dicono quali proprietà si possono usare. Sapere che è un parallelogramma vuol dire sapere già che i lati opposti sono uguali, senza misurarli.",
+		"come": "Prima di calcolare, chiediti che cosa è dato e che cosa ne discende: i tre angoli di un triangolo fanno sempre centottanta gradi, quelli di un quadrilatero trecentosessanta, e da lì l'angolo mancante si trova per differenza.",
+	},
+	"matematica:cerchio": {
+		"perche": "Il rapporto fra il giro e il diametro è lo stesso per ogni cerchio dell'universo, grande o piccolo: quel numero fisso si chiama π, e per questo una sola formula basta per tutti i cerchi che esistono.",
+		"come": "Distingui le due formule dall'unità che vuoi ottenere: se cerchi una lunghezza il raggio compare una volta sola, se cerchi un'area compare due volte, cioè al quadrato.",
+	},
+	"matematica:secondo-grado": {
+		"perche": "Una x al quadrato apre due strade invece di una, perché due numeri opposti hanno lo stesso quadrato: è il motivo per cui queste equazioni hanno spesso due soluzioni, e per cui a volte non ne hanno nessuna.",
+		"come": "Guarda prima che forma ha: se manca il termine noto raccogli la x, se manca il termine in x isola il quadrato ed estrai la radice. La formula serve solo quando ci sono tutti e tre i termini — e il discriminante ti dice quante soluzioni cercare prima di cercarle.",
+	},
+	"matematica:radicali": {
+		"perche": "Alcune radici non finiscono mai e riscriverle con i decimali perde precisione a ogni passaggio: tenerle come radici, semplificate, è il modo di calcolare esatto invece che quasi.",
+		"come": "Sotto la radice si moltiplica e si divide liberamente, ma non si somma: √4 + √9 fa 5, mentre √13 è circa 3,6. Per sommare due radicali devono avere lo stesso radicando, esattamente come i monomi devono avere la stessa parte letterale.",
+	},
+	"matematica:pitagora": {
+		"perche": "È il modo in cui si misura una distanza che non si può percorrere: l'altezza di un albero, la diagonale di uno schermo, quanto è lunga una scala appoggiata al muro. Vale solo dove c'è un angolo retto, e per questo lo si cerca prima di ogni altra cosa.",
+		"come": "Somma i quadrati quando cerchi l'ipotenusa, sottraili quando cerchi un cateto — e alla fine ricordati la radice, perché il conto ti dà un'area e la domanda chiede una lunghezza.",
+	},
+	"matematica:insiemi": {
+		"perche": "È il linguaggio con cui si dice a che cosa appartiene una cosa, e regge tutto il resto: N dentro Z dentro Q dentro R sono insiemi uno dentro l'altro, e i multipli comuni di due numeri sono un'intersezione.",
+		"come": "Quando due gruppi si sovrappongono, chi sta in tutti e due va contato UNA volta sola: sommando i due gruppi lo conteresti due volte, e la differenza è esattamente quanti stanno in mezzo.",
+	},
+	"matematica:trasformazioni": {
+		"perche": "Traslare, ruotare e ribaltare non cambiano la figura ma il suo posto: sono le trasformazioni che conservano le misure, e servono a riconoscere che due figure diverse sullo schermo sono in realtà la stessa.",
+		"come": "Nel piano cartesiano la trasformazione diventa un conto sui numeri: rispetto all'asse y cambia segno la prima coordinata, rispetto all'asse x la seconda, rispetto all'origine tutte e due.",
+	},
 
 	# -- italiano ---------------------------------------------------------------
 	"italiano:analisi-grammaticale": {
@@ -316,6 +357,22 @@ const VOCI := {
 	"italiano:testo-narrativo": {
 		"perche": "Chi racconta decide che cosa il lettore può sapere: cambiare narratore cambia la storia, non solo il tono.",
 		"come": "Chiediti che cosa quel narratore poteva davvero vedere. Se sa cose che non poteva sapere, il punto di vista è un altro.",
+	},
+	# I tre argomenti aperti il 7 settembre 2026, misurando che cosa del
+	# programma di italiano il banco non chiedeva mai: le tipologie testuali
+	# oltre al narrativo, l'epica (zero occorrenze di Omero o di Ulisse in
+	# tutto il progetto), e la metrica (rima citata 44 volte, mai definita).
+	"italiano:tipologie-testuali": {
+		"perche": "Lo scopo di un testo decide tutto il resto: le stesse informazioni, scritte per descrivere, per convincere o per dare un'istruzione, diventano tre testi diversi anche se parlano della stessa cosa.",
+		"come": "Prima di analizzare un testo chiediti a che cosa serve: se ferma un'immagine è descrittivo, se informa è espositivo, se sostiene un'idea è argomentativo, se guida un'azione è regolativo.",
+	},
+	"italiano:epica": {
+		"perche": "Il poema epico è la forma più antica di racconto che la scuola incontra, ed è il riferimento più citato di tutta la letteratura che viene dopo: senza Achille, Ulisse ed Enea molti libri e film restano illeggibili a metà.",
+		"come": "Tieni distinti i tre viaggi: l'Iliade racconta pochi giorni di una guerra già quasi finita, l'Odissea il ritorno a casa dopo la vittoria, l'Eneide la fuga verso una fondazione nuova.",
+	},
+	"italiano:metrica": {
+		"perche": "Una poesia non è prosa andata a capo per caso: il verso, la strofa e la rima sono scelte che costruiscono significato quanto le parole stesse.",
+		"come": "Conta prima i versi di ogni strofa per darle un nome, poi guarda dove cadono le rime: lo schema — baciata, alternata, incrociata — si legge scrivendo una lettera per ogni suono finale diverso.",
 	},
 	"italiano:verbo": {
 		"perche": "Il verbo porta il tempo e la persona: è l'unica parola della frase che dice quando è successo e chi lo ha fatto.",

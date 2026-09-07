@@ -413,6 +413,15 @@ const MATCHING := {
 		# Scuola media — analisi logica: ogni sintagma alla sua funzione.
 		# Frase: "Il gatto insegue il topo nel prato".
 		{"explanation": "L'analisi logica guarda il ruolo nella frase, non la parola: «il gatto» è soggetto perché è lui a compiere l'azione.", "topic": "analisi-logica", "minLevel": 11, "pairs": [["Il gatto", "soggetto"], ["insegue", "predicato verbale"], ["il topo", "complemento oggetto"], ["nel prato", "complemento di luogo"]]},
+		# Metrica: rima e strofa, abbinate come si abbinerebbero in classe. Lo
+		# schema di lettere (AABB, ABAB, ABBA) è astratto quanto basta perché
+		# l'abbinamento chieda di RICONOSCERE il pattern, non di ricordarlo a
+		# memoria da un elenco.
+		{"explanation": "Lo schema si legge dalle lettere: quelle uguali segnano dove cade la stessa rima. AABB le appaia una accanto all'altra, ABAB le alterna, ABBA le incastra.", "topic": "metrica", "minLevel": 14, "pairs": [
+			["AABB", "rima baciata"], ["ABAB", "rima alternata"], ["ABBA", "rima incrociata"],
+			["2 versi", "distico"], ["3 versi", "terzina"], ["4 versi", "quartina"],
+			["7 sillabe", "settenario"], ["11 sillabe", "endecasillabo"],
+			["senza rima, misura fissa", "verso sciolto"], ["senza rima né misura fissa", "verso libero"]]},
 	],
 	"storia": [
 		# Al primo mondo storia aveva UNA specifica di abbinamento, quattro coppie
@@ -682,6 +691,60 @@ const MATCHING := {
 			["lati raddoppiati", "area quattro volte più grande"],
 			["angoli corrispondenti", "restano uguali nell'ingrandimento"],
 			["altezza del triangolo", "distanza fra un vertice e il lato opposto"]]},
+		# --- Un gesto per gli argomenti aperti il 7 settembre 2026 ---------------
+		#
+		# Cinque argomenti nuovi del banco (misure, decimali, cerchio, figure,
+		# trasformazioni) più i due del programma che mancavano (pitagora,
+		# insiemi) si incontravano solo come domanda scritta. Questi quattro
+		# abbinamenti e i quattro smistamenti più sotto danno loro la mano.
+		#
+		# L'abbinamento è il formato giusto quando **due scritture diverse dicono
+		# la stessa quantità**: 3 kg e 3000 g, 3/8 e 0,375, cateti 5 e 12 e
+		# ipotenusa 13. Non si sceglie fra opzioni: si riconosce, e il
+		# riconoscimento è esattamente la competenza.
+		{"explanation": "Le tre scale non salgono con lo stesso passo: le lunghezze di dieci in dieci, le superfici di cento in cento, i volumi di mille in mille. Contare le dimensioni della grandezza dice quanti zeri servono.", "topic": "misure", "minLevel": 3, "pairs": [
+			["4 cm", "40 mm"], ["2 m", "200 cm"], ["1 km", "1000 m"], ["0,5 m", "50 cm"],
+			["3 kg", "3000 g"], ["250 g", "0,25 kg"], ["1 hg", "100 g"], ["2 l", "200 cl"],
+			["mezzo litro", "500 cm³"], ["1 m²", "10000 cm²"], ["1 m³", "1000 dm³"],
+			["1 ettaro", "10000 m²"], ["2 ore", "120 minuti"], ["mezz'ora", "1800 secondi"]]},
+		# La frazione e il decimale sono la stessa quantità in due scritture: qui
+		# si vedono una accanto all'altra, che è il modo più corto per capirlo.
+		{"explanation": "Una frazione è una divisione non ancora fatta: 3/8 vuol dire tre diviso otto, e il risultato è 0,375. Quando sotto ci sono solo fattori due e cinque la divisione finisce; con il tre non finisce mai, e nasce il periodo.", "topic": "decimali", "minLevel": 8, "pairs": [
+			["1/2", "0,5"], ["1/4", "0,25"], ["3/4", "0,75"], ["1/5", "0,2"],
+			["2/5", "0,4"], ["3/5", "0,6"], ["1/8", "0,125"], ["3/8", "0,375"],
+			["5/8", "0,625"], ["1/10", "0,1"], ["7/10", "0,7"], ["1/20", "0,05"],
+			["1/3", "0,333…"], ["2/3", "0,666…"]]},
+		{"explanation": "Nel cerchio ogni parte ha un nome preciso, e i nomi non sono etichette: dicono da dove parte e dove arriva il segmento. Il raggio parte dal centro, la corda no, e il diametro è la corda che passa proprio di lì.", "topic": "cerchio", "minLevel": 12, "pairs": [
+			["raggio", "dal centro al bordo"],
+			["diametro", "da un bordo all'altro passando per il centro"],
+			["corda", "unisce due punti qualsiasi del bordo"],
+			["arco", "un pezzo della linea curva"],
+			["settore", "la fetta di torta fra due tagli dal centro"],
+			["corona", "lo spazio fra due cerchi concentrici"],
+			["circonferenza", "la linea chiusa che delimita la figura"],
+			["π", "poco più di tre"],
+			["il giro completo", "2 × π × raggio"],
+			["la superficie interna", "π × raggio²"],
+			["raddoppiare il raggio", "area quattro volte più grande"],
+			["mezzo cerchio", "180°"]]},
+		# Le terne pitagoriche: qui l'abbinamento OBBLIGA a fare il conto, perché
+		# fra i risultati non c'è nessuna somma dei due cateti da riconoscere a
+		# occhio. È il contrario del quesito a scelta multipla, dove il distrattore
+		# più vicino si può escludere per esclusione.
+		{"explanation": "L'ipotenusa non è la somma dei cateti: si sommano i loro quadrati e alla fine si estrae la radice. Alcune terne tornano intere e conviene riconoscerle a memoria — 3-4-5, 5-12-13, 8-15-17 — perché fanno risparmiare tutta l'operazione.", "topic": "pitagora", "minLevel": 12, "pairs": [
+			["cateti 3 e 4", "ipotenusa 5"], ["cateti 6 e 8", "ipotenusa 10"],
+			["cateti 5 e 12", "ipotenusa 13"], ["cateti 8 e 15", "ipotenusa 17"],
+			["cateti 9 e 12", "ipotenusa 15"], ["cateti 12 e 16", "ipotenusa 20"],
+			["cateti 7 e 24", "ipotenusa 25"], ["cateti 10 e 24", "ipotenusa 26"],
+			["cateti 12 e 35", "ipotenusa 37"], ["cateti 20 e 21", "ipotenusa 29"]]},
+		# Semplificare un radicale è un gesto ripetitivo che conviene automatizzare:
+		# si scompone il numero, si cerca il quadrato più grande che ci sta dentro,
+		# lo si porta fuori. Abbinare dodici radicali alla loro forma semplificata
+		# fa fare dodici volte quel passaggio in un minuto.
+		{"explanation": "Si cerca il quadrato più grande contenuto nel numero e lo si porta fuori diventando la sua radice: in √8 il quadrato è 4, che esce come 2, e resta dentro il 2. Il valore non cambia, cambia solo la scrittura — ed è quella scrittura che permette poi di sommare i radicali simili.", "topic": "radicali", "minLevel": 18, "pairs": [
+			["√8", "2√2"], ["√12", "2√3"], ["√18", "3√2"], ["√20", "2√5"],
+			["√27", "3√3"], ["√32", "4√2"], ["√45", "3√5"], ["√48", "4√3"],
+			["√50", "5√2"], ["√72", "6√2"], ["√75", "5√3"], ["√98", "7√2"]]},
 	],
 	"logica": [
 		# **Due abbinamenti che non si possono sapere a memoria.** (1 settembre 2026)
@@ -1331,6 +1394,44 @@ const CLASSIFICATION := {
 		{"explanation": "Si guarda la domanda: dove? è luogo, quando? è tempo, con che cosa? è mezzo. La preposizione da sola non basta mai a decidere.", "topic": "analisi-logica", "minLevel": 11, "prompt": "Smista ogni espressione nel suo complemento.",
 			"categories": ["compl. di luogo", "compl. di tempo", "compl. di mezzo"],
 			"assignments": {"a Roma": "compl. di luogo", "in giardino": "compl. di luogo", "alle otto": "compl. di tempo", "di sera": "compl. di tempo", "con la penna": "compl. di mezzo", "in treno": "compl. di mezzo"}},
+		# I tre argomenti aperti il 7 settembre 2026 prendono anche un gesto.
+		# Nessuna tessera nomina il proprio bidone: si smista riconoscendo, non
+		# leggendo l'etichetta.
+		{"explanation": "Ognuno dei tre poemi ha il suo eroe e il suo viaggio: l'Iliade racconta pochi giorni di guerra, l'Odissea il ritorno a casa, l'Eneide la fuga verso una fondazione nuova. Un nome basta a riconoscere il poema a cui appartiene.", "topic": "epica", "minLevel": 15, "draw": 6, "prompt": "Smista ogni nome nel poema epico a cui appartiene.",
+			"categories": ["Iliade", "Odissea", "Eneide"],
+			"assignments": {
+				"Achille": "Iliade", "Ettore": "Iliade", "Agamennone": "Iliade",
+				"Paride": "Iliade", "Priamo": "Iliade", "Patroclo": "Iliade",
+				"Ulisse": "Odissea", "Penelope": "Odissea", "Polifemo": "Odissea",
+				"Circe": "Odissea", "Calipso": "Odissea", "Nausicaa": "Odissea",
+				"Enea": "Eneide", "Anchise": "Eneide", "Didone": "Eneide",
+				"Lavinia": "Eneide", "Ascanio": "Eneide", "Turno": "Eneide"}},
+		{"explanation": "Lo scopo del testo decide la categoria: se ferma un'immagine è descrittivo, se dà fatti verificabili è espositivo, se sostiene un'idea è argomentativo, se guida un gesto passo passo è regolativo.", "topic": "tipologie-testuali", "minLevel": 3, "draw": 6, "prompt": "Smista ogni frase secondo il tipo di testo a cui appartiene.",
+			"categories": ["descrittivo", "espositivo", "argomentativo", "regolativo"],
+			"assignments": {
+				"Le pareti erano di un azzurro pallido, quasi grigio": "descrittivo",
+				"Aveva mani grandi e nodose, segnate dal lavoro": "descrittivo",
+				"Il profumo di pane caldo riempiva la stanza": "descrittivo",
+				"Un vento leggero muoveva le tende bianche": "descrittivo",
+				"Il Colosseo fu costruito nel primo secolo dopo Cristo": "espositivo",
+				"L'acqua bolle a cento gradi al livello del mare": "espositivo",
+				"I vulcani si formano dove due placche si scontrano": "espositivo",
+				"La popolazione della città supera un milione di abitanti": "espositivo",
+				"Per questi motivi, credo che la proposta vada respinta": "argomentativo",
+				"Non si può ignorare che i dati confermano questa tesi": "argomentativo",
+				"Qualcuno obietterà che i costi sono alti, ma i benefici sono maggiori": "argomentativo",
+				"Di conseguenza, ritengo necessario cambiare la regola": "argomentativo",
+				"Versa la farina e mescola fino a ottenere un composto liscio": "regolativo",
+				"Premi il tasto verde per accendere il dispositivo": "regolativo",
+				"Ogni giocatore pesca una carta e la mostra agli altri": "regolativo",
+				"Non superare mai i 120 caratteri per riga di codice": "regolativo"}},
+		{"explanation": "La h separa il verbo avere dalla sua parola gemella senza h: chi confonde le due non ha sbagliato un dettaglio, ha scritto un'altra parola.", "topic": "ortografia", "minLevel": 2, "draw": 6, "prompt": "Smista ogni frase secondo se contiene una voce del verbo avere (con la h) o la sua parola gemella senza h.",
+			"categories": ["verbo avere, con la h", "preposizione o nome, senza h"],
+			"assignments": {
+				"Ho fame da stamattina": "verbo avere, con la h", "Marco ha sempre ragione": "verbo avere, con la h",
+				"Loro hanno vinto la partita": "verbo avere, con la h", "Hai un fratello maggiore?": "verbo avere, con la h",
+				"Vado a scuola a piedi": "preposizione o nome, senza h", "Un anno intero è passato": "preposizione o nome, senza h",
+				"Vengo a piedi ogni giorno": "preposizione o nome, senza h", "Penso spesso a te": "preposizione o nome, senza h"}},
 	],
 	"scienze": [
 		{"explanation": "Il gruppo dipende da che cosa mangia l'animale, non da quanto è grande: il coniglio e la giraffa stanno insieme perché mangiano entrambi piante.", "topic": "viventi", "draw": 6, "prompt": "Smista ogni animale per come si nutre.",
@@ -1844,6 +1945,107 @@ const CLASSIFICATION := {
 				"x ≥ 2 con x = 1": "falsa", "0 < −1": "falsa", "x < 10 con x = 12": "falsa",
 				"−2 < −5": "falsa", "x ≤ 6 con x = 8": "falsa", "−3 > 0": "falsa",
 				"2x < 10 con x = 6": "falsa", "x + 1 > 4 con x = 2": "falsa", "−x > 0 con x = 3": "falsa"}},
+		# --- Quattro smistamenti per gli argomenti del 7 settembre 2026 ----------
+		#
+		# Lo smistamento è il gesto giusto quando la competenza è **riconoscere a
+		# quale famiglia appartiene un caso**: che triangolo è, che angolo è, che
+		# trasformazione è, in quale insieme sta un numero. Nessuna tessera nomina
+		# il proprio bidone — è la scorciatoia che misura
+		# `scorciatoie_minigiochi_audit` — e nei primi due le tessere sono numeri
+		# nudi, quindi si smista solo confrontandoli fra loro.
+		{"explanation": "Il nome del triangolo dipende da quanti lati sono uguali: tre uguali è equilatero, due uguali è isoscele, nessuno uguale è scaleno. Si contano le uguaglianze, non si guarda il disegno — che può essere storto o girato.", "topic": "figure", "minLevel": 4, "draw": 6, "prompt": "Smista ogni triangolo guardando i suoi tre lati.",
+			"categories": ["equilatero", "isoscele", "scaleno"],
+			"assignments": {
+				"lati 5, 5, 5": "equilatero", "lati 7, 7, 7": "equilatero",
+				"lati 12, 12, 12": "equilatero", "lati 3, 3, 3": "equilatero",
+				"lati 9, 9, 9": "equilatero", "lati 20, 20, 20": "equilatero",
+				"lati 6, 6, 6": "equilatero", "lati 15, 15, 15": "equilatero",
+				"lati 6, 6, 4": "isoscele", "lati 8, 5, 5": "isoscele",
+				"lati 10, 10, 3": "isoscele", "lati 7, 9, 9": "isoscele",
+				"lati 4, 4, 7": "isoscele", "lati 13, 13, 5": "isoscele",
+				"lati 11, 6, 6": "isoscele", "lati 2, 3, 3": "isoscele",
+				"lati 3, 4, 5": "scaleno", "lati 6, 8, 10": "scaleno",
+				"lati 7, 9, 12": "scaleno", "lati 5, 6, 7": "scaleno",
+				"lati 2, 3, 4": "scaleno", "lati 8, 11, 14": "scaleno",
+				"lati 9, 10, 12": "scaleno", "lati 4, 7, 9": "scaleno"}},
+		{"explanation": "I nomi degli angoli sono una scala che parte dai novanta gradi: sotto è acuto, esattamente novanta è retto, sopra è ottuso. Le tessere senza numero si risolvono ricordando che il giro completo vale 360° e il piatto 180°.", "topic": "figure", "minLevel": 2, "draw": 6, "prompt": "Smista ogni angolo secondo la sua ampiezza.",
+			"categories": ["acuto", "retto", "ottuso"],
+			"assignments": {
+				"30°": "acuto", "45°": "acuto", "10°": "acuto", "75°": "acuto",
+				"89°": "acuto", "60°": "acuto", "20°": "acuto",
+				"fra le lancette all'una in punto": "acuto",
+				"90°": "retto", "un quarto di giro": "retto",
+				"l'angolo della squadra": "retto", "l'angolo di un foglio": "retto",
+				"ognuno degli angoli del quadrato": "retto",
+				"dove due linee perpendicolari si incrociano": "retto",
+				"la metà di un angolo piatto": "retto",
+				"fra le lancette alle tre in punto": "retto",
+				"120°": "ottuso", "135°": "ottuso", "91°": "ottuso", "150°": "ottuso",
+				"170°": "ottuso", "100°": "ottuso", "110°": "ottuso",
+				"fra le lancette alle cinque in punto": "ottuso"}},
+		{"explanation": "Le tre trasformazioni si distinguono da ciò che serve per descriverle: una freccia per lo spostamento, un centro e un angolo per il giro, uno specchio per il ribaltamento. Nessuna delle tre cambia le misure della figura.", "topic": "trasformazioni", "minLevel": 6, "draw": 6, "prompt": "Smista ogni caso nella trasformazione che lo descrive.",
+			"categories": ["traslazione", "rotazione", "simmetria assiale"],
+			"assignments": {
+				"la figura scivola senza girare": "traslazione",
+				"serve una freccia con direzione e verso": "traslazione",
+				"ogni punto si sposta di 5 a destra": "traslazione",
+				"(3, 2) diventa (8, 2)": "traslazione",
+				"le mattonelle ripetute sul pavimento": "traslazione",
+				"il disegno rifatto identico più in basso": "traslazione",
+				"tutti i punti fanno lo stesso viaggio": "traslazione",
+				"il nastro trasportatore che porta avanti la scatola": "traslazione",
+				"serve un centro e un angolo": "rotazione",
+				"le lancette che avanzano di un quarto d'ora": "rotazione",
+				"la ruota panoramica in movimento": "rotazione",
+				"il quadrato girato di 90° torna uguale": "rotazione",
+				"la figura fa mezzo giro attorno a un punto": "rotazione",
+				"la chiave nella serratura": "rotazione",
+				"l'elica del ventilatore": "rotazione",
+				"la Terra che compie un giro su sé stessa": "rotazione",
+				"la farfalla con le ali aperte": "simmetria assiale",
+				"l'immagine riflessa nello specchio": "simmetria assiale",
+				"si piega il foglio e i bordi combaciano": "simmetria assiale",
+				"(3, 2) diventa (−3, 2)": "simmetria assiale",
+				"la scritta AMBULANZA letta nello specchietto": "simmetria assiale",
+				"il riflesso della montagna nel lago": "simmetria assiale",
+				"la lettera A ribaltata lungo la sua metà": "simmetria assiale",
+				"le due metà di un cuore disegnato": "simmetria assiale"}},
+		# L'intersezione senza il disegno: un numero sta in tutti e due i gruppi
+		# quando ha dentro tutti e due i fattori, e i multipli di sei sono
+		# esattamente quello. È il punto in cui il linguaggio degli insiemi
+		# smette di essere vocabolario e diventa un conto.
+		{"explanation": "Un numero sta in tutti e due i gruppi se ha dentro sia il tre sia il due: e chi ha tutti e due ha anche il loro prodotto, cioè è multiplo di sei. L'intersezione di due insiemi si trova guardando i fattori, non provando a caso.", "topic": "insiemi", "minLevel": 5, "draw": 6, "prompt": "Smista ogni numero: è multiplo di tre, è pari, oppure tutti e due?",
+			"categories": ["solo multiplo di tre", "solo pari", "tutti e due"],
+			"assignments": {
+				"3": "solo multiplo di tre", "9": "solo multiplo di tre",
+				"15": "solo multiplo di tre", "21": "solo multiplo di tre",
+				"27": "solo multiplo di tre", "33": "solo multiplo di tre",
+				"45": "solo multiplo di tre", "51": "solo multiplo di tre",
+				"2": "solo pari", "4": "solo pari", "8": "solo pari", "10": "solo pari",
+				"14": "solo pari", "16": "solo pari", "20": "solo pari", "22": "solo pari",
+				"6": "tutti e due", "12": "tutti e due", "18": "tutti e due",
+				"24": "tutti e due", "30": "tutti e due", "36": "tutti e due",
+				"42": "tutti e due", "48": "tutti e due"}},
+		# Il discriminante conta le soluzioni PRIMA di calcolarle, ed è la cosa che
+		# a scuola si salta per fretta: qui non si risolve nemmeno un'equazione, si
+		# decide solo quante risposte aspettarsi. Le tessere sono equazioni, i
+		# bidoni sono numeri di soluzioni: nessuna parola in comune, quindi si
+		# smista solo guardando b² − 4ac.
+		{"explanation": "Il segno di b² − 4ac decide tutto: positivo dà due soluzioni, zero una sola, negativo nessuna — perché servirebbe la radice di un numero negativo. Nei casi senza termine noto (x² − 3x) la x si raccoglie e le soluzioni sono sempre due, una delle quali è zero.", "topic": "secondo-grado", "minLevel": 19, "draw": 6, "prompt": "Smista ogni equazione secondo quante soluzioni reali ha.",
+			"categories": ["due soluzioni", "una soluzione", "nessuna soluzione"],
+			"assignments": {
+				"x² − 5x + 6 = 0": "due soluzioni", "x² − 1 = 0": "due soluzioni",
+				"x² − 4 = 0": "due soluzioni", "x² + x − 2 = 0": "due soluzioni",
+				"x² − 3x = 0": "due soluzioni", "x² − 7x + 12 = 0": "due soluzioni",
+				"x² + 2x − 3 = 0": "due soluzioni", "x² − 9 = 0": "due soluzioni",
+				"x² − 2x + 1 = 0": "una soluzione", "x² + 2x + 1 = 0": "una soluzione",
+				"x² − 4x + 4 = 0": "una soluzione", "x² + 4x + 4 = 0": "una soluzione",
+				"x² − 6x + 9 = 0": "una soluzione", "x² + 6x + 9 = 0": "una soluzione",
+				"x² − 8x + 16 = 0": "una soluzione", "x² − 10x + 25 = 0": "una soluzione",
+				"x² + 4 = 0": "nessuna soluzione", "x² + 1 = 0": "nessuna soluzione",
+				"x² + x + 1 = 0": "nessuna soluzione", "x² − x + 1 = 0": "nessuna soluzione",
+				"x² + 2x + 5 = 0": "nessuna soluzione", "x² − 2x + 5 = 0": "nessuna soluzione",
+				"x² + 9 = 0": "nessuna soluzione", "x² + 3 = 0": "nessuna soluzione"}},
 	],
 	"fisica": [
 		{"explanation": "L'energia potenziale è immagazzinata dalla posizione, la cinetica è quella del movimento in corso: cadendo la prima diventa la seconda.", "topic": "energia", "draw": 6, "prompt": "Smista ogni situazione per l'energia prevalente.",
@@ -4951,6 +5153,19 @@ const NUMBER_LINE := {
 			"targets": [{"id": "a", "label": "Punto su due", "value": 2.0}, {"id": "b", "label": "Punto su due e cinque", "value": 2.5}, {"id": "c", "label": "Punto su tre", "value": 3.0}],
 			"answer": "b",
 			"explanation": "Il decimale sta fra due interi: 2,5 è la tacca a metà fra 2 e 3. È lo stesso punto che occupa la frazione 5/2."},
+		# I due decimali sulla retta (7 settembre 2026). La retta è il posto in cui
+		# 0,75 e 3/4 smettono di essere due argomenti e diventano lo stesso punto:
+		# la voce delle frazioni qui sopra usa la stessa scala apposta.
+		{"topic": "decimali", "minLevel": 9, "prompt": "Quale punto corrisponde a 0,75?", "min": 0.0, "max": 1.0, "tick": 0.25,
+			"labels": [{"value": 0.0, "text": "0"}, {"value": 0.5, "text": "0,5"}, {"value": 1.0, "text": "1"}],
+			"targets": [{"id": "a", "label": "Punto su zero virgola venticinque", "value": 0.25}, {"id": "b", "label": "Punto su zero virgola cinque", "value": 0.5}, {"id": "c", "label": "Punto su zero virgola settantacinque", "value": 0.75}],
+			"answer": "c",
+			"explanation": "Diviso il tratto in quattro parti, 0,75 è la terza tacca: è lo stesso punto in cui sta la frazione 3/4, perché sono due scritture della stessa quantità."},
+		{"topic": "decimali", "minLevel": 12, "prompt": "Quale punto corrisponde a 1,4?", "min": 1.0, "max": 2.0, "tick": 0.2,
+			"labels": [{"value": 1.0, "text": "1"}, {"value": 1.5, "text": "1,5"}, {"value": 2.0, "text": "2"}],
+			"targets": [{"id": "a", "label": "Punto su uno virgola due", "value": 1.2}, {"id": "b", "label": "Punto su uno virgola quattro", "value": 1.4}, {"id": "c", "label": "Punto su uno virgola otto", "value": 1.8}],
+			"answer": "b",
+			"explanation": "Qui ogni tacca vale due decimi, non un decimo: prima di contare si guarda quanto vale un passo, altrimenti si arriva al punto sbagliato pur contando bene."},
 	],
 }
 

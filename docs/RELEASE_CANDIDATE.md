@@ -2742,3 +2742,297 @@ sempre. Ora si consegna prima; suono e pulizia del DOM vengono dopo.
 **La guardia** simula il caso esatto — chiusura in coda, sessione ancora aperta —
 e pretende che il secondo AVANTI chiuda. Verificata togliendo la correzione e
 rimettendola.
+
+
+## I cinque buchi del programma delle medie (7 settembre 2026)
+
+Richiesta del committente: «controlla completezza programma matematica — vedi
+frazioni, percentuali, espressioni, equazioni, insomma il programma delle
+medie». Non una richiesta di scrivere: una richiesta di **misurare**, e la
+misura andava fatta su tutte e tre le sorgenti insieme, perché un argomento può
+esistere nel gioco senza esistere nel banco.
+
+**Che cosa c'era.** Banco: 698 item su 25 argomenti (284 tabelline, il 41%).
+Generatore nativo: 30 archetipi su 19 argomenti. Minigiochi: 72 gruppi di
+matematica su 11 formati. NORA: 31 voci. Il collegamento c'è —
+`_innesta_banco_matematica` porta un nodo su tre dal banco — e le quattro bande
+sono tutte raggiungibili, perché la matematica è materia obbligatoria del gate
+in tutti e ventiquattro i mondi, non solo nei due in cui è la materia del mondo.
+
+**La spina dorsale del programma era coperta**: frazioni, percentuali con i
+problemi inversi («dopo uno sconto del 20% costa 64 €, quanto costava?»),
+espressioni, equazioni, proporzioni, potenze fino alla notazione scientifica e
+all'esponente negativo, radici, interi, multipli e divisori con MCD e mcm,
+primi, statistica con moda-media-mediana-frequenza-campo di variazione,
+probabilità, sequenze, funzioni, coordinate, e tutto il biennio.
+
+**Mancavano cinque blocchi, e quattro sono di prima o di terza media.**
+
+| argomento | che cosa c'era | perché conta |
+|---|---|---|
+| `misure` | **zero item**: nessuna equivalenza, nessuna conversione di superficie o volume, nessuna misura di tempo | è il prerequisito di ogni problema con le unità |
+| `cerchio` | zero item di calcolo: `3,14` non compariva nel banco, «π × raggio²» esisteva in **una** coppia di abbinamento | è la geometria centrale della terza media |
+| `figure` | `geometria` era quasi solo formule: la parola «isoscele» non compariva in tutto il progetto | si calcolava su figure che nessuna domanda chiedeva di riconoscere |
+| `decimali` | sette item *contenevano* un decimale, **nessuno ci operava sopra** | è il ponte fra frazione e virgola, cioè fra due modi di scrivere la stessa quantità |
+| `trasformazioni` | **zero occorrenze** di «simmetria», «traslazione», «rotazione» | lega la geometria al piano cartesiano: ribaltare rispetto a un asse è cambiare un segno |
+
+E due riempimenti dentro argomenti già esistenti: le **espressioni** erano tutte
+nei numeri naturali (zero con le frazioni, zero con i decimali, zero con i
+relativi — ed è proprio lì che sbagliare l'ordine delle operazioni non dà un
+numero un po' diverso ma un numero di un'altra specie); i **solidi** conoscevano
+cubo, parallelepipedo, piramide e cilindro, senza prisma, cono, sfera,
+superficie laterale e peso specifico.
+
+**Dopo.**
+
+| | prima | dopo |
+|---|---|---|
+| item nel banco di matematica | 698 | **802** |
+| argomenti | 25 | **30** |
+| quota tabelline | 40,7% | **35,4%** |
+| scorciatoia «tocca la più lunga» | 24,3% | **23,3%** (caso 25,0%) |
+| risposta non a scelta multipla | 29,9% | **29,9%** (forbice 20–30) |
+| voci di NORA | 261 | **266** |
+| schede del Manuale di matematica scritte a mano | 29 | **34** |
+
+Il tetto di matematica in `bank_scorciatoie_audit` scende da 24,3 a 23,3, come
+vuole la sua regola: **si abbassa e mai si alza**. Nessuno dei 104 item nuovi ha
+la risposta giusta più lunga di cinque caratteri del distrattore più lungo.
+
+**Un limite dichiarato.** I cinque argomenti nuovi hanno la voce di NORA e la
+scheda del Manuale — senza, `nora_explanation_depth_audit` e
+`codex_teaching_audit` sarebbero rossi — ma **non hanno ancora un minigioco**:
+si incontrano come domande, non come gesto. Il 6 settembre gli argomenti di
+matematica con un gesto erano 25 su 25; oggi sono 25 su 30. Gli argomenti che
+lo chiedono di più sono `misure` (smistare per grandezza), `figure` (smistare i
+triangoli per lati) e `decimali` (abbinare frazione e virgola).
+
+**Il limite dichiarato qui sopra è stato chiuso poche ore dopo**, insieme agli
+ultimi due argomenti mancanti: vedi la sezione seguente.
+
+## Pitagora, insiemi, e un gesto per ognuno dei trentadue (7 settembre 2026)
+
+Richiesta del committente, subito dopo la misura: «continua l'espansione, e
+aggiungi minigiochi dove lo ritieni più opportuno».
+
+**I due argomenti che restavano.**
+
+`pitagora` **esisteva, ma dentro `similitudine` e in tre item**. Un argomento che
+a scuola vale un trimestre viaggiava attaccato a un altro, e il calendario del
+ripasso non poteva reclamarlo per nome: `SpacedRepetition` lavora su
+`materia:argomento`, quindi sbagliare Pitagora chiedeva indietro la
+similitudine. Ora ha sedici item suoi — teorema, verifica nei due sensi,
+il cateto trovato per sottrazione, la diagonale del rettangolo, la scala
+appoggiata al muro, i pollici della televisione, le terne. I tre vecchi restano
+dove sono: gli id del banco sono posizionali (`matematica-<argomento>-<n>`) e
+spostarli rinumererebbe tutto ciò che segue, cioè cambierebbe l'identità di
+esercizi già incontrati da chi gioca.
+
+`insiemi` **non c'era affatto**: appartenenza, unione, intersezione,
+sottoinsieme, insieme vuoto, disgiunti. È la prima pagina del libro di prima
+media e torna nel biennio quando N, Z, Q e R diventano insiemi uno dentro
+l'altro. Sedici item, e il più utile di tutti è quello che si sbaglia sempre:
+dodici fanno musica, nove sport, quattro tutte e due — chi somma dice ventuno, e
+i quattro li ha contati due volte.
+
+Più i quattro item che chiudono l'ultimo buco della statistica: i **nomi dei
+grafici** (areogramma, istogramma, ideogramma) e i gradi della fetta di torta.
+Si leggevano i grafici senza sapere come si chiamano né quando si usa l'uno
+invece dell'altro.
+
+**I dieci minigiochi: dove il gesto insegna più della domanda.**
+
+La scelta non è stata «uno per argomento» ma «il formato che fa fare la cosa
+giusta». Quattro **abbinamenti**, perché l'abbinamento è il gesto adatto quando
+due scritture diverse dicono la stessa quantità e la competenza è riconoscerlo:
+`misure` (3 kg ↔ 3000 g, 1 m² ↔ 10000 cm², mezz'ora ↔ 1800 secondi),
+`decimali` (3/8 ↔ 0,375: la frazione e la virgola messe una accanto all'altra),
+`cerchio` (ogni parte con la sua definizione, più le due formule),
+`pitagora` (cateti ↔ ipotenusa — e qui l'abbinamento **obbliga a fare il
+conto**, perché fra i risultati non c'è nessuna somma dei cateti da riconoscere
+a occhio: è il contrario del quesito a scelta multipla, dove il distrattore si
+esclude senza calcolare).
+
+Quattro **smistamenti**, perché smistare è il gesto adatto quando la competenza
+è riconoscere a quale famiglia appartiene un caso: `figure` due volte — i
+triangoli per lati e gli angoli per ampiezza, e in tutti e due le tessere sono
+**numeri nudi**, quindi si smista solo confrontandoli — `trasformazioni` (la
+farfalla, lo specchio, la ruota panoramica, la freccia: ogni caso nella sua
+trasformazione) e `insiemi`, che è il migliore del gruppo: si smistano numeri
+fra «solo multiplo di tre», «solo pari» e «tutti e due», e l'intersezione smette
+di essere vocabolario e diventa un conto sui fattori.
+
+Due voci sulla **retta dei numeri** per `decimali`, sulla stessa scala che usa
+la voce delle frazioni: 0,75 e 3/4 sono lo stesso punto, e sulla retta si vede
+invece di doverlo dimostrare.
+
+Nessuna tessera nomina il proprio bidone — è la scorciatoia che misura
+`scorciatoie_minigiochi_audit` — e nessuna coppia da abbinare ripete le parole
+della sua compagna.
+
+**Dopo.**
+
+| | ieri | oggi |
+|---|---|---|
+| item nel banco di matematica | 698 | **838** |
+| argomenti | 25 | **32** |
+| argomenti con un gesto | 25 su 25 | **32 su 32** |
+| gruppi di minigioco di matematica | 72 | **82** |
+| quota tabelline | 40,7% | **33,9%** |
+| scorciatoia «tocca la più lunga» | 24,3% | **23,2%** (caso 25,0%) |
+| risposta non a scelta multipla | 29,9% | 30,0% (forbice 20–30) |
+| voci di NORA | 261 | **268** |
+| schede del Manuale di matematica | 29 | **36** |
+
+**Una trappola di ambiente, non di contenuto.** Due volte in questa giornata
+`bank_scorciatoie_audit` e `free_answer_audit` sono diventati rossi accusando
+**l'inglese**, che nessuno aveva toccato: `npm run banks:build` lanciato mentre
+girava una suite di audit aveva lasciato `inglese-base.json` a zero byte. Il
+bake riscrive tutti e dodici i JSON, e su Windows riscrivere un file che un
+processo Godot sta leggendo lo tronca invece di fallire. Regola: dopo ogni bake,
+controllare che tutti e dodici i banchi si aprano prima di credere a un audit
+rosso — e un rosso su una materia che non hai toccato è quasi sempre questo.
+
+## «È completo?» — la verifica riga per riga (7 settembre 2026)
+
+Domanda del committente: «il programma di matematica è completo? verifica e
+completa». Non era completo: rileggendo il programma voce per voce e cercandone
+ciascuna nel banco sono usciti **quattordici buchi**, quattro di terza media e
+dieci del biennio — cioè della metà di scope che il banco dichiara fin dal
+titolo e che finora aveva coperto solo a metà.
+
+**Quello che mancava, con la prova che mancava.**
+
+| buco | come si è visto |
+|---|---|
+| angoli fra due parallele e una trasversale | «alterni interni» non compariva nel progetto |
+| criteri di congruenza dei triangoli | «criterio di congruenza» mai scritto: *congruente* era una parola senza regola |
+| somma degli angoli interni di un poligono di n lati | c'erano triangolo e quadrilatero, nessuna formula generale |
+| disuguaglianza triangolare | assente |
+| equazioni di secondo grado | un item solo in tutto il banco: «quali numeri interi risolvono x² = 9» |
+| disequazioni di secondo grado | l'argomento si fermava al primo grado |
+| radicali (semplificare, sommare, razionalizzare) | «portare fuori dal segno» mai scritto |
+| polinomi: divisione, raccoglimento parziale, trinomio, cubo del binomio | c'erano i due prodotti notevoli e il raccoglimento totale |
+| frazioni algebriche e condizione di esistenza | assenti |
+| superficie e volume di cilindro, cono, sfera | il cono c'era per confronto col cilindro, le formule no |
+| frazioni proprie / improprie / apparenti, potenza di una frazione | assenti |
+| distanza fra due punti obliqui, rette perpendicolari nel piano | c'era solo la distanza orizzontale |
+| parabola, zero di una funzione, funzione decrescente | assenti |
+| radice cubica, potenza di un prodotto, gradi-primi-secondi, ripartizione proporzionale, secondo teorema di Euclide, media ponderata | assenti uno per uno |
+
+**Che cosa è entrato.** Due argomenti nuovi — **`secondo-grado`** (17 item: la
+forma, il discriminante che conta le soluzioni prima di calcolarle, la pura e la
+spuria che si risolvono senza formula, le fratte con la condizione di esistenza)
+e **`radicali`** (16 item: semplificazione, prodotto, somma dei soli simili,
+razionalizzazione, esponente frazionario, radice cubica) — più 71 item dentro
+argomenti che già c'erano: `figure` +10, `calcolo-letterale` +9, `solidi` +5,
+`disequazioni` +4, `frazioni` +4, `funzioni` +3, `coordinate` +3, e due a testa
+per `potenze`, `radici`, `misure`, `proporzioni`, `statistica`, `similitudine`.
+
+E due gesti nuovi, perché la regola vale anche per gli argomenti nuovi:
+abbinamento per `radicali` (dodici radicali alla loro forma semplificata: il
+gesto fa fare dodici volte lo stesso passaggio in un minuto) e smistamento per
+`secondo-grado` — **si smistano equazioni per quante soluzioni hanno, senza
+risolverne nemmeno una**: si guarda solo il segno di b² − 4ac, che è la cosa che
+a scuola si salta per fretta.
+
+**Dopo.**
+
+| | stamattina | ora |
+|---|---|---|
+| item nel banco di matematica | 698 | **920** |
+| argomenti | 25 | **34** |
+| argomenti con un gesto | 25 su 25 | **34 su 34** |
+| gruppi di minigioco di matematica | 72 | **84** |
+| quota tabelline | 40,7% | **30,9%** |
+| scorciatoia «tocca la più lunga» | 24,3% | **23,1%** (caso 25,0%) |
+| voci di NORA di matematica | 25 | **39** |
+| schede del Manuale di matematica | 29 | **38** |
+
+**Che cosa resta fuori, e per scelta.** Il perimetro dichiarato è «medie più
+biennio del liceo scientifico», e adesso è coperto per intero. Restano fuori le
+cose del triennio, che sarebbe sbagliato mettere in un gioco per undicenni:
+disequazioni fratte e sistemi di disequazioni, equazioni irrazionali, geometria
+analitica oltre la retta (parabola come luogo, circonferenza), calcolo
+combinatorio, deviazione standard e quartili, trigonometria, esponenziali e
+logaritmi. Se un giorno il perimetro si allarga al triennio, questo elenco è la
+lista della spesa.
+
+**Trentaquattro audit verdi**, fra cui i quattro che pesano di più su un lavoro
+di questo tipo: `topic_density` (nessun argomento sotto i quindici item),
+`bank_scorciatoie` (23,1% contro il 25,0% del caso: nessuno dei 222 item nuovi
+si vince toccando la riga più lunga), `nora_explanation_depth` e
+`codex_teaching` (nessun argomento entra senza qualcuno che sappia insegnarlo).
+
+## Il programma di italiano: tre argomenti mai chiesti (7 settembre 2026)
+
+Richiesta del committente: «occupati del programma di italiano», con lo stesso
+metodo appena usato per matematica — misurare prima di scrivere.
+
+**Che cosa c'era.** Banco a 696 item su 27 argomenti: 12 domini di vocabolario
+(398 item) e 15 argomenti di grammatica (258 item), questi ultimi divisi fra
+`CURATED_TAIL` (le sei famiglie verbali, autorate a mano) e `BAND_EXTRA` (i nove
+argomenti di banda 4 — verbo, analisi grammaticale e logica, ortografia,
+punteggiatura, sintassi, figure retoriche, testo narrativo, lessico — aggiunti
+il 3 agosto per rompere la magrezza degli ultimi sei mondi). La copertura era
+già solida: analisi grammaticale e logica coprivano le nove parti del discorso
+e otto complementi, sintassi distingueva principale/coordinata/subordinata,
+ortografia copriva plurali in -cia/-gia, «qual è», «un po'», lessico copriva
+sinonimi/contrari/omonimi/prefissi/suffissi/campi semantici.
+
+**Tre buchi reali, misurati cercando ogni voce nel banco.**
+
+| argomento | che cosa c'era | perché conta |
+|---|---|---|
+| `tipologie-testuali` | **zero item**: solo `testo-narrativo` esisteva come tipologia | prima distinzione insegnata in prima media, prima della grammatica del periodo: descrittivo, espositivo, argomentativo, regolativo non avevano un argomento loro |
+| `epica` | **zero occorrenze** di Omero, Iliade, Odissea, Eneide in tutto il progetto | è il riferimento più citato della letteratura occidentale, e il modulo con cui la scuola apre la narrativa |
+| `metrica` | «rima» compariva 44 volte, mai definita; verso e strofa non erano argomenti | è l'ABC per leggere qualsiasi poesia, e senza di esso le figure retoriche si imparano a memoria invece che vedersele davanti |
+
+Più due espansioni dentro argomenti già forti ma con buchi specifici:
+**analisi-logica** non aveva il complemento di specificazione — «il libro DI
+MARCO», probabilmente il più comune di tutti — né il predicativo del soggetto
+e dell'oggetto; **sintassi** nominava la coordinazione ma non i suoi cinque
+tipi (copulativa, avversativa, disgiuntiva, esplicativa, conclusiva), e il
+periodo ipotetico non distingueva i suoi tre gradi (realtà, possibilità,
+irrealtà) — la parte più utile dell'argomento, perché è lì che si impara a
+leggere il congiuntivo. Più discorso diretto→indiretto dentro `testo-narrativo`
+e i digrammi/l'h del verbo avere/gli accenti tronchi dentro `ortografia`.
+
+**Dopo.** 84 item nuovi, 780 in totale su 30 argomenti.
+
+| | prima | dopo |
+|---|---|---|
+| item nel banco di italiano | 696 | **780** |
+| argomenti | 27 | **30** |
+| scorciatoia «tocca la più lunga» | 24,3% | **24,3%** (invariata; tetto 24,8, caso 25,0) |
+| risposta non a scelta multipla | 21,6% | **21,3%** (forbice 20–30) |
+| voci di NORA | 270 | **273** |
+
+**La scorciatoia della lunghezza ha richiesto due giri.** I primi 84 item,
+scritti con lo stesso stile discorsivo del banco esistente (risposte-frase
+lunghe, distrattori più corti), portavano la scorciatoia, simulata sull'intero banco, al 27,1% — sopra il
+tetto di 24,8. Non è bastato accorciare le risposte: per ventidue item si è
+allungato il distrattore più lungo, spesso trasformandolo in un errore
+REALISTICO invece che generico — per «complemento predicativo dell'oggetto»
+il distrattore più efficace è «complemento predicativo del SOGGETTO», l'altra
+metà della stessa coppia di concetti, non un'opzione qualunque.
+
+**Il gesto.** Un abbinamento per `metrica` (schema di lettere ↔ nome della
+rima: AABB è baciata, ABAB alternata, ABBA incrociata) e due smistamenti:
+`epica` (diciotto nomi nei tre poemi — Achille e Ettore nell'Iliade, Ulisse e
+Penelope nell'Odissea, Enea e Didone nell'Eneide) e `tipologie-testuali`
+(sedici frasi nei quattro scopi). Più uno per `ortografia`: distinguere «ho»
+dal verbo avere da «o» congiunzione, dentro frasi complete — non un buco da
+riempire, perché uno spazio vuoto in una tessera trascinabile è un'interfaccia
+che non esiste da nessun'altra parte nel gioco.
+
+**Dove NON serve autoria a mano.** A differenza della matematica, dove il
+generatore nativo costringe `KnowledgeCodex` a bypassare il banco, l'italiano
+pesca le sue schede del Manuale direttamente dal banco stesso
+(`_sample_item`): i tre argomenti nuovi hanno ottenuto una scheda completa
+senza scrivere niente in `knowledge_codex.gd`. Solo `NoraExplanations` ha
+richiesto tre voci nuove — quella non ha mai un fallback, per nessuna materia.
+
+**Quaranta audit verdi**, incluso `verb_decoder_audit` (le famiglie verbali non
+toccate da questo lavoro restano a posto) e `topic_alignment_audit` (l'esame
+può ancora chiedere ciò che il gate promette).

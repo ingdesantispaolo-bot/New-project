@@ -13072,7 +13072,8 @@
 				"protagonista": "«protagonista» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il personaggio principale di una storia?».",
 				"antagonista": "«antagonista» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il personaggio che si oppone al protagonista?».",
 				"scioglimento": "«scioglimento» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la parte finale in cui i nodi si sciolgono?».",
-				"esordio": "«esordio» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il momento in cui la situazione iniziale viene rotta da un fatto nuovo?»."
+				"esordio": "«esordio» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il momento in cui la situazione iniziale viene rotta da un fatto nuovo?».",
+				"spariscono": "«spariscono» è la risposta giusta a un'altra domanda di questo gruppo: «Trasformando il discorso diretto in indiretto, virgolette o lineette…»."
 			}
 		},
 		{
@@ -15013,6 +15014,1799 @@
 				"fiume": "«fiume» è la risposta giusta a un'altra domanda di questo gruppo: «Quale parola corrisponde a: \"corso d'acqua naturale\"?».",
 				"mare": "«mare» è la risposta giusta a un'altra domanda di questo gruppo: «Quale parola corrisponde a: \"grande distesa d'acqua salata\"?».",
 				"montagna": "«montagna» è la risposta giusta a un'altra domanda di questo gruppo: «Quale parola corrisponde a: \"rilievo alto del terreno\"?»."
+			}
+		},
+		{
+			"id": "italiano-banda-tipologie-testuali-261",
+			"subject": "italiano",
+			"topic": "tipologie-testuali",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale testo ha lo scopo principale di dare informazioni oggettive su un argomento?",
+			"options": [
+				"il testo espositivo",
+				"il testo poetico",
+				"il testo regolativo",
+				"il testo narrativo"
+			],
+			"answer": "il testo espositivo",
+			"explanation": "«Espositivo» viene da «esporre»: presenta fatti e dati nel modo più chiaro possibile, senza raccontare una storia né dare ordini.",
+			"distractorWhy": {
+				"il testo narrativo": "Il narrativo racconta eventi, con personaggi e una trama: qui non c'è nessuna storia da seguire.",
+				"il testo poetico": "Il poetico lavora sul suono e sulle immagini, non sull'informazione oggettiva.",
+				"il testo regolativo": "Il regolativo dà istruzioni da eseguire, non spiega un argomento."
+			}
+		},
+		{
+			"id": "italiano-banda-tipologie-testuali-262",
+			"subject": "italiano",
+			"topic": "tipologie-testuali",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale testo cerca soprattutto di convincere il lettore di un'opinione?",
+			"options": [
+				"il testo regolativo",
+				"il testo argomentativo",
+				"il testo descrittivo",
+				"il testo espositivo"
+			],
+			"answer": "il testo argomentativo",
+			"explanation": "Sostiene una tesi con delle prove, esattamente come si farebbe parlando per convincere qualcuno di persona.",
+			"distractorWhy": {
+				"il testo descrittivo": "Il descrittivo presenta come sono fatte le cose, non prova a cambiare idea a nessuno.",
+				"il testo espositivo": "L'espositivo informa restando neutrale: non prende posizione.",
+				"il testo regolativo": "Il regolativo elenca passaggi da seguire, non ragioni da valutare."
+			}
+		},
+		{
+			"id": "italiano-banda-tipologie-testuali-263",
+			"subject": "italiano",
+			"topic": "tipologie-testuali",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale testo dà istruzioni da seguire in un ordine preciso?",
+			"options": [
+				"il testo argomentativo",
+				"il testo descrittivo",
+				"il testo regolativo",
+				"il testo narrativo"
+			],
+			"answer": "il testo regolativo",
+			"explanation": "Una ricetta, un regolamento di gioco, il libretto di un elettrodomestico: dicono che cosa fare, passo dopo passo.",
+			"distractorWhy": {
+				"il testo narrativo": "Il narrativo segue una storia nel tempo, non una sequenza di operazioni da eseguire.",
+				"il testo argomentativo": "L'argomentativo discute idee, non gesti da compiere.",
+				"il testo descrittivo": "Il descrittivo ferma un'immagine, non guida un'azione."
+			}
+		},
+		{
+			"id": "italiano-banda-tipologie-testuali-264",
+			"subject": "italiano",
+			"topic": "tipologie-testuali",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Un testo che presenta com'è fatta una persona, un luogo o un oggetto si chiama…",
+			"options": [
+				"argomentativo",
+				"narrativo",
+				"regolativo",
+				"descrittivo"
+			],
+			"answer": "descrittivo",
+			"explanation": "Non racconta che cosa succede: ferma l'immagine e la mostra nei suoi dettagli.",
+			"distractorWhy": {
+				"narrativo": "Il narrativo fa succedere qualcosa nel tempo; il descrittivo ferma un istante.",
+				"regolativo": "Il regolativo dice che cosa fare, non che aspetto ha qualcosa.",
+				"argomentativo": "L'argomentativo discute un'idea, non l'aspetto di una cosa."
+			}
+		},
+		{
+			"id": "italiano-banda-tipologie-testuali-265",
+			"subject": "italiano",
+			"topic": "tipologie-testuali",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "In un testo descrittivo, gli aggettivi servono soprattutto a…",
+			"options": [
+				"dare dettagli sensoriali su ciò che si descrive",
+				"convincere il lettore",
+				"dare un ordine ben preciso da eseguire subito",
+				"far avanzare la storia"
+			],
+			"answer": "dare dettagli sensoriali su ciò che si descrive",
+			"explanation": "Colore, dimensione, consistenza, suono: sono gli aggettivi a costruire l'immagine nella mente di chi legge.",
+			"distractorWhy": {
+				"far avanzare la storia": "Far avanzare gli eventi è compito dei verbi in un testo narrativo, non degli aggettivi in uno descrittivo.",
+				"convincere il lettore": "Convincere è lo scopo del testo argomentativo, non della descrizione.",
+				"dare un ordine ben preciso da eseguire subito": "Un ordine si dà con un verbo all'imperativo, non con un aggettivo."
+			}
+		},
+		{
+			"id": "italiano-banda-tipologie-testuali-266",
+			"subject": "italiano",
+			"topic": "tipologie-testuali",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Una ricetta di cucina è un esempio di testo…",
+			"options": [
+				"espositivo",
+				"regolativo",
+				"poetico",
+				"narrativo"
+			],
+			"answer": "regolativo",
+			"explanation": "Elenca ingredienti e passaggi in un ordine che va rispettato: è lo scopo tipico del testo regolativo.",
+			"distractorWhy": {
+				"narrativo": "Una ricetta non racconta eventi con personaggi: elenca operazioni.",
+				"poetico": "Il poetico lavora sul suono e sul significato figurato, lontano da una lista di passaggi.",
+				"espositivo": "L'espositivo informa su un argomento, non dice come eseguire un'azione."
+			}
+		},
+		{
+			"id": "italiano-banda-tipologie-testuali-267",
+			"subject": "italiano",
+			"topic": "tipologie-testuali",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Un manuale di istruzioni usa più spesso i verbi al…",
+			"options": [
+				"tempo passato remoto narrativo",
+				"modo condizionale",
+				"modo imperativo o all'infinito",
+				"modo congiuntivo"
+			],
+			"answer": "modo imperativo o all'infinito",
+			"explanation": "«Premi il tasto» oppure «premere il tasto»: sono le due forme che danno un'istruzione senza bisogno di un soggetto esplicito.",
+			"distractorWhy": {
+				"modo condizionale": "Il condizionale esprime un'ipotesi o una cortesia, non un'istruzione diretta.",
+				"tempo passato remoto narrativo": "Il passato remoto racconta un fatto concluso, e qui non si sta raccontando niente.",
+				"modo congiuntivo": "Il congiuntivo esprime dubbio o desiderio, non un'istruzione da eseguire subito."
+			}
+		},
+		{
+			"id": "italiano-banda-tipologie-testuali-268",
+			"subject": "italiano",
+			"topic": "tipologie-testuali",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "In un testo argomentativo, la tesi è…",
+			"options": [
+				"la conclusione ovvia e condivisa da tutti",
+				"il titolo del testo",
+				"l'elenco delle fonti usate",
+				"l'idea che si vuole sostenere"
+			],
+			"answer": "l'idea che si vuole sostenere",
+			"explanation": "È il punto di partenza e insieme il punto d'arrivo: tutto il testo lavora per renderla convincente.",
+			"distractorWhy": {
+				"l'elenco delle fonti usate": "Le fonti possono sostenere la tesi, ma non sono la tesi stessa.",
+				"la conclusione ovvia e condivisa da tutti": "Se fosse già condivisa da tutti non ci sarebbe bisogno di argomentarla.",
+				"il titolo del testo": "Il titolo può accennarla, ma la tesi è l'idea vera e propria, non l'etichetta."
+			}
+		},
+		{
+			"id": "italiano-banda-tipologie-testuali-269",
+			"subject": "italiano",
+			"topic": "tipologie-testuali",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cosa sono gli argomenti in un testo argomentativo?",
+			"options": [
+				"le prove a sostegno della tesi",
+				"gli errori da correggere",
+				"le parole difficili del testo",
+				"i personaggi coinvolti"
+			],
+			"answer": "le prove a sostegno della tesi",
+			"explanation": "Fatti, esempi, dati, confronti: ogni argomento è un motivo in più per accettare la tesi.",
+			"distractorWhy": {
+				"le parole difficili del testo": "Il lessico complicato non ha niente a che vedere con l'argomentare.",
+				"i personaggi coinvolti": "I personaggi appartengono al testo narrativo, non a un ragionamento.",
+				"gli errori da correggere": "Correggere errori è un altro compito: qui si tratta di sostenere un'idea."
+			}
+		},
+		{
+			"id": "italiano-banda-tipologie-testuali-270",
+			"subject": "italiano",
+			"topic": "tipologie-testuali",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Un'enciclopedia è scritta soprattutto in un linguaggio…",
+			"options": [
+				"narrativo e coinvolgente",
+				"espositivo e oggettivo",
+				"argomentativo e polemico",
+				"poetico e figurato"
+			],
+			"answer": "espositivo e oggettivo",
+			"explanation": "Deve restare valida per chiunque la legga, quindi evita le impressioni personali e riporta i fatti nel modo più verificabile possibile.",
+			"distractorWhy": {
+				"poetico e figurato": "Il linguaggio figurato lascerebbe spazio a interpretazioni diverse, l'opposto di ciò che serve a un'informazione precisa.",
+				"narrativo e coinvolgente": "Un'enciclopedia non racconta una storia con personaggi ed eventi.",
+				"argomentativo e polemico": "Un'enciclopedia non deve convincere di una tesi: deve informare in modo neutrale."
+			}
+		},
+		{
+			"id": "italiano-banda-tipologie-testuali-271",
+			"subject": "italiano",
+			"topic": "tipologie-testuali",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Perché un testo espositivo evita il linguaggio troppo personale?",
+			"options": [
+				"perché altrimenti diventa un testo poetico",
+				"perché le parole personali sono troppo difficili",
+				"per restare oggettivo e verificabile da chiunque",
+				"perché deve essere il più breve possibile"
+			],
+			"answer": "per restare oggettivo e verificabile da chiunque",
+			"explanation": "Un dato o una definizione devono valere allo stesso modo per ogni lettore: le opinioni di chi scrive lo renderebbero meno affidabile.",
+			"distractorWhy": {
+				"perché le parole personali sono troppo difficili": "Non è una questione di difficoltà delle parole, ma di neutralità del contenuto.",
+				"perché deve essere il più breve possibile": "La brevità non è lo scopo dell'oggettività: un testo espositivo può essere anche lungo.",
+				"perché altrimenti diventa un testo poetico": "Un linguaggio personale renderebbe il testo soggettivo, non necessariamente poetico."
+			}
+		},
+		{
+			"id": "italiano-banda-tipologie-testuali-272",
+			"subject": "italiano",
+			"topic": "tipologie-testuali",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "In una descrizione oggettiva, a differenza di una soggettiva…",
+			"options": [
+				"si descrivono solo persone, mai luoghi",
+				"non si usano mai aggettivi",
+				"si usano solo frasi brevi",
+				"non compaiono le impressioni di chi scrive"
+			],
+			"answer": "non compaiono le impressioni di chi scrive",
+			"explanation": "L'oggettiva elenca misure, forme e caratteristiche verificabili; la soggettiva aggiunge come quella cosa fa sentire chi la guarda.",
+			"distractorWhy": {
+				"si usano solo frasi brevi": "La lunghezza delle frasi non distingue oggettiva da soggettiva.",
+				"non si usano mai aggettivi": "Gli aggettivi restano necessari anche nella descrizione oggettiva, purché descrivano fatti e non impressioni.",
+				"si descrivono solo persone, mai luoghi": "Sia le persone sia i luoghi si possono descrivere in modo oggettivo o soggettivo."
+			}
+		},
+		{
+			"id": "italiano-banda-tipologie-testuali-273",
+			"subject": "italiano",
+			"topic": "tipologie-testuali",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Un testo argomentativo che presenta anche il punto di vista contrario espone…",
+			"options": [
+				"l'antitesi",
+				"l'epilogo",
+				"il proemio",
+				"l'ambientazione"
+			],
+			"answer": "l'antitesi",
+			"explanation": "Mostrare l'opinione opposta e poi confutarla rende la propria tesi più solida di quanto sarebbe ignorandola.",
+			"distractorWhy": {
+				"il proemio": "Il proemio è l'introduzione di un poema epico, non la tesi opposta di un testo argomentativo.",
+				"l'ambientazione": "L'ambientazione è dove e quando si svolge una storia narrata, non un'idea contraria.",
+				"l'epilogo": "L'epilogo è la parte finale di un racconto, non un'obiezione da confutare."
+			}
+		},
+		{
+			"id": "italiano-banda-tipologie-testuali-274",
+			"subject": "italiano",
+			"topic": "tipologie-testuali",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Perché un testo regolativo usa spesso un elenco numerato?",
+			"options": [
+				"perché è vietato usare la punteggiatura",
+				"per far rispettare l'ordine esatto dei passaggi",
+				"per sembrare più lungo",
+				"per nascondere le informazioni meno importanti"
+			],
+			"answer": "per far rispettare l'ordine esatto dei passaggi",
+			"explanation": "In un'istruzione l'ordine conta quanto il contenuto: scambiare il passo 2 con il passo 4 può cambiare il risultato.",
+			"distractorWhy": {
+				"per sembrare più lungo": "Numerare i passaggi non aggiunge parole: aggiunge chiarezza sull'ordine.",
+				"per nascondere le informazioni meno importanti": "Un elenco numerato in un'istruzione mostra tutto, non nasconde niente.",
+				"perché è vietato usare la punteggiatura": "Non esiste nessun divieto simile: la punteggiatura resta necessaria."
+			}
+		},
+		{
+			"id": "italiano-banda-tipologie-testuali-275",
+			"subject": "italiano",
+			"topic": "tipologie-testuali",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Qual è la differenza principale fra descrivere e narrare?",
+			"options": [
+				"descrivere riguarda soltanto i luoghi e mai le persone",
+				"descrivere è più breve di narrare",
+				"descrivere ferma il tempo, narrare lo fa scorrere",
+				"narrare non usa mai aggettivi"
+			],
+			"answer": "descrivere ferma il tempo, narrare lo fa scorrere",
+			"explanation": "In una descrizione il tempo è fermo su un'immagine; in una narrazione gli eventi si susseguono uno dopo l'altro.",
+			"distractorWhy": {
+				"descrivere è più breve di narrare": "Una descrizione può essere lunghissima: la lunghezza non è ciò che le distingue.",
+				"narrare non usa mai aggettivi": "Anche un testo narrativo usa aggettivi, per esempio dentro le sue parti descrittive.",
+				"descrivere riguarda soltanto i luoghi e mai le persone": "Si possono descrivere anche persone, oggetti ed emozioni, non solo i luoghi."
+			}
+		},
+		{
+			"id": "italiano-banda-tipologie-testuali-276",
+			"subject": "italiano",
+			"topic": "tipologie-testuali",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Un connettivo come «quindi» in un testo argomentativo introduce di solito…",
+			"options": [
+				"un'istruzione da eseguire",
+				"un cambio di ambientazione narrativa",
+				"un nuovo personaggio",
+				"la conclusione tratta dagli argomenti"
+			],
+			"answer": "la conclusione tratta dagli argomenti",
+			"explanation": "Segnala il passaggio dalle prove al risultato del ragionamento: è il punto in cui gli argomenti si trasformano in una conclusione.",
+			"distractorWhy": {
+				"un nuovo personaggio": "I personaggi appartengono ai testi narrativi, non a un ragionamento.",
+				"un cambio di ambientazione narrativa": "Cambiare luogo e tempo è una tecnica narrativa, non il ruolo di «quindi».",
+				"un'istruzione da eseguire": "Un'istruzione si introduce con l'imperativo, non con un connettivo di conclusione."
+			}
+		},
+		{
+			"id": "italiano-banda-tipologie-testuali-277",
+			"subject": "italiano",
+			"topic": "tipologie-testuali",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché lo stesso paesaggio, descritto da due persone diverse, può risultare molto diverso?",
+			"options": [
+				"perché la descrizione soggettiva sceglie i dettagli secondo chi guarda",
+				"perché una descrizione oggettiva non può mai contenere aggettivi personali",
+				"perché una delle due persone sta mentendo",
+				"perché il paesaggio cambia continuamente"
+			],
+			"answer": "perché la descrizione soggettiva sceglie i dettagli secondo chi guarda",
+			"explanation": "Chi ama il mare può notare i colori dell'acqua, chi ha paura può notare le onde alte: la selezione dei dettagli tradisce il punto di vista.",
+			"distractorWhy": {
+				"perché una delle due persone sta mentendo": "Non serve nessuna bugia: bastano due sensibilità diverse davanti alla stessa scena.",
+				"perché il paesaggio cambia continuamente": "Anche osservando lo stesso istante, due persone possono descriverlo in modo diverso.",
+				"perché una descrizione oggettiva non può mai contenere aggettivi personali": "Gli aggettivi sono ammessi in ogni descrizione: non è questo a cambiare il risultato."
+			}
+		},
+		{
+			"id": "italiano-banda-tipologie-testuali-278",
+			"subject": "italiano",
+			"topic": "tipologie-testuali",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Un testo poetico si distingue dagli altri soprattutto perché…",
+			"options": [
+				"non può mai contenere nessuna figura retorica riconoscibile",
+				"usa il suono e la forma delle parole per costruire significato",
+				"deve sempre fare rima",
+				"racconta sempre una storia vera"
+			],
+			"answer": "usa il suono e la forma delle parole per costruire significato",
+			"explanation": "Il ritmo, la scelta dei suoni e le immagini contano quanto il significato letterale: è per questo che una poesia perde qualcosa se viene solo riassunta.",
+			"distractorWhy": {
+				"deve sempre fare rima": "Anche i versi liberi, senza rima, restano testo poetico: la rima è frequente ma non obbligatoria.",
+				"racconta sempre una storia vera": "Una poesia può non raccontare nessuna storia, e quando lo fa non deve essere vera.",
+				"non può mai contenere nessuna figura retorica riconoscibile": "Il testo poetico è proprio il luogo dove le figure retoriche compaiono più spesso."
+			}
+		},
+		{
+			"id": "italiano-banda-epica-279",
+			"subject": "italiano",
+			"topic": "epica",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Come si chiamano i lunghi poemi che raccontano le imprese di eroi e dei?",
+			"options": [
+				"romanzi storici",
+				"favole",
+				"poemi epici",
+				"poemi lirici"
+			],
+			"answer": "poemi epici",
+			"explanation": "«Epica» viene dal greco «epos», parola: sono racconti in versi nati per essere recitati a voce alta, non letti in silenzio.",
+			"distractorWhy": {
+				"poemi lirici": "Il lirico esprime i sentimenti di chi scrive, non le imprese di eroi lontani nel tempo.",
+				"romanzi storici": "Il romanzo è un genere molto più tardo e scritto in prosa, non in versi.",
+				"favole": "La favola è breve e ha uno scopo morale esplicito: il poema epico racconta imprese su vasta scala."
+			}
+		},
+		{
+			"id": "italiano-banda-epica-280",
+			"subject": "italiano",
+			"topic": "epica",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Chi è considerato l'autore dell'Iliade e dell'Odissea?",
+			"options": [],
+			"answer": "Omero",
+			"accept": [
+				"omero"
+			],
+			"explanation": "La tradizione greca lo ricorda come un poeta cieco, vissuto forse nell'ottavo secolo avanti Cristo: di lui non sappiamo altro con certezza.",
+			"distractorWhy": {
+				"poemi epici": "«poemi epici» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano i lunghi poemi che raccontano le imprese di eroi e dei?».",
+				"la guerra di Troia": "«la guerra di Troia» è la risposta giusta a un'altra domanda di questo gruppo: «L'Iliade racconta un episodio degli ultimi anni di quale guerra?».",
+				"Achille": "«Achille» è la risposta giusta a un'altra domanda di questo gruppo: «Chi è il più forte eroe greco nell'Iliade, la cui ira apre il poema?».",
+				"Ettore": "«Ettore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il più valoroso eroe troiano, ucciso in duello da Achille?».",
+				"Ulisse": "«Ulisse» è la risposta giusta a un'altra domanda di questo gruppo: «L'Odissea racconta il lungo viaggio di ritorno di quale eroe?».",
+				"Itaca, la sua isola": "«Itaca, la sua isola» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la meta del lungo viaggio di Ulisse nell'Odissea?».",
+				"Polifemo": "«Polifemo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il ciclope, figlio di Poseidone, accecato da Ulisse?».",
+				"Penelope": "«Penelope» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la moglie di Ulisse, che lo aspetta tessendo una tela?»."
+			}
+		},
+		{
+			"id": "italiano-banda-epica-281",
+			"subject": "italiano",
+			"topic": "epica",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "L'Iliade racconta un episodio degli ultimi anni di quale guerra?",
+			"options": [
+				"le guerre puniche",
+				"la guerra di Sparta",
+				"la guerra del Peloponneso",
+				"la guerra di Troia"
+			],
+			"answer": "la guerra di Troia",
+			"explanation": "«Iliade» viene da «Ilio», un altro nome di Troia: il poema non racconta tutta la guerra, solo poche settimane del decimo anno d'assedio.",
+			"distractorWhy": {
+				"la guerra del Peloponneso": "Quella fu combattuta secoli dopo, fra Atene e Sparta, e la conosciamo da uno storico, Tucidide.",
+				"le guerre puniche": "Furono combattute da Roma contro Cartagine, molto più tardi e in un altro continente.",
+				"la guerra di Sparta": "Non esiste una guerra con questo nome: Sparta fu protagonista della guerra del Peloponneso."
+			}
+		},
+		{
+			"id": "italiano-banda-epica-282",
+			"subject": "italiano",
+			"topic": "epica",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Chi è il più forte eroe greco nell'Iliade, la cui ira apre il poema?",
+			"options": [
+				"Achille",
+				"Ettore",
+				"Agamennone",
+				"Ulisse"
+			],
+			"answer": "Achille",
+			"explanation": "Il primo verso dell'Iliade chiede alla Musa di cantare proprio la sua ira: tutto il poema nasce da quella rabbia.",
+			"distractorWhy": {
+				"Ettore": "Ettore è il più forte eroe TROIANO, cioè del campo avversario.",
+				"Ulisse": "Ulisse è un eroe greco astuto più che fortissimo, ed è il protagonista dell'Odissea.",
+				"Agamennone": "Agamennone comanda l'esercito greco, ma è proprio lui a offendere Achille, non a esserne l'eroe più forte."
+			}
+		},
+		{
+			"id": "italiano-banda-epica-283",
+			"subject": "italiano",
+			"topic": "epica",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cosa scatena l'ira di Achille, il tema con cui si apre l'Iliade?",
+			"options": [
+				"gli dei lo condannano a un lungo esilio",
+				"Agamennone gli toglie la schiava Briseide",
+				"Ettore uccide suo fratello",
+				"perde una gara di corsa"
+			],
+			"answer": "Agamennone gli toglie la schiava Briseide",
+			"explanation": "Agamennone, per risarcirsi di una perdita subita, prende con la forza la prigioniera assegnata ad Achille: un'offesa al suo onore, non solo un torto materiale.",
+			"distractorWhy": {
+				"Ettore uccide suo fratello": "Achille non ha un fratello ucciso da Ettore: sarà Ettore a uccidere il suo amico Patroclo, più avanti nella storia.",
+				"gli dei lo condannano a un lungo esilio": "Nessun dio esilia Achille: il conflitto è tutto interno al campo greco.",
+				"perde una gara di corsa": "Non esiste nessuna gara all'inizio del poema: l'offesa riguarda l'onore, non uno sport."
+			}
+		},
+		{
+			"id": "italiano-banda-epica-284",
+			"subject": "italiano",
+			"topic": "epica",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Come si chiama il più valoroso eroe troiano, ucciso in duello da Achille?",
+			"options": [
+				"Enea",
+				"Paride",
+				"Ettore",
+				"Priamo"
+			],
+			"answer": "Ettore",
+			"explanation": "Difende Troia fino alla fine, sapendo di essere destinato a perdere: il suo scontro con Achille è il momento più alto del poema.",
+			"distractorWhy": {
+				"Paride": "Paride rapisce Elena, causando la guerra, ma non è il guerriero più valoroso di Troia.",
+				"Priamo": "Priamo è il vecchio re di Troia, padre di Ettore: non combatte più in prima persona.",
+				"Enea": "Enea è un altro eroe troiano, ma sarà lui a sopravvivere alla guerra: è il protagonista dell'Eneide."
+			}
+		},
+		{
+			"id": "italiano-banda-epica-285",
+			"subject": "italiano",
+			"topic": "epica",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "L'Odissea racconta il lungo viaggio di ritorno di quale eroe?",
+			"options": [],
+			"answer": "Ulisse",
+			"accept": [
+				"ulisse",
+				"odisseo"
+			],
+			"explanation": "In greco si chiama Odisseo, da cui il titolo del poema: il suo ritorno a casa dura dieci anni, quanto la guerra appena finita.",
+			"distractorWhy": {
+				"poemi epici": "«poemi epici» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano i lunghi poemi che raccontano le imprese di eroi e dei?».",
+				"Omero": "«Omero» è la risposta giusta a un'altra domanda di questo gruppo: «Chi è considerato l'autore dell'Iliade e dell'Odissea?».",
+				"la guerra di Troia": "«la guerra di Troia» è la risposta giusta a un'altra domanda di questo gruppo: «L'Iliade racconta un episodio degli ultimi anni di quale guerra?».",
+				"Achille": "«Achille» è la risposta giusta a un'altra domanda di questo gruppo: «Chi è il più forte eroe greco nell'Iliade, la cui ira apre il poema?».",
+				"Ettore": "«Ettore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il più valoroso eroe troiano, ucciso in duello da Achille?».",
+				"Itaca, la sua isola": "«Itaca, la sua isola» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la meta del lungo viaggio di Ulisse nell'Odissea?».",
+				"Polifemo": "«Polifemo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il ciclope, figlio di Poseidone, accecato da Ulisse?».",
+				"Penelope": "«Penelope» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la moglie di Ulisse, che lo aspetta tessendo una tela?»."
+			}
+		},
+		{
+			"id": "italiano-banda-epica-286",
+			"subject": "italiano",
+			"topic": "epica",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Qual è la meta del lungo viaggio di Ulisse nell'Odissea?",
+			"options": [
+				"Troia, da riconquistare",
+				"Sparta, dove regna Menelao",
+				"l'isola dei Feaci, per restarci",
+				"Itaca, la sua isola"
+			],
+			"answer": "Itaca, la sua isola",
+			"explanation": "Ha già vinto la guerra: ora vuole solo tornare a casa, dalla moglie e dal figlio che ha lasciato bambino.",
+			"distractorWhy": {
+				"Troia, da riconquistare": "Troia è già stata conquistata: il poema comincia dopo la fine della guerra.",
+				"l'isola dei Feaci, per restarci": "I Feaci lo ospitano e lo aiutano a tornare a casa, ma non è quella la sua meta finale.",
+				"Sparta, dove regna Menelao": "Sparta è la patria di Menelao ed Elena, non quella di Ulisse."
+			}
+		},
+		{
+			"id": "italiano-banda-epica-287",
+			"subject": "italiano",
+			"topic": "epica",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Come si chiama il ciclope, figlio di Poseidone, accecato da Ulisse?",
+			"options": [
+				"Polifemo",
+				"Proteo",
+				"Circe",
+				"Eolo"
+			],
+			"answer": "Polifemo",
+			"explanation": "Ulisse gli acceca l'unico occhio con un palo appuntito, dopo essersi presentato con un nome falso, «Nessuno».",
+			"distractorWhy": {
+				"Circe": "Circe è una maga che trasforma i compagni di Ulisse in maiali: non è un ciclope.",
+				"Eolo": "Eolo è il dio dei venti, che regala a Ulisse un otre con i venti contrari chiusi dentro.",
+				"Proteo": "Proteo è un dio marino capace di cambiare forma: non compare come nemico di Ulisse."
+			}
+		},
+		{
+			"id": "italiano-banda-epica-288",
+			"subject": "italiano",
+			"topic": "epica",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Come si chiama la moglie di Ulisse, che lo aspetta tessendo una tela?",
+			"options": [
+				"Nausicaa",
+				"Penelope",
+				"Calipso",
+				"Circe"
+			],
+			"answer": "Penelope",
+			"explanation": "Di giorno tesse una tela per il suocero, di notte la disfa, per rimandare la scelta di un nuovo marito fra i pretendenti.",
+			"distractorWhy": {
+				"Circe": "Circe è la maga che trattiene Ulisse sulla sua isola, non sua moglie.",
+				"Nausicaa": "Nausicaa è la principessa dei Feaci che lo soccorre naufrago: non è sua moglie.",
+				"Calipso": "Calipso è la ninfa che tiene Ulisse prigioniero per anni sulla sua isola."
+			}
+		},
+		{
+			"id": "italiano-banda-epica-289",
+			"subject": "italiano",
+			"topic": "epica",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Chi è l'eroe troiano protagonista dell'Eneide?",
+			"options": [],
+			"answer": "Enea",
+			"accept": [
+				"enea"
+			],
+			"explanation": "Fugge da Troia in fiamme portando in spalla il vecchio padre e per mano il figlio: comincia così il suo viaggio verso l'Italia.",
+			"distractorWhy": {
+				"poemi epici": "«poemi epici» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano i lunghi poemi che raccontano le imprese di eroi e dei?».",
+				"Omero": "«Omero» è la risposta giusta a un'altra domanda di questo gruppo: «Chi è considerato l'autore dell'Iliade e dell'Odissea?».",
+				"la guerra di Troia": "«la guerra di Troia» è la risposta giusta a un'altra domanda di questo gruppo: «L'Iliade racconta un episodio degli ultimi anni di quale guerra?».",
+				"Achille": "«Achille» è la risposta giusta a un'altra domanda di questo gruppo: «Chi è il più forte eroe greco nell'Iliade, la cui ira apre il poema?».",
+				"Ettore": "«Ettore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il più valoroso eroe troiano, ucciso in duello da Achille?».",
+				"Ulisse": "«Ulisse» è la risposta giusta a un'altra domanda di questo gruppo: «L'Odissea racconta il lungo viaggio di ritorno di quale eroe?».",
+				"Itaca, la sua isola": "«Itaca, la sua isola» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la meta del lungo viaggio di Ulisse nell'Odissea?».",
+				"Polifemo": "«Polifemo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il ciclope, figlio di Poseidone, accecato da Ulisse?»."
+			}
+		},
+		{
+			"id": "italiano-banda-epica-290",
+			"subject": "italiano",
+			"topic": "epica",
+			"difficulty": 4,
+			"format": "short_answer",
+			"prompt": "Chi scrisse l'Eneide?",
+			"options": [],
+			"answer": "Virgilio",
+			"accept": [
+				"virgilio"
+			],
+			"explanation": "Poeta latino vissuto al tempo dell'imperatore Augusto: scrisse l'Eneide per dare a Roma un'origine gloriosa quanto quella dei Greci.",
+			"distractorWhy": {
+				"poemi epici": "«poemi epici» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano i lunghi poemi che raccontano le imprese di eroi e dei?».",
+				"Omero": "«Omero» è la risposta giusta a un'altra domanda di questo gruppo: «Chi è considerato l'autore dell'Iliade e dell'Odissea?».",
+				"la guerra di Troia": "«la guerra di Troia» è la risposta giusta a un'altra domanda di questo gruppo: «L'Iliade racconta un episodio degli ultimi anni di quale guerra?».",
+				"Achille": "«Achille» è la risposta giusta a un'altra domanda di questo gruppo: «Chi è il più forte eroe greco nell'Iliade, la cui ira apre il poema?».",
+				"Ettore": "«Ettore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il più valoroso eroe troiano, ucciso in duello da Achille?».",
+				"Ulisse": "«Ulisse» è la risposta giusta a un'altra domanda di questo gruppo: «L'Odissea racconta il lungo viaggio di ritorno di quale eroe?».",
+				"Itaca, la sua isola": "«Itaca, la sua isola» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la meta del lungo viaggio di Ulisse nell'Odissea?».",
+				"Polifemo": "«Polifemo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il ciclope, figlio di Poseidone, accecato da Ulisse?»."
+			}
+		},
+		{
+			"id": "italiano-banda-epica-291",
+			"subject": "italiano",
+			"topic": "epica",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Qual è lo scopo del lungo viaggio di Enea nell'Eneide?",
+			"options": [
+				"vendicare la morte del cugino Ettore",
+				"tornare indietro a Troia per provare a ricostruirla",
+				"fondare le origini di un popolo che diventerà Roma",
+				"cercare un tesoro nascosto in mare"
+			],
+			"answer": "fondare le origini di un popolo che diventerà Roma",
+			"explanation": "Enea non torna indietro: va avanti, verso l'Italia, dove i suoi discendenti fonderanno la città che diventerà Roma.",
+			"distractorWhy": {
+				"tornare indietro a Troia per provare a ricostruirla": "Troia è distrutta per sempre: la storia di Enea guarda avanti, non indietro.",
+				"vendicare la morte del cugino Ettore": "Ettore muore nell'Iliade, ma l'Eneide non è un racconto di vendetta.",
+				"cercare un tesoro nascosto in mare": "Non c'è nessun tesoro da cercare: la meta è fondare un nuovo popolo."
+			}
+		},
+		{
+			"id": "italiano-banda-epica-292",
+			"subject": "italiano",
+			"topic": "epica",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è il proemio di un poema epico?",
+			"options": [
+				"l'elenco degli eroi schierati in battaglia",
+				"il commento personale del lettore al poema",
+				"la parte finale del poema che scioglie tutta la vicenda",
+				"la parte iniziale che annuncia l'argomento e invoca la Musa"
+			],
+			"answer": "la parte iniziale che annuncia l'argomento e invoca la Musa",
+			"explanation": "In poche righe dichiara di che cosa parlerà il racconto e chiede ispirazione a una divinità: è una specie di indice cantato.",
+			"distractorWhy": {
+				"la parte finale del poema che scioglie tutta la vicenda": "Quella è la conclusione: il proemio sta all'inizio, non alla fine.",
+				"l'elenco degli eroi schierati in battaglia": "Un catalogo di eroi può comparire più avanti nel poema, ma non è il proemio.",
+				"il commento personale del lettore al poema": "Il proemio è scritto dal poeta, non è una reazione di chi legge."
+			}
+		},
+		{
+			"id": "italiano-banda-epica-293",
+			"subject": "italiano",
+			"topic": "epica",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "A chi si rivolge il poeta chiedendo ispirazione all'inizio di un poema epico?",
+			"options": [
+				"alla Musa",
+				"al pubblico presente",
+				"agli eroi del racconto",
+				"al re"
+			],
+			"answer": "alla Musa",
+			"explanation": "Le Muse sono le divinità greche dell'arte e della memoria: il poeta chiede a loro di ricordargli i fatti da cantare, come se non li conoscesse da sé.",
+			"distractorWhy": {
+				"al re": "Il re può essere il destinatario del poema, ma non è a lui che si chiede ispirazione.",
+				"al pubblico presente": "Il pubblico ascolta, non fornisce l'ispirazione del canto.",
+				"agli eroi del racconto": "Gli eroi sono i protagonisti della storia, non le fonti dell'ispirazione poetica."
+			}
+		},
+		{
+			"id": "italiano-banda-epica-294",
+			"subject": "italiano",
+			"topic": "epica",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è un epiteto, come «Achille piè veloce» o «Ulisse dal multiforme ingegno»?",
+			"options": [
+				"un errore di trascrizione che si è ripetuto per sbaglio",
+				"un aggettivo fisso legato sempre allo stesso personaggio",
+				"un soprannome inventato dai lettori moderni",
+				"un titolo nobiliare del personaggio"
+			],
+			"answer": "un aggettivo fisso legato sempre allo stesso personaggio",
+			"explanation": "Nasce dalla poesia recitata a memoria: una formula pronta aiutava il cantore a riempire il verso senza doverla inventare ogni volta.",
+			"distractorWhy": {
+				"un soprannome inventato dai lettori moderni": "Gli epiteti sono nel testo originale, scritti da chi ha composto il poema, non aggiunti dopo.",
+				"un errore di trascrizione che si è ripetuto per sbaglio": "Sono ripetuti apposta, non per errore: la ripetizione ha una funzione precisa nella poesia orale.",
+				"un titolo nobiliare del personaggio": "Non indica un rango: descrive una qualità fissa del personaggio, come la sua velocità o la sua astuzia."
+			}
+		},
+		{
+			"id": "italiano-banda-epica-295",
+			"subject": "italiano",
+			"topic": "epica",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che cosa vuol dire che un poema comincia «in medias res»?",
+			"options": [
+				"comincia con la morte del protagonista",
+				"comincia elencando tutti i personaggi",
+				"comincia nel mezzo della vicenda, non dall'inizio",
+				"comincia con una lunga descrizione dei luoghi"
+			],
+			"answer": "comincia nel mezzo della vicenda, non dall'inizio",
+			"explanation": "L'Odissea non parte dalla caduta di Troia ma da un punto avanzato del viaggio di Ulisse: gli antefatti si raccontano dopo, spesso attraverso un flashback.",
+			"distractorWhy": {
+				"comincia con una lunga descrizione dei luoghi": "«In medias res» riguarda il punto della TRAMA da cui si parte, non la presenza di descrizioni.",
+				"comincia con la morte del protagonista": "Nell'Odissea il protagonista è vivo dall'inizio alla fine: la tecnica non richiede nessuna morte iniziale.",
+				"comincia elencando tutti i personaggi": "Un elenco di personaggi è un catalogo, un'altra tecnica: qui si tratta invece di dove si apre l'azione."
+			}
+		},
+		{
+			"id": "italiano-banda-metrica-296",
+			"subject": "italiano",
+			"topic": "metrica",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama ciascuna riga di una poesia?",
+			"options": [],
+			"answer": "verso",
+			"accept": [],
+			"explanation": "È l'unità minima con cui una poesia si costruisce: più versi insieme formano una strofa.",
+			"distractorWhy": {
+				"strofa": "«strofa» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un gruppo di versi separato dagli altri da uno spazio bianco?».",
+				"rima": "«rima» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la corrispondenza di suono fra la fine di due o più versi?».",
+				"metrica": "«metrica» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'insieme delle regole che studiano versi, strofe e rime?».",
+				"distico": "«distico» è la risposta giusta a un'altra domanda di questo gruppo: «Una strofa di due versi si chiama…».",
+				"terzina": "«terzina» è la risposta giusta a un'altra domanda di questo gruppo: «Una strofa di tre versi si chiama…».",
+				"quartina": "«quartina» è la risposta giusta a un'altra domanda di questo gruppo: «Una strofa di quattro versi si chiama…».",
+				"rima baciata": "«rima baciata» è la risposta giusta a un'altra domanda di questo gruppo: «Nello schema di rima AABB, come si chiama questo tipo di rima?».",
+				"rima alternata": "«rima alternata» è la risposta giusta a un'altra domanda di questo gruppo: «Nello schema di rima ABAB, come si chiama questo tipo di rima?»."
+			}
+		},
+		{
+			"id": "italiano-banda-metrica-297",
+			"subject": "italiano",
+			"topic": "metrica",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama un gruppo di versi separato dagli altri da uno spazio bianco?",
+			"options": [],
+			"answer": "strofa",
+			"accept": [],
+			"explanation": "È come un paragrafo per la poesia: raccoglie versi che stanno insieme per il senso o per lo schema di rima.",
+			"distractorWhy": {
+				"verso": "«verso» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama ciascuna riga di una poesia?».",
+				"rima": "«rima» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la corrispondenza di suono fra la fine di due o più versi?».",
+				"metrica": "«metrica» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'insieme delle regole che studiano versi, strofe e rime?».",
+				"distico": "«distico» è la risposta giusta a un'altra domanda di questo gruppo: «Una strofa di due versi si chiama…».",
+				"terzina": "«terzina» è la risposta giusta a un'altra domanda di questo gruppo: «Una strofa di tre versi si chiama…».",
+				"quartina": "«quartina» è la risposta giusta a un'altra domanda di questo gruppo: «Una strofa di quattro versi si chiama…».",
+				"rima baciata": "«rima baciata» è la risposta giusta a un'altra domanda di questo gruppo: «Nello schema di rima AABB, come si chiama questo tipo di rima?».",
+				"rima alternata": "«rima alternata» è la risposta giusta a un'altra domanda di questo gruppo: «Nello schema di rima ABAB, come si chiama questo tipo di rima?»."
+			}
+		},
+		{
+			"id": "italiano-banda-metrica-298",
+			"subject": "italiano",
+			"topic": "metrica",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Come si chiama la corrispondenza di suono fra la fine di due o più versi?",
+			"options": [
+				"epiteto",
+				"verso",
+				"strofa",
+				"rima"
+			],
+			"answer": "rima",
+			"explanation": "«Cuore» e «amore» finiscono con lo stesso suono: è quello che l'orecchio riconosce come rima.",
+			"distractorWhy": {
+				"strofa": "La strofa è l'insieme di versi, non la somiglianza dei suoni finali.",
+				"verso": "Il verso è la riga intera, non il legame sonoro fra due righe.",
+				"epiteto": "L'epiteto è un aggettivo fisso legato a un personaggio, un concetto dell'epica."
+			}
+		},
+		{
+			"id": "italiano-banda-metrica-299",
+			"subject": "italiano",
+			"topic": "metrica",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama l'insieme delle regole che studiano versi, strofe e rime?",
+			"options": [],
+			"answer": "metrica",
+			"accept": [],
+			"explanation": "Si occupa della FORMA della poesia — quanto sono lunghi i versi, come si combinano le rime — non del significato delle parole.",
+			"distractorWhy": {
+				"verso": "«verso» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama ciascuna riga di una poesia?».",
+				"strofa": "«strofa» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un gruppo di versi separato dagli altri da uno spazio bianco?».",
+				"rima": "«rima» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la corrispondenza di suono fra la fine di due o più versi?».",
+				"distico": "«distico» è la risposta giusta a un'altra domanda di questo gruppo: «Una strofa di due versi si chiama…».",
+				"terzina": "«terzina» è la risposta giusta a un'altra domanda di questo gruppo: «Una strofa di tre versi si chiama…».",
+				"quartina": "«quartina» è la risposta giusta a un'altra domanda di questo gruppo: «Una strofa di quattro versi si chiama…».",
+				"rima baciata": "«rima baciata» è la risposta giusta a un'altra domanda di questo gruppo: «Nello schema di rima AABB, come si chiama questo tipo di rima?».",
+				"rima alternata": "«rima alternata» è la risposta giusta a un'altra domanda di questo gruppo: «Nello schema di rima ABAB, come si chiama questo tipo di rima?»."
+			}
+		},
+		{
+			"id": "italiano-banda-metrica-300",
+			"subject": "italiano",
+			"topic": "metrica",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Una strofa di due versi si chiama…",
+			"options": [],
+			"answer": "distico",
+			"accept": [],
+			"explanation": "Dal greco «due righe»: è la strofa più corta possibile, spesso usata per epigrafi o massime.",
+			"distractorWhy": {
+				"verso": "«verso» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama ciascuna riga di una poesia?».",
+				"strofa": "«strofa» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un gruppo di versi separato dagli altri da uno spazio bianco?».",
+				"rima": "«rima» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la corrispondenza di suono fra la fine di due o più versi?».",
+				"metrica": "«metrica» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'insieme delle regole che studiano versi, strofe e rime?».",
+				"terzina": "«terzina» è la risposta giusta a un'altra domanda di questo gruppo: «Una strofa di tre versi si chiama…».",
+				"quartina": "«quartina» è la risposta giusta a un'altra domanda di questo gruppo: «Una strofa di quattro versi si chiama…».",
+				"rima baciata": "«rima baciata» è la risposta giusta a un'altra domanda di questo gruppo: «Nello schema di rima AABB, come si chiama questo tipo di rima?».",
+				"rima alternata": "«rima alternata» è la risposta giusta a un'altra domanda di questo gruppo: «Nello schema di rima ABAB, come si chiama questo tipo di rima?»."
+			}
+		},
+		{
+			"id": "italiano-banda-metrica-301",
+			"subject": "italiano",
+			"topic": "metrica",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Una strofa di tre versi si chiama…",
+			"options": [],
+			"answer": "terzina",
+			"accept": [],
+			"explanation": "È la strofa usata da Dante nella Divina Commedia, incatenata alla successiva da una rima in comune.",
+			"distractorWhy": {
+				"verso": "«verso» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama ciascuna riga di una poesia?».",
+				"strofa": "«strofa» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un gruppo di versi separato dagli altri da uno spazio bianco?».",
+				"rima": "«rima» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la corrispondenza di suono fra la fine di due o più versi?».",
+				"metrica": "«metrica» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'insieme delle regole che studiano versi, strofe e rime?».",
+				"distico": "«distico» è la risposta giusta a un'altra domanda di questo gruppo: «Una strofa di due versi si chiama…».",
+				"quartina": "«quartina» è la risposta giusta a un'altra domanda di questo gruppo: «Una strofa di quattro versi si chiama…».",
+				"rima baciata": "«rima baciata» è la risposta giusta a un'altra domanda di questo gruppo: «Nello schema di rima AABB, come si chiama questo tipo di rima?».",
+				"rima alternata": "«rima alternata» è la risposta giusta a un'altra domanda di questo gruppo: «Nello schema di rima ABAB, come si chiama questo tipo di rima?»."
+			}
+		},
+		{
+			"id": "italiano-banda-metrica-302",
+			"subject": "italiano",
+			"topic": "metrica",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Una strofa di quattro versi si chiama…",
+			"options": [],
+			"answer": "quartina",
+			"accept": [],
+			"explanation": "È una delle strofe più comuni nella poesia italiana, spesso con rima alternata o incrociata.",
+			"distractorWhy": {
+				"verso": "«verso» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama ciascuna riga di una poesia?».",
+				"strofa": "«strofa» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un gruppo di versi separato dagli altri da uno spazio bianco?».",
+				"rima": "«rima» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la corrispondenza di suono fra la fine di due o più versi?».",
+				"metrica": "«metrica» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'insieme delle regole che studiano versi, strofe e rime?».",
+				"distico": "«distico» è la risposta giusta a un'altra domanda di questo gruppo: «Una strofa di due versi si chiama…».",
+				"terzina": "«terzina» è la risposta giusta a un'altra domanda di questo gruppo: «Una strofa di tre versi si chiama…».",
+				"rima baciata": "«rima baciata» è la risposta giusta a un'altra domanda di questo gruppo: «Nello schema di rima AABB, come si chiama questo tipo di rima?».",
+				"rima alternata": "«rima alternata» è la risposta giusta a un'altra domanda di questo gruppo: «Nello schema di rima ABAB, come si chiama questo tipo di rima?»."
+			}
+		},
+		{
+			"id": "italiano-banda-metrica-303",
+			"subject": "italiano",
+			"topic": "metrica",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Nello schema di rima AABB, come si chiama questo tipo di rima?",
+			"options": [
+				"rima baciata",
+				"rima incrociata",
+				"rima alternata",
+				"rima libera"
+			],
+			"answer": "rima baciata",
+			"explanation": "Si chiama «baciata» perché i due versi che rimano stanno appaiati, uno accanto all'altro: A-A si toccano, poi B-B.",
+			"distractorWhy": {
+				"rima alternata": "L'alternata segue lo schema ABAB, con i versi che rimano a salti, non appaiati.",
+				"rima incrociata": "L'incrociata segue lo schema ABBA, con la coppia interna e quella esterna.",
+				"rima libera": "Nella rima libera non c'è nessuno schema fisso da riconoscere."
+			}
+		},
+		{
+			"id": "italiano-banda-metrica-304",
+			"subject": "italiano",
+			"topic": "metrica",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Nello schema di rima ABAB, come si chiama questo tipo di rima?",
+			"options": [
+				"rima baciata",
+				"rima alternata",
+				"rima incrociata",
+				"rima interna"
+			],
+			"answer": "rima alternata",
+			"explanation": "I versi che rimano si alternano uno a uno: il primo rima con il terzo, il secondo con il quarto.",
+			"distractorWhy": {
+				"rima baciata": "La baciata segue lo schema AABB, con le coppie appaiate una accanto all'altra.",
+				"rima incrociata": "L'incrociata segue lo schema ABBA, con la coppia interna racchiusa da quella esterna.",
+				"rima interna": "La rima interna riguarda parole dentro lo stesso verso, non lo schema fra versi diversi."
+			}
+		},
+		{
+			"id": "italiano-banda-metrica-305",
+			"subject": "italiano",
+			"topic": "metrica",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Nello schema di rima ABBA, come si chiama questo tipo di rima?",
+			"options": [
+				"rima libera",
+				"rima alternata",
+				"rima incrociata",
+				"rima baciata"
+			],
+			"answer": "rima incrociata",
+			"explanation": "La coppia interna (B-B) è racchiusa dalla coppia esterna (A-A), come due braccia che si incrociano attorno al centro.",
+			"distractorWhy": {
+				"rima alternata": "L'alternata segue lo schema ABAB, senza nessun incastro.",
+				"rima baciata": "La baciata segue lo schema AABB, con le coppie appaiate, non incastrate.",
+				"rima libera": "La rima libera non segue nessuno schema fisso riconoscibile."
+			}
+		},
+		{
+			"id": "italiano-banda-metrica-306",
+			"subject": "italiano",
+			"topic": "metrica",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Un verso composto da undici sillabe si chiama…",
+			"options": [],
+			"answer": "endecasillabo",
+			"accept": [],
+			"explanation": "È il verso più usato nella poesia italiana: lo trovi nella Divina Commedia e in gran parte dei sonetti.",
+			"distractorWhy": {
+				"verso": "«verso» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama ciascuna riga di una poesia?».",
+				"strofa": "«strofa» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un gruppo di versi separato dagli altri da uno spazio bianco?».",
+				"rima": "«rima» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la corrispondenza di suono fra la fine di due o più versi?».",
+				"metrica": "«metrica» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'insieme delle regole che studiano versi, strofe e rime?».",
+				"distico": "«distico» è la risposta giusta a un'altra domanda di questo gruppo: «Una strofa di due versi si chiama…».",
+				"terzina": "«terzina» è la risposta giusta a un'altra domanda di questo gruppo: «Una strofa di tre versi si chiama…».",
+				"quartina": "«quartina» è la risposta giusta a un'altra domanda di questo gruppo: «Una strofa di quattro versi si chiama…».",
+				"rima baciata": "«rima baciata» è la risposta giusta a un'altra domanda di questo gruppo: «Nello schema di rima AABB, come si chiama questo tipo di rima?»."
+			}
+		},
+		{
+			"id": "italiano-banda-metrica-307",
+			"subject": "italiano",
+			"topic": "metrica",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Un verso di sette sillabe si chiama…",
+			"options": [],
+			"answer": "settenario",
+			"accept": [],
+			"explanation": "È un verso breve, spesso usato insieme all'endecasillabo per creare ritmi vari all'interno della stessa poesia.",
+			"distractorWhy": {
+				"verso": "«verso» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama ciascuna riga di una poesia?».",
+				"strofa": "«strofa» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un gruppo di versi separato dagli altri da uno spazio bianco?».",
+				"rima": "«rima» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la corrispondenza di suono fra la fine di due o più versi?».",
+				"metrica": "«metrica» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'insieme delle regole che studiano versi, strofe e rime?».",
+				"distico": "«distico» è la risposta giusta a un'altra domanda di questo gruppo: «Una strofa di due versi si chiama…».",
+				"terzina": "«terzina» è la risposta giusta a un'altra domanda di questo gruppo: «Una strofa di tre versi si chiama…».",
+				"quartina": "«quartina» è la risposta giusta a un'altra domanda di questo gruppo: «Una strofa di quattro versi si chiama…».",
+				"rima baciata": "«rima baciata» è la risposta giusta a un'altra domanda di questo gruppo: «Nello schema di rima AABB, come si chiama questo tipo di rima?»."
+			}
+		},
+		{
+			"id": "italiano-banda-metrica-308",
+			"subject": "italiano",
+			"topic": "metrica",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che cosa sono i «versi sciolti»?",
+			"options": [
+				"versi che non si possono leggere mai ad alta voce",
+				"versi scritti sempre senza nessuna punteggiatura",
+				"versi senza nessuna regola, nemmeno di lunghezza",
+				"versi senza rima, ma con una misura fissa"
+			],
+			"answer": "versi senza rima, ma con una misura fissa",
+			"explanation": "Mantengono un numero di sillabe regolare — spesso l'endecasillabo — ma rinunciano allo schema di rima.",
+			"distractorWhy": {
+				"versi senza nessuna regola, nemmeno di lunghezza": "Quella descrizione si adatta al verso libero, non al verso sciolto: qui la misura resta fissa.",
+				"versi che non si possono leggere mai ad alta voce": "Non c'è nessun divieto di lettura: sono versi come gli altri, solo senza rima.",
+				"versi scritti sempre senza nessuna punteggiatura": "L'assenza di punteggiatura è un'altra scelta stilistica, indipendente dalla rima."
+			}
+		},
+		{
+			"id": "italiano-banda-metrica-309",
+			"subject": "italiano",
+			"topic": "metrica",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è il «verso libero»?",
+			"options": [
+				"un verso che non segue una misura fissa di sillabe né uno schema di rima",
+				"un verso che rima sempre con quello che lo precede",
+				"un verso composto da una sola parola isolata",
+				"un verso che si può leggere e capire tranquillamente in qualsiasi ordine"
+			],
+			"answer": "un verso che non segue una misura fissa di sillabe né uno schema di rima",
+			"explanation": "La poesia del Novecento lo usa spesso: il ritmo nasce dal significato e dalla punteggiatura, non da regole numeriche fisse.",
+			"distractorWhy": {
+				"un verso che si può leggere e capire tranquillamente in qualsiasi ordine": "L'ordine dei versi in una poesia resta fissato dal poeta: «libero» riguarda la misura, non la sequenza.",
+				"un verso composto da una sola parola isolata": "Un verso libero può avere quante parole vuole: l'unica cosa libera è la misura.",
+				"un verso che rima sempre con quello che lo precede": "Il verso libero è proprio quello che rinuncia anche allo schema di rima, non solo alla misura."
+			}
+		},
+		{
+			"id": "italiano-banda-metrica-310",
+			"subject": "italiano",
+			"topic": "metrica",
+			"difficulty": 4,
+			"format": "short_answer",
+			"prompt": "Come si chiama l'unione di due sillabe in una sola, quando una parola finisce e la successiva inizia per vocale?",
+			"options": [],
+			"answer": "sinalefe",
+			"accept": [],
+			"explanation": "Contare le sillabe di un verso italiano richiede questo trucco: «come al vento» si conta come se fosse quasi una parola sola.",
+			"distractorWhy": {
+				"verso": "«verso» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama ciascuna riga di una poesia?».",
+				"strofa": "«strofa» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un gruppo di versi separato dagli altri da uno spazio bianco?».",
+				"rima": "«rima» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la corrispondenza di suono fra la fine di due o più versi?».",
+				"metrica": "«metrica» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'insieme delle regole che studiano versi, strofe e rime?».",
+				"distico": "«distico» è la risposta giusta a un'altra domanda di questo gruppo: «Una strofa di due versi si chiama…».",
+				"terzina": "«terzina» è la risposta giusta a un'altra domanda di questo gruppo: «Una strofa di tre versi si chiama…».",
+				"quartina": "«quartina» è la risposta giusta a un'altra domanda di questo gruppo: «Una strofa di quattro versi si chiama…».",
+				"rima baciata": "«rima baciata» è la risposta giusta a un'altra domanda di questo gruppo: «Nello schema di rima AABB, come si chiama questo tipo di rima?»."
+			}
+		},
+		{
+			"id": "italiano-banda-metrica-311",
+			"subject": "italiano",
+			"topic": "metrica",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché contare le sillabe di un verso italiano non equivale a dividerlo in sillabe grammaticali?",
+			"options": [
+				"perché ogni singolo verso ha esattamente dieci sillabe",
+				"perché sinalefe e dialefe uniscono o separano suoni fra parole vicine",
+				"perché in poesia le vocali si contano sempre due volte",
+				"perché la punteggiatura di un verso non si legge mai ad alta voce"
+			],
+			"answer": "perché sinalefe e dialefe uniscono o separano suoni fra parole vicine",
+			"explanation": "Nel parlato le parole si legano: la fine di una e l'inizio della successiva possono fondersi in un'unica sillaba metrica, cambiando il conto rispetto alla divisione sul vocabolario.",
+			"distractorWhy": {
+				"perché in poesia le vocali si contano sempre due volte": "Non è mai così: il fenomeno va nella direzione opposta, spesso RIDUCE il numero di sillabe.",
+				"perché ogni singolo verso ha esattamente dieci sillabe": "Non tutti i versi hanno dieci sillabe: l'endecasillabo ne ha undici, il settenario sette.",
+				"perché la punteggiatura di un verso non si legge mai ad alta voce": "La punteggiatura non ha niente a che vedere con l'unione o separazione delle sillabe fra parole."
+			}
+		},
+		{
+			"id": "italiano-banda-analisi-logica-312",
+			"subject": "italiano",
+			"topic": "analisi-logica",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "In «Il libro di Marco è sul tavolo», che cos'è «di Marco»?",
+			"options": [
+				"complemento di termine",
+				"attributo qualificativo",
+				"complemento di specificazione",
+				"complemento di luogo o di tempo"
+			],
+			"answer": "complemento di specificazione",
+			"explanation": "Specifica DI CHI è il libro, rispondendo alla domanda «di chi? di che cosa?»: è il complemento più comune di tutti.",
+			"distractorWhy": {
+				"complemento di termine": "Il termine risponde a «a chi? a che cosa?», con la preposizione «a», non «di».",
+				"complemento di luogo o di tempo": "Luogo e tempo dicono dove o quando si svolge l'azione, e qui «di Marco» non indica né un posto né un momento.",
+				"attributo qualificativo": "L'attributo è un aggettivo legato a un nome, non un gruppo introdotto da «di»."
+			}
+		},
+		{
+			"id": "italiano-banda-analisi-logica-313",
+			"subject": "italiano",
+			"topic": "analisi-logica",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il complemento che risponde alla domanda «di chi? di che cosa?»?",
+			"options": [],
+			"answer": "complemento di specificazione",
+			"accept": [
+				"specificazione"
+			],
+			"explanation": "Precisa un nome aggiungendo un possesso, una qualità o un'appartenenza: «la casa DI PAOLO», «un vaso DI VETRO».",
+			"distractorWhy": {
+				"Luca": "«Luca» è la risposta giusta a un'altra domanda di questo gruppo: «In «Luca legge un libro», qual è il soggetto?».",
+				"Complemento oggetto": "«Complemento oggetto» è la risposta giusta a un'altra domanda di questo gruppo: «In «Luca legge un libro», che cos'è «un libro»?».",
+				"Complemento di termine": "«Complemento di termine» è la risposta giusta a un'altra domanda di questo gruppo: «In «Do il libro a Marco», che cos'è «a Marco»?».",
+				"Complemento d'agente": "«Complemento d'agente» è la risposta giusta a un'altra domanda di questo gruppo: «In «Il quadro è dipinto da Sara», che cos'è «da Sara»?».",
+				"Complemento di mezzo": "«Complemento di mezzo» è la risposta giusta a un'altra domanda di questo gruppo: «In «Scrivo con la penna», che cos'è «con la penna»?».",
+				"Complemento di modo": "«Complemento di modo» è la risposta giusta a un'altra domanda di questo gruppo: «In «Cammino lentamente», che cos'è «lentamente»?».",
+				"Predicato nominale": "«Predicato nominale» è la risposta giusta a un'altra domanda di questo gruppo: «In «Marco è simpatico», che cos'è «è simpatico»?».",
+				"Complemento di tempo": "«Complemento di tempo» è la risposta giusta a un'altra domanda di questo gruppo: «In «Torno a settembre», che cos'è «a settembre»?»."
+			}
+		},
+		{
+			"id": "italiano-banda-analisi-logica-314",
+			"subject": "italiano",
+			"topic": "analisi-logica",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "In «Non esco per la pioggia», che cos'è «per la pioggia»?",
+			"options": [
+				"complemento di modo",
+				"complemento di mezzo",
+				"complemento di fine",
+				"complemento di causa"
+			],
+			"answer": "complemento di causa",
+			"explanation": "Spiega il MOTIVO per cui non si esce: la pioggia è la causa della decisione, non lo scopo.",
+			"distractorWhy": {
+				"complemento di fine": "Il fine indica lo scopo per cui si fa qualcosa, e qui non si sta cercando di ottenere la pioggia.",
+				"complemento di mezzo": "Il mezzo indica lo strumento con cui si compie un'azione, non il motivo per non compierla.",
+				"complemento di modo": "Il modo dice COME avviene un'azione, non perché."
+			}
+		},
+		{
+			"id": "italiano-banda-analisi-logica-315",
+			"subject": "italiano",
+			"topic": "analisi-logica",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama il complemento che indica il motivo di un'azione?",
+			"options": [],
+			"answer": "complemento di causa",
+			"accept": [
+				"causa"
+			],
+			"explanation": "Risponde alla domanda «perché? per quale motivo?»: «trema DAL FREDDO», «piange DI GIOIA».",
+			"distractorWhy": {
+				"Luca": "«Luca» è la risposta giusta a un'altra domanda di questo gruppo: «In «Luca legge un libro», qual è il soggetto?».",
+				"Complemento oggetto": "«Complemento oggetto» è la risposta giusta a un'altra domanda di questo gruppo: «In «Luca legge un libro», che cos'è «un libro»?».",
+				"Complemento di termine": "«Complemento di termine» è la risposta giusta a un'altra domanda di questo gruppo: «In «Do il libro a Marco», che cos'è «a Marco»?».",
+				"Complemento d'agente": "«Complemento d'agente» è la risposta giusta a un'altra domanda di questo gruppo: «In «Il quadro è dipinto da Sara», che cos'è «da Sara»?».",
+				"Complemento di mezzo": "«Complemento di mezzo» è la risposta giusta a un'altra domanda di questo gruppo: «In «Scrivo con la penna», che cos'è «con la penna»?».",
+				"Complemento di modo": "«Complemento di modo» è la risposta giusta a un'altra domanda di questo gruppo: «In «Cammino lentamente», che cos'è «lentamente»?».",
+				"Predicato nominale": "«Predicato nominale» è la risposta giusta a un'altra domanda di questo gruppo: «In «Marco è simpatico», che cos'è «è simpatico»?».",
+				"Complemento di tempo": "«Complemento di tempo» è la risposta giusta a un'altra domanda di questo gruppo: «In «Torno a settembre», che cos'è «a settembre»?»."
+			}
+		},
+		{
+			"id": "italiano-banda-analisi-logica-316",
+			"subject": "italiano",
+			"topic": "analisi-logica",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "In «Roma, capitale d'Italia, è una città antica», che cos'è «capitale d'Italia»?",
+			"options": [
+				"apposizione",
+				"complemento di specificazione",
+				"attributo",
+				"complemento predicativo"
+			],
+			"answer": "apposizione",
+			"explanation": "È un nome che si affianca a un altro nome per identificarlo meglio, esattamente come farebbe un'etichetta: Roma = capitale d'Italia.",
+			"distractorWhy": {
+				"attributo": "L'attributo è un aggettivo, non un nome: «capitale» qui è un nome, non un aggettivo.",
+				"complemento di specificazione": "La specificazione userebbe «di»: qui non c'è nessun «di» a collegare i due nomi.",
+				"complemento predicativo": "Il predicativo si lega al verbo, mentre l'apposizione si affianca direttamente al nome."
+			}
+		},
+		{
+			"id": "italiano-banda-analisi-logica-317",
+			"subject": "italiano",
+			"topic": "analisi-logica",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cosa distingue l'apposizione dall'attributo?",
+			"options": [
+				"l'apposizione non può mai essere tolta dalla frase",
+				"l'apposizione è un nome, l'attributo è un aggettivo",
+				"l'attributo si usa solo per le persone",
+				"l'apposizione va sempre prima del nome"
+			],
+			"answer": "l'apposizione è un nome, l'attributo è un aggettivo",
+			"explanation": "«Il cane RANDAGIO» ha un attributo (aggettivo); «Napoli, LA CITTÀ, è affollata» ha un'apposizione (nome): stessa funzione di precisare, natura grammaticale diversa.",
+			"distractorWhy": {
+				"l'apposizione va sempre prima del nome": "Può stare prima o dopo il nome a cui si riferisce: la posizione non è fissa.",
+				"l'attributo si usa solo per le persone": "Un attributo può descrivere qualsiasi nome, non solo le persone.",
+				"l'apposizione non può mai essere tolta dalla frase": "Si può togliere senza rendere la frase agrammaticale, anche se si perde un'informazione."
+			}
+		},
+		{
+			"id": "italiano-banda-analisi-logica-318",
+			"subject": "italiano",
+			"topic": "analisi-logica",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "In «Lo elessero presidente», che cos'è «presidente»?",
+			"options": [
+				"attributo",
+				"apposizione",
+				"complemento predicativo dell'oggetto",
+				"complemento predicativo del soggetto"
+			],
+			"answer": "complemento predicativo dell'oggetto",
+			"explanation": "Completa il senso del verbo «elessero» riferendosi all'oggetto «lo»: non basta dire che lo elessero, serve dire A COSA lo elessero.",
+			"distractorWhy": {
+				"complemento predicativo del soggetto": "Il predicativo del soggetto si riferisce al SOGGETTO della frase, ma qui «lo» è il complemento oggetto, non il soggetto.",
+				"apposizione": "L'apposizione si affianca direttamente a un nome nella stessa posizione sintattica, mentre qui «presidente» dipende dal verbo.",
+				"attributo": "L'attributo sarebbe un aggettivo legato a un nome, non un nome legato al verbo tramite l'oggetto."
+			}
+		},
+		{
+			"id": "italiano-banda-analisi-logica-319",
+			"subject": "italiano",
+			"topic": "analisi-logica",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "In «Marco sembra stanco», che cos'è «stanco»?",
+			"options": [
+				"apposizione",
+				"complemento predicativo dell'oggetto",
+				"attributo",
+				"complemento predicativo del soggetto"
+			],
+			"answer": "complemento predicativo del soggetto",
+			"explanation": "Completa il verbo «sembra» dicendo qualcosa sul soggetto «Marco»: senza «stanco» la frase «Marco sembra» resterebbe incompleta.",
+			"distractorWhy": {
+				"attributo": "L'attributo si lega direttamente a un nome dentro lo stesso sintagma, mentre qui il legame passa dal verbo.",
+				"complemento predicativo dell'oggetto": "Il predicativo dell'oggetto si riferisce a un complemento oggetto, ma qui «Marco» è il SOGGETTO, non l'oggetto.",
+				"apposizione": "L'apposizione affianca un nome a un altro nome, non un aggettivo a un verbo copulativo."
+			}
+		},
+		{
+			"id": "italiano-banda-sintassi-320",
+			"subject": "italiano",
+			"topic": "sintassi",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "In «Leggo e ascolto musica», che rapporto uniscono le due proposizioni?",
+			"options": [
+				"coordinazione copulativa",
+				"coordinazione disgiuntiva",
+				"coordinazione avversativa",
+				"subordinazione"
+			],
+			"answer": "coordinazione copulativa",
+			"explanation": "«E» aggiunge semplicemente un'azione all'altra, senza contrapporle né darne una alternativa: è la coordinata più semplice di tutte.",
+			"distractorWhy": {
+				"coordinazione avversativa": "L'avversativa contrappone due idee con «ma» o «però», e qui non c'è nessun contrasto.",
+				"coordinazione disgiuntiva": "La disgiuntiva propone un'alternativa con «o», e qui le due azioni convivono, non si escludono.",
+				"subordinazione": "Le due proposizioni sono sullo stesso piano: nessuna dipende dall'altra."
+			}
+		},
+		{
+			"id": "italiano-banda-sintassi-321",
+			"subject": "italiano",
+			"topic": "sintassi",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Come si chiama la coordinata introdotta da «ma» o «però»?",
+			"options": [
+				"disgiuntiva",
+				"avversativa",
+				"esplicativa",
+				"copulativa"
+			],
+			"answer": "avversativa",
+			"explanation": "Contrappone due idee: la seconda proposizione va in una direzione diversa, o opposta, rispetto alla prima.",
+			"distractorWhy": {
+				"copulativa": "La copulativa aggiunge con «e», senza nessun contrasto.",
+				"disgiuntiva": "La disgiuntiva propone un'alternativa con «o», non un contrasto.",
+				"esplicativa": "L'esplicativa chiarisce quanto detto, non lo contraddice."
+			}
+		},
+		{
+			"id": "italiano-banda-sintassi-322",
+			"subject": "italiano",
+			"topic": "sintassi",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Come si chiama la coordinata introdotta da «o» oppure «oppure»?",
+			"options": [
+				"copulativa",
+				"avversativa",
+				"disgiuntiva",
+				"conclusiva"
+			],
+			"answer": "disgiuntiva",
+			"explanation": "Propone due possibilità che si escludono a vicenda: scegliendo una, l'altra resta fuori.",
+			"distractorWhy": {
+				"copulativa": "La copulativa aggiunge, non propone un'alternativa.",
+				"avversativa": "L'avversativa contrappone due idee, ma non presenta una scelta fra loro.",
+				"conclusiva": "La conclusiva introduce una conseguenza, non un'alternativa."
+			}
+		},
+		{
+			"id": "italiano-banda-sintassi-323",
+			"subject": "italiano",
+			"topic": "sintassi",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Come si chiama la coordinata che spiega meglio quanto detto prima, introdotta da «infatti» o «cioè»?",
+			"options": [
+				"copulativa",
+				"conclusiva",
+				"disgiuntiva",
+				"esplicativa"
+			],
+			"answer": "esplicativa",
+			"explanation": "Non aggiunge un fatto nuovo: chiarisce o motiva quello appena detto, come farebbe una parentesi.",
+			"distractorWhy": {
+				"copulativa": "La copulativa aggiunge semplicemente un'azione, senza chiarire la precedente.",
+				"conclusiva": "La conclusiva tira le somme di ciò che precede, non lo spiega.",
+				"disgiuntiva": "La disgiuntiva propone un'alternativa, non una spiegazione."
+			}
+		},
+		{
+			"id": "italiano-banda-sintassi-324",
+			"subject": "italiano",
+			"topic": "sintassi",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Come si chiama la coordinata che introduce una conseguenza, con «quindi» o «dunque»?",
+			"options": [
+				"conclusiva",
+				"avversativa",
+				"copulativa",
+				"esplicativa"
+			],
+			"answer": "conclusiva",
+			"explanation": "Tira le somme di quanto detto prima: è il punto in cui il discorso arriva a un risultato.",
+			"distractorWhy": {
+				"esplicativa": "L'esplicativa chiarisce un'idea, non ne trae una conseguenza.",
+				"avversativa": "L'avversativa contrappone, non conclude.",
+				"copulativa": "La copulativa aggiunge semplicemente, senza trarre nessuna conseguenza."
+			}
+		},
+		{
+			"id": "italiano-banda-sintassi-325",
+			"subject": "italiano",
+			"topic": "sintassi",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "In «Bisogna che tu studi», che cos'è «che tu studi»?",
+			"options": [
+				"subordinata oggettiva",
+				"subordinata soggettiva",
+				"subordinata concessiva",
+				"subordinata relativa"
+			],
+			"answer": "subordinata soggettiva",
+			"explanation": "Fa da soggetto al verbo impersonale «bisogna»: è come se dicesse «STUDIARE è necessario», con il soggetto sviluppato in una proposizione.",
+			"distractorWhy": {
+				"subordinata oggettiva": "L'oggettiva fa da complemento oggetto a un verbo personale come «penso» o «spero», non da soggetto a un impersonale.",
+				"subordinata relativa": "La relativa è introdotta da «che» riferito a un nome preciso, non da un verbo impersonale.",
+				"subordinata concessiva": "La concessiva esprime un ostacolo superato, introdotta da «benché» o «sebbene»."
+			}
+		},
+		{
+			"id": "italiano-banda-sintassi-326",
+			"subject": "italiano",
+			"topic": "sintassi",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "In «Benché piova, esco», che cos'è «benché piova»?",
+			"options": [
+				"subordinata soggettiva",
+				"subordinata causale",
+				"subordinata concessiva",
+				"subordinata temporale"
+			],
+			"answer": "subordinata concessiva",
+			"explanation": "Presenta un ostacolo che ci si aspetterebbe impedisse l'azione, ma che non la impedisce: esce NONOSTANTE piova.",
+			"distractorWhy": {
+				"subordinata causale": "La causale spiegherebbe perché si esce, e qui la pioggia è un ostacolo, non un motivo per uscire.",
+				"subordinata soggettiva": "La soggettiva fa da soggetto a un verbo impersonale, e qui «esco» ha già il suo soggetto sottinteso.",
+				"subordinata temporale": "La temporale direbbe QUANDO si esce, non ostacolo superato."
+			}
+		},
+		{
+			"id": "italiano-banda-sintassi-327",
+			"subject": "italiano",
+			"topic": "sintassi",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Nel periodo ipotetico «Se piove, resto a casa», di che tipo è l'ipotesi?",
+			"options": [
+				"della concessione",
+				"dell'irrealtà",
+				"della possibilità",
+				"della realtà"
+			],
+			"answer": "della realtà",
+			"explanation": "L'indicativo in tutte e due le proposizioni presenta l'ipotesi come qualcosa che può accadere davvero, senza dubbio sulla sua possibilità.",
+			"distractorWhy": {
+				"della possibilità": "La possibilità userebbe il congiuntivo imperfetto e il condizionale presente: «se piovesse, resterei».",
+				"dell'irrealtà": "L'irrealtà userebbe il congiuntivo trapassato e il condizionale passato, per un fatto impossibile o già escluso.",
+				"della concessione": "La concessione è un altro tipo di subordinata, introdotta da «benché»: qui non c'è nessun ostacolo superato."
+			}
+		},
+		{
+			"id": "italiano-banda-sintassi-328",
+			"subject": "italiano",
+			"topic": "sintassi",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Nel periodo ipotetico «Se piovesse, resterei a casa», di che tipo è l'ipotesi?",
+			"options": [
+				"della possibilità",
+				"dell'irrealtà",
+				"esplicativa",
+				"della realtà"
+			],
+			"answer": "della possibilità",
+			"explanation": "Il congiuntivo imperfetto «piovesse» presenta l'ipotesi come possibile ma non certa: potrebbe piovere, ma al momento non piove.",
+			"distractorWhy": {
+				"della realtà": "La realtà userebbe l'indicativo in tutte e due le proposizioni: «se piove, resto».",
+				"dell'irrealtà": "L'irrealtà riguarda fatti passati e ormai impossibili, con il congiuntivo trapassato.",
+				"esplicativa": "Esplicativa non è un tipo di periodo ipotetico: è un tipo di coordinata."
+			}
+		},
+		{
+			"id": "italiano-banda-sintassi-329",
+			"subject": "italiano",
+			"topic": "sintassi",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Nel periodo ipotetico «Se avessi studiato, avrei passato l'esame», di che tipo è l'ipotesi?",
+			"options": [
+				"concessiva",
+				"dell'irrealtà",
+				"della realtà",
+				"della possibilità"
+			],
+			"answer": "dell'irrealtà",
+			"explanation": "Il congiuntivo trapassato racconta un fatto passato che non si è verificato: chi parla non ha studiato, e ormai non si può più cambiare.",
+			"distractorWhy": {
+				"della realtà": "La realtà presenta un'ipotesi ancora aperta con l'indicativo: qui invece la possibilità è già chiusa nel passato.",
+				"della possibilità": "La possibilità riguarda un'ipotesi ancora realizzabile nel presente o nel futuro, non un fatto passato e concluso.",
+				"concessiva": "Concessiva non è un grado del periodo ipotetico: è un altro tipo di subordinata."
+			}
+		},
+		{
+			"id": "italiano-banda-testo-narrativo-330",
+			"subject": "italiano",
+			"topic": "testo-narrativo",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è il discorso indiretto?",
+			"options": [
+				"un dialogo scritto in versi",
+				"una descrizione senza nessun personaggio che parli",
+				"il racconto delle parole di qualcuno senza riportarle alla lettera",
+				"la copia esatta e letterale delle parole pronunciate, tra virgolette"
+			],
+			"answer": "il racconto delle parole di qualcuno senza riportarle alla lettera",
+			"explanation": "Il narratore riferisce che cosa è stato detto, ma lo fa con le sue parole, dentro una proposizione subordinata.",
+			"distractorWhy": {
+				"la copia esatta e letterale delle parole pronunciate, tra virgolette": "Quella è la definizione del discorso DIRETTO, il suo opposto.",
+				"un dialogo scritto in versi": "Il discorso indiretto non ha niente a che vedere con la forma in versi: riguarda come si riferiscono le parole.",
+				"una descrizione senza nessun personaggio che parli": "L'indiretto riporta comunque le parole di qualcuno: solo non le cita alla lettera."
+			}
+		},
+		{
+			"id": "italiano-banda-testo-narrativo-331",
+			"subject": "italiano",
+			"topic": "testo-narrativo",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Trasformando il discorso diretto in indiretto, virgolette o lineette…",
+			"options": [
+				"diventano parentesi",
+				"diventano punti esclamativi",
+				"si raddoppiano",
+				"spariscono"
+			],
+			"answer": "spariscono",
+			"explanation": "Il discorso indiretto è integrato nella frase con una congiunzione come «che»: non ha più bisogno del segno grafico che isolava le parole citate.",
+			"distractorWhy": {
+				"diventano parentesi": "Le parentesi non sostituiscono le virgolette in questo passaggio: semplicemente non serve più nessun segno di quel tipo.",
+				"si raddoppiano": "Non c'è nessuna ragione per raddoppiare un segno che, anzi, sta per sparire.",
+				"diventano punti esclamativi": "Il tono esclamativo non è un effetto automatico del passaggio all'indiretto."
+			}
+		},
+		{
+			"id": "italiano-banda-testo-narrativo-332",
+			"subject": "italiano",
+			"topic": "testo-narrativo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "«Marco disse: “Vengo domani”» in discorso indiretto diventa…",
+			"options": [
+				"Marco disse che sarebbe venuto il giorno dopo",
+				"Marco disse: vengo proprio il giorno dopo",
+				"Marco disse che era venuto ieri",
+				"Marco disse che viene domani"
+			],
+			"answer": "Marco disse che sarebbe venuto il giorno dopo",
+			"explanation": "Tre cose cambiano insieme: il verbo passa al condizionale passato, «domani» diventa «il giorno dopo», e le virgolette spariscono.",
+			"distractorWhy": {
+				"Marco disse che viene domani": "Il verbo è rimasto al presente e «domani» non si è spostato: nessuno dei due cambiamenti richiesti è avvenuto.",
+				"Marco disse: vengo proprio il giorno dopo": "Le virgolette e il due punti sono rimasti: questo è ancora discorso diretto, solo con un avverbio cambiato a metà.",
+				"Marco disse che era venuto ieri": "Il tempo è sbagliato: Marco parlava di un'azione FUTURA rispetto al momento in cui parlava, non già conclusa."
+			}
+		},
+		{
+			"id": "italiano-banda-testo-narrativo-333",
+			"subject": "italiano",
+			"topic": "testo-narrativo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Passando dal discorso diretto all'indiretto, il verbo della frase citata di solito…",
+			"options": [
+				"resta sempre identico",
+				"cambia tempo, spostandosi verso il passato",
+				"perde quasi sempre la persona e anche il numero",
+				"diventa sempre un infinito"
+			],
+			"answer": "cambia tempo, spostandosi verso il passato",
+			"explanation": "Se chi racconta parla dopo, anche il tempo del verbo si sposta indietro: il presente diventa spesso imperfetto, il futuro diventa condizionale passato.",
+			"distractorWhy": {
+				"resta sempre identico": "Il tempo quasi sempre si sposta: è uno dei segnali più chiari del passaggio all'indiretto.",
+				"diventa sempre un infinito": "L'infinito non è la trasformazione tipica: il verbo resta coniugato, solo con un tempo diverso.",
+				"perde quasi sempre la persona e anche il numero": "La persona cambia spesso (io diventa lui), ma il verbo resta comunque coniugato con una persona e un numero."
+			}
+		},
+		{
+			"id": "italiano-banda-testo-narrativo-334",
+			"subject": "italiano",
+			"topic": "testo-narrativo",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Nel discorso indiretto, «io» e «tu» del discorso diretto diventano di solito…",
+			"options": [
+				"restano identici",
+				"sempre «voi»",
+				"la terza persona",
+				"sempre «noi»"
+			],
+			"answer": "la terza persona",
+			"explanation": "Chi riferisce parla DI qualcuno, non more come quel qualcuno: «io vengo» diventa «lui disse che veniva».",
+			"distractorWhy": {
+				"sempre «noi»": "«Noi» comparirebbe solo se il discorso originale riguardasse un gruppo, non per regola generale.",
+				"sempre «voi»": "Non c'è nessuna regola che trasformi la prima o la seconda persona sempre in «voi».",
+				"restano identici": "Restare identici è raro: di solito la prospettiva passa dal parlante a chi racconta."
+			}
+		},
+		{
+			"id": "italiano-banda-testo-narrativo-335",
+			"subject": "italiano",
+			"topic": "testo-narrativo",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Passando al discorso indiretto, l'avverbio di luogo «qui» diventa spesso…",
+			"options": [
+				"sempre «qua»",
+				"sempre «ovunque»",
+				"resta «qui» senza cambiare",
+				"lì"
+			],
+			"answer": "lì",
+			"explanation": "Chi racconta dopo, magari altrove, non può più dire «qui» riferendosi al luogo di chi parlava: la prospettiva si allontana insieme al tempo.",
+			"distractorWhy": {
+				"sempre «qua»": "«Qua» è quasi sinonimo di «qui»: non risolve il problema di indicare un luogo lontano da chi racconta.",
+				"sempre «ovunque»": "«Ovunque» cambierebbe completamente il senso della frase, indicando ogni luogo invece di quello specifico citato.",
+				"resta «qui» senza cambiare": "Restare «qui» avrebbe senso solo se chi racconta si trovasse ancora in quel luogo, che non è la regola generale."
+			}
+		},
+		{
+			"id": "italiano-banda-testo-narrativo-336",
+			"subject": "italiano",
+			"topic": "testo-narrativo",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Passando al discorso indiretto, «domani» (il giorno dopo il momento in cui si parlava) diventa spesso…",
+			"options": [
+				"il giorno dopo",
+				"sempre «oggi»",
+				"resta «domani» senza cambiare",
+				"sempre «ieri»"
+			],
+			"answer": "il giorno dopo",
+			"explanation": "Chi racconta parla in un momento diverso da quello del discorso originale: «domani» va riferito a quel momento passato, non a oggi.",
+			"distractorWhy": {
+				"sempre «ieri»": "«Ieri» indicherebbe il giorno prima, mentre l'azione era nel futuro rispetto a quando si parlava.",
+				"sempre «oggi»": "«Oggi» funzionerebbe solo se chi racconta parlasse nello stesso momento dell'originale, che di solito non è il caso.",
+				"resta «domani» senza cambiare": "Lasciarlo identico creerebbe confusione su quale «domani» si intenda: quello di chi racconta o quello di chi parlava."
+			}
+		},
+		{
+			"id": "italiano-banda-ortografia-337",
+			"subject": "italiano",
+			"topic": "ortografia",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Il suono di «gn» in «gnomo» o «gli» in «figlio» si chiama…",
+			"options": [],
+			"answer": "digramma",
+			"accept": [],
+			"explanation": "Due lettere che insieme fanno un suono solo, diverso da come suonerebbero separate: gn, gli, sc davanti a e/i sono i digrammi più comuni dell'italiano.",
+			"distractorWhy": {
+				"un'amica": "«un'amica» è la risposta giusta a un'altra domanda di questo gruppo: «Come si scrive correttamente «una amica»?».",
+				"qual è": "«qual è» è la risposta giusta a un'altra domanda di questo gruppo: «Si scrive «qual è» o «qual'è»?».",
+				"camicie": "«camicie» è la risposta giusta a un'altra domanda di questo gruppo: «Come si scrive il plurale di «camicia»?».",
+				"arance": "«arance» è la risposta giusta a un'altra domanda di questo gruppo: «Come si scrive il plurale di «arancia»?».",
+				"ho fatto": "«ho fatto» è la risposta giusta a un'altra domanda di questo gruppo: «Quale forma completa «Ieri ___ i compiti tutti insieme»?».",
+				"un po'": "«un po'» è la risposta giusta a un'altra domanda di questo gruppo: «Si scrive «un po'» o «un pò»?».",
+				"l'ho visto": "«l'ho visto» è la risposta giusta a un'altra domanda di questo gruppo: «Come si scrive correttamente?».",
+				"efficiente": "«efficiente» è la risposta giusta a un'altra domanda di questo gruppo: «Quale di queste parole in -ente è scritta correttamente?»."
+			}
+		},
+		{
+			"id": "italiano-banda-ortografia-338",
+			"subject": "italiano",
+			"topic": "ortografia",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "«Marco ___ ragione»: quale forma completa la frase?",
+			"options": [
+				"ah",
+				"ha",
+				"a",
+				"ha'"
+			],
+			"answer": "ha",
+			"explanation": "È la voce del verbo avere, terza persona singolare: si scrive con la h anche se non si sente, per non confonderla con la preposizione «a».",
+			"distractorWhy": {
+				"a": "«A» senza h è la preposizione semplice, come in «vado a scuola»: qui serve il verbo.",
+				"ah": "«Ah» è un'interiezione di sorpresa o dolore, non una voce del verbo avere.",
+				"ha'": "Il verbo avere non prende mai l'apostrofo alla terza persona: la forma corretta è solo «ha»."
+			}
+		},
+		{
+			"id": "italiano-banda-ortografia-339",
+			"subject": "italiano",
+			"topic": "ortografia",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Qual è la differenza fra «hanno» e «anno»?",
+			"options": [
+				"nessuna: si scrivono in modo del tutto intercambiabile",
+				"hanno è semplicemente il plurale di anno",
+				"hanno è una voce del verbo avere, anno è il periodo di dodici mesi",
+				"anno si usa soltanto per indicare il calendario scolastico italiano"
+			],
+			"answer": "hanno è una voce del verbo avere, anno è il periodo di dodici mesi",
+			"explanation": "La h distingue il verbo dal nome: «loro HANNO fame» contro «un ANNO ha dodici mesi». Sono due parole diverse che suonano uguali.",
+			"distractorWhy": {
+				"nessuna: si scrivono in modo del tutto intercambiabile": "Non sono intercambiabili: scambiarle cambia il senso della frase.",
+				"hanno è semplicemente il plurale di anno": "«Anni» sarebbe il plurale di «anno»: «hanno» è tutt'altra parola, una voce verbale.",
+				"anno si usa soltanto per indicare il calendario scolastico italiano": "«Anno» indica un periodo di dodici mesi in generale, non solo quello scolastico."
+			}
+		},
+		{
+			"id": "italiano-banda-ortografia-340",
+			"subject": "italiano",
+			"topic": "ortografia",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale frase usa correttamente la h del verbo avere?",
+			"options": [
+				"O fame, ai una mela?",
+				"Ho fame, ai una mela?",
+				"O fame, hai una mela?",
+				"Ho fame, hai una mela?"
+			],
+			"answer": "Ho fame, hai una mela?",
+			"explanation": "«Ho» (verbo avere) e «hai» (verbo avere) prendono entrambi la h: senza, diventerebbero «o» (congiunzione) e «ai» (preposizione articolata).",
+			"distractorWhy": {
+				"O fame, hai una mela?": "«O fame» userebbe la congiunzione al posto del verbo avere: manca la h a «ho».",
+				"Ho fame, ai una mela?": "«Ai una mela» non ha senso: manca la h a «hai», che qui deve essere il verbo avere.",
+				"O fame, ai una mela?": "Mancano tutte e due le h: né «o» né «ai» sono le forme corrette del verbo avere qui."
+			}
+		},
+		{
+			"id": "italiano-banda-ortografia-341",
+			"subject": "italiano",
+			"topic": "ortografia",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Perché «perché», «così» e «né» si scrivono con l'accento?",
+			"options": [
+				"sono parole tronche, e l'accento cade sull'ultima sillaba",
+				"perché sono tutte quante delle negazioni",
+				"per pura e semplice abitudine, senza nessuna regola precisa",
+				"perché si trovano sempre in fondo a ogni frase"
+			],
+			"answer": "sono parole tronche, e l'accento cade sull'ultima sillaba",
+			"explanation": "Una parola tronca porta l'accento tonico sull'ultima sillaba, e in italiano quell'accento si scrive quando la parola finisce in vocale.",
+			"distractorWhy": {
+				"perché sono tutte quante delle negazioni": "«Perché» e «così» non sono negazioni: solo «né» lo è, e comunque non è per quello che prende l'accento.",
+				"per pura e semplice abitudine, senza nessuna regola precisa": "C'è una regola precisa, quella delle parole tronche: non è un caso isolato da ricordare a memoria una per una.",
+				"perché si trovano sempre in fondo a ogni frase": "Possono stare in qualsiasi posizione della frase: la posizione non c'entra con l'accento."
+			}
+		},
+		{
+			"id": "italiano-banda-ortografia-342",
+			"subject": "italiano",
+			"topic": "ortografia",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale frase usa correttamente gli accenti su «sì» e «più»?",
+			"options": [
+				"Vengo si, ma più tardi.",
+				"Vengo sì, ma più tardi.",
+				"Vengo sì, ma piu tardi.",
+				"Vengo si, ma piu tardi."
+			],
+			"answer": "Vengo sì, ma più tardi.",
+			"explanation": "«Sì» (risposta affermativa) e «più» (quantità) sono parole tronche e vogliono l'accento; «si» senza accento è tutt'altro, un pronome.",
+			"distractorWhy": {
+				"Vengo si, ma piu tardi.": "Mancano tutti e due gli accenti: né «sì» né «più» sono scritti correttamente.",
+				"Vengo sì, ma piu tardi.": "Manca l'accento su «più»: resterebbe una parola diversa, senza senso qui.",
+				"Vengo si, ma più tardi.": "Manca l'accento su «sì»: «si» senza accento è il pronome riflessivo, non la risposta affermativa."
+			}
+		},
+		{
+			"id": "italiano-banda-ortografia-343",
+			"subject": "italiano",
+			"topic": "ortografia",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Perché si scrive «un'amica» con l'apostrofo, ma «un amico» senza?",
+			"options": [
+				"perché la parola «amica» è più lunga",
+				"perché comincia per vocale soltanto «amica»",
+				"perché «amica» è femminile e «amico» è maschile",
+				"per pura abitudine, senza nessuna regola precisa"
+			],
+			"answer": "perché «amica» è femminile e «amico» è maschile",
+			"explanation": "L'articolo «un» davanti a un femminile che inizia per vocale elide la sua vocale finale e prende l'apostrofo; davanti a un maschile resta «un» senza apostrofo, perché non c'è niente da elidere.",
+			"distractorWhy": {
+				"perché la parola «amica» è più lunga": "La lunghezza della parola non ha niente a che vedere con la regola: conta il genere.",
+				"perché comincia per vocale soltanto «amica»": "Anche «amico» comincia per vocale: la differenza sta nel genere, non nella prima lettera.",
+				"per pura abitudine, senza nessuna regola precisa": "C'è una regola precisa legata al genere, non è un'abitudine casuale."
+			}
+		},
+		{
+			"id": "italiano-banda-ortografia-344",
+			"subject": "italiano",
+			"topic": "ortografia",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Come si scrive correttamente: «un altra volta» o «un'altra volta»?",
+			"options": [
+				"un altra volta",
+				"un altravolta",
+				"un'altravolta",
+				"un'altra volta"
+			],
+			"answer": "un'altra volta",
+			"explanation": "«Altra» è femminile e comincia per vocale: l'articolo «un» elide la sua vocale e richiede l'apostrofo, come davanti a «amica».",
+			"distractorWhy": {
+				"un altra volta": "Manca l'apostrofo: davanti a un femminile che inizia per vocale, «un» diventa «un'».",
+				"un'altravolta": "«Altra volta» restano due parole separate: unirle in una sola non è corretto.",
+				"un altravolta": "Mancano sia l'apostrofo sia lo spazio corretto fra le due parole."
 			}
 		}
 	]

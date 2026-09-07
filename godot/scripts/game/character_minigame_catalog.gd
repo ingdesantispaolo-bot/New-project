@@ -12,11 +12,10 @@ extends RefCounted
 ## resto.** Il minigioco deve far fallire la **convinzione** del personaggio, non
 ## interrogare il bambino.
 ##
-## Tobia crede che «contare in fretta è barare». Il suo minigioco non chiede
-## quanto fa 6×7: mette davanti un mucchio che **non si riesce a contare uno per
-## uno nel tempo dato**, e lascia scoprire che a gruppi di dieci il conto torna.
-## La didattica non è nascosta perché travestita — è nascosta perché **è la
-## meccanica**. Chi gioca non sta rispondendo, sta risolvendo.
+## Tobia crede che «contare in fretta è barare». Il suo minigioco non chiede di
+## battere un cronometro: fa preparare ordini con casse da dieci e unità sciolte.
+## La scorciatoia diventa così una rappresentazione matematica esplicita e
+## verificabile, non un gesto segreto che premia chi tocca più rapidamente.
 ##
 ## **Perché quindici meccaniche e non quarantasei.** La prima idea era una
 ## dinamica nuova per ogni personaggio. È sbagliata due volte: quarantasei
@@ -50,7 +49,7 @@ const FORMA_RIFLESSIONE := "riflessione"
 
 ## Gli archetipi. Ognuno è una **trappola**, non una scenografia: la scenografia
 ## è il materiale della scheda, la trappola è ciò che fa cadere la convinzione.
-const ARCHETIPO_MUCCHIO := "mucchio"      # velocità · raggruppare batte contare
+const ARCHETIPO_MUCCHIO := "mucchio"      # riflessione · costruire decine e unità
 const ARCHETIPO_SCAFFALE := "scaffale"    # riflessione · l'ordine che si vede non è quello che conta
 const ARCHETIPO_CICLO := "ciclo"          # velocità · quello che si fa a mano non scala
 const ARCHETIPO_TRACCIA := "traccia"      # riflessione · la memoria da sola non regge
@@ -75,15 +74,12 @@ const GIOCHI := {
 	# -- Mondo 1 · matematica ---------------------------------------------------
 	"w01-tobia": {
 		"archetipo": ARCHETIPO_MUCCHIO,
-		"forma": FORMA_VELOCITA,
-		"titolo": "Il mucchio che non finisce",
-		# La consegna non dice MAI la strategia: scoprirla è il gioco. Dire
-		# «raggruppa per dieci» trasformerebbe la scoperta in un'istruzione da
-		# eseguire, che è esattamente ciò che questo lotto evita.
-		"consegna": "Tobia deve consegnare il conto prima che chiuda il deposito. Quanti cristalli ci sono?",
+		"forma": FORMA_RIFLESSIONE,
+		"titolo": "Il deposito delle decine",
+		"consegna": "Prepara tre ordini usando casse da 10 e cristalli sciolti.",
 		"convinzioneBersaglio": "Contare in fretta è barare.",
-		"vittoria": "Il conto torna, e ci è voluto meno tempo. Tobia guarda le tue mani, non il numero.",
-		"sconfitta": "Il deposito ha chiuso. Tobia ricomincia da capo, e uno.",
+		"vittoria": "Ogni ordine torna: le casse non saltano nessun cristallo. Tobia prova a leggere decine e unità.",
+		"sconfitta": "Gli ordini restano sul banco. Tobia li conserva: si può riprendere senza correre.",
 	},
 	"w01-ersilia": {
 		"archetipo": ARCHETIPO_RITMO,
@@ -1058,34 +1054,15 @@ static func parametri(archetipo: String, world: int) -> Dictionary:
 	var livello := clampi(world, 1, 24)
 	match archetipo:
 		ARCHETIPO_MUCCHIO:
-			# **Il mucchio parte già grande.** Con trenta pezzi e tredici secondi
-			# — la prima taratura — contare uno per uno costava 13,5 s contro 13,4
-			# concessi: un bambino svelto ce la faceva **col metodo vecchio**, e la
-			# convinzione di Tobia sarebbe uscita confermata.
-			#
-			# **Ritarato il 4 settembre 2026, e stavolta contro tre giocatori.**
-			# Le tarature precedenti guardavano due strategie — uno per uno e a
-			# gruppi — e ne mancava una terza che è quella che vinceva davvero:
-			# **chi tocca a caso.** `minigiochi_cieco_probe` lo dava al 100% con
-			# quindici tocchi, esattamente quanti ne faceva chi aveva capito.
-			#
-			# Adesso i tre numeri stanno separati, misurati al ritmo umano di due
-			# tocchi al secondo:
-			#
-			#   uno per uno   63 tocchi   ~28 s   perde di larghezza
-			#   a caso        ~23 tocchi  ~10,5 s perde
-			#   a gruppi      12 tocchi   ~5,4 s  vince con oltre 3 s di margine
-			#
-			# Il tempo cresce meno della quantità (×1,98 contro ×2,10 dal mondo 1
-			# al 24), così la strategia vecchia diventa sempre meno sufficiente.
-			var pezzi := 60 + livello * 3
+			# Tre esempi intenzionali: un numero misto, una decina esatta e un
+			# numero misto più grande. Il replay cresce aggiungendo decine, mai
+			# togliendo tempo. Al mondo 1 sono 24, 30 e 43: abbastanza diversi da
+			# rendere visibili zero unità e l'inversione 34/43 senza sovraccarico.
+			var fascia := clampi(2 + int(floor(float(livello - 1) / 6.0)), 2, 5)
 			return {
-				"pezzi": pezzi,
-				"secondi": 8.235 + float(livello) * 0.365,
-				# Quanti pezzi entrano in un gruppo. Dieci sempre: è la base del
-				# sistema numerico, e cambiarla da un mondo all'altro insegnerebbe
-				# che è una convenzione arbitraria del gioco.
-				"gruppo": 10,
+				"obiettivi": [fascia * 10 + 4, (fascia + 1) * 10, (fascia + 2) * 10 + 3],
+				"consegne": 3,
+				"errori": 99,
 			}
 		ARCHETIPO_SCAFFALE:
 			# Nessun cronometro: è un gioco di riflessione, e mettere fretta a chi

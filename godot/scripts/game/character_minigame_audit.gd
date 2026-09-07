@@ -10,14 +10,12 @@ extends SceneTree
 ## verifica giocandoci. Qui si tiene solo quello che si può misurare, e sono le
 ## cose che, se cedono, rendono inutile il divertimento:
 ##
-##   1. **la strategia vecchia deve fallire, e quella nuova riuscire.** È la
-##      regola del lotto: il minigioco fa cadere la CONVINZIONE del personaggio,
-##      non interroga il bambino. Se contando uno per uno si arrivasse in tempo,
-##      Tobia avrebbe ragione e il gioco non insegnerebbe niente;
+##   1. **la strategia nuova deve essere osservabile.** È la regola del lotto:
+##      il minigioco fa cadere la CONVINZIONE del personaggio, non interroga il
+##      bambino. Nel deposito di Tobia ogni carico deve rendere visibili decine,
+##      unità e valore, senza dipendere dalla velocità del dito;
 ##   2. **il margine non dipende dalle dita.** Ogni archetipo di velocità ha un
-##      tetto noto al ritmo umano — nel mucchio i secondi per tocco, nel ciclo il
-##      `cooldown` — e la strategia vecchia deve perdere **anche a quel tetto**.
-##      È l'errore che il mucchio ha già fatto una volta;
+##      tetto noto al ritmo umano; i giochi di riflessione non hanno cronometro;
 ##   3. **la difficoltà cresce col mondo**, e cresce nel modo giusto: quello che
 ##      aumenta rende la strategia vecchia sempre meno sufficiente, non i
 ##      bersagli più piccoli;
@@ -28,10 +26,6 @@ extends SceneTree
 ##      il suo renderer si aspetta.
 
 const OK := "CHARACTER MINIGAME audit VERDE"
-## Quanto ci mette un bambino a toccare un pezzo alla volta, in secondi. Non è
-## un numero di comodo: sotto i 0,45 s per tocco si sta misurando la velocità
-## delle dita, che è l'ultima cosa da premiare qui.
-const SECONDI_PER_TOCCO := 0.45
 ## Le parole che svelerebbero la strategia. Se compaiono nella consegna, la
 ## scoperta è già stata regalata.
 const PAROLE_CHE_SVELANO := ["raggrupp", "decin", "per dieci", "a gruppi", "insieme di dieci",
@@ -47,8 +41,8 @@ func _init() -> void:
 	_ogni_gioco_e_coerente()
 	_ogni_residente_ha_il_suo_gioco()
 	_ogni_gioco_ha_il_materiale_del_suo_renderer()
-	_la_strategia_vecchia_fallisce()
-	_la_difficolta_segue_il_mondo()
+	_il_deposito_insegna_il_valore_posizionale()
+	_la_difficolta_del_deposito_segue_il_mondo()
 	_le_due_famiglie_esistono_entrambe()
 	_il_circuito_muta_senza_mettere_fretta()
 	_il_ciclo_non_si_vince_a_mano()
@@ -211,53 +205,27 @@ func _ogni_gioco_ha_il_materiale_del_suo_renderer() -> void:
 					if int(famiglia.get("giusta", -1)) < 0 or int(famiglia.get("giusta", -1)) >= significati.size():
 						_fallisci("%s: famiglia senza significato valido" % npc_id)
 
-## **La regola del lotto, in numeri.** Per ogni mondo: contare uno per uno non
-## deve bastare, e raggruppare deve bastare con margine. Senza margine il gioco
-## sarebbe vinto dalla fretta invece che dalla strategia.
-func _la_strategia_vecchia_fallisce() -> void:
+## Il deposito è pratica di valore posizionale, non una prova di rapidità. Ogni
+## sessione propone tre carichi diversi, include una decina esatta e rende
+## invertibile la rappresentazione numero ↔ decine/unità.
+func _il_deposito_insegna_il_valore_posizionale() -> void:
 	for world in [1, 6, 12, 18, 24]:
 		var p := CharacterMinigameCatalog.parametri(
 			CharacterMinigameCatalog.ARCHETIPO_MUCCHIO, world)
-		var pezzi := int(p["pezzi"])
-		var gruppo := int(p["gruppo"])
-		var secondi := float(p["secondi"])
-		var uno_per_uno := float(PileMinigamePanel.tocchi_uno_per_uno(pezzi, gruppo)) * SECONDI_PER_TOCCO
-		# **Non basta che il metodo vecchio perda: deve perdere con margine.**
-		# Alla prima taratura mancava il 4 per mille — 13,5 s contro 13,4 — e con
-		# uno scarto così un bambino veloce vince contando uno per uno, cioè la
-		# convinzione del personaggio esce CONFERMATA dal gioco che doveva
-		# smontarla. Il 30% è il minimo perché l'esito non dipenda dalle dita.
-		if uno_per_uno <= secondi * 1.3:
-			_fallisci("mondo %d: contare uno per uno quasi basta (%.1f s su %.1f) — la convinzione non cade" % [
-				world, uno_per_uno, secondi])
-
-		# **I tocchi si CHIEDONO al pannello, non si immaginano.** (4 settembre 2026)
-		#
-		# Qui c'era `floor(pezzi/gruppo) + pezzi%gruppo`: per quarantadue pezzi
-		# faceva sei tocchi, mentre `_disponi()` ne costruiva quindici — quattro
-		# quinti in file piene e un quinto sparso. L'audit misurava un mucchio che
-		# il gioco non ha mai disegnato, ed è per questo che è rimasto verde su un
-		# minigioco vinto dalla sonda cieca cento volte su cento. È la forma della
-		# decisione 14: una guardia che verifica la dichiarazione invece della cosa.
-		var a_gruppi := float(PileMinigamePanel.tocchi_ottimali(pezzi, gruppo)) * SECONDI_PER_TOCCO
-		if a_gruppi > secondi * 0.7:
-			_fallisci("mondo %d: anche a gruppi si arriva al pelo (%.1f s su %.1f) — vince la fretta, non l'idea" % [
-				world, a_gruppi, secondi])
-
-		# **E il terzo giocatore: chi tocca a caso deve perdere.** (4 settembre 2026)
-		#
-		# È quello che mancava, ed è quello che vinceva. Le due prove qui sopra
-		# guardano due strategie *intenzionali* — contare e raggruppare — e nessuna
-		# delle due descrive un bambino che tocca dove capita finché il tavolo è
-		# vuoto. Finché un tocco su una fila intera ne prendeva dieci ovunque
-		# cadesse, quel bambino faceva gli stessi tocchi di chi aveva capito e il
-		# cronometro non poteva distinguerli.
-		#
-		# Il conto viene dal pannello, che sa quanto costa svuotare una fila a caso.
-		var a_caso := PileMinigamePanel.tocchi_a_caso(pezzi, gruppo) * SECONDI_PER_TOCCO
-		if a_caso <= secondi * 1.1:
-			_fallisci("mondo %d: toccando a caso si finisce in tempo (%.1f s su %.1f) — il gioco si vince senza capirlo" % [
-				world, a_caso, secondi])
+		if p.has("secondi") or p.has("pezzi"):
+			_fallisci("mondo %d: il deposito conserva il vecchio cronometro o il mucchio da contare" % world)
+		var obiettivi: Array = Array(p.get("obiettivi", []))
+		if obiettivi.size() != int(p.get("consegne", 0)) or obiettivi.size() < 3:
+			_fallisci("mondo %d: il deposito non propone tre consegne" % world)
+		var ha_decina_esatta := false
+		for obiettivo_data in obiettivi:
+			var obiettivo := int(obiettivo_data)
+			var parti := PileMinigamePanel.scomponi(obiettivo)
+			if PileMinigamePanel.valore(parti.x, parti.y) != obiettivo:
+				_fallisci("mondo %d: %d non torna come decine e unità" % [world, obiettivo])
+			ha_decina_esatta = ha_decina_esatta or parti.y == 0
+		if not ha_decina_esatta:
+			_fallisci("mondo %d: manca una consegna con zero unità" % world)
 	_lo_scaffale_non_e_un_testa_o_croce()
 
 ## **Nessuno smistamento a due scaffali.** (4 settembre 2026)
@@ -340,21 +308,18 @@ func _le_due_famiglie_esistono_entrambe() -> void:
 
 ## La difficoltà cresce col mondo, e il tempo cresce **meno** della quantità: è
 ## ciò che rende la strategia vecchia sempre meno sufficiente.
-func _la_difficolta_segue_il_mondo() -> void:
-	var precedente := {}
+func _la_difficolta_del_deposito_segue_il_mondo() -> void:
+	var massimo_precedente := 0
 	for world in range(1, 25):
 		var p := CharacterMinigameCatalog.parametri(
 			CharacterMinigameCatalog.ARCHETIPO_MUCCHIO, world)
-		if precedente.is_empty():
-			precedente = p
-			continue
-		if int(p["pezzi"]) <= int(precedente["pezzi"]):
-			_fallisci("mondo %d: il mucchio non cresce" % world)
-		var crescita_pezzi := float(p["pezzi"]) / float(precedente["pezzi"])
-		var crescita_tempo := float(p["secondi"]) / float(precedente["secondi"])
-		if crescita_tempo >= crescita_pezzi:
-			_fallisci("mondo %d: il tempo cresce quanto il mucchio — contare uno per uno resterebbe possibile" % world)
-		precedente = p
+		var obiettivi: Array = Array(p.get("obiettivi", []))
+		var massimo := 0
+		for valore_data in obiettivi:
+			massimo = maxi(massimo, int(valore_data))
+		if massimo < massimo_precedente:
+			_fallisci("mondo %d: il replay del deposito torna a numeri più piccoli" % world)
+		massimo_precedente = massimo
 
 ## **Il circuito deve crescere cambiando il problema, non il dito.** Schemi e
 ## passaggi aumentano o restano stabili lungo i mondi; il tempo resta zero e i

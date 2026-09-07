@@ -32,11 +32,8 @@ extends SceneTree
 ## mai, e la sua percentuale è un **tetto** che nessun bambino raggiunge.
 ##
 ## Per quegli archetipi il numero che conta è l'altro: **quanti tocchi** servono.
-## Il 21 agosto 2026 il mucchio di Tobia ne chiedeva sei — ogni tocco prendeva
-## una decina, perché nascevano tutti in file piene — e adesso ne chiede
-## ventiquattro. La colonna «regge il tempo?» fa il conto al posto di chi legge:
-## a `RITMO_UMANO` tocchi al secondo, quei tocchi stanno dentro il cronometro?
-## Se non ci stanno, un giocatore a caso perde davvero, ed è quello che serve.
+## Il deposito di Tobia non appartiene più a questa eccezione: è una pratica di
+## riflessione senza cronometro e richiede tre composizioni corrette consecutive.
 ##
 ## Uso: godot --headless --path godot --script res://scripts/game/minigiochi_cieco_probe.gd
 
@@ -88,8 +85,8 @@ func _run() -> void:
 		# dove c'è un cronometro il tempo non gli finisce mai, e la sua percentuale
 		# è un tetto che nessun bambino raggiunge. Il mucchio l'ha mostrato nel
 		# modo più netto — 100% con il cronometro che a ritmo umano lo taglia
-		# fuori di tre secondi. Leggere solo la prima colonna avrebbe detto che la
-		# ritaratura non era servita a niente, mentre aveva funzionato.
+		# fuori di tre secondi. Quel vecchio mucchio è stato poi sostituito da una
+		# pratica di valore posizionale senza cronometro.
 		#
 		# Quindi la colonna che decide è questa: **con un dito umano, quel
 		# giocatore a caso ce la farebbe?** Dove non c'è cronometro le due quote

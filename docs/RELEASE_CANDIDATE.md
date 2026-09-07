@@ -1070,7 +1070,7 @@ materie a ×2. Profondità: coppie (materia, formato) sopra le 10.000 da 23 a 25
 
 Lavoro condiviso Opus/Codex a partire da `insieme.md`:
 
-- **Tobia**: `Il mucchio che non finisce`, velocità e raggruppamento in decine;
+- **Tobia**: `Il deposito delle decine`, composizione ragionata di decine e unità senza cronometro;
   cristallo generativo trasparente, file leggibili 5+5, vassoi visivi e bersagli
   da 40 px;
 - **Corinna**: `Lo scaffale che non si vede`, riflessione senza cronometro;

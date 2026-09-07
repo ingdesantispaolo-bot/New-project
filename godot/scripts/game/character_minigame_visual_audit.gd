@@ -63,17 +63,23 @@ func _esegui() -> void:
 		var banco: Dictionary = banco_dato
 		await _guarda(banco)
 
-	# Il mucchio ha in più l'asset generativo e i vassoi delle decine, che sono
-	# l'indizio da cui si scopre la strategia: senza, il gioco non si scopre.
+	# Il deposito deve mostrare la rappresentazione, non un muro di pezzi da
+	# contare: una cassa vale dieci e gli sciolti valgono uno.
 	var mucchio := PileMinigamePanel.new()
 	root.add_child(mucchio)
 	mucchio.avvia(CharacterMinigameCatalog.scheda("w01-tobia"), false)
 	await process_frame
-	_pretendi(mucchio.find_child("TenTray_00", true, false) != null,
-		"prima decina senza vassoio visivo")
-	var primo := mucchio.find_child("Crystal_00", true, false) as Button
-	_pretendi(is_instance_valid(primo) and primo.icon != null,
-		"cristallo generativo non caricato")
+	var aggiungi_decina := mucchio.find_child("PileAddTen", true, false) as Button
+	var aggiungi_unita := mucchio.find_child("PileAddOne", true, false) as Button
+	_pretendi(is_instance_valid(aggiungi_decina) and is_instance_valid(aggiungi_unita),
+		"deposito senza comandi per decine e unità")
+	_pretendi(mucchio.find_child("PileClock", true, false) == null,
+		"il deposito conserva un cronometro")
+	if is_instance_valid(aggiungi_decina):
+		aggiungi_decina.pressed.emit()
+		await process_frame
+		_pretendi(mucchio.find_child("TenCrate_00", true, false) != null,
+			"una decina non produce una cassa visiva")
 	mucchio.queue_free()
 	await process_frame
 

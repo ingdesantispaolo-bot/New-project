@@ -42,10 +42,23 @@ func _esegui() -> void:
 
 func _cattura(file_name: String, pannello: Control, npc_id: String, viewport_size: Vector2i, avanza: bool = false) -> void:
 	root.size = viewport_size
+	# Il cambio di viewport diventa effettivo al frame successivo. Senza questa
+	# attesa il pannello portrait poteva leggere ancora la misura landscape e
+	# saltare l'adattamento verticale, producendo una cattura falsamente minuta.
+	await process_frame
 	root.add_child(pannello)
 	pannello.avvia(CharacterMinigameCatalog.scheda(npc_id), false)
 	await process_frame
 	await process_frame
+	if npc_id == "w01-tobia":
+		var aggiungi_decina := pannello.find_child("PileAddTen", true, false) as Button
+		var aggiungi_unita := pannello.find_child("PileAddOne", true, false) as Button
+		if is_instance_valid(aggiungi_decina) and is_instance_valid(aggiungi_unita):
+			for _i in range(2):
+				aggiungi_decina.pressed.emit()
+			for _i in range(4):
+				aggiungi_unita.pressed.emit()
+			await process_frame
 	if avanza:
 		var quadro := pannello.find_child("CircuitBoard", true, false) as CircuitMinigameBoard
 		if is_instance_valid(quadro):

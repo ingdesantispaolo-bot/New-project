@@ -8,8 +8,8 @@ duplica dialoghi o dati del personaggio.
 ## Regole comuni
 
 - Il gioco mette in crisi la convinzione del personaggio: non interroga Eli.
-- I 23 giochi di **velocità** usano gesti, ritmo e decisioni visive; mai lettura
-  rapida. I 23 di **riflessione** non hanno cronometro, consentono annulla e
+- I 22 giochi di **velocità** usano gesti, ritmo e decisioni visive; mai lettura
+  rapida. I 24 di **riflessione** non hanno cronometro, consentono annulla e
   almeno due errori.
 - La prima vittoria è un momento narrativo unico nel mondo del residente. La
   sconfitta non toglie nulla e permette di riprovare. Dopo la scoperta, il gioco
@@ -26,7 +26,7 @@ duplica dialoghi o dati del personaggio.
 
 | Mondo | Personaggio | Forma | Minigioco e gesto decisivo |
 | ---: | --- | --- | --- |
-| 1 | Tobia | Velocità | **Il mucchio che non finisce** — tocca file da 5+5 e raccoglie una decina in un gesto; contare uno a uno non basta. |
+| 1 | Tobia | Riflessione | **Il deposito delle decine** — prepara tre ordini componendo il numero con casse da 10 e unità; l'errore quantifica ciò che manca e lascia correggere. |
 | 1 | Nonna Ersilia | Riflessione | **La conta sotto il pane** — dispone pagnotte sui battiti della filastrocca finché emerge il salto costante di sette: la canzone è anche un conto. |
 | 2 | Corinna | Riflessione | **Lo scaffale che non si vede** — le parole arrivano ordinate per lunghezza, ma vanno riposte per ciò che fanno nella frase. |
 | 2 | Bruno | Velocità | **Friscoli in fuga** — combina radice e finale per dare un nome utile a creaturine che attraversano l'Archivio; una parola inventata “vince” se permette di riconoscerle. |
@@ -83,7 +83,7 @@ ventitré mondi hanno un gioco avviabile, coerente con la propria convinzione e
 con materiale specifico. Sono **46 giochi su 15 meccaniche** — mucchio,
 scaffale, ciclo, traccia, radio, mercato, circuito, leva, altalena, conta
 ritmica, vibrazione, glifi, parentela, prova controllata e stima. Le due forme
-sono bilanciate: **23 di velocità e 23 di riflessione**.
+restano bilanciate: **22 di velocità e 24 di riflessione**.
 
 Quindici e non quarantasei perché **le convinzioni non sono quarantasei**: Ortensia,
 Gru e Sferza credono la stessa cosa in tre mestieri (*che la causa si trovi per

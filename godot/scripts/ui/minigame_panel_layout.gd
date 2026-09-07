@@ -12,8 +12,17 @@ static func adapt_vertical(owner: Node, card: Control, portrait_scale: float = 2
 	await owner.get_tree().process_frame
 	if not is_instance_valid(card):
 		return
-	var viewport_size := owner.get_viewport().get_visible_rect().size
-	if viewport_size.y <= viewport_size.x:
+	# Con lo stretch del progetto il rettangolo logico del Viewport può restare
+	# landscape anche quando la finestra fisica è portrait. La Window è la fonte
+	# affidabile per l'orientamento; il fallback copre i viewport incorporati.
+	var viewport_size := Vector2(owner.get_tree().root.size)
+	if viewport_size.x <= 0.0 or viewport_size.y <= 0.0:
+		viewport_size = owner.get_viewport().get_visible_rect().size
+	var physical_size := Vector2(DisplayServer.window_get_size())
+	var portrait := viewport_size.y > viewport_size.x
+	if physical_size.x > 0.0 and physical_size.y > 0.0:
+		portrait = portrait or physical_size.y > physical_size.x
+	if not portrait:
 		return
 	card.pivot_offset = card.size * 0.5
 	card.scale = Vector2.ONE * portrait_scale

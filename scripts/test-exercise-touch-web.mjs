@@ -284,7 +284,11 @@ try {
     await cdp.call("Input.dispatchTouchEvent", {type:"touchStart",touchPoints:[{x,y,radiusX:2,radiusY:2,force:1}]},sessionId);
     await delay(60);
     if(name === "ExerciseNextButton") {
-      await cdp.call("Input.dispatchTouchEvent", {type:"touchMove",touchPoints:[{x,y:y+9,radiusX:2,radiusY:2,force:1}]},sessionId);
+      const buttonCssHeight = button.height * canvas.h / s.viewport[1];
+      // Il rilascio termina volutamente oltre il bordo inferiore. `pressed`
+      // viene annullato in questo caso; AVANTI usa `button_up`, perche' il gesto
+      // e' iniziato senza ambiguita' dentro il comando.
+      await cdp.call("Input.dispatchTouchEvent", {type:"touchMove",touchPoints:[{x,y:y+buttonCssHeight/2+9,radiusX:2,radiusY:2,force:1}]},sessionId);
       await delay(60);
     }
     await cdp.call("Input.dispatchTouchEvent", {type:"touchEnd",touchPoints:[]},sessionId);
@@ -303,7 +307,7 @@ try {
     await tap("ExerciseNextButton");
     const current = await state();
     if(current.index!==i+1) throw new Error("Touch did not advance");
-    console.log(`Node ${i + 1}/3 advanced with a 9 CSS pixel touch movement`);
+    console.log(`Node ${i + 1}/3 advanced with release beyond the button edge`);
   }
   await capture(cdp,sessionId,path.join(outputRoot,"input-finished.png"));
   if((await state()).visible) throw new Error("Exercise remains open");

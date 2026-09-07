@@ -587,7 +587,10 @@ func _build_ui() -> void:
 	_next_button.custom_minimum_size = Vector2(0, 48)
 	_next_button.add_theme_font_size_override("font_size", 16)
 	_next_button.add_theme_stylebox_override("normal", _exercise_button_style(Color(0.16, 0.32, 0.30, 0.98), Color(0.96, 0.78, 0.36, 0.72)))
-	_next_button.pressed.connect(_advance)
+	# `pressed` viene annullato se il dito esce dal rettangolo prima del rilascio.
+	# `button_up` conserva invece il gesto nato sul pulsante: sul Web evita che
+	# pochi pixel di movimento facciano sembrare AVANTI morto.
+	_next_button.button_up.connect(_advance)
 	_action_bar.add_child(_next_button)
 
 	_build_exit_row(box)
@@ -3517,6 +3520,11 @@ func _advance() -> void:
 	# troppo piccolo perde il gesto prima di _advance (EXERCISE_TOUCH_FIX.md).
 	if _completion_queued:
 		_finish()
+		return
+	# Un singolo tocco Web puo' produrre sia l'evento touch sia il click mouse
+	# sintetico. Dopo il primo avanzamento `_show_current()` azzera `_answered`:
+	# il secondo evento non deve saltare la domanda appena mostrata.
+	if not _answered:
 		return
 	if _shields <= 0:
 		_request_finish()

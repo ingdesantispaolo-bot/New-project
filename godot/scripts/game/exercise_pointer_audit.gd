@@ -23,6 +23,21 @@ func _click(viewport: Viewport, button: Button) -> void:
 		viewport.push_input(event, true)
 		await process_frame
 
+func _touch_avanti(viewport: Viewport, button: Button) -> void:
+	# Parte dentro AVANTI e termina appena oltre il bordo: il Button nativo
+	# perderebbe `pressed`, mentre `button_up` deve avanzare una sola volta. Il
+	# secondo `_advance` simula il click sintetico dello stesso gesto.
+	var rect := button.get_global_rect()
+	var start := Vector2(rect.get_center().x, rect.end.y - 2.0)
+	var finish := start + Vector2(0.0, 12.0)
+	for pressed in [true, false]:
+		var event := InputEventScreenTouch.new()
+		event.index = 0
+		event.position = start if pressed else finish
+		event.pressed = pressed
+		viewport.push_input(event, true)
+		await process_frame
+
 func _run() -> void:
 	for dimensions in [Vector2i(1280, 720), Vector2i(1280, 2240)]:
 		var viewport := SubViewport.new()
@@ -55,7 +70,8 @@ func _run() -> void:
 			player.get("_input").text = "6"
 			await _click(viewport, player.find_child("TextAnswerSubmit", true, false))
 			await create_timer(0.6).timeout
-			await _click(viewport, player.find_child("ExerciseNextButton", true, false))
+			await _touch_avanti(viewport, player.find_child("ExerciseNextButton", true, false))
+			player._advance()
 			if int(player.session_cursor()["index"]) != index + 1:
 				failures.append("%s node %d did not advance: %s" % [dimensions, index, player.session_cursor()])
 		if results.size() != 1:

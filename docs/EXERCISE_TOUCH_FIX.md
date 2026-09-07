@@ -13,22 +13,24 @@ del pulsante Avanti diventano circa **14,6 pixel CSS**. Spostare il dito di
 la risposta rimane accettata e la prova non avanza.
 
 La prova precedente è fallita con `Touch did not advance`; dopo la modifica,
-lo stesso gesto completa tutti e tre i nodi e riconsegna il controllo al mondo.
+anche un gesto che nasce su Avanti e termina appena oltre il bordo completa
+tutti e tre i nodi e riconsegna il controllo al mondo.
 
 ## Modifica
 
 `ExercisePlayer` misura il rapporto tra viewport logica e altezza CSS del canvas.
 I pulsanti della barra fissa conservano almeno 48 pixel CSS di altezza e testo
 di almeno 16 pixel CSS. La misura si aggiorna al ridimensionamento, anche
-passando a uno schermo con densità 3 e ruotando il telefono. L'area scorrevole
-continua a lasciare spazio alla barra. La logica di punteggio e chiusura resta
-quella esistente.
+passando a uno schermo con densità 3 e ruotando il telefono. Avanti completa
+il gesto nato dentro il pulsante anche se il dito termina appena fuori; un
+eventuale doppio evento touch/click non può saltare la domanda successiva.
+L'area scorrevole continua a lasciare spazio alla barra.
 
 ## Verifiche
 
 - `node scripts/run-godot-audits.mjs exercise_`: 8/8 verdi.
 - `npm run test:web:exercise-touch`: verde. Tocchi browser, risposta corretta,
-  movimento di 9 pixel su Avanti, tre avanzamenti, un solo esito, 73 energia,
+  rilascio oltre il bordo di Avanti, tre avanzamenti, un solo esito, 73 energia,
   ritorno al mondo; viewport verticale, densità 3 e rotazione orizzontale.
 - Controllo visivo degli screenshot prima e dopo la modifica.
 

@@ -47,11 +47,10 @@ extends RefCounted
 ##    dalla parte di chi ti sta davanti: quando è piena il guardiano colpisce e
 ##    Eli perde un punto di **tenuta**. Non è un cronometro sopra una domanda —
 ##    è un avversario che si muove.
-## 2. **Ha più sigilli** (da due a quattro con il grado): il duello è fatto di
+## 2. **Ha due o tre sigilli** secondo il grado: il duello è fatto di
 ##    scambi, e ogni sigillo spezzato lo fa arretrare. La ripresa esiste.
-## 3. **Accelera.** Ogni sigillo spezzato accorcia la carica del successivo
-##    ([[ACCELERAZIONE]]). Un combattimento che finisce più teso di come è
-##    cominciato è la sola forma di crescendo che costi una riga di codice.
+## 3. **Tiene la pressione.** La carica resta stabile fra i round: la tensione
+##    viene dalla sequenza, non da un'accelerazione che il giocatore non vede.
 ##
 ## ## I guard-rail, che non cambiano
 ##
@@ -84,22 +83,22 @@ const FASCE := [
 	{
 		"mondi": [1, 4], "nome": "raggiungi il numero",
 		"massimo": 30, "operazioni": ["+", "*"], "fattore": [2, 3],
-		"passi": 2, "mano": 4, "secondi": 12.0,
+		"passi": 2, "mano": 3, "secondi": 12.0,
 	},
 	{
 		"mondi": [5, 9], "nome": "raggiungi il numero · II",
 		"massimo": 60, "operazioni": ["+", "-", "*"], "fattore": [2, 5],
-		"passi": 2, "mano": 5, "secondi": 11.0,
+		"passi": 2, "mano": 3, "secondi": 11.0,
 	},
 	{
 		"mondi": [10, 14], "nome": "raggiungi il numero · III",
 		"massimo": 100, "operazioni": ["+", "-", "*", "/"], "fattore": [2, 9],
-		"passi": 3, "mano": 5, "secondi": 11.0,
+		"passi": 3, "mano": 4, "secondi": 11.0,
 	},
 	{
 		"mondi": [15, 19], "nome": "raggiungi il numero · IV",
 		"massimo": 150, "operazioni": ["+", "-", "*", "/"], "fattore": [2, 12],
-		"passi": 3, "mano": 6, "secondi": 10.0,
+		"passi": 3, "mano": 4, "secondi": 10.0,
 	},
 	# **La quinta fascia allunga la catena, non i numeri.** (5 settembre 2026)
 	#
@@ -112,7 +111,7 @@ const FASCE := [
 	#
 	# Il salto vero di questo duello è dichiarato qui sopra: da due a tre colpi si
 	# smette di andare a tentativi. Il quarto colpo è il gradino successivo, e la
-	# mano cresce con lui — quattro della strada giusta più tre esche.
+	# mano cresce con lui — quattro della strada giusta più una scelta falsa.
 	#
 	# **E i secondi RISALGONO a dodici.** Un anello in più è più cosa da pensare,
 	# non meno tempo per pensarla: tre secondi a colpo invece dei tre scarsi di
@@ -121,7 +120,7 @@ const FASCE := [
 	{
 		"mondi": [20, 24], "nome": "raggiungi il numero · V",
 		"massimo": 240, "operazioni": ["+", "-", "*", "/"], "fattore": [2, 12],
-		"passi": 4, "mano": 7, "secondi": 12.0,
+		"passi": 4, "mano": 5, "secondi": 12.0,
 	},
 ]
 

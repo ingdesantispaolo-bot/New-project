@@ -64,8 +64,8 @@ func _le_fasce_coprono_i_ventiquattro_mondi() -> void:
 			"mondo %d: la catena si accorcia (%d dopo %d)" % [mondo, passi, passi_precedenti])
 		_controlla(massimo >= massimo_precedente,
 			"mondo %d: i numeri rimpiccioliscono (%d dopo %d)" % [mondo, massimo, massimo_precedente])
-		_controlla(int(fascia.get("mano", 0)) >= passi + 2,
-			"mondo %d: la mano non tiene la strada giusta più due esche" % mondo)
+		_controlla(int(fascia.get("mano", 0)) == passi + 1,
+			"mondo %d: la mano non tiene la strada giusta più una scelta falsa" % mondo)
 		passi_precedenti = passi
 		massimo_precedente = massimo
 	# E la campagna deve **sentirsi** crescere: l'ultimo mondo non può chiedere
@@ -121,7 +121,7 @@ func _nessuna_combinazione_impossibile() -> void:
 				_controlla(per_colpo <= 8.0,
 					"mondo %d T%d grado %d: %.1fs per colpo, il guardiano non è un pericolo" %
 					[mondo, tier, grado, per_colpo])
-				_controlla(int(regole["sigilli"]) >= 2 and int(regole["sigilli"]) <= 4,
+				_controlla(int(regole["sigilli"]) >= 2 and int(regole["sigilli"]) <= 3,
 					"mondo %d T%d: %d sigilli" % [mondo, tier, int(regole["sigilli"])])
 				_controlla(int(regole["tenuta"]) >= 2,
 					"grado %d: meno di due colpi incassabili, il primo errore decide tutto" % grado)

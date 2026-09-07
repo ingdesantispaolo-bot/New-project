@@ -91,25 +91,23 @@ const FASCE := [
 		"mondi": [1, 4], "nome": "trasforma il verbo",
 		"modi": ["indicativo"],
 		"tempi": ["presente", "imperfetto", "futuro semplice"],
-		# **Cinque rune e non quattro** (21 agosto 2026): con due passi e quattro
-		# rune restavano due sole esche, e chi toccava a caso ne azzeccava
-		# troppe. Una quinta pietra non allunga la strada — restano due passi —
-		# ma toglie alla fortuna un terzo delle sue probabilita'.
-		"verbi": "are", "passi": 2, "mano": 5, "secondi": 13.0,
+		# Una sola esca: la difficoltà viene dal riconoscere e ordinare le due
+		# mosse, non dal setacciare una griglia piena di parole.
+		"verbi": "are", "passi": 2, "mano": 3, "secondi": 13.0,
 		"bersaglio": "descrizione",
 	},
 	{
 		"mondi": [5, 9], "nome": "trasforma il verbo · II",
 		"modi": ["indicativo"],
 		"tempi": ["presente", "imperfetto", "passato remoto", "futuro semplice", "passato prossimo"],
-		"verbi": "regolari", "passi": 2, "mano": 5, "secondi": 12.0,
+		"verbi": "regolari", "passi": 2, "mano": 3, "secondi": 12.0,
 		"bersaglio": "descrizione",
 	},
 	{
 		"mondi": [10, 14], "nome": "trasforma il verbo · III",
 		"modi": ["indicativo", "congiuntivo"],
 		"tempi": ["presente", "imperfetto", "passato remoto", "futuro semplice", "passato prossimo"],
-		"verbi": "tutti", "passi": 3, "mano": 5, "secondi": 12.0,
+		"verbi": "tutti", "passi": 3, "mano": 4, "secondi": 12.0,
 		"bersaglio": "campione",
 	},
 	{
@@ -119,7 +117,7 @@ const FASCE := [
 			"presente", "imperfetto", "passato remoto", "futuro semplice",
 			"passato prossimo", "trapassato prossimo", "passato",
 		],
-		"verbi": "tutti", "passi": 3, "mano": 6, "secondi": 11.0,
+		"verbi": "tutti", "passi": 3, "mano": 4, "secondi": 11.0,
 		"bersaglio": "campione",
 	},
 	{
@@ -130,7 +128,7 @@ const FASCE := [
 			"passato prossimo", "trapassato prossimo", "futuro anteriore",
 			"passato", "trapassato",
 		],
-		"verbi": "tutti", "passi": 3, "mano": 6, "secondi": 10.0,
+		"verbi": "tutti", "passi": 3, "mano": 4, "secondi": 10.0,
 		"bersaglio": "campione",
 	},
 ]

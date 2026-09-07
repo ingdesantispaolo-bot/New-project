@@ -172,6 +172,7 @@ func _ogni_guardiano_apre_la_sua_materia(world: Node, guardiani: Array) -> void:
 			"le regole aperte non sono quelle della materia dichiarata da «%s»" % guardia_id)
 		_controlla(not Array(pannello.call("sequenza_vincente")).is_empty(),
 			"il duello di «%s» si apre senza nessuna strada verso il sigillo" % guardia_id)
+		_controlla_interfaccia(pannello, guardia_id)
 		# Andarsene è gratis: il pulsante c'è e chiude tutto senza conseguenze.
 		var uscita := pannello.find_child("DuelLeaveButton", true, false) as Button
 		_controlla(uscita != null, "dal duello di «%s» non si può uscire" % guardia_id)
@@ -207,6 +208,7 @@ func _ogni_guardiano_apre_la_sua_materia(world: Node, guardiani: Array) -> void:
 			_controlla(giusto, "la materia «%s» apre il pannello sbagliato" % str(materia))
 			_controlla(not Array(pannello.call("sequenza_vincente")).is_empty(),
 				"il duello di «%s» si apre senza nessuna strada" % str(materia))
+			_controlla_interfaccia(pannello, str(materia))
 			var uscita := pannello.find_child("DuelLeaveButton", true, false) as Button
 			if uscita != null:
 				uscita.emit_signal("pressed")
@@ -214,6 +216,29 @@ func _ogni_guardiano_apre_la_sua_materia(world: Node, guardiani: Array) -> void:
 		sacca.set_meta("guardId", vero)
 		viste[str(materia)] = true
 	print("  materie messe in scena: %s" % ", ".join(PackedStringArray(viste.keys())))
+
+## La semplificazione deve restare un contratto verificabile: poche scelte,
+## nessuno storico duplicato e bersagli abbastanza grandi da toccare.
+func _controlla_interfaccia(pannello: DuelStage, contesto: String) -> void:
+	var rune: Array = pannello.get("_rune")
+	_controlla(rune.size() >= 3 and rune.size() <= 5,
+		"il duello di «%s» mostra %d mosse insieme" % [contesto, rune.size()])
+	var zona := pannello.find_child("DuelRunes", true, false) as Control
+	_controlla(zona != null, "il duello di «%s» non ha la zona delle mosse" % contesto)
+	if zona != null:
+		var confini := Rect2(Vector2.ZERO, zona.size)
+		for indice in rune.size():
+			var rect: Rect2 = pannello.call("rettangolo_runa", indice)
+			_controlla(rect.size.x >= 44.0 and rect.size.y >= 44.0,
+				"mossa %d di «%s» troppo piccola per il tocco" % [indice + 1, contesto])
+			_controlla(confini.encloses(rect),
+				"mossa %d di «%s» fuori dal pannello" % [indice + 1, contesto])
+	var storico := pannello.find_child("DuelChain", true, false) as Label
+	_controlla(storico != null and not storico.visible,
+		"il duello di «%s» mostra ancora lo storico testuale delle mosse" % contesto)
+	var uscita := pannello.find_child("DuelLeaveButton", true, false) as Button
+	_controlla(uscita != null and uscita.custom_minimum_size.y >= 44.0,
+		"uscita del duello di «%s» troppo piccola per il tocco" % contesto)
 
 ## Un identificativo qualunque che cada sulla materia voluta. Non inventa niente:
 ## interroga la stessa funzione che usa il gioco.

@@ -40,7 +40,7 @@ var _impulso := 0
 var _impulso_label: Label
 
 func _init() -> void:
-	geo["arena"] = 332.0
+	geo["arena"] = 308.0
 	geo["rune"] = 116.0
 
 func _costruisci_campo() -> void:
@@ -56,7 +56,7 @@ func _nuovo_scambio() -> void:
 	_colpi_dati = 0
 	_tempo_massimo = DuelRules.secondi_del_sigillo(regole, _sigilli_rotti)
 	_tempo = _tempo_massimo
-	_sigillo_label.text = "OBIETTIVO: %d" % int(_scambio.get("bersaglio", 0))
+	_sigillo_label.text = "RAGGIUNGI %d" % int(_scambio.get("bersaglio", 0))
 	_sigillo_sotto.text = ""
 	_costruisci_rune()
 	_aggiorna_testi()
@@ -131,7 +131,6 @@ func _aggiorna_testi() -> void:
 	if not is_instance_valid(_stato):
 		return
 	_impulso_label.text = str(_impulso)
-	_catena_label.text = _riga_catena()
 	aggiorna_stato()
 
 ## La catena come la si rilegge. Prima del primo colpo sarebbe un numero solo,

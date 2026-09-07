@@ -47,9 +47,10 @@ const SECONDI_BONUS_MASSIMO := 3.5
 ## del dito — che a un bambino non si insegna.
 const SECONDI_MINIMI := 6.5
 
-## Quanto si accorcia la carica dopo ogni sigillo spezzato. Il combattimento
-## accelera mentre lo si vince.
-const ACCELERAZIONE := 0.9
+## La pressione resta costante fra un sigillo e il successivo. Accelerare mentre
+## il giocatore stava ancora imparando l'interfaccia aggiungeva tensione, ma non
+## una decisione interessante: la sfida resta nella sequenza di mosse.
+const ACCELERAZIONE := 1.0
 
 ## Quanto si allunga tutto con `reduced_motion`.
 const TEMPO_RIDOTTO := 1.4
@@ -80,7 +81,9 @@ static func materia(guard_id: String) -> String:
 ## la stessa cifra che decide quanto fa male il morso, e un guardiano che sulla
 ## mappa è più minaccioso deve esserlo anche da vicino.
 static func sigilli_richiesti(tier: int) -> int:
-	return clampi(2 + floori(float(tier - 1) / 3.0), 2, 4)
+	# Due round per i guardiani comuni, tre per quelli più forti. Il vecchio
+	# quarto round ripeteva la stessa prova senza aggiungere una nuova scelta.
+	return 2 if tier <= 4 else 3
 
 ## **Quanti colpi può incassare Eli**, e cresce solo con il suo grado di potenza.
 ## È la leva più generosa, di proposito: dare più tempo aiuta chi è già rapido,

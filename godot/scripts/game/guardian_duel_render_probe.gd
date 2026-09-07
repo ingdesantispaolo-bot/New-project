@@ -5,8 +5,8 @@ extends SceneTree
 ## combattimento si valuta guardandolo, e la corda di risonanza è nata proprio
 ## perché il numero da raggiungere, scritto e basta, non diceva *quanto manca*.
 ##
-## Cattura le situazioni che contano: il primo mondo (quattro rune, catena da due
-## colpi), l'ultimo (sei rune, divisioni in mano), lo scambio già cominciato con
+## Cattura le situazioni che contano: il primo mondo (tre rune, catena da due
+## colpi), l'ultimo (cinque rune, divisioni in mano), lo scambio già cominciato con
 ## rune consumate e rune spente, il momento in cui un sigillo si spezza, la
 ## parata del guardiano, e la resa ad alto contrasto.
 ##
@@ -87,6 +87,20 @@ func _init() -> void:
 	if await _capture("duello-contrasto.png") != OK:
 		quit(2)
 		return
+
+	# 7 · Viewport verticale: obiettivo, corda e mosse devono restare leggibili
+	# senza affidarsi allo spazio laterale del desktop.
+	root.size = Vector2i(720, 900)
+	_host.size = root.get_visible_rect().size
+	await process_frame
+	await _avvia(1, 2, 1, 20260816, false, false)
+	await _settle()
+	if await _capture("duello-verticale.png") != OK:
+		quit(2)
+		return
+	if is_instance_valid(pannello):
+		pannello.queue_free()
+		await process_frame
 
 	print("GUARDIAN DUEL RENDER probe OK - artifacts/duello")
 	quit(0)

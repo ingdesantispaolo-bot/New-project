@@ -4,34 +4,15 @@ extends DuelStage
 ## **IL DUELLO DELLE VOCI** — il campo del guardiano che chiede verbi.
 ## (17 agosto 2026)
 ##
-## Il guardiano, i sigilli, la carica e la tenuta stanno in [[DuelStage]]: sono
-## il combattimento, e non cambiano con la materia. Qui vive quello che è
-## **dell'italiano**: i tre binari degli assi, la voce di Eli che si trasforma a
-## ogni colpo, e le rune che spostano modo, tempo e persona.
+## Il guardiano, i sigilli, la carica e i cuori stanno in [[DuelStage]]. Qui vive
+## quello che è **dell'italiano**: un obiettivo, la forma attuale e le poche
+## mosse che cambiano modo, tempo o persona.
 ##
-## ## I tre binari, e perché non una tabella
-##
-## Il primo disegno era la tabella dei verbi: modi in riga, tempi in colonna,
-## come sul libro. Non ci sta — a nove tempi e tre modi le intestazioni
-## scendevano a corpo dieci, che su un tablet in mano a un bambino non è una
-## tabella, è una macchia. E soprattutto non serviva: da una tabella si legge
-## *dov'è tutto*, mentre qui bisogna leggere **dove sono io e dove devo
-## arrivare**, che sono tre informazioni, una per asse.
-##
-## Quindi tre binari, uno sopra l'altro:
-##
-##     MODO      indicativo · [congiuntivo] · condizionale
-##     TEMPO     presente · [imperfetto] · ~~passato remoto~~ · ~~futuro~~
-##     PERSONA   io · tu · lui/lei · noi · [voi] · loro
-##
-## Sono la stessa idea della corda di risonanza del duello delle cifre — una
-## scala su cui si vede a colpo d'occhio quanto manca — moltiplicata per le tre
-## coordinate di una voce verbale. E fanno una cosa che una tabella stampata non
-## può fare: **i tempi si spengono e si riaccendono mentre cambi modo**. Passi al
-## condizionale e vedi sparire l'imperfetto e il futuro; torni all'indicativo e
-## tornano. La forma del sistema verbale si impara guardandola muoversi, che è
-## l'unico modo in cui a undici anni si impara qualcosa che sul libro è una
-## griglia grigia.
+## La prima versione mostrava anche tre binari con l'intero paradigma. Era una
+## mappa corretta ma, sommata a bersaglio, forma, rune e stato del combattimento,
+## chiedeva di leggere troppe cose prima di giocare. La nuova arena mostra solo
+## ciò che serve alla decisione presente. Le caselle impossibili restano nelle
+## rune spente, quindi la grammatica e l'importanza dell'ordine non si perdono.
 ##
 ## ## La voce che si trasforma
 ##
@@ -42,7 +23,7 @@ extends DuelStage
 ##
 ## ## Le rune
 ##
-## Sei pietre in tre colonne e due righe, ognuna con l'**asse** scritto piccolo
+## Da tre a quattro pietre, ognuna con l'**asse** scritto piccolo
 ## sopra e il **valore** grande sotto. L'asse scritto non è decorazione: modo,
 ## tempo e persona sono le tre parole che servono a parlare dei verbi, e un
 ## bambino che tocca trenta volte una pietra con scritto «tempo» sopra
@@ -52,15 +33,13 @@ extends DuelStage
 ## cifre: `tempo → passato remoto` è spenta nel congiuntivo, perché il
 ## congiuntivo il passato remoto non ce l'ha.
 
-const RUNA_LARGA := 180.0
+const RUNA_LARGA := 178.0
 const RUNA_ALTA := 62.0
-const RUNA_GAP := 12.0
+const RUNA_GAP := 10.0
 const RUNA_COLONNE := 3
 
-const Y_VOCE := 188.0
-const Y_MODO := 236.0
-const ALTEZZA_CHIP := 26.0
-const X_BINARI := 92.0
+const Y_VOCE := 208.0
+const ALTEZZA_STATO := 68.0
 
 var _cella: Dictionary = {}
 var _voce_label: Label
@@ -70,21 +49,16 @@ var _voce_label: Label
 ## Lo stesso ragionamento non era mai stato applicato al verbo di Eli, e chi
 ## leggeva «abbiate dato» doveva risalire da solo a «dare».
 var _infinito_label: Label
-## Dove cade ogni chip, ricalcolato a ogni disegno: serve al fascio del colpo,
-## che deve arrivare sul binario dell'asse appena mosso.
-var _ultimo_asse := "persona"
-var _punti_chip: Dictionary = {}
-
 func _init() -> void:
-	geo["larghezza"] = 700.0
-	geo["arena"] = 400.0
+	geo["larghezza"] = 620.0
+	geo["arena"] = 286.0
 	geo["rune"] = 140.0
 	geo["ySigilli"] = 10.0
 	geo["yArte"] = 16.0
 	geo["latoArte"] = 124.0
 	geo["yTarga"] = 118.0
 	geo["altezzaTarga"] = 60.0
-	geo["yCarica"] = 182.0
+	geo["yCarica"] = 188.0
 	geo["larghezzaCarica"] = 280.0
 
 func _costruisci_campo() -> void:
@@ -100,7 +74,6 @@ func _nuovo_scambio() -> void:
 	_cella = Dictionary(_scambio.get("partenza", {})).duplicate()
 	_catena = [VerbDuel.voce_di(_scambio, _cella)]
 	_colpi_dati = 0
-	_ultimo_asse = "persona"
 	_tempo_massimo = DuelRules.secondi_del_sigillo(regole, _sigilli_rotti)
 	_tempo = _tempo_massimo
 	# **Il cartiglio si adatta a quello che porta.** Una voce sola («staremmo») sta
@@ -114,13 +87,13 @@ func _nuovo_scambio() -> void:
 		# piccola, o esce dalla cornice d'oro.
 		_sigillo_label.add_theme_font_size_override("font_size", 17)
 		_sigillo_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		_sigillo_label.text = "OBIETTIVO: %s" % str(sigillo.get("testo", ""))
-		_sigillo_sotto.text = str(sigillo.get("sotto", ""))
+		_sigillo_label.text = str(sigillo.get("testo", ""))
+		_sigillo_sotto.text = str(sigillo.get("sotto", "")).trim_prefix("CHI: ")
 	else:
-		_sigillo_label.add_theme_font_size_override("font_size", 30)
+		_sigillo_label.add_theme_font_size_override("font_size", 28)
 		_sigillo_label.autowrap_mode = TextServer.AUTOWRAP_OFF
-		_sigillo_label.text = "MODELLO: %s" % str(sigillo.get("testo", ""))
-		_sigillo_sotto.text = str(sigillo.get("sotto", ""))
+		_sigillo_label.text = str(sigillo.get("testo", ""))
+		_sigillo_sotto.text = "stessa forma · %s" % str(sigillo.get("campione", ""))
 	_costruisci_rune()
 	_aggiorna_testi()
 
@@ -150,7 +123,6 @@ func colpisci(indice: int) -> void:
 	var prima := VerbDuel.assi_diversi(_cella, bersaglio)
 	_usate[indice] = true
 	_cella = prossima
-	_ultimo_asse = str(runa.get("asse", "persona"))
 	_colpi_dati += 1
 	# **La runa entra fra parentesi quadre, e con il suo asse davanti.**
 	# (21 agosto 2026) La catena scriveva «servissimo -> indicativo ->
@@ -201,8 +173,10 @@ func _aggiorna_testi() -> void:
 		return
 	_voce_label.text = VerbDuel.voce_di(_scambio, _cella)
 	if is_instance_valid(_infinito_label):
-		_infinito_label.text = "FORMA ATTUALE · verbo: %s" % str(_scambio.get("infinito", ""))
-	_catena_label.text = _riga_catena()
+		_infinito_label.text = "%s  ·  %s %s  ·  %s" % [
+			str(_scambio.get("infinito", "")),
+			str(_cella.get("modo", "")), str(_cella.get("tempo", "")),
+			str(VerbConjugator.PERSONE[int(_cella.get("persona", 0))])]
 	aggiorna_stato()
 
 ## La catena come la si rilegge: `canto → imperfetto → cantavo → voi →
@@ -221,10 +195,10 @@ func _riga_catena() -> String:
 	return "MOSSE: %s" % " » ".join(PackedStringArray(pezzi))
 
 func _posiziona_campo() -> void:
-	_voce_label.size = Vector2(_arena.size.x - 40.0, 42)
-	_voce_label.position = Vector2(20, Y_VOCE)
-	_infinito_label.size = Vector2(_arena.size.x - 40.0, 16)
-	_infinito_label.position = Vector2(20, Y_VOCE + 34.0)
+	_voce_label.size = Vector2(_arena.size.x - 180.0, 38)
+	_voce_label.position = Vector2(90, Y_VOCE + 4.0)
+	_infinito_label.size = Vector2(_arena.size.x - 180.0, 20)
+	_infinito_label.position = Vector2(90, Y_VOCE + 39.0)
 	for indice in _rune_label.size():
 		var nodo: Label = _rune_label[indice]
 		if not is_instance_valid(nodo):
@@ -235,123 +209,28 @@ func _posiziona_campo() -> void:
 		var entra := VerbDuel.applicabile(_cella, _rune[indice])
 		nodo.modulate.a = 0.22 if _usate.has(indice) else (0.40 if not entra else 1.0)
 
-# --- I tre binari -------------------------------------------------------------
+# --- Lo stato attuale ---------------------------------------------------------
 
-## I valori di ogni asse, nell'ordine in cui la grammatica li elenca. Non
-## alfabetico e non a piacere: presente, imperfetto, passato remoto, futuro è
-## l'ordine del libro, ed è quello che il bambino sta cercando di memorizzare.
-func _valori(asse: String) -> Array:
-	match asse:
-		"modo":
-			var modi: Array = []
-			for m in VerbConjugator.MODI:
-				if Array(regole.get("modi", [])).has(str(m)):
-					modi.append(str(m))
-			return modi
-		"tempo":
-			var tempi: Array = []
-			var ammessi: Array = regole.get("tempi", [])
-			for modo in VerbConjugator.MODI:
-				for t in Array(VerbConjugator.TEMPI[modo]):
-					if ammessi.has(str(t)) and not tempi.has(str(t)):
-						tempi.append(str(t))
-			return tempi
-		_:
-			return range(6)
-
-func _testo_valore(asse: String, valore) -> String:
-	return str(VerbConjugator.PERSONE[int(valore)]) if asse == "persona" else str(valore)
-
-## Un valore è **giocabile adesso** se la casella che ne uscirebbe esiste. È il
-## motivo per cui i tempi si spengono quando passi al condizionale: non è una
-## regola del gioco, è che quelle caselle non ci sono.
-func _valore_vivo(asse: String, valore) -> bool:
-	match asse:
-		"modo":
-			return VerbConjugator.casella_esiste(str(valore), str(_cella.get("tempo", "")))
-		"tempo":
-			return VerbConjugator.casella_esiste(str(_cella.get("modo", "")), str(valore))
-		_:
-			return true
-
-## I tre binari si impilano **secondo quanto occupano davvero**: nelle fasce
-## basse i tempi sono tre e stanno in una riga, in quelle alte sono nove e vanno
-## a capo. Con altezze fisse il primo mondo mostrava un buco fra il tempo e la
-## persona, cioè lo spazio riservato a una seconda riga che non c'era.
+## Un solo pannello mostra dove si trova il verbo. La vecchia mappa completa di
+## modi, tempi e persone obbligava a leggere fino a diciotto etichette prima di
+## poter scegliere: era corretta, ma trasformava il combattimento in un indice.
 func _disegna_campo(scossa: Vector2) -> void:
-	_punti_chip.clear()
-	var y := Y_MODO
-	y += _disegna_binario("modo", "MODO", y, scossa) + 10.0
-	y += _disegna_binario("tempo", "TEMPO", y, scossa) + 10.0
-	_disegna_binario("persona", "PERSONA", y, scossa)
-	var arrivo: Vector2 = _punti_chip.get(_ultimo_asse, Vector2(_arena.size.x * 0.5, y))
-	disegna_fascio(arrivo + scossa)
-
-## Disegna un binario e torna l'altezza che ha occupato.
-func _disegna_binario(asse: String, titolo: String, y: float, scossa: Vector2) -> float:
-	var font := ThemeDB.fallback_font
-	_arena.draw_string(font, Vector2(14, y + 18) + scossa, titolo,
-		HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(TESTO, 0.42))
-
-	var x := X_BINARI
-	var riga := 0.0
-	for valore in _valori(asse):
-		var testo := _testo_valore(asse, valore)
-		var larghezza := font.get_string_size(testo, HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x + 16.0
-		if x + larghezza > _arena.size.x - 14.0:
-			# I tempi non ci stanno in una riga sola nelle fasce alte: vanno a
-			# capo invece di rimpicciolirsi, perché un'etichetta illeggibile non
-			# è un'etichetta.
-			x = X_BINARI
-			riga += ALTEZZA_CHIP + 4.0
-		var rect := Rect2(Vector2(x, y + riga) + scossa, Vector2(larghezza, ALTEZZA_CHIP))
-		var qui: bool = str(_cella.get(asse)) == str(valore)
-		# **Sui binari non c'e' piu' nessun oro.** (21 agosto 2026)
-		#
-		# Cerchiare d'oro la casella del sigillo sembrava un aiuto e invece era
-		# la risposta scritta accanto alla domanda: `voci_valore_probe` ha
-		# misurato che un giocatore che non sa niente di verbi vinceva quasi
-		# ogni scambio guardando soltanto quei tre chip.
-		#
-		# Il sigillo pone la domanda, i binari sono la MAPPA su cui cercarla, e
-		# la voce di Eli che si trasforma e' la risposta che arriva dopo il
-		# colpo. Tre cose distinte: metterne due nella stessa non lascia niente
-		# da fare al bambino.
-		var vivo := _valore_vivo(asse, valore)
-
-		var riempimento := Color(0.04, 0.10, 0.14, 0.85)
-		if qui:
-			riempimento = Color(GHIACCIO, 0.30)
-		elif not vivo:
-			riempimento = Color(0.03, 0.06, 0.08, 0.6)
-		_arena.draw_rect(rect, riempimento)
-		var bordo := Color(FREDDO, 0.22)
-		if qui:
-			bordo = GHIACCIO
-		elif not vivo:
-			bordo = Color(FREDDO, 0.10)
-		_arena.draw_rect(rect, bordo, false, 2.0 if qui else 1.0)
-		var colore_testo := Color(TESTO, 0.9)
-		if not vivo:
-			colore_testo = Color(TESTO, 0.28)
-		_arena.draw_string(font, rect.position + Vector2(8, rect.size.y - 8), testo,
-			HORIZONTAL_ALIGNMENT_LEFT, -1, 13, colore_testo)
-		# Il valore spento porta la sua sbarra, come la runa che non entra.
-		if not vivo:
-			_arena.draw_line(rect.position + Vector2(6, rect.size.y - 6),
-				rect.position + Vector2(rect.size.x - 6, 6), Color(FREDDO, 0.22), 1.0)
-		if qui:
-			_punti_chip[asse] = rect.get_center() - scossa
-		x += larghezza + 6.0
-	return riga + ALTEZZA_CHIP
+	var rect := Rect2(82.0, Y_VOCE, _arena.size.x - 164.0, ALTEZZA_STATO)
+	rect.position += scossa
+	_arena.draw_rect(rect, Color(0.025, 0.09, 0.13, 0.94))
+	_arena.draw_rect(rect, Color(FREDDO, 0.62), false, 2.0)
+	disegna_fascio(rect.get_center())
 
 func rettangolo_runa(indice: int) -> Rect2:
-	var colonna := indice % RUNA_COLONNE
-	var riga := indice / RUNA_COLONNE
+	var colonne := mini(RUNA_COLONNE, maxi(_rune.size(), 1))
+	var colonna := indice % colonne
+	var riga := indice / colonne
 	var larghezza := float(geo["larghezza"])
 	if is_instance_valid(_rune_zona) and _rune_zona.size.x > 1.0:
 		larghezza = _rune_zona.size.x
-	var totale := RUNA_LARGA * float(RUNA_COLONNE) + RUNA_GAP * float(RUNA_COLONNE - 1)
+	var inizio_riga := riga * colonne
+	var in_riga := mini(colonne, _rune.size() - inizio_riga)
+	var totale := RUNA_LARGA * float(in_riga) + RUNA_GAP * float(in_riga - 1)
 	var x := (larghezza - totale) * 0.5 + float(colonna) * (RUNA_LARGA + RUNA_GAP)
 	return Rect2(x, 6.0 + float(riga) * (RUNA_ALTA + RUNA_GAP), RUNA_LARGA, RUNA_ALTA)
 

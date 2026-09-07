@@ -12,13 +12,13 @@ extends Control
 ## Qui vive tutto ciò che non dipende dalla materia:
 ##
 ## - il guardiano illustrato, i suoi **sigilli**, la sua **carica** che si riempie;
-## - la **tenuta** di Eli, i **colpi** contati, la pausa dopo ogni scambio;
+## - i **cuori** di Eli, le **mosse** rimaste, la pausa dopo ogni scambio;
 ## - il colpo che parte dalla runa, il sigillo che si spezza, la parata in ambra;
 ## - l'uscita che non costa niente, i tasti 1-6, il contrasto e il movimento ridotto.
 ##
 ## Le sottoclassi mettono **il campo centrale e le rune**: la corda di risonanza
-## e le pietre con le operazioni ([[GuardianDuelPanel]]), la griglia dei modi e
-## dei tempi con le rune dei tre assi ([[VerbDuelPanel]]).
+## e le operazioni ([[GuardianDuelPanel]]), oppure una sola forma verbale attuale
+## e le mosse dei tre assi ([[VerbDuelPanel]]).
 ##
 ## **Perché una classe base e non un pannello con un interruttore.** Un pannello
 ## solo che disegnasse ora una scala di numeri ora una tabella di verbi avrebbe
@@ -49,7 +49,7 @@ var high_contrast := false
 ## La geometria dell'arena, che ogni materia ritocca in `_init`: la corda di
 ## risonanza sta in poco spazio, la griglia dei verbi ne vuole molto di più.
 var geo := {
-	"larghezza": 660.0, "arena": 332.0, "rune": 116.0,
+	"larghezza": 620.0, "arena": 308.0, "rune": 116.0,
 	"ySigilli": 14.0, "yArte": 26.0, "latoArte": 160.0,
 	"yTarga": 150.0, "altezzaTarga": 56.0, "yCarica": 214.0,
 	"larghezzaCarica": 300.0,
@@ -124,17 +124,9 @@ func avvia(regole_duello: Dictionary, nome: String, seme: int,
 	_chapter_backdrop.texture = CHAPTER_ART.texture_for_world(int(regole.get("mondo", 1)))
 	_chapter_backdrop.visible = not high_contrast
 	_veil.color = Color(0.015, 0.04, 0.065, 0.97 if high_contrast else 0.78)
-	var materia := ""
-	match str(regole.get("materia", "")):
-		DuelRules.VOCI:
-			materia = "ITALIANO"
-		DuelRules.CIFRE:
-			materia = "MATEMATICA"
-	var parti := PackedStringArray([nome_guardiano.to_upper()])
-	if not materia.is_empty():
-		parti.append(materia)
-	parti.append(str(regole.get("nome", "sfida")))
-	_titolo.text = " · ".join(parti)
+	# Il nome basta: materia e azione sono già visibili nel campo. La vecchia
+	# intestazione ripeteva tre informazioni e diventava la riga più rumorosa.
+	_titolo.text = nome_guardiano.to_upper()
 	_nuovo_scambio()
 	_entrata()
 
@@ -172,13 +164,13 @@ func _costruisci() -> void:
 	_colonna = VBoxContainer.new()
 	_colonna.name = "DuelColumn"
 	_colonna.custom_minimum_size = Vector2(float(geo["larghezza"]), 0)
-	_colonna.add_theme_constant_override("separation", 6)
+	_colonna.add_theme_constant_override("separation", 8)
 	centro.add_child(_colonna)
 
 	_titolo = Label.new()
 	_titolo.name = "DuelTitle"
 	_titolo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_titolo.add_theme_font_size_override("font_size", 20)
+	_titolo.add_theme_font_size_override("font_size", 18)
 	_titolo.add_theme_color_override("font_color", ORO)
 	_colonna.add_child(_titolo)
 
@@ -195,6 +187,9 @@ func _costruisci() -> void:
 	_sigillo_sotto = etichetta("DuelSealHint", 13, Color("c9b98a"))
 	_arena.add_child(_sigillo_sotto)
 	_catena_label = etichetta("DuelChain", 16, Color("9fd8d2"))
+	# Lo storico completo duplicava ciò che il giocatore vede cambiare al centro
+	# e costringeva a leggere una frase nuova dopo ogni tocco.
+	_catena_label.visible = false
 	_arena.add_child(_catena_label)
 
 	_rune_zona = Control.new()
@@ -207,14 +202,15 @@ func _costruisci() -> void:
 	_stato = Label.new()
 	_stato.name = "DuelStatus"
 	_stato.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_stato.add_theme_font_size_override("font_size", 14)
+	_stato.custom_minimum_size = Vector2(0, 30)
+	_stato.add_theme_font_size_override("font_size", 18)
 	_stato.add_theme_color_override("font_color", Color("9fd8d2"))
 	_colonna.add_child(_stato)
 
 	var fuga := Button.new()
 	fuga.name = "DuelLeaveButton"
-	fuga.text = "LASCIA PERDERE"
-	fuga.custom_minimum_size = Vector2(0, 46)
+	fuga.text = "ESCI"
+	fuga.custom_minimum_size = Vector2(0, 44)
 	fuga.add_theme_font_size_override("font_size", 14)
 	# Andarsene non costa niente e non è una sconfitta: il guardiano resta dov'è.
 	fuga.pressed.connect(_rinuncia)
@@ -372,13 +368,17 @@ func _process(delta: float) -> void:
 func aggiorna_stato() -> void:
 	if not is_instance_valid(_stato):
 		return
-	# La tenuta di Eli si scrive con un segno diverso da quello dei sigilli del
-	# guardiano: due tondi non si confondono con due rombi d'oro, e in un
-	# combattimento sapere di chi è la vita che si sta guardando è tutto.
-	_stato.text = "sigilli %d/%d · colpi %d/%d · tenuta %s" % [
-		_sigilli_rotti, int(regole.get("sigilli", 2)),
-		_colpi_dati, int(regole.get("colpi", 3)),
-		"•".repeat(maxi(_tenuta, 0))]
+	var cuori := "♥".repeat(maxi(_tenuta, 0))
+	if _rottura > 0.0:
+		_stato.text = "SIGILLO SPEZZATO!"
+		_stato.add_theme_color_override("font_color", ORO)
+	elif _parata > 0.0:
+		_stato.text = "COLPO SUBITO  ·  %s" % cuori
+		_stato.add_theme_color_override("font_color", AMBRA)
+	else:
+		var mosse := maxi(int(regole.get("colpi", 3)) - _colpi_dati, 0)
+		_stato.text = "%s  ·  %d %s" % [cuori, mosse, "MOSSA" if mosse == 1 else "MOSSE"]
+		_stato.add_theme_color_override("font_color", Color("9fd8d2"))
 
 func _posiziona() -> void:
 	var centro_x := _arena.size.x * 0.5
@@ -391,8 +391,7 @@ func _posiziona() -> void:
 	_sigillo_sotto.size = Vector2(340, 17)
 	_sigillo_sotto.position = Vector2(centro_x - 170,
 		float(geo["yTarga"]) + alto_targa - 20.0)
-	_catena_label.size = Vector2(_arena.size.x - 40, 24)
-	_catena_label.position = Vector2(20, float(geo["arena"]) - 28.0)
+	_catena_label.size = Vector2.ZERO
 	_posiziona_campo()
 
 func _tocco(event: InputEvent) -> void:

@@ -435,7 +435,7 @@ La differenza col chiavistello non è cosmetica ed è tutto il punto:
 |---|---|---|
 | gesto mentale | **riconoscere** (quale operazione fa 42) | **costruire** (sono a 12, come arrivo a 36) |
 | direzione | in avanti | all'indietro |
-| durata | una domanda, una risposta | una strada da pianificare in due o tre colpi |
+| durata | una domanda, una risposta | una strada da pianificare in due, tre o quattro colpi |
 | forma | un quadrante che gira | un campo di battaglia con una scala |
 
 Il pensiero inverso è ciò che separa chi sa le tabelline da chi sa *usarle*, ed è
@@ -449,10 +449,10 @@ Tre cose, tutte e tre assenti dal varco:
 1. **Il guardiano si carica.** La barra sotto di lui è il tempo, raccontato dalla
    parte di chi ti sta davanti: quando è piena colpisce, e Eli perde un punto di
    **tenuta**. Non è un cronometro sopra una domanda, è un avversario.
-2. **Ha da due a quattro sigilli**, secondo il suo grado: il duello è fatto di
+2. **Ha due o tre sigilli**, secondo il suo grado: il duello è fatto di
    scambi, e ogni sigillo spezzato lo fa arretrare. La ripresa esiste.
-3. **Accelera**: ogni sigillo spezzato accorcia del 10% la carica del successivo.
-   Un combattimento che finisce più teso di come è cominciato.
+3. **La pressione resta costante**: ogni nuovo sigillo dà lo stesso tempo. La
+   difficoltà cresce con la sequenza, non con una regola nascosta.
 
 ### 7.3 La corda di risonanza (il pezzo che insegna)
 
@@ -465,9 +465,8 @@ della corda sa che gli serve un `×3` prima di averlo calcolato. Quell'ordine di
 grandezza è la prima cosa che fa un calcolatore veloce, ed è la sola parte del
 calcolo mentale che un'interfaccia può davvero insegnare.
 
-Sotto la corda resta scritta la **catena**: `4 → ×6 → 24 → +9 → 33`. È il
-quaderno del duello — l'unico posto del gioco in cui il ragionamento resta
-visibile dopo essere stato fatto.
+Il numero azzurro si sposta sulla corda dopo ogni colpo. Non serve anche una
+frase con la catena: il campo mostra già dove si è arrivati e quanto manca.
 
 ### 7.4 La difficoltà, mondo per mondo
 
@@ -478,11 +477,11 @@ tre no.
 
 | Mondi | Numeri fino a | Operazioni | Fattori | Passi | Rune in mano | Carica |
 |---|---|---|---|---|---|---|
-| 1–4 | 30 | + × | ×2–×3 | 2 | 4 | 12,0 s |
-| 5–9 | 60 | + − × | ×2–×5 | 2 | 5 | 11,0 s |
-| 10–14 | 100 | + − × ÷ | ×2–×9 | 3 | 5 | 11,0 s |
-| 15–19 | 150 | + − × ÷ | ×2–×12 | 3 | 6 | 10,0 s |
-| 20–24 | 240 | + − × ÷ | ×2–×12 | 3 | 6 | 9,0 s |
+| 1–4 | 30 | + × | ×2–×3 | 2 | 3 | 12,0 s |
+| 5–9 | 60 | + − × | ×2–×5 | 2 | 3 | 11,0 s |
+| 10–14 | 100 | + − × ÷ | ×2–×9 | 3 | 4 | 11,0 s |
+| 15–19 | 150 | + − × ÷ | ×2–×12 | 3 | 4 | 10,0 s |
+| 20–24 | 240 | + − × ÷ | ×2–×12 | 4 | 5 | 12,0 s |
 
 Sopra a questa tabella agiscono le due leve che c'erano già: **il grado di Eli**
 allunga la carica (+0,55 s per grado, fino a +3,5) e alza la tenuta (da 2 a 6);
@@ -577,7 +576,7 @@ futuro non puoi cambiare modo per primo: quella casella non esiste. Devi passare
 da un tempo che i due modi hanno in comune. È pianificazione vera, e nasce dalla
 grammatica invece che da una regola inventata dal gioco.
 
-### 8.3 I tre binari (il pezzo che si vede)
+### 8.3 Un obiettivo, uno stato, poche mosse
 
 Il primo disegno era la tabella dei verbi, modi in riga e tempi in colonna, come
 sul libro. **Non ci sta**: a nove tempi e tre modi le intestazioni scendevano a
@@ -586,20 +585,20 @@ macchia. E soprattutto non serviva — da una tabella si legge *dov'è tutto*, m
 qui bisogna leggere **dove sono e dove devo arrivare**, che sono tre informazioni,
 una per asse.
 
-Quindi tre binari, uno sopra l'altro, con la casella attuale accesa e quella del
-sigillo cerchiata d'oro. Fanno una cosa che una tabella stampata non può fare:
-**i tempi si spengono e si riaccendono mentre cambi modo**. Passi al condizionale
-e vedi sparire l'imperfetto e il futuro; torni all'indicativo e tornano.
+La versione con tre binari ripeteva sullo schermo l'intero paradigma: corretta,
+ma caotica. Ora il campo mostra il bersaglio, la forma attuale con le sue tre
+coordinate e da tre a quattro mosse. Se una mossa porta a una casella che non
+esiste resta spenta: l'ordine continua a contare senza mostrare tutta la mappa.
 
 ### 8.4 La difficoltà, mondo per mondo
 
 | Mondi | Modi | Tempi | Verbi | Assi da cambiare | Rune | Carica | Sigillo scritto come |
 |---|---|---|---|---|---|---|---|
-| 1–4 | indicativo | 3 | regolari in *-are* | 2 | 4 | 13,0 s | etichetta |
-| 5–9 | indicativo | 5 | regolari, i tre gruppi | 2 | 5 | 12,0 s | etichetta |
-| 10–14 | + congiuntivo | 5 | tutti, irregolari compresi | 3 | 5 | 12,0 s | voce da riconoscere |
-| 15–19 | + condizionale | 7 | tutti | 3 | 6 | 11,0 s | voce da riconoscere |
-| 20–24 | tutti e tre | 9 | tutti | 3 | 6 | 10,0 s | voce da riconoscere |
+| 1–4 | indicativo | 3 | regolari in *-are* | 2 | 3 | 13,0 s | descrizione |
+| 5–9 | indicativo | 5 | regolari, i tre gruppi | 2 | 3 | 12,0 s | descrizione |
+| 10–14 | + congiuntivo | 5 | tutti, irregolari compresi | 3 | 4 | 12,0 s | voce da riconoscere |
+| 15–19 | + condizionale | 7 | tutti | 3 | 4 | 11,0 s | voce da riconoscere |
+| 20–24 | tutti e tre | 9 | tutti | 3 | 4 | 10,0 s | voce da riconoscere |
 
 Il passaggio più importante è l'ultima colonna. Fino al mondo 9 il sigillo dice a
 parole dove andare («INDICATIVO PRESENTE · io»): si impara la **mappa**, cioè

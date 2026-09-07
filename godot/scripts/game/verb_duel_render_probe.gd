@@ -3,13 +3,12 @@ extends SceneTree
 ## Sonda visuale del duello delle voci. Salva viste reali in `artifacts/voci/`
 ## per giudicare composizione e leggibilità con gli occhi invece che a parole.
 ##
-## Qui serve più che altrove: i tre binari degli assi sono nati dopo aver provato
-## la tabella modi × tempi e aver visto che a nove tempi le intestazioni
-## scendevano a corpo dieci. Una decisione così non si prende ragionando, si
-## prende guardando.
+## Qui serve più che altrove: la versione precedente era corretta ma mostrava
+## insieme bersaglio, forma, tre binari grammaticali, rune e tre contatori. La
+## sonda rende misurabile la nuova gerarchia ridotta.
 ##
-## Le viste: il primo mondo (un modo solo, tre tempi, bersaglio a etichetta),
-## l'ultimo (tre modi, nove tempi che vanno a capo, bersaglio da riconoscere), lo
+## Le viste: il primo mondo (tre mosse, bersaglio descritto), l'ultimo (quattro
+## mosse e un bersaglio da riconoscere), lo
 ## scambio a metà con la catena scritta e le rune consumate, il momento in cui il
 ## sigillo si spezza, la parata, e la resa ad alto contrasto.
 ##
@@ -84,6 +83,19 @@ func _init() -> void:
 	if await _capture("voci-contrasto.png") != OK:
 		quit(2)
 		return
+
+	# 7 · Viewport verticale, come tablet e browser stretti: la gerarchia ridotta
+	# deve restare intera senza tornare alla densità della vecchia schermata.
+	root.size = Vector2i(720, 900)
+	_host.size = root.get_visible_rect().size
+	await process_frame
+	await _avvia(1, 2, 1, 20260817, false, false)
+	if await _capture("voci-verticale.png") != OK:
+		quit(2)
+		return
+	if is_instance_valid(pannello):
+		pannello.queue_free()
+		await process_frame
 
 	print("VERB DUEL RENDER probe OK - artifacts/voci")
 	quit(0)

@@ -64,10 +64,10 @@ func _le_fasce_coprono_i_ventiquattro_mondi() -> void:
 			"mondo %d: la catena si accorcia (%d dopo %d)" % [mondo, passi, passi_prima])
 		_controlla(caselle.size() >= caselle_prima,
 			"mondo %d: le caselle diminuiscono (%d dopo %d)" % [mondo, caselle.size(), caselle_prima])
-		# Con `passi` assi da cambiare servono almeno `passi` rune giuste più due
-		# esche, o la mano è una risposta con dei riempitivi intorno.
-		_controlla(int(fascia.get("mano", 0)) >= passi + 2,
-			"mondo %d: la mano non tiene la strada giusta più due esche" % mondo)
+		# La mano mostra la strada possibile e una sola alternativa: la sfida è
+		# riconoscere e ordinare le mosse, non setacciare riempitivi.
+		_controlla(int(fascia.get("mano", 0)) == passi + 1,
+			"mondo %d: la mano non tiene la strada giusta più una scelta falsa" % mondo)
 		# E servono abbastanza caselle da poterne scegliere due che differiscono
 		# di `passi` assi: con un modo solo non si può chiedere di cambiarne tre.
 		var modi := Array(fascia.get("modi", [])).size()
@@ -104,7 +104,7 @@ func _nessuna_combinazione_impossibile() -> void:
 				_controlla(per_colpo <= 8.5,
 					"mondo %d T%d grado %d: %.1fs per colpo, il guardiano non è un pericolo" %
 					[mondo, tier, grado, per_colpo])
-				_controlla(int(regole["sigilli"]) >= 2 and int(regole["sigilli"]) <= 4,
+				_controlla(int(regole["sigilli"]) >= 2 and int(regole["sigilli"]) <= 3,
 					"mondo %d T%d: %d sigilli" % [mondo, tier, int(regole["sigilli"])])
 				_controlla(int(regole["tenuta"]) >= 2,
 					"grado %d: meno di due colpi incassabili" % grado)

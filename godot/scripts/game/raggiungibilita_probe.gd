@@ -444,13 +444,19 @@ func _oggetti(mondo, chunks, comp: WorldCompositionData, livello: int) -> Array:
 	var nave: Vector2 = Dictionary(mondo.get("world_profile").get("shipEntrance", {})).get(
 		"position", Vector2.ZERO)
 	fuori.append({"nome": "ingresso nave", "p": nave})
-	fuori.append_array(_forzieri(mondo, chunks, comp))
+	# I forzieri nascono per ultimi, quando abitanti, prove e tracce sono gia'
+	# nell'albero: la regola anti-gabbia di `chunk_visual` li guarda, e la sonda
+	# deve guardarli allo stesso modo o misurerebbe una regola che non c'e' piu'.
+	var presenze: Array[Vector2] = []
+	for voce_data in fuori:
+		presenze.append(Dictionary(voce_data)["p"] as Vector2)
+	fuori.append_array(_forzieri(mondo, chunks, comp, presenze))
 	return fuori
 
 ## I forzieri non arrivano dalla scena (lo streaming e' a zero per non costruire
 ## mezzo mondo per ventiquattro volte): si rigenerano gli stessi chunk con la
 ## stessa catena del gioco — generatore, filtro di profilo, punto asciutto.
-func _forzieri(mondo, chunks, comp: WorldCompositionData) -> Array:
+func _forzieri(mondo, chunks, comp: WorldCompositionData, presenze: Array[Vector2]) -> Array:
 	var elenco: Array = []
 	var bordi: Rect2 = chunks.world_bounds()
 	var dimensione := float(OutdoorChunkManager.CHUNK_SIZE)
@@ -469,12 +475,14 @@ func _forzieri(mondo, chunks, comp: WorldCompositionData) -> Array:
 				var forziere: Dictionary = forziere_data
 				totali["forzieri"] = int(totali["forzieri"]) + 1
 				var punto := Vector2(float(forziere["x"]), float(forziere["y"]))
-				var asciutto := _punto_asciutto(comp, punto)
+				var chiuso_a_chiave := str(forziere.get("requiredTool", "")) != ""
+				var asciutto := _punto_asciutto(comp, punto, chiuso_a_chiave, presenze)
 				if asciutto == Vector2.INF:
 					totali["forzieri_saltati"] = int(totali["forzieri_saltati"]) + 1
 					continue
 				if asciutto != punto:
 					totali["forzieri_spostati"] = int(totali["forzieri_spostati"]) + 1
+				presenze.append(asciutto)
 				elenco.append({
 					"nome": "forziere %s%s" % [
 						str(forziere.get("id", "")),
@@ -484,16 +492,29 @@ func _forzieri(mondo, chunks, comp: WorldCompositionData) -> Array:
 				})
 	return elenco
 
-func _punto_asciutto(comp: WorldCompositionData, punto: Vector2) -> Vector2:
-	if comp == null or not _bagnato(comp, punto):
+func _punto_asciutto(comp: WorldCompositionData, punto: Vector2,
+		ingabbia: bool, presenze: Array[Vector2]) -> Vector2:
+	if comp == null:
+		return punto
+	if not _bagnato(comp, punto) and not (ingabbia and _ingabbierebbe(punto, presenze)):
 		return punto
 	for raggio_data in [70.0, 130.0, 200.0]:
 		var raggio := float(raggio_data)
 		for passo in range(8):
 			var candidato: Vector2 = punto + Vector2.RIGHT.rotated(TAU * float(passo) / 8.0) * raggio
-			if not _bagnato(comp, candidato):
-				return candidato
+			if _bagnato(comp, candidato):
+				continue
+			if ingabbia and _ingabbierebbe(candidato, presenze):
+				continue
+			return candidato
 	return Vector2.INF
+
+## L'anello del varco ferma Eli fino a 70 px dal forziere, e lei e' larga 18.
+func _ingabbierebbe(punto: Vector2, presenze: Array[Vector2]) -> bool:
+	for presenza in presenze:
+		if punto.distance_to(presenza) <= 88.0:
+			return true
+	return false
 
 func _bagnato(comp: WorldCompositionData, punto: Vector2) -> bool:
 	return comp.raw_water_weight(punto) >= 0.4 or comp.is_protected(punto, 40.0)

@@ -297,21 +297,41 @@ func _assembly_accent_kind(biome: String, archetype: int) -> String:
 ## Senza composizione non si puo' verificare niente: si restituisce il punto
 ## com'e' invece di scartarlo, perche' negare tutti i tesori sarebbe peggio del
 ## difetto che stiamo riparando.
-func _punto_asciutto(punto: Vector2) -> Vector2:
+func _punto_asciutto(punto: Vector2, ingabbia := false) -> Vector2:
 	if composition == null:
 		return punto
-	if not _bagnato(punto):
+	if not _bagnato(punto) and not (ingabbia and _ingabbierebbe(punto)):
 		return punto
 	for raggio_data in [70.0, 130.0, 200.0]:
 		var raggio := float(raggio_data)
 		for passo in range(8):
 			var candidato: Vector2 = punto + Vector2.RIGHT.rotated(TAU * float(passo) / 8.0) * raggio
-			if not _bagnato(candidato):
-				return candidato
+			if _bagnato(candidato):
+				continue
+			if ingabbia and _ingabbierebbe(candidato):
+				continue
+			return candidato
 	return Vector2.INF
 
 func _bagnato(punto: Vector2) -> bool:
 	return composition.raw_water_weight(punto) >= 0.4 or composition.is_protected(punto, 40.0)
+
+## L'anello del varco ferma Eli fino a 70 px dal forziere, e lei e' larga 18:
+## qualunque cosa entro 88 px resta dentro la gabbia.
+##
+## `world_interactable` basta a coprirle tutte — abitanti, prove, tracce e gli
+## altri forzieri ci stanno dentro ([[NpcActor]] ci si iscrive per primo) — e
+## contiene solo cio' che e' gia' nell'albero: un forziere si guarda dai vicini
+## che esistono quando nasce, e i chunk nascono uno dopo l'altro.
+const RAGGIO_GABBIA := 88.0
+
+func _ingabbierebbe(punto: Vector2) -> bool:
+	if not is_inside_tree():
+		return false
+	for altro in get_tree().get_nodes_in_group("world_interactable"):
+		if altro is Node2D and (altro as Node2D).global_position.distance_to(punto) <= RAGGIO_GABBIA:
+			return true
+	return false
 
 func _local(px, py) -> Vector2:
 	return Vector2(float(px) - float(chunk["worldX"]), float(py) - float(chunk["worldY"]))
@@ -439,14 +459,24 @@ func _build_treasures() -> void:
 		# Si cerca un punto asciutto vicino, in cerchi concentrici. Se non se ne
 		# trova nessuno il forziere si SALTA: meglio un tesoro in meno che uno
 		# irraggiungibile, perche' il secondo il bambino lo cerca per dieci minuti.
+		#
+		# **E un forziere chiuso non deve chiudere nient'altro.** (8 settembre
+		# 2026) Il varco da attrezzo e' un ANELLO — dieci cerchi in cerchio,
+		# raggio 50 — che ferma Eli fra 30 e 70 px dal forziere. Qualunque cosa
+		# cada li' dentro resta chiusa a chiave insieme al forziere, e niente lo
+		# stava controllando: misurati due casi, un residente del mondo 15 a 48 px
+		# dentro l'anello di un forziere del soffietto, e un forziere libero
+		# dentro l'anello di uno chiuso a leva al mondo 7. Entrambi innocui per
+		# fortuna — quelle chiavi si hanno gia' quando ci si arriva — e la
+		# fortuna non e' un invariante.
 		var mondiale := Vector2(float(treasure["x"]), float(treasure["y"]))
-		var buono := _punto_asciutto(mondiale)
+		var required_tool := str(treasure.get("requiredTool", ""))
+		var buono := _punto_asciutto(mondiale, required_tool != "")
 		if buono == Vector2.INF:
 			continue
 		var node := OutdoorVisualFactory.build_treasure(treasure_label)
 		node.position = _local(buono.x, buono.y)
 		add_child(node)
-		var required_tool := str(treasure.get("requiredTool", ""))
 		if required_tool != "":
 			var gate := EQUIPMENT_GATE.new()
 			gate.name = "EquipmentGate"

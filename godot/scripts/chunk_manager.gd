@@ -31,6 +31,24 @@ var active_radius := ACTIVE_RADIUS
 ## dentro il ciclo dei forzieri voleva dire ricostruire un array per ogni cassa
 ## di ogni pezzo di mappa.
 var _varchi_del_mondo: Array = []
+## Gli id dei forzieri che questo mondo tiene, decisi una volta in `configure`.
+## Vedi `_censisci_forzieri`: prima veniva deciso forziere per forziere, e il
+## mondo non sapeva mai quanti gliene sarebbero rimasti.
+var _forzieri_tenuti: Dictionary = {}
+## I chunk grezzi del generatore, tenuti da parte.
+##
+## Il censimento dei forzieri li genera tutti una volta; senza questa memoria
+## lo streaming li rigenererebbe da capo pochi istanti dopo, e di nuovo a ogni
+## rientro nella stessa zona. Sono dati puri e deterministici — lo stesso seme
+## dà sempre lo stesso chunk — quindi tenerli non cambia niente di ciò che si
+## vede: cambia solo quante volte si paga per vederlo.
+var _chunk_grezzi: Dictionary = {}
+
+func _chunk_grezzo(chunk_x: int, chunk_y: int) -> Dictionary:
+	var chiave := "%d_%d" % [chunk_x, chunk_y]
+	if not _chunk_grezzi.has(chiave):
+		_chunk_grezzi[chiave] = generator.generate_chunk(world_seed, chunk_x, chunk_y)
+	return _chunk_grezzi[chiave]
 
 func configure(seed: String, world_ref: Node = null, profile: Dictionary = {}, event_positions: Array = []) -> void:
 	world_seed = seed
@@ -57,8 +75,91 @@ func configure(seed: String, world_ref: Node = null, profile: Dictionary = {}, e
 				"radius": 104.0,
 			})
 	y_sort_enabled = true
+	_censisci_forzieri()
 	_build_global_paths()
 	_build_world_boundaries()
+
+## **Il mondo deve sapere quanti forzieri ha, prima di darne uno.** (8 sett. 2026)
+##
+## `TreasureCatalog.presente()` è un filtro per id: tiene un terzo dei candidati
+## e non sa quanti ne resteranno. Misurato sui ventiquattro mondi: **da 2 a 12**.
+## Un mondo con due forzieri non ha niente da cercare, e non è una scelta di
+## progetto — è il resto di una divisione.
+##
+## Misurato insieme: il **40,8% della terra calpestabile sta a più di 600 px da
+## qualunque contenuto** (il 61% al mondo 24). Metà isola è strada.
+##
+## I due numeri si riparano con la stessa passata. Si guardano tutti i candidati
+## del mondo una volta sola, si tengono quelli che il catalogo sceglie, e finché
+## non si arriva al pavimento si **ripesca il candidato più lontano da tutto
+## quello che c'è già** — prove comprese. Il ripescaggio quindi non aggiunge
+## forzieri a caso: li aggiunge dove il bambino cammina senza trovare niente.
+const FORZIERI_MINIMI := 12
+
+func _censisci_forzieri() -> void:
+	_forzieri_tenuti = {}
+	if world_profile.is_empty():
+		return
+	var candidati: Array = []
+	var bordi := world_bounds()
+	for chunk_y in range(floori(bordi.position.y / CHUNK_SIZE), floori(bordi.end.y / CHUNK_SIZE) + 1):
+		for chunk_x in range(floori(bordi.position.x / CHUNK_SIZE), floori(bordi.end.x / CHUNK_SIZE) + 1):
+			if not _chunk_intersects_playfield(_chunk_rect(chunk_x, chunk_y)):
+				continue
+			for item in _chunk_grezzo(chunk_x, chunk_y).get("treasures", []):
+				var posizione := Vector2(float(item.get("x", 0.0)), float(item.get("y", 0.0)))
+				if not _forziere_ammesso(posizione):
+					continue
+				candidati.append({"id": str(item.get("id", "")), "p": posizione})
+	# L'ordine per id rende il ripescaggio identico a ogni rientro nel mondo.
+	candidati.sort_custom(func(a, b): return str(a["id"]) < str(b["id"]))
+
+	# Quello che il mondo offre già: da qui si misura la lontananza.
+	var presenze: Array[Vector2] = [world_profile.get("spawn", Vector2.ZERO) as Vector2]
+	var nave: Vector2 = Dictionary(world_profile.get("shipEntrance", {})).get("position", Vector2.ZERO)
+	presenze.append(nave)
+	for riservata in reserved_event_positions:
+		presenze.append(riservata as Vector2)
+	var ripescabili: Array = []
+	for candidato_data in candidati:
+		var candidato: Dictionary = candidato_data
+		if TreasureCatalog.presente(str(candidato["id"])):
+			_forzieri_tenuti[str(candidato["id"])] = true
+			presenze.append(candidato["p"] as Vector2)
+		else:
+			ripescabili.append(candidato)
+
+	while _forzieri_tenuti.size() < FORZIERI_MINIMI and not ripescabili.is_empty():
+		var scelto := -1
+		var migliore := -1.0
+		for indice in range(ripescabili.size()):
+			var punto: Vector2 = Dictionary(ripescabili[indice])["p"]
+			var vicino := INF
+			for presenza in presenze:
+				vicino = minf(vicino, punto.distance_squared_to(presenza))
+			if vicino > migliore:
+				migliore = vicino
+				scelto = indice
+		if scelto < 0:
+			break
+		var vinto: Dictionary = ripescabili[scelto]
+		_forzieri_tenuti[str(vinto["id"])] = true
+		presenze.append(vinto["p"] as Vector2)
+		ripescabili.remove_at(scelto)
+
+## Gli stessi tre filtri geometrici che `_profile_filtered_chunk` applica ai
+## forzieri. Stanno qui perché il censimento e lo streaming devono rispondere la
+## stessa cosa: un candidato ammesso al conteggio e poi scartato al caricamento
+## abbasserebbe il pavimento senza dirlo a nessuno.
+func _forziere_ammesso(posizione: Vector2) -> bool:
+	var margine := 28.0 + 56.0
+	if not contains_world_point(posizione, margine + 18.0):
+		return false
+	if composition != null and composition.is_protected(posizione, margine):
+		return false
+	if composition != null and not composition.is_path_clear(posizione, margine + 18.0):
+		return false
+	return not _near_reserved_event(posizione, margine + 54.0)
 
 func _performance_budget(profile: Dictionary) -> Dictionary:
 	var budgets: Dictionary = profile.get("performanceBudget", {})
@@ -133,7 +234,7 @@ func update_stream(position: Vector2) -> void:
 			if not loaded.has(id):
 				var cell_distance := absi(x - center_x) + absi(y - center_y)
 				var visual_lod := 0 if cell_distance == 0 else 1 if cell_distance == 1 else 2
-				_load_chunk(_profile_filtered_chunk(generator.generate_chunk(world_seed, x, y)), visual_lod)
+				_load_chunk(_profile_filtered_chunk(_chunk_grezzo(x, y)), visual_lod)
 	var stale_ids: Array[String] = []
 	for id in loaded.keys():
 		if not required.has(id):
@@ -253,7 +354,11 @@ func _profile_filtered_chunk(source: Dictionary) -> Dictionary:
 			# arredamento. Il catalogo ne tiene un terzo, sempre gli stessi a
 			# ogni reload, e a quelli rimasti dà un contenuto. Vedi
 			# [[TreasureCatalog]].
-			if field == "treasures" and not TreasureCatalog.presente(str(item.get("id", ""))):
+			# Il ruolo del catalogo resta suo — QUALI forzieri tenere — ma la
+			# decisione passa dal censimento del mondo, che a quelli scelti
+			# dall'id aggiunge i ripescati dove non c'era niente. Vedi
+			# `_censisci_forzieri`.
+			if field == "treasures" and not _forzieri_tenuti.has(str(item.get("id", ""))):
 				continue
 			var kept_item: Dictionary = Dictionary(item).duplicate(true)
 			if field == "treasures" and int(world_profile.get("level", 1)) >= 2:

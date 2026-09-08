@@ -469,7 +469,78 @@ func _configure_world_profile() -> void:
 	world_profile = WorldExpeditionLayout.apply(world_profile, world_seed)
 	mission_events = _planned_world_events()
 	_align_enigma_to_crossing()
+	_scosta_eventi_addosso()
 	_configure_profile_palette()
+
+## **Due cose nello stesso posto sono una cosa sola.** (8 settembre 2026)
+##
+## Misurato sui ventiquattro mondi: al mondo 9 la palestra di matematica cadeva
+## a **42 px** dalla rovina dell'eroe, cioè dentro la sua illustrazione; al mondo
+## 4 a 101 px. Il bambino vede un solo oggetto, e il richiamo che lo porta lì gli
+## sta indicando qualcosa che sembra già visitato.
+##
+## Il direttore sceglie i luoghi per significato — è il suo mestiere e non si
+## tocca — ma non sa che cosa la scena poserà accanto. Questa passata guarda
+## soltanto le distanze, e sposta il meno possibile: un evento che si sovrappone
+## alla rovina scivola in fuori lungo il raggio, restando nella stessa direzione
+## e quindi nello stesso racconto.
+##
+## Gli enigmi non si toccano: la loro posizione è la riva del varco, decisa da
+## `_align_enigma_to_crossing`, e spostarla vorrebbe dire staccare la prova dal
+## muro che apre.
+## La rovina è larga: il suo cerchio di lettura è 210 px ([[hero_pockets]]).
+const DISTANZA_MINIMA_DA_ROVINA := 240.0
+## Due segnaposto di evento sono larghi ~140 px l'uno: sotto questa soglia si
+## disegnano uno dentro l'altro e il richiamo non sa più quale dei due indica.
+const DISTANZA_MINIMA_FRA_EVENTI := 190.0
+## Poche passate bastano: gli spostamenti sono piccoli e ogni giro riduce le
+## sovrapposizioni. Un ciclo aperto qui costerebbe il caricamento del mondo.
+const PASSATE_DI_SCOSTAMENTO := 6
+
+func _scosta_eventi_addosso() -> void:
+	var rovina := _hero_landmark_position()
+	var sagoma: PackedVector2Array = world_profile.get("worldShape", PackedVector2Array())
+	for _passata in range(PASSATE_DI_SCOSTAMENTO):
+		var mosso := false
+		for index in range(mission_events.size()):
+			var event: Dictionary = mission_events[index]
+			# Gli enigmi restano fermi: la loro posizione è la riva del varco, e
+			# staccarla vorrebbe dire staccare la prova dal muro che apre. Fanno
+			# da àncora, quindi: sono gli altri a scostarsi da loro.
+			if str(event.get("kind", "")) == "enigma":
+				continue
+			var posizione: Vector2 = event.get("position", Vector2.ZERO)
+			var scostata := _scosta_da(posizione, rovina, DISTANZA_MINIMA_DA_ROVINA, sagoma)
+			for altro_index in range(mission_events.size()):
+				if altro_index == index:
+					continue
+				var altro: Vector2 = Dictionary(mission_events[altro_index]).get(
+					"position", Vector2.ZERO)
+				scostata = _scosta_da(scostata, altro, DISTANZA_MINIMA_FRA_EVENTI, sagoma)
+			if scostata.distance_to(posizione) > 1.0:
+				event["position"] = scostata
+				mission_events[index] = event
+				mosso = true
+		if not mosso:
+			return
+
+## Allontana `punto` da `centro` fino alla distanza minima, restando dentro
+## l'isola. Se da quella parte non c'è isola prova il verso opposto; se non c'è
+## nemmeno lì lascia le cose come stanno — meglio due segni vicini che uno in
+## mare.
+func _scosta_da(punto: Vector2, centro: Vector2, minima: float,
+		sagoma: PackedVector2Array) -> Vector2:
+	var distanza := punto.distance_to(centro)
+	if distanza >= minima:
+		return punto
+	# Due punti coincidenti non hanno una direzione: si sceglie quella del mondo,
+	# verso il basso, che è dove c'è sempre terreno fra sbarco e nave.
+	var raggio := (punto - centro).normalized() if distanza > 1.0 else Vector2.DOWN
+	var spostato := centro + raggio * minima
+	if sagoma.is_empty() or Geometry2D.is_point_in_polygon(spostato, sagoma):
+		return spostato
+	var alternativo := centro - raggio * minima
+	return alternativo if Geometry2D.is_point_in_polygon(alternativo, sagoma) else punto
 
 ## Aggancia gli enigmi ai varchi del mondo: d'acqua dove l'acqua c'è, di terra
 ## negli altri diciotto. Si chiamava `..._to_water_crossing`, e il nome era la
@@ -2437,17 +2508,68 @@ func _create_mystery_artifacts() -> void:
 		occupied.append(trace_area.position)
 		world_layer.add_child(trace_area)
 		_bind_mystery_artifact(trace_area)
+	# **Dietro il muro c'è qualcosa.** (8 settembre 2026)
+	#
+	# Aggirare uno sbarramento adesso costa fino a 1680 px di cammino, e aprirlo
+	# li risparmia. Ma finché dall'altra parte non c'era niente di suo, aprirlo
+	# restava un risparmio contabile: il bambino pagava il giro e trovava prato.
+	#
+	# L'ultimo seme del mistero va oltre il varco — quello che una prova apre
+	# davvero, non uno qualunque. Il muro non chiude mai la strada (ci si gira
+	# sempre attorno), quindi il seme resta raggiungibile comunque: cambia che
+	# adesso c'è un motivo per andarci, e uno per aprire invece di aggirare.
+	var oltre := _posizione_oltre_il_varco()
 	for index in seeds.size():
 		var seed_data: Dictionary = seeds[index]
 		var seed_area: Area2D = MYSTERY_ARTIFACT_SCRIPT.new()
 		var seed_id := "seed-%02d-%d" % [world_level, index]
 		seed_area.configure("seed", seed_id, seed_data, high_contrast)
 		seed_area.set_meta("completed", _mystery_seen_list("seedsSeen").has(seed_id))
-		seed_area.position = _mystery_artifact_position(
-			ruin.global_position, index + 1, seeds.size() + 1, occupied)
+		var ultimo := index == seeds.size() - 1
+		if ultimo and oltre != Vector2.INF:
+			seed_area.position = oltre
+		else:
+			seed_area.position = _mystery_artifact_position(
+				ruin.global_position, index + 1, seeds.size() + 1, occupied)
 		occupied.append(seed_area.position)
 		world_layer.add_child(seed_area)
 		_bind_mystery_artifact(seed_area)
+
+## La terra buona appena oltre il primo varco che una prova apre davvero. Vale
+## `Vector2.INF` quando il mondo non ha varchi agganciati o quando di là non c'è
+## posto: chi chiama torna alla corona attorno alla rovina.
+##
+## I due tipi di varco hanno geometrie opposte e vanno detti per nome: sul muro
+## la `normal` punta gia' lontano dallo sbarco, sul guado punta verso la riva da
+## cui si arriva, e sommarla porterebbe il seme dalla parte sbagliata dell'acqua
+## — cioe' dalla parte in cui il bambino e' gia'.
+func _posizione_oltre_il_varco() -> Vector2:
+	if chunks == null or chunks.composition == null:
+		return Vector2.INF
+	for crossing_data in chunks.composition.crossings:
+		var crossing: Dictionary = crossing_data
+		if str(crossing.get("eventId", "")) == "":
+			continue   # un varco che nessuna prova apre non nasconde niente
+		var centro: Vector2 = crossing.get("position", Vector2.ZERO)
+		var normale: Vector2 = crossing.get("normal", Vector2.RIGHT)
+		var muro := str(crossing.get("kind", "")) == "barrier"
+		var scarto := 0.0 if muro else float(crossing.get("halfWidth", 100.0)) + 62.0
+		for distanza_data in [320.0, 260.0, 400.0, 470.0]:
+			var distanza := float(distanza_data)
+			var verso := normale if muro else -normale
+			var candidato := chunks.clamp_to_world(centro + verso * (scarto + distanza))
+			if chunks.composition.is_protected(candidato, 40.0):
+				continue
+			if chunks.composition.raw_water_weight(candidato) >= 0.24:
+				continue
+			var addosso := false
+			for evento in mission_events:
+				if candidato.distance_to(evento.get("position", Vector2.ZERO)) < 150.0:
+					addosso = true
+					break
+			if not addosso:
+				return candidato
+	return Vector2.INF
 
 func _mystery_artifact_position(base: Vector2, index: int, total: int, occupied: Array) -> Vector2:
 	var phase := float(posmod(hash("%s:%d:mystery" % [world_seed, world_level]), 6283)) / 1000.0
@@ -2999,31 +3121,51 @@ func _npc_spawn_position(index: int, occupied: Array) -> Vector2:
 	var spawn: Vector2 = world_profile.get("spawn", Vector2(0, 1180))
 	var anchors := [Vector2(-430, -250), Vector2(430, -220), Vector2(390, 170), Vector2(-420, 180)]
 	var base: Vector2 = spawn + anchors[index % anchors.size()]
-	for attempt in 16:
-		var angle := TAU * float(attempt) / 16.0
-		var radius := 0.0 if attempt == 0 else 72.0 + 26.0 * floori(float(attempt) / 4.0)
+	# **Il ripiego cieco era l'ultimo posto in cui due cose finivano addosso.**
+	# (8 settembre 2026) Se i sedici tentativi fallivano tutti si tornava su
+	# `base` senza guardare niente: al mondo 24 — dove la convergenza del finale
+	# usa proprio questa funzione — Orsolo si posava a 76 px da una prova, e i due
+	# richiami si contendevano lo stesso tocco. Adesso si tiene il candidato
+	# **meno peggiore**, cioè quello più lontano da ciò che c'è già: quando
+	# nessun posto è libero, il criterio giusto non è «il primo», è «il più
+	# largo».
+	var ripiego := chunks.clamp_to_world(base)
+	var ripiego_luce := -1.0
+	# Ventiquattro tentativi invece di sedici: al mondo 24 la convergenza del
+	# finale raduna un cast intero attorno allo sbarco, e con sedici l'anello si
+	# esauriva sempre prima di trovare terreno libero.
+	for attempt in 24:
+		var angle := TAU * float(attempt) / 24.0
+		# L'anello arrivava a 150 px, e dentro 150 px attorno allo sbarco non c'è
+		# quasi mai un posto libero: il ciclo finiva sempre sul ripiego. A 252 px
+		# il cast del finale si raduna ancora — l'àncora è a 430 px dallo sbarco —
+		# ma trova terreno suo invece di posarsi su una prova.
+		var radius := 0.0 if attempt == 0 else 72.0 + 60.0 * floori(float(attempt) / 4.0)
 		var candidate := chunks.clamp_to_world(base + Vector2.RIGHT.rotated(angle) * radius)
 		if chunks.composition != null:
 			if chunks.composition.is_protected(candidate, 72.0) or chunks.composition.raw_water_weight(candidate) >= 0.28:
 				continue
-		var blocked := candidate.distance_to(_hero_landmark_position()) < 150.0
+		var luce := candidate.distance_to(_hero_landmark_position())
+		var blocked := luce < 150.0
 		for event in mission_events:
+			luce = minf(luce, candidate.distance_to(event.get("position", Vector2.ZERO)))
 			if candidate.distance_to(event.get("position", Vector2.ZERO)) < 150.0:
 				blocked = true
-				break
 		for used in occupied:
+			luce = minf(luce, candidate.distance_to(used as Vector2))
 			if candidate.distance_to(used as Vector2) < 150.0:
 				blocked = true
-				break
-		if not blocked:
-			for artifact in get_tree().get_nodes_in_group("mystery_artifact"):
-				if artifact is Node2D and is_ancestor_of(artifact) \
-					and candidate.distance_to((artifact as Node2D).global_position) < 170.0:
+		for artifact in get_tree().get_nodes_in_group("mystery_artifact"):
+			if artifact is Node2D and is_ancestor_of(artifact):
+				luce = minf(luce, candidate.distance_to((artifact as Node2D).global_position))
+				if candidate.distance_to((artifact as Node2D).global_position) < 170.0:
 					blocked = true
-					break
 		if not blocked:
 			return candidate
-	return chunks.clamp_to_world(base)
+		if luce > ripiego_luce:
+			ripiego_luce = luce
+			ripiego = candidate
+	return ripiego
 
 func _create_world_life() -> void:
 	if npc_actors.is_empty() or world_level == WorldProfileCatalog.MAX_LEVEL:

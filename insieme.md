@@ -1036,6 +1036,66 @@ insieme a G-C5, che è il suo primo cliente.
 funzionano. **Aspetta il collaudo**: finché non si misura quali meccaniche
 restano nel giro, illustrarle tutte e quindici è lavoro su un'ipotesi.
 
+**C-R3 · Gli ultimi quattro mondi non hanno scenografia — aperta l'8 settembre 2026.**
+Misurati i `Node2D` effettivamente disegnati nei chunk caricati, alla stessa
+distanza di streaming:
+
+| mondo | tema | nodi per chunk |
+|---|---|---|
+| 1 | `academy` | **143** |
+| 6 | — | 86 |
+| 12 | — | 58 |
+| 18 | `sound_cathedral` | 59 |
+| 21 | `fractured_atlas` | *(stesso gruppo, non misurato a parte)* |
+| 22 | `deep_biosphere` | **19** |
+| 23 | `hall_of_eras` | **12** |
+| 24 | `first_heart` | **18** |
+
+Scomposto sul mondo 18: `BiomeAssemblies` **670** nodi, `HabitatDetails` **85**,
+prop identitari 5. Sul mondo 23: **niente** oltre al terreno e a due prop
+identitari. Il climax della campagna si gioca su un'isola da 2900×2800 px con
+nove oggetti in tutto.
+
+Non è la tabella delle percentuali di `chunk_manager` — quella l'ho seguita e
+non è lei. Sono due `return` dichiarati per nome:
+`chunk_visual._build_global_assemblies` (riga 177) e `_build_global_details`
+(riga 223) escludono `fractured_atlas`, `deep_biosphere`, `hall_of_eras` e
+`first_heart`, cioè **i mondi 21, 22, 23 e 24**.
+
+**L'esclusione è giusta e non va tolta.** Quei temi non hanno alberi e sassi:
+prestargli il vocabolario generico li sporcherebbe, ed è esattamente perché
+qualcuno l'ha scritta che non l'ho toccata. Quello che manca è **il vocabolario
+loro**: per ciascuno dei quattro temi servono i `kind` di assembly (principale,
+figli, accento — i tre `_assembly_*_kind` di `chunk_visual`) e i dettagli
+d'habitat che gli appartengono. Frammenti di carta stellare per l'Atlante,
+crescite bioluminescenti per la Biosfera, stele e cornici per la Sala delle Ere,
+schegge di nucleo per il Cuore.
+
+Alzare la percentuale degli ostacoli **non** risolve: gli ostacoli procedurali
+sono al massimo 16 per mondo dove ce ne sono, e non spiegano i 900 nodi di
+differenza. E sono decorazione senza collisione, quindi nemmeno cambiano il
+cammino.
+
+**Guardia da lasciare chiusa insieme al lavoro:** un audit che pretende un
+pavimento di nodi disegnati per chunk in **tutti** i ventiquattro mondi — il
+numero si taratura sul mondo 18 (59), non sul mondo 1. Senza, la prossima
+esclusione per tema torna a passare inosservata per una stagione.
+
+*Nota di misura, perché non venga confuso con questo:* il **deserto** — quanta
+terra sta a più di 600 px da qualunque contenuto — è sceso da 40,8% a 23,9%
+distribuendo i forzieri, ed è un asse diverso. C-R3 è quanto è **arredato** un
+posto, non quanto c'è **da fare**. Un mondo può essere pieno di cose da fare e
+sembrare comunque un prato.
+
+**C-R4 · Il cuore del duello è un carattere, non un disegno — aperta l'8
+settembre 2026.**
+[`duel_stage.gd:371`](godot/scripts/ui/duel_stage.gd#L371) disegna la tenuta con
+`"♥".repeat(...)`, e il font imbarcato non ha quel glifo: su Web e su tablet il
+bambino vede un rettangolo vuoto col codice esadecimale dentro, cioè il difetto
+**invisibile esattamente sulla macchina di chi scrive il codice**. È il rosso di
+`glifi_audit`, ed è l'unico rosso della suite che appartiene alla resa. Serve un
+cuore disegnato — o una forma piena, che basta — al posto del carattere.
+
 > **Non sono voci aperte, e non vanno riaperte per distrazione.** Le figure di
 > **fisica e scienze** sono escluse per scelta: nei loro testi non c'è niente che
 > si estragga con certezza in un diagramma — le conversioni di unità in fisica

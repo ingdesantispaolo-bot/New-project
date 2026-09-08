@@ -11,8 +11,9 @@ func _init() -> void:
 
 func _run() -> void:
 	await _test_dialogue_contract()
+	_test_dialogue_memory()
 	await _test_world_one_fixture()
-	print("DIALOGUE audit OK — touch globale, macchina da scrivere accessibile e 3 abitanti nel mondo 1")
+	print("DIALOGUE audit OK — memoria persistente, gia' ascoltato grigio, guida contestuale e cast mondo 1")
 	quit(0)
 
 func _test_dialogue_contract() -> void:
@@ -43,8 +44,31 @@ func _test_dialogue_contract() -> void:
 		"riduzione movimento deve disattivare la macchina da scrivere")
 	box.call("advance")
 	assert(not box.visible, "l'ultimo tocco deve chiudere il dialogo")
+	box.call("show_dialogue", "test", "Tobia", "Contatore", ["Battuta gia' sentita."], 0, true,
+		"Raggiungi il filare est; poi torna da Tobia.")
+	var heard_badge := box.get("heard_label") as Label
+	var guidance := box.get("guidance_panel") as PanelContainer
+	assert(heard_badge.visible and heard_badge.text.contains("ASCOLTATO"),
+		"una battuta gia' ascoltata non e' dichiarata come ripasso")
+	assert(guidance.visible and str((box.get("guidance_label") as Label).text).contains("filare est"),
+		"il dialogo non espone il prossimo passo contestuale")
+	var heard_color := body.get_theme_color("font_color")
+	assert(heard_color.r < 0.85 and heard_color.g < 0.85 and heard_color.b < 0.85,
+		"il testo gia' ascoltato non e' grigio")
+	box.call("advance")
 	box.queue_free()
 	await process_frame
+
+func _test_dialogue_memory() -> void:
+	var save := GameSaveManager.new("user://dialogue-memory-audit.json")
+	var key := "w01-tobia:prova"
+	assert(not save.dialogue_heard(key), "una battuta nuova nasce gia' ascoltata")
+	assert(save.remember_dialogue(key, "w01-tobia"), "il primo ascolto non viene registrato")
+	assert(save.dialogue_heard(key), "la memoria non riconosce la battuta registrata")
+	assert(not save.remember_dialogue(key, "w01-tobia"), "lo stesso ascolto viene contato due volte")
+	var memory: Dictionary = save.game_narrative().get("dialogueMemory", {})
+	assert(int(memory.get("exchanges", 0)) == 1 and str(memory.get("lastNpc", "")) == "w01-tobia",
+		"riepilogo conversazionale incoerente")
 
 func _test_world_one_fixture() -> void:
 	var initial := GameSaveManager._default_data()
@@ -101,11 +125,35 @@ func _test_world_one_fixture() -> void:
 	var box := world.get("dialogue_box") as Control
 	assert(box != null and box.visible, "interagire con un NPC non apre il dialogo")
 	assert(not player.is_physics_processing(), "Eli continua a muoversi durante il dialogo")
+	assert((box.get("guidance_panel") as PanelContainer).visible,
+		"un personaggio fuori rotta non indica il referente della missione")
+	var spoken_guidance := str((box.get("guidance_label") as Label).text)
+	assert(spoken_guidance.contains("Radura Accademia") and spoken_guidance.contains("Matematica"),
+		"la guida del personaggio non descrive luogo e materia reali")
 	var pages: Array = box.get("screens")
 	for _page in pages.size():
 		box.call("advance")
 	assert(not box.visible and player.is_physics_processing(),
 		"chiusura dialogo non ripristina il movimento")
+	var memory_key := str(world.get("active_dialogue_memory_key"))
+	assert(memory_key.is_empty(), "la chiave del dialogo resta attiva dopo la chiusura")
+	var save := world.get("game_save") as GameSaveManager
+	var dialogue_memory: Dictionary = save.game_narrative().get("dialogueMemory", {})
+	assert(int(dialogue_memory.get("exchanges", 0)) == 1,
+		"la chiusura del dialogo non aggiorna la memoria del profilo")
+	# La rotazione deve consumare entrambe le battute nuove prima di mostrare in
+	# grigio una ripetizione, anche se il cursore locale riparte da zero.
+	var sample_lines := [["Prima battuta nuova."], ["Seconda battuta nuova."]]
+	var first: Dictionary = world.call("_select_npc_dialogue", "test-npc", "test-pool", sample_lines)
+	assert(not bool(first.get("heard", true)), "la prima battuta del pool nasce gia' grigia")
+	save.remember_dialogue(str(first.get("key", "")), "test-npc")
+	var second: Dictionary = world.call("_select_npc_dialogue", "test-npc", "test-pool", sample_lines)
+	assert(not bool(second.get("heard", true)) and first.get("pages") != second.get("pages"),
+		"la scelta non privilegia la seconda battuta ancora inedita")
+	save.remember_dialogue(str(second.get("key", "")), "test-npc")
+	var repeated: Dictionary = world.call("_select_npc_dialogue", "test-npc", "test-pool", sample_lines)
+	assert(bool(repeated.get("heard", false)),
+		"un pool esaurito non segnala la ripetizione da mostrare in grigio")
 
 	world.queue_free()
 	await process_frame

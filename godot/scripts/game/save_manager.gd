@@ -24,7 +24,7 @@ extends RefCounted
 ## `player_profiles.gd`). Questa costante resta il caso «un solo giocatore», che
 ## è anche quello di tutti gli audit.
 const SAVE_PATH := "user://eli-quest-save.json"
-const SCHEMA_VERSION := 3
+const SCHEMA_VERSION := 4
 
 var data: Dictionary = _default_data()
 
@@ -165,7 +165,14 @@ static func _default_data() -> Dictionary:
 		# campagna, uno per colpo di scena. Non si ripetono — una cutscene che
 		# ricompare la seconda volta si salta, e questi non si possono saltare.
 		"setPiecesSeen": [],
-		"narrative": {"seen": [], "beats": {}},
+		# Memoria dei dialoghi: una battuta gia' ascoltata resta riconoscibile
+		# anche dopo essere usciti dal mondo o aver chiuso il gioco. Le chiavi sono
+		# impronte compatte del testo, non cursori: se un pool viene riordinato non
+		# si dimentica cio' che Eli ha davvero sentito.
+		"narrative": {
+			"seen": [], "beats": {},
+			"dialogueMemory": {"heard": {}, "lastNpc": "", "exchanges": 0},
+		},
 		"progressReport": {"events": []},
 		"daily": {"date": "", "missions": 0, "streak": 0},
 		# Ripasso spaziato con PIANIFICAZIONE TEMPORALE reale (O-P0.7): un orologio
@@ -640,8 +647,63 @@ func migrate_legacy_save(source: Dictionary) -> Dictionary:
 	migrated = _migrate_worlds(migrated)
 	migrated = _migrate_renamed_subjects(migrated)
 	migrated = _migrate_history_apparatus(migrated)
+	migrated = _migrate_dialogue_memory(migrated)
 	migrated["schemaVersion"] = SCHEMA_VERSION
 	return migrated
+
+## Aggiunge la memoria conversazionale senza sostituire le altre chiavi
+## narrative introdotte nel tempo. La migrazione accetta anche una prima forma
+## sperimentale ad array, cosi' resta idempotente per i salvataggi di sviluppo.
+func _migrate_dialogue_memory(migrated: Dictionary) -> Dictionary:
+	var narrative: Dictionary = Dictionary(migrated.get("narrative", {})).duplicate(true)
+	var memory: Dictionary = Dictionary(narrative.get("dialogueMemory", {})).duplicate(true)
+	var heard_raw = memory.get("heard", {})
+	var heard: Dictionary = {}
+	if typeof(heard_raw) == TYPE_DICTIONARY:
+		heard = Dictionary(heard_raw).duplicate(true)
+	elif typeof(heard_raw) == TYPE_ARRAY:
+		for key in heard_raw:
+			heard[str(key)] = true
+	memory["heard"] = heard
+	memory["lastNpc"] = str(memory.get("lastNpc", ""))
+	memory["exchanges"] = maxi(0, int(memory.get("exchanges", 0)))
+	narrative["dialogueMemory"] = memory
+	migrated["narrative"] = narrative
+	return migrated
+
+## Vero se questa precisa battuta e' gia' arrivata fino alla chiusura del
+## dialogo. Aprire e richiudere a meta' non basta: il grigio significa davvero
+## "gia' ascoltato", non soltanto "apparso per un fotogramma".
+func dialogue_heard(dialogue_key: String) -> bool:
+	if dialogue_key.is_empty():
+		return false
+	var narrative: Dictionary = game_narrative()
+	var memory: Dictionary = narrative.get("dialogueMemory", {})
+	return bool(Dictionary(memory.get("heard", {})).get(dialogue_key, false))
+
+## Registra uno scambio concluso. Il dizionario e' intenzionalmente senza una
+## finestra massima: dimenticare le battute piu' antiche le farebbe tornare
+## bianche in una campagna lunga, contraddicendo la promessa visiva al bambino.
+func remember_dialogue(dialogue_key: String, npc_id: String) -> bool:
+	if dialogue_key.is_empty():
+		return false
+	var narrative: Dictionary = game_narrative()
+	var memory: Dictionary = Dictionary(narrative.get("dialogueMemory", {})).duplicate(true)
+	var heard: Dictionary = Dictionary(memory.get("heard", {})).duplicate(true)
+	var was_new := not bool(heard.get(dialogue_key, false))
+	heard[dialogue_key] = true
+	memory["heard"] = heard
+	memory["lastNpc"] = npc_id
+	memory["exchanges"] = maxi(0, int(memory.get("exchanges", 0))) + (1 if was_new else 0)
+	narrative["dialogueMemory"] = memory
+	data["narrative"] = narrative
+	return was_new
+
+## Copia difensiva del ramo narrativo. Centralizzarla evita che consumer nuovi
+## cancellino per errore beat, Tracce o memoria di Ersilia mentre aggiornano una
+## singola sottochiave.
+func game_narrative() -> Dictionary:
+	return Dictionary(data.get("narrative", {})).duplicate(true)
 
 # Rinomina materia (cittadinanza → storia): i vecchi salvataggi conservano la
 # competenza sotto la vecchia chiave; la rimappiamo così la progressione non va

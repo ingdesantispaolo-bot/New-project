@@ -179,6 +179,8 @@ var reduced_motion := false
 var dialogue_box: Control
 var npc_actors: Array[Area2D] = []
 var npc_dialogue_cursors: Dictionary = {}
+var active_dialogue_memory_key := ""
+var active_dialogue_memory_npc := ""
 var mission_ownership_flow
 var world_buildings: Array[Node2D] = []
 var world_life
@@ -469,24 +471,54 @@ func _configure_world_profile() -> void:
 	_align_enigma_to_crossing()
 	_configure_profile_palette()
 
-## Aggancia il primo enigma al varco del mondo: d'acqua dove l'acqua c'è, di
-## terra negli altri diciotto. Si chiamava `..._to_water_crossing`, e il nome
-## era la prima riga di un equivoco che arrivava fino al cartello sul posto.
+## Aggancia gli enigmi ai varchi del mondo: d'acqua dove l'acqua c'è, di terra
+## negli altri diciotto. Si chiamava `..._to_water_crossing`, e il nome era la
+## prima riga di un equivoco che arrivava fino al cartello sul posto.
+##
+## **Tutti gli enigmi, non il primo.** (8 settembre 2026)
+##
+## Questa funzione faceva `return` dopo il primo aggancio, e il conto misurato
+## era impietoso: il mondo 3 pianifica **tre** enigmi e ha **due** sbarramenti,
+## e ne legava uno. Il secondo muro — «IL CANCELLO DEI PRIMI», sette collisioni,
+## targhetta in bella vista — restava in piedi per sempre, senza nessuna prova
+## che lo aprisse, in tutti e diciotto i mondi di terra. Nei sei mondi d'acqua
+## la stessa riga lasciava chiusi due guadi su tre.
+##
+## Un muro che nessuna prova apre non è una sfida: è una promessa che il mondo
+## fa e non mantiene. Adesso ogni enigma prende un varco ancora libero — il suo,
+## se il socket lo nomina — e gli enigmi che avanzano restano prove a tema, come
+## sono sempre state.
 func _align_enigma_to_crossing() -> void:
 	var preview := WorldCompositionGenerator.generate(world_seed, world_profile)
 	if preview == null or preview.crossings.is_empty():
 		return
+	var presi: Dictionary = {}
 	for index in range(mission_events.size()):
 		var event: Dictionary = mission_events[index]
 		if str(event.get("kind", "")) != "enigma":
 			continue
-		var crossing: Dictionary = preview.crossings[0]
+		var crossing: Dictionary = {}
+		# Il varco che il socket nomina, se nessun altro enigma l'ha già preso.
 		var selected_socket := str(event.get("locationSocket", ""))
 		for crossing_data in preview.crossings:
 			var candidate: Dictionary = crossing_data
-			if selected_socket == "site-%s" % str(candidate.get("id", "")):
+			var candidate_id := str(candidate.get("id", ""))
+			if presi.has(candidate_id):
+				continue
+			if selected_socket == "site-%s" % candidate_id:
 				crossing = candidate
 				break
+		# Altrimenti il primo libero, nell'ordine di sempre: il primo enigma
+		# continua a trovare `crossings[0]` come faceva prima.
+		if crossing.is_empty():
+			for crossing_data in preview.crossings:
+				var candidate: Dictionary = crossing_data
+				if not presi.has(str(candidate.get("id", ""))):
+					crossing = candidate
+					break
+		if crossing.is_empty():
+			continue   # varchi finiti: questo enigma resta una prova a tema
+		presi[str(crossing.get("id", ""))] = true
 		event["position"] = crossing.get("approach", event.get("position", Vector2.ZERO))
 		event["crossingId"] = str(crossing.get("id", ""))
 		event["bridgeCenter"] = crossing.get("position", event["position"])
@@ -497,7 +529,6 @@ func _align_enigma_to_crossing() -> void:
 		event["crossingKind"] = str(crossing.get("kind", "acqua"))
 		event["crossingLabel"] = str(crossing.get("label", ""))
 		mission_events[index] = event
-		return
 
 func _bind_water_crossing_events() -> void:
 	if chunks == null or chunks.composition == null:
@@ -2004,10 +2035,23 @@ func _create_profile_event(event: Dictionary) -> void:
 		area.add_child(visual)
 	elif director_kind == "practice":
 		area.add_child(_make_practice_repeater(str(payload["subject"]), completed))
-		var equipment_gate := EQUIPMENT_GATE_SCRIPT.new()
-		equipment_gate.name = "EquipmentGate"
-		area.add_child(equipment_gate)
-		equipment_gate.configure(str(payload.get("requiredTool", "")), _strumenti_posseduti())
+		# **Nessun varco vuol dire nessun cartello.** (8 settembre 2026)
+		#
+		# Il commento qui sotto racconta perché dal 4 settembre le palestre non
+		# ricevono più `requiredTool`. Solo che il varco continuava a costruirsi
+		# lo stesso, con la stringa vuota, su tutte e undici le palestre di tutti
+		# e ventiquattro i mondi: 264 targhette che dicevano «PASSAGGIO APERTO»
+		# dove un passaggio non c'è mai stato, e sotto il disegno della torcia —
+		# `FieldGateArt.COLONNE.get("", 0)` ricade sulla prima colonna.
+		#
+		# Un cartello che annuncia una porta inesistente è peggio di nessun
+		# cartello: insegna al bambino che le targhette del mondo non contano.
+		var required_tool := str(payload.get("requiredTool", ""))
+		if required_tool != "":
+			var equipment_gate := EQUIPMENT_GATE_SCRIPT.new()
+			equipment_gate.name = "EquipmentGate"
+			area.add_child(equipment_gate)
+			equipment_gate.configure(required_tool, _strumenti_posseduti())
 	elif world_level == 1 and str(payload["subject"]) == "matematica":
 		var activity_site := WORLD1_ACTIVITY_SITE_SCRIPT.new()
 		activity_site.setup(
@@ -3385,6 +3429,11 @@ func _active_mission_owner() -> String:
 
 func _open_npc_dialogue(npc_id: String) -> void:
 	_pet_greet(npc_id)
+	# Ogni apertura costruisce una nuova unita' di memoria. I dialoghi speciali
+	# che intercettano il flusso qui sotto non devono ereditare la chiave del
+	# personaggio con cui si e' parlato prima.
+	active_dialogue_memory_key = ""
+	active_dialogue_memory_npc = ""
 	if world_level == WorldProfileCatalog.MAX_LEVEL and not FINALE_CATALOG.lines_for(npc_id).is_empty():
 		_open_finale_convergence_dialogue(npc_id)
 		return
@@ -3413,6 +3462,7 @@ func _open_npc_dialogue(npc_id: String) -> void:
 	var lines: Array = []
 	var mission_pool := ""
 	var pending_return: Dictionary = {}
+	var accepted_assignment: Dictionary = {}
 	if not data.is_empty():
 		var narrative: Dictionary = game_save.data.get("narrative", {})
 		if npc_id == "w01-ersilia" and not bool(narrative.get("ersiliaCountHeard", false)):
@@ -3425,8 +3475,8 @@ func _open_npc_dialogue(npc_id: String) -> void:
 				mission_pool = "reazione" if bool(pending_return.get("passed", false)) else "consolazione"
 				lines = NPC_CATALOG.mission_lines(npc_id, mission_pool)
 			else:
-				var assignment: Dictionary = mission_ownership_flow.accept_request(npc_id)
-				if not assignment.is_empty():
+				accepted_assignment = mission_ownership_flow.accept_request(npc_id)
+				if not accepted_assignment.is_empty():
 					mission_pool = "richiesta"
 					lines = NPC_CATALOG.mission_lines(npc_id, mission_pool)
 		if lines.is_empty():
@@ -3497,9 +3547,10 @@ func _open_npc_dialogue(npc_id: String) -> void:
 	if data.is_empty() or lines.is_empty():
 		return
 	var cursor_key := "%s:%s" % [npc_id, mission_pool if mission_pool != "" else "ordinary"]
-	var cursor := int(npc_dialogue_cursors.get(cursor_key, 0))
-	var pages: Array = (lines[cursor % lines.size()] as Array).duplicate()
-	npc_dialogue_cursors[cursor_key] = cursor + 1
+	var selection := _select_npc_dialogue(npc_id, cursor_key, lines)
+	var pages: Array = Array(selection.get("pages", [])).duplicate()
+	var dialogue_memory_key := str(selection.get("key", ""))
+	var was_already_heard := bool(selection.get("heard", false))
 	# **Prima di sentirlo parlare, lo si guarda.** (8 agosto 2026)
 	#
 	# L'arco del residente — tre righe scritte per quarantasei personaggi — non
@@ -3535,6 +3586,16 @@ func _open_npc_dialogue(npc_id: String) -> void:
 			pages.insert(0, "\n".join(PackedStringArray(apertura)))
 	if not pending_return.is_empty():
 		mission_ownership_flow.consume_return(npc_id)
+		# Se lo stesso abitante possiede anche il passo successivo, lo affida
+		# dentro questa conversazione di ritorno. Prima il flusso chiudeva la
+		# reazione e subito dopo mostrava "PARLA CON TOBIA" (o l'equivalente)
+		# davanti al personaggio con cui Eli aveva appena finito di parlare.
+		# L'incarico concatenato compare nel riquadro DOPO IL DIALOGO e la
+		# bussola passa direttamente al suo luogo.
+		if bool(pending_return.get("passed", false)):
+			accepted_assignment = mission_ownership_flow.accept_request(npc_id)
+	var student_next_step := _npc_student_next_step(
+		npc_id, data, accepted_assignment, pending_return)
 	if is_instance_valid(player):
 		player.touch_target = Vector2.INF
 		player.velocity = Vector2.ZERO
@@ -3542,9 +3603,133 @@ func _open_npc_dialogue(npc_id: String) -> void:
 	dialogue_box.call("configure_accessibility", high_contrast, reduced_motion)
 	dialogue_box.call(
 		"show_dialogue", npc_id, str(data.get("nome", npc_id)),
-		str(data.get("ruolo", "abitante")), pages, _resident_story_stage(npc_id))
+		str(data.get("ruolo", "abitante")), pages, _resident_story_stage(npc_id),
+		was_already_heard, student_next_step)
+	active_dialogue_memory_key = dialogue_memory_key
+	active_dialogue_memory_npc = npc_id
 	_update_ship_navigation()
 	_refresh_interaction_button(null)
+
+## Sceglie prima una battuta mai ascoltata e solo quando il pool e' esaurito
+## torna alla rotazione ordinaria. Il cursore resta locale alla visita; la
+## memoria delle battute, invece, e' nel salvataggio ed e' quindi davvero una
+## memoria del personaggio.
+func _select_npc_dialogue(npc_id: String, cursor_key: String, lines: Array) -> Dictionary:
+	if lines.is_empty():
+		return {}
+	var cursor := posmod(int(npc_dialogue_cursors.get(cursor_key, 0)), lines.size())
+	var selected := cursor
+	var selected_key := ""
+	var selected_heard := true
+	for offset in lines.size():
+		var candidate := posmod(cursor + offset, lines.size())
+		var candidate_pages: Array = Array(lines[candidate])
+		var candidate_key := _dialogue_memory_key(npc_id, cursor_key, candidate_pages)
+		if not game_save.dialogue_heard(candidate_key):
+			selected = candidate
+			selected_key = candidate_key
+			selected_heard = false
+			break
+	if selected_key.is_empty():
+		var fallback_pages: Array = Array(lines[selected])
+		selected_key = _dialogue_memory_key(npc_id, cursor_key, fallback_pages)
+		selected_heard = game_save.dialogue_heard(selected_key)
+	npc_dialogue_cursors[cursor_key] = posmod(selected + 1, lines.size())
+	return {
+		"pages": Array(lines[selected]).duplicate(),
+		"key": selected_key,
+		"heard": selected_heard,
+	}
+
+func _dialogue_memory_key(npc_id: String, pool_key: String, pages: Array) -> String:
+	var material := "%s\u241f%s" % [npc_id, pool_key]
+	for page in pages:
+		material += "\u241e%s" % str(page).strip_edges()
+	return "%s:%s" % [npc_id, str(hash(material))]
+
+## Il consiglio non e' una voce di menu generica: usa il nome del referente,
+## il luogo, la materia e l'argomento dell'incarico reale. Cosi' un abitante
+## reagisce a quello che Eli sta facendo adesso e la conversazione accompagna
+## il percorso senza trasformarsi in una soluzione dell'esercizio.
+func _npc_student_next_step(
+	npc_id: String,
+	data: Dictionary,
+	accepted_assignment: Dictionary,
+	pending_return: Dictionary
+) -> String:
+	var speaker := str(data.get("nome", npc_id))
+	if not accepted_assignment.is_empty():
+		return _in_character_guidance(data, _mission_guidance_sentence(accepted_assignment))
+	if not pending_return.is_empty():
+		var event: Dictionary = mission_ownership_flow.event_data(str(pending_return.get("eventId", "")))
+		if bool(pending_return.get("passed", false)):
+			return _in_character_guidance(data,
+				"Risultato registrato: ora la bussola indicherà il prossimo incarico.")
+		return _in_character_guidance(data,
+			"Ritenta %s: rileggi la consegna, prova un passaggio alla volta e poi torna da %s." % [
+				_event_label(event) if not event.is_empty() else "la missione", speaker])
+	if bool(runtime.get("ready", false)) or bool(runtime.get("complete", false)):
+		return _in_character_guidance(data,
+			"Raggiungi il portale della nave: il prossimo passaggio del viaggio è pronto.")
+	if mission_ownership_flow != null:
+		var route: Dictionary = mission_ownership_flow.navigation()
+		if not route.is_empty():
+			if str(route.get("kind", "")) == "npc":
+				var target_id := str(route.get("id", ""))
+				if target_id != npc_id:
+					var target_data := NPC_CATALOG.resident(target_id)
+					var target_name := str(target_data.get("nome", target_id))
+					return _in_character_guidance(data,
+						"%s ti aspetta: parlaci prima di raggiungere la missione." % target_name)
+			var route_event: Dictionary = mission_ownership_flow.event_data(str(route.get("id", "")))
+			if not route_event.is_empty():
+				return _in_character_guidance(data, _mission_guidance_sentence(route_event))
+	var passo := ObjectiveBriefing.passo(runtime, gameplay.progression_manager)
+	var action := str(passo.get("azione", "")).strip_edges()
+	var where := str(passo.get("dove", "")).strip_edges()
+	if action.is_empty():
+		return _in_character_guidance(data, "Esplora il sentiero e osserva i segnali del mondo.")
+	return _in_character_guidance(data,
+		"%s%s" % [action, " Cerca %s." % where if not where.is_empty() else ""])
+
+func _mission_guidance_sentence(event: Dictionary) -> String:
+	var label := _event_label(event)
+	var subject := str(event.get("subject", _world_subject())).capitalize()
+	var topic := str(event.get("topicHint", "")).replace("-", " ").strip_edges()
+	var focus := subject if topic.is_empty() else "%s, in particolare %s" % [subject, topic]
+	# Un owner esplicito e' autoritativo; solo gli eventi del Director, che hanno
+	# sempre un `kind`, passano dalla regola specialista/testimone. Usare
+	# "mission" come default mandava qualunque payload incompleto allo
+	# specialista del mondo (Tobia nel mondo 1), anche senza averlo dichiarato.
+	var owner_id := str(event.get("ownerNpc", ""))
+	var event_kind := str(event.get("kind", ""))
+	if owner_id.is_empty() and not event_kind.is_empty():
+		owner_id = NPC_CATALOG.owner_for(world_level, event_kind)
+	var owner_data := NPC_CATALOG.resident(owner_id)
+	var return_name := str(owner_data.get("nome", owner_id))
+	var ending := (
+		"Quando hai finito, torna da %s." % return_name
+		if not return_name.is_empty()
+		else "Quando hai finito, segui il nuovo segnale della bussola.")
+	return "Nel %s raggiungi %s: lavorerai su %s. %s" % [
+		str(world_profile.get("title", "questo mondo")), label, focus, ending]
+
+## La sostanza del consiglio resta identica per tutti, ma il modo di metterla
+## in ordine segue il registro del personaggio. Non basta cambiare il nome sopra
+## una frase generica: un burbero, una sognante e una curiosa devono aiutare in
+## tre modi riconoscibili anche quando indicano la stessa strada.
+func _in_character_guidance(data: Dictionary, core: String) -> String:
+	var lead := "Un passo alla volta: "
+	match str(data.get("registro", "")):
+		"curioso": lead = "Una domanda utile: qual è il prossimo passo? "
+		"misterioso": lead = "La strada lascia un indizio: "
+		"buffo": lead = "Niente panico da bussola: "
+		"divertente": lead = "Facciamola semplice: "
+		"caloroso": lead = "Un passo alla volta, Eli: "
+		"burbero": lead = "Facciamo ordine: "
+		"solenne": lead = "Tieni ferma la rotta: "
+		"sognante": lead = "Segui il filo: "
+	return lead + core
 
 func _orsolo_proof_available() -> bool:
 	var narrative: Dictionary = game_save.data.get("narrative", {})
@@ -3776,6 +3961,14 @@ func _minigioco_personaggio_superato(npc_id: String) -> bool:
 	return Array(result.get("collectedTreasureIds", [])).has("gioco-%s" % npc_id)
 
 func _on_dialogue_closed(npc_id: String) -> void:
+	# Il testo diventa "gia' ascoltato" soltanto quando il bambino arriva alla
+	# fine dello scambio. La registrazione precede i possibili seguiti (scelta,
+	# minigioco, arco di Vera), che possono uscire presto da questa funzione.
+	if active_dialogue_memory_key != "" and active_dialogue_memory_npc == npc_id:
+		game_save.remember_dialogue(active_dialogue_memory_key, npc_id)
+		active_dialogue_memory_key = ""
+		active_dialogue_memory_npc = ""
+		_persist_save()
 	# **Il passo torna solo se non resta niente aperto.** (5 settembre 2026)
 	#
 	# Questa riga era incondizionata e stava in cima, prima di tutte le
@@ -6062,7 +6255,13 @@ func _costruisci_sbarramento(barriera: Dictionary) -> Node2D:
 	# vede dove finisce.
 	var corpo := StaticBody2D.new()
 	corpo.name = "BarrierBody"
-	var passi := 7
+	# **Il numero di cerchi segue la lunghezza.** (8 settembre 2026)
+	#
+	# Erano sette fissi, tarati su un muro da 300 px: con lo sbarramento lungo
+	# (fino a 1120) sette cerchi da 34 px avrebbero lasciato buchi da 180, cioe'
+	# un muro attraversabile con la faccia di un muro. Il passo resta sotto i
+	# 50 px, meno del diametro di una collisione: la fila e' sempre chiusa.
+	var passi := maxi(7, int(ceil(meta_larghezza * 2.0 / 50.0)) + 1)
 	for indice in range(passi):
 		var t_lineare := -1.0 + 2.0 * float(indice) / float(passi - 1)
 		var forma := CollisionShape2D.new()

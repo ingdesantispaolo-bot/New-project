@@ -43,6 +43,15 @@ func configure(required: String, posseduti = []) -> void:
 	strumenti = _lista(posseduti)
 	_tinta = _calcola_tinta()
 	add_to_group("equipment_gate")
+	# **Senza chiave non c'è porta.** (8 settembre 2026)
+	#
+	# Un varco costruito con la stringa vuota non è un varco aperto: è un varco
+	# che non esiste. Prima disegnava comunque, e disegnava la torcia — il
+	# catalogo dei ritagli ricade sulla colonna 0 per uno strumento che non
+	# conosce — con la targhetta «PASSAGGIO APERTO» sotto. Il chiamante che lo
+	# faceva è stato corretto; questa riga impedisce che torni da un altro.
+	if required_tool == "":
+		return
 	if FieldTools.blocca(required_tool):
 		_build_blocker()
 	art = FIELD_GATE_ART.build(required_tool, is_open())

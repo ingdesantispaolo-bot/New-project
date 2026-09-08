@@ -8,9 +8,11 @@ func _init() -> void:
 
 func _run() -> void:
 	_test_contract()
+	_test_all_world_owners()
+	_test_chained_owner_return()
 	_test_tool_delivery_priority()
 	await _test_world_fixture()
-	print("Mission ownership audit OK — richiesta, bussola, prova e ritorno senza toccare il gate")
+	print("Mission ownership audit OK — 23 mondi coerenti, ritorni concatenati e nessun referente incrociato")
 	quit(0)
 
 func _test_contract() -> void:
@@ -48,6 +50,69 @@ func _test_contract() -> void:
 	fallback.setup(24, [{"id": "free", "kind": "mission"}], [])
 	assert(fallback.owner_of("free") == "" and fallback.can_start("free"),
 		"mondo senza cast non degrada al flusso diretto")
+
+## Ogni nome mostrato dalla bussola deve appartenere al mondo corrente e avere
+## il ruolo che giustifica il rimando: specialista per le missioni, testimone
+## per gli enigmi. Questo e' il controllo che impedisce a un futuro riordino del
+## catalogo di far comparire, per esempio, "Parla con Tobia" fuori dalla Radura.
+func _test_all_world_owners() -> void:
+	for world in range(1, WorldProfileCatalog.MAX_LEVEL):
+		var cast: Dictionary = NpcCatalog.for_world(world)
+		var residents: Array = Array(cast.get("residents", []))
+		var specialists := residents.filter(func(id):
+			return str(NpcCatalog.resident(str(id)).get("funzione", "")) == "specialista")
+		var witnesses := residents.filter(func(id):
+			return str(NpcCatalog.resident(str(id)).get("funzione", "")) == "testimone")
+		assert(specialists.size() == 1 and witnesses.size() == 1,
+			"mondo %d: cast senza un referente univoco per missione ed enigma" % world)
+		var specialist_id := str(specialists[0])
+		var witness_id := str(witnesses[0])
+		assert(NpcCatalog.owner_for(world, "mission") == specialist_id,
+			"mondo %d: la missione rimanda a un personaggio di un altro ruolo/mondo" % world)
+		assert(NpcCatalog.owner_for(world, "enigma") == witness_id,
+			"mondo %d: l'enigma rimanda a un personaggio di un altro ruolo/mondo" % world)
+		assert(int(NpcCatalog.resident(specialist_id).get("world", 0)) == world
+			and int(NpcCatalog.resident(witness_id).get("world", 0)) == world,
+			"mondo %d: referente non presente nel mondo corrente" % world)
+		assert(not NpcCatalog.mission_lines(specialist_id, "richiesta").is_empty()
+			and not NpcCatalog.mission_lines(witness_id, "richiesta").is_empty(),
+			"mondo %d: la bussola rimanda a un personaggio che non puo' affidare l'incarico" % world)
+
+		var flow = FLOW.new()
+		flow.setup(world, [
+			{"id": "mission-%d" % world, "kind": "mission"},
+			{"id": "enigma-%d" % world, "kind": "enigma"},
+		], [])
+		var first: Dictionary = flow.navigation()
+		assert(str(first.get("id", "")) == specialist_id and str(first.get("phase", "")) == "request",
+			"mondo %d: la prima rotta non porta allo specialista locale" % world)
+		flow.accept_request(specialist_id)
+		flow.record_result("mission-%d" % world, true)
+		assert(str(flow.navigation().get("id", "")) == specialist_id,
+			"mondo %d: il ritorno non porta allo stesso proprietario" % world)
+		flow.consume_return(specialist_id)
+		assert(str(flow.navigation().get("id", "")) == witness_id,
+			"mondo %d: dopo la missione la rotta non passa al testimone locale" % world)
+
+## Due lavori consecutivi dello stesso personaggio non devono richiedere di
+## chiudere il dialogo di consegna e riaprirlo immediatamente. Il runtime usa
+## questa stessa sequenza: consuma il ritorno e affida il prossimo lavoro nella
+## conversazione gia' aperta.
+func _test_chained_owner_return() -> void:
+	var flow = FLOW.new()
+	flow.setup(1, [
+		{"id": "first", "kind": "mission"},
+		{"id": "second", "kind": "mission"},
+	], [])
+	assert(not flow.accept_request("w01-tobia").is_empty(), "prima richiesta non accettata")
+	flow.record_result("first", true)
+	assert(not flow.consume_return("w01-tobia").is_empty(), "ritorno da Tobia non consumato")
+	var chained: Dictionary = flow.accept_request("w01-tobia")
+	assert(str(chained.get("id", "")) == "second",
+		"il secondo incarico non puo' essere concatenato al dialogo di ritorno")
+	var route: Dictionary = flow.navigation()
+	assert(str(route.get("kind", "")) == "event" and str(route.get("id", "")) == "second",
+		"dopo il ritorno la bussola dice ancora PARLA CON TOBIA invece di indicare la missione")
 
 func _test_tool_delivery_priority() -> void:
 	var events := [

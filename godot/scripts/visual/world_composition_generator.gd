@@ -1228,7 +1228,7 @@ static func _generate_profile_composition(seed: String, profile: Dictionary) -> 
 		{"id": "spawn", "position": spawn, "radius": 180.0},
 		{"id": "hero-landmark", "position": _profile_hero_position(ship, level), "radius": 210.0},
 	]
-	_author_passages(data, spawn, ship, level)
+	_author_passages(data, spawn, ship, level, profile)
 	_author_expedition_pockets(data, profile, rng, spawn, ship)
 	_author_activity_sockets(data, profile, spawn, ship)
 	# Mantiene il seed semanticamente visibile negli strumenti di debug senza
@@ -1531,7 +1531,32 @@ static func _author_stream_crossing(data: WorldCompositionData, spawn: Vector2, 
 ## niente che sta qui puo' fermare la progressione. Un muro che chiude davvero
 ## rischierebbe di isolare un POI del gate, e nessun collaudo lo scoprirebbe
 ## prima di un bambino.
+##
+## **Ma una scorciatoia deve accorciare.** (8 settembre 2026)
+##
+## Misurato col cammino minimo sulla griglia, sbarramento chiuso contro
+## sbarramento aperto, su tutti i mondi di terra: **80-160 px risparmiati**.
+## Mezzo secondo di cammino. Il muro era lungo 300 px e ci si girava attorno in
+## un passo, mentre nei sei mondi d'acqua lo stesso enigma ne risparmiava
+## 1600-2240. Diciotto mondi avevano la forma della meccanica e non la
+## meccanica: una prova che «apre fisicamente la mappa» e non apriva niente.
+##
+## La cura e' la lunghezza, non la chiusura. Il muro adesso si stende finche'
+## trova terra libera, dalla piu' lunga in giu', e si ferma prima del corridoio
+## protetto e dell'acqua: chi lo aggira cammina, chi lo apre no. La regola di
+## sopra resta intatta — resta un segmento, e il giro c'e' sempre.
+## Quanto puo' allungarsi un braccio del muro, e il minimo sotto cui la posizione
+## si scarta. I due bracci sono indipendenti: il primo sbarramento nasce a 760 px
+## dallo sbarco, cioe' accanto al corridoio protetto verso la nave, e un muro
+## simmetrico li' si accorciava a 260 px per non toccare la strada. Cresce dalla
+## parte libera, come farebbe una frana vera.
+const SBARRAMENTO_BRACCIO_MAX := 900.0
+const SBARRAMENTO_LUNGHEZZA_MIN := 300.0
+## Il ripiego storico, per chi legge `halfWidth` senza trovarlo.
 const SBARRAMENTO_META_LARGHEZZA := 150.0
+## Ogni quanto si campiona il segmento quando si verifica che stia su terra
+## libera. Piu' fitto della meta' del raggio di una collisione del muro.
+const SBARRAMENTO_PASSO_VERIFICA := 40.0
 
 ## **Uno sbarramento scartato non e' uno sbarramento spostato.** (28 agosto 2026)
 ##
@@ -1563,7 +1588,8 @@ const SBARRAMENTI_SLOT := [
 ]
 
 static func _author_land_barriers(
-	data: WorldCompositionData, spawn: Vector2, ship: Vector2, level: int
+	data: WorldCompositionData, spawn: Vector2, ship: Vector2, level: int,
+	profile: Dictionary = {}
 ) -> void:
 	if not data.crossings.is_empty():
 		return   # dove c'e' l'acqua comanda l'acqua
@@ -1573,7 +1599,7 @@ static func _author_land_barriers(
 	verso = verso.normalized()
 	var etichette := ["la frana", "il cancello dei Primi", "la parete incisa"]
 	for indice in range(SBARRAMENTI_SLOT.size()):
-		var posa := _posa_sbarramento(data, spawn, verso, indice)
+		var posa := _posa_sbarramento(data, spawn, verso, indice, profile)
 		if posa.is_empty():
 			continue
 		var direzione: Vector2 = posa["direzione"]
@@ -1586,11 +1612,15 @@ static func _author_land_barriers(
 			# incontrano giocando, invece di vederne due per ventiquattro mondi.
 			"label": str(etichette[(level + indice) % etichette.size()]),
 			"waterId": "",
-			"position": centro,
+			# `position` e' il centro del MURO — ci si appoggiano cartello e
+			# disegno — mentre `approach` resta dove la rotta lo incontra: con i
+			# bracci sbilanciati i due punti non coincidono piu', e il bambino
+			# deve trovare la prova dove sbatte, non a meta' di una parete.
+			"position": posa["centroMuro"],
 			"approach": centro - direzione * 130.0,
 			"tangent": Vector2(-direzione.y, direzione.x),
 			"normal": direzione,
-			"halfWidth": SBARRAMENTO_META_LARGHEZZA,
+			"halfWidth": float(posa["metaLarghezza"]),
 			"eventId": "",
 		})
 
@@ -1599,11 +1629,13 @@ static func _author_land_barriers(
 ## Distribuiti lungo la rotta spawn->nave, a distanze diverse e con una
 ## rotazione: due muri sullo stesso raggio sarebbero un corridoio.
 static func _posa_sbarramento(
-	data: WorldCompositionData, spawn: Vector2, verso: Vector2, indice: int
+	data: WorldCompositionData, spawn: Vector2, verso: Vector2, indice: int,
+	profile: Dictionary = {}
 ) -> Dictionary:
 	var slot: Dictionary = SBARRAMENTI_SLOT[indice]
 	var gradi_base := float(slot["gradi"])
 	var raggio_base := float(slot["raggio"])
+	var sagoma: PackedVector2Array = profile.get("worldShape", PackedVector2Array())
 	for tentativo in range(SBARRAMENTO_TENTATIVI):
 		# **Il tentativo zero e' la posizione di sempre**: i mondi che gia'
 		# funzionano non cambiano forma. Dal primo scarto in poi si apre a
@@ -1617,15 +1649,55 @@ static func _posa_sbarramento(
 			continue
 		if data.raw_water_weight(centro) >= 0.4:
 			continue
-		return {"centro": centro, "direzione": direzione}
+		# **La lunghezza la decide il terreno, un braccio alla volta.** Il muro si
+		# stende da dove la rotta lo incontra verso i due lati, e ogni braccio si
+		# ferma da solo su acqua, corridoio protetto o bordo dell'isola. Dove c'e'
+		# spazio diventa un giro vero; dove non ce n'e' resta corto invece di
+		# sparire, perche' perdere uno sbarramento costa piu' che averlo breve —
+		# `world_mechanics_audit` ne pretende due per mondo, e per una stagione
+		# «il cancello dei Primi» non si e' visto in nessuno dei ventiquattro.
+		var tangente := Vector2(-direzione.y, direzione.x)
+		var braccio_piu := _braccio_libero(data, centro, tangente, sagoma)
+		var braccio_meno := _braccio_libero(data, centro, -tangente, sagoma)
+		if braccio_piu + braccio_meno < SBARRAMENTO_LUNGHEZZA_MIN:
+			continue
+		return {
+			# Dove la rotta incontra il muro: e' qui che si piazza il cartello e
+			# da qui che l'enigma si avvicina, anche se il muro e' sbilanciato.
+			"centro": centro,
+			"direzione": direzione,
+			"centroMuro": centro + tangente * (braccio_piu - braccio_meno) * 0.5,
+			"metaLarghezza": (braccio_piu + braccio_meno) * 0.5,
+		}
 	return {}
+
+## Quanto lontano si puo' stendere il muro in una direzione prima di toccare
+## qualcosa che non deve toccare: l'acqua, il corridoio protetto verso la nave,
+## il bordo dell'isola. Si avanza a passi e ci si ferma al primo campione cattivo.
+static func _braccio_libero(
+	data: WorldCompositionData, centro: Vector2, verso: Vector2, sagoma: PackedVector2Array
+) -> float:
+	var raggiunto := 0.0
+	var distanza := SBARRAMENTO_PASSO_VERIFICA
+	while distanza <= SBARRAMENTO_BRACCIO_MAX:
+		var punto := centro + verso * distanza
+		if data.is_protected(punto, 90.0):
+			break
+		if data.raw_water_weight(punto) >= 0.4:
+			break
+		if not sagoma.is_empty() and not Geometry2D.is_point_in_polygon(punto, sagoma):
+			break
+		raggiunto = distanza
+		distanza += SBARRAMENTO_PASSO_VERIFICA
+	return raggiunto
 
 ## Chiama gli sbarramenti dopo i guadi: se l'acqua c'e', vince l'acqua.
 static func _author_passages(
-	data: WorldCompositionData, spawn: Vector2, ship: Vector2, level: int
+	data: WorldCompositionData, spawn: Vector2, ship: Vector2, level: int,
+	profile: Dictionary = {}
 ) -> void:
 	_author_stream_crossing(data, spawn, ship)
-	_author_land_barriers(data, spawn, ship, level)
+	_author_land_barriers(data, spawn, ship, level, profile)
 
 static func _author_single_crossing(
 	data: WorldCompositionData, spawn: Vector2, selected: Dictionary, indice: int

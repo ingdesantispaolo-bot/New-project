@@ -99,9 +99,9 @@ const COLPI := {
 ##   Eli si misura contro la sua spirale al mondo 2 e scopre che è alla propria
 ##   altezza. Il colpo 6 smette di essere una rivelazione su una terza persona.
 ##
-## Dove `eli` **non** va messo: sullo Sbiadito del mondo 14. Quello funziona
-## perché nessuno lo commenta (vedi `SBIADITO_RICONOSCIBILE`), e una battuta di
-## Eli lo trasformerebbe da ricordo che torna a indizio da seguire.
+## Dove `eli` **non** va messo: sull'eco dello Sbiadito del mondo 16. Quello
+## funziona perché nessuno lo commenta (`WorldSetPiece`), e una battuta di Eli
+## lo trasformerebbe da ricordo che torna a indizio da seguire.
 const SEMI := [
 	# --- colpo 1 · la spirale fresca (mondo 5) --------------------------------
 	{"colpo": "spirale-fresca", "world": 1, "dove": "oggetto",
@@ -251,31 +251,9 @@ const SEMI := [
 		"cosa": "Un registro di manutenzione con undici voci cancellate e la dodicesima aperta oggi. Cancellate a mano, tutte con lo stesso tratto."},
 	{"colpo": "undici-quaderni", "world": 22, "dove": "oggetto",
 		"cosa": "La domanda che un Maestro lasciò a NORA e a cui non ha mai risposto: «e se glielo dicessi tutto, cosa imparerebbe?»"},
-	{"colpo": "undici-quaderni", "world": 14, "dove": "dettaglio",
-		"cosa": "Uno Sbiadito, alla Biblioteca, mormora una frase e non la varia mai: «Conta con me, piano». È la prima cosa che NORA ha detto a Eli, al mondo 1."},
+	{"colpo": "undici-quaderni", "world": 14, "dove": "oggetto",
+		"cosa": "Dietro uno scaffale c'è un foglio di esercizi compilato da due mani. Una scrive le domande; l'altra copia le risposte nello stesso ordine, senza cancellature."},
 ]
-
-## Lo **Sbiadito che ripete NORA**. È un solo caso in tutta la campagna, e sta
-## qui perché è il seme più importante del colpo 7.
-##
-## Il difetto che risolve: il mondo 24 dice «le undici prima di te le ho perse
-## io» e dovrebbe fare male, ma il giocatore non ne ha mai incontrata nessuna —
-## sono un numero. Gli Sbiaditi esistono già come nemici del mondo; ne basta
-## **uno** che si comporti diversamente.
-##
-## Le regole che lo rendono efficace, e sono tutte negative:
-##
-## - **nessuno lo spiega.** Non NORA, non gli abitanti, non un beat;
-## - **non è un nemico speciale**: stessa resa, stesso comportamento degli altri;
-## - **ripete una frase che il giocatore ha sentito da NORA nei primi minuti di
-##   gioco**, identica, fuori contesto. Al colpo 7 quel ricordo torna da solo.
-const SBIADITO_RICONOSCIBILE := {
-	"world": 14,
-	"frase": "Conta con me, piano.",
-	"origine": "beat del mondo 1, detta da NORA a Eli",
-	"commentato": false,
-	"nota": "Se qualcuno lo nota o lo commenta, diventa un indizio da seguire invece di una cosa che si ricorda dopo dieci mondi.",
-}
 
 ## Le 24 Tracce. Una per mondo, dentro la Rovina dei Primi. `decisiva` marca le
 ## tre senza le quali il finale non si capisce: quelle, e solo quelle, hanno un
@@ -410,7 +388,7 @@ const TRACCE := {
 		]},
 	23: {"oggetto": "Il registro del mondo 2", "colpo": "meridiana",
 		"testo": [
-			"Un registro di allievi locali. Alla riga di undici anni fa: Meridiana, allieva del posto, undici anni.",
+			"Un registro di allievi locali. Alla riga di quattrocento anni fa: Meridiana, allieva del posto, undici anni.",
 			"Nella colonna delle uscite: «partita verso il centro». Nella colonna dei rientri, niente. E nella colonna delle perdite, niente.",
 			"Nessuno l'ha mai registrata come perduta. Qualcuno la sta ancora aspettando.",
 		]},

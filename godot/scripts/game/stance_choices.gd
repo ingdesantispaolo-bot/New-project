@@ -35,8 +35,8 @@ const MAX_OPZIONI := 3
 const SAVE_KEY := "stanceChoices"
 
 const SCELTE := {
-	# La sola già cablata: la regia è in `outdoor_world.gd`, l'arco in
-	# `vera_arc.gd`. Le altre quattro aspettano una messa in scena.
+	# Vera ha una regia dedicata in `outdoor_world.gd` e `vera_arc.gd`; le altre
+	# scelte vengono messe in scena dal regista condiviso delle prese di posizione.
 	"vera-incrinatura": {
 		"dove": "Quando Vera dice che è sempre lei quella che non sa (`VeraArc`).",
 		"dove_eco": "La volta dopo che la si incontra, in qualunque mondo.",

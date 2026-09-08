@@ -27,8 +27,8 @@ const ITINERANTI := {
 	"itin-vera": ["Sei arrivata fin qui. Me lo rispieghi tutto, dopo?", "Cioè: dall'inizio. Tutto quanto. Posso?"],
 	"itin-orsolo": ["Mah.", "(più piano) Mah. …avevi ragione tu, e non lo dirò una seconda volta."],
 	"itin-sesto": ["Piacere, Sesto. Ci conosciamo?", "…scherzavo. Ti conosco benissimo. È la prima volta che lo dico e so che è vero."],
-	"itin-cinabro": ["Cinabrio è venuto a vedere come finisce. …Cinabro.", "Cinabro non sa come finisce. Nessuno lo sa. È il bello."],
-	"itin-lucilla": ["Guardalo, tesoro. Dice che ha capito dove siamo.", "Dice anche che non ha paura. Su quello mente, ma con affetto."],
+	"itin-cinabro": ["Cinabrio è venuto a vedere come finisce. …Cinabro.", "Ha ancora polvere di pietra sulle mani. Le spirali non si incidono da sole.", "Cinabro non sa come finisce. Nessuno lo sa. È il bello."],
+	"itin-lucilla": ["Guardalo, tesoro. Dice che ha capito dove siamo.", "Ha posato sul tredicesimo posto la cosa più inutile che aveva. La nave non sa catalogarla.", "La tiene."],
 }
 
 ## Una riga per residente, e ognuna dice **cosa ha smesso di credere**. Non sono
@@ -176,7 +176,7 @@ static func riconoscimento(ritratto: Dictionary) -> Array:
 		{"chi": "nora", "dice": prima},
 		{"chi": "nora", "dice": [
 			"Per ventiquattro mondi non ti ho detto niente.",
-			"Quindi quello che sai adesso non te l'ha dato nessuno. È tuo, e non si può togliere.",
+			"Quindi nessuno ha concluso al posto tuo. Quello che sai adesso è tuo, e non si può togliere.",
 		]},
 	]
 

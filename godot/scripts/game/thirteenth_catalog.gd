@@ -247,7 +247,8 @@ const BATTUTE := {
 		]},
 		{"modo": "avverte", "dice": [
 			"Guarda dove si è diradato, e guarda dove sono stato io.",
-			"Sono la stessa mappa. Non è merito tuo, ragazza. Mi dispiace.",
+			"Questa parte della mappa l'ho tenuta io. Ma dove hai aiutato qualcuno a capire, il Silenzio arretra.",
+			"Non so spiegarmelo. Tu sì?",
 		]},
 		{"modo": "supplica", "dice": [
 			"Sto cedendo. Lo senti anche tu, vero, quel tremito nell'aria?",
@@ -383,4 +384,3 @@ static func all_lines() -> Array:
 		for entry in BATTUTE[world]:
 			out.append((entry as Dictionary).duplicate(true))
 	return out
-

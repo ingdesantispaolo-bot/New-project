@@ -251,7 +251,7 @@ nome sia quello dell'ultima sorella e non di un personaggio inventato.
 > Le undici unità prima di te non le ha costruite il Tredicesimo. **Le ha
 > costruite NORA**, una dopo l'altra, per quattro secoli, perché voleva fare per
 > qualcuno ciò che era stato fatto per lei.
-> E le ha perse tutte allo stesso modo: **dicendogli tutto**. Le guidava, le
+> E le ha perse tutte allo stesso modo: **dicendo loro tutto**. Le guidava, le
 > correggeva, dava la risposta prima che sbagliassero — come Scala aveva fatto
 > con lei. Una per una si sono sbiadite: sapevano tutto e non capivano niente.
 > Tu sei **la prima a cui non ha detto**. Ventiquattro mondi di «non posso
@@ -558,13 +558,14 @@ cambio di contratto**. In **grassetto** i beat che portano un colpo di scena.
 | 21 | Atlante Fratturato | «Mi ha detto per chi era la cattedra vuota. Per nessuno: era tenuta per **quello che andavamo a cercare**. Un sapere sotto tutti gli altri. Il circuito non era un giro di lezioni. Era una ricerca.» |
 | 22 | Biosfera Profonda | «E in quella cattedra lui ci si è seduto: ha dichiarato la ricerca chiusa e si è preso il posto di ciò che non avevamo trovato. Per questo lo hanno cancellato. Non per la chiusura: per la sedia.» |
 | 23 | **Sala delle Ere** | **«Meridiana era una ragazzina di undici anni di questo circuito, non una Maestra. E non è morta: è andata a vedere cosa c'è al fondo del Silenzio ed è rimasta là dentro. Quattrocento anni. Ha lasciato una riga sola: *c'è qualcosa. venite.*»** |
-| 24 | **Cuore dei Primi** | **«Le undici prima di te le ho costruite io, Eli. E le ho perse tutte allo stesso modo: dicendogli tutto. Tu sei la prima a cui non ho detto. È la cosa più difficile che abbia mai fatto. Adesso vai, e risolvi l'ultimo da sola.»** |
+| 24 | **Cuore dei Primi** | **«Le undici prima di te le ho costruite io, Eli. E le ho perse tutte allo stesso modo: dicendo loro tutto. Tu sei la prima a cui non ho detto. È la cosa più difficile che abbia mai fatto. Adesso vai, e risolvi l'ultimo da sola.»** |
 
 **Beat finale** (sostituisce `FINAL_BEAT`):
 
 > «La nave ha assegnato il tredicesimo posto, e non a una nozione: a te. Non
 > perché hai trovato il Fondo — perché sei l'unica che tiene dodici modi di
-> capire nella stessa testa, e l'unica a cui nessuno li ha detti.
+> capire nella stessa testa, e l'unica a cui nessuno ha consegnato una
+> conclusione già pronta.
 > E i sensori lunghi rispondono: undici segnali fuori dal circuito, e molto più
 > in là una riga vecchia di quattrocento anni, ancora accesa. *C'è qualcosa.
 > Venite.* Sono tutte vive, sorella. E lei sta ancora aspettando.»

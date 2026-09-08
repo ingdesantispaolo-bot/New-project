@@ -5,7 +5,7 @@ extends SceneTree
 ## Tre cose si rompono in silenzio, qui:
 ##
 ## 1. **NORA che dà la risposta.** È la regola §6.1.1 ed è letteralmente la
-##    tragedia del personaggio: ha perso undici sorelle dicendogli tutto. Ogni
+##    tragedia del personaggio: ha perso undici sorelle dicendo loro tutto. Ogni
 ##    Maestro deve avere battute di *rilancio* — cosa dire al posto della
 ##    risposta — perché una regola senza battute diventa silenzio imbarazzato, e
 ##    il silenzio imbarazzato lo riempie chi scrive con una soluzione.

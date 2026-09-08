@@ -382,7 +382,8 @@ ha detto al giocatore dieci mondi prima. Un solo caso, senza spiegazione. Al
 colpo 7 quel ricordo torna e il numero diventa una persona.
 
 > **✔ Fatto, 19 agosto 2026.** È il momento d'autore del mondo 16 (forma `eco`):
-> una sacca si ferma e dice «Non te la do io la risposta. La rifai tu».
+> una sacca si ferma e ripete «Conta con me, piano», la prima frase che NORA ha
+> detto a Eli.
 
 **d) La conta di nonna Ersilia è l'unica chiave e si sente una volta sola.** Se
 un bambino salta quel dialogo nei primi cinque minuti, al mondo 24 non ha la

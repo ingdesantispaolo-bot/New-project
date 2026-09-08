@@ -118,15 +118,15 @@ func _check_colpi() -> Array:
 ## essere davvero una che il giocatore ha già sentito.
 func _check_sbiadito() -> Array:
 	var out: Array = []
-	var s := MysteryCatalog.SBIADITO_RICONOSCIBILE as Dictionary
-	var world := int(s.get("world", 0))
-	var frase := str(s.get("frase", "")).strip_edges()
+	var world := 16
+	var momento := WorldSetPiece.momento(world)
+	if momento.is_empty() or str(momento.get("forma", "")) != WorldSetPiece.ECO:
+		out.append("il mondo %d non contiene l'eco dello Sbiadito riconoscibile" % world)
+		return out
+	var frase := str(momento.get("eco", "")).strip_edges()
+	frase = frase.trim_prefix("«").trim_suffix(".").trim_suffix("»").strip_edges()
 	if frase == "":
 		out.append("lo Sbiadito riconoscibile non ha una frase")
-	if bool(s.get("commentato", true)):
-		out.append("lo Sbiadito riconoscibile è commentato: diventerebbe un indizio da seguire invece di un ricordo")
-	if world < 12 or world > 23:
-		out.append("lo Sbiadito riconoscibile sta al mondo %d: troppo presto per pesare, o troppo tardi per essere ricordato al 24" % world)
 
 	# La frase deve venire davvero da un beat che il giocatore ha sentito prima.
 	var trovata := 0

@@ -89,7 +89,7 @@ const MOMENTI := [
 		# La sorella riconoscibile chiesta da STATO_CONTENUTI §3.3c. Nessuna
 		# spiegazione adesso: al colpo di scena, quel ricordo torna.
 		"mondo": 16, "id": "set-16-eco", "forma": ECO, "durata": 20.0,
-		"eco": "«Non te la do io la risposta. La rifai tu».",
+		"eco": "«Conta con me, piano».",
 		"apertura": "Una delle sacche si è fermata. E ha detto una cosa, con una voce che conosci.",
 		"chiusura": "",
 	},

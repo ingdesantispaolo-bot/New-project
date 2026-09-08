@@ -45,10 +45,10 @@ const BEATS := {
 	21: "NORA: Mi ha detto per chi era la cattedra vuota. Per nessuno: era tenuta per quello che andavamo a cercare. Un sapere sotto tutti gli altri. Il circuito non era un giro di lezioni. Era una ricerca.",
 	22: "NORA: E in quella cattedra lui ci si è seduto: ha dichiarato la ricerca chiusa e si è preso il posto di ciò che non avevamo trovato. Per questo lo hanno cancellato. Non per la chiusura: per la sedia.",
 	23: "NORA: Meridiana era una ragazzina di undici anni di questo circuito, non una Maestra. E non è morta: è andata a vedere cosa c'è al fondo del Silenzio ed è rimasta là dentro. Quattrocento anni. Ha lasciato una riga sola: c'è qualcosa, venite.",
-	24: "NORA: Le undici prima di te le ho costruite io, Eli. E le ho perse tutte allo stesso modo: dicendogli tutto. Tu sei la prima a cui non ho detto. È la cosa più difficile che abbia mai fatto. Adesso vai, e risolvi l'ultimo da sola.",
+	24: "NORA: Le undici prima di te le ho costruite io, Eli. E le ho perse tutte allo stesso modo: dicendo loro tutto. Tu sei la prima a cui non ho detto. È la cosa più difficile che abbia mai fatto. Adesso vai, e risolvi l'ultimo da sola.",
 }
 
-const FINAL_BEAT := "NORA: La nave ha assegnato il tredicesimo posto, e non a una nozione: a te. Non perché hai trovato il Fondo — perché sei l'unica che tiene dodici modi di capire nella stessa testa, e l'unica a cui nessuno li ha detti. E i sensori lunghi rispondono: undici segnali fuori dal circuito, e molto più in là una riga vecchia di quattrocento anni, ancora accesa. C'è qualcosa. Venite. Sono tutte vive, sorella. E lei sta ancora aspettando."
+const FINAL_BEAT := "NORA: La nave ha assegnato il tredicesimo posto, e non a una nozione: a te. Non perché hai trovato il Fondo — perché sei l'unica che tiene dodici modi di capire nella stessa testa, e l'unica a cui nessuno ha consegnato una conclusione già pronta. E i sensori lunghi rispondono: undici segnali fuori dal circuito, e molto più in là una riga vecchia di quattrocento anni, ancora accesa. C'è qualcosa. Venite. Sono tutte vive, sorella. E lei sta ancora aspettando."
 
 ## **I mondi in cui la storia si ribalta.** Sono i sette colpi di
 ## `docs/TRAMA_E_MISTERO.md` §3 — il quinto è doppio, mondi 19 e 20 — ed è la

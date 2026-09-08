@@ -63,6 +63,8 @@ var session: Dictionary
 var _nodes: Array = []
 var _index := 0
 var _correct := 0
+var _weighted_correct := 0.0
+var _weighted_total := 0.0
 var _shields := 3
 var _energy := 0
 var _energy_per_correct := 10
@@ -249,6 +251,10 @@ func start_session(new_session: Dictionary) -> void:
 		)
 	_index = 0
 	_correct = 0
+	_weighted_correct = 0.0
+	_weighted_total = 0.0
+	for node_data in _nodes:
+		_weighted_total += float((node_data as Dictionary).get("scoreWeight", 1.0))
 	_shields = int(session.get("shields", 3))
 	_energy = 0
 	_serie = 0
@@ -1946,6 +1952,7 @@ func _score_current(is_correct: bool, item: Dictionary) -> void:
 		if audio != null:
 			audio.call("play_event", "answerCorrect")
 		_correct += 1
+		_weighted_correct += float(item.get("scoreWeight", 1.0))
 		# La serie sale PRIMA di pagare, così la risposta che allunga la serie è
 		# anche quella che ne incassa il valore nuovo: farla pagare alla
 		# successiva significherebbe premiare sempre con un turno di ritardo, e
@@ -3600,6 +3607,8 @@ func _abandon() -> void:
 		"kind": str(session.get("kind", "mission")),
 		"correct": _correct,
 		"total": _nodes.size(),
+		"weightedCorrect": _weighted_correct,
+		"weightedTotal": _weighted_total,
 		"passed": false,
 		"abandoned": true,
 		"abandonCost": _abandon_cost,
@@ -3639,14 +3648,28 @@ func _unhandled_input(event: InputEvent) -> void:
 			_swipe_judge(true)
 			get_viewport().set_input_as_handled()
 
+## Regola di voto isolata dalla UI, così gli audit possono dimostrare che una
+## prova dichiarata 50/35/15 viene davvero valutata con quei pesi.
+static func session_score_passed(
+	session_data: Dictionary, correct: int, total: int,
+	weighted_correct: float, weighted_total: float, shields_left: int
+) -> bool:
+	if shields_left <= 0:
+		return false
+	if bool(session_data.get("weightedScoring", false)):
+		var ratio := float(session_data.get("weightedPassRatio", 0.5))
+		return weighted_correct + 0.00001 >= weighted_total * ratio
+	var minimum_correct := int(session_data.get("minimumCorrect", ceili(float(total) * 0.5)))
+	return correct >= minimum_correct
+
 func _finish() -> void:
 	if _session_closed:
 		return
 	_session_closed = true
 	_completion_queued = false
 	var total := _nodes.size()
-	var minimum_correct := int(session.get("minimumCorrect", ceili(float(total) * 0.5)))
-	var passed := _shields > 0 and _correct >= minimum_correct
+	var passed := session_score_passed(
+		session, _correct, total, _weighted_correct, _weighted_total, _shields)
 	# Nel finale la soglia numerica non basta: il tredicesimo posto viene
 	# assegnato a chi ha risolto il nodo di sintesi. Senza questo vincolo si
 	# potrebbe completare la campagna sbagliando proprio l'ultimo nodo.
@@ -3670,6 +3693,8 @@ func _finish() -> void:
 		"kind": str(session.get("kind", "mission")),
 		"correct": _correct,
 		"total": total,
+		"weightedCorrect": _weighted_correct,
+		"weightedTotal": _weighted_total,
 		"passed": passed,
 		"energyGained": _energy,
 		# La serie viaggia nell'esito per la resa e per il riepilogo. Non la legge

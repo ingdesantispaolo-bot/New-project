@@ -109,6 +109,51 @@ const MATCHING := {
 			["What time is it?", "It's half past three."], ["Can I help you?", "Yes, please."],
 			["What's the weather like?", "It's sunny."], ["How much is it?", "Five euros."],
 			["Where do you live?", "In a small town."], ["What's your favourite subject?", "Science."]]},
+		# --- Il soffitto dei mondi alti (8 settembre 2026) --------------------
+		#
+		# Misurato con `inglese_livelli_probe`: dal livello 13 in poi l'inglese
+		# non guadagnava più una sola ricetta, e il minLevel più alto era 20.
+		# Undici mondi su ventiquattro ripetevano quello che il mondo 13 aveva
+		# già mostrato. Queste ricette coprono i livelli 14-23 con il programma
+		# del biennio, gli stessi argomenti dei 470 item nuovi di banco.
+		{"explanation": "Il phrasal verb non è la somma dei due pezzi: «give up» non è «dare su», è arrendersi. Si impara intero, come una parola sola, ed è per questo che sta in un insieme di coppie.", "topic": "phrasal-verbs", "minLevel": 14, "kind": "pool", "pool": [
+			["give up", "arrendersi"], ["look after", "prendersi cura di"], ["look for", "cercare"],
+			["find out", "scoprire"], ["put off", "rimandare"], ["turn on", "accendere"],
+			["turn off", "spegnere"], ["get up", "alzarsi"], ["take off", "decollare"],
+			["run out of", "rimanere senza"], ["take after", "assomigliare a"], ["get on with", "andare d'accordo"],
+			["look forward to", "aspettare con piacere"], ["give back", "restituire"], ["carry on", "continuare"],
+			["break down", "guastarsi"], ["grow up", "crescere"], ["put on", "indossare"],
+			["throw away", "buttare via"], ["work out", "allenarsi"], ["call off", "annullare"],
+			["set off", "mettersi in viaggio"], ["make up", "inventare"], ["come across", "imbattersi in"]]},
+		{"explanation": "Ogni tempo verbale è una formula di montaggio, e riconoscerla vale più che ricordarne il nome: chi sa quali pezzi servono può costruirlo anche con un verbo mai visto.", "topic": "present-perfect", "minLevel": 16, "kind": "pool", "pool": [
+			["present perfect", "have/has + participio"], ["past perfect", "had + participio"],
+			["present continuous", "am/is/are + verbo-ing"], ["past continuous", "was/were + verbo-ing"],
+			["future with will", "will + verbo nudo"], ["future with going to", "am/is/are going to + verbo"],
+			["passive present", "am/is/are + participio"], ["passive past", "was/were + participio"],
+			["second conditional", "if + passato, would + verbo"], ["third conditional", "if + had done, would have done"],
+			["causative", "have + oggetto + participio"], ["present simple", "verbo nudo, -s alla terza"]]},
+		{"explanation": "I connettivi non decorano: dichiarano la logica del testo. Impararli con la traduzione italiana è il modo più rapido di smettere di sceglierli a orecchio.", "topic": "linkers", "minLevel": 18, "kind": "pool", "pool": [
+			["although", "anche se"], ["however", "tuttavia"], ["despite", "nonostante"],
+			["therefore", "perciò"], ["moreover", "inoltre"], ["whereas", "mentre invece"],
+			["unless", "a meno che"], ["as long as", "purché"], ["in order to", "allo scopo di"],
+			["nevertheless", "ciò nonostante"], ["besides", "oltretutto"], ["thus", "in questo modo"],
+			["so that", "in modo che"], ["because of", "a causa di"], ["as soon as", "non appena"],
+			["in conclusion", "in conclusione"], ["on the other hand", "d'altra parte"], ["first of all", "prima di tutto"]]},
+		{"explanation": "La preposizione fa parte del significato del verbo, e non si ricava traducendo: «depend on» dove l'italiano direbbe «da». Si impara la coppia intera.", "topic": "prepositions", "minLevel": 21, "kind": "pool", "pool": [
+			["depend on", "dipendere da"], ["interested in", "interessato a"], ["good at", "bravo in"],
+			["afraid of", "spaventato da"], ["famous for", "famoso per"], ["similar to", "simile a"],
+			["listen to", "ascoltare"], ["wait for", "aspettare"], ["belong to", "appartenere a"],
+			["based on", "basato su"], ["worried about", "preoccupato per"], ["proud of", "orgoglioso di"],
+			["married to", "sposato con"], ["full of", "pieno di"], ["angry with", "arrabbiato con"],
+			["succeed in", "riuscire in"], ["apologise for", "scusarsi per"], ["rely on", "contare su"]]},
+		{"explanation": "Una radice, molte parole: il suffisso dice il mestiere grammaticale prima ancora del significato. Riconoscerlo permette di capire una parola mai vista senza cercarla.", "topic": "word-family", "minLevel": 23, "kind": "pool", "pool": [
+			["happy", "happiness"], ["decide", "decision"], ["arrive", "arrival"],
+			["teach", "teacher"], ["danger", "dangerous"], ["care", "careless"],
+			["use", "useful"], ["child", "childhood"], ["friend", "friendship"],
+			["king", "kingdom"], ["free", "freedom"], ["punish", "punishment"],
+			["agree", "agreement"], ["possible", "impossible"], ["legal", "illegal"],
+			["regular", "irregular"], ["understand", "misunderstand"], ["read", "readable"],
+			["strong", "strength"], ["long", "length"], ["honest", "dishonest"], ["appear", "disappear"]]},
 	],
 	"geografia": [
 		# L12. Le capitali europee si incontrano al primo mondo; queste sono quelle
@@ -1165,6 +1210,10 @@ const ORDERING := {
 		{"explanation": "Nelle domande con wh- la parola interrogativa va per prima, poi l'ausiliare, poi il soggetto.", "topic": "wh-question", "minLevel": 6, "prompt": "Order the words to make a question.", "correctOrder": ["Where", "do", "you", "live?"]},
 		# --- Terzo ordinamento al mondo 1 (7 agosto 2026) ----------------------
 		{"explanation": "In inglese l'ordine delle parole porta il significato, perche' le parole non cambiano forma: soggetto, verbo, oggetto, e poi il resto.", "topic": "sentence", "prompt": "Order the words to make a sentence.", "correctOrder": ["I", "read", "a book", "every evening"]},
+		# --- Le costruzioni del biennio (8 settembre 2026) --------------------
+		{"explanation": "Dentro un'altra frase la domanda perde l'inversione: chi la ospita ha già fatto il lavoro di domandare, e il soggetto torna davanti al verbo.", "topic": "question", "minLevel": 15, "prompt": "Order the words to make an indirect question.", "correctOrder": ["Can you tell me", "where", "he", "lives?"]},
+		{"explanation": "Il passivo si monta sempre nello stesso ordine: la cosa che subisce, il verbo essere al tempo giusto, il participio, e solo alla fine chi ha agito.", "topic": "passive", "minLevel": 19, "prompt": "Order the words to make a passive sentence.", "correctOrder": ["The bridge", "was built", "in 1890", "by the Romans"]},
+		{"explanation": "Nel terzo tipo di periodo ipotetico la condizione va al trapassato e la conseguenza al condizionale composto: due pezzi in tre parole ciascuno, e nessuno dei due si può accorciare.", "topic": "conditionals", "minLevel": 22, "prompt": "Order the words to make a third conditional.", "correctOrder": ["If I", "had known,", "I would", "have come"]},
 	],
 	"fisica": [
 		# Insiemi a estrazione: in fisica l'ordine NON è una convenzione da ricordare,
@@ -2401,6 +2450,48 @@ const CLASSIFICATION := {
 				"Monday": "day", "Wednesday": "day", "Friday": "day", "Sunday": "day", "Thursday": "day",
 				"January": "month", "April": "month", "July": "month", "October": "month", "December": "month",
 				"spring": "season", "summer": "season", "autumn": "season", "winter": "season"}},
+		# --- Il biennio: i mondi 15-22 (8 settembre 2026) ---------------------
+		{"explanation": "Dopo certi verbi va la forma in «-ing», dopo altri l'infinito con «to». Non c'è una regola che lo spieghi: si imparano in due liste, e smistarli è il modo di costruirsele.", "topic": "gerund-infinitive", "minLevel": 15, "draw": 6, "prompt": "Sort each verb: does it take «-ing» or «to»?",
+			"categories": ["+ -ing", "+ to"],
+			"assignments": {
+				"enjoy": "+ -ing", "avoid": "+ -ing", "finish": "+ -ing", "mind": "+ -ing",
+				"suggest": "+ -ing", "practise": "+ -ing", "imagine": "+ -ing", "risk": "+ -ing",
+				"decide": "+ to", "want": "+ to", "hope": "+ to", "promise": "+ to",
+				"refuse": "+ to", "agree": "+ to", "learn": "+ to", "offer": "+ to"}},
+		{"explanation": "La spia del passivo sono due cose insieme: il verbo essere e il participio. Se ne manca uno, la frase è attiva anche quando racconta una disgrazia.", "topic": "passive", "minLevel": 17, "draw": 6, "prompt": "Sort each sentence: active or passive?",
+			"categories": ["active", "passive"],
+			"assignments": {
+				"The window was broken": "passive", "English is spoken here": "passive",
+				"The bridge was built in 1890": "passive", "My phone was stolen": "passive",
+				"The work has been done": "passive", "The car will be repaired": "passive",
+				"It is said that he is rich": "passive", "She was given a present": "passive",
+				"The window broke": "active", "She broke the window": "active",
+				"They speak English": "active", "He has done the work": "active",
+				"The car needs cleaning": "active", "Someone stole my phone": "active",
+				"They built the bridge": "active", "He gave her a present": "active"}},
+		{"explanation": "«For» misura quanto è durata una cosa, «since» dichiara da quando è cominciata. È la stessa domanda posta in due modi, e la risposta sta nel tipo di parola che segue.", "topic": "present-perfect", "minLevel": 19, "draw": 6, "prompt": "Sort each expression: does it take «for» or «since»?",
+			"categories": ["for", "since"],
+			"assignments": {
+				"three years": "for", "a week": "for", "two hours": "for",
+				"a long time": "for", "ages": "for", "ten minutes": "for",
+				"six months": "for", "a few days": "for",
+				"2020": "since", "Monday": "since", "last summer": "since",
+				"I was a child": "since", "September": "since", "yesterday": "since",
+				"we met": "since", "this morning": "since"}},
+		{"explanation": "I tre tipi di periodo ipotetico si distinguono dai tempi, non dal senso: più la condizione è improbabile, più il verbo arretra. Contare i gradini basta a riconoscerli.", "topic": "conditionals", "minLevel": 22, "draw": 6, "prompt": "Sort each sentence: first, second or third conditional?",
+			"categories": ["first", "second", "third"],
+			"assignments": {
+				"If it rains, we will stay in": "first", "If she comes, I will tell her": "first",
+				"If you study, you will pass": "first", "If I have time, I will call you": "first",
+				"If he asks, I will help him": "first",
+				"If I were rich, I would travel": "second", "If I had time, I would learn Greek": "second",
+				"If I were you, I would call him": "second", "If she came, I would tell her": "second",
+				"If he asked, I would help him": "second",
+				"If you had studied, you would have passed": "third",
+				"If I had known, I would have come": "third",
+				"If she had come, I would have told her": "third",
+				"If he had asked, I would have helped him": "third",
+				"If it had rained, we would have stayed in": "third"}},
 	],
 	"latino": [
 		{"topic": "declinazioni-base", "draw": 6, "prompt": "Smista ogni parola latina: singolare o plurale?",
@@ -4069,6 +4160,27 @@ const CODE_DEBUG := {
 			"prompt": "One negative sentence is wrong. Which line?",
 			"codeLines": ["I don't like fish.", "He don't like tea.", "We don't watch TV.", "# which negative is wrong?"],
 			"explanation": "Line 2: third person singular uses 'doesn't': 'He doesn't like tea'."},
+		# --- Gli errori del biennio (8 settembre 2026) ------------------------
+		{"topic": "present-perfect", "minLevel": 14, "answerLine": 2, "shuffleLines": true,
+			"prompt": "One tense is wrong. Which line?",
+			"codeLines": ["I have lived here since 2020.", "I have seen him yesterday.", "She has just arrived.", "# which tense does not fit?"],
+			"explanation": "Riga 2: «yesterday» dichiara un momento finito e taglia il filo con il presente. Con un tempo chiuso ci vuole il past simple: «I saw him yesterday». Le righe 1 e 3 tengono il filo aperto e vanno bene così."},
+		{"topic": "conditionals", "minLevel": 16, "answerLine": 2, "shuffleLines": true,
+			"prompt": "One conditional is wrong. Which line?",
+			"codeLines": ["If it rains, we will stay in.", "If it will rain, we will stay in.", "If I were you, I would go.", "# which «if» sentence is wrong?"],
+			"explanation": "Riga 2: dopo «if» il futuro non si scrive mai. Il futuro lo porta la principale, e la condizione resta al presente — come succede anche dopo «when» e «as soon as»."},
+		{"topic": "reported-speech", "minLevel": 18, "answerLine": 2, "shuffleLines": true,
+			"prompt": "One reported sentence is wrong. Which line?",
+			"codeLines": ["He said he was tired.", "He asked where did I live.", "She told me to close the door.", "# which reported sentence is wrong?"],
+			"explanation": "Riga 2: nel discorso indiretto la domanda perde l'inversione e l'aiutante. La forma giusta è «He asked where I lived»: l'ordine torna quello di un'affermazione, e il tempo arretra."},
+		{"topic": "passive", "minLevel": 20, "answerLine": 2, "shuffleLines": true,
+			"prompt": "One passive sentence is wrong. Which line?",
+			"codeLines": ["The house was built in 1890.", "The house built in 1890 by them.", "English is spoken here.", "# which passive is wrong?"],
+			"explanation": "Riga 2: senza il verbo essere non c'è nessun passivo, e la casa diventa chi costruisce. Il passivo è sempre verbo essere più participio, in questo ordine e senza saltarne nessuno."},
+		{"topic": "gerund-infinitive", "minLevel": 22, "answerLine": 2, "shuffleLines": true,
+			"prompt": "One verb form is wrong. Which line?",
+			"codeLines": ["I enjoy reading books.", "I decided going home early.", "She is good at solving problems.", "# which verb form is wrong?"],
+			"explanation": "Riga 2: «decide» regge l'infinito con «to», non la forma in «-ing». La riga 1 usa un verbo che vuole «-ing», la 3 sta dopo una preposizione, e dopo una preposizione la forma in «-ing» è obbligatoria."},
 	],
 	# ELETTRONICA — "Caccia all'errore": si scova l'affermazione falsa sul circuito
 	# o il passaggio sbagliato nel calcolo elettrico. Il ragionamento come sfida.
@@ -4587,6 +4699,22 @@ const SWIPE := {
 				{"text": "sensible » sensato", "correct": true},
 				{"text": "sensible » sensibile", "correct": false}],
 			"explanation": "I falsi amici somigliano a parole italiane ma hanno cambiato significato. La somiglianza è la trappola: bisogna verificare l'uso nella frase, non fidarsi della forma."},
+		{"topic": "present-perfect", "minLevel": 20, "prompt": "Scorri: a destra se la frase è giusta, a sinistra se il tempo è sbagliato.", "seconds": 55.0, "minAccuracy": 0.75,
+			"statements": [
+				{"text": "I have lived here since 2020", "correct": true},
+				{"text": "I have seen him yesterday", "correct": false},
+				{"text": "She has just arrived", "correct": true},
+				{"text": "We went to Rome last year", "correct": true},
+				{"text": "We have gone to Rome last year", "correct": false},
+				{"text": "Have you finished yet?", "correct": true},
+				{"text": "Did you finish yet?", "correct": false},
+				{"text": "I know her since 2019", "correct": false},
+				{"text": "I have known her since 2019", "correct": true},
+				{"text": "He has been ill for a week", "correct": true},
+				{"text": "He is ill since a week", "correct": false},
+				{"text": "They arrived two days ago", "correct": true},
+				{"text": "They have arrived two days ago", "correct": false}],
+			"explanation": "La regola si decide su una parola sola: se la frase dichiara QUANDO — yesterday, last year, two days ago — il filo con il presente si taglia e ci vuole il past simple. Se il periodo resta aperto — since, for, yet, just — ci vuole il present perfect. Le frasi false qui sono tutte errori che un italiano fa davvero, perché in italiano quel filo lo teniamo con il presente."},
 	],
 	"latino": [
 		{"topic": "declinazioni-base", "minLevel": 7, "prompt": "Scorri: a destra se il caso è giusto, a sinistra se è sbagliato.", "seconds": 55.0, "minAccuracy": 0.75,
@@ -4876,6 +5004,23 @@ const COMPOSE := {
 			"targets": [{"id": "a", "label": "went"}, {"id": "b", "label": "goed"}, {"id": "c", "label": "gone"}],
 			"answer": "a",
 			"explanation": "I verbi irregolari cambiano parola invece di prendere una desinenza, e vanno imparati a coppie. «Gone» esiste, ma non regge da sola: chiede *have* davanti, e senza resta a metà."},
+		# --- I tempi composti (8 settembre 2026) ------------------------------
+		{"topic": "present-perfect", "minLevel": 17, "prompt": "Completa la frase con la forma giusta.",
+			"domande": [
+				{"prompt": "Quale forma non può stare dopo «has», perché non è un participio?", "answer": "b", "explanation": "«Went» è il passato semplice, e il passato semplice non regge mai dopo un ausiliare. Dopo «have» o «has» ci va sempre la terza forma del verbo, quella della tabella."},
+			],
+			"slots": [{"text": "She has"}, {"text": ""}, {"text": "to London twice"}],
+			"targets": [{"id": "a", "label": "been"}, {"id": "b", "label": "went"}, {"id": "c", "label": "gone"}],
+			"answer": "a",
+			"explanation": "«Been» dice che ci è andata ed è tornata; «gone» direbbe che è partita e non c'è più — e con «twice» non tornerebbe. È la differenza più utile della coppia, e la sola che cambia il senso della frase."},
+		{"topic": "conditionals", "minLevel": 21, "prompt": "Completa la conseguenza del terzo tipo.",
+			"domande": [
+				{"prompt": "Quale forma parla del presente e non del passato ormai perduto?", "answer": "c", "explanation": "«Would pass» è il condizionale semplice, e guarda a una cosa ancora possibile adesso. Il terzo tipo parla di un passato che non si può più cambiare, e chiede il condizionale composto."},
+			],
+			"slots": [{"text": "If you had studied, you"}, {"text": ""}, {"text": "the exam"}],
+			"targets": [{"id": "a", "label": "would have passed"}, {"id": "b", "label": "will have passed"}, {"id": "c", "label": "would pass"}],
+			"answer": "a",
+			"explanation": "Nel terzo tipo la condizione sta al trapassato e la conseguenza al condizionale composto: la frase racconta quello che sarebbe successo e non è successo. È il tempo del rimpianto."},
 	],
 	"coding": [
 		{"topic": "sequenza", "minLevel": 4, "prompt": "Completa la riga perché il ciclo sia sintatticamente valido.",

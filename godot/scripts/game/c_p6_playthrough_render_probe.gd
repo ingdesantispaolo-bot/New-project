@@ -31,13 +31,16 @@ func _prepare_gate(world: Node) -> void:
 	var save: GameSaveManager = world.get("game_save")
 	var progression: ProgressionManager = world.get("progression_manager")
 	var gate := progression.current_gate()
-	var subject := ApparatusConfig.world_subject(save.level())
-	for _index in range(5):
-		save.add_mission(subject)
-	save.set_mastery(subject, float(gate.get("masteryThreshold", 0.7)))
-	var topic_target := GateReadiness.coverage_target(world.get("content_manager").subject_topic_count(subject))
-	for index in range(maxi(topic_target, 1)):
-		save.set_topic_mastery(subject, "c-p6-topic-%d" % index, 1.0)
+	for subject_data in ApparatusConfig.SUBJECT_CYCLE:
+		var subject := str(subject_data)
+		for _index in range(5):
+			save.add_mission(subject)
+		save.set_mastery(subject, ApparatusConfig.subject_mastery_threshold(subject, save.level()))
+		var topic_target := GateReadiness.coverage_target(
+			world.get("content_manager").subject_topic_count(subject), save.level(),
+			ApparatusConfig.is_core(subject))
+		for index in range(maxi(topic_target, 1)):
+			save.set_topic_mastery(subject, "c-p6-topic-%d" % index, 1.0)
 	world.get("gameplay").call("_emit_state")
 
 func _portal_area(world: Node) -> Area2D:

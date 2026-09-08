@@ -16,17 +16,18 @@ func _run() -> void:
 	var save: GameSaveManager = hub.get("save")
 	save.data = GameSaveManager._default_data()
 	var host := ApparatusConfig.world_subject(1)
-	var gate := ApparatusConfig.apparatus_gate(host, 1)
-	save.add_mission(host)
-	save.set_mastery(host, ApparatusConfig.subject_mastery_threshold(host, save.level()))
-	# Il gate P0 usa quattro dimensioni: oltre a confidenza e accuratezza,
-	# l'audit deve preparare anche una copertura reale di topic. La ritenzione è
-	# soddisfatta perché il save nuovo non contiene ripassi arretrati.
-	for topic in ["audit-a", "audit-b", "audit-c"]:
-		save.set_topic_mastery(host, topic, 1.0)
+	for subject_data in ApparatusConfig.SUBJECT_CYCLE:
+		var prepared_subject := str(subject_data)
+		save.add_mission(prepared_subject)
+		save.set_mastery(prepared_subject,
+			ApparatusConfig.subject_mastery_threshold(prepared_subject, save.level()))
+		# L'esame finale aspetta accuratezza, copertura e ritenzione di tutti i
+		# compiti del mondo.
+		for topic in ["audit-a", "audit-b", "audit-c"]:
+			save.set_topic_mastery(prepared_subject, topic, 1.0)
 	var controller: HubController = hub.get("controller")
 	controller.refresh()
-	assert(controller.progression.can_repair_apparatus(host),
+	assert(controller.progression.can_start_final_exam(),
 		"fixture nave incompleta: il gate a quattro dimensioni non è pronto")
 	await hub.call("_on_exam_finished", {
 		"passed": true,

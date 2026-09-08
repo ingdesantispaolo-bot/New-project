@@ -68,6 +68,12 @@ func _init() -> void:
 	for livello in range(1, ApparatusConfig.MAX_LEVEL + 1):
 		var save := GameSaveManager.new()
 		save.set_level(livello)
+		# La fixture parte direttamente dal mondo sotto esame: ricostruisce quindi
+		# le certificazioni dei mondi precedenti. Al mondo 24 il Cuore le richiede,
+		# proprio come accade in un percorso reale 1 -> 24.
+		for passato in range(1, livello):
+			var materia_passata := ApparatusConfig.world_subject(passato)
+			save.set_apparatus_repaired(ApparatusConfig.apparatus_of(materia_passata), passato)
 		var content := ContentManager.new()
 		var prog := ProgressionManager.new(save, content)
 		var focus := ApparatusConfig.world_subject(livello)
@@ -94,8 +100,8 @@ func _init() -> void:
 			prog.aggiorna_traguardi_di_livello()
 		_controlla(aperto,
 			"mondo %d: seguendo i compiti dichiarati il livello non si apre" % livello)
-		_controlla(prog.can_repair(),
-			"mondo %d: i compiti dichiarati non aprono l'esame dell'apparato" % livello)
+		_controlla(prog.can_start_final_exam(),
+			"mondo %d: i compiti dichiarati non aprono l'esame finale" % livello)
 		if prove > peggior_prove:
 			peggior_prove = prove
 			peggior_mondo = livello

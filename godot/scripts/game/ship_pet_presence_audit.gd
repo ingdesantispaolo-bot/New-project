@@ -21,10 +21,13 @@ func _run() -> void:
 		"inventory": [],
 	}
 	var subject := ApparatusConfig.world_subject(1)
-	fixture.add_mission(subject)
-	fixture.set_mastery(subject, ApparatusConfig.subject_mastery_threshold(subject, 1))
-	for topic in ["audit-a", "audit-b", "audit-c"]:
-		fixture.set_topic_mastery(subject, topic, 1.0)
+	for subject_data in ApparatusConfig.SUBJECT_CYCLE:
+		var prepared_subject := str(subject_data)
+		fixture.add_mission(prepared_subject)
+		fixture.set_mastery(prepared_subject,
+			ApparatusConfig.subject_mastery_threshold(prepared_subject, 1))
+		for topic in ["audit-a", "audit-b", "audit-c"]:
+			fixture.set_topic_mastery(prepared_subject, topic, 1.0)
 
 	var hub := (load(HUB_SCENE) as PackedScene).instantiate()
 	hub.set("launch_save_override", fixture.data.duplicate(true))
@@ -53,7 +56,7 @@ func _run() -> void:
 	pet_screen.call("close_screen")
 
 	var controller: HubController = hub.get("controller")
-	assert(controller.progression.can_repair_apparatus(subject),
+	assert(controller.progression.can_start_final_exam(),
 		"fixture nave non pronta per l'esame")
 	await hub.call("_on_exam_finished", {
 		"passed": true,

@@ -114,11 +114,14 @@ func _materia(riga: Dictionary) -> void:
 	blocco.name = "Subject_%s" % str(riga.get("materia", ""))
 	blocco.add_theme_constant_override("separation", 2)
 	var testa := Label.new()
-	# Il nucleo è segnato perché la sua asticella è più alta: se non si dice, un
-	# bambino legge «italiano più indietro di storia» come una sua mancanza,
-	# mentre è il gioco che chiede di più.
-	testa.text = "%s %s%s" % [
-		"OK" if fatto else "·", nome, "  ·  asticella più alta" if bool(riga.get("nucleo", false)) else ""]
+	# La quota rende leggibile perche' il percorso insiste di piu' su alcune
+	# materie: non e' una mancanza dello studente, e' la gerarchia didattica.
+	var fascia := int(riga.get("fascia", 3))
+	var quota := int(round(float(riga.get("quotaFascia", 0.15)) * 100.0))
+	var esercizi := int(riga.get("eserciziPerProva", 1))
+	testa.text = "%s %s  ·  %s (%d%%) · %d %s" % [
+		"OK" if fatto else "·", nome, ApparatusConfig.tier_label(fascia), quota,
+		esercizi, "esercizio" if esercizi == 1 else "esercizi"]
 	testa.add_theme_font_size_override("font_size", 16)
 	testa.add_theme_color_override("font_color", VERDE if fatto else ORO)
 	blocco.add_child(testa)

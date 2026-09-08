@@ -42,15 +42,15 @@ const EXAM_PASS_RATIO := 0.75
 ## nota estesa in `build_final_exam`.
 const EXAM_NON_MC_RATIO := 0.7
 
-## **Elettronica fa eccezione, e l'aveva già dichiarato.** (1 settembre 2026)
-##
-## È l'unica materia che ha portato la scelta multipla a zero in TUTTO il resto:
-## l'esame è il solo posto in cui misura, e `elettronica_hands_on_audit` pretende
-## che almeno metà delle sue prove restino domande dirette. Con la quota generale
-## scendevano al 44% e l'audit — a ragione — lo chiamava «non misura più».
-const EXAM_NON_MC_PER_MATERIA := {
-	"elettronica": 0.3,
-}
+## Venti prove permettono una composizione intera 10/7/3: esattamente
+## 50% / 35% / 15%, senza dover consumare la tolleranza disponibile.
+const PRIORITY_EXAM_NODES := 20
+const PRIORITY_EXAM_COUNTS := {1: 10, 2: 7, 3: 3}
+
+## L'esame è ora multi-materia: il mix dei gesti non dipende più dalla materia
+## che ospita il mondo. Elettronica conserva comunque domande dirette nei SUOI
+## nodi (vedi la selezione in `build_final_exam`).
+const EXAM_NON_MC_PER_MATERIA := {}
 
 static func exam_non_mc_ratio(subject: String) -> float:
 	return float(EXAM_NON_MC_PER_MATERIA.get(subject, EXAM_NON_MC_RATIO))
@@ -752,71 +752,100 @@ func build_final_exam(subject: String, level: int, node_count: int = 3, rng: Ran
 	if generator == null:
 		generator = RandomNumberGenerator.new()
 		generator.randomize()
-	# L'esame è più lungo e più severo di una missione. (5 agosto 2026)
-	#
-	# Era una missione da tre nodi con due scudi, costruita con la stessa logica:
-	# poteva cadere sugli stessi argomenti appena praticati e si superava
-	# sbagliandone uno. Misurava l'ultima mezz'ora, non la materia.
-	#
-	# Ora: cinque nodi, e per passare ne servono quattro. Sbagliarne uno è
-	# ammesso — un esame che non perdona nessun errore misura la tensione, non la
-	# competenza — ma due no.
-	# Mai più nodi degli argomenti che il livello propone: con cinque nodi su una
-	# materia che ne offre tre, la selezione era costretta a ripetere lo stesso
-	# argomento nello stesso formato — 89 sessioni su 3648, e `format_mix_audit`
-	# lo vieta a ragione. Dove la materia è ricca l'esame resta lungo.
-	var nodi_esame := clampi(reachable_topic_count(subject, level), node_count, EXAM_NODES)
-	var exam := build_mission(subject, level, nodi_esame, {}, generator, mastery, topic_mastery, experience)
-	# **L'esame non è un compito in classe.** (1 settembre 2026)
-	#
-	# Qui c'era un `1` fisso: «garantisci almeno un formato oltre la scelta
-	# multipla». Misurato su logica (1168 nodi giocati), quel numero produceva un
-	# esame fatto per il 61,3% di «tocca una fra N» e per il 20% di risposte
-	# digitate: manipolazione al 15%. Il mondo si apre con la pratica al 75% di
-	# manipolazione e si chiude con la meccanica peggiore che possiede — e
-	# l'ultima cosa giocata è quella che resta.
-	#
-	# Resta vero che misurare è un'altra attività dall'imparare, ed è la ragione
-	# per cui l'esame non diventa una sessione di soli minigiochi: la metà dei
-	# nodi, non tutti. Ma la competenza va misurata con lo stesso gesto con cui è
-	# stata insegnata, altrimenti si misura un'altra cosa.
-	var non_mc_esame := int(ceil(float(Array(exam.get("nodes", [])).size()) * exam_non_mc_ratio(subject)))
-	# I nodi che entrano non sono «un formato qualsiasi purché non a crocette»:
-	# sono quelli in cui si fa la cosa con le mani. Senza questa preferenza
-	# l'iniezione pescava spesso un grafico o un circuito — che sono a loro volta
-	# «tocca una fra N», e l'esame restava un quiz illustrato.
-	exam["nodes"] = inject_non_mc(
-		exam.get("nodes", []), subject, level, non_mc_esame, generator, FORMATI_MANIPOLATIVI,
-		["multiple_choice"])
-	# **E se restasse lo stesso argomento due volte.** (1 settembre 2026)
-	#
-	# La sostituzione qui sopra tocca solo la scelta multipla, così le domande da
-	# digitare sopravvivono. Ma in logica il banco ha sei argomenti e l'esame ha
-	# sette campate: in due sessioni su mille finivano due `numeric_input` sullo
-	# stesso argomento — la stessa competenza chiesta due volte nello stesso modo,
-	# che `format_mix_audit` vieta e che a giocarla sembra un errore del gioco.
-	# Quando succede, e solo allora, si sostituisce anche una domanda da digitare.
-	exam["nodes"] = _sciogli_doppioni(
-		Array(exam.get("nodes", [])), subject, level, generator)
-	# La PROVA DI NUCLEO. (6 agosto 2026)
-	#
-	# L'esame era solo della materia che abita il mondo: in ventuno mondi su
-	# ventiquattro italiano, matematica e inglese non comparivano nel momento
-	# decisivo. Un bambino impara che cosa conta da dove viene interrogato, non
-	# da quello che gli si dice — e il gioco gli stava dicendo che il nucleo
-	# conta solo tre volte su ventiquattro.
-	#
-	# Due nodi, non di più: l'esame resta della materia del mondo, e trasformarlo
-	# in un esame generale cancellerebbe il senso di riparare QUELLA stanza.
-	exam["nodes"] = _aggiungi_prova_di_nucleo(
-		Array(exam.get("nodes", [])), subject, level, generator, topic_mastery)
-	_flag_transfer_node(exam.get("nodes", []))
+	# La materia del mondo resta sempre presente, ma la prova misura il profilo
+	# complessivo: 10 nodi di prima fascia, 7 di seconda e 3 di terza. Le materie
+	# che non entrano in questo esame ruotano col livello; i compiti del mondo le
+	# hanno comunque rese tutte obbligatorie prima di arrivare qui.
+	var piano := _priority_exam_subjects(subject, level)
+	var nodes: Array = []
+	var used_signatures: Dictionary = {}
+	var used_format_topics: Dictionary = {}
+	var non_mc_target := int(ceil(float(PRIORITY_EXAM_NODES) * exam_non_mc_ratio(subject)))
+	for i in piano.size():
+		var node_subject := str(piano[i])
+		var node_mastery := mastery if node_subject == subject else -1.0
+		var node_topics := topic_mastery if node_subject == subject else {}
+		var chosen: Dictionary = {}
+		var fallback: Dictionary = {}
+		# Un esame multi-materia puo' incontrare lo stesso nome d'argomento in due
+		# banchi diversi. Riestraiamo per non chiedere due volte la stessa coppia
+		# (formato, argomento) e, a maggior ragione, la stessa prova.
+		var attempts := 12 if node_subject == "elettronica" else 6
+		for attempt in range(attempts):
+			var wants_manipulative := i < non_mc_target
+			var piece := (
+				minigame_manager.build_minigame(node_subject, level, generator)
+				if wants_manipulative
+				else build_mission(node_subject, level, 1, {}, generator, node_mastery, node_topics, experience))
+			var candidates: Array = piece.get("nodes", [])
+			if candidates.is_empty():
+				continue
+			# Il catalogo contiene più gesti validi: partire sempre dalla prima
+			# riga concentrerebbe anche la stessa spiegazione in tutti gli esami.
+			var candidate_start := generator.randi_range(0, candidates.size() - 1)
+			for candidate_offset in candidates.size():
+				var candidate_data = candidates[posmod(candidate_start + candidate_offset, candidates.size())]
+				var candidate: Dictionary = (candidate_data as Dictionary).duplicate(true)
+				if wants_manipulative and not FORMATI_MANIPOLATIVI.has(str(candidate.get("format", ""))):
+					continue
+				# Fuori dall'esame elettronica si impara facendo; qui il suo nodo
+				# resta una domanda diretta, così la prova misura anche il richiamo.
+				if node_subject == "elettronica" and not str(candidate.get("format", "")) in ["multiple_choice", "short_answer"]:
+					continue
+				if fallback.is_empty():
+					fallback = candidate
+				var format_topic := "%s|%s" % [str(candidate.get("format", "")), str(candidate.get("topic", ""))]
+				var signature := ExerciseSignature.of(candidate)
+				if not used_format_topics.has(format_topic) and not used_signatures.has(signature):
+					chosen = candidate
+					used_format_topics[format_topic] = true
+					used_signatures[signature] = true
+					break
+			if not chosen.is_empty():
+				break
+		if chosen.is_empty():
+			chosen = fallback
+		if chosen.is_empty():
+			continue
+		var tier := ApparatusConfig.priority_tier(node_subject)
+		chosen["subject"] = node_subject
+		chosen["priorityTier"] = tier
+		chosen["tierCheck"] = node_subject != subject
+		chosen["scoreWeight"] = ApparatusConfig.tier_weight(tier) / float(PRIORITY_EXAM_COUNTS[tier])
+		nodes.append(chosen)
+	var exam := {
+		"subject": subject,
+		"level": level,
+		"nodes": nodes,
+		"pace": PACE_REASONING,
+		"timed": false,
+	}
+	_flag_transfer_node(nodes)
 	exam["sessionId"] = "final-exam-%s-lvl%d" % [subject, level]
 	exam["kind"] = "final_exam"
-	exam["shields"] = 2
+	# Tutte le venti prove vengono affrontate; il verdetto arriva dal punteggio
+	# pesato, non dall'esaurimento anticipato degli scudi.
+	exam["shields"] = nodes.size() + 1
 	exam["minimumCorrect"] = int(ceil(float(Array(exam.get("nodes", [])).size()) * EXAM_PASS_RATIO))
+	exam["weightedScoring"] = true
+	exam["weightedPassRatio"] = EXAM_PASS_RATIO
+	exam["effortWeights"] = ApparatusConfig.PRIORITY_WEIGHTS.duplicate()
 	exam["rewards"] = {"energyPerCorrect": 12, "onComplete": {"energy": 40, "fragments": 4}}
 	return exam
+
+func _priority_exam_subjects(host_subject: String, level: int) -> Array:
+	var result: Array = []
+	for tier in [1, 2, 3]:
+		var subjects := ApparatusConfig.tier_subjects(tier)
+		if subjects.has(host_subject):
+			subjects.erase(host_subject)
+			subjects.push_front(host_subject)
+		elif not subjects.is_empty():
+			var offset := posmod(level - 1, subjects.size())
+			subjects = subjects.slice(offset) + subjects.slice(0, offset)
+		for i in int(PRIORITY_EXAM_COUNTS[tier]):
+			result.append(subjects[i % subjects.size()])
+	return result
 
 ## Quante campate dell'esame ripetono un (formato, argomento) già visto, e le
 ## rimpiazza con un minigioco. Zero doppioni è la regola, non un obiettivo.
@@ -914,6 +943,9 @@ func build_final_transversal_exam(level: int = ApparatusConfig.MAX_LEVEL, rng: R
 		for node in mission.get("nodes", []):
 			var n: Dictionary = (node as Dictionary).duplicate(true)
 			n["system"] = str(subject)   # quale sistema accende questo nodo
+			n["subject"] = str(subject)
+			n["priorityTier"] = ApparatusConfig.priority_tier(str(subject))
+			n["scoreWeight"] = ApparatusConfig.subject_weight(str(subject))
 			nodes.append(n)
 			break
 	# Nodo di SINTESI finale: un formato interattivo (non scelta multipla) di logica,
@@ -946,6 +978,9 @@ func build_final_transversal_exam(level: int = ApparatusConfig.MAX_LEVEL, rng: R
 		# una materia e manderebbe fuori posto sia la spiegazione sia il segno
 		# della prova superata.
 		s["subject"] = "logica"
+		# La sintesi e' obbligatoria a parte e non altera il 50/35/15 delle
+		# dodici materie.
+		s["scoreWeight"] = 0.0
 		nodes.append(s)
 	return {
 		"sessionId": "final-transversal-exam",
@@ -960,6 +995,9 @@ func build_final_transversal_exam(level: int = ApparatusConfig.MAX_LEVEL, rng: R
 		# Il superamento richiede circa il 70%, più severo dell'esame ordinario.
 		"shields": nodes.size() + 1,
 		"minimumCorrect": ceili(float(nodes.size()) * 0.69),
+		"weightedScoring": true,
+		"weightedPassRatio": EXAM_PASS_RATIO,
+		"effortWeights": ApparatusConfig.PRIORITY_WEIGHTS.duplicate(),
 		"completeAllSystems": true,
 		"pace": PACE_REASONING,
 		"timed": false,

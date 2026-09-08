@@ -93,7 +93,12 @@ func _l_esame_misura_ancora() -> void:
 		for _giro in range(60):
 			var esame := content.build_final_exam(MATERIA, level, 5, null, 0.4, {})
 			for raw in Array(esame.get("nodes", [])):
-				var formato := str(Dictionary(raw).get("format", ""))
+				var nodo: Dictionary = raw
+				# L'esame e' trasversale: si misura la forma dei nodi di
+				# elettronica, non quella delle altre undici materie.
+				if str(nodo.get("subject", "")) != MATERIA:
+					continue
+				var formato := str(nodo.get("format", ""))
 				if formato == "multiple_choice" or formato == "short_answer":
 					secche += 1
 				totale += 1

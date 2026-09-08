@@ -138,18 +138,20 @@ static func evaluate_subject(
 	# portale, il report e gli audit leggono tutti la stessa soglia senza doverla
 	# ricalcolare, ed è impossibile che due punti del gioco dissentano su quanto
 	# serve per essere pronti.
-	var soglia := mastery_threshold
+	var soglia := minf(
+		mastery_threshold + ApparatusConfig.priority_bonus(subject, int(save.level())),
+		ApparatusConfig.MASTERY_CEILING)
 	var nucleo := ApparatusConfig.is_core(subject)
-	if nucleo:
-		soglia = minf(
-			soglia + ApparatusConfig.core_bonus(int(save.level())), ApparatusConfig.MASTERY_CEILING)
+	var fascia := ApparatusConfig.priority_tier(subject)
 	var mastery := float(save.mastery_of(subject))
 	# Copertura DI QUESTO LIVELLO, non cumulativa: si contano gli argomenti
 	# visti da quando il livello è cominciato. Prima era il totale di sempre, e
 	# la conseguenza misurata era che dopo il primo mondo il gate non chiedeva
 	# più niente — 24 livelli al prezzo di uno.
 	var seen := int(save.topics_seen_this_level(subject))
-	var target := coverage_target(total_topics, int(save.level()), nucleo)
+	# Prima e seconda fascia chiedono un argomento distinto in più; la soglia di
+	# padronanza (8/4/0 centesimi a fine scala) separa poi nettamente le due.
+	var target := coverage_target(total_topics, int(save.level()), fascia <= 2)
 	var overdue := int(SpacedRepetition.subject_overdue_count(save, subject))
 	# **Ripreso, non consolidato.** (26 agosto 2026) La ritenzione chiede che cio'
 	# che e' stato sbagliato sia stato ripreso — e non che il calendario dei
@@ -207,6 +209,9 @@ static func evaluate_subject(
 		# mostra al bambino deve dire il numero vero.
 		"masteryThreshold": soglia,
 		"core": nucleo,
+		"priorityTier": fascia,
+		"tierWeight": ApparatusConfig.tier_weight(fascia),
+		"subjectWeight": ApparatusConfig.subject_weight(subject),
 		# Quanto manca, già normalizzato 0..1: chi disegna non deve dividere a mano.
 		"progress": clampf(mastery / maxf(soglia, 0.01), 0.0, 1.0),
 		"topicsSeen": seen,
@@ -233,7 +238,8 @@ static func evaluate_core(
 	var subjects: Dictionary = {}
 	var missing: Array = []
 	var ready := true
-	var total_progress := 0.0
+	var tier_progress_sum: Dictionary = {}
+	var tier_subject_count: Dictionary = {}
 	# **Tutte e dodici, non più tre.** (5 agosto 2026, decisione del committente
 	# dopo un collaudo vero.)
 	#
@@ -260,17 +266,34 @@ static func evaluate_core(
 			save, s, mastery_threshold, int(topics_by_subject.get(s, -1)),
 			in_linea_a_questo_livello(save, s))
 		subjects[s] = evaluation
-		total_progress += float(evaluation["progress"])
+		var tier := ApparatusConfig.priority_tier(s)
+		tier_progress_sum[tier] = float(tier_progress_sum.get(tier, 0.0)) + float(evaluation["progress"])
+		tier_subject_count[tier] = int(tier_subject_count.get(tier, 0)) + 1
 		if not bool(evaluation["ready"]):
 			ready = false
 			missing.append(s)
+	# Ogni fascia contribuisce alla barra nella quota dichiarata (50/35/15).
+	# Se un chiamante valuta un sottoinsieme, i pesi presenti vengono
+	# rinormalizzati: la funzione resta corretta anche negli audit mirati.
+	var tier_progress: Dictionary = {}
+	var weighted_progress := 0.0
+	var present_weight := 0.0
+	for tier_data in tier_progress_sum.keys():
+		var tier := int(tier_data)
+		var average := float(tier_progress_sum[tier]) / float(maxi(1, int(tier_subject_count[tier])))
+		tier_progress[tier] = average
+		var weight := ApparatusConfig.tier_weight(tier)
+		weighted_progress += average * weight
+		present_weight += weight
 	return {
 		"ready": ready,
 		"coreSubjects": required_subjects.duplicate(),
 		"subjects": subjects,
 		"missing": missing,
 		"masteryThreshold": mastery_threshold,
-		# Media dei tre avanzamenti: una sola barra riassuntiva per l'HUD compatto,
-		# accanto alle tre di dettaglio.
-		"progress": total_progress / float(maxi(1, required_subjects.size())),
+		# Barra complessiva pesata per fascia. Il verdetto resta AND su tutte le
+		# materie: il 15% non rende mai facoltativa la terza fascia.
+		"progress": weighted_progress / maxf(present_weight, 0.01),
+		"tierProgress": tier_progress,
+		"effortWeights": ApparatusConfig.PRIORITY_WEIGHTS.duplicate(),
 	}

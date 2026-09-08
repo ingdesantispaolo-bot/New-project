@@ -112,8 +112,8 @@ func _ready() -> void:
 	content.solved_by_subject = save.solved_index()
 	_build_scene()
 	_build_exercise_overlay()
-	var gate := controller.progression.current_gate()
-	current_room_id = ShipRoomCatalog.room_for_apparatus(str(gate.get("apparatus", "nucleo")))
+	var world_subject := ApparatusConfig.world_subject(save.level())
+	current_room_id = ShipRoomCatalog.room_for_apparatus(ApparatusConfig.apparatus_of(world_subject))
 	_apply_state(controller.runtime_state())
 	var beat := narrative.reveal_level(save.level())
 	nora_line.text = str(beat.get("text", nora_line.text))
@@ -803,7 +803,8 @@ func _apply_state(state: Dictionary) -> void:
 	var campaign_complete := controller.progression.is_complete()
 	if is_instance_valid(room_rail_title):
 		room_rail_title.text = "SISTEMI DELLA NAVE" if campaign_complete else "PONTI DEL RELITTO"
-	var gate_apparatus := str(current_gate.get("apparatus", "nucleo"))
+	var world_subject := ApparatusConfig.world_subject(save.level())
+	var gate_apparatus := ApparatusConfig.apparatus_of(world_subject)
 	var room_apparatus := str(room_state.get("apparatus", "nucleo"))
 	var gate_room_id := ShipRoomCatalog.room_for_apparatus(gate_apparatus)
 	var is_current_gate := not campaign_complete and current_room_id == gate_room_id
@@ -904,16 +905,20 @@ func _position_terminal() -> void:
 func _repair_action() -> void:
 	if controller.progression.is_complete():
 		return
-	var gate := controller.progression.current_gate()
-	var target_room := ShipRoomCatalog.room_for_apparatus(str(gate.get("apparatus", "nucleo")))
+	var subject := ApparatusConfig.world_subject(save.level())
+	var target_room := ShipRoomCatalog.room_for_apparatus(ApparatusConfig.apparatus_of(subject))
 	if current_room_id != target_room:
 		_select_room(target_room)
 		return
 	controller.request_exam()
 
 func _start_exam() -> void:
-	var gate := controller.progression.current_gate()
-	var subject := str(gate.get("subject", "matematica"))
+	var subject := ApparatusConfig.world_subject(save.level())
+	# Difesa anche sull'handler: il segnale non puo' diventare una scorciatoia se
+	# viene emesso da un test, da una scena o da un collegamento futuro.
+	if not controller.progression.can_start_final_exam():
+		nora_line.text = "NORA: Completa prima tutti i compiti del mondo."
+		return
 	var session: Dictionary
 	if save.level() >= ApparatusConfig.MAX_LEVEL:
 		# Il Cuore accende dodici sistemi: senza dodici stanze la prova sarebbe
@@ -1388,8 +1393,7 @@ func _torna_al_menu() -> void:
 func _show_ship_log() -> void:
 	if not is_instance_valid(knowledge_codex_panel):
 		return
-	var gate := controller.progression.current_gate()
-	knowledge_codex_panel.open_codex(str(gate.get("subject", "")), "", "ship")
+	knowledge_codex_panel.open_codex(ApparatusConfig.world_subject(save.level()), "", "ship")
 
 func _nora_integrity_ratio() -> float:
 	NoraState.sync_from_progress(save)

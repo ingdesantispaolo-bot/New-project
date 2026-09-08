@@ -108,8 +108,11 @@ func _world_stats(content: ContentManager, subject: String, level: int) -> Dicti
 	var events := MissionEventDirector.plan(profile, {}, "audit-depth-%d" % level)
 	var topics: Dictionary = {}
 	var topic_counts: Dictionary = {}
+	var focus_topic_counts: Dictionary = {}
 	var total := 0
 	var focus_nodes := 0
+	var world_total := 0
+	var world_focus_nodes := 0
 	var hard := 0
 	var difficulty_sum := 0.0
 	for repeat in range(REPEATS):
@@ -132,11 +135,20 @@ func _world_stats(content: ContentManager, subject: String, level: int) -> Dicti
 		sessions.append(content.build_final_exam(subject, level, 3, rng))
 		for session in sessions:
 			var session_subject := str((session as Dictionary).get("subject", subject))
+			var is_exam := str((session as Dictionary).get("kind", "")) == "final_exam"
 			for node in (session as Dictionary).get("nodes", []):
 				var n: Dictionary = node
 				total += 1
-				if session_subject == subject:
+				# Gli esami sono ora multi-materia e ogni nodo porta la propria
+				# materia: attribuirli tutti all'host diluirebbe artificialmente gli
+				# argomenti promessi dal mondo.
+				var node_subject := str(n.get("subject", session_subject))
+				if node_subject == subject:
 					focus_nodes += 1
+				if not is_exam:
+					world_total += 1
+					if node_subject == subject:
+						world_focus_nodes += 1
 				var d := int(n.get("difficulty", 1))
 				difficulty_sum += float(d)
 				if d >= 3:
@@ -145,6 +157,8 @@ func _world_stats(content: ContentManager, subject: String, level: int) -> Dicti
 				if topic != "":
 					topics[topic] = true
 					topic_counts[topic] = int(topic_counts.get(topic, 0)) + 1
+					if node_subject == subject:
+						focus_topic_counts[topic] = int(focus_topic_counts.get(topic, 0)) + 1
 	# Argomenti promessi dalla lezione del mondo: quanti sono davvero serviti e con
 	# che peso. Senza questo controllo un mondo può restare fedele solo nei testi
 	# (è già successo: storia 11/23 serviva le stesse ere, il mondo 16 "viaggi"
@@ -153,8 +167,8 @@ func _world_stats(content: ContentManager, subject: String, level: int) -> Dicti
 	var missing: Array = []
 	var promised_nodes := 0
 	for topic in promised:
-		if topics.has(str(topic)):
-			promised_nodes += int(topic_counts.get(str(topic), 0))
+		if focus_topic_counts.has(str(topic)):
+			promised_nodes += int(focus_topic_counts.get(str(topic), 0))
 		else:
 			missing.append(str(topic))
 	return {
@@ -170,7 +184,10 @@ func _world_stats(content: ContentManager, subject: String, level: int) -> Dicti
 		"promisedShare": float(promised_nodes) / float(maxi(1, focus_nodes)),
 		# La materia del mondo deve restare DOMINANTE: "leggermente dominante" è
 		# comunque dominante, ed è ciò che tiene in piedi lezione, landmark e gate.
-		"focusShare": float(focus_nodes) / float(maxi(1, total)),
+		# L'esame e' ora deliberatamente trasversale e segue le fasce 50/35/15;
+		# la dominanza identitaria si misura quindi nei compiti del mondo, mentre
+		# difficolta' e profondita' continuano a includere anche l'esame.
+		"focusShare": float(world_focus_nodes) / float(maxi(1, world_total)),
 		"missingTopics": missing,
 	}
 

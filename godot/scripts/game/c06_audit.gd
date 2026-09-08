@@ -40,22 +40,27 @@ func _init() -> void:
 			"tabelline": {"seen": 3, "correct": 3}, "calcolo": {"seen": 3, "correct": 3},
 			"frazioni": {"seen": 3, "correct": 3}, "numeri": {"seen": 3, "correct": 3},
 			"potenze": {"seen": 3, "correct": 3}})
-	assert(bool(hub.state()["ready"]), "gate pronto dopo missioni + padronanza + copertura")
+	assert(not bool(hub.state()["ready"]),
+		"la sola materia ospite non deve aprire l'esame finale")
+	assert(not hub.request_exam(), "l'esame resta chiuso finche' mancano compiti")
+	for subject_data in ApparatusConfig.SUBJECT_CYCLE:
+		var subject := str(subject_data)
+		if subject == "matematica":
+			continue
+		for _round in range(6):
+			progression.record_mission(subject, 3, 3, 0, true)
+			progression.record_topic_stats(subject, _evidenza_larga())
+	assert(bool(hub.state()["ready"]), "gate pronto dopo i compiti di tutte le materie")
 	assert(hub.request_exam(), "esame disponibile dopo il gate")
 	assert(exam_signals["count"] == 1, "request_exam deve emettere exam_requested")
 
-	# Esame superato → riparazione → livello sale e apparato acceso.
+	# Nessun avanzamento senza esame; esame superato → livello successivo.
 	var level_before := int(hub.state()["level"])
-	# Riparare accende una stanza; per salire di livello serve il nucleo.
-	assert(progression.repair_apparatus(ApparatusConfig.world_subject(level_before), true))
+	assert(not progression.advance_level(), "i compiti da soli non devono saltare l'esame")
+	assert(progression.repair_and_advance(true), "l'esame superato deve chiudere il mondo")
 	assert(int(save.data["apparatus"]["nucleo"]["repairedLevel"]) == level_before)
-	for core_data in ApparatusConfig.SUBJECT_CYCLE:
-		var core_subject := str(core_data)
-		for _round in range(6):
-			progression.record_mission(core_subject, 3, 3, 0, true)
-			progression.record_topic_stats(core_subject, _evidenza_larga())
-	assert(progression.advance_level(), "col nucleo pronto si deve salire")
 	assert(int(hub.state()["level"]) == level_before + 1)
+	assert(save.is_world_unlocked(level_before + 1), "il mondo successivo deve essere sbloccato")
 	assert(progression.repaired_apparatus_count() == 1, "una sola stanza accesa dopo la prima riparazione")
 
 	print("C-06 audit OK — Hub: gate, esame richiesto e loop riparazione→livello")

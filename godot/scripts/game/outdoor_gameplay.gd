@@ -482,7 +482,10 @@ func try_start_mission(payload: Dictionary, encounter_id: String) -> bool:
 	# C-P3: il percorso live usa il mix validato da O-P3. I renderer emettono
 	# soltanto l'esito del contratto comune; scoring/mastery restano qui e
 	# nell'ExercisePlayer.
-	var session := content_manager.build_varied_mission(subject, _learning_level(), 3, _due(), null, game_save.mastery_of(subject), game_save.topic_masteries(subject), game_save.missions_of(subject))
+	var session := content_manager.build_varied_mission(
+		subject, _learning_level(), ApparatusConfig.exercise_nodes_for(subject),
+		_due(), null, game_save.mastery_of(subject), game_save.topic_masteries(subject),
+		game_save.missions_of(subject))
 	if Array(session.get("nodes", [])).is_empty():
 		_present_feedback("Banco esercizi non disponibile per %s." % subject, "system")
 		return false
@@ -956,7 +959,7 @@ func _build_practice_session(
 	# all'ultimo errore. Il recupero corrente ha sempre precedenza.
 	var effective_topic := str(due_topics[0]) if not due_topics.is_empty() else topic_hint
 	var session := _catalog_practice_session(subject, livello, effective_topic, format_hint)
-	var voluti := Array(session.get("nodes", [])).size()
+	var voluti := ApparatusConfig.exercise_nodes_for(subject)
 	if voluti == 0:
 		return session
 
@@ -1120,7 +1123,9 @@ func try_start_final_exam() -> bool:
 		_present_feedback(_gia_certificata(subject), "nora")
 		_emit_state()
 		return false
-	if not progression_manager.can_repair_apparatus(subject):
+	# L'esame chiude il MONDO, quindi richiede tutti i compiti del livello e non
+	# soltanto la preparazione della materia ospite.
+	if not progression_manager.can_start_final_exam():
 		_emit_state()
 		return false
 	var session := content_manager.build_final_exam(subject, game_save.level(), 3, null, game_save.mastery_of(subject), game_save.topic_masteries(subject), game_save.missions_of(subject))
@@ -1379,27 +1384,24 @@ func resolve_session(exercise_result: Dictionary) -> void:
 				_present_feedback(nora_voice.line("defeat"), "nora")
 	else:
 		if passed:
-			# `repair_and_advance` risponde «riparato OPPURE salito»: le due cose
-			# sono separate da quando l'apparato e il livello sono assi distinti.
-			# Prima si guardava solo quel booleano e si annunciava «Livello N» —
-			# con N invariato quando il livello non era salito. Un bambino ha
-			# superato l'esame del mondo 1, ha letto «Livello 1» come una
-			# vittoria, e non ha capito perché il mondo 2 restasse chiuso.
+			# La conclusione e' atomica: un esame valido deve aprire il mondo
+			# successivo. Se lo stato non soddisfa piu' il gate non vengono concessi
+			# riconoscimenti o frammenti di riparazione.
 			var livello_prima := game_save.level()
-			progression_manager.repair_and_advance(true)
+			var mondo_completato := progression_manager.repair_and_advance(true)
 			salito_di_livello = game_save.level() > livello_prima
-			_recognize_progress("apparatus", "%s:%d" % [
-				str(context.get("apparatus", subject)), livello_prima], {
-				"subject": subject,
-			})
-			var apparatus_bonus := maxi(0, game_save.energy() - energy_before - gained)
-			result["energyEarned"] = int(result.get("energyEarned", 0)) + apparatus_bonus
-			_award_fragments(FragmentEconomy.PREMIO_RIPARAZIONE)
-			if salito_di_livello:
+			if mondo_completato and salito_di_livello:
+				_recognize_progress("apparatus", "%s:%d" % [
+					str(context.get("apparatus", subject)), livello_prima], {
+					"subject": subject,
+				})
+				var apparatus_bonus := maxi(0, game_save.energy() - energy_before - gained)
+				result["energyEarned"] = int(result.get("energyEarned", 0)) + apparatus_bonus
+				_award_fragments(FragmentEconomy.PREMIO_RIPARAZIONE)
 				_present_feedback("%s Livello %d." % [nora_voice.line("victory"), game_save.level()], "nora")
 				current_narrative = str(narrative_manager.reveal_level(game_save.level()).get("text", current_narrative))
 			else:
-				_present_feedback(_manca_per_salire(subject), "nora")
+				_present_feedback("Il protocollo non può essere applicato: completa i compiti del mondo.", "warning")
 		else:
 			_present_feedback(nora_voice.line("defeat"), "nora")
 	# Forzato: salire di livello è il momento che fa più male perdere, ed è anche

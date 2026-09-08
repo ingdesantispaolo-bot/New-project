@@ -28,9 +28,10 @@ extends SceneTree
 ## Giri consecutivi che devono restare interamente nuovi.
 const GIRI_PULITI := 5
 
-## Quesiti distinti che una casella deve poter offrire in DODICI giri, cioè con
-## margine oltre i cinque puliti. Prima della riparazione la casella peggiore ne
-## aveva cinque in tutto; dopo, il misurato sta fra 27 e 33.
+## Quesiti distinti che una casella deve poter offrire. Il numero di giri cresce
+## quando la fascia rende la sessione più corta: una pratica da un solo esercizio
+## va osservata per almeno 25 giri, altrimenti il campione non potrebbe
+## matematicamente dimostrare che il fondo contiene 25 quesiti.
 ##
 ## Va verificato oltre i giri puliti, non dentro: cinque giri da quattro nodi
 ## fanno venti quesiti comunque vada, quindi contarli lì non direbbe niente sul
@@ -123,7 +124,10 @@ func _prova_varieta(gameplay: OutdoorGameplay, save: GameSaveManager) -> void:
 				save.remember_practice_prints(subject, impronte)
 			# Il fondo: si continua a giocare, stavolta ammettendo ripetizioni, e
 			# si conta quanti quesiti DIVERSI la casella sa produrre in tutto.
-			for _giro in range(GIRI_FONDO - GIRI_PULITI):
+			var giri_fondo := maxi(
+				GIRI_FONDO,
+				ceili(float(FONDO_MINIMO) / float(ApparatusConfig.exercise_nodes_for(subject))))
+			for _giro in range(giri_fondo - GIRI_PULITI):
 				var altri := Array(gameplay._build_practice_session(subject).get("nodes", []))
 				var altre_impronte: Array = []
 				for n in altri:
@@ -133,7 +137,7 @@ func _prova_varieta(gameplay: OutdoorGameplay, save: GameSaveManager) -> void:
 				save.remember_practice_prints(subject, altre_impronte)
 			assert(visti.size() >= FONDO_MINIMO,
 				"%s L%d offre solo %d quesiti distinti in %d giri: il fondo è tornato sottile" % [
-					subject, livello, visti.size(), GIRI_FONDO])
+					subject, livello, visti.size(), giri_fondo])
 
 
 ## Chi rigioca deve trovare roba nuova.

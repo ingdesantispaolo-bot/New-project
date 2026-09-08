@@ -168,6 +168,10 @@ func _assert_live_finale() -> void:
 	assert(synthesis_index == exam_nodes.size() - 1 and synthesis_index > 0,
 		"il nodo di sintesi non chiude i dodici sistemi")
 	player.set("_index", synthesis_index - 1)
+	# `_advance` accetta soltanto il gesto Avanti di un nodo gia' risolto: la
+	# fixture salta direttamente alla penultima prova, quindi deve riprodurre
+	# anche quello stato invece di invocare un click impossibile nel gioco reale.
+	player.set("_answered", true)
 	player.call("_advance")
 	assert(player.waiting_for_pre_synthesis(),
 		"la sintesi compare senza il confronto Eli/NORA")

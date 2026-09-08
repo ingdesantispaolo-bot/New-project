@@ -51,7 +51,14 @@ func avvia(scheda: Dictionary, reduced_motion: bool) -> void:
 	_reduced_motion = reduced_motion
 	var parametri: Dictionary = _scheda.get("parametri", {})
 	_errori_max = int(parametri.get("errori", 2))
-	_secondi = float(parametri.get("secondi", 5.0)) * (1.5 if reduced_motion else 1.0)
+	# `secondiFattore` allunga la finestra per QUESTA scheda soltanto, e serve a
+	# una cosa sola: la radio di Marea trasmette in inglese, e leggere in una
+	# lingua straniera costa tempo che non c'entra con la prova. Il cronometro
+	# dell'archetipo resta quello per tutti gli altri — alzarlo lì avrebbe
+	# regalato secondi anche a chi legge nella propria lingua.
+	_secondi = (float(parametri.get("secondi", 5.0))
+		* (1.5 if reduced_motion else 1.0)
+		* maxf(1.0, float(_scheda.get("secondiFattore", 1.0))))
 	_luci = Array(_scheda.get("destinazioni", LUCI))
 	if _luci.size() < 2:
 		_luci = LUCI

@@ -972,6 +972,18 @@ toccando argomenti che l'esame non verificherà mai. Delle due riparazioni quell
 giusta è **allineare i vocabolari**: se un argomento vale per la copertura, deve
 poter comparire in un esame.
 
+> **L'inglese è allineato per otto argomenti** (8 settembre 2026). Con il
+> programma di grammatica di `scripts/banks/inglese-programma.mjs` hanno
+> finalmente un banco — e quindi un esame — `articles`, `third-person`,
+> `do-does`, `past-tense`, `irregular-past`, `comparatives`, `question` e
+> `word-family`: prima erano ricette di `MinigameManager` e basta. Restano
+> scoperti gli argomenti che nascono dalla forma del minigioco e non dal
+> programma (`sentence`, `negative`, `wh-question`, `spelling`, `opposites`,
+> `conversation`, `categorie`, `parts-of-speech`, `verbs`, `nouns`,
+> `irregular-plural`, `vocabolario`, `word-family` nel senso dei suffissi):
+> lì la riparazione giusta non è scrivere item apposta, è decidere se quegli
+> argomenti debbano contare per la copertura.
+
 **G-C5 · I ventidue quesiti sui componenti elettronici.**
 Relè, condensatore: il problema non è la forma della domanda, è che un decenne
 non ha mai visto l'oggetto. Le domande dirette sono già fuori dalla pratica e
@@ -1111,10 +1123,19 @@ di questa misura, e nessuno di loro ha una scorciatoia strutturale come quelle
 appena chiuse. Scendere ancora vuol dire togliere tentativi, e da qui in poi il
 confine fra «esigente» e «punitivo» **lo vedi tu giocando, non lo vede la sonda.**
 
-**D-2 · C-MG-3 · La lingua della radio.**
-Marea sta al mondo 4, la cui materia è inglese, e i suoi nove messaggi sono in
-italiano: la meccanica è giusta, il materiale no. Passarli all'inglese cambia la
-difficoltà in modo serio — cinque secondi di segnale, un bambino al quarto mondo.
+**D-2 · C-MG-3 · La lingua della radio.** ✅ **Chiusa l'8 settembre 2026.**
+Marea sta al mondo 4, la cui materia è inglese, e i suoi nove messaggi erano in
+italiano: la meccanica era giusta, il materiale no — e la convinzione da far
+cadere, *capire è tradurre parola per parola*, su un testo italiano non si poteva
+nemmeno formulare.
+
+I nove messaggi sono adesso in inglese, con due protezioni sulla difficoltà che
+era il rischio dichiarato: **ogni parola sta nel banco d'inglese a difficoltà 1**
+(waves, boat, water, rocks, fog, wind, rain, engine, help, bell, safe, place), e
+la finestra passa da 5,4 a 9,0 secondi tramite `secondiFattore`, che vale per
+questa scheda soltanto — alzare il cronometro dell'archetipo avrebbe regalato
+secondi anche a chi legge nella propria lingua. Le luci restano in italiano: al
+mondo 4 si chiede di capire l'inglese, non di produrlo.
 
 **D-3 · Accessibilità dei formati visuali.**
 Le etichette identificano senza descrivere («Segnaposto A»), che è l'unica scelta

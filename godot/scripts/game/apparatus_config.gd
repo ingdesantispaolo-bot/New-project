@@ -45,7 +45,58 @@ const SUBJECT_CYCLE := [
 ## che impedisce di fare il minimo — e queste tre ne chiedono di più: soglia di
 ## padronanza più alta, copertura più ampia, presenza in ogni esame.
 ## Vedi docs/DESIGN_COMPLETO.md §2 e insieme.md.
-const CORE_SUBJECTS := ["italiano", "matematica", "inglese"]
+const CORE_SUBJECTS := ["matematica", "inglese", "italiano"]
+
+## Fasce di priorita' del curricolo. Tutte le materie restano obbligatorie in
+## ogni mondo; la fascia stabilisce invece quanta parte dello sforzo complessivo
+## e dell'esame viene loro riservata.
+const SECOND_TIER_SUBJECTS := ["fisica", "geografia", "coding"]
+const THIRD_TIER_SUBJECTS := ["musica", "latino", "elettronica", "scienze", "storia", "logica"]
+const PRIORITY_TIERS := {
+	1: CORE_SUBJECTS,
+	2: SECOND_TIER_SUBJECTS,
+	3: THIRD_TIER_SUBJECTS,
+}
+const PRIORITY_WEIGHTS := {
+	1: 0.50,
+	2: 0.35,
+	3: 0.15,
+}
+const PRIORITY_TOLERANCE := 0.05
+
+## Lunghezza di una sessione ordinaria per materia. Un giro su tutte le dodici
+## vale 39 esercizi: 18 di prima fascia, 15 di seconda, 6 di terza, cioe'
+## 46,2% / 38,5% / 15,4%, entro la tolleranza di cinque punti senza esaurire
+## troppo presto le varianti disponibili nei banchi.
+const EXERCISE_NODES_BY_TIER := {
+	1: 6,
+	2: 5,
+	3: 1,
+}
+
+static func priority_tier(subject: String) -> int:
+	for tier in [1, 2, 3]:
+		if Array(PRIORITY_TIERS[tier]).has(subject):
+			return tier
+	return 3
+
+static func tier_subjects(tier: int) -> Array:
+	return Array(PRIORITY_TIERS.get(clampi(tier, 1, 3), THIRD_TIER_SUBJECTS)).duplicate()
+
+static func tier_weight(tier: int) -> float:
+	return float(PRIORITY_WEIGHTS.get(clampi(tier, 1, 3), 0.0))
+
+## Peso della singola materia dentro la quota della sua fascia. La somma delle
+## dodici materie e' 1, ma nessuna smette di essere un requisito del gate.
+static func subject_weight(subject: String) -> float:
+	var tier := priority_tier(subject)
+	return tier_weight(tier) / float(maxi(1, tier_subjects(tier).size()))
+
+static func tier_label(tier: int) -> String:
+	return ["prima fascia", "seconda fascia", "terza fascia"][clampi(tier, 1, 3) - 1]
+
+static func exercise_nodes_for(subject: String) -> int:
+	return int(EXERCISE_NODES_BY_TIER[priority_tier(subject)])
 
 ## Quanto più alta sta l'asticella del nucleo. Otto centesimi: al primo mondo
 ## 0,78 contro 0,70.
@@ -55,6 +106,7 @@ const CORE_SUBJECTS := ["italiano", "matematica", "inglese"]
 ## molto più in alto (0,15) chi è debole proprio in queste tre resta fermo, e
 ## sono le tre materie in cui essere deboli è più comune.
 const CORE_MASTERY_BONUS := 0.08
+const SECOND_TIER_MASTERY_BONUS := 0.04
 
 ## Tetto assoluto: nemmeno il nucleo all'ultimo mondo può chiedere la
 ## perfezione. Una soglia a 1,0 si raggiunge solo non sbagliando mai, e
@@ -68,9 +120,20 @@ static func is_core(subject: String) -> bool:
 ## per le tre del nucleo.
 static func subject_mastery_threshold(subject: String, level: int) -> float:
 	var base := mastery_threshold(level)
-	if is_core(subject):
-		return minf(base + core_bonus(level), MASTERY_CEILING)
-	return base
+	return minf(base + priority_bonus(subject, level), MASTERY_CEILING)
+
+## Gradino reale di impegno: pieno per la prima fascia, metà per la seconda,
+## base per la terza. Come il vecchio bonus del nucleo, cresce lungo la scala e
+## non rende il primo mondo irraggiungibile.
+static func priority_bonus(subject: String, level: int) -> float:
+	var scala := clampf(float(clampi(level, 1, MAX_LEVEL) - 1) / float(MAX_LEVEL - 1), 0.0, 1.0)
+	match priority_tier(subject):
+		1:
+			return CORE_MASTERY_BONUS * scala
+		2:
+			return SECOND_TIER_MASTERY_BONUS * scala
+		_:
+			return 0.0
 
 ## **Quanto piu' alta sta l'asticella del nucleo A QUESTO livello.** (26 agosto 2026)
 ##

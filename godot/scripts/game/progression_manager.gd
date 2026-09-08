@@ -341,6 +341,28 @@ func can_level_up() -> bool:
 		return false
 	return bool(readiness()["ready"])
 
+## Si puo' iniziare l'esame che CHIUDE il mondo corrente?
+##
+## Questa e' la regola unica del percorso studente: l'esame finale non certifica
+## una materia isolata, ma arriva dopo che tutti i compiti dichiarati dal mondo
+## sono in linea. Prima l'interfaccia controllava soltanto
+## `can_repair_apparatus(world_subject)`: l'esame poteva quindi essere superato
+## quando le altre materie erano ancora incomplete, e `advance_level()` lasciava
+## correttamente chiuso il mondo successivo. Il risultato percepito, pero', era
+## un esame superato che non serviva a nulla.
+##
+## All'ultimo mondo resta anche il vincolo del Cuore: tutti i sistemi devono
+## essere gia' stati riattivati lungo il viaggio.
+func can_start_final_exam() -> bool:
+	if is_complete() or not can_level_up():
+		return false
+	var subject := ApparatusConfig.world_subject(save.level())
+	if apparatus_certified_now(subject):
+		return false
+	if save.level() >= ApparatusConfig.MAX_LEVEL and not can_open_heart():
+		return false
+	return true
+
 # Si può riparare l'apparato di questa materia?
 #
 # **Una stanza accesa a questo livello non si riaccende.** Misurato il 15 agosto
@@ -434,6 +456,11 @@ func repair_progress() -> Dictionary:
 	# La presentazione legge, non ricalcola.
 	var r := readiness()
 	var world := ApparatusConfig.world_subject(save.level())
+	var exam_ready: bool = (
+		bool(r["ready"])
+		and not apparatus_certified_now(world)
+		and (save.level() < ApparatusConfig.MAX_LEVEL or can_open_heart())
+		and not is_complete())
 	return {
 		# Materia che ABITA il mondo corrente (identità, non gate).
 		"worldSubject": world,
@@ -442,7 +469,9 @@ func repair_progress() -> Dictionary:
 		"masteryThreshold": float(r["masteryThreshold"]),
 		"progress": float(r["progress"]),
 		"missing": Array(r["missing"]).duplicate(),
-		"ready": bool(r["ready"]),
+		# `ready` e' consumato da portale, bussola e nave come "esame pronto".
+		# Deve quindi esporre il gate completo, non la sola preparazione scolastica.
+		"ready": exam_ready,
 		"complete": is_complete(),
 		"readiness": r,
 		# Collezione delle stanze: è questa, non il livello, che apre il Cuore.
@@ -462,11 +491,14 @@ func repair_apparatus(subject: String, exam_passed: bool) -> bool:
 	save.add_energy(80)
 	return true
 
-# Sale di livello quando il nucleo è pronto. Separato dalla riparazione: prima
-# erano lo stesso atto, e finché lo sono stati non si poteva avere un livello
-# gatato da tre materie e dodici apparati riparabili a piacere.
+# Sale di livello quando i compiti sono pronti E l'esame del mondo corrente e'
+# stato superato (la certificazione dell'apparato e' la prova persistita).
+# Il controllo qui impedisce a qualunque chiamante interno di sbloccare un mondo
+# saltando l'esame.
 func advance_level() -> bool:
 	if not can_level_up():
+		return false
+	if not apparatus_certified_now(ApparatusConfig.world_subject(save.level())):
 		return false
 	# L'ultimo gradino chiude la campagna: si supera solo con le dodici stanze
 	# accese. Senza questo, il nucleo da solo porterebbe oltre la scala lasciando
@@ -488,10 +520,14 @@ func advance_level() -> bool:
 	NoraState.sync_from_progress(save)
 	return true
 
-# Compatibilità con i consumer storici: ripara l'apparato del mondo corrente e,
-# se il nucleo è pronto, sale di livello. Le due cose non sono più legate, quindi
-# può riuscirne una sola.
+# Conclusione atomica del mondo: prima si verifica che TUTTI i compiti permettano
+# davvero di sostenere l'esame; solo dopo un esito positivo si certifica
+# l'apparato e si apre il mondo successivo. Non lascia piu' uno stato intermedio
+# "esame superato, mondo ancora chiuso".
 func repair_and_advance(exam_passed: bool) -> bool:
-	var repaired := repair_apparatus(ApparatusConfig.world_subject(save.level()), exam_passed)
-	var advanced := advance_level()
-	return repaired or advanced
+	if not exam_passed or not can_start_final_exam():
+		return false
+	var subject := ApparatusConfig.world_subject(save.level())
+	if not repair_apparatus(subject, true):
+		return false
+	return advance_level()

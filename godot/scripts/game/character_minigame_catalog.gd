@@ -179,6 +179,39 @@ const GIOCHI := {
 		"convinzioneBersaglio": "Capire è tradurre parola per parola.",
 		"vittoria": "Le parole erano diverse, ma le luci hanno capito tutte. Marea ascolta il senso.",
 		"sconfitta": "La burrasca ha inghiottito l'ultima chiamata. Marea riaccende la radio e potete riprovare.",
+		# **La lingua della radio.** (voce D-2 di `insieme.md`, chiusa l'8
+		# settembre 2026) Marea sta al mondo 4, la cui materia è l'inglese, e i
+		# suoi nove messaggi erano in italiano: la meccanica era giusta, il
+		# materiale no. La convinzione da far cadere — *capire è tradurre parola
+		# per parola* — è una convinzione sull'inglese, e su un testo italiano
+		# non si poteva neanche formulare.
+		#
+		# Il rischio dichiarato allora era la difficoltà: cinque secondi di
+		# segnale, un bambino al quarto mondo. È risolto in due modi, e nessuno
+		# dei due tocca il cronometro dell'archetipo per tutti gli altri:
+		#   - **il lessico è quello che il bambino ha già**: ogni parola dei nove
+		#     messaggi sta nel banco d'inglese a difficoltà 1 (waves, boat,
+		#     water, rocks, fog, wind, rain, engine, help, bell, safe, place);
+		#   - **il tempo si allunga di due terzi** con `secondiFattore`, perché
+		#     leggere in una lingua straniera costa, e il gioco misura se cogli
+		#     il bisogno, non quanto sei veloce a decifrare.
+		#
+		# Le luci restano in italiano di proposito: al mondo 4 si chiede di
+		# CAPIRE l'inglese, non di produrlo. È lo stesso patto della prova di
+		# trasferimento dichiarata da `WorldLessonCatalog`.
+		"secondiFattore": 1.66,
+		"destinazioni": ["RIPARO", "AIUTO", "ATTENZIONE"],
+		"messaggi": [
+			["The waves are big. I need a calm place.", 0],
+			["Water in my boat! Send someone, please.", 1],
+			["Rocks in the fog! Do not come here.", 2],
+			["Can I stop where there is no wind?", 0],
+			["My engine is dead. I need a hand now.", 1],
+			["The bell is ringing: this way is not safe.", 2],
+			["I look for a closed bay before the rain.", 0],
+			["I can't turn the sail alone. Help me.", 1],
+			["A current pulls to the rocks in the east.", 2],
+		],
 	},
 	"w04-lino": {
 		"archetipo": ARCHETIPO_MERCATO,

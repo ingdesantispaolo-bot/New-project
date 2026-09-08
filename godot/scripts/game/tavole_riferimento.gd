@@ -3720,8 +3720,511 @@ const TAVOLE_LATINO := [
 	},
 ]
 
+# -----------------------------------------------------------------------------
+# INGLESE — la quarta materia con le tavole (8 settembre 2026)
+# -----------------------------------------------------------------------------
+#
+# Il latino aveva il difetto della domanda di FORMA: «che caso è *dominorum*?»
+# non si deduce, sta su una tabella, e o quella tabella l'hai vista o la domanda
+# è un sorteggio a quattro. Il 2 settembre è nata per questo la famiglia
+# `paradigma`.
+#
+# **L'inglese aveva lo stesso difetto e nessuno se n'era accorto**, perché fino
+# all'8 settembre 2026 il suo banco non chiedeva nessuna forma: era un dizionario
+# bidirezionale, e a un dizionario la tabella non serve. Con i 470 item di
+# grammatica il difetto è comparso tutto insieme — «qual è il participio di
+# *drink*?», «qual è il comparativo di *good*?» — e queste sei tavole nascono
+# nello stesso commit degli item, non dopo.
+#
+# Le `risposte` sono le forme che il banco chiede davvero: sono state prese da
+# `godot/data/banks/inglese-base.json`, non inventate. Una casella che nessuna
+# domanda raggiunge sarebbe contenuto scritto e mai collegato.
+const TAVOLE_INGLESE := [
+	{
+		"id": "inglese-verbi-irregolari",
+		"subject": "inglese",
+		"kind": KIND_PARADIGMA,
+		"topics": ["irregular-past", "past-tense", "to-be", "have-got"],
+		"titolo": "I verbi irregolari · le tre forme",
+		"come_si_legge": "Ogni riga porta le tre forme dello stesso verbo, sempre nello stesso ordine: base, passato, participio. La seconda si usa da sola per il passato semplice; la terza non regge mai da sola e chiede «have» davanti, oppure il verbo essere se la frase è passiva. I verbi sono raggruppati per famiglia: chi ne riconosce una si risparmia di impararli uno per uno.",
+		"voci": [
+			{
+				"label": "go · andare",
+				"forma": "go · went · gone",
+				"risposte": ["went", "gone"],
+				"nota": "Il passato viene da un altro verbo, sparito dall'inglese e sopravvissuto solo qui: per questo non somiglia per niente alla forma base. È l'unico caso del genere in tutta la lingua.",
+			},
+			{
+				"label": "be · essere",
+				"forma": "be · was/were · been",
+				"risposte": [
+					"am", "is", "are", "was", "were", "been", "I'm", "she's",
+					"I was at home", "They were at the cinema", "She is not happy",
+					"Are you ready?", "Yes, I am", "I am hungry",
+				],
+				"nota": "L'unico verbo con due forme al passato, una per il singolare e una per il plurale, e con tre al presente. Nega e si inverte da solo, senza aiutanti. «Been» dice che sei andato e tornato; «gone» dice che sei partito e non ci sei più.",
+			},
+			{
+				"label": "have · avere, e il possesso con got",
+				"forma": "have/has · had · had · (have got al presente)",
+				"risposte": ["have", "has", "had", "Has", "I've got", "she's", "I had a cold", "Yes, I have", "Have you got a pen?", "He has not got a dog"],
+				"nota": "Al presente il possesso britannico aggiunge «got», e solo la prima parola si accorda. Al passato «got» sparisce: la coppia funziona soltanto al presente, ed è il motivo per cui a un certo punto conviene passare alla forma semplice.",
+			},
+			{
+				"label": "buy · comprare",
+				"forma": "buy · bought · bought",
+				"risposte": ["bought", "buy"],
+				"nota": "Passato e participio uguali: sono i verbi più facili del gruppo, perché una casella della tabella si copia. Sta nella famiglia in «-ought» insieme a bring, think e fight.",
+			},
+			{
+				"label": "think · pensare",
+				"forma": "think · thought · thought",
+				"risposte": ["thought"],
+				"nota": "Stessa famiglia di buy e bring: la coda «-ought» si scrive con la gh muta, che mille anni fa si pronunciava e oggi resta solo sulla carta.",
+			},
+			{
+				"label": "teach · insegnare",
+				"forma": "teach · taught · taught",
+				"risposte": ["teach — taught", "taught"],
+				"nota": "Con catch forma la variante in «-aught», che si legge esattamente come «-ought». Sono quattro verbi in tutto, ed è la famiglia che conviene imparare per prima.",
+			},
+			{
+				"label": "write · scrivere",
+				"forma": "write · wrote · written",
+				"risposte": ["wrote", "written", "write"],
+				"nota": "Tre forme distinte, e il participio raddoppia la t prima della desinenza antica «-en». Sta nel gruppo di drive, ride e rise, che cambiano tutti la vocale allo stesso modo.",
+			},
+			{
+				"label": "take · prendere",
+				"forma": "take · took · taken",
+				"risposte": ["took", "taken"],
+				"nota": "La vocale si allunga in una doppia o al passato e torna indietro al participio, che riprende la desinenza «-en». Stessa scala di shake e mistake.",
+			},
+			{
+				"label": "eat · mangiare",
+				"forma": "eat · ate · eaten",
+				"risposte": ["ate", "eaten", "had eaten"],
+				"nota": "Il passato perde una lettera e il participio ne guadagna una: tre forme che si scrivono in tre modi diversi pur essendo lo stesso verbo.",
+			},
+			{
+				"label": "drink · bere",
+				"forma": "drink · drank · drunk",
+				"risposte": ["drank", "drunk"],
+				"nota": "La vocale scende di un gradino a ogni forma: i, a, u. Vale identico per sing, swim, begin e ring, ed è la scala più regolare fra tutte le irregolarità.",
+			},
+			{
+				"label": "see · vedere",
+				"forma": "see · saw · seen",
+				"risposte": ["saw", "seen", "had seen", "have been"],
+				"nota": "Il participio in «-en» è il segnale che il verbo ha tre forme distinte: se lo vedi dopo «have», sei in un tempo composto e non in un passato semplice.",
+			},
+			{
+				"label": "lose · perdere",
+				"forma": "lose · lost · lost",
+				"risposte": ["lost", "was stolen"],
+				"nota": "La doppia o si accorcia e la e finale sparisce. Da non confondere con «loose», che si scrive quasi uguale e vuol dire «sciolto, largo».",
+			},
+			{
+				"label": "cut · tagliare",
+				"forma": "cut · cut · cut",
+				"risposte": ["cut"],
+				"nota": "Tutte e tre le forme uguali: a dire il tempo resta solo il contesto, o l'ausiliare nelle domande. Stesso comportamento per put, let, hit, cost e shut.",
+			},
+			{
+				"label": "read · leggere",
+				"forma": "read · read · read",
+				"risposte": ["I read that book last year"],
+				"nota": "Si scrive uguale tre volte e cambia solo il suono: al presente si legge con la i lunga, al passato come «red», il colore. Nello scritto lo dice soltanto il contesto.",
+			},
+			{
+				"label": "steal · rubare",
+				"forma": "steal · stole · stolen",
+				"risposte": ["My bike was stolen", "stolen"],
+				"nota": "Il participio con «-en» è quello che serve al passivo, ed è proprio la forma in cui questo verbo si incontra più spesso: le cose rubate si raccontano quasi sempre così.",
+			},
+			{
+				"label": "build · costruire",
+				"forma": "build · built · built",
+				"risposte": ["was built", "built"],
+				"nota": "La d finale diventa t: succede anche a send, spend, lend e bend. È un cambio di suono più che di forma, e nasce da come la lingua ha semplificato la pronuncia.",
+			},
+			{
+				"label": "tell · dire a qualcuno",
+				"forma": "tell · told · told",
+				"risposte": ["told", "He told me to close the door"],
+				"nota": "Insieme a sell segue la stessa strada: la doppia elle si semplifica e la vocale si allunga. Chiede sempre la persona subito dopo, senza preposizione.",
+			},
+			{
+				"label": "give · dare",
+				"forma": "give · gave · given",
+				"risposte": ["gave", "given", "She was given a present"],
+				"nota": "Il participio con «-en» è quello che serve al passivo con due complementi: «she was given a present», dove a diventare soggetto è la persona e non la cosa.",
+			},
+			{
+				"label": "know · sapere",
+				"forma": "know · knew · known",
+				"risposte": ["knew", "known", "knew how"],
+				"nota": "La k iniziale non si pronuncia più da quattrocento anni, ma resta scritta. Il verbo indica uno stato, quindi non prende mai la forma in «-ing».",
+			},
+		],
+	},
+	{
+		"id": "inglese-tempi-verbali",
+		"subject": "inglese",
+		"kind": KIND_PARADIGMA,
+		"topics": [
+			"third-person", "do-does", "present-continuous", "past-continuous",
+			"present-perfect", "past-perfect", "future", "passive", "conditionals",
+			"past-tense", "irregular-past", "there-is",
+		],
+		"titolo": "I tempi del verbo inglese · come si costruiscono",
+		"come_si_legge": "Ogni riga dice con quali pezzi si monta un tempo, e in che ordine. La regola che vale per tutti: il tempo si segna UNA volta sola, e lo segna il primo pezzo. Se il primo pezzo è già al passato, quelli dopo restano nella forma base o al participio.",
+		"voci": [
+			{
+				"label": "Presente semplice",
+				"forma": "verbo nudo, con -s alla terza singolare · she works",
+				"risposte": ["works", "goes", "does", "watches", "studies", "plays", "has", "boils", "likes", "starts", "flies", "leaves", "live", "arrives", "get", "melts"],
+				"nota": "Serve per le abitudini e per le cose sempre vere. Di tutta la coniugazione cambia una casella sola, quella di lui, lei, esso: è l'unica traccia rimasta di un sistema che un tempo aveva sei forme diverse.",
+			},
+			{
+				"label": "Presente semplice · negativo e domanda",
+				"forma": "do/does + verbo nudo · she doesn't work · does she work?",
+				"risposte": ["Does", "don't", "doesn't she", "don't you", "She doesn't play tennis", "They don't live here", "Do you like pizza?", "Yes, I do", "No, he doesn't", "What does she want?"],
+				"nota": "La desinenza della terza persona si sposta sull'aiutante e il verbo torna nudo: la marca c'è ancora, ma su un'altra parola. Vederla due volte è il segnale sicuro di un errore.",
+			},
+			{
+				"label": "Presente continuo",
+				"forma": "am/is/are + verbo-ing · she is reading",
+				"risposte": ["is sleeping", "are rising", "am seeing", "She is reading a book", "They aren't playing", "What are you doing?", "is flying", "running", "writing", "lying", "swimming"],
+				"nota": "Fotografa un'azione in corso mentre si parla, e serve anche per il futuro già in agenda. I verbi che dicono uno stato — know, want, belong — non lo prendono, perché uno stato non ha un «mentre».",
+			},
+			{
+				"label": "Passato semplice",
+				"forma": "verbo + -ed, oppure la seconda forma se irregolare · she worked",
+				"risposte": ["played", "stopped", "carried", "studied", "travelled", "planned", "like", "was", "were", "used", "wanted"],
+				"nota": "Vuole un tempo chiuso: ieri, nel 2019, due giorni fa. La desinenza è uguale per tutte le persone — l'inglese il passato non lo coniuga, lo marca una volta e basta.",
+			},
+			{
+				"label": "Passato continuo",
+				"forma": "was/were + verbo-ing · she was reading",
+				"risposte": ["was watching", "was cooking", "were playing", "were sleeping", "was having", "They weren't playing", "What were you doing at eight?", "He was always losing his keys"],
+				"nota": "Dipinge lo sfondo di un racconto: dice che cosa era già in corso quando è successo qualcos'altro. Con «always» smette di contare le volte e si lamenta.",
+			},
+			{
+				"label": "Present perfect",
+				"forma": "have/has + participio · she has worked",
+				"risposte": ["have been", "has", "have", "has worked", "have eaten", "have lost", "have seen", "haven't finished", "already", "yet", "for", "since"],
+				"nota": "Tiene teso un filo fra il passato e adesso: non dice quando, dice che l'effetto vale ancora. Dichiarare il quando — «yesterday», «in 2019» — taglia il filo, e allora serve il passato semplice.",
+			},
+			{
+				"label": "Trapassato",
+				"forma": "had + participio · she had worked",
+				"risposte": ["had left", "had seen", "had closed", "had eaten", "had travelled", "had sent", "had been", "had been working", "had"],
+				"nota": "Mette in ordine due fatti passati dichiarando quale è successo prima. Serve solo per tornare indietro: se il racconto è già in fila, il passato semplice basta per tutti e due.",
+			},
+			{
+				"label": "Futuro con will",
+				"forma": "will + verbo nudo · she will work",
+				"risposte": ["will", "will stay", "won't", "will be able to swim", "will be lying", "will have finished", "will have", "will be sold", "will be repaired", "would"],
+				"nota": "È il futuro delle decisioni prese nel momento in cui si parla, delle promesse e delle opinioni. Dopo «if», «when» e «as soon as» non compare mai: là il futuro resta implicito e il verbo va al presente.",
+			},
+			{
+				"label": "Futuro con going to",
+				"forma": "am/is/are going to + verbo nudo · she is going to work",
+				"risposte": ["are going to", "is going to", "about"],
+				"nota": "È il futuro dei piani già decisi prima di parlare e delle previsioni con la prova sotto gli occhi. Non misura la distanza nel tempo: misura da dove viene la decisione.",
+			},
+			{
+				"label": "Passivo",
+				"forma": "verbo essere al tempo giusto + participio · the office is cleaned",
+				"risposte": ["The office is cleaned every day", "was built", "is spoken", "was stolen", "will be sold", "has been done", "will be repaired", "is said", "The window was broken"],
+				"nota": "A cambiare è solo il verbo essere; il participio resta fermo. L'inglese lo usa più dell'italiano perché non ha il «si» impersonale: per non nominare chi ha fatto la cosa deve rovesciare la frase.",
+			},
+			{
+				"label": "La formula dell'esistenza",
+				"forma": "there is / there are + la cosa annunciata · there is a book on the table",
+				"risposte": [
+					"There is", "There are", "Is", "Are", "is", "are", "was", "were",
+					"There is no problem", "Is there a chemist near here?",
+					"There was a park here", "There will be many people",
+					"There have been three accidents", "There isn't anything to drink",
+				],
+				"nota": "La prima parola non indica un luogo: tiene il posto del soggetto, che in inglese non può mancare. Il verbo si accorda con quello che viene DOPO, e davanti a un elenco guarda solo il primo elemento.",
+			},
+			{
+				"label": "Condizionale",
+				"forma": "would + verbo nudo · she would work",
+				"risposte": ["would learn", "would call", "would have passed", "would be passing", "knew how"],
+				"nota": "Sta nella principale del periodo ipotetico di secondo e terzo tipo, mai dopo «if». Con il tempo composto — «would have» più il participio — racconta quello che sarebbe successo e non è successo.",
+			},
+		],
+	},
+	{
+		"id": "inglese-pronomi-e-possessivi",
+		"subject": "inglese",
+		"kind": KIND_SCHEDA,
+		"topics": ["pronouns", "possessives"],
+		"titolo": "Pronomi e possessivi · le cinque colonne",
+		"come_si_legge": "Ogni riga è una persona, e attraversandola da sinistra a destra si trovano le cinque forme che quella persona può prendere: chi agisce, chi riceve, il possessivo che accompagna un nome, quello che sta da solo, e il riflessivo. L'inglese ha perso i casi sui nomi e li ha tenuti solo qui: è l'ultimo posto della lingua in cui la parola cambia forma secondo il lavoro che fa.",
+		"voci": [
+			{
+				"label": "Io",
+				"in_breve": "I · me · my · mine · myself",
+				"risposte": ["I", "me", "mine", "I'm", "am"],
+				"nota": "L'unico pronome che si scrive sempre maiuscolo, in mezzo alla frase compreso. Dopo una preposizione ci va «me», anche quando l'orecchio suggerisce il contrario: «between you and me».",
+			},
+			{
+				"label": "Tu / voi",
+				"in_breve": "you · you · your · yours · yourself",
+				"risposte": ["yours", "Yes, I am", "you're"],
+				"nota": "Una forma sola per il singolare e il plurale: l'inglese ha perso il «tu» antico («thou») e usa il plurale per tutti. Al riflessivo però la differenza torna: yourself per uno, yourselves per più di uno.",
+			},
+			{
+				"label": "Lui",
+				"in_breve": "he · him · his · his · himself",
+				"risposte": ["him", "his", "He", "he's"],
+				"nota": "È l'unica persona in cui il possessivo che accompagna e quello che sta da solo si scrivono uguali. Per gli altri cambiano, ed è lì che nascono gli errori.",
+			},
+			{
+				"label": "Lei",
+				"in_breve": "she · her · her · hers · herself",
+				"risposte": ["She", "her", "hers", "herself", "she's"],
+				"nota": "Qui succede il contrario: sono uguali la forma di chi riceve e il possessivo che accompagna. «Hers» sta da solo e non prende mai l'apostrofo, come nessun pronome possessivo.",
+			},
+			{
+				"label": "Esso · cose e animali",
+				"in_breve": "it · it · its · — · itself",
+				"risposte": ["it", "It", "its", "Is"],
+				"nota": "L'inglese non dà genere alle cose, e questo è il motivo per cui non ci sono nomi maschili e femminili da imparare. «Its» è l'unico possessivo senza apostrofo: quello lo tiene occupato «it's», che sta per «it is».",
+			},
+			{
+				"label": "Noi",
+				"in_breve": "we · us · our · ours · ourselves",
+				"risposte": ["We", "ourselves"],
+				"nota": "Il riflessivo plurale segue la regola della f che diventa v, come in «knife» e «leaf»: ourself non esiste, perché una persona sola non può essere «noi».",
+			},
+			{
+				"label": "Loro",
+				"in_breve": "they · them · their · theirs · themselves",
+				"risposte": ["them", "their", "They", "are"],
+				"nota": "Da prima di Shakespeare l'inglese presta il plurale per parlare di una persona qualsiasi senza dirne il genere: «everyone has finished their homework» non è un errore, è la soluzione più antica che ha.",
+			},
+			{
+				"label": "Gli indefiniti",
+				"in_breve": "some- nelle affermazioni · any- in domande e negazioni",
+				"risposte": ["anybody", "anything", "some", "any"],
+				"nota": "La serie cambia con il segno della frase, non con il significato: «somebody» dà per certo che qualcuno c'è, «anybody» lascia aperte tutte e due le risposte. Nelle offerte torna «some», perché offrire con «any» suona come dubitare.",
+			},
+			{
+				"label": "Il possesso con l'apostrofo",
+				"in_breve": "Anna's book · my parents' room · the children's room",
+				"risposte": ["Anna's book", "my parents' room", "the children's room", "my brother's car", "Whose", "John and Mary's house"],
+				"nota": "Prima chi possiede, poi la cosa posseduta: l'inglese costruisce all'incontrario rispetto a noi. Se il possessore è già plurale con la s, l'apostrofo va dopo e non si aggiunge nient'altro.",
+			},
+		],
+	},
+	{
+		"id": "inglese-preposizioni",
+		"subject": "inglese",
+		"kind": KIND_SCHEDA,
+		"topics": ["prepositions"],
+		"titolo": "Le preposizioni · tempo e luogo",
+		"come_si_legge": "Le tre preposizioni principali scendono dal largo allo stretto, e la stessa scala vale per il tempo e per lo spazio: «in» racchiude, «on» appoggia, «at» punta. Sotto la scala stanno le preposizioni che si imparano attaccate a un verbo o a un aggettivo, dove nessun ragionamento aiuta.",
+		"voci": [
+			{
+				"label": "in · dentro un periodo o uno spazio",
+				"in_breve": "in March · in 2015 · in summer · in Milan · in the box",
+				"risposte": ["in", "In"],
+				"nota": "Prende i contenitori larghi: mesi, stagioni, anni, secoli, città e paesi. È la preposizione da provare per prima quando il periodo o lo spazio ha dei bordi dentro cui si sta.",
+			},
+			{
+				"label": "on · appoggiato a una superficie o a un giorno",
+				"in_breve": "on Monday · on 25th December · on the table · on the wall",
+				"risposte": ["on", "On"],
+				"nota": "I giorni e le date la prendono sempre, e se ne portano dietro anche la parte della giornata: «on Monday morning», dove il giorno vince su «in the morning».",
+			},
+			{
+				"label": "at · un punto preciso",
+				"in_breve": "at nine o'clock · at night · at school · at 12 Baker Street",
+				"risposte": ["at", "At"],
+				"nota": "Punta a un istante o a un luogo senza dimensione: l'ora, un indirizzo, la fermata. Con «school», «home» e «work» dice dove sei, mentre «to» direbbe dove vai.",
+			},
+			{
+				"label": "for · quanto è durata",
+				"in_breve": "for three years · for a week · for a long time",
+				"risposte": ["for"],
+				"nota": "Misura la lunghezza di un periodo: risponde a «per quanto tempo». Se dopo la preposizione c'è un numero di anni o di giorni, è quasi sempre questa.",
+			},
+			{
+				"label": "since · da quando è cominciata",
+				"in_breve": "since 2020 · since Monday · since I was a child",
+				"risposte": ["since"],
+				"nota": "Dichiara il punto di partenza, non la durata: risponde a «da quando». Chiede sempre il present perfect, perché il filo che apre arriva fino a oggi.",
+			},
+			{
+				"label": "to · verso una meta",
+				"in_breve": "go to school · to London · give it to me",
+				"risposte": ["to", "to buy", "to leave", "to have"],
+				"nota": "Segna la direzione con i verbi di movimento e il destinatario con «give» e «send». Con «home», «here» e «there» sparisce: quelle parole la direzione se la portano già dentro.",
+			},
+			{
+				"label": "Preposizioni che si imparano col verbo",
+				"in_breve": "depend on · based on · look for · look after · listen to",
+				"risposte": ["on", "for"],
+				"nota": "Qui il ragionamento non serve e tradurre a mente porta fuori strada: «depend on» dove l'italiano direbbe «da», «listen to» dove noi non mettiamo niente. Si impara la coppia, non il verbo.",
+			},
+			{
+				"label": "Preposizioni che si imparano con l'aggettivo",
+				"in_breve": "good at · interested in · afraid of · famous for · similar to",
+				"risposte": ["at", "in"],
+				"nota": "Ogni aggettivo si porta dietro la sua, e cambiarla non è un errore lieve: «good with children» e «good at maths» dicono due cose diverse. La preposizione fa parte del significato.",
+			},
+		],
+	},
+	{
+		"id": "inglese-comparativi",
+		"subject": "inglese",
+		"kind": KIND_PARADIGMA,
+		"topics": ["comparatives"],
+		"titolo": "Comparativi e superlativi · la regola sta nella bocca",
+		"come_si_legge": "A decidere non è la grammatica ma la pronuncia: se l'aggettivo è corto la desinenza si riesce a dire e si attacca, se è lungo diventa impronunciabile e allora arriva la parola davanti. Il superlativo vuole sempre l'articolo, perché indica un posto unico in classifica.",
+		"voci": [
+			{
+				"label": "Aggettivi corti · una sillaba",
+				"forma": "-er / the -est · tall, taller, the tallest",
+				"risposte": ["the tallest", "the oldest", "the taller of the two", "She is the taller of the two"],
+				"nota": "Una sillaba sola prende sempre la desinenza. Se finisce con una vocale breve fra due consonanti, la consonante raddoppia: big diventa bigger, hot diventa hotter.",
+			},
+			{
+				"label": "Aggettivi corti in -y",
+				"forma": "-ier / the -iest · heavy, heavier, the heaviest",
+				"risposte": ["heavier"],
+				"nota": "La y dopo consonante diventa i, come nei plurali e nei verbi alla terza persona: è la stessa regola di scrittura che l'inglese applica ovunque, e vale anche a due sillabe.",
+			},
+			{
+				"label": "Aggettivi lunghi · tre sillabe o più",
+				"forma": "more / the most · difficult, more difficult, the most difficult",
+				"risposte": ["more difficult"],
+				"nota": "Da tre sillabe in su la desinenza non si riesce a pronunciare, e allora la comparazione si stacca in una parola a sé. Il confine è nella bocca, non in una tabella.",
+			},
+			{
+				"label": "good · buono",
+				"forma": "good · better · the best",
+				"risposte": ["better", "the best"],
+				"nota": "Cambia parola invece di prendere una desinenza, ed è irregolare proprio perché lo si dice di continuo: l'uso frequente protegge le forme antiche.",
+			},
+			{
+				"label": "bad · cattivo",
+				"forma": "bad · worse · the worst",
+				"risposte": ["worse"],
+				"nota": "Come il suo opposto, cambia parola del tutto. Sono i due aggettivi più antichi e più usati della lingua, e nessuna regola li ha mai raggiunti.",
+			},
+			{
+				"label": "far · lontano",
+				"forma": "far · farther/further · the farthest/furthest",
+				"risposte": ["farther"],
+				"nota": "Ha due comparativi: uno è rimasto ai chilometri, l'altro si è specializzato nelle cose astratte, come «un ulteriore motivo». Nel parlato britannico si confondono, nello scritto no.",
+			},
+			{
+				"label": "L'uguaglianza",
+				"forma": "as + aggettivo + as · as tall as his brother",
+				"risposte": ["as … as"],
+				"nota": "Due volte la stessa parola, e l'aggettivo in mezzo che non cambia forma. Funziona anche negata, e allora dice che il primo termine non arriva al livello del secondo.",
+			},
+			{
+				"label": "Meno · con nomi che si contano",
+				"forma": "fewer · fewer students",
+				"risposte": ["fewer"],
+				"nota": "Si usa quando le cose si contano una per una. È la metà della coppia che fa sbagliare di più, ed è anche quella che sta sparendo dal parlato: nello scritto però resta obbligatoria.",
+			},
+			{
+				"label": "Meno · con nomi che si misurano",
+				"forma": "less · less money",
+				"risposte": ["less"],
+				"nota": "Si usa con ciò che non si conta: denaro, tempo, acqua. Il criterio è lo stesso di «much» e «many», e vale in tutta la grammatica inglese della quantità.",
+			},
+			{
+				"label": "La doppia comparazione",
+				"forma": "the more … the more · the more you study, the more you learn",
+				"risposte": ["more … more", "colder … colder"],
+				"nota": "Lega due quantità che crescono insieme e vuole l'articolo determinativo davanti a tutte e due. Ripetere lo stesso comparativo con «and» dice invece «sempre più», e la forma dev'essere identica nelle due metà.",
+			},
+		],
+	},
+	{
+		"id": "inglese-modali",
+		"subject": "inglese",
+		"kind": KIND_SCHEDA,
+		"topics": ["modals"],
+		"titolo": "I verbi modali · la famiglia che non si coniuga",
+		"come_si_legge": "Tutti i modali si comportano allo stesso modo, e questo li rende i verbi più facili dell'inglese: non prendono la -s alla terza persona, non vogliono «to» dopo di sé, negano da soli e si invertono da soli nelle domande. In cambio quasi nessuno ha un passato, e quando serve se lo fanno prestare da un giro di parole.",
+		"voci": [
+			{
+				"label": "can · saper fare, potere",
+				"in_breve": "I can swim · I can't swim · can I?",
+				"risposte": ["can", "could", "I could swim", "I will be able to swim"],
+				"nota": "Al passato diventa «could», ed è uno dei due soli modali con un passato vero. Al futuro non esiste, e si sostituisce con «will be able to»: due modali di fila non stanno mai insieme.",
+			},
+			{
+				"label": "could · potevo, e la richiesta gentile",
+				"in_breve": "I could read at four · could you help me?",
+				"risposte": ["Could"],
+				"nota": "Usato al presente serve a prendere le distanze, e allontanando la richiesta nel tempo la rende meno insistente. È il motivo per cui suona più educato di «can».",
+			},
+			{
+				"label": "must · obbligo di chi parla, e deduzione",
+				"in_breve": "you must go · she must be at home",
+				"risposte": ["must", "must have missed the train"],
+				"nota": "Lo stesso modale impone e deduce: quando le prove sono forti dice «deve essere», esattamente come in italiano. L'obbligo però viene da chi parla, non da una regola esterna.",
+			},
+			{
+				"label": "mustn't · il divieto",
+				"in_breve": "you mustn't smoke here",
+				"risposte": ["mustn't"],
+				"nota": "Negato non toglie l'obbligo, lo capovolge in divieto. È il punto in cui si sbaglia più spesso traducendo, perché l'italiano «non devi» copre tutti e due i sensi.",
+			},
+			{
+				"label": "have to · obbligo che viene da fuori",
+				"in_breve": "I have to wear a uniform · I don't have to go",
+				"risposte": ["don't have to", "Do you have a sister?"],
+				"nota": "Non è un modale vero: si coniuga e prende l'aiutante. Negato cancella l'obbligo invece di creare un divieto, ed è la differenza che lo separa da «mustn't».",
+			},
+			{
+				"label": "should · il consiglio",
+				"in_breve": "you should rest · you should have told me",
+				"risposte": ["should", "You should have told me"],
+				"nota": "Consiglia senza obbligare. Seguito da un tempo composto guarda indietro e rimprovera: descrive la cosa giusta che non è stata fatta.",
+			},
+			{
+				"label": "may · il permesso formale",
+				"in_breve": "may I open the window?",
+				"risposte": ["May I open the window?"],
+				"nota": "Chiede il permesso in modo più formale di «can», e in una scuola inglese è la forma che ci si aspetta. Indica anche una possibilità, meno incerta di «might».",
+			},
+			{
+				"label": "might · la possibilità incerta",
+				"in_breve": "it might rain later",
+				"risposte": ["might"],
+				"nota": "Il più incerto della famiglia: dice che la cosa è aperta senza scommetterci niente. Nel discorso indiretto non arretra, perché è già la forma passata di «may».",
+			},
+			{
+				"label": "would · l'ipotesi e la preferenza",
+				"in_breve": "I would travel · I'd rather stay",
+				"risposte": ["would", "would rather"],
+				"nota": "Sta nella principale del periodo ipotetico e forma la coppia fissa «would rather» per dire una preferenza. Nel discorso indiretto è la forma in cui «will» arretra.",
+			},
+			{
+				"label": "will · il futuro e la promessa",
+				"in_breve": "I'll help you · the car won't start",
+				"risposte": ["will", "won't"],
+				"nota": "Negato può dire ostinazione invece di futuro: «the car won't start» non parla di domani, dice che la macchina si rifiuta di partire adesso.",
+			},
+		],
+	},
+]
+
 static func tutte() -> Array:
-	return TAVOLE_STORIA + TAVOLE_GEOGRAFIA + TAVOLE_LATINO
+	return TAVOLE_STORIA + TAVOLE_GEOGRAFIA + TAVOLE_LATINO + TAVOLE_INGLESE
 
 static func tavola_di_id(id: String) -> Dictionary:
 	for tavola in tutte():

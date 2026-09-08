@@ -109,18 +109,19 @@ static func passo(runtime: Dictionary, progression) -> Dictionary:
 		"dove": "le palestre di %s, qui nel mondo" % prossima,
 	}
 
-## La materia mancante più vicina al traguardo: è quella su cui conviene tornare
-## adesso. Ordinare per avanzamento non è un dettaglio — mandare il bambino sulla
-## più lontana significa fargli fare il lavoro più lungo per vedere il primo
-## risultato.
+## La prossima materia rispetta prima la fascia, poi la vicinanza al traguardo.
+## Quando una fascia e' in linea, il percorso passa alla successiva.
 static func _piu_vicina(progression, mancanti: Array) -> String:
 	var migliore := str(mancanti[0])
+	var fascia_migliore := ApparatusConfig.priority_tier(migliore)
 	var punteggio := -1.0
 	for materia_data in mancanti:
 		var materia := str(materia_data)
 		var stato: Dictionary = progression.apparatus_readiness(materia)
 		var avanzamento := float(stato.get("progress", 0.0))
-		if avanzamento > punteggio:
+		var fascia := ApparatusConfig.priority_tier(materia)
+		if fascia < fascia_migliore or (fascia == fascia_migliore and avanzamento > punteggio):
+			fascia_migliore = fascia
 			punteggio = avanzamento
 			migliore = materia
 	return migliore
@@ -268,13 +269,18 @@ static func percorso(progression) -> Dictionary:
 			"materia": str(chiave),
 			"fatto": bool(voce.get("ready", false)),
 			"nucleo": bool(voce.get("core", false)),
+			"fascia": ApparatusConfig.priority_tier(str(chiave)),
+			"quotaFascia": ApparatusConfig.tier_weight(ApparatusConfig.priority_tier(str(chiave))),
+			"eserciziPerProva": ApparatusConfig.exercise_nodes_for(str(chiave)),
 			"progresso": float(voce.get("progress", 0.0)),
 			"manca": _cosa_manca(voce, false, bool(progression.save.mastery_never_set(str(chiave)))),
 		})
 	righe.sort_custom(func(a, b):
-		# Le fatte in fondo; fra le aperte, prima quella più vicina.
+		# Le fatte in fondo; fra le aperte, prima la fascia e poi la più vicina.
 		if bool(a["fatto"]) != bool(b["fatto"]):
 			return not bool(a["fatto"])
+		if int(a["fascia"]) != int(b["fascia"]):
+			return int(a["fascia"]) < int(b["fascia"])
 		return float(a["progresso"]) > float(b["progresso"]))
 	var quante_fatte := 0
 	for riga in righe:
@@ -285,12 +291,13 @@ static func percorso(progression) -> Dictionary:
 		"fatte": quante_fatte,
 		"totali": righe.size(),
 		"pronto": bool(stato.get("ready", false)),
+		"quote": ApparatusConfig.PRIORITY_WEIGHTS.duplicate(),
 		# **Detto una volta, non dodici.** Leggendo il quadro per la prima volta
 		# la domanda vera non e' «quanto manca a latino»: e' «e dove si fa
 		# latino, se questo mondo e' di matematica?». La risposta e' la stessa
 		# per undici materie su dodici, quindi va scritta una volta sola —
 		# ripeterla riga per riga la renderebbe invisibile.
-		"dove": "Ogni mondo ospita una prova per OGNI materia: le palestre sparse sulla mappa. La materia del mondo apre la sua stanza; le altre si allenano lì, e il quadro dice quante prove mancano a ciascuna.",
+		"dove": "Ogni mondo ospita una prova per OGNI materia. Distribuisci lo sforzo: prima fascia 50%, seconda 35%, terza 15% (tolleranza 5%). Servono comunque tutte per accedere all'esame.",
 	}
 
 ## La riga di riepilogo del percorso: «7 materie su 12 in linea».

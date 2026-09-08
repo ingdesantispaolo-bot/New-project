@@ -20,16 +20,14 @@ func setup(save_manager: GameSaveManager) -> void:
 func runtime_state() -> Dictionary:
 	if not is_instance_valid(save):
 		return {}
-	# La stanza è quella della materia che abita il mondo corrente; la prontezza è
-	# quella dell'APPARATO (padronanza di quella materia), non del livello.
+	# La stanza è quella della materia che abita il mondo corrente; l'esame si
+	# accende soltanto quando l'intero percorso del mondo e' completato.
 	var subject := ApparatusConfig.world_subject(save.level())
 	var apparatus := ApparatusConfig.apparatus_of(subject)
 	var repaired_level := int(save.data.get("apparatus", {}).get(apparatus, {}).get("repairedLevel", 0))
-	# All'ultimo mondo la prova è il CUORE, che si apre con le dodici stanze accese.
+	# All'ultimo mondo la stessa regola comprende anche il vincolo del Cuore.
 	var is_heart := save.level() >= ApparatusConfig.MAX_LEVEL
-	var ready := (
-		progression.can_open_heart() if is_heart
-		else progression.can_repair_apparatus(subject))
+	var ready := progression.can_start_final_exam()
 	var rooms: Dictionary = {}
 	for room_id in ShipRoomCatalog.ids():
 		rooms[str(room_id)] = ShipActivationModel.activation_for_room(save, str(room_id))
@@ -53,10 +51,7 @@ func state() -> Dictionary:
 	return runtime_state()
 
 func request_exam() -> bool:
-	if save.level() >= ApparatusConfig.MAX_LEVEL:
-		if not progression.can_open_heart():
-			return false
-	elif not progression.can_repair_apparatus(ApparatusConfig.world_subject(save.level())):
+	if not progression.can_start_final_exam():
 		return false
 	exam_requested.emit()
 	return true

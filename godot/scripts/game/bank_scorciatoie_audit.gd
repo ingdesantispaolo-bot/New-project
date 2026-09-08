@@ -132,7 +132,14 @@ const TETTO := {
 	"elettronica": 21.9,
 	"fisica": 21.9,
 	"geografia": 24.7,
-	"inglese": 25.3,
+	# Sceso a 24,9 l'8 settembre 2026 con il programma di grammatica. I 470 item
+	# nuovi lo avevano prima fatto SALIRE a 29,4: sessantatré di loro avevano la
+	# risposta giusta piu' lunga di cinque caratteri del distrattore piu' lungo,
+	# e sono quasi tutti quesiti «perche'?», dove la risposta e' una spiegazione
+	# e i distrattori erano ragioni brevi. Allungati i sessantatré distrattori
+	# (mai accorciata una risposta), l'inglese e' passato **sotto** il caso: e'
+	# la prima volta, era l'unica materia ferma esattamente sul 25%.
+	"inglese": 24.9,
 	"italiano": 24.8,
 	# Sceso a 23,3 il 2 settembre 2026 con la riscrittura del banco: ventiquattro
 	# forme da produrre si digitano invece di toccarsi (a tastiera la scorciatoia

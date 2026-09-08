@@ -74,7 +74,11 @@ func _test_ultimo_gradino_richiede_le_stanze() -> void:
 	assert(not prog.advance_level(), "non si chiude la campagna con nove materie mai toccate")
 	assert(save.level() == ApparatusConfig.MAX_LEVEL, "il livello non deve muoversi")
 	_repair(save, ApparatusConfig.SUBJECT_CYCLE)
-	assert(prog.advance_level(), "con dodici stanze l'ultimo gradino si supera")
+	assert(not prog.advance_level(), "anche col Cuore pronto non si deve saltare l'esame finale")
+	var final_subject := ApparatusConfig.world_subject(ApparatusConfig.MAX_LEVEL)
+	assert(prog.repair_apparatus(final_subject, true),
+		"l'esame finale superato deve certificare l'ultimo mondo")
+	assert(prog.advance_level(), "con dodici stanze e l'esame superato l'ultimo gradino si supera")
 	assert(prog.is_complete(), "la campagna deve risultare completa")
 
 func _test_obiettivo_dichiarato_dall_inizio() -> void:

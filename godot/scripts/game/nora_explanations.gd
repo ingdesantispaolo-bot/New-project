@@ -664,6 +664,97 @@ const VOCI := {
 		],
 	},
 
+	# -- inglese · il programma di grammatica (8 settembre 2026) ----------------
+	#
+	# Ventun voci nate insieme ai 470 item di `scripts/banks/inglese-programma.mjs`.
+	# Fino a quel giorno il banco d'inglese era un dizionario — mille item, due
+	# forme di domanda, zero grammatica — e queste voci non avevano niente da
+	# spiegare perché non c'era nessun esercizio che le chiamasse.
+	"inglese:to-be": {
+		"perche": "È il primo verbo che si impara perché è quello che dice chi sei, come stai e dove ti trovi: senza di lui non si costruisce nemmeno una presentazione.",
+		"come": "Al presente ha tre forme sole: una per «I», una per il singolare, una per tutti gli altri. Impara quelle tre e il resto viene da sé.",
+	},
+	"inglese:have-got": {
+		"perche": "L'inglese britannico dice il possesso con due parole appaiate, e solo la prima si accorda: è il motivo per cui nelle domande il verbo si spezza in due attorno al soggetto.",
+		"come": "Se puoi sostituire «possiedo» all'italiano «ho», allora «got» ci sta; se «ho» vuol dire «faccio» — colazione, una doccia — allora «got» va tolto.",
+	},
+	"inglese:plurals": {
+		"perche": "Quasi tutti i plurali inglesi si fanno con una sola lettera, e le eccezioni sono poche ma sono le parole che si dicono ogni giorno: proprio l'uso continuo le ha protette dalla regola.",
+		"come": "Guarda l'ultima lettera prima di decidere: dopo un sibilante serve una vocale d'appoggio, dopo una y con consonante davanti la y si trasforma.",
+	},
+	"inglese:pronouns": {
+		"perche": "L'inglese ha perso i casi sui nomi e li ha tenuti solo sui pronomi: è l'ultimo posto della lingua in cui la parola cambia forma secondo il lavoro che fa nella frase.",
+		"come": "Chiediti se il pronome compie l'azione o la riceve: davanti al verbo va la forma da soggetto, dopo il verbo o dopo una preposizione va l'altra.",
+	},
+	"inglese:there-is": {
+		"perche": "Per annunciare che qualcosa esiste in un posto l'inglese usa una formula fissa, e la prima parola non indica un luogo: tiene il posto del soggetto, che in inglese non può mancare.",
+		"come": "Il verbo si accorda con quello che viene DOPO, non con la formula: guarda la prima cosa annunciata e decidi da lì fra singolare e plurale.",
+	},
+	"inglese:present-continuous": {
+		"perche": "Il presente inglese è due tempi diversi: uno fotografa un'abitudine, l'altro un'azione in corso. Confonderli non è un errore di forma, cambia quello che stai dicendo.",
+		"come": "Prova ad aggiungere «adesso»: se la frase regge, serve la forma lunga; se regge meglio «di solito», serve quella semplice.",
+	},
+	"inglese:possessives": {
+		"perche": "Il possesso inglese si costruisce al contrario del nostro: prima chi possiede, poi la cosa posseduta, con l'apostrofo a fare da ponte fra le due.",
+		"come": "Se il possessore è una persona usa l'apostrofo; se è un oggetto preferisci «of» o accosta i due nomi. E ricorda che nessun possessivo pronominale prende l'apostrofo.",
+	},
+	"inglese:prepositions": {
+		"perche": "Le preposizioni non si traducono: si imparano attaccate alla parola che le regge, perché il criterio che le sceglie in inglese non è lo stesso che le sceglie in italiano.",
+		"come": "Per il tempo vai dal largo allo stretto — anni e mesi dentro, giorni sopra, ore a puntare. Per gli aggettivi non ragionare: impara la coppia intera.",
+	},
+	"inglese:quantifiers": {
+		"perche": "Prima di dire quanto, l'inglese si chiede se la cosa si conta o si misura: da quella domanda dipendono la parola della quantità, l'articolo e il plurale.",
+		"come": "Prova a mettere «due» davanti al nome. Se si può, usa le parole di chi conta; se non si può, quelle di chi misura.",
+	},
+	"inglese:modals": {
+		"perche": "I modali sono l'unica famiglia di verbi che non si coniuga: non prendono la desinenza, non vogliono «to» e negano da soli. In cambio non hanno quasi mai un passato, e se lo fanno prestare.",
+		"come": "Dopo un modale il verbo resta sempre nudo. E se ti servissero due modali insieme, sostituiscine uno con un giro di parole: attaccati non stanno mai.",
+	},
+	"inglese:past-continuous": {
+		"perche": "Serve a dipingere lo sfondo di un racconto: dice che cosa era già in corso quando è successo qualcos'altro, e per questo apre quasi sempre la scena.",
+		"come": "Se un'azione dura e un'altra la interrompe, la prima va nella forma lunga e la seconda nel passato semplice: l'ordine dei fatti sta nella scelta dei due tempi.",
+	},
+	"inglese:present-perfect": {
+		"perche": "È il tempo che tiene teso un filo fra il passato e adesso: non dice quando è successa una cosa, dice che il suo effetto vale ancora. Se dichiari il quando, il filo si spezza.",
+		"come": "Cerca l'espressione di tempo: se chiude il periodo — ieri, nel 2019, due giorni fa — serve il passato semplice; se lo lascia aperto, serve questo.",
+	},
+	"inglese:future": {
+		"perche": "L'inglese ha quattro modi di dire il futuro, e non misurano la distanza: dicono da dove viene la decisione — presa adesso, presa prima, scritta su un orario, già in agenda.",
+		"come": "Chiediti quando hai deciso. Adesso, mentre parli, chiede «will»; prima di parlare chiede «going to»; un appuntamento fissato chiede la forma continua.",
+	},
+	"inglese:relatives": {
+		"perche": "Il relativo attacca una descrizione a un nome senza cominciare una frase nuova, e la parola scelta dichiara se stai riprendendo una persona, una cosa o un possesso.",
+		"come": "Guarda che cosa c'è subito dopo: se segue un verbo, il relativo è il soggetto e non si può togliere; se segue un altro soggetto, si può far sparire.",
+	},
+	"inglese:phrasal-verbs": {
+		"perche": "L'inglese ha pochi verbi e li riusa cambiando la particella: il significato non è la somma dei due pezzi, è una parola nuova che va imparata intera.",
+		"come": "Impara sempre il verbo con la sua particella, mai da solo. E se il complemento è un pronome, nei verbi separabili va infilato in mezzo.",
+	},
+	"inglese:conditionals": {
+		"perche": "Il periodo ipotetico misura quanto una cosa è possibile spostando i tempi indietro: più la condizione è improbabile, più il verbo arretra. Non è una regola arbitraria, è una distanza.",
+		"come": "Conta i gradini: presente e futuro se è possibile, passato e condizionale se è improbabile, trapassato e condizionale composto se è ormai perduta.",
+	},
+	"inglese:passive": {
+		"perche": "L'italiano se la cava con il «si» — si dice, si costruisce. L'inglese quella scorciatoia non ce l'ha, e per non nominare chi ha fatto la cosa deve rovesciare la frase.",
+		"come": "La formula è sempre la stessa: verbo essere al tempo che serve più il participio passato. A cambiare è solo il verbo essere; il participio resta fermo.",
+	},
+	"inglese:reported-speech": {
+		"perche": "Chi riferisce non è chi ha parlato, e non sta nello stesso momento né nello stesso posto: per questo arretrano i tempi, cambiano i pronomi e si ricalcolano ieri, domani e qui.",
+		"come": "Scendi di un gradino su tutto: presente in passato, passato in trapassato, «will» in «would». Se quello che è stato detto è ancora vero, puoi lasciarlo dov'è.",
+	},
+	"inglese:gerund-infinitive": {
+		"perche": "Dopo un verbo, l'inglese sceglie fra due forme e la scelta non è libera: alcuni verbi reggono solo l'una, altri solo l'altra, e per una manciata di loro cambiare forma cambia il significato.",
+		"come": "Dopo qualsiasi preposizione va la forma in «-ing», sempre, anche quando la preposizione si scrive «to». Per il resto, impara i verbi in due liste.",
+	},
+	"inglese:past-perfect": {
+		"perche": "Serve a mettere in ordine due fatti passati: dichiara quale è successo prima, e libera chi racconta dall'obbligo di dirli nell'ordine in cui sono accaduti.",
+		"come": "Usalo solo quando devi tornare indietro. Se i fatti sono già in fila nell'ordine giusto, il passato semplice basta per tutti e due.",
+	},
+	"inglese:linkers": {
+		"perche": "I connettivi non decorano un testo, ne dichiarano la logica: cambiarne uno capovolge il ragionamento senza toccare una sola parola del contenuto.",
+		"come": "Guarda che cosa segue prima di scegliere. Una frase intera chiede una congiunzione, un nome chiede una preposizione, un punto fermo chiede un avverbio.",
+	},
+
 	"inglese:nouns": {
 		"perche": "I nomi inglesi distinguono se una cosa si può contare o no, e questo cambia l'articolo e il plurale che puoi usare.",
 		"come": "Chiediti se puoi dire «due» davanti a quella parola: se sì è numerabile e ha un plurale, se no resta sempre al singolare.",

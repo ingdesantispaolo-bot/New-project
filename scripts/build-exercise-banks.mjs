@@ -28,6 +28,11 @@ import { mkdir, writeFile } from "node:fs/promises";
 // trecento item e ventiquattro argomenti, e perché è materiale che si continuerà
 // ad ampliare — qui dentro sarebbe una vena di mille righe in mezzo alle altre.
 import { MATEMATICA_PROGRAMMA } from "./banks/matematica-programma.mjs";
+// Stessa ragione per l'inglese, e un buco più grosso: il banco generato da
+// `englishVocabularyBank.ts` è un dizionario: mille item, due sole forme di
+// domanda, zero grammatica. Il programma di medie e biennio — tempi verbali,
+// modali, articoli, preposizioni, condizionali, passivo — sta in questo file.
+import { INGLESE_PROGRAMMA } from "./banks/inglese-programma.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, "..");
@@ -4222,6 +4227,34 @@ function logicaBank() {
 // Validazione: risposta sempre tra le opzioni, difficoltà 1-4, campi non vuoti.
 // ---------------------------------------------------------------------------
 
+// Gli argomenti in cui la COPPIA MINIMA è il contenuto. (8 settembre 2026)
+//
+// `tooSimilar` confronta le radici di quattro lettere e butta via le parole
+// corte: nasce contro le parafrasi del catalogo di teoria, dove «Una croma vale
+// mezzo battito» e «La croma vale mezzo battito» sono due risposte giuste e la
+// differenza è invisibile.
+//
+// In un esercizio di grammatica inglese quella stessa differenza **è la
+// domanda**. «She goes to school» contro «She go to school», «Italians love
+// good food» contro «The Italians love good food»: le opzioni differiscono per
+// una parola corta o per una desinenza, cioè esattamente per ciò che lo
+// stemmer cancella — e una sola delle due è giusta.
+//
+// L'eccezione è per argomento, non per materia: il lessico inglese resta
+// controllato come prima, e restano attivi per tutti sia il divieto di opzioni
+// IDENTICHE sia il controllo sulle domande con due risposte diverse.
+const COPPIA_MINIMA_E_CONTENUTO = new Set([
+  "inglese:to-be", "inglese:have-got", "inglese:articles", "inglese:plurals",
+  "inglese:pronouns", "inglese:there-is", "inglese:third-person", "inglese:do-does",
+  "inglese:present-continuous", "inglese:possessives", "inglese:prepositions",
+  "inglese:quantifiers", "inglese:modals", "inglese:past-tense", "inglese:irregular-past",
+  "inglese:past-continuous", "inglese:present-perfect", "inglese:future",
+  "inglese:comparatives", "inglese:question", "inglese:relatives", "inglese:phrasal-verbs",
+  "inglese:conditionals", "inglese:passive", "inglese:reported-speech",
+  "inglese:gerund-infinitive", "inglese:past-perfect", "inglese:linkers",
+  "inglese:word-family",
+]);
+
 function validate(name, bank) {
   for (const item of bank.items) {
     const problems = [];
@@ -4235,7 +4268,8 @@ function validate(name, bank) {
       // Un duplicato non deve essere identico per essere un duplicato: due
       // opzioni che dicono la stessa cosa con l'articolo diverso sono due
       // risposte giuste, e il confronto fra stringhe non le vede.
-      for (let a = 0; a < item.options.length; a += 1) {
+      const coppiaMinima = COPPIA_MINIMA_E_CONTENUTO.has(`${item.subject}:${item.topic}`);
+      for (let a = 0; a < item.options.length && !coppiaMinima; a += 1) {
         for (let b = a + 1; b < item.options.length; b += 1) {
           if (tooSimilar(item.options[a], item.options[b])) {
             problems.push(`opzioni quasi identiche: "${item.options[a]}" / "${item.options[b]}"`);
@@ -4311,6 +4345,17 @@ const BANKS = {
 // giusto: stesso helper degli altri item autorati, stesso contratto.
 BANKS["italiano-base"].items.push(
   ...authoredMcItems("italiano", ANALOGIE_LESSICALI, rng(20260901)),
+);
+
+// La grammatica inglese entra nello stesso banco del lessico: è la stessa
+// materia, e tenerla in un banco a parte avrebbe voluto dire due verità su che
+// cosa l'esame può chiedere. Otto dei suoi argomenti — `articles`,
+// `third-person`, `do-does`, `past-tense`, `irregular-past`, `comparatives`,
+// `question`, `word-family` — hanno lo stesso nome che portano in
+// `MinigameManager`, dove vivevano senza un solo item di banco: da qui in poi
+// l'esame può verificare quello che il minigioco allena.
+BANKS["inglese-base"].items.push(
+  ...authoredMcItems("inglese", INGLESE_PROGRAMMA, rng(20260908)),
 );
 
 // ---------------------------------------------------------------------------

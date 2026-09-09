@@ -1231,6 +1231,10 @@ func resolve_session(exercise_result: Dictionary) -> void:
 	var subject := str(context.get("subject", exercise_result.get("subject", "matematica")))
 	var gained := int(exercise_result.get("energyGained", 0))
 	var correct := int(exercise_result.get("correct", 0))
+	# La padronanza segue il punteggio netto, non il numero di nodi arrivati alla
+	# soluzione dopo tentativi errati. I vecchi esiti senza il nuovo campo
+	# mantengono il comportamento precedente.
+	var effective_correct := float(exercise_result.get("effectiveCorrect", correct))
 	var total := int(exercise_result.get("total", 0))
 	var passed := bool(exercise_result.get("passed", false))
 	var energy_before := game_save.energy()
@@ -1270,7 +1274,7 @@ func resolve_session(exercise_result: Dictionary) -> void:
 	# padronanza come la pratica — le domande sono le stesse — ma non chiude
 	# incontri e non apre apparati.
 	if kind == "lavoretto":
-		progression_manager.record_practice(subject, correct, total, 0)
+		progression_manager.record_practice(subject, effective_correct, total, 0)
 		progression_manager.aggiorna_traguardi_di_livello()
 		if passed:
 			var paga := LAVORETTO_PAGA
@@ -1291,9 +1295,9 @@ func resolve_session(exercise_result: Dictionary) -> void:
 	# il gate (nessun add_mission). Dal 6 agosto 2026 una palestra SUPERATA si
 	# chiude, perché rifarla identica era diventata una scorciatoia.
 	if kind == "minigame":
-		progression_manager.record_practice(subject, correct, total, gained)
+		progression_manager.record_practice(subject, effective_correct, total, gained)
 	else:
-		progression_manager.record_mission(subject, correct, total, gained, passed)
+		progression_manager.record_mission(subject, effective_correct, total, gained, passed)
 	var codex_advanced: Array = progression_manager.record_topic_stats(
 		subject, exercise_result.get("topicStats", {}))
 	for avanzato in codex_advanced:

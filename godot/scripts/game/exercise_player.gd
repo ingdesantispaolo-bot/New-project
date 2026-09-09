@@ -22,6 +22,15 @@ const ARTIFACT_ATLAS_CATALOG := preload("res://scripts/visual/artifact_atlas_cat
 const FINAL_CONVERGENCE_DISPLAY := preload("res://scripts/ui/final_convergence_display.gd")
 const SURFACE_STYLES := preload("res://scripts/ui/surface_styles.gd")
 
+## Correzione anti-tentativo: ogni risposta errata sottrae mezza risposta dal
+## punteggio con cui si decide il superamento. Con una missione da tre nodi,
+## quindi, 2 giuste + 1 errata non bastano piu' (1,5 < soglia 2). Il valore e'
+## abbastanza forte da rendere sconveniente cliccare a caso, ma permette ancora
+## di superare una prova dopo un errore se il resto e' davvero padroneggiato.
+## Una sessione puo' dichiarare `wrongAnswerPenalty` per una taratura esplicita;
+## in sua assenza questa politica vale per esercizi, minigiochi ed esami.
+const DEFAULT_WRONG_ANSWER_PENALTY := 0.5
+
 ## UI data-driven degli esercizi: riceve una sessione (missione o esame finale) e
 ## la gioca item per item. Supporta scelta/input, ordering, matching,
 ## classificazione, hotspot, grafici, circuiti, notazione, carte mute e code-debug. Emette
@@ -65,6 +74,8 @@ var _index := 0
 var _correct := 0
 var _weighted_correct := 0.0
 var _weighted_total := 0.0
+var _wrong_answers := 0
+var _weighted_wrong_answers := 0.0
 var _shields := 3
 var _energy := 0
 var _energy_per_correct := 10
@@ -257,6 +268,8 @@ func start_session(new_session: Dictionary) -> void:
 	_correct = 0
 	_weighted_correct = 0.0
 	_weighted_total = 0.0
+	_wrong_answers = 0
+	_weighted_wrong_answers = 0.0
 	for node_data in _nodes:
 		_weighted_total += float((node_data as Dictionary).get("scoreWeight", 1.0))
 	_shields = int(session.get("shields", 3))
@@ -1341,11 +1354,15 @@ func _show_current() -> void:
 
 func _refresh_status() -> void:
 	if is_instance_valid(_status):
+		var penalty_suffix := ""
+		var penalty_points := float(_wrong_answers) * _wrong_answer_penalty()
+		if penalty_points > 0.0:
+			penalty_suffix = "   ·   Penalità −%s" % String.num(penalty_points, 1).replace(".", ",")
 		if bool(session.get("transversal", false)) and _index < _nodes.size():
 			var system := str((_nodes[_index] as Dictionary).get("system", "sintesi")).replace("_", " ").capitalize()
-			_status.text = "Parte %d/%d · %s   ·   Stabilità %d" % [_index + 1, _nodes.size(), system, _shields]
+			_status.text = "Parte %d/%d · %s   ·   Stabilità %d%s" % [_index + 1, _nodes.size(), system, _shields, penalty_suffix]
 		else:
-			_status.text = "Tappa %d/%d   ·   Scudi %d" % [_index + 1, _nodes.size(), _shields]
+			_status.text = "Tappa %d/%d   ·   Scudi %d%s" % [_index + 1, _nodes.size(), _shields, penalty_suffix]
 	_refresh_combo_hud()
 
 func _refresh_combo_hud() -> void:
@@ -1397,7 +1414,7 @@ func _answer(given: String) -> void:
 		# correzione di NORA: `distractorWhy` porta la frase giusta per QUESTA
 		# alternativa, e senza sapere quale sia resterebbe nel PCK per sempre.
 		_scelta_sbagliata = given
-		_spend_shield()
+		_spend_shield(item)
 		_register_wrong_attempt(item)
 	_score_current(is_correct, item)
 
@@ -1968,7 +1985,7 @@ func _score_current(is_correct: bool, item: Dictionary) -> void:
 		var guadagno := Combo.energia(_energy_per_correct, _serie)
 		_energy += guadagno
 		_energia_serie += maxi(0, guadagno - _energy_per_correct)
-		if topic != "":
+		if topic != "" and _errori_nodo == 0:
 			_topic_correct[topic] = int(_topic_correct.get(topic, 0)) + 1
 		# **La prova è superata, e non tornerà più a chiedere la stessa cosa.**
 		# Solo se risolta al primo colpo: chi ci è arrivato dopo un errore ha
@@ -2024,7 +2041,8 @@ func _score_current(is_correct: bool, item: Dictionary) -> void:
 				str(_maestro_voice.get("name", "Maestro")),
 				str(_maestro_voice.get("rilancio", ""))]
 			if not _maestro_voice.is_empty()
-			else "Non ha ancora funzionato.")
+			else "Non ha ancora funzionato · la risposta errata vale −%s punti." %
+				String.num(_wrong_answer_penalty(), 1).replace(".", ","))
 		_mostra_lezione(item, false)
 		_offer_concept_help(item)
 	# La costruzione avanza di una campata per ogni nodo risolto (built = _correct);
@@ -2452,7 +2470,7 @@ func _matching_right(value: String, item: Dictionary) -> void:
 			_score_current(true, item)
 	else:
 		_causal_feedback("error", _mg_left_buttons[_mg_selected_left], 0.88)
-		_spend_shield()
+		_spend_shield(item)
 		_refresh_status()
 		_flash_feedback("Coppia sbagliata: riprova.")
 		if _mg_selected_left >= 0 and not _mg_left_buttons[_mg_selected_left].disabled:
@@ -3154,7 +3172,7 @@ func _retryable_result(correct: bool, item: Dictionary, retry_message: String) -
 		_score_current(true, item)
 		return
 	_causal_feedback("error", _options, 0.86)
-	_spend_shield()
+	_spend_shield(item)
 	_register_wrong_attempt(item)
 	_refresh_status()
 	_offer_concept_help(item)
@@ -3191,8 +3209,13 @@ func _mostra_uscita_dal_ritentativo(item: Dictionary) -> void:
 	casa.add_child(uscita)
 	_riallinea_barra_azioni()
 
-func _spend_shield() -> void:
+func _spend_shield(item: Dictionary = {}) -> void:
 	_shields -= 1
+	# Il conteggio vive qui, l'unico passaggio obbligato di OGNI errore. In
+	# questo modo anche matching, swipe e i formati futuri pagano la penalita'
+	# senza dover duplicare la regola nei singoli renderer.
+	_wrong_answers += 1
+	_weighted_wrong_answers += float(item.get("scoreWeight", 1.0))
 	# Il passaggio obbligato di ogni errore è anche l'unico posto onesto in cui
 	# annotare che il nodo corrente non è più «pulito»: contarlo nei singoli
 	# formati vorrebbe dire fidarsi che tutti e venti se ne ricordino.
@@ -3406,7 +3429,7 @@ func _finish_swipe() -> void:
 	_flash_feedback("%d giuste su %d · serie migliore ×%d · %d punti" % [
 		_swipe_right, giudicate, maxi(1, _swipe_best), _swipe_score])
 	if not superato:
-		_spend_shield()
+		_spend_shield(_swipe_item)
 	_score_current(superato, _swipe_item)
 
 func _build_clue_button(item: Dictionary) -> void:
@@ -3507,6 +3530,16 @@ func _register_wrong_attempt(item: Dictionary) -> void:
 	if int(_wrong_attempts[topic]) >= 3 and not _struggle_emitted.has(topic):
 		_struggle_emitted[topic] = true
 		topic_struggle.emit(topic)
+
+func _wrong_answer_penalty() -> float:
+	return maxf(0.0, float(session.get(
+		"wrongAnswerPenalty", DEFAULT_WRONG_ANSWER_PENALTY)))
+
+func _effective_correct() -> float:
+	return maxf(0.0, float(_correct) - float(_wrong_answers) * _wrong_answer_penalty())
+
+func _effective_weighted_correct() -> float:
+	return maxf(0.0, _weighted_correct - _weighted_wrong_answers * _wrong_answer_penalty())
 
 func _emit_learning_once(key: String, signal_name: String) -> void:
 	if _learning_emitted.has(key):
@@ -3615,6 +3648,11 @@ func _abandon() -> void:
 		"total": _nodes.size(),
 		"weightedCorrect": _weighted_correct,
 		"weightedTotal": _weighted_total,
+		"wrongAnswers": _wrong_answers,
+		"penaltyPoints": float(_wrong_answers) * _wrong_answer_penalty(),
+		"effectiveCorrect": _effective_correct(),
+		"weightedPenalty": _weighted_wrong_answers * _wrong_answer_penalty(),
+		"effectiveWeightedCorrect": _effective_weighted_correct(),
 		"passed": false,
 		"abandoned": true,
 		"abandonCost": _abandon_cost,
@@ -3659,15 +3697,21 @@ func _unhandled_input(event: InputEvent) -> void:
 ## prova dichiarata 50/35/15 viene davvero valutata con quei pesi.
 static func session_score_passed(
 	session_data: Dictionary, correct: int, total: int,
-	weighted_correct: float, weighted_total: float, shields_left: int
+	weighted_correct: float, weighted_total: float, shields_left: int,
+	wrong_answers: int = 0, weighted_wrong_answers: float = 0.0
 ) -> bool:
 	if shields_left <= 0:
 		return false
+	var penalty := maxf(0.0, float(session_data.get(
+		"wrongAnswerPenalty", DEFAULT_WRONG_ANSWER_PENALTY)))
 	if bool(session_data.get("weightedScoring", false)):
 		var ratio := float(session_data.get("weightedPassRatio", 0.5))
-		return weighted_correct + 0.00001 >= weighted_total * ratio
+		var effective_weighted := maxf(
+			0.0, weighted_correct - weighted_wrong_answers * penalty)
+		return effective_weighted + 0.00001 >= weighted_total * ratio
 	var minimum_correct := int(session_data.get("minimumCorrect", ceili(float(total) * 0.5)))
-	return correct >= minimum_correct
+	var effective_correct := maxf(0.0, float(correct) - float(wrong_answers) * penalty)
+	return effective_correct + 0.00001 >= float(minimum_correct)
 
 func _finish() -> void:
 	if _session_closed:
@@ -3676,7 +3720,8 @@ func _finish() -> void:
 	_completion_queued = false
 	var total := _nodes.size()
 	var passed := session_score_passed(
-		session, _correct, total, _weighted_correct, _weighted_total, _shields)
+		session, _correct, total, _weighted_correct, _weighted_total, _shields,
+		_wrong_answers, _weighted_wrong_answers)
 	# Nel finale la soglia numerica non basta: il tredicesimo posto viene
 	# assegnato a chi ha risolto il nodo di sintesi. Senza questo vincolo si
 	# potrebbe completare la campagna sbagliando proprio l'ultimo nodo.
@@ -3702,6 +3747,14 @@ func _finish() -> void:
 		"total": total,
 		"weightedCorrect": _weighted_correct,
 		"weightedTotal": _weighted_total,
+		# Il conteggio grezzo resta disponibile per il riepilogo, ma il gate e la
+		# padronanza leggono il risultato netto: indovinare dopo tentativi casuali
+		# non puo' diventare evidenza piena di apprendimento.
+		"wrongAnswers": _wrong_answers,
+		"penaltyPoints": float(_wrong_answers) * _wrong_answer_penalty(),
+		"effectiveCorrect": _effective_correct(),
+		"weightedPenalty": _weighted_wrong_answers * _wrong_answer_penalty(),
+		"effectiveWeightedCorrect": _effective_weighted_correct(),
 		"passed": passed,
 		"energyGained": _energy,
 		# La serie viaggia nell'esito per la resa e per il riepilogo. Non la legge

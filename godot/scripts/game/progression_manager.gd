@@ -108,17 +108,17 @@ const DECADIMENTO_FRANCHIGIA := 12    # sessioni di tolleranza prima di calare
 const DECADIMENTO_PER_SESSIONE := 0.004
 const DECADIMENTO_PAVIMENTO := 0.5    # frazione del picco sotto cui non si scende
 
-func _padronanza_da_evidenza(subject: String, correct: int, total: int) -> float:
+func _padronanza_da_evidenza(subject: String, correct: float, total: int) -> float:
 	if total <= 0:
 		return float(save.mastery_of(subject))
 	var evidenza: Dictionary = save.subject_evidence(subject)
 	var nodi := float(evidenza.get("nodi", 0.0)) * OBLIO + float(total)
-	var corretti := float(evidenza.get("corretti", 0.0)) * OBLIO + float(clampi(correct, 0, total))
+	var corretti := float(evidenza.get("corretti", 0.0)) * OBLIO + clampf(correct, 0.0, float(total))
 	save.set_subject_evidence(subject, nodi, corretti)
 	return clampf(
 		(corretti + PESO_PRIORE * PRUDENZA_PRIMO_CONTATTO) / (nodi + PESO_PRIORE), 0.0, 1.0)
 
-func record_mission(subject: String, correct: int, total: int, energy_gained: int, session_passed: bool = true) -> void:
+func record_mission(subject: String, correct: float, total: int, energy_gained: int, session_passed: bool = true) -> void:
 	var accuracy := float(correct) / float(maxi(total, 1))
 	if session_passed and accuracy >= 0.5:
 		save.add_mission(subject)
@@ -131,7 +131,7 @@ func record_mission(subject: String, correct: int, total: int, energy_gained: in
 # il gate dell'apparato (nessun add_mission) — così la pratica è rigiocabile e
 # non farma i requisiti di riparazione. La mastery per-topic si aggiorna a parte
 # con record_topic_stats, come per le missioni.
-func record_practice(subject: String, correct: int, total: int, energy_gained: int) -> void:
+func record_practice(subject: String, correct: float, total: int, energy_gained: int) -> void:
 	save.set_mastery(subject, _padronanza_da_evidenza(subject, correct, total))
 	if energy_gained > 0:
 		save.add_energy(energy_gained)

@@ -241,6 +241,8 @@ func _process(delta: float) -> void:
 	_aggiorna_freccia()
 	_aggiorna_fiuto(delta)
 	if _meta != Vector2.INF:
+		if global_position.distance_to(_meta) < 18.0 and not _percorso_incarico.is_empty():
+			_meta = _percorso_incarico.pop_front()
 		# Con una meta sua smette di seguire: è l'unico momento in cui il Custode
 		# non è al fianco di Eli.
 		global_position = global_position.move_toward(_meta, VELOCITA_INCARICO * delta)
@@ -298,6 +300,9 @@ func _process(delta: float) -> void:
 ## Qui non si sa che cosa ci sia in fondo. La scena decide quando sparisce, che
 ## cosa riporta e quando torna; questo file sa soltanto camminare e nascondersi.
 var _meta := Vector2.INF
+## Punti successivi della spedizione. Le forme acquistabili possono leggere la
+## stessa tana con traiettorie diverse senza cambiare cio' che vi trovano.
+var _percorso_incarico: Array[Vector2] = []
 
 ## Quanto va veloce quando ha una meta sua. Più svelto del passo con cui segue:
 ## ci va di corsa, perché è entusiasta e perché una traversata lenta mentre non
@@ -305,17 +310,31 @@ var _meta := Vector2.INF
 const VELOCITA_INCARICO := 210.0
 
 func manda_a(posizione: Vector2) -> void:
+	_percorso_incarico.clear()
 	_meta = posizione
+	_fiuto = Vector2.INF
+	_fiuto_lato = 0.0
+	queue_redraw()
+
+func manda_percorso(punti: Array) -> void:
+	_percorso_incarico.clear()
+	for punto_data in punti:
+		_percorso_incarico.append(Vector2(punto_data))
+	if _percorso_incarico.is_empty():
+		return
+	_meta = _percorso_incarico.pop_front()
 	_fiuto = Vector2.INF
 	_fiuto_lato = 0.0
 	queue_redraw()
 
 ## Vero quando è arrivato: la scena aspetta questo per farlo sparire dentro.
 func arrivato() -> bool:
-	return _meta != Vector2.INF and global_position.distance_to(_meta) < 26.0
+	return _meta != Vector2.INF and _percorso_incarico.is_empty() \
+		and global_position.distance_to(_meta) < 26.0
 
 ## Torna al fianco di Eli. Da qui in poi il seguito riprende da solo.
 func torna() -> void:
+	_percorso_incarico.clear()
 	_meta = Vector2.INF
 	visible = true
 

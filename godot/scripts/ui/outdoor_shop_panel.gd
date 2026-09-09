@@ -11,6 +11,7 @@ const REWARD_ATLAS: Texture2D = preload("res://assets/shop/reward-items-sheet.pn
 const REWARD_ATLAS_DATA := "res://assets/shop/reward-items-sheet.json"
 const FIELD_GATE_ART := preload("res://scripts/visual/field_gate_art.gd")
 const NORA_BOTTEGA_VOCE := preload("res://scripts/game/nora_bottega_voce.gd")
+const ARTIFACT_JOURNEY := preload("res://scripts/game/artifact_journey.gd")
 
 const SLOT_LABELS := {
 	"bot": "BIT",
@@ -32,8 +33,8 @@ const SLOT_ORDER := ["bot", "avatar", "accessory", "conquest", "tool", "module",
 const SLOT_META := {
 	"bot": {
 		"title": "Livree di Bit",
-		"intro": "Ricalibra il guscio luminoso del compagno che veglia sulle tue missioni.",
-		"impact": "La nuova livrea appare subito su Bit e nel ritratto di supporto.",
+		"intro": "NORA parla; Bit agisce per lei negli esperimenti e nelle riparazioni.",
+		"impact": "La livrea collega il guscio di Bit al canale di supporto di NORA e conserva i sistemi visitati.",
 	},
 	"avatar": {
 		"title": "Outfit da esplorazione",
@@ -613,7 +614,14 @@ func _refresh_detail(cosmetic: Dictionary) -> void:
 	_detail_description.text = (
 		str(cosmetic.get("description", "")) if origine.is_empty()
 		else "%s\n\n%s" % [str(cosmetic.get("description", "")), origine])
-	_detail_impact.text = "IMPATTO\n%s" % str(SLOT_META[_slot]["impact"])
+	var purpose := ARTIFACT_JOURNEY.profile(cosmetic)
+	var journey_text := _artifact_status(id)
+	_detail_impact.text = "USO · %s\n%s\n\nMETODO · %s\nTRACCIA · %s" % [
+		str(purpose.get("verb", "usare")).to_upper(),
+		str(purpose.get("use", SLOT_META[_slot]["impact"])),
+		str(purpose.get("method", "restituire significato")),
+		journey_text,
+	]
 	_detail_requirements.text = _detail_requirement_text(cost, min_level, owned, active, id)
 	_detail_requirements.add_theme_color_override("font_color", _requirement_color(cosmetic))
 	_detail_state.text = _detail_state_text(cosmetic)
@@ -632,7 +640,7 @@ func _configure_action(button: Button, cosmetic: Dictionary, detailed: bool) -> 
 	var cost := int(cosmetic.get("cost", 0))
 	var rarity_color: Color = _rarity(cosmetic)["color"]
 	button.disabled = false
-	if slot_name == "memento" and owned:
+	if _slot == "conquest" and ARTIFACT_JOURNEY.is_memento(cosmetic) and owned:
 		# Un trofeo che non si vede da nessuna parte e' un trofeo che non esiste:
 		# se ne appende uno addosso, e il possesso non si tocca mai.
 		if _memento_esposto() == id:
@@ -696,7 +704,7 @@ func _configure_action(button: Button, cosmetic: Dictionary, detailed: bool) -> 
 func _card_price_text(cost: int, min_level: int, owned: bool, active: bool, id := "") -> String:
 	if owned and RewardCatalog.find(id).get("slot", "") == "module":
 		return "IN BARDATURA" if _in_bardatura(id) else "A BORDO"
-	if owned and RewardCatalog.find(id).get("slot", "") == "memento":
+	if owned and _slot == "conquest" and ARTIFACT_JOURNEY.is_memento(id):
 		return "ESPOSTO" if _memento_esposto() == id else "IN COLLEZIONE"
 	if active:
 		return "IN USO"
@@ -751,6 +759,10 @@ func _detail_state_text(cosmetic: Dictionary) -> String:
 	var slot_name := str(cosmetic.get("slot", ""))
 	var min_level := int(cosmetic.get("minLevel", 1))
 	var cost := int(cosmetic.get("cost", 0))
+	if _slot == "conquest" and ARTIFACT_JOURNEY.is_memento(cosmetic) and _is_owned(id):
+		if _memento_esposto() == id:
+			return "Appeso addosso a Eli: nel mondo gemello puo' entrare in risonanza. Resta tuo anche riponendolo."
+		return "Custodito nella collezione. Appendilo addosso per cercare il suo mondo gemello."
 	if FieldTools.is_field_tool(id):
 		if _is_owned(id):
 			return "Strumento ottenuto sul campo. Basta possederlo: i passaggi compatibili si aprono senza doverlo equipaggiare."
@@ -829,8 +841,10 @@ func _is_active(cosmetic: Dictionary) -> bool:
 	# ([[ExpeditionModules]] — la bardatura).
 	if slot_name == "module":
 		return _in_bardatura(id)
+	if _slot == "conquest" and ARTIFACT_JOURNEY.is_memento(cosmetic):
+		return _memento_esposto() == id
 	var equipped: Dictionary = _state.get("cosmeticsEquipped", {})
-	return str(equipped.get(slot_name, "")) == id or (_is_owned(id) and slot_name in ["upgrade", "decor", "memento"])
+	return str(equipped.get(slot_name, "")) == id or (_is_owned(id) and slot_name in ["upgrade", "decor"])
 
 
 ## --- La bardatura ----------------------------------------------------------
@@ -852,6 +866,11 @@ func _posti_liberi() -> int:
 func _memento_esposto() -> String:
 	return str(_state.get("mementoDisplayed", ""))
 
+func _artifact_status(id: String) -> String:
+	if gameplay == null or gameplay.game_save == null:
+		return "Nessuna traccia ancora."
+	return ARTIFACT_JOURNEY.status_line(gameplay.game_save, id)
+
 
 func _owned_count(slot_name: String) -> int:
 	var total := 0
@@ -862,6 +881,8 @@ func _owned_count(slot_name: String) -> int:
 
 
 func _preferred_item_id(slot_name: String) -> String:
+	if slot_name == "conquest" and not _memento_esposto().is_empty():
+		return _memento_esposto()
 	var equipped: Dictionary = _state.get("cosmeticsEquipped", {})
 	var equipped_id := str(equipped.get(slot_name, ""))
 	if not equipped_id.is_empty():

@@ -45,6 +45,10 @@ const WORLD_HAZARD_SCRIPT := preload("res://scripts/game/world_hazard.gd")
 const WORLD_CHALLENGE_HAZARD_CATALOG := preload("res://scripts/game/world_challenge_hazard_catalog.gd")
 const WORLD_STABILITY_MARKER_SCRIPT := preload("res://scripts/game/world_stability_marker.gd")
 const SURFACE_STYLES := preload("res://scripts/ui/surface_styles.gd")
+const ACCESSORY_FIELD_ACTIONS := preload("res://scripts/game/accessory_field_actions.gd")
+const PET_FIELD_METHODS := preload("res://scripts/game/pet_field_methods.gd")
+const EMBLEM_PROMISES := preload("res://scripts/game/emblem_promises.gd")
+const OUTFIT_SOCIAL_ECHOES := preload("res://scripts/game/outfit_social_echoes.gd")
 
 const PLAYER_ACCENT := Color("6be7d6")
 const NIGHT_TINT := Color(0.46, 0.51, 0.70)
@@ -122,6 +126,7 @@ var touch_controls_settings := {
 	"opacity": 1.0,
 }
 var portal: Node2D
+var accessory_field_site: Area2D
 var camera: Camera2D
 var fireflies: CPUParticles2D
 var pet_companion: OutdoorPetCompanion
@@ -303,6 +308,8 @@ delete document.documentElement.dataset.eliExam;
 	_create_profile_events()
 	_create_world_buildings()
 	_create_mystery_artifacts()
+	_create_artifact_resonance_site()
+	_refresh_accessory_field_site()
 	_create_world_npcs()
 	_create_world_life()
 	_create_world_enemies()
@@ -892,6 +899,7 @@ func _on_runtime_state(state: Dictionary) -> void:
 	_update_ship_navigation()
 	_refresh_economy()
 	_apply_cosmetic_presentation()
+	_refresh_accessory_field_site()
 	_update_building_stages()
 	if world_life != null:
 		world_life.set_stage(_npc_story_stage())
@@ -1329,6 +1337,7 @@ func _create_player() -> void:
 	_apply_emblem(player.visual, visual_data)
 	_apply_memento(player.visual, visual_data)
 	_apply_upgrade_marks(player.visual)
+	_apply_outfit_patina(player.visual, visual_data)
 	_add_player_night_light()
 	fireflies = OutdoorVisualFactory.make_sparkles(Color(1.0, 0.93, 0.62, 0.85), 560.0, 24)
 	fireflies.lifetime = 5.0
@@ -1419,6 +1428,7 @@ func _apply_cosmetic_presentation() -> void:
 	_apply_emblem(player.visual, visual_data)
 	_apply_memento(player.visual, visual_data)
 	_apply_upgrade_marks(player.visual)
+	_apply_outfit_patina(player.visual, visual_data)
 	_applica_grado_al_personaggio(power_grade)
 	_aggiorna_stato_energia(game_save.energy(), false)
 	if is_instance_valid(pet_companion):
@@ -1510,12 +1520,42 @@ func _apply_emblem(visual_node: Node2D, visual_data: Dictionary) -> void:
 	badge.name = "EquippedEmblem"
 	badge.text = str(emblem.get("glyph", "◊"))
 	badge.position = Vector2(22, -61)
-	badge.add_theme_font_size_override("font_size", 17)
+	var emblem_id := str(emblem.get("id", ""))
+	var promise := EMBLEM_PROMISES.progress(emblem_id, _artifact_state(emblem_id))
+	var stage := int(promise.get("stage", 0))
+	badge.add_theme_font_size_override("font_size", 17 + stage * 2)
 	badge.add_theme_constant_override("outline_size", 5)
 	badge.add_theme_color_override("font_color", OutdoorVisualFactory.hex_color(int(emblem.get("color", 0xf6c85f))))
 	badge.add_theme_color_override("font_outline_color", Color(0.01, 0.04, 0.06, 0.92))
 	badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	visual_node.add_child(badge)
+	var witness := Node2D.new()
+	witness.name = "EmblemWitness"
+	witness.position = Vector2(34, -48)
+	var color := OutdoorVisualFactory.hex_color(int(emblem.get("color", 0xf6c85f)))
+	var seal_positions := [Vector2(-13, -14), Vector2(13, -14), Vector2(0, 8)]
+	for index in range(3):
+		var seal := Label.new()
+		seal.name = "WitnessSeal%d" % (index + 1)
+		seal.text = "◆" if index < stage else "◇"
+		seal.position = seal_positions[index]
+		seal.add_theme_font_size_override("font_size", 9)
+		seal.add_theme_color_override(
+			"font_color", color.lightened(0.25) if index < stage else Color(0.5, 0.58, 0.6, 0.55))
+		seal.add_theme_constant_override("outline_size", 3)
+		seal.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		witness.add_child(seal)
+	if bool(promise.get("complete", false)):
+		var ring := Line2D.new()
+		ring.name = "PromiseRing"
+		ring.width = 2.0
+		ring.default_color = Color(color.r, color.g, color.b, 0.78)
+		ring.closed = true
+		for index in range(12):
+			var angle := TAU * float(index) / 12.0
+			ring.add_point(Vector2(cos(angle), sin(angle)) * 24.0)
+		witness.add_child(ring)
+	visual_node.add_child(witness)
 
 ## Il Ricordo appeso, dal lato opposto all'emblema: uno dice come lavori, l'altro
 ## dove sei stata. Non si sovrappongono e si leggono insieme.
@@ -1527,7 +1567,8 @@ func _apply_memento(visual_node: Node2D, visual_data: Dictionary) -> void:
 	badge.name = "DisplayedMemento"
 	badge.text = str(memento.get("glyph", "*"))
 	badge.position = Vector2(-34, -61)
-	badge.add_theme_font_size_override("font_size", 17)
+	var resonances := Array(_artifact_state(str(memento.get("id", ""))).get("resonances", [])).size()
+	badge.add_theme_font_size_override("font_size", 17 + mini(resonances, 2) * 3)
 	badge.add_theme_constant_override("outline_size", 5)
 	badge.add_theme_color_override("font_color", OutdoorVisualFactory.hex_color(int(memento.get("color", 0xc7b8ff))))
 	badge.add_theme_color_override("font_outline_color", Color(0.01, 0.04, 0.06, 0.92))
@@ -1537,6 +1578,34 @@ func _apply_memento(visual_node: Node2D, visual_data: Dictionary) -> void:
 func _apply_upgrade_marks(visual_node: Node2D) -> void:
 	visual_node.add_child(OutdoorVisualFactory.build_upgrade_marks(
 		Array(runtime.get("cosmeticsInventory", [])).duplicate()))
+
+## La patina non e' un numero nascosto: i mondi attraversati lasciano fino a
+## tre cuciture chiare sulla tuta attiva. Nessuna statistica cambia.
+func _apply_outfit_patina(visual_node: Node2D, visual_data: Dictionary) -> void:
+	var avatar_id := str(Dictionary(runtime.get("cosmeticsEquipped", {})).get("avatar", ""))
+	var stage := _artifact_patina_stage(avatar_id)
+	if stage <= 0:
+		return
+	var marks := Node2D.new()
+	marks.name = "OutfitPatina"
+	for index in range(stage):
+		var stitch := Line2D.new()
+		stitch.width = 2.5
+		stitch.default_color = Color(1.0, 0.92, 0.66, 0.88)
+		stitch.add_point(Vector2(-13 + index * 8, -24))
+		stitch.add_point(Vector2(-9 + index * 8, -19))
+		marks.add_child(stitch)
+	visual_node.add_child(marks)
+
+func _artifact_state(id: String) -> Dictionary:
+	if id.is_empty():
+		return {}
+	var journey: Dictionary = runtime.get("artifactJourney", {})
+	return Dictionary(Dictionary(journey.get("items", {})).get(id, {}))
+
+func _artifact_patina_stage(id: String) -> int:
+	var world_count := Array(_artifact_state(id).get("worlds", [])).size()
+	return 3 if world_count >= 6 else 2 if world_count >= 3 else 1 if world_count >= 1 else 0
 
 func _spawn_pet(visual_data: Dictionary) -> void:
 	var pet_data = visual_data.get("pet", null)
@@ -1567,6 +1636,17 @@ func _spawn_pet(visual_data: Dictionary) -> void:
 		str(pet_data.get("kind", "spark")), color, player,
 		PetState.temperament(game_save), reduced_motion)
 	pet_companion.configure_antics(PetState.antics(game_save))
+	var pet_id := str(pet_data.get("id", ""))
+	var pet_stage := _artifact_patina_stage(pet_id)
+	if pet_stage > 0:
+		var travel_mark := Label.new()
+		travel_mark.name = "JourneyMark"
+		travel_mark.text = "·".repeat(pet_stage)
+		travel_mark.position = Vector2(-14, -50)
+		travel_mark.add_theme_font_size_override("font_size", 15)
+		travel_mark.add_theme_color_override("font_color", Color("fff0a6"))
+		travel_mark.add_theme_constant_override("outline_size", 4)
+		pet_companion.add_child(travel_mark)
 	pet_companion.antic_started.connect(_on_pet_antic)
 
 func _create_portal() -> void:
@@ -2600,6 +2680,365 @@ func _mystery_artifact_position(base: Vector2, index: int, total: int, occupied:
 	# futuro esaurisce tutti i candidati; l'audit L1 impedisce che accada oggi.
 	return chunks.clamp_to_world(base + Vector2(420, 0).rotated(phase + index))
 
+## --- Verbi da campo degli accessori ---------------------------------------
+
+## L'accessorio equipaggiato genera una sola occasione facoltativa nel mondo.
+## La stessa grammatica (tre punti da raggiungere) evita nove minigiochi
+## superficiali; geometria, lessico e osservazione cambiano invece per oggetto.
+func _refresh_accessory_field_site() -> void:
+	if not is_instance_valid(world_layer):
+		return
+	var desired_id := str(Dictionary(runtime.get("cosmeticsEquipped", {})).get("accessory", ""))
+	var action := ACCESSORY_FIELD_ACTIONS.action(desired_id)
+	if is_instance_valid(accessory_field_site) \
+			and str(accessory_field_site.get_meta("accessory_id", "")) == desired_id:
+		return
+	if is_instance_valid(accessory_field_site):
+		nearby.erase(accessory_field_site)
+		accessory_field_site.queue_free()
+	accessory_field_site = null
+	for old_trace in get_tree().get_nodes_in_group("accessory_field_runtime"):
+		if is_instance_valid(old_trace):
+			old_trace.queue_free()
+	if action.is_empty():
+		return
+	_create_accessory_field_site(desired_id, action)
+
+func _create_accessory_field_site(accessory_id: String, action: Dictionary) -> void:
+	var item := RewardCatalog.find(accessory_id)
+	var steps: Array = Array(action.get("steps", []))
+	if item.is_empty() or steps.size() < 2:
+		return
+	var color := OutdoorVisualFactory.hex_color(int(item.get("color", 0x9ff5e9)))
+	var origin := chunks.clamp_to_world(
+		_hero_landmark_position() + Vector2(310, -170).rotated(float(world_level) * 0.57))
+	var first_step: Dictionary = steps[0]
+	var area := Area2D.new()
+	area.name = "AccessoryFieldAction"
+	area.add_to_group("accessory_field_runtime")
+	area.set_meta("kind", "accessory_field_action")
+	area.set_meta("id", ACCESSORY_FIELD_ACTIONS.event_id(accessory_id, world_level))
+	area.set_meta("accessory_id", accessory_id)
+	area.set_meta("completed", ACCESSORY_FIELD_ACTIONS.completed(
+		_artifact_state(accessory_id), accessory_id, world_level))
+	area.set_meta("payload", {
+		"accessoryId": accessory_id,
+		"title": str(action.get("title", str(item.get("name", "Accessorio")))),
+		"action": str(action.get("action", "USA")),
+		"steps": steps.duplicate(true),
+		"stage": 0,
+		"origin": origin,
+		"color": color,
+		"completion": str(action.get("completion", "NORA: traccia registrata.")),
+	})
+	area.position = chunks.clamp_to_world(origin + Vector2(first_step.get("offset", Vector2.ZERO)))
+	var collision := CollisionShape2D.new()
+	var circle := CircleShape2D.new()
+	circle.radius = 54.0
+	collision.shape = circle
+	area.add_child(collision)
+	var visual := Node2D.new()
+	visual.name = "AccessoryFieldVisual"
+	area.add_child(visual)
+	var halo := OutdoorVisualFactory.make_glow(54.0, color, 0.26)
+	halo.name = "ActionHalo"
+	visual.add_child(halo)
+	var ring := Line2D.new()
+	ring.name = "ActionRing"
+	ring.width = 3.0
+	ring.default_color = color.lightened(0.18)
+	ring.closed = true
+	for index in range(12):
+		var angle := TAU * float(index) / 12.0
+		ring.add_point(Vector2(cos(angle), sin(angle)) * 32.0)
+	visual.add_child(ring)
+	var glyph := Label.new()
+	glyph.name = "ActionGlyph"
+	glyph.text = str(item.get("glyph", "◇"))
+	glyph.position = Vector2(-28, -30)
+	glyph.custom_minimum_size = Vector2(56, 56)
+	glyph.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	glyph.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	glyph.add_theme_font_size_override("font_size", 27)
+	glyph.add_theme_color_override("font_color", Color("fff6d2"))
+	glyph.add_theme_constant_override("outline_size", 6)
+	visual.add_child(glyph)
+	var cue := Label.new()
+	cue.name = "AccessoryFieldCue"
+	cue.position = Vector2(-120, 52)
+	cue.custom_minimum_size = Vector2(240, 52)
+	cue.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	cue.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	cue.add_theme_font_size_override("font_size", 11)
+	cue.add_theme_color_override("font_color", color.lightened(0.28))
+	cue.add_theme_constant_override("outline_size", 5)
+	visual.add_child(cue)
+	var progress := Label.new()
+	progress.name = "AccessoryFieldProgress"
+	progress.position = Vector2(-45, -58)
+	progress.custom_minimum_size.x = 90
+	progress.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	progress.add_theme_font_size_override("font_size", 15)
+	progress.add_theme_color_override("font_color", Color("fff0a6"))
+	progress.add_theme_constant_override("outline_size", 5)
+	visual.add_child(progress)
+	world_layer.add_child(area)
+	accessory_field_site = area
+	_update_accessory_field_visual(area)
+	_bind_mystery_artifact(area)
+
+func _update_accessory_field_visual(area: Area2D) -> void:
+	var payload: Dictionary = area.get_meta("payload", {})
+	var steps: Array = Array(payload.get("steps", []))
+	var stage := clampi(int(payload.get("stage", 0)), 0, maxi(0, steps.size() - 1))
+	var completed := bool(area.get_meta("completed", false))
+	var cue := area.get_node_or_null("AccessoryFieldVisual/AccessoryFieldCue") as Label
+	if is_instance_valid(cue):
+		cue.text = (
+			"TRACCIA COMPLETA · %s" % str(payload.get("title", "ACCESSORIO")).to_upper()
+			if completed
+			else "%s\n%s" % [
+				str(payload.get("title", "Accessorio")).to_upper(),
+				str(Dictionary(steps[stage]).get("cue", "Compi il gesto")),
+			]
+		)
+		cue.accessibility_name = cue.text.replace("\n", ". ")
+	var progress := area.get_node_or_null(
+		"AccessoryFieldVisual/AccessoryFieldProgress") as Label
+	if is_instance_valid(progress):
+		progress.text = "● ● ●" if completed else "%d / %d" % [stage + 1, steps.size()]
+	var visual := area.get_node_or_null("AccessoryFieldVisual") as CanvasItem
+	if is_instance_valid(visual):
+		visual.modulate = Color(0.7, 0.82, 0.8, 0.7) if completed else Color.WHITE
+
+func _advance_accessory_field_action(target: Area2D) -> void:
+	if bool(target.get_meta("completed", false)):
+		_set_feedback("Questa traccia e' gia' completa in questo mondo.")
+		return
+	var payload: Dictionary = Dictionary(target.get_meta("payload", {})).duplicate(true)
+	var steps: Array = Array(payload.get("steps", []))
+	if steps.is_empty():
+		return
+	var stage := clampi(int(payload.get("stage", 0)), 0, steps.size() - 1)
+	var current_step: Dictionary = steps[stage]
+	var old_position := target.position
+	stage += 1
+	if stage >= steps.size():
+		var accessory_id := str(payload.get("accessoryId", ""))
+		gameplay.record_artifact_event(
+			ACCESSORY_FIELD_ACTIONS.EVENT_KIND,
+			str(target.get_meta("id", "accessory-field")),
+			[accessory_id])
+		target.set_meta("completed", true)
+		_leave_accessory_field_trace(
+			old_position, old_position, Color(payload.get("color", Color.WHITE)), stage)
+		_update_accessory_field_visual(target)
+		_set_nora_feedback(str(payload.get("completion", "NORA: traccia registrata.")))
+		_pet_react("story_reveal")
+		_refresh_interaction_button(target)
+		return
+	var next_step: Dictionary = steps[stage]
+	var origin := Vector2(payload.get("origin", old_position))
+	var next_position := chunks.clamp_to_world(
+		origin + Vector2(next_step.get("offset", Vector2.ZERO)))
+	_leave_accessory_field_trace(
+		old_position, next_position, Color(payload.get("color", Color.WHITE)), stage)
+	payload["stage"] = stage
+	target.set_meta("payload", payload)
+	target.position = next_position
+	nearby.erase(target)
+	_update_accessory_field_visual(target)
+	_set_feedback(str(current_step.get("response", "La traccia continua poco piu' avanti.")))
+	_pet_react("near_unexplored")
+	_refresh_prompt()
+
+func _leave_accessory_field_trace(
+		from_position: Vector2, to_position: Vector2, color: Color, stage: int) -> void:
+	var leg := Line2D.new()
+	leg.name = "AccessoryRouteLeg%d" % stage
+	leg.add_to_group("accessory_field_runtime")
+	leg.width = 3.0
+	leg.default_color = Color(color.r, color.g, color.b, 0.48)
+	leg.add_point(from_position)
+	leg.add_point(to_position)
+	world_layer.add_child(leg)
+	var mark := Label.new()
+	mark.name = "AccessoryRouteMark%d" % stage
+	mark.add_to_group("accessory_field_runtime")
+	mark.text = "◆"
+	mark.position = from_position - Vector2(11, 15)
+	mark.add_theme_font_size_override("font_size", 18)
+	mark.add_theme_color_override("font_color", color.lightened(0.2))
+	mark.add_theme_constant_override("outline_size", 5)
+	world_layer.add_child(mark)
+
+## Un Ricordo non si attiva caricando una scena: chiede un gesto nel mondo che
+## riconosce. Il sito compare soltanto quando il Ricordo esposto appartiene al
+## ciclo gemello (1<->13, 2<->14, ...). Ogni coppia ha una firma geometrica;
+## direzione, gesto, lettura e traccia sono data-driven in ArtifactJourney.
+func _create_artifact_resonance_site() -> void:
+	if not is_instance_valid(gameplay):
+		return
+	var resonance := gameplay.artifact_resonance_on_entry()
+	if resonance.is_empty():
+		return
+	var item_id := str(resonance.get("id", ""))
+	var item := RewardCatalog.find(item_id)
+	if item.is_empty():
+		return
+	var area := Area2D.new()
+	area.name = "ArtifactResonance"
+	area.set_meta("kind", "artifact_resonance")
+	area.set_meta("id", "resonance-%s-%02d" % [item_id, world_level])
+	area.set_meta("payload", resonance.duplicate(true))
+	area.set_meta("completed", bool(resonance.get("completed", false)))
+	area.position = chunks.clamp_to_world(
+		_hero_landmark_position() + Vector2(230, 145).rotated(float(world_level) * 0.41))
+	var collision := CollisionShape2D.new()
+	var circle := CircleShape2D.new()
+	circle.radius = 58.0
+	collision.shape = circle
+	area.add_child(collision)
+	var visual := Node2D.new()
+	visual.name = "ResonanceVisual"
+	area.add_child(visual)
+	var color := OutdoorVisualFactory.hex_color(int(item.get("color", 0xc7b8ff)))
+	var halo := OutdoorVisualFactory.make_glow(64.0, color, 0.34)
+	halo.name = "ResonanceHalo"
+	visual.add_child(halo)
+	var ring := Line2D.new()
+	ring.name = "ResonanceRing"
+	ring.width = 4.0
+	ring.default_color = color.lightened(0.2)
+	ring.closed = true
+	for index in range(16):
+		var angle := TAU * float(index) / 16.0
+		ring.add_point(Vector2(cos(angle), sin(angle)) * 38.0)
+	visual.add_child(ring)
+	_build_resonance_signature(visual, resonance, color)
+	var glyph := Label.new()
+	glyph.text = str(item.get("glyph", "*"))
+	glyph.position = Vector2(-30, -31)
+	glyph.custom_minimum_size = Vector2(60, 60)
+	glyph.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	glyph.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	glyph.add_theme_font_size_override("font_size", 30)
+	glyph.add_theme_color_override("font_color", Color("fff4c9"))
+	glyph.add_theme_constant_override("outline_size", 7)
+	visual.add_child(glyph)
+	var label := Label.new()
+	label.text = "RISONANZA · %s" % str(item.get("name", "Ricordo")).to_upper()
+	label.position = Vector2(-105, 58)
+	label.custom_minimum_size.x = 210
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.add_theme_font_size_override("font_size", 11)
+	label.add_theme_constant_override("outline_size", 5)
+	label.add_theme_color_override("font_color", color.lightened(0.25))
+	label.accessibility_name = "Punto di risonanza per %s" % str(item.get("name", "il Ricordo"))
+	visual.add_child(label)
+	var reading := Label.new()
+	reading.name = "ResonanceReading"
+	reading.position = Vector2(-135, 78)
+	reading.custom_minimum_size = Vector2(270, 42)
+	reading.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	reading.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	reading.add_theme_font_size_override("font_size", 10)
+	reading.add_theme_constant_override("outline_size", 5)
+	reading.add_theme_color_override("font_color", Color("dcecea"))
+	visual.add_child(reading)
+	_set_resonance_reading(area, resonance, bool(resonance.get("completed", false)))
+	if bool(resonance.get("completed", false)):
+		visual.modulate = Color(0.72, 0.82, 0.8, 0.72)
+	world_layer.add_child(area)
+	_bind_mystery_artifact(area)
+
+func _activate_artifact_resonance(target: Area2D) -> void:
+	var payload: Dictionary = target.get_meta("payload", {})
+	var event := gameplay.activate_artifact_resonance(str(payload.get("id", "")))
+	if event.is_empty():
+		_set_feedback("Il Ricordo non riconosce questo luogo nella configurazione attuale.")
+		return
+	target.set_meta("completed", true)
+	target.set_meta("payload", event.duplicate(true))
+	var visual := target.get_node_or_null("ResonanceVisual") as CanvasItem
+	if is_instance_valid(visual):
+		visual.modulate = Color(0.82, 1.0, 0.92, 1.0)
+		if not reduced_motion:
+			var tween := create_tween()
+			tween.tween_property(visual, "scale", Vector2(1.16, 1.16), 0.18)
+			tween.tween_property(visual, "scale", Vector2.ONE, 0.32)
+			var signature := target.get_node_or_null("ResonanceVisual/ResonanceSignature") as Node2D
+			if is_instance_valid(signature):
+				var direction := float(event.get("direction", 1))
+				var turn := create_tween()
+				turn.tween_property(signature, "rotation", direction * 0.42, 0.22)
+				turn.tween_property(signature, "rotation", 0.0, 0.34)
+	_set_resonance_reading(target, event, true)
+	_set_nora_feedback(str(event.get("line", "Il Ricordo ha trovato il suo legame.")))
+	_pet_react("story_reveal")
+	_refresh_interaction_button(target)
+
+func _build_resonance_signature(parent: Node2D, payload: Dictionary, color: Color) -> void:
+	var motif := str(payload.get("motif", "link"))
+	var direction := int(payload.get("direction", 1))
+	var signature := Node2D.new()
+	signature.name = "ResonanceSignature"
+	parent.add_child(signature)
+	var path := Line2D.new()
+	path.name = "SignaturePath"
+	path.width = 2.4
+	path.default_color = Color(color, 0.88)
+	for point in _resonance_signature_points(motif):
+		var p: Vector2 = point
+		path.add_point(Vector2(p.x * float(direction), p.y))
+	signature.add_child(path)
+	if path.get_point_count() > 0:
+		var terminus := Label.new()
+		terminus.name = "DirectionMark"
+		terminus.text = "◆"
+		terminus.position = path.get_point_position(path.get_point_count() - 1) - Vector2(6, 9)
+		terminus.add_theme_font_size_override("font_size", 10)
+		terminus.add_theme_color_override("font_color", color.lightened(0.28))
+		terminus.add_theme_constant_override("outline_size", 3)
+		signature.add_child(terminus)
+
+func _resonance_signature_points(motif: String) -> PackedVector2Array:
+	match motif:
+		"groups_orbits":
+			return PackedVector2Array([Vector2(-52, -18), Vector2(-30, -18), Vector2(-16, 0), Vector2(16, 0), Vector2(30, 18), Vector2(52, 18)])
+		"words_voices":
+			return PackedVector2Array([Vector2(-48, 22), Vector2(-30, -20), Vector2(-10, 22), Vector2(10, -20), Vector2(30, 22), Vector2(48, -20)])
+		"loops_networks":
+			return PackedVector2Array([Vector2(-48, 0), Vector2(-28, -24), Vector2(0, -24), Vector2(0, 24), Vector2(28, 24), Vector2(48, 0)])
+		"signals_tenses":
+			return PackedVector2Array([Vector2(-50, 24), Vector2(-34, -24), Vector2(-18, 24), Vector2(0, -24), Vector2(18, 24), Vector2(34, -24), Vector2(50, 24)])
+		"motion_pressure":
+			return PackedVector2Array([Vector2(-52, 0), Vector2(-28, -20), Vector2(-12, 0), Vector2(12, 0), Vector2(28, 20), Vector2(52, 0)])
+		"rhythm_harmony":
+			return PackedVector2Array([Vector2(-52, 10), Vector2(-36, -18), Vector2(-20, 22), Vector2(0, -28), Vector2(20, 22), Vector2(36, -18), Vector2(52, 10)])
+		"endings_roots":
+			return PackedVector2Array([Vector2(-46, -26), Vector2(-24, -8), Vector2(-42, 22), Vector2(0, 4), Vector2(42, 22), Vector2(24, -8), Vector2(46, -26)])
+		"circuits_fields":
+			return PackedVector2Array([Vector2(-50, -22), Vector2(-20, -22), Vector2(-20, 20), Vector2(18, 20), Vector2(18, -8), Vector2(50, -8)])
+		"maps_systems":
+			return PackedVector2Array([Vector2(-48, 20), Vector2(-30, -22), Vector2(-6, 8), Vector2(14, -26), Vector2(48, 18)])
+		"ecosystems_cells":
+			return PackedVector2Array([Vector2(-48, 0), Vector2(-30, -24), Vector2(0, -12), Vector2(30, -24), Vector2(48, 0), Vector2(22, 24), Vector2(-22, 24), Vector2(-48, 0)])
+		"chronology_causes":
+			return PackedVector2Array([Vector2(-52, 20), Vector2(-30, 20), Vector2(-30, -18), Vector2(0, -18), Vector2(0, 8), Vector2(28, 8), Vector2(28, -26), Vector2(52, -26)])
+		"rules_synthesis":
+			return PackedVector2Array([Vector2(-48, 24), Vector2(-24, -22), Vector2(0, 24), Vector2(24, -22), Vector2(48, 24), Vector2(0, 4), Vector2(-48, 24)])
+	return PackedVector2Array([Vector2(-46, 0), Vector2(0, -24), Vector2(46, 0)])
+
+func _set_resonance_reading(target: Area2D, payload: Dictionary, completed: bool) -> void:
+	var reading := target.get_node_or_null("ResonanceVisual/ResonanceReading") as Label
+	if not is_instance_valid(reading):
+		return
+	reading.text = (
+		"TRACCIA · %s" % str(payload.get("trace", "Legame conservato"))
+		if completed else str(payload.get("prompt", "Il Ricordo riconosce questo luogo."))
+	)
+
 func _bind_mystery_artifact(area: Area2D) -> void:
 	area.body_entered.connect(func(body): on_interactable_entered(area, body))
 	area.body_exited.connect(func(body): on_interactable_exited(area, body))
@@ -2666,6 +3105,7 @@ func _open_mystery_artifact(target: Area2D) -> void:
 				and StanceChoices.dovuta(game_save.data, "squadra-quaderno"):
 			stance_choice_after_dialogue[id] = "squadra-quaderno"
 	if is_instance_valid(gameplay):
+		gameplay.record_artifact_event("mystery", id)
 		gameplay.recognize_progress("mystery", id, {"label": role})
 	if pages.is_empty() or str(pages[0]).strip_edges() == "":
 		return
@@ -3569,6 +4009,27 @@ func _active_mission_owner() -> String:
 		return str(route.get("id", ""))
 	return ""
 
+## Un outfit viene riconosciuto una volta da ogni persona. La battuta entra
+## nella pagina ordinaria gia' selezionata: non aggiunge schermate alle richieste
+## di missione e non cambia quale contenuto il personaggio avrebbe detto.
+func _append_outfit_social_echo(
+		npc_id: String, npc_data: Dictionary, mission_pool: String, pages: Array) -> bool:
+	if mission_pool != "" or pages.is_empty() or not is_instance_valid(gameplay):
+		return false
+	var outfit_id := str(Dictionary(runtime.get("cosmeticsEquipped", {})).get("avatar", ""))
+	if OUTFIT_SOCIAL_ECHOES.echo(outfit_id).is_empty():
+		return false
+	var changed := gameplay.record_artifact_event(
+		OUTFIT_SOCIAL_ECHOES.EVENT_KIND, npc_id, [outfit_id])
+	if not changed.has(outfit_id):
+		return false
+	var reaction := OUTFIT_SOCIAL_ECHOES.line(
+		outfit_id, _artifact_patina_stage(outfit_id), str(npc_data.get("registro", "")))
+	if reaction.is_empty():
+		return false
+	pages[0] = "%s\n\n%s" % [str(pages[0]), reaction]
+	return true
+
 func _open_npc_dialogue(npc_id: String) -> void:
 	_pet_greet(npc_id)
 	# Ogni apertura costruisce una nuova unita' di memoria. I dialoghi speciali
@@ -3726,6 +4187,7 @@ func _open_npc_dialogue(npc_id: String) -> void:
 			if traguardo != "":
 				apertura.append(traguardo)
 			pages.insert(0, "\n".join(PackedStringArray(apertura)))
+	_append_outfit_social_echo(npc_id, data, mission_pool, pages)
 	if not pending_return.is_empty():
 		mission_ownership_flow.consume_return(npc_id)
 		# Se lo stesso abitante possiede anche il passo successivo, lo affida
@@ -6609,6 +7071,8 @@ func _on_hazard_exposed(hazard: Area2D, body: Node) -> void:
 	if body != player or not enemy_gameplay_active() or not is_instance_valid(hazard):
 		return
 	var payload: Dictionary = hazard.get_meta("payload", {})
+	if is_instance_valid(gameplay):
+		gameplay.record_artifact_event("hazard", str(hazard.get_meta("id", "hazard")))
 	var costo := mini(int(payload.get("cost", HAZARD_COSTO)), game_save.energy())
 	if costo > 0:
 		game_save.spend_energy(costo)
@@ -6772,6 +7236,53 @@ func _make_tana_marker() -> Node2D:
 	marker.add_child(etichetta)
 	return marker
 
+## Disegna il metodo prima che il Custode parta. Le tre impronte sono i punti
+## che percorrera' davvero; non sono una decorazione scollegata dal movimento.
+func _mostra_metodo_tana(target: Area2D, pet_id: String, method: Dictionary) -> void:
+	var previous := target.get_node_or_null("PetDenMethod")
+	if is_instance_valid(previous):
+		previous.queue_free()
+	if method.is_empty():
+		return
+	var holder := Node2D.new()
+	holder.name = "PetDenMethod"
+	var pet_item := RewardCatalog.find(pet_id)
+	var color := OutdoorVisualFactory.hex_color(int(pet_item.get("color", 0xf6c85f)))
+	var path := Line2D.new()
+	path.name = "MethodPath"
+	path.width = 3.0
+	path.default_color = Color(color.r, color.g, color.b, 0.58)
+	holder.add_child(path)
+	for point_data in Array(method.get("points", [])):
+		var point := Vector2(point_data)
+		path.add_point(point)
+		var mark := Label.new()
+		mark.text = str(method.get("glyph", "·"))
+		mark.position = point - Vector2(10, 15)
+		mark.add_theme_font_size_override("font_size", 17)
+		mark.add_theme_color_override("font_color", color.lightened(0.22))
+		mark.add_theme_constant_override("outline_size", 5)
+		holder.add_child(mark)
+	var title := Label.new()
+	title.name = "MethodTitle"
+	title.text = "%s · %s" % [
+		str(method.get("verb", "ESPLORA")), str(method.get("title", "Metodo"))]
+	title.position = Vector2(-115, -105)
+	title.custom_minimum_size.x = 230
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.add_theme_font_size_override("font_size", 11)
+	title.add_theme_color_override("font_color", color.lightened(0.25))
+	title.add_theme_constant_override("outline_size", 5)
+	title.accessibility_name = "Metodo del Custode: %s" % str(method.get("title", "esplorazione"))
+	holder.add_child(title)
+	target.add_child(holder)
+
+func _pet_id_attivo() -> String:
+	var equipped := str(Dictionary(runtime.get("cosmeticsEquipped", {})).get("pet", ""))
+	# La forma Scintilla e' anche il corpo gratuito del Custode. Il metodo resta
+	# visibile, ma ArtifactJourney lo registra soltanto se la voce e' posseduta.
+	return equipped if not equipped.is_empty() else "pet-spark"
+
 ## **Si preme, e non si apre niente.**
 ##
 ## Il Custode si stacca dal fianco di Eli, ci va, sparisce dentro, e dopo qualche
@@ -6786,8 +7297,17 @@ func _manda_il_custode(target: Area2D) -> void:
 	if not is_instance_valid(pet_companion) or _tana_in_corso != "":
 		return
 	_tana_in_corso = id
-	pet_companion.manda_a(target.global_position)
-	_set_nora_feedback(PetErrand.riga_di_partenza(PetState.name_of(game_save)))
+	var pet_id := _pet_id_attivo()
+	var method := PET_FIELD_METHODS.method(pet_id)
+	var route := PET_FIELD_METHODS.route(pet_id, target.global_position)
+	_mostra_metodo_tana(target, pet_id, method)
+	if route.is_empty():
+		pet_companion.manda_a(target.global_position)
+	else:
+		pet_companion.manda_percorso(route)
+	_set_nora_feedback(PET_FIELD_METHODS.departure_line(
+		pet_id, PetState.name_of(game_save)) if not method.is_empty()
+		else PetErrand.riga_di_partenza(PetState.name_of(game_save)))
 	_pet_react("near_unexplored")
 	# Da qui in avanti è una scena: si aspetta che arrivi, poi che esca.
 	var atteso := 0.0
@@ -6803,22 +7323,26 @@ func _manda_il_custode(target: Area2D) -> void:
 		_tana_in_corso = ""
 		return
 	pet_companion.torna()
-	_risolvi_tana(target, id)
+	_risolvi_tana(target, id, method)
 	_tana_in_corso = ""
 
 ## Che cosa ha riportato. Mai energia, mai padronanza, mai un pezzo di gate: dalle
 ## tane escono soltanto frammenti e regali, cioè cose che non servono a imparare.
 ## È la stessa linea che rende lecito il duello davanti a un forziere.
-func _risolvi_tana(target: Area2D, id: String) -> void:
+func _risolvi_tana(target: Area2D, id: String, method: Dictionary = {}) -> void:
 	game_save.mark_tana_svuotata(str(world_level), id)
 	if is_instance_valid(gameplay):
+		gameplay.record_artifact_event("den", id, [_pet_id_attivo()])
 		gameplay.recognize_progress("den", id)
+	var method_line := str(method.get("completion", ""))
 	match PetErrand.esito_di(id):
 		"frammenti":
 			gameplay.collect_treasure({"rewardFragments": PetErrand.FRAMMENTI}, "tana-%s" % id)
 			_spawn_gain_popup("+%d frammenti" % PetErrand.FRAMMENTI, Color("c7b8ff"))
 			_refresh_economy()
 			_set_feedback("Esce trascinando qualcosa che luccica. +%d frammenti." % PetErrand.FRAMMENTI)
+			if not method_line.is_empty():
+				_set_nora_feedback(method_line)
 			_pet_react("mission_complete")
 		"regalo":
 			# Un regalo dalla tana è lo stesso oggetto inutile di sempre
@@ -6834,10 +7358,14 @@ func _risolvi_tana(target: Area2D, id: String) -> void:
 				# Ne aveva già uno uguale: lo riporta lo stesso, ed è più buffo.
 				_set_feedback("Esce con qualcosa in bocca. Ne ha già uno identico.")
 			else:
-				_set_nora_feedback(_nora_gift_line(gift_id, PetState.gifts(game_save).size()))
+				var gift_line := _nora_gift_line(gift_id, PetState.gifts(game_save).size())
+				_set_nora_feedback("%s\n%s" % [method_line, gift_line]
+					if not method_line.is_empty() else gift_line)
 		_:
 			_set_feedback(PetErrand.barbina_di(id))
-			_set_nora_feedback(PetErrand.appunto_di(id))
+			var errand_line := PetErrand.appunto_di(id)
+			_set_nora_feedback("%s\n%s" % [method_line, errand_line]
+				if not method_line.is_empty() else errand_line)
 			_pet_react("antic")
 	game_save.save()
 	# La tana si chiude: svuotata resta svuotata, e la gag non si farma.
@@ -7806,6 +8334,19 @@ func _refresh_prompt() -> void:
 	elif kind == "mystery_seed":
 		var seed_payload: Dictionary = target.get_meta("payload", {})
 		_set_feedback("Osserva il seme: %s" % str(seed_payload.get("dove", "dettaglio")))
+	elif kind == "artifact_resonance":
+		var resonance_payload: Dictionary = target.get_meta("payload", {})
+		_set_feedback(str(resonance_payload.get(
+			"prompt", "Il Ricordo riconosce questo luogo.")))
+	elif kind == "accessory_field_action":
+		var field_payload: Dictionary = target.get_meta("payload", {})
+		var field_steps: Array = Array(field_payload.get("steps", []))
+		var field_stage := clampi(
+			int(field_payload.get("stage", 0)), 0, maxi(0, field_steps.size() - 1))
+		var field_cue := "Compi il gesto"
+		if not field_steps.is_empty():
+			field_cue = str(Dictionary(field_steps[field_stage]).get("cue", field_cue))
+		_set_feedback("%s · %s" % [str(field_payload.get("title", "Accessorio")), field_cue])
 
 func _refresh_interaction_button(target: Area2D) -> void:
 	if not is_instance_valid(interaction_button):
@@ -7898,11 +8439,20 @@ func _interaction_action_text(target: Area2D) -> String:
 			return "LEGGI LA TRACCIA"
 		"mystery_seed":
 			return "OSSERVA IL SEME"
+		"artifact_resonance":
+			return str(Dictionary(target.get_meta("payload", {})).get(
+				"action", "FAI RISUONARE"))
+		"accessory_field_action":
+			return str(Dictionary(target.get_meta("payload", {})).get("action", "USA"))
 	return "INTERAGISCI"
 
 func _interaction_is_completed(target: Area2D) -> bool:
 	var kind := str(target.get_meta("kind", ""))
 	var id := str(target.get_meta("id", ""))
+	if kind == "artifact_resonance":
+		return bool(target.get_meta("completed", false))
+	if kind == "accessory_field_action":
+		return bool(target.get_meta("completed", false))
 	if kind == "treasure":
 		return Array(result.get("collectedTreasureIds", [])).has(id)
 	if kind == "encounter" or kind == "enigma" or kind == "minimission":
@@ -7920,6 +8470,12 @@ func _required_tool(target: Area2D) -> String:
 func _equipment_requirement_met(target: Area2D) -> bool:
 	var required := _required_tool(target)
 	return required == "" or _strumenti_posseduti().has(required)
+
+func _record_required_tool_use(target: Area2D) -> void:
+	var required := _required_tool(target)
+	if required.is_empty() or not is_instance_valid(gameplay):
+		return
+	gameplay.record_tool_use(required, str(target.get_meta("id", "varco")))
 
 ## **Segna una porta chiusa che il giocatore ha appena visto** — e la toglie dal
 ## registro quando invece la può aprire. (19 agosto 2026)
@@ -7998,6 +8554,12 @@ func _interact() -> void:
 	if kind == "mystery_trace" or kind == "mystery_seed":
 		_open_mystery_artifact(target)
 		return
+	if kind == "artifact_resonance":
+		_activate_artifact_resonance(target)
+		return
+	if kind == "accessory_field_action":
+		_advance_accessory_field_action(target)
+		return
 	if kind == "portal":
 		if _show_decisive_fallback_if_needed():
 			return
@@ -8057,6 +8619,7 @@ func _interact() -> void:
 			_set_feedback(_equipment_requirement_message(target))
 			_guide_to_current_tool(target)
 			return
+		_record_required_tool_use(target)
 		# Pratica ripetibile sulla materia dominante del bioma (nessun lock).
 		gameplay.try_start_minigame(target.get_meta("payload"), id)
 		return
@@ -8065,6 +8628,7 @@ func _interact() -> void:
 			_set_feedback(_equipment_requirement_message(target))
 			_guide_to_current_tool(target)
 			return
+		_record_required_tool_use(target)
 		# **Il forziere e' sorvegliato.** Richiesta del committente: gli Sbiaditi
 		# proteggono i bauli. Finche' la guardiana e' viva la cassa non si apre —
 		# e siccome dentro ci sono frammenti, cioe' cosmetici, questa e' l'unica

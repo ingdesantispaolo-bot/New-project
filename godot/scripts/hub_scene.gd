@@ -14,6 +14,9 @@ const STANCE_CHOICES := preload("res://scripts/game/stance_choices.gd")
 const SHIP_BRIDGE_WALKWAY_SCRIPT := preload("res://scripts/visual/ship_bridge_walkway.gd")
 const PET_FACE_WIDGET_SCRIPT := preload("res://scripts/ui/pet_face_widget.gd")
 const PET_SCREEN_SCRIPT := preload("res://scripts/ui/pet_screen.gd")
+const ARTIFACT_JOURNEY := preload("res://scripts/game/artifact_journey.gd")
+const SHIP_LABORATORIES := preload("res://scripts/game/ship_laboratories.gd")
+const SHIP_LABORATORY_PANEL_SCRIPT := preload("res://scripts/ui/ship_laboratory_panel.gd")
 const SHIP_ROOM_SHADER: Shader = preload("res://shaders/ship_room.gdshader")
 
 var controller: HubController
@@ -53,6 +56,10 @@ var mission_bar: ProgressBar
 var mastery_bar: ProgressBar
 var repair_button: Button
 var restoration_label: Label
+var artifact_trace_label: Label
+var laboratory_status_label: Label
+var laboratory_button: Button
+var laboratory_panel: Control
 var activation_label: Label
 var activation_segments: Label
 var activation_bar: ProgressBar
@@ -190,6 +197,10 @@ func _build_scene() -> void:
 	_build_header(layout)
 	_build_body(layout)
 	_build_world_map_overlay(screen)
+	laboratory_panel = SHIP_LABORATORY_PANEL_SCRIPT.new()
+	laboratory_panel.name = "ShipLaboratoryPanel"
+	laboratory_panel.connect("completed", _on_laboratory_completed)
+	screen.add_child(laboratory_panel)
 
 func _build_header(parent: VBoxContainer) -> void:
 	var panel := PanelContainer.new()
@@ -411,6 +422,20 @@ func _build_body(parent: VBoxContainer) -> void:
 	restoration_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	restoration_label.add_theme_font_size_override("font_size", 11)
 	card_box.add_child(restoration_label)
+	artifact_trace_label = Label.new()
+	artifact_trace_label.name = "ArtifactWorkbenchState"
+	artifact_trace_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	artifact_trace_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	artifact_trace_label.add_theme_font_size_override("font_size", 11)
+	artifact_trace_label.add_theme_color_override("font_color", Color("9fc4bb"))
+	card_box.add_child(artifact_trace_label)
+	laboratory_status_label = Label.new()
+	laboratory_status_label.name = "LaboratoryState"
+	laboratory_status_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	laboratory_status_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	laboratory_status_label.add_theme_font_size_override("font_size", 10)
+	laboratory_status_label.add_theme_color_override("font_color", Color("b8a5de"))
+	card_box.add_child(laboratory_status_label)
 	requirements_label = Label.new()
 	requirements_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	requirements_label.add_theme_font_size_override("font_size", 13)
@@ -437,6 +462,12 @@ func _build_body(parent: VBoxContainer) -> void:
 	repair_button.add_theme_font_size_override("font_size", 16)
 	repair_button.pressed.connect(_repair_action)
 	card_box.add_child(repair_button)
+	laboratory_button = Button.new()
+	laboratory_button.name = "LaboratoryButton"
+	laboratory_button.custom_minimum_size.y = 44
+	laboratory_button.add_theme_font_size_override("font_size", 13)
+	laboratory_button.pressed.connect(_open_laboratory)
+	card_box.add_child(laboratory_button)
 
 func _build_world_map_overlay(screen: Control) -> void:
 	world_map_overlay = Control.new()
@@ -825,6 +856,33 @@ func _apply_state(state: Dictionary) -> void:
 	var restoration_item := RewardCatalog.find(restoration_id)
 	restoration_label.text = "* RESTAURO ATTIVO" if restored 		else "RESTAURO · ◊ %d IN BOTTEGA" % int(restoration_item.get("cost", 0))
 	restoration_label.add_theme_color_override("font_color", Color("f7d37a") if restored else Color("809da2"))
+	if not ARTIFACT_JOURNEY.record_ship_room(save, current_room_id).is_empty():
+		save.save()
+	var artifact_summary := ARTIFACT_JOURNEY.summary(save)
+	var used_count := 0
+	for state_data in Dictionary(artifact_summary.get("items", {})).values():
+		if int(Dictionary(state_data).get("uses", 0)) > 0:
+			used_count += 1
+	var resonance_count := Array(artifact_summary.get("resonances", [])).size()
+	artifact_trace_label.text = (
+		"BANCO DEI LEGAMI · %d oggetti con una storia · %d risonanze" % [
+			used_count, resonance_count]
+		if current_room_id == ShipRoomCatalog.DEFAULT_ROOM
+		else "TRACCIA DELLA STANZA · %s" % ARTIFACT_JOURNEY.status_line(save, restoration_id)
+	)
+	var laboratory := SHIP_LABORATORIES.laboratory(current_room_id)
+	var reflection := SHIP_LABORATORIES.reflection(save, current_room_id)
+	laboratory_button.disabled = not restored
+	laboratory_button.text = (
+		"APRI · %s" % str(laboratory.get("title", "LABORATORIO")).to_upper()
+		if restored else "LABORATORIO · RESTAURO RICHIESTO"
+	)
+	laboratory_status_label.text = (
+		"ULTIMA SINTESI · %s" % str(reflection.get("summary", ""))
+		if bool(reflection.get("completed", false))
+		else "LABORATORIO PRONTO · tre decisioni, nessuna risposta giusta"
+	)
+	laboratory_status_label.visible = restored
 	_refresh_restoration_lights(restored, accent)
 	_refresh_prismatic_portrait()
 	status_chip.text = str(activation.get("title", "SISTEMA INERTE"))
@@ -901,6 +959,30 @@ func _replace_terminal(state: String, accent: Color, label: String) -> void:
 func _position_terminal() -> void:
 	if is_instance_valid(terminal_visual) and is_instance_valid(terminal_mount):
 		terminal_visual.position = Vector2(terminal_mount.size.x * 0.5, terminal_mount.size.y * 0.72)
+
+func _open_laboratory() -> void:
+	var room := SHIP_LABORATORIES.laboratory(current_room_id)
+	if room.is_empty() or not rewards.owned(str(room.get("decor", ""))):
+		nora_line.text = "NORA: Prima va restaurata questa stanza. Il laboratorio non e' un menu separato dal luogo."
+		return
+	if is_instance_valid(laboratory_panel):
+		laboratory_panel.call(
+			"open_lab", current_room_id,
+			SHIP_LABORATORIES.reflection(save, current_room_id))
+
+func _on_laboratory_completed(room_id: String, choices: Array) -> void:
+	var reflection := SHIP_LABORATORIES.store_reflection(save, room_id, choices)
+	if reflection.is_empty():
+		return
+	var laboratory := SHIP_LABORATORIES.laboratory(room_id)
+	var decor_id := str(laboratory.get("decor", ""))
+	ARTIFACT_JOURNEY.record_event(
+		save, SHIP_LABORATORIES.EVENT_KIND, room_id, 0, [decor_id])
+	save.save()
+	_apply_state(controller.runtime_state())
+	nora_line.text = str(laboratory.get("completion", "NORA: Sintesi registrata."))
+	if is_instance_valid(nora_portrait):
+		nora_portrait.speak(nora_line.text)
 
 func _repair_action() -> void:
 	if controller.progression.is_complete():

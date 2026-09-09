@@ -1,6 +1,8 @@
 class_name RewardManager
 extends RefCounted
 
+const ARTIFACT_JOURNEY = preload("res://scripts/game/artifact_journey.gd")
+
 ## Logica di possesso/acquisto/equip dei cosmetici (C-14), porting di
 ## src/core/RewardSystem.ts. Non tocca la valuta o il riepilogo direttamente: la
 ## spesa e la segnalazione restano a `OutdoorGameplay` (stesso pattern già
@@ -86,7 +88,10 @@ func incontrato(id: String) -> bool:
 func deliver_field_tool(id: String) -> bool:
 	if not FieldTools.is_field_tool(id) or owned(id):
 		return false
-	return unlock_and_equip(id)
+	var delivered := unlock_and_equip(id)
+	if delivered:
+		ARTIFACT_JOURNEY.record_acquired(save, id, int(save.current_world()))
+	return delivered
 
 ## La bottega si paga in FRAMMENTI dal 14 agosto 2026: l'energia resta la valuta
 ## delle prove e non compra più niente. Vedi [[FragmentEconomy]].
@@ -135,11 +140,11 @@ const RICORDO_ESPOSTO := "mementoDisplayed"
 
 func memento_esposto() -> String:
 	var id := str(_cosmetics().get(RICORDO_ESPOSTO, ""))
-	return id if owned(id) else ""
+	return id if owned(id) and ARTIFACT_JOURNEY.is_memento(id) else ""
 
 func esponi_memento(id: String) -> bool:
 	var cosmetic := RewardCatalog.find(id)
-	if cosmetic.is_empty() or str(cosmetic.get("slot", "")) != "memento" or not owned(id):
+	if cosmetic.is_empty() or not ARTIFACT_JOURNEY.is_memento(cosmetic) or not owned(id):
 		return false
 	_cosmetics()[RICORDO_ESPOSTO] = id
 	return true

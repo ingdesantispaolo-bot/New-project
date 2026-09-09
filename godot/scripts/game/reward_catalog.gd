@@ -11,13 +11,15 @@ extends RefCounted
 ## (finiscono in cosmetics.inventory, non in cosmetics.equipped).
 
 const CATALOG := [
-	# --- Bit, il compagno ---------------------------------------------------
-	{"id": "bot-lime", "mondo": 1, "slot": "bot", "name": "Bit Lime", "description": "Verde acido brillante per il tuo compagno.", "origine": "Vernice avanzata dai segnavia della radura: Tobia ne aveva un barattolo di troppo.", "cost": 120, "color": 0x7cf6a6},
-	{"id": "bot-gold", "mondo": 1, "slot": "bot", "name": "Bit Oro", "description": "Un Bit dorato da campione.", "origine": "Foglia d’oro dalla bottega di Nonna Ersilia, tenuta per i giorni buoni.", "cost": 260, "color": 0xf6c85f},
-	{"id": "bot-violet", "mondo": 7, "slot": "bot", "name": "Bit Viola", "description": "Look notturno viola-neon.", "origine": "Pigmento delle Rovine dei Glifi, l’unico colore che il tempo non ha sbiadito.", "cost": 260, "color": 0x9f8cff},
-	{"id": "bot-rose", "mondo": 4, "slot": "bot", "name": "Bit Rosa", "description": "Rosa acceso, impossibile non notarlo.", "origine": "Colore del molo all’alba, quando le insegne si riempiono da sole.", "cost": 480, "color": 0xff7b9c},
-	{"id": "bot-arctic", "mondo": 22, "slot": "bot", "name": "Bit Artico", "description": "Bianco-ciano, pulito e tecnico.", "origine": "Ghiaccio della Biosfera Profonda, che a toccarlo non è freddo.", "cost": 620, "color": 0xbffcff},
-	{"id": "bot-solar", "mondo": 13, "slot": "bot", "name": "Bit Solare", "description": "Bagliore caldo per le serie perfette.", "origine": "Filamento del Deserto delle Orbite: brilla se lo guardi da fermo.", "cost": 860, "color": 0xffb85c},
+	# --- Bit, l'attuatore di NORA -------------------------------------------
+	# NORA parla; Bit muove strumenti e registra osservazioni. La stessa livrea
+	# ritorna nel canale di supporto per rendere visibile che lavorano insieme.
+	{"id": "bot-lime", "mondo": 1, "slot": "bot", "name": "Bit Lime", "description": "Verde acido per il guscio dell'attuatore con cui NORA opera sul campo.", "origine": "Vernice avanzata dai segnavia della radura: Tobia ne aveva un barattolo di troppo.", "cost": 120, "color": 0x7cf6a6},
+	{"id": "bot-gold", "mondo": 1, "slot": "bot", "name": "Bit Oro", "description": "Foglia dorata sul guscio dell'attuatore di NORA.", "origine": "Foglia d’oro dalla bottega di Nonna Ersilia, tenuta per i giorni buoni.", "cost": 260, "color": 0xf6c85f},
+	{"id": "bot-violet", "mondo": 7, "slot": "bot", "name": "Bit Viola", "description": "Livrea notturna per l'attuatore che accompagna gli esperimenti di NORA.", "origine": "Pigmento delle Rovine dei Glifi, l’unico colore che il tempo non ha sbiadito.", "cost": 260, "color": 0x9f8cff},
+	{"id": "bot-rose", "mondo": 4, "slot": "bot", "name": "Bit Rosa", "description": "Rosa acceso sul guscio operativo di Bit.", "origine": "Colore del molo all’alba, quando le insegne si riempiono da sole.", "cost": 480, "color": 0xff7b9c},
+	{"id": "bot-arctic", "mondo": 22, "slot": "bot", "name": "Bit Artico", "description": "Bianco-ciano tecnico per il guscio operativo di Bit.", "origine": "Ghiaccio della Biosfera Profonda, che a toccarlo non è freddo.", "cost": 620, "color": 0xbffcff},
+	{"id": "bot-solar", "mondo": 13, "slot": "bot", "name": "Bit Solare", "description": "Bagliore caldo sull'attuatore che registra le osservazioni di NORA.", "origine": "Filamento del Deserto delle Orbite: brilla se lo guardi da fermo.", "cost": 860, "color": 0xffb85c},
 	# --- Avatar della stanza ------------------------------------------------
 	{"id": "avatar-gold", "slot": "avatar", "name": "Outfit Oro", "description": "Tuta oro per l'esploratore.", "origine": "Tuta da parata dei Dodici, mai usata: non c’è stata nessuna parata.", "cost": 220, "color": 0xf6c85f},
 	{"id": "avatar-violet", "mondo": 2, "slot": "avatar", "name": "Outfit Viola", "description": "Tuta viola per l'esploratore.", "origine": "Tenuta notturna dell’Archivio delle Parole.", "cost": 220, "color": 0x9f8cff},

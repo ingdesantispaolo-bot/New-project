@@ -24,7 +24,7 @@ extends RefCounted
 ## `player_profiles.gd`). Questa costante resta il caso «un solo giocatore», che
 ## è anche quello di tutti gli audit.
 const SAVE_PATH := "user://eli-quest-save.json"
-const SCHEMA_VERSION := 4
+const SCHEMA_VERSION := 5
 
 var data: Dictionary = _default_data()
 
@@ -151,6 +151,10 @@ static func _default_data() -> Dictionary:
 			"unlocked": [], "equipped": {}, "inventory": [],
 			"loadout": [], "mementoDisplayed": "",
 		},
+		# Biografia compatta degli oggetti della bottega. Possesso ed equip restano
+		# in `cosmetics`; qui vivono soltanto eventi idempotenti, mondi attraversati
+		# e risonanze. Non contiene e non decide alcuno stato didattico.
+		"artifactJourney": {"items": {}, "resonances": []},
 		# Quattro vie di riconoscimento (Comprendere, Costruire, Esplorare,
 		# Legami). Non e' una valuta e non apre gate: rende permanente e leggibile
 		# la varieta' del percorso. Vedi `progress_recognition.gd`.

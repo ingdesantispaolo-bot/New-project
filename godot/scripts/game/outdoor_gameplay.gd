@@ -3,6 +3,7 @@ extends Node
 
 const ENIGMA_RETRY_COOLDOWN_SECONDS := 20
 const ProgressRecognition = preload("res://scripts/game/progress_recognition.gd")
+const ARTIFACT_JOURNEY = preload("res://scripts/game/artifact_journey.gd")
 
 ## Logica gameplay del mondo esterno, estratta da outdoor_world.gd (C-02):
 ## possiede save/contenuti/progressione, il ciclo delle sessioni (missione,
@@ -100,6 +101,9 @@ var result: Dictionary                           # delta della sessione mondo co
 var active_session_context: Dictionary = {}
 var base_fragments := 0
 var current_phase := "giorno"
+## Esito dell'ingresso nel mondo per gli oggetti preparati. La scena lo legge
+## dopo aver costruito HUD e personaggio; la persistenza avviene gia' in setup.
+var artifact_entry: Dictionary = {}
 ## Copia di sicurezza in cloud: nasce alla prima occasione utile e resta nulla
 ## finché il profilo attivo non ha un codice — cioè sempre, negli audit.
 var _cloud: CloudSave = null
@@ -238,6 +242,8 @@ func setup(request: Dictionary, session_result: Dictionary, load_local_save: boo
 	# corrente (merge additivo: aggiunge solo id già risolti, non ne toglie mai),
 	# così ciò che era già stato completato non viene riproposto dopo un reboot.
 	_hydrate_world_progress()
+	artifact_entry = ARTIFACT_JOURNEY.begin_expedition(
+		game_save, int(game_save.current_world()))
 	_persist()
 	_emit_state()
 
@@ -459,6 +465,9 @@ func runtime_state() -> Dictionary:
 		# Il Ricordo che Eli porta addosso. Sta fuori da `equipped` perché il
 		# possesso di un trofeo non si perde cambiando quale si mostra.
 		"mementoDisplayed": reward_manager.memento_esposto(),
+		# Fatti d'uso gia' registrati: la UI non confonde il possesso con una
+		# biografia e non ricostruisce eventi dai soli cosmetici attivi.
+		"artifactJourney": ARTIFACT_JOURNEY.summary(game_save),
 		# Ritratto non competitivo delle quattro forme di progresso. La UI non
 		# deve ricontare eventi o interpretare id del salvataggio.
 		"recognition": ProgressRecognition.summary(game_save),
@@ -646,6 +655,8 @@ func _risolvi_minimissione(
 	# Il MONDO, non il livello di contenuto: `_learning_level` può valere il rango
 	# quando si gioca sulla frontiera, e segnerebbe la riparazione sbagliata.
 	game_save.claim_minimission(int(game_save.current_world()))
+	ARTIFACT_JOURNEY.record_event(
+		game_save, "minimission", encounter_id, int(game_save.current_world()))
 	enigma_progress.emit(total, total, forma, encounter_id)
 	var esito := str(context.get("esito", ""))
 	minimission_completed.emit(forma, encounter_id, esito)
@@ -1465,6 +1476,7 @@ func try_purchase_cosmetic(id: String) -> bool:
 		return false
 	result["fragmentsSpent"] = int(result.get("fragmentsSpent", 0)) + cost
 	reward_manager.unlock_and_equip(id)
+	ARTIFACT_JOURNEY.record_acquired(game_save, id, int(game_save.current_world()))
 	# Un modulo comprato entra subito in bardatura se c'è posto: chi spende e non
 	# vede succedere niente impara che comprare non serve. Se i posti sono pieni
 	# non si scavalca niente — lo si dice, e la scelta resta a chi ha pagato.
@@ -1551,10 +1563,50 @@ func collect_treasure(payload: Dictionary, treasure_id: String = "") -> void:
 	if id != "" and not game_save.mark_treasure_collected(_world_id(), id):
 		return  # già raccolto in questo mondo: nessuna doppia ricompensa
 	_award_fragments(int(payload.get("rewardFragments", 0)))
+	ARTIFACT_JOURNEY.record_event(
+		game_save, "treasure", id if not id.is_empty() else "treasure",
+		int(game_save.current_world()))
 	if not id.is_empty():
 		_recognize_progress("treasure", id)
 	_persist()
 	_emit_state()
+
+## Ponte per gli eventi di scena che non concedono ricompense: tane, tracce,
+## campi e gesti degli strumenti. La scena nomina il fatto; questa classe salva
+## quali oggetti preparati erano davvero presenti.
+func record_artifact_event(
+		event_kind: String, event_id: String, only_ids: Array = []) -> Array:
+	var changed := ARTIFACT_JOURNEY.record_event(
+		game_save, event_kind, event_id, int(game_save.current_world()), only_ids)
+	if not changed.is_empty():
+		_persist()
+		_emit_state()
+	return changed
+
+func record_tool_use(tool_id: String, gate_id: String) -> bool:
+	var world := int(game_save.current_world())
+	var tool_changed := ARTIFACT_JOURNEY.record_tool_use(
+		game_save, tool_id, gate_id, world)
+	# Il gesto dello strumento e' un fatto di scena: accessori ed emblemi
+	# compatibili presenti nel loadout possono ricordarlo a loro volta.
+	var active_changed := ARTIFACT_JOURNEY.record_event(
+		game_save, "tool_use", gate_id, world)
+	var changed := tool_changed or not active_changed.is_empty()
+	if changed:
+		_persist()
+		_emit_state()
+	return changed
+
+func artifact_resonance_on_entry() -> Dictionary:
+	return Dictionary(artifact_entry.get("resonance", {})).duplicate(true)
+
+func activate_artifact_resonance(id: String) -> Dictionary:
+	var event := ARTIFACT_JOURNEY.activate_resonance(
+		game_save, id, int(game_save.current_world()))
+	if not event.is_empty() and bool(event.get("first", false)):
+		_persist()
+		_emit_state()
+	return event
 
 # Concede frammenti aggiornando SIA il delta di sessione (riepilogo/HUD) SIA il
 # save canonico (O-P0.4): la valuta sopravvive a un reboot.

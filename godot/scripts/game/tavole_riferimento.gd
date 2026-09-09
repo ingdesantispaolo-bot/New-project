@@ -1447,6 +1447,63 @@ const TAVOLE_STORIA := [
 			},
 		],
 	},
+	# **Le schede dei trecento item nuovi.** (9 settembre 2026) La Fase 2 del piano
+	# ha aggiunto trentuno risposte brevi che nessuna tavola insegnava prima di
+	# chiederle, ed e' esattamente il difetto che queste tavole esistono per
+	# impedire. Una risposta di tre parole in storia, geografia o latino non si
+	# deduce: o si e' vista, o si tira a indovinare.
+	{
+		"id": "storia-il-mestiere-dello-storico",
+		"subject": "storia",
+		"kind": KIND_SCHEDA,
+		"topics": ["metodo", "fonti", "cronologia", "egizi"],
+		"titolo": "Scheda · Gli attrezzi di chi ricostruisce il passato",
+		"come_si_legge": "Ogni riga e' uno strumento del mestiere: che cosa lascia una traccia, come si data, e perche' di certe persone sappiamo tutto e di altre quasi niente. Si legge come una cassetta degli attrezzi, non come un elenco da imparare.",
+		"voci": [
+			{
+				"label": "Un vaso rotto",
+				"in_breve": "la fonte materiale piu' comune",
+				"risposte": ["vaso rotto", "un vaso rotto", "cocci"],
+				"nota": "I frammenti di ceramica sono la traccia piu' abbondante che il passato lascia: non marciscono, non bruciano e nessuno si preoccupa di portarli via. Da una discarica di cocci si ricava che cosa si mangiava e con chi si commerciava.",
+			},
+			{
+				"label": "Carbonio 14",
+				"in_breve": "l'orologio dei reperti organici",
+				"risposte": ["carbonio 14", "carbonio-14", "c14", "il carbonio 14"],
+				"nota": "Ogni essere vivente accumula carbonio 14 finche' e' vivo; da quando muore quel carbonio diminuisce a ritmo costante e noto. Misurando quanto ne resta si conta quanto tempo e' passato, e funziona su legno, ossa e tessuti fino a circa cinquantamila anni.",
+			},
+			{
+				"label": "Perche' non scrivevano",
+				"in_breve": "il silenzio di chi lavorava la terra",
+				"risposte": ["perche' non scrivevano", "perché non scrivevano", "non scrivevano"],
+				"nota": "Le fonti scritte le producono soprattutto chi ha potere e chi commercia. Dei contadini antichi restano ossa, attrezzi e case: sappiamo che cosa mangiavano molto meglio di che cosa pensavano, ed e' un limite del materiale, non della ricerca.",
+			},
+			{
+				"label": "Prima",
+				"in_breve": "avanti Cristo i numeri scorrono al contrario",
+				"risposte": ["prima", "viene prima"],
+				"nota": "Prima di Cristo piu' il numero e' grande, piu' si va indietro: il 50 a.C. precede il 20 a.C. di trent'anni. Si evita l'inciampo immaginando un conto alla rovescia che finisce a zero e poi riparte in avanti.",
+			},
+			{
+				"label": "Preistoria",
+				"in_breve": "tutto cio' che viene prima della scrittura",
+				"risposte": ["preistoria", "la preistoria"],
+				"nota": "Non e' un'epoca povera di fatti: e' l'epoca di cui non restano parole. Copre la parte di gran lunga piu' lunga della vicenda umana, e finisce dove comincia la scrittura — un confine deciso da noi, non da chi ci viveva.",
+			},
+			{
+				"label": "Terra",
+				"in_breve": "la parola dentro «geometria»",
+				"risposte": ["terra", "la terra", "il terreno", "i campi"],
+				"nota": "Geometria in greco vuol dire misura della terra, e il mestiere e' nato proprio da li': ogni piena del Nilo cancellava i confini dei campi e ogni anno bisognava ridisegnarli con esattezza per non litigare.",
+			},
+			{
+				"label": "Impararla richiedeva anni",
+				"in_breve": "perche' pochi sapevano leggere i geroglifici",
+				"risposte": ["impararla richiedeva anni", "richiedeva anni"],
+				"nota": "Centinaia di segni, con valori diversi secondo il contesto: diventare scriba era un mestiere a tempo pieno con una scuola dietro. Non c'era nessun divieto — era la difficolta' a fare da filtro, e un alfabeto di poche lettere cambiera' proprio questo.",
+			},
+		],
+	},
 ]
 
 ## --- GEOGRAFIA: le carte ----------------------------------------------------
@@ -2845,6 +2902,88 @@ const TAVOLE_GEOGRAFIA := [
 			},
 		],
 	},
+	{
+		"id": "geografia-leggere-una-carta",
+		"subject": "geografia",
+		"kind": KIND_SCHEDA,
+		"topics": ["mondo", "geografia-fisica", "climi", "continenti", "europa"],
+		"titolo": "Scheda · Le parole con cui si legge una carta",
+		"come_si_legge": "Ogni riga e' un termine che compare su carte e atlanti e che senza spiegazione resta un suono. Si legge prima di aprire una carta, non dopo: sono le parole che rendono leggibile tutto il resto.",
+		"voci": [
+			{
+				"label": "In alto",
+				"in_breve": "dove sta il nord, per convenzione",
+				"risposte": ["in alto", "alto"],
+				"nota": "Non e' una legge della natura ma un accordo: esistono carte antiche con l'est in alto e mappamondi capovolti. Saperlo aiuta a ricordare che una carta contiene anche decisioni umane, non solo terra.",
+			},
+			{
+				"label": "Sud",
+				"in_breve": "l'opposto del nord",
+				"risposte": ["sud", "il sud", "a sud"],
+				"nota": "I quattro punti cardinali stanno sempre nella stessa relazione fra loro: nord e sud opposti, est e ovest opposti. Sono direzioni fisse sulla Terra, e per questo servono a orientarsi mentre destra e sinistra no.",
+			},
+			{
+				"label": "Latitudine",
+				"in_breve": "quanto si e' a nord o a sud dell'equatore",
+				"risposte": ["la latitudine", "latitudine"],
+				"nota": "La misurano i paralleli, cerchi orizzontali contati a partire dall'equatore. Insieme alla longitudine, che misurano i meridiani, forma la griglia che da' a ogni punto della Terra due soli numeri.",
+			},
+			{
+				"label": "Pianura",
+				"in_breve": "il verde delle carte fisiche",
+				"risposte": ["una pianura", "pianura", "la pianura"],
+				"nota": "I colori di una carta fisica dicono l'altitudine, non la vegetazione: verde in basso, giallo e marrone salendo, bianco sulle cime. Una pianura verde puo' benissimo essere priva di alberi.",
+			},
+			{
+				"label": "Temperatura",
+				"in_breve": "quello che misura il termometro",
+				"risposte": ["la temperatura", "temperatura"],
+				"nota": "E' uno dei tre elementi con cui si descrive un clima, insieme alle precipitazioni e ai venti. Ogni elemento ha il suo strumento: pluviometro per la pioggia, anemometro per il vento, igrometro per l'umidita'.",
+			},
+			{
+				"label": "Bacino idrografico",
+				"in_breve": "la terra da cui un fiume raccoglie l'acqua",
+				"risposte": ["bacino idrografico", "il bacino idrografico", "bacino"],
+				"nota": "Ogni goccia che cade dentro quel confine finisce in quel fiume. Il bacino e' definito dalle creste dei monti e non dalle frontiere fra stati, ed e' per questo che l'acqua e' quasi sempre una questione internazionale.",
+			},
+			{
+				"label": "Pianura alluvionale",
+				"in_breve": "la terra costruita dal fiume",
+				"risposte": ["pianura alluvionale", "la pianura alluvionale"],
+				"nota": "Rallentando, il fiume lascia cadere cio' che trasportava, e nei millenni quel deposito costruisce una pianura fertile. Quasi tutte le grandi pianure agricole del mondo sono nate cosi', ed e' per questo che sono anche le piu' popolate.",
+			},
+			{
+				"label": "Delta",
+				"in_breve": "il fiume che si apre in piu' rami",
+				"risposte": ["delta", "il delta", "delta fluviale"],
+				"nota": "Prende il nome dalla lettera greca per la forma triangolare. I delta sono fra le terre piu' fertili del pianeta e fra le piu' fragili: bastano pochi centimetri di mare in piu' per sommergerli.",
+			},
+			{
+				"label": "Ombra pluviometrica",
+				"in_breve": "il versante che resta asciutto",
+				"risposte": ["ombra pluviometrica", "ombra della pioggia", "pluviometrica"],
+				"nota": "L'aria costretta a salire si raffredda e scarica la pioggia su un versante; sull'altro ridiscende gia' asciutta. Molti deserti del mondo, dalla Patagonia al Nevada, nascono cosi', all'ombra di una catena montuosa.",
+			},
+			{
+				"label": "Isola di calore",
+				"in_breve": "perche' in citta' fa piu' caldo",
+				"risposte": ["isola di calore", "isola di calore urbana", "calore urbano"],
+				"nota": "Asfalto e cemento assorbono e restituiscono calore, e mancano le piante che raffreddano evaporando: la differenza con la campagna vicina puo' superare i cinque gradi nelle notti estive. Piantare alberi e' la contromisura piu' efficace.",
+			},
+			{
+				"label": "Pangea",
+				"in_breve": "il continente unico di duecentocinquanta milioni di anni fa",
+				"risposte": ["Pangea", "pangea", "la Pangea", "pangaea"],
+				"nota": "Tutte le terre emerse formavano allora una massa sola. La sua frammentazione spiega perche' gli stessi fossili si trovino su continenti oggi separati da oceani, e perche' le coste di Africa e America del sud sembrino incastrarsi.",
+			},
+			{
+				"label": "Coste frastagliate",
+				"in_breve": "il profilo che ha fatto la storia d'Europa",
+				"risposte": ["coste molto frastagliate", "coste frastagliate", "frastagliate"],
+				"nota": "Penisole, golfi e isole danno tanti porti naturali, e i porti danno navigazione e incontri fra popoli. La forma di un continente entra nella storia che ci si svolge, e l'Europa ne e' l'esempio piu' netto.",
+			},
+		],
+	},
 ]
 
 # --- API ---------------------------------------------------------------------
@@ -3716,6 +3855,76 @@ const TAVOLE_LATINO := [
 				"nota": "Cinquecento. CD è quattrocento, DC è seicento. È il simbolo che si incontra meno di tutti, e per questo va guardato con attenzione."},
 			{"label": "M", "in_breve": "1000", "risposte": ["1000", "mille"],
 				"nota": "Mille, dall'iniziale di «mille». CM è novecento, MC è millecento. I secoli si scrivono così: il XX secolo è il ventesimo, dal 1901 al 2000."},
+		],
+	},
+	{
+		"id": "latino-prima-di-declinare",
+		"subject": "latino",
+		"kind": KIND_SCHEDA,
+		"topics": ["casi", "basi", "etimologia", "vocabolario", "frasi"],
+		"titolo": "Scheda · Che cosa guardare prima di tradurre",
+		"come_si_legge": "Le prime cose che servono, prima ancora delle tabelle: che cosa fa ogni parola nella frase, quale pezzo porta il significato, e quali parole italiane vengono da li'. Si legge una volta e si ritrova a ogni traduzione.",
+		"voci": [
+			{
+				"label": "Chi compie l'azione",
+				"in_breve": "il soggetto, in latino al nominativo",
+				"risposte": ["il lupo", "la ragazza", "chi compie l'azione"],
+				"nota": "Riconoscere chi agisce si fa prima sulla frase italiana e poi sulla desinenza latina: in «il lupo vede il cervo» agisce il lupo, e in latino quella parola porterebbe la finale del nominativo.",
+			},
+			{
+				"label": "Chi subisce l'azione",
+				"in_breve": "il complemento oggetto, all'accusativo",
+				"risposte": ["il cervo", "chi subisce l'azione", "chi subisce"],
+				"nota": "E' il secondo caso che si impara, e la sua marca piu' affidabile e' la -m finale al singolare. E' anche il caso che rende inutile l'ordine delle parole: dice il ruolo senza bisogno della posizione.",
+			},
+			{
+				"label": "Di chi e' una cosa",
+				"in_breve": "il possessore, al genitivo",
+				"risposte": ["il contadino", "di chi e'", "il proprietario"],
+				"nota": "In italiano il legame lo segna la preposizione «del», in latino la fine della parola. La domanda da farsi e' «di chi?», e distinguerla da «a chi?» — che e' il dativo — evita l'errore piu' comune dei primi mesi.",
+			},
+			{
+				"label": "Niente",
+				"in_breve": "quanto cambia spostando le parole",
+				"risposte": ["niente", "nulla"],
+				"nota": "Lo spostamento puo' servire a dare enfasi ma non tocca il significato: chi agisce e chi subisce lo hanno gia' detto le desinenze. E' la differenza piu' profonda fra il latino e l'italiano, dove il ruolo lo da' la posizione.",
+			},
+			{
+				"label": "Alla fine",
+				"in_breve": "dove sta di solito il verbo latino",
+				"risposte": ["alla fine", "in fondo"],
+				"nota": "E' un'abitudine della prosa, non una regola: aiuta a orientarsi leggendo, ma non si puo' usare come prova perche' i poeti la violano di continuo. La posizione conferma il senso, non lo stabilisce.",
+			},
+			{
+				"label": "La radice",
+				"in_breve": "il pezzo che porta il significato",
+				"risposte": ["ros-", "la radice", "radice"],
+				"nota": "La parola latina si divide in due: una parte ferma che dice che cosa sia la cosa, e una finale che cambia e dice il ruolo. In «rosam» la radice ros- vuol dire rosa in ogni forma, e la finale -am dice soltanto che la rosa subisce.",
+			},
+			{
+				"label": "Grande",
+				"in_breve": "che cosa vuol dire magnus",
+				"risposte": ["grande", "magnus"],
+				"nota": "E' rimasta in italiano dentro «magnifico» e «magnate»: chi la riconosce li' dentro non deve impararla due volte. E' anche il primo esempio di come una radice latina sopravviva nelle parole colte piu' che in quelle di tutti i giorni.",
+			},
+			{
+				"label": "Libreria",
+				"in_breve": "la famiglia di liber, libro",
+				"risposte": ["libreria", "liber"],
+				"nota": "Attenzione al falso parente: esistono due liber, uno che vuol dire libro e uno che vuol dire libero. «Liberta'» viene dal secondo, «libreria» dal primo — la somiglianza di suono non basta mai, serve il significato.",
+			},
+			{
+				"label": "Manuale",
+				"in_breve": "la famiglia di manus, mano",
+				"risposte": ["manuale", "manus"],
+				"nota": "Vuol dire «che si fa con le mani» e conserva la forma latina quasi intera. Una radice si riconosce meglio nelle parole colte che in quelle quotidiane: «manata» e' formata sull'italiano, «manuale» direttamente sul latino.",
+			},
+			{
+				"label": "Acqua e condurre",
+				"in_breve": "le due parole dentro «acquedotto»",
+				"risposte": ["acqua e condurre", "aqua e ducere"],
+				"nota": "Molte parole italiane sono due parole latine incollate, e smontarle e' il modo piu' rapido per capirne il senso senza cercarle: un acquedotto conduce acqua, e con lo stesso metodo si legge «agricoltura» o «manoscritto».",
+			},
 		],
 	},
 ]

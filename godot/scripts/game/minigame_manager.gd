@@ -487,6 +487,21 @@ const MATCHING := {
 			["Accelerando", "andando via via più veloce"], ["Rallentando", "andando via via più lento"]]},
 	],
 	"italiano": [
+		# **Nato da un rosso, il 9 settembre 2026.** Questa prova era uno
+		# scorrimento a tempo, e `number_line_audit` l'ha bocciata: il cronometro
+		# vale solo sugli argomenti «fluency», dove la velocita' E' la competenza.
+		# Il periodo ipotetico non e' uno di quelli — li' il tempo misura ansia.
+		# Stesso contenuto, gesto diverso: si abbina ogni condizione alla sua
+		# conseguenza, e le due meta' si reggono a vicenda.
+		{"explanation": "Le due meta' del periodo ipotetico vanno in coppia: al presente indicativo risponde il presente, al congiuntivo imperfetto il condizionale presente, al congiuntivo trapassato il condizionale passato. Cambiarne una sola sbilancia la frase.", "topic": "congiuntivo-condizionale", "minLevel": 13, "pairs": [
+			["Se ho tempo,", "vengo con te"],
+			["Se avessi tempo,", "verrei con te"],
+			["Se avessi avuto tempo,", "sarei venuto con te"],
+			["Se piove,", "resto a casa"],
+			["Se piovesse,", "resterei a casa"],
+			["Se fosse piovuto,", "sarei restato a casa"],
+			["Se studi,", "superi la prova"],
+			["Se studiassi,", "supereresti la prova"]]},
 		# **Le analogie che erano lessico, tornate a casa.** (1 settembre 2026)
 		#
 		# Questi sei insiemi stavano in logica e valevano, da soli, un quinto dei
@@ -723,12 +738,23 @@ const MATCHING := {
 			["==", "chiede se due valori sono uguali"], ["#", "scrive una nota per chi legge"]]},
 	],
 	"elettronica": [
+		# Fascia 2. Nessuna coppia si vince cercando la parola ripetuta fra le due
+		# colonne: il nome del pezzo non compare mai nella sua funzione.
+		{"explanation": "Ogni pezzo di un circuito ha un mestiere solo, e il circuito funziona perche' nessuno fa il lavoro di un altro. Riconoscere il mestiere prima del nome rende leggibile qualunque schema.", "topic": "circuito", "minLevel": 4, "pairs": [
+			["Pila", "Spinge le cariche nel giro"],
+			["Interruttore", "Apre e chiude il passaggio"],
+			["Lampadina", "Trasforma in luce e calore"],
+			["Filo di rame", "Lascia passare senza ostacolare"],
+			["Resistore", "Frena il passaggio delle cariche"],
+			["Fusibile", "Si spezza se passa troppo"],
+			["Motorino", "Trasforma in movimento"],
+			["Portapile", "Tiene il contatto ai due poli"]]},
 		{"explanation": "In un circuito LED ci sono quattro lavori diversi. La pila dà la spinta, l'interruttore apre o chiude la strada, il resistore frena la corrente per proteggere il LED e il LED trasforma l'energia in luce.", "topic": "componenti-base", "pairs": [["Pila", "Dà la spinta elettrica"], ["Interruttore", "Apre e chiude la strada"], ["Resistore", "Protegge il LED limitando la corrente"], ["LED", "Trasforma energia in luce"], ["Filo di rame", "Porta la corrente da un pezzo all'altro"], ["Lampadina", "Trasforma energia in luce e calore"], ["Motorino", "Trasforma energia in movimento"], ["Cicalino", "Trasforma energia in suono"]]},
 		{"explanation": "Le tre parole rispondono a tre domande diverse. La tensione è la spinta e si misura in volt; la corrente è quanta carica passa e si misura in ampere; la resistenza è quanto un componente ostacola il passaggio e si misura in ohm.", "topic": "misure-elettriche", "pairs": [["Tensione: la spinta", "Volt (V)"], ["Corrente: quanto passa", "Ampere (A)"], ["Resistenza: quanto frena", "Ohm (Ω)"]]},
 		{"explanation": "Potenza, energia e frequenza sono grandezze diverse e arrivano solo dopo le tre misure di base: watt dice quanta energia si usa ogni secondo, joule quanta energia in tutto, hertz quante volte un evento si ripete in un secondo.", "topic": "grandezze", "minLevel": 10, "pairs": [["Potenza", "Watt"], ["Energia", "Joule"], ["Frequenza", "Hertz"]]},
 		# Scuola media — legge di Ohm e prefissi delle unità.
 		{"explanation": "La legge di Ohm descrive il legame fra spinta, passaggio e ostacolo: V = I × R. Si usa soltanto dopo aver imparato che cosa significano tensione, corrente e resistenza.", "topic": "legge-ohm", "minLevel": 20, "pairs": [["Tensione (V)", "R × I"], ["Corrente (I)", "V / R"], ["Resistenza (R)", "V / I"]]},
-		{"explanation": "I prefissi cambiano la grandezza di mille volte: chilo significa mille volte, milli significa la millesima parte. Prima si riconosce l'unità, poi si converte.", "topic": "prefissi", "minLevel": 4, "pairs": [["1000 Ω", "1 kΩ"], ["1000 mA", "1 A"], ["1000 mV", "1 V"]]},
+		{"explanation": "I prefissi cambiano la grandezza di mille volte: chilo significa mille volte, milli significa la millesima parte. Prima si riconosce l'unità, poi si converte.", "topic": "prefissi", "minLevel": 9, "pairs": [["1000 Ω", "1 kΩ"], ["1000 mA", "1 A"], ["1000 mV", "1 V"]]},
 		# --- Mondo 1: ricette in più (tappa 3, 6 agosto 2026) -----------------
 		{"explanation": "Immagina un circuito come un giro di tubi. La pila fa da pompa, il filo da tubo, la tensione è la spinta, la corrente è ciò che scorre e l'interruttore è un rubinetto. È solo un modello, ma aiuta a distinguere le idee.", "topic": "elettricita-base", "pairs": [
 			["la pila", "la pompa che spinge"], ["la tensione", "la pressione dell'acqua"],
@@ -1495,7 +1521,7 @@ const ORDERING := {
 		{"explanation": "La corrente percorre un anello chiuso: parte dal polo positivo, attraversa i componenti in fila e torna al negativo. In serie l'ordine è obbligato.", "topic": "circuito", "prompt": "Partendo dal polo positivo, ordina i componenti attraversati dalla corrente in questo circuito in serie.",
 			"correctOrder": ["Polo positivo della pila", "Interruttore chiuso", "Resistore", "LED", "Polo negativo della pila"]},
 		{"explanation": "Un LED ha un verso e ha bisogno di un resistore che limiti la corrente. Si controllano i collegamenti con la pila staccata e si collega la pila solo alla fine: così un errore si può correggere prima che passi corrente.", "topic": "montaggio-led", "prompt": "Monta in sicurezza il circuito LED: ordina i passi, lasciando l'alimentazione per ultima.", "correctOrder": ["Tieni la pila scollegata", "Controlla il verso del LED", "Collega interruttore e resistore", "Collega il LED e il filo di ritorno", "Controlla che il giro sia chiuso", "Collega la pila per ultima"]},
-		{"explanation": "Per confrontare ohm e kilo-ohm bisogna prima portarli alla stessa unità: 1 kΩ significa 1000 Ω.", "topic": "prefissi", "minLevel": 4, "prompt": "Ordina le resistenze dalla più piccola.", "correctOrder": ["10 Ω", "100 Ω", "1 kΩ", "10 kΩ"]},
+		{"explanation": "Per confrontare ohm e kilo-ohm bisogna prima portarli alla stessa unità: 1 kΩ significa 1000 Ω.", "topic": "prefissi", "minLevel": 9, "prompt": "Ordina le resistenze dalla più piccola.", "correctOrder": ["10 Ω", "100 Ω", "1 kΩ", "10 kΩ"]},
 		# --- Terzo ordinamento al mondo 1 (7 agosto 2026) ----------------------
 		{"explanation": "Un circuito funziona soltanto se esiste un giro completo dai due poli della pila. Si prepara il percorso con la pila staccata, si controlla che non ci siano buchi e si alimenta soltanto alla fine.", "topic": "montaggio-lampada", "prompt": "Costruisci un circuito semplice senza alimentarlo mentre lavori: ordina i passi.", "correctOrder": ["Tieni la pila scollegata", "Collega il filo alla lampadina", "Collega il ritorno all'altro lato della lampadina", "Controlla che il percorso non abbia buchi", "Collega i due poli della pila per ultimi"]},
 	],
@@ -2761,6 +2787,19 @@ const CLASSIFICATION := {
 				"contrafagotto": "grave", "gong": "grave"}},
 	],
 	"elettronica": [
+		# Fascia 2, scritte il 9 settembre 2026. Argomento da principiante di
+		# proposito: una ricetta a `minLevel` 4 e' idonea anche al mondo 8, che e'
+		# il primo incontro con elettronica, e li' `electronics_beginner_audit`
+		# vieta legge di Ohm, prefissi, serie/parallelo e gli altri argomenti alti.
+		{"explanation": "Prima di capire come funziona un circuito conviene sapere da dove arriva la corrente: una pila la porta con se' ed e' poca, la presa la prende dalla rete ed e' tanta. E' anche la prima regola di sicurezza.", "topic": "elettricita-base", "minLevel": 4, "draw": 6, "prompt": "Smista ogni oggetto secondo da dove prende la corrente.",
+			"categories": ["da una pila", "dalla presa di casa"],
+			"assignments": {
+				"telecomando": "da una pila", "orologio da polso": "da una pila",
+				"torcia tascabile": "da una pila", "calcolatrice": "da una pila",
+				"telefono senza filo": "da una pila", "giocattolo telecomandato": "da una pila",
+				"frigorifero": "dalla presa di casa", "lavatrice": "dalla presa di casa",
+				"forno elettrico": "dalla presa di casa", "lampadario": "dalla presa di casa",
+				"televisore": "dalla presa di casa", "aspirapolvere": "dalla presa di casa"}},
 		{"explanation": "Un conduttore lascia passare facilmente la corrente; un isolante la ostacola e protegge dal contatto. Nei primi circuiti la regola utile è semplice: il metallo interno porta la corrente, plastica e gomma all'esterno ci proteggono.", "topic": "conduttori", "draw": 6, "prompt": "Smista i materiali comuni: lasciano passare la corrente o proteggono dal passaggio?",
 			"categories": ["conduttore", "isolante"],
 			"assignments": {
@@ -5602,16 +5641,6 @@ const SWIPE := {
 				{"text": "Fra un'ora iniziera la gara -> futuro semplice", "correct": true}, {"text": "Ogni lunedi studio chitarra -> imperfetto", "correct": false},
 				{"text": "Quando ero piccolo temevo il buio -> imperfetto", "correct": true}],
 			"explanation": "Il tempo racconta quando e come accade l'azione: presente adesso o abituale, imperfetto per sfondo e ripetizione, passato prossimo per un fatto concluso, futuro per cio che deve arrivare."},
-		{"topic": "congiuntivo-condizionale", "minLevel": 13, "actionTheme": "verb_mode_factory", "prompt": "Sala dei Dubbi: manda a destra le frasi in cui il modo del verbo è quello giusto; a sinistra quelle da correggere.", "seconds": 54.0, "minAccuracy": 0.80,
-			"statements": [
-				{"text": "Penso che tu abbia ragione", "correct": true}, {"text": "Penso che tu hai ragione", "correct": false},
-				{"text": "Spero che arrivino in orario", "correct": true}, {"text": "Spero che arrivano in orario", "correct": false},
-				{"text": "Se avessi tempo, verrei con te", "correct": true}, {"text": "Se avrei tempo, verrei con te", "correct": false},
-				{"text": "Credo che sia tardi", "correct": true}, {"text": "Credo che e tardi", "correct": false},
-				{"text": "Voglio che tu venga domani", "correct": true}, {"text": "Voglio che tu vieni domani", "correct": false},
-				{"text": "Se piovesse, resteremmo a casa", "correct": true}, {"text": "Se pioverebbe, resteremmo a casa", "correct": false},
-				{"text": "Non so se lui capisca", "correct": true}],
-			"explanation": "I verbi che esprimono opinione, speranza o volonta reggono il congiuntivo: dicono che la cosa non e un fatto. E nel periodo ipotetico il condizionale sta nella seconda meta, mai dopo il «se»."},
 		{"topic": "modi-verbali", "minLevel": 10, "actionTheme": "verb_mode_factory", "prompt": "Officina dei Modi: conferma a destra i comandi verbali calibrati; manda a sinistra quelli con il modo sbagliato.", "seconds": 54.0, "minAccuracy": 0.80,
 			"statements": [
 				{"text": "Spero che tu arrivi -> congiuntivo", "correct": true}, {"text": "Se avessi tempo, partirei -> imperativo", "correct": false},

@@ -7,7 +7,7 @@
 			"id": "scienze-ambiente-0",
 			"subject": "scienze",
 			"topic": "ambiente",
-			"difficulty": 2,
+			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Che cos'è la biodiversità?",
 			"options": [
@@ -28,7 +28,7 @@
 			"id": "scienze-ambiente-1",
 			"subject": "scienze",
 			"topic": "ambiente",
-			"difficulty": 2,
+			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Perché gli alberi sono importanti per l'aria che respiriamo?",
 			"options": [
@@ -49,7 +49,7 @@
 			"id": "scienze-ambiente-2",
 			"subject": "scienze",
 			"topic": "ambiente",
-			"difficulty": 3,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "Che cosa succede a un ecosistema se sparisce una specie chiave?",
 			"options": [
@@ -70,7 +70,7 @@
 			"id": "scienze-ambiente-3",
 			"subject": "scienze",
 			"topic": "ambiente",
-			"difficulty": 3,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "Perché la plastica dispersa è un problema per il mare?",
 			"options": [
@@ -91,7 +91,7 @@
 			"id": "scienze-ambiente-4",
 			"subject": "scienze",
 			"topic": "ambiente",
-			"difficulty": 3,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "Che cos'è una fonte di energia rinnovabile?",
 			"options": [
@@ -112,7 +112,7 @@
 			"id": "scienze-ambiente-5",
 			"subject": "scienze",
 			"topic": "ambiente",
-			"difficulty": 2,
+			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Quale di queste è una fonte di energia rinnovabile?",
 			"options": [
@@ -133,7 +133,7 @@
 			"id": "scienze-ambiente-6",
 			"subject": "scienze",
 			"topic": "ambiente",
-			"difficulty": 4,
+			"difficulty": 8,
 			"format": "multiple_choice",
 			"prompt": "Perché fare la raccolta differenziata riduce l'uso di materie prime?",
 			"options": [
@@ -154,7 +154,7 @@
 			"id": "scienze-ambiente-7",
 			"subject": "scienze",
 			"topic": "ambiente",
-			"difficulty": 3,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "Che cos'è l'effetto serra?",
 			"options": [
@@ -175,7 +175,7 @@
 			"id": "scienze-ambiente-8",
 			"subject": "scienze",
 			"topic": "ambiente",
-			"difficulty": 4,
+			"difficulty": 8,
 			"format": "multiple_choice",
 			"prompt": "Perché il consumo di suolo preoccupa gli scienziati?",
 			"options": [
@@ -196,7 +196,7 @@
 			"id": "scienze-ambiente-9",
 			"subject": "scienze",
 			"topic": "ambiente",
-			"difficulty": 2,
+			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Che cosa significa «specie a rischio di estinzione»?",
 			"options": [
@@ -217,7 +217,7 @@
 			"id": "scienze-ambiente-10",
 			"subject": "scienze",
 			"topic": "ambiente",
-			"difficulty": 3,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "Perché l'acqua dolce è una risorsa preziosa?",
 			"options": [
@@ -238,7 +238,7 @@
 			"id": "scienze-ambiente-11",
 			"subject": "scienze",
 			"topic": "ambiente",
-			"difficulty": 4,
+			"difficulty": 7,
 			"format": "multiple_choice",
 			"prompt": "Che cos'è una specie invasiva?",
 			"options": [
@@ -259,7 +259,7 @@
 			"id": "scienze-metodo-12",
 			"subject": "scienze",
 			"topic": "metodo",
-			"difficulty": 2,
+			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Che cos'è un'ipotesi scientifica?",
 			"options": [
@@ -280,7 +280,7 @@
 			"id": "scienze-metodo-13",
 			"subject": "scienze",
 			"topic": "metodo",
-			"difficulty": 3,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "Perché in un esperimento si cambia una sola variabile per volta?",
 			"options": [
@@ -301,7 +301,7 @@
 			"id": "scienze-metodo-14",
 			"subject": "scienze",
 			"topic": "metodo",
-			"difficulty": 3,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "A che cosa serve il gruppo di controllo?",
 			"options": [
@@ -322,7 +322,7 @@
 			"id": "scienze-metodo-15",
 			"subject": "scienze",
 			"topic": "metodo",
-			"difficulty": 3,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "Perché un esperimento va ripetuto più volte?",
 			"options": [
@@ -343,7 +343,7 @@
 			"id": "scienze-metodo-16",
 			"subject": "scienze",
 			"topic": "metodo",
-			"difficulty": 4,
+			"difficulty": 8,
 			"format": "multiple_choice",
 			"prompt": "Un'ipotesi che non si può smentire in nessun modo è…",
 			"options": [
@@ -364,7 +364,7 @@
 			"id": "scienze-metodo-17",
 			"subject": "scienze",
 			"topic": "metodo",
-			"difficulty": 3,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "Che differenza c'è fra osservare e interpretare?",
 			"options": [
@@ -385,7 +385,7 @@
 			"id": "scienze-metodo-18",
 			"subject": "scienze",
 			"topic": "metodo",
-			"difficulty": 4,
+			"difficulty": 8,
 			"format": "multiple_choice",
 			"prompt": "Perché gli scienziati pubblicano i loro dati?",
 			"options": [
@@ -406,7 +406,7 @@
 			"id": "scienze-metodo-19",
 			"subject": "scienze",
 			"topic": "metodo",
-			"difficulty": 2,
+			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Che cos'è una variabile in un esperimento?",
 			"options": [
@@ -427,7 +427,7 @@
 			"id": "scienze-metodo-20",
 			"subject": "scienze",
 			"topic": "metodo",
-			"difficulty": 3,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "Un esperimento smentisce l'ipotesi. Che cosa hai imparato?",
 			"options": [
@@ -448,7 +448,7 @@
 			"id": "scienze-metodo-21",
 			"subject": "scienze",
 			"topic": "metodo",
-			"difficulty": 4,
+			"difficulty": 8,
 			"format": "multiple_choice",
 			"prompt": "Perché la misura di un solo studente vale meno di dieci misure?",
 			"options": [
@@ -469,7 +469,7 @@
 			"id": "scienze-ecosistema-22",
 			"subject": "scienze",
 			"topic": "ecosistema",
-			"difficulty": 2,
+			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Che cos'è un ecosistema?",
 			"options": [
@@ -490,7 +490,7 @@
 			"id": "scienze-ecosistema-23",
 			"subject": "scienze",
 			"topic": "ecosistema",
-			"difficulty": 2,
+			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "In una catena alimentare, chi sono i produttori?",
 			"options": [
@@ -511,7 +511,7 @@
 			"id": "scienze-ecosistema-24",
 			"subject": "scienze",
 			"topic": "ecosistema",
-			"difficulty": 3,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "Che ruolo hanno i decompositori?",
 			"options": [
@@ -532,7 +532,7 @@
 			"id": "scienze-ecosistema-25",
 			"subject": "scienze",
 			"topic": "ecosistema",
-			"difficulty": 3,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "Perché in una catena alimentare i predatori sono meno numerosi delle prede?",
 			"options": [
@@ -553,7 +553,7 @@
 			"id": "scienze-ecosistema-26",
 			"subject": "scienze",
 			"topic": "ecosistema",
-			"difficulty": 3,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "Che cos'è una rete alimentare?",
 			"options": [
@@ -574,7 +574,7 @@
 			"id": "scienze-ecosistema-27",
 			"subject": "scienze",
 			"topic": "ecosistema",
-			"difficulty": 4,
+			"difficulty": 7,
 			"format": "multiple_choice",
 			"prompt": "Che cos'è la simbiosi?",
 			"options": [
@@ -595,7 +595,7 @@
 			"id": "scienze-ecosistema-28",
 			"subject": "scienze",
 			"topic": "ecosistema",
-			"difficulty": 3,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "Che cos'è l'habitat di una specie?",
 			"options": [
@@ -616,7 +616,7 @@
 			"id": "scienze-ecosistema-29",
 			"subject": "scienze",
 			"topic": "ecosistema",
-			"difficulty": 4,
+			"difficulty": 8,
 			"format": "multiple_choice",
 			"prompt": "Perché due specie che mangiano la stessa cosa raramente convivono a lungo?",
 			"options": [
@@ -637,7 +637,7 @@
 			"id": "scienze-ecosistema-30",
 			"subject": "scienze",
 			"topic": "ecosistema",
-			"difficulty": 2,
+			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Un animale che mangia solo piante si chiama…",
 			"options": [
@@ -658,7 +658,7 @@
 			"id": "scienze-ecosistema-31",
 			"subject": "scienze",
 			"topic": "ecosistema",
-			"difficulty": 4,
+			"difficulty": 8,
 			"format": "numeric_input",
 			"prompt": "In una catena erba → cavalletta → rana → serpente, quanti passaggi di energia ci sono?",
 			"options": [],
@@ -674,7 +674,7 @@
 			"id": "scienze-energia-32",
 			"subject": "scienze",
 			"topic": "energia",
-			"difficulty": 2,
+			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Che cosa dice il principio di conservazione dell'energia?",
 			"options": [
@@ -695,7 +695,7 @@
 			"id": "scienze-energia-33",
 			"subject": "scienze",
 			"topic": "energia",
-			"difficulty": 3,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "Quando accendi una lampadina, l'energia elettrica diventa…",
 			"options": [
@@ -716,7 +716,7 @@
 			"id": "scienze-energia-34",
 			"subject": "scienze",
 			"topic": "energia",
-			"difficulty": 3,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "Che cos'è l'energia potenziale?",
 			"options": [
@@ -737,7 +737,7 @@
 			"id": "scienze-energia-35",
 			"subject": "scienze",
 			"topic": "energia",
-			"difficulty": 3,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "Da dove viene quasi tutta l'energia che usiamo sulla Terra?",
 			"options": [
@@ -758,7 +758,7 @@
 			"id": "scienze-energia-36",
 			"subject": "scienze",
 			"topic": "energia",
-			"difficulty": 4,
+			"difficulty": 8,
 			"format": "multiple_choice",
 			"prompt": "Perché nessuna macchina può funzionare all'infinito da sola?",
 			"options": [
@@ -779,7 +779,7 @@
 			"id": "scienze-energia-37",
 			"subject": "scienze",
 			"topic": "energia",
-			"difficulty": 2,
+			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Che cos'è l'energia cinetica?",
 			"options": [
@@ -800,7 +800,7 @@
 			"id": "scienze-energia-38",
 			"subject": "scienze",
 			"topic": "energia",
-			"difficulty": 4,
+			"difficulty": 7,
 			"format": "multiple_choice",
 			"prompt": "In una centrale idroelettrica, quale trasformazione avviene per prima?",
 			"options": [
@@ -821,7 +821,7 @@
 			"id": "scienze-energia-39",
 			"subject": "scienze",
 			"topic": "energia",
-			"difficulty": 3,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "Che tipo di energia contiene il cibo che mangi?",
 			"options": [
@@ -842,7 +842,7 @@
 			"id": "scienze-energia-40",
 			"subject": "scienze",
 			"topic": "energia",
-			"difficulty": 3,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "Perché una pallina che rimbalza non torna mai all'altezza di partenza?",
 			"options": [
@@ -863,7 +863,7 @@
 			"id": "scienze-energia-41",
 			"subject": "scienze",
 			"topic": "energia",
-			"difficulty": 4,
+			"difficulty": 8,
 			"format": "numeric_input",
 			"prompt": "Quante trasformazioni di energia ci sono in «pila → lampadina accesa»?",
 			"options": [],
@@ -879,7 +879,7 @@
 			"id": "scienze-terra-universo-42",
 			"subject": "scienze",
 			"topic": "terra-universo",
-			"difficulty": 2,
+			"difficulty": 4,
 			"format": "numeric_input",
 			"prompt": "Quanto tempo impiega la Terra a girare su sé stessa?",
 			"options": [],
@@ -893,7 +893,7 @@
 			"id": "scienze-terra-universo-43",
 			"subject": "scienze",
 			"topic": "terra-universo",
-			"difficulty": 2,
+			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Che cosa causa l'alternarsi del giorno e della notte?",
 			"options": [
@@ -914,7 +914,7 @@
 			"id": "scienze-terra-universo-44",
 			"subject": "scienze",
 			"topic": "terra-universo",
-			"difficulty": 3,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "Che cosa causa le stagioni?",
 			"options": [
@@ -935,7 +935,7 @@
 			"id": "scienze-terra-universo-45",
 			"subject": "scienze",
 			"topic": "terra-universo",
-			"difficulty": 3,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "Perché vediamo la Luna cambiare forma?",
 			"options": [
@@ -956,7 +956,7 @@
 			"id": "scienze-terra-universo-46",
 			"subject": "scienze",
 			"topic": "terra-universo",
-			"difficulty": 3,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "Che cos'è una galassia?",
 			"options": [
@@ -977,7 +977,7 @@
 			"id": "scienze-terra-universo-47",
 			"subject": "scienze",
 			"topic": "terra-universo",
-			"difficulty": 4,
+			"difficulty": 8,
 			"format": "multiple_choice",
 			"prompt": "Perché di giorno non vediamo le stelle?",
 			"options": [
@@ -998,7 +998,7 @@
 			"id": "scienze-terra-universo-48",
 			"subject": "scienze",
 			"topic": "terra-universo",
-			"difficulty": 3,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "Quale pianeta è il più vicino al Sole?",
 			"options": [
@@ -1019,7 +1019,7 @@
 			"id": "scienze-terra-universo-49",
 			"subject": "scienze",
 			"topic": "terra-universo",
-			"difficulty": 4,
+			"difficulty": 7,
 			"format": "multiple_choice",
 			"prompt": "Che cos'è un'eclissi di Sole?",
 			"options": [
@@ -1040,7 +1040,7 @@
 			"id": "scienze-terra-universo-50",
 			"subject": "scienze",
 			"topic": "terra-universo",
-			"difficulty": 2,
+			"difficulty": 4,
 			"format": "numeric_input",
 			"prompt": "Quanti pianeti ci sono nel Sistema Solare?",
 			"options": [],
@@ -1054,7 +1054,7 @@
 			"id": "scienze-materia-51",
 			"subject": "scienze",
 			"topic": "materia",
-			"difficulty": 2,
+			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "In quale stato la materia ha forma e volume propri?",
 			"options": [
@@ -1075,7 +1075,7 @@
 			"id": "scienze-materia-52",
 			"subject": "scienze",
 			"topic": "materia",
-			"difficulty": 3,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "Come si chiama il passaggio da liquido a gassoso?",
 			"options": [
@@ -1096,7 +1096,7 @@
 			"id": "scienze-materia-53",
 			"subject": "scienze",
 			"topic": "materia",
-			"difficulty": 3,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "Che cosa succede alle particelle quando un solido si scalda e fonde?",
 			"options": [
@@ -1117,7 +1117,7 @@
 			"id": "scienze-materia-54",
 			"subject": "scienze",
 			"topic": "materia",
-			"difficulty": 3,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "Che cos'è un miscuglio?",
 			"options": [
@@ -1138,7 +1138,7 @@
 			"id": "scienze-materia-55",
 			"subject": "scienze",
 			"topic": "materia",
-			"difficulty": 4,
+			"difficulty": 8,
 			"format": "multiple_choice",
 			"prompt": "Perché l'acqua ghiacciata occupa più spazio dell'acqua liquida?",
 			"options": [
@@ -1159,7 +1159,7 @@
 			"id": "scienze-materia-56",
 			"subject": "scienze",
 			"topic": "materia",
-			"difficulty": 4,
+			"difficulty": 7,
 			"format": "multiple_choice",
 			"prompt": "Come si può separare il sale dall'acqua salata?",
 			"options": [
@@ -1180,7 +1180,7 @@
 			"id": "scienze-materia-57",
 			"subject": "scienze",
 			"topic": "materia",
-			"difficulty": 3,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "Che cos'è la densità di un materiale?",
 			"options": [
@@ -1201,7 +1201,7 @@
 			"id": "scienze-materia-58",
 			"subject": "scienze",
 			"topic": "materia",
-			"difficulty": 2,
+			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "In quale stato le particelle sono più libere di muoversi?",
 			"options": [
@@ -1222,7 +1222,7 @@
 			"id": "scienze-corpo-59",
 			"subject": "scienze",
 			"topic": "corpo",
-			"difficulty": 2,
+			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Che cosa trasporta l'ossigeno dai polmoni al resto del corpo?",
 			"options": [
@@ -1243,7 +1243,7 @@
 			"id": "scienze-corpo-60",
 			"subject": "scienze",
 			"topic": "corpo",
-			"difficulty": 2,
+			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "A che cosa servono i polmoni?",
 			"options": [
@@ -1264,7 +1264,7 @@
 			"id": "scienze-corpo-61",
 			"subject": "scienze",
 			"topic": "corpo",
-			"difficulty": 3,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "Dove comincia la digestione?",
 			"options": [
@@ -1285,7 +1285,7 @@
 			"id": "scienze-corpo-62",
 			"subject": "scienze",
 			"topic": "corpo",
-			"difficulty": 3,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "Che cosa fa lo scheletro oltre a sostenere il corpo?",
 			"options": [
@@ -1306,7 +1306,7 @@
 			"id": "scienze-corpo-63",
 			"subject": "scienze",
 			"topic": "corpo",
-			"difficulty": 3,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "Come si muovono le ossa?",
 			"options": [
@@ -1327,7 +1327,7 @@
 			"id": "scienze-corpo-64",
 			"subject": "scienze",
 			"topic": "corpo",
-			"difficulty": 4,
+			"difficulty": 8,
 			"format": "multiple_choice",
 			"prompt": "Perché quando corri il respiro accelera?",
 			"options": [
@@ -1348,7 +1348,7 @@
 			"id": "scienze-corpo-65",
 			"subject": "scienze",
 			"topic": "corpo",
-			"difficulty": 3,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "Qual è il compito dei reni?",
 			"options": [
@@ -1369,7 +1369,7 @@
 			"id": "scienze-corpo-66",
 			"subject": "scienze",
 			"topic": "corpo",
-			"difficulty": 4,
+			"difficulty": 8,
 			"format": "multiple_choice",
 			"prompt": "Perché è importante dormire abbastanza?",
 			"options": [
@@ -1390,7 +1390,7 @@
 			"id": "scienze-viventi-67",
 			"subject": "scienze",
 			"topic": "viventi",
-			"difficulty": 2,
+			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Che cos'hanno in comune tutti gli esseri viventi?",
 			"options": [
@@ -1411,7 +1411,7 @@
 			"id": "scienze-viventi-68",
 			"subject": "scienze",
 			"topic": "viventi",
-			"difficulty": 3,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "Qual è l'unità di base di tutti gli esseri viventi?",
 			"options": [
@@ -1432,7 +1432,7 @@
 			"id": "scienze-viventi-69",
 			"subject": "scienze",
 			"topic": "viventi",
-			"difficulty": 3,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "Che differenza c'è fra un vertebrato e un invertebrato?",
 			"options": [
@@ -1453,7 +1453,7 @@
 			"id": "scienze-viventi-70",
 			"subject": "scienze",
 			"topic": "viventi",
-			"difficulty": 4,
+			"difficulty": 7,
 			"format": "multiple_choice",
 			"prompt": "Che cos'è un adattamento?",
 			"options": [
@@ -1474,7 +1474,7 @@
 			"id": "scienze-viventi-71",
 			"subject": "scienze",
 			"topic": "viventi",
-			"difficulty": 3,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "Perché i funghi non sono considerati piante?",
 			"options": [
@@ -1516,7 +1516,7 @@
 			"id": "scienze-metodo-73",
 			"subject": "scienze",
 			"topic": "metodo",
-			"difficulty": 2,
+			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Cosa distingue un'ipotesi da una conclusione?",
 			"options": [
@@ -1537,7 +1537,7 @@
 			"id": "scienze-metodo-74",
 			"subject": "scienze",
 			"topic": "metodo",
-			"difficulty": 3,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "A cosa serve un 'gruppo di controllo' in un esperimento?",
 			"options": [
@@ -1558,7 +1558,7 @@
 			"id": "scienze-metodo-75",
 			"subject": "scienze",
 			"topic": "metodo",
-			"difficulty": 4,
+			"difficulty": 7,
 			"format": "multiple_choice",
 			"prompt": "Cambi luce E acqua insieme e la pianta cresce di più. Cosa puoi concludere?",
 			"options": [
@@ -1621,7 +1621,7 @@
 			"id": "scienze-materia-78",
 			"subject": "scienze",
 			"topic": "materia",
-			"difficulty": 2,
+			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Come si chiama il passaggio dell'acqua da liquido a vapore?",
 			"options": [
@@ -1642,7 +1642,7 @@
 			"id": "scienze-materia-79",
 			"subject": "scienze",
 			"topic": "materia",
-			"difficulty": 2,
+			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Come si chiama il passaggio da gas (vapore) a liquido?",
 			"options": [
@@ -1663,7 +1663,7 @@
 			"id": "scienze-materia-80",
 			"subject": "scienze",
 			"topic": "materia",
-			"difficulty": 3,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "Come si chiama il passaggio da solido a liquido?",
 			"options": [
@@ -1684,7 +1684,7 @@
 			"id": "scienze-materia-81",
 			"subject": "scienze",
 			"topic": "materia",
-			"difficulty": 4,
+			"difficulty": 7,
 			"format": "multiple_choice",
 			"prompt": "Come si chiama il passaggio diretto da solido a gas, senza passare per il liquido?",
 			"options": [
@@ -1747,7 +1747,7 @@
 			"id": "scienze-viventi-84",
 			"subject": "scienze",
 			"topic": "viventi",
-			"difficulty": 2,
+			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Quale gas rilasciano le piante durante la fotosintesi?",
 			"options": [
@@ -1768,7 +1768,7 @@
 			"id": "scienze-viventi-85",
 			"subject": "scienze",
 			"topic": "viventi",
-			"difficulty": 2,
+			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Come si chiamano gli animali che si nutrono solo di piante?",
 			"options": [
@@ -1789,7 +1789,7 @@
 			"id": "scienze-viventi-86",
 			"subject": "scienze",
 			"topic": "viventi",
-			"difficulty": 3,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "Come si chiamano gli animali che mangiano sia piante sia altri animali?",
 			"options": [
@@ -1810,7 +1810,7 @@
 			"id": "scienze-viventi-87",
 			"subject": "scienze",
 			"topic": "viventi",
-			"difficulty": 4,
+			"difficulty": 7,
 			"format": "multiple_choice",
 			"prompt": "Come si chiama il processo con cui gli esseri viventi ricavano energia usando l'ossigeno?",
 			"options": [
@@ -1831,7 +1831,7 @@
 			"id": "scienze-ecosistema-88",
 			"subject": "scienze",
 			"topic": "ecosistema",
-			"difficulty": 2,
+			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "In una catena alimentare, chi mangia gli erbivori?",
 			"options": [
@@ -1852,7 +1852,7 @@
 			"id": "scienze-ecosistema-89",
 			"subject": "scienze",
 			"topic": "ecosistema",
-			"difficulty": 3,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "In una catena alimentare, chi produce il proprio nutrimento?",
 			"options": [
@@ -1873,7 +1873,7 @@
 			"id": "scienze-ecosistema-90",
 			"subject": "scienze",
 			"topic": "ecosistema",
-			"difficulty": 3,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "Come si chiamano gli organismi (funghi, batteri) che decompongono i resti dei viventi?",
 			"options": [
@@ -1894,7 +1894,7 @@
 			"id": "scienze-ecosistema-91",
 			"subject": "scienze",
 			"topic": "ecosistema",
-			"difficulty": 4,
+			"difficulty": 8,
 			"format": "multiple_choice",
 			"prompt": "Se in un bosco sparissero tutte le piante, cosa accadrebbe agli erbivori?",
 			"options": [
@@ -1936,7 +1936,7 @@
 			"id": "scienze-corpo-93",
 			"subject": "scienze",
 			"topic": "corpo",
-			"difficulty": 2,
+			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "A cosa serve lo scheletro?",
 			"options": [
@@ -1957,7 +1957,7 @@
 			"id": "scienze-corpo-94",
 			"subject": "scienze",
 			"topic": "corpo",
-			"difficulty": 2,
+			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Quale organo pompa il sangue nel corpo?",
 			"options": [
@@ -1978,7 +1978,7 @@
 			"id": "scienze-corpo-95",
 			"subject": "scienze",
 			"topic": "corpo",
-			"difficulty": 3,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "In quale organo avviene lo scambio di ossigeno con il sangue?",
 			"options": [
@@ -1999,7 +1999,7 @@
 			"id": "scienze-corpo-96",
 			"subject": "scienze",
 			"topic": "corpo",
-			"difficulty": 4,
+			"difficulty": 7,
 			"format": "multiple_choice",
 			"prompt": "In quale organo il cibo digerito viene assorbito nel sangue?",
 			"options": [
@@ -2020,7 +2020,7 @@
 			"id": "scienze-energia-97",
 			"subject": "scienze",
 			"topic": "energia",
-			"difficulty": 2,
+			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Da dove arriva quasi tutta l'energia che riscalda la Terra?",
 			"options": [
@@ -2041,7 +2041,7 @@
 			"id": "scienze-energia-98",
 			"subject": "scienze",
 			"topic": "energia",
-			"difficulty": 3,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "Come si chiama l'energia prodotta dal vento che fa girare le pale?",
 			"options": [
@@ -2062,7 +2062,7 @@
 			"id": "scienze-energia-99",
 			"subject": "scienze",
 			"topic": "energia",
-			"difficulty": 3,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "L'energia dell'acqua che scorre e fa girare le turbine si chiama…",
 			"options": [
@@ -2083,7 +2083,7 @@
 			"id": "scienze-energia-100",
 			"subject": "scienze",
 			"topic": "energia",
-			"difficulty": 4,
+			"difficulty": 7,
 			"format": "multiple_choice",
 			"prompt": "Quali fonti di energia non si esauriscono e inquinano poco?",
 			"options": [
@@ -2125,7 +2125,7 @@
 			"id": "scienze-terra-universo-102",
 			"subject": "scienze",
 			"topic": "terra-universo",
-			"difficulty": 2,
+			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Come si chiama il satellite naturale della Terra?",
 			"options": [
@@ -2146,7 +2146,7 @@
 			"id": "scienze-terra-universo-103",
 			"subject": "scienze",
 			"topic": "terra-universo",
-			"difficulty": 2,
+			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Cosa provoca l'alternarsi del giorno e della notte?",
 			"options": [
@@ -2167,7 +2167,7 @@
 			"id": "scienze-terra-universo-104",
 			"subject": "scienze",
 			"topic": "terra-universo",
-			"difficulty": 4,
+			"difficulty": 7,
 			"format": "multiple_choice",
 			"prompt": "Cosa provoca soprattutto l'alternarsi delle stagioni?",
 			"options": [
@@ -2209,7 +2209,7 @@
 			"id": "scienze-ambiente-106",
 			"subject": "scienze",
 			"topic": "ambiente",
-			"difficulty": 2,
+			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Perché è importante non sprecare l'acqua?",
 			"options": [
@@ -2230,7 +2230,7 @@
 			"id": "scienze-ambiente-107",
 			"subject": "scienze",
 			"topic": "ambiente",
-			"difficulty": 3,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "Come si chiama l'aumento della temperatura del pianeta legato anche ai gas prodotti dall'uomo?",
 			"options": [
@@ -2251,7 +2251,7 @@
 			"id": "scienze-ambiente-108",
 			"subject": "scienze",
 			"topic": "ambiente",
-			"difficulty": 2,
+			"difficulty": 4,
 			"format": "short_answer",
 			"prompt": "Come si chiama la trasformazione dei rifiuti in materiali di nuovo utilizzabili?",
 			"options": [],
@@ -2272,7 +2272,7 @@
 			"id": "scienze-ambiente-109",
 			"subject": "scienze",
 			"topic": "ambiente",
-			"difficulty": 3,
+			"difficulty": 6,
 			"format": "short_answer",
 			"prompt": "Come si chiama una sostanza che sporca e danneggia aria, acqua o suolo?",
 			"options": [],
@@ -2291,7 +2291,7 @@
 			"id": "scienze-ecosistema-110",
 			"subject": "scienze",
 			"topic": "ecosistema",
-			"difficulty": 2,
+			"difficulty": 4,
 			"format": "short_answer",
 			"prompt": "Come si chiama l'insieme degli esseri viventi e dell'ambiente in cui vivono, considerati insieme?",
 			"options": [],
@@ -2312,7 +2312,7 @@
 			"id": "scienze-ecosistema-111",
 			"subject": "scienze",
 			"topic": "ecosistema",
-			"difficulty": 2,
+			"difficulty": 4,
 			"format": "short_answer",
 			"prompt": "Come si chiamano gli organismi che si nutrono di altri esseri viventi?",
 			"options": [],
@@ -2333,7 +2333,7 @@
 			"id": "scienze-ecosistema-112",
 			"subject": "scienze",
 			"topic": "ecosistema",
-			"difficulty": 3,
+			"difficulty": 6,
 			"format": "short_answer",
 			"prompt": "Come si chiamano gli organismi che trasformano i resti in sostanze minerali?",
 			"options": [],
@@ -2353,7 +2353,7 @@
 			"id": "scienze-ecosistema-113",
 			"subject": "scienze",
 			"topic": "ecosistema",
-			"difficulty": 2,
+			"difficulty": 4,
 			"format": "short_answer",
 			"prompt": "Come si chiama la catena che collega chi mangia e chi è mangiato?",
 			"options": [],
@@ -2376,7 +2376,7 @@
 			"id": "scienze-metodo-114",
 			"subject": "scienze",
 			"topic": "metodo",
-			"difficulty": 2,
+			"difficulty": 4,
 			"format": "short_answer",
 			"prompt": "Come si chiama la supposizione che l'esperimento deve verificare?",
 			"options": [],
@@ -2394,7 +2394,7 @@
 			"id": "scienze-metodo-115",
 			"subject": "scienze",
 			"topic": "metodo",
-			"difficulty": 3,
+			"difficulty": 6,
 			"format": "short_answer",
 			"prompt": "Come si chiama la prova di confronto in cui non si cambia niente?",
 			"options": [],
@@ -2414,7 +2414,7 @@
 			"id": "scienze-metodo-116",
 			"subject": "scienze",
 			"topic": "metodo",
-			"difficulty": 1,
+			"difficulty": 2,
 			"format": "short_answer",
 			"prompt": "Come si chiama lo strumento che ingrandisce ciò che l'occhio non riesce a vedere?",
 			"options": [],
@@ -2432,7 +2432,7 @@
 			"id": "scienze-energia-117",
 			"subject": "scienze",
 			"topic": "energia",
-			"difficulty": 2,
+			"difficulty": 4,
 			"format": "short_answer",
 			"prompt": "Come si chiama una fonte di energia che non si esaurisce, come il vento o il sole?",
 			"options": [],
@@ -2455,7 +2455,7 @@
 			"id": "scienze-energia-118",
 			"subject": "scienze",
 			"topic": "energia",
-			"difficulty": 3,
+			"difficulty": 6,
 			"format": "short_answer",
 			"prompt": "Come si chiama il processo con cui le piante usano la luce per fabbricare zuccheri?",
 			"options": [],
@@ -2478,7 +2478,7 @@
 			"id": "scienze-terra-universo-119",
 			"subject": "scienze",
 			"topic": "terra-universo",
-			"difficulty": 1,
+			"difficulty": 2,
 			"format": "short_answer",
 			"prompt": "Come si chiama il movimento della Terra attorno al proprio asse?",
 			"options": [],
@@ -2522,7 +2522,7 @@
 			"id": "scienze-terra-universo-121",
 			"subject": "scienze",
 			"topic": "terra-universo",
-			"difficulty": 1,
+			"difficulty": 2,
 			"format": "short_answer",
 			"prompt": "Come si chiama la stella attorno a cui gira la Terra?",
 			"options": [],
@@ -2544,7 +2544,7 @@
 			"id": "scienze-terra-universo-122",
 			"subject": "scienze",
 			"topic": "terra-universo",
-			"difficulty": 2,
+			"difficulty": 4,
 			"format": "short_answer",
 			"prompt": "Come si chiama lo strato di aria che avvolge la Terra?",
 			"options": [],
@@ -2566,7 +2566,7 @@
 			"id": "scienze-materia-123",
 			"subject": "scienze",
 			"topic": "materia",
-			"difficulty": 2,
+			"difficulty": 4,
 			"format": "short_answer",
 			"prompt": "Come si chiama il passaggio dallo stato gassoso a quello liquido?",
 			"options": [],
@@ -2588,7 +2588,7 @@
 			"id": "scienze-materia-124",
 			"subject": "scienze",
 			"topic": "materia",
-			"difficulty": 3,
+			"difficulty": 6,
 			"format": "short_answer",
 			"prompt": "Come si chiama il miscuglio in cui una sostanza si scioglie completamente in un'altra?",
 			"options": [],
@@ -2610,7 +2610,7 @@
 			"id": "scienze-materia-125",
 			"subject": "scienze",
 			"topic": "materia",
-			"difficulty": 3,
+			"difficulty": 6,
 			"format": "short_answer",
 			"prompt": "Come si chiama la più piccola parte di una sostanza che ne conserva le proprietà?",
 			"options": [],
@@ -2632,7 +2632,7 @@
 			"id": "scienze-corpo-126",
 			"subject": "scienze",
 			"topic": "corpo",
-			"difficulty": 1,
+			"difficulty": 2,
 			"format": "short_answer",
 			"prompt": "Come si chiama l'organo che pompa il sangue in tutto il corpo?",
 			"options": [],
@@ -2654,7 +2654,7 @@
 			"id": "scienze-corpo-127",
 			"subject": "scienze",
 			"topic": "corpo",
-			"difficulty": 1,
+			"difficulty": 2,
 			"format": "short_answer",
 			"prompt": "Come si chiamano gli organi in cui il sangue prende ossigeno dall'aria?",
 			"options": [],
@@ -2676,7 +2676,7 @@
 			"id": "scienze-corpo-128",
 			"subject": "scienze",
 			"topic": "corpo",
-			"difficulty": 1,
+			"difficulty": 2,
 			"format": "short_answer",
 			"prompt": "Come si chiama l'organo che comanda i movimenti e il pensiero?",
 			"options": [],
@@ -2698,7 +2698,7 @@
 			"id": "scienze-corpo-129",
 			"subject": "scienze",
 			"topic": "corpo",
-			"difficulty": 2,
+			"difficulty": 4,
 			"format": "short_answer",
 			"prompt": "Come si chiama l'insieme delle ossa che sostiene il corpo?",
 			"options": [],
@@ -2720,7 +2720,7 @@
 			"id": "scienze-viventi-130",
 			"subject": "scienze",
 			"topic": "viventi",
-			"difficulty": 1,
+			"difficulty": 2,
 			"format": "short_answer",
 			"prompt": "Come si chiama la parte della pianta che assorbe acqua dal terreno?",
 			"options": [],
@@ -2744,7 +2744,7 @@
 			"id": "scienze-viventi-131",
 			"subject": "scienze",
 			"topic": "viventi",
-			"difficulty": 2,
+			"difficulty": 4,
 			"format": "short_answer",
 			"prompt": "Come si chiama l'unità più piccola di cui sono fatti tutti gli esseri viventi?",
 			"options": [],
@@ -2788,7 +2788,7 @@
 			"id": "scienze-ambiente-133",
 			"subject": "scienze",
 			"topic": "ambiente",
-			"difficulty": 1,
+			"difficulty": 2,
 			"format": "short_answer",
 			"prompt": "Come si chiama il contenitore in cui si buttano carta e cartone separati dal resto?",
 			"options": [],
@@ -2810,7 +2810,7 @@
 			"id": "scienze-viventi-134",
 			"subject": "scienze",
 			"topic": "viventi",
-			"difficulty": 1,
+			"difficulty": 2,
 			"format": "short_answer",
 			"prompt": "Come si chiama la parte colorata del fiore che attira gli insetti?",
 			"options": [],
@@ -2835,7 +2835,7 @@
 			"id": "scienze-corpo-135",
 			"subject": "scienze",
 			"topic": "corpo",
-			"difficulty": 1,
+			"difficulty": 2,
 			"format": "short_answer",
 			"prompt": "Come si chiama l'organo con cui si sente il suono?",
 			"options": [],
@@ -2860,7 +2860,7 @@
 			"id": "scienze-terra-universo-136",
 			"subject": "scienze",
 			"topic": "terra-universo",
-			"difficulty": 1,
+			"difficulty": 2,
 			"format": "short_answer",
 			"prompt": "Come si chiamano i corpi celesti che girano attorno al Sole, come la Terra?",
 			"options": [],
@@ -2885,7 +2885,7 @@
 			"id": "scienze-ambiente-137",
 			"subject": "scienze",
 			"topic": "ambiente",
-			"difficulty": 1,
+			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Perché ridurre i rifiuti conta più che riciclarli?",
 			"options": [
@@ -2927,7 +2927,7 @@
 			"id": "scienze-corpo-139",
 			"subject": "scienze",
 			"topic": "corpo",
-			"difficulty": 1,
+			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Perché è importante lavarsi le mani prima di mangiare?",
 			"options": [
@@ -2969,7 +2969,7 @@
 			"id": "scienze-energia-141",
 			"subject": "scienze",
 			"topic": "energia",
-			"difficulty": 1,
+			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Perché il Sole è la fonte di quasi tutta l'energia sulla Terra?",
 			"options": [
@@ -2990,7 +2990,7 @@
 			"id": "scienze-materia-142",
 			"subject": "scienze",
 			"topic": "materia",
-			"difficulty": 1,
+			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Perché lo zucchero sparisce alla vista quando lo sciogli nell'acqua?",
 			"options": [
@@ -3011,7 +3011,7 @@
 			"id": "scienze-serra-luce",
 			"subject": "scienze",
 			"topic": "viventi",
-			"difficulty": 3,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "Nella serra, quale pianta ha bisogno di più luce?",
 			"options": [
@@ -3030,7 +3030,7 @@
 			"id": "scienze-serra-ombra",
 			"subject": "scienze",
 			"topic": "viventi",
-			"difficulty": 3,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "Nella serra, quale pianta preferisce la luce più morbida?",
 			"options": [
@@ -3109,27 +3109,6 @@
 			}
 		},
 		{
-			"id": "scienze-corpo-quale-organo-pompa-il-sangue-nel-corpo",
-			"subject": "scienze",
-			"topic": "corpo",
-			"difficulty": 1,
-			"format": "multiple_choice",
-			"prompt": "Quale organo pompa il sangue nel corpo?",
-			"options": [
-				"I polmoni",
-				"Lo stomaco",
-				"Il fegato",
-				"Il cuore"
-			],
-			"answer": "Il cuore",
-			"explanation": "Il cuore è un muscolo che spinge il sangue in tutto il corpo.",
-			"distractorWhy": {
-				"I polmoni": "I polmoni scambiano ossigeno e anidride carbonica, non pompano il sangue.",
-				"Lo stomaco": "Lo stomaco digerisce il cibo, non pompa il sangue.",
-				"Il fegato": "Il fegato filtra sostanze e produce bile, non pompa il sangue."
-			}
-		},
-		{
 			"id": "scienze-corpo-con-quale-organo-respiriamo",
 			"subject": "scienze",
 			"topic": "corpo",
@@ -3154,7 +3133,7 @@
 			"id": "scienze-terra-universo-perche-sulla-terra-si-alternano-le-stagioni",
 			"subject": "scienze",
 			"topic": "terra-universo",
-			"difficulty": 4,
+			"difficulty": 8,
 			"format": "multiple_choice",
 			"prompt": "Perché sulla Terra si alternano le stagioni?",
 			"options": [
@@ -3175,7 +3154,7 @@
 			"id": "scienze-terra-universo-quanto-impiega-la-terra-a-compiere-un-giro-su-se",
 			"subject": "scienze",
 			"topic": "terra-universo",
-			"difficulty": 4,
+			"difficulty": 7,
 			"format": "multiple_choice",
 			"prompt": "Quanto impiega la Terra a compiere un giro su sé stessa?",
 			"options": [
@@ -3196,7 +3175,7 @@
 			"id": "scienze-materia-come-si-chiama-il-passaggio-da-gas-a-liquido",
 			"subject": "scienze",
 			"topic": "materia",
-			"difficulty": 4,
+			"difficulty": 7,
 			"format": "multiple_choice",
 			"prompt": "Come si chiama il passaggio da gas a liquido?",
 			"options": [
@@ -3217,7 +3196,7 @@
 			"id": "scienze-ecosistema-in-una-catena-alimentare-i-funghi-svolgono-il-ru",
 			"subject": "scienze",
 			"topic": "ecosistema",
-			"difficulty": 4,
+			"difficulty": 7,
 			"format": "multiple_choice",
 			"prompt": "In una catena alimentare i funghi svolgono il ruolo di...",
 			"options": [
@@ -3238,7 +3217,7 @@
 			"id": "scienze-energia-una-palla-ferma-in-cima-a-una-rampa-possiede-ene",
 			"subject": "scienze",
 			"topic": "energia",
-			"difficulty": 4,
+			"difficulty": 7,
 			"format": "multiple_choice",
 			"prompt": "Una palla ferma in cima a una rampa possiede energia...",
 			"options": [

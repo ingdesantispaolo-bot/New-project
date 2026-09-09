@@ -103,6 +103,10 @@ var _topic_correct: Dictionary = {}  # topic -> risposte corrette
 ## per nodo e non per sessione apposta: l'esame di mondo ospita due prove di nucleo
 ## di altre materie e il finale del Cuore ne attraversa dodici.
 var _superate: Dictionary = {}
+## Tutte le prove effettivamente mostrate, anche se sbagliate o lasciate a
+## meta'. Questa memoria impedisce che cambiare mondo rimetta in scena la stessa
+## domanda; il ripasso resta per argomento e cerca una variante nuova.
+var _viste: Dictionary = {}
 ## L'alternativa toccata nell'ultimo tentativo sbagliato di QUESTO nodo. Si
 ## azzera a ogni nodo nuovo: una correzione che parlasse dell'errore precedente
 ## sarebbe peggio di nessuna correzione.
@@ -271,6 +275,7 @@ func start_session(new_session: Dictionary) -> void:
 	_lezioni_mostrate = {}
 	_topic_correct = {}
 	_superate = {}
+	_viste = {}
 	_errori_nodo = 0
 	_wrong_attempts = {}
 	_struggle_emitted = {}
@@ -1245,6 +1250,7 @@ func _show_current() -> void:
 		_finish()
 		return
 	var item: Dictionary = _nodes[_index]
+	_remember_presented(item)
 	_refresh_status()
 	_prompt.text = str(item.get("prompt", ""))
 	for child in _options.get_children():
@@ -3628,6 +3634,7 @@ func _abandon() -> void:
 		# risolte, come gli argomenti visti che vanno comunque al Codex. Chiedere
 		# di nuovo proprio quelle sarebbe il premio all'abbandono.
 		"solved": _superate.duplicate(true),
+		"seenExercises": _viste.duplicate(true),
 	})
 
 ## Il tasto indietro del tablet e l'Esc della tastiera fanno la stessa cosa del
@@ -3715,6 +3722,7 @@ func _finish() -> void:
 		# Le prove superate (risolte al primo colpo), materia per materia: il
 		# chiamante le porta nel save e la selezione non le ripropone più.
 		"solved": _superate.duplicate(true),
+		"seenExercises": _viste.duplicate(true),
 	})
 	# Le conseguenze, dopo. Se una di queste si ferma, la prova è già chiusa e
 	# chi gioca è già tornato nel mondo.
@@ -3730,3 +3738,13 @@ func _build_topic_stats() -> Dictionary:
 	for topic in _topic_seen.keys():
 		stats[topic] = {"seen": int(_topic_seen[topic]), "correct": int(_topic_correct.get(topic, 0))}
 	return stats
+
+func _remember_presented(item: Dictionary) -> void:
+	var subject := _materia_di(item)
+	if subject == "":
+		return
+	var fingerprint := GameSaveManager.solved_fingerprint(item)
+	var fingerprints: Array = _viste.get(subject, [])
+	if not fingerprints.has(fingerprint):
+		fingerprints.append(fingerprint)
+	_viste[subject] = fingerprints

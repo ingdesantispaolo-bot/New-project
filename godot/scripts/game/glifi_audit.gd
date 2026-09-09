@@ -45,6 +45,9 @@ func _init() -> void:
 	var panel_source := FileAccess.get_file_as_string("res://scripts/ui/outdoor_shop_panel.gd")
 	assert(not panel_source.contains("return _tool_fallback_texture"),
 		"la bottega non deve ricadere sul glifo di sistema")
+	var duel_source := FileAccess.get_file_as_string("res://scripts/ui/duel_stage.gd")
+	assert(duel_source.contains("DuelEnduranceShapes") and duel_source.contains("_disegna_cuore"),
+		"la tenuta del duello deve essere una forma disegnata, non un carattere")
 	# **E nessuna stringa mostrata usa un carattere che il font non ha.**
 	# (21 agosto 2026)
 	#

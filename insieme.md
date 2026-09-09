@@ -984,6 +984,29 @@ poter comparire in un esame.
 > lì la riparazione giusta non è scrivere item apposta, è decidere se quegli
 > argomenti debbano contare per la copertura.
 
+> **E il verso opposto è chiuso** (9 settembre 2026). Il disallineamento aveva
+> due direzioni, e la seconda era la più grave: **27 argomenti del banco
+> d'inglese su 47 non avevano nessun minigioco**, fra cui `to-be`, `have-got`,
+> `pronouns`, `plurals` e `there-is` — tutto ciò con cui la lingua comincia si
+> poteva soltanto crocettare. La causa non era la pigrizia del catalogo ma una
+> cosa strutturale: con dodici materie su ventiquattro mondi **l'inglese ha casa
+> solo ai mondi 4 e 16**, che stanno al *primo* dei tre livelli della loro
+> fascia, e ogni ricetta di grammatica aveva `minLevel` a metà fascia — un mondo
+> troppo tardi. Il mondo 4 vedeva 15 ricette su 61, tutte di lessico.
+>
+> Ora gli argomenti scoperti sono **zero**, i gate stanno all'inizio della
+> fascia, il decodificatore dei verbi (le tre ghiere: tempo, forma della frase,
+> voce) è passato dall'italiano all'inglese con otto casi di fascia, e la linea
+> del tempo serve i tre passati. La grammatica toccata con le mani è salita dal
+> 24,8% al 45,3% al mondo 4 e dal 59,1% al 60,1% al mondo 16, con gli argomenti
+> distinti da 2 a 12 e da 20 a 28. Guardia: `inglese_minigiochi_audit`.
+>
+> Il pezzo che nessun audit vedeva era però la **lezione del mondo**: finché
+> `world_lesson.gd` prometteva solo lessico, `LESSON_TOPIC_SHARE` (0,67) tirava
+> due nodi su tre lontano dalla grammatica e il programma nuovo arrivava al
+> bambino come **due nodi su millesettecento**. Regola generale: un argomento
+> non è servito da un mondo finché quel mondo non lo *nomina*.
+
 **G-C5 · I ventidue quesiti sui componenti elettronici.**
 Relè, condensatore: il problema non è la forma della domanda, è che un decenne
 non ha mai visto l'oggetto. Le domande dirette sono già fuori dalla pratica e
@@ -1036,7 +1059,7 @@ insieme a G-C5, che è il suo primo cliente.
 funzionano. **Aspetta il collaudo**: finché non si misura quali meccaniche
 restano nel giro, illustrarle tutte e quindici è lavoro su un'ipotesi.
 
-**C-R3 · Gli ultimi quattro mondi non hanno scenografia — aperta l'8 settembre 2026.**
+**C-R3 · Gli ultimi quattro mondi non hanno scenografia.** ✅ **Chiusa l'8 settembre 2026.**
 Misurati i `Node2D` effettivamente disegnati nei chunk caricati, alla stessa
 distanza di streaming:
 
@@ -1081,13 +1104,41 @@ pavimento di nodi disegnati per chunk in **tutti** i ventiquattro mondi — il
 numero si taratura sul mondo 18 (59), non sul mondo 1. Senza, la prossima
 esclusione per tema torna a passare inosservata per una stagione.
 
+> **Fatto.** L'esclusione dai due generatori naturali e' rimasta esattamente al
+> suo posto. `chunk_visual` apre ora due strati separati, `ThemeAssemblies` e
+> `ThemeHabitatDetails`, che usano il nuovo vocabolario vettoriale
+> `ThemeSceneryArt`: carta strappata, rotte e frammenti di bussola nell'Atlante;
+> steli, spore e radici luminose nella Biosfera; stele, cornici e registri
+> materici nella Sala delle Ere; schegge, vene e tracce di impulso nel Cuore.
+> Ogni tema ha `kind` distinti per principale, figli, accento e micro-dettagli;
+> nessuna forma ha testo o collisione.
+>
+> La prima misura onesta della guardia ha trovato anche sette temi precedenti
+> sotto il pavimento: non sono stati nascosti dal test. La densita' delle loro
+> assemblies e' stata calibrata per tema, senza alzare gli ostacoli. Con raggio
+> di streaming 1, `world_scenography_density_audit` misura ora **tutti e 24 i
+> mondi >= 59 nodi/chunk**; il minimo e' il mondo 21 a **59,1**. I mondi 21–24
+> stanno rispettivamente a **59,1 · 74,3 · 61,6 · 71,2**, e la guardia verifica
+> anche che entrambi gli strati tematici esistano e contengano forme del tema.
+> Le istanze ripetute dell'Atlante sono un `MultiMesh`: la guardia conta le forme
+> disegnate, mentre la GPU le invia insieme.
+>
+> Anche le catture GPU sono state rifatte: mondo 21 **566 / 595 / 699** draw call
+> (desktop / HUD compatto / landmark, budget mobile 700), mondo 23
+> **505 / 539 / 677**, mondo 24 **565 / 596 / 628**. Il mondo 22 resta verde
+> nelle viste giocate (**521 / 551**) ma rosso sulla sola tavola landmark
+> (**748**): una misura causale con tutta la nuova scenografia esclusa lascia
+> comunque **730** draw call. Il sovraccosto appartiene quindi alla scena
+> preesistente del `living_core`, non a C-R3; non e' stato nascosto alzando il
+> budget ne' svuotando la Biosfera.
+
 *Nota di misura, perché non venga confuso con questo:* il **deserto** — quanta
 terra sta a più di 600 px da qualunque contenuto — è sceso da 40,8% a 23,9%
 distribuendo i forzieri, ed è un asse diverso. C-R3 è quanto è **arredato** un
 posto, non quanto c'è **da fare**. Un mondo può essere pieno di cose da fare e
 sembrare comunque un prato.
 
-**C-R4 · Il cuore del duello è un carattere, non un disegno — aperta l'8
+**C-R4 · Il cuore del duello è un carattere, non un disegno.** ✅ **Chiusa l'8
 settembre 2026.**
 [`duel_stage.gd:371`](godot/scripts/ui/duel_stage.gd#L371) disegna la tenuta con
 `"♥".repeat(...)`, e il font imbarcato non ha quel glifo: su Web e su tablet il
@@ -1095,6 +1146,13 @@ bambino vede un rettangolo vuoto col codice esadecimale dentro, cioè il difetto
 **invisibile esattamente sulla macchina di chi scrive il codice**. È il rosso di
 `glifi_audit`, ed è l'unico rosso della suite che appartiene alla resa. Serve un
 cuore disegnato — o una forma piena, che basta — al posto del carattere.
+
+> **Fatto.** `DuelEnduranceShapes` disegna ogni punto di tenuta con due lobi e
+> una punta piena, più un contorno; in alto contrasto la forma diventa bianca e
+> conserva la sagoma. Il testo contiene soltanto il numero di mosse e lo stato
+> del colpo, mentre tooltip e metadato espongono «Tenuta di Eli: N». Il
+> cricchetto e' doppio: `glifi_audit` vieta il ritorno al carattere e
+> `guardian_scene_audit` verifica il nodo disegnato nei due tipi di duello.
 
 > **Non sono voci aperte, e non vanno riaperte per distrazione.** Le figure di
 > **fisica e scienze** sono escluse per scelta: nei loro testi non c'è niente che

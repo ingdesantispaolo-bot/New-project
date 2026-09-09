@@ -17,7 +17,7 @@ func _test_calibrazione_per_materia(content: ContentManager) -> void:
 	for subject_data in ApparatusConfig.SUBJECT_CYCLE:
 		var subject := str(subject_data)
 		var span := content.subject_difficulty_range(subject)
-		assert(span.x >= 1 and span.y <= 4 and span.x <= span.y,
+		assert(span.x >= 1 and span.y <= ContentManager.DIFFICULTY_BANDS and span.x <= span.y,
 			"%s: range di banco non valido (%d-%d)" % [subject, span.x, span.y])
 		for level in [1, 5, 11, 18, 24]:
 			var expected := clampi(ContentManager.target_difficulty(level), span.x, span.y)

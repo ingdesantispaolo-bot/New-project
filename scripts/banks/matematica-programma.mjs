@@ -24,20 +24,20 @@
 //
 // ## Come sono distribuiti sui ventiquattro mondi
 //
-// La banda di difficoltà del banco è 1-4 e la sceglie il mondo, non lo studente
-// (`ContentManager.target_difficulty`): banda 1 nei mondi 1-4, banda 2 nei
-// mondi 5-10, banda 3 nei mondi 11-17, banda 4 nei mondi 18-24. Quindi «coprire
-// tutti i mondi» vuol dire una cosa precisa e misurabile: **ogni argomento
-// nasce nella banda in cui la scuola lo introduce, e i suoi item più duri
-// stanno nella banda dei mondi finali.**
+// Questa sorgente conserva quattro MACRO-fasi curricolari. Al bake ciascuna
+// viene divisa in due secondo la domanda cognitiva dell'item, producendo le otto
+// fasce runtime; `ContentManager.target_difficulty` assegna poi tre mondi a ogni
+// fascia. Quindi «coprire tutti i mondi» vuol dire una cosa precisa e
+// misurabile: **ogni argomento nasce nella fase in cui la scuola lo introduce,
+// e i suoi item più duri salgono nella metà alta della coppia.**
 //
-//   banda 1 (mondi 1-4)    prima media: numeri, operazioni, multipli, primi,
+//   macro 1 → fasce 1-2    prima media: numeri, operazioni, multipli, primi,
 //                          frazioni, geometria piana, statistica descrittiva
-//   banda 2 (mondi 5-10)   seconda media: potenze, radici, proporzioni,
+//   macro 2 → fasce 3-4    seconda media: potenze, radici, proporzioni,
 //                          percentuali, aree, probabilità
-//   banda 3 (mondi 11-17)  terza media: interi, equazioni, coordinate, solidi,
+//   macro 3 → fasce 5-6    terza media: interi, equazioni, coordinate, solidi,
 //                          similitudine, funzioni
-//   banda 4 (mondi 18-24)  biennio: insiemi numerici, calcolo letterale,
+//   macro 4 → fasce 7-8    biennio: insiemi numerici, calcolo letterale,
 //                          scomposizione, sistemi, disequazioni, radicali,
 //                          geometria euclidea, retta nel piano cartesiano
 //

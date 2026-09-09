@@ -271,7 +271,7 @@ func _entry(subject: String, topic: String, difficulty: int, short_text: String,
 	return {
 		"subject": subject,
 		"topic": topic,
-		"difficulty": clampi(difficulty, 1, 4),
+		"difficulty": clampi(difficulty, 1, ContentManager.DIFFICULTY_BANDS),
 		"shortExplanation": short_text,
 		"example": example,
 		"typicalError": typical,

@@ -104,7 +104,23 @@ function multipleChoiceItem({ id, subject, topic, difficulty, prompt, answer, di
 // Matematica: generatore locale di tabelline (invariato, vedi nota in testa).
 // ---------------------------------------------------------------------------
 
-const RANGES = { 1: [2, 5], 2: [2, 10], 3: [3, 12], 4: [6, 12] };
+const MAX_DIFFICULTY = 8;
+
+// Le tabelline hanno otto fasce reali, non otto copie cumulative dello stesso
+// conto. Ogni fattore appartiene a una fascia in base alla difficolta' con cui
+// viene normalmente recuperato; una coppia prende la fascia del fattore piu'
+// impegnativo. Cosi' lo stesso prompt non ricompare in mondi diversi soltanto
+// perche' gli e' stata cambiata l'etichetta.
+const FACTOR_DIFFICULTY = {
+  2: 1, 10: 1,
+  5: 2,
+  3: 3, 4: 3,
+  6: 4,
+  9: 5,
+  11: 6,
+  7: 7, 8: 7,
+  12: 8,
+};
 
 // Come RICOSTRUIRE il risultato, non come rileggerlo.
 //
@@ -168,7 +184,11 @@ const VERSI = {
     // Resta il caso concreto — quante volte QUESTO numero sta dentro QUELLO — e
     // se ne va la regola generale («la tabellina si legge al contrario»), che era
     // identica su 108 item ed è passata ai livelli di NORA.
-    coda: ` Cerchi quante volte ${ilNumero(b)} sta dentro ${a * b}.`,
+    coda: [
+      ` Cerchi quante volte ${ilNumero(b)} sta dentro ${a * b}.`,
+      ` Puoi dividere ${a * b} per ${b}: il quoziente è il fattore mancante.`,
+      ` Controlla rimoltiplicando il numero trovato per ${b}: deve tornare ${a * b}.`,
+    ][(a + b) % 3],
   }),
   divisione: (a, b) => ({
     sigla: "div",
@@ -176,7 +196,11 @@ const VERSI = {
     answer: a,
     // Come sopra: il conto svolto resta all'item, la regola («dividere è
     // l'inverso del moltiplicare», 57 volte identica) passa a NORA.
-    coda: ` Se ${a} × ${b} fa ${a * b}, allora ${a * b} ÷ ${b} torna a ${a}.`,
+    coda: [
+      ` Se ${a} × ${b} fa ${a * b}, allora ${a * b} ÷ ${b} torna a ${a}.`,
+      ` La divisione disfa il prodotto: ${a * b} diviso in gruppi da ${b} ne forma ${a}.`,
+      ` Per controllare il quoziente, rimoltiplica ${a} per ${b}: ottieni ${a * b}.`,
+    ][(a + b) % 3],
   }),
 };
 
@@ -190,6 +214,7 @@ function timesItem(a, b, difficulty, rand, verso = "prodotto") {
     subject: "matematica",
     topic: "tabelline",
     difficulty,
+    _difficulty8: true,
     prompt: faccia.prompt,
     answer: String(answer),
     explanation,
@@ -241,16 +266,15 @@ function timesItem(a, b, difficulty, rand, verso = "prodotto") {
 function tabellineBank() {
   const rand = rng(20260720);
   const items = [];
-  const incontri = new Map();
   const GIRO = ["prodotto", "fattore", "divisione"];
-  for (const difficulty of [1, 2, 3, 4]) {
-    const [lo, hi] = RANGES[difficulty];
-    for (let a = lo; a <= hi; a += 1) {
-      for (let b = 2; b <= hi; b += 1) {
-        const chiave = `${a}x${b}`;
-        const quante = incontri.get(chiave) ?? 0;
-        incontri.set(chiave, quante + 1);
-        items.push(timesItem(a, b, difficulty, rand, GIRO[quante % GIRO.length]));
+  for (let a = 2; a <= 12; a += 1) {
+    for (let b = 2; b <= 12; b += 1) {
+      const difficulty = Math.max(FACTOR_DIFFICULTY[a], FACTOR_DIFFICULTY[b]);
+      for (const verso of GIRO) {
+        // Nel prodotto 3x4 e 4x3 chiedono lo stesso fatto. Fattore mancante e
+        // divisione, invece, cambiano davvero il numero da ricostruire.
+        if (verso === "prodotto" && a > b) continue;
+        items.push(timesItem(a, b, difficulty, rand, verso));
       }
     }
   }
@@ -262,7 +286,7 @@ function tabellineBank() {
 // ---------------------------------------------------------------------------
 
 function levelToDifficulty(level) {
-  return Math.min(4, Math.max(1, Math.ceil(level / 2)));
+  return Math.min(MAX_DIFFICULTY, Math.max(1, Math.round(level)));
 }
 
 // I distrattori DEVONO essere nella stessa lingua/campo della risposta: se la
@@ -439,7 +463,7 @@ function vocabularyBank(subject, entries, { fields, defField, promptFor, legaIlP
           prompt,
           answer,
           distractors,
-          extra: { distractorWhy },
+          extra: { distractorWhy, _difficulty8: true },
           // Quando la voce porta una `note` autorata, quella vince: è il caso
           // dei falsi amici, dove ripetere la coppia è addirittura dannoso
           // («library: biblioteca» non avverte che NON è la libreria).
@@ -1717,7 +1741,7 @@ function elettronicaBank(circuitComponentGuide, circuitFaultTemplates) {
           id: `elettronica-guasto-${fault.type}`,
           subject: "elettronica",
           topic: "guasti",
-          difficulty: Math.min(4, Math.max(1, Math.ceil((fault.minComplexity ?? 1) / 2))),
+          difficulty: Math.min(MAX_DIFFICULTY, Math.max(1, fault.minComplexity ?? 1)),
           prompt: `Quale guasto corrisponde a questo indizio: "${fault.hint}"?`,
           answer: fault.label,
           distractors,
@@ -1725,7 +1749,7 @@ function elettronicaBank(circuitComponentGuide, circuitFaultTemplates) {
           // spiegazione faceva rileggere al bambino la stessa identica frase.
           // Qui serve il passo dopo — come si verifica quel guasto sul banco.
           explanation: VERIFICA_GUASTO[fault.type] ?? fault.hint,
-          extra: { distractorWhy },
+          extra: { distractorWhy, _difficulty8: true },
         },
         rand,
       ),
@@ -2081,12 +2105,12 @@ function codingBank(pythonPrincipleSeeds) {
         id: `coding-${seed.principle.replace(/[^a-z0-9]+/gi, "-")}`,
         subject: "coding",
         topic: CODING_TOPIC_MAP[seed.principle] ?? seed.principle,
-        difficulty: Math.min(4, Math.max(1, Math.ceil(seed.minLevel / 2))),
+        difficulty: Math.min(MAX_DIFFICULTY, Math.max(1, seed.minLevel)),
         prompt,
         answer: seed.correct,
         distractors: seed.distractors,
         explanation,
-        extra: { distractorWhy: seed.distractorWhy ?? {} },
+        extra: { distractorWhy: seed.distractorWhy ?? {}, _difficulty8: true },
       },
       rand,
     );
@@ -2296,7 +2320,7 @@ function curatedTheoryBank(subject, topics, seed) {
   for (const topic of topics) {
     const canonTopic = areaOf(topic);
     const sameArea = topics.filter((t) => areaOf(t) === canonTopic);
-    const difficulty = Math.min(4, Math.max(1, Math.round(((topic.levelRange[0] + topic.levelRange[1]) / 2) / 2)));
+    const difficulty = Math.min(MAX_DIFFICULTY, Math.max(1, Math.round((topic.levelRange[0] + topic.levelRange[1]) / 2)));
     // La domanda nomina il CONCETTO, non il titolo del capitolo. «Qual è la
     // definizione corretta di "Calore e temperatura"?» non è una domanda di
     // fisica: è ricordarsi quale paragrafo portava quale intestazione, e un
@@ -2320,7 +2344,7 @@ function curatedTheoryBank(subject, topics, seed) {
             // cosa utile è dirgli DOVE stava la trappola: le altre affermazioni
             // sono vere, ma parlano d'altro.
             explanation: `${topic.definition} Le altre affermazioni sono vere, ma descrivono un altro argomento.`,
-            extra: { distractorWhy },
+            extra: { distractorWhy, _difficulty8: true },
           },
           rand,
         ),
@@ -2366,7 +2390,7 @@ function curatedTheoryBank(subject, topics, seed) {
             // quando i numeri dell'esercizio sono cambiati.
             explanation: (topic.example.why ? topic.example.why + " " : "")
               + topic.example.steps.join(" → ") + ".",
-            extra: { distractorWhy },
+            extra: { distractorWhy, _difficulty8: true },
           },
           rand,
         ),
@@ -2382,7 +2406,7 @@ function curatedTheoryBank(subject, topics, seed) {
             id: `${topic.id}-attenzione`,
             subject,
             topic: canonTopic,
-            difficulty: Math.min(4, difficulty + 1),
+            difficulty: Math.min(MAX_DIFFICULTY, difficulty + 1),
             prompt: `Lavorando su «${topic.title.toLocaleLowerCase("it")}», quale errore bisogna evitare?`,
             answer: topic.watchOut[0],
             distractors: watchDistractors,
@@ -2390,7 +2414,7 @@ function curatedTheoryBank(subject, topics, seed) {
             // quale argomento appartiene ciascuno. Ripetere la risposta non
             // aiuterebbe chi ha sbagliato proprio quello.
             explanation: `${topic.watchOut[0]} Anche le altre sono avvertenze giuste, ma riguardano un altro argomento.`,
-            extra: { distractorWhy },
+            extra: { distractorWhy, _difficulty8: true },
           },
           rand,
         ),
@@ -4224,7 +4248,7 @@ function logicaBank() {
 }
 
 // ---------------------------------------------------------------------------
-// Validazione: risposta sempre tra le opzioni, difficoltà 1-4, campi non vuoti.
+// Validazione: risposta sempre tra le opzioni, difficoltà 1-8, campi non vuoti.
 // ---------------------------------------------------------------------------
 
 // Gli argomenti in cui la COPPIA MINIMA è il contenuto. (8 settembre 2026)
@@ -4260,7 +4284,7 @@ function validate(name, bank) {
     const problems = [];
     if (!item.prompt) problems.push("prompt vuoto");
     if (!item.topic) problems.push("topic vuoto");
-    if (!(item.difficulty >= 1 && item.difficulty <= 4)) problems.push(`difficulty fuori range: ${item.difficulty}`);
+    if (!(item.difficulty >= 1 && item.difficulty <= MAX_DIFFICULTY)) problems.push(`difficulty fuori range: ${item.difficulty}`);
     if (!item.explanation) problems.push("explanation vuota");
     if (item.format === "multiple_choice") {
       if (!item.options.includes(item.answer)) problems.push("answer non tra le opzioni");
@@ -7710,11 +7734,11 @@ for (const [name, extra] of Object.entries(CURATED_TAIL)) {
 }
 
 // ---------------------------------------------------------------------------
-// Banda 4 — gli ultimi sei mondi
+// Macro-banda 4 — raffinata nelle fasce runtime 7 e 8
 // ---------------------------------------------------------------------------
 //
-// `target_difficulty` manda i mondi 19-24 tutti a difficoltà 4, quindi la banda
-// alta copre un quarto della campagna. Il 3 agosto 2026 era la più magra di
+// Questo materiale nasceva per la vecchia difficoltà 4; il bake lo divide ora
+// fra le fasce 7 e 8. Il 3 agosto 2026 era la parte più magra di
 // tutte: storia aveva 11 item spalmati su sei argomenti — ogni secchio sotto i
 // tre — e soprattutto ITALIANO ne aveva 18 ma su due soli argomenti, inglese 31
 // su tre. Negli ultimi mondi la scelta multipla girava sempre intorno alle
@@ -9643,6 +9667,86 @@ function correzioniFraDomandeVicine(bank) {
   }
 }
 
+// --- Migrazione delle vecchie quattro bande alle otto fasce -----------------
+//
+// Le sorgenti lessicali, di coding e del catalogo teorico possiedono gia' un
+// livello 1..8: gli item contrassegnati da `_difficulty8` lo conservano. Il
+// materiale storico, invece, era autorato 1..4. Ogni vecchia banda viene divisa
+// in due ordinando le prove per domanda cognitiva osservabile: risposta libera,
+// piu' passaggi, condizioni, negazioni, confronto e lunghezza del testo.
+//
+// Non e' un sorteggio e non e' una semplice rinumerazione: la meta' piu'
+// impegnativa di ciascun gruppo passa alla fascia pari. L'id scioglie soltanto
+// le parita', mantenendo due bake identici. Le prossime prove vanno autorate
+// direttamente 1..8 e possono usare `_difficulty8` finche' questo ponte resta.
+function cognitiveDemand(item) {
+  const prompt = String(item.prompt ?? "");
+  const normalized = prompt
+    .toLocaleLowerCase("it")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, " ");
+  const words = normalized.match(/[a-z0-9]+/g) ?? [];
+  let score = Math.min(24, words.length) * 0.12;
+  if (item.format === "short_answer") score += 5;
+  if (item.format === "numeric_input") score += 4;
+  if (/\b(perche|spiega|dimostra|deduci|confronta|giustifica)\b/.test(normalized)) score += 4;
+  if (/\b(se|quando|mentre|senza|tranne|invece|non)\b/.test(normalized)) score += 1.5;
+  if (/\b(calcola|trova|completa|ordina|correggi|prevedi)\b/.test(normalized)) score += 1;
+  score += Math.min(3, (prompt.match(/\n/g) ?? []).length);
+  score += Math.min(2, String(item.answer ?? "").trim().split(/\s+/).length * 0.25);
+  return score;
+}
+
+function expandLegacyDifficultyBands(bank) {
+  const legacy = new Map();
+  for (const item of bank.items) {
+    if (item._difficulty8) {
+      delete item._difficulty8;
+      continue;
+    }
+    const old = Number(item.difficulty);
+    if (old > 4) continue;
+    const band = Math.min(4, Math.max(1, old));
+    legacy.set(band, [...(legacy.get(band) ?? []), item]);
+  }
+  for (const [oldBand, items] of legacy) {
+    items.sort((a, b) => cognitiveDemand(a) - cognitiveDemand(b)
+      || String(a.id).localeCompare(String(b.id)));
+    const lowerCount = Math.ceil(items.length / 2);
+    items.forEach((item, index) => {
+      item.difficulty = oldBand * 2 - (index < lowerCount ? 1 : 0);
+    });
+  }
+}
+
+function deduplicateBankItems(bank) {
+  const unique = [];
+  const byContent = new Map();
+  for (const item of bank.items) {
+    const key = JSON.stringify([
+      item.format,
+      String(item.prompt ?? "").trim(),
+      String(item.answer ?? ""),
+      [...(item.options ?? [])].map(String).sort(),
+    ]);
+    const previous = byContent.get(key);
+    if (!previous) {
+      byContent.set(key, item);
+      unique.push(item);
+      continue;
+    }
+    // Se due fonti portavano la stessa prova, ne resta una sola alla fascia piu'
+    // prudente. Il flag 1..8 va conservato se apparteneva a una delle due.
+    previous.difficulty = Math.max(Number(previous.difficulty), Number(item.difficulty));
+    if (previous._difficulty8 || item._difficulty8) previous._difficulty8 = true;
+  }
+  bank.items = unique;
+}
+
+for (const bank of Object.values(BANKS)) {
+  deduplicateBankItems(bank);
+  expandLegacyDifficultyBands(bank);
+}
 for (const bank of Object.values(BANKS)) correzioniFraDomandeVicine(bank);
 
 await mkdir(outDir, { recursive: true });

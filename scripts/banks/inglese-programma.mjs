@@ -17,16 +17,17 @@
 //
 // ## La taratura sui ventiquattro mondi
 //
-// `ContentManager.target_difficulty` manda i mondi 1-4 a difficoltà 1, 5-10 a 2,
-// 11-17 a 3, 18-24 a 4, e il filtro accetta uno scarto di uno. La progressione
-// degli argomenti qui sotto è quella vera dell'inglese scolastico, e coincide:
+// Qui restano quattro macro-fasi curricolari; il bake divide ciascuna in due in
+// base alla domanda cognitiva e produce le otto fasce runtime. Il motore assegna
+// tre mondi a ogni fascia e accetta uno scarto di uno. La progressione degli
+// argomenti qui sotto è quella vera dell'inglese scolastico:
 //
-//   d1 · mondi 1-4     to be, have got, articoli, plurali, pronomi, there is
-//   d2 · mondi 5-10    present simple e continuous, possessivi, preposizioni,
+//   macro 1 → d1-2     to be, have got, articoli, plurali, pronomi, there is
+//   macro 2 → d3-4     present simple e continuous, possessivi, preposizioni,
 //                      quantificatori, modali
-//   d3 · mondi 11-17   past simple e continuous, present perfect, futuro,
+//   macro 3 → d5-6     past simple e continuous, present perfect, futuro,
 //                      comparativi, relativi, phrasal verbs
-//   d4 · mondi 18-24   condizionali, passivo, discorso indiretto, gerundio e
+//   macro 4 → d7-8     condizionali, passivo, discorso indiretto, gerundio e
 //                      infinito, past perfect, connettivi, formazione di parole
 //
 // Ogni argomento ha una piccola pendenza interna (qualche item nella banda

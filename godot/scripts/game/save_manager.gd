@@ -88,6 +88,10 @@ static func _default_data() -> Dictionary:
 		# di prova e non è un «di recente»: una prova risolta non torna a chiedere la
 		# stessa cosa. Vedi la sezione «Prove superate» in fondo.
 		"solvedExercises": {},      # subject -> [impronte, dalla più vecchia]
+		# Memoria globale di ogni prova MOSTRATA, qualunque sia l'esito. La
+		# selezione la tratta come un mazzo: prima consuma le varianti mai viste,
+		# poi ricorre alle vecchie soltanto se il contenuto e' esaurito o dovuto.
+		"seenExercises": {},        # subject -> [impronte, dalla più vecchia]
 		# Quando ogni materia è stata praticata l'ultima volta, in SESSIONI
 		# giocate (non in giorni reali). Serve al decadimento della padronanza:
 		# vedi `ProgressionManager.applica_decadimento`.
@@ -215,6 +219,8 @@ func load_save() -> void:
 		# o resterebbe quello del profilo precedente.
 		if _solved_index_built:
 			_rebuild_solved_index()
+		if _seen_index_built:
+			_rebuild_seen_index()
 
 func save() -> void:
 	var file := FileAccess.open(path, FileAccess.WRITE)
@@ -632,6 +638,8 @@ func apply_launch_state(request: Dictionary) -> void:
 			data = candidate
 			if _solved_index_built:
 				_rebuild_solved_index()
+			if _seen_index_built:
+				_rebuild_seen_index()
 	if request.has("playerLevel"):
 		set_level(maxi(level(), int(request.get("playerLevel", level()))))
 
@@ -890,6 +898,7 @@ func recent_practice(subject: String) -> Dictionary:
 ## (`cloud/index.ts`) si ferma a 256 KB. Un salvataggio che non entra più nel
 ## cloud sarebbe un danno molto peggiore di una domanda ripetuta.
 const SOLVED_MAX := 256
+const SEEN_MAX := 1024
 
 ## L'impronta di una prova superata è la sua IDENTITÀ DI CONTENUTO
 ## (`ExerciseSignature`), non il testo grezzo né l'id: due estrazioni della stessa
@@ -962,6 +971,50 @@ func remember_solved(subject: String, impronte: Array) -> void:
 func remember_solved_map(per_materia: Dictionary) -> void:
 	for subject in per_materia.keys():
 		remember_solved(str(subject), Array(per_materia[subject]))
+
+## Indice vivo delle prove gia' mostrate. E' separato da `solvedExercises`:
+## sbagliare non cancella l'incontro, ma il calendario di ripasso puo' comunque
+## richiamare l'argomento con una variante diversa.
+var _seen_index: Dictionary = {}
+var _seen_index_built := false
+
+func seen_index() -> Dictionary:
+	if not _seen_index_built:
+		_rebuild_seen_index()
+	return _seen_index
+
+func _rebuild_seen_index() -> void:
+	_seen_index.clear()
+	var tutte: Dictionary = data.get("seenExercises", {})
+	for subject in tutte.keys():
+		_seen_index[str(subject)] = _solved_set(Array(tutte[subject]))
+	_seen_index_built = true
+
+func seen_exercises(subject: String) -> Dictionary:
+	return Dictionary(seen_index().get(subject, {}))
+
+func has_seen(subject: String, node: Dictionary) -> bool:
+	return seen_exercises(subject).has(solved_fingerprint(node))
+
+func remember_seen(subject: String, impronte: Array) -> void:
+	if subject == "" or impronte.is_empty():
+		return
+	var tutte: Dictionary = data.get("seenExercises", {})
+	var coda: Array = Array(tutte.get(subject, []))
+	for grezza in impronte:
+		var impronta := int(grezza)
+		if not coda.has(impronta):
+			coda.append(impronta)
+	while coda.size() > SEEN_MAX:
+		coda.remove_at(0)
+	tutte[subject] = coda
+	data["seenExercises"] = tutte
+	if _seen_index_built:
+		_seen_index[subject] = _solved_set(coda)
+
+func remember_seen_map(per_materia: Dictionary) -> void:
+	for subject in per_materia.keys():
+		remember_seen(str(subject), Array(per_materia[subject]))
 
 # --- Trascuratezza (6 agosto 2026, svolta severa) -----------------------------
 

@@ -15,7 +15,8 @@ func _init() -> void:
 		for item in session["nodes"]:
 			assert(str(item.get("answer", "")).strip_edges() != "", "risposta mancante: %s" % subject)
 			assert(str(item.get("explanation", "")).strip_edges() != "", "spiegazione mancante: %s" % subject)
-			assert(int(item.get("difficulty", 0)) in [1, 2, 3, 4], "difficolta invalida: %s" % subject)
+			var difficulty := int(item.get("difficulty", 0))
+			assert(difficulty >= 1 and difficulty <= ContentManager.DIFFICULTY_BANDS, "difficolta invalida: %s" % subject)
 
 	# Adattività: un topic in ripasso spaziato viene ripescato e marcato review,
 	# indipendentemente dalla difficoltà del livello corrente.

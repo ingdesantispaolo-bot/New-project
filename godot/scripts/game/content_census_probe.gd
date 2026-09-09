@@ -21,7 +21,7 @@ func _init() -> void:
 		var formats: Dictionary = {}
 		for entry in items:
 			var item := entry as Dictionary
-			var band: int = clampi(int(item.get("difficulty", 1)), 1, 4)
+			var band: int = clampi(int(item.get("difficulty", 1)), 1, ContentManager.DIFFICULTY_BANDS)
 			bands[band - 1] += 1
 			topics[str(item.get("topic", ""))] = true
 			formats[str(item.get("format", "multiple_choice"))] = true

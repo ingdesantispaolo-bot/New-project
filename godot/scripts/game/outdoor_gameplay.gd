@@ -212,6 +212,7 @@ func setup(request: Dictionary, session_result: Dictionary, load_local_save: boo
 	# casa propria, quindi una prova risolta adesso è fuori dalla scelta già alla
 	# prova successiva, senza che nessuno debba ricordarsi di riassegnarlo.
 	content_manager.solved_by_subject = game_save.solved_index()
+	content_manager.seen_by_subject = game_save.seen_index()
 	# ContentManager prima di ProgressionManager: serve alla dimensione COPERTURA
 	# del gate (numero di argomenti che la materia può proporre).
 	progression_manager = ProgressionManager.new(game_save, content_manager)
@@ -1233,6 +1234,7 @@ func resolve_session(exercise_result: Dictionary) -> void:
 	# metà. Da qui in poi la selezione non le ripropone (vedi
 	# `ContentManager.solved_by_subject`).
 	game_save.remember_solved_map(Dictionary(exercise_result.get("solved", {})))
+	game_save.remember_seen_map(Dictionary(exercise_result.get("seenExercises", {})))
 
 	# Prova abbandonata: si paga l'uscita, non si registra alcun esito e non si
 	# completa niente. Gli argomenti visti vanno comunque al Codex — quello che

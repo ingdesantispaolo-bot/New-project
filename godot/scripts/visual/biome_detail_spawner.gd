@@ -30,10 +30,14 @@ static func points_for_rect(data: WorldCompositionData, world_rect: Rect2, lod: 
 				var edge_roll := rng.next_float()
 				kind = "reeds" if edge_roll < 0.42 else "cattails" if edge_roll < 0.72 else "pebble_bank"
 			elif path_distance > 54.0:
-				kind = _archive_kind(rng.next_float()) if data.visual_theme == "archive" else _land_kind(data.sampled_biome(pos, rng.next_float()), rng.next_float())
+				if ThemeSceneryArt.supports(data.visual_theme):
+					kind = ThemeSceneryArt.detail_kind(data.visual_theme, rng.next_float())
+				else:
+					kind = _archive_kind(rng.next_float()) if data.visual_theme == "archive" else _land_kind(data.sampled_biome(pos, rng.next_float()), rng.next_float())
 			if kind.is_empty():
 				continue
-			var base_chance := 0.68 if water > 0.28 or near_water else 0.42
+			var theme_detail_chance := 1.0 if data.visual_theme == "fractured_atlas" else 0.52
+			var base_chance := 0.68 if water > 0.28 or near_water else theme_detail_chance if ThemeSceneryArt.supports(data.visual_theme) else 0.42
 			if lod > 0:
 				base_chance *= 0.45
 			if rng.next_float() > base_chance:

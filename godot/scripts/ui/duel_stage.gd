@@ -90,6 +90,7 @@ var _sigillo_label: Label
 var _sigillo_sotto: Label
 var _catena_label: Label
 var _stato: Label
+var _tenuta_visual: Control
 var _rune_label: Array = []
 
 func _ready() -> void:
@@ -199,13 +200,26 @@ func _costruisci() -> void:
 	_rune_zona.gui_input.connect(_tocco)
 	_colonna.add_child(_rune_zona)
 
+	var riga_stato := HBoxContainer.new()
+	riga_stato.name = "DuelStatusRow"
+	riga_stato.alignment = BoxContainer.ALIGNMENT_CENTER
+	riga_stato.custom_minimum_size = Vector2(0, 30)
+	riga_stato.add_theme_constant_override("separation", 9)
+	_colonna.add_child(riga_stato)
+
+	_tenuta_visual = Control.new()
+	_tenuta_visual.name = "DuelEnduranceShapes"
+	_tenuta_visual.custom_minimum_size = Vector2(52, 28)
+	_tenuta_visual.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_tenuta_visual.draw.connect(_disegna_tenuta)
+	riga_stato.add_child(_tenuta_visual)
+
 	_stato = Label.new()
 	_stato.name = "DuelStatus"
 	_stato.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_stato.custom_minimum_size = Vector2(0, 30)
 	_stato.add_theme_font_size_override("font_size", 18)
 	_stato.add_theme_color_override("font_color", Color("9fd8d2"))
-	_colonna.add_child(_stato)
+	riga_stato.add_child(_stato)
 
 	var fuga := Button.new()
 	fuga.name = "DuelLeaveButton"
@@ -368,17 +382,43 @@ func _process(delta: float) -> void:
 func aggiorna_stato() -> void:
 	if not is_instance_valid(_stato):
 		return
-	var cuori := "♥".repeat(maxi(_tenuta, 0))
 	if _rottura > 0.0:
 		_stato.text = "SIGILLO SPEZZATO!"
 		_stato.add_theme_color_override("font_color", ORO)
+		_tenuta_visual.visible = false
 	elif _parata > 0.0:
-		_stato.text = "COLPO SUBITO  ·  %s" % cuori
+		_stato.text = "COLPO SUBITO"
 		_stato.add_theme_color_override("font_color", AMBRA)
+		_tenuta_visual.visible = true
 	else:
 		var mosse := maxi(int(regole.get("colpi", 3)) - _colpi_dati, 0)
-		_stato.text = "%s  ·  %d %s" % [cuori, mosse, "MOSSA" if mosse == 1 else "MOSSE"]
+		_stato.text = "%d %s" % [mosse, "MOSSA" if mosse == 1 else "MOSSE"]
 		_stato.add_theme_color_override("font_color", Color("9fd8d2"))
+		_tenuta_visual.visible = true
+	_tenuta_visual.custom_minimum_size.x = maxf(28.0, float(maxi(_tenuta, 0)) * 25.0)
+	_tenuta_visual.tooltip_text = "Tenuta di Eli: %d" % maxi(_tenuta, 0)
+	_tenuta_visual.set_meta("accessible_description", _tenuta_visual.tooltip_text)
+	_tenuta_visual.queue_redraw()
+
+## La tenuta è una forma piena, non un carattere del font: Web e tablet vedono
+## lo stesso segno, e il contorno la rende leggibile anche in alto contrasto.
+func _disegna_tenuta() -> void:
+	var fill := Color.WHITE if high_contrast else Color("7ad7ff")
+	var outline := Color("071923")
+	for index in range(maxi(_tenuta, 0)):
+		var center := Vector2(12.0 + float(index) * 25.0, 12.0)
+		_disegna_cuore(center, 9.0, outline)
+		_disegna_cuore(center, 7.2, fill)
+
+func _disegna_cuore(center: Vector2, radius: float, color: Color) -> void:
+	var lobe_y := center.y - radius * 0.18
+	_tenuta_visual.draw_circle(Vector2(center.x - radius * 0.42, lobe_y), radius * 0.55, color)
+	_tenuta_visual.draw_circle(Vector2(center.x + radius * 0.42, lobe_y), radius * 0.55, color)
+	_tenuta_visual.draw_colored_polygon(PackedVector2Array([
+		Vector2(center.x - radius * 0.92, center.y - radius * 0.08),
+		Vector2(center.x + radius * 0.92, center.y - radius * 0.08),
+		Vector2(center.x, center.y + radius * 1.05),
+	]), color)
 
 func _posiziona() -> void:
 	var centro_x := _arena.size.x * 0.5

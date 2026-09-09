@@ -39,6 +39,16 @@ func _init() -> void:
 	assert(Array(gate["coreSubjects"]).size() == 12, "il gate deve continuare a chiedere tutte le materie")
 
 	var content := ContentManager.new()
+	# Il percorso vivo deve usare davvero 6/5/1, non limitarsi ad avere le
+	# costanti corrette sulla carta.
+	for subject_data in ApparatusConfig.SUBJECT_CYCLE:
+		var subject := str(subject_data)
+		var expected := ApparatusConfig.exercise_nodes_for(subject)
+		var practice_rng := RandomNumberGenerator.new()
+		practice_rng.seed = 47000 + subject.hash()
+		var mission := content.build_varied_mission(subject, 12, expected, {}, practice_rng)
+		assert(Array(mission.get("nodes", [])).size() == expected,
+			"%s: esercizi reali diversi dalla numerosita' della fascia (%d)" % [subject, expected])
 	for level in [1, 8, 16, 24]:
 		for host_data in ApparatusConfig.SUBJECT_CYCLE:
 			var host := str(host_data)

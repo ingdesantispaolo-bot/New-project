@@ -83,17 +83,24 @@ const LESSONS := {
 	},
 	4: {
 		"subject": "inglese",
-		"objectives": ["Riconoscere il vocabolario di base per oggetti e azioni quotidiane.", "Comporre e comprendere frasi semplici d'uso quotidiano.", "Cogliere il senso da parole-chiave in un messaggio."],
+		"objectives": ["Riconoscere il vocabolario di base per oggetti e azioni quotidiane.", "Usare le due coniugazioni con cui l'inglese comincia: to be e have got.", "Dire che cosa c'e' e quanti sono: there is / there are e il plurale.", "Comporre e comprendere frasi semplici d'uso quotidiano."],
 		"prerequisites": ["Associare parola e immagine.", "Leggere parole inglesi brevi."],
-		"topics": ["everyday-phrases", "objects", "actions"],
+		# I tre argomenti di lessico restano, e accanto arriva la grammatica delle
+		# fasce 1-3 — quella che il banco insegna e che fino all'8 settembre 2026
+		# questo mondo non nominava. Senza il nome qui, `LESSON_TOPIC_SHARE` tirava
+		# due nodi su tre verso il lessico e il programma di grammatica arrivava al
+		# bambino come due nodi su millesettecento. Vedi `inglese_minigiochi_audit`.
+		"topics": ["everyday-phrases", "objects", "actions", "to-be", "have-got", "there-is", "plurals", "pronouns", "articles"],
 		"conceptActions": [
 			{"concept": "vocabolario di base", "worldAction": "abbina la parola inglese all'oggetto sulla boa giusta"},
+			{"concept": "to be e have got", "worldAction": "regola la macchina del segnale sulla persona giusta e ascolta la voce tornare limpida"},
+			{"concept": "there is / there are", "worldAction": "dichiara che cosa c'e' sulla boa: uno solo o piu' d'uno cambia la leva"},
 			{"concept": "frase quotidiana", "worldAction": "completa il messaggio radio scegliendo la parola mancante"},
 			{"concept": "parole-chiave", "worldAction": "accendi il faro individuando l'azione richiesta nel segnale"},
 		],
 		"transferTest": {"description": "Un messaggio nuovo in inglese: scegli la risposta giusta cogliendo azione e oggetto.", "formats": ["multiple_choice", "matching", "code_debug", "classification"], "novelContext": true},
 		"nora": {
-			"briefing": "La Baia dei Segnali riceve voci lontane in inglese. Oggi impari a capirle: oggetti, azioni, frasi d'uso. Ogni segnale che decifri riaccende un canale della nave.",
+			"briefing": "La Baia dei Segnali riceve voci lontane in inglese. Oggi impari a capirle e a rispondere: oggetti e azioni, ma anche le due parole che reggono ogni frase — sono e ho — e il modo di dire che cosa c'e'. Ogni segnale che decifri riaccende un canale della nave.",
 			"onError": "Isola azione, oggetto e contesto: il resto è rumore.",
 			"onStreak": "Le parole nuove ti entrano in orecchio: continua.",
 			"debrief": "Il faro trasmette di nuovo. Hai aperto un canale con il mondo — e con la mia memoria.",
@@ -326,17 +333,22 @@ const LESSONS := {
 	},
 	16: {
 		"subject": "inglese",
-		"objectives": ["Comunicare in situazioni di viaggio e scambio.", "Usare i connettivi per legare le frasi.", "Esprimere opinioni e preferenze semplici."],
-		"prerequisites": ["Vocabolario di base (L4).", "Comporre frasi semplici in inglese."],
-		"topics": ["travel-places", "connectors", "jobs-community"],
+		"objectives": ["Comunicare in situazioni di viaggio e scambio.", "Raccontare al passato: past simple, verbi irregolari, azione in corso.", "Distinguere il passato chiuso dal tempo ancora aperto (present perfect).", "Dire che cosa succedera' e confrontare (futuro e comparativi).", "Usare i connettivi per legare le frasi."],
+		"prerequisites": ["Vocabolario di base (L4).", "To be, have got e present simple (L4).", "Comporre frasi semplici in inglese."],
+		# Come al mondo 4: accanto al lessico di scambio ci sono ora gli argomenti
+		# di grammatica delle fasce 5-7, quelli che il banco chiede all'esame di
+		# questo mondo.
+		"topics": ["travel-places", "connectors", "jobs-community", "past-tense", "irregular-past", "present-perfect", "future", "comparatives", "question"],
 		"conceptActions": [
 			{"concept": "comunicazione di viaggio", "worldAction": "scegli la frase giusta per superare il valico"},
+			{"concept": "racconto al passato", "worldAction": "riporta il registro del valico al giorno in cui e' successo, verbo per verbo"},
+			{"concept": "passato chiuso o tempo aperto", "worldAction": "smista i cartelli del confine: quelli che dicono quando, e quelli che tengono aperto"},
 			{"concept": "connettivi", "worldAction": "lega le due frasi col connettivo corretto"},
 			{"concept": "opinioni e ruoli", "worldAction": "abbina mestiere o luogo alla frase che lo descrive"},
 		],
 		"transferTest": {"description": "Uno scambio nuovo: scegli la frase o il connettivo adatto al contesto.", "formats": ["multiple_choice", "matching", "code_debug", "classification"], "novelContext": true},
 		"nora": {
-			"briefing": "La Frontiera delle Lingue è fatta di scambi. Oggi comunichi davvero: viaggi, connettivi, opinioni. Ogni valico che apri allarga il mio vocabolario.",
+			"briefing": "La Frontiera delle Lingue è fatta di scambi. Oggi comunichi davvero: racconti quello che è successo, dici che cosa succederà, confronti e leghi le frasi. Ogni valico che apri allarga il mio vocabolario.",
 			"onError": "Isola azione, oggetto e contesto: il resto è rumore.",
 			"onStreak": "Colleghi le idee con naturalezza: continua.",
 			"debrief": "La porta delle lingue si apre. Comunichiamo meglio a ogni valico.",

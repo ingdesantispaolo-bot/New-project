@@ -11,7 +11,7 @@ func _init() -> void:
 
 	# 1) Invarianti di scala del motore.
 	assert(ContentManager.target_difficulty(1) == 1, "il livello 1 parte dalla difficoltà 1")
-	assert(ContentManager.target_difficulty(24) == 4, "i livelli alti raggiungono la difficoltà 4")
+	assert(ContentManager.target_difficulty(24) == 8, "i livelli alti raggiungono la difficoltà 8")
 	var prev := 0
 	for level in range(1, 25):
 		var t := ContentManager.target_difficulty(level)
@@ -23,7 +23,7 @@ func _init() -> void:
 
 	# 2) Diagnosi per materia: il banco raggiunge la banda richiesta? La materia
 	# ricompare a (indice) e a (indice+12), ma non tutte le seconde comparse
-	# appartengono alla banda 4.
+	# appartengono alla fascia massima.
 	var gaps: Array = []
 	var subjects: Array = ApparatusConfig.SUBJECT_CYCLE
 	print("Calibrazione difficoltà per materia (banda banco → difficoltà effettiva ai due focus):")
@@ -41,13 +41,13 @@ func _init() -> void:
 		var capped := span.y < required
 		print("  %-13s banco d%d–d%d · focus L%d→d%d, L%d→d%d%s" % [
 			subject, span.x, span.y, low_level, eff_low, high_level, eff_high,
-			("  ⚠ TETTO < 4" if capped else "")])
+			("  ⚠ TETTO < %d" % required if capped else "")])
 		if capped:
 			gaps.append({"subject": subject, "maxDifficulty": span.y, "required": required})
 
 	# Report finale: elenco delle materie da arricchire per i livelli alti.
 	if gaps.is_empty():
-		print("Difficulty calibration OK — ogni materia può salire fino alla difficoltà 4")
+		print("Difficulty calibration OK — ogni materia copre le otto fasce")
 	else:
 		var names: Array = []
 		for g in gaps:

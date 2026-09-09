@@ -402,9 +402,8 @@ func _node(topic: String, difficulty: int, prompt: String, answer: int, distract
 		_shuffle(values, rng)
 		for value in values.slice(0, 4): options.append(str(value))
 	var signature := "%s|%s" % [topic, prompt]
-	# La difficoltà è una banda COARSE 1..4 (come i banchi): la complessità fine
-	# del generatore resta interna. Clamp per rispettare il contratto comune.
-	var band := clampi(difficulty, 1, 4)
+	# La complessita' del generatore coincide con le otto fasce dei banchi.
+	var band := clampi(difficulty, 1, ContentManager.DIFFICULTY_BANDS)
 	return {
 		"id": "math-generated-%d-%d" % [band, absi(signature.hash())],
 		"subject": "matematica", "topic": topic, "difficulty": band,

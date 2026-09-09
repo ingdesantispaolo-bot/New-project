@@ -81,7 +81,10 @@ const FLUENCY_TOPICS := {
 	# la scelta prudente vale più della copertura: un argomento in dubbio resta
 	# senza tempo.
 	"italiano": ["verbo", "ortografia", "tempi-indicativo", "modi-verbali"],
-	"inglese": ["irregular-past", "irregular-plural", "contractions", "vocabolario", "opposites"],
+	"inglese": [
+		"irregular-past", "irregular-plural", "contractions", "vocabolario",
+		"opposites", "false-friends", "present-perfect",
+	],
 	"latino": ["declinazioni-base", "declinazione-2m", "verbo-sum", "vocabolario", "casi"],
 	"musica": ["note", "ritmo", "lettura"],
 	"geografia": ["capitali", "continenti"],
@@ -160,9 +163,15 @@ var _mission_serial := 0
 ## prova superata esce dalla scelta finché resta altro da chiedere, e rientra solo
 ## quando l'alternativa sarebbe una missione corta o un ripasso saltato.
 var solved_by_subject: Dictionary = {}
+var seen_by_subject: Dictionary = {}
 
 func _superate(subject: String) -> Dictionary:
-	return Dictionary(solved_by_subject.get(subject, {}))
+	# Compatibilita' con i salvataggi precedenti: le prove superate sono viste
+	# anche se la nuova memoria globale non esisteva ancora.
+	var known := Dictionary(seen_by_subject.get(subject, {})).duplicate()
+	for fingerprint in Dictionary(solved_by_subject.get(subject, {})).keys():
+		known[fingerprint] = true
+	return known
 
 func _e_superata(superate: Dictionary, item: Dictionary) -> bool:
 	if superate.is_empty():
@@ -184,25 +193,20 @@ func _load_bank(subject: String) -> Array:
 	_cache[subject] = items
 	return items
 
-# Difficoltà target in base al SOLO livello del mondo (banda 1-4). Le bande
-# seguono le quattro fasi cognitive: 1-4 riconoscere/abbinare, 5-10 mettere in
-# processo, 11-17 leggere rappresentazioni, 18-24 manipolare sotto vincoli.
-# Mastery ed esperienza non correggono questo bersaglio.
+## Otto fasce di contenuto, tre mondi ciascuna. Il livello del mondo resta il
+## solo requisito: padronanza ed esperienza non abbassano il bersaglio.
+##
+## La fascia descrive la complessita' della materia; il gesto cognitivo e il
+## formato restano assi separati e continuano a maturare lungo tutti i 24 mondi.
+const DIFFICULTY_BANDS := 8
+
 static func target_difficulty(level: int) -> int:
 	var lvl := clampi(level, 1, ApparatusConfig.MAX_LEVEL)
-	if lvl <= 4:
-		return 1
-	if lvl <= 10:
-		return 2
-	if lvl <= 17:
-		return 3
-	return 4
+	return clampi(1 + floori(float(lvl - 1) / 3.0), 1, DIFFICULTY_BANDS)
 
-## Scala FINE della campagna. `difficulty` resta una banda 1..4 perche' e' il
-## vocabolario con cui sono autorati i banchi; il livello di sfida, invece, ha
-## ventiquattro gradini reali. Le quattro bande seguono il gesto prevalente:
-## riconoscere/abbinare, mettere in processo, leggere rappresentazioni,
-## manipolare sotto vincoli.
+## Scala fine della campagna: ogni fascia contiene tre gradini consecutivi.
+## `difficulty` vale 1..8; `challenge_level` conserva i 24 livelli reali e guida
+## valori, numero di passaggi, scaffolding e maturazione dei formati.
 static func challenge_level(level: int) -> int:
 	return clampi(level, 1, ApparatusConfig.MAX_LEVEL)
 
@@ -219,18 +223,31 @@ func subject_difficulty_range(subject: String) -> Vector2i:
 	if _difficulty_ranges.has(subject):
 		return _difficulty_ranges[subject]
 	var items := _load_bank(subject)
-	var lo := 4
+	var lo := DIFFICULTY_BANDS
 	var hi := 1
 	for item in items:
-		var d := clampi(int(item.get("difficulty", 1)), 1, 4)
+		var d := clampi(int(item.get("difficulty", 1)), 1, DIFFICULTY_BANDS)
 		lo = mini(lo, d)
 		hi = maxi(hi, d)
 	if items.is_empty() or lo > hi:
 		lo = 1
-		hi = 4
+		hi = DIFFICULTY_BANDS
 	var span := Vector2i(lo, hi)
 	_difficulty_ranges[subject] = span
 	return span
+
+## Censimento pubblico delle otto fasce realmente disponibili. Gli audit lo
+## usano per impedire che una materia dichiari 1..8 avendo in realta' buchi nel
+## mezzo; il selettore non deve scoprirlo a campagna iniziata.
+func bank_difficulty_counts(subject: String) -> Dictionary:
+	var counts: Dictionary = {}
+	for band in range(1, DIFFICULTY_BANDS + 1):
+		counts[band] = 0
+	for item_data in _load_bank(subject):
+		var item := item_data as Dictionary
+		var band := clampi(int(item.get("difficulty", 1)), 1, DIFFICULTY_BANDS)
+		counts[band] = int(counts[band]) + 1
+	return counts
 
 # Numero di argomenti DISTINTI che la materia può proporre (dal banco). Alimenta
 # la dimensione COPERTURA del gate (GateReadiness). Per la matematica, generata a
@@ -767,6 +784,7 @@ func build_final_exam(subject: String, level: int, node_count: int = 3, rng: Ran
 		var node_topics := topic_mastery if node_subject == subject else {}
 		var chosen: Dictionary = {}
 		var fallback: Dictionary = {}
+		var known_exercises := _superate(node_subject)
 		# Un esame multi-materia puo' incontrare lo stesso nome d'argomento in due
 		# banchi diversi. Riestraiamo per non chiedere due volte la stessa coppia
 		# (formato, argomento) e, a maggior ragione, la stessa prova.
@@ -794,6 +812,11 @@ func build_final_exam(subject: String, level: int, node_count: int = 3, rng: Ran
 					continue
 				if fallback.is_empty():
 					fallback = candidate
+				# L'esame condivide lo stesso mazzo globale di missioni, enigmi e
+				# pratica. Prima si cercano prove mai mostrate; una vecchia rientra
+				# soltanto come ripiego se il formato richiesto ha esaurito le varianti.
+				if _e_superata(known_exercises, candidate):
+					continue
 				var format_topic := "%s|%s" % [str(candidate.get("format", "")), str(candidate.get("topic", ""))]
 				var signature := ExerciseSignature.of(candidate)
 				if not used_format_topics.has(format_topic) and not used_signatures.has(signature):

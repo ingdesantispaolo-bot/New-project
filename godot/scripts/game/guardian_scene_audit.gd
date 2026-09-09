@@ -236,6 +236,12 @@ func _controlla_interfaccia(pannello: DuelStage, contesto: String) -> void:
 	var storico := pannello.find_child("DuelChain", true, false) as Label
 	_controlla(storico != null and not storico.visible,
 		"il duello di «%s» mostra ancora lo storico testuale delle mosse" % contesto)
+	var tenuta := pannello.find_child("DuelEnduranceShapes", true, false) as Control
+	_controlla(tenuta != null and tenuta.visible and tenuta.custom_minimum_size.x >= 28.0,
+		"il duello di «%s» non disegna la tenuta di Eli" % contesto)
+	var stato := pannello.find_child("DuelStatus", true, false) as Label
+	_controlla(stato != null and not stato.text.contains(String.chr(0x2665)),
+		"il duello di «%s» e' ricaduto sul glifo del cuore" % contesto)
 	var uscita := pannello.find_child("DuelLeaveButton", true, false) as Button
 	_controlla(uscita != null and uscita.custom_minimum_size.y >= 44.0,
 		"uscita del duello di «%s» troppo piccola per il tocco" % contesto)

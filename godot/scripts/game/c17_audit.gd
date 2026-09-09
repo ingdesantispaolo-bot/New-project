@@ -57,7 +57,8 @@ func _init() -> void:
 			var check := ExerciseInteraction.validate(item)
 			assert(bool(check["ok"]), "campata non valida (%s): %s" % [subject, str(check["errors"])])
 			assert(str(item.get("explanation", "")).strip_edges() != "", "spiegazione mancante (%s)" % subject)
-			assert(int(item.get("difficulty", 0)) in [1, 2, 3, 4], "difficolta invalida (%s)" % subject)
+			var difficulty := int(item.get("difficulty", 0))
+			assert(difficulty >= 1 and difficulty <= ContentManager.DIFFICULTY_BANDS, "difficolta invalida (%s)" % subject)
 
 	# Lock esplicito sui 4 temi nuovi: non devono ricadere sul fallback "ponte".
 	for subject in NEW_SUBJECT_THEMES.keys():

@@ -29,7 +29,9 @@ func configure(data: Dictionary, world_ref: Node, lod_level: int = 0, compositio
 	var decor = RNG.new(str(chunk.get("id", "chunk")) + ":decor")
 	_build_ground()
 	_build_global_details()
+	_build_theme_details()
 	_build_global_assemblies()
+	_build_theme_assemblies()
 	_build_identity_props()
 	if visual_lod == 0 and (composition == null or composition.protected_zones.is_empty()):
 		_build_academy_set_dressing()
@@ -217,6 +219,43 @@ func _build_global_assemblies() -> void:
 				root.add_child(accent)
 		layer.add_child(root)
 
+## I quattro temi finali restano esclusi dalle assemblies naturali qui sopra:
+## questa seconda via usa lo stesso reticolo globale ma un lessico proprio.
+func _build_theme_assemblies() -> void:
+	if composition == null or not ThemeSceneryArt.supports(composition.visual_theme):
+		return
+	var rect := Rect2(Vector2(float(chunk["worldX"]), float(chunk["worldY"])), Vector2(float(chunk["size"]), float(chunk["size"])))
+	var layer := Node2D.new()
+	layer.name = "ThemeAssemblies"
+	layer.z_index = -1
+	layer.y_sort_enabled = true
+	add_child(layer)
+	var protected_margin := 78.0
+	for point in BiomeAssemblySpawner.points_for_rect(composition, rect, visual_lod):
+		if composition.is_protected(point["position"], protected_margin) or not composition.is_path_clear(point["position"], 72.0):
+			continue
+		var root := Node2D.new()
+		root.position = point["position"] - rect.position
+		root.scale = Vector2.ONE * float(point["scale"])
+		var variant := float(point["variant"])
+		var spread := float(point.get("spread", 58.0))
+		var archetype := int(point.get("archetype", 0))
+		var phase := float(point.get("phase", 0.0))
+		root.add_child(ThemeSceneryArt.build(_assembly_main_kind("", archetype), Vector2(86, 112), variant, composition.visual_theme))
+		var offsets := _assembly_offsets(archetype, spread)
+		# Tre figli bastano a leggere un insieme. Il quarto e il quinto alzavano
+		# la vista-landmark dell'Atlante oltre il budget mobile senza aggiungere
+		# una nuova forma alla grammatica.
+		for index in range(mini(offsets.size(), 3)):
+			var child := ThemeSceneryArt.build(_assembly_child_kind("", archetype, index), Vector2(38, 48), fmod(variant + float(index) * 0.19, 1.0), composition.visual_theme)
+			child.position = Vector2(offsets[index]).rotated(phase)
+			child.scale = Vector2.ONE * (0.82 + float(index % 2) * 0.12)
+			root.add_child(child)
+		var accent := ThemeSceneryArt.build(_assembly_accent_kind("", archetype), Vector2(48, 38), fmod(variant + 0.37, 1.0), composition.visual_theme)
+		accent.position = Vector2(spread * 0.36, 38.0).rotated(phase)
+		root.add_child(accent)
+		layer.add_child(root)
+
 func _build_global_details() -> void:
 	if composition == null:
 		return
@@ -246,6 +285,34 @@ func _build_global_details() -> void:
 			sprite.modulate = Color(0.92, 1.0, 0.96, 0.94)
 		layer.add_child(sprite)
 
+func _build_theme_details() -> void:
+	if composition == null or not ThemeSceneryArt.supports(composition.visual_theme):
+		return
+	var world_origin := Vector2(float(chunk["worldX"]), float(chunk["worldY"]))
+	var rect := Rect2(world_origin, Vector2(float(chunk["size"]), float(chunk["size"])))
+	var layer := Node2D.new()
+	layer.name = "ThemeHabitatDetails"
+	layer.z_index = -2
+	layer.y_sort_enabled = true
+	add_child(layer)
+	var protected_margin := 46.0
+	for point in BiomeDetailSpawner.points_for_rect(composition, rect, visual_lod):
+		if composition.is_protected(point["position"], protected_margin) or not composition.is_path_clear(point["position"], 34.0):
+			continue
+		var kind := str(point["kind"])
+		# Acqua vera conserva ninfee e canneti. Sul terreno, invece, ogni nodo deve
+		# parlare la lingua del tema e non quella dell'atlante naturale condiviso.
+		if kind in ["lilies", "water_flowers", "reeds", "cattails", "pebble_bank"]:
+			var aquatic := OutdoorVisualFactory.natural_detail_sprite(kind, _detail_size(kind) * float(point.get("scale", 1.0)), 0.0)
+			if aquatic != null:
+				aquatic.position = point["position"] - world_origin
+				layer.add_child(aquatic)
+			continue
+		var detail := ThemeSceneryArt.build(kind, Vector2(34, 30) * float(point.get("scale", 1.0)), float(point.get("scale", 1.0)) * 0.37, composition.visual_theme)
+		detail.position = point["position"] - world_origin
+		detail.scale.x *= float(point.get("flip", 1.0))
+		layer.add_child(detail)
+
 func _detail_size(kind: String) -> Vector2:
 	match kind:
 		"reeds": return Vector2(54, 60)
@@ -268,6 +335,8 @@ func _assembly_offsets(archetype: int, spread: float) -> Array:
 			return [Vector2(-spread, 12), Vector2(spread * 0.78, 17), Vector2(-spread * 0.42, 31), Vector2(spread * 0.32, 35), Vector2(spread * 0.08, 48)]
 
 func _assembly_main_kind(biome: String, archetype: int) -> String:
+	if composition != null and ThemeSceneryArt.supports(composition.visual_theme):
+		return ThemeSceneryArt.main_kind(composition.visual_theme, archetype)
 	if biome in ["academy", "wild"]:
 		return "bush" if archetype == 1 else "mushroom" if biome == "wild" and archetype == 2 else "tree"
 	if biome in ["geo", "ruins"]:
@@ -275,6 +344,8 @@ func _assembly_main_kind(biome: String, archetype: int) -> String:
 	return "crystal"
 
 func _assembly_child_kind(biome: String, archetype: int, index: int) -> String:
+	if composition != null and ThemeSceneryArt.supports(composition.visual_theme):
+		return ThemeSceneryArt.child_kind(composition.visual_theme, archetype, index)
 	if biome in ["academy", "wild"]:
 		if biome == "wild" and (archetype == 2 or index == 3):
 			return "mushroom"
@@ -284,6 +355,8 @@ func _assembly_child_kind(biome: String, archetype: int, index: int) -> String:
 	return "crystal" if index % 2 == 0 else "rock"
 
 func _assembly_accent_kind(biome: String, archetype: int) -> String:
+	if composition != null and ThemeSceneryArt.supports(composition.visual_theme):
+		return ThemeSceneryArt.accent_kind(composition.visual_theme, archetype)
 	if biome == "academy":
 		return ["grass", "wildflowers", "stump", "leaves"][archetype]
 	if biome == "wild":

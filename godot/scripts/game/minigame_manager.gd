@@ -2,6 +2,7 @@ class_name MinigameManager
 extends RefCounted
 
 const ExerciseInteraction = preload("res://scripts/game/exercise_interaction.gd")
+const ItalianMinigameCatalog = preload("res://scripts/game/italian_minigame_catalog.gd")
 
 ## Costruisce sessioni-MINIGIOCO risolte con le competenze delle materie. Due
 ## formati interattivi (resi da ExercisePlayer): "matching" (abbina le coppie) e
@@ -25,7 +26,7 @@ const MATCHING := {
 			["build", "built"], ["drink", "drank"], ["eat", "ate"], ["buy", "bought"]]},
 		# L20. Comparativi: quelli regolari seguono una regola, ma good/bad/far non
 		# la seguono affatto — ed è per quelli che serve un insieme.
-		{"explanation": "Alcuni comparativi non si formano con -er o con more: good, bad e far cambiano parola del tutto. Sono pochissimi, e proprio per questo si imparano a memoria.", "topic": "comparatives", "minLevel": 20, "kind": "pool", "pool": [
+		{"explanation": "Alcuni comparativi non si formano con -er o con more: good, bad e far cambiano parola del tutto. Sono pochissimi, e proprio per questo si imparano a memoria.", "topic": "comparatives", "minLevel": 19, "kind": "pool", "pool": [
 			["good", "better"], ["bad", "worse"], ["far", "further"],
 			["many", "more"], ["little", "less"], ["big", "bigger"],
 			["happy", "happier"], ["easy", "easier"], ["hot", "hotter"],
@@ -63,7 +64,7 @@ const MATCHING := {
 			["to teach", "insegnare"], ["to build", "costruire"], ["to find", "trovare"], ["to lose", "perdere"],
 			["to give", "dare"], ["to take", "prendere"], ["to bring", "portare"], ["to answer", "rispondere"],
 			["to ask", "chiedere"], ["to wait", "aspettare"]]},
-		{"explanation": "Gli opposti conviene impararli in coppia: ricordarne uno tira su anche l'altro, e dimezza la fatica.", "topic": "opposites", "minLevel": 3, "pairs": [
+		{"explanation": "Gli opposti conviene impararli in coppia: ricordarne uno tira su anche l'altro, e dimezza la fatica.", "topic": "opposites", "minLevel": 1, "pairs": [
 			["hot", "cold"], ["big", "small"], ["fast", "slow"], ["happy", "sad"],
 			["old", "new"], ["long", "short"], ["high", "low"], ["light", "heavy"],
 			["full", "empty"], ["open", "shut"], ["clean", "dirty"], ["easy", "hard"],
@@ -72,7 +73,7 @@ const MATCHING := {
 			["day", "night"], ["summer", "winter"], ["inside", "outside"], ["above", "below"],
 			["always", "never"], ["everything", "nothing"]]},
 		# Conversazione: micro-scambi domanda -> risposta.
-		{"explanation": "Micro-scambi domanda-risposta. La risposta riusa le parole della domanda: è il trucco che permette di rispondere anche quando non si è capito tutto.", "topic": "conversation", "minLevel": 5, "pairs": [
+		{"explanation": "Micro-scambi domanda-risposta. La risposta riusa le parole della domanda: è il trucco che permette di rispondere anche quando non si è capito tutto.", "topic": "conversation", "minLevel": 4, "pairs": [
 			["What's your name?", "I'm Anna"], ["How old are you?", "I'm ten"],
 			["Where are you from?", "From Italy"], ["How are you?", "I'm fine, thanks"],
 			["What time is it?", "It's half past four"], ["Where do you live?", "In a small town"],
@@ -83,7 +84,7 @@ const MATCHING := {
 			["Would you like some tea?", "No, thank you"], ["See you tomorrow!", "See you!"],
 			["How do you go to school?", "By bus"], ["Whose book is this?", "It's mine"]]},
 		# Scuola media — le forme che l'inglese non regolarizza.
-		{"explanation": "Le contrazioni uniscono due parole togliendone una parte, e l'apostrofo segna il posto di quello che manca.", "topic": "contractions", "minLevel": 6, "pairs": [
+		{"explanation": "Le contrazioni uniscono due parole togliendone una parte, e l'apostrofo segna il posto di quello che manca.", "topic": "contractions", "minLevel": 4, "pairs": [
 			["I am", "I'm"], ["you are", "you're"], ["do not", "don't"], ["cannot", "can't"],
 			["it is", "it's"], ["she is", "she's"], ["they are", "they're"], ["we are", "we're"],
 			["does not", "doesn't"], ["did not", "didn't"], ["is not", "isn't"], ["are not", "aren't"],
@@ -96,7 +97,7 @@ const MATCHING := {
 			["buy", "bought"], ["bring", "brought"], ["think", "thought"], ["teach", "taught"], ["catch", "caught"],
 			["find", "found"], ["lose", "lost"], ["sleep", "slept"], ["keep", "kept"], ["leave", "left"],
 			["speak", "spoke"], ["break", "broke"], ["choose", "chose"]]},
-		{"explanation": "Plurali che non prendono la -s: sono resti di forme antiche, sopravvissuti perché sono parole usatissime.", "topic": "irregular-plural", "minLevel": 8, "pairs": [
+		{"explanation": "Plurali che non prendono la -s: sono resti di forme antiche, sopravvissuti perché sono parole usatissime.", "topic": "irregular-plural", "minLevel": 7, "pairs": [
 			["child", "children"], ["man", "men"], ["foot", "feet"], ["mouse", "mice"],
 			["tooth", "teeth"], ["woman", "women"], ["goose", "geese"], ["person", "people"],
 			["knife", "knives"], ["leaf", "leaves"], ["wife", "wives"], ["shelf", "shelves"],
@@ -116,7 +117,7 @@ const MATCHING := {
 		# Undici mondi su ventiquattro ripetevano quello che il mondo 13 aveva
 		# già mostrato. Queste ricette coprono i livelli 14-23 con il programma
 		# del biennio, gli stessi argomenti dei 470 item nuovi di banco.
-		{"explanation": "Il phrasal verb non è la somma dei due pezzi: «give up» non è «dare su», è arrendersi. Si impara intero, come una parola sola, ed è per questo che sta in un insieme di coppie.", "topic": "phrasal-verbs", "minLevel": 14, "kind": "pool", "pool": [
+		{"explanation": "Il phrasal verb non è la somma dei due pezzi: «give up» non è «dare su», è arrendersi. Si impara intero, come una parola sola, ed è per questo che sta in un insieme di coppie.", "topic": "phrasal-verbs", "minLevel": 13, "kind": "pool", "pool": [
 			["give up", "arrendersi"], ["look after", "prendersi cura di"], ["look for", "cercare"],
 			["find out", "scoprire"], ["put off", "rimandare"], ["turn on", "accendere"],
 			["turn off", "spegnere"], ["get up", "alzarsi"], ["take off", "decollare"],
@@ -132,21 +133,21 @@ const MATCHING := {
 			["passive present", "am/is/are + participio"], ["passive past", "was/were + participio"],
 			["second conditional", "if + passato, would + verbo"], ["third conditional", "if + had done, would have done"],
 			["causative", "have + oggetto + participio"], ["present simple", "verbo nudo, -s alla terza"]]},
-		{"explanation": "I connettivi non decorano: dichiarano la logica del testo. Impararli con la traduzione italiana è il modo più rapido di smettere di sceglierli a orecchio.", "topic": "linkers", "minLevel": 18, "kind": "pool", "pool": [
+		{"explanation": "I connettivi non decorano: dichiarano la logica del testo. Impararli con la traduzione italiana è il modo più rapido di smettere di sceglierli a orecchio.", "topic": "linkers", "minLevel": 16, "kind": "pool", "pool": [
 			["although", "anche se"], ["however", "tuttavia"], ["despite", "nonostante"],
 			["therefore", "perciò"], ["moreover", "inoltre"], ["whereas", "mentre invece"],
 			["unless", "a meno che"], ["as long as", "purché"], ["in order to", "allo scopo di"],
 			["nevertheless", "ciò nonostante"], ["besides", "oltretutto"], ["thus", "in questo modo"],
 			["so that", "in modo che"], ["because of", "a causa di"], ["as soon as", "non appena"],
 			["in conclusion", "in conclusione"], ["on the other hand", "d'altra parte"], ["first of all", "prima di tutto"]]},
-		{"explanation": "La preposizione fa parte del significato del verbo, e non si ricava traducendo: «depend on» dove l'italiano direbbe «da». Si impara la coppia intera.", "topic": "prepositions", "minLevel": 21, "kind": "pool", "pool": [
+		{"explanation": "La preposizione fa parte del significato del verbo, e non si ricava traducendo: «depend on» dove l'italiano direbbe «da». Si impara la coppia intera.", "topic": "prepositions", "minLevel": 19, "kind": "pool", "pool": [
 			["depend on", "dipendere da"], ["interested in", "interessato a"], ["good at", "bravo in"],
 			["afraid of", "spaventato da"], ["famous for", "famoso per"], ["similar to", "simile a"],
 			["listen to", "ascoltare"], ["wait for", "aspettare"], ["belong to", "appartenere a"],
 			["based on", "basato su"], ["worried about", "preoccupato per"], ["proud of", "orgoglioso di"],
 			["married to", "sposato con"], ["full of", "pieno di"], ["angry with", "arrabbiato con"],
 			["succeed in", "riuscire in"], ["apologise for", "scusarsi per"], ["rely on", "contare su"]]},
-		{"explanation": "Una radice, molte parole: il suffisso dice il mestiere grammaticale prima ancora del significato. Riconoscerlo permette di capire una parola mai vista senza cercarla.", "topic": "word-family", "minLevel": 23, "kind": "pool", "pool": [
+		{"explanation": "Una radice, molte parole: il suffisso dice il mestiere grammaticale prima ancora del significato. Riconoscerlo permette di capire una parola mai vista senza cercarla.", "topic": "word-family", "minLevel": 22, "kind": "pool", "pool": [
 			["happy", "happiness"], ["decide", "decision"], ["arrive", "arrival"],
 			["teach", "teacher"], ["danger", "dangerous"], ["care", "careless"],
 			["use", "useful"], ["child", "childhood"], ["friend", "friendship"],
@@ -154,6 +155,83 @@ const MATCHING := {
 			["agree", "agreement"], ["possible", "impossible"], ["legal", "illegal"],
 			["regular", "irregular"], ["understand", "misunderstand"], ["read", "readable"],
 			["strong", "strength"], ["long", "length"], ["honest", "dishonest"], ["appear", "disappear"]]},
+		# --- La grammatica delle prime fasce (9 settembre 2026) ---------------
+		#
+		# Il mondo 4 e' l'UNICO mondo d'inglese sotto la fascia 5, e sta al PRIMO
+		# dei tre livelli della sua fascia: una ricetta con `minLevel` a meta'
+		# fascia non la incontra mai. Da qui in poi ogni gate d'inglese sta
+		# all'inizio della fascia (1, 4, 7, 10, 13, 16, 19, 22), e la grammatica
+		# del banco ha una forma da toccare, non solo da crocettare.
+		{"explanation": "Dove l'italiano possiede uno stato, l'inglese lo E': non ha fame, e' affamato. E' la differenza che fa sbagliare piu' spesso chi traduce a mente, e si sente subito perche' cambia il verbo, non la parola.", "topic": "to-be", "minLevel": 1, "pairs": [
+			["Ho fame", "I am hungry"], ["Ho sete", "I am thirsty"],
+			["Ho freddo", "I am cold"], ["Ho caldo", "I am hot"],
+			["Ho paura", "I am afraid"], ["Ho ragione", "I am right"],
+			["Ho torto", "I am wrong"], ["Ho dieci anni", "I am ten"],
+			["Ho fretta", "I am in a hurry"], ["Ho sonno", "I am sleepy"]]},
+		{"explanation": "Ogni persona ha il suo possessivo, e non cambia mai con la cosa posseduta: «my» vale per un libro e per venti libri. E' il contrario dell'italiano, dove il possessivo si accorda con quello che si possiede.", "topic": "pronouns", "minLevel": 1, "pairs": [
+			["I", "my"], ["you", "your"], ["he", "his"], ["she", "her"],
+			["it", "its"], ["we", "our"], ["they", "their"]]},
+		{"explanation": "Il possessivo ha due forme: una sta davanti al nome, l'altra sta da sola al posto suo. «My book» ha bisogno del libro, «mine» il libro lo contiene gia'. L'unico che non cambia e' «his», uguale nelle due caselle.", "topic": "possessives", "minLevel": 7, "pairs": [
+			["my", "mine"], ["your", "yours"], ["her", "hers"],
+			["our", "ours"], ["their", "theirs"]]},
+		{"explanation": "I modali non dicono un'azione: dicono con che forza la si afferma. Sono pochi, non prendono la -s alla terza persona e reggono l'infinito senza «to» — tre eccezioni che valgono per tutti quanti insieme.", "topic": "modals", "minLevel": 7, "pairs": [
+			["can", "capacita: ne sono capace"], ["must", "obbligo che mi do da solo"],
+			["have to", "obbligo che arriva da fuori"], ["may", "permesso chiesto con garbo"],
+			["should", "consiglio: faresti bene"], ["might", "possibilita incerta"],
+			["cannot", "divieto: non si puo"], ["would like", "desiderio detto con cortesia"]]},
+		{"explanation": "L'inglese ha quattro modi di parlare del futuro e non sono intercambiabili: cambia CHI ha deciso e QUANDO. La forma giusta si sceglie dal momento della decisione, non dalla distanza nel tempo.", "topic": "future", "minLevel": 13, "pairs": [
+			["will", "decisione presa proprio adesso"],
+			["going to", "intenzione decisa gia prima"],
+			["present continuous", "appuntamento gia fissato in agenda"],
+			["present simple", "orario fisso di treni, scuole e cinema"],
+			["shall I?", "offerta di aiuto a chi ascolta"]]},
+		{"explanation": "Ogni mestiere si dice con due informazioni: che cosa fa e dove lo fa. Tenerle in coppia serve a parlare di se' e degli altri, ed e' il primo modo per capire una domanda che non si era capita: se si riconosce il luogo, si indovina il mestiere.", "topic": "jobs-community", "minLevel": 13, "pairs": [
+			["nurse", "works in a hospital"], ["teacher", "works in a school"],
+			["baker", "works in a bakery"], ["farmer", "works on a farm"],
+			["mechanic", "works in a garage"], ["chef", "works in a kitchen"],
+			["librarian", "works in a library"], ["pilot", "works on a plane"],
+			["vet", "looks after animals"], ["engineer", "designs machines"],
+			["journalist", "writes for a newspaper"], ["firefighter", "puts out fires"]]},
+		# --- I campi del lessico, uno per uno (9 settembre 2026) --------------
+		{"explanation": "Le parole della tavola e della spesa sono le prime che servono davvero fuori dall'aula. Nessuna somiglia all'italiano: si imparano a coppie, ed e' il campo in cui una parola in piu' si sente subito.", "topic": "food-shopping", "minLevel": 1, "pairs": [
+			["bread", "pane"], ["cheese", "formaggio"], ["meat", "carne"], ["fish", "pesce"],
+			["apple", "mela"], ["egg", "uovo"], ["butter", "burro"], ["rice", "riso"],
+			["shop", "negozio"], ["price", "prezzo"], ["meal", "pasto"], ["breakfast", "colazione"],
+			["spoon", "cucchiaio"], ["bottle", "bottiglia"], ["market", "mercato"], ["change", "resto"]]},
+		{"explanation": "Le parti del corpo e i modi di dire che ci girano intorno servono a chiedere aiuto, ed e' il primo motivo pratico per cui una lingua si impara. In inglese quasi tutte sono parole corte e antiche: cambiano poco, e per questo si ricordano.", "topic": "body-health", "minLevel": 1, "pairs": [
+			["head", "testa"], ["hand", "mano"], ["foot", "piede"], ["eye", "occhio"],
+			["mouth", "bocca"], ["heart", "cuore"], ["bone", "osso"], ["skin", "pelle"],
+			["ill", "malato"], ["pain", "dolore"], ["nurse", "infermiere"], ["chemist", "farmacia"],
+			["cold", "raffreddore"], ["cough", "tosse"], ["healthy", "sano"], ["rest", "riposo"]]},
+		{"explanation": "Dire come si sta e' la prima cosa che si vuole poter fare in una lingua nuova, ed e' anche quella che manca piu' spesso: si conoscono le parole delle cose e non quelle degli stati d'animo. Molte finiscono in -ed quando dicono come ci si sente.", "topic": "feelings-opinions", "minLevel": 1, "pairs": [
+			["happy", "felice"], ["sad", "triste"], ["angry", "arrabbiato"], ["tired", "stanco"],
+			["scared", "spaventato"], ["proud", "orgoglioso"], ["bored", "annoiato"], ["surprised", "sorpreso"],
+			["worried", "preoccupato"], ["excited", "entusiasta"], ["lonely", "solo"], ["calm", "tranquillo"]]},
+		{"explanation": "Le parole della natura tornano in ogni testo di scienze e di geografia scritto in inglese: sono il ponte fra la lingua e le altre materie, ed e' la ragione per cui conviene impararle presto anche se sembrano meno urgenti.", "topic": "nature-environment", "minLevel": 4, "pairs": [
+			["tree", "albero"], ["leaf", "foglia"], ["seed", "seme"], ["river", "fiume"],
+			["field", "campo"], ["wood", "bosco"], ["sky", "cielo"], ["soil", "terreno"],
+			["rubbish", "rifiuti"], ["waste", "spreco"], ["pollution", "inquinamento"], ["wildlife", "fauna selvatica"],
+			["shore", "riva"], ["weather", "tempo atmosferico"]]},
+		{"explanation": "Sport, musica e tempo libero sono il campo in cui l'inglese entra in italiano da solo: molte parole le usiamo gia' senza tradurle. Sapere che cosa vogliono dire davvero evita di usarle a sproposito.", "topic": "leisure-culture", "minLevel": 4, "pairs": [
+			["football", "calcio"], ["basketball", "pallacanestro"], ["swimming", "nuoto"], ["running", "corsa"],
+			["team", "squadra"], ["match", "partita"], ["coach", "allenatore"], ["prize", "premio"],
+			["drawing", "disegno"], ["song", "canzone"], ["stage", "palcoscenico"], ["audience", "pubblico"]]},
+		{"explanation": "Le parole della sicurezza sono quelle che si leggono sui cartelli, e vanno capite alla prima occhiata: non c'e' tempo per tradurle. Molte si costruiscono da una parola di base con un prefisso — safe, unsafe — e riconoscere il pezzo aggiunto vale piu' che ricordare l'intera lista.", "topic": "safety", "minLevel": 7, "pairs": [
+			["safe", "sicuro"], ["danger", "pericolo"], ["warning", "avvertimento"], ["exit", "uscita"],
+			["helmet", "casco"], ["rope", "corda"], ["shelter", "riparo"], ["rescue", "soccorso"],
+			["forbidden", "vietato"], ["careful", "attento"], ["first aid", "pronto soccorso"], ["alarm", "allarme"]]},
+		{"explanation": "Il lessico della scuola serve a capire una consegna scritta in inglese, ed e' il primo campo in cui una parola sbagliata costa un esercizio intero. Attenzione a «subject», che non e' un soggetto ma la materia.", "topic": "school-communication", "minLevel": 7, "pairs": [
+			["lesson", "lezione"], ["subject", "materia"], ["homework", "compiti"], ["test", "verifica"],
+			["mark", "voto"], ["timetable", "orario"], ["break", "ricreazione"], ["headmaster", "preside"],
+			["notice", "avviso"], ["report", "pagella"], ["term", "quadrimestre"], ["deadline", "scadenza"]]},
+		{"explanation": "Le parole del digitale arrivano in italiano gia' in inglese, e proprio per questo si crede di conoscerle: «to download» e «to upload» sono opposti, e chi li scambia manda via un file invece di prenderlo.", "topic": "digital-media", "minLevel": 13, "pairs": [
+			["download", "scaricare"], ["upload", "caricare"], ["screen", "schermo"], ["keyboard", "tastiera"],
+			["laptop", "portatile"], ["password", "parola d'ordine"], ["link", "collegamento"], ["file", "archivio"],
+			["network", "rete"], ["browser", "navigatore"], ["account", "profilo"], ["backup", "copia di riserva"]]},
+		{"explanation": "Numeri, valori e grafici si leggono in inglese in ogni materia scientifica: e' il lessico che permette di capire un grafico senza sapere l'argomento. Sono parole corte e sempre le stesse, e rendono piu' di qualunque altra lista.", "topic": "data-science", "minLevel": 13, "pairs": [
+			["number", "numero"], ["value", "valore"], ["amount", "quantita"], ["average", "media"],
+			["chart", "grafico"], ["table", "tabella"], ["row", "riga"], ["column", "colonna"],
+			["increase", "aumento"], ["decrease", "diminuzione"], ["survey", "indagine"], ["result", "risultato"]]},
 	],
 	"geografia": [
 		# L12. Le capitali europee si incontrano al primo mondo; queste sono quelle
@@ -1203,17 +1281,25 @@ const ORDERING := {
 			{"label": "seventy", "value": 70.0}, {"label": "eighty-one", "value": 81.0},
 			{"label": "ninety", "value": 90.0}, {"label": "one hundred", "value": 100.0}]},
 		# Word order inglese: soggetto-verbo-oggetto e adjective prima del nome.
-		{"explanation": "Soggetto, verbo, complemento: in inglese l'ordine non si può cambiare senza cambiare il senso della frase.", "topic": "sentence", "minLevel": 3, "prompt": "Order the words to make a sentence.", "correctOrder": ["She", "reads", "a", "book"]},
-		{"explanation": "La negazione si costruisce con l'ausiliare più «not», e va fra il soggetto e il verbo principale.", "topic": "negative", "minLevel": 5, "prompt": "Order the words to make a negative sentence.", "correctOrder": ["He", "does", "not", "play"]},
+		{"explanation": "Soggetto, verbo, complemento: in inglese l'ordine non si può cambiare senza cambiare il senso della frase.", "topic": "sentence", "minLevel": 1, "prompt": "Order the words to make a sentence.", "correctOrder": ["She", "reads", "a", "book"]},
+		{"explanation": "La negazione si costruisce con l'ausiliare più «not», e va fra il soggetto e il verbo principale.", "topic": "negative", "minLevel": 4, "prompt": "Order the words to make a negative sentence.", "correctOrder": ["He", "does", "not", "play"]},
 		# Domande: inversione dell'ausiliare (diverso dall'italiano).
-		{"explanation": "Nella domanda l'ausiliare passa davanti al soggetto: è l'inversione a rendere interrogativa la frase, non solo il punto di domanda.", "topic": "question", "minLevel": 5, "prompt": "Order the words to make a question.", "correctOrder": ["Do", "you", "like", "pizza?"]},
-		{"explanation": "Nelle domande con wh- la parola interrogativa va per prima, poi l'ausiliare, poi il soggetto.", "topic": "wh-question", "minLevel": 6, "prompt": "Order the words to make a question.", "correctOrder": ["Where", "do", "you", "live?"]},
+		{"explanation": "Nella domanda l'ausiliare passa davanti al soggetto: è l'inversione a rendere interrogativa la frase, non solo il punto di domanda.", "topic": "question", "minLevel": 4, "prompt": "Order the words to make a question.", "correctOrder": ["Do", "you", "like", "pizza?"]},
+		{"explanation": "Nelle domande con wh- la parola interrogativa va per prima, poi l'ausiliare, poi il soggetto.", "topic": "wh-question", "minLevel": 4, "prompt": "Order the words to make a question.", "correctOrder": ["Where", "do", "you", "live?"]},
 		# --- Terzo ordinamento al mondo 1 (7 agosto 2026) ----------------------
 		{"explanation": "In inglese l'ordine delle parole porta il significato, perche' le parole non cambiano forma: soggetto, verbo, oggetto, e poi il resto.", "topic": "sentence", "prompt": "Order the words to make a sentence.", "correctOrder": ["I", "read", "a book", "every evening"]},
 		# --- Le costruzioni del biennio (8 settembre 2026) --------------------
-		{"explanation": "Dentro un'altra frase la domanda perde l'inversione: chi la ospita ha già fatto il lavoro di domandare, e il soggetto torna davanti al verbo.", "topic": "question", "minLevel": 15, "prompt": "Order the words to make an indirect question.", "correctOrder": ["Can you tell me", "where", "he", "lives?"]},
+		{"explanation": "Dentro un'altra frase la domanda perde l'inversione: chi la ospita ha già fatto il lavoro di domandare, e il soggetto torna davanti al verbo.", "topic": "question", "minLevel": 13, "prompt": "Order the words to make an indirect question.", "correctOrder": ["Can you tell me", "where", "he", "lives?"]},
 		{"explanation": "Il passivo si monta sempre nello stesso ordine: la cosa che subisce, il verbo essere al tempo giusto, il participio, e solo alla fine chi ha agito.", "topic": "passive", "minLevel": 19, "prompt": "Order the words to make a passive sentence.", "correctOrder": ["The bridge", "was built", "in 1890", "by the Romans"]},
 		{"explanation": "Nel terzo tipo di periodo ipotetico la condizione va al trapassato e la conseguenza al condizionale composto: due pezzi in tre parole ciascuno, e nessuno dei due si può accorciare.", "topic": "conditionals", "minLevel": 22, "prompt": "Order the words to make a third conditional.", "correctOrder": ["If I", "had known,", "I would", "have come"]},
+		# --- La grammatica delle prime fasce (9 settembre 2026) ---------------
+		{"explanation": "Il verbo essere sta sempre al secondo posto, fra chi e' e com'e'. In inglese l'eta' si E', non si ha: per questo il numero segue «is» e non un verbo avere.", "topic": "to-be", "minLevel": 1, "prompt": "Order the words to make a sentence.", "correctOrder": ["My sister", "is", "ten", "years old"]},
+		{"explanation": "Per dire che una cosa esiste l'inglese apre con «there», che non indica nessun luogo: e' solo il posto che la frase pretende prima del verbo. Il luogo vero arriva in fondo.", "topic": "there-is", "minLevel": 4, "prompt": "Order the words to make a sentence.", "correctOrder": ["There", "is", "a book", "on the table"]},
+		{"explanation": "Due passati in una frase sola: quello lungo fa da sfondo con la forma in -ing, quello breve lo taglia. «When» resta sempre attaccato all'azione breve, ed e' cosi' che si capisce quale delle due ha interrotto l'altra.", "topic": "past-continuous", "minLevel": 13, "prompt": "Order the words to make a sentence.", "correctOrder": ["She was reading", "when", "the phone", "rang"]},
+		{"explanation": "«Going to» e' una cosa sola in tre pezzi: essere, going, to. Il verbo vero arriva dopo, all'infinito, e il quando si mette in fondo — l'inglese chiude quasi sempre con il tempo.", "topic": "future", "minLevel": 13, "prompt": "Order the words to make a sentence about a plan.", "correctOrder": ["I am going to", "visit", "my aunt", "tomorrow"]},
+		{"explanation": "La relativa si infila subito dopo il nome che spiega, non alla fine della frase: se si allontana non si capisce piu' di chi si stia parlando. «Who» vale per le persone e tiene il posto del soggetto.", "topic": "relatives", "minLevel": 16, "prompt": "Order the words to make a sentence.", "correctOrder": ["The man", "who lives", "next door", "is a doctor"]},
+		{"explanation": "Quando due cose sono successe entrambe prima, la piu' antica arretra di un gradino e prende «had». E' l'unico modo che ha l'inglese di dire che il film era gia' cominciato PRIMA del nostro arrivo.", "topic": "past-perfect", "minLevel": 22, "prompt": "Order the words to make a sentence.", "correctOrder": ["When we arrived", "the film", "had already", "started"]},
+		{"explanation": "Raccontare una giornata e' il primo testo che si scrive in una lingua nuova: le azioni si mettono nell'ordine in cui succedono, e le espressioni di tempo — first, then, after that — sono i chiodi a cui si appende il racconto.", "topic": "actions", "minLevel": 1, "prompt": "Order the actions of a normal school morning.", "correctOrder": ["I get up", "I have breakfast", "I go to school", "I come back home"]},
 	],
 	"fisica": [
 		# Insiemi a estrazione: in fisica l'ordine NON è una convenzione da ricordare,
@@ -2399,7 +2485,7 @@ const CLASSIFICATION := {
 		# Articolo a/an secondo il suono iniziale: regola tipica dell'inglese.
 		# Attenzione: la regola è sul SUONO, non sulla lettera — «a university»,
 		# «an hour». Le voci trabocchetto sono deliberate: è lì che si impara.
-		{"explanation": "Si usa «an» davanti a suono vocalico e «a» davanti a suono consonantico: conta come si pronuncia la parola, non come si scrive.", "topic": "articles", "minLevel": 5, "draw": 6, "prompt": "Sort each word: does it take 'a' or 'an'?",
+		{"explanation": "Si usa «an» davanti a suono vocalico e «a» davanti a suono consonantico: conta come si pronuncia la parola, non come si scrive.", "topic": "articles", "minLevel": 4, "draw": 6, "prompt": "Sort each word: does it take 'a' or 'an'?",
 			"categories": ["a", "an"],
 			"assignments": {
 				"apple": "an", "orange": "an", "umbrella": "an", "elephant": "an",
@@ -2408,7 +2494,7 @@ const CLASSIFICATION := {
 				"dog": "a", "car": "a", "book": "a", "university": "a",
 				"table": "a", "house": "a", "European city": "a", "friend": "a",
 				"uniform": "a", "window": "a", "garden": "a", "yellow bird": "a"}},
-		{"explanation": "La parte del discorso dipende dal lavoro che la parola fa: nomina qualcosa, dice un'azione o la descrive.", "topic": "parts-of-speech", "minLevel": 6, "draw": 6, "prompt": "Sort each word into its part of speech.",
+		{"explanation": "La parte del discorso dipende dal lavoro che la parola fa: nomina qualcosa, dice un'azione o la descrive.", "topic": "parts-of-speech", "minLevel": 4, "draw": 6, "prompt": "Sort each word into its part of speech.",
 			"categories": ["noun", "verb", "adjective"],
 			"assignments": {
 				"dog": "noun", "house": "noun", "river": "noun", "teacher": "noun",
@@ -2418,7 +2504,7 @@ const CLASSIFICATION := {
 				"big": "adjective", "red": "adjective", "quiet": "adjective", "heavy": "adjective",
 				"ancient": "adjective", "friendly": "adjective", "narrow": "adjective", "brave": "adjective"}},
 		# Scuola media — verbi regolari/irregolari e nomi numerabili/non numerabili.
-		{"explanation": "I verbi regolari fanno il passato in -ed; gli irregolari cambiano forma e vanno imparati uno per uno.", "topic": "verbs", "minLevel": 8, "draw": 6, "prompt": "Sort each past-tense verb: regular or irregular?",
+		{"explanation": "I verbi regolari fanno il passato in -ed; gli irregolari cambiano forma e vanno imparati uno per uno.", "topic": "verbs", "minLevel": 7, "draw": 6, "prompt": "Sort each past-tense verb: regular or irregular?",
 			"categories": ["regular", "irregular"],
 			"assignments": {
 				"played": "regular", "walked": "regular", "watched": "regular", "opened": "regular",
@@ -2427,7 +2513,7 @@ const CLASSIFICATION := {
 				"went": "irregular", "ate": "irregular", "saw": "irregular", "took": "irregular",
 				"wrote": "irregular", "drank": "irregular", "began": "irregular", "brought": "irregular",
 				"caught": "irregular", "chose": "irregular", "slept": "irregular", "spoke": "irregular"}},
-		{"explanation": "I nomi numerabili si possono contare uno, due, tre; quelli non numerabili si misurano ma non si contano — acqua, riso, denaro.", "topic": "nouns", "minLevel": 9, "draw": 6, "prompt": "Sort each noun: countable or uncountable?",
+		{"explanation": "I nomi numerabili si possono contare uno, due, tre; quelli non numerabili si misurano ma non si contano — acqua, riso, denaro.", "topic": "nouns", "minLevel": 7, "draw": 6, "prompt": "Sort each noun: countable or uncountable?",
 			"categories": ["countable", "uncountable"],
 			"assignments": {
 				"apple": "countable", "book": "countable", "car": "countable", "chair": "countable",
@@ -2451,14 +2537,14 @@ const CLASSIFICATION := {
 				"January": "month", "April": "month", "July": "month", "October": "month", "December": "month",
 				"spring": "season", "summer": "season", "autumn": "season", "winter": "season"}},
 		# --- Il biennio: i mondi 15-22 (8 settembre 2026) ---------------------
-		{"explanation": "Dopo certi verbi va la forma in «-ing», dopo altri l'infinito con «to». Non c'è una regola che lo spieghi: si imparano in due liste, e smistarli è il modo di costruirsele.", "topic": "gerund-infinitive", "minLevel": 15, "draw": 6, "prompt": "Sort each verb: does it take «-ing» or «to»?",
+		{"explanation": "Dopo certi verbi va la forma in «-ing», dopo altri l'infinito con «to». Non c'è una regola che lo spieghi: si imparano in due liste, e smistarli è il modo di costruirsele.", "topic": "gerund-infinitive", "minLevel": 13, "draw": 6, "prompt": "Sort each verb: does it take «-ing» or «to»?",
 			"categories": ["+ -ing", "+ to"],
 			"assignments": {
 				"enjoy": "+ -ing", "avoid": "+ -ing", "finish": "+ -ing", "mind": "+ -ing",
 				"suggest": "+ -ing", "practise": "+ -ing", "imagine": "+ -ing", "risk": "+ -ing",
 				"decide": "+ to", "want": "+ to", "hope": "+ to", "promise": "+ to",
 				"refuse": "+ to", "agree": "+ to", "learn": "+ to", "offer": "+ to"}},
-		{"explanation": "La spia del passivo sono due cose insieme: il verbo essere e il participio. Se ne manca uno, la frase è attiva anche quando racconta una disgrazia.", "topic": "passive", "minLevel": 17, "draw": 6, "prompt": "Sort each sentence: active or passive?",
+		{"explanation": "La spia del passivo sono due cose insieme: il verbo essere e il participio. Se ne manca uno, la frase è attiva anche quando racconta una disgrazia.", "topic": "passive", "minLevel": 16, "draw": 6, "prompt": "Sort each sentence: active or passive?",
 			"categories": ["active", "passive"],
 			"assignments": {
 				"The window was broken": "passive", "English is spoken here": "passive",
@@ -2492,6 +2578,169 @@ const CLASSIFICATION := {
 				"If she had come, I would have told her": "third",
 				"If he had asked, I would have helped him": "third",
 				"If it had rained, we would have stayed in": "third"}},
+		# --- La grammatica delle prime fasce (9 settembre 2026) ---------------
+		#
+		# Lo smistamento e' il formato piu' adatto alla grammatica inglese, perche'
+		# quasi ogni regola qui e' una scelta fra due o tre caselle: am/is/are,
+		# have/has, much/many, will/going to. Sbagliare casella si vede subito, e
+		# la casella giusta si ritrova ragionando invece che ricordando.
+		{"explanation": "Il verbo essere ha tre forme al presente e basta: una per «I», una per chi e' uno solo, una per tutto il resto. Chi smista qui non impara tre parole, impara che l'inglese accorda soltanto in questo punto del presente.", "topic": "to-be", "minLevel": 1, "draw": 8, "prompt": "Sort each subject: am, is or are?",
+			"categories": ["am", "is", "are"],
+			"assignments": {
+				"I": "am",
+				"he": "is", "she": "is", "it": "is", "my sister": "is", "the dog": "is",
+				"Anna": "is", "my teacher": "is", "this book": "is", "the sun": "is",
+				"you": "are", "we": "are", "they": "are", "my parents": "are",
+				"the boys": "are", "Anna and Tom": "are", "those cats": "are", "you and I": "are"}},
+		{"explanation": "Il plurale inglese e' quasi sempre una -s, ma la parola che la riceve decide come: se finisce con un suono sibilante ci vuole una vocale d'appoggio, se finisce in -y dopo consonante la y diventa i. Non sono tre regole, e' una regola e due aggiustamenti di pronuncia.", "topic": "plurals", "minLevel": 1, "draw": 8, "prompt": "Sort each word: how does it make the plural?",
+			"categories": ["+ -s", "+ -es", "-y diventa -ies"],
+			"assignments": {
+				"book": "+ -s", "cat": "+ -s", "tree": "+ -s", "house": "+ -s",
+				"car": "+ -s", "friend": "+ -s", "desk": "+ -s", "river": "+ -s",
+				"box": "+ -es", "bus": "+ -es", "watch": "+ -es", "dish": "+ -es",
+				"glass": "+ -es", "church": "+ -es", "brush": "+ -es", "tomato": "+ -es",
+				"city": "-y diventa -ies", "baby": "-y diventa -ies", "country": "-y diventa -ies",
+				"story": "-y diventa -ies", "lady": "-y diventa -ies", "party": "-y diventa -ies",
+				"family": "-y diventa -ies", "dictionary": "-y diventa -ies"}},
+		{"explanation": "Il possesso si dice con due parole e solo la prima cambia: «got» resta ferma per tutti. La forma corta vale per lui, lei, esso — la stessa persona che nel presente semplice prende la -s.", "topic": "have-got", "minLevel": 4, "draw": 6, "prompt": "Sort each subject: have got or has got?",
+			"categories": ["have got", "has got"],
+			"assignments": {
+				"I": "have got", "you": "have got", "we": "have got", "they": "have got",
+				"my parents": "have got", "the children": "have got", "Anna and Tom": "have got",
+				"my friends": "have got",
+				"he": "has got", "she": "has got", "it": "has got", "my brother": "has got",
+				"the cat": "has got", "Anna": "has got", "the school": "has got", "my teacher": "has got"}},
+		{"explanation": "«There is» e «there are» si scelgono guardando quello che viene DOPO, non quello che viene prima: e' la cosa nominata a decidere. E le cose che non si contano restano al singolare per quanta ce ne sia.", "topic": "there-is", "minLevel": 4, "draw": 6, "prompt": "Sort each ending: does it take «there is» or «there are»?",
+			"categories": ["there is", "there are"],
+			"assignments": {
+				"a book on the desk": "there is", "one apple in the bag": "there is",
+				"some milk in the fridge": "there is", "a car in the street": "there is",
+				"some bread on the table": "there is", "water in the bottle": "there is",
+				"a girl at the door": "there is", "some snow on the road": "there is",
+				"two books on the desk": "there are", "some apples in the bag": "there are",
+				"many cars in the street": "there are", "three chairs in the room": "there are",
+				"the children in the garden": "there are", "five euros in my pocket": "there are",
+				"some people outside": "there are", "four windows in the classroom": "there are"}},
+		{"explanation": "«Much» e «many» non si scelgono a orecchio: dipendono da come si conta la cosa nominata. Quello che si misura — acqua, tempo, denaro — non ha plurale e prende «much»; quello che si conta a uno a uno prende «many».", "topic": "quantifiers", "minLevel": 7, "draw": 6, "prompt": "Sort each word: much or many?",
+			"categories": ["much", "many"],
+			"assignments": {
+				"water": "much", "milk": "much", "money": "much", "time": "much",
+				"bread": "much", "sugar": "much", "rain": "much", "information": "much",
+				"music": "much", "homework": "much",
+				"books": "many", "apples": "many", "friends": "many", "cars": "many",
+				"chairs": "many", "people": "many", "questions": "many", "euros": "many",
+				"days": "many", "photos": "many"}},
+		{"explanation": "Le due forme del presente rispondono a due domande diverse: «di solito» e «proprio adesso». La spia non e' il verbo, e' l'espressione di tempo che lo accompagna — per questo si riconoscono senza leggere il resto della frase.", "topic": "present-continuous", "minLevel": 7, "draw": 6, "prompt": "Sort each expression: present simple (usually) or present continuous (now)?",
+			"categories": ["present simple", "present continuous"],
+			"assignments": {
+				"every day": "present simple", "usually": "present simple", "on Mondays": "present simple",
+				"never": "present simple", "twice a week": "present simple", "always": "present simple",
+				"in the morning": "present simple", "sometimes": "present simple",
+				"right now": "present continuous", "at the moment": "present continuous",
+				"Look!": "present continuous", "Listen!": "present continuous",
+				"today at five": "present continuous", "this week": "present continuous",
+				"at present": "present continuous", "still": "present continuous"}},
+		{"explanation": "Le tre preposizioni di tempo vanno dal grande al piccolo: «in» per i contenitori lunghi (mesi, anni, stagioni), «on» per il giorno preciso, «at» per l'ora e per i due modi di dire che fanno eccezione, at night e at the weekend.", "topic": "prepositions", "minLevel": 7, "draw": 6, "prompt": "Sort each time expression: in, on or at?",
+			"categories": ["in", "on", "at"],
+			"assignments": {
+				"July": "in", "2020": "in", "the morning": "in", "summer": "in",
+				"the evening": "in", "December": "in",
+				"Monday": "on", "15th May": "on", "Christmas Day": "on", "my birthday": "on",
+				"Friday evening": "on", "Saturday afternoon": "on",
+				"seven o'clock": "at", "night": "at", "the weekend": "at", "lunchtime": "at",
+				"midnight": "at", "half past three": "at"}},
+		{"explanation": "«Will» e «going to» parlano dello stesso futuro da due momenti diversi: «going to» quando la decisione era gia' presa o la prova e' sotto gli occhi, «will» quando si decide mentre si parla. La differenza non e' nel tempo, e' in chi ha deciso e quando.", "topic": "future", "minLevel": 13, "draw": 6, "prompt": "Sort each situation: will or going to?",
+			"categories": ["will", "going to"],
+			"assignments": {
+				"The phone is ringing: I answer it": "will",
+				"The bag is heavy: I help you": "will",
+				"I think our team wins the cup": "will",
+				"Maybe it rains tomorrow": "will",
+				"I promise: I call you tonight": "will",
+				"I offer: I make the tea": "will",
+				"We have booked: we visit Rome in July": "going to",
+				"Look at those clouds: it rains soon": "going to",
+				"She has bought the paint: she paints her room": "going to",
+				"He has decided: he studies Chinese": "going to",
+				"The tank is empty: the car stops": "going to",
+				"They have the tickets: they leave on Monday": "going to"}},
+		{"explanation": "Nel racconto al passato i due tempi hanno due mestieri: uno stende lo sfondo che durava, l'altro segna il fatto successo dentro quello sfondo. «While» apre sempre lo sfondo, «when» quasi sempre il fatto.", "topic": "past-continuous", "minLevel": 13, "draw": 6, "prompt": "Sort each half sentence: past simple or past continuous?",
+			"categories": ["past simple", "past continuous"],
+			"assignments": {
+				"the phone rang": "past simple", "I opened the door": "past simple",
+				"she arrived at eight": "past simple", "we saw the ship": "past simple",
+				"he broke the glass": "past simple", "they left in silence": "past simple",
+				"while it was raining": "past continuous", "she was reading a book": "past continuous",
+				"they were waiting outside": "past continuous", "I was having dinner": "past continuous",
+				"the sun was going down": "past continuous", "we were walking home": "past continuous"}},
+		{"explanation": "Gli stessi modali che chiedono permesso servono a fare ipotesi: «must» diventa la quasi certezza, «cannot» la certezza contraria, «might» il forse. E' lo stesso verbo che cambia mestiere, ed e' il gradino in cui il modale smette di parlare di regole e comincia a dire quanto ci si crede.", "topic": "modals", "minLevel": 16, "draw": 6, "prompt": "Sort each deduction: must, cannot or might?",
+			"categories": ["must (quasi certo)", "cannot (certo di no)", "might (forse)"],
+			"assignments": {
+				"The light is on, so he ___ be at home": "must (quasi certo)",
+				"She has studied all year, so she ___ know the answer": "must (quasi certo)",
+				"They are laughing, so they ___ be happy": "must (quasi certo)",
+				"The plate is empty, so the cat ___ be full": "must (quasi certo)",
+				"He is in Rome today, so he ___ be here": "cannot (certo di no)",
+				"That is not her car, so it ___ be hers": "cannot (certo di no)",
+				"She never eats meat, so that ___ be her plate": "cannot (certo di no)",
+				"The shop closed at six, so it ___ be open": "cannot (certo di no)",
+				"The sky is grey, so it ___ rain later": "might (forse)",
+				"He has not answered, so he ___ be busy": "might (forse)",
+				"I do not know the time, so she ___ arrive soon": "might (forse)",
+				"There are clouds, so we ___ stay at home": "might (forse)"}},
+		{"explanation": "Il trapassato serve solo quando due fatti passati vanno messi in ordine fra loro: il piu' antico arretra con «had», l'altro resta al passato semplice. Se il racconto e' gia' in ordine il trapassato non serve, ed e' l'errore piu' comune — usarlo dove non c'e' niente da riordinare.", "topic": "past-perfect", "minLevel": 22, "draw": 6, "prompt": "Sort each action: which happened FIRST (past perfect) and which after (past simple)?",
+			"categories": ["past perfect (prima)", "past simple (dopo)"],
+			"assignments": {
+				"the train had left": "past perfect (prima)",
+				"the film had already started": "past perfect (prima)",
+				"she had finished her homework": "past perfect (prima)",
+				"they had eaten everything": "past perfect (prima)",
+				"I had never seen the sea": "past perfect (prima)",
+				"he had lost the keys": "past perfect (prima)",
+				"we arrived at the station": "past simple (dopo)",
+				"we entered the cinema": "past simple (dopo)",
+				"she went out to play": "past simple (dopo)",
+				"we sat down at the table": "past simple (dopo)",
+				"I went to Sicily last year": "past simple (dopo)",
+				"he rang the bell": "past simple (dopo)"}},
+		{"explanation": "Le parole di uso quotidiano si ricordano meglio a gruppi, perche' la memoria le archivia per luogo: le stesse cose che si vedono insieme si richiamano insieme. E' il motivo per cui un vocabolario per argomenti rende piu' di uno in ordine alfabetico.", "topic": "objects", "minLevel": 1, "draw": 6, "prompt": "Sort each object: classroom, kitchen or bathroom?",
+			"categories": ["classroom", "kitchen", "bathroom"],
+			"assignments": {
+				"desk": "classroom", "blackboard": "classroom", "pencil case": "classroom",
+				"rubber": "classroom", "ruler": "classroom", "schoolbag": "classroom",
+				"fridge": "kitchen", "spoon": "kitchen", "plate": "kitchen",
+				"cooker": "kitchen", "kettle": "kitchen", "cup": "kitchen",
+				"towel": "bathroom", "soap": "bathroom", "mirror": "bathroom",
+				"toothbrush": "bathroom", "shower": "bathroom", "comb": "bathroom"}},
+		{"explanation": "Un viaggio si racconta con le parole del posto in cui si e': al banco della stazione servono i binari, all'aeroporto le carte d'imbarco, in albergo le chiavi. Sapere dove si e' aiuta a indovinare la parola che manca, ed e' la strategia che regge una conversazione vera.", "topic": "travel-places", "minLevel": 13, "draw": 6, "prompt": "Sort each word: station, airport or hotel?",
+			"categories": ["station", "airport", "hotel"],
+			"assignments": {
+				"platform": "station", "ticket office": "station", "timetable": "station",
+				"return ticket": "station", "waiting room": "station", "left luggage": "station",
+				"boarding pass": "airport", "gate": "airport", "check-in desk": "airport",
+				"hand luggage": "airport", "departure lounge": "airport", "runway": "airport",
+				"reception": "hotel", "single room": "hotel", "room key": "hotel",
+				"lift": "hotel", "half board": "hotel", "guest": "hotel"}},
+		{"explanation": "I connettivi non aggiungono contenuto: dichiarano che rapporto c'e' fra due frasi. Sbagliare connettivo non e' un errore di parole, e' dire un rapporto che non c'e' — e chi ascolta segue il connettivo, non l'intenzione.", "topic": "connectors", "minLevel": 16, "draw": 6, "prompt": "Sort each linking word: does it add, oppose or explain?",
+			"categories": ["aggiunge", "oppone", "spiega la causa"],
+			"assignments": {
+				"and": "aggiunge", "also": "aggiunge", "besides": "aggiunge",
+				"moreover": "aggiunge", "as well as": "aggiunge", "in addition": "aggiunge",
+				"but": "oppone", "however": "oppone", "although": "oppone",
+				"whereas": "oppone", "on the other hand": "oppone", "even if": "oppone",
+				"because": "spiega la causa", "so": "spiega la causa", "since": "spiega la causa",
+				"therefore": "spiega la causa", "that is why": "spiega la causa", "as": "spiega la causa"}},
+		{"explanation": "Il comparativo si sceglie contando le sillabe, non a orecchio: le parole corte prendono -er, quelle lunghe si fanno precedere da «more». Le poche irregolari sono le piu' usate di tutte — good, bad, far — e proprio per questo non si sono mai regolarizzate.", "topic": "comparatives", "minLevel": 16, "draw": 6, "prompt": "Sort each adjective: how does it make the comparative?",
+			"categories": ["+ -er", "more + aggettivo", "irregolare"],
+			"assignments": {
+				"tall": "+ -er", "fast": "+ -er", "old": "+ -er", "young": "+ -er",
+				"big": "+ -er", "small": "+ -er", "high": "+ -er", "cold": "+ -er",
+				"beautiful": "more + aggettivo", "expensive": "more + aggettivo",
+				"difficult": "more + aggettivo", "important": "more + aggettivo",
+				"interesting": "more + aggettivo", "dangerous": "more + aggettivo",
+				"comfortable": "more + aggettivo", "popular": "more + aggettivo",
+				"good": "irregolare", "bad": "irregolare", "far": "irregolare",
+				"little": "irregolare"}},
 	],
 	"latino": [
 		{"topic": "declinazioni-base", "draw": 6, "prompt": "Smista ogni parola latina: singolare o plurale?",
@@ -3825,7 +4074,7 @@ const CIRCUIT := {
 	# parola base e le parole inglesi che ne derivano (morfologia). Si sceglie la
 	# base comune.
 	"inglese": [
-		{"topic": "vocabolario", "minLevel": 5, "answer": "play",
+		{"topic": "vocabolario", "minLevel": 4, "answer": "play",
 			"prompt": "These words all grow from the same short word. Which one is the base?",
 			"domande": [
 				{"prompt": "Which word means the person who plays?", "answer": "player", "explanation": "«Player» is «play» plus «-er»: the ending «-er» turns an action into the person who does it."},
@@ -3834,7 +4083,7 @@ const CIRCUIT := {
 			"components": [{"id": "play", "x": 0.50, "y": 0.20, "label": "play"}, {"id": "player", "x": 0.18, "y": 0.65, "label": "player"}, {"id": "playing", "x": 0.50, "y": 0.85, "label": "playing"}, {"id": "playful", "x": 0.82, "y": 0.65, "label": "playful"}],
 			"connections": [["play", "player"], ["play", "playing"], ["play", "playful"]],
 			"explanation": "«play» è la parola base: player, playing e playful sono costruite tutte su di lei aggiungendo un pezzo in fondo."},
-		{"topic": "word-family", "minLevel": 5, "answer": "play",
+		{"topic": "word-family", "minLevel": 4, "answer": "play",
 			"prompt": "These English words belong to the same family. Which is the base word (the root)?",
 			"domande": [
 				{"prompt": "Which word names a place where children play?", "answer": "playground", "explanation": "«Playground» joins «play» and «ground»: it is a compound word, not just an ending."},
@@ -3843,7 +4092,7 @@ const CIRCUIT := {
 			"components": [{"id": "play", "x": 0.50, "y": 0.20, "label": "play"}, {"id": "player", "x": 0.18, "y": 0.65, "label": "player"}, {"id": "playful", "x": 0.50, "y": 0.82, "label": "playful"}, {"id": "playground", "x": 0.82, "y": 0.65, "label": "playground"}],
 			"connections": [["play", "player"], ["play", "playful"], ["play", "playground"]],
 			"explanation": "The base word is 'play': player, playful and playground all come from it."},
-		{"topic": "word-family", "minLevel": 6, "answer": "help",
+		{"topic": "word-family", "minLevel": 4, "answer": "help",
 			"prompt": "These words share the same root. Which is the base word?",
 			"domande": [
 				{"prompt": "Which word means the person who helps?", "answer": "helper", "explanation": "«Helper» is «help» plus «-er»: the ending «-er» names the person who does the action."},
@@ -3852,6 +4101,25 @@ const CIRCUIT := {
 			"components": [{"id": "help", "x": 0.50, "y": 0.20, "label": "help"}, {"id": "helper", "x": 0.20, "y": 0.68, "label": "helper"}, {"id": "helpful", "x": 0.52, "y": 0.84, "label": "helpful"}, {"id": "helpless", "x": 0.82, "y": 0.66, "label": "helpless"}],
 			"connections": [["help", "helper"], ["help", "helpful"], ["help", "helpless"]],
 			"explanation": "The base word is 'help': helper, helpful and helpless are built from it."},
+		# --- La formazione delle parole, fasce 7 e 8 (9 settembre 2026) -------
+		{"topic": "word-family", "minLevel": 19, "answer": "happy",
+			"prompt": "These words are built from the same base. Which one is the base?",
+			"domande": [
+				{"prompt": "Which word means the opposite, built with a prefix?", "answer": "unhappy", "explanation": "«Unhappy» is «happy» with «un-» in front: a prefix changes the meaning, it does not change the part of speech."},
+				{"prompt": "Which word is the noun of the family?", "answer": "happiness", "explanation": "«Happiness» is «happy» plus «-ness»: the ending «-ness» turns a quality into the name of that quality."},
+			],
+			"components": [{"id": "happy", "x": 0.50, "y": 0.20, "label": "happy"}, {"id": "unhappy", "x": 0.18, "y": 0.65, "label": "unhappy"}, {"id": "happiness", "x": 0.50, "y": 0.85, "label": "happiness"}, {"id": "happily", "x": 0.82, "y": 0.65, "label": "happily"}],
+			"connections": [["happy", "unhappy"], ["happy", "happiness"], ["happy", "happily"]],
+			"explanation": "La base e' «happy», e i tre rami mostrano i due mestieri diversi degli affissi: davanti «un-» rovescia il significato, in fondo «-ness» e «-ly» cambiano il mestiere della parola — nome e avverbio. Riconoscere il pezzo aggiunto permette di capire una parola mai vista."},
+		{"topic": "word-family", "minLevel": 22, "answer": "care",
+			"prompt": "These words share the same root. Which is the base word?",
+			"domande": [
+				{"prompt": "Which word means «without care»?", "answer": "careless", "explanation": "«Careless» is «care» plus «-less»: the ending «-less» means «without», and it is the exact opposite of «-ful»."},
+				{"prompt": "Which word tells you HOW something is done?", "answer": "carefully", "explanation": "«Carefully» ends in «-ly»: that ending builds adverbs, and an adverb answers the question «how?»."},
+			],
+			"components": [{"id": "care", "x": 0.50, "y": 0.20, "label": "care"}, {"id": "careful", "x": 0.18, "y": 0.65, "label": "careful"}, {"id": "carefully", "x": 0.50, "y": 0.85, "label": "carefully"}, {"id": "careless", "x": 0.82, "y": 0.65, "label": "careless"}],
+			"connections": [["care", "careful"], ["care", "carefully"], ["care", "careless"]],
+			"explanation": "«Care» e' la base, e i suffissi si sommano in fila: «-ful» fa l'aggettivo, «-ly» lo trasforma in avverbio, «-less» costruisce il contrario. E' la stessa catena che regge migliaia di parole inglesi, ed e' il motivo per cui la formazione delle parole vale piu' di un vocabolario."},
 	],
 }
 
@@ -4143,25 +4411,25 @@ const CODE_DEBUG := {
 		{"topic": "spelling", "answerLine": 2, "shuffleLines": true,
 			"prompt": "One word is spelled wrong. Which line?",
 			"codeLines": ["I have a cat.", "The sun is yelow.", "She likes books.", "# find the spelling mistake"],
-			"explanation": "Line 2: 'yellow' has a double L."},
-		{"topic": "articles", "minLevel": 5, "answerLine": 3, "shuffleLines": true,
+			"explanation": "Riga 2: «yellow» vuole due L. E' una parola che si sente giusta anche scritta male, ed e' per questo che va guardata invece che ascoltata: l'inglese raddoppia la consonante per tenere corta la vocale che la precede."},
+		{"topic": "articles", "minLevel": 4, "answerLine": 3, "shuffleLines": true,
 			"prompt": "One article is wrong. Which line?",
 			"codeLines": ["I have a dog.", "There is an egg.", "She eats a apple.", "# which article is wrong?"],
-			"explanation": "Line 3: before a vowel sound use 'an': 'an apple'."},
-		{"topic": "third-person", "minLevel": 6, "answerLine": 2, "shuffleLines": true,
+			"explanation": "Riga 3: davanti a un suono di vocale l'articolo prende una consonante d'appoggio, «an apple». Decide il SUONO e non la lettera: per questo si dice «an hour», dove la h non si sente, e «a university», che comincia con il suono di «yes»."},
+		{"topic": "third-person", "minLevel": 4, "answerLine": 2, "shuffleLines": true,
 			"prompt": "One sentence has a grammar mistake. Which line?",
 			"codeLines": ["I like pizza.", "She go to school every day.", "They play football.", "# find the sentence with the error"],
-			"explanation": "Line 2: third person singular needs -s: 'She goes to school'."},
+			"explanation": "Riga 2: con he, she e it il presente prende la -s, «She goes to school». E' l'unico punto di tutta la coniugazione inglese in cui il verbo cambia, e proprio perche' e' uno solo si dimentica."},
 		{"topic": "past-tense", "minLevel": 7, "answerLine": 2, "shuffleLines": true,
 			"prompt": "One past tense is wrong. Which line?",
 			"codeLines": ["Yesterday I played tennis.", "She goed home.", "We watched a film.", "# which past tense is wrong?"],
-			"explanation": "Line 2: 'go' is irregular, the past is 'went', not 'goed'."},
+			"explanation": "Riga 2: «go» e' irregolare e al passato diventa «went». «Goed» non e' una svista: e' la regola del -ed applicata dove non vale, l'errore che fanno anche i bambini inglesi — segno che la regola e' stata capita e manca solo la lista delle eccezioni."},
 		{"topic": "do-does", "minLevel": 7, "answerLine": 2, "shuffleLines": true,
 			"prompt": "One negative sentence is wrong. Which line?",
 			"codeLines": ["I don't like fish.", "He don't like tea.", "We don't watch TV.", "# which negative is wrong?"],
-			"explanation": "Line 2: third person singular uses 'doesn't': 'He doesn't like tea'."},
+			"explanation": "Riga 2: alla terza persona singolare la -s passa all'ausiliare, «He doesn't like tea», e il verbo principale resta nudo. Due -s nella stessa frase non si mettono mai: una sola, e la prende chi arriva prima."},
 		# --- Gli errori del biennio (8 settembre 2026) ------------------------
-		{"topic": "present-perfect", "minLevel": 14, "answerLine": 2, "shuffleLines": true,
+		{"topic": "present-perfect", "minLevel": 13, "answerLine": 2, "shuffleLines": true,
 			"prompt": "One tense is wrong. Which line?",
 			"codeLines": ["I have lived here since 2020.", "I have seen him yesterday.", "She has just arrived.", "# which tense does not fit?"],
 			"explanation": "Riga 2: «yesterday» dichiara un momento finito e taglia il filo con il presente. Con un tempo chiuso ci vuole il past simple: «I saw him yesterday». Le righe 1 e 3 tengono il filo aperto e vanno bene così."},
@@ -4169,11 +4437,11 @@ const CODE_DEBUG := {
 			"prompt": "One conditional is wrong. Which line?",
 			"codeLines": ["If it rains, we will stay in.", "If it will rain, we will stay in.", "If I were you, I would go.", "# which «if» sentence is wrong?"],
 			"explanation": "Riga 2: dopo «if» il futuro non si scrive mai. Il futuro lo porta la principale, e la condizione resta al presente — come succede anche dopo «when» e «as soon as»."},
-		{"topic": "reported-speech", "minLevel": 18, "answerLine": 2, "shuffleLines": true,
+		{"topic": "reported-speech", "minLevel": 16, "answerLine": 2, "shuffleLines": true,
 			"prompt": "One reported sentence is wrong. Which line?",
 			"codeLines": ["He said he was tired.", "He asked where did I live.", "She told me to close the door.", "# which reported sentence is wrong?"],
 			"explanation": "Riga 2: nel discorso indiretto la domanda perde l'inversione e l'aiutante. La forma giusta è «He asked where I lived»: l'ordine torna quello di un'affermazione, e il tempo arretra."},
-		{"topic": "passive", "minLevel": 20, "answerLine": 2, "shuffleLines": true,
+		{"topic": "passive", "minLevel": 19, "answerLine": 2, "shuffleLines": true,
 			"prompt": "One passive sentence is wrong. Which line?",
 			"codeLines": ["The house was built in 1890.", "The house built in 1890 by them.", "English is spoken here.", "# which passive is wrong?"],
 			"explanation": "Riga 2: senza il verbo essere non c'è nessun passivo, e la casa diventa chi costruisce. Il passivo è sempre verbo essere più participio, in questo ordine e senza saltarne nessuno."},
@@ -4181,6 +4449,72 @@ const CODE_DEBUG := {
 			"prompt": "One verb form is wrong. Which line?",
 			"codeLines": ["I enjoy reading books.", "I decided going home early.", "She is good at solving problems.", "# which verb form is wrong?"],
 			"explanation": "Riga 2: «decide» regge l'infinito con «to», non la forma in «-ing». La riga 1 usa un verbo che vuole «-ing», la 3 sta dopo una preposizione, e dopo una preposizione la forma in «-ing» è obbligatoria."},
+		# --- La grammatica delle prime fasce (9 settembre 2026) ---------------
+		#
+		# La caccia all'errore e' il cuore dell'apprendimento di una lingua: si
+		# legge una frase plausibile e si trova il punto in cui non regge. Ogni
+		# riga sbagliata qui e' un errore che un italiano fa DAVVERO, e le due
+		# righe giuste servono a impedire che si risponda a caso.
+		{"topic": "to-be", "minLevel": 1, "answerLine": 2, "shuffleLines": true,
+			"prompt": "One sentence has a mistake. Which line?",
+			"codeLines": ["I am eleven years old.", "She are my sister.", "We are good friends.", "# check the verb to be"],
+			"explanation": "Riga 2: «she» e' una persona sola e vuole «is». La forma «are» vale per il plurale e per «you»: qui il soggetto e' uno, e il verbo deve dirlo."},
+		{"topic": "have-got", "minLevel": 4, "answerLine": 2, "shuffleLines": true,
+			"prompt": "One sentence has a mistake. Which line?",
+			"codeLines": ["I have got two brothers.", "He have got a dog.", "They have got a big house.", "# check have got"],
+			"explanation": "Riga 2: con «he» la prima parola del verbo diventa «has». Cambia solo quella: «got» resta uguale per tutte le persone, e chi la cambia sta cercando la regola nel posto sbagliato."},
+		{"topic": "plurals", "minLevel": 4, "answerLine": 2, "shuffleLines": true,
+			"prompt": "One plural is wrong. Which line?",
+			"codeLines": ["There are three boxes.", "There are two childs.", "There are five cities.", "# which plural is wrong?"],
+			"explanation": "Riga 2: il plurale di «child» e' «children», non «childs». E' un plurale antico sopravvissuto perche' la parola si usa moltissimo: le lingue non regolarizzano quello che si dice ogni giorno."},
+		{"topic": "there-is", "minLevel": 4, "answerLine": 2, "shuffleLines": true,
+			"prompt": "One sentence has a mistake. Which line?",
+			"codeLines": ["There is a cat in the garden.", "There is two cats in the garden.", "There are four chairs here.", "# check there is and there are"],
+			"explanation": "Riga 2: i gatti sono due, quindi ci vuole «there are». Il verbo si accorda con quello che viene dopo, non con «there», che non e' un soggetto ma solo il posto che la frase pretende."},
+		{"topic": "pronouns", "minLevel": 4, "answerLine": 2, "shuffleLines": true,
+			"prompt": "One sentence has a mistake. Which line?",
+			"codeLines": ["She is my best friend.", "Me like chocolate.", "They live in Milan.", "# which pronoun is in the wrong place?"],
+			"explanation": "Riga 2: chi compie l'azione e' «I», non «me». L'inglese ha due serie di pronomi e la posizione decide quale: prima del verbo chi agisce, dopo il verbo chi subisce."},
+		{"topic": "prepositions", "minLevel": 7, "answerLine": 2, "shuffleLines": true,
+			"prompt": "One preposition is wrong. Which line?",
+			"codeLines": ["The lesson starts at nine.", "My birthday is in Monday.", "We go skiing in winter.", "# which preposition is wrong?"],
+			"explanation": "Riga 2: il giorno preciso vuole «on», «on Monday». «In» regge i contenitori lunghi — mesi, stagioni, anni — e «at» l'ora: si va dal grande al piccolo, e il giorno sta nel mezzo."},
+		{"topic": "present-continuous", "minLevel": 7, "answerLine": 2, "shuffleLines": true,
+			"prompt": "One sentence has a mistake. Which line?",
+			"codeLines": ["Look! It is raining.", "She is play tennis now.", "They are having lunch.", "# check the -ing form"],
+			"explanation": "Riga 2: dopo il verbo essere ci vuole la forma in -ing, «is playing». Il presente continuo e' fatto di due pezzi e nessuno dei due regge da solo: «is» senza -ing resta a meta'."},
+		{"topic": "possessives", "minLevel": 7, "answerLine": 2, "shuffleLines": true,
+			"prompt": "One sentence sounds wrong in English. Which line?",
+			"codeLines": ["This is my brother's bike.", "This is the bike of my brother.", "Anna's room is upstairs.", "# how does English show possession?"],
+			"explanation": "Riga 2: quando il possessore e' una persona l'inglese non usa «of», mette il possessore davanti con l'apostrofo: «my brother's bike». La frase non e' incomprensibile, e' calcata sull'italiano — e si riconosce proprio da questo."},
+		{"topic": "quantifiers", "minLevel": 7, "answerLine": 2, "shuffleLines": true,
+			"prompt": "One question is wrong. Which line?",
+			"codeLines": ["How much sugar do you need?", "How much apples do you want?", "How many friends have you got?", "# much or many?"],
+			"explanation": "Riga 2: le mele si contano una a una, quindi vuole «many». «Much» sta con quello che si misura e non ha plurale — e la -s finale di «apples» e' gia' la prova che qui non ci va."},
+		{"topic": "modals", "minLevel": 13, "answerLine": 2, "shuffleLines": true,
+			"prompt": "One sentence has a mistake. Which line?",
+			"codeLines": ["You should call her tonight.", "She must to go home now.", "I can swim very well.", "# check the modal verb"],
+			"explanation": "Riga 2: dopo un modale il verbo va all'infinito senza «to», «she must go». I modali sono gli unici verbi che reggono un altro verbo nudo: e' la stessa eccezione che spiega anche perche' non prendono la -s."},
+		{"topic": "future", "minLevel": 13, "answerLine": 2, "shuffleLines": true,
+			"prompt": "One sentence has a mistake. Which line?",
+			"codeLines": ["I will call you tomorrow.", "I will to call you tomorrow.", "We are going to leave at six.", "# check the future form"],
+			"explanation": "Riga 2: «will» e' un modale e non vuole «to» dopo di se'. Il «to» compare invece dentro «going to», dove pero' fa parte della formula: due futuri, due costruzioni, e si confondono proprio per quel «to»."},
+		{"topic": "past-continuous", "minLevel": 13, "answerLine": 2, "shuffleLines": true,
+			"prompt": "One sentence has a mistake. Which line?",
+			"codeLines": ["While I was walking, it started to rain.", "While I was walk, it started to rain.", "They were waiting at the station.", "# check the past continuous"],
+			"explanation": "Riga 2: manca la -ing, «I was walking». Il passato continuo e' «was/were» piu' la forma in -ing: senza quella coda il verbo non dura, e la frase perde proprio lo sfondo che «while» aveva aperto."},
+		{"topic": "relatives", "minLevel": 16, "answerLine": 2, "shuffleLines": true,
+			"prompt": "One relative pronoun is wrong. Which line?",
+			"codeLines": ["The man who lives here is a doctor.", "The girl which won the race is my cousin.", "The book that I read was long.", "# which relative pronoun is wrong?"],
+			"explanation": "Riga 2: «which» vale per le cose, per le persone ci vuole «who» (o «that»). L'italiano usa «che» per tutto e non costringe a scegliere: qui la scelta c'e', e passa dalla differenza fra chi e che cosa."},
+		{"topic": "past-perfect", "minLevel": 22, "answerLine": 2, "shuffleLines": true,
+			"prompt": "One sentence puts the two past actions in the wrong order. Which line?",
+			"codeLines": ["When I arrived, the train had already left.", "When I arrived, the train already left.", "She had finished her homework before dinner.", "# which sentence loses the order of the two actions?"],
+			"explanation": "Riga 2: due passati semplici mettono i fatti sullo stesso piano, e la frase finisce per dire che il treno e' partito dopo il mio arrivo. Il trapassato serve proprio a questo: fa arretrare di un gradino il fatto piu' antico."},
+		{"topic": "comparatives", "minLevel": 16, "answerLine": 2, "shuffleLines": true,
+			"prompt": "One comparative is wrong. Which line?",
+			"codeLines": ["She is taller than her brother.", "This book is more cheap than that one.", "My bike is better than yours.", "# which comparative is wrong?"],
+			"explanation": "Riga 2: «cheap» e' una parola corta e prende -er, «cheaper». «More» si mette davanti alle parole lunghe, e le due strade non si sommano mai: chi scrive «more cheaper» applica due volte la stessa regola."},
 	],
 	# ELETTRONICA — "Caccia all'errore": si scova l'affermazione falsa sul circuito
 	# o il passaggio sbagliato nel calcolo elettrico. Il ragionamento come sfida.
@@ -4426,6 +4760,13 @@ static func topics_for(subject: String) -> Array:
 		topics[str(topic)] = true
 	for topic in Array(TEMPLATE_FORMAT_TOPICS.get(subject, [])):
 		topics[str(topic)] = true
+	if subject == "italiano":
+		for challenge_data in ItalianMinigameCatalog.all_challenges():
+			var challenge := challenge_data as Dictionary
+			var spec := challenge.get("spec", {}) as Dictionary
+			var topic := str(spec.get("topic", ""))
+			if topic != "":
+				topics[topic] = true
 	return topics.keys()
 
 ## **La spiegazione che il minigioco ha gia' scritto.** (15 agosto 2026)
@@ -4452,6 +4793,17 @@ static func spiegazione_di_topic(subject: String, topic: String) -> Dictionary:
 				"explanation": spiegazione,
 				"prompt": str(spec.get("prompt", "")).strip_edges(),
 			}
+	if subject == "italiano":
+		for challenge_data in ItalianMinigameCatalog.all_challenges():
+			var spec := (challenge_data as Dictionary).get("spec", {}) as Dictionary
+			if str(spec.get("topic", "")) != topic:
+				continue
+			var spiegazione := str(spec.get("explanation", "")).strip_edges()
+			if spiegazione != "":
+				return {
+					"explanation": spiegazione,
+					"prompt": str(spec.get("prompt", "")).strip_edges(),
+				}
 	return {}
 
 # --- Specifiche a insieme: quante voci si pescano, e quanto sono profonde -------
@@ -4668,7 +5020,7 @@ const SWIPE := {
 			"explanation": "Sono le forme che si sbagliano scrivendo in fretta, ed è in fretta che vanno riconosciute. «Un'amico» è l'errore più diffuso in assoluto: l'apostrofo va solo davanti al femminile, perché «uno» maschile perde la o senza bisogno di segnalarlo."},
 	],
 	"inglese": [
-		{"topic": "irregular-past", "minLevel": 6, "prompt": "Scorri: a destra se il passato è giusto, a sinistra se è sbagliato.", "seconds": 50.0, "minAccuracy": 0.75,
+		{"topic": "irregular-past", "minLevel": 4, "prompt": "Scorri: a destra se il passato è giusto, a sinistra se è sbagliato.", "seconds": 50.0, "minAccuracy": 0.75,
 			"statements": [
 				{"text": "go » went", "correct": true},
 				{"text": "eat » eated", "correct": false},
@@ -4684,7 +5036,7 @@ const SWIPE := {
 				{"text": "know » knew", "correct": true},
 				{"text": "think » thinked", "correct": false}],
 			"explanation": "I verbi irregolari non seguono la regola del -ed, e sono proprio quelli che si usano di più: le lingue non regolarizzano mai ciò che si dice ogni giorno. Le forme false qui sono quelle che un bambino costruirebbe applicando la regola — ed è giusto che sembrino plausibili."},
-		{"topic": "false-friends", "minLevel": 12, "prompt": "Scorri: a destra se la traduzione è vera, a sinistra se è un falso amico.", "seconds": 50.0, "minAccuracy": 0.75,
+		{"topic": "false-friends", "minLevel": 10, "prompt": "Scorri: a destra se la traduzione è vera, a sinistra se è un falso amico.", "seconds": 50.0, "minAccuracy": 0.75,
 			"statements": [
 				{"text": "actually » in realtà", "correct": true},
 				{"text": "actually » attualmente", "correct": false},
@@ -4699,7 +5051,7 @@ const SWIPE := {
 				{"text": "sensible » sensato", "correct": true},
 				{"text": "sensible » sensibile", "correct": false}],
 			"explanation": "I falsi amici somigliano a parole italiane ma hanno cambiato significato. La somiglianza è la trappola: bisogna verificare l'uso nella frase, non fidarsi della forma."},
-		{"topic": "present-perfect", "minLevel": 20, "prompt": "Scorri: a destra se la frase è giusta, a sinistra se il tempo è sbagliato.", "seconds": 55.0, "minAccuracy": 0.75,
+		{"topic": "present-perfect", "minLevel": 19, "prompt": "Scorri: a destra se la frase è giusta, a sinistra se il tempo è sbagliato.", "seconds": 55.0, "minAccuracy": 0.75,
 			"statements": [
 				{"text": "I have lived here since 2020", "correct": true},
 				{"text": "I have seen him yesterday", "correct": false},
@@ -4821,11 +5173,21 @@ const CLUE := {
 			"explanation": "Il secondo indizio è già decisivo: cambiare modo di respirare crescendo è la definizione stessa di anfibio. Gli altri due lo confermano, e servono a chi non aveva colto il primo segnale."},
 	],
 	"inglese": [
-		{"topic": "parts-of-speech", "minLevel": 9, "prompt": "Quale parola è? Scopri solo gli indizi che ti servono.",
+		{"topic": "parts-of-speech", "minLevel": 7, "prompt": "Quale parola è? Scopri solo gli indizi che ti servono.",
 			"clues": [{"text": "È un sostantivo inglese di uso comune, non un verbo."}, {"text": "Somiglia a una parola italiana ma non significa la stessa cosa."}, {"text": "Chi la traduce a orecchio pensa a un negozio, e sbaglia."}, {"text": "Il posto giusto dove tradurla è quello in cui i libri si prendono in prestito."}],
 			"targets": [{"id": "a", "label": "bookshop"}, {"id": "b", "label": "library"}, {"id": "c", "label": "factory"}, {"id": "d", "label": "camera"}],
 			"answer": "b",
 			"explanation": "Il terzo indizio è quello che conta: «library» somiglia a «libreria» e invece è la biblioteca. È il falso amico che fa sbagliare più spesso, ed è per questo che qui si arriva scartando, non ricordando."},
+		{"topic": "false-friends", "minLevel": 13, "prompt": "Quale parola e'? Scopri solo gli indizi che ti servono.",
+			"clues": [{"text": "E' un aggettivo inglese di uso comune."}, {"text": "Somiglia a una parola italiana che parla dei sentimenti."}, {"text": "Chi la traduce a orecchio descrive una persona che si commuove facilmente."}, {"text": "In inglese descrive invece chi ragiona bene e non fa scelte avventate."}],
+			"targets": [{"id": "a", "label": "sensitive"}, {"id": "b", "label": "sensible"}, {"id": "c", "label": "sincere"}, {"id": "d", "label": "silent"}],
+			"answer": "b",
+			"explanation": "«Sensible» vuol dire sensato, ragionevole; chi si commuove facilmente e' «sensitive». Le due parole esistono entrambe e sono vicinissime: e' per questo che il falso amico regge, e per questo si arriva scartando invece che ricordando."},
+		{"topic": "phrasal-verbs", "minLevel": 16, "prompt": "Quale phrasal verb e'? Scopri solo gli indizi che ti servono.",
+			"clues": [{"text": "E' un verbo seguito da una particella, e insieme valgono una parola sola."}, {"text": "Il verbo di base vuol dire «guardare»."}, {"text": "Ma il significato dell'insieme non ha piu' niente a che fare con gli occhi."}, {"text": "Lo fa un genitore con un bambino, o un'infermiera con un malato."}],
+			"targets": [{"id": "a", "label": "look for"}, {"id": "b", "label": "look at"}, {"id": "c", "label": "look after"}, {"id": "d", "label": "look up"}],
+			"answer": "c",
+			"explanation": "«Look after» significa prendersi cura, e non e' deducibile dai pezzi: e' la particella a decidere tutto. «Look for» e' cercare, «look up» e' cercare su un dizionario, «look at» e' l'unico dei quattro che riguarda ancora gli occhi."},
 	],
 	# Anche l'indiziario della logica girava su una specifica sola: chi ha vinto la
 	# gara era sempre Dino. Dal 1 settembre 2026 sono tre, con tre risposte in tre
@@ -4933,6 +5295,42 @@ const TIMELINE := {
 			"answer": "a",
 			"explanation": "Fra Dante e Manzoni passano cinquecento anni: la lingua italiana in mezzo cambia più di quanto sia cambiata dal 1827 a oggi."},
 	],
+	# INGLESE — il sistema dei tempi E' una linea del tempo, ed e' l'unico modo di
+	# mostrarlo che non chieda di ricordare un nome. Qui non si sceglie un tempo
+	# verbale da un elenco: si guarda DOVE cade un fatto, e il tempo verbale e'
+	# la conseguenza. Aggiunto il 9 settembre 2026 insieme al resto della
+	# grammatica giocabile: il mondo 16 e' l'unico mondo d'inglese delle fasce
+	# alte, e i tre tempi del passato ci arrivano tutti insieme.
+	"inglese": [
+		{"topic": "past-tense", "minLevel": 13, "prompt": "All four sentences are in the past. Which one happened FIRST?",
+			"min": 0.0, "max": 24.0,
+			"labels": [{"value": 0.0, "text": "midnight"}, {"value": 12.0, "text": "midday"}, {"value": 24.0, "text": "midnight"}],
+			"targets": [{"id": "a", "label": "I got up at seven", "value": 7.0}, {"id": "b", "label": "I left home at half past eight", "value": 8.5}, {"id": "c", "label": "We had lunch at one", "value": 13.0}, {"id": "d", "label": "I went to bed at ten", "value": 22.0}],
+			"answer": "a",
+			"explanation": "Il past simple serve a questo: mettere un fatto in un punto preciso e chiuso del tempo. Ogni frase qui porta la sua ora, e la linea mostra quello che l'elenco non mostrava — che fra l'alzarsi e l'uscire passa un'ora e mezza, e fra il pranzo e il letto nove.",
+			"domande": [
+				{"prompt": "Which action happened LAST?", "answer": "d", "explanation": "Le dieci di sera sono il punto piu' a destra della linea: piu' avanti nella giornata vuol dire piu' avanti nel tempo, e il past simple li tratta tutti allo stesso modo — fatti chiusi, ognuno al suo posto."},
+				{"prompt": "Which action is the closest to midday?", "answer": "c", "explanation": "Le tredici distano un'ora da mezzogiorno; le otto e mezza quasi quattro. Sulla linea la distanza si vede, nell'elenco no."},
+			]},
+		{"topic": "present-perfect", "minLevel": 16, "prompt": "Which event is the CLOSEST to today?",
+			"min": 2014.0, "max": 2026.0,
+			"labels": [{"value": 2014.0, "text": "2014"}, {"value": 2020.0, "text": "2020"}, {"value": 2026.0, "text": "oggi"}],
+			"targets": [{"id": "a", "label": "We met in 2016", "value": 2016.0}, {"id": "b", "label": "She started school in 2019", "value": 2019.0}, {"id": "c", "label": "They moved to Rome in 2024", "value": 2024.0}],
+			"answer": "c",
+			"explanation": "Qui si legge la distanza da oggi, ed e' esattamente quello che fanno «since» e «for»: «since» segna il punto in cui una cosa e' cominciata, «for» misura il tratto da li' a oggi. Sulla linea sono la stessa distanza guardata da due estremi.",
+			"domande": [
+				{"prompt": "Which event started the longest time ago?", "answer": "a", "explanation": "Il 2016 e' il punto piu' a sinistra: piu' lontano da oggi vuol dire un tratto piu' lungo da misurare, e in inglese quel tratto si dice con «for» — for ten years."},
+			]},
+		{"topic": "past-perfect", "minLevel": 22, "prompt": "Three past actions, one morning. Which one needs the past perfect, because it happened before the others?",
+			"min": 8.0, "max": 11.0,
+			"labels": [{"value": 8.0, "text": "8:00"}, {"value": 9.0, "text": "9:00"}, {"value": 10.0, "text": "10:00"}, {"value": 11.0, "text": "11:00"}],
+			"targets": [{"id": "a", "label": "The train left (9:00)", "value": 9.0}, {"id": "b", "label": "We arrived at the station (9:20)", "value": 9.33}, {"id": "c", "label": "We called home (9:40)", "value": 9.66}],
+			"answer": "a",
+			"explanation": "Il trapassato non e' «un passato piu' lontano»: e' il fatto che sta PRIMA di un altro passato di cui si sta parlando. Il treno e' partito prima del nostro arrivo, quindi arretra di un gradino — «the train had left» — e gli altri due restano al passato semplice.",
+			"domande": [
+				{"prompt": "Which action happened LAST?", "answer": "c", "explanation": "La telefonata e' il punto piu' a destra, e resta al passato semplice: il trapassato serve solo al fatto che deve arretrare, non a tutti quelli che vengono prima nell'orologio."},
+			]},
+	],
 }
 
 # COMPOSITORE: si SCELGONO i pezzi, non si riordinano quelli dati.
@@ -4991,7 +5389,7 @@ const COMPOSE := {
 			"targets": [{"id": "a", "label": "do"}, {"id": "b", "label": "are"}, {"id": "c", "label": "does"}],
 			"answer": "a",
 			"explanation": "In inglese la domanda inverte: dopo il «where» viene l'ausiliare e poi il soggetto. Con «you» l'ausiliare è «do» — «does» vale solo per lui, lei, esso."},
-		{"topic": "third-person", "minLevel": 9, "prompt": "Completa la frase con la forma giusta del verbo.",
+		{"topic": "third-person", "minLevel": 7, "prompt": "Completa la frase con la forma giusta del verbo.",
 			"slots": [{"text": "She"}, {"text": ""}, {"text": "to school every day"}],
 			"targets": [{"id": "a", "label": "goes"}, {"id": "b", "label": "go"}, {"id": "c", "label": "going"}],
 			"answer": "a",
@@ -5005,7 +5403,7 @@ const COMPOSE := {
 			"answer": "a",
 			"explanation": "I verbi irregolari cambiano parola invece di prendere una desinenza, e vanno imparati a coppie. «Gone» esiste, ma non regge da sola: chiede *have* davanti, e senza resta a metà."},
 		# --- I tempi composti (8 settembre 2026) ------------------------------
-		{"topic": "present-perfect", "minLevel": 17, "prompt": "Completa la frase con la forma giusta.",
+		{"topic": "present-perfect", "minLevel": 16, "prompt": "Completa la frase con la forma giusta.",
 			"domande": [
 				{"prompt": "Quale forma non può stare dopo «has», perché non è un participio?", "answer": "b", "explanation": "«Went» è il passato semplice, e il passato semplice non regge mai dopo un ausiliare. Dopo «have» o «has» ci va sempre la terza forma del verbo, quella della tabella."},
 			],
@@ -5013,7 +5411,7 @@ const COMPOSE := {
 			"targets": [{"id": "a", "label": "been"}, {"id": "b", "label": "went"}, {"id": "c", "label": "gone"}],
 			"answer": "a",
 			"explanation": "«Been» dice che ci è andata ed è tornata; «gone» direbbe che è partita e non c'è più — e con «twice» non tornerebbe. È la differenza più utile della coppia, e la sola che cambia il senso della frase."},
-		{"topic": "conditionals", "minLevel": 21, "prompt": "Completa la conseguenza del terzo tipo.",
+		{"topic": "conditionals", "minLevel": 19, "prompt": "Completa la conseguenza del terzo tipo.",
 			"domande": [
 				{"prompt": "Quale forma parla del presente e non del passato ormai perduto?", "answer": "c", "explanation": "«Would pass» è il condizionale semplice, e guarda a una cosa ancora possibile adesso. Il terzo tipo parla di un passato che non si può più cambiare, e chiede il condizionale composto."},
 			],
@@ -5021,6 +5419,56 @@ const COMPOSE := {
 			"targets": [{"id": "a", "label": "would have passed"}, {"id": "b", "label": "will have passed"}, {"id": "c", "label": "would pass"}],
 			"answer": "a",
 			"explanation": "Nel terzo tipo la condizione sta al trapassato e la conseguenza al condizionale composto: la frase racconta quello che sarebbe successo e non è successo. È il tempo del rimpianto."},
+		# --- La grammatica delle prime fasce (9 settembre 2026) ---------------
+		{"topic": "to-be", "minLevel": 1, "prompt": "Completa la frase con la forma giusta del verbo essere.",
+			"slots": [{"text": "My sister"}, {"text": ""}, {"text": "twelve"}],
+			"targets": [{"id": "a", "label": "is"}, {"id": "b", "label": "am"}, {"id": "c", "label": "are"}],
+			"answer": "a",
+			"explanation": "«My sister» e' una persona sola come «she», e prende «is». «Am» esiste solo per «I» — e' l'unica forma di tutta la lingua che appartiene a una persona sola — mentre «are» serve al plurale."},
+		{"topic": "have-got", "minLevel": 4, "prompt": "Completa la frase con la forma giusta di «have got».",
+			"domande": [
+				{"prompt": "Quale forma qui non puo' stare, perche' e' il verbo essere e non il possesso?", "answer": "c", "explanation": "«Is» dice com'e' una cosa, non che cosa possiede. Il possesso lo dice «have got», e la prova e' che dopo «is» la parola «got» non avrebbe nessun posto dove stare."},
+			],
+			"slots": [{"text": "She"}, {"text": ""}, {"text": "got a new bike"}],
+			"targets": [{"id": "a", "label": "has"}, {"id": "b", "label": "have"}, {"id": "c", "label": "is"}],
+			"answer": "a",
+			"explanation": "Con lei cambia solo la prima parola del verbo: «has got». «Got» resta ferma per tutte le persone, ed e' questo che rende la coppia facile: c'e' un pezzo solo da accordare."},
+		{"topic": "there-is", "minLevel": 4, "prompt": "Completa la frase.",
+			"slots": [{"text": ""}, {"text": "some milk in the fridge"}],
+			"targets": [{"id": "a", "label": "There is"}, {"id": "b", "label": "There are"}, {"id": "c", "label": "It is"}],
+			"answer": "a",
+			"explanation": "Il latte si misura, non si conta: resta singolare anche quando e' tanto, e vuole «there is». «It is» direbbe com'e' il latte, non che ce n'e' — sono due frasi diverse che in italiano cominciano quasi uguali."},
+		{"topic": "quantifiers", "minLevel": 7, "prompt": "Completa la domanda.",
+			"slots": [{"text": "How"}, {"text": ""}, {"text": "sugar do you need?"}],
+			"targets": [{"id": "a", "label": "much"}, {"id": "b", "label": "many"}, {"id": "c", "label": "long"}],
+			"answer": "a",
+			"explanation": "Lo zucchero si pesa e non ha plurale: prende «much». «Many» chiederebbe quanti zuccheri, che non vuol dire niente — ed e' proprio il plurale mancante il segnale da cercare, prima ancora della parola."},
+		{"topic": "future", "minLevel": 13, "prompt": "Completa la frase guardando la prova che c'e' gia'.",
+			"domande": [
+				{"prompt": "Quale forma userebbe chi decide proprio adesso, senza nessuna prova davanti?", "answer": "b", "explanation": "«Will» e' il futuro della decisione presa mentre si parla: si usa per offerte, promesse e previsioni senza appoggio. Qui invece le nuvole sono gia' li', e la prova esclude la decisione improvvisa."},
+			],
+			"slots": [{"text": "Look at those clouds! It"}, {"text": ""}, {"text": "rain"}],
+			"targets": [{"id": "a", "label": "is going to"}, {"id": "b", "label": "will"}, {"id": "c", "label": "rains"}],
+			"answer": "a",
+			"explanation": "Quando la prova e' sotto gli occhi l'inglese usa «going to»: il futuro e' gia' cominciato qui, e si vede. «Will» servirebbe a una previsione senza appoggio, e il presente semplice a un orario fisso."},
+		{"topic": "relatives", "minLevel": 16, "prompt": "Completa la frase con il pronome relativo giusto.",
+			"slots": [{"text": "The book"}, {"text": ""}, {"text": "I bought yesterday is long"}],
+			"targets": [{"id": "a", "label": "that"}, {"id": "b", "label": "who"}, {"id": "c", "label": "whose"}],
+			"answer": "a",
+			"explanation": "«That» vale per le cose e puo' sostituire «which». «Who» e' riservato alle persone e «whose» dice di chi e' una cosa: l'italiano se la cava con «che» in tutti e tre i casi, e per questo qui bisogna guardare di che cosa si parla."},
+		{"topic": "past-perfect", "minLevel": 22, "prompt": "Completa la frase mettendo in ordine i due passati.",
+			"slots": [{"text": "The train"}, {"text": ""}, {"text": "before we arrived"}],
+			"targets": [{"id": "a", "label": "had left"}, {"id": "b", "label": "has left"}, {"id": "c", "label": "leaves"}],
+			"answer": "a",
+			"explanation": "«Before we arrived» mette la frase nel passato e chiede quale dei due fatti viene prima: quello piu' antico arretra con «had». «Has left» terrebbe il filo con adesso, e qui il filo e' gia' tagliato dall'arrivo."},
+		{"topic": "connectors", "minLevel": 13, "prompt": "Completa la frase con il connettivo che dice il rapporto giusto.",
+			"domande": [
+				{"prompt": "Quale connettivo useresti per aggiungere un secondo motivo invece di opporlo?", "answer": "c", "explanation": "«And» somma e basta: mette due cose sullo stesso piano senza dire che una contrasta con l'altra. E' il connettivo che si usa quando non c'e' nessun rapporto da segnalare oltre l'aggiunta."},
+			],
+			"slots": [{"text": "I wanted to go out,"}, {"text": ""}, {"text": "it was raining hard"}],
+			"targets": [{"id": "a", "label": "but"}, {"id": "b", "label": "because"}, {"id": "c", "label": "and"}],
+			"answer": "a",
+			"explanation": "Le due meta' si contrastano: volevo uscire, la pioggia lo ha impedito. «Because» direbbe che sono uscito A CAUSA della pioggia, e «and» le metterebbe una accanto all'altra come se non c'entrassero niente."},
 	],
 	"coding": [
 		{"topic": "sequenza", "minLevel": 4, "prompt": "Completa la riga perché il ciclo sia sintatticamente valido.",
@@ -5762,7 +6210,7 @@ static func runtime_formats_for(subject: String, level: int) -> Array:
 		out.append("machine_path")
 	if subject in ["scienze", "fisica"]:
 		out.append("mystery_sample")
-	if subject == "italiano":
+	if subject in ["italiano", "inglese"]:
 		out.append("verb_decoder")
 	if subject == "logica":
 		out.append("griglia")
@@ -5779,8 +6227,8 @@ static func runtime_formats_for(subject: String, level: int) -> Array:
 ## Ora la prima campata scende di un gradino e l'ultima sale: riscaldamento,
 ## corpo, sfida. La media resta quella del livello, quindi la progressione della
 ## campagna non cambia; cambia il profilo dentro il mondo. Effetto collaterale
-## voluto: la banda 4 comincia a comparire dal mondo 13 invece che dal 19, e la
-## banda 1 non sparisce di colpo al mondo 6.
+## voluto: ogni mondo attraversa riscaldamento, centro e finale senza uscire
+## dalla scala 1..8.
 static func gradient_step(idx: int, total: int) -> int:
 	if total < 3:
 		return 0   # con una o due campate un gradiente non ha senso
@@ -5791,7 +6239,7 @@ static func gradient_step(idx: int, total: int) -> int:
 	return 0
 
 static func difficulty_of(level: int, step: int) -> int:
-	return clampi(ContentManager.target_difficulty(level) + step, 1, 4)
+	return clampi(ContentManager.target_difficulty(level) + step, 1, ContentManager.DIFFICULTY_BANDS)
 
 ## Quante voci si pescano: ora dipende dalla DIFFICOLTÀ della campata, non dal
 ## livello. È la stessa cosa nella media (la difficoltà viene dal livello) ma
@@ -6025,6 +6473,26 @@ func _build_node_for_format(fmt: String, subject: String, level: int, step: int,
 		"porte": return _porte_node(subject, level, step, rng, idx)
 	return {}
 
+## Una campata della sessione di italiano e' sempre ancorata alla fascia del
+## mondo. Il catalogo contiene due varianti per fascia e cambia gesto lungo il
+## percorso; qui le trasformiamo negli stessi nodi usati da tutti gli esercizi.
+func _italian_band_node(level: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:
+	var band := ContentManager.target_difficulty(level)
+	var challenge := ItalianMinigameCatalog.pick(band, rng)
+	if challenge.is_empty():
+		return {}
+	var fmt := str(challenge.get("format", ""))
+	var spec := challenge.get("spec", {}) as Dictionary
+	var node := _build_node_for_format(fmt, "italiano", level, 0, rng, idx, spec)
+	if node.is_empty():
+		return {}
+	node["id"] = "italiano-fascia-%d-%d" % [band, idx]
+	node["calibrationBand"] = band
+	node["challengeComplexity"] = int(challenge.get("complexity", band))
+	node["minigameTitle"] = str(challenge.get("title", "Sfida d'italiano"))
+	node["actionTheme"] = "italiano_fascia_%d" % band
+	return node
+
 func build_minigame(subject: String, level: int, rng: RandomNumberGenerator = null) -> Dictionary:
 	var generator := rng
 	if generator == null:
@@ -6076,9 +6544,12 @@ func build_minigame(subject: String, level: int, rng: RandomNumberGenerator = nu
 		var argomento_campione := "galleggiamento" if subject == "fisica" else "materia"
 		if perimetro.is_empty() or perimetro.has(argomento_campione):
 			base.append("mystery_sample")
-	if subject == "italiano":
+	if subject in ["italiano", "inglese"]:
 		# Un messaggio da ricostruire con tre regolazioni: quando accade,
 		# con quale intenzione viene detto e quale forma verbale lo completa.
+		# In inglese le tre ghiere diventano tempo, forma della frase
+		# (afferma / nega / chiede) e voce del verbo: la coniugazione SI FA
+		# invece di riconoscerla in un elenco.
 		base.append("verb_decoder")
 	if subject == "logica":
 		# I due formati in cui la logica si FA invece di riconoscerla: la griglia
@@ -6150,6 +6621,14 @@ func build_minigame(subject: String, level: int, rng: RandomNumberGenerator = nu
 		var step := gradient_step(idx, total)
 		var runtime_fmt := "ordering" if fmt == "numeric" else fmt
 		nodes.append(_build_node_for_format(runtime_fmt, subject, level, step, generator, idx))
+	# La campata centrale ha difficolta' esattamente uguale alla fascia (le due
+	# estremita' sono riscaldamento e finale). Sostituirla conserva il numero di
+	# prove e garantisce che ogni sessione d'italiano alleni il grado del mondo.
+	if subject == "italiano" and not nodes.is_empty():
+		var band_index := floori(float(nodes.size()) / 2.0)
+		var band_node := _italian_band_node(level, generator, band_index)
+		if not band_node.is_empty():
+			nodes[band_index] = band_node
 	return {
 		"sessionId": "minigame-%s-lvl%d" % [subject, level],
 		"kind": "minigame",
@@ -6206,6 +6685,10 @@ func build_guided_minigame(subject: String, topic: String, format_hint: String, 
 	var replace_at := nodes.size() - 1
 	for index in nodes.size():
 		var node: Dictionary = nodes[index]
+		# La campata calibrata e' il riferimento della fascia e non va rimossa da
+		# una richiesta di pratica guidata: si sostituisce un'altra campata.
+		if node.has("calibrationBand"):
+			continue
 		if str(node.get("format", "")) == target_format:
 			replace_at = index
 			break
@@ -6990,7 +7473,7 @@ func _mystery_sample_results() -> Dictionary:
 func _verb_decoder_node(subject: String, level: int, step: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:
 	var difficulty := difficulty_of(level, step)
 	var eligible: Array = []
-	for raw in _verb_decoder_templates():
+	for raw in _verb_decoder_templates(subject):
 		if int((raw as Dictionary).get("tier", 1)) <= difficulty:
 			eligible.append(raw)
 	var spec := (eligible[rng.randi_range(0, eligible.size() - 1)] as Dictionary).duplicate(true)
@@ -7037,7 +7520,16 @@ func _verb_decoder_node(subject: String, level: int, step: int, rng: RandomNumbe
 
 ## Casi scritti a mano: ogni distrattore cambia davvero tempo o modo, e ogni
 ## soluzione ha una parola-spia o un rapporto logico che la rende univoca.
-static func _verb_decoder_templates() -> Array:
+##
+## **Due materie, dal 9 settembre 2026.** Il decodificatore era il formato-firma
+## dell'italiano, ma le tre ghiere — tempo, modo, forma — sono la coniugazione di
+## qualunque lingua, e in inglese sono il gesto che mancava: la grammatica del
+## banco si poteva solo crocettare. Il campo `tier` di ogni caso E' la fascia
+## (1..8), quindi la progressione non ha avuto bisogno di nessuna impalcatura
+## nuova: al mondo 4 si aprono i casi 1-3, al mondo 16 fino al settimo.
+static func _verb_decoder_templates(subject: String = "italiano") -> Array:
+	if subject == "inglese":
+		return _verb_decoder_templates_inglese()
 	return [
 		{"case":"now", "tier":1, "topic":"tempi-indicativo",
 			"segments":["Adesso NORA", "la mappa sul tavolo."], "time":"presente", "mood":"indicativo",
@@ -7175,6 +7667,143 @@ static func _verb_decoder_templates() -> Array:
 			"hints":{"time":"NORA ha già capito quando decide di aspettare.","mood":"“Pur” collega qui due azioni dello stesso soggetto con il gerundio.","form":"Il gerundio passato usa avendo + participio."},
 			"discovery":"NORA riconobbe la voce, ma non volle ancora dire di chi fosse.",
 			"explanation":"Capire precede l'attesa e il soggetto resta NORA: gerundio passato, avendo capito."},
+	]
+
+## I casi inglesi del Messaggio fuori tempo. Le tre ghiere qui sono: QUANDO
+## (tempo verbale), COME (afferma, nega, chiede — cioe' che cosa fa l'ausiliare)
+## e QUALE forma. I due distrattori non sono forme sbagliate a caso: uno e' la
+## risposta giusta con la ghiera del tempo storta, l'altro con quella della
+## forma. Sbagliare una ghiera mostra quale delle due domande non era chiara.
+static func _verb_decoder_templates_inglese() -> Array:
+	return [
+		{"case":"beacon", "tier":1, "topic":"to-be",
+			"segments":["Right now the beacon", "silent."], "time":"present", "mood":"afferma",
+			"times":[["present","PRESENTE"],["past","PASSATO"],["future","FUTURO"]],
+			"moods":[["afferma","AFFERMA · dice che e' cosi'"],["nega","NEGA · dice che non e' cosi'"],["chiede","CHIEDE · fa una domanda"]],
+			"forms":["is","was","is not"], "clues":["right now","un fatto di adesso"],
+			"hints":{"time":"«Right now» tiene la frase nel presente.","mood":"Il faro E' silenzioso: la frase afferma, non nega.","form":"Serve la forma del verbo essere che va con una cosa sola."},
+			"discovery":"Nel silenzio si sente un secondo segnale, piu' debole, sotto il primo.",
+			"explanation":"«Right now» chiede il presente e la frase afferma: resta «is», la forma del verbo essere per una cosa sola. «Was» sposterebbe tutto nel passato, «is not» direbbe il contrario di quello che il segnale mostra."},
+		{"case":"empty", "tier":1, "topic":"to-be",
+			"segments":["The tower", "empty: someone is inside."], "time":"present", "mood":"nega",
+			"times":[["present","PRESENTE"],["past","PASSATO"],["future","FUTURO"]],
+			"moods":[["afferma","AFFERMA · dice che e' cosi'"],["nega","NEGA · dice che non e' cosi'"],["chiede","CHIEDE · fa una domanda"]],
+			"forms":["is not","is","was not"], "clues":["someone is inside","la seconda meta' smentisce la prima"],
+			"hints":{"time":"La frase parla di adesso: «someone IS inside».","mood":"La seconda meta' dice che c'e' qualcuno, quindi la prima deve negare.","form":"Il verbo essere si nega da solo, mettendogli «not» subito dopo."},
+			"discovery":"Dietro il vetro appannato si muove un'ombra che non risponde alla radio.",
+			"explanation":"Il verbo essere e' l'unico che si nega senza chiedere aiuto a nessuno: basta «not» subito dopo. Tutti gli altri verbi, per negare, devono chiamare «do»."},
+		{"case":"checks", "tier":2, "topic":"third-person",
+			"segments":["Every morning she", "the radio."], "time":"present", "mood":"afferma",
+			"times":[["present","PRESENTE ABITUALE"],["past","PASSATO"],["future","FUTURO"]],
+			"moods":[["afferma","AFFERMA"],["nega","NEGA"],["chiede","CHIEDE"]],
+			"forms":["checks","checked","does not check"], "clues":["every morning","abitudine che si ripete"],
+			"hints":{"time":"«Every morning» e' un'abitudine, e le abitudini stanno al presente semplice.","mood":"La frase racconta quello che fa, non quello che non fa.","form":"Con she il presente semplice prende una lettera in piu'."},
+			"discovery":"Il registro della torre mostra la stessa ora annotata per settantatre giorni.",
+			"explanation":"Con he, she e it il presente prende la -s: e' l'unico punto in cui il verbo inglese cambia, e per questo si dimentica. «Checked» sposterebbe l'abitudine nel passato, «does not check» la rovescerebbe."},
+		{"case":"live", "tier":2, "topic":"do-does",
+			"segments":["", "she live near the tower?"], "time":"present", "mood":"chiede",
+			"times":[["present","PRESENTE"],["past","PASSATO"],["future","FUTURO"]],
+			"moods":[["afferma","AFFERMA"],["nega","NEGA"],["chiede","CHIEDE"]],
+			"forms":["Does","Do","Did"], "clues":["il punto interrogativo","soggetto alla terza persona"],
+			"hints":{"time":"Non c'e' nessuna parola che sposti la frase nel passato.","mood":"C'e' un punto interrogativo: la frase chiede.","form":"L'aiutante si accorda con «she», e il verbo dopo di lui resta nudo."},
+			"discovery":"L'indirizzo sulla busta corrisponde alla casa piu' vicina al faro.",
+			"explanation":"Nella domanda la -s della terza persona passa all'aiutante: «Does she live», mai «Does she lives». Due -s nella stessa frase non si mettono: la prende chi arriva prima."},
+		{"case":"raining", "tier":3, "topic":"present-continuous",
+			"segments":["Look outside: it", "on the deck."], "time":"present", "mood":"afferma",
+			"times":[["present","PRESENTE · sta accadendo"],["past","PASSATO"],["future","FUTURO"]],
+			"moods":[["afferma","AFFERMA"],["nega","NEGA"],["chiede","CHIEDE"]],
+			"forms":["is raining","rains","was raining"], "clues":["look outside","proprio in questo momento"],
+			"hints":{"time":"«Look outside» chiama a guardare adesso, mentre succede.","mood":"La frase constata quello che si vede.","form":"Per un'azione in corso servono due pezzi: il verbo essere e la forma in -ing."},
+			"discovery":"Sul ponte bagnato restano impronte che nessuno del gruppo ha lasciato.",
+			"explanation":"«Rains» direbbe che piove di solito, non che sta piovendo adesso: e' la differenza fra l'abitudine e il momento. L'azione in corso vuole sempre due pezzi, e nessuno dei due regge da solo."},
+		{"case":"working", "tier":3, "topic":"present-continuous",
+			"segments":["The radio", "at the moment."], "time":"present", "mood":"nega",
+			"times":[["present","PRESENTE · sta accadendo"],["past","PASSATO"],["future","FUTURO"]],
+			"moods":[["afferma","AFFERMA"],["nega","NEGA"],["chiede","CHIEDE"]],
+			"forms":["is not working","is working","did not work"], "clues":["at the moment","nessun segnale in arrivo"],
+			"hints":{"time":"«At the moment» inchioda la frase a questo istante.","mood":"La radio tace: la frase deve dire che non funziona.","form":"Il «not» si infila fra il verbo essere e la forma in -ing."},
+			"discovery":"Aprendo il pannello si scopre un filo tagliato di netto, non consumato.",
+			"explanation":"Nella forma in corso il «not» va in mezzo, fra i due pezzi del verbo: e' lo stesso posto che prende con il verbo essere da solo. «Did not work» avrebbe spostato il guasto nel passato, e la radio invece tace adesso."},
+		{"case":"north", "tier":4, "topic":"irregular-past",
+			"segments":["Yesterday the crew", "to the north shore."], "time":"past", "mood":"afferma",
+			"times":[["present","PRESENTE"],["past","PASSATO · momento chiuso"],["future","FUTURO"]],
+			"moods":[["afferma","AFFERMA"],["nega","NEGA"],["chiede","CHIEDE"]],
+			"forms":["went","goes","did not go"], "clues":["yesterday","un momento finito"],
+			"hints":{"time":"«Yesterday» e' un momento chiuso: il filo con adesso e' tagliato.","mood":"La frase racconta che ci sono andati.","form":"«Go» non prende la -ed: cambia parola."},
+			"discovery":"Sulla spiaggia a nord la sabbia conserva il segno di una chiglia.",
+			"explanation":"«Goed» non esiste: «go» e' irregolare e al passato diventa «went». Sono proprio i verbi piu' usati a restare irregolari, perche' nessuna lingua regolarizza quello che si dice ogni giorno."},
+		{"case":"light", "tier":4, "topic":"past-tense",
+			"segments":["", "you see the light last night?"], "time":"past", "mood":"chiede",
+			"times":[["present","PRESENTE"],["past","PASSATO · momento chiuso"],["present_perfect","TEMPO ANCORA APERTO"]],
+			"moods":[["afferma","AFFERMA"],["nega","NEGA"],["chiede","CHIEDE"]],
+			"forms":["Did","Do","Have"], "clues":["last night","il punto interrogativo"],
+			"hints":{"time":"«Last night» e' finito: e' un momento chiuso.","mood":"La frase chiede, quindi l'aiutante va davanti.","form":"L'aiutante del passato e' uno solo, e dopo di lui il verbo resta alla forma base."},
+			"discovery":"Tre persone rispondono di si', e nessuna delle tre era di guardia.",
+			"explanation":"Con un tempo dichiarato e chiuso — last night — l'aiutante e' «did», e il verbo dopo di lui resta base: «Did you see». «Have you seen» servirebbe se il momento fosse ancora aperto, e «last night» lo chiude."},
+		{"case":"signal", "tier":5, "topic":"present-perfect",
+			"segments":["The signal", "three times since midnight."], "time":"present_perfect", "mood":"afferma",
+			"times":[["present","PRESENTE"],["past","PASSATO · momento chiuso"],["present_perfect","TEMPO ANCORA APERTO"]],
+			"moods":[["afferma","AFFERMA"],["nega","NEGA"],["chiede","CHIEDE"]],
+			"forms":["has come","came","will come"], "clues":["since midnight","la notte non e' finita"],
+			"hints":{"time":"«Since midnight» apre un tratto che arriva fino ad adesso.","mood":"La frase conta i segnali arrivati, non quelli mancati.","form":"Il tempo aperto si fa con have o has piu' la terza forma del verbo."},
+			"discovery":"I tre segnali hanno la stessa firma, e non e' quella della nave.",
+			"explanation":"«Since» dichiara da quando, e il tratto non si e' ancora chiuso: ci vuole il present perfect. «Came» avrebbe chiuso la notte, e la notte e' ancora in corso — e' la parola-spia, non il verbo, a decidere."},
+		{"case":"reached", "tier":5, "topic":"present-perfect",
+			"segments":["The crew", "the tower yet."], "time":"present_perfect", "mood":"nega",
+			"times":[["present","PRESENTE"],["past","PASSATO · momento chiuso"],["present_perfect","TEMPO ANCORA APERTO"]],
+			"moods":[["afferma","AFFERMA"],["nega","NEGA"],["chiede","CHIEDE"]],
+			"forms":["has not reached","has reached","did not reach"], "clues":["yet","l'attesa dura ancora"],
+			"hints":{"time":"«Yet» dice che si aspetta ancora: il tratto e' aperto.","mood":"La torre non e' stata raggiunta.","form":"Il «not» si mette fra l'ausiliare e il participio."},
+			"discovery":"L'ultimo punto tracciato sulla mappa e' a meno di un chilometro dalla torre.",
+			"explanation":"«Yet» vive solo nelle frasi che negano o che chiedono, e tiene aperto il conto: ci vuole il present perfect. «Did not reach» chiuderebbe la faccenda, e invece la squadra sta ancora camminando."},
+		{"case":"heavy", "tier":6, "topic":"future",
+			"segments":["That crate is heavy: I", "you."], "time":"will", "mood":"afferma",
+			"times":[["will","FUTURO · decido adesso"],["going_to","FUTURO · deciso prima"],["past","PASSATO"]],
+			"moods":[["afferma","AFFERMA"],["nega","NEGA"],["chiede","CHIEDE"]],
+			"forms":["will help","am going to help","helped"], "clues":["that crate is heavy","l'offerta nasce adesso"],
+			"hints":{"time":"L'offerta nasce mentre si parla: nessuno l'aveva decisa prima.","mood":"E' un'offerta, non un rifiuto.","form":"Il futuro della decisione immediata si fa con un modale, e i modali non vogliono «to»."},
+			"discovery":"Sotto la cassa c'e' un secondo fondo, e dentro una radio ancora accesa.",
+			"explanation":"«Will» e' il futuro di chi decide in questo istante: offerte, promesse, aiuti che nascono vedendo. «Going to» avrebbe voluto una decisione gia' presa, e qui la cassa si e' vista adesso."},
+		{"case":"storm", "tier":6, "topic":"modals",
+			"segments":["The storm is close: we", "the shore now."], "time":"present", "mood":"obbligo",
+			"times":[["present","ADESSO"],["past","PASSATO"],["future","PIU' TARDI"]],
+			"moods":[["obbligo","MUST · non c'e' scelta"],["permesso","MAY · si puo', se si vuole"],["consiglio","SHOULD · sarebbe meglio"]],
+			"forms":["must leave","may leave","should leave"], "clues":["the storm is close","non c'e' alternativa"],
+			"hints":{"time":"«Now» chiude ogni rinvio: si parla di adesso.","mood":"Con la tempesta addosso non e' un consiglio ne' un permesso.","form":"Dopo un modale il verbo va nudo, senza «to»."},
+			"discovery":"Il barometro e' sceso di dodici punti in un'ora.",
+			"explanation":"I tre modali dicono la stessa azione con tre forze diverse: obbligo, permesso, consiglio. Il contesto sceglie la forza, e in tutti e tre i casi il verbo che segue resta all'infinito senza «to»."},
+		{"case":"rains", "tier":7, "topic":"conditionals",
+			"segments":["If it rains tomorrow, we", "at the base."], "time":"first", "mood":"afferma",
+			"times":[["first","PRIMO TIPO · puo' succedere"],["second","SECONDO TIPO · non succedera'"],["third","TERZO TIPO · non e' successo"]],
+			"moods":[["afferma","AFFERMA"],["nega","NEGA"],["chiede","CHIEDE"]],
+			"forms":["will stay","would stay","would have stayed"], "clues":["tomorrow","una pioggia possibile"],
+			"hints":{"time":"Domani puo' piovere davvero: la condizione e' possibile.","mood":"La frase dice che cosa si fara', non quello che non si fara'.","form":"Nel primo tipo la conseguenza prende il futuro, e dopo «if» il futuro non si scrive mai."},
+			"discovery":"Il piano B era gia' scritto sul retro della mappa, con un'altra calligrafia.",
+			"explanation":"Il primo tipo parla di una cosa che puo' succedere davvero: condizione al presente, conseguenza al futuro. «Would stay» la renderebbe irreale, «would have stayed» la sposterebbe in un passato che non si puo' piu' cambiare."},
+		{"case":"lighthouse", "tier":7, "topic":"passive",
+			"segments":["The lighthouse", "in 1890."], "time":"past", "mood":"passiva",
+			"times":[["present","PRESENTE"],["past","PASSATO"],["future","FUTURO"]],
+			"moods":[["attiva","VOCE ATTIVA · si dice chi agisce"],["passiva","VOCE PASSIVA · conta chi subisce"],["chiede","CHIEDE"]],
+			"forms":["was built","built","is built"], "clues":["in 1890","non si sa chi lo costrui'"],
+			"hints":{"time":"Il 1890 e' un momento chiuso e dichiarato.","mood":"Il faro non ha costruito niente: l'ha subito.","form":"Il passivo e' sempre verbo essere piu' participio, in quest'ordine."},
+			"discovery":"La data incisa sulla pietra e' stata corretta: sotto se ne legge un'altra.",
+			"explanation":"«The lighthouse built» direbbe che e' stato il faro a costruire. Il passivo serve proprio quando chi ha agito non si sa o non importa, e si riconosce dai due pezzi: essere piu' participio, sempre insieme."},
+		{"case":"boat", "tier":8, "topic":"past-perfect",
+			"segments":["When we arrived, the boat", "already."], "time":"past_perfect", "mood":"afferma",
+			"times":[["past","PASSATO SEMPLICE"],["past_perfect","PRIMA DI UN ALTRO PASSATO"],["present_perfect","TEMPO ANCORA APERTO"]],
+			"moods":[["afferma","AFFERMA"],["nega","NEGA"],["chiede","CHIEDE"]],
+			"forms":["had left","left","has left"], "clues":["when we arrived","already"],
+			"hints":{"time":"Ci sono due fatti passati, e uno e' successo prima dell'altro.","mood":"La barca e' partita davvero.","form":"Il fatto piu' antico arretra di un gradino e prende «had»."},
+			"discovery":"Sul molo restano due cime tagliate, non slegate.",
+			"explanation":"Il trapassato non e' un passato piu' lontano: e' il fatto che sta PRIMA di un altro passato di cui si sta parlando. Con «left» i due fatti finirebbero sullo stesso piano, e la barca sembrerebbe partita dopo il nostro arrivo."},
+		{"case":"tired", "tier":8, "topic":"reported-speech",
+			"segments":["He said he", "tired."], "time":"indiretto", "mood":"afferma",
+			"times":[["diretto","PAROLE ESATTE · fra virgolette"],["indiretto","RIFERITO · un passo indietro"],["futuro","FUTURO"]],
+			"moods":[["afferma","AFFERMA"],["nega","NEGA"],["chiede","CHIEDE"]],
+			"forms":["was","is","will be"], "clues":["he said","non ci sono virgolette"],
+			"hints":{"time":"Non ci sono virgolette: le parole vengono riferite, non ripetute.","mood":"Ha detto di essere stanco, non il contrario.","form":"Quando il verbo che introduce e' al passato, quello riferito arretra di un tempo."},
+			"discovery":"Nella registrazione originale la voce dice un'altra cosa, e non e' la stanchezza.",
+			"explanation":"«He said» sta al passato, e trascina indietro anche il verbo riferito: «is» diventa «was». E' lo stesso arretramento che nel discorso indiretto tocca i pronomi e le parole del tempo — today diventa that day."},
 	]
 
 func _numeric_ordering_node(subject: String, level: int, step: int, rng: RandomNumberGenerator, idx: int) -> Dictionary:

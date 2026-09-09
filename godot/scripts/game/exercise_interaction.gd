@@ -132,8 +132,8 @@ static func validate(node: Dictionary) -> Dictionary:
 	if str(node.get("topic", "")).strip_edges() == "":
 		errors.append("topic mancante (serve a mastery/copertura)")
 	var diff := int(node.get("difficulty", 0))
-	if diff < 1 or diff > 4:
-		errors.append("difficoltà fuori scala 1..4: %d" % diff)
+	if diff < 1 or diff > 8:
+		errors.append("difficoltà fuori scala 1..8: %d" % diff)
 	if str(node.get("explanation", "")).strip_edges() == "":
 		errors.append("spiegazione causale mancante")
 

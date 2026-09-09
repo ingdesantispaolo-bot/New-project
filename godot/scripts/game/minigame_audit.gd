@@ -37,7 +37,8 @@ func _test_costruzione_tutte_materie() -> void:
 			var fmt := str(node.get("format", ""))
 			assert(fmt in MinigameManager.FORMATS, "formato inatteso (%s): %s" % [subject, fmt])
 			assert(str(node.get("topic", "")) != "", "topic vuoto (%s)" % subject)
-			assert(int(node.get("difficulty", 0)) in [1, 2, 3, 4], "difficoltà invalida (%s)" % subject)
+			var difficulty := int(node.get("difficulty", 0))
+			assert(difficulty >= 1 and difficulty <= ContentManager.DIFFICULTY_BANDS, "difficoltà invalida (%s)" % subject)
 			if fmt in [
 				"graph", "circuit", "cycle", "notation", "map", "hotspot", "code_debug",
 				# I formati a SELEZIONE aggiunti il 5 agosto 2026. Il ramo `else`

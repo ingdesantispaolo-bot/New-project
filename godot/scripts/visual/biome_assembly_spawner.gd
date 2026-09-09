@@ -5,6 +5,19 @@ extends RefCounted
 ## coordinates and never regenerated per chunk, so groves cross stream cells.
 const CELL_SIZE := 270.0
 
+## Alcune sagome hanno molta piu' strada o piu' zone protette nel quadrato di
+## streaming. Il moltiplicatore riguarda le quinte visuali, non gli ostacoli, e
+## porta anche quei temi al pavimento del mondo 18 senza infittire tutti gli altri.
+const THEME_DENSITY := {
+	"motion_forge": 1.32,
+	"charted_archipelago": 1.62,
+	"rule_labyrinth": 1.86,
+	"orbital_desert": 1.42,
+	"voices_library": 1.32,
+	"language_frontier": 1.42,
+	"root_necropolis": 1.55,
+}
+
 static func points_for_rect(data: WorldCompositionData, world_rect: Rect2, lod: int = 0) -> Array:
 	var points: Array = []
 	var min_x := floori(world_rect.position.x / CELL_SIZE) - 1
@@ -21,7 +34,8 @@ static func points_for_rect(data: WorldCompositionData, world_rect: Rect2, lod: 
 				continue
 			var biome := data.sampled_biome(pos, rng.next_float())
 			var density := float(BiomeProfile.get_profile(biome)["density"])
-			var threshold := minf(0.82, density * (0.66 if lod == 0 else 0.38))
+			var theme_density := float(THEME_DENSITY.get(data.visual_theme, 1.0))
+			var threshold := minf(0.92, density * (0.86 if ThemeSceneryArt.supports(data.visual_theme) and lod == 0 else 0.66 if lod == 0 else 0.38) * theme_density)
 			if rng.next_float() > threshold:
 				continue
 			points.append({

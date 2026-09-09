@@ -45,7 +45,7 @@ func _banco(materia: String) -> void:
 			argomenti_per_difficolta[d] = {}
 		argomenti_per_difficolta[d][str(item.get("topic", "?"))] = true
 	print("\n=== BANCO %s — %d voci ===" % [materia.to_upper(), items.size()])
-	for d in [1, 2, 3, 4]:
+	for d in range(1, ContentManager.DIFFICULTY_BANDS + 1):
 		var quanti := int(per_difficolta.get(d, 0))
 		var argomenti: Array = Dictionary(argomenti_per_difficolta.get(d, {})).keys()
 		argomenti.sort()

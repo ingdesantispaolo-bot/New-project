@@ -2,8 +2,8 @@ extends SceneTree
 
 ## Decisione vincolante 16 — curva effettiva dei 24 mondi.
 ##
-## Le quattro bande dei banchi non bastano a descrivere la campagna. Questa
-## guardia misura insieme difficoltà degli item realmente serviti, gesto
+## Le otto fasce dei banchi danno tre mondi a ciascun gradino di contenuto.
+## Questa guardia misura insieme difficoltà degli item realmente serviti, gesto
 ## richiesto dal formato e contenuto nuovo sbloccato a ogni mondo.
 ##
 ## La selezione è stocastica e le materie sono diverse: è ammessa una piccola
@@ -11,7 +11,7 @@ extends SceneTree
 ## una discesa prolungata. L'invarianza è verificata a parte: il mondo è il
 ## requisito che ogni studente deve padroneggiare prima di avanzare.
 
-const REPEATS := 8
+const REPEATS := 16
 const MAX_ADJACENT_DROP := 0.35
 const MIN_PHASE_GAIN := 3.5
 const MAX_BAND_ERROR := 0.40
@@ -90,12 +90,12 @@ func _check_policy() -> void:
 		previous_stage = stage
 		previous_easy_weight = easy_weight
 		previous_hard_weight = hard_weight
-	_check(ContentManager.target_difficulty(4) == 1 and ContentManager.target_difficulty(5) == 2,
-		"confine riconoscimento/processo non collocato fra i mondi 4 e 5")
-	_check(ContentManager.target_difficulty(10) == 2 and ContentManager.target_difficulty(11) == 3,
-		"confine processo/rappresentazione non collocato fra i mondi 10 e 11")
-	_check(ContentManager.target_difficulty(17) == 3 and ContentManager.target_difficulty(18) == 4,
-		"confine rappresentazione/vincoli non collocato fra i mondi 17 e 18")
+	for band in range(1, ContentManager.DIFFICULTY_BANDS + 1):
+		var first_world := (band - 1) * 3 + 1
+		var last_world := band * 3
+		_check(ContentManager.target_difficulty(first_world) == band
+			and ContentManager.target_difficulty(last_world) == band,
+			"fascia %d non assegnata esattamente ai mondi %d-%d" % [band, first_world, last_world])
 	_check(ContentManager.mc_target_for("geografia", 1) <= 0.33,
 		"il primo mondo supera il tetto del 33% di scelta multipla")
 	_check(ContentManager.mc_target_for("elettronica", 1) == 0.0

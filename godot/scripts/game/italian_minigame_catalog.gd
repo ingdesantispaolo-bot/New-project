@@ -19,6 +19,34 @@ const BAND_CHALLENGES := {
 			"slots": [{"text": ""}, {"text": "amiche preparano lo zaino"}],
 			"targets": [{"id": "a", "label": "Le"}, {"id": "b", "label": "Il"}, {"id": "c", "label": "Gli"}],
 			"answer": "a", "explanation": "«Amiche» è femminile plurale: l'articolo determinativo che concorda è «le»."}},
+		# **Aggiunte il 9 settembre 2026, e sono la riparazione di R-18.**
+		#
+		# Le fasce 1 e 5 avevano due sfide ciascuna, e tutte e quattro erano
+		# `compose`. Non e' un dettaglio: italiano e' materia del mondo soltanto ai
+		# mondi 2 e 14, che stanno esattamente in quelle due fasce, e
+		# `build_minigame` mette **una campata calibrata in ogni sessione**. Quindi
+		# ogni sessione di italiano dei suoi due mondi conteneva una `compose`
+		# garantita — e `gesto_audit` conta `compose` fra i «sceglie», perche' si
+		# tocca una fra le alternative offerte.
+		#
+		# Misurato: `compose` era il 14,6% dei nodi al mondo 2 e il 17,0% al mondo
+		# 14, piu' della scelta multipla stessa. Con quattro opzioni per fascia,
+		# meta' manipolative, la campata garantita smette di essere sempre lo
+		# stesso gesto.
+		{"title": "Squadra di parole", "format": "classification", "complexity": 1, "spec": {
+			"topic": "morfologia", "draw": 6, "prompt": "Porta ogni parola nel contenitore che le corrisponde.",
+			"categories": ["una cosa o una persona", "un'azione", "una qualita'"],
+			"assignments": {"barca": "una cosa o una persona", "maestra": "una cosa o una persona", "montagna": "una cosa o una persona",
+				"cane": "una cosa o una persona", "finestra": "una cosa o una persona", "bambino": "una cosa o una persona",
+				"corre": "un'azione", "dorme": "un'azione", "scrive": "un'azione",
+				"nuota": "un'azione", "ride": "un'azione", "salta": "un'azione",
+				"veloce": "una qualita'", "alto": "una qualita'", "rosso": "una qualita'",
+				"felice": "una qualita'", "pesante": "una qualita'", "gentile": "una qualita'"},
+			"explanation": "Il nome dice che cosa c'e', il verbo che cosa succede, l'aggettivo com'e'. Prima si riconosce il mestiere della parola nella frase, poi si impara il nome che i grammatici gli hanno dato."}},
+		{"title": "Ordine di lettura", "format": "ordering", "complexity": 1, "spec": {
+			"topic": "lessico", "prompt": "Metti le parole in ordine alfabetico.",
+			"correctOrder": ["albero", "barca", "casa", "dono"],
+			"explanation": "L'ordine alfabetico si decide sulla prima lettera diversa. E' la stessa regola con cui si cerca su un dizionario, ed e' il motivo per cui cercare una parola richiede pochi secondi invece di sfogliare tutto."}},
 	],
 	2: [
 		{"title": "Frase in officina", "format": "ordering", "complexity": 2, "spec": {
@@ -65,6 +93,20 @@ const BAND_CHALLENGES := {
 			"slots": [{"text": "Ho visto Marta e"}, {"text": ""}, {"text": "ho salutata"}],
 			"targets": [{"id": "a", "label": "gli"}, {"id": "b", "label": "la"}, {"id": "c", "label": "le"}],
 			"answer": "b", "explanation": "Marta e' il complemento oggetto femminile singolare: il pronome che la sostituisce e' «la»."}},
+		{"title": "Reggenti e dipendenti", "format": "classification", "complexity": 5, "spec": {
+			"topic": "sintassi", "draw": 6, "prompt": "Smista ogni pezzo: puo' stare da solo oppure ha bisogno di un altro?",
+			"categories": ["sta in piedi da solo", "ha bisogno di un altro pezzo"],
+			"assignments": {"Marta e' tornata": "sta in piedi da solo", "il treno partiva alle otto": "sta in piedi da solo",
+				"nevicava tutta la notte": "sta in piedi da solo", "abbiamo chiuso la porta": "sta in piedi da solo",
+				"il cane abbaiava forte": "sta in piedi da solo", "sono arrivati in ritardo": "sta in piedi da solo",
+				"quando il sole calava": "ha bisogno di un altro pezzo", "perche' era stanco": "ha bisogno di un altro pezzo",
+				"se avessi tempo": "ha bisogno di un altro pezzo", "mentre tutti aspettavano": "ha bisogno di un altro pezzo",
+				"affinche' fosse chiaro": "ha bisogno di un altro pezzo", "dopo che ebbe finito": "ha bisogno di un altro pezzo"},
+			"explanation": "La proposizione principale regge da sola; la subordinata comincia con una parola che la aggancia a qualcos'altro e senza quel qualcosa resta sospesa. Riconoscere quale delle due si ha davanti e' il primo passo dell'analisi del periodo."}},
+		{"title": "Catena dei fatti", "format": "ordering", "complexity": 5, "spec": {
+			"topic": "tipologie-testuali", "prompt": "Metti in fila i fatti: ognuno deve rendere possibile il successivo.",
+			"correctOrder": ["Il fiume esondo' nella notte", "Il ponte fu chiuso al traffico", "I camion presero la strada alta", "Il paese resto' isolato per due giorni"],
+			"explanation": "In un racconto l'ordine non e' cronologico per caso: e' causale. Se due fatti si possono scambiare senza che il testo perda senso, uno dei due non stava spiegando l'altro."}},
 	],
 	6: [
 		{"title": "Architettura del periodo", "format": "classification", "complexity": 6, "spec": {

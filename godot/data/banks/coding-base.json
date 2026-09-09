@@ -18,9 +18,11 @@
 				"4": "4 è solo il numero aggiunto, non il risultato finale della somma.",
 				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «a = 2 b = 5 a, b = b, a print(a) Cosa stampa?».",
 				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo x = 5 e poi x = x + 1, quanto vale x?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo queste due righe, quanto vale x? x = 4 x = 9».",
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «punti = 0 punti = punti + 5 punti = punti + 5 print(punti) Cosa stampa?».",
 				"34": "+ fra numeri somma, non concatena come farebbe con il testo: 3+4 fa 7, non 34."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "coding-stringhe-concatenazione",
@@ -41,7 +43,8 @@
 				"Ciao nome": "nome senza virgolette è la variabile: print ne mostra il valore 'Eli', non la parola «nome».",
 				"Ciao + Eli": "+ concatena il testo: il segno + non viene stampato, scompare nel risultato.",
 				"Ciao \" + nome": "Le virgolette e il codice non vengono stampati letteralmente: Python li interpreta come istruzioni, non come testo."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "coding-stringhe-len-",
@@ -58,7 +61,8 @@
 				"6": "«robot» ha cinque lettere, non sei.",
 				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print(len('Eli Quest'))?».",
 				"robot": "len() restituisce un numero che conta i caratteri, non la parola stessa."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "coding-tipi-di-dato",
@@ -79,7 +83,8 @@
 				"int": "x = 7 è un int, ma qui si chiede il tipo di y, che ha le virgolette: è una stringa.",
 				"float": "y non ha una parte decimale: ha le virgolette, quindi è una stringa, non un float.",
 				"bool": "y non è né True né False: è testo fra virgolette."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "coding-liste-indice",
@@ -96,10 +101,12 @@
 				"3": "«3» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «numeri = [4, 8, 15] print(numeri[0]) Cosa stampa?».",
 				"12": "«12» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa stampa questo? numeri = [4, 8, 15] print(numeri[-1])».",
 				"20": "20 è all'indice 1, non 0.",
 				"21": "«21» è la risposta giusta a un'altra domanda di questo gruppo: «voti = [6, 7, 8] print(sum(voti)) Cosa stampa?».",
 				"30": "30 è all'indice 2, non 0."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "coding-liste-append-",
@@ -118,8 +125,10 @@
 				"6": "append() aggiunge un solo elemento alla volta: la lista passa da 2 a 3, non salta a 6.",
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «numeri = [10, 20, 30] print(numeri[0]) Cosa stampa numeri[0]?».",
 				"12": "«12» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa stampa questo? numeri = [4, 8, 15] print(numeri[-1])».",
 				"21": "«21» è la risposta giusta a un'altra domanda di questo gruppo: «voti = [6, 7, 8] print(sum(voti)) Cosa stampa?»."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "coding-ciclo-for-con-range-",
@@ -140,7 +149,8 @@
 				"3": "3 è il numero passato a range, non uno dei valori che produce: si ferma proprio prima di 3.",
 				"1 2 3": "range(3) parte da 0, non da 1: genera 0, 1, 2.",
 				"0 1 2 3": "range(3) si ferma prima di 3: genera solo tre valori, 0, 1, 2, non quattro."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "coding-condizione-if-else",
@@ -161,7 +171,8 @@
 				"8": "print stampa il testo del ramo eseguito, non il valore della variabile energia.",
 				"OK": "8 >= 10 è falso: il ramo if non si esegue, si esegue else che stampa BASSA.",
 				"OK BASSA": "Solo un ramo fra if ed else viene eseguito, mai entrambi insieme."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "coding-operatori-booleani",
@@ -182,7 +193,8 @@
 				"0": "and restituisce un valore booleano (False), non il numero 0.",
 				"True": "and richiede che siano vere entrambe le parti: b è False, quindi il risultato è False.",
 				"None": "and restituisce uno dei due valori booleani, non None."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "coding-modulo-pari-o-dispari",
@@ -203,7 +215,8 @@
 				"20": "«20» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa (2 + 3) * 4?».",
 				"32": "«32» è la risposta giusta a un'altra domanda di questo gruppo: «print(2 ** 5) Cosa stampa 2 ** 5 in Python?».",
 				"3.5": "3.5 è il risultato della divisione normale (7 / 2): % dà solo il resto intero, cioè 1."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "coding-divisione-intera",
@@ -224,7 +237,8 @@
 				"20": "«20» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa (2 + 3) * 4?».",
 				"32": "«32» è la risposta giusta a un'altra domanda di questo gruppo: «print(2 ** 5) Cosa stampa 2 ** 5 in Python?».",
 				"3.5": "3.5 è il risultato della divisione normale (/): // tiene solo la parte intera, cioè 3."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "coding-potenza",
@@ -245,7 +259,8 @@
 				"14": "«14» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 + 3 * 4 in Python?».",
 				"20": "«20» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa (2 + 3) * 4?».",
 				"25": "25 sarebbe 5², ma qui la base è 2 e l'esponente è 5: 2⁵=32."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "coding-funzioni-def-e-return",
@@ -259,12 +274,14 @@
 			"explanation": "def crea una funzione: doppio(6) esegue return 6*2 e restituisce 12, che print mostra. Le funzioni evitano di ripetere il codice.",
 			"distractorWhy": {
 				"0": "«0» è la risposta giusta a un'altra domanda di questo gruppo: «Quante volte viene eseguito il corpo di una funzione che nessuno chiama?».",
+				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa stampa questo? def f(n): n = n + 1 x = 5 f(x) print(x)».",
 				"6": "6 è il parametro n ricevuto, ma la funzione lo raddoppia prima di restituirlo: 6×2=12.",
 				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «def somma(a, b): return a + b print(somma(3, 4) + somma(1, 1)) Cosa stampa?».",
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «punti = 10 def azzera(): punti = 0 azzera() print(punti) Cosa stampa?».",
 				"26": "Non c'è nessuna concatenazione di cifre: n * 2 è una moltiplicazione, il risultato è 12.",
 				"62": "Non c'è nessuna concatenazione di cifre: n * 2 è una moltiplicazione, il risultato è 12."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "coding-indentazione-struttura",
@@ -285,7 +302,8 @@
 				"manca un punto e virgola finale": "Python non richiede il punto e virgola a fine riga: il problema è l'indentazione mancante dopo i due punti.",
 				"print è scritto in modo sbagliato": "print(\"ciao\") è scritto correttamente: il problema è che non è rientrato rispetto all'if.",
 				"True va scritto tutto minuscolo": "True con la maiuscola iniziale è corretto in Python: il problema è l'indentazione mancante."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "coding-commenti",
@@ -306,7 +324,8 @@
 				"le stampa a schermo come testo": "I commenti non vengono mai stampati: l'interprete li ignora completamente.",
 				"dà errore e ferma il programma": "I commenti sono sintassi valida: non causano nessun errore.",
 				"le esegue due volte una dopo l'altra": "I commenti non vengono eseguiti nemmeno una volta: sono completamente ignorati."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "coding-Zen-of-Python-leggibilit-",
@@ -327,7 +346,8 @@
 				"if len(numeri) == 0:": "Funziona, ma è più lungo e meno diretto: «if not numeri:» sfrutta che una lista vuota è già considerata falsa.",
 				"if numeri == []:": "Funziona, ma è meno pythonico: confrontare esplicitamente con una lista vuota è più verboso del necessario.",
 				"if numeri.size() == 0:": "Le liste Python non hanno un metodo size(): quello è comune in altri linguaggi, non in Python."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "coding-input-e-tipi",
@@ -348,7 +368,8 @@
 				"int": "input() restituisce sempre testo, anche se l'utente digita solo cifre: mai automaticamente un int.",
 				"float": "input() restituisce sempre testo, mai automaticamente un numero decimale.",
 				"bool": "input() restituisce sempre una stringa, mai un valore booleano."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "coding-liste-ciclo-e-somma",
@@ -365,9 +386,11 @@
 				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «numeri = [4, 8, 15] print(numeri[0]) Cosa stampa?».",
 				"6": "6 è solo l'ultimo elemento della lista, non la somma di tutti e tre.",
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «numeri = [10, 20, 30] print(numeri[0]) Cosa stampa numeri[0]?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa stampa questo? numeri = [4, 8, 15] print(numeri[-1])».",
 				"21": "«21» è la risposta giusta a un'altra domanda di questo gruppo: «voti = [6, 7, 8] print(sum(voti)) Cosa stampa?».",
 				"246": "+ fra numeri somma, non concatena le cifre come farebbe con il testo: il risultato è 12."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "coding-confronto-vs-",
@@ -388,7 +411,8 @@
 				"5": "== restituisce un valore booleano, non uno dei numeri confrontati.",
 				"False": "x vale proprio 5, quindi il confronto x == 5 è vero, non falso.",
 				"5 == 5": "print calcola il confronto prima di stamparlo: mostra il risultato True, non l'espressione scritta così com'è."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "coding-range-come-conteggio",
@@ -405,8 +429,11 @@
 				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «n = 8 giri = 0 while n > 1: n = n // 2 giri += 1 print(giri) Cosa stampa?».",
 				"4": "range(5) genera cinque valori (0,1,2,3,4): il ciclo gira 5 volte, non 4.",
 				"6": "range(5) genera esattamente cinque valori, non sei.",
-				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «totale = 0 for i in range(1, 5): totale += i print(totale) Cosa stampa?»."
-			}
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo il ciclo, quanto vale totale? totale = 0 for i in range(4): totale = totale + 2».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «totale = 0 for i in range(1, 5): totale += i print(totale) Cosa stampa?».",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quante volte stampa questo? for i in range(3): for j in range(4): print(i, j)»."
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "coding-variabili-0",
@@ -440,9 +467,11 @@
 			"answer": "3",
 			"explanation": "b ha copiato il valore di a nel momento dell'assegnazione: cambiare a dopo non tocca b.",
 			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo queste due righe, quanto vale n? n = 3 n = n + 1».",
 				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «a = 2 b = 5 a, b = b, a print(a) Cosa stampa?».",
 				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo x = 5 e poi x = x + 1, quanto vale x?».",
 				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «punti = 3 punti = punti + 4 print(punti) Che numero stampa questo programma Python?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo queste due righe, quanto vale x? x = 4 x = 9».",
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «punti = 0 punti = punti + 5 punti = punti + 5 print(punti) Cosa stampa?»."
 			}
 		},
@@ -479,9 +508,11 @@
 			"explanation": "Ogni riga rilegge il valore attuale e ne scrive uno nuovo: 0, poi 5, poi 10.",
 			"distractorWhy": {
 				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «a = 3 b = a a = 10 print(b) Cosa stampa?».",
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo queste righe, quanto vale totale? totale = 10 totale = totale - 3 totale = totale - 3».",
 				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «a = 2 b = 5 a, b = b, a print(a) Cosa stampa?».",
 				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo x = 5 e poi x = x + 1, quanto vale x?».",
-				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «punti = 3 punti = punti + 4 print(punti) Che numero stampa questo programma Python?»."
+				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «punti = 3 punti = punti + 4 print(punti) Che numero stampa questo programma Python?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo queste due righe, quanto vale x? x = 4 x = 9»."
 			}
 		},
 		{
@@ -559,8 +590,10 @@
 			"explanation": "Python valuta prima la destra e poi assegna: i due valori si scambiano in una riga sola.",
 			"distractorWhy": {
 				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «a = 3 b = a a = 10 print(b) Cosa stampa?».",
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo queste due righe, quanto vale n? n = 3 n = n + 1».",
 				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo x = 5 e poi x = x + 1, quanto vale x?».",
 				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «punti = 3 punti = punti + 4 print(punti) Che numero stampa questo programma Python?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo queste due righe, quanto vale x? x = 4 x = 9».",
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «punti = 0 punti = punti + 5 punti = punti + 5 print(punti) Cosa stampa?»."
 			}
 		},
@@ -618,9 +651,11 @@
 			"explanation": "La variabile accumula: 0+2=2, poi +3=5, poi +5=10. È lo schema dell'accumulatore.",
 			"distractorWhy": {
 				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «a = 3 b = a a = 10 print(b) Cosa stampa?».",
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo queste due righe, quanto vale n? n = 3 n = n + 1».",
 				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «a = 2 b = 5 a, b = b, a print(a) Cosa stampa?».",
 				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo x = 5 e poi x = x + 1, quanto vale x?».",
-				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «punti = 3 punti = punti + 4 print(punti) Che numero stampa questo programma Python?»."
+				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «punti = 3 punti = punti + 4 print(punti) Che numero stampa questo programma Python?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo queste due righe, quanto vale x? x = 4 x = 9»."
 			}
 		},
 		{
@@ -698,6 +733,8 @@
 			"explanation": "int() converte una stringa che contiene cifre nel numero corrispondente.",
 			"distractorWhy": {
 				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa restituisce int(7.9)?».",
+				"13": "«13» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa stampa questo? eta = \"12\" print(int(eta) + 1)».",
+				"23": "«23» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa stampa questo? print(\"2\" + \"3\")».",
 				"5.0": "«5.0» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print(3 + 2.0)?»."
 			}
 		},
@@ -776,6 +813,8 @@
 			"explanation": "int() taglia la parte decimale, non arrotonda: 7.9 diventa 7. Per arrotondare serve round().",
 			"distractorWhy": {
 				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa restituisce int('12')?».",
+				"13": "«13» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa stampa questo? eta = \"12\" print(int(eta) + 1)».",
+				"23": "«23» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa stampa questo? print(\"2\" + \"3\")».",
 				"5.0": "«5.0» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print(3 + 2.0)?»."
 			}
 		},
@@ -1169,6 +1208,7 @@
 			"explanation": "La variabile scritta dentro la funzione è una NUOVA variabile che vive solo lì: si chiama locale. Quella di fuori non viene toccata, e infatti resta 10.",
 			"distractorWhy": {
 				"0": "«0» è la risposta giusta a un'altra domanda di questo gruppo: «Quante volte viene eseguito il corpo di una funzione che nessuno chiama?».",
+				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa stampa questo? def f(n): n = n + 1 x = 5 f(x) print(x)».",
 				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «def somma(a, b): return a + b print(somma(3, 4) + somma(1, 1)) Cosa stampa?».",
 				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «def doppio(n): return n * 2 print(doppio(6)) Cosa stampa print(doppio(6))?»."
 			}
@@ -1248,6 +1288,7 @@
 			"explanation": "Le due chiamate restituiscono 7 e 2, e i due valori si sommano: 9.",
 			"distractorWhy": {
 				"0": "«0» è la risposta giusta a un'altra domanda di questo gruppo: «Quante volte viene eseguito il corpo di una funzione che nessuno chiama?».",
+				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa stampa questo? def f(n): n = n + 1 x = 5 f(x) print(x)».",
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «punti = 10 def azzera(): punti = 0 azzera() print(punti) Cosa stampa?».",
 				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «def doppio(n): return n * 2 print(doppio(6)) Cosa stampa print(doppio(6))?»."
 			}
@@ -1284,6 +1325,7 @@
 			"answer": "0",
 			"explanation": "def non esegue niente: definisce soltanto. Il corpo gira solo alla chiamata.",
 			"distractorWhy": {
+				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa stampa questo? def f(n): n = n + 1 x = 5 f(x) print(x)».",
 				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «def somma(a, b): return a + b print(somma(3, 4) + somma(1, 1)) Cosa stampa?».",
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «punti = 10 def azzera(): punti = 0 azzera() print(punti) Cosa stampa?».",
 				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «def doppio(n): return n * 2 print(doppio(6)) Cosa stampa print(doppio(6))?»."
@@ -1535,7 +1577,9 @@
 				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quante volte gira: for i in range(2, 6)?».",
 				"5": "«5» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «for i in range(3): for j in range(2): print('x') Quante x stampa?».",
-				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «totale = 0 for i in range(1, 5): totale += i print(totale) Cosa stampa?»."
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo il ciclo, quanto vale totale? totale = 0 for i in range(4): totale = totale + 2».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «totale = 0 for i in range(1, 5): totale += i print(totale) Cosa stampa?».",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quante volte stampa questo? for i in range(3): for j in range(4): print(i, j)»."
 			}
 		},
 		{
@@ -1553,7 +1597,9 @@
 				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quante volte gira: for i in range(2, 6)?».",
 				"5": "«5» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «for i in range(3): for j in range(2): print('x') Quante x stampa?».",
-				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «totale = 0 for i in range(1, 5): totale += i print(totale) Cosa stampa?»."
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo il ciclo, quanto vale totale? totale = 0 for i in range(4): totale = totale + 2».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «totale = 0 for i in range(1, 5): totale += i print(totale) Cosa stampa?».",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quante volte stampa questo? for i in range(3): for j in range(4): print(i, j)»."
 			}
 		},
 		{
@@ -1571,7 +1617,9 @@
 				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «n = 8 giri = 0 while n > 1: n = n // 2 giri += 1 print(giri) Cosa stampa?».",
 				"5": "«5» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «for i in range(3): for j in range(2): print('x') Quante x stampa?».",
-				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «totale = 0 for i in range(1, 5): totale += i print(totale) Cosa stampa?»."
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo il ciclo, quanto vale totale? totale = 0 for i in range(4): totale = totale + 2».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «totale = 0 for i in range(1, 5): totale += i print(totale) Cosa stampa?».",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quante volte stampa questo? for i in range(3): for j in range(4): print(i, j)»."
 			}
 		},
 		{
@@ -1610,7 +1658,9 @@
 				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «n = 8 giri = 0 while n > 1: n = n // 2 giri += 1 print(giri) Cosa stampa?».",
 				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quante volte gira: for i in range(2, 6)?».",
 				"5": "«5» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
-				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «for i in range(3): for j in range(2): print('x') Quante x stampa?»."
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «for i in range(3): for j in range(2): print('x') Quante x stampa?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo il ciclo, quanto vale totale? totale = 0 for i in range(4): totale = totale + 2».",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quante volte stampa questo? for i in range(3): for j in range(4): print(i, j)»."
 			}
 		},
 		{
@@ -1691,7 +1741,9 @@
 				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «n = 8 giri = 0 while n > 1: n = n // 2 giri += 1 print(giri) Cosa stampa?».",
 				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Quante volte gira: for i in range(2, 6)?».",
 				"5": "«5» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
-				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «totale = 0 for i in range(1, 5): totale += i print(totale) Cosa stampa?»."
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo il ciclo, quanto vale totale? totale = 0 for i in range(4): totale = totale + 2».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «totale = 0 for i in range(1, 5): totale += i print(totale) Cosa stampa?».",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quante volte stampa questo? for i in range(3): for j in range(4): print(i, j)»."
 			}
 		},
 		{
@@ -1729,6 +1781,7 @@
 				"3": "«3» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «numeri = [10, 20, 30] print(numeri[0]) Cosa stampa numeri[0]?».",
 				"12": "«12» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa stampa questo? numeri = [4, 8, 15] print(numeri[-1])».",
 				"21": "«21» è la risposta giusta a un'altra domanda di questo gruppo: «voti = [6, 7, 8] print(sum(voti)) Cosa stampa?»."
 			}
 		},
@@ -1746,6 +1799,7 @@
 				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «numeri = [4, 8, 15] print(numeri[0]) Cosa stampa?».",
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «numeri = [10, 20, 30] print(numeri[0]) Cosa stampa numeri[0]?».",
 				"12": "«12» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa stampa questo? numeri = [4, 8, 15] print(numeri[-1])».",
 				"21": "«21» è la risposta giusta a un'altra domanda di questo gruppo: «voti = [6, 7, 8] print(sum(voti)) Cosa stampa?»."
 			}
 		},
@@ -1784,6 +1838,7 @@
 				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «numeri = [4, 8, 15] print(numeri[0]) Cosa stampa?».",
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «numeri = [10, 20, 30] print(numeri[0]) Cosa stampa numeri[0]?».",
 				"12": "«12» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa stampa questo? numeri = [4, 8, 15] print(numeri[-1])».",
 				"21": "«21» è la risposta giusta a un'altra domanda di questo gruppo: «voti = [6, 7, 8] print(sum(voti)) Cosa stampa?»."
 			}
 		},
@@ -1864,7 +1919,8 @@
 				"3": "«3» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «numeri = [4, 8, 15] print(numeri[0]) Cosa stampa?».",
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «numeri = [10, 20, 30] print(numeri[0]) Cosa stampa numeri[0]?».",
-				"12": "«12» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
+				"12": "«12» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa stampa questo? numeri = [4, 8, 15] print(numeri[-1])»."
 			}
 		},
 		{
@@ -2084,7 +2140,7 @@
 			"explanation": "round() arrotonda al numero intero più vicino: 7.6 sta più vicino a 8. Attenzione a non confonderlo con int(7.6), che taglia i decimali e dà 7.",
 			"distractorWhy": {
 				"1": "«1» è la risposta giusta a un'altra domanda di questo gruppo: «numero = 7 resto = numero % 2 print(resto) Quanto vale 7 % 2 (il resto della divisione)?».",
-				"2": "«2» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa restituisce «17 % 5»?».",
+				"2": "«2» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto vale 10 - 4 * 2 in Python?».",
 				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «print(7 // 2) Cosa stampa 7 // 2 in Python?».",
 				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa abs(-7) in Python?».",
 				"14": "«14» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 + 3 * 4 in Python?».",
@@ -2105,7 +2161,7 @@
 			"explanation": "abs() dà il valore assoluto, cioè la distanza da zero senza segno: abs(-7) e abs(7) valgono tutti e due 7.",
 			"distractorWhy": {
 				"1": "«1» è la risposta giusta a un'altra domanda di questo gruppo: «numero = 7 resto = numero % 2 print(resto) Quanto vale 7 % 2 (il resto della divisione)?».",
-				"2": "«2» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa restituisce «17 % 5»?».",
+				"2": "«2» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto vale 10 - 4 * 2 in Python?».",
 				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «print(7 // 2) Cosa stampa 7 // 2 in Python?».",
 				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa round(7.6) in Python?».",
 				"14": "«14» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 + 3 * 4 in Python?».",
@@ -2147,7 +2203,7 @@
 			"explanation": "La moltiplicazione viene prima della somma, come in matematica: 3×4=12, poi +2.",
 			"distractorWhy": {
 				"1": "«1» è la risposta giusta a un'altra domanda di questo gruppo: «numero = 7 resto = numero % 2 print(resto) Quanto vale 7 % 2 (il resto della divisione)?».",
-				"2": "«2» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa restituisce «17 % 5»?».",
+				"2": "«2» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto vale 10 - 4 * 2 in Python?».",
 				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «print(7 // 2) Cosa stampa 7 // 2 in Python?».",
 				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa abs(-7) in Python?».",
 				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa round(7.6) in Python?».",
@@ -2168,7 +2224,7 @@
 			"explanation": "Le parentesi cambiano l'ordine: prima la somma, poi la moltiplicazione.",
 			"distractorWhy": {
 				"1": "«1» è la risposta giusta a un'altra domanda di questo gruppo: «numero = 7 resto = numero % 2 print(resto) Quanto vale 7 % 2 (il resto della divisione)?».",
-				"2": "«2» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa restituisce «17 % 5»?».",
+				"2": "«2» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto vale 10 - 4 * 2 in Python?».",
 				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «print(7 // 2) Cosa stampa 7 // 2 in Python?».",
 				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa abs(-7) in Python?».",
 				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa round(7.6) in Python?».",
@@ -2231,7 +2287,7 @@
 			"explanation": "-= toglie al valore esistente, come += aggiunge: 10 − 3 = 7.",
 			"distractorWhy": {
 				"1": "«1» è la risposta giusta a un'altra domanda di questo gruppo: «numero = 7 resto = numero % 2 print(resto) Quanto vale 7 % 2 (il resto della divisione)?».",
-				"2": "«2» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa restituisce «17 % 5»?».",
+				"2": "«2» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto vale 10 - 4 * 2 in Python?».",
 				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «print(7 // 2) Cosa stampa 7 // 2 in Python?».",
 				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa round(7.6) in Python?».",
 				"14": "«14» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 + 3 * 4 in Python?».",
@@ -3326,8 +3382,10 @@
 			"explanation": "x + 1 = 5 + 1 = 6, e viene rimesso in x.",
 			"distractorWhy": {
 				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «a = 3 b = a a = 10 print(b) Cosa stampa?».",
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo queste due righe, quanto vale n? n = 3 n = n + 1».",
 				"5": "La seconda riga ricalcola x aggiungendo 1: il valore cambia da 5 a 6.",
 				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «punti = 3 punti = punti + 4 print(punti) Che numero stampa questo programma Python?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo queste due righe, quanto vale x? x = 4 x = 9».",
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «punti = 0 punti = punti + 5 punti = punti + 5 print(punti) Cosa stampa?».",
 				"51": "+ fra numeri somma, non concatena come farebbe con le stringhe: il risultato è 6, non 51.",
 				"errore": "x = x + 1 è un'operazione valida: rilegge il valore attuale di x e ne scrive uno nuovo."
@@ -3691,6 +3749,1770 @@
 			}
 		},
 		{
+			"id": "coding-variabili-0",
+			"subject": "coding",
+			"topic": "variabili",
+			"difficulty": 1,
+			"format": "numeric_input",
+			"prompt": "Dopo queste due righe, quanto vale x?\nx = 4\nx = 9",
+			"options": [],
+			"answer": "9",
+			"explanation": "La seconda riga non aggiunge: sostituisce. Una variabile ricorda soltanto l'ultimo valore che ha ricevuto, e quello di prima sparisce.",
+			"distractorWhy": {
+				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «a = 3 b = a a = 10 print(b) Cosa stampa?».",
+				"4": "È il primo valore, ma la riga dopo lo ha già rimpiazzato.",
+				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «a = 2 b = 5 a, b = b, a print(a) Cosa stampa?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo x = 5 e poi x = x + 1, quanto vale x?».",
+				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «punti = 3 punti = punti + 4 print(punti) Che numero stampa questo programma Python?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «punti = 0 punti = punti + 5 punti = punti + 5 print(punti) Cosa stampa?».",
+				"13": "I due valori non si sommano: la seconda assegnazione cancella la prima.",
+				"49": "I numeri non si attaccano uno all'altro: ogni riga scrive un valore intero."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-variabili-1",
+			"subject": "coding",
+			"topic": "variabili",
+			"difficulty": 1,
+			"format": "numeric_input",
+			"prompt": "Dopo queste due righe, quanto vale y?\nx = 5\ny = x + 2",
+			"options": [],
+			"answer": "7",
+			"explanation": "Quando una variabile compare a destra dell'uguale, il computer la sostituisce con il suo valore: al posto di x legge 5, poi somma.",
+			"distractorWhy": {
+				"2": "È solo il numero che si somma: manca il valore di partenza.",
+				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa stampa questo? a = 3 b = a a = 10 print(b)».",
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo queste due righe, quanto vale n? n = 3 n = n + 1».",
+				"5": "È il valore di x, ma y aggiunge due prima di essere scritta.",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo x = 5 e poi x = x + 1, quanto vale x?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo queste due righe, quanto vale x? x = 4 x = 9».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «punti = 0 punti = punti + 5 punti = punti + 5 print(punti) Cosa stampa?».",
+				"52": "Il segno + fra numeri somma, non affianca le cifre."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-variabili-2",
+			"subject": "coding",
+			"topic": "variabili",
+			"difficulty": 1,
+			"format": "numeric_input",
+			"prompt": "Dopo queste tre righe, quanto vale a?\na = 2\nb = 6\na = b",
+			"options": [],
+			"answer": "6",
+			"explanation": "L'ultima riga copia dentro a il valore che b ha in quel momento. Da lì in poi a vale 6, e b resta 6 anche lui.",
+			"distractorWhy": {
+				"2": "Era il valore iniziale di a, ma la terza riga lo ha sostituito.",
+				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «a = 3 b = a a = 10 print(b) Cosa stampa?».",
+				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «a = 2 b = 5 a, b = b, a print(a) Cosa stampa?».",
+				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «punti = 3 punti = punti + 4 print(punti) Che numero stampa questo programma Python?».",
+				"8": "L'uguale non somma le due variabili: copia il valore di destra.",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo queste due righe, quanto vale x? x = 4 x = 9».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «punti = 0 punti = punti + 5 punti = punti + 5 print(punti) Cosa stampa?».",
+				"12": "L'uguale non moltiplica: è una copia, non un calcolo."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-variabili-3",
+			"subject": "coding",
+			"topic": "variabili",
+			"difficulty": 1,
+			"format": "numeric_input",
+			"prompt": "Dopo queste due righe, quanto vale n?\nn = 3\nn = n + 1",
+			"options": [],
+			"answer": "4",
+			"explanation": "La riga si legge da destra: prima si calcola n + 1 usando il valore vecchio, poi il risultato viene riscritto dentro n. È il modo in cui un contatore avanza.",
+			"distractorWhy": {
+				"1": "È solo il passo, non il totale: si parte da tre.",
+				"3": "È il valore prima della seconda riga, che però viene eseguita.",
+				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «a = 2 b = 5 a, b = b, a print(a) Cosa stampa?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo x = 5 e poi x = x + 1, quanto vale x?».",
+				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «punti = 3 punti = punti + 4 print(punti) Che numero stampa questo programma Python?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo queste due righe, quanto vale x? x = 4 x = 9».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «totale = 0 for n in [2, 3, 5]: totale += n print(totale) Cosa stampa?».",
+				"31": "Il + su due numeri somma: non li scrive uno accanto all'altro."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-tipi-4",
+			"subject": "coding",
+			"topic": "tipi",
+			"difficulty": 1,
+			"format": "numeric_input",
+			"prompt": "Quale di queste scritture è un numero e non un testo?",
+			"options": [],
+			"answer": "12",
+			"explanation": "Le virgolette dicono al computer «questo è testo, non contarlo». Senza virgolette il 12 è un numero e ci si può fare aritmetica.",
+			"distractorWhy": {
+				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa restituisce int(7.9)?».",
+				"13": "«13» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa stampa questo? eta = \"12\" print(int(eta) + 1)».",
+				"23": "«23» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa stampa questo? print(\"2\" + \"3\")».",
+				"\"12\"": "Le virgolette lo rendono testo: sembra un numero ma non si può sommare.",
+				"\"dodici\"": "È la parola scritta, e resta testo in ogni caso.",
+				"'12'": "Anche gli apici singoli fanno testo: cambia il segno, non la sostanza.",
+				"5.0": "«5.0» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print(3 + 2.0)?»."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-tipi-5",
+			"subject": "coding",
+			"topic": "tipi",
+			"difficulty": 1,
+			"format": "numeric_input",
+			"prompt": "Che cosa stampa questo?\nprint(\"2\" + \"3\")",
+			"options": [],
+			"answer": "23",
+			"explanation": "Fra due testi il + non somma: unisce. Le virgolette avevano già deciso che quelle non erano quantità ma sequenze di caratteri.",
+			"distractorWhy": {
+				"5": "Sarebbe la somma, ma quelle virgolette li hanno resi testo.",
+				"6": "Il + non moltiplica mai, né su numeri né su testo.",
+				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa restituisce int(7.9)?».",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa restituisce int('12')?».",
+				"13": "«13» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa stampa questo? eta = \"12\" print(int(eta) + 1)».",
+				"2 3": "Unendo due testi non compare nessuno spazio: nessuno lo ha scritto.",
+				"5.0": "«5.0» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print(3 + 2.0)?»."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-output-6",
+			"subject": "coding",
+			"topic": "output",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Che cosa stampa questo?\nx = 7\nprint(\"x\")",
+			"options": [
+				"niente",
+				"x",
+				"x = 7",
+				"7"
+			],
+			"answer": "x",
+			"explanation": "Con le virgolette si stampa la lettera così com'è; senza, si stampa il valore che la variabile contiene. È la differenza fra il nome e la cosa.",
+			"distractorWhy": {
+				"7": "Sarebbe il risultato senza virgolette: qui la x è testo.",
+				"x = 7": "print mostra solo ciò che riceve, e ha ricevuto una lettera sola.",
+				"niente": "La riga è valida ed esegue: qualcosa viene stampato di sicuro."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-output-7",
+			"subject": "coding",
+			"topic": "output",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Che cosa stampa questo?\nnome = \"Ada\"\nprint(nome)",
+			"options": [
+				"\"Ada\"",
+				"niente",
+				"Ada",
+				"nome"
+			],
+			"answer": "Ada",
+			"explanation": "Senza virgolette il computer capisce che è il nome di una scatola, va a vedere che cosa c'è dentro e stampa quello.",
+			"distractorWhy": {
+				"nome": "Sarebbe il risultato se avessimo scritto le virgolette attorno.",
+				"\"Ada\"": "Le virgolette servono a scrivere il testo nel codice, non compaiono a schermo.",
+				"niente": "La variabile esiste ed è piena: print ha qualcosa da mostrare."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-operatori-8",
+			"subject": "coding",
+			"topic": "operatori",
+			"difficulty": 1,
+			"format": "numeric_input",
+			"prompt": "Quanto vale 7 // 2 in Python?",
+			"options": [],
+			"answer": "3",
+			"explanation": "La doppia barra divide e butta via la parte decimale: risponde a «quante volte ci sta per intero», che è la domanda di chi distribuisce oggetti senza spezzarli.",
+			"distractorWhy": {
+				"1": "Uno è il resto, e per il resto c'è un altro segno.",
+				"4": "Non arrotonda per eccesso: taglia, e tre volte due ci sta.",
+				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa abs(-7) in Python?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa round(7.6) in Python?».",
+				"14": "«14» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 + 3 * 4 in Python?».",
+				"20": "«20» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa (2 + 3) * 4?».",
+				"32": "«32» è la risposta giusta a un'altra domanda di questo gruppo: «print(2 ** 5) Cosa stampa 2 ** 5 in Python?».",
+				"3.5": "È la divisione normale, quella con una barra sola."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-operatori-9",
+			"subject": "coding",
+			"topic": "operatori",
+			"difficulty": 1,
+			"format": "numeric_input",
+			"prompt": "Quanto vale 7 % 2 in Python?",
+			"options": [],
+			"answer": "1",
+			"explanation": "Il segno di percentuale qui non c'entra con le percentuali: dà il resto della divisione. È il modo più corto per sapere se un numero è pari.",
+			"distractorWhy": {
+				"2": "È il divisore: il resto è sempre più piccolo di lui.",
+				"3": "È quante volte il due ci sta dentro, non quello che avanza.",
+				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa abs(-7) in Python?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa round(7.6) in Python?».",
+				"14": "«14» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 + 3 * 4 in Python?».",
+				"20": "«20» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa (2 + 3) * 4?».",
+				"32": "«32» è la risposta giusta a un'altra domanda di questo gruppo: «print(2 ** 5) Cosa stampa 2 ** 5 in Python?».",
+				"3.5": "È il risultato della divisione con la virgola, un'altra domanda."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-condizioni-10",
+			"subject": "coding",
+			"topic": "condizioni",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Che cosa stampa questo?\neta = 8\nif eta > 10:\n    print(\"grande\")\nprint(\"fine\")",
+			"options": [
+				"grande",
+				"fine",
+				"grande fine",
+				"niente"
+			],
+			"answer": "fine",
+			"explanation": "La condizione è falsa, quindi la riga rientrata viene saltata. L'ultima riga non è rientrata: non appartiene all'if e viene eseguita comunque.",
+			"distractorWhy": {
+				"grande": "Otto non è maggiore di dieci: quel ramo non parte.",
+				"grande fine": "La prima riga è saltata, quindi ne resta una sola.",
+				"niente": "L'ultima riga sta fuori dall'if e viene eseguita sempre."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-condizioni-11",
+			"subject": "coding",
+			"topic": "condizioni",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Che cosa stampa questo?\nn = 5\nif n > 3:\n    print(\"alto\")\nelse:\n    print(\"basso\")",
+			"options": [
+				"niente",
+				"basso",
+				"alto",
+				"alto basso"
+			],
+			"answer": "alto",
+			"explanation": "I due rami sono alternativi: se la condizione è vera parte il primo, e l'altro viene saltato senza nemmeno essere guardato.",
+			"distractorWhy": {
+				"basso": "Sarebbe il ramo dell'else, e ci si arriva solo se la condizione è falsa.",
+				"alto basso": "Con if ed else ne parte sempre uno soltanto, mai tutti e due.",
+				"niente": "Uno dei due rami parte per forza: insieme coprono tutti i casi."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-booleani-12",
+			"subject": "coding",
+			"topic": "booleani",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quanto vale 4 == 4?",
+			"options": [
+				"4",
+				"8",
+				"False",
+				"True"
+			],
+			"answer": "True",
+			"explanation": "Il doppio uguale non assegna: chiede «sono la stessa cosa?» e risponde vero o falso. Il singolo uguale invece mette un valore dentro una variabile.",
+			"distractorWhy": {
+				"4": "Un confronto non restituisce il numero: restituisce un giudizio.",
+				"8": "Il doppio uguale non somma: mette a confronto.",
+				"False": "I due numeri sono identici, quindi il confronto è vero."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-booleani-13",
+			"subject": "coding",
+			"topic": "booleani",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quanto vale 3 > 5?",
+			"options": [
+				"False",
+				"True",
+				"5",
+				"2"
+			],
+			"answer": "False",
+			"explanation": "Tre non è maggiore di cinque, quindi la risposta è falso. Un confronto dà sempre una delle due risposte, mai un numero.",
+			"distractorWhy": {
+				"2": "La differenza fra i due numeri non c'entra con il confronto.",
+				"5": "Il confronto non restituisce il numero più grande dei due.",
+				"True": "Il segno maggiore punta verso il numero più grande, e qui punta al contrario."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-liste-14",
+			"subject": "coding",
+			"topic": "liste",
+			"difficulty": 1,
+			"format": "numeric_input",
+			"prompt": "Quanti elementi ha questa lista?\nfrutta = [\"mela\", \"pera\", \"uva\"]",
+			"options": [],
+			"answer": "3",
+			"explanation": "Gli elementi si contano dalle virgole più uno: tre parole separate da due virgole. Le parentesi quadre segnano dove la lista comincia e finisce.",
+			"distractorWhy": {
+				"1": "La lista è un contenitore solo, ma la domanda chiede che cosa c'è dentro.",
+				"2": "Le virgole sono due, ma separano tre cose: si conta anche l'ultima.",
+				"4": "Le parentesi non sono un elemento: sono il contenitore.",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «numeri = [10, 20, 30] print(numeri[0]) Cosa stampa numeri[0]?».",
+				"12": "«12» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa stampa questo? numeri = [4, 8, 15] print(numeri[-1])».",
+				"21": "«21» è la risposta giusta a un'altra domanda di questo gruppo: «voti = [6, 7, 8] print(sum(voti)) Cosa stampa?»."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-liste-15",
+			"subject": "coding",
+			"topic": "liste",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Che cosa stampa questo?\nfrutta = [\"mela\", \"pera\", \"uva\"]\nprint(frutta[0])",
+			"options": [
+				"pera",
+				"0",
+				"mela",
+				"uva"
+			],
+			"answer": "mela",
+			"explanation": "Le posizioni partono da zero, non da uno: il primo elemento sta al posto 0. È la regola che sorprende di più all'inizio, e non ha eccezioni.",
+			"distractorWhy": {
+				"0": "Fra le quadre c'è la posizione, non il valore da stampare.",
+				"pera": "È il secondo elemento, e sta al posto 1.",
+				"uva": "È l'ultimo, e sta al posto 2."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-stringhe-16",
+			"subject": "coding",
+			"topic": "stringhe",
+			"difficulty": 1,
+			"format": "numeric_input",
+			"prompt": "Quanto vale len(\"casa\")?",
+			"options": [],
+			"answer": "4",
+			"explanation": "len conta i caratteri uno per uno, comprese le lettere ripetute. Le virgolette non si contano: dicono dove il testo comincia e finisce.",
+			"distractorWhy": {
+				"1": "Non conta le parole: conta le lettere.",
+				"3": "Anche l'ultima lettera va contata.",
+				"5": "Le virgolette segnano il testo e non fanno parte di lui.",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print(len('Eli Quest'))?»."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-stringhe-17",
+			"subject": "coding",
+			"topic": "stringhe",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Che cosa stampa questo?\nprint(\"ciao\" + \" \" + \"mondo\")",
+			"options": [
+				"ciao mondo",
+				"ciao mondo!",
+				"ciaomondo",
+				"ciao+mondo"
+			],
+			"answer": "ciao mondo",
+			"explanation": "Fra due testi il + li attacca senza aggiungere niente: lo spazio compare solo perché qualcuno lo ha scritto apposta fra le virgolette.",
+			"distractorWhy": {
+				"ciaomondo": "Sarebbe il risultato senza quel testo di mezzo, che contiene uno spazio.",
+				"ciao+mondo": "Il segno lavora, non viene stampato.",
+				"ciao mondo!": "Nel codice non c'è nessun punto esclamativo da stampare."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-algoritmi-18",
+			"subject": "coding",
+			"topic": "algoritmi",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Un algoritmo per lavarsi i denti mette «sciacqua lo spazzolino» prima di «metti il dentifricio». Qual è il difetto?",
+			"options": [
+				"nessuno",
+				"l'ordine",
+				"la lunghezza",
+				"la lingua"
+			],
+			"answer": "l'ordine",
+			"explanation": "Ogni passo va scritto dove può davvero essere eseguito: qui il secondo cancella l'effetto del primo. Un algoritmo giusto nel contenuto e sbagliato nell'ordine non funziona.",
+			"distractorWhy": {
+				"la lingua": "I passi si capiscono benissimo: il problema non è come sono scritti.",
+				"la lunghezza": "Due passi bastano a mostrare il difetto, non serve allungare.",
+				"nessuno": "Eseguendoli in quest'ordine il dentifricio finisce nel lavandino."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-input-19",
+			"subject": "coding",
+			"topic": "input",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Dopo questa riga, che cosa contiene risposta?\nrisposta = input(\"Come ti chiami? \")",
+			"options": [
+				"la domanda scritta fra virgolette",
+				"un numero a caso",
+				"ciò che scrive chi gioca",
+				"sempre la parola input"
+			],
+			"answer": "ciò che scrive chi gioca",
+			"explanation": "Il testo fra parentesi serve solo a far comparire la domanda: dentro la variabile finisce quello che la persona digita e conferma.",
+			"distractorWhy": {
+				"la domanda scritta fra virgolette": "Quella viene mostrata, non salvata: è l'invito, non la risposta.",
+				"sempre la parola input": "input è il nome del comando, non un valore da conservare.",
+				"un numero a caso": "Non c'è niente di casuale: il valore lo decide chi sta davanti allo schermo."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-stile-20",
+			"subject": "coding",
+			"topic": "stile",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale nome di variabile racconta meglio che cosa contiene?",
+			"options": [
+				"ns",
+				"variabile_numero_1",
+				"x2",
+				"numero_studenti"
+			],
+			"answer": "numero_studenti",
+			"explanation": "Il nome è l'unica spiegazione che il codice porta sempre con sé. Chi lo rilegge fra un mese è quasi sempre chi lo ha scritto, e non si ricorderà niente.",
+			"distractorWhy": {
+				"ns": "Due lettere costringono a cercare altrove che cosa vogliano dire.",
+				"variabile_numero_1": "Dice che è una variabile, cosa già evidente, e non che cosa contiene.",
+				"x2": "Va bene in una formula, dove x è dichiarata: in un programma no."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-funzioni-21",
+			"subject": "coding",
+			"topic": "funzioni",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "A che cosa serve scrivere una funzione?",
+			"options": [
+				"a dare un nome a un gruppo di passi",
+				"a scrivere meno virgolette",
+				"a far girare il programma più veloce",
+				"a nascondere gli errori"
+			],
+			"answer": "a dare un nome a un gruppo di passi",
+			"explanation": "Una funzione raccoglie dei passi sotto un nome: si scrivono una volta e si richiamano quando servono. Il guadagno è di ordine, non di velocità.",
+			"distractorWhy": {
+				"a far girare il programma più veloce": "Il computer esegue gli stessi passi: cambia come sono scritti, non quanto costano.",
+				"a nascondere gli errori": "Un errore dentro una funzione resta e si ripresenta a ogni chiamata.",
+				"a scrivere meno virgolette": "Le virgolette dipendono dal testo, non da come si organizza il codice."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-cicli-22",
+			"subject": "coding",
+			"topic": "cicli",
+			"difficulty": 2,
+			"format": "numeric_input",
+			"prompt": "Quante volte stampa questo?\nfor i in range(3):\n    print(\"ciao\")",
+			"options": [],
+			"answer": "3",
+			"explanation": "range(3) produce tre passaggi: 0, 1 e 2. Il numero fra parentesi dice quanti giri, non fino a quale numero contare.",
+			"distractorWhy": {
+				"0": "«0» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il primo valore prodotto da range(4)?».",
+				"1": "La riga rientrata appartiene al ciclo e viene rifatta a ogni giro.",
+				"2": "I numeri partono da zero, ma restano tre: 0, 1 e 2.",
+				"4": "Il tre non è compreso fra i valori prodotti, quindi i giri non diventano quattro.",
+				"5": "«5» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «for i in range(3): for j in range(2): print('x') Quante x stampa?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo il ciclo, quanto vale totale? totale = 0 for i in range(4): totale = totale + 2».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «totale = 0 for i in range(1, 5): totale += i print(totale) Cosa stampa?»."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-cicli-23",
+			"subject": "coding",
+			"topic": "cicli",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cosa stampa questo?\nfor i in range(3):\n    print(i)",
+			"options": [
+				"3 3 3",
+				"1 2 3",
+				"0 1 2",
+				"0 1 2 3"
+			],
+			"answer": "0 1 2",
+			"explanation": "Il contatore parte da zero e si ferma prima del numero scritto. È la stessa regola delle posizioni in una lista, ed è per questo che le due cose si incastrano bene.",
+			"distractorWhy": {
+				"1 2 3": "Il conteggio non parte da uno: parte da zero.",
+				"0 1 2 3": "Il numero fra parentesi indica dove fermarsi, e non viene stampato.",
+				"3 3 3": "La variabile del ciclo cambia a ogni giro invece di restare ferma."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-cicli-24",
+			"subject": "coding",
+			"topic": "cicli",
+			"difficulty": 2,
+			"format": "numeric_input",
+			"prompt": "Dopo il ciclo, quanto vale totale?\ntotale = 0\nfor i in range(4):\n    totale = totale + 2",
+			"options": [],
+			"answer": "8",
+			"explanation": "Il ciclo gira quattro volte e ogni giro aggiunge due al valore precedente. La variabile va azzerata prima, altrimenti si somma a qualcosa di vecchio.",
+			"distractorWhy": {
+				"0": "«0» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il primo valore prodotto da range(4)?».",
+				"2": "È quanto si aggiunge in un giro solo: i giri sono quattro.",
+				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «n = 8 giri = 0 while n > 1: n = n // 2 giri += 1 print(giri) Cosa stampa?».",
+				"4": "È il numero di giri, non il totale accumulato.",
+				"5": "«5» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"6": "Sono tre giri: range(4) ne fa uno in più.",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «totale = 0 for i in range(1, 5): totale += i print(totale) Cosa stampa?».",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «Quante volte stampa questo? for i in range(3): for j in range(4): print(i, j)»."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-cicli-25",
+			"subject": "coding",
+			"topic": "cicli",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cosa stampa questo?\nfor x in [\"a\", \"b\"]:\n    print(x)\nprint(\"fine\")",
+			"options": [
+				"a b fine",
+				"a fine",
+				"a b fine fine",
+				"a b"
+			],
+			"answer": "a b fine",
+			"explanation": "Il ciclo ripete solo le righe rientrate. L'ultima riga sta fuori: viene eseguita una volta sola, quando il ciclo è già finito.",
+			"distractorWhy": {
+				"a b fine fine": "L'ultima riga non è rientrata, quindi non entra nel ciclo.",
+				"a fine": "Il ciclo attraversa tutti gli elementi della lista, non solo il primo.",
+				"a b": "La riga fuori dal ciclo viene comunque eseguita alla fine."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-condizioni-26",
+			"subject": "coding",
+			"topic": "condizioni",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cosa stampa questo?\nn = 4\nif n % 2 == 0:\n    print(\"pari\")\nelse:\n    print(\"dispari\")",
+			"options": [
+				"4",
+				"pari",
+				"0",
+				"dispari"
+			],
+			"answer": "pari",
+			"explanation": "Il resto della divisione per due vale zero solo per i numeri pari: è il modo standard per distinguerli, e funziona per qualunque numero.",
+			"distractorWhy": {
+				"0": "Lo zero è il risultato del calcolo, non ciò che print riceve.",
+				"4": "Il numero di partenza non viene stampato da nessuna riga.",
+				"dispari": "Il resto è zero, quindi la condizione è vera e parte il primo ramo."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-condizioni-27",
+			"subject": "coding",
+			"topic": "condizioni",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cosa stampa questo?\nn = 7\nif n > 10:\n    print(\"alto\")\nelif n > 5:\n    print(\"medio\")\nelse:\n    print(\"basso\")",
+			"options": [
+				"alto",
+				"medio basso",
+				"medio",
+				"basso"
+			],
+			"answer": "medio",
+			"explanation": "I rami si guardano in ordine e ci si ferma al primo vero. Sette non supera dieci, supera cinque: parte il secondo e gli altri non vengono nemmeno valutati.",
+			"distractorWhy": {
+				"alto": "Sette non è maggiore di dieci: quel ramo viene scartato subito.",
+				"basso": "Ci si arriva solo se nessuna condizione prima era vera.",
+				"medio basso": "Di tutta la catena parte un ramo solo, mai due."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-booleani-28",
+			"subject": "coding",
+			"topic": "booleani",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quanto vale (3 > 1) and (2 > 5)?",
+			"options": [
+				"True",
+				"None",
+				"3",
+				"False"
+			],
+			"answer": "False",
+			"explanation": "Con and devono essere vere tutte e due le parti: basta una falsa e il risultato è falso. È il legame più severo dei due.",
+			"distractorWhy": {
+				"3": "Un confronto restituisce vero o falso, mai uno dei numeri.",
+				"True": "La prima parte è vera, ma con and non basta: serve anche la seconda.",
+				"None": "None vuol dire «nessun valore», e qui un valore c'è."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-booleani-29",
+			"subject": "coding",
+			"topic": "booleani",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quanto vale (3 > 1) or (2 > 5)?",
+			"options": [
+				"True",
+				"False",
+				"None",
+				"2"
+			],
+			"answer": "True",
+			"explanation": "Con or ne basta una vera. È il legame indulgente, e va scelto quando i casi accettabili sono più di uno.",
+			"distractorWhy": {
+				"2": "Il risultato di un or è un giudizio, non uno dei numeri confrontati.",
+				"False": "La seconda parte è falsa, ma con or la prima da sola basta.",
+				"None": "Il confronto produce sempre vero o falso."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-liste-30",
+			"subject": "coding",
+			"topic": "liste",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cosa contiene la lista dopo queste righe?\nnumeri = [1, 2]\nnumeri.append(3)",
+			"options": [
+				"[3]",
+				"[1, 2, 3]",
+				"[3, 1, 2]",
+				"[1, 2]"
+			],
+			"answer": "[1, 2, 3]",
+			"explanation": "append aggiunge in fondo e cambia la lista che esiste già: non ne fabbrica una nuova. Per questo non serve riassegnarla.",
+			"distractorWhy": {
+				"[3, 1, 2]": "Aggiungere in testa è un'altra operazione, con un altro nome.",
+				"[1, 2]": "La riga esegue davvero: la lista dopo è diversa da prima.",
+				"[3]": "append aggiunge a ciò che c'è, non sostituisce il contenuto."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-liste-31",
+			"subject": "coding",
+			"topic": "liste",
+			"difficulty": 2,
+			"format": "numeric_input",
+			"prompt": "Che cosa stampa questo?\nnumeri = [4, 8, 15]\nprint(len(numeri))",
+			"options": [],
+			"answer": "3",
+			"explanation": "len conta quanti elementi ci sono, senza guardare quanto valgono. Su un testo contava le lettere: è sempre «quanti pezzi», mai «quanto fa».",
+			"distractorWhy": {
+				"4": "È il primo elemento, e capita spesso di confonderlo con la lunghezza.",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «numeri = [10, 20, 30] print(numeri[0]) Cosa stampa numeri[0]?».",
+				"12": "«12» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"15": "È l'elemento più grande, non la quantità di elementi.",
+				"21": "«21» è la risposta giusta a un'altra domanda di questo gruppo: «voti = [6, 7, 8] print(sum(voti)) Cosa stampa?».",
+				"27": "È la somma dei valori, un'altra domanda."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-liste-32",
+			"subject": "coding",
+			"topic": "liste",
+			"difficulty": 2,
+			"format": "numeric_input",
+			"prompt": "Che cosa stampa questo?\nnumeri = [4, 8, 15]\nprint(numeri[-1])",
+			"options": [],
+			"answer": "15",
+			"explanation": "Le posizioni negative si contano dalla fine: meno uno è l'ultimo. Serve quando non si sa quanto è lunga la lista.",
+			"distractorWhy": {
+				"3": "«3» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"4": "È il primo, e sta alla posizione zero.",
+				"8": "È quello di mezzo, alla posizione uno.",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «numeri = [10, 20, 30] print(numeri[0]) Cosa stampa numeri[0]?».",
+				"12": "«12» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"21": "«21» è la risposta giusta a un'altra domanda di questo gruppo: «voti = [6, 7, 8] print(sum(voti)) Cosa stampa?».",
+				"-1": "Fra le quadre c'è la posizione, non il valore che verrà stampato."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-stringhe-33",
+			"subject": "coding",
+			"topic": "stringhe",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cosa stampa questo?\nparola = \"sole\"\nprint(parola[0])",
+			"options": [
+				"s",
+				"o",
+				"sole",
+				"e"
+			],
+			"answer": "s",
+			"explanation": "Anche un testo si può leggere per posizioni, e anche qui si parte da zero. La prima lettera sta al posto 0, esattamente come il primo elemento di una lista.",
+			"distractorWhy": {
+				"o": "È la seconda lettera, al posto 1.",
+				"e": "È l'ultima, e la si prende con la posizione negativa.",
+				"sole": "Fra le quadre si chiede una lettera sola, non tutta la parola."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-stringhe-34",
+			"subject": "coding",
+			"topic": "stringhe",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cosa stampa questo?\nprint(\"eco\".upper())",
+			"options": [
+				"Eco",
+				"ECO",
+				"ECO()",
+				"eco"
+			],
+			"answer": "ECO",
+			"explanation": "upper restituisce una copia tutta maiuscola: il testo di partenza non viene modificato, perché in Python le stringhe non si cambiano sul posto.",
+			"distractorWhy": {
+				"eco": "Sarebbe il testo originale, ma print riceve la copia trasformata.",
+				"Eco": "Non tocca solo la prima lettera: le trasforma tutte.",
+				"ECO()": "Le parentesi servono a chiamare il comando e non vengono stampate."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-tipi-35",
+			"subject": "coding",
+			"topic": "tipi",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cosa restituisce input() prima di ogni conversione?",
+			"options": [
+				"un numero con virgola",
+				"un numero intero",
+				"testo",
+				"vero o falso"
+			],
+			"answer": "testo",
+			"explanation": "Quello che si digita arriva sempre come testo, anche quando sembra un numero. È il motivo per cui sommare due risposte le attacca invece di sommarle.",
+			"distractorWhy": {
+				"un numero intero": "Lo diventa solo dopo una conversione dichiarata da chi scrive il codice.",
+				"un numero con virgola": "Anche questa è una conversione, e va chiesta apposta.",
+				"vero o falso": "Vero e falso nascono dai confronti, non da ciò che si digita."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-tipi-36",
+			"subject": "coding",
+			"topic": "tipi",
+			"difficulty": 2,
+			"format": "numeric_input",
+			"prompt": "Che cosa stampa questo?\neta = \"12\"\nprint(int(eta) + 1)",
+			"options": [],
+			"answer": "13",
+			"explanation": "int trasforma il testo nel numero corrispondente, e da quel momento il + torna a sommare. Senza la conversione le due cose si sarebbero attaccate.",
+			"distractorWhy": {
+				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa restituisce int(7.9)?».",
+				"12": "L'uno viene davvero sommato: la riga non si ferma alla conversione.",
+				"23": "«23» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa stampa questo? print(\"2\" + \"3\")».",
+				"121": "Sarebbe il risultato senza conversione, quando il + unisce due testi.",
+				"errore": "La conversione riesce, perché quel testo contiene solo cifre.",
+				"5.0": "«5.0» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa stampa: print(3 + 2.0)?»."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-operatori-37",
+			"subject": "coding",
+			"topic": "operatori",
+			"difficulty": 2,
+			"format": "numeric_input",
+			"prompt": "Quanto vale 2 ** 3 in Python?",
+			"options": [],
+			"answer": "8",
+			"explanation": "Il doppio asterisco è l'elevamento a potenza: due moltiplicato per sé stesso tre volte. Con un asterisco solo sarebbe una moltiplicazione normale.",
+			"distractorWhy": {
+				"1": "«1» è la risposta giusta a un'altra domanda di questo gruppo: «numero = 7 resto = numero % 2 print(resto) Quanto vale 7 % 2 (il resto della divisione)?».",
+				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «print(7 // 2) Cosa stampa 7 // 2 in Python?».",
+				"5": "Il doppio asterisco non somma i due numeri.",
+				"6": "È due per tre: la moltiplicazione si scrive con un asterisco solo.",
+				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa abs(-7) in Python?».",
+				"9": "Sarebbe tre elevato a due: la base e l'esponente sono scambiati.",
+				"14": "«14» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 + 3 * 4 in Python?».",
+				"32": "«32» è la risposta giusta a un'altra domanda di questo gruppo: «print(2 ** 5) Cosa stampa 2 ** 5 in Python?»."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-funzioni-38",
+			"subject": "coding",
+			"topic": "funzioni",
+			"difficulty": 2,
+			"format": "numeric_input",
+			"prompt": "Che cosa stampa questo?\ndef doppio(n):\n    return n * 2\nprint(doppio(5))",
+			"options": [],
+			"answer": "10",
+			"explanation": "Il valore fra parentesi entra nella funzione al posto di n, il calcolo avviene dentro e return lo riporta fuori, dove print lo riceve.",
+			"distractorWhy": {
+				"0": "«0» è la risposta giusta a un'altra domanda di questo gruppo: «Quante volte viene eseguito il corpo di una funzione che nessuno chiama?».",
+				"2": "È il fattore usato dentro, non il risultato.",
+				"5": "È il valore entrato, ma la funzione lo trasforma prima di restituirlo.",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «def somma(a, b): return a + b print(somma(3, 4) + somma(1, 1)) Cosa stampa?».",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «def doppio(n): return n * 2 print(doppio(6)) Cosa stampa print(doppio(6))?».",
+				"52": "L'asterisco moltiplica: non affianca le cifre."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-funzioni-39",
+			"subject": "coding",
+			"topic": "funzioni",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cosa stampa questo?\ndef saluta(nome):\n    print(\"ciao \" + nome)\nsaluta(\"Ada\")",
+			"options": [
+				"Ada",
+				"ciao nome",
+				"ciao Ada",
+				"ciao"
+			],
+			"answer": "ciao Ada",
+			"explanation": "Il valore passato prende il posto del parametro dentro tutta la funzione: nome vale Ada solo durante questa chiamata, e a una chiamata diversa varrebbe altro.",
+			"distractorWhy": {
+				"ciao nome": "Il parametro non viene stampato come parola: viene sostituito dal valore.",
+				"ciao": "Il testo passato viene unito, non ignorato.",
+				"Ada": "Anche la parte fra virgolette fa parte di ciò che si stampa."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-output-40",
+			"subject": "coding",
+			"topic": "output",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cosa stampa questo?\nprint(\"totale:\", 12)",
+			"options": [
+				"totale: , 12",
+				"totale 12",
+				"totale:12",
+				"totale: 12"
+			],
+			"answer": "totale: 12",
+			"explanation": "Separando con la virgola, print stampa le cose una dopo l'altra e mette da solo uno spazio in mezzo. È il modo più semplice per unire testo e numeri senza convertirli.",
+			"distractorWhy": {
+				"totale:12": "Sarebbe il risultato unendo due testi con il +, dove nessuno spazio viene aggiunto.",
+				"totale: , 12": "La virgola serve a separare gli argomenti e non viene stampata.",
+				"totale 12": "I due punti fanno parte del testo scritto fra virgolette."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-input-41",
+			"subject": "coding",
+			"topic": "input",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Perché questo programma non somma?\na = input(\"primo: \")\nb = input(\"secondo: \")\nprint(a + b)",
+			"options": [
+				"perché a e b sono testo",
+				"perché mancano le parentesi",
+				"perché print non somma",
+				"perché servono tre variabili"
+			],
+			"answer": "perché a e b sono testo",
+			"explanation": "input consegna sempre testo, e fra due testi il + unisce. Convertendo con int prima della somma le due risposte tornano a essere quantità.",
+			"distractorWhy": {
+				"perché mancano le parentesi": "Le parentesi ci sono tutte: il programma esegue senza errori.",
+				"perché print non somma": "print mostra e basta: il calcolo avviene prima, dentro le parentesi.",
+				"perché servono tre variabili": "Due valori bastano a fare una somma: il numero di variabili non c'entra."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-stile-42",
+			"subject": "coding",
+			"topic": "stile",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "In Python, che cosa decide quali righe stanno dentro un if?",
+			"options": [
+				"le parentesi graffe",
+				"il rientro a sinistra",
+				"l'ordine alfabetico",
+				"il punto e virgola finale"
+			],
+			"answer": "il rientro a sinistra",
+			"explanation": "Lo spazio bianco a inizio riga non è decorazione: è la struttura. Spostare una riga di quattro spazi la fa entrare o uscire dall'if, e il programma cambia comportamento senza nessun errore visibile.",
+			"distractorWhy": {
+				"le parentesi graffe": "Altri linguaggi le usano, Python no: qui il blocco lo segna il rientro.",
+				"il punto e virgola finale": "In Python non serve chiudere le righe, e non delimita nessun blocco.",
+				"l'ordine alfabetico": "Le righe si eseguono nell'ordine in cui sono scritte, non riordinate."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-algoritmi-43",
+			"subject": "coding",
+			"topic": "algoritmi",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "In un algoritmo per cercare il numero più grande di una lista, da quale valore conviene partire?",
+			"options": [
+				"da un numero a caso",
+				"da zero",
+				"dal primo della lista",
+				"da cento"
+			],
+			"answer": "dal primo della lista",
+			"explanation": "Partendo dal primo elemento il confronto è sempre onesto: qualunque numero contenga la lista, anche tutti negativi, il risultato resta corretto.",
+			"distractorWhy": {
+				"da zero": "Se la lista contiene solo numeri negativi, resterebbe zero, che non è nella lista.",
+				"da cento": "Un valore inventato più grande di tutti non verrebbe mai superato.",
+				"da un numero a caso": "Il risultato dipenderebbe dal sorteggio invece che dalla lista."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-variabili-44",
+			"subject": "coding",
+			"topic": "variabili",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Come si scambiano i valori di a e b senza perderne uno?",
+			"options": [
+				"b = a\na = b",
+				"a = b = a",
+				"a = b\nb = a",
+				"a, b = b, a"
+			],
+			"answer": "a, b = b, a",
+			"explanation": "Scrivendoli sulla stessa riga, Python legge prima entrambi i valori vecchi e solo dopo li riscrive. Assegnando uno alla volta il primo valore verrebbe cancellato prima di essere copiato.",
+			"distractorWhy": {
+				"a = b\nb = a": "Dopo la prima riga il valore vecchio di a non esiste più: b riceve sé stesso.",
+				"a = b = a": "Assegna lo stesso valore a tutte e due le variabili: nessuno scambio.",
+				"b = a\na = b": "È lo stesso difetto in ordine inverso: si perde il valore di b."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-variabili-45",
+			"subject": "coding",
+			"topic": "variabili",
+			"difficulty": 2,
+			"format": "numeric_input",
+			"prompt": "Che cosa stampa questo?\na = 3\nb = a\na = 10\nprint(b)",
+			"options": [],
+			"answer": "3",
+			"explanation": "La seconda riga copia il valore, non crea un collegamento: b prende il 3 che a aveva in quel momento. Cambiare a dopo non tocca b, ed è la differenza fra copiare e collegare.",
+			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo queste due righe, quanto vale n? n = 3 n = n + 1».",
+				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «a = 2 b = 5 a, b = b, a print(a) Cosa stampa?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo x = 5 e poi x = x + 1, quanto vale x?».",
+				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «punti = 3 punti = punti + 4 print(punti) Che numero stampa questo programma Python?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo queste due righe, quanto vale x? x = 4 x = 9».",
+				"10": "Sarebbe il valore di a alla fine, ma b è stato scritto prima.",
+				"13": "Le assegnazioni non sommano niente fra loro.",
+				"30": "Non c'è nessuna moltiplicazione in queste righe."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-variabili-46",
+			"subject": "coding",
+			"topic": "variabili",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Perché scrivere x = x + 1 non è un errore di matematica?",
+			"options": [
+				"x vale zero per definizione",
+				"l'uguale qui assegna",
+				"in informatica è sempre falso",
+				"è un errore che Python perdona"
+			],
+			"answer": "l'uguale qui assegna",
+			"explanation": "Il segno uguale della matematica dichiara che due cose sono la stessa; quello della programmazione ordina di calcolare a destra e scrivere a sinistra. Sono due significati diversi con lo stesso simbolo.",
+			"distractorWhy": {
+				"in informatica è sempre falso": "Non è né vero né falso: non è un confronto, è un comando.",
+				"x vale zero per definizione": "x vale quello che le è stato assegnato prima.",
+				"è un errore che Python perdona": "Non è un errore: è la forma normale per far avanzare un contatore."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-variabili-47",
+			"subject": "coding",
+			"topic": "variabili",
+			"difficulty": 2,
+			"format": "numeric_input",
+			"prompt": "Dopo queste righe, quanto vale totale?\ntotale = 10\ntotale = totale - 3\ntotale = totale - 3",
+			"options": [],
+			"answer": "4",
+			"explanation": "Ogni riga usa il valore lasciato dalla precedente: dieci meno tre fa sette, sette meno tre fa quattro. È il modo in cui si tiene un punteggio che scende.",
+			"distractorWhy": {
+				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «a = 3 b = a a = 10 print(b) Cosa stampa?».",
+				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «a = 2 b = 5 a, b = b, a print(a) Cosa stampa?».",
+				"6": "Sarebbe dieci meno quattro: i sottratti sono tre e tre.",
+				"7": "È il risultato dopo la seconda riga: ne resta ancora una.",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo queste due righe, quanto vale x? x = 4 x = 9».",
+				"10": "Le due sottrazioni vengono eseguite entrambe."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-variabili-48",
+			"subject": "coding",
+			"topic": "variabili",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cosa succede se usi una variabile prima di averle dato un valore?",
+			"options": [
+				"il programma la salta e va avanti",
+				"la variabile vale testo vuoto",
+				"la variabile vale zero",
+				"il programma si ferma con errore"
+			],
+			"answer": "il programma si ferma con errore",
+			"explanation": "Python non inventa valori di partenza: se il nome non esiste ancora, si ferma e lo dice. È una durezza utile, perché un nome scritto male viene scoperto subito invece di produrre un risultato sbagliato.",
+			"distractorWhy": {
+				"la variabile vale zero": "Alcuni linguaggi lo fanno, e infatti nascondono gli errori di battitura.",
+				"la variabile vale testo vuoto": "Non c'è nessun valore predefinito, di nessun tipo.",
+				"il programma la salta e va avanti": "L'esecuzione si interrompe proprio su quella riga."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-operatori-49",
+			"subject": "coding",
+			"topic": "operatori",
+			"difficulty": 2,
+			"format": "numeric_input",
+			"prompt": "Quanto vale 10 - 4 * 2 in Python?",
+			"options": [],
+			"answer": "2",
+			"explanation": "La moltiplicazione si esegue prima della sottrazione, come in matematica: prima 4 per 2 fa 8, poi 10 meno 8 fa 2. Per cambiare l'ordine servono le parentesi.",
+			"distractorWhy": {
+				"1": "«1» è la risposta giusta a un'altra domanda di questo gruppo: «numero = 7 resto = numero % 2 print(resto) Quanto vale 7 % 2 (il resto della divisione)?».",
+				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «print(7 // 2) Cosa stampa 7 // 2 in Python?».",
+				"6": "Sarebbe 10 meno 4: la moltiplicazione per 2 viene comunque eseguita.",
+				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa abs(-7) in Python?».",
+				"8": "È il valore della sola moltiplicazione, senza la sottrazione.",
+				"12": "Sarebbe il risultato leggendo da sinistra a destra, ignorando le precedenze.",
+				"14": "«14» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 + 3 * 4 in Python?».",
+				"32": "«32» è la risposta giusta a un'altra domanda di questo gruppo: «print(2 ** 5) Cosa stampa 2 ** 5 in Python?»."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-operatori-50",
+			"subject": "coding",
+			"topic": "operatori",
+			"difficulty": 2,
+			"format": "numeric_input",
+			"prompt": "Quanto vale (10 - 4) * 2 in Python?",
+			"options": [],
+			"answer": "12",
+			"explanation": "Le parentesi forzano l'ordine: prima la sottrazione, poi la moltiplicazione. È lo stesso calcolo dell'esercizio senza parentesi e dà un risultato diverso, che è esattamente il motivo per cui esistono.",
+			"distractorWhy": {
+				"1": "«1» è la risposta giusta a un'altra domanda di questo gruppo: «numero = 7 resto = numero % 2 print(resto) Quanto vale 7 % 2 (il resto della divisione)?».",
+				"2": "È il risultato senza parentesi, dove moltiplica prima.",
+				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «print(7 // 2) Cosa stampa 7 // 2 in Python?».",
+				"6": "È il contenuto delle parentesi, ma manca la moltiplicazione.",
+				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa abs(-7) in Python?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa round(7.6) in Python?».",
+				"20": "Sarebbe 10 per 2, dimenticando la sottrazione dentro le parentesi.",
+				"32": "«32» è la risposta giusta a un'altra domanda di questo gruppo: «print(2 ** 5) Cosa stampa 2 ** 5 in Python?»."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-operatori-51",
+			"subject": "coding",
+			"topic": "operatori",
+			"difficulty": 2,
+			"format": "numeric_input",
+			"prompt": "Quanto vale 9 % 3 in Python?",
+			"options": [],
+			"answer": "0",
+			"explanation": "Nove diviso tre non lascia resto, e un resto zero è il modo standard per dire «è un multiplo». È il controllo che si usa per sapere se un numero è divisibile per un altro.",
+			"distractorWhy": {
+				"1": "Un resto di uno si avrebbe con 10 diviso 3.",
+				"3": "È quante volte il tre ci sta dentro, non quello che avanza.",
+				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa abs(-7) in Python?».",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa round(7.6) in Python?».",
+				"9": "Il numero di partenza non è il resto della sua divisione.",
+				"14": "«14» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 + 3 * 4 in Python?».",
+				"20": "«20» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa (2 + 3) * 4?».",
+				"32": "«32» è la risposta giusta a un'altra domanda di questo gruppo: «print(2 ** 5) Cosa stampa 2 ** 5 in Python?»."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-operatori-52",
+			"subject": "coding",
+			"topic": "operatori",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale espressione controlla se n sta fra 1 e 10 compresi?",
+			"options": [
+				"n >= 1 or n <= 10",
+				"1 < n < 10 and n != 0",
+				"n > 1 and n < 10",
+				"n >= 1 and n <= 10"
+			],
+			"answer": "n >= 1 and n <= 10",
+			"explanation": "Servono tutte e due le condizioni insieme, quindi and: con or basterebbe una sola e qualunque numero passerebbe. E i segni comprendono gli estremi, perché la consegna dice «compresi».",
+			"distractorWhy": {
+				"n >= 1 or n <= 10": "Con or qualunque numero soddisfa almeno una delle due: il controllo non filtra niente.",
+				"1 < n < 10 and n != 0": "Esclude 1 e 10, e il controllo su zero è inutile in quell'intervallo.",
+				"n > 1 and n < 10": "Esclude gli estremi, che la consegna chiedeva di comprendere."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-stile-53",
+			"subject": "coding",
+			"topic": "stile",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Perché conviene spezzare un programma lungo in funzioni?",
+			"options": [
+				"si legge e si prova a pezzi",
+				"il programma diventa più corto",
+				"si evitano tutti gli errori",
+				"il computer lo esegue più in fretta"
+			],
+			"answer": "si legge e si prova a pezzi",
+			"explanation": "Una funzione si può leggere da sola e si può provare da sola: quando qualcosa non va, si cerca in un pezzo invece che in duecento righe. Il totale delle righe di solito cresce, e va bene così.",
+			"distractorWhy": {
+				"il programma diventa più corto": "Spesso si allunga: si guadagna in ordine, non in lunghezza.",
+				"il computer lo esegue più in fretta": "Chiamare una funzione costa un pochino: il guadagno è per chi legge.",
+				"si evitano tutti gli errori": "Gli errori restano possibili, ma diventano più facili da trovare."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-stile-54",
+			"subject": "coding",
+			"topic": "stile",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale di questi commenti è utile?",
+			"options": [
+				"# ricordarsi di controllare questa riga",
+				"# uso 7 perché la settimana ha 7 giorni",
+				"# questa è una variabile importante",
+				"# assegno il valore 7 alla variabile"
+			],
+			"answer": "# uso 7 perché la settimana ha 7 giorni",
+			"explanation": "Il commento buono dice il **perché**, che il codice non può mostrare. Ripetere ciò che la riga già dice raddoppia il lavoro di chi legge e invecchia male: se il codice cambia, il commento resta a mentire.",
+			"distractorWhy": {
+				"# assegno il valore 7 alla variabile": "Ripete esattamente ciò che la riga sotto mostra da sola.",
+				"# questa è una variabile importante": "Non dice perché sia importante, quindi non aiuta nessuno.",
+				"# ricordarsi di controllare questa riga": "È un promemoria per sé stessi, non una spiegazione per chi legge."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-stile-55",
+			"subject": "coding",
+			"topic": "stile",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cosa succede se rientri di uno spazio in più una riga dentro un ciclo?",
+			"options": [
+				"la riga esce silenziosamente dal ciclo",
+				"la riga viene eseguita due volte",
+				"Python segnala un errore",
+				"non cambia assolutamente nulla"
+			],
+			"answer": "Python segnala un errore",
+			"explanation": "In Python il rientro è la struttura, quindi deve essere coerente dentro lo stesso blocco: uno spazio di troppo rende ambiguo dove finisce il blocco, e il linguaggio preferisce fermarsi che indovinare.",
+			"distractorWhy": {
+				"la riga viene eseguita due volte": "Il rientro decide dove sta la riga, non quante volte gira.",
+				"la riga esce silenziosamente dal ciclo": "Un rientro maggiore non fa uscire: rende il blocco incoerente.",
+				"non cambia assolutamente nulla": "In altri linguaggi sarebbe così, in Python no."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-input-56",
+			"subject": "coding",
+			"topic": "input",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Come si legge un numero intero dall'utente e lo si somma a 5?",
+			"options": [
+				"input(int()) + 5",
+				"input() + 5",
+				"int(input() + 5)",
+				"int(input()) + 5"
+			],
+			"answer": "int(input()) + 5",
+			"explanation": "Prima si legge il testo, poi lo si converte, poi si somma: le parentesi dicono l'ordine. Convertendo dopo la somma si proverebbe a trasformare in numero una stringa già rovinata dall'unione.",
+			"distractorWhy": {
+				"input() + 5": "Prova a unire un testo e un numero: Python si ferma con errore.",
+				"input(int()) + 5": "Passa un numero a input come messaggio, e il risultato resta testo.",
+				"int(input() + 5)": "La somma avviene prima della conversione, quindi fallisce già lì."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-input-57",
+			"subject": "coding",
+			"topic": "input",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cosa dovrebbe fare un programma se l'utente scrive «ciao» dove serviva un numero?",
+			"options": [
+				"avvisare e richiedere il dato",
+				"salvarlo come testo e continuare",
+				"chiudersi senza dire niente",
+				"convertirlo comunque in zero"
+			],
+			"answer": "avvisare e richiedere il dato",
+			"explanation": "Chi usa il programma sbaglia, e il programma deve prevederlo: dire che cosa non va e dare un'altra possibilità è più utile che fermarsi o inventare un valore che nessuno ha scelto.",
+			"distractorWhy": {
+				"convertirlo comunque in zero": "Zero è un valore legittimo: nessuno saprebbe che era un errore.",
+				"chiudersi senza dire niente": "Chi sta davanti non capisce che cosa è successo né come rimediare.",
+				"salvarlo come testo e continuare": "Il calcolo dopo fallirebbe comunque, ma più lontano e in modo oscuro."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-input-58",
+			"subject": "coding",
+			"topic": "input",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Perché conviene scrivere un messaggio dentro input(), come input(\"Nome: \")?",
+			"options": [
+				"altrimenti il programma non parte",
+				"chi usa sa cosa scrivere",
+				"serve a convertire la risposta",
+				"è obbligatorio nella sintassi"
+			],
+			"answer": "chi usa sa cosa scrivere",
+			"explanation": "Senza messaggio il programma resta muto ad aspettare, e chi lo usa non sa se si è bloccato o se tocca a lui. È la forma più semplice di interfaccia, e costa una riga.",
+			"distractorWhy": {
+				"altrimenti il programma non parte": "Parte lo stesso: aspetta in silenzio.",
+				"serve a convertire la risposta": "La conversione è un'operazione separata, con int o float.",
+				"è obbligatorio nella sintassi": "Il messaggio è facoltativo: input() da solo è valido."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-cicli-59",
+			"subject": "coding",
+			"topic": "cicli",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cosa fa questo?\nfor lettera in \"sole\":\n    print(lettera)",
+			"options": [
+				"stampa il numero di lettere",
+				"stampa la parola quattro volte",
+				"stampa una lettera per riga",
+				"non stampa niente"
+			],
+			"answer": "stampa una lettera per riga",
+			"explanation": "Un ciclo for attraversa qualunque cosa sia fatta di pezzi: una lista di elementi o un testo di caratteri. È la stessa istruzione, e questo è ciò che la rende potente.",
+			"distractorWhy": {
+				"stampa la parola quattro volte": "La variabile del ciclo prende una lettera per volta, non la parola intera.",
+				"stampa il numero di lettere": "Per quello servirebbe len, che qui non compare.",
+				"non stampa niente": "Il ciclo gira quattro volte, una per carattere."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-stringhe-60",
+			"subject": "coding",
+			"topic": "stringhe",
+			"difficulty": 8,
+			"format": "multiple_choice",
+			"prompt": "Che cosa stampa questo?\ns = \"programma\"\nprint(s[0:4])",
+			"options": [
+				"gram",
+				"rogr",
+				"progr",
+				"prog"
+			],
+			"answer": "prog",
+			"explanation": "La sezione parte dalla posizione indicata e si ferma PRIMA dell'ultima: dal carattere 0 al 3 compreso, cioè quattro lettere. È la stessa regola di range, e vale in tutto Python.",
+			"distractorWhy": {
+				"progr": "Includerebbe anche la posizione 4, che invece è esclusa.",
+				"rogr": "Partirebbe dalla posizione 1: le posizioni cominciano da zero.",
+				"gram": "È una sezione centrale, che richiederebbe altri due numeri."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-stringhe-61",
+			"subject": "coding",
+			"topic": "stringhe",
+			"difficulty": 8,
+			"format": "multiple_choice",
+			"prompt": "Che cosa restituisce \"a,b,c\".split(\",\")?",
+			"options": [
+				"una lista di tre pezzi",
+				"la prima parte prima della virgola",
+				"il numero di virgole trovate",
+				"un testo senza le virgole"
+			],
+			"answer": "una lista di tre pezzi",
+			"explanation": "split taglia un testo dove trova il separatore e consegna i pezzi in una lista: è il primo passo di quasi ogni lettura di dati, perché un file di testo è quasi sempre righe divise da un simbolo.",
+			"distractorWhy": {
+				"un testo senza le virgole": "Quello lo farebbe replace, che sostituisce invece di dividere.",
+				"il numero di virgole trovate": "Per contare servirebbe count: split restituisce i pezzi.",
+				"la prima parte prima della virgola": "Restituisce tutte le parti, non solo la prima."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-tipi-62",
+			"subject": "coding",
+			"topic": "tipi",
+			"difficulty": 8,
+			"format": "multiple_choice",
+			"prompt": "Perché 0.1 + 0.2 non dà esattamente 0.3 in Python?",
+			"options": [
+				"i decimali vanno sempre arrotondati",
+				"i decimali sono approssimati",
+				"Python sbaglia le somme piccole",
+				"manca una conversione a intero"
+			],
+			"answer": "i decimali sono approssimati",
+			"explanation": "Il computer conserva i numeri con la virgola in binario, e alcuni decimali non hanno una rappresentazione esatta: resta un errore piccolissimo che si vede quando si confrontano due risultati con ==.",
+			"distractorWhy": {
+				"Python sbaglia le somme piccole": "Il difetto è di tutti i linguaggi: dipende da come la macchina conserva i numeri.",
+				"manca una conversione a intero": "Convertire a intero perderebbe proprio la parte che interessa.",
+				"i decimali vanno sempre arrotondati": "Arrotondare è un rimedio, non la spiegazione del fenomeno."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-tipi-63",
+			"subject": "coding",
+			"topic": "tipi",
+			"difficulty": 8,
+			"format": "multiple_choice",
+			"prompt": "Che cosa stampa questo?\nprint(type(3 / 1))",
+			"options": [
+				"str",
+				"bool",
+				"float",
+				"int"
+			],
+			"answer": "float",
+			"explanation": "La divisione con una barra sola dà sempre un numero con la virgola, anche quando il risultato è intero: serve la doppia barra per ottenere un intero. È una scelta di Python, e sorprende quasi tutti la prima volta.",
+			"distractorWhy": {
+				"int": "Lo si otterrebbe con la doppia barra, che tronca la parte decimale.",
+				"str": "Nessuna delle due operazioni produce testo.",
+				"bool": "Vero e falso nascono dai confronti, non dalle divisioni."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-booleani-64",
+			"subject": "coding",
+			"topic": "booleani",
+			"difficulty": 8,
+			"format": "multiple_choice",
+			"prompt": "Quanto vale not (3 > 5)?",
+			"options": [
+				"3",
+				"False",
+				"None",
+				"True"
+			],
+			"answer": "True",
+			"explanation": "Tre non è maggiore di cinque, quindi il confronto è falso; not lo capovolge e dà vero. Serve a scrivere «se NON è così» senza dover girare al contrario il confronto.",
+			"distractorWhy": {
+				"3": "Un'espressione logica restituisce vero o falso, non un numero.",
+				"False": "Sarebbe il valore del confronto senza il not davanti.",
+				"None": "None indica assenza di valore, e qui il valore c'è."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-booleani-65",
+			"subject": "coding",
+			"topic": "booleani",
+			"difficulty": 8,
+			"format": "multiple_choice",
+			"prompt": "In Python, quale di questi vale False in un if?",
+			"options": [
+				"la lista vuota",
+				"la lista con uno zero",
+				"il numero negativo",
+				"il testo con uno spazio"
+			],
+			"answer": "la lista vuota",
+			"explanation": "Le raccolte vuote, lo zero e il testo vuoto contano come falso; tutto il resto come vero. Una lista che contiene uno zero non è vuota, quindi è vera — ed è una trappola classica.",
+			"distractorWhy": {
+				"la lista con uno zero": "Contiene un elemento, quindi non è vuota: vale vero.",
+				"il testo con uno spazio": "Uno spazio è un carattere: il testo non è vuoto.",
+				"il numero negativo": "Solo lo zero vale falso: i negativi sono veri."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-operatori-66",
+			"subject": "coding",
+			"topic": "operatori",
+			"difficulty": 8,
+			"format": "multiple_choice",
+			"prompt": "Che cosa fa l'operatore in su una lista?",
+			"options": [
+				"conta quante volte compare",
+				"controlla se un elemento c'è",
+				"restituisce la sua posizione",
+				"aggiunge un elemento in fondo"
+			],
+			"answer": "controlla se un elemento c'è",
+			"explanation": "Restituisce vero o falso, non la posizione: per quella serve index. È il modo più leggibile per scrivere un controllo di appartenenza, e funziona anche su testi e dizionari.",
+			"distractorWhy": {
+				"aggiunge un elemento in fondo": "Quello lo fa append, che modifica la lista.",
+				"conta quante volte compare": "Quello lo fa count, che restituisce un numero.",
+				"restituisce la sua posizione": "Quello lo fa index, e va in errore se l'elemento manca."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-operatori-67",
+			"subject": "coding",
+			"topic": "operatori",
+			"difficulty": 8,
+			"format": "multiple_choice",
+			"prompt": "Che cosa vale [1, 2] + [3] in Python?",
+			"options": [
+				"[4, 2]",
+				"[1, 2, [3]]",
+				"[1, 2, 3]",
+				"[1, 5]"
+			],
+			"answer": "[1, 2, 3]",
+			"explanation": "Fra liste il + concatena, come fra testi: non somma gli elementi uno a uno. Per sommare i numeri corrispondenti servirebbe un ciclo o una libreria apposta.",
+			"distractorWhy": {
+				"[4, 2]": "Sarebbe una somma elemento per elemento, che Python non fa con il +.",
+				"[1, 2, [3]]": "Sarebbe il risultato di append, che inserisce la lista intera come elemento.",
+				"[1, 5]": "Non c'è nessun accorpamento dei valori: le liste si attaccano."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-stile-68",
+			"subject": "coding",
+			"topic": "stile",
+			"difficulty": 8,
+			"format": "multiple_choice",
+			"prompt": "Perché una funzione non dovrebbe fare troppe cose diverse?",
+			"options": [
+				"Python limita le righe permesse",
+				"occupa troppa memoria del computer",
+				"il nome diventerebbe troppo lungo",
+				"diventa difficile da provare"
+			],
+			"answer": "diventa difficile da provare",
+			"explanation": "Una funzione che fa una cosa si prova con un controllo solo e si riusa altrove; una che ne fa cinque si può provare solo tutta insieme, e riusarla significa portarsi dietro le altre quattro.",
+			"distractorWhy": {
+				"Python limita le righe permesse": "Non c'è nessun limite tecnico alla lunghezza.",
+				"occupa troppa memoria del computer": "La memoria non dipende da come si raggruppa il codice.",
+				"il nome diventerebbe troppo lungo": "È un sintomo utile, ma non è il problema vero."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-stile-69",
+			"subject": "coding",
+			"topic": "stile",
+			"difficulty": 8,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è un numero magico in un programma?",
+			"options": [
+				"un valore scritto senza spiegazione",
+				"un numero generato a caso",
+				"un numero che cambia da solo",
+				"un numero troppo grande da calcolare"
+			],
+			"answer": "un valore scritto senza spiegazione",
+			"explanation": "Un 86400 sparso nel codice non dice niente; `SECONDI_IN_UN_GIORNO = 86400` dice tutto e si corregge in un punto solo. Dare un nome a una costante è la forma più economica di documentazione.",
+			"distractorWhy": {
+				"un numero che cambia da solo": "Nessun valore cambia da sé: sarebbe una variabile modificata da qualcuno.",
+				"un numero troppo grande da calcolare": "La dimensione non c'entra: anche un 7 può essere magico.",
+				"un numero generato a caso": "Quello è un numero casuale, prodotto apposta da una funzione."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-output-70",
+			"subject": "coding",
+			"topic": "output",
+			"difficulty": 8,
+			"format": "multiple_choice",
+			"prompt": "Che cosa stampa questo?\nnome = \"Ada\"\nprint(f\"ciao {nome}\")",
+			"options": [
+				"f ciao Ada",
+				"ciao Ada",
+				"ciao {nome}",
+				"ciao nome"
+			],
+			"answer": "ciao Ada",
+			"explanation": "La f davanti alle virgolette dice a Python di sostituire ciò che sta fra graffe con il suo valore. È il modo più leggibile di mescolare testo e variabili, perché la frase resta intera sotto gli occhi.",
+			"distractorWhy": {
+				"ciao {nome}": "Sarebbe il risultato senza la f davanti, che disattiva la sostituzione.",
+				"ciao nome": "Le graffe con la f prendono il valore, non il nome della variabile.",
+				"f ciao Ada": "La f fa parte della sintassi e non viene stampata."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-output-71",
+			"subject": "coding",
+			"topic": "output",
+			"difficulty": 8,
+			"format": "multiple_choice",
+			"prompt": "Perché conviene stampare i valori intermedi mentre si cerca un errore?",
+			"options": [
+				"rallenta il codice e aiuta",
+				"Python lo richiede per gli errori",
+				"si vede dove cambia il valore",
+				"il programma corregge da solo"
+			],
+			"answer": "si vede dove cambia il valore",
+			"explanation": "Un errore si trova restringendo: se il valore era giusto alla riga dieci e sbagliato alla venti, il difetto sta in mezzo. È la stessa tecnica della ricerca binaria, applicata al proprio codice.",
+			"distractorWhy": {
+				"il programma corregge da solo": "Stampare non modifica niente: mostra e basta.",
+				"rallenta il codice e aiuta": "Il rallentamento è un effetto collaterale, non il motivo.",
+				"Python lo richiede per gli errori": "Non è richiesto: è una tecnica di chi programma."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-condizioni-72",
+			"subject": "coding",
+			"topic": "condizioni",
+			"difficulty": 8,
+			"format": "multiple_choice",
+			"prompt": "Che cosa stampa questo?\nx = 0\nif x:\n    print(\"pieno\")\nelse:\n    print(\"vuoto\")",
+			"options": [
+				"errore",
+				"0",
+				"pieno",
+				"vuoto"
+			],
+			"answer": "vuoto",
+			"explanation": "Zero conta come falso, quindi parte il ramo else. Scrivere `if x:` invece di `if x != 0:` è comune e leggibile, ma bisogna sapere quali valori Python considera falsi.",
+			"distractorWhy": {
+				"0": "Il numero non viene stampato: print riceve una delle due parole.",
+				"pieno": "Servirebbe un valore diverso da zero perché la condizione fosse vera.",
+				"errore": "La riga è valida: un numero può stare da solo in una condizione."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-condizioni-73",
+			"subject": "coding",
+			"topic": "condizioni",
+			"difficulty": 8,
+			"format": "multiple_choice",
+			"prompt": "Perché scrivere venti if uno dopo l'altro è peggio di una struttura a rami?",
+			"options": [
+				"li valuta tutti anche dopo aver trovato",
+				"Python non accetta così tanti if di fila",
+				"gli if non possono ripetersi",
+				"occupa più righe di codice"
+			],
+			"answer": "li valuta tutti anche dopo aver trovato",
+			"explanation": "Una catena if/elif si ferma al primo vero; venti if separati vengono controllati tutti, e soprattutto possono essere veri insieme senza che nessuno se ne accorga — che è il difetto peggiore dei due.",
+			"distractorWhy": {
+				"Python non accetta così tanti if di fila": "Li accetta senza problemi: funzionano, ma male.",
+				"occupa più righe di codice": "Il numero di righe è quasi identico.",
+				"gli if non possono ripetersi": "Possono ripetersi quanto si vuole."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-funzioni-74",
+			"subject": "coding",
+			"topic": "funzioni",
+			"difficulty": 8,
+			"format": "multiple_choice",
+			"prompt": "Che differenza c'è fra print e return dentro una funzione?",
+			"options": [
+				"print è più veloce di return",
+				"return consegna il valore a chi chiama",
+				"non c'è nessuna differenza pratica fra i due",
+				"return mostra il valore a schermo"
+			],
+			"answer": "return consegna il valore a chi chiama",
+			"explanation": "Una funzione che stampa mostra e basta: il risultato non si può riusare. Una che restituisce consegna il valore a chi l'ha chiamata, che può sommarlo, salvarlo o passarlo oltre.",
+			"distractorWhy": {
+				"print è più veloce di return": "La velocità non c'entra: fanno due cose diverse.",
+				"return mostra il valore a schermo": "Non mostra niente: consegna il valore al codice chiamante.",
+				"non c'è nessuna differenza pratica fra i due": "La differenza è enorme: una funzione che stampa non si può comporre."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-funzioni-75",
+			"subject": "coding",
+			"topic": "funzioni",
+			"difficulty": 8,
+			"format": "numeric_input",
+			"prompt": "Che cosa stampa questo?\ndef f(n):\n    n = n + 1\nx = 5\nf(x)\nprint(x)",
+			"options": [],
+			"answer": "5",
+			"explanation": "Dentro la funzione n è una copia locale: modificarla non tocca la variabile di fuori. Per far arrivare il risultato all'esterno serve return, e questa è la trappola più comune di chi comincia.",
+			"distractorWhy": {
+				"0": "«0» è la risposta giusta a un'altra domanda di questo gruppo: «Quante volte viene eseguito il corpo di una funzione che nessuno chiama?».",
+				"1": "L'uno è solo il passo aggiunto dentro, non il valore finale.",
+				"6": "Sarebbe vero se la funzione modificasse x direttamente, ma lavora su una copia.",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «def somma(a, b): return a + b print(somma(3, 4) + somma(1, 1)) Cosa stampa?».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «punti = 10 def azzera(): punti = 0 azzera() print(punti) Cosa stampa?».",
+				"12": "«12» è la risposta giusta a un'altra domanda di questo gruppo: «def doppio(n): return n * 2 print(doppio(6)) Cosa stampa print(doppio(6))?».",
+				"None": "None è ciò che la funzione restituisce, ma print riceve x, non il risultato."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-liste-76",
+			"subject": "coding",
+			"topic": "liste",
+			"difficulty": 8,
+			"format": "multiple_choice",
+			"prompt": "Che cosa fa sorted(numeri) rispetto a numeri.sort()?",
+			"options": [
+				"non fa nessuna differenza",
+				"ordina in senso contrario",
+				"ordina anche i testi dentro",
+				"restituisce una lista nuova"
+			],
+			"answer": "restituisce una lista nuova",
+			"explanation": "sort riordina sul posto e non restituisce niente; sorted lascia intatta la lista di partenza e ne consegna una nuova ordinata. Confonderli produce il classico «la lista è diventata None».",
+			"distractorWhy": {
+				"ordina anche i testi dentro": "Tutte e due ordinano qualunque contenuto confrontabile.",
+				"ordina in senso contrario": "Il verso si sceglie con reverse, in entrambi i casi.",
+				"non fa nessuna differenza": "La differenza è proprio se la lista originale cambia o no."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-liste-77",
+			"subject": "coding",
+			"topic": "liste",
+			"difficulty": 8,
+			"format": "numeric_input",
+			"prompt": "Che cosa stampa questo?\na = [1, 2]\nb = a\nb.append(3)\nprint(len(a))",
+			"options": [],
+			"answer": "3",
+			"explanation": "Con le liste l'uguale non copia: b e a sono due nomi per la stessa lista, quindi modificarne una si vede anche nell'altra. Per una copia vera servono le sezioni o il metodo apposta.",
+			"distractorWhy": {
+				"1": "La lista di partenza aveva già due elementi.",
+				"2": "Sarebbe vero se b fosse una copia indipendente, ma è lo stesso oggetto.",
+				"4": "L'append aggiunge un elemento solo.",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «numeri = [10, 20, 30] print(numeri[0]) Cosa stampa numeri[0]?».",
+				"12": "«12» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa stampa questo? numeri = [4, 8, 15] print(numeri[-1])».",
+				"21": "«21» è la risposta giusta a un'altra domanda di questo gruppo: «voti = [6, 7, 8] print(sum(voti)) Cosa stampa?»."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-algoritmi-78",
+			"subject": "coding",
+			"topic": "algoritmi",
+			"difficulty": 8,
+			"format": "multiple_choice",
+			"prompt": "Cercando una parola su un dizionario di carta, che strategia usi senza accorgertene?",
+			"options": [
+				"cerchi a caso finché la trovi",
+				"dimezzi ogni volta la parte da guardare",
+				"leggi tutte le pagine una dopo l'altra",
+				"parti sempre dall'ultima pagina"
+			],
+			"answer": "dimezzi ogni volta la parte da guardare",
+			"explanation": "Apri a metà, guardi se sei prima o dopo, e ripeti: è la ricerca binaria. Funziona solo perché il dizionario è ordinato, ed è il motivo per cui ordinare i dati conviene anche se costa.",
+			"distractorWhy": {
+				"leggi tutte le pagine una dopo l'altra": "È la ricerca sequenziale: funziona ma su mille pagine è impraticabile.",
+				"cerchi a caso finché la trovi": "Senza usare l'ordine, potresti non finire mai.",
+				"parti sempre dall'ultima pagina": "Sarebbe una ricerca sequenziale al contrario: stesso costo."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-algoritmi-79",
+			"subject": "coding",
+			"topic": "algoritmi",
+			"difficulty": 8,
+			"format": "multiple_choice",
+			"prompt": "Perché la ricerca binaria non funziona su una lista disordinata?",
+			"options": [
+				"Python la vieta esplicitamente",
+				"le liste disordinate sono più lunghe",
+				"non si sa da che parte cercare",
+				"serve una lista di soli numeri"
+			],
+			"answer": "non si sa da che parte cercare",
+			"explanation": "Il metodo si regge su una sola informazione: confrontando con l'elemento centrale si capisce da che parte proseguire. Senza ordine quel confronto non dice niente, e metà della lista non si può scartare.",
+			"distractorWhy": {
+				"le liste disordinate sono più lunghe": "La lunghezza è la stessa: cambia solo la disposizione.",
+				"Python la vieta esplicitamente": "Non c'è nessun divieto: darebbe semplicemente risposte sbagliate.",
+				"serve una lista di soli numeri": "Funziona su qualunque cosa si possa confrontare, anche parole."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "coding-cicli-80",
+			"subject": "coding",
+			"topic": "cicli",
+			"difficulty": 8,
+			"format": "numeric_input",
+			"prompt": "Quante volte stampa questo?\nfor i in range(3):\n    for j in range(4):\n        print(i, j)",
+			"options": [],
+			"answer": "12",
+			"explanation": "Per ogni giro del ciclo esterno quello interno ne fa quattro: tre per quattro fa dodici. È il motivo per cui due cicli annidati su liste grandi diventano subito troppo lenti.",
+			"distractorWhy": {
+				"0": "«0» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il primo valore prodotto da range(4)?».",
+				"3": "È il numero di giri del solo ciclo esterno.",
+				"4": "È il numero di giri del solo ciclo interno, per ogni giro esterno.",
+				"5": "«5» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «for i in range(3): for j in range(2): print('x') Quante x stampa?».",
+				"7": "Sarebbe la somma dei due, ma i cicli annidati si moltiplicano.",
+				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo il ciclo, quanto vale totale? totale = 0 for i in range(4): totale = totale + 2».",
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «totale = 0 for i in range(1, 5): totale += i print(totale) Cosa stampa?»."
+			},
+			"_difficulty8": true
+		},
+		{
 			"id": "coding-algoritmi-che-cosa-distingue-un-algoritmo-da-un-elenco-di-",
 			"subject": "coding",
 			"topic": "algoritmi",
@@ -3746,6 +5568,7 @@
 				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «numeri = [4, 8, 15] print(numeri[0]) Cosa stampa?».",
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «numeri = [10, 20, 30] print(numeri[0]) Cosa stampa numeri[0]?».",
 				"12": "«12» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa stampa questo? numeri = [4, 8, 15] print(numeri[-1])».",
 				"21": "«21» è la risposta giusta a un'altra domanda di questo gruppo: «voti = [6, 7, 8] print(sum(voti)) Cosa stampa?»."
 			}
 		},
@@ -3845,7 +5668,7 @@
 			"explanation": "La doppia barra dà il quoziente intero, scartando il resto.",
 			"distractorWhy": {
 				"1": "«1» è la risposta giusta a un'altra domanda di questo gruppo: «numero = 7 resto = numero % 2 print(resto) Quanto vale 7 % 2 (il resto della divisione)?».",
-				"2": "«2» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa restituisce «17 % 5»?».",
+				"2": "«2» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto vale 10 - 4 * 2 in Python?».",
 				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa abs(-7) in Python?».",
 				"8": "«8» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa round(7.6) in Python?».",
 				"14": "«14» è la risposta giusta a un'altra domanda di questo gruppo: «Quanto fa 2 + 3 * 4 in Python?».",
@@ -3886,9 +5709,11 @@
 			"answer": "3",
 			"explanation": "b ha copiato il valore 3 prima che a cambiasse.",
 			"distractorWhy": {
+				"4": "«4» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo queste due righe, quanto vale n? n = 3 n = n + 1».",
 				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «a = 2 b = 5 a, b = b, a print(a) Cosa stampa?».",
 				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo x = 5 e poi x = x + 1, quanto vale x?».",
 				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «punti = 3 punti = punti + 4 print(punti) Che numero stampa questo programma Python?».",
+				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo queste due righe, quanto vale x? x = 4 x = 9».",
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «punti = 0 punti = punti + 5 punti = punti + 5 print(punti) Cosa stampa?»."
 			}
 		},

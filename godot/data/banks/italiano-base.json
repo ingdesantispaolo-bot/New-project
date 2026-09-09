@@ -22,7 +22,8 @@
 				"fratello": "«fratello» vuol dire «figlio degli stessi genitori»: un'altra parola, non quella cercata.",
 				"parente": "«parente» vuol dire «persona della stessa famiglia, come uno zio»: un'altra parola, non quella cercata.",
 				"mensola": "«mensola» vuol dire «ripiano fissato alla parete»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-casa-famiglia-genitore-1",
@@ -43,7 +44,8 @@
 				"famiglia": "«famiglia» vuol dire «insieme delle persone legate da parentela o vita comune»: un'altra parola, non quella cercata.",
 				"mensola": "«mensola» vuol dire «ripiano fissato alla parete»: un'altra parola, non quella cercata.",
 				"balcone": "«balcone» vuol dire «spazio esterno collegato a una stanza»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-casa-famiglia-fratello-2",
@@ -64,7 +66,8 @@
 				"famiglia": "«famiglia» vuol dire «insieme delle persone legate da parentela o vita comune»: un'altra parola, non quella cercata.",
 				"bolletta": "«bolletta» vuol dire «documento con il costo di un servizio domestico»: un'altra parola, non quella cercata.",
 				"genitore": "«genitore» vuol dire «madre o padre rispetto ai figli»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-casa-famiglia-sorella-3",
@@ -85,7 +88,8 @@
 				"tavolo": "«tavolo» vuol dire «mobile con piano usato per mangiare o lavorare»: un'altra parola, non quella cercata.",
 				"parente": "«parente» vuol dire «persona della stessa famiglia, come uno zio»: un'altra parola, non quella cercata.",
 				"chiave": "«chiave» vuol dire «oggetto usato per aprire una serratura»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-casa-famiglia-parente-4",
@@ -106,7 +110,8 @@
 				"mensola": "«mensola» vuol dire «ripiano fissato alla parete»: un'altra parola, non quella cercata.",
 				"balcone": "«balcone» vuol dire «spazio esterno collegato a una stanza»: un'altra parola, non quella cercata.",
 				"sorella": "«sorella» vuol dire «figlia degli stessi genitori»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-casa-famiglia-vicino-5",
@@ -127,7 +132,8 @@
 				"armadio": "«armadio» vuol dire «mobile in cui si tengono vestiti o oggetti»: un'altra parola, non quella cercata.",
 				"cucina": "«cucina» vuol dire «stanza in cui si preparano i pasti»: un'altra parola, non quella cercata.",
 				"camera": "«camera» vuol dire «stanza in cui si dorme o si studia»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-casa-famiglia-ospite-6",
@@ -148,7 +154,8 @@
 				"vicino": "«vicino» vuol dire «persona che abita nella casa accanto»: un'altra parola, non quella cercata.",
 				"chiave": "«chiave» vuol dire «oggetto usato per aprire una serratura»: un'altra parola, non quella cercata.",
 				"cucina": "«cucina» vuol dire «stanza in cui si preparano i pasti»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-casa-famiglia-cucina-7",
@@ -169,7 +176,8 @@
 				"camera": "«camera» vuol dire «stanza in cui si dorme o si studia»: un'altra parola, non quella cercata.",
 				"balcone": "«balcone» vuol dire «spazio esterno collegato a una stanza»: un'altra parola, non quella cercata.",
 				"armadio": "«armadio» vuol dire «mobile in cui si tengono vestiti o oggetti»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-casa-famiglia-soggiorno-8",
@@ -190,7 +198,8 @@
 				"balcone": "«balcone» vuol dire «spazio esterno collegato a una stanza»: un'altra parola, non quella cercata.",
 				"armadio": "«armadio» vuol dire «mobile in cui si tengono vestiti o oggetti»: un'altra parola, non quella cercata.",
 				"parente": "«parente» vuol dire «persona della stessa famiglia, come uno zio»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-casa-famiglia-camera-9",
@@ -211,7 +220,8 @@
 				"sorella": "«sorella» vuol dire «figlia degli stessi genitori»: un'altra parola, non quella cercata.",
 				"mensola": "«mensola» vuol dire «ripiano fissato alla parete»: un'altra parola, non quella cercata.",
 				"tavolo": "«tavolo» vuol dire «mobile con piano usato per mangiare o lavorare»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-casa-famiglia-bagno-10",
@@ -232,7 +242,8 @@
 				"mensola": "«mensola» vuol dire «ripiano fissato alla parete»: un'altra parola, non quella cercata.",
 				"vicino": "«vicino» vuol dire «persona che abita nella casa accanto»: un'altra parola, non quella cercata.",
 				"camera": "«camera» vuol dire «stanza in cui si dorme o si studia»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-casa-famiglia-balcone-11",
@@ -253,7 +264,8 @@
 				"camera": "«camera» vuol dire «stanza in cui si dorme o si studia»: un'altra parola, non quella cercata.",
 				"mensola": "«mensola» vuol dire «ripiano fissato alla parete»: un'altra parola, non quella cercata.",
 				"bolletta": "«bolletta» vuol dire «documento con il costo di un servizio domestico»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-casa-famiglia-tavolo-12",
@@ -274,7 +286,8 @@
 				"sorella": "«sorella» vuol dire «figlia degli stessi genitori»: un'altra parola, non quella cercata.",
 				"balcone": "«balcone» vuol dire «spazio esterno collegato a una stanza»: un'altra parola, non quella cercata.",
 				"ospite": "«ospite» vuol dire «persona accolta in casa»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-casa-famiglia-sedia-13",
@@ -295,7 +308,8 @@
 				"sorella": "«sorella» vuol dire «figlia degli stessi genitori»: un'altra parola, non quella cercata.",
 				"ospite": "«ospite» vuol dire «persona accolta in casa»: un'altra parola, non quella cercata.",
 				"mensola": "«mensola» vuol dire «ripiano fissato alla parete»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-casa-famiglia-armadio-14",
@@ -316,7 +330,8 @@
 				"chiave": "«chiave» vuol dire «oggetto usato per aprire una serratura»: un'altra parola, non quella cercata.",
 				"camera": "«camera» vuol dire «stanza in cui si dorme o si studia»: un'altra parola, non quella cercata.",
 				"parente": "«parente» vuol dire «persona della stessa famiglia, come uno zio»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-casa-famiglia-mensola-15",
@@ -337,7 +352,8 @@
 				"cucina": "«cucina» vuol dire «stanza in cui si preparano i pasti»: un'altra parola, non quella cercata.",
 				"parente": "«parente» vuol dire «persona della stessa famiglia, come uno zio»: un'altra parola, non quella cercata.",
 				"armadio": "«armadio» vuol dire «mobile in cui si tengono vestiti o oggetti»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-casa-famiglia-cassetto-16",
@@ -358,7 +374,8 @@
 				"sorella": "«sorella» vuol dire «figlia degli stessi genitori»: un'altra parola, non quella cercata.",
 				"famiglia": "«famiglia» vuol dire «insieme delle persone legate da parentela o vita comune»: un'altra parola, non quella cercata.",
 				"bolletta": "«bolletta» vuol dire «documento con il costo di un servizio domestico»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-casa-famiglia-chiave-17",
@@ -379,7 +396,8 @@
 				"mensola": "«mensola» vuol dire «ripiano fissato alla parete»: un'altra parola, non quella cercata.",
 				"cucina": "«cucina» vuol dire «stanza in cui si preparano i pasti»: un'altra parola, non quella cercata.",
 				"camera": "«camera» vuol dire «stanza in cui si dorme o si studia»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-casa-famiglia-campanello-18",
@@ -400,7 +418,8 @@
 				"sorella": "«sorella» vuol dire «figlia degli stessi genitori»: un'altra parola, non quella cercata.",
 				"famiglia": "«famiglia» vuol dire «insieme delle persone legate da parentela o vita comune»: un'altra parola, non quella cercata.",
 				"mensola": "«mensola» vuol dire «ripiano fissato alla parete»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-casa-famiglia-bolletta-19",
@@ -421,7 +440,8 @@
 				"parente": "«parente» vuol dire «persona della stessa famiglia, come uno zio»: un'altra parola, non quella cercata.",
 				"armadio": "«armadio» vuol dire «mobile in cui si tengono vestiti o oggetti»: un'altra parola, non quella cercata.",
 				"soggiorno": "«soggiorno» vuol dire «stanza della casa usata per stare insieme»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-casa-famiglia-ordinato-20",
@@ -442,7 +462,8 @@
 				"comodo": "«comodo» vuol dire «facile o piacevole da usare»: un'altra parola, non quella cercata.",
 				"rumoroso": "«rumoroso» vuol dire «pieno di rumore»: un'altra parola, non quella cercata.",
 				"silenzioso": "«silenzioso» vuol dire «con poco o nessun rumore»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-casa-famiglia-disordinato-21",
@@ -463,7 +484,8 @@
 				"silenzioso": "«silenzioso» vuol dire «con poco o nessun rumore»: un'altra parola, non quella cercata.",
 				"rumoroso": "«rumoroso» vuol dire «pieno di rumore»: un'altra parola, non quella cercata.",
 				"ordinato": "«ordinato» vuol dire «messo al posto giusto»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-casa-famiglia-pulito-22",
@@ -484,7 +506,8 @@
 				"sporco": "«sporco» vuol dire «non pulito»: un'altra parola, non quella cercata.",
 				"comodo": "«comodo» vuol dire «facile o piacevole da usare»: un'altra parola, non quella cercata.",
 				"ordinato": "«ordinato» vuol dire «messo al posto giusto»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-casa-famiglia-sporco-23",
@@ -505,7 +528,8 @@
 				"pulito": "«pulito» vuol dire «privo di sporco»: un'altra parola, non quella cercata.",
 				"comodo": "«comodo» vuol dire «facile o piacevole da usare»: un'altra parola, non quella cercata.",
 				"rumoroso": "«rumoroso» vuol dire «pieno di rumore»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-casa-famiglia-accogliente-24",
@@ -526,7 +550,8 @@
 				"ordinato": "«ordinato» vuol dire «messo al posto giusto»: un'altra parola, non quella cercata.",
 				"silenzioso": "«silenzioso» vuol dire «con poco o nessun rumore»: un'altra parola, non quella cercata.",
 				"disordinato": "«disordinato» vuol dire «senza ordine o organizzazione»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-casa-famiglia-rumoroso-25",
@@ -547,7 +572,8 @@
 				"pulito": "«pulito» vuol dire «privo di sporco»: un'altra parola, non quella cercata.",
 				"ordinato": "«ordinato» vuol dire «messo al posto giusto»: un'altra parola, non quella cercata.",
 				"silenzioso": "«silenzioso» vuol dire «con poco o nessun rumore»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-casa-famiglia-silenzioso-26",
@@ -568,7 +594,8 @@
 				"ordinato": "«ordinato» vuol dire «messo al posto giusto»: un'altra parola, non quella cercata.",
 				"disordinato": "«disordinato» vuol dire «senza ordine o organizzazione»: un'altra parola, non quella cercata.",
 				"accogliente": "«accogliente» vuol dire «che fa sentire a proprio agio»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-casa-famiglia-comodo-27",
@@ -589,7 +616,8 @@
 				"pulito": "«pulito» vuol dire «privo di sporco»: un'altra parola, non quella cercata.",
 				"rumoroso": "«rumoroso» vuol dire «pieno di rumore»: un'altra parola, non quella cercata.",
 				"ordinato": "«ordinato» vuol dire «messo al posto giusto»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-scuola-studio-quaderno-28",
@@ -610,7 +638,8 @@
 				"compito": "«compito» vuol dire «esercizio da svolgere a scuola o a casa»: un'altra parola, non quella cercata.",
 				"domanda": "«domanda» vuol dire «frase con cui si chiede qualcosa»: un'altra parola, non quella cercata.",
 				"risposta": "«risposta» vuol dire «informazione data a una domanda»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-scuola-studio-diario-29",
@@ -631,7 +660,8 @@
 				"lezione": "«lezione» vuol dire «momento in cui si spiega o si impara un argomento»: un'altra parola, non quella cercata.",
 				"domanda": "«domanda» vuol dire «frase con cui si chiede qualcosa»: un'altra parola, non quella cercata.",
 				"fonte": "«fonte» vuol dire «origine di una notizia o informazione»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-scuola-studio-zaino-30",
@@ -652,7 +682,8 @@
 				"mappa": "«mappa» vuol dire «schema che collega concetti»: un'altra parola, non quella cercata.",
 				"domanda": "«domanda» vuol dire «frase con cui si chiede qualcosa»: un'altra parola, non quella cercata.",
 				"voto": "«voto» vuol dire «valutazione espressa con un numero o giudizio»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-scuola-studio-astuccio-31",
@@ -673,7 +704,8 @@
 				"riassunto": "«riassunto» vuol dire «testo breve che conserva le informazioni principali»: un'altra parola, non quella cercata.",
 				"domanda": "«domanda» vuol dire «frase con cui si chiede qualcosa»: un'altra parola, non quella cercata.",
 				"lavagna": "«lavagna» vuol dire «superficie su cui l'insegnante scrive»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-scuola-studio-lavagna-32",
@@ -694,7 +726,8 @@
 				"domanda": "«domanda» vuol dire «frase con cui si chiede qualcosa»: un'altra parola, non quella cercata.",
 				"diario": "«diario» vuol dire «agenda scolastica per compiti e comunicazioni»: un'altra parola, non quella cercata.",
 				"astuccio": "«astuccio» vuol dire «contenitore per penne e matite»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-scuola-studio-lezione-33",
@@ -715,7 +748,8 @@
 				"diario": "«diario» vuol dire «agenda scolastica per compiti e comunicazioni»: un'altra parola, non quella cercata.",
 				"schema": "«schema» vuol dire «rappresentazione ordinata di idee o dati»: un'altra parola, non quella cercata.",
 				"compito": "«compito» vuol dire «esercizio da svolgere a scuola o a casa»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-scuola-studio-compito-34",
@@ -736,7 +770,8 @@
 				"risposta": "«risposta» vuol dire «informazione data a una domanda»: un'altra parola, non quella cercata.",
 				"verifica": "«verifica» vuol dire «prova per controllare ciò che si sa»: un'altra parola, non quella cercata.",
 				"quaderno": "«quaderno» vuol dire «fascicolo su cui si scrive a scuola»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-scuola-studio-verifica-35",
@@ -757,7 +792,8 @@
 				"argomento": "«argomento» vuol dire «ragione usata per sostenere una tesi»: un'altra parola, non quella cercata.",
 				"lavagna": "«lavagna» vuol dire «superficie su cui l'insegnante scrive»: un'altra parola, non quella cercata.",
 				"astuccio": "«astuccio» vuol dire «contenitore per penne e matite»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-scuola-studio-interrogazione-36",
@@ -778,7 +814,8 @@
 				"lezione": "«lezione» vuol dire «momento in cui si spiega o si impara un argomento»: un'altra parola, non quella cercata.",
 				"argomento": "«argomento» vuol dire «ragione usata per sostenere una tesi»: un'altra parola, non quella cercata.",
 				"quaderno": "«quaderno» vuol dire «fascicolo su cui si scrive a scuola»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-scuola-studio-voto-37",
@@ -799,7 +836,8 @@
 				"compito": "«compito» vuol dire «esercizio da svolgere a scuola o a casa»: un'altra parola, non quella cercata.",
 				"domanda": "«domanda» vuol dire «frase con cui si chiede qualcosa»: un'altra parola, non quella cercata.",
 				"metodo": "«metodo» vuol dire «modo ordinato di lavorare o studiare»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-scuola-studio-argomento-38",
@@ -820,7 +858,8 @@
 				"risposta": "«risposta» vuol dire «informazione data a una domanda»: un'altra parola, non quella cercata.",
 				"domanda": "«domanda» vuol dire «frase con cui si chiede qualcosa»: un'altra parola, non quella cercata.",
 				"paragrafo": "«paragrafo» vuol dire «parte di un testo separata dalle altre»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-scuola-studio-paragrafo-39",
@@ -841,7 +880,8 @@
 				"astuccio": "«astuccio» vuol dire «contenitore per penne e matite»: un'altra parola, non quella cercata.",
 				"lezione": "«lezione» vuol dire «momento in cui si spiega o si impara un argomento»: un'altra parola, non quella cercata.",
 				"lavagna": "«lavagna» vuol dire «superficie su cui l'insegnante scrive»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-scuola-studio-riassunto-40",
@@ -862,7 +902,8 @@
 				"lavagna": "«lavagna» vuol dire «superficie su cui l'insegnante scrive»: un'altra parola, non quella cercata.",
 				"compito": "«compito» vuol dire «esercizio da svolgere a scuola o a casa»: un'altra parola, non quella cercata.",
 				"risposta": "«risposta» vuol dire «informazione data a una domanda»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-scuola-studio-schema-41",
@@ -883,7 +924,8 @@
 				"lezione": "«lezione» vuol dire «momento in cui si spiega o si impara un argomento»: un'altra parola, non quella cercata.",
 				"zaino": "«zaino» vuol dire «borsa da portare sulle spalle»: un'altra parola, non quella cercata.",
 				"fonte": "«fonte» vuol dire «origine di una notizia o informazione»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-scuola-studio-mappa-42",
@@ -904,7 +946,8 @@
 				"voto": "«voto» vuol dire «valutazione espressa con un numero o giudizio»: un'altra parola, non quella cercata.",
 				"diario": "«diario» vuol dire «agenda scolastica per compiti e comunicazioni»: un'altra parola, non quella cercata.",
 				"compito": "«compito» vuol dire «esercizio da svolgere a scuola o a casa»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-scuola-studio-fonte-43",
@@ -925,7 +968,8 @@
 				"schema": "«schema» vuol dire «rappresentazione ordinata di idee o dati»: un'altra parola, non quella cercata.",
 				"zaino": "«zaino» vuol dire «borsa da portare sulle spalle»: un'altra parola, non quella cercata.",
 				"voto": "«voto» vuol dire «valutazione espressa con un numero o giudizio»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-scuola-studio-esempio-44",
@@ -946,7 +990,8 @@
 				"domanda": "«domanda» vuol dire «frase con cui si chiede qualcosa»: un'altra parola, non quella cercata.",
 				"quaderno": "«quaderno» vuol dire «fascicolo su cui si scrive a scuola»: un'altra parola, non quella cercata.",
 				"astuccio": "«astuccio» vuol dire «contenitore per penne e matite»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-scuola-studio-domanda-45",
@@ -967,7 +1012,8 @@
 				"lezione": "«lezione» vuol dire «momento in cui si spiega o si impara un argomento»: un'altra parola, non quella cercata.",
 				"compito": "«compito» vuol dire «esercizio da svolgere a scuola o a casa»: un'altra parola, non quella cercata.",
 				"esempio": "«esempio» vuol dire «caso concreto che chiarisce una regola»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-scuola-studio-risposta-46",
@@ -988,7 +1034,8 @@
 				"astuccio": "«astuccio» vuol dire «contenitore per penne e matite»: un'altra parola, non quella cercata.",
 				"lezione": "«lezione» vuol dire «momento in cui si spiega o si impara un argomento»: un'altra parola, non quella cercata.",
 				"lavagna": "«lavagna» vuol dire «superficie su cui l'insegnante scrive»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-scuola-studio-metodo-47",
@@ -1009,7 +1056,8 @@
 				"esempio": "«esempio» vuol dire «caso concreto che chiarisce una regola»: un'altra parola, non quella cercata.",
 				"domanda": "«domanda» vuol dire «frase con cui si chiede qualcosa»: un'altra parola, non quella cercata.",
 				"fonte": "«fonte» vuol dire «origine di una notizia o informazione»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-scuola-studio-studiare-48",
@@ -1030,7 +1078,8 @@
 				"correggere": "«correggere» vuol dire «eliminare un errore»: un'altra parola, non quella cercata.",
 				"dimostrare": "«dimostrare» vuol dire «mostrare con prove che una cosa è vera»: un'altra parola, non quella cercata.",
 				"ripassare": "«ripassare» vuol dire «rivedere ciò che si è già studiato»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-scuola-studio-ripassare-49",
@@ -1051,7 +1100,8 @@
 				"correggere": "«correggere» vuol dire «eliminare un errore»: un'altra parola, non quella cercata.",
 				"verificare": "«verificare» vuol dire «controllare se una cosa è corretta»: un'altra parola, non quella cercata.",
 				"spiegare": "«spiegare» vuol dire «rendere chiaro un contenuto»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-scuola-studio-sottolineare-50",
@@ -1072,7 +1122,8 @@
 				"correggere": "«correggere» vuol dire «eliminare un errore»: un'altra parola, non quella cercata.",
 				"verificare": "«verificare» vuol dire «controllare se una cosa è corretta»: un'altra parola, non quella cercata.",
 				"confrontare": "«confrontare» vuol dire «mettere due elementi a paragone»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-scuola-studio-riassumere-51",
@@ -1093,7 +1144,8 @@
 				"verificare": "«verificare» vuol dire «controllare se una cosa è corretta»: un'altra parola, non quella cercata.",
 				"confrontare": "«confrontare» vuol dire «mettere due elementi a paragone»: un'altra parola, non quella cercata.",
 				"dimostrare": "«dimostrare» vuol dire «mostrare con prove che una cosa è vera»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-scuola-studio-spiegare-52",
@@ -1114,7 +1166,8 @@
 				"studiare": "«studiare» vuol dire «imparare un argomento con attenzione»: un'altra parola, non quella cercata.",
 				"ripassare": "«ripassare» vuol dire «rivedere ciò che si è già studiato»: un'altra parola, non quella cercata.",
 				"riassumere": "«riassumere» vuol dire «dire o scrivere solo le idee essenziali»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-scuola-studio-confrontare-53",
@@ -1135,7 +1188,8 @@
 				"verificare": "«verificare» vuol dire «controllare se una cosa è corretta»: un'altra parola, non quella cercata.",
 				"riassumere": "«riassumere» vuol dire «dire o scrivere solo le idee essenziali»: un'altra parola, non quella cercata.",
 				"correggere": "«correggere» vuol dire «eliminare un errore»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-scuola-studio-verificare-54",
@@ -1156,7 +1210,8 @@
 				"dimostrare": "«dimostrare» vuol dire «mostrare con prove che una cosa è vera»: un'altra parola, non quella cercata.",
 				"riassumere": "«riassumere» vuol dire «dire o scrivere solo le idee essenziali»: un'altra parola, non quella cercata.",
 				"ripassare": "«ripassare» vuol dire «rivedere ciò che si è già studiato»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-scuola-studio-correggere-55",
@@ -1177,7 +1232,8 @@
 				"confrontare": "«confrontare» vuol dire «mettere due elementi a paragone»: un'altra parola, non quella cercata.",
 				"ripassare": "«ripassare» vuol dire «rivedere ciò che si è già studiato»: un'altra parola, non quella cercata.",
 				"dimostrare": "«dimostrare» vuol dire «mostrare con prove che una cosa è vera»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-scuola-studio-dimostrare-56",
@@ -1198,7 +1254,8 @@
 				"correggere": "«correggere» vuol dire «eliminare un errore»: un'altra parola, non quella cercata.",
 				"riassumere": "«riassumere» vuol dire «dire o scrivere solo le idee essenziali»: un'altra parola, non quella cercata.",
 				"verificare": "«verificare» vuol dire «controllare se una cosa è corretta»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-scuola-studio-argomentare-57",
@@ -1219,7 +1276,8 @@
 				"verificare": "«verificare» vuol dire «controllare se una cosa è corretta»: un'altra parola, non quella cercata.",
 				"dimostrare": "«dimostrare» vuol dire «mostrare con prove che una cosa è vera»: un'altra parola, non quella cercata.",
 				"sottolineare": "«sottolineare» vuol dire «segnare una parte importante del testo»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-cibo-spesa-colazione-58",
@@ -1240,7 +1298,8 @@
 				"verdura": "«verdura» vuol dire «alimento vegetale usato nei pasti»: un'altra parola, non quella cercata.",
 				"ricetta": "«ricetta» vuol dire «istruzioni per preparare un piatto»: un'altra parola, non quella cercata.",
 				"spuntino": "«spuntino» vuol dire «piccolo pasto tra due pasti principali»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-cibo-spesa-pranzo-59",
@@ -1261,7 +1320,8 @@
 				"pesce": "«pesce» vuol dire «alimento che viene dal mare o dall'acqua dolce»: un'altra parola, non quella cercata.",
 				"offerta": "«offerta» vuol dire «prezzo ridotto per un prodotto»: un'altra parola, non quella cercata.",
 				"verdura": "«verdura» vuol dire «alimento vegetale usato nei pasti»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-cibo-spesa-cena-60",
@@ -1282,7 +1342,8 @@
 				"resto": "«resto» vuol dire «denaro restituito dopo un pagamento»: un'altra parola, non quella cercata.",
 				"pesce": "«pesce» vuol dire «alimento che viene dal mare o dall'acqua dolce»: un'altra parola, non quella cercata.",
 				"ricetta": "«ricetta» vuol dire «istruzioni per preparare un piatto»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-cibo-spesa-spuntino-61",
@@ -1303,7 +1364,8 @@
 				"verdura": "«verdura» vuol dire «alimento vegetale usato nei pasti»: un'altra parola, non quella cercata.",
 				"pranzo": "«pranzo» vuol dire «pasto principale di metà giornata»: un'altra parola, non quella cercata.",
 				"colazione": "«colazione» vuol dire «pasto del mattino»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-cibo-spesa-ricetta-62",
@@ -1324,7 +1386,8 @@
 				"prezzo": "«prezzo» vuol dire «quantità di denaro richiesta per comprare qualcosa»: un'altra parola, non quella cercata.",
 				"offerta": "«offerta» vuol dire «prezzo ridotto per un prodotto»: un'altra parola, non quella cercata.",
 				"verdura": "«verdura» vuol dire «alimento vegetale usato nei pasti»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-cibo-spesa-ingrediente-63",
@@ -1345,7 +1408,8 @@
 				"offerta": "«offerta» vuol dire «prezzo ridotto per un prodotto»: un'altra parola, non quella cercata.",
 				"colazione": "«colazione» vuol dire «pasto del mattino»: un'altra parola, non quella cercata.",
 				"spuntino": "«spuntino» vuol dire «piccolo pasto tra due pasti principali»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-cibo-spesa-pane-64",
@@ -1366,7 +1430,8 @@
 				"pesce": "«pesce» vuol dire «alimento che viene dal mare o dall'acqua dolce»: un'altra parola, non quella cercata.",
 				"prezzo": "«prezzo» vuol dire «quantità di denaro richiesta per comprare qualcosa»: un'altra parola, non quella cercata.",
 				"frutta": "«frutta» vuol dire «alimento dolce prodotto dalle piante»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-cibo-spesa-pasta-65",
@@ -1387,7 +1452,8 @@
 				"frutta": "«frutta» vuol dire «alimento dolce prodotto dalle piante»: un'altra parola, non quella cercata.",
 				"pesce": "«pesce» vuol dire «alimento che viene dal mare o dall'acqua dolce»: un'altra parola, non quella cercata.",
 				"prezzo": "«prezzo» vuol dire «quantità di denaro richiesta per comprare qualcosa»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-cibo-spesa-verdura-66",
@@ -1408,7 +1474,8 @@
 				"prezzo": "«prezzo» vuol dire «quantità di denaro richiesta per comprare qualcosa»: un'altra parola, non quella cercata.",
 				"formaggio": "«formaggio» vuol dire «alimento derivato dal latte»: un'altra parola, non quella cercata.",
 				"pranzo": "«pranzo» vuol dire «pasto principale di metà giornata»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-cibo-spesa-frutta-67",
@@ -1429,7 +1496,8 @@
 				"pesce": "«pesce» vuol dire «alimento che viene dal mare o dall'acqua dolce»: un'altra parola, non quella cercata.",
 				"resto": "«resto» vuol dire «denaro restituito dopo un pagamento»: un'altra parola, non quella cercata.",
 				"verdura": "«verdura» vuol dire «alimento vegetale usato nei pasti»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-cibo-spesa-formaggio-68",
@@ -1450,7 +1518,8 @@
 				"frutta": "«frutta» vuol dire «alimento dolce prodotto dalle piante»: un'altra parola, non quella cercata.",
 				"scontrino": "«scontrino» vuol dire «documento che prova un acquisto»: un'altra parola, non quella cercata.",
 				"colazione": "«colazione» vuol dire «pasto del mattino»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-cibo-spesa-carne-69",
@@ -1471,7 +1540,8 @@
 				"verdura": "«verdura» vuol dire «alimento vegetale usato nei pasti»: un'altra parola, non quella cercata.",
 				"resto": "«resto» vuol dire «denaro restituito dopo un pagamento»: un'altra parola, non quella cercata.",
 				"cena": "«cena» vuol dire «pasto della sera»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-cibo-spesa-pesce-70",
@@ -1492,7 +1562,8 @@
 				"carne": "«carne» vuol dire «alimento ricavato da animali allevati»: un'altra parola, non quella cercata.",
 				"pasta": "«pasta» vuol dire «alimento tipico formato da farina e acqua»: un'altra parola, non quella cercata.",
 				"cena": "«cena» vuol dire «pasto della sera»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-cibo-spesa-prezzo-71",
@@ -1513,7 +1584,8 @@
 				"frutta": "«frutta» vuol dire «alimento dolce prodotto dalle piante»: un'altra parola, non quella cercata.",
 				"pranzo": "«pranzo» vuol dire «pasto principale di metà giornata»: un'altra parola, non quella cercata.",
 				"resto": "«resto» vuol dire «denaro restituito dopo un pagamento»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-cibo-spesa-scontrino-72",
@@ -1534,7 +1606,8 @@
 				"carrello": "«carrello» vuol dire «contenitore con ruote usato al supermercato»: un'altra parola, non quella cercata.",
 				"colazione": "«colazione» vuol dire «pasto del mattino»: un'altra parola, non quella cercata.",
 				"frutta": "«frutta» vuol dire «alimento dolce prodotto dalle piante»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-cibo-spesa-resto-73",
@@ -1555,7 +1628,8 @@
 				"pesce": "«pesce» vuol dire «alimento che viene dal mare o dall'acqua dolce»: un'altra parola, non quella cercata.",
 				"ricetta": "«ricetta» vuol dire «istruzioni per preparare un piatto»: un'altra parola, non quella cercata.",
 				"pane": "«pane» vuol dire «alimento base fatto con farina e acqua»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-cibo-spesa-offerta-74",
@@ -1576,7 +1650,8 @@
 				"spuntino": "«spuntino» vuol dire «piccolo pasto tra due pasti principali»: un'altra parola, non quella cercata.",
 				"carrello": "«carrello» vuol dire «contenitore con ruote usato al supermercato»: un'altra parola, non quella cercata.",
 				"carne": "«carne» vuol dire «alimento ricavato da animali allevati»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-cibo-spesa-carrello-75",
@@ -1597,7 +1672,8 @@
 				"prezzo": "«prezzo» vuol dire «quantità di denaro richiesta per comprare qualcosa»: un'altra parola, non quella cercata.",
 				"scontrino": "«scontrino» vuol dire «documento che prova un acquisto»: un'altra parola, non quella cercata.",
 				"spuntino": "«spuntino» vuol dire «piccolo pasto tra due pasti principali»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-cibo-spesa-fresco-76",
@@ -1618,7 +1694,8 @@
 				"dolce": "«dolce» vuol dire «con sapore zuccherino»: un'altra parola, non quella cercata.",
 				"costoso": "«costoso» vuol dire «che costa molto»: un'altra parola, non quella cercata.",
 				"scaduto": "«scaduto» vuol dire «oltre la data entro cui un prodotto va consumato»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-cibo-spesa-scaduto-77",
@@ -1639,7 +1716,8 @@
 				"fresco": "«fresco» vuol dire «appena preparato o non rovinato»: un'altra parola, non quella cercata.",
 				"salato": "«salato» vuol dire «con molto sale»: un'altra parola, non quella cercata.",
 				"economico": "«economico» vuol dire «che costa poco»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-cibo-spesa-economico-78",
@@ -1660,7 +1738,8 @@
 				"costoso": "«costoso» vuol dire «che costa molto»: un'altra parola, non quella cercata.",
 				"nutriente": "«nutriente» vuol dire «che fornisce energia e sostanze utili»: un'altra parola, non quella cercata.",
 				"scaduto": "«scaduto» vuol dire «oltre la data entro cui un prodotto va consumato»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-cibo-spesa-costoso-79",
@@ -1681,7 +1760,8 @@
 				"scaduto": "«scaduto» vuol dire «oltre la data entro cui un prodotto va consumato»: un'altra parola, non quella cercata.",
 				"nutriente": "«nutriente» vuol dire «che fornisce energia e sostanze utili»: un'altra parola, non quella cercata.",
 				"fresco": "«fresco» vuol dire «appena preparato o non rovinato»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-cibo-spesa-salato-80",
@@ -1702,7 +1782,8 @@
 				"costoso": "«costoso» vuol dire «che costa molto»: un'altra parola, non quella cercata.",
 				"dolce": "«dolce» vuol dire «con sapore zuccherino»: un'altra parola, non quella cercata.",
 				"fresco": "«fresco» vuol dire «appena preparato o non rovinato»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-cibo-spesa-dolce-81",
@@ -1723,7 +1804,8 @@
 				"salato": "«salato» vuol dire «con molto sale»: un'altra parola, non quella cercata.",
 				"fresco": "«fresco» vuol dire «appena preparato o non rovinato»: un'altra parola, non quella cercata.",
 				"costoso": "«costoso» vuol dire «che costa molto»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-cibo-spesa-amaro-82",
@@ -1744,7 +1826,8 @@
 				"scaduto": "«scaduto» vuol dire «oltre la data entro cui un prodotto va consumato»: un'altra parola, non quella cercata.",
 				"dolce": "«dolce» vuol dire «con sapore zuccherino»: un'altra parola, non quella cercata.",
 				"salato": "«salato» vuol dire «con molto sale»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-cibo-spesa-nutriente-83",
@@ -1765,7 +1848,8 @@
 				"fresco": "«fresco» vuol dire «appena preparato o non rovinato»: un'altra parola, non quella cercata.",
 				"scaduto": "«scaduto» vuol dire «oltre la data entro cui un prodotto va consumato»: un'altra parola, non quella cercata.",
 				"economico": "«economico» vuol dire «che costa poco»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-tempo-meteo-minuto-84",
@@ -1786,7 +1870,8 @@
 				"mese": "«mese» vuol dire «parte dell'anno»: un'altra parola, non quella cercata.",
 				"vento": "«vento» vuol dire «aria in movimento»: un'altra parola, non quella cercata.",
 				"scadenza": "«scadenza» vuol dire «termine entro cui fare qualcosa»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-tempo-meteo-ora-85",
@@ -1807,7 +1892,8 @@
 				"mattina": "«mattina» vuol dire «prima parte del giorno»: un'altra parola, non quella cercata.",
 				"giorno": "«giorno» vuol dire «periodo di ventiquattro ore»: un'altra parola, non quella cercata.",
 				"vento": "«vento» vuol dire «aria in movimento»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-tempo-meteo-giorno-86",
@@ -1828,7 +1914,8 @@
 				"sera": "«sera» vuol dire «parte finale del giorno»: un'altra parola, non quella cercata.",
 				"pioggia": "«pioggia» vuol dire «acqua che cade dalle nuvole»: un'altra parola, non quella cercata.",
 				"ritardo": "«ritardo» vuol dire «arrivo o azione dopo l'orario previsto»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-tempo-meteo-settimana-87",
@@ -1849,7 +1936,8 @@
 				"scadenza": "«scadenza» vuol dire «termine entro cui fare qualcosa»: un'altra parola, non quella cercata.",
 				"pioggia": "«pioggia» vuol dire «acqua che cade dalle nuvole»: un'altra parola, non quella cercata.",
 				"ritardo": "«ritardo» vuol dire «arrivo o azione dopo l'orario previsto»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-tempo-meteo-mese-88",
@@ -1870,7 +1958,8 @@
 				"ora": "«ora» vuol dire «unità di tempo pari a sessanta minuti»: un'altra parola, non quella cercata.",
 				"pioggia": "«pioggia» vuol dire «acqua che cade dalle nuvole»: un'altra parola, non quella cercata.",
 				"ritardo": "«ritardo» vuol dire «arrivo o azione dopo l'orario previsto»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-tempo-meteo-stagione-89",
@@ -1891,7 +1980,8 @@
 				"anticipo": "«anticipo» vuol dire «arrivo o azione prima dell'orario previsto»: un'altra parola, non quella cercata.",
 				"mattina": "«mattina» vuol dire «prima parte del giorno»: un'altra parola, non quella cercata.",
 				"ritardo": "«ritardo» vuol dire «arrivo o azione dopo l'orario previsto»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-tempo-meteo-mattina-90",
@@ -1912,7 +2002,8 @@
 				"anticipo": "«anticipo» vuol dire «arrivo o azione prima dell'orario previsto»: un'altra parola, non quella cercata.",
 				"scadenza": "«scadenza» vuol dire «termine entro cui fare qualcosa»: un'altra parola, non quella cercata.",
 				"nebbia": "«nebbia» vuol dire «vapore che riduce la visibilità»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-tempo-meteo-pomeriggio-91",
@@ -1933,7 +2024,8 @@
 				"ritardo": "«ritardo» vuol dire «arrivo o azione dopo l'orario previsto»: un'altra parola, non quella cercata.",
 				"pioggia": "«pioggia» vuol dire «acqua che cade dalle nuvole»: un'altra parola, non quella cercata.",
 				"scadenza": "«scadenza» vuol dire «termine entro cui fare qualcosa»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-tempo-meteo-sera-92",
@@ -1954,7 +2046,8 @@
 				"pioggia": "«pioggia» vuol dire «acqua che cade dalle nuvole»: un'altra parola, non quella cercata.",
 				"vento": "«vento» vuol dire «aria in movimento»: un'altra parola, non quella cercata.",
 				"minuto": "«minuto» vuol dire «unità di tempo pari a sessanta secondi»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-tempo-meteo-scadenza-93",
@@ -1975,7 +2068,8 @@
 				"mattina": "«mattina» vuol dire «prima parte del giorno»: un'altra parola, non quella cercata.",
 				"ritardo": "«ritardo» vuol dire «arrivo o azione dopo l'orario previsto»: un'altra parola, non quella cercata.",
 				"pioggia": "«pioggia» vuol dire «acqua che cade dalle nuvole»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-tempo-meteo-ritardo-94",
@@ -1996,7 +2090,8 @@
 				"stagione": "«stagione» vuol dire «periodo dell'anno con clima simile»: un'altra parola, non quella cercata.",
 				"giorno": "«giorno» vuol dire «periodo di ventiquattro ore»: un'altra parola, non quella cercata.",
 				"nebbia": "«nebbia» vuol dire «vapore che riduce la visibilità»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-tempo-meteo-anticipo-95",
@@ -2017,7 +2112,8 @@
 				"nebbia": "«nebbia» vuol dire «vapore che riduce la visibilità»: un'altra parola, non quella cercata.",
 				"temporale": "«temporale» vuol dire «pioggia forte con tuoni e lampi»: un'altra parola, non quella cercata.",
 				"pioggia": "«pioggia» vuol dire «acqua che cade dalle nuvole»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-tempo-meteo-pioggia-96",
@@ -2038,7 +2134,8 @@
 				"minuto": "«minuto» vuol dire «unità di tempo pari a sessanta secondi»: un'altra parola, non quella cercata.",
 				"nebbia": "«nebbia» vuol dire «vapore che riduce la visibilità»: un'altra parola, non quella cercata.",
 				"mattina": "«mattina» vuol dire «prima parte del giorno»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-tempo-meteo-vento-97",
@@ -2059,7 +2156,8 @@
 				"ritardo": "«ritardo» vuol dire «arrivo o azione dopo l'orario previsto»: un'altra parola, non quella cercata.",
 				"nebbia": "«nebbia» vuol dire «vapore che riduce la visibilità»: un'altra parola, non quella cercata.",
 				"mese": "«mese» vuol dire «parte dell'anno»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-tempo-meteo-nebbia-98",
@@ -2080,7 +2178,8 @@
 				"minuto": "«minuto» vuol dire «unità di tempo pari a sessanta secondi»: un'altra parola, non quella cercata.",
 				"stagione": "«stagione» vuol dire «periodo dell'anno con clima simile»: un'altra parola, non quella cercata.",
 				"pioggia": "«pioggia» vuol dire «acqua che cade dalle nuvole»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-tempo-meteo-temporale-99",
@@ -2101,7 +2200,8 @@
 				"ritardo": "«ritardo» vuol dire «arrivo o azione dopo l'orario previsto»: un'altra parola, non quella cercata.",
 				"stagione": "«stagione» vuol dire «periodo dell'anno con clima simile»: un'altra parola, non quella cercata.",
 				"scadenza": "«scadenza» vuol dire «termine entro cui fare qualcosa»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-tempo-meteo-puntuale-100",
@@ -2122,7 +2222,8 @@
 				"ventoso": "«ventoso» vuol dire «con aria che soffia forte»: un'altra parola, non quella cercata.",
 				"nuvoloso": "«nuvoloso» vuol dire «coperto da nuvole»: un'altra parola, non quella cercata.",
 				"tardivo": "«tardivo» vuol dire «che arriva più in là del solito»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-tempo-meteo-tardivo-101",
@@ -2143,7 +2244,8 @@
 				"puntuale": "«puntuale» vuol dire «che arriva o agisce all'orario previsto»: un'altra parola, non quella cercata.",
 				"ventoso": "«ventoso» vuol dire «con aria che soffia forte»: un'altra parola, non quella cercata.",
 				"piovoso": "«piovoso» vuol dire «con molta pioggia»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-tempo-meteo-soleggiato-102",
@@ -2164,7 +2266,8 @@
 				"nuvoloso": "«nuvoloso» vuol dire «coperto da nuvole»: un'altra parola, non quella cercata.",
 				"ventoso": "«ventoso» vuol dire «con aria che soffia forte»: un'altra parola, non quella cercata.",
 				"piovoso": "«piovoso» vuol dire «con molta pioggia»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-tempo-meteo-nuvoloso-103",
@@ -2185,7 +2288,8 @@
 				"piovoso": "«piovoso» vuol dire «con molta pioggia»: un'altra parola, non quella cercata.",
 				"tardivo": "«tardivo» vuol dire «che arriva più in là del solito»: un'altra parola, non quella cercata.",
 				"ventoso": "«ventoso» vuol dire «con aria che soffia forte»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-tempo-meteo-piovoso-104",
@@ -2206,7 +2310,8 @@
 				"ventoso": "«ventoso» vuol dire «con aria che soffia forte»: un'altra parola, non quella cercata.",
 				"nuvoloso": "«nuvoloso» vuol dire «coperto da nuvole»: un'altra parola, non quella cercata.",
 				"tardivo": "«tardivo» vuol dire «che arriva più in là del solito»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-tempo-meteo-ventoso-105",
@@ -2227,7 +2332,8 @@
 				"piovoso": "«piovoso» vuol dire «con molta pioggia»: un'altra parola, non quella cercata.",
 				"puntuale": "«puntuale» vuol dire «che arriva o agisce all'orario previsto»: un'altra parola, non quella cercata.",
 				"nuvoloso": "«nuvoloso» vuol dire «coperto da nuvole»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-tempo-meteo-freddo-106",
@@ -2248,7 +2354,8 @@
 				"caldo": "«caldo» vuol dire «con temperatura alta»: un'altra parola, non quella cercata.",
 				"piovoso": "«piovoso» vuol dire «con molta pioggia»: un'altra parola, non quella cercata.",
 				"ventoso": "«ventoso» vuol dire «con aria che soffia forte»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-tempo-meteo-caldo-107",
@@ -2269,7 +2376,8 @@
 				"tardivo": "«tardivo» vuol dire «che arriva più in là del solito»: un'altra parola, non quella cercata.",
 				"ventoso": "«ventoso» vuol dire «con aria che soffia forte»: un'altra parola, non quella cercata.",
 				"piovoso": "«piovoso» vuol dire «con molta pioggia»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-viaggi-luoghi-strada-108",
@@ -2290,7 +2398,8 @@
 				"farmacia": "«farmacia» vuol dire «negozio dove si comprano medicine»: un'altra parola, non quella cercata.",
 				"binario": "«binario» vuol dire «linea da cui parte o arriva un treno»: un'altra parola, non quella cercata.",
 				"semaforo": "«semaforo» vuol dire «segnale luminoso che regola il traffico»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-viaggi-luoghi-incrocio-109",
@@ -2311,7 +2420,8 @@
 				"farmacia": "«farmacia» vuol dire «negozio dove si comprano medicine»: un'altra parola, non quella cercata.",
 				"ospedale": "«ospedale» vuol dire «luogo dove si curano persone malate»: un'altra parola, non quella cercata.",
 				"binario": "«binario» vuol dire «linea da cui parte o arriva un treno»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-viaggi-luoghi-marciapiede-110",
@@ -2332,7 +2442,8 @@
 				"biblioteca": "«biblioteca» vuol dire «luogo dove si leggono o prendono libri»: un'altra parola, non quella cercata.",
 				"municipio": "«municipio» vuol dire «sede amministrativa di un comune»: un'altra parola, non quella cercata.",
 				"quartiere": "«quartiere» vuol dire «zona di una città»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-viaggi-luoghi-semaforo-111",
@@ -2353,7 +2464,8 @@
 				"stazione": "«stazione» vuol dire «luogo da cui partono treni o autobus»: un'altra parola, non quella cercata.",
 				"farmacia": "«farmacia» vuol dire «negozio dove si comprano medicine»: un'altra parola, non quella cercata.",
 				"ospedale": "«ospedale» vuol dire «luogo dove si curano persone malate»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-viaggi-luoghi-fermata-112",
@@ -2374,7 +2486,8 @@
 				"percorso": "«percorso» vuol dire «strada da seguire per arrivare»: un'altra parola, non quella cercata.",
 				"strada": "«strada» vuol dire «via per spostarsi a piedi o con mezzi»: un'altra parola, non quella cercata.",
 				"binario": "«binario» vuol dire «linea da cui parte o arriva un treno»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-viaggi-luoghi-stazione-113",
@@ -2395,7 +2508,8 @@
 				"semaforo": "«semaforo» vuol dire «segnale luminoso che regola il traffico»: un'altra parola, non quella cercata.",
 				"municipio": "«municipio» vuol dire «sede amministrativa di un comune»: un'altra parola, non quella cercata.",
 				"farmacia": "«farmacia» vuol dire «negozio dove si comprano medicine»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-viaggi-luoghi-binario-114",
@@ -2416,7 +2530,8 @@
 				"ospedale": "«ospedale» vuol dire «luogo dove si curano persone malate»: un'altra parola, non quella cercata.",
 				"strada": "«strada» vuol dire «via per spostarsi a piedi o con mezzi»: un'altra parola, non quella cercata.",
 				"orario": "«orario» vuol dire «tabella con tempi di partenza o attività»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-viaggi-luoghi-biglietto-115",
@@ -2437,7 +2552,8 @@
 				"municipio": "«municipio» vuol dire «sede amministrativa di un comune»: un'altra parola, non quella cercata.",
 				"biblioteca": "«biblioteca» vuol dire «luogo dove si leggono o prendono libri»: un'altra parola, non quella cercata.",
 				"indirizzo": "«indirizzo» vuol dire «informazione che indica dove si trova un luogo»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-viaggi-luoghi-orario-116",
@@ -2458,7 +2574,8 @@
 				"percorso": "«percorso» vuol dire «strada da seguire per arrivare»: un'altra parola, non quella cercata.",
 				"farmacia": "«farmacia» vuol dire «negozio dove si comprano medicine»: un'altra parola, non quella cercata.",
 				"ospedale": "«ospedale» vuol dire «luogo dove si curano persone malate»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-viaggi-luoghi-percorso-117",
@@ -2479,7 +2596,8 @@
 				"ospedale": "«ospedale» vuol dire «luogo dove si curano persone malate»: un'altra parola, non quella cercata.",
 				"incrocio": "«incrocio» vuol dire «punto in cui si incontrano due strade»: un'altra parola, non quella cercata.",
 				"quartiere": "«quartiere» vuol dire «zona di una città»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-viaggi-luoghi-indirizzo-118",
@@ -2500,7 +2618,8 @@
 				"percorso": "«percorso» vuol dire «strada da seguire per arrivare»: un'altra parola, non quella cercata.",
 				"biglietto": "«biglietto» vuol dire «documento che permette di viaggiare o entrare»: un'altra parola, non quella cercata.",
 				"biblioteca": "«biblioteca» vuol dire «luogo dove si leggono o prendono libri»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-viaggi-luoghi-quartiere-119",
@@ -2521,7 +2640,8 @@
 				"biblioteca": "«biblioteca» vuol dire «luogo dove si leggono o prendono libri»: un'altra parola, non quella cercata.",
 				"stazione": "«stazione» vuol dire «luogo da cui partono treni o autobus»: un'altra parola, non quella cercata.",
 				"incrocio": "«incrocio» vuol dire «punto in cui si incontrano due strade»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-viaggi-luoghi-biblioteca-120",
@@ -2542,7 +2662,8 @@
 				"semaforo": "«semaforo» vuol dire «segnale luminoso che regola il traffico»: un'altra parola, non quella cercata.",
 				"municipio": "«municipio» vuol dire «sede amministrativa di un comune»: un'altra parola, non quella cercata.",
 				"farmacia": "«farmacia» vuol dire «negozio dove si comprano medicine»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-viaggi-luoghi-farmacia-121",
@@ -2563,7 +2684,8 @@
 				"incrocio": "«incrocio» vuol dire «punto in cui si incontrano due strade»: un'altra parola, non quella cercata.",
 				"semaforo": "«semaforo» vuol dire «segnale luminoso che regola il traffico»: un'altra parola, non quella cercata.",
 				"percorso": "«percorso» vuol dire «strada da seguire per arrivare»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-viaggi-luoghi-ospedale-122",
@@ -2584,7 +2706,8 @@
 				"biglietto": "«biglietto» vuol dire «documento che permette di viaggiare o entrare»: un'altra parola, non quella cercata.",
 				"incrocio": "«incrocio» vuol dire «punto in cui si incontrano due strade»: un'altra parola, non quella cercata.",
 				"municipio": "«municipio» vuol dire «sede amministrativa di un comune»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-viaggi-luoghi-municipio-123",
@@ -2605,7 +2728,8 @@
 				"biblioteca": "«biblioteca» vuol dire «luogo dove si leggono o prendono libri»: un'altra parola, non quella cercata.",
 				"semaforo": "«semaforo» vuol dire «segnale luminoso che regola il traffico»: un'altra parola, non quella cercata.",
 				"percorso": "«percorso» vuol dire «strada da seguire per arrivare»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-viaggi-luoghi-di-fronte-a-124",
@@ -2626,7 +2750,8 @@
 				"a sinistra": "«a sinistra» vuol dire «sul lato sinistro»: un'altra parola, non quella cercata.",
 				"davanti a": "«davanti a» vuol dire «nella parte anteriore»: un'altra parola, non quella cercata.",
 				"all'angolo": "«all'angolo» vuol dire «nel punto in cui si incontrano due lati o strade»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-viaggi-luoghi-accanto-a-125",
@@ -2647,7 +2772,8 @@
 				"davanti a": "«davanti a» vuol dire «nella parte anteriore»: un'altra parola, non quella cercata.",
 				"dietro a": "«dietro a» vuol dire «nella parte posteriore»: un'altra parola, non quella cercata.",
 				"all'angolo": "«all'angolo» vuol dire «nel punto in cui si incontrano due lati o strade»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-viaggi-luoghi-dietro-a-126",
@@ -2668,7 +2794,8 @@
 				"a destra": "«a destra» vuol dire «sul lato destro»: un'altra parola, non quella cercata.",
 				"davanti a": "«davanti a» vuol dire «nella parte anteriore»: un'altra parola, non quella cercata.",
 				"in fondo": "«in fondo» vuol dire «alla fine di uno spazio o percorso»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-viaggi-luoghi-davanti-a-127",
@@ -2689,7 +2816,8 @@
 				"a sinistra": "«a sinistra» vuol dire «sul lato sinistro»: un'altra parola, non quella cercata.",
 				"accanto a": "«accanto a» vuol dire «vicino sul lato»: un'altra parola, non quella cercata.",
 				"a destra": "«a destra» vuol dire «sul lato destro»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-viaggi-luoghi-a-destra-128",
@@ -2710,7 +2838,8 @@
 				"in fondo": "«in fondo» vuol dire «alla fine di uno spazio o percorso»: un'altra parola, non quella cercata.",
 				"dietro a": "«dietro a» vuol dire «nella parte posteriore»: un'altra parola, non quella cercata.",
 				"accanto a": "«accanto a» vuol dire «vicino sul lato»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-viaggi-luoghi-a-sinistra-129",
@@ -2731,7 +2860,8 @@
 				"di fronte a": "«di fronte a» vuol dire «nella posizione opposta rispetto a qualcosa»: un'altra parola, non quella cercata.",
 				"accanto a": "«accanto a» vuol dire «vicino sul lato»: un'altra parola, non quella cercata.",
 				"davanti a": "«davanti a» vuol dire «nella parte anteriore»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-viaggi-luoghi-in-fondo-130",
@@ -2752,7 +2882,8 @@
 				"dietro a": "«dietro a» vuol dire «nella parte posteriore»: un'altra parola, non quella cercata.",
 				"davanti a": "«davanti a» vuol dire «nella parte anteriore»: un'altra parola, non quella cercata.",
 				"accanto a": "«accanto a» vuol dire «vicino sul lato»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-viaggi-luoghi-all-angolo-131",
@@ -2773,7 +2904,8 @@
 				"di fronte a": "«di fronte a» vuol dire «nella posizione opposta rispetto a qualcosa»: un'altra parola, non quella cercata.",
 				"accanto a": "«accanto a» vuol dire «vicino sul lato»: un'altra parola, non quella cercata.",
 				"davanti a": "«davanti a» vuol dire «nella parte anteriore»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-corpo-salute-testa-132",
@@ -2794,7 +2926,8 @@
 				"febbre": "«febbre» vuol dire «aumento della temperatura corporea»: un'altra parola, non quella cercata.",
 				"tosse": "«tosse» vuol dire «colpo d'aria espulso dalla gola»: un'altra parola, non quella cercata.",
 				"bocca": "«bocca» vuol dire «parte del viso usata per parlare e mangiare»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-corpo-salute-occhio-133",
@@ -2815,7 +2948,8 @@
 				"bocca": "«bocca» vuol dire «parte del viso usata per parlare e mangiare»: un'altra parola, non quella cercata.",
 				"testa": "«testa» vuol dire «parte superiore del corpo»: un'altra parola, non quella cercata.",
 				"cerotto": "«cerotto» vuol dire «piccola protezione adesiva per una ferita»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-corpo-salute-orecchio-134",
@@ -2836,7 +2970,8 @@
 				"medicina": "«medicina» vuol dire «sostanza usata per curare»: un'altra parola, non quella cercata.",
 				"respiro": "«respiro» vuol dire «atto di prendere e mandare fuori aria»: un'altra parola, non quella cercata.",
 				"cerotto": "«cerotto» vuol dire «piccola protezione adesiva per una ferita»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-corpo-salute-bocca-135",
@@ -2857,7 +2992,8 @@
 				"tosse": "«tosse» vuol dire «colpo d'aria espulso dalla gola»: un'altra parola, non quella cercata.",
 				"ferita": "«ferita» vuol dire «lesione della pelle o del corpo»: un'altra parola, non quella cercata.",
 				"testa": "«testa» vuol dire «parte superiore del corpo»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-corpo-salute-mano-136",
@@ -2878,7 +3014,8 @@
 				"ferita": "«ferita» vuol dire «lesione della pelle o del corpo»: un'altra parola, non quella cercata.",
 				"testa": "«testa» vuol dire «parte superiore del corpo»: un'altra parola, non quella cercata.",
 				"bocca": "«bocca» vuol dire «parte del viso usata per parlare e mangiare»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-corpo-salute-schiena-137",
@@ -2899,7 +3036,8 @@
 				"respiro": "«respiro» vuol dire «atto di prendere e mandare fuori aria»: un'altra parola, non quella cercata.",
 				"occhio": "«occhio» vuol dire «organo con cui si vede»: un'altra parola, non quella cercata.",
 				"visita": "«visita» vuol dire «controllo fatto da un medico»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-corpo-salute-ginocchio-138",
@@ -2920,7 +3058,8 @@
 				"visita": "«visita» vuol dire «controllo fatto da un medico»: un'altra parola, non quella cercata.",
 				"raffreddore": "«raffreddore» vuol dire «malessere con naso chiuso o che cola»: un'altra parola, non quella cercata.",
 				"medicina": "«medicina» vuol dire «sostanza usata per curare»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-corpo-salute-respiro-139",
@@ -2941,7 +3080,8 @@
 				"ferita": "«ferita» vuol dire «lesione della pelle o del corpo»: un'altra parola, non quella cercata.",
 				"occhio": "«occhio» vuol dire «organo con cui si vede»: un'altra parola, non quella cercata.",
 				"visita": "«visita» vuol dire «controllo fatto da un medico»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-corpo-salute-febbre-140",
@@ -2962,7 +3102,8 @@
 				"respiro": "«respiro» vuol dire «atto di prendere e mandare fuori aria»: un'altra parola, non quella cercata.",
 				"testa": "«testa» vuol dire «parte superiore del corpo»: un'altra parola, non quella cercata.",
 				"schiena": "«schiena» vuol dire «parte posteriore del busto»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-corpo-salute-tosse-141",
@@ -2983,7 +3124,8 @@
 				"bocca": "«bocca» vuol dire «parte del viso usata per parlare e mangiare»: un'altra parola, non quella cercata.",
 				"ferita": "«ferita» vuol dire «lesione della pelle o del corpo»: un'altra parola, non quella cercata.",
 				"cerotto": "«cerotto» vuol dire «piccola protezione adesiva per una ferita»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-corpo-salute-raffreddore-142",
@@ -3004,7 +3146,8 @@
 				"ginocchio": "«ginocchio» vuol dire «articolazione della gamba»: un'altra parola, non quella cercata.",
 				"cerotto": "«cerotto» vuol dire «piccola protezione adesiva per una ferita»: un'altra parola, non quella cercata.",
 				"febbre": "«febbre» vuol dire «aumento della temperatura corporea»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-corpo-salute-ferita-143",
@@ -3025,7 +3168,8 @@
 				"cerotto": "«cerotto» vuol dire «piccola protezione adesiva per una ferita»: un'altra parola, non quella cercata.",
 				"respiro": "«respiro» vuol dire «atto di prendere e mandare fuori aria»: un'altra parola, non quella cercata.",
 				"schiena": "«schiena» vuol dire «parte posteriore del busto»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-corpo-salute-cerotto-144",
@@ -3046,7 +3190,8 @@
 				"medicina": "«medicina» vuol dire «sostanza usata per curare»: un'altra parola, non quella cercata.",
 				"occhio": "«occhio» vuol dire «organo con cui si vede»: un'altra parola, non quella cercata.",
 				"visita": "«visita» vuol dire «controllo fatto da un medico»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-corpo-salute-medicina-145",
@@ -3067,7 +3212,8 @@
 				"occhio": "«occhio» vuol dire «organo con cui si vede»: un'altra parola, non quella cercata.",
 				"orecchio": "«orecchio» vuol dire «organo con cui si sente»: un'altra parola, non quella cercata.",
 				"schiena": "«schiena» vuol dire «parte posteriore del busto»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-corpo-salute-visita-146",
@@ -3088,7 +3234,8 @@
 				"schiena": "«schiena» vuol dire «parte posteriore del busto»: un'altra parola, non quella cercata.",
 				"cerotto": "«cerotto» vuol dire «piccola protezione adesiva per una ferita»: un'altra parola, non quella cercata.",
 				"occhio": "«occhio» vuol dire «organo con cui si vede»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-corpo-salute-appuntamento-147",
@@ -3109,7 +3256,8 @@
 				"ginocchio": "«ginocchio» vuol dire «articolazione della gamba»: un'altra parola, non quella cercata.",
 				"schiena": "«schiena» vuol dire «parte posteriore del busto»: un'altra parola, non quella cercata.",
 				"cerotto": "«cerotto» vuol dire «piccola protezione adesiva per una ferita»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-corpo-salute-stanco-148",
@@ -3130,7 +3278,8 @@
 				"riposo": "«riposo» vuol dire «non attivo o in pausa»: un'altra parola, non quella cercata.",
 				"malato": "«malato» vuol dire «non in buona salute»: un'altra parola, non quella cercata.",
 				"sano": "«sano» vuol dire «in buona salute»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-corpo-salute-sano-149",
@@ -3151,7 +3300,8 @@
 				"riposo": "«riposo» vuol dire «non attivo o in pausa»: un'altra parola, non quella cercata.",
 				"stanco": "«stanco» vuol dire «con poca energia»: un'altra parola, non quella cercata.",
 				"idratato": "«idratato» vuol dire «con abbastanza acqua nel corpo»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-corpo-salute-malato-150",
@@ -3172,7 +3322,8 @@
 				"idratato": "«idratato» vuol dire «con abbastanza acqua nel corpo»: un'altra parola, non quella cercata.",
 				"prudente": "«prudente» vuol dire «che evita rischi inutili»: un'altra parola, non quella cercata.",
 				"riposo": "«riposo» vuol dire «non attivo o in pausa»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-corpo-salute-dolorante-151",
@@ -3193,7 +3344,8 @@
 				"prudente": "«prudente» vuol dire «che evita rischi inutili»: un'altra parola, non quella cercata.",
 				"idratato": "«idratato» vuol dire «con abbastanza acqua nel corpo»: un'altra parola, non quella cercata.",
 				"allergico": "«allergico» vuol dire «sensibile a una sostanza»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-corpo-salute-allergico-152",
@@ -3214,7 +3366,8 @@
 				"idratato": "«idratato» vuol dire «con abbastanza acqua nel corpo»: un'altra parola, non quella cercata.",
 				"prudente": "«prudente» vuol dire «che evita rischi inutili»: un'altra parola, non quella cercata.",
 				"dolorante": "«dolorante» vuol dire «che provoca o sente dolore»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-corpo-salute-prudente-153",
@@ -3235,7 +3388,8 @@
 				"dolorante": "«dolorante» vuol dire «che provoca o sente dolore»: un'altra parola, non quella cercata.",
 				"stanco": "«stanco» vuol dire «con poca energia»: un'altra parola, non quella cercata.",
 				"idratato": "«idratato» vuol dire «con abbastanza acqua nel corpo»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-corpo-salute-idratato-154",
@@ -3256,7 +3410,8 @@
 				"allergico": "«allergico» vuol dire «sensibile a una sostanza»: un'altra parola, non quella cercata.",
 				"malato": "«malato» vuol dire «non in buona salute»: un'altra parola, non quella cercata.",
 				"dolorante": "«dolorante» vuol dire «che provoca o sente dolore»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-corpo-salute-riposo-155",
@@ -3277,7 +3432,8 @@
 				"malato": "«malato» vuol dire «non in buona salute»: un'altra parola, non quella cercata.",
 				"stanco": "«stanco» vuol dire «con poca energia»: un'altra parola, non quella cercata.",
 				"sano": "«sano» vuol dire «in buona salute»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-emozioni-relazioni-gioia-156",
@@ -3298,7 +3454,8 @@
 				"rabbia": "«rabbia» vuol dire «emozione di forte irritazione»: un'altra parola, non quella cercata.",
 				"nostalgia": "«nostalgia» vuol dire «rimpianto affettuoso per ciò che è passato»: un'altra parola, non quella cercata.",
 				"scusa": "«scusa» vuol dire «parola o gesto per riconoscere un errore»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-emozioni-relazioni-tristezza-157",
@@ -3319,7 +3476,8 @@
 				"nostalgia": "«nostalgia» vuol dire «rimpianto affettuoso per ciò che è passato»: un'altra parola, non quella cercata.",
 				"gentilezza": "«gentilezza» vuol dire «modo cortese di trattare qualcuno»: un'altra parola, non quella cercata.",
 				"fiducia": "«fiducia» vuol dire «sicurezza verso qualcuno o qualcosa»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-emozioni-relazioni-rabbia-158",
@@ -3340,7 +3498,8 @@
 				"paura": "«paura» vuol dire «emozione davanti a un pericolo»: un'altra parola, non quella cercata.",
 				"rimpianto": "«rimpianto» vuol dire «dispiacere per qualcosa che non si è fatto»: un'altra parola, non quella cercata.",
 				"sorpresa": "«sorpresa» vuol dire «reazione a qualcosa di inatteso»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-emozioni-relazioni-paura-159",
@@ -3361,7 +3520,8 @@
 				"fiducia": "«fiducia» vuol dire «sicurezza verso qualcuno o qualcosa»: un'altra parola, non quella cercata.",
 				"empatia": "«empatia» vuol dire «capacità di sentire ciò che prova un altro»: un'altra parola, non quella cercata.",
 				"sorpresa": "«sorpresa» vuol dire «reazione a qualcosa di inatteso»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-emozioni-relazioni-sorpresa-160",
@@ -3382,7 +3542,8 @@
 				"malinconia": "«malinconia» vuol dire «tristezza dolce e senza una causa precisa»: un'altra parola, non quella cercata.",
 				"gentilezza": "«gentilezza» vuol dire «modo cortese di trattare qualcuno»: un'altra parola, non quella cercata.",
 				"nostalgia": "«nostalgia» vuol dire «rimpianto affettuoso per ciò che è passato»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-emozioni-relazioni-fiducia-161",
@@ -3403,7 +3564,8 @@
 				"promessa": "«promessa» vuol dire «impegno a fare qualcosa»: un'altra parola, non quella cercata.",
 				"empatia": "«empatia» vuol dire «capacità di sentire ciò che prova un altro»: un'altra parola, non quella cercata.",
 				"gioia": "«gioia» vuol dire «emozione positiva e intensa»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-emozioni-relazioni-rispetto-162",
@@ -3424,7 +3586,8 @@
 				"rimpianto": "«rimpianto» vuol dire «dispiacere per qualcosa che non si è fatto»: un'altra parola, non quella cercata.",
 				"fiducia": "«fiducia» vuol dire «sicurezza verso qualcuno o qualcosa»: un'altra parola, non quella cercata.",
 				"tristezza": "«tristezza» vuol dire «emozione legata a perdita o delusione»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-emozioni-relazioni-gentilezza-163",
@@ -3445,7 +3608,8 @@
 				"nostalgia": "«nostalgia» vuol dire «rimpianto affettuoso per ciò che è passato»: un'altra parola, non quella cercata.",
 				"tristezza": "«tristezza» vuol dire «emozione legata a perdita o delusione»: un'altra parola, non quella cercata.",
 				"tenerezza": "«tenerezza» vuol dire «affetto delicato e protettivo»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-emozioni-relazioni-collaborazione-164",
@@ -3466,7 +3630,8 @@
 				"risentimento": "«risentimento» vuol dire «rancore trattenuto per un torto subito»: un'altra parola, non quella cercata.",
 				"disaccordo": "«disaccordo» vuol dire «mancanza di accordo»: un'altra parola, non quella cercata.",
 				"malinconia": "«malinconia» vuol dire «tristezza dolce e senza una causa precisa»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-emozioni-relazioni-disaccordo-165",
@@ -3487,7 +3652,8 @@
 				"risentimento": "«risentimento» vuol dire «rancore trattenuto per un torto subito»: un'altra parola, non quella cercata.",
 				"ambivalenza": "«ambivalenza» vuol dire «presenza di sentimenti opposti insieme»: un'altra parola, non quella cercata.",
 				"sorpresa": "«sorpresa» vuol dire «reazione a qualcosa di inatteso»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-emozioni-relazioni-promessa-166",
@@ -3508,7 +3674,8 @@
 				"tristezza": "«tristezza» vuol dire «emozione legata a perdita o delusione»: un'altra parola, non quella cercata.",
 				"nostalgia": "«nostalgia» vuol dire «rimpianto affettuoso per ciò che è passato»: un'altra parola, non quella cercata.",
 				"gentilezza": "«gentilezza» vuol dire «modo cortese di trattare qualcuno»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-emozioni-relazioni-scusa-167",
@@ -3529,7 +3696,8 @@
 				"tristezza": "«tristezza» vuol dire «emozione legata a perdita o delusione»: un'altra parola, non quella cercata.",
 				"fiducia": "«fiducia» vuol dire «sicurezza verso qualcuno o qualcosa»: un'altra parola, non quella cercata.",
 				"rimpianto": "«rimpianto» vuol dire «dispiacere per qualcosa che non si è fatto»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-emozioni-relazioni-felice-168",
@@ -3550,7 +3718,8 @@
 				"paziente": "«paziente» vuol dire «capace di aspettare senza agitarsi»: un'altra parola, non quella cercata.",
 				"triste": "«triste» vuol dire «che prova dispiacere o malinconia»: un'altra parola, non quella cercata.",
 				"timido": "«timido» vuol dire «che si espone con difficoltà»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-emozioni-relazioni-triste-169",
@@ -3571,7 +3740,8 @@
 				"sereno": "«sereno» vuol dire «calmo e tranquillo»: un'altra parola, non quella cercata.",
 				"paziente": "«paziente» vuol dire «capace di aspettare senza agitarsi»: un'altra parola, non quella cercata.",
 				"leale": "«leale» vuol dire «fedele e corretto verso gli altri»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-emozioni-relazioni-preoccupato-170",
@@ -3592,7 +3762,8 @@
 				"impulsivo": "«impulsivo» vuol dire «che agisce senza riflettere abbastanza»: un'altra parola, non quella cercata.",
 				"coraggioso": "«coraggioso» vuol dire «che affronta una difficoltà»: un'altra parola, non quella cercata.",
 				"timido": "«timido» vuol dire «che si espone con difficoltà»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-emozioni-relazioni-arrabbiato-171",
@@ -3613,7 +3784,8 @@
 				"preoccupato": "«preoccupato» vuol dire «che teme un problema»: un'altra parola, non quella cercata.",
 				"timido": "«timido» vuol dire «che si espone con difficoltà»: un'altra parola, non quella cercata.",
 				"coraggioso": "«coraggioso» vuol dire «che affronta una difficoltà»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-emozioni-relazioni-sereno-172",
@@ -3634,7 +3806,8 @@
 				"leale": "«leale» vuol dire «fedele e corretto verso gli altri»: un'altra parola, non quella cercata.",
 				"timido": "«timido» vuol dire «che si espone con difficoltà»: un'altra parola, non quella cercata.",
 				"triste": "«triste» vuol dire «che prova dispiacere o malinconia»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-emozioni-relazioni-timido-173",
@@ -3655,7 +3828,8 @@
 				"triste": "«triste» vuol dire «che prova dispiacere o malinconia»: un'altra parola, non quella cercata.",
 				"paziente": "«paziente» vuol dire «capace di aspettare senza agitarsi»: un'altra parola, non quella cercata.",
 				"felice": "«felice» vuol dire «che prova gioia»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-emozioni-relazioni-coraggioso-174",
@@ -3676,7 +3850,8 @@
 				"preoccupato": "«preoccupato» vuol dire «che teme un problema»: un'altra parola, non quella cercata.",
 				"paziente": "«paziente» vuol dire «capace di aspettare senza agitarsi»: un'altra parola, non quella cercata.",
 				"impulsivo": "«impulsivo» vuol dire «che agisce senza riflettere abbastanza»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-emozioni-relazioni-leale-175",
@@ -3697,7 +3872,8 @@
 				"felice": "«felice» vuol dire «che prova gioia»: un'altra parola, non quella cercata.",
 				"sereno": "«sereno» vuol dire «calmo e tranquillo»: un'altra parola, non quella cercata.",
 				"paziente": "«paziente» vuol dire «capace di aspettare senza agitarsi»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-emozioni-relazioni-paziente-176",
@@ -3718,7 +3894,8 @@
 				"felice": "«felice» vuol dire «che prova gioia»: un'altra parola, non quella cercata.",
 				"coraggioso": "«coraggioso» vuol dire «che affronta una difficoltà»: un'altra parola, non quella cercata.",
 				"triste": "«triste» vuol dire «che prova dispiacere o malinconia»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-emozioni-relazioni-impulsivo-177",
@@ -3739,7 +3916,8 @@
 				"coraggioso": "«coraggioso» vuol dire «che affronta una difficoltà»: un'altra parola, non quella cercata.",
 				"arrabbiato": "«arrabbiato» vuol dire «che prova rabbia»: un'altra parola, non quella cercata.",
 				"preoccupato": "«preoccupato» vuol dire «che teme un problema»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-digitale-media-telefono-178",
@@ -3760,7 +3938,8 @@
 				"notifica": "«notifica» vuol dire «avviso mostrato da un'app»: un'altra parola, non quella cercata.",
 				"ricerca": "«ricerca» vuol dire «azione di cercare informazioni»: un'altra parola, non quella cercata.",
 				"allegato": "«allegato» vuol dire «file aggiunto a un messaggio»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-digitale-media-computer-179",
@@ -3781,7 +3960,8 @@
 				"notifica": "«notifica» vuol dire «avviso mostrato da un'app»: un'altra parola, non quella cercata.",
 				"cartella": "«cartella» vuol dire «spazio in cui organizzare file»: un'altra parola, non quella cercata.",
 				"password": "«password» vuol dire «parola segreta per accedere»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-digitale-media-tablet-180",
@@ -3802,7 +3982,8 @@
 				"privacy": "«privacy» vuol dire «protezione dei dati personali»: un'altra parola, non quella cercata.",
 				"ricerca": "«ricerca» vuol dire «azione di cercare informazioni»: un'altra parola, non quella cercata.",
 				"profilo": "«profilo» vuol dire «spazio personale in un servizio digitale»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-digitale-media-app-181",
@@ -3823,7 +4004,8 @@
 				"tablet": "«tablet» vuol dire «dispositivo portatile con schermo tattile»: un'altra parola, non quella cercata.",
 				"schermo": "«schermo» vuol dire «superficie che mostra immagini o testi»: un'altra parola, non quella cercata.",
 				"telefono": "«telefono» vuol dire «dispositivo per chiamare e comunicare»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-digitale-media-password-182",
@@ -3844,7 +4026,8 @@
 				"cartella": "«cartella» vuol dire «spazio in cui organizzare file»: un'altra parola, non quella cercata.",
 				"profilo": "«profilo» vuol dire «spazio personale in un servizio digitale»: un'altra parola, non quella cercata.",
 				"telefono": "«telefono» vuol dire «dispositivo per chiamare e comunicare»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-digitale-media-profilo-183",
@@ -3865,7 +4048,8 @@
 				"privacy": "«privacy» vuol dire «protezione dei dati personali»: un'altra parola, non quella cercata.",
 				"cartella": "«cartella» vuol dire «spazio in cui organizzare file»: un'altra parola, non quella cercata.",
 				"telefono": "«telefono» vuol dire «dispositivo per chiamare e comunicare»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-digitale-media-messaggio-184",
@@ -3886,7 +4070,8 @@
 				"schermo": "«schermo» vuol dire «superficie che mostra immagini o testi»: un'altra parola, non quella cercata.",
 				"tastiera": "«tastiera» vuol dire «insieme di tasti per scrivere»: un'altra parola, non quella cercata.",
 				"cartella": "«cartella» vuol dire «spazio in cui organizzare file»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-digitale-media-notifica-185",
@@ -3907,7 +4092,8 @@
 				"tastiera": "«tastiera» vuol dire «insieme di tasti per scrivere»: un'altra parola, non quella cercata.",
 				"telefono": "«telefono» vuol dire «dispositivo per chiamare e comunicare»: un'altra parola, non quella cercata.",
 				"allegato": "«allegato» vuol dire «file aggiunto a un messaggio»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-digitale-media-allegato-186",
@@ -3928,7 +4114,8 @@
 				"ricerca": "«ricerca» vuol dire «azione di cercare informazioni»: un'altra parola, non quella cercata.",
 				"notifica": "«notifica» vuol dire «avviso mostrato da un'app»: un'altra parola, non quella cercata.",
 				"telefono": "«telefono» vuol dire «dispositivo per chiamare e comunicare»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-digitale-media-cartella-187",
@@ -3949,7 +4136,8 @@
 				"notifica": "«notifica» vuol dire «avviso mostrato da un'app»: un'altra parola, non quella cercata.",
 				"tastiera": "«tastiera» vuol dire «insieme di tasti per scrivere»: un'altra parola, non quella cercata.",
 				"allegato": "«allegato» vuol dire «file aggiunto a un messaggio»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-digitale-media-schermo-188",
@@ -3970,7 +4158,8 @@
 				"profilo": "«profilo» vuol dire «spazio personale in un servizio digitale»: un'altra parola, non quella cercata.",
 				"password": "«password» vuol dire «parola segreta per accedere»: un'altra parola, non quella cercata.",
 				"tastiera": "«tastiera» vuol dire «insieme di tasti per scrivere»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-digitale-media-tastiera-189",
@@ -3991,7 +4180,8 @@
 				"telefono": "«telefono» vuol dire «dispositivo per chiamare e comunicare»: un'altra parola, non quella cercata.",
 				"allegato": "«allegato» vuol dire «file aggiunto a un messaggio»: un'altra parola, non quella cercata.",
 				"schermo": "«schermo» vuol dire «superficie che mostra immagini o testi»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-digitale-media-ricerca-190",
@@ -4012,7 +4202,8 @@
 				"password": "«password» vuol dire «parola segreta per accedere»: un'altra parola, non quella cercata.",
 				"profilo": "«profilo» vuol dire «spazio personale in un servizio digitale»: un'altra parola, non quella cercata.",
 				"privacy": "«privacy» vuol dire «protezione dei dati personali»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-digitale-media-link-191",
@@ -4033,7 +4224,8 @@
 				"ricerca": "«ricerca» vuol dire «azione di cercare informazioni»: un'altra parola, non quella cercata.",
 				"privacy": "«privacy» vuol dire «protezione dei dati personali»: un'altra parola, non quella cercata.",
 				"schermo": "«schermo» vuol dire «superficie che mostra immagini o testi»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-digitale-media-fonte-192",
@@ -4054,7 +4246,8 @@
 				"privacy": "«privacy» vuol dire «protezione dei dati personali»: un'altra parola, non quella cercata.",
 				"link": "«link» vuol dire «collegamento a una pagina o risorsa»: un'altra parola, non quella cercata.",
 				"tablet": "«tablet» vuol dire «dispositivo portatile con schermo tattile»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-digitale-media-privacy-193",
@@ -4075,7 +4268,8 @@
 				"schermo": "«schermo» vuol dire «superficie che mostra immagini o testi»: un'altra parola, non quella cercata.",
 				"ricerca": "«ricerca» vuol dire «azione di cercare informazioni»: un'altra parola, non quella cercata.",
 				"telefono": "«telefono» vuol dire «dispositivo per chiamare e comunicare»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-digitale-media-salvare-194",
@@ -4096,7 +4290,8 @@
 				"caricare": "«caricare» vuol dire «inviare un file online o fornire energia»: un'altra parola, non quella cercata.",
 				"inoltrare": "«inoltrare» vuol dire «mandare a un'altra persona un messaggio ricevuto»: un'altra parola, non quella cercata.",
 				"bloccare": "«bloccare» vuol dire «impedire un accesso o un'azione»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-digitale-media-caricare-195",
@@ -4117,7 +4312,8 @@
 				"salvare": "«salvare» vuol dire «conservare un file o un dato»: un'altra parola, non quella cercata.",
 				"scaricare": "«scaricare» vuol dire «ricevere un file da internet»: un'altra parola, non quella cercata.",
 				"inoltrare": "«inoltrare» vuol dire «mandare a un'altra persona un messaggio ricevuto»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-digitale-media-scaricare-196",
@@ -4138,7 +4334,8 @@
 				"caricare": "«caricare» vuol dire «inviare un file online o fornire energia»: un'altra parola, non quella cercata.",
 				"aggiornare": "«aggiornare» vuol dire «portare alla versione più recente»: un'altra parola, non quella cercata.",
 				"proteggere": "«proteggere» vuol dire «mettere al sicuro da rischi»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-digitale-media-condividere-197",
@@ -4159,7 +4356,8 @@
 				"aggiornare": "«aggiornare» vuol dire «portare alla versione più recente»: un'altra parola, non quella cercata.",
 				"proteggere": "«proteggere» vuol dire «mettere al sicuro da rischi»: un'altra parola, non quella cercata.",
 				"scaricare": "«scaricare» vuol dire «ricevere un file da internet»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-digitale-media-inoltrare-198",
@@ -4180,7 +4378,8 @@
 				"proteggere": "«proteggere» vuol dire «mettere al sicuro da rischi»: un'altra parola, non quella cercata.",
 				"bloccare": "«bloccare» vuol dire «impedire un accesso o un'azione»: un'altra parola, non quella cercata.",
 				"aggiornare": "«aggiornare» vuol dire «portare alla versione più recente»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-digitale-media-aggiornare-199",
@@ -4201,7 +4400,8 @@
 				"condividere": "«condividere» vuol dire «mettere qualcosa a disposizione di altri»: un'altra parola, non quella cercata.",
 				"inoltrare": "«inoltrare» vuol dire «mandare a un'altra persona un messaggio ricevuto»: un'altra parola, non quella cercata.",
 				"scaricare": "«scaricare» vuol dire «ricevere un file da internet»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-digitale-media-bloccare-200",
@@ -4222,7 +4422,8 @@
 				"salvare": "«salvare» vuol dire «conservare un file o un dato»: un'altra parola, non quella cercata.",
 				"inoltrare": "«inoltrare» vuol dire «mandare a un'altra persona un messaggio ricevuto»: un'altra parola, non quella cercata.",
 				"caricare": "«caricare» vuol dire «inviare un file online o fornire energia»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-digitale-media-proteggere-201",
@@ -4243,7 +4444,8 @@
 				"scaricare": "«scaricare» vuol dire «ricevere un file da internet»: un'altra parola, non quella cercata.",
 				"condividere": "«condividere» vuol dire «mettere qualcosa a disposizione di altri»: un'altra parola, non quella cercata.",
 				"aggiornare": "«aggiornare» vuol dire «portare alla versione più recente»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-lavoro-comunita-mestiere-202",
@@ -4264,7 +4466,8 @@
 				"collega": "«collega» vuol dire «persona con cui si lavora»: un'altra parola, non quella cercata.",
 				"comunità": "«comunità» vuol dire «gruppo di persone legate da luogo o scopo»: un'altra parola, non quella cercata.",
 				"ufficio": "«ufficio» vuol dire «luogo in cui si lavora con documenti o servizi»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-lavoro-comunita-collega-203",
@@ -4285,7 +4488,8 @@
 				"diritto": "«diritto» vuol dire «cosa che una persona può pretendere giustamente»: un'altra parola, non quella cercata.",
 				"negozio": "«negozio» vuol dire «luogo in cui si vendono prodotti»: un'altra parola, non quella cercata.",
 				"mestiere": "«mestiere» vuol dire «attività lavorativa abituale»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-lavoro-comunita-turno-204",
@@ -4306,7 +4510,8 @@
 				"collega": "«collega» vuol dire «persona con cui si lavora»: un'altra parola, non quella cercata.",
 				"negozio": "«negozio» vuol dire «luogo in cui si vendono prodotti»: un'altra parola, non quella cercata.",
 				"ufficio": "«ufficio» vuol dire «luogo in cui si lavora con documenti o servizi»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-lavoro-comunita-responsabile-205",
@@ -4327,7 +4532,8 @@
 				"ufficio": "«ufficio» vuol dire «luogo in cui si lavora con documenti o servizi»: un'altra parola, non quella cercata.",
 				"comunità": "«comunità» vuol dire «gruppo di persone legate da luogo o scopo»: un'altra parola, non quella cercata.",
 				"negozio": "«negozio» vuol dire «luogo in cui si vendono prodotti»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-lavoro-comunita-cliente-206",
@@ -4348,7 +4554,8 @@
 				"comunità": "«comunità» vuol dire «gruppo di persone legate da luogo o scopo»: un'altra parola, non quella cercata.",
 				"regola": "«regola» vuol dire «norma che stabilisce come giocare»: un'altra parola, non quella cercata.",
 				"ufficio": "«ufficio» vuol dire «luogo in cui si lavora con documenti o servizi»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-lavoro-comunita-servizio-207",
@@ -4369,7 +4576,8 @@
 				"mestiere": "«mestiere» vuol dire «attività lavorativa abituale»: un'altra parola, non quella cercata.",
 				"negozio": "«negozio» vuol dire «luogo in cui si vendono prodotti»: un'altra parola, non quella cercata.",
 				"cliente": "«cliente» vuol dire «persona che compra o riceve un servizio»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-lavoro-comunita-ufficio-208",
@@ -4390,7 +4598,8 @@
 				"negozio": "«negozio» vuol dire «luogo in cui si vendono prodotti»: un'altra parola, non quella cercata.",
 				"diritto": "«diritto» vuol dire «cosa che una persona può pretendere giustamente»: un'altra parola, non quella cercata.",
 				"collega": "«collega» vuol dire «persona con cui si lavora»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-lavoro-comunita-negozio-209",
@@ -4411,7 +4620,8 @@
 				"collega": "«collega» vuol dire «persona con cui si lavora»: un'altra parola, non quella cercata.",
 				"diritto": "«diritto» vuol dire «cosa che una persona può pretendere giustamente»: un'altra parola, non quella cercata.",
 				"servizio": "«servizio» vuol dire «attività svolta per aiutare o rispondere a un bisogno»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-lavoro-comunita-posta-210",
@@ -4432,7 +4642,8 @@
 				"dovere": "«dovere» vuol dire «azione che una persona deve compiere»: un'altra parola, non quella cercata.",
 				"diritto": "«diritto» vuol dire «cosa che una persona può pretendere giustamente»: un'altra parola, non quella cercata.",
 				"turno": "«turno» vuol dire «periodo di lavoro assegnato»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-lavoro-comunita-regola-211",
@@ -4453,7 +4664,8 @@
 				"dovere": "«dovere» vuol dire «azione che una persona deve compiere»: un'altra parola, non quella cercata.",
 				"ufficio": "«ufficio» vuol dire «luogo in cui si lavora con documenti o servizi»: un'altra parola, non quella cercata.",
 				"posta": "«posta» vuol dire «servizio per inviare lettere e pacchi»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-lavoro-comunita-diritto-212",
@@ -4474,7 +4686,8 @@
 				"regola": "«regola» vuol dire «norma che stabilisce come giocare»: un'altra parola, non quella cercata.",
 				"ufficio": "«ufficio» vuol dire «luogo in cui si lavora con documenti o servizi»: un'altra parola, non quella cercata.",
 				"comunità": "«comunità» vuol dire «gruppo di persone legate da luogo o scopo»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-lavoro-comunita-dovere-213",
@@ -4495,7 +4708,8 @@
 				"regola": "«regola» vuol dire «norma che stabilisce come giocare»: un'altra parola, non quella cercata.",
 				"cliente": "«cliente» vuol dire «persona che compra o riceve un servizio»: un'altra parola, non quella cercata.",
 				"posta": "«posta» vuol dire «servizio per inviare lettere e pacchi»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-lavoro-comunita-volontario-214",
@@ -4516,7 +4730,8 @@
 				"diritto": "«diritto» vuol dire «cosa che una persona può pretendere giustamente»: un'altra parola, non quella cercata.",
 				"servizio": "«servizio» vuol dire «attività svolta per aiutare o rispondere a un bisogno»: un'altra parola, non quella cercata.",
 				"collega": "«collega» vuol dire «persona con cui si lavora»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-lavoro-comunita-comunita-215",
@@ -4537,7 +4752,8 @@
 				"cliente": "«cliente» vuol dire «persona che compra o riceve un servizio»: un'altra parola, non quella cercata.",
 				"negozio": "«negozio» vuol dire «luogo in cui si vendono prodotti»: un'altra parola, non quella cercata.",
 				"collega": "«collega» vuol dire «persona con cui si lavora»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-lavoro-comunita-responsabile-216",
@@ -4558,7 +4774,8 @@
 				"affidabile": "«affidabile» vuol dire «di cui ci si può fidare»: un'altra parola, non quella cercata.",
 				"privato": "«privato» vuol dire «personale o non pubblico»: un'altra parola, non quella cercata.",
 				"disponibile": "«disponibile» vuol dire «pronto ad aiutare o utilizzabile»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-lavoro-comunita-affidabile-217",
@@ -4579,7 +4796,8 @@
 				"urgente": "«urgente» vuol dire «che va fatto presto»: un'altra parola, non quella cercata.",
 				"responsabile": "«responsabile» vuol dire «che agisce pensando alle conseguenze»: un'altra parola, non quella cercata.",
 				"disponibile": "«disponibile» vuol dire «pronto ad aiutare o utilizzabile»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-lavoro-comunita-pubblico-218",
@@ -4600,7 +4818,8 @@
 				"disponibile": "«disponibile» vuol dire «pronto ad aiutare o utilizzabile»: un'altra parola, non quella cercata.",
 				"privato": "«privato» vuol dire «personale o non pubblico»: un'altra parola, non quella cercata.",
 				"affidabile": "«affidabile» vuol dire «di cui ci si può fidare»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-lavoro-comunita-privato-219",
@@ -4621,7 +4840,8 @@
 				"urgente": "«urgente» vuol dire «che va fatto presto»: un'altra parola, non quella cercata.",
 				"disponibile": "«disponibile» vuol dire «pronto ad aiutare o utilizzabile»: un'altra parola, non quella cercata.",
 				"pubblico": "«pubblico» vuol dire «aperto o appartenente alla comunità»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-lavoro-comunita-urgente-220",
@@ -4642,7 +4862,8 @@
 				"disponibile": "«disponibile» vuol dire «pronto ad aiutare o utilizzabile»: un'altra parola, non quella cercata.",
 				"privato": "«privato» vuol dire «personale o non pubblico»: un'altra parola, non quella cercata.",
 				"affidabile": "«affidabile» vuol dire «di cui ci si può fidare»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-lavoro-comunita-disponibile-221",
@@ -4663,7 +4884,8 @@
 				"urgente": "«urgente» vuol dire «che va fatto presto»: un'altra parola, non quella cercata.",
 				"pubblico": "«pubblico» vuol dire «aperto o appartenente alla comunità»: un'altra parola, non quella cercata.",
 				"affidabile": "«affidabile» vuol dire «di cui ci si può fidare»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-sport-tempo-libero-allenamento-222",
@@ -4684,7 +4906,8 @@
 				"arbitro": "«arbitro» vuol dire «persona che controlla una gara»: un'altra parola, non quella cercata.",
 				"piscina": "«piscina» vuol dire «luogo in cui si nuota»: un'altra parola, non quella cercata.",
 				"palestra": "«palestra» vuol dire «luogo in cui ci si allena»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-sport-tempo-libero-squadra-223",
@@ -4705,7 +4928,8 @@
 				"arbitro": "«arbitro» vuol dire «persona che controlla una gara»: un'altra parola, non quella cercata.",
 				"regola": "«regola» vuol dire «norma che stabilisce come giocare»: un'altra parola, non quella cercata.",
 				"piscina": "«piscina» vuol dire «luogo in cui si nuota»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-sport-tempo-libero-partita-224",
@@ -4726,7 +4950,8 @@
 				"arbitro": "«arbitro» vuol dire «persona che controlla una gara»: un'altra parola, non quella cercata.",
 				"squadra": "«squadra» vuol dire «gruppo che gioca o lavora insieme»: un'altra parola, non quella cercata.",
 				"fumetto": "«fumetto» vuol dire «storia raccontata con disegni e parole»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-sport-tempo-libero-punteggio-225",
@@ -4747,7 +4972,8 @@
 				"bicicletta": "«bicicletta» vuol dire «mezzo a due ruote mosso pedalando»: un'altra parola, non quella cercata.",
 				"passeggiata": "«passeggiata» vuol dire «camminata fatta per piacere o salute»: un'altra parola, non quella cercata.",
 				"palestra": "«palestra» vuol dire «luogo in cui ci si allena»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-sport-tempo-libero-regola-226",
@@ -4768,7 +4994,8 @@
 				"squadra": "«squadra» vuol dire «gruppo che gioca o lavora insieme»: un'altra parola, non quella cercata.",
 				"canzone": "«canzone» vuol dire «brano musicale cantato»: un'altra parola, non quella cercata.",
 				"partita": "«partita» vuol dire «gara tra due squadre o persone»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-sport-tempo-libero-arbitro-227",
@@ -4789,7 +5016,8 @@
 				"canzone": "«canzone» vuol dire «brano musicale cantato»: un'altra parola, non quella cercata.",
 				"romanzo": "«romanzo» vuol dire «libro narrativo lungo»: un'altra parola, non quella cercata.",
 				"squadra": "«squadra» vuol dire «gruppo che gioca o lavora insieme»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-sport-tempo-libero-palestra-228",
@@ -4810,7 +5038,8 @@
 				"canzone": "«canzone» vuol dire «brano musicale cantato»: un'altra parola, non quella cercata.",
 				"squadra": "«squadra» vuol dire «gruppo che gioca o lavora insieme»: un'altra parola, non quella cercata.",
 				"fumetto": "«fumetto» vuol dire «storia raccontata con disegni e parole»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-sport-tempo-libero-piscina-229",
@@ -4831,7 +5060,8 @@
 				"partita": "«partita» vuol dire «gara tra due squadre o persone»: un'altra parola, non quella cercata.",
 				"arbitro": "«arbitro» vuol dire «persona che controlla una gara»: un'altra parola, non quella cercata.",
 				"fumetto": "«fumetto» vuol dire «storia raccontata con disegni e parole»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-sport-tempo-libero-bicicletta-230",
@@ -4852,7 +5082,8 @@
 				"passeggiata": "«passeggiata» vuol dire «camminata fatta per piacere o salute»: un'altra parola, non quella cercata.",
 				"arbitro": "«arbitro» vuol dire «persona che controlla una gara»: un'altra parola, non quella cercata.",
 				"partita": "«partita» vuol dire «gara tra due squadre o persone»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-sport-tempo-libero-passeggiata-231",
@@ -4873,7 +5104,8 @@
 				"canzone": "«canzone» vuol dire «brano musicale cantato»: un'altra parola, non quella cercata.",
 				"palestra": "«palestra» vuol dire «luogo in cui ci si allena»: un'altra parola, non quella cercata.",
 				"punteggio": "«punteggio» vuol dire «numero di punti ottenuti»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-sport-tempo-libero-film-232",
@@ -4894,7 +5126,8 @@
 				"canzone": "«canzone» vuol dire «brano musicale cantato»: un'altra parola, non quella cercata.",
 				"romanzo": "«romanzo» vuol dire «libro narrativo lungo»: un'altra parola, non quella cercata.",
 				"squadra": "«squadra» vuol dire «gruppo che gioca o lavora insieme»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-sport-tempo-libero-canzone-233",
@@ -4915,7 +5148,8 @@
 				"piscina": "«piscina» vuol dire «luogo in cui si nuota»: un'altra parola, non quella cercata.",
 				"arbitro": "«arbitro» vuol dire «persona che controlla una gara»: un'altra parola, non quella cercata.",
 				"partita": "«partita» vuol dire «gara tra due squadre o persone»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-sport-tempo-libero-romanzo-234",
@@ -4936,7 +5170,8 @@
 				"palestra": "«palestra» vuol dire «luogo in cui ci si allena»: un'altra parola, non quella cercata.",
 				"partita": "«partita» vuol dire «gara tra due squadre o persone»: un'altra parola, non quella cercata.",
 				"fumetto": "«fumetto» vuol dire «storia raccontata con disegni e parole»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-sport-tempo-libero-fumetto-235",
@@ -4957,7 +5192,8 @@
 				"palestra": "«palestra» vuol dire «luogo in cui ci si allena»: un'altra parola, non quella cercata.",
 				"romanzo": "«romanzo» vuol dire «libro narrativo lungo»: un'altra parola, non quella cercata.",
 				"squadra": "«squadra» vuol dire «gruppo che gioca o lavora insieme»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-sport-tempo-libero-allenarsi-236",
@@ -4978,7 +5214,8 @@
 				"disegnare": "«disegnare» vuol dire «rappresentare con linee o colori»: un'altra parola, non quella cercata.",
 				"vincere": "«vincere» vuol dire «ottenere il risultato migliore»: un'altra parola, non quella cercata.",
 				"correre": "«correre» vuol dire «muoversi velocemente a piedi»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-sport-tempo-libero-giocare-237",
@@ -4999,7 +5236,8 @@
 				"suonare": "«suonare» vuol dire «produrre musica con uno strumento»: un'altra parola, non quella cercata.",
 				"vincere": "«vincere» vuol dire «ottenere il risultato migliore»: un'altra parola, non quella cercata.",
 				"perdere": "«perdere» vuol dire «non vincere una gara»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-sport-tempo-libero-vincere-238",
@@ -5020,7 +5258,8 @@
 				"perdere": "«perdere» vuol dire «non vincere una gara»: un'altra parola, non quella cercata.",
 				"nuotare": "«nuotare» vuol dire «muoversi nell'acqua»: un'altra parola, non quella cercata.",
 				"suonare": "«suonare» vuol dire «produrre musica con uno strumento»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-sport-tempo-libero-perdere-239",
@@ -5041,7 +5280,8 @@
 				"nuotare": "«nuotare» vuol dire «muoversi nell'acqua»: un'altra parola, non quella cercata.",
 				"suonare": "«suonare» vuol dire «produrre musica con uno strumento»: un'altra parola, non quella cercata.",
 				"giocare": "«giocare» vuol dire «praticare un gioco o uno sport»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-sport-tempo-libero-nuotare-240",
@@ -5062,7 +5302,8 @@
 				"suonare": "«suonare» vuol dire «produrre musica con uno strumento»: un'altra parola, non quella cercata.",
 				"vincere": "«vincere» vuol dire «ottenere il risultato migliore»: un'altra parola, non quella cercata.",
 				"correre": "«correre» vuol dire «muoversi velocemente a piedi»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-sport-tempo-libero-correre-241",
@@ -5083,7 +5324,8 @@
 				"giocare": "«giocare» vuol dire «praticare un gioco o uno sport»: un'altra parola, non quella cercata.",
 				"perdere": "«perdere» vuol dire «non vincere una gara»: un'altra parola, non quella cercata.",
 				"nuotare": "«nuotare» vuol dire «muoversi nell'acqua»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-sport-tempo-libero-disegnare-242",
@@ -5104,7 +5346,8 @@
 				"perdere": "«perdere» vuol dire «non vincere una gara»: un'altra parola, non quella cercata.",
 				"correre": "«correre» vuol dire «muoversi velocemente a piedi»: un'altra parola, non quella cercata.",
 				"suonare": "«suonare» vuol dire «produrre musica con uno strumento»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-sport-tempo-libero-suonare-243",
@@ -5125,7 +5368,8 @@
 				"nuotare": "«nuotare» vuol dire «muoversi nell'acqua»: un'altra parola, non quella cercata.",
 				"giocare": "«giocare» vuol dire «praticare un gioco o uno sport»: un'altra parola, non quella cercata.",
 				"perdere": "«perdere» vuol dire «non vincere una gara»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-natura-ambiente-albero-244",
@@ -5146,7 +5390,8 @@
 				"risorsa": "«risorsa» vuol dire «mezzo utile ma non infinito»: un'altra parola, non quella cercata.",
 				"prato": "«prato» vuol dire «terreno coperto d'erba»: un'altra parola, non quella cercata.",
 				"fiore": "«fiore» vuol dire «parte colorata di molte piante»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-natura-ambiente-fiore-245",
@@ -5167,7 +5412,8 @@
 				"prato": "«prato» vuol dire «terreno coperto d'erba»: un'altra parola, non quella cercata.",
 				"fiume": "«fiume» vuol dire «corso d'acqua naturale»: un'altra parola, non quella cercata.",
 				"foglia": "«foglia» vuol dire «parte verde della pianta»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-natura-ambiente-foglia-246",
@@ -5188,7 +5434,8 @@
 				"prato": "«prato» vuol dire «terreno coperto d'erba»: un'altra parola, non quella cercata.",
 				"albero": "«albero» vuol dire «pianta con tronco e rami»: un'altra parola, non quella cercata.",
 				"fiume": "«fiume» vuol dire «corso d'acqua naturale»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-natura-ambiente-bosco-247",
@@ -5209,7 +5456,8 @@
 				"foglia": "«foglia» vuol dire «parte verde della pianta»: un'altra parola, non quella cercata.",
 				"fiume": "«fiume» vuol dire «corso d'acqua naturale»: un'altra parola, non quella cercata.",
 				"mare": "«mare» vuol dire «grande distesa d'acqua salata»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-natura-ambiente-prato-248",
@@ -5230,7 +5478,8 @@
 				"energia": "«energia» vuol dire «capacità di produrre movimento, calore o lavoro»: un'altra parola, non quella cercata.",
 				"foglia": "«foglia» vuol dire «parte verde della pianta»: un'altra parola, non quella cercata.",
 				"fiore": "«fiore» vuol dire «parte colorata di molte piante»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-natura-ambiente-fiume-249",
@@ -5251,7 +5500,8 @@
 				"albero": "«albero» vuol dire «pianta con tronco e rami»: un'altra parola, non quella cercata.",
 				"foglia": "«foglia» vuol dire «parte verde della pianta»: un'altra parola, non quella cercata.",
 				"mare": "«mare» vuol dire «grande distesa d'acqua salata»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-natura-ambiente-mare-250",
@@ -5272,7 +5522,8 @@
 				"albero": "«albero» vuol dire «pianta con tronco e rami»: un'altra parola, non quella cercata.",
 				"fiume": "«fiume» vuol dire «corso d'acqua naturale»: un'altra parola, non quella cercata.",
 				"prato": "«prato» vuol dire «terreno coperto d'erba»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-natura-ambiente-montagna-251",
@@ -5293,7 +5544,8 @@
 				"ambiente": "«ambiente» vuol dire «insieme dei luoghi e condizioni in cui viviamo»: un'altra parola, non quella cercata.",
 				"spiaggia": "«spiaggia» vuol dire «zona di sabbia o ciottoli vicino al mare»: un'altra parola, non quella cercata.",
 				"rifiuto": "«rifiuto» vuol dire «oggetto da buttare o riciclare»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-natura-ambiente-spiaggia-252",
@@ -5314,7 +5566,8 @@
 				"ambiente": "«ambiente» vuol dire «insieme dei luoghi e condizioni in cui viviamo»: un'altra parola, non quella cercata.",
 				"risorsa": "«risorsa» vuol dire «mezzo utile ma non infinito»: un'altra parola, non quella cercata.",
 				"rifiuto": "«rifiuto» vuol dire «oggetto da buttare o riciclare»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-natura-ambiente-rifiuto-253",
@@ -5335,7 +5588,8 @@
 				"ambiente": "«ambiente» vuol dire «insieme dei luoghi e condizioni in cui viviamo»: un'altra parola, non quella cercata.",
 				"albero": "«albero» vuol dire «pianta con tronco e rami»: un'altra parola, non quella cercata.",
 				"risorsa": "«risorsa» vuol dire «mezzo utile ma non infinito»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-natura-ambiente-raccolta-254",
@@ -5356,7 +5610,8 @@
 				"spiaggia": "«spiaggia» vuol dire «zona di sabbia o ciottoli vicino al mare»: un'altra parola, non quella cercata.",
 				"ambiente": "«ambiente» vuol dire «insieme dei luoghi e condizioni in cui viviamo»: un'altra parola, non quella cercata.",
 				"albero": "«albero» vuol dire «pianta con tronco e rami»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-natura-ambiente-energia-255",
@@ -5377,7 +5632,8 @@
 				"albero": "«albero» vuol dire «pianta con tronco e rami»: un'altra parola, non quella cercata.",
 				"montagna": "«montagna» vuol dire «rilievo alto del terreno»: un'altra parola, non quella cercata.",
 				"foglia": "«foglia» vuol dire «parte verde della pianta»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-natura-ambiente-risorsa-256",
@@ -5398,7 +5654,8 @@
 				"spiaggia": "«spiaggia» vuol dire «zona di sabbia o ciottoli vicino al mare»: un'altra parola, non quella cercata.",
 				"montagna": "«montagna» vuol dire «rilievo alto del terreno»: un'altra parola, non quella cercata.",
 				"foglia": "«foglia» vuol dire «parte verde della pianta»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-natura-ambiente-ambiente-257",
@@ -5419,7 +5676,8 @@
 				"spiaggia": "«spiaggia» vuol dire «zona di sabbia o ciottoli vicino al mare»: un'altra parola, non quella cercata.",
 				"albero": "«albero» vuol dire «pianta con tronco e rami»: un'altra parola, non quella cercata.",
 				"rifiuto": "«rifiuto» vuol dire «oggetto da buttare o riciclare»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-natura-ambiente-naturale-258",
@@ -5440,7 +5698,8 @@
 				"riciclabile": "«riciclabile» vuol dire «che può essere trasformato e riutilizzato»: un'altra parola, non quella cercata.",
 				"inquinato": "«inquinato» vuol dire «reso sporco o dannoso»: un'altra parola, non quella cercata.",
 				"sostenibile": "«sostenibile» vuol dire «che rispetta risorse e futuro»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-natura-ambiente-inquinato-259",
@@ -5461,7 +5720,8 @@
 				"sostenibile": "«sostenibile» vuol dire «che rispetta risorse e futuro»: un'altra parola, non quella cercata.",
 				"riciclabile": "«riciclabile» vuol dire «che può essere trasformato e riutilizzato»: un'altra parola, non quella cercata.",
 				"rinnovabile": "«rinnovabile» vuol dire «che si rigenera o non si esaurisce facilmente»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-natura-ambiente-riciclabile-260",
@@ -5482,7 +5742,8 @@
 				"naturale": "«naturale» vuol dire «che non è stato fatto dall'uomo»: un'altra parola, non quella cercata.",
 				"rinnovabile": "«rinnovabile» vuol dire «che si rigenera o non si esaurisce facilmente»: un'altra parola, non quella cercata.",
 				"sostenibile": "«sostenibile» vuol dire «che rispetta risorse e futuro»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-natura-ambiente-sostenibile-261",
@@ -5503,7 +5764,8 @@
 				"naturale": "«naturale» vuol dire «che non è stato fatto dall'uomo»: un'altra parola, non quella cercata.",
 				"riciclabile": "«riciclabile» vuol dire «che può essere trasformato e riutilizzato»: un'altra parola, non quella cercata.",
 				"inquinato": "«inquinato» vuol dire «reso sporco o dannoso»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-natura-ambiente-rinnovabile-262",
@@ -5524,7 +5786,8 @@
 				"sostenibile": "«sostenibile» vuol dire «che rispetta risorse e futuro»: un'altra parola, non quella cercata.",
 				"riciclabile": "«riciclabile» vuol dire «che può essere trasformato e riutilizzato»: un'altra parola, non quella cercata.",
 				"inquinato": "«inquinato» vuol dire «reso sporco o dannoso»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-natura-ambiente-secco-263",
@@ -5545,7 +5808,8 @@
 				"inquinato": "«inquinato» vuol dire «reso sporco o dannoso»: un'altra parola, non quella cercata.",
 				"riciclabile": "«riciclabile» vuol dire «che può essere trasformato e riutilizzato»: un'altra parola, non quella cercata.",
 				"naturale": "«naturale» vuol dire «che non è stato fatto dall'uomo»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-fatto-264",
@@ -5566,7 +5830,8 @@
 				"causa": "«causa» vuol dire «motivo per cui accade qualcosa»: un'altra parola, non quella cercata.",
 				"prova": "«prova» vuol dire «dato che sostiene una conclusione»: un'altra parola, non quella cercata.",
 				"effetto": "«effetto» vuol dire «conseguenza osservabile di una causa»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-opinione-265",
@@ -5587,7 +5852,8 @@
 				"paradosso": "«paradosso» vuol dire «affermazione che sembra contraddirsi ma ha un senso»: un'altra parola, non quella cercata.",
 				"coerenza": "«coerenza» vuol dire «accordo logico tra le parti di un testo»: un'altra parola, non quella cercata.",
 				"dettaglio": "«dettaglio» vuol dire «informazione piccola o secondaria»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-ipotesi-266",
@@ -5608,7 +5874,8 @@
 				"ironia": "«ironia» vuol dire «dire il contrario di ciò che si pensa, per far riflettere»: un'altra parola, non quella cercata.",
 				"analogia": "«analogia» vuol dire «somiglianza usata per spiegare un'idea»: un'altra parola, non quella cercata.",
 				"retorica": "«retorica» vuol dire «arte di usare il linguaggio per convincere»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-prova-267",
@@ -5629,7 +5896,8 @@
 				"retorica": "«retorica» vuol dire «arte di usare il linguaggio per convincere»: un'altra parola, non quella cercata.",
 				"causa": "«causa» vuol dire «motivo per cui accade qualcosa»: un'altra parola, non quella cercata.",
 				"opinione": "«opinione» vuol dire «giudizio personale»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-tesi-268",
@@ -5650,7 +5918,8 @@
 				"iperbole": "«iperbole» vuol dire «esagerazione voluta per dare enfasi»: un'altra parola, non quella cercata.",
 				"metafora": "«metafora» vuol dire «figura che trasferisce un significato per somiglianza»: un'altra parola, non quella cercata.",
 				"causa": "«causa» vuol dire «motivo per cui accade qualcosa»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-argomento-269",
@@ -5671,7 +5940,8 @@
 				"dettaglio": "«dettaglio» vuol dire «informazione piccola o secondaria»: un'altra parola, non quella cercata.",
 				"reticenza": "«reticenza» vuol dire «il tacere volutamente qualcosa»: un'altra parola, non quella cercata.",
 				"analogia": "«analogia» vuol dire «somiglianza usata per spiegare un'idea»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-causa-270",
@@ -5692,7 +5962,8 @@
 				"ironia": "«ironia» vuol dire «dire il contrario di ciò che si pensa, per far riflettere»: un'altra parola, non quella cercata.",
 				"registro": "«registro» vuol dire «modo di esprimersi adatto alla situazione»: un'altra parola, non quella cercata.",
 				"ipotesi": "«ipotesi» vuol dire «spiegazione possibile da verificare»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-effetto-271",
@@ -5713,7 +5984,8 @@
 				"opinione": "«opinione» vuol dire «giudizio personale»: un'altra parola, non quella cercata.",
 				"iperbole": "«iperbole» vuol dire «esagerazione voluta per dare enfasi»: un'altra parola, non quella cercata.",
 				"premessa": "«premessa» vuol dire «affermazione da cui parte un ragionamento»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-conclusione-272",
@@ -5734,7 +6006,8 @@
 				"reticenza": "«reticenza» vuol dire «il tacere volutamente qualcosa»: un'altra parola, non quella cercata.",
 				"connotazione": "«connotazione» vuol dire «significato affettivo o evocativo di una parola»: un'altra parola, non quella cercata.",
 				"presupposto": "«presupposto» vuol dire «ciò che si dà per scontato in un discorso»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-contraddizione-273",
@@ -5755,7 +6028,8 @@
 				"verosimiglianza": "«verosimiglianza» vuol dire «apparenza di verità in un racconto»: un'altra parola, non quella cercata.",
 				"sottotesto": "«sottotesto» vuol dire «significato nascosto sotto le parole»: un'altra parola, non quella cercata.",
 				"conclusione": "«conclusione» vuol dire «risultato di un ragionamento»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-ambiguita-274",
@@ -5776,7 +6050,8 @@
 				"metafora": "«metafora» vuol dire «figura che trasferisce un significato per somiglianza»: un'altra parola, non quella cercata.",
 				"allegoria": "«allegoria» vuol dire «racconto che rappresenta un'idea con immagini»: un'altra parola, non quella cercata.",
 				"sottotesto": "«sottotesto» vuol dire «significato nascosto sotto le parole»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-sintesi-275",
@@ -5797,7 +6072,8 @@
 				"ipotesi": "«ipotesi» vuol dire «spiegazione possibile da verificare»: un'altra parola, non quella cercata.",
 				"coerenza": "«coerenza» vuol dire «accordo logico tra le parti di un testo»: un'altra parola, non quella cercata.",
 				"effetto": "«effetto» vuol dire «conseguenza osservabile di una causa»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-dettaglio-276",
@@ -5818,7 +6094,8 @@
 				"ambiguità": "«ambiguità» vuol dire «possibilità di interpretare in più modi»: un'altra parola, non quella cercata.",
 				"iperbole": "«iperbole» vuol dire «esagerazione voluta per dare enfasi»: un'altra parola, non quella cercata.",
 				"eufemismo": "«eufemismo» vuol dire «parola più delicata al posto di una cruda»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-contesto-277",
@@ -5839,7 +6116,8 @@
 				"premessa": "«premessa» vuol dire «affermazione da cui parte un ragionamento»: un'altra parola, non quella cercata.",
 				"argomento": "«argomento» vuol dire «ragione usata per sostenere una tesi»: un'altra parola, non quella cercata.",
 				"coerenza": "«coerenza» vuol dire «accordo logico tra le parti di un testo»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-registro-278",
@@ -5860,7 +6138,8 @@
 				"iperbole": "«iperbole» vuol dire «esagerazione voluta per dare enfasi»: un'altra parola, non quella cercata.",
 				"contesto": "«contesto» vuol dire «situazione che aiuta a capire una frase»: un'altra parola, non quella cercata.",
 				"opinione": "«opinione» vuol dire «giudizio personale»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-coerenza-279",
@@ -5881,7 +6160,8 @@
 				"iperbole": "«iperbole» vuol dire «esagerazione voluta per dare enfasi»: un'altra parola, non quella cercata.",
 				"inferenza": "«inferenza» vuol dire «conclusione tratta da indizi non detti esplicitamente»: un'altra parola, non quella cercata.",
 				"dettaglio": "«dettaglio» vuol dire «informazione piccola o secondaria»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-perche-280",
@@ -5902,7 +6182,8 @@
 				"infatti": "«infatti» vuol dire «introduce una conferma o spiegazione»: un'altra parola, non quella cercata.",
 				"finché": "«finché» vuol dire «introduce un limite temporale»: un'altra parola, non quella cercata.",
 				"inoltre": "«inoltre» vuol dire «aggiunge un'informazione»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-quindi-281",
@@ -5923,7 +6204,8 @@
 				"inoltre": "«inoltre» vuol dire «aggiunge un'informazione»: un'altra parola, non quella cercata.",
 				"perché": "«perché» vuol dire «introduce una causa o una spiegazione»: un'altra parola, non quella cercata.",
 				"sebbene": "«sebbene» vuol dire «introduce una concessione»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-pero-282",
@@ -5944,7 +6226,8 @@
 				"quindi": "«quindi» vuol dire «introduce una conseguenza»: un'altra parola, non quella cercata.",
 				"sebbene": "«sebbene» vuol dire «introduce una concessione»: un'altra parola, non quella cercata.",
 				"perché": "«perché» vuol dire «introduce una causa o una spiegazione»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-tuttavia-283",
@@ -5965,7 +6248,8 @@
 				"infatti": "«infatti» vuol dire «introduce una conferma o spiegazione»: un'altra parola, non quella cercata.",
 				"affinché": "«affinché» vuol dire «introduce uno scopo»: un'altra parola, non quella cercata.",
 				"quindi": "«quindi» vuol dire «introduce una conseguenza»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-infatti-284",
@@ -5986,7 +6270,8 @@
 				"finché": "«finché» vuol dire «introduce un limite temporale»: un'altra parola, non quella cercata.",
 				"perché": "«perché» vuol dire «introduce una causa o una spiegazione»: un'altra parola, non quella cercata.",
 				"inoltre": "«inoltre» vuol dire «aggiunge un'informazione»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-inoltre-285",
@@ -6007,7 +6292,8 @@
 				"affinché": "«affinché» vuol dire «introduce uno scopo»: un'altra parola, non quella cercata.",
 				"sebbene": "«sebbene» vuol dire «introduce una concessione»: un'altra parola, non quella cercata.",
 				"finché": "«finché» vuol dire «introduce un limite temporale»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-sebbene-286",
@@ -6028,7 +6314,8 @@
 				"quindi": "«quindi» vuol dire «introduce una conseguenza»: un'altra parola, non quella cercata.",
 				"perché": "«perché» vuol dire «introduce una causa o una spiegazione»: un'altra parola, non quella cercata.",
 				"infatti": "«infatti» vuol dire «introduce una conferma o spiegazione»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-affinche-287",
@@ -6049,7 +6336,8 @@
 				"infatti": "«infatti» vuol dire «introduce una conferma o spiegazione»: un'altra parola, non quella cercata.",
 				"dunque": "«dunque» vuol dire «introduce una conclusione»: un'altra parola, non quella cercata.",
 				"tuttavia": "«tuttavia» vuol dire «introduce un contrasto in registro più formale»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-finche-288",
@@ -6070,7 +6358,8 @@
 				"quindi": "«quindi» vuol dire «introduce una conseguenza»: un'altra parola, non quella cercata.",
 				"inoltre": "«inoltre» vuol dire «aggiunge un'informazione»: un'altra parola, non quella cercata.",
 				"infatti": "«infatti» vuol dire «introduce una conferma o spiegazione»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-dunque-289",
@@ -6091,7 +6380,8 @@
 				"finché": "«finché» vuol dire «introduce un limite temporale»: un'altra parola, non quella cercata.",
 				"sebbene": "«sebbene» vuol dire «introduce una concessione»: un'altra parola, non quella cercata.",
 				"quindi": "«quindi» vuol dire «introduce una conseguenza»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-inferenza-290",
@@ -6112,7 +6402,8 @@
 				"eufemismo": "«eufemismo» vuol dire «parola più delicata al posto di una cruda»: un'altra parola, non quella cercata.",
 				"argomento": "«argomento» vuol dire «ragione usata per sostenere una tesi»: un'altra parola, non quella cercata.",
 				"dettaglio": "«dettaglio» vuol dire «informazione piccola o secondaria»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-premessa-291",
@@ -6133,7 +6424,8 @@
 				"analogia": "«analogia» vuol dire «somiglianza usata per spiegare un'idea»: un'altra parola, non quella cercata.",
 				"opinione": "«opinione» vuol dire «giudizio personale»: un'altra parola, non quella cercata.",
 				"registro": "«registro» vuol dire «modo di esprimersi adatto alla situazione»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-sfumatura-292",
@@ -6154,7 +6446,8 @@
 				"analogia": "«analogia» vuol dire «somiglianza usata per spiegare un'idea»: un'altra parola, non quella cercata.",
 				"ambiguità": "«ambiguità» vuol dire «possibilità di interpretare in più modi»: un'altra parola, non quella cercata.",
 				"argomento": "«argomento» vuol dire «ragione usata per sostenere una tesi»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-paradosso-293",
@@ -6175,7 +6468,8 @@
 				"analogia": "«analogia» vuol dire «somiglianza usata per spiegare un'idea»: un'altra parola, non quella cercata.",
 				"dettaglio": "«dettaglio» vuol dire «informazione piccola o secondaria»: un'altra parola, non quella cercata.",
 				"eufemismo": "«eufemismo» vuol dire «parola più delicata al posto di una cruda»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-analogia-294",
@@ -6196,7 +6490,8 @@
 				"iperbole": "«iperbole» vuol dire «esagerazione voluta per dare enfasi»: un'altra parola, non quella cercata.",
 				"registro": "«registro» vuol dire «modo di esprimersi adatto alla situazione»: un'altra parola, non quella cercata.",
 				"ipotesi": "«ipotesi» vuol dire «spiegazione possibile da verificare»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-presupposto-295",
@@ -6217,7 +6512,8 @@
 				"conclusione": "«conclusione» vuol dire «risultato di un ragionamento»: un'altra parola, non quella cercata.",
 				"sottotesto": "«sottotesto» vuol dire «significato nascosto sotto le parole»: un'altra parola, non quella cercata.",
 				"allegoria": "«allegoria» vuol dire «racconto che rappresenta un'idea con immagini»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-emozioni-relazioni-empatia-296",
@@ -6238,7 +6534,8 @@
 				"promessa": "«promessa» vuol dire «impegno a fare qualcosa»: un'altra parola, non quella cercata.",
 				"gioia": "«gioia» vuol dire «emozione positiva e intensa»: un'altra parola, non quella cercata.",
 				"nostalgia": "«nostalgia» vuol dire «rimpianto affettuoso per ciò che è passato»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-emozioni-relazioni-nostalgia-297",
@@ -6259,7 +6556,8 @@
 				"rispetto": "«rispetto» vuol dire «atteggiamento corretto verso gli altri»: un'altra parola, non quella cercata.",
 				"compassione": "«compassione» vuol dire «partecipazione al dolore di un altro»: un'altra parola, non quella cercata.",
 				"sorpresa": "«sorpresa» vuol dire «reazione a qualcosa di inatteso»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-emozioni-relazioni-risentimento-298",
@@ -6280,7 +6578,8 @@
 				"rassegnazione": "«rassegnazione» vuol dire «accettazione passiva di ciò che non si può cambiare»: un'altra parola, non quella cercata.",
 				"tristezza": "«tristezza» vuol dire «emozione legata a perdita o delusione»: un'altra parola, non quella cercata.",
 				"indignazione": "«indignazione» vuol dire «sdegno di fronte a un'ingiustizia»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-emozioni-relazioni-gratitudine-299",
@@ -6301,7 +6600,8 @@
 				"indignazione": "«indignazione» vuol dire «sdegno di fronte a un'ingiustizia»: un'altra parola, non quella cercata.",
 				"malinconia": "«malinconia» vuol dire «tristezza dolce e senza una causa precisa»: un'altra parola, non quella cercata.",
 				"ambivalenza": "«ambivalenza» vuol dire «presenza di sentimenti opposti insieme»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-emozioni-relazioni-insofferenza-300",
@@ -6322,7 +6622,8 @@
 				"indignazione": "«indignazione» vuol dire «sdegno di fronte a un'ingiustizia»: un'altra parola, non quella cercata.",
 				"rimpianto": "«rimpianto» vuol dire «dispiacere per qualcosa che non si è fatto»: un'altra parola, non quella cercata.",
 				"compassione": "«compassione» vuol dire «partecipazione al dolore di un altro»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-emozioni-relazioni-tenerezza-301",
@@ -6343,7 +6644,8 @@
 				"disaccordo": "«disaccordo» vuol dire «mancanza di accordo»: un'altra parola, non quella cercata.",
 				"sorpresa": "«sorpresa» vuol dire «reazione a qualcosa di inatteso»: un'altra parola, non quella cercata.",
 				"gentilezza": "«gentilezza» vuol dire «modo cortese di trattare qualcuno»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-ambiguo-302",
@@ -6364,7 +6666,8 @@
 				"plausibile": "«plausibile» vuol dire «credibile, che può essere vero»: un'altra parola, non quella cercata.",
 				"esplicito": "«esplicito» vuol dire «detto in modo chiaro e diretto»: un'altra parola, non quella cercata.",
 				"implicito": "«implicito» vuol dire «sottinteso, non espresso apertamente»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-pertinente-303",
@@ -6385,7 +6688,8 @@
 				"ambiguo": "«ambiguo» vuol dire «che si può interpretare in più modi»: un'altra parola, non quella cercata.",
 				"esplicito": "«esplicito» vuol dire «detto in modo chiaro e diretto»: un'altra parola, non quella cercata.",
 				"plausibile": "«plausibile» vuol dire «credibile, che può essere vero»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-implicito-304",
@@ -6406,7 +6710,8 @@
 				"esplicito": "«esplicito» vuol dire «detto in modo chiaro e diretto»: un'altra parola, non quella cercata.",
 				"ambiguo": "«ambiguo» vuol dire «che si può interpretare in più modi»: un'altra parola, non quella cercata.",
 				"plausibile": "«plausibile» vuol dire «credibile, che può essere vero»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-plausibile-305",
@@ -6427,7 +6732,8 @@
 				"pertinente": "«pertinente» vuol dire «attinente e adatto all'argomento»: un'altra parola, non quella cercata.",
 				"esplicito": "«esplicito» vuol dire «detto in modo chiaro e diretto»: un'altra parola, non quella cercata.",
 				"implicito": "«implicito» vuol dire «sottinteso, non espresso apertamente»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-contraddittorio-306",
@@ -6448,7 +6754,8 @@
 				"implicito": "«implicito» vuol dire «sottinteso, non espresso apertamente»: un'altra parola, non quella cercata.",
 				"plausibile": "«plausibile» vuol dire «credibile, che può essere vero»: un'altra parola, non quella cercata.",
 				"esplicito": "«esplicito» vuol dire «detto in modo chiaro e diretto»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-esplicito-307",
@@ -6469,7 +6776,8 @@
 				"implicito": "«implicito» vuol dire «sottinteso, non espresso apertamente»: un'altra parola, non quella cercata.",
 				"ambiguo": "«ambiguo» vuol dire «che si può interpretare in più modi»: un'altra parola, non quella cercata.",
 				"pertinente": "«pertinente» vuol dire «attinente e adatto all'argomento»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-connotazione-308",
@@ -6490,7 +6798,8 @@
 				"prospettiva": "«prospettiva» vuol dire «punto di vista da cui si racconta o si giudica»: un'altra parola, non quella cercata.",
 				"eufemismo": "«eufemismo» vuol dire «parola più delicata al posto di una cruda»: un'altra parola, non quella cercata.",
 				"denotazione": "«denotazione» vuol dire «significato letterale e oggettivo di una parola»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-denotazione-309",
@@ -6511,7 +6820,8 @@
 				"presupposto": "«presupposto» vuol dire «ciò che si dà per scontato in un discorso»: un'altra parola, non quella cercata.",
 				"allegoria": "«allegoria» vuol dire «racconto che rappresenta un'idea con immagini»: un'altra parola, non quella cercata.",
 				"dettaglio": "«dettaglio» vuol dire «informazione piccola o secondaria»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-metafora-310",
@@ -6532,7 +6842,8 @@
 				"argomento": "«argomento» vuol dire «ragione usata per sostenere una tesi»: un'altra parola, non quella cercata.",
 				"contesto": "«contesto» vuol dire «situazione che aiuta a capire una frase»: un'altra parola, non quella cercata.",
 				"opinione": "«opinione» vuol dire «giudizio personale»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-ironia-311",
@@ -6553,7 +6864,8 @@
 				"registro": "«registro» vuol dire «modo di esprimersi adatto alla situazione»: un'altra parola, non quella cercata.",
 				"coerenza": "«coerenza» vuol dire «accordo logico tra le parti di un testo»: un'altra parola, non quella cercata.",
 				"causa": "«causa» vuol dire «motivo per cui accade qualcosa»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-retorica-312",
@@ -6574,7 +6886,8 @@
 				"opinione": "«opinione» vuol dire «giudizio personale»: un'altra parola, non quella cercata.",
 				"coerenza": "«coerenza» vuol dire «accordo logico tra le parti di un testo»: un'altra parola, non quella cercata.",
 				"contesto": "«contesto» vuol dire «situazione che aiuta a capire una frase»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-prospettiva-313",
@@ -6595,7 +6908,8 @@
 				"eufemismo": "«eufemismo» vuol dire «parola più delicata al posto di una cruda»: un'altra parola, non quella cercata.",
 				"sottotesto": "«sottotesto» vuol dire «significato nascosto sotto le parole»: un'altra parola, non quella cercata.",
 				"argomento": "«argomento» vuol dire «ragione usata per sostenere una tesi»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-emozioni-relazioni-malinconia-314",
@@ -6616,7 +6930,8 @@
 				"disaccordo": "«disaccordo» vuol dire «mancanza di accordo»: un'altra parola, non quella cercata.",
 				"sorpresa": "«sorpresa» vuol dire «reazione a qualcosa di inatteso»: un'altra parola, non quella cercata.",
 				"tristezza": "«tristezza» vuol dire «emozione legata a perdita o delusione»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-emozioni-relazioni-indignazione-315",
@@ -6637,7 +6952,8 @@
 				"ambivalenza": "«ambivalenza» vuol dire «presenza di sentimenti opposti insieme»: un'altra parola, non quella cercata.",
 				"disaccordo": "«disaccordo» vuol dire «mancanza di accordo»: un'altra parola, non quella cercata.",
 				"collaborazione": "«collaborazione» vuol dire «lavoro fatto insieme»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-emozioni-relazioni-rassegnazione-316",
@@ -6658,7 +6974,8 @@
 				"tenerezza": "«tenerezza» vuol dire «affetto delicato e protettivo»: un'altra parola, non quella cercata.",
 				"compassione": "«compassione» vuol dire «partecipazione al dolore di un altro»: un'altra parola, non quella cercata.",
 				"indignazione": "«indignazione» vuol dire «sdegno di fronte a un'ingiustizia»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-emozioni-relazioni-ambivalenza-317",
@@ -6679,7 +6996,8 @@
 				"disaccordo": "«disaccordo» vuol dire «mancanza di accordo»: un'altra parola, non quella cercata.",
 				"gentilezza": "«gentilezza» vuol dire «modo cortese di trattare qualcuno»: un'altra parola, non quella cercata.",
 				"tristezza": "«tristezza» vuol dire «emozione legata a perdita o delusione»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-emozioni-relazioni-rimpianto-318",
@@ -6700,7 +7018,8 @@
 				"disaccordo": "«disaccordo» vuol dire «mancanza di accordo»: un'altra parola, non quella cercata.",
 				"tenerezza": "«tenerezza» vuol dire «affetto delicato e protettivo»: un'altra parola, non quella cercata.",
 				"empatia": "«empatia» vuol dire «capacità di sentire ciò che prova un altro»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-emozioni-relazioni-compassione-319",
@@ -6721,7 +7040,8 @@
 				"risentimento": "«risentimento» vuol dire «rancore trattenuto per un torto subito»: un'altra parola, non quella cercata.",
 				"rassegnazione": "«rassegnazione» vuol dire «accettazione passiva di ciò che non si può cambiare»: un'altra parola, non quella cercata.",
 				"ambivalenza": "«ambivalenza» vuol dire «presenza di sentimenti opposti insieme»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-sottotesto-320",
@@ -6742,7 +7062,8 @@
 				"reticenza": "«reticenza» vuol dire «il tacere volutamente qualcosa»: un'altra parola, non quella cercata.",
 				"paradosso": "«paradosso» vuol dire «affermazione che sembra contraddirsi ma ha un senso»: un'altra parola, non quella cercata.",
 				"sfumatura": "«sfumatura» vuol dire «differenza sottile di significato»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-allegoria-321",
@@ -6763,7 +7084,8 @@
 				"eufemismo": "«eufemismo» vuol dire «parola più delicata al posto di una cruda»: un'altra parola, non quella cercata.",
 				"sfumatura": "«sfumatura» vuol dire «differenza sottile di significato»: un'altra parola, non quella cercata.",
 				"metafora": "«metafora» vuol dire «figura che trasferisce un significato per somiglianza»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-reticenza-322",
@@ -6784,7 +7106,8 @@
 				"registro": "«registro» vuol dire «modo di esprimersi adatto alla situazione»: un'altra parola, non quella cercata.",
 				"dettaglio": "«dettaglio» vuol dire «informazione piccola o secondaria»: un'altra parola, non quella cercata.",
 				"eufemismo": "«eufemismo» vuol dire «parola più delicata al posto di una cruda»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-verosimiglianza-323",
@@ -6805,7 +7128,8 @@
 				"allegoria": "«allegoria» vuol dire «racconto che rappresenta un'idea con immagini»: un'altra parola, non quella cercata.",
 				"presupposto": "«presupposto» vuol dire «ciò che si dà per scontato in un discorso»: un'altra parola, non quella cercata.",
 				"argomento": "«argomento» vuol dire «ragione usata per sostenere una tesi»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-eufemismo-324",
@@ -6826,7 +7150,8 @@
 				"inferenza": "«inferenza» vuol dire «conclusione tratta da indizi non detti esplicitamente»: un'altra parola, non quella cercata.",
 				"paradosso": "«paradosso» vuol dire «affermazione che sembra contraddirsi ma ha un senso»: un'altra parola, non quella cercata.",
 				"retorica": "«retorica» vuol dire «arte di usare il linguaggio per convincere»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-pensiero-linguaggio-iperbole-325",
@@ -6847,7 +7172,8 @@
 				"opinione": "«opinione» vuol dire «giudizio personale»: un'altra parola, non quella cercata.",
 				"reticenza": "«reticenza» vuol dire «il tacere volutamente qualcosa»: un'altra parola, non quella cercata.",
 				"contesto": "«contesto» vuol dire «situazione che aiuta a capire una frase»: un'altra parola, non quella cercata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "italiano-lessico-0",

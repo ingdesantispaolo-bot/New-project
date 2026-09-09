@@ -1227,7 +1227,24 @@ func _stochastic_round(x: float, rng: RandomNumberGenerator) -> int:
 # specialisti). Un formato già usato nella stessa missione viene smorzato, così le
 # poche campate restano varie e nessun formato torna a dominare.
 const NONMC_FORMAT_WEIGHTS := {
-	"matching": 20, "ordering": 15, "classification": 13,
+	# ## Riequilibrati il 9 settembre 2026 — il peso segue il GESTO
+	#
+	# Era il punto 1 del debito dichiarato in `gesto_audit`, scritto il 1
+	# settembre e mai pagato: grafico, circuito e caccia all'errore pesavano 25,
+	# cioe' quasi il doppio dello smistamento (13). Ma quei tre sono «tocca una
+	# fra N con un disegno sopra» — `gesto_audit` li elenca fra i SCEGLIE — mentre
+	# abbinare, ordinare e smistare sono gesti in cui si sposta qualcosa.
+	# **La tabella favoriva esattamente i formati in cui il gesto non e' la
+	# competenza**, ed e' la causa misurata di R-18.
+	#
+	# Adesso i tre manipolativi di base stanno a 20 e i tre «sceglie» con disegno
+	# a 14: sotto, non sopra. I formati-firma di materia restano a 34 perche' sono
+	# tutti manipolativi, e `hotspot` resta a 18 perche' e' l'unico in cui si
+	# riconosce una cosa vera invece di leggerne il nome (vedi G-C5).
+	"matching": 20, "ordering": 20, "classification": 20,
+	# Lo scorrimento e' manipolativo e prendeva il peso di ripiego, 10: meno di
+	# tutti. Dichiarato.
+	"swipe": 18,
 	# **La linea del tempo pesa come un abbinamento.** (1 settembre 2026)
 	# Un formato senza una riga qui dentro prende il peso di ripiego, 10: meno
 	# della metà del grafico e del circuito, che sono «tocca una fra N» con un
@@ -1236,7 +1253,7 @@ const NONMC_FORMAT_WEIGHTS := {
 	# un evento su una linea del tempo è un gesto di posizione, ed è la forma in
 	# cui la cronologia si impara davvero quando la tavola sta davanti.
 	"timeline": 20,
-	"graph": 25, "circuit": 25, "cycle": 18, "code_debug": 25, "hotspot": 18,
+	"graph": 14, "circuit": 14, "cycle": 14, "code_debug": 14, "hotspot": 18,
 	# La matematica diventa un oggetto da far funzionare, non una risposta da
 	# riconoscere. Il peso alto rende il vertical slice visibile nel percorso live.
 	"machine_path": 34,

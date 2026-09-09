@@ -27,6 +27,12 @@ import { mkdir, writeFile } from "node:fs/promises";
 // Il programma di matematica di medie e biennio: sta in un file suo perché sono
 // trecento item e ventiquattro argomenti, e perché è materiale che si continuerà
 // ad ampliare — qui dentro sarebbe una vena di mille righe in mezzo alle altre.
+import { CODING_PROGRAMMA } from "./banks/coding-programma.mjs";
+import { FISICA_PROGRAMMA } from "./banks/fisica-programma.mjs";
+import { GEOGRAFIA_PROGRAMMA } from "./banks/geografia-programma.mjs";
+import { LATINO_PROGRAMMA } from "./banks/latino-programma.mjs";
+import { SCIENZE_PROGRAMMA } from "./banks/scienze-programma.mjs";
+import { STORIA_PROGRAMMA } from "./banks/storia-programma.mjs";
 import { MATEMATICA_PROGRAMMA } from "./banks/matematica-programma.mjs";
 // Stessa ragione per l'inglese, e un buco più grosso: il banco generato da
 // `englishVocabularyBank.ts` è un dizionario: mille item, due sole forme di
@@ -2116,6 +2122,10 @@ function codingBank(pythonPrincipleSeeds) {
     );
   });
   items.push(...authoredMcItems("coding", CODING_EXTRA, rand));
+  // Fasce 1 e 2, scritte a mano il 9 settembre 2026: il banco aveva sette item
+  // nella fascia 1 e otto nella seconda, e una sessione di coding ne consuma
+  // cinque. Vedi `banks/coding-programma.mjs` per il conto e le regole.
+  items.push(...authoredMcItems("coding", CODING_PROGRAMMA, rand));
   return { schemaVersion: 1, subject: "coding", generator: "python-principles-v2", items };
 }
 
@@ -2431,6 +2441,15 @@ function curatedTheoryBank(subject, topics, seed) {
 // 20-30% di non-scelta-multipla), perche' una domanda a quattro opzioni si
 // risolve per esclusione senza sapere niente. La risposta libera e' digitabile
 // anche su tablet da quando esiste il tastierino numerico.
+// Aggiunge a un banco già costruito le fasce basse scritte a mano. Serve per le
+// materie il cui banco nasce da un generatore che non conosce questo file:
+// invece di infilare l'import dentro la funzione generatrice, si appende dopo.
+// Gli item portano `difficulty8` e restano fuori dal ponte 4→8.
+function conProgramma(bank, subject, programma) {
+  bank.items.push(...authoredMcItems(subject, programma, rng(20260909)));
+  return bank;
+}
+
 function authoredMcItems(subject, questions, rand) {
   return questions.map((q, i) => {
     const id = `${subject}-${q.topic}-${i}`;
@@ -2456,7 +2475,12 @@ function authoredMcItems(subject, questions, rand) {
         explanation: q.explanation,
       };
     }
-    return multipleChoiceItem({ id, subject, topic: q.topic, difficulty: q.difficulty, prompt: q.prompt, answer: q.answer, distractors: q.distractors, explanation: q.explanation, extra: { distractorWhy: q.distractorWhy ?? {} } }, rand);
+    // `difficulty8: true` dichiara che la fascia 1..8 è scritta da chi ha
+    // autorato l'item, e la esenta dal ponte 4→8. Ogni sorgente nuova deve
+    // usarlo: il ponte è un ripiego per il materiale storico, non una strada.
+    const extra = { distractorWhy: q.distractorWhy ?? {} };
+    if (q.difficulty8) extra._difficulty8 = true;
+    return multipleChoiceItem({ id, subject, topic: q.topic, difficulty: q.difficulty, prompt: q.prompt, answer: q.answer, distractors: q.distractors, explanation: q.explanation, extra }, rand);
   });
 }
 
@@ -4080,6 +4104,174 @@ const ANALOGIE_LESSICALI = [
         distractorWhy: { "guardare": "La musica si ascolta, non si guarda.", "scrivere": "Scrivere è comporre la musica, non l'azione di goderne come leggere per il libro.", "annusare": "Non è affatto un'azione legata alla musica." } },
 ];
 
+// --- La scala della logica, dichiarata invece che dedotta ------------------
+//
+// Logica era l'ultima materia ancora al **100%** sul ponte 4→8: la fascia di
+// ogni suo item veniva decisa ordinando i quesiti per lunghezza del testo. Su
+// una materia in cui il testo è quasi sempre corto e la difficoltà sta tutta
+// nel passo di ragionamento, quel criterio non descriveva niente.
+//
+// Qui la fascia è invece una **decisione scritta**, presa argomento per
+// argomento. Il criterio è uno solo: quanti passaggi separano la premessa dalla
+// conclusione, e quanto il passaggio è controintuitivo.
+//
+//   sequenze        1 3 4 6   si comincia continuando una serie (nessun passo
+//                             astratto) e si finisce ricavando la regola al
+//                             contrario, che è il ponte verso le equazioni;
+//   esclusioni      1 2 4 5   togliere l'intruso è il gesto più naturale di
+//                             tutti, e resta accessibile anche quando il
+//                             criterio si fa semantico;
+//   deduzioni       2 3 5 7   il sillogismo diretto è facile, il modus tollens
+//                             («non ha l'ombrello, quindi non piove») è il
+//                             passo che a undici anni costa di più;
+//   quantificatori  3 4 6 7   «tutti», «alcuni», «nessuno» sembrano parole
+//                             comuni e non lo sono: negarli bene è tardi;
+//   insiemi         2 5 6 8   appartenenza e intersezione richiedono di tenere
+//                             a mente due gruppi insieme, che è memoria di
+//                             lavoro prima ancora che logica;
+//   verita          3 5 7 8   valutare se un'affermazione è vera, falsa o
+//                             indecidibile è l'ultimo gradino: chiede di
+//                             ragionare sul ragionamento.
+//
+// **Ogni cella (argomento, grado) va tutta nella stessa fascia**, e questo è
+// deliberato: gli item di una cella erano stati autorati come equivalenti, e
+// separarli richiederebbe un criterio che non c'è — che è esattamente l'errore
+// del ponte. Dove servisse distinguerli, si sdoppia la cella nella sorgente.
+const SCALA_LOGICA = {
+  sequenze: [1, 3, 4, 6],
+  esclusioni: [1, 2, 4, 5],
+  deduzioni: [2, 3, 5, 7],
+  quantificatori: [3, 4, 6, 7],
+  insiemi: [2, 5, 6, 8],
+  verita: [3, 5, 7, 8],
+};
+
+// **Le altre cinque scale dichiarate.** (9 settembre 2026) Stesso principio:
+// l'ordine in cui la materia si insegna, scritto una volta e rileggibile.
+// Ogni riga sono le quattro fasce in cui finiscono i gradi 1, 2, 3 e 4 di
+// quell'argomento.
+
+// Latino: si comincia dal meccanismo (che cos'e' una desinenza), poi la prima
+// declinazione come modello, e si sale verso la terza — che e' la piu' varia —
+// fino a quarta e quinta, che un corso incontra per ultime. Le frasi intere
+// arrivano in fondo perche' richiedono tutto il resto insieme.
+const SCALA_LATINO = {
+  basi: [1, 2, 3, 4],
+  vocabolario: [1, 2, 4, 5],
+  casi: [1, 3, 4, 6],
+  etimologia: [2, 3, 5, 6],
+  "verbo-sum": [2, 3, 5, 6],
+  "declinazioni-base": [2, 3, 5, 6],
+  "declinazione-1": [2, 3, 4, 5],
+  "declinazione-2m": [3, 4, 5, 6],
+  "declinazione-2n": [3, 4, 5, 6],
+  verbi: [3, 4, 6, 7],
+  // **La cella grande e' il limite di una scala per argomento.** La terza
+  // declinazione e' la piu' numerosa del banco — dodici item in un solo grado —
+  // e ogni cella finisce tutta nella stessa fascia. Le prime due stesure la
+  // lasciavano dentro la finestra del mondo 19, e `format_mix_audit` trovava
+  // una sessione che chiedeva due volte `declinazione-3m` nello stesso formato.
+  // Le due varianti sono state separate e la maschile spostata in basso, cosi'
+  // la sua cella grande non cade nel pozzo delle fasce alte. Se un giorno una
+  // cella diventasse ancora piu' grande, la soluzione non e' spostarla: e'
+  // sdoppiarla nella sorgente.
+  "declinazione-3m": [2, 3, 5, 7],
+  "declinazione-3n": [4, 6, 7, 8],
+  "declinazione-4": [5, 6, 7, 8],
+  "declinazione-5": [5, 6, 7, 8],
+  frasi: [3, 5, 6, 8],
+};
+
+// Elettronica: prima che cosa succede e come non farsi male, poi i pezzi, poi
+// il giro chiuso, poi le misure. Serie e parallelo richiedono di tenere in
+// mente due percorsi insieme; la diagnosi di un guasto richiede tutto il resto,
+// e sta in fondo per questo.
+const SCALA_ELETTRONICA = {
+  "elettricita-base": [1, 2, 3, 4],
+  "sicurezza-elettrica": [1, 2, 3, 5],
+  componenti: [2, 3, 4, 6],
+  circuito: [2, 3, 5, 6],
+  conduttori: [2, 4, 5, 6],
+  "misure-elettriche": [3, 4, 6, 7],
+  "serie-parallelo": [4, 5, 7, 8],
+  guasti: [5, 6, 7, 8],
+};
+
+// Musica: si parte da cio' che si sente — quale nota, quanto dura, quale
+// strumento — e si arriva a cio' che si legge e si confronta. Gli intervalli
+// stanno in alto perche' chiedono di ascoltare due suoni insieme e giudicarne
+// il rapporto, che e' un'astrazione vera.
+const SCALA_MUSICA = {
+  note: [1, 2, 3, 5],
+  ritmo: [1, 2, 4, 5],
+  strumenti: [1, 3, 4, 6],
+  dinamica: [2, 3, 5, 6],
+  tempo: [2, 4, 5, 7],
+  timbro: [3, 4, 6, 7],
+  lettura: [3, 5, 6, 8],
+  intervalli: [4, 6, 7, 8],
+};
+
+// Scienze: dal vivente che si vede al sistema che non si vede. Il metodo
+// attraversa tutto il corso e per questo ha la scala piu' distesa: la stessa
+// parola «esperimento» vuol dire cose molto diverse al primo e all'ultimo anno.
+const SCALA_SCIENZE = {
+  viventi: [1, 2, 4, 5],
+  corpo: [1, 3, 4, 6],
+  metodo: [1, 3, 5, 7],
+  materia: [2, 3, 5, 6],
+  "terra-universo": [2, 4, 5, 7],
+  ambiente: [3, 4, 6, 7],
+  ecosistema: [3, 5, 6, 8],
+  energia: [4, 5, 7, 8],
+};
+
+// Storia: la scala segue due assi insieme, il tempo raccontato e la capacita' di
+// interrogare le fonti. La cronologia viene per prima perche' senza di lei
+// nessun racconto sta in piedi; il metodo sale piu' di ogni altro argomento
+// perche' «leggere una fonte» a undici anni e a tredici sono due mestieri.
+// Corretta poche ore dopo averla scritta: la prima stesura metteva nella fascia
+// 1 soltanto `cronologia` e `preistoria`, e `variety_audit` e' tornato rosso su
+// storia L1. Il pozzo era abbondante (49 item) ma i suoi ARGOMENTI erano due, e
+// il selettore sceglie prima l'argomento. E' la stessa lezione della Fase 2, qui
+// ripetuta da me: **una scala va giudicata anche su quanti argomenti tocca ogni
+// fascia**, non solo su quanti item ci finiscono.
+const SCALA_STORIA = {
+  cronologia: [1, 2, 4, 5],
+  preistoria: [1, 2, 3, 5],
+  fonti: [1, 3, 5, 6],
+  metodo: [1, 4, 6, 8],
+  egizi: [1, 3, 4, 6],
+  civilta: [2, 4, 5, 7],
+  grecia: [2, 5, 6, 7],
+  roma: [3, 5, 7, 8],
+  medioevo: [4, 6, 7, 8],
+};
+
+// Applica una scala dichiarata a un banco: traduce il grado 1..4 nella fascia
+// 1..8 e marca l'item come autorato, così `expandLegacyDifficultyBands` non lo
+// tocca. Un argomento assente dalla tabella è un errore, non un caso da
+// ignorare: significa che qualcuno ha aggiunto contenuto senza collocarlo.
+function applicaScala(bank, scala) {
+  for (const item of bank.items) {
+    // Un item gia' autorato porta la sua fascia 1..8 scritta a mano: la scala
+    // per argomento tradurrebbe quel numero come se fosse un grado 1..4 e lo
+    // schiaccerebbe. Si salta, e resta com'e'.
+    if (item._difficulty8) continue;
+    const riga = scala[item.topic];
+    if (!riga) {
+      throw new Error(
+        `Banco '${bank.subject}': l'argomento '${item.topic}' non è nella scala dichiarata. ` +
+        "Aggiungilo con le sue quattro fasce invece di lasciarlo al ponte.",
+      );
+    }
+    const grado = Math.min(4, Math.max(1, Number(item.difficulty)));
+    item.difficulty = riga[grado - 1];
+    item._difficulty8 = true;
+  }
+  return bank;
+}
+
 function logicaBank() {
   const rand = rng(20260731);
   const items = [];
@@ -4244,7 +4436,7 @@ function logicaBank() {
     items.push(multipleChoiceItem({ id: `logica-deduzione-${q.prompt.length}-${q.answer}`, subject: "logica", topic: "deduzioni", difficulty: q.difficulty, prompt: q.prompt, answer: q.answer, distractors: q.distractors, explanation: q.explanation, extra: { distractorWhy: q.distractorWhy } }, rand));
   }
   items.push(...authoredMcItems("logica", LOGICA_EXTRA, rand));
-  return { schemaVersion: 1, subject: "logica", generator: "logica-generated-v2", items };
+  return applicaScala({ schemaVersion: 1, subject: "logica", generator: "logica-scala-dichiarata", items }, SCALA_LOGICA);
 }
 
 // ---------------------------------------------------------------------------
@@ -4353,15 +4545,15 @@ const BANKS = {
   "matematica-tabelline": tabellineBank(),
   "italiano-base": italianoBank(italianMod.italianVocabularyEntries),
   "inglese-base": ingleseBank(englishMod.englishVocabularyEntries),
-  "latino-base": latinoBank(latinMod),
-  "elettronica-base": elettronicaBank(circuitMod.circuitComponentGuide, circuitMod.circuitFaultTemplates),
+  "latino-base": applicaScala(conProgramma(latinoBank(latinMod), "latino", LATINO_PROGRAMMA), SCALA_LATINO),
+  "elettronica-base": applicaScala(elettronicaBank(circuitMod.circuitComponentGuide, circuitMod.circuitFaultTemplates), SCALA_ELETTRONICA),
   "coding-base": codingBank(pythonMod.pythonPrincipleSeeds),
-  "fisica-base": fisicaBank(rng(20260732)),
-  "musica-base": musicaBank(rng(20260733)),
+  "fisica-base": conProgramma(fisicaBank(rng(20260732)), "fisica", FISICA_PROGRAMMA),
+  "musica-base": applicaScala(musicaBank(rng(20260733)), SCALA_MUSICA),
   // Materie nuove (scope ampliato 2026-07-21):
-  "geografia-base": geografiaBank(),
-  "scienze-base": scienzeBank(greenhouseMod.greenhousePlants),
-  "storia-base": storiaBank(),
+  "geografia-base": conProgramma(geografiaBank(), "geografia", GEOGRAFIA_PROGRAMMA),
+  "scienze-base": applicaScala(conProgramma(scienzeBank(greenhouseMod.greenhousePlants), "scienze", SCIENZE_PROGRAMMA), SCALA_SCIENZE),
+  "storia-base": applicaScala(conProgramma(storiaBank(), "storia", STORIA_PROGRAMMA), SCALA_STORIA),
   "logica-base": logicaBank(),
 };
 
@@ -9701,7 +9893,11 @@ function expandLegacyDifficultyBands(bank) {
   const legacy = new Map();
   for (const item of bank.items) {
     if (item._difficulty8) {
-      delete item._difficulty8;
+      // Il flag NON si cancella piu' (9 settembre 2026): resta nel JSON perche'
+      // e' l'unica cosa che distingue una fascia decisa da una persona da una
+      // dedotta dalla lunghezza del testo. `fascia_autorata_audit` lo conta, e
+      // pretende che il numero salga e mai scenda. Senza, il ponte puo'
+      // ricrescere in silenzio.
       continue;
     }
     const old = Number(item.difficulty);
@@ -9741,6 +9937,28 @@ function deduplicateBankItems(bank) {
     if (previous._difficulty8 || item._difficulty8) previous._difficulty8 = true;
   }
   bank.items = unique;
+}
+
+// **Le scale dichiarate si applicano QUI, in fondo.** (9 settembre 2026)
+//
+// Applicarle dentro `BANKS` non bastava: `CURATED_TAIL` e le rifiniture della
+// macro-banda 4 aggiungono item DOPO che quell'oggetto e' stato costruito, e
+// quegli item finivano dritti nel ponte 4→8 senza che nessuno se ne accorgesse
+// — otto in latino, diciotto in logica, trentacinque in musica. Da qui in fondo
+// non c'e' piu' nessuna aggiunta, quindi la scala li prende tutti.
+//
+// Gli item gia' marcati `_difficulty8` vengono saltati: la loro fascia e' stata
+// scritta a mano ed e' piu' precisa della scala per argomento.
+const SCALE_DICHIARATE = {
+  "logica-base": SCALA_LOGICA,
+  "latino-base": SCALA_LATINO,
+  "elettronica-base": SCALA_ELETTRONICA,
+  "musica-base": SCALA_MUSICA,
+  "scienze-base": SCALA_SCIENZE,
+  "storia-base": SCALA_STORIA,
+};
+for (const [nome, scala] of Object.entries(SCALE_DICHIARATE)) {
+  applicaScala(BANKS[nome], scala);
 }
 
 for (const bank of Object.values(BANKS)) {

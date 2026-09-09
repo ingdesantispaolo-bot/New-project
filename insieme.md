@@ -1,7 +1,9 @@
 # Eli Quest — Piano di lavoro
 
-Aggiornato al **4 settembre 2026**. Ogni numero di questo file è stato rimisurato
-oggi contro il repo: non è riportato dalla versione precedente.
+Aggiornato al **9 settembre 2026**. I numeri della tabella qui sotto sono stati
+rimisurati oggi contro il repo, uno per uno; dove una misura è di un altro giorno
+la riga lo dice. **Il giro completo della suite non è stato eseguito oggi**: sono
+stati eseguiti i tredici audit elencati in *Lo stato misurato*, tutti verdi.
 
 **Qui c'è solo lavoro da fare.** I lotti chiusi stanno nel *Registro dei lavori*
 di [docs/RELEASE_CANDIDATE.md](docs/RELEASE_CANDIDATE.md), che copre tutto fino a
@@ -13,6 +15,7 @@ Documenti autoritativi: [Visione](docs/VISIONE_DI_GIOCO.md) ·
 [Abitanti](docs/ABITANTI_E_LUOGHI.md) · [Custode](docs/PET_CUSTODE.md) ·
 [Secondo Viaggio](docs/SECONDO_VIAGGIO.md) ·
 [Architettura](docs/ARCHITETTURA_FULL_GODOT.md) · [Finale](docs/FINALE_SPEC.md) ·
+[**Piano fasce e priorità**](docs/PIANO_OTTIMIZZAZIONE_FASCE.md) ·
 [Custode avanzato](docs/CUSTODE_LIVELLO_AVANZATO.md) ·
 [Minigiochi personaggi](docs/MINIGIOCHI_PERSONAGGI.md) ·
 [Voce a 11 anni](docs/VOCE_11_ANNI.md)
@@ -40,55 +43,234 @@ Cinque regole, e sono tutte state pagate almeno una volta.
 - **Chi sta per lanciare `npm run audit:godot` lo dice qui prima**, e chi vede la
   suite andare oltre i ~150 secondi la ferma (vedi *Rischi noti*, 5).
 
+> **Fatto il 9 settembre 2026: `npm run audit:godot`, 9 rossi su 265 in 2004
+> secondi.** Primo giro completo dopo il passaggio alle otto fasce; l'elenco e
+> l'attribuzione stanno nella Fase 0 di
+> [docs/PIANO_OTTIMIZZAZIONE_FASCE.md](docs/PIANO_OTTIMIZZAZIONE_FASCE.md).
+> **Sei dei nove sono stati chiusi in giornata**: `variety` (147 item nuovi),
+> `nora_explanation_depth` e `nora_spiegazione_utile` (cinque voci mancanti),
+> `explanation_coverage` (il distributore delle spiegazioni, non il contenuto),
+> `ricette_per_fascia` (pavimenti rimisurati) e `audio_controls`, che era un
+> falso rosso da contesa ed e' verde in isolamento. Restano `gesto` (R-18),
+> `performance_budget` (R-17) e `glifi`, che appartiene al lavoro che Codex sta
+> scrivendo adesso. **Il giro va rifatto quando Codex ha finito.**
+>
+> E una regola che vale per sé quanto per l'altro: **la suite non si esegue
+> mentre si scrive.** Il primo tentativo è stato lanciato mentre modificavo
+> `minigame_manager.gd`, e metà degli audit ha letto il file vecchio: risultato
+> buttato, mezz'ora di macchina persa.
+
 ---
 
-## Lo stato misurato — 4 settembre 2026
+## Lo stato misurato — 9 settembre 2026
 
 | | valore | dove si rimisura |
 |---|---|---|
-| audit Godot | **251 verdi su 251** in 488 s — nessun rosso | `npm run audit:godot` |
-| item nei dodici banchi | **4061** (di cui matematica 698, era 379) | `godot/data/banks/*.json` |
-| argomenti di matematica nel banco | **25** (erano 7); tabelline al **40,7%**, erano il 75% | `topic_density_audit` |
-| voci di NORA | **261** | `nora_explanations.gd` |
-| campagna | **21,3 ore** · mondo più corto 30,1 min, più lungo 69,4 min | `time_cost_probe` |
-| mondo 1: nodi | **2511 / 3500** (era 2789: i nodi sono stati restituiti) | `performance_budget_audit` |
-| mondo 1: avvio | **392 / 500 ms** — il 78% del budget | idem |
+| audit Godot presenti | **261** file `*_audit.gd` (erano 251 il 6 settembre) | `find godot -name '*_audit.gd'` |
+| **giro completo** | **9 rossi** a inizio giornata; a fine giornata **nessun rosso di contenuto** — restano R-17 (metro) e `glifi` (Codex) | `npm run audit:godot` |
+| item nei dodici banchi | **4854** (erano 4061) | `godot/data/banks/*.json` |
+| di cui il nucleo | inglese **1466**, matematica **944**, italiano **780** = **3190**, il **65,7%** del banco | idem |
+| argomenti distinti nel banco | **198** — matematica **34** (erano 25), inglese **47**, italiano **30** | `topic_density_audit` |
+| fasce di difficoltà | **8**, tre mondi ciascuna; i 24 livelli restano per formati e scaffolding | `difficulty_bands_audit` |
+| fasce di priorità del curricolo | **50 / 35 / 15** su 3+3+6 materie, ±5 punti; sessione 6/5/1 esercizi | `subject_priority_audit` |
+| voci di NORA | **294** (erano 261) — nucleo 135, cioè il 46% | `nora_explanations.gd` |
+| export Web | **verde**, `2026.09.09-web-loader-1`: la build spedita è HEAD | `npm run audit:web` |
+| PCK esportato | **80,27 MiB** (`index.pck`) + **14,60 MiB** differito (`content.pck`) + 37,68 di WASM | `public/godot/outdoor/` |
+| pacchetto completo su disco | **133 MB** | idem |
 | materie allenabili all'arrivo | **12/12 in tutti e 24 i mondi** | `materie_raggiungibili_audit` |
-| PCK esportato | **79,10 MiB** (`index.pck`) + 14,60 MiB differito | `public/godot/outdoor/` |
-| pacchetto completo su disco | **~132 MB** | idem |
-| «tocca una fra N» nel mondo | 18,0%–32,0% per materia, tutte sotto il tetto | `gesto_audit` |
-| «tocca una fra N» nell'esame | media **34,4%**, elettronica **63,0%**, storia **35,8%** (soglia allentata a 36) | idem |
-| ricette `compose` | **18** su sei materie (erano 7) | `format_depth_audit` |
-| coppie (specialista, materia) sotto le tre ricette | **22**, a cricchetto | idem |
+| mondo 1: nodi e avvio | **2553** nodi (era 2511) e **546–691 / 500 ms** — **ROSSO**, vedi R-17 | `performance_budget_audit` |
+| «tocca una fra N» nell'esame | **70,0% «manipola» su tutte e dodici**; «sceglie» 20,7%–26,1%, media ≈23,7% (era 34,4%) | `gesto_audit` |
+| «tocca una fra N» nel mondo | undici materie sotto il tetto, **italiano al 26,0% contro 22,3%** — **ROSSO**, vedi R-18 | idem |
+| campagna | **21,3 ore** · mondo più corto 30,1 min, più lungo 69,4 min | `time_cost_probe` — **misura del 4 settembre, non rimisurata** |
+| ricette `compose` | **18** su sei materie | `format_depth_audit` — misura del 4 settembre |
+| item con la fascia scelta da un autore | **1695 su 4854**: il 65,1% l'ha presa dal ponte automatico 4→8 | vedi G-C12 |
 
-> **Due numeri da guardare.** L'avvio del mondo 1 è a 466 ms su un budget di 500:
-> era 311 ms e nessuno ha scritto quando è salito. E il PCK è cresciuto da 63,51
-> a 79,10 MiB (+24%) senza che nessun lotto lo dichiarasse — mentre la regola
-> dice che ogni atlante si dichiara in MB *prima* di essere generato. La domanda
-> non è quanto pesa: è quanto pesa il primo caricamento su una rete di scuola.
+> **I tredici audit eseguiti oggi, uno per uno.** Verdi: `difficulty_bands`,
+> `subject_priority`, `italian_minigame_bands`, `world_difficulty_curve`,
+> `topic_density`, `difficolta_per_materia`, `difficulty_calibration`,
+> `adaptive`, `free_answer`, `c11_world_content`, `materie_raggiungibili`, più
+> `audit:web`. **Rossi: `performance_budget` e `gesto`** — R-17 e R-18.
+>
+> Il giro completo (`npm run audit:godot`) **non** è stato lanciato: dieci audit
+> nuovi sono entrati dal 6 settembre e nessuno ha ancora misurato la suite intera
+> dopo il passaggio alle otto fasce. Finché non lo si fa, «251 verdi su 251» è un
+> numero di cinque giorni fa su un albero diverso — e due rossi trovati
+> assaggiando tredici audit su duecentosessantuno suggeriscono che il giro
+> completo vada fatto prima di qualunque altra cosa.
+
+> **Due lotti sono entrati senza consuntivo.** Le otto fasce (9 settembre) e le
+> fasce di priorità 50/35/15 (8 settembre) hanno cambiato la Decisione 3 e la
+> Decisione 16 — cioè due decisioni vincolanti — e **nel Registro dei lavori non
+> c'è la loro riga**. Questo file le ha inseguite oggi, cinque giorni dopo, e nel
+> frattempo ha continuato a descrivere quattro bande che non esistevano più.
+> Chi ha chiuso i due lotti scriva il consuntivo con le misure prima e dopo: la
+> regola non è burocrazia, è ciò che ha evitato che questa ricognizione durasse
+> mezza giornata invece che un'ora.
+
+> **Il numero da guardare è il PCK.** Ancora cresciuto, da 79,10 a **80,27 MiB**,
+> e di nuovo senza che un lotto lo dichiarasse — mentre la regola dice che ogni
+> atlante si dichiara in MB *prima* di essere generato. La domanda non è quanto
+> pesa: è quanto pesa il primo caricamento su una rete di scuola.
 
 ---
 
 ## Rosso adesso — prima di ogni altra cosa
 
-> **Stato al 6 settembre 2026: la suite è verde su 251 audit, per la prima
-> volta.** Tutte le voci R-1…R-16 sono chiuse.
+> **Stato al 9 settembre 2026: due rossi aperti, R-17 e R-18.** Le voci
+> R-1…R-16 restano chiuse.
 >
-> L'ultimo rosso — `storia / esame` al 35,8% — non è stato pagato: **la soglia è
-> stata allentata a 36,0 per decisione del committente**, che ha scelto di
-> spostare il lavoro altrove. È un allentamento di cricchetto, e resta scritto
-> come tale in `gesto_audit`: il debito non è chiuso, è **sospeso**, e la causa
-> è la stessa di G-C2.
+> Il 6 settembre la suite era verde su 251 audit, per la prima volta. **Quel
+> verde non vale più per l'albero di oggi**: dal 6 settembre sono entrati dieci
+> audit nuovi e — soprattutto — la scala di difficoltà è passata da quattro bande
+> a otto fasce, che è il parametro su cui pesca ogni selezione di ogni materia.
+> Riassaggiando tredici audit ne sono usciti due rossi: **il giro completo va
+> fatto prima di qualunque altra cosa**, e costa dieci minuti di macchina ferma.
 >
-> Attenzione a un dettaglio del metro: con `TOLLERANZA_ESAME` a 3,0 punti, una
-> soglia di 36,0 fa scattare l'allarme solo a **39,0**. Il rumore misurato
-> dell'esame è 0,6 punti, quindi quella tolleranza è oggi cinque volte più larga
-> del necessario — se 36 deve essere il limite vero, è la tolleranza il numero
-> da stringere, non il tetto.
+> **Il debito sospeso di R-2 si è chiuso da solo, ed è la cosa migliore
+> successa questa settimana.** `storia / esame` era al 35,8% con la soglia
+> allentata a 36,0 per decisione del committente: un debito non pagato, solo
+> spostato. Rimisurato oggi sta al **24,7%**, e non perché la soglia sia stata
+> toccata ancora — perché l'esame è stato ricostruito sulle fasce di priorità.
+> Vedi R-18 per la tabella.
+>
+> Resta però il dettaglio del metro, e adesso conta di più di prima: con
+> `TOLLERANZA_ESAME` a 3,0 punti e un rumore misurato di 0,6, la tolleranza è
+> cinque volte più larga del necessario — e i tetti dell'esame hanno ora fino a
+> quarantun punti d'aria sopra il valore reale. **Vanno riabbassati tutti**: un
+> cricchetto che nessuno sfiora non trattiene niente.
 >
 > La suite è passata da 242/244 a **243/244**, e da 738 a **572 secondi**: i
 > quattro minuti risparmiati sono l'audit che non resta più appeso a un `assert`
 > fallito (vedi *Rischi noti*, 6).
+
+### R-17 · L'avvio del mondo 1 ha sfondato il budget — aperta il 9 settembre 2026
+
+`performance_budget_audit` è **rosso**. Misurato due volte in isolamento, a
+macchina scarica, e i numeri stanno insieme:
+
+| mondo | 4 settembre | oggi, 1ª misura | oggi, 2ª misura | nodi oggi |
+|---|---:|---:|---:|---:|
+| **1** | 392 ms | **691 ms** | **546 ms** | 2553 |
+| 7 | — | 328 ms | 324 ms | 2013 |
+| 13 | — | 325 ms | 331 ms | 2235 |
+| 19 | — | 364 ms | 385 ms | 2277 |
+| 24 | — | 420 ms | 420 ms | 2133 |
+
+**Non è la macchina, ed è dimostrabile con questa stessa tabella.** Gli altri
+quattro mondi ripetono se stessi entro venti millisecondi: se fosse carico,
+ballerebbero anche loro. Balla solo il primo, e anche il suo minimo — 546 ms —
+sta sopra il budget di 500.
+
+E non sono i nodi: erano 2511, sono **2553**, quarantadue in più.
+
+**Poi ho misurato invece di dedurre, e la diagnosi era sbagliata.**
+`avvio_mondo1_probe.gd` istanzia lo stesso mondo 1 quattro volte di seguito:
+
+    giro 0 · mondo  1 ·  759 ms · 2478 nodi
+    giro 1 · mondo  1 ·  294 ms · 2478 nodi
+    giro 2 · mondo  1 ·  298 ms · 2478 nodi
+    giro 3 · mondo  1 ·  308 ms · 2478 nodi
+    giro 0 · mondo 13 ·  427 ms      giro 1 · mondo 13 ·  291 ms
+
+**Il mondo 1 a caldo costa 294 ms, cioè il 59% del budget, ed è più leggero del
+mondo 13.** Non è pesante: è **primo**, e paga da solo la compilazione degli
+script e il primo caricamento delle risorse. È esattamente ciò che era già stato
+misurato l'8 settembre (3157 ms al primo giro, 412 al secondo) e che nessuno ha
+poi applicato a questo rosso.
+
+Anche il candidato che avevo indicato è escluso, misurato:
+`costo_banchi_probe.gd` dice che leggere e interpretare tutti e dodici i banchi
+costa **179,7 ms in lettura grezza e 91,8 ms** attraverso `ContentManager` — e la
+crescita da 4061 a 4854 item ne spiega al massimo una quindicina. Non sono i
+banchi.
+
+**Che cosa fare, quindi.** Non togliere prop al mondo 1: sarebbe lavoro sprecato
+che per giunta lo impoverisce, e il grafo di scena non è cambiato. Le due strade
+vere:
+
+- **cambiare il metro**: un'istanza di riscaldamento non cronometrata prima della
+  misura, così `performance_budget_audit` misura il mondo e non l'avvio del
+  motore. È una guardia, quindi la decisione è di Paolo — ma va detto che oggi
+  quell'audit **non misura ciò che dichiara di misurare**;
+- **tenere il metro e prendersi il numero sul serio**: 759 ms al primo mondo è
+  anche ciò che vive il bambino la prima volta che apre il gioco. In quel caso il
+  bersaglio non è la scena ma **quanto codice e quante risorse si compilano al
+  primo mondo**, ed è lì che va cercato il mezzo secondo.
+
+Le due strade non si escludono: la prima rende onesto l'audit, la seconda misura
+una cosa vera che oggi nessuna guardia sorveglia.
+
+### R-18 · Italiano crocetta troppo — **chiusa il 9 settembre 2026**
+
+`gesto_audit` è **rosso**, e per la prima volta il rosso non è nell'esame:
+**`italiano / mondo` al 26,0% di «sceglie» contro un tetto di 22,3%.** Le altre
+undici materie del mondo stanno sotto.
+
+> **CHIUSA.** Italiano e' passato da **26,6% a 20,5%** e `gesto_audit` e' verde
+> per la prima volta. La causa non era nessuna delle due ipotesi tentate: era
+> che il catalogo dell'italiano aveva **quattro sfide `compose` nelle fasce 1 e
+> 5** — esattamente i mondi 2 e 14, gli unici in cui italiano e' materia del
+> mondo — e `build_minigame` mette una campata calibrata in ogni sessione.
+> Quindi ogni sessione conteneva una `compose` garantita, e `compose` conta fra
+> i «sceglie». Misurato: era il 14,6% dei nodi al mondo 2 e il 17,0% al 14, piu'
+> della scelta multipla stessa. Quattro opzioni manipolative aggiunte a quelle
+> due fasce, e il numero e' sceso di sei punti.
+>
+> **La lezione: un numero aggregato non dice mai da dove viene.** Scomporlo per
+> origine ha mostrato che la pratica e' il 70,5% dei nodi; scomporlo per
+> **formato** ha mostrato il colpevole in una riga. Vedi
+> [docs/PIANO_OTTIMIZZAZIONE_FASCE.md](docs/PIANO_OTTIMIZZAZIONE_FASCE.md).
+
+**Attenzione: la causa che segue è stata SMENTITA dalla misura.** Resta scritta
+perché è un errore che costa poco rifare. Undici ricette nuove per italiano hanno
+lasciato il numero a 26,0% e poi a 26,3%: dentro il rumore. La spiegazione e la
+leva vera stanno nella Fase 1 di
+[docs/PIANO_OTTIMIZZAZIONE_FASCE.md](docs/PIANO_OTTIMIZZAZIONE_FASCE.md) — in
+due parole: **italiano è materia del mondo solo ai mondi 2 e 14**, e la pratica
+sceglie il formato **per peso, non per numero di ricette**. Il prossimo tentativo
+va fatto su `NONMC_FORMAT_WEIGHTS`, non sul contenuto.
+
+L'ipotesi smentita era questa (censimento del 9 settembre,
+`censimento_fasce_probe.gd`). Italiano è la materia di prima fascia con **meno
+ricette di minigioco di tutte**, e serve **sei esercizi per sessione**: la
+domanda in più va per forza a pescare nel banco, che è il posto dove la crocetta
+vive.
+
+| materia di prima fascia | ricette totali | ricette nuove da F5 a F8 | «sceglie» nel mondo |
+|---|---:|---:|---:|
+| inglese | **128** | 21 · 15 · 8 · 10 | 21,2% |
+| matematica | **84** | 8 · 3 · 7 · 2 | 21,8% |
+| **italiano** | **54** | **1 · 1 · 1 · 0** | **26,0%** ← rosso |
+
+Italiano ha metà delle ricette dell'inglese e **smette di crescere a metà
+campagna**: dalla fascia 5 in poi sblocca una ricetta per fascia, poi zero. Tre
+punti non fanno una dimostrazione, ma vanno nella stessa direzione e la causa
+meccanica è chiara: a parità di sessione, meno ricette significa più banco.
+
+La riparazione quindi non è alzare il tetto: è **dare a italiano ricette di
+minigioco nelle fasce alte**. `italian_minigame_catalog.gd` esiste dall'8
+settembre, copre tutte e otto le fasce ma con **due sfide ciascuna, sedici in
+tutto**, e `build_minigame` ne mette **una sola per sessione** — le altre cinque
+domande vengono da altrove. È il posto giusto dove aggiungerne, ed è lo stesso
+lavoro fatto per l'inglese (vedi G-C4).
+
+**E la notizia buona, che va scritta perché ribalta G-C2 e R-2.** L'esame di fine
+mondo, che era il problema dichiarato, oggi è sano su tutte e dodici le materie:
+
+| | 4 settembre | 9 settembre |
+|---|---:|---:|
+| «manipola» nell'esame | non uniforme | **70,0% su tutte e dodici** |
+| «sceglie» nell'esame, media | **34,4%** | **≈23,7%** |
+| elettronica / esame | **63,0%** | **21,9%** (tetto 63,0) |
+| storia / esame — il rosso di R-2 | **35,8%** (tetto 36,0) | **24,7%** (tetto 36,0) |
+
+**Il debito «sospeso» di R-2 non è più sospeso: è pagato**, e non da un
+allentamento — dalla riscrittura dell'esame per fasce di priorità. Ma i tetti
+sono rimasti dov'erano, e adesso sono larghissimi: elettronica ha 41 punti di
+aria, storia 11. **Un tetto che nessuno sfiora non è un cricchetto**: vanno
+riabbassati sui valori di oggi, con il margine del rumore misurato (0,6 punti) e
+non con la vecchia `TOLLERANZA_ESAME` di 3,0, che era già cinque volte più larga
+del necessario.
 
 ### R-16 · Il tasto per il menu principale c'era e non si trovava — chiusa il 6 settembre 2026
 
@@ -937,27 +1119,220 @@ Resta aperta la **bilancia dell'uguale**: la figura non esiste ancora, ma adesso
 c'è di che disegnarla — `uguaglianze` ha il suo smistamento e `equazioni`
 diciotto item.
 
-**G-C2 · La scelta multipla dell'esame.** ← *la prima da riprendere: ha già un
-rosso attaccato*
+> **Fase 4 chiusa a meta' il 9 settembre 2026, e G-C12 e' passata dal 65,1% al
+> 41,9%.** Sei materie sono uscite del tutto dal ponte — logica, latino,
+> scienze, storia, elettronica, musica — non riscrivendo gli item ma dandogli una
+> **scala dichiarata per argomento**: una tabella che dice in quali quattro
+> fasce cadono i gradi di ogni argomento, scritta guardando l'ordine in cui la
+> materia si insegna e non la lunghezza del testo.
+>
+> **Guardia: `fascia_autorata_audit`.** Il bake non cancella piu' il flag
+> `_difficulty8`, quindi la quota di fasce decise da una persona e' misurabile e
+> a cricchetto. Restano da riautorare matematica, fisica, geografia, coding e
+> italiano; il metodo e le tre trappole gia' pagate stanno in
+> [docs/PIANO_OTTIMIZZAZIONE_FASCE.md](docs/PIANO_OTTIMIZZAZIONE_FASCE.md).
 
-Nel mondo intero il quadro è sano e tutte e dodici le materie stanno sotto il
-loro tetto. Nell'esame no: media **34,4%**, ed elettronica al **63,0%** —
-coerente col suo progetto, perché lì la scelta multipla è stata tolta da tutto il
-resto e vive solo qui, ma è comunque un esame che chiede la competenza con un
-gesto diverso da quello con cui l'ha insegnata.
+**G-C12 · Due terzi delle fasce le ha scelte un'euristica, non un autore.**
+← *aperta il 9 settembre 2026; è il debito della scala a otto, e va prima di
+G-C11*
 
-**E c'è un rosso vivo dentro questa voce: `storia / esame` al 35,8% contro un
-tetto di 32,1** (vedi R-2). Geografia e scienze la seguono a +1,9 e +2,5, dentro
-solo per la tolleranza. Le tre si muovono probabilmente per la stessa causa, che
-è la prima delle due qui sotto.
+Il passaggio da quattro bande a otto fasce è stato fatto giusto sul piano della
+struttura — mappatura, sessioni, esami e guardia sono a posto e verdi. Ma il
+**contenuto** non è stato riautorato: `expandLegacyDifficultyBands()` in
+`scripts/build-exercise-banks.mjs` **taglia in due ogni vecchia banda** ordinando
+gli item per un punteggio di *domanda cognitiva* — lunghezza del testo, formato
+libero, presenza di parole come «perché» o «se», righe della consegna — e manda
+la metà più alta nella fascia pari.
 
-Le due cause sono misurate e scritte in `gesto_audit`:
+Misurato oggi strumentando il bake: **3159 item su 4854, il 65,1%, hanno preso la
+loro fascia da quel punteggio.**
 
-1. `NONMC_FORMAT_WEIGHTS` pesa grafico, circuito e caccia all'errore (25) più di
-   abbinamento, ordinamento e smistamento (20, 15, 13) — cioè favorisce i formati
-   che sono a loro volta «sceglie»;
-2. `formati_da_sostituire` porta fuori solo la scelta multipla: i nodi da
-   digitare restano, e in logica sono il 25% dell'esame.
+| materia | dal ponte | | materia | dal ponte |
+|---|---:|---|---|---:|
+| geografia | **100%** | | fisica | 88,6% |
+| scienze | **100%** | | matematica | 67,4% |
+| storia | **100%** | | italiano | 58,2% |
+| logica | **100%** | | inglese | **32,6%** |
+| latino | **100%** | | | |
+| elettronica | 92,5% | | musica | 89,9% |
+| coding | 89,7% | | | |
+
+Solo tabelline, lessico, coding, elettronica e il catalogo teorico portano una
+fascia scritta a mano (`_difficulty8`); tutto il resto è ordinato per lunghezza.
+E **la lunghezza del testo non è la difficoltà di un argomento**: è la stessa
+confusione che `perche-regala-la-lunghezza` ha già fatto pagare una volta sulle
+risposte. Una domanda corta su un argomento avanzato finisce in fascia dispari,
+una domanda lunga su un argomento elementare in fascia pari.
+
+La firma si vede a occhio nella distribuzione: per otto materie su dodici le
+coppie (2k−1, 2k) sono quasi esattamente metà e metà — 30/30, 21/21, 16/16 — che
+è ciò che produce un taglio a metà, non un curricolo.
+
+**Che cosa va fatto, e in quale ordine.** Non riscrivere 3159 item: riautorare
+per materia, cominciando dalle cinque al 100% che sono anche le più povere
+(geografia, scienze, storia, logica, latino), e dichiarare `_difficulty8`
+sull'item man mano che la fascia diventa una scelta. Il ponte resta finché serve,
+ma **va misurato**: serve un audit che dica quanti item di ciascuna materia hanno
+una fascia autorata, e che quel numero salga e mai scenda. Senza quella guardia,
+la scala a otto resta una rinumerazione con un nome nuovo.
+
+> **Fase 2 chiusa il 9 settembre 2026.** 300 item nuovi su sei materie
+> (geografia +89, coding +81, fisica +51, storia +31, latino +24, scienze +24),
+> in sei file `scripts/banks/*-programma.mjs`, tutti con la fascia scritta a mano.
+> Il banco passa da 4854 a **5154 item**; **nessuna materia sta piu' sotto il
+> pavimento delle quindici sessioni** (il minimo del gioco era 3), e
+> **`variety_audit` e' verde** dopo essere stato rosso su cinque materie. In fisica quattro argomenti su dodici non esistevano affatto
+> nelle prime due fasce: luce, calore, energia e metodo erano a zero. Consuntivo e lezioni in
+> [docs/PIANO_OTTIMIZZAZIONE_FASCE.md](docs/PIANO_OTTIMIZZAZIONE_FASCE.md).
+>
+> **La misura che manca ancora, ed e' la piu' importante:** non item per fascia,
+> ma item per **(argomento, fascia)**. Storia era rossa con settantanove item nel
+> pozzo perche' due argomenti ci stavano con uno solo, e il selettore sceglie
+> prima l'argomento. Nessuna guardia lo vede.
+
+**G-C13 · Il censimento per fascia, e i due buchi che mostra.**
+← *aperta il 9 settembre 2026; misurata con* `censimento_fasce_probe.gd`
+
+Questa voce porta i numeri veri, perché finora il piano non li aveva mai scritti.
+Il probe chiede al motore stesso — non ai file — quanti item e quante ricette
+vede ogni materia in ogni fascia.
+
+**Il banco, item per fascia.** L'item sta in *una* fascia sola; la selezione ne
+ammette ±1, quindi il pozzo reale di una fascia è la somma di tre.
+
+| materia | tier | tot | F1 | F2 | F3 | F4 | F5 | F6 | F7 | F8 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| inglese | 1 | 1466 | 418 | 256 | 237 | 110 | 104 | 102 | 134 | 105 |
+| matematica | 1 | 944 | 51 | 52 | 108 | 94 | 127 | 131 | 210 | 171 |
+| italiano | 1 | 780 | 228 | 111 | 96 | 73 | 86 | 79 | 57 | 50 |
+| fisica | 2 | 229 | 25 | 24 | 24 | 22 | 37 | 46 | 29 | 22 |
+| geografia | 2 | 199 | 14 | 13 | 30 | 30 | 35 | 35 | 21 | 21 |
+| coding | 2 | 195 | 7 | 8 | 28 | 28 | 37 | 33 | 27 | 27 |
+| latino | 3 | 289 | 11 | 10 | 46 | 45 | 58 | 58 | 31 | 30 |
+| storia | 3 | 167 | 11 | 11 | 21 | 21 | 29 | 28 | 23 | 23 |
+| elettronica | 3 | 159 | 12 | 10 | 24 | 23 | 24 | 23 | 22 | 21 |
+| scienze | 3 | 154 | 16 | 15 | 21 | 20 | 26 | 25 | 16 | 15 |
+| musica | 3 | 148 | 11 | 10 | 18 | 17 | 23 | 28 | 22 | 19 |
+| logica | 3 | 124 | 9 | 8 | 15 | 14 | 16 | 16 | 23 | 23 |
+
+**Due forme opposte, e nessuna delle due è stata decisa.** Matematica sale
+(51 → 210): il materiale sta dove sta il programma. Italiano e inglese
+*scendono* (228 → 50, 418 → 105): il lessico è tanto e facile, la sintassi è
+poca e difficile. Un bambino al mondo 22 trova in italiano un terzo del materiale
+che aveva al mondo 2 — cioè meno varietà proprio dove le domande sono più dure.
+
+**Il numero che conta davvero: quante sessioni distinte prima di rivedere un
+item.** È il pozzo (fascia ±1) diviso per gli esercizi della sessione.
+
+| materia | tier | esercizi/sessione | fascia peggiore | sessioni prima di ripetere |
+|---|---:|---:|---|---:|
+| **coding** | 2 | 5 | **F1** (15 item) | **3** |
+| geografia | 2 | 5 | F1 (27 item) | 5 |
+| fisica | 2 | 5 | F1 (49) e F8 (51) | 10 |
+| italiano | 1 | 6 | F8 (107 item) | 18 |
+| matematica | 1 | 6 | F1 (103 item) | 17 |
+| inglese | 1 | 6 | F8 (239 item) | 40 |
+| le sei di terza fascia | 3 | 1 | logica F1 (17 item) | 17 |
+
+**La seconda fascia è il collo di bottiglia, non la terza.** Cinque esercizi per
+sessione su banchi da ~200 item: coding al mondo 1–3 ha **quindici item in tutto**
+e ne serve cinque per sessione — tre sessioni e il bambino ha visto tutto. Le sei
+materie di terza fascia sembrano povere ma pescano un esercizio alla volta, e a
+quel ritmo un pozzo da venti item regge venti sessioni.
+
+**Le ricette di minigioco.** Sono cumulative (`minLevel`), quindi la colonna dice
+quante ne *vede* quella fascia, non quante ne nascono.
+
+| materia | tier | F1 | F2 | F3 | F4 | F5 | F6 | F7 | F8 | in rotazione a F1 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| inglese | 1 | 27 | 51 | 72 | 74 | 95 | 110 | 118 | **128** | 4 meccaniche |
+| matematica | 1 | 25 | 42 | 57 | 64 | 72 | 75 | 82 | **84** | 7 |
+| italiano | 1 | 22 | 30 | 37 | 51 | 52 | 53 | 54 | **54** | 5 |
+| fisica | 2 | 20 | 30 | 38 | 38 | 53 | 53 | 55 | **58** | 6 |
+| coding | 2 | 23 | 37 | 43 | 44 | 47 | 48 | 51 | **53** | 6 |
+| logica | 3 | 18 | 31 | 42 | 45 | 45 | 46 | 49 | **50** | 4 |
+| storia | 3 | 15 | 28 | 37 | 40 | 45 | 45 | 49 | **49** | 4 |
+| geografia | 2 | 15 | 38 | 45 | 46 | 47 | 47 | 47 | **48** | 4 |
+| scienze | 3 | 22 | 35 | 40 | 40 | 42 | 43 | 46 | **48** | 7 |
+| musica | 3 | 14 | 33 | 40 | 41 | 43 | 46 | 46 | **47** | 4 |
+| elettronica | 3 | 19 | 21 | 22 | 24 | 26 | 26 | 44 | **47** | 6 |
+| **latino** | 3 | 11 | 23 | 29 | 30 | 30 | 31 | 31 | **31** | **3** |
+
+Tre cose che questa tabella dice e che non erano scritte da nessuna parte:
+
+1. **Italiano è la materia di prima fascia più povera di gesti** — 54 ricette
+   contro 128 dell'inglese — e serve sei esercizi per sessione. È la causa
+   misurata di R-18;
+2. **Elettronica sta ferma dalla fascia 2 alla fascia 6**: +2, +1, +2, +2, +0, e
+   poi +18 di colpo alla fascia 7. Dal mondo 4 al mondo 18 il bambino gira sulle
+   stesse ventisei ricette — quindici mondi;
+3. **Latino ha 31 ricette e tre meccaniche in rotazione al mondo 1**, ed è
+   l'unica materia che al mondo 1 sta sotto quattro. Dalla fascia 5 in poi non ne
+   sblocca più nessuna.
+
+**E il buco delle fasce basse resta**, ora con il suo numero: nelle prime due
+fasce — i mondi 1–6, dove tutto si incontra per la prima volta — coding ha 15
+item, logica 17, latino 21, musica 21, elettronica 22, storia 22.
+`topic_density_audit` non se ne accorge perché conta gli item **per argomento sul
+totale del banco**, non dentro la fascia: i quindici item della Decisione 9 non
+sono mai stati misurati per fascia, e con quattro bande larghe non serviva.
+`difficulty_bands_audit` chiede solo che ogni fascia regga *una sessione* — che
+per una materia di terza fascia è un esercizio, quindi passa con un item in tutta
+la fascia.
+
+**Le riparazioni, con il conto fatto**, stanno in
+[docs/PIANO_OTTIMIZZAZIONE_FASCE.md](docs/PIANO_OTTIMIZZAZIONE_FASCE.md): un
+pavimento dichiarato («il pozzo di ogni fascia regge almeno quindici sessioni
+distinte»), **212 item** su tre sole materie — coding 81, geografia 81, fisica 50,
+tutti nelle fasce 2 e 8 — e **84 ricette**, di cui nove per italiano che chiudono
+R-18. Il ponte 4→8 è l'ultima fase, non la prima: un item in fascia sbagliata
+resta un item corretto.
+
+> **Fase 3 chiusa il 9 settembre 2026: le ricette di minigioco.** Tutte e dodici
+> le materie portano ora almeno **tre ricette nuove in ognuna delle otto fasce**;
+> prima trentaquattro caselle stavano sotto quella soglia e sei materie avevano
+> fasce a zero. **Meta' del lavoro non e' stata scritta ma spostata**: elettronica
+> aveva diciassette ricette tutte a `minLevel` 20 — quindici mondi sulle stesse —
+> e latino ne aveva due gated un mondo troppo tardi. Le altre 47 sono contenuto
+> nuovo. Guardia: `ricette_per_fascia_audit`, pavimenti a 3 per tutte.
+>
+> **La domanda da fare per prima non e' «che cosa manca» ma «dove sta cio' che
+> c'e'».** Vedi [docs/PIANO_OTTIMIZZAZIONE_FASCE.md](docs/PIANO_OTTIMIZZAZIONE_FASCE.md).
+
+> **Fase 5 chiusa il 9 settembre 2026: le guardie.** Tre audit nuovi —
+> `pozzo_per_fascia`, `fascia_autorata`, `ricette_per_fascia` — e **venti tetti
+> su ventiquattro abbassati** in `gesto_audit`, che ne aveva fino a quarantuno
+> punti d'aria. `TOLLERANZA_ESAME` da 3,0 a 1,0.
+>
+> La misura che mancava, e che ha corretto due volte chi scriveva, e' la seconda
+> di `pozzo_per_fascia`: **quanti ARGOMENTI tocca il pozzo di una fascia**. Il
+> selettore sceglie prima l'argomento; contare gli item non lo vede.
+
+**G-C2 · La scelta multipla — riscritta il 9 settembre 2026.**
+
+**La voce si è capovolta, e conviene dirlo per intero perché per tre settimane il
+lavoro è stato puntato dalla parte sbagliata.** Il problema dichiarato era
+l'esame: media 34,4%, elettronica al 63,0%, storia rossa a 35,8%. Rimisurato oggi,
+l'esame è **sano su tutte e dodici le materie** — «manipola» al 70,0% ovunque,
+«sceglie» fra il 20,7% e il 26,1%, media ≈23,7% — e non perché qualcuno abbia
+lavorato sui formati: perché l'esame è stato **ricostruito sulle fasce di
+priorità** (50/35/15, pescando da tutte le materie con quote fisse). Un lotto che
+non si proponeva di sistemare il gesto lo ha sistemato di rimbalzo.
+
+Restano due cose, e nessuna delle due è quella scritta prima:
+
+1. **Il rosso si è spostato nel mondo, su italiano** (26,0% contro 22,3%): è
+   R-18, e la causa candidata sono i sei esercizi per sessione della prima
+   fascia;
+2. **I tetti sono da riabbassare.** Elettronica ha un tetto di 63,0 su un valore
+   reale di 21,9. Un cricchetto con quarantun punti d'aria non trattiene niente,
+   e la regola dice che i cricchetti scendono.
+
+Le due cause vecchie restano scritte in `gesto_audit` e vanno riverificate prima
+di crederci ancora, perché sono state misurate su un esame che non esiste più:
+`NONMC_FORMAT_WEIGHTS` che favorisce i formati a loro volta «sceglie», e
+`formati_da_sostituire` che porta fuori solo la scelta multipla lasciando dentro
+i nodi da digitare.
 
 **G-C3 · La scelta multipla a zero fuori dall'esame, alle altre dieci materie.**
 `MC_TARGET_PER_MATERIA` contiene ancora due sole voci, elettronica e logica. Si
@@ -1188,6 +1563,57 @@ resta tua:
 Non l'ho cambiata di sfuggita dentro un lotto di contenuti: è la curva, ed è la
 tua.
 
+> **Aggiornamento del 9 settembre: la domanda si è ammorbidita da sola.** Con
+> otto fasce invece di quattro bande, il ±1 del mondo 24 ammette la fascia 7, non
+> più un intero quarto di campagna: la stessa tolleranza vale ora **un terzo** di
+> quanto valeva. Prima di decidere, conviene rimisurare quanto pesa davvero —
+> l'86,9% era misurato sulla scala vecchia e non si trasferisce.
+
+**G-17 · Sei materie su dodici hanno un esercizio per sessione. È voluto fino a
+questo punto? — aperta il 9 settembre 2026**
+
+La gerarchia 50/35/15 dell'8 settembre non ha toccato solo la soglia: ha cambiato
+**quanto si esercita**. `EXERCISE_NODES_BY_TIER` vale 6 / 5 / 1, e la terza fascia
+sono sei materie — musica, latino, elettronica, scienze, storia, logica.
+
+Un giro completo sulle dodici fa 39 esercizi: 18 + 15 + 6, cioè 46% / 38% / 15%,
+che rispetta le quote dichiarate. Ma la quota si può rispettare in due modi
+diversi, e il codice ne ha scelto uno solo: **6 e 1 è un rapporto di sei a uno fra
+una sessione di matematica e una di storia.** La differenza non è di soglia, è di
+esistenza: in una sessione di storia non c'è modo di sbagliare e riprovare, non
+c'è un secondo esercizio che chiuda il ragionamento del primo, e NORA ha una sola
+occasione di dire qualcosa.
+
+Sono coerenti con questo tre cose che il piano dichiara e che vale la pena
+rileggere insieme: la Decisione 2 («dodici materie **obbligatorie**»), la
+Decisione 5 (consolidato = tre corrette in sessioni distinte — che con un
+esercizio per sessione diventa tre sessioni intere) e la Decisione 9 (quindici
+item per argomento, scritti per essere incontrati più di una volta).
+
+Le tre strade, e nessuna è ovvia:
+
+- **così com'è**: il tempo va dove sta il curricolo, e le sei materie di terza
+  fascia restano nel gate come verifica, non come palestra;
+- **portare la terza fascia a 2**: e qui c'è un vincolo aritmetico che va detto
+  prima di discutere, perché non è un'opinione. Con sei materie in terza fascia e
+  una quota del 15% ±5, **l'unico modo di dare due esercizi a musica e storia è
+  un giro da almeno 60 esercizi**: le combinazioni ammesse partono da 10/6/2
+  (giro da 60) e 9/7/2 (giro da 60). Un giro da 39 diventa un giro da 60, cioè
+  **+54% di esercizi**, contro il vincolo dichiarato che nessuna voce di questo
+  piano allunga la campagna. Il 6/4/2 che verrebbe spontaneo fa un giro da 42 con
+  la terza fascia al 28,6%: sfonda la quota di quattordici punti. **Un esercizio
+  non è una taratura: è ciò che il 15% su sei materie consente**, e per cambiarlo
+  bisogna cambiare la quota o la composizione delle fasce, non il numero;
+- **spostare una materia di fascia**: portare, per dire, storia o scienze in
+  seconda fascia lascia cinque materie al 15% e cambia il conto. È la leva più
+  economica delle tre, e la più politica: dice quali sono le materie che contano;
+- **quote uguali, sessioni diverse**: tenere 6/5/1 nel *mondo* e alzare la terza
+  fascia solo nel ripasso mirato, dove il costo di tempo è già speso. È l'unica
+  che non allunga la campagna.
+
+È una decisione di prodotto e non la prendo io: cambia quanto dura la campagna e
+che cosa vuol dire «obbligatoria».
+
 **G-14 · Gli archetipi che si vincevano senza capirli — chiusa il 4 settembre 2026**
 
 > **Nessun archetipo supera più il 25%**, che è il caso su quattro opzioni. Prima
@@ -1358,10 +1784,10 @@ che è stato fatto e può tornare indietro senza che nessuno se ne accorga.**
 | 7 | personaggi nemici per livello | chiuso: Sbiaditi e pattuglie | `eli_enemy_audit` |
 | 8 | sprite del personaggio di qualità AAA | fatto per l'arte statica (9 tavole di Eli); **il movimento non è stato né rifatto né misurato** | — · **resta da giudicare giocando** |
 | 9 | niente ricompense sugli errori, energia per entrare | chiuso | decisione 11, `exercise_exit_audit` |
-| 10 | qualità delle domande tarata per livello | chiuso | decisione 16, `world_difficulty_curve_audit` |
-| 11 | esercizi come minigiochi, non solo scelta multipla | **in corso**: è G-C2 e G-C3 | `gesto_audit` — oggi **rosso** (R-2) |
+| 10 | qualità delle domande tarata per livello | chiuso, e dall'8 settembre su **otto fasce** invece di quattro bande | decisione 16, `world_difficulty_curve_audit`, `difficulty_bands_audit` — ma la fascia di due terzi degli item la sceglie un'euristica: **G-C12** |
+| 11 | esercizi come minigiochi, non solo scelta multipla | **quasi chiuso nell'esame** (70% «manipola» su dodici materie su dodici); resta il mondo | `gesto_audit` — oggi **rosso su italiano/mondo** (R-18) |
 | 12 | elementi sopra la mappa integrati col livello | fatto con le tavole di terreno e i landmark | `tavole_guard_audit` |
-| 13 | gli esercizi indagano ma non insegnano | chiuso: NORA, il Manuale e le dieci figure | `nora_spiegazione_utile_audit`, `explanation_coverage_audit` — oggi **rosso** (R-3) |
+| 13 | gli esercizi indagano ma non insegnano | chiuso: NORA (294 voci), il Manuale e le dieci figure | `nora_spiegazione_utile_audit`, `explanation_coverage_audit` — R-3 chiusa il 4 settembre |
 
 ---
 
@@ -1434,9 +1860,28 @@ Una proposta che le contraddice va discussa, non implementata.
 1. **Fascia 10–13 anni.**
 2. **Dodici materie obbligatorie**: 24 mondi = 12 materie × 2.
 3. **Si sale di livello con tutte e dodici le materie, e si finisce il gioco con
-   dodici.** Italiano, matematica e inglese restano il nucleo e hanno una soglia
-   di padronanza più alta; non sono però l'unico gate. Il passaggio di livello si
-   basa su padronanza, copertura e ritenzione, non sul conteggio delle missioni.
+   dodici.** Il passaggio di livello si basa su padronanza, copertura e
+   ritenzione, non sul conteggio delle missioni. **Aggiornata l'8 settembre
+   2026**: il nucleo non è più «tre materie con la soglia più alta» ma una
+   gerarchia a **tre fasce di priorità**, dichiarata in `apparatus_config.gd` e
+   tenuta da `subject_priority_audit`.
+
+   | fascia | materie | quota di sforzo e di voto | esercizi per sessione | bonus di soglia al mondo 24 |
+   |---|---|---:|---:|---:|
+   | 1 | matematica, inglese, italiano | **50%** | 6 | +0,08 |
+   | 2 | fisica, geografia, coding | **35%** | 5 | +0,04 |
+   | 3 | musica, latino, elettronica, scienze, storia, logica | **15%** | 1 | — |
+
+   Le quote valgono ±5 punti, sono verificate sugli esami *costruiti davvero* —
+   non solo sulle costanti — e il voto è pesato: nove risposte su tredici passano
+   se valgono, non passano se sono tutte di terza fascia. **Tutte e dodici
+   restano nel gate**: l'audit lo verifica esplicitamente, perché una fascia al
+   15% assomiglia molto a una materia facoltativa e non deve diventarlo.
+
+   I bonus di soglia crescono lungo la scala e sono **nulli al mondo 1**: al
+   primo mondo il nucleo chiede quanto le altre, altrimenti si ripete il difetto
+   del 26 agosto (mondo 1 impossibile, non difficile, per chi risponde giusto
+   sette volte su dieci).
 4. **Un mondo è un LIVELLO, non una materia**: ogni mondo ha una materia in focus
    e missioni di tutte e dodici le materie.
 5. **Rivisitazioni = ripasso mirato.** Consolidato = 3 corrette in sessioni
@@ -1491,9 +1936,25 @@ Una proposta che le contraddice va discussa, non implementata.
     `combo_audit` non la verifica rileggendo il codice: registra due volte gli
     stessi esiti con energie diversissime e pretende la **stessa** padronanza e lo
     **stesso** conteggio di gate.
-16. **Ogni mondo ha il proprio livello di difficoltà** (4 settembre 2026).
-    `ContentManager.challenge_level` espone 24 gradini distinti; le bande seguono
-    1–4, 5–10, 11–17 e 18–24; quota di riconoscimento e pesi dei formati cambiano
+16. **Ogni mondo ha il proprio livello di difficoltà** (4 settembre 2026,
+    **riscritta il 9 settembre 2026**). Due assi distinti, e confonderli è il
+    modo più veloce di rompere la curva:
+
+    - la **fascia di contenuto** vale 1..8 e dice quanto è avanzato l'argomento.
+      `ContentManager.DIFFICULTY_BANDS = 8`, `target_difficulty(livello) =
+      1 + (livello−1)/3`: **otto fasce da tre mondi ciascuna**. Erano quattro
+      bande disuguali (1–4, 5–10, 11–17, 18–24) fino all'8 settembre;
+    - il **gradino di sfida** resta 1..24 (`challenge_level`) e guida valori,
+      numero di passaggi, scaffolding e maturazione dei formati.
+
+    La selezione ammette ±1 fascia attorno a quella del mondo, per riscaldamento,
+    finale e ripasso: sulla scala a otto quella tolleranza vale ora un terzo di
+    quanto valeva sulla scala a quattro. Guardia: `difficulty_bands_audit`, che
+    verifica la mappatura mondo→fascia, che ogni materia abbia in ogni fascia
+    almeno gli item per una sessione, e che missioni ed esami *costruiti davvero*
+    restino nella finestra.
+
+    Quota di riconoscimento e pesi dei formati cambiano
     a ogni mondo. È ammesso un piccolo scostamento fra mondi vicini, dovuto alla
     materia, al formato o al ripasso mirato; non sono ammesse inversioni marcate.
     `world_difficulty_curve_audit` campiona gli esercizi realmente serviti e
@@ -1534,14 +1995,16 @@ Una proposta che le contraddice va discussa, non implementata.
    esportata e giocabile: da qui in poi questo rischio si chiude solo giocando, e
    ogni giorno che passa senza collaudo è lavoro fatto su un'ipotesi.
 2. **L'export invecchia più in fretta del codice.** Nulla di quanto scritto oggi
-   è giocabile finché non si esporta — e in questo momento la build spedita porta
-   la versione sbagliata (R-1).
-3. **Il mondo 1 è stretto sul tempo, non più sui nodi.** 2511/3500 nodi ma
-   **466/500 ms**: il 93% del budget d'avvio. Era 311 ms e nessun lotto ha scritto
-   quando è salito. Prima di aggiungere qualcosa al mondo 1, misurare.
+   è giocabile finché non si esporta. Al 9 settembre `audit:web` è **verde**
+   (`2026.09.09-web-loader-1`): la build spedita è HEAD, e R-1 resta chiusa.
+3. **Il mondo 1 ha sfondato il budget del tempo, non quello dei nodi.** 2553/3500
+   nodi — praticamente fermi — ma **546–691 ms su 500**. Era 392 ms il 4
+   settembre e 311 prima ancora, e nessun lotto ha mai scritto quando saliva. È
+   R-17. Prima di aggiungere qualcosa al mondo 1, misurare; e prima di togliere,
+   verificare che il costo sia nella scena e non nella lettura dei banchi.
 4. **`performance_budget_audit` è fragile al carico**: misura wall-clock con poco
-   margine. Un rosso va sempre riverificato in isolamento — e con 466 ms su 500,
-   oggi basta poco per farlo arrossire.
+   margine. Un rosso va sempre riverificato in isolamento — cosa che per R-17 è
+   stata fatta, due volte, con la macchina ferma.
 
    Vale anche il rovescio, ed è la lezione del 4 settembre: **un cricchetto più
    stretto del proprio rumore di misura non è un cricchetto.** Prima di credere a
@@ -1554,6 +2017,18 @@ Una proposta che le contraddice va discussa, non implementata.
    millisecondi di differenza su un budget da 500 — cioè l'11% — che non hanno
    niente a che vedere col gioco. Il conto dei nodi invece non si muove di uno:
    **quando il tempo si arrossa e i nodi sono identici, è la macchina.**
+
+   **Corretto il 9 settembre: né quella regola né la sua prima correzione
+   bastano.** In R-17 i nodi erano identici, non era la macchina — e non era
+   nemmeno una regressione del mondo. Era il **primo** mondo del processo, che
+   paga la compilazione degli script e il primo caricamento delle risorse: lo
+   stesso mondo 1, istanziato una seconda volta, costa 294 ms invece di 759.
+
+   **La verifica che decide, e costa un minuto:** istanziare lo stesso mondo due
+   volte di seguito (`avvio_mondo1_probe.gd`). Se il secondo giro crolla, il rosso
+   appartiene all'avvio del motore e togliere roba a quel mondo non serve a
+   niente. Guardare solo gli altri mondi non basta: anche loro pagano il proprio
+   primo caricamento.
 5. **La suite non si esegue mentre l'altro lavora.** Non è una raccomandazione, è
    una misura: con quattro processi Godot in contemporanea la suite è passata da
    105 a 1295 secondi e sei audit sono arrossiti per contesa, nessuno dei quali

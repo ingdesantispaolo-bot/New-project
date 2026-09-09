@@ -234,6 +234,43 @@ const MATCHING := {
 			["increase", "aumento"], ["decrease", "diminuzione"], ["survey", "indagine"], ["result", "risultato"]]},
 	],
 	"geografia": [
+		# Fasce 5-8, scritte il 9 settembre 2026. Non capitali: quelle stanno gia'
+		# al primo mondo e sono nomi da ricordare. Qui si abbina un fenomeno alla
+		# sua causa o al suo effetto, che e' un legame da ragionare.
+		{"explanation": "Ogni grande fiume ha costruito attorno a se' una civilta': dove l'acqua arriva regolare si coltiva, e dove si coltiva nascono citta'. La geografia non spiega tutta la storia, ma spiega dove poteva cominciare.", "topic": "geografia-fisica", "minLevel": 14, "pairs": [
+			["Nilo", "Egitto"],
+			["Tigri ed Eufrate", "Mesopotamia"],
+			["Indo", "Pakistan"],
+			["Fiume Giallo", "Cina"],
+			["Gange", "India"],
+			["Danubio", "Europa centrale"],
+			["Rio delle Amazzoni", "Brasile"],
+			["Mississippi", "Stati Uniti"]]},
+		{"explanation": "Il nome di un mare o di uno stretto dice spesso chi ci passava e perche': i punti stretti valgono piu' di intere coste, perche' chi li controlla controlla il passaggio di tutti gli altri.", "topic": "mondo", "minLevel": 17, "pairs": [
+			["Stretto di Gibilterra", "Ingresso del Mediterraneo"],
+			["Canale di Suez", "Scorciatoia verso l'oceano Indiano"],
+			["Canale di Panama", "Collega i due oceani americani"],
+			["Stretto di Bering", "Separa Asia e America"],
+			["Stretto di Messina", "Divide la Sicilia dal continente"],
+			["Bosforo", "Divide Europa e Asia a Istanbul"],
+			["Stretto di Malacca", "Passaggio piu' trafficato dell'Asia"]]},
+		{"explanation": "Un ambiente si riconosce dalla combinazione di clima e vegetazione, non da uno dei due: la savana e la steppa hanno entrambe erba e pochi alberi, ma piogge diversissime.", "topic": "climi", "minLevel": 20, "pairs": [
+			["Tundra", "Muschi su terreno gelato"],
+			["Taiga", "Foresta di conifere"],
+			["Savana", "Erba alta e alberi radi"],
+			["Steppa", "Praterie senza alberi"],
+			["Macchia mediterranea", "Arbusti resistenti alla siccita'"],
+			["Foresta pluviale", "Piogge quotidiane e alberi altissimi"],
+			["Deserto", "Vegetazione rada e sparsa"]]},
+		{"explanation": "Le risorse spiegano molte scelte politiche ed economiche: sapere dove sta una materia prima aiuta a capire perche' certe rotte, certi porti e certi conflitti esistono.", "topic": "geografia-umana", "minLevel": 23, "pairs": [
+			["Petrolio", "Golfo Persico"],
+			["Cacao", "Africa occidentale"],
+			["Caffe'", "Brasile"],
+			["Riso", "Sud-est asiatico"],
+			["Rame", "Cile"],
+			["Diamanti", "Africa australe"],
+			["Legname tropicale", "Bacino amazzonico"],
+			["Gas naturale", "Siberia"]]},
 		# L12. Le capitali europee si incontrano al primo mondo; queste sono quelle
 		# del resto del mondo, che è materia di seconda media.
 		{"explanation": "La capitale è la città dove sta il governo, non per forza la più grande: Brasilia è stata costruita apposta, lontano dalla costa affollata.", "topic": "capitali", "minLevel": 12, "kind": "pool", "pool": [
@@ -304,6 +341,37 @@ const MATCHING := {
 			["stella marina", "echinoderma"]]},
 	],
 	"latino": [
+		# Fasce 4, 6 e 8, scritte il 9 settembre 2026. Nessuno di questi abbinamenti
+		# si vince cercando la parola ripetuta fra le due colonne — la scorciatoia
+		# dell'eco che `scorciatoie_minigiochi_audit` misura: le due colonne parlano
+		# lingue diverse, e il ponte va costruito.
+		{"explanation": "Ogni caso ha un mestiere solo, e il mestiere si dice con una domanda: chi?, chi o che cosa?, di chi?, a chi?, con che cosa?. Impararli come domande invece che come nomi rende inutile ricordare l'ordine.", "topic": "casi", "minLevel": 11, "pairs": [
+			["Nominativo", "Chi compie l'azione"],
+			["Accusativo", "Chi o che cosa la subisce"],
+			["Genitivo", "Di chi e' una cosa"],
+			["Dativo", "A chi e' destinata"],
+			["Ablativo", "Con che cosa si fa"],
+			["Vocativo", "Chi viene chiamato"]]},
+		{"explanation": "Le radici latine dei verbi sono rimaste dentro parole italiane che sembrano non c'entrare: riconoscerle vuol dire non dover imparare due volte la stessa cosa.", "topic": "etimologia", "minLevel": 16, "pairs": [
+			["scribere", "Scrivania"],
+			["ducere", "Condurre"],
+			["mittere", "Missione"],
+			["videre", "Evidente"],
+			["audire", "Udienza"],
+			["facere", "Fabbrica"],
+			["ferre", "Trasferire"],
+			["capere", "Ricevere"],
+			["tenere", "Contenere"],
+			["ponere", "Deporre"]]},
+		{"explanation": "Molte istituzioni e mestieri romani hanno lasciato la parola e cambiato il contenuto: sapere che cosa facevano davvero evita di leggere il passato con le categorie di oggi.", "topic": "vocabolario", "minLevel": 22, "pairs": [
+			["Consul", "Guidava lo stato per un anno"],
+			["Legatus", "Comandava una legione"],
+			["Censor", "Contava i cittadini"],
+			["Aedilis", "Curava strade e mercati"],
+			["Quaestor", "Amministrava il denaro pubblico"],
+			["Tribunus", "Difendeva la plebe"],
+			["Praetor", "Amministrava la giustizia"],
+			["Scriba", "Copiava e conservava i documenti"]]},
 		# L17. Le locuzioni latine che si usano ancora oggi in italiano: è il punto
 		# in cui il latino smette di essere una lingua morta da declinare e diventa
 		# una cosa che si sente parlare.
@@ -361,6 +429,17 @@ const MATCHING := {
 			["caput", "capitale"], ["ignis", "igneo"], ["tempus", "temporale"]]},
 	],
 	"musica": [
+		# Fascia 7, 9 settembre 2026: era l'ultima casella del gioco sotto le tre
+		# ricette nuove per fascia.
+		{"explanation": "Ogni forma musicale ha una struttura riconoscibile all'ascolto, e sapere che cosa aspettarsi cambia il modo di ascoltare: si smette di seguire la melodia e si comincia a seguire il disegno.", "topic": "compositori", "minLevel": 20, "pairs": [
+			["Sinfonia", "Grande opera per orchestra in piu' movimenti"],
+			["Concerto", "Uno strumento solista dialoga con l'orchestra"],
+			["Sonata", "Composizione per uno o due strumenti"],
+			["Opera lirica", "Racconto cantato con scene e costumi"],
+			["Quartetto d'archi", "Due violini, viola e violoncello"],
+			["Corale", "Brano scritto per voci che cantano insieme"],
+			["Fuga", "Un tema rientra a turno in ogni voce"],
+			["Preludio", "Brano breve che introduce quello dopo"]]},
 		# Al primo mondo musica aveva otto abbinamenti possibili in tutto: due
 		# specifiche da quattro coppie. Era la materia con la ripetizione peggiore
 		# rimasta, e la cura non è pescare meno ma avere più materiale con risposte
@@ -646,16 +725,16 @@ const MATCHING := {
 	"elettronica": [
 		{"explanation": "In un circuito LED ci sono quattro lavori diversi. La pila dà la spinta, l'interruttore apre o chiude la strada, il resistore frena la corrente per proteggere il LED e il LED trasforma l'energia in luce.", "topic": "componenti-base", "pairs": [["Pila", "Dà la spinta elettrica"], ["Interruttore", "Apre e chiude la strada"], ["Resistore", "Protegge il LED limitando la corrente"], ["LED", "Trasforma energia in luce"], ["Filo di rame", "Porta la corrente da un pezzo all'altro"], ["Lampadina", "Trasforma energia in luce e calore"], ["Motorino", "Trasforma energia in movimento"], ["Cicalino", "Trasforma energia in suono"]]},
 		{"explanation": "Le tre parole rispondono a tre domande diverse. La tensione è la spinta e si misura in volt; la corrente è quanta carica passa e si misura in ampere; la resistenza è quanto un componente ostacola il passaggio e si misura in ohm.", "topic": "misure-elettriche", "pairs": [["Tensione: la spinta", "Volt (V)"], ["Corrente: quanto passa", "Ampere (A)"], ["Resistenza: quanto frena", "Ohm (Ω)"]]},
-		{"explanation": "Potenza, energia e frequenza sono grandezze diverse e arrivano solo dopo le tre misure di base: watt dice quanta energia si usa ogni secondo, joule quanta energia in tutto, hertz quante volte un evento si ripete in un secondo.", "topic": "grandezze", "minLevel": 20, "pairs": [["Potenza", "Watt"], ["Energia", "Joule"], ["Frequenza", "Hertz"]]},
+		{"explanation": "Potenza, energia e frequenza sono grandezze diverse e arrivano solo dopo le tre misure di base: watt dice quanta energia si usa ogni secondo, joule quanta energia in tutto, hertz quante volte un evento si ripete in un secondo.", "topic": "grandezze", "minLevel": 10, "pairs": [["Potenza", "Watt"], ["Energia", "Joule"], ["Frequenza", "Hertz"]]},
 		# Scuola media — legge di Ohm e prefissi delle unità.
 		{"explanation": "La legge di Ohm descrive il legame fra spinta, passaggio e ostacolo: V = I × R. Si usa soltanto dopo aver imparato che cosa significano tensione, corrente e resistenza.", "topic": "legge-ohm", "minLevel": 20, "pairs": [["Tensione (V)", "R × I"], ["Corrente (I)", "V / R"], ["Resistenza (R)", "V / I"]]},
-		{"explanation": "I prefissi cambiano la grandezza di mille volte: chilo significa mille volte, milli significa la millesima parte. Prima si riconosce l'unità, poi si converte.", "topic": "prefissi", "minLevel": 20, "pairs": [["1000 Ω", "1 kΩ"], ["1000 mA", "1 A"], ["1000 mV", "1 V"]]},
+		{"explanation": "I prefissi cambiano la grandezza di mille volte: chilo significa mille volte, milli significa la millesima parte. Prima si riconosce l'unità, poi si converte.", "topic": "prefissi", "minLevel": 4, "pairs": [["1000 Ω", "1 kΩ"], ["1000 mA", "1 A"], ["1000 mV", "1 V"]]},
 		# --- Mondo 1: ricette in più (tappa 3, 6 agosto 2026) -----------------
 		{"explanation": "Immagina un circuito come un giro di tubi. La pila fa da pompa, il filo da tubo, la tensione è la spinta, la corrente è ciò che scorre e l'interruttore è un rubinetto. È solo un modello, ma aiuta a distinguere le idee.", "topic": "elettricita-base", "pairs": [
 			["la pila", "la pompa che spinge"], ["la tensione", "la pressione dell'acqua"],
 			["la corrente", "quanta acqua passa al secondo"], ["la resistenza", "il tubo stretto"],
 			["l'interruttore", "il rubinetto"], ["il filo", "il tubo"]]},
-		{"explanation": "La diagnosi arriva dopo il circuito semplice: si parte dal sintomo, si controlla prima se il giro è chiuso e poi si prova un tratto per volta, senza cambiare tutti i pezzi insieme.", "topic": "guasti", "minLevel": 20, "pairs": [
+		{"explanation": "La diagnosi arriva dopo il circuito semplice: si parte dal sintomo, si controlla prima se il giro è chiuso e poi si prova un tratto per volta, senza cambiare tutti i pezzi insieme.", "topic": "guasti", "minLevel": 22, "pairs": [
 			["la lampadina non si accende", "il circuito è interrotto"],
 			["i fili scaldano troppo", "passa più corrente del dovuto"],
 			["la pila si scarica in pochi minuti", "c'è un cortocircuito"],
@@ -986,6 +1065,11 @@ const ORDERING := {
 		{"explanation": "Il giorno e la notte non dipendono dal Sole che si muove ma dalla Terra che gira su se' stessa: e' sempre la stessa faccia a illuminarsi e a spegnersi.", "topic": "terra-universo", "prompt": "Ordina i momenti della giornata.", "correctOrder": ["Alba", "Mezzogiorno", "Tramonto", "Notte"]},
 	],
 	"geografia": [
+		# Fasce 4, 5 e 7. Ordinare e' un ragionamento: si mette in fila per una
+		# grandezza sola, e la grandezza va capita prima di poter confrontare.
+		{"explanation": "I livelli del rilievo si contano dal mare in su, e ogni gradino ha un nome che dice un'altezza approssimativa: pianura sotto i 200 metri, collina fino a 600, poi la montagna.", "topic": "geografia-fisica", "minLevel": 11, "prompt": "Ordina dal punto piu' basso al piu' alto.", "correctOrder": ["Fondale marino", "Spiaggia", "Pianura", "Collina", "Alta montagna"]},
+		{"explanation": "L'acqua compie sempre lo stesso giro, e ogni passaggio rende possibile il successivo: se ne salta uno, il ciclo si interrompe e la pioggia non arriva.", "topic": "geografia-fisica", "minLevel": 15, "prompt": "Ordina le fasi del ciclo dell'acqua.", "correctOrder": ["L'acqua evapora dal mare", "Il vapore sale e si raffredda", "Si formano le nuvole", "Cade la pioggia", "L'acqua torna al mare"]},
+		{"explanation": "Le unita' amministrative si contengono una dentro l'altra come scatole: sapere l'ordine serve a leggere qualunque indirizzo e qualunque dato statistico.", "topic": "geografia-italia", "minLevel": 20, "prompt": "Ordina dall'unita' piu' piccola alla piu' grande.", "correctOrder": ["Quartiere", "Comune", "Provincia", "Regione", "Stato"]},
 		# L21. Estensione degli Stati in milioni di km². Scelti bene distanziati:
 		# ordinare Canada e Stati Uniti sarebbe memoria di un numero, non geografia.
 		{"explanation": "Si guarda la superficie in chilometri quadrati, non la popolazione né la fama: un Paese può essere piccolo e importante.", "topic": "geografia-umana", "minLevel": 21, "kind": "pool", "prompt": "Ordina questi Stati per superficie crescente (in milioni di km²).", "pool": [
@@ -1102,6 +1186,26 @@ const ORDERING := {
 		{"explanation": "In italiano l'ordine normale è soggetto, verbo, complemento. Si può cambiare per dare enfasi, ma la frase base segue questo.", "topic": "sintassi", "prompt": "Riordina le parole per formare una frase corretta.", "correctOrder": ["Il", "gatto", "dorme", "sul", "divano"]},
 		{"explanation": "Si parte dal soggetto e si cerca il verbo che gli si accorda: il resto della frase si dispone attorno a quei due.", "topic": "sintassi", "prompt": "Riordina le parole per formare una frase corretta.", "correctOrder": ["Domani", "andremo", "tutti", "al", "mare"]},
 		{"explanation": "Una storia ha un ordine di causa: ogni evento è possibile solo perché è successo quello prima. Se si può scambiare, non era una storia.", "topic": "testo-narrativo", "prompt": "Metti in ordine gli eventi della storia.", "correctOrder": ["C'era una volta un re", "Il re partì per un lungo viaggio", "Incontrò un drago feroce", "Con astuzia lo sconfisse", "Tornò a casa vittorioso"]},
+		# **Il tempo verbale come unico indizio.** (9 settembre 2026) Fascia 8.
+		#
+		# Qui le frasi non raccontano una storia: sono scollegate apposta, così
+		# l'ordine non si indovina dal senso. L'unica cosa che dice quale viene
+		# prima è il TEMPO del verbo — trapassato, passato, presente, futuro — ed
+		# è esattamente la competenza che `concordanza-tempi-verbali` chiede e che
+		# finora si poteva solo crocettare.
+		{"explanation": "Il trapassato racconta ciò che era già successo prima di un altro fatto passato; poi vengono il passato prossimo, il presente e il futuro. Quando le frasi non si tengono per il senso, l'ordine lo dà soltanto il tempo del verbo.", "topic": "concordanza-tempi-verbali", "minLevel": 22, "kind": "pool", "draw": 4, "prompt": "Metti le frasi in ordine di tempo, dalla più lontana alla più vicina. Guarda solo il verbo.", "pool": [
+			{"label": "Avevo già chiuso la finestra", "value": 1.0},
+			{"label": "Era partito da un pezzo", "value": 2.0},
+			{"label": "Aveva finito prima degli altri", "value": 3.0},
+			{"label": "Ho chiuso la finestra", "value": 4.0},
+			{"label": "Sono partito stamattina", "value": 5.0},
+			{"label": "Ha finito poco fa", "value": 6.0},
+			{"label": "Chiudo la finestra", "value": 7.0},
+			{"label": "Parto adesso", "value": 8.0},
+			{"label": "Finisce in questo momento", "value": 9.0},
+			{"label": "Chiuderò la finestra", "value": 10.0},
+			{"label": "Partirò domani", "value": 11.0},
+			{"label": "Finirà la settimana prossima", "value": 12.0}]},
 	],
 	"coding": [
 		{"explanation": "Un programma esegue una riga per volta dall'alto in basso: un'istruzione che usa un valore deve venire dopo quella che lo crea.", "topic": "algoritmi", "prompt": "Ordina i passi del programma", "correctOrder": ["Chiedi il numero", "Controlla se è pari", "Se è pari stampa 'pari'", "Altrimenti stampa 'dispari'"]},
@@ -1222,6 +1326,14 @@ const ORDERING := {
 		{"explanation": "Le eta' della preistoria prendono il nome dal materiale che si sapeva lavorare: ogni passaggio e' una tecnica nuova, non un capriccio degli storici.", "topic": "preistoria", "prompt": "Ordina le eta' della preistoria, dalla piu' antica.", "correctOrder": ["Pietra antica", "Pietra nuova", "Eta' del rame", "Eta' del bronzo", "Eta' del ferro"]},
 	],
 	"latino": [
+		# Fasce 4-8, scritte il 9 settembre 2026. La frase da rimontare cresce con
+		# il grado: prima soggetto-oggetto-verbo, poi il complemento, poi la
+		# subordinata. E' l'unico modo di chiedere la sintassi latina senza
+		# chiedere di produrre forme, che senza tavola non si deducono.
+		{"explanation": "Con un complemento in piu' la frase resta leggibile solo se si riconosce il caso: «in silva» dice dove, e sta fra l'oggetto e il verbo senza spostare nessun ruolo.", "topic": "frasi", "minLevel": 10, "prompt": "Ordina la frase latina: «il contadino vede il lupo nel bosco».", "correctOrder": ["Agricola", "lupum", "in silva", "videt"]},
+		{"explanation": "Il genitivo si appoggia alla parola che possiede e la segue: «la figlia del contadino» diventa «filia agricolae», e il gruppo resta unito quando la frase si allunga.", "topic": "frasi", "minLevel": 13, "prompt": "Ordina la frase latina: «la figlia del contadino porta l'acqua».", "correctOrder": ["Filia", "agricolae", "aquam", "portat"]},
+		{"explanation": "Con due complementi l'ordine abituale mette prima il termine e poi il mezzo, ma sono le desinenze a stabilire i ruoli: spostarli non cambierebbe il senso, solo l'enfasi.", "topic": "frasi", "minLevel": 17, "prompt": "Ordina la frase latina: «il servo porta una lettera al padrone con il cavallo».", "correctOrder": ["Servus", "domino", "epistulam", "equo", "portat"]},
+		{"explanation": "La subordinata temporale precede la principale e ha un verbo suo: si riconosce dalla congiunzione iniziale, ed e' il primo passo verso il periodo latino vero.", "topic": "frasi", "minLevel": 22, "prompt": "Ordina il periodo latino: «quando il console arriva, i soldati lodano».", "correctOrder": ["Cum", "consul", "venit", "milites", "laudant"]},
 		{"explanation": "In latino il verbo va di solito in fondo: la frase si costruisce soggetto, oggetto, verbo, ed è la differenza più visibile rispetto all'italiano.", "topic": "frasi", "prompt": "Ordina la frase latina (soggetto, oggetto, verbo): «la fanciulla ama la rosa»", "correctOrder": ["Puella", "rosam", "amat"]},
 		{"explanation": "Il verbo chiude la frase latina. Il caso dice già chi fa e chi subisce, quindi l'ordine può permettersi di essere diverso dal nostro.", "topic": "frasi", "prompt": "Ordina la frase latina (soggetto, oggetto, verbo): «il contadino ama la terra»", "correctOrder": ["Agricola", "terram", "amat"]},
 		{"explanation": "Soggetto in nominativo, oggetto in accusativo, verbo alla fine: le desinenze reggono il senso, la posizione lo conferma.", "topic": "frasi", "prompt": "Ordina la frase latina (soggetto, oggetto, verbo): «la regina guarda la luna»", "correctOrder": ["Regina", "lunam", "spectat"]},
@@ -1383,7 +1495,7 @@ const ORDERING := {
 		{"explanation": "La corrente percorre un anello chiuso: parte dal polo positivo, attraversa i componenti in fila e torna al negativo. In serie l'ordine è obbligato.", "topic": "circuito", "prompt": "Partendo dal polo positivo, ordina i componenti attraversati dalla corrente in questo circuito in serie.",
 			"correctOrder": ["Polo positivo della pila", "Interruttore chiuso", "Resistore", "LED", "Polo negativo della pila"]},
 		{"explanation": "Un LED ha un verso e ha bisogno di un resistore che limiti la corrente. Si controllano i collegamenti con la pila staccata e si collega la pila solo alla fine: così un errore si può correggere prima che passi corrente.", "topic": "montaggio-led", "prompt": "Monta in sicurezza il circuito LED: ordina i passi, lasciando l'alimentazione per ultima.", "correctOrder": ["Tieni la pila scollegata", "Controlla il verso del LED", "Collega interruttore e resistore", "Collega il LED e il filo di ritorno", "Controlla che il giro sia chiuso", "Collega la pila per ultima"]},
-		{"explanation": "Per confrontare ohm e kilo-ohm bisogna prima portarli alla stessa unità: 1 kΩ significa 1000 Ω.", "topic": "prefissi", "minLevel": 20, "prompt": "Ordina le resistenze dalla più piccola.", "correctOrder": ["10 Ω", "100 Ω", "1 kΩ", "10 kΩ"]},
+		{"explanation": "Per confrontare ohm e kilo-ohm bisogna prima portarli alla stessa unità: 1 kΩ significa 1000 Ω.", "topic": "prefissi", "minLevel": 4, "prompt": "Ordina le resistenze dalla più piccola.", "correctOrder": ["10 Ω", "100 Ω", "1 kΩ", "10 kΩ"]},
 		# --- Terzo ordinamento al mondo 1 (7 agosto 2026) ----------------------
 		{"explanation": "Un circuito funziona soltanto se esiste un giro completo dai due poli della pila. Si prepara il percorso con la pila staccata, si controlla che non ci siano buchi e si alimenta soltanto alla fine.", "topic": "montaggio-lampada", "prompt": "Costruisci un circuito semplice senza alimentarlo mentre lavori: ordina i passi.", "correctOrder": ["Tieni la pila scollegata", "Collega il filo alla lampadina", "Collega il ritorno all'altro lato della lampadina", "Controlla che il percorso non abbia buchi", "Collega i due poli della pila per ultimi"]},
 	],
@@ -1567,8 +1679,100 @@ const CLASSIFICATION := {
 				"Loro hanno vinto la partita": "verbo avere, con la h", "Hai un fratello maggiore?": "verbo avere, con la h",
 				"Vado a scuola a piedi": "preposizione o nome, senza h", "Un anno intero è passato": "preposizione o nome, senza h",
 				"Vengo a piedi ogni giorno": "preposizione o nome, senza h", "Penso spesso a te": "preposizione o nome, senza h"}},
+		# **I tre modi indefiniti, riconosciuti dalla forma.** (9 settembre 2026)
+		#
+		# `imperativo-infinito-participio-gerundio` aveva quindici item nel banco,
+		# distribuiti su tutte e otto le fasce, e ZERO minigiochi: si poteva solo
+		# crocettare. Il nome della categoria non compare in nessuna tessera — si
+		# smista guardando la desinenza, che è l'unico indizio vero.
+		{"explanation": "I tre modi indefiniti si riconoscono dalla fine della parola: -are/-ere/-ire per l'infinito, -ando/-endo per il gerundio, -ato/-uto/-ito per il participio. Non dicono chi compie l'azione, ed è per questo che si chiamano indefiniti.", "topic": "imperativo-infinito-participio-gerundio", "minLevel": 16, "draw": 6, "prompt": "Smista ogni voce verbale guardando come finisce.",
+			"categories": ["infinito", "gerundio", "participio"],
+			"assignments": {
+				"correre": "infinito", "partire": "infinito", "cantare": "infinito",
+				"scrivere": "infinito", "capire": "infinito", "temere": "infinito",
+				"correndo": "gerundio", "partendo": "gerundio", "cantando": "gerundio",
+				"scrivendo": "gerundio", "capendo": "gerundio", "temendo": "gerundio",
+				"corso": "participio", "partito": "participio", "cantato": "participio",
+				"scritto": "participio", "capito": "participio", "temuto": "participio"}},
+		# **Fascia 5, e serve al MONDO 14.** (9 settembre 2026)
+		#
+		# Italiano è materia del mondo soltanto ai mondi 2 e 14: è lì che
+		# `gesto_audit` lo misura. Al mondo 14 la pratica stava al 33,5% di
+		# «sceglie» contro il 20,0% del mondo 2, e la pratica è il 70,5% dei nodi
+		# del mondo. Questa ricetta e quella di scorrimento a `minLevel` 13 sono
+		# manipolative apposta: al mondo 14 servono mani, non alternative.
+		# Due accorgimenti, e il primo è stato pagato con un rosso. **I nomi dei
+		# contenitori non condividono nessuna parola con le tessere**: la prima
+		# stesura diceva «era successo prima» e «sarebbe successo dopo», e le
+		# tessere contenevano «la sera prima» e «il giorno dopo» — venti punti
+		# sopra il caso, la scorciatoia del bidone in piena regola. Il secondo:
+		# dalle tessere sono sparite anche le espressioni di tempo, così l'unico
+		# indizio rimasto è la voce verbale, che è ciò che la prova vuole chiedere.
+		{"explanation": "Rispetto a un fatto passato una subordinata può guardare indietro (trapassato), stare insieme (imperfetto) o guardare avanti (condizionale composto). Il tempo verbale non dice quando è successo in assoluto, ma dove si colloca rispetto alla principale.", "topic": "concordanza-tempi-verbali", "minLevel": 13, "draw": 6, "prompt": "«Marta raccontò che…»: smista ogni seguito guardando soltanto la voce verbale.",
+			"categories": ["già concluso", "ancora in corso", "non ancora avvenuto"],
+			"assignments": {
+				"aveva chiuso il cancello": "già concluso", "era uscito senza avvisare": "già concluso",
+				"aveva perso le chiavi": "già concluso", "si era alzata presto": "già concluso",
+				"pioveva forte": "ancora in corso", "tutti aspettavano in silenzio": "ancora in corso",
+				"nevicava senza sosta": "ancora in corso", "faceva molto freddo": "ancora in corso",
+				"sarebbe tornata": "non ancora avvenuto", "avrebbe scritto una lettera": "non ancora avvenuto",
+				"si sarebbero rivisti": "non ancora avvenuto", "avrebbe chiamato": "non ancora avvenuto"}},
+		# **Il periodo ipotetico nei suoi tre gradi.** (9 settembre 2026)
+		#
+		# Fascia 8: qui non si chiede la forma ma il GRADO — quanto il parlante
+		# crede possibile ciò che dice. Nessuna tessera contiene le parole
+		# «realtà», «possibilità» o «impossibile»: si decide dai modi verbali.
+		{"explanation": "Il grado del periodo ipotetico si legge nei modi: indicativo per ciò che si dà per certo, congiuntivo imperfetto con il condizionale presente per ciò che è possibile, congiuntivo trapassato con il condizionale passato per ciò che ormai non può più accadere.", "topic": "congiuntivo-condizionale", "minLevel": 22, "draw": 6, "prompt": "Smista ogni periodo ipotetico secondo quanto chi parla lo dà per possibile.",
+			"categories": ["dato per certo", "possibile", "ormai impossibile"],
+			"assignments": {
+				"Se piove, resto a casa": "dato per certo", "Se studi, superi la prova": "dato per certo",
+				"Se scaldi il ghiaccio, si scioglie": "dato per certo", "Se parti alle otto, arrivi in tempo": "dato per certo",
+				"Se avessi tempo, verrei con te": "possibile", "Se piovesse, resteremmo a casa": "possibile",
+				"Se vincessi, dividerei il premio": "possibile", "Se partissi ora, arriveresti prima": "possibile",
+				"Se avessi avuto tempo, sarei venuto": "ormai impossibile", "Se fosse partito prima, sarebbe arrivato": "ormai impossibile",
+				"Se avesse studiato, avrebbe superato la prova": "ormai impossibile", "Se me l'avessi detto, ti avrei aiutato": "ormai impossibile"}},
 	],
 	"scienze": [
+		# Fasce alte, scritte il 9 settembre 2026 (Fase 3 del piano): il censimento
+		# trovava questa materia con meno di tre ricette nuove in queste fasce.
+		{"topic": "materia", "minLevel": 10, "draw": 6, "prompt": "Smista ogni trasformazione: cambia solo la forma oppure nasce una sostanza nuova?",
+			"categories": ["cambia solo la forma", "nasce una sostanza nuova"],
+			"assignments": {
+				"il ghiaccio si scioglie": "cambia solo la forma", "l'acqua evapora": "cambia solo la forma",
+				"lo zucchero si scioglie nel te'": "cambia solo la forma", "il ferro viene battuto in lamina": "cambia solo la forma",
+				"la cera fonde": "cambia solo la forma", "il sale si deposita evaporando": "cambia solo la forma",
+				"il legno brucia": "nasce una sostanza nuova", "il ferro arrugginisce": "nasce una sostanza nuova",
+				"il latte inacidisce": "nasce una sostanza nuova", "un frutto marcisce": "nasce una sostanza nuova",
+				"il pane lievita": "nasce una sostanza nuova", "una candela consuma lo stoppino": "nasce una sostanza nuova"},
+			"explanation": "La prova sta nel poter tornare indietro: il ghiaccio sciolto ridiventa ghiaccio, la cenere non ridiventa legno. Dove la strada e' a senso unico, le sostanze si sono davvero riorganizzate."},
+		{"topic": "energia", "minLevel": 13, "draw": 6, "prompt": "Smista ogni fonte di energia secondo se si esaurisce oppure no.",
+			"categories": ["si rigenera", "una volta usata finisce"],
+			"assignments": {
+				"il vento": "si rigenera", "il Sole": "si rigenera", "le maree": "si rigenera",
+				"l'acqua di un fiume": "si rigenera", "il calore della Terra": "si rigenera", "la legna ripiantata": "si rigenera",
+				"il petrolio": "una volta usata finisce", "il carbone": "una volta usata finisce", "il gas naturale": "una volta usata finisce",
+				"l'uranio": "una volta usata finisce", "la torba estratta": "una volta usata finisce", "lo scisto bituminoso": "una volta usata finisce"},
+			"explanation": "La differenza non e' la quantita' ma il tempo di ricarica: il carbone si e' formato in milioni di anni e lo bruciamo in decenni. Una fonte e' rinnovabile quando si rigenera alla velocita' con cui la usiamo."},
+		{"topic": "corpo", "minLevel": 16, "draw": 6, "prompt": "Smista ogni organo secondo l'apparato a cui appartiene.",
+			"categories": ["respirazione", "circolazione", "digestione"],
+			"assignments": {
+				"polmoni": "respirazione", "trachea": "respirazione", "bronchi": "respirazione",
+				"diaframma": "respirazione", "laringe": "respirazione", "alveoli": "respirazione",
+				"cuore": "circolazione", "arterie": "circolazione", "vene": "circolazione",
+				"capillari": "circolazione", "milza": "circolazione", "aorta": "circolazione",
+				"stomaco": "digestione", "intestino": "digestione", "fegato": "digestione",
+				"esofago": "digestione", "pancreas": "digestione", "colon": "digestione"},
+			"explanation": "Gli apparati sono squadre di organi che lavorano a uno stesso compito, e si passano il lavoro l'uno con l'altro: l'ossigeno entra con il primo e viene distribuito dal secondo, che a sua volta raccoglie dal terzo."},
+		{"topic": "ecosistema", "minLevel": 19, "draw": 6, "prompt": "Smista ogni essere vivente secondo il posto che occupa nella catena alimentare.",
+			"categories": ["produce il proprio cibo", "mangia altri viventi", "smonta i resti"],
+			"assignments": {
+				"quercia": "produce il proprio cibo", "alga verde": "produce il proprio cibo", "felce": "produce il proprio cibo",
+				"muschio": "produce il proprio cibo", "grano": "produce il proprio cibo", "fitoplancton": "produce il proprio cibo",
+				"lupo": "mangia altri viventi", "capriolo": "mangia altri viventi", "aquila": "mangia altri viventi",
+				"bruco": "mangia altri viventi", "rana": "mangia altri viventi", "coniglio": "mangia altri viventi",
+				"fungo del sottobosco": "smonta i resti", "batterio del suolo": "smonta i resti", "lombrico": "smonta i resti",
+				"muffa": "smonta i resti", "scarabeo stercorario": "smonta i resti", "termite": "smonta i resti"},
+			"explanation": "Ogni ruolo e' definito da dove prende il carbonio: chi lo cattura dall'aria, chi lo prende mangiando, chi lo restituisce al terreno. Togli l'ultimo gruppo e il ciclo si ferma, anche se sembra il meno importante."},
 		{"explanation": "Il gruppo dipende da che cosa mangia l'animale, non da quanto è grande: il coniglio e la giraffa stanno insieme perché mangiano entrambi piante.", "topic": "viventi", "draw": 6, "prompt": "Smista ogni animale per come si nutre.",
 			"categories": ["erbivoro", "carnivoro", "onnivoro"],
 			"assignments": {
@@ -1651,6 +1855,32 @@ const CLASSIFICATION := {
 				"Io": "satellite", "Europa (di Giove)": "satellite"}},
 	],
 	"coding": [
+		# Fasce alte, scritte il 9 settembre 2026 (Fase 3 del piano): il censimento
+		# trovava questa materia con meno di tre ricette nuove in queste fasce.
+		{"topic": "cicli", "minLevel": 13, "draw": 6, "prompt": "Smista ogni compito secondo il ciclo che gli serve.",
+			"categories": ["so gia' quante volte", "mi fermo quando succede qualcosa"],
+			"assignments": {
+				"stampare i numeri da 1 a 100": "so gia' quante volte", "salutare ognuno di venti nomi": "so gia' quante volte",
+				"leggere tutte le righe di una lista": "so gia' quante volte", "ripetere un disegno per otto lati": "so gia' quante volte",
+				"chiedere la password finche' non e' giusta": "mi fermo quando succede qualcosa", "sommare finche' il totale supera cento": "mi fermo quando succede qualcosa",
+				"attendere finche' l'utente scrive fine": "mi fermo quando succede qualcosa", "cercare finche' non trovo l'elemento": "mi fermo quando succede qualcosa"},
+			"explanation": "Il ciclo a conteggio serve quando il numero di giri e' noto prima di partire; quello a condizione quando dipende da che cosa succede dentro. Sbagliare il tipo produce o un giro di troppo o un programma che non finisce mai."},
+		{"topic": "funzioni", "minLevel": 19, "draw": 6, "prompt": "Smista ogni riga secondo se la funzione consegna un risultato o si limita a mostrarlo.",
+			"categories": ["consegna un valore", "mostra e basta"],
+			"assignments": {
+				"return n * 2": "consegna un valore", "return len(lista)": "consegna un valore",
+				"return a + b": "consegna un valore", "return True": "consegna un valore",
+				"print(n * 2)": "mostra e basta", "print(len(lista))": "mostra e basta",
+				"print(a + b)": "mostra e basta", "print(True)": "mostra e basta"},
+			"explanation": "Chi consegna un valore permette di riusarlo: sommarlo, salvarlo, passarlo a un'altra funzione. Chi mostra e basta chiude la strada, e per questo una funzione che stampa non si puo' comporre con altre."},
+		{"topic": "tipi", "minLevel": 22, "draw": 6, "prompt": "Smista ogni struttura secondo se si puo' modificare dopo averla creata.",
+			"categories": ["si puo' modificare", "resta com'e'"],
+			"assignments": {
+				"lista": "si puo' modificare", "dizionario": "si puo' modificare",
+				"insieme": "si puo' modificare", "array di byte": "si puo' modificare",
+				"stringa": "resta com'e'", "tupla": "resta com'e'",
+				"numero intero": "resta com'e'", "valore booleano": "resta com'e'"},
+			"explanation": "Su cio' che resta com'e' ogni operazione produce una copia nuova invece di cambiare l'originale: e' il motivo per cui `parola.upper()` va assegnato a qualcosa, altrimenti il risultato si perde."},
 		{"explanation": "Il tipo si legge da come è scritto il valore: le virgolette fanno una stringa, True e False sono booleani, le parentesi quadre una lista, un numero nudo un intero.", "topic": "tipi", "draw": 8, "prompt": "Smista ogni valore nel suo tipo di dato.",
 			"categories": ["intero", "stringa", "booleano", "lista"],
 			"assignments": {
@@ -1755,6 +1985,34 @@ const CLASSIFICATION := {
 				"mandare un messaggio in rete": "esce dal programma"}},
 	],
 	"storia": [
+		# Fasce alte, scritte il 9 settembre 2026 (Fase 3 del piano): il censimento
+		# trovava questa materia con meno di tre ricette nuove in queste fasce.
+		{"topic": "civilta", "minLevel": 19, "draw": 6, "prompt": "Smista ogni invenzione secondo l'epoca in cui compare.",
+			"categories": ["mondo antico", "medioevo", "eta' moderna"],
+			"assignments": {
+				"acquedotto in muratura": "mondo antico", "scrittura su papiro": "mondo antico",
+				"strada lastricata": "mondo antico", "calendario solare": "mondo antico",
+				"mulino ad acqua diffuso": "medioevo", "aratro pesante con ruote": "medioevo",
+				"occhiali da vista": "medioevo", "orologio meccanico da torre": "medioevo",
+				"stampa a caratteri mobili": "eta' moderna", "telescopio": "eta' moderna",
+				"macchina a vapore": "eta' moderna", "vaccino": "eta' moderna"},
+			"explanation": "Le invenzioni non arrivano a caso: ognuna ha bisogno di quelle prima. La stampa richiede carta economica e metallurgia fine, e infatti nasce dove tutte e due erano gia' disponibili."},
+		{"topic": "metodo", "minLevel": 20, "draw": 6, "prompt": "Smista ogni domanda secondo se una fonte puo' rispondere da sola.",
+			"categories": ["basta una fonte", "servono piu' fonti"],
+			"assignments": {
+				"in che anno e' datato questo documento": "basta una fonte", "quale nome compare sulla lapide": "basta una fonte",
+				"quale materiale e' stato usato": "basta una fonte", "quante righe contiene il testo": "basta una fonte",
+				"perche' quella guerra e' scoppiata": "servono piu' fonti", "che cosa pensava la gente comune": "servono piu' fonti",
+				"quanto era diffusa quell'abitudine": "servono piu' fonti", "se il racconto e' attendibile": "servono piu' fonti"},
+			"explanation": "Una fonte risponde bene alle domande su se stessa e male a quelle sul mondo attorno: per sapere che cosa e' successo davvero servono voci diverse, perche' ciascuna vede da un punto solo."},
+		{"topic": "cronologia", "minLevel": 23, "draw": 6, "prompt": "Smista ogni cambiamento secondo la velocita' con cui e' avvenuto.",
+			"categories": ["nel giro di giorni", "nel giro di secoli"],
+			"assignments": {
+				"una battaglia decisiva": "nel giro di giorni", "l'incoronazione di un sovrano": "nel giro di giorni",
+				"la firma di un trattato": "nel giro di giorni", "l'eruzione che sepolli' Pompei": "nel giro di giorni",
+				"il passaggio dalla caccia all'agricoltura": "nel giro di secoli", "la diffusione di una lingua": "nel giro di secoli",
+				"lo spostamento dei commerci verso l'oceano": "nel giro di secoli", "il cambiamento del clima medievale": "nel giro di secoli"},
+			"explanation": "La storia si muove su due orologi insieme: gli eventi che si datano al giorno e i processi che nessuno vede accadere. Guardare solo il primo fa credere che la storia sia una fila di date."},
 		{"topic": "fonti", "draw": 6, "prompt": "Smista ogni traccia del passato: fonte scritta o fonte materiale?",
 			"categories": ["fonte scritta", "fonte materiale"],
 			"assignments": {
@@ -1852,6 +2110,41 @@ const CLASSIFICATION := {
 				"le due guerre mondiali": "età contemporanea", "lo sbarco sulla Luna": "età contemporanea"}},
 	],
 	"geografia": [
+		# **Le fasce alte della geografia, scritte il 9 settembre 2026.** Il
+		# censimento trovava geografia con ZERO ricette nuove dalla fascia 5 in
+		# poi: dal mondo 13 al 24 non sbloccava piu' niente, e restavano le carte
+		# mute imparate al primo mondo. Nessuna tessera contiene il nome del
+		# proprio contenitore: e' la scorciatoia del bidone.
+		{"topic": "climi", "minLevel": 13, "draw": 6, "prompt": "Smista ogni paesaggio secondo la fascia climatica in cui si trova.",
+			"categories": ["equatoriale", "arido", "polare"],
+			"assignments": {
+				"foresta sempre verde e piogge quotidiane": "equatoriale", "alberi altissimi e umidita' costante": "equatoriale",
+				"vegetazione fitta su piu' piani sovrapposti": "equatoriale", "fiumi larghi che non seccano mai": "equatoriale",
+				"dune mobili e pochissima vegetazione": "arido", "escursione fortissima fra giorno e notte": "arido",
+				"piante grasse che immagazzinano riserve": "arido", "corsi d'acqua che scorrono solo dopo i temporali": "arido",
+				"suolo gelato tutto l'anno sotto la superficie": "polare", "muschi e licheni al posto degli alberi": "polare",
+				"mesi interi senza che il Sole tramonti": "polare", "distese bianche senza alcuna coltivazione": "polare"},
+			"explanation": "Il clima si legge dal paesaggio prima che dai numeri: la vegetazione e' un termometro e un pluviometro insieme, perche' cresce solo dove trova le condizioni che le servono."},
+		{"topic": "geografia-fisica", "minLevel": 16, "draw": 6, "prompt": "Smista ogni forma del rilievo secondo chi l'ha modellata.",
+			"categories": ["un fiume", "un ghiacciaio", "il mare"],
+			"assignments": {
+				"valle stretta e incisa a V": "un fiume", "pianura di detriti alla foce": "un fiume",
+				"meandri che serpeggiano in piano": "un fiume", "gole profonde scavate nella roccia": "un fiume",
+				"valle larga con il fondo piatto": "un ghiacciaio", "massi enormi lasciati fuori posto": "un ghiacciaio",
+				"conche riempite d'acqua in quota": "un ghiacciaio", "rocce levigate e striate in una direzione": "un ghiacciaio",
+				"falesie tagliate a picco": "il mare", "cordoni di sabbia lungo la riva": "il mare",
+				"archi di roccia forati dalle onde": "il mare", "spiagge che avanzano dove la corrente rallenta": "il mare"},
+			"explanation": "Ogni agente lascia una firma riconoscibile: l'acqua corrente incide in profondita', il ghiaccio allarga il fondo, le onde tagliano di lato. Il paesaggio conserva la storia di chi lo ha costruito anche milioni di anni dopo."},
+		{"topic": "geografia-umana", "minLevel": 22, "draw": 6, "prompt": "Smista ogni attivita' secondo il settore economico a cui appartiene.",
+			"categories": ["primario", "secondario", "terziario"],
+			"assignments": {
+				"coltivare grano": "primario", "pescare in mare aperto": "primario",
+				"estrarre minerali": "primario", "allevare bestiame": "primario",
+				"assemblare automobili": "secondario", "trasformare il latte in formaggio": "secondario",
+				"tessere stoffe": "secondario", "raffinare petrolio": "secondario",
+				"insegnare in una scuola": "terziario", "curare in ospedale": "terziario",
+				"trasportare merci": "terziario", "vendere in un negozio": "terziario"},
+			"explanation": "Il primario prende dalla natura, il secondario trasforma, il terziario offre servizi. La ricchezza di un paese si legge in come le persone si distribuiscono fra i tre, e lo spostamento dal primo al terzo e' il ritratto di un secolo di storia."},
 		{"explanation": "Un Paese sta nel continente su cui poggia la sua terra, non in quello a cui somiglia per lingua o cultura.", "topic": "continenti", "draw": 8, "prompt": "Smista ogni Paese nel suo continente.",
 			"categories": ["Africa", "Europa", "Asia", "America"],
 			"assignments": {
@@ -1912,6 +2205,28 @@ const CLASSIFICATION := {
 				"Alaska": "freddo", "Lapponia": "freddo"}},
 	],
 	"matematica": [
+		# Fasce alte, scritte il 9 settembre 2026 (Fase 3 del piano): il censimento
+		# trovava questa materia con meno di tre ricette nuove in queste fasce.
+		{"topic": "insiemi-numerici", "minLevel": 13, "draw": 6, "prompt": "Smista ogni numero secondo il tipo a cui appartiene.",
+			"categories": ["intero", "frazionario", "negativo"],
+			"assignments": {
+				"7": "intero", "0": "intero", "42": "intero",
+				"100": "intero", "15": "intero", "8": "intero",
+				"1/2": "frazionario", "3/4": "frazionario", "0,75": "frazionario",
+				"2,5": "frazionario", "7/8": "frazionario", "0,2": "frazionario",
+				"-3": "negativo", "-12": "negativo", "-0,5": "negativo",
+				"-100": "negativo", "-7": "negativo", "-1/4": "negativo"},
+			"explanation": "I numeri si allargano per necessita': gli interi non bastano a dividere una torta, i positivi non bastano a dire quanto si scende sotto zero. Ogni famiglia nuova contiene la precedente."},
+		{"topic": "geometria", "minLevel": 22, "draw": 6, "prompt": "Smista ogni formula secondo che cosa calcola.",
+			"categories": ["il contorno", "la superficie", "lo spazio occupato"],
+			"assignments": {
+				"lato per quattro": "il contorno", "somma di tutti i lati": "il contorno",
+				"due per pi greco per raggio": "il contorno", "base piu' base piu' i due lati": "il contorno",
+				"base per altezza": "la superficie", "lato per lato": "la superficie",
+				"base per altezza diviso due": "la superficie", "pi greco per raggio al quadrato": "la superficie",
+				"spigolo elevato al cubo": "lo spazio occupato", "area di base per altezza": "lo spazio occupato",
+				"lunghezza per larghezza per altezza": "lo spazio occupato", "area di base per altezza diviso tre": "lo spazio occupato"},
+			"explanation": "Il numero di misure moltiplicate dice la dimensione del risultato: una sola per un contorno, due per una superficie, tre per un volume. E' anche il modo piu' rapido per accorgersi di aver usato la formula sbagliata."},
 		{"explanation": "Un numero è pari se finisce per 0, 2, 4, 6 o 8: basta guardare l'ultima cifra, non serve dividere.", "topic": "numeri", "draw": 6, "prompt": "Smista i numeri in pari e dispari.",
 			"categories": ["pari", "dispari"],
 			"assignments": {
@@ -2183,6 +2498,38 @@ const CLASSIFICATION := {
 				"x² + 9 = 0": "nessuna soluzione", "x² + 3 = 0": "nessuna soluzione"}},
 	],
 	"fisica": [
+		# Fasce alte, scritte il 9 settembre 2026 (Fase 3 del piano): il censimento
+		# trovava questa materia con meno di tre ricette nuove in queste fasce.
+		{"topic": "misure", "minLevel": 10, "draw": 6, "prompt": "Smista ogni unita' secondo la grandezza che misura.",
+			"categories": ["quanta materia", "quanto spazio", "quanto tempo"],
+			"assignments": {
+				"chilogrammo": "quanta materia", "grammo": "quanta materia", "tonnellata": "quanta materia",
+				"quintale": "quanta materia", "milligrammo": "quanta materia", "ettogrammo": "quanta materia",
+				"metro": "quanto spazio", "centimetro": "quanto spazio", "chilometro": "quanto spazio",
+				"millimetro": "quanto spazio", "decametro": "quanto spazio", "micrometro": "quanto spazio",
+				"secondo": "quanto tempo", "minuto": "quanto tempo", "ora": "quanto tempo",
+				"millisecondo": "quanto tempo", "giorno": "quanto tempo", "anno": "quanto tempo"},
+			"explanation": "Ogni grandezza ha una sua famiglia di unita', e i prefissi si ripetono uguali in tutte: chilo vale mille ovunque, milli vale un millesimo ovunque. Imparato il prefisso, vale per qualunque grandezza."},
+		{"topic": "forze", "minLevel": 16, "draw": 6, "prompt": "Smista ogni situazione: le forze si annullano oppure no?",
+			"categories": ["forze in equilibrio", "forze sbilanciate"],
+			"assignments": {
+				"un libro fermo sul tavolo": "forze in equilibrio", "un lampadario appeso immobile": "forze in equilibrio",
+				"un'auto a velocita' costante in rettilineo": "forze in equilibrio", "una barca ferma che galleggia": "forze in equilibrio",
+				"un paracadutista sceso a velocita' costante": "forze in equilibrio", "una cassa spinta che non si muove": "forze in equilibrio",
+				"una mela che sta cadendo": "forze sbilanciate", "un'auto che frena": "forze sbilanciate",
+				"un razzo che accelera": "forze sbilanciate", "una palla che curva in aria": "forze sbilanciate",
+				"un'altalena che riparte": "forze sbilanciate", "un ciclista che aumenta velocita'": "forze sbilanciate"},
+			"explanation": "Fermo e a velocita' costante sono lo stesso caso: in tutti e due le forze si annullano. Cambiare velocita' o direzione richiede sempre una forza netta, e questa e' la scoperta che ha rovesciato la fisica di Aristotele."},
+		{"topic": "onde-luce", "minLevel": 19, "draw": 6, "prompt": "Smista ogni fenomeno secondo che cosa fa la luce quando incontra la superficie.",
+			"categories": ["torna indietro", "prosegue piegando", "viene trattenuta"],
+			"assignments": {
+				"la propria immagine nello specchio": "torna indietro", "il riflesso sull'acqua ferma": "torna indietro",
+				"il bagliore su una lamina lucida": "torna indietro", "il faro che rimanda il fascio": "torna indietro",
+				"il bastone che sembra spezzato": "prosegue piegando", "l'arcobaleno dentro una goccia": "prosegue piegando",
+				"la lente che ingrandisce": "prosegue piegando", "il fondo della piscina che sembra vicino": "prosegue piegando",
+				"un panno nero al sole che scotta": "viene trattenuta", "una tenda spessa che fa buio": "viene trattenuta",
+				"l'asfalto che si scalda d'estate": "viene trattenuta", "il fumo denso che oscura": "viene trattenuta"},
+			"explanation": "Sono i tre destini possibili di un raggio, e quasi sempre avvengono insieme in proporzioni diverse: una finestra ne lascia passare molta, ne riflette un poco e ne trattiene pochissima."},
 		{"explanation": "L'energia potenziale è immagazzinata dalla posizione, la cinetica è quella del movimento in corso: cadendo la prima diventa la seconda.", "topic": "energia", "draw": 6, "prompt": "Smista ogni situazione per l'energia prevalente.",
 			"categories": ["potenziale", "cinetica"],
 			"assignments": {
@@ -2314,6 +2661,48 @@ const CLASSIFICATION := {
 				"campo magnetico che devia la bussola": "a distanza", "gravità del Sole sui pianeti": "a distanza"}},
 	],
 	"musica": [
+		# Fasce alte, scritte il 9 settembre 2026 (Fase 3 del piano): il censimento
+		# trovava questa materia con meno di tre ricette nuove in queste fasce.
+		{"topic": "ritmo", "minLevel": 7, "draw": 6, "prompt": "Smista ogni figura secondo quanto dura.",
+			"categories": ["dura di piu'", "dura di meno"],
+			"assignments": {
+				"semibreve": "dura di piu'", "minima": "dura di piu'", "semiminima": "dura di piu'",
+				"croma": "dura di meno", "semicroma": "dura di meno", "biscroma": "dura di meno"},
+			"explanation": "Ogni figura vale la meta' di quella prima: e' una scala di dimezzamenti, non un elenco da ricordare. Capito il dimezzamento, si ricava qualunque durata senza impararla."},
+		{"topic": "strumenti", "minLevel": 13, "draw": 6, "prompt": "Smista ogni strumento secondo che cosa vibra per produrre il suono.",
+			"categories": ["una corda tesa", "una colonna d'aria", "una pelle percossa"],
+			"assignments": {
+				"violino": "una corda tesa", "arpa": "una corda tesa", "chitarra": "una corda tesa",
+				"contrabbasso": "una corda tesa", "violoncello": "una corda tesa", "mandolino": "una corda tesa",
+				"flauto": "una colonna d'aria", "tromba": "una colonna d'aria", "clarinetto": "una colonna d'aria",
+				"oboe": "una colonna d'aria", "corno": "una colonna d'aria", "fagotto": "una colonna d'aria",
+				"tamburo": "una pelle percossa", "timpano": "una pelle percossa", "bongo": "una pelle percossa",
+				"grancassa": "una pelle percossa", "rullante": "una pelle percossa", "tamburello": "una pelle percossa"},
+			"explanation": "Non conta il materiale ne' la forma: conta che cosa vibra. E' per questo che il sassofono, tutto d'ottone, sta con i legni — dentro vibra una linguetta di canna."},
+		{"topic": "dinamica", "minLevel": 16, "draw": 6, "prompt": "Smista ogni indicazione secondo se chiede di aumentare o di ridurre.",
+			"categories": ["si cresce", "si cala"],
+			"assignments": {
+				"crescendo": "si cresce", "forte": "si cresce", "fortissimo": "si cresce",
+				"rinforzando": "si cresce", "sforzando": "si cresce",
+				"diminuendo": "si cala", "piano": "si cala", "pianissimo": "si cala",
+				"morendo": "si cala", "calando": "si cala"},
+			"explanation": "Le indicazioni di dinamica sono ordini al musicista, non descrizioni: dicono che cosa fare adesso rispetto a un attimo fa. Per questo hanno senso solo dentro un brano, mai da sole."},
+		{"topic": "tempo", "minLevel": 19, "draw": 6, "prompt": "Smista ogni andamento: piu' lento o piu' mosso di una camminata?",
+			"categories": ["piu' lento", "piu' mosso"],
+			"assignments": {
+				"largo": "piu' lento", "adagio": "piu' lento", "lento": "piu' lento",
+				"grave": "piu' lento", "andantino": "piu' lento",
+				"allegro": "piu' mosso", "vivace": "piu' mosso", "presto": "piu' mosso",
+				"prestissimo": "piu' mosso", "allegretto": "piu' mosso"},
+			"explanation": "«Andante» vuol dire proprio «che cammina», ed e' il riferimento di tutti gli altri: sotto ci sono gli andamenti larghi, sopra quelli mossi. Il tempo si impara rispetto a un passo umano, non a un numero."},
+		{"topic": "intervalli", "minLevel": 22, "draw": 6, "prompt": "Smista ogni intervallo secondo quanto suona concluso all'orecchio.",
+			"categories": ["riposa", "chiede di proseguire"],
+			"assignments": {
+				"ottava": "riposa", "quinta giusta": "riposa", "quarta giusta": "riposa",
+				"terza maggiore": "riposa", "terza minore": "riposa", "sesta maggiore": "riposa",
+				"seconda minore": "chiede di proseguire", "settima maggiore": "chiede di proseguire", "tritono": "chiede di proseguire",
+				"settima minore": "chiede di proseguire", "seconda maggiore": "chiede di proseguire", "nona minore": "chiede di proseguire"},
+			"explanation": "Alcuni intervalli suonano finiti e altri lasciano in sospeso: su questa tensione si regge quasi tutta la musica occidentale, perche' un suono che chiede di proseguire tiene chi ascolta in attesa."},
 		# L15. Le famiglie dell'orchestra. Il sassofono è il caso che insegna la
 		# regola: è di ottone ma sta nei legni, perché la famiglia la decide come
 		# nasce il suono — l'ancia — non di che materiale è fatto lo strumento.
@@ -2418,7 +2807,7 @@ const CLASSIFICATION := {
 				"Il caricabatterie del telefono ha il filo rotto": "stop e chiamo un adulto",
 				"Un apparecchio acceso è caduto nell'acqua": "stop e chiamo un adulto"}},
 		# Ruolo nel circuito: sorgente, conduttore, isolante o carico.
-		{"explanation": "In uno schema avanzato gli elementi si distinguono per ruolo: sorgente, conduttore, isolante o carico. Prima si riconosce che cosa entra e che cosa esce in termini di energia.", "topic": "ruoli", "minLevel": 20, "draw": 8, "prompt": "Smista ogni elemento per il suo ruolo nel circuito.",
+		{"explanation": "In uno schema avanzato gli elementi si distinguono per ruolo: sorgente, conduttore, isolante o carico. Prima si riconosce che cosa entra e che cosa esce in termini di energia.", "topic": "ruoli", "minLevel": 10, "draw": 8, "prompt": "Smista ogni elemento per il suo ruolo nel circuito.",
 			"categories": ["sorgente", "conduttore", "isolante", "carico"],
 			"assignments": {
 				"Pila": "sorgente", "Batteria": "sorgente", "Cella solare": "sorgente",
@@ -2430,7 +2819,7 @@ const CLASSIFICATION := {
 				"LED": "carico", "Lampadina": "carico", "Motorino": "carico",
 				"Cicalino": "carico", "Ventola": "carico", "Resistore di potenza": "carico"}},
 		# --- Mondo 1: ricette in più (tappa 3, 6 agosto 2026) -----------------
-		{"explanation": "In serie la corrente ha una strada sola, quindi se si interrompe si spegne tutto. In parallelo ogni ramo ha la sua strada. Questa distinzione arriva dopo aver imparato a seguire un circuito semplice.", "topic": "serie-parallelo", "minLevel": 20, "draw": 6, "prompt": "Smista ogni descrizione: serie o parallelo?",
+		{"explanation": "In serie la corrente ha una strada sola, quindi se si interrompe si spegne tutto. In parallelo ogni ramo ha la sua strada. Questa distinzione arriva dopo aver imparato a seguire un circuito semplice.", "topic": "serie-parallelo", "minLevel": 13, "draw": 6, "prompt": "Smista ogni descrizione: serie o parallelo?",
 			"categories": ["serie", "parallelo"],
 			"assignments": {
 				"se una lampadina si brucia si spengono tutte": "serie",
@@ -2743,6 +3132,59 @@ const CLASSIFICATION := {
 				"little": "irregolare"}},
 	],
 	"latino": [
+		# **Le fasce alte del latino, scritte il 9 settembre 2026.** Il censimento
+		# trovava latino con 31 ricette in tutto e ZERO nuove dalla fascia 5 in
+		# poi: dal mondo 13 al 24 non sblocca piu' niente. Queste smistano forme
+		# gia' visibili sulla tessera, quindi non violano il vincolo delle tavole:
+		# non chiedono di PRODURRE una forma, chiedono di riconoscerne la funzione.
+		{"topic": "casi", "minLevel": 7, "draw": 6, "prompt": "Smista ogni forma secondo la domanda a cui risponde.",
+			"categories": ["chi compie", "chi subisce", "di chi e'"],
+			"assignments": {
+				"puella": "chi compie", "rosa": "chi compie", "dominus": "chi compie",
+				"lupus": "chi compie", "terra": "chi compie", "servus": "chi compie",
+				"puellam": "chi subisce", "rosam": "chi subisce", "dominum": "chi subisce",
+				"lupum": "chi subisce", "terram": "chi subisce", "servum": "chi subisce",
+				"puellae": "di chi e'", "rosae": "di chi e'", "domini": "di chi e'",
+				"lupi": "di chi e'", "terrae": "di chi e'", "servi": "di chi e'"},
+			"explanation": "La stessa parola cambia finale secondo il mestiere che svolge nella frase: -a chi compie, -am chi subisce, -ae o -i di chi e'. Imparata la scala su una parola, vale per tutte quelle del suo gruppo."},
+		{"topic": "verbi", "minLevel": 13, "draw": 6, "prompt": "Smista ogni voce verbale secondo quando accade l'azione.",
+			"categories": ["adesso", "prima", "dopo"],
+			"assignments": {
+				"amat": "adesso", "videt": "adesso", "audit": "adesso",
+				"laborat": "adesso", "portat": "adesso", "docet": "adesso",
+				"amavit": "prima", "vidit": "prima", "audivit": "prima",
+				"laboravit": "prima", "portavit": "prima", "docuit": "prima",
+				"amabit": "dopo", "videbit": "dopo", "audiet": "dopo",
+				"laborabit": "dopo", "portabit": "dopo", "docebit": "dopo"},
+			"explanation": "Il tempo sta dentro il verbo, in un pezzo che si infila fra la radice e la persona: -bi- porta avanti, -v- o -u- portano indietro. Riconosciuto quel pezzo, il tempo si legge senza tradurre la frase intera."},
+		{"topic": "verbi", "minLevel": 16, "draw": 6, "prompt": "Smista ogni voce verbale secondo chi compie l'azione.",
+			"categories": ["una persona sola", "piu' persone"],
+			"assignments": {
+				"amat": "una persona sola", "videt": "una persona sola", "portat": "una persona sola",
+				"audit": "una persona sola", "docet": "una persona sola", "laborat": "una persona sola",
+				"amant": "piu' persone", "vident": "piu' persone", "portant": "piu' persone",
+				"audiunt": "piu' persone", "docent": "piu' persone", "laborant": "piu' persone"},
+			"explanation": "La -t finale dice «uno», la -nt dice «piu' di uno»: una lettera sola separa «ama» da «amano». E' il motivo per cui in latino il pronome non serve — la persona e' gia' scritta nel verbo."},
+		{"topic": "casi", "minLevel": 22, "draw": 6, "prompt": "Smista ogni espressione secondo il complemento che esprime.",
+			"categories": ["luogo", "mezzo", "compagnia"],
+			"assignments": {
+				"in villa": "luogo", "in silva": "luogo", "in horto": "luogo",
+				"in oppido": "luogo", "in templo": "luogo", "in agro": "luogo",
+				"gladio": "mezzo", "sagitta": "mezzo", "stilo": "mezzo",
+				"navibus": "mezzo", "curru": "mezzo", "manu": "mezzo",
+				"cum amico": "compagnia", "cum servo": "compagnia", "cum matre": "compagnia",
+				"cum sociis": "compagnia", "cum patre": "compagnia", "cum filia": "compagnia"},
+			"explanation": "Il complemento si riconosce dalla coppia preposizione piu' caso, non dalla preposizione da sola: «cum» chiede sempre compagnia, il mezzo va senza preposizione e «in» con questo caso indica dove si sta."},
+		{"topic": "declinazioni-base", "minLevel": 19, "draw": 6, "prompt": "Smista ogni parola secondo il gruppo a cui appartiene.",
+			"categories": ["prima", "seconda", "terza"],
+			"assignments": {
+				"rosa": "prima", "puella": "prima", "terra": "prima",
+				"aqua": "prima", "silva": "prima", "villa": "prima",
+				"dominus": "seconda", "servus": "seconda", "lupus": "seconda",
+				"hortus": "seconda", "murus": "seconda", "amicus": "seconda",
+				"consul": "terza", "rex": "terza", "miles": "terza",
+				"pater": "terza", "mater": "terza", "civis": "terza"},
+			"explanation": "Il gruppo si legge dalla finale del nominativo: -a la prima, -us la seconda, e la terza raccoglie tutto il resto — ed e' per questo che e' la piu' numerosa e la piu' irregolare."},
 		{"topic": "declinazioni-base", "draw": 6, "prompt": "Smista ogni parola latina: singolare o plurale?",
 			"categories": ["singolare", "plurale"],
 			"assignments": {
@@ -2806,6 +3248,50 @@ const CLASSIFICATION := {
 				"aquae": "plurale", "terrae": "plurale", "stellae": "plurale"}},
 	],
 	"logica": [
+		# Fasce alte, scritte il 9 settembre 2026 (Fase 3 del piano): il censimento
+		# trovava questa materia con meno di tre ricette nuove in queste fasce.
+		{"topic": "insiemi", "minLevel": 10, "draw": 6, "prompt": "Da «tutti i cani sono animali»: smista ogni affermazione secondo se si puo' dedurre.",
+			"categories": ["segue per forza", "non segue"],
+			"assignments": {
+				"se e' un cane, allora e' un animale": "segue per forza", "non esiste un cane che non sia animale": "segue per forza",
+				"i cani stanno dentro il gruppo degli animali": "segue per forza", "chi non e' animale non e' cane": "segue per forza",
+				"tutti gli animali sono cani": "non segue", "se e' un animale, allora e' un cane": "non segue",
+				"esiste per certo un animale che non e' cane": "non segue", "i due gruppi coincidono esattamente": "non segue"},
+			"explanation": "Una frase con «tutti» vale in una direzione sola: dal gruppo piccolo a quello grande. Girarla al contrario e' l'errore piu' frequente del ragionamento, e ha perfino un nome — conversione illecita."},
+		{"topic": "verita", "minLevel": 13, "draw": 6, "prompt": "Smista ogni coppia di affermazioni: possono essere vere insieme?",
+			"categories": ["stanno insieme", "si escludono"],
+			"assignments": {
+				"piove / fa freddo": "stanno insieme", "e' alto / e' magro": "stanno insieme",
+				"studia / lavora": "stanno insieme", "e' rosso / e' grande": "stanno insieme",
+				"piove / non piove": "si escludono", "e' tutto blu / e' tutto rosso": "si escludono",
+				"sono tutti presenti / manca qualcuno": "si escludono", "e' il piu' alto / c'e' chi lo supera": "si escludono"},
+			"explanation": "Due affermazioni si escludono solo quando una nega l'altra, non quando parlano di cose diverse: alto e magro convivono benissimo. Riconoscere una contraddizione vera serve soprattutto a non vederne dove non ci sono."},
+		{"topic": "deduzioni", "minLevel": 16, "draw": 6, "prompt": "Smista ogni ragionamento: la conclusione segue davvero dalle premesse?",
+			"categories": ["non lascia scampo", "solo probabile"],
+			"assignments": {
+				"tutti i A sono B, x e' A, quindi x e' B": "non lascia scampo", "nessun A e' B, x e' A, quindi x non e' B": "non lascia scampo",
+				"se piove la strada si bagna, piove, quindi si bagna": "non lascia scampo", "tutti i A sono B, x non e' B, quindi x non e' A": "non lascia scampo",
+				"tutti i A sono B, x e' B, quindi x e' A": "solo probabile", "se piove la strada si bagna, e' bagnata, quindi piove": "solo probabile",
+				"molti A sono B, x e' A, quindi x e' B": "solo probabile", "alcuni A sono B, quindi ogni A e' B": "solo probabile"},
+			"explanation": "La validita' non dipende da quanto la conclusione sembri sensata ma dalla forma: la strada puo' essersi bagnata perche' e' passata l'autobotte. Un ragionamento valido obbliga, uno plausibile suggerisce."},
+		{"topic": "sequenze", "minLevel": 19, "draw": 6, "prompt": "Smista ogni serie secondo la regola che la governa.",
+			"categories": ["si aggiunge sempre lo stesso", "si moltiplica sempre per lo stesso", "ognuno nasce dai due prima"],
+			"assignments": {
+				"2, 5, 8, 11": "si aggiunge sempre lo stesso", "7, 12, 17, 22": "si aggiunge sempre lo stesso",
+				"3, 9, 15, 21": "si aggiunge sempre lo stesso", "10, 14, 18, 22": "si aggiunge sempre lo stesso",
+				"2, 4, 8, 16": "si moltiplica sempre per lo stesso", "3, 9, 27, 81": "si moltiplica sempre per lo stesso",
+				"5, 25, 125, 625": "si moltiplica sempre per lo stesso", "1, 10, 100, 1000": "si moltiplica sempre per lo stesso",
+				"1, 1, 2, 3, 5": "ognuno nasce dai due prima", "2, 2, 4, 6, 10": "ognuno nasce dai due prima",
+				"1, 3, 4, 7, 11": "ognuno nasce dai due prima", "4, 4, 8, 12, 20": "ognuno nasce dai due prima"},
+			"explanation": "Per capire quale regola governa una serie si guarda il passaggio fra un termine e il successivo: se la differenza resta costante si aggiunge, se il rapporto resta costante si moltiplica. Quando nessuno dei due torna, la regola guarda piu' indietro."},
+		{"topic": "esclusioni", "minLevel": 22, "draw": 6, "prompt": "Smista ogni indizio secondo quanto restringe il campo.",
+			"categories": ["toglie una casella", "ne toglie molte insieme"],
+			"assignments": {
+				"non e' Marco": "toglie una casella", "non e' il rosso": "toglie una casella",
+				"non e' arrivato per primo": "toglie una casella", "non abita al numero tre": "toglie una casella",
+				"e' uno fra Marco e Luca": "ne toglie molte insieme", "e' un numero pari": "ne toglie molte insieme",
+				"e' arrivato prima di Sara": "ne toglie molte insieme", "abita in una casa dispari": "ne toglie molte insieme"},
+			"explanation": "In un enigma a griglia conviene partire dagli indizi che tagliano di piu': un «e' uno fra due» chiude tutte le altre righe in un colpo, mentre una singola negazione libera una casella sola."},
 		# L16. Tre gradi di verità invece di due: «a volte vera» è la categoria che
 		# costa di più, perché obbliga a cercare sia un caso favorevole sia un
 		# controesempio prima di decidere.
@@ -3082,7 +3568,7 @@ const CLASSIFICATION := {
 # richiesto. Nessun asset immagine. `points` in coordinate normalizzate 0..1.
 const GRAPH := {
 	"elettronica": [
-		{"topic": "serie-parallelo", "minLevel": 20, "xLabel": "pile in serie", "yLabel": "tensione", "answer": "D",
+		{"topic": "serie-parallelo", "minLevel": 16, "xLabel": "pile in serie", "yLabel": "tensione", "answer": "D",
 			"prompt": "Aggiungendo pile uguali in serie, in quale punto la tensione totale è maggiore?",
 			"domande": [
 				{"prompt": "In quale punto tensione scende al minimo?", "answer": "A", "explanation": "Il punto più basso è A: conta l'altezza, non quanto sta a destra. Poca tensione vuol dire poca spinta: il circuito riceve meno energia per far muovere le cariche."},
@@ -3090,7 +3576,7 @@ const GRAPH := {
 			],
 			"points": [{"id": "A", "x": 0.12, "y": 0.20, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.43, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.67, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.91, "label": "D"}],
 			"explanation": "In serie le tensioni delle pile si sommano: con più pile la tensione totale cresce, fino al punto D."},
-		{"topic": "legge-ohm", "minLevel": 20, "xLabel": "resistenza", "yLabel": "corrente", "answer": "D",
+		{"topic": "legge-ohm", "minLevel": 16, "xLabel": "resistenza", "yLabel": "corrente", "answer": "D",
 			"prompt": "A tensione costante, la corrente diminuisce quando la resistenza aumenta. In quale punto la corrente è minore?",
 			"domande": [
 				{"prompt": "Guardando il grafico, dove corrente tocca il valore più alto?", "answer": "A", "explanation": "Il punto più alto è A: conta l'altezza, non quanto sta a destra. Molta corrente vuol dire molta carica che passa ogni secondo — ed è anche quando i fili scaldano di più."},
@@ -3098,7 +3584,7 @@ const GRAPH := {
 			],
 			"points": [{"id": "A", "x": 0.12, "y": 0.91, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.65, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.40, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.18, "label": "D"}],
 			"explanation": "Con la stessa tensione, una resistenza maggiore lascia passare meno corrente: il minimo è D."},
-		{"topic": "legge-ohm", "minLevel": 20, "xLabel": "tensione", "yLabel": "corrente", "answer": "D",
+		{"topic": "legge-ohm", "minLevel": 16, "xLabel": "tensione", "yLabel": "corrente", "answer": "D",
 			"prompt": "Il grafico mostra la corrente al crescere della tensione (legge di Ohm): in quale punto la corrente è massima?",
 			"domande": [
 				{"prompt": "Quale punto ha il valore di corrente più basso di tutti?", "answer": "A", "explanation": "Il punto più basso è A: conta l'altezza, non quanto sta a destra. Poca corrente vuol dire poca carica che passa ogni secondo: il LED illumina meno."},
@@ -3106,7 +3592,7 @@ const GRAPH := {
 			],
 			"points": [{"id": "A", "x": 0.12, "y": 0.15, "label": "A"}, {"id": "B", "x": 0.38, "y": 0.42, "label": "B"}, {"id": "C", "x": 0.64, "y": 0.68, "label": "C"}, {"id": "D", "x": 0.90, "y": 0.94, "label": "D"}],
 			"explanation": "La corrente cresce in modo proporzionale alla tensione: è massima all'ultimo punto, D."},
-		{"topic": "batteria", "minLevel": 20, "xLabel": "tempo", "yLabel": "carica", "answer": "D",
+		{"topic": "batteria", "minLevel": 13, "xLabel": "tempo", "yLabel": "carica", "answer": "D",
 			"prompt": "Il grafico mostra la carica di una batteria mentre si scarica usandola: in quale punto è più scarica?",
 			"domande": [
 				{"prompt": "In quale punto carica arriva al massimo?", "answer": "A", "explanation": "Il punto più alto è A: conta l'altezza, non quanto sta a destra. Carica al massimo: la batteria è piena e il circuito ha tutta l'energia che gli serve."},
@@ -4208,6 +4694,20 @@ const CYCLE := {
 # CODE-DEBUG (righe numerate selezionabili): trova la riga con l'errore. Testo puro.
 const CODE_DEBUG := {
 	"coding": [
+		# Completamento della Fase 3, 9 settembre 2026: queste fasce restavano
+		# sotto le tre ricette nuove che il piano dichiara come bersaglio.
+		{"topic": "liste", "minLevel": 14, "answerLine": 2, "shuffleLines": true,
+			"prompt": "Tre affermazioni sulle liste: quale e' falsa?",
+			"codeLines": ["La prima posizione di una lista e' zero.", "len(lista) restituisce l'indice dell'ultimo elemento.", "append aggiunge un elemento in fondo.", "# trova l'affermazione falsa"],
+			"explanation": "Riga 2: len restituisce QUANTI elementi ci sono. L'ultimo indice e' len meno uno, ed e' l'errore che produce piu' spesso il messaggio «indice fuori intervallo»."},
+		{"topic": "condizioni", "minLevel": 15, "answerLine": 1, "shuffleLines": true,
+			"prompt": "Tre affermazioni sugli if: quale e' falsa?",
+			"codeLines": ["Ogni if deve avere un else.", "Un elif viene valutato solo se l'if prima e' falso.", "La condizione produce vero o falso.", "# trova l'affermazione falsa"],
+			"explanation": "Riga 1: l'else e' facoltativo. Quando non serve fare niente nel caso contrario, aggiungerlo vuoto rende il codice piu' lungo e meno chiaro."},
+		{"topic": "algoritmi", "minLevel": 20, "answerLine": 3, "shuffleLines": true,
+			"prompt": "Tre affermazioni sugli algoritmi: quale e' falsa?",
+			"codeLines": ["Un algoritmo deve terminare.", "Lo stesso problema puo' avere algoritmi diversi.", "L'algoritmo piu' corto da scrivere e' sempre il piu' veloce.", "# trova l'affermazione falsa"],
+			"explanation": "Riga 3: la ricerca sequenziale si scrive in tre righe e su un milione di elementi e' lentissima; la binaria e' piu' lunga da scrivere e incomparabilmente piu' rapida. Brevita' del codice e velocita' di esecuzione sono due cose diverse."},
 		{"topic": "cicli", "answerLine": 3,
 			"prompt": "Dovrebbe stampare 1, 2, 3. Quale riga contiene l'errore?",
 			"codeLines": ["numeri = [1, 2, 3]", "for i in numeri:", "    print(i + 1)", "# atteso: 1, 2, 3"],
@@ -4246,6 +4746,24 @@ const CODE_DEBUG := {
 			"explanation": "Riga 2: con 'or' è sempre vero. Per l'intervallo serve 'and': eta >= 6 and eta <= 10."},
 	],
 	"logica": [
+		# Completamento della Fase 3, 9 settembre 2026: queste fasce restavano
+		# sotto le tre ricette nuove che il piano dichiara come bersaglio.
+		{"topic": "verita", "minLevel": 11, "answerLine": 2, "shuffleLines": true,
+			"prompt": "Tre negazioni: quale e' sbagliata?",
+			"codeLines": ["Il contrario di «tutti hanno risposto» e' «almeno uno non ha risposto».", "Il contrario di «tutti hanno risposto» e' «nessuno ha risposto».", "Il contrario di «esiste un cigno nero» e' «nessun cigno e' nero».", "# trova la negazione sbagliata"],
+			"explanation": "Riga 2: negare «tutti» non da' «nessuno», da' «non tutti» — cioe' basta un'eccezione. Saltare da un estremo all'altro e' l'errore che rende impossibile discutere davvero."},
+		{"topic": "insiemi", "minLevel": 14, "answerLine": 3, "shuffleLines": true,
+			"prompt": "Tre affermazioni sugli insiemi: quale e' falsa?",
+			"codeLines": ["Se A sta dentro B, ogni elemento di A e' in B.", "Due insiemi possono avere elementi in comune senza contenersi.", "Se A e B hanno elementi in comune, A sta dentro B.", "# trova l'affermazione falsa"],
+			"explanation": "Riga 3: avere qualcosa in comune non basta a essere contenuti. I quadrati e i rossi si sovrappongono senza che nessuno dei due stia dentro l'altro, ed e' il caso piu' frequente."},
+		{"topic": "sequenze", "minLevel": 15, "answerLine": 1, "shuffleLines": true,
+			"prompt": "Tre regole per la serie 2, 4, 8, 16: quale NON la spiega?",
+			"codeLines": ["Si aggiunge sempre due.", "Ogni numero e' il doppio del precedente.", "Ogni numero e' due elevato alla sua posizione.", "# trova la regola che non funziona"],
+			"explanation": "Riga 1: aggiungendo due si otterrebbe 2, 4, 6, 8. Le altre due regole danno la stessa serie con parole diverse, ed e' normale: una sequenza puo' avere piu' descrizioni corrette."},
+		{"topic": "quantificatori", "minLevel": 23, "answerLine": 2, "shuffleLines": true,
+			"prompt": "Tre affermazioni sui quantificatori: quale e' falsa?",
+			"codeLines": ["«Alcuni» non esclude che siano tutti.", "«Alcuni A sono B» implica «alcuni A non sono B».", "«Nessun A e' B» equivale a «nessun B e' A».", "# trova l'affermazione falsa"],
+			"explanation": "Riga 2: dire che alcuni lo sono non dice niente sugli altri — potrebbero esserlo tutti. La lingua di tutti i giorni suggerisce il contrario, e in logica quella suggestione va messa da parte."},
 		{"topic": "deduzioni", "answerLine": 3,
 			"prompt": "Segui la deduzione: quale passo è sbagliato?",
 			"codeLines": ["Tutti i gatti sono felini.", "Alcuni felini sono neri.", "Quindi tutti i gatti sono neri.", "# dove si rompe il ragionamento?"],
@@ -4345,11 +4863,35 @@ const CODE_DEBUG := {
 			"prompt": "Analisi logica di 'Marco regala un libro a Luca': quale riga sbaglia?",
 			"codeLines": ["Marco = soggetto", "regala = predicato verbale", "un libro = complemento di termine", "a Luca = complemento di termine"],
 			"explanation": "Riga 3: 'un libro' risponde a 'che cosa?', è complemento oggetto. Il complemento di termine (a chi?) è 'a Luca'."},
+		# **I tre argomenti verbali che si potevano solo crocettare.** (9 settembre
+		# 2026) `concordanza-tempi-verbali`, `congiuntivo-condizionale` e
+		# `imperativo-infinito-participio-gerundio` avevano quindici item ciascuno
+		# in tutte le fasce e nessun gesto. Sono anche i tre punti in cui l'errore
+		# di un ragazzo di tredici anni è più tipico, e vanno mostrati su una
+		# frase intera: fuori dal periodo la concordanza non esiste.
+		{"topic": "concordanza-tempi-verbali", "minLevel": 16, "answerLine": 2, "shuffleLines": true,
+			"prompt": "Tre periodi raccontano un fatto passato: in quale la subordinata non concorda con la principale?",
+			"codeLines": ["Disse che sarebbe tornato presto.", "Disse che tornerà presto.", "Sapevo che avevi già finito.", "# trova la subordinata fuori tempo"],
+			"explanation": "Riga 2: la principale è al passato («disse»), quindi il futuro va visto da lì — «sarebbe tornato», il futuro nel passato. «Tornerà» guarda avanti da oggi, e nel racconto di ieri non c'è un oggi."},
+		{"topic": "congiuntivo-condizionale", "minLevel": 16, "answerLine": 3, "shuffleLines": true,
+			"prompt": "Quale frase usa l'indicativo dove il verbo della principale chiede il congiuntivo?",
+			"codeLines": ["Penso che tu abbia ragione.", "Spero che arrivino in orario.", "Credo che lui ha capito.", "# trova il modo sbagliato"],
+			"explanation": "Riga 3: «credo» esprime un'opinione, non un fatto, e regge il congiuntivo: «che lui abbia capito». L'indicativo direbbe che la cosa è certa, e allora «credo» non servirebbe."},
+		{"topic": "imperativo-infinito-participio-gerundio", "minLevel": 22, "answerLine": 2, "shuffleLines": true,
+			"prompt": "Il gerundio deve avere lo stesso soggetto della frase principale. Quale riga lo tradisce?",
+			"codeLines": ["Uscendo di casa, Marco chiuse la porta.", "Correndo verso la stazione, il treno era già partito.", "Leggendo il biglietto, capimmo tutto.", "# trova il gerundio con il soggetto sbagliato"],
+			"explanation": "Riga 2: il gerundio prende il soggetto della principale, che qui è «il treno» — e un treno non corre verso la stazione. Serve «Mentre correvo verso la stazione», che dichiara chi corre."},
 	],
 	# MATEMATICA — "Caccia all'errore nel calcolo": si segue un procedimento passo
 	# per passo e si smaschera la riga sbagliata. Colpisce le misconcezioni tipiche
 	# (priorità, area vs perimetro, somma di frazioni): più coinvolgente che ripetere.
 	"matematica": [
+		# Completamento della Fase 3, 9 settembre 2026: queste fasce restavano
+		# sotto le tre ricette nuove che il piano dichiara come bersaglio.
+		{"topic": "frazioni", "minLevel": 14, "answerLine": 2, "shuffleLines": true,
+			"prompt": "Tre affermazioni sulle frazioni: quale e' falsa?",
+			"codeLines": ["Una frazione con numeratore minore del denominatore vale meno di uno.", "Per sommare due frazioni si sommano numeratori e denominatori.", "Moltiplicare per una frazione minore di uno rimpicciolisce.", "# trova l'affermazione falsa"],
+			"explanation": "Riga 2: sommando cosi', un mezzo piu' un mezzo darebbe due quarti, cioe' meno di quello che si aveva. Per sommare servono lo stesso denominatore, perche' si possono sommare solo pezzi della stessa taglia."},
 		# Riscritta il 30 luglio dopo una segnalazione: era ["7 + 5", "= 13",
 		# "# quanto fa davvero?"]. Due sole righe candidate (quasi testa o croce) e
 		# soprattutto non erano PASSAGGI: "7 + 5" e "= 13" sono i due pezzi di una
@@ -4404,6 +4946,12 @@ const CODE_DEBUG := {
 	# INGLESE — "Find the mistake": error correction, il cuore dell'apprendimento
 	# di una lingua straniera. Una frase su tante nasconde lo sbaglio: si clicca.
 	"inglese": [
+		# Completamento della Fase 3, 9 settembre 2026: queste fasce restavano
+		# sotto le tre ricette nuove che il piano dichiara come bersaglio.
+		{"topic": "past-tense", "minLevel": 10, "answerLine": 3, "shuffleLines": true,
+			"prompt": "Three sentences about the past: which one is wrong?",
+			"codeLines": ["Yesterday I played football.", "She watched a film last night.", "They goed to the park on Sunday.", "# find the wrong verb"],
+			"explanation": "Riga 3: «go» e' irregolare e al passato fa «went», non «goed». La regola del -ed vale per la maggioranza dei verbi, ma i piu' usati sono quasi tutti irregolari — ed e' proprio perche' si usano tanto che non si sono mai regolarizzati."},
 		{"topic": "sentence", "answerLine": 2,
 			"prompt": "Find the mistake in this English text.",
 			"codeLines": ["She is my best friend.", "She have a blue bike.", "She goes to school by bus.", "# check the verb"],
@@ -4555,6 +5103,16 @@ const CODE_DEBUG := {
 	# SCIENZE — "Caccia all'errore": fra tre affermazioni una è falsa. Colpisce le
 	# misconcezioni classiche (la Luna, le branchie, il vapore).
 	"scienze": [
+		# Completamento della Fase 3, 9 settembre 2026: queste fasce restavano
+		# sotto le tre ricette nuove che il piano dichiara come bersaglio.
+		{"topic": "terra-universo", "minLevel": 14, "answerLine": 3, "shuffleLines": true,
+			"prompt": "Tre affermazioni sul sistema solare: quale e' falsa?",
+			"codeLines": ["La Terra impiega un anno a girare attorno al Sole.", "La Luna mostra sempre la stessa faccia alla Terra.", "Le stagioni dipendono dalla distanza dal Sole.", "# trova l'affermazione falsa"],
+			"explanation": "Riga 3: dipendono dall'inclinazione dell'asse. Se fosse la distanza, estate e inverno cadrebbero negli stessi mesi nei due emisferi, e invece sono opposti."},
+		{"topic": "ambiente", "minLevel": 17, "answerLine": 1, "shuffleLines": true,
+			"prompt": "Tre affermazioni sull'ambiente: quale e' falsa?",
+			"codeLines": ["Riciclare un materiale costa sempre piu' energia che produrlo nuovo.", "L'alluminio si puo' riciclare molte volte.", "La plastica in mare si spezza ma non sparisce.", "# trova l'affermazione falsa"],
+			"explanation": "Riga 1: per l'alluminio riciclare costa circa il cinque per cento dell'energia della produzione da minerale. Il bilancio cambia da materiale a materiale, e non e' mai una regola unica."},
 		{"topic": "metodo", "answerLine": 2,
 			"prompt": "Vogliamo capire se la luce cambia la crescita di una pianta. Quale passaggio rende il confronto scorretto?",
 			"codeLines": ["Uso due piante della stessa specie", "Do anche quantità d'acqua diverse", "Cambio soltanto le ore di luce", "# per confrontare, deve cambiare una sola variabile"],
@@ -4587,6 +5145,16 @@ const CODE_DEBUG := {
 	# FISICA — "Caccia all'errore": affermazione falsa o calcolo sbagliato. Colpisce
 	# le misconcezioni classiche (Galileo, la formula della velocità, l'energia).
 	"fisica": [
+		# Completamento della Fase 3, 9 settembre 2026: queste fasce restavano
+		# sotto le tre ricette nuove che il piano dichiara come bersaglio.
+		{"topic": "calore", "minLevel": 16, "answerLine": 2, "shuffleLines": true,
+			"prompt": "Tre affermazioni su calore e temperatura: quale e' falsa?",
+			"codeLines": ["Il calore passa sempre dal caldo al freddo.", "Due corpi alla stessa temperatura contengono lo stesso calore.", "Durante la fusione la temperatura resta ferma.", "# trova l'affermazione falsa"],
+			"explanation": "Riga 2: dipende anche da quanta materia c'e'. Una piscina e un bicchiere a venti gradi hanno la stessa temperatura e quantita' di energia lontanissime."},
+		{"topic": "energia", "minLevel": 17, "answerLine": 3, "shuffleLines": true,
+			"prompt": "Tre affermazioni sull'energia: quale e' falsa?",
+			"codeLines": ["L'energia si trasforma da una forma all'altra.", "In ogni trasformazione una parte diventa calore.", "Una macchina ben costruita puo' restituire tutta l'energia ricevuta.", "# trova l'affermazione falsa"],
+			"explanation": "Riga 3: nessuna macchina ci riesce, nemmeno quella perfetta. Attriti e resistenze disperdono sempre una quota in calore, ed e' il motivo per cui il moto perpetuo e' impossibile e non soltanto difficile."},
 		{"topic": "moto", "answerLine": 3,
 			"prompt": "Una bici percorre 30 km in 2 ore. Quale passaggio sbaglia?",
 			"codeLines": ["velocità = spazio / tempo", "velocità = 30 km / 2 h", "velocità = 60 km/h", "# dividi 30 per 2"],
@@ -4618,6 +5186,14 @@ const CODE_DEBUG := {
 	],
 	# GEOGRAFIA — "Caccia all'errore": fra tre affermazioni una è falsa.
 	"geografia": [
+		{"topic": "geografia-fisica", "minLevel": 17, "answerLine": 2, "shuffleLines": true,
+			"prompt": "Tre affermazioni sul rilievo: quale e' falsa?",
+			"codeLines": ["I fiumi scavano di piu' dove la pendenza e' maggiore.", "Le montagne piu' alte sono anche le piu' antiche.", "Il ghiaccio allarga il fondo delle valli scendendo.", "# trova l'affermazione falsa"],
+			"explanation": "Riga 2: e' il contrario. Le catene giovani come Alpi e Himalaya sono le piu' alte perche' l'erosione non ha ancora avuto tempo; quelle antiche, come gli Urali, sono state consumate fino a diventare colline."},
+		{"topic": "geografia-umana", "minLevel": 23, "answerLine": 1, "shuffleLines": true,
+			"prompt": "Tre affermazioni sulla popolazione: quale e' falsa?",
+			"codeLines": ["Un paese con reddito medio alto non ha poveri.", "La densita' non dice come sono distribuiti gli abitanti.", "Una popolazione puo' crescere anche con poche nascite.", "# trova l'affermazione falsa"],
+			"explanation": "Riga 1: la media nasconde la distribuzione. Un paese ricco puo' avere disuguaglianze fortissime, ed e' per questo che accanto al reddito medio si guardano sempre gli indici che misurano quanto e' distribuito."},
 		{"topic": "climi", "minLevel": 3, "answerLine": 3,
 			"prompt": "Segui il ragionamento sul clima: quale passo sbaglia?",
 			"codeLines": ["Salendo in montagna la temperatura scende.", "Il rifugio sta a 2000 metri, il paese a 500.", "Quindi al rifugio fa più caldo che in paese.", "# chi dei due sta più in alto?"],
@@ -4637,6 +5213,16 @@ const CODE_DEBUG := {
 	],
 	# STORIA — "Caccia all'errore": affermazione falsa o cronologia sbagliata.
 	"storia": [
+		# Completamento della Fase 3, 9 settembre 2026: queste fasce restavano
+		# sotto le tre ricette nuove che il piano dichiara come bersaglio.
+		{"topic": "roma", "minLevel": 20, "answerLine": 2, "shuffleLines": true,
+			"prompt": "Tre affermazioni su Roma antica: quale e' falsa?",
+			"codeLines": ["La repubblica precede l'impero.", "Tutti gli abitanti dell'impero erano cittadini fin dall'inizio.", "Il latino si diffuse con l'amministrazione e l'esercito.", "# trova l'affermazione falsa"],
+			"explanation": "Riga 2: la cittadinanza fu estesa a tutti gli abitanti liberi solo nel 212 dopo Cristo, quasi mille anni dopo la fondazione. Prima era un privilegio concesso poco per volta, ed e' proprio con quelle concessioni che Roma teneva insieme l'impero."},
+		{"topic": "medioevo", "minLevel": 23, "answerLine": 1, "shuffleLines": true,
+			"prompt": "Tre affermazioni sul medioevo: quale e' falsa?",
+			"codeLines": ["Nel medioevo non ci furono progressi tecnici.", "I monasteri copiavano e conservavano i testi antichi.", "Le universita' nascono in eta' medievale.", "# trova l'affermazione falsa"],
+			"explanation": "Riga 1: mulino ad acqua, aratro pesante, occhiali, bussola e orologio meccanico sono tutti medievali. L'idea di un'epoca ferma nasce molto dopo, da chi voleva presentarsi come il suo contrario."},
 		{"topic": "cronologia", "minLevel": 3, "answerLine": 3,
 			"prompt": "Segui la linea del tempo: quale passo sbaglia?",
 			"codeLines": ["Roma fu fondata nel 753 a.C.", "Gli anni «a.C.» si contano all'indietro.", "Quindi il 753 a.C. viene dopo il 500 a.C.", "# quale dei due è più lontano da noi?"],
@@ -4656,6 +5242,24 @@ const CODE_DEBUG := {
 	],
 	# MUSICA — "Caccia all'errore": affermazione falsa di teoria musicale.
 	"musica": [
+		# Completamento della Fase 3, 9 settembre 2026: queste fasce restavano
+		# sotto le tre ricette nuove che il piano dichiara come bersaglio.
+		{"topic": "note", "minLevel": 8, "answerLine": 2, "shuffleLines": true,
+			"prompt": "Tre affermazioni sulle note: quale e' falsa?",
+			"codeLines": ["La scala di do non ha alterazioni.", "Fra mi e fa c'e' un tono intero.", "Il pentagramma ha cinque righe.", "# trova l'affermazione falsa"],
+			"explanation": "Riga 2: fra mi e fa c'e' un semitono, non un tono. Sono le due coppie senza tasto nero in mezzo — mi-fa e si-do — e sono la ragione per cui la tastiera del pianoforte ha quell'aspetto irregolare."},
+		{"topic": "tempo", "minLevel": 14, "answerLine": 3, "shuffleLines": true,
+			"prompt": "Tre letture di indicazioni di tempo: quale sbaglia?",
+			"codeLines": ["4/4 significa quattro semiminime per battuta.", "3/4 e' il tempo del valzer.", "6/8 significa sei semiminime per battuta.", "# trova la lettura sbagliata"],
+			"explanation": "Riga 3: in 6/8 il numero sotto dice che l'unita' e' la croma, non la semiminima. Il numero sopra conta quante ne stanno in una battuta, quello sotto dice quale figura si conta."},
+		{"topic": "strumenti", "minLevel": 20, "answerLine": 1, "shuffleLines": true,
+			"prompt": "Tre affermazioni sull'orchestra: quale e' falsa?",
+			"codeLines": ["Il sassofono appartiene alla famiglia degli ottoni.", "Gli archi sono la sezione piu' numerosa.", "Il direttore non produce suono.", "# trova l'affermazione falsa"],
+			"explanation": "Riga 1: il sassofono e' un legno, anche se e' fatto di metallo. La famiglia si decide da che cosa vibra, e dentro il sassofono vibra una linguetta di canna come nel clarinetto."},
+		{"topic": "dinamica", "minLevel": 23, "answerLine": 2, "shuffleLines": true,
+			"prompt": "Tre affermazioni sulla dinamica: quale e' falsa?",
+			"codeLines": ["Il crescendo si distende su piu' battute.", "Un pianissimo va suonato piu' lentamente.", "Il forte riguarda l'intensita', non la velocita'.", "# trova l'affermazione falsa"],
+			"explanation": "Riga 2: dinamica e tempo sono assi indipendenti. Si puo' suonare pianissimo e velocissimo, o fortissimo e lentissimo: confonderli e' l'errore piu' comune di chi comincia."},
 		{"topic": "ritmo", "minLevel": 3, "answerLine": 2,
 			"prompt": "Conta i battiti della battuta: quale passo sbaglia?",
 			"codeLines": ["In 4/4 ogni battuta vale 4 battiti.", "Una semiminima vale 2 battiti.", "Quindi in una battuta ci stanno 4 semiminime.", "# quanto vale davvero una semiminima?"],
@@ -4675,11 +5279,32 @@ const CODE_DEBUG := {
 	],
 	# LATINO — "Caccia all'errore": analisi o affermazione sbagliata sul latino.
 	"latino": [
-		{"topic": "casi", "minLevel": 3, "answerLine": 2,
+		# Fasce 5 e 7. La caccia all'errore e' il formato giusto per il latino alto:
+		# non chiede di produrre una forma — cosa che senza tavola non si deduce —
+		# ma di accorgersi che una concordanza non torna, e per accorgersene bisogna
+		# aver capito il sistema.
+		{"topic": "casi", "minLevel": 14, "answerLine": 2, "shuffleLines": true,
+			"prompt": "Tre traduzioni di frasi latine: quale sbaglia il ruolo delle parole?",
+			"codeLines": ["«Dominus servum vocat» = il padrone chiama il servo.", "«Servus dominum vocat» = il servo chiama i padroni.", "«Puella rosas portat» = la fanciulla porta le rose.", "# trova la traduzione sbagliata"],
+			"explanation": "Riga 2: «dominum» finisce in -um, accusativo SINGOLARE, quindi «il padrone». Il plurale sarebbe «dominos». Chi traduce a orecchio perde il numero, che sta tutto nella desinenza."},
+		{"topic": "verbi", "minLevel": 19, "answerLine": 3, "shuffleLines": true,
+			"prompt": "Tre analisi di voci verbali: quale e' errata?",
+			"codeLines": ["«amant» = terza persona plurale, presente.", "«amabit» = terza persona singolare, futuro.", "«amavit» = terza persona plurale, passato.", "# trova l'analisi sbagliata"],
+			"explanation": "Riga 3: «amavit» finisce in -t, quindi e' singolare — «amo'», non «amarono». Il plurale sarebbe «amaverunt». La -t e la -nt distinguono una persona da molte in ogni tempo."},
+		{"topic": "frasi", "minLevel": 20, "answerLine": 1, "shuffleLines": true,
+			"prompt": "Tre affermazioni sul latino: quale e' falsa?",
+			"codeLines": ["Il genitivo indica a chi e' destinata una cosa.", "L'ablativo puo' indicare il mezzo con cui si agisce.", "Il vocativo si usa per chiamare qualcuno.", "# trova l'affermazione falsa"],
+			"explanation": "Riga 1: a chi e' destinata una cosa lo dice il DATIVO. Il genitivo dice di chi e', cioe' il possesso: sono due domande diverse, «a chi?» e «di chi?»."},
+		# Portate a `minLevel` 1 il 9 settembre 2026: latino era l'unica materia con
+		# tre sole meccaniche in rotazione alla fascia 1, perche' queste due
+		# stavano a 3 e al mondo 2 non erano ancora idonee. Il contenuto e' adatto
+		# fin dall'inizio — riconoscere un errore in un'analisi e' piu' facile che
+		# produrla — quindi non c'era ragione di tenerle indietro.
+		{"topic": "casi", "minLevel": 1, "answerLine": 2,
 			"prompt": "Segui l'analisi della frase: quale passo sbaglia?",
 			"codeLines": ["«Puella rosam amat» vuol dire «la fanciulla ama la rosa».", "«rosam» è il soggetto della frase.", "Quindi è la rosa a fare l'azione.", "# quale parola compie l'azione?"],
 			"explanation": "Riga 2: «rosam» finisce in -am, è accusativo, e l'accusativo è il complemento oggetto — la cosa amata. Il soggetto è «puella», in nominativo."},
-		{"topic": "frasi", "minLevel": 3, "answerLine": 3, "shuffleLines": true,
+		{"topic": "frasi", "minLevel": 1, "answerLine": 3, "shuffleLines": true,
 			"prompt": "Una sola affermazione è falsa. Quale riga?",
 			"codeLines": ["Il latino usa i casi per la funzione delle parole.", "'aqua' significa acqua.", "In latino il verbo di solito sta all'inizio della frase.", "# quale affermazione è falsa?"],
 			"explanation": "Riga 3: in latino il verbo di solito sta alla FINE della frase (ordine soggetto-oggetto-verbo)."},
@@ -4977,6 +5602,16 @@ const SWIPE := {
 				{"text": "Fra un'ora iniziera la gara -> futuro semplice", "correct": true}, {"text": "Ogni lunedi studio chitarra -> imperfetto", "correct": false},
 				{"text": "Quando ero piccolo temevo il buio -> imperfetto", "correct": true}],
 			"explanation": "Il tempo racconta quando e come accade l'azione: presente adesso o abituale, imperfetto per sfondo e ripetizione, passato prossimo per un fatto concluso, futuro per cio che deve arrivare."},
+		{"topic": "congiuntivo-condizionale", "minLevel": 13, "actionTheme": "verb_mode_factory", "prompt": "Sala dei Dubbi: manda a destra le frasi in cui il modo del verbo è quello giusto; a sinistra quelle da correggere.", "seconds": 54.0, "minAccuracy": 0.80,
+			"statements": [
+				{"text": "Penso che tu abbia ragione", "correct": true}, {"text": "Penso che tu hai ragione", "correct": false},
+				{"text": "Spero che arrivino in orario", "correct": true}, {"text": "Spero che arrivano in orario", "correct": false},
+				{"text": "Se avessi tempo, verrei con te", "correct": true}, {"text": "Se avrei tempo, verrei con te", "correct": false},
+				{"text": "Credo che sia tardi", "correct": true}, {"text": "Credo che e tardi", "correct": false},
+				{"text": "Voglio che tu venga domani", "correct": true}, {"text": "Voglio che tu vieni domani", "correct": false},
+				{"text": "Se piovesse, resteremmo a casa", "correct": true}, {"text": "Se pioverebbe, resteremmo a casa", "correct": false},
+				{"text": "Non so se lui capisca", "correct": true}],
+			"explanation": "I verbi che esprimono opinione, speranza o volonta reggono il congiuntivo: dicono che la cosa non e un fatto. E nel periodo ipotetico il condizionale sta nella seconda meta, mai dopo il «se»."},
 		{"topic": "modi-verbali", "minLevel": 10, "actionTheme": "verb_mode_factory", "prompt": "Officina dei Modi: conferma a destra i comandi verbali calibrati; manda a sinistra quelli con il modo sbagliato.", "seconds": 54.0, "minAccuracy": 0.80,
 			"statements": [
 				{"text": "Spero che tu arrivi -> congiuntivo", "correct": true}, {"text": "Se avessi tempo, partirei -> imperativo", "correct": false},
@@ -5356,6 +5991,27 @@ const COMPOSE := {
 			"targets": [{"id": "a", "label": ","}, {"id": "b", "label": ":"}, {"id": "c", "label": "niente"}],
 			"answer": "a",
 			"explanation": "L'inciso «il fratello di Anna» si è aperto con una virgola e va chiuso con l'altra: le due virgole sono una coppia, come due parentesi. Lasciarlo aperto attacca «Anna» al verbo, e a quel punto è Anna ad arrivare."},
+		# Fascia 5. La concordanza dei tempi si sceglie, non si riconosce: qui il
+		# tempo della principale è già dato, e la subordinata va messa in accordo.
+		{"topic": "concordanza-tempi-verbali", "minLevel": 13, "prompt": "Completa: la principale è al passato, la subordinata deve guardare avanti da lì.",
+			"slots": [{"text": "Marta promise che"}, {"text": ""}, {"text": "il giorno dopo"}],
+			"targets": [{"id": "a", "label": "tornerà"}, {"id": "b", "label": "sarebbe tornata"}, {"id": "c", "label": "torna"}],
+			"answer": "b",
+			"explanation": "«Promise» colloca tutto nel passato: il futuro va misurato da quel momento, ed è «sarebbe tornata». «Tornerà» guarda avanti da oggi, ma nel racconto di allora oggi non esiste ancora."},
+		# Fascia 7. Il periodo ipotetico della possibilità: le due metà si reggono
+		# a vicenda, e sbagliarne una sola sbilancia tutta la frase.
+		{"topic": "congiuntivo-condizionale", "minLevel": 19, "prompt": "Completa il periodo ipotetico: la prima metà è al congiuntivo imperfetto.",
+			"slots": [{"text": "Se il ponte fosse più largo,"}, {"text": ""}, {"text": "passare in due"}],
+			"targets": [{"id": "a", "label": "potremmo"}, {"id": "b", "label": "possiamo"}, {"id": "c", "label": "potremo"}],
+			"answer": "a",
+			"explanation": "Al congiuntivo imperfetto della condizione risponde il condizionale presente: «se fosse… potremmo». Le due metà vanno in coppia, e cambiarne una sola rompe l'accordo — «possiamo» direbbe che il ponte è già largo."},
+		# Fascia 7. Il modo indefinito si sceglie dalla funzione: dopo una
+		# preposizione l'italiano vuole l'infinito, non il gerundio.
+		{"topic": "imperativo-infinito-participio-gerundio", "minLevel": 19, "prompt": "Completa: dopo «prima di» quale forma verbale può stare?",
+			"slots": [{"text": "Controlla lo zaino prima di"}, {"text": ""}, {"text": "di casa"}],
+			"targets": [{"id": "a", "label": "uscendo"}, {"id": "b", "label": "uscire"}, {"id": "c", "label": "uscito"}],
+			"answer": "b",
+			"explanation": "Dopo una preposizione il verbo va all'infinito: «prima di uscire». Il gerundio non regge una preposizione, e il participio da solo indicherebbe un'azione già conclusa."},
 	],
 	"latino": [
 		{"topic": "declinazioni-base", "minLevel": 5, "prompt": "Completa la forma: accusativo singolare di «rosa».",
@@ -7985,6 +8641,13 @@ const GRIGLIA_SPIEGAZIONI := [
 	"Gli indizi non vanno letti nell'ordine in cui stanno scritti: conviene partire da quello che toglie di più, di solito l'alternativa fra due nomi. Poi si torna sugli altri con la griglia già più stretta, e un indizio che prima sembrava inutile all'improvviso decide.",
 	"Una griglia non si risolve indovinando e poi controllando: si risolve al contrario. Ogni casella che spegni è una possibilità in meno, e quando le possibilità di una riga scendono a una sola quella è la risposta — trovata senza averla mai cercata.",
 	"Un indizio che dice «è questo oppure quello» sembra dire poco e invece dice moltissimo: esclude tutti gli altri in un colpo solo. Qui le informazioni negative valgono più di quelle positive, perché tolgono a molte righe insieme.",
+	# Sesta, aggiunta il 9 settembre 2026. Non è un riempitivo: con cinque frasi e
+	# una distribuzione legata alla griglia, una di loro arrivava al 26% dei nodi
+	# e `explanation_coverage_audit` la bocciava a ragione, perché una spiegazione
+	# che torna troppo spesso smette di essere letta. Ma è anche il pezzo di
+	# metodo che mancava davvero: le altre cinque dicono come si stringe, questa
+	# dice come si sa di aver finito.
+	"Quando la griglia è piena non hai ancora finito: torna sugli indizi e verifica che li spieghi TUTTI, compresi quelli che non hai usato. Una soluzione che ne contraddice uno solo è sbagliata, e accorgersene alla fine costa molto meno che accorgersene mai.",
 ]
 
 ## Quanti indizi al massimo restano a schermo. Sei: oltre, la colonna non ci sta
@@ -8063,12 +8726,18 @@ func _griglia_node(subject: String, level: int, step: int, rng: RandomNumberGene
 		"explanation": GRIGLIA_SPIEGAZIONI[_griglia_spiegazione(scenario_indice, perm)],
 	}
 
-## Quale delle cinque spiegazioni accompagna questa griglia. Non a sorte: legata
-## alla griglia stessa, così le cinque si distribuiscono in modo regolare invece
+## Quale delle sei spiegazioni accompagna questa griglia. Non a sorte: legata
+## alla griglia stessa, così le sei si distribuiscono in modo regolare invece
 ## di raggrupparsi — `explanation_coverage_audit` misura la QUOTA di ciascuna, e
 ## un sorteggio su un campione piccolo la fa ballare di dieci punti.
+## **I moltiplicatori devono essere coprimi con il numero di frasi.** (9 settembre
+## 2026) Erano 3 e 2 su cinque frasi, e funzionavano per caso: 3 e 5 sono
+## coprimi. Passando a sei frasi il 3 è diventato un divisore — `scenario * 3`
+## modulo 6 vale soltanto 0 o 3 — e la distribuzione è peggiorata invece di
+## migliorare, lasciando una frase al 26% come prima. Con 7, 5 e 3 la mescola
+## resta regolare per qualunque numero di frasi che non sia multiplo di quei tre.
 func _griglia_spiegazione(scenario_indice: int, perm: Array) -> int:
-	var mescola := scenario_indice * 3 + int(perm[0]) * 2 + int(perm[perm.size() - 1])
+	var mescola := scenario_indice * 7 + int(perm[0]) * 5 + int(perm[perm.size() - 1]) * 3
 	return posmod(mescola, GRIGLIA_SPIEGAZIONI.size())
 
 ## Tutti gli indizi VERI che si possono dire su questa soluzione, mescolati.

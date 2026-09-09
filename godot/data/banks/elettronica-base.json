@@ -7,7 +7,7 @@
 			"id": "elettronica-funzione-battery",
 			"subject": "elettronica",
 			"topic": "componenti",
-			"difficulty": 1,
+			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Qual è la funzione del componente \"Batteria\"?",
 			"options": [
@@ -22,7 +22,8 @@
 				"limita la corrente e protegge i componenti sensibili": "È la funzione di «Resistenza», non di «Batteria».",
 				"chiude il giro riportando la corrente al polo -": "È la funzione di «Ritorno», non di «Batteria».",
 				"apre o chiude il passaggio della corrente": "È la funzione di «Interruttore», non di «Batteria»."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-attenzione-battery",
@@ -43,13 +44,14 @@
 				"non è un interruttore: è un riferimento stabile": "Riguarda «Massa», non «Batteria».",
 				"non è solo un interruttore manuale: viene comandato elettricamente": "Riguarda «Relè», non «Batteria».",
 				"non è opzionale: ogni circuito deve tornare alla sorgente": "Riguarda «Ritorno», non «Batteria»."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-funzione-switch",
 			"subject": "elettronica",
 			"topic": "componenti",
-			"difficulty": 1,
+			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Qual è la funzione del componente \"Interruttore\"?",
 			"options": [
@@ -64,7 +66,8 @@
 				"stabilizza il riferimento comune del ritorno": "È la funzione di «Massa», non di «Interruttore».",
 				"trasforma energia elettrica in movimento": "È la funzione di «Motore», non di «Interruttore».",
 				"misura un segnale e invia dati al terminale": "È la funzione di «Sensore», non di «Interruttore»."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-attenzione-switch",
@@ -85,7 +88,8 @@
 				"non è una resistenza: non limita la corrente, la alimenta": "Riguarda «Batteria», non «Interruttore».",
 				"non è solo un interruttore manuale: viene comandato elettricamente": "Riguarda «Relè», non «Interruttore».",
 				"non serve ad accendere di più: serve a non sovraccaricare": "Riguarda «Resistenza», non «Interruttore»."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-funzione-resistor",
@@ -106,13 +110,14 @@
 				"accumula carica e la rilascia per stabilizzare gli impulsi": "È la funzione di «Condensatore», non di «Resistenza».",
 				"stabilizza il riferimento comune del ritorno": "È la funzione di «Massa», non di «Resistenza».",
 				"fornisce la spinta elettrica tra polo + e polo -": "È la funzione di «Batteria», non di «Resistenza»."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-attenzione-resistor",
 			"subject": "elettronica",
 			"topic": "componenti",
-			"difficulty": 5,
+			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Quale attenzione vale per il componente \"Resistenza\"?",
 			"options": [
@@ -127,7 +132,8 @@
 				"non è opzionale: ogni circuito deve tornare alla sorgente": "Riguarda «Ritorno», non «Resistenza».",
 				"non è solo un interruttore manuale: viene comandato elettricamente": "Riguarda «Relè», non «Resistenza».",
 				"non è una batteria: non produce energia nuova, la conserva per poco": "Riguarda «Condensatore», non «Resistenza»."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-funzione-led",
@@ -148,13 +154,14 @@
 				"fornisce la spinta elettrica tra polo + e polo -": "È la funzione di «Batteria», non di «LED».",
 				"divide la corrente in rami che possono funzionare separatamente": "È la funzione di «Ramo parallelo», non di «LED».",
 				"usa un comando debole per chiudere un circuito di alta potenza": "È la funzione di «Relè», non di «LED»."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-attenzione-led",
 			"subject": "elettronica",
 			"topic": "componenti",
-			"difficulty": 5,
+			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Quale attenzione vale per il componente \"LED\"?",
 			"options": [
@@ -169,13 +176,14 @@
 				"non è un sensore: consuma energia, non misura": "Riguarda «Motore», non «LED».",
 				"non genera corrente: decide solo se il percorso continua": "Riguarda «Interruttore», non «LED».",
 				"non trattarlo come un unico filo in serie": "Riguarda «Ramo parallelo», non «LED»."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-funzione-sensor",
 			"subject": "elettronica",
 			"topic": "componenti",
-			"difficulty": 6,
+			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Qual è la funzione del componente \"Sensore\"?",
 			"options": [
@@ -190,13 +198,14 @@
 				"stabilizza il riferimento comune del ritorno": "È la funzione di «Massa», non di «Sensore».",
 				"fornisce la spinta elettrica tra polo + e polo -": "È la funzione di «Batteria», non di «Sensore».",
 				"trasforma energia elettrica in movimento": "È la funzione di «Motore», non di «Sensore»."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-attenzione-sensor",
 			"subject": "elettronica",
 			"topic": "componenti",
-			"difficulty": 7,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "Quale attenzione vale per il componente \"Sensore\"?",
 			"options": [
@@ -211,13 +220,14 @@
 				"non è un sensore: consuma energia, non misura": "Riguarda «Motore», non «Sensore».",
 				"non genera corrente: decide solo se il percorso continua": "Riguarda «Interruttore», non «Sensore».",
 				"non trattarlo come un unico filo in serie": "Riguarda «Ramo parallelo», non «Sensore»."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-funzione-capacitor",
 			"subject": "elettronica",
 			"topic": "componenti",
-			"difficulty": 6,
+			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Qual è la funzione del componente \"Condensatore\"?",
 			"options": [
@@ -232,13 +242,14 @@
 				"emette luce soltanto se la polarità e la corrente sono giuste": "È la funzione di «LED», non di «Condensatore».",
 				"usa un comando debole per chiudere un circuito di alta potenza": "È la funzione di «Relè», non di «Condensatore».",
 				"limita la corrente e protegge i componenti sensibili": "È la funzione di «Resistenza», non di «Condensatore»."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-attenzione-capacitor",
 			"subject": "elettronica",
 			"topic": "componenti",
-			"difficulty": 7,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "Quale attenzione vale per il componente \"Condensatore\"?",
 			"options": [
@@ -253,13 +264,14 @@
 				"non è una resistenza: non limita la corrente, la alimenta": "Riguarda «Batteria», non «Condensatore».",
 				"non è solo un interruttore manuale: viene comandato elettricamente": "Riguarda «Relè», non «Condensatore».",
 				"non serve ad accendere di più: serve a non sovraccaricare": "Riguarda «Resistenza», non «Condensatore»."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-funzione-return",
 			"subject": "elettronica",
 			"topic": "componenti",
-			"difficulty": 1,
+			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Qual è la funzione del componente \"Ritorno\"?",
 			"options": [
@@ -274,7 +286,8 @@
 				"limita la corrente e protegge i componenti sensibili": "È la funzione di «Resistenza», non di «Ritorno».",
 				"apre o chiude il passaggio della corrente": "È la funzione di «Interruttore», non di «Ritorno».",
 				"fornisce la spinta elettrica tra polo + e polo -": "È la funzione di «Batteria», non di «Ritorno»."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-attenzione-return",
@@ -295,13 +308,14 @@
 				"non è un interruttore: è un riferimento stabile": "Riguarda «Massa», non «Ritorno».",
 				"non è una resistenza: non limita la corrente, la alimenta": "Riguarda «Batteria», non «Ritorno».",
 				"non serve ad accendere di più: serve a non sovraccaricare": "Riguarda «Resistenza», non «Ritorno»."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-funzione-branchLed",
 			"subject": "elettronica",
 			"topic": "componenti",
-			"difficulty": 7,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "Qual è la funzione del componente \"Ramo parallelo\"?",
 			"options": [
@@ -316,13 +330,14 @@
 				"accumula carica e la rilascia per stabilizzare gli impulsi": "È la funzione di «Condensatore», non di «Ramo parallelo».",
 				"fornisce la spinta elettrica tra polo + e polo -": "È la funzione di «Batteria», non di «Ramo parallelo».",
 				"usa un comando debole per chiudere un circuito di alta potenza": "È la funzione di «Relè», non di «Ramo parallelo»."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-attenzione-branchLed",
 			"subject": "elettronica",
 			"topic": "componenti",
-			"difficulty": 7,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "Quale attenzione vale per il componente \"Ramo parallelo\"?",
 			"options": [
@@ -337,13 +352,14 @@
 				"non è un interruttore: è un riferimento stabile": "Riguarda «Massa», non «Ramo parallelo».",
 				"non è una lampadina normale: il verso conta": "Riguarda «LED», non «Ramo parallelo».",
 				"se non è alimentato, non può misurare": "Riguarda «Sensore», non «Ramo parallelo»."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-funzione-relay",
 			"subject": "elettronica",
 			"topic": "componenti",
-			"difficulty": 7,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "Qual è la funzione del componente \"Relè\"?",
 			"options": [
@@ -358,13 +374,14 @@
 				"divide la corrente in rami che possono funzionare separatamente": "È la funzione di «Ramo parallelo», non di «Relè».",
 				"emette luce soltanto se la polarità e la corrente sono giuste": "È la funzione di «LED», non di «Relè».",
 				"limita la corrente e protegge i componenti sensibili": "È la funzione di «Resistenza», non di «Relè»."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-attenzione-relay",
 			"subject": "elettronica",
 			"topic": "componenti",
-			"difficulty": 7,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "Quale attenzione vale per il componente \"Relè\"?",
 			"options": [
@@ -379,13 +396,14 @@
 				"non è una batteria: non produce energia nuova, la conserva per poco": "Riguarda «Condensatore», non «Relè».",
 				"non genera corrente: decide solo se il percorso continua": "Riguarda «Interruttore», non «Relè».",
 				"non è opzionale: ogni circuito deve tornare alla sorgente": "Riguarda «Ritorno», non «Relè»."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-funzione-motor",
 			"subject": "elettronica",
 			"topic": "componenti",
-			"difficulty": 5,
+			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Qual è la funzione del componente \"Motore\"?",
 			"options": [
@@ -400,13 +418,14 @@
 				"fornisce la spinta elettrica tra polo + e polo -": "È la funzione di «Batteria», non di «Motore».",
 				"stabilizza il riferimento comune del ritorno": "È la funzione di «Massa», non di «Motore».",
 				"apre o chiude il passaggio della corrente": "È la funzione di «Interruttore», non di «Motore»."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-attenzione-motor",
 			"subject": "elettronica",
 			"topic": "componenti",
-			"difficulty": 7,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "Quale attenzione vale per il componente \"Motore\"?",
 			"options": [
@@ -421,7 +440,8 @@
 				"non è un interruttore: è un riferimento stabile": "Riguarda «Massa», non «Motore».",
 				"non genera corrente: decide solo se il percorso continua": "Riguarda «Interruttore», non «Motore».",
 				"non trattarlo come un unico filo in serie": "Riguarda «Ramo parallelo», non «Motore»."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-funzione-ground",
@@ -442,13 +462,14 @@
 				"trasforma energia elettrica in movimento": "È la funzione di «Motore», non di «Massa».",
 				"chiude il giro riportando la corrente al polo -": "È la funzione di «Ritorno», non di «Massa».",
 				"misura un segnale e invia dati al terminale": "È la funzione di «Sensore», non di «Massa»."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-attenzione-ground",
 			"subject": "elettronica",
 			"topic": "componenti",
-			"difficulty": 5,
+			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Quale attenzione vale per il componente \"Massa\"?",
 			"options": [
@@ -463,7 +484,8 @@
 				"non trattarlo come un unico filo in serie": "Riguarda «Ramo parallelo», non «Massa».",
 				"non è un sensore: consuma energia, non misura": "Riguarda «Motore», non «Massa».",
 				"non è una lampadina normale: il verso conta": "Riguarda «LED», non «Massa»."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-guasto-missing-wire",
@@ -484,7 +506,8 @@
 				"Interruttore aperto": "Si riconoscerebbe così: «L'interruttore è come un ponte: se è aperto, la corrente si ferma.» — non è l'indizio di questa domanda.",
 				"Corto circuito": "Si riconoscerebbe così: «Nel corto la corrente trova una scorciatoia e salta i componenti utili.» — non è l'indizio di questa domanda.",
 				"Resistenza sbagliata": "Si riconoscerebbe così: «La resistenza c'è, ma il suo valore non protegge bene il LED.» — non è l'indizio di questa domanda."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-guasto-open-switch",
@@ -505,7 +528,8 @@
 				"Ramo parallelo aperto": "Si riconoscerebbe così: «In parallelo ci sono due strade: una può essere rotta anche se l'altra funziona.» — non è l'indizio di questa domanda.",
 				"Condensatore scarico": "Si riconoscerebbe così: «Il condensatore è una piccola riserva: se è scarico, l'impulso dura poco.» — non è l'indizio di questa domanda.",
 				"Sensore senza energia": "Si riconoscerebbe così: «Un sensore misura solo se riceve energia e ha un ritorno.» — non è l'indizio di questa domanda."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-guasto-missing-resistor",
@@ -526,7 +550,8 @@
 				"Ritorno instabile": "Si riconoscerebbe così: «Il ritorno al polo negativo deve essere stabile, non funzionare a tratti.» — non è l'indizio di questa domanda.",
 				"Resistenza sbagliata": "Si riconoscerebbe così: «La resistenza c'è, ma il suo valore non protegge bene il LED.» — non è l'indizio di questa domanda.",
 				"Interruttore aperto": "Si riconoscerebbe così: «L'interruttore è come un ponte: se è aperto, la corrente si ferma.» — non è l'indizio di questa domanda."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-guasto-reversed-led",
@@ -547,7 +572,8 @@
 				"Resistenza sbagliata": "Si riconoscerebbe così: «La resistenza c'è, ma il suo valore non protegge bene il LED.» — non è l'indizio di questa domanda.",
 				"Componente scollegato": "Si riconoscerebbe così: «Un pezzo può essere presente ma fuori dal giro della corrente.» — non è l'indizio di questa domanda.",
 				"Interruttore aperto": "Si riconoscerebbe così: «L'interruttore è come un ponte: se è aperto, la corrente si ferma.» — non è l'indizio di questa domanda."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-guasto-wrong-resistor-value",
@@ -568,7 +594,8 @@
 				"Ramo parallelo aperto": "Si riconoscerebbe così: «In parallelo ci sono due strade: una può essere rotta anche se l'altra funziona.» — non è l'indizio di questa domanda.",
 				"Interruttore aperto": "Si riconoscerebbe così: «L'interruttore è come un ponte: se è aperto, la corrente si ferma.» — non è l'indizio di questa domanda.",
 				"Sensore senza energia": "Si riconoscerebbe così: «Un sensore misura solo se riceve energia e ha un ritorno.» — non è l'indizio di questa domanda."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-guasto-disconnected-component",
@@ -589,7 +616,8 @@
 				"Condensatore scarico": "Si riconoscerebbe così: «Il condensatore è una piccola riserva: se è scarico, l'impulso dura poco.» — non è l'indizio di questa domanda.",
 				"Resistenza sbagliata": "Si riconoscerebbe così: «La resistenza c'è, ma il suo valore non protegge bene il LED.» — non è l'indizio di questa domanda.",
 				"Ramo parallelo aperto": "Si riconoscerebbe così: «In parallelo ci sono due strade: una può essere rotta anche se l'altra funziona.» — non è l'indizio di questa domanda."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-guasto-sensor-unpowered",
@@ -610,7 +638,8 @@
 				"Ramo parallelo aperto": "Si riconoscerebbe così: «In parallelo ci sono due strade: una può essere rotta anche se l'altra funziona.» — non è l'indizio di questa domanda.",
 				"Interruttore aperto": "Si riconoscerebbe così: «L'interruttore è come un ponte: se è aperto, la corrente si ferma.» — non è l'indizio di questa domanda.",
 				"Resistenza sbagliata": "Si riconoscerebbe così: «La resistenza c'è, ma il suo valore non protegge bene il LED.» — non è l'indizio di questa domanda."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-guasto-parallel-branch-open",
@@ -631,7 +660,8 @@
 				"LED girato al contrario": "Si riconoscerebbe così: «Il LED ha un verso: se è girato al contrario, non lascia passare corrente.» — non è l'indizio di questa domanda.",
 				"Condensatore scarico": "Si riconoscerebbe così: «Il condensatore è una piccola riserva: se è scarico, l'impulso dura poco.» — non è l'indizio di questa domanda.",
 				"Interruttore aperto": "Si riconoscerebbe così: «L'interruttore è come un ponte: se è aperto, la corrente si ferma.» — non è l'indizio di questa domanda."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-guasto-capacitor-discharged",
@@ -652,7 +682,8 @@
 				"Sensore senza energia": "Si riconoscerebbe così: «Un sensore misura solo se riceve energia e ha un ritorno.» — non è l'indizio di questa domanda.",
 				"Interruttore aperto": "Si riconoscerebbe così: «L'interruttore è come un ponte: se è aperto, la corrente si ferma.» — non è l'indizio di questa domanda.",
 				"Resistenza assente": "Si riconoscerebbe così: «La resistenza protegge il LED: senza di lei la corrente è troppo forte.» — non è l'indizio di questa domanda."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-guasto-short-circuit",
@@ -673,7 +704,8 @@
 				"Filo mancante": "Si riconoscerebbe così: «Segui il filo: se la strada si interrompe, la corrente non torna alla batteria.» — non è l'indizio di questa domanda.",
 				"Relè non attivato": "Si riconoscerebbe così: «Il relè è un interruttore comandato: prima alimenti il comando, poi parte il carico.» — non è l'indizio di questa domanda.",
 				"Ritorno instabile": "Si riconoscerebbe così: «Il ritorno al polo negativo deve essere stabile, non funzionare a tratti.» — non è l'indizio di questa domanda."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-guasto-loose-ground",
@@ -694,7 +726,8 @@
 				"Corto circuito": "Si riconoscerebbe così: «Nel corto la corrente trova una scorciatoia e salta i componenti utili.» — non è l'indizio di questa domanda.",
 				"Resistenza sbagliata": "Si riconoscerebbe così: «La resistenza c'è, ma il suo valore non protegge bene il LED.» — non è l'indizio di questa domanda.",
 				"Resistenza assente": "Si riconoscerebbe così: «La resistenza protegge il LED: senza di lei la corrente è troppo forte.» — non è l'indizio di questa domanda."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-guasto-relay-not-armed",
@@ -715,13 +748,14 @@
 				"Resistenza assente": "Si riconoscerebbe così: «La resistenza protegge il LED: senza di lei la corrente è troppo forte.» — non è l'indizio di questa domanda.",
 				"Resistenza sbagliata": "Si riconoscerebbe così: «La resistenza c'è, ma il suo valore non protegge bene il LED.» — non è l'indizio di questa domanda.",
 				"Ritorno instabile": "Si riconoscerebbe così: «Il ritorno al polo negativo deve essere stabile, non funzionare a tratti.» — non è l'indizio di questa domanda."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-sicurezza-elettrica-0",
 			"subject": "elettronica",
 			"topic": "sicurezza-elettrica",
-			"difficulty": 4,
+			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Perché non si toccano prese o fili con le mani bagnate?",
 			"options": [
@@ -736,13 +770,14 @@
 				"Perché l'acqua rovina i contatti di metallo": "L'acqua non danneggia i contatti in un istante: il vero pericolo è che conduce la corrente verso il corpo.",
 				"Perché le mani bagnate scivolano sulla presa": "Scivolare non è il pericolo principale: è che l'acqua fa passare la corrente attraverso di te.",
 				"Perché l'acqua fa arrugginire i contatti dell'impianto": "La ruggine è un effetto lento nel tempo, non il pericolo immediato del contatto."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-sicurezza-elettrica-1",
 			"subject": "elettronica",
 			"topic": "sicurezza-elettrica",
-			"difficulty": 3,
+			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "A che cosa serve la messa a terra?",
 			"options": [
@@ -757,13 +792,14 @@
 				"A far funzionare meglio tutti gli apparecchi di casa": "La messa a terra non migliora le prestazioni: è una protezione di sicurezza.",
 				"A ridurre il consumo di elettricità della famiglia": "Non ha effetto sui consumi: serve a deviare la corrente pericolosa verso terra.",
 				"A tenere fermi i cavi dentro il muro": "Il fissaggio dei cavi è un'altra cosa: la messa a terra riguarda la sicurezza elettrica."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-sicurezza-elettrica-2",
 			"subject": "elettronica",
 			"topic": "sicurezza-elettrica",
-			"difficulty": 5,
+			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Che cosa fa un fusibile?",
 			"options": [
@@ -778,13 +814,14 @@
 				"Aumenta la corrente quando serve": "Il fusibile non aumenta niente: si limita a interrompersi per proteggere il circuito.",
 				"Trasforma la corrente in calore utile": "Il calore che produce fondendosi non è utile: è il segnale che si è sacrificato per fermare il sovraccarico.",
 				"Misura quanta corrente sta passando": "Il fusibile non misura: agisce, interrompendosi quando la corrente supera un limite."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-sicurezza-elettrica-3",
 			"subject": "elettronica",
 			"topic": "sicurezza-elettrica",
-			"difficulty": 6,
+			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Perché è pericoloso collegare molti apparecchi a una sola presa?",
 			"options": [
@@ -799,13 +836,14 @@
 				"Perché la corrente diventa più lenta": "La corrente non rallenta: il problema è che supera il limite che il filo può sopportare.",
 				"Perché la tensione si abbassa troppo": "La tensione di rete resta stabile: il problema è la corrente totale richiesta dai fili.",
 				"Perché gli apparecchi si rovinano fra loro": "Gli apparecchi non si danneggiano a vicenda direttamente: il pericolo è il surriscaldamento dei fili."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-sicurezza-elettrica-4",
 			"subject": "elettronica",
 			"topic": "sicurezza-elettrica",
-			"difficulty": 8,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "Perché gli uccelli sui fili dell'alta tensione non si fulminano?",
 			"options": [
@@ -820,13 +858,14 @@
 				"Perché le zampe degli uccelli isolano per natura": "Le zampe degli uccelli non sono isolanti speciali: il motivo è che toccano un solo punto.",
 				"Perché quei fili sono coperti di plastica spessa": "I fili dell'alta tensione spesso sono nudi, senza isolante: il motivo è un altro.",
 				"Perché gli uccelli sono troppo leggeri per far passare la corrente": "Il peso non c'entra con la corrente elettrica: conta se si chiude un circuito fra due punti diversi."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-sicurezza-elettrica-5",
 			"subject": "elettronica",
 			"topic": "sicurezza-elettrica",
-			"difficulty": 6,
+			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Che cosa si fa PRIMA di riparare qualcosa in un impianto elettrico?",
 			"options": [
@@ -841,13 +880,14 @@
 				"Si indossano guanti di lana molto spessi": "I guanti di lana non isolano dall'elettricità: bisogna proprio togliere la corrente.",
 				"Si bagnano le mani per fare meglio contatto": "Bagnare le mani è l'esatto contrario di quello che si deve fare: aumenta il pericolo.",
 				"Si accende la luce della stanza per vedere bene": "Vedere bene non basta a proteggersi: bisogna togliere la corrente prima di tutto."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-sicurezza-elettrica-6",
 			"subject": "elettronica",
 			"topic": "sicurezza-elettrica",
-			"difficulty": 4,
+			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Perché i cavi elettrici sono ricoperti di plastica?",
 			"options": [
@@ -862,13 +902,14 @@
 				"Perché la plastica conduce meglio del rame": "È il contrario: la plastica è un isolante, il rame conduce.",
 				"Perché rende i cavi più leggeri da tirare": "Il peso non è la ragione principale: la plastica serve a impedire contatti pericolosi.",
 				"Perché serve a colorare i cavi diversi": "Il colore è comodo per distinguerli, ma la funzione principale della plastica è isolare."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-sicurezza-elettrica-7",
 			"subject": "elettronica",
 			"topic": "sicurezza-elettrica",
-			"difficulty": 8,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "Perché una pila da 1,5 V non è pericolosa e la presa di casa sì?",
 			"options": [
@@ -883,13 +924,14 @@
 				"Perché la pila contiene meno metallo": "La quantità di metallo non determina il pericolo: conta la tensione.",
 				"Perché la presa è collegata alla terra": "Il collegamento a terra è una protezione, non la ragione per cui la presa è più pericolosa della pila.",
 				"Perché la pila si scarica troppo in fretta da sola": "La velocità di scarica non c'entra col pericolo immediato: conta il voltaggio."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-sicurezza-elettrica-8",
 			"subject": "elettronica",
 			"topic": "sicurezza-elettrica",
-			"difficulty": 5,
+			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Che cosa indica il simbolo di un fulmine su un quadro elettrico?",
 			"options": [
@@ -904,13 +946,14 @@
 				"Presenza di un temporale in corso": "Il simbolo è un avviso permanente sul quadro, non legato al meteo del momento.",
 				"Necessità di ricaricare la batteria": "Il simbolo del fulmine avverte di un pericolo, non di una batteria scarica.",
 				"Zona da illuminare meglio": "Non ha a che fare con l'illuminazione: è un segnale di pericolo elettrico."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-sicurezza-elettrica-9",
 			"subject": "elettronica",
 			"topic": "sicurezza-elettrica",
-			"difficulty": 8,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "Perché il salvavita è più sensibile di un fusibile?",
 			"options": [
@@ -925,13 +968,14 @@
 				"Perché scatta più lentamente del fusibile": "Il salvavita è più veloce e sensibile, non più lento.",
 				"Perché misura la tensione invece della corrente che passa": "Il salvavita confronta le correnti in entrata e in uscita, non la tensione.",
 				"Perché funziona solo con apparecchi grandi": "Il salvavita protegge l'intero impianto, non solo apparecchi grandi."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-sicurezza-elettrica-10",
 			"subject": "elettronica",
 			"topic": "sicurezza-elettrica",
-			"difficulty": 3,
+			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Che cosa NON si deve mai infilare in una presa?",
 			"options": [
@@ -946,13 +990,14 @@
 				"La spina di un apparecchio funzionante": "Una spina è progettata apposta per entrare in sicurezza nella presa.",
 				"Un adattatore certificato per quella presa": "Un adattatore certificato è sicuro per quell'uso: il pericolo sono oggetti come forbici o chiodi.",
 				"Il cavo di ricarica del telefono": "Il cavo di ricarica ha una spina progettata per l'uso sicuro nella presa."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-sicurezza-elettrica-11",
 			"subject": "elettronica",
 			"topic": "sicurezza-elettrica",
-			"difficulty": 6,
+			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Perché un apparecchio con il cavo scoperto va spento subito?",
 			"options": [
@@ -967,13 +1012,14 @@
 				"Perché consuma molta più corrente": "Il consumo di corrente non aumenta per un cavo scoperto: il pericolo è il contatto diretto.",
 				"Perché il cavo scoperto si spezzerà comunque": "Il rischio immediato non è la rottura futura: è la scossa possibile subito.",
 				"Perché disturba gli altri apparecchi": "Un cavo scoperto non disturba altri apparecchi: il pericolo è per chi lo tocca."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-serie-parallelo-12",
 			"subject": "elettronica",
 			"topic": "serie-parallelo",
-			"difficulty": 3,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "In un circuito in serie, la corrente che passa in ogni componente è…",
 			"options": [
@@ -988,13 +1034,14 @@
 				"Diversa in ognuno di essi": "In serie non c'è un punto dove la corrente possa dividersi: resta la stessa lungo tutto il percorso.",
 				"Maggiore nel primo componente": "La corrente non si consuma passando: resta identica in ogni punto dell'anello.",
 				"Minore nell'ultimo componente": "Niente fa diminuire la corrente lungo il percorso: è la stessa dall'inizio alla fine."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-serie-parallelo-13",
 			"subject": "elettronica",
 			"topic": "serie-parallelo",
-			"difficulty": 6,
+			"difficulty": 7,
 			"format": "multiple_choice",
 			"prompt": "In un circuito in parallelo, la tensione ai capi di ogni ramo è…",
 			"options": [
@@ -1009,13 +1056,14 @@
 				"Divisa fra i rami in parti uguali": "La tensione non si divide fra i rami: ogni ramo ha la stessa differenza di potenziale ai suoi capi.",
 				"Maggiore nel ramo più corto": "La lunghezza del ramo non cambia la tensione: tutti i rami condividono gli stessi due punti.",
 				"Minore nel ramo con più resistenza": "La resistenza del ramo cambia la corrente che vi passa, non la tensione ai suoi capi."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-serie-parallelo-14",
 			"subject": "elettronica",
 			"topic": "serie-parallelo",
-			"difficulty": 5,
+			"difficulty": 7,
 			"format": "multiple_choice",
 			"prompt": "Due resistenze uguali in serie danno una resistenza totale…",
 			"options": [
@@ -1030,13 +1078,14 @@
 				"Uguale a una sola": "In serie le resistenze si sommano: due uguali danno il doppio, non lo stesso valore.",
 				"La metà di una sola": "È il contrario di quello che succede in serie: la resistenza aumenta, non diminuisce.",
 				"Quattro volte una sola": "In serie le resistenze si sommano semplicemente: due danno il doppio, non il quadruplo."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-serie-parallelo-15",
 			"subject": "elettronica",
 			"topic": "serie-parallelo",
-			"difficulty": 7,
+			"difficulty": 8,
 			"format": "multiple_choice",
 			"prompt": "Due resistenze uguali in parallelo danno una resistenza totale…",
 			"options": [
@@ -1051,13 +1100,14 @@
 				"Doppia di una sola": "In parallelo la resistenza totale diminuisce, non aumenta: più strade rendono il passaggio più facile.",
 				"Uguale a una sola": "Aggiungere un ramo in parallelo cambia la resistenza totale, rendendola più bassa.",
 				"Quattro volte una sola": "In parallelo la resistenza totale scende, non sale: con due resistenze uguali si dimezza."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-serie-parallelo-16",
 			"subject": "elettronica",
 			"topic": "serie-parallelo",
-			"difficulty": 6,
+			"difficulty": 7,
 			"format": "multiple_choice",
 			"prompt": "Perché le luci di casa non si spengono tutte insieme quando una si fulmina?",
 			"options": [
@@ -1072,13 +1122,14 @@
 				"Perché sono collegate in serie": "In serie succederebbe il contrario: si spegnerebbero tutte insieme.",
 				"Perché hanno ognuna il suo fusibile": "Il fusibile protegge dai sovraccarichi, non è la ragione per cui le altre restano accese.",
 				"Perché consumano poca corrente": "Il consumo di corrente non c'entra: è il tipo di collegamento a fare la differenza."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-serie-parallelo-17",
 			"subject": "elettronica",
 			"topic": "serie-parallelo",
-			"difficulty": 7,
+			"difficulty": 8,
 			"format": "multiple_choice",
 			"prompt": "Tre lampadine identiche in serie brillano rispetto a una sola…",
 			"options": [
@@ -1093,13 +1144,14 @@
 				"Di più": "È il contrario: la resistenza totale triplica e ogni lampadina riceve meno potenza.",
 				"Uguale": "La resistenza aumenta con più lampadine in serie: la corrente e la potenza su ognuna calano.",
 				"Il triplo": "La luminosità non triplica: cala, perché la resistenza totale è più alta."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-serie-parallelo-18",
 			"subject": "elettronica",
 			"topic": "serie-parallelo",
-			"difficulty": 3,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "Come si riconosce un collegamento in serie?",
 			"options": [
@@ -1114,13 +1166,14 @@
 				"I componenti sono affiancati fra gli stessi due nodi": "Quella è la descrizione del collegamento in parallelo, non in serie.",
 				"I componenti hanno ciascuno un interruttore": "Il numero di interruttori non definisce serie o parallelo: conta come sono collegati i fili.",
 				"I componenti sono tutti dello stesso tipo": "Il tipo di componente non definisce il collegamento: si può fare serie o parallelo con qualsiasi componente."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-serie-parallelo-19",
 			"subject": "elettronica",
 			"topic": "serie-parallelo",
-			"difficulty": 6,
+			"difficulty": 7,
 			"format": "multiple_choice",
 			"prompt": "In serie, se apri l'interruttore in un punto qualsiasi…",
 			"options": [
@@ -1135,7 +1188,8 @@
 				"Si spegne solo ciò che viene dopo": "In serie non esiste un «dopo» isolato: l'intero anello si interrompe ovunque si apra.",
 				"Si spegne solo ciò che viene prima": "Anche prima del punto di apertura la corrente si ferma: l'intero circuito si interrompe.",
 				"Non cambia niente nel circuito": "Aprire un punto qualsiasi dell'unico anello ferma tutta la corrente."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-serie-parallelo-20",
@@ -1156,13 +1210,14 @@
 				"Perché il fusibile era troppo debole": "Il problema non era un fusibile: era il tipo di collegamento, in serie.",
 				"Perché la corrente era alternata": "La corrente alternata di casa non causa questo problema: dipende dal collegamento delle lampadine.",
 				"Perché mancava la messa a terra": "La messa a terra riguarda la sicurezza, non il motivo per cui si spengono tutte insieme."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-serie-parallelo-21",
 			"subject": "elettronica",
 			"topic": "serie-parallelo",
-			"difficulty": 5,
+			"difficulty": 7,
 			"format": "multiple_choice",
 			"prompt": "Aggiungendo un ramo in parallelo, la corrente totale erogata dalla pila…",
 			"options": [
@@ -1177,7 +1232,8 @@
 				"Diminuisce": "È il contrario: ogni ramo in più assorbe la sua corrente, quindi il totale richiesto aumenta.",
 				"Resta identica": "Un ramo in più significa un altro percorso che assorbe corrente: il totale sale.",
 				"Si annulla": "Aggiungere un ramo non interrompe il circuito: la corrente totale aumenta, non sparisce."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-serie-parallelo-22",
@@ -1198,13 +1254,14 @@
 				"Perché la corrente aumenta a ogni passaggio": "La corrente in serie resta la stessa in ogni punto: non aumenta passando da un componente all'altro.",
 				"Perché la pila lavora di più con la serie": "Non è uno sforzo maggiore della pila: è che la tensione totale si ripartisce fra i componenti attraversati.",
 				"Perché i fili sono più lunghi in serie": "La lunghezza dei fili di collegamento non è la ragione: è che ogni componente assorbe una parte della tensione."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-misure-elettriche-23",
 			"subject": "elettronica",
 			"topic": "misure-elettriche",
-			"difficulty": 3,
+			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "In quale unità si misura la corrente elettrica?",
 			"options": [
@@ -1219,13 +1276,14 @@
 				"Volt, come la tensione": "Il volt misura la tensione, non la corrente.",
 				"Ohm, come la resistenza": "L'ohm misura la resistenza, non la corrente.",
 				"Watt, come la potenza": "Il watt misura la potenza, non la corrente."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-misure-elettriche-24",
 			"subject": "elettronica",
 			"topic": "misure-elettriche",
-			"difficulty": 3,
+			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "In quale unità si misura la tensione?",
 			"options": [
@@ -1240,13 +1298,14 @@
 				"Ampere": "L'ampere misura la corrente, non la tensione.",
 				"Ohm": "L'ohm misura la resistenza, non la tensione.",
 				"Joule": "Il joule misura l'energia, non la tensione."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-misure-elettriche-25",
 			"subject": "elettronica",
 			"topic": "misure-elettriche",
-			"difficulty": 3,
+			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "In quale unità si misura la resistenza?",
 			"options": [
@@ -1261,13 +1320,14 @@
 				"Volt": "Il volt misura la tensione, non la resistenza.",
 				"Ampere": "L'ampere misura la corrente, non la resistenza.",
 				"Watt": "Il watt misura la potenza, non la resistenza."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-misure-elettriche-26",
 			"subject": "elettronica",
 			"topic": "misure-elettriche",
-			"difficulty": 5,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "Con quale strumento si misura la tensione?",
 			"options": [
@@ -1282,13 +1342,14 @@
 				"Amperometro, collegato in serie": "L'amperometro misura la corrente e va in serie: qui serve misurare la tensione, in parallelo.",
 				"Ohmmetro, sul circuito acceso": "L'ohmmetro misura la resistenza e va usato a circuito spento, non per la tensione.",
 				"Wattmetro, ai capi della pila": "Il wattmetro misura la potenza: qui invece serve lo strumento per la tensione."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-misure-elettriche-27",
 			"subject": "elettronica",
 			"topic": "misure-elettriche",
-			"difficulty": 5,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "Con quale strumento si misura la corrente?",
 			"options": [
@@ -1303,18 +1364,20 @@
 				"Voltmetro, collegato in parallelo": "Il voltmetro misura la tensione e va in parallelo: qui serve misurare la corrente, in serie.",
 				"Ohmmetro, ai capi del componente": "L'ohmmetro misura la resistenza, non la corrente, e si usa a circuito spento.",
 				"Termometro, sul filo che scalda": "Il termometro misura la temperatura, non la corrente."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-misure-elettriche-28",
 			"subject": "elettronica",
 			"topic": "misure-elettriche",
-			"difficulty": 8,
+			"difficulty": 7,
 			"format": "numeric_input",
 			"prompt": "Con 12 volt e una resistenza di 4 ohm, quanti ampere passano?",
 			"options": [],
 			"answer": "3",
 			"explanation": "Corrente = tensione diviso resistenza: 12 diviso 4 fa 3 ampere.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti volt servono per far passare 2 ampere in una resistenza di 5 ohm?».",
 				"20": "«20» è la risposta giusta a un'altra domanda di questo gruppo: «Un apparecchio a 10 volt che assorbe 2 ampere, quanti watt consuma?»."
@@ -1324,12 +1387,13 @@
 			"id": "elettronica-misure-elettriche-29",
 			"subject": "elettronica",
 			"topic": "misure-elettriche",
-			"difficulty": 8,
+			"difficulty": 7,
 			"format": "numeric_input",
 			"prompt": "Quanti volt servono per far passare 2 ampere in una resistenza di 5 ohm?",
 			"options": [],
 			"answer": "10",
 			"explanation": "La legge di Ohm girata dall'altra parte: tensione = resistenza per corrente, 5 × 2 fa 10 volt.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «Con 12 volt e una resistenza di 4 ohm, quanti ampere passano?».",
 				"20": "«20» è la risposta giusta a un'altra domanda di questo gruppo: «Un apparecchio a 10 volt che assorbe 2 ampere, quanti watt consuma?»."
@@ -1354,7 +1418,8 @@
 				"Perché altrimenti si consuma la batteria dello strumento": "Non è un problema di consumo: le due correnti (quella del circuito e quella di prova) si sommerebbero falsando la misura.",
 				"Perché la corrente fa scaldare i cavi": "Il problema non è il calore: è che la misura risulterebbe sbagliata, o lo strumento si danneggerebbe.",
 				"Perché il circuito acceso è più difficile": "Non è questione di difficoltà: è che la misura sarebbe falsata dalla corrente già presente."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-misure-elettriche-31",
@@ -1375,18 +1440,20 @@
 				"Volt": "Il volt misura la tensione, non la potenza.",
 				"Ampere": "L'ampere misura la corrente, non la potenza.",
 				"Ohm": "L'ohm misura la resistenza, non la potenza."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-misure-elettriche-32",
 			"subject": "elettronica",
 			"topic": "misure-elettriche",
-			"difficulty": 8,
+			"difficulty": 7,
 			"format": "numeric_input",
 			"prompt": "Un apparecchio a 10 volt che assorbe 2 ampere, quanti watt consuma?",
 			"options": [],
 			"answer": "20",
 			"explanation": "Potenza = tensione × corrente: 10 × 2 fa 20 watt.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «Con 12 volt e una resistenza di 4 ohm, quanti ampere passano?».",
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti volt servono per far passare 2 ampere in una resistenza di 5 ohm?»."
@@ -1396,7 +1463,7 @@
 			"id": "elettronica-misure-elettriche-33",
 			"subject": "elettronica",
 			"topic": "misure-elettriche",
-			"difficulty": 5,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "Che cosa misura il contatore di casa?",
 			"options": [
@@ -1411,13 +1478,14 @@
 				"La tensione della rete elettrica": "La tensione di rete è fissa e non serve un contatore per misurarla: il contatore misura quanta energia si consuma nel tempo.",
 				"La resistenza dell'impianto": "La resistenza non è quello che si paga in bolletta: si paga l'energia consumata.",
 				"Il numero di apparecchi accesi": "Il contatore non conta gli apparecchi: misura l'energia totale, in chilowattora."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-circuito-34",
 			"subject": "elettronica",
 			"topic": "circuito",
-			"difficulty": 4,
+			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Che cosa serve perché la corrente scorra in un circuito?",
 			"options": [
@@ -1432,7 +1500,8 @@
 				"Soltanto una pila abbastanza carica": "Una pila da sola non basta: senza un percorso chiuso la corrente non ha dove scorrere.",
 				"Soltanto un filo di rame abbastanza lungo": "Un filo da solo non genera corrente: serve anche una sorgente che spinga le cariche.",
 				"Un interruttore aperto sul percorso": "Un interruttore aperto interrompe il circuito: serve che sia chiuso, non aperto."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-circuito-35",
@@ -1453,7 +1522,8 @@
 				"Un circuito senza la copertura isolante sui fili": "Fili scoperti sono un problema di sicurezza, ma non è la definizione di circuito aperto.",
 				"Un circuito con troppi componenti collegati": "Il numero di componenti non definisce un circuito aperto: conta se il percorso è interrotto.",
 				"Un circuito costruito all'aria aperta": "«Aperto» qui non è un luogo fisico: significa che il percorso della corrente è interrotto."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-circuito-36",
@@ -1474,7 +1544,8 @@
 				"Un circuito costruito con fili troppo corti": "La lunghezza dei fili non definisce un cortocircuito: conta che la corrente trovi una via senza resistenza.",
 				"Un circuito con la pila ormai scarica": "Una pila scarica dà poca o nessuna corrente: il cortocircuito invece ne fa passare moltissima.",
 				"Un circuito privo di qualsiasi interruttore": "L'assenza di interruttore non crea un cortocircuito: serve un collegamento diretto che salta i componenti."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-circuito-37",
@@ -1495,13 +1566,14 @@
 				"Dal polo negativo al positivo": "È il verso reale degli elettroni, ma la convenzione storica considera il contrario.",
 				"In entrambi i versi insieme": "La corrente convenzionale ha un verso definito, non scorre nei due sensi insieme.",
 				"Sempre verso la terra": "Il verso convenzionale è dal polo positivo al negativo della pila, non necessariamente verso terra."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-circuito-38",
 			"subject": "elettronica",
 			"topic": "circuito",
-			"difficulty": 7,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "Che cos'è un nodo in un circuito?",
 			"options": [
@@ -1516,7 +1588,8 @@
 				"Un punto in cui il filo è annodato": "Il nodo elettrico non ha a che fare con un nodo fisico nel filo: è un punto di incontro di più conduttori.",
 				"Il collegamento fra la pila e l'interruttore": "Non ogni collegamento è un nodo: lo è solo dove si incontrano tre o più fili.",
 				"Un componente che blocca la corrente": "Un nodo non blocca niente: è un punto dove la corrente si divide o si ricongiunge."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-circuito-39",
@@ -1537,13 +1610,14 @@
 				"Ad aumentare la corrente disponibile nel circuito": "L'interruttore non produce né aumenta corrente: decide solo se il circuito è aperto o chiuso.",
 				"A trasformare la corrente in luce visibile": "Trasformare in luce è il compito di una lampadina, non dell'interruttore.",
 				"A misurare quanta corrente sta passando": "Misurare la corrente è il compito dell'amperometro, non dell'interruttore."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-circuito-40",
 			"subject": "elettronica",
 			"topic": "circuito",
-			"difficulty": 8,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "Perché uno schema elettrico usa simboli invece di disegni?",
 			"options": [
@@ -1558,13 +1632,14 @@
 				"Perché i disegni dei componenti sarebbero grandi": "Le dimensioni non sono il motivo: i simboli sono uno standard riconoscibile ovunque.",
 				"Perché i simboli si colorano meglio": "Il colore non è la ragione: conta che siano uno standard internazionale comprensibile a tutti.",
 				"Perché è vietato disegnare i componenti": "Non esiste un divieto: i simboli si usano perché sono uno standard chiaro e universale."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-circuito-41",
 			"subject": "elettronica",
 			"topic": "circuito",
-			"difficulty": 6,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "Che cosa succede se inverti i poli di una pila in un circuito con un LED?",
 			"options": [
@@ -1579,13 +1654,14 @@
 				"Il LED si accende più forte": "Il LED è un diodo: al contrario semplicemente non conduce, non si accende più forte.",
 				"Il LED cambia colore": "Il colore di un LED dipende dal materiale con cui è fatto: se invertito, semplicemente non si accende.",
 				"Il LED si brucia subito": "Il LED al contrario non conduce affatto: non riceve corrente e quindi non rischia di bruciarsi."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-circuito-42",
 			"subject": "elettronica",
 			"topic": "circuito",
-			"difficulty": 8,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "Perché conviene disegnare lo schema prima di montare un circuito?",
 			"options": [
@@ -1600,13 +1676,14 @@
 				"Perché lo schema è richiesto dalle norme di sicurezza in vigore": "Non è un obbligo normativo per un circuito semplice: è un aiuto pratico per evitare errori.",
 				"Perché così il montaggio diventa molto più veloce": "Il vantaggio principale non è la velocità: è trovare gli errori prima di rischiare i componenti.",
 				"Perché in questo modo i componenti costano meno": "Il prezzo dei componenti non cambia disegnando lo schema: cambia il rischio di romperli per un errore."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-conduttori-43",
 			"subject": "elettronica",
 			"topic": "conduttori",
-			"difficulty": 3,
+			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Quale materiale conduce meglio la corrente?",
 			"options": [
@@ -1621,13 +1698,14 @@
 				"Vetro": "Il vetro è un isolante: non ha elettroni liberi di muoversi.",
 				"Gomma": "La gomma è un isolante: si usa apposta per bloccare la corrente.",
 				"Legno asciutto": "Il legno secco è un pessimo conduttore, quasi un isolante."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-conduttori-44",
 			"subject": "elettronica",
 			"topic": "conduttori",
-			"difficulty": 3,
+			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Che cos'è un isolante?",
 			"options": [
@@ -1642,13 +1720,14 @@
 				"Un materiale che conduce lentamente": "Un isolante non conduce quasi per niente, non semplicemente più lentamente.",
 				"Un materiale che accumula corrente": "Un isolante non accumula la corrente: la blocca.",
 				"Un materiale che si scalda facilmente al passaggio": "Scaldarsi facilmente non è la definizione di isolante: conta l'incapacità di far passare la corrente."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-conduttori-45",
 			"subject": "elettronica",
 			"topic": "conduttori",
-			"difficulty": 6,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "Perché i metalli conducono bene la corrente?",
 			"options": [
@@ -1663,7 +1742,8 @@
 				"Perché sono duri e resistenti": "La durezza non ha a che fare con la conduzione elettrica.",
 				"Perché sono lucidi in superficie": "L'aspetto lucido è un'altra proprietà: conta la libertà di movimento degli elettroni.",
 				"Perché si scaldano molto in fretta al tatto": "Scaldarsi velocemente è un effetto della corrente, non la ragione per cui i metalli conducono."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-conduttori-46",
@@ -1684,13 +1764,14 @@
 				"Maggiore": "È il contrario: più spazio per passare significa meno ostacolo, non di più.",
 				"Identica": "Lo spessore del filo cambia eccome la resistenza: più largo, meno resistenza.",
 				"Doppia": "Un filo più grosso ha resistenza minore, non doppia."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-conduttori-47",
 			"subject": "elettronica",
 			"topic": "conduttori",
-			"difficulty": 8,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "Perché i cavi dell'alta tensione sono spesso di alluminio e non di rame?",
 			"options": [
@@ -1705,7 +1786,8 @@
 				"Perché l'alluminio conduce meglio del rame": "Il rame conduce meglio dell'alluminio: il vantaggio dell'alluminio è il peso, non la conduzione.",
 				"Perché l'alluminio non si scalda mai": "Anche l'alluminio si scalda passando corrente: la ragione della scelta è il peso.",
 				"Perché il rame è vietato all'aperto": "Non esiste un divieto sul rame all'aperto: conta il peso su lunghe distanze sospese."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-conduttori-48",
@@ -1726,13 +1808,14 @@
 				"Sì, meglio del rame": "L'acqua pura conduce pochissimo: sono i sali disciolti a permettere la conduzione, non l'acqua in sé.",
 				"Sì, come tutti i liquidi": "Non tutti i liquidi conducono allo stesso modo: l'acqua pura, senza sali, conduce pochissimo.",
 				"Sì, ma solo se è fredda": "La temperatura non è la variabile chiave qui: conta la presenza di ioni disciolti."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-conduttori-49",
 			"subject": "elettronica",
 			"topic": "conduttori",
-			"difficulty": 7,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "Che cos'è un semiconduttore?",
 			"options": [
@@ -1747,13 +1830,14 @@
 				"Un materiale che conduce a metà della velocità normale": "Non è una questione di velocità dimezzata: il semiconduttore conduce o no a seconda delle condizioni.",
 				"Un conduttore tagliato a metà": "Il taglio fisico non c'entra: è una proprietà del materiale stesso.",
 				"Un isolante che si è rovinato": "Non è un isolante danneggiato: è un materiale con una proprietà propria, controllabile."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-conduttori-50",
 			"subject": "elettronica",
 			"topic": "conduttori",
-			"difficulty": 6,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "Perché la grafite della matita conduce la corrente?",
 			"options": [
@@ -1768,13 +1852,14 @@
 				"Perché contiene piccole parti di metallo": "La grafite non contiene metallo: è una forma di carbonio con una struttura che libera elettroni.",
 				"Perché è nera e assorbe l'energia": "Il colore non ha a che fare con la conduzione elettrica.",
 				"Perché è più morbida di quasi tutti gli altri materiali": "La morbidezza non c'entra con la conduzione: conta la struttura degli elettroni."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-conduttori-51",
 			"subject": "elettronica",
 			"topic": "conduttori",
-			"difficulty": 8,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "Perché la resistenza di un filo aumenta quando si scalda?",
 			"options": [
@@ -1789,13 +1874,14 @@
 				"Perché il filo si allunga per la dilatazione": "L'allungamento è minimo e non è la causa principale: conta la vibrazione degli atomi che ostacola gli elettroni.",
 				"Perché il filo perde una parte degli elettroni liberi": "Il filo non perde elettroni scaldandosi: sono gli stessi elettroni a muoversi con più difficoltà.",
 				"Perché l'isolante che lo copre comincia a sciogliersi": "L'isolante esterno non è la causa dell'aumento di resistenza interna del filo."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-elettricita-base-52",
 			"subject": "elettronica",
 			"topic": "elettricita-base",
-			"difficulty": 3,
+			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Che cos'è la corrente elettrica?",
 			"options": [
@@ -1810,13 +1896,14 @@
 				"Un accumulo di cariche ferme in un punto solo": "Un accumulo fermo è elettricità statica, non corrente: serve movimento.",
 				"Il calore prodotto da un filo": "Il calore è un effetto della corrente, non la corrente stessa.",
 				"La luce emessa da una lampadina": "La luce è un effetto della corrente che attraversa la lampadina, non la corrente in sé."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-elettricita-base-53",
 			"subject": "elettronica",
 			"topic": "elettricita-base",
-			"difficulty": 5,
+			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Che cos'è la tensione elettrica?",
 			"options": [
@@ -1831,13 +1918,14 @@
 				"La quantità di cariche che si stanno muovendo": "Quella è più vicina alla definizione di corrente, non di tensione.",
 				"L'ostacolo che le cariche incontrano nel filo": "Quella è la resistenza, non la tensione.",
 				"Il calore prodotto dal passaggio della corrente": "Il calore è un effetto della corrente che scorre, non la tensione che la spinge."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-elettricita-base-54",
 			"subject": "elettronica",
 			"topic": "elettricita-base",
-			"difficulty": 5,
+			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Che cos'è la resistenza elettrica?",
 			"options": [
@@ -1852,13 +1940,14 @@
 				"La spinta che il materiale dà alle cariche in moto": "Il materiale non spinge le cariche: è la tensione a spingerle, la resistenza le ostacola.",
 				"La quantità di corrente che passa": "Quella è la corrente stessa, non la resistenza che la ostacola.",
 				"L'energia immagazzinata nel filo": "Il filo non immagazzina energia: la resistenza descrive quanto si oppone al passaggio."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-elettricita-base-55",
 			"subject": "elettronica",
 			"topic": "elettricita-base",
-			"difficulty": 5,
+			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Che cos'è l'elettricità statica?",
 			"options": [
@@ -1873,13 +1962,14 @@
 				"Corrente che scorre molto lentamente": "Non è questione di velocità: nell'elettricità statica le cariche non si muovono affatto.",
 				"Corrente che cambia verso di continuo": "Quella descriverebbe la corrente alternata, non l'elettricità statica ferma.",
 				"Elettricità prodotta senza pila": "Si può produrre elettricità senza pila anche in altri modi: la statica è definita dalle cariche ferme, non dalla fonte."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-elettricita-base-56",
 			"subject": "elettronica",
 			"topic": "elettricita-base",
-			"difficulty": 7,
+			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Che differenza c'è fra corrente continua e alternata?",
 			"options": [
@@ -1894,13 +1984,14 @@
 				"La continua è sempre più forte dell'alternata": "L'intensità non definisce la differenza: conta il verso, costante o che si inverte.",
 				"L'alternata funziona solo con le pile": "Le pile danno corrente continua: l'alternata è quella della rete di casa.",
 				"La continua non produce calore": "Anche la corrente continua produce calore attraversando un materiale: non è questa la differenza."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-elettricita-base-57",
 			"subject": "elettronica",
 			"topic": "elettricita-base",
-			"difficulty": 8,
+			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Perché una pila si scarica?",
 			"options": [
@@ -1915,13 +2006,14 @@
 				"Perché perde elettroni nell'aria": "Gli elettroni non si disperdono nell'aria: la reazione chimica interna si esaurisce.",
 				"Perché il metallo dei poli si consuma per attrito": "Non c'è attrito meccanico dentro una pila: è una reazione chimica a esaurirsi.",
 				"Perché la corrente la raffredda troppo": "Il raffreddamento non è la causa: è l'esaurimento dei reagenti chimici."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-elettricita-base-58",
 			"subject": "elettronica",
 			"topic": "elettricita-base",
-			"difficulty": 5,
+			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "Che cosa fa la corrente attraversando un filo sottile?",
 			"options": [
@@ -1936,13 +2028,14 @@
 				"Lo raffredda": "È il contrario: il passaggio di corrente produce calore, non raffreddamento.",
 				"Lo allunga in modo permanente": "Il filo non si allunga in modo permanente per il passaggio di corrente: si scalda.",
 				"Non produce alcun effetto": "L'effetto Joule è reale e misurabile: la corrente scalda il filo."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-elettricita-base-59",
 			"subject": "elettronica",
 			"topic": "elettricita-base",
-			"difficulty": 7,
+			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Se raddoppi la resistenza e raddoppi la tensione, la corrente…",
 			"options": [
@@ -1957,13 +2050,14 @@
 				"Raddoppia": "Se anche la resistenza raddoppia, l'effetto della tensione doppia si compensa: il rapporto resta uguale.",
 				"Si dimezza": "Non si dimezza: i due raddoppi si compensano a vicenda, lasciando la corrente invariata.",
 				"Diventa quattro volte": "Non diventa quattro volte: raddoppiando sia tensione che resistenza il loro rapporto non cambia."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-guasti-60",
 			"subject": "elettronica",
 			"topic": "guasti",
-			"difficulty": 6,
+			"difficulty": 7,
 			"format": "multiple_choice",
 			"prompt": "Una lampadina non si accende ma le altre del circuito sì. Dove cercare?",
 			"options": [
@@ -1978,7 +2072,8 @@
 				"Nella pila che alimenta tutto": "Se il guasto fosse nella pila, tutte le lampadine si spegnerebbero, non solo una.",
 				"Nell'interruttore generale": "Un guasto all'interruttore generale spegnerebbe l'intero circuito, non una sola lampadina.",
 				"Nel filo principale che riporta alla pila": "Un problema sul filo principale interromperebbe tutto il circuito, non solo una lampadina isolata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-guasti-61",
@@ -1999,7 +2094,8 @@
 				"Controllare tutti i componenti in ordine": "Controllarli uno per uno è molto più lento: provare a metà dimezza la zona da cercare a ogni prova.",
 				"Sostituire subito il componente più caro": "Sostituire a caso spreca componenti buoni: prima bisogna localizzare davvero il guasto.",
 				"Rifare il circuito da capo": "Rifare tutto è uno spreco enorme di tempo: si può individuare il guasto con poche prove mirate."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-elettricita-base-62",
@@ -2020,13 +2116,14 @@
 				"Il rumore del vento": "Il vento non ha a che fare con l'accensione di una lampadina elettrica.",
 				"La luce del Sole": "La luce solare non alimenta un circuito elettrico a lampadina.",
 				"Il soffio dell'aria": "Il movimento dell'aria non genera la corrente che accende la lampadina."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-elettricita-base-63",
 			"subject": "elettronica",
 			"topic": "elettricita-base",
-			"difficulty": 3,
+			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Come si chiama il flusso di cariche elettriche in un filo?",
 			"options": [
@@ -2041,13 +2138,14 @@
 				"Tensione statica": "La tensione è la spinta che fa muovere le cariche, non il loro flusso stesso.",
 				"Calore": "Il calore è un effetto del passaggio di corrente, non il flusso di cariche in sé.",
 				"Magnetismo": "Il magnetismo è un fenomeno collegato ma diverso: qui si parla del movimento delle cariche."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-elettricita-base-64",
 			"subject": "elettronica",
 			"topic": "elettricita-base",
-			"difficulty": 5,
+			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "La 'spinta' che mette in movimento la corrente si chiama…",
 			"options": [
@@ -2062,13 +2160,14 @@
 				"Resistenza (in ohm)": "La resistenza è l'ostacolo, non la spinta: sono effetti opposti.",
 				"Massa (in chili)": "La massa non ha niente a che fare con l'elettricità.",
 				"Frequenza (in hertz)": "La frequenza riguarda quante volte la corrente alternata cambia verso, non la spinta di base."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-circuito-65",
 			"subject": "elettronica",
 			"topic": "circuito",
-			"difficulty": 1,
+			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Perché una lampadina si accenda, il circuito deve essere…",
 			"options": [
@@ -2083,7 +2182,8 @@
 				"Aperto": "Un circuito aperto è interrotto: la corrente non può scorrere.",
 				"Rotto": "Un circuito rotto è interrotto come uno aperto: serve invece che sia integro e chiuso.",
 				"Bagnato": "L'umidità non è ciò che fa accendere una lampadina: serve un percorso chiuso per la corrente."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-circuito-66",
@@ -2104,7 +2204,8 @@
 				"Produce la corrente che serve al circuito": "La corrente la mette in moto la pila: il filo la trasporta soltanto.",
 				"Aumenta la tensione lungo tutto il percorso": "Nessun filo alza la tensione: semmai ne perde un pochino scaldandosi.",
 				"Decide quanta corrente possono avere i pezzi": "A limitare la corrente è la resistenza, non il filo che la porta."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-circuito-67",
@@ -2125,7 +2226,8 @@
 				"L'interruttore": "L'interruttore apre o chiude il circuito, ma non fornisce energia.",
 				"Il filo": "Il filo conduce la corrente, ma non la genera.",
 				"La lampadina": "La lampadina consuma l'energia per fare luce, non la fornisce."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-conduttori-68",
@@ -2146,13 +2248,14 @@
 				"Perché l'oro conduce meglio di ogni altro metallo": "Argento e rame conducono meglio dell'oro: l'oro vince perché non si ossida.",
 				"Perché l'oro non si scalda al passaggio della corrente": "Anche l'oro si scalda: il vantaggio è che il contatto non si sporca.",
 				"Perché l'oro è morbido e si adatta alla forma del foro": "La doratura è uno strato sottilissimo su un contatto rigido: non è lei a fare la forma."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-conduttori-69",
 			"subject": "elettronica",
 			"topic": "conduttori",
-			"difficulty": 6,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "Perché molti cavi sono fatti di tanti fili sottili invece che di uno spesso?",
 			"options": [
@@ -2167,13 +2270,14 @@
 				"Perché tanti fili sottili conducono più di uno spesso": "A parità di rame conducono uguale: quello che cambia è quante piegature reggono.",
 				"Perché costa meno tirare fili sottili che uno spesso": "Fare un fascio di trefoli costa di più, non di meno: si paga la flessibilità.",
 				"Perché ogni filo sottile porta una corrente diversa": "I trefoli si toccano fra loro: sono un conduttore solo, non tante strade separate."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-serie-parallelo-70",
 			"subject": "elettronica",
 			"topic": "serie-parallelo",
-			"difficulty": 6,
+			"difficulty": 7,
 			"format": "multiple_choice",
 			"prompt": "In un collegamento in SERIE, se una lampadina si brucia, le altre…",
 			"options": [
@@ -2188,13 +2292,14 @@
 				"Restano accese": "In serie la corrente ha un unico percorso: se si interrompe, tutte si spengono.",
 				"Si accendono di più": "Un'interruzione in serie ferma la corrente, non la aumenta.",
 				"Cambiano colore": "Il colore di una lampadina non cambia per un'interruzione: semplicemente si spengono tutte."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-serie-parallelo-71",
 			"subject": "elettronica",
 			"topic": "serie-parallelo",
-			"difficulty": 7,
+			"difficulty": 8,
 			"format": "multiple_choice",
 			"prompt": "In un collegamento in PARALLELO, se una lampadina si brucia, le altre…",
 			"options": [
@@ -2209,7 +2314,8 @@
 				"Si spengono tutte": "In parallelo ogni lampadina ha il suo percorso indipendente: le altre restano accese.",
 				"Si spengono a metà": "Le lampadine funzionano o no: non esiste uno stato «a metà» per un'interruzione altrove.",
 				"Esplodono": "Un'interruzione altrove non causa un sovraccarico sulle altre lampadine in parallelo."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-sicurezza-elettrica-72",
@@ -2230,13 +2336,14 @@
 				"Si tira subito fuori con le mani": "È il gesto più pericoloso: l'acqua porta la corrente alla mano prima ancora dell'apparecchio.",
 				"Si asciuga l'acqua con uno straccio": "Anche lo straccio bagnato conduce: finché c'è tensione non si tocca niente.",
 				"Si aspetta che si spenga da solo": "Non si spegne da solo, e intanto l'acqua resta collegata alla rete: si stacca l'interruttore."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-sicurezza-elettrica-73",
 			"subject": "elettronica",
 			"topic": "sicurezza-elettrica",
-			"difficulty": 4,
+			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Perché una prolunga arrotolata sulla bobina può scaldarsi?",
 			"options": [
@@ -2251,7 +2358,8 @@
 				"Perché il cavo arrotolato è più lungo e fa più strada": "La lunghezza è la stessa arrotolato o steso: cambia solo quanto calore riesce a uscire.",
 				"Perché le spire vicine si rubano corrente a vicenda": "La corrente è la stessa in tutto il cavo: quello che resta intrappolato è il calore.",
 				"Perché la corrente gira in tondo e non arriva in fondo": "La corrente arriva in fondo lo stesso: a non uscire è il calore, non lei."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-componenti-74",
@@ -2272,7 +2380,8 @@
 				"A produrre corrente": "Il resistore non genera energia: la limita soltanto.",
 				"A spegnere il computer": "Spegnere un dispositivo non è il compito di un resistore.",
 				"A illuminare sempre": "Il resistore non produce luce: limita la corrente che può alimentare altri componenti."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-componenti-75",
@@ -2293,13 +2402,14 @@
 				"In qualsiasi verso, non importa": "Il LED è un diodo: conduce solo in un verso, non in qualsiasi direzione.",
 				"Solo al buio completo": "La luce ambientale non ha a che fare con il verso del collegamento: conta la polarità.",
 				"Solo con l'acqua vicino": "L'acqua non ha niente a che fare con l'accensione di un LED: conta il verso della corrente."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-misure-elettriche-76",
 			"subject": "elettronica",
 			"topic": "misure-elettriche",
-			"difficulty": 5,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "Su un multimetro leggi «250 mA». Quanta corrente è?",
 			"options": [
@@ -2314,7 +2424,8 @@
 				"Duecentocinquanta ampere": "Quello sarebbe «250 A» senza la m: la m davanti divide per mille.",
 				"Due ampere e mezzo": "Sarebbero 2500 mA: hai spostato la virgola di due posti invece di tre.",
 				"Venticinque ampere": "Sarebbero 25000 mA: la m davanti all'unità divide per mille, non moltiplica."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-misure-elettriche-77",
@@ -2335,13 +2446,14 @@
 				"Perché la portata decide quale unità comparirà sul display": "L'unità la sceglie la manopola della grandezza (volt, ampere, ohm): la portata decide fin dove si può leggere.",
 				"Perché senza sceglierla il multimetro non si accende affatto": "Lo strumento si accende comunque: il rischio è misurare fuori scala, non restare spenti.",
 				"Perché ogni portata usa una batteria diversa dello strumento": "La batteria è una sola: cambia il partitore interno, non l'alimentazione."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-elettricita-base-78",
 			"subject": "elettronica",
 			"topic": "elettricita-base",
-			"difficulty": 2,
+			"difficulty": 1,
 			"format": "short_answer",
 			"prompt": "Qual è l'unità di misura della tensione elettrica?",
 			"options": [],
@@ -2351,6 +2463,7 @@
 				"V"
 			],
 			"explanation": "Si misura fra due punti, mai in un punto solo.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"Lo scalda": "«Lo scalda» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa fa la corrente attraversando un filo sottile?».",
 				"Resta uguale": "«Resta uguale» è la risposta giusta a un'altra domanda di questo gruppo: «Se raddoppi la resistenza e raddoppi la tensione, la corrente…».",
@@ -2366,7 +2479,7 @@
 			"id": "elettronica-elettricita-base-79",
 			"subject": "elettronica",
 			"topic": "elettricita-base",
-			"difficulty": 2,
+			"difficulty": 1,
 			"format": "short_answer",
 			"prompt": "Qual è l'unità di misura della corrente elettrica?",
 			"options": [],
@@ -2377,6 +2490,7 @@
 				"amper"
 			],
 			"explanation": "Dice quanta carica passa in un secondo.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"Lo scalda": "«Lo scalda» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa fa la corrente attraversando un filo sottile?».",
 				"Resta uguale": "«Resta uguale» è la risposta giusta a un'altra domanda di questo gruppo: «Se raddoppi la resistenza e raddoppi la tensione, la corrente…».",
@@ -2392,7 +2506,7 @@
 			"id": "elettronica-elettricita-base-80",
 			"subject": "elettronica",
 			"topic": "elettricita-base",
-			"difficulty": 4,
+			"difficulty": 2,
 			"format": "short_answer",
 			"prompt": "Qual è l'unità di misura della resistenza elettrica?",
 			"options": [],
@@ -2402,6 +2516,7 @@
 				"gli ohm"
 			],
 			"explanation": "Il simbolo è la lettera greca omega.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"Lo scalda": "«Lo scalda» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa fa la corrente attraversando un filo sottile?».",
 				"Resta uguale": "«Resta uguale» è la risposta giusta a un'altra domanda di questo gruppo: «Se raddoppi la resistenza e raddoppi la tensione, la corrente…».",
@@ -2417,7 +2532,7 @@
 			"id": "elettronica-elettricita-base-81",
 			"subject": "elettronica",
 			"topic": "elettricita-base",
-			"difficulty": 4,
+			"difficulty": 2,
 			"format": "short_answer",
 			"prompt": "Qual è l'unità di misura della potenza elettrica?",
 			"options": [],
@@ -2427,6 +2542,7 @@
 				"W"
 			],
 			"explanation": "Tensione per corrente: dice quanta energia si consuma ogni secondo.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"Lo scalda": "«Lo scalda» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa fa la corrente attraversando un filo sottile?».",
 				"Resta uguale": "«Resta uguale» è la risposta giusta a un'altra domanda di questo gruppo: «Se raddoppi la resistenza e raddoppi la tensione, la corrente…».",
@@ -2451,6 +2567,7 @@
 				"resistenza"
 			],
 			"explanation": "Il valore si legge dalle fasce colorate.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"A limitare la corrente": "«A limitare la corrente» è la risposta giusta a un'altra domanda di questo gruppo: «A cosa serve un resistore in un circuito?».",
 				"condensatore": "«condensatore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che accumula carica fra due armature?».",
@@ -2464,7 +2581,7 @@
 			"id": "elettronica-componenti-83",
 			"subject": "elettronica",
 			"topic": "componenti",
-			"difficulty": 4,
+			"difficulty": 3,
 			"format": "short_answer",
 			"prompt": "Come si chiama il componente che accumula carica fra due armature?",
 			"options": [],
@@ -2474,6 +2591,7 @@
 				"un condensatore"
 			],
 			"explanation": "Si carica e si scarica: per questo serve nei filtri e nei temporizzatori.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"A limitare la corrente": "«A limitare la corrente» è la risposta giusta a un'altra domanda di questo gruppo: «A cosa serve un resistore in un circuito?».",
 				"resistore": "«resistore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che si oppone al passaggio della corrente?».",
@@ -2487,7 +2605,7 @@
 			"id": "elettronica-componenti-84",
 			"subject": "elettronica",
 			"topic": "componenti",
-			"difficulty": 4,
+			"difficulty": 3,
 			"format": "short_answer",
 			"prompt": "Come si chiama il componente che lascia passare la corrente in un verso solo?",
 			"options": [],
@@ -2497,6 +2615,7 @@
 				"un diodo"
 			],
 			"explanation": "Montato al contrario blocca tutto: il verso è indicato da una fascetta.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"A limitare la corrente": "«A limitare la corrente» è la risposta giusta a un'altra domanda di questo gruppo: «A cosa serve un resistore in un circuito?».",
 				"resistore": "«resistore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che si oppone al passaggio della corrente?».",
@@ -2510,7 +2629,7 @@
 			"id": "elettronica-componenti-85",
 			"subject": "elettronica",
 			"topic": "componenti",
-			"difficulty": 4,
+			"difficulty": 3,
 			"format": "short_answer",
 			"prompt": "Come si chiama il diodo che emette luce quando è attraversato dalla corrente?",
 			"options": [],
@@ -2520,6 +2639,7 @@
 				"diodo led"
 			],
 			"explanation": "Va sempre alimentato con una resistenza in serie, altrimenti si brucia.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"A limitare la corrente": "«A limitare la corrente» è la risposta giusta a un'altra domanda di questo gruppo: «A cosa serve un resistore in un circuito?».",
 				"resistore": "«resistore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che si oppone al passaggio della corrente?».",
@@ -2533,7 +2653,7 @@
 			"id": "elettronica-componenti-86",
 			"subject": "elettronica",
 			"topic": "componenti",
-			"difficulty": 6,
+			"difficulty": 4,
 			"format": "short_answer",
 			"prompt": "Come si chiama il componente a tre terminali che amplifica o commuta un segnale?",
 			"options": [],
@@ -2542,6 +2662,7 @@
 				"transistore"
 			],
 			"explanation": "Con una corrente piccola comanda una corrente grande: è la base dell'elettronica digitale.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"A limitare la corrente": "«A limitare la corrente» è la risposta giusta a un'altra domanda di questo gruppo: «A cosa serve un resistore in un circuito?».",
 				"resistore": "«resistore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che si oppone al passaggio della corrente?».",
@@ -2555,7 +2676,7 @@
 			"id": "elettronica-componenti-87",
 			"subject": "elettronica",
 			"topic": "componenti",
-			"difficulty": 4,
+			"difficulty": 3,
 			"format": "short_answer",
 			"prompt": "Come si chiama il componente che apre e chiude un circuito a comando?",
 			"options": [],
@@ -2565,6 +2686,7 @@
 				"un interruttore"
 			],
 			"explanation": "Aperto interrompe il giro: senza giro chiuso non passa corrente.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"A limitare la corrente": "«A limitare la corrente» è la risposta giusta a un'altra domanda di questo gruppo: «A cosa serve un resistore in un circuito?».",
 				"resistore": "«resistore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che si oppone al passaggio della corrente?».",
@@ -2588,6 +2710,7 @@
 				"circuito chiuso"
 			],
 			"explanation": "Se il percorso si interrompe in un punto solo, tutto si ferma.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"Chiuso": "«Chiuso» è la risposta giusta a un'altra domanda di questo gruppo: «Perché una lampadina si accenda, il circuito deve essere…».",
 				"La pila (batteria)": "«La pila (batteria)» è la risposta giusta a un'altra domanda di questo gruppo: «In una torcia, cosa fornisce l'energia elettrica?».",
@@ -2600,7 +2723,7 @@
 			"id": "elettronica-circuito-89",
 			"subject": "elettronica",
 			"topic": "circuito",
-			"difficulty": 4,
+			"difficulty": 3,
 			"format": "short_answer",
 			"prompt": "Come si chiama il collegamento diretto fra i due poli senza carico, che fa passare troppa corrente?",
 			"options": [],
@@ -2611,6 +2734,7 @@
 				"corto"
 			],
 			"explanation": "La corrente sceglie la via senza resistenza: scalda e brucia.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"Chiuso": "«Chiuso» è la risposta giusta a un'altra domanda di questo gruppo: «Perché una lampadina si accenda, il circuito deve essere…».",
 				"La pila (batteria)": "«La pila (batteria)» è la risposta giusta a un'altra domanda di questo gruppo: «In una torcia, cosa fornisce l'energia elettrica?».",
@@ -2623,7 +2747,7 @@
 			"id": "elettronica-circuito-90",
 			"subject": "elettronica",
 			"topic": "circuito",
-			"difficulty": 4,
+			"difficulty": 3,
 			"format": "short_answer",
 			"prompt": "Come si chiama il componente che fornisce energia al circuito?",
 			"options": [],
@@ -2633,6 +2757,7 @@
 				"batteria"
 			],
 			"explanation": "Pila, alimentatore, dinamo: cambia la forma, non il ruolo.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"Chiuso": "«Chiuso» è la risposta giusta a un'altra domanda di questo gruppo: «Perché una lampadina si accenda, il circuito deve essere…».",
 				"La pila (batteria)": "«La pila (batteria)» è la risposta giusta a un'altra domanda di questo gruppo: «In una torcia, cosa fornisce l'energia elettrica?».",
@@ -2645,7 +2770,7 @@
 			"id": "elettronica-serie-parallelo-91",
 			"subject": "elettronica",
 			"topic": "serie-parallelo",
-			"difficulty": 4,
+			"difficulty": 5,
 			"format": "short_answer",
 			"prompt": "Come si chiama il collegamento in cui la corrente ha un solo percorso possibile?",
 			"options": [],
@@ -2655,6 +2780,7 @@
 				"collegamento in serie"
 			],
 			"explanation": "Un componente che si guasta apre il circuito e spegne tutti gli altri.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"La stessa in tutti": "«La stessa in tutti» è la risposta giusta a un'altra domanda di questo gruppo: «In un circuito in serie, la corrente che passa in ogni componente è…».",
 				"Doppia di una sola": "«Doppia di una sola» è la risposta giusta a un'altra domanda di questo gruppo: «Due resistenze uguali in serie danno una resistenza totale…».",
@@ -2670,7 +2796,7 @@
 			"id": "elettronica-serie-parallelo-92",
 			"subject": "elettronica",
 			"topic": "serie-parallelo",
-			"difficulty": 4,
+			"difficulty": 5,
 			"format": "short_answer",
 			"prompt": "Come si chiama il collegamento in cui ogni componente ha la stessa tensione ai capi?",
 			"options": [],
@@ -2680,6 +2806,7 @@
 				"collegamento in parallelo"
 			],
 			"explanation": "Le lampadine di casa sono in parallelo: se una si fulmina, le altre restano accese.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"La stessa in tutti": "«La stessa in tutti» è la risposta giusta a un'altra domanda di questo gruppo: «In un circuito in serie, la corrente che passa in ogni componente è…».",
 				"Doppia di una sola": "«Doppia di una sola» è la risposta giusta a un'altra domanda di questo gruppo: «Due resistenze uguali in serie danno una resistenza totale…».",
@@ -2695,7 +2822,7 @@
 			"id": "elettronica-misure-elettriche-93",
 			"subject": "elettronica",
 			"topic": "misure-elettriche",
-			"difficulty": 2,
+			"difficulty": 3,
 			"format": "short_answer",
 			"prompt": "Come si chiama lo strumento che misura la tensione?",
 			"options": [],
@@ -2705,6 +2832,7 @@
 				"un voltmetro"
 			],
 			"explanation": "Si collega in parallelo, ai capi del componente da misurare.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"Ampere": "«Ampere» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la corrente elettrica?».",
 				"Volt": "«Volt» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la tensione?».",
@@ -2730,6 +2858,7 @@
 				"un amperometro"
 			],
 			"explanation": "Si collega in serie: la corrente deve attraversarlo.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"Ampere": "«Ampere» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la corrente elettrica?».",
 				"Volt": "«Volt» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la tensione?».",
@@ -2755,6 +2884,7 @@
 				"tester"
 			],
 			"explanation": "Una manopola sceglie la grandezza: sbagliare portata è l'errore più comune.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"Ampere": "«Ampere» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la corrente elettrica?».",
 				"Volt": "«Volt» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la tensione?».",
@@ -2780,6 +2910,7 @@
 				"legge di ohm"
 			],
 			"explanation": "V uguale R per I: da lì si ricava qualunque delle tre.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"Ampere": "«Ampere» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la corrente elettrica?».",
 				"Volt": "«Volt» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la tensione?».",
@@ -2805,6 +2936,7 @@
 				"un conduttore"
 			],
 			"explanation": "I metalli conducono perché hanno elettroni liberi di muoversi.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"Rame": "«Rame» è la risposta giusta a un'altra domanda di questo gruppo: «Quale materiale conduce meglio la corrente?».",
 				"Minore": "«Minore» è la risposta giusta a un'altra domanda di questo gruppo: «Un filo più grosso, a parità di lunghezza, ha una resistenza…».",
@@ -2830,6 +2962,7 @@
 				"un isolante"
 			],
 			"explanation": "La plastica intorno ai fili è isolante: serve a tenere la corrente dentro il rame.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"Rame": "«Rame» è la risposta giusta a un'altra domanda di questo gruppo: «Quale materiale conduce meglio la corrente?».",
 				"Minore": "«Minore» è la risposta giusta a un'altra domanda di questo gruppo: «Un filo più grosso, a parità di lunghezza, ha una resistenza…».",
@@ -2854,6 +2987,7 @@
 				"il rame"
 			],
 			"explanation": "Conduce bene, si piega senza rompersi e costa meno dell'argento.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"Minore": "«Minore» è la risposta giusta a un'altra domanda di questo gruppo: «Un filo più grosso, a parità di lunghezza, ha una resistenza…».",
 				"No, quasi per niente": "«No, quasi per niente» è la risposta giusta a un'altra domanda di questo gruppo: «L'acqua pura conduce bene la corrente?».",
@@ -2868,7 +3002,7 @@
 			"id": "elettronica-conduttori-100",
 			"subject": "elettronica",
 			"topic": "conduttori",
-			"difficulty": 6,
+			"difficulty": 5,
 			"format": "short_answer",
 			"prompt": "Come si chiama un materiale che conduce solo in certe condizioni, come il silicio?",
 			"options": [],
@@ -2878,6 +3012,7 @@
 				"un semiconduttore"
 			],
 			"explanation": "Su questa proprietà si costruiscono diodi e transistor.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"Rame": "«Rame» è la risposta giusta a un'altra domanda di questo gruppo: «Quale materiale conduce meglio la corrente?».",
 				"Minore": "«Minore» è la risposta giusta a un'altra domanda di questo gruppo: «Un filo più grosso, a parità di lunghezza, ha una resistenza…».",
@@ -2893,7 +3028,7 @@
 			"id": "elettronica-sicurezza-elettrica-101",
 			"subject": "elettronica",
 			"topic": "sicurezza-elettrica",
-			"difficulty": 4,
+			"difficulty": 2,
 			"format": "short_answer",
 			"prompt": "Come si chiama il collegamento che porta a terra le correnti pericolose?",
 			"options": [],
@@ -2902,6 +3037,7 @@
 				"terra"
 			],
 			"explanation": "Offre alla corrente una strada che non passa per le persone.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"Pericolo di scossa elettrica": "«Pericolo di scossa elettrica» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa indica il simbolo di un fulmine su un quadro elettrico?».",
 				"interruttore magnetotermico": "«interruttore magnetotermico» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il dispositivo che si apre da solo quando passa troppa corrente?».",
@@ -2913,7 +3049,7 @@
 			"id": "elettronica-sicurezza-elettrica-102",
 			"subject": "elettronica",
 			"topic": "sicurezza-elettrica",
-			"difficulty": 4,
+			"difficulty": 2,
 			"format": "short_answer",
 			"prompt": "Come si chiama il dispositivo che si apre da solo quando passa troppa corrente?",
 			"options": [],
@@ -2924,6 +3060,7 @@
 				"automatico"
 			],
 			"explanation": "Protegge i fili dal surriscaldamento. Non è il salvavita: quello scatta sulla corrente che si disperde, non su quella di troppo.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"Pericolo di scossa elettrica": "«Pericolo di scossa elettrica» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa indica il simbolo di un fulmine su un quadro elettrico?».",
 				"messa a terra": "«messa a terra» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il collegamento che porta a terra le correnti pericolose?».",
@@ -2935,7 +3072,7 @@
 			"id": "elettronica-sicurezza-elettrica-103",
 			"subject": "elettronica",
 			"topic": "sicurezza-elettrica",
-			"difficulty": 2,
+			"difficulty": 1,
 			"format": "short_answer",
 			"prompt": "Come si chiama il filo sottile che si fonde e interrompe il circuito in caso di sovracorrente?",
 			"options": [],
@@ -2945,6 +3082,7 @@
 				"un fusibile"
 			],
 			"explanation": "Si sacrifica lui al posto dell'impianto: va sostituito con uno dello stesso valore.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"Pericolo di scossa elettrica": "«Pericolo di scossa elettrica» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa indica il simbolo di un fulmine su un quadro elettrico?».",
 				"messa a terra": "«messa a terra» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il collegamento che porta a terra le correnti pericolose?».",
@@ -2956,7 +3094,7 @@
 			"id": "elettronica-sicurezza-elettrica-104",
 			"subject": "elettronica",
 			"topic": "sicurezza-elettrica",
-			"difficulty": 6,
+			"difficulty": 3,
 			"format": "short_answer",
 			"prompt": "Quale liquido rende molto più pericoloso il contatto con la corrente?",
 			"options": [],
@@ -2965,6 +3103,7 @@
 				"l'acqua"
 			],
 			"explanation": "Con la pelle bagnata la resistenza del corpo crolla e passa più corrente.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"Pericolo di scossa elettrica": "«Pericolo di scossa elettrica» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa indica il simbolo di un fulmine su un quadro elettrico?».",
 				"messa a terra": "«messa a terra» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il collegamento che porta a terra le correnti pericolose?».",
@@ -2976,7 +3115,7 @@
 			"id": "elettronica-guasti-105",
 			"subject": "elettronica",
 			"topic": "guasti",
-			"difficulty": 4,
+			"difficulty": 6,
 			"format": "short_answer",
 			"prompt": "Come si chiama un'interruzione del percorso che impedisce alla corrente di scorrere?",
 			"options": [],
@@ -2985,6 +3124,7 @@
 				"interruzione"
 			],
 			"explanation": "Un filo staccato basta: la corrente non salta il vuoto.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"Filo mancante": "«Filo mancante» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"Interruttore aperto": "«Interruttore aperto» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
@@ -3000,7 +3140,7 @@
 			"id": "elettronica-guasti-106",
 			"subject": "elettronica",
 			"topic": "guasti",
-			"difficulty": 6,
+			"difficulty": 7,
 			"format": "short_answer",
 			"prompt": "Qual è il primo controllo da fare quando un circuito a pila non funziona affatto?",
 			"options": [],
@@ -3011,6 +3151,7 @@
 				"alimentazione"
 			],
 			"explanation": "Prima di smontare tutto si verifica l'alimentazione: è il guasto più frequente.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"Filo mancante": "«Filo mancante» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"Interruttore aperto": "«Interruttore aperto» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
@@ -3041,7 +3182,8 @@
 				"Il filo": "Il filo conduce la corrente, ma non la genera.",
 				"L'interruttore": "L'interruttore apre o chiude il circuito, ma non fornisce energia.",
 				"La lampadina": "La lampadina consuma l'energia per fare luce, non la fornisce."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-elettricita-base-a-che-cosa-serve-l-interruttore-in-un-circuito",
@@ -3062,13 +3204,14 @@
 				"Aperto e chiuso": "Aperto e chiuso si dice del circuito, non dei poli della pila.",
 				"Acceso e spento": "Acceso e spento è lo stato di una lampadina o di un interruttore, non il nome dei poli.",
 				"Caldo e freddo": "I poli non si distinguono per temperatura: si distinguono per il segno, + e -."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-conduttori-quale-di-questi-materiali-conduce-la-corrente",
 			"subject": "elettronica",
 			"topic": "conduttori",
-			"difficulty": 1,
+			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Quale di questi materiali conduce la corrente?",
 			"options": [
@@ -3083,13 +3226,14 @@
 				"La plastica": "La plastica è un isolante, non un conduttore.",
 				"Il legno": "Il legno è un cattivo conduttore, quasi un isolante.",
 				"La gomma": "La gomma è un isolante, usata apposta per bloccare la corrente."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-conduttori-quale-di-questi-materiali-non-conduce-la-corrent",
 			"subject": "elettronica",
 			"topic": "conduttori",
-			"difficulty": 1,
+			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Quale di questi materiali NON conduce la corrente?",
 			"options": [
@@ -3104,7 +3248,8 @@
 				"Il rame": "Il rame è un metallo, uno dei migliori conduttori.",
 				"Il ferro": "Il ferro è un metallo e conduce la corrente.",
 				"L'alluminio": "L'alluminio è un metallo e conduce la corrente, anche se un po' meno del rame."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-circuito-perche-una-lampadina-non-si-accende-se-il-circui",
@@ -3125,13 +3270,14 @@
 				"La pila è sempre scarica": "Il problema non è la pila: è che il percorso è interrotto, quindi la corrente non ha una strada.",
 				"Il filo è troppo corto": "La lunghezza del filo non è il problema: è che il circuito è aperto, cioè interrotto.",
 				"La lampadina è troppo grande": "Le dimensioni della lampadina non c'entrano: senza un percorso chiuso, nessuna corrente arriva."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-banda-elettricita-base-0",
 			"subject": "elettronica",
 			"topic": "elettricita-base",
-			"difficulty": 7,
+			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "A parità di resistenza, se raddoppi la tensione la corrente che passa…",
 			"options": [
@@ -3146,13 +3292,14 @@
 				"resta uguale": "Se la tensione cambia e la resistenza no, anche la corrente deve cambiare: I=V/R.",
 				"si dimezza": "Raddoppiare la tensione fa crescere la corrente, non calarla.",
 				"si annulla": "Una tensione più alta spinge più corrente, non la blocca."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-banda-elettricita-base-1",
 			"subject": "elettronica",
 			"topic": "elettricita-base",
-			"difficulty": 8,
+			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "A parità di tensione, se la resistenza diventa il triplo la corrente…",
 			"options": [
@@ -3167,13 +3314,14 @@
 				"diventa il triplo": "È il contrario: più resistenza significa meno corrente, non di più.",
 				"resta la stessa": "Con la tensione fissa, cambiare la resistenza cambia sempre la corrente.",
 				"si riduce a metà": "Triplicare il divisore riduce il risultato a un terzo, non alla metà."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-banda-circuito-2",
 			"subject": "elettronica",
 			"topic": "circuito",
-			"difficulty": 7,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "Due lampadine uguali sono in serie e una si fulmina. L'altra che cosa fa?",
 			"options": [
@@ -3188,13 +3336,14 @@
 				"resta accesa uguale": "In serie la corrente ha una strada sola: se si interrompe, non passa più da nessuna parte.",
 				"diventa più luminosa": "Senza corrente che passa, la lampadina rimasta non riceve energia: non può accendersi di più.",
 				"si accende a intermittenza": "Il circuito è aperto in modo stabile, non a intermittenza: resta semplicemente spento."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-banda-circuito-3",
 			"subject": "elettronica",
 			"topic": "circuito",
-			"difficulty": 8,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "Colleghi i due poli di una pila con un filo e basta, senza lampadina. Che cosa succede?",
 			"options": [
@@ -3209,7 +3358,8 @@
 				"non passa nessuna corrente perché manca la lampadina": "Senza niente che limiti il passaggio, la corrente è altissima, non assente: il filo da solo offre pochissima resistenza.",
 				"la pila si ricarica invertendo il verso della corrente": "Il collegamento diretto non inverte niente: scarica la pila velocemente, non la ricarica.",
 				"il filo si comporta da isolante e blocca tutto": "Un filo di metallo è un conduttore, l'opposto di un isolante: lascia passare la corrente, non la blocca."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-banda-serie-parallelo-4",
@@ -3230,7 +3380,8 @@
 				"si dimezza": "È il contrario: più strade in parallelo significano più corrente totale richiesta alla pila.",
 				"resta uguale": "Ogni lampadina in più chiede la sua corrente: la pila deve fornirne di più.",
 				"si annulla": "Aggiungere un ramo in parallelo non interrompe il circuito: la corrente aumenta, non sparisce."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-banda-serie-parallelo-5",
@@ -3251,13 +3402,14 @@
 				"perché collegati in serie consumerebbero molta più corrente di adesso": "Il consumo dipende dagli apparecchi accesi, non dal tipo di collegamento: il vero problema della serie è che uno spento spegne tutti.",
 				"perché il parallelo richiede molti meno fili dentro i muri": "Il parallelo in realtà richiede più diramazioni di fili, non meno: il vantaggio è l'indipendenza.",
 				"perché in serie i fili si scalderebbero fino a bruciarsi": "Il riscaldamento dipende dalla corrente che passa, non dal tipo di collegamento: il problema della serie è che un guasto spegne tutto."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-banda-conduttori-6",
 			"subject": "elettronica",
 			"topic": "conduttori",
-			"difficulty": 7,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "Un filo di rame lungo il doppio, con lo stesso spessore, ha una resistenza…",
 			"options": [
@@ -3272,13 +3424,14 @@
 				"uguale": "Più lunghezza significa più ostacolo alla corrente: la resistenza cresce con la lunghezza.",
 				"la metà": "È il contrario: raddoppiare la lunghezza raddoppia la resistenza, non la dimezza.",
 				"quattro volte più grande": "La resistenza cresce in proporzione diretta alla lunghezza, non al quadrato."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-banda-conduttori-7",
 			"subject": "elettronica",
 			"topic": "conduttori",
-			"difficulty": 8,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "Perché l'acqua salata conduce la corrente e quella distillata quasi per niente?",
 			"options": [
@@ -3293,7 +3446,8 @@
 				"perché l'acqua salata è più densa e pesante di quella distillata": "La densità non è ciò che permette il passaggio della corrente: servono cariche libere di muoversi.",
 				"perché il sale è un metallo e i metalli conducono la corrente": "Il sale da cucina non è un metallo: sciolto in acqua libera particelle cariche.",
 				"perché l'acqua distillata è troppo pura per lasciar passare qualcosa": "È proprio la purezza a spiegare perché non conduce: mancano le particelle cariche libere."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-banda-misure-elettriche-8",
@@ -3314,7 +3468,8 @@
 				"in parallelo alla lampadina": "In parallelo l'amperometro non sarebbe attraversato dalla stessa corrente della lampadina.",
 				"ai due poli della pila": "Collegato lì senza essere nel percorso della lampadina, non misura la corrente che la attraversa.",
 				"fra la lampadina e l'interruttore aperto": "Con l'interruttore aperto il circuito è interrotto: non passa corrente da misurare."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-banda-misure-elettriche-9",
@@ -3335,13 +3490,14 @@
 				"in serie con la lampadina": "In serie il voltmetro interromperebbe il normale passaggio di corrente nel circuito.",
 				"al posto della lampadina": "Sostituendo la lampadina non ci sarebbe più nulla ai cui capi misurare la tensione.",
 				"solo al polo positivo della pila": "La tensione è una differenza fra due punti: serve toccarli entrambi, non uno solo."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-banda-sicurezza-elettrica-10",
 			"subject": "elettronica",
 			"topic": "sicurezza-elettrica",
-			"difficulty": 8,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "Perché il salvavita scatta anche quando la corrente che passa è piccola?",
 			"options": [
@@ -3356,13 +3512,14 @@
 				"perché misura quanta corrente sta consumando la casa in quel momento": "Il consumo totale non allarma il salvavita: conta lo squilibrio fra corrente in entrata e in uscita.",
 				"perché controlla che la tensione non salga mai sopra il valore di sicurezza": "Quello è il compito di altri dispositivi: il salvavita guarda la differenza di corrente, non la tensione.",
 				"perché conta quanti apparecchi sono accesi insieme sulla stessa presa": "Il numero di apparecchi accesi è compito del fusibile o del magnetotermico, non del salvavita."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-banda-componenti-11",
 			"subject": "elettronica",
 			"topic": "componenti",
-			"difficulty": 8,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "A che cosa serve la resistenza che si mette in serie a un LED?",
 			"options": [
@@ -3377,13 +3534,14 @@
 				"ad aumentare la luce che il LED riesce a produrre": "La resistenza limita la corrente: riduce, non aumenta, quanto il LED può illuminarsi.",
 				"a cambiare il colore con cui il LED si accende": "Il colore di un LED dipende dal materiale con cui è costruito, non dalla resistenza in serie.",
 				"a far durare di più la pila che alimenta il circuito": "La resistenza protegge il LED, non allunga la vita della pila in modo diretto."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "elettronica-banda-guasti-12",
 			"subject": "elettronica",
 			"topic": "guasti",
-			"difficulty": 7,
+			"difficulty": 8,
 			"format": "multiple_choice",
 			"prompt": "In una ghirlanda di luci collegate in parallelo una lampadina si fulmina. Le altre?",
 			"options": [
@@ -3398,7 +3556,8 @@
 				"si spengono tutte": "In parallelo ogni lampadina ha la sua strada verso la pila: un'interruzione su un ramo non tocca gli altri.",
 				"diventano più deboli": "Ogni lampadina in parallelo riceve la sua tensione indipendentemente dalle altre.",
 				"si accendono a intermittenza": "Il resto del circuito continua a funzionare normalmente, senza interruzioni."
-			}
+			},
+			"_difficulty8": true
 		}
 	]
 }

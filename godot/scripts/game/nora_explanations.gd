@@ -245,6 +245,13 @@ const VOCI := {
 		"perche": "È il linguaggio con cui si dice a che cosa appartiene una cosa, e regge tutto il resto: N dentro Z dentro Q dentro R sono insiemi uno dentro l'altro, e i multipli comuni di due numeri sono un'intersezione.",
 		"come": "Quando due gruppi si sovrappongono, chi sta in tutti e due va contato UNA volta sola: sommando i due gruppi lo conteresti due volte, e la differenza è esattamente quanti stanno in mezzo.",
 	},
+	# Argomento introdotto il 9 settembre 2026 dallo smistamento della Fase 3.
+	# `nora_explanation_depth_audit` lo ha trovato scoperto lo stesso giorno: e' il
+	# difetto ricorrente del contenuto scritto e mai collegato.
+	"matematica:insiemi-numerici": {
+		"perche": "I numeri si sono allargati per necessita', non per gusto: gli interi non bastavano a dividere una torta, i positivi non bastavano a dire quanto si scende sotto zero, e ogni famiglia nuova contiene tutta la precedente.",
+		"come": "Per capire in quale famiglia sta un numero, chiediti che cosa serve per scriverlo: se basta contare e' naturale, se serve il segno e' intero, se serve una divisione e' razionale.",
+	},
 	"matematica:trasformazioni": {
 		"perche": "Traslare, ruotare e ribaltare non cambiano la figura ma il suo posto: sono le trasformazioni che conservano le misure, e servono a riconoscere che due figure diverse sullo schermo sono in realtà la stessa.",
 		"come": "Nel piano cartesiano la trasformazione diventa un conto sui numeri: rispetto all'asse y cambia segno la prima coordinata, rispetto all'asse x la seconda, rispetto all'origine tutte e due.",
@@ -435,6 +442,31 @@ const VOCI := {
 	"italiano:concordanza-tempi-verbali": {
 		"perche": "Accordare i tempi è ciò che fa capire l'ordine dei fatti: senza, chi ascolta non sa più che cosa è successo prima.",
 		"come": "Fissa il tempo della frase principale, poi chiediti se il secondo fatto viene prima, insieme o dopo: sono tre risposte, e ognuna ha la sua forma.",
+	},
+	# I cinque argomenti che `italian_minigame_catalog.gd` ha portato in gioco l'8
+	# settembre 2026 senza che nessuno desse loro una voce: il bambino incontrava
+	# la sfida e NORA non aveva niente da dire. È il difetto ricorrente del
+	# «contenuto scritto e mai collegato», qui trovato da
+	# `nora_explanation_depth_audit`.
+	"italiano:analisi-del-periodo": {
+		"perche": "Le proposizioni non stanno una accanto all'altra come perline: una regge e le altre spiegano perché, quando o a quale scopo. Riconoscere il legame è capire il ragionamento di chi scrive.",
+		"come": "Trova prima il verbo che può stare da solo: quella è la principale. Poi chiedi a ogni altro pezzo che domanda risponde — perché, quando, per fare che cosa.",
+	},
+	"italiano:coesione-testuale": {
+		"perche": "Un testo tiene insieme non perché le frasi parlano dello stesso argomento, ma perché ogni frase si aggancia alla precedente con un pronome, una ripetizione o un connettivo che il lettore può seguire.",
+		"come": "Rileggi cercando ogni «lo», «questo», «lei»: se in quel punto il lettore potrebbe pensare a due persone diverse, il testo è ambiguo e va rimesso il nome.",
+	},
+	"italiano:registro-linguistico": {
+		"perche": "La stessa cosa si dice in modi diversi secondo a chi si parla, e sbagliare registro comunica qualcosa che non si voleva dire: troppo formale allontana, troppo colloquiale sembra non prendere sul serio.",
+		"come": "Chiediti chi legge e che cosa si aspetta. Se il testo è una relazione, ogni parola vaga («roba», «cosa strana») va sostituita con la descrizione precisa.",
+	},
+	"italiano:scrittura": {
+		"perche": "Scrivere non è un gesto unico ma una serie di passaggi, e farli nell'ordine sbagliato spreca lavoro: lucidare una frase che poi si cancella è tempo buttato.",
+		"come": "Prima controlla se il testo dice quello che deve, poi sistema l'ordine dei paragrafi, poi le parole, e solo alla fine ortografia e punteggiatura.",
+	},
+	"italiano:testo-argomentativo": {
+		"perche": "Convincere non è ripetere la propria idea più forte: è portare una prova e prendere sul serio l'obiezione di chi la pensa diversamente. Un testo che ignora le obiezioni non convince nessuno che non fosse già d'accordo.",
+		"come": "Dopo aver dichiarato la tesi e portato una prova, scrivi l'obiezione più forte che ti viene in mente e rispondi a quella: è il passaggio che rende il testo solido.",
 	},
 
 	# -- inglese ----------------------------------------------------------------

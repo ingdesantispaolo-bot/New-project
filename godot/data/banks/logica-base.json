@@ -1,13 +1,13 @@
 {
 	"schemaVersion": 1,
 	"subject": "logica",
-	"generator": "logica-generated-v2",
+	"generator": "logica-scala-dichiarata",
 	"items": [
 		{
 			"id": "logica-arit-2-2",
 			"subject": "logica",
 			"topic": "sequenze",
-			"difficulty": 2,
+			"difficulty": 1,
 			"format": "numeric_input",
 			"prompt": "Quale numero continua la serie: 2, 4, 6, 8, ?",
 			"options": [],
@@ -22,13 +22,14 @@
 				"31": "«31» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"43": "«43» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"100": "«100» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-arit-1-2",
 			"subject": "logica",
 			"topic": "sequenze",
-			"difficulty": 2,
+			"difficulty": 1,
 			"format": "numeric_input",
 			"prompt": "Quale numero continua la serie: 1, 3, 5, 7, ?",
 			"options": [],
@@ -43,13 +44,14 @@
 				"31": "«31» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"43": "«43» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"100": "«100» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-arit-3-3",
 			"subject": "logica",
 			"topic": "sequenze",
-			"difficulty": 2,
+			"difficulty": 1,
 			"format": "numeric_input",
 			"prompt": "Quale numero continua la serie: 3, 6, 9, 12, ?",
 			"options": [],
@@ -64,13 +66,14 @@
 				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
 				"31": "«31» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"43": "«43» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-arit-5-5",
 			"subject": "logica",
 			"topic": "sequenze",
-			"difficulty": 2,
+			"difficulty": 1,
 			"format": "numeric_input",
 			"prompt": "Quale numero continua la serie: 5, 10, 15, 20, ?",
 			"options": [],
@@ -85,13 +88,14 @@
 				"27": "Non segue la regola «+5»: 20 + 5 fa 25, non 27.",
 				"31": "«31» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"43": "«43» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-arit-decimo-4-3",
 			"subject": "logica",
 			"topic": "sequenze",
-			"difficulty": 4,
+			"difficulty": 3,
 			"format": "numeric_input",
 			"prompt": "La serie va avanti sempre così: 4, 7, 10, 13, e così via. Quale numero sta al decimo posto?",
 			"options": [],
@@ -106,13 +110,14 @@
 				"34": "È l'undicesimo: chi conta dieci passi invece di nove finisce un posto più in là di 31.",
 				"40": "È il primo termine moltiplicato per dieci: ma la serie cresce a passi di 3, non si decuplica.",
 				"43": "«43» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-arit-decimo-7-4",
 			"subject": "logica",
 			"topic": "sequenze",
-			"difficulty": 6,
+			"difficulty": 4,
 			"format": "numeric_input",
 			"prompt": "La serie va avanti sempre così: 7, 11, 15, 19, e così via. Quale numero sta al decimo posto?",
 			"options": [],
@@ -127,13 +132,14 @@
 				"39": "È il NONO termine: dal primo al decimo i passi sono nove, quindi si arriva a 43.",
 				"47": "È l'undicesimo: chi conta dieci passi invece di nove finisce un posto più in là di 43.",
 				"70": "È il primo termine moltiplicato per dieci: ma la serie cresce a passi di 4, non si decuplica."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-arit-decimo-10-10",
 			"subject": "logica",
 			"topic": "sequenze",
-			"difficulty": 4,
+			"difficulty": 3,
 			"format": "numeric_input",
 			"prompt": "La serie va avanti sempre così: 10, 20, 30, 40, e così via. Quale numero sta al decimo posto?",
 			"options": [],
@@ -148,13 +154,14 @@
 				"90": "È il NONO termine: dal primo al decimo i passi sono nove, quindi si arriva a 100.",
 				"101": "Vicino ma non giusto: 10 + 9 × 10 fa esattamente 100.",
 				"110": "È l'undicesimo: chi conta dieci passi invece di nove finisce un posto più in là di 100."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-arit-posto-6-6",
 			"subject": "logica",
 			"topic": "sequenze",
-			"difficulty": 6,
+			"difficulty": 4,
 			"format": "numeric_input",
 			"prompt": "La serie va avanti sempre così: 6, 12, 18, 24, e così via. A che posto si trova il numero 42?",
 			"options": [],
@@ -169,13 +176,14 @@
 				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
 				"31": "«31» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"43": "«43» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-arit-posto-2-4",
 			"subject": "logica",
 			"topic": "sequenze",
-			"difficulty": 6,
+			"difficulty": 4,
 			"format": "numeric_input",
 			"prompt": "La serie va avanti sempre così: 2, 6, 10, 14, e così via. A che posto si trova il numero 26?",
 			"options": [],
@@ -190,13 +198,14 @@
 				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
 				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
 				"31": "«31» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-arit-posto-9-3",
 			"subject": "logica",
 			"topic": "sequenze",
-			"difficulty": 8,
+			"difficulty": 6,
 			"format": "numeric_input",
 			"prompt": "La serie va avanti sempre così: 9, 12, 15, 18, e così via. A che posto si trova il numero 36?",
 			"options": [],
@@ -211,13 +220,14 @@
 				"31": "«31» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"43": "«43» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"100": "«100» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-geom-1-2",
 			"subject": "logica",
 			"topic": "sequenze",
-			"difficulty": 6,
+			"difficulty": 4,
 			"format": "numeric_input",
 			"prompt": "Quale numero continua la serie: 1, 2, 4, 8, ?",
 			"options": [],
@@ -232,13 +242,14 @@
 				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
 				"31": "«31» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"43": "«43» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-geom-1-3",
 			"subject": "logica",
 			"topic": "sequenze",
-			"difficulty": 6,
+			"difficulty": 4,
 			"format": "numeric_input",
 			"prompt": "Quale numero continua la serie: 1, 3, 9, 27, ?",
 			"options": [],
@@ -253,13 +264,14 @@
 				"80": "Non segue la regola «×3»: 27 × 3 fa 81, non 80.",
 				"82": "Non segue la regola «×3»: 27 × 3 fa 81, non 82.",
 				"83": "Non segue la regola «×3»: 27 × 3 fa 81, non 83."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-geom-2-2",
 			"subject": "logica",
 			"topic": "sequenze",
-			"difficulty": 6,
+			"difficulty": 4,
 			"format": "numeric_input",
 			"prompt": "Quale numero continua la serie: 2, 4, 8, 16, ?",
 			"options": [],
@@ -274,13 +286,14 @@
 				"33": "Non segue la regola «×2»: 16 × 2 fa 32, non 33.",
 				"34": "Non segue la regola «×2»: 16 × 2 fa 32, non 34.",
 				"43": "«43» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-geom-3-2",
 			"subject": "logica",
 			"topic": "sequenze",
-			"difficulty": 6,
+			"difficulty": 4,
 			"format": "numeric_input",
 			"prompt": "Quale numero continua la serie: 3, 6, 12, 24, ?",
 			"options": [],
@@ -295,13 +308,14 @@
 				"47": "Non segue la regola «×2»: 24 × 2 fa 48, non 47.",
 				"49": "Non segue la regola «×2»: 24 × 2 fa 48, non 49.",
 				"50": "Non segue la regola «×2»: 24 × 2 fa 48, non 50."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-geom-1-4",
 			"subject": "logica",
 			"topic": "sequenze",
-			"difficulty": 6,
+			"difficulty": 4,
 			"format": "numeric_input",
 			"prompt": "Quale numero continua la serie: 1, 4, 16, 64, ?",
 			"options": [],
@@ -316,13 +330,14 @@
 				"255": "Non segue la regola «×4»: 64 × 4 fa 256, non 255.",
 				"257": "Non segue la regola «×4»: 64 × 4 fa 256, non 257.",
 				"258": "Non segue la regola «×4»: 64 × 4 fa 256, non 258."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-quadrati",
 			"subject": "logica",
 			"topic": "sequenze",
-			"difficulty": 8,
+			"difficulty": 6,
 			"format": "numeric_input",
 			"prompt": "Quale numero continua la serie: 1, 4, 9, 16, ?",
 			"options": [],
@@ -337,13 +352,14 @@
 				"27": "Non è un quadrato perfetto della serie: dopo 16 (4×4) viene 25 (5×5), non 27.",
 				"31": "«31» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"43": "«43» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-alt-2-2-3",
 			"subject": "logica",
 			"topic": "sequenze",
-			"difficulty": 8,
+			"difficulty": 6,
 			"format": "numeric_input",
 			"prompt": "Quale numero continua la serie: 2, 4, 7, 9, ?",
 			"options": [],
@@ -358,13 +374,14 @@
 				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
 				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
 				"31": "«31» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-alt-1-3-1",
 			"subject": "logica",
 			"topic": "sequenze",
-			"difficulty": 8,
+			"difficulty": 6,
 			"format": "numeric_input",
 			"prompt": "Quale numero continua la serie: 1, 4, 5, 8, ?",
 			"options": [],
@@ -379,13 +396,14 @@
 				"31": "«31» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"43": "«43» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"100": "«100» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-alt-5-1-4",
 			"subject": "logica",
 			"topic": "sequenze",
-			"difficulty": 8,
+			"difficulty": 6,
 			"format": "numeric_input",
 			"prompt": "Quale numero continua la serie: 5, 6, 10, 11, ?",
 			"options": [],
@@ -400,13 +418,14 @@
 				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
 				"31": "«31» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"43": "«43» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-odd-2467",
 			"subject": "logica",
 			"topic": "esclusioni",
-			"difficulty": 4,
+			"difficulty": 2,
 			"format": "numeric_input",
 			"prompt": "Quale numero non appartiene al gruppo: 2, 4, 6, 7?",
 			"options": [],
@@ -418,13 +437,14 @@
 				"6": "È un numero pari, come gli altri: non è lui l'intruso.",
 				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero non appartiene al gruppo: 3, 5, 9, 7?».",
 				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero non appartiene al gruppo: 10, 20, 25, 30?»."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-odd-3597",
 			"subject": "logica",
 			"topic": "esclusioni",
-			"difficulty": 6,
+			"difficulty": 4,
 			"format": "numeric_input",
 			"prompt": "Quale numero non appartiene al gruppo: 3, 5, 9, 7?",
 			"options": [],
@@ -435,13 +455,14 @@
 				"5": "È un numero primo, come gli altri: non è lui l'intruso.",
 				"7": "È un numero primo, come gli altri: non è lui l'intruso.",
 				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero non appartiene al gruppo: 10, 20, 25, 30?»."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-odd-10202530",
 			"subject": "logica",
 			"topic": "esclusioni",
-			"difficulty": 4,
+			"difficulty": 2,
 			"format": "numeric_input",
 			"prompt": "Quale numero non appartiene al gruppo: 10, 20, 25, 30?",
 			"options": [],
@@ -453,13 +474,14 @@
 				"10": "È un multiplo di 10, come gli altri: non è lui l'intruso.",
 				"20": "È un multiplo di 10, come gli altri: non è lui l'intruso.",
 				"30": "È un multiplo di 10, come gli altri: non è lui l'intruso."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-dec-20-3",
 			"subject": "logica",
 			"topic": "sequenze",
-			"difficulty": 4,
+			"difficulty": 3,
 			"format": "numeric_input",
 			"prompt": "Quale numero continua la serie: 20, 17, 14, 11, ?",
 			"options": [],
@@ -474,13 +496,14 @@
 				"31": "«31» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"43": "«43» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"100": "«100» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-fib",
 			"subject": "logica",
 			"topic": "sequenze",
-			"difficulty": 8,
+			"difficulty": 6,
 			"format": "numeric_input",
 			"prompt": "Quale numero continua la serie: 1, 1, 2, 3, ?",
 			"options": [],
@@ -495,13 +518,14 @@
 				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 3, 6, 9, 12, ?».",
 				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
 				"31": "«31» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-wodd-mela",
 			"subject": "logica",
 			"topic": "esclusioni",
-			"difficulty": 3,
+			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Quale non appartiene al gruppo: cane, mela, gatto, cavallo?",
 			"options": [
@@ -516,13 +540,14 @@
 				"cane": "È un animale, come gli altri: non è lui l'intruso.",
 				"gatto": "È un animale, come gli altri: non è lui l'intruso.",
 				"cavallo": "È un animale, come gli altri: non è lui l'intruso."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-wodd-quercia",
 			"subject": "logica",
 			"topic": "esclusioni",
-			"difficulty": 5,
+			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Quale non appartiene al gruppo: rosa, tulipano, quercia, margherita?",
 			"options": [
@@ -537,13 +562,14 @@
 				"rosa": "È un fiore, come gli altri: non è lui l'intruso.",
 				"tulipano": "È un fiore, come gli altri: non è lui l'intruso.",
 				"margherita": "È un fiore, come gli altri: non è lui l'intruso."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-wodd-tavolo",
 			"subject": "logica",
 			"topic": "esclusioni",
-			"difficulty": 3,
+			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Quale non appartiene al gruppo: rosso, verde, tavolo, blu?",
 			"options": [
@@ -558,13 +584,14 @@
 				"rosso": "È un colore, come gli altri: non è lui l'intruso.",
 				"verde": "È un colore, come gli altri: non è lui l'intruso.",
 				"blu": "È un colore, come gli altri: non è lui l'intruso."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-wodd-marzo",
 			"subject": "logica",
 			"topic": "esclusioni",
-			"difficulty": 5,
+			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Quale non appartiene al gruppo: lunedì, marzo, giovedì, domenica?",
 			"options": [
@@ -579,13 +606,14 @@
 				"lunedì": "È un giorno della settimana, come gli altri: non è lui l'intruso.",
 				"giovedì": "È un giorno della settimana, come gli altri: non è lui l'intruso.",
 				"domenica": "È un giorno della settimana, come gli altri: non è lui l'intruso."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-deduzione-58-ha la coda",
 			"subject": "logica",
 			"topic": "deduzioni",
-			"difficulty": 1,
+			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Tutti i gatti hanno la coda. Fufi è un gatto. Allora Fufi…",
 			"options": [
@@ -600,13 +628,14 @@
 				"non ha la coda": "È il contrario della regola: se vale per tutti i gatti e Fufi è un gatto, Fufi ce l'ha.",
 				"forse ha la coda": "Non è un forse: la regola vale per tutti i gatti, quindi è certo.",
 				"è un cane": "Il testo dice che Fufi è un gatto, non un cane."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-deduzione-48-non vola",
 			"subject": "logica",
 			"topic": "deduzioni",
-			"difficulty": 1,
+			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Nessun pesce vola. Nemo è un pesce. Quindi Nemo…",
 			"options": [
@@ -621,7 +650,8 @@
 				"vola": "È il contrario della regola: nessun pesce vola, quindi nemmeno Nemo.",
 				"forse vola": "Non è un forse: la regola «nessun pesce vola» è categorica.",
 				"è un uccello": "Il testo dice che Nemo è un pesce, non un uccello."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-deduzione-68-non sta piovendo",
@@ -642,7 +672,8 @@
 				"sta piovendo": "Se piovesse, secondo la regola Lea avrebbe l'ombrello: non ce l'ha, quindi non piove.",
 				"ha perso l'ombrello": "Non è detto nel testo: è un'informazione inventata, non dedotta.",
 				"fa molto caldo": "La temperatura non è nella regola, che lega solo pioggia e ombrello."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-deduzione-69-Ugo",
@@ -663,7 +694,8 @@
 				"Marco": "Marco è il più alto della fila, non il più basso.",
 				"Sara": "Sara è a metà catena: più bassa di Marco ma più alta di Ugo.",
 				"Sono uguali": "Non sono uguali: la catena mostra un ordine preciso tra i tre."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-deduzione-86-blu",
@@ -684,13 +716,14 @@
 				"rossa": "Il testo dice che NON è rossa: è l'opposto di quanto affermato.",
 				"verde": "Nella scatola ci sono solo palline rosse e blu: il verde non è un'opzione possibile.",
 				"non si può sapere": "Si può sapere: escludendo il rosso, l'unica possibilità rimasta è il blu."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-insiemi-0",
 			"subject": "logica",
 			"topic": "insiemi",
-			"difficulty": 1,
+			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Tutti i cani sono mammiferi. Allora l'insieme dei cani…",
 			"options": [
@@ -705,13 +738,14 @@
 				"Contiene quello dei mammiferi": "È il contrario: i cani sono un sottoinsieme più piccolo, non contengono tutti i mammiferi.",
 				"Non ha punti in comune con esso": "Ogni cane è un mammifero: c'è la massima sovrapposizione possibile, non nessuna.",
 				"Coincide con quello dei mammiferi": "Esistono mammiferi che non sono cani: i due insiemi non coincidono."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-insiemi-1",
 			"subject": "logica",
 			"topic": "insiemi",
-			"difficulty": 3,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "Quali animali stanno sia nell'insieme «vola» sia in «ha le piume»?",
 			"options": [
@@ -726,13 +760,14 @@
 				"I pipistrelli e le farfalle": "Volano ma non hanno piume: non soddisfano entrambe le condizioni.",
 				"Tutti gli animali con le ali": "Avere le ali non garantisce piume (i pipistrelli non le hanno) né di volare (gli struzzi non volano).",
 				"I pinguini e gli struzzi": "Hanno le piume ma non volano: manca la seconda condizione."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-insiemi-2",
 			"subject": "logica",
 			"topic": "insiemi",
-			"difficulty": 3,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "Che cosa contiene l'unione di due insiemi?",
 			"options": [
@@ -747,13 +782,14 @@
 				"Solo gli elementi comuni ai due": "Quella è l'intersezione, non l'unione.",
 				"Solo gli elementi del primo insieme": "L'unione include anche gli elementi del secondo insieme.",
 				"Solo gli elementi che stanno in uno solo": "L'unione include anche quelli comuni a entrambi, non li esclude."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-insiemi-3",
 			"subject": "logica",
 			"topic": "insiemi",
-			"difficulty": 5,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "Che cosa contiene l'intersezione di «numeri pari» e «numeri maggiori di 10»?",
 			"options": [
@@ -768,7 +804,8 @@
 				"Tutti i numeri pari esistenti": "Servono entrambe le condizioni: anche 2, 4, 6 sono pari ma non superano 10.",
 				"Tutti i numeri maggiori di dieci": "Servono entrambe le condizioni: anche 11, 13 superano 10 ma non sono pari.",
 				"Nessun numero, è vuota": "Esistono numeri che soddisfano entrambe le condizioni, come 12."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-insiemi-4",
@@ -789,13 +826,14 @@
 				"Perché ogni rettangolo ha i quattro lati uguali": "Non è vero: un rettangolo generico ha lati diversi a due a due, solo il quadrato li ha tutti uguali.",
 				"Perché hanno sempre la stessa area": "L'area non è fissa né per i quadrati né per i rettangoli.",
 				"Perché entrambi hanno quattro lati": "Anche altri quadrilateri hanno quattro lati: ciò che conta sono i quattro angoli retti."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-insiemi-5",
 			"subject": "logica",
 			"topic": "insiemi",
-			"difficulty": 3,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "Che cos'è un insieme vuoto?",
 			"options": [
@@ -810,13 +848,14 @@
 				"Un insieme con un solo elemento": "Un elemento solo non è vuoto: è un insieme con un membro.",
 				"Un insieme di cui non si sa il contenuto": "Non sapere il contenuto non lo rende vuoto: potrebbe comunque avere elementi.",
 				"Un insieme uguale a tutti gli altri": "L'insieme vuoto è definito dall'assenza di elementi, non dall'uguaglianza con altri."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-insiemi-6",
 			"subject": "logica",
 			"topic": "insiemi",
-			"difficulty": 7,
+			"difficulty": 8,
 			"format": "multiple_choice",
 			"prompt": "Due insiemi non hanno nessun elemento in comune. Come si dicono?",
 			"options": [
@@ -831,13 +870,14 @@
 				"Coincidenti": "Coincidenti significa che sono lo stesso insieme, il contrario di non avere nulla in comune.",
 				"Contenuti": "«Contenuti» descrive un insieme dentro l'altro, non l'assenza di elementi comuni.",
 				"Complementari": "I complementari coprono insieme tutto l'insieme di riferimento: qui si parla solo di elementi comuni."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-insiemi-7",
 			"subject": "logica",
 			"topic": "insiemi",
-			"difficulty": 5,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "Nel gruppo degli strumenti musicali, quello degli archi è…",
 			"options": [
@@ -852,7 +892,8 @@
 				"Un insieme più grande": "Gli archi sono una parte degli strumenti musicali, non un gruppo più grande.",
 				"Un gruppo a parte": "Gli archi sono strumenti musicali: c'è sovrapposizione totale, non assenza di elementi comuni.",
 				"L'insieme complementare": "Il complementare sarebbe «tutto ciò che non è strumento musicale»: gli archi sono invece dentro il gruppo."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-insiemi-8",
@@ -864,6 +905,7 @@
 			"options": [],
 			"answer": "17",
 			"explanation": "12 + 8 fa 20, ma i 3 che fanno entrambe sono stati contati due volte: 20 − 3 = 17.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «In un gruppo di 20 persone, 15 hanno il cane. Quante NON hanno il cane?»."
 			}
@@ -887,13 +929,14 @@
 				"C è contenuto in A": "È il contrario: la relazione va da A verso C, non da C verso A.",
 				"A e C sono disgiunti": "Non sono disgiunti: A è dentro B che è dentro C, quindi A è dentro C.",
 				"A e C sono lo stesso insieme": "Non sono necessariamente uguali: C può contenere elementi che non sono in A."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-insiemi-10",
 			"subject": "logica",
 			"topic": "insiemi",
-			"difficulty": 3,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "Quale gruppo contiene tutti gli altri: cani, mammiferi, animali, vertebrati?",
 			"options": [
@@ -908,13 +951,14 @@
 				"Vertebrati e mammiferi": "Anche vertebrati e mammiferi sono contenuti in animali, il gruppo più ampio.",
 				"Mammiferi soltanto": "I mammiferi sono un sottoinsieme, non il gruppo che contiene tutti gli altri.",
 				"Solo i cani": "Cani e vertebrati sono entrambi contenuti in animali, il gruppo più ampio di tutti."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-insiemi-11",
 			"subject": "logica",
 			"topic": "insiemi",
-			"difficulty": 7,
+			"difficulty": 8,
 			"format": "multiple_choice",
 			"prompt": "Che cos'è il complementare di un insieme?",
 			"options": [
@@ -929,13 +973,14 @@
 				"L'insieme che gli assomiglia di più fra tutti": "Il complementare non è definito dalla somiglianza: è tutto ciò che sta fuori.",
 				"La metà mancante dell'insieme": "Non è necessariamente la metà: è tutto quello che non appartiene all'insieme.",
 				"L'insieme con gli stessi elementi": "Il complementare ha elementi diversi, esattamente quelli che l'insieme originale non ha."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-insiemi-12",
 			"subject": "logica",
 			"topic": "insiemi",
-			"difficulty": 5,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "«Alcuni musicisti sono chitarristi» descrive due insiemi che…",
 			"options": [
@@ -950,7 +995,8 @@
 				"Sono completamente separati": "Se fossero separati, nessun musicista sarebbe chitarrista: invece «alcuni» lo sono.",
 				"Coincidono perfettamente": "Non tutti i musicisti sono chitarristi: gli insiemi si sovrappongono solo in parte.",
 				"Non hanno alcun elemento": "«Alcuni» significa che almeno un elemento è comune ai due insiemi."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-insiemi-13",
@@ -962,6 +1008,7 @@
 			"options": [],
 			"answer": "5",
 			"explanation": "È il complementare dentro il gruppo: 20 − 15 = 5.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"17": "«17» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
 			}
@@ -970,7 +1017,7 @@
 			"id": "logica-verita-14",
 			"subject": "logica",
 			"topic": "verita",
-			"difficulty": 4,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "«Piove E fa freddo» è vera quando…",
 			"options": [
@@ -985,13 +1032,14 @@
 				"Piove, anche se non fa freddo": "La congiunzione E richiede entrambe le condizioni: una sola non basta.",
 				"Fa freddo, anche se non piove": "La congiunzione E richiede entrambe le condizioni: una sola non basta.",
 				"Almeno una delle due è vera": "Quella è la condizione della O, non della E, che richiede entrambe."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-verita-15",
 			"subject": "logica",
 			"topic": "verita",
-			"difficulty": 4,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "«Piove O fa freddo» è falsa quando…",
 			"options": [
@@ -1006,13 +1054,14 @@
 				"Piove ma non fa freddo": "Basta che una condizione sia vera perché la O sia vera: qui piove, quindi è vera.",
 				"Fa freddo ma non piove": "Basta che una sia vera: qui fa freddo, quindi la O è vera, non falsa.",
 				"Piove e fa freddo insieme": "Se sono vere entrambe, a maggior ragione la O è vera, non falsa."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-verita-16",
 			"subject": "logica",
 			"topic": "verita",
-			"difficulty": 4,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "Se «tutti i gatti dormono» è falsa, che cosa è sicuramente vero?",
 			"options": [
@@ -1027,13 +1076,14 @@
 				"Nessun gatto dorme": "Basta un solo gatto sveglio per smentire «tutti»: non serve che nessuno dorma.",
 				"Tutti i gatti sono svegli": "Basta un solo controesempio: non è detto che siano tutti svegli.",
 				"Metà dei gatti dorme": "Non c'è nessuna proporzione garantita: basta un solo gatto sveglio."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-verita-17",
 			"subject": "logica",
 			"topic": "verita",
-			"difficulty": 5,
+			"difficulty": 7,
 			"format": "multiple_choice",
 			"prompt": "Qual è la negazione di «nessuno è arrivato»?",
 			"options": [
@@ -1048,13 +1098,14 @@
 				"Tutti sono arrivati": "Negare «nessuno» richiede solo un controesempio, non che siano arrivati tutti.",
 				"Nessuno è partito": "La negazione riguarda l'arrivo, non la partenza: sono due cose diverse.",
 				"Molti sono arrivati": "Basta uno solo per negare «nessuno»: non serve che siano molti."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-verita-18",
 			"subject": "logica",
 			"topic": "verita",
-			"difficulty": 6,
+			"difficulty": 7,
 			"format": "multiple_choice",
 			"prompt": "«Se piove, prendo l'ombrello.» Non ho preso l'ombrello. Cosa si conclude?",
 			"options": [
@@ -1069,7 +1120,8 @@
 				"Pioveva lo stesso": "Se pioveva, secondo la regola avrei preso l'ombrello: non averlo preso esclude che piovesse.",
 				"Ho dimenticato l'ombrello": "La regola garantisce che prendo l'ombrello se piove: se non l'ho preso, non poteva piovere.",
 				"Non si può concludere niente": "Si può concludere: se manca l'effetto garantito, manca anche la causa che lo garantiva."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-verita-19",
@@ -1090,13 +1142,14 @@
 				"Che sicuramente stava piovendo in quel momento": "L'ombrello si può prendere anche per altri motivi: non è la prova certa che piovesse.",
 				"Che sicuramente non stava piovendo per niente": "Non si può escludere che piovesse: prendere l'ombrello è compatibile con entrambe le situazioni.",
 				"Che pioverà sicuramente nel corso della giornata": "La regola riguarda il presente, non fa previsioni sul resto della giornata."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-verita-20",
 			"subject": "logica",
 			"topic": "verita",
-			"difficulty": 5,
+			"difficulty": 7,
 			"format": "multiple_choice",
 			"prompt": "Qual è la negazione di «tutti i cigni sono bianchi»?",
 			"options": [
@@ -1111,13 +1164,14 @@
 				"Nessun cigno è bianco": "Basta un solo cigno non bianco per smentire «tutti»: non serve che nessuno lo sia.",
 				"Tutti i cigni sono neri": "Non serve che siano tutti neri: basta un solo cigno di un altro colore.",
 				"Quasi tutti i cigni sono bianchi": "Questa frase non nega «tutti»: la vera negazione richiede solo un controesempio."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-verita-21",
 			"subject": "logica",
 			"topic": "verita",
-			"difficulty": 3,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "«Non è vero che non piove» significa…",
 			"options": [
@@ -1132,7 +1186,8 @@
 				"Non piove": "È l'opposto: due negazioni si annullano, tornando all'affermazione positiva.",
 				"Forse piove": "Non c'è incertezza: la doppia negazione afferma con certezza che piove.",
 				"Ha smesso di piovere": "La doppia negazione afferma semplicemente che piove ora, non parla di un cambiamento nel tempo."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-verita-22",
@@ -1153,13 +1208,14 @@
 				"Marco non ha animali": "La regola dice che ognuno ha almeno uno dei due: Marco deve avere il gatto.",
 				"Marco ha anche un cane": "Sappiamo che Marco non ha cani: quindi deve avere il gatto, non entrambi.",
 				"Non si può dire niente": "La regola garantisce almeno uno dei due: escluso il cane, resta il gatto."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-verita-23",
 			"subject": "logica",
 			"topic": "verita",
-			"difficulty": 5,
+			"difficulty": 7,
 			"format": "multiple_choice",
 			"prompt": "Un'affermazione e la sua negazione possono essere entrambe vere?",
 			"options": [
@@ -1174,7 +1230,8 @@
 				"Sì, se sono complicate": "La complessità della frase non cambia il principio di non contraddizione.",
 				"Sì, in certi casi particolari": "Non esistono eccezioni: se una è vera l'altra è sempre falsa.",
 				"Dipende dai casi": "La verità logica non dipende da chi parla."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-verita-24",
@@ -1195,18 +1252,20 @@
 				"Il fatto di aver studiato": "Aver studiato è un fatto dato, non qualcosa che risulta falso in questo ragionamento.",
 				"Il risultato dell'esame": "Il risultato è un fatto osservato, non ciò che risulta falso.",
 				"Nessuna delle due cose": "C'è qualcosa di falso: la regola stessa, visto che premessa vera e conclusione falsa la smentiscono."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-verita-25",
 			"subject": "logica",
 			"topic": "verita",
-			"difficulty": 4,
+			"difficulty": 5,
 			"format": "numeric_input",
 			"prompt": "Quante possibilità ci sono per il valore di verità di un'affermazione?",
 			"options": [],
 			"answer": "2",
 			"explanation": "Vero o falso: in logica classica non esistono vie di mezzo.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"1": "Sono due: se ce ne fosse una sola non ci sarebbe niente da decidere.",
 				"3": "Non esiste un «forse»: in logica un'affermazione o è vera o è falsa, anche quando noi non sappiamo quale delle due.",
@@ -1217,7 +1276,7 @@
 			"id": "logica-verita-26",
 			"subject": "logica",
 			"topic": "verita",
-			"difficulty": 6,
+			"difficulty": 7,
 			"format": "multiple_choice",
 			"prompt": "«Ho preso il gelato E la torta» è falsa. Cosa si conclude?",
 			"options": [
@@ -1232,7 +1291,8 @@
 				"Non ho preso proprio nessuna delle due": "Basta che una delle due sia falsa per far cadere la E: non serve che siano false entrambe.",
 				"Ho preso solo il gelato": "Questa è solo una delle possibilità compatibili con la frase falsa, non l'unica.",
 				"Ho preso solo la torta": "Questa è solo una delle possibilità compatibili con la frase falsa, non l'unica."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-verita-27",
@@ -1253,13 +1313,14 @@
 				"Perché è scritta in modo scorretto": "Grammaticalmente la frase è corretta: il problema è logico, non di scrittura.",
 				"Perché parla di sé stessa senza dati": "Il problema non è la mancanza di dati: è che qualsiasi valore di verità le si assegni si contraddice.",
 				"Perché manca il soggetto della frase": "Il soggetto c'è: il problema è che si riferisce a sé stessa in modo contraddittorio."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-quantificatori-28",
 			"subject": "logica",
 			"topic": "quantificatori",
-			"difficulty": 3,
+			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Quale parola indica che vale per ogni singolo caso?",
 			"options": [
@@ -1274,13 +1335,14 @@
 				"Alcuni": "«Alcuni» ammette eccezioni: basta almeno un caso, non ogni caso.",
 				"Molti": "«Molti» indica una gran parte, ma può comunque avere eccezioni.",
 				"Quasi tutti": "«Quasi tutti» ammette esplicitamente alcune eccezioni, «tutti» no."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-quantificatori-29",
 			"subject": "logica",
 			"topic": "quantificatori",
-			"difficulty": 3,
+			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "«Alcuni uccelli non volano» significa che…",
 			"options": [
@@ -1295,7 +1357,8 @@
 				"Nessun uccello vola": "«Alcuni» non significa «nessuno»: dice che almeno uno non vola, non tutti.",
 				"La maggior parte non vola": "«Alcuni» non specifica una proporzione: basta anche un solo uccello che non vola.",
 				"Tutti gli uccelli volano": "È il contrario di quanto afferma la frase."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-quantificatori-30",
@@ -1316,13 +1379,14 @@
 				"Soltanto i cani sanno abbaiare": "La regola dice che i cani abbaiano, non che solo loro lo sanno fare.",
 				"Alcuni cani non abbaiano affatto": "Se «tutti» i cani abbaiano, non ce n'è nessuno che non lo fa.",
 				"Chiunque abbaia dev'essere per forza un cane": "Non si può girare la frase: altri animali potrebbero abbaiare senza essere cani."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-quantificatori-31",
 			"subject": "logica",
 			"topic": "quantificatori",
-			"difficulty": 5,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "«Nessuno studente è arrivato in ritardo» è smentita da…",
 			"options": [
@@ -1337,7 +1401,8 @@
 				"Metà degli studenti in ritardo": "Non serve metà: basta un solo studente in ritardo per smentire «nessuno».",
 				"Tutti gli studenti in ritardo": "Non serve che siano tutti: basta un solo controesempio.",
 				"Nessun controesempio possibile": "Un controesempio è proprio ciò che serve per smentire l'affermazione."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-quantificatori-32",
@@ -1358,13 +1423,14 @@
 				"Tutti i rettangoli sono quadrati": "Girare un «tutti» dà solo un «alcuni»: non tutti i rettangoli sono quadrati.",
 				"Nessun rettangolo è un quadrato": "I quadrati sono rettangoli: c'è sovrapposizione, non separazione totale.",
 				"I due gruppi sono separati": "I quadrati sono un sottoinsieme dei rettangoli: si sovrappongono, non sono separati."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-quantificatori-33",
 			"subject": "logica",
 			"topic": "quantificatori",
-			"difficulty": 3,
+			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Qual è il contrario di «tutti»?",
 			"options": [
@@ -1379,13 +1445,14 @@
 				"Nessuno": "«Nessuno» è molto più forte: basta un solo caso mancante per negare «tutti», non l'assenza totale.",
 				"Pochi": "«Pochi» indica una quantità specifica: la vera negazione di «tutti» è «non tutti».",
 				"Quasi nessuno": "«Quasi nessuno» è troppo forte: basta un solo caso fuori per negare «tutti»."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-quantificatori-34",
 			"subject": "logica",
 			"topic": "quantificatori",
-			"difficulty": 5,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "«Ogni chiave apre una porta» e «una porta è aperta da ogni chiave» dicono…",
 			"options": [
@@ -1400,7 +1467,8 @@
 				"La stessa cosa in due modi": "L'ordine dei quantificatori cambia il senso: nella prima ogni chiave ha la sua porta, nella seconda una porta è aperta da tutte.",
 				"Due cose sempre false": "Non sono necessariamente false: possono essere vere entrambe, ma dicono cose diverse.",
 				"Due cose sempre vere": "Non sono necessariamente vere: dipende dalla situazione."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-quantificatori-35",
@@ -1421,13 +1489,14 @@
 				"Esattamente due studenti": "«Almeno» fissa un minimo, non un numero esatto: anche tre o più la rendono vera.",
 				"Meno di due studenti": "«Almeno due» richiede un minimo di due: meno di due non basta.",
 				"Tutti gli studenti": "Non serve che siano tutti: basta che siano due o più."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-quantificatori-36",
 			"subject": "logica",
 			"topic": "quantificatori",
-			"difficulty": 5,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "Da «alcuni gatti sono neri» si può dedurre «tutti i gatti sono neri»?",
 			"options": [
@@ -1442,13 +1511,14 @@
 				"Sì, se sono pochi": "Il numero di gatti non cambia la logica: da «alcuni» non si può mai dedurre «tutti».",
 				"Sì, se non ci sono controesempi": "Anche senza controesempi noti, «alcuni» non garantisce «tutti»: mancano informazioni.",
 				"Dipende da quanti gatti sono neri": "Non dipende dalla quantità: da un caso particolare non si sale mai a una regola generale."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-quantificatori-37",
 			"subject": "logica",
 			"topic": "quantificatori",
-			"difficulty": 3,
+			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "«Nessun pesce vola» e «tutti i pesci non volano»…",
 			"options": [
@@ -1463,18 +1533,20 @@
 				"Dicono cose opposte": "Sono due modi equivalenti di esprimere la stessa negazione universale, non opposti.",
 				"La prima è più debole": "Le due frasi sono logicamente equivalenti: nessuna è più debole dell'altra.",
 				"La seconda è sempre falsa": "La seconda è vera esattamente quando lo è la prima: non è sempre falsa."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-quantificatori-38",
 			"subject": "logica",
 			"topic": "quantificatori",
-			"difficulty": 8,
+			"difficulty": 7,
 			"format": "numeric_input",
 			"prompt": "Per dimostrare che «tutti i numeri pari sono divisibili per 2», quanti esempi bastano?",
 			"options": [],
 			"answer": "0",
 			"explanation": "Nessun numero di esempi dimostra un «tutti»: serve una dimostrazione generale. Gli esempi possono solo smentirlo.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"11": "«11» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
 			}
@@ -1483,7 +1555,7 @@
 			"id": "logica-quantificatori-39",
 			"subject": "logica",
 			"topic": "quantificatori",
-			"difficulty": 5,
+			"difficulty": 6,
 			"format": "multiple_choice",
 			"prompt": "«Qualche volta il treno è in ritardo» equivale a…",
 			"options": [
@@ -1498,7 +1570,8 @@
 				"Il treno è sempre in ritardo": "«Qualche volta» non dice «sempre»: nega solo la puntualità costante.",
 				"Il treno non è mai puntuale": "«Qualche volta» in ritardo lascia aperta la possibilità che sia puntuale altre volte.",
 				"Il treno è quasi sempre in ritardo": "«Qualche volta» non specifica una frequenza alta."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-quantificatori-40",
@@ -1519,7 +1592,8 @@
 				"No, perché non ce ne sono": "Un'affermazione su un insieme vuoto non ha controesempi possibili, quindi è considerata vera, non falsa.",
 				"Non si può stabilire": "Si può stabilire: un'affermazione su un insieme senza elementi è vera «a vuoto», per convenzione logica.",
 				"Solo se sono davvero grandi": "Non ci sono palline blu da controllare: la frase è vera a prescindere."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-deduzioni-41",
@@ -1540,7 +1614,8 @@
 				"Sì, sicuramente": "Leggere le note non basta: la regola dice che i musicisti leggono le note, non che solo loro lo fanno.",
 				"No, di certo non lo è": "Non si può escludere: Sara potrebbe comunque essere musicista, solo non lo sappiamo con certezza.",
 				"Solo se suona uno strumento": "Suonare uno strumento non è l'informazione data: la regola parla solo di leggere le note."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-deduzioni-42",
@@ -1561,13 +1636,14 @@
 				"Sì, potrebbe esserlo": "Se nessun rettile ha piume e Kiwi le ha, Kiwi è escluso con certezza dai rettili.",
 				"Non si può stabilire": "Si può stabilire con certezza: la regola esclude ogni animale con piume dai rettili.",
 				"Solo se non vola": "Il volo non c'entra: la regola riguarda le piume, non il volo."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-deduzioni-43",
 			"subject": "logica",
 			"topic": "deduzioni",
-			"difficulty": 8,
+			"difficulty": 7,
 			"format": "multiple_choice",
 			"prompt": "Se A è più alto di B e B è più alto di C, allora…",
 			"options": [
@@ -1582,7 +1658,8 @@
 				"C è più alto di A": "È l'esatto contrario: la catena va da A, il più alto, a C, il più basso.",
 				"A e C sono uguali": "Non sono uguali: la catena di disuguaglianze mostra che A supera anche C.",
 				"Non si può stabilire": "Si può stabilire: la relazione «più alto di» si trasmette lungo tutta la catena."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-deduzioni-44",
@@ -1603,13 +1680,14 @@
 				"Luca": "Luca è più vecchio di Marta ma più giovane di Sara: non è lui il più vecchio.",
 				"Marta": "Marta è la più giovane della fila, non la più vecchia.",
 				"Non si può dire": "Si può dire: mettendo in fila le due relazioni si ottiene un ordine completo."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-deduzioni-45",
 			"subject": "logica",
 			"topic": "deduzioni",
-			"difficulty": 6,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "«Se il semaforo è verde, si passa.» Il semaforo è rosso. Si passa?",
 			"options": [
@@ -1624,13 +1702,14 @@
 				"No, la regola lo vieta esplicitamente": "La regola parla solo del verde: non dice nulla, né sì né no, sul rosso.",
 				"Sì, la regola lo permette comunque": "La regola non parla del rosso: non se ne può dedurre un permesso.",
 				"Solo se non arrivano altre auto": "Questa condizione non fa parte della regola data, che riguarda solo il colore verde."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-esclusioni-46",
 			"subject": "logica",
 			"topic": "esclusioni",
-			"difficulty": 5,
+			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Quale non appartiene al gruppo: violino, viola, violoncello, flauto?",
 			"options": [
@@ -1645,13 +1724,14 @@
 				"Violino": "È uno strumento ad arco, come gli altri: non è lui l'intruso.",
 				"Viola": "È uno strumento ad arco, come gli altri: non è lui l'intruso.",
 				"Violoncello": "È uno strumento ad arco, come gli altri: non è lui l'intruso."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-esclusioni-47",
 			"subject": "logica",
 			"topic": "esclusioni",
-			"difficulty": 5,
+			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "Quale non appartiene al gruppo: Roma, Parigi, Berlino, Sicilia?",
 			"options": [
@@ -1666,13 +1746,14 @@
 				"Roma": "È una capitale, come le altre due: non è lei l'intrusa.",
 				"Parigi": "È una capitale, come le altre due: non è lei l'intrusa.",
 				"Berlino": "È una capitale, come le altre due: non è lei l'intrusa."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-esclusioni-48",
 			"subject": "logica",
 			"topic": "esclusioni",
-			"difficulty": 8,
+			"difficulty": 5,
 			"format": "numeric_input",
 			"prompt": "Quale non appartiene al gruppo: 2, 3, 5, 9?",
 			"options": [],
@@ -1684,13 +1765,14 @@
 				"5": "È un numero primo, come gli altri: non è lui l'intruso.",
 				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero non appartiene al gruppo: 2, 4, 6, 7?».",
 				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero non appartiene al gruppo: 10, 20, 25, 30?»."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-esclusioni-49",
 			"subject": "logica",
 			"topic": "esclusioni",
-			"difficulty": 7,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "Quale non appartiene al gruppo: quadrato, cerchio, triangolo, rettangolo?",
 			"options": [
@@ -1705,7 +1787,8 @@
 				"Quadrato": "È un poligono con lati dritti, come gli altri: non è lui l'intruso.",
 				"Triangolo": "È un poligono con lati dritti, come gli altri: non è lui l'intruso.",
 				"Rettangolo": "È un poligono con lati dritti, come gli altri: non è lui l'intruso."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-sequenze-50",
@@ -1726,18 +1809,20 @@
 				"quadrato": "Il quadrato è appena apparso: nella sequenza a coppie tocca di nuovo al cerchio.",
 				"triangolo": "Il triangolo non fa parte della sequenza: si alternano solo cerchio e quadrato.",
 				"rombo": "Il rombo non compare mai nella serie: si alternano soltanto cerchio e quadrato."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-sequenze-51",
 			"subject": "logica",
 			"topic": "sequenze",
-			"difficulty": 4,
+			"difficulty": 3,
 			"format": "numeric_input",
 			"prompt": "Su un braccialetto le perline si ripetono sempre così: rossa, rossa, blu, rossa, rossa, blu… Quante perline blu ci sono nelle prime dodici?",
 			"options": [],
 			"answer": "4",
 			"explanation": "Il disegno si ripete ogni tre perline e in ogni gruppo ce n'è una blu: dodici perline fanno quattro gruppi, quindi quattro blu. Quando una serie si ripete a blocchi non serve contarla tutta: basta contare i blocchi.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"7": "«7» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 1, 3, 5, 7, ?».",
@@ -1768,18 +1853,20 @@
 				"sabato": "Il sabato è il giorno saltato: la serie prende uno sì e uno no.",
 				"lunedì": "È il punto di partenza: la serie va avanti, non torna indietro.",
 				"giovedì": "Il giovedì era già stato saltato fra mercoledì e venerdì."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-sequenze-53",
 			"subject": "logica",
 			"topic": "sequenze",
-			"difficulty": 8,
+			"difficulty": 6,
 			"format": "numeric_input",
 			"prompt": "Quale numero continua la serie: 2, 20, 4, 18, 6, 16, ?",
 			"options": [],
 			"answer": "8",
 			"explanation": "Sono due serie intrecciate: al primo, terzo e quinto posto 2, 4, 6 che salgono di due; al secondo, quarto e sesto 20, 18, 16 che scendono di due. Tocca di nuovo a quella che sale, quindi 8. Quando una serie sembra impazzita, conviene provare a leggerla a numeri alterni.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"7": "«7» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 1, 3, 5, 7, ?».",
@@ -1810,13 +1897,14 @@
 				"H": "È la lettera subito dopo G, ma la regola salta una lettera ogni volta.",
 				"F": "È una lettera già saltata in precedenza, non la prossima da saltare.",
 				"L": "Salta due lettere invece di una: dopo G si salta solo la H."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-esclusioni-55",
 			"subject": "logica",
 			"topic": "esclusioni",
-			"difficulty": 7,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "Quale non appartiene al gruppo: arancione, viola, verde, giallo?",
 			"options": [
@@ -1831,7 +1919,8 @@
 				"arancione": "Nasce da rosso più giallo: è un colore secondario come gli altri due.",
 				"viola": "Nasce da rosso più blu: è un colore secondario come gli altri due.",
 				"verde": "Nasce da giallo più blu: è un colore secondario come gli altri due."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-esclusioni-56",
@@ -1852,13 +1941,14 @@
 				"lunedì": "È un giorno della settimana, come gli altri: non è lui l'intruso.",
 				"martedì": "È un giorno della settimana, come gli altri: non è lui l'intruso.",
 				"giovedì": "È un giorno della settimana, come gli altri: non è lui l'intruso."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-esclusioni-57",
 			"subject": "logica",
 			"topic": "esclusioni",
-			"difficulty": 4,
+			"difficulty": 2,
 			"format": "numeric_input",
 			"prompt": "Quale non appartiene al gruppo: 2, 4, 7, 8?",
 			"options": [],
@@ -1870,13 +1960,14 @@
 				"8": "È un numero pari, come gli altri: non è lui l'intruso.",
 				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero non appartiene al gruppo: 3, 5, 9, 7?».",
 				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero non appartiene al gruppo: 10, 20, 25, 30?»."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-esclusioni-58",
 			"subject": "logica",
 			"topic": "esclusioni",
-			"difficulty": 3,
+			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Quale non appartiene al gruppo: martello, cacciavite, pinza, mela?",
 			"options": [
@@ -1891,13 +1982,14 @@
 				"martello": "È un attrezzo da lavoro, come gli altri: non è lui l'intruso.",
 				"cacciavite": "È un attrezzo da lavoro, come gli altri: non è lui l'intruso.",
 				"pinza": "È un attrezzo da lavoro, come gli altri: non è lui l'intruso."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-insiemi-59",
 			"subject": "logica",
 			"topic": "insiemi",
-			"difficulty": 1,
+			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "Tutti i quadrati sono rettangoli. Allora un quadrato è anche…",
 			"options": [
@@ -1912,13 +2004,14 @@
 				"un triangolo": "Il quadrato non è mai stato definito come triangolo: sono figure diverse.",
 				"un cerchio": "Il quadrato non è un cerchio: sono figure diverse.",
 				"nessuna delle due": "Una risposta c'è: la regola dice che ogni quadrato sta nell'insieme dei rettangoli."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-insiemi-60",
 			"subject": "logica",
 			"topic": "insiemi",
-			"difficulty": 4,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "In una classe tutti giocano a calcio o a pallavolo. Marco non gioca a calcio. Allora…",
 			"options": [
@@ -1933,13 +2026,14 @@
 				"non gioca a niente": "La regola dice che tutti giocano a uno dei due: escluso il calcio, resta per forza la pallavolo.",
 				"gioca a entrambi": "Non è detto: sappiamo solo che gioca almeno a pallavolo, non che li fa entrambi.",
 				"non si può sapere": "Si può sapere: la regola «tutti giocano all'uno o all'altro» lo determina con certezza."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-verita-61",
 			"subject": "logica",
 			"topic": "verita",
-			"difficulty": 1,
+			"difficulty": 3,
 			"format": "multiple_choice",
 			"prompt": "«Tutti i gatti hanno quattro zampe.» Per smentirla basta…",
 			"options": [
@@ -1954,13 +2048,14 @@
 				"contare molti gatti con quattro zampe": "Trovare mille casi favorevoli non smentisce un «tutti»: serve un solo caso contrario.",
 				"chiedere a un veterinario": "Un'opinione non è una prova: serve un esempio reale che contraddica la regola.",
 				"guardare anche i cani": "I cani non c'entrano con una regola sui gatti."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-verita-62",
 			"subject": "logica",
 			"topic": "verita",
-			"difficulty": 4,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "«Qualche uccello non vola.» Per dimostrarla basta…",
 			"options": [
@@ -1975,7 +2070,8 @@
 				"trovare molti uccelli che volano": "Non serve trovare uccelli che volano: basta un solo caso che non vola, cioè il contrario.",
 				"dimostrare che nessuno vola": "«Qualche» chiede solo un caso, non tutti: questa è un'affermazione più forte e diversa.",
 				"contare tutti gli uccelli": "Non serve contarli tutti: basta trovarne uno solo che non vola."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-quantificatori-63",
@@ -1996,7 +2092,8 @@
 				"esattamente due": "«Al massimo» non obbliga ad arrivarci: anche uno solo, o nessuno, rispetta il tetto.",
 				"due o più": "È il verso opposto: quello sfonda il tetto invece di restarci sotto.",
 				"almeno due": "«Almeno» fissa un minimo, «al massimo» un massimo: le due parole dicono cose contrarie."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-quantificatori-64",
@@ -2008,6 +2105,7 @@
 			"options": [],
 			"answer": "11",
 			"explanation": "«La maggior parte» vuol dire più della metà: metà di 20 fa 10, quindi ne servono almeno 11. Con 10 sarebbe esattamente metà, e metà non è la maggior parte.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"0": "«0» è la risposta giusta a un'altra domanda di questo gruppo: «Per dimostrare che «tutti i numeri pari sono divisibili per 2», quanti esempi bastano?»."
 			}
@@ -2031,7 +2129,8 @@
 				"non sa cucinare": "È il contrario della regola: se tutti i cuochi sanno cucinare e Anna è cuoca, lo sa fare di certo.",
 				"forse sa cucinare": "Non è un forse: la regola vale per tutti i cuochi, quindi la conclusione è certa.",
 				"cucina solo dolci": "La regola non specifica il tipo di piatti: dice solo che sa cucinare."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-deduzioni-66",
@@ -2052,13 +2151,14 @@
 				"Sì, di sicuro": "Questa è la regola letta al contrario: «tutti i cani sono mammiferi» non significa «tutti i mammiferi sono cani».",
 				"No, di sicuro": "Nemmeno escluderlo si può: Fido potrebbe benissimo essere un cane, semplicemente non lo sappiamo.",
 				"Sì, se ha quattro zampe e la coda": "Le zampe non compaiono nella regola, e comunque anche i gatti ne hanno quattro."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-deduzioni-67",
 			"subject": "logica",
 			"topic": "deduzioni",
-			"difficulty": 8,
+			"difficulty": 7,
 			"format": "multiple_choice",
 			"prompt": "«Se studio, prendo un bel voto.» Ho preso un bel voto. Allora…",
 			"options": [
@@ -2073,13 +2173,14 @@
 				"Vuol dire che ho studiato di sicuro": "È la regola percorsa a rovescio: dice che studiare porta al voto, non che il voto possa venire solo da lì.",
 				"Vuol dire che non ho aperto un libro": "Non c'è nessun motivo per escluderlo: probabilmente ho studiato, semplicemente non è dimostrato.",
 				"Vuol dire che la regola è sbagliata": "La regola regge benissimo: un bel voto è esattamente quello che prometteva."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-quantificatori-68",
 			"subject": "logica",
 			"topic": "quantificatori",
-			"difficulty": 8,
+			"difficulty": 7,
 			"format": "multiple_choice",
 			"prompt": "«Non è vero che tutti i bambini dormono.» Che cosa si sa di sicuro?",
 			"options": [
@@ -2094,7 +2195,8 @@
 				"Nessun bambino dorme": "Sarebbe la negazione più forte possibile: per smentire «tutti» basta invece un bambino sveglio soltanto.",
 				"La maggior parte non dorme": "Il numero non si sa: potrebbe essere uno solo su cento.",
 				"Tutti i bambini sono ben svegli adesso": "È la stessa cosa che «nessuno dorme», e serve molto di più di quanto la frase affermi."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-verita-69",
@@ -2115,13 +2217,14 @@
 				"Falsa, perché i draghi non esistono": "L'esistenza non c'entra: la frase parla soltanto di quelli che ci fossero, e non ce ne sono.",
 				"Né vera né falsa, manca il soggetto": "In logica classica ogni affermazione ha uno dei due valori: non esiste una terza casella.",
 				"Impossibile da giudicare senza vedere i draghi": "Si giudica benissimo: basta cercare un controesempio, e qui non può essercene nessuno."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-deduzioni-70",
 			"subject": "logica",
 			"topic": "deduzioni",
-			"difficulty": 8,
+			"difficulty": 7,
 			"format": "multiple_choice",
 			"prompt": "Anna è più veloce di Bea. Carlo è più lento di Bea. Che cosa NON si può concludere?",
 			"options": [
@@ -2136,13 +2239,14 @@
 				"Che Anna è più veloce di Carlo": "Questa segue: Anna supera Bea, che a sua volta supera Carlo.",
 				"Che Carlo è senza dubbio il più lento dei tre": "Questa segue: è l'ultimo della catena.",
 				"Che Bea è più veloce di Carlo": "Questa segue: è scritto proprio nella seconda frase, al contrario."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-insiemi-71",
 			"subject": "logica",
 			"topic": "insiemi",
-			"difficulty": 7,
+			"difficulty": 8,
 			"format": "multiple_choice",
 			"prompt": "Nessun quadro della sala è antico. Tutti i quadri antichi hanno la cornice d'oro. Che cosa si sa dei quadri della sala?",
 			"options": [
@@ -2157,13 +2261,14 @@
 				"Nessuno ha la cornice d'oro": "La regola dice che gli antichi ce l'hanno, non che siano gli unici: un moderno può averla lo stesso.",
 				"Tutti hanno la cornice d'oro": "La regola non si applica ai quadri della sala, che antichi non sono.",
 				"Sono tutti moderni e senza cornice": "Che non siano antichi è vero; sulla cornice non si sa nulla."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-esclusioni-72",
 			"subject": "logica",
 			"topic": "esclusioni",
-			"difficulty": 7,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "Tre scatole: una con solo mele, una con solo pere, una mista. Le etichette sono TUTTE sbagliate. Peschi un frutto dalla scatola etichettata «mista» ed è una mela. Che cos'è quella scatola?",
 			"options": [
@@ -2178,13 +2283,14 @@
 				"La scatola mista": "Le etichette sono tutte sbagliate: quella è l'unica cosa che quella scatola non può essere.",
 				"La scatola che contiene solo le pere": "Ne è appena uscita una mela: le pere sole sono escluse.",
 				"Non si può ancora dire": "Si può: una pescata basta, proprio perché l'etichetta sbagliata ha già eliminato la terza possibilità."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-esclusioni-quale-elemento-non-appartiene-al-gruppo-cane-gat",
 			"subject": "logica",
 			"topic": "esclusioni",
-			"difficulty": 2,
+			"difficulty": 1,
 			"format": "multiple_choice",
 			"prompt": "Quale non appartiene al gruppo: cane, gatto, cavallo, sedia?",
 			"options": [
@@ -2199,13 +2305,14 @@
 				"Cane": "È un animale, come gli altri: non è lui l'intruso.",
 				"Gatto": "È un animale, come gli altri: non è lui l'intruso.",
 				"Cavallo": "È un animale, come gli altri: non è lui l'intruso."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-esclusioni-quale-elemento-non-appartiene-al-gruppo-rosso-bl",
 			"subject": "logica",
 			"topic": "esclusioni",
-			"difficulty": 2,
+			"difficulty": 1,
 			"format": "multiple_choice",
 			"prompt": "Quale non appartiene al gruppo: metro, litro, chilo, bilancia?",
 			"options": [
@@ -2220,13 +2327,14 @@
 				"Metro": "È l'unità con cui si misurano le lunghezze: uno strumento è il righello.",
 				"Litro": "È l'unità con cui si misurano i liquidi: uno strumento è il misurino.",
 				"Chilo": "È l'unità con cui si misurano le masse: lo strumento è proprio la bilancia."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-esclusioni-quale-elemento-non-appartiene-al-gruppo-mela-per",
 			"subject": "logica",
 			"topic": "esclusioni",
-			"difficulty": 2,
+			"difficulty": 1,
 			"format": "multiple_choice",
 			"prompt": "Quale non appartiene al gruppo: Marte, Venere, Luna, Giove?",
 			"options": [
@@ -2241,7 +2349,8 @@
 				"Marte": "È un pianeta: gira attorno al Sole, come Venere e Giove.",
 				"Venere": "È un pianeta: gira attorno al Sole, come Marte e Giove.",
 				"Giove": "È un pianeta, il più grande di tutti: gira attorno al Sole."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-sequenze-quale-numero-continua-la-sequenza-2-4-6-8",
@@ -2262,7 +2371,8 @@
 				"L": "La L viene un gradino più giù della M: è il termine dopo il prossimo.",
 				"I": "È troppo in basso: fra la N e la I ci sono la M e la L.",
 				"R": "La R sta prima della Q: la serie scende, quindi va nell'altra direzione."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-sequenze-quale-numero-continua-la-sequenza-5-10-15-20",
@@ -2283,13 +2393,14 @@
 				"8:65": "I minuti non arrivano a 65: dopo il 59 scatta l'ora e si riparte da zero.",
 				"9:00": "Sono solo dieci minuti dopo le 8:50: ne mancano ancora cinque.",
 				"8:55": "Sono cinque minuti dopo le 8:50: il passo di questa serie è di quindici."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-sequenze-quale-numero-continua-la-sequenza-10-9-8-7",
 			"subject": "logica",
 			"topic": "sequenze",
-			"difficulty": 2,
+			"difficulty": 1,
 			"format": "numeric_input",
 			"prompt": "Con gli stecchini fai quadrati attaccati in fila: 1 quadrato ne vuole 4, 2 quadrati ne vogliono 7, 3 quadrati ne vogliono 10. Quanti stecchini per 4 quadrati?",
 			"options": [],
@@ -2304,7 +2415,8 @@
 				"16": "È 4 × 4, cioè quattro quadrati staccati: qui invece sono attaccati e si risparmiano stecchini.",
 				"25": "«25» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 5, 10, 15, 20, ?».",
 				"31": "«31» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-deduzioni-tutti-i-gatti-sono-felini-micio-e-un-gatto-che-c",
@@ -2325,7 +2437,8 @@
 				"Ogni felino è gatto": "Gira la regola: non tutti i felini sono gatti, solo tutti i gatti sono felini.",
 				"Micio è un mammifero raro": "Non è detto nel testo: è un'informazione inventata, non dedotta dalle premesse.",
 				"Alcuni felini non sono gatti": "Può essere vero in generale, ma non è ciò che si deduce su Micio dalle premesse date."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-deduzioni-se-piove-allora-la-strada-e-bagnata-e-la-strada-",
@@ -2346,7 +2459,8 @@
 				"Sta piovendo di sicuro": "La strada può essere bagnata per altri motivi: la regola non si inverte.",
 				"Non sta piovendo": "Non si può concludere questo: la strada bagnata non dice nulla di certo sulla pioggia.",
 				"Pioverà domani": "Il futuro non è nella regola, che collega pioggia e strada bagnata nel presente."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-deduzioni-se-piove-allora-la-strada-e-bagnata-e-la-strada--2",
@@ -2367,18 +2481,20 @@
 				"Sta piovendo": "È il contrario: se piovesse la strada sarebbe bagnata, ma è asciutta.",
 				"Nulla di certo": "Qui si può concludere con certezza: se piovesse la strada sarebbe bagnata, quindi non piove.",
 				"Pioverà fra poco": "Il futuro non è nella regola, che riguarda solo il presente."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-sequenze-quale-numero-continua-la-sequenza-3-6-5-10-9",
 			"subject": "logica",
 			"topic": "sequenze",
-			"difficulty": 8,
+			"difficulty": 6,
 			"format": "numeric_input",
 			"prompt": "Quale numero continua la sequenza: 3, 6, 5, 10, 9, ...?",
 			"options": [],
 			"answer": "18",
 			"explanation": "La regola alterna: si raddoppia, poi si toglie uno, poi si raddoppia.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"7": "«7» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"9": "«9» è la risposta giusta a un'altra domanda di questo gruppo: «Quale numero continua la serie: 1, 3, 5, 7, ?».",
@@ -2409,7 +2525,8 @@
 				"Nessun gatto è nero": "È un'affermazione più forte di quella cercata: basta un solo gatto non nero, non che siano tutti non neri.",
 				"Tutti i gatti sono di un altro colore": "Non tutti neri non vuol dire che nessuno sia nero: potrebbero essercene ancora molti.",
 				"Esattamente metà dei gatti è nera": "La frase non dice una proporzione precisa, solo che non vale per tutti."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-banda-quantificatori-1",
@@ -2430,13 +2547,14 @@
 				"Tutti in ritardo": "È l'opposto esagerato: negare «alcuni» dà zero, non tutti.",
 				"Alcuni studenti non sono in ritardo": "Questa frase può essere vera insieme a quella di partenza: non è la sua negazione.",
 				"Non tutti gli studenti sono in ritardo": "Anche questa può essere vera insieme alla frase di partenza: negare «alcuni» richiede zero casi, non «non tutti»."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-banda-insiemi-2",
 			"subject": "logica",
 			"topic": "insiemi",
-			"difficulty": 7,
+			"difficulty": 8,
 			"format": "multiple_choice",
 			"prompt": "Ogni quadrato è un rombo e ogni rombo è un parallelogramma. Allora…",
 			"options": [
@@ -2451,13 +2569,14 @@
 				"Ogni parallelogramma è un quadrato": "La catena va in un solo verso: non tutti i parallelogrammi sono rombi, e non tutti i rombi sono quadrati.",
 				"Nessun rombo è un quadrato": "Il quadrato è un caso particolare di rombo: la catena dice il contrario.",
 				"Rombo e quadrato sono la stessa figura": "Il quadrato ha anche gli angoli retti: è un rombo speciale, non lo stesso identico."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-banda-deduzioni-3",
 			"subject": "logica",
 			"topic": "deduzioni",
-			"difficulty": 8,
+			"difficulty": 7,
 			"format": "multiple_choice",
 			"prompt": "«Se studio, passo l'esame.» Ho passato l'esame. Che cosa segue?",
 			"options": [
@@ -2472,7 +2591,8 @@
 				"Ho studiato di sicuro, non c'è dubbio": "Passare l'esame non garantisce che sia stato lo studio a farlo passare: potrebbe essere stata fortuna.",
 				"Non ho studiato": "Non si può concludere il contrario: potresti aver studiato lo stesso.",
 				"L'esame era facile": "La difficoltà dell'esame non è un'informazione data dalla frase originale."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-banda-deduzioni-4",
@@ -2493,13 +2613,14 @@
 				"Ho studiato": "Se studiare garantiva di passare e non hai passato, allora non hai studiato: è l'unica conclusione valida.",
 				"Non si può dire niente": "Qui invece si può concludere qualcosa: è il passaggio logico valido.",
 				"L'esame era troppo difficile": "La regola dice che studiare garantisce di passare: se non hai passato, la spiegazione valida è che non hai studiato, non la difficoltà."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-banda-verita-5",
 			"subject": "logica",
 			"topic": "verita",
-			"difficulty": 7,
+			"difficulty": 8,
 			"format": "multiple_choice",
 			"prompt": "«Piove» e «fa freddo» possono essere ciascuna vera o falsa. Quante combinazioni diverse esistono in tutto?",
 			"options": [
@@ -2514,13 +2635,14 @@
 				"Due": "Due sono le possibilità di UNA sola affermazione: qui ce ne sono due, e ognuna moltiplica le combinazioni.",
 				"Tre": "Non se ne perde nessuna per strada: le combinazioni sono quattro, tutte diverse fra loro.",
 				"Otto": "Otto sarebbero con TRE affermazioni: con due ci si ferma a quattro."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-banda-esclusioni-6",
 			"subject": "logica",
 			"topic": "esclusioni",
-			"difficulty": 7,
+			"difficulty": 5,
 			"format": "multiple_choice",
 			"prompt": "Quale non appartiene al gruppo: quadrato, rombo, cerchio, trapezio?",
 			"options": [
@@ -2535,13 +2657,14 @@
 				"quadrato": "Il quadrato è un poligono, ha lati dritti: appartiene al gruppo.",
 				"rombo": "Il rombo è un poligono, ha lati dritti: appartiene al gruppo.",
 				"trapezio": "Il trapezio è un poligono, ha lati dritti: appartiene al gruppo."
-			}
+			},
+			"_difficulty8": true
 		},
 		{
 			"id": "logica-banda-sequenze-7",
 			"subject": "logica",
 			"topic": "sequenze",
-			"difficulty": 8,
+			"difficulty": 6,
 			"format": "numeric_input",
 			"prompt": "Quale numero continua la serie: 2, 6, 12, 20, 30, ?",
 			"options": [],
@@ -2556,7 +2679,8 @@
 				"36": "Sommerebbe solo +6 invece di +12: la differenza dopo 30 deve continuare a crescere di due in due.",
 				"40": "Sommerebbe +10 invece di +12: la crescita delle differenze non si ferma prima.",
 				"44": "Sommerebbe +14 invece di +12: la crescita delle differenze è di due in due, non di quattro in quattro."
-			}
+			},
+			"_difficulty8": true
 		}
 	]
 }

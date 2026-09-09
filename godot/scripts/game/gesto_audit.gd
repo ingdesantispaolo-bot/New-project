@@ -93,7 +93,7 @@ const DIGITA := ["numeric_input", "free_text", "text_input", "short_answer"]
 ## I tetti si riscrivono solo VERSO IL BASSO: se una modifica li fa salire,
 ## la modifica ha peggiorato l'esperienza e va guardata, non ricongelata.
 const TOLLERANZA := 1.0
-const TOLLERANZA_ESAME := 3.0
+const TOLLERANZA_ESAME := 1.0
 
 ## **Quanti esami si costruiscono per (mondo, ripetizione).** (1 settembre 2026)
 ##
@@ -137,20 +137,34 @@ const CAMPIONI_ESAME := 15
 ## materia vicina al tetto di progetto del 33%. Non è rumore — con entrambe le
 ## basi e con entrambi i campioni resta la più alta del gioco. È il caso da
 ## guardare per primo quando si torna sul contenuto.
+## ## Riportati sul misurato il 9 settembre 2026
+##
+## Due lotti dello stesso giorno hanno cambiato questi numeri: il riequilibrio di
+## `NONMC_FORMAT_WEIGHTS` — grafico, circuito e caccia all'errore da 25 a 14,
+## smistamento e ordinamento da 13 e 15 a 20 — e le due opzioni manipolative
+## aggiunte alle fasce 1 e 5 del catalogo di italiano, che hanno chiuso R-18.
+##
+## Otto tetti su dodici scendono, e alcuni di molto: inglese da 26,6 a 21,3,
+## coding da 32,0 a 29,2, italiano da 22,3 a 21,5. Quattro restano dove sono
+## perche' il valore misurato piu' un punto di margine li supererebbe, e un
+## cricchetto non si allenta: fisica, musica, logica e matematica.
+##
+## La regola e' la stessa dell'esame: tetto = misurato + 1,0 punto, contro un
+## rumore dello strumento di 0,6.
 const TETTO_MONDO := {
 	#                    base 7100   base 7777
-	"matematica": 23.5,  #   23.5       23.0
-	"italiano": 22.3,    #   22.3       22.0
-	"coding": 32.0,      #   32.0       31.8   ← la più alta: da abbassare
-	"inglese": 26.6,     #   26.6       26.3
-	"fisica": 23.5,      #   23.5       23.4
-	"musica": 24.3,      #   24.3       24.3
-	"latino": 24.4,      #   24.3       24.4
-	"elettronica": 26.9, #   26.9       26.7
-	"geografia": 28.5,   #   28.0       28.5
-	"scienze": 27.7,     #   27.7       27.4
-	"storia": 28.4,      #   28.3       28.4
-	"logica": 18.0,      #   18.0       18.0
+	"matematica": 22.8,
+	"italiano": 21.5,
+	"coding": 29.2,
+	"inglese": 21.3,
+	"fisica": 23.5,
+	"musica": 24.3,
+	"latino": 23.7,
+	"elettronica": 23.5,
+	"geografia": 25.8,
+	"scienze": 25.7,
+	"storia": 27.7,
+	"logica": 18.0,
 	# La logica resta la materia con più manipolazione del gioco (80,6%): scelta
 	# multipla e inserimento numerico fuori da tutto ciò che non è l'esame, le sei
 	# liste di analogie tornate a italiano, e due formati nuovi in cui il gesto è
@@ -182,89 +196,60 @@ const TETTO_MONDO := {
 ## Elettronica resta la più alta (63,8%) ed è coerente col suo progetto: lì la
 ## scelta multipla è stata tolta da tutto il resto e vive solo qui.
 const TETTO_ESAME := {
-	# **Rimisurati il 1 settembre 2026, su un campione dieci volte più grande.**
+	# ## Riportati sul misurato il 9 settembre 2026 — e scendono tutti e dodici
 	#
-	# I numeri di stamattina erano presi da ottanta nodi per materia. A quel
-	# campione un nodo vale 1,25 punti, e due prove hanno mostrato che il numero
-	# raccontava il seme e non il progetto: una specifica manipolativa in più in
-	# italiano lo spostava di 3,4 punti, e dare all'esame un flusso di casualità
-	# suo — senza toccare una riga di contenuto — spostava elettronica di quindici.
+	# La riscrittura dell'esame sulle fasce di priorita' (8 settembre) ha guarito
+	# questa misura senza proporselo: l'esame pesca ora da tutte e dodici le
+	# materie con quote fisse, «manipola» sta al **70,0% su ognuna** e «sceglie»
+	# in una forbice di un punto e mezzo, fra il 22,8% e il 24,5%.
 	#
-	# Questi valori vengono da 1200 nodi per materia (`CAMPIONI_ESAME`), e due
-	# basi di seme indipendenti concordano entro 1,8 punti sul caso peggiore.
-	# Alcuni scendono rispetto a stamattina — coding da 48,8 a 44,7, logica da
-	# 45,0 a 40,8, latino da 45,0 a 41,2 — e altri salgono, elettronica da 56,3 a
-	# 69,2. Non è un allentamento del cricchetto: è la prima misura che regge una
-	# seconda esecuzione. Da qui in giù, e solo in giù.
+	# I tetti erano rimasti dove li aveva messi la misura del 4 settembre, e
+	# avevano fino a **quarantun punti d'aria**: elettronica a 63,0 su un valore
+	# reale di 22,8. Un tetto che nessuno sfiora non e' un cricchetto, e' un
+	# ornamento — non trattiene nessuna regressione, perche' qualunque
+	# peggioramento resta comodamente sotto.
 	#
-	# ## Ristretti il 4 settembre 2026 — e otto su dodici scendono
+	# **La regola applicata:** tetto = valore misurato oggi + 1,0 punto. Il rumore
+	# dello strumento, misurato su due basi di seme indipendenti con 19200 nodi
+	# per materia, e' 0,6 punti: un punto di margine lo copre e non di piu'.
+	# Insieme ai tetti scende anche `TOLLERANZA_ESAME`, da 3,0 a 1,0, per la
+	# stessa ragione — una tolleranza cinque volte piu' larga del rumore rendeva
+	# il tetto vero tre punti piu' in alto di quello scritto.
 	#
-	# Portando `REPEATS` da 8 a 32 anche l'esame è passato da 1200 a 4800 nodi per
-	# materia, e le due basi di seme ora concordano entro **0,6 punti** invece di
-	# 1,8. Con uno strumento più fine i tetti si stringono.
+	# Matematica resta a 23,7 e non sale a 23,9: il cricchetto non si allenta
+	# nemmeno di due decimi.
 	#
-	# **La regola applicata, e il motivo per cui non è arbitraria.** Dove la nuova
-	# misura è più BASSA, il tetto scende: è il cricchetto che fa il suo lavoro.
-	# Dove è più alta ma entro l'incertezza dichiarata del vecchio strumento
-	# (±1,8), il tetto si adegua: quel movimento lo spiega lo strumento. Dove è
-	# più alta OLTRE quell'incertezza, **il tetto non si muove** — lì non è il
-	# metro che è cambiato, è il contenuto, e alzare il tetto sarebbe lavare una
-	# regressione. Sono tre: geografia (+1,9), scienze (+2,5) e storia (+3,7).
+	# **Due debiti si chiudono qui.**
 	#
-	# Con la tolleranza di 3,0 punti geografia e scienze restano dentro; **storia
-	# no, ed è il solo rosso dichiarato**: 35,8% contro 32,1. La causa probabile è
-	# il lavoro sulla curva di difficoltà del 4 settembre, che ha spostato i pesi
-	# dei formati — la tavolozza di storia non è sottile (sei linee del tempo,
-	# tre indiziari, due cicli). Va indagata, non tarata.
+	# *Storia* era il rosso allentato a 36,0 per decisione del committente il 6
+	# settembre — un debito dichiarato non pagato, solo spostato. Oggi sta a
+	# **23,7%** e il suo tetto torna a 24,7. Non e' stato pagato lavorando sui
+	# formati: e' stato pagato dalla ricostruzione dell'esame, che ha cambiato da
+	# dove vengono i nodi.
+	#
+	# *Elettronica* stava a 63,0 apposta, perche' la materia aveva portato la
+	# scelta multipla a zero in tutto il resto e l'esame era il solo posto in cui
+	# misurava. Quella situazione e' finita: con le quote di priorita' l'esame di
+	# un mondo di elettronica contiene per meta' altre materie, e il suo valore e'
+	# 22,8%. Il tetto scende con lui. Se un giorno il progetto rimettesse la
+	# crocetta di elettronica tutta nel suo esame, quel numero risalirebbe e
+	# andrebbe deciso di nuovo, con la stessa esplicitezza di allora.
+	#
+	# **Da qui in giu', e solo in giu'.**
 	"matematica": 23.7,
-	"italiano": 28.7,
-	"coding": 34.8,
-	"inglese": 30.4,
-	"fisica": 31.2,
-	"musica": 30.8,
-	"latino": 32.3,
-	# Elettronica sta alta apposta, e non è questo audit a decidere: la materia ha
-	# portato la scelta multipla a zero in TUTTO il resto, quindi l'esame è il solo
-	# posto in cui misura, e `elettronica_hands_on_audit` pretende che almeno metà
-	# delle sue prove restino domande dirette. Fra i due vincoli vince il suo — ed
-	# è anche la materia in cui il campione piccolo ingannava di più.
-	"elettronica": 63.0,
-	# Geografia e scienze NON si muovono: la nuova misura le dà a 35,2 e 36,6,
-	# cioè +1,9 e +2,5 oltre il tetto — più dell'incertezza del vecchio strumento.
-	# Restano dentro solo grazie alla tolleranza di 3,0 punti, e sono le due da
-	# guardare subito dopo storia.
-	"geografia": 33.3,
-	"scienze": 34.1,
-	# **Storia: soglia allentata a 36,0 per decisione del committente.**
-	# (6 settembre 2026)
-	#
-	# Va detto per quello che è: **questo è un allentamento di cricchetto**, e la
-	# regola di casa dice che un cricchetto non si allenta mai. L'eccezione onesta
-	# documentata — quella del 27 agosto sulle correzioni di NORA — vale quando si
-	# scopre che la soglia proteggeva del rumore. **Non è questo il caso**: i 35,8%
-	# sono contenuto vero, misurati e riproducibili su due semi. Qui la soglia si
-	# alza perché il committente ha deciso di **smettere di pagare questo debito
-	# adesso** e spostare il lavoro altrove, che è una scelta di priorità e gli
-	# spetta.
-	#
-	# Quello che resta vero e non va dimenticato: l'esame di storia chiede la
-	# competenza con un gesto diverso da quello con cui l'ha insegnata, e le due
-	# cause sono ancora quelle scritte sopra — i pesi di `NONMC_FORMAT_WEIGHTS`,
-	# che favoriscono formati a loro volta «sceglie», e la sostituzione che porta
-	# fuori solo la scelta multipla lasciando dentro i nodi da digitare.
-	#
-	# Provato e scartato il 4 settembre: aggiungere specialisti non serve, perché
-	# `cycle` e `clue` sono a loro volta «sceglie» — le due ricette di ciclo e
-	# l'indiziario aggiunti a storia hanno alzato il numero di quattro decimi
-	# invece di abbassarlo. Restano contenuto buono (chiudono due coppie sottili in
-	# `format_depth_audit`), ma su questa misura vanno nella direzione opposta.
-	#
-	# **Da qui in giù, e solo in giù**: 36,0 è un tetto come gli altri, e il giorno
-	# in cui un formato manipolativo entra nell'esame di storia va riportato dove
-	# la misura lo mette.
-	"storia": 36.0,
-	"logica": 31.4,
+	"italiano": 23.9,
+	"coding": 24.2,
+	"inglese": 24.9,
+	"fisica": 25.0,
+	"musica": 25.5,
+	"latino": 23.8,
+	"elettronica": 23.8,
+	"geografia": 23.9,
+	"scienze": 24.7,
+	"storia": 24.7,
+	"logica": 23.8,
 }
+
 
 var _fallimenti: Array = []
 

@@ -93,6 +93,31 @@ const BANDA_ALTA := [5, 8]
 ## il banco non interroga le fasce basse, qui perché il materiale non si divide.
 const BANDA_INTERA := [1, 8]
 
+## Figure delle dispense: il contenuto sceglie il concetto, mai coordinate o
+## pixel. I cinque casi che hanno motivato C-R5 hanno una figura precisa; le
+## altre dispense ereditano una famiglia disciplinare pertinente, così nessuno
+## dei 97 documenti torna a essere una parete di solo testo.
+const FIGURE_SPECIFICHE := {
+	"coding-condizioni-base": {"tipo":"rientro", "sezione":0},
+	"geografia-geografia-fisica-alta": {"tipo":"fascia_deserti", "sezione":0},
+	"geografia-geografia-italia-alta": {"tipo":"placche", "sezione":0},
+	"scienze-materia-base": {"tipo":"stati_materia", "sezione":1},
+	"scienze-ecosistema-alta": {"tipo":"piramide_ecologica", "sezione":1},
+}
+
+## Le dispense e le tavole dei paradigmi si legano per ID, non per posizione né
+## per un totale fragile. Seconda e terza declinazione condividono la tavola fra
+## maschile e neutro, esattamente come dichiarano i dati.
+const TAVOLA_PER_DISPENSA := {
+	"latino-declinazione-1": "latino-prima-declinazione",
+	"latino-declinazione-2m": "latino-seconda-declinazione",
+	"latino-declinazione-2n": "latino-seconda-declinazione",
+	"latino-declinazione-3m": "latino-terza-declinazione",
+	"latino-declinazione-3n": "latino-terza-declinazione",
+	"latino-declinazione-4": "latino-quarta-declinazione",
+	"latino-declinazione-5": "latino-quinta-declinazione",
+}
+
 
 # --- Le dispense ---------------------------------------------------------------
 #
@@ -2797,6 +2822,1196 @@ const DISPENSE := {
 	"errore": {"wrong": "Concludere che un intervento funziona perché il gruppo trattato è migliorato.",
 		"why": "Senza un gruppo di controllo non si sa che cosa sarebbe successo comunque: il miglioramento potrebbe non avere niente a che fare con l'intervento."},
 	"insegna": ["variabile", "gruppo di controllo", "ripetizione", "ipotesi non smentibile"]},
+
+# ==============================================================================
+# ELETTRONICA — la sesta materia convertita (11 settembre 2026)
+#
+# Otto argomenti, due bande ciascuno. Qui il rischio didattico è specifico e vale
+# la pena nominarlo: l'elettricità non si vede, quindi tutto quello che se ne
+# impara passa da un'analogia, e un'analogia sbagliata resta addosso per anni.
+# Le dispense usano una sola immagine — il dislivello e lo scorrimento — e la
+# tengono per tutti e otto gli argomenti invece di cambiarla ogni volta.
+
+# ==================================================== ELETTRICITA BASE · base
+"elettronica-elettricita-base-base": {
+	"subject": "elettronica", "topic": "elettricita-base", "fasce": BANDA_BASE,
+	"titolo": "Che cosa scorre, che cosa spinge, che cosa frena",
+	"apertura": "Tre grandezze e tre mestieri diversi. Confonderle è l'errore che rende incomprensibile tutto il resto, e si evita tenendo separate le tre domande.",
+	"sezioni": [
+		{"titolo": "La corrente: quello che scorre",
+		 "testo": "La corrente elettrica è un movimento ordinato di cariche elettriche. Le parole che contano sono due. «Movimento», perché le cariche ci sono già dentro il filo anche quando è spento: l'elettricità non viene fabbricata e mandata dentro, viene fatta SCORRERE. E «ordinato», perché le cariche si agitano comunque in tutte le direzioni per conto loro, e quello non è corrente: diventa corrente quando tutte si spostano mediamente nello stesso verso. Il paragone con l'acqua in un tubo regge bene qui: l'acqua nel tubo c'è, e la corrente è quando comincia a scorrere."},
+		{"titolo": "La tensione: quello che spinge",
+		 "testo": "La tensione elettrica è la differenza di potenziale che spinge le cariche. La parola da tenere è DIFFERENZA: non esiste una tensione «in un punto», esiste sempre fra due punti, come un dislivello. Due vasche d'acqua allo stesso livello, collegate da un tubo, non producono nessuno scorrimento per quanta acqua contengano; basta alzarne una perché l'acqua si muova. Allo stesso modo una pila non «contiene corrente»: crea una differenza fra il suo polo positivo e il negativo, e quella differenza è ciò che mette in moto le cariche del circuito che le colleghiamo."},
+		{"titolo": "La resistenza: quello che frena",
+		 "testo": "La resistenza elettrica è l'ostacolo che il materiale oppone alla corrente. Nel tubo sarebbe la strettezza o la ruvidità: a parità di dislivello, un tubo stretto lascia passare meno acqua. Le tre grandezze si tengono insieme così, e vale la pena ripetersela finché non diventa automatica: la tensione SPINGE, la resistenza FRENA, e quello che ne risulta è la corrente che SCORRE. Da questa frase si ricava già una previsione utile senza nessun calcolo: alzando la spinta passa più corrente, aumentando l'ostacolo ne passa meno."}],
+	"glossario": [
+		{"voce": "corrente", "spiega": "Un movimento ordinato di cariche elettriche. Le cariche ci sono già: la corrente è che si muovano insieme."},
+		{"voce": "tensione", "spiega": "La differenza di potenziale che spinge le cariche. Esiste sempre fra due punti, mai in uno solo."},
+		{"voce": "resistenza", "spiega": "L'ostacolo che il materiale oppone alla corrente."},
+		{"voce": "carica", "spiega": "Ciò che si sposta in un conduttore. Nei metalli sono gli elettroni."}],
+	"esempi": [
+		{"prompt": "Che cos'è la corrente elettrica?", "answer": "Un movimento ordinato di cariche elettriche",
+		 "explanation": "Le cariche sono già nel filo: quello che cambia accendendo è che smettono di agitarsi a caso e si spostano mediamente nello stesso verso."},
+		{"prompt": "Che cos'è la tensione elettrica?", "answer": "La differenza di potenziale che spinge le cariche",
+		 "explanation": "È sempre fra due punti, come un dislivello: due vasche allo stesso livello non producono nessuno scorrimento, per quanta acqua contengano."}],
+	"metodo": "Davanti a una domanda di elettricità chiediti quale delle tre cose sta nominando: chi spinge, chi scorre o chi frena. Quasi tutte le confusioni nascono dall'aver messo una parola nella casella sbagliata.",
+	"errore": {"wrong": "Dire che una pila «contiene corrente» e la manda nel filo.",
+		"why": "La pila crea una differenza di potenziale fra i suoi poli: le cariche che si muovono sono quelle già presenti nel circuito, non cariche spedite da dentro."},
+	"insegna": ["corrente", "tensione", "resistenza", "carica"]},
+
+# ==================================================== ELETTRICITA BASE · alta
+"elettronica-elettricita-base-alta": {
+	"subject": "elettronica", "topic": "elettricita-base", "fasce": BANDA_ALTA,
+	"titolo": "Continua e alternata, e perché una pila finisce",
+	"apertura": "Due forme di corrente, due usi diversi, e una domanda che sembra ingenua e non lo è: che cosa si consuma davvero quando una pila si scarica?",
+	"sezioni": [
+		{"titolo": "Le due forme della corrente",
+		 "testo": "Nella corrente continua le cariche scorrono sempre nello stesso verso: è quella che dà una pila, ed è la forma che usano quasi tutti i circuiti elettronici. Nella corrente alternata il verso si inverte molte volte al secondo — cinquanta nella rete europea — ed è quella che arriva dalla presa di casa. La ragione per cui la distribuzione usa l'alternata è pratica: la sua tensione si può alzare e abbassare facilmente con un trasformatore, e trasportare a tensione alta significa perdere molta meno energia lungo i chilometri di cavo. Sotto casa la si riabbassa, e negli apparecchi si converte in continua."},
+		{"titolo": "Perché una pila si scarica",
+		 "testo": "Dentro una pila avviene una reazione chimica che separa le cariche e mantiene la differenza fra i due poli. Quella reazione consuma dei reagenti, e quando i reagenti finiscono la differenza non si mantiene più: la pila è scarica. Quello che finisce quindi non è «l'elettricità» — le cariche nel circuito sono sempre le stesse e non vanno da nessuna parte — ma l'energia chimica al suo interno. È una distinzione che sembra sottile e spiega una cosa concreta: una pila ricaricabile non viene riempita di elettricità, viene riportata indietro chimicamente al suo stato di partenza."},
+		{"titolo": "L'elettricità statica",
+		 "testo": "L'elettricità statica è fatta di cariche accumulate e ferme su un corpo. La differenza con la corrente sta tutta in quella parola: ferme invece che in movimento. Strofinando una penna sui capelli si strappano cariche da un materiale e si depositano sull'altro, e finché restano lì il corpo è carico. Quando trova una via, tutto quell'accumulo se ne va in un istante: è la scintilla che si prende toccando una maniglia. È corrente anche quella, ma brevissima e non alimentata da niente, ed è per questo che fa male un attimo e non è pericolosa come quella della presa."}],
+	"glossario": [
+		{"voce": "corrente continua", "spiega": "Scorre sempre nello stesso verso. È quella di una pila."},
+		{"voce": "corrente alternata", "spiega": "Inverte il verso molte volte al secondo. È quella della presa di casa."},
+		{"voce": "elettricità statica", "spiega": "Cariche accumulate e ferme su un corpo. Diventa una scintilla quando trovano una via."},
+		{"voce": "energia chimica", "spiega": "Quello che una pila consuma davvero: i reagenti della reazione che mantiene la differenza fra i poli."}],
+	"esempi": [
+		{"prompt": "Che differenza c'è fra corrente continua e alternata?", "answer": "La continua scorre sempre nello stesso verso",
+		 "explanation": "L'alternata inverte il verso decine di volte al secondo, e si usa per la distribuzione perché la sua tensione si trasforma facilmente."},
+		{"prompt": "Perché una pila si scarica?", "answer": "Perché finisce l'energia chimica al suo interno",
+		 "explanation": "Non finisce l'elettricità: le cariche del circuito restano le stesse. Finiscono i reagenti della reazione che manteneva la differenza fra i poli."}],
+	"metodo": "Quando qualcosa «si scarica», chiediti che cosa si sta davvero consumando. Quasi mai è l'elettricità: è l'energia che manteneva una differenza.",
+	"errore": {"wrong": "Pensare che ricaricare una pila significhi rimetterci dentro dell'elettricità.",
+		"why": "Si riporta indietro la reazione chimica al suo stato di partenza: le cariche non si aggiungono né si tolgono."},
+	"insegna": ["corrente continua", "corrente alternata", "elettricità statica", "energia chimica"]},
+
+# ========================================================== CIRCUITO · base
+"elettronica-circuito-base": {
+	"subject": "elettronica", "topic": "circuito", "fasce": BANDA_BASE,
+	"titolo": "Il percorso deve chiudersi, o non succede niente",
+	"apertura": "Quasi tutti i circuiti che non funzionano non funzionano per la stessa ragione, e la ragione si controlla con il dito prima ancora di ragionare.",
+	"sezioni": [
+		{"titolo": "Le due condizioni, e servono tutte e due",
+		 "testo": "Perché la corrente scorra in un circuito servono due cose insieme: un percorso chiuso e una sorgente di tensione. La sorgente — una pila, un alimentatore — crea il dislivello; il percorso chiuso permette alle cariche di tornare al punto di partenza. Manca una delle due e non succede niente, e le due mancanze si assomigliano dal fuori: una lampadina spenta non dice se sia colpa della pila scarica o di un filo staccato. Il controllo da fare per primo è sempre lo stesso e non costa niente: appoggiare il dito sulla sorgente e seguire il filo fino a tornare indietro senza mai staccarlo."},
+		{"titolo": "L'interruttore: decide, non produce",
+		 "testo": "Un interruttore serve ad aprire e chiudere il percorso della corrente, e questo è tutto quello che fa. Chiuso, il filo prosegue; aperto, il filo è interrotto e le cariche non hanno modo di tornare. La precisazione che vale la pena fissare subito è che l'interruttore NON genera corrente e non ne fornisce: decide soltanto se il percorso continua. È lo stesso rapporto che c'è fra un rubinetto e l'acquedotto — il rubinetto non fa l'acqua, lascia passare quella che c'è — e confonderli è la porta d'ingresso di quasi tutti gli errori successivi."},
+		{"titolo": "Il verso della corrente, che è una convenzione",
+		 "testo": "In tutti gli schemi la corrente si considera convenzionalmente dal polo positivo al polo negativo. Va detto che nei metalli, in realtà, a muoversi sono gli elettroni, che hanno carica negativa e vanno nel verso opposto. La convenzione è più vecchia della scoperta dell'elettrone, e non è stata cambiata per un motivo molto sensato: tutti i calcoli e tutti i simboli erano già scritti in quel verso, e cambiarli non avrebbe modificato nemmeno un risultato. Per chi legge uno schema la cosa importante è una sola: usare sempre lo stesso verso di tutti gli altri, cioè dal più al meno."}],
+	"glossario": [
+		{"voce": "percorso chiuso", "spiega": "Un anello continuo che riporta le cariche alla sorgente. Senza, non scorre niente."},
+		{"voce": "sorgente", "spiega": "Quello che crea la differenza di potenziale: pila, batteria, alimentatore."},
+		{"voce": "interruttore", "spiega": "Apre e chiude il percorso. Non genera corrente: decide solo se il filo continua."},
+		{"voce": "verso convenzionale", "spiega": "Dal polo positivo al negativo. Negli schemi si usa sempre questo, anche se gli elettroni vanno al contrario."}],
+	"esempi": [
+		{"prompt": "Che cosa serve perché la corrente scorra in un circuito?", "answer": "Un percorso chiuso e una sorgente di tensione",
+		 "explanation": "Servono tutte e due insieme: la sorgente crea il dislivello, il percorso chiuso permette alle cariche di tornare al punto di partenza."},
+		{"prompt": "A che cosa serve un interruttore?", "answer": "Ad aprire e chiudere il percorso della corrente",
+		 "explanation": "Non produce né fornisce corrente: decide soltanto se il filo continua, come un rubinetto rispetto all'acqua che c'è già nel tubo."}],
+	"metodo": "Davanti a un circuito che non funziona, prima di ragionare segui il filo con il dito partendo dalla sorgente. Se non torni al punto di partenza senza staccarlo, il guasto è lì.",
+	"errore": {"wrong": "Cercare la causa in un componente prima di aver verificato che il percorso si chiuda.",
+		"why": "L'interruzione del percorso è la causa più frequente e la più facile da escludere: controllarla per prima fa risparmiare tutte le altre verifiche."},
+	"insegna": ["percorso chiuso", "sorgente", "interruttore", "verso convenzionale"]},
+
+# ========================================================== CIRCUITO · alta
+"elettronica-circuito-alta": {
+	"subject": "elettronica", "topic": "circuito", "fasce": BANDA_ALTA,
+	"titolo": "Aperto, corto, e i punti in cui la corrente si divide",
+	"apertura": "Due modi opposti in cui un circuito smette di comportarsi come dovrebbe, e il punto dello schema in cui bisogna smettere di leggere in fila.",
+	"sezioni": [
+		{"titolo": "Circuito aperto e cortocircuito",
+		 "testo": "Un circuito aperto è un circuito interrotto in cui non passa corrente: manca un pezzo di percorso, e le cariche non hanno modo di tornare. È il guasto tranquillo — non succede niente, e niente si rompe. Un cortocircuito è l'opposto: un collegamento diretto che salta i componenti, offrendo alla corrente una via quasi senza resistenza. Poiché la resistenza è bassissima, la corrente che passa diventa enorme, e tutta quell'energia si trasforma in calore nei fili e nella sorgente. Per questo il cortocircuito è il guasto pericoloso: scalda, fonde gli isolanti e può incendiare."},
+		{"titolo": "Il nodo, cioè dove la corrente si divide",
+		 "testo": "Un nodo è un punto in cui si incontrano tre o più fili. È il punto che rompe la lettura lineare di uno schema: finché il circuito è un anello solo, la corrente che passa in un componente è la stessa che passa in tutti gli altri, e si può seguire con il dito. A un nodo invece la corrente arriva e si divide fra i rami che partono, e da lì in poi ogni ramo ha la propria. La regola che tiene insieme il conto è semplice e non ha eccezioni: la corrente che entra in un nodo è uguale alla somma di quelle che ne escono, perché le cariche non si accumulano lì."},
+		{"titolo": "Come si legge uno schema",
+		 "testo": "L'ordine che funziona è sempre lo stesso. Primo: trova la sorgente, e segna quale polo è il più. Secondo: parti dal più e segui il filo, marcando ogni componente che incontri. Terzo: quando arrivi a un nodo, fermati e conta i rami che partono, poi percorrili uno per volta fino a dove si ricongiungono. Quarto: verifica di essere tornato al polo meno. Tracciare fisicamente il percorso con una matita su una copia dello schema, invece di guardarlo e basta, è il modo più rapido per accorgersi dei rami che ci si era persi."}],
+	"glossario": [
+		{"voce": "circuito aperto", "spiega": "Un circuito interrotto in cui non passa corrente. È il guasto che non rompe niente."},
+		{"voce": "cortocircuito", "spiega": "Un collegamento diretto che salta i componenti: resistenza bassissima, corrente enorme, calore."},
+		{"voce": "nodo", "spiega": "Un punto in cui si incontrano tre o più fili. Lì la corrente si divide fra i rami."},
+		{"voce": "ramo", "spiega": "Ogni percorso che parte da un nodo e arriva a un altro. Ha una sua corrente."}],
+	"esempi": [
+		{"prompt": "Che cos'è un cortocircuito?", "answer": "Un collegamento diretto che salta i componenti",
+		 "explanation": "Offre alla corrente una via quasi senza resistenza: la corrente diventa enorme e tutta quell'energia si trasforma in calore nei fili."},
+		{"prompt": "Che cos'è un nodo in un circuito?", "answer": "Un punto in cui si incontrano tre o più fili",
+		 "explanation": "È dove la corrente si divide: da lì in poi ogni ramo ha la propria, e la somma di quelle che escono è uguale a quella che entra."}],
+	"metodo": "Leggi uno schema partendo dal polo positivo e tracciando il percorso con una matita. Fermati a ogni nodo e conta i rami prima di proseguire: è lì che si perdono i pezzi.",
+	"errore": {"wrong": "Trattare un cortocircuito come un'interruzione, cioè come se «non passasse niente».",
+		"why": "È il contrario: passa moltissimo, perché la resistenza è quasi nulla, ed è proprio quella corrente enorme a scaldare e a rompere."},
+	"insegna": ["circuito aperto", "cortocircuito", "nodo", "ramo"]},
+
+# ======================================================== COMPONENTI · base
+"elettronica-componenti-base": {
+	"subject": "elettronica", "topic": "componenti", "fasce": BANDA_BASE,
+	"titolo": "Quattro pezzi, e il mestiere di ciascuno",
+	"apertura": "Ogni componente fa una cosa sola. Il modo più efficace di impararlo è insieme all'errore che si commette scambiandolo per un altro.",
+	"sezioni": [
+		{"titolo": "La batteria e l'interruttore",
+		 "testo": "La batteria fornisce la spinta elettrica tra polo più e polo meno: è la sorgente, cioè quello che crea il dislivello senza cui nulla scorre. L'attenzione che vale per lei è precisa: non è una resistenza, non limita la corrente, la alimenta — chi la immagina come un serbatoio che «dosa» quanto esce ha già sbagliato tutte le previsioni successive. L'interruttore, invece, apre o chiude il passaggio della corrente, e basta. Anche qui l'attenzione è di non attribuirgli poteri che non ha: non genera corrente, decide solo se il percorso continua."},
+		{"titolo": "La resistenza, che serve a proteggere",
+		 "testo": "La resistenza limita la corrente e protegge i componenti sensibili. È il componente che viene frainteso più spesso, perché il suo nome suona come qualcosa che ostacola e basta, e la sua utilità sembra negativa. L'attenzione da tenere è esattamente questa: non serve ad accendere di più, serve a non sovraccaricare. Un LED collegato direttamente a una pila si illumina un istante e si brucia, perché nulla limita la corrente che lo attraversa; con una resistenza in serie brilla meno del massimo teorico e continua a funzionare per anni. Il compromesso è voluto, non un difetto del circuito."},
+		{"titolo": "Il LED, che ha un verso",
+		 "testo": "Un LED è un componente che emette luce quando lo attraversa la corrente, e ha una caratteristica che nessuno degli altri tre ha: funziona in un verso solo. Montato al contrario non si rompe e non fa scintille: semplicemente non si accende, perché non lascia passare corrente in quel verso. Ne segue un'osservazione pratica utilissima per cercare i guasti: un LED spento in un circuito per il resto sano è quasi sempre girato al contrario, e girarlo costa dieci secondi ed è la prima cosa da provare."}],
+	"glossario": [
+		{"voce": "batteria", "spiega": "Fornisce la spinta elettrica fra i due poli. Non limita la corrente: la alimenta."},
+		{"voce": "interruttore", "spiega": "Apre o chiude il passaggio. Non genera corrente."},
+		{"voce": "resistenza", "spiega": "Limita la corrente e protegge i componenti sensibili. Non serve ad accendere di più."},
+		{"voce": "LED", "spiega": "Emette luce quando lo attraversa la corrente, e funziona in un verso solo."}],
+	"esempi": [
+		{"prompt": "Qual è la funzione del componente «Resistenza»?", "answer": "limita la corrente e protegge i componenti sensibili",
+		 "explanation": "Senza di lei un LED riceve tutta la corrente che la pila può dare, e dura un istante: il fatto che brilli meno è il prezzo voluto perché duri."},
+		{"prompt": "Quale attenzione vale per il componente «Batteria»?", "answer": "non è una resistenza: non limita la corrente, la alimenta",
+		 "explanation": "Immaginarla come qualcosa che dosa quanto esce porta a previsioni sbagliate: la batteria crea il dislivello, e quanta corrente passi lo decide la resistenza del circuito."}],
+	"metodo": "Impara ogni componente in coppia con il suo errore tipico: che cosa fa, e per che cosa viene scambiato. Il secondo pezzo è quello che serve quando un circuito non funziona.",
+	"errore": {"wrong": "Collegare un LED direttamente alla pila, senza resistenza, per farlo brillare di più.",
+		"why": "Nulla limita la corrente che lo attraversa: si illumina un istante e si brucia. La resistenza non toglie luce per dispetto, la toglie per farlo durare."},
+	"insegna": ["batteria", "interruttore", "resistenza", "LED"]},
+
+# ======================================================== COMPONENTI · alta
+"elettronica-componenti-alta": {
+	"subject": "elettronica", "topic": "componenti", "fasce": BANDA_ALTA,
+	"titolo": "I componenti che lavorano in un verso solo",
+	"apertura": "Alcuni pezzi non si comportano allo stesso modo nei due versi, e questo li rende utili proprio dove serve una regola e non una simmetria.",
+	"sezioni": [
+		{"titolo": "La polarità",
+		 "testo": "Un componente si dice polarizzato quando il suo comportamento dipende da come è orientato nel circuito: ha un verso giusto e uno sbagliato. La batteria lo è per definizione, avendo un polo più e uno meno; il LED lo è; il diodo lo è; molti condensatori lo sono. Resistenze e interruttori invece non lo sono affatto, e si possono montare in entrambi i versi senza che cambi niente. Prima di montare un pezzo la domanda da farsi è quindi una sola, e si risolve guardando il pezzo: ha un segno, una tacca, una gamba più lunga? Allora ha un verso, e va rispettato."},
+		{"titolo": "Il diodo",
+		 "testo": "Un diodo lascia passare la corrente in un verso solo e la blocca nell'altro. È l'equivalente elettrico di una valvola di non ritorno, e serve ogni volta che bisogna impedire fisicamente che qualcosa vada all'indietro: proteggere un circuito da una pila montata al contrario, o trasformare corrente alternata in continua lasciando passare solo una metà delle oscillazioni. Il LED è un diodo che, mentre conduce, emette anche luce — il nome lo dice — e questo spiega perché anche lui funzioni in un verso solo: non è una caratteristica aggiunta, è la sua natura."},
+		{"titolo": "Il condensatore",
+		 "testo": "Un condensatore accumula carica su due superfici vicine e separate, e la rilascia quando il circuito glielo permette. Non produce energia e non la conserva a lungo: la tiene per un tempo breve e la restituisce in fretta. Serve a due cose soprattutto. Livellare: se l'alimentazione ha piccoli buchi, il condensatore li riempie scaricandosi, e la tensione resta stabile. E temporizzare: il tempo che impiega a caricarsi attraverso una resistenza è prevedibile, e si usa per costruire ritardi e lampeggi. In entrambi i casi quello che si sfrutta non è quanta carica tiene, ma quanto ci mette."}],
+	"glossario": [
+		{"voce": "polarità", "spiega": "L'avere un verso giusto di montaggio. Se un pezzo ha una tacca, un segno o una gamba più lunga, ce l'ha."},
+		{"voce": "diodo", "spiega": "Lascia passare la corrente in un verso solo e la blocca nell'altro."},
+		{"voce": "condensatore", "spiega": "Accumula carica e la rilascia in fretta. Serve a livellare e a temporizzare."},
+		{"voce": "non polarizzato", "spiega": "Un componente che funziona uguale nei due versi: resistenze e interruttori."}],
+	"esempi": [
+		{"prompt": "Un LED montato al contrario che cosa fa?", "answer": "Non si accende, e non si rompe",
+		 "explanation": "È un diodo: in quel verso non lascia passare corrente. Per questo un LED spento in un circuito sano è quasi sempre solo da girare."},
+		{"prompt": "A che cosa serve un diodo?", "answer": "A far passare la corrente in un verso solo",
+		 "explanation": "È l'equivalente di una valvola di non ritorno: protegge da una pila montata al rovescio, e trasforma l'alternata in continua."}],
+	"metodo": "Prima di montare un pezzo guardalo: se ha una tacca, un segno o una gamba più lunga delle altre, ha un verso. Quelli senza nessun segno si montano come capita.",
+	"errore": {"wrong": "Credere che un LED montato al contrario si bruci.",
+		"why": "Non conduce affatto in quel verso, quindi non passa corrente e non si scalda niente: resta semplicemente spento."},
+	"insegna": ["polarità", "diodo", "condensatore", "non polarizzato"]},
+
+# ======================================================== CONDUTTORI · base
+"elettronica-conduttori-base": {
+	"subject": "elettronica", "topic": "conduttori", "fasce": BANDA_BASE,
+	"titolo": "Chi lascia passare, chi no, e perché",
+	"apertura": "La differenza fra un filo e la sua guaina non è di forma: è di che cosa hanno dentro, e si spiega con una parola sola.",
+	"sezioni": [
+		{"titolo": "Conduttori e isolanti",
+		 "testo": "Un conduttore è un materiale che lascia passare facilmente la corrente; un isolante è un materiale che non la lascia passare. Fra i metalli il rame è quello che conduce meglio fra i materiali di uso comune, ed è per questo che i fili elettrici sono quasi sempre di rame. Gli isolanti tipici sono la plastica, la gomma, il vetro, la ceramica, l'aria asciutta. Un cavo elettrico è fatto dei due insieme, e non per caso: il rame all'interno perché la corrente ci scorra, la plastica attorno perché non esca da dove non deve. Quasi ogni oggetto elettrico è una combinazione di questi due ruoli."},
+		{"titolo": "Perché i metalli conducono",
+		 "testo": "La ragione sta in come sono fatti dentro. Nei metalli una parte degli elettroni non resta legata al proprio atomo ma è libera di spostarsi attraverso tutto il materiale: si parla di elettroni liberi, e sono loro a costituire la corrente quando una tensione li mette in movimento ordinato. Negli isolanti invece ogni elettrone è tenuto stretto dal proprio atomo, e per staccarlo servirebbe un'energia enorme: applicando una tensione normale non si muove praticamente niente. Non è quindi una differenza di quanto un materiale sia «duro» o «pesante»: è una differenza di quanto i suoi elettroni siano liberi."},
+		{"titolo": "A che cosa servono gli isolanti",
+		 "testo": "Sarebbe sbagliato pensare agli isolanti come a materiali che «non funzionano»: in un circuito fanno un lavoro attivo quanto quello dei conduttori. Tengono la corrente dentro il percorso previsto, impediscono che due fili che si toccano si mettano in cortocircuito, e proteggono chi maneggia l'oggetto. Un impianto elettrico è per metà un problema di far scorrere la corrente dove serve e per metà di impedirle di andare altrove, e la seconda metà è interamente affidata agli isolanti. Quando un isolante si consuma o si crepa, il guasto che ne nasce è quasi sempre più pericoloso di un filo interrotto."}],
+	"glossario": [
+		{"voce": "conduttore", "spiega": "Materiale che lascia passare facilmente la corrente. Fra quelli comuni, il rame è il migliore."},
+		{"voce": "isolante", "spiega": "Un materiale che non lascia passare la corrente: plastica, gomma, vetro, aria asciutta."},
+		{"voce": "rame", "spiega": "Il conduttore più usato nei fili elettrici."},
+		{"voce": "elettroni liberi", "spiega": "Elettroni non legati al proprio atomo, liberi di spostarsi nel materiale. Sono la ragione per cui i metalli conducono."}],
+	"esempi": [
+		{"prompt": "Che cos'è un isolante?", "answer": "Un materiale che non lascia passare la corrente",
+		 "explanation": "Nei suoi atomi gli elettroni sono tenuti stretti: applicando una tensione normale non si muove praticamente niente."},
+		{"prompt": "Perché i metalli conducono bene la corrente?", "answer": "Perché hanno elettroni liberi di spostarsi",
+		 "explanation": "Una parte degli elettroni non resta legata al proprio atomo e si muove per tutto il materiale: sono loro a formare la corrente."}],
+	"metodo": "Per capire se un materiale conduce non guardare se è duro o pesante, ma se è un metallo. La conduzione dipende da quanto sono liberi gli elettroni, non dall'aspetto.",
+	"errore": {"wrong": "Considerare la guaina di plastica di un cavo una parte inutile.",
+		"why": "È metà del lavoro: tiene la corrente dentro il percorso, impedisce i cortocircuiti fra fili vicini e protegge chi tocca il cavo."},
+	"insegna": ["conduttore", "isolante", "rame", "elettroni liberi"]},
+
+# ======================================================== CONDUTTORI · alta
+"elettronica-conduttori-alta": {
+	"subject": "elettronica", "topic": "conduttori", "fasce": BANDA_ALTA,
+	"titolo": "Quanto resiste un filo, e perché non si usa sempre il rame",
+	"apertura": "Due domande che sembrano tecniche e sono decisioni di progetto: quanto grosso farlo, e di che materiale.",
+	"sezioni": [
+		{"titolo": "Grossezza e lunghezza",
+		 "testo": "La resistenza di un filo dipende da tre cose, e due si vedono a occhio. Più il filo è GROSSO, minore è la sua resistenza: a parità di lunghezza, un filo con il doppio della sezione oppone metà dell'ostacolo, esattamente come un tubo largo lascia passare più acqua di uno stretto. Più il filo è LUNGO, maggiore è la resistenza: ogni tratto in più è ostacolo che si somma. La terza è il materiale. Da queste tre dipendenze viene una regola di progetto molto concreta: se un cavo lungo scalda o fa cadere troppo la tensione, la risposta quasi sempre è ingrossarlo, non cambiare la sorgente."},
+		{"titolo": "Perché l'alta tensione viaggia su alluminio",
+		 "testo": "Il rame conduce meglio dell'alluminio, eppure i cavi delle linee ad alta tensione sono quasi sempre di alluminio. La ragione è che a parità di conduzione l'alluminio pesa molto meno: per ottenere la stessa resistenza serve una sezione maggiore, ma anche così il cavo risulta più leggero di uno di rame equivalente. E su una linea sospesa fra tralicci distanti centinaia di metri il peso non è un dettaglio: decide quanto devono essere robusti i sostegni, quanto il cavo si abbassa fra un traliccio e l'altro, e quindi quanto costa l'intera linea. È un caso esemplare di scelta tecnica: il materiale migliore in assoluto non è il migliore per quell'uso."},
+		{"titolo": "L'acqua, che conduce o non conduce",
+		 "testo": "L'acqua pura, chimicamente pura, non conduce quasi per niente: le sue molecole non offrono cariche libere che si possano spostare. Quello che conduce sono i sali disciolti, che in acqua si separano in particelle cariche e libere di muoversi. Ne segue la cosa che conta davvero, ed è di sicurezza: l'acqua che si incontra nella vita reale — del rubinetto, di mare, di pioggia, il sudore sulle mani — contiene sempre sali disciolti, e conduce. Dire «l'acqua pura non conduce» è vero in laboratorio e non autorizza nessuna imprudenza fuori, perché l'acqua pura fuori dal laboratorio non esiste."}],
+	"glossario": [
+		{"voce": "sezione", "spiega": "Quanto è grosso un filo. Più è grande, minore la resistenza, a parità di lunghezza."},
+		{"voce": "alluminio", "spiega": "Conduce meno del rame ma a parità di conduzione pesa molto meno: per questo si usa nelle linee sospese."},
+		{"voce": "acqua pura", "spiega": "Non conduce quasi per niente. A condurre sono i sali disciolti, e nell'acqua reale ci sono sempre."},
+		{"voce": "caduta di tensione", "spiega": "La tensione che si perde lungo un cavo lungo. Si riduce ingrossandolo."}],
+	"esempi": [
+		{"prompt": "Un filo più grosso, a parità di lunghezza, ha una resistenza…", "answer": "Minore",
+		 "explanation": "Più sezione significa più spazio per le cariche, come un tubo largo per l'acqua: l'ostacolo si riduce in proporzione."},
+		{"prompt": "Perché i cavi dell'alta tensione sono spesso di alluminio e non di rame?", "answer": "Perché a parità di conduzione pesa molto meno",
+		 "explanation": "Su una linea sospesa fra tralicci lontani il peso decide la robustezza dei sostegni e il costo dell'opera: il materiale migliore in assoluto non è il migliore per quell'uso."}],
+	"metodo": "Davanti a una scelta di materiale non chiederti quale sia il migliore in assoluto, ma quale vincolo pesa di più in quell'uso: conduzione, peso, costo o resistenza alla corrosione.",
+	"errore": {"wrong": "Concludere dall'acqua pura che l'acqua non sia pericolosa vicino all'elettricità.",
+		"why": "L'acqua reale contiene sempre sali disciolti e conduce benissimo: l'affermazione vale in laboratorio e non fuori."},
+	"insegna": ["sezione", "alluminio", "acqua pura", "caduta di tensione"]},
+
+# ================================================= MISURE ELETTRICHE · base
+"elettronica-misure-elettriche-base": {
+	"subject": "elettronica", "topic": "misure-elettriche", "fasce": BANDA_BASE,
+	"titolo": "Tre grandezze, tre unità, tre nomi di persona",
+	"apertura": "Le unità dell'elettricità portano i cognomi di chi le ha studiate, e associarle alla grandezza giusta è la prima cosa che rende leggibile qualunque etichetta.",
+	"sezioni": [
+		{"titolo": "Quale unità per quale grandezza",
+		 "testo": "La corrente si misura in Ampere, la tensione in Volt, la resistenza in Ohm. Le tre unità corrispondono esattamente alle tre grandezze già viste: Ampere per quello che scorre, Volt per quello che spinge, Ohm per quello che frena. Si scrivono con l'iniziale maiuscola perché sono cognomi — André-Marie Ampère, Alessandro Volta, Georg Ohm — e i loro simboli sono A, V e la lettera greca omega. Tenere il legame unità-grandezza vuol dire poter leggere un'etichetta senza sapere altro: «230 V» dice quanto spinge una presa, «10 A» quanto può scorrere in un fusibile."},
+		{"titolo": "I multipli, e perché servono",
+		 "testo": "I valori reali coprono intervalli enormi, e scriverli tutti nella stessa unità sarebbe scomodo. Si usano allora i prefissi: milli vuol dire un millesimo, kilo vuol dire mille, mega un milione. Un LED assorbe una ventina di milliampere, cioè due centesimi di ampere; una linea elettrica trasporta centinaia di kilovolt, cioè centinaia di migliaia di volt; una resistenza comune vale qualche kiloohm. Il vantaggio non è estetico: numeri con molti zeri si sbagliano a leggere, e un errore di un fattore mille in elettronica non è un dettaglio, è un componente bruciato."},
+		{"titolo": "Che cosa significa davvero misurare qui",
+		 "testo": "Vale la pena notare una differenza fra le tre grandezze, perché spiega come si usano gli strumenti. La tensione è una DIFFERENZA fra due punti, quindi misurarla significa per forza toccare due posti diversi del circuito. La corrente invece è quanto scorre ATTRAVERSO un punto, e per misurarla bisogna farla passare dentro lo strumento. La resistenza è una proprietà del componente, e si misura su di lui, meglio se staccato dal resto. Da queste tre nature discendono direttamente i tre modi di collegare gli strumenti, che quindi non sono regole da imparare a memoria."}],
+	"glossario": [
+		{"voce": "Ampere", "spiega": "L'unità della corrente, simbolo A. Dal cognome di André-Marie Ampère."},
+		{"voce": "Volt", "spiega": "L'unità della tensione, simbolo V. Dal cognome di Alessandro Volta."},
+		{"voce": "Ohm", "spiega": "L'unità della resistenza. Dal cognome di Georg Ohm."},
+		{"voce": "milli e kilo", "spiega": "Un millesimo e mille volte. Servono a non scrivere numeri pieni di zeri, che si sbagliano a leggere."}],
+	"esempi": [
+		{"prompt": "In quale unità si misura la corrente elettrica?", "answer": "Ampere",
+		 "explanation": "È la grandezza di quello che scorre. La tensione, cioè quello che spinge, si misura invece in Volt."},
+		{"prompt": "In quale unità si misura la resistenza?", "answer": "Ohm",
+		 "explanation": "È la grandezza di quello che frena. Le tre unità corrispondono una a una alle tre grandezze: Ampere scorre, Volt spinge, Ohm frena."}],
+	"metodo": "Lega ogni unità alla domanda a cui risponde — scorre, spinge, frena — invece che al nome. Il cognome si dimentica, il mestiere no.",
+	"errore": {"wrong": "Scambiare Volt e Ampere leggendo l'etichetta di un apparecchio.",
+		"why": "I Volt dicono quanta spinta serve per alimentarlo, gli Ampere quanta corrente assorbe: sono due informazioni diverse e confonderle porta a collegamenti sbagliati."},
+	"insegna": ["Ampere", "Volt", "Ohm", "milli e kilo"]},
+
+# ================================================= MISURE ELETTRICHE · alta
+"elettronica-misure-elettriche-alta": {
+	"subject": "elettronica", "topic": "misure-elettriche", "fasce": BANDA_ALTA,
+	"titolo": "Come si collegano gli strumenti, e la legge che lega i tre numeri",
+	"apertura": "Due strumenti collegati in due modi opposti, e una formula di tre lettere che permette di ricavare qualunque grandezza dalle altre due.",
+	"sezioni": [
+		{"titolo": "Voltmetro in parallelo, amperometro in serie",
+		 "testo": "Il voltmetro misura la tensione, che è una differenza fra due punti: va quindi collegato in parallelo, cioè con i suoi due puntali appoggiati ai due punti fra cui si vuole conoscere il dislivello. Non serve interrompere niente. L'amperometro misura la corrente, cioè quanto scorre attraverso un punto: va collegato in serie, il che significa aprire il circuito e inserirlo in mezzo, così che tutta la corrente passi dentro di lui. I due modi non sono intercambiabili, e la conseguenza di sbagliare non è simmetrica: un amperometro messo in parallelo a una sorgente equivale a un cortocircuito, e si rompe."},
+		{"titolo": "La legge di Ohm",
+		 "testo": "La legge di Ohm lega le tre grandezze in una sola relazione: la tensione è uguale alla resistenza moltiplicata per la corrente. Scritta con i simboli è V uguale R per I. Da questa unica formula si ricavano le altre due girandola: la corrente è la tensione divisa per la resistenza, e la resistenza è la tensione divisa per la corrente. Vale la pena leggerla in parole, perché così dice qualcosa invece di essere tre lettere: a parità di ostacolo, più spinta produce più scorrimento; a parità di spinta, più ostacolo produce meno scorrimento. È la stessa frase del tubo, resa calcolabile."},
+		{"titolo": "Come si usa, in pratica",
+		 "testo": "L'uso normale è: si conoscono due grandezze e si ricava la terza. Con dodici volt applicati a una resistenza di quattro ohm, la corrente è dodici diviso quattro, cioè tre ampere. Se la stessa resistenza fosse di sei ohm, passerebbero due ampere: raddoppiando l'ostacolo la corrente si dimezza. Il modo per non sbagliare è scrivere le tre lettere con i loro numeri prima di calcolare, e controllare che il risultato abbia il verso giusto — se aumentando la resistenza il conto dà più corrente, si è girata la formula nel modo sbagliato, e il controllo costa un secondo."}],
+	"glossario": [
+		{"voce": "voltmetro", "spiega": "Misura la tensione, e si collega in parallelo ai due punti fra cui si vuole il dislivello."},
+		{"voce": "amperometro", "spiega": "Misura la corrente, e si collega in serie: bisogna aprire il circuito e farci passare la corrente dentro."},
+		{"voce": "legge di Ohm", "spiega": "La tensione è uguale alla resistenza per la corrente. Girandola si ricava qualunque delle tre."},
+		{"voce": "controllo del verso", "spiega": "Verificare che aumentando l'ostacolo il conto dia meno corrente. Se dà di più, la formula è stata girata male."}],
+	"esempi": [
+		{"prompt": "Con quale strumento si misura la corrente?", "answer": "Amperometro, collegato in serie",
+		 "explanation": "La corrente è quanto scorre attraverso un punto: per misurarla bisogna aprire il circuito e farla passare dentro lo strumento."},
+		{"prompt": "Con 12 volt e una resistenza di 4 ohm, quanti ampere passano?", "answer": "3",
+		 "explanation": "La corrente è la tensione divisa per la resistenza: dodici diviso quattro. Con sei ohm ne passerebbero due, perché più ostacolo significa meno scorrimento."}],
+	"metodo": "Scrivi le tre lettere con i numeri che conosci prima di calcolare, e poi controlla il verso: se aumentando la resistenza ti viene più corrente, hai girato la formula male.",
+	"errore": {"wrong": "Collegare un amperometro in parallelo come si fa con il voltmetro.",
+		"why": "L'amperometro ha resistenza bassissima perché deve farsi attraversare: messo in parallelo a una sorgente equivale a un cortocircuito, e si rompe."},
+	"insegna": ["voltmetro", "amperometro", "legge di Ohm", "controllo del verso"]},
+
+# =================================================== SERIE PARALLELO · base
+"elettronica-serie-parallelo-base": {
+	"subject": "elettronica", "topic": "serie-parallelo", "fasce": BANDA_BASE,
+	"titolo": "Uno dietro l'altro, oppure fianco a fianco",
+	"apertura": "Ci sono due soli modi di collegare due componenti, e distinguerli su uno schema si impara in un minuto contando i percorsi.",
+	"sezioni": [
+		{"titolo": "Le due disposizioni",
+		 "testo": "Due componenti sono in SERIE quando sono attraversati dalla stessa corrente uno dopo l'altro: c'è un percorso solo, e per andare dalla sorgente e tornare bisogna passare da entrambi. Sono in PARALLELO quando ciascuno sta su un ramo suo fra gli stessi due punti: i percorsi sono due, e la corrente arrivando si divide fra loro. Il modo più rapido di distinguerli su uno schema è contare: metti il dito sul polo positivo e chiediti in quanti modi diversi puoi arrivare al negativo. Un modo solo, tutto in serie; più modi, c'è del parallelo."},
+		{"titolo": "Che cosa succede se uno si interrompe",
+		 "testo": "Da quella differenza discende subito la conseguenza pratica più importante. In serie il percorso è uno solo: se un componente si interrompe, il percorso si apre e si ferma TUTTO, compresi i componenti che stanno bene. In parallelo i percorsi sono più d'uno: se si interrompe un ramo, gli altri restano chiusi e continuano a funzionare. Sono le vecchie catene di luci dell'albero di Natale, in cui una lampadina bruciata spegneva l'intera fila, contro gli impianti di casa, dove una lampadina fulminata lascia accese tutte le altre stanze."},
+		{"titolo": "Quando conviene l'una e quando l'altra",
+		 "testo": "Nessuna delle due è migliore in assoluto: si scelgono in base a che cosa serve. La serie si usa quando si vuole che la corrente passi obbligatoriamente attraverso qualcosa — un interruttore generale, un fusibile, una resistenza di protezione devono stare in serie, altrimenti la corrente troverebbe una via per aggirarli e non servirebbero a niente. Il parallelo si usa quando gli utilizzatori devono essere indipendenti l'uno dall'altro, ed è il motivo per cui tutte le prese di casa sono in parallelo: staccare un apparecchio non deve spegnere gli altri."}],
+	"glossario": [
+		{"voce": "serie", "spiega": "Componenti attraversati dalla stessa corrente uno dopo l'altro: un percorso solo."},
+		{"voce": "parallelo", "spiega": "Componenti su rami diversi fra gli stessi due punti: la corrente si divide."},
+		{"voce": "contare i percorsi", "spiega": "Il modo di distinguerli: quanti modi diversi hai per andare dal più al meno?"},
+		{"voce": "indipendenza", "spiega": "In parallelo un ramo interrotto non ferma gli altri. In serie li ferma tutti."}],
+	"esempi": [
+		{"prompt": "Due lampadine sono collegate in serie e una si fulmina. Che cosa succede all'altra?", "answer": "Si spegne anche lei",
+		 "explanation": "In serie il percorso è uno solo: interrompendolo in un punto si apre tutto, e nessuna corrente può più passare da nessuna parte."},
+		{"prompt": "Perché le prese di casa sono collegate in parallelo?", "answer": "Perché devono essere indipendenti",
+		 "explanation": "Ogni presa sta su un ramo suo: staccare o guastare un apparecchio non toglie corrente agli altri, che è esattamente quello che serve."}],
+	"metodo": "Per riconoscere serie e parallelo metti il dito sul polo positivo e conta in quanti modi diversi arrivi al negativo. Un modo solo è tutto serie; più modi significa che da qualche parte c'è un parallelo.",
+	"errore": {"wrong": "Mettere un fusibile o un interruttore generale in parallelo al circuito.",
+		"why": "La corrente troverebbe la via che li aggira e continuerebbe a scorrere: un componente di protezione funziona solo se tutta la corrente è obbligata ad attraversarlo, cioè in serie."},
+	"insegna": ["serie", "parallelo", "contare i percorsi", "indipendenza"]},
+
+# =================================================== SERIE PARALLELO · alta
+"elettronica-serie-parallelo-alta": {
+	"subject": "elettronica", "topic": "serie-parallelo", "fasce": BANDA_ALTA,
+	"titolo": "Che cosa resta uguale e che cosa si divide",
+	"apertura": "Due regole simmetriche che si scambiano di posto fra serie e parallelo. Chi le impara a coppie non le confonde più; chi le impara una per volta le confonde sempre.",
+	"sezioni": [
+		{"titolo": "Le due regole, incrociate",
+		 "testo": "In un circuito in SERIE la corrente che passa in ogni componente è la stessa in tutti: c'è un percorso solo, e quello che entra da un capo esce dall'altro senza potersi dividere. Quello che si divide è la tensione, che si ripartisce fra i componenti. In un circuito in PARALLELO accade esattamente il contrario: la tensione ai capi di ogni ramo è la stessa per tutti i rami, perché tutti i rami stanno fra gli stessi due punti; quello che si divide è la corrente. È una simmetria perfetta, e il modo per ricordarla è una frase sola: in serie è comune la corrente, in parallelo è comune la tensione."},
+		{"titolo": "Le resistenze che si sommano e quelle che si dividono",
+		 "testo": "Mettendo due resistenze uguali in serie, la resistenza totale è doppia di una sola: l'ostacolo si somma, come allungare un tubo stretto. Mettendone due uguali in parallelo, la resistenza totale è la metà di una sola: la corrente ha adesso due vie invece di una, e complessivamente passa più facilmente. Quest'ultima è la regola che sorprende, perché aggiungendo un componente ci si aspetta che le cose diventino più difficili; e invece aggiungere un ramo significa aprire una strada in più. Tre lampadine identiche in serie brillano meno di una sola, proprio perché la resistenza totale è tripla e la corrente si riduce."},
+		{"titolo": "Perché gli impianti di casa sono in parallelo",
+		 "testo": "Le due regole insieme spiegano la scelta che si trova in ogni casa. In parallelo ogni apparecchio riceve la stessa tensione, quella della rete, indipendentemente da quanti altri ne siano accesi: una lampadina fa la stessa luce da sola o con il forno acceso. E se una si fulmina, le altre non si spengono, perché sono collegate in parallelo e il loro ramo resta chiuso. In serie succederebbe il contrario due volte: ogni apparecchio acceso toglierebbe tensione agli altri, e il primo guasto spegnerebbe l'intera casa."}],
+	"glossario": [
+		{"voce": "in serie", "spiega": "Corrente comune a tutti, tensione che si divide. Le resistenze si sommano."},
+		{"voce": "in parallelo", "spiega": "Tensione comune a tutti i rami, corrente che si divide. Due resistenze uguali danno la metà."},
+		{"voce": "resistenza totale", "spiega": "Quella che la sorgente «vede». Cresce mettendo in serie, cala mettendo in parallelo."},
+		{"voce": "partitore", "spiega": "Due resistenze in serie che si dividono la tensione: è il modo normale di ricavarne una più bassa."}],
+	"esempi": [
+		{"prompt": "In un circuito in parallelo, la tensione ai capi di ogni ramo è…", "answer": "La stessa per tutti i rami",
+		 "explanation": "Tutti i rami stanno fra gli stessi due punti, quindi vedono lo stesso dislivello. In parallelo è la corrente a dividersi."},
+		{"prompt": "Due resistenze uguali in parallelo danno una resistenza totale…", "answer": "La metà di una sola",
+		 "explanation": "Aggiungere un ramo apre una strada in più: complessivamente la corrente passa più facilmente, anche se il componente aggiunto è un ostacolo."}],
+	"metodo": "Ricorda la frase incrociata: in serie è comune la corrente, in parallelo è comune la tensione. Tutte le altre conseguenze si ricavano da lì senza impararle a parte.",
+	"errore": {"wrong": "Aspettarsi che aggiungere una resistenza in parallelo aumenti la resistenza totale.",
+		"why": "Aggiungere un ramo aggiunge una strada: la corrente complessiva aumenta, quindi la resistenza vista dalla sorgente diminuisce."},
+	"insegna": ["in serie", "in parallelo", "resistenza totale", "partitore"]},
+
+# =============================================== SICUREZZA ELETTRICA · base
+"elettronica-sicurezza-elettrica-base": {
+	"subject": "elettronica", "topic": "sicurezza-elettrica", "fasce": BANDA_BASE,
+	"titolo": "Le regole che non hanno eccezioni",
+	"apertura": "Poche, sempre le stesse, e ognuna ha una ragione fisica precisa. Impararle con la ragione invece che come divieti è quello che le fa applicare anche quando nessuno guarda.",
+	"sezioni": [
+		{"titolo": "Mani asciutte, e corrente tolta",
+		 "testo": "Non si toccano prese o fili con le mani bagnate perché l'acqua conduce la corrente verso il corpo: la pelle asciutta oppone una resistenza alta, e bagnata molto più bassa, quindi la stessa tensione fa passare attraverso il corpo una corrente molto maggiore. Non è un divieto formale: è una differenza di un fattore grande. E prima di riparare qualcosa in un impianto elettrico si toglie la corrente dall'interruttore generale, sempre, anche per un lavoro di dieci secondi. La regola è così assoluta perché l'errore non dà una seconda occasione per correggersi."},
+		{"titolo": "La messa a terra",
+		 "testo": "La messa a terra serve a dare alla corrente una via sicura verso il suolo. Negli apparecchi con l'involucro metallico, un guasto interno può mettere in tensione l'involucro; senza messa a terra, la prima persona che lo tocca diventa la via verso il suolo. Con la messa a terra invece esiste già un percorso a bassissima resistenza che va direttamente a terra, e la corrente lo prende tutta, perché la corrente sceglie sempre la via più facile. In più quella corrente improvvisa fa scattare le protezioni, e l'apparecchio viene staccato prima che qualcuno se ne accorga."},
+		{"titolo": "Il fusibile, e le prese sovraccariche",
+		 "testo": "Un fusibile si interrompe se passa troppa corrente: dentro ha un filo sottile calcolato per fondere a un valore preciso, e fondendo apre il circuito. È un componente che serve rompendosi, e sostituirlo con uno più «robusto» per non doverlo cambiare significa togliere la protezione che era il suo unico scopo. Collegare molti apparecchi a una sola presa è pericoloso per la stessa ragione: le correnti degli apparecchi si sommano tutte nello stesso filo, e i fili si scaldano oltre il loro limite. Il calore non si vede finché non fonde l'isolante, ed è per questo che il pericolo arriva senza avvisare."}],
+	"glossario": [
+		{"voce": "messa a terra", "spiega": "Un percorso a bassissima resistenza verso il suolo: dà alla corrente una via sicura invece del corpo di chi tocca."},
+		{"voce": "fusibile", "spiega": "Si interrompe se passa troppa corrente. È un componente che serve rompendosi."},
+		{"voce": "sovraccarico", "spiega": "Troppi apparecchi sullo stesso filo: le correnti si sommano e il filo si scalda oltre il limite."},
+		{"voce": "interruttore generale", "spiega": "Quello che toglie corrente all'impianto. Si usa sempre prima di qualunque riparazione."}],
+	"esempi": [
+		{"prompt": "Perché non si toccano prese o fili con le mani bagnate?", "answer": "Perché l'acqua conduce la corrente verso il corpo",
+		 "explanation": "La pelle bagnata oppone una resistenza molto più bassa di quella asciutta: a parità di tensione, attraverso il corpo passa molta più corrente."},
+		{"prompt": "Che cosa fa un fusibile?", "answer": "Si interrompe se passa troppa corrente",
+		 "explanation": "Dentro ha un filo calcolato per fondere a un valore preciso: fondendo apre il circuito, ed è così che protegge tutto il resto."}],
+	"metodo": "Impara ogni regola di sicurezza insieme alla sua ragione fisica. Un divieto si dimentica quando si ha fretta; una ragione capita resta anche allora.",
+	"errore": {"wrong": "Sostituire un fusibile che salta spesso con uno di valore più alto.",
+		"why": "Il fusibile saltava perché passava troppa corrente, e alzarlo non toglie la causa: toglie solo la protezione, e la prossima volta a scaldarsi sono i fili."},
+	"insegna": ["messa a terra", "fusibile", "sovraccarico", "interruttore generale"]},
+
+# =============================================== SICUREZZA ELETTRICA · alta
+"elettronica-sicurezza-elettrica-alta": {
+	"subject": "elettronica", "topic": "sicurezza-elettrica", "fasce": BANDA_ALTA,
+	"titolo": "Perché la corrente passa attraverso qualcuno, e perché a volte no",
+	"apertura": "La domanda giusta non è mai «quanta tensione c'è», ma «la corrente ha un percorso che passa da me». Cambia tutte le risposte.",
+	"sezioni": [
+		{"titolo": "Gli uccelli sui fili",
+		 "testo": "Un uccello posato su un filo dell'alta tensione non si fulmina, e il motivo spiega più di qualunque regola: tocca un solo filo, e la corrente non ha dove andare. Perché una corrente attraversi un corpo serve una differenza di potenziale FRA due punti che quel corpo tocca; le due zampe dell'uccello stanno sullo stesso filo, quindi allo stesso potenziale, e fra loro non c'è nessun dislivello. Se lo stesso uccello toccasse contemporaneamente due fili diversi, o un filo e il traliccio, si chiuderebbe un percorso e la corrente lo attraverserebbe. Non conta quanta tensione porti il filo: conta se esiste un percorso."},
+		{"titolo": "Non è la tensione a fare danno, è la corrente",
+		 "testo": "Si dice spesso «alta tensione, pericolo», e non è sbagliato, ma la frase precisa è un'altra: a fare danno è la corrente che attraversa il corpo, e quanta ne passi dipende dalla tensione DIVISO la resistenza del percorso. Ecco perché la stessa presa è molto più pericolosa con le mani bagnate: la tensione non è cambiata, è crollata la resistenza. Ed ecco perché una scintilla di elettricità statica, che può avere migliaia di volt, non fa male: dura un istante e trasporta pochissima carica, quindi la corrente che attraversa il corpo è minima e cessa subito."},
+		{"titolo": "Il calore, il pericolo che non si vede",
+		 "testo": "Il secondo modo in cui l'elettricità fa danno non riguarda le persone ma le cose, e arriva senza nessun segnale. Ogni conduttore attraversato da corrente si scalda, tanto più quanto più corrente passa. Finché si resta sotto il limite del filo il calore si disperde; oltre, si accumula, e la temperatura sale fino a rovinare l'isolante. A quel punto due fili vicini si toccano e si ha un cortocircuito, oppure l'isolante brucia. Tutto questo avviene dentro un muro o dietro un mobile, dove nessuno guarda, ed è per questo che i limiti di corrente dei cavi non sono prudenza esagerata ma il solo modo di accorgersene in anticipo."}],
+	"glossario": [
+		{"voce": "differenza di potenziale", "spiega": "Serve fra due punti perché una corrente attraversi qualcosa. Un solo filo non basta."},
+		{"voce": "resistenza del corpo", "spiega": "Alta con la pelle asciutta, molto più bassa bagnata. È lei a decidere quanta corrente passa."},
+		{"voce": "riscaldamento dei conduttori", "spiega": "Ogni filo attraversato da corrente si scalda. Oltre il limite l'isolante si rovina, dentro un muro."},
+		{"voce": "limite di corrente", "spiega": "Quanta corrente un cavo può portare senza scaldarsi troppo. Non è prudenza: è la soglia oltre cui il danno non si vede."}],
+	"esempi": [
+		{"prompt": "Perché gli uccelli sui fili dell'alta tensione non si fulminano?", "answer": "Perché toccano un solo filo e la corrente non ha dove andare",
+		 "explanation": "Le due zampe sono allo stesso potenziale: senza una differenza fra due punti nessuna corrente attraversa il corpo, per quanto alta sia la tensione del filo."},
+		{"prompt": "Perché è pericoloso collegare molti apparecchi a una sola presa?", "answer": "Perché i fili si scaldano oltre il loro limite",
+		 "explanation": "Le correnti di tutti gli apparecchi si sommano nello stesso filo: il calore si accumula dentro il muro, dove nessuno lo vede finché l'isolante non cede."}],
+	"metodo": "Davanti a una situazione elettrica non chiederti quanta tensione ci sia, ma se esiste un percorso che passa da qualcuno o da qualcosa. È la domanda che decide il pericolo.",
+	"errore": {"wrong": "Concludere che più volt significhi sempre più pericolo.",
+		"why": "A fare danno è la corrente che attraversa il corpo, cioè la tensione divisa per la resistenza del percorso: una scintilla statica da migliaia di volt non fa male, una presa di casa con le mani bagnate sì."},
+	"insegna": ["differenza di potenziale", "resistenza del corpo", "riscaldamento dei conduttori", "limite di corrente"]},
+
+# =========================================================== GUASTI · base
+"elettronica-guasti-base": {
+	"subject": "elettronica", "topic": "guasti", "fasce": BANDA_BASE,
+	"titolo": "I guasti che si incontrano per primi, e come si riconoscono",
+	"apertura": "Quattro guasti coprono quasi tutti i circuiti che non funzionano al primo montaggio, e ognuno lascia un indizio diverso.",
+	"sezioni": [
+		{"titolo": "I quattro guasti tipici",
+		 "testo": "Il filo mancante: segui il percorso e a un certo punto la strada si interrompe. È il più frequente di tutti, e si trova con il dito senza strumenti. L'interruttore aperto: l'interruttore è come un ponte, e se è aperto nessuno passa — il circuito è perfetto e non funziona lo stesso. La resistenza assente: la resistenza protegge il LED, e senza di lei il LED riceve troppa corrente; il sintomo è un LED che si accende un istante e poi resta spento per sempre. Il LED girato al contrario: ha un verso, e montato al rovescio non conduce e non si accende, senza rompersi."},
+		{"titolo": "Il sintomo dice dove guardare",
+		 "testo": "I quattro guasti non danno lo stesso sintomo, e la differenza restringe la ricerca prima ancora di toccare il circuito. Se non succede assolutamente niente, il percorso è aperto da qualche parte: filo mancante o interruttore aperto. Se il LED ha brillato una volta e poi mai più, era la resistenza a mancare e il componente è andato. Se tutto sembra a posto e semplicemente non si accende, il primo sospetto è il verso del LED. Chiedersi «che cosa ha fatto esattamente?» prima di aprire il circuito è la mossa che fa risparmiare più tempo di ogni altra."},
+		{"titolo": "Il metodo, e perché si segue sempre uguale",
+		 "testo": "La procedura che funziona è sempre la stessa, e conviene applicarla in ordine anche quando si crede di sapere già dove sia il guasto. Uno: guarda il sintomo e scrivi che cosa ha fatto. Due: parti dalla sorgente e segui il percorso con il dito fino a tornare indietro, controllando che non si interrompa. Tre: controlla i componenti che hanno un verso. Quattro: controlla che ci siano tutti quelli che devono esserci. Chi salta direttamente al pezzo che sospetta lo sostituisce, vede che non cambia niente, e a quel punto ha due variabili invece di una."}],
+	"glossario": [
+		{"voce": "filo mancante", "spiega": "Il percorso si interrompe. Il guasto più frequente, e si trova seguendo il filo con il dito."},
+		{"voce": "interruttore aperto", "spiega": "Il ponte è alzato: il circuito è corretto e non funziona lo stesso."},
+		{"voce": "resistenza assente", "spiega": "Il LED riceve troppa corrente: brilla un istante e si brucia."},
+		{"voce": "LED girato al contrario", "spiega": "Non conduce in quel verso: resta spento senza rompersi."}],
+	"esempi": [
+		{"prompt": "Un LED si è acceso per un istante e poi non si è più acceso. Quale guasto è il primo sospetto?", "answer": "Resistenza assente",
+		 "explanation": "Senza resistenza il LED riceve tutta la corrente che la sorgente può dare: brilla fortissimo per un attimo e si brucia."},
+		{"prompt": "Tutto è collegato correttamente e il LED semplicemente non si accende. Che cosa controlli per primo?", "answer": "LED girato al contrario",
+		 "explanation": "È l'unico guasto che lascia il circuito apparentemente perfetto: il LED conduce in un verso solo, e girarlo costa dieci secondi."}],
+	"metodo": "Prima di toccare il circuito, scrivi che cosa ha fatto esattamente: niente, oppure un lampo, oppure nulla di visibile. Il sintomo restringe la ricerca a uno o due guasti su quattro.",
+	"errore": {"wrong": "Sostituire subito il componente che si sospetta senza aver seguito il percorso.",
+		"why": "Se non cambia niente ci si ritrova con due incognite invece di una, e non si sa più se il pezzo nuovo sia montato bene."},
+	"insegna": ["filo mancante", "interruttore aperto", "resistenza assente", "LED girato al contrario"]},
+
+# =========================================================== GUASTI · alta
+"elettronica-guasti-alta": {
+	"subject": "elettronica", "topic": "guasti", "fasce": BANDA_ALTA,
+	"titolo": "Dividere a metà, e i guasti che non si vedono",
+	"apertura": "Su un circuito lungo controllare tutto in ordine è la strategia peggiore. Ce n'è una che dimezza il lavoro a ogni prova, ed è la stessa dei dizionari.",
+	"sezioni": [
+		{"titolo": "La ricerca a metà",
+		 "testo": "Controllando i componenti uno per uno dall'inizio, su un circuito di trenta pezzi si fanno in media quindici prove, e nel caso peggiore trenta. Provando invece a METÀ del percorso si scopre in un colpo solo da che parte sta il guasto, e la zona da controllare si dimezza; ripetendo, dopo cinque prove restano meno di un pezzo. Il vantaggio cresce con la lunghezza del circuito, ed è lo stesso ragionamento della ricerca a metà su una lista ordinata. La condizione perché funzioni è una sola: bisogna poter misurare a metà, cioè avere un punto accessibile e uno strumento che dica se lì il segnale c'è ancora."},
+		{"titolo": "I guasti che non si vedono guardando",
+		 "testo": "Due guasti sfuggono a qualunque ispezione visiva. La resistenza sbagliata: la resistenza c'è, è montata bene, ma il suo valore non è quello previsto — il circuito funziona in modo strano invece che non funzionare, e questo lo rende più difficile da trovare di un guasto netto. E il componente scollegato: un pezzo può essere presente ma fuori dal percorso, con una gamba che non fa contatto o una saldatura fredda che sembra buona. Contro entrambi l'ispezione non serve e serve la misura: sono esattamente i casi in cui guardare non basta e bisogna verificare."},
+		{"titolo": "Una cosa per volta",
+		 "testo": "Vale qui la stessa regola del metodo scientifico, e per la stessa ragione. Se si cambiano due cose insieme e il circuito comincia a funzionare, non si sa quale delle due era il guasto — e non è una curiosità: la prossima volta si rifarà lo stesso errore, e il pezzo buono è stato buttato insieme a quello rotto. Si cambia una cosa, si prova, e si annota il risultato. È lento solo in apparenza: la ricerca disordinata sembra più veloce finché non arriva al punto in cui non si sa più che cosa si è già escluso, e da lì bisogna ricominciare da capo."}],
+	"glossario": [
+		{"voce": "ricerca a metà", "spiega": "Provare al centro del percorso per scoprire da che parte sta il guasto. Dimezza la zona a ogni prova."},
+		{"voce": "resistenza sbagliata", "spiega": "C'è ed è montata bene, ma il valore non è quello: il circuito funziona in modo strano invece che fermarsi."},
+		{"voce": "componente scollegato", "spiega": "Presente ma fuori dal percorso: gamba non a contatto, saldatura fredda. L'ispezione non lo trova."},
+		{"voce": "una variabile per volta", "spiega": "Si cambia una cosa e si prova. Cambiandone due non si sa più quale era il guasto."}],
+	"esempi": [
+		{"prompt": "Su un circuito lungo, perché conviene provare a metà invece di controllare in ordine?", "answer": "Perché ogni prova dimezza la zona",
+		 "explanation": "Controllando in ordine si fanno in media metà delle prove possibili; dimezzando la zona bastano cinque prove per isolare un pezzo su trenta."},
+		{"prompt": "Un circuito funziona ma in modo strano, e tutti i pezzi sembrano a posto. Che cosa sospetti?", "answer": "Una resistenza di valore sbagliato",
+		 "explanation": "È il guasto che non si vede: il componente c'è ed è montato bene, ma il valore non è quello previsto, e il circuito si comporta male invece di fermarsi."}],
+	"metodo": "Su un circuito lungo non partire da un capo: misura a metà. E cambia una cosa alla volta, annotando: la ricerca disordinata sembra più veloce finché non ti accorgi di non sapere più che cosa hai già escluso.",
+	"errore": {"wrong": "Cambiare due componenti insieme e constatare che adesso funziona.",
+		"why": "Non si sa quale dei due fosse il guasto: si è buttato un pezzo buono e la prossima volta si rifarà lo stesso errore."},
+	"insegna": ["ricerca a metà", "resistenza sbagliata", "componente scollegato", "una variabile per volta"]},
+
+# ==============================================================================
+# MUSICA — la settima materia convertita (11 settembre 2026)
+#
+# Otto argomenti, quindici dispense: `intervalli` ne ha una sola, perché il banco
+# lo interroga soltanto alle fasce 6, 7 e 8.
+#
+# Il filo che tiene insieme tutte e quindici è dichiarato una volta e ripreso
+# ovunque: **un suono porta tre informazioni indipendenti** — quanto è acuto
+# (altezza), quanto dura (durata) e con che colore suona (timbro) — e la notazione
+# le scrive con segni diversi nello stesso posto. Quasi tutti gli errori di lettura
+# nascono dall'aver letto una delle tre al posto di un'altra.
+
+# ============================================================== NOTE · base
+"musica-note-base": {
+	"subject": "musica", "topic": "note", "fasce": BANDA_BASE,
+	"titolo": "Sette nomi che ricominciano",
+	"apertura": "Le note sono sette e poi si riparte da capo. Capire perché si ricomincia, invece di impararlo come un fatto, spiega da solo metà della teoria musicale.",
+	"sezioni": [
+		{"titolo": "I sette nomi, e da dove vengono",
+		 "testo": "Le note musicali di base sono sette: do, re, mi, fa, sol, la, si. Dopo il si non c'è un ottavo nome nuovo: si ricomincia dal do, più acuto. I nomi non sono casuali e hanno una storia precisa: vengono dalle prime sillabe dei versi di un inno medievale a san Giovanni, e fu Guido d'Arezzo, intorno all'anno Mille, a usarle per insegnare a cantare a memoria. Il primo si chiamava *ut* ed è diventato do molto più tardi. Sapere che sono nomi arbitrari, presi in prestito da un testo, aiuta a non cercarci significati che non hanno: quello che conta non sono le sillabe ma il loro ordine."},
+		{"titolo": "Acuto e grave: che cosa cambia davvero",
+		 "testo": "Quello che distingue una nota acuta da una grave è la frequenza con cui vibra il suono, cioè quante volte al secondo l'aria oscilla. Più la vibrazione è veloce, più la nota è acuta; più è lenta, più è grave. È una grandezza fisica misurabile, non un'impressione: la stessa nota suonata da strumenti diversissimi ha la stessa frequenza, ed è per questo che si riconosce come la stessa nota. L'altezza è la prima delle tre informazioni che un suono porta, e va tenuta separata dalle altre due — quanto dura e con che colore suona — perché la notazione le scrive tutte e tre nello stesso posto."},
+		{"titolo": "La chiave, che dice come leggere il foglio",
+		 "testo": "Sul pentagramma le note si scrivono più in alto o più in basso a seconda di quanto sono acute, ma le righe da sole non basterebbero: bisogna sapere da dove si parte. È questo che indica la chiave, il segno all'inizio del pentagramma: dice quale nota corrisponde a quale riga, e quindi fissa il riferimento per tutte le altre. Cambiando chiave, la stessa posizione sul rigo prende un nome diverso. Non è una complicazione inventata per far soffrire: serve a far stare comodamente sulle cinque righe strumenti e voci con estensioni molto diverse fra loro."}],
+	"glossario": [
+		{"voce": "do re mi fa sol la si", "spiega": "Le sette note di base. Dopo il si si ricomincia dal do, più acuto."},
+		{"voce": "acuto", "spiega": "Un suono che vibra più velocemente. Più frequenza, più acuto."},
+		{"voce": "grave", "spiega": "Un suono che vibra più lentamente."},
+		{"voce": "chiave", "spiega": "Il segno all'inizio del pentagramma: dice quale nota corrisponde a quale riga."}],
+	"esempi": [
+		{"prompt": "Quante sono le note musicali di base?", "answer": "7",
+		 "explanation": "Dopo la settima non arriva un nome nuovo: si ricomincia dal do, un'ottava più in alto."},
+		{"prompt": "Che cosa distingue una nota acuta da una grave?", "answer": "La frequenza con cui vibra il suono",
+		 "explanation": "È una grandezza fisica misurabile: più oscillazioni al secondo significa nota più acuta, e vale per qualunque strumento."}],
+	"metodo": "Tieni sempre separate le tre informazioni di un suono: quanto è acuto, quanto dura, con che colore suona. Sono scritte nello stesso posto ma non si influenzano.",
+	"errore": {"wrong": "Cercare un ottavo nome dopo il si.",
+		"why": "I nomi sono sette e ricominciano: la nota dopo il si è di nuovo un do, semplicemente più acuto di quello di partenza."},
+	"insegna": ["do re mi fa sol la si", "acuto", "grave", "chiave", "frequenza"]},
+
+# ============================================================== NOTE · alta
+"musica-note-alta": {
+	"subject": "musica", "topic": "note", "fasce": BANDA_ALTA,
+	"titolo": "L'ottava, e perché due note diverse portano lo stesso nome",
+	"apertura": "È la domanda che tutti si fanno prima o poi: se sono due suoni diversi, perché si chiamano tutti e due do? La risposta è un numero, ed è esatta.",
+	"sezioni": [
+		{"titolo": "Il rapporto di due",
+		 "testo": "Due note con lo stesso nome, a un'ottava di distanza, suonano «la stessa» perché una vibra al doppio della velocità dell'altra. Non è una somiglianza approssimativa: è un rapporto esatto di due a uno, e l'orecchio umano lo riconosce come una identità. Se un la vibra quattrocentoquaranta volte al secondo, il la successivo ne fa esattamente ottocentoottanta. Questo spiega anche perché le note ricominciano invece di continuare con nomi nuovi: arrivati al doppio si è tornati allo stesso punto, e continuare a inventare nomi nasconderebbe proprio la cosa più importante, cioè che il ciclo si è chiuso."},
+		{"titolo": "Le alterazioni",
+		 "testo": "Fra le sette note i passi non sono tutti uguali, e per raggiungere i suoni intermedi servono due segni. Il diesis alza la nota di un semitono, il bemolle la abbassa di un semitono. Un semitono è il passo più piccolo del sistema occidentale, ed è la distanza fra due tasti vicini di un pianoforte, bianchi o neri che siano. Ne segue una cosa che sorprende chi guarda una tastiera per la prima volta: fra mi e fa, e fra si e do, non c'è nessun tasto nero, perché quelle due coppie distano già un semitono e non c'è spazio per un suono in mezzo."},
+		{"titolo": "La scala, cioè la scaletta",
+		 "testo": "Una scala è la successione ordinata delle note da una a quella con lo stesso nome un'ottava sopra: do re mi fa sol la si do. La parola dice già l'immagine — una scaletta di gradini — e il gradino, in musica, si chiama grado. La scala non è un esercizio da principianti ma il riferimento su cui si costruisce tutto il resto: gli intervalli si contano sui suoi gradi, e il modo in cui sono distribuiti i semitoni al suo interno è ciò che dà a una musica il carattere allegro o malinconico che si percepisce senza saperlo spiegare."}],
+	"glossario": [
+		{"voce": "ottava", "spiega": "La distanza fra due note con lo stesso nome: una vibra al doppio della velocità dell'altra."},
+		{"voce": "diesis", "spiega": "Alza la nota di un semitono."},
+		{"voce": "bemolle", "spiega": "Abbassa la nota di un semitono."},
+		{"voce": "semitono", "spiega": "Il passo più piccolo del sistema: la distanza fra due tasti vicini del pianoforte."}],
+	"esempi": [
+		{"prompt": "Perché due note con lo stesso nome, a un'ottava di distanza, suonano «la stessa»?", "answer": "Perché una vibra al doppio della velocità dell'altra",
+		 "explanation": "È un rapporto esatto di due a uno, e l'orecchio lo riconosce come identità: per questo i nomi ricominciano invece di continuare."},
+		{"prompt": "Che cosa fa un diesis a una nota?", "answer": "La alza di un semitono",
+		 "explanation": "Il bemolle fa l'opposto. Un semitono è il passo più piccolo del sistema, cioè la distanza fra due tasti vicini di un pianoforte."}],
+	"metodo": "Quando due suoni ti sembrano «lo stesso più alto», controlla se uno vibra al doppio dell'altro: è la definizione di ottava, ed è il motivo per cui i nomi si ripetono.",
+	"errore": {"wrong": "Cercare un tasto nero fra il mi e il fa.",
+		"why": "Quelle due note distano già un semitono, che è il passo più piccolo possibile: non c'è nessun suono intermedio da rappresentare."},
+	"insegna": ["ottava", "diesis", "bemolle", "semitono", "scala"]},
+
+# =========================================================== LETTURA · base
+"musica-lettura-base": {
+	"subject": "musica", "topic": "lettura", "fasce": BANDA_BASE,
+	"titolo": "Il pentagramma: cinque righe e quattro spazi",
+	"apertura": "Leggere la musica non è decifrare un codice segreto: è leggere un grafico in cui l'altezza sul foglio corrisponde all'altezza del suono.",
+	"sezioni": [
+		{"titolo": "Righe e spazi",
+		 "testo": "Il pentagramma è fatto di cinque righe orizzontali, e con esse di quattro spazi fra una riga e l'altra: nove posizioni in tutto, che si alternano riga-spazio-riga-spazio salendo. Le note si scrivono su una riga o dentro uno spazio, e la regola di lettura è immediata: più la nota è in alto sul foglio, più il suono è acuto. È questa corrispondenza a rendere leggibile uno spartito a colpo d'occhio anche prima di saper nominare ogni nota — un disegno che sale è una melodia che sale, e si vede senza contare niente."},
+		{"titolo": "La chiave fissa il riferimento",
+		 "testo": "Nove posizioni non bastano a dire quali note siano, perché manca il punto di partenza: è la chiave, all'inizio del rigo, a fornirlo. La chiave di violino, la più comune, stabilisce che la seconda riga dal basso è il sol, e da lì tutte le altre posizioni si ricavano salendo e scendendo per gradi. Con quel riferimento fissato, per esempio, la nota scritta nel secondo spazio è il la. La conseguenza da tenere a mente è che la stessa posizione cambia nome se cambia chiave: leggere senza aver guardato la chiave è come leggere un numero senza sapere in quale unità di misura sia."},
+		{"titolo": "Altezza e durata sono due segni diversi",
+		 "testo": "Un singolo simbolo sul pentagramma porta due informazioni insieme, e conviene imparare a leggerle separate. La POSIZIONE verticale dice quale nota è, cioè quanto è acuta. La FORMA del simbolo — piena o vuota, con o senza gambo, con o senza codini — dice quanto dura. Sono indipendenti: la stessa nota può durare molto o poco, e la stessa durata può toccare a qualunque nota. Chi legge guardando solo la posizione suona le altezze giuste con il ritmo sbagliato; chi guarda solo la forma fa il contrario."}],
+	"glossario": [
+		{"voce": "pentagramma", "spiega": "Le cinque righe su cui si scrive la musica. Con i quattro spazi fanno nove posizioni."},
+		{"voce": "chiave di violino", "spiega": "La chiave più comune: fissa il sol sulla seconda riga dal basso."},
+		{"voce": "posizione", "spiega": "Dove sta la nota in verticale: dice quanto è acuta."},
+		{"voce": "forma della nota", "spiega": "Piena o vuota, con gambo o senza: dice quanto dura."}],
+	"esempi": [
+		{"prompt": "In chiave di violino, quale nota sta nel secondo spazio?", "answer": "La",
+		 "explanation": "La chiave fissa il sol sulla seconda riga: salendo di un grado si arriva al la, che occupa lo spazio immediatamente sopra."},
+		{"prompt": "Che cosa indica la chiave all'inizio del pentagramma?", "answer": "Quale nota corrisponde a quale riga",
+		 "explanation": "Fissa il punto di riferimento: senza, le nove posizioni non direbbero quali note sono, perché mancherebbe da dove partire."}],
+	"metodo": "Guarda sempre la chiave prima della prima nota. Poi leggi in due passaggi separati: prima dove sta la nota, poi che forma ha.",
+	"errore": {"wrong": "Leggere le note contando le righe senza aver guardato la chiave.",
+		"why": "La stessa posizione cambia nome se cambia chiave: senza il riferimento iniziale tutte le note risultano spostate della stessa quantità."},
+	"insegna": ["pentagramma", "chiave di violino", "posizione", "forma della nota"]},
+
+# =========================================================== LETTURA · alta
+"musica-lettura-alta": {
+	"subject": "musica", "topic": "lettura", "fasce": BANDA_ALTA,
+	"titolo": "Quando le cinque righe non bastano",
+	"apertura": "Uno strumento suona molte più note di quante ne stiano in nove posizioni. La soluzione è semplice e produce l'errore di lettura più frequente di tutti.",
+	"sezioni": [
+		{"titolo": "Le linee addizionali",
+		 "testo": "Le linee addizionali sono trattini corti disegnati sopra o sotto il pentagramma, uno per ogni posizione in più che serve. Estendono il rigo oltre le cinque righe e permettono di scrivere note più acute o più gravi di quelle che ci starebbero, e possono quindi cambiare l'ottava della nota rispetto a quelle scritte dentro il pentagramma. Si contano sempre a partire dall'ultima riga vera: la prima linea aggiunta sopra il pentagramma, in chiave di violino, porta il la dell'ottava alta. Leggerne tre o quattro di fila è lento per tutti, ed è il motivo per cui esistono le altre chiavi."},
+		{"titolo": "L'errore da evitare, e perché capita",
+		 "testo": "L'errore più frequente nella lettura non riguarda le note difficili ma quelle facili: la stessa posizione cambia nome se cambia chiave. Chi ha imparato a leggere in chiave di violino, davanti a un rigo in chiave di basso legge automaticamente i nomi che conosce, e sbaglia ogni singola nota della stessa quantità. La difesa è meccanica e vale la pena renderla un'abitudine: prima di leggere qualunque cosa, guardare il simbolo all'inizio del rigo e dirlo ad alta voce. Un secondo speso lì evita di risuonare un intero brano nel registro sbagliato."},
+		{"titolo": "Perché esistono più chiavi",
+		 "testo": "Sembrerebbe più semplice avere una chiave sola per tutti. La ragione per cui non è così è pratica: gli strumenti e le voci hanno estensioni molto diverse, e con un riferimento unico moltissima musica finirebbe scritta quasi interamente su linee addizionali, cioè illeggibile. Ogni chiave è scelta per far stare comodamente sulle cinque righe l'estensione tipica di chi la usa: il violino e il flauto in chiave di violino, il contrabbasso e la mano sinistra del pianoforte in chiave di basso. Le chiavi non complicano la lettura: la rendono possibile."}],
+	"glossario": [
+		{"voce": "linee addizionali", "spiega": "Trattini sopra o sotto il pentagramma che lo estendono, e possono cambiare l'ottava della nota."},
+		{"voce": "ottava alta", "spiega": "Il registro delle note scritte sopra il pentagramma con le linee addizionali."},
+		{"voce": "chiave di basso", "spiega": "La chiave dei suoni gravi: contrabbasso, e mano sinistra del pianoforte."},
+		{"voce": "estensione", "spiega": "L'insieme delle note che uno strumento o una voce può produrre. Decide quale chiave gli conviene."}],
+	"esempi": [
+		{"prompt": "In chiave di violino, quale nota sta sulla prima linea aggiunta sopra il pentagramma?", "answer": "La (ottava alta)",
+		 "explanation": "Le linee addizionali si contano a partire dall'ultima riga vera, proseguendo per gradi: la prima sopra porta il la dell'ottava alta."},
+		{"prompt": "Lavorando su pentagramma e chiavi, quale errore bisogna evitare?", "answer": "La stessa posizione cambia nome se cambia chiave",
+		 "explanation": "Chi legge con l'abitudine di una chiave davanti a un'altra sbaglia ogni nota della stessa quantità, e non se ne accorge perché la melodia resta coerente."}],
+	"metodo": "Prima di leggere qualunque rigo, guarda il simbolo iniziale e dillo ad alta voce. È un secondo, ed è quello che evita di risuonare un brano intero nel registro sbagliato.",
+	"errore": {"wrong": "Contare le linee addizionali partendo da quella più esterna.",
+		"why": "Si contano proseguendo per gradi dall'ultima riga vera del pentagramma: partendo dall'esterno il conto torna solo per caso."},
+	"insegna": ["linee addizionali", "ottava alta", "chiave di basso", "estensione"]},
+
+# ============================================================= RITMO · base
+"musica-ritmo-base": {
+	"subject": "musica", "topic": "ritmo", "fasce": BANDA_BASE,
+	"titolo": "La durata sta nella figura",
+	"apertura": "Seconda delle tre informazioni di un suono, e la più facile da confondere con la prima: quanto una nota dura non ha niente a che fare con quanto è acuta.",
+	"sezioni": [
+		{"titolo": "Le figure e i loro valori",
+		 "testo": "La durata di una nota si legge dalla FIGURA, cioè da come è disegnato il simbolo. La semibreve è una testa vuota senza gambo e vale quattro battiti. La minima è vuota con il gambo e ne vale due. La semiminima è piena con il gambo e ne vale uno. La croma è piena con il gambo e un codino, e vale mezzo battito. Ogni figura vale la metà della precedente, e questo rende il sistema facile da ricostruire: basta ricordare da dove si parte e dimezzare. Le pause hanno gli stessi valori con simboli propri, perché anche il silenzio va misurato."},
+		{"titolo": "Durata e altezza sono indipendenti",
+		 "testo": "È il punto che vale tutta la sezione: la durata sta nella figura, non nella posizione. Una nota disegnata in alto sul pentagramma non dura né più né meno di una disegnata in basso; e una nota piena dura un battito sia che stia sulla prima riga sia che stia sulla quinta. Le due informazioni viaggiano insieme nello stesso simbolo ma non si toccano, e imparare a leggerle separatamente — prima dove sta, poi che forma ha — è ciò che permette di suonare le altezze giuste con il ritmo giusto invece di indovinare una delle due."},
+		{"titolo": "La battuta deve tornare",
+		 "testo": "Le note si raggruppano in battute, delimitate da stanghette verticali, e ogni battuta deve contenere esattamente i battiti indicati dal tempo — non uno di più e non uno di meno. In un tempo di quattro quarti ogni battuta vale quattro battiti, e le figure al suo interno devono sommare esattamente quattro, in qualunque combinazione. È una regola di controllo comodissima quando si scrive o si legge: sommare le durate di una battuta e confrontarle con il numero atteso trova gli errori prima ancora di suonare una nota."}],
+	"glossario": [
+		{"voce": "figura", "spiega": "Il disegno della nota. Dice quanto dura, non quanto è acuta."},
+		{"voce": "semiminima", "spiega": "Testa piena con il gambo: vale un battito."},
+		{"voce": "minima", "spiega": "Testa vuota con il gambo: vale due battiti."},
+		{"voce": "battuta", "spiega": "Il gruppo di note fra due stanghette. Deve contenere esattamente i battiti indicati dal tempo."}],
+	"esempi": [
+		{"prompt": "Quanti battiti vale una minima?", "answer": "2",
+		 "explanation": "Ogni figura vale la metà della precedente: la semibreve quattro, la minima due, la semiminima uno, la croma mezzo."},
+		{"prompt": "Lavorando su ritmo e figure, quale errore bisogna evitare?", "answer": "La durata sta nella figura, non nella posizione",
+		 "explanation": "Altezza e durata sono informazioni indipendenti scritte nello stesso simbolo: una nota in alto non dura più di una in basso."}],
+	"metodo": "Leggi ogni nota in due passaggi separati: prima dove sta, poi che forma ha. E alla fine di ogni battuta somma le durate per controllare che tornino.",
+	"errore": {"wrong": "Credere che una nota scritta più in alto duri di più.",
+		"why": "La posizione dice l'altezza e basta: la durata la dice la figura, cioè se la testa sia piena o vuota e quanti codini abbia il gambo."},
+	"insegna": ["figura", "semiminima", "minima", "semibreve", "battuta"]},
+
+# ============================================================= RITMO · alta
+"musica-ritmo-alta": {
+	"subject": "musica", "topic": "ritmo", "fasce": BANDA_ALTA,
+	"titolo": "Far tornare i conti dentro una battuta",
+	"apertura": "Un solo esercizio, ripetuto: sommare le durate e confrontarle con quanto la battuta deve contenere. Sembra aritmetica, e serve a leggere.",
+	"sezioni": [
+		{"titolo": "Il conto, con un esempio per volta",
+		 "testo": "In un tempo di quattro quarti una battuta deve contenere esattamente quattro battiti. Se dentro ci sono due semiminime e una minima, il conto è uno più uno più due, cioè quattro: non manca nessun battito, e la battuta è completa. Se invece ci sono una minima e una semiminima, il conto fa tre: manca una semiminima per arrivare a quattro. Il procedimento è sempre lo stesso e non cambia mai — si traducono le figure in battiti, si sommano, si confronta con il numero atteso — e la differenza dice esattamente che cosa manca o che cosa avanza."},
+		{"titolo": "Perché conviene farlo prima di suonare",
+		 "testo": "Sommare le durate è un controllo che costa pochi secondi e trova una categoria intera di errori senza bisogno di uno strumento. Se una battuta non torna, o si è letta male una figura, o ne è stata dimenticata una, o c'è un errore di scrittura. In tutti e tre i casi accorgersene sul foglio è molto più facile che accorgersene suonando, perché suonando l'errore si sente come «qualcosa che non va» senza che sia chiaro dove. È lo stesso principio della verifica di un conto in matematica: il controllo non serve a trovare la risposta, serve a sapere se quella trovata regge."},
+		{"titolo": "Ritmo e intervalli non misurano la stessa cosa",
+		 "testo": "Vale la pena tenere separate due parole che in una stessa frase sembrano parenti. Il ritmo organizza la DURATA dei suoni: quanto ciascuno resta e come si distribuiscono nel tempo. L'intervallo misura la DISTANZA fra due note, cioè quanto una è più acuta dell'altra. Sono due assi diversi dello stesso brano — uno orizzontale, il tempo, e uno verticale, l'altezza — e una melodia si riconosce dalla combinazione dei due. Confonderli porta a un errore tipico: descrivere come «più alta» una nota che semplicemente dura di più, o viceversa."}],
+	"glossario": [
+		{"voce": "quattro quarti", "spiega": "Ogni battuta contiene quattro battiti. Le figure al suo interno devono sommare esattamente quattro."},
+		{"voce": "somma delle durate", "spiega": "Il controllo: si traducono le figure in battiti, si sommano, si confronta con il numero atteso."},
+		{"voce": "ritmo", "spiega": "L'organizzazione delle durate nel tempo."},
+		{"voce": "intervallo", "spiega": "La distanza fra due note in altezza. È un altro asse rispetto al ritmo."}],
+	"esempi": [
+		{"prompt": "In 4/4 ci sono due semiminime e una minima. Manca qualcosa?", "answer": "Non manca nessun battito",
+		 "explanation": "Uno più uno più due fa quattro, che è esattamente quanto una battuta di quattro quarti deve contenere."},
+		{"prompt": "In 4/4 ci sono una minima e una semiminima. Cosa manca?", "answer": "Manca una semiminima",
+		 "explanation": "Due più uno fa tre, e servono quattro battiti: la differenza è di un battito, cioè esattamente il valore di una semiminima."}],
+	"metodo": "Traduci le figure in battiti, somma, confronta con il numero atteso. La differenza non ti dice solo che c'è un errore: ti dice esattamente quale figura manca.",
+	"errore": {"wrong": "Usare «ritmo» e «intervallo» come se misurassero la stessa cosa.",
+		"why": "Il ritmo organizza le durate, l'intervallo misura la distanza in altezza: sono i due assi di un brano, e confonderli fa descrivere male quello che si sente."},
+	"insegna": ["quattro quarti", "somma delle durate", "ritmo", "intervallo"]},
+
+# ============================================================= TEMPO · base
+"musica-tempo-base": {
+	"subject": "musica", "topic": "tempo", "fasce": BANDA_BASE,
+	"titolo": "La pulsazione, cioè quello che batte il piede",
+	"apertura": "Prima di leggere qualunque ritmo bisogna avere in testa una cosa sola: il battito regolare sotto la musica. Tutto il resto si misura su quello.",
+	"sezioni": [
+		{"titolo": "Che cos'è il tempo in musica",
+		 "testo": "Il tempo è la pulsazione regolare che scandisce il brano: quel battito costante che si segue con il piede o con la testa senza decidere di farlo. Non è la melodia e non è il ritmo delle singole note — è la griglia sotto, contro cui tutto il resto si misura. La prova che esista indipendentemente dalle note è che si può continuare a batterlo anche durante una pausa, quando non suona niente: il battito prosegue lo stesso. Trovare la pulsazione di un brano prima di analizzarlo è il gesto che rende leggibile tutto ciò che viene dopo."},
+		{"titolo": "La battuta e le stanghette",
+		 "testo": "I battiti non scorrono all'infinito indistinti: si raggruppano. Una battuta è il gruppo di movimenti fra due stanghette, cioè fra due linee verticali che tagliano il pentagramma. Raggrupparli serve a due cose. La prima è pratica: leggere è molto più facile con dei riferimenti regolari, esattamente come un testo è più facile con la punteggiatura. La seconda è musicale: dentro un gruppo il primo battito si sente naturalmente come il più forte, e questa alternanza di accenti è quello che dà a una musica il suo carattere di marcia, di valzer o di altro."},
+		{"titolo": "Quanti movimenti per battuta",
+		 "testo": "Quanti battiti stiano in una battuta lo dice l'indicazione di tempo, scritta come una frazione all'inizio del brano. In un tempo di quattro quarti ci sono quattro movimenti in ogni battuta; in un tempo di tre quarti ce ne sono tre. Il quattro quarti è di gran lunga il più comune nella musica che si ascolta tutti i giorni, mentre il tre quarti è il tempo del valzer, e la differenza si sente subito: con quattro l'andamento è quadrato, con tre gira. Contare ad alta voce uno-due-tre-quattro insieme al brano è il modo più rapido per scoprire quale dei due sia."}],
+	"glossario": [
+		{"voce": "pulsazione", "spiega": "Il battito regolare sotto la musica: continua anche durante le pause."},
+		{"voce": "battuta", "spiega": "Il gruppo di movimenti fra due stanghette."},
+		{"voce": "stanghetta", "spiega": "La linea verticale che separa una battuta dalla successiva."},
+		{"voce": "indicazione di tempo", "spiega": "La frazione all'inizio del brano: dice quanti movimenti stanno in ogni battuta."}],
+	"esempi": [
+		{"prompt": "Che cos'è il tempo in musica?", "answer": "La pulsazione regolare che scandisce il brano",
+		 "explanation": "È la griglia sotto la musica: continua a scorrere anche quando non suona niente, ed è contro di essa che si misurano tutte le durate."},
+		{"prompt": "In un tempo di 3/4, quanti movimenti ci sono in una battuta?", "answer": "3",
+		 "explanation": "Lo dice il numero in alto della frazione. È il tempo del valzer, e si distingue dal quattro quarti perché l'andamento gira invece di essere quadrato."}],
+	"metodo": "Prima di analizzare qualunque brano, trova la pulsazione battendola con il piede e conta ad alta voce finché il primo battito non cade sempre sullo stesso punto. Quel numero è il tempo.",
+	"errore": {"wrong": "Confondere la pulsazione con il ritmo delle note.",
+		"why": "La pulsazione è costante e continua anche nelle pause; il ritmo è come le note si dispongono sopra di essa, e cambia in continuazione."},
+	"insegna": ["pulsazione", "battuta", "stanghetta", "quattro quarti", "tre quarti"]},
+
+# ============================================================= TEMPO · alta
+"musica-tempo-alta": {
+	"subject": "musica", "topic": "tempo", "fasce": BANDA_ALTA,
+	"titolo": "I due numeri della frazione dicono cose diverse",
+	"apertura": "Il tempo si scrive come una frazione, ma non è una frazione: i due numeri rispondono a due domande distinte, e solo uno dei due si conta.",
+	"sezioni": [
+		{"titolo": "Sopra quanti, sotto quale",
+		 "testo": "Il numero in alto dice QUANTI movimenti ci sono in ogni battuta: quattro in quattro quarti, tre in tre quarti, sei in sei ottavi. È quello che si conta ad alta voce. Il numero in basso dice invece QUALE figura vale un movimento, e usa una convenzione numerica: 4 significa che il movimento è la semiminima, cioè un quarto di semibreve; 8 significa che è la croma, cioè un ottavo; 2 significa che è la minima. Non si conta e non si somma con l'altro: fissa soltanto l'unità di misura del battito, come dire che si misura in metri invece che in centimetri."},
+		{"titolo": "Perché la stessa musica si può scrivere in modi diversi",
+		 "testo": "Da questa struttura viene una conseguenza che spiazza: un brano in due quarti e lo stesso brano in due mezzi suonano identici, perché cambia solo quale figura è stata scelta come unità di battito, e tutte le altre durate si adattano di conseguenza. È come misurare una stanza in metri o in centimetri: i numeri cambiano, la stanza no. La scelta di chi scrive dipende dall'abitudine del genere e dalla leggibilità — si preferisce il tempo che fa cadere le note più comuni su figure comode da leggere, senza troppi codini o troppi punti."},
+		{"titolo": "Il tempo non è la velocità",
+		 "testo": "Due parole che in italiano si sovrappongono e in musica no. L'indicazione di tempo — la frazione — dice come sono raggruppati i battiti, e non dice niente su quanto siano veloci. La velocità è un'indicazione a parte, scritta in parole (adagio, andante, allegro) o in numero di battiti al minuto. Un brano in quattro quarti può essere lentissimo o velocissimo senza che la frazione cambi di una virgola. Tenerle separate evita l'errore di credere che un tempo di sei ottavi sia «più veloce» di uno di tre quarti solo perché i numeri sono più grandi."}],
+	"glossario": [
+		{"voce": "numero in alto", "spiega": "Quanti movimenti ci sono in ogni battuta. È quello che si conta."},
+		{"voce": "numero in basso", "spiega": "Quale figura vale un movimento: 4 la semiminima, 8 la croma, 2 la minima."},
+		{"voce": "velocità", "spiega": "Quanto è rapido il battito. È un'indicazione a parte, e non sta nella frazione."},
+		{"voce": "sei ottavi", "spiega": "Sei movimenti per battuta, con la croma come unità. Non è più veloce di altri tempi: ha solo un'altra unità."}],
+	"esempi": [
+		{"prompt": "Che cosa indica il numero in basso di un tempo come 4/4?", "answer": "Quale figura vale un movimento",
+		 "explanation": "Il 4 significa che il movimento è la semiminima. Non si conta e non si somma: fissa soltanto l'unità di misura del battito."},
+		{"prompt": "Un tempo di 6/8 è più veloce di uno di 3/4?", "answer": "No, la velocità è un'altra indicazione",
+		 "explanation": "La frazione dice come sono raggruppati i battiti, non quanto sono rapidi: la velocità si scrive a parte, in parole o in battiti al minuto."}],
+	"metodo": "Leggi i due numeri come due domande diverse: sopra «quanti ne conto», sotto «quale figura vale uno». Solo il primo si conta ad alta voce.",
+	"errore": {"wrong": "Dedurre dalla frazione quanto un brano sia veloce.",
+		"why": "L'indicazione di tempo dice solo come sono raggruppati i battiti: la velocità è scritta a parte, e lo stesso quattro quarti può essere lentissimo o rapidissimo."},
+	"insegna": ["numero in alto", "numero in basso", "velocità", "sei ottavi"]},
+
+# ========================================================== DINAMICA · base
+"musica-dinamica-base": {
+	"subject": "musica", "topic": "dinamica", "fasce": BANDA_BASE,
+	"titolo": "Quanto forte, e come si scrive",
+	"apertura": "Terza informazione indipendente dopo l'altezza e la durata, e l'unica che si scrive fuori dal simbolo della nota.",
+	"sezioni": [
+		{"titolo": "Che cos'è la dinamica",
+		 "testo": "La dinamica in musica indica quanto forte o piano si suona. È l'intensità del suono, cioè quanta energia porta, e non ha niente a che vedere né con quanto una nota è acuta né con quanto dura: una nota grave può essere fortissima o appena accennata, e lo stesso vale per una acuta. Va tenuta separata dalle altre due proprio perché si confonde con l'altezza nel linguaggio comune — si dice «alza la voce» intendendo più forte, non più acuta. Sul foglio la dinamica non si scrive dentro la nota ma sotto il rigo, con lettere, e vale da quel punto in avanti."},
+		{"titolo": "I segni, che sono iniziali italiane",
+		 "testo": "I segni di dinamica sono le iniziali di parole italiane, ed è per questo che gli spartiti di tutto il mondo li usano identici. La lettera p sta per piano, cioè debole; la lettera f sta per forte. Raddoppiandole si rafforza: pp è pianissimo, ff è fortissimo. Le combinazioni con la m indicano le vie di mezzo: mp è mezzopiano e mf è mezzoforte. Non esistono valori assoluti dietro queste lettere — nessuno misura i decibel — e sono indicazioni relative: forte significa più forte del piano dello stesso brano, non un volume preciso uguale per tutti."},
+		{"titolo": "A che cosa serve, davvero",
+		 "testo": "Una musica eseguita tutta allo stesso volume stanca in pochi minuti, anche se le note sono giuste. Il motivo è che l'orecchio si abitua rapidamente a un livello costante e smette di prestarvi attenzione; è il contrasto a mantenere l'ascolto. Per questo la dinamica non è una rifinitura da aggiungere alla fine ma parte del contenuto: decidere dove il brano cresce e dove si ritira è una scelta espressiva quanto scegliere le note. Uno spartito senza indicazioni di dinamica non significa «suona tutto uguale»: significa che quelle scelte le fa l'esecutore."}],
+	"glossario": [
+		{"voce": "dinamica", "spiega": "Quanto forte o piano si suona. Non ha niente a che fare con quanto la nota è acuta."},
+		{"voce": "p", "spiega": "Piano, cioè debole. Iniziale della parola italiana, usata in tutto il mondo."},
+		{"voce": "f", "spiega": "Forte. Raddoppiando le lettere si rafforza: ff è fortissimo."},
+		{"voce": "mf", "spiega": "Mezzoforte: una via di mezzo. Come tutte le dinamiche è relativa, non un volume assoluto."}],
+	"esempi": [
+		{"prompt": "Che cosa significa il segno «p» su uno spartito?", "answer": "Piano, cioè debole",
+		 "explanation": "È l'iniziale della parola italiana, e vale da quel punto in avanti. Raddoppiandola, pp, si ottiene pianissimo."},
+		{"prompt": "Che cosa indica la dinamica in musica?", "answer": "Quanto forte o piano si suona",
+		 "explanation": "È l'intensità del suono, indipendente dall'altezza e dalla durata: una nota grave può essere fortissima e una acuta appena accennata."}],
+	"metodo": "Quando senti dire «alza la voce», ricordati che in musica significa più forte e non più acuta. Sono le due proprietà che il linguaggio comune confonde di più.",
+	"errore": {"wrong": "Leggere una dinamica come un volume assoluto uguale per tutti i brani.",
+		"why": "Sono indicazioni relative: forte significa più forte del piano dello stesso brano, e in un pezzo intimo un fortissimo resta molto sotto quello di un'orchestra."},
+	"insegna": ["dinamica", "p", "f", "mf", "intensità"]},
+
+# ========================================================== DINAMICA · alta
+"musica-dinamica-alta": {
+	"subject": "musica", "topic": "dinamica", "fasce": BANDA_ALTA,
+	"titolo": "Il volume che cambia mentre si suona",
+	"apertura": "Le lettere fissano un livello. I due segni che contano di più fanno un'altra cosa: descrivono un cambiamento nel tempo.",
+	"sezioni": [
+		{"titolo": "Crescendo e diminuendo",
+		 "testo": "Un crescendo è un'indicazione che dice che il volume aumenta a poco a poco: non si passa da piano a forte di colpo, ma si attraversa tutta la strada in mezzo. Un diminuendo dice l'opposto, cioè che il volume cala a poco a poco. Sul foglio si scrivono in parole oppure con due segni a forma di cuneo, che si aprono nella direzione in cui il suono cresce e si chiudono dove cala — il disegno stesso mostra che cosa fare, ed è uno dei pochi simboli della notazione che non richiedono di essere spiegati. La loro lunghezza sul rigo dice su quante battute il cambiamento deve distribuirsi."},
+		{"titolo": "Perché il contrasto rende espressiva una musica",
+		 "testo": "La dinamica rende una musica espressiva perché il contrasto fra piano e forte crea tensione. Il meccanismo è di aspettativa: quando il volume comincia a salire, chi ascolta si prepara a qualcosa, e quel prepararsi è già emozione prima ancora che arrivi la nota. Un finale forte dopo un passaggio pianissimo colpisce moltissimo; lo stesso finale, dopo dieci minuti tutti forti, non si nota nemmeno. Ne segue una conseguenza pratica che vale anche fuori dalla musica: l'effetto non sta nel livello raggiunto ma nella differenza rispetto a quello che c'era prima."},
+		{"titolo": "Dove si decide, in un brano",
+		 "testo": "Chi compone indica le dinamiche principali, ma nessuno spartito può prescrivere ogni sfumatura: molte decisioni restano all'esecutore, ed è una delle ragioni per cui due interpretazioni dello stesso pezzo suonano diverse pur avendo le stesse note. Le scelte che si rivelano quasi sempre efficaci sono due: far crescere verso il punto in cui la melodia sale, e ritirarsi prima di un ingresso importante per fargli spazio. Entrambe funzionano per la stessa ragione della sezione precedente, cioè che si sente la differenza e non il livello."}],
+	"glossario": [
+		{"voce": "crescendo", "spiega": "Il volume aumenta a poco a poco. Si scrive in parole o con un cuneo che si apre."},
+		{"voce": "diminuendo", "spiega": "Il volume cala a poco a poco. Il cuneo si chiude."},
+		{"voce": "contrasto", "spiega": "La differenza fra piano e forte. È lei a creare tensione, non il livello assoluto."},
+		{"voce": "interpretazione", "spiega": "Le scelte che restano all'esecutore: due esecuzioni con le stesse note suonano diverse per questo."}],
+	"esempi": [
+		{"prompt": "Che cosa fa un crescendo?", "answer": "Il volume aumenta a poco a poco",
+		 "explanation": "Non è un salto da piano a forte: si attraversa tutta la strada in mezzo, e la lunghezza del segno dice su quante battute distribuirla."},
+		{"prompt": "Perché la dinamica rende una musica espressiva?", "answer": "Perché il contrasto fra piano e forte crea tensione",
+		 "explanation": "Chi ascolta si prepara quando il volume sale, e quel prepararsi è già emozione: l'effetto sta nella differenza, non nel livello raggiunto."}],
+	"metodo": "Quando ascolti un passaggio che ti colpisce, chiediti che cosa c'era subito prima. Quasi sempre l'effetto viene dal contrasto con quello, non dal passaggio in sé.",
+	"errore": {"wrong": "Eseguire un crescendo come un salto improvviso da piano a forte.",
+		"why": "Il segno chiede una crescita graduale distribuita sulla sua lunghezza: fatto di colpo perde l'attesa, che è tutto ciò per cui esiste."},
+	"insegna": ["crescendo", "diminuendo", "contrasto", "interpretazione"]},
+
+# ============================================================ TIMBRO · base
+"musica-timbro-base": {
+	"subject": "musica", "topic": "timbro", "fasce": BANDA_BASE,
+	"titolo": "Il colore del suono",
+	"apertura": "Terza e ultima delle proprietà di un suono, e la più facile da riconoscere e la più difficile da descrivere a parole.",
+	"sezioni": [
+		{"titolo": "Che cos'è il timbro",
+		 "testo": "Il timbro è il colore che distingue uno strumento da un altro. Si definisce per esclusione, ed è il modo più chiaro: se due suoni hanno la stessa altezza e la stessa intensità, e si distinguono ancora, quello che li distingue è il timbro. È la ragione per cui si riconosce una tromba da un violino anche sentendo una nota sola, e anche senza aver mai studiato musica. Ed è anche la ragione per cui la stessa canzone cantata da due persone suona diversa: ogni voce ha il suo timbro, riconoscibile come un volto."},
+		{"titolo": "Le tre proprietà, tutte insieme",
+		 "testo": "A questo punto le tre proprietà di un suono sono complete e conviene vederle in fila. L'ALTEZZA dice quanto è acuto, e dipende dalla frequenza di vibrazione. L'INTENSITÀ dice quanto è forte, ed è quello che la dinamica indica. Il TIMBRO dice con che colore suona, e distingue la sorgente. Sono indipendenti: si può cambiarne una lasciando ferme le altre due, e ogni strumento può produrre molte altezze e molte intensità mantenendo sempre il proprio timbro. Descrivere un suono significa dire qualcosa su tutte e tre."},
+		{"titolo": "Perché è difficile descriverlo",
+		 "testo": "Altezza e intensità si misurano con un numero: tante vibrazioni al secondo, tanti decibel. Il timbro no, perché non è una quantità ma una forma — la forma complessiva dell'onda sonora. Per questo per parlarne si usano parole prese in prestito da altri sensi: un suono caldo, brillante, scuro, metallico, morbido. Sono metafore, e funzionano perché chi ascolta le riconosce, non perché siano precise. Questa è anche la ragione per cui il timbro si impara ascoltando e non leggendo: nessuna descrizione sostituisce l'aver sentito una volta un oboe."}],
+	"glossario": [
+		{"voce": "timbro", "spiega": "Il colore che distingue uno strumento da un altro, a parità di altezza e intensità."},
+		{"voce": "altezza", "spiega": "Quanto un suono è acuto. Dipende dalla frequenza di vibrazione."},
+		{"voce": "intensità", "spiega": "Quanto un suono è forte. È quello che indica la dinamica."},
+		{"voce": "le tre proprietà", "spiega": "Altezza, intensità e timbro: indipendenti, e insieme descrivono un suono."}],
+	"esempi": [
+		{"prompt": "Due strumenti suonano la stessa nota alla stessa intensità. Cosa li distingue?", "answer": "Il timbro",
+		 "explanation": "Altezza e intensità sono uguali per ipotesi: resta la terza proprietà, quella che dipende da come è fatta la sorgente del suono."},
+		{"prompt": "Perché la stessa canzone cantata da due persone suona diversa?", "answer": "Perché ogni voce ha il suo timbro",
+		 "explanation": "Le note e le intensità possono essere identiche: a distinguere le due esecuzioni è il colore della voce, riconoscibile come un volto."}],
+	"metodo": "Per descrivere un suono di' sempre tutte e tre le cose: quanto è acuto, quanto è forte, con che colore suona. Se ne salti una, la descrizione non identifica niente.",
+	"errore": {"wrong": "Dire che un suono è «più alto» intendendo che è più forte.",
+		"why": "Alto riguarda l'altezza, cioè quanto è acuto; forte riguarda l'intensità. Sono due proprietà indipendenti, e il linguaggio comune le mescola."},
+	"insegna": ["timbro", "altezza", "intensità", "le tre proprietà"]},
+
+# ============================================================ TIMBRO · alta
+"musica-timbro-alta": {
+	"subject": "musica", "topic": "timbro", "fasce": BANDA_ALTA,
+	"titolo": "Da che cosa dipende il colore di un suono",
+	"apertura": "Se il timbro non è altezza né intensità, che cos'è fisicamente? La risposta è che un suono non è mai una frequenza sola.",
+	"sezioni": [
+		{"titolo": "Gli armonici",
+		 "testo": "Quando una corda o una colonna d'aria vibra, non produce una sola frequenza ma una principale — quella che si percepisce come la nota — accompagnata da molte altre più deboli e più acute, che si chiamano armonici. Quali armonici siano presenti e quanto siano forti l'uno rispetto all'altro cambia da strumento a strumento, e quella miscela è esattamente ciò che si percepisce come timbro. Due strumenti che suonano la stessa nota hanno la stessa frequenza principale e miscele di armonici diverse: è questo, misurabile e non misterioso, il colore del suono."},
+		{"titolo": "Il corpo dello strumento",
+		 "testo": "Il timbro di uno strumento dipende soprattutto dal materiale e dalla forma del corpo. La parte che vibra per prima — la corda, l'ancia, le labbra — genera il suono, ma è il corpo dello strumento a rinforzare alcuni armonici e a smorzarne altri, e quindi a decidere il colore finale. È il motivo per cui due violini con le stesse corde suonano diversi, e per cui la forma di una cassa armonica non è una scelta estetica. Ed è anche la ragione per cui uno strumento di qualità costa: la differenza non è nelle note che produce, che sono le stesse, ma in come le colora."},
+		{"titolo": "Quando il colore lo fa l'amplificazione",
+		 "testo": "Una chitarra acustica e una elettrica suonano diverse anche sulla stessa nota perché il suono viene amplificato in modi diversi. Nell'acustica la corda fa vibrare il corpo di legno, che sposta l'aria: il colore lo dà la cassa. Nell'elettrica il corpo è spesso massiccio e non risuona quasi: la vibrazione della corda viene raccolta da sensori magnetici, trasformata in segnale elettrico e passata a un amplificatore, che a sua volta la colora. Sono due catene fisiche differenti che partono dalla stessa corda, e il timbro finale è deciso più da quello che viene dopo che dalla corda stessa."}],
+	"glossario": [
+		{"voce": "armonici", "spiega": "Le frequenze più deboli e acute che accompagnano la nota principale. La loro miscela è il timbro."},
+		{"voce": "corpo dello strumento", "spiega": "Rinforza alcuni armonici e ne smorza altri: è lui a decidere il colore finale."},
+		{"voce": "cassa armonica", "spiega": "La parte cava che amplifica e colora la vibrazione delle corde."},
+		{"voce": "amplificazione", "spiega": "Come il suono viene reso più forte. Nell'elettrica colora il timbro più della corda stessa."}],
+	"esempi": [
+		{"prompt": "Da che cosa dipende soprattutto il timbro di uno strumento?", "answer": "Dal materiale e dalla forma del corpo",
+		 "explanation": "La parte che vibra genera il suono, ma è il corpo a rinforzare certi armonici e a smorzarne altri: è lì che si decide il colore."},
+		{"prompt": "Perché una chitarra acustica e una elettrica suonano diverse anche sulla stessa nota?", "answer": "Perché il suono viene amplificato in modi diversi",
+		 "explanation": "Nell'acustica a colorare è la cassa di legno; nell'elettrica la corda viene letta da sensori e il colore lo dà la catena elettronica."}],
+	"metodo": "Davanti a due strumenti che suonano diversi, chiediti che cosa vibra e che cosa amplifica. Il colore nasce quasi sempre nella seconda metà della catena, non nella prima.",
+	"errore": {"wrong": "Spiegare la differenza di timbro con la sola corda o con la sola nota.",
+		"why": "La frequenza principale è identica: a cambiare è la miscela di armonici, e quella la decidono il corpo dello strumento e l'amplificazione."},
+	"insegna": ["armonici", "corpo dello strumento", "cassa armonica", "amplificazione"]},
+
+# ========================================================= STRUMENTI · base
+"musica-strumenti-base": {
+	"subject": "musica", "topic": "strumenti", "fasce": BANDA_BASE,
+	"titolo": "Le famiglie, e il criterio che le divide",
+	"apertura": "Gli strumenti non si raggruppano per forma né per dimensione, ma per una cosa sola: come producono il suono.",
+	"sezioni": [
+		{"titolo": "Il criterio",
+		 "testo": "Le famiglie degli strumenti si distinguono in base a COME nasce la vibrazione. Negli archi vibra una corda tesa, messa in movimento sfregandola con un archetto: violino, viola, violoncello, contrabbasso. Nei fiati vibra una colonna d'aria dentro un tubo, messa in movimento dal soffio: flauto, clarinetto, tromba. Nelle percussioni vibra un corpo colpito, che può essere una pelle tesa — come nel tamburo — oppure una lastra o una barra di metallo o di legno. Tenere a mente il criterio invece dell'elenco permette di collocare anche uno strumento mai visto, semplicemente guardando come lo si suona."},
+		{"titolo": "Lo stesso materiale, gesti diversi",
+		 "testo": "Il criterio è più fine di quanto sembri, perché due strumenti a corde possono produrre il suono in modi molto diversi. La chitarra si pizzica, cioè la corda viene tirata e lasciata andare; il violino si sfrega con l'archetto. La differenza non è un dettaglio esecutivo: pizzicando si dà alla corda un impulso unico e il suono decade subito, mentre sfregando le si fornisce energia in continuazione e la nota può durare quanto si vuole. È da qui che nasce la differenza di carattere fra i due, e si sente immediatamente anche senza sapere quali strumenti stiano suonando."},
+		{"titolo": "Collocare uno strumento",
+		 "testo": "Applicare il criterio è un esercizio che vale per qualsiasi strumento, noto o sconosciuto, e si fa in due domande. Che cosa vibra: una corda, una colonna d'aria, un corpo solido? E come viene messo in vibrazione: sfregando, soffiando, pizzicando, percuotendo? Il violoncello ha corde sfregate con un archetto, quindi appartiene agli archi. Il clarinetto ha una colonna d'aria messa in vibrazione dal soffio attraverso un'ancia, quindi ai fiati. Il tamburo produce il suono percuotendo una pelle tesa, quindi alle percussioni."}],
+	"glossario": [
+		{"voce": "archi", "spiega": "Corde tese messe in vibrazione con un archetto: violino, viola, violoncello, contrabbasso."},
+		{"voce": "fiati", "spiega": "Una colonna d'aria dentro un tubo, messa in vibrazione dal soffio: flauto, clarinetto, tromba."},
+		{"voce": "percussioni", "spiega": "Un corpo colpito: una pelle tesa come nel tamburo, oppure lastre e barre."},
+		{"voce": "pizzicare e sfregare", "spiega": "Due modi di suonare una corda: il primo dà un impulso e il suono decade, il secondo alimenta e la nota dura."}],
+	"esempi": [
+		{"prompt": "A quale famiglia appartiene il violoncello?", "answer": "Archi",
+		 "explanation": "Ha corde tese messe in vibrazione sfregandole con un archetto: il criterio è come nasce la vibrazione, non la dimensione dello strumento."},
+		{"prompt": "Quale strumento produce il suono percuotendo una pelle tesa?", "answer": "Il tamburo",
+		 "explanation": "Appartiene alle percussioni, la famiglia in cui a vibrare è un corpo colpito: pelli tese, ma anche lastre e barre di metallo o legno."}],
+	"metodo": "Davanti a uno strumento sconosciuto fatti due domande: che cosa vibra, e come viene messo in vibrazione. Le due risposte insieme danno la famiglia senza bisogno di conoscerne il nome.",
+	"errore": {"wrong": "Raggruppare gli strumenti per dimensione o per materiale del corpo.",
+		"why": "Il criterio è come nasce il suono: un flauto può essere di metallo e resta un fiato, e un violoncello è grande quanto una percussione e resta un arco."},
+	"insegna": ["archi", "fiati", "percussioni", "violoncello", "clarinetto", "tamburo"]},
+
+# ========================================================= STRUMENTI · alta
+"musica-strumenti-alta": {
+	"subject": "musica", "topic": "strumenti", "fasce": BANDA_ALTA,
+	"titolo": "Gli strumenti che stanno in due famiglie",
+	"apertura": "Ogni classificazione ha casi che non ci stanno dentro. Guardarli da vicino è più utile che ignorarli, perché mostrano a che cosa serve davvero il criterio.",
+	"sezioni": [
+		{"titolo": "Il pianoforte",
+		 "testo": "Il pianoforte è considerato anche uno strumento a corde perché i tasti fanno battere martelletti sulle corde: dentro la cassa ci sono corde tese, e premendo un tasto un martelletto di feltro le colpisce. Ne segue che il pianoforte soddisfa due criteri insieme. È a corde, perché è una corda a vibrare. Ed è a percussione, perché quella corda viene COLPITA e non pizzicata né sfregata — e infatti il suono di un pianoforte decade subito dopo l'attacco, come quello di un tamburo, invece di potersi sostenere come quello di un violino. La classificazione più comune lo mette fra le tastiere, che è un terzo criterio ancora: come lo si comanda."},
+		{"titolo": "Perché i casi di confine non sono un difetto",
+		 "testo": "Un principiante davanti a un caso come questo pensa che la classificazione sia mal fatta. È il contrario: una classificazione utile ha sempre casi di confine, perché la realtà non è stata costruita per essere divisa in scatole. Quello che conta è che il criterio sia dichiarato — qui, come nasce la vibrazione — così che davanti a un caso ambiguo si possa dire esattamente PERCHÉ è ambiguo, invece di litigare sull'etichetta. Dire che il pianoforte è a corde e a percussione insieme non è un'incertezza: è una descrizione più precisa di quanto sarebbe sceglierne una."},
+		{"titolo": "A che cosa serve il criterio",
+		 "testo": "La famiglia di uno strumento non è un'etichetta da memorizzare: è una previsione sul suo suono e sul suo comportamento. Sapere che uno strumento è un fiato dice già che il suo suono può durare quanto dura il fiato di chi suona, che ha bisogno di respiro e quindi di pause, e che la sua intonazione risente della temperatura dell'aria. Sapere che è a percussione dice che il suono ha un attacco netto e decade, e che non si può sostenere. Sono cose che si ricavano dal criterio senza aver mai sentito quello strumento, ed è esattamente per questo che vale la pena classificare."}],
+	"glossario": [
+		{"voce": "pianoforte", "spiega": "I tasti fanno battere martelletti sulle corde: è a corde e a percussione insieme, e si classifica fra le tastiere."},
+		{"voce": "martelletti", "spiega": "I pezzi di feltro che, premendo un tasto, colpiscono le corde del pianoforte."},
+		{"voce": "caso di confine", "spiega": "Uno strumento che soddisfa due criteri. Non è un difetto della classificazione: è la realtà che non ha scatole."},
+		{"voce": "tastiere", "spiega": "Un terzo criterio: non come nasce il suono, ma come lo si comanda."}],
+	"esempi": [
+		{"prompt": "Perché il pianoforte è considerato anche uno strumento a corde?", "answer": "Perché i tasti fanno battere martelletti sulle corde",
+		 "explanation": "Dentro la cassa ci sono corde tese: sono loro a vibrare. Ed essendo colpite e non sfregate, è anche a percussione."},
+		{"prompt": "Che differenza c'è fra chitarra e violino nel produrre il suono?", "answer": "La chitarra si pizzica, il violino si sfrega",
+		 "explanation": "Pizzicando si dà un impulso unico e il suono decade; sfregando si fornisce energia in continuazione, e la nota può durare quanto si vuole."}],
+	"metodo": "Quando uno strumento sembra stare in due famiglie, non scegliere: di' entrambe e spiega perché. È una descrizione più precisa di qualunque etichetta singola.",
+	"errore": {"wrong": "Considerare sbagliata una classificazione perché ha casi di confine.",
+		"why": "Ogni classificazione utile ne ha: la realtà non è divisa in scatole, e il criterio serve a spiegare perché un caso sia ambiguo, non a eliminarlo."},
+	"insegna": ["pianoforte", "martelletti", "caso di confine", "tastiere"]},
+
+# ======================================================== INTERVALLI · alta
+"musica-intervalli-alta": {
+	"subject": "musica", "topic": "intervalli", "fasce": BANDA_ALTA,
+	"titolo": "La distanza fra due note, e il modo in cui si conta",
+	"apertura": "Un intervallo è una distanza, e come tutte le distanze si misura contando. Il punto è che qui si conta in un modo che sorprende chi arriva dalla matematica.",
+	"sezioni": [
+		{"titolo": "Che cos'è un intervallo",
+		 "testo": "Un intervallo musicale è la distanza fra due note, cioè di quanto una è più acuta dell'altra. È il secondo asse della musica, quello verticale, mentre il ritmo è l'asse orizzontale del tempo: insieme i due descrivono qualunque melodia. La cosa importante è che una melodia si riconosce dagli intervalli e non dalle note assolute — ed è la ragione per cui la stessa canzone cantata più in basso resta la stessa canzone. Chi la canta più grave cambia tutte le note e mantiene tutte le distanze, e l'orecchio segue le distanze."},
+		{"titolo": "Si conta includendo entrambe le note",
+		 "testo": "L'intervallo si conta includendo la nota di partenza e quella di arrivo, e questa è la regola che va imparata bene perché contraddice l'abitudine. Da do a sol si contano do, re, mi, fa, sol: cinque gradi, quindi l'intervallo è una quinta. Chi conta i passi invece dei gradi trova quattro e sbaglia. Ne segue una conseguenza che sembra strana e conferma la regola: la distanza da una nota a se stessa si chiama prima, non «zero», perché contando quella nota si arriva a uno. Il nome dell'intervallo è quindi sempre di uno maggiore del numero di passi."},
+		{"titolo": "Gli intervalli che si riconoscono a orecchio",
+		 "testo": "Poiché una melodia è fatta di intervalli, riconoscerli a orecchio è la competenza che permette di scrivere quello che si sente. Il metodo che funziona è agganciare ogni intervallo all'inizio di una canzone che si conosce a memoria: l'ottava e la quinta hanno un suono aperto e stabile, la terza è quella che si usa per accompagnare cantando, la seconda è il passo più piccolo e suona come un movimento. Non è un esercizio di memoria ma di associazione, ed è il motivo per cui si impara molto più in fretta cantando gli intervalli che leggendoli."}],
+	"glossario": [
+		{"voce": "intervallo", "spiega": "La distanza fra due note. Si conta includendo la nota di partenza e quella di arrivo."},
+		{"voce": "quinta", "spiega": "L'intervallo che copre cinque gradi, come da do a sol."},
+		{"voce": "grado", "spiega": "Ogni nota della scala. Gli intervalli si contano in gradi, non in passi."},
+		{"voce": "prima", "spiega": "La distanza di una nota da se stessa. Si chiama così, e non «zero», proprio perché si conta includendola."}],
+	"esempi": [
+		{"prompt": "Quanti gradi ci sono nell'intervallo da do a sol?", "answer": "5",
+		 "explanation": "Si contano do, re, mi, fa, sol includendo entrambe le note: cinque gradi, quindi l'intervallo si chiama quinta."},
+		{"prompt": "Lavorando su intervalli e scale, quale errore bisogna evitare?", "answer": "Conta includendo la nota di partenza, non da zero",
+		 "explanation": "Contando i passi invece dei gradi si ottiene sempre un numero di uno più basso, e ogni intervallo risulta sbagliato della stessa quantità."}],
+	"metodo": "Per contare un intervallo elenca le note ad alta voce partendo dalla prima e includendola nel conto. Se il numero ti viene di uno più basso del nome, hai contato i passi invece dei gradi.",
+	"errore": {"wrong": "Contare da do a sol come quattro, perché sono quattro i passi.",
+		"why": "L'intervallo si conta in gradi includendo entrambe le note: do, re, mi, fa, sol fa cinque, e infatti si chiama quinta."},
+	"insegna": ["intervallo", "quinta", "grado", "prima"]},
+
+# ==============================================================================
+# LOGICA — l'ottava materia convertita (11 settembre 2026)
+#
+# Sei argomenti, dodici dispense. **Logica NON entra fra le materie di richiamo**,
+# e la ragione è la stessa di coding: qui la risposta è il risultato di un
+# procedimento applicato a un caso. Alla domanda «quale non appartiene al gruppo:
+# cane, mela, gatto, cavallo?» si risponde «mela», una parola che in nessun
+# documento comparirà mai né deve. Pretenderla vorrebbe dire vietare gli esercizi.
+#
+# Quello che le dispense insegnano non sono quindi fatti ma **procedimenti**, e le
+# domande chiedono di applicarli a materiale che il documento non ha visto.
+
+# ========================================================== SEQUENZE · base
+"logica-sequenze-base": {
+	"subject": "logica", "topic": "sequenze", "fasce": BANDA_BASE,
+	"titolo": "Trovare la regola, non indovinare il pezzo",
+	"apertura": "Davanti a una serie la tentazione è tirare a indovinare che cosa «ci sta bene». Il compito è un altro, ed è più facile: scoprire la regola che lega gli elementi.",
+	"sezioni": [
+		{"titolo": "Il compito vero",
+		 "testo": "Una sequenza è una fila di elementi che seguono una regola. La domanda «quale continua la serie» sembra chiedere il prossimo elemento, e in realtà chiede la REGOLA: trovata quella, il prossimo elemento viene da sé e non c'è più niente da indovinare. È una differenza pratica enorme, perché indovinare l'elemento porta a scegliere quello che somiglia di più agli altri, mentre trovare la regola porta a calcolarlo. E si può controllare: una regola giusta funziona su tutte le coppie della serie, non solo sull'ultima."},
+		{"titolo": "Il metodo: guardare le differenze",
+		 "testo": "Il modo per trovare la regola è sempre lo stesso e non dipende dal tipo di elementi. Si guarda che cosa cambia fra un elemento e il successivo, e poi si controlla se quel cambiamento è lo stesso fra tutte le coppie. Con i numeri la differenza è una sottrazione; con le lettere si conta di quante posizioni ci si sposta nell'alfabeto; con gli orari si contano i minuti. Se la differenza è costante, la regola è trovata e il prossimo elemento si ottiene applicandola all'ultimo. Se non è costante, la regola è di un altro tipo, e almeno si sa che cosa escludere."},
+		{"titolo": "I tre tipi che si incontrano per primi",
+		 "testo": "L'ALTERNANZA: due elementi che si ripetono a turno, come cerchio, quadrato, cerchio, quadrato. Qui non c'è una differenza da calcolare, c'è un ciclo da riconoscere, e il prossimo elemento si trova contando le posizioni. Il PASSO COSTANTE in avanti: A, C, E, G avanza di due lettere ogni volta. Il PASSO COSTANTE all'indietro: Q, P, O, N torna indietro di una lettera ogni volta, e chi non controlla il verso propone la lettera successiva invece della precedente. Riconoscere quale dei tre si ha davanti è quasi tutto il lavoro."}],
+	"glossario": [
+		{"voce": "regola", "spiega": "Quello che lega ogni elemento al successivo. È la vera risposta di un esercizio sulle sequenze."},
+		{"voce": "differenza", "spiega": "Che cosa cambia fra due elementi consecutivi. Se è costante, la regola è trovata."},
+		{"voce": "alternanza", "spiega": "Due o più elementi che si ripetono a turno. Non ha una differenza: ha un ciclo."},
+		{"voce": "verso", "spiega": "Se la serie avanza o torna indietro. Controllarlo evita metà degli errori."}],
+	"esempi": [
+		{"prompt": "Quale figura continua la serie: cerchio, quadrato, cerchio, quadrato, ?", "answer": "cerchio",
+		 "explanation": "È un'alternanza di due elementi: contando le posizioni, la quinta tocca di nuovo al primo dei due."},
+		{"prompt": "Quale lettera continua la serie: A, C, E, G, ?", "answer": "I",
+		 "explanation": "Ogni lettera avanza di due posizioni nell'alfabeto, e la differenza è la stessa fra tutte le coppie: applicandola alla G si arriva alla I."}],
+	"metodo": "Calcola la differenza fra le prime due, poi verificala su tutte le altre coppie. Solo quando regge su tutte applicala all'ultimo elemento: è la differenza fra risolvere e indovinare.",
+	"errore": {"wrong": "Scegliere l'elemento che «sta bene» con gli altri senza aver trovato la regola.",
+		"why": "Senza regola non c'è modo di controllare la risposta, e una serie può avere elementi somiglianti con regole completamente diverse."},
+	"insegna": ["regola", "differenza", "alternanza", "verso"]},
+
+# ========================================================== SEQUENZE · alta
+"logica-sequenze-alta": {
+	"subject": "logica", "topic": "sequenze", "fasce": BANDA_ALTA,
+	"titolo": "Quando il passo non è uno solo",
+	"apertura": "Se la differenza fra due elementi consecutivi non è costante, non significa che non ci sia una regola: significa che è di un altro tipo, e i tipi sono pochi.",
+	"sezioni": [
+		{"titolo": "Le serie intrecciate",
+		 "testo": "A volte una sequenza è in realtà DUE sequenze alternate, e guardandole insieme sembra senza regola. Il segnale è che le differenze fra elementi consecutivi cambiano, ma cambiano in modo regolare — per esempio grande, piccola, grande, piccola. In quel caso si separano: si prendono gli elementi in posizione dispari e si guarda che regola seguano fra loro, poi quelli in posizione pari. Trovate le due regole, il prossimo elemento appartiene all'una o all'altra a seconda della posizione che occupa. È il tipo più frequente fra quelli che sembrano impossibili."},
+		{"titolo": "La periodicità",
+		 "testo": "Molte sequenze si muovono dentro un ciclo che si chiude: i giorni della settimana, le ore dell'orologio, i mesi, le posizioni attorno a un tavolo. Qui il passo è costante ma quando si arriva in fondo si ricomincia da capo, e chi non se ne accorge esce dal ciclo. Da lunedì, avanzando di due giorni per volta, si arriva a mercoledì e poi a venerdì; il passo successivo porta a domenica, e quello dopo di nuovo a martedì della settimana seguente. Il modo per non sbagliare è contare il ciclo insieme al passo, sapendo quanto è lungo il giro."},
+		{"titolo": "Il controllo che chiude l'esercizio",
+		 "testo": "Qualunque regola si sia trovata, va verificata su TUTTI gli elementi dati e non solo sugli ultimi due. È un controllo che costa pochi secondi e che trova l'errore più insidioso di tutti: una regola sbagliata che per caso funziona sull'ultima coppia. Quando questo succede, la risposta proposta è plausibile e chi l'ha trovata non ha nessun motivo di sospettare. Verificare all'indietro, dalla fine all'inizio, è la difesa: se la regola regge anche tornando indietro, è quella giusta."}],
+	"glossario": [
+		{"voce": "serie intrecciate", "spiega": "Due sequenze alternate dentro una sola fila. Si separano guardando le posizioni pari e dispari."},
+		{"voce": "periodicità", "spiega": "Un ciclo che si chiude e ricomincia: giorni, ore, mesi. Il passo è costante ma il giro ha una lunghezza."},
+		{"voce": "verifica su tutti", "spiega": "Controllare la regola su ogni coppia, non solo sull'ultima: una regola sbagliata a volte funziona lì per caso."}],
+	"esempi": [
+		{"prompt": "Quale giorno continua la serie: lunedì, mercoledì, venerdì, ?", "answer": "domenica",
+		 "explanation": "Il passo è di due giorni e la settimana è un ciclo: da venerdì, avanzando di due, si arriva a domenica."},
+		{"prompt": "L'autobus passa alle 8:05, 8:20, 8:35, 8:50. A che ora passa il prossimo?", "answer": "9:05",
+		 "explanation": "Il passo è di quindici minuti, e l'ora è un ciclo di sessanta: da 8:50 si supera l'ora e si arriva alle 9:05."}],
+	"metodo": "Se le differenze non sono costanti, prova a separare gli elementi in posizione pari da quelli in posizione dispari. È il tipo più frequente fra quelli che sembrano senza regola.",
+	"errore": {"wrong": "Verificare la regola solo sull'ultima coppia di elementi.",
+		"why": "Una regola sbagliata può funzionare per caso proprio lì: il controllo va fatto su tutte le coppie, meglio se percorrendo la serie all'indietro."},
+	"insegna": ["serie intrecciate", "periodicità", "verifica su tutti"]},
+
+# ======================================================== ESCLUSIONI · base
+"logica-esclusioni-base": {
+	"subject": "logica", "topic": "esclusioni", "fasce": BANDA_BASE,
+	"titolo": "Quello che non c'entra, e il motivo per cui non c'entra",
+	"apertura": "Trovare l'intruso è facile; dire perché è intruso è il vero esercizio, ed è quello che impedisce di sbagliare quando il gruppo è meno ovvio.",
+	"sezioni": [
+		{"titolo": "Cercare la proprietà comune, non la stranezza",
+		 "testo": "L'istinto porta a cercare l'elemento strano. È il modo sbagliato, perché «strano» dipende da chi guarda e non si può controllare. Il modo giusto è opposto: si cerca che cosa hanno in comune i PIÙ, cioè si nomina la proprietà che condividono, e poi si verifica quale elemento non ce l'ha. In cane, mela, gatto, cavallo la proprietà condivisa dai più è «essere un animale», e l'unico a non averla è la mela. Formulata così la risposta si può difendere, e soprattutto si può controllare: basta verificare che la proprietà valga davvero per tutti gli altri."},
+		{"titolo": "La proprietà va detta a parole",
+		 "testo": "Costringersi a nominare la proprietà ad alta voce è il controllo più efficace. Finché resta un'impressione — «quello lì non c'entra» — non si sa se sia giusta; appena si prova a dirla, o si trova una frase che regge su tutti gli altri, oppure ci si accorge di non averla. In rosso, verde, tavolo, blu la proprietà è «essere un colore» e l'intruso è tavolo. In lunedì, marzo, giovedì, domenica è «essere un giorno della settimana», e l'intruso è marzo, che è un mese. In entrambi i casi la frase è breve e si verifica in un secondo."},
+		{"titolo": "Quando l'intruso è meno ovvio",
+		 "testo": "In alcuni gruppi tutti gli elementi appartengono alla stessa grande categoria, e la proprietà da cercare è più fine. In rosa, tulipano, quercia, margherita sono tutte piante, quindi «essere una pianta» non distingue niente; scendendo di un livello si trova che tre sono fiori e una è un albero, e l'intruso è la quercia. La regola operativa che ne segue: se la prima proprietà che viene in mente vale per tutti, non è quella giusta — bisogna cercarne una più specifica, che valga per tutti tranne uno."}],
+	"glossario": [
+		{"voce": "proprietà comune", "spiega": "La caratteristica che condividono tutti gli elementi tranne l'intruso. Va nominata a parole."},
+		{"voce": "intruso", "spiega": "L'unico elemento che non ha la proprietà comune."},
+		{"voce": "livello della proprietà", "spiega": "Quanto è specifica: se vale per tutti non distingue, e bisogna scendere di un livello."}],
+	"esempi": [
+		{"prompt": "Quale non appartiene al gruppo: cane, mela, gatto, cavallo?", "answer": "mela",
+		 "explanation": "La proprietà comune dei più è essere un animale, e l'unico elemento a non averla è la mela, che è un frutto."},
+		{"prompt": "Quale non appartiene al gruppo: rosso, verde, tavolo, blu?", "answer": "tavolo",
+		 "explanation": "Tre elementi su quattro sono colori: il tavolo è un oggetto, e non condivide la proprietà che lega gli altri."}],
+	"metodo": "Non cercare l'elemento strano: nomina ad alta voce la proprietà che condividono gli altri. Se non riesci a dirla in una frase breve, non l'hai ancora trovata.",
+	"errore": {"wrong": "Scegliere l'intruso a intuito senza saper dire quale proprietà lo esclude.",
+		"why": "Senza la proprietà nominata la risposta non si può controllare, e su gruppi meno ovvi l'intuito porta all'elemento sbagliato."},
+	"insegna": ["proprietà comune", "intruso", "livello della proprietà"]},
+
+# ======================================================== ESCLUSIONI · alta
+"logica-esclusioni-alta": {
+	"subject": "logica", "topic": "esclusioni", "fasce": BANDA_ALTA,
+	"titolo": "Quando sembrano esserci due risposte",
+	"apertura": "Capita spesso, ed è il momento in cui l'esercizio diventa interessante: due criteri diversi escludono due elementi diversi. Uno dei due però è migliore, e si può dire perché.",
+	"sezioni": [
+		{"titolo": "Il criterio che vince",
+		 "testo": "Quando due proprietà diverse escludono due elementi diversi, la regola per scegliere è precisa: vince il criterio che lascia fuori UN SOLO elemento e vale per tutti gli altri senza forzature. Un criterio che escluderebbe due elementi non serve, perché l'esercizio ne chiede uno; e un criterio che vale per gli altri solo «quasi» è più debole di uno che vale esattamente. In violino, viola, violoncello, flauto il criterio forte è la famiglia degli strumenti: tre sono archi e uno è un fiato, quindi l'intruso è il flauto, e la proprietà vale esattamente per tutti e tre gli altri."},
+		{"titolo": "Criteri deboli, e come si riconoscono",
+		 "testo": "Un criterio debole è quello che si potrebbe applicare a quasi qualunque gruppo: la lunghezza della parola, la lettera iniziale, l'ordine alfabetico. Sono criteri veri in senso stretto ma arbitrari, perché non dicono niente sugli oggetti: lo stesso ragionamento funzionerebbe su un gruppo completamente diverso. La prova per distinguerli è questa: se cambiando i nomi degli oggetti — senza cambiare che cosa sono — il criterio smette di funzionare, allora era un criterio sulle parole e non sulle cose."},
+		{"titolo": "Dire la proprietà rende la risposta discutibile, e va bene",
+		 "testo": "Nominare il criterio ha un effetto che sembra uno svantaggio e non lo è: rende la risposta contestabile. Chi dice soltanto «l'intruso è la quercia» non offre niente da discutere; chi dice «le altre tre sono fiori e la quercia è un albero» offre una frase che si può verificare e, se serve, correggere. È esattamente quello che si vuole in un esercizio di logica: non arrivare alla risposta, ma arrivarci per una ragione che regge anche detta a qualcun altro."}],
+	"glossario": [
+		{"voce": "criterio", "spiega": "La proprietà usata per escludere. Deve lasciare fuori un solo elemento e valere per tutti gli altri."},
+		{"voce": "criterio debole", "spiega": "Basato sulle parole e non sugli oggetti: lettera iniziale, lunghezza, ordine alfabetico."},
+		{"voce": "un solo escluso", "spiega": "La condizione che distingue il criterio giusto da uno qualsiasi che funziona per caso."}],
+	"esempi": [
+		{"prompt": "Quale non appartiene al gruppo: violino, viola, violoncello, flauto?", "answer": "Flauto",
+		 "explanation": "Tre sono strumenti ad arco e uno è un fiato: il criterio vale esattamente per tutti e tre gli altri e lascia fuori uno solo."},
+		{"prompt": "Quale non appartiene al gruppo: rosa, tulipano, quercia, margherita?", "answer": "quercia",
+		 "explanation": "«Essere una pianta» vale per tutti e quattro e non distingue: scendendo di un livello, tre sono fiori e la quercia è un albero."}],
+	"metodo": "Quando trovi due risposte possibili, scrivi i due criteri e conta quanti elementi escludono. Vince quello che ne lascia fuori esattamente uno e vale per tutti gli altri senza forzature.",
+	"errore": {"wrong": "Escludere un elemento perché la sua parola è più lunga o comincia con un'altra lettera.",
+		"why": "È un criterio sulle parole e non sulle cose: cambiando i nomi degli oggetti smetterebbe di funzionare, e questo lo rende arbitrario."},
+	"insegna": ["criterio", "criterio debole", "un solo escluso"]},
+
+# ========================================================= DEDUZIONI · base
+"logica-deduzioni-base": {
+	"subject": "logica", "topic": "deduzioni", "fasce": BANDA_BASE,
+	"titolo": "Da due premesse a una conclusione obbligata",
+	"apertura": "Dedurre non è indovinare e non è nemmeno stimare: è ricavare qualcosa che era già contenuto in quello che si sapeva, e che quindi non può essere falso.",
+	"sezioni": [
+		{"titolo": "La forma base",
+		 "testo": "La deduzione più semplice ha due premesse e una conclusione. Prima premessa, una regola generale: tutti i gatti hanno la coda. Seconda premessa, un caso particolare: Fufi è un gatto. Conclusione: Fufi ha la coda. La cosa da capire è che la conclusione non è probabile né verosimile: è OBBLIGATA. Se le due premesse sono vere, non c'è nessun modo in cui la conclusione possa essere falsa, perché dire «tutti» significa esattamente non lasciare eccezioni. È questa obbligatorietà a distinguere una deduzione da una supposizione."},
+		{"titolo": "La forma con «nessuno»",
+		 "testo": "Funziona allo stesso modo e con la stessa forza. Prima premessa: nessun pesce vola. Seconda: Nemo è un pesce. Conclusione: Nemo non vola. Anche qui la conclusione è obbligata, perché «nessuno» esclude tutti i casi senza eccezione, e Nemo è uno di quei casi. Vale la pena notare che le due forme — quella con «tutti» e quella con «nessuno» — sono la stessa struttura: una dice che la proprietà c'è sempre, l'altra che non c'è mai, e in entrambi i casi il caso particolare eredita quello che vale per la categoria."},
+		{"titolo": "Che cosa NON si può dedurre",
+		 "testo": "Il limite è preciso: si può concludere soltanto ciò che le premesse contengono già. Da «tutti i gatti hanno la coda» e «Fufi ha la coda» non si può dedurre che Fufi sia un gatto, perché anche i cani ce l'hanno: la prima premessa dice che tutti i gatti sono nel gruppo degli animali con la coda, non che siano i soli. È l'errore più comune di tutta la logica elementare, e capita perché la frase suona simmetrica mentre non lo è. Il controllo è chiedersi: esiste un caso che rispetta le premesse e smentisce la conclusione? Se esiste, la deduzione non è valida."}],
+	"glossario": [
+		{"voce": "premessa", "spiega": "Ciò che si dà per vero prima di ragionare."},
+		{"voce": "conclusione", "spiega": "Quello che si ricava. In una deduzione valida è obbligata, non probabile."},
+		{"voce": "tutti", "spiega": "Non lascia eccezioni: ogni singolo caso della categoria ha quella proprietà."},
+		{"voce": "nessuno", "spiega": "Esclude ogni caso: nemmeno uno ha quella proprietà."}],
+	"esempi": [
+		{"prompt": "Tutti i gatti hanno la coda. Fufi è un gatto. Allora Fufi…", "answer": "ha la coda",
+		 "explanation": "«Tutti» non lascia eccezioni, e Fufi è uno dei casi: la conclusione non è probabile ma obbligata."},
+		{"prompt": "Nessun pesce vola. Nemo è un pesce. Quindi Nemo…", "answer": "non vola",
+		 "explanation": "«Nessuno» esclude ogni caso senza eccezione: Nemo, essendo un pesce, eredita quello che vale per l'intera categoria."}],
+	"metodo": "Per controllare una deduzione chiediti se esista un caso che rispetti le premesse e smentisca la conclusione. Se riesci a immaginarlo, la deduzione non è valida.",
+	"errore": {"wrong": "Da «tutti i gatti hanno la coda» e «Fufi ha la coda» concludere che Fufi sia un gatto.",
+		"why": "La premessa dice che i gatti stanno fra gli animali con la coda, non che siano i soli: anche un cane rispetterebbe le premesse e smentirebbe la conclusione."},
+	"insegna": ["premessa", "conclusione", "tutti", "nessuno"]},
+
+# ========================================================= DEDUZIONI · alta
+"logica-deduzioni-alta": {
+	"subject": "logica", "topic": "deduzioni", "fasce": BANDA_ALTA,
+	"titolo": "Ragionare al contrario, mettere in fila, eliminare",
+	"apertura": "Tre procedimenti che permettono di concludere anche quando le premesse non danno la risposta in modo diretto.",
+	"sezioni": [
+		{"titolo": "Negare la conseguenza",
+		 "testo": "Da «se piove, Lea prende l'ombrello» e «oggi Lea NON ha l'ombrello» si conclude che non sta piovendo. Il ragionamento funziona così: la premessa dice che ogni volta che piove segue l'ombrello; se l'ombrello non c'è, allora la pioggia non può esserci stata, perché altrimenti l'ombrello ci sarebbe. È una deduzione valida e obbligata. Va tenuta distinta dal suo rovescio, che valido non è: sapere che Lea HA l'ombrello non permette di concludere che piova, perché potrebbe averlo preso per altri motivi. La premessa vincola la pioggia all'ombrello, non l'ombrello alla pioggia."},
+		{"titolo": "Mettere in fila i confronti",
+		 "testo": "Quando le premesse sono confronti a due a due, si possono incatenare. Da «Marco è più alto di Sara» e «Sara è più alta di Ugo» segue che Marco è più alto di Ugo, e quindi che il più basso dei tre è Ugo. Funziona perché «più alto di» è una relazione che si trasmette lungo la catena, e la stessa cosa vale per «più vecchio», «più veloce», «viene prima». Il metodo pratico è disegnare la fila invece di tenerla a mente: si scrivono i nomi in ordine man mano che le premesse li collocano, e alla fine la risposta si legge da un capo o dall'altro."},
+		{"titolo": "Eliminare",
+		 "testo": "Quando le possibilità sono poche e dichiarate, escluderne alcune basta a concludere. Se nella scatola ci sono solo palline rosse e blu, e quella pescata non è rossa, allora è blu: non serve nessuna informazione in più. La condizione perché il ragionamento regga è però esplicita e va controllata: l'elenco delle possibilità deve essere COMPLETO. Se nella scatola ci fossero anche palline verdi, «non è rossa» non basterebbe più. È il motivo per cui la parola «solo» nella premessa non è un riempitivo ma la parte che rende valida la conclusione."}],
+	"glossario": [
+		{"voce": "negare il conseguente", "spiega": "Se «se A allora B» e B è falso, allora A è falso. Il rovescio invece non vale."},
+		{"voce": "transitività", "spiega": "Se A supera B e B supera C, allora A supera C. Vale per confronti come più alto, più vecchio, prima di."},
+		{"voce": "eliminazione", "spiega": "Escludere le possibilità finché ne resta una. Richiede che l'elenco di partenza sia completo."},
+		{"voce": "solo", "spiega": "Nella premessa non è un riempitivo: è la parola che garantisce che l'elenco sia completo."}],
+	"esempi": [
+		{"prompt": "Se piove, Lea prende l'ombrello. Oggi Lea NON ha l'ombrello. Allora…", "answer": "non sta piovendo",
+		 "explanation": "Se piovesse, l'ombrello ci sarebbe: la sua assenza esclude la pioggia. Il rovescio invece non varrebbe, perché l'ombrello si può prendere per altri motivi."},
+		{"prompt": "Marco è più alto di Sara. Sara è più alta di Ugo. Chi è il più basso?", "answer": "Ugo",
+		 "explanation": "I confronti si incatenano: scrivendo la fila in ordine, Ugo si colloca all'estremo più basso e nessuna premessa lo contraddice."}],
+	"metodo": "Nei problemi di confronto disegna la fila invece di tenerla a mente: scrivi i nomi in ordine man mano che le premesse li collocano, e leggi la risposta da un capo.",
+	"errore": {"wrong": "Da «se piove Lea prende l'ombrello» e «Lea ha l'ombrello» concludere che piove.",
+		"why": "La premessa vincola la pioggia all'ombrello, non l'ombrello alla pioggia: l'ombrello può essere lì per altri motivi, e la conclusione non è obbligata."},
+	"insegna": ["negare il conseguente", "transitività", "eliminazione", "solo"]},
+
+# =========================================================== INSIEMI · base
+"logica-insiemi-base": {
+	"subject": "logica", "topic": "insiemi", "fasce": BANDA_BASE,
+	"titolo": "Gruppi dentro altri gruppi",
+	"apertura": "Disegnare i gruppi come cerchi trasforma molti ragionamenti difficili in qualcosa che si guarda e basta.",
+	"sezioni": [
+		{"titolo": "Che cos'è un insieme",
+		 "testo": "Un insieme è una collezione di elementi che condividono una proprietà: l'insieme dei cani, quello dei numeri pari, quello delle cose rosse. La proprietà deve essere abbastanza chiara da permettere di decidere, per qualunque cosa, se ci stia dentro o no — è l'unico requisito, e serve a evitare insiemi come «le cose belle», su cui nessuno saprebbe decidere. Rappresentare un insieme come un cerchio disegnato su un foglio, con dentro i suoi elementi, è l'abitudine che rende visibili quasi tutte le relazioni fra gruppi."},
+		{"titolo": "Un insieme contenuto in un altro",
+		 "testo": "Da «tutti i cani sono mammiferi» segue che l'insieme dei cani è contenuto in quello dei mammiferi: si disegna il cerchio dei cani interamente dentro il cerchio dei mammiferi. Il disegno rende immediata la cosa che a parole si sbaglia più spesso, cioè che la relazione NON è simmetrica: dentro il cerchio grande c'è spazio per moltissimi animali che non sono cani, quindi non è vero che tutti i mammiferi siano cani. Chi ha in mente i due cerchi non commette quell'errore, perché lo vedrebbe."},
+		{"titolo": "Perché conviene disegnare",
+		 "testo": "Il disegno serve anche a controllare una conclusione già raggiunta. Data una frase da verificare, si prova a disegnare una situazione che rispetti le premesse e smentisca la conclusione: se si riesce a disegnarla, la conclusione non era obbligata. Se non si riesce, e si è provato seriamente, la conclusione regge. È lo stesso controllo delle deduzioni, reso visivo — e per molte persone funziona molto meglio del ragionamento a parole, perché l'occhio nota subito un cerchio che sporge dove non dovrebbe."}],
+	"glossario": [
+		{"voce": "insieme", "spiega": "Una collezione di elementi che condividono una proprietà decidibile."},
+		{"voce": "contenuto in", "spiega": "Tutti gli elementi del primo stanno anche nel secondo. Non vale il contrario."},
+		{"voce": "inclusione", "spiega": "La relazione fra un insieme e uno più grande che lo contiene. Non è simmetrica."},
+		{"voce": "diagramma", "spiega": "Il disegno a cerchi. Rende visibili le relazioni fra gruppi e permette di controllare una conclusione."}],
+	"esempi": [
+		{"prompt": "Tutti i cani sono mammiferi. Allora l'insieme dei cani…", "answer": "È contenuto in quello dei mammiferi",
+		 "explanation": "Il cerchio dei cani sta interamente dentro quello dei mammiferi, che però contiene anche moltissimi animali che cani non sono."},
+		{"prompt": "L'insieme dei quadrati è contenuto in quello dei rettangoli. Perché?", "answer": "Perché ogni quadrato ha quattro angoli retti",
+		 "explanation": "Avere quattro angoli retti è la proprietà che definisce i rettangoli, e ogni quadrato ce l'ha: quindi ogni quadrato è anche un rettangolo."}],
+	"metodo": "Davanti a una relazione fra gruppi disegna i cerchi prima di ragionare a parole. Poi prova a disegnare una situazione che rispetti le premesse e smentisca la conclusione: se non ci riesci, la conclusione regge.",
+	"errore": {"wrong": "Da «tutti i cani sono mammiferi» concludere che tutti i mammiferi siano cani.",
+		"why": "L'inclusione non è simmetrica: nel cerchio grande c'è spazio per moltissimi animali che nel piccolo non stanno."},
+	"insegna": ["insieme", "contenuto in", "inclusione", "diagramma"]},
+
+# =========================================================== INSIEMI · alta
+"logica-insiemi-alta": {
+	"subject": "logica", "topic": "insiemi", "fasce": BANDA_ALTA,
+	"titolo": "Unione e intersezione",
+	"apertura": "Due modi di combinare insiemi, e corrispondono esattamente alle due parole con cui si combinano le frasi: o, e.",
+	"sezioni": [
+		{"titolo": "Unione: tutti quelli dell'uno e dell'altro",
+		 "testo": "L'unione di due insiemi contiene tutti gli elementi dell'uno e dell'altro, presi insieme. Un elemento ci sta dentro se appartiene almeno a uno dei due, e questo «almeno uno» è esattamente il significato della parola O: l'unione corrisponde alla frase «sta nel primo O nel secondo». Sul disegno è tutta l'area coperta dai due cerchi, comprese le parti che si sovrappongono. Gli elementi che stanno in entrambi non si contano due volte: un insieme contiene un elemento o non lo contiene, non esistono doppioni."},
+		{"titolo": "Intersezione: solo quelli che stanno in tutti e due",
+		 "testo": "L'intersezione contiene soltanto gli elementi che appartengono a entrambi gli insiemi contemporaneamente, ed è la parte in cui i due cerchi si sovrappongono. Corrisponde alla parola E: «sta nel primo E nel secondo». L'intersezione fra i numeri pari e i numeri maggiori di dieci contiene dodici, quattordici, sedici e così via: numeri che soddisfano tutte e due le condizioni insieme. È sempre più piccola — o al massimo uguale — a ciascuno dei due insiemi di partenza, mentre l'unione è sempre più grande o uguale: due controlli rapidi per accorgersi di aver scambiato le due operazioni."},
+		{"titolo": "Quando l'intersezione è vuota",
+		 "testo": "Può succedere che due insiemi non abbiano nessun elemento in comune: l'intersezione fra i numeri pari e i numeri dispari non contiene niente. Non è un errore né un caso da escludere — è l'insieme vuoto, ed è un risultato perfettamente legittimo che anzi dice qualcosa di forte: i due gruppi sono incompatibili. Sul disegno corrisponde a due cerchi separati che non si toccano. Riconoscere questo caso serve a non cercare per forza un elemento comune dove non ce n'è, che è un errore frequente nei problemi con più condizioni."}],
+	"glossario": [
+		{"voce": "unione", "spiega": "Tutti gli elementi dell'uno e dell'altro. Corrisponde alla parola O: basta appartenere a uno dei due."},
+		{"voce": "intersezione", "spiega": "Solo gli elementi che stanno in entrambi. Corrisponde alla parola E."},
+		{"voce": "insieme vuoto", "spiega": "Il risultato quando due insiemi non hanno nessun elemento in comune. È un risultato legittimo."},
+		{"voce": "controllo di dimensione", "spiega": "L'intersezione non può essere più grande dei due insiemi, l'unione non può essere più piccola."}],
+	"esempi": [
+		{"prompt": "Che cosa contiene l'unione di due insiemi?", "answer": "Tutti gli elementi dell'uno e dell'altro",
+		 "explanation": "Basta appartenere ad almeno uno dei due: è il significato della parola O, e sul disegno è tutta l'area coperta dai due cerchi."},
+		{"prompt": "Che cosa contiene l'intersezione di «numeri pari» e «numeri maggiori di 10»?", "answer": "12, 14, 16 e così via",
+		 "explanation": "Solo i numeri che soddisfano entrambe le condizioni insieme: pari, e insieme maggiori di dieci."}],
+	"metodo": "Traduci le due operazioni nelle due parole: unione è O, intersezione è E. Poi controlla le dimensioni — l'intersezione non può essere più grande dei pezzi, l'unione non può essere più piccola.",
+	"errore": {"wrong": "Contare due volte gli elementi che stanno in entrambi gli insiemi, facendo l'unione.",
+		"why": "Un insieme contiene un elemento o non lo contiene: non esistono doppioni, e l'unione non somma le quantità ma raccoglie gli elementi distinti."},
+	"insegna": ["unione", "intersezione", "insieme vuoto", "controllo di dimensione"]},
+
+# ============================================================ VERITA · base
+"logica-verita-base": {
+	"subject": "logica", "topic": "verita", "fasce": BANDA_BASE,
+	"titolo": "Quando una frase composta è vera",
+	"apertura": "Due frasi unite da «e» oppure da «o» formano una frase nuova, e la sua verità si calcola invece di giudicarla.",
+	"sezioni": [
+		{"titolo": "La E vuole tutte e due",
+		 "testo": "Una frase come «piove E fa freddo» è vera in un caso solo: quando piove e fa freddo insieme. Basta che una delle due parti sia falsa perché tutta la frase lo sia, anche se l'altra è verissima. È un punto che il linguaggio quotidiano tende a rendere sfumato — si dice «sì, più o meno» quando metà è vera — mentre in logica non ci sono vie di mezzo: o tutte e due, o falsa. Prendere l'abitudine di controllare separatamente le due parti prima di giudicare l'insieme è tutto ciò che serve per non sbagliare."},
+		{"titolo": "La O si accontenta di una",
+		 "testo": "«Piove O fa freddo» è vera se piove, è vera se fa freddo, ed è vera anche se succedono tutte e due le cose. È falsa in un caso solo: quando non piove e non fa freddo, cioè quando entrambe le parti sono false. La O della logica comprende quindi il caso in cui valgono entrambe, e qui c'è una differenza con l'italiano parlato, dove «o» spesso suggerisce un'alternativa esclusiva — «o vieni o resti». Quando in un esercizio compare una O, va intesa nel senso largo, salvo che il testo dica esplicitamente il contrario."},
+		{"titolo": "Elencare i casi",
+		 "testo": "Con due parti i casi possibili sono quattro: entrambe vere, la prima vera e la seconda falsa, la prima falsa e la seconda vera, entrambe false. Scriverli tutti e quattro e segnare accanto a ciascuno se la frase composta risulti vera o falsa è il modo più sicuro di rispondere, e richiede meno di un minuto. Il vantaggio non è solo la correttezza: elencando i casi si risponde anche alle domande formulate al contrario — «quando è falsa?» — che altrimenti obbligano a ragionare al rovescio e sono quelle in cui si sbaglia di più."}],
+	"glossario": [
+		{"voce": "E", "spiega": "La frase composta è vera solo quando entrambe le parti sono vere."},
+		{"voce": "O", "spiega": "La frase composta è falsa solo quando entrambe le parti sono false. Comprende il caso in cui valgono tutte e due."},
+		{"voce": "elenco dei casi", "spiega": "Con due parti i casi sono quattro: scriverli tutti è il modo più sicuro di rispondere."}],
+	"esempi": [
+		{"prompt": "«Piove E fa freddo» è vera quando…", "answer": "Piove e fa freddo insieme",
+		 "explanation": "È l'unico dei quattro casi possibili in cui la frase composta risulta vera: basta una parte falsa perché lo sia tutta."},
+		{"prompt": "«Piove O fa freddo» è falsa quando…", "answer": "Non piove e non fa freddo",
+		 "explanation": "La O si accontenta di una parte vera: perché l'insieme sia falso devono essere false tutte e due."}],
+	"metodo": "Scrivi i quattro casi possibili e segna accanto a ciascuno se la frase risulti vera o falsa. Costa meno di un minuto e risponde anche alle domande poste al contrario.",
+	"errore": {"wrong": "Considerare falsa una frase con O quando valgono entrambe le parti.",
+		"why": "La O della logica è larga: è vera se ne vale almeno una, quindi anche quando ne valgono due. Solo il caso «nessuna delle due» la rende falsa."},
+	"insegna": ["E", "O", "elenco dei casi"]},
+
+# ============================================================ VERITA · alta
+"logica-verita-alta": {
+	"subject": "logica", "topic": "verita", "fasce": BANDA_ALTA,
+	"titolo": "Negare una frase senza sbagliarla",
+	"apertura": "Il contrario di «tutti» non è «nessuno», e questo singolo fatto è all'origine di una quantità enorme di ragionamenti sbagliati.",
+	"sezioni": [
+		{"titolo": "Negare un «tutti»",
+		 "testo": "Se «tutti i gatti dormono» è falsa, che cosa è sicuramente vero? Non che nessun gatto dorma — quella sarebbe una affermazione molto più forte, e potrebbe benissimo essere falsa anche lei. Quello che è certamente vero è che ALMENO UN gatto non dorme, perché è esattamente ciò che serve a smentire un «tutti»: una sola eccezione. Il contrario di «tutti» è dunque «almeno uno no», e riconoscerlo evita di scambiare una smentita per l'affermazione opposta. Chi nega un «tutti» dicendo «nessuno» sta dicendo molto di più di quanto abbia il diritto di dire."},
+		{"titolo": "Negare un «nessuno»",
+		 "testo": "Simmetricamente, la negazione di «nessuno è arrivato» è «almeno uno è arrivato». Non «tutti sono arrivati», che di nuovo sarebbe un'affermazione più forte e non giustificata. La regola generale che tiene insieme i due casi è comoda: negando si passa sempre a «almeno uno», e si scambia ciò che se ne afferma. Da «tutti fanno X» si passa a «almeno uno non fa X»; da «nessuno fa X» si passa a «almeno uno fa X». Due passaggi meccanici che sostituiscono un ragionamento in cui è facile scivolare."},
+		{"titolo": "Il se-allora, e il verso che conta",
+		 "testo": "«Se piove, prendo l'ombrello.» Non ho preso l'ombrello: si conclude che non pioveva, ed è una deduzione valida. Il verso opposto invece non lo è: aver preso l'ombrello non permette di concludere che piovesse, perché la frase non dice che l'ombrello si prende SOLO quando piove. È l'errore più frequente in assoluto quando si ragiona su condizioni, e il modo di ricordarlo è tenere a mente che una frase «se A allora B» esclude un solo caso su quattro — quello in cui A è vera e B è falsa — e lascia liberi tutti gli altri."}],
+	"glossario": [
+		{"voce": "negazione", "spiega": "Il contrario di una frase. Negando un «tutti» o un «nessuno» si passa sempre a «almeno uno»."},
+		{"voce": "almeno uno", "spiega": "Basta un caso: è quello che serve a smentire un «tutti» e a smentire un «nessuno»."},
+		{"voce": "se-allora", "spiega": "Esclude un solo caso: quello in cui la prima è vera e la seconda falsa."},
+		{"voce": "verso della deduzione", "spiega": "Da «se A allora B» si può negare B per negare A, mai affermare B per affermare A."}],
+	"esempi": [
+		{"prompt": "Se «tutti i gatti dormono» è falsa, che cosa è sicuramente vero?", "answer": "Almeno un gatto non dorme",
+		 "explanation": "Per smentire un «tutti» basta un'eccezione: dire che nessuno dorme sarebbe un'affermazione molto più forte e non giustificata."},
+		{"prompt": "Qual è la negazione di «nessuno è arrivato»?", "answer": "Almeno uno è arrivato",
+		 "explanation": "Negando un «nessuno» si passa a «almeno uno»: «tutti sono arrivati» direbbe molto di più di quanto la negazione autorizzi."}],
+	"metodo": "Per negare una frase con «tutti» o «nessuno» applica il passaggio meccanico: si va sempre a «almeno uno», e si scambia ciò che se ne afferma. Non ragionarci: applicalo.",
+	"errore": {"wrong": "Negare «tutti i gatti dormono» con «nessun gatto dorme».",
+		"why": "È un'affermazione molto più forte, e può essere falsa anch'essa: per smentire un «tutti» basta e serve una sola eccezione."},
+	"insegna": ["negazione", "almeno uno", "se-allora", "verso della deduzione"]},
+
+# ==================================================== QUANTIFICATORI · base
+"logica-quantificatori-base": {
+	"subject": "logica", "topic": "quantificatori", "fasce": BANDA_BASE,
+	"titolo": "Tutti, alcuni, nessuno",
+	"apertura": "Tre parole che sembrano vaghe e sono invece precisissime. Quasi ogni ragionamento sbagliato nasce dall'averne usata una al posto di un'altra.",
+	"sezioni": [
+		{"titolo": "Che cosa dice esattamente ciascuna",
+		 "testo": "TUTTI indica che vale per ogni singolo caso, senza nessuna eccezione: se anche uno solo non rispetta la proprietà, l'affermazione è falsa. NESSUNO indica lo zero: non c'è nemmeno un caso che la rispetti. ALCUNI significa almeno uno, ed è la parola su cui si sbaglia di più, perché nell'uso comune suggerisce «qualcuno ma non tutti». In logica non è così: «alcuni» non esclude affatto che siano tutti, dice soltanto che ce n'è almeno uno. È una parola più debole di quanto sembri, e proprio per questo più facile da difendere."},
+		{"titolo": "«Alcuni non» è ancora un altro caso",
+		 "testo": "Alla formula «alcuni» si può aggiungere una negazione, e il risultato è una quarta affermazione con un significato proprio. «Alcuni uccelli non volano» significa che almeno uno non vola: non dice quanti siano, non dice che la maggioranza non voli, e non dice niente su tutti gli altri. Basta un pinguino a rendere vera quella frase. Ed è il tipo di affermazione che serve quando si vuole smentire un «tutti» senza affermare troppo: dire «alcuni uccelli non volano» smentisce «tutti gli uccelli volano» ed è tutto quello che serve."},
+		{"titolo": "Perché la precisione paga",
+		 "testo": "La differenza fra queste parole non è una finezza scolastica: cambia che cosa si può dedurre e che cosa si può contestare. Un'affermazione con «tutti» è forte e si smentisce facilmente, perché basta un caso contrario; una con «alcuni» è debole e si difende facilmente, perché basta un caso a favore. Chi sostiene una tesi sceglie il quantificatore più prudente che gli basta, e chi la valuta guarda prima di tutto quale quantificatore è stato usato. È il primo controllo da fare leggendo una frase, prima ancora di chiedersi se sia vera."}],
+	"glossario": [
+		{"voce": "tutti", "spiega": "Vale per ogni singolo caso, senza eccezioni. Basta un caso contrario per smentirla."},
+		{"voce": "alcuni", "spiega": "Almeno uno. Non esclude che siano tutti: è più debole di quanto suggerisca l'uso comune."},
+		{"voce": "nessuno", "spiega": "Zero casi. Basta un caso favorevole per smentirla."},
+		{"voce": "alcuni non", "spiega": "Almeno uno non ha quella proprietà. È quello che serve a smentire un «tutti»."}],
+	"esempi": [
+		{"prompt": "Quale parola indica che vale per ogni singolo caso?", "answer": "Tutti",
+		 "explanation": "Non lascia nessuna eccezione, ed è per questo che basta un solo caso contrario per rendere falsa l'affermazione."},
+		{"prompt": "«Alcuni uccelli non volano» significa che…", "answer": "Almeno uno non vola",
+		 "explanation": "Non dice quanti, non dice che siano pochi e non dice niente sugli altri: basta un pinguino a rendere vera la frase."}],
+	"metodo": "Leggendo una frase, cerca il quantificatore prima di chiederti se sia vera. Quella parola dice già quanto sarebbe facile smentirla e quanto chi la dice si sta esponendo.",
+	"errore": {"wrong": "Leggere «alcuni» come «alcuni ma non tutti».",
+		"why": "In logica significa soltanto «almeno uno» e non esclude affatto la totalità: è una parola debole, e la sua debolezza è proprio ciò che la rende difficile da smentire."},
+	"insegna": ["tutti", "alcuni", "nessuno", "alcuni non"]},
+
+# ==================================================== QUANTIFICATORI · alta
+"logica-quantificatori-alta": {
+	"subject": "logica", "topic": "quantificatori", "fasce": BANDA_ALTA,
+	"titolo": "Che cosa si può dedurre, e che cosa no",
+	"apertura": "Dalle affermazioni con i quantificatori si possono ricavare altre affermazioni, ma solo alcune. Sapere quali è metà del mestiere.",
+	"sezioni": [
+		{"titolo": "Il controesempio",
+		 "testo": "Per smentire un «nessuno» basta un caso solo: «nessuno studente è arrivato in ritardo» è smentita da un singolo studente in ritardo, e non serve nient'altro — non serve dimostrare che ne siano arrivati molti, non serve una statistica. Lo stesso vale specularmente per un «tutti», che cade davanti a una sola eccezione. Un caso che smentisce un'affermazione generale si chiama controesempio, ed è lo strumento più economico della logica: costa pochissimo trovarne uno, e quando c'è chiude la questione senza appello."},
+		{"titolo": "Da «tutti» si può scendere ad «alcuni»",
+		 "testo": "Da «tutti i cani abbaiano» si può dedurre che almeno un cane abbaia, a patto che i cani esistano. La precisazione non è un capriccio: se la categoria fosse vuota, un'affermazione con «tutti» resterebbe tecnicamente vera senza che esista nessun caso da cui ricavarne una con «alcuni». Fuori da questo caso limite la deduzione funziona sempre e in una direzione sola: si può passare dal forte al debole, mai il contrario. Da «alcuni cani abbaiano» non si ricava in nessun modo che abbaino tutti."},
+		{"titolo": "Girare una frase: che cosa si conserva",
+		 "testo": "Da «tutti i quadrati sono rettangoli» si può dire che ALCUNI rettangoli sono quadrati, e non che tutti lo siano. Guardando i due cerchi si capisce subito perché: quello dei quadrati sta dentro quello dei rettangoli, quindi nella zona comune c'è sicuramente qualcosa — ed è tutto ciò che «alcuni» richiede — ma il cerchio grande sporge parecchio, e quella parte che sporge smentisce il «tutti». Girare una frase con «tutti» conservando il «tutti» è l'errore che i diagrammi rendono impossibile, ed è la ragione migliore per disegnarli."}],
+	"glossario": [
+		{"voce": "controesempio", "spiega": "Un caso che smentisce un'affermazione generale. Ne basta uno, e chiude la questione."},
+		{"voce": "dal forte al debole", "spiega": "Da «tutti» si ricava «alcuni», mai il contrario."},
+		{"voce": "conversione", "spiega": "Girare una frase. Da «tutti gli A sono B» si ricava «alcuni B sono A», non «tutti»."},
+		{"voce": "categoria vuota", "spiega": "Il caso limite in cui non esiste nessun elemento: lì da «tutti» non si può ricavare «alcuni»."}],
+	"esempi": [
+		{"prompt": "«Nessuno studente è arrivato in ritardo» è smentita da…", "answer": "Un solo studente in ritardo",
+		 "explanation": "Per smentire un «nessuno» basta un controesempio: non serve dimostrare che siano molti, e un caso solo chiude la questione."},
+		{"prompt": "«Tutti i quadrati sono rettangoli» permette di dire che…", "answer": "Alcuni rettangoli sono quadrati",
+		 "explanation": "Nella zona comune dei due cerchi c'è sicuramente qualcosa, ed è quanto «alcuni» richiede; ma il cerchio dei rettangoli sporge, e questo esclude il «tutti»."}],
+	"metodo": "Per girare una frase disegna i due cerchi e guarda la zona comune. Se c'è qualcosa puoi dire «alcuni»; puoi dire «tutti» solo se il cerchio grande non sporge da nessuna parte.",
+	"errore": {"wrong": "Da «tutti i quadrati sono rettangoli» concludere che tutti i rettangoli siano quadrati.",
+		"why": "Girando una frase con «tutti» si conserva solo «alcuni»: il cerchio dei rettangoli contiene molte figure che quadrati non sono."},
+	"insegna": ["controesempio", "dal forte al debole", "conversione", "categoria vuota"]},
 }
 
 
@@ -2867,6 +4082,61 @@ static func vocabolario(subject: String, topic: String, fascia: int) -> Array:
 				out.append(str(voce))
 	return out
 
+## Una figura che spiega davvero il concetto della dispensa. Le specifiche
+## nominano soltanto una famiglia semantica; NoraFigura decide la resa. Questo
+## mantiene l'invariante del progetto: i dati non contengono coordinate.
+static func figura_per(d: Dictionary) -> Dictionary:
+	var id := str(d.get("id", ""))
+	if FIGURE_SPECIFICHE.has(id):
+		return (FIGURE_SPECIFICHE[id] as Dictionary).duplicate(true)
+	var subject := str(d.get("subject", ""))
+	var topic := str(d.get("topic", ""))
+	match subject:
+		"coding":
+			return {"tipo":"flusso", "sezione":0, "dati":{"topic":topic}}
+		"storia":
+			return {"tipo":"tempo", "sezione":0, "dati":{"era":topic if topic in ["preistoria", "egizi", "grecia", "roma", "medioevo"] else ""}}
+		"geografia":
+			return {"tipo":"mappa", "sezione":0, "dati":{"carta":"europe", "bersaglio":""}}
+		"latino":
+			return {"tipo":"casi", "sezione":0, "dati":{"scelto":""}}
+		"scienze":
+			if topic == "materia": return {"tipo":"stati_materia", "sezione":0}
+			if topic == "terra-universo": return {"tipo":"stagioni", "sezione":0}
+			if topic in ["ecosistema", "energia", "ambiente"]: return {"tipo":"piramide_ecologica", "sezione":0}
+			if topic in ["viventi", "corpo"]: return {"tipo":"cellula", "sezione":0}
+			return {"tipo":"prova_controllata", "sezione":0}
+		"elettronica":
+			var circuit_kind := "parallelo" if topic == "serie-parallelo" else "chiuso"
+			if topic == "guasti": circuit_kind = "aperto"
+			return {"tipo":"circuito", "sezione":0, "dati":{"forma":circuit_kind}}
+		"musica":
+			if topic in ["note", "lettura", "intervalli"]:
+				return {"tipo":"note", "sezione":0, "dati":{"scelta":""}}
+			if topic in ["timbro", "strumenti", "dinamica"]:
+				return {"tipo":"onde", "sezione":0}
+			return {"tipo":"battuta", "sezione":0, "dati":{"movimenti":4, "sotto":4}}
+		"logica":
+			if topic in ["insiemi", "quantificatori"]:
+				return {"tipo":"insiemi", "sezione":0}
+			return {"tipo":"flusso", "sezione":0, "dati":{"topic":topic}}
+		"fisica":
+			if topic in ["forze", "moto", "leve"]: return {"tipo":"forze", "sezione":0}
+			if topic in ["pressione", "galleggiamento", "correnti"]: return {"tipo":"pressione", "sezione":0}
+			if topic == "onde-luce": return {"tipo":"onde", "sezione":0}
+			if topic in ["energia", "calore"]: return {"tipo":"flusso_energia", "sezione":0}
+			if topic == "materia": return {"tipo":"stati_materia", "sezione":0}
+			return {"tipo":"prova_controllata", "sezione":0}
+		"matematica":
+			if topic.contains("frazion") or topic.contains("percent"):
+				return {"tipo":"torta", "sezione":0, "dati":{"parti":4,"prese":3}}
+			if topic.contains("geometr") or topic in ["area", "perimetro"]:
+				return {"tipo":"contorno", "sezione":0, "dati":{"cosa":"area"}}
+			return {"tipo":"griglia", "sezione":0, "dati":{"righe":3,"colonne":4,"evidenzia":""}}
+		"italiano", "inglese":
+			return {"tipo":"flusso", "sezione":0, "dati":{"topic":topic}}
+	return {}
+
 ## **La dispensa vestita da lezione.** `ExercisePlayer._show_teaching_overlay`
 ## sa disegnare una forma sola — quella di `KnowledgeCodex.mini_lesson` — e
 ## riscriverne una seconda avrebbe prodotto due schede da mantenere allineate.
@@ -2898,6 +4168,8 @@ static func lezione(subject: String, topic: String, fascia: int) -> Dictionary:
 		"esempiExtra": extra,
 		"strategy": str(d.get("metodo", "")),
 		"watchOut": d.get("errore", {}),
+		"figura": figura_per(d),
+		"tavolaId": str(TAVOLA_PER_DISPENSA.get(str(d.get("id", "")), "")),
 	}
 
 ## **Questa dispensa insegna davvero questa risposta?**

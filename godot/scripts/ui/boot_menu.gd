@@ -425,6 +425,14 @@ func _prepare_release_smoke_save() -> void:
 			ApparatusConfig.priority_tier(subject) <= 2)
 		for index in range(maxi(topic_target, 1)):
 			save.set_topic_mastery(subject, "release-smoke-topic-%d" % index, 1.0)
+	# Dopo l'esame la fixture entra nel mondo 2 per collaudare richiesta del
+	# residente -> POI -> esercizio. Quel percorso non e' il collaudo della
+	# minimissione che consegna lo strumento (coperta dagli audit dedicati): senza
+	# la chiave del mondo 2 la bussola, correttamente, devia prima sulla falce e lo
+	# smoke non raggiunge piu' la missione che deve verificare.
+	var next_world_tool := FieldTools.del_mondo(2)
+	if next_world_tool != "":
+		RewardManager.new(save).deliver_field_tool(next_world_tool)
 	save.data["accessibility"] = {
 		"highContrast": true,
 		"reducedMotion": true,

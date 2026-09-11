@@ -191,6 +191,26 @@ func _controlla_schede(player: Node, schermo: Vector2i, livello: int) -> void:
 	for scheda_data in schede:
 		var scheda: Control = scheda_data
 		var pulsante := scheda.find_child("TeachingStartButton", true, false) as Button
+		# Le dispense lunghe non espongono il CTA finale al primo passo: sarebbe
+		# un invito a saltarle. La via d'uscita e' la catena di AVANTI, e la guardia
+		# deve percorrerla controllando a ogni passo che il comando esista e resti
+		# dentro lo schermo. Il vincolo non si allenta: diventa piu' severo, perché
+		# ora misura anche tutti i passaggi intermedi.
+		var avanzamenti := 0
+		while pulsante != null and not pulsante.visible and avanzamenti < 20:
+			var avanti := scheda.find_child("TeachingNextButton", true, false) as Button
+			if avanti == null or not avanti.visible or avanti.disabled:
+				_fallisci("mondo %d · %dx%d: una dispensa si ferma al passo %d senza AVANTI né CTA finale" % [
+					livello, schermo.x, schermo.y, avanzamenti + 1])
+				break
+			var r_avanti := avanti.get_global_rect()
+			var alto_avanti := float(player.get_viewport_rect().size.y)
+			if r_avanti.end.y > alto_avanti + 1.0:
+				_fallisci("mondo %d · %dx%d: AVANTI finisce a y %.0f su uno schermo alto %.0f" % [
+					livello, schermo.x, schermo.y, r_avanti.end.y, alto_avanti])
+				break
+			avanti.pressed.emit()
+			avanzamenti += 1
 		if pulsante == null or not pulsante.visible:
 			_fallisci("mondo %d · %dx%d: una scheda di NORA senza il pulsante che la chiude" % [
 				livello, schermo.x, schermo.y])

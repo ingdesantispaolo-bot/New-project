@@ -18,6 +18,8 @@ const EXERCISE_CONNECTION_CANVAS := preload("res://scripts/ui/exercise_connectio
 const EXERCISE_DIAGRAM := preload("res://scripts/ui/exercise_diagram.gd")
 const SUBJECT_SIGNATURE_DIAGRAM := preload("res://scripts/ui/subject_signature_diagram.gd")
 const NORA_FIGURA = preload("res://scripts/game/nora_figura.gd")
+const TEACHING_PARADIGM_GRID = preload("res://scripts/ui/teaching_paradigm_grid.gd")
+const TAVOLE_RIFERIMENTO = preload("res://scripts/game/tavole_riferimento.gd")
 const MAP_GEOMETRY_CATALOG := preload("res://scripts/visual/map_geometry_catalog.gd")
 const ARTIFACT_ATLAS_CATALOG := preload("res://scripts/visual/artifact_atlas_catalog.gd")
 const FINAL_CONVERGENCE_DISPLAY := preload("res://scripts/ui/final_convergence_display.gd")
@@ -979,11 +981,11 @@ func _show_teaching_overlay() -> void:
 	# non è «un concetto nuovo in due frasi»: è un documento da leggere, e dirlo
 	# in testa cambia come lo si legge. Vedi `docs/REGOLA_DISPENSE.md`.
 	var e_dispensa := str(lesson.get("dispensaId", "")) != ""
-	var eyebrow := Label.new()
 	if e_dispensa:
-		eyebrow.text = "DISPENSA · RIPASSO" if moment == "re_teach" else "DISPENSA · LEGGI PRIMA DI PROVARE"
-	else:
-		eyebrow.text = "RIPASSO MIRATO CON NORA" if moment == "re_teach" else "NUOVO CONCETTO · NORA SPIEGA"
+		_build_dispensa_steps(box, panel, scroll, overlay, lesson, linea, moment)
+		return
+	var eyebrow := Label.new()
+	eyebrow.text = "RIPASSO MIRATO CON NORA" if moment == "re_teach" else "NUOVO CONCETTO · NORA SPIEGA"
 	eyebrow.add_theme_font_size_override("font_size", 16)
 	eyebrow.add_theme_color_override("font_color", Color("6be7d6"))
 	box.add_child(eyebrow)
@@ -1119,6 +1121,172 @@ func _show_teaching_overlay() -> void:
 		panel.anchor_bottom = 0.5
 		panel.offset_top = -naturale * 0.5
 		panel.offset_bottom = naturale * 0.5
+
+## Una dispensa non e' piu' una colonna alta tre schermate: e' una sequenza di
+## passi consultabili avanti e indietro. Ogni passo resta dentro lo stesso
+## ScrollContainer (serve ancora sui telefoni bassi), ma il lettore sa sempre
+## dove si trova e puo' tornare alla sezione precedente senza trascinare una
+## barra per centinaia di pixel.
+func _build_dispensa_steps(
+	box: VBoxContainer, panel: Panel, scroll: ScrollContainer, overlay: Control,
+	lesson: Dictionary, linea: String, moment: String
+) -> void:
+	var pages: Array = []
+	var cover := _new_dispensa_page(box, "Apertura", pages)
+	var eyebrow := Label.new()
+	eyebrow.text = "DISPENSA · RIPASSO" if moment == "re_teach" else "DISPENSA · LEGGI PRIMA DI PROVARE"
+	eyebrow.add_theme_font_size_override("font_size", 16)
+	eyebrow.add_theme_color_override("font_color", Color("6be7d6"))
+	cover.add_child(eyebrow)
+	_add_teaching_text(cover, linea, Color("f6c85f"), 20)
+	_add_teaching_text(cover, str(lesson.get("titolo", "")), Color("f6c85f"), 19)
+	_add_teaching_text(cover, str(lesson.get("intro", "")), Color("e7fffb"), 17)
+
+	var figure_spec: Dictionary = lesson.get("figura", {})
+	var sections: Array = lesson.get("documento", [])
+	for indice in sections.size():
+		var section: Dictionary = sections[indice]
+		var page: VBoxContainer = cover if indice == 0 else _new_dispensa_page(
+			box, str(section.get("titolo", "Sezione")), pages)
+		_add_teaching_section(page, str(section.get("titolo", "")).to_upper(), str(section.get("testo", "")))
+		if not figure_spec.is_empty() and int(figure_spec.get("sezione", 0)) == indice:
+			_add_dispensa_figure(page, figure_spec)
+
+	# Il paradigma e' una pagina propria: righe abbastanza grandi per un dito,
+	# colonne CASO/NUMERO/FORMA e coincidenze colorate. La tavola arriva per ID.
+	var tavola_id := str(lesson.get("tavolaId", ""))
+	if tavola_id != "":
+		var tavola: Dictionary = TAVOLE_RIFERIMENTO.tavola_di_id(tavola_id)
+		if not tavola.is_empty():
+			var table_page := _new_dispensa_page(box, "Paradigma", pages)
+			_add_teaching_text(table_page, "PARADIGMA · CASO × NUMERO", Color("f6c85f"), 17)
+			var grid = TEACHING_PARADIGM_GRID.new()
+			grid.mostra(tavola)
+			table_page.add_child(grid)
+			_add_teaching_text(table_page, grid.descrizione(), Color(0.76, 0.92, 0.90), 13)
+
+	var glossary: Array = lesson.get("glossario", [])
+	if not glossary.is_empty():
+		var glossary_page := _new_dispensa_page(box, "Glossario", pages)
+		var rows: Array = []
+		for raw in glossary:
+			var entry: Dictionary = raw
+			rows.append("%s — %s" % [str(entry.get("voce", "")), str(entry.get("spiega", ""))])
+		_add_teaching_section(glossary_page, "LE PAROLE CHE USEREMO", "\n\n".join(rows))
+
+	var examples: Array = []
+	var first_example: Dictionary = lesson.get("workedExample", {})
+	if not first_example.is_empty(): examples.append(first_example)
+	for raw in lesson.get("esempiExtra", []): examples.append(raw)
+	for indice in examples.size():
+		var example: Dictionary = examples[indice]
+		var text := str(example.get("prompt", "")).strip_edges()
+		if str(example.get("answer", "")).strip_edges() != "":
+			text += "\n\nRisultato: %s" % str(example.get("answer", ""))
+		if str(example.get("explanation", "")).strip_edges() != "":
+			text += "\nPerché: %s" % str(example.get("explanation", ""))
+		var example_page := _new_dispensa_page(box, "Esempio %d" % (indice + 1), pages)
+		_add_teaching_section(example_page, "ESEMPIO SVOLTO %d" % (indice + 1), text)
+
+	var method_page := _new_dispensa_page(box, "Metodo", pages)
+	_add_teaching_section(method_page, "METODO DI NORA", str(lesson.get("strategy", "")))
+	var watch: Dictionary = lesson.get("watchOut", {})
+	var warning := str(watch.get("wrong", "")).strip_edges()
+	if str(watch.get("why", "")).strip_edges() != "":
+		warning += "\nPerché non funziona: %s" % str(watch.get("why", ""))
+	_add_teaching_section(method_page, "ATTENZIONE A…", warning)
+
+	_add_dispensa_footer(panel, scroll, overlay, box, pages)
+
+func _new_dispensa_page(box: VBoxContainer, label: String, pages: Array) -> VBoxContainer:
+	var page := VBoxContainer.new()
+	page.name = "TeachingPage_%02d" % pages.size()
+	page.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	page.add_theme_constant_override("separation", 14)
+	page.tooltip_text = label
+	page.visible = pages.is_empty()
+	box.add_child(page)
+	pages.append(page)
+	return page
+
+func _add_dispensa_figure(page: VBoxContainer, spec: Dictionary) -> void:
+	var figure = NORA_FIGURA.new()
+	figure.name = "TeachingFigure"
+	figure.mostra(str(spec.get("tipo", "")), Dictionary(spec.get("dati", {})))
+	page.add_child(figure)
+	var description := Label.new()
+	description.name = "TeachingFigureDescription"
+	description.text = "Figura: %s" % figure.descrizione()
+	description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	description.add_theme_font_size_override("font_size", 13)
+	description.add_theme_color_override("font_color", Color(0.76, 0.92, 0.90))
+	page.add_child(description)
+
+func _add_dispensa_footer(
+	panel: Panel, scroll: ScrollContainer, overlay: Control, box: VBoxContainer, pages: Array
+) -> void:
+	var footer := HBoxContainer.new()
+	footer.name = "TeachingPageControls"
+	footer.anchor_left = 0.0
+	footer.anchor_right = 1.0
+	footer.anchor_top = 1.0
+	footer.anchor_bottom = 1.0
+	footer.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	footer.offset_left = 18.0
+	footer.offset_right = -18.0
+	footer.offset_top = -(ALTEZZA_CHIUSURA_SCHEDA + 12.0)
+	footer.offset_bottom = -12.0
+	footer.add_theme_constant_override("separation", 10)
+	panel.add_child(footer)
+
+	var back := Button.new()
+	back.name = "TeachingBackButton"
+	back.text = "INDIETRO"
+	back.custom_minimum_size = Vector2(132, 56)
+	back.disabled = true
+	footer.add_child(back)
+	var progress := Label.new()
+	progress.name = "TeachingProgress"
+	progress.text = "PASSO 1 DI %d" % pages.size()
+	progress.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	progress.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	progress.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	progress.add_theme_font_size_override("font_size", 15)
+	progress.add_theme_color_override("font_color", Color("6be7d6"))
+	footer.add_child(progress)
+	var next := Button.new()
+	next.name = "TeachingNextButton"
+	next.text = "AVANTI"
+	next.custom_minimum_size = Vector2(132, 56)
+	next.add_theme_stylebox_override("normal", _exercise_button_style(Color("164b55"), Color("6be7d6")))
+	footer.add_child(next)
+	var begin := Button.new()
+	begin.name = "TeachingStartButton"
+	begin.text = "HO CAPITO · INIZIA"
+	begin.custom_minimum_size = Vector2(210, 56)
+	begin.visible = pages.size() == 1
+	begin.add_theme_stylebox_override("normal", _exercise_button_style(Color("147d75"), Color("a7fff2")))
+	begin.pressed.connect(_dismiss_teaching_overlay.bind(overlay))
+	footer.add_child(begin)
+	box.set_meta("teaching_page", 0)
+	back.pressed.connect(_move_dispensa_page.bind(-1, box, pages, scroll, progress, back, next, begin))
+	next.pressed.connect(_move_dispensa_page.bind(1, box, pages, scroll, progress, back, next, begin))
+	(next if pages.size() > 1 else begin).call_deferred("grab_focus")
+
+func _move_dispensa_page(
+	delta: int, box: VBoxContainer, pages: Array, scroll: ScrollContainer,
+	progress: Label, back: Button, next: Button, begin: Button
+) -> void:
+	var current := clampi(int(box.get_meta("teaching_page", 0)) + delta, 0, pages.size() - 1)
+	box.set_meta("teaching_page", current)
+	for indice in pages.size():
+		(pages[indice] as Control).visible = indice == current
+	progress.text = "PASSO %d DI %d" % [current + 1, pages.size()]
+	back.disabled = current == 0
+	next.visible = current < pages.size() - 1
+	begin.visible = current == pages.size() - 1
+	scroll.scroll_vertical = 0
+	(back if current > 0 else next).call_deferred("grab_focus")
 
 ## **La barra si misura e lo scorrimento le fa posto.** (15 agosto 2026)
 ##

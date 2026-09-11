@@ -54,9 +54,14 @@ const TETTO_ARGOMENTI_SCOPERTI := {
 	# Quinta materia convertita, 11 settembre 2026: sedici dispense.
 	"scienze": 0,
 	"fisica": 12,
-	"elettronica": 8,
-	"logica": 6,
-	"musica": 8,
+	# Sesta materia convertita, 11 settembre 2026: sedici dispense.
+	"elettronica": 0,
+	# Ottava materia convertita, 11 settembre 2026: dodici dispense. NON entra fra
+	# le materie di richiamo: la risposta e' il risultato di un procedimento, e
+	# «mela» non comparira' mai in nessun documento.
+	"logica": 0,
+	# Settima materia convertita, 11 settembre 2026: quindici dispense.
+	"musica": 0,
 }
 
 ## **Il tetto del vocabolario non dichiarato**, per materia. Gli item scritti
@@ -112,7 +117,7 @@ const NOTAZIONI_SOLO_NEL_CODICE := ["%", "/"]
 ## La distinzione non è per materia per comodità: è che in storia l'oggetto da
 ## imparare è il fatto, in coding è il metodo. L'elenco cresce con geografia e
 ## latino, che hanno la stessa forma (vedi `tavole_riferimento_audit`).
-const MATERIE_DI_RICHIAMO := ["storia", "geografia", "latino", "scienze"]
+const MATERIE_DI_RICHIAMO := ["storia", "geografia", "latino", "scienze", "elettronica", "musica"]
 
 var errori: Array = []
 var misure: Array = []

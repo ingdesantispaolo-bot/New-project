@@ -146,14 +146,17 @@ Stato all'apertura del registro, misurato sui banchi dell'11 settembre 2026:
 | **storia** | 9 | **0** — convertita l'11 settembre |
 | **geografia** | 8 | **0** — convertita l'11 settembre |
 | **latino** | 15 | **0** — convertita l'11 settembre |
+| **scienze** | 8 | **0** — convertita l'11 settembre |
+| **elettronica** | 8 | **0** — convertita l'11 settembre |
+| **musica** | 8 | **0** — convertita l'11 settembre |
+| **logica** | 6 | **0** — convertita l'11 settembre |
 | inglese | 47 | 47 |
 | matematica | 34 | 34 |
 | italiano | 30 | 30 |
 | fisica | 12 | 12 |
-| scienze | 8 | 8 |
-| elettronica | 8 | 8 |
-| musica | 8 | 8 |
-| logica | 6 | 6 |
+
+**Otto materie su dodici, 143 dispense, 431 item che ne dichiarano una.** Restano
+le tre grandi — inglese, matematica, italiano — più fisica.
 
 ## Coding, la prima materia convertita
 
@@ -282,6 +285,51 @@ applicando la dispensa dei casi, che quella forma non la scrive ma **insegna a
 costruirla** (l'accusativo singolare della prima declinazione è -am). La
 riparazione giusta non era cambiare la domanda: era far dichiarare alla dispensa
 l'insieme delle forme che insegna a costruire.
+
+## Le quattro piccole: scienze, elettronica, musica, logica
+
+| | scienze | elettronica | musica | logica |
+|---|---|---|---|---|
+| dispense | 16 | 16 | 15 | 12 |
+| item nuovi | 48 | 33 | 31 | 20 |
+| banco | 193 → 241 | 186 → 219 | 167 → 196 | 152 → 175 |
+
+Ognuna ha una sola idea portante, dichiarata nella prima dispensa e ripresa in
+tutte le altre — è quello che tiene insieme sedici documenti e impedisce che
+diventino sedici capitoli slegati:
+
+| materia | l'idea che ritorna ovunque |
+|---|---|
+| scienze | applicare un criterio a un caso nuovo, perché una definizione ripetuta non dice se sia stata capita |
+| elettronica | una sola analogia per otto argomenti: la tensione spinge, la resistenza frena, la corrente scorre |
+| musica | un suono porta tre informazioni indipendenti — altezza, durata, timbro — scritte nello stesso posto |
+| logica | il compito non è indovinare l'elemento ma trovare la regola, e la regola si verifica |
+
+**Logica resta fuori dalle materie di richiamo**, come coding, e la ragione è la
+stessa: lì la risposta è il risultato di un procedimento applicato a un caso —
+«mela» non comparirà mai in nessun documento né deve.
+
+Anche `BANDA_INTERA` e la banda singola hanno trovato altri usi: `intervalli` in
+musica ha una dispensa sola perché il banco lo interroga solo alle fasce 6-8,
+esattamente come `medioevo` in storia.
+
+### Tre cose che le guardie hanno insegnato convertendo
+
+**La parola giusta è quella del documento.** In scienze quattro risposte dicevano
+la cosa giusta con parole diverse dal testo — «crescono di numero» mentre il
+documento dice «la loro popolazione aumenta». La riparazione non è allentare il
+controllo: è usare le parole del documento, che è comunque corretto, perché in
+una risposta libera il bambino scriverà quelle.
+
+**Una banda alta non si usa alla fascia 4.** La parola «fusione» compare solo
+nella banda alta di `materia`, e una domanda che la chiedeva stava alla fascia 4.
+È il difetto che la regola esiste per impedire, commesso da chi la stava
+scrivendo.
+
+**Aggiungere item può far scattare altre soglie.** Tre argomenti di geografia
+hanno superato i quaranta esercizi, e sopra quella soglia
+`nora_spiegazione_utile` pretende più di una riga di NORA. Vale per ogni materia
+che si convertirà: il contenuto nuovo non è mai solo contenuto nuovo.
 
 ## Che cosa NON cambia
 

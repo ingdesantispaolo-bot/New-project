@@ -135,7 +135,12 @@ const TETTO := {
 	# mentre i distrattori erano misure brevi. Allungati i sei distrattori, mai
 	# accorciata una risposta.
 	"coding": 22.2,
-	"elettronica": 21.9,
+	# Scesa a 21,8 l'11 settembre 2026 con le applicazioni delle dispense. I 33 item
+	# nuovi l'avevano prima fatta salire a 24,7 — il salto piu' grosso di tutte e sei
+	# le conversioni — perche' sette di loro avevano la risposta piu' lunga di cinque
+	# caratteri: le domande che chiedono di PREVEDERE hanno risposte articolate e
+	# distrattori secchi. Allungati i sette distrattori, mai accorciata una risposta.
+	"elettronica": 21.8,
 	"fisica": 21.9,
 	# Scesa a 23,7 l'11 settembre 2026 con le applicazioni delle dispense: 48 prove
 	# nuove con le opzioni bilanciate, e nessuna in cui la risposta sia la piu' lunga.
@@ -163,9 +168,15 @@ const TETTO := {
 	# sta al decimo posto» e tre «a che posto sta questo numero». Erano aritmetica
 	# con l'etichetta della logica: si rispondeva sommando la differenza all'ultimo
 	# termine, senza mai formulare una regola.
-	"logica": 20.1,
+	# Scesa a 20,2 l'11 settembre 2026 con le applicazioni delle dispense: un solo
+	# item nuovo aveva la risposta piu' lunga di cinque caratteri, allungato il suo
+	# distrattore. Resta la materia piu' lontana dal caso di tutte e dodici.
+	"logica": 20.2,
 	"matematica": 24.3,
-	"musica": 23.7,
+	# Scesa a 23,6 l'11 settembre 2026 con le applicazioni delle dispense: tre item
+	# nuovi avevano la risposta piu' lunga di cinque caratteri, e un quarto e' passato
+	# a risposta libera perche' `free_answer` chiedeva un item in piu'.
+	"musica": 23.6,
 	# Scesa a 22,0 l'11 settembre 2026 con le applicazioni delle dispense: tre dei
 	# 48 item nuovi avevano la risposta piu' lunga di cinque caratteri, allungati i
 	# rispettivi distrattori.

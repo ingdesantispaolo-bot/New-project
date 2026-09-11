@@ -41,8 +41,11 @@ import { STORIA_APPLICAZIONI } from "./banks/storia-applicazioni.mjs";
 import { SESSIONI_LUNGHE } from "./banks/sessioni-lunghe-programma.mjs";
 import { CODING_FIRME } from "./banks/coding-firme.mjs";
 import { LOGICA_FIRME } from "./banks/logica-firme.mjs";
+import { LOGICA_APPLICAZIONI } from "./banks/logica-applicazioni.mjs";
 import { ELETTRONICA_FIRME } from "./banks/elettronica-firme.mjs";
+import { ELETTRONICA_APPLICAZIONI } from "./banks/elettronica-applicazioni.mjs";
 import { MUSICA_FIRME } from "./banks/musica-firme.mjs";
+import { MUSICA_APPLICAZIONI } from "./banks/musica-applicazioni.mjs";
 import { SCIENZE_FIRME } from "./banks/scienze-firme.mjs";
 import { STORIA_FIRME } from "./banks/storia-firme.mjs";
 import { LATINO_FIRME } from "./banks/latino-firme.mjs";
@@ -4708,6 +4711,31 @@ BANKS["latino-base"].items.push(
 // ripetere una definizione. Una definizione ripetuta non dice se sia stata capita.
 BANKS["scienze-base"].items.push(
   ...authoredMcItems("scienze", SCIENZE_APPLICAZIONI, rng(20260921), "scienze-app"),
+);
+
+// **Le applicazioni delle dispense di elettronica** (11 settembre 2026): sedici
+// dispense che usano una sola immagine — il dislivello e lo scorrimento — per
+// tutti e otto gli argomenti, e prove che chiedono di PREVEDERE invece che di
+// definire. E' la forma in cui un'analogia sbagliata si rivela subito.
+BANKS["elettronica-base"].items.push(
+  ...authoredMcItems("elettronica", ELETTRONICA_APPLICAZIONI, rng(20260922), "elettronica-app"),
+);
+
+// **Le applicazioni delle dispense di musica** (11 settembre 2026): quindici
+// dispense tenute insieme da una sola idea — un suono porta tre informazioni
+// indipendenti, altezza durata timbro, e la notazione le scrive nello stesso
+// posto con segni diversi. Quasi ogni errore di lettura e' una scambiata per
+// un'altra, e le domande misurano esattamente quello.
+BANKS["musica-base"].items.push(
+  ...authoredMcItems("musica", MUSICA_APPLICAZIONI, rng(20260923), "musica-app"),
+);
+
+// **Le applicazioni delle dispense di logica** (11 settembre 2026): dodici
+// dispense che insegnano PROCEDIMENTI e non fatti, perche' qui la risposta e' il
+// risultato di un'applicazione — «mela» non comparira' mai in nessun documento.
+// Per questo logica resta fuori dalle materie di richiamo, come coding.
+BANKS["logica-base"].items.push(
+  ...authoredMcItems("logica", LOGICA_APPLICAZIONI, rng(20260924), "logica-app"),
 );
 BANKS["latino-base"].items.push(
   ...authoredMcItems("latino", LATINO_FIRME, rng(20260917), "latino-firme"),

@@ -75,6 +75,25 @@ Cinque regole, e sono tutte state pagate almeno una volta.
 > cui le due corsie si toccano davvero, perché entrambe ci agganciano lotti nuovi.
 > Chi lo modifica controlli che i sorgenti che importa esistano.
 >
+> **Secondo giro dell'11 settembre 2026 · Claude: `npm run audit:godot`, 280 verdi
+> su 281.** L'unico rosso, `nodo_senza_uscita_audit`, è un falso: quel file è
+> stato modificato alle 18:15 mentre la suite lo stava eseguendo, e rilanciato in
+> isolamento è verde («452 nodi giocati, 125 schede di NORA aperte, su 3 schermi,
+> da ogni scheda si esce senza scorrere»). **Terza volta in giornata che la
+> concorrenza produce un rosso che non esiste.**
+>
+> Seguito il *Rituale di export* alla lettera — commit del codice da solo, poi
+> `version:stamp`, export, `web:sync`, `audit:web`, `audit:godot`, e solo allora
+> il secondo commit con la build. La volta precedente avevo usato
+> `npm run release:web` in un colpo solo e committato tutto insieme: funziona, ma
+> viola l'ordine per cui il rituale esiste, cioè che il commit marchiato non possa
+> essere quello che porta la build.
+>
+> **Chiuse nella seconda metà della giornata le altre quattro materie della regola
+> delle dispense**: scienze, elettronica, musica e logica. Totale **otto su
+> dodici**, 143 dispense e 431 item che dichiarano quale documento applicano.
+> Restano inglese, matematica, italiano e fisica.
+>
 > **Lavoro chiuso nella giornata — la regola delle dispense**
 > ([docs/REGOLA_DISPENSE.md](docs/REGOLA_DISPENSE.md)), su richiesta del
 > committente: nessuna domanda senza un documento che la insegni. Cinque materie
@@ -1595,77 +1614,6 @@ fare **dopo il collaudo**: sei materie del mondo 1 sono cambiate molto e convien
 sapere se la differenza si sente prima di scriverne altre sessanta.
 
 ### Resa e scena — Codex
-
-**C-R5 · La dispensa è tre schermate di testo senza una figura.** Aperta l'11
-settembre 2026 insieme alla regola delle dispense
-([docs/REGOLA_DISPENSE.md](docs/REGOLA_DISPENSE.md)). Misurato adesso, con le
-cinque materie convertite:
-
-| | |
-|---|---|
-| dispense scritte | **97** |
-| testo totale | **310.056 caratteri** |
-| media per dispensa | **3.196 caratteri** |
-| la più lunga (`coding-operatori-base`) | 4.102 caratteri |
-| la più lunga sulla scheda | **1.719 px in una finestra da 566 px = 3,0 schermate** |
-| blocchi disegnati in quella scheda | 24, **tutti di testo** |
-
-Il contenuto c'è ed è verificato — `dispense_audit` è verde, e giocando davvero
-il documento arriva davanti al 100% dei primi incontri. Il problema è che
-`ExercisePlayer._show_teaching_overlay` sa disegnare una cosa sola: paragrafi in
-`Label`. Tre schermate di prosa continua davanti a un bambino di undici anni si
-saltano, e una dispensa saltata è peggio di una scheda breve, perché insegna che
-le spiegazioni si chiudono senza leggerle.
-
-Due cose, e la prima vale più della seconda:
-
-1. **Una figura per dispensa, dove la figura è il contenuto.** La scheda deve
-   poter portare un disegno accanto a una sezione, non solo testo. I casi in cui
-   il disegno *è* la spiegazione sono già scritti e si trovano per nome: i tre
-   stati della materia (`scienze-materia-base`), la piramide ecologica
-   (`scienze-ecosistema-alta`), la fascia dei deserti a trenta gradi
-   (`geografia-geografia-fisica-alta`), le due placche che spingono
-   (`geografia-geografia-italia-alta`), il rientro che decide a chi appartiene
-   una riga (`coding-condizioni-base`).
-2. **Come si sta dentro tre schermate.** Oggi non c'è nessun segno di quanto
-   manchi né modo di tornare a una sezione: la colonna scorre e basta. Serve
-   almeno un indicatore di avanzamento, e possibilmente le sezioni come passi
-   con un avanti/indietro invece di uno scorrimento unico.
-
-**Guardia da lasciare chiusa insieme al lavoro:** un audit che pretende che
-nessuna dispensa superi N schermate senza portare almeno una figura, con N
-misurato e scritto. Oggi il numero è 3,0 e non c'è nessuna figura: qualunque
-soglia dichiarata è un miglioramento su nessuna.
-
-**C-R6 · Il paradigma latino è una tabella raccontata a parole.** Aperta l'11
-settembre 2026. Le sette dispense `latino-declinazione-*` descrivono in prosa
-corrente una tabella di undici caselle — «al singolare: nominativo *rosa*,
-genitivo *rosae*, dativo *rosae*…» — e lo fanno perché la scheda non sa
-disegnare una tabella, non perché sia il modo giusto di presentarla. Ogni libro
-di latino stampa quel paradigma in griglia nella prima pagina, e c'è un motivo:
-in griglia si vede a colpo d'occhio quali caselle coincidono, che è esattamente
-la cosa che gli item chiedono di sapere.
-
-Il materiale è già strutturato e non va riscritto: ogni dispensa dichiara le sue
-`regole`, e `TAVOLE_LATINO` ha già le tavole `paradigma` con una voce per casella.
-Manca il renderer: una griglia casi × numero, con le caselle che coincidono
-marcate.
-
-**Guardia da lasciare chiusa insieme al lavoro:** un audit che verifichi che per
-ogni dispensa di declinazione la griglia disegnata abbia tante celle quante ne
-dichiara la tavola corrispondente — ancorato agli id, mai a un totale (è la
-lezione di `treasure_audit`).
-
-**C-R7 · Scienze e fisica restano le due materie senza nessuna figura.**
-`nora_spiegazione_utile_audit`, controllo 5, oggi stampa: «1047 prove hanno un
-disegno · 10 materie su 12 (senza: fisica, scienze)». Era vero prima e resta vero
-adesso, ma da oggi pesa di più: scienze ha sedici dispense che nominano cose che
-si capiscono guardandole e non leggendole — le particelle nei tre stati, la
-piramide dell'energia, la catena che si chiude sui decompositori, l'inclinazione
-dell'asse che produce le stagioni.
-
-**Guardia:** quella che esiste già. La riga «10 materie su 12» diventa «12 su 12»
-da sola quando il lavoro è fatto, e non serve scrivere un audit nuovo.
 
 **C-R2 · I quindici minigiochi dei personaggi hanno un asset in tutto**
 (`assets/minigames/tobia-crystal-v1.png`). Le tavole vettoriali sono leggibili e

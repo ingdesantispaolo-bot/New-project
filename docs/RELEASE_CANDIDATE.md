@@ -3074,3 +3074,48 @@ regressione riprodotta.
 Resta aperta **C-R2**: per istruzione esplicita gli asset dei quindici
 minigiochi-personaggio si realizzano soltanto dopo il collaudo che stabilirà
 quali meccaniche restano nel giro.
+
+## Dispense illustrate e paradigmi leggibili (11 settembre 2026)
+
+Chiuse **C-R5**, **C-R6** e **C-R7**. Tutte le **140 dispense** correnti portano
+ora una figura vettoriale con descrizione accessibile. I cinque casi indicati
+nel ticket hanno disegni specifici: stati della materia, piramide ecologica,
+fascia dei deserti, placche convergenti e rientro del codice. Le illustrazioni
+sono generate dal renderer già presente e aggiungono **0 MiB** di asset.
+
+La dispensa non è più una colonna continua: copertina, sezioni, glossario,
+esempi, eventuale paradigma e metodo sono passi avanti/indietro con indicatore
+`PASSO X DI N`; il pulsante che avvia l'esercizio compare soltanto sull'ultimo.
+La guardia misura il documento grezzo più lungo a **2,7 schermate**
+(`coding-operatori-base`) e pretende una figura entro il tetto dichiarato di
+3,0 schermate. Verifica inoltre sul renderer reale che navigazione, progresso e
+uscita finale siano presenti e raggiungibili.
+
+Le sette dispense `latino-declinazione-*` sono ancorate per ID alle cinque
+tavole `paradigma` esistenti. La griglia disegna esattamente una cella per ogni
+voce della tavola: **8** per la prima declinazione, **10** per la seconda,
+**9** per la terza, **10** per la quarta e **10** per la quinta. Le forme che
+coincidono fra casi o numeri sono marcate in ambra e ogni cella espone caso,
+numero e forma anche nella descrizione accessibile. L'audit non usa un totale:
+controlla ciascuna delle sette associazioni per ID.
+
+Scienze e fisica hanno ora figure disciplinari per stati, ecosistemi, stagioni,
+cellula, prova controllata, forze, pressione, onde ed energia. Il controllo 5 di
+`nora_spiegazione_utile_audit` misura **1.589 prove con un disegno** e
+**12 materie su 12**, senza materie scoperte. Sette catture GPU tablet — apertura
+e passi di coding, latino e scienze, più correzione di fisica — sono state
+ispezionate a dimensione reale.
+
+**Misure di chiusura.** La suite Godot completa è verde **281/281 in 995 s**;
+dopo l'ultimo adeguamento della fixture web anche `boot_navigation_audit` è
+verde. Export rigenerato: build `2026.09.11-web-loader-6` / `v223-web-loader`,
+PCK **82,02 MiB**, WASM **37,68 MiB**, core **119,70 MiB**. `audit:web` è verde.
+Lo smoke Chromium percorre boot → mondo → nave → esame → mondo 2 → esercizio,
+conserva il save, apre un esercizio `multiple_choice`, riproduce **52** effetti
+e chiude con **zero errori console**. Due passaggi iniziali avevano seguito
+correttamente il nuovo prerequisito della falce invece della missione attesa:
+la fixture di release riceve ora lo strumento del mondo 2, mentre la relativa
+progressione resta coperta dagli audit dedicati.
+
+Resta aperta **C-R2**, ancora vincolata al collaudo dei quindici minigiochi dei
+personaggi.

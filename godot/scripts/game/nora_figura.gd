@@ -150,6 +150,25 @@ static func per_item(item: Dictionary, materia: String) -> Dictionary:
 	if materia == "logica" and (topic.contains("insiem") or topic.contains("quantific")):
 		return {"tipo": "insiemi", "dati": {}}
 
+	# Scienze e fisica non ricevono un'illustrazione decorativa: ricevono il
+	# modello che l'argomento chiede di immaginare. Sono volutamente scelte per
+	# topic, perché particelle, forze e onde restano vere qualunque sia il testo
+	# specifico dell'item.
+	if materia == "scienze":
+		if topic == "materia": return {"tipo":"stati_materia", "dati":{}}
+		if topic in ["ecosistema", "energia", "ambiente"]: return {"tipo":"piramide_ecologica", "dati":{}}
+		if topic == "terra-universo": return {"tipo":"stagioni", "dati":{}}
+		if topic in ["viventi", "corpo"]: return {"tipo":"cellula", "dati":{}}
+		if topic == "metodo": return {"tipo":"prova_controllata", "dati":{}}
+
+	if materia == "fisica":
+		if topic in ["forze", "moto", "leve"]: return {"tipo":"forze", "dati":{}}
+		if topic in ["pressione", "galleggiamento", "correnti"]: return {"tipo":"pressione", "dati":{}}
+		if topic == "onde-luce": return {"tipo":"onde", "dati":{}}
+		if topic in ["energia", "calore"]: return {"tipo":"flusso_energia", "dati":{}}
+		if topic == "materia": return {"tipo":"stati_materia", "dati":{}}
+		if topic in ["misure", "metodo"]: return {"tipo":"prova_controllata", "dati":{}}
+
 	# **Il coding viene prima della retta.** Una lista Python — `[10, 20, 30]` — al
 	# lettore di espressioni regolari sembra una serie numerica, e finiva disegnata
 	# come una retta: figura sbagliata, e per un bambino una figura sbagliata pesa
@@ -463,6 +482,19 @@ func descrizione() -> String:
 		"frase":
 			return "La frase «%s» con acceso il pezzo «%s»." % [
 				str(dati.get("testo", "")), str(dati.get("pezzo", ""))]
+		"stati_materia": return "Tre recipienti: particelle ordinate e ferme nel solido, vicine e mobili nel liquido, lontane nel gas."
+		"piramide_ecologica": return "Una piramide dell'energia: produttori larghi alla base, poi consumatori sempre più stretti."
+		"fascia_deserti": return "Il globo con l'equatore e due fasce evidenziate a circa trenta gradi nord e sud, dove l'aria secca ridiscende."
+		"placche": return "Due placche si spingono una contro l'altra e sollevano il terreno nel punto di contatto."
+		"rientro": return "Tre righe di codice: solo le righe rientrate appartengono al ramo dell'if."
+		"flusso": return "Un diagramma in tre passi collegati: ingresso, trasformazione, risultato."
+		"stagioni": return "La Terra percorre l'orbita mantenendo l'asse inclinato nella stessa direzione."
+		"cellula": return "Una cellula con membrana, citoplasma e nucleo distinti."
+		"prova_controllata": return "Due prove uguali affiancate; in una sola cambia la variabile osservata."
+		"forze": return "Un corpo con due frecce opposte: direzione e intensità delle forze si confrontano."
+		"pressione": return "La stessa forza poggia prima su una superficie stretta e poi su una larga."
+		"onde": return "Un'onda con creste, valli e distanza fra due creste consecutive."
+		"flusso_energia": return "Tre passaggi collegati, con una quantità di energia utile sempre più piccola."
 	return ""
 
 # ---------------------------------------------------------------------------
@@ -494,6 +526,19 @@ func _draw() -> void:
 		"note": _disegna_note()
 		"lista": _disegna_lista()
 		"frase": _disegna_frase()
+		"stati_materia": _disegna_stati_materia()
+		"piramide_ecologica": _disegna_piramide_ecologica()
+		"fascia_deserti": _disegna_fascia_deserti()
+		"placche": _disegna_placche()
+		"rientro": _disegna_rientro()
+		"flusso": _disegna_flusso()
+		"stagioni": _disegna_stagioni()
+		"cellula": _disegna_cellula()
+		"prova_controllata": _disegna_prova_controllata()
+		"forze": _disegna_forze()
+		"pressione": _disegna_pressione()
+		"onde": _disegna_onde()
+		"flusso_energia": _disegna_flusso_energia()
 
 ## **La griglia dei gruppi.** Righe per colonne, e il totale è quanti quadretti
 ## ci sono. È la figura che serve al numero più grande di esercizi del gioco — le
@@ -957,3 +1002,190 @@ func _disegna_frase() -> void:
 	draw_string(
 		font, Vector2(16.0, _altezza() - 10.0), "la domanda parla di questo pezzo",
 		HORIZONTAL_ALIGNMENT_LEFT, -1, 13, COLORE_TESTO)
+
+# ---------------------------------------------------------------------------
+# FIGURE DI DISPENSA, SCIENZE E FISICA
+# ---------------------------------------------------------------------------
+
+func _freccia(da: Vector2, a: Vector2, colore: Color = COLORE_ACCENTO, spessore: float = 2.5) -> void:
+	draw_line(da, a, colore, spessore)
+	var verso := (a - da).normalized()
+	var lato := Vector2(-verso.y, verso.x)
+	draw_line(a, a - verso * 10.0 + lato * 5.0, colore, spessore)
+	draw_line(a, a - verso * 10.0 - lato * 5.0, colore, spessore)
+
+func _scritta(testo: String, posizione: Vector2, larghezza: float = -1.0, colore: Color = COLORE_TESTO, corpo: int = 13) -> void:
+	var font := get_theme_default_font()
+	if font != null:
+		draw_string(font, posizione, testo, HORIZONTAL_ALIGNMENT_CENTER if larghezza > 0.0 else HORIZONTAL_ALIGNMENT_LEFT, larghezza, corpo, colore)
+
+func _disegna_stati_materia() -> void:
+	var nomi := ["SOLIDO", "LIQUIDO", "GAS"]
+	var margine := 12.0
+	var passo := (size.x - margine * 2.0) / 3.0
+	var alto := _altezza() - 34.0
+	for gruppo in 3:
+		var rect := Rect2(Vector2(margine + passo * gruppo + 6.0, 8.0), Vector2(passo - 12.0, alto - 12.0))
+		draw_rect(rect, Color(COLORE_PIENO.r, COLORE_PIENO.g, COLORE_PIENO.b, 0.08), true)
+		draw_rect(rect, COLORE_TRATTO, false, 1.5)
+		for i in 12:
+			var col := i % 4
+			var row := int(i / 4)
+			var punto := Vector2.ZERO
+			if gruppo == 0:
+				punto = rect.position + Vector2(16.0 + col * 14.0, rect.size.y - 14.0 - row * 13.0)
+			elif gruppo == 1:
+				punto = rect.position + Vector2(14.0 + col * maxf(13.0, (rect.size.x - 28.0) / 3.0), rect.size.y - 12.0 - row * 11.0 + (col % 2) * 3.0)
+			else:
+				punto = rect.position + Vector2(12.0 + fmod(float(i * 37), maxf(18.0, rect.size.x - 24.0)), 12.0 + fmod(float(i * 23), maxf(18.0, rect.size.y - 24.0)))
+			draw_circle(punto, 3.5, COLORE_ACCENTO if gruppo == 2 else COLORE_PIENO)
+		_scritta(nomi[gruppo], Vector2(rect.position.x, _altezza() - 5.0), rect.size.x, COLORE_TESTO, 12)
+
+func _disegna_piramide_ecologica() -> void:
+	var nomi := ["PRODUTTORI", "ERBIVORI", "PREDATORI", "VERTICE"]
+	var centro := minf(size.x * 0.42, 270.0)
+	var base := _altezza() - 18.0
+	var livello_h := (_altezza() - 30.0) / 4.0
+	for i in 4:
+		var larghezza := minf(size.x * 0.68, 360.0) * (1.0 - float(i) * 0.19)
+		var y := base - livello_h * float(i + 1)
+		var rect := Rect2(Vector2(centro - larghezza * 0.5, y), Vector2(larghezza, livello_h - 3.0))
+		draw_rect(rect, Color(COLORE_PIENO.r, COLORE_PIENO.g, COLORE_PIENO.b, 0.20 + i * 0.08), true)
+		draw_rect(rect, COLORE_TRATTO, false, 1.2)
+		_scritta(nomi[i], Vector2(rect.position.x, rect.position.y + rect.size.y * 0.68), rect.size.x, COLORE_TESTO, 11)
+	_scritta("a ogni passaggio resta meno energia", Vector2(centro + minf(size.x * 0.36, 190.0), _altezza() * 0.55), -1.0, COLORE_ACCENTO, 13)
+
+func _disegna_fascia_deserti() -> void:
+	var r := minf((_altezza() - 20.0) * 0.5, 68.0)
+	var c := Vector2(minf(size.x * 0.35, 220.0), _altezza() * 0.5)
+	draw_circle(c, r, Color(COLORE_PIENO.r, COLORE_PIENO.g, COLORE_PIENO.b, 0.12))
+	draw_arc(c, r, 0.0, TAU, 48, COLORE_TRATTO, 2.0)
+	for offset in [-0.5, 0.5]:
+		var y := c.y + r * float(offset)
+		draw_line(Vector2(c.x - r * 0.86, y), Vector2(c.x + r * 0.86, y), COLORE_ACCENTO, 6.0)
+	draw_line(Vector2(c.x - r, c.y), Vector2(c.x + r, c.y), COLORE_PIENO, 1.5)
+	_scritta("30 N", Vector2(c.x + r + 10.0, c.y - r * 0.5 + 4.0), -1.0, COLORE_ACCENTO, 12)
+	_scritta("EQUATORE", Vector2(c.x + r + 10.0, c.y + 4.0), -1.0, COLORE_PIENO, 12)
+	_scritta("30 S", Vector2(c.x + r + 10.0, c.y + r * 0.5 + 4.0), -1.0, COLORE_ACCENTO, 12)
+	_freccia(Vector2(c.x - r * 0.55, c.y - r * 0.9), Vector2(c.x - r * 0.55, c.y - r * 0.54), COLORE_ACCENTO)
+	_freccia(Vector2(c.x - r * 0.55, c.y + r * 0.9), Vector2(c.x - r * 0.55, c.y + r * 0.54), COLORE_ACCENTO)
+
+func _disegna_placche() -> void:
+	var y := _altezza() * 0.62
+	var centro := minf(size.x * 0.45, 300.0)
+	var sinistra := PackedVector2Array([Vector2(20,y),Vector2(centro-10,y),Vector2(centro,y-30),Vector2(20,y-13)])
+	var destra := PackedVector2Array([Vector2(centro+10,y),Vector2(size.x-20,y),Vector2(size.x-20,y-13),Vector2(centro,y-30)])
+	draw_colored_polygon(sinistra, Color(COLORE_PIENO.r,COLORE_PIENO.g,COLORE_PIENO.b,0.32))
+	draw_colored_polygon(destra, Color(COLORE_ACCENTO.r,COLORE_ACCENTO.g,COLORE_ACCENTO.b,0.28))
+	_freccia(Vector2(70,y-45),Vector2(centro-24,y-45),COLORE_PIENO)
+	_freccia(Vector2(size.x-70,y-45),Vector2(centro+24,y-45),COLORE_ACCENTO)
+	_scritta("AFRICA", Vector2(22,y+20), 150, COLORE_TESTO, 12)
+	_scritta("EURASIA", Vector2(size.x-172,y+20), 150, COLORE_TESTO, 12)
+	_scritta("la crosta si solleva", Vector2(centro-90,18), 180, COLORE_ACCENTO, 13)
+
+func _disegna_rientro() -> void:
+	var font := get_theme_default_font()
+	if font == null: return
+	var righe := [["if luce:", 0], ["accendi()", 1], ["registra()", 0]]
+	var y := 28.0
+	for i in righe.size():
+		var riga: Array = righe[i]
+		var x := 26.0 + int(riga[1]) * 42.0
+		if int(riga[1]) == 1:
+			draw_rect(Rect2(Vector2(x-8,y-20),Vector2(170,28)),Color(COLORE_ACCENTO.r,COLORE_ACCENTO.g,COLORE_ACCENTO.b,0.22),true)
+		draw_string(font,Vector2(x,y),str(riga[0]),HORIZONTAL_ALIGNMENT_LEFT,-1,18,COLORE_ACCENTO if int(riga[1]) == 1 else COLORE_TESTO)
+		y += 34.0
+	draw_line(Vector2(52,38),Vector2(52,72),COLORE_PIENO,3.0)
+	_scritta("solo questa riga appartiene all'if", Vector2(245,66), -1.0, COLORE_ACCENTO, 13)
+
+func _disegna_flusso() -> void:
+	var nomi := ["INGRESSO", "REGOLA", "RISULTATO"]
+	var passo := minf((size.x - 40.0) / 3.0, 190.0)
+	var y := _altezza() * 0.5
+	for i in 3:
+		var c := Vector2(20.0 + passo * (float(i) + 0.5), y)
+		draw_circle(c, 28.0, Color(COLORE_PIENO.r,COLORE_PIENO.g,COLORE_PIENO.b,0.18))
+		draw_arc(c,28.0,0.0,TAU,28,COLORE_PIENO,2.0)
+		_scritta(nomi[i],Vector2(c.x-46.0,c.y+5.0),92.0,COLORE_TESTO,11)
+		if i < 2: _freccia(c+Vector2(34,0),c+Vector2(passo-34,0),COLORE_ACCENTO)
+
+func _disegna_stagioni() -> void:
+	var c := Vector2(minf(size.x*0.42,270.0),_altezza()*0.52)
+	var rx := minf(size.x*0.31,190.0)
+	var ry := _altezza()*0.33
+	draw_circle(c,15.0,COLORE_ACCENTO)
+	for i in 64:
+		var a0 := TAU*float(i)/64.0
+		var a1 := TAU*float(i+1)/64.0
+		draw_line(c+Vector2(cos(a0)*rx,sin(a0)*ry),c+Vector2(cos(a1)*rx,sin(a1)*ry),COLORE_TRATTO,1.2)
+	for a in [0.0, PI]:
+		var terra := c+Vector2(cos(a)*rx,sin(a)*ry)
+		draw_circle(terra,9.0,COLORE_PIENO)
+		draw_line(terra+Vector2(-5,12),terra+Vector2(5,-12),COLORE_ACCENTO,2.0)
+	_scritta("stessa inclinazione durante tutta l'orbita",Vector2(c.x-rx,_altezza()-4),rx*2.0,COLORE_TESTO,12)
+
+func _disegna_cellula() -> void:
+	var c := Vector2(minf(size.x*0.36,220.0),_altezza()*0.5)
+	var r := minf(_altezza()*0.36,52.0)
+	draw_circle(c,r,Color(COLORE_PIENO.r,COLORE_PIENO.g,COLORE_PIENO.b,0.16))
+	draw_arc(c,r,0.0,TAU,40,COLORE_PIENO,3.0)
+	draw_circle(c+Vector2(9,-4),r*0.34,Color(COLORE_ACCENTO.r,COLORE_ACCENTO.g,COLORE_ACCENTO.b,0.42))
+	draw_arc(c+Vector2(9,-4),r*0.34,0.0,TAU,30,COLORE_ACCENTO,2.0)
+	_scritta("membrana",Vector2(c.x+r+18,c.y-r+8),-1.0,COLORE_PIENO,13)
+	_scritta("citoplasma",Vector2(c.x+r+18,c.y+4),-1.0,COLORE_TESTO,13)
+	_scritta("nucleo",Vector2(c.x+r+18,c.y+r-7),-1.0,COLORE_ACCENTO,13)
+
+func _disegna_prova_controllata() -> void:
+	var y := _altezza()*0.25
+	for i in 2:
+		var x := 55.0+i*150.0
+		draw_rect(Rect2(Vector2(x,y),Vector2(90,70)),Color(COLORE_PIENO.r,COLORE_PIENO.g,COLORE_PIENO.b,0.10),true)
+		draw_rect(Rect2(Vector2(x,y),Vector2(90,70)),COLORE_PIENO,false,2.0)
+		draw_circle(Vector2(x+45,y+44),10.0,COLORE_ACCENTO if i == 1 else COLORE_PIENO)
+		_scritta("CONTROLLO" if i == 0 else "UNA VARIABILE",Vector2(x-10,y+92),110,COLORE_TESTO if i == 0 else COLORE_ACCENTO,11)
+	_scritta("tutto uguale, tranne una cosa",Vector2(345,_altezza()*0.55),-1.0,COLORE_TESTO,13)
+
+func _disegna_forze() -> void:
+	var c := Vector2(minf(size.x*0.43,280.0),_altezza()*0.52)
+	draw_rect(Rect2(c-Vector2(30,22),Vector2(60,44)),Color(COLORE_PIENO.r,COLORE_PIENO.g,COLORE_PIENO.b,0.22),true)
+	draw_rect(Rect2(c-Vector2(30,22),Vector2(60,44)),COLORE_PIENO,false,2.0)
+	_freccia(c-Vector2(34,0),c-Vector2(120,0),COLORE_ACCENTO)
+	_freccia(c+Vector2(34,0),c+Vector2(120,0),COLORE_PIENO)
+	_scritta("direzione",Vector2(c.x-160,c.y+45),320,COLORE_TESTO,13)
+
+func _disegna_pressione() -> void:
+	var base := _altezza()-28.0
+	for i in 2:
+		var x := 45.0+i*190.0
+		var piede := 34.0 if i == 0 else 110.0
+		draw_rect(Rect2(Vector2(x+55-piede*0.5,base-8),Vector2(piede,8)),COLORE_ACCENTO,true)
+		draw_rect(Rect2(Vector2(x+20,base-58),Vector2(70,46)),Color(COLORE_PIENO.r,COLORE_PIENO.g,COLORE_PIENO.b,0.22),true)
+		_freccia(Vector2(x+55,10),Vector2(x+55,base-62),COLORE_PIENO)
+		_scritta("area piccola" if i == 0 else "area grande",Vector2(x,base+16),110,COLORE_TESTO,11)
+	_scritta("stessa forza",Vector2(390,42),-1.0,COLORE_PIENO,13)
+
+func _disegna_onde() -> void:
+	var margine := 18.0
+	var centro_y := _altezza()*0.52
+	var largo := minf(size.x-margine*2.0,520.0)
+	var punti := PackedVector2Array()
+	for i in 80:
+		var t := float(i)/79.0
+		punti.append(Vector2(margine+t*largo,centro_y-sin(t*TAU*2.0)*30.0))
+	draw_polyline(punti,COLORE_PIENO,3.0)
+	var x1 := margine+largo*0.125
+	var x2 := margine+largo*0.625
+	draw_line(Vector2(x1,centro_y-44),Vector2(x2,centro_y-44),COLORE_ACCENTO,2.0)
+	_scritta("lunghezza d'onda",Vector2(x1,centro_y-50),x2-x1,COLORE_ACCENTO,12)
+
+func _disegna_flusso_energia() -> void:
+	var nomi := ["ENTRA", "LAVORO", "UTILE"]
+	var raggi := [30.0,23.0,16.0]
+	var passo := minf((size.x-40.0)/3.0,180.0)
+	var y := _altezza()*0.5
+	for i in 3:
+		var c := Vector2(20.0+passo*(float(i)+0.5),y)
+		draw_circle(c,raggi[i],Color(COLORE_ACCENTO.r,COLORE_ACCENTO.g,COLORE_ACCENTO.b,0.18+0.08*i))
+		draw_arc(c,raggi[i],0.0,TAU,28,COLORE_ACCENTO,2.0)
+		_scritta(nomi[i],Vector2(c.x-44,c.y+4),88,COLORE_TESTO,11)
+		if i<2: _freccia(c+Vector2(raggi[i]+5,0),c+Vector2(passo-raggi[i+1]-5,0),COLORE_PIENO)

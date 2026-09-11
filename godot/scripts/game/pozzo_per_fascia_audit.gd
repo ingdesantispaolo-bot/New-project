@@ -44,11 +44,14 @@ const SESSIONI_MINIME := 15
 ## Argomenti distinti minimi raggiungibili dal pozzo di ogni fascia, per materia.
 ## Cricchetto: si alza, non si abbassa.
 const ARGOMENTI_MINIMI := {
-	"elettronica": 3,
-	"logica": 4,
+	# Salito da 3 a 5 l'11 settembre 2026 con le applicazioni delle dispense.
+	"elettronica": 5,
+	# Salito da 4 a 5 l'11 settembre 2026 con le applicazioni delle dispense.
+	"logica": 5,
 	# Salito da 5 a 6 l'11 settembre 2026 con le applicazioni delle dispense.
 	"latino": 6,
-	"musica": 5,
+	# Salito da 5 a 6 l'11 settembre 2026 con le applicazioni delle dispense.
+	"musica": 6,
 	# Salito da 5 a 8 l'11 settembre 2026 con le applicazioni delle dispense.
 	"scienze": 8,
 	# Salito da 5 a 8 l'11 settembre 2026 con le applicazioni delle dispense:

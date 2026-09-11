@@ -78,6 +78,11 @@ func _run() -> void:
 	# finestra: il riquadro dell'esercizio calcolava gli ancoraggi su un'area
 	# vecchia e l'immagine salvata non corrispondeva a nessuno schermo vero.
 	player.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	if "--dispense-only" in OS.get_cmdline_user_args():
+		await _capture_dispense()
+		print("EXERCISE RENDER probe OK — dispense, paradigma, scienze e fisica")
+		quit(0)
+		return
 	if "--signatures-only" in OS.get_cmdline_user_args():
 		for case_data in [["breadboard","elettronica"],["rhythm_fill","musica"],["causal_chain","storia"],["robot_grid","coding"],["blank_map","geografia"]]:
 			var fmt := str(case_data[0])
@@ -261,6 +266,47 @@ func _capture_current(name: String) -> void:
 	await create_timer(0.10).timeout
 	var image := root.get_texture().get_image()
 	image.save_png(ProjectSettings.globalize_path("%s/%s.png" % [OUTPUT, name]))
+
+func _dispensa_node(subject: String, topic: String, fascia: int) -> Dictionary:
+	return {
+		"id":"dispensa-%s-%s" % [subject, topic], "subject":subject, "topic":topic,
+		"difficulty":fascia, "format":"multiple_choice",
+		"prompt":"Applica il concetto appena presentato.", "answer":"corretto",
+		"options":["corretto","errore A","errore B","errore C"],
+		"explanation":"La risposta applica il metodo della dispensa.",
+		"teachingLesson":Dispense.lezione(subject, topic, fascia),
+		"teachingMoment":"pre_teach",
+	}
+
+func _capture_dispense() -> void:
+	await _capture("dispensa-coding-passi-tablet", _dispensa_node("coding", "condizioni", 2), "mission", Vector2i(900, 700))
+
+	await _capture("dispensa-latino-apertura-tablet", _dispensa_node("latino", "declinazione-1", 2), "mission", Vector2i(900, 700))
+	for _i in 8:
+		var grid := player.find_child("TeachingParadigmGrid", true, false) as Control
+		if grid != null and grid.is_visible_in_tree(): break
+		var next := player.find_child("TeachingNextButton", true, false) as Button
+		if next == null or not next.visible: break
+		next.pressed.emit()
+		await process_frame
+	await _capture_current("dispensa-latino-paradigma-tablet")
+
+	await _capture("dispensa-scienze-apertura-tablet", _dispensa_node("scienze", "materia", 2), "mission", Vector2i(900, 700))
+	var next_science := player.find_child("TeachingNextButton", true, false) as Button
+	if next_science != null:
+		next_science.pressed.emit()
+		await process_frame
+	await _capture_current("dispensa-scienze-particelle-tablet")
+
+	var physics := {
+		"id":"figura-fisica-forze", "subject":"fisica", "topic":"forze", "difficulty":2,
+		"format":"multiple_choice", "prompt":"Due spinte opposte agiscono sul blocco: che cosa confronti?",
+		"answer":"direzione e intensità", "options":["direzione e intensità","solo il colore","solo il tempo","la temperatura"],
+		"explanation":"Le forze sono vettori: contano verso e intensità.",
+	}
+	await _capture("figura-fisica-prima-tablet", physics, "mission", Vector2i(900, 700))
+	player.call("_answer", "solo il colore")
+	await _capture_current("figura-fisica-spiegazione-tablet")
 
 func _capture_all_formats() -> void:
 	var manager := MinigameManager.new()

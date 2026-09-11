@@ -89,7 +89,7 @@ const AFFOLLATO := 40
 ## vorrebbe dire decorare. Una figura che si accende su tre prove è codice morto
 ## con una bella spiegazione sopra, ed è lo stesso motivo per cui la bilancia
 ## dell'uguale non è stata fatta.
-const MATERIE_CON_FIGURA := 10
+const MATERIE_CON_FIGURA := 12
 
 const NORA_FIGURA = preload("res://scripts/game/nora_figura.gd")
 const PLAYER := preload("res://scripts/game/exercise_player.gd")

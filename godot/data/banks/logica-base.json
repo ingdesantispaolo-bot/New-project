@@ -2312,6 +2312,8 @@
 				"cerchio": "«cerchio» è la risposta giusta a un'altra domanda di questo gruppo: «Quale figura continua la serie: cerchio, quadrato, cerchio, quadrato, ?».",
 				"domenica": "«domenica» è la risposta giusta a un'altra domanda di questo gruppo: «Quale giorno continua la serie: lunedì, mercoledì, venerdì, ?».",
 				"I": "«I» è la risposta giusta a un'altra domanda di questo gruppo: «Quale lettera continua la serie: A, C, E, G, ?».",
+				"J": "«J» è la risposta giusta a un'altra domanda di questo gruppo: «Quale lettera continua la serie: B, D, F, H, ?».",
+				"8:40": "«8:40» è la risposta giusta a un'altra domanda di questo gruppo: «Il treno passa alle 7:40, 7:55, 8:10, 8:25. A che ora passa il prossimo?».",
 				"M": "«M» è la risposta giusta a un'altra domanda di questo gruppo: «Quale lettera continua la serie: Q, P, O, N, ...?».",
 				"9:05": "«9:05» è la risposta giusta a un'altra domanda di questo gruppo: «L'autobus passa alle 8:05, 8:20, 8:35, 8:50. A che ora passa il prossimo?»."
 			}
@@ -2461,6 +2463,8 @@
 				"cerchio": "«cerchio» è la risposta giusta a un'altra domanda di questo gruppo: «Quale figura continua la serie: cerchio, quadrato, cerchio, quadrato, ?».",
 				"domenica": "«domenica» è la risposta giusta a un'altra domanda di questo gruppo: «Quale giorno continua la serie: lunedì, mercoledì, venerdì, ?».",
 				"I": "«I» è la risposta giusta a un'altra domanda di questo gruppo: «Quale lettera continua la serie: A, C, E, G, ?».",
+				"J": "«J» è la risposta giusta a un'altra domanda di questo gruppo: «Quale lettera continua la serie: B, D, F, H, ?».",
+				"8:40": "«8:40» è la risposta giusta a un'altra domanda di questo gruppo: «Il treno passa alle 7:40, 7:55, 8:10, 8:25. A che ora passa il prossimo?».",
 				"M": "«M» è la risposta giusta a un'altra domanda di questo gruppo: «Quale lettera continua la serie: Q, P, O, N, ...?».",
 				"9:05": "«9:05» è la risposta giusta a un'altra domanda di questo gruppo: «L'autobus passa alle 8:05, 8:20, 8:35, 8:50. A che ora passa il prossimo?»."
 			}
@@ -2837,6 +2841,8 @@
 				"cerchio": "«cerchio» è la risposta giusta a un'altra domanda di questo gruppo: «Quale figura continua la serie: cerchio, quadrato, cerchio, quadrato, ?».",
 				"domenica": "«domenica» è la risposta giusta a un'altra domanda di questo gruppo: «Quale giorno continua la serie: lunedì, mercoledì, venerdì, ?».",
 				"I": "«I» è la risposta giusta a un'altra domanda di questo gruppo: «Quale lettera continua la serie: A, C, E, G, ?».",
+				"J": "«J» è la risposta giusta a un'altra domanda di questo gruppo: «Quale lettera continua la serie: B, D, F, H, ?».",
+				"8:40": "«8:40» è la risposta giusta a un'altra domanda di questo gruppo: «Il treno passa alle 7:40, 7:55, 8:10, 8:25. A che ora passa il prossimo?».",
 				"M": "«M» è la risposta giusta a un'altra domanda di questo gruppo: «Quale lettera continua la serie: Q, P, O, N, ...?».",
 				"9:05": "«9:05» è la risposta giusta a un'altra domanda di questo gruppo: «L'autobus passa alle 8:05, 8:20, 8:35, 8:50. A che ora passa il prossimo?»."
 			}
@@ -3385,6 +3391,539 @@
 			}
 		},
 		{
+			"id": "logica-app-sequenze-0",
+			"subject": "logica",
+			"topic": "sequenze",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale lettera continua la serie: B, D, F, H, ?",
+			"options": [
+				"I",
+				"K",
+				"G",
+				"J"
+			],
+			"answer": "J",
+			"explanation": "La differenza è costante e vale due posizioni dell'alfabeto, ed è la stessa fra tutte le coppie: applicandola alla H si arriva alla J.",
+			"distractorWhy": {
+				"I": "È la lettera immediatamente successiva: avanza di uno invece che di due, cioè applica un passo che nella serie non compare.",
+				"G": "Torna indietro di una posizione: il verso della serie è in avanti, non all'indietro.",
+				"K": "Avanza di tre posizioni: il passo va calcolato sulle coppie date, e lì è sempre di due."
+			},
+			"_difficulty8": true,
+			"applica": "logica-sequenze-base"
+		},
+		{
+			"id": "logica-app-sequenze-2",
+			"subject": "logica",
+			"topic": "sequenze",
+			"difficulty": 5,
+			"format": "multiple_choice",
+			"prompt": "Il treno passa alle 7:40, 7:55, 8:10, 8:25. A che ora passa il prossimo?",
+			"options": [
+				"9:25",
+				"8:40",
+				"8:45",
+				"8:35"
+			],
+			"answer": "8:40",
+			"explanation": "Il passo è di quindici minuti. L'ora è un ciclo di sessanta, quindi conviene contare i minuti e riportarli, invece di sommare le cifre come fossero numeri normali.",
+			"distractorWhy": {
+				"8:35": "Somma dieci minuti invece di quindici: il passo va calcolato su una coppia e verificato sulle altre.",
+				"9:25": "Somma un'ora intera: il passo è di quindici minuti, e un'ora è quattro passi.",
+				"8:45": "Somma venti minuti: l'errore nasce dal contare i passaggi invece dei minuti fra due passaggi."
+			},
+			"_difficulty8": true,
+			"applica": "logica-sequenze-alta"
+		},
+		{
+			"id": "logica-app-sequenze-3",
+			"subject": "logica",
+			"topic": "sequenze",
+			"difficulty": 6,
+			"format": "multiple_choice",
+			"prompt": "Le differenze fra elementi consecutivi di una serie non sono costanti. Che cosa provi per prima cosa?",
+			"options": [
+				"Sommare tutti gli elementi",
+				"Cercare il numero più grande",
+				"Separare posizioni pari e dispari",
+				"Cambiare il verso della serie"
+			],
+			"answer": "Separare posizioni pari e dispari",
+			"explanation": "Sono spesso due sequenze alternate dentro una fila sola: separandole, ciascuna delle due rivela una regola propria e costante.",
+			"distractorWhy": {
+				"Cambiare il verso della serie": "Il verso cambia il segno del passo ma non lo rende costante: se le differenze variano, variano in entrambi i versi.",
+				"Sommare tutti gli elementi": "La somma non dice niente sulla regola che lega un elemento al successivo.",
+				"Cercare il numero più grande": "Il massimo è un dato della serie, non una regola: non permette di calcolare il prossimo elemento."
+			},
+			"_difficulty8": true,
+			"applica": "logica-sequenze-alta"
+		},
+		{
+			"id": "logica-app-esclusioni-4",
+			"subject": "logica",
+			"topic": "esclusioni",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Quale non appartiene al gruppo: martello, pinza, quaderno, cacciavite?",
+			"options": [
+				"cacciavite",
+				"pinza",
+				"martello",
+				"quaderno"
+			],
+			"answer": "quaderno",
+			"explanation": "La proprietà comune dei più è essere un attrezzo da lavoro, e l'unico a non averla è il quaderno, che è materiale per scrivere.",
+			"distractorWhy": {
+				"martello": "Condivide la proprietà con pinza e cacciavite: è un attrezzo, quindi sta nel gruppo.",
+				"pinza": "Stessa proprietà degli altri due attrezzi: escluderla lascerebbe fuori un elemento che ce l'ha.",
+				"cacciavite": "È un attrezzo come gli altri due: la proprietà comune vale anche per lui."
+			},
+			"_difficulty8": true,
+			"applica": "logica-esclusioni-base"
+		},
+		{
+			"id": "logica-app-esclusioni-5",
+			"subject": "logica",
+			"topic": "esclusioni",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Davanti a un gruppo di quattro elementi, qual è la prima cosa da fare?",
+			"options": [
+				"Nominare la proprietà comune",
+				"Contare le lettere delle parole",
+				"Cercare l'elemento più strano",
+				"Eliminare il primo della lista"
+			],
+			"answer": "Nominare la proprietà comune",
+			"explanation": "Detta a parole, la proprietà si può verificare su tutti gli altri elementi: finché resta un'impressione non c'è modo di controllare la risposta.",
+			"distractorWhy": {
+				"Cercare l'elemento più strano": "«Strano» dipende da chi guarda, e su gruppi meno ovvi porta all'elemento sbagliato.",
+				"Contare le lettere delle parole": "È un criterio sulle parole e non sulle cose: cambiando i nomi degli oggetti smetterebbe di funzionare.",
+				"Eliminare il primo della lista": "La posizione nell'elenco non ha nessun rapporto con le proprietà degli elementi."
+			},
+			"_difficulty8": true,
+			"applica": "logica-esclusioni-base"
+		},
+		{
+			"id": "logica-app-esclusioni-6",
+			"subject": "logica",
+			"topic": "esclusioni",
+			"difficulty": 5,
+			"format": "multiple_choice",
+			"prompt": "Quale non appartiene al gruppo: tromba, trombone, tuba, arpa?",
+			"options": [
+				"tuba",
+				"arpa",
+				"tromba",
+				"trombone"
+			],
+			"answer": "arpa",
+			"explanation": "Tre sono ottoni, cioè fiati di metallo, mentre l'arpa è a corde: il criterio lascia fuori esattamente un elemento e vale per tutti e tre gli altri.",
+			"distractorWhy": {
+				"tromba": "Condivide con trombone e tuba il modo in cui nasce il suono: è un fiato come loro.",
+				"trombone": "Stessa famiglia degli altri due: escluderlo lascerebbe nel gruppo uno strumento a corde.",
+				"tuba": "È il più grave dei tre ottoni, ma la dimensione non è un criterio: conta come nasce la vibrazione."
+			},
+			"_difficulty8": true,
+			"applica": "logica-esclusioni-alta"
+		},
+		{
+			"id": "logica-app-esclusioni-7",
+			"subject": "logica",
+			"topic": "esclusioni",
+			"difficulty": 8,
+			"format": "multiple_choice",
+			"prompt": "Due criteri diversi escludono due elementi diversi. Quale scegli?",
+			"options": [
+				"Quello con la parola più corta",
+				"Quello che ti viene per primo",
+				"Quello che ne lascia fuori uno solo",
+				"Quello che esclude l'ultimo elemento"
+			],
+			"answer": "Quello che ne lascia fuori uno solo",
+			"explanation": "Un criterio che escluderebbe due elementi non serve, perché l'esercizio ne chiede uno; e vince quello che vale esattamente per tutti gli altri senza forzature.",
+			"distractorWhy": {
+				"Quello che ti viene per primo": "L'ordine in cui vengono in mente non dice niente sulla loro solidità: il primo è spesso il più superficiale.",
+				"Quello con la parola più corta": "La lunghezza del criterio non c'entra con la sua validità.",
+				"Quello che esclude l'ultimo elemento": "La posizione nell'elenco è arbitraria e non ha rapporto con le proprietà."
+			},
+			"_difficulty8": true,
+			"applica": "logica-esclusioni-alta"
+		},
+		{
+			"id": "logica-app-deduzioni-8",
+			"subject": "logica",
+			"topic": "deduzioni",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Tutti i corvi sono neri. Kraa è un corvo. Allora Kraa…",
+			"options": [
+				"potrebbe essere nero",
+				"non si può sapere",
+				"non è nero",
+				"è nero"
+			],
+			"answer": "è nero",
+			"explanation": "«Tutti» non lascia eccezioni, e Kraa è uno dei casi: la conclusione non è probabile ma obbligata, se le premesse sono vere.",
+			"distractorWhy": {
+				"potrebbe essere nero": "Confonde la deduzione con una stima: le premesse escludono ogni altra possibilità, quindi non resta nessun «potrebbe».",
+				"non è nero": "Contraddice direttamente la prima premessa, che vale per ogni singolo corvo.",
+				"non si può sapere": "Si può eccome: è esattamente il caso in cui la conclusione è contenuta nelle premesse."
+			},
+			"_difficulty8": true,
+			"applica": "logica-deduzioni-base"
+		},
+		{
+			"id": "logica-app-deduzioni-9",
+			"subject": "logica",
+			"topic": "deduzioni",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Tutti i gatti hanno la coda. Fufi ha la coda. Che cosa si può concludere su Fufi?",
+			"options": [
+				"Niente di certo",
+				"Che è un mammifero",
+				"Che è un gatto",
+				"Che non è un gatto"
+			],
+			"answer": "Niente di certo",
+			"explanation": "La premessa dice che i gatti stanno fra gli animali con la coda, non che siano i soli: anche un cane rispetterebbe le premesse senza essere un gatto.",
+			"distractorWhy": {
+				"Che è un gatto": "È l'errore più comune della logica elementare: la frase suona simmetrica ma non lo è.",
+				"Che non è un gatto": "Nulla lo esclude: Fufi potrebbe benissimo essere un gatto, semplicemente non lo si può dedurre.",
+				"Che è un mammifero": "Molti animali con la coda non sono mammiferi, e le premesse non dicono niente in proposito."
+			},
+			"_difficulty8": true,
+			"applica": "logica-deduzioni-base"
+		},
+		{
+			"id": "logica-app-deduzioni-10",
+			"subject": "logica",
+			"topic": "deduzioni",
+			"difficulty": 6,
+			"format": "multiple_choice",
+			"prompt": "Se il forno è acceso, la spia è rossa. La spia NON è rossa. Allora…",
+			"options": [
+				"il forno è acceso",
+				"il forno è spento",
+				"non si può concludere",
+				"la spia è rotta"
+			],
+			"answer": "il forno è spento",
+			"explanation": "Se il forno fosse acceso la spia sarebbe rossa: la sua assenza esclude l'accensione. Il rovescio invece non varrebbe, perché la spia potrebbe essere rossa per altri motivi.",
+			"distractorWhy": {
+				"il forno è acceso": "Contraddice la premessa: se lo fosse, la spia dovrebbe essere rossa e non lo è.",
+				"la spia è rotta": "È una possibilità nel mondo reale, ma le premesse la escludono: dentro l'esercizio valgono solo quelle.",
+				"non si può concludere": "Si può, ed è una deduzione valida: negare la conseguenza permette di negare la causa."
+			},
+			"_difficulty8": true,
+			"applica": "logica-deduzioni-alta"
+		},
+		{
+			"id": "logica-app-deduzioni-11",
+			"subject": "logica",
+			"topic": "deduzioni",
+			"difficulty": 7,
+			"format": "multiple_choice",
+			"prompt": "Ada è più veloce di Bo. Bo è più veloce di Cid. Cid è più veloce di Dea. Chi è il più lento?",
+			"options": [
+				"Ada",
+				"Non si può sapere",
+				"Dea",
+				"Cid"
+			],
+			"answer": "Dea",
+			"explanation": "I confronti si incatenano: scrivendo la fila in ordine, Dea si colloca all'estremo più lento e nessuna premessa la contraddice.",
+			"distractorWhy": {
+				"Cid": "È più veloce di Dea, quindi non può essere l'ultimo della fila.",
+				"Ada": "È all'estremo opposto: nessuno la supera, quindi è la più veloce.",
+				"Non si può sapere": "Le tre premesse coprono tutta la catena e collocano ogni nome: la fila è completamente determinata."
+			},
+			"_difficulty8": true,
+			"applica": "logica-deduzioni-alta"
+		},
+		{
+			"id": "logica-app-insiemi-12",
+			"subject": "logica",
+			"topic": "insiemi",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Tutte le rose sono fiori. Che cosa si può dire dei due insiemi?",
+			"options": [
+				"Non si toccano",
+				"I fiori stanno dentro le rose",
+				"Sono lo stesso insieme",
+				"Le rose stanno dentro i fiori"
+			],
+			"answer": "Le rose stanno dentro i fiori",
+			"explanation": "Il cerchio delle rose sta interamente dentro quello dei fiori, che però contiene anche moltissimi fiori che rose non sono: la relazione non è simmetrica.",
+			"distractorWhy": {
+				"I fiori stanno dentro le rose": "Rovescia l'inclusione: significherebbe che ogni fiore è una rosa, che le premesse non dicono.",
+				"Sono lo stesso insieme": "Servirebbe che valesse anche il contrario, cioè che tutti i fiori fossero rose.",
+				"Non si toccano": "Si toccano eccome: uno è interamente contenuto nell'altro."
+			},
+			"_difficulty8": true,
+			"applica": "logica-insiemi-base"
+		},
+		{
+			"id": "logica-app-insiemi-13",
+			"subject": "logica",
+			"topic": "insiemi",
+			"difficulty": 5,
+			"format": "multiple_choice",
+			"prompt": "Che cosa contiene l'intersezione fra «numeri dispari» e «numeri minori di 10»?",
+			"options": [
+				"1, 3, 5, 7 e 9",
+				"Tutti i numeri dispari",
+				"Tutti i numeri sotto 10",
+				"Nessun numero"
+			],
+			"answer": "1, 3, 5, 7 e 9",
+			"explanation": "L'intersezione tiene solo gli elementi che soddisfano entrambe le condizioni insieme, ed è sempre più piccola o uguale a ciascuno dei due insiemi di partenza.",
+			"distractorWhy": {
+				"Tutti i numeri dispari": "Sarebbe uno dei due insiemi interi: l'intersezione non può essere più grande dei pezzi da cui nasce.",
+				"Tutti i numeri sotto 10": "Stesso errore simmetrico: include anche i pari, che non soddisfano la prima condizione.",
+				"Nessun numero": "Sarebbe l'insieme vuoto, e qui la zona comune contiene cinque elementi."
+			},
+			"_difficulty8": true,
+			"applica": "logica-insiemi-alta"
+		},
+		{
+			"id": "logica-app-insiemi-14",
+			"subject": "logica",
+			"topic": "insiemi",
+			"difficulty": 6,
+			"format": "multiple_choice",
+			"prompt": "Qual è l'intersezione fra i numeri pari e i numeri dispari?",
+			"options": [
+				"Lo zero soltanto",
+				"Nessun elemento",
+				"Tutti i numeri interi",
+				"I numeri molto grandi"
+			],
+			"answer": "Nessun elemento",
+			"explanation": "Nessun numero è pari e dispari insieme: l'insieme vuoto è un risultato legittimo, e dice qualcosa di forte — le due condizioni sono incompatibili.",
+			"distractorWhy": {
+				"Tutti i numeri interi": "È l'unione dei due insiemi, non l'intersezione: confonde la O con la E.",
+				"Lo zero soltanto": "Lo zero è pari e non dispari, quindi non sta in entrambi gli insiemi.",
+				"I numeri molto grandi": "La dimensione non c'entra: nessun numero, grande o piccolo, può essere pari e dispari insieme."
+			},
+			"_difficulty8": true,
+			"applica": "logica-insiemi-alta"
+		},
+		{
+			"id": "logica-app-insiemi-15",
+			"subject": "logica",
+			"topic": "insiemi",
+			"difficulty": 8,
+			"format": "multiple_choice",
+			"prompt": "L'unione di due insiemi può essere più piccola di uno dei due?",
+			"options": [
+				"Sì, se uno è vuoto",
+				"Dipende dagli elementi",
+				"No, mai",
+				"Sì, se si sovrappongono"
+			],
+			"answer": "No, mai",
+			"explanation": "L'unione contiene tutti gli elementi di entrambi, quindi contiene per forza tutti quelli di ciascuno: è un controllo rapido per accorgersi di aver scambiato le due operazioni.",
+			"distractorWhy": {
+				"Sì, se si sovrappongono": "La sovrapposizione riduce l'unione rispetto alla somma dei due conteggi, ma non la porta mai sotto il più grande dei due.",
+				"Sì, se uno è vuoto": "Con un insieme vuoto l'unione è uguale all'altro, quindi al massimo uguale e mai più piccola.",
+				"Dipende dagli elementi": "Non dipende: la proprietà vale per costruzione, qualunque cosa contengano i due insiemi."
+			},
+			"_difficulty8": true,
+			"applica": "logica-insiemi-alta"
+		},
+		{
+			"id": "logica-app-verita-16",
+			"subject": "logica",
+			"topic": "verita",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "«Ho finito i compiti E ho riordinato» è falsa quando…",
+			"options": [
+				"Non è mai falsa",
+				"Ho fatto solo i compiti",
+				"Mancano tutte e due",
+				"Almeno una delle due manca"
+			],
+			"answer": "Almeno una delle due manca",
+			"explanation": "La E vuole entrambe le parti vere: basta che una sola sia falsa perché tutta la frase lo sia, anche se l'altra è verissima.",
+			"distractorWhy": {
+				"Mancano tutte e due": "È uno dei casi in cui è falsa, ma non l'unico: lo è anche quando ne manca una sola.",
+				"Ho fatto solo i compiti": "Anche questo è un caso di falsità, ma la domanda chiede quando lo è in generale.",
+				"Non è mai falsa": "È falsa in tre casi su quattro: è vera solo quando valgono entrambe le parti."
+			},
+			"_difficulty8": true,
+			"applica": "logica-verita-base"
+		},
+		{
+			"id": "logica-app-verita-17",
+			"subject": "logica",
+			"topic": "verita",
+			"difficulty": 5,
+			"format": "multiple_choice",
+			"prompt": "«Vado al mare O vado in montagna» è vera anche se vado in tutti e due i posti?",
+			"options": [
+				"Sì, la O comprende entrambi",
+				"Dipende da quale preferisci",
+				"No, è o l'uno o l'altro",
+				"Solo se ci vado in giorni diversi"
+			],
+			"answer": "Sì, la O comprende entrambi",
+			"explanation": "La O della logica è larga: è vera se almeno una parte è vera, quindi anche quando lo sono tutte e due. È falsa in un caso solo, quando nessuna delle due vale.",
+			"distractorWhy": {
+				"No, è o l'uno o l'altro": "È l'uso dell'italiano parlato, dove «o» suggerisce un'alternativa esclusiva: in logica va intesa nel senso largo.",
+				"Solo se ci vado in giorni diversi": "Il tempo non entra nella valutazione: conta soltanto se ciascuna delle due parti sia vera o falsa.",
+				"Dipende da quale preferisci": "La verità di una frase non dipende dalle preferenze di chi la dice."
+			},
+			"_difficulty8": true,
+			"applica": "logica-verita-base"
+		},
+		{
+			"id": "logica-app-verita-18",
+			"subject": "logica",
+			"topic": "verita",
+			"difficulty": 7,
+			"format": "multiple_choice",
+			"prompt": "«Tutti hanno consegnato» risulta falsa. Che cosa è sicuramente vero?",
+			"options": [
+				"Quasi nessuno ha consegnato",
+				"Almeno uno non ha consegnato",
+				"Nessuno ha consegnato",
+				"Tutti hanno copiato"
+			],
+			"answer": "Almeno uno non ha consegnato",
+			"explanation": "Per smentire un «tutti» basta e serve una sola eccezione: dire che nessuno ha consegnato sarebbe un'affermazione molto più forte e potrebbe essere falsa anch'essa.",
+			"distractorWhy": {
+				"Nessuno ha consegnato": "Dice molto di più di quanto la smentita autorizzi: potrebbero aver consegnato quasi tutti tranne uno.",
+				"Quasi nessuno ha consegnato": "Introduce una quantità che nessuna premessa fornisce: la falsità di un «tutti» non dice quanti siano.",
+				"Tutti hanno copiato": "Non ha nessun rapporto con la frase negata: parla di un fatto diverso."
+			},
+			"_difficulty8": true,
+			"applica": "logica-verita-alta"
+		},
+		{
+			"id": "logica-app-verita-19",
+			"subject": "logica",
+			"topic": "verita",
+			"difficulty": 8,
+			"format": "multiple_choice",
+			"prompt": "«Se studio, passo l'esame.» Ho passato l'esame. Che cosa si conclude?",
+			"options": [
+				"Che ho studiato",
+				"Che non ho studiato",
+				"Niente di certo sullo studio",
+				"Che l'esame era molto facile"
+			],
+			"answer": "Niente di certo sullo studio",
+			"explanation": "La frase vincola lo studio al passaggio, non il passaggio allo studio: non dice che si passa SOLO studiando, quindi il verso opposto non è deducibile.",
+			"distractorWhy": {
+				"Che ho studiato": "È l'errore più frequente sulle condizioni: la premessa non esclude che si possa passare anche senza studiare.",
+				"Che non ho studiato": "Nulla lo suggerisce: lo studio resta perfettamente possibile, semplicemente non è dimostrato.",
+				"Che l'esame era molto facile": "È una spiegazione possibile nel mondo reale, ma non segue in nessun modo dalle premesse."
+			},
+			"_difficulty8": true,
+			"applica": "logica-verita-alta"
+		},
+		{
+			"id": "logica-app-quantificatori-20",
+			"subject": "logica",
+			"topic": "quantificatori",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "«Alcuni studenti hanno la bicicletta» esclude che ce l'abbiano tutti?",
+			"options": [
+				"Sì, se fossero tutti si direbbe",
+				"Dipende da quanti sono",
+				"Sì, alcuni significa non tutti",
+				"No, dice solo almeno uno"
+			],
+			"answer": "No, dice solo almeno uno",
+			"explanation": "In logica «alcuni» significa almeno uno e nient'altro: è una parola debole, e proprio per questo difficilissima da smentire.",
+			"distractorWhy": {
+				"Sì, alcuni significa non tutti": "È l'uso comune della parola, non il suo significato logico: qui «alcuni» non esclude la totalità.",
+				"Sì, se fossero tutti si direbbe": "Dire meno di quello che si potrebbe non rende falsa l'affermazione: la rende soltanto più prudente.",
+				"Dipende da quanti sono": "Non dipende: basta che ce ne sia almeno uno perché la frase sia vera, qualunque sia il totale."
+			},
+			"_difficulty8": true,
+			"applica": "logica-quantificatori-base"
+		},
+		{
+			"id": "logica-app-quantificatori-21",
+			"subject": "logica",
+			"topic": "quantificatori",
+			"difficulty": 4,
+			"format": "short_answer",
+			"prompt": "Quale parola indica che una proprietà vale per ogni singolo caso, senza eccezioni?",
+			"options": [],
+			"answer": "tutti",
+			"accept": [
+				"tutti quanti",
+				"ogni"
+			],
+			"explanation": "È il quantificatore più forte, ed è per questo che basta un solo caso contrario per renderlo falso: chi lo usa si espone più di chiunque altro.",
+			"_difficulty8": true,
+			"applica": "logica-quantificatori-base",
+			"distractorWhy": {
+				"Almeno uno non vola": "«Almeno uno non vola» è la risposta giusta a un'altra domanda di questo gruppo: ««Alcuni uccelli non volano» significa che…».",
+				"Non tutti": "«Non tutti» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il contrario di «tutti»?».",
+				"Due cose diverse": "«Due cose diverse» è la risposta giusta a un'altra domanda di questo gruppo: ««Ogni chiave apre una porta» e «una porta è aperta da ogni chiave» dicono…».",
+				"Due o più studenti": "«Due o più studenti» è la risposta giusta a un'altra domanda di questo gruppo: ««Almeno due studenti hanno preso 10» è vera se ne hanno preso 10…».",
+				"No, in nessun caso": "«No, in nessun caso» è la risposta giusta a un'altra domanda di questo gruppo: «Da «alcuni gatti sono neri» si può dedurre «tutti i gatti sono neri»?».",
+				"Dicono la stessa cosa": "«Dicono la stessa cosa» è la risposta giusta a un'altra domanda di questo gruppo: ««Nessun pesce vola» e «tutti i pesci non volano»…».",
+				"due, uno o nessuno": "«due, uno o nessuno» è la risposta giusta a un'altra domanda di questo gruppo: ««Al massimo due gatti dormono» è vera se ne dormono…».",
+				"Alcuni animali sono cani": "«Alcuni animali sono cani» è la risposta giusta a un'altra domanda di questo gruppo: «Da «tutti i cani sono animali» che cosa si può dire dei due gruppi?»."
+			}
+		},
+		{
+			"id": "logica-app-quantificatori-22",
+			"subject": "logica",
+			"topic": "quantificatori",
+			"difficulty": 6,
+			"format": "multiple_choice",
+			"prompt": "«Nessun treno è in orario» viene smentita da…",
+			"options": [
+				"Un solo treno in orario",
+				"Nessun treno in ritardo",
+				"Tutti i treni in orario",
+				"Metà dei treni in orario"
+			],
+			"answer": "Un solo treno in orario",
+			"explanation": "Per smentire un «nessuno» basta un controesempio, e uno solo chiude la questione: non serve dimostrare che siano molti.",
+			"distractorWhy": {
+				"Metà dei treni in orario": "Smentisce la frase, ma chiede molto più del necessario: ne basta uno.",
+				"Tutti i treni in orario": "Anche questo la smentisce, ed è l'affermazione più forte possibile: enormemente più di quanto serva.",
+				"Nessun treno in ritardo": "Parla di un fatto diverso, e in un mondo con soppressioni non implicherebbe nemmeno che qualcuno sia in orario."
+			},
+			"_difficulty8": true,
+			"applica": "logica-quantificatori-alta"
+		},
+		{
+			"id": "logica-app-quantificatori-23",
+			"subject": "logica",
+			"topic": "quantificatori",
+			"difficulty": 7,
+			"format": "multiple_choice",
+			"prompt": "Da «tutti i cani sono animali» che cosa si può dire dei due gruppi?",
+			"options": [
+				"Non si può dire niente",
+				"Alcuni animali sono cani",
+				"Tutti gli animali sono cani",
+				"Nessun animale è un cane"
+			],
+			"answer": "Alcuni animali sono cani",
+			"explanation": "Il cerchio dei cani sta dentro quello degli animali, quindi nella zona comune c'è sicuramente qualcosa; ma il cerchio grande sporge parecchio, e questo esclude il «tutti».",
+			"distractorWhy": {
+				"Tutti gli animali sono cani": "Girando una frase con «tutti» si conserva solo «alcuni»: il cerchio degli animali contiene moltissime specie.",
+				"Nessun animale è un cane": "Contraddice la premessa: se tutti i cani sono animali, allora qualche animale è un cane.",
+				"Non si può dire niente": "Si può dire l'affermazione più debole: nella zona comune c'è qualcosa, ed è quanto «alcuni» richiede."
+			},
+			"_difficulty8": true,
+			"applica": "logica-quantificatori-alta"
+		},
+		{
 			"id": "logica-esclusioni-quale-elemento-non-appartiene-al-gruppo-cane-gat",
 			"subject": "logica",
 			"topic": "esclusioni",
@@ -3614,8 +4153,8 @@
 			"options": [
 				"Esattamente metà dei gatti è nera",
 				"Nessun gatto è nero",
-				"Tutti i gatti sono di un altro colore",
-				"Almeno un gatto non è nero"
+				"Almeno un gatto non è nero",
+				"Tutti i gatti sono di un altro colore"
 			],
 			"answer": "Almeno un gatto non è nero",
 			"explanation": "La negazione di «tutti» non è «nessuno»: basta un solo controesempio per smentire un «tutti».",
@@ -3634,10 +4173,10 @@
 			"format": "multiple_choice",
 			"prompt": "Qual è la negazione di «alcuni studenti sono in ritardo»?",
 			"options": [
-				"Nessuno studente è in ritardo",
 				"Non tutti gli studenti sono in ritardo",
 				"Tutti in ritardo",
-				"Alcuni studenti non sono in ritardo"
+				"Alcuni studenti non sono in ritardo",
+				"Nessuno studente è in ritardo"
 			],
 			"answer": "Nessuno studente è in ritardo",
 			"explanation": "«Alcuni» vuol dire almeno uno: negarlo significa dire zero, cioè nessuno.",
@@ -3656,8 +4195,8 @@
 			"format": "multiple_choice",
 			"prompt": "Ogni quadrato è un rombo e ogni rombo è un parallelogramma. Allora…",
 			"options": [
-				"Ogni parallelogramma è un quadrato",
 				"Ogni quadrato è un parallelogramma",
+				"Ogni parallelogramma è un quadrato",
 				"Nessun rombo è un quadrato",
 				"Rombo e quadrato sono la stessa figura"
 			],
@@ -3679,8 +4218,8 @@
 			"prompt": "«Se studio, passo l'esame.» Ho passato l'esame. Che cosa segue?",
 			"options": [
 				"Non ho studiato",
-				"Ho studiato di sicuro, non c'è dubbio",
 				"Non si può dire se ho studiato",
+				"Ho studiato di sicuro, non c'è dubbio",
 				"L'esame era facile"
 			],
 			"answer": "Non si può dire se ho studiato",
@@ -3702,8 +4241,8 @@
 			"options": [
 				"Ho studiato",
 				"Non si può dire niente",
-				"L'esame era troppo difficile",
-				"Non ho studiato"
+				"Non ho studiato",
+				"L'esame era troppo difficile"
 			],
 			"answer": "Non ho studiato",
 			"explanation": "Questa volta il passaggio è valido: se manca l'effetto garantito, manca anche la causa che lo garantiva.",
@@ -3722,10 +4261,10 @@
 			"format": "multiple_choice",
 			"prompt": "«Piove» e «fa freddo» possono essere ciascuna vera o falsa. Quante combinazioni diverse esistono in tutto?",
 			"options": [
-				"Quattro",
 				"Tre",
 				"Due",
-				"Otto"
+				"Otto",
+				"Quattro"
 			],
 			"answer": "Quattro",
 			"explanation": "Per ognuna delle due ci sono due possibilità, e si combinano fra loro: piove e fa freddo, piove e non fa freddo, non piove e fa freddo, non piove e non fa freddo. Con tre affermazioni sarebbero otto: ogni volta il numero raddoppia.",
@@ -3744,8 +4283,8 @@
 			"format": "multiple_choice",
 			"prompt": "Quale non appartiene al gruppo: quadrato, rombo, cerchio, trapezio?",
 			"options": [
-				"quadrato",
 				"cerchio",
+				"quadrato",
 				"trapezio",
 				"rombo"
 			],

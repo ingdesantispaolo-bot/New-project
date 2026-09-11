@@ -3,6 +3,7 @@ extends RefCounted
 
 const ExerciseInteraction = preload("res://scripts/game/exercise_interaction.gd")
 const ItalianMinigameCatalog = preload("res://scripts/game/italian_minigame_catalog.gd")
+const SubjectSignatureGenerators = preload("res://scripts/game/subject_signature_generators.gd")
 
 ## Costruisce sessioni-MINIGIOCO risolte con le competenze delle materie. Due
 ## formati interattivi (resi da ExercisePlayer): "matching" (abbina le coppie) e
@@ -6766,6 +6767,24 @@ const MAP_READING := {
 ## più reperti, mai un file per esercizio — e i bersagli sono semantici: le
 ## coordinate stanno in `artifact_atlas_catalog.gd`.
 const HOTSPOT := {
+	"elettronica": [
+		{"topic": "componenti", "assetId": "electronics_components",
+			"prompt": "Quale componente emette luce quando la corrente lo attraversa nel verso corretto?",
+			"domande": [
+				{"prompt":"Quale componente ha due piedini di lunghezza diversa che aiutano a riconoscere la polarita'?", "answer":"led", "explanation":"Nel LED il piedino piu' lungo indica di solito l'anodo: la polarita' conta perche' il diodo lascia passare corrente in un solo verso."},
+				{"prompt":"Quale componente limita la corrente grazie a un valore indicato da bande colorate?", "answer":"resistor", "explanation":"Le bande del resistore codificano il suo valore; limitarne la corrente protegge per esempio un LED da una corrente eccessiva."},
+			],
+			"targets":[{"id":"led","label":"Primo componente da sinistra"},{"id":"resistor","label":"Secondo componente"},{"id":"capacitor","label":"Terzo componente"},{"id":"push_button","label":"Quarto componente"}],
+			"answer":"led", "explanation":"Il LED e' un diodo che trasforma parte dell'energia elettrica in luce e conduce soltanto se collegato con la polarita' corretta."},
+		{"topic": "componenti", "minLevel": 1, "assetId": "electronics_components",
+			"prompt": "Quale componente accumula temporaneamente carica elettrica fra due armature?",
+			"domande": [
+				{"prompt":"Quale componente chiude il contatto soltanto mentre viene premuto?", "answer":"push_button", "explanation":"Il pulsante tattile e' un interruttore momentaneo: premendolo i contatti si chiudono, rilasciandolo tornano aperti."},
+				{"prompt":"Quale dei quattro componenti mostra bande colorate invece di una polarita' positiva e negativa?", "answer":"resistor", "explanation":"Il resistore usa bande colorate per il valore; LED e condensatore hanno polarita', mentre il pulsante e' un contatto meccanico."},
+			],
+			"targets":[{"id":"led","label":"Primo componente da sinistra"},{"id":"resistor","label":"Secondo componente"},{"id":"capacitor","label":"Terzo componente"},{"id":"push_button","label":"Quarto componente"}],
+			"answer":"capacitor", "explanation":"Il condensatore separa cariche sulle sue armature e puo' restituirle al circuito; per questo filtra variazioni e crea piccoli ritardi."},
+	],
 	"storia": [
 		{"topic": "roma", "assetId": "roman_artifacts",
 			"prompt": "Quale di questi reperti romani serviva a portare l'acqua fino in città?",
@@ -6825,6 +6844,7 @@ const FORMATS := [
 	"notation", "map", "hotspot", "code_debug", "number_line", "balance",
 	"timeline", "compose", "trace", "clue", "swipe", "machine_path", "mystery_sample",
 	"verb_decoder", "griglia", "porte",
+	"breadboard", "rhythm_fill", "causal_chain", "robot_grid", "blank_map",
 ]
 
 static func table_for(fmt: String) -> Dictionary:
@@ -6900,6 +6920,11 @@ static func runtime_formats_for(subject: String, level: int) -> Array:
 	if subject == "logica":
 		out.append("griglia")
 		out.append("porte")
+	var signature_by_subject := {
+		"elettronica": "breadboard", "musica": "rhythm_fill", "storia": "causal_chain",
+		"coding": "robot_grid", "geografia": "blank_map",
+	}
+	if signature_by_subject.has(subject): out.append(str(signature_by_subject[subject]))
 	return out
 
 ## GRADIENTE DI DIFFICOLTÀ dentro la sessione.
@@ -7051,6 +7076,8 @@ static func question_of(spec: Dictionary, idx: int) -> Dictionary:
 	}
 
 static func format_depth(subject: String, fmt: String, level: int) -> int:
+	if fmt in ["breadboard", "rhythm_fill", "causal_chain", "robot_grid", "blank_map"]:
+		return SubjectSignatureGenerators.depth(fmt, subject)
 	if fmt == "griglia":
 		return griglia_depth(subject, level)
 	if fmt == "porte":
@@ -7156,6 +7183,8 @@ func _build_node_for_format(fmt: String, subject: String, level: int, step: int,
 		"verb_decoder": return _verb_decoder_node(subject, level, step, rng, idx)
 		"griglia": return _griglia_node(subject, level, step, rng, idx)
 		"porte": return _porte_node(subject, level, step, rng, idx)
+		"breadboard", "rhythm_fill", "causal_chain", "robot_grid", "blank_map":
+			return SubjectSignatureGenerators.build(fmt, subject, level, difficulty, rng, idx)
 	return {}
 
 ## Una campata della sessione di italiano e' sempre ancorata alla fascia del
@@ -7244,6 +7273,26 @@ func build_minigame(subject: String, level: int, rng: RandomNumberGenerator = nu
 		# non un contorno visivo.
 		base.append("griglia")
 		base.append("porte")
+	var signature_by_subject := {
+		"elettronica": "breadboard", "musica": "rhythm_fill", "storia": "causal_chain",
+		"coding": "robot_grid", "geografia": "blank_map",
+	}
+	if signature_by_subject.has(subject):
+		# La firma e' un gesto di base della disciplina, non un esercizio ornamentale
+		# aggiunto in coda: di norma sostituisce a rotazione uno dei tre gesti
+		# generici. Musica conserva invece le quattro campate precedenti: e' uno dei
+		# due corsi a perimetro stretto e togliere una famiglia farebbe scendere i
+		# pavimenti gia' misurati di caselle e prove. In entrambi i casi la firma
+		# compare in ogni sessione; negli altri corsi non allunga la palestra e non
+		# diluisce la materia ospite nel mondo.
+		var generici_presenti: Array = []
+		for generico in ["matching", "ordering", "classification"]:
+			if base.has(generico):
+				generici_presenti.append(generico)
+		if subject != "musica" and not generici_presenti.is_empty():
+			var slot_generico := posmod(hash(subject) + level, generici_presenti.size())
+			base.erase(str(generici_presenti[slot_generico]))
+		base.append(str(signature_by_subject[subject]))
 	var giro := posmod(hash(subject) + level, maxi(1, base.size()))
 	for i in base.size():
 		plan.append(base[(giro + i) % base.size()])

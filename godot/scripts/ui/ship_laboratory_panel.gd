@@ -138,7 +138,7 @@ func _refresh_step() -> void:
 		_finish()
 		return
 	progress_label.text = "DECISIONE %d / %d  ·  %s" % [
-		index + 1, steps.size(), "● ".repeat(index) + "○ ".repeat(steps.size() - index)]
+		index + 1, steps.size(), "* ".repeat(index) + "o ".repeat(steps.size() - index)]
 	var step: Dictionary = steps[index]
 	prompt_label.text = str(step.get("prompt", "Che cosa vuoi conservare?"))
 	var options: Array = Array(step.get("options", []))
@@ -160,7 +160,7 @@ func _choose(index: int) -> void:
 func _finish() -> void:
 	choice_box.visible = false
 	prompt_label.visible = false
-	progress_label.text = "SINTESI COMPLETA · ● ● ●"
+	progress_label.text = "SINTESI COMPLETA · * * *"
 	result_label.visible = true
 	result_label.text = "%s\n\n%s" % [
 		_synthesis(), str(spec.get("completion", "NORA: sintesi registrata."))]

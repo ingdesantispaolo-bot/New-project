@@ -96,6 +96,32 @@ static func of(node: Dictionary) -> String:
 				str(solution.get("time", "")), str(solution.get("mood", "")),
 				str(solution.get("form", "")),
 			])
+		"breadboard":
+			var required := _strings((node.get("obiettivo", {}) as Dictionary).get("deveIncludere", []))
+			required.sort()
+			parts.append("%s>%s:%s" % [str((node.get("obiettivo", {}) as Dictionary).get("da", "")), str((node.get("obiettivo", {}) as Dictionary).get("a", "")), ",".join(PackedStringArray(required))])
+		"rhythm_fill":
+			var fixed_values: Array = []
+			for raw in Array(node.get("battuta", [])):
+				var beat := raw as Dictionary
+				fixed_values.append("%s:%s" % [str(beat.get("id", "")), String.num(float(beat.get("valore", 0.0)), 3)])
+			parts.append("%s:%s" % [str(node.get("metro", 0)), ",".join(PackedStringArray(fixed_values))])
+		"causal_chain":
+			var links: Array = []
+			for raw in Array(node.get("nessi", [])):
+				var edge := raw as Dictionary
+				links.append("%s>%s" % [str(edge.get("da", "")), str(edge.get("a", ""))])
+			links.sort()
+			parts.append(";".join(PackedStringArray(links)))
+		"robot_grid":
+			parts.append("%s>%s:%s" % [str(node.get("partenza", {})), str(node.get("obiettivo", {})), ",".join(PackedStringArray(_strings(node.get("soluzione", []))))])
+		"blank_map":
+			var labels: Array = []
+			for raw in Array(node.get("etichette", [])):
+				var label := raw as Dictionary
+				labels.append("%s>%s" % [str(label.get("id", "")), str(label.get("ancora", ""))])
+			labels.sort()
+			parts.append("%s:%s:%s" % [str(node.get("mapId", "")), ";".join(PackedStringArray(labels)), ",".join(PackedStringArray(_strings(node.get("percorso", []))))])
 		"classification":
 			var assignments := node.get("assignments", {}) as Dictionary
 			var rows: Array = []

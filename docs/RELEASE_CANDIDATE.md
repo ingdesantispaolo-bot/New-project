@@ -3036,3 +3036,41 @@ richiesto tre voci nuove — quella non ha mai un fallback, per nessuna materia.
 **Quaranta audit verdi**, incluso `verb_decoder_audit` (le famiglie verbali non
 toccate da questo lavoro restano a posto) e `topic_alignment_audit` (l'esame
 può ancora chiedere ciò che il gate promette).
+
+## Cinque firme disciplinari e secondo atlante (11 settembre 2026)
+
+Chiuse **C-R4** e **C-R1**. Il runtime ha cinque famiglie manipolative nuove:
+`breadboard` per elettronica, `rhythm_fill` per musica, `causal_chain` per
+storia, `robot_grid` per coding e `blank_map` per geografia. Ognuna ha contratto,
+validazione causale, esecuzione, plancia vettoriale e generatore procedurale; la
+guardia dedicata misura **almeno 15 sessioni distinte in ognuna delle otto
+fasce**. Il decodificatore accetta inoltre tre `axisTitles` opzionali dai dati,
+così le ghiere servono anche il latino senza duplicare il renderer.
+
+Le firme entrano davvero nella pratica. In quattro materie sostituiscono a
+rotazione un gesto generico senza allungare la sessione; musica conserva la
+quarta campata perché il suo corso a perimetro stretto non può perdere le
+caselle e le prove già misurate. Dopo l'integrazione la materia ospite resta al
+**31–32%** dei nodi del mondo, sopra il pavimento del 30%, e tutti gli argomenti
+promessi dalle lezioni restano serviti.
+
+Il secondo foglio di reperti è
+`electronics-components-atlas-v1.webp`: **960×200 px, 10.686 byte**, con LED,
+resistore, condensatore e pulsante tattile in quattro celle semantiche. Il
+catalogo espone le quattro coordinate e l'elettronica usa due specifiche
+`hotspot`; `artifact_atlas_audit` verifica dimensioni, bersagli e raggiungibilità
+nel runtime.
+
+**Misure di chiusura.** Cinque catture GPU tablet dei renderer sono state
+ispezionate; la suite Godot completa è verde **280/280 in 1.136 s**. Export Web
+rigenerato: build `2026.09.11-web-loader-3`, PCK **81,74 MiB**, WASM **37,68
+MiB**, core **119,43 MiB**. `audit:web` è verde e lo smoke Chromium percorre
+boot → mondo → nave → esame → mondo 2 → esercizio, conserva il save, riproduce
+56 effetti audio e chiude con **zero errori console**. Un primo passaggio non ha
+agganciato il POI entro la finestra temporale; il rilancio completo è passato,
+quindi il caso resta registrato come timing intermittente del test, non come
+regressione riprodotta.
+
+Resta aperta **C-R2**: per istruzione esplicita gli asset dei quindici
+minigiochi-personaggio si realizzano soltanto dopo il collaudo che stabilirà
+quali meccaniche restano nel giro.

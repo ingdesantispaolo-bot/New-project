@@ -28,11 +28,24 @@ import { mkdir, writeFile } from "node:fs/promises";
 // trecento item e ventiquattro argomenti, e perché è materiale che si continuerà
 // ad ampliare — qui dentro sarebbe una vena di mille righe in mezzo alle altre.
 import { CODING_PROGRAMMA } from "./banks/coding-programma.mjs";
+import { CODING_APPLICAZIONI } from "./banks/coding-applicazioni.mjs";
 import { FISICA_PROGRAMMA } from "./banks/fisica-programma.mjs";
 import { GEOGRAFIA_PROGRAMMA } from "./banks/geografia-programma.mjs";
+import { GEOGRAFIA_APPLICAZIONI } from "./banks/geografia-applicazioni.mjs";
 import { LATINO_PROGRAMMA } from "./banks/latino-programma.mjs";
+import { LATINO_APPLICAZIONI } from "./banks/latino-applicazioni.mjs";
 import { SCIENZE_PROGRAMMA } from "./banks/scienze-programma.mjs";
+import { SCIENZE_APPLICAZIONI } from "./banks/scienze-applicazioni.mjs";
 import { STORIA_PROGRAMMA } from "./banks/storia-programma.mjs";
+import { STORIA_APPLICAZIONI } from "./banks/storia-applicazioni.mjs";
+import { SESSIONI_LUNGHE } from "./banks/sessioni-lunghe-programma.mjs";
+import { CODING_FIRME } from "./banks/coding-firme.mjs";
+import { LOGICA_FIRME } from "./banks/logica-firme.mjs";
+import { ELETTRONICA_FIRME } from "./banks/elettronica-firme.mjs";
+import { MUSICA_FIRME } from "./banks/musica-firme.mjs";
+import { SCIENZE_FIRME } from "./banks/scienze-firme.mjs";
+import { STORIA_FIRME } from "./banks/storia-firme.mjs";
+import { LATINO_FIRME } from "./banks/latino-firme.mjs";
 import { MATEMATICA_PROGRAMMA } from "./banks/matematica-programma.mjs";
 // Stessa ragione per l'inglese, e un buco più grosso: il banco generato da
 // `englishVocabularyBank.ts` è un dizionario: mille item, due sole forme di
@@ -2450,9 +2463,68 @@ function conProgramma(bank, subject, programma) {
   return bank;
 }
 
-function authoredMcItems(subject, questions, rand) {
+// I dieci formati in cui il bambino SPOSTA qualcosa invece di toccare
+// un'alternativa: l'elenco `MANIPOLA` di `gesto_audit`. `ExercisePlayer` li
+// disegna tutti e `ExerciseInteraction` ne valida i contratti; fino al 10
+// settembre 2026 il banco ne sapeva costruire tre, e gli altri sette potevano
+// arrivare SOLO dalle ricette procedurali. Un esercizio complesso non si poteva
+// quindi scrivere: si poteva solo generare.
+//
+// Qui si dichiara, per ogni formato, quali campi-soluzione l'autore scrive e
+// questo costruttore ricopia. Il contratto vero — quante coppie, quali
+// operazioni, che la soluzione arrivi davvero al traguardo — lo verifica
+// `ExerciseInteraction.validate`, che è la fonte di verità: qui si ricopia e
+// basta, senza reinventare le regole in un secondo posto.
+const CAMPI_MANIPOLATIVI = {
+  ordering:       ["items", "correctOrder"],
+  matching:       ["pairs"],
+  classification: ["items", "categories", "assignments"],
+  timeline:       ["min", "max", "targets", "answer"],
+  swipe:          ["statements", "seconds", "minAccuracy"],
+  machine_path:   ["start", "target", "slotCount", "machines", "solution"],
+  mystery_sample: ["samples", "tests", "results", "minTests", "answer"],
+  verb_decoder:   ["segments", "solution", "hints", "discovery",
+                   "timeChoices", "moodChoices", "forms"],
+  griglia:        ["soggetti", "attributi", "indizi", "soluzione"],
+  porte:          ["ingressi", "righe", "condizione", "soluzione"],
+};
+
+const FORMATI_MANIPOLATIVI = new Set(Object.keys(CAMPI_MANIPOLATIVI));
+
+function authoredMcItems(subject, questions, rand, idScope = subject) {
   return questions.map((q, i) => {
-    const id = `${subject}-${q.topic}-${i}`;
+    // L'ambito dell'id tiene separati due lotti della stessa materia: senza,
+    // `coding-algoritmi-0` nascerebbe due volte e `_superate` segnerebbe come
+    // gia' risolto un esercizio mai visto.
+    const id = `${idScope}-${q.topic}-${i}`;
+    // **La fascia dichiarata vale per tutti i formati.** Prima valeva solo per
+    // la scelta multipla: un `difficulty8: true` scritto accanto a una risposta
+    // libera veniva letto da nessuno, e l'item finiva lo stesso nel ponte 4->8
+    // o sotto la scala per argomento. Trentatre' item autorati stavano in una
+    // fascia che non era quella scritta accanto a loro.
+    const fascia = q.difficulty8 ? { _difficulty8: true } : {};
+    // **Il legame con la dispensa che rende rispondibile la domanda.**
+    // (11 settembre 2026, `docs/REGOLA_DISPENSE.md`) Dichiarato, non dedotto:
+    // chi scrive una domanda deve poter indicare il paragrafo che la insegna.
+    // `dispense_audit` verifica che la dispensa esista, parli dello stesso
+    // argomento e non cominci a una fascia successiva a quella dell'item.
+    const applica = q.applica ? { applica: q.applica } : {};
+    if (FORMATI_MANIPOLATIVI.has(q.format)) {
+      const item = { id, subject, topic: q.topic, difficulty: q.difficulty,
+        format: q.format, prompt: q.prompt, options: [],
+        explanation: q.explanation, ...fascia, ...applica };
+      for (const campo of CAMPI_MANIPOLATIVI[q.format]) {
+        if (q[campo] === undefined) {
+          throw new Error(`Item '${id}': il formato ${q.format} richiede il campo '${campo}'.`);
+        }
+        item[campo] = q[campo];
+      }
+      // `accept` non c'entra con questi formati, ma la risposta scritta sì:
+      // linea del tempo e campione misterioso ne hanno una, ed è quella che il
+      // manuale usa come esempio svolto.
+      if (q.answer !== undefined) { item.answer = String(q.answer); }
+      return item;
+    }
     if (q.format === "short_answer") {
       // Risposta libera a testo. `accept` elenca le forme che valgono quanto
       // la risposta principale: senza, un bambino che scrive «to check»
@@ -2460,7 +2532,7 @@ function authoredMcItems(subject, questions, rand) {
       return { id, subject, topic: q.topic, difficulty: q.difficulty,
         format: "short_answer", prompt: q.prompt, options: [],
         answer: String(q.answer), accept: q.accept ?? [],
-        explanation: q.explanation };
+        explanation: q.explanation, ...fascia, ...applica };
     }
     if (q.format === "numeric_input") {
       return {
@@ -2473,13 +2545,14 @@ function authoredMcItems(subject, questions, rand) {
         options: [],
         answer: String(q.answer),
         explanation: q.explanation,
+        ...fascia,
+        ...applica,
       };
     }
     // `difficulty8: true` dichiara che la fascia 1..8 è scritta da chi ha
     // autorato l'item, e la esenta dal ponte 4→8. Ogni sorgente nuova deve
     // usarlo: il ponte è un ripiego per il materiale storico, non una strada.
-    const extra = { distractorWhy: q.distractorWhy ?? {} };
-    if (q.difficulty8) extra._difficulty8 = true;
+    const extra = { distractorWhy: q.distractorWhy ?? {}, ...fascia, ...applica };
     return multipleChoiceItem({ id, subject, topic: q.topic, difficulty: q.difficulty, prompt: q.prompt, answer: q.answer, distractors: q.distractors, explanation: q.explanation, extra }, rand);
   });
 }
@@ -4561,6 +4634,83 @@ const BANKS = {
 // giusto: stesso helper degli altri item autorati, stesso contratto.
 BANKS["italiano-base"].items.push(
   ...authoredMcItems("italiano", ANALOGIE_LESSICALI, rng(20260901)),
+);
+
+// **Il lotto delle sessioni lunghe** (10 settembre 2026), agganciato QUI e non
+// dentro `BANKS`: le scale dichiarate e il ponte 4->8 girano piu' sotto e
+// saltano gli item che portano `_difficulty8`, quindi la fascia scritta a mano
+// resta quella. Vedi `scripts/banks/sessioni-lunghe-programma.mjs`.
+for (const [materia, items] of Object.entries(SESSIONI_LUNGHE)) {
+  BANKS[`${materia}-base`].items.push(
+    ...authoredMcItems(materia, items, rng(20260910), `${materia}-sl`),
+  );
+}
+
+// **Le firme di materia** (G-C14): esercizi in cui il gesto e' la competenza,
+// una famiglia per disciplina. Coding apre la serie con la catena di montaggio,
+// che e' `machine_path` — il renderer c'era gia', il banco non sapeva portarlo.
+BANKS["coding-base"].items.push(
+  ...authoredMcItems("coding", CODING_FIRME, rng(20260911), "coding-firme"),
+);
+
+// **Le applicazioni delle dispense** (11 settembre 2026, `docs/REGOLA_DISPENSE.md`):
+// il primo lotto scritto sotto la regola «nessuna domanda senza un documento che
+// la insegni». Ogni item dichiara `applica`, cioe' la dispensa che contiene il
+// paragrafo che lo rende rispondibile, e non usa nessuna notazione che le
+// dispense fino alla sua fascia non abbiano introdotto. Verificato da
+// `dispense_audit`, dove per coding il tetto e' zero.
+BANKS["coding-base"].items.push(
+  ...authoredMcItems("coding", CODING_APPLICAZIONI, rng(20260913), "coding-app"),
+);
+BANKS["logica-base"].items.push(
+  ...authoredMcItems("logica", LOGICA_FIRME, rng(20260912), "logica-firme"),
+);
+BANKS["elettronica-base"].items.push(
+  ...authoredMcItems("elettronica", ELETTRONICA_FIRME, rng(20260913), "elettronica-firme"),
+);
+BANKS["musica-base"].items.push(
+  ...authoredMcItems("musica", MUSICA_FIRME, rng(20260914), "musica-firme"),
+);
+BANKS["scienze-base"].items.push(
+  ...authoredMcItems("scienze", SCIENZE_FIRME, rng(20260915), "scienze-firme"),
+);
+BANKS["storia-base"].items.push(
+  ...authoredMcItems("storia", STORIA_FIRME, rng(20260916), "storia-firme"),
+);
+
+// **Le applicazioni delle dispense di storia** (11 settembre 2026): la materia su
+// cui il committente aveva chiesto la regola — «si racconta un contesto preciso e
+// dettagliato, solo dopo si puo' fare una domanda». Diciassette dispense in
+// `Dispense`, e qui le domande che le applicano. Su quelle di richiamo
+// `dispense_audit` verifica che la risposta compaia nel testo del documento.
+BANKS["storia-base"].items.push(
+  ...authoredMcItems("storia", STORIA_APPLICAZIONI, rng(20260918), "storia-app"),
+);
+
+// **Le applicazioni delle dispense di geografia** (11 settembre 2026): il caso
+// piu' difficile dei tre, perche' il 78% delle domande di geografia ha per
+// risposta un nome. Le tavole elencano i nomi; le sedici dispense dicono perche'
+// le cose stanno dove stanno, e queste prove applicano quel criterio.
+BANKS["geografia-base"].items.push(
+  ...authoredMcItems("geografia", GEOGRAFIA_APPLICAZIONI, rng(20260919), "geografia-app"),
+);
+
+// **Le applicazioni delle dispense di latino** (11 settembre 2026): qui il
+// difetto non e' la domanda di NOME ma quella di FORMA — «quale forma useresti
+// per dire della rosa?» non si deduce da niente. Le ventidue dispense portano il
+// paradigma intero, e le loro `regole` dichiarano quali forme e' lecito chiedere.
+BANKS["latino-base"].items.push(
+  ...authoredMcItems("latino", LATINO_APPLICAZIONI, rng(20260920), "latino-app"),
+);
+
+// **Le applicazioni delle dispense di scienze** (11 settembre 2026): sedici
+// dispense, e domande che applicano un criterio a un caso nuovo invece di far
+// ripetere una definizione. Una definizione ripetuta non dice se sia stata capita.
+BANKS["scienze-base"].items.push(
+  ...authoredMcItems("scienze", SCIENZE_APPLICAZIONI, rng(20260921), "scienze-app"),
+);
+BANKS["latino-base"].items.push(
+  ...authoredMcItems("latino", LATINO_FIRME, rng(20260917), "latino-firme"),
 );
 
 // La grammatica inglese entra nello stesso banco del lessico: è la stessa
@@ -9577,6 +9727,8 @@ for (const [index, q] of MATEMATICA_PROGRAMMA.entries()) {
   );
 }
 
+const LIBERI = new Set(["numeric_input", "short_answer"]);
+
 const QUOTA_RISPOSTA_LIBERA = 0.3;
 
 // La stessa normalizzazione che Godot applica a una risposta DIGITATA
@@ -9628,7 +9780,7 @@ for (const [name, bank] of Object.entries(BANKS)) {
   const schemi = PROMPT_A_PAROLA[materia];
   if (!schemi) continue;
   const totale = bank.items.length;
-  const gia = bank.items.filter((i) => i.format !== "multiple_choice").length;
+  const gia = bank.items.filter((i) => LIBERI.has(i.format)).length;
   let mancanti = Math.floor(totale * QUOTA_RISPOSTA_LIBERA) - gia;
   if (mancanti <= 0) continue;
   const candidati = bank.items
@@ -9662,11 +9814,20 @@ for (const [name, bank] of Object.entries(BANKS)) {
 // Non serve riscrivere gli item: quelli la cui risposta e' gia' un numero
 // diventano `numeric_input` togliendo le opzioni. La scelta e' deterministica
 // (ordinamento per id e passo costante), cosi' due bake danno lo stesso banco.
+// **«Non a scelta multipla» non vuol dire «risposta libera».** (10 settembre
+// 2026) Le due passate qui sotto contavano quanto libero c'era gia' nel banco
+// con `format !== "multiple_choice"`, e finche' i banchi avevano tre formati era
+// lo stesso insieme. Da quando portano anche ordinamenti e abbinamenti non lo e'
+// piu': quelli non sono risposta libera — il bambino non scrive niente — ma
+// venivano contati come tale, e la conversione si fermava troppo presto. Su
+// logica ha significato dieci item numerici in meno e `free_answer_audit` rosso
+// al 19%. Il metro e' quello dell'audit: `numeric_input` e `short_answer`.
+
 const NUMERICA = /^-?\d+([.,]\d+)?$/;
 
 for (const [name, bank] of Object.entries(BANKS)) {
   const totale = bank.items.length;
-  const gia = bank.items.filter((i) => i.format !== "multiple_choice").length;
+  const gia = bank.items.filter((i) => LIBERI.has(i.format)).length;
   const bersaglio = Math.floor(totale * QUOTA_RISPOSTA_LIBERA);
   let mancanti = bersaglio - gia;
   if (mancanti <= 0) continue;

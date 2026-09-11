@@ -131,6 +131,24 @@ func record_mission(subject: String, correct: float, total: int, energy_gained: 
 # il gate dell'apparato (nessun add_mission) — così la pratica è rigiocabile e
 # non farma i requisiti di riparazione. La mastery per-topic si aggiorna a parte
 # con record_topic_stats, come per le missioni.
+## Una sola missione e una sola ricompensa; l'evidenza appartiene alle materie
+## dei singoli esercizi. Tutte sono toccate allo stesso istante del ripasso.
+func record_linked_mission(host: String, outcomes: Dictionary, energy_gained: int, passed: bool) -> void:
+	var clock := int(SpacedRepetition.session_clock(save))
+	for subject in outcomes:
+		var entry: Dictionary = outcomes[subject]
+		var total := int(entry.get("total", 0))
+		if total <= 0:
+			continue
+		save.set_mastery(str(subject), _padronanza_da_evidenza(
+			str(subject), float(entry.get("effectiveCorrect", 0.0)), total))
+		save.touch_subject(str(subject), clock)
+	if passed:
+		save.add_mission(host)
+	if energy_gained > 0:
+		save.add_energy(energy_gained)
+	applica_decadimento(clock)
+
 func record_practice(subject: String, correct: float, total: int, energy_gained: int) -> void:
 	save.set_mastery(subject, _padronanza_da_evidenza(subject, correct, total))
 	if energy_gained > 0:

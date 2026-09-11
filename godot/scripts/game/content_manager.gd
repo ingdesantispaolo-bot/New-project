@@ -524,6 +524,26 @@ func _innesta_banco_matematica(nodi: Array, level: int, rng: RandomNumberGenerat
 		out[posizione] = innestato
 	return out
 
+## **Che cosa puo' chiedere l'elettronica prima del mondo 20.**
+##
+## La lista di id sopra e' cio' che il mondo 8 prepara, ed e' giusta per l'esame
+## del mondo 8. Ma il filtro vale per TUTTI i mondi sotto il 20, e quelle prove
+## stanno tutte nelle fasce basse: al mondo 17, che e' fascia 6, non restava
+## niente nella finestra di difficolta' e la selezione ripiegava sul primo item
+## disponibile - una domanda di fascia 1 dentro l'esame del mondo 17. L'ha
+## trovato `difficulty_bands_audit` il 10 settembre 2026.
+##
+## Passa quindi anche l'approfondimento di `elettricita-base` scritto per le
+## fasce 5-8 (`elettronica-sl-`): e' lo **stesso argomento** che il mondo 8 ha
+## gia' insegnato - corrente, tensione, resistenza - chiesto piu' a fondo man
+## mano che il mondo sale. Il vincolo che questa lista difende resta intatto:
+## nessun componente e nessun concetto che il percorso non abbia presentato.
+const ELECTRONICS_DEEPENING_PREFIX := "elettronica-sl-"
+
+static func _elettronica_prima_del_20(item: Dictionary) -> bool:
+	var id := str(item.get("id", ""))
+	return ELECTRONICS_BEGINNER_EXAM_IDS.has(id) or id.begins_with(ELECTRONICS_DEEPENING_PREFIX)
+
 func _era_gated(subject: String, level: int, items: Array) -> Array:
 	var beginner_electronics := subject == "elettronica" and level < 20
 	if not ERA_GATED_TOPICS.has(subject) and not beginner_electronics:
@@ -531,8 +551,7 @@ func _era_gated(subject: String, level: int, items: Array) -> Array:
 	var gate: Dictionary = ERA_GATED_TOPICS.get(subject, {})
 	var out: Array = []
 	for it in items:
-		if beginner_electronics \
-				and not ELECTRONICS_BEGINNER_EXAM_IDS.has(str((it as Dictionary).get("id", ""))):
+		if beginner_electronics and not _elettronica_prima_del_20(it as Dictionary):
 			continue
 		var topic := str((it as Dictionary).get("topic", ""))
 		if gate.has(topic) and level < int(gate[topic]):
@@ -644,8 +663,12 @@ func build_mission(subject: String, level: int, node_count: int = 3, review_due:
 	# da chiedere in questa materia. Prima del riempimento casuale, che pescherebbe
 	# anche fuori dalla difficoltà giusta.
 	_drain_into(chosen, done_pool, node_count, generator, false)
+	# Anche il riempimento consuma: pescare con reinserimento da un banco piccolo
+	# mette la stessa prova due volte nella stessa sessione.
 	while chosen.size() < node_count and not eligible_items.is_empty():
-		chosen.append(eligible_items[generator.randi_range(0, eligible_items.size() - 1)].duplicate())
+		var riempi := generator.randi_range(0, eligible_items.size() - 1)
+		chosen.append((eligible_items[riempi] as Dictionary).duplicate())
+		eligible_items.remove_at(riempi)
 	return _session(subject, level, chosen)
 
 ## Quota dei nodi riservata agli argomenti che la LEZIONE del mondo promette.
@@ -696,28 +719,65 @@ func _session(subject: String, level: int, nodes: Array) -> Dictionary:
 ## Preferenza, non divieto: se restano solo item di argomenti già usati la
 ## missione si riempie comunque. Una missione corta è un difetto peggiore di una
 ## missione un po' ripetitiva.
+## **Pescare da un pozzo lo svuota.** (10 settembre 2026)
+##
+## Qui c'era `var work := pool.duplicate()`: la copia veniva consumata e il pozzo
+## del chiamante restava pieno. Sembra innocuo finche' non si guarda l'ordine
+## delle chiamate — `lesson_weak_pool` e `lesson_near_pool` vengono pescati DUE
+## volte, prima con la quota del mondo e poi con il conto pieno — e la seconda
+## pescata poteva ridare lo stesso identico item della prima. Misurato su musica
+## al mondo 6: `musica-sl-note-1` due volte nella stessa missione, cinque
+## missioni su cento, e `music_beginner_audit` le trovava.
+##
+## L'id in chiaro e' la seconda rete: due pozzi diversi non possono contenere lo
+## stesso item, ma se un giorno potessero, la missione non se ne accorgerebbe.
 func _drain_into(chosen: Array, pool: Array, node_count: int, generator: RandomNumberGenerator, review: bool) -> void:
-	var work := pool.duplicate()
 	var used_topics: Dictionary = {}
+	var used_ids: Dictionary = {}
 	for node in chosen:
 		used_topics[str((node as Dictionary).get("topic", ""))] = true
-	while chosen.size() < node_count and not work.is_empty():
-		var idx := _pick_fresh_topic(work, used_topics, generator)
-		var item: Dictionary = work[idx].duplicate()
-		work.remove_at(idx)
+		used_ids[str((node as Dictionary).get("id", ""))] = true
+	while chosen.size() < node_count and not pool.is_empty():
+		var idx := _pick_fresh_topic(pool, used_topics, generator)
+		var item: Dictionary = pool[idx].duplicate()
+		pool.remove_at(idx)
+		if used_ids.has(str(item.get("id", ""))):
+			continue
 		if review:
 			item["review"] = true
 		used_topics[str(item.get("topic", ""))] = true
+		used_ids[str(item.get("id", ""))] = true
 		chosen.append(item)
+		# **Anche le prove del banco vanno ricordate.** (10 settembre 2026) La
+		# memoria delle prove recenti esisteva solo per i minigiochi iniettati:
+		# un item del banco poteva tornare in ogni missione di fila senza che
+		# niente se ne accorgesse. Finche' i formati da toccare arrivavano tutti
+		# dalle ricette il difetto era invisibile, perche' i posti buoni li
+		# occupavano loro; con gli ordinamenti dentro il banco e' venuto fuori
+		# subito — `variety_audit`, logica al mondo 1, la stessa prova cinque
+		# volte su trenta.
+		_remember_node(_node_signature(item))
 
+
+## Sceglie che cosa pescare: prima un argomento non ancora usato in questa
+## sessione, e a parita' di argomento una prova che il bambino non ha visto di
+## recente. Il secondo criterio e' arrivato il 10 settembre 2026: senza, un banco
+## sottile ripeteva la stessa prova in missioni consecutive.
 func _pick_fresh_topic(work: Array, used_topics: Dictionary, generator: RandomNumberGenerator) -> int:
 	var fresh: Array = []
 	for i in work.size():
 		if not used_topics.has(str((work[i] as Dictionary).get("topic", ""))):
 			fresh.append(i)
-	if fresh.is_empty():
+	var candidati: Array = fresh if not fresh.is_empty() else range(work.size())
+	var mai_viste: Array = []
+	for i in candidati:
+		if not _recent_node_signatures.has(_node_signature(work[int(i)] as Dictionary)):
+			mai_viste.append(int(i))
+	if not mai_viste.is_empty():
+		return int(mai_viste[generator.randi_range(0, mai_viste.size() - 1)])
+	if candidati.is_empty():
 		return generator.randi_range(0, work.size() - 1)
-	return int(fresh[generator.randi_range(0, fresh.size() - 1)])
+	return int(candidati[generator.randi_range(0, candidati.size() - 1)])
 
 # Tema visivo dell'enigma per materia: la logica è identica, cambia solo la
 # "costruzione" che Codex rende (ponte, cristalli, porta…). Default: "ponte".
@@ -875,15 +935,28 @@ func _priority_exam_subjects(host_subject: String, level: int) -> Array:
 func _sciogli_doppioni(nodes: Array, subject: String, level: int, rng: RandomNumberGenerator) -> Array:
 	var viste: Dictionary = {}
 	var doppioni := 0
+	# **Il formato del doppione dice quale nodo si puo' sostituire.** (10 settembre
+	# 2026) Prima si contavano i doppioni e si chiedeva a `inject_non_mc` di
+	# rimpiazzarne altrettanti, ma quella funzione tocca solo i formati che la
+	# materia dichiara sostituibili — di norma la sola scelta multipla. Due nodi
+	# `short_answer` sullo stesso argomento restavano quindi dov'erano e il
+	# doppione sopravviveva in silenzio: misurato da `format_mix_audit` sull'enigma
+	# di storia al mondo 23, `short_answer|roma` due volte nella stessa prova.
+	var formati_in_doppio: Dictionary = {}
 	for node_data in nodes:
 		var n: Dictionary = node_data
 		var chiave := "%s|%s" % [str(n.get("format", "")), str(n.get("topic", ""))]
 		if viste.has(chiave):
 			doppioni += 1
+			formati_in_doppio[str(n.get("format", ""))] = true
 		viste[chiave] = true
 	if doppioni <= 0:
 		return nodes
-	return inject_non_mc(nodes, subject, level, doppioni, rng, FORMATI_MANIPOLATIVI)
+	var sostituibili: Array = formati_da_sostituire(subject)
+	for formato in formati_in_doppio.keys():
+		if not sostituibili.has(str(formato)):
+			sostituibili.append(str(formato))
+	return inject_non_mc(nodes, subject, level, doppioni, rng, FORMATI_MANIPOLATIVI, sostituibili)
 
 ## I nodi di nucleo da aggiungere a un esame di mondo.
 ##
@@ -1094,6 +1167,8 @@ const FORMAT_STAGE := {
 	"balance": 4, "compose": 4, "code_debug": 4, "swipe": 4,
 	"machine_path": 4, "mystery_sample": 4, "verb_decoder": 4,
 	"griglia": 4, "porte": 4,
+	"breadboard": 4, "rhythm_fill": 4, "causal_chain": 4,
+	"robot_grid": 4, "blank_map": 4,
 }
 
 static func format_stage(format: String) -> int:
@@ -1268,6 +1343,11 @@ const NONMC_FORMAT_WEIGHTS := {
 	# Stesso peso degli altri formati-firma di materia.
 	"griglia": 34,
 	"porte": 34,
+	"breadboard": 34,
+	"rhythm_fill": 34,
+	"causal_chain": 34,
+	"robot_grid": 34,
+	"blank_map": 34,
 }
 
 # Quante costruzioni di minigioco attingere per la tavolozza: con più prove per
@@ -1287,6 +1367,7 @@ const PALETTE_DRAWS := 3
 const FORMATI_MANIPOLATIVI := [
 	"matching", "ordering", "classification", "timeline", "swipe",
 	"machine_path", "mystery_sample", "verb_decoder", "griglia", "porte",
+	"breadboard", "rhythm_fill", "causal_chain", "robot_grid", "blank_map",
 ]
 
 ## Quanto pesa di più un formato preferito nel sorteggio. Tre volte: abbastanza
@@ -1316,6 +1397,16 @@ func inject_non_mc(nodes: Array, subject: String, level: int, count: int, rng: R
 	# ripetere lo stesso esercizio due volte: la ripetizione non insegna nulla.
 	var palette: Dictionary = {}   # format -> Array[Dictionary] prove distinte
 	var seen: Dictionary = {}      # firma prova -> true
+	# **La tavolozza deve conoscere quello che c'e' gia' nella sessione.**
+	# (10 settembre 2026) `seen` nasceva vuota e teneva unica solo la tavolozza
+	# costruita QUI. Ma `build_varied_mission` chiama questa funzione due volte
+	# — una per il mix e una da `_sciogli_doppioni` — e la seconda ricostruiva
+	# la tavolozza da zero: poteva reinserire lo stesso (formato, argomento) che
+	# stava cercando di sciogliere. Tolta la riga, `music_beginner_audit` torna
+	# rosso: e' misurata, non teorica.
+	for presente in nodes:
+		var gia := presente as Dictionary
+		seen["%s|%s" % [str(gia.get("format", "")), str(gia.get("topic", ""))]] = true
 	var stale: Dictionary = {}     # format -> prove già viste di recente
 	var risolte: Dictionary = {}   # format -> prove GIÀ SUPERATE (in fondo a tutto)
 	var superate := _superate(subject)

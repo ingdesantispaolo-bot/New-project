@@ -63,15 +63,15 @@ static func budget_for_current_tier() -> Dictionary:
 const SUBJECT_FORMATS := {
 	"matematica": ["numeric_input", "multiple_choice", "ordering", "matching", "classification", "graph", "code_debug"],
 	"italiano": ["multiple_choice", "matching", "ordering", "classification", "graph", "code_debug"],
-	"coding": ["ordering", "multiple_choice", "matching", "classification", "circuit", "code_debug"],
+	"coding": ["ordering", "multiple_choice", "matching", "classification", "circuit", "code_debug", "robot_grid"],
 	"inglese": ["multiple_choice", "matching", "ordering", "classification", "circuit", "code_debug"],
 	"fisica": ["multiple_choice", "graph", "ordering", "matching", "classification", "circuit", "code_debug"],
-	"musica": ["matching", "ordering", "multiple_choice", "classification", "graph", "circuit", "code_debug"],
+	"musica": ["matching", "ordering", "multiple_choice", "classification", "graph", "circuit", "code_debug", "rhythm_fill"],
 	"latino": ["matching", "multiple_choice", "ordering", "classification", "circuit", "code_debug"],
-	"elettronica": ["circuit", "matching", "multiple_choice", "ordering", "classification", "graph", "code_debug"],
-	"geografia": ["matching", "multiple_choice", "ordering", "classification", "graph", "circuit", "code_debug"],
+	"elettronica": ["circuit", "matching", "multiple_choice", "ordering", "classification", "graph", "code_debug", "breadboard"],
+	"geografia": ["matching", "multiple_choice", "ordering", "classification", "graph", "circuit", "code_debug", "blank_map"],
 	"scienze": ["matching", "multiple_choice", "ordering", "classification", "graph", "circuit", "cycle", "code_debug"],
-	"storia": ["multiple_choice", "matching", "ordering", "classification", "graph", "circuit", "code_debug"],
+	"storia": ["multiple_choice", "matching", "ordering", "classification", "graph", "circuit", "code_debug", "causal_chain"],
 	"logica": ["ordering", "multiple_choice", "matching", "classification", "graph", "circuit", "code_debug"],
 }
 

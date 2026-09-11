@@ -301,7 +301,7 @@
 			"id": "geografia-cont-Regno Unito",
 			"subject": "geografia",
 			"topic": "continenti",
-			"difficulty": 1,
+			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "In quale continente si trova il Regno Unito?",
 			"options": [
@@ -364,7 +364,7 @@
 			"id": "geografia-cont-Portogallo",
 			"subject": "geografia",
 			"topic": "continenti",
-			"difficulty": 3,
+			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "In quale continente si trova il Portogallo?",
 			"options": [
@@ -427,7 +427,7 @@
 			"id": "geografia-cont-Grecia",
 			"subject": "geografia",
 			"topic": "continenti",
-			"difficulty": 3,
+			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "In quale continente si trova la Grecia?",
 			"options": [
@@ -1267,7 +1267,7 @@
 			"id": "geografia-cont-Cina",
 			"subject": "geografia",
 			"topic": "continenti",
-			"difficulty": 3,
+			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "In quale continente si trova la Cina?",
 			"options": [
@@ -1393,7 +1393,7 @@
 			"id": "geografia-cont-Egitto",
 			"subject": "geografia",
 			"topic": "continenti",
-			"difficulty": 3,
+			"difficulty": 4,
 			"format": "multiple_choice",
 			"prompt": "In quale continente si trova l'Egitto?",
 			"options": [
@@ -1893,7 +1893,7 @@
 			"id": "geografia-europa-90",
 			"subject": "geografia",
 			"topic": "europa",
-			"difficulty": 1,
+			"difficulty": 2,
 			"format": "multiple_choice",
 			"prompt": "In quale continente si trova l'Italia?",
 			"options": [
@@ -4053,7 +4053,9 @@
 				"Bassa": "«Bassa» è la risposta giusta a un'altra domanda di questo gruppo: «Un Paese enorme con pochi abitanti ha densità di popolazione…».",
 				"migrazione": "«migrazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo spostamento di persone da un paese a un altro per viverci?».",
 				"urbanizzazione": "«urbanizzazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il passaggio di popolazione dalle campagne alle città?».",
-				"conta come è distribuito": "«conta come è distribuito» è la risposta giusta a un'altra domanda di questo gruppo: «Perché due paesi con lo stesso reddito medio possono vivere molto diversamente?»."
+				"conta come è distribuito": "«conta come è distribuito» è la risposta giusta a un'altra domanda di questo gruppo: «Perché due paesi con lo stesso reddito medio possono vivere molto diversamente?».",
+				"ovest": "«ovest» è la risposta giusta a un'altra domanda di questo gruppo: «Da quale punto cardinale tramonta il Sole?».",
+				"Un chilometro": "«Un chilometro» è la risposta giusta a un'altra domanda di questo gruppo: «Su una carta in scala 1:100.000, a quanto corrisponde un centimetro sul foglio?»."
 			}
 		},
 		{
@@ -4077,7 +4079,9 @@
 				"Bassa": "«Bassa» è la risposta giusta a un'altra domanda di questo gruppo: «Un Paese enorme con pochi abitanti ha densità di popolazione…».",
 				"densità di popolazione": "«densità di popolazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il numero di abitanti per chilometro quadrato?».",
 				"urbanizzazione": "«urbanizzazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il passaggio di popolazione dalle campagne alle città?».",
-				"conta come è distribuito": "«conta come è distribuito» è la risposta giusta a un'altra domanda di questo gruppo: «Perché due paesi con lo stesso reddito medio possono vivere molto diversamente?»."
+				"conta come è distribuito": "«conta come è distribuito» è la risposta giusta a un'altra domanda di questo gruppo: «Perché due paesi con lo stesso reddito medio possono vivere molto diversamente?».",
+				"ovest": "«ovest» è la risposta giusta a un'altra domanda di questo gruppo: «Da quale punto cardinale tramonta il Sole?».",
+				"Un chilometro": "«Un chilometro» è la risposta giusta a un'altra domanda di questo gruppo: «Su una carta in scala 1:100.000, a quanto corrisponde un centimetro sul foglio?»."
 			}
 		},
 		{
@@ -4100,7 +4104,9 @@
 				"Bassa": "«Bassa» è la risposta giusta a un'altra domanda di questo gruppo: «Un Paese enorme con pochi abitanti ha densità di popolazione…».",
 				"densità di popolazione": "«densità di popolazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il numero di abitanti per chilometro quadrato?».",
 				"migrazione": "«migrazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo spostamento di persone da un paese a un altro per viverci?».",
-				"conta come è distribuito": "«conta come è distribuito» è la risposta giusta a un'altra domanda di questo gruppo: «Perché due paesi con lo stesso reddito medio possono vivere molto diversamente?»."
+				"conta come è distribuito": "«conta come è distribuito» è la risposta giusta a un'altra domanda di questo gruppo: «Perché due paesi con lo stesso reddito medio possono vivere molto diversamente?».",
+				"ovest": "«ovest» è la risposta giusta a un'altra domanda di questo gruppo: «Da quale punto cardinale tramonta il Sole?».",
+				"Un chilometro": "«Un chilometro» è la risposta giusta a un'altra domanda di questo gruppo: «Su una carta in scala 1:100.000, a quanto corrisponde un centimetro sul foglio?»."
 			}
 		},
 		{
@@ -4151,22 +4157,24 @@
 			"id": "geografia-mondo-2",
 			"subject": "geografia",
 			"topic": "mondo",
-			"difficulty": 2,
+			"difficulty": 1,
 			"format": "numeric_input",
 			"prompt": "Su una carta in scala 1:100000, un centimetro corrisponde a quanti metri nella realtà?",
 			"options": [],
 			"answer": "1000",
 			"explanation": "La scala dice di quante volte tutto è stato rimpicciolito: un centimetro sul foglio vale centomila centimetri veri, cioè mille metri, cioè un chilometro.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"2": "«2» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
-				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Dei sette continenti, quanti sono abitati stabilmente?»."
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Dei sette continenti, quanti sono abitati stabilmente?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti gradi di longitudine copre in media un fuso orario?»."
 			}
 		},
 		{
 			"id": "geografia-geografia-fisica-3",
 			"subject": "geografia",
 			"topic": "geografia-fisica",
-			"difficulty": 2,
+			"difficulty": 1,
 			"format": "short_answer",
 			"prompt": "Come si chiama il punto in cui un fiume nasce? Una parola.",
 			"options": [],
@@ -4176,6 +4184,7 @@
 				"sorgiva"
 			],
 			"explanation": "Il fiume ha due estremi con due nomi: la sorgente dove comincia e la foce dove sfocia. Sapere quale è quale permette di leggere il verso della corrente su qualunque carta.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"Africa": "«Africa» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trova il deserto del Sahara?».",
 				"Everest": "«Everest» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la montagna più alta della Terra?».",
@@ -4301,7 +4310,7 @@
 			"id": "geografia-geografia-italia-9",
 			"subject": "geografia",
 			"topic": "geografia-italia",
-			"difficulty": 2,
+			"difficulty": 1,
 			"format": "short_answer",
 			"prompt": "Quale catena di montagne separa l'Italia dal resto dell'Europa a nord?",
 			"options": [],
@@ -4312,6 +4321,7 @@
 				"alpi"
 			],
 			"explanation": "Una catena continua a forma di arco, ed è la ragione per cui l'Italia è stata a lungo un mondo a parte: i valichi erano pochi e alti, quindi facili da controllare.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"Roma": "«Roma» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale d'Italia?».",
 				"Po": "«Po» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il fiume più lungo d'Italia?».",
@@ -4393,7 +4403,7 @@
 			"id": "geografia-mondo-13",
 			"subject": "geografia",
 			"topic": "mondo",
-			"difficulty": 4,
+			"difficulty": 2,
 			"format": "short_answer",
 			"prompt": "Come si chiama la linea immaginaria che divide la Terra in due metà uguali a metà strada fra i poli?",
 			"options": [],
@@ -4403,6 +4413,7 @@
 				"linea dell'equatore"
 			],
 			"explanation": "È il parallelo di partenza, quello da cui si contano tutti gli altri: sopra c'è l'emisfero boreale, sotto quello australe, e la latitudine si misura a partire da lì.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"Europa e Asia": "«Europa e Asia» è la risposta giusta a un'altra domanda di questo gruppo: «Su quali due continenti si estende la Russia?».",
 				"Russia": "«Russia» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il Paese più grande del mondo per superficie?».",
@@ -4550,12 +4561,13 @@
 			"id": "geografia-geografia-umana-20",
 			"subject": "geografia",
 			"topic": "geografia-umana",
-			"difficulty": 4,
+			"difficulty": 2,
 			"format": "numeric_input",
 			"prompt": "Uno stato ha 600 abitanti e una superficie di 3 chilometri quadrati. Qual è la sua densità di popolazione?",
 			"options": [],
 			"answer": "200",
 			"explanation": "La densità è il rapporto fra abitanti e superficie: serve a confrontare paesi di dimensioni diverse, perché uno stato grande può avere molti abitanti ed essere quasi vuoto.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"300": "«300» è la risposta giusta a un'altra domanda di questo gruppo: «Una regione ha 2400 abitanti su 8 chilometri quadrati. Qual è la densità di popolazione?»."
 			}
@@ -4960,7 +4972,7 @@
 			"id": "geografia-continenti-39",
 			"subject": "geografia",
 			"topic": "continenti",
-			"difficulty": 4,
+			"difficulty": 2,
 			"format": "short_answer",
 			"prompt": "Quale continente non ha né stati né popolazione stabile?",
 			"options": [],
@@ -4971,6 +4983,7 @@
 				"l'antartide"
 			],
 			"explanation": "È governato da un trattato internazionale che lo riserva alla ricerca e vieta le rivendicazioni territoriali: l'unico grande territorio del pianeta che nessuno possiede.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"Europa": "«Europa» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trova l'Italia?».",
 				"America del Nord": "«America del Nord» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trovano gli Stati Uniti?».",
@@ -5074,7 +5087,7 @@
 			"id": "geografia-geografia-fisica-44",
 			"subject": "geografia",
 			"topic": "geografia-fisica",
-			"difficulty": 4,
+			"difficulty": 2,
 			"format": "short_answer",
 			"prompt": "Come si chiama la zona in cui un fiume si divide in molti rami prima di entrare in mare? Una parola.",
 			"options": [],
@@ -5084,6 +5097,7 @@
 				"delta fluviale"
 			],
 			"explanation": "Il fiume rallenta, deposita ciò che trasportava e si apre in più rami: prende il nome dalla lettera greca per la forma triangolare. I delta sono fra le terre più fertili e più fragili del mondo.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"Africa": "«Africa» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trova il deserto del Sahara?».",
 				"Everest": "«Everest» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la montagna più alta della Terra?».",
@@ -5099,7 +5113,7 @@
 			"id": "geografia-climi-45",
 			"subject": "geografia",
 			"topic": "climi",
-			"difficulty": 4,
+			"difficulty": 2,
 			"format": "short_answer",
 			"prompt": "Come si chiama il clima con estati calde e secche e inverni miti e piovosi, tipico dell'Italia? Una parola.",
 			"options": [],
@@ -5109,6 +5123,7 @@
 				"il mediterraneo"
 			],
 			"explanation": "Si trova solo in cinque zone del pianeta, tutte sui bordi occidentali dei continenti alle medie latitudini: è raro, e ha prodotto ovunque agricolture e cucine sorprendentemente simili.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"Vicino all'Equatore": "«Vicino all'Equatore» è la risposta giusta a un'altra domanda di questo gruppo: «In quale zona della Terra fa caldo tutto l'anno?».",
 				"Foresta pluviale": "«Foresta pluviale» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la grande foresta calda e piovosa vicino all'Equatore?».",
@@ -5124,14 +5139,16 @@
 			"id": "geografia-mondo-46",
 			"subject": "geografia",
 			"topic": "mondo",
-			"difficulty": 4,
+			"difficulty": 2,
 			"format": "numeric_input",
 			"prompt": "Su una carta in scala 1:50000, due paesi distano 4 centimetri. Quanti chilometri distano nella realtà?",
 			"options": [],
 			"answer": "2",
 			"explanation": "Un centimetro vale cinquantamila centimetri veri, cioè 500 metri: quattro centimetri fanno duemila metri, cioè due chilometri. Convertire prima in metri evita di sbagliare gli zeri.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Dei sette continenti, quanti sono abitati stabilmente?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti gradi di longitudine copre in media un fuso orario?».",
 				"1000": "«1000» è la risposta giusta a un'altra domanda di questo gruppo: «Su una carta in scala 1:100000, un centimetro corrisponde a quanti metri nella realtà?»."
 			}
 		},
@@ -5139,12 +5156,13 @@
 			"id": "geografia-geografia-umana-47",
 			"subject": "geografia",
 			"topic": "geografia-umana",
-			"difficulty": 4,
+			"difficulty": 2,
 			"format": "numeric_input",
 			"prompt": "Una regione ha 2400 abitanti su 8 chilometri quadrati. Qual è la densità di popolazione?",
 			"options": [],
 			"answer": "300",
 			"explanation": "Densità è abitanti diviso superficie: 2400 diviso 8 fa 300 per chilometro quadrato. È un valore alto: la media mondiale sta sotto i sessanta.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"200": "«200» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
 			}
@@ -5153,7 +5171,7 @@
 			"id": "geografia-europa-48",
 			"subject": "geografia",
 			"topic": "europa",
-			"difficulty": 4,
+			"difficulty": 2,
 			"format": "short_answer",
 			"prompt": "Come si chiama la catena montuosa che separa la Francia dalla Spagna? Una parola.",
 			"options": [],
@@ -5163,6 +5181,7 @@
 				"pirenei"
 			],
 			"explanation": "Una barriera continua di oltre quattrocento chilometri con pochissimi valichi: per secoli ha reso la penisola iberica un mondo relativamente separato dal resto d'Europa, e si vede nella sua storia.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"Europa": "«Europa» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trova l'Italia?».",
 				"Senna": "«Senna» è la risposta giusta a un'altra domanda di questo gruppo: «Quale fiume attraversa la città di Parigi?».",
@@ -5739,6 +5758,7 @@
 				"l'ombra pluviometrica"
 			],
 			"explanation": "L'aria ha già scaricato l'umidità salendo dall'altro lato e ridiscende asciutta: molti deserti del mondo, dalla Patagonia al Nevada, nascono così, all'ombra di una catena montuosa.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"Africa": "«Africa» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trova il deserto del Sahara?».",
 				"Everest": "«Everest» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la montagna più alta della Terra?».",
@@ -5765,6 +5785,7 @@
 				"l'isola di calore"
 			],
 			"explanation": "Asfalto e cemento assorbono e restituiscono calore, e mancano le piante che raffreddano evaporando: la differenza può superare i cinque gradi nelle notti estive, ed è misurabile in qualunque città.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"Vicino all'Equatore": "«Vicino all'Equatore» è la risposta giusta a un'altra domanda di questo gruppo: «In quale zona della Terra fa caldo tutto l'anno?».",
 				"Clima mediterraneo": "«Clima mediterraneo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il clima con estati calde e secche e inverni miti, tipico dell'Italia?».",
@@ -5786,6 +5807,7 @@
 			"options": [],
 			"answer": "200",
 			"explanation": "Sessanta milioni diviso trecentomila fa duecento: si semplificano gli zeri prima di dividere. È all'incirca la densità dell'Italia, circa tre volte la media mondiale.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"300": "«300» è la risposta giusta a un'altra domanda di questo gruppo: «Una regione ha 2400 abitanti su 8 chilometri quadrati. Qual è la densità di popolazione?»."
 			}
@@ -5805,6 +5827,7 @@
 				"pangaea"
 			],
 			"explanation": "Circa duecentocinquanta milioni di anni fa tutte le terre emerse formavano una massa sola: la sua frammentazione spiega perché gli stessi fossili si trovino su continenti oggi separati da oceani.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"Europa": "«Europa» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trova l'Italia?».",
 				"America del Nord": "«America del Nord» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trovano gli Stati Uniti?».",
@@ -5870,6 +5893,7 @@
 			"options": [],
 			"answer": "2",
 			"explanation": "Tremila metri fanno tre volte sei gradi, cioè diciotto: venti meno diciotto fa due. È il calcolo che spiega perché si trova neve d'estate su cime affacciate su spiagge calde.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti sono i continenti della Terra?»."
 			}
@@ -5900,7 +5924,7 @@
 			"id": "geografia-mondo-82",
 			"subject": "geografia",
 			"topic": "mondo",
-			"difficulty": 2,
+			"difficulty": 1,
 			"format": "short_answer",
 			"prompt": "Se guardi verso nord, quale punto cardinale hai alle spalle?",
 			"options": [],
@@ -5910,6 +5934,7 @@
 				"a sud"
 			],
 			"explanation": "I punti cardinali sono direzioni fisse sulla Terra e stanno sempre nella stessa relazione fra loro: nord e sud sono opposti, est e ovest anche. Destra e sinistra invece cambiano con te.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"Europa e Asia": "«Europa e Asia» è la risposta giusta a un'altra domanda di questo gruppo: «Su quali due continenti si estende la Russia?».",
 				"Russia": "«Russia» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il Paese più grande del mondo per superficie?».",
@@ -5969,7 +5994,7 @@
 			"id": "geografia-geografia-fisica-85",
 			"subject": "geografia",
 			"topic": "geografia-fisica",
-			"difficulty": 2,
+			"difficulty": 1,
 			"format": "short_answer",
 			"prompt": "Una terra circondata dall'acqua su tre lati e attaccata al continente sul quarto: come si chiama?",
 			"options": [],
@@ -5979,6 +6004,7 @@
 				"la penisola"
 			],
 			"explanation": "È quella striscia attaccata a fare la differenza: l'Italia è una penisola, la Sicilia un'isola. La forma decide chi può arrivare via terra e chi solo via mare.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"Africa": "«Africa» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trova il deserto del Sahara?».",
 				"Everest": "«Everest» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la montagna più alta della Terra?».",
@@ -6055,6 +6081,1147 @@
 				"confonde chi legge le carte": "Una linea retta è la più leggibile di tutte."
 			},
 			"_difficulty8": true
+		},
+		{
+			"id": "geografia-app-geografia-fisica-0",
+			"subject": "geografia",
+			"topic": "geografia-fisica",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Una terra è bagnata dal mare su tre lati e attaccata al continente sul quarto. Come si chiama?",
+			"options": [
+				"Arcipelago",
+				"Isola",
+				"Istmo",
+				"Penisola"
+			],
+			"answer": "Penisola",
+			"explanation": "Il lato attaccato fa tutta la differenza: ci si arriva via terra senza attraversare acqua, ed è il caso dell'Italia.",
+			"distractorWhy": {
+				"Isola": "Un'isola è circondata dal mare da ogni lato: qui un lato resta unito alla terraferma.",
+				"Arcipelago": "È un gruppo di isole vicine, quindi più terre e non una sola.",
+				"Istmo": "È la striscia sottile che unisce due terre, non la terra che sporge nel mare."
+			},
+			"_difficulty8": true,
+			"applica": "geografia-geografia-fisica-base"
+		},
+		{
+			"id": "geografia-app-geografia-fisica-1",
+			"subject": "geografia",
+			"topic": "geografia-fisica",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama un gruppo di isole vicine fra loro, considerate come un insieme?",
+			"options": [],
+			"answer": "arcipelago",
+			"accept": [
+				"un arcipelago",
+				"l'arcipelago"
+			],
+			"explanation": "Si usa il nome collettivo perché quelle isole condividono clima, storia e spesso abitanti: separarle sulla carta avrebbe poco senso.",
+			"_difficulty8": true,
+			"applica": "geografia-geografia-fisica-base",
+			"distractorWhy": {
+				"Africa": "«Africa» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trova il deserto del Sahara?».",
+				"Everest": "«Everest» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la montagna più alta della Terra?».",
+				"America del Sud": "«America del Sud» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente scorre il Rio delle Amazzoni?».",
+				"Fossa delle Marianne": "«Fossa delle Marianne» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il punto più profondo degli oceani, nel Pacifico?».",
+				"pianura padana": "«pianura padana» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la pianura più estesa d'Italia?».",
+				"foce": "«foce» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il punto in cui un fiume si getta nel mare?».",
+				"sorgente": "«sorgente» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il punto in cui un fiume nasce?».",
+				"penisola": "«penisola» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama una lingua di terra circondata dal mare su tre lati?»."
+			}
+		},
+		{
+			"id": "geografia-app-geografia-fisica-2",
+			"subject": "geografia",
+			"topic": "geografia-fisica",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché le catene montuose più alte del pianeta sono anche le più giovani?",
+			"options": [
+				"Perché l'erosione non le ha ancora consumate",
+				"Perché la Terra si sta raffreddando",
+				"Perché si formano sempre più in alto",
+				"Perché la roccia giovane è più dura"
+			],
+			"answer": "Perché l'erosione non le ha ancora consumate",
+			"explanation": "Pioggia, gelo e vento smussano ogni rilievo senza mai fermarsi: una catena appena sollevata non ha ancora avuto il tempo di essere consumata.",
+			"distractorWhy": {
+				"Perché la roccia giovane è più dura": "La durezza dipende dal tipo di roccia, non dall'età del sollevamento.",
+				"Perché si formano sempre più in alto": "Ogni catena si solleva dal terreno che c'era: non esiste una quota di partenza che aumenta.",
+				"Perché la Terra si sta raffreddando": "Il raffreddamento del pianeta non c'entra con l'altezza di una catena, che dipende da spinta ed erosione."
+			},
+			"_difficulty8": true,
+			"applica": "geografia-geografia-fisica-base"
+		},
+		{
+			"id": "geografia-app-geografia-fisica-3",
+			"subject": "geografia",
+			"topic": "geografia-fisica",
+			"difficulty": 5,
+			"format": "multiple_choice",
+			"prompt": "Perché i grandi deserti caldi stanno quasi tutti intorno ai trenta gradi di latitudine?",
+			"options": [
+				"Perché lì il vento soffia più forte",
+				"Perché lì ridiscende aria già asciutta",
+				"Perché lì la sabbia si accumula da sola",
+				"Perché lì il sole è più vicino alla Terra"
+			],
+			"answer": "Perché lì ridiscende aria già asciutta",
+			"explanation": "L'aria sale all'equatore, scarica lì tutta la pioggia, viaggia in quota e ritorna al suolo a quella latitudine ormai senza umidità.",
+			"distractorWhy": {
+				"Perché lì il sole è più vicino alla Terra": "La distanza dal Sole è praticamente la stessa per tutto il pianeta: cambia l'inclinazione dei raggi, non la distanza.",
+				"Perché lì il vento soffia più forte": "Il vento sposta la sabbia ma non toglie l'umidità: sono i deserti a fare il vento, non il contrario.",
+				"Perché lì la sabbia si accumula da sola": "La sabbia è una conseguenza dell'aridità, non la sua causa: esistono deserti di roccia e di ghiaccio."
+			},
+			"_difficulty8": true,
+			"applica": "geografia-geografia-fisica-alta"
+		},
+		{
+			"id": "geografia-app-geografia-fisica-4",
+			"subject": "geografia",
+			"topic": "geografia-fisica",
+			"difficulty": 6,
+			"format": "short_answer",
+			"prompt": "Come si chiama il più esteso deserto caldo della Terra, che occupa il nord dell'Africa?",
+			"options": [],
+			"answer": "Sahara",
+			"accept": [
+				"il sahara",
+				"deserto del sahara"
+			],
+			"explanation": "Sta esattamente sulla fascia dei trenta gradi, dove ridiscende l'aria che ha già scaricato la sua pioggia sull'equatore.",
+			"_difficulty8": true,
+			"applica": "geografia-geografia-fisica-alta",
+			"distractorWhy": {
+				"Africa": "«Africa» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trova il deserto del Sahara?».",
+				"Everest": "«Everest» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la montagna più alta della Terra?».",
+				"America del Sud": "«America del Sud» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente scorre il Rio delle Amazzoni?».",
+				"Fossa delle Marianne": "«Fossa delle Marianne» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il punto più profondo degli oceani, nel Pacifico?».",
+				"pianura padana": "«pianura padana» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la pianura più estesa d'Italia?».",
+				"foce": "«foce» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il punto in cui un fiume si getta nel mare?».",
+				"sorgente": "«sorgente» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il punto in cui un fiume nasce?».",
+				"penisola": "«penisola» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama una lingua di terra circondata dal mare su tre lati?»."
+			}
+		},
+		{
+			"id": "geografia-app-geografia-fisica-5",
+			"subject": "geografia",
+			"topic": "geografia-fisica",
+			"difficulty": 7,
+			"format": "multiple_choice",
+			"prompt": "Un fiume lunghissimo attraversa il deserto, un altro più corto raccoglie una foresta piovosa. Quale porta più acqua?",
+			"options": [
+				"Quello più lungo nel deserto",
+				"Dipende solo dalla larghezza",
+				"Quello più corto nella foresta",
+				"Ne portano la stessa quantità"
+			],
+			"answer": "Quello più corto nella foresta",
+			"explanation": "La portata dipende da quanta pioggia cade sul bacino, non da quanta strada fa il fiume: una foresta ne raccoglie enormemente di più di un deserto.",
+			"distractorWhy": {
+				"Quello più lungo nel deserto": "Confonde lunghezza e portata: il Nilo è lunghissimo e attraversa il deserto, e ne arriva poca.",
+				"Ne portano la stessa quantità": "Non c'è nessuna ragione per cui debbano coincidere: sono due misure indipendenti l'una dall'altra.",
+				"Dipende solo dalla larghezza": "La larghezza è un effetto della portata e della pendenza, non la causa di quanta acqua arriva."
+			},
+			"_difficulty8": true,
+			"applica": "geografia-geografia-fisica-alta"
+		},
+		{
+			"id": "geografia-app-climi-6",
+			"subject": "geografia",
+			"topic": "climi",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Perché all'Equatore fa più caldo che ai poli, se il Sole è lo stesso?",
+			"options": [
+				"Perché ai poli c'è più ghiaccio",
+				"Perché ai poli il Sole è più piccolo",
+				"Perché l'Equatore è più vicino al Sole",
+				"Perché i raggi arrivano più dritti"
+			],
+			"answer": "Perché i raggi arrivano più dritti",
+			"explanation": "Su una sfera i raggi colpiscono l'equatore quasi perpendicolari e concentrano il calore; ai poli arrivano radenti e lo spalmano su molta più superficie.",
+			"distractorWhy": {
+				"Perché l'Equatore è più vicino al Sole": "La differenza di distanza fra equatore e poli è trascurabile: quello che cambia è l'angolo dei raggi.",
+				"Perché ai poli c'è più ghiaccio": "Il ghiaccio è una conseguenza del freddo, non la sua causa: senza freddo non ci sarebbe.",
+				"Perché ai poli il Sole è più piccolo": "Il Sole è lo stesso corpo visto da ogni punto del pianeta: cambia solo quanto in alto sale nel cielo."
+			},
+			"_difficulty8": true,
+			"applica": "geografia-climi-base"
+		},
+		{
+			"id": "geografia-app-climi-7",
+			"subject": "geografia",
+			"topic": "climi",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama la media del tempo atmosferico calcolata su molti anni in un luogo?",
+			"options": [],
+			"answer": "clima",
+			"accept": [
+				"il clima"
+			],
+			"explanation": "Di solito si usano trent'anni. Per questo una giornata o una stagione fuori media non smentiscono nulla: per parlarne servono decenni di misure.",
+			"_difficulty8": true,
+			"applica": "geografia-climi-base",
+			"distractorWhy": {
+				"Vicino all'Equatore": "«Vicino all'Equatore» è la risposta giusta a un'altra domanda di questo gruppo: «In quale zona della Terra fa caldo tutto l'anno?».",
+				"Clima mediterraneo": "«Clima mediterraneo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il clima con estati calde e secche e inverni miti, tipico dell'Italia?».",
+				"Foresta pluviale": "«Foresta pluviale» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la grande foresta calda e piovosa vicino all'Equatore?».",
+				"mediterraneo": "«mediterraneo» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"equatoriale": "«equatoriale» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il clima senza stagioni, caldo e piovoso in tutti i mesi?».",
+				"polare": "«polare» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la fascia di clima freddissimo attorno ai poli?».",
+				"monsone": "«monsone» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il vento stagionale che porta grandi piogge nel sud-est asiatico?».",
+				"l'asse terrestre è inclinato": "«l'asse terrestre è inclinato» è la risposta giusta a un'altra domanda di questo gruppo: «Perché in Italia esistono le stagioni?»."
+			}
+		},
+		{
+			"id": "geografia-app-climi-8",
+			"subject": "geografia",
+			"topic": "climi",
+			"difficulty": 4,
+			"format": "numeric_input",
+			"prompt": "Salendo di mille metri di quota, di quanti gradi cala circa la temperatura?",
+			"options": [],
+			"answer": "6",
+			"explanation": "È il motivo per cui esistono ghiacciai anche in Africa: basta essere abbastanza in alto, e l'altitudine compensa la latitudine.",
+			"_difficulty8": true,
+			"applica": "geografia-climi-base"
+		},
+		{
+			"id": "geografia-app-climi-9",
+			"subject": "geografia",
+			"topic": "climi",
+			"difficulty": 6,
+			"format": "multiple_choice",
+			"prompt": "Perché in Italia piove molto più d'inverno che d'estate?",
+			"options": [
+				"Perché d'estate l'alta pressione le blocca",
+				"Perché d'estate manca l'acqua nell'aria",
+				"Perché d'estate il mare è troppo caldo",
+				"Perché d'inverno il Sole scalda di meno"
+			],
+			"answer": "Perché d'estate l'alta pressione le blocca",
+			"explanation": "D'estate la fascia di alta pressione dei deserti risale e copre il Mediterraneo, spingendo via le perturbazioni; d'inverno scende, e quelle atlantiche rientrano.",
+			"distractorWhy": {
+				"Perché d'estate il mare è troppo caldo": "Un mare caldo fornisce anzi più umidità: quello che manca è il meccanismo che la faccia salire e condensare.",
+				"Perché d'estate manca l'acqua nell'aria": "L'aria calda può contenerne molta di più: il problema non è la quantità ma che non viene sollevata.",
+				"Perché d'inverno il Sole scalda di meno": "Spiega perché fa più freddo, non perché cadano più millimetri di pioggia."
+			},
+			"_difficulty8": true,
+			"applica": "geografia-climi-alta"
+		},
+		{
+			"id": "geografia-app-climi-10",
+			"subject": "geografia",
+			"topic": "climi",
+			"difficulty": 6,
+			"format": "short_answer",
+			"prompt": "Come si chiama l'ambiente con erba alta, alberi radi e una lunga stagione secca, poco oltre l'Equatore?",
+			"options": [],
+			"answer": "savana",
+			"accept": [
+				"la savana"
+			],
+			"explanation": "Riceve quasi la stessa acqua della foresta pluviale ma tutta concentrata in una sola stagione: è la distribuzione, non la quantità, a fare la differenza.",
+			"_difficulty8": true,
+			"applica": "geografia-climi-alta",
+			"distractorWhy": {
+				"Vicino all'Equatore": "«Vicino all'Equatore» è la risposta giusta a un'altra domanda di questo gruppo: «In quale zona della Terra fa caldo tutto l'anno?».",
+				"Clima mediterraneo": "«Clima mediterraneo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il clima con estati calde e secche e inverni miti, tipico dell'Italia?».",
+				"Foresta pluviale": "«Foresta pluviale» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la grande foresta calda e piovosa vicino all'Equatore?».",
+				"mediterraneo": "«mediterraneo» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"equatoriale": "«equatoriale» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il clima senza stagioni, caldo e piovoso in tutti i mesi?».",
+				"polare": "«polare» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la fascia di clima freddissimo attorno ai poli?».",
+				"monsone": "«monsone» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il vento stagionale che porta grandi piogge nel sud-est asiatico?».",
+				"l'asse terrestre è inclinato": "«l'asse terrestre è inclinato» è la risposta giusta a un'altra domanda di questo gruppo: «Perché in Italia esistono le stagioni?»."
+			}
+		},
+		{
+			"id": "geografia-app-climi-11",
+			"subject": "geografia",
+			"topic": "climi",
+			"difficulty": 7,
+			"format": "multiple_choice",
+			"prompt": "Di giorno, al mare, la brezza soffia dall'acqua verso la spiaggia. Perché?",
+			"options": [
+				"Perché di giorno la pressione sale ovunque",
+				"Perché la terra si scalda più in fretta",
+				"Perché le onde sollevano il vento",
+				"Perché il mare spinge l'aria a riva"
+			],
+			"answer": "Perché la terra si scalda più in fretta",
+			"explanation": "La terra si scalda prima, l'aria sopra di essa sale e lascia pressione bassa: quella più fresca del mare scivola a prenderne il posto. Di notte la cosa si rovescia.",
+			"distractorWhy": {
+				"Perché il mare spinge l'aria a riva": "L'acqua non spinge l'aria: il movimento nasce da una differenza di pressione, non da una spinta meccanica.",
+				"Perché le onde sollevano il vento": "Sono le onde a essere fatte dal vento, e non il contrario.",
+				"Perché di giorno la pressione sale ovunque": "Se salisse ovunque allo stesso modo non ci sarebbe nessuna differenza, e quindi nessun vento."
+			},
+			"_difficulty8": true,
+			"applica": "geografia-climi-alta"
+		},
+		{
+			"id": "geografia-app-continenti-12",
+			"subject": "geografia",
+			"topic": "continenti",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quanti sono i continenti, e quanti di essi sono abitati stabilmente?",
+			"options": [
+				"Sette, e tutti abitati",
+				"Sei, e tutti abitati",
+				"Sette, e sei abitati",
+				"Cinque, e quattro abitati"
+			],
+			"answer": "Sette, e sei abitati",
+			"explanation": "L'Antartide è un continente a tutti gli effetti ma non ha popolazione residente: solo basi scientifiche in cui i ricercatori si alternano.",
+			"distractorWhy": {
+				"Sette, e tutti abitati": "Conta bene i continenti ma dimentica che in Antartide nessuno risiede stabilmente.",
+				"Sei, e tutti abitati": "Toglie l'Antartide dal conto dei continenti invece che da quello degli abitati: resta un continente.",
+				"Cinque, e quattro abitati": "È il conteggio dei cerchi olimpici, che raggruppano le due Americhe e lasciano fuori l'Antartide."
+			},
+			"_difficulty8": true,
+			"applica": "geografia-continenti-base"
+		},
+		{
+			"id": "geografia-app-continenti-13",
+			"subject": "geografia",
+			"topic": "continenti",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Quale continente non ha popolazione residente, ma soltanto basi scientifiche?",
+			"options": [],
+			"answer": "Antartide",
+			"accept": [
+				"l'antartide",
+				"antartide"
+			],
+			"explanation": "I ricercatori si alternano per qualche mese e poi rientrano: nessuno ci nasce, ci cresce e ci resta, ed è l'unico continente di cui si possa dirlo.",
+			"_difficulty8": true,
+			"applica": "geografia-continenti-base",
+			"distractorWhy": {
+				"Europa": "«Europa» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trova l'Italia?».",
+				"America del Nord": "«America del Nord» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trovano gli Stati Uniti?».",
+				"America del Sud": "«America del Sud» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trova il Brasile?».",
+				"Asia": "«Asia» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trova il Giappone?».",
+				"Africa": "«Africa» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trova l'Egitto?».",
+				"Oceania": "«Oceania» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trova l'Australia?».",
+				"l'Africa": "«l'Africa» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"Pangea": "«Pangea» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava il supercontinente da cui derivano tutti quelli attuali?»."
+			}
+		},
+		{
+			"id": "geografia-app-continenti-14",
+			"subject": "geografia",
+			"topic": "continenti",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché il confine fra Europa e Asia non è un mare come tutti gli altri confini fra continenti?",
+			"options": [
+				"Perché il mare in mezzo è troppo stretto",
+				"Perché il confine cambia ogni secolo",
+				"Perché nessuno lo ha mai misurato",
+				"Perché stanno sulla stessa terra"
+			],
+			"answer": "Perché stanno sulla stessa terra",
+			"explanation": "Sono un unico blocco continuo di terra, e la linea che le separa è tracciata per convenzione lungo i Monti Urali: è una scelta storica e culturale.",
+			"distractorWhy": {
+				"Perché il mare in mezzo è troppo stretto": "Non c'è nessun mare in mezzo: a est l'Europa continua nella stessa massa di terra.",
+				"Perché nessuno lo ha mai misurato": "Il confine è tracciato con precisione: quello che gli manca non è la misura ma una base naturale.",
+				"Perché il confine cambia ogni secolo": "La convenzione degli Urali è stabile da molto tempo: a cambiare sono i confini politici, non questo."
+			},
+			"_difficulty8": true,
+			"applica": "geografia-continenti-base"
+		},
+		{
+			"id": "geografia-app-continenti-15",
+			"subject": "geografia",
+			"topic": "continenti",
+			"difficulty": 5,
+			"format": "multiple_choice",
+			"prompt": "Perché la costa occidentale dell'Africa e quella orientale del Sud America sembrano combaciare?",
+			"options": [
+				"Perché erano attaccate e si sono separate",
+				"Perché le ha scavate la stessa corrente",
+				"Perché il vento le ha erose allo stesso modo",
+				"Perché sono state disegnate in scala"
+			],
+			"answer": "Perché erano attaccate e si sono separate",
+			"explanation": "Facevano parte dello stesso blocco unico, la Pangea: quando si è spezzato l'Atlantico si è aperto nello spazio rimasto in mezzo.",
+			"distractorWhy": {
+				"Perché le ha scavate la stessa corrente": "Una corrente modella il dettaglio di una costa, non la forma generale di due continenti.",
+				"Perché sono state disegnate in scala": "La somiglianza si vede su qualunque carta e su qualunque scala: non è un effetto del disegno.",
+				"Perché il vento le ha erose allo stesso modo": "L'erosione agisce su tempi e modi diversi ai due lati di un oceano: non potrebbe produrre due profili complementari."
+			},
+			"_difficulty8": true,
+			"applica": "geografia-continenti-alta"
+		},
+		{
+			"id": "geografia-app-continenti-16",
+			"subject": "geografia",
+			"topic": "continenti",
+			"difficulty": 6,
+			"format": "short_answer",
+			"prompt": "Come si chiama il blocco unico in cui erano riunite tutte le terre emerse duecento milioni di anni fa?",
+			"options": [],
+			"answer": "Pangea",
+			"accept": [
+				"la pangea",
+				"pangea"
+			],
+			"explanation": "Poi si è spezzato e i frammenti si sono allontanati di pochi centimetri l'anno: su tempi lunghissimi quei centimetri fanno migliaia di chilometri.",
+			"_difficulty8": true,
+			"applica": "geografia-continenti-alta",
+			"distractorWhy": {
+				"Europa": "«Europa» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trova l'Italia?».",
+				"America del Nord": "«America del Nord» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trovano gli Stati Uniti?».",
+				"America del Sud": "«America del Sud» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trova il Brasile?».",
+				"Asia": "«Asia» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trova il Giappone?».",
+				"Africa": "«Africa» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trova l'Egitto?».",
+				"Oceania": "«Oceania» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trova l'Australia?».",
+				"Antartide": "«Antartide» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il continente più freddo?».",
+				"l'Africa": "«l'Africa» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
+			}
+		},
+		{
+			"id": "geografia-app-continenti-17",
+			"subject": "geografia",
+			"topic": "continenti",
+			"difficulty": 8,
+			"format": "multiple_choice",
+			"prompt": "Dove avviene la quasi totalità dei terremoti e delle eruzioni vulcaniche?",
+			"options": [
+				"Vicino ai due poli",
+				"Sui bordi delle placche",
+				"Sul fondo degli oceani",
+				"Al centro dei continenti"
+			],
+			"answer": "Sui bordi delle placche",
+			"explanation": "È lì che le placche si scontrano, si allontanano o scorrono l'una accanto all'altra: al centro di una placca non succede quasi niente.",
+			"distractorWhy": {
+				"Al centro dei continenti": "È la zona più tranquilla: l'attività si concentra sui margini, dove le placche si toccano.",
+				"Sul fondo degli oceani": "Sul fondo ci sono le dorsali, che sono bordi di placca: non è il fondo in quanto tale a contare, è il bordo.",
+				"Vicino ai due poli": "La latitudine non c'entra: il cerchio di fuoco corre attorno al Pacifico attraversando ogni fascia climatica."
+			},
+			"_difficulty8": true,
+			"applica": "geografia-continenti-alta"
+		},
+		{
+			"id": "geografia-app-mondo-18",
+			"subject": "geografia",
+			"topic": "mondo",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Che cosa copre più superficie del pianeta: le terre emerse o gli oceani?",
+			"options": [
+				"Le terre emerse, di poco",
+				"Sono quasi in parità",
+				"Gli oceani, di gran lunga",
+				"Dipende dalla stagione"
+			],
+			"answer": "Gli oceani, di gran lunga",
+			"explanation": "L'acqua salata copre circa il settanta per cento della superficie: le terre emerse sono meno di un terzo del totale.",
+			"distractorWhy": {
+				"Le terre emerse, di poco": "È il contrario, e non di poco: il rapporto è circa settanta a trenta in favore dell'acqua.",
+				"Sono quasi in parità": "La differenza è grande: il solo Pacifico copre più superficie di tutte le terre messe insieme.",
+				"Dipende dalla stagione": "Le stagioni spostano il ghiaccio marino di poco, e non cambiano il rapporto fra terre e oceani."
+			},
+			"_difficulty8": true,
+			"applica": "geografia-mondo-base"
+		},
+		{
+			"id": "geografia-app-mondo-19",
+			"subject": "geografia",
+			"topic": "mondo",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Quale oceano, da solo, copre più superficie di tutte le terre emerse messe insieme?",
+			"options": [],
+			"answer": "Pacifico",
+			"accept": [
+				"il pacifico",
+				"oceano pacifico"
+			],
+			"explanation": "È anche il più profondo. Il suo bordo coincide in gran parte con il cerchio di fuoco, la corona di vulcani e terremoti che lo circonda.",
+			"_difficulty8": true,
+			"applica": "geografia-mondo-base",
+			"distractorWhy": {
+				"Europa e Asia": "«Europa e Asia» è la risposta giusta a un'altra domanda di questo gruppo: «Su quali due continenti si estende la Russia?».",
+				"Russia": "«Russia» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il Paese più grande del mondo per superficie?».",
+				"India": "«India» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è oggi il Paese più popoloso del mondo?».",
+				"Canale di Suez": "«Canale di Suez» è la risposta giusta a un'altra domanda di questo gruppo: «Attraverso quale canale le navi passano tra Mar Mediterraneo e Mar Rosso?».",
+				"Asia": "«Asia» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il continente più esteso?».",
+				"Sahara": "«Sahara» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il deserto caldo più esteso del mondo?».",
+				"Himalaya": "«Himalaya» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la catena montuosa più alta del mondo?».",
+				"Everest": "«Everest» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la montagna più alta del mondo?»."
+			}
+		},
+		{
+			"id": "geografia-app-mondo-20",
+			"subject": "geografia",
+			"topic": "mondo",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "A dicembre, in Australia, la stagione è…",
+			"options": [
+				"inizio primavera",
+				"pieno inverno",
+				"uguale che in Europa",
+				"piena estate"
+			],
+			"answer": "piena estate",
+			"explanation": "L'Australia è nell'emisfero meridionale, dove le stagioni sono invertite: a dicembre quell'emisfero è quello rivolto verso il Sole.",
+			"distractorWhy": {
+				"pieno inverno": "Applica il calendario dell'emisfero settentrionale a un Paese che sta nell'altro.",
+				"inizio primavera": "Nell'emisfero meridionale la primavera comincia a settembre, non a dicembre.",
+				"uguale che in Europa": "È proprio quello che non succede: l'inclinazione dell'asse terrestre rende opposte le stagioni dei due emisferi."
+			},
+			"_difficulty8": true,
+			"applica": "geografia-mondo-base"
+		},
+		{
+			"id": "geografia-app-mondo-21",
+			"subject": "geografia",
+			"topic": "mondo",
+			"difficulty": 5,
+			"format": "multiple_choice",
+			"prompt": "Perché il Canale di Suez è così importante per il commercio mondiale?",
+			"options": [
+				"Evita alle navi il giro dell'Africa",
+				"È l'unico passaggio verso l'Atlantico",
+				"Collega due oceani mai collegati",
+				"Permette di evitare le tempeste"
+			],
+			"answer": "Evita alle navi il giro dell'Africa",
+			"explanation": "Aperto nel 1869 fra Mediterraneo e Mar Rosso: prima una nave diretta in Asia doveva circumnavigare l'intero continente africano.",
+			"distractorWhy": {
+				"Collega due oceani mai collegati": "I due bacini erano già collegati girando attorno all'Africa: il canale accorcia la strada, non la crea.",
+				"È l'unico passaggio verso l'Atlantico": "Per l'Atlantico si passa da Gibilterra: Suez porta nella direzione opposta, verso il Mar Rosso.",
+				"Permette di evitare le tempeste": "Qualche tratto pericoloso si evita, ma la ragione economica è il tempo risparmiato, non il meteo."
+			},
+			"_difficulty8": true,
+			"applica": "geografia-mondo-alta"
+		},
+		{
+			"id": "geografia-app-mondo-22",
+			"subject": "geografia",
+			"topic": "mondo",
+			"difficulty": 6,
+			"format": "numeric_input",
+			"prompt": "Quanti gradi di longitudine copre in media un fuso orario?",
+			"options": [],
+			"answer": "15",
+			"explanation": "La Terra compie trecentosessanta gradi in ventiquattro ore: dividendo si ottengono quindici gradi per ogni ora di differenza.",
+			"_difficulty8": true,
+			"applica": "geografia-mondo-alta",
+			"distractorWhy": {
+				"2": "«2» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «Dei sette continenti, quanti sono abitati stabilmente?».",
+				"1000": "«1000» è la risposta giusta a un'altra domanda di questo gruppo: «Su una carta in scala 1:100000, un centimetro corrisponde a quanti metri nella realtà?»."
+			}
+		},
+		{
+			"id": "geografia-app-mondo-23",
+			"subject": "geografia",
+			"topic": "mondo",
+			"difficulty": 8,
+			"format": "short_answer",
+			"prompt": "Quale canale collega Atlantico e Pacifico evitando alle navi il giro del Sud America?",
+			"options": [],
+			"answer": "Canale di Panama",
+			"accept": [
+				"panama",
+				"il canale di panama"
+			],
+			"explanation": "Aperto nel 1914. Come Suez, il suo valore è il tempo risparmiato, ed è la ragione per cui il controllo di un canale è sempre stato una questione politica.",
+			"_difficulty8": true,
+			"applica": "geografia-mondo-alta",
+			"distractorWhy": {
+				"Europa e Asia": "«Europa e Asia» è la risposta giusta a un'altra domanda di questo gruppo: «Su quali due continenti si estende la Russia?».",
+				"Russia": "«Russia» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il Paese più grande del mondo per superficie?».",
+				"India": "«India» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è oggi il Paese più popoloso del mondo?».",
+				"Canale di Suez": "«Canale di Suez» è la risposta giusta a un'altra domanda di questo gruppo: «Attraverso quale canale le navi passano tra Mar Mediterraneo e Mar Rosso?».",
+				"Pacifico": "«Pacifico» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'oceano più esteso del pianeta?».",
+				"Asia": "«Asia» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il continente più esteso?».",
+				"Sahara": "«Sahara» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il deserto caldo più esteso del mondo?».",
+				"Himalaya": "«Himalaya» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la catena montuosa più alta del mondo?»."
+			}
+		},
+		{
+			"id": "geografia-app-europa-24",
+			"subject": "geografia",
+			"topic": "europa",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Perché per gli europei il mare è sempre stato una strada vicina e non un confine lontano?",
+			"options": [
+				"Perché l'Europa è il continente più grande",
+				"Perché il continente è molto frastagliato",
+				"Perché il Mediterraneo non ha maree",
+				"Perché in Europa non ci sono montagne"
+			],
+			"answer": "Perché il continente è molto frastagliato",
+			"explanation": "Penisole e isole ovunque danno all'Europa un rapporto altissimo fra coste e superficie: nessun suo punto è davvero lontano dall'acqua.",
+			"distractorWhy": {
+				"Perché l'Europa è il continente più grande": "È il secondo più piccolo: quello che la distingue non è la dimensione ma la forma.",
+				"Perché in Europa non ci sono montagne": "Ce ne sono e sono importanti, a cominciare dalle Alpi: non è questo a rendere il mare vicino.",
+				"Perché il Mediterraneo non ha maree": "Le maree sono deboli ma esistono, e comunque non spiegano la vicinanza del mare alle terre."
+			},
+			"_difficulty8": true,
+			"applica": "geografia-europa-base"
+		},
+		{
+			"id": "geografia-app-europa-25",
+			"subject": "geografia",
+			"topic": "europa",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Quale fiume collega le Alpi al Mare del Nord ed è la via d'acqua più trafficata d'Europa?",
+			"options": [],
+			"answer": "Reno",
+			"accept": [
+				"il reno"
+			],
+			"explanation": "I fiumi europei sono corti ma quasi tutti navigabili, e per secoli sono stati le vere autostrade del continente: questo è il più usato di tutti.",
+			"_difficulty8": true,
+			"applica": "geografia-europa-base",
+			"distractorWhy": {
+				"Europa": "«Europa» è la risposta giusta a un'altra domanda di questo gruppo: «In quale continente si trova l'Italia?».",
+				"Senna": "«Senna» è la risposta giusta a un'altra domanda di questo gruppo: «Quale fiume attraversa la città di Parigi?».",
+				"Monti Urali": "«Monti Urali» è la risposta giusta a un'altra domanda di questo gruppo: «Quale catena di monti segna il confine tra Europa e Asia?».",
+				"Unione Europea": "«Unione Europea» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'unione economica e politica di molti Stati europei?».",
+				"Danubio": "«Danubio» è la risposta giusta a un'altra domanda di questo gruppo: «Quale grande fiume europeo attraversa dieci Paesi diversi?».",
+				"Urali": "«Urali» è la risposta giusta a un'altra domanda di questo gruppo: «Quale catena montuosa separa l'Europa dall'Asia?».",
+				"Adriatico": "«Adriatico» è la risposta giusta a un'altra domanda di questo gruppo: «Quale mare bagna l'Italia a est?».",
+				"Penisola iberica": "«Penisola iberica» è la risposta giusta a un'altra domanda di questo gruppo: «Quale penisola europea è bagnata da Mediterraneo e Atlantico?»."
+			}
+		},
+		{
+			"id": "geografia-app-europa-26",
+			"subject": "geografia",
+			"topic": "europa",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Parigi è nata su un'isola in mezzo a un fiume. Quale?",
+			"options": [
+				"Danubio",
+				"Reno",
+				"Senna",
+				"Volga"
+			],
+			"answer": "Senna",
+			"explanation": "Un'isola fluviale è facile da difendere e sta su un punto di guado: è il genere di posto in cui nascono le città destinate a crescere.",
+			"distractorWhy": {
+				"Reno": "Scorre più a est, dalle Alpi al Mare del Nord, e non passa per Parigi.",
+				"Danubio": "Nasce in Germania e scorre verso est fino al Mar Nero, nella direzione opposta.",
+				"Volga": "È il fiume più lungo d'Europa e scorre in Russia, a migliaia di chilometri da Parigi."
+			},
+			"_difficulty8": true,
+			"applica": "geografia-europa-base"
+		},
+		{
+			"id": "geografia-app-europa-27",
+			"subject": "geografia",
+			"topic": "europa",
+			"difficulty": 6,
+			"format": "multiple_choice",
+			"prompt": "L'Unione Europea nasce mettendo in comune carbone e acciaio. Perché proprio quelli?",
+			"options": [
+				"Perché scarseggiavano ovunque",
+				"Perché erano i più facili da tassare",
+				"Perché erano i prodotti più venduti",
+				"Perché sono le materie delle armi"
+			],
+			"answer": "Perché sono le materie delle armi",
+			"explanation": "Legare la produzione delle materie con cui si fabbricano le armi rende una guerra futura non solo sbagliata ma tecnicamente scomoda: era il punto.",
+			"distractorWhy": {
+				"Perché erano i prodotti più venduti": "Il criterio non era commerciale: si cercava il punto in cui l'interdipendenza pesasse di più sulla guerra.",
+				"Perché scarseggiavano ovunque": "Erano anzi abbondanti nella regione fra Francia e Germania, e proprio per questo contesi.",
+				"Perché erano i più facili da tassare": "L'accordo serviva a togliere barriere, non a metterne: le tasse non c'entrano."
+			},
+			"_difficulty8": true,
+			"applica": "geografia-europa-alta"
+		},
+		{
+			"id": "geografia-app-europa-28",
+			"subject": "geografia",
+			"topic": "europa",
+			"difficulty": 7,
+			"format": "multiple_choice",
+			"prompt": "Tutti gli Stati membri dell'Unione Europea usano l'euro?",
+			"options": [
+				"No, solo una parte",
+				"No, quasi nessuno",
+				"Sì, è obbligatorio",
+				"Sì, dalla fondazione"
+			],
+			"answer": "No, solo una parte",
+			"explanation": "Alcuni membri hanno mantenuto la propria moneta: l'adesione all'Unione e l'adozione della moneta comune sono due scelte separate.",
+			"distractorWhy": {
+				"Sì, è obbligatorio": "Non lo è: l'Unione è un insieme di accordi a cui ciascuno partecipa in misura diversa.",
+				"No, quasi nessuno": "L'euro è adottato dalla maggioranza dei membri: la minoranza è chi ha tenuto la propria valuta.",
+				"Sì, dalla fondazione": "L'Unione esiste da decenni prima dell'euro, che è arrivato molto più tardi."
+			},
+			"_difficulty8": true,
+			"applica": "geografia-europa-alta"
+		},
+		{
+			"id": "geografia-app-europa-29",
+			"subject": "geografia",
+			"topic": "europa",
+			"difficulty": 8,
+			"format": "multiple_choice",
+			"prompt": "Confrontando una carta del 1900 e una di oggi, quale delle due cambia quasi del tutto?",
+			"options": [
+				"Carta fisica",
+				"Carta politica",
+				"Cambiano allo stesso modo",
+				"Nessuna delle due cambia"
+			],
+			"answer": "Carta politica",
+			"explanation": "Gli Stati nascono, si uniscono e si dividono; montagne, fiumi e coste si muovono su tempi geologici e restano dove sono.",
+			"distractorWhy": {
+				"Carta fisica": "Rilievi e coste cambiano su scale di milioni di anni: in un secolo sono praticamente identici.",
+				"Cambiano allo stesso modo": "I confini politici sono decisioni umane e cambiano in pochi anni: i due tipi di carta invecchiano a velocità diversissime.",
+				"Nessuna delle due cambia": "La carta politica dell'Europa del 1900 mostra Stati che oggi non esistono più."
+			},
+			"_difficulty8": true,
+			"applica": "geografia-europa-alta"
+		},
+		{
+			"id": "geografia-app-geografia-italia-30",
+			"subject": "geografia",
+			"topic": "geografia-italia",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Quale catena montuosa chiude l'Italia a nord, separandola dal resto d'Europa?",
+			"options": [
+				"I Pirenei",
+				"I Monti Urali",
+				"Le Alpi",
+				"Gli Appennini"
+			],
+			"answer": "Le Alpi",
+			"explanation": "Formano un arco da ovest a est e sono le montagne più alte d'Europa: è l'unico lato del Paese che non dà sul mare.",
+			"distractorWhy": {
+				"Gli Appennini": "Percorrono la penisola da nord a sud, nel senso della lunghezza, e non la chiudono in alto.",
+				"I Pirenei": "Separano Spagna e Francia, all'altro capo del Mediterraneo occidentale.",
+				"I Monti Urali": "Stanno in Russia e segnano il confine convenzionale fra Europa e Asia."
+			},
+			"_difficulty8": true,
+			"applica": "geografia-geografia-italia-base"
+		},
+		{
+			"id": "geografia-app-geografia-italia-31",
+			"subject": "geografia",
+			"topic": "geografia-italia",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama la catena che percorre l'Italia da nord a sud, come una spina dorsale?",
+			"options": [],
+			"answer": "Appennini",
+			"accept": [
+				"gli appennini",
+				"appennino"
+			],
+			"explanation": "Più bassa e più antica delle Alpi, corre vicino al mare per gran parte del percorso: è per questo che i fiumi del centro-sud sono corti.",
+			"_difficulty8": true,
+			"applica": "geografia-geografia-italia-base",
+			"distractorWhy": {
+				"Roma": "«Roma» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale d'Italia?».",
+				"Po": "«Po» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il fiume più lungo d'Italia?».",
+				"Sicilia e Sardegna": "«Sicilia e Sardegna» è la risposta giusta a un'altra domanda di questo gruppo: «Quali sono le due isole più grandi d'Italia?».",
+				"Etna": "«Etna» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il vulcano attivo più grande d'Europa, in Sicilia?».",
+				"Lago di Garda": "«Lago di Garda» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il lago più grande d'Italia?».",
+				"Mar Adriatico": "«Mar Adriatico» è la risposta giusta a un'altra domanda di questo gruppo: «Quale mare bagna la costa orientale dell'Italia?».",
+				"Sicilia": "«Sicilia» è la risposta giusta a un'altra domanda di questo gruppo: «Quale regione italiana ha la maggiore superficie?».",
+				"Adriatico": "«Adriatico» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il mare che bagna la costa orientale dell'Italia?»."
+			}
+		},
+		{
+			"id": "geografia-app-geografia-italia-32",
+			"subject": "geografia",
+			"topic": "geografia-italia",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché i fiumi del centro e del sud Italia sono molto più corti del Po?",
+			"options": [
+				"Perché al sud piove molto di meno",
+				"Perché le sorgenti sono più basse",
+				"Perché scorrono più lentamente",
+				"Perché i monti sono vicini al mare"
+			],
+			"answer": "Perché i monti sono vicini al mare",
+			"explanation": "Gli Appennini corrono vicini alla costa: l'acqua che nasce lì ha pochissima strada da fare prima di arrivare al mare.",
+			"distractorWhy": {
+				"Perché al sud piove molto di meno": "La quantità di pioggia influenza la portata, non la lunghezza del percorso.",
+				"Perché scorrono più lentamente": "Scendendo da monti vicini alla costa sono anzi più rapidi e irregolari.",
+				"Perché le sorgenti sono più basse": "Quello che conta è la distanza dal mare, non la quota di partenza."
+			},
+			"_difficulty8": true,
+			"applica": "geografia-geografia-italia-base"
+		},
+		{
+			"id": "geografia-app-geografia-italia-33",
+			"subject": "geografia",
+			"topic": "geografia-italia",
+			"difficulty": 5,
+			"format": "multiple_choice",
+			"prompt": "Perché in Italia montagne, terremoti e vulcani si presentano tutti insieme?",
+			"options": [
+				"Perché hanno la stessa causa",
+				"Perché è circondato dal mare",
+				"Perché il Paese è molto lungo",
+				"Perché ha un clima particolare"
+			],
+			"answer": "Perché hanno la stessa causa",
+			"explanation": "La placca africana spinge contro quella euroasiatica: il terreno compresso si corruga, si spezza e lascia risalire materiale fuso. Una causa, tre effetti.",
+			"distractorWhy": {
+				"Perché il Paese è molto lungo": "La lunghezza spiega le differenze di clima fra nord e sud, non i terremoti.",
+				"Perché è circondato dal mare": "Il mare non produce né montagne né vulcani: molti Paesi costieri non hanno né gli uni né gli altri.",
+				"Perché ha un clima particolare": "Il clima agisce sulla superficie; terremoti e vulcani vengono da molto più in profondità."
+			},
+			"_difficulty8": true,
+			"applica": "geografia-geografia-italia-alta"
+		},
+		{
+			"id": "geografia-app-geografia-italia-34",
+			"subject": "geografia",
+			"topic": "geografia-italia",
+			"difficulty": 7,
+			"format": "multiple_choice",
+			"prompt": "Come si è formata la Pianura Padana, dove milioni di anni fa c'era il mare?",
+			"options": [
+				"Scavata da un grande ghiacciaio",
+				"Riempita dai detriti dei fiumi",
+				"Prosciugata dagli abitanti",
+				"Sollevata da un terremoto"
+			],
+			"answer": "Riempita dai detriti dei fiumi",
+			"explanation": "I fiumi alpini e appenninici hanno depositato sabbia, ghiaia e limo strappati alle montagne per milioni di anni, riempiendo un antico golfo strato su strato.",
+			"distractorWhy": {
+				"Sollevata da un terremoto": "Un terremoto è un movimento di pochi istanti e di pochi metri: non costruisce una pianura.",
+				"Prosciugata dagli abitanti": "Le bonifiche hanno riguardato paludi già emerse, molto più tardi e su superfici piccolissime.",
+				"Scavata da un grande ghiacciaio": "I ghiacciai hanno scavato i laghi prealpini: la pianura non è stata scavata ma riempita."
+			},
+			"_difficulty8": true,
+			"applica": "geografia-geografia-italia-alta"
+		},
+		{
+			"id": "geografia-app-geografia-italia-35",
+			"subject": "geografia",
+			"topic": "geografia-italia",
+			"difficulty": 8,
+			"format": "multiple_choice",
+			"prompt": "Perché la Pianura Padana ha sbalzi fra estate e inverno più forti di una città di mare alla stessa latitudine?",
+			"options": [
+				"Perché riceve molta più pioggia",
+				"Perché è più alta sul livello del mare",
+				"Perché è lontana dal mare",
+				"Perché il Sole vi arriva più dritto"
+			],
+			"answer": "Perché è lontana dal mare",
+			"explanation": "L'acqua si scalda e si raffredda molto lentamente e smorza gli estremi: dove il mare è lontano e le montagne chiudono, quel freno non c'è.",
+			"distractorWhy": {
+				"Perché è più alta sul livello del mare": "È una pianura, quindi molto bassa: l'altitudine qui non spiega niente.",
+				"Perché riceve molta più pioggia": "La pioggia influenza l'umidità, non l'ampiezza dell'escursione fra le stagioni.",
+				"Perché il Sole vi arriva più dritto": "A parità di latitudine l'inclinazione dei raggi è la stessa: quello che cambia è la vicinanza all'acqua."
+			},
+			"_difficulty8": true,
+			"applica": "geografia-geografia-italia-alta"
+		},
+		{
+			"id": "geografia-app-geografia-umana-36",
+			"subject": "geografia",
+			"topic": "geografia-umana",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Da quale punto cardinale tramonta il Sole?",
+			"options": [],
+			"answer": "ovest",
+			"accept": [
+				"a ovest",
+				"l'ovest",
+				"occidente"
+			],
+			"explanation": "Sorge a est e tramonta a ovest, ogni giorno e ovunque: è il riferimento più antico e più affidabile per orientarsi senza strumenti.",
+			"_difficulty8": true,
+			"applica": "geografia-geografia-umana-base",
+			"distractorWhy": {
+				"Est": "«Est» è la risposta giusta a un'altra domanda di questo gruppo: «Da quale punto cardinale sorge il Sole?».",
+				"Carta geografica": "«Carta geografica» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la rappresentazione ridotta della Terra disegnata su un foglio?».",
+				"Bassa": "«Bassa» è la risposta giusta a un'altra domanda di questo gruppo: «Un Paese enorme con pochi abitanti ha densità di popolazione…».",
+				"densità di popolazione": "«densità di popolazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il numero di abitanti per chilometro quadrato?».",
+				"migrazione": "«migrazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo spostamento di persone da un paese a un altro per viverci?».",
+				"urbanizzazione": "«urbanizzazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il passaggio di popolazione dalle campagne alle città?».",
+				"conta come è distribuito": "«conta come è distribuito» è la risposta giusta a un'altra domanda di questo gruppo: «Perché due paesi con lo stesso reddito medio possono vivere molto diversamente?».",
+				"Un chilometro": "«Un chilometro» è la risposta giusta a un'altra domanda di questo gruppo: «Su una carta in scala 1:100.000, a quanto corrisponde un centimetro sul foglio?»."
+			}
+		},
+		{
+			"id": "geografia-app-geografia-umana-37",
+			"subject": "geografia",
+			"topic": "geografia-umana",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Su una carta in scala 1:100.000, a quanto corrisponde un centimetro sul foglio?",
+			"options": [
+				"Cento chilometri",
+				"Cento metri",
+				"Dieci chilometri",
+				"Un chilometro"
+			],
+			"answer": "Un chilometro",
+			"explanation": "Centomila centimetri fanno mille metri, cioè un chilometro: la scala dice esattamente di quanto la realtà è stata rimpicciolita.",
+			"distractorWhy": {
+				"Cento metri": "Sarebbe la scala 1:10.000, dieci volte più dettagliata di questa.",
+				"Dieci chilometri": "Sarebbe la scala 1:1.000.000, dieci volte più ridotta.",
+				"Cento chilometri": "Sarebbe una riduzione enorme, da mappamondo: su un foglio ci starebbe un continente intero."
+			},
+			"_difficulty8": true,
+			"applica": "geografia-geografia-umana-base"
+		},
+		{
+			"id": "geografia-app-geografia-umana-38",
+			"subject": "geografia",
+			"topic": "geografia-umana",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Devi sapere dove passa un fiume e quanto è alta una catena. Quale carta apri?",
+			"options": [
+				"La carta fisica",
+				"La carta politica",
+				"Una carta dei fusi orari",
+				"Una carta stradale"
+			],
+			"answer": "La carta fisica",
+			"explanation": "La carta fisica disegna il terreno — rilievi, acque, coste — con i colori dell'altitudine. I confini fra Stati stanno invece su quella politica.",
+			"distractorWhy": {
+				"La carta politica": "Mostra confini, capitali e città: i fiumi al massimo li accenna, e le altitudini non le dà affatto.",
+				"Una carta stradale": "Serve a spostarsi fra luoghi abitati: il rilievo ci compare solo come sfondo.",
+				"Una carta dei fusi orari": "Mostra soltanto come è divisa l'ora: del terreno non dice nulla."
+			},
+			"_difficulty8": true,
+			"applica": "geografia-geografia-umana-base"
+		},
+		{
+			"id": "geografia-app-geografia-umana-39",
+			"subject": "geografia",
+			"topic": "geografia-umana",
+			"difficulty": 6,
+			"format": "multiple_choice",
+			"prompt": "Il Canada ha densità bassissima, eppure quasi tutti i canadesi vivono addensati vicino al confine sud. Che cosa insegna?",
+			"options": [
+				"Che la densità non serve a niente",
+				"Che la media nasconde i vuoti",
+				"Che il Paese è più piccolo del previsto",
+				"Che il dato è stato calcolato male"
+			],
+			"answer": "Che la media nasconde i vuoti",
+			"explanation": "La densità è abitanti diviso superficie, cioè una media: mescola in un numero solo le zone affollate e quelle disabitate, e non descrive nessuna delle due.",
+			"distractorWhy": {
+				"Che il dato è stato calcolato male": "Il calcolo è corretto: il limite non è nell'aritmetica ma in che cosa una media può dire.",
+				"Che la densità non serve a niente": "Serve eccome per confrontare Paesi: va solo letta sapendo che è una media.",
+				"Che il Paese è più piccolo del previsto": "È il secondo Paese più esteso del mondo: è proprio la sua vastità a rendere bassa la media."
+			},
+			"_difficulty8": true,
+			"applica": "geografia-geografia-umana-alta"
+		},
+		{
+			"id": "geografia-app-geografia-umana-40",
+			"subject": "geografia",
+			"topic": "geografia-umana",
+			"difficulty": 6,
+			"format": "short_answer",
+			"prompt": "Come si chiama lo spostamento della popolazione dalle campagne verso le città?",
+			"options": [],
+			"answer": "urbanizzazione",
+			"accept": [
+				"l'urbanizzazione"
+			],
+			"explanation": "Comincia con la rivoluzione industriale e non si è più fermata: da circa il 2007 più della metà dell'umanità vive in centri urbani.",
+			"_difficulty8": true,
+			"applica": "geografia-geografia-umana-alta",
+			"distractorWhy": {
+				"Est": "«Est» è la risposta giusta a un'altra domanda di questo gruppo: «Da quale punto cardinale sorge il Sole?».",
+				"Carta geografica": "«Carta geografica» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la rappresentazione ridotta della Terra disegnata su un foglio?».",
+				"Bassa": "«Bassa» è la risposta giusta a un'altra domanda di questo gruppo: «Un Paese enorme con pochi abitanti ha densità di popolazione…».",
+				"densità di popolazione": "«densità di popolazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il numero di abitanti per chilometro quadrato?».",
+				"migrazione": "«migrazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo spostamento di persone da un paese a un altro per viverci?».",
+				"conta come è distribuito": "«conta come è distribuito» è la risposta giusta a un'altra domanda di questo gruppo: «Perché due paesi con lo stesso reddito medio possono vivere molto diversamente?».",
+				"ovest": "«ovest» è la risposta giusta a un'altra domanda di questo gruppo: «Da quale punto cardinale tramonta il Sole?».",
+				"Un chilometro": "«Un chilometro» è la risposta giusta a un'altra domanda di questo gruppo: «Su una carta in scala 1:100.000, a quanto corrisponde un centimetro sul foglio?»."
+			}
+		},
+		{
+			"id": "geografia-app-geografia-umana-41",
+			"subject": "geografia",
+			"topic": "geografia-umana",
+			"difficulty": 8,
+			"format": "multiple_choice",
+			"prompt": "Perché quasi tutte le grandi città del mondo sono nate vicino a un fiume o a una costa?",
+			"options": [
+				"Perché i confini seguono i fiumi",
+				"Perché l'aria di mare è più salubre",
+				"Perché sull'acqua il trasporto costa meno",
+				"Perché il terreno è più facile da scavare"
+			],
+			"answer": "Perché sull'acqua il trasporto costa meno",
+			"explanation": "Acqua dolce e terra fertile contano, ma la ragione decisiva è economica: per gran parte della storia muovere merci pesanti sull'acqua è stato l'unico modo conveniente.",
+			"distractorWhy": {
+				"Perché l'aria di mare è più salubre": "Molte grandi città fluviali sono nell'entroterra, e storicamente le zone umide erano anzi malsane.",
+				"Perché i confini seguono i fiumi": "Capita spesso, ma un confine non attira abitanti: semmai li divide.",
+				"Perché il terreno è più facile da scavare": "Il terreno alluvionale è morbido ma anche instabile: non è questo a decidere dove nasce una città."
+			},
+			"_difficulty8": true,
+			"applica": "geografia-geografia-umana-alta"
+		},
+		{
+			"id": "geografia-app-capitali-42",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 1,
+			"format": "short_answer",
+			"prompt": "Qual è la capitale del Regno Unito, nata sul Tamigi nel primo punto dal mare in cui si poteva costruire un ponte?",
+			"options": [],
+			"answer": "Londra",
+			"accept": [
+				"londra"
+			],
+			"explanation": "È il criterio generale delle capitali antiche: nascono dove passava qualcosa — un guado, un ponte, un porto — perché chi controlla un passaggio accumula potere.",
+			"_difficulty8": true,
+			"applica": "geografia-capitali-base",
+			"distractorWhy": {
+				"Roma": "«Roma» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale dell'Italia?».",
+				"Italia": "«Italia» è la risposta giusta a un'altra domanda di questo gruppo: «Di quale Stato è capitale Roma?».",
+				"Parigi": "«Parigi» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale della Francia?».",
+				"Francia": "«Francia» è la risposta giusta a un'altra domanda di questo gruppo: «Di quale Stato è capitale Parigi?».",
+				"Madrid": "«Madrid» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale della Spagna?».",
+				"Spagna": "«Spagna» è la risposta giusta a un'altra domanda di questo gruppo: «Di quale Stato è capitale Madrid?».",
+				"Berlino": "«Berlino» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale della Germania?».",
+				"Germania": "«Germania» è la risposta giusta a un'altra domanda di questo gruppo: «Di quale Stato è capitale Berlino?»."
+			}
+		},
+		{
+			"id": "geografia-app-capitali-43",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Che cos'è esattamente la capitale di uno Stato?",
+			"options": [
+				"La città con più monumenti",
+				"La città con più abitanti",
+				"La città più antica",
+				"La sede del suo governo"
+			],
+			"answer": "La sede del suo governo",
+			"explanation": "È dove stanno parlamento, ministeri e capo dello Stato: la domanda «qual è la capitale» e la domanda «qual è la città più grande» sono due domande diverse.",
+			"distractorWhy": {
+				"La città con più abitanti": "In Europa spesso coincidono, ma è un'abitudine e non una regola: negli Stati Uniti la più popolosa è New York.",
+				"La città più antica": "L'età non c'entra: molte capitali sono state fondate di recente, e qualcuna costruita da zero.",
+				"La città con più monumenti": "I monumenti seguono la storia di una città, non il posto in cui oggi si prendono le decisioni."
+			},
+			"_difficulty8": true,
+			"applica": "geografia-capitali-base"
+		},
+		{
+			"id": "geografia-app-capitali-44",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Negli Stati Uniti la città più popolosa è New York. Qual è la capitale?",
+			"options": [
+				"Washington",
+				"Chicago",
+				"Los Angeles",
+				"New York"
+			],
+			"answer": "Washington",
+			"explanation": "È il caso che smonta l'abitudine europea: fuori dall'Europa capitale e città più grande molto spesso non coincidono, e quasi sempre per una scelta precisa.",
+			"distractorWhy": {
+				"New York": "È la città più popolosa e il centro economico, ma il governo federale non ha sede lì.",
+				"Los Angeles": "È la seconda città per popolazione, sulla costa opposta, e non ha mai avuto ruolo di capitale.",
+				"Chicago": "È una grande città dell'interno, ma le istituzioni federali non vi hanno sede."
+			},
+			"_difficulty8": true,
+			"applica": "geografia-capitali-base"
+		},
+		{
+			"id": "geografia-app-capitali-45",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 5,
+			"format": "multiple_choice",
+			"prompt": "Perché la capitale dell'Australia è Canberra e non Sydney, che è molto più grande?",
+			"options": [
+				"Perché Sydney è troppo lontana dal mare",
+				"Perché Sydney e Melbourne erano rivali",
+				"Perché Sydney era già una capitale estera",
+				"Perché Canberra è la città più antica"
+			],
+			"answer": "Perché Sydney e Melbourne erano rivali",
+			"explanation": "Scegliere una delle due rivali avrebbe dato un vantaggio permanente a metà del Paese: si fondò una città nuova in mezzo, in una zona allora quasi disabitata.",
+			"distractorWhy": {
+				"Perché Sydney è troppo lontana dal mare": "Sydney è una città portuale sulla costa: è semmai Canberra a essere nell'interno.",
+				"Perché Canberra è la città più antica": "È il contrario: fu fondata nel primo Novecento proprio per fare la capitale.",
+				"Perché Sydney era già una capitale estera": "Nessuna città australiana ha mai avuto quel ruolo: la scelta fu interna e politica."
+			},
+			"_difficulty8": true,
+			"applica": "geografia-capitali-alta"
+		},
+		{
+			"id": "geografia-app-capitali-46",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 6,
+			"format": "short_answer",
+			"prompt": "Quale capitale fu progettata e costruita da zero lontano dalla costa, e inaugurata nel 1960?",
+			"options": [],
+			"answer": "Brasilia",
+			"accept": [
+				"brasilia",
+				"brasília"
+			],
+			"explanation": "Tutte le grandi città brasiliane stavano sull'Atlantico e l'immenso interno restava vuoto: la capitale fu usata come strumento per spostare il baricentro del Paese.",
+			"_difficulty8": true,
+			"applica": "geografia-capitali-alta",
+			"distractorWhy": {
+				"Roma": "«Roma» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale dell'Italia?».",
+				"Italia": "«Italia» è la risposta giusta a un'altra domanda di questo gruppo: «Di quale Stato è capitale Roma?».",
+				"Parigi": "«Parigi» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale della Francia?».",
+				"Francia": "«Francia» è la risposta giusta a un'altra domanda di questo gruppo: «Di quale Stato è capitale Parigi?».",
+				"Madrid": "«Madrid» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale della Spagna?».",
+				"Spagna": "«Spagna» è la risposta giusta a un'altra domanda di questo gruppo: «Di quale Stato è capitale Madrid?».",
+				"Berlino": "«Berlino» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la capitale della Germania?».",
+				"Germania": "«Germania» è la risposta giusta a un'altra domanda di questo gruppo: «Di quale Stato è capitale Berlino?»."
+			}
+		},
+		{
+			"id": "geografia-app-capitali-47",
+			"subject": "geografia",
+			"topic": "capitali",
+			"difficulty": 7,
+			"format": "multiple_choice",
+			"prompt": "Oslo sorge in fondo a un fiordo. Che cosa spiega questa scelta?",
+			"options": [
+				"Che i fiordi sono al centro del Paese",
+				"Che il fiordo è il punto più caldo",
+				"Che la Norvegia è tutta costa",
+				"Che l'interno era già occupato"
+			],
+			"answer": "Che la Norvegia è tutta costa",
+			"explanation": "In un Paese di coste e montagne, con l'interno poco praticabile, il mare è la via principale e una città di governo deve stare su un porto riparato.",
+			"distractorWhy": {
+				"Che il fiordo è il punto più caldo": "Il clima aiuta, ma non è la ragione: la scelta è dettata dall'accesso al mare.",
+				"Che l'interno era già occupato": "L'interno norvegese è montuoso e scarsamente abitato: non c'era nessuna concorrenza per lo spazio.",
+				"Che i fiordi sono al centro del Paese": "I fiordi sono insenature costiere per definizione: stanno sul bordo, non al centro."
+			},
+			"_difficulty8": true,
+			"applica": "geografia-capitali-alta"
 		},
 		{
 			"id": "geografia-banda-climi-0",

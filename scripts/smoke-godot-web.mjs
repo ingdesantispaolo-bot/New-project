@@ -13,6 +13,7 @@ const root = path.resolve(process.argv[2] ?? "public/godot/outdoor");
 // console che in produzione non esiste — rumore che somiglia a una regressione.
 const SITE_ROOT_FILES = new Map([
   ["/tablet-fullscreen.js", path.resolve("public/tablet-fullscreen.js")],
+  ["/build.json", path.resolve("public/build.json")],
 ]);
 const outputRoot = path.resolve(process.argv[3] ?? "artifacts/web-smoke-current");
 const schoolProfile = process.argv.includes("--school-profile");
@@ -213,6 +214,30 @@ async function waitForScene(cdp, sessionId, scene, timeoutMs) {
   throw new Error(`La scena Web '${scene}' non è comparsa entro ${timeoutMs / 1000}s.`);
 }
 
+// Il briefing del mondo e' piu' alto del viewport: ENTRA vive in fondo al
+// contenuto, quindi lo smoke deve scorrere come uno studente invece di toccare
+// una quota fissa che smette di coincidere col tasto quando il testo cresce.
+async function dismissWorldIntro(cdp, sessionId, canvas) {
+  const x = canvas.left + canvas.width * 0.5;
+  const scrollY = canvas.top + canvas.height * 0.55;
+  for (let step = 0; step < 6; step += 1) {
+    await cdp.call("Input.dispatchMouseEvent", {
+      type: "mouseWheel",
+      x,
+      y: scrollY,
+      deltaX: 0,
+      deltaY: 700,
+    }, sessionId);
+  }
+  await delay(250);
+  const buttonY = canvas.top + canvas.height * 0.92;
+  await cdp.call("Input.dispatchTouchEvent", {
+    type: "touchStart",
+    touchPoints: [{ x, y: buttonY, radiusX: 2, radiusY: 2, force: 1 }],
+  }, sessionId);
+  await cdp.call("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] }, sessionId);
+}
+
 /// Attende che l'audio differito diventi attivo. Il ritorno e' lo stato letto,
 /// cosi' il report continua a fotografare l'audio reale e non un'attesa riuscita.
 async function waitForAudio(cdp, sessionId, timeoutMs) {
@@ -366,15 +391,9 @@ try {
   // Un profilo Chrome nuovo vede correttamente la soglia didattica del primo
   // mondo. Lo smoke deve attraversarla come farebbe lo studente: lasciarla
   // aperta blocca la fisica di Eli e trasforma il successivo test della nave in
-  // un falso timeout. Il pulsante ENTRA occupa tutta la larghezza utile e resta
-  // ancorato a questa quota anche quando il canvas è letterboxed.
+  // un falso timeout. ENTRA viene raggiunto scorrendo il briefing fino in fondo.
   await delay(500);
-  const introY = canvas.top + canvas.height * 0.68;
-  await cdp.call("Input.dispatchTouchEvent", {
-    type: "touchStart",
-    touchPoints: [{ x, y: introY, radiusX: 2, radiusY: 2, force: 1 }],
-  }, sessionId);
-  await cdp.call("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] }, sessionId);
+  await dismissWorldIntro(cdp, sessionId, canvas);
 
   const worldMs = Math.round(performance.now() - startedAt);
   await delay(2_000);
@@ -453,18 +472,23 @@ try {
   // get_global_rect() verticale pre-layout errato. Il banco resta ancorato al
   // fondo della scheda destra, quindi il rapporto di viewport è autoritativo.
   const repairX = canvas.left + canvas.width * 0.87;
-  const repairY = canvas.top + canvas.height * 0.91;
-  await cdp.call("Input.dispatchTouchEvent", {
-    type: "touchStart",
-    touchPoints: [{ x: repairX, y: repairY, radiusX: 2, radiusY: 2, force: 1 }],
-  }, sessionId);
-  await cdp.call("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] }, sessionId);
-  const examOpenDeadline = Date.now() + 8_000;
-  while (
-    Date.now() < examOpenDeadline
-    && await evaluate(cdp, sessionId, "document.documentElement.dataset.eliExam || ''") !== "open"
-  ) {
-    await delay(250);
+  const repairRatios = [0.84, 0.88, 0.91];
+  let repairY = 0;
+  for (const ratio of repairRatios) {
+    repairY = canvas.top + canvas.height * ratio;
+    await cdp.call("Input.dispatchTouchEvent", {
+      type: "touchStart",
+      touchPoints: [{ x: repairX, y: repairY, radiusX: 2, radiusY: 2, force: 1 }],
+    }, sessionId);
+    await cdp.call("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] }, sessionId);
+    const examOpenDeadline = Date.now() + 3_000;
+    while (
+      Date.now() < examOpenDeadline
+      && await evaluate(cdp, sessionId, "document.documentElement.dataset.eliExam || ''") !== "open"
+    ) {
+      await delay(250);
+    }
+    if (await evaluate(cdp, sessionId, "document.documentElement.dataset.eliExam || ''") === "open") break;
   }
   if (await evaluate(cdp, sessionId, "document.documentElement.dataset.eliExam || ''") !== "open") {
     throw new Error(
@@ -508,11 +532,7 @@ try {
   // volta sola. Attraversala prima di guidare Eli verso il POI: finché è aperta
   // la fisica è sospesa e il tap cadrebbe sul pannello, non sulla missione.
   await delay(500);
-  await cdp.call("Input.dispatchTouchEvent", {
-    type: "touchStart",
-    touchPoints: [{ x, y: introY, radiusX: 2, radiusY: 2, force: 1 }],
-  }, sessionId);
-  await cdp.call("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] }, sessionId);
+  await dismissWorldIntro(cdp, sessionId, canvas);
   const roundTripMs = Math.round(performance.now() - startedAt);
   await delay(1_500);
   await capture(cdp, sessionId, path.join(outputRoot, "smoke-world-return.png"));

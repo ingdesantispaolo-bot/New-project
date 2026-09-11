@@ -1,5 +1,14 @@
 # Pedagogy
 
+## La regola che viene prima di tutte le altre
+
+**Nessuna domanda senza un documento che la insegni.** Ogni prova è
+l'applicazione di un concetto che il gioco ha già presentato per intero, e
+«per intero» vuol dire una **dispensa** — contesto, vocabolario, esempi svolti,
+metodo, errore tipico — non le tre frasi di una scheda. Vale per tutte e dodici
+le materie. Testo della regola, misure che la giustificano e guardia che la
+verifica: [REGOLA_DISPENSE.md](REGOLA_DISPENSE.md).
+
 ## Competenze Allenate
 
 - `matematica.calcolo`

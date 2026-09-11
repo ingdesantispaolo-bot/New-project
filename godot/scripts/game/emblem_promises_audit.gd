@@ -105,7 +105,7 @@ func _audit_visual_completion() -> void:
 		"una promessa completa non riceve l'anello visivo")
 	for index in range(1, 4):
 		var seal := visual.get_node_or_null("EmblemWitness/WitnessSeal%d" % index) as Label
-		assert(seal != null and seal.text == "◆", "la testimonianza %d non e' piena" % index)
+		assert(seal != null and seal.text == "#", "la testimonianza %d non e' piena" % index)
 	root.remove_child(world)
 	world.queue_free()
 	await process_frame

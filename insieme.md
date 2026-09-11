@@ -60,6 +60,31 @@ Cinque regole, e sono tutte state pagate almeno una volta.
 > `minigame_manager.gd`, e metà degli audit ha letto il file vecchio: risultato
 > buttato, mezz'ora di macchina persa.
 
+> **Fatto l'11 settembre 2026 · Claude: `npm run audit:godot`, 280 verdi su 280
+> in 1101 secondi**, e **export web eseguito** nello stesso stato dell'albero.
+> Il giro era stato ripetuto quattro volte durante la giornata; i cinque rossi
+> dei giri intermedi appartenevano tutti al lavoro che Codex stava scrivendo in
+> quel momento (`subject_signature`, `minigame_topic_scope`, `minigame`,
+> `pratica_perimetro`, `content_depth`) e si sono chiusi da soli quando ha finito.
+>
+> **Due lezioni sulla concorrenza, pagate oggi.** La prima: due processi Godot
+> sullo stesso progetto bastano a produrre rossi falsi — un giro ha dato 2 su 278
+> solo perché lanciavo singoli audit mentre girava, ed erano verdi entrambi
+> rifatti da soli. Un rosso raccolto in concorrenza non vale finché non è stato
+> rifatto in isolamento. La seconda: `build-exercise-banks.mjs` è l'unico file in
+> cui le due corsie si toccano davvero, perché entrambe ci agganciano lotti nuovi.
+> Chi lo modifica controlli che i sorgenti che importa esistano.
+>
+> **Lavoro chiuso nella giornata — la regola delle dispense**
+> ([docs/REGOLA_DISPENSE.md](docs/REGOLA_DISPENSE.md)), su richiesta del
+> committente: nessuna domanda senza un documento che la insegni. Cinque materie
+> convertite su dodici — coding, storia, geografia, latino, scienze — con **97
+> dispense** (media 3.196 caratteri contro i 290 con cui NORA spiegava, misurati
+> su tutti e 300 gli argomenti del runtime) e **303 item nuovi** che dichiarano
+> la dispensa che applicano. Restano elettronica, musica, logica, fisica,
+> matematica, italiano e inglese: il registro del debito, con il tetto per
+> materia che si abbassa e mai si alza, sta in `dispense_audit.gd`.
+
 ---
 
 ## Lo stato misurato — 9 settembre 2026
@@ -67,12 +92,13 @@ Cinque regole, e sono tutte state pagate almeno una volta.
 | | valore | dove si rimisura |
 |---|---|---|
 | audit Godot presenti | **261** file `*_audit.gd` (erano 251 il 6 settembre) | `find godot -name '*_audit.gd'` |
-| **giro completo** | **9 rossi** a inizio giornata; a fine giornata **nessun rosso di contenuto** — restano R-17 (metro) e `glifi` (Codex) | `npm run audit:godot` |
-| item nei dodici banchi | **4854** (erano 4061) | `godot/data/banks/*.json` |
-| di cui il nucleo | inglese **1466**, matematica **944**, italiano **780** = **3190**, il **65,7%** del banco | idem |
+| **giro completo** | **2 non verdi su 277** (846 s): restano solo R-17 (metro) e `glifi` (Codex) | `npm run audit:godot` |
+| item nei dodici banchi | **5242** (erano 5154) | `godot/data/banks/*.json` |
+| di cui il nucleo | inglese **1466**, matematica **944**, italiano **780**, coding **306** = **3496**, il **66,7%** del banco | idem |
+| formati nei banchi | **6**: scelta multipla 3855, risposta libera 1322, e da oggi **ordering 27, classification 19, matching 19** | `sessioni-lunghe-programma.mjs` |
 | argomenti distinti nel banco | **198** — matematica **34** (erano 25), inglese **47**, italiano **30** | `topic_density_audit` |
 | fasce di difficoltà | **8**, tre mondi ciascuna; i 24 livelli restano per formati e scaffolding | `difficulty_bands_audit` |
-| fasce di priorità del curricolo | **50 / 35 / 15** su 3+3+6 materie, ±5 punti; sessione 6/5/1 esercizi | `subject_priority_audit` |
+| fasce di priorità del curricolo | **50 / 35 / 15** su 4+4+4 materie, ±5 punti; sessione **6/4/2** esercizi | `subject_priority_audit` |
 | voci di NORA | **294** (erano 261) — nucleo 135, cioè il 46% | `nora_explanations.gd` |
 | export Web | **verde**, `2026.09.09-web-loader-1`: la build spedita è HEAD | `npm run audit:web` |
 | PCK esportato | **80,27 MiB** (`index.pck`) + **14,60 MiB** differito (`content.pck`) + 37,68 di WASM | `public/godot/outdoor/` |
@@ -1403,6 +1429,153 @@ Nessuna regola meccanica le produce: è lavoro di scrittura, a lotti per campo
 semantico. Vale il vincolo di sempre — dove non c'è niente di vero da dire, la
 spiegazione resta corta e onesta.
 
+**G-C14 · Quattro firme per materia — aperta il 10 settembre 2026.**
+*Richiesta: «gli esercizi che dobbiamo scrivere devono essere interattivi, non
+più domande e risposte ma interazioni complesse con tipologie diverse a seconda
+della materia; partiamo da quelle dove ne abbiamo di meno».*
+
+Dichiarazione di rotta: **da qui in avanti il contenuto nuovo è interazione.**
+Non «meno crocette» — quello è già un cricchetto — ma esercizi in cui il gesto
+è la competenza, con **almeno quattro firme per materia**, ognuna una famiglia da
+cui si generano molte varianti. I cinque renderer del primo lotto sono ora nel
+runtime; il consuntivo misurato è in `docs/RELEASE_CANDIDATE.md`.
+
+Tre cose sono nostre e vengono prima.
+
+1. **Il banco porta tre formati manipolativi su dieci.** Linea del tempo,
+   scorrimento, percorso di macchine, campione misterioso, decodificatore,
+   griglia e porte hanno un renderer che funziona ma arrivano **solo** dalle
+   ricette procedurali: `authoredMcItems` non li costruisce. Finché è così un
+   esercizio complesso non si può *scrivere*, si può solo *generare* — le griglie
+   di logica, oggi, le costruisce un algoritmo su sei scenari. Sono tre righe per
+   formato, le stesse del 10 settembre per abbina/ordina/smista.
+2. **Le firme che già esistono non hanno contenuto autorato.** Logica ha griglia
+   e porte, scienze e fisica hanno il campione misterioso, italiano e inglese il
+   decodificatore: tutto generato. Le prime griglie scritte a mano, con indizi
+   pensati invece che potati, sono contenuto nuovo a costo zero di motore.
+3. **L'ordine è quello del censimento**, dalla materia con meno item: logica 140,
+   musica 155, elettronica 171, scienze 178, storia 225 — incrociato con chi una
+   firma ce l'ha già.
+
+**Si parte da coding**, che è la più povera in ventuno mondi su ventiquattro ed è
+appena entrata nel nucleo con sei esercizi per sessione. Le sue quattro firme,
+scelte per coprire quattro concetti diversi e non quattro vestiti dello stesso:
+
+| firma | che cosa insegna | stato |
+|---|---|---|
+| **il robot nella griglia** | sequenza, cicli, condizioni | `robot_grid` nel runtime |
+| **la catena di montaggio** | funzioni in fila, composizione, ordine delle operazioni | `machine_path` esiste: basta renderlo idoneo a coding |
+| **il centralino** | condizioni e **ordine di valutazione** — la catena di `elif` in cui il primo vero vince | renderer nuovo, secondo giro |
+| **il passo a passo** | stato: che cosa vale ogni variabile dopo ogni riga | renderer nuovo, secondo giro |
+
+**Fatto l'11 settembre — tre lotti, 50 item, zero renderer nuovi.**
+
+| materia | item | che cosa ha guadagnato |
+|---|---:|---|
+| coding | 23 | la catena di montaggio (`machine_path`), che esisteva per la sola matematica |
+| logica | 12 | le prime **griglie e porte scritte a mano**: prima erano tutte generate |
+| elettronica | 15 | da **zero** item manipolativi a dodici, e una firma trovata per strada |
+| musica | 13 | le durate come catena di dimezzamenti, il metronomo come scala |
+| scienze | 15 | le prime **indagini di laboratorio scritte a mano** |
+| storia | 14 | tre linee del tempo, e il centro della scala che non aveva niente da toccare |
+| latino | 14 | il decodificatore, sui verbi: tempo, modo e forma su tre ghiere separate |
+
+Centocinque item, **undici formati diversi**, zero renderer nuovi.
+
+**Le porte sono elettronica prima che logica, e nessuno se n'era accorto.** Il
+formato era registrato come firma della sola logica, ma due interruttori in
+serie *sono* la porta AND e due in parallelo *sono* la OR — non una metafora, la
+stessa cosa vista da due discipline. Elettronica ha quindi una firma condivisa
+e ora anche il banco di prova `breadboard`, che si monta davvero.
+
+**Una guardia nuova: `node scripts/verifica-griglie.mjs`.** La griglia rilegge
+gli indizi dal loro TESTO e capisce due forme sole («X non ha Y», «Chi ha Y è X
+oppure Z»); poi conta per forza bruta che resti una soluzione sola. Lo script
+rifà lo stesso conto sulla sorgente prima del bake: al primo giro ha trovato
+**due griglie su tre ancora aperte**, e scoprirlo da Godot sarebbe costato un
+giro di audit invece di mezzo secondo. Le due trappole che il validatore non sa
+spiegare le controlla anche lui: un nome sottostringa di un altro, e un indizio
+che nomina più di un attributo.
+
+**Musica, due gesti trovati senza chiedere niente.** Il ritmo è aritmetica
+esatta: contando in **sedicesimi** l'albero delle durate diventa una catena di
+dimezzamenti interi (semibreve 16, minima 8, croma 2) e quindi è `machine_path`;
+il punto di valore è un ×3 seguito da un ÷2, cioè «una volta e mezza», e montarlo
+è capirlo. Il metronomo è una scala da 40 a 200, quindi è `timeline`: adagio,
+andante, allegro e presto non sono quattro parole in fila ma zone di una linea.
+
+**La regola che sta emergendo, e che vale per i prossimi lotti**: delle sei
+firme mancanti, **tre erano già disponibili sotto il nome di un'altra materia**.
+Prima di aprire una richiesta a Codex, guardare l'elenco dei dieci manipolativi e
+chiedersi che cosa misura davvero quel gesto — `porte` non è «logica», è una
+tavola di verità, e una tavola di verità la riempie anche chi studia gli
+interruttori.
+
+**Scienze: la guardia nuova ha trovato il difetto che dichiarava di cercare.**
+`node scripts/verifica-firme.mjs` controlla i quattro formati-firma sulla
+sorgente prima del bake, e oltre ai contratti verifica **tre cose che
+`ExerciseInteraction` non sa controllare**:
+
+- nella griglia, un nome che è sottostringa di un altro e un indizio che nomina
+  più di un attributo;
+- nel campione misterioso, **che nessuna prova SOLA basti a chiudere il caso** —
+  se la prima mossa identifica già il campione, l'indagine finisce subito e la
+  lezione «servono più prove indipendenti» non viene mai imparata;
+- nella catena di macchine, che il percorso dichiarato arrivi al traguardo senza
+  incepparsi su una divisione.
+
+Al primo giro ha bocciato **tutte e due** le indagini di scienze: in una l'acqua
+isolava subito il campione, nell'altra la prova della corrente. Riscritte, e il
+campione nascosto è diventato quello che **nessuna prova nomina da sola** — il
+sale, a cui non succede mai niente di speciale, e che si trova solo per
+esclusione. È un caso migliore di quello che avevo scritto all'inizio.
+
+**Storia: ventuno prove da toccare, tutte alle fasce 2 e 8.** Il centro della
+scala — dalla 3 alla 7, cioè i mondi dal 7 al 21 — non ne aveva **nessuna**: un
+bambino attraversava metà campagna senza toccare niente in storia. Il lotto sta
+tutto lì in mezzo.
+
+**E la linea del tempo risolve il vincolo invece di aggirarlo.** La regola della
+materia dice *nessuna domanda di nome o di data senza una tavola su cui
+impararla*; qui **la linea del tempo È la tavola**, perché ogni evento porta
+l'anno scritto accanto e collocarlo è il modo in cui quell'anno si impara.
+
+**Due cose imparate dalle guardie, e valgono per chi scriverà le prossime.**
+
+1. **La separazione minima del 2%.** Due eventi più vicini di così sulla scala si
+   sovrappongono sotto un dito. La prima linea di Roma metteva Cesare (44 a.C.) e
+   l'inizio dell'impero (27 a.C.) a tredici millesimi: due eventi diversi per la
+   storia, lo stesso punto per uno schermo. Cesare è uscito, e non è una perdita
+   — su milletrecento anni quei diciassette non si vedono, ed è proprio quello
+   che la scala deve insegnare.
+2. **L'`answer` di una linea del tempo è una chiave, non una parola.**
+   `KnowledgeCodex.recall_fact` tratta come «nome da ricordare» qualunque
+   risposta fatta di lettere: con gli id a parole (`carlomagno`) la linea veniva
+   scambiata per una domanda di nome e `tavole_riferimento_audit` chiedeva che
+   NORA avesse insegnato quella stringa. Gli id sono diventati **gli anni**
+   (`800`, `476`, `-509`): non hanno due lettere di fila, quindi la prova torna a
+   essere quello che è — una posizione su una scala. La guardia resta accesa e
+   misura di nuovo la cosa giusta.
+
+**Latino, e una correzione allo studio del 10 settembre.** Lo studio diceva «le
+manopole del caso: renderer già pronto, costo zero», cioè riusare il
+decodificatore per far regolare caso, numero e genere di un **nome**. È sbagliato,
+e si vede aprendo il renderer: i titoli delle ghiere sono scritti nel codice e
+parlano di tempo e di modo.
+
+Ma quelle tre ghiere sono **esatte per i verbi**, che è dove il latino è più
+difficile: tempo, modo e forma sono proprio le tre informazioni che una desinenza
+porta insieme, e separarle è tutto il punto — chi indovina «scribebat» perché
+«suona da passato» non ha capito, chi sceglie *imperfetto* e *indicativo* e poi
+trova la forma sì. I tre item vanno dal presente di scribo all'imperfetto di sum
+fino al perfetto di Cesare che attraversa il Rubicone, dove la differenza fra
+«transibat» e «transiit» non è stile: è che cosa è successo.
+
+Per la declinazione il decodificatore ora legge tre `axisTitles` opzionali dai
+dati: caso, numero e forma non ereditano più i titoli pensati per i verbi.
+
+**Prossimo**: geografia, l'ultima delle sei senza firma.
+
 **G-C8 · I maestri nella pratica.**
 `TeachingCatalog` ha un solo consumatore fuori dagli audit
 ([outdoor_world.gd:3904](godot/scripts/outdoor_world.gd#L3904)), ed è il
@@ -1423,11 +1596,76 @@ sapere se la differenza si sente prima di scriverne altre sessanta.
 
 ### Resa e scena — Codex
 
-**C-R1 · Il secondo foglio di reperti.**
-Serve un'immagine nuova: gli atlanti dei reperti sono `.webp`
-(`artifact_atlas_catalog.gd`), oggi ce n'è **uno solo** (`roman_artifacts`), e
-senza un disegno il formato non si estende oltre la storia. Conviene deciderlo
-insieme a G-C5, che è il suo primo cliente.
+**C-R5 · La dispensa è tre schermate di testo senza una figura.** Aperta l'11
+settembre 2026 insieme alla regola delle dispense
+([docs/REGOLA_DISPENSE.md](docs/REGOLA_DISPENSE.md)). Misurato adesso, con le
+cinque materie convertite:
+
+| | |
+|---|---|
+| dispense scritte | **97** |
+| testo totale | **310.056 caratteri** |
+| media per dispensa | **3.196 caratteri** |
+| la più lunga (`coding-operatori-base`) | 4.102 caratteri |
+| la più lunga sulla scheda | **1.719 px in una finestra da 566 px = 3,0 schermate** |
+| blocchi disegnati in quella scheda | 24, **tutti di testo** |
+
+Il contenuto c'è ed è verificato — `dispense_audit` è verde, e giocando davvero
+il documento arriva davanti al 100% dei primi incontri. Il problema è che
+`ExercisePlayer._show_teaching_overlay` sa disegnare una cosa sola: paragrafi in
+`Label`. Tre schermate di prosa continua davanti a un bambino di undici anni si
+saltano, e una dispensa saltata è peggio di una scheda breve, perché insegna che
+le spiegazioni si chiudono senza leggerle.
+
+Due cose, e la prima vale più della seconda:
+
+1. **Una figura per dispensa, dove la figura è il contenuto.** La scheda deve
+   poter portare un disegno accanto a una sezione, non solo testo. I casi in cui
+   il disegno *è* la spiegazione sono già scritti e si trovano per nome: i tre
+   stati della materia (`scienze-materia-base`), la piramide ecologica
+   (`scienze-ecosistema-alta`), la fascia dei deserti a trenta gradi
+   (`geografia-geografia-fisica-alta`), le due placche che spingono
+   (`geografia-geografia-italia-alta`), il rientro che decide a chi appartiene
+   una riga (`coding-condizioni-base`).
+2. **Come si sta dentro tre schermate.** Oggi non c'è nessun segno di quanto
+   manchi né modo di tornare a una sezione: la colonna scorre e basta. Serve
+   almeno un indicatore di avanzamento, e possibilmente le sezioni come passi
+   con un avanti/indietro invece di uno scorrimento unico.
+
+**Guardia da lasciare chiusa insieme al lavoro:** un audit che pretende che
+nessuna dispensa superi N schermate senza portare almeno una figura, con N
+misurato e scritto. Oggi il numero è 3,0 e non c'è nessuna figura: qualunque
+soglia dichiarata è un miglioramento su nessuna.
+
+**C-R6 · Il paradigma latino è una tabella raccontata a parole.** Aperta l'11
+settembre 2026. Le sette dispense `latino-declinazione-*` descrivono in prosa
+corrente una tabella di undici caselle — «al singolare: nominativo *rosa*,
+genitivo *rosae*, dativo *rosae*…» — e lo fanno perché la scheda non sa
+disegnare una tabella, non perché sia il modo giusto di presentarla. Ogni libro
+di latino stampa quel paradigma in griglia nella prima pagina, e c'è un motivo:
+in griglia si vede a colpo d'occhio quali caselle coincidono, che è esattamente
+la cosa che gli item chiedono di sapere.
+
+Il materiale è già strutturato e non va riscritto: ogni dispensa dichiara le sue
+`regole`, e `TAVOLE_LATINO` ha già le tavole `paradigma` con una voce per casella.
+Manca il renderer: una griglia casi × numero, con le caselle che coincidono
+marcate.
+
+**Guardia da lasciare chiusa insieme al lavoro:** un audit che verifichi che per
+ogni dispensa di declinazione la griglia disegnata abbia tante celle quante ne
+dichiara la tavola corrispondente — ancorato agli id, mai a un totale (è la
+lezione di `treasure_audit`).
+
+**C-R7 · Scienze e fisica restano le due materie senza nessuna figura.**
+`nora_spiegazione_utile_audit`, controllo 5, oggi stampa: «1047 prove hanno un
+disegno · 10 materie su 12 (senza: fisica, scienze)». Era vero prima e resta vero
+adesso, ma da oggi pesa di più: scienze ha sedici dispense che nominano cose che
+si capiscono guardandole e non leggendole — le particelle nei tre stati, la
+piramide dell'energia, la catena che si chiude sui decompositori, l'inclinazione
+dell'asse che produce le stagioni.
+
+**Guardia:** quella che esiste già. La riga «10 materie su 12» diventa «12 su 12»
+da sola quando il lavoro è fatto, e non serve scrivere un audit nuovo.
 
 **C-R2 · I quindici minigiochi dei personaggi hanno un asset in tutto**
 (`assets/minigames/tobia-crystal-v1.png`). Le tavole vettoriali sono leggibili e
@@ -1569,50 +1807,192 @@ tua.
 > quanto valeva. Prima di decidere, conviene rimisurare quanto pesa davvero —
 > l'86,9% era misurato sulla scala vecchia e non si trasferisce.
 
-**G-17 · Sei materie su dodici hanno un esercizio per sessione. È voluto fino a
-questo punto? — aperta il 9 settembre 2026**
+**G-17 · Sei materie su dodici avevano un esercizio per sessione — chiusa il 10
+settembre 2026**
 
-La gerarchia 50/35/15 dell'8 settembre non ha toccato solo la soglia: ha cambiato
-**quanto si esercita**. `EXERCISE_NODES_BY_TIER` vale 6 / 5 / 1, e la terza fascia
-sono sei materie — musica, latino, elettronica, scienze, storia, logica.
+> **Fasce 4+4+4, sessioni 6/4/2.** Nessuna materia si chiude più in una domanda
+> sola, e le quote 50/35/15 restano quelle dichiarate: 24/16/8 esercizi fanno
+> 50,0% / 33,3% / 16,7%. Il giro completo passa da 39 a 48 esercizi.
 
-Un giro completo sulle dodici fa 39 esercizi: 18 + 15 + 6, cioè 46% / 38% / 15%,
-che rispetta le quote dichiarate. Ma la quota si può rispettare in due modi
-diversi, e il codice ne ha scelto uno solo: **6 e 1 è un rapporto di sei a uno fra
-una sessione di matematica e una di storia.** La differenza non è di soglia, è di
-esistenza: in una sessione di storia non c'è modo di sbagliare e riprovare, non
-c'è un secondo esercizio che chiuda il ragionamento del primo, e NORA ha una sola
-occasione di dire qualcosa.
+La gerarchia 50/35/15 dell'8 settembre non aveva toccato solo la soglia: aveva
+cambiato **quanto si esercita**. `EXERCISE_NODES_BY_TIER` valeva 6 / 5 / 1, e la
+terza fascia erano sei materie — musica, latino, elettronica, scienze, storia,
+logica. Un giro da 39 esercizi rispettava le quote, ma **6 contro 1 è un rapporto
+di sei a uno fra una sessione di matematica e una di storia**, e la differenza non
+era di soglia ma di esistenza: in una sessione da un esercizio non c'è modo di
+sbagliare e riprovare, non c'è un secondo esercizio che chiuda il ragionamento del
+primo, e NORA ha una sola occasione di dire qualcosa.
 
-Sono coerenti con questo tre cose che il piano dichiara e che vale la pena
-rileggere insieme: la Decisione 2 («dodici materie **obbligatorie**»), la
-Decisione 5 (consolidato = tre corrette in sessioni distinte — che con un
-esercizio per sessione diventa tre sessioni intere) e la Decisione 9 (quindici
-item per argomento, scritti per essere incontrati più di una volta).
+**Perché la risposta non era «mettere 2».** La quota di sforzo è `esercizi ×
+materie`, non `esercizi`. Con sei materie in terza fascia, portarle a due dava
+28,6% contro un 15% ±5: sfondava di quattordici punti, e trascinava fuori
+tolleranza anche le altre due fasce (42,9% e 28,6%). Le uniche lunghezze che
+salvavano il 15% su sei materie — 10/6/2, 9/7/2 — chiedevano un giro da almeno 60
+esercizi, +54% di campagna contro il vincolo dichiarato che nessuna voce del piano
+la allunga.
 
-Le tre strade, e nessuna è ovvia:
+**La leva era la composizione, non il numero.** Con lunghezze 6/4/2 le quote
+50/35/15 ammettono **una sola** divisione: 4+4+4. Ma *quali* materie occupano i
+posti non l'ha deciso la didattica: l'ha deciso il banco. `pozzo_per_fascia_audit`
+chiede quindici sessioni distinte per fascia, cioè `pozzo / esercizi`, e misurando
+i dodici banchi gli esercizi che ciascuno regge oggi sono inglese 15, italiano 7,
+matematica 6, fisica/geografia/coding 5, latino 3, storia 3, scienze 2, e
+**musica, elettronica e logica 1**.
 
-- **così com'è**: il tempo va dove sta il curricolo, e le sei materie di terza
-  fascia restano nel gate come verifica, non come palestra;
-- **portare la terza fascia a 2**: e qui c'è un vincolo aritmetico che va detto
-  prima di discutere, perché non è un'opinione. Con sei materie in terza fascia e
-  una quota del 15% ±5, **l'unico modo di dare due esercizi a musica e storia è
-  un giro da almeno 60 esercizi**: le combinazioni ammesse partono da 10/6/2
-  (giro da 60) e 9/7/2 (giro da 60). Un giro da 39 diventa un giro da 60, cioè
-  **+54% di esercizi**, contro il vincolo dichiarato che nessuna voce di questo
-  piano allunga la campagna. Il 6/4/2 che verrebbe spontaneo fa un giro da 42 con
-  la terza fascia al 28,6%: sfonda la quota di quattordici punti. **Un esercizio
-  non è una taratura: è ciò che il 15% su sei materie consente**, e per cambiarlo
-  bisogna cambiare la quota o la composizione delle fasce, non il numero;
-- **spostare una materia di fascia**: portare, per dire, storia o scienze in
-  seconda fascia lascia cinque materie al 15% e cambia il conto. È la leva più
-  economica delle tre, e la più politica: dice quali sono le materie che contano;
-- **quote uguali, sessioni diverse**: tenere 6/5/1 nel *mondo* e alzare la terza
-  fascia solo nel ripasso mirato, dove il costo di tempo è già speso. È l'unica
-  che non allunga la campagna.
+**La scelta piu' difendibile era la piu' cara.** `logica` al nucleo — ragionare
+accanto a leggere e calcolare — chiedeva **217 item nuovi**, perché logica ha il
+banco più sottile dei dodici (124 item) e ciò significava metterlo nella sessione
+più lunga. Con `coding` al nucleo e `logica` in terza fascia il conto scende a
+**80**. Il vincolo è il contenuto, non il giudizio: se il banco di logica
+raddoppia, la promozione torna sul tavolo.
 
-È una decisione di prodotto e non la prendo io: cambia quanto dura la campagna e
-che cosa vuol dire «obbligatoria».
+**Due conseguenze da tenere d'occhio.**
+
+- `coding`, `latino` e `storia` ereditano il resto del rango, non solo la
+  lunghezza: bonus di soglia (+0,08 al nucleo, +0,04 in seconda al mondo 24) e un
+  argomento distinto in più di copertura per il gate. Sono le tre materie da
+  guardare per prime se un gate diventa lento.
+- **L'esame non è cambiato**: resta 10/7/3 nodi su 20 (`PRIORITY_EXAM_COUNTS`),
+  perché è tarato sui pesi e non sulla lunghezza delle sessioni. Cambia *chi*
+  riempie quelle caselle, non quante sono.
+
+**L-1 · Il lotto delle sessioni lunghe — 88 item, 10 settembre 2026**
+
+> **Sei materie sotto il pavimento, e nessuna più.** `pozzo_per_fascia_audit`
+> verde su tutte e dodici, `free_answer_audit` verde su tutte e dodici. I dodici
+> banchi passano da 5154 a **5242 item**.
+
+Sessioni più lunghe consumano il banco più in fretta: `pozzo / esercizi` deve
+restare sopra le quindici sessioni distinte per ogni fascia di difficoltà, e con
+6/4/2 sei materie ci finivano sotto. I buchi stavano **agli estremi** — fascia 2
+e fascia 8 — che è dove il ponte euristico 4→8 aveva lasciato meno materiale:
+
+| materia | scritti | dove |
+|---|---:|---|
+| coding | 30 | 15 alla fascia 2, 15 alla fascia 8 |
+| storia | 27 | 10 alla fascia 2, 17 alla fascia 8 |
+| elettronica | 12 | fasce 5-8, tutte su `elettricita-base` |
+| logica | 8 | fascia 2 |
+| musica | 7 | fascia 2 |
+| latino | 4 | 1 alla fascia 2, 3 alla fascia 8 |
+
+**Sessantacinque su ottantotto non sono a crocetta, e non erano possibili
+prima.** Fino a oggi i dodici banchi contenevano tre formati soli — scelta
+multipla, numero, parola — e i gesti veri (trascina, abbina, smista) arrivavano
+solo dalle ricette dei minigiochi, cioè da un sistema che il pozzo non conta.
+Non era una scelta di design: `authoredMcItems` sapeva costruire quei tre
+formati e nessuno aveva avuto bisogno del quarto, mentre l'`ExercisePlayer` ne
+disegna venticinque da mesi. Da questo lotto il banco porta anche **ordering,
+matching e classification**, con i contratti che `ExerciseInteraction` già
+validava.
+
+**Due difetti trovati mentre si scriveva.**
+
+1. **`difficulty8` era letto solo per la scelta multipla.** Trentatré item
+   autorati dichiaravano la propria fascia accanto a una risposta libera, e
+   `authoredMcItems` non copiava il flag: quegli item finivano lo stesso sotto la
+   scala per argomento o nel ponte 4→8. È la solita forma del difetto — scritto
+   e mai letto — e stavolta il lettore mancava di tre righe.
+2. **Un audit con un'asserzione fallita non finisce da solo.** Il `quit(0)` sta
+   dopo gli assert: quando uno cede, lo script si ferma e il `SceneTree` resta a
+   girare a vuoto. Il verdetto restava onesto (`FAILURE_MARKERS` intercetta la
+   riga e stampa il messaggio), ma costava i 240 secondi interi del timeout —
+   `pozzo_per_fascia_audit` ha girato venti minuti dopo aver già detto tutto.
+   Ora `run-godot-audits.mjs` chiude il processo appena vede l'asserzione.
+
+**Due rossi che la nuova composizione ha acceso, e tutti e due erano latenti.**
+
+1. **L'esame del mondo 17 conteneva una prova di fascia 1.** La causa non era la
+   progressione ma un cancello: prima del mondo 20 l'elettronica può pescare
+   **solo** dagli id che il mondo 8 prepara (`ELECTRONICS_BEGINNER_EXAM_IDS`),
+   e quelle prove stanno tutte nelle fasce basse. Al mondo 17, che è fascia 6,
+   non restava niente nella finestra e la selezione ripiegava sul primo item
+   disponibile. Il cancello adesso lascia passare anche l'approfondimento di
+   `elettricita-base` scritto per le fasce 5-8: stesso argomento già insegnato,
+   difficoltà che cresce col mondo. Il difetto c'era da prima — elettronica
+   entrava in meno esami, e i semi dell'audit non l'avevano mai campionato.
+2. **`subject_priority_audit` misurava la gerarchia su tre nomi scritti a mano**
+   — matematica, fisica, storia. Il giorno in cui storia è salita in seconda
+   fascia, l'assert ha cominciato a confrontare due materie della stessa fascia:
+   rosso giusto, motivo sbagliato. Adesso i tre campioni si pescano da
+   `tier_subjects(1|2|3)`, e la guardia segue la composizione invece di
+   ricordarsela.
+
+**L-2 · Cinque rossi che il lotto ha acceso, e cinque difetti veri — 10 settembre 2026**
+
+La suite intera dopo il lotto: **7 non verdi su 277**. Due erano già noti e non
+nostri (`performance_budget` = R-17 il metro, `glifi` = corsia di Codex). Gli
+altri cinque erano tutti difetti **latenti**, che la nuova composizione ha solo
+messo sotto il campione:
+
+1. **`c04_audit` pretendeva un `answer` da ogni nodo.** Vero finché il banco
+   portava solo crocette e risposte libere; un ordinamento non ha un `answer`.
+   Adesso valida con `ExerciseInteraction.validate`, che è il posto dove il
+   contratto di ogni formato è già scritto.
+2. **`heart_gate_audit` contava le stanze spente come `materie − nucleo`.**
+   Tornava per un caso: nessuna materia del nucleo divideva l'apparato con una
+   di fuori. Coding e logica stanno tutte e due nel cratere logico, quindi
+   riparare coding accende anche la stanza di logica — sette spente, non otto.
+   Adesso il conto lo fa la mappa `materia → apparato`.
+3. **`tavole_riferimento_audit`: due nomi chiesti senza una tavola che li
+   insegni**, «feudo» e «veto». La regola era già scritta e l'ho violata
+   scrivendo il lotto. Riparato dal lato giusto: «feudo» entra fra le risposte
+   della voce che già lo spiega nella nota, e la tavola romana — che aveva
+   consoli e senato ma non chi poteva fermarli — guadagna **i tribuni della
+   plebe**.
+4. **`music_beginner_audit`: la stessa prova due volte nella stessa missione.**
+   La causa era in `_drain_into`, che lavorava su `pool.duplicate()`: il pozzo
+   del chiamante restava pieno, e le due pescate su `lesson_near_pool` — prima
+   con la quota del mondo, poi con il conto pieno — potevano ridare lo stesso
+   identico item. Cinque missioni su cento a musica, mondo 6. **Adesso pescare
+   svuota**, e l'id in chiaro fa da seconda rete. Vale per ogni missione del
+   gioco, non solo per musica.
+5. **`format_mix_audit`: una sessione su 3648 chiedeva due volte lo stesso
+   argomento nello stesso gesto.** Erano due `matching|medioevo` scritti da me
+   nello stesso lotto. Ridistribuiti sugli argomenti giusti — le fonti di una
+   rivolta sono `fonti`, le novità che cambiano le città sono `civilta` — e la
+   misura è tornata a **0 su 3648**.
+
+**Poi la suite ne ha accesi altri due, e sono i due più istruttivi.**
+
+6. **Il bake contava gli ordinamenti come «risposta libera».** Le due passate che
+   convertono automaticamente le crocette in risposte aperte misuravano quanto
+   libero c'era già con `format !== "multiple_choice"` — lo stesso insieme,
+   finché i banchi avevano tre formati. Con i gesti dentro il banco non lo è
+   più: trascinare non è scrivere, e la conversione si fermava troppo presto.
+   Dieci item numerici in meno su logica, e `free_answer_audit` rosso al 19%.
+   Adesso il bake usa il metro dell'audit, `numeric_input` e `short_answer`.
+7. **`variety_audit`: la memoria delle prove recenti esisteva solo per i
+   minigiochi.** Un item del banco poteva tornare in ogni missione di fila senza
+   che niente se ne accorgesse. Il difetto era invisibile finché i formati da
+   toccare arrivavano tutti dalle ricette — erano loro a occupare i posti buoni,
+   e loro ruotavano. Con gli ordinamenti dentro il banco è uscito subito: logica
+   al mondo 1, la stessa prova cinque volte su trenta. Adesso `_drain_into`
+   ricorda quello che serve e preferisce quello che il bambino non ha visto di
+   recente; storia è passata dal 23% al 7% di ripetizioni.
+
+   Non è bastato: **logica alla fascia 1 aveva due argomenti soli**, `sequenze`
+   ed `esclusioni`. Otto item nuovi di fascia 1 aprono `deduzioni`, `insiemi`,
+   `verita` e `quantificatori` fin dal primo mondo. Il lotto sale a **96 item**.
+
+8. **`_sciogli_doppioni` non poteva sciogliere un doppione non a crocetta.**
+   Contava i doppioni e chiedeva altrettante sostituzioni, ma `inject_non_mc`
+   tocca solo i formati che la materia dichiara sostituibili — di norma la sola
+   scelta multipla. Due `short_answer` sullo stesso argomento restavano dov'erano.
+   Adesso il formato del doppione entra fra i sostituibili, ed è zero su 3648.
+
+9. **L'esempio svolto del manuale prendeva «l'item più facile dell'argomento».**
+   Da oggi il più facile può essere un abbinamento, la cui risposta è un gesto e
+   non una parola: `KnowledgeCodex` costruiva quindi una lezione con
+   «domanda → (vuoto)». Adesso `_sample_item` sceglie il più facile **fra quelli
+   con una risposta scritta**: un ordinamento resta un ottimo esercizio,
+   semplicemente non è un esempio da mostrare.
+
+**Il filo che li lega**: quattro su cinque erano guardie o selezioni che
+funzionavano per una **coincidenza della composizione precedente**, non per una
+regola. Una guardia che nomina tre materie a mano, un conto che sottrae invece
+di leggere la mappa, un pozzo che si duplica invece di svuotarsi: tutte cose
+verdi finché nessuno sposta niente.
 
 **G-14 · Gli archetipi che si vincevano senza capirli — chiusa il 4 settembre 2026**
 
@@ -1868,9 +2248,18 @@ Una proposta che le contraddice va discussa, non implementata.
 
    | fascia | materie | quota di sforzo e di voto | esercizi per sessione | bonus di soglia al mondo 24 |
    |---|---|---:|---:|---:|
-   | 1 | matematica, inglese, italiano | **50%** | 6 | +0,08 |
-   | 2 | fisica, geografia, coding | **35%** | 5 | +0,04 |
-   | 3 | musica, latino, elettronica, scienze, storia, logica | **15%** | 1 | — |
+   | 1 | matematica, inglese, italiano, **coding** | **50%** | 6 | +0,08 |
+   | 2 | fisica, geografia, **latino**, **storia** | **35%** | 4 | +0,04 |
+   | 3 | musica, elettronica, **scienze**, **logica** | **15%** | 2 | — |
+
+   **Aggiornata il 10 settembre 2026**: le fasce erano 3+3+6 con sessioni 6/5/1,
+   e sei materie si liquidavano in **un** esercizio. Con dodici materie divise
+   **4+4+4** la lunghezza 6/4/2 dà 24/16/8 = 50,0% / 33,3% / 16,7%, cioè le
+   stesse quote senza nessuna sessione da una domanda. **Chi occupa i posti l'ha
+   deciso la capienza dei banchi**, non la didattica: il quarto posto del nucleo
+   vuole sei esercizi per sessione, e solo coding, fisica e geografia ci
+   arrivavano con poche decine di item. Il giro completo passa da 39 a **48**
+   esercizi. Vedi **G-17**, chiusa.
 
    Le quote valgono ±5 punti, sono verificate sugli esami *costruiti davvero* —
    non solo sulle costanti — e il voto è pesato: nove risposte su tredici passano

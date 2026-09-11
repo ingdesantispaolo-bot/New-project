@@ -422,7 +422,7 @@ func _prepare_release_smoke_save() -> void:
 			# Stesso denominatore usato da ProgressionManager: per matematica il
 			# banco statico non rappresenta i topic prodotti dal generatore runtime.
 			content.reachable_topic_count(subject, save.level()), save.level(),
-			ApparatusConfig.is_core(subject))
+			ApparatusConfig.priority_tier(subject) <= 2)
 		for index in range(maxi(topic_target, 1)):
 			save.set_topic_mastery(subject, "release-smoke-topic-%d" % index, 1.0)
 	save.data["accessibility"] = {

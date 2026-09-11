@@ -153,8 +153,13 @@ func _disegna() -> void:
 	_colonna.add_child(_paragrafo(
 		"L'apparato di %s si ripara superando l'esame di questo mondo: accende una stanza della nave." % materia,
 		Color("cfe6e2"), 14))
+	# **Il nucleo si legge, non si riscrive.** (10 settembre 2026) Questa riga
+	# elencava tre materie a mano e il giorno in cui il nucleo è diventato
+	# quattro sarebbe rimasta indietro in silenzio: e' l'unico posto del gioco
+	# dove il bambino sente dire quali materie chiedono di più, e dirgliene una
+	# di meno sarebbe peggio che tacere.
 	_colonna.add_child(_paragrafo(
-		"Per salire di livello servono invece TUTTE e dodici le materie a questo grado di difficoltà. Le altre si allenano nelle palestre sparse nel mondo — e italiano, matematica e inglese chiedono di più delle altre.",
+		"Per salire di livello servono invece TUTTE e dodici le materie a questo grado di difficoltà. Le altre si allenano nelle palestre sparse nel mondo — e %s chiedono di più delle altre." % _elenco_nucleo(),
 		Color("cfe6e2"), 14))
 
 	var chiudi := Button.new()
@@ -218,3 +223,19 @@ func _riquadro(testo: String, colore: Color, dim: int, chi: String) -> Control:
 	box.add_child(_sezione(chi))
 	box.add_child(_paragrafo(testo, colore, dim))
 	return pannello
+
+
+## Le materie del nucleo in una frase: «a, b, c e d». Legge
+## `ApparatusConfig.CORE_SUBJECTS`, così una promozione di fascia arriva qui da
+## sola invece di lasciare la schermata d'ingresso a raccontare il rango vecchio.
+func _elenco_nucleo() -> String:
+	var nucleo: Array = ApparatusConfig.CORE_SUBJECTS.duplicate()
+	if nucleo.is_empty():
+		return ""
+	if nucleo.size() == 1:
+		return str(nucleo[0])
+	var testa: Array = nucleo.slice(0, nucleo.size() - 1)
+	var pezzi := PackedStringArray()
+	for materia in testa:
+		pezzi.append(str(materia))
+	return "%s e %s" % [", ".join(pezzi), str(nucleo[nucleo.size() - 1])]

@@ -489,6 +489,13 @@ const TAVOLE_STORIA := [
 				"nota": "Due magistrati eletti ogni anno a capo della repubblica. Due, non uno, e per un anno solo: era il modo di impedire che qualcuno tornasse a comandare come un re.",
 			},
 			{
+				"label": "I tribuni della plebe",
+				"quando": "dal 494 a.C.",
+				"anno": -494,
+				"risposte": ["tribuni della plebe", "I tribuni della plebe", "veto", "il veto", "diritto di veto"],
+				"nota": "Magistrati eletti dal popolo per difenderlo dai patrizi. La loro arma era una parola sola, «veto» — «vieto» — che bastava a fermare l'atto di un altro magistrato: è la prima volta che il potere di dire no viene messo per iscritto nelle regole.",
+			},
+			{
 				"label": "Il senato",
 				"quando": "dalla monarchia all'impero",
 				"risposte": ["Il Senato", "senato"],
@@ -585,7 +592,7 @@ const TAVOLE_STORIA := [
 				"label": "Il feudalesimo",
 				"quando": "dal IX secolo",
 				"anno": 800,
-				"risposte": ["Feudalesimo", "feudalesimo", "Si costruiscono i castelli e le cattedrali"],
+				"risposte": ["Feudalesimo", "feudalesimo", "feudo", "il feudo", "rapporto feudale", "Si costruiscono i castelli e le cattedrali"],
 				"nota": "Il signore dà una terra — il feudo — e in cambio riceve fedeltà e servizio militare. È uno scambio, e quasi tutte le istituzioni medievali sono questo stesso scambio a livelli diversi.",
 			},
 			{

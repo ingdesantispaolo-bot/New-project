@@ -57,10 +57,14 @@ const PAVIMENTO := {
 	"storia": 100,
 	"inglese": 67,
 	"italiano": 42,
-	"coding": 37,
+	# Salito da 37 a 58 l'11 settembre 2026: le 91 applicazioni delle dispense
+	# portano tutte la loro fascia scritta a mano. Vedi `docs/REGOLA_DISPENSE.md`.
+	"coding": 58,
 	"matematica": 33,
 	"fisica": 25,
-	"geografia": 25,
+	# Salito da 25 a 40 l'11 settembre 2026: le applicazioni delle dispense portano
+	# tutte la loro fascia scritta a mano. Vedi `docs/REGOLA_DISPENSE.md`.
+	"geografia": 40,
 }
 
 ## Sotto questa quota complessiva il gioco sta ancora decidendo la difficolta'

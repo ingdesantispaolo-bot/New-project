@@ -5722,7 +5722,7 @@
 			"id": "latino-declinazione-1-143",
 			"subject": "latino",
 			"topic": "declinazione-1",
-			"difficulty": 4,
+			"difficulty": 5,
 			"format": "short_answer",
 			"prompt": "Qual è il genitivo plurale di «puella»?",
 			"options": [],
@@ -6759,6 +6759,2172 @@
 			"_difficulty8": true
 		},
 		{
+			"id": "latino-sl-casi-0",
+			"subject": "latino",
+			"topic": "casi",
+			"difficulty": 2,
+			"format": "matching",
+			"prompt": "Abbina ogni caso latino alla funzione che svolge nella frase.",
+			"options": [],
+			"explanation": "In latino la funzione non la decide la posizione nella frase ma la desinenza: per questo l'ordine delle parole può cambiare senza che cambi il senso. È il contrario dell'italiano, dove «il cane morde l'uomo» e «l'uomo morde il cane» differiscono solo per l'ordine.",
+			"_difficulty8": true,
+			"pairs": [
+				{
+					"left": "nominativo",
+					"right": "chi compie l'azione"
+				},
+				{
+					"left": "accusativo",
+					"right": "chi o che cosa subisce l'azione"
+				},
+				{
+					"left": "genitivo",
+					"right": "di chi o di che cosa"
+				},
+				{
+					"left": "vocativo",
+					"right": "chi viene chiamato"
+				}
+			],
+			"distractorWhy": {
+				"servum": "«servum» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"poetam": "«poetam» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"regem": "«regem» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"puerum": "«puerum» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"legem": "«legem» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"aquam": "«aquam» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"donum": "«donum» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"bellum": "«bellum» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
+			}
+		},
+		{
+			"id": "latino-sl-frasi-1",
+			"subject": "latino",
+			"topic": "frasi",
+			"difficulty": 8,
+			"format": "ordering",
+			"prompt": "Metti in ordine i passi per tradurre una frase latina senza andare a intuito.",
+			"options": [],
+			"explanation": "Si parte sempre dal verbo perché è lui a dire quante persone servono e di che tipo: un verbo transitivo pretende un accusativo, uno intransitivo no. Cominciare dalla prima parola della frase è l'errore che fa tradurre a caso, perché in latino la prima parola può essere qualunque cosa.",
+			"_difficulty8": true,
+			"items": [
+				"cerca il verbo e guarda persona e numero",
+				"collega gli altri casi al loro ruolo",
+				"cerca il soggetto al nominativo, che concorda col verbo",
+				"trova il complemento oggetto all'accusativo"
+			],
+			"correctOrder": [
+				"cerca il verbo e guarda persona e numero",
+				"cerca il soggetto al nominativo, che concorda col verbo",
+				"trova il complemento oggetto all'accusativo",
+				"collega gli altri casi al loro ruolo"
+			],
+			"distractorWhy": {
+				"La bambina canta": "«La bambina canta» è la risposta giusta a un'altra domanda di questo gruppo: «Come si traduce «Puella cantat»?».",
+				"La rosa è bella": "«La rosa è bella» è la risposta giusta a un'altra domanda di questo gruppo: «Come si traduce «Rosa pulchra est»?».",
+				"Marcus": "«Marcus» è la risposta giusta a un'altra domanda di questo gruppo: «In «Marcus librum legit», chi compie l'azione?».",
+				"Complemento oggetto": "«Complemento oggetto» è la risposta giusta a un'altra domanda di questo gruppo: «In «Marcus librum legit», che cos'è «librum»?».",
+				"est": "«est» è la risposta giusta a un'altra domanda di questo gruppo: «In latino il verbo essere alla terza persona singolare è…».",
+				"Roma è in Italia": "«Roma è in Italia» è la risposta giusta a un'altra domanda di questo gruppo: «Come si traduce «Roma in Italia est»?».",
+				"Più di una": "«Più di una» è la risposta giusta a un'altra domanda di questo gruppo: «In «Puellae rosas amant», quante bambine ci sono?».",
+				"Terza persona singolare": "«Terza persona singolare» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa indica la desinenza -t alla fine di un verbo latino?»."
+			}
+		},
+		{
+			"id": "latino-sl-declinazione-5-2",
+			"subject": "latino",
+			"topic": "declinazione-5",
+			"difficulty": 8,
+			"format": "matching",
+			"prompt": "Abbina ogni declinazione al genitivo singolare che la riconosce.",
+			"options": [],
+			"explanation": "Il genitivo singolare è la carta d'identità del nome: il vocabolario lo mette apposta accanto al nominativo, perché è l'unica forma che distingue con certezza le cinque declinazioni. Il nominativo da solo può ingannare — «manus» e «dominus» finiscono uguali e non sono della stessa.",
+			"_difficulty8": true,
+			"pairs": [
+				{
+					"left": "prima declinazione",
+					"right": "esce in -ae"
+				},
+				{
+					"left": "seconda declinazione",
+					"right": "esce in -i"
+				},
+				{
+					"left": "terza declinazione",
+					"right": "esce in -is"
+				},
+				{
+					"left": "quinta declinazione",
+					"right": "esce in -ei"
+				}
+			],
+			"distractorWhy": {
+				"rei": "«rei» è la risposta giusta a un'altra domanda di questo gruppo: «Da «res» (la cosa): quale forma useresti per dire «alla cosa»?».",
+				"rem": "«rem» è la risposta giusta a un'altra domanda di questo gruppo: «Da «res» (la cosa): quale forma useresti se è la cosa a SUBIRE l'azione?».",
+				"diem": "«diem» è la risposta giusta a un'altra domanda di questo gruppo: «Da «dies» (il giorno): quale forma useresti se è il giorno a SUBIRE l'azione?».",
+				"diei": "«diei» è la risposta giusta a un'altra domanda di questo gruppo: «Da «dies» (il giorno): quale forma useresti per dire «del giorno»?».",
+				"La cosa": "«La cosa» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «res»?».",
+				"La cosa pubblica": "«La cosa pubblica» è la risposta giusta a un'altra domanda di questo gruppo: ««Res publica» significa alla lettera…».",
+				"rerum": "«rerum» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il genitivo plurale di «res»?».",
+				"Diario": "«Diario» è la risposta giusta a un'altra domanda di questo gruppo: «Da «dies» viene la parola italiana…»."
+			}
+		},
+		{
+			"id": "latino-sl-declinazione-4-3",
+			"subject": "latino",
+			"topic": "declinazione-4",
+			"difficulty": 8,
+			"format": "classification",
+			"prompt": "Smista ogni nome secondo la declinazione a cui appartiene, guardando il genitivo indicato.",
+			"options": [],
+			"explanation": "Si guarda solo la seconda forma: -ae, -i, -is, -us. «Manus, manus» è il caso che mette alla prova — nominativo e genitivo identici — e proprio quella coincidenza è il segno della quarta declinazione, non un errore di stampa.",
+			"_difficulty8": true,
+			"items": [
+				"rosa, rosae",
+				"dominus, domini",
+				"consul, consulis",
+				"manus, manus"
+			],
+			"categories": [
+				"prima",
+				"seconda",
+				"terza",
+				"quarta"
+			],
+			"assignments": {
+				"rosa, rosae": "prima",
+				"dominus, domini": "seconda",
+				"consul, consulis": "terza",
+				"manus, manus": "quarta"
+			},
+			"distractorWhy": {
+				"manui": "«manui» è la risposta giusta a un'altra domanda di questo gruppo: «Da «manus» (la mano): quale forma useresti per dire «alla mano»?».",
+				"manum": "«manum» è la risposta giusta a un'altra domanda di questo gruppo: «Da «manus» (la mano): quale forma useresti se è la mano a SUBIRE l'azione?».",
+				"exercitum": "«exercitum» è la risposta giusta a un'altra domanda di questo gruppo: «Da «exercitus» (l'esercito): quale forma useresti se è l'esercito a SUBIRE l'azione?».",
+				"exercitui": "«exercitui» è la risposta giusta a un'altra domanda di questo gruppo: «Da «exercitus» (l'esercito): quale forma useresti per dire «all'esercito»?».",
+				"genitivo plurale": "«genitivo plurale» è la risposta giusta a un'altra domanda di questo gruppo: «Che caso e numero ha \"manuum\" (da \"manus\", la mano)?».",
+				"dativo singolare": "«dativo singolare» è la risposta giusta a un'altra domanda di questo gruppo: «Che caso e numero ha \"manui\" (da \"manus\", la mano)?».",
+				"Mano": "«Mano» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «manus»?».",
+				"Esercito": "«Esercito» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «exercitus»?»."
+			}
+		},
+		{
+			"id": "latino-app-basi-0",
+			"subject": "latino",
+			"topic": "basi",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "In una frase latina, che cosa dice quale mestiere sta facendo una parola?",
+			"options": [
+				"La lunghezza",
+				"L'articolo davanti",
+				"La desinenza",
+				"La posizione"
+			],
+			"answer": "La desinenza",
+			"explanation": "È la differenza di fondo con l'italiano: la funzione sta scritta nella coda della parola, quindi l'ordine può cambiare senza che il senso cambi.",
+			"distractorWhy": {
+				"La posizione": "È così in italiano, non in latino: qui l'ordine serve a dare enfasi, non ad assegnare i ruoli.",
+				"La lunghezza": "La lunghezza non porta nessuna informazione grammaticale in nessuna lingua.",
+				"L'articolo davanti": "Il latino non ha articoli: è una delle prime cose che colpiscono chi lo incontra."
+			},
+			"_difficulty8": true,
+			"applica": "latino-basi-base"
+		},
+		{
+			"id": "latino-app-basi-1",
+			"subject": "latino",
+			"topic": "basi",
+			"difficulty": 2,
+			"format": "numeric_input",
+			"prompt": "Quanti sono i casi latini, contando anche il vocativo?",
+			"options": [],
+			"answer": "6",
+			"explanation": "Nominativo, genitivo, dativo, accusativo, vocativo e ablativo: ognuno corrisponde a un mestiere diverso dentro la frase.",
+			"_difficulty8": true,
+			"applica": "latino-basi-base",
+			"distractorWhy": {
+				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «Quante declinazioni ha il latino?»."
+			}
+		},
+		{
+			"id": "latino-app-basi-2",
+			"subject": "latino",
+			"topic": "basi",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "In italiano «il cane morde l'uomo» e «l'uomo morde il cane» dicono cose opposte. Che cosa le distingue?",
+			"options": [
+				"Il tempo del verbo",
+				"Il genere dei nomi",
+				"La desinenza dei nomi",
+				"L'ordine delle parole"
+			],
+			"answer": "L'ordine delle parole",
+			"explanation": "In italiano è la posizione ad assegnare i ruoli. In latino no: lì le stesse due frasi si distinguerebbero cambiando le code, non l'ordine.",
+			"distractorWhy": {
+				"La desinenza dei nomi": "In italiano le desinenze dei nomi non cambiano fra le due frasi: «cane» e «uomo» restano identici.",
+				"Il tempo del verbo": "Il verbo è lo stesso presente in entrambe: non è lui a cambiare.",
+				"Il genere dei nomi": "Il genere non cambia e non ha nessun ruolo nell'assegnare chi morde."
+			},
+			"_difficulty8": true,
+			"applica": "latino-basi-base"
+		},
+		{
+			"id": "latino-app-basi-3",
+			"subject": "latino",
+			"topic": "basi",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama una lingua in cui le parole cambiano desinenza invece di affidarsi all'ordine?",
+			"options": [],
+			"answer": "flessiva",
+			"accept": [
+				"lingua flessiva",
+				"una lingua flessiva"
+			],
+			"explanation": "Il latino lo è in modo pieno; l'italiano lo è rimasto solo nei verbi, e per i nomi si è spostato sull'ordine e sulle preposizioni.",
+			"_difficulty8": true,
+			"applica": "latino-basi-base",
+			"distractorWhy": {
+				"Latino": "«Latino» è la risposta giusta a un'altra domanda di questo gruppo: «In che lingua è scritta la maggior parte delle iscrizioni romane?».",
+				"Nominativo": "«Nominativo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso indica normalmente il soggetto?».",
+				"Accusativo": "«Accusativo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso indica normalmente il complemento oggetto?».",
+				"Vocativo": "«Vocativo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso si usa per chiamare qualcuno?».",
+				"I Romani": "«I Romani» è la risposta giusta a un'altra domanda di questo gruppo: «Il latino era la lingua di quale antico popolo?».",
+				"Il latino": "«Il latino» è la risposta giusta a un'altra domanda di questo gruppo: «Da quale lingua derivano soprattutto l'italiano, lo spagnolo e il francese?».",
+				"Cogli l'attimo": "«Cogli l'attimo» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa significa l'espressione latina 'Carpe diem'?».",
+				"declinazione": "«declinazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'insieme delle terminazioni che un nome latino assume nei vari casi?»."
+			}
+		},
+		{
+			"id": "latino-app-casi-4",
+			"subject": "latino",
+			"topic": "casi",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "«Poeta puellam laudat.» vuol dire «Il poeta loda la fanciulla.». Quale parola porta la desinenza dell'accusativo?",
+			"options": [
+				"puellam",
+				"laudat",
+				"poeta",
+				"nessuna"
+			],
+			"answer": "puellam",
+			"explanation": "La coda -am è l'accusativo singolare della prima declinazione: dice che quella parola subisce l'azione, dovunque si trovi nella frase.",
+			"distractorWhy": {
+				"poeta": "Finisce in -a: è il nominativo, cioè chi compie l'azione.",
+				"laudat": "È il verbo, e i verbi non hanno casi: hanno persone.",
+				"nessuna": "Il verbo «lodare» ha un oggetto, e quell'oggetto porta per forza la desinenza dell'accusativo."
+			},
+			"_difficulty8": true,
+			"applica": "latino-casi-base"
+		},
+		{
+			"id": "latino-app-casi-5",
+			"subject": "latino",
+			"topic": "casi",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "A quale domanda risponde il genitivo?",
+			"options": [
+				"A chi?",
+				"Di chi?",
+				"Chi?",
+				"Con che cosa?"
+			],
+			"answer": "Di chi?",
+			"explanation": "Il genitivo indica appartenenza e si traduce quasi sempre con «di»: *rosae* è «della rosa», *domini* «del padrone».",
+			"distractorWhy": {
+				"A chi?": "È la domanda del dativo, che indica il destinatario dell'azione.",
+				"Chi?": "È la domanda del nominativo, cioè del soggetto che compie l'azione.",
+				"Con che cosa?": "È una delle domande dell'ablativo, che indica il mezzo."
+			},
+			"_difficulty8": true,
+			"applica": "latino-casi-base"
+		},
+		{
+			"id": "latino-app-casi-6",
+			"subject": "latino",
+			"topic": "casi",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiama il caso di chi compie l'azione?",
+			"options": [],
+			"answer": "nominativo",
+			"accept": [
+				"il nominativo",
+				"caso nominativo"
+			],
+			"explanation": "È il caso del soggetto. Trovarlo è il secondo passo della lettura di una frase latina, subito dopo aver individuato il verbo.",
+			"_difficulty8": true,
+			"applica": "latino-casi-base",
+			"distractorWhy": {
+				"servum": "«servum» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"poetam": "«poetam» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"regem": "«regem» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"puerum": "«puerum» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"legem": "«legem» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"aquam": "«aquam» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"donum": "«donum» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"bellum": "«bellum» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
+			}
+		},
+		{
+			"id": "latino-app-casi-7",
+			"subject": "latino",
+			"topic": "casi",
+			"difficulty": 5,
+			"format": "multiple_choice",
+			"prompt": "In «Rosae pulchrae sunt.», che funzione ha «rosae»?",
+			"options": [
+				"Accusativo plurale",
+				"Genitivo singolare",
+				"Nominativo plurale",
+				"Dativo singolare"
+			],
+			"answer": "Nominativo plurale",
+			"explanation": "La forma *rosae* può essere tre cose, ma il verbo *sunt* è plurale e chiede un soggetto plurale: resta solo il nominativo plurale.",
+			"distractorWhy": {
+				"Genitivo singolare": "Sarebbe possibile come forma, ma non c'è nessun sostantivo di cui la rosa possa essere proprietà.",
+				"Dativo singolare": "Anche questa forma esiste, ma il verbo essere non regge un destinatario: qui serve un soggetto.",
+				"Accusativo plurale": "L'accusativo plurale della prima declinazione è *rosas*, non *rosae*."
+			},
+			"_difficulty8": true,
+			"applica": "latino-casi-alta"
+		},
+		{
+			"id": "latino-app-casi-8",
+			"subject": "latino",
+			"topic": "casi",
+			"difficulty": 6,
+			"format": "multiple_choice",
+			"prompt": "Quale caso copre insieme «con che cosa», «da dove» e «in che modo»?",
+			"options": [
+				"Il genitivo",
+				"Il vocativo",
+				"Il dativo",
+				"L'ablativo"
+			],
+			"answer": "L'ablativo",
+			"explanation": "È il più versatile dei sei, e spesso in latino va senza preposizione: la preposizione la aggiunge l'italiano in traduzione.",
+			"distractorWhy": {
+				"Il dativo": "Risponde solo a «a chi, per chi»: indica il destinatario, non il mezzo né il luogo.",
+				"Il genitivo": "Risponde a «di chi»: indica appartenenza.",
+				"Il vocativo": "Serve soltanto a chiamare qualcuno, e non regge nessun complemento."
+			},
+			"_difficulty8": true,
+			"applica": "latino-casi-alta"
+		},
+		{
+			"id": "latino-app-casi-9",
+			"subject": "latino",
+			"topic": "casi",
+			"difficulty": 8,
+			"format": "multiple_choice",
+			"prompt": "Davanti a una forma che potrebbe essere tre casi diversi, qual è la prima cosa da guardare?",
+			"options": [
+				"Il numero del verbo",
+				"La prima lettera",
+				"La lunghezza della parola",
+				"La posizione nella frase"
+			],
+			"answer": "Il numero del verbo",
+			"explanation": "Se il verbo è plurale il soggetto deve essere plurale: è l'informazione che costa meno da leggere e che elimina più possibilità.",
+			"distractorWhy": {
+				"La posizione nella frase": "In latino la posizione non assegna i ruoli: una parola in fondo può benissimo essere il soggetto.",
+				"La lunghezza della parola": "La lunghezza non porta nessuna informazione grammaticale.",
+				"La prima lettera": "La prima parte della parola è il tema e dice il significato, non la funzione: quella sta in fondo."
+			},
+			"_difficulty8": true,
+			"applica": "latino-casi-alta"
+		},
+		{
+			"id": "latino-app-declinazioni-base-10",
+			"subject": "latino",
+			"topic": "declinazioni-base",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Un sostantivo latino si cita con due forme. Quale delle due dice a quale declinazione appartiene?",
+			"options": [
+				"Nessuna delle due",
+				"Il genitivo singolare",
+				"Il nominativo singolare",
+				"L'accusativo singolare"
+			],
+			"answer": "Il genitivo singolare",
+			"explanation": "Nominativi simili appartengono a gruppi diversi — *dominus* e *manus* ne sono la prova — mentre la coda del genitivo appartiene a un gruppo solo.",
+			"distractorWhy": {
+				"Il nominativo singolare": "È la prima forma citata ma inganna: *manus* e *dominus* finiscono uguale e sono di declinazioni diverse.",
+				"L'accusativo singolare": "Non fa parte della citazione, e comunque si ricava dopo aver stabilito il gruppo.",
+				"Nessuna delle due": "Una delle due lo dice con certezza, ed è proprio per questo che la citazione ne porta due."
+			},
+			"_difficulty8": true,
+			"applica": "latino-declinazioni-base-base"
+		},
+		{
+			"id": "latino-app-declinazioni-base-11",
+			"subject": "latino",
+			"topic": "declinazioni-base",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "A quale declinazione appartiene «rex, regis»?",
+			"options": [
+				"Prima",
+				"Seconda",
+				"Terza",
+				"Quarta"
+			],
+			"answer": "Terza",
+			"explanation": "Il genitivo singolare finisce in -is, e quella coda appartiene alla sola terza declinazione. Dal nominativo *rex* non si sarebbe potuto dedurre niente.",
+			"distractorWhy": {
+				"Prima": "La prima fa il genitivo in -ae, come *rosae*.",
+				"Seconda": "La seconda fa il genitivo in -i, come *domini*.",
+				"Quarta": "La quarta fa il genitivo in -us, uguale al proprio nominativo."
+			},
+			"_difficulty8": true,
+			"applica": "latino-declinazioni-base-base"
+		},
+		{
+			"id": "latino-app-declinazioni-base-12",
+			"subject": "latino",
+			"topic": "declinazioni-base",
+			"difficulty": 4,
+			"format": "short_answer",
+			"prompt": "Da «dominus, domini», qual è il tema su cui si costruiscono tutte le altre forme?",
+			"options": [],
+			"answer": "domin",
+			"accept": [
+				"domin-",
+				"domini meno la i"
+			],
+			"explanation": "Si ricava togliendo la desinenza al genitivo singolare: da *domini* si toglie la -i. Da lì in poi basta attaccare la desinenza della casella che serve.",
+			"_difficulty8": true,
+			"applica": "latino-declinazioni-base-base",
+			"distractorWhy": {
+				"Prima": "«Prima» è la risposta giusta a un'altra domanda di questo gruppo: «A quale declinazione appartiene «rosa, rosae»?».",
+				"Seconda": "«Seconda» è la risposta giusta a un'altra domanda di questo gruppo: «A quale declinazione appartiene «dominus, domini»?».",
+				"rosae": "«rosae» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il nominativo plurale di «rosa»?».",
+				"rosam": "«rosam» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'accusativo singolare di «rosa»?».",
+				"rosas": "«rosas» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'accusativo plurale di «rosa»?».",
+				"domini": "«domini» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il genitivo singolare di «dominus»?».",
+				"In -a": "«In -a» è la risposta giusta a un'altra domanda di questo gruppo: «Nei neutri plurali, in che lettera escono nominativo e accusativo?».",
+				"Quinta declinazione": "«Quinta declinazione» è la risposta giusta a un'altra domanda di questo gruppo: «I nomi come 'dies, diei' appartengono alla…»."
+			}
+		},
+		{
+			"id": "latino-app-declinazioni-base-13",
+			"subject": "latino",
+			"topic": "declinazioni-base",
+			"difficulty": 5,
+			"format": "short_answer",
+			"prompt": "Qual è il genitivo plurale di «rosa»?",
+			"options": [],
+			"answer": "rosarum",
+			"accept": [
+				"rosarum"
+			],
+			"explanation": "Tema ros- più la desinenza -arum. È l'unica casella del paradigma con quella coda, quindi non si confonde mai con nessun'altra.",
+			"_difficulty8": true,
+			"applica": "latino-declinazioni-base-alta",
+			"distractorWhy": {
+				"Prima": "«Prima» è la risposta giusta a un'altra domanda di questo gruppo: «A quale declinazione appartiene «rosa, rosae»?».",
+				"Seconda": "«Seconda» è la risposta giusta a un'altra domanda di questo gruppo: «A quale declinazione appartiene «dominus, domini»?».",
+				"rosae": "«rosae» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il nominativo plurale di «rosa»?».",
+				"rosam": "«rosam» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'accusativo singolare di «rosa»?».",
+				"rosas": "«rosas» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'accusativo plurale di «rosa»?».",
+				"domini": "«domini» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il genitivo singolare di «dominus»?».",
+				"In -a": "«In -a» è la risposta giusta a un'altra domanda di questo gruppo: «Nei neutri plurali, in che lettera escono nominativo e accusativo?».",
+				"Quinta declinazione": "«Quinta declinazione» è la risposta giusta a un'altra domanda di questo gruppo: «I nomi come 'dies, diei' appartengono alla…»."
+			}
+		},
+		{
+			"id": "latino-app-declinazioni-base-14",
+			"subject": "latino",
+			"topic": "declinazioni-base",
+			"difficulty": 6,
+			"format": "multiple_choice",
+			"prompt": "Quali due caselle hanno sempre la stessa forma, in tutte e cinque le declinazioni?",
+			"options": [
+				"Accusativo e vocativo plurale",
+				"Genitivo e ablativo singolare",
+				"Nominativo e genitivo singolare",
+				"Dativo e ablativo plurale"
+			],
+			"answer": "Dativo e ablativo plurale",
+			"explanation": "Vale ovunque: *rosis*, *dominis*, *regibus*, *manibus*, *diebus*. Sapendolo si dimezza il numero di caselle da ricordare al plurale.",
+			"distractorWhy": {
+				"Nominativo e genitivo singolare": "Coincidono solo nella quarta declinazione, dove *manus* fa entrambi: non è una regola generale.",
+				"Genitivo e ablativo singolare": "Nella prima declinazione sono *rosae* e *rosa*, cioè diversi: non coincidono quasi mai.",
+				"Accusativo e vocativo plurale": "Il vocativo plurale segue il nominativo, non l'accusativo, tranne nei neutri dove coincidono tutti."
+			},
+			"_difficulty8": true,
+			"applica": "latino-declinazioni-base-alta"
+		},
+		{
+			"id": "latino-app-declinazioni-base-15",
+			"subject": "latino",
+			"topic": "declinazioni-base",
+			"difficulty": 6,
+			"format": "short_answer",
+			"prompt": "Qual è il dativo plurale di «rosa»?",
+			"options": [],
+			"answer": "rosis",
+			"accept": [
+				"rosis"
+			],
+			"explanation": "Tema ros- più la desinenza -is. La stessa forma vale anche come ablativo plurale, perché quelle due caselle coincidono sempre.",
+			"_difficulty8": true,
+			"applica": "latino-declinazioni-base-alta",
+			"distractorWhy": {
+				"Prima": "«Prima» è la risposta giusta a un'altra domanda di questo gruppo: «A quale declinazione appartiene «rosa, rosae»?».",
+				"Seconda": "«Seconda» è la risposta giusta a un'altra domanda di questo gruppo: «A quale declinazione appartiene «dominus, domini»?».",
+				"rosae": "«rosae» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il nominativo plurale di «rosa»?».",
+				"rosam": "«rosam» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'accusativo singolare di «rosa»?».",
+				"rosas": "«rosas» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'accusativo plurale di «rosa»?».",
+				"domini": "«domini» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il genitivo singolare di «dominus»?».",
+				"In -a": "«In -a» è la risposta giusta a un'altra domanda di questo gruppo: «Nei neutri plurali, in che lettera escono nominativo e accusativo?».",
+				"Quinta declinazione": "«Quinta declinazione» è la risposta giusta a un'altra domanda di questo gruppo: «I nomi come 'dies, diei' appartengono alla…»."
+			}
+		},
+		{
+			"id": "latino-app-declinazione-1-16",
+			"subject": "latino",
+			"topic": "declinazione-1",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Da «terra» (la terra): quale forma useresti per dire «della terra»?",
+			"options": [],
+			"answer": "terrae",
+			"accept": [
+				"terrae"
+			],
+			"explanation": "È il genitivo singolare della prima declinazione: tema terr- più la desinenza -ae. La stessa forma vale anche come dativo e come nominativo plurale.",
+			"_difficulty8": true,
+			"applica": "latino-declinazione-1",
+			"distractorWhy": {
+				"rosae": "«rosae» è la risposta giusta a un'altra domanda di questo gruppo: «Da «rosa» (la rosa): quale forma useresti per dire «della rosa»?».",
+				"puellae": "«puellae» è la risposta giusta a un'altra domanda di questo gruppo: «Da «puella» (la fanciulla): quale forma useresti per dire «alla fanciulla»?».",
+				"puellam": "«puellam» è la risposta giusta a un'altra domanda di questo gruppo: «Da «puella» (la fanciulla): quale forma useresti se è la fanciulla a SUBIRE l'azione?».",
+				"aquam": "«aquam» è la risposta giusta a un'altra domanda di questo gruppo: «Da «aqua» (l'acqua): quale forma useresti se è l'acqua a SUBIRE l'azione?».",
+				"aquae": "«aquae» è la risposta giusta a un'altra domanda di questo gruppo: «Da «aqua» (l'acqua): quale forma useresti per dire «dell'acqua»?».",
+				"patriae": "«patriae» è la risposta giusta a un'altra domanda di questo gruppo: «Da «patria» (la patria): quale forma useresti per dire «alla patria»?».",
+				"patriam": "«patriam» è la risposta giusta a un'altra domanda di questo gruppo: «Da «patria» (la patria): quale forma useresti se è la patria a SUBIRE l'azione?».",
+				"silvam": "«silvam» è la risposta giusta a un'altra domanda di questo gruppo: «Da «silva» (il bosco): quale forma useresti se è il bosco a SUBIRE l'azione?»."
+			}
+		},
+		{
+			"id": "latino-app-declinazione-1-17",
+			"subject": "latino",
+			"topic": "declinazione-1",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Da «silva» (la selva): quale forma useresti se è la selva a SUBIRE l'azione?",
+			"options": [
+				"silvam",
+				"silva",
+				"silvae",
+				"silvas"
+			],
+			"answer": "silvam",
+			"explanation": "Chi subisce va all'accusativo, e l'accusativo singolare della prima declinazione è -am: tema silv- più -am.",
+			"distractorWhy": {
+				"silvae": "È genitivo o dativo singolare, oppure nominativo plurale: nessuna di queste è chi subisce.",
+				"silva": "È il nominativo, cioè chi compie l'azione, oppure l'ablativo singolare.",
+				"silvas": "È l'accusativo PLURALE: subirebbe l'azione, ma sarebbero più selve."
+			},
+			"_difficulty8": true,
+			"applica": "latino-declinazione-1"
+		},
+		{
+			"id": "latino-app-declinazione-2m-19",
+			"subject": "latino",
+			"topic": "declinazione-2m",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Da «puer» (il ragazzo): quale forma useresti per dire «del ragazzo»?",
+			"options": [
+				"puer",
+				"pueri",
+				"puero",
+				"puerum"
+			],
+			"answer": "pueri",
+			"explanation": "È il genitivo singolare: tema puer- più la desinenza -i. Le parole in -er si comportano come tutte le altre della seconda a partire dal genitivo.",
+			"distractorWhy": {
+				"puero": "È il dativo o l'ablativo singolare: risponde a «a chi» o «con che cosa», non a «di chi».",
+				"puerum": "È l'accusativo singolare, cioè chi subisce l'azione.",
+				"puer": "È il nominativo, la forma di citazione: indica chi compie l'azione."
+			},
+			"_difficulty8": true,
+			"applica": "latino-declinazione-2m"
+		},
+		{
+			"id": "latino-app-declinazione-2m-20",
+			"subject": "latino",
+			"topic": "declinazione-2m",
+			"difficulty": 5,
+			"format": "short_answer",
+			"prompt": "Qual è l'accusativo plurale di «dominus»?",
+			"options": [],
+			"answer": "dominos",
+			"accept": [
+				"dominos"
+			],
+			"explanation": "Tema domin- più la desinenza -os. Insieme a -um del singolare è una delle poche caselle di questo gruppo che non si confondono con nessun'altra.",
+			"_difficulty8": true,
+			"applica": "latino-declinazione-2m",
+			"distractorWhy": {
+				"domini": "«domini» è la risposta giusta a un'altra domanda di questo gruppo: «Da «dominus» (il signore/padrone): quale forma useresti per dire «del signore»?».",
+				"domino": "«domino» è la risposta giusta a un'altra domanda di questo gruppo: «Da «dominus» (il signore/padrone): quale forma useresti per dire «al signore»?».",
+				"servo": "«servo» è la risposta giusta a un'altra domanda di questo gruppo: «Da «servus» (lo schiavo): quale forma useresti per dire «allo schiavo»?».",
+				"servum": "«servum» è la risposta giusta a un'altra domanda di questo gruppo: «Da «servus» (lo schiavo): quale forma useresti se è lo schiavo a SUBIRE l'azione?».",
+				"amicum": "«amicum» è la risposta giusta a un'altra domanda di questo gruppo: «Da «amicus» (l'amico): quale forma useresti se è l'amico a SUBIRE l'azione?».",
+				"amici": "«amici» è la risposta giusta a un'altra domanda di questo gruppo: «Da «amicus» (l'amico): quale forma useresti per dire «dell'amico»?».",
+				"populi": "«populi» è la risposta giusta a un'altra domanda di questo gruppo: «Da «populus» (il popolo): quale forma useresti per dire «del popolo»?».",
+				"populo": "«populo» è la risposta giusta a un'altra domanda di questo gruppo: «Da «populus» (il popolo): quale forma useresti per dire «al popolo»?»."
+			}
+		},
+		{
+			"id": "latino-app-declinazione-2m-21",
+			"subject": "latino",
+			"topic": "declinazione-2m",
+			"difficulty": 7,
+			"format": "multiple_choice",
+			"prompt": "Per rivolgersi direttamente a qualcuno chiamandolo, da «dominus» si usa…",
+			"options": [
+				"dominum",
+				"domini",
+				"domine",
+				"dominus"
+			],
+			"answer": "domine",
+			"explanation": "È il vocativo, e questo è l'unico gruppo di tutto il latino in cui il vocativo differisce dal nominativo. È la forma di «Et tu, Brute?».",
+			"distractorWhy": {
+				"dominus": "È il nominativo: vale per il soggetto, e coincide col vocativo in tutte le declinazioni tranne questa.",
+				"dominum": "È l'accusativo singolare: indica chi subisce l'azione, non chi viene chiamato.",
+				"domini": "È il genitivo singolare o il nominativo plurale: nessuno dei due serve a chiamare."
+			},
+			"_difficulty8": true,
+			"applica": "latino-declinazione-2m"
+		},
+		{
+			"id": "latino-app-declinazione-2n-22",
+			"subject": "latino",
+			"topic": "declinazione-2n",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Da «bellum» (la guerra): qual è il nominativo plurale?",
+			"options": [
+				"belli",
+				"bellae",
+				"bellos",
+				"bella"
+			],
+			"answer": "bella",
+			"explanation": "Nei neutri il nominativo e l'accusativo plurale finiscono sempre in -a, in tutte e cinque le declinazioni: tema bell- più -a.",
+			"distractorWhy": {
+				"belli": "È il genitivo singolare: sarebbe il nominativo plurale se la parola fosse maschile, ma è neutra.",
+				"bellos": "È la forma dei maschili della seconda all'accusativo plurale: i neutri non la usano mai.",
+				"bellae": "È una desinenza della prima declinazione, e *bellum* appartiene alla seconda."
+			},
+			"_difficulty8": true,
+			"applica": "latino-declinazione-2n"
+		},
+		{
+			"id": "latino-app-declinazione-2n-23",
+			"subject": "latino",
+			"topic": "declinazione-2n",
+			"difficulty": 6,
+			"format": "multiple_choice",
+			"prompt": "Nei sostantivi neutri, quali due casi hanno sempre la stessa forma?",
+			"options": [
+				"Nominativo e accusativo",
+				"Dativo e ablativo",
+				"Nominativo e genitivo",
+				"Genitivo e dativo"
+			],
+			"answer": "Nominativo e accusativo",
+			"explanation": "Vale al singolare e al plurale, e in tutte le declinazioni: per questo in una frase con un neutro il ruolo va ricavato dal resto della frase.",
+			"distractorWhy": {
+				"Genitivo e dativo": "Coincidono nella prima declinazione al singolare, ma non è una regola dei neutri.",
+				"Dativo e ablativo": "Coincidono al plurale in tutte le declinazioni, neutri e non: non è una caratteristica dei neutri.",
+				"Nominativo e genitivo": "Coincidono solo nella quarta declinazione, e per un'altra ragione."
+			},
+			"_difficulty8": true,
+			"applica": "latino-declinazione-2n"
+		},
+		{
+			"id": "latino-app-declinazione-3m-24",
+			"subject": "latino",
+			"topic": "declinazione-3m",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Da «lex, legis» (la legge): quale forma useresti se è la legge a SUBIRE l'azione?",
+			"options": [],
+			"answer": "legem",
+			"accept": [
+				"legem"
+			],
+			"explanation": "Chi subisce va all'accusativo, e l'accusativo singolare della terza è -em: tema leg- ricavato dal genitivo, più -em. Dal nominativo *lex* quel tema non si vedeva.",
+			"_difficulty8": true,
+			"applica": "latino-declinazione-3m",
+			"distractorWhy": {
+				"regi": "«regi» è la risposta giusta a un'altra domanda di questo gruppo: «Da «rex» (il re): quale forma useresti per dire «al re»?».",
+				"regem": "«regem» è la risposta giusta a un'altra domanda di questo gruppo: «Da «rex» (il re): quale forma useresti se è il re a SUBIRE l'azione?».",
+				"consulem": "«consulem» è la risposta giusta a un'altra domanda di questo gruppo: «Da «consul» (il console): quale forma useresti se è il console a SUBIRE l'azione?».",
+				"consulis": "«consulis» è la risposta giusta a un'altra domanda di questo gruppo: «Da «consul» (il console): quale forma useresti per dire «del console»?».",
+				"militis": "«militis» è la risposta giusta a un'altra domanda di questo gruppo: «Da «miles» (il soldato): quale forma useresti per dire «del soldato»?».",
+				"militi": "«militi» è la risposta giusta a un'altra domanda di questo gruppo: «Da «miles» (il soldato): quale forma useresti per dire «al soldato»?».",
+				"virtuti": "«virtuti» è la risposta giusta a un'altra domanda di questo gruppo: «Da «virtus» (la virtù): quale forma useresti per dire «alla virtù»?».",
+				"virtutem": "«virtutem» è la risposta giusta a un'altra domanda di questo gruppo: «Da «virtus» (la virtù): quale forma useresti se è la virtù a SUBIRE l'azione?»."
+			}
+		},
+		{
+			"id": "latino-app-declinazione-3m-25",
+			"subject": "latino",
+			"topic": "declinazione-3m",
+			"difficulty": 5,
+			"format": "multiple_choice",
+			"prompt": "Quale coda al dativo e ablativo plurale è la firma inconfondibile della terza declinazione?",
+			"options": [
+				"-arum",
+				"-ibus",
+				"-orum",
+				"-is"
+			],
+			"answer": "-ibus",
+			"explanation": "Non compare in nessun altro gruppo con quella funzione, quindi vederla significa essere in terza declinazione senza bisogno di altri controlli.",
+			"distractorWhy": {
+				"-is": "È il dativo e ablativo plurale della prima e della seconda: *rosis*, *dominis*.",
+				"-orum": "È il genitivo plurale della seconda, non un dativo né un ablativo.",
+				"-arum": "È il genitivo plurale della prima declinazione."
+			},
+			"_difficulty8": true,
+			"applica": "latino-declinazione-3m"
+		},
+		{
+			"id": "latino-app-declinazione-3m-26",
+			"subject": "latino",
+			"topic": "declinazione-3m",
+			"difficulty": 7,
+			"format": "short_answer",
+			"prompt": "Da «miles, militis» (il soldato): qual è il genitivo singolare?",
+			"options": [],
+			"answer": "militis",
+			"accept": [
+				"militis"
+			],
+			"explanation": "È la seconda forma della citazione, e serve proprio perché dal nominativo *miles* nessuno avrebbe potuto ricavare il tema milit-.",
+			"_difficulty8": true,
+			"applica": "latino-declinazione-3m",
+			"distractorWhy": {
+				"regi": "«regi» è la risposta giusta a un'altra domanda di questo gruppo: «Da «rex» (il re): quale forma useresti per dire «al re»?».",
+				"regem": "«regem» è la risposta giusta a un'altra domanda di questo gruppo: «Da «rex» (il re): quale forma useresti se è il re a SUBIRE l'azione?».",
+				"consulem": "«consulem» è la risposta giusta a un'altra domanda di questo gruppo: «Da «consul» (il console): quale forma useresti se è il console a SUBIRE l'azione?».",
+				"consulis": "«consulis» è la risposta giusta a un'altra domanda di questo gruppo: «Da «consul» (il console): quale forma useresti per dire «del console»?».",
+				"militi": "«militi» è la risposta giusta a un'altra domanda di questo gruppo: «Da «miles» (il soldato): quale forma useresti per dire «al soldato»?».",
+				"virtuti": "«virtuti» è la risposta giusta a un'altra domanda di questo gruppo: «Da «virtus» (la virtù): quale forma useresti per dire «alla virtù»?».",
+				"virtutem": "«virtutem» è la risposta giusta a un'altra domanda di questo gruppo: «Da «virtus» (la virtù): quale forma useresti se è la virtù a SUBIRE l'azione?».",
+				"legem": "«legem» è la risposta giusta a un'altra domanda di questo gruppo: «Da «lex» (la legge): quale forma useresti se è la legge a SUBIRE l'azione?»."
+			}
+		},
+		{
+			"id": "latino-app-declinazione-3n-27",
+			"subject": "latino",
+			"topic": "declinazione-3n",
+			"difficulty": 7,
+			"format": "multiple_choice",
+			"prompt": "Da «corpus, corporis» (il corpo): qual è il nominativo plurale?",
+			"options": [
+				"corpores",
+				"corpi",
+				"corpora",
+				"corpus"
+			],
+			"answer": "corpora",
+			"explanation": "Tema corpor- ricavato dal genitivo, più la -a dei neutri plurali. Dal nominativo *corpus* quel tema non si sarebbe potuto indovinare.",
+			"distractorWhy": {
+				"corpi": "È l'italiano, non il latino: la desinenza dei neutri plurali latini è -a.",
+				"corpores": "Applica la desinenza -es dei maschili di terza, che i neutri non usano.",
+				"corpus": "È il nominativo singolare, cioè la forma di partenza."
+			},
+			"_difficulty8": true,
+			"applica": "latino-declinazione-3n"
+		},
+		{
+			"id": "latino-app-declinazione-3n-28",
+			"subject": "latino",
+			"topic": "declinazione-3n",
+			"difficulty": 8,
+			"format": "multiple_choice",
+			"prompt": "Perché il tema di «tempus» non si può ricavare dal suo nominativo?",
+			"options": [
+				"Perché è una parola presa dal greco",
+				"Perché è un plurale",
+				"Perché manca il genitivo",
+				"Perché il nominativo è trasformato"
+			],
+			"answer": "Perché il nominativo è trasformato",
+			"explanation": "Il tema è tempor-, e fra lui e *tempus* c'è una trasformazione antica per cui non esiste regola: lo si legge solo nel genitivo *temporis*.",
+			"distractorWhy": {
+				"Perché è una parola presa dal greco": "È latina: il fenomeno riguarda moltissime parole di terza declinazione, tutte latine.",
+				"Perché manca il genitivo": "Il genitivo esiste ed è proprio quello che risolve il problema: *temporis*.",
+				"Perché è un plurale": "*Tempus* è un singolare: il suo plurale è *tempora*."
+			},
+			"_difficulty8": true,
+			"applica": "latino-declinazione-3n"
+		},
+		{
+			"id": "latino-app-declinazione-4-29",
+			"subject": "latino",
+			"topic": "declinazione-4",
+			"difficulty": 7,
+			"format": "multiple_choice",
+			"prompt": "«manus» e «dominus» finiscono allo stesso modo ma sono di declinazioni diverse. Come si distinguono?",
+			"options": [
+				"Dal genitivo singolare",
+				"Dall'accento",
+				"Dal genere",
+				"Dalla loro lunghezza"
+			],
+			"answer": "Dal genitivo singolare",
+			"explanation": "La quarta fa il genitivo in -us, uguale al nominativo; la seconda in -i. Al nominativo le due parole sono indistinguibili.",
+			"distractorWhy": {
+				"Dal genere": "Il genere non basta: la quarta contiene sia maschili sia femminili, e il nominativo non lo dice.",
+				"Dalla loro lunghezza": "Sono lunghe in modo diverso ma per caso: la lunghezza non è un criterio grammaticale.",
+				"Dall'accento": "L'accento non è scritto nei testi latini e non distingue le declinazioni."
+			},
+			"_difficulty8": true,
+			"applica": "latino-declinazione-4"
+		},
+		{
+			"id": "latino-app-declinazione-4-30",
+			"subject": "latino",
+			"topic": "declinazione-4",
+			"difficulty": 8,
+			"format": "short_answer",
+			"prompt": "Da «exercitus» (l'esercito): qual è l'accusativo singolare?",
+			"options": [],
+			"answer": "exercitum",
+			"accept": [
+				"exercitum"
+			],
+			"explanation": "Tema exercit- più la desinenza -um. È una delle poche caselle della quarta che non si sovrappone a nessun'altra: *exercitus* da solo ne vale cinque.",
+			"_difficulty8": true,
+			"applica": "latino-declinazione-4",
+			"distractorWhy": {
+				"manui": "«manui» è la risposta giusta a un'altra domanda di questo gruppo: «Da «manus» (la mano): quale forma useresti per dire «alla mano»?».",
+				"manum": "«manum» è la risposta giusta a un'altra domanda di questo gruppo: «Da «manus» (la mano): quale forma useresti se è la mano a SUBIRE l'azione?».",
+				"exercitui": "«exercitui» è la risposta giusta a un'altra domanda di questo gruppo: «Da «exercitus» (l'esercito): quale forma useresti per dire «all'esercito»?».",
+				"genitivo plurale": "«genitivo plurale» è la risposta giusta a un'altra domanda di questo gruppo: «Che caso e numero ha \"manuum\" (da \"manus\", la mano)?».",
+				"dativo singolare": "«dativo singolare» è la risposta giusta a un'altra domanda di questo gruppo: «Che caso e numero ha \"manui\" (da \"manus\", la mano)?».",
+				"Mano": "«Mano» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «manus»?».",
+				"Esercito": "«Esercito» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «exercitus»?».",
+				"Senato": "«Senato» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «senatus»?»."
+			}
+		},
+		{
+			"id": "latino-app-declinazione-5-31",
+			"subject": "latino",
+			"topic": "declinazione-5",
+			"difficulty": 7,
+			"format": "multiple_choice",
+			"prompt": "Quale coda al genitivo singolare identifica con certezza la quinta declinazione?",
+			"options": [
+				"-is",
+				"-ei",
+				"-ae",
+				"-us"
+			],
+			"answer": "-ei",
+			"explanation": "Nessun altro gruppo la usa, quindi quando compare non c'è nessuna ambiguità: *diei*, *rei*, *spei*.",
+			"distractorWhy": {
+				"-is": "È il genitivo singolare della terza declinazione, come *regis*.",
+				"-us": "È il genitivo singolare della quarta, uguale al suo nominativo.",
+				"-ae": "È il genitivo singolare della prima, come *rosae*."
+			},
+			"_difficulty8": true,
+			"applica": "latino-declinazione-5"
+		},
+		{
+			"id": "latino-app-declinazione-5-32",
+			"subject": "latino",
+			"topic": "declinazione-5",
+			"difficulty": 8,
+			"format": "short_answer",
+			"prompt": "Da quale espressione latina viene la parola italiana «repubblica»?",
+			"options": [],
+			"answer": "res publica",
+			"accept": [
+				"res publica",
+				"respublica"
+			],
+			"explanation": "Letteralmente «la cosa pubblica», cioè ciò che appartiene a tutti: *res* è una parola della quinta declinazione, e una delle più frequenti del latino.",
+			"_difficulty8": true,
+			"applica": "latino-declinazione-5",
+			"distractorWhy": {
+				"rei": "«rei» è la risposta giusta a un'altra domanda di questo gruppo: «Da «res» (la cosa): quale forma useresti per dire «alla cosa»?».",
+				"rem": "«rem» è la risposta giusta a un'altra domanda di questo gruppo: «Da «res» (la cosa): quale forma useresti se è la cosa a SUBIRE l'azione?».",
+				"diem": "«diem» è la risposta giusta a un'altra domanda di questo gruppo: «Da «dies» (il giorno): quale forma useresti se è il giorno a SUBIRE l'azione?».",
+				"diei": "«diei» è la risposta giusta a un'altra domanda di questo gruppo: «Da «dies» (il giorno): quale forma useresti per dire «del giorno»?».",
+				"La cosa": "«La cosa» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «res»?».",
+				"La cosa pubblica": "«La cosa pubblica» è la risposta giusta a un'altra domanda di questo gruppo: ««Res publica» significa alla lettera…».",
+				"rerum": "«rerum» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il genitivo plurale di «res»?».",
+				"Diario": "«Diario» è la risposta giusta a un'altra domanda di questo gruppo: «Da «dies» viene la parola italiana…»."
+			}
+		},
+		{
+			"id": "latino-app-verbo-sum-33",
+			"subject": "latino",
+			"topic": "verbo-sum",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Che cosa significa «est»?",
+			"options": [
+				"Tu sei",
+				"Io sono",
+				"Egli è",
+				"Essi sono"
+			],
+			"answer": "Egli è",
+			"explanation": "Terza persona singolare del verbo essere. È la forma più frequente del latino, perché serve anche a collegare il soggetto a ciò che se ne dice.",
+			"distractorWhy": {
+				"Io sono": "Sarebbe *sum*: la desinenza della prima persona singolare è -m o -o, non -t.",
+				"Tu sei": "Sarebbe *es*: la seconda persona singolare finisce in -s.",
+				"Essi sono": "Sarebbe *sunt*: la terza plurale porta la coda -nt."
+			},
+			"_difficulty8": true,
+			"applica": "latino-verbo-sum-base"
+		},
+		{
+			"id": "latino-app-verbo-sum-34",
+			"subject": "latino",
+			"topic": "verbo-sum",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Nel presente del verbo essere, quale forma corrisponde alla prima persona plurale?",
+			"options": [],
+			"answer": "sumus",
+			"accept": [
+				"sumus"
+			],
+			"explanation": "La desinenza -mus dà la prima persona plurale in ogni verbo latino: qui è irregolare il tema, non la coda.",
+			"_difficulty8": true,
+			"applica": "latino-verbo-sum-base",
+			"distractorWhy": {
+				"Io sono": "«Io sono» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «sum»?».",
+				"Tu sei": "«Tu sei» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «es»?».",
+				"Noi siamo": "«Noi siamo» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «sumus»?».",
+				"Voi siete": "«Voi siete» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «estis»?».",
+				"Essi sono": "«Essi sono» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «sunt»?».",
+				"Egli era": "«Egli era» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «erat»?».",
+				"Egli sarà": "«Egli sarà» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «erit»?».",
+				"esse": "«esse» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'infinito del verbo essere in latino?»."
+			}
+		},
+		{
+			"id": "latino-app-verbo-sum-35",
+			"subject": "latino",
+			"topic": "verbo-sum",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Perché il verbo essere è irregolare in quasi tutte le lingue?",
+			"options": [
+				"Perché è molto corto",
+				"Perché ha pochi tempi",
+				"Perché è molto antico",
+				"Perché è usato moltissimo"
+			],
+			"answer": "Perché è usato moltissimo",
+			"explanation": "Le parole usate di continuo si consumano nella pronuncia, e le irregolarità sopravvivono proprio perché l'uso costante le fissa nella memoria di tutti.",
+			"distractorWhy": {
+				"Perché è molto antico": "Sono antiche anche moltissime parole perfettamente regolari: l'età da sola non spiega niente.",
+				"Perché è molto corto": "È corto proprio perché è consumato dall'uso: la brevità è un effetto, non la causa.",
+				"Perché ha pochi tempi": "Ha tutti i tempi degli altri verbi: il numero di forme non c'entra con la loro regolarità."
+			},
+			"_difficulty8": true,
+			"applica": "latino-verbo-sum-base"
+		},
+		{
+			"id": "latino-app-verbo-sum-36",
+			"subject": "latino",
+			"topic": "verbo-sum",
+			"difficulty": 5,
+			"format": "multiple_choice",
+			"prompt": "In «rosa pulchra est», a quale caso sta «pulchra»?",
+			"options": [
+				"Nominativo",
+				"Accusativo",
+				"Ablativo",
+				"Genitivo"
+			],
+			"answer": "Nominativo",
+			"explanation": "Non subisce nessuna azione ma descrive il soggetto: con il verbo essere ciò che si dice del soggetto si accorda con lui, e resta al nominativo.",
+			"distractorWhy": {
+				"Accusativo": "Sarebbe il caso di chi subisce, ma il verbo essere non regge complementi oggetto.",
+				"Genitivo": "Indicherebbe appartenenza, e qui non si sta dicendo di chi è la rosa.",
+				"Ablativo": "Indicherebbe mezzo, luogo o modo: nessuno dei tre è quello che *pulchra* sta facendo."
+			},
+			"_difficulty8": true,
+			"applica": "latino-verbo-sum-alta"
+		},
+		{
+			"id": "latino-app-verbo-sum-37",
+			"subject": "latino",
+			"topic": "verbo-sum",
+			"difficulty": 6,
+			"format": "multiple_choice",
+			"prompt": "Che cosa significa «erat»?",
+			"options": [
+				"Essi erano",
+				"Egli era",
+				"Egli è",
+				"Tu eri"
+			],
+			"answer": "Egli era",
+			"explanation": "È l'imperfetto, riconoscibile dal blocco er- che il presente non ha mai; la desinenza -t dà la terza persona singolare.",
+			"distractorWhy": {
+				"Egli è": "Sarebbe *est*, al presente: il blocco er- segnala che siamo al passato.",
+				"Essi erano": "Sarebbe *erant*, con la coda -nt della terza plurale.",
+				"Tu eri": "Sarebbe *eras*, con la -s della seconda singolare."
+			},
+			"_difficulty8": true,
+			"applica": "latino-verbo-sum-alta"
+		},
+		{
+			"id": "latino-app-verbi-38",
+			"subject": "latino",
+			"topic": "verbi",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Nel verbo latino che significa «amare»: in «amant», chi compie l'azione?",
+			"options": [
+				"Noi",
+				"Tu",
+				"Essi",
+				"Voi"
+			],
+			"answer": "Essi",
+			"explanation": "La coda -nt è la terza persona plurale in ogni verbo latino: si riconosce anche senza sapere che cosa il verbo significhi.",
+			"distractorWhy": {
+				"Noi": "Sarebbe *amamus*, con la desinenza -mus della prima plurale.",
+				"Voi": "Sarebbe *amatis*, con la desinenza -tis della seconda plurale.",
+				"Tu": "Sarebbe *amas*, con la -s della seconda singolare."
+			},
+			"_difficulty8": true,
+			"applica": "latino-verbi-base"
+		},
+		{
+			"id": "latino-app-verbi-39",
+			"subject": "latino",
+			"topic": "verbi",
+			"difficulty": 4,
+			"format": "short_answer",
+			"prompt": "Quale desinenza indica la prima persona plurale in ogni verbo latino?",
+			"options": [],
+			"answer": "-mus",
+			"accept": [
+				"mus",
+				"-mus"
+			],
+			"explanation": "Vale in tutte e quattro le coniugazioni e anche nel verbo essere: *amamus*, *monemus*, *regimus*, *audimus*, *sumus*.",
+			"_difficulty8": true,
+			"applica": "latino-verbi-base",
+			"distractorWhy": {
+				"Io": "«Io» è la risposta giusta a un'altra domanda di questo gruppo: «Nel verbo latino che significa «amare»: in «amo», chi compie l'azione?».",
+				"Tu": "«Tu» è la risposta giusta a un'altra domanda di questo gruppo: «Nel verbo latino che significa «amare»: in «amas», chi compie l'azione?».",
+				"Lui/lei": "«Lui/lei» è la risposta giusta a un'altra domanda di questo gruppo: «Nel verbo latino che significa «avvisare»: in «monet», chi compie l'azione?».",
+				"Noi": "«Noi» è la risposta giusta a un'altra domanda di questo gruppo: «Nel verbo latino che significa «avvisare»: in «monemus», chi compie l'azione?».",
+				"Voi": "«Voi» è la risposta giusta a un'altra domanda di questo gruppo: «Nel verbo latino che significa «governare»: in «regitis», chi compie l'azione?».",
+				"Loro": "«Loro» è la risposta giusta a un'altra domanda di questo gruppo: «Nel verbo latino che significa «governare»: in «regunt», chi compie l'azione?».",
+				"Nel passato": "«Nel passato» è la risposta giusta a un'altra domanda di questo gruppo: ««amat» dice che l'azione di «amare» succede adesso. E «amabat»: quando succede?».",
+				"Nel futuro": "«Nel futuro» è la risposta giusta a un'altra domanda di questo gruppo: ««amat» dice che l'azione di «amare» succede adesso. E «amabit»: quando succede?»."
+			}
+		},
+		{
+			"id": "latino-app-verbi-40",
+			"subject": "latino",
+			"topic": "verbi",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché in latino il pronome personale quasi non si scrive mai?",
+			"options": [
+				"Perché si scriveva in fondo",
+				"Perché non esisteva",
+				"Perché lo dice il caso",
+				"Perché lo dice la desinenza"
+			],
+			"answer": "Perché lo dice la desinenza",
+			"explanation": "La coda del verbo indica già chi compie l'azione, quindi il pronome sarebbe una ripetizione: si scrive solo quando si vuole insistere sul soggetto.",
+			"distractorWhy": {
+				"Perché non esisteva": "Esisteva eccome — *ego*, *tu*, *nos* — e si usava quando serviva enfasi.",
+				"Perché si scriveva in fondo": "Non è una questione di posizione: nella maggior parte delle frasi il pronome proprio non c'è.",
+				"Perché lo dice il caso": "Il caso riguarda i nomi e dice la loro funzione: chi compie l'azione lo dice la persona del verbo."
+			},
+			"_difficulty8": true,
+			"applica": "latino-verbi-base"
+		},
+		{
+			"id": "latino-app-verbi-41",
+			"subject": "latino",
+			"topic": "verbi",
+			"difficulty": 6,
+			"format": "multiple_choice",
+			"prompt": "Perché «essi governano» si dice «regunt» e non «regint»?",
+			"options": [
+				"Perché nella terza la vocale diventa -u-",
+				"Perché il tema finisce per consonante",
+				"Perché la -i- non esiste al plurale",
+				"Perché è un verbo irregolare"
+			],
+			"answer": "Perché nella terza la vocale diventa -u-",
+			"explanation": "Nella terza coniugazione la vocale del tema è instabile: diventa -i- quasi ovunque, sparisce in *rego* e diventa -u- solo davanti alla desinenza -nt.",
+			"distractorWhy": {
+				"Perché è un verbo irregolare": "*Regere* è un verbo regolarissimo della terza: quel comportamento è la regola del gruppo, non un'eccezione.",
+				"Perché la -i- non esiste al plurale": "Esiste: *regimus* e *regitis* sono plurali e la contengono.",
+				"Perché il tema finisce per consonante": "Finiscono per consonante anche i temi di altre coniugazioni, che però non cambiano vocale."
+			},
+			"_difficulty8": true,
+			"applica": "latino-verbi-alta"
+		},
+		{
+			"id": "latino-app-verbi-42",
+			"subject": "latino",
+			"topic": "verbi",
+			"difficulty": 6,
+			"format": "numeric_input",
+			"prompt": "Quante coniugazioni ha il verbo latino?",
+			"options": [],
+			"answer": "4",
+			"explanation": "Si distinguono dalla vocale dell'infinito: -a- in *amare*, -e- in *monere* e in *regere*, -i- in *audire*.",
+			"_difficulty8": true,
+			"applica": "latino-verbi-alta"
+		},
+		{
+			"id": "latino-app-verbi-43",
+			"subject": "latino",
+			"topic": "verbi",
+			"difficulty": 8,
+			"format": "multiple_choice",
+			"prompt": "Che cosa, nell'infinito, rivela a quale coniugazione appartiene un verbo?",
+			"options": [
+				"La prima lettera",
+				"La vocale prima di -re",
+				"La lunghezza del tema",
+				"Il numero di sillabe"
+			],
+			"answer": "La vocale prima di -re",
+			"explanation": "*Amare* ha la -a-, *monere* la -e-, *audire* la -i-: è lo stesso principio per cui il genitivo rivela la declinazione di un sostantivo.",
+			"distractorWhy": {
+				"La prima lettera": "Appartiene al tema e dice il significato: verbi di gruppi diversi possono cominciare allo stesso modo.",
+				"La lunghezza del tema": "Non ha nessun rapporto con il gruppo: esistono temi lunghi e corti in tutte e quattro le coniugazioni.",
+				"Il numero di sillabe": "Varia da parola a parola dentro lo stesso gruppo, quindi non distingue niente."
+			},
+			"_difficulty8": true,
+			"applica": "latino-verbi-alta"
+		},
+		{
+			"id": "latino-app-frasi-44",
+			"subject": "latino",
+			"topic": "frasi",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Qual è la prima cosa da cercare quando si legge una frase latina?",
+			"options": [
+				"Il soggetto",
+				"L'aggettivo",
+				"Il verbo",
+				"La prima parola"
+			],
+			"answer": "Il verbo",
+			"explanation": "Il verbo dice quale azione avviene e a quale numero: sapere se è singolare o plurale restringe subito i candidati al ruolo di soggetto.",
+			"distractorWhy": {
+				"La prima parola": "In latino la posizione non assegna i ruoli: la prima parola può essere un complemento oggetto.",
+				"Il soggetto": "Si cerca subito dopo, e si trova molto più in fretta sapendo già il numero del verbo.",
+				"L'aggettivo": "Si assegna per ultimo, quando lo scheletro della frase è già in piedi."
+			},
+			"_difficulty8": true,
+			"applica": "latino-frasi-base"
+		},
+		{
+			"id": "latino-app-frasi-45",
+			"subject": "latino",
+			"topic": "frasi",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "«Rosam puella amat» rispetto a «Puella rosam amat»…",
+			"options": [
+				"Non è una frase valida",
+				"Significa il contrario",
+				"Cambia il tempo del verbo",
+				"Significa la stessa cosa"
+			],
+			"answer": "Significa la stessa cosa",
+			"explanation": "Le desinenze non sono cambiate, quindi i ruoli non cambiano. In latino l'ordine serve a mettere in evidenza una parola, non ad assegnare le funzioni.",
+			"distractorWhy": {
+				"Significa il contrario": "Sarebbe vero in italiano, dove i ruoli li dà la posizione: in latino li danno le code.",
+				"Non è una frase valida": "È validissima, e ordini di questo tipo sono comunissimi nei testi latini, soprattutto in poesia.",
+				"Cambia il tempo del verbo": "Il verbo è lo stesso *amat* in entrambe: spostare i sostantivi non lo tocca."
+			},
+			"_difficulty8": true,
+			"applica": "latino-frasi-base"
+		},
+		{
+			"id": "latino-app-frasi-46",
+			"subject": "latino",
+			"topic": "frasi",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Se l'ordine delle parole non assegna i ruoli, a che cosa serve in latino?",
+			"options": [
+				"A dare enfasi",
+				"A indicare il tempo",
+				"A distinguere i generi",
+				"Ad assegnare i ruoli"
+			],
+			"answer": "A dare enfasi",
+			"explanation": "Mettere una parola in un punto in cui normalmente non starebbe la mette in evidenza: è una risorsa che l'italiano ha quasi perso e che i poeti latini usano continuamente.",
+			"distractorWhy": {
+				"Ad assegnare i ruoli": "È proprio quello che in latino fanno le desinenze, e che libera l'ordine per altro.",
+				"A indicare il tempo": "Il tempo sta nella forma del verbo, non nella posizione delle parole.",
+				"A distinguere i generi": "Il genere sta nella parola stessa e nella sua declinazione, non in dove si trova."
+			},
+			"_difficulty8": true,
+			"applica": "latino-frasi-base"
+		},
+		{
+			"id": "latino-app-frasi-47",
+			"subject": "latino",
+			"topic": "frasi",
+			"difficulty": 5,
+			"format": "multiple_choice",
+			"prompt": "In «Dominus servos vocat», come si capisce che il soggetto è «dominus»?",
+			"options": [
+				"Finisce in -us",
+				"Il verbo è singolare",
+				"È la più corta",
+				"È la prima parola"
+			],
+			"answer": "Il verbo è singolare",
+			"explanation": "*Vocat* è terza persona singolare, quindi il soggetto deve essere singolare: *servos* è accusativo plurale ed è escluso in partenza.",
+			"distractorWhy": {
+				"È la prima parola": "La posizione non decide niente: la frase significherebbe lo stesso scrivendola in un altro ordine.",
+				"È la più corta": "La lunghezza non è un criterio grammaticale in nessuna lingua.",
+				"Finisce in -us": "Anche *manus* finisce in -us e può essere accusativo plurale: la coda va letta insieme al gruppo e al verbo."
+			},
+			"_difficulty8": true,
+			"applica": "latino-frasi-alta"
+		},
+		{
+			"id": "latino-app-frasi-48",
+			"subject": "latino",
+			"topic": "frasi",
+			"difficulty": 6,
+			"format": "multiple_choice",
+			"prompt": "In «Milites patriam defendunt», perché il soggetto è «milites» e non «patriam»?",
+			"options": [
+				"Perché viene per primo",
+				"Perché è più lungo",
+				"Perché il verbo è plurale",
+				"Perché finisce in -es"
+			],
+			"answer": "Perché il verbo è plurale",
+			"explanation": "*Defendunt* è terza plurale e chiede un soggetto plurale; inoltre *patriam* porta la desinenza dell'accusativo singolare, quindi subisce.",
+			"distractorWhy": {
+				"Perché viene per primo": "L'ordine in latino non assegna i ruoli: serve a dare enfasi.",
+				"Perché finisce in -es": "Nella terza declinazione -es vale sia per il nominativo sia per l'accusativo plurale: da sola non decide.",
+				"Perché è più lungo": "La lunghezza non ha nessun valore grammaticale."
+			},
+			"_difficulty8": true,
+			"applica": "latino-frasi-alta"
+		},
+		{
+			"id": "latino-app-frasi-49",
+			"subject": "latino",
+			"topic": "frasi",
+			"difficulty": 8,
+			"format": "multiple_choice",
+			"prompt": "Su una frase lunga, che cosa conviene fare prima di cominciare a tradurre?",
+			"options": [
+				"Tradurre subito le parole note",
+				"Cercare i nomi propri",
+				"Contare le sillabe",
+				"Assegnare un ruolo a ogni parola"
+			],
+			"answer": "Assegnare un ruolo a ogni parola",
+			"explanation": "Una traduzione costruita a metà, con due parole ancora senza funzione, porta quasi sempre a forzare il senso perché torni.",
+			"distractorWhy": {
+				"Tradurre subito le parole note": "È proprio il modo in cui si costruisce un senso plausibile e sbagliato, saltando le desinenze.",
+				"Cercare i nomi propri": "Aiutano a capire di che cosa si parla, ma non dicono nulla sulla struttura della frase.",
+				"Contare le sillabe": "Serve in metrica, quando si studia il verso, e non ha niente a che fare con la traduzione."
+			},
+			"_difficulty8": true,
+			"applica": "latino-frasi-alta"
+		},
+		{
+			"id": "latino-app-etimologia-50",
+			"subject": "latino",
+			"topic": "etimologia",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Da quale parola latina vengono insieme «acquedotto», «acquario» e «subacqueo»?",
+			"options": [
+				"aqua",
+				"videre",
+				"terra",
+				"liber"
+			],
+			"answer": "aqua",
+			"explanation": "Tutte e tre contengono la radice acqu-, e in tutte e tre il significato torna: condurre l'acqua, luogo per l'acqua, sotto l'acqua.",
+			"distractorWhy": {
+				"terra": "Da lei vengono terrestre, sotterraneo e territorio: un'altra famiglia.",
+				"videre": "Da lei vengono visione, televisione ed evidente, tutte legate al vedere.",
+				"liber": "Da lei vengono libro e libreria, e nessuna delle tre parole della domanda."
+			},
+			"_difficulty8": true,
+			"applica": "latino-etimologia-base"
+		},
+		{
+			"id": "latino-app-etimologia-51",
+			"subject": "latino",
+			"topic": "etimologia",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Due parole si somigliano nella forma ma i loro significati non c'entrano niente. Che cosa se ne conclude?",
+			"options": [
+				"Hanno la stessa radice",
+				"La parentela non c'è",
+				"Una deriva dall'altra",
+				"La parentela è certa"
+			],
+			"answer": "La parentela non c'è",
+			"explanation": "Una radice si riconosce da due cose insieme: il pezzo comune e il senso che torna. Senza la seconda, la somiglianza è quasi sempre casuale.",
+			"distractorWhy": {
+				"La parentela è certa": "La forma da sola non basta: somiglianze casuali fra parole non imparentate sono frequentissime.",
+				"Una deriva dall'altra": "Sarebbe una parentela, e la parentela va confermata dal significato prima che dalle lettere.",
+				"Hanno la stessa radice": "Se avessero la stessa radice i significati sarebbero collegati, perché è la radice a portare il senso."
+			},
+			"_difficulty8": true,
+			"applica": "latino-etimologia-base"
+		},
+		{
+			"id": "latino-app-etimologia-52",
+			"subject": "latino",
+			"topic": "etimologia",
+			"difficulty": 5,
+			"format": "multiple_choice",
+			"prompt": "Che cosa significa il prefisso latino «inter-»?",
+			"options": [
+				"Dopo",
+				"Sotto",
+				"Fra",
+				"Oltre"
+			],
+			"answer": "Fra",
+			"explanation": "Lo si ritrova in internazionale, cioè fra le nazioni, e in intervallo, cioè lo spazio fra due cose.",
+			"distractorWhy": {
+				"Sotto": "È il significato di *sub-*, che sta in sottomarino e subacqueo.",
+				"Oltre": "È il significato di *trans-*, che sta in transatlantico e transito.",
+				"Dopo": "È il significato di *post-*, che sta in posticipare e postumo."
+			},
+			"_difficulty8": true,
+			"applica": "latino-etimologia-alta"
+		},
+		{
+			"id": "latino-app-etimologia-53",
+			"subject": "latino",
+			"topic": "etimologia",
+			"difficulty": 6,
+			"format": "multiple_choice",
+			"prompt": "Perché «illegale» comincia con il- e «irregolare» con ir-, se il prefisso è lo stesso?",
+			"options": [
+				"È un errore ormai accettato",
+				"Sono due prefissi diversi",
+				"Derivano da lingue diverse",
+				"Il prefisso si adatta al suono"
+			],
+			"answer": "Il prefisso si adatta al suono",
+			"explanation": "È sempre *in-*, che davanti a l diventa il- e davanti a r diventa ir- per ragioni di pronuncia: il significato di negazione resta identico.",
+			"distractorWhy": {
+				"Sono due prefissi diversi": "Fanno lo stesso lavoro e hanno lo stesso senso: è il travestimento a cambiare, non il prefisso.",
+				"È un errore ormai accettato": "Non è un errore: è un adattamento regolare che il latino faceva già, e che si chiama assimilazione.",
+				"Derivano da lingue diverse": "Entrambe le parole vengono dal latino, e il prefisso è il medesimo in tutte e due."
+			},
+			"_difficulty8": true,
+			"applica": "latino-etimologia-alta"
+		},
+		{
+			"id": "latino-app-vocabolario-54",
+			"subject": "latino",
+			"topic": "vocabolario",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Che cosa significa «servus»?",
+			"options": [
+				"Schiavo",
+				"Signore",
+				"Maestro",
+				"Amico"
+			],
+			"answer": "Schiavo",
+			"explanation": "È la parola che sta di fronte a *dominus* in moltissime frasi di esercizio: sono il modello più usato per mostrare chi compie e chi subisce.",
+			"distractorWhy": {
+				"Signore": "Sarebbe *dominus*, cioè il padrone: è esattamente la parola opposta.",
+				"Amico": "Sarebbe *amicus*, da cui viene l'italiano amicizia.",
+				"Maestro": "Sarebbe *magister*, da cui vengono maestro e magistrato."
+			},
+			"_difficulty8": true,
+			"applica": "latino-vocabolario-base"
+		},
+		{
+			"id": "latino-app-vocabolario-55",
+			"subject": "latino",
+			"topic": "vocabolario",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Quale parola latina significa «amico», e ha dato all'italiano «amicizia»?",
+			"options": [],
+			"answer": "amicus",
+			"accept": [
+				"amicus",
+				"amicus, amici"
+			],
+			"explanation": "Seconda declinazione, maschile in -us. Agganciare la parola latina a un derivato italiano è quello che la fa restare in memoria.",
+			"_difficulty8": true,
+			"applica": "latino-vocabolario-base",
+			"distractorWhy": {
+				"Acqua": "«Acqua» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «aqua»?».",
+				"Bambina": "«Bambina» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «puella»?».",
+				"Libro": "«Libro» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa il sostantivo «liber, libri»?».",
+				"Maestro": "«Maestro» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «magister»?».",
+				"Amico": "«Amico» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «amicus»?».",
+				"Guerra": "«Guerra» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «bellum»?».",
+				"Città": "«Città» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «urbs»?».",
+				"Tempo": "«Tempo» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «tempus»?»."
+			}
+		},
+		{
+			"id": "latino-app-vocabolario-56",
+			"subject": "latino",
+			"topic": "vocabolario",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quante informazioni servono per imparare bene una parola latina?",
+			"options": [
+				"Due: forma e senso",
+				"Tre: le due forme e il senso",
+				"Quattro: anche il genere",
+				"Una: il significato"
+			],
+			"answer": "Tre: le due forme e il senso",
+			"explanation": "Nominativo, genitivo e significato: senza il genitivo non si conosce la declinazione, e senza quella non si costruisce nessun'altra forma.",
+			"distractorWhy": {
+				"Una: il significato": "Il significato senza le forme permette di riconoscere la parola ma non di usarla né di declinarla.",
+				"Due: forma e senso": "Con un solo nominativo manca proprio l'informazione che dice il gruppo, cioè il genitivo.",
+				"Quattro: anche il genere": "Il genere è utile ma si ricava quasi sempre dal gruppo: le informazioni indispensabili restano tre."
+			},
+			"_difficulty8": true,
+			"applica": "latino-vocabolario-base"
+		},
+		{
+			"id": "latino-app-vocabolario-57",
+			"subject": "latino",
+			"topic": "vocabolario",
+			"difficulty": 5,
+			"format": "multiple_choice",
+			"prompt": "Che cosa significa «bellum»?",
+			"options": [
+				"Bellezza",
+				"Duello",
+				"Guerra",
+				"Bello"
+			],
+			"answer": "Guerra",
+			"explanation": "È il falso amico più frequente del latino: somiglia all'aggettivo italiano ma non c'entra, e l'aggettivo latino per bello è *pulcher*.",
+			"distractorWhy": {
+				"Bello": "È la trappola: la somiglianza è casuale, e in un testo storico produce frasi che non significano niente.",
+				"Bellezza": "Segue la stessa somiglianza ingannevole, spostata sul sostantivo astratto.",
+				"Duello": "È un tipo particolare di scontro fra due, e viene da *duellum*: il senso generale di *bellum* è guerra."
+			},
+			"_difficulty8": true,
+			"applica": "latino-vocabolario-alta"
+		},
+		{
+			"id": "latino-app-vocabolario-58",
+			"subject": "latino",
+			"topic": "vocabolario",
+			"difficulty": 8,
+			"format": "multiple_choice",
+			"prompt": "Che cosa distingue «vir» da «homo»?",
+			"options": [
+				"Homo è più antico",
+				"Vir è un plurale",
+				"Sono sinonimi esatti",
+				"Vir è il maschio adulto"
+			],
+			"answer": "Vir è il maschio adulto",
+			"explanation": "*Homo* significa essere umano in generale, *vir* l'uomo inteso come maschio adulto: l'italiano ha fuso le due parole in una sola.",
+			"distractorWhy": {
+				"Sono sinonimi esatti": "Il latino li tiene distinti proprio dove l'italiano no, ed è una distinzione che cambia il senso di molte frasi.",
+				"Homo è più antico": "L'antichità delle due parole non è il criterio che le distingue: a distinguerle è l'ampiezza del significato.",
+				"Vir è un plurale": "È un singolare della seconda declinazione: il plurale è *viri*."
+			},
+			"_difficulty8": true,
+			"applica": "latino-vocabolario-alta"
+		},
+		{
+			"id": "latino-firme-verbi-0",
+			"subject": "latino",
+			"topic": "verbi",
+			"difficulty": 4,
+			"format": "verb_decoder",
+			"prompt": "Il messaggio è corroso proprio sul verbo. Regola le tre ghiere e ricomponi la frase.",
+			"options": [],
+			"explanation": "Le tre ghiere sono tre informazioni diverse che in latino viaggiano insieme dentro una desinenza sola. Chi sceglie la forma «a orecchio» azzecca metà delle volte e non sa perché; chi decide prima *quando* e *come*, arriva alla forma per esclusione — ed è l'unico modo che funziona anche con un verbo mai visto.",
+			"_difficulty8": true,
+			"segments": [
+				"Marcus epistulam",
+				"ad amicum."
+			],
+			"solution": {
+				"time": "pres",
+				"mood": "ind",
+				"form": "scribit"
+			},
+			"hints": {
+				"time": "Nella frase non c'è niente che spinga nel passato o nel futuro: il fatto succede mentre si racconta.",
+				"mood": "Marco non riceve un ordine e non si sta immaginando niente: si dice che cosa fa.",
+				"form": "La -t finale dice «lui». Fra le quattro, tre hanno quella -t: quello che le distingue è il pezzo in mezzo — il -ba- porta nel passato, la -e- nel futuro, e senza niente resta il presente."
+			},
+			"discovery": "Il messaggio si apre: «Marco scrive una lettera all'amico». Era un saluto, non un allarme.",
+			"timeChoices": [
+				{
+					"id": "pres",
+					"label": "presente · adesso"
+				},
+				{
+					"id": "imp",
+					"label": "imperfetto · durava nel passato"
+				},
+				{
+					"id": "fut",
+					"label": "futuro · deve ancora succedere"
+				}
+			],
+			"moodChoices": [
+				{
+					"id": "ind",
+					"label": "indicativo · si afferma un fatto"
+				},
+				{
+					"id": "imper",
+					"label": "imperativo · si dà un ordine"
+				},
+				{
+					"id": "cong",
+					"label": "congiuntivo · si ipotizza"
+				}
+			],
+			"forms": [
+				{
+					"id": "scribit",
+					"label": "scribit"
+				},
+				{
+					"id": "scribebat",
+					"label": "scribebat"
+				},
+				{
+					"id": "scribet",
+					"label": "scribet"
+				},
+				{
+					"id": "scribe",
+					"label": "scribe"
+				}
+			],
+			"distractorWhy": {
+				"Io": "«Io» è la risposta giusta a un'altra domanda di questo gruppo: «Nel verbo latino che significa «amare»: in «amo», chi compie l'azione?».",
+				"Tu": "«Tu» è la risposta giusta a un'altra domanda di questo gruppo: «Nel verbo latino che significa «amare»: in «amas», chi compie l'azione?».",
+				"Lui/lei": "«Lui/lei» è la risposta giusta a un'altra domanda di questo gruppo: «Nel verbo latino che significa «avvisare»: in «monet», chi compie l'azione?».",
+				"Noi": "«Noi» è la risposta giusta a un'altra domanda di questo gruppo: «Nel verbo latino che significa «avvisare»: in «monemus», chi compie l'azione?».",
+				"Voi": "«Voi» è la risposta giusta a un'altra domanda di questo gruppo: «Nel verbo latino che significa «governare»: in «regitis», chi compie l'azione?».",
+				"Loro": "«Loro» è la risposta giusta a un'altra domanda di questo gruppo: «Nel verbo latino che significa «governare»: in «regunt», chi compie l'azione?».",
+				"Nel passato": "«Nel passato» è la risposta giusta a un'altra domanda di questo gruppo: ««amat» dice che l'azione di «amare» succede adesso. E «amabat»: quando succede?».",
+				"Nel futuro": "«Nel futuro» è la risposta giusta a un'altra domanda di questo gruppo: ««amat» dice che l'azione di «amare» succede adesso. E «amabit»: quando succede?»."
+			}
+		},
+		{
+			"id": "latino-firme-verbo-sum-1",
+			"subject": "latino",
+			"topic": "verbo-sum",
+			"difficulty": 6,
+			"format": "verb_decoder",
+			"prompt": "La tavoletta racconta una tempesta, ma il verbo essere è illeggibile. Regola le ghiere.",
+			"options": [],
+			"explanation": "Il verbo essere è irregolare in ogni lingua, e per una ragione sola: è quello che si usa di più, e le parole usate di più consumano le regole. Ma l'irregolarità è nella radice, non nelle desinenze — la -nt di «erant» è la stessa di «amant» e di «scribunt».",
+			"_difficulty8": true,
+			"segments": [
+				"Nautae in nave",
+				"cum tempestas venit."
+			],
+			"solution": {
+				"time": "imp",
+				"mood": "ind",
+				"form": "erant"
+			},
+			"hints": {
+				"time": "I marinai erano già sulla nave QUANDO è arrivata la tempesta: una cosa durava mentre l'altra accadeva. È esattamente il lavoro dell'imperfetto.",
+				"mood": "È il racconto di quello che è successo, non un ordine ai marinai.",
+				"form": "La coda -nt dice «essi» e c'è in tre forme su quattro. Il pezzo davanti decide il tempo: sum non usa il -ba- degli altri verbi, ma la sua era- fa lo stesso mestiere."
+			},
+			"discovery": "«I marinai erano sulla nave quando venne la tempesta.» La tavoletta è un rapporto di naufragio.",
+			"timeChoices": [
+				{
+					"id": "pres",
+					"label": "presente · adesso"
+				},
+				{
+					"id": "imp",
+					"label": "imperfetto · durava mentre succedeva altro"
+				},
+				{
+					"id": "fut",
+					"label": "futuro · deve ancora succedere"
+				}
+			],
+			"moodChoices": [
+				{
+					"id": "ind",
+					"label": "indicativo · si racconta un fatto"
+				},
+				{
+					"id": "imper",
+					"label": "imperativo · si comanda"
+				},
+				{
+					"id": "cong",
+					"label": "congiuntivo · si suppone"
+				}
+			],
+			"forms": [
+				{
+					"id": "sunt",
+					"label": "sunt"
+				},
+				{
+					"id": "erant",
+					"label": "erant"
+				},
+				{
+					"id": "erunt",
+					"label": "erunt"
+				},
+				{
+					"id": "este",
+					"label": "este"
+				}
+			],
+			"distractorWhy": {
+				"Io sono": "«Io sono» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «sum»?».",
+				"Tu sei": "«Tu sei» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «es»?».",
+				"Noi siamo": "«Noi siamo» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «sumus»?».",
+				"Voi siete": "«Voi siete» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «estis»?».",
+				"Essi sono": "«Essi sono» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «sunt»?».",
+				"Egli era": "«Egli era» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «erat»?».",
+				"Egli sarà": "«Egli sarà» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «erit»?».",
+				"esse": "«esse» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'infinito del verbo essere in latino?»."
+			}
+		},
+		{
+			"id": "latino-firme-verbi-2",
+			"subject": "latino",
+			"topic": "verbi",
+			"difficulty": 8,
+			"format": "verb_decoder",
+			"prompt": "L'annale è bruciato sul verbo più importante della riga. Regola le ghiere e scopri che cosa fece Cesare.",
+			"options": [],
+			"explanation": "Imperfetto e perfetto raccontano lo stesso passato in due modi diversi: «transibat» sarebbe «stava attraversando, lo faceva di solito», «transiit» è «lo fece, una volta, e fu fatto». L'italiano ha la stessa differenza fra «attraversava» e «attraversò», e in latino non è una sfumatura di stile: cambia che cosa è successo.",
+			"_difficulty8": true,
+			"segments": [
+				"Caesar Rubiconem",
+				"et bellum civile coepit."
+			],
+			"solution": {
+				"time": "perf",
+				"mood": "ind",
+				"form": "transiit"
+			},
+			"hints": {
+				"time": "Attraversare un fiume non è una cosa che si fa un po' per volta: è un gesto compiuto, e dopo quello comincia la guerra. Il latino ha un tempo apposta per le azioni concluse.",
+				"mood": "L'annale registra quello che è accaduto, non un'ipotesi su che cosa sarebbe potuto accadere.",
+				"form": "Tre forme hanno il tema regolare transi-; la quarta raddoppia la -i-. È lì che si nasconde il perfetto del verbo eo, «andare»."
+			},
+			"discovery": "«Cesare attraversò il Rubicone e cominciò la guerra civile.» Una riga sola, e un mondo che finisce.",
+			"timeChoices": [
+				{
+					"id": "pres",
+					"label": "presente · adesso"
+				},
+				{
+					"id": "imp",
+					"label": "imperfetto · durava, si ripeteva"
+				},
+				{
+					"id": "perf",
+					"label": "perfetto · successo una volta, e finito"
+				},
+				{
+					"id": "fut",
+					"label": "futuro · deve ancora succedere"
+				}
+			],
+			"moodChoices": [
+				{
+					"id": "ind",
+					"label": "indicativo · si afferma che è successo"
+				},
+				{
+					"id": "cong",
+					"label": "congiuntivo · si ipotizza"
+				},
+				{
+					"id": "imper",
+					"label": "imperativo · si ordina"
+				}
+			],
+			"forms": [
+				{
+					"id": "transit",
+					"label": "transit"
+				},
+				{
+					"id": "transibat",
+					"label": "transibat"
+				},
+				{
+					"id": "transiit",
+					"label": "transiit"
+				},
+				{
+					"id": "transibit",
+					"label": "transibit"
+				}
+			],
+			"distractorWhy": {
+				"Io": "«Io» è la risposta giusta a un'altra domanda di questo gruppo: «Nel verbo latino che significa «amare»: in «amo», chi compie l'azione?».",
+				"Tu": "«Tu» è la risposta giusta a un'altra domanda di questo gruppo: «Nel verbo latino che significa «amare»: in «amas», chi compie l'azione?».",
+				"Lui/lei": "«Lui/lei» è la risposta giusta a un'altra domanda di questo gruppo: «Nel verbo latino che significa «avvisare»: in «monet», chi compie l'azione?».",
+				"Noi": "«Noi» è la risposta giusta a un'altra domanda di questo gruppo: «Nel verbo latino che significa «avvisare»: in «monemus», chi compie l'azione?».",
+				"Voi": "«Voi» è la risposta giusta a un'altra domanda di questo gruppo: «Nel verbo latino che significa «governare»: in «regitis», chi compie l'azione?».",
+				"Loro": "«Loro» è la risposta giusta a un'altra domanda di questo gruppo: «Nel verbo latino che significa «governare»: in «regunt», chi compie l'azione?».",
+				"Nel passato": "«Nel passato» è la risposta giusta a un'altra domanda di questo gruppo: ««amat» dice che l'azione di «amare» succede adesso. E «amabat»: quando succede?».",
+				"Nel futuro": "«Nel futuro» è la risposta giusta a un'altra domanda di questo gruppo: ««amat» dice che l'azione di «amare» succede adesso. E «amabit»: quando succede?»."
+			}
+		},
+		{
+			"id": "latino-firme-vocabolario-3",
+			"subject": "latino",
+			"topic": "vocabolario",
+			"difficulty": 1,
+			"format": "matching",
+			"prompt": "Abbina ogni parola latina alla parola italiana che ne è nata.",
+			"options": [],
+			"explanation": "Non si tratta di imparare parole nuove: sono già nella testa di chi parla italiano, nascoste dentro parole lunghe. Riconoscere la radice latina di una parola italiana è il modo più veloce per ricordarla — e funziona anche al contrario, per indovinare il senso di una parola latina mai vista.",
+			"_difficulty8": true,
+			"pairs": [
+				{
+					"left": "aqua",
+					"right": "acquedotto"
+				},
+				{
+					"left": "terra",
+					"right": "sotterraneo"
+				},
+				{
+					"left": "liber",
+					"right": "libreria"
+				},
+				{
+					"left": "manus",
+					"right": "manuale"
+				}
+			],
+			"distractorWhy": {
+				"Acqua": "«Acqua» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «aqua»?».",
+				"Bambina": "«Bambina» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «puella»?».",
+				"Libro": "«Libro» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa il sostantivo «liber, libri»?».",
+				"Maestro": "«Maestro» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «magister»?».",
+				"Amico": "«Amico» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «amicus»?».",
+				"Guerra": "«Guerra» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «bellum»?».",
+				"Città": "«Città» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «urbs»?».",
+				"Tempo": "«Tempo» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «tempus»?»."
+			}
+		},
+		{
+			"id": "latino-firme-basi-4",
+			"subject": "latino",
+			"topic": "basi",
+			"difficulty": 1,
+			"format": "classification",
+			"prompt": "Smista ogni cosa secondo che sia una caratteristica del latino o dell'italiano.",
+			"options": [],
+			"explanation": "Da qui viene tutta la differenza: in italiano «il cane morde l'uomo» e «l'uomo morde il cane» dicono cose opposte pur avendo le stesse parole, in latino no — perché a dire chi morde è la desinenza, e le parole si possono spostare quasi a piacere.",
+			"_difficulty8": true,
+			"items": [
+				"la funzione la dice la desinenza",
+				"la funzione la dice la posizione nella frase",
+				"non esistono gli articoli",
+				"il verbo sta quasi sempre in fondo"
+			],
+			"categories": [
+				"latino",
+				"italiano"
+			],
+			"assignments": {
+				"la funzione la dice la desinenza": "latino",
+				"la funzione la dice la posizione nella frase": "italiano",
+				"non esistono gli articoli": "latino",
+				"il verbo sta quasi sempre in fondo": "latino"
+			},
+			"distractorWhy": {
+				"Latino": "«Latino» è la risposta giusta a un'altra domanda di questo gruppo: «In che lingua è scritta la maggior parte delle iscrizioni romane?».",
+				"Nominativo": "«Nominativo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso indica normalmente il soggetto?».",
+				"Accusativo": "«Accusativo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso indica normalmente il complemento oggetto?».",
+				"Vocativo": "«Vocativo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale caso si usa per chiamare qualcuno?».",
+				"I Romani": "«I Romani» è la risposta giusta a un'altra domanda di questo gruppo: «Il latino era la lingua di quale antico popolo?».",
+				"Il latino": "«Il latino» è la risposta giusta a un'altra domanda di questo gruppo: «Da quale lingua derivano soprattutto l'italiano, lo spagnolo e il francese?».",
+				"Cogli l'attimo": "«Cogli l'attimo» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa significa l'espressione latina 'Carpe diem'?».",
+				"declinazione": "«declinazione» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'insieme delle terminazioni che un nome latino assume nei vari casi?»."
+			}
+		},
+		{
+			"id": "latino-firme-etimologia-5",
+			"subject": "latino",
+			"topic": "etimologia",
+			"difficulty": 1,
+			"format": "ordering",
+			"prompt": "Metti in ordine i passi per capire una parola italiana difficile partendo dal latino.",
+			"options": [],
+			"explanation": "Si comincia dal prefisso perché è la parte più regolare: «sub-» vuol dire sotto in ogni parola in cui compare, dalla subacquea al suburbio. L'ultimo passo non è una formalità — «premeditare» smontato male dà «meditare prima», che è quasi giusto, e la frase serve a vedere se quel «quasi» basta.",
+			"_difficulty8": true,
+			"items": [
+				"metti insieme i due pezzi e prova il significato",
+				"cerca se riconosci una radice che già conosci",
+				"guarda se davanti c'è un prefisso",
+				"controlla se il senso torna nella frase"
+			],
+			"correctOrder": [
+				"guarda se davanti c'è un prefisso",
+				"cerca se riconosci una radice che già conosci",
+				"metti insieme i due pezzi e prova il significato",
+				"controlla se il senso torna nella frase"
+			],
+			"distractorWhy": {
+				"aqua": "«aqua» è la risposta giusta a un'altra domanda di questo gruppo: «Da quale parola latina viene «acqua»?».",
+				"terra": "«terra» è la risposta giusta a un'altra domanda di questo gruppo: «Da quale parola latina viene «sotterraneo»?».",
+				"videre": "«videre» è la risposta giusta a un'altra domanda di questo gruppo: «Da quale verbo latino viene «visione»?».",
+				"Attraverso, oltre": "«Attraverso, oltre» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa il prefisso latino «trans-»?».",
+				"Sotto": "«Sotto» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa il prefisso latino «sub-»?».",
+				"manus": "«manus» è la risposta giusta a un'altra domanda di questo gruppo: «Da quale parola latina viene «manuale»?».",
+				"populus": "«populus» è la risposta giusta a un'altra domanda di questo gruppo: «Da quale parola latina viene «popolare»?».",
+				"Prima": "«Prima» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «ante-» in «anteprima»?»."
+			}
+		},
+		{
+			"id": "latino-firme-declinazioni-base-6",
+			"subject": "latino",
+			"topic": "declinazioni-base",
+			"difficulty": 3,
+			"format": "classification",
+			"prompt": "Smista ogni nome secondo la declinazione, guardando il genitivo che ti viene dato.",
+			"options": [],
+			"explanation": "Si guarda solo la seconda forma, mai la prima: -ae, -i, -is, -ei. Il vocabolario mette il genitivo accanto al nominativo proprio per questo, e non per pignoleria — «manus» e «dominus» finiscono uguali al nominativo e sono di due declinazioni diverse.",
+			"_difficulty8": true,
+			"items": [
+				"rosa, rosae",
+				"dominus, domini",
+				"consul, consulis",
+				"dies, diei"
+			],
+			"categories": [
+				"prima",
+				"seconda",
+				"terza",
+				"quinta"
+			],
+			"assignments": {
+				"rosa, rosae": "prima",
+				"dominus, domini": "seconda",
+				"consul, consulis": "terza",
+				"dies, diei": "quinta"
+			},
+			"distractorWhy": {
+				"Prima": "«Prima» è la risposta giusta a un'altra domanda di questo gruppo: «A quale declinazione appartiene «rosa, rosae»?».",
+				"Seconda": "«Seconda» è la risposta giusta a un'altra domanda di questo gruppo: «A quale declinazione appartiene «dominus, domini»?».",
+				"rosae": "«rosae» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il nominativo plurale di «rosa»?».",
+				"rosam": "«rosam» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'accusativo singolare di «rosa»?».",
+				"rosas": "«rosas» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'accusativo plurale di «rosa»?».",
+				"domini": "«domini» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il genitivo singolare di «dominus»?».",
+				"In -a": "«In -a» è la risposta giusta a un'altra domanda di questo gruppo: «Nei neutri plurali, in che lettera escono nominativo e accusativo?».",
+				"Quinta declinazione": "«Quinta declinazione» è la risposta giusta a un'altra domanda di questo gruppo: «I nomi come 'dies, diei' appartengono alla…»."
+			}
+		},
+		{
+			"id": "latino-firme-casi-7",
+			"subject": "latino",
+			"topic": "casi",
+			"difficulty": 3,
+			"format": "ordering",
+			"prompt": "Hai una frase latina davanti e non sai da dove cominciare. Metti in ordine i passi per tradurla senza indovinare.",
+			"options": [],
+			"explanation": "Si parte dal verbo perché è lui a dire quante persone servono e di che tipo: un verbo transitivo pretende un accusativo, uno intransitivo no. Cominciare dalla prima parola è l'errore che fa tradurre a caso — in latino la prima parola può essere qualunque cosa.",
+			"_difficulty8": true,
+			"items": [
+				"trova il complemento oggetto all'accusativo",
+				"cerca il verbo e guarda che persona è",
+				"sistema gli altri casi al loro posto",
+				"cerca il nominativo che concorda col verbo"
+			],
+			"correctOrder": [
+				"cerca il verbo e guarda che persona è",
+				"cerca il nominativo che concorda col verbo",
+				"trova il complemento oggetto all'accusativo",
+				"sistema gli altri casi al loro posto"
+			],
+			"distractorWhy": {
+				"servum": "«servum» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"poetam": "«poetam» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"regem": "«regem» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"puerum": "«puerum» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"legem": "«legem» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"aquam": "«aquam» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"donum": "«donum» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"bellum": "«bellum» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
+			}
+		},
+		{
+			"id": "latino-firme-declinazione-3m-8",
+			"subject": "latino",
+			"topic": "declinazione-3m",
+			"difficulty": 5,
+			"format": "matching",
+			"prompt": "Abbina ogni desinenza della terza declinazione alla funzione che segnala.",
+			"options": [],
+			"explanation": "La terza è la declinazione più numerosa e la più irregolare al nominativo — consul, corpus, mare non si somigliano — ma dal genitivo in poi le desinenze sono le stesse per tutti. È il motivo per cui conviene impararla dal genitivo e non dal nominativo.",
+			"_difficulty8": true,
+			"pairs": [
+				{
+					"left": "-is (singolare)",
+					"right": "di chi, di che cosa"
+				},
+				{
+					"left": "-i (singolare)",
+					"right": "a chi, per chi"
+				},
+				{
+					"left": "-em",
+					"right": "chi o che cosa subisce l'azione"
+				},
+				{
+					"left": "-es (plurale)",
+					"right": "più soggetti che fanno l'azione"
+				}
+			],
+			"distractorWhy": {
+				"regi": "«regi» è la risposta giusta a un'altra domanda di questo gruppo: «Da «rex» (il re): quale forma useresti per dire «al re»?».",
+				"regem": "«regem» è la risposta giusta a un'altra domanda di questo gruppo: «Da «rex» (il re): quale forma useresti se è il re a SUBIRE l'azione?».",
+				"consulem": "«consulem» è la risposta giusta a un'altra domanda di questo gruppo: «Da «consul» (il console): quale forma useresti se è il console a SUBIRE l'azione?».",
+				"consulis": "«consulis» è la risposta giusta a un'altra domanda di questo gruppo: «Da «consul» (il console): quale forma useresti per dire «del console»?».",
+				"militis": "«militis» è la risposta giusta a un'altra domanda di questo gruppo: «Da «miles» (il soldato): quale forma useresti per dire «del soldato»?».",
+				"militi": "«militi» è la risposta giusta a un'altra domanda di questo gruppo: «Da «miles» (il soldato): quale forma useresti per dire «al soldato»?».",
+				"virtuti": "«virtuti» è la risposta giusta a un'altra domanda di questo gruppo: «Da «virtus» (la virtù): quale forma useresti per dire «alla virtù»?».",
+				"virtutem": "«virtutem» è la risposta giusta a un'altra domanda di questo gruppo: «Da «virtus» (la virtù): quale forma useresti se è la virtù a SUBIRE l'azione?»."
+			}
+		},
+		{
+			"id": "latino-firme-frasi-9",
+			"subject": "latino",
+			"topic": "frasi",
+			"difficulty": 5,
+			"format": "classification",
+			"prompt": "Smista ogni frase latina secondo che cosa fa il verbo.",
+			"options": [],
+			"explanation": "Riconoscere se un verbo è transitivo prima di tradurre fa risparmiare metà del lavoro: se lo è, nella frase ci sarà un accusativo da cercare; se non lo è, un accusativo che compare ha un altro mestiere — di solito dice un moto verso un luogo o una durata.",
+			"_difficulty8": true,
+			"items": [
+				"Puella cantat.",
+				"Agricola terram arat.",
+				"Marcus dormit.",
+				"Nauta epistulam scribit."
+			],
+			"categories": [
+				"il verbo ha bisogno di un oggetto",
+				"il verbo sta in piedi da solo"
+			],
+			"assignments": {
+				"Puella cantat.": "il verbo sta in piedi da solo",
+				"Agricola terram arat.": "il verbo ha bisogno di un oggetto",
+				"Marcus dormit.": "il verbo sta in piedi da solo",
+				"Nauta epistulam scribit.": "il verbo ha bisogno di un oggetto"
+			},
+			"distractorWhy": {
+				"La bambina canta": "«La bambina canta» è la risposta giusta a un'altra domanda di questo gruppo: «Come si traduce «Puella cantat»?».",
+				"La rosa è bella": "«La rosa è bella» è la risposta giusta a un'altra domanda di questo gruppo: «Come si traduce «Rosa pulchra est»?».",
+				"Marcus": "«Marcus» è la risposta giusta a un'altra domanda di questo gruppo: «In «Marcus librum legit», chi compie l'azione?».",
+				"Complemento oggetto": "«Complemento oggetto» è la risposta giusta a un'altra domanda di questo gruppo: «In «Marcus librum legit», che cos'è «librum»?».",
+				"est": "«est» è la risposta giusta a un'altra domanda di questo gruppo: «In latino il verbo essere alla terza persona singolare è…».",
+				"Roma è in Italia": "«Roma è in Italia» è la risposta giusta a un'altra domanda di questo gruppo: «Come si traduce «Roma in Italia est»?».",
+				"Più di una": "«Più di una» è la risposta giusta a un'altra domanda di questo gruppo: «In «Puellae rosas amant», quante bambine ci sono?».",
+				"Terza persona singolare": "«Terza persona singolare» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa indica la desinenza -t alla fine di un verbo latino?»."
+			}
+		},
+		{
+			"id": "latino-firme-declinazione-2m-10",
+			"subject": "latino",
+			"topic": "declinazione-2m",
+			"difficulty": 7,
+			"format": "ordering",
+			"prompt": "Metti i casi di «dominus» nell'ordine in cui il vocabolario li elenca al singolare.",
+			"options": [],
+			"explanation": "Nominativo, genitivo, dativo, accusativo: è l'ordine di tutti i vocabolari e di tutte le grammatiche, e impararlo a memoria in quest'ordine serve davvero — quando cerchi una forma sai già in che punto della tabella guardare, e lo stesso ordine vale per tutte e cinque le declinazioni.",
+			"_difficulty8": true,
+			"items": [
+				"dominum",
+				"dominus",
+				"domino",
+				"domini"
+			],
+			"correctOrder": [
+				"dominus",
+				"domini",
+				"domino",
+				"dominum"
+			],
+			"distractorWhy": {
+				"domini": "«domini» è la risposta giusta a un'altra domanda di questo gruppo: «Da «dominus» (il signore/padrone): quale forma useresti per dire «del signore»?».",
+				"domino": "«domino» è la risposta giusta a un'altra domanda di questo gruppo: «Da «dominus» (il signore/padrone): quale forma useresti per dire «al signore»?».",
+				"servo": "«servo» è la risposta giusta a un'altra domanda di questo gruppo: «Da «servus» (lo schiavo): quale forma useresti per dire «allo schiavo»?».",
+				"servum": "«servum» è la risposta giusta a un'altra domanda di questo gruppo: «Da «servus» (lo schiavo): quale forma useresti se è lo schiavo a SUBIRE l'azione?».",
+				"amicum": "«amicum» è la risposta giusta a un'altra domanda di questo gruppo: «Da «amicus» (l'amico): quale forma useresti se è l'amico a SUBIRE l'azione?».",
+				"amici": "«amici» è la risposta giusta a un'altra domanda di questo gruppo: «Da «amicus» (l'amico): quale forma useresti per dire «dell'amico»?».",
+				"populi": "«populi» è la risposta giusta a un'altra domanda di questo gruppo: «Da «populus» (il popolo): quale forma useresti per dire «del popolo»?».",
+				"populo": "«populo» è la risposta giusta a un'altra domanda di questo gruppo: «Da «populus» (il popolo): quale forma useresti per dire «al popolo»?»."
+			}
+		},
+		{
+			"id": "latino-firme-etimologia-11",
+			"subject": "latino",
+			"topic": "etimologia",
+			"difficulty": 7,
+			"format": "matching",
+			"prompt": "Abbina ogni espressione latina rimasta viva all'uso che se ne fa.",
+			"options": [],
+			"explanation": "Nessuna di queste è una citazione colta: sono espressioni che si usano ogni giorno senza accorgersi che sono latine. Smontarle le rende trasparenti — «curriculum» è la corsa, e un curriculum vitae è letteralmente il percorso di una vita.",
+			"_difficulty8": true,
+			"pairs": [
+				{
+					"left": "curriculum vitae",
+					"right": "il percorso di studi e di lavoro"
+				},
+				{
+					"left": "post scriptum",
+					"right": "aggiunto dopo aver finito di scrivere"
+				},
+				{
+					"left": "et cetera",
+					"right": "e tutte le altre cose dell'elenco"
+				},
+				{
+					"left": "in extremis",
+					"right": "all'ultimo momento utile"
+				}
+			],
+			"distractorWhy": {
+				"aqua": "«aqua» è la risposta giusta a un'altra domanda di questo gruppo: «Da quale parola latina viene «acqua»?».",
+				"terra": "«terra» è la risposta giusta a un'altra domanda di questo gruppo: «Da quale parola latina viene «sotterraneo»?».",
+				"videre": "«videre» è la risposta giusta a un'altra domanda di questo gruppo: «Da quale verbo latino viene «visione»?».",
+				"Attraverso, oltre": "«Attraverso, oltre» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa il prefisso latino «trans-»?».",
+				"Sotto": "«Sotto» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa il prefisso latino «sub-»?».",
+				"manus": "«manus» è la risposta giusta a un'altra domanda di questo gruppo: «Da quale parola latina viene «manuale»?».",
+				"populus": "«populus» è la risposta giusta a un'altra domanda di questo gruppo: «Da quale parola latina viene «popolare»?».",
+				"Prima": "«Prima» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «ante-» in «anteprima»?»."
+			}
+		},
+		{
+			"id": "latino-firme-casi-12",
+			"subject": "latino",
+			"topic": "casi",
+			"difficulty": 8,
+			"format": "classification",
+			"prompt": "In «Marcus gladio hostem in silva vulnerat», smista ogni parola secondo il ruolo che ha.",
+			"options": [],
+			"explanation": "Quattro parole, quattro casi diversi, e nessuna preposizione tranne una: il latino dice «con la spada» cambiando la desinenza, e «nel bosco» con preposizione più ablativo. È per questo che una frase latina è più corta della sua traduzione — le informazioni che noi mettiamo in parole separate, lì stanno dentro le parole.",
+			"_difficulty8": true,
+			"items": [
+				"Marcus",
+				"gladio",
+				"hostem",
+				"in silva"
+			],
+			"categories": [
+				"chi compie l'azione",
+				"chi la subisce",
+				"con che cosa",
+				"dove"
+			],
+			"assignments": {
+				"Marcus": "chi compie l'azione",
+				"gladio": "con che cosa",
+				"hostem": "chi la subisce",
+				"in silva": "dove"
+			},
+			"distractorWhy": {
+				"servum": "«servum» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"poetam": "«poetam» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"regem": "«regem» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"puerum": "«puerum» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"legem": "«legem» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"aquam": "«aquam» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"donum": "«donum» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"bellum": "«bellum» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
+			}
+		},
+		{
+			"id": "latino-firme-vocabolario-13",
+			"subject": "latino",
+			"topic": "vocabolario",
+			"difficulty": 8,
+			"format": "ordering",
+			"prompt": "Metti queste parole latine in ordine, dalla più generale alla più precisa.",
+			"options": [],
+			"explanation": "Corpo, animale, cane, cucciolo: ogni parola dice più della precedente e quindi descrive meno cose. È la stessa scala che regge i gruppi in logica e le classificazioni in scienze — aggiungere informazione restringe sempre, e chi traduce lo usa per indovinare: se «catulus» è dentro «canis», il senso è lì attorno.",
+			"_difficulty8": true,
+			"items": [
+				"canis",
+				"animal",
+				"corpus",
+				"catulus"
+			],
+			"correctOrder": [
+				"corpus",
+				"animal",
+				"canis",
+				"catulus"
+			],
+			"distractorWhy": {
+				"Acqua": "«Acqua» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «aqua»?».",
+				"Bambina": "«Bambina» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «puella»?».",
+				"Libro": "«Libro» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa il sostantivo «liber, libri»?».",
+				"Maestro": "«Maestro» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «magister»?».",
+				"Amico": "«Amico» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «amicus»?».",
+				"Guerra": "«Guerra» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «bellum»?».",
+				"Città": "«Città» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «urbs»?».",
+				"Tempo": "«Tempo» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «tempus»?»."
+			}
+		},
+		{
 			"id": "latino-banda-verbo-sum-0",
 			"subject": "latino",
 			"topic": "verbo-sum",
@@ -6766,9 +8932,9 @@
 			"format": "multiple_choice",
 			"prompt": "Come si dice «noi siamo» in latino?",
 			"options": [
+				"Sumus",
 				"Es",
 				"Estis",
-				"Sumus",
 				"Sunt"
 			],
 			"answer": "Sumus",
@@ -6789,9 +8955,9 @@
 			"prompt": "«Fuit» a quale tempo appartiene?",
 			"options": [
 				"Presente: «egli è»",
+				"Perfetto: «egli fu»",
 				"Imperfetto: «egli era»",
-				"Futuro: «egli sarà»",
-				"Perfetto: «egli fu»"
+				"Futuro: «egli sarà»"
 			],
 			"answer": "Perfetto: «egli fu»",
 			"explanation": "Il perfetto racconta un fatto concluso: «fuit» è «fu». L'imperfetto «erat» descrive invece una situazione che durava.",
@@ -6810,9 +8976,9 @@
 			"format": "multiple_choice",
 			"prompt": "«Discipulus a magistro laudatur» significa…",
 			"options": [
-				"L'allievo è lodato dal maestro",
 				"L'allievo loda il maestro",
 				"Il maestro è lodato dall'allievo",
+				"L'allievo è lodato dal maestro",
 				"L'allievo lodava il maestro"
 			],
 			"answer": "L'allievo è lodato dal maestro",
@@ -6833,9 +8999,9 @@
 			"prompt": "Perché in latino l'ordine delle parole conta meno che in italiano?",
 			"options": [
 				"Perché non esistono gli articoli",
-				"Perché il caso dice già la funzione di ogni parola",
 				"Perché in latino il verbo sta sempre alla fine",
-				"Perché le frasi sono più corte"
+				"Perché le frasi sono più corte",
+				"Perché il caso dice già la funzione di ogni parola"
 			],
 			"answer": "Perché il caso dice già la funzione di ogni parola",
 			"explanation": "«Rosam puella amat» e «Puella rosam amat» dicono la stessa cosa: in tutte e due -am segna l'oggetto.",
@@ -6854,9 +9020,9 @@
 			"format": "multiple_choice",
 			"prompt": "Quale caso useresti per dire «con la spada», cioè il mezzo?",
 			"options": [
+				"Ablativo",
 				"Accusativo",
 				"Dativo",
-				"Ablativo",
 				"Genitivo"
 			],
 			"answer": "Ablativo",
@@ -6877,9 +9043,9 @@
 			"prompt": "Da quale verbo latino vengono «scrivere», «scriba» e «manoscritto»?",
 			"options": [
 				"dicere",
+				"scribere",
 				"legere",
-				"ducere",
-				"scribere"
+				"ducere"
 			],
 			"answer": "scribere",
 			"explanation": "«Scribere» è scrivere: la stessa radice sta in descrizione, iscrizione e sottoscrivere.",
@@ -6898,9 +9064,9 @@
 			"format": "multiple_choice",
 			"prompt": "«Manuale», «manovra» e «manutenzione» vengono tutte da…",
 			"options": [
-				"manus, la mano",
 				"mens, la mente",
 				"mons, il monte",
+				"manus, la mano",
 				"munus, il dono"
 			],
 			"answer": "manus, la mano",
@@ -6921,9 +9087,9 @@
 			"prompt": "Il genitivo singolare dice a quale declinazione appartiene un nome. «Civis, civis» è di…",
 			"options": [
 				"seconda declinazione",
-				"terza declinazione",
 				"quarta declinazione",
-				"prima declinazione"
+				"prima declinazione",
+				"terza declinazione"
 			],
 			"answer": "terza declinazione",
 			"explanation": "Genitivo in -is: terza declinazione. In -ae è la prima, in -i la seconda.",

@@ -132,6 +132,22 @@ func _materia(riga: Dictionary) -> void:
 		manca.add_theme_font_size_override("font_size", 14)
 		manca.add_theme_color_override("font_color", SPENTO)
 		blocco.add_child(manca)
+		# **E dove.** (10 settembre 2026, [[NomiDeiLuoghi.quartieri]]) Questo
+		# quadro diceva che cosa manca a ciascuna materia e lasciava il «dove» a
+		# una riga sola, uguale per tutte e dodici. Adesso, quando la palestra di
+		# quella materia sta in una costellazione con altri posti, la riga la
+		# nomina: e' l'unica informazione che rende PORTAMI una scelta invece che
+		# un teletrasporto — sapendo il quartiere ci si puo' andare da soli, e la
+		# volta dopo ci si ricorda dov'e'.
+		var quartiere := str(riga.get("quartiere", "")).strip_edges()
+		if not quartiere.is_empty():
+			var dove := Label.new()
+			dove.name = "Quartiere_%s" % str(riga.get("materia", ""))
+			dove.text = "   nel %s" % quartiere
+			dove.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			dove.add_theme_font_size_override("font_size", 14)
+			dove.add_theme_color_override("font_color", ORO)
+			blocco.add_child(dove)
 		var portami_bottone := Button.new()
 		portami_bottone.name = "Portami_%s" % str(riga.get("materia", ""))
 		portami_bottone.text = "PORTAMI"

@@ -1434,17 +1434,36 @@ const VOCI := {
 		"perche": "Il clima dipende da quanta luce solare arriva e da quanto è vicino il mare: sono due cause, e spiegano quasi tutte le fasce.",
 		"come": "Guarda la latitudine e poi la distanza dal mare. Con quelle due il clima si indovina quasi sempre.",
 	},
+	# Tre livelli dall'11 settembre 2026: il banco è passato a 42 esercizi con le
+	# applicazioni delle dispense, e sopra i quaranta una riga sola viene ripetuta
+	# fino a esaurimento (`nora_spiegazione_utile_audit`, controllo 7).
 	"geografia:continenti": {
-		"perche": "I continenti non sono divisioni naturali perfette: sono anche una convenzione storica, ed è per questo che Europa e Asia si toccano.",
-		"come": "Ricorda che i confini fra Europa e Asia sono decisi dagli uomini, non dal mare: sono l'eccezione.",
+		"perche": [
+			"I continenti non sono divisioni naturali perfette: sono anche una convenzione storica, ed è per questo che Europa e Asia si toccano.",
+			"Sono sette ma abitati stabilmente sei: in Antartide nessuno risiede, ci si alterna per qualche mese di ricerca e poi si torna a casa.",
+			"Grande non vuol dire pieno di gente: a decidere dove si vive non è lo spazio disponibile ma l'acqua dolce, la terra coltivabile e un clima sopportabile.",
+		],
+		"come": [
+			"Ricorda che i confini fra Europa e Asia sono decisi dagli uomini, non dal mare: sono l'eccezione.",
+			"Se la domanda dice «abitati», togli uno al conto: è l'unica parola che cambia la risposta da sette a sei.",
+		],
 	},
 	"geografia:europa": {
 		"perche": "L'Europa è piccola ma frastagliata, e questo spiega perché ha tanti stati: le montagne e i mari hanno separato i popoli.",
 		"come": "Guarda dove ci sono catene montuose e mari: quasi sempre lì passa anche un confine.",
 	},
+	# Tre livelli dall'11 settembre 2026: 43 esercizi dopo le applicazioni delle
+	# dispense, e sopra i quaranta serve più di una riga.
 	"geografia:geografia-fisica": {
-		"perche": "Le linee immaginarie servono a dare un indirizzo a ogni punto della Terra: senza, non si potrebbe dire dove si è.",
-		"come": "La latitudine sale e scende dall'Equatore, la longitudine gira intorno. Prima quanto su o giù, poi quanto a lato.",
+		"perche": [
+			"Le linee immaginarie servono a dare un indirizzo a ogni punto della Terra: senza, non si potrebbe dire dove si è.",
+			"I nomi delle forme si imparano a coppie, mai uno alla volta: un'isola ha acqua da ogni lato e una penisola solo da tre, un golfo entra nella terra e uno stretto passa fra due terre.",
+			"Le catene più alte sono anche le più giovani, perché pioggia, gelo e vento non hanno ancora avuto il tempo di consumarle.",
+		],
+		"come": [
+			"La latitudine sale e scende dall'Equatore, la longitudine gira intorno. Prima quanto su o giù, poi quanto a lato.",
+			"Davanti a una forma sulla carta conta da quanti lati la tocca l'acqua: è la domanda che decide quasi tutti questi nomi.",
+		],
 	},
 	"geografia:geografia-italia": {
 		"perche": "La forma dell'Italia decide quasi tutto il resto: lunga e stretta, con il mare vicino ovunque e le montagne in mezzo.",
@@ -1454,9 +1473,18 @@ const VOCI := {
 		"perche": "La gente si concentra dove c'è acqua e terra coltivabile: le mappe della popolazione somigliano alle mappe dei fiumi.",
 		"come": "Se una zona è vuota, chiediti che cosa manca: quasi sempre è acqua, terra buona o un clima vivibile.",
 	},
+	# Tre livelli dall'11 settembre 2026: 41 esercizi dopo le applicazioni delle
+	# dispense.
 	"geografia:mondo": {
-		"perche": "Le grandi catene e i grandi fiumi non sono curiosità: hanno deciso dove sono nate le città e dove passano i confini.",
-		"come": "Prima di imparare un nome, guarda dove sta sulla mappa: la posizione lo tiene a mente molto meglio.",
+		"perche": [
+			"Le grandi catene e i grandi fiumi non sono curiosità: hanno deciso dove sono nate le città e dove passano i confini.",
+			"Il pianeta è fatto per circa settanta parti su cento di acqua salata, e il solo Pacifico copre più superficie di tutte le terre emerse messe insieme.",
+			"Le strettoie pesano più di molti confini: un canale come quello di Suez risparmia a una nave il giro dell'Africa, e chi lo controlla può rallentare il commercio di mezzo mondo.",
+		],
+		"come": [
+			"Prima di imparare un nome, guarda dove sta sulla mappa: la posizione lo tiene a mente molto meglio.",
+			"Quando una domanda dice «il più grande», controlla sempre più grande in che cosa: superficie e popolazione danno due classifiche diverse.",
+		],
 	},
 	"geografia:fiume": {
 		"perche": "I fiumi hanno da sempre attirato le città: portano acqua da bere, terra fertile e una via di trasporto senza dover costruire strade.",

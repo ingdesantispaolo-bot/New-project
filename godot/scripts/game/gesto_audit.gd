@@ -73,6 +73,7 @@ const SCEGLIE := [
 const MANIPOLA := [
 	"matching", "ordering", "classification", "timeline", "swipe",
 	"machine_path", "mystery_sample", "verb_decoder", "griglia", "porte",
+	"breadboard", "rhythm_fill", "causal_chain", "robot_grid", "blank_map",
 ]
 
 ## Formati in cui si scrive la risposta.

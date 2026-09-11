@@ -49,10 +49,10 @@ func _topic_stats(nodes: Array) -> Dictionary:
 
 ## Una prova superata: la materia del mondo conta come missione, le altre come
 ## pratica. È esattamente la distinzione che fa il gioco.
-func _prova(save, content, prog, subject: String, e_il_mondo: bool) -> void:
+func _prova(save, content, prog, subject: String, e_il_mondo: bool, rng: RandomNumberGenerator) -> void:
 	var mission: Dictionary = content.build_mission(
 		subject, save.level(), 3, SpacedRepetition.due_map(save),
-		null, save.mastery_of(subject), save.topic_masteries(subject))
+		rng, save.mastery_of(subject), save.topic_masteries(subject))
 	var nodes: Array = mission.get("nodes", [])
 	if nodes.is_empty():
 		return
@@ -76,6 +76,11 @@ func _init() -> void:
 			save.set_apparatus_repaired(ApparatusConfig.apparatus_of(materia_passata), passato)
 		var content := ContentManager.new()
 		var prog := ProgressionManager.new(save, content)
+		# Una guardia deve dare lo stesso verdetto sullo stesso albero. Prima il
+		# generatore veniva randomizzato dall'orologio: due esecuzioni consecutive
+		# potevano quindi alternare verde e rosso senza alcuna modifica al gioco.
+		var rng := RandomNumberGenerator.new()
+		rng.seed = 240824 + livello * 7919
 		var focus := ApparatusConfig.world_subject(livello)
 		var prove := 0
 		var tornate := 0
@@ -95,7 +100,7 @@ func _init() -> void:
 				var subject := str(chiave)
 				if ObjectiveBriefing.prove_mancanti(Dictionary(materie[subject])) <= 0:
 					continue
-				_prova(save, content, prog, subject, subject == focus)
+				_prova(save, content, prog, subject, subject == focus, rng)
 				prove += 1
 			prog.aggiorna_traguardi_di_livello()
 		_controlla(aperto,

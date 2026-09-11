@@ -48,11 +48,23 @@ func _test_cuore_chiuso_con_stanze_spente() -> void:
 	# Solo il nucleo affrontato: è lo scenario esatto del vicolo cieco.
 	_repair(save, ApparatusConfig.CORE_SUBJECTS)
 	assert(prog.can_level_up(), "il nucleo è pronto: il livello sarebbe aperto")
-	assert(not prog.can_open_heart(), "il Cuore NON deve aprirsi con nove stanze spente")
+	# **Quante stanze restano spente lo dice la mappa materia->apparato, non una
+	# sottrazione.** (10 settembre 2026) Qui c'era `SUBJECT_CYCLE - CORE_SUBJECTS`,
+	# e tornava per un caso: nessuna materia del nucleo divideva la stanza con una
+	# di fuori. Da quando coding sta nel nucleo, riparare coding accende anche il
+	# cratere logico, cioe' la stanza di logica: le spente sono sette, non otto.
+	assert(not prog.can_open_heart(), "il Cuore NON deve aprirsi con le stanze spente")
 	var missing := prog.missing_apparatus_subjects()
+	var accesi: Dictionary = {}
+	for riparata in ApparatusConfig.CORE_SUBJECTS:
+		accesi[ApparatusConfig.apparatus_of(str(riparata))] = true
+	var attese := 0
+	for materia in ApparatusConfig.SUBJECT_CYCLE:
+		if not accesi.has(ApparatusConfig.apparatus_of(str(materia))):
+			attese += 1
 	assert(
-		missing.size() == ApparatusConfig.SUBJECT_CYCLE.size() - ApparatusConfig.CORE_SUBJECTS.size(),
-		"devono mancare nove stanze, trovate %d" % missing.size())
+		missing.size() == attese,
+		"devono mancare %d stanze, trovate %d" % [attese, missing.size()])
 	# Il gioco deve saper DIRE cosa manca: una porta chiusa senza spiegazione è un
 	# difetto quanto la porta impossibile.
 	for subject in missing:

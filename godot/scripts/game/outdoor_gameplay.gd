@@ -20,6 +20,7 @@ const ARTIFACT_JOURNEY = preload("res://scripts/game/artifact_journey.gd")
 ##   masteryThreshold, ready, energy, fragments, phase, sessionActive }
 
 const EXERCISE_ENERGY_COST := 3
+const LINKED_MISSION_MAX_WORLD := 24
 
 ## Ogni quanto la copia in cloud può rifarsi. Il piano gratuito di Cloudflare
 ## regge mille scritture al giorno: senza un freno, sette punti di salvataggio
@@ -567,7 +568,7 @@ func try_start_enigma(payload: Dictionary, encounter_id: String) -> bool:
 func try_start_minimission(payload: Dictionary, encounter_id: String) -> bool:
 	if session_active():
 		return false
-	if Array(result.get("completedEncounterIds", [])).has(encounter_id):
+	if game_save.has_minimission(int(game_save.current_world())) or Array(result.get("completedEncounterIds", [])).has(encounter_id):
 		_present_feedback("Questa riparazione è già stata fatta.", "system")
 		return false
 	var retry_seconds := enigma_retry_seconds(encounter_id)
@@ -585,7 +586,29 @@ func try_start_minimission(payload: Dictionary, encounter_id: String) -> bool:
 	if Array(session.get("nodes", [])).is_empty():
 		_present_feedback("Banco esercizi non disponibile per %s." % subject, "system")
 		return false
-	session = _decorate_teaching_session(session, subject)
+	var current_world := int(game_save.current_world())
+	if current_world == 1 and _learning_level() == 1:
+		var pilot = preload("res://scripts/game/obelisk_mission.gd")
+		session = pilot.build(session, int(SpacedRepetition.session_clock(game_save)) % 6)
+		_prepare_linked_nodes(session)
+	elif current_world >= 2 and current_world <= LINKED_MISSION_MAX_WORLD:
+		var variant := int(SpacedRepetition.session_clock(game_save)) % 2
+		var mission_nodes: Array = []
+		if current_world <= 12:
+			var linked_first = preload("res://scripts/game/linked_missions_first.gd")
+			mission_nodes = linked_first.nodes_for(current_world, variant)
+		else:
+			var linked_late = preload("res://scripts/game/linked_missions_late.gd")
+			mission_nodes = linked_late.nodes_for(current_world, variant)
+		if not mission_nodes.is_empty():
+			session["nodes"] = mission_nodes
+			session["stages"] = mission_nodes.size()
+			session["interdisciplinary"] = true
+			session["missionTitle"] = str(payload.get("titolo", "Riparazione"))
+			session["sessionId"] = "linked-%d-%d" % [current_world, variant]
+			_prepare_linked_nodes(session)
+	else:
+		session = _decorate_teaching_session(session, subject)
 	# Il tema della resa è la FORMA, non il ponte: l'ExercisePlayer mostra quella
 	# parola mentre si risponde, e «ponte» su un incendio sarebbe una bugia.
 	session["theme"] = forma
@@ -597,6 +620,7 @@ func try_start_minimission(payload: Dictionary, encounter_id: String) -> bool:
 	_charge_exercise_entry(1.5 if impreparata else 1.0)
 	active_session_context = {
 		"kind": "minimission",
+		"interdisciplinary": bool(session.get("interdisciplinary", false)),
 		"encounterId": encounter_id,
 		"subject": subject,
 		"theme": forma,
@@ -619,6 +643,19 @@ func try_start_minimission(payload: Dictionary, encounter_id: String) -> bool:
 	enigma_progress.emit(0, int(session.get("stages", campate)), forma, encounter_id)
 	_emit_state()
 	return true
+
+## Prepara ogni materia della stessa riparazione senza confonderla con la
+## materia ospite. La tappa dichiara il proprio ripasso e la dimostrazione
+## diventa consultabile nel Manuale prima della consegna valutata.
+func _prepare_linked_nodes(session: Dictionary) -> void:
+	var due := _due()
+	for node_data in Array(session.get("nodes", [])):
+		var node: Dictionary = node_data
+		var node_subject := str(node.get("subject", ""))
+		var topic := str(node.get("topic", ""))
+		node["review"] = due.has("%s:%s" % [node_subject, topic])
+		if str(node.get("missionTeaching", "")) != "":
+			KnowledgeCodex.advance_state(game_save, node_subject, topic, "seen")
 
 ## L'esito di una riparazione.
 ##
@@ -767,7 +804,17 @@ func _decorate_teaching_session(source: Dictionary, subject: String) -> Dictiona
 		if not gia_insegnati.has(topic):
 			moment = KnowledgeCodex.teaching_moment(game_save, subject, topic)
 			if moment != "none":
-				lesson = codex.mini_lesson(subject, topic)
+				# **La dispensa viene prima della mini-lezione.** (11 settembre 2026,
+				# `docs/REGOLA_DISPENSE.md`) Dove esiste un documento vero per quella
+				# coppia (argomento, fascia) è quello che va mostrato: la scheda
+				# assemblata dal banco spiega con 290 caratteri in media — misurato
+				# su tutti e 300 gli argomenti del runtime — e una dispensa ne ha
+				# almeno milleduecento di sole sezioni. Dove la dispensa non c'è
+				# ancora, si ricade sulla scheda di prima: le altre undici materie
+				# stanno nel registro del debito di `dispense_audit`.
+				lesson = Dispense.lezione(subject, topic, int(nodo.get("difficulty", 1)))
+				if lesson.is_empty():
+					lesson = codex.mini_lesson(subject, topic)
 		if lesson.is_empty() and not nuovi_fatti.is_empty():
 			if da_richiamo:
 				moment = "new_fact_recall"
@@ -1226,6 +1273,9 @@ func _charge_exercise_entry(fattore: float = 1.0) -> int:
 # Risolve la sessione conclusa dall'ExercisePlayer: aggiorna save, progressione,
 # ricompense e (per l'esame) ripara l'apparato salendo di livello.
 func resolve_session(exercise_result: Dictionary) -> void:
+	# Un doppio segnale di chiusura non deve pagare o registrare due volte.
+	if active_session_context.is_empty():
+		return
 	var context := active_session_context.duplicate(true)
 	active_session_context = {}
 	var subject := str(context.get("subject", exercise_result.get("subject", "matematica")))
@@ -1239,6 +1289,8 @@ func resolve_session(exercise_result: Dictionary) -> void:
 	var passed := bool(exercise_result.get("passed", false))
 	var energy_before := game_save.energy()
 	var kind := str(context.get("kind", "mission"))
+	var linked := bool(context.get("interdisciplinary", false))
+	var subject_results: Dictionary = exercise_result.get("subjectResults", {}) if linked else {}
 	# Dichiarata qui e non nel ramo dell'esame: serve in fondo alla funzione, per
 	# decidere se la copia in cloud debba partire subito invece di aspettare.
 	var salito_di_livello := false
@@ -1258,9 +1310,12 @@ func resolve_session(exercise_result: Dictionary) -> void:
 		var costo := mini(EXERCISE_ABANDON_COST, game_save.energy())
 		if costo > 0 and game_save.spend_energy(costo):
 			result["energySpent"] = int(result.get("energySpent", 0)) + costo
-		var usciti_avanzati: Array = progression_manager.record_topic_stats(
-			subject, exercise_result.get("topicStats", {}))
-		_update_spaced_repetition(subject, exercise_result)
+		var usciti_avanzati: Array = (_record_linked_topics(subject_results) if linked else progression_manager.record_topic_stats(
+			subject, exercise_result.get("topicStats", {})))
+		if linked:
+			_update_linked_repetition(subject_results)
+		else:
+			_update_spaced_repetition(subject, exercise_result)
 		progression_manager.aggiorna_traguardi_di_livello()
 		_present_feedback(_abandon_feedback(costo, usciti_avanzati), "nora")
 		# Anche l'uscita anticipata si scrive su disco. Era l'unico ramo che non lo
@@ -1294,22 +1349,25 @@ func resolve_session(exercise_result: Dictionary) -> void:
 	# I minigiochi sono PRATICA: allenano padronanza ed energia ma non contano per
 	# il gate (nessun add_mission). Dal 6 agosto 2026 una palestra SUPERATA si
 	# chiude, perché rifarla identica era diventata una scorciatoia.
-	if kind == "minigame":
+	if linked:
+		progression_manager.record_linked_mission(subject, subject_results, gained, passed)
+	elif kind == "minigame":
 		progression_manager.record_practice(subject, effective_correct, total, gained)
 	else:
 		progression_manager.record_mission(subject, effective_correct, total, gained, passed)
-	var codex_advanced: Array = progression_manager.record_topic_stats(
-		subject, exercise_result.get("topicStats", {}))
+	var codex_advanced: Array = (_record_linked_topics(subject_results) if linked else progression_manager.record_topic_stats(
+		subject, exercise_result.get("topicStats", {})))
 	for avanzato in codex_advanced:
 		var voce: Dictionary = avanzato
 		if str(voce.get("a", "")) == KnowledgeCodex.STATE_CONSOLIDATED:
 			var topic := str(voce.get("topic", ""))
-			topic_consolidated.emit(subject, topic)
-			_recognize_progress("topic", "%s:%s" % [subject, topic], {
-				"subject": subject,
+			var topic_subject := str(voce.get("subject", subject))
+			topic_consolidated.emit(topic_subject, topic)
+			_recognize_progress("topic", "%s:%s" % [topic_subject, topic], {
+				"subject": topic_subject,
 				"label": "Argomento consolidato: %s" % topic.replace("-", " "),
 			})
-	progress_report.record(game_save.level(), subject, game_save.mastery_of(subject), 1 if passed else 0, float(exercise_result.get("seconds", 0.0)))
+	progress_report.record(game_save.level(), subject, game_save.mastery_of(subject), 1 if passed else 0, float(exercise_result.get("seconds", 0.0)), subject_results)
 	if passed:
 		PlayDiary.register_passed_today(game_save)
 		# **La ricompensa immediata.** Ogni prova superata scopre un pezzo di
@@ -1324,7 +1382,10 @@ func resolve_session(exercise_result: Dictionary) -> void:
 		if recognition_id.is_empty():
 			recognition_id = "%s:%s:%d" % [kind, subject, _learning_level()]
 		_recognize_progress(recognition_kind, recognition_id, {"subject": subject})
-	_update_spaced_repetition(subject, exercise_result)
+	if linked:
+		_update_linked_repetition(subject_results)
+	else:
+		_update_spaced_repetition(subject, exercise_result)
 	# Dopo TUTTE le registrazioni della sessione, e prima di ogni ramo che
 	# presenta un esito: da qui in poi il gioco può dire «questa materia è
 	# chiusa», e non deve piu' tornare a chiederla a questo grado.
@@ -1654,6 +1715,21 @@ func _due() -> Dictionary:
 # Applica gli esiti al ripasso spaziato (O-P0.7): i topic sbagliati rientrano a
 # breve, quelli ripassati bene vengono allontanati (intervallo espansivo), e
 # l'orologio delle sessioni avanza di un passo.
+func _record_linked_topics(outcomes: Dictionary) -> Array:
+	var advanced: Array = []
+	for subject in outcomes:
+		var entry: Dictionary = outcomes[subject]
+		for change in progression_manager.record_topic_stats(str(subject), entry.get("topicStats", {})):
+			change["subject"] = str(subject)
+			advanced.append(change)
+	return advanced
+
+func _update_linked_repetition(outcomes: Dictionary) -> void:
+	for subject in outcomes:
+		var entry: Dictionary = outcomes[subject]
+		SpacedRepetition.apply_outcome(game_save, str(subject), entry.get("missed", []), entry.get("reviewedOk", []))
+	SpacedRepetition.tick(game_save)
+
 func _update_spaced_repetition(subject: String, exercise_result: Dictionary) -> void:
 	SpacedRepetition.apply_outcome(game_save, subject, exercise_result.get("missed", []), exercise_result.get("reviewedOk", []))
 	SpacedRepetition.tick(game_save)

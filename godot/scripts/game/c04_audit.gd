@@ -13,8 +13,13 @@ func _init() -> void:
 		assert(str(session.get("subject", "")) == subject)
 		assert((session.get("nodes", []) as Array).size() >= 1, "banco vuoto: %s" % subject)
 		for item in session["nodes"]:
-			assert(str(item.get("answer", "")).strip_edges() != "", "risposta mancante: %s" % subject)
-			assert(str(item.get("explanation", "")).strip_edges() != "", "spiegazione mancante: %s" % subject)
+			# **Ogni formato ha i suoi campi-soluzione.** (10 settembre 2026) Qui
+			# c'era `assert(item.answer != "")`, vero finche' il banco portava solo
+			# crocette e risposte libere. Da quando porta anche ordinamenti e
+			# abbinamenti l'`answer` non esiste piu' per tutti, e il campo giusto lo
+			# sa `ExerciseInteraction`, che e' il validatore del contratto comune.
+			var esito: Dictionary = ExerciseInteraction.validate(item)
+			assert(bool(esito["ok"]), "%s: %s" % [subject, str(esito["errors"])])
 			var difficulty := int(item.get("difficulty", 0))
 			assert(difficulty >= 1 and difficulty <= ContentManager.DIFFICULTY_BANDS, "difficolta invalida: %s" % subject)
 

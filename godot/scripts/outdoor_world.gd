@@ -1008,6 +1008,8 @@ func _process(delta: float) -> void:
 	if _pet_fiuto_trascorso >= PET_FIUTO_INTERVALLO:
 		_pet_fiuto_trascorso = 0.0
 		_pet_check_secret_proximity()
+	_turno_dello_sguardo(delta)
+	_turno_delle_targhette(delta)
 	# **Il tempo torna a passare.** (20 agosto 2026, [[WorldSky]])
 	#
 	# Era fermo dal 7 agosto, e la ragione era buona: il mondo si scopriva col
@@ -1537,7 +1539,7 @@ func _apply_emblem(visual_node: Node2D, visual_data: Dictionary) -> void:
 	for index in range(3):
 		var seal := Label.new()
 		seal.name = "WitnessSeal%d" % (index + 1)
-		seal.text = "◆" if index < stage else "◇"
+		seal.text = "#" if index < stage else "o"
 		seal.position = seal_positions[index]
 		seal.add_theme_font_size_override("font_size", 9)
 		seal.add_theme_color_override(
@@ -1879,7 +1881,9 @@ func _create_profile_landmark() -> void:
 		"firstHeart" if world_level == 24 else
 		str(kinds.get(subject, "skyTree"))
 	)
-	var label := str(names[0]).replace("-", " ").capitalize()
+	# `capitalize()` e' la regola dell'inglese: dava «Obelisco Dei Numeri» sul
+	# cartello del punto chiave di ventiquattro mondi ([[NomiDeiLuoghi.nome_proprio]]).
+	var label := NomiDeiLuoghi.nome_proprio(str(names[0]))
 	var landmark := OutdoorVisualFactory.build_landmark(
 		landmark_kind, label, _profile_accent_rgb())
 	# Il landmark espone una sola caption funzionale con stato/progresso; la
@@ -2003,10 +2007,16 @@ func _sync_profile_environment_transform(animate: bool) -> void:
 		return
 	var purpose := profile_hero_landmark.get_node_or_null("LandmarkPurpose") as Label
 	if purpose != null:
-		purpose.text = "%s\nRISVEGLIO %d/%d" % [
+		purpose.text = "%s\nRISVEGLIO %d/%d%s" % [
 			str(world_profile.get("heroLandmarks", ["PUNTO CHIAVE"])[0]).replace("-", " ").to_upper(),
 			mini(completed_count, total_count),
 			total_count,
+			# **Il richiamo della tavola.** (10 settembre 2026) La tavola incisa
+			# sul landmark si trovava solo toccandolo per caso: niente, in tutto
+			# il mondo, diceva che li' c'era qualcosa da leggere. Il landmark e'
+			# l'unica cosa che ogni mondo mostra da lontano, quindi e' anche
+			# l'unico posto in cui questa riga arriva a chi non e' gia' li'.
+			"\nQUALCOSA DA LEGGERE" if _tavola_del_landmark_da_leggere() else "",
 		]
 	var art := profile_hero_landmark.find_child("Landmark*Art", true, false) as CanvasItem
 	if art == null:
@@ -2018,7 +2028,34 @@ func _sync_profile_environment_transform(animate: bool) -> void:
 	else:
 		art.modulate = target
 
+## I nomi dei posti di questo mondo, uno per evento pianificato.
+var _nomi_dei_luoghi: Dictionary = {}
+
+## Il nome di un posto, e la riparazione pigra quando manca.
+##
+## Manca in un caso solo e prevedibile: la palestra del **giro successivo**. Il
+## piano si ricalcola dopo ogni prova chiusa, quindi l'id della palestra che
+## rinasce altrove non esisteva quando la mappa e' nata. Si rilegge il piano e si
+## **aggiungono** i nomi nuovi senza toccare quelli gia' dati: rifare la mappa da
+## capo rischierebbe di rinominare un posto che il bambino ha gia' letto, ed e' la
+## cosa peggiore che possa fare un nome.
+func _nome_del_luogo(event_id: String) -> String:
+	if event_id.is_empty():
+		return ""
+	if not _nomi_dei_luoghi.has(event_id):
+		var aggiornata := NomiDeiLuoghi.mappa(_planned_world_events())
+		for chiave in aggiornata.keys():
+			if not _nomi_dei_luoghi.has(chiave):
+				_nomi_dei_luoghi[str(chiave)] = str(aggiornata[chiave])
+	return str(_nomi_dei_luoghi.get(event_id, ""))
+
 func _create_profile_events() -> void:
+	# `mission_events` **e'** il piano completo (riga 477): rifare il piano qui
+	# significava ripianificare l'intero mondo — composizione compresa — una
+	# seconda volta all'avvio. Misurato da `performance_budget_audit`: 677 ms
+	# contro un tetto di 500. Il piano si rilegge solo dove serve davvero, cioe'
+	# quando compare una palestra che al momento della costruzione non esisteva.
+	_nomi_dei_luoghi = NomiDeiLuoghi.mappa(mission_events)
 	for event_data in mission_events:
 		_create_profile_event(event_data as Dictionary)
 	_rebuild_practice_circuit()
@@ -2106,6 +2143,11 @@ func _create_profile_event(event: Dictionary) -> void:
 		"locationCluster": str(event.get("locationCluster", "fallback")),
 		"locationRole": str(event.get("locationRole", "route")),
 		"discoveryCue": str(event.get("discoveryCue", "proximity")),
+		# Il nome del posto viaggia nel payload perche' lo leggono in tre: la
+		# targhetta, il richiamo di prossimita' e lo sguardo intorno. Ricalcolarlo
+		# in tre punti vorrebbe dire tre nomi che prima o poi divergono.
+		"placeName": _nome_del_luogo(event_id),
+		"placeAsk": NomiDeiLuoghi.richiesta(str(event.get("subject", _world_subject()))),
 	}
 	if director_kind == "minimission":
 		# Il testo autoriale viaggia INTERO nel payload: la logica di gioco non
@@ -2231,8 +2273,19 @@ func _create_profile_event(event: Dictionary) -> void:
 	# Una missione già conclusa conserva la trasformazione ambientale, ma non
 	# la sfera/caption che la facevano sembrare ancora disponibile.
 	if not (director_kind in ["enigma", "minimission"]) and not completed:
-		var caption := _make_event_caption(director_kind, str(payload["subject"]))
+		var caption := _make_event_caption(
+			director_kind, str(payload["subject"]), str(payload.get("placeName", "")))
 		caption.name = "EventCaption"
+		# **Il nome ha una distanza di lettura.** (10 settembre 2026,
+		# [[ScopertaLuogo]]) La grammatica del luogo dice quanto quel posto e'
+		# vistoso; il nome si accende di conseguenza. Il nodo, la collisione e
+		# PORTAMI non cambiano: cambia solo quando lo si puo' leggere.
+		caption.add_to_group("targhetta_del_luogo")
+		caption.set_meta("cue", str(payload.get("discoveryCue", ScopertaLuogo.PROXIMITY)))
+		caption.modulate.a = ScopertaLuogo.opacita_del_nome(
+			str(payload.get("discoveryCue", ScopertaLuogo.PROXIMITY)),
+			area.position.distance_to(player.position) if is_instance_valid(player) else 0.0,
+			high_contrast, reduced_motion)
 		area.add_child(caption)
 	world_layer.add_child(area)
 	var strumento_in_arrivo := FieldTools.del_mondo(world_level)
@@ -2754,7 +2807,7 @@ func _create_accessory_field_site(accessory_id: String, action: Dictionary) -> v
 	visual.add_child(ring)
 	var glyph := Label.new()
 	glyph.name = "ActionGlyph"
-	glyph.text = str(item.get("glyph", "◇"))
+	glyph.text = str(item.get("glyph", "o"))
 	glyph.position = Vector2(-28, -30)
 	glyph.custom_minimum_size = Vector2(56, 56)
 	glyph.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -2806,7 +2859,7 @@ func _update_accessory_field_visual(area: Area2D) -> void:
 	var progress := area.get_node_or_null(
 		"AccessoryFieldVisual/AccessoryFieldProgress") as Label
 	if is_instance_valid(progress):
-		progress.text = "● ● ●" if completed else "%d / %d" % [stage + 1, steps.size()]
+		progress.text = "* * *" if completed else "%d / %d" % [stage + 1, steps.size()]
 	var visual := area.get_node_or_null("AccessoryFieldVisual") as CanvasItem
 	if is_instance_valid(visual):
 		visual.modulate = Color(0.7, 0.82, 0.8, 0.7) if completed else Color.WHITE
@@ -2865,7 +2918,7 @@ func _leave_accessory_field_trace(
 	var mark := Label.new()
 	mark.name = "AccessoryRouteMark%d" % stage
 	mark.add_to_group("accessory_field_runtime")
-	mark.text = "◆"
+	mark.text = "#"
 	mark.position = from_position - Vector2(11, 15)
 	mark.add_theme_font_size_override("font_size", 18)
 	mark.add_theme_color_override("font_color", color.lightened(0.2))
@@ -2995,7 +3048,7 @@ func _build_resonance_signature(parent: Node2D, payload: Dictionary, color: Colo
 	if path.get_point_count() > 0:
 		var terminus := Label.new()
 		terminus.name = "DirectionMark"
-		terminus.text = "◆"
+		terminus.text = "#"
 		terminus.position = path.get_point_position(path.get_point_count() - 1) - Vector2(6, 9)
 		terminus.add_theme_font_size_override("font_size", 10)
 		terminus.add_theme_color_override("font_color", color.lightened(0.28))
@@ -4443,12 +4496,68 @@ func _apri_tavola_del_landmark() -> bool:
 	game_save.save()
 	return true
 
+## **La tavola letta sul posto lascia un segno.** (10 settembre 2026, lotto 4
+## della corsia del percorso studente)
+##
+## Ogni mondo ha una tavola incisa sul grande landmark: si trova esplorando, si
+## legge una volta, e il salvataggio se la ricorda in `landmarkTavoleSeen`. Fin
+## qui c'era tutto. Poi, misurato: **quel ricordo non lo apriva nessuno**, se non
+## per non rimostrare il pannello. Chi si era fermato a leggere e chi era passato
+## dritto giocavano il resto del mondo in modo identico — cioe' l'esplorazione
+## era, letteralmente, senza conseguenze.
+##
+## Le conseguenze qui sono due, e stanno tutte e due nel mondo:
+##
+##   PRIMA   il landmark dichiara di avere qualcosa da leggere, finche' non l'hai
+##           letto. E' il richiamo: senza, la tavola la trova solo chi tocca il
+##           landmark per caso;
+##   DOPO    davanti a una prova della materia del mondo, NORA richiama la riga
+##           di scoperta della tavola — una volta per visita. Non e' un aiuto e
+##           non risponde a niente: e' il momento in cui quello che hai visto
+##           camminando torna utile, che e' l'unica ricompensa didattica onesta
+##           che l'esplorazione possa avere.
+##
+## La meta' che manca — la tavola consultabile **dentro** la prova — vive in
+## `exercise_player.gd`, che e' della corsia di Codex e non si tocca.
+func _tavola_del_landmark_da_leggere() -> bool:
+	if not is_instance_valid(game_save):
+		return false
+	if LANDMARK_TAVOLA_CATALOG.voce(world_level).is_empty():
+		return false
+	return not Array(game_save.data.get("landmarkTavoleSeen", [])).has(str(world_level))
+
+func _tavola_del_landmark_letta() -> bool:
+	if not is_instance_valid(game_save):
+		return false
+	if LANDMARK_TAVOLA_CATALOG.voce(world_level).is_empty():
+		return false
+	return Array(game_save.data.get("landmarkTavoleSeen", [])).has(str(world_level))
+
+## Il richiamo della tavola davanti a una prova della materia del mondo. Una
+## volta per visita: ripeterlo a ogni tappa lo trasformerebbe in arredamento, e
+## un richiamo che si impara a saltare non richiama piu' niente.
+var _tavola_richiamata := false
+
+func _richiama_la_tavola() -> void:
+	if _tavola_richiamata or not _tavola_del_landmark_letta():
+		return
+	var voce := LANDMARK_TAVOLA_CATALOG.voce(world_level)
+	var scoperta := str(voce.get("scoperta", "")).strip_edges()
+	if scoperta.is_empty():
+		return
+	_tavola_richiamata = true
+	_set_nora_feedback("Quello che hai visto inciso là fuori serve adesso. %s" % scoperta)
+
 func _chiudi_tavola_del_landmark() -> void:
 	if is_instance_valid(landmark_tavola_panel):
 		landmark_tavola_panel.queue_free()
 	landmark_tavola_panel = null
 	if is_instance_valid(player) and not _pannello_gia_aperto():
 		player.set_physics_process(true)
+	# La targa del landmark perde «QUALCOSA DA LEGGERE» adesso, non al rientro
+	# nel mondo: un richiamo che resta acceso dopo essere stato raccolto insegna
+	# a non fidarsi dei richiami.
+	_sync_profile_environment_transform(false)
 	_refresh_prompt()
 
 ## **Il minigioco del personaggio.** (9 agosto 2026)
@@ -5201,6 +5310,158 @@ func _pet_check_secret_proximity() -> void:
 	_pet_fiuto_ultimo = id
 	_pet_react("near_secret")
 
+## **La striscia vuota si riempie con quello che si vede da qui.**
+## (10 settembre 2026, [[PercorsoStudente]])
+##
+## Segnalazione del committente: il mondo si percorre seguendo le istruzioni, e
+## questo toglie stimolo a esplorarlo. Misurato camminando: fra un punto
+## d'interesse e il successivo — da trecento a settecento unita' — la striscia di
+## feedback e' **vuota**. `_refresh_prompt` la azzera appena nessuno e' a portata,
+## ed e' giusto: non c'e' niente da fare li'. Ma e' anche l'unico momento in cui
+## il bambino sta decidendo dove andare, ed e' l'unico in cui il gioco non gli
+## dice niente. Cosi' la decisione la prende il quadro degli obiettivi, che e'
+## l'unica cosa che parla.
+##
+## Adesso quel silenzio dice **che cosa si vede da dove sei**: due nomi, di
+## generi diversi, con la direzione. Non punta e non porta — camminarci resta il
+## gioco, come per PORTAMI e per «SEGUI LA MISSIONE».
+##
+## **Riempie il silenzio, non lo interrompe.** La riga esce solo se la striscia
+## e' gia' vuota: NORA, il Custode, gli abitanti e i costi hanno tutti la
+## precedenza, e una guida che scavalca chi sta parlando diventa rumore. Con un
+## riposo lungo fra una frase e l'altra, e mai due volte la stessa.
+const SGUARDO_INTERVALLO := 1.0
+const SGUARDO_RIPOSO_SEC := 14.0
+
+var _sguardo_trascorso := 0.0
+var _sguardo_ultimo_msec := 0
+var _sguardo_ultima_firma := ""
+## Quello che e' passato a portata d'occhio almeno una volta. E' la memoria che
+## permette di nominare un posto anche quando non lo si vede piu': camminare
+## produce qualcosa che resta, ed e' l'unica ricompensa dell'esplorazione che
+## questo lotto introduce.
+var _luoghi_visti: Dictionary = {}
+
+func _turno_dello_sguardo(delta: float) -> void:
+	_sguardo_trascorso += delta
+	if _sguardo_trascorso < SGUARDO_INTERVALLO:
+		return
+	_sguardo_trascorso = 0.0
+	if not is_instance_valid(player) or _blocking_panel_visible():
+		return
+	var cose := _cose_del_mondo()
+	if cose.is_empty():
+		return
+	# La memoria cresce a ogni giro, anche quando la frase non esce: quello che
+	# si e' visto passando resta visto.
+	for cosa_data in cose:
+		var cosa: Dictionary = cosa_data
+		if player.global_position.distance_to(Vector2(cosa["posizione"])) <= PercorsoStudente.PORTATA_VISTA:
+			_luoghi_visti[str(cosa["id"])] = true
+	if not nearby.is_empty():
+		return
+	# Solo il silenzio si riempie: se c'e' gia' qualcosa scritto, ha la
+	# precedenza chi l'ha scritto.
+	if is_instance_valid(feedback_label) and not str(feedback_label.text).strip_edges().is_empty():
+		return
+	var adesso := Time.get_ticks_msec()
+	if _sguardo_ultimo_msec > 0 and adesso - _sguardo_ultimo_msec < int(SGUARDO_RIPOSO_SEC * 1000.0):
+		return
+	var letture := PercorsoStudente.sguardo(player.global_position, cose)
+	if letture.is_empty():
+		return
+	var firme: Array = []
+	for lettura_data in letture:
+		firme.append(str(Dictionary(lettura_data).get("id", "")))
+	var firma := "|".join(PackedStringArray(firme))
+	if firma == _sguardo_ultima_firma:
+		return
+	var frase := PercorsoStudente.frase(letture)
+	if frase.is_empty():
+		return
+	_sguardo_ultima_firma = firma
+	_sguardo_ultimo_msec = adesso
+	# La dice NORA e non il sistema: e' un'osservazione sul mondo, non un costo
+	# ne' un errore tecnico — cioe' esattamente la meta' di cose che questo
+	# progetto le lascia dire. «SISTEMA · da qui si vede il banco delle misure»
+	# suonerebbe come un messaggio di servizio, e i messaggi di servizio si
+	# imparano a saltare.
+	_set_nora_feedback(frase)
+
+## **I nomi si accendono avvicinandosi.** (10 settembre 2026, [[ScopertaLuogo]])
+##
+## Ogni dodicesimo di secondo, e non a ogni fotogramma: sono diciotto etichette,
+## la distanza non cambia di molto in un dodicesimo di secondo, e il passo piu'
+## fitto si vedrebbe solo nel profilo della CPU.
+const TARGHETTA_INTERVALLO := 0.12
+var _targhette_trascorso := 0.0
+
+func _turno_delle_targhette(delta: float) -> void:
+	_targhette_trascorso += delta
+	if _targhette_trascorso < TARGHETTA_INTERVALLO:
+		return
+	_targhette_trascorso = 0.0
+	if not is_instance_valid(player):
+		return
+	var da := player.global_position
+	for nodo in get_tree().get_nodes_in_group("targhetta_del_luogo"):
+		var etichetta := nodo as CanvasItem
+		if not is_instance_valid(etichetta) or etichetta.is_queued_for_deletion():
+			continue
+		var posto := etichetta.get_parent() as Node2D
+		if posto == null:
+			continue
+		etichetta.modulate.a = ScopertaLuogo.opacita_del_nome(
+			str(etichetta.get_meta("cue", ScopertaLuogo.PROXIMITY)),
+			da.distance_to(posto.global_position),
+			high_contrast, reduced_motion)
+
+## Le cose del mondo che lo sguardo puo' nominare: le prove aperte, gli
+## allenamenti aperti e gli elementi del paesaggio che hanno un nome proprio.
+##
+## **I forzieri restano fuori, di proposito.** Trovarli e' il mestiere del
+## Custode ([[_deviazione_piu_vicina]]): nominarli qui gli toglierebbe l'unica
+## cosa che sa fare, e trasformerebbe una scoperta in una consegna.
+func _cose_del_mondo() -> Array:
+	var cose: Array = []
+	for nodo in get_tree().get_nodes_in_group("world_interactable"):
+		if not (nodo is Node2D) or not is_instance_valid(nodo) or nodo.is_queued_for_deletion():
+			continue
+		var area := nodo as Node2D
+		if bool(area.get_meta("completed", false)) or not area.visible:
+			continue
+		var id := str(area.get_meta("id", ""))
+		if id.is_empty():
+			continue
+		var carico: Dictionary = area.get_meta("payload", {})
+		var tipo := ""
+		var nome := str(carico.get("placeName", ""))
+		match str(area.get_meta("kind", "")):
+			"minigame":
+				tipo = PercorsoStudente.ALLENAMENTO
+			"encounter", "enigma":
+				tipo = PercorsoStudente.PROVA
+			"minimission":
+				tipo = PercorsoStudente.PROVA
+				# L'incarico porta gia' un titolo d'autore sul posto: nominarlo
+				# in due modi diversi significherebbe due posti per il bambino.
+				nome = str(carico.get("titolo", nome))
+			"npc", "landmark":
+				tipo = PercorsoStudente.ELEMENTO
+				nome = str(carico.get("label", ""))
+			_:
+				continue
+		if nome.strip_edges().is_empty():
+			continue
+		cose.append({
+			"id": id,
+			"tipo": tipo,
+			"nome": nome,
+			"posizione": area.global_position,
+			"ricordato": _luoghi_visti.has(id),
+		})
+	return cose
+
 ## La deviazione aperta più vicina entro il raggio del fiuto, o un dizionario
 ## vuoto. I forzieri già raccolti li sa solo la scena, ed è per questo che il
 ## conto si fa qui e non dentro il Custode.
@@ -5286,14 +5547,30 @@ func _event_visual_kind(subject: String) -> String:
 		return "physicalGeo"
 	return "mental"
 
-func _make_event_caption(kind: String, subject: String) -> Label:
+## **La targhetta di un posto porta il suo nome, non la sua riga di registro.**
+## (10 settembre 2026, [[NomiDeiLuoghi]])
+##
+## Qui c'era `PRATICA · MATEMATICA`: la categoria del direttore e la materia, in
+## maiuscolo, diciotto volte per mondo. Diceva a quale voce dell'elenco
+## corrispondeva quel puntino, e un elenco non si esplora — si spunta.
+##
+## Adesso dice «il banco delle misure». Che cosa sia — palestra, tappa, enigma —
+## lo dice il disegno, che per tutti e tre e' diverso e riconoscibile da lontano;
+## il colore della materia lo dice la tavolozza ([[SubjectPalette]]), che il
+## progetto ha scelto apposta perche' si riconosca senza leggere. La targhetta
+## puo' quindi permettersi di fare la sola cosa che nessuno faceva: **dare un
+## nome al posto**, cioe' renderlo qualcosa a cui si puo' decidere di tornare.
+func _make_event_caption(kind: String, subject: String, nome_del_luogo: String = "") -> Label:
 	var label := Label.new()
-	label.position = Vector2(-72, -86)
-	label.custom_minimum_size = Vector2(144, 24)
+	label.position = Vector2(-84, -86)
+	label.custom_minimum_size = Vector2(168, 24)
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	label.text = ("%s · %s" % [
-		"PRATICA" if kind == "practice" else "ENIGMA" if kind == "enigma" else "MISSIONE",
-		subject.to_upper()])
+	# Il ripiego non e' la didascalia vecchia: e' il nome composto al volo dalla
+	# materia. Una targhetta senza nome vorrebbe dire che la mappa dei nomi non e'
+	# arrivata fin qui, e va vista, non mascherata.
+	label.text = NomiDeiLuoghi.sul_cartello(
+		nome_del_luogo if not nome_del_luogo.is_empty()
+		else NomiDeiLuoghi.nome("", subject))
 	label.add_theme_font_size_override("font_size", 11)
 	label.add_theme_constant_override("outline_size", 5)
 	label.add_theme_color_override("font_color", Color("f6c85f") if kind != "practice" else PLAYER_ACCENT)
@@ -8235,10 +8512,16 @@ func _refresh_prompt() -> void:
 		_set_feedback(_ship_entry_prompt())
 	elif kind == "landmark":
 		var landmark_payload: Dictionary = target.get_meta("payload", {})
-		_set_feedback("%s · %s. Le missioni vicine ne mostrano il progresso." % [
-			str(landmark_payload.get("label", "Punto chiave")).capitalize(),
-			str(landmark_payload.get("purpose", "si trasforma completando le missioni")),
-		])
+		if _tavola_del_landmark_da_leggere():
+			# Chi e' arrivato fin qui merita la riga che dice perche' valeva la
+			# pena: il resto del cartello lo si e' gia' letto da lontano.
+			_set_feedback("%s · c'è qualcosa inciso, e si può guardare da vicino." % [
+				str(landmark_payload.get("label", "Punto chiave"))])
+		else:
+			_set_feedback("%s · %s. Le missioni vicine ne mostrano il progresso." % [
+				str(landmark_payload.get("label", "Punto chiave")),
+				str(landmark_payload.get("purpose", "si trasforma completando le missioni")),
+			])
 	elif kind == "enigma":
 		var payload: Dictionary = target.get_meta("payload")
 		if result["completedEncounterIds"].has(id):
@@ -8254,8 +8537,16 @@ func _refresh_prompt() -> void:
 		if not _equipment_requirement_met(target):
 			_set_feedback(_equipment_requirement_message(target))
 		else:
-			_set_feedback("Interagisci · %s%s" % [
-				str(mg_payload.get("label", "Palestra")),
+			# **La riga da vicino dice il nome e la richiesta.** (10 settembre
+			# 2026) Diceva «Interagisci · evento di pratica · Matematica», cioe'
+			# la stessa voce di registro della targhetta, ripetuta. Il nome del
+			# posto e il verbo di quello che chiede sono le due cose che un
+			# bambino a due passi non puo' dedurre dal disegno; la quota resta,
+			# perche' e' qui che la domanda «ho finito?» se la pone davvero.
+			_set_feedback("%s · ti chiede di %s%s" % [
+				NomiDeiLuoghi.sul_cartello(
+					str(mg_payload.get("placeName", mg_payload.get("label", "Palestra")))),
+				str(mg_payload.get("placeAsk", "allenarti")),
 				_quota_della_materia(str(mg_payload.get("subject", "matematica")))])
 	elif kind == "treasure":
 		if result["collectedTreasureIds"].has(id):
@@ -8273,10 +8564,18 @@ func _refresh_prompt() -> void:
 		var payload := _mission_payload_for(target)
 		if result["completedEncounterIds"].has(id):
 			_set_feedback("Incontro già completato")
+		elif str(payload.get("subject", "")) == _world_subject() and not _tavola_richiamata \
+				and _tavola_del_landmark_letta():
+			# Il richiamo prende il posto della riga generica, una volta sola:
+			# dirle tutte e due qui vorrebbe dire due righe in una striscia che
+			# il collaudo del 28 agosto ha gia' segnalato come sovraccarica.
+			_richiama_la_tavola()
 		else:
-			_set_feedback("Interagisci · missione di %s: %s" % [
-				str(payload.get("subject", "matematica")).capitalize(),
-				str(payload.get("label", "incontro"))])
+			var nome_del_posto := NomiDeiLuoghi.sul_cartello(
+				str(payload.get("placeName", payload.get("label", "incontro"))))
+			var chiede := NomiDeiLuoghi.richiesta(str(payload.get("subject", _world_subject())))
+			_set_feedback("%s · ti chiede di %s" % [nome_del_posto, chiede] if not chiede.is_empty()
+				else nome_del_posto)
 	elif kind == "npc":
 		var npc_payload: Dictionary = target.get_meta("payload", {})
 		_set_feedback("Parla con %s · %s" % [
@@ -9351,9 +9650,25 @@ func _apri_obiettivi() -> void:
 	ui_layer.add_child(objective_panel)
 	objective_panel.apri(
 		ObjectiveBriefing.passo(runtime, gameplay.progression_manager),
-		ObjectiveBriefing.percorso(gameplay.progression_manager))
+		_percorso_coi_quartieri())
 	if is_instance_valid(player):
 		player.set_physics_process(false)
+
+## Il percorso del quadro, con dentro il quartiere di ogni materia.
+##
+## Il quartiere si aggiunge **qui** e non dentro [[ObjectiveBriefing.percorso]]:
+## quella funzione conosce la progressione e non il mondo, e darle in pasto gli
+## eventi per una riga di testo la legherebbe alla mappa. La scena ha tutti e due
+## in mano ed e' il posto giusto per cucirli.
+func _percorso_coi_quartieri() -> Dictionary:
+	var percorso := ObjectiveBriefing.percorso(gameplay.progression_manager)
+	var eventi := _planned_world_events()
+	var righe: Array = Array(percorso.get("righe", []))
+	for voce in righe:
+		var riga: Dictionary = voce
+		riga["quartiere"] = NomiDeiLuoghi.quartiere_di(eventi, str(riga.get("materia", "")))
+	percorso["righe"] = righe
+	return percorso
 
 func _rivedi_soglia_del_mondo() -> void:
 	_chiudi_obiettivi()
@@ -9384,7 +9699,18 @@ func _portami_alla_palestra(materia: String) -> void:
 	if is_instance_valid(player):
 		player.set_touch_target(meta.global_position)
 	_spawn_touch_ping(meta.global_position)
-	_set_feedback("Rotta verso l'allenamento di %s." % materia)
+	# Il nome del posto e il suo quartiere, perche' la volta dopo ci si possa
+	# andare senza premere niente: e' la differenza fra un pulsante che porta e
+	# un pulsante che insegna la strada.
+	var carico: Dictionary = (meta as Node).get_meta("payload", {})
+	var nome_del_posto := str(carico.get("placeName", ""))
+	var quartiere := NomiDeiLuoghi.quartiere_di(_planned_world_events(), materia)
+	if nome_del_posto.is_empty():
+		_set_feedback("Rotta verso l'allenamento di %s." % materia)
+	elif quartiere.is_empty():
+		_set_feedback("Rotta verso %s." % nome_del_posto)
+	else:
+		_set_feedback("Rotta verso %s, nel %s." % [nome_del_posto, quartiere])
 
 func _chiudi_obiettivi() -> void:
 	if is_instance_valid(objective_panel):

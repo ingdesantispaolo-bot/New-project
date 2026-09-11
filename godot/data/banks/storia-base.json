@@ -1315,7 +1315,10 @@
 			"distractorWhy": {
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti secoli ci sono in un millennio?».",
 				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «L'anno 1492 appartiene a quale secolo? Scrivi il numero in cifre.».",
-				"50": "«50» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni passano fra il 30 a.C. e il 20 d.C.?»."
+				"50": "«50» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni passano fra il 30 a.C. e il 20 d.C.?».",
+				"250": "«250» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni ci sono in due secoli e mezzo?».",
+				"300": "«300» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni passano fra il 200 a.C. e il 100 d.C.?».",
+				"476": "«476» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
 			}
 		},
 		{
@@ -1332,7 +1335,10 @@
 			"distractorWhy": {
 				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «L'anno 1492 appartiene a quale secolo? Scrivi il numero in cifre.».",
 				"50": "«50» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni passano fra il 30 a.C. e il 20 d.C.?».",
-				"100": "«100» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni passano fra il 50 a.C. e il 50 d.C.?»."
+				"100": "«100» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni passano fra il 50 a.C. e il 50 d.C.?».",
+				"250": "«250» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni ci sono in due secoli e mezzo?».",
+				"300": "«300» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni passano fra il 200 a.C. e il 100 d.C.?».",
+				"476": "«476» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
 			}
 		},
 		{
@@ -2708,7 +2714,7 @@
 				"Pòleis": "«Pòleis» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano le città-stato indipendenti della Grecia antica?».",
 				"A Olimpia": "«A Olimpia» è la risposta giusta a un'altra domanda di questo gruppo: «In quale luogo si tenevano gli antichi Giochi Olimpici?».",
 				"olimpiadi": "«olimpiadi» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano i giochi che si tenevano ogni quattro anni in onore di Zeus?».",
-				"Una città-stato": "«Una città-stato» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa era la polis nel mondo greco?»."
+				"polis": "«polis» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava la città-stato greca, comunità di cittadini e territorio insieme?»."
 			}
 		},
 		{
@@ -2731,7 +2737,7 @@
 				"A Olimpia": "«A Olimpia» è la risposta giusta a un'altra domanda di questo gruppo: «In quale luogo si tenevano gli antichi Giochi Olimpici?».",
 				"agorà": "«agorà» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"olimpiadi": "«olimpiadi» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano i giochi che si tenevano ogni quattro anni in onore di Zeus?».",
-				"Una città-stato": "«Una città-stato» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa era la polis nel mondo greco?»."
+				"polis": "«polis» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava la città-stato greca, comunità di cittadini e territorio insieme?»."
 			}
 		},
 		{
@@ -2754,7 +2760,7 @@
 				"A Olimpia": "«A Olimpia» è la risposta giusta a un'altra domanda di questo gruppo: «In quale luogo si tenevano gli antichi Giochi Olimpici?».",
 				"agorà": "«agorà» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"olimpiadi": "«olimpiadi» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano i giochi che si tenevano ogni quattro anni in onore di Zeus?».",
-				"Una città-stato": "«Una città-stato» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa era la polis nel mondo greco?»."
+				"polis": "«polis» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava la città-stato greca, comunità di cittadini e territorio insieme?»."
 			}
 		},
 		{
@@ -2780,7 +2786,7 @@
 				"Pòleis": "«Pòleis» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano le città-stato indipendenti della Grecia antica?».",
 				"A Olimpia": "«A Olimpia» è la risposta giusta a un'altra domanda di questo gruppo: «In quale luogo si tenevano gli antichi Giochi Olimpici?».",
 				"agorà": "«agorà» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
-				"Una città-stato": "«Una città-stato» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa era la polis nel mondo greco?»."
+				"polis": "«polis» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava la città-stato greca, comunità di cittadini e territorio insieme?»."
 			}
 		},
 		{
@@ -2933,7 +2939,7 @@
 				"scriptorium": "«scriptorium» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano i monasteri in cui i monaci copiavano a mano i libri antichi?».",
 				"comuni": "«comuni» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano le città italiane che nel Medioevo si diedero un governo autonomo?».",
 				"peste nera": "«peste nera» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la peste che nel Trecento uccise circa un terzo degli europei?».",
-				"una terra da amministrare": "«una terra da amministrare» è la risposta giusta a un'altra domanda di questo gruppo: «Nel sistema feudale il signore concedeva al vassallo...»."
+				"feudo": "«feudo» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
 			}
 		},
 		{
@@ -3034,8 +3040,10 @@
 				"materiale": "«materiale» è la risposta giusta a un'altra domanda di questo gruppo: «Una piramide egizia è un esempio di fonte…».",
 				"perché non scrivevano": "«perché non scrivevano» è la risposta giusta a un'altra domanda di questo gruppo: «Perché sappiamo pochissimo della vita quotidiana dei contadini antichi?».",
 				"carbonio 14": "«carbonio 14» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
-				"I fatti del passato": "«I fatti del passato» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa studia la storia?».",
-				"Archeologo": "«Archeologo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama chi studia i resti sepolti nel terreno?»."
+				"Da una domanda": "«Da una domanda» è la risposta giusta a un'altra domanda di questo gruppo: «Da che cosa comincia il lavoro di uno storico?».",
+				"fatto": "«fatto» è la risposta giusta a un'altra domanda di questo gruppo: ««Nel 476 l'ultimo imperatore d'Occidente fu deposto»: è un fatto o un'interpretazione?».",
+				"anacronismo": "«anacronismo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'errore di attribuire a un'epoca qualcosa che quell'epoca non aveva?».",
+				"un anacronismo": "«un anacronismo» è la risposta giusta a un'altra domanda di questo gruppo: «Chiedersi se un cittadino romano fosse «di destra o di sinistra» è…»."
 			}
 		},
 		{
@@ -3140,7 +3148,10 @@
 			"distractorWhy": {
 				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «L'anno 1492 appartiene a quale secolo? Scrivi il numero in cifre.».",
 				"50": "«50» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni passano fra il 30 a.C. e il 20 d.C.?».",
-				"100": "«100» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni passano fra il 50 a.C. e il 50 d.C.?»."
+				"100": "«100» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni passano fra il 50 a.C. e il 50 d.C.?».",
+				"250": "«250» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni ci sono in due secoli e mezzo?».",
+				"300": "«300» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni passano fra il 200 a.C. e il 100 d.C.?».",
+				"476": "«476» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
 			}
 		},
 		{
@@ -3301,7 +3312,10 @@
 			"distractorWhy": {
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti secoli ci sono in un millennio?».",
 				"50": "«50» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni passano fra il 30 a.C. e il 20 d.C.?».",
-				"100": "«100» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni passano fra il 50 a.C. e il 50 d.C.?»."
+				"100": "«100» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni passano fra il 50 a.C. e il 50 d.C.?».",
+				"250": "«250» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni ci sono in due secoli e mezzo?».",
+				"300": "«300» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni passano fra il 200 a.C. e il 100 d.C.?».",
+				"476": "«476» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
 			}
 		},
 		{
@@ -3318,7 +3332,10 @@
 			"distractorWhy": {
 				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti secoli ci sono in un millennio?».",
 				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «L'anno 1492 appartiene a quale secolo? Scrivi il numero in cifre.».",
-				"100": "«100» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni passano fra il 50 a.C. e il 50 d.C.?»."
+				"100": "«100» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni passano fra il 50 a.C. e il 50 d.C.?».",
+				"250": "«250» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni ci sono in due secoli e mezzo?».",
+				"300": "«300» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni passano fra il 200 a.C. e il 100 d.C.?».",
+				"476": "«476» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
 			}
 		},
 		{
@@ -3462,7 +3479,7 @@
 			"prompt": "Perché le strade romane erano importanti quanto l'esercito?",
 			"options": [
 				"permettevano di arrivare in fretta ovunque",
-				"erano un simbolo di potenza",
+				"erano soprattutto un simbolo di potenza imperiale",
 				"servivano a commerciare grano e olio",
 				"collegavano solo le città grandi"
 			],
@@ -3470,7 +3487,7 @@
 			"explanation": "Un impero grande si tiene se le notizie e i soldati viaggiano più veloci delle rivolte. Le strade servivano al commercio, ma furono costruite per una ragione militare.",
 			"distractorWhy": {
 				"servivano a commerciare grano e olio": "Lo facevano anche, ma il grano viaggiava soprattutto via mare, che costa meno.",
-				"erano un simbolo di potenza": "Lo erano, ma un simbolo non spiega perché valessero quanto un esercito.",
+				"erano soprattutto un simbolo di potenza imperiale": "Lo erano, ma un simbolo non spiega perché valessero quanto un esercito.",
 				"collegavano solo le città grandi": "Arrivavano anche agli accampamenti e ai confini, dove città non ce n'erano."
 			},
 			"_difficulty8": true
@@ -3589,7 +3606,7 @@
 			"id": "storia-metodo-25",
 			"subject": "storia",
 			"topic": "metodo",
-			"difficulty": 8,
+			"difficulty": 5,
 			"format": "short_answer",
 			"prompt": "Quale elemento si misura per datare un reperto di legno o di osso? Scrivi il nome e il numero.",
 			"options": [],
@@ -3608,8 +3625,10 @@
 				"materiale": "«materiale» è la risposta giusta a un'altra domanda di questo gruppo: «Una piramide egizia è un esempio di fonte…».",
 				"incrocio delle fonti": "«incrocio delle fonti» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il confronto fra più fonti per verificare se un fatto è attendibile?».",
 				"perché non scrivevano": "«perché non scrivevano» è la risposta giusta a un'altra domanda di questo gruppo: «Perché sappiamo pochissimo della vita quotidiana dei contadini antichi?».",
-				"I fatti del passato": "«I fatti del passato» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa studia la storia?».",
-				"Archeologo": "«Archeologo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama chi studia i resti sepolti nel terreno?»."
+				"Da una domanda": "«Da una domanda» è la risposta giusta a un'altra domanda di questo gruppo: «Da che cosa comincia il lavoro di uno storico?».",
+				"fatto": "«fatto» è la risposta giusta a un'altra domanda di questo gruppo: ««Nel 476 l'ultimo imperatore d'Occidente fu deposto»: è un fatto o un'interpretazione?».",
+				"anacronismo": "«anacronismo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'errore di attribuire a un'epoca qualcosa che quell'epoca non aveva?».",
+				"un anacronismo": "«un anacronismo» è la risposta giusta a un'altra domanda di questo gruppo: «Chiedersi se un cittadino romano fosse «di destra o di sinistra» è…»."
 			}
 		},
 		{
@@ -3682,7 +3701,7 @@
 			"id": "storia-egizi-29",
 			"subject": "storia",
 			"topic": "egizi",
-			"difficulty": 6,
+			"difficulty": 5,
 			"format": "short_answer",
 			"prompt": "«Geometria» in greco vuol dire misura di una cosa sola. Quale?",
 			"options": [],
@@ -3727,6 +3746,2741 @@
 				"si scriveva solo sulle tombe": "Si usava anche su papiri, contratti e oggetti d'uso."
 			},
 			"_difficulty8": true
+		},
+		{
+			"id": "storia-sl-preistoria-0",
+			"subject": "storia",
+			"topic": "preistoria",
+			"difficulty": 2,
+			"format": "classification",
+			"prompt": "Smista ogni abitudine secondo chi la aveva.",
+			"options": [],
+			"explanation": "Non cambia solo il modo di procurarsi il cibo: cambia il rapporto col tempo e col luogo. Chi semina deve restare e aspettare, e da quell'attesa nascono le case solide, i magazzini e infine la necessità di scrivere quanto grano c'è dentro.",
+			"_difficulty8": true,
+			"items": [
+				"seguire le mandrie che si spostano",
+				"seminare e aspettare mesi il raccolto",
+				"dormire in ripari usati per pochi giorni",
+				"costruire granai per conservare il grano"
+			],
+			"categories": [
+				"cacciatori-raccoglitori",
+				"agricoltori"
+			],
+			"assignments": {
+				"seguire le mandrie che si spostano": "cacciatori-raccoglitori",
+				"seminare e aspettare mesi il raccolto": "agricoltori",
+				"dormire in ripari usati per pochi giorni": "cacciatori-raccoglitori",
+				"costruire granai per conservare il grano": "agricoltori"
+			},
+			"distractorWhy": {
+				"Il fuoco": "«Il fuoco» è la risposta giusta a un'altra domanda di questo gruppo: «Quale scoperta permise all'uomo preistorico di cuocere e riscaldarsi?».",
+				"L'assenza della scrittura": "«L'assenza della scrittura» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa distingue la Preistoria dalla Storia?».",
+				"Caccia e raccolta": "«Caccia e raccolta» è la risposta giusta a un'altra domanda di questo gruppo: «Di che cosa viveva soprattutto l'uomo del Paleolitico?».",
+				"L'agricoltura": "«L'agricoltura» è la risposta giusta a un'altra domanda di questo gruppo: «Quale grande scoperta segnò il passaggio al Neolitico?».",
+				"Dal bronzo": "«Dal bronzo» è la risposta giusta a un'altra domanda di questo gruppo: «Da quale metallo prende il nome l'Età del Bronzo?».",
+				"paleolitico": "«paleolitico» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il periodo della preistoria in cui la pietra veniva solo scheggiata?».",
+				"neolitico": "«neolitico» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il periodo della preistoria in cui la pietra veniva levigata?».",
+				"fuoco": "«fuoco» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la scoperta che permise all'uomo di cuocere il cibo e scaldarsi?»."
+			}
+		},
+		{
+			"id": "storia-sl-cronologia-1",
+			"subject": "storia",
+			"topic": "cronologia",
+			"difficulty": 2,
+			"format": "ordering",
+			"prompt": "Metti questi anni in ordine, dal più lontano nel passato al più vicino a noi.",
+			"options": [],
+			"explanation": "Prima di Cristo i numeri grandi sono i più antichi: si contano all'indietro verso lo zero, come i gradini scendendo. Dopo Cristo si torna a contare in avanti, ed è l'unico punto della linea del tempo dove il verso si rovescia.",
+			"_difficulty8": true,
+			"items": [
+				"50 a.C.",
+				"50 d.C.",
+				"200 a.C.",
+				"10 a.C."
+			],
+			"correctOrder": [
+				"200 a.C.",
+				"50 a.C.",
+				"10 a.C.",
+				"50 d.C."
+			],
+			"distractorWhy": {
+				"XVIII secolo": "«XVIII secolo» è la risposta giusta a un'altra domanda di questo gruppo: «A quale secolo appartiene l'anno 1789?».",
+				"300 a.C.": "«300 a.C.» è la risposta giusta a un'altra domanda di questo gruppo: «Quale anno viene prima: 300 a.C. o 100 a.C.?».",
+				"XIX secolo": "«XIX secolo» è la risposta giusta a un'altra domanda di questo gruppo: «In quale secolo si colloca l'anno 1900?».",
+				"Cento": "«Cento» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni dura un secolo?».",
+				"a.C.": "«a.C.» è la risposta giusta a un'altra domanda di questo gruppo: «Come si indicano gli anni prima della nascita di Cristo?».",
+				"XV secolo": "«XV secolo» è la risposta giusta a un'altra domanda di questo gruppo: «A quale secolo appartiene l'anno 1492?».",
+				"secolo": "«secolo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un periodo di cento anni?».",
+				"millennio": "«millennio» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un periodo di mille anni?»."
+			}
+		},
+		{
+			"id": "storia-sl-preistoria-2",
+			"subject": "storia",
+			"topic": "preistoria",
+			"difficulty": 2,
+			"format": "ordering",
+			"prompt": "Metti in ordine i materiali con cui si costruivano gli attrezzi, dal più antico.",
+			"options": [],
+			"explanation": "L'ordine non è casuale: ogni materiale chiede più calore del precedente. Il bronzo si fonde a temperature che una fossa non raggiunge, il ferro ancora di più — sono i forni a decidere la sequenza, non l'ingegno.",
+			"_difficulty8": true,
+			"items": [
+				"il ferro",
+				"la pietra scheggiata",
+				"il bronzo",
+				"la pietra levigata"
+			],
+			"correctOrder": [
+				"la pietra scheggiata",
+				"la pietra levigata",
+				"il bronzo",
+				"il ferro"
+			],
+			"distractorWhy": {
+				"Il fuoco": "«Il fuoco» è la risposta giusta a un'altra domanda di questo gruppo: «Quale scoperta permise all'uomo preistorico di cuocere e riscaldarsi?».",
+				"L'assenza della scrittura": "«L'assenza della scrittura» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa distingue la Preistoria dalla Storia?».",
+				"Caccia e raccolta": "«Caccia e raccolta» è la risposta giusta a un'altra domanda di questo gruppo: «Di che cosa viveva soprattutto l'uomo del Paleolitico?».",
+				"L'agricoltura": "«L'agricoltura» è la risposta giusta a un'altra domanda di questo gruppo: «Quale grande scoperta segnò il passaggio al Neolitico?».",
+				"Dal bronzo": "«Dal bronzo» è la risposta giusta a un'altra domanda di questo gruppo: «Da quale metallo prende il nome l'Età del Bronzo?».",
+				"paleolitico": "«paleolitico» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il periodo della preistoria in cui la pietra veniva solo scheggiata?».",
+				"neolitico": "«neolitico» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il periodo della preistoria in cui la pietra veniva levigata?».",
+				"fuoco": "«fuoco» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la scoperta che permise all'uomo di cuocere il cibo e scaldarsi?»."
+			}
+		},
+		{
+			"id": "storia-sl-fonti-3",
+			"subject": "storia",
+			"topic": "fonti",
+			"difficulty": 2,
+			"format": "classification",
+			"prompt": "Smista ogni reperto secondo il tipo di fonte che è.",
+			"options": [],
+			"explanation": "Conta se ci sono parole, non di che materiale è fatta: una lapide di pietra è una fonte scritta, un vaso di terracotta no. Le fonti materiali sono spesso le uniche che restano di chi non sapeva scrivere, cioè della grandissima maggioranza delle persone vissute.",
+			"_difficulty8": true,
+			"items": [
+				"un'anfora rotta",
+				"una lettera su papiro",
+				"un'impronta di piede nel fango indurito",
+				"una lapide con un nome inciso"
+			],
+			"categories": [
+				"fonte scritta",
+				"fonte materiale"
+			],
+			"assignments": {
+				"un'anfora rotta": "fonte materiale",
+				"una lettera su papiro": "fonte scritta",
+				"un'impronta di piede nel fango indurito": "fonte materiale",
+				"una lapide con un nome inciso": "fonte scritta"
+			},
+			"distractorWhy": {
+				"Materiale": "«Materiale» è la risposta giusta a un'altra domanda di questo gruppo: «Un vaso trovato in uno scavo è una fonte…».",
+				"Scritta": "«Scritta» è la risposta giusta a un'altra domanda di questo gruppo: «Il diario di un soldato è una fonte…».",
+				"Secondaria": "«Secondaria» è la risposta giusta a un'altra domanda di questo gruppo: «Il manuale che usi a scuola è una fonte…».",
+				"Orale": "«Orale» è la risposta giusta a un'altra domanda di questo gruppo: «Un'intervista a chi ha vissuto un evento è una fonte…».",
+				"Iconografica": "«Iconografica» è la risposta giusta a un'altra domanda di questo gruppo: «Un affresco che mostra una scena di caccia è una fonte…».",
+				"fonti materiali": "«fonti materiali» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano le fonti costituite da oggetti, edifici e resti?».",
+				"fonti scritte": "«fonti scritte» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano le fonti costituite da testi e documenti?».",
+				"archeologia": "«archeologia» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la scienza che studia il passato scavando nel terreno?»."
+			}
+		},
+		{
+			"id": "storia-sl-preistoria-4",
+			"subject": "storia",
+			"topic": "preistoria",
+			"difficulty": 2,
+			"format": "matching",
+			"prompt": "Abbina ogni invenzione al cambiamento che ha reso possibile.",
+			"options": [],
+			"explanation": "Nessuna di queste è solo un oggetto: ognuna cambia quanta gente un territorio può nutrire. Conservare il cibo, in particolare, è ciò che permette di restare fermi in un posto — e da lì nascono i villaggi.",
+			"_difficulty8": true,
+			"pairs": [
+				{
+					"left": "il fuoco",
+					"right": "cuocere il cibo e resistere al freddo"
+				},
+				{
+					"left": "l'aratro",
+					"right": "coltivare campi più grandi"
+				},
+				{
+					"left": "la ruota",
+					"right": "trasportare pesi senza sollevarli"
+				},
+				{
+					"left": "i vasi di terracotta",
+					"right": "conservare le provviste da un raccolto all'altro"
+				}
+			],
+			"distractorWhy": {
+				"Il fuoco": "«Il fuoco» è la risposta giusta a un'altra domanda di questo gruppo: «Quale scoperta permise all'uomo preistorico di cuocere e riscaldarsi?».",
+				"L'assenza della scrittura": "«L'assenza della scrittura» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa distingue la Preistoria dalla Storia?».",
+				"Caccia e raccolta": "«Caccia e raccolta» è la risposta giusta a un'altra domanda di questo gruppo: «Di che cosa viveva soprattutto l'uomo del Paleolitico?».",
+				"L'agricoltura": "«L'agricoltura» è la risposta giusta a un'altra domanda di questo gruppo: «Quale grande scoperta segnò il passaggio al Neolitico?».",
+				"Dal bronzo": "«Dal bronzo» è la risposta giusta a un'altra domanda di questo gruppo: «Da quale metallo prende il nome l'Età del Bronzo?».",
+				"paleolitico": "«paleolitico» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il periodo della preistoria in cui la pietra veniva solo scheggiata?».",
+				"neolitico": "«neolitico» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il periodo della preistoria in cui la pietra veniva levigata?».",
+				"fuoco": "«fuoco» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la scoperta che permise all'uomo di cuocere il cibo e scaldarsi?»."
+			}
+		},
+		{
+			"id": "storia-sl-metodo-5",
+			"subject": "storia",
+			"topic": "metodo",
+			"difficulty": 2,
+			"format": "classification",
+			"prompt": "Uno scavo ha trovato una tomba. Smista ogni frase secondo che cosa è.",
+			"options": [],
+			"explanation": "Contare i vasi e riconoscerne il materiale è osservare; dire che il morto era importante è già un ragionamento, che può essere buono ma va difeso. Confondere le due cose è il modo in cui una supposizione diventa, dopo qualche libro, un fatto che nessuno controlla più.",
+			"_difficulty8": true,
+			"items": [
+				"nella tomba c'erano ventidue vasi",
+				"chi fu sepolto lì era una persona importante",
+				"i vasi erano di ceramica dipinta",
+				"quella comunità commerciava con il mare"
+			],
+			"categories": [
+				"quello che la fonte mostra",
+				"quello che lo storico deduce"
+			],
+			"assignments": {
+				"nella tomba c'erano ventidue vasi": "quello che la fonte mostra",
+				"chi fu sepolto lì era una persona importante": "quello che lo storico deduce",
+				"i vasi erano di ceramica dipinta": "quello che la fonte mostra",
+				"quella comunità commerciava con il mare": "quello che lo storico deduce"
+			},
+			"distractorWhy": {
+				"Lo storico": "«Lo storico» è la risposta giusta a un'altra domanda di questo gruppo: «Chi studia il passato usando le tracce che ci ha lasciato?».",
+				"materiale": "«materiale» è la risposta giusta a un'altra domanda di questo gruppo: «Una piramide egizia è un esempio di fonte…».",
+				"incrocio delle fonti": "«incrocio delle fonti» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il confronto fra più fonti per verificare se un fatto è attendibile?».",
+				"perché non scrivevano": "«perché non scrivevano» è la risposta giusta a un'altra domanda di questo gruppo: «Perché sappiamo pochissimo della vita quotidiana dei contadini antichi?».",
+				"carbonio 14": "«carbonio 14» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"Da una domanda": "«Da una domanda» è la risposta giusta a un'altra domanda di questo gruppo: «Da che cosa comincia il lavoro di uno storico?».",
+				"fatto": "«fatto» è la risposta giusta a un'altra domanda di questo gruppo: ««Nel 476 l'ultimo imperatore d'Occidente fu deposto»: è un fatto o un'interpretazione?».",
+				"anacronismo": "«anacronismo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'errore di attribuire a un'epoca qualcosa che quell'epoca non aveva?»."
+			}
+		},
+		{
+			"id": "storia-sl-egizi-6",
+			"subject": "storia",
+			"topic": "egizi",
+			"difficulty": 2,
+			"format": "matching",
+			"prompt": "Abbina ogni elemento dell'antico Egitto a quello che era.",
+			"options": [],
+			"explanation": "Tutto in Egitto ruota attorno alla piena: arriva ogni anno, lascia il limo, e su quel fango cresce il grano che nutre chi costruisce le piramidi. Senza quel ritmo regolare non ci sarebbero né i cantieri né gli scribi che ne tengono i conti.",
+			"_difficulty8": true,
+			"pairs": [
+				{
+					"left": "il Nilo",
+					"right": "la piena che rendeva fertile la terra"
+				},
+				{
+					"left": "la piramide",
+					"right": "la tomba monumentale di un faraone"
+				},
+				{
+					"left": "i geroglifici",
+					"right": "la scrittura fatta di segni e figure"
+				},
+				{
+					"left": "il papiro",
+					"right": "il foglio su cui si scriveva"
+				}
+			],
+			"distractorWhy": {
+				"Geroglifica": "«Geroglifica» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava la scrittura sacra degli Egizi?».",
+				"Papiro": "«Papiro» è la risposta giusta a un'altra domanda di questo gruppo: «Su quale materiale scrivevano principalmente gli Egizi?».",
+				"Faraone": "«Faraone» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava il re dell'antico Egitto?».",
+				"Il Nilo": "«Il Nilo» è la risposta giusta a un'altra domanda di questo gruppo: «Lungo quale fiume nacque la civiltà egizia?».",
+				"Geroglifici": "«Geroglifici» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava la scrittura degli antichi Egizi?».",
+				"scriba": "«scriba» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava il funzionario egizio che sapeva leggere e scrivere e teneva i conti?».",
+				"Nilo": "«Nilo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale fiume rendeva fertile l'Egitto con le sue piene?».",
+				"geroglifici": "«geroglifici» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la scrittura a immagini degli antichi Egizi?»."
+			}
+		},
+		{
+			"id": "storia-sl-civilta-7",
+			"subject": "storia",
+			"topic": "civilta",
+			"difficulty": 2,
+			"format": "ordering",
+			"prompt": "Metti in ordine i passaggi che portano da un gruppo di cacciatori a una città.",
+			"options": [],
+			"explanation": "Il passaggio decisivo è l'avanzo: finché tutto il cibo prodotto serve a sopravvivere, nessuno può fare il vasaio o il fabbro a tempo pieno. I mestieri nascono dal surplus, e le città nascono dai mestieri.",
+			"_difficulty8": true,
+			"items": [
+				"nascono mestieri diversi dal coltivare",
+				"si coltiva la terra e si allevano animali",
+				"si costruisce un villaggio stabile",
+				"avanza cibo oltre a quello che serve"
+			],
+			"correctOrder": [
+				"si coltiva la terra e si allevano animali",
+				"si costruisce un villaggio stabile",
+				"avanza cibo oltre a quello che serve",
+				"nascono mestieri diversi dal coltivare"
+			],
+			"distractorWhy": {
+				"La scrittura": "«La scrittura» è la risposta giusta a un'altra domanda di questo gruppo: «Quale invenzione segna il passaggio dalla preistoria alla storia?».",
+				"Mesopotamia": "«Mesopotamia» è la risposta giusta a un'altra domanda di questo gruppo: «In quale zona nacquero Sumeri e Babilonesi?».",
+				"cuneiforme": "«cuneiforme» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la scrittura a segni triangolari incisi sull'argilla dai Sumeri?».",
+				"Fenici": "«Fenici» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il popolo che diffuse l'alfabeto nel Mediterraneo con i suoi commerci?»."
+			}
+		},
+		{
+			"id": "storia-sl-cronologia-8",
+			"subject": "storia",
+			"topic": "cronologia",
+			"difficulty": 2,
+			"format": "numeric_input",
+			"prompt": "Quanti anni passano fra il 200 a.C. e il 100 d.C.?",
+			"options": [],
+			"answer": "300",
+			"explanation": "Si sommano i due tratti, perché stanno da parti opposte dello zero: 200 anni per arrivare all'anno 1 e altri 100 in avanti. È l'errore classico sottrarre invece di sommare, e viene sempre dal dimenticare che i numeri a.C. corrono all'indietro.",
+			"_difficulty8": true,
+			"distractorWhy": {
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti secoli ci sono in un millennio?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «L'anno 1492 appartiene a quale secolo? Scrivi il numero in cifre.».",
+				"50": "«50» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni passano fra il 30 a.C. e il 20 d.C.?».",
+				"100": "«100» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni passano fra il 50 a.C. e il 50 d.C.?».",
+				"250": "«250» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni ci sono in due secoli e mezzo?».",
+				"476": "«476» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
+			}
+		},
+		{
+			"id": "storia-sl-preistoria-9",
+			"subject": "storia",
+			"topic": "preistoria",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "Come si chiama il periodo in cui gli esseri umani cominciarono a coltivare la terra e ad allevare animali?",
+			"options": [],
+			"answer": "neolitico",
+			"accept": [
+				"il neolitico",
+				"età neolitica",
+				"neolitica"
+			],
+			"explanation": "Neolitico vuol dire «pietra nuova», dalla pietra levigata invece che scheggiata. Ma il nome parla dell'attrezzo e la vera novità è un'altra: si smette di seguire il cibo e si comincia a produrlo.",
+			"_difficulty8": true,
+			"distractorWhy": {
+				"Il fuoco": "«Il fuoco» è la risposta giusta a un'altra domanda di questo gruppo: «Quale scoperta permise all'uomo preistorico di cuocere e riscaldarsi?».",
+				"L'assenza della scrittura": "«L'assenza della scrittura» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa distingue la Preistoria dalla Storia?».",
+				"Caccia e raccolta": "«Caccia e raccolta» è la risposta giusta a un'altra domanda di questo gruppo: «Di che cosa viveva soprattutto l'uomo del Paleolitico?».",
+				"L'agricoltura": "«L'agricoltura» è la risposta giusta a un'altra domanda di questo gruppo: «Quale grande scoperta segnò il passaggio al Neolitico?».",
+				"Dal bronzo": "«Dal bronzo» è la risposta giusta a un'altra domanda di questo gruppo: «Da quale metallo prende il nome l'Età del Bronzo?».",
+				"paleolitico": "«paleolitico» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il periodo della preistoria in cui la pietra veniva solo scheggiata?».",
+				"fuoco": "«fuoco» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la scoperta che permise all'uomo di cuocere il cibo e scaldarsi?».",
+				"agricoltura": "«agricoltura» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'attività con cui l'uomo iniziò a coltivare la terra?»."
+			}
+		},
+		{
+			"id": "storia-sl-medioevo-10",
+			"subject": "storia",
+			"topic": "medioevo",
+			"difficulty": 8,
+			"format": "ordering",
+			"prompt": "Metti in ordine questi passaggi della storia medievale europea.",
+			"options": [],
+			"explanation": "Il feudalesimo è la risposta al vuoto lasciato dallo Stato romano: senza un potere centrale che protegga, ci si affida a chi ha le armi in cambio di terra e servizi. I Comuni arrivano dopo, quando le città tornano a contare e i mercanti non hanno più bisogno di quel patto.",
+			"_difficulty8": true,
+			"items": [
+				"nascono i Comuni nell'Italia settentrionale",
+				"cade l'Impero romano d'Occidente",
+				"Carlo Magno viene incoronato imperatore",
+				"si diffonde il sistema feudale"
+			],
+			"correctOrder": [
+				"cade l'Impero romano d'Occidente",
+				"si diffonde il sistema feudale",
+				"Carlo Magno viene incoronato imperatore",
+				"nascono i Comuni nell'Italia settentrionale"
+			],
+			"distractorWhy": {
+				"Feudalesimo": "«Feudalesimo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava il sistema in cui il signore dava terre in cambio di fedeltà?».",
+				"A difendersi dagli attacchi": "«A difendersi dagli attacchi» è la risposta giusta a un'altra domanda di questo gruppo: «A che cosa serviva soprattutto un castello medievale?».",
+				"I monaci amanuensi": "«I monaci amanuensi» è la risposta giusta a un'altra domanda di questo gruppo: «Chi copiava a mano i libri nei monasteri medievali?».",
+				"Cavalieri": "«Cavalieri» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano i guerrieri a cavallo al servizio di un signore?».",
+				"Nei monasteri": "«Nei monasteri» è la risposta giusta a un'altra domanda di questo gruppo: «Dove si conservava e si copiava il sapere nell'Alto Medioevo?».",
+				"feudalesimo": "«feudalesimo» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"scriptorium": "«scriptorium» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano i monasteri in cui i monaci copiavano a mano i libri antichi?».",
+				"comuni": "«comuni» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano le città italiane che nel Medioevo si diedero un governo autonomo?»."
+			}
+		},
+		{
+			"id": "storia-sl-medioevo-11",
+			"subject": "storia",
+			"topic": "medioevo",
+			"difficulty": 8,
+			"format": "matching",
+			"prompt": "Abbina ogni figura del mondo feudale al suo ruolo.",
+			"options": [],
+			"explanation": "Il feudo non è una proprietà ma un patto: chi lo riceve non lo compra, lo tiene finché rispetta gli obblighi. Quando quel patto diventa ereditario il potere del re si sgretola, perché i suoi vassalli non dipendono più da lui per restare dove sono.",
+			"_difficulty8": true,
+			"pairs": [
+				{
+					"left": "il vassallo",
+					"right": "riceve terra in cambio di fedeltà e servizio armato"
+				},
+				{
+					"left": "il signore",
+					"right": "concede la terra e deve protezione a chi la riceve"
+				},
+				{
+					"left": "il servo della gleba",
+					"right": "lavora la terra e non può lasciarla"
+				},
+				{
+					"left": "il monastero",
+					"right": "conserva e ricopia i testi antichi"
+				}
+			],
+			"distractorWhy": {
+				"Feudalesimo": "«Feudalesimo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava il sistema in cui il signore dava terre in cambio di fedeltà?».",
+				"A difendersi dagli attacchi": "«A difendersi dagli attacchi» è la risposta giusta a un'altra domanda di questo gruppo: «A che cosa serviva soprattutto un castello medievale?».",
+				"I monaci amanuensi": "«I monaci amanuensi» è la risposta giusta a un'altra domanda di questo gruppo: «Chi copiava a mano i libri nei monasteri medievali?».",
+				"Cavalieri": "«Cavalieri» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano i guerrieri a cavallo al servizio di un signore?».",
+				"Nei monasteri": "«Nei monasteri» è la risposta giusta a un'altra domanda di questo gruppo: «Dove si conservava e si copiava il sapere nell'Alto Medioevo?».",
+				"feudalesimo": "«feudalesimo» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"scriptorium": "«scriptorium» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano i monasteri in cui i monaci copiavano a mano i libri antichi?».",
+				"comuni": "«comuni» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano le città italiane che nel Medioevo si diedero un governo autonomo?»."
+			}
+		},
+		{
+			"id": "storia-sl-medioevo-12",
+			"subject": "storia",
+			"topic": "medioevo",
+			"difficulty": 8,
+			"format": "classification",
+			"prompt": "Smista ogni fatto secondo il suo effetto sulla popolazione europea del Medioevo.",
+			"options": [],
+			"explanation": "Tutto passa dal cibo: gli strumenti che aumentano il raccolto fanno crescere la gente, e ciò che lo toglie o uccide la fa crollare. Le carestie precedono la peste di pochi decenni, e una popolazione già denutrita è la ragione per cui l'epidemia fu così devastante.",
+			"_difficulty8": true,
+			"items": [
+				"l'aratro pesante e la rotazione dei campi",
+				"la peste nera del Trecento",
+				"il mulino ad acqua",
+				"le carestie del primo Trecento"
+			],
+			"categories": [
+				"fa crescere la popolazione",
+				"la fa crollare"
+			],
+			"assignments": {
+				"l'aratro pesante e la rotazione dei campi": "fa crescere la popolazione",
+				"la peste nera del Trecento": "la fa crollare",
+				"il mulino ad acqua": "fa crescere la popolazione",
+				"le carestie del primo Trecento": "la fa crollare"
+			},
+			"distractorWhy": {
+				"Feudalesimo": "«Feudalesimo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava il sistema in cui il signore dava terre in cambio di fedeltà?».",
+				"A difendersi dagli attacchi": "«A difendersi dagli attacchi» è la risposta giusta a un'altra domanda di questo gruppo: «A che cosa serviva soprattutto un castello medievale?».",
+				"I monaci amanuensi": "«I monaci amanuensi» è la risposta giusta a un'altra domanda di questo gruppo: «Chi copiava a mano i libri nei monasteri medievali?».",
+				"Cavalieri": "«Cavalieri» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano i guerrieri a cavallo al servizio di un signore?».",
+				"Nei monasteri": "«Nei monasteri» è la risposta giusta a un'altra domanda di questo gruppo: «Dove si conservava e si copiava il sapere nell'Alto Medioevo?».",
+				"feudalesimo": "«feudalesimo» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"scriptorium": "«scriptorium» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano i monasteri in cui i monaci copiavano a mano i libri antichi?».",
+				"comuni": "«comuni» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano le città italiane che nel Medioevo si diedero un governo autonomo?»."
+			}
+		},
+		{
+			"id": "storia-sl-roma-13",
+			"subject": "storia",
+			"topic": "roma",
+			"difficulty": 8,
+			"format": "ordering",
+			"prompt": "Metti in ordine le forme che il potere assunse a Roma.",
+			"options": [],
+			"explanation": "L'Impero non nasce da un colpo di scena ma dall'esaurimento della Repubblica: eserciti fedeli al comandante invece che allo Stato rendono la guerra civile inevitabile, e alla fine il vincitore tiene tutto il potere lasciando in piedi le forme antiche.",
+			"_difficulty8": true,
+			"items": [
+				"la Repubblica con consoli e Senato",
+				"l'Impero con un solo principe",
+				"la monarchia dei re",
+				"le guerre civili fra generali"
+			],
+			"correctOrder": [
+				"la monarchia dei re",
+				"la Repubblica con consoli e Senato",
+				"le guerre civili fra generali",
+				"l'Impero con un solo principe"
+			],
+			"distractorWhy": {
+				"Il latino": "«Il latino» è la risposta giusta a un'altra domanda di questo gruppo: «Quale lingua parlavano gli antichi Romani?».",
+				"Romolo": "«Romolo» è la risposta giusta a un'altra domanda di questo gruppo: «Secondo la leggenda, chi fondò Roma?».",
+				"753 a.C.": "«753 a.C.» è la risposta giusta a un'altra domanda di questo gruppo: «In quale anno la tradizione colloca la fondazione di Roma?».",
+				"La repubblica": "«La repubblica» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo la monarchia, quale forma di governo ebbe Roma?».",
+				"Il Senato": "«Il Senato» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava l'assemblea dei senatori a Roma?».",
+				"L'imperatore": "«L'imperatore» è la risposta giusta a un'altra domanda di questo gruppo: «Chi guidava l'Impero Romano?».",
+				"Tevere": "«Tevere» è la risposta giusta a un'altra domanda di questo gruppo: «Su quale fiume sorge Roma?».",
+				"senato": "«senato» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava l'assemblea dei capifamiglia più autorevoli della Roma repubblicana?»."
+			}
+		},
+		{
+			"id": "storia-sl-roma-14",
+			"subject": "storia",
+			"topic": "roma",
+			"difficulty": 8,
+			"format": "matching",
+			"prompt": "Abbina ogni istituzione romana alla sua funzione.",
+			"options": [],
+			"explanation": "Quasi tutte queste cariche sono costruite per impedire che uno solo comandi: due consoli che si controllano, mandati di un anno, un veto in mano ai tribuni. È un sistema pensato contro la tirannia, e regge finché gli eserciti obbediscono allo Stato.",
+			"_difficulty8": true,
+			"pairs": [
+				{
+					"left": "i consoli",
+					"right": "guidano lo Stato per un anno, in due"
+				},
+				{
+					"left": "il Senato",
+					"right": "consiglia e decide la politica estera"
+				},
+				{
+					"left": "i tribuni della plebe",
+					"right": "possono bloccare una decisione che danneggia il popolo"
+				},
+				{
+					"left": "i comizi",
+					"right": "assemblee in cui i cittadini votano"
+				}
+			],
+			"distractorWhy": {
+				"Il latino": "«Il latino» è la risposta giusta a un'altra domanda di questo gruppo: «Quale lingua parlavano gli antichi Romani?».",
+				"Romolo": "«Romolo» è la risposta giusta a un'altra domanda di questo gruppo: «Secondo la leggenda, chi fondò Roma?».",
+				"753 a.C.": "«753 a.C.» è la risposta giusta a un'altra domanda di questo gruppo: «In quale anno la tradizione colloca la fondazione di Roma?».",
+				"La repubblica": "«La repubblica» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo la monarchia, quale forma di governo ebbe Roma?».",
+				"Il Senato": "«Il Senato» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava l'assemblea dei senatori a Roma?».",
+				"L'imperatore": "«L'imperatore» è la risposta giusta a un'altra domanda di questo gruppo: «Chi guidava l'Impero Romano?».",
+				"Tevere": "«Tevere» è la risposta giusta a un'altra domanda di questo gruppo: «Su quale fiume sorge Roma?».",
+				"senato": "«senato» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava l'assemblea dei capifamiglia più autorevoli della Roma repubblicana?»."
+			}
+		},
+		{
+			"id": "storia-sl-fonti-15",
+			"subject": "storia",
+			"topic": "fonti",
+			"difficulty": 8,
+			"format": "classification",
+			"prompt": "Uno storico studia una rivolta del 1378. Smista ogni fonte secondo che cosa è.",
+			"options": [],
+			"explanation": "Diretta non vuol dire vera: il verbale di un processo è scritto da chi accusa, e la cronaca del mercante da chi aveva interessi. Vuol dire che viene da quel tempo, e che va interrogata; le ricostruzioni si giudicano invece dalle fonti su cui si appoggiano.",
+			"_difficulty8": true,
+			"items": [
+				"il verbale del processo ai rivoltosi",
+				"un romanzo storico scritto nel 1850",
+				"una cronaca di un mercante che c'era",
+				"un saggio universitario del 1990"
+			],
+			"categories": [
+				"fonte diretta",
+				"ricostruzione fatta dopo"
+			],
+			"assignments": {
+				"il verbale del processo ai rivoltosi": "fonte diretta",
+				"un romanzo storico scritto nel 1850": "ricostruzione fatta dopo",
+				"una cronaca di un mercante che c'era": "fonte diretta",
+				"un saggio universitario del 1990": "ricostruzione fatta dopo"
+			},
+			"distractorWhy": {
+				"Materiale": "«Materiale» è la risposta giusta a un'altra domanda di questo gruppo: «Un vaso trovato in uno scavo è una fonte…».",
+				"Scritta": "«Scritta» è la risposta giusta a un'altra domanda di questo gruppo: «Il diario di un soldato è una fonte…».",
+				"Secondaria": "«Secondaria» è la risposta giusta a un'altra domanda di questo gruppo: «Il manuale che usi a scuola è una fonte…».",
+				"Orale": "«Orale» è la risposta giusta a un'altra domanda di questo gruppo: «Un'intervista a chi ha vissuto un evento è una fonte…».",
+				"Iconografica": "«Iconografica» è la risposta giusta a un'altra domanda di questo gruppo: «Un affresco che mostra una scena di caccia è una fonte…».",
+				"fonti materiali": "«fonti materiali» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano le fonti costituite da oggetti, edifici e resti?».",
+				"fonti scritte": "«fonti scritte» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano le fonti costituite da testi e documenti?».",
+				"archeologia": "«archeologia» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la scienza che studia il passato scavando nel terreno?»."
+			}
+		},
+		{
+			"id": "storia-sl-metodo-16",
+			"subject": "storia",
+			"topic": "metodo",
+			"difficulty": 8,
+			"format": "ordering",
+			"prompt": "Metti in ordine i passi con cui uno storico arriva a un'affermazione difendibile.",
+			"options": [],
+			"explanation": "La spiegazione viene per ultima, e questo è tutto il metodo. Partire dalla tesi e cercare le fonti che la confermano dà sempre un risultato — anche quando la tesi è falsa — perché fra migliaia di documenti qualcosa che sembra darti ragione si trova sempre.",
+			"_difficulty8": true,
+			"items": [
+				"confronta le fonti fra loro e cerca le contraddizioni",
+				"raccoglie le fonti disponibili sul fatto",
+				"formula una spiegazione e dice su che cosa si regge",
+				"chiede di ciascuna chi l'ha prodotta e perché"
+			],
+			"correctOrder": [
+				"raccoglie le fonti disponibili sul fatto",
+				"chiede di ciascuna chi l'ha prodotta e perché",
+				"confronta le fonti fra loro e cerca le contraddizioni",
+				"formula una spiegazione e dice su che cosa si regge"
+			],
+			"distractorWhy": {
+				"Lo storico": "«Lo storico» è la risposta giusta a un'altra domanda di questo gruppo: «Chi studia il passato usando le tracce che ci ha lasciato?».",
+				"materiale": "«materiale» è la risposta giusta a un'altra domanda di questo gruppo: «Una piramide egizia è un esempio di fonte…».",
+				"incrocio delle fonti": "«incrocio delle fonti» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il confronto fra più fonti per verificare se un fatto è attendibile?».",
+				"perché non scrivevano": "«perché non scrivevano» è la risposta giusta a un'altra domanda di questo gruppo: «Perché sappiamo pochissimo della vita quotidiana dei contadini antichi?».",
+				"carbonio 14": "«carbonio 14» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"Da una domanda": "«Da una domanda» è la risposta giusta a un'altra domanda di questo gruppo: «Da che cosa comincia il lavoro di uno storico?».",
+				"fatto": "«fatto» è la risposta giusta a un'altra domanda di questo gruppo: ««Nel 476 l'ultimo imperatore d'Occidente fu deposto»: è un fatto o un'interpretazione?».",
+				"anacronismo": "«anacronismo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'errore di attribuire a un'epoca qualcosa che quell'epoca non aveva?»."
+			}
+		},
+		{
+			"id": "storia-sl-grecia-17",
+			"subject": "storia",
+			"topic": "grecia",
+			"difficulty": 8,
+			"format": "matching",
+			"prompt": "Abbina ogni idea greca a ciò che ha reso possibile.",
+			"options": [],
+			"explanation": "Le quattro cose stanno insieme: una città piccola in cui i cittadini si conoscono rende pensabile che decidano insieme, e una comunità che discute in pubblico produce sia la filosofia sia il teatro. La democrazia ateniese però escludeva donne, stranieri e schiavi — cioè la maggioranza.",
+			"_difficulty8": true,
+			"pairs": [
+				{
+					"left": "la democrazia ateniese",
+					"right": "i cittadini decidono votando in assemblea"
+				},
+				{
+					"left": "la filosofia",
+					"right": "cercare spiegazioni senza ricorrere ai miti"
+				},
+				{
+					"left": "il teatro",
+					"right": "mettere in scena i conflitti della città"
+				},
+				{
+					"left": "la polis",
+					"right": "una città che è anche uno Stato indipendente"
+				}
+			],
+			"distractorWhy": {
+				"Una città-stato indipendente": "«Una città-stato indipendente» è la risposta giusta a un'altra domanda di questo gruppo: «Che cos'era una polis greca?».",
+				"Atene": "«Atene» è la risposta giusta a un'altra domanda di questo gruppo: «In quale città nacque la democrazia antica?».",
+				"Governo del popolo": "«Governo del popolo» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa la parola «democrazia»?».",
+				"Sparta": "«Sparta» è la risposta giusta a un'altra domanda di questo gruppo: «Quale città greca era famosa per i suoi guerrieri e la disciplina?».",
+				"Pòleis": "«Pòleis» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano le città-stato indipendenti della Grecia antica?».",
+				"A Olimpia": "«A Olimpia» è la risposta giusta a un'altra domanda di questo gruppo: «In quale luogo si tenevano gli antichi Giochi Olimpici?».",
+				"agorà": "«agorà» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"olimpiadi": "«olimpiadi» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano i giochi che si tenevano ogni quattro anni in onore di Zeus?»."
+			}
+		},
+		{
+			"id": "storia-sl-civilta-18",
+			"subject": "storia",
+			"topic": "civilta",
+			"difficulty": 8,
+			"format": "classification",
+			"prompt": "Smista ogni condizione secondo che cosa favorisce nella storia di un popolo.",
+			"options": [],
+			"explanation": "La geografia non decide la storia, ma rende alcune cose più facili di altre: irrigare un grande fiume richiede molte braccia coordinate, e da quel bisogno nasce un potere centrale. Le valli chiuse producono l'opposto — tante comunità che restano diverse.",
+			"_difficulty8": true,
+			"items": [
+				"un grande fiume che allaga regolarmente",
+				"una costa piena di porti naturali",
+				"montagne che isolano le valli",
+				"una pianura aperta senza barriere"
+			],
+			"categories": [
+				"favorisce agricoltura e Stati centralizzati",
+				"favorisce commercio e contatti",
+				"favorisce l'indipendenza dei piccoli gruppi"
+			],
+			"assignments": {
+				"un grande fiume che allaga regolarmente": "favorisce agricoltura e Stati centralizzati",
+				"una costa piena di porti naturali": "favorisce commercio e contatti",
+				"montagne che isolano le valli": "favorisce l'indipendenza dei piccoli gruppi",
+				"una pianura aperta senza barriere": "favorisce commercio e contatti"
+			},
+			"distractorWhy": {
+				"La scrittura": "«La scrittura» è la risposta giusta a un'altra domanda di questo gruppo: «Quale invenzione segna il passaggio dalla preistoria alla storia?».",
+				"Mesopotamia": "«Mesopotamia» è la risposta giusta a un'altra domanda di questo gruppo: «In quale zona nacquero Sumeri e Babilonesi?».",
+				"cuneiforme": "«cuneiforme» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la scrittura a segni triangolari incisi sull'argilla dai Sumeri?».",
+				"Fenici": "«Fenici» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il popolo che diffuse l'alfabeto nel Mediterraneo con i suoi commerci?»."
+			}
+		},
+		{
+			"id": "storia-sl-medioevo-19",
+			"subject": "storia",
+			"topic": "medioevo",
+			"difficulty": 8,
+			"format": "short_answer",
+			"prompt": "Come si chiama il patto con cui un signore concedeva terra in cambio di fedeltà e servizio armato?",
+			"options": [],
+			"answer": "feudo",
+			"accept": [
+				"il feudo",
+				"feudalesimo",
+				"rapporto feudale"
+			],
+			"explanation": "Dal feudo prende nome tutto il sistema. La parola indica la terra concessa, non il contratto: ma è la terra a tenere in piedi il legame, e quando diventa ereditaria il legame si allenta.",
+			"_difficulty8": true,
+			"distractorWhy": {
+				"A difendersi dagli attacchi": "«A difendersi dagli attacchi» è la risposta giusta a un'altra domanda di questo gruppo: «A che cosa serviva soprattutto un castello medievale?».",
+				"I monaci amanuensi": "«I monaci amanuensi» è la risposta giusta a un'altra domanda di questo gruppo: «Chi copiava a mano i libri nei monasteri medievali?».",
+				"Cavalieri": "«Cavalieri» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano i guerrieri a cavallo al servizio di un signore?».",
+				"Nei monasteri": "«Nei monasteri» è la risposta giusta a un'altra domanda di questo gruppo: «Dove si conservava e si copiava il sapere nell'Alto Medioevo?».",
+				"scriptorium": "«scriptorium» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano i monasteri in cui i monaci copiavano a mano i libri antichi?».",
+				"comuni": "«comuni» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano le città italiane che nel Medioevo si diedero un governo autonomo?».",
+				"peste nera": "«peste nera» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la peste che nel Trecento uccise circa un terzo degli europei?».",
+				"servi della gleba": "«servi della gleba» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
+			}
+		},
+		{
+			"id": "storia-sl-roma-20",
+			"subject": "storia",
+			"topic": "roma",
+			"difficulty": 8,
+			"format": "short_answer",
+			"prompt": "Come si chiamava il diritto con cui un tribuno della plebe poteva bloccare una decisione?",
+			"options": [],
+			"answer": "veto",
+			"accept": [
+				"il veto",
+				"intercessio",
+				"diritto di veto"
+			],
+			"explanation": "«Veto» in latino vuol dire semplicemente «vieto», alla prima persona. Una sola parola pronunciata da un magistrato fermava l'atto: è la prima volta nella storia in cui il potere di dire no viene scritto nelle regole.",
+			"_difficulty8": true,
+			"distractorWhy": {
+				"Il latino": "«Il latino» è la risposta giusta a un'altra domanda di questo gruppo: «Quale lingua parlavano gli antichi Romani?».",
+				"Romolo": "«Romolo» è la risposta giusta a un'altra domanda di questo gruppo: «Secondo la leggenda, chi fondò Roma?».",
+				"753 a.C.": "«753 a.C.» è la risposta giusta a un'altra domanda di questo gruppo: «In quale anno la tradizione colloca la fondazione di Roma?».",
+				"La repubblica": "«La repubblica» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo la monarchia, quale forma di governo ebbe Roma?».",
+				"Il Senato": "«Il Senato» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava l'assemblea dei senatori a Roma?».",
+				"L'imperatore": "«L'imperatore» è la risposta giusta a un'altra domanda di questo gruppo: «Chi guidava l'Impero Romano?».",
+				"Tevere": "«Tevere» è la risposta giusta a un'altra domanda di questo gruppo: «Su quale fiume sorge Roma?».",
+				"senato": "«senato» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava l'assemblea dei capifamiglia più autorevoli della Roma repubblicana?»."
+			}
+		},
+		{
+			"id": "storia-sl-metodo-21",
+			"subject": "storia",
+			"topic": "metodo",
+			"difficulty": 8,
+			"format": "short_answer",
+			"prompt": "Come si chiama il metodo che data un reperto misurando quanto carbonio radioattivo gli è rimasto?",
+			"options": [],
+			"answer": "carbonio 14",
+			"accept": [
+				"radiocarbonio",
+				"datazione al carbonio 14",
+				"carbonio-14",
+				"c14"
+			],
+			"explanation": "Il carbonio 14 decade a ritmo costante, quindi quanto ne resta dice quanto tempo è passato dalla morte dell'organismo. Funziona solo su materiali che sono stati vivi — legno, ossa, stoffa — e non su pietra o metallo: per quelli servono altri metodi.",
+			"_difficulty8": true,
+			"distractorWhy": {
+				"Lo storico": "«Lo storico» è la risposta giusta a un'altra domanda di questo gruppo: «Chi studia il passato usando le tracce che ci ha lasciato?».",
+				"materiale": "«materiale» è la risposta giusta a un'altra domanda di questo gruppo: «Una piramide egizia è un esempio di fonte…».",
+				"incrocio delle fonti": "«incrocio delle fonti» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il confronto fra più fonti per verificare se un fatto è attendibile?».",
+				"perché non scrivevano": "«perché non scrivevano» è la risposta giusta a un'altra domanda di questo gruppo: «Perché sappiamo pochissimo della vita quotidiana dei contadini antichi?».",
+				"Da una domanda": "«Da una domanda» è la risposta giusta a un'altra domanda di questo gruppo: «Da che cosa comincia il lavoro di uno storico?».",
+				"fatto": "«fatto» è la risposta giusta a un'altra domanda di questo gruppo: ««Nel 476 l'ultimo imperatore d'Occidente fu deposto»: è un fatto o un'interpretazione?».",
+				"anacronismo": "«anacronismo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'errore di attribuire a un'epoca qualcosa che quell'epoca non aveva?».",
+				"un anacronismo": "«un anacronismo» è la risposta giusta a un'altra domanda di questo gruppo: «Chiedersi se un cittadino romano fosse «di destra o di sinistra» è…»."
+			}
+		},
+		{
+			"id": "storia-sl-grecia-22",
+			"subject": "storia",
+			"topic": "grecia",
+			"difficulty": 8,
+			"format": "ordering",
+			"prompt": "Metti in ordine questi momenti della storia greca.",
+			"options": [],
+			"explanation": "La sequenza racconta una parabola: le città nascono divise, si uniscono davanti al pericolo persiano, si distruggono fra loro nella guerra del Peloponneso e proprio per questo diventano facili da conquistare per la Macedonia.",
+			"_difficulty8": true,
+			"items": [
+				"l'impero di Alessandro Magno",
+				"le guerre persiane",
+				"la guerra del Peloponneso",
+				"la nascita delle poleis"
+			],
+			"correctOrder": [
+				"la nascita delle poleis",
+				"le guerre persiane",
+				"la guerra del Peloponneso",
+				"l'impero di Alessandro Magno"
+			],
+			"distractorWhy": {
+				"Una città-stato indipendente": "«Una città-stato indipendente» è la risposta giusta a un'altra domanda di questo gruppo: «Che cos'era una polis greca?».",
+				"Atene": "«Atene» è la risposta giusta a un'altra domanda di questo gruppo: «In quale città nacque la democrazia antica?».",
+				"Governo del popolo": "«Governo del popolo» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa la parola «democrazia»?».",
+				"Sparta": "«Sparta» è la risposta giusta a un'altra domanda di questo gruppo: «Quale città greca era famosa per i suoi guerrieri e la disciplina?».",
+				"Pòleis": "«Pòleis» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano le città-stato indipendenti della Grecia antica?».",
+				"A Olimpia": "«A Olimpia» è la risposta giusta a un'altra domanda di questo gruppo: «In quale luogo si tenevano gli antichi Giochi Olimpici?».",
+				"agorà": "«agorà» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"olimpiadi": "«olimpiadi» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano i giochi che si tenevano ogni quattro anni in onore di Zeus?»."
+			}
+		},
+		{
+			"id": "storia-sl-civilta-23",
+			"subject": "storia",
+			"topic": "civilta",
+			"difficulty": 8,
+			"format": "matching",
+			"prompt": "Abbina ogni novità del basso Medioevo al suo effetto sulle città.",
+			"options": [],
+			"explanation": "Sono quattro facce dello stesso movimento: quando la ricchezza smette di essere solo terra, il potere smette di essere solo dei signori. I Comuni sono la conseguenza politica di questo spostamento economico.",
+			"_difficulty8": true,
+			"pairs": [
+				{
+					"left": "le fiere e le rotte commerciali",
+					"right": "arriva ricchezza a chi non possiede terra"
+				},
+				{
+					"left": "le corporazioni di mestiere",
+					"right": "gli artigiani si organizzano e contano di più"
+				},
+				{
+					"left": "le università",
+					"right": "si studia fuori dai monasteri"
+				},
+				{
+					"left": "la moneta usata di nuovo ovunque",
+					"right": "si può comprare senza scambiare merci"
+				}
+			],
+			"distractorWhy": {
+				"La scrittura": "«La scrittura» è la risposta giusta a un'altra domanda di questo gruppo: «Quale invenzione segna il passaggio dalla preistoria alla storia?».",
+				"Mesopotamia": "«Mesopotamia» è la risposta giusta a un'altra domanda di questo gruppo: «In quale zona nacquero Sumeri e Babilonesi?».",
+				"cuneiforme": "«cuneiforme» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la scrittura a segni triangolari incisi sull'argilla dai Sumeri?».",
+				"Fenici": "«Fenici» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il popolo che diffuse l'alfabeto nel Mediterraneo con i suoi commerci?»."
+			}
+		},
+		{
+			"id": "storia-sl-civilta-24",
+			"subject": "storia",
+			"topic": "civilta",
+			"difficulty": 8,
+			"format": "ordering",
+			"prompt": "Metti in ordine queste invenzioni della scrittura e della memoria, dalla più antica.",
+			"options": [],
+			"explanation": "La scrittura nasce dalla contabilità, non dalla poesia: prima si conta, poi si registra, e solo dopo si racconta. Ogni passo riduce quanto bisogna imparare per usarla — dai mille segni cuneiformi alle ventiquattro lettere — e allarga chi può scrivere.",
+			"_difficulty8": true,
+			"items": [
+				"la stampa a caratteri mobili",
+				"i gettoni d'argilla per contare le merci",
+				"l'alfabeto con poche lettere",
+				"la scrittura cuneiforme"
+			],
+			"correctOrder": [
+				"i gettoni d'argilla per contare le merci",
+				"la scrittura cuneiforme",
+				"l'alfabeto con poche lettere",
+				"la stampa a caratteri mobili"
+			],
+			"distractorWhy": {
+				"La scrittura": "«La scrittura» è la risposta giusta a un'altra domanda di questo gruppo: «Quale invenzione segna il passaggio dalla preistoria alla storia?».",
+				"Mesopotamia": "«Mesopotamia» è la risposta giusta a un'altra domanda di questo gruppo: «In quale zona nacquero Sumeri e Babilonesi?».",
+				"cuneiforme": "«cuneiforme» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la scrittura a segni triangolari incisi sull'argilla dai Sumeri?».",
+				"Fenici": "«Fenici» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il popolo che diffuse l'alfabeto nel Mediterraneo con i suoi commerci?»."
+			}
+		},
+		{
+			"id": "storia-sl-metodo-25",
+			"subject": "storia",
+			"topic": "metodo",
+			"difficulty": 8,
+			"format": "classification",
+			"prompt": "Smista ogni affermazione sul Medioevo secondo che cosa è.",
+			"options": [],
+			"explanation": "L'idea di un Medioevo buio l'hanno inventata gli umanisti per dare risalto alla propria epoca, e la scuola l'ha ripetuta per secoli. La sfericità della Terra non fu mai in discussione fra le persone istruite: era già nei testi greci che i monasteri copiavano.",
+			"_difficulty8": true,
+			"items": [
+				"la popolazione europea crollò dopo il 1348",
+				"il Medioevo fu un'epoca buia e senza pensiero",
+				"nacquero le prime università in Europa",
+				"nessuno in quei secoli sapeva che la Terra fosse rotonda"
+			],
+			"categories": [
+				"quello che le fonti sostengono",
+				"un luogo comune smentito"
+			],
+			"assignments": {
+				"la popolazione europea crollò dopo il 1348": "quello che le fonti sostengono",
+				"il Medioevo fu un'epoca buia e senza pensiero": "un luogo comune smentito",
+				"nacquero le prime università in Europa": "quello che le fonti sostengono",
+				"nessuno in quei secoli sapeva che la Terra fosse rotonda": "un luogo comune smentito"
+			},
+			"distractorWhy": {
+				"Lo storico": "«Lo storico» è la risposta giusta a un'altra domanda di questo gruppo: «Chi studia il passato usando le tracce che ci ha lasciato?».",
+				"materiale": "«materiale» è la risposta giusta a un'altra domanda di questo gruppo: «Una piramide egizia è un esempio di fonte…».",
+				"incrocio delle fonti": "«incrocio delle fonti» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il confronto fra più fonti per verificare se un fatto è attendibile?».",
+				"perché non scrivevano": "«perché non scrivevano» è la risposta giusta a un'altra domanda di questo gruppo: «Perché sappiamo pochissimo della vita quotidiana dei contadini antichi?».",
+				"carbonio 14": "«carbonio 14» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"Da una domanda": "«Da una domanda» è la risposta giusta a un'altra domanda di questo gruppo: «Da che cosa comincia il lavoro di uno storico?».",
+				"fatto": "«fatto» è la risposta giusta a un'altra domanda di questo gruppo: ««Nel 476 l'ultimo imperatore d'Occidente fu deposto»: è un fatto o un'interpretazione?».",
+				"anacronismo": "«anacronismo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'errore di attribuire a un'epoca qualcosa che quell'epoca non aveva?»."
+			}
+		},
+		{
+			"id": "storia-sl-grecia-26",
+			"subject": "storia",
+			"topic": "grecia",
+			"difficulty": 8,
+			"format": "short_answer",
+			"prompt": "Come si chiamava la città-stato greca, comunità di cittadini e territorio insieme?",
+			"options": [],
+			"answer": "polis",
+			"accept": [
+				"la polis",
+				"poleis",
+				"città-stato"
+			],
+			"explanation": "Polis non vuol dire soltanto «città»: comprende le mura, le campagne attorno e soprattutto i cittadini che ne fanno parte. Da questa parola vengono politica, polizia e metropoli — tutte cose che riguardano il vivere insieme.",
+			"_difficulty8": true,
+			"distractorWhy": {
+				"Una città-stato indipendente": "«Una città-stato indipendente» è la risposta giusta a un'altra domanda di questo gruppo: «Che cos'era una polis greca?».",
+				"Atene": "«Atene» è la risposta giusta a un'altra domanda di questo gruppo: «In quale città nacque la democrazia antica?».",
+				"Governo del popolo": "«Governo del popolo» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa la parola «democrazia»?».",
+				"Sparta": "«Sparta» è la risposta giusta a un'altra domanda di questo gruppo: «Quale città greca era famosa per i suoi guerrieri e la disciplina?».",
+				"Pòleis": "«Pòleis» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano le città-stato indipendenti della Grecia antica?».",
+				"A Olimpia": "«A Olimpia» è la risposta giusta a un'altra domanda di questo gruppo: «In quale luogo si tenevano gli antichi Giochi Olimpici?».",
+				"agorà": "«agorà» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"olimpiadi": "«olimpiadi» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano i giochi che si tenevano ogni quattro anni in onore di Zeus?»."
+			}
+		},
+		{
+			"id": "storia-firme-cronologia-0",
+			"subject": "storia",
+			"topic": "cronologia",
+			"difficulty": 3,
+			"format": "timeline",
+			"prompt": "La linea va dal 3500 a.C. al 1500 d.C. Colloca gli eventi, poi indica quello che si prende come inizio del Medioevo.",
+			"options": [],
+			"explanation": "Guarda dove cadono i punti: fra la scrittura e la fondazione di Roma passa più tempo che fra Roma e noi. La storia antica non è «tutta insieme all'inizio» — è la parte più lunga di tutte, e sembra corta solo perché ne sappiamo meno. Le date di confine come il 476 sono comode, non esatte: nessuno quel mattino si è svegliato nel Medioevo.",
+			"_difficulty8": true,
+			"min": -3500,
+			"max": 1500,
+			"targets": [
+				{
+					"id": "-3200",
+					"label": "nasce la scrittura · 3200 a.C.",
+					"value": -3200
+				},
+				{
+					"id": "-2500",
+					"label": "le grandi piramidi · 2500 a.C.",
+					"value": -2500
+				},
+				{
+					"id": "-753",
+					"label": "fondazione di Roma · 753 a.C.",
+					"value": -753
+				},
+				{
+					"id": "476",
+					"label": "cade l'Impero d'Occidente · 476 d.C.",
+					"value": 476
+				},
+				{
+					"id": "1096",
+					"label": "la prima crociata · 1096",
+					"value": 1096
+				}
+			],
+			"answer": "476",
+			"distractorWhy": {
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti secoli ci sono in un millennio?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «L'anno 1492 appartiene a quale secolo? Scrivi il numero in cifre.».",
+				"50": "«50» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni passano fra il 30 a.C. e il 20 d.C.?».",
+				"100": "«100» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni passano fra il 50 a.C. e il 50 d.C.?».",
+				"250": "«250» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni ci sono in due secoli e mezzo?».",
+				"300": "«300» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni passano fra il 200 a.C. e il 100 d.C.?»."
+			}
+		},
+		{
+			"id": "storia-firme-roma-1",
+			"subject": "storia",
+			"topic": "roma",
+			"difficulty": 5,
+			"format": "timeline",
+			"prompt": "La linea di Roma, dall'800 a.C. al 500 d.C. Colloca i quattro momenti, poi indica quando Roma smette di avere un re.",
+			"options": [],
+			"explanation": "La repubblica dura quasi cinque secoli, l'impero d'Occidente cinque: sulla linea si vede che nessuna delle due è una parentesi. E si vede anche che fra la cacciata del re e il primo imperatore passa più tempo di quanto ne separi noi da Cristoforo Colombo — la repubblica non fu un passaggio, fu quasi tutta la storia di Roma.",
+			"_difficulty8": true,
+			"min": -800,
+			"max": 500,
+			"targets": [
+				{
+					"id": "-753",
+					"label": "fondazione e re · 753 a.C.",
+					"value": -753
+				},
+				{
+					"id": "-509",
+					"label": "nasce la repubblica · 509 a.C.",
+					"value": -509
+				},
+				{
+					"id": "-27",
+					"label": "comincia l'impero · 27 a.C.",
+					"value": -27
+				},
+				{
+					"id": "476",
+					"label": "cade l'Impero d'Occidente · 476 d.C.",
+					"value": 476
+				}
+			],
+			"answer": "-509",
+			"distractorWhy": {
+				"476": "«476» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"482": "«482» è la risposta giusta a un'altra domanda di questo gruppo: «La repubblica romana comincia nel 509 a.C. e finisce nel 27 a.C. Quanti anni è durata?»."
+			}
+		},
+		{
+			"id": "storia-firme-medioevo-2",
+			"subject": "storia",
+			"topic": "medioevo",
+			"difficulty": 7,
+			"format": "timeline",
+			"prompt": "La linea del Medioevo, dal 400 al 1500. Colloca gli eventi, poi indica l'incoronazione che rimette insieme mezza Europa.",
+			"options": [],
+			"explanation": "Mille anni, e i primi trecento sono quasi vuoti su questa linea: è la parte che si chiamava «secoli bui», e il nome dice più su chi l'ha inventato che su quei secoli. Guarda invece l'ultima metà — crociate, Comuni, università, e infine le navi: il Medioevo finisce in pieno movimento, non spegnendosi.",
+			"_difficulty8": true,
+			"min": 400,
+			"max": 1500,
+			"targets": [
+				{
+					"id": "476",
+					"label": "cade l'Impero d'Occidente · 476",
+					"value": 476
+				},
+				{
+					"id": "800",
+					"label": "Carlo Magno imperatore · 800",
+					"value": 800
+				},
+				{
+					"id": "1096",
+					"label": "la prima crociata · 1096",
+					"value": 1096
+				},
+				{
+					"id": "1200",
+					"label": "i Comuni italiani · intorno al 1200",
+					"value": 1200
+				},
+				{
+					"id": "1492",
+					"label": "Colombo raggiunge l'America · 1492",
+					"value": 1492
+				}
+			],
+			"answer": "800",
+			"distractorWhy": {
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Si fa durare il Medioevo dal 476 al 1492. Quanti secoli sono, arrotondando?»."
+			}
+		},
+		{
+			"id": "storia-firme-fonti-3",
+			"subject": "storia",
+			"topic": "fonti",
+			"difficulty": 3,
+			"format": "matching",
+			"prompt": "Abbina ogni domanda dello storico alla fonte che può rispondere.",
+			"options": [],
+			"explanation": "La fonte giusta dipende dalla domanda, e quasi mai è quella che sembra: per sapere che cosa mangiava la gente comune servono i rifiuti, non le cronache, perché nessuno scriveva la lista della spesa. Le fonti più utili sono spesso quelle che nessuno aveva l'intenzione di lasciare.",
+			"_difficulty8": true,
+			"pairs": [
+				{
+					"left": "che cosa mangiavano i contadini?",
+					"right": "i resti nelle discariche e nei pozzi"
+				},
+				{
+					"left": "quanto costava il grano?",
+					"right": "i registri del mercato"
+				},
+				{
+					"left": "che cosa pensava di sé un re?",
+					"right": "le iscrizioni che ha fatto incidere"
+				},
+				{
+					"left": "quanti anni si viveva?",
+					"right": "le ossa nelle sepolture"
+				}
+			],
+			"distractorWhy": {
+				"Materiale": "«Materiale» è la risposta giusta a un'altra domanda di questo gruppo: «Un vaso trovato in uno scavo è una fonte…».",
+				"Scritta": "«Scritta» è la risposta giusta a un'altra domanda di questo gruppo: «Il diario di un soldato è una fonte…».",
+				"Secondaria": "«Secondaria» è la risposta giusta a un'altra domanda di questo gruppo: «Il manuale che usi a scuola è una fonte…».",
+				"Orale": "«Orale» è la risposta giusta a un'altra domanda di questo gruppo: «Un'intervista a chi ha vissuto un evento è una fonte…».",
+				"Iconografica": "«Iconografica» è la risposta giusta a un'altra domanda di questo gruppo: «Un affresco che mostra una scena di caccia è una fonte…».",
+				"fonti materiali": "«fonti materiali» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano le fonti costituite da oggetti, edifici e resti?».",
+				"fonti scritte": "«fonti scritte» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano le fonti costituite da testi e documenti?».",
+				"archeologia": "«archeologia» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la scienza che studia il passato scavando nel terreno?»."
+			}
+		},
+		{
+			"id": "storia-firme-grecia-4",
+			"subject": "storia",
+			"topic": "grecia",
+			"difficulty": 4,
+			"format": "classification",
+			"prompt": "Nell'Atene del quinto secolo, smista chi poteva votare nell'assemblea e chi no.",
+			"options": [],
+			"explanation": "La prima democrazia della storia escludeva la grande maggioranza di chi viveva ad Atene: donne, stranieri e schiavi, forse quattro persone su cinque. Non toglie niente all'invenzione — decidere votando invece che obbedendo era nuovo — ma va detto, perché «democrazia» ha cambiato significato molte volte prima di arrivare a noi.",
+			"_difficulty8": true,
+			"items": [
+				"un cittadino ateniese adulto",
+				"una donna ateniese",
+				"un mercante venuto da Corinto",
+				"uno schiavo nato in città"
+			],
+			"categories": [
+				"poteva votare",
+				"non poteva votare"
+			],
+			"assignments": {
+				"un cittadino ateniese adulto": "poteva votare",
+				"una donna ateniese": "non poteva votare",
+				"un mercante venuto da Corinto": "non poteva votare",
+				"uno schiavo nato in città": "non poteva votare"
+			},
+			"distractorWhy": {
+				"Una città-stato indipendente": "«Una città-stato indipendente» è la risposta giusta a un'altra domanda di questo gruppo: «Che cos'era una polis greca?».",
+				"Atene": "«Atene» è la risposta giusta a un'altra domanda di questo gruppo: «In quale città nacque la democrazia antica?».",
+				"Governo del popolo": "«Governo del popolo» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa la parola «democrazia»?».",
+				"Sparta": "«Sparta» è la risposta giusta a un'altra domanda di questo gruppo: «Quale città greca era famosa per i suoi guerrieri e la disciplina?».",
+				"Pòleis": "«Pòleis» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano le città-stato indipendenti della Grecia antica?».",
+				"A Olimpia": "«A Olimpia» è la risposta giusta a un'altra domanda di questo gruppo: «In quale luogo si tenevano gli antichi Giochi Olimpici?».",
+				"agorà": "«agorà» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"olimpiadi": "«olimpiadi» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano i giochi che si tenevano ogni quattro anni in onore di Zeus?»."
+			}
+		},
+		{
+			"id": "storia-firme-egizi-5",
+			"subject": "storia",
+			"topic": "egizi",
+			"difficulty": 4,
+			"format": "ordering",
+			"prompt": "Metti in ordine le fasi dell'anno agricolo egizio, come lo scandiva il Nilo.",
+			"options": [],
+			"explanation": "L'anno egizio aveva tre stagioni e non quattro, e le decideva il fiume: inondazione, semina, raccolto. È il motivo per cui in Egitto nasce un calendario preciso prima che altrove — non per curiosità astronomica, ma perché sbagliare di due settimane la semina significava non mangiare.",
+			"_difficulty8": true,
+			"items": [
+				"si semina sul limo lasciato dall'acqua",
+				"il fiume si ritira",
+				"il Nilo straripa e copre i campi",
+				"si raccoglie prima del caldo peggiore"
+			],
+			"correctOrder": [
+				"il Nilo straripa e copre i campi",
+				"il fiume si ritira",
+				"si semina sul limo lasciato dall'acqua",
+				"si raccoglie prima del caldo peggiore"
+			],
+			"distractorWhy": {
+				"Geroglifica": "«Geroglifica» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava la scrittura sacra degli Egizi?».",
+				"Papiro": "«Papiro» è la risposta giusta a un'altra domanda di questo gruppo: «Su quale materiale scrivevano principalmente gli Egizi?».",
+				"Faraone": "«Faraone» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava il re dell'antico Egitto?».",
+				"Il Nilo": "«Il Nilo» è la risposta giusta a un'altra domanda di questo gruppo: «Lungo quale fiume nacque la civiltà egizia?».",
+				"Geroglifici": "«Geroglifici» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava la scrittura degli antichi Egizi?».",
+				"scriba": "«scriba» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava il funzionario egizio che sapeva leggere e scrivere e teneva i conti?».",
+				"Nilo": "«Nilo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale fiume rendeva fertile l'Egitto con le sue piene?».",
+				"geroglifici": "«geroglifici» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la scrittura a immagini degli antichi Egizi?»."
+			}
+		},
+		{
+			"id": "storia-firme-metodo-6",
+			"subject": "storia",
+			"topic": "metodo",
+			"difficulty": 4,
+			"format": "matching",
+			"prompt": "Abbina ogni problema di una fonte al modo in cui lo storico lo affronta.",
+			"options": [],
+			"explanation": "Nessuno di questi problemi rende la fonte inutilizzabile: li rende dichiarabili. La differenza fra una ricostruzione seria e una inventata non è che la prima abbia fonti perfette — è che dice quali sono i buchi invece di coprirli con una frase che suona bene.",
+			"_difficulty8": true,
+			"pairs": [
+				{
+					"left": "il cronista era pagato dal re",
+					"right": "si cerca un racconto scritto da un'altra parte"
+				},
+				{
+					"left": "il documento è incompleto",
+					"right": "si dice che cosa manca invece di riempirlo"
+				},
+				{
+					"left": "la data è scritta in un altro calendario",
+					"right": "si converte prima di confrontarla"
+				},
+				{
+					"left": "il testo è una copia di una copia",
+					"right": "si confrontano le copie e si cercano gli errori ripetuti"
+				}
+			],
+			"distractorWhy": {
+				"Lo storico": "«Lo storico» è la risposta giusta a un'altra domanda di questo gruppo: «Chi studia il passato usando le tracce che ci ha lasciato?».",
+				"materiale": "«materiale» è la risposta giusta a un'altra domanda di questo gruppo: «Una piramide egizia è un esempio di fonte…».",
+				"incrocio delle fonti": "«incrocio delle fonti» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il confronto fra più fonti per verificare se un fatto è attendibile?».",
+				"perché non scrivevano": "«perché non scrivevano» è la risposta giusta a un'altra domanda di questo gruppo: «Perché sappiamo pochissimo della vita quotidiana dei contadini antichi?».",
+				"carbonio 14": "«carbonio 14» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"Da una domanda": "«Da una domanda» è la risposta giusta a un'altra domanda di questo gruppo: «Da che cosa comincia il lavoro di uno storico?».",
+				"fatto": "«fatto» è la risposta giusta a un'altra domanda di questo gruppo: ««Nel 476 l'ultimo imperatore d'Occidente fu deposto»: è un fatto o un'interpretazione?».",
+				"anacronismo": "«anacronismo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'errore di attribuire a un'epoca qualcosa che quell'epoca non aveva?»."
+			}
+		},
+		{
+			"id": "storia-firme-fonti-7",
+			"subject": "storia",
+			"topic": "fonti",
+			"difficulty": 4,
+			"format": "ordering",
+			"prompt": "È stata trovata una moneta antica in uno scavo. Metti in ordine i passi per capire che cosa racconta.",
+			"options": [],
+			"explanation": "Il posto viene prima dell'oggetto: una moneta romana trovata in Scozia dice qualcosa che la stessa moneta trovata a Roma non direbbe. Gli archeologi registrano la posizione al centimetro proprio per questo — e un reperto comprato al mercato, di cui non si sa dove stava, ha perso quasi tutto quello che poteva raccontare.",
+			"_difficulty8": true,
+			"items": [
+				"confrontala con le monete già note",
+				"guarda dove esattamente è stata trovata",
+				"leggi che cosa c'è inciso sopra",
+				"prova a dire che cosa dimostra, e che cosa no"
+			],
+			"correctOrder": [
+				"guarda dove esattamente è stata trovata",
+				"leggi che cosa c'è inciso sopra",
+				"confrontala con le monete già note",
+				"prova a dire che cosa dimostra, e che cosa no"
+			],
+			"distractorWhy": {
+				"Materiale": "«Materiale» è la risposta giusta a un'altra domanda di questo gruppo: «Un vaso trovato in uno scavo è una fonte…».",
+				"Scritta": "«Scritta» è la risposta giusta a un'altra domanda di questo gruppo: «Il diario di un soldato è una fonte…».",
+				"Secondaria": "«Secondaria» è la risposta giusta a un'altra domanda di questo gruppo: «Il manuale che usi a scuola è una fonte…».",
+				"Orale": "«Orale» è la risposta giusta a un'altra domanda di questo gruppo: «Un'intervista a chi ha vissuto un evento è una fonte…».",
+				"Iconografica": "«Iconografica» è la risposta giusta a un'altra domanda di questo gruppo: «Un affresco che mostra una scena di caccia è una fonte…».",
+				"fonti materiali": "«fonti materiali» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano le fonti costituite da oggetti, edifici e resti?».",
+				"fonti scritte": "«fonti scritte» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano le fonti costituite da testi e documenti?».",
+				"archeologia": "«archeologia» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la scienza che studia il passato scavando nel terreno?»."
+			}
+		},
+		{
+			"id": "storia-firme-roma-8",
+			"subject": "storia",
+			"topic": "roma",
+			"difficulty": 4,
+			"format": "numeric_input",
+			"prompt": "La repubblica romana comincia nel 509 a.C. e finisce nel 27 a.C. Quanti anni è durata?",
+			"options": [],
+			"answer": "482",
+			"explanation": "Fra due date prima di Cristo si sottrae, perché si contano all'indietro verso lo zero: 509 meno 27. Quasi cinque secoli, più di quanto sia durato l'impero d'Occidente — e più del tempo che separa noi dalla scoperta dell'America.",
+			"_difficulty8": true,
+			"distractorWhy": {
+				"476": "«476» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"-509": "«-509» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
+			}
+		},
+		{
+			"id": "storia-firme-cronologia-9",
+			"subject": "storia",
+			"topic": "cronologia",
+			"difficulty": 5,
+			"format": "matching",
+			"prompt": "Abbina ogni modo di contare il tempo a quello che serviva a fare.",
+			"options": [],
+			"explanation": "Ogni calendario nasce da un bisogno pratico, e nessuno è più «vero» degli altri: contare dalle Olimpiadi funzionava perché tutte le città greche le conoscevano. La scala che usiamo oggi è stata scelta nel Medioevo e ha vinto perché è comoda, non perché sia naturale — infatti mezzo mondo ne usa anche un'altra.",
+			"_difficulty8": true,
+			"pairs": [
+				{
+					"left": "le stagioni del Nilo",
+					"right": "sapere quando seminare"
+				},
+				{
+					"left": "gli anni dalla fondazione di Roma",
+					"right": "datare gli atti dello Stato"
+				},
+				{
+					"left": "le Olimpiadi ogni quattro anni",
+					"right": "mettere in ordine i fatti fra città diverse"
+				},
+				{
+					"left": "gli anni prima e dopo Cristo",
+					"right": "avere una scala unica per tutti"
+				}
+			],
+			"distractorWhy": {
+				"XVIII secolo": "«XVIII secolo» è la risposta giusta a un'altra domanda di questo gruppo: «A quale secolo appartiene l'anno 1789?».",
+				"300 a.C.": "«300 a.C.» è la risposta giusta a un'altra domanda di questo gruppo: «Quale anno viene prima: 300 a.C. o 100 a.C.?».",
+				"XIX secolo": "«XIX secolo» è la risposta giusta a un'altra domanda di questo gruppo: «In quale secolo si colloca l'anno 1900?».",
+				"Cento": "«Cento» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni dura un secolo?».",
+				"a.C.": "«a.C.» è la risposta giusta a un'altra domanda di questo gruppo: «Come si indicano gli anni prima della nascita di Cristo?».",
+				"XV secolo": "«XV secolo» è la risposta giusta a un'altra domanda di questo gruppo: «A quale secolo appartiene l'anno 1492?».",
+				"secolo": "«secolo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un periodo di cento anni?».",
+				"millennio": "«millennio» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un periodo di mille anni?»."
+			}
+		},
+		{
+			"id": "storia-firme-roma-10",
+			"subject": "storia",
+			"topic": "roma",
+			"difficulty": 6,
+			"format": "classification",
+			"prompt": "Smista ogni fatto secondo se abbia rafforzato o indebolito la repubblica romana.",
+			"options": [],
+			"explanation": "Tutte le regole della repubblica servono a impedire che uno solo comandi: due consoli, un anno di mandato, un veto in mano al popolo. Cadono tutte insieme quando l'esercito smette di obbedire allo Stato e comincia a obbedire a chi lo paga — da lì la guerra civile non è un incidente, è l'esito.",
+			"_difficulty8": true,
+			"items": [
+				"i tribuni della plebe ottengono il diritto di veto",
+				"gli eserciti diventano fedeli al comandante che li paga",
+				"le cariche durano un anno e sono in due",
+				"un generale entra in città con le sue legioni"
+			],
+			"categories": [
+				"la rafforza",
+				"la indebolisce"
+			],
+			"assignments": {
+				"i tribuni della plebe ottengono il diritto di veto": "la rafforza",
+				"gli eserciti diventano fedeli al comandante che li paga": "la indebolisce",
+				"le cariche durano un anno e sono in due": "la rafforza",
+				"un generale entra in città con le sue legioni": "la indebolisce"
+			},
+			"distractorWhy": {
+				"Il latino": "«Il latino» è la risposta giusta a un'altra domanda di questo gruppo: «Quale lingua parlavano gli antichi Romani?».",
+				"Romolo": "«Romolo» è la risposta giusta a un'altra domanda di questo gruppo: «Secondo la leggenda, chi fondò Roma?».",
+				"753 a.C.": "«753 a.C.» è la risposta giusta a un'altra domanda di questo gruppo: «In quale anno la tradizione colloca la fondazione di Roma?».",
+				"La repubblica": "«La repubblica» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo la monarchia, quale forma di governo ebbe Roma?».",
+				"Il Senato": "«Il Senato» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava l'assemblea dei senatori a Roma?».",
+				"L'imperatore": "«L'imperatore» è la risposta giusta a un'altra domanda di questo gruppo: «Chi guidava l'Impero Romano?».",
+				"Tevere": "«Tevere» è la risposta giusta a un'altra domanda di questo gruppo: «Su quale fiume sorge Roma?».",
+				"senato": "«senato» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava l'assemblea dei capifamiglia più autorevoli della Roma repubblicana?»."
+			}
+		},
+		{
+			"id": "storia-firme-medioevo-11",
+			"subject": "storia",
+			"topic": "medioevo",
+			"difficulty": 6,
+			"format": "numeric_input",
+			"prompt": "Si fa durare il Medioevo dal 476 al 1492. Quanti secoli sono, arrotondando?",
+			"options": [],
+			"answer": "10",
+			"explanation": "Poco più di mille anni, cioè dieci secoli: un quinto di tutta la storia scritta, liquidato in scuola in poche settimane. È il periodo più lungo che abbia un nome solo — e infatti gli storici lo dividono in alto e basso Medioevo, perché il mondo del 600 e quello del 1400 non si somigliano per niente.",
+			"_difficulty8": true,
+			"distractorWhy": {
+				"800": "«800» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
+			}
+		},
+		{
+			"id": "storia-firme-cronologia-12",
+			"subject": "storia",
+			"topic": "cronologia",
+			"difficulty": 7,
+			"format": "classification",
+			"prompt": "Smista ogni affermazione secondo che cosa è: una data che si può verificare o una convenzione che qualcuno ha scelto.",
+			"options": [],
+			"explanation": "Un'eruzione ha un giorno, un'epoca no: i confini fra le età sono decisioni prese secoli dopo, per poter parlare di grandi periodi senza rifare ogni volta l'elenco. Sono utili e sono arbitrari — in Inghilterra il Medioevo si fa finire nel 1485, e non è che lì il tempo scorresse diverso.",
+			"_difficulty8": true,
+			"items": [
+				"il Vesuvio seppellisce Pompei nel 79 d.C.",
+				"il Medioevo comincia nel 476",
+				"Colombo sbarca il 12 ottobre 1492",
+				"l'età moderna comincia nel 1492"
+			],
+			"categories": [
+				"un fatto databile",
+				"un confine deciso dagli storici"
+			],
+			"assignments": {
+				"il Vesuvio seppellisce Pompei nel 79 d.C.": "un fatto databile",
+				"il Medioevo comincia nel 476": "un confine deciso dagli storici",
+				"Colombo sbarca il 12 ottobre 1492": "un fatto databile",
+				"l'età moderna comincia nel 1492": "un confine deciso dagli storici"
+			},
+			"distractorWhy": {
+				"XVIII secolo": "«XVIII secolo» è la risposta giusta a un'altra domanda di questo gruppo: «A quale secolo appartiene l'anno 1789?».",
+				"300 a.C.": "«300 a.C.» è la risposta giusta a un'altra domanda di questo gruppo: «Quale anno viene prima: 300 a.C. o 100 a.C.?».",
+				"XIX secolo": "«XIX secolo» è la risposta giusta a un'altra domanda di questo gruppo: «In quale secolo si colloca l'anno 1900?».",
+				"Cento": "«Cento» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni dura un secolo?».",
+				"a.C.": "«a.C.» è la risposta giusta a un'altra domanda di questo gruppo: «Come si indicano gli anni prima della nascita di Cristo?».",
+				"XV secolo": "«XV secolo» è la risposta giusta a un'altra domanda di questo gruppo: «A quale secolo appartiene l'anno 1492?».",
+				"secolo": "«secolo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un periodo di cento anni?».",
+				"millennio": "«millennio» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un periodo di mille anni?»."
+			}
+		},
+		{
+			"id": "storia-firme-grecia-13",
+			"subject": "storia",
+			"topic": "grecia",
+			"difficulty": 3,
+			"format": "numeric_input",
+			"prompt": "Le Olimpiadi antiche si tenevano ogni quattro anni. Quante se ne celebravano in un secolo?",
+			"options": [],
+			"answer": "25",
+			"explanation": "Venticinque, e i Greci le usavano come calendario: «nel terzo anno della novantesima Olimpiade» era una data che capivano tutte le città, anche quelle in guerra fra loro. Contare il tempo con qualcosa che si ripete è più antico che contarlo dalla nascita di qualcuno.",
+			"_difficulty8": true
+		},
+		{
+			"id": "storia-app-preistoria-0",
+			"subject": "storia",
+			"topic": "preistoria",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Un gruppo del Paleolitico esaurisce la selvaggina della sua valle. Che cosa fa?",
+			"options": [
+				"Costruisce un villaggio stabile",
+				"Alleva gli animali rimasti",
+				"Si sposta in un'altra valle",
+				"Semina il grano per l'anno dopo"
+			],
+			"answer": "Si sposta in un'altra valle",
+			"explanation": "Nel Paleolitico il cibo si prende dove si trova: quando finisce non c'è nessun modo di farne crescere dell'altro, e restare non è possibile.",
+			"distractorWhy": {
+				"Semina il grano per l'anno dopo": "Seminare è la novità del Neolitico: nel Paleolitico non si produce cibo, lo si raccoglie.",
+				"Costruisce un villaggio stabile": "I villaggi fissi nascono quando si coltiva, perché chi semina deve tornare a raccogliere.",
+				"Alleva gli animali rimasti": "Anche l'allevamento arriva con il Neolitico: prima gli animali si inseguono, non si tengono."
+			},
+			"_difficulty8": true,
+			"applica": "storia-preistoria-base"
+		},
+		{
+			"id": "storia-app-preistoria-1",
+			"subject": "storia",
+			"topic": "preistoria",
+			"difficulty": 2,
+			"format": "short_answer",
+			"prompt": "In quale periodo della preistoria nascono l'agricoltura e l'allevamento?",
+			"options": [],
+			"answer": "Neolitico",
+			"accept": [
+				"neolitico",
+				"il neolitico",
+				"nel neolitico"
+			],
+			"explanation": "«Pietra nuova»: comincia circa diecimila anni fa, e con la semina arriva la conseguenza che cambia tutto, cioè restare fermi in un luogo.",
+			"_difficulty8": true,
+			"applica": "storia-preistoria-base",
+			"distractorWhy": {
+				"Il fuoco": "«Il fuoco» è la risposta giusta a un'altra domanda di questo gruppo: «Quale scoperta permise all'uomo preistorico di cuocere e riscaldarsi?».",
+				"L'assenza della scrittura": "«L'assenza della scrittura» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa distingue la Preistoria dalla Storia?».",
+				"Caccia e raccolta": "«Caccia e raccolta» è la risposta giusta a un'altra domanda di questo gruppo: «Di che cosa viveva soprattutto l'uomo del Paleolitico?».",
+				"L'agricoltura": "«L'agricoltura» è la risposta giusta a un'altra domanda di questo gruppo: «Quale grande scoperta segnò il passaggio al Neolitico?».",
+				"Dal bronzo": "«Dal bronzo» è la risposta giusta a un'altra domanda di questo gruppo: «Da quale metallo prende il nome l'Età del Bronzo?».",
+				"paleolitico": "«paleolitico» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il periodo della preistoria in cui la pietra veniva solo scheggiata?».",
+				"fuoco": "«fuoco» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la scoperta che permise all'uomo di cuocere il cibo e scaldarsi?».",
+				"agricoltura": "«agricoltura» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'attività con cui l'uomo iniziò a coltivare la terra?»."
+			}
+		},
+		{
+			"id": "storia-app-preistoria-2",
+			"subject": "storia",
+			"topic": "preistoria",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Il documento dice che con il fuoco l'uomo cambia l'ambiente invece di subirlo. Quale di questi gesti è dello stesso tipo?",
+			"options": [
+				"Seguire un branco che migra",
+				"Raccogliere i frutti già maturi",
+				"Ripararsi in una caverna già aperta",
+				"Scavare un canale per irrigare"
+			],
+			"answer": "Scavare un canale per irrigare",
+			"explanation": "Il canale modifica il posto per adattarlo a sé, come il fuoco: gli altri tre prendono il posto così com'è e si adattano a lui.",
+			"distractorWhy": {
+				"Raccogliere i frutti già maturi": "Prende quello che l'ambiente offre quando lo offre: non lo cambia in nessun modo.",
+				"Seguire un branco che migra": "È l'ambiente a decidere dove si va: l'uomo si adatta al movimento degli animali.",
+				"Ripararsi in una caverna già aperta": "Usa un riparo che c'era: diventerebbe un cambiamento solo scavandolo o costruendolo."
+			},
+			"_difficulty8": true,
+			"applica": "storia-preistoria-base"
+		},
+		{
+			"id": "storia-app-preistoria-3",
+			"subject": "storia",
+			"topic": "preistoria",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Un archeologo trova in un villaggio delle macine, dei semi e un recinto per capre. In quale periodo si trova?",
+			"options": [
+				"Neolitico",
+				"Dopo la scrittura",
+				"Paleolitico",
+				"Prima del fuoco"
+			],
+			"answer": "Neolitico",
+			"explanation": "Macine, semi e recinti dicono che quel cibo veniva prodotto e non solo trovato: agricoltura e allevamento sono la definizione stessa del Neolitico.",
+			"distractorWhy": {
+				"Paleolitico": "Lì il cibo si prende dove si trova: non ci sarebbero né semi conservati né animali tenuti in un recinto.",
+				"Prima del fuoco": "Il fuoco arriva circa 400.000 anni fa, molto prima dell'agricoltura: quel villaggio è enormemente più recente.",
+				"Dopo la scrittura": "Con la scrittura finisce la preistoria: qui non c'è nessun segno inciso, solo oggetti."
+			},
+			"_difficulty8": true,
+			"applica": "storia-preistoria-base"
+		},
+		{
+			"id": "storia-app-preistoria-4",
+			"subject": "storia",
+			"topic": "preistoria",
+			"difficulty": 5,
+			"format": "multiple_choice",
+			"prompt": "Che cosa, nella posizione delle pitture rupestri, fa pensare a un uso rituale?",
+			"options": [
+				"Stanno sempre accanto ai focolari",
+				"Stanno in gallerie profonde e buie",
+				"Stanno sui muri delle capanne",
+				"Stanno all'ingresso, ben visibili"
+			],
+			"answer": "Stanno in gallerie profonde e buie",
+			"explanation": "Per dipingerle bisognava andarci apposta portandosi il fuoco, in punti dove nessuno viveva: non erano lì per essere guardate ogni giorno.",
+			"distractorWhy": {
+				"Stanno all'ingresso, ben visibili": "Se fosse così sarebbero proprio un abbellimento: invece si trovano nelle parti interne della grotta.",
+				"Stanno sui muri delle capanne": "Le pitture di cui parliamo sono nelle grotte, sulla roccia, non in luoghi di abitazione.",
+				"Stanno sempre accanto ai focolari": "I focolari stanno dove si viveva, cioè verso l'imboccatura: le pitture sono molto più dentro."
+			},
+			"_difficulty8": true,
+			"applica": "storia-preistoria-alta"
+		},
+		{
+			"id": "storia-app-preistoria-5",
+			"subject": "storia",
+			"topic": "preistoria",
+			"difficulty": 6,
+			"format": "short_answer",
+			"prompt": "Come si chiama una grande pietra piantata verticalmente nel terreno, tipica del Neolitico?",
+			"options": [],
+			"answer": "menhir",
+			"accept": [
+				"un menhir",
+				"il menhir"
+			],
+			"explanation": "Dal bretone «pietra lunga». Quello che dice non è tanto la forma quanto il peso: spostarla richiedeva centinaia di persone organizzate.",
+			"_difficulty8": true,
+			"applica": "storia-preistoria-alta",
+			"distractorWhy": {
+				"Il fuoco": "«Il fuoco» è la risposta giusta a un'altra domanda di questo gruppo: «Quale scoperta permise all'uomo preistorico di cuocere e riscaldarsi?».",
+				"L'assenza della scrittura": "«L'assenza della scrittura» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa distingue la Preistoria dalla Storia?».",
+				"Caccia e raccolta": "«Caccia e raccolta» è la risposta giusta a un'altra domanda di questo gruppo: «Di che cosa viveva soprattutto l'uomo del Paleolitico?».",
+				"L'agricoltura": "«L'agricoltura» è la risposta giusta a un'altra domanda di questo gruppo: «Quale grande scoperta segnò il passaggio al Neolitico?».",
+				"Dal bronzo": "«Dal bronzo» è la risposta giusta a un'altra domanda di questo gruppo: «Da quale metallo prende il nome l'Età del Bronzo?».",
+				"paleolitico": "«paleolitico» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il periodo della preistoria in cui la pietra veniva solo scheggiata?».",
+				"neolitico": "«neolitico» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il periodo della preistoria in cui la pietra veniva levigata?».",
+				"fuoco": "«fuoco» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la scoperta che permise all'uomo di cuocere il cibo e scaldarsi?»."
+			}
+		},
+		{
+			"id": "storia-app-preistoria-6",
+			"subject": "storia",
+			"topic": "preistoria",
+			"difficulty": 7,
+			"format": "multiple_choice",
+			"prompt": "Perché la lavorazione del bronzo obbligò a commerciare lontano?",
+			"options": [
+				"Serviva legna di un'unica specie di albero",
+				"Il bronzo era troppo pesante da trasportare",
+				"Rame e stagno non stanno negli stessi posti",
+				"Soltanto pochi re sapevano fonderlo"
+			],
+			"answer": "Rame e stagno non stanno negli stessi posti",
+			"explanation": "Il bronzo è rame mescolato a stagno, e i due metalli si trovano in regioni diverse: per farne uno bisogna per forza scambiare a grande distanza.",
+			"distractorWhy": {
+				"Il bronzo era troppo pesante da trasportare": "Il peso è un problema di trasporto, non la ragione per cui bisogna andare lontano a procurarsi gli ingredienti.",
+				"Soltanto pochi re sapevano fonderlo": "Chi sa fondere spiega chi comanda sul metallo, non perché le materie prime vengano da lontano.",
+				"Serviva legna di un'unica specie di albero": "Per la fusione serve calore, e la legna si trova quasi ovunque: il vincolo è sui metalli."
+			},
+			"_difficulty8": true,
+			"applica": "storia-preistoria-alta"
+		},
+		{
+			"id": "storia-app-civilta-7",
+			"subject": "storia",
+			"topic": "civilta",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Perché un raccolto che avanza permette la nascita di mestieri nuovi?",
+			"options": [
+				"Perché la terra diventa più fertile",
+				"Perché il cibo si conserva più a lungo",
+				"Perché i villaggi si allargano da soli",
+				"Perché mantiene chi non coltiva"
+			],
+			"answer": "Perché mantiene chi non coltiva",
+			"explanation": "Il cibo in più nutre chi fa altro: un vasaio, un sacerdote, un soldato. Finché ognuno produce appena quel che gli serve, devono coltivare tutti.",
+			"distractorWhy": {
+				"Perché il cibo si conserva più a lungo": "La conservazione serve a non perdere l'eccedenza, ma da sola non libera nessuno dal lavoro dei campi.",
+				"Perché la terra diventa più fertile": "La fertilità è la causa dell'eccedenza, non la sua conseguenza: qui si chiede che cosa produce l'eccedenza.",
+				"Perché i villaggi si allargano da soli": "Un villaggio più grande resta un villaggio di contadini se nessuno può smettere di coltivare."
+			},
+			"_difficulty8": true,
+			"applica": "storia-civilta-base"
+		},
+		{
+			"id": "storia-app-civilta-8",
+			"subject": "storia",
+			"topic": "civilta",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Le prime tavolette sumere sono elenchi di sacchi di grano e di pecore. Che cosa dice questo sulla scrittura?",
+			"options": [
+				"Che nacque per tenere i conti",
+				"Che i Sumeri allevavano moltissimo",
+				"Che le storie si scrivevano altrove",
+				"Che la scrittura era un segreto sacro"
+			],
+			"answer": "Che nacque per tenere i conti",
+			"explanation": "Le prime cose messe per iscritto sono ricevute di magazzino: la scrittura nasce come strumento di amministrazione e impara a raccontare molto dopo.",
+			"distractorWhy": {
+				"Che i Sumeri allevavano moltissimo": "Legge le tavolette come una notizia sull'economia invece che come una prova sull'uso della scrittura.",
+				"Che le storie si scrivevano altrove": "Non c'è nessuna traccia di racconti scritti su altri supporti in quel periodo: i testi narrativi arrivano secoli dopo.",
+				"Che la scrittura era un segreto sacro": "Sarebbe il contrario di un uso di magazzino, che è aperto a chi amministra e serve a rendere controllabili le merci."
+			},
+			"_difficulty8": true,
+			"applica": "storia-civilta-base"
+		},
+		{
+			"id": "storia-app-civilta-9",
+			"subject": "storia",
+			"topic": "civilta",
+			"difficulty": 4,
+			"format": "short_answer",
+			"prompt": "In quale regione, fra il Tigri e l'Eufrate, nacquero i Sumeri e poi i Babilonesi?",
+			"options": [],
+			"answer": "Mesopotamia",
+			"accept": [
+				"la mesopotamia",
+				"in mesopotamia"
+			],
+			"explanation": "Il nome significa «terra fra i fiumi», e dice già la causa: due grandi corsi d'acqua che irrigano, concimano con il limo e fanno da strada.",
+			"_difficulty8": true,
+			"applica": "storia-civilta-base",
+			"distractorWhy": {
+				"La scrittura": "«La scrittura» è la risposta giusta a un'altra domanda di questo gruppo: «Quale invenzione segna il passaggio dalla preistoria alla storia?».",
+				"cuneiforme": "«cuneiforme» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la scrittura a segni triangolari incisi sull'argilla dai Sumeri?».",
+				"Fenici": "«Fenici» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il popolo che diffuse l'alfabeto nel Mediterraneo con i suoi commerci?»."
+			}
+		},
+		{
+			"id": "storia-app-civilta-10",
+			"subject": "storia",
+			"topic": "civilta",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale dono del fiume rifà fertile il terreno ogni anno senza che nessuno lavori?",
+			"options": [
+				"L'acqua portata dai canali",
+				"Il limo lasciato dalla piena",
+				"La via d'acqua per i battelli carichi",
+				"Il pesce che si trova sulle rive"
+			],
+			"answer": "Il limo lasciato dalla piena",
+			"explanation": "Ritirandosi, la piena lascia sui campi uno strato di fango ricchissimo: è concime che arriva da solo, ogni anno, senza fatica e senza costo.",
+			"distractorWhy": {
+				"L'acqua portata dai canali": "L'irrigazione è un vantaggio vero, ma i canali bisogna scavarli e mantenerli: non arriva da sola.",
+				"La via d'acqua per i battelli carichi": "Il trasporto è il terzo dono del fiume, e non ha niente a che fare con la fertilità della terra.",
+				"Il pesce che si trova sulle rive": "È cibo in più, non fertilità: non rende coltivabile nessun campo."
+			},
+			"_difficulty8": true,
+			"applica": "storia-civilta-base"
+		},
+		{
+			"id": "storia-app-civilta-11",
+			"subject": "storia",
+			"topic": "civilta",
+			"difficulty": 5,
+			"format": "multiple_choice",
+			"prompt": "Perché mettere le leggi per iscritto cambia il rapporto fra chi giudica e chi è giudicato?",
+			"options": [
+				"Perché le pene diventano più leggere",
+				"Perché il giudice smette di servire",
+				"Perché la regola diventa controllabile",
+				"Perché la legge non cambia mai più"
+			],
+			"answer": "Perché la regola diventa controllabile",
+			"explanation": "Finché la regola sta a voce, cambia da un giudice all'altro e nessuno può dimostrare che abbia sbagliato. Incisa su una pietra pubblica, chiunque va a leggerla.",
+			"distractorWhy": {
+				"Perché le pene diventano più leggere": "Le leggi di Hammurabi sono durissime: scriverle le rende pubbliche, non miti.",
+				"Perché il giudice smette di servire": "Il giudice continua a decidere i casi: quello che cambia è che ora si può verificare su quale regola.",
+				"Perché la legge non cambia mai più": "Anche una legge scritta si può sostituire: il vantaggio è che finché vale, vale uguale per tutti."
+			},
+			"_difficulty8": true,
+			"applica": "storia-civilta-alta"
+		},
+		{
+			"id": "storia-app-civilta-12",
+			"subject": "storia",
+			"topic": "civilta",
+			"difficulty": 7,
+			"format": "multiple_choice",
+			"prompt": "Perché l'alfabeto fenicio tolse potere a chi scriveva di mestiere?",
+			"options": [
+				"Perché i Fenici proibirono il cuneiforme",
+				"Perché la pietra costava meno del papiro",
+				"Perché gli scribi erano quasi tutti stranieri",
+				"Perché con venti segni impara quasi chiunque"
+			],
+			"answer": "Perché con venti segni impara quasi chiunque",
+			"explanation": "Il cuneiforme e i geroglifici richiedono centinaia di segni e anni di scuola, quindi scrivere è mestiere di pochi. Con un segno per suono si impara in settimane.",
+			"distractorWhy": {
+				"Perché i Fenici proibirono il cuneiforme": "Nessuno proibì niente: l'alfabeto si diffuse perché era più comodo, soprattutto per i commercianti.",
+				"Perché la pietra costava meno del papiro": "Il costo del supporto non c'entra: quello che cambia è quanti segni bisogna imparare.",
+				"Perché gli scribi erano quasi tutti stranieri": "Gli scribi erano funzionari locali, e il loro potere veniva dalla rarità della competenza, non dalla provenienza."
+			},
+			"_difficulty8": true,
+			"applica": "storia-civilta-alta"
+		},
+		{
+			"id": "storia-app-civilta-13",
+			"subject": "storia",
+			"topic": "civilta",
+			"difficulty": 8,
+			"format": "short_answer",
+			"prompt": "Quale popolo di navigatori del Mediterraneo diffuse un alfabeto di poco più di venti segni?",
+			"options": [],
+			"answer": "Fenici",
+			"accept": [
+				"i fenici",
+				"fenici"
+			],
+			"explanation": "Commerciavano in porti diversi con gente diversa e avevano bisogno di conti rapidi: da quell'alfabeto derivano il greco, il latino e le nostre lettere.",
+			"_difficulty8": true,
+			"applica": "storia-civilta-alta",
+			"distractorWhy": {
+				"La scrittura": "«La scrittura» è la risposta giusta a un'altra domanda di questo gruppo: «Quale invenzione segna il passaggio dalla preistoria alla storia?».",
+				"Mesopotamia": "«Mesopotamia» è la risposta giusta a un'altra domanda di questo gruppo: «In quale zona nacquero Sumeri e Babilonesi?».",
+				"cuneiforme": "«cuneiforme» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la scrittura a segni triangolari incisi sull'argilla dai Sumeri?»."
+			}
+		},
+		{
+			"id": "storia-app-egizi-14",
+			"subject": "storia",
+			"topic": "egizi",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Perché la striscia di terra lungo il Nilo è verde mentre tutto il resto è deserto?",
+			"options": [
+				"Perché la piena vi lascia il limo",
+				"Perché il sole vi arriva più debole",
+				"Perché il vento porta via la sabbia",
+				"Perché lì piove molto più spesso"
+			],
+			"answer": "Perché la piena vi lascia il limo",
+			"explanation": "Ogni anno il fiume esce dal suo letto e ritirandosi deposita un fango fertile: fuori da quella striscia il limo non arriva, e resta deserto.",
+			"distractorWhy": {
+				"Perché lì piove molto più spesso": "In Egitto piove pochissimo ovunque: l'acqua che conta arriva dal fiume, non dal cielo.",
+				"Perché il vento porta via la sabbia": "Togliere sabbia non renderebbe fertile niente: sotto ci sarebbe altro deserto.",
+				"Perché il sole vi arriva più debole": "Il sole è lo stesso su tutta la regione: la differenza fra verde e deserto la fa l'acqua con il suo limo."
+			},
+			"_difficulty8": true,
+			"applica": "storia-egizi-base"
+		},
+		{
+			"id": "storia-app-egizi-15",
+			"subject": "storia",
+			"topic": "egizi",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiamava il sovrano dell'Egitto, considerato anche divino?",
+			"options": [],
+			"answer": "faraone",
+			"accept": [
+				"il faraone",
+				"un faraone"
+			],
+			"explanation": "Non era soltanto un capo politico: si credeva che da lui dipendesse l'ordine del mondo, e perfino il ritorno regolare della piena.",
+			"_difficulty8": true,
+			"applica": "storia-egizi-base",
+			"distractorWhy": {
+				"Geroglifica": "«Geroglifica» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava la scrittura sacra degli Egizi?».",
+				"Papiro": "«Papiro» è la risposta giusta a un'altra domanda di questo gruppo: «Su quale materiale scrivevano principalmente gli Egizi?».",
+				"Il Nilo": "«Il Nilo» è la risposta giusta a un'altra domanda di questo gruppo: «Lungo quale fiume nacque la civiltà egizia?».",
+				"Geroglifici": "«Geroglifici» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava la scrittura degli antichi Egizi?».",
+				"scriba": "«scriba» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava il funzionario egizio che sapeva leggere e scrivere e teneva i conti?».",
+				"Nilo": "«Nilo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale fiume rendeva fertile l'Egitto con le sue piene?».",
+				"geroglifici": "«geroglifici» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la scrittura a immagini degli antichi Egizi?».",
+				"piramidi": "«piramidi» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano le tombe monumentali a base quadrata dei faraoni?»."
+			}
+		},
+		{
+			"id": "storia-app-egizi-16",
+			"subject": "storia",
+			"topic": "egizi",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Perché per gli Egizi contava che la piena fosse regolare, e non solo che portasse il limo?",
+			"options": [
+				"Perché faceva arretrare il deserto",
+				"Perché così si poteva organizzare",
+				"Perché riempiva i pozzi di tutti i villaggi",
+				"Perché rendeva l'acqua più pulita"
+			],
+			"answer": "Perché così si poteva organizzare",
+			"explanation": "Una cosa che torna sempre nello stesso momento si può prevedere: si sa quando seminare, quando raccogliere e quando scavare i canali.",
+			"distractorWhy": {
+				"Perché rendeva l'acqua più pulita": "La piena porta fango, non limpidezza: il suo valore è il concime che deposita.",
+				"Perché faceva arretrare il deserto": "Il deserto resta dov'è: la piena fertilizza la striscia che raggiunge, non la allarga.",
+				"Perché riempiva i pozzi di tutti i villaggi": "L'acqua da bere era un problema minore: quello grande era far crescere il cibo su una terra di deserto."
+			},
+			"_difficulty8": true,
+			"applica": "storia-egizi-base"
+		},
+		{
+			"id": "storia-app-egizi-17",
+			"subject": "storia",
+			"topic": "egizi",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Migliaia di uomini lavorano per anni a una sola piramide. Che cosa dice questo, prima ancora della religione?",
+			"options": [
+				"Che il lavoro veniva pagato molto bene",
+				"Che la pietra era facile da tagliare",
+				"Quanto potere aveva chi la ordinava",
+				"Che nel deserto non c'erano altri lavori possibili"
+			],
+			"answer": "Quanto potere aveva chi la ordinava",
+			"explanation": "Per tenere migliaia di persone su un unico cantiere per anni bisogna poterle comandare e nutrire: la piramide misura l'organizzazione del faraone.",
+			"distractorWhy": {
+				"Che la pietra era facile da tagliare": "Tagliare e spostare blocchi enormi era difficilissimo: è proprio la difficoltà a rendere significativo lo sforzo.",
+				"Che il lavoro veniva pagato molto bene": "I lavoratori ricevevano razioni, e comunque la paga non spiegherebbe come si coordinano migliaia di persone per anni.",
+				"Che nel deserto non c'erano altri lavori possibili": "La valle del Nilo era piena di lavoro agricolo: togliere braccia ai campi era un costo, non un ripiego."
+			},
+			"_difficulty8": true,
+			"applica": "storia-egizi-base"
+		},
+		{
+			"id": "storia-app-egizi-18",
+			"subject": "storia",
+			"topic": "egizi",
+			"difficulty": 5,
+			"format": "short_answer",
+			"prompt": "Come si chiamava la scrittura sacra egizia, incisa sulla pietra dei templi e delle tombe?",
+			"options": [],
+			"answer": "geroglifici",
+			"accept": [
+				"geroglifica",
+				"i geroglifici",
+				"scrittura geroglifica"
+			],
+			"explanation": "Centinaia di segni, alcuni per cose e altri per suoni. Per l'uso di ogni giorno si scriveva invece sul papiro, molto più rapido.",
+			"_difficulty8": true,
+			"applica": "storia-egizi-alta",
+			"distractorWhy": {
+				"Papiro": "«Papiro» è la risposta giusta a un'altra domanda di questo gruppo: «Su quale materiale scrivevano principalmente gli Egizi?».",
+				"Faraone": "«Faraone» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava il re dell'antico Egitto?».",
+				"Il Nilo": "«Il Nilo» è la risposta giusta a un'altra domanda di questo gruppo: «Lungo quale fiume nacque la civiltà egizia?».",
+				"scriba": "«scriba» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava il funzionario egizio che sapeva leggere e scrivere e teneva i conti?».",
+				"Nilo": "«Nilo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale fiume rendeva fertile l'Egitto con le sue piene?».",
+				"piramidi": "«piramidi» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano le tombe monumentali a base quadrata dei faraoni?».",
+				"papiro": "«papiro» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la pianta con cui gli Egizi fabbricavano fogli su cui scrivere?».",
+				"terra": "«terra» è la risposta giusta a un'altra domanda di questo gruppo: ««Geometria» in greco vuol dire misura di una cosa sola. Quale?»."
+			}
+		},
+		{
+			"id": "storia-app-egizi-19",
+			"subject": "storia",
+			"topic": "egizi",
+			"difficulty": 6,
+			"format": "multiple_choice",
+			"prompt": "Perché la geometria egizia nasce da un lavoro di catasto e non dallo studio astratto?",
+			"options": [
+				"Perché i templi andavano orientati al sole",
+				"Perché mancavano i numeri per contare",
+				"Perché le piramidi chiedevano calcoli esatti",
+				"Perché la piena cancellava i confini"
+			],
+			"answer": "Perché la piena cancellava i confini",
+			"explanation": "Ogni anno, ritirata l'acqua, bisognava restituire a ciascuno il suo pezzo esatto: da lì corde annodate, angoli retti e regole per le aree.",
+			"distractorWhy": {
+				"Perché mancavano i numeri per contare": "Gli Egizi avevano un sistema di numerazione ben sviluppato: il problema non era contare ma misurare il terreno.",
+				"Perché i templi andavano orientati al sole": "L'orientamento riguarda l'astronomia, ed è un uso successivo: l'origine sta nella misura dei campi.",
+				"Perché le piramidi chiedevano calcoli esatti": "I cantieri usarono la geometria che già esisteva: il problema che l'ha fatta nascere si ripresentava ogni anno in ogni campo."
+			},
+			"_difficulty8": true,
+			"applica": "storia-egizi-alta"
+		},
+		{
+			"id": "storia-app-egizi-20",
+			"subject": "storia",
+			"topic": "egizi",
+			"difficulty": 6,
+			"format": "multiple_choice",
+			"prompt": "Per decifrare i geroglifici si partì dal testo greco della stele di Rosetta. Perché proprio da quello?",
+			"options": [
+				"Perché il greco si sapeva già leggere",
+				"Perché era il più lungo dei tre testi",
+				"Perché i geroglifici erano rovinati",
+				"Perché era inciso più in profondità"
+			],
+			"answer": "Perché il greco si sapeva già leggere",
+			"explanation": "Un documento sconosciuto non si indovina: lo si aggancia a qualcosa di già noto. Il greco antico era leggibile, e i tre testi dicevano la stessa cosa.",
+			"distractorWhy": {
+				"Perché era il più lungo dei tre testi": "La lunghezza non aiuta se non si capisce la lingua: quello che serviva era un testo comprensibile.",
+				"Perché era inciso più in profondità": "La profondità dell'incisione riguarda la conservazione, non la possibilità di leggerlo.",
+				"Perché i geroglifici erano rovinati": "La parte geroglifica è incompleta ma leggibile: il problema era che nessuno ne conoscesse più il significato."
+			},
+			"_difficulty8": true,
+			"applica": "storia-egizi-alta"
+		},
+		{
+			"id": "storia-app-grecia-21",
+			"subject": "storia",
+			"topic": "grecia",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Perché in Grecia ogni pianura tendeva a formare una comunità a sé?",
+			"options": [
+				"Perché un re aveva diviso il paese",
+				"Perché le montagne le separavano",
+				"Perché il clima cambiava ogni valle",
+				"Perché i fiumi erano troppo larghi"
+			],
+			"answer": "Perché le montagne le separavano",
+			"explanation": "Arrivare alla pianura vicina via terra era lungo e faticoso: le comunità crescevano separate, e il mare era una strada più facile delle montagne.",
+			"distractorWhy": {
+				"Perché i fiumi erano troppo larghi": "La Grecia non ha grandi fiumi: è proprio l'assenza di una valle fluviale a distinguerla da Egitto e Mesopotamia.",
+				"Perché il clima cambiava ogni valle": "Il clima mediterraneo è simile in tutta la regione: a dividere è il rilievo, non il tempo che fa.",
+				"Perché un re aveva diviso il paese": "Non c'era nessun re di tutta la Grecia: la divisione nasce dalla geografia, non da una decisione."
+			},
+			"_difficulty8": true,
+			"applica": "storia-grecia-base"
+		},
+		{
+			"id": "storia-app-grecia-22",
+			"subject": "storia",
+			"topic": "grecia",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Come si chiamava la piazza centrale della pòlis, dove si commerciava e si discutevano le decisioni?",
+			"options": [],
+			"answer": "agorà",
+			"accept": [
+				"agora",
+				"l'agorà",
+				"l agora"
+			],
+			"explanation": "Che il luogo del mercato e quello della politica coincidessero non è un caso: decidere insieme era un'attività quotidiana, non un evento raro.",
+			"_difficulty8": true,
+			"applica": "storia-grecia-base",
+			"distractorWhy": {
+				"Una città-stato indipendente": "«Una città-stato indipendente» è la risposta giusta a un'altra domanda di questo gruppo: «Che cos'era una polis greca?».",
+				"Atene": "«Atene» è la risposta giusta a un'altra domanda di questo gruppo: «In quale città nacque la democrazia antica?».",
+				"Governo del popolo": "«Governo del popolo» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa la parola «democrazia»?».",
+				"Sparta": "«Sparta» è la risposta giusta a un'altra domanda di questo gruppo: «Quale città greca era famosa per i suoi guerrieri e la disciplina?».",
+				"Pòleis": "«Pòleis» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano le città-stato indipendenti della Grecia antica?».",
+				"A Olimpia": "«A Olimpia» è la risposta giusta a un'altra domanda di questo gruppo: «In quale luogo si tenevano gli antichi Giochi Olimpici?».",
+				"olimpiadi": "«olimpiadi» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano i giochi che si tenevano ogni quattro anni in onore di Zeus?».",
+				"polis": "«polis» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava la città-stato greca, comunità di cittadini e territorio insieme?»."
+			}
+		},
+		{
+			"id": "storia-app-grecia-23",
+			"subject": "storia",
+			"topic": "grecia",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Che cosa era una colonia greca rispetto alla città che l'aveva fondata?",
+			"options": [
+				"Un accampamento militare stagionale",
+				"Un porto amministrato dalla madrepatria",
+				"Una città nuova e indipendente",
+				"Una provincia che pagava tributi"
+			],
+			"answer": "Una città nuova e indipendente",
+			"explanation": "Restava legata per lingua, dèi e affetti, ma si dava leggi proprie: una figlia, non una provincia. È per questo che il mondo greco si allarga senza diventare un impero.",
+			"distractorWhy": {
+				"Una provincia che pagava tributi": "Descrive il rapporto tipico di un impero, che è esattamente quello che i Greci non costruirono.",
+				"Un accampamento militare stagionale": "Chi partiva andava a restare: portava famiglie e attrezzi, e fondava una città vera.",
+				"Un porto amministrato dalla madrepatria": "L'amministrazione era locale fin dall'inizio: il legame era culturale, non di governo."
+			},
+			"_difficulty8": true,
+			"applica": "storia-grecia-base"
+		},
+		{
+			"id": "storia-app-grecia-24",
+			"subject": "storia",
+			"topic": "grecia",
+			"difficulty": 6,
+			"format": "multiple_choice",
+			"prompt": "Ad Atene molte cariche si assegnavano per sorteggio. A quale problema rispondeva?",
+			"options": [
+				"I cittadini non sapevano contare i voti",
+				"Le assemblee duravano troppo tempo",
+				"Nessuno voleva ricoprire le cariche",
+				"Un sorteggio non si può comprare"
+			],
+			"answer": "Un sorteggio non si può comprare",
+			"explanation": "Con l'elezione chi ha denaro e clientele parte avvantaggiato; con il sorteggio no. È una difesa contro la conquista delle cariche da parte dei ricchi.",
+			"distractorWhy": {
+				"Le assemblee duravano troppo tempo": "Il sorteggio riguarda chi ottiene la carica, non quanto si discute prima di decidere.",
+				"I cittadini non sapevano contare i voti": "Le votazioni ad Atene erano frequenti e i conteggi ordinari: la difficoltà non era aritmetica.",
+				"Nessuno voleva ricoprire le cariche": "Le cariche erano ambite, ed è proprio per questo che si temeva finissero sempre alle stesse famiglie."
+			},
+			"_difficulty8": true,
+			"applica": "storia-grecia-alta"
+		},
+		{
+			"id": "storia-app-grecia-25",
+			"subject": "storia",
+			"topic": "grecia",
+			"difficulty": 6,
+			"format": "short_answer",
+			"prompt": "Come si chiamava la popolazione sottomessa che lavorava la terra al posto degli Spartani?",
+			"options": [],
+			"answer": "iloti",
+			"accept": [
+				"gli iloti",
+				"ilota"
+			],
+			"explanation": "Erano molti più dei cittadini spartani, e il timore di una loro rivolta spiega perché Sparta scelse di organizzarsi prima di tutto come un esercito.",
+			"_difficulty8": true,
+			"applica": "storia-grecia-alta",
+			"distractorWhy": {
+				"Una città-stato indipendente": "«Una città-stato indipendente» è la risposta giusta a un'altra domanda di questo gruppo: «Che cos'era una polis greca?».",
+				"Atene": "«Atene» è la risposta giusta a un'altra domanda di questo gruppo: «In quale città nacque la democrazia antica?».",
+				"Governo del popolo": "«Governo del popolo» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa la parola «democrazia»?».",
+				"Sparta": "«Sparta» è la risposta giusta a un'altra domanda di questo gruppo: «Quale città greca era famosa per i suoi guerrieri e la disciplina?».",
+				"Pòleis": "«Pòleis» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano le città-stato indipendenti della Grecia antica?».",
+				"A Olimpia": "«A Olimpia» è la risposta giusta a un'altra domanda di questo gruppo: «In quale luogo si tenevano gli antichi Giochi Olimpici?».",
+				"agorà": "«agorà» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"olimpiadi": "«olimpiadi» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano i giochi che si tenevano ogni quattro anni in onore di Zeus?»."
+			}
+		},
+		{
+			"id": "storia-app-grecia-26",
+			"subject": "storia",
+			"topic": "grecia",
+			"difficulty": 7,
+			"format": "multiple_choice",
+			"prompt": "Perché Sparta scelse di organizzarsi prima di tutto come un esercito?",
+			"options": [
+				"Perché gli iloti erano molti più di loro",
+				"Perché voleva vincere le olimpiadi",
+				"Perché non aveva mura da difendere",
+				"Perché la terra spartana era sterile"
+			],
+			"answer": "Perché gli iloti erano molti più di loro",
+			"explanation": "Una minoranza che vive del lavoro forzato di una maggioranza ha paura di una rivolta: la durezza dell'educazione spartana è la risposta a quel timore.",
+			"distractorWhy": {
+				"Perché la terra spartana era sterile": "La pianura spartana era fra le più fertili della Grecia: è proprio per questo che valeva la pena controllarla.",
+				"Perché non aveva mura da difendere": "Che Sparta non avesse mura è una conseguenza di quella scelta — si vantava che le mura fossero i suoi uomini — non la causa.",
+				"Perché voleva vincere le olimpiadi": "Gli atleti spartani vincevano spesso, ma nessuna città costruisce un sistema sociale intero per una gara."
+			},
+			"_difficulty8": true,
+			"applica": "storia-grecia-alta"
+		},
+		{
+			"id": "storia-app-roma-27",
+			"subject": "storia",
+			"topic": "roma",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Perché un guado sul Tevere rese importante il luogo in cui nacque Roma?",
+			"options": [
+				"Perché le navi da guerra vi attraccavano",
+				"Perché tutti dovevano passare di lì",
+				"Perché il fiume la difendeva da ogni lato",
+				"Perché l'acqua era potabile solo lì"
+			],
+			"answer": "Perché tutti dovevano passare di lì",
+			"explanation": "Un guado è un imbuto: tutto ciò che si sposta fra nord e sud deve attraversare in quel punto, e chi lo controlla vede passare merci, eserciti e notizie.",
+			"distractorWhy": {
+				"Perché l'acqua era potabile solo lì": "L'acqua del Tevere si poteva prendere lungo tutto il corso: il vantaggio del guado è il passaggio, non la bevuta.",
+				"Perché il fiume la difendeva da ogni lato": "Il fiume passa da un lato solo: la difesa veniva dalle colline, e comunque un guado è un punto di passaggio, non una barriera.",
+				"Perché le navi da guerra vi attraccavano": "Un guado è dove il fiume è basso, cioè il punto peggiore per una nave: sono due cose incompatibili."
+			},
+			"_difficulty8": true,
+			"applica": "storia-roma-base"
+		},
+		{
+			"id": "storia-app-roma-28",
+			"subject": "storia",
+			"topic": "roma",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Da quale lingua di Roma derivano l'italiano, lo spagnolo e il francese?",
+			"options": [],
+			"answer": "latino",
+			"accept": [
+				"il latino",
+				"dal latino"
+			],
+			"explanation": "Era la lingua del Lazio e si diffuse con le conquiste: dove arrivavano le strade e l'amministrazione, arrivava anche la lingua in cui erano scritte.",
+			"_difficulty8": true,
+			"applica": "storia-roma-base",
+			"distractorWhy": {
+				"Romolo": "«Romolo» è la risposta giusta a un'altra domanda di questo gruppo: «Secondo la leggenda, chi fondò Roma?».",
+				"753 a.C.": "«753 a.C.» è la risposta giusta a un'altra domanda di questo gruppo: «In quale anno la tradizione colloca la fondazione di Roma?».",
+				"La repubblica": "«La repubblica» è la risposta giusta a un'altra domanda di questo gruppo: «Dopo la monarchia, quale forma di governo ebbe Roma?».",
+				"Il Senato": "«Il Senato» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava l'assemblea dei senatori a Roma?».",
+				"L'imperatore": "«L'imperatore» è la risposta giusta a un'altra domanda di questo gruppo: «Chi guidava l'Impero Romano?».",
+				"Tevere": "«Tevere» è la risposta giusta a un'altra domanda di questo gruppo: «Su quale fiume sorge Roma?».",
+				"senato": "«senato» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava l'assemblea dei capifamiglia più autorevoli della Roma repubblicana?».",
+				"consoli": "«consoli» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano i due magistrati eletti ogni anno a capo della repubblica romana?»."
+			}
+		},
+		{
+			"id": "storia-app-roma-29",
+			"subject": "storia",
+			"topic": "roma",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "I consoli erano sempre due e restavano in carica un anno solo. Contro quale rischio era costruita la regola?",
+			"options": [
+				"Che i patrizi perdessero le terre",
+				"Che i plebei prendessero il senato",
+				"Che uno tornasse a farsi re",
+				"Che le guerre durassero troppo"
+			],
+			"answer": "Che uno tornasse a farsi re",
+			"explanation": "La repubblica nasce cacciando l'ultimo re, e si difende dividendo il potere: due persone si controllano a vicenda, e un anno finisce presto.",
+			"distractorWhy": {
+				"Che i plebei prendessero il senato": "Per i plebei c'erano i tribuni, dal 494 a.C.: il numero e la durata dei consoli riguardano un'altra paura.",
+				"Che le guerre durassero troppo": "L'anno di carica complicava anzi le campagne lunghe: era un costo accettato, non lo scopo.",
+				"Che i patrizi perdessero le terre": "Le magistrature erano in mano ai patrizi: la regola limitava proprio loro, non li proteggeva."
+			},
+			"_difficulty8": true,
+			"applica": "storia-roma-base"
+		},
+		{
+			"id": "storia-app-roma-30",
+			"subject": "storia",
+			"topic": "roma",
+			"difficulty": 5,
+			"format": "multiple_choice",
+			"prompt": "Una strada consolare non accorcia la distanza fra due città. Che cosa accorcia?",
+			"options": [
+				"La fatica dei muli da soma",
+				"Il costo delle pietre miliari",
+				"Il numero di legioni necessarie",
+				"Il tempo per percorrerla"
+			],
+			"answer": "Il tempo per percorrerla",
+			"explanation": "Una rivolta a cinquecento chilometri è un problema diverso a seconda che le legioni ci mettano un mese o otto giorni: la strada compra tempo di reazione.",
+			"distractorWhy": {
+				"Il costo delle pietre miliari": "Le pietre miliari sono un segnale sulla strada, e costruire una strada costa molto di più che non farla.",
+				"Il numero di legioni necessarie": "Le legioni servono lo stesso: cambia quanto in fretta arrivano dove serve.",
+				"La fatica dei muli da soma": "Il carico si fa più agevole, ma il vantaggio che decide è un altro, e si misura in giorni."
+			},
+			"_difficulty8": true,
+			"applica": "storia-roma-alta"
+		},
+		{
+			"id": "storia-app-roma-31",
+			"subject": "storia",
+			"topic": "roma",
+			"difficulty": 7,
+			"format": "multiple_choice",
+			"prompt": "Perché a un popolo conquistato conveniva integrarsi invece di ribellarsi?",
+			"options": [
+				"Perché la cittadinanza si poteva ottenere",
+				"Perché Roma proibiva ogni altra lingua",
+				"Perché le legioni erano davvero invincibili",
+				"Perché le tasse romane erano quasi nulle"
+			],
+			"answer": "Perché la cittadinanza si poteva ottenere",
+			"explanation": "Non era un privilegio chiuso dalla nascita: si poteva ottenere, per esempio con il servizio militare, e dava diritti e protezione legale concreti.",
+			"distractorWhy": {
+				"Perché le legioni erano davvero invincibili": "Roma perse molte battaglie: la sola paura non spiega perché tanti popoli restarono dentro per secoli.",
+				"Perché Roma proibiva ogni altra lingua": "Le lingue locali continuarono a esistere a lungo: l'integrazione era offerta, non imposta parlando.",
+				"Perché le tasse romane erano quasi nulle": "Le tasse c'erano ed erano pesanti: quello che le bilanciava era l'accesso ai diritti."
+			},
+			"_difficulty8": true,
+			"applica": "storia-roma-alta"
+		},
+		{
+			"id": "storia-app-roma-32",
+			"subject": "storia",
+			"topic": "roma",
+			"difficulty": 7,
+			"format": "multiple_choice",
+			"prompt": "Perché il 476 d.C. viene chiamato una data di comodo?",
+			"options": [
+				"Perché le fonti la datano male",
+				"Perché niente finì in quel giorno",
+				"Perché la scelse un imperatore",
+				"Perché cadde anche l'Oriente"
+			],
+			"answer": "Perché niente finì in quel giorno",
+			"explanation": "Le città si erano svuotate lentamente per decenni, e l'impero d'Oriente proseguì per altri mille anni: la data serve a mettere ordine, non a descrivere un crollo.",
+			"distractorWhy": {
+				"Perché le fonti la datano male": "La deposizione dell'ultimo imperatore d'Occidente è ben documentata: il problema non è la data, è che cosa si pretende che significhi.",
+				"Perché la scelse un imperatore": "L'hanno scelta gli storici molto tempo dopo, come confine fra due periodi.",
+				"Perché cadde anche l'Oriente": "L'impero d'Oriente non cadde affatto nel 476: continuò per circa mille anni ancora."
+			},
+			"_difficulty8": true,
+			"applica": "storia-roma-alta"
+		},
+		{
+			"id": "storia-app-roma-33",
+			"subject": "storia",
+			"topic": "roma",
+			"difficulty": 8,
+			"format": "numeric_input",
+			"prompt": "In quale anno dopo Cristo fu deposto l'ultimo imperatore d'Occidente, la data che si usa come inizio del Medioevo?",
+			"options": [],
+			"answer": "476",
+			"explanation": "È una convenzione utile e non un crollo improvviso: serve a segnare un confine fra due periodi che in realtà sfumano l'uno nell'altro.",
+			"_difficulty8": true,
+			"applica": "storia-roma-alta",
+			"distractorWhy": {
+				"482": "«482» è la risposta giusta a un'altra domanda di questo gruppo: «La repubblica romana comincia nel 509 a.C. e finisce nel 27 a.C. Quanti anni è durata?».",
+				"-509": "«-509» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
+			}
+		},
+		{
+			"id": "storia-app-medioevo-34",
+			"subject": "storia",
+			"topic": "medioevo",
+			"difficulty": 6,
+			"format": "multiple_choice",
+			"prompt": "Caduti i commerci a lunga distanza, perché la terra diventa la ricchezza principale?",
+			"options": [
+				"Perché l'oro era stato portato via",
+				"Perché coltivare era diventato facile",
+				"Perché il denaro non compra quasi nulla",
+				"Perché i signori la requisirono tutta"
+			],
+			"answer": "Perché il denaro non compra quasi nulla",
+			"explanation": "Se non c'è quasi niente da comprare, avere monete serve a poco: conta ciò che dà da mangiare da sé, cioè il campo e chi lo lavora.",
+			"distractorWhy": {
+				"Perché i signori la requisirono tutta": "La concentrazione della terra nelle mani dei signori è una conseguenza di quel mondo, non la causa del valore della terra.",
+				"Perché l'oro era stato portato via": "L'oro non sparì: semplicemente smise di essere utile, perché mancavano i mercati in cui spenderlo.",
+				"Perché coltivare era diventato facile": "Coltivare restò durissimo: il valore della terra non viene dalla comodità ma dal fatto che nutre."
+			},
+			"_difficulty8": true,
+			"applica": "storia-medioevo-alta"
+		},
+		{
+			"id": "storia-app-medioevo-35",
+			"subject": "storia",
+			"topic": "medioevo",
+			"difficulty": 7,
+			"format": "short_answer",
+			"prompt": "Come si chiamavano i contadini legati alla terra su cui erano nati, che non potevano lasciarla?",
+			"options": [],
+			"answer": "servi della gleba",
+			"accept": [
+				"i servi della gleba",
+				"servi"
+			],
+			"explanation": "Non erano schiavi comprabili uno per uno: erano vincolati al fondo, e cambiavano proprietario insieme al terreno quando questo passava di mano.",
+			"_difficulty8": true,
+			"applica": "storia-medioevo-alta",
+			"distractorWhy": {
+				"Feudalesimo": "«Feudalesimo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamava il sistema in cui il signore dava terre in cambio di fedeltà?».",
+				"A difendersi dagli attacchi": "«A difendersi dagli attacchi» è la risposta giusta a un'altra domanda di questo gruppo: «A che cosa serviva soprattutto un castello medievale?».",
+				"I monaci amanuensi": "«I monaci amanuensi» è la risposta giusta a un'altra domanda di questo gruppo: «Chi copiava a mano i libri nei monasteri medievali?».",
+				"Cavalieri": "«Cavalieri» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano i guerrieri a cavallo al servizio di un signore?».",
+				"Nei monasteri": "«Nei monasteri» è la risposta giusta a un'altra domanda di questo gruppo: «Dove si conservava e si copiava il sapere nell'Alto Medioevo?».",
+				"feudalesimo": "«feudalesimo» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"scriptorium": "«scriptorium» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano i monasteri in cui i monaci copiavano a mano i libri antichi?».",
+				"comuni": "«comuni» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamavano le città italiane che nel Medioevo si diedero un governo autonomo?»."
+			}
+		},
+		{
+			"id": "storia-app-medioevo-36",
+			"subject": "storia",
+			"topic": "medioevo",
+			"difficulty": 7,
+			"format": "multiple_choice",
+			"prompt": "Perché senza i monaci amanuensi molti testi antichi non sarebbero arrivati fino a noi?",
+			"options": [
+				"Perché i testi antichi erano proibiti",
+				"Perché gli originali erano in Oriente",
+				"Perché nessuno sapeva più il latino",
+				"Perché la pergamena si consuma"
+			],
+			"answer": "Perché la pergamena si consuma",
+			"explanation": "Nessun libro dura duemila anni da solo: se non viene ricopiato prima di rovinarsi, sparisce. Copiare a mano era l'unico modo di moltiplicarlo.",
+			"distractorWhy": {
+				"Perché i testi antichi erano proibiti": "Erano proprio i monasteri a conservarli e a studiarli: non c'era nessun divieto da aggirare.",
+				"Perché nessuno sapeva più il latino": "Nei monasteri il latino si sapeva benissimo: era la lingua in cui si leggeva e si copiava.",
+				"Perché gli originali erano in Oriente": "Alcuni sì e molti no, ma il problema è materiale: anche un originale vicino si sarebbe comunque consumato."
+			},
+			"_difficulty8": true,
+			"applica": "storia-medioevo-alta"
+		},
+		{
+			"id": "storia-app-medioevo-37",
+			"subject": "storia",
+			"topic": "medioevo",
+			"difficulty": 8,
+			"format": "multiple_choice",
+			"prompt": "Arriva la stampa a caratteri mobili, a metà del Quattrocento. Che cosa cambia per primo?",
+			"options": [
+				"Quanto costa un libro",
+				"La lingua in cui si scrive",
+				"Il numero dei monasteri",
+				"Chi decide che cosa scrivere"
+			],
+			"answer": "Quanto costa un libro",
+			"explanation": "Copiare a mano richiedeva mesi, e un volume costava come un piccolo podere. Stampandolo il prezzo crolla, e da lì il sapere cambia velocità di diffusione.",
+			"distractorWhy": {
+				"Chi decide che cosa scrivere": "I controlli su ciò che si pubblica cambiano dopo, proprio come reazione al fatto che i libri erano diventati tanti.",
+				"La lingua in cui si scrive": "Il passaggio dal latino alle lingue volgari è un processo suo, cominciato prima e proseguito per altre ragioni.",
+				"Il numero dei monasteri": "I monasteri restano: quello che perdono è il monopolio sulla riproduzione dei testi."
+			},
+			"_difficulty8": true,
+			"applica": "storia-medioevo-alta"
+		},
+		{
+			"id": "storia-app-cronologia-38",
+			"subject": "storia",
+			"topic": "cronologia",
+			"difficulty": 1,
+			"format": "numeric_input",
+			"prompt": "Quanti anni ci sono in due secoli e mezzo?",
+			"options": [],
+			"answer": "250",
+			"explanation": "Un secolo dura cento anni, quindi due ne fanno duecento e mezzo secolo ne fa cinquanta.",
+			"_difficulty8": true,
+			"applica": "storia-cronologia-base",
+			"distractorWhy": {
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti secoli ci sono in un millennio?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «L'anno 1492 appartiene a quale secolo? Scrivi il numero in cifre.».",
+				"50": "«50» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni passano fra il 30 a.C. e il 20 d.C.?».",
+				"100": "«100» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni passano fra il 50 a.C. e il 50 d.C.?».",
+				"300": "«300» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni passano fra il 200 a.C. e il 100 d.C.?».",
+				"476": "«476» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
+			}
+		},
+		{
+			"id": "storia-app-cronologia-39",
+			"subject": "storia",
+			"topic": "cronologia",
+			"difficulty": 2,
+			"format": "numeric_input",
+			"prompt": "Quanti decenni ci sono in un millennio?",
+			"options": [],
+			"answer": "100",
+			"explanation": "Un millennio dura mille anni e un decennio dieci: mille diviso dieci fa cento. Sono anche dieci secoli, e ogni secolo contiene dieci decenni.",
+			"_difficulty8": true,
+			"applica": "storia-cronologia-base",
+			"distractorWhy": {
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti secoli ci sono in un millennio?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «L'anno 1492 appartiene a quale secolo? Scrivi il numero in cifre.».",
+				"50": "«50» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni passano fra il 30 a.C. e il 20 d.C.?».",
+				"250": "«250» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni ci sono in due secoli e mezzo?».",
+				"300": "«300» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni passano fra il 200 a.C. e il 100 d.C.?».",
+				"476": "«476» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
+			}
+		},
+		{
+			"id": "storia-app-cronologia-40",
+			"subject": "storia",
+			"topic": "cronologia",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "A quale secolo appartiene l'anno 1215?",
+			"options": [
+				"XIV secolo",
+				"XIII secolo",
+				"XII secolo",
+				"XXI secolo"
+			],
+			"answer": "XIII secolo",
+			"explanation": "Il conteggio parte da uno: il primo secolo finisce nel 100, quindi agli anni che cominciano per 12 corrisponde il tredicesimo secolo.",
+			"distractorWhy": {
+				"XII secolo": "Legge le centinaia senza aggiungere uno: il XII secolo va dal 1101 al 1200, e il 1215 è già oltre.",
+				"XIV secolo": "Ha aggiunto due invece di uno: il XIV secolo comincia nel 1301.",
+				"XXI secolo": "È il secolo in cui viviamo noi: il 1215 è più di ottocento anni prima."
+			},
+			"_difficulty8": true,
+			"applica": "storia-cronologia-base"
+		},
+		{
+			"id": "storia-app-cronologia-41",
+			"subject": "storia",
+			"topic": "cronologia",
+			"difficulty": 4,
+			"format": "multiple_choice",
+			"prompt": "Quale dei due anni è il più antico: il 480 a.C. o il 44 a.C.?",
+			"options": [
+				"il 44 a.C.",
+				"sono contemporanei",
+				"il 480 a.C.",
+				"non si può stabilire"
+			],
+			"answer": "il 480 a.C.",
+			"explanation": "Gli anni avanti Cristo si contano all'indietro: più il numero è grande, più il fatto è lontano da noi. È l'unica numerazione della storia che va al contrario.",
+			"distractorWhy": {
+				"il 44 a.C.": "Applica la regola dei numeri normali: fra gli anni a.C. il più piccolo è il più vicino a noi, quindi il più recente.",
+				"sono contemporanei": "Li separano più di quattro secoli: il 480 a.C. è l'età delle guerre persiane, il 44 a.C. quella di Cesare.",
+				"non si può stabilire": "Si stabilisce benissimo: entrambi sono avanti Cristo, e basta confrontare i due numeri sapendo che vanno al contrario."
+			},
+			"_difficulty8": true,
+			"applica": "storia-cronologia-base"
+		},
+		{
+			"id": "storia-app-cronologia-42",
+			"subject": "storia",
+			"topic": "cronologia",
+			"difficulty": 5,
+			"format": "numeric_input",
+			"prompt": "Quanti anni passano fra il 100 a.C. e il 200 d.C.?",
+			"options": [],
+			"answer": "300",
+			"explanation": "L'intervallo attraversa il punto di partenza della numerazione, quindi i due tratti si sommano: cento fino a Cristo, poi altri duecento.",
+			"_difficulty8": true,
+			"applica": "storia-cronologia-alta",
+			"distractorWhy": {
+				"10": "«10» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti secoli ci sono in un millennio?».",
+				"15": "«15» è la risposta giusta a un'altra domanda di questo gruppo: «L'anno 1492 appartiene a quale secolo? Scrivi il numero in cifre.».",
+				"50": "«50» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni passano fra il 30 a.C. e il 20 d.C.?».",
+				"100": "«100» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni passano fra il 50 a.C. e il 50 d.C.?».",
+				"250": "«250» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti anni ci sono in due secoli e mezzo?».",
+				"476": "«476» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
+			}
+		},
+		{
+			"id": "storia-app-cronologia-43",
+			"subject": "storia",
+			"topic": "cronologia",
+			"difficulty": 5,
+			"format": "multiple_choice",
+			"prompt": "Perché fra due date ai lati opposti della nascita di Cristo si somma invece di sottrarre?",
+			"options": [
+				"Perché i secoli si contano da uno",
+				"Perché a.C. si scrive al contrario",
+				"Perché le date antiche sono incerte",
+				"Perché i numeri vanno in versi opposti"
+			],
+			"answer": "Perché i numeri vanno in versi opposti",
+			"explanation": "Da un lato i numeri calano avvicinandosi a noi, dall'altro crescono: si misura il tratto fino a Cristo e poi quello da Cristo in poi, e si mettono insieme.",
+			"distractorWhy": {
+				"Perché i secoli si contano da uno": "È la regola che sposta il numero del secolo, e non ha niente a che fare con il calcolo di un intervallo.",
+				"Perché a.C. si scrive al contrario": "L'abbreviazione si scrive normalmente: quello che va al contrario è il verso in cui crescono gli anni.",
+				"Perché le date antiche sono incerte": "L'incertezza di una data non cambia il modo di calcolare la distanza fra due date."
+			},
+			"_difficulty8": true,
+			"applica": "storia-cronologia-alta"
+		},
+		{
+			"id": "storia-app-cronologia-44",
+			"subject": "storia",
+			"topic": "cronologia",
+			"difficulty": 7,
+			"format": "multiple_choice",
+			"prompt": "Che cosa mostra una linea del tempo disegnata in scala, che un elenco ordinato non mostra?",
+			"options": [
+				"Quanto è lunga la preistoria",
+				"Quali fatti sono importanti",
+				"In che ordine sono i fatti",
+				"Chi ha scritto le fonti"
+			],
+			"answer": "Quanto è lunga la preistoria",
+			"explanation": "La scala rende visibili le proporzioni: disegnata in scala, la preistoria occupa quasi tutta la riga e tutto il resto si schiaccia in un tratto finale.",
+			"distractorWhy": {
+				"In che ordine sono i fatti": "L'ordine lo dà già un elenco: è esattamente quello che la scala aggiunge in più.",
+				"Quali fatti sono importanti": "L'importanza la decide chi costruisce la linea scegliendo che cosa metterci: non la mostra la scala.",
+				"Chi ha scritto le fonti": "La linea del tempo colloca gli eventi, non racconta da quali documenti li conosciamo."
+			},
+			"_difficulty8": true,
+			"applica": "storia-cronologia-alta"
+		},
+		{
+			"id": "storia-app-fonti-45",
+			"subject": "storia",
+			"topic": "fonti",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Un osso con i segni di un taglio, trovato in uno scavo, è una fonte storica?",
+			"options": [
+				"No, non è un documento scritto",
+				"Sì, dice come si macellava",
+				"No, gli oggetti non sono fonti",
+				"Sì, ma solo se è stato datato"
+			],
+			"answer": "Sì, dice come si macellava",
+			"explanation": "Fonte non vuol dire cosa importante: vuol dire cosa da cui si può ricavare un'informazione. Quei tagli raccontano attrezzi e abitudini alimentari.",
+			"distractorWhy": {
+				"No, non è un documento scritto": "Restringe le fonti ai testi, e allora di tutta la preistoria non si saprebbe niente.",
+				"No, gli oggetti non sono fonti": "Gli oggetti sono fonti materiali, e per i periodi senza scrittura sono le uniche disponibili.",
+				"Sì, ma solo se è stato datato": "La datazione rende la fonte più utile, ma un oggetto non datato dice comunque qualcosa su come si viveva."
+			},
+			"_difficulty8": true,
+			"applica": "storia-fonti-base"
+		},
+		{
+			"id": "storia-app-fonti-46",
+			"subject": "storia",
+			"topic": "fonti",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Il diario che un soldato scrive al fronte mentre la guerra è in corso è una fonte primaria o secondaria?",
+			"options": [],
+			"answer": "primaria",
+			"accept": [
+				"fonte primaria",
+				"una fonte primaria"
+			],
+			"explanation": "È prodotta nell'epoca studiata da chi la stava vivendo: nessuno l'ha ancora interpretata, ed è per questo che chi vuole controllare risale fino a lì.",
+			"_difficulty8": true,
+			"applica": "storia-fonti-base",
+			"distractorWhy": {
+				"Materiale": "«Materiale» è la risposta giusta a un'altra domanda di questo gruppo: «Un vaso trovato in uno scavo è una fonte…».",
+				"Scritta": "«Scritta» è la risposta giusta a un'altra domanda di questo gruppo: «Il diario di un soldato è una fonte…».",
+				"Secondaria": "«Secondaria» è la risposta giusta a un'altra domanda di questo gruppo: «Il manuale che usi a scuola è una fonte…».",
+				"Orale": "«Orale» è la risposta giusta a un'altra domanda di questo gruppo: «Un'intervista a chi ha vissuto un evento è una fonte…».",
+				"Iconografica": "«Iconografica» è la risposta giusta a un'altra domanda di questo gruppo: «Un affresco che mostra una scena di caccia è una fonte…».",
+				"fonti materiali": "«fonti materiali» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano le fonti costituite da oggetti, edifici e resti?».",
+				"fonti scritte": "«fonti scritte» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiamano le fonti costituite da testi e documenti?».",
+				"archeologia": "«archeologia» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la scienza che studia il passato scavando nel terreno?»."
+			}
+		},
+		{
+			"id": "storia-app-fonti-47",
+			"subject": "storia",
+			"topic": "fonti",
+			"difficulty": 3,
+			"format": "multiple_choice",
+			"prompt": "Si dice che un oggetto «non mente». Perché allora non basta da solo?",
+			"options": [
+				"Perché è sempre incompleto",
+				"Perché si rovina con il tempo",
+				"Perché non spiega niente di sé",
+				"Perché non si può datare"
+			],
+			"answer": "Perché non spiega niente di sé",
+			"explanation": "Non ha intenzioni, quindi non può ingannare; ma non dice a che cosa serviva né perché fosse lì. Quello va ricostruito confrontandolo con altre fonti.",
+			"distractorWhy": {
+				"Perché si rovina con il tempo": "Anche un oggetto perfettamente conservato continuerebbe a non dire nulla del proprio scopo.",
+				"Perché è sempre incompleto": "Molti oggetti si ritrovano interi: il limite non è la completezza ma il silenzio sul significato.",
+				"Perché non si può datare": "Gli oggetti si datano, spesso con grande precisione: il problema è un altro."
+			},
+			"_difficulty8": true,
+			"applica": "storia-fonti-base"
+		},
+		{
+			"id": "storia-app-fonti-48",
+			"subject": "storia",
+			"topic": "fonti",
+			"difficulty": 5,
+			"format": "multiple_choice",
+			"prompt": "Il manuale di scuola e la lettera di un soldato al fronte: che cosa li distingue davvero?",
+			"options": [
+				"Se sono stampati o scritti a mano",
+				"La lingua in cui sono scritti",
+				"Quanto sono lunghi i due testi",
+				"La distanza dal fatto"
+			],
+			"answer": "La distanza dal fatto",
+			"explanation": "La lettera viene da chi c'era, il manuale da chi ha studiato dopo le fonti di chi c'era: uno è primario, l'altro secondario, e nessuno dei due è meno vero.",
+			"distractorWhy": {
+				"La lingua in cui sono scritti": "Potrebbero essere scritti nella stessa lingua e resterebbero comunque uno primario e l'altro secondario.",
+				"Quanto sono lunghi i due testi": "La lunghezza non c'entra: esistono fonti primarie di due righe e ricostruzioni di mille pagine.",
+				"Se sono stampati o scritti a mano": "Il supporto non decide: una lettera stampata resterebbe primaria, e un manuale manoscritto secondario."
+			},
+			"_difficulty8": true,
+			"applica": "storia-fonti-base"
+		},
+		{
+			"id": "storia-app-fonti-49",
+			"subject": "storia",
+			"topic": "fonti",
+			"difficulty": 5,
+			"format": "multiple_choice",
+			"prompt": "Un vincitore scrive il giorno dopo la battaglia, uno sconfitto trent'anni più tardi. Che cosa cambia?",
+			"options": [
+				"Che cosa ciascuno poteva sapere",
+				"Che la seconda ha smesso di essere primaria",
+				"Che uno dei due sta mentendo",
+				"Che la fonte più antica vale di più"
+			],
+			"answer": "Che cosa ciascuno poteva sapere",
+			"explanation": "Uno ha visto un pezzo di campo e ha interesse a fare bella figura; l'altro ha avuto trent'anni per rileggere l'evento alla luce di quello che è seguito.",
+			"distractorWhy": {
+				"Che uno dei due sta mentendo": "Possono essere entrambi sinceri e raccontare cose diverse: è la posizione a cambiare, non l'onestà.",
+				"Che la fonte più antica vale di più": "La vicinanza aiuta su certe cose e ostacola su altre: chi è dentro l'evento ne vede solo una parte.",
+				"Che la seconda ha smesso di essere primaria": "Resta primaria, perché è di chi c'era: quello che cambia è la distanza nel tempo dal fatto."
+			},
+			"_difficulty8": true,
+			"applica": "storia-fonti-alta"
+		},
+		{
+			"id": "storia-app-fonti-50",
+			"subject": "storia",
+			"topic": "fonti",
+			"difficulty": 6,
+			"format": "multiple_choice",
+			"prompt": "Di contadini e servi restano pochissime fonti scritte. Che cosa se ne deve concludere?",
+			"options": [
+				"Che vivevano troppo poco a lungo",
+				"Che non sapevano scrivere",
+				"Che erano davvero molto pochi",
+				"Che non avevano nessun ruolo"
+			],
+			"answer": "Che non sapevano scrivere",
+			"explanation": "L'assenza di fonti non è assenza di fatti: erano la stragrande maggioranza, e sono invisibili perché nessuno scriveva per loro né di loro.",
+			"distractorWhy": {
+				"Che erano davvero molto pochi": "Erano la maggioranza della popolazione: il vuoto nelle fonti misura chi scriveva, non quanti fossero.",
+				"Che non avevano nessun ruolo": "Producevano il cibo di tutti: il loro peso reale e la loro presenza nei documenti non coincidono affatto.",
+				"Che vivevano troppo poco a lungo": "La vita era breve per quasi tutti, anche per chi ha lasciato moltissimi documenti."
+			},
+			"_difficulty8": true,
+			"applica": "storia-fonti-alta"
+		},
+		{
+			"id": "storia-app-fonti-51",
+			"subject": "storia",
+			"topic": "fonti",
+			"difficulty": 8,
+			"format": "multiple_choice",
+			"prompt": "Trovate due fonti in contrasto, uno storico sceglie quella che conferma la sua tesi. Che errore commette?",
+			"options": [
+				"Non ha datato le due fonti",
+				"Usa una fonte secondaria",
+				"Cerca conferme, non spiegazioni",
+				"Confonde il fatto con la data"
+			],
+			"answer": "Cerca conferme, non spiegazioni",
+			"explanation": "La differenza fra due fonti va spiegata: chi erano gli autori, che cosa potevano sapere, che cosa conveniva loro dire. Scegliere e basta chiude la ricerca.",
+			"distractorWhy": {
+				"Usa una fonte secondaria": "Il problema non è il tipo di fonte: sarebbe identico con due fonti primarie.",
+				"Non ha datato le due fonti": "Datarle è un passo necessario, ma qui l'errore avviene dopo, nel modo di trattare il contrasto.",
+				"Confonde il fatto con la data": "È un altro errore possibile, e non è quello descritto: qui il difetto è il criterio con cui sceglie."
+			},
+			"_difficulty8": true,
+			"applica": "storia-fonti-alta"
+		},
+		{
+			"id": "storia-app-metodo-52",
+			"subject": "storia",
+			"topic": "metodo",
+			"difficulty": 1,
+			"format": "multiple_choice",
+			"prompt": "Da che cosa comincia il lavoro di uno storico?",
+			"options": [
+				"Da un libro di scuola",
+				"Da un racconto già pronto",
+				"Da una data importante",
+				"Da una domanda"
+			],
+			"answer": "Da una domanda",
+			"explanation": "Si parte da un problema — come si viveva in un villaggio medievale? — e poi si cercano le fonti che possono rispondere. L'ordine inverso produce solo conferme.",
+			"distractorWhy": {
+				"Da un racconto già pronto": "Chi parte dal racconto cerca le fonti che lo confermano, e cercando apposta si trova sempre qualcosa.",
+				"Da una data importante": "Una data è un punto della risposta, non la domanda: da sola non dice che cosa si vuole capire.",
+				"Da un libro di scuola": "Il manuale è una ricostruzione già fatta da altri: è un punto di arrivo, non di partenza."
+			},
+			"_difficulty8": true,
+			"applica": "storia-metodo-base"
+		},
+		{
+			"id": "storia-app-metodo-53",
+			"subject": "storia",
+			"topic": "metodo",
+			"difficulty": 2,
+			"format": "multiple_choice",
+			"prompt": "Perché un racconto sul passato senza fonti dichiarate non è un lavoro di storia?",
+			"options": [
+				"Perché non si può controllare",
+				"Perché è sempre poco preciso",
+				"Perché non nomina nessuna data",
+				"Perché non lo capisce nessuno"
+			],
+			"answer": "Perché non si può controllare",
+			"explanation": "Senza sapere da dove viene ciascuna informazione non si può né confermare né smentire: si può solo credergli. Dichiarare le fonti significa accettare di poter essere corretti.",
+			"distractorWhy": {
+				"Perché è sempre poco preciso": "Può essere precisissimo e restare incontrollabile: il problema non è la cura, è la verificabilità.",
+				"Perché non lo capisce nessuno": "Può essere chiarissimo da leggere: la chiarezza non sostituisce la possibilità di andare a controllare.",
+				"Perché non nomina nessuna data": "Un racconto pieno di date e senza riferimenti resterebbe ugualmente impossibile da verificare."
+			},
+			"_difficulty8": true,
+			"applica": "storia-metodo-base"
+		},
+		{
+			"id": "storia-app-metodo-54",
+			"subject": "storia",
+			"topic": "metodo",
+			"difficulty": 4,
+			"format": "short_answer",
+			"prompt": "«Nel 476 l'ultimo imperatore d'Occidente fu deposto»: è un fatto o un'interpretazione?",
+			"options": [],
+			"answer": "fatto",
+			"accept": [
+				"un fatto",
+				"è un fatto"
+			],
+			"explanation": "È accaduto e le fonti permettono di stabilirlo. Sarebbe interpretazione la spiegazione del perché l'impero non resse, e su quella gli storici discutono.",
+			"_difficulty8": true,
+			"applica": "storia-metodo-base",
+			"distractorWhy": {
+				"Lo storico": "«Lo storico» è la risposta giusta a un'altra domanda di questo gruppo: «Chi studia il passato usando le tracce che ci ha lasciato?».",
+				"materiale": "«materiale» è la risposta giusta a un'altra domanda di questo gruppo: «Una piramide egizia è un esempio di fonte…».",
+				"incrocio delle fonti": "«incrocio delle fonti» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il confronto fra più fonti per verificare se un fatto è attendibile?».",
+				"perché non scrivevano": "«perché non scrivevano» è la risposta giusta a un'altra domanda di questo gruppo: «Perché sappiamo pochissimo della vita quotidiana dei contadini antichi?».",
+				"carbonio 14": "«carbonio 14» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"Da una domanda": "«Da una domanda» è la risposta giusta a un'altra domanda di questo gruppo: «Da che cosa comincia il lavoro di uno storico?».",
+				"anacronismo": "«anacronismo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'errore di attribuire a un'epoca qualcosa che quell'epoca non aveva?».",
+				"un anacronismo": "«un anacronismo» è la risposta giusta a un'altra domanda di questo gruppo: «Chiedersi se un cittadino romano fosse «di destra o di sinistra» è…»."
+			}
+		},
+		{
+			"id": "storia-app-metodo-55",
+			"subject": "storia",
+			"topic": "metodo",
+			"difficulty": 6,
+			"format": "short_answer",
+			"prompt": "Come si chiama l'errore di attribuire a un'epoca qualcosa che quell'epoca non aveva?",
+			"options": [],
+			"answer": "anacronismo",
+			"accept": [
+				"un anacronismo",
+				"anacronismi"
+			],
+			"explanation": "La forma evidente riguarda gli oggetti e fa ridere; quella pericolosa riguarda le parole e le idee, perché non si vede e produce domande prive di senso.",
+			"_difficulty8": true,
+			"applica": "storia-metodo-alta",
+			"distractorWhy": {
+				"Lo storico": "«Lo storico» è la risposta giusta a un'altra domanda di questo gruppo: «Chi studia il passato usando le tracce che ci ha lasciato?».",
+				"materiale": "«materiale» è la risposta giusta a un'altra domanda di questo gruppo: «Una piramide egizia è un esempio di fonte…».",
+				"incrocio delle fonti": "«incrocio delle fonti» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il confronto fra più fonti per verificare se un fatto è attendibile?».",
+				"perché non scrivevano": "«perché non scrivevano» è la risposta giusta a un'altra domanda di questo gruppo: «Perché sappiamo pochissimo della vita quotidiana dei contadini antichi?».",
+				"carbonio 14": "«carbonio 14» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"Da una domanda": "«Da una domanda» è la risposta giusta a un'altra domanda di questo gruppo: «Da che cosa comincia il lavoro di uno storico?».",
+				"fatto": "«fatto» è la risposta giusta a un'altra domanda di questo gruppo: ««Nel 476 l'ultimo imperatore d'Occidente fu deposto»: è un fatto o un'interpretazione?».",
+				"Perché arrivano fonti nuove": "«Perché arrivano fonti nuove» è la risposta giusta a un'altra domanda di questo gruppo: «Perché il fatto che la storia venga riscritta è un buon segno e non un difetto?»."
+			}
+		},
+		{
+			"id": "storia-app-metodo-56",
+			"subject": "storia",
+			"topic": "metodo",
+			"difficulty": 6,
+			"format": "multiple_choice",
+			"prompt": "Chiedersi se un cittadino romano fosse «di destra o di sinistra» è…",
+			"options": [
+				"una ricostruzione",
+				"un anacronismo",
+				"una interpretazione",
+				"una fonte orale"
+			],
+			"answer": "un anacronismo",
+			"explanation": "Quelle categorie nascono con la Rivoluzione francese, nel 1789: applicarle prima non dà una risposta sbagliata, dà una domanda che non significa niente.",
+			"distractorWhy": {
+				"una interpretazione": "Un'interpretazione spiega un fatto con categorie che hanno senso in quel contesto: qui le categorie non esistevano ancora.",
+				"una ricostruzione": "Una ricostruzione mette insieme le fonti: qui non c'è nessuna fonte che possa rispondere, perché la domanda è fuori tempo.",
+				"una fonte orale": "Una fonte orale è una testimonianza raccolta a voce: qui non si parla di una fonte ma di una domanda mal posta."
+			},
+			"_difficulty8": true,
+			"applica": "storia-metodo-alta"
+		},
+		{
+			"id": "storia-app-metodo-57",
+			"subject": "storia",
+			"topic": "metodo",
+			"difficulty": 8,
+			"format": "multiple_choice",
+			"prompt": "Perché il fatto che la storia venga riscritta è un buon segno e non un difetto?",
+			"options": [
+				"Perché cambiano i governi",
+				"Perché le vecchie erano false",
+				"Perché arrivano fonti nuove",
+				"Perché i libri si consumano"
+			],
+			"answer": "Perché arrivano fonti nuove",
+			"explanation": "Archivi riaperti, scavi e tecniche di analisi nuove permettono di correggere: una disciplina che non si correggesse mai non starebbe verificando niente.",
+			"distractorWhy": {
+				"Perché le vecchie erano false": "Le ricostruzioni precedenti erano di solito oneste e basate su meno materiale: si affinano, non si smascherano.",
+				"Perché cambiano i governi": "Quando è il governo a riscrivere la storia si chiama propaganda, ed è il contrario di questo metodo.",
+				"Perché i libri si consumano": "Ristampare un libro non cambia una riga del suo contenuto: qui a cambiare sono le conclusioni."
+			},
+			"_difficulty8": true,
+			"applica": "storia-metodo-alta"
 		},
 		{
 			"id": "storia-metodo-che-cosa-studia-la-storia",
@@ -4178,8 +6932,8 @@
 			"options": [
 				"XI secolo",
 				"XII secolo",
-				"XIII secolo",
-				"XIV secolo"
+				"XIV secolo",
+				"XIII secolo"
 			],
 			"answer": "XIII secolo",
 			"explanation": "Gli anni dal 1201 al 1300 formano il XIII secolo: si prendono le centinaia e si aggiunge uno.",
@@ -4198,10 +6952,10 @@
 			"format": "multiple_choice",
 			"prompt": "Due fonti raccontano lo stesso fatto in modo diverso. Che cosa fa uno storico?",
 			"options": [
+				"Le confronta e ne cerca altre",
 				"Le scarta tutte e due",
 				"Sceglie la più antica e basta",
-				"Sceglie la più lunga",
-				"Le confronta e ne cerca altre"
+				"Sceglie la più lunga"
 			],
 			"answer": "Le confronta e ne cerca altre",
 			"explanation": "Il confronto fra fonti è il mestiere dello storico: una fonte sola non basta mai.",
@@ -4220,8 +6974,8 @@
 			"format": "multiple_choice",
 			"prompt": "Che cosa vuol dire che una fonte è «di parte»?",
 			"options": [
-				"Racconta i fatti dal punto di vista di chi la scrive",
 				"Contiene almeno un errore di data oppure di nome proprio",
+				"Racconta i fatti dal punto di vista di chi la scrive",
 				"È stata scritta molti secoli dopo i fatti",
 				"Racconta soltanto le battaglie e le guerre"
 			],
@@ -4243,8 +6997,8 @@
 			"prompt": "Perché un'iscrizione su pietra arriva fino a noi più spesso di un papiro?",
 			"options": [
 				"I papiri venivano distrutti apposta dai nemici",
-				"La pietra resiste all'acqua, al fuoco e al tempo",
 				"Sulla pietra si scriveva con più attenzione",
+				"La pietra resiste all'acqua, al fuoco e al tempo",
 				"Le iscrizioni venivano copiate in molte copie"
 			],
 			"answer": "La pietra resiste all'acqua, al fuoco e al tempo",
@@ -4266,8 +7020,8 @@
 			"options": [
 				"753 a.C.",
 				"800 d.C.",
-				"476 d.C.",
-				"1492"
+				"1492",
+				"476 d.C."
 			],
 			"answer": "476 d.C.",
 			"explanation": "Il 476 d.C. chiude l'età antica e apre il Medioevo.",
@@ -4286,10 +7040,10 @@
 			"format": "multiple_choice",
 			"prompt": "Che cos'era la polis greca?",
 			"options": [
+				"Una città-stato indipendente",
 				"Un tempio dedicato a Zeus",
 				"Una grande piazza del mercato",
-				"Una nave da guerra",
-				"Una città-stato indipendente"
+				"Una nave da guerra"
 			],
 			"answer": "Una città-stato indipendente",
 			"explanation": "Ogni polis aveva leggi e governo propri: Atene e Sparta erano due polis molto diverse fra loro.",
@@ -4308,8 +7062,8 @@
 			"format": "multiple_choice",
 			"prompt": "Che cosa distingueva Sparta da Atene?",
 			"options": [
-				"Sparta puntava tutto sull'esercito, Atene sul commercio e sulla politica",
 				"Sparta viveva di commercio marittimo, Atene di agricoltura",
+				"Sparta puntava tutto sull'esercito, Atene sul commercio e sulla politica",
 				"Sparta sorgeva in riva al mare, Atene in mezzo alle montagne dell'interno",
 				"Sparta era governata dal popolo intero, Atene da un solo re"
 			],
@@ -4331,8 +7085,8 @@
 			"prompt": "Che cos'era il feudo?",
 			"options": [
 				"Un castello costruito in cima a una collina",
-				"Una terra concessa da un signore in cambio di fedeltà",
 				"Una moneta d'oro coniata personalmente dall'imperatore",
+				"Una terra concessa da un signore in cambio di fedeltà",
 				"Una tassa che i contadini pagavano sul sale"
 			],
 			"answer": "Una terra concessa da un signore in cambio di fedeltà",
@@ -4354,8 +7108,8 @@
 			"options": [
 				"Porti concessi in uso dall'imperatore",
 				"Monasteri costruiti fuori dalle mura",
-				"Città che si diedero un governo proprio",
-				"Eserciti di soldati pagati dai signori"
+				"Eserciti di soldati pagati dai signori",
+				"Città che si diedero un governo proprio"
 			],
 			"answer": "Città che si diedero un governo proprio",
 			"explanation": "Fra XI e XII secolo molte città italiane si organizzarono da sole, staccandosi dai signori feudali.",
@@ -4374,10 +7128,10 @@
 			"format": "multiple_choice",
 			"prompt": "A che cosa serviva la mummificazione per gli Egizi?",
 			"options": [
+				"A conservare il corpo per la vita dopo la morte",
 				"A curare le malattie con le erbe del Nilo",
 				"A misurare il tempo con le stagioni del Nilo",
-				"A trasportare i corpi fino alle piramidi",
-				"A conservare il corpo per la vita dopo la morte"
+				"A trasportare i corpi fino alle piramidi"
 			],
 			"answer": "A conservare il corpo per la vita dopo la morte",
 			"explanation": "Gli Egizi credevano che l'anima avesse bisogno del corpo anche dopo la morte.",
@@ -4396,8 +7150,8 @@
 			"format": "multiple_choice",
 			"prompt": "Che cosa cambia con la nascita dell'agricoltura nel Neolitico?",
 			"options": [
-				"Gli uomini smettono di spostarsi e nascono i villaggi",
 				"Nascono i primi imperi con un re e un esercito",
+				"Gli uomini smettono di spostarsi e nascono i villaggi",
 				"Gli uomini imparano ad accendere il fuoco",
 				"Si impara a fondere il ferro e a forgiare le armi"
 			],
@@ -4419,8 +7173,8 @@
 			"prompt": "Perché le prime civiltà nacquero lungo i grandi fiumi?",
 			"options": [
 				"I fiumi segnavano i confini",
-				"L'acqua permetteva di coltivare e di spostarsi",
 				"I fiumi erano molto più facili da difendere in guerra",
+				"L'acqua permetteva di coltivare e di spostarsi",
 				"Vicino ai fiumi non pioveva mai"
 			],
 			"answer": "L'acqua permetteva di coltivare e di spostarsi",

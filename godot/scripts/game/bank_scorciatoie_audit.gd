@@ -128,10 +128,18 @@ const BANDA := 5.0
 ## esattamente sul caso: la scorciatoia non fa più guadagnare niente da nessuna
 ## parte. Il tetto adesso serve solo a impedire che si torni indietro.
 const TETTO := {
-	"coding": 22.9,
+	# Sceso a 22,2 l'11 settembre 2026 con le applicazioni delle dispense. I 91 item
+	# nuovi lo avevano prima fatto salire a 24,0: sei di loro avevano la risposta
+	# giusta piu' lunga di cinque caratteri del distrattore piu' lungo, e sono tutti
+	# quesiti in cui la risposta e' un criterio («per descriverla serve una e»)
+	# mentre i distrattori erano misure brevi. Allungati i sei distrattori, mai
+	# accorciata una risposta.
+	"coding": 22.2,
 	"elettronica": 21.9,
 	"fisica": 21.9,
-	"geografia": 24.7,
+	# Scesa a 23,7 l'11 settembre 2026 con le applicazioni delle dispense: 48 prove
+	# nuove con le opzioni bilanciate, e nessuna in cui la risposta sia la piu' lunga.
+	"geografia": 23.7,
 	# Sceso a 24,9 l'8 settembre 2026 con il programma di grammatica. I 470 item
 	# nuovi lo avevano prima fatto SALIRE a 29,4: sessantatré di loro avevano la
 	# risposta giusta piu' lunga di cinque caratteri del distrattore piu' lungo,
@@ -145,7 +153,11 @@ const TETTO := {
 	# forme da produrre si digitano invece di toccarsi (a tastiera la scorciatoia
 	# della lunghezza non esiste), e quattro quesiti avevano la risposta giusta
 	# piu' lunga di cinque caratteri del distrattore piu' lungo.
-	"latino": 23.3,
+	# Scesa a 22,9 l'11 settembre 2026 con le applicazioni delle dispense. I 59 item
+	# nuovi l'avevano prima fatta salire a 23,7 — dentro la tolleranza, quindi verde,
+	# ma nella direzione sbagliata: tre di loro avevano la risposta piu' lunga di
+	# cinque caratteri del distrattore piu' lungo. Allungati i tre distrattori.
+	"latino": 22.9,
 	# Scesa a 20,1 il 1 settembre 2026 riscrivendo le sequenze aritmetiche: dieci
 	# volte «quale numero continua» sono diventate quattro «continua», tre «quale
 	# sta al decimo posto» e tre «a che posto sta questo numero». Erano aritmetica
@@ -154,8 +166,17 @@ const TETTO := {
 	"logica": 20.1,
 	"matematica": 24.3,
 	"musica": 23.7,
-	"scienze": 22.1,
-	"storia": 22.2,
+	# Scesa a 22,0 l'11 settembre 2026 con le applicazioni delle dispense: tre dei
+	# 48 item nuovi avevano la risposta piu' lunga di cinque caratteri, allungati i
+	# rispettivi distrattori.
+	"scienze": 22.0,
+	# Scesa a 21,9 l'11 settembre 2026 con le applicazioni delle dispense. Le 41
+	# prove a crocetta nuove hanno le opzioni bilanciate — da sole avrebbero spinto
+	# la materia VERSO il caso, perché un item in cui la lunghezza non dice niente
+	# vale esattamente un tiro a caso — e nello stesso passaggio è stato pagato
+	# l'unico item storico con la risposta più lunga di quindici caratteri del
+	# distrattore più lungo («perché le strade romane erano importanti»).
+	"storia": 21.9,
 }
 
 var errori: Array = []

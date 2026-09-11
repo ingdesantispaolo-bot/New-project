@@ -2598,7 +2598,8 @@
 				"diodo": "«diodo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che lascia passare la corrente in un verso solo?».",
 				"LED": "«LED» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il diodo che emette luce quando è attraversato dalla corrente?».",
 				"transistor": "«transistor» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente a tre terminali che amplifica o commuta un segnale?».",
-				"interruttore": "«interruttore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che apre e chiude un circuito a comando?»."
+				"interruttore": "«interruttore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che apre e chiude un circuito a comando?».",
+				"resistenza": "«resistenza» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
 			}
 		},
 		{
@@ -2622,7 +2623,8 @@
 				"condensatore": "«condensatore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che accumula carica fra due armature?».",
 				"LED": "«LED» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il diodo che emette luce quando è attraversato dalla corrente?».",
 				"transistor": "«transistor» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente a tre terminali che amplifica o commuta un segnale?».",
-				"interruttore": "«interruttore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che apre e chiude un circuito a comando?»."
+				"interruttore": "«interruttore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che apre e chiude un circuito a comando?».",
+				"resistenza": "«resistenza» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
 			}
 		},
 		{
@@ -2646,7 +2648,8 @@
 				"condensatore": "«condensatore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che accumula carica fra due armature?».",
 				"diodo": "«diodo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che lascia passare la corrente in un verso solo?».",
 				"transistor": "«transistor» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente a tre terminali che amplifica o commuta un segnale?».",
-				"interruttore": "«interruttore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che apre e chiude un circuito a comando?»."
+				"interruttore": "«interruttore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che apre e chiude un circuito a comando?».",
+				"resistenza": "«resistenza» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
 			}
 		},
 		{
@@ -2669,7 +2672,8 @@
 				"condensatore": "«condensatore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che accumula carica fra due armature?».",
 				"diodo": "«diodo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che lascia passare la corrente in un verso solo?».",
 				"LED": "«LED» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il diodo che emette luce quando è attraversato dalla corrente?».",
-				"interruttore": "«interruttore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che apre e chiude un circuito a comando?»."
+				"interruttore": "«interruttore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che apre e chiude un circuito a comando?».",
+				"resistenza": "«resistenza» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
 			}
 		},
 		{
@@ -2693,7 +2697,8 @@
 				"condensatore": "«condensatore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che accumula carica fra due armature?».",
 				"diodo": "«diodo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che lascia passare la corrente in un verso solo?».",
 				"LED": "«LED» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il diodo che emette luce quando è attraversato dalla corrente?».",
-				"transistor": "«transistor» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente a tre terminali che amplifica o commuta un segnale?»."
+				"transistor": "«transistor» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente a tre terminali che amplifica o commuta un segnale?».",
+				"resistenza": "«resistenza» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
 			}
 		},
 		{
@@ -3164,6 +3169,864 @@
 			}
 		},
 		{
+			"id": "elettronica-sl-elettricita-base-0",
+			"subject": "elettronica",
+			"topic": "elettricita-base",
+			"difficulty": 5,
+			"format": "multiple_choice",
+			"prompt": "In un circuito la corrente è la stessa in ogni punto della maglia. Che cosa vuol dire per una lampadina messa in fila con un'altra?",
+			"options": [
+				"riceve il doppio della corrente dell'altra",
+				"riceve la stessa corrente dell'altra",
+				"riceve corrente solo se è la prima",
+				"riceve la metà della corrente dell'altra"
+			],
+			"answer": "riceve la stessa corrente dell'altra",
+			"explanation": "In serie la carica non ha strade alternative: quello che passa da una passa per forza anche dall'altra. A dividersi non è la corrente ma la tensione, ed è per questo che due lampadine in serie fanno meno luce ciascuna.",
+			"distractorWhy": {
+				"riceve la metà della corrente dell'altra": "Si dimezzerebbe se ci fossero due strade, ma in serie la strada è una sola.",
+				"riceve corrente solo se è la prima": "Nel circuito non c'è un ordine di precedenza: la corrente scorre tutta insieme.",
+				"riceve il doppio della corrente dell'altra": "Non c'è nessun modo di far crescere la corrente lungo la maglia."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "elettronica-sl-elettricita-base-1",
+			"subject": "elettronica",
+			"topic": "elettricita-base",
+			"difficulty": 5,
+			"format": "short_answer",
+			"prompt": "Come si chiama la grandezza che si misura in ampere?",
+			"options": [],
+			"answer": "corrente",
+			"accept": [
+				"la corrente",
+				"intensità di corrente",
+				"corrente elettrica"
+			],
+			"explanation": "L'ampere conta quanta carica passa in un secondo attraverso una sezione del filo. È un conteggio di quantità al secondo, come i litri al minuto di un rubinetto: per questo si parla di corrente che «scorre».",
+			"_difficulty8": true,
+			"distractorWhy": {
+				"Lo scalda": "«Lo scalda» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa fa la corrente attraversando un filo sottile?».",
+				"Resta uguale": "«Resta uguale» è la risposta giusta a un'altra domanda di questo gruppo: «Se raddoppi la resistenza e raddoppi la tensione, la corrente…».",
+				"La corrente elettrica": "«La corrente elettrica» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa fa accendere una lampadina in un circuito?».",
+				"Tensione (voltaggio)": "«Tensione (voltaggio)» è la risposta giusta a un'altra domanda di questo gruppo: «La 'spinta' che mette in movimento la corrente si chiama…».",
+				"volt": "«volt» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della tensione elettrica?».",
+				"ampere": "«ampere» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della corrente elettrica?».",
+				"ohm": "«ohm» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della resistenza elettrica?».",
+				"watt": "«watt» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della potenza elettrica?»."
+			}
+		},
+		{
+			"id": "elettronica-sl-elettricita-base-2",
+			"subject": "elettronica",
+			"topic": "elettricita-base",
+			"difficulty": 6,
+			"format": "multiple_choice",
+			"prompt": "Una pila da 9 V alimenta un resistore da 3 ohm. Quanta corrente scorre?",
+			"options": [
+				"6 A",
+				"27 A",
+				"3 A",
+				"0,3 A"
+			],
+			"answer": "3 A",
+			"explanation": "La legge di Ohm lega le tre grandezze: la corrente è la tensione divisa per la resistenza, cioè 9 diviso 3. È la relazione che permette di prevedere un circuito prima di montarlo, invece di scoprirlo bruciando un componente.",
+			"distractorWhy": {
+				"27 A": "È il prodotto invece del quoziente: moltiplicare darebbe una corrente enorme e priva di senso.",
+				"0,3 A": "Sarebbe il risultato con una resistenza di 30 ohm, non di 3.",
+				"6 A": "È la differenza fra 9 e 3: la legge di Ohm non sottrae, divide."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "elettronica-sl-elettricita-base-3",
+			"subject": "elettronica",
+			"topic": "elettricita-base",
+			"difficulty": 6,
+			"format": "multiple_choice",
+			"prompt": "Perché un filo molto sottile si scalda più di un filo grosso, a parità di corrente?",
+			"options": [
+				"perché la corrente rallenta e si accumula in fondo",
+				"perché la tensione della pila aumenta da sola",
+				"perché contiene più cariche libere al suo interno",
+				"perché oppone più resistenza al passaggio"
+			],
+			"answer": "perché oppone più resistenza al passaggio",
+			"explanation": "Meno sezione significa più resistenza, e la potenza dissipata in calore cresce con la resistenza a parità di corrente. È esattamente il principio del fusibile: un tratto volutamente sottile che si scioglie prima che bruci il resto dell'impianto.",
+			"distractorWhy": {
+				"perché contiene più cariche libere al suo interno": "Un filo sottile ne contiene meno, non di più: è proprio questo a renderlo resistente.",
+				"perché la tensione della pila aumenta da sola": "La pila non cambia da sé: la tensione ai suoi capi resta quella.",
+				"perché la corrente rallenta e si accumula in fondo": "La carica non si accumula da nessuna parte: quello che entra esce."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "elettronica-sl-elettricita-base-4",
+			"subject": "elettronica",
+			"topic": "elettricita-base",
+			"difficulty": 7,
+			"format": "multiple_choice",
+			"prompt": "Due resistori uguali da 4 ohm sono in parallelo. Quanto vale la resistenza complessiva?",
+			"options": [
+				"2 ohm",
+				"16 ohm",
+				"8 ohm",
+				"4 ohm"
+			],
+			"answer": "2 ohm",
+			"explanation": "Aggiungere una strada in parallelo rende il passaggio più facile, non più difficile: con due vie identiche la resistenza si dimezza. È il motivo per cui attaccare troppi apparecchi alla stessa presa fa crescere la corrente totale invece di ridurla.",
+			"distractorWhy": {
+				"8 ohm": "È la somma, che vale in serie: in parallelo la resistenza scende sempre.",
+				"4 ohm": "Resterebbe uguale solo se il secondo resistore non fosse collegato.",
+				"16 ohm": "È il prodotto dei due valori, che è solo un pezzo della formula del parallelo."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "elettronica-sl-elettricita-base-5",
+			"subject": "elettronica",
+			"topic": "elettricita-base",
+			"difficulty": 7,
+			"format": "short_answer",
+			"prompt": "Come si chiama il componente che protegge un impianto interrompendosi quando la corrente supera un limite?",
+			"options": [],
+			"answer": "fusibile",
+			"accept": [
+				"il fusibile",
+				"fusibile di protezione"
+			],
+			"explanation": "È un tratto di filo studiato per fondere prima degli altri: sacrifica sé stesso per salvare il resto. Sostituirlo con uno più «robusto» toglie esattamente la protezione per cui esiste, ed è il modo classico di causare un incendio.",
+			"_difficulty8": true,
+			"distractorWhy": {
+				"Lo scalda": "«Lo scalda» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa fa la corrente attraversando un filo sottile?».",
+				"Resta uguale": "«Resta uguale» è la risposta giusta a un'altra domanda di questo gruppo: «Se raddoppi la resistenza e raddoppi la tensione, la corrente…».",
+				"La corrente elettrica": "«La corrente elettrica» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa fa accendere una lampadina in un circuito?».",
+				"Corrente elettrica": "«Corrente elettrica» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il flusso di cariche elettriche in un filo?».",
+				"Tensione (voltaggio)": "«Tensione (voltaggio)» è la risposta giusta a un'altra domanda di questo gruppo: «La 'spinta' che mette in movimento la corrente si chiama…».",
+				"volt": "«volt» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della tensione elettrica?».",
+				"ampere": "«ampere» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della corrente elettrica?».",
+				"ohm": "«ohm» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della resistenza elettrica?»."
+			}
+		},
+		{
+			"id": "elettronica-sl-elettricita-base-6",
+			"subject": "elettronica",
+			"topic": "elettricita-base",
+			"difficulty": 7,
+			"format": "multiple_choice",
+			"prompt": "Un apparecchio consuma 2 A a 12 V. Quanta potenza assorbe?",
+			"options": [
+				"6 W",
+				"24 W",
+				"14 W",
+				"10 W"
+			],
+			"answer": "24 W",
+			"explanation": "La potenza è tensione per corrente. Questo prodotto dice quanta energia l'apparecchio consuma ogni secondo, ed è il numero che serve per scegliere l'alimentatore: non basta che la tensione sia giusta, deve reggere anche la corrente richiesta.",
+			"distractorWhy": {
+				"6 W": "È 12 diviso 2: la potenza si ottiene moltiplicando, non dividendo.",
+				"14 W": "È la somma dei due numeri, che non ha significato fisico.",
+				"10 W": "È la differenza fra i due numeri, che non è una grandezza del circuito."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "elettronica-sl-elettricita-base-7",
+			"subject": "elettronica",
+			"topic": "elettricita-base",
+			"difficulty": 8,
+			"format": "multiple_choice",
+			"prompt": "Perché l'energia elettrica viaggia su lunghe distanze ad altissima tensione?",
+			"options": [
+				"perché l'alta tensione elimina del tutto la resistenza dei cavi",
+				"perché i cavi lunghi funzionano solo sopra una tensione minima",
+				"perché a parità di potenza serve meno corrente",
+				"perché la corrente alta è vietata dalle leggi della fisica"
+			],
+			"answer": "perché a parità di potenza serve meno corrente",
+			"explanation": "Le perdite nei cavi dipendono dal quadrato della corrente, non dalla tensione. Alzando la tensione si può trasportare la stessa potenza con una corrente molto più bassa, e le perdite crollano: per questo esistono i trasformatori alle due estremità della linea.",
+			"distractorWhy": {
+				"perché l'alta tensione elimina del tutto la resistenza dei cavi": "La resistenza del rame resta quella: cambia solo quanta corrente ci passa.",
+				"perché i cavi lunghi funzionano solo sopra una tensione minima": "Funzionerebbero a qualunque tensione: sarebbero solo enormemente più dispersivi.",
+				"perché la corrente alta è vietata dalle leggi della fisica": "Non è vietata: è costosa, perché scalda i cavi invece di arrivare a destinazione."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "elettronica-sl-elettricita-base-8",
+			"subject": "elettronica",
+			"topic": "elettricita-base",
+			"difficulty": 8,
+			"format": "multiple_choice",
+			"prompt": "In un circuito in serie una delle tre lampadine si fulmina. Che cosa succede alle altre due?",
+			"options": [
+				"restano accese con la stessa luce di prima",
+				"restano accese ma più deboli di prima",
+				"diventano più luminose di prima",
+				"si spengono entrambe"
+			],
+			"answer": "si spengono entrambe",
+			"explanation": "In serie la corrente ha una strada sola: interrompere un punto qualsiasi interrompe tutto. È il difetto che ha fatto abbandonare le vecchie catene di luci in serie, dove una lampadina bruciata spegneva l'albero intero e bisognava provarle a una a una.",
+			"distractorWhy": {
+				"restano accese con la stessa luce di prima": "Sarebbe vero in parallelo, dove ogni ramo è indipendente.",
+				"restano accese ma più deboli di prima": "Non c'è nessuna corrente residua: il circuito è aperto.",
+				"diventano più luminose di prima": "Succederebbe se la resistenza calasse, ma qui il passaggio si interrompe del tutto."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "elettronica-sl-elettricita-base-9",
+			"subject": "elettronica",
+			"topic": "elettricita-base",
+			"difficulty": 8,
+			"format": "short_answer",
+			"prompt": "Come si chiama la macchina che alza o abbassa la tensione alternata senza cambiare quasi nulla della potenza?",
+			"options": [],
+			"answer": "trasformatore",
+			"accept": [
+				"il trasformatore",
+				"trasformatore elettrico"
+			],
+			"explanation": "Due avvolgimenti su uno stesso nucleo: il rapporto fra le spire decide il rapporto fra le tensioni, e la corrente cambia al contrario. Funziona solo in corrente alternata, ed è la ragione tecnica per cui la rete elettrica non è in continua.",
+			"_difficulty8": true,
+			"distractorWhy": {
+				"Lo scalda": "«Lo scalda» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa fa la corrente attraversando un filo sottile?».",
+				"Resta uguale": "«Resta uguale» è la risposta giusta a un'altra domanda di questo gruppo: «Se raddoppi la resistenza e raddoppi la tensione, la corrente…».",
+				"La corrente elettrica": "«La corrente elettrica» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa fa accendere una lampadina in un circuito?».",
+				"Corrente elettrica": "«Corrente elettrica» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il flusso di cariche elettriche in un filo?».",
+				"Tensione (voltaggio)": "«Tensione (voltaggio)» è la risposta giusta a un'altra domanda di questo gruppo: «La 'spinta' che mette in movimento la corrente si chiama…».",
+				"volt": "«volt» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della tensione elettrica?».",
+				"ampere": "«ampere» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della corrente elettrica?».",
+				"ohm": "«ohm» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della resistenza elettrica?»."
+			}
+		},
+		{
+			"id": "elettronica-sl-elettricita-base-10",
+			"subject": "elettronica",
+			"topic": "elettricita-base",
+			"difficulty": 8,
+			"format": "multiple_choice",
+			"prompt": "Perché toccare un filo scoperto è pericoloso soprattutto se hai le mani bagnate?",
+			"options": [
+				"perché l'acqua abbassa la resistenza del corpo",
+				"perché l'acqua produce corrente per conto proprio",
+				"perché l'acqua trattiene la carica sulla pelle senza lasciarla uscire",
+				"perché l'acqua aumenta la tensione della rete elettrica"
+			],
+			"answer": "perché l'acqua abbassa la resistenza del corpo",
+			"explanation": "La pelle asciutta è un pessimo conduttore e limita la corrente che attraversa il corpo; bagnata, quella barriera cade e la stessa tensione fa passare molta più corrente. Il danno lo fa la corrente attraverso il corpo, non la tensione in sé.",
+			"distractorWhy": {
+				"perché l'acqua aumenta la tensione della rete elettrica": "La tensione della rete è fissa: l'acqua non può cambiarla.",
+				"perché l'acqua produce corrente per conto proprio": "L'acqua non è una sorgente: al massimo conduce quella che c'è.",
+				"perché l'acqua trattiene la carica sulla pelle senza lasciarla uscire": "È il contrario: facilita il passaggio attraverso il corpo invece di trattenerlo."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "elettronica-sl-elettricita-base-11",
+			"subject": "elettronica",
+			"topic": "elettricita-base",
+			"difficulty": 8,
+			"format": "multiple_choice",
+			"prompt": "Una resistenza da 6 ohm e una da 3 ohm sono in serie su una pila da 18 V. Quanta tensione cade sulla resistenza da 6 ohm?",
+			"options": [
+				"18 V",
+				"12 V",
+				"9 V",
+				"6 V"
+			],
+			"answer": "12 V",
+			"explanation": "In serie la corrente è unica — 18 diviso 9 fa 2 A — e la tensione si divide in proporzione alla resistenza: 2 A per 6 ohm dà 12 V. È il partitore di tensione, il modo più semplice per ricavare da una pila una tensione più bassa.",
+			"distractorWhy": {
+				"9 V": "Sarebbe la metà esatta, cioè il caso in cui le due resistenze fossero uguali.",
+				"6 V": "È la tensione che cade sull'altra resistenza, quella da 3 ohm.",
+				"18 V": "È tutta la tensione della pila: cadrebbe lì solo se l'altra resistenza non ci fosse."
+			},
+			"_difficulty8": true
+		},
+		{
+			"id": "elettronica-firme-circuito-0",
+			"subject": "elettronica",
+			"topic": "circuito",
+			"difficulty": 3,
+			"format": "porte",
+			"prompt": "Due interruttori sono montati IN SERIE, uno dopo l'altro sullo stesso filo. Segna in quali casi la lampada si accende.",
+			"options": [],
+			"explanation": "In serie la corrente ha una strada sola: un interruttore aperto la interrompe, e non importa quale. Guarda la tavola che hai appena riempito — è la porta AND, e l'hai costruita con due interruttori e un filo. Le porte logiche non sono un'astrazione della matematica: sono la descrizione di come si comportano i circuiti.",
+			"_difficulty8": true,
+			"ingressi": [
+				"interruttore 1",
+				"interruttore 2"
+			],
+			"righe": [
+				{
+					"id": "r1",
+					"a": false,
+					"b": false,
+					"label": "tutti e due aperti"
+				},
+				{
+					"id": "r2",
+					"a": true,
+					"b": false,
+					"label": "chiuso il primo, aperto il secondo"
+				},
+				{
+					"id": "r3",
+					"a": false,
+					"b": true,
+					"label": "aperto il primo, chiuso il secondo"
+				},
+				{
+					"id": "r4",
+					"a": true,
+					"b": true,
+					"label": "tutti e due chiusi"
+				}
+			],
+			"condizione": "la corrente passa solo se il filo è chiuso in tutti e due i punti",
+			"soluzione": {
+				"r1": false,
+				"r2": false,
+				"r3": false,
+				"r4": true
+			},
+			"distractorWhy": {
+				"Chiuso": "«Chiuso» è la risposta giusta a un'altra domanda di questo gruppo: «Perché una lampadina si accenda, il circuito deve essere…».",
+				"La pila (batteria)": "«La pila (batteria)» è la risposta giusta a un'altra domanda di questo gruppo: «In una torcia, cosa fornisce l'energia elettrica?».",
+				"circuito": "«circuito» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il percorso chiuso in cui scorre la corrente?».",
+				"cortocircuito": "«cortocircuito» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"generatore": "«generatore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che fornisce energia al circuito?».",
+				"si spegne anche lei": "«si spegne anche lei» è la risposta giusta a un'altra domanda di questo gruppo: «Due lampadine uguali sono in serie e una si fulmina. L'altra che cosa fa?»."
+			}
+		},
+		{
+			"id": "elettronica-firme-serie-parallelo-1",
+			"subject": "elettronica",
+			"topic": "serie-parallelo",
+			"difficulty": 6,
+			"format": "porte",
+			"prompt": "Adesso i due interruttori sono IN PARALLELO: due strade diverse che portano alla stessa lampada. Segna in quali casi si accende.",
+			"options": [],
+			"explanation": "In parallelo le strade sono due e ne basta una: è la porta OR, ed è anche il motivo per cui la luce delle scale si accende da due punti diversi. Confronta questa tavola con quella degli interruttori in serie — stessi due interruttori, stessa lampada, e tre casi su quattro rovesciati solo per come sono collegati.",
+			"_difficulty8": true,
+			"ingressi": [
+				"ramo di destra",
+				"ramo di sinistra"
+			],
+			"righe": [
+				{
+					"id": "r1",
+					"a": false,
+					"b": false,
+					"label": "tutti e due aperti"
+				},
+				{
+					"id": "r2",
+					"a": true,
+					"b": false,
+					"label": "chiuso solo quello di destra"
+				},
+				{
+					"id": "r3",
+					"a": false,
+					"b": true,
+					"label": "chiuso solo quello di sinistra"
+				},
+				{
+					"id": "r4",
+					"a": true,
+					"b": true,
+					"label": "tutti e due chiusi"
+				}
+			],
+			"condizione": "basta che una delle due strade sia chiusa",
+			"soluzione": {
+				"r1": false,
+				"r2": true,
+				"r3": true,
+				"r4": true
+			},
+			"distractorWhy": {
+				"La stessa in tutti": "«La stessa in tutti» è la risposta giusta a un'altra domanda di questo gruppo: «In un circuito in serie, la corrente che passa in ogni componente è…».",
+				"Doppia di una sola": "«Doppia di una sola» è la risposta giusta a un'altra domanda di questo gruppo: «Due resistenze uguali in serie danno una resistenza totale…».",
+				"Meno": "«Meno» è la risposta giusta a un'altra domanda di questo gruppo: «Tre lampadine identiche in serie brillano rispetto a una sola…».",
+				"Aumenta": "«Aumenta» è la risposta giusta a un'altra domanda di questo gruppo: «Aggiungendo un ramo in parallelo, la corrente totale erogata dalla pila…».",
+				"Si spengono": "«Si spengono» è la risposta giusta a un'altra domanda di questo gruppo: «In un collegamento in SERIE, se una lampadina si brucia, le altre…».",
+				"Restano accese": "«Restano accese» è la risposta giusta a un'altra domanda di questo gruppo: «In un collegamento in PARALLELO, se una lampadina si brucia, le altre…».",
+				"serie": "«serie» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il collegamento in cui la corrente ha un solo percorso possibile?».",
+				"parallelo": "«parallelo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il collegamento in cui ogni componente ha la stessa tensione ai capi?»."
+			}
+		},
+		{
+			"id": "elettronica-firme-misure-elettriche-2",
+			"subject": "elettronica",
+			"topic": "misure-elettriche",
+			"difficulty": 4,
+			"format": "machine_path",
+			"prompt": "Il segnale entra nel banco a 24 e deve arrivare al sensore a 3. Monta tre stadi in fila.",
+			"options": [],
+			"explanation": "Ventiquattro dimezzato tre volte fa tre. Lo stesso stadio montato più volte non è una scorciatoia: è come funziona davvero una catena di attenuatori uguali, e ogni stadio lavora su quello che gli arriva, non sul segnale di partenza. Prova anche 24, diviso 3, poi dimezzato due volte: arriva a 2, e la differenza è tutta nell'ordine.",
+			"_difficulty8": true,
+			"start": 24,
+			"target": 3,
+			"slotCount": 3,
+			"machines": [
+				{
+					"id": "meta",
+					"op": "divide",
+					"value": 2,
+					"label": "stadio che dimezza"
+				},
+				{
+					"id": "terzo",
+					"op": "divide",
+					"value": 3,
+					"label": "stadio che divide per 3"
+				},
+				{
+					"id": "x2",
+					"op": "multiply",
+					"value": 2,
+					"label": "stadio che raddoppia"
+				},
+				{
+					"id": "m6",
+					"op": "subtract",
+					"value": 6,
+					"label": "stadio che toglie 6"
+				}
+			],
+			"solution": [
+				"meta",
+				"meta",
+				"meta"
+			],
+			"distractorWhy": {
+				"Ampere": "«Ampere» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la corrente elettrica?».",
+				"Volt": "«Volt» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la tensione?».",
+				"Ohm": "«Ohm» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la resistenza?».",
+				"Watt": "«Watt» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la potenza elettrica?».",
+				"L'energia consumata nel tempo": "«L'energia consumata nel tempo» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa misura il contatore di casa?».",
+				"Un quarto di ampere": "«Un quarto di ampere» è la risposta giusta a un'altra domanda di questo gruppo: «Su un multimetro leggi «250 mA». Quanta corrente è?».",
+				"voltmetro": "«voltmetro» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo strumento che misura la tensione?».",
+				"amperometro": "«amperometro» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo strumento che misura la corrente?»."
+			}
+		},
+		{
+			"id": "elettronica-firme-elettricita-base-3",
+			"subject": "elettronica",
+			"topic": "elettricita-base",
+			"difficulty": 7,
+			"format": "machine_path",
+			"prompt": "Il segnale entra a 18 e deve uscire a 5. Quattro stadi, e gli stadi che dividono si bloccano se il valore non è divisibile.",
+			"options": [],
+			"explanation": "Diciotto dimezzato fa nove, diviso tre fa tre, raddoppiato fa sei, meno uno fa cinque. Dividere per tre all'inizio sembra più diretto e porta a sei, da cui cinque non si raggiunge più con gli stadi rimasti: in una catena conta l'ordine, e uno stadio che blocca non è rotto — è una condizione che non è stata rispettata.",
+			"_difficulty8": true,
+			"start": 18,
+			"target": 5,
+			"slotCount": 4,
+			"machines": [
+				{
+					"id": "meta",
+					"op": "divide",
+					"value": 2,
+					"label": "stadio che dimezza"
+				},
+				{
+					"id": "terzo",
+					"op": "divide",
+					"value": 3,
+					"label": "stadio che divide per 3"
+				},
+				{
+					"id": "x2",
+					"op": "multiply",
+					"value": 2,
+					"label": "stadio che raddoppia"
+				},
+				{
+					"id": "m1",
+					"op": "subtract",
+					"value": 1,
+					"label": "stadio che toglie 1"
+				},
+				{
+					"id": "p2",
+					"op": "add",
+					"value": 2,
+					"label": "stadio che aggiunge 2"
+				}
+			],
+			"solution": [
+				"meta",
+				"terzo",
+				"x2",
+				"m1"
+			],
+			"distractorWhy": {
+				"Lo scalda": "«Lo scalda» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa fa la corrente attraversando un filo sottile?».",
+				"Resta uguale": "«Resta uguale» è la risposta giusta a un'altra domanda di questo gruppo: «Se raddoppi la resistenza e raddoppi la tensione, la corrente…».",
+				"La corrente elettrica": "«La corrente elettrica» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa fa accendere una lampadina in un circuito?».",
+				"Corrente elettrica": "«Corrente elettrica» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il flusso di cariche elettriche in un filo?».",
+				"Tensione (voltaggio)": "«Tensione (voltaggio)» è la risposta giusta a un'altra domanda di questo gruppo: «La 'spinta' che mette in movimento la corrente si chiama…».",
+				"volt": "«volt» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della tensione elettrica?».",
+				"ampere": "«ampere» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della corrente elettrica?».",
+				"ohm": "«ohm» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della resistenza elettrica?»."
+			}
+		},
+		{
+			"id": "elettronica-firme-componenti-4",
+			"subject": "elettronica",
+			"topic": "componenti",
+			"difficulty": 1,
+			"format": "matching",
+			"prompt": "Abbina ogni componente al lavoro che fa nel circuito.",
+			"options": [],
+			"explanation": "Ogni componente fa una cosa sola e la fa sempre: la pila non decide quanta corrente passa, la spinge e basta — quanta ne passa lo decide quello che trova lungo la strada. Tenere separati «chi spinge» e «chi frena» è ciò che permette di prevedere un circuito prima di montarlo.",
+			"_difficulty8": true,
+			"pairs": [
+				{
+					"left": "la pila",
+					"right": "spinge la corrente nel filo"
+				},
+				{
+					"left": "l'interruttore",
+					"right": "apre o chiude la strada"
+				},
+				{
+					"left": "la resistenza",
+					"right": "frena il passaggio e si scalda"
+				},
+				{
+					"left": "la lampada",
+					"right": "trasforma il passaggio in luce"
+				}
+			],
+			"distractorWhy": {
+				"A limitare la corrente": "«A limitare la corrente» è la risposta giusta a un'altra domanda di questo gruppo: «A cosa serve un resistore in un circuito?».",
+				"resistore": "«resistore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che si oppone al passaggio della corrente?».",
+				"condensatore": "«condensatore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che accumula carica fra due armature?».",
+				"diodo": "«diodo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che lascia passare la corrente in un verso solo?».",
+				"LED": "«LED» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il diodo che emette luce quando è attraversato dalla corrente?».",
+				"transistor": "«transistor» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente a tre terminali che amplifica o commuta un segnale?».",
+				"interruttore": "«interruttore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che apre e chiude un circuito a comando?».",
+				"resistenza": "«resistenza» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
+			}
+		},
+		{
+			"id": "elettronica-firme-conduttori-5",
+			"subject": "elettronica",
+			"topic": "conduttori",
+			"difficulty": 1,
+			"format": "classification",
+			"prompt": "Smista ogni materiale secondo che cosa fa alla corrente.",
+			"options": [],
+			"explanation": "Quasi tutti i metalli conducono, quasi tutto il resto no: dentro un metallo ci sono cariche libere di muoversi, nel legno e nella gomma no. «Asciutto» però è una parola importante — il legno bagnato conduce, e l'acqua è il motivo per cui gli attrezzi hanno il manico di gomma.",
+			"_difficulty8": true,
+			"items": [
+				"il filo di rame",
+				"il manico di gomma",
+				"la moneta",
+				"il legno asciutto"
+			],
+			"categories": [
+				"la lascia passare",
+				"la blocca"
+			],
+			"assignments": {
+				"il filo di rame": "la lascia passare",
+				"il manico di gomma": "la blocca",
+				"la moneta": "la lascia passare",
+				"il legno asciutto": "la blocca"
+			},
+			"distractorWhy": {
+				"Rame": "«Rame» è la risposta giusta a un'altra domanda di questo gruppo: «Quale materiale conduce meglio la corrente?».",
+				"Minore": "«Minore» è la risposta giusta a un'altra domanda di questo gruppo: «Un filo più grosso, a parità di lunghezza, ha una resistenza…».",
+				"No, quasi per niente": "«No, quasi per niente» è la risposta giusta a un'altra domanda di questo gruppo: «L'acqua pura conduce bene la corrente?».",
+				"conduttore": "«conduttore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un materiale che lascia passare bene la corrente?».",
+				"isolante": "«isolante» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un materiale che non lascia passare la corrente?».",
+				"rame": "«rame» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il metallo più usato per i fili elettrici nelle case?».",
+				"semiconduttore": "«semiconduttore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un materiale che conduce solo in certe condizioni, come il silicio?».",
+				"Il rame": "«Il rame» è la risposta giusta a un'altra domanda di questo gruppo: «Quale di questi materiali conduce la corrente?»."
+			}
+		},
+		{
+			"id": "elettronica-firme-guasti-6",
+			"subject": "elettronica",
+			"topic": "guasti",
+			"difficulty": 2,
+			"format": "ordering",
+			"prompt": "La lampada del corridoio non si accende. Metti in ordine i passi per trovare il guasto senza smontare tutto.",
+			"options": [],
+			"explanation": "Si parte da quello che costa meno controllare e si finisce con quello che costa di più: guardare un interruttore è gratis, controllare il filo tratto per tratto è l'ultima cosa. È lo stesso metodo che si usa per qualunque guasto — non il pezzo più sospetto per primo, ma il controllo più facile.",
+			"_difficulty8": true,
+			"items": [
+				"controlla il filo tratto per tratto",
+				"guarda se l'interruttore è chiuso",
+				"prova la lampada su un altro portalampada",
+				"verifica che la pila abbia ancora carica"
+			],
+			"correctOrder": [
+				"guarda se l'interruttore è chiuso",
+				"verifica che la pila abbia ancora carica",
+				"prova la lampada su un altro portalampada",
+				"controlla il filo tratto per tratto"
+			],
+			"distractorWhy": {
+				"Filo mancante": "«Filo mancante» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"Interruttore aperto": "«Interruttore aperto» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"Resistenza assente": "«Resistenza assente» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"LED girato al contrario": "«LED girato al contrario» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"Resistenza sbagliata": "«Resistenza sbagliata» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"Componente scollegato": "«Componente scollegato» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"Sensore senza energia": "«Sensore senza energia» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"Ramo parallelo aperto": "«Ramo parallelo aperto» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
+			}
+		},
+		{
+			"id": "elettronica-firme-sicurezza-elettrica-7",
+			"subject": "elettronica",
+			"topic": "sicurezza-elettrica",
+			"difficulty": 2,
+			"format": "classification",
+			"prompt": "Smista ogni gesto secondo che cosa cambia del rischio.",
+			"options": [],
+			"explanation": "Il fusibile più robusto è quello che inganna: sembra una riparazione e toglie esattamente la protezione per cui il fusibile esiste. È un pezzo di filo studiato per fondersi prima degli altri — sostituirlo con uno che regge di più significa che a fondersi sarà qualcos'altro.",
+			"_difficulty8": true,
+			"items": [
+				"staccare la spina prima di aprire l'apparecchio",
+				"asciugarsi le mani prima di toccare un interruttore",
+				"sostituire un fusibile con uno più robusto",
+				"usare un cacciavite con il manico isolato"
+			],
+			"categories": [
+				"riduce il rischio",
+				"lo aumenta"
+			],
+			"assignments": {
+				"staccare la spina prima di aprire l'apparecchio": "riduce il rischio",
+				"asciugarsi le mani prima di toccare un interruttore": "riduce il rischio",
+				"sostituire un fusibile con uno più robusto": "lo aumenta",
+				"usare un cacciavite con il manico isolato": "riduce il rischio"
+			},
+			"distractorWhy": {
+				"Pericolo di scossa elettrica": "«Pericolo di scossa elettrica» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa indica il simbolo di un fulmine su un quadro elettrico?».",
+				"messa a terra": "«messa a terra» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il collegamento che porta a terra le correnti pericolose?».",
+				"interruttore magnetotermico": "«interruttore magnetotermico» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il dispositivo che si apre da solo quando passa troppa corrente?».",
+				"fusibile": "«fusibile» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"acqua": "«acqua» è la risposta giusta a un'altra domanda di questo gruppo: «Quale liquido rende molto più pericoloso il contatto con la corrente?»."
+			}
+		},
+		{
+			"id": "elettronica-firme-serie-parallelo-8",
+			"subject": "elettronica",
+			"topic": "serie-parallelo",
+			"difficulty": 5,
+			"format": "ordering",
+			"prompt": "Devi calcolare la resistenza totale di due resistenze in serie e poi la corrente. Metti in ordine i passi.",
+			"options": [],
+			"explanation": "In serie le resistenze si sommano, e solo dopo si può usare la legge di Ohm: dividere prima di sommare dà la corrente di un circuito che non hai montato. L'ultimo passo non è una formalità — un risultato di cento ampere da una pila da nove volt dice che da qualche parte c'è un errore di conto.",
+			"_difficulty8": true,
+			"items": [
+				"dividi la tensione della pila per la resistenza totale",
+				"somma le due resistenze",
+				"leggi il valore di ciascuna resistenza",
+				"controlla che la corrente trovata sia ragionevole"
+			],
+			"correctOrder": [
+				"leggi il valore di ciascuna resistenza",
+				"somma le due resistenze",
+				"dividi la tensione della pila per la resistenza totale",
+				"controlla che la corrente trovata sia ragionevole"
+			],
+			"distractorWhy": {
+				"La stessa in tutti": "«La stessa in tutti» è la risposta giusta a un'altra domanda di questo gruppo: «In un circuito in serie, la corrente che passa in ogni componente è…».",
+				"Doppia di una sola": "«Doppia di una sola» è la risposta giusta a un'altra domanda di questo gruppo: «Due resistenze uguali in serie danno una resistenza totale…».",
+				"Meno": "«Meno» è la risposta giusta a un'altra domanda di questo gruppo: «Tre lampadine identiche in serie brillano rispetto a una sola…».",
+				"Aumenta": "«Aumenta» è la risposta giusta a un'altra domanda di questo gruppo: «Aggiungendo un ramo in parallelo, la corrente totale erogata dalla pila…».",
+				"Si spengono": "«Si spengono» è la risposta giusta a un'altra domanda di questo gruppo: «In un collegamento in SERIE, se una lampadina si brucia, le altre…».",
+				"Restano accese": "«Restano accese» è la risposta giusta a un'altra domanda di questo gruppo: «In un collegamento in PARALLELO, se una lampadina si brucia, le altre…».",
+				"serie": "«serie» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il collegamento in cui la corrente ha un solo percorso possibile?».",
+				"parallelo": "«parallelo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il collegamento in cui ogni componente ha la stessa tensione ai capi?»."
+			}
+		},
+		{
+			"id": "elettronica-firme-misure-elettriche-9",
+			"subject": "elettronica",
+			"topic": "misure-elettriche",
+			"difficulty": 5,
+			"format": "matching",
+			"prompt": "Abbina ogni strumento a quello che misura e a come va collegato.",
+			"options": [],
+			"explanation": "Il collegamento non è un dettaglio: il voltmetro va in parallelo perché la tensione è una differenza fra due punti, l'amperometro in serie perché deve farsi attraversare da quello che misura. Scambiarli non dà una misura sbagliata, di solito rompe qualcosa.",
+			"_difficulty8": true,
+			"pairs": [
+				{
+					"left": "il voltmetro",
+					"right": "la tensione, collegato ai due capi"
+				},
+				{
+					"left": "l'amperometro",
+					"right": "la corrente, inserito nella maglia"
+				},
+				{
+					"left": "l'ohmetro",
+					"right": "la resistenza, con il circuito spento"
+				},
+				{
+					"left": "la pinza amperometrica",
+					"right": "la corrente, senza toccare il filo"
+				}
+			],
+			"distractorWhy": {
+				"Ampere": "«Ampere» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la corrente elettrica?».",
+				"Volt": "«Volt» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la tensione?».",
+				"Ohm": "«Ohm» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la resistenza?».",
+				"Watt": "«Watt» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura la potenza elettrica?».",
+				"L'energia consumata nel tempo": "«L'energia consumata nel tempo» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa misura il contatore di casa?».",
+				"Un quarto di ampere": "«Un quarto di ampere» è la risposta giusta a un'altra domanda di questo gruppo: «Su un multimetro leggi «250 mA». Quanta corrente è?».",
+				"voltmetro": "«voltmetro» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo strumento che misura la tensione?».",
+				"amperometro": "«amperometro» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo strumento che misura la corrente?»."
+			}
+		},
+		{
+			"id": "elettronica-firme-circuito-10",
+			"subject": "elettronica",
+			"topic": "circuito",
+			"difficulty": 8,
+			"format": "classification",
+			"prompt": "Una lampadina su quattro si fulmina. Smista che cosa succede alle altre tre, secondo come sono collegate.",
+			"options": [],
+			"explanation": "In serie qualunque interruzione ferma tutto, e allentare una lampadina interrompe quanto fulminarla. In parallelo ogni ramo è indipendente — ma il filo comune non è un ramo: è la strada che portano tutti, e staccarlo spegne l'impianto intero. La domanda giusta non è «serie o parallelo» ma «dove si è aperto il giro».",
+			"_difficulty8": true,
+			"items": [
+				"quattro lampade in serie, una si fulmina",
+				"quattro lampade in parallelo, una si fulmina",
+				"quattro lampade in serie, una si allenta nel portalampada",
+				"quattro lampade in parallelo, si stacca il filo comune"
+			],
+			"categories": [
+				"le altre restano accese",
+				"si spengono tutte"
+			],
+			"assignments": {
+				"quattro lampade in serie, una si fulmina": "si spengono tutte",
+				"quattro lampade in parallelo, una si fulmina": "le altre restano accese",
+				"quattro lampade in serie, una si allenta nel portalampada": "si spengono tutte",
+				"quattro lampade in parallelo, si stacca il filo comune": "si spengono tutte"
+			},
+			"distractorWhy": {
+				"Chiuso": "«Chiuso» è la risposta giusta a un'altra domanda di questo gruppo: «Perché una lampadina si accenda, il circuito deve essere…».",
+				"La pila (batteria)": "«La pila (batteria)» è la risposta giusta a un'altra domanda di questo gruppo: «In una torcia, cosa fornisce l'energia elettrica?».",
+				"circuito": "«circuito» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il percorso chiuso in cui scorre la corrente?».",
+				"cortocircuito": "«cortocircuito» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"generatore": "«generatore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che fornisce energia al circuito?».",
+				"si spegne anche lei": "«si spegne anche lei» è la risposta giusta a un'altra domanda di questo gruppo: «Due lampadine uguali sono in serie e una si fulmina. L'altra che cosa fa?»."
+			}
+		},
+		{
+			"id": "elettronica-firme-elettricita-base-11",
+			"subject": "elettronica",
+			"topic": "elettricita-base",
+			"difficulty": 8,
+			"format": "ordering",
+			"prompt": "Metti in ordine queste quattro correnti, dalla più piccola alla più grande.",
+			"options": [],
+			"explanation": "Fra un LED e un fulmine ci sono nove ordini di grandezza: qualche millesimo di ampere contro decine di migliaia. Avere in testa la scala serve più di ricordare un numero — quando un conto dà cento ampere per una torcia, è la scala a dire che c'è un errore prima ancora di rifare il calcolo.",
+			"_difficulty8": true,
+			"items": [
+				"il fulmine di un temporale",
+				"il LED di una spia",
+				"il fornello elettrico",
+				"la lampadina di una torcia"
+			],
+			"correctOrder": [
+				"il LED di una spia",
+				"la lampadina di una torcia",
+				"il fornello elettrico",
+				"il fulmine di un temporale"
+			],
+			"distractorWhy": {
+				"Lo scalda": "«Lo scalda» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa fa la corrente attraversando un filo sottile?».",
+				"Resta uguale": "«Resta uguale» è la risposta giusta a un'altra domanda di questo gruppo: «Se raddoppi la resistenza e raddoppi la tensione, la corrente…».",
+				"La corrente elettrica": "«La corrente elettrica» è la risposta giusta a un'altra domanda di questo gruppo: «Cosa fa accendere una lampadina in un circuito?».",
+				"Corrente elettrica": "«Corrente elettrica» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il flusso di cariche elettriche in un filo?».",
+				"Tensione (voltaggio)": "«Tensione (voltaggio)» è la risposta giusta a un'altra domanda di questo gruppo: «La 'spinta' che mette in movimento la corrente si chiama…».",
+				"volt": "«volt» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della tensione elettrica?».",
+				"ampere": "«ampere» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della corrente elettrica?».",
+				"ohm": "«ohm» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è l'unità di misura della resistenza elettrica?»."
+			}
+		},
+		{
+			"id": "elettronica-firme-serie-parallelo-12",
+			"subject": "elettronica",
+			"topic": "serie-parallelo",
+			"difficulty": 3,
+			"format": "short_answer",
+			"prompt": "Due resistenze da 10 ohm sono in serie. Quanto vale la resistenza totale, in ohm?",
+			"options": [],
+			"answer": "20",
+			"accept": [
+				"20 ohm",
+				"venti"
+			],
+			"explanation": "In serie si sommano, perché la corrente deve attraversarle tutte e due una dopo l'altra: la strada diventa più lunga e più difficile. In parallelo sarebbe il contrario — due strade uguali dimezzano, e farebbe cinque.",
+			"_difficulty8": true
+		},
+		{
+			"id": "elettronica-firme-componenti-13",
+			"subject": "elettronica",
+			"topic": "componenti",
+			"difficulty": 4,
+			"format": "short_answer",
+			"prompt": "Come si chiama il componente che si oppone al passaggio della corrente e per questo si scalda?",
+			"options": [],
+			"answer": "resistenza",
+			"accept": [
+				"la resistenza",
+				"resistore",
+				"il resistore"
+			],
+			"explanation": "Il suo lavoro è proprio frenare: l'energia che la corrente perde attraversandola non sparisce, diventa calore. È un guasto quando succede in un filo e un mestiere quando succede in un fornello — stesso fenomeno, intenzione diversa.",
+			"_difficulty8": true,
+			"distractorWhy": {
+				"A limitare la corrente": "«A limitare la corrente» è la risposta giusta a un'altra domanda di questo gruppo: «A cosa serve un resistore in un circuito?».",
+				"condensatore": "«condensatore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che accumula carica fra due armature?».",
+				"diodo": "«diodo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che lascia passare la corrente in un verso solo?».",
+				"LED": "«LED» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il diodo che emette luce quando è attraversato dalla corrente?».",
+				"transistor": "«transistor» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente a tre terminali che amplifica o commuta un segnale?».",
+				"interruttore": "«interruttore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il componente che apre e chiude un circuito a comando?»."
+			}
+		},
+		{
+			"id": "elettronica-firme-guasti-14",
+			"subject": "elettronica",
+			"topic": "guasti",
+			"difficulty": 6,
+			"format": "short_answer",
+			"prompt": "Come si chiama il componente che si fonde apposta per interrompere il circuito quando la corrente è troppo alta?",
+			"options": [],
+			"answer": "fusibile",
+			"accept": [
+				"il fusibile",
+				"un fusibile"
+			],
+			"explanation": "È un tratto di filo scelto per cedere prima degli altri: si sacrifica per salvare il resto dell'impianto. Per questo si sostituisce con uno identico e mai con uno più robusto — un fusibile che non si fonde non protegge niente.",
+			"_difficulty8": true,
+			"distractorWhy": {
+				"Filo mancante": "«Filo mancante» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"Interruttore aperto": "«Interruttore aperto» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"Resistenza assente": "«Resistenza assente» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"LED girato al contrario": "«LED girato al contrario» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"Resistenza sbagliata": "«Resistenza sbagliata» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"Componente scollegato": "«Componente scollegato» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"Sensore senza energia": "«Sensore senza energia» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"Ramo parallelo aperto": "«Ramo parallelo aperto» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
+			}
+		},
+		{
 			"id": "elettronica-elettricita-base-che-cosa-fornisce-l-energia-in-un-circuito-con-l",
 			"subject": "elettronica",
 			"topic": "elettricita-base",
@@ -3282,8 +4145,8 @@
 			"prompt": "A parità di resistenza, se raddoppi la tensione la corrente che passa…",
 			"options": [
 				"si annulla",
-				"raddoppia",
 				"resta uguale",
+				"raddoppia",
 				"si dimezza"
 			],
 			"answer": "raddoppia",
@@ -3305,8 +4168,8 @@
 			"options": [
 				"si riduce a metà",
 				"diventa il triplo",
-				"si riduce a un terzo",
-				"resta la stessa"
+				"resta la stessa",
+				"si riduce a un terzo"
 			],
 			"answer": "si riduce a un terzo",
 			"explanation": "Corrente = tensione diviso resistenza: se il divisore triplica, il risultato vale un terzo.",
@@ -3325,10 +4188,10 @@
 			"format": "multiple_choice",
 			"prompt": "Due lampadine uguali sono in serie e una si fulmina. L'altra che cosa fa?",
 			"options": [
+				"si spegne anche lei",
 				"resta accesa uguale",
 				"diventa più luminosa",
-				"si accende a intermittenza",
-				"si spegne anche lei"
+				"si accende a intermittenza"
 			],
 			"answer": "si spegne anche lei",
 			"explanation": "In serie la corrente ha una strada sola: se si interrompe in un punto, non passa più da nessuna parte.",
@@ -3347,8 +4210,8 @@
 			"format": "multiple_choice",
 			"prompt": "Colleghi i due poli di una pila con un filo e basta, senza lampadina. Che cosa succede?",
 			"options": [
-				"passa moltissima corrente e la pila si scalda",
 				"la pila si ricarica invertendo il verso della corrente",
+				"passa moltissima corrente e la pila si scalda",
 				"non passa nessuna corrente perché manca la lampadina",
 				"il filo si comporta da isolante e blocca tutto"
 			],
@@ -3370,8 +4233,8 @@
 			"prompt": "Due lampadine uguali in parallelo su una pila, invece di una sola: la corrente che esce dalla pila…",
 			"options": [
 				"si dimezza",
-				"raddoppia",
 				"resta uguale",
+				"raddoppia",
 				"si annulla"
 			],
 			"answer": "raddoppia",
@@ -3393,8 +4256,8 @@
 			"options": [
 				"perché il parallelo richiede molti meno fili dentro i muri",
 				"perché collegati in serie consumerebbero molta più corrente di adesso",
-				"così ognuno funziona da solo e si può spegnere senza fermare gli altri",
-				"perché in serie i fili si scalderebbero fino a bruciarsi"
+				"perché in serie i fili si scalderebbero fino a bruciarsi",
+				"così ognuno funziona da solo e si può spegnere senza fermare gli altri"
 			],
 			"answer": "così ognuno funziona da solo e si può spegnere senza fermare gli altri",
 			"explanation": "In parallelo ogni apparecchio ha la sua strada: spegnerne uno non interrompe gli altri. In serie basterebbe una lampadina fulminata per lasciare al buio la casa.",
@@ -3413,10 +4276,10 @@
 			"format": "multiple_choice",
 			"prompt": "Un filo di rame lungo il doppio, con lo stesso spessore, ha una resistenza…",
 			"options": [
+				"doppia",
 				"uguale",
 				"quattro volte più grande",
-				"la metà",
-				"doppia"
+				"la metà"
 			],
 			"answer": "doppia",
 			"explanation": "Più strada deve fare la corrente dentro il filo, più incontra ostacoli: la resistenza cresce insieme alla lunghezza.",
@@ -3435,8 +4298,8 @@
 			"format": "multiple_choice",
 			"prompt": "Perché l'acqua salata conduce la corrente e quella distillata quasi per niente?",
 			"options": [
-				"perché nell'acqua salata ci sono particelle cariche libere di muoversi",
 				"perché il sale è un metallo e i metalli conducono la corrente",
+				"perché nell'acqua salata ci sono particelle cariche libere di muoversi",
 				"perché l'acqua distillata è troppo pura per lasciar passare qualcosa",
 				"perché l'acqua salata è più densa e pesante di quella distillata"
 			],
@@ -3458,8 +4321,8 @@
 			"prompt": "Per misurare la corrente che attraversa una lampadina, come si collega l'amperometro?",
 			"options": [
 				"fra la lampadina e l'interruttore aperto",
-				"in serie, nel filo che porta alla lampadina",
 				"ai due poli della pila",
+				"in serie, nel filo che porta alla lampadina",
 				"in parallelo alla lampadina"
 			],
 			"answer": "in serie, nel filo che porta alla lampadina",
@@ -3481,8 +4344,8 @@
 			"options": [
 				"in serie con la lampadina",
 				"solo al polo positivo della pila",
-				"in parallelo, uno ai capi dell'altra",
-				"al posto della lampadina"
+				"al posto della lampadina",
+				"in parallelo, uno ai capi dell'altra"
 			],
 			"answer": "in parallelo, uno ai capi dell'altra",
 			"explanation": "La tensione è una differenza fra due punti: per misurarla bisogna toccarli tutti e due. Per questo il voltmetro si mette in parallelo.",
@@ -3501,10 +4364,10 @@
 			"format": "multiple_choice",
 			"prompt": "Perché il salvavita scatta anche quando la corrente che passa è piccola?",
 			"options": [
+				"perché confronta la corrente che entra con quella che esce, e le vuole uguali",
 				"perché controlla che la tensione non salga mai sopra il valore di sicurezza",
 				"perché conta quanti apparecchi sono accesi insieme sulla stessa presa",
-				"perché misura quanta corrente sta consumando la casa in quel momento",
-				"perché confronta la corrente che entra con quella che esce, e le vuole uguali"
+				"perché misura quanta corrente sta consumando la casa in quel momento"
 			],
 			"answer": "perché confronta la corrente che entra con quella che esce, e le vuole uguali",
 			"explanation": "Se la corrente che torna è meno di quella andata, una parte sta passando da un'altra strada — magari attraverso una persona. Basta pochissimo per far scattare la protezione.",
@@ -3523,8 +4386,8 @@
 			"format": "multiple_choice",
 			"prompt": "A che cosa serve la resistenza che si mette in serie a un LED?",
 			"options": [
-				"a limitare la corrente, così il LED non si brucia",
 				"a far durare di più la pila che alimenta il circuito",
+				"a limitare la corrente, così il LED non si brucia",
 				"ad aumentare la luce che il LED riesce a produrre",
 				"a cambiare il colore con cui il LED si accende"
 			],
@@ -3546,8 +4409,8 @@
 			"prompt": "In una ghirlanda di luci collegate in parallelo una lampadina si fulmina. Le altre?",
 			"options": [
 				"diventano più deboli",
-				"restano accese",
 				"si spengono tutte",
+				"restano accese",
 				"si accendono a intermittenza"
 			],
 			"answer": "restano accese",

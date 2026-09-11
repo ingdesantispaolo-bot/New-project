@@ -2287,6 +2287,1104 @@
 			"_difficulty8": true
 		},
 		{
+			"id": "logica-sl-sequenze-0",
+			"subject": "logica",
+			"topic": "sequenze",
+			"difficulty": 2,
+			"format": "ordering",
+			"prompt": "Metti questi numeri in ordine crescente e vedrai la regola che li lega.",
+			"options": [],
+			"explanation": "Ogni numero è il doppio del precedente: non cresce di una quantità fissa ma si raddoppia, e per questo la distanza fra due numeri vicini aumenta ogni volta. Riconoscere se una sequenza somma o moltiplica è la prima domanda da farsi sempre.",
+			"_difficulty8": true,
+			"items": [
+				"8",
+				"2",
+				"16",
+				"4"
+			],
+			"correctOrder": [
+				"2",
+				"4",
+				"8",
+				"16"
+			],
+			"distractorWhy": {
+				"cerchio": "«cerchio» è la risposta giusta a un'altra domanda di questo gruppo: «Quale figura continua la serie: cerchio, quadrato, cerchio, quadrato, ?».",
+				"domenica": "«domenica» è la risposta giusta a un'altra domanda di questo gruppo: «Quale giorno continua la serie: lunedì, mercoledì, venerdì, ?».",
+				"I": "«I» è la risposta giusta a un'altra domanda di questo gruppo: «Quale lettera continua la serie: A, C, E, G, ?».",
+				"M": "«M» è la risposta giusta a un'altra domanda di questo gruppo: «Quale lettera continua la serie: Q, P, O, N, ...?».",
+				"9:05": "«9:05» è la risposta giusta a un'altra domanda di questo gruppo: «L'autobus passa alle 8:05, 8:20, 8:35, 8:50. A che ora passa il prossimo?»."
+			}
+		},
+		{
+			"id": "logica-sl-esclusioni-1",
+			"subject": "logica",
+			"topic": "esclusioni",
+			"difficulty": 2,
+			"format": "classification",
+			"prompt": "Tre amici hanno un animale diverso: cane, gatto, pesce. Anna non ha il pesce. Bruno ha il cane. Smista ogni frase.",
+			"options": [],
+			"explanation": "Bruno prende il cane, quindi ad Anna restano gatto e pesce; ma il pesce le è vietato, quindi ha il gatto, e a Carla resta il pesce. Ogni esclusione ne libera un'altra: è per questo che conviene partire dall'informazione più stretta, non dalla prima che si legge.",
+			"_difficulty8": true,
+			"items": [
+				"Bruno ha il cane",
+				"Anna ha il gatto",
+				"Carla ha il pesce",
+				"Anna ha il pesce"
+			],
+			"categories": [
+				"si può concludere",
+				"non si può concludere"
+			],
+			"assignments": {
+				"Bruno ha il cane": "si può concludere",
+				"Anna ha il gatto": "si può concludere",
+				"Carla ha il pesce": "si può concludere",
+				"Anna ha il pesce": "non si può concludere"
+			},
+			"distractorWhy": {
+				"mela": "«mela» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: cane, mela, gatto, cavallo?».",
+				"quercia": "«quercia» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: rosa, tulipano, quercia, margherita?».",
+				"tavolo": "«tavolo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: rosso, verde, tavolo, blu?».",
+				"marzo": "«marzo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: lunedì, marzo, giovedì, domenica?».",
+				"Flauto": "«Flauto» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: violino, viola, violoncello, flauto?».",
+				"Sicilia": "«Sicilia» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: Roma, Parigi, Berlino, Sicilia?».",
+				"Cerchio": "«Cerchio» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: quadrato, cerchio, triangolo, rettangolo?».",
+				"giallo": "«giallo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: arancione, viola, verde, giallo?»."
+			}
+		},
+		{
+			"id": "logica-sl-insiemi-2",
+			"subject": "logica",
+			"topic": "insiemi",
+			"difficulty": 2,
+			"format": "classification",
+			"prompt": "Smista ogni animale secondo dove sta rispetto a «vola» e «ha le piume».",
+			"options": [],
+			"explanation": "Due caratteristiche fanno quattro caselle, e servono tutte e quattro: se ne bastassero due, «vola» e «ha le piume» sarebbero la stessa cosa. Il pipistrello e la gallina sono lì apposta — sono i casi che impediscono di confondere due insiemi che si sovrappongono soltanto in parte.",
+			"_difficulty8": true,
+			"items": [
+				"il passero",
+				"il pipistrello",
+				"la gallina",
+				"il gatto"
+			],
+			"categories": [
+				"vola e ha le piume",
+				"vola ma non ha le piume",
+				"ha le piume ma non vola",
+				"né l'uno né l'altro"
+			],
+			"assignments": {
+				"il passero": "vola e ha le piume",
+				"il pipistrello": "vola ma non ha le piume",
+				"la gallina": "ha le piume ma non vola",
+				"il gatto": "né l'uno né l'altro"
+			},
+			"distractorWhy": {
+				"Gli uccelli che volano": "«Gli uccelli che volano» è la risposta giusta a un'altra domanda di questo gruppo: «Quali animali stanno sia nell'insieme «vola» sia in «ha le piume»?».",
+				"Disgiunti": "«Disgiunti» è la risposta giusta a un'altra domanda di questo gruppo: «Due insiemi non hanno nessun elemento in comune. Come si dicono?».",
+				"Un sottoinsieme": "«Un sottoinsieme» è la risposta giusta a un'altra domanda di questo gruppo: «Nel gruppo degli strumenti musicali, quello degli archi è…».",
+				"Animali": "«Animali» è la risposta giusta a un'altra domanda di questo gruppo: «Quale gruppo contiene tutti gli altri: cani, mammiferi, animali, vertebrati?».",
+				"Si sovrappongono in parte": "«Si sovrappongono in parte» è la risposta giusta a un'altra domanda di questo gruppo: ««Alcuni musicisti sono chitarristi» descrive due insiemi che…».",
+				"un rettangolo": "«un rettangolo» è la risposta giusta a un'altra domanda di questo gruppo: «Tutti i quadrati sono rettangoli. Allora un quadrato è anche…».",
+				"gioca a pallavolo": "«gioca a pallavolo» è la risposta giusta a un'altra domanda di questo gruppo: «In una classe tutti giocano a calcio o a pallavolo. Marco non gioca a calcio. Allora…».",
+				"Niente sulla loro cornice": "«Niente sulla loro cornice» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
+			}
+		},
+		{
+			"id": "logica-sl-deduzioni-3",
+			"subject": "logica",
+			"topic": "deduzioni",
+			"difficulty": 2,
+			"format": "classification",
+			"prompt": "Regola: «tutti i quadrati rossi sono grandi». Smista le figure secondo che cosa se ne può dire.",
+			"options": [],
+			"explanation": "La regola vale solo per i quadrati rossi: sul cerchio non ha voce. Sul quadrato piccolo però dice eccome — se fosse rosso sarebbe grande, quindi rosso non è. Una regola parla anche al contrario, e questo è il passo che quasi tutti saltano.",
+			"_difficulty8": true,
+			"items": [
+				"un quadrato rosso",
+				"un quadrato piccolo",
+				"un cerchio rosso piccolo",
+				"un quadrato grande"
+			],
+			"categories": [
+				"la regola dice qualcosa",
+				"la regola non dice niente"
+			],
+			"assignments": {
+				"un quadrato rosso": "la regola dice qualcosa",
+				"un quadrato piccolo": "la regola dice qualcosa",
+				"un cerchio rosso piccolo": "la regola non dice niente",
+				"un quadrato grande": "la regola non dice niente"
+			},
+			"distractorWhy": {
+				"ha la coda": "«ha la coda» è la risposta giusta a un'altra domanda di questo gruppo: «Tutti i gatti hanno la coda. Fufi è un gatto. Allora Fufi…».",
+				"non vola": "«non vola» è la risposta giusta a un'altra domanda di questo gruppo: «Nessun pesce vola. Nemo è un pesce. Quindi Nemo…».",
+				"non sta piovendo": "«non sta piovendo» è la risposta giusta a un'altra domanda di questo gruppo: «Se piove, Lea prende l'ombrello. Oggi Lea NON ha l'ombrello. Allora…».",
+				"Ugo": "«Ugo» è la risposta giusta a un'altra domanda di questo gruppo: «Marco è più alto di Sara. Sara è più alta di Ugo. Chi è il più basso?».",
+				"blu": "«blu» è la risposta giusta a un'altra domanda di questo gruppo: «Nella scatola ci sono solo palline rosse e blu. Ne peschi una e NON è rossa. Allora è…».",
+				"Non necessariamente": "«Non necessariamente» è la risposta giusta a un'altra domanda di questo gruppo: «Tutti i musicisti leggono le note. Sara legge le note. Sara è musicista?».",
+				"No, di sicuro": "«No, di sicuro» è la risposta giusta a un'altra domanda di questo gruppo: «Nessun rettile ha le piume. Kiwi ha le piume. Kiwi è un rettile?».",
+				"Sara": "«Sara» è la risposta giusta a un'altra domanda di questo gruppo: «Marta è più giovane di Luca. Luca è più giovane di Sara. Chi è il più vecchio?»."
+			}
+		},
+		{
+			"id": "logica-sl-sequenze-4",
+			"subject": "logica",
+			"topic": "sequenze",
+			"difficulty": 2,
+			"format": "matching",
+			"prompt": "Abbina ogni figura al numero di lati che ha: è il numero nascosto che ordina la sequenza.",
+			"options": [],
+			"explanation": "La regola non sta nella forma ma in un numero nascosto dentro la forma. Le sequenze visive quasi sempre funzionano così: c'è una quantità che cambia in modo regolare, e trovarla vuol dire aver finito.",
+			"_difficulty8": true,
+			"pairs": [
+				{
+					"left": "il triangolo",
+					"right": "tre lati"
+				},
+				{
+					"left": "il quadrato",
+					"right": "quattro lati"
+				},
+				{
+					"left": "il pentagono",
+					"right": "cinque lati"
+				},
+				{
+					"left": "l'esagono",
+					"right": "sei lati"
+				}
+			],
+			"distractorWhy": {
+				"cerchio": "«cerchio» è la risposta giusta a un'altra domanda di questo gruppo: «Quale figura continua la serie: cerchio, quadrato, cerchio, quadrato, ?».",
+				"domenica": "«domenica» è la risposta giusta a un'altra domanda di questo gruppo: «Quale giorno continua la serie: lunedì, mercoledì, venerdì, ?».",
+				"I": "«I» è la risposta giusta a un'altra domanda di questo gruppo: «Quale lettera continua la serie: A, C, E, G, ?».",
+				"M": "«M» è la risposta giusta a un'altra domanda di questo gruppo: «Quale lettera continua la serie: Q, P, O, N, ...?».",
+				"9:05": "«9:05» è la risposta giusta a un'altra domanda di questo gruppo: «L'autobus passa alle 8:05, 8:20, 8:35, 8:50. A che ora passa il prossimo?»."
+			}
+		},
+		{
+			"id": "logica-sl-esclusioni-5",
+			"subject": "logica",
+			"topic": "esclusioni",
+			"difficulty": 2,
+			"format": "matching",
+			"prompt": "Tre scatole, tre colori. La rossa non contiene la palla. La verde contiene il cubo. Abbina ogni scatola al suo contenuto.",
+			"options": [],
+			"explanation": "Si parte sempre dalla certezza: il cubo è nella verde, quindi non è altrove. Alla rossa restano palla e anello, ma la palla è esclusa, quindi ha l'anello — e alla blu non resta che la palla. Nessun passo richiede di indovinare.",
+			"_difficulty8": true,
+			"pairs": [
+				{
+					"left": "la scatola verde",
+					"right": "il cubo"
+				},
+				{
+					"left": "la scatola rossa",
+					"right": "l'anello"
+				},
+				{
+					"left": "la scatola blu",
+					"right": "la palla"
+				}
+			],
+			"distractorWhy": {
+				"mela": "«mela» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: cane, mela, gatto, cavallo?».",
+				"quercia": "«quercia» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: rosa, tulipano, quercia, margherita?».",
+				"tavolo": "«tavolo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: rosso, verde, tavolo, blu?».",
+				"marzo": "«marzo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: lunedì, marzo, giovedì, domenica?».",
+				"Flauto": "«Flauto» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: violino, viola, violoncello, flauto?».",
+				"Sicilia": "«Sicilia» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: Roma, Parigi, Berlino, Sicilia?».",
+				"Cerchio": "«Cerchio» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: quadrato, cerchio, triangolo, rettangolo?».",
+				"giallo": "«giallo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: arancione, viola, verde, giallo?»."
+			}
+		},
+		{
+			"id": "logica-sl-insiemi-6",
+			"subject": "logica",
+			"topic": "insiemi",
+			"difficulty": 2,
+			"format": "ordering",
+			"prompt": "Metti questi gruppi in ordine dal più piccolo al più grande, sapendo che ognuno è contenuto nel successivo.",
+			"options": [],
+			"explanation": "Ogni gruppo sta dentro il successivo: più una categoria è precisa, meno individui contiene. È la ragione per cui aggiungere una parola a una descrizione la rende sempre più piccola, mai più grande.",
+			"_difficulty8": true,
+			"items": [
+				"gli animali",
+				"i gatti",
+				"i mammiferi",
+				"i gatti siamesi"
+			],
+			"correctOrder": [
+				"i gatti siamesi",
+				"i gatti",
+				"i mammiferi",
+				"gli animali"
+			],
+			"distractorWhy": {
+				"Gli uccelli che volano": "«Gli uccelli che volano» è la risposta giusta a un'altra domanda di questo gruppo: «Quali animali stanno sia nell'insieme «vola» sia in «ha le piume»?».",
+				"Disgiunti": "«Disgiunti» è la risposta giusta a un'altra domanda di questo gruppo: «Due insiemi non hanno nessun elemento in comune. Come si dicono?».",
+				"Un sottoinsieme": "«Un sottoinsieme» è la risposta giusta a un'altra domanda di questo gruppo: «Nel gruppo degli strumenti musicali, quello degli archi è…».",
+				"Animali": "«Animali» è la risposta giusta a un'altra domanda di questo gruppo: «Quale gruppo contiene tutti gli altri: cani, mammiferi, animali, vertebrati?».",
+				"Si sovrappongono in parte": "«Si sovrappongono in parte» è la risposta giusta a un'altra domanda di questo gruppo: ««Alcuni musicisti sono chitarristi» descrive due insiemi che…».",
+				"un rettangolo": "«un rettangolo» è la risposta giusta a un'altra domanda di questo gruppo: «Tutti i quadrati sono rettangoli. Allora un quadrato è anche…».",
+				"gioca a pallavolo": "«gioca a pallavolo» è la risposta giusta a un'altra domanda di questo gruppo: «In una classe tutti giocano a calcio o a pallavolo. Marco non gioca a calcio. Allora…».",
+				"Niente sulla loro cornice": "«Niente sulla loro cornice» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
+			}
+		},
+		{
+			"id": "logica-sl-deduzioni-7",
+			"subject": "logica",
+			"topic": "deduzioni",
+			"difficulty": 2,
+			"format": "numeric_input",
+			"prompt": "In una stanza ci sono cani e galline: 7 teste e 20 zampe in tutto. Quanti sono i cani?",
+			"options": [],
+			"answer": "3",
+			"explanation": "Se fossero tutte galline le zampe sarebbero 14; ce ne sono 6 in più, e ogni cane ne aggiunge 2 rispetto a una gallina, quindi i cani sono 3. Partire dal caso estremo e correggere è un metodo che funziona ogni volta che due cose si mescolano.",
+			"_difficulty8": true
+		},
+		{
+			"id": "logica-sl-quantificatori-8",
+			"subject": "logica",
+			"topic": "quantificatori",
+			"difficulty": 1,
+			"format": "classification",
+			"prompt": "Nella scatola ci sono quattro palline: tre rosse e una blu. Smista ogni frase.",
+			"options": [],
+			"explanation": "«Tutte» cade appena c'è una sola eccezione, e la pallina blu basta. «Alcune» invece regge con una sola: non vuol dire «non tutte», vuol dire «almeno una». Sono le due parole che rovinano piu' ragionamenti di qualunque altra.",
+			"_difficulty8": true,
+			"items": [
+				"tutte le palline sono rosse",
+				"alcune palline sono rosse",
+				"nessuna pallina è verde",
+				"tutte le palline sono blu"
+			],
+			"categories": [
+				"vera",
+				"falsa"
+			],
+			"assignments": {
+				"tutte le palline sono rosse": "falsa",
+				"alcune palline sono rosse": "vera",
+				"nessuna pallina è verde": "vera",
+				"tutte le palline sono blu": "falsa"
+			},
+			"distractorWhy": {
+				"Tutti": "«Tutti» è la risposta giusta a un'altra domanda di questo gruppo: «Quale parola indica che vale per ogni singolo caso?».",
+				"Almeno uno non vola": "«Almeno uno non vola» è la risposta giusta a un'altra domanda di questo gruppo: ««Alcuni uccelli non volano» significa che…».",
+				"Non tutti": "«Non tutti» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il contrario di «tutti»?».",
+				"Due cose diverse": "«Due cose diverse» è la risposta giusta a un'altra domanda di questo gruppo: ««Ogni chiave apre una porta» e «una porta è aperta da ogni chiave» dicono…».",
+				"Due o più studenti": "«Due o più studenti» è la risposta giusta a un'altra domanda di questo gruppo: ««Almeno due studenti hanno preso 10» è vera se ne hanno preso 10…».",
+				"No, in nessun caso": "«No, in nessun caso» è la risposta giusta a un'altra domanda di questo gruppo: «Da «alcuni gatti sono neri» si può dedurre «tutti i gatti sono neri»?».",
+				"Dicono la stessa cosa": "«Dicono la stessa cosa» è la risposta giusta a un'altra domanda di questo gruppo: ««Nessun pesce vola» e «tutti i pesci non volano»…».",
+				"due, uno o nessuno": "«due, uno o nessuno» è la risposta giusta a un'altra domanda di questo gruppo: ««Al massimo due gatti dormono» è vera se ne dormono…»."
+			}
+		},
+		{
+			"id": "logica-sl-quantificatori-9",
+			"subject": "logica",
+			"topic": "quantificatori",
+			"difficulty": 1,
+			"format": "matching",
+			"prompt": "Abbina ogni parola a quanti casi le bastano per essere vera.",
+			"options": [],
+			"explanation": "«Alcuni» è quello che inganna: in logica non esclude il «tutti», dice solo che ce n'è almeno uno. Per negare «tutti» non serve «nessuno» — basta «non tutti», cioè una sola eccezione.",
+			"_difficulty8": true,
+			"pairs": [
+				{
+					"left": "tutti",
+					"right": "nessuna eccezione, neanche una"
+				},
+				{
+					"left": "alcuni",
+					"right": "almeno uno, e possono essere anche tutti"
+				},
+				{
+					"left": "nessuno",
+					"right": "zero casi, neanche uno"
+				},
+				{
+					"left": "non tutti",
+					"right": "almeno un'eccezione"
+				}
+			],
+			"distractorWhy": {
+				"Tutti": "«Tutti» è la risposta giusta a un'altra domanda di questo gruppo: «Quale parola indica che vale per ogni singolo caso?».",
+				"Almeno uno non vola": "«Almeno uno non vola» è la risposta giusta a un'altra domanda di questo gruppo: ««Alcuni uccelli non volano» significa che…».",
+				"Non tutti": "«Non tutti» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il contrario di «tutti»?».",
+				"Due cose diverse": "«Due cose diverse» è la risposta giusta a un'altra domanda di questo gruppo: ««Ogni chiave apre una porta» e «una porta è aperta da ogni chiave» dicono…».",
+				"Due o più studenti": "«Due o più studenti» è la risposta giusta a un'altra domanda di questo gruppo: ««Almeno due studenti hanno preso 10» è vera se ne hanno preso 10…».",
+				"No, in nessun caso": "«No, in nessun caso» è la risposta giusta a un'altra domanda di questo gruppo: «Da «alcuni gatti sono neri» si può dedurre «tutti i gatti sono neri»?».",
+				"Dicono la stessa cosa": "«Dicono la stessa cosa» è la risposta giusta a un'altra domanda di questo gruppo: ««Nessun pesce vola» e «tutti i pesci non volano»…».",
+				"due, uno o nessuno": "«due, uno o nessuno» è la risposta giusta a un'altra domanda di questo gruppo: ««Al massimo due gatti dormono» è vera se ne dormono…»."
+			}
+		},
+		{
+			"id": "logica-sl-verita-10",
+			"subject": "logica",
+			"topic": "verita",
+			"difficulty": 1,
+			"format": "classification",
+			"prompt": "Smista ogni frase secondo che cosa è.",
+			"options": [],
+			"explanation": "Alcune frasi sono vere per come sono fatte, prima ancora di guardare il mondo: «piove o non piove» è vera anche senza affacciarsi. Altre si contraddicono da sole. E altre ancora non sono né vere né false: sono opinioni, e discuterne è un'altra cosa.",
+			"_difficulty8": true,
+			"items": [
+				"due più due fa quattro",
+				"il gelato è buono",
+				"oggi piove oppure non piove",
+				"questa scatola è rossa e non rossa"
+			],
+			"categories": [
+				"sempre vera",
+				"sempre falsa",
+				"dipende dai gusti"
+			],
+			"assignments": {
+				"due più due fa quattro": "sempre vera",
+				"il gelato è buono": "dipende dai gusti",
+				"oggi piove oppure non piove": "sempre vera",
+				"questa scatola è rossa e non rossa": "sempre falsa"
+			},
+			"distractorWhy": {
+				"Almeno uno è arrivato": "«Almeno uno è arrivato» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la negazione di «nessuno è arrivato»?».",
+				"Non pioveva": "«Non pioveva» è la risposta giusta a un'altra domanda di questo gruppo: ««Se piove, prendo l'ombrello.» Non ho preso l'ombrello. Cosa si conclude?».",
+				"Piove": "«Piove» è la risposta giusta a un'altra domanda di questo gruppo: ««Non è vero che non piove» significa…».",
+				"Marco ha un gatto": "«Marco ha un gatto» è la risposta giusta a un'altra domanda di questo gruppo: ««Tutti gli abitanti hanno un cane o un gatto.» Marco non ha cani. Cosa si conclude?».",
+				"No, mai": "«No, mai» è la risposta giusta a un'altra domanda di questo gruppo: «Un'affermazione e la sua negazione possono essere entrambe vere?».",
+				"La regola di partenza": "«La regola di partenza» è la risposta giusta a un'altra domanda di questo gruppo: ««Se studio, passo l'esame.» Ho studiato ma non ho passato. Che cosa è falso?».",
+				"Quattro": "«Quattro» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
+			}
+		},
+		{
+			"id": "logica-sl-verita-11",
+			"subject": "logica",
+			"topic": "verita",
+			"difficulty": 1,
+			"format": "matching",
+			"prompt": "Abbina ogni frase alla sua negazione esatta.",
+			"options": [],
+			"explanation": "Negare non vuol dire dire il contrario: il contrario di «tutti dormono» non è «tutti sono svegli», basta uno sveglio. E negare due cose unite da «e» le separa con «oppure», perche' per far cadere la coppia basta che cada un pezzo.",
+			"_difficulty8": true,
+			"pairs": [
+				{
+					"left": "il gatto è nero",
+					"right": "il gatto non è nero"
+				},
+				{
+					"left": "tutti dormono",
+					"right": "almeno uno è sveglio"
+				},
+				{
+					"left": "nessuno è arrivato",
+					"right": "almeno uno è arrivato"
+				},
+				{
+					"left": "piove e fa freddo",
+					"right": "non piove oppure non fa freddo"
+				}
+			],
+			"distractorWhy": {
+				"Almeno uno è arrivato": "«Almeno uno è arrivato» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la negazione di «nessuno è arrivato»?».",
+				"Non pioveva": "«Non pioveva» è la risposta giusta a un'altra domanda di questo gruppo: ««Se piove, prendo l'ombrello.» Non ho preso l'ombrello. Cosa si conclude?».",
+				"Piove": "«Piove» è la risposta giusta a un'altra domanda di questo gruppo: ««Non è vero che non piove» significa…».",
+				"Marco ha un gatto": "«Marco ha un gatto» è la risposta giusta a un'altra domanda di questo gruppo: ««Tutti gli abitanti hanno un cane o un gatto.» Marco non ha cani. Cosa si conclude?».",
+				"No, mai": "«No, mai» è la risposta giusta a un'altra domanda di questo gruppo: «Un'affermazione e la sua negazione possono essere entrambe vere?».",
+				"La regola di partenza": "«La regola di partenza» è la risposta giusta a un'altra domanda di questo gruppo: ««Se studio, passo l'esame.» Ho studiato ma non ho passato. Che cosa è falso?».",
+				"Quattro": "«Quattro» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
+			}
+		},
+		{
+			"id": "logica-sl-insiemi-12",
+			"subject": "logica",
+			"topic": "insiemi",
+			"difficulty": 1,
+			"format": "matching",
+			"prompt": "Abbina ogni gruppo a un esempio che ne fa parte.",
+			"options": [],
+			"explanation": "Per dire che una cosa sta in un gruppo bisogna guardare la regola del gruppo, non l'abitudine: il pipistrello vola pur non essendo un uccello. Un solo esempio giusto non dimostra la regola, ma un solo esempio sbagliato la fa cadere.",
+			"_difficulty8": true,
+			"pairs": [
+				{
+					"left": "gli strumenti a corda",
+					"right": "il violino"
+				},
+				{
+					"left": "i numeri pari",
+					"right": "il dodici"
+				},
+				{
+					"left": "i mesi con trenta giorni",
+					"right": "aprile"
+				},
+				{
+					"left": "gli animali che volano",
+					"right": "il pipistrello"
+				}
+			],
+			"distractorWhy": {
+				"Gli uccelli che volano": "«Gli uccelli che volano» è la risposta giusta a un'altra domanda di questo gruppo: «Quali animali stanno sia nell'insieme «vola» sia in «ha le piume»?».",
+				"Disgiunti": "«Disgiunti» è la risposta giusta a un'altra domanda di questo gruppo: «Due insiemi non hanno nessun elemento in comune. Come si dicono?».",
+				"Un sottoinsieme": "«Un sottoinsieme» è la risposta giusta a un'altra domanda di questo gruppo: «Nel gruppo degli strumenti musicali, quello degli archi è…».",
+				"Animali": "«Animali» è la risposta giusta a un'altra domanda di questo gruppo: «Quale gruppo contiene tutti gli altri: cani, mammiferi, animali, vertebrati?».",
+				"Si sovrappongono in parte": "«Si sovrappongono in parte» è la risposta giusta a un'altra domanda di questo gruppo: ««Alcuni musicisti sono chitarristi» descrive due insiemi che…».",
+				"un rettangolo": "«un rettangolo» è la risposta giusta a un'altra domanda di questo gruppo: «Tutti i quadrati sono rettangoli. Allora un quadrato è anche…».",
+				"gioca a pallavolo": "«gioca a pallavolo» è la risposta giusta a un'altra domanda di questo gruppo: «In una classe tutti giocano a calcio o a pallavolo. Marco non gioca a calcio. Allora…».",
+				"Niente sulla loro cornice": "«Niente sulla loro cornice» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
+			}
+		},
+		{
+			"id": "logica-sl-deduzioni-13",
+			"subject": "logica",
+			"topic": "deduzioni",
+			"difficulty": 1,
+			"format": "matching",
+			"prompt": "Abbina ogni indizio a quello che se ne può concludere con certezza.",
+			"options": [],
+			"explanation": "Ogni conclusione qui dice **meno** dell'indizio, non di piu': non «ha piovuto», ma «qualcosa di bagnato è passato». È la differenza fra dedurre e indovinare, e si riconosce così — una deduzione non aggiunge mai informazione che non c'era.",
+			"_difficulty8": true,
+			"pairs": [
+				{
+					"left": "il pavimento all'ingresso è bagnato",
+					"right": "qualcosa di bagnato è passato di lì"
+				},
+				{
+					"left": "la scatola dei biscotti è vuota",
+					"right": "i biscotti non sono più dentro"
+				},
+				{
+					"left": "la bici non è nel cortile",
+					"right": "la bici è da qualche altra parte"
+				},
+				{
+					"left": "la luce della cucina è accesa",
+					"right": "qualcuno l'ha accesa"
+				}
+			],
+			"distractorWhy": {
+				"ha la coda": "«ha la coda» è la risposta giusta a un'altra domanda di questo gruppo: «Tutti i gatti hanno la coda. Fufi è un gatto. Allora Fufi…».",
+				"non vola": "«non vola» è la risposta giusta a un'altra domanda di questo gruppo: «Nessun pesce vola. Nemo è un pesce. Quindi Nemo…».",
+				"non sta piovendo": "«non sta piovendo» è la risposta giusta a un'altra domanda di questo gruppo: «Se piove, Lea prende l'ombrello. Oggi Lea NON ha l'ombrello. Allora…».",
+				"Ugo": "«Ugo» è la risposta giusta a un'altra domanda di questo gruppo: «Marco è più alto di Sara. Sara è più alta di Ugo. Chi è il più basso?».",
+				"blu": "«blu» è la risposta giusta a un'altra domanda di questo gruppo: «Nella scatola ci sono solo palline rosse e blu. Ne peschi una e NON è rossa. Allora è…».",
+				"Non necessariamente": "«Non necessariamente» è la risposta giusta a un'altra domanda di questo gruppo: «Tutti i musicisti leggono le note. Sara legge le note. Sara è musicista?».",
+				"No, di sicuro": "«No, di sicuro» è la risposta giusta a un'altra domanda di questo gruppo: «Nessun rettile ha le piume. Kiwi ha le piume. Kiwi è un rettile?».",
+				"Sara": "«Sara» è la risposta giusta a un'altra domanda di questo gruppo: «Marta è più giovane di Luca. Luca è più giovane di Sara. Chi è il più vecchio?»."
+			}
+		},
+		{
+			"id": "logica-sl-deduzioni-14",
+			"subject": "logica",
+			"topic": "deduzioni",
+			"difficulty": 1,
+			"format": "ordering",
+			"prompt": "Metti in ordine i passi per scoprire chi ha spento la luce, senza tirare a indovinare.",
+			"options": [],
+			"explanation": "La conclusione sta in fondo, sempre. Chi comincia dal sospettato cerca poi gli indizi che gli danno ragione, e ne trova — se ne trovano per chiunque: è il modo piu' comune di sbagliare restando convinti di aver ragionato.",
+			"_difficulty8": true,
+			"items": [
+				"concludi chi può essere stato",
+				"guarda chi era in casa a quell'ora",
+				"scopri quando la luce si è spenta",
+				"togli chi era in un'altra stanza"
+			],
+			"correctOrder": [
+				"scopri quando la luce si è spenta",
+				"guarda chi era in casa a quell'ora",
+				"togli chi era in un'altra stanza",
+				"concludi chi può essere stato"
+			],
+			"distractorWhy": {
+				"ha la coda": "«ha la coda» è la risposta giusta a un'altra domanda di questo gruppo: «Tutti i gatti hanno la coda. Fufi è un gatto. Allora Fufi…».",
+				"non vola": "«non vola» è la risposta giusta a un'altra domanda di questo gruppo: «Nessun pesce vola. Nemo è un pesce. Quindi Nemo…».",
+				"non sta piovendo": "«non sta piovendo» è la risposta giusta a un'altra domanda di questo gruppo: «Se piove, Lea prende l'ombrello. Oggi Lea NON ha l'ombrello. Allora…».",
+				"Ugo": "«Ugo» è la risposta giusta a un'altra domanda di questo gruppo: «Marco è più alto di Sara. Sara è più alta di Ugo. Chi è il più basso?».",
+				"blu": "«blu» è la risposta giusta a un'altra domanda di questo gruppo: «Nella scatola ci sono solo palline rosse e blu. Ne peschi una e NON è rossa. Allora è…».",
+				"Non necessariamente": "«Non necessariamente» è la risposta giusta a un'altra domanda di questo gruppo: «Tutti i musicisti leggono le note. Sara legge le note. Sara è musicista?».",
+				"No, di sicuro": "«No, di sicuro» è la risposta giusta a un'altra domanda di questo gruppo: «Nessun rettile ha le piume. Kiwi ha le piume. Kiwi è un rettile?».",
+				"Sara": "«Sara» è la risposta giusta a un'altra domanda di questo gruppo: «Marta è più giovane di Luca. Luca è più giovane di Sara. Chi è il più vecchio?»."
+			}
+		},
+		{
+			"id": "logica-sl-sequenze-15",
+			"subject": "logica",
+			"topic": "sequenze",
+			"difficulty": 1,
+			"format": "classification",
+			"prompt": "Smista ogni sequenza secondo come va avanti.",
+			"options": [],
+			"explanation": "Le sequenze fanno due mestieri diversi: alcune vanno da qualche parte, altre girano in tondo. Prima di cercare «il numero dopo» conviene capire quale delle due si ha davanti, perche' le domande da farsi sono opposte.",
+			"_difficulty8": true,
+			"items": [
+				"2, 4, 6, 8",
+				"rosso, blu, rosso, blu",
+				"1, 2, 4, 8",
+				"cerchio, triangolo, cerchio, triangolo"
+			],
+			"categories": [
+				"cresce ogni volta",
+				"si ripete uguale"
+			],
+			"assignments": {
+				"2, 4, 6, 8": "cresce ogni volta",
+				"rosso, blu, rosso, blu": "si ripete uguale",
+				"1, 2, 4, 8": "cresce ogni volta",
+				"cerchio, triangolo, cerchio, triangolo": "si ripete uguale"
+			},
+			"distractorWhy": {
+				"cerchio": "«cerchio» è la risposta giusta a un'altra domanda di questo gruppo: «Quale figura continua la serie: cerchio, quadrato, cerchio, quadrato, ?».",
+				"domenica": "«domenica» è la risposta giusta a un'altra domanda di questo gruppo: «Quale giorno continua la serie: lunedì, mercoledì, venerdì, ?».",
+				"I": "«I» è la risposta giusta a un'altra domanda di questo gruppo: «Quale lettera continua la serie: A, C, E, G, ?».",
+				"M": "«M» è la risposta giusta a un'altra domanda di questo gruppo: «Quale lettera continua la serie: Q, P, O, N, ...?».",
+				"9:05": "«9:05» è la risposta giusta a un'altra domanda di questo gruppo: «L'autobus passa alle 8:05, 8:20, 8:35, 8:50. A che ora passa il prossimo?»."
+			}
+		},
+		{
+			"id": "logica-firme-verita-0",
+			"subject": "logica",
+			"topic": "verita",
+			"difficulty": 3,
+			"format": "porte",
+			"prompt": "Il portello della stiva si apre solo quando tutti e due i sigilli sono accesi. Segna in quali casi si apre.",
+			"options": [],
+			"explanation": "«Tutti e due» è la condizione più severa che esista: basta un sigillo spento e il portello resta chiuso, e non importa quale dei due. Su quattro casi possibili ne accende uno solo — ed è il motivo per cui una catena di «e» diventa rapidamente impossibile da soddisfare.",
+			"_difficulty8": true,
+			"ingressi": [
+				"sigillo A",
+				"sigillo B"
+			],
+			"righe": [
+				{
+					"id": "r1",
+					"a": false,
+					"b": false,
+					"label": "A spento, B spento"
+				},
+				{
+					"id": "r2",
+					"a": true,
+					"b": false,
+					"label": "A acceso, B spento"
+				},
+				{
+					"id": "r3",
+					"a": false,
+					"b": true,
+					"label": "A spento, B acceso"
+				},
+				{
+					"id": "r4",
+					"a": true,
+					"b": true,
+					"label": "A acceso, B acceso"
+				}
+			],
+			"condizione": "si apre solo se sono accesi tutti e due",
+			"soluzione": {
+				"r1": false,
+				"r2": false,
+				"r3": false,
+				"r4": true
+			},
+			"distractorWhy": {
+				"Almeno uno è arrivato": "«Almeno uno è arrivato» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la negazione di «nessuno è arrivato»?».",
+				"Non pioveva": "«Non pioveva» è la risposta giusta a un'altra domanda di questo gruppo: ««Se piove, prendo l'ombrello.» Non ho preso l'ombrello. Cosa si conclude?».",
+				"Piove": "«Piove» è la risposta giusta a un'altra domanda di questo gruppo: ««Non è vero che non piove» significa…».",
+				"Marco ha un gatto": "«Marco ha un gatto» è la risposta giusta a un'altra domanda di questo gruppo: ««Tutti gli abitanti hanno un cane o un gatto.» Marco non ha cani. Cosa si conclude?».",
+				"No, mai": "«No, mai» è la risposta giusta a un'altra domanda di questo gruppo: «Un'affermazione e la sua negazione possono essere entrambe vere?».",
+				"La regola di partenza": "«La regola di partenza» è la risposta giusta a un'altra domanda di questo gruppo: ««Se studio, passo l'esame.» Ho studiato ma non ho passato. Che cosa è falso?».",
+				"Quattro": "«Quattro» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
+			}
+		},
+		{
+			"id": "logica-firme-insiemi-1",
+			"subject": "logica",
+			"topic": "insiemi",
+			"difficulty": 5,
+			"format": "porte",
+			"prompt": "L'allarme suona se c'è movimento nel corridoio oppure nella stiva, o in tutti e due. Segna in quali casi suona.",
+			"options": [],
+			"explanation": "«Almeno uno» accende tre casi su quattro, e comprende anche quello in cui succedono entrambe le cose: in logica «oppure» non esclude, aggiunge. Messa accanto agli insiemi è l'unione — tutto quello che sta in uno, nell'altro, o in tutti e due.",
+			"_difficulty8": true,
+			"ingressi": [
+				"corridoio",
+				"stiva"
+			],
+			"righe": [
+				{
+					"id": "r1",
+					"a": false,
+					"b": false,
+					"label": "corridoio fermo, stiva ferma"
+				},
+				{
+					"id": "r2",
+					"a": true,
+					"b": false,
+					"label": "movimento nel corridoio"
+				},
+				{
+					"id": "r3",
+					"a": false,
+					"b": true,
+					"label": "movimento nella stiva"
+				},
+				{
+					"id": "r4",
+					"a": true,
+					"b": true,
+					"label": "movimento in tutti e due"
+				}
+			],
+			"condizione": "suona se almeno uno dei due rileva movimento",
+			"soluzione": {
+				"r1": false,
+				"r2": true,
+				"r3": true,
+				"r4": true
+			},
+			"distractorWhy": {
+				"Gli uccelli che volano": "«Gli uccelli che volano» è la risposta giusta a un'altra domanda di questo gruppo: «Quali animali stanno sia nell'insieme «vola» sia in «ha le piume»?».",
+				"Disgiunti": "«Disgiunti» è la risposta giusta a un'altra domanda di questo gruppo: «Due insiemi non hanno nessun elemento in comune. Come si dicono?».",
+				"Un sottoinsieme": "«Un sottoinsieme» è la risposta giusta a un'altra domanda di questo gruppo: «Nel gruppo degli strumenti musicali, quello degli archi è…».",
+				"Animali": "«Animali» è la risposta giusta a un'altra domanda di questo gruppo: «Quale gruppo contiene tutti gli altri: cani, mammiferi, animali, vertebrati?».",
+				"Si sovrappongono in parte": "«Si sovrappongono in parte» è la risposta giusta a un'altra domanda di questo gruppo: ««Alcuni musicisti sono chitarristi» descrive due insiemi che…».",
+				"un rettangolo": "«un rettangolo» è la risposta giusta a un'altra domanda di questo gruppo: «Tutti i quadrati sono rettangoli. Allora un quadrato è anche…».",
+				"gioca a pallavolo": "«gioca a pallavolo» è la risposta giusta a un'altra domanda di questo gruppo: «In una classe tutti giocano a calcio o a pallavolo. Marco non gioca a calcio. Allora…».",
+				"Niente sulla loro cornice": "«Niente sulla loro cornice» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
+			}
+		},
+		{
+			"id": "logica-firme-verita-2",
+			"subject": "logica",
+			"topic": "verita",
+			"difficulty": 7,
+			"format": "porte",
+			"prompt": "Il ponte si alza solo quando una leva è tirata e l'altra no: se le tiri tutte e due i contrappesi si bilanciano e non succede niente. Segna in quali casi si alza.",
+			"options": [],
+			"explanation": "Questa è l'«o» del linguaggio comune — «o vieni tu o vengo io», non tutti e due — e in logica ha un nome suo perché è diversa dall'altra. Guarda la tavola: si accende quando i due ingressi sono DIVERSI, e si spegne quando sono uguali. È lo stesso motivo per cui serve chiedere «e se fossero tutti e due?» ogni volta che si legge un «o».",
+			"_difficulty8": true,
+			"ingressi": [
+				"leva di dritta",
+				"leva di sinistra"
+			],
+			"righe": [
+				{
+					"id": "r1",
+					"a": false,
+					"b": false,
+					"label": "nessuna leva tirata"
+				},
+				{
+					"id": "r2",
+					"a": true,
+					"b": false,
+					"label": "solo quella di dritta"
+				},
+				{
+					"id": "r3",
+					"a": false,
+					"b": true,
+					"label": "solo quella di sinistra"
+				},
+				{
+					"id": "r4",
+					"a": true,
+					"b": true,
+					"label": "tutte e due tirate"
+				}
+			],
+			"condizione": "si alza solo se ne è tirata esattamente una",
+			"soluzione": {
+				"r1": false,
+				"r2": true,
+				"r3": true,
+				"r4": false
+			},
+			"distractorWhy": {
+				"Almeno uno è arrivato": "«Almeno uno è arrivato» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la negazione di «nessuno è arrivato»?».",
+				"Non pioveva": "«Non pioveva» è la risposta giusta a un'altra domanda di questo gruppo: ««Se piove, prendo l'ombrello.» Non ho preso l'ombrello. Cosa si conclude?».",
+				"Piove": "«Piove» è la risposta giusta a un'altra domanda di questo gruppo: ««Non è vero che non piove» significa…».",
+				"Marco ha un gatto": "«Marco ha un gatto» è la risposta giusta a un'altra domanda di questo gruppo: ««Tutti gli abitanti hanno un cane o un gatto.» Marco non ha cani. Cosa si conclude?».",
+				"No, mai": "«No, mai» è la risposta giusta a un'altra domanda di questo gruppo: «Un'affermazione e la sua negazione possono essere entrambe vere?».",
+				"La regola di partenza": "«La regola di partenza» è la risposta giusta a un'altra domanda di questo gruppo: ««Se studio, passo l'esame.» Ho studiato ma non ho passato. Che cosa è falso?».",
+				"Quattro": "«Quattro» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
+			}
+		},
+		{
+			"id": "logica-firme-esclusioni-3",
+			"subject": "logica",
+			"topic": "esclusioni",
+			"difficulty": 4,
+			"format": "griglia",
+			"prompt": "Tre esploratori sono scesi nel relitto, ognuno con un attrezzo diverso. Chiudi le caselle impossibili e scopri chi porta che cosa.",
+			"options": [],
+			"explanation": "Gli ultimi due indizi insieme dicono una cosa che nessuno dei due dice da solo: se né Nilo né Truc hanno la chiave, ce l'ha per forza Bea. Chiudere una casella ne apre un'altra, ed è per questo che conviene partire dall'informazione più stretta invece che dalla prima che si legge.",
+			"_difficulty8": true,
+			"soggetti": [
+				"Bea",
+				"Nilo",
+				"Truc"
+			],
+			"attributi": [
+				"la torcia",
+				"la falce",
+				"la chiave"
+			],
+			"indizi": [
+				{
+					"text": "Bea non porta la torcia."
+				},
+				{
+					"text": "Chi porta la falce è Bea oppure Truc."
+				},
+				{
+					"text": "Nilo non porta la chiave."
+				},
+				{
+					"text": "Truc non porta la chiave."
+				}
+			],
+			"soluzione": {
+				"Bea": "la chiave",
+				"Nilo": "la torcia",
+				"Truc": "la falce"
+			},
+			"distractorWhy": {
+				"mela": "«mela» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: cane, mela, gatto, cavallo?».",
+				"quercia": "«quercia» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: rosa, tulipano, quercia, margherita?».",
+				"tavolo": "«tavolo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: rosso, verde, tavolo, blu?».",
+				"marzo": "«marzo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: lunedì, marzo, giovedì, domenica?».",
+				"Flauto": "«Flauto» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: violino, viola, violoncello, flauto?».",
+				"Sicilia": "«Sicilia» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: Roma, Parigi, Berlino, Sicilia?».",
+				"Cerchio": "«Cerchio» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: quadrato, cerchio, triangolo, rettangolo?».",
+				"giallo": "«giallo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: arancione, viola, verde, giallo?»."
+			}
+		},
+		{
+			"id": "logica-firme-deduzioni-4",
+			"subject": "logica",
+			"topic": "deduzioni",
+			"difficulty": 6,
+			"format": "griglia",
+			"prompt": "Quattro abitanti hanno lasciato un oggetto ciascuno nella sala dei glifi. Scopri di chi è che cosa.",
+			"options": [],
+			"explanation": "I primi due vanno letti insieme: se la lanterna è di Vera o di Ugo e non è di Ugo, allora è di Vera. Da lì cade tutto il resto — e nota che nessun indizio dice mai direttamente di chi è una cosa: quattro negazioni e una scelta fra due bastano a chiudere sedici caselle.",
+			"_difficulty8": true,
+			"soggetti": [
+				"Ada",
+				"Milo",
+				"Vera",
+				"Ugo"
+			],
+			"attributi": [
+				"il cristallo",
+				"la bussola",
+				"il diario",
+				"la lanterna"
+			],
+			"indizi": [
+				{
+					"text": "Chi ha lasciato la lanterna è Vera oppure Ugo."
+				},
+				{
+					"text": "Ugo non ha lasciato la lanterna."
+				},
+				{
+					"text": "Ada non ha lasciato il cristallo."
+				},
+				{
+					"text": "Ada non ha lasciato il diario."
+				},
+				{
+					"text": "Milo non ha lasciato il cristallo."
+				}
+			],
+			"soluzione": {
+				"Ada": "la bussola",
+				"Milo": "il diario",
+				"Vera": "la lanterna",
+				"Ugo": "il cristallo"
+			},
+			"distractorWhy": {
+				"ha la coda": "«ha la coda» è la risposta giusta a un'altra domanda di questo gruppo: «Tutti i gatti hanno la coda. Fufi è un gatto. Allora Fufi…».",
+				"non vola": "«non vola» è la risposta giusta a un'altra domanda di questo gruppo: «Nessun pesce vola. Nemo è un pesce. Quindi Nemo…».",
+				"non sta piovendo": "«non sta piovendo» è la risposta giusta a un'altra domanda di questo gruppo: «Se piove, Lea prende l'ombrello. Oggi Lea NON ha l'ombrello. Allora…».",
+				"Ugo": "«Ugo» è la risposta giusta a un'altra domanda di questo gruppo: «Marco è più alto di Sara. Sara è più alta di Ugo. Chi è il più basso?».",
+				"blu": "«blu» è la risposta giusta a un'altra domanda di questo gruppo: «Nella scatola ci sono solo palline rosse e blu. Ne peschi una e NON è rossa. Allora è…».",
+				"Non necessariamente": "«Non necessariamente» è la risposta giusta a un'altra domanda di questo gruppo: «Tutti i musicisti leggono le note. Sara legge le note. Sara è musicista?».",
+				"No, di sicuro": "«No, di sicuro» è la risposta giusta a un'altra domanda di questo gruppo: «Nessun rettile ha le piume. Kiwi ha le piume. Kiwi è un rettile?».",
+				"Sara": "«Sara» è la risposta giusta a un'altra domanda di questo gruppo: «Marta è più giovane di Luca. Luca è più giovane di Sara. Chi è il più vecchio?»."
+			}
+		},
+		{
+			"id": "logica-firme-esclusioni-5",
+			"subject": "logica",
+			"topic": "esclusioni",
+			"difficulty": 8,
+			"format": "griglia",
+			"prompt": "Quattro moduli del relitto si sono spenti, ognuno per un guasto diverso. Chiudi le caselle e scopri quale guasto ha fermato quale modulo.",
+			"options": [],
+			"explanation": "Sei indizi per sedici caselle, e nessuno dice mai «è stato questo». I primi due insieme assegnano la perdita d'acqua alla Serra; poi tre negazioni di fila sul Ponte lo lasciano con il solo cavo staccato, e da lì cade il resto. Ogni deduzione si appoggia su quella prima: è il modo in cui si risolve qualunque problema con troppi pezzi.",
+			"_difficulty8": true,
+			"soggetti": [
+				"Serra",
+				"Fucina",
+				"Ponte",
+				"Antenna"
+			],
+			"attributi": [
+				"il fusibile bruciato",
+				"la perdita d'acqua",
+				"il cavo staccato",
+				"la muffa sui contatti"
+			],
+			"indizi": [
+				{
+					"text": "Chi si è fermato per la perdita d'acqua è la Serra oppure il Ponte."
+				},
+				{
+					"text": "Il Ponte non si è fermato per la perdita d'acqua."
+				},
+				{
+					"text": "L'Antenna non si è fermata per il cavo staccato."
+				},
+				{
+					"text": "La Fucina non si è fermata per la muffa sui contatti."
+				},
+				{
+					"text": "Il Ponte non si è fermato per la muffa sui contatti."
+				},
+				{
+					"text": "Il Ponte non si è fermato per il fusibile bruciato."
+				}
+			],
+			"soluzione": {
+				"Serra": "la perdita d'acqua",
+				"Fucina": "il fusibile bruciato",
+				"Ponte": "il cavo staccato",
+				"Antenna": "la muffa sui contatti"
+			},
+			"distractorWhy": {
+				"mela": "«mela» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: cane, mela, gatto, cavallo?».",
+				"quercia": "«quercia» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: rosa, tulipano, quercia, margherita?».",
+				"tavolo": "«tavolo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: rosso, verde, tavolo, blu?».",
+				"marzo": "«marzo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: lunedì, marzo, giovedì, domenica?».",
+				"Flauto": "«Flauto» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: violino, viola, violoncello, flauto?».",
+				"Sicilia": "«Sicilia» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: Roma, Parigi, Berlino, Sicilia?».",
+				"Cerchio": "«Cerchio» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: quadrato, cerchio, triangolo, rettangolo?».",
+				"giallo": "«giallo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: arancione, viola, verde, giallo?»."
+			}
+		},
+		{
+			"id": "logica-firme-esclusioni-6",
+			"subject": "logica",
+			"topic": "esclusioni",
+			"difficulty": 3,
+			"format": "ordering",
+			"prompt": "Quattro chiavi aprono quattro portelli, una ciascuno. Sai che la chiave rossa non apre il primo portello e che la verde apre l'ultimo. Metti in ordine i passi per scoprire tutto senza tirare a indovinare.",
+			"options": [],
+			"explanation": "Si parte sempre da quello che è certo, non da quello che è scritto per primo: la chiave verde è l'unica informazione che assegna, le altre tolgono. Ogni cosa che togli restringe il campo per tutte le altre, e la prova a tentativi resta per ultima — quando ne sono rimaste due.",
+			"_difficulty8": true,
+			"items": [
+				"prova le due chiavi rimaste sui due portelli rimasti",
+				"segna la chiave verde sull'ultimo portello",
+				"cancella la rossa dal primo portello",
+				"guarda quale portello è rimasto con una sola chiave possibile"
+			],
+			"correctOrder": [
+				"segna la chiave verde sull'ultimo portello",
+				"cancella la rossa dal primo portello",
+				"guarda quale portello è rimasto con una sola chiave possibile",
+				"prova le due chiavi rimaste sui due portelli rimasti"
+			],
+			"distractorWhy": {
+				"mela": "«mela» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: cane, mela, gatto, cavallo?».",
+				"quercia": "«quercia» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: rosa, tulipano, quercia, margherita?».",
+				"tavolo": "«tavolo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: rosso, verde, tavolo, blu?».",
+				"marzo": "«marzo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: lunedì, marzo, giovedì, domenica?».",
+				"Flauto": "«Flauto» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: violino, viola, violoncello, flauto?».",
+				"Sicilia": "«Sicilia» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: Roma, Parigi, Berlino, Sicilia?».",
+				"Cerchio": "«Cerchio» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: quadrato, cerchio, triangolo, rettangolo?».",
+				"giallo": "«giallo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale non appartiene al gruppo: arancione, viola, verde, giallo?»."
+			}
+		},
+		{
+			"id": "logica-firme-verita-7",
+			"subject": "logica",
+			"topic": "verita",
+			"difficulty": 3,
+			"format": "ordering",
+			"prompt": "Metti queste quattro frasi in ordine, da quella che è vera in più casi a quella che è vera in meno casi.",
+			"options": [],
+			"explanation": "Ogni «e» che aggiungi rende la frase più difficile da soddisfare, ogni «oppure» più facile: aggiungere una condizione con «e» restringe, con «oppure» allarga. È la stessa cosa che succede alle descrizioni — più parole metti, meno cose descrivi.",
+			"_difficulty8": true,
+			"items": [
+				"piove e c'è vento",
+				"piove",
+				"piove oppure c'è vento",
+				"piove, c'è vento ed è notte"
+			],
+			"correctOrder": [
+				"piove oppure c'è vento",
+				"piove",
+				"piove e c'è vento",
+				"piove, c'è vento ed è notte"
+			],
+			"distractorWhy": {
+				"Almeno uno è arrivato": "«Almeno uno è arrivato» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la negazione di «nessuno è arrivato»?».",
+				"Non pioveva": "«Non pioveva» è la risposta giusta a un'altra domanda di questo gruppo: ««Se piove, prendo l'ombrello.» Non ho preso l'ombrello. Cosa si conclude?».",
+				"Piove": "«Piove» è la risposta giusta a un'altra domanda di questo gruppo: ««Non è vero che non piove» significa…».",
+				"Marco ha un gatto": "«Marco ha un gatto» è la risposta giusta a un'altra domanda di questo gruppo: ««Tutti gli abitanti hanno un cane o un gatto.» Marco non ha cani. Cosa si conclude?».",
+				"No, mai": "«No, mai» è la risposta giusta a un'altra domanda di questo gruppo: «Un'affermazione e la sua negazione possono essere entrambe vere?».",
+				"La regola di partenza": "«La regola di partenza» è la risposta giusta a un'altra domanda di questo gruppo: ««Se studio, passo l'esame.» Ho studiato ma non ho passato. Che cosa è falso?».",
+				"Quattro": "«Quattro» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
+			}
+		},
+		{
+			"id": "logica-firme-quantificatori-8",
+			"subject": "logica",
+			"topic": "quantificatori",
+			"difficulty": 3,
+			"format": "ordering",
+			"prompt": "Metti in ordine queste frasi sugli abitanti del relitto, da quella che dice di più a quella che dice di meno.",
+			"options": [],
+			"explanation": "«Tutti» è la più impegnativa: basta un'eccezione e cade. «Qualcuno» chiede solo un caso. Poi si scende verso le negazioni — «non tutti» ammette che qualcuno ce l'abbia, «nessuno» non ammette più niente. Notare che «non tutti» e «qualcuno» possono essere veri insieme è già metà del lavoro.",
+			"_difficulty8": true,
+			"items": [
+				"qualcuno ha una chiave",
+				"tutti hanno una chiave",
+				"nessuno ha una chiave",
+				"non tutti hanno una chiave"
+			],
+			"correctOrder": [
+				"tutti hanno una chiave",
+				"qualcuno ha una chiave",
+				"non tutti hanno una chiave",
+				"nessuno ha una chiave"
+			],
+			"distractorWhy": {
+				"Tutti": "«Tutti» è la risposta giusta a un'altra domanda di questo gruppo: «Quale parola indica che vale per ogni singolo caso?».",
+				"Almeno uno non vola": "«Almeno uno non vola» è la risposta giusta a un'altra domanda di questo gruppo: ««Alcuni uccelli non volano» significa che…».",
+				"Non tutti": "«Non tutti» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è il contrario di «tutti»?».",
+				"Due cose diverse": "«Due cose diverse» è la risposta giusta a un'altra domanda di questo gruppo: ««Ogni chiave apre una porta» e «una porta è aperta da ogni chiave» dicono…».",
+				"Due o più studenti": "«Due o più studenti» è la risposta giusta a un'altra domanda di questo gruppo: ««Almeno due studenti hanno preso 10» è vera se ne hanno preso 10…».",
+				"No, in nessun caso": "«No, in nessun caso» è la risposta giusta a un'altra domanda di questo gruppo: «Da «alcuni gatti sono neri» si può dedurre «tutti i gatti sono neri»?».",
+				"Dicono la stessa cosa": "«Dicono la stessa cosa» è la risposta giusta a un'altra domanda di questo gruppo: ««Nessun pesce vola» e «tutti i pesci non volano»…».",
+				"due, uno o nessuno": "«due, uno o nessuno» è la risposta giusta a un'altra domanda di questo gruppo: ««Al massimo due gatti dormono» è vera se ne dormono…»."
+			}
+		},
+		{
+			"id": "logica-firme-deduzioni-9",
+			"subject": "logica",
+			"topic": "deduzioni",
+			"difficulty": 8,
+			"format": "ordering",
+			"prompt": "Una regola dice: «se il sigillo è rosso allora il portello è chiuso». Metti in ordine i quattro casi, dal più informativo per verificarla al meno informativo.",
+			"options": [],
+			"explanation": "Per mettere alla prova «se rosso allora chiuso» servono i due casi che possono smentirla: un sigillo rosso (il portello dev'essere chiuso) e un portello aperto (il sigillo non può essere rosso). Un portello chiuso e un sigillo verde non possono smentirla in nessun modo, quindi guardarli non insegna niente — ed è esattamente l'errore che quasi tutti fanno, cercare conferme invece di prove.",
+			"_difficulty8": true,
+			"items": [
+				"un sigillo verde",
+				"un portello aperto",
+				"un sigillo rosso",
+				"un portello chiuso"
+			],
+			"correctOrder": [
+				"un sigillo rosso",
+				"un portello aperto",
+				"un portello chiuso",
+				"un sigillo verde"
+			],
+			"distractorWhy": {
+				"ha la coda": "«ha la coda» è la risposta giusta a un'altra domanda di questo gruppo: «Tutti i gatti hanno la coda. Fufi è un gatto. Allora Fufi…».",
+				"non vola": "«non vola» è la risposta giusta a un'altra domanda di questo gruppo: «Nessun pesce vola. Nemo è un pesce. Quindi Nemo…».",
+				"non sta piovendo": "«non sta piovendo» è la risposta giusta a un'altra domanda di questo gruppo: «Se piove, Lea prende l'ombrello. Oggi Lea NON ha l'ombrello. Allora…».",
+				"Ugo": "«Ugo» è la risposta giusta a un'altra domanda di questo gruppo: «Marco è più alto di Sara. Sara è più alta di Ugo. Chi è il più basso?».",
+				"blu": "«blu» è la risposta giusta a un'altra domanda di questo gruppo: «Nella scatola ci sono solo palline rosse e blu. Ne peschi una e NON è rossa. Allora è…».",
+				"Non necessariamente": "«Non necessariamente» è la risposta giusta a un'altra domanda di questo gruppo: «Tutti i musicisti leggono le note. Sara legge le note. Sara è musicista?».",
+				"No, di sicuro": "«No, di sicuro» è la risposta giusta a un'altra domanda di questo gruppo: «Nessun rettile ha le piume. Kiwi ha le piume. Kiwi è un rettile?».",
+				"Sara": "«Sara» è la risposta giusta a un'altra domanda di questo gruppo: «Marta è più giovane di Luca. Luca è più giovane di Sara. Chi è il più vecchio?»."
+			}
+		},
+		{
+			"id": "logica-firme-insiemi-10",
+			"subject": "logica",
+			"topic": "insiemi",
+			"difficulty": 8,
+			"format": "matching",
+			"prompt": "Abbina ogni coppia di gruppi al modo in cui stanno insieme.",
+			"options": [],
+			"explanation": "Sono i quattro modi possibili, e confonderli è la sorgente di quasi tutti gli errori sui gruppi: ogni quadrato è un rettangolo ma non viceversa, mentre sei è pari e multiplo di tre insieme. Pari e dispari sono speciali perché si escludono *e* non lasciano fuori nessun numero: si chiama partizione.",
+			"_difficulty8": true,
+			"pairs": [
+				{
+					"left": "i quadrati e i rettangoli",
+					"right": "uno sta tutto dentro l'altro"
+				},
+				{
+					"left": "i numeri pari e i multipli di tre",
+					"right": "si sovrappongono solo in parte"
+				},
+				{
+					"left": "i numeri pari e i numeri dispari",
+					"right": "non hanno niente in comune e coprono tutto"
+				},
+				{
+					"left": "i gatti e le cose che volano",
+					"right": "non hanno niente in comune, ma non coprono tutto"
+				}
+			],
+			"distractorWhy": {
+				"Gli uccelli che volano": "«Gli uccelli che volano» è la risposta giusta a un'altra domanda di questo gruppo: «Quali animali stanno sia nell'insieme «vola» sia in «ha le piume»?».",
+				"Disgiunti": "«Disgiunti» è la risposta giusta a un'altra domanda di questo gruppo: «Due insiemi non hanno nessun elemento in comune. Come si dicono?».",
+				"Un sottoinsieme": "«Un sottoinsieme» è la risposta giusta a un'altra domanda di questo gruppo: «Nel gruppo degli strumenti musicali, quello degli archi è…».",
+				"Animali": "«Animali» è la risposta giusta a un'altra domanda di questo gruppo: «Quale gruppo contiene tutti gli altri: cani, mammiferi, animali, vertebrati?».",
+				"Si sovrappongono in parte": "«Si sovrappongono in parte» è la risposta giusta a un'altra domanda di questo gruppo: ««Alcuni musicisti sono chitarristi» descrive due insiemi che…».",
+				"un rettangolo": "«un rettangolo» è la risposta giusta a un'altra domanda di questo gruppo: «Tutti i quadrati sono rettangoli. Allora un quadrato è anche…».",
+				"gioca a pallavolo": "«gioca a pallavolo» è la risposta giusta a un'altra domanda di questo gruppo: «In una classe tutti giocano a calcio o a pallavolo. Marco non gioca a calcio. Allora…».",
+				"Niente sulla loro cornice": "«Niente sulla loro cornice» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
+			}
+		},
+		{
+			"id": "logica-firme-verita-11",
+			"subject": "logica",
+			"topic": "verita",
+			"difficulty": 8,
+			"format": "classification",
+			"prompt": "Smista ogni affermazione secondo che cosa basta a dimostrarla o a smentirla.",
+			"options": [],
+			"explanation": "Le frasi che parlano di *tutti* o di *nessuno* si smentiscono con un caso e si dimostrano solo guardandoli tutti; quelle che dicono *esiste* fanno l'opposto. È il motivo per cui in scienza si cercano i controesempi: sono l'unica cosa che una prova sola può decidere.",
+			"_difficulty8": true,
+			"items": [
+				"tutti i cristalli del relitto brillano",
+				"esiste un cristallo che brilla",
+				"nessun cristallo brilla",
+				"non tutti i cristalli brillano"
+			],
+			"categories": [
+				"basta un solo esempio per DIMOSTRARLA",
+				"basta un solo esempio per SMENTIRLA"
+			],
+			"assignments": {
+				"tutti i cristalli del relitto brillano": "basta un solo esempio per SMENTIRLA",
+				"esiste un cristallo che brilla": "basta un solo esempio per DIMOSTRARLA",
+				"nessun cristallo brilla": "basta un solo esempio per SMENTIRLA",
+				"non tutti i cristalli brillano": "basta un solo esempio per DIMOSTRARLA"
+			},
+			"distractorWhy": {
+				"Almeno uno è arrivato": "«Almeno uno è arrivato» è la risposta giusta a un'altra domanda di questo gruppo: «Qual è la negazione di «nessuno è arrivato»?».",
+				"Non pioveva": "«Non pioveva» è la risposta giusta a un'altra domanda di questo gruppo: ««Se piove, prendo l'ombrello.» Non ho preso l'ombrello. Cosa si conclude?».",
+				"Piove": "«Piove» è la risposta giusta a un'altra domanda di questo gruppo: ««Non è vero che non piove» significa…».",
+				"Marco ha un gatto": "«Marco ha un gatto» è la risposta giusta a un'altra domanda di questo gruppo: ««Tutti gli abitanti hanno un cane o un gatto.» Marco non ha cani. Cosa si conclude?».",
+				"No, mai": "«No, mai» è la risposta giusta a un'altra domanda di questo gruppo: «Un'affermazione e la sua negazione possono essere entrambe vere?».",
+				"La regola di partenza": "«La regola di partenza» è la risposta giusta a un'altra domanda di questo gruppo: ««Se studio, passo l'esame.» Ho studiato ma non ho passato. Che cosa è falso?».",
+				"Quattro": "«Quattro» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
+			}
+		},
+		{
 			"id": "logica-esclusioni-quale-elemento-non-appartiene-al-gruppo-cane-gat",
 			"subject": "logica",
 			"topic": "esclusioni",

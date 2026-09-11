@@ -31,8 +31,8 @@ const SUBJECT_CYCLE := [
 	"latino", "elettronica", "geografia", "scienze", "storia", "logica",
 ]
 
-## Materie del NUCLEO: leggere, calcolare, comunicare. Le competenze abilitanti
-## su cui poggiano le altre nove.
+## Materie del NUCLEO: leggere, calcolare, comunicare, costruire. Le competenze
+## abilitanti su cui poggiano le altre otto.
 ##
 ## Il loro rango è cambiato due volte, e la storia serve a non rifarlo una terza.
 ## Fino al 5 agosto erano **le uniche** a gatare il livello: un bambino saliva in
@@ -42,16 +42,46 @@ const SUBJECT_CYCLE := [
 ##
 ## Dal 6 agosto 2026 il rango non è più «quali materie fermano la progressione»
 ## ma **quanto alta è l'asticella**. Tutte e dodici restano obbligatorie — è ciò
-## che impedisce di fare il minimo — e queste tre ne chiedono di più: soglia di
+## che impedisce di fare il minimo — e queste quattro ne chiedono di più: soglia di
 ## padronanza più alta, copertura più ampia, presenza in ogni esame.
 ## Vedi docs/DESIGN_COMPLETO.md §2 e insieme.md.
-const CORE_SUBJECTS := ["matematica", "inglese", "italiano"]
+##
+## **Dal 10 settembre 2026 il nucleo e' quattro.** La sessione di terza fascia
+## era di UN esercizio: non una sessione, un timbro. Portarla a due con sei
+## materie in terza fascia sfonda la quota (28,6% contro 15% +/-5), perche' la
+## terza fascia pesava il doppio delle altre due messe insieme. Con dodici
+## materie divise 4/4/4 la lunghezza 6/4/2 da' 24/16/8 = 50,0% / 33,3% / 16,7%:
+## le quote restano quelle dichiarate e nessuna materia si liquida in una
+## domanda sola.
+##
+## **La composizione non e' libera, e non l'ha scelta la didattica.** Due
+## vincoli, in quest'ordine:
+##
+## 1. **Aritmetica.** Con lunghezze 6/4/2 le quote 50/35/15 ammettono solo
+##    4+4+4. Spostare una materia di fascia significa rifare il conto.
+## 2. **Capienza del banco.** `pozzo_per_fascia_audit` chiede quindici sessioni
+##    distinte per fascia di difficolta', cioe' `pozzo / esercizi`: allungare la
+##    sessione divide quel numero. Misurato il 10 settembre, gli esercizi che
+##    ogni banco regge oggi sono inglese 15, italiano 7, matematica 6,
+##    fisica/geografia/coding 5, latino 3, storia 3, scienze 2, e **musica,
+##    elettronica e logica 1**. Il quarto posto del nucleo lo puo' occupare
+##    soltanto una materia che regga sei: fra le nove non gia' dentro, solo
+##    coding, fisica e geografia ci arrivano con poche decine di item.
+##
+## Da qui la scelta: **coding al nucleo** (costruire accanto a leggere,
+## calcolare e comunicare), latino e storia in seconda, e **logica in terza** —
+## non per rango didattico ma perche' ha il banco piu' sottile dei dodici (124
+## item) e metterlo nella sessione piu' lunga chiedeva centoventiquattro item
+## nuovi. La configurazione che sembrava piu' difendibile costava +145 item,
+## questa ne costa +29. Se un giorno il banco di logica raddoppia, la promozione
+## torna sul tavolo: il vincolo e' il contenuto, non il giudizio.
+const CORE_SUBJECTS := ["matematica", "inglese", "italiano", "coding"]
 
 ## Fasce di priorita' del curricolo. Tutte le materie restano obbligatorie in
 ## ogni mondo; la fascia stabilisce invece quanta parte dello sforzo complessivo
 ## e dell'esame viene loro riservata.
-const SECOND_TIER_SUBJECTS := ["fisica", "geografia", "coding"]
-const THIRD_TIER_SUBJECTS := ["musica", "latino", "elettronica", "scienze", "storia", "logica"]
+const SECOND_TIER_SUBJECTS := ["fisica", "geografia", "latino", "storia"]
+const THIRD_TIER_SUBJECTS := ["musica", "elettronica", "scienze", "logica"]
 const PRIORITY_TIERS := {
 	1: CORE_SUBJECTS,
 	2: SECOND_TIER_SUBJECTS,
@@ -65,13 +95,17 @@ const PRIORITY_WEIGHTS := {
 const PRIORITY_TOLERANCE := 0.05
 
 ## Lunghezza di una sessione ordinaria per materia. Un giro su tutte le dodici
-## vale 39 esercizi: 18 di prima fascia, 15 di seconda, 6 di terza, cioe'
-## 46,2% / 38,5% / 15,4%, entro la tolleranza di cinque punti senza esaurire
-## troppo presto le varianti disponibili nei banchi.
+## vale 48 esercizi: 24 di prima fascia, 16 di seconda, 8 di terza, cioe'
+## 50,0% / 33,3% / 16,7%, dentro la tolleranza di cinque punti.
+##
+## **La quota e' `esercizi x materie`, non `esercizi`.** E' l'errore facile da
+## fare qui: 6/4/2 sembra piu' equilibrato di 6/5/1 e con le vecchie fasce
+## 3/3/6 sfondava tutte e tre le righe della guardia. La lunghezza si cambia
+## insieme alla composizione delle fasce, mai da sola.
 const EXERCISE_NODES_BY_TIER := {
 	1: 6,
-	2: 5,
-	3: 1,
+	2: 4,
+	3: 2,
 }
 
 static func priority_tier(subject: String) -> int:

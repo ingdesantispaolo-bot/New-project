@@ -20,8 +20,18 @@ func _init() -> void:
 	for subject in ApparatusConfig.SUBJECT_CYCLE:
 		assert(seen.has(str(subject)), "materia fuori dalle fasce: %s" % subject)
 	assert(is_equal_approx(weight_total, 1.0), "le quote devono sommare 100%%")
-	assert(ApparatusConfig.subject_mastery_threshold("matematica", 24) > ApparatusConfig.subject_mastery_threshold("fisica", 24))
-	assert(ApparatusConfig.subject_mastery_threshold("fisica", 24) > ApparatusConfig.subject_mastery_threshold("storia", 24))
+	# **Le tre materie di prova si pescano dalle fasce, non si scrivono a mano.**
+	# (10 settembre 2026) Qui c'erano tre nomi — matematica, fisica, storia — e
+	# il giorno in cui storia è salita in seconda fascia l'assert ha smesso di
+	# misurare la gerarchia e ha cominciato a confrontare due materie della
+	# stessa fascia. Il rosso era giusto e diceva la cosa sbagliata.
+	var prima := str(ApparatusConfig.tier_subjects(1)[0])
+	var seconda := str(ApparatusConfig.tier_subjects(2)[0])
+	var terza := str(ApparatusConfig.tier_subjects(3)[0])
+	assert(ApparatusConfig.subject_mastery_threshold(prima, 24) > ApparatusConfig.subject_mastery_threshold(seconda, 24),
+		"%s (1a fascia) non chiede piu' di %s (2a)" % [prima, seconda])
+	assert(ApparatusConfig.subject_mastery_threshold(seconda, 24) > ApparatusConfig.subject_mastery_threshold(terza, 24),
+		"%s (2a fascia) non chiede piu' di %s (3a)" % [seconda, terza])
 	assert(GateReadiness.coverage_target(20, 12, true) > GateReadiness.coverage_target(20, 12, false),
 		"le fasce alte devono richiedere piu' copertura")
 	var exercise_total := 0
@@ -39,7 +49,7 @@ func _init() -> void:
 	assert(Array(gate["coreSubjects"]).size() == 12, "il gate deve continuare a chiedere tutte le materie")
 
 	var content := ContentManager.new()
-	# Il percorso vivo deve usare davvero 6/5/1, non limitarsi ad avere le
+	# Il percorso vivo deve usare davvero 6/4/2, non limitarsi ad avere le
 	# costanti corrette sulla carta.
 	for subject_data in ApparatusConfig.SUBJECT_CYCLE:
 		var subject := str(subject_data)

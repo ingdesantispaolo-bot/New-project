@@ -14,6 +14,15 @@ const ATLASES := {
 			"mosaic": Vector2(0.875, 0.50),
 		},
 	},
+	"electronics_components": {
+		"image": "res://assets/exercises/electronics-components-atlas-v1.webp",
+		"targets": {
+			"led": Vector2(0.125, 0.50),
+			"resistor": Vector2(0.375, 0.50),
+			"capacitor": Vector2(0.625, 0.50),
+			"push_button": Vector2(0.875, 0.50),
+		},
+	},
 }
 
 static func has_atlas(atlas_id: String) -> bool:

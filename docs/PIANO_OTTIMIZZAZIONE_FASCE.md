@@ -637,7 +637,17 @@ cambia.
    scelta cambia se quel rosso sia un difetto o un'informazione. Vedi la voce R-17
    in `insieme.md`.
 
-E una che è già scritta in `insieme.md` come **G-17** e pesa su tutto questo: sei
-materie su dodici hanno **un esercizio per sessione**, ed è aritmetica più che
-taratura — con sei materie e la quota 15% ±5, portarle a due obbliga a un giro da
-almeno 60 esercizi contro gli attuali 39.
+E una che era scritta in `insieme.md` come **G-17**, e che il 10 settembre 2026 si
+è chiusa: sei materie su dodici avevano **un esercizio per sessione**, ed era
+aritmetica più che taratura. La leva non era il numero ma la composizione delle
+fasce: con lunghezze **6/4/2** le quote 50/35/15 ammettono una sola divisione,
+**4+4+4**. Chi occupa i posti l'ha deciso la **capienza dei banchi**, non la
+didattica: `pozzo_per_fascia_audit` chiede quindici sessioni distinte per fascia,
+e il quarto posto del nucleo (sei esercizi) se lo puo' prendere solo un banco che
+li regga. Logica al nucleo sarebbe costata 217 item nuovi, avendo il banco piu'
+sottile dei dodici; coding al nucleo ne è costati 80. Composizione finale: nucleo
+matematica, italiano, inglese, coding; seconda fisica, geografia, latino, storia;
+terza musica, elettronica, scienze, logica. Il giro completo passa da 39 a 48
+esercizi (+23%), ed è il costo dichiarato di non avere più nessuna materia
+liquidata in una domanda sola. Gli 88 item stanno in
+`scripts/banks/sessioni-lunghe-programma.mjs`.

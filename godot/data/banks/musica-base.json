@@ -1813,6 +1813,7 @@
 				"Piano, cioè debole": "«Piano, cioè debole» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa il segno «p» su uno spartito?».",
 				"pp": "«pp» è la risposta giusta a un'altra domanda di questo gruppo: «Fra «pp» e «p», quale è più debole?».",
 				"L'altezza delle note": "«L'altezza delle note» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa NON cambia durante un crescendo?».",
+				"crescendo": "«crescendo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'indicazione che chiede di aumentare l'intensità poco a poco?».",
 				"a volume alto": "«a volume alto» è la risposta giusta a un'altra domanda di questo gruppo: «Il segno «forte» (f) chiede di suonare...».",
 				"Molto forte": "«Molto forte» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa indica il segno «ff» su uno spartito?»."
 			}
@@ -1888,6 +1889,7 @@
 				"Il doppio più veloce": "«Il doppio più veloce» è la risposta giusta a un'altra domanda di questo gruppo: «Un brano a 120 battiti al minuto rispetto a uno a 60 è…».",
 				"Veloce e vivace": "«Veloce e vivace» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «allegro»?».",
 				"Un'andatura lenta e distesa": "«Un'andatura lenta e distesa» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «adagio» su uno spartito?».",
+				"allegro": "«allegro» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"Esattamente un secondo": "«Esattamente un secondo» è la risposta giusta a un'altra domanda di questo gruppo: «Uno spartito segna 60 battiti al minuto. Quanto dura un movimento?»."
 			}
 		},
@@ -2476,6 +2478,659 @@
 				"Diventa più acuto": "«Diventa più acuto» è la risposta giusta a un'altra domanda di questo gruppo: «Salendo con le note sul pentagramma, che cosa succede al suono?».",
 				"seconda riga": "«seconda riga» è la risposta giusta a un'altra domanda di questo gruppo: «La chiave di violino fissa il SOL sulla...».",
 				"Mi": "«Mi» è la risposta giusta a un'altra domanda di questo gruppo: «In chiave di violino, quale nota sta sulla prima riga in basso?»."
+			}
+		},
+		{
+			"id": "musica-sl-dinamica-0",
+			"subject": "musica",
+			"topic": "dinamica",
+			"difficulty": 2,
+			"format": "ordering",
+			"prompt": "Metti le indicazioni di dinamica in ordine, dalla più piano alla più forte.",
+			"options": [],
+			"explanation": "«Mezzo» sta sempre in mezzo e il raddoppio della vocale spinge all'estremo: pianissimo è più piano di piano, fortissimo più forte di forte. Sono indicazioni relative, non misure — dicono più o meno dell'altra, non quanti decibel.",
+			"_difficulty8": true,
+			"items": [
+				"forte",
+				"pianissimo",
+				"mezzoforte",
+				"piano"
+			],
+			"correctOrder": [
+				"pianissimo",
+				"piano",
+				"mezzoforte",
+				"forte"
+			],
+			"distractorWhy": {
+				"Piano, cioè debole": "«Piano, cioè debole» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa il segno «p» su uno spartito?».",
+				"pp": "«pp» è la risposta giusta a un'altra domanda di questo gruppo: «Fra «pp» e «p», quale è più debole?».",
+				"L'altezza delle note": "«L'altezza delle note» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa NON cambia durante un crescendo?».",
+				"forte": "«forte» è la risposta giusta a un'altra domanda di questo gruppo: «Come si legge per esteso il segno «f» scritto sotto il pentagramma?».",
+				"crescendo": "«crescendo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'indicazione che chiede di aumentare l'intensità poco a poco?».",
+				"a volume alto": "«a volume alto» è la risposta giusta a un'altra domanda di questo gruppo: «Il segno «forte» (f) chiede di suonare...».",
+				"Molto forte": "«Molto forte» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa indica il segno «ff» su uno spartito?»."
+			}
+		},
+		{
+			"id": "musica-sl-note-1",
+			"subject": "musica",
+			"topic": "note",
+			"difficulty": 2,
+			"format": "ordering",
+			"prompt": "Metti le note in ordine, dalla più grave alla più acuta, dentro la stessa ottava.",
+			"options": [],
+			"explanation": "La scala sale sempre nello stesso ordine — do re mi fa sol la si — e ogni passo avanti è un suono più acuto. Sul pentagramma questo si vede: più la nota è in alto, più è acuta, e non c'è nessun caso in cui la regola si rovesci.",
+			"_difficulty8": true,
+			"items": [
+				"mi",
+				"do",
+				"sol",
+				"re"
+			],
+			"correctOrder": [
+				"do",
+				"re",
+				"mi",
+				"sol"
+			],
+			"distractorWhy": {
+				"La": "«La» è la risposta giusta a un'altra domanda di questo gruppo: «Quale nota viene subito dopo il sol?».",
+				"Re": "«Re» è la risposta giusta a un'altra domanda di questo gruppo: «Quale nota viene subito dopo il Do?».",
+				"ottava": "«ottava» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la distanza fra un do e il do successivo, più acuto?».",
+				"Fa": "«Fa» è la risposta giusta a un'altra domanda di questo gruppo: «Quale nota viene subito dopo il MI?».",
+				"Si": "«Si» è la risposta giusta a un'altra domanda di questo gruppo: «Quale nota viene subito prima del DO?».",
+				"un semitono": "«un semitono» è la risposta giusta a un'altra domanda di questo gruppo: «Un'alterazione «diesis» davanti a una nota la fa salire di...»."
+			}
+		},
+		{
+			"id": "musica-sl-ritmo-2",
+			"subject": "musica",
+			"topic": "ritmo",
+			"difficulty": 2,
+			"format": "ordering",
+			"prompt": "Metti le figure musicali in ordine, dalla più lunga alla più breve.",
+			"options": [],
+			"explanation": "Ogni figura dura la metà della precedente: quattro semiminime stanno in una semibreve. Il ritmo si legge così, per rapporti — quanto dura una nota rispetto all'altra — e non in secondi, che dipendono dalla velocità scelta.",
+			"_difficulty8": true,
+			"items": [
+				"la croma",
+				"la semibreve",
+				"la semiminima",
+				"la minima"
+			],
+			"correctOrder": [
+				"la semibreve",
+				"la minima",
+				"la semiminima",
+				"la croma"
+			],
+			"distractorWhy": {
+				"Non manca nessun battito.": "«Non manca nessun battito.» è la risposta giusta a un'altra domanda di questo gruppo: «In 4/4 ci sono due semiminime e una minima.».",
+				"Manca una semiminima.": "«Manca una semiminima.» è la risposta giusta a un'altra domanda di questo gruppo: «In 4/4 ci sono una minima e una semiminima. Cosa manca?».",
+				"La semibreve": "«La semibreve» è la risposta giusta a un'altra domanda di questo gruppo: «Quale figura musicale dura di più?».",
+				"Il doppio": "«Il doppio» è la risposta giusta a un'altra domanda di questo gruppo: «Una minima dura, rispetto a una semiminima…».",
+				"stanghetta": "«stanghetta» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la linea verticale che divide il pentagramma in battute?».",
+				"pausa": "«pausa» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il segno che indica un silenzio nella musica?».",
+				"La durata dei suoni": "«La durata dei suoni» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa indica il ritmo di un brano?».",
+				"un silenzio": "«un silenzio» è la risposta giusta a un'altra domanda di questo gruppo: «Una pausa in musica serve a indicare...»."
+			}
+		},
+		{
+			"id": "musica-sl-strumenti-3",
+			"subject": "musica",
+			"topic": "strumenti",
+			"difficulty": 2,
+			"format": "classification",
+			"prompt": "Smista ogni strumento nella sua famiglia.",
+			"options": [],
+			"explanation": "La famiglia dice da dove nasce il suono: una corda che vibra, una colonna d'aria, una pelle o un corpo colpito. È la stessa cosa che decide il timbro, cioè perché due strumenti che suonano la stessa nota non si confondono.",
+			"_difficulty8": true,
+			"items": [
+				"il violino",
+				"il flauto",
+				"il tamburo",
+				"la chitarra"
+			],
+			"categories": [
+				"corde",
+				"fiati",
+				"percussioni"
+			],
+			"assignments": {
+				"il violino": "corde",
+				"il flauto": "fiati",
+				"il tamburo": "percussioni",
+				"la chitarra": "corde"
+			},
+			"distractorWhy": {
+				"Archi": "«Archi» è la risposta giusta a un'altra domanda di questo gruppo: «A quale famiglia appartiene il violoncello?».",
+				"Fiati": "«Fiati» è la risposta giusta a un'altra domanda di questo gruppo: «A quale famiglia appartiene il clarinetto?».",
+				"Il tamburo": "«Il tamburo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale strumento produce il suono percuotendo una pelle tesa?».",
+				"Tromba": "«Tromba» è la risposta giusta a un'altra domanda di questo gruppo: «Quale strumento non appartiene alla famiglia degli archi?».",
+				"direttore": "«direttore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama chi guida un'orchestra dal podio?».",
+				"a corda": "«a corda» è la risposta giusta a un'altra domanda di questo gruppo: «La chitarra fa parte della famiglia degli strumenti...».",
+				"a percussione": "«a percussione» è la risposta giusta a un'altra domanda di questo gruppo: «Il tamburo fa parte della famiglia degli strumenti...».",
+				"a fiato": "«a fiato» è la risposta giusta a un'altra domanda di questo gruppo: «Il flauto fa parte della famiglia degli strumenti...»."
+			}
+		},
+		{
+			"id": "musica-sl-tempo-4",
+			"subject": "musica",
+			"topic": "tempo",
+			"difficulty": 2,
+			"format": "matching",
+			"prompt": "Abbina ogni indicazione di tempo alla velocità che chiede.",
+			"options": [],
+			"explanation": "Sono parole italiane, e non per caso: la musica scritta ha preso il vocabolario da dove era nata la stampa musicale. «Andante» conserva ancora il suo senso letterale — la velocità di uno che cammina — ed è il modo migliore per ricordarla.",
+			"_difficulty8": true,
+			"pairs": [
+				{
+					"left": "adagio",
+					"right": "lento, con calma"
+				},
+				{
+					"left": "andante",
+					"right": "come un passo tranquillo"
+				},
+				{
+					"left": "allegro",
+					"right": "veloce e vivace"
+				},
+				{
+					"left": "presto",
+					"right": "molto veloce"
+				}
+			],
+			"distractorWhy": {
+				"Il doppio più veloce": "«Il doppio più veloce» è la risposta giusta a un'altra domanda di questo gruppo: «Un brano a 120 battiti al minuto rispetto a uno a 60 è…».",
+				"Veloce e vivace": "«Veloce e vivace» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «allegro»?».",
+				"metronomo": "«metronomo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo strumento che batte il tempo regolare per esercitarsi?».",
+				"Un'andatura lenta e distesa": "«Un'andatura lenta e distesa» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «adagio» su uno spartito?».",
+				"allegro": "«allegro» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
+				"Esattamente un secondo": "«Esattamente un secondo» è la risposta giusta a un'altra domanda di questo gruppo: «Uno spartito segna 60 battiti al minuto. Quanto dura un movimento?»."
+			}
+		},
+		{
+			"id": "musica-sl-note-5",
+			"subject": "musica",
+			"topic": "note",
+			"difficulty": 2,
+			"format": "matching",
+			"prompt": "Abbina ogni segno al suo effetto sulla nota.",
+			"options": [],
+			"explanation": "I primi tre agiscono sull'altezza, il quarto sulla durata: sono due cose diverse che il pentagramma scrive nello stesso posto. Il bequadro serve proprio perché diesis e bemolle valgono per tutta la battuta, non per la nota singola.",
+			"_difficulty8": true,
+			"pairs": [
+				{
+					"left": "il diesis",
+					"right": "alza la nota di un semitono"
+				},
+				{
+					"left": "il bemolle",
+					"right": "abbassa la nota di un semitono"
+				},
+				{
+					"left": "il bequadro",
+					"right": "riporta la nota com'era"
+				},
+				{
+					"left": "il punto di valore",
+					"right": "allunga la nota di metà"
+				}
+			],
+			"distractorWhy": {
+				"La": "«La» è la risposta giusta a un'altra domanda di questo gruppo: «Quale nota viene subito dopo il sol?».",
+				"Re": "«Re» è la risposta giusta a un'altra domanda di questo gruppo: «Quale nota viene subito dopo il Do?».",
+				"ottava": "«ottava» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la distanza fra un do e il do successivo, più acuto?».",
+				"Fa": "«Fa» è la risposta giusta a un'altra domanda di questo gruppo: «Quale nota viene subito dopo il MI?».",
+				"Si": "«Si» è la risposta giusta a un'altra domanda di questo gruppo: «Quale nota viene subito prima del DO?».",
+				"un semitono": "«un semitono» è la risposta giusta a un'altra domanda di questo gruppo: «Un'alterazione «diesis» davanti a una nota la fa salire di...»."
+			}
+		},
+		{
+			"id": "musica-sl-ritmo-6",
+			"subject": "musica",
+			"topic": "ritmo",
+			"difficulty": 2,
+			"format": "numeric_input",
+			"prompt": "In una battuta di 4/4, quante crome ci stanno?",
+			"options": [],
+			"answer": "8",
+			"explanation": "Il 4/4 dice quattro movimenti da un quarto, cioè quattro semiminime; ogni semiminima vale due crome, quindi otto. Il numero sotto dice quale figura conta come un movimento, quello sopra quanti movimenti ha la battuta.",
+			"_difficulty8": true,
+			"distractorWhy": {
+				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «In 4/4, quanti battiti vale una minima puntata?».",
+				"6": "«6» è la risposta giusta a un'altra domanda di questo gruppo: «In un tempo di 6/8, quante crome stanno in una battuta?»."
+			}
+		},
+		{
+			"id": "musica-firme-ritmo-0",
+			"subject": "musica",
+			"topic": "ritmo",
+			"difficulty": 3,
+			"format": "machine_path",
+			"prompt": "Contiamo tutto in sedicesimi: la semibreve ne vale 16. Monta tre stadi per arrivare dalla semibreve alla croma, che ne vale 2.",
+			"options": [],
+			"explanation": "Semibreve, minima, semiminima, croma: ogni figura vale la metà della precedente, e tre dimezzamenti portano da sedici a due. È il motivo per cui le durate non si sommano a caso — sono una scala di potenze di due, e per questo quattro semiminime riempiono esattamente una semibreve.",
+			"_difficulty8": true,
+			"start": 16,
+			"target": 2,
+			"slotCount": 3,
+			"machines": [
+				{
+					"id": "meta",
+					"op": "divide",
+					"value": 2,
+					"label": "la figura successiva (metà)"
+				},
+				{
+					"id": "quarto",
+					"op": "divide",
+					"value": 4,
+					"label": "salta due figure (un quarto)"
+				},
+				{
+					"id": "x2",
+					"op": "multiply",
+					"value": 2,
+					"label": "la figura precedente (doppia)"
+				},
+				{
+					"id": "m4",
+					"op": "subtract",
+					"value": 4,
+					"label": "togli quattro sedicesimi"
+				}
+			],
+			"solution": [
+				"meta",
+				"meta",
+				"meta"
+			],
+			"distractorWhy": {
+				"Non manca nessun battito.": "«Non manca nessun battito.» è la risposta giusta a un'altra domanda di questo gruppo: «In 4/4 ci sono due semiminime e una minima.».",
+				"Manca una semiminima.": "«Manca una semiminima.» è la risposta giusta a un'altra domanda di questo gruppo: «In 4/4 ci sono una minima e una semiminima. Cosa manca?».",
+				"La semibreve": "«La semibreve» è la risposta giusta a un'altra domanda di questo gruppo: «Quale figura musicale dura di più?».",
+				"Il doppio": "«Il doppio» è la risposta giusta a un'altra domanda di questo gruppo: «Una minima dura, rispetto a una semiminima…».",
+				"stanghetta": "«stanghetta» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la linea verticale che divide il pentagramma in battute?».",
+				"pausa": "«pausa» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il segno che indica un silenzio nella musica?».",
+				"La durata dei suoni": "«La durata dei suoni» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa indica il ritmo di un brano?».",
+				"un silenzio": "«un silenzio» è la risposta giusta a un'altra domanda di questo gruppo: «Una pausa in musica serve a indicare...»."
+			}
+		},
+		{
+			"id": "musica-firme-note-1",
+			"subject": "musica",
+			"topic": "note",
+			"difficulty": 6,
+			"format": "machine_path",
+			"prompt": "La minima vale 8 sedicesimi. Il punto messo accanto a una figura la allunga della metà: monta due stadi per arrivare al valore della minima puntata.",
+			"options": [],
+			"explanation": "Allungare della metà vuol dire moltiplicare per uno e mezzo, e uno e mezzo si ottiene triplicando e poi dimezzando: otto diventa ventiquattro e poi dodici. Funziona anche nell'ordine opposto, e non è un caso — ma provare ad aggiungere quattro funziona solo per la minima, e con un'altra figura darebbe il numero sbagliato.",
+			"_difficulty8": true,
+			"start": 8,
+			"target": 12,
+			"slotCount": 2,
+			"machines": [
+				{
+					"id": "x3",
+					"op": "multiply",
+					"value": 3,
+					"label": "triplica"
+				},
+				{
+					"id": "meta",
+					"op": "divide",
+					"value": 2,
+					"label": "dimezza"
+				},
+				{
+					"id": "p4",
+					"op": "add",
+					"value": 4,
+					"label": "aggiungi quattro sedicesimi"
+				},
+				{
+					"id": "x2",
+					"op": "multiply",
+					"value": 2,
+					"label": "raddoppia"
+				}
+			],
+			"solution": [
+				"x3",
+				"meta"
+			],
+			"distractorWhy": {
+				"La": "«La» è la risposta giusta a un'altra domanda di questo gruppo: «Quale nota viene subito dopo il sol?».",
+				"Re": "«Re» è la risposta giusta a un'altra domanda di questo gruppo: «Quale nota viene subito dopo il Do?».",
+				"ottava": "«ottava» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la distanza fra un do e il do successivo, più acuto?».",
+				"Fa": "«Fa» è la risposta giusta a un'altra domanda di questo gruppo: «Quale nota viene subito dopo il MI?».",
+				"Si": "«Si» è la risposta giusta a un'altra domanda di questo gruppo: «Quale nota viene subito prima del DO?».",
+				"un semitono": "«un semitono» è la risposta giusta a un'altra domanda di questo gruppo: «Un'alterazione «diesis» davanti a una nota la fa salire di...»."
+			}
+		},
+		{
+			"id": "musica-firme-tempo-2",
+			"subject": "musica",
+			"topic": "tempo",
+			"difficulty": 3,
+			"format": "timeline",
+			"prompt": "La scala del metronomo va da 40 a 200 battiti al minuto. Colloca le indicazioni, poi indica dov'è ALLEGRO.",
+			"options": [],
+			"explanation": "Non sono quattro parole da ricordare in fila: sono zone di una scala, e conoscerne una aiuta a collocare le altre. «Andante» conserva ancora il suo senso letterale — la velocità di uno che cammina, novanta passi al minuto — e allegro sta ben oltre, dove il passo diventa corsa.",
+			"_difficulty8": true,
+			"min": 40,
+			"max": 200,
+			"targets": [
+				{
+					"id": "adagio",
+					"label": "adagio · 60",
+					"value": 60
+				},
+				{
+					"id": "andante",
+					"label": "andante · 90",
+					"value": 90
+				},
+				{
+					"id": "allegro",
+					"label": "allegro · 130",
+					"value": 130
+				},
+				{
+					"id": "presto",
+					"label": "presto · 180",
+					"value": 180
+				}
+			],
+			"answer": "allegro",
+			"distractorWhy": {
+				"Il doppio più veloce": "«Il doppio più veloce» è la risposta giusta a un'altra domanda di questo gruppo: «Un brano a 120 battiti al minuto rispetto a uno a 60 è…».",
+				"Veloce e vivace": "«Veloce e vivace» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «allegro»?».",
+				"metronomo": "«metronomo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama lo strumento che batte il tempo regolare per esercitarsi?».",
+				"Un'andatura lenta e distesa": "«Un'andatura lenta e distesa» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa «adagio» su uno spartito?».",
+				"Esattamente un secondo": "«Esattamente un secondo» è la risposta giusta a un'altra domanda di questo gruppo: «Uno spartito segna 60 battiti al minuto. Quanto dura un movimento?»."
+			}
+		},
+		{
+			"id": "musica-firme-lettura-3",
+			"subject": "musica",
+			"topic": "lettura",
+			"difficulty": 1,
+			"format": "matching",
+			"prompt": "Abbina ogni segno dello spartito a quello che dice all'esecutore.",
+			"options": [],
+			"explanation": "La pausa è il segno che sorprende: non è un vuoto, è una durata come le altre, e va contata esattamente come una nota. Uno spartito senza pause non sarebbe più veloce — sarebbe sbagliato, perché le battute non tornerebbero.",
+			"_difficulty8": true,
+			"pairs": [
+				{
+					"left": "la chiave di violino",
+					"right": "da quale nota partire per leggere il rigo"
+				},
+				{
+					"left": "la stanghetta",
+					"right": "dove finisce una battuta"
+				},
+				{
+					"left": "il ritornello",
+					"right": "torna indietro e ripeti"
+				},
+				{
+					"left": "la pausa",
+					"right": "sta' in silenzio per questa durata"
+				}
+			],
+			"distractorWhy": {
+				"La.": "«La.» è la risposta giusta a un'altra domanda di questo gruppo: «Nota nel secondo spazio in chiave di violino.».",
+				"La (ottava alta).": "«La (ottava alta).» è la risposta giusta a un'altra domanda di questo gruppo: «Nota sulla prima linea aggiunta sopra il pentagramma, in chiave di violino.».",
+				"pentagramma": "«pentagramma» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il gruppo di cinque righe su cui si scrive la musica?».",
+				"chiave": "«chiave» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il segno messo all'inizio del pentagramma che fissa l'altezza delle note?».",
+				"Diventa più acuto": "«Diventa più acuto» è la risposta giusta a un'altra domanda di questo gruppo: «Salendo con le note sul pentagramma, che cosa succede al suono?».",
+				"diesis": "«diesis» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il segno che alza una nota di un semitono?».",
+				"seconda riga": "«seconda riga» è la risposta giusta a un'altra domanda di questo gruppo: «La chiave di violino fissa il SOL sulla...».",
+				"Mi": "«Mi» è la risposta giusta a un'altra domanda di questo gruppo: «In chiave di violino, quale nota sta sulla prima riga in basso?»."
+			}
+		},
+		{
+			"id": "musica-firme-dinamica-4",
+			"subject": "musica",
+			"topic": "dinamica",
+			"difficulty": 1,
+			"format": "classification",
+			"prompt": "Smista ogni indicazione secondo che cosa chiede.",
+			"options": [],
+			"explanation": "Due famiglie diverse: alcune indicazioni fissano un livello e ci si resta, altre chiedono un viaggio da un livello all'altro. Un crescendo senza un punto di partenza e uno di arrivo non vuol dire niente — ed è per questo che nello spartito sta quasi sempre fra due indicazioni fisse.",
+			"_difficulty8": true,
+			"items": [
+				"piano",
+				"forte",
+				"crescendo",
+				"diminuendo"
+			],
+			"categories": [
+				"dice quanto suonare",
+				"dice come cambiare"
+			],
+			"assignments": {
+				"piano": "dice quanto suonare",
+				"forte": "dice quanto suonare",
+				"crescendo": "dice come cambiare",
+				"diminuendo": "dice come cambiare"
+			},
+			"distractorWhy": {
+				"Piano, cioè debole": "«Piano, cioè debole» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa il segno «p» su uno spartito?».",
+				"pp": "«pp» è la risposta giusta a un'altra domanda di questo gruppo: «Fra «pp» e «p», quale è più debole?».",
+				"L'altezza delle note": "«L'altezza delle note» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa NON cambia durante un crescendo?».",
+				"forte": "«forte» è la risposta giusta a un'altra domanda di questo gruppo: «Come si legge per esteso il segno «f» scritto sotto il pentagramma?».",
+				"crescendo": "«crescendo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'indicazione che chiede di aumentare l'intensità poco a poco?».",
+				"a volume alto": "«a volume alto» è la risposta giusta a un'altra domanda di questo gruppo: «Il segno «forte» (f) chiede di suonare...».",
+				"Molto forte": "«Molto forte» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa indica il segno «ff» su uno spartito?»."
+			}
+		},
+		{
+			"id": "musica-firme-strumenti-5",
+			"subject": "musica",
+			"topic": "strumenti",
+			"difficulty": 1,
+			"format": "ordering",
+			"prompt": "Metti questi strumenti ad arco in ordine, dal suono più grave al più acuto.",
+			"options": [],
+			"explanation": "L'ordine è quello delle dimensioni, e non è una coincidenza: più lunga e grossa è la corda, più lentamente vibra, e più grave è il suono. Vale per qualunque famiglia — è lo stesso motivo per cui le canne lunghe dell'organo fanno i bassi.",
+			"_difficulty8": true,
+			"items": [
+				"il violino",
+				"il contrabbasso",
+				"la viola",
+				"il violoncello"
+			],
+			"correctOrder": [
+				"il contrabbasso",
+				"il violoncello",
+				"la viola",
+				"il violino"
+			],
+			"distractorWhy": {
+				"Archi": "«Archi» è la risposta giusta a un'altra domanda di questo gruppo: «A quale famiglia appartiene il violoncello?».",
+				"Fiati": "«Fiati» è la risposta giusta a un'altra domanda di questo gruppo: «A quale famiglia appartiene il clarinetto?».",
+				"Il tamburo": "«Il tamburo» è la risposta giusta a un'altra domanda di questo gruppo: «Quale strumento produce il suono percuotendo una pelle tesa?».",
+				"Tromba": "«Tromba» è la risposta giusta a un'altra domanda di questo gruppo: «Quale strumento non appartiene alla famiglia degli archi?».",
+				"direttore": "«direttore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama chi guida un'orchestra dal podio?».",
+				"a corda": "«a corda» è la risposta giusta a un'altra domanda di questo gruppo: «La chitarra fa parte della famiglia degli strumenti...».",
+				"a percussione": "«a percussione» è la risposta giusta a un'altra domanda di questo gruppo: «Il tamburo fa parte della famiglia degli strumenti...».",
+				"a fiato": "«a fiato» è la risposta giusta a un'altra domanda di questo gruppo: «Il flauto fa parte della famiglia degli strumenti...»."
+			}
+		},
+		{
+			"id": "musica-firme-tempo-6",
+			"subject": "musica",
+			"topic": "tempo",
+			"difficulty": 1,
+			"format": "numeric_input",
+			"prompt": "In una battuta di 4/4, quanti movimenti ci sono?",
+			"options": [],
+			"answer": "4",
+			"explanation": "Il numero sopra dice quanti movimenti ha la battuta, quello sotto quale figura vale un movimento: in 4/4 sono quattro movimenti da un quarto. Cambiare il numero di sotto non cambia quanti movimenti ci sono, cambia quanto dura ciascuno.",
+			"_difficulty8": true,
+			"distractorWhy": {
+				"1": "«1» è la risposta giusta a un'altra domanda di questo gruppo: «Nel tempo di 4/4, su quale movimento cade di solito l'accento più forte?».",
+				"2": "«2» è la risposta giusta a un'altra domanda di questo gruppo: «In 4/4, quante minime riempiono una battuta?».",
+				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «In un tempo di 3/4, quanti movimenti ci sono in una battuta?»."
+			}
+		},
+		{
+			"id": "musica-firme-lettura-7",
+			"subject": "musica",
+			"topic": "lettura",
+			"difficulty": 4,
+			"format": "classification",
+			"prompt": "Smista ogni coppia di note secondo come si muove la melodia sul rigo.",
+			"options": [],
+			"explanation": "Sul pentagramma l'altezza è letterale: più in alto sta il pallino, più acuta è la nota. È l'unica scrittura al mondo in cui il significato sta nella posizione verticale, ed è il motivo per cui si legge una melodia a colpo d'occhio anche senza riconoscere ogni singola nota.",
+			"_difficulty8": true,
+			"items": [
+				"da una riga alla riga sopra",
+				"da uno spazio alla riga subito sopra",
+				"dalla stessa riga alla stessa riga",
+				"da una riga allo spazio sotto"
+			],
+			"categories": [
+				"sale",
+				"scende",
+				"resta ferma"
+			],
+			"assignments": {
+				"da una riga alla riga sopra": "sale",
+				"da uno spazio alla riga subito sopra": "sale",
+				"dalla stessa riga alla stessa riga": "resta ferma",
+				"da una riga allo spazio sotto": "scende"
+			},
+			"distractorWhy": {
+				"La.": "«La.» è la risposta giusta a un'altra domanda di questo gruppo: «Nota nel secondo spazio in chiave di violino.».",
+				"La (ottava alta).": "«La (ottava alta).» è la risposta giusta a un'altra domanda di questo gruppo: «Nota sulla prima linea aggiunta sopra il pentagramma, in chiave di violino.».",
+				"pentagramma": "«pentagramma» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il gruppo di cinque righe su cui si scrive la musica?».",
+				"chiave": "«chiave» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il segno messo all'inizio del pentagramma che fissa l'altezza delle note?».",
+				"Diventa più acuto": "«Diventa più acuto» è la risposta giusta a un'altra domanda di questo gruppo: «Salendo con le note sul pentagramma, che cosa succede al suono?».",
+				"diesis": "«diesis» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il segno che alza una nota di un semitono?».",
+				"seconda riga": "«seconda riga» è la risposta giusta a un'altra domanda di questo gruppo: «La chiave di violino fissa il SOL sulla...».",
+				"Mi": "«Mi» è la risposta giusta a un'altra domanda di questo gruppo: «In chiave di violino, quale nota sta sulla prima riga in basso?»."
+			}
+		},
+		{
+			"id": "musica-firme-intervalli-9",
+			"subject": "musica",
+			"topic": "intervalli",
+			"difficulty": 6,
+			"format": "numeric_input",
+			"prompt": "Da do a sol, contando do come primo grado, quanti gradi ci sono?",
+			"options": [],
+			"answer": "5",
+			"explanation": "Do, re, mi, fa, sol: cinque gradi, e per questo l'intervallo si chiama quinta. Gli intervalli si contano includendo la nota di partenza, che sembra strano ma rende il conto coerente — do-do è una prima, non una zero.",
+			"_difficulty8": true,
+			"distractorWhy": {
+				"3": "«3» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti gradi ci sono nell'intervallo da do a mi?».",
+				"7": "«7» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti semitoni ci sono in una quinta giusta?»."
+			}
+		},
+		{
+			"id": "musica-firme-intervalli-10",
+			"subject": "musica",
+			"topic": "intervalli",
+			"difficulty": 8,
+			"format": "classification",
+			"prompt": "Smista questi intervalli secondo come suonano quando le due note si sentono insieme.",
+			"options": [],
+			"explanation": "La stabilità non è una questione di gusto: dipende da quanto semplici sono i rapporti fra le frequenze — l'ottava è 2:1, la quinta 3:2, mentre la seconda minore è un rapporto complicato e l'orecchio lo sente come attrito. La musica usa la tensione apposta, per poi scioglierla.",
+			"_difficulty8": true,
+			"items": [
+				"l'ottava",
+				"la quinta giusta",
+				"la seconda minore",
+				"la settima maggiore"
+			],
+			"categories": [
+				"suonano stabili insieme",
+				"creano tensione"
+			],
+			"assignments": {
+				"l'ottava": "suonano stabili insieme",
+				"la quinta giusta": "suonano stabili insieme",
+				"la seconda minore": "creano tensione",
+				"la settima maggiore": "creano tensione"
+			},
+			"distractorWhy": {
+				"Quinta.": "«Quinta.» è la risposta giusta a un'altra domanda di questo gruppo: «Intervallo da Do a Sol.».",
+				"Ottava": "«Ottava» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'intervallo fra do e do successivo?».",
+				"terza": "«terza» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'intervallo fra il do e il mi?».",
+				"accordo": "«accordo» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un gruppo di tre o più note suonate tutte insieme?».",
+				"minore": "«minore» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama un accordo che ha la terza abbassata di un semitono?».",
+				"Do, Mi, Sol": "«Do, Mi, Sol» è la risposta giusta a un'altra domanda di questo gruppo: «Da quali tre note è formato l'accordo di DO maggiore?».",
+				"quarta": "«quarta» è la risposta giusta a un'altra domanda di questo gruppo: «L'intervallo fra DO e FA, contando le note comprese, è una...».",
+				"Tritono": "«Tritono» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama l'intervallo di sei semitoni?»."
+			}
+		},
+		{
+			"id": "musica-firme-ritmo-11",
+			"subject": "musica",
+			"topic": "ritmo",
+			"difficulty": 8,
+			"format": "matching",
+			"prompt": "Abbina ogni metro al movimento che gli somiglia.",
+			"options": [],
+			"explanation": "Il metro non conta soltanto i movimenti: dice dove cadono gli accenti, e l'accento è quello che il corpo sente. In tre si gira perché l'accento torna ogni tre passi e non si può marciare; in sei ottavi i movimenti si raggruppano a due a due e nasce il dondolio.",
+			"_difficulty8": true,
+			"pairs": [
+				{
+					"left": "4/4",
+					"right": "il passo di una marcia"
+				},
+				{
+					"left": "3/4",
+					"right": "il giro di un valzer"
+				},
+				{
+					"left": "6/8",
+					"right": "il dondolio di una barca"
+				},
+				{
+					"left": "2/4",
+					"right": "il saltello di una polka"
+				}
+			],
+			"distractorWhy": {
+				"Non manca nessun battito.": "«Non manca nessun battito.» è la risposta giusta a un'altra domanda di questo gruppo: «In 4/4 ci sono due semiminime e una minima.».",
+				"Manca una semiminima.": "«Manca una semiminima.» è la risposta giusta a un'altra domanda di questo gruppo: «In 4/4 ci sono una minima e una semiminima. Cosa manca?».",
+				"La semibreve": "«La semibreve» è la risposta giusta a un'altra domanda di questo gruppo: «Quale figura musicale dura di più?».",
+				"Il doppio": "«Il doppio» è la risposta giusta a un'altra domanda di questo gruppo: «Una minima dura, rispetto a una semiminima…».",
+				"stanghetta": "«stanghetta» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama la linea verticale che divide il pentagramma in battute?».",
+				"pausa": "«pausa» è la risposta giusta a un'altra domanda di questo gruppo: «Come si chiama il segno che indica un silenzio nella musica?».",
+				"La durata dei suoni": "«La durata dei suoni» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa indica il ritmo di un brano?».",
+				"un silenzio": "«un silenzio» è la risposta giusta a un'altra domanda di questo gruppo: «Una pausa in musica serve a indicare...»."
+			}
+		},
+		{
+			"id": "musica-firme-dinamica-12",
+			"subject": "musica",
+			"topic": "dinamica",
+			"difficulty": 8,
+			"format": "short_answer",
+			"prompt": "Come si chiama l'indicazione che chiede di aumentare l'intensità poco a poco?",
+			"options": [],
+			"answer": "crescendo",
+			"accept": [
+				"il crescendo",
+				"cresc."
+			],
+			"explanation": "È un participio presente italiano — «mentre cresce» — e come quasi tutto il vocabolario musicale è rimasto in italiano in ogni orchestra del mondo. Il suo opposto è diminuendo, e tutti e due chiedono un viaggio: dicono come si cambia, non a che livello si arriva.",
+			"_difficulty8": true,
+			"distractorWhy": {
+				"Piano, cioè debole": "«Piano, cioè debole» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa significa il segno «p» su uno spartito?».",
+				"pp": "«pp» è la risposta giusta a un'altra domanda di questo gruppo: «Fra «pp» e «p», quale è più debole?».",
+				"L'altezza delle note": "«L'altezza delle note» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa NON cambia durante un crescendo?».",
+				"forte": "«forte» è la risposta giusta a un'altra domanda di questo gruppo: «Come si legge per esteso il segno «f» scritto sotto il pentagramma?».",
+				"a volume alto": "«a volume alto» è la risposta giusta a un'altra domanda di questo gruppo: «Il segno «forte» (f) chiede di suonare...».",
+				"Molto forte": "«Molto forte» è la risposta giusta a un'altra domanda di questo gruppo: «Che cosa indica il segno «ff» su uno spartito?»."
 			}
 		},
 		{

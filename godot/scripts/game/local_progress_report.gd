@@ -13,8 +13,12 @@ func setup(save_manager: GameSaveManager) -> void:
 		save.data["progressReport"] = {"events": []}
 	events = Array(save.data["progressReport"].get("events", [])).duplicate(true)
 
-func record(level: int, subject: String, mastery: float, missions: int, seconds: float) -> void:
-	events.append({"level": level, "subject": subject, "mastery": clampf(mastery, 0.0, 1.0), "missions": maxi(0, missions), "seconds": maxf(0.0, seconds)})
+func record(level: int, subject: String, mastery: float, missions: int, seconds: float, subject_results: Dictionary = {}) -> void:
+	var event := {"level": level, "subject": subject, "mastery": clampf(mastery, 0.0, 1.0), "missions": maxi(0, missions), "seconds": maxf(0.0, seconds)}
+	# Una sessione nel report, con evidenza distinta per ciascuna materia.
+	if not subject_results.is_empty():
+		event["subjectResults"] = subject_results.duplicate(true)
+	events.append(event)
 	if save != null:
 		save.data["progressReport"] = {"events": events.duplicate(true)}
 

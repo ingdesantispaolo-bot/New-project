@@ -46,10 +46,14 @@ const SESSIONI_MINIME := 15
 const ARGOMENTI_MINIMI := {
 	"elettronica": 3,
 	"logica": 4,
-	"latino": 5,
+	# Salito da 5 a 6 l'11 settembre 2026 con le applicazioni delle dispense.
+	"latino": 6,
 	"musica": 5,
-	"scienze": 5,
-	"storia": 5,
+	# Salito da 5 a 8 l'11 settembre 2026 con le applicazioni delle dispense.
+	"scienze": 8,
+	# Salito da 5 a 8 l'11 settembre 2026 con le applicazioni delle dispense:
+	# 58 item nuovi, distribuiti su tutti e nove gli argomenti e su tutte le fasce.
+	"storia": 8,
 	"geografia": 8,
 	"fisica": 12,
 	"coding": 13,

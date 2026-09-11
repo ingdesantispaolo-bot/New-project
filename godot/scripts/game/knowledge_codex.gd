@@ -146,18 +146,34 @@ func runtime_topics() -> Dictionary:
 	_registro_topics = out
 	return out
 
-# Item del banco più semplice (difficoltà minima) per un argomento: è l'esempio
-# più adatto a una prima spiegazione. Ritorna {} se il banco non lo contiene.
+# Item del banco più adatto a fare da esempio svolto per un argomento: il più
+# facile FRA QUELLI CON UNA RISPOSTA SCRITTA. Ritorna {} se il banco non lo
+# contiene.
+#
+# **Perché non basta «il più facile».** (10 settembre 2026) Dal lotto delle
+# sessioni lunghe il banco porta anche ordinamenti, abbinamenti e smistamenti:
+# la loro risposta è un gesto sulla tavola, non una parola, e `answer` è vuoto.
+# Un esempio svolto è per definizione «domanda → risposta», quindi un item così
+# non può farlo — e `codex_teaching_audit` l'ha trovato subito, su
+# `logica:deduzioni`, dove l'abbinamento era diventato l'item più facile.
+# Restano ottimi esercizi: semplicemente non sono esempi da mostrare.
 func _sample_item(subject: String, topic: String) -> Dictionary:
 	var best: Dictionary = {}
 	var best_diff := 99
+	var ripiego: Dictionary = {}
+	var ripiego_diff := 99
 	for item in content._load_bank(subject):
-		if str(item.get("topic", "")) == topic:
-			var d := int(item.get("difficulty", 1))
+		if str(item.get("topic", "")) != topic:
+			continue
+		var d := int(item.get("difficulty", 1))
+		if str(item.get("answer", "")).strip_edges() != "":
 			if d < best_diff:
 				best_diff = d
 				best = item
-	return best
+		elif d < ripiego_diff:
+			ripiego_diff = d
+			ripiego = item
+	return best if not best.is_empty() else ripiego
 
 # Voce del manuale per un argomento. Autorata se disponibile, altrimenti raccolta
 # dal contenuto reale del banco; ha sempre spiegazione, esempio, errore tipico e

@@ -71,7 +71,7 @@ const LESSONS := {
 			{"concept": "condizione", "worldAction": "scegli il bivio giusto in base al segnale (se… allora…)"},
 			{"concept": "sequenza/algoritmo", "worldAction": "ordina le leve nell'ordine corretto per avviare il meccanismo"},
 		],
-		"transferTest": {"description": "Un mini-programma mai visto: prevedi cosa produce o riordina i passi per ottenere il risultato.", "formats": ["ordering", "code_debug", "circuit", "multiple_choice"], "novelContext": true},
+		"transferTest": {"description": "Un mini-programma mai visto: prevedi cosa produce o riordina i passi per ottenere il risultato.", "formats": ["ordering", "code_debug", "robot_grid", "multiple_choice"], "novelContext": true},
 		"nora": {
 			"briefing": "Il Cratere Logico funziona a loop e bivii. Oggi impari a far ripetere e a far decidere una macchina: ordine e condizioni. Ogni meccanismo che avvii riattiva una scheda del mio Nucleo logico.",
 			"onError": "Non correre: simula una riga alla volta — stato, ciclo, uscita.",
@@ -141,7 +141,7 @@ const LESSONS := {
 			{"concept": "ritmo", "worldAction": "batti la sequenza ritmica giusta per far vibrare l'albero risonante"},
 			{"concept": "intervalli", "worldAction": "collega due fiori sonori alla distanza giusta per aprire il varco"},
 		],
-		"transferTest": {"description": "Una melodia o un ritmo nuovo: riconosci la nota o la durata mancante.", "formats": ["matching", "ordering", "graph", "multiple_choice"], "novelContext": true},
+		"transferTest": {"description": "Una melodia o un ritmo nuovo: riconosci la nota o la durata mancante.", "formats": ["matching", "ordering", "rhythm_fill", "multiple_choice"], "novelContext": true},
 		"nora": {
 			"briefing": "Non serve conoscere già la musica: partiamo da ciò che puoi sentire e battere con le mani. Prima distingui grave e acuto, poi diamo un nome alle note; dopo leggiamo il pentagramma, contiamo le durate e soltanto alla fine misuriamo piccoli intervalli. Ogni prova arriva dopo la sua spiegazione.",
 			"onError": "Fermati alla sola cosa che stai leggendo: altezza, durata o distanza. Poi usa l'esempio appena visto.",
@@ -181,7 +181,7 @@ const LESSONS := {
 			{"concept": "componenti", "worldAction": "abbina ogni componente alla sua funzione"},
 			{"concept": "misure", "worldAction": "associa tensione, corrente e resistenza alla loro unità"},
 		],
-		"transferTest": {"description": "Uno schema nuovo: individua perché non funziona o quale unità serve.", "formats": ["circuit", "matching", "graph", "multiple_choice"], "novelContext": true},
+		"transferTest": {"description": "Uno schema nuovo: individua perché non funziona o quale unità serve.", "formats": ["breadboard", "matching", "graph", "multiple_choice"], "novelContext": true},
 		"nora": {
 			"briefing": "Il Delta dei Circuiti scorre come acqua nei nodi giusti. Oggi impari componenti, percorso e misure: la corrente ha regole. Ogni nodo che chiudi fa pulsare il reattore.",
 			"onError": "Segui il percorso della corrente prima di toccare i pezzi.",
@@ -201,7 +201,7 @@ const LESSONS := {
 			{"concept": "continenti", "worldAction": "assegna ogni isola al continente giusto"},
 			{"concept": "elementi fisici", "worldAction": "leggi la quota per scegliere il passaggio navigabile"},
 		],
-		"transferTest": {"description": "Una carta nuova: individua la posizione o l'elemento fisico richiesto.", "formats": ["matching", "multiple_choice", "graph", "circuit"], "novelContext": true},
+		"transferTest": {"description": "Una carta nuova: individua la posizione o l'elemento fisico richiesto.", "formats": ["matching", "blank_map", "graph", "circuit"], "novelContext": true},
 		"nora": {
 			"briefing": "L'Arcipelago Cartografico è fatto di rotte e quote. Oggi impari a localizzare e leggere una carta: dove sono le cose e come raggiungerle. Ogni rotta tracciata ricostruisce la mia mappa.",
 			"onError": "Leggi prima gli assi della mappa, poi la posizione.",
@@ -241,7 +241,7 @@ const LESSONS := {
 			{"concept": "prime civiltà", "worldAction": "abbina ogni civiltà al luogo o all'invenzione che la distingue"},
 			{"concept": "fonti storiche", "worldAction": "smista ogni reperto nella sua fonte: materiale, scritta o orale"},
 		],
-		"transferTest": {"description": "Un reperto mai visto: collocalo nell'epoca giusta e riconosci di che fonte si tratta.", "formats": ["multiple_choice", "matching", "ordering", "circuit"], "novelContext": true},
+		"transferTest": {"description": "Un reperto mai visto: collocalo nell'epoca giusta e riconosci di che fonte si tratta.", "formats": ["causal_chain", "matching", "ordering", "circuit"], "novelContext": true},
 		"nora": {
 			"briefing": "La Soglia del Tempo custodisce le tracce del passato. Oggi impari a leggere la linea del tempo, le prime civiltà e le fonti: come sappiamo ciò che è accaduto. Ogni traccia interpretata riaccende una scena del passato.",
 			"onError": "Chiediti da quale traccia lo sai e in quale epoca ci porta.",
@@ -321,7 +321,7 @@ const LESSONS := {
 			{"concept": "flusso di dati", "worldAction": "instrada il dato nella rete fino al nodo giusto"},
 			{"concept": "debug", "worldAction": "trova la riga che rompe l'automa e correggila"},
 		],
-		"transferTest": {"description": "Un programma nuovo con un bug: individua e correggi l'errore.", "formats": ["ordering", "code_debug", "circuit", "multiple_choice"], "novelContext": true},
+		"transferTest": {"description": "Un programma nuovo con un bug: individua e correggi l'errore.", "formats": ["ordering", "code_debug", "robot_grid", "multiple_choice"], "novelContext": true},
 		"nora": {
 			"briefing": "La Città Macchina è fatta di automi e reti. Oggi impari funzioni, flussi e debug: costruire e riparare sistemi. Ogni automa che sistemi ricompone la mia coscienza distribuita.",
 			"onError": "Simula una riga alla volta: stato, ciclo, uscita.",
@@ -389,7 +389,7 @@ const LESSONS := {
 			{"concept": "dinamica", "worldAction": "dosa piano e forte per far risuonare l'organo senza rompere i vetri"},
 			{"concept": "timbro", "worldAction": "riconosci lo strumento dal suo timbro per completare il coro"},
 		],
-		"transferTest": {"description": "Un brano nuovo: riconosci armonia, dinamica o timbro richiesti.", "formats": ["matching", "ordering", "graph", "multiple_choice"], "novelContext": true},
+		"transferTest": {"description": "Un brano nuovo: riconosci armonia, dinamica o timbro richiesti.", "formats": ["matching", "rhythm_fill", "graph", "multiple_choice"], "novelContext": true},
 		"nora": {
 			"briefing": "Riprendiamo le basi del Giardino: altezza, durata e intervallo. Ora aggiungiamo una cosa per volta: più note insieme formano l'armonia; piano e forte cambiano l'intensità; il timbro rivela chi sta suonando. Prima ascolti e osservi un esempio, poi ricostruisci tu il suono della Cattedrale.",
 			"onError": "Chiediti che cosa è cambiato: le note insieme, l'intensità oppure il colore dello strumento. Una sola di queste tre cose decide la risposta.",
@@ -429,7 +429,7 @@ const LESSONS := {
 			{"concept": "sensori", "worldAction": "leggi il valore del sensore per orientare la torre di campo"},
 			{"concept": "diagnosi", "worldAction": "individua il componente guasto che fa cadere la rete"},
 		],
-		"transferTest": {"description": "Una rete nuova instabile: diagnostica il guasto o scegli il collegamento robusto.", "formats": ["circuit", "matching", "graph", "multiple_choice"], "novelContext": true},
+		"transferTest": {"description": "Una rete nuova instabile: diagnostica il guasto o scegli il collegamento robusto.", "formats": ["breadboard", "matching", "graph", "multiple_choice"], "novelContext": true},
 		"nora": {
 			"briefing": "La Tempesta Elettromagnetica mette alla prova ogni rete. Oggi impari serie e parallelo, sensori e diagnosi: reggere l'instabilità. La tua calma nella tempesta è la mia bussola.",
 			"onError": "Segui il percorso della corrente prima di toccare i pezzi.",
@@ -449,7 +449,7 @@ const LESSONS := {
 			{"concept": "sistemi fisici", "worldAction": "allinea le placche per stabilizzare il pilastro tettonico"},
 			{"concept": "uomo-ambiente", "worldAction": "scegli l'insediamento adatto al territorio"},
 		],
-		"transferTest": {"description": "Una regione nuova: deduci clima o rischio dall'insieme dei dati.", "formats": ["matching", "multiple_choice", "graph", "circuit"], "novelContext": true},
+		"transferTest": {"description": "Una regione nuova: deduci clima o rischio dall'insieme dei dati.", "formats": ["matching", "blank_map", "graph", "circuit"], "novelContext": true},
 		"nora": {
 			"briefing": "L'Atlante Fratturato mostra un mondo intero da ricomporre. Oggi colleghi clima, territorio e persone: sistemi che si influenzano. Ogni tessera al posto giusto mi mostra la rotta completa.",
 			"onError": "Leggi prima gli assi della mappa, poi la relazione.",
@@ -489,7 +489,7 @@ const LESSONS := {
 			{"concept": "causa e conseguenza", "worldAction": "collega ogni evento alla sua conseguenza nel tempo"},
 			{"concept": "leggere le fonti", "worldAction": "scegli la fonte che spiega meglio quel cambiamento"},
 		],
-		"transferTest": {"description": "Un cambiamento storico mai visto: mettilo in ordine di tempo e spiegalo con la fonte giusta.", "formats": ["multiple_choice", "matching", "ordering", "circuit"], "novelContext": true},
+		"transferTest": {"description": "Un cambiamento storico mai visto: mettilo in ordine di tempo e spiegalo con la fonte giusta.", "formats": ["causal_chain", "matching", "ordering", "circuit"], "novelContext": true},
 		"nora": {
 			"briefing": "La Sala delle Ere ricostruisce come il mondo è cambiato. Oggi colleghi Roma e il Medioevo, cause e conseguenze, e leggi le fonti: capire perché è accaduto. Il racconto finale sarà nostro.",
 			"onError": "Chiediti cosa è venuto prima e quale causa ha spinto il cambiamento.",

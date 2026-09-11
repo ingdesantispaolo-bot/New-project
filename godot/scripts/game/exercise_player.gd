@@ -16,6 +16,7 @@ const EXERCISE_DRAG_BUTTON := preload("res://scripts/ui/exercise_drag_button.gd"
 const EXERCISE_DROP_BUTTON := preload("res://scripts/ui/exercise_drop_button.gd")
 const EXERCISE_CONNECTION_CANVAS := preload("res://scripts/ui/exercise_connection_canvas.gd")
 const EXERCISE_DIAGRAM := preload("res://scripts/ui/exercise_diagram.gd")
+const SUBJECT_SIGNATURE_DIAGRAM := preload("res://scripts/ui/subject_signature_diagram.gd")
 const NORA_FIGURA = preload("res://scripts/game/nora_figura.gd")
 const MAP_GEOMETRY_CATALOG := preload("res://scripts/visual/map_geometry_catalog.gd")
 const ARTIFACT_ATLAS_CATALOG := preload("res://scripts/visual/artifact_atlas_catalog.gd")
@@ -109,6 +110,9 @@ var _topic_seen: Dictionary = {}     # topic -> item incontrati (per mastery per
 ## chiude senza guardarla, e da li' in poi si chiudono tutte.
 var _lezioni_mostrate: Dictionary = {}
 var _topic_correct: Dictionary = {}  # topic -> risposte corrette
+var _node_scores: Dictionary = {}
+var _node_errors: Dictionary = {}
+var _node_assisted: Dictionary = {}
 ## Le prove SUPERATE in questa sessione, materia per materia: {materia: [impronte]}.
 ## Il chiamante le porta nel save, e da lì non vengono più richieste. La materia è
 ## per nodo e non per sessione apposta: l'esame di mondo ospita due prove di nucleo
@@ -222,6 +226,9 @@ var _verb_buttons: Dictionary = {}
 var _verb_preview: Label
 var _verb_scanner: ColorRect
 var _verb_running := false
+var _signature_state: Dictionary = {}
+var _signature_buttons: Dictionary = {}
+var _signature_diagram: Control
 var _visual_selected := ""
 var _visual_buttons: Dictionary = {}
 var _visual_diagram: Control
@@ -287,6 +294,9 @@ func start_session(new_session: Dictionary) -> void:
 	_topic_seen = {}
 	_lezioni_mostrate = {}
 	_topic_correct = {}
+	_node_scores = {}
+	_node_errors = {}
+	_node_assisted = {}
 	_superate = {}
 	_viste = {}
 	_errori_nodo = 0
@@ -441,6 +451,8 @@ func _build_ui() -> void:
 	heading.text = "CUORE DEI PRIMI · SFIDA DELLE TRE CHIAVI" if transversal else "%s  ·  %s" % [heading_kind, str(session.get("subject", "matematica")).capitalize()]
 	heading.add_theme_font_size_override("font_size", 19 if is_exam else 16)
 	heading.add_theme_color_override("font_color", Color("f6c85f") if is_exam else Color("6be7d6"))
+	if bool(session.get("interdisciplinary", false)):
+		heading.text = str(session.get("missionTitle", "Riparazione"))
 	box.add_child(heading)
 
 	# Affordance didattica: le materie di ragionamento non hanno limite di tempo.
@@ -767,6 +779,7 @@ func _apply_format_layout(format: String) -> void:
 	elif format in [
 		"hotspot", "graph", "circuit", "notation", "map", "cycle",
 		"number_line", "balance", "timeline", "compose", "trace", "clue",
+		"breadboard", "rhythm_fill", "causal_chain", "robot_grid", "blank_map",
 	]:
 		# Nei formati visuali il campo e i bersagli sono il gioco, non una
 		# miniatura fra domanda e comandi. A 180 px il diagramma (230 px) veniva
@@ -854,6 +867,9 @@ func _exercise_button_style(fill: Color, border: Color) -> StyleBoxFlat:
 ## scrivere e peggio da leggere: tre spiegazioni di fila si leggono come un muro
 ## e non se ne ricorda nessuna. Una spiegazione serve quando serve.
 func _show_teaching_overlay() -> void:
+	# Il pilota insegna sul dispositivo, senza una seconda scheda modale.
+	if bool(session.get("interdisciplinary", false)):
+		return
 	var lesson: Dictionary = session.get("teachingLesson", {})
 	var moment := str(session.get("teachingMoment", "none"))
 	var linea := str(session.get("teachingLine", ""))
@@ -959,13 +975,40 @@ func _show_teaching_overlay() -> void:
 	box.add_theme_constant_override("separation", 14)
 	scroll.add_child(box)
 
+	# **La scheda si presenta per quello che è.** (11 settembre 2026) Una dispensa
+	# non è «un concetto nuovo in due frasi»: è un documento da leggere, e dirlo
+	# in testa cambia come lo si legge. Vedi `docs/REGOLA_DISPENSE.md`.
+	var e_dispensa := str(lesson.get("dispensaId", "")) != ""
 	var eyebrow := Label.new()
-	eyebrow.text = "RIPASSO MIRATO CON NORA" if moment == "re_teach" else "NUOVO CONCETTO · NORA SPIEGA"
+	if e_dispensa:
+		eyebrow.text = "DISPENSA · RIPASSO" if moment == "re_teach" else "DISPENSA · LEGGI PRIMA DI PROVARE"
+	else:
+		eyebrow.text = "RIPASSO MIRATO CON NORA" if moment == "re_teach" else "NUOVO CONCETTO · NORA SPIEGA"
 	eyebrow.add_theme_font_size_override("font_size", 16)
 	eyebrow.add_theme_color_override("font_color", Color("6be7d6"))
 	box.add_child(eyebrow)
 	_add_teaching_text(box, linea, Color("f6c85f"), 20)
+	_add_teaching_text(box, str(lesson.get("titolo", "")), Color("f6c85f"), 19)
 	_add_teaching_text(box, str(lesson.get("intro", "")), Color("e7fffb"), 17)
+
+	# **Il documento: una sezione per sottotitolo.** Ogni sezione si disegna come
+	# le altre parti della scheda, quindi la dispensa non porta con sé un layout
+	# suo da tenere allineato: `Dispense.lezione()` la consegna già nella forma
+	# che questa funzione sa disegnare.
+	for sezione_data in lesson.get("documento", []):
+		var sezione: Dictionary = sezione_data
+		_add_teaching_section(box, str(sezione.get("titolo", "")).to_upper(), str(sezione.get("testo", "")))
+
+	# Il vocabolario dei termini che le domande useranno. Sta qui e non dentro le
+	# sezioni perché si rilegge: è la parte che si torna a guardare quando la
+	# domanda usa una parola di cui non si ricorda il significato.
+	var glossario: Array = lesson.get("glossario", [])
+	if not glossario.is_empty():
+		var righe: Array = []
+		for voce_data in glossario:
+			var voce: Dictionary = voce_data
+			righe.append("%s — %s" % [str(voce.get("voce", "")), str(voce.get("spiega", ""))])
+		_add_teaching_section(box, "LE PAROLE CHE USEREMO", "\n\n".join(righe))
 
 	# **I fatti nuovi di un ordinamento a insieme, elencati uno per uno.**
 	# (16 agosto 2026) — `KnowledgeCodex.fact_lesson()`: un ordinamento pesca da
@@ -995,6 +1038,21 @@ func _show_teaching_overlay() -> void:
 		if explanation != "":
 			example_text += "\nPerché: %s" % explanation
 		_add_teaching_section(box, "ESEMPIO SVOLTO", example_text)
+	# **Una dispensa porta più di un esempio, e il secondo non è un di più.**
+	# Con uno solo si impara il caso; il metodo si vede nella differenza fra due.
+	# È uno dei minimi che `dispense_audit` verifica.
+	for altro_data in lesson.get("esempiExtra", []):
+		var altro: Dictionary = altro_data
+		var testo_altro := str(altro.get("prompt", "")).strip_edges()
+		if testo_altro == "":
+			continue
+		var risposta_altro := str(altro.get("answer", "")).strip_edges()
+		var perche_altro := str(altro.get("explanation", "")).strip_edges()
+		if risposta_altro != "":
+			testo_altro += "\n\nRisultato: %s" % risposta_altro
+		if perche_altro != "":
+			testo_altro += "\nPerché: %s" % perche_altro
+		_add_teaching_section(box, "ANCORA UN ESEMPIO", testo_altro)
 	_add_teaching_section(box, "METODO DI NORA", str(lesson.get("strategy", "")))
 
 	var watch_out: Dictionary = lesson.get("watchOut", {})
@@ -1245,6 +1303,9 @@ func _show_current() -> void:
 	_verb_preview = null
 	_verb_scanner = null
 	_verb_running = false
+	_signature_state = {}
+	_signature_buttons = {}
+	_signature_diagram = null
 	_visual_selected = ""
 	_visual_buttons = {}
 	_visual_diagram = null
@@ -1262,10 +1323,29 @@ func _show_current() -> void:
 	if _index >= _nodes.size():
 		_finish()
 		return
+	# Ogni tappa comincia dalla propria intestazione. Senza questo lo scroll
+	# esterno conserva la posizione raggiunta nella spiegazione precedente e la
+	# domanda successiva puÃ² aprirsi con titolo e contesto giÃ  fuori schermo.
+	# Il focus di una tessera del vecchio renderer va liberato prima che quella
+	# tessera sia rimossa: altrimenti Godot lo trasferisce a un nuovo controllo e
+	# fa scorrere di nuovo il pannello dopo il reset.
+	if bool(session.get("interdisciplinary", false)) and get_viewport() != null:
+		get_viewport().gui_release_focus()
+	if is_instance_valid(_content_scroll):
+		_content_scroll.scroll_vertical = 0
+	if is_instance_valid(_options_scroll):
+		_options_scroll.scroll_vertical = 0
+	call_deferred("_reset_scroll_for_node", _index)
 	var item: Dictionary = _nodes[_index]
 	_remember_presented(item)
 	_refresh_status()
 	_prompt.text = str(item.get("prompt", ""))
+	if bool(session.get("interdisciplinary", false)):
+		_prompt.text = "%s\n\n%s" % [str(item.get("missionStep", "")), _prompt.text]
+		var teaching := str(item.get("missionTeaching", ""))
+		if teaching != "" and is_instance_valid(_lezione):
+			_lezione.text = "NORA · %s" % teaching
+			_lezione.visible = true
 	for child in _options.get_children():
 		child.queue_free()
 	# Le azioni dell'esercizio precedente vivono nella barra fissa, non fra le
@@ -1274,6 +1354,9 @@ func _show_current() -> void:
 	var fmt := str(item.get("format", "multiple_choice"))
 	_apply_format_layout(fmt)
 	match fmt:
+		"breadboard", "rhythm_fill", "causal_chain", "robot_grid", "blank_map":
+			_input.visible = false
+			_build_subject_signature(item, fmt)
 		"machine_path":
 			_input.visible = false
 			_build_machine_path(item)
@@ -1349,7 +1432,11 @@ func _show_current() -> void:
 				if numeric_answer else LineEdit.KEYBOARD_TYPE_DEFAULT)
 			if is_instance_valid(_numpad):
 				_numpad.visible = numeric_answer
-			if is_inside_tree():
+			# Nelle missioni collegate il contesto prodotto dalla tappa precedente
+			# deve restare visibile all'apertura. Il focus automatico sul campo
+			# numerico chiedeva allo ScrollContainer di nascondere proprio quel
+			# contesto; tastierino e tocco sul campo restano comunque disponibili.
+			if is_inside_tree() and not bool(session.get("interdisciplinary", false)):
 				_input.grab_focus()
 
 func _refresh_status() -> void:
@@ -1361,6 +1448,8 @@ func _refresh_status() -> void:
 		if bool(session.get("transversal", false)) and _index < _nodes.size():
 			var system := str((_nodes[_index] as Dictionary).get("system", "sintesi")).replace("_", " ").capitalize()
 			_status.text = "Parte %d/%d · %s   ·   Stabilità %d%s" % [_index + 1, _nodes.size(), system, _shields, penalty_suffix]
+		elif bool(session.get("interdisciplinary", false)) and _index < _nodes.size():
+			_status.text = "Tappa %d/%d · %s · Scudi %d%s" % [_index + 1, _nodes.size(), _materia_di(_nodes[_index]).capitalize(), _shields, penalty_suffix]
 		else:
 			_status.text = "Tappa %d/%d   ·   Scudi %d%s" % [_index + 1, _nodes.size(), _shields, penalty_suffix]
 	_refresh_combo_hud()
@@ -1607,15 +1696,15 @@ func _finish_machine_run(item: Dictionary, result: Dictionary) -> void:
 	_machine_running = false
 	var reached := bool(result.get("ok", false)) and int(result.get("value", 0)) == int(item.get("target", 0))
 	if reached:
-		_machine_readout.text += " · Il ponte si apre!"
+		_machine_readout.text += " · %s" % str(item.get("machineSuccess", "Il ponte si apre!"))
 		_score_current(true, item)
 		return
 	var message := ""
 	if not bool(result.get("ok", false)):
 		message = "La sfera si ferma: %s Cambia una macchina o il suo posto." % str(result.get("reason", ""))
 	else:
-		message = "La sfera arriva a %d, ma il ponte si apre a %d. Cambia una macchina o il suo posto." % [
-			int(result.get("value", 0)), int(item.get("target", 0))]
+		message = "La sfera arriva a %d; per %s servono %d. Cambia una macchina o il suo posto." % [
+			int(result.get("value", 0)), str(item.get("machineGoal", "il ponte")), int(item.get("target", 0))]
 	_retryable_result(false, item, message)
 	if not _answered:
 		_machine_set_enabled(true)
@@ -1846,9 +1935,13 @@ func _build_verb_decoder(item: Dictionary) -> void:
 	_verb_scanner.modulate.a = 0.28
 	_options.add_child(_verb_scanner)
 
-	_build_verb_axis(item, "time", "1 · QUANDO ACCADE?", Array(item.get("timeChoices", [])))
-	_build_verb_axis(item, "mood", "2 · COME VIENE PRESENTATA?", Array(item.get("moodChoices", [])))
-	_build_verb_axis(item, "form", "3 · QUALE FORMA COMPLETA LA FRASE?", Array(item.get("forms", [])))
+	var axis_titles: Array = item.get("axisTitles", [
+		"1 · QUANDO ACCADE?", "2 · COME VIENE PRESENTATA?",
+		"3 · QUALE FORMA COMPLETA LA FRASE?",
+	])
+	_build_verb_axis(item, "time", str(axis_titles[0]), Array(item.get("timeChoices", [])))
+	_build_verb_axis(item, "mood", str(axis_titles[1]), Array(item.get("moodChoices", [])))
+	_build_verb_axis(item, "form", str(axis_titles[2]), Array(item.get("forms", [])))
 	_refresh_verb_decoder(item)
 	_add_interaction_actions(
 		_verb_clear.bind(item), _verb_submit.bind(item),
@@ -1956,6 +2049,225 @@ func _verb_set_enabled(enabled: bool) -> void:
 	for button in _verb_buttons.values():
 		(button as Button).disabled = not enabled
 
+# --- CINQUE FIRME DI MATERIA -----------------------------------------------
+# Una sola impalcatura per cinque sistemi: ogni firma mantiene gesto e modello
+# propri, ma condivide bersagli touch, annulla e consegna. Il verdetto resta in
+# ExerciseInteraction, quindi qui non esistono scorciatoie per formato.
+func _build_subject_signature(item: Dictionary, fmt: String) -> void:
+	_signature_state = {"selected": [], "placements": {}, "links": [], "route": [], "active": ""}
+	var title := Label.new()
+	title.name = "SubjectSignatureTitle"
+	title.text = str(item.get("title", fmt.replace("_", " ").capitalize())).to_upper()
+	title.add_theme_font_size_override("font_size", 17)
+	title.add_theme_color_override("font_color", _subject_accent())
+	_options.add_child(title)
+	_signature_diagram = SUBJECT_SIGNATURE_DIAGRAM.new()
+	_signature_diagram.name = "SubjectSignatureDiagram"
+	_signature_diagram.set_diagram(fmt, item, high_contrast)
+	_options.add_child(_signature_diagram)
+	match fmt:
+		"breadboard": _build_breadboard_controls(item)
+		"rhythm_fill": _build_rhythm_controls(item)
+		"causal_chain": _build_causal_controls(item)
+		"robot_grid": _build_robot_controls(item)
+		"blank_map": _build_blank_map_controls(item)
+	_signature_refresh(item, fmt)
+	_add_interaction_actions(_signature_undo.bind(item, fmt), _signature_submit.bind(item, fmt), "ANNULLA", "ESEGUI" if fmt == "robot_grid" else "VERIFICA")
+
+func _signature_section(text: String) -> HFlowContainer:
+	var label := Label.new()
+	label.text = text
+	label.add_theme_font_size_override("font_size", 13)
+	label.add_theme_color_override("font_color", Color("f6c85f"))
+	_options.add_child(label)
+	var row := HFlowContainer.new()
+	row.add_theme_constant_override("h_separation", 8)
+	row.add_theme_constant_override("v_separation", 8)
+	_options.add_child(row)
+	return row
+
+func _signature_button(row: Control, id: String, text: String, callback: Callable) -> Button:
+	var button := Button.new()
+	button.name = "Signature_%s" % id.validate_node_name()
+	button.text = text
+	button.custom_minimum_size = Vector2(116, 48)
+	button.add_theme_font_size_override("font_size", 14)
+	button.add_theme_color_override("font_color", Color("e7fff8"))
+	button.add_theme_stylebox_override("normal", _exercise_button_style(Color("102a30"), Color("5f858b")))
+	button.pressed.connect(callback)
+	row.add_child(button)
+	_signature_buttons[id] = button
+	return button
+
+func _build_breadboard_controls(item: Dictionary) -> void:
+	var parts := _signature_section("1 · SCEGLI UN COMPONENTE")
+	for raw in Array(item.get("componenti", [])):
+		var component := raw as Dictionary
+		var id := str(component.get("id", ""))
+		_signature_button(parts, "component:%s" % id, str(component.get("label", id)), _signature_activate.bind(id, item, "breadboard"))
+	var sockets := _signature_section("2 · INSERISCILO IN UNO ZOCCOLO")
+	for raw in Array(item.get("zoccoli", [])):
+		var socket := raw as Dictionary
+		var id := str(socket.get("id", ""))
+		_signature_button(sockets, "socket:%s" % id, "%s <-> %s" % [str(socket.get("da", "")), str(socket.get("a", ""))], _signature_place.bind(id, item, "breadboard"))
+
+func _build_rhythm_controls(item: Dictionary) -> void:
+	var row := _signature_section("AGGIUNGI DURATE ALLA BATTUTA")
+	for raw in Array(item.get("disponibili", [])):
+		var token := raw as Dictionary
+		var id := str(token.get("id", ""))
+		_signature_button(row, "rhythm:%s" % id, str(token.get("label", id)), _signature_append.bind(id, item, "rhythm_fill"))
+
+func _build_causal_controls(item: Dictionary) -> void:
+	var row := _signature_section("TOCCA PRIMA LA CAUSA, POI LA CONSEGUENZA")
+	for raw in Array(item.get("eventi", [])):
+		var event := raw as Dictionary
+		var id := str(event.get("id", ""))
+		_signature_button(row, "event:%s" % id, "%s · %s" % [str(event.get("anno", "")), str(event.get("testo", id))], _signature_causal_event.bind(id, item))
+
+func _build_robot_controls(item: Dictionary) -> void:
+	var row := _signature_section("COMPONI IL PROGRAMMA · MASSIMO %d PASSI" % int(item.get("maxPassi", 0)))
+	for raw in Array(item.get("istruzioni", [])):
+		var instruction := raw as Dictionary
+		var id := str(instruction.get("id", ""))
+		_signature_button(row, "instruction:%s" % id, str(instruction.get("label", id)), _signature_append.bind(id, item, "robot_grid"))
+
+func _build_blank_map_controls(item: Dictionary) -> void:
+	if str(item.get("modalita", "etichette")) == "percorso":
+		var route_row := _signature_section("TRACCIA LA ROTTA TOCCANDO LE ANCORE IN ORDINE")
+		for raw in Array(item.get("ancore", [])):
+			var anchor_id := str(raw.get("id", "") if raw is Dictionary else raw)
+			var label := str(raw.get("label", anchor_id) if raw is Dictionary else anchor_id)
+			_signature_button(route_row, "route:%s" % anchor_id, label, _signature_append.bind(anchor_id, item, "blank_map"))
+		return
+	var labels := _signature_section("1 · PRENDI UN'ETICHETTA")
+	for raw in Array(item.get("etichette", [])):
+		var label_data := raw as Dictionary
+		var id := str(label_data.get("id", ""))
+		_signature_button(labels, "label:%s" % id, str(label_data.get("testo", id)), _signature_activate.bind(id, item, "blank_map"))
+	var anchors := _signature_section("2 · POSALA SULLA CARTA")
+	for raw in Array(item.get("ancore", [])):
+		var anchor_id := str(raw.get("id", "") if raw is Dictionary else raw)
+		var label := str(raw.get("label", anchor_id) if raw is Dictionary else anchor_id)
+		_signature_button(anchors, "anchor:%s" % anchor_id, label, _signature_place.bind(anchor_id, item, "blank_map"))
+
+func _signature_activate(id: String, item: Dictionary, fmt: String) -> void:
+	if _answered: return
+	_signature_state["active"] = id
+	_signature_refresh(item, fmt)
+	_causal_feedback("snap", _signature_buttons.get(("component:" if fmt == "breadboard" else "label:") + id, null), 1.02)
+
+func _signature_place(target_id: String, item: Dictionary, fmt: String) -> void:
+	if _answered: return
+	var active := str(_signature_state.get("active", ""))
+	if active == "":
+		_flash_feedback("Scegli prima cosa vuoi posare.")
+		return
+	var placements := _signature_state.get("placements", {}) as Dictionary
+	if fmt == "breadboard":
+		for key in placements.keys():
+			if str(placements[key]) == active: placements.erase(key)
+		placements[target_id] = active
+	else:
+		placements[active] = target_id
+	_signature_state["placements"] = placements
+	_signature_state["active"] = ""
+	_signature_refresh(item, fmt)
+
+func _signature_append(id: String, item: Dictionary, fmt: String) -> void:
+	if _answered: return
+	var field := "route" if fmt == "blank_map" else "selected"
+	var values: Array = _signature_state.get(field, [])
+	var limit := int(item.get("maxPassi", 99)) if fmt == "robot_grid" else 99
+	if values.size() >= limit:
+		_flash_feedback("Hai raggiunto il numero massimo di passi.")
+		return
+	values.append(id)
+	_signature_state[field] = values
+	_signature_refresh(item, fmt)
+
+func _signature_causal_event(id: String, item: Dictionary) -> void:
+	if _answered: return
+	var active := str(_signature_state.get("active", ""))
+	if active == "":
+		_signature_state["active"] = id
+		_signature_refresh(item, "causal_chain")
+		return
+	var result := ExerciseInteraction.evaluate_causal_link(item, active, id)
+	_signature_state["active"] = ""
+	if not bool(result.get("accepted", false)):
+		_flash_feedback(str(result.get("reason", "Nesso non valido.")))
+		_signature_refresh(item, "causal_chain")
+		return
+	var links: Array = _signature_state.get("links", [])
+	var candidate := {"da": active, "a": id}
+	if not links.has(candidate): links.append(candidate)
+	_signature_state["links"] = links
+	_signature_refresh(item, "causal_chain")
+
+func _signature_undo(item: Dictionary, fmt: String) -> void:
+	if _answered: return
+	_signature_state["active"] = ""
+	match fmt:
+		"breadboard", "blank_map":
+			if fmt == "blank_map" and str(item.get("modalita", "etichette")) == "percorso":
+				var route: Array = _signature_state.get("route", [])
+				if not route.is_empty(): route.pop_back()
+			else:
+				var placements := _signature_state.get("placements", {}) as Dictionary
+				if not placements.is_empty(): placements.erase(placements.keys().back())
+		"rhythm_fill", "robot_grid":
+			var selected: Array = _signature_state.get("selected", [])
+			if not selected.is_empty(): selected.pop_back()
+		"causal_chain":
+			var links: Array = _signature_state.get("links", [])
+			if not links.is_empty(): links.pop_back()
+	_signature_refresh(item, fmt)
+
+func _signature_refresh(item: Dictionary, fmt: String) -> void:
+	if not is_instance_valid(_signature_diagram): return
+	var diagram_state := _signature_state.duplicate(true)
+	if fmt == "breadboard":
+		var result := ExerciseInteraction.evaluate_breadboard(item, _signature_state.get("placements", {}))
+		diagram_state["powered"] = bool(result.get("powered", false))
+	elif fmt == "rhythm_fill":
+		var result := ExerciseInteraction.evaluate_rhythm_fill(item, _signature_state.get("selected", []))
+		diagram_state["totalLabel"] = String.num(float(result.get("total", 0.0)), 2).rstrip("0").rstrip(".")
+	elif fmt == "robot_grid":
+		var result := ExerciseInteraction.evaluate_robot_grid(item, _signature_state.get("selected", []))
+		diagram_state["trail"] = result.get("trail", [])
+		diagram_state["direction"] = int(result.get("direction", 1))
+	_signature_diagram.set_state(diagram_state)
+	for key in _signature_buttons.keys():
+		var button := _signature_buttons[key] as Button
+		button.modulate = Color.WHITE
+	var active := str(_signature_state.get("active", ""))
+	if active != "":
+		for prefix in ["component:", "label:", "event:"]:
+			if _signature_buttons.has(prefix + active): (_signature_buttons[prefix + active] as Button).modulate = Color("f6c85f")
+
+func _signature_submit(item: Dictionary, fmt: String) -> void:
+	if _answered: return
+	var result: Dictionary = {}
+	match fmt:
+		"breadboard": result = ExerciseInteraction.evaluate_breadboard(item, _signature_state.get("placements", {}))
+		"rhythm_fill": result = ExerciseInteraction.evaluate_rhythm_fill(item, _signature_state.get("selected", []))
+		"causal_chain": result = ExerciseInteraction.evaluate_causal_chain(item, _signature_state.get("links", []))
+		"robot_grid":
+			result = ExerciseInteraction.evaluate_robot_grid(item, _signature_state.get("selected", []))
+			_signature_refresh(item, fmt)
+		"blank_map": result = ExerciseInteraction.evaluate_blank_map(item, _signature_state.get("placements", {}), _signature_state.get("route", []))
+	var correct := bool(result.get("correct", false))
+	var message := str(result.get("reason", "Riprova cambiando la costruzione."))
+	if fmt == "breadboard" and not correct:
+		message = str(result.get("reason", "La lampada resta spenta."))
+	elif fmt == "rhythm_fill" and not correct:
+		var remaining := float(result.get("remaining", 0.0))
+		message = "Mancano %s pulsazioni." % String.num(remaining, 2).replace("-", "Hai superato il metro di ")
+	elif fmt == "robot_grid" and correct:
+		_feedback.text = "Bersaglio raggiunto in %d passi." % int(result.get("steps", 0))
+	_retryable_result(correct, item, message)
+
 # Registra l'esito del nodo CORRENTE (scelta multipla, inserimento o minigioco) e
 # mostra il pulsante Avanti. Punto unico di bookkeeping: mastery per-topic,
 # energia, ripasso e progresso — così ogni formato rispetta lo stesso contratto.
@@ -1965,6 +2277,7 @@ func _score_current(is_correct: bool, item: Dictionary) -> void:
 	if _answered:
 		return
 	_answered = true
+	_node_scores[_index] = is_correct
 	_lock_interactions()
 	var topic := str(item.get("topic", ""))
 	if topic != "":
@@ -1990,7 +2303,7 @@ func _score_current(is_correct: bool, item: Dictionary) -> void:
 		# **La prova è superata, e non tornerà più a chiedere la stessa cosa.**
 		# Solo se risolta al primo colpo: chi ci è arrivato dopo un errore ha
 		# bisogno di rivederla, ed è il caso in cui rivederla insegna qualcosa.
-		if _errori_nodo == 0:
+		if _errori_nodo == 0 and not (bool(session.get("interdisciplinary", false)) and _node_assisted.has(_index)):
 			var materia := _materia_di(item)
 			var risolte: Array = _superate.get(materia, [])
 			risolte.append(GameSaveManager.solved_fingerprint(item))
@@ -2045,6 +2358,11 @@ func _score_current(is_correct: bool, item: Dictionary) -> void:
 				String.num(_wrong_answer_penalty(), 1).replace(".", ","))
 		_mostra_lezione(item, false)
 		_offer_concept_help(item)
+	if bool(session.get("interdisciplinary", false)):
+		var carry := str(item.get("missionOutput", ""))
+		if carry != "" and is_instance_valid(_lezione):
+			_lezione.text += "\n\n[b]%s[/b]" % ("Dato verificato · " + carry if not is_correct else carry)
+			_lezione.visible = true
 	# La costruzione avanza di una campata per ogni nodo risolto (built = _correct);
 	# su errore resta ferma, senza mai regredire.
 	progress_changed.emit(_correct, _nodes.size())
@@ -2219,6 +2537,18 @@ func _mostra_esito_nella_colonna() -> void:
 	# Un fotogramma di attesa: le etichette vanno a capo, e la loro altezza vera
 	# si conosce solo dopo che il contenitore ha ricevuto la sua larghezza.
 	call_deferred("_scorri_all_esito")
+
+func _reset_scroll_for_node(expected_index: int) -> void:
+	# Il minimo della nuova colonna viene calcolato nel frame successivo. Se si
+	# azzera prima, lo ScrollContainer puÃ² riapplicare il vecchio offset durante
+	# il layout (visibile soprattutto nel passaggio numerico -> scelta).
+	await get_tree().process_frame
+	if expected_index != _index:
+		return
+	if is_instance_valid(_content_scroll):
+		_content_scroll.scroll_vertical = 0
+	if is_instance_valid(_options_scroll):
+		_options_scroll.scroll_vertical = 0
 
 func _scorri_all_esito() -> void:
 	if not is_instance_valid(_content_scroll):
@@ -3215,6 +3545,7 @@ func _spend_shield(item: Dictionary = {}) -> void:
 	# questo modo anche matching, swipe e i formati futuri pagano la penalita'
 	# senza dover duplicare la regola nei singoli renderer.
 	_wrong_answers += 1
+	_node_errors[_index] = int(_node_errors.get(_index, 0)) + 1
 	_weighted_wrong_answers += float(item.get("scoreWeight", 1.0))
 	# Il passaggio obbligato di ogni errore è anche l'unico posto onesto in cui
 	# annotare che il nodo corrente non è più «pulito»: contarlo nei singoli
@@ -3482,6 +3813,13 @@ func _mostra_indizio() -> void:
 	if risposta.is_empty():
 		return
 	_hint_level += 1
+	_node_assisted[_index] = true
+	var mission_hints: Array = item.get("missionHints", [])
+	if not mission_hints.is_empty():
+		_flash_feedback("NORA · %s" % str(mission_hints[mini(_hint_level - 1, mission_hints.size() - 1)]))
+		if _hint_level >= mission_hints.size():
+			_hint_button.disabled = true
+		return
 	var testo := ""
 	if _answer_is_numeric(risposta):
 		match _hint_level:
@@ -3514,7 +3852,10 @@ func _request_concept_help() -> void:
 	if _index < 0 or _index >= _nodes.size():
 		return
 	var item: Dictionary = _nodes[_index]
-	concept_help_requested.emit(str(session.get("subject", "")), str(item.get("topic", "")))
+	# Rileggere la spiegazione dopo la risposta non la rende assistita.
+	if not _answered:
+		_node_assisted[_index] = true
+	concept_help_requested.emit(_materia_di(item), str(item.get("topic", "")))
 
 func _register_wrong_attempt(item: Dictionary) -> void:
 	var topic := str(item.get("topic", ""))
@@ -3668,6 +4009,7 @@ func _abandon() -> void:
 		"systemsResolved": _systems_resolved.keys(),
 		"synthesisResolved": false,
 		"topicStats": _build_topic_stats(),
+		"subjectResults": _build_subject_results() if bool(session.get("interdisciplinary", false)) else {},
 		# Anche uscendo: le prove risolte prima di chiudere la porta restano
 		# risolte, come gli argomenti visti che vanno comunque al Codex. Chiedere
 		# di nuovo proprio quelle sarebbe il premio all'abbandono.
@@ -3772,6 +4114,7 @@ func _finish() -> void:
 		# Esiti per-argomento della sessione: {topic: {"seen": n, "correct": k}}.
 		# Alimentano la mastery per-topic (adattività fine dentro la materia).
 		"topicStats": _build_topic_stats(),
+		"subjectResults": _build_subject_results() if bool(session.get("interdisciplinary", false)) else {},
 		# Le prove superate (risolte al primo colpo), materia per materia: il
 		# chiamante le porta nel save e la selezione non le ripropone più.
 		"solved": _superate.duplicate(true),
@@ -3785,6 +4128,43 @@ func _finish() -> void:
 		audio.call("play_event", "enigmaCompleted" if passed else "sessionDefeated")
 	if OS.has_feature("web"):
 		JavaScriptBridge.eval("delete document.documentElement.dataset.eliExercise;")
+
+## Esiti separati solo per il pilota: nodi non tentati non diventano evidenza.
+func _build_subject_results() -> Dictionary:
+	var results: Dictionary = {}
+	for i in _nodes.size():
+		if not _node_scores.has(i) and not _node_errors.has(i):
+			continue
+		var item: Dictionary = _nodes[i]
+		var subject := _materia_di(item)
+		var entry: Dictionary = results.get(subject, {
+			"correct": 0, "total": 0, "wrongAnswers": 0, "assisted": 0,
+			"evidenceCorrect": 0, "topicStats": {}, "missed": [], "reviewedOk": [],
+		})
+		var correct := bool(_node_scores.get(i, false))
+		var errors := int(_node_errors.get(i, 0))
+		var assisted := _node_assisted.has(i)
+		entry["total"] += 1
+		entry["correct"] += int(correct)
+		entry["wrongAnswers"] += errors
+		entry["assisted"] += int(assisted)
+		entry["evidenceCorrect"] += int(correct and not assisted)
+		var topic := str(item.get("topic", ""))
+		if topic != "":
+			var stats: Dictionary = entry["topicStats"].get(topic, {"seen": 0, "correct": 0})
+			stats["seen"] += 1
+			stats["correct"] += int(correct and errors == 0 and not assisted)
+			entry["topicStats"][topic] = stats
+			if not correct or errors > 0 or assisted:
+				if not entry["missed"].has(topic):
+					entry["missed"].append(topic)
+			elif bool(item.get("review", false)) and not entry["reviewedOk"].has(topic):
+				entry["reviewedOk"].append(topic)
+		results[subject] = entry
+	for subject in results:
+		var entry: Dictionary = results[subject]
+		entry["effectiveCorrect"] = maxf(0.0, float(entry["evidenceCorrect"]) - float(entry["wrongAnswers"]) * _wrong_answer_penalty())
+	return results
 
 func _build_topic_stats() -> Dictionary:
 	var stats: Dictionary = {}

@@ -4796,6 +4796,7 @@
 			"options": [],
 			"answer": "15",
 			"explanation": "La velocità è lo spazio diviso il tempo: 45 diviso 3 fa 15. Costante vuol dire che in ogni ora percorre gli stessi chilometri, quindi la media coincide con la velocità in ogni istante.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"20": "«20» è la risposta giusta a un'altra domanda di questo gruppo: «Un ciclista percorre 20 km in 1 ora. Qual è la sua velocità media in km/h?».",
 				"240": "«240» è la risposta giusta a un'altra domanda di questo gruppo: «Un treno viaggia a 80 km/h. Quanti chilometri percorre in 3 ore?»."
@@ -4811,6 +4812,7 @@
 			"options": [],
 			"answer": "240",
 			"explanation": "Lo spazio è la velocità moltiplicata per il tempo: 80 per 3 fa 240. È la stessa formula di prima girata, e sapere girarla è ciò che rende utile impararla una volta sola.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"15": "«15» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"20": "«20» è la risposta giusta a un'altra domanda di questo gruppo: «Un ciclista percorre 20 km in 1 ora. Qual è la sua velocità media in km/h?»."
@@ -4914,6 +4916,7 @@
 			"options": [],
 			"answer": "30",
 			"explanation": "In equilibrio i due prodotti forza per distanza sono uguali: 20 per 3 fa 60, quindi a destra serve 60 diviso 2, cioè 30 newton. Braccio più corto vuol dire forza più grande.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"2": "«2» è la risposta giusta a un altro esercizio di questo gruppo, non a questo."
 			}
@@ -4928,6 +4931,7 @@
 			"options": [],
 			"answer": "50",
 			"explanation": "La pressione è la forza divisa la superficie: 200 diviso 4 fa 50 pascal. Lo stesso peso su un metro quadrato darebbe 200 pascal — quattro volte tanto, ed è per questo che le racchette da neve funzionano.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"3": "«3» è la risposta giusta a un altro esercizio di questo gruppo, non a questo.",
 				"5": "«5» è la risposta giusta a un'altra domanda di questo gruppo: «Un oggetto preme con 20 N su 4 cm². Qual è la pressione in N/cm²?».",
@@ -5054,6 +5058,7 @@
 			"options": [],
 			"answer": "3",
 			"explanation": "La densità è la massa divisa il volume: 300 diviso 100 fa 3. Essendo maggiore di 1, cioè della densità dell'acqua, quel blocco affonda — e il conto lo dice prima di provare.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"1": "«1» è la risposta giusta a un'altra domanda di questo gruppo: «Un litro d'acqua ha una massa di circa quanti chilogrammi?»."
 			}
@@ -5095,6 +5100,7 @@
 				"principio di conservazione"
 			],
 			"explanation": "È il principio più solido della fisica: seguendo l'energia da una forma all'altra si ritrova sempre tutta, e di solito la parte mancante è finita in calore disperso.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"Joule": "«Joule» è la risposta giusta a un'altra domanda di questo gruppo: «In quale unità si misura l'energia?».",
 				"Raddoppia": "«Raddoppia» è la risposta giusta a un'altra domanda di questo gruppo: «Un corpo di 2 kg sollevato a 5 metri: se raddoppi l'altezza, l'energia potenziale…».",
@@ -5204,6 +5210,7 @@
 			"options": [],
 			"answer": "1000",
 			"explanation": "Passando alle unità di volume il fattore va elevato al cubo: dieci centimetri per lato fanno 10 per 10 per 10, cioè mille. È l'errore più comune delle conversioni, e vale un litro esatto.",
+			"_difficulty8": true,
 			"distractorWhy": {
 				"30": "«30» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti millimetri sono 3 centimetri?».",
 				"100": "«100» è la risposta giusta a un'altra domanda di questo gruppo: «Quanti centimetri sono 1 metro?»."

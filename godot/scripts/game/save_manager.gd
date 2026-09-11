@@ -1152,14 +1152,18 @@ func parchment_count() -> int:
 ## scorciatoia della palestra ripetuta.
 func claim_minimission(level: int) -> bool:
 	var fatte: Array = Array(data.get("minimissions", []))
-	if fatte.has(level):
+	if has_minimission(level):
 		return false
 	fatte.append(level)
 	data["minimissions"] = fatte
 	return true
 
 func has_minimission(level: int) -> bool:
-	return Array(data.get("minimissions", [])).has(level)
+	# JSON rilegge i numeri come float: Array.has distingue 1 da 1.0.
+	for completed in Array(data.get("minimissions", [])):
+		if int(completed) == level:
+			return true
+	return false
 
 func minimission_count() -> int:
 	return Array(data.get("minimissions", [])).size()

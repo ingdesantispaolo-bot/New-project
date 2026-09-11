@@ -22,6 +22,7 @@ const IMPLEMENTED := [
 	"classification", "hotspot", "graph", "circuit", "notation", "map", "cycle", "code_debug",
 	"number_line", "balance", "timeline", "compose", "trace", "clue", "swipe", "machine_path",
 	"mystery_sample", "verb_decoder", "griglia", "porte",
+	"breadboard", "rhythm_fill", "causal_chain", "robot_grid", "blank_map",
 ]
 # La simulazione usa la stessa futura API visuale, ma non entra nelle missioni
 # finché non possiede un modello disciplinare validato.
@@ -165,6 +166,16 @@ static func validate(node: Dictionary) -> Dictionary:
 			_validate_mystery_sample(node, errors)
 		"verb_decoder":
 			_validate_verb_decoder(node, errors)
+		"breadboard":
+			_validate_breadboard(node, errors)
+		"rhythm_fill":
+			_validate_rhythm_fill(node, errors)
+		"causal_chain":
+			_validate_causal_chain(node, errors)
+		"robot_grid":
+			_validate_robot_grid(node, errors)
+		"blank_map":
+			_validate_blank_map(node, errors)
 		"matching":
 			_validate_matching(node, errors)
 		"classification":
@@ -369,6 +380,14 @@ static func _validate_verb_decoder(node: Dictionary, errors: Array) -> void:
 			errors.append("decodificatore: indizio mancante per %s" % axis)
 	if str(node.get("discovery", "")).strip_edges() == "":
 		errors.append("decodificatore: scoperta narrativa mancante")
+	if node.has("axisTitles"):
+		var axis_titles: Array = node.get("axisTitles", [])
+		if axis_titles.size() != 3:
+			errors.append("decodificatore: axisTitles deve contenere tre titoli")
+		else:
+			for title in axis_titles:
+				if str(title).strip_edges() == "":
+					errors.append("decodificatore: titolo di ghiera vuoto")
 	if not bool(evaluate_verb_decoder(node, solution).get("correct", false)):
 		errors.append("decodificatore: soluzione dichiarata non valida")
 
@@ -1073,6 +1092,363 @@ static func _validate_code_debug(node: Dictionary, errors: Array) -> void:
 			candidates += 1
 	if candidates < 2:
 		errors.append("code-debug con meno di 2 righe selezionabili")
+
+# --- FIRME DI MATERIA -------------------------------------------------------
+# Questi valutatori sono deliberatamente indipendenti dalla UI. Il renderer
+# mostra il sistema; il verdetto viene sempre dal modello qui sotto, cosi' audit,
+# mouse e touch eseguono la stessa regola.
+
+static func _validate_breadboard(node: Dictionary, errors: Array) -> void:
+	var components: Array = node.get("componenti", [])
+	var sockets: Array = node.get("zoccoli", [])
+	var goal := node.get("obiettivo", {}) as Dictionary
+	var solutions: Array = node.get("soluzioni", [])
+	if components.size() < 3:
+		errors.append("banco di prova con meno di 3 componenti")
+	if sockets.size() < 3:
+		errors.append("banco di prova con meno di 3 zoccoli")
+	var component_ids: Dictionary = {}
+	for raw in components:
+		var component := raw as Dictionary
+		var id := str(component.get("id", "")).strip_edges()
+		if id == "" or str(component.get("label", "")).strip_edges() == "":
+			errors.append("componente senza id o etichetta")
+		elif component_ids.has(id):
+			errors.append("componente duplicato: %s" % id)
+		component_ids[id] = true
+	var socket_ids: Dictionary = {}
+	var nodes: Dictionary = {}
+	for raw in sockets:
+		var socket := raw as Dictionary
+		var id := str(socket.get("id", "")).strip_edges()
+		var from_node := str(socket.get("da", "")).strip_edges()
+		var to_node := str(socket.get("a", "")).strip_edges()
+		if id == "" or from_node == "" or to_node == "" or from_node == to_node:
+			errors.append("zoccolo malformato: %s" % id)
+		elif socket_ids.has(id):
+			errors.append("zoccolo duplicato: %s" % id)
+		socket_ids[id] = true
+		nodes[from_node] = true
+		nodes[to_node] = true
+	if not nodes.has(str(goal.get("da", ""))) or not nodes.has(str(goal.get("a", ""))):
+		errors.append("obiettivo del banco fuori dalla maglia")
+	for required in Array(goal.get("deveIncludere", [])):
+		if not component_ids.has(str(required)):
+			errors.append("obiettivo usa componente inesistente: %s" % str(required))
+	if solutions.size() < 2:
+		errors.append("banco di prova senza almeno due topologie valide")
+	for raw in solutions:
+		var solution := raw as Dictionary
+		for socket_id in solution.keys():
+			if not socket_ids.has(str(socket_id)):
+				errors.append("soluzione usa zoccolo inesistente: %s" % str(socket_id))
+			if not component_ids.has(str(solution[socket_id])):
+				errors.append("soluzione usa componente inesistente: %s" % str(solution[socket_id]))
+		if not bool(evaluate_breadboard(node, solution).get("correct", false)):
+			errors.append("topologia dichiarata non raggiunge l'obiettivo")
+
+static func evaluate_breadboard(node: Dictionary, placements: Dictionary) -> Dictionary:
+	var by_component: Dictionary = {}
+	for raw in Array(node.get("componenti", [])):
+		var component := raw as Dictionary
+		by_component[str(component.get("id", ""))] = component
+	var adjacency: Dictionary = {}
+	var open_by_node: Dictionary = {}
+	var used: Dictionary = {}
+	for raw in Array(node.get("zoccoli", [])):
+		var socket := raw as Dictionary
+		var socket_id := str(socket.get("id", ""))
+		var from_node := str(socket.get("da", ""))
+		var to_node := str(socket.get("a", ""))
+		var component_id := str(placements.get(socket_id, ""))
+		if component_id == "" or not by_component.has(component_id):
+			if not open_by_node.has(from_node): open_by_node[from_node] = to_node
+			if not open_by_node.has(to_node): open_by_node[to_node] = from_node
+			continue
+		if used.has(component_id):
+			return {"correct": false, "powered": false, "openNode": from_node,
+				"reason": "Lo stesso componente non puo' occupare due zoccoli."}
+		used[component_id] = true
+		var component := by_component[component_id] as Dictionary
+		if str(component.get("tipo", "conduttore")) == "aperto":
+			open_by_node[from_node] = to_node
+			open_by_node[to_node] = from_node
+			continue
+		if not adjacency.has(from_node): adjacency[from_node] = []
+		if not adjacency.has(to_node): adjacency[to_node] = []
+		(adjacency[from_node] as Array).append({"node": to_node, "component": component_id})
+		(adjacency[to_node] as Array).append({"node": from_node, "component": component_id})
+	var goal := node.get("obiettivo", {}) as Dictionary
+	var start := str(goal.get("da", ""))
+	var finish := str(goal.get("a", ""))
+	var required: Array = goal.get("deveIncludere", [])
+	var queue: Array = [{"node": start, "path": []}]
+	var visited: Dictionary = {}
+	var first_open := start
+	while not queue.is_empty():
+		var state := queue.pop_front() as Dictionary
+		var current := str(state.get("node", ""))
+		var path: Array = state.get("path", [])
+		var visit_key := "%s|%s" % [current, ",".join(PackedStringArray(path))]
+		if visited.has(visit_key): continue
+		visited[visit_key] = true
+		if open_by_node.has(current): first_open = current
+		if current == finish:
+			var includes_all := true
+			for required_id in required:
+				if not path.has(str(required_id)): includes_all = false
+			if includes_all:
+				return {"correct": true, "powered": true, "openNode": "", "reason": ""}
+		for edge_data in Array(adjacency.get(current, [])):
+			var edge := edge_data as Dictionary
+			var next_path := path.duplicate()
+			next_path.append(str(edge.get("component", "")))
+			queue.append({"node": str(edge.get("node", "")), "path": next_path})
+	return {"correct": false, "powered": false, "openNode": first_open,
+		"reason": "La corrente si ferma al nodo %s: il percorso resta aperto." % first_open}
+
+static func _validate_rhythm_fill(node: Dictionary, errors: Array) -> void:
+	var meter := float(node.get("metro", 0.0))
+	if meter <= 0.0:
+		errors.append("battuta con metro non positivo")
+	var available: Array = node.get("disponibili", [])
+	var ids: Dictionary = {}
+	for raw in available:
+		var token := raw as Dictionary
+		var id := str(token.get("id", ""))
+		if id == "" or float(token.get("valore", 0.0)) <= 0.0:
+			errors.append("durata disponibile malformata")
+		elif ids.has(id):
+			errors.append("durata disponibile duplicata: %s" % id)
+		ids[id] = true
+	for raw in Array(node.get("battuta", [])):
+		var beat := raw as Dictionary
+		if float(beat.get("valore", 0.0)) <= 0.0:
+			errors.append("valore fisso della battuta non positivo")
+	var solutions: Array = node.get("soluzioni", [])
+	if solutions.size() < 2:
+		errors.append("battuta senza almeno due riempimenti validi")
+	for raw in solutions:
+		var solution: Array = raw
+		for token_id in solution:
+			if not ids.has(str(token_id)):
+				errors.append("soluzione ritmica usa durata inesistente: %s" % str(token_id))
+		if not bool(evaluate_rhythm_fill(node, solution).get("correct", false)):
+			errors.append("soluzione ritmica non completa il metro")
+
+static func evaluate_rhythm_fill(node: Dictionary, selected: Array) -> Dictionary:
+	var by_id: Dictionary = {}
+	for raw in Array(node.get("disponibili", [])):
+		var token := raw as Dictionary
+		by_id[str(token.get("id", ""))] = token
+	var total := 0.0
+	for raw in Array(node.get("battuta", [])):
+		total += float((raw as Dictionary).get("valore", 0.0))
+	for raw_id in selected:
+		var id := str(raw_id)
+		if not by_id.has(id):
+			return {"correct": false, "total": total, "remaining": float(node.get("metro", 0.0)) - total,
+				"reason": "Durata sconosciuta."}
+		total += float((by_id[id] as Dictionary).get("valore", 0.0))
+	var meter := float(node.get("metro", 0.0))
+	return {"correct": absf(total - meter) < 0.001, "total": total,
+		"remaining": meter - total, "reason": ""}
+
+static func _validate_causal_chain(node: Dictionary, errors: Array) -> void:
+	var events: Array = node.get("eventi", [])
+	if events.size() < 3:
+		errors.append("catena causale con meno di 3 eventi")
+	var ids: Dictionary = {}
+	for raw in events:
+		var event := raw as Dictionary
+		var id := str(event.get("id", ""))
+		if id == "" or str(event.get("testo", "")).strip_edges() == "" or not event.has("anno"):
+			errors.append("evento causale malformato")
+		elif ids.has(id):
+			errors.append("evento causale duplicato: %s" % id)
+		ids[id] = true
+	for field in ["nessi", "nessiFalsi"]:
+		for raw in Array(node.get(field, [])):
+			var edge := raw as Dictionary
+			if not ids.has(str(edge.get("da", ""))) or not ids.has(str(edge.get("a", ""))):
+				errors.append("nesso %s punta a evento inesistente" % field)
+			if field == "nessiFalsi" and str(edge.get("perche", "")).strip_edges() == "":
+				errors.append("nesso falso senza spiegazione")
+			if field == "nessi" and not bool(evaluate_causal_link(node, str(edge.get("da", "")), str(edge.get("a", ""))).get("accepted", false)):
+				errors.append("nesso corretto incoerente: %s -> %s" % [str(edge.get("da", "")), str(edge.get("a", ""))])
+	if Array(node.get("nessi", [])).size() < 2:
+		errors.append("catena causale con meno di 2 nessi")
+
+static func _causal_event(node: Dictionary, event_id: String) -> Dictionary:
+	for raw in Array(node.get("eventi", [])):
+		var event := raw as Dictionary
+		if str(event.get("id", "")) == event_id: return event
+	return {}
+
+static func evaluate_causal_link(node: Dictionary, from_id: String, to_id: String) -> Dictionary:
+	var from_event := _causal_event(node, from_id)
+	var to_event := _causal_event(node, to_id)
+	if from_event.is_empty() or to_event.is_empty() or from_id == to_id:
+		return {"accepted": false, "reason": "Scegli due eventi diversi."}
+	var from_year := int(from_event.get("anno", 0))
+	var to_year := int(to_event.get("anno", 0))
+	if to_year < from_year:
+		return {"accepted": false, "backward": true,
+			"reason": "%s e' del %d: non puo' causare %s, che e' del %d." % [
+				str(from_event.get("testo", from_id)), from_year,
+				str(to_event.get("testo", to_id)), to_year]}
+	for raw in Array(node.get("nessiFalsi", [])):
+		var edge := raw as Dictionary
+		if str(edge.get("da", "")) == from_id and str(edge.get("a", "")) == to_id:
+			return {"accepted": false, "backward": false, "reason": str(edge.get("perche", "Nesso non sostenuto."))}
+	for raw in Array(node.get("nessi", [])):
+		var edge := raw as Dictionary
+		if str(edge.get("da", "")) == from_id and str(edge.get("a", "")) == to_id:
+			return {"accepted": true, "backward": false, "reason": ""}
+	return {"accepted": false, "backward": false, "reason": "La fonte non sostiene questo nesso."}
+
+static func evaluate_causal_chain(node: Dictionary, selected: Array) -> Dictionary:
+	var wanted: Dictionary = {}
+	for raw in Array(node.get("nessi", [])):
+		var edge := raw as Dictionary
+		wanted["%s>%s" % [str(edge.get("da", "")), str(edge.get("a", ""))]] = true
+	var found: Dictionary = {}
+	for raw in selected:
+		var edge := raw as Dictionary
+		var result := evaluate_causal_link(node, str(edge.get("da", "")), str(edge.get("a", "")))
+		if not bool(result.get("accepted", false)): return {"correct": false, "reason": str(result.get("reason", ""))}
+		found["%s>%s" % [str(edge.get("da", "")), str(edge.get("a", ""))]] = true
+	return {"correct": found.size() == wanted.size(), "reason": ""}
+
+static func _grid_point(value: Variant) -> Vector2i:
+	if value is Dictionary:
+		return Vector2i(int(value.get("x", 0)), int(value.get("y", 0)))
+	if value is Array and value.size() >= 2:
+		return Vector2i(int(value[0]), int(value[1]))
+	return Vector2i(-1, -1)
+
+static func _validate_robot_grid(node: Dictionary, errors: Array) -> void:
+	var grid := node.get("griglia", {}) as Dictionary
+	var width := int(grid.get("larghezza", 0))
+	var height := int(grid.get("altezza", 0))
+	if width < 3 or width > 8 or height < 3 or height > 8:
+		errors.append("griglia robot fuori scala 3..8")
+	var start := _grid_point(node.get("partenza", {}))
+	var goal := _grid_point(node.get("obiettivo", {}))
+	for point in [start, goal]:
+		if point.x < 0 or point.y < 0 or point.x >= width or point.y >= height:
+			errors.append("punto del robot fuori griglia")
+	var ops: Dictionary = {}
+	for raw in Array(node.get("istruzioni", [])):
+		var instruction := raw as Dictionary
+		var id := str(instruction.get("id", ""))
+		var op := str(instruction.get("op", ""))
+		if id == "" or op not in ["forward", "left", "right"]:
+			errors.append("istruzione robot malformata: %s" % id)
+		ops[id] = true
+	var max_steps := int(node.get("maxPassi", 0))
+	if max_steps < 2 or max_steps > 20:
+		errors.append("maxPassi robot fuori scala 2..20")
+	if node.has("soluzione"):
+		var solution: Array = node.get("soluzione", [])
+		for id in solution:
+			if not ops.has(str(id)): errors.append("programma usa istruzione inesistente: %s" % str(id))
+		if not bool(evaluate_robot_grid(node, solution).get("correct", false)):
+			errors.append("programma dichiarato non raggiunge l'obiettivo")
+
+static func evaluate_robot_grid(node: Dictionary, program: Array) -> Dictionary:
+	var grid := node.get("griglia", {}) as Dictionary
+	var width := int(grid.get("larghezza", 0))
+	var height := int(grid.get("altezza", 0))
+	var blocked: Dictionary = {}
+	for raw in Array(grid.get("ostacoli", [])):
+		blocked[str(_grid_point(raw))] = true
+	var by_id: Dictionary = {}
+	for raw in Array(node.get("istruzioni", [])):
+		var instruction := raw as Dictionary
+		by_id[str(instruction.get("id", ""))] = str(instruction.get("op", ""))
+	var position := _grid_point(node.get("partenza", {}))
+	var goal := _grid_point(node.get("obiettivo", {}))
+	var direction := int((node.get("partenza", {}) as Dictionary).get("direzione", 1))
+	var directions := [Vector2i(0, -1), Vector2i(1, 0), Vector2i(0, 1), Vector2i(-1, 0)]
+	var trail: Array = [position]
+	var executed := 0
+	for raw_id in program:
+		if executed >= int(node.get("maxPassi", 0)): break
+		var id := str(raw_id)
+		if not by_id.has(id): return {"correct": false, "reason": "Istruzione sconosciuta.", "trail": trail, "steps": executed, "direction": direction}
+		match str(by_id[id]):
+			"left": direction = posmod(direction - 1, 4)
+			"right": direction = posmod(direction + 1, 4)
+			"forward":
+				var next: Vector2i = position + directions[direction]
+				if next.x < 0 or next.y < 0 or next.x >= width or next.y >= height or blocked.has(str(next)):
+					return {"correct": false, "reason": "Il robot urta al passo %d." % (executed + 1), "trail": trail, "steps": executed + 1, "direction": direction}
+				position = next
+				trail.append(position)
+		executed += 1
+		if position == goal:
+			return {"correct": true, "reason": "", "trail": trail, "steps": executed, "direction": direction}
+	return {"correct": position == goal, "reason": "Il robot non ha raggiunto il bersaglio.", "trail": trail, "steps": executed, "direction": direction}
+
+static func _validate_blank_map(node: Dictionary, errors: Array) -> void:
+	var map_id := str(node.get("mapId", ""))
+	if not MapGeometryCatalog.has_map(map_id):
+		errors.append("carta da completare sconosciuta: %s" % map_id)
+		return
+	var available := MapGeometryCatalog.target_ids(map_id)
+	var anchors: Array = node.get("ancore", [])
+	if anchors.size() < 3:
+		errors.append("carta da completare con meno di 3 ancore")
+	for raw in anchors:
+		var anchor_id := str(raw.get("id", "") if raw is Dictionary else raw)
+		if not available.has(anchor_id): errors.append("ancora %s assente dalla carta %s" % [anchor_id, map_id])
+	var labels: Array = node.get("etichette", [])
+	if labels.size() < 3:
+		errors.append("carta da completare con meno di 3 etichette")
+	var label_ids: Dictionary = {}
+	for raw in labels:
+		var label := raw as Dictionary
+		var id := str(label.get("id", ""))
+		var anchor := str(label.get("ancora", ""))
+		if id == "" or str(label.get("testo", "")).strip_edges() == "": errors.append("etichetta carta malformata")
+		elif label_ids.has(id): errors.append("etichetta carta duplicata: %s" % id)
+		label_ids[id] = true
+		if not available.has(anchor): errors.append("etichetta %s punta ad ancora inesistente" % id)
+	var tolerance := float(node.get("tolleranza", 0.0))
+	if tolerance <= 0.0 or tolerance > 0.25:
+		errors.append("tolleranza carta fuori scala 0..0.25")
+	for raw in Array(node.get("percorso", [])):
+		if not available.has(str(raw)): errors.append("percorso usa ancora inesistente: %s" % str(raw))
+
+static func evaluate_blank_map(node: Dictionary, placements: Dictionary, route: Array = []) -> Dictionary:
+	var map_id := str(node.get("mapId", ""))
+	var map_data := MapGeometryCatalog.map_data(map_id)
+	var targets := map_data.get("targets", {}) as Dictionary
+	var bounds := map_data.get("bounds", Rect2()) as Rect2
+	var tolerance := float(node.get("tolleranza", 0.08))
+	for raw in ([] if str(node.get("modalita", "etichette")) == "percorso" else Array(node.get("etichette", []))):
+		var label := raw as Dictionary
+		var id := str(label.get("id", ""))
+		var expected := str(label.get("ancora", ""))
+		if not placements.has(id): return {"correct": false, "reason": "Manca l'etichetta %s." % str(label.get("testo", id))}
+		var placed = placements[id]
+		if placed is String:
+			if str(placed) != expected: return {"correct": false, "reason": "%s non e' vicino alla sua ancora." % str(label.get("testo", id))}
+		elif placed is Vector2:
+			var world_point: Vector2 = targets.get(expected, Vector2.INF)
+			var normalized := Vector2((world_point.x - bounds.position.x) / bounds.size.x, 1.0 - (world_point.y - bounds.position.y) / bounds.size.y)
+			if (placed as Vector2).distance_to(normalized) > tolerance:
+				return {"correct": false, "reason": "%s e' fuori dalla zona corretta." % str(label.get("testo", id))}
+		else:
+			return {"correct": false, "reason": "Posizione dell'etichetta non valida."}
+	var expected_route: Array = node.get("percorso", [])
+	if not expected_route.is_empty():
+		if route.size() != expected_route.size(): return {"correct": false, "reason": "La rotta non tocca tutte le ancore."}
+		for index in expected_route.size():
+			if str(route[index]) != str(expected_route[index]):
+				return {"correct": false, "reason": "La rotta cambia ordine all'ancora %d." % (index + 1)}
+	return {"correct": true, "reason": ""}
 
 # Valida un'intera sessione: nodi non vuoti, scudi ≥ 1 e ogni nodo conforme.
 # Ritorna {ok, errors: Array[String]} con gli errori prefissati dall'indice nodo.

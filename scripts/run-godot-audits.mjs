@@ -65,8 +65,19 @@ function runAudit(resPath, saveDir) {
       child.kill();
       resolve({ code: null, output: output + "\n[TIMEOUT]" });
     }, TIMEOUT_MS);
-    child.stdout.on("data", (chunk) => (output += chunk));
-    child.stderr.on("data", (chunk) => (output += chunk));
+    // **Un'asserzione fallita non finisce da sola.** (10 settembre 2026) Questi
+    // audit chiamano `quit(0)` DOPO gli assert: quando un assert cede, lo script
+    // si ferma li' e il `SceneTree` resta in vita a girare a vuoto. Il verdetto
+    // era comunque onesto — `FAILURE_MARKERS` intercetta la riga e l'audit
+    // risulta non verde — ma costava i 240 secondi interi del timeout, e con
+    // diversi rossi la suite ci metteva ore invece che minuti. Visto su
+    // `pozzo_per_fascia_audit`, che ha girato venti minuti dopo aver gia'
+    // stampato tutto quello che aveva da dire.
+    const chiudiSeAppeso = () => {
+      if (/Assertion failed/.test(output)) child.kill();
+    };
+    child.stdout.on("data", (chunk) => { output += chunk; chiudiSeAppeso(); });
+    child.stderr.on("data", (chunk) => { output += chunk; chiudiSeAppeso(); });
     child.on("close", (code) => {
       clearTimeout(timer);
       resolve({ code, output });

@@ -16,6 +16,9 @@ extends SceneTree
 ##
 ##   1. **il materiale**: ogni risposta-nome dei banchi di storia e geografia sta
 ##      su una tavola, e ogni argomento dei due banchi ha almeno una tavola;
+##      **dall'11 settembre 2026 vale anche una dispensa** — un documento di
+##      almeno milleduecento caratteri, che `dispense_audit` verifica contenga
+##      davvero quella risposta. Vedi `docs/REGOLA_DISPENSE.md`;
 ##   2. **le tavole tengono**: coordinata giusta per famiglia, nota che spiega,
 ##      etichette non ripetute, ancore di carta che esistono davvero, linee del
 ##      tempo in ordine cronologico;
@@ -87,13 +90,30 @@ func _ogni_domanda_di_nome_ha_la_sua_tavola() -> void:
 			if TavoleRiferimento.copre(str(materia), topic, risposta):
 				coperti += 1
 				continue
+			# **Anche una dispensa è un riferimento didattico.** (11 settembre 2026)
+			#
+			# Questo audit chiede «esiste un posto in cui il bambino può imparare
+			# questa risposta prima che gliela si chieda», e fino a oggi quel posto
+			# poteva essere solo una tavola. Dall'11 settembre ce n'è un secondo, e
+			# più forte: la dispensa che l'item dichiara di applicare è un documento
+			# di almeno milleduecento caratteri, e `dispense_audit` verifica che la
+			# risposta ci sia dentro davvero. Vedi `docs/REGOLA_DISPENSE.md`.
+			#
+			# Il giudizio non è riscritto qui: lo dà `Dispense.insegna_la_risposta`,
+			# la stessa funzione che usa `dispense_audit`. Due copie divergerebbero.
+			#
+			# Non è un allentamento: un item senza `applica` resta scoperto come
+			# prima, e uno che lo dichiara è già passato da un controllo più severo.
+			if Dispense.insegna_la_risposta(str(item.get("applica", "")), risposta):
+				coperti += 1
+				continue
 			var chiave := "%s · «%s»" % [topic, risposta]
 			if visti.has(chiave):
 				continue
 			visti[chiave] = true
 			_fallisci("%s %s: nessuna tavola insegna questa risposta prima di chiederla" % [materia, chiave])
 		if totale > 0:
-			misure.append("%s · domande di nome coperte da una tavola: %d/%d (%.1f%%)" % [
+			misure.append("%s · domande di nome con un riferimento su cui impararle: %d/%d (%.1f%%)" % [
 				materia, coperti, totale, 100.0 * float(coperti) / float(totale)])
 
 ## 1b. Nessun argomento senza tavola: senza questo, aggiungere un topic nuovo ai

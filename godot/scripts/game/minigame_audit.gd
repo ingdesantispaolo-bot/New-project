@@ -48,6 +48,9 @@ func _test_costruzione_tutte_materie() -> void:
 				# lo dichiarava «sequenza troppo corta».
 				"number_line", "balance", "timeline", "compose", "trace", "clue", "swipe",
 				"machine_path", "mystery_sample", "verb_decoder",
+				# Le cinque firme disciplinari hanno ciascuna un contratto dedicato
+				# validato da ExerciseInteraction, non un `correctOrder` generico.
+				"breadboard", "rhythm_fill", "causal_chain", "robot_grid", "blank_map",
 				# I due formati della logica (1 settembre 2026): la griglia degli
 				# incroci e le porte. Anche loro hanno un contratto proprio — una
 				# soluzione sola per la griglia, quattro casi distinti per la

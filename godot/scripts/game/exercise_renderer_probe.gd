@@ -78,6 +78,17 @@ func _run() -> void:
 	# finestra: il riquadro dell'esercizio calcolava gli ancoraggi su un'area
 	# vecchia e l'immagine salvata non corrispondeva a nessuno schermo vero.
 	player.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	if "--signatures-only" in OS.get_cmdline_user_args():
+		for case_data in [["breadboard","elettronica"],["rhythm_fill","musica"],["causal_chain","storia"],["robot_grid","coding"],["blank_map","geografia"]]:
+			var fmt := str(case_data[0])
+			var subject := str(case_data[1])
+			var rng := RandomNumberGenerator.new()
+			rng.seed = hash("signature-render:%s" % fmt)
+			var node := SubjectSignatureGenerators.build(fmt, subject, 8, 3, rng, 7)
+			await _capture("signature-%s-tablet" % fmt, node, "mission", Vector2i(900, 700))
+		print("EXERCISE RENDER probe OK — 5 firme disciplinari tablet")
+		quit(0)
+		return
 	if "--all-formats" in OS.get_cmdline_user_args():
 		await _capture_all_formats()
 		print("EXERCISE RENDER probe OK - 17 formati / 19 varianti tablet")
@@ -220,7 +231,7 @@ func _capture(name: String, node: Dictionary, kind: String, viewport_size: Vecto
 	player.start_session({
 		"sessionId": name,
 		"kind": kind,
-		"subject": "geografia" if str(node.get("format", "")) == "map" else "logica",
+		"subject": str(node.get("subject", "geografia" if str(node.get("format", "")) == "map" else "logica")),
 		"nodes": [node],
 		"shields": 3,
 		"pace": "reasoning",
